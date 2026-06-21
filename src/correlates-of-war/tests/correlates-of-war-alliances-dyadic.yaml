@@ -1,0 +1,15 @@
+spec_id: correlates-of-war-alliances-dyadic
+status: active
+tests:
+  - not_null: version4id
+    reason: version4id is a primary identifier column present on every COW row for this table; a null means the CSV header misaligned or columns shifted on parse.
+    certainty: 95
+  - not_null: ccode1
+    reason: ccode1 is a primary identifier column present on every COW row for this table; a null means the CSV header misaligned or columns shifted on parse.
+    certainty: 95
+  - not_null: ccode2
+    reason: ccode2 is a primary identifier column present on every COW row for this table; a null means the CSV header misaligned or columns shifted on parse.
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: COW publishes these as complete static panels; far fewer rows than the published release means a truncated download or wrong member extracted.
+    certainty: 90

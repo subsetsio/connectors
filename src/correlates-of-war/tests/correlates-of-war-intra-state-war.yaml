@@ -1,0 +1,9 @@
+spec_id: correlates-of-war-intra-state-war
+status: active
+tests:
+  - not_null: WarNum
+    reason: WarNum is a primary identifier column present on every COW row for this table; a null means the CSV header misaligned or columns shifted on parse.
+    certainty: 95
+  - row_count: {min: 100}
+    reason: COW publishes these as complete static panels; far fewer rows than the published release means a truncated download or wrong member extracted.
+    certainty: 90

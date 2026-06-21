@@ -1,0 +1,19 @@
+spec_id: correlates-of-war-trade-dyadic
+status: active
+tests:
+  - not_null: ccode1
+    reason: ccode1 is a primary identifier column present on every COW row for this table; a null means the CSV header misaligned or columns shifted on parse.
+    certainty: 95
+  - not_null: ccode2
+    reason: ccode2 is a primary identifier column present on every COW row for this table; a null means the CSV header misaligned or columns shifted on parse.
+    certainty: 95
+  - not_null: year
+    reason: year is a primary identifier column present on every COW row for this table; a null means the CSV header misaligned or columns shifted on parse.
+    certainty: 95
+  - row_count: {min: 20000}
+    reason: COW publishes these as complete static panels; far fewer rows than the published release means a truncated download or wrong member extracted.
+    certainty: 90
+  - between: {col: year, lo: 1815, hi: current_year()}
+    reason: COW coverage starts in 1816 (system founding) and cannot exceed the current year; an out-of-range year signals a bad parse or a stray sentinel value.
+    certainty: 85
+    severity: warn
