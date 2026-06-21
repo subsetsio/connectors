@@ -1,0 +1,31 @@
+spec_id: county-health-rankings-trends
+status: active
+tests:
+  - not_null: yearspan
+    reason: every trend observation belongs to a yearspan window; a null means a malformed row leaked through
+    certainty: 95
+  - not_null: measure_id
+    reason: each row is a (yearspan, measure, county) observation keyed by the CHR measure id
+    certainty: 90
+  - not_null: fips
+    reason: fips is built as state_fips||county_fips for every row
+    certainty: 95
+  - column_type: {col: measure_id, type: integer}
+    certainty: 95
+  - column_type: {col: raw_value, type: float}
+    certainty: 90
+  - matches: {col: fips, pattern: '^[0-9]{5}$'}
+    reason: 2-digit state + 3-digit county zero-padded
+    certainty: 85
+    severity: warn
+  - row_count: {min: 100000}
+    reason: the cumulative trends file spans ~35 measures x ~3200 counties x ~20 yearspans
+    certainty: 85
+  - distinct_count: {col: measure_name, min: 15}
+    reason: CHR publishes ~35 trendable measures; far fewer means the file was truncated
+    certainty: 80
+  - between: {col: release_year, lo: 2010, hi: current_year()}
+    reason: chrreleaseyear is stamped only on released years (2010+); may be null for pre-release historical spans
+    certainty: 80
+    points_outward: true
+    severity: warn

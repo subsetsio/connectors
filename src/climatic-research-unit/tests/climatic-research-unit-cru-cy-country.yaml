@@ -1,0 +1,38 @@
+spec_id: climatic-research-unit-cru-cy-country
+status: active
+tests:
+  - not_null: country
+  - not_null: variable
+  - not_null: year
+  - not_null: month
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - enum: {col: variable, values: [cld, dtr, frs, pet, pre, tmn, tmp, tmx, vap, wet]}
+    reason: CRU CY publishes the 10 CRU TS climate variables, one subdirectory each
+    certainty: 95
+  - distinct_count: {col: variable, min: 10, max: 10}
+    reason: all 10 variables must be present; fewer means a variable directory was missed
+    certainty: 90
+  - distinct_count: {col: country, min: 200}
+    reason: CRU CY covers ~292 countries/territories/regions; far fewer means a listing was truncated
+    certainty: 80
+    severity: warn
+  - enum: {col: unit, values: [percent, degC, days, mm/day, mm/month, hPa]}
+    certainty: 90
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - between: {col: year, lo: 1901, hi: 2100}
+    reason: CRU CY series start in 1901; upper bound is a loose sanity ceiling
+    certainty: 95
+  - at_most: {col: year, expr: current_year()}
+    reason: latest year is the current/most-recent release year; a future year means a parse error
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - unique: [country, variable, year, month]
+    reason: one value per country-variable-year-month; dupes mean a file was parsed twice
+    certainty: 90
+  - nullable: {col: value, max_null_frac: 0.4}
+    reason: most country-variable-months are populated 1901-present; the tail current year is partial
+    certainty: 55
+    severity: warn

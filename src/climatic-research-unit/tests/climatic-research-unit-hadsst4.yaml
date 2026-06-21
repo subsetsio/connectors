@@ -1,0 +1,34 @@
+spec_id: climatic-research-unit-hadsst4
+status: active
+tests:
+  - not_null: region
+  - not_null: year
+  - not_null: month
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - enum: {col: region, values: [nh, sh, gl]}
+    reason: CRU publishes exactly three region series per product (northern/southern hemisphere + global)
+    certainty: 95
+  - distinct_count: {col: region, min: 3, max: 3}
+    certainty: 95
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - between: {col: year, lo: 1850, hi: 2100}
+    reason: HadCRUT5/CRUTEM5/HadSST4 records begin in 1850; upper bound is a loose sanity ceiling
+    certainty: 95
+  - at_most: {col: year, expr: current_year()}
+    reason: the current (partial) year is the latest; a future year means a parse error
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - unique: [region, year, month]
+    reason: one anomaly per region-year-month; dupes mean a region file was double-counted
+    certainty: 95
+  - median_between: {col: value, lo: -5.0, hi: 5.0}
+    reason: monthly temperature anomalies in degC sit within a few degrees of the 1961-1990 baseline
+    certainty: 75
+    severity: warn
+  - nullable: {col: value, max_null_frac: 0.5}
+    reason: sparse early coverage (esp. SH) and the in-progress current year leave some months missing
+    certainty: 55
+    severity: warn

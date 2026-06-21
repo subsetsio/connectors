@@ -1,0 +1,13 @@
+spec_id: central-statistics-office-rna39
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every PxStat ReadDataset CSV returns at least one data cell
+    certainty: 90
+  - not_null: STATISTIC
+    reason: STATISTIC is the metric-dimension code, populated on every row of the PxStat CSV 1.0 format
+    certainty: 88
+  - not_null: UNIT
+    reason: each statistic carries a unit of measure in PxStat output
+    certainty: 70
+    severity: warn
