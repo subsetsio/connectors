@@ -1,0 +1,19 @@
+spec_id: johns-hopkins-csse-covid-19-data-daily-reports-global
+status: active
+tests:
+  - not_null: report_date
+    reason: report_date is derived from the filename and stamped on every row of every daily file.
+    certainty: 95
+  - not_null: country_region
+    reason: Country/Region (or Country_Region) is present on every daily-report row across all header generations.
+    certainty: 90
+  - row_count: {min: 1000000}
+    reason: ~1140 daily files; later files carry several thousand county-level rows each, so the concatenation is well over a million rows.
+    certainty: 70
+  - matches: {col: report_date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: report_date is built as ISO from the MM-DD-YYYY filename.
+    certainty: 85
+    severity: warn
+  - distinct_count: {col: report_date, min: 1000}
+    reason: one distinct report_date per daily file fetched over the ~3-year span.
+    certainty: 80

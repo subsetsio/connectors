@@ -1,0 +1,25 @@
+spec_id: jetbrains-state-of-developer-ecosystem-net-job-market-sentiment
+status: active
+# Raw is the JetBrains DevEcosystem 2025 chart CSV (unit,label,group,value),
+# one row per (label, group) with value a percentage in `unit`.
+tests:
+  - row_count: {min: 1}
+    reason: every chart CSV has tens of aggregated rows; an empty raw means the slug 404'd or the report host changed.
+    certainty: 95
+  - not_null: label
+    reason: each row is a labelled survey category (language, option, region, etc.).
+    certainty: 95
+  - not_null: unit
+    reason: every chart value carries a unit (almost always '%').
+    certainty: 90
+  - column_type: {col: value, type: float}
+    reason: value is the parsed numeric percentage/measure.
+    certainty: 90
+  - unique: [label, group]
+    reason: each chart stores one value per (category, sub-series) pair; duplicates mean the CSV was double-counted.
+    certainty: 85
+  - between: {col: value, lo: -100, hi: 100}
+    reason: values are percentages reported by the survey.
+    certainty: 80
+    points_outward: true
+    severity: warn

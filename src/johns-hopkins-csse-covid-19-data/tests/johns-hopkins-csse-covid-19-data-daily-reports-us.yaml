@@ -1,0 +1,23 @@
+spec_id: johns-hopkins-csse-covid-19-data-daily-reports-us
+status: active
+tests:
+  - not_null: report_date
+    reason: report_date is derived from the filename and stamped on every row of every daily file.
+    certainty: 95
+  - not_null: province_state
+    reason: the US state-level daily reports carry one row per state/territory; Province_State is always populated.
+    certainty: 90
+  - not_null: country_region
+    reason: Country_Region is 'US' on every row of the US daily reports.
+    certainty: 90
+  - enum: {col: country_region, values: [US]}
+    reason: the daily_reports_us directory is US-only.
+    certainty: 85
+    severity: warn
+  - row_count: {min: 50000}
+    reason: ~58 US states/territories x ~1060 daily files (from 2020-04-12) ~= 61k rows.
+    certainty: 75
+  - matches: {col: report_date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: report_date is built as ISO from the MM-DD-YYYY filename.
+    certainty: 85
+    severity: warn
