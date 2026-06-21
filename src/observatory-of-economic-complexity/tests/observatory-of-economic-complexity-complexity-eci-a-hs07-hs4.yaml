@@ -1,0 +1,19 @@
+spec_id: observatory-of-economic-complexity-complexity-eci-a-hs07-hs4
+status: active
+tests:
+  - row_count: {min: 10}
+    reason: every OEC cube returns many rows; near-zero means a query or partition silently broke
+    certainty: 90
+  - column_type: {col: eci, type: float}
+    reason: 'ECI' is a numeric OLAP measure, stored as float64
+    certainty: 95
+  - not_null: year
+    reason: every fact row is stamped with its observation year
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - at_most: {col: year, expr: current_year()}
+    reason: annual data should not exceed the current year (some complexity series ship a projection year)
+    certainty: 70
+    points_outward: true
+    severity: warn

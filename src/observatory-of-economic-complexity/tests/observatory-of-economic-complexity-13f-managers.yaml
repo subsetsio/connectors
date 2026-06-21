@@ -1,0 +1,9 @@
+spec_id: observatory-of-economic-complexity-13f-managers
+status: active
+tests:
+  - row_count: {min: 10}
+    reason: every OEC cube returns many rows; near-zero means a query or partition silently broke
+    certainty: 90
+  - column_type: {col: market_value, type: float}
+    reason: 'Market Value' is a numeric OLAP measure, stored as float64
+    certainty: 95
