@@ -199,8 +199,10 @@ def fetch_one(node_id: str) -> None:
         _stream_url_to_gz(cfg["url"], node_id)
     elif kind == "dta_url":
         _fetch_dta(cfg["url"], node_id)
-    elif kind == "xls_url":
-        _fetch_xls_urls(cfg["urls"], node_id)
+    elif kind == "eqchange":
+        _fetch_eqchange(cfg, node_id)
+    elif kind == "rprod":
+        _fetch_rprod(cfg, node_id)
     elif kind == "xls_zip":
         _fetch_xls_zip(cfg["url"], cfg["members"][0], node_id)
     else:
@@ -218,19 +220,15 @@ DOWNLOAD_SPECS = [
 # zero-padded codes that CSV type inference would strip.
 
 _CUSTOM_SQL = {
-    # EQCHANGE ships wide (one column per <country>_<REER|NEER>_TV); reshape to long.
+    # EQCHANGE raw is already long (series, year, country, value); cast & clean.
     "cepii-eqchange": '''
         SELECT
             series,
-            CAST("Year" AS INTEGER)                                   AS year,
-            regexp_replace(country_indicator, '_(REER|NEER)_TV$', '') AS country,
-            CAST(value AS DOUBLE)                                     AS index_2010_100
-        FROM (
-            UNPIVOT "cepii-eqchange"
-            ON COLUMNS(* EXCLUDE (series, "Year"))
-            INTO NAME country_indicator VALUE value
-        )
-        WHERE value IS NOT NULL
+            CAST(year AS INTEGER)    AS year,
+            country,
+            TRY_CAST(value AS DOUBLE) AS index_2010_100
+        FROM "cepii-eqchange"
+        WHERE TRY_CAST(value AS DOUBLE) IS NOT NULL
     ''',
     "cepii-baci": '''
         SELECT
