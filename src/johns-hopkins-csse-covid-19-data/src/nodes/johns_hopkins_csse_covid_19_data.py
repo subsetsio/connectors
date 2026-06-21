@@ -213,7 +213,7 @@ def _emit_daily(text, colmap, keys, report_iso, out):
         header = next(reader)
     except StopIteration:
         return
-    header[0] = header[0].lstrip("﻿")
+    header[0] = header[0].lstrip("\ufeff")
     idx_to_key = [colmap.get(h.strip().lower()) for h in header]
     for row in reader:
         rec = dict.fromkeys(keys)
