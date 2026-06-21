@@ -440,8 +440,7 @@ def fetch_one(node_id: str) -> None:
 
     session = cffi_requests.Session(impersonate=_IMPERSONATE)
     try:
-        url = _discover(session, cfg["product"])
-        content = _get(session, url)
+        content = _product_bytes(session, cfg["product"])
     finally:
         session.close()
 
@@ -450,7 +449,7 @@ def fetch_one(node_id: str) -> None:
         zf = zipfile.ZipFile(io.BytesIO(content))
         members = [n for n in zf.namelist() if n.lower().endswith(".xlsx")]
         if not members:
-            raise RuntimeError(f"{asset}: no .xlsx member in zip {url}")
+            raise RuntimeError(f"{asset}: no .xlsx member in zip for product {cfg['product']!r}")
         xlsx_bytes = zf.read(members[0])
 
     wb = openpyxl.load_workbook(io.BytesIO(xlsx_bytes), read_only=True, data_only=True)
@@ -468,7 +467,7 @@ def fetch_one(node_id: str) -> None:
 
     rows = [_clean_row(r) for r in rows]
     if not rows:
-        raise AssertionError(f"{asset}: parsed 0 rows from {url}")
+        raise AssertionError(f"{asset}: parsed 0 rows from product {cfg['product']!r}")
     save_raw_ndjson(rows, asset)
     print(f"  {asset}: wrote {len(rows):,} rows")
 
