@@ -1,0 +1,21 @@
+spec_id: nyc-tlc-fhvhv-tripdata
+status: active
+tests:
+  - not_null: pickup_datetime
+    reason: every high-volume FHV trip has a pickup timestamp
+    certainty: 92
+  - not_null: hvfhs_license_num
+    reason: the HVFHS license code identifies the operator on every trip
+    certainty: 88
+  - column_type: {col: trip_miles, type: float}
+    certainty: 95
+  - column_type: {col: base_passenger_fare, type: float}
+    certainty: 92
+  - enum: {col: hvfhs_license_num, values: [HV0002, HV0003, HV0004, HV0005]}
+    reason: known HVFHS licensees — Juno HV0002, Uber HV0003, Via HV0004, Lyft HV0005; a new code means the source added an operator
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - row_count: {min: 10000000}
+    reason: HVFHS is the largest series — ~20M trips/month since 2019, hundreds of millions total
+    certainty: 88

@@ -1,0 +1,14 @@
+spec_id: nyc-tlc-green-tripdata
+status: active
+tests:
+  - not_null: lpep_pickup_datetime
+    reason: every green trip is timestamped at pickup
+    certainty: 92
+  - column_type: {col: total_amount, type: float}
+    certainty: 95
+  - column_type: {col: trip_type, type: integer}
+    reason: street-hail vs dispatch flag; normalized BIGINT
+    certainty: 80
+  - row_count: {min: 100000}
+    reason: ~140 months of green trips since 2014
+    certainty: 90

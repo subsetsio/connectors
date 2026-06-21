@@ -1,0 +1,15 @@
+spec_id: nyc-tlc-taxi-zone-lookup
+status: active
+tests:
+  - not_null: LocationID
+    reason: the zone id is the join key; never null
+    certainty: 95
+  - unique: LocationID
+    reason: one row per taxi zone
+    certainty: 95
+  - row_count: {min: 250, max: 300}
+    reason: TLC defines 265 taxi zones (LocationID 1-265)
+    certainty: 90
+  - distinct_count: {col: Borough, min: 6}
+    reason: 5 boroughs plus EWR and an Unknown bucket
+    certainty: 80

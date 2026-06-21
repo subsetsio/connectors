@@ -1,0 +1,15 @@
+spec_id: nyc-tlc-fhv-tripdata
+status: active
+tests:
+  - not_null: pickup_datetime
+    reason: every FHV dispatch has a pickup timestamp
+    certainty: 90
+  - not_null: dispatching_base_num
+    reason: the dispatching base is the core identifier of an FHV trip
+    certainty: 85
+  - column_type: {col: PULocationID, type: integer}
+    reason: pickup zone id (source PUlocationID); normalized BIGINT
+    certainty: 82
+  - row_count: {min: 1000000}
+    reason: ~130 months of FHV (livery/black-car) dispatches since 2015
+    certainty: 90
