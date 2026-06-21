@@ -84,7 +84,10 @@ def _en(value, default=None):
 def _eu_catalog_counts() -> dict:
     """Map of EU-institution catalog id -> dataset count, from the catalog
     sub-facet under the country=eu dataset filter (one request)."""
-    facets = urllib.parse.quote(json.dumps({"country": ["eu"]}))
+    # Pass raw JSON — httpx url-encodes params once. Do NOT pre-quote (double
+    # encoding makes the server silently ignore the facet and return the whole
+    # ~1.7M-row federation instead of the ~48k EU-institution slice).
+    facets = json.dumps({"country": ["eu"]})
     res = _search({"filter": "dataset", "facets": facets, "limit": 0})
     items = next((f["items"] for f in res.get("facets", []) if f.get("id") == "catalog"), [])
     counts = {it["id"]: it.get("count", 0) for it in items if it.get("id")}
@@ -96,7 +99,7 @@ def _eu_catalog_counts() -> dict:
 def _iter_catalog_datasets(cid: str):
     """Yield raw dataset records for one EU-institution catalog, paging within
     the bounded country=eu + catalog facet window."""
-    facets = urllib.parse.quote(json.dumps({"country": ["eu"], "catalog": [cid]}))
+    facets = json.dumps({"country": ["eu"], "catalog": [cid]})
     for page in range(MAX_PAGES_PER_CATALOG):
         res = _search({"filter": "dataset", "facets": facets,
                        "limit": PAGE_SIZE, "page": page})

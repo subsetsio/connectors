@@ -22,4 +22,4 @@ for eid in ["ceo_pay_ratio", "labor_force_unemp", "price_inflation", "minimum_wa
     out = con.execute(f"SELECT count(*) n, min(date) mn, max(date) mx, count(distinct measure) nm FROM ({sql})").fetchall()[0]
     nullval = con.execute(f"SELECT count(*) FROM ({sql}) WHERE value IS NULL").fetchall()[0][0]
     print(f"=== {eid} ({member}) raw={tbl.num_rows} pub={out[0]} dates={out[1]}..{out[2]} measures={out[3]} nullvals={nullval}")
-    print("   sample:", con.execute(f"SELECT * FROM ({sql}) LIMIT 1").arrow().to_pylist())
+    print("   sample:", con.execute(f"SELECT * FROM ({sql}) LIMIT 1").fetchall())

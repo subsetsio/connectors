@@ -4,7 +4,14 @@ from subsets_utils import get
 ensure_ca()
 
 def read_csv(url):
-    raw = get(url, timeout=(10,300)).content
+    import time
+    for _ in range(5):
+        try:
+            raw = get(url, timeout=(10,300)).content; break
+        except Exception as e:
+            print("retry", e.__class__.__name__); time.sleep(3)
+    else:
+        raise SystemExit("give up")
     header = raw.split(b"\n",1)[0].decode("utf-8").replace('"','').strip()
     cols=[c for c in header.split(";") if c]
     return pacsv.read_csv(io.BytesIO(raw),
