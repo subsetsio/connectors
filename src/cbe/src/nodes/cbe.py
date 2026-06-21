@@ -32,6 +32,7 @@ of hand-coding each one.
 """
 
 import datetime
+import html
 import io
 import re
 
@@ -355,24 +356,40 @@ for _eid in ENTITY_IDS:
     _SPEC_LOOKUP[_spec_id(_eid)] = (_cat, _ds)
 
 
+def _match_hrefs(page_html, ds_slug):
+    """XLSX hrefs on a category page whose immediate parent folder is ds_slug.
+
+    A dataset's files live in a folder named after the dataset slug. That folder
+    usually nests under the category slug (.../time-series/<cat>/<ds>/file.xlsx),
+    but for the bare "time-series" category it sits directly under time-series
+    (.../time-series/<ds>/file.xlsx). Matching on the file's parent folder rather
+    than a fixed category path handles both. Each href is html-unescaped because
+    CBE encodes apostrophes etc. as entities (e.g. &#39;), which would otherwise
+    produce a 400."""
+    out = []
+    for h in _HREF_RE.findall(page_html):
+        href = html.unescape(h)
+        parent = href.rsplit("/", 2)[-2] if href.count("/") >= 2 else ""
+        if parent == ds_slug:
+            out.append(href)
+    return out
+
+
 def _list_dataset_files(cat_slug, ds_slug):
     """Return the XLSX hrefs for one dataset by scraping its category page.
 
     Falls back to scanning every category page if the dataset's own page yields
     nothing (handles cross-listed datasets), and raises if still empty so a
     silent coverage loss becomes a loud failure."""
-    needle = f"/time-series/{cat_slug}/{ds_slug}/"
     guid = CAT_SLUG_TO_GUID.get(cat_slug)
     seen = []
     if guid:
-        html = _http_get(LIST_URL.format(guid)).text
-        seen = [h for h in _HREF_RE.findall(html) if needle in h]
+        seen = _match_hrefs(_http_get(LIST_URL.format(guid)).text, ds_slug)
     if not seen:
         for g in set(CAT_SLUG_TO_GUID.values()):
             if g == guid:
                 continue
-            html = _http_get(LIST_URL.format(g)).text
-            seen.extend(h for h in _HREF_RE.findall(html) if needle in h)
+            seen.extend(_match_hrefs(_http_get(LIST_URL.format(g)).text, ds_slug))
     files = sorted(set(seen))
     if not files:
         raise RuntimeError(
