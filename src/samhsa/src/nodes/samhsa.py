@@ -151,7 +151,6 @@ TRANSFORM_SPECS = [
                 CAST(zip AS VARCHAR)                     AS zip,
                 NULLIF(CAST(phone AS VARCHAR), '')       AS phone,
                 NULLIF(CAST(intake1 AS VARCHAR), '')     AS intake_phone,
-                NULLIF(CAST(hotline1 AS VARCHAR), '')    AS hotline_phone,
                 NULLIF(CAST(website AS VARCHAR), '')     AS website,
                 TRY_CAST(latitude AS DOUBLE)            AS latitude,
                 TRY_CAST(longitude AS DOUBLE)           AS longitude,
