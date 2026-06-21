@@ -1,0 +1,20 @@
+spec_id: nyc-tlc-yellow-tripdata
+status: active
+tests:
+  - not_null: tpep_pickup_datetime
+    reason: every yellow trip is timestamped at pickup; nulls mean a parse/mapping miss
+    certainty: 92
+  - not_null: tpep_dropoff_datetime
+    certainty: 88
+  - column_type: {col: trip_distance, type: float}
+    certainty: 95
+  - column_type: {col: PULocationID, type: integer}
+    reason: pickup zone id; normalized to BIGINT (null for the pre-2011 lat/lon era)
+    certainty: 85
+  - between: {col: passenger_count, lo: 0, hi: 12}
+    reason: realistic occupancy; stray outliers are dirty source rows, not our bug
+    certainty: 60
+    severity: warn
+  - row_count: {min: 1000000}
+    reason: ~200 months of yellow trips, millions/month — well over 1M rows total
+    certainty: 90
