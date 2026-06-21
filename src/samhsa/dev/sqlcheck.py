@@ -11,10 +11,9 @@ sy = [
   {"locationabbr":"AL","locationdesc":"Alabama","ffy_year":"2018","topicdesc":"Synar Report","measuredesc":"Sales to Minors","submeasure":"YTS","data_value":"6.6","data_value_unit":"%","data_value_type":"Percent","geolocation":{"latitude":"32.8"},"source":"SAMHSA"},
   {"locationabbr":"AK","locationdesc":"Alaska","ffy_year":"2017","topicdesc":"Synar Report","measuredesc":"Sales to Minors","submeasure":"YTS","data_value":"","data_value_unit":"%","data_value_type":"Percent","geolocation":None,"source":"SAMHSA"},
 ]
-con = duckdb.connect()
-con.execute("CREATE VIEW \"samhsa-findtreatment-facilities\" AS SELECT * FROM read_json_auto(?)", ["/tmp/ft.json"])
 open("/tmp/ft.json","w").write("\n".join(json.dumps(r) for r in ft))
 open("/tmp/sy.json","w").write("\n".join(json.dumps(r) for r in sy))
+con = duckdb.connect()
 con.execute("CREATE OR REPLACE VIEW \"samhsa-findtreatment-facilities\" AS SELECT * FROM read_json_auto('/tmp/ft.json')")
 con.execute("CREATE OR REPLACE VIEW \"samhsa-escb-scz6\" AS SELECT * FROM read_json_auto('/tmp/sy.json')")
 
