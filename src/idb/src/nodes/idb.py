@@ -109,7 +109,12 @@ def _parse_excel_bytes(raw: bytes) -> tuple[list[dict], list[str]]:
         return [], []
     best = best.where(best.notna(), None)
     cols = [str(c) for c in best.columns]
-    return best.to_dict(orient="records"), cols
+    _NA = {"nan", "NaN", "NaT", "None", ""}
+    rows = [
+        {k: (None if (v is None or (isinstance(v, str) and v in _NA)) else v) for k, v in rec.items()}
+        for rec in best.to_dict(orient="records")
+    ]
+    return rows, cols
 
 
 def _load_file_resource(url: str, fmt: str) -> tuple[list[dict], list[str]]:

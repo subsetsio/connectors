@@ -42,8 +42,6 @@ from subsets_utils import (
     is_transient,
     transient_retry,
     save_raw_parquet,
-    load_state,
-    save_state,
 )
 from constants import CLM_STATIONS, TIDE_STATIONS, RYES_STATIONS
 
@@ -332,24 +330,11 @@ def _parse_ryes_day(payload, queried_date):
 
 def fetch_weather_radiation_report(node_id: str) -> None:
     asset = node_id
-    state = load_state(asset)
-    if state.get("schema_version") != STATE_VERSION:
-        state = {}
-    watermark = state.get("watermark")  # last fully-fetched date, ISO 'YYYY-MM-DD'
-
-    # Re-fetch from the start of the watermark's month so the current partial
-    # month is rewritten as it fills in; otherwise start at the source minimum.
-    if watermark:
-        wm = date.fromisoformat(watermark)
-        start = wm.replace(day=1)
-    else:
-        start = RYES_SOURCE_MIN
+    cur = RYES_SOURCE_MIN
     end = datetime.now(tz=HKT).date() - timedelta(days=1)  # frozen for this run
 
-    cur = max(start, RYES_SOURCE_MIN)
     month_rows = []
     month_key = None
-    last_done = watermark
 
     def flush():
         nonlocal month_rows
@@ -365,8 +350,7 @@ def fetch_weather_radiation_report(node_id: str) -> None:
         if month_key is None:
             month_key = mk
         elif mk != month_key:
-            flush()
-            save_state(asset, {"schema_version": STATE_VERSION, "watermark": last_done})
+            flush()              # one parquet batch per calendar month
             month_key = mk
 
         payload = _fetch_json(
@@ -374,13 +358,10 @@ def fetch_weather_radiation_report(node_id: str) -> None:
              "date": cur.strftime("%Y%m%d"), "lang": "en"}
         )
         month_rows.extend(_parse_ryes_day(payload, cur.strftime("%Y%m%d")))
-        last_done = cur.isoformat()
         cur += timedelta(days=1)
         time.sleep(RYES_THROTTLE_S)  # stay under the source's volume-based 403 block
 
     flush()
-    if last_done:
-        save_state(asset, {"schema_version": STATE_VERSION, "watermark": last_done})
 
 
 # --------------------------------------------------------------------------- #

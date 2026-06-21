@@ -25,6 +25,14 @@ the CSV members we need are parsed:
   - <subsector>_country_emissions_v*.csv  -> country_emissions
   - <subsector>_emissions_sources_v*.csv  -> asset_emissions
     (the _ownership_ and _confidence_ sibling files are skipped — different schemas)
+
+asset_emissions reduction: the source-level CSVs are published at MONTHLY grain
+(~114M rows globally). That is far too granular for a single published table and
+is unwieldy downstream, so the fetch aggregates each source's monthly rows to an
+ANNUAL grain per (source, year) — summing emissions/activity, carrying the
+constant descriptors (location, names, units) and the max reported capacity.
+This is done with pyarrow's C++ hash group-by (one pass per zip member; sources
+never span members) and cuts the corpus ~12x to ~10M rows.
 """
 
 import csv
@@ -35,6 +43,7 @@ import zipfile
 
 import pyarrow as pa
 import pyarrow.csv as pacsv
+import pyarrow.compute as pc
 
 from subsets_utils import (
     NodeSpec,
@@ -53,6 +62,9 @@ PKG_URL = "https://downloads.climatetrace.org/latest/country_packages/{gas}/{iso
 # Source-level CSVs hold millions of rows across all countries, so they are
 # parsed with pyarrow's C++ CSV reader (streaming batches) — orders of magnitude
 # faster than per-row Python parsing, which timed out the cloud job.
+# Columns parsed from the source-level CSV (the rest — end_time,
+# temporal_granularity, emissions_factor*, capacity_factor, other1..10 — are
+# dropped: they don't survive annual aggregation cleanly).
 ASSET_COLUMN_TYPES = {
     "source_id": pa.string(),
     "source_name": pa.string(),
@@ -60,20 +72,15 @@ ASSET_COLUMN_TYPES = {
     "iso3_country": pa.string(),
     "sector": pa.string(),
     "subsector": pa.string(),
+    "gas": pa.string(),
     "start_time": pa.string(),
-    "end_time": pa.string(),
     "lat": pa.float64(),
     "lon": pa.float64(),
-    "gas": pa.string(),
     "emissions_quantity": pa.float64(),
-    "temporal_granularity": pa.string(),
     "activity": pa.float64(),
     "activity_units": pa.string(),
-    "emissions_factor": pa.float64(),
-    "emissions_factor_units": pa.string(),
     "capacity": pa.float64(),
     "capacity_units": pa.string(),
-    "capacity_factor": pa.float64(),
 }
 ASSET_CONVERT = pacsv.ConvertOptions(
     include_columns=list(ASSET_COLUMN_TYPES.keys()),
@@ -82,6 +89,17 @@ ASSET_CONVERT = pacsv.ConvertOptions(
     strings_can_be_null=True,
 )
 ASSET_READ = pacsv.ReadOptions(block_size=1 << 24)  # 16 MB blocks
+
+# (aggregation function, source column) -> output column. Descriptors are
+# constant per source so "min" just carries the value; emissions/activity sum;
+# capacity is a stock so take the max reported.
+ASSET_AGG = [
+    ("source_name", "min"), ("source_type", "min"), ("iso3_country", "min"),
+    ("sector", "min"), ("subsector", "min"), ("gas", "min"),
+    ("lat", "min"), ("lon", "min"),
+    ("emissions_quantity", "sum"), ("activity", "sum"),
+    ("activity_units", "min"), ("capacity", "max"), ("capacity_units", "min"),
+]
 
 COUNTRY_EMISSIONS_SCHEMA = pa.schema([
     ("iso3_country", pa.string()),
@@ -97,6 +115,7 @@ COUNTRY_EMISSIONS_SCHEMA = pa.schema([
     ("modified_date", pa.string()),
 ])
 
+# Annual-aggregated source-level schema (one row per source x year).
 ASSET_EMISSIONS_SCHEMA = pa.schema([
     ("source_id", pa.string()),
     ("source_name", pa.string()),
@@ -104,20 +123,15 @@ ASSET_EMISSIONS_SCHEMA = pa.schema([
     ("iso3_country", pa.string()),
     ("sector", pa.string()),
     ("subsector", pa.string()),
-    ("start_time", pa.string()),
-    ("end_time", pa.string()),
+    ("gas", pa.string()),
+    ("year", pa.int32()),
     ("lat", pa.float64()),
     ("lon", pa.float64()),
-    ("gas", pa.string()),
     ("emissions_quantity", pa.float64()),
-    ("temporal_granularity", pa.string()),
     ("activity", pa.float64()),
     ("activity_units", pa.string()),
-    ("emissions_factor", pa.float64()),
-    ("emissions_factor_units", pa.string()),
     ("capacity", pa.float64()),
     ("capacity_units", pa.string()),
-    ("capacity_factor", pa.float64()),
 ])
 
 
