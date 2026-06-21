@@ -1,3 +1,4 @@
+import io
 import re
 import pandas as pd
 from subsets_utils import get
@@ -18,7 +19,7 @@ def page(n):
 
 for n in [0, 1, 200]:
     r = page(n)
-    tables = pd.read_html(r.text)
+    tables = pd.read_html(io.StringIO(r.text))
     # find the data table (has 'Incident ID' col)
     dt = None
     for t in tables:
