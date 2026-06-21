@@ -20,6 +20,8 @@ location for the full 1940-present daily range); all products run as independent
 nodes, so wall-clock is the single slowest node, not the sum.
 """
 
+import hashlib
+import time
 from datetime import datetime, timedelta, timezone
 
 import pyarrow as pa
@@ -27,11 +29,37 @@ import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
+    configure_http,
     get,
     save_raw_parquet,
     transient_retry,
 )
 from constants import LOCATIONS, CLIMATE_MODELS
+
+# Every product lives behind the same Cloudflare edge (*.open-meteo.com). The
+# four download nodes launch as concurrent subprocesses; if all four open their
+# TLS handshake at t=0 from one datacenter IP, Cloudflare throttles the burst and
+# the handshakes time out. So each node (a) presents a browser-like User-Agent
+# and (b) staggers its first request by a deterministic per-node offset, and we
+# pace requests lightly to keep the new-connection rate low.
+_BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "application/json,text/plain,*/*",
+    "Accept-Language": "en-US,en;q=0.9",
+}
+_REQUEST_PAUSE_S = 0.4
+
+
+def _prepare_node(node_id: str) -> None:
+    """Configure a browser-like client and desync this node's connection burst
+    against its siblings (deterministic 0-27s offset, no randomness needed)."""
+    configure_http(headers=_BROWSER_HEADERS)
+    offset = int(hashlib.sha256(node_id.encode()).hexdigest(), 16) % 28
+    if offset:
+        time.sleep(offset)
 
 # Documented dataset bounds (constants of the upstream datasets, not arbitrary
 # year ranges). Open-Meteo docs: ERA5 from 1940, GloFAS from 1984, CAMS air
