@@ -85,21 +85,26 @@ def _i(v):
 
 
 @transient_retry()
-def _fetch_zip_rows(url: str):
-    """Download a .csv.zip, return (csv_basename, list[dict] with lowercased keys)."""
-    resp = get(url, timeout=(10.0, 180.0))
+def _download(url: str) -> bytes:
+    """Download a .csv.zip into memory (retried). Decompression is local."""
+    resp = get(url, timeout=(10.0, 300.0))
     resp.raise_for_status()
-    zf = zipfile.ZipFile(io.BytesIO(resp.content))
+    return resp.content
+
+
+def _iter_csv_rows(url: str):
+    """Stream rows (lowercased-key dicts) from the CSV member of a .csv.zip.
+
+    The zip member is decompressed as a stream so multi-GB files never fully
+    materialize in memory."""
+    zf = zipfile.ZipFile(io.BytesIO(_download(url)))
     members = [n for n in zf.namelist() if n.lower().endswith(".csv") and "__MACOSX" not in n]
     if not members:
         raise AssertionError(f"no CSV member in {url}: {zf.namelist()}")
-    name = members[0]
-    text = zf.read(name).decode("utf-8-sig", errors="replace")
-    reader = csv.DictReader(io.StringIO(text))
-    rows = []
-    for raw in reader:
-        rows.append({(k or "").strip().lstrip("﻿").lower(): val for k, val in raw.items()})
-    return name.rsplit("/", 1)[-1], rows
+    with zf.open(members[0]) as fh:
+        text = io.TextIOWrapper(fh, encoding="utf-8-sig", errors="replace", newline="")
+        for raw in csv.DictReader(text):
+            yield {(k or "").strip().lstrip("﻿").lower(): val for k, val in raw.items()}
 
 
 def _normalize_topic_row(r: dict, geo_level: str) -> dict:
