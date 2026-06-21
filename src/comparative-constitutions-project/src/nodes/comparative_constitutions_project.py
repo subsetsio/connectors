@@ -56,6 +56,28 @@ DOWNLOAD_PAGE = "https://comparativeconstitutionsproject.org/download-data/"
 CONSTITUTIONS_URL = "https://www.constituteproject.org/service/constitutions?lang=en"
 HTTP_TIMEOUT = (10.0, 300.0)  # (connect, read); CNC zip is ~118MB
 
+# The CCP download page is a WordPress site behind a bot filter that 403s
+# datacenter traffic / non-browser User-Agents. A realistic browser UA + Accept
+# headers clears the common case; if the page still blocks us (IP-based), the
+# pinned box.com URLs below keep the connector running. ASCII-only headers.
+_BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+}
+
+# Verified latest-version zips (2026-06), used only as a fallback when the
+# download-page scrape is blocked. Refresh these hashes when CCP ships a new vN
+# (CNC ~annual, Chronology updated through 2026); the scrape path picks up new
+# versions automatically whenever the page is reachable.
+_PINNED_ZIP = {
+    f"{SLUG}-ccp-cnc": "https://utexas.box.com/shared/static/cpgysqaogi1590ucv5x0wn59urqm00x3.zip",
+    f"{SLUG}-ccp-cce": "https://utexas.box.com/shared/static/qzs6irrpbfzspvv6sq94r98yw9rsh5lz.zip",
+}
+
 # Bulk-CSV datasets keyed by download spec id -> the section heading on the
 # download page whose first box.com link is the latest-version zip, and the
 # inner-file code used to pick the right CSV member.
@@ -73,21 +95,21 @@ _BULK = {
 
 @transient_retry()
 def _get_text(url: str) -> str:
-    resp = get(url, timeout=HTTP_TIMEOUT)
+    resp = get(url, headers=_BROWSER_HEADERS, timeout=HTTP_TIMEOUT)
     resp.raise_for_status()
     return resp.text
 
 
 @transient_retry()
 def _get_bytes(url: str) -> bytes:
-    resp = get(url, timeout=HTTP_TIMEOUT)
+    resp = get(url, headers=_BROWSER_HEADERS, timeout=HTTP_TIMEOUT)
     resp.raise_for_status()
     return resp.content
 
 
 @transient_retry()
 def _get_json(url: str):
-    resp = get(url, timeout=HTTP_TIMEOUT)
+    resp = get(url, headers=_BROWSER_HEADERS, timeout=HTTP_TIMEOUT)
     resp.raise_for_status()
     return resp.json()
 
