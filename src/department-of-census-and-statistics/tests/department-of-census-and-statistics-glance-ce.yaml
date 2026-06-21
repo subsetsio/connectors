@@ -1,0 +1,18 @@
+spec_id: department-of-census-and-statistics-glance-ce
+status: active
+tests:
+  - not_null: date
+  - not_null: indicator_code
+  - not_null: value
+  - column_type: {col: value, type: float}
+    reason: "all glance cells are coerced to float in the fetch fn"
+    certainty: 90
+  - column_type: {col: year, type: integer}
+    reason: "year derived from the annual Date label"
+    certainty: 90
+  - matches: {col: date, pattern: ^\d{4}-\d{2}-\d{2}$}
+    reason: "date is normalised to ISO YYYY-MM-DD in the fetch fn"
+    certainty: 95
+  - row_count: {min: 1}
+    reason: "every accepted glance subcategory has at least one non-null annual observation"
+    certainty: 90

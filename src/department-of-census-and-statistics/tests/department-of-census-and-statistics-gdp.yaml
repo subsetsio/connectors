@@ -1,0 +1,22 @@
+spec_id: department-of-census-and-statistics-gdp
+status: active
+tests:
+  - not_null: date
+  - not_null: sector_code
+  - not_null: value
+  - enum: {col: frequency, values: ["quarterly", "annual"]}
+    reason: "GDP is published quarterly and annually"
+    certainty: 95
+  - enum: {col: price_basis, values: ["constant", "current"]}
+    reason: "at constant and current prices"
+    certainty: 95
+  - enum: {col: measure, values: ["value", "share", "growth"]}
+    reason: "value, share-of-GDP and growth-rate series"
+    certainty: 90
+  - column_type: {col: value, type: float}
+    certainty: 90
+  - matches: {col: date, pattern: ^\d{4}-\d{2}-\d{2}$}
+    reason: "date is normalised to ISO YYYY-MM-DD in the fetch fn"
+    certainty: 95
+  - row_count: {min: 1}
+    certainty: 95
