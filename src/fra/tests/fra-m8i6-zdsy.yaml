@@ -1,0 +1,9 @@
+spec_id: fra-m8i6-zdsy
+status: active
+tests:
+  - row_count: {min: 320000}
+    reason: FRA safety tables accumulate over time; a drop below this floor means the full-corpus Socrata export truncated on our side.
+    certainty: 90
+  - not_null: railroadcode
+    reason: "railroadcode" is a primary identifier present on every submitted record.
+    certainty: 90

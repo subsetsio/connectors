@@ -1,0 +1,8 @@
+spec_id: geostat-national-20accounts-system-20of-20national-20accounts-202008-20-28sna-202008-29-supply-use-20tables-2020-supply-2020-38-38
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every PxWeb .px table returns at least one observation cell; an empty raw asset means the json-stat fetch or cell-split logic broke (or the table was withdrawn upstream).
+    certainty: 80
+    points_outward: true
+    severity: warn

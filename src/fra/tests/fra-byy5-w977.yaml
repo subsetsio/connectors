@@ -1,0 +1,9 @@
+spec_id: fra-byy5-w977
+status: active
+tests:
+  - row_count: {min: 150000}
+    reason: FRA safety tables accumulate over time; a drop below this floor means the full-corpus Socrata export truncated on our side.
+    certainty: 90
+  - not_null: reportingrailroadcode
+    reason: "reportingrailroadcode" is a primary identifier present on every submitted record.
+    certainty: 90

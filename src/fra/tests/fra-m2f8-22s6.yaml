@@ -1,0 +1,6 @@
+spec_id: fra-m2f8-22s6
+status: active
+tests:
+  - row_count: {min: 350000}
+    reason: FRA safety tables accumulate over time; a drop below this floor means the full-corpus Socrata export truncated on our side.
+    certainty: 90

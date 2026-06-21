@@ -1,0 +1,8 @@
+spec_id: geostat-construction-construction-20by-20kind-20of-20economic-20activity-20nace-20rev-2-number-20of-20employees-number-of-employees-by-ownership-type
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every PxWeb .px table returns at least one observation cell; an empty raw asset means the json-stat fetch or cell-split logic broke (or the table was withdrawn upstream).
+    certainty: 80
+    points_outward: true
+    severity: warn
