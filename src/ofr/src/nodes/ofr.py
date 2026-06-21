@@ -212,7 +212,7 @@ def _transform_sql(download_id):
             SELECT
                 mnemonic, dataset, monitor, name, subtype,
                 frequency, unit_type, unit_name,
-                CAST(start_date AS DATE) AS start_date
+                TRY_CAST(NULLIF(start_date, '') AS DATE) AS start_date
             FROM "{download_id}"
             WHERE mnemonic IS NOT NULL
         '''
