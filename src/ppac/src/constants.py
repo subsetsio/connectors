@@ -20,6 +20,9 @@ REST_CONFIG = {
     "prices/international-prices-of-crude-oil": {
         "page_id": "30", "method": "getInternationalPricesCrudeOil",
         "report_by": "4", "unit": "$/bbl",
+        # The single data row's title is just the FY label; the series is the
+        # Indian basket crude price, so name the item explicitly.
+        "item_override": "Indian Basket Crude Oil",
     },
     "production/indigenous-crude-oil": {
         "page_id": "3", "method": "getProduction",
