@@ -33,6 +33,7 @@ import os
 import re
 
 import pyarrow as pa
+from ratelimit import limits, sleep_and_retry
 
 from subsets_utils import (
     NodeSpec,
@@ -87,9 +88,23 @@ def _api_key() -> str:
     return os.environ.get("DATA_GOV_IN_API_KEY") or _SAMPLE_KEY
 
 
-@transient_retry()
+# The public sample key is unthrottled per-IP from a residential address, but
+# the data.gov.in edge rate-limits shared CI egress IPs (GitHub Actions) hard:
+# an unpaced ~40 req/s crawl 429s within seconds. A registered DATA_GOV_IN_API_KEY
+# would raise the ceiling, but pacing + 429-tolerant retry keeps the connector
+# self-sufficient on the fallback key. ratelimit is per-process; this node is the
+# only spec, so one process owns the whole budget.
+@sleep_and_retry
+@limits(calls=3, period=1)
+def _http_get(url: str, params: dict):
+    return get(url, params=params, timeout=(10.0, 120.0))
+
+
+# Long, 429-tolerant retry so a throttle window (which resets on a timer per the
+# X-Ratelimit-Reset header) is ridden out rather than failing the backfill.
+@transient_retry(attempts=15, min_wait=10, max_wait=300)
 def _get_json(url: str, params: dict) -> dict:
-    resp = get(url, params=params, timeout=(10.0, 120.0))
+    resp = _http_get(url, params)
     resp.raise_for_status()
     return resp.json()
 
@@ -243,9 +258,15 @@ def fetch_hmis_values(node_id: str) -> None:
     if not resources:
         raise RuntimeError("no Item-wise HMIS report resources found on data.gov.in (filter/feed changed?)")
 
+    # Raw is run-scoped (<connector>/runs/<run_id>/raw/...) but state is
+    # connector-scoped, so the done-set is only a valid resume signal *within*
+    # one run id (a supervisor self-retrigger chain shares it). A fresh run id
+    # means fresh run-scoped raw, so reset the watermark and re-fetch in full —
+    # otherwise we'd skip resources whose batches live in a previous run's dir.
+    run_id = os.environ.get("RUN_ID")
     state = load_state(node_id)
-    if state.get("schema_version") != STATE_VERSION:
-        state = {"schema_version": STATE_VERSION, "done": []}
+    if state.get("schema_version") != STATE_VERSION or state.get("run_id") != run_id:
+        state = {"schema_version": STATE_VERSION, "run_id": run_id, "done": []}
     done = set(state.get("done", []))
 
     for resource_id, title in resources:
