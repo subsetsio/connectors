@@ -15,8 +15,9 @@ whole corpus and overwrites; "refresh" means picking up the next vintage):
     - ci5_xii_detailed      CI5-XIId.zip  per-registry files (sex x detailed-site x age, cases + person-years)
 
 The GCO data/ endpoints accept underscore-joined population AND cancer code
-lists, so each value table is just 6 requests (sex in {0,1,2} x type in {0,1});
-the response rows already carry sex/type/year, so we only flatten nested fields.
+lists. Note the path axis order is {type}/{sex} (type in {0=incidence,1=mortality},
+sex in {0=both,1=male,2=female}); the response rows carry sex/type/year, so we
+only flatten nested fields.
 No auth, no documented/observed rate limit; the PHP backend occasionally returns
 an error string in the JSON 'error' array rather than an HTTP error, so we check
 it. Raw is written as NDJSON throughout (nested/heterogeneous-friendly); the SQL
