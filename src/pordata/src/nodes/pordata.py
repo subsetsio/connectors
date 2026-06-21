@@ -194,7 +194,7 @@ TRANSFORM_SPECS = [
             SELECT
                 CAST(indicator_id AS INTEGER)        AS indicator_id,
                 period,
-                TRY_CAST(period AS INTEGER)          AS year,
+                TRY_CAST(period AS INTEGER)          AS "year",
                 series,
                 series_group,
                 CAST(value AS DOUBLE)                AS value

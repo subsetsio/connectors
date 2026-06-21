@@ -120,6 +120,7 @@ def _fetch_point(base_url: str, lat: float, lon: float, granularity: str,
     }
     params.update(extra)
     data = _request(base_url, params)
+    time.sleep(_REQUEST_PAUSE_S)  # keep new-connection / request rate gentle
     if isinstance(data, dict) and data.get("error"):
         print(f"open-meteo: source error at ({lat},{lon}) on {base_url}: "
               f"{data.get('reason')!r} -- skipping point")
@@ -162,6 +163,7 @@ def _location_schema(time_field: pa.DataType, time_name: str, variables: list,
 
 def fetch_archive_daily(node_id: str) -> None:
     asset = node_id
+    _prepare_node(node_id)
     end = (_today_utc() - timedelta(days=ARCHIVE_LATENCY_DAYS)).isoformat()
     schema = _location_schema(pa.string(), "date", ARCHIVE_DAILY_VARS)
     rows = []
@@ -178,6 +180,7 @@ def fetch_archive_daily(node_id: str) -> None:
 
 def fetch_climate_projections(node_id: str) -> None:
     asset = node_id
+    _prepare_node(node_id)
     schema = _location_schema(
         pa.string(), "date", CLIMATE_DAILY_VARS,
         extra_fields=[("model", pa.string())])
@@ -198,6 +201,7 @@ def fetch_climate_projections(node_id: str) -> None:
 
 def fetch_flood(node_id: str) -> None:
     asset = node_id
+    _prepare_node(node_id)
     end = (_today_utc() - timedelta(days=1)).isoformat()
     schema = _location_schema(pa.string(), "date", FLOOD_DAILY_VARS)
     rows = []
@@ -214,6 +218,7 @@ def fetch_flood(node_id: str) -> None:
 
 def fetch_air_quality(node_id: str) -> None:
     asset = node_id
+    _prepare_node(node_id)
     end = (_today_utc() - timedelta(days=1)).isoformat()
     schema = _location_schema(pa.string(), "time", AIR_QUALITY_HOURLY_VARS)
     rows = []
