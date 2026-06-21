@@ -41,3 +41,6 @@ cd=post.headers.get("content-disposition","")
 print("\nPOST status:", post.status_code, "ct:", ct[:40], "cd:", cd[:60], "len:", len(post.content))
 head=post.text[:200]
 print("body head:", head)
+
+print("\n==== FULL intermediate body ====")
+print(post.text)

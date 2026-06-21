@@ -21,7 +21,9 @@ fail on a minority of tables in three ways:
     that is all digits for 66 k rows then hits "J") — fixed by `sample_size=-1`
     (whole-file type inference);
   - quoted free-text fields with embedded newlines that blow past the 2 MB line
-    cap — fixed by a 16 MB `max_line_size`;
+    cap — fixed by a 16 MB `max_line_size`; the same fields carry doubled-quote
+    escapes (`""`) that the sniffer mis-reads, so we pin the standard RFC-4180
+    dialect (`quote='"'`, `escape='"'`) these BigQuery exports always use;
   - ragged rows with fewer columns than the header — fixed by `null_padding`
     + `strict_mode=false` (pad the short row, don't reject it). `null_padding`
     is incompatible with the *parallel* scanner when a table also has quoted
@@ -61,6 +63,8 @@ _CSV_READ_OPTS = (
     "null_padding=true, "
     "strict_mode=false, "
     "parallel=false, "
+    "quote='\"', "
+    "escape='\"', "
     "ignore_errors=false"
 )
 
