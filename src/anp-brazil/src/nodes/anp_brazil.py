@@ -41,6 +41,21 @@ SLUG = "anp-brazil"
 BASE = "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos"
 BATCH_ROWS = 100_000
 
+# ANP price dumps quote fields that contain the ';' delimiter (e.g. an address
+# "Complemento" like '"QUADRA: 12; NUCLEO ;"'). A few rows ship an unbalanced
+# quote, which makes csv.reader consume across many lines and blow past Python's
+# default 131072-byte field cap. Raise the cap so a malformed row degrades to one
+# oversized (truncated) field instead of aborting the whole 200+ file series.
+def _raise_csv_field_limit():
+    limit = 2 ** 31 - 1
+    while limit > 1:
+        try:
+            csv.field_size_limit(limit)
+            return
+        except OverflowError:
+            limit //= 10
+_raise_csv_field_limit()
+
 # ---------------------------------------------------------------------------
 # discovery — mirror collect's grouping so download selects the same files
 # ---------------------------------------------------------------------------

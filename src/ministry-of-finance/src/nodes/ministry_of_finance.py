@@ -48,7 +48,12 @@ BASE = "https://api.data.gov.in"
 SAMPLE_KEY = "579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b"
 # Explicit ASCII User-Agent — the server hangs on the default urllib/httpx UA.
 USER_AGENT = "Mozilla/5.0 (compatible; subsets-bot/1.0)"
-PAGE = 100  # requested page size; the server may cap lower (e.g. 10) — we adapt.
+# Requested page size. A registered key honors large pages (whole table in one
+# request); the shared public sample key silently caps each response at ~10 rows
+# regardless. We request the max and adapt to whatever the server returns, so a
+# registered key collapses a 400-row resource from ~40 requests to 1 — which is
+# what keeps us under the rate budget at 46x concurrency.
+PAGE = 1000
 MAX_PAGES = 100_000  # safety ceiling; raises rather than looping forever.
 
 
