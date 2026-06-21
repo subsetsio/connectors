@@ -1,0 +1,21 @@
+spec_id: mlb-stats-api-team-fielding
+status: active
+tests:
+  - not_null: season
+  - not_null: team_id
+  - column_type: {col: season, type: integer}
+    certainty: 95
+  - column_type: {col: team_id, type: integer}
+    certainty: 95
+  - between: {col: season, lo: 1876, hi: current_year()}
+    certainty: 90
+  - at_most: {col: season, expr: current_year()}
+    points_outward: true
+    severity: warn
+    certainty: 85
+  - distinct_count: {col: season, min: 100}
+    reason: one row per team-season across every season in /seasons/all
+    certainty: 90
+  - row_count: {min: 1500}
+    reason: dozens of teams x ~150 seasons of aggregate team stat lines
+    certainty: 80

@@ -1,0 +1,23 @@
+spec_id: mlb-stats-api-standings
+status: active
+tests:
+  - not_null: season
+  - not_null: team_id
+  - column_type: {col: season, type: integer}
+    reason: season cast to int in the flatten before save
+    certainty: 95
+  - column_type: {col: team_id, type: integer}
+    certainty: 95
+  - between: {col: season, lo: 1876, hi: current_year()}
+    reason: MLB standings exist from the first NL season (1876) to the current season
+    certainty: 90
+  - at_most: {col: season, expr: current_year()}
+    points_outward: true
+    severity: warn
+    certainty: 85
+  - distinct_count: {col: season, min: 100}
+    reason: standings pulled for every season in /seasons/all (~150)
+    certainty: 90
+  - row_count: {min: 1500}
+    reason: ~2 leagues x dozens of teams x ~150 seasons of team-season records
+    certainty: 80

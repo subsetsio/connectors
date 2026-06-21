@@ -1,0 +1,21 @@
+spec_id: mlb-stats-api-player-hitting
+status: active
+tests:
+  - not_null: season
+  - not_null: player_id
+  - column_type: {col: season, type: integer}
+    certainty: 95
+  - column_type: {col: player_id, type: integer}
+    certainty: 95
+  - between: {col: season, lo: 1876, hi: current_year()}
+    certainty: 90
+  - at_most: {col: season, expr: current_year()}
+    points_outward: true
+    severity: warn
+    certainty: 85
+  - distinct_count: {col: season, min: 100}
+    reason: player-season lines pulled for every season (playerPool=all)
+    certainty: 90
+  - row_count: {min: 20000}
+    reason: hundreds of qualifying+nonqualifying players per modern season x ~150 seasons
+    certainty: 75

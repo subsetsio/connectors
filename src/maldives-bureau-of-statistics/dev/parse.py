@@ -20,6 +20,9 @@ def _to_num(x):
 def _isnull(x):
     return x is None or (isinstance(x,float) and math.isnan(x)) or (isinstance(x,str) and x.strip()=='')
 
+def _ascii_ok(s):
+    return any(('a'<=c.lower()<='z') or c.isdigit() for c in s)
+
 def parse_grid(df):
     rows=df.values.tolist()
     def nn(r): return sum(0 if _isnull(c) else 1 for c in r)
@@ -33,34 +36,27 @@ def parse_grid(df):
     block=[[r[j] for j in keep] for r in block]
     ncol=len(keep)
     if ncol<2: return []
-    # per-column numeric fraction over non-null cells
     def frac_num(j):
         vals=[r[j] for r in block if not _isnull(r[j])]
         if not vals: return 0.0
         return sum(1 for v in vals if _is_num(v))/len(vals)
-    value_col={j: frac_num(j)>=0.5 for j in range(ncol)}
-    # value block starts at first consecutive pair of value cols; else col1
-    b=None
-    for j in range(ncol-1):
-        if value_col[j] and value_col[j+1]: b=j; break
-    if b is None:
-        b=1 if any(value_col[j] for j in range(1,ncol)) else None
-    if b is None or b<1: b=max(1,(b or 1))
-    if b>=ncol: return []
-    label_cols=list(range(b))
-    value_cols=list(range(b,ncol))
-    # header band: first row always header; then while no clean data row
+    vcols=[j for j in range(ncol) if frac_num(j)>=0.5]
+    if not vcols: return []
+    if min(vcols)==0:
+        label_cols=[0]; value_cols=[j for j in vcols if j>=1]
+    else:
+        b=min(vcols); label_cols=list(range(b)); value_cols=vcols
+    if not value_cols or not label_cols: return []
+    vset=set(value_cols)
     def has_text_value(r): return any((not _isnull(r[j])) and (not _is_num(r[j])) for j in value_cols)
     def has_label(r): return any(not _isnull(r[j]) for j in label_cols)
-    def has_num(r): return any(_to_num(r[j]) is not None for j in value_cols)
     h=1
     while h<len(block):
         r=block[h]
-        if has_text_value(r) or not has_label(r) or not has_num(r): h+=1
-        else: break
+        if has_label(r) and not has_text_value(r): break
+        h+=1
     header_rows=block[:h]; data_rows=block[h:]
     if not data_rows: return []
-    # build per-value-col header (ffill each header row L->R, join)
     ff=[]
     for hr in header_rows:
         out=[]; last=None
@@ -71,11 +67,12 @@ def parse_grid(df):
         ff.append(out)
     col_header={}
     for j in value_cols:
-        parts=[ff[i][j] for i in range(len(ff)) if ff[i][j] not in (None,'')]
-        col_header[j]=" | ".join(dict.fromkeys(parts)) if parts else f"col_{j}"
+        parts=[ff[i][j] for i in range(len(ff)) if ff[i][j] not in (None,"") and _ascii_ok(ff[i][j])]
+        col_header[j]=" | ".join(dict.fromkeys(parts)) if parts else "col_%d"%j
     recs=[]
     for r in data_rows:
-        lbl=" | ".join(str(r[j]).strip() for j in label_cols if not _isnull(r[j]))
+        parts=[str(r[j]).strip() for j in label_cols if not _isnull(r[j]) and _ascii_ok(str(r[j]))]
+        lbl=" | ".join(parts)
         if not lbl: continue
         for j in value_cols:
             v=_to_num(r[j])

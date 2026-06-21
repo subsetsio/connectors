@@ -61,7 +61,12 @@ def _get_json(url: str):
     resp.raise_for_status()
     data = resp.json()
     if isinstance(data, dict) and data.get("error"):
-        # The GCO PHP backend reports query errors inside the JSON body.
+        # The GCO PHP backend reports query errors inside the JSON body. A
+        # "no data for this selection" message is a benign empty result (some
+        # sex/type/cancer combos simply have no registry coverage) — treat it
+        # as an empty dataset rather than a failure.
+        if "no data" in str(data["error"]).lower():
+            return {"dataset": []}
         raise RuntimeError(f"GCO API error for {url}: {data['error']}")
     return data
 
