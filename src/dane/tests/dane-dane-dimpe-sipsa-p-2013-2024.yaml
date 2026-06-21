@@ -1,0 +1,33 @@
+spec_id: dane-dane-dimpe-sipsa-p-2013-2024
+status: active
+tests:
+  - row_count: {min: 50000}
+    reason: SIPSA-P is daily/monthly wholesale prices across many products and markets over 2013-2024; well over 50k observations expected. A tiny count means a truncated scrape/download.
+    certainty: 90
+    severity: block
+  - not_null: fecha
+    reason: every price observation is dated; a null date means the date parser failed for that file variant.
+    certainty: 85
+  - not_null: producto
+    reason: every row is a price for a named product.
+    certainty: 90
+  - not_null: precio_cop_kg
+    reason: the price is the measured value of the series; nulls mean number parsing failed.
+    certainty: 80
+  - column_type: {col: fecha, type: date}
+    reason: fecha is normalized to a date32.
+    certainty: 95
+  - column_type: {col: precio_cop_kg, type: float}
+    reason: prices parsed to float COP/kg.
+    certainty: 95
+  - between: {col: precio_cop_kg, lo: 0, hi: 1000000}
+    reason: wholesale COP/kg food prices are positive and well under 1,000,000 COP/kg; values outside signal a locale/number-parse bug (e.g. lost thousands separator).
+    certainty: 80
+  - distinct_count: {col: grupo, min: 5}
+    reason: SIPSA classifies foods into multiple groups (verduras, frutas, carnes, tuberculos, ...); fewer than 5 means the group column was misparsed.
+    certainty: 75
+  - freshness: {col: fecha, reaches: '2023-01-01'}
+    reason: the study spans through 2024, so the latest observation should reach at least 2023.
+    certainty: 70
+    points_outward: true
+    severity: warn

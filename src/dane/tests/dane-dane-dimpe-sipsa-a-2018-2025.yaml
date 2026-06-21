@@ -1,0 +1,33 @@
+spec_id: dane-dane-dimpe-sipsa-a-2018-2025
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: SIPSA-A records daily food deliveries into major wholesale markets across the country, 2018-2025; millions of record-level rows expected. A tiny count means a truncated scrape/download.
+    certainty: 90
+    severity: block
+  - not_null: fecha
+    reason: every supply record carries a survey date; nulls mean the DD/MM/YYYY parser failed.
+    certainty: 85
+  - not_null: alimento
+    reason: every record is a delivered food item.
+    certainty: 90
+  - not_null: cantidad_kg
+    reason: the delivered quantity (kg) is the measured value; nulls mean number parsing failed.
+    certainty: 80
+  - column_type: {col: fecha, type: date}
+    reason: fecha is normalized to a date32.
+    certainty: 95
+  - column_type: {col: cantidad_kg, type: float}
+    reason: quantity parsed to float kg.
+    certainty: 95
+  - between: {col: cantidad_kg, lo: 0, hi: 100000000}
+    reason: a single delivery quantity in kg is positive and bounded; values outside signal a locale/number-parse bug.
+    certainty: 75
+  - distinct_count: {col: departamento, min: 10}
+    reason: deliveries originate from many of Colombia's 32 departments; fewer than 10 means the department column was misparsed.
+    certainty: 75
+  - freshness: {col: fecha, reaches: '2024-01-01'}
+    reason: the study spans through 2025, so the latest observation should reach at least 2024.
+    certainty: 70
+    points_outward: true
+    severity: warn

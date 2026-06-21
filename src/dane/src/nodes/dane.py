@@ -78,15 +78,25 @@ def _study_download_urls(numeric_id: str) -> list[tuple[str, str]]:
     return files
 
 
+def _decode(raw: bytes) -> str:
+    """Decode a CSV member. Encoding varies across releases: newer files are
+    UTF-8 (with BOM), older ones are cp1252/latin-1. Try strict UTF-8 first
+    (fails fast on cp1252 high bytes), fall back to cp1252."""
+    try:
+        return raw.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        return raw.decode("cp1252", errors="replace")
+
+
 def _csv_members(zip_bytes: bytes):
     """Yield (member_name, decoded_text) for every flat .csv in the ZIP.
 
     SIPSA-P / SIPSA-A ZIPs hold one CSV (plus redundant .dta/.sav of the same
-    data, which we ignore). Files are latin-1 (cp1252) encoded."""
+    data, which we ignore)."""
     zf = zipfile.ZipFile(io.BytesIO(zip_bytes))
     for name in zf.namelist():
         if name.lower().endswith(".csv"):
-            yield name, zf.read(name).decode("latin-1")
+            yield name, _decode(zf.read(name))
 
 
 def _split_rows(text: str):

@@ -13,7 +13,9 @@ challenged, so we never use HEAD).
 
 import io
 import re
+import time
 
+import httpx
 import openpyxl
 import pyarrow as pa
 
@@ -21,15 +23,43 @@ from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transien
 
 INDICATORS_PAGE = "https://www.aei.org/national-and-metro-housing-market-indicators/"
 
-# www.aei.org is behind Cloudflare bot protection: the default 'DataIntegrations'
-# User-Agent gets a 403 from runner IPs, while a normal browser UA returns the real
-# body (verified: page + workbook GET both 200). Send a browser UA on every request.
+# www.aei.org sits behind Cloudflare. From a normal machine a browser User-Agent
+# returns the real body, but the cloud runner's datacenter IP/TLS fingerprint is
+# 403'd regardless of User-Agent (verified: a real browser UA still 403s from CI).
+# So we send realistic browser headers on the logged subsets_utils path, and on a
+# 403 fall back to curl_cffi impersonating Chrome's TLS (JA3) handshake, which
+# clears the challenge. Same approach as the bruegel connector.
 BROWSER_HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
         "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
     ),
+    "Accept": (
+        "text/html,application/xhtml+xml,application/xml;q=0.9,"
+        "image/avif,image/webp,*/*;q=0.8"
+    ),
+    "Accept-Language": "en-US,en;q=0.9",
 }
+
+
+def _curl_fetch(url: str, binary: bool):
+    """Cloudflare bypass: curl_cffi impersonates Chrome's TLS handshake, clearing
+    the challenge that 403s the logged client from the runner's datacenter IP.
+    Used only as the fallback when the subsets_utils path returns 403."""
+    from curl_cffi import requests as cr
+
+    last = None
+    for attempt in range(5):
+        try:
+            r = cr.get(url, impersonate="chrome", headers=BROWSER_HEADERS,
+                       timeout=180, allow_redirects=True)
+            if r.status_code == 200:
+                return r.content if binary else r.text
+            last = f"HTTP {r.status_code}"
+        except Exception as e:  # curl_cffi transport error — retry with backoff
+            last = f"{type(e).__name__}: {e}"
+        time.sleep(2 * (attempt + 1))
+    raise AssertionError(f"curl_cffi fallback failed for {url}: {last}")
 
 # The 13 meaningful columns of the workbook's single "data" sheet (the sheet has
 # trailing empty columns we drop). Order matches the source header row exactly.
@@ -68,16 +98,26 @@ SCHEMA = pa.schema([
 
 @transient_retry()
 def _fetch_text(url: str) -> str:
-    resp = get(url, headers=BROWSER_HEADERS, timeout=(10.0, 120.0))
-    resp.raise_for_status()
-    return resp.text
+    try:
+        resp = get(url, headers=BROWSER_HEADERS, timeout=(10.0, 120.0))
+        resp.raise_for_status()
+        return resp.text
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 403:
+            return _curl_fetch(url, binary=False)
+        raise
 
 
 @transient_retry()
 def _fetch_bytes(url: str) -> bytes:
-    resp = get(url, headers=BROWSER_HEADERS, timeout=(10.0, 180.0))
-    resp.raise_for_status()
-    return resp.content
+    try:
+        resp = get(url, headers=BROWSER_HEADERS, timeout=(10.0, 180.0))
+        resp.raise_for_status()
+        return resp.content
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 403:
+            return _curl_fetch(url, binary=True)
+        raise
 
 
 def _discover_workbook_url() -> str:
