@@ -1,0 +1,19 @@
+spec_id: ipea-series
+status: active
+tests:
+  - not_null: SERCODIGO
+    reason: SERCODIGO is the primary key of the series catalog; a null means the catalog parse broke
+    certainty: 99
+  - column_type: {col: SERCODIGO, type: string}
+    certainty: 95
+  - unique: SERCODIGO
+    reason: Metadados returns exactly one record per series
+    certainty: 95
+  - column_type: {col: TEMCODIGO, type: integer}
+    certainty: 90
+  - row_count: {min: 3000}
+    reason: probed catalog held ~3596 numeric series; far fewer means the single-shot catalog fetch was truncated
+    certainty: 85
+  - not_null: BASNOME
+    reason: every series belongs to one database (Macroeconomico/Regional/Social)
+    certainty: 85

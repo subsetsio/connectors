@@ -1,0 +1,33 @@
+spec_id: nahb-mms-survey
+status: active
+tests:
+  - not_null: period
+    reason: period is derived from the year/quarter header of each sub-table
+    certainty: 92
+  - not_null: index_type
+    reason: index_type is set from the section title before its value rows are read
+    certainty: 88
+  - not_null: component
+    reason: component is the col0 label of each data row
+    certainty: 95
+  - not_null: value
+    reason: rows are emitted only for non-null cells
+    certainty: 97
+  - matches: {col: period, pattern: '^[0-9]{4}-Q[1-4]$'}
+    reason: period is formatted YYYY-Qn
+    certainty: 90
+  - enum: {col: index_type, values: [Multifamily Production Index, Multifamily Occupancy Index, Change in Overall Market Conditions]}
+    reason: MMS Table 1 stacks the production index, occupancy index, and market-conditions sub-tables
+    certainty: 88
+  - distinct_count: {col: index_type, min: 3}
+    reason: all three sub-tables must be parsed
+    certainty: 88
+  - between: {col: value, lo: 0, hi: 100}
+    reason: MPI/MOI are diffusion indices and the market-conditions rows are percentages, all within 0-100
+    certainty: 88
+  - row_count: {min: 100}
+    reason: ~12 component series x 13+ quarters since 2023
+    certainty: 82
+  - unique: [period, index_type, component]
+    reason: one value per component per sub-table per quarter
+    certainty: 85

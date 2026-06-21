@@ -118,15 +118,15 @@ TRANSFORM_SPECS = [
         deps=[s.id],
         sql=f'''
             SELECT
-                CAST(date AS DATE)        AS date,
+                CAST("date" AS DATE)      AS "date",
                 table_id,
                 series_cod,
                 series_name,
                 unit_id,
-                CAST(year AS INTEGER)     AS year,
-                CAST(value AS DOUBLE)     AS value
+                CAST("year" AS INTEGER)   AS "year",
+                CAST("value" AS DOUBLE)   AS "value"
             FROM "{s.id}"
-            WHERE value IS NOT NULL AND date IS NOT NULL
+            WHERE "value" IS NOT NULL AND "date" IS NOT NULL
         ''',
     )
     for s in DOWNLOAD_SPECS

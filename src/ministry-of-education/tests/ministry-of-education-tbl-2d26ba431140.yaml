@@ -1,0 +1,23 @@
+spec_id: ministry-of-education-tbl-2d26ba431140
+status: active
+tests:
+  - not_null: year
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - unique: [year, tbl_idx, row_idx, col_idx]
+    reason: one parsed cell per (year, table, row, col) coordinate; a dup means a year was appended without overwrite
+    certainty: 90
+  - between: {col: year, lo: 1997, hi: current_year()}
+    reason: MoE detailed statistics span 1997 onward; no future years
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    points_outward: true
+    severity: warn
+  - row_count: {min: 5}
+    reason: every national statistical table has at least a handful of numeric cells in its latest year
+    certainty: 85
+  - at_least: {col: value, expr: 0}
+    reason: these are counts/totals (schools, students, teachers, assets) which are non-negative
+    certainty: 70
+    severity: warn

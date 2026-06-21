@@ -1,0 +1,28 @@
+spec_id: nahb-chi-history
+status: active
+tests:
+  - not_null: period
+    reason: period is parsed from the Qn_YY header columns
+    certainty: 95
+  - not_null: msa_fip
+    reason: msa_fip is the geography key on every data row
+    certainty: 95
+  - not_null: flag
+    reason: flag is the metric code on every data row
+    certainty: 95
+  - not_null: value
+    reason: rows are emitted only for non-null cells
+    certainty: 97
+  - matches: {col: period, pattern: '^[0-9]{4}-Q[1-4]$'}
+    reason: period is formatted YYYY-Qn
+    certainty: 92
+  - between: {col: flag, lo: 1, hi: 6}
+    reason: the workbook uses metric flags 1-6 (mortgage rate, CHI, low-income CHI, home price, income)
+    certainty: 88
+  - distinct_count: {col: msa_fip, min: 50}
+    reason: CHI is published nationally and across many metro areas
+    certainty: 85
+    severity: warn
+  - row_count: {min: 3000}
+    reason: hundreds of geographies x several metrics x 12+ quarters
+    certainty: 85

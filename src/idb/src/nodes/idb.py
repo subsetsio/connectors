@@ -91,13 +91,25 @@ def _parse_csv_bytes(raw: bytes, delimiter: str = ",") -> tuple[list[dict], list
 
 
 def _parse_excel_bytes(raw: bytes) -> tuple[list[dict], list[str]]:
+    """Parse a workbook, choosing the sheet with the most data rows (workbooks
+    here often lead with a cover/contents sheet — e.g. 'Portada' before
+    'Datos')."""
     import pandas as pd
 
-    df = pd.read_excel(io.BytesIO(raw), sheet_name=0, dtype=str)
-    df = df.where(df.notna(), None)
-    cols = [str(c) for c in df.columns]
-    rows = df.to_dict(orient="records")
-    return rows, cols
+    xl = pd.ExcelFile(io.BytesIO(raw))
+    best, best_rows = None, -1
+    for sheet in xl.sheet_names:
+        df = xl.parse(sheet, dtype=str)
+        df = df.dropna(axis=1, how="all").dropna(axis=0, how="all")
+        if df.shape[1] == 0:
+            continue
+        if len(df) > best_rows:
+            best, best_rows = df, len(df)
+    if best is None or best.shape[1] == 0:
+        return [], []
+    best = best.where(best.notna(), None)
+    cols = [str(c) for c in best.columns]
+    return best.to_dict(orient="records"), cols
 
 
 def _load_file_resource(url: str, fmt: str) -> tuple[list[dict], list[str]]:
@@ -113,18 +125,26 @@ def _probe_resource(rr: dict) -> dict | None:
     fmt = (rr.get("format") or "").upper()
     rid = rr.get("id")
     url = rr.get("url") or ""
+    # Prefer the datastore (uniform, gives columns + row count cheaply). But
+    # datastore_active is sometimes set on resources whose datastore table was
+    # never populated (xloader failed to parse an XLS, etc.) — datastore_search
+    # then returns success:false / no fields. In that case fall back to the
+    # original file below.
     if rr.get("datastore_active"):
-        res = _api("datastore_search", resource_id=rid, limit=0)
-        cols = [f["id"] for f in res.get("fields", []) if not f["id"].startswith("_")]
-        if not cols:
-            return None
-        return {
-            "cols": tuple(cols),
-            "weight": res.get("total") or 0,
-            "kind": "datastore",
-            "rid": rid,
-            "name": rr.get("name") or rid,
-        }
+        try:
+            res = _api("datastore_search", resource_id=rid, limit=0)
+            cols = [f["id"] for f in res.get("fields", []) if not f["id"].startswith("_")]
+        except Exception as e:  # noqa: BLE001 - degraded datastore; try the file
+            print(f"[idb] datastore_search failed for {rid}: {e}; falling back to file")
+            cols = []
+        if cols:
+            return {
+                "cols": tuple(cols),
+                "weight": res.get("total") or 0,
+                "kind": "datastore",
+                "rid": rid,
+                "name": rr.get("name") or rid,
+            }
     if url.startswith("http") and fmt in TABULAR_FILE_FORMATS:
         rows, cols = _load_file_resource(url, fmt)
         if not cols:

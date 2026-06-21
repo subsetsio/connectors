@@ -1,0 +1,15 @@
+spec_id: national-records-of-scotland-net-migration
+status: active
+tests:
+  - not_null: measure_type
+    reason: every qb:Observation has a qb:measureType; a null means the measure join dropped
+    certainty: 95
+  - not_null: ref_period
+    reason: every NRS cube carries the sdmx refPeriod dimension; it is the partition key
+    certainty: 95
+  - row_count: {min: 23760}
+    reason: as of the 2026 pull this cube had ~39600 observations; a large drop means a truncated/timed-out page crawl
+    certainty: 80
+  - distinct_count: {col: measure_type, min: 1}
+    reason: at least one measure property per cube
+    certainty: 90

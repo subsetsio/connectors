@@ -1,0 +1,20 @@
+spec_id: ipea-values
+status: active
+tests:
+  - not_null: SERCODIGO
+    reason: every observation belongs to a series; null means a malformed row leaked through
+    certainty: 99
+  - not_null: VALDATA
+    reason: every observation is dated
+    certainty: 95
+  - column_type: {col: SERCODIGO, type: string}
+    certainty: 95
+  - column_type: {col: VALVALOR, type: float}
+    reason: IPEADATA returns numeric observation values as JSON floats
+    certainty: 90
+  - row_count: {min: 1000000}
+    reason: macro+social series plus Regional per-territory breakdowns (~414 regional series, some >300k rows each) total well into the tens of millions; <1M means most series returned nothing
+    certainty: 80
+  - distinct_count: {col: SERCODIGO, min: 2000}
+    reason: most of the ~3596 series carry at least one observation
+    certainty: 75

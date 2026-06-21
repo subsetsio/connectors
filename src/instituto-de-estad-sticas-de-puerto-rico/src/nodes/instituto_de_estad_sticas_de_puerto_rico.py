@@ -98,6 +98,21 @@ _BATCH_ROWS = 50_000          # rows per parquet batch when streaming
 # CSV/TXT are streamed regardless of size so they are never capped.
 _MAX_INMEM_BYTES = 400 * 1024 * 1024
 
+# Values that are semantically null even when they arrive as non-empty strings
+# (pandas dtype=str renders missing cells as the literal "nan"; some exports use
+# "None"/"NULL"). Normalized to null on write so they don't masquerade as data.
+_NULLISH = {"", "nan", "none", "null"}
+
+
+def _norm_null(v):
+    if v is None:
+        return None
+    s = str(v)
+    if s.strip().lower() in _NULLISH:
+        return None
+    return s
+
+
 _http_ready = False
 
 
@@ -247,7 +262,7 @@ def _excel_tables(content: bytes, source_resource: str, fmt: str):
 
         def rows(data=data, cols=cols):
             for rec in data:
-                if all(v is None or v == "" for v in rec):
+                if all(_norm_null(v) is None for v in rec):
                     continue
                 yield {cols[i]: (rec[i] if i < len(rec) else None)
                        for i in range(len(cols))}
@@ -266,7 +281,7 @@ def _detect_header_row(grid, scan=20):
     n = min(scan, len(grid))
 
     def nonnull(row):
-        return sum(1 for v in row if v is not None and str(v).strip() != "")
+        return sum(1 for v in row if _norm_null(v) is not None)
 
     counts = [nonnull(grid[i]) for i in range(n)]
     peak = max(counts) if counts else 0
@@ -467,10 +482,14 @@ def fetch_one(node_id: str) -> None:
     groups = {}
     for t in tables:
         groups.setdefault(_norm_sig(t.columns), []).append(t)
-    dominant_sig = max(
-        groups,
-        key=lambda s: (len(groups[s]), len(s)),
-    )
+    def _group_quality(sig):
+        rep = groups[sig][0].columns
+        synth = sum(1 for c in rep if c.startswith("col_"))
+        real = len(rep) - synth
+        # most tables, then most real (named) columns, then fewest synthesized
+        return (len(groups[sig]), real, -synth)
+
+    dominant_sig = max(groups, key=_group_quality)
     chosen = groups[dominant_sig]
     columns = chosen[0].columns  # display names from the first table in the group
 
@@ -494,8 +513,7 @@ def fetch_one(node_id: str) -> None:
                 batch["source_resource"].append(t.source_resource)
                 batch["source_file"].append(t.source_file)
                 for c in columns:
-                    v = row.get(c)
-                    batch[c].append(None if v is None else str(v))
+                    batch[c].append(_norm_null(row.get(c)))
                 n += 1
                 total += 1
                 if n >= _BATCH_ROWS:

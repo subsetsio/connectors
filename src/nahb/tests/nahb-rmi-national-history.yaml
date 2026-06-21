@@ -1,0 +1,27 @@
+spec_id: nahb-rmi-national-history
+status: active
+tests:
+  - not_null: period
+    reason: period (YYYY-Qn) is derived from the year/quarter header on every emitted cell
+    certainty: 95
+  - not_null: date
+    reason: date is the quarter-start date for the period
+    certainty: 95
+  - not_null: indicator
+    reason: indicator is the row label left of the first quarter column
+    certainty: 95
+  - not_null: value
+    reason: rows are emitted only for non-null cells
+    certainty: 97
+  - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
+    reason: date is built as YYYY-MM-01 at the quarter start
+    certainty: 92
+  - matches: {col: period, pattern: '^[0-9]{4}-Q[1-4]$'}
+    reason: period is formatted YYYY-Qn
+    certainty: 92
+  - between: {col: value, lo: 0, hi: 100}
+    reason: the RMI and its sub-indices are diffusion indices bounded 0-100
+    certainty: 90
+  - row_count: {min: 50}
+    reason: several indicator series x 13+ quarters since 2023
+    certainty: 85

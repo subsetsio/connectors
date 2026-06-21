@@ -1,0 +1,30 @@
+spec_id: nahb-hmi-regional-3mo-moving-average
+status: active
+tests:
+  - not_null: date
+    reason: every row is a (year, month) cell within a regional year-block
+    certainty: 95
+  - not_null: region
+    reason: region is the col0 label of each data row
+    certainty: 97
+  - not_null: hmi_3mo_ma
+    reason: rows are emitted only for non-null cells
+    certainty: 97
+  - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
+    reason: date is built as YYYY-MM-01
+    certainty: 92
+  - enum: {col: region, values: [Northeast, Midwest, South, West]}
+    reason: the 3-month moving averages are reported for the four Census regions
+    certainty: 95
+  - distinct_count: {col: region, min: 4}
+    reason: all four regions must be present
+    certainty: 92
+  - between: {col: hmi_3mo_ma, lo: 0, hi: 100}
+    reason: a 3-month moving average of a 0-100 diffusion index stays within 0-100
+    certainty: 95
+  - row_count: {min: 800}
+    reason: four regions x ~250 months ~= 1000
+    certainty: 85
+  - unique: [date, region]
+    reason: one moving-average value per region per month
+    certainty: 88

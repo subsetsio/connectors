@@ -1,0 +1,20 @@
+spec_id: mhclg-government-statistics-english-private-landlord-survey-2024-main-report
+status: active
+tests:
+  - not_null: attachment_filename
+    reason: every extracted cell records the source attachment it came from
+    certainty: 99
+  - not_null: value
+    reason: the parser only emits non-empty cells; a null value means the writer schema drifted
+    certainty: 99
+  - column_type: {col: row_index, type: integer}
+    certainty: 99
+  - column_type: {col: col_index, type: integer}
+    certainty: 99
+  - column_type: {col: value, type: string}
+    certainty: 99
+  - row_count: {min: 1}
+    reason: this publication exposes at least one parseable CSV/XLS/XLSX/ODS attachment, so the cell extraction is non-empty
+    certainty: 90
+  - at_least: {col: col_index, expr: 0}
+    certainty: 99

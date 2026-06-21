@@ -1,0 +1,33 @@
+spec_id: nahb-hbgi-full-findings
+status: active
+tests:
+  - not_null: period
+    reason: period is derived from the year/quarter header of each section
+    certainty: 92
+  - not_null: segment
+    reason: segment (Single-Family / Multifamily) is set from the section's quarter-header label
+    certainty: 90
+  - not_null: geography
+    reason: geography is the col0 label of each data row
+    certainty: 95
+  - not_null: value
+    reason: rows are emitted only for non-null cells
+    certainty: 97
+  - matches: {col: period, pattern: '^[0-9]{4}-Q[1-4]$'}
+    reason: period is formatted YYYY-Qn
+    certainty: 90
+  - enum: {col: segment, values: [Single-Family, Multifamily]}
+    reason: HBGI reports single-family and multifamily sections
+    certainty: 90
+  - enum: {col: metric, values: [growth_rate, market_share]}
+    reason: the sheet has a growth-rate section and a market-share section
+    certainty: 88
+  - distinct_count: {col: geography, min: 7}
+    reason: HBGI covers seven geography types (large/small metro core/suburb/outlying, micro, non-metro)
+    certainty: 88
+  - row_count: {min: 600}
+    reason: 2 metrics x 2 segments x 7 geographies x ~40 quarters
+    certainty: 82
+  - unique: [period, metric, segment, geography]
+    reason: one value per geography per segment/metric per quarter
+    certainty: 85

@@ -1,0 +1,36 @@
+spec_id: nahb-rmi-regional-history
+status: active
+tests:
+  - not_null: period
+    reason: period is parsed from the 'Nth Quarter YYYY' label in col2
+    certainty: 95
+  - not_null: region
+    reason: region is fixed by the workbook's column layout
+    certainty: 97
+  - not_null: measure
+    reason: measure (RMI / Current / Future) is fixed by the column layout
+    certainty: 97
+  - not_null: value
+    reason: rows are emitted only for non-null cells
+    certainty: 97
+  - matches: {col: period, pattern: '^[0-9]{4}-Q[1-4]$'}
+    reason: period is formatted YYYY-Qn
+    certainty: 92
+  - enum: {col: region, values: [National, Northeast, Midwest, South, West]}
+    reason: Table 2 reports a national index plus the four Census regions
+    certainty: 92
+  - enum: {col: measure, values: [RMI, Current Market Conditions, Future Market Indicators]}
+    reason: each region carries three measures
+    certainty: 90
+  - distinct_count: {col: region, min: 5}
+    reason: national plus four regions
+    certainty: 90
+  - between: {col: value, lo: 0, hi: 100}
+    reason: RMI measures are diffusion indices bounded 0-100
+    certainty: 90
+  - row_count: {min: 200}
+    reason: 5 regions x 3 measures x ~20+ quarters since 2020
+    certainty: 85
+  - unique: [period, region, measure]
+    reason: one value per region/measure per quarter
+    certainty: 88
