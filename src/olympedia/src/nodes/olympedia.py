@@ -52,13 +52,21 @@ def _txt(el) -> str | None:
     return t or None
 
 
-def _ints_in_row(tds) -> list[str]:
-    """Return the cell texts in a row that are plain (optionally signed) integers."""
+def _int(s):
+    """int() of a clean (optionally signed) integer string, else None."""
+    if s is None:
+        return None
+    s = str(s).strip().replace(",", "")
+    return int(s) if re.fullmatch(r"-?\d+", s) else None
+
+
+def _ints_in_row(tds) -> list[int]:
+    """Return the integer values of cells in a row whose text is a plain integer."""
     out = []
     for c in tds:
         s = (c.text_content() or "").strip().replace(",", "")
         if re.fullmatch(r"-?\d+", s):
-            out.append(s)
+            out.append(int(s))
     return out
 
 
@@ -117,13 +125,13 @@ def _parse_editions(doc):
                 tds = tr.xpath("./td")
                 if len(tds) < 7:
                     continue
-                edition_id = re.search(r"/editions/(\d+)$", ids[0]).group(1)
+                edition_id = int(re.search(r"/editions/(\d+)$", ids[0]).group(1))
                 host_noc, _ = _noc_from_row(tr)
                 rows_out.append({
                     "edition_id": edition_id,
                     "category": category,
                     "season": season,
-                    "year": (tds[1].text_content() or "").strip() or None,
+                    "year": _int((tds[1].text_content() or "").strip()),
                     "city": _txt(tds[2]),
                     "host_noc": host_noc,
                     "opened": _txt(tds[4]),
@@ -237,6 +245,9 @@ def fetch_medals_by_athlete(node_id: str) -> None:
         ("athlete", 0), ("noc_code", 1),
         ("gold", 2), ("silver", 3), ("bronze", 4), ("total", 5),
     ])
+    for r in rows:
+        for k in ("gold", "silver", "bronze", "total"):
+            r[k] = _int(r[k])
     save_raw_ndjson(rows, node_id)
 
 
@@ -246,6 +257,8 @@ def fetch_participations(node_id: str) -> None:
         ("athlete", 0), ("nations", 1), ("sports", 2),
         ("roles", 3), ("era", 4), ("participations", 5),
     ])
+    for r in rows:
+        r["participations"] = _int(r["participations"])
     save_raw_ndjson(rows, node_id)
 
 

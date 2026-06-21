@@ -1,0 +1,24 @@
+spec_id: seek-applications-per-ad-index
+status: active
+tests:
+  - not_null: date
+  - not_null: state
+  - column_type: {col: state, type: string}
+  - column_type: {col: ca_sa_index, type: float}
+  - enum: {col: country, values: [Australia]}
+    reason: AU dashboard only; country is constant
+    certainty: 95
+  - enum: {col: state, values: [Total, ACT, NSW, NT, QLD, SA, TAS, VIC, WA]}
+    reason: broken out by 8 states/territories plus national Total
+    certainty: 90
+  - unique: [date, state]
+    reason: one applications-per-ad reading per month x state
+    certainty: 95
+  - row_count: {min: 1500}
+    reason: monthly since 2008-02 across 9 state groups (~1980 rows observed)
+    certainty: 85
+  - freshness: {col: date, reaches: today - 120d}
+    reason: monthly release; latest reading within a couple of months
+    certainty: 75
+    points_outward: true
+    severity: warn

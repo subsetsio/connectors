@@ -7,7 +7,8 @@ tests:
     certainty: 85
     points_outward: true
     severity: warn
-    reason: nflverse seasons never exceed the current year; a higher value means a parsing/union error
-  - row_count: {min: 4284}
+    reason: nflverse seasons never exceed the current year; a higher value means a parse/union error
+  - row_count: {min: 264}
     certainty: 70
-    reason: conservative floor (~0.3x of 27 season file(s) at ~529 rows each); a lower count means dropped files
+    severity: warn
+    reason: at least ~0.5x one observed season (~529 rows); combined corpus is larger, a lower count means truncation

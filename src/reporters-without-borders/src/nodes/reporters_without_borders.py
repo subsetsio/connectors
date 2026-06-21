@@ -100,18 +100,22 @@ def _pick(row, *names):
     return None
 
 
-def _parse_row(row: dict, fieldnames: list[str], new_era: bool) -> dict | None:
+def _parse_row(row: dict, fieldnames: list[str], new_era: bool, file_year: int) -> dict | None:
     iso = (_pick(row, "ISO") or "").strip()
     if not iso:
         return None  # skip any aggregate/blank rows (none observed, but be safe)
 
+    # Year is taken from the file we fetched, not the in-file "Year (N)" column:
+    # the columns agree for every year EXCEPT 2012.csv, which is RSF's combined
+    # "2011-12" edition (non-numeric "Year (N)"). Anchoring to the filename keeps
+    # year non-null and maps that combined edition to 2012.
     if new_era:
         score_col = next((f for f in fieldnames if _SCORE_RE.match(f)), None)
         score = _num(row.get(score_col)) if score_col else None
         return {
             "iso": iso,
             "country": (_pick(row, "Country_EN") or "").strip() or None,
-            "year": _intnum(_pick(row, "Year (N)")),
+            "year": file_year,
             "score": score,
             "rank": _intnum(_pick(row, "Rank")),
             "zone": (_pick(row, "Zone") or "").strip() or None,
@@ -137,7 +141,7 @@ def _parse_row(row: dict, fieldnames: list[str], new_era: bool) -> dict | None:
     return {
         "iso": iso,
         "country": (_pick(row, "EN_country") or "").strip() or None,
-        "year": _intnum(_pick(row, "Year (N)")),
+        "year": file_year,
         "score": _num(_pick(row, "Score N")),
         "rank": _intnum(_pick(row, "Rank N")),
         "zone": (_pick(row, "Zone") or "").strip() or None,
@@ -173,7 +177,7 @@ def fetch_index(node_id: str) -> None:
         fieldnames = reader.fieldnames or []
         new_era = "Political Context" in fieldnames
         for raw_row in reader:
-            parsed = _parse_row(raw_row, fieldnames, new_era)
+            parsed = _parse_row(raw_row, fieldnames, new_era, year)
             if parsed is not None:
                 rows.append(parsed)
 

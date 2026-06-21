@@ -1,0 +1,28 @@
+spec_id: seek-advertised-salary-index
+status: active
+tests:
+  - not_null: date
+  - not_null: state
+  - not_null: classification
+  - column_type: {col: classification, type: string}
+  - column_type: {col: salary_sa_index, type: float}
+  - enum: {col: country, values: [Australia]}
+    reason: AU dashboard only; country is constant
+    certainty: 95
+  - enum: {col: state, values: [Total, ACT, NSW, NT, QLD, SA, TAS, VIC, WA]}
+    reason: broken out by 8 states/territories plus national Total
+    certainty: 90
+  - unique: [date, state, classification]
+    reason: one salary reading per month x state x job classification
+    certainty: 90
+  - distinct_count: {col: classification, min: 20}
+    reason: ~28 job classifications plus a Total; far fewer means the classification dimension collapsed
+    certainty: 85
+  - row_count: {min: 3500}
+    reason: monthly since 2015-11 across states x classifications (~4570 rows observed)
+    certainty: 85
+  - freshness: {col: date, reaches: today - 120d}
+    reason: monthly release; latest reading within a couple of months
+    certainty: 75
+    points_outward: true
+    severity: warn

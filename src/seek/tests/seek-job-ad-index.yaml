@@ -1,0 +1,24 @@
+spec_id: seek-job-ad-index
+status: active
+tests:
+  - not_null: date
+  - not_null: state
+  - column_type: {col: state, type: string}
+  - column_type: {col: ads_sa_index, type: float}
+  - enum: {col: country, values: [Australia]}
+    reason: SEEK publishes the AU dashboard only; country is constant
+    certainty: 95
+  - enum: {col: state, values: [Total, ACT, NSW, NT, QLD, SA, TAS, VIC, WA]}
+    reason: index is broken out by the 8 states/territories plus a national Total
+    certainty: 90
+  - unique: [date, state]
+    reason: one index reading per month x state; dupes mean the file was double-appended
+    certainty: 95
+  - row_count: {min: 2000}
+    reason: monthly since 2001-07 across 9 state groups (~2690 rows observed); a big drop = truncated read
+    certainty: 85
+  - freshness: {col: date, reaches: today - 120d}
+    reason: monthly release; latest reading should be within a couple of months
+    certainty: 75
+    points_outward: true
+    severity: warn
