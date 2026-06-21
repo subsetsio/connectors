@@ -126,17 +126,19 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-# Tidy long-format already; the transform is a thin pass-through that drops
-# rows with no value and normalises the measure to BIGINT. Schemas differ per
-# table, so SELECT * carries each table's own dimension columns through.
+# Tidy long-format already; the transform is a thin pass-through. `value` is a
+# numeric measure that mixes integers (counts) and floats (areas) and uses ''
+# for missing, so we normalise it to DOUBLE and drop the non-numeric/missing
+# rows. Schemas differ per table, so SELECT * carries each table's own
+# integer-coded dimension columns through.
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'''
-            SELECT * EXCLUDE (value), TRY_CAST(value AS BIGINT) AS value
+            SELECT * EXCLUDE (value), TRY_CAST(value AS DOUBLE) AS value
             FROM "{s.id}"
-            WHERE value IS NOT NULL
+            WHERE TRY_CAST(value AS DOUBLE) IS NOT NULL
         ''',
     )
     for s in DOWNLOAD_SPECS

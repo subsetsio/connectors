@@ -1,0 +1,18 @@
+spec_id: office-of-the-registrar-general-and-census-commissioner-pc11-b15
+status: active
+tests:
+  - not_null: geo_level
+    reason: every API row carries its geography level; null means a parse/shape break
+    certainty: 95
+  - column_type: {col: geo_level, type: integer}
+    reason: geo_level is an integer hierarchy code (0=India, 1=State/UT)
+    certainty: 90
+  - enum: {col: geo_level, values: [0, 1]}
+    reason: this connector fetches only national + state geography (geo_level=0,1)
+    certainty: 95
+  - not_null: value
+    reason: the long-format measure column; a fetched row always has a numeric value
+    certainty: 80
+  - row_count: {min: 10368}
+    reason: ~20736 rows observed at geo_level 0,1 for PC11_B15; a large drop = truncated pagination
+    certainty: 80

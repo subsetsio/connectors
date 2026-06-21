@@ -33,9 +33,17 @@ _POLL_ATTEMPTS = 60          # ~ up to a few minutes of server-side materializat
 _POLL_INTERVAL = 4.0         # seconds between polls (spaces requests under the cap)
 
 
+# Reverse map: spec id -> original datasetId. The spec id mangles the id's
+# underscores to dashes (d_abc -> sg-data-d-abc), which is not invertible by
+# string surgery, so we recover the exact datasetId from the entity union.
+_ID_BY_NODE = {
+    f"sg-data-{eid.lower().replace('_', '-')}": eid for eid in ENTITY_IDS
+}
+
+
 def _dataset_id(node_id: str) -> str:
     """Recover the data.gov.sg datasetId (d_...) from the spec id."""
-    return node_id[len("sg-data-"):]
+    return _ID_BY_NODE[node_id]
 
 
 @transient_retry(attempts=12, min_wait=8, max_wait=240)

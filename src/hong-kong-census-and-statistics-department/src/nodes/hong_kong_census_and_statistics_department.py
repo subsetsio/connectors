@@ -100,6 +100,17 @@ def fetch_one(node_id: str) -> None:
             continue
         resp.raise_for_status()
 
+    # Components of one table can carry different classification columns (e.g. one
+    # has SEX, another doesn't). Backfill every row to the union of keys so the
+    # NDJSON file is internally uniform — otherwise DuckDB's JSON reader infers a
+    # schema from an early sample and rejects later rows with extra keys.
+    all_keys = set()
+    for r in rows:
+        all_keys.update(r.keys())
+    for r in rows:
+        for k in all_keys:
+            r.setdefault(k, None)
+
     save_raw_ndjson(rows, asset)
 
 

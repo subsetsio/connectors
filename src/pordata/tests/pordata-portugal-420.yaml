@@ -1,0 +1,21 @@
+spec_id: pordata-portugal-420
+status: active
+tests:
+  - not_null: indicator_id
+    certainty: 95
+    reason: every row is stamped with this asset's indicator id
+  - enum: {col: indicator_id, values: [420]}
+    certainty: 95
+    reason: a download asset holds exactly one PORDATA indicator (420)
+  - not_null: period
+    certainty: 85
+    reason: column 0 of every data row is the time period
+  - not_null: series
+    certainty: 85
+    reason: every value cell maps to a column (series) label from the header
+  - column_type: {col: value, type: float}
+    certainty: 80
+    reason: numeric cells parse to float; non-numeric markers become null
+  - row_count: {min: 1}
+    certainty: 75
+    reason: the indicator page embeds a non-empty time-series table
