@@ -1,0 +1,13 @@
+spec_id: scottish-government-statistics-dwellings-median-number-of-rooms
+status: active
+tests:
+  - not_null: value
+    reason: the SPARQL projection requires ?measureType ?value per observation, so every raw row must carry a measure value; a null means the cube extraction dropped the measure
+    certainty: 95
+  - not_null: measure
+    reason: every RDF Data Cube observation has a qb:measureType; a null measure name means the measure-dimension projection broke
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: measure values are numeric and coerced to float on write; a non-float column flags a cube with non-numeric/suppressed measures or a parse regression
+    certainty: 70
+    severity: warn
