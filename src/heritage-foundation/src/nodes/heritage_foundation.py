@@ -164,6 +164,11 @@ def _parse_edition(year: int, content: bytes, engine: str) -> list[dict]:
         if pd.isna(country) or not str(country).strip():
             continue
         country = str(country).strip()
+        # Skip non-country artifact rows: some editions (e.g. 2012) carry a
+        # numeric column-index legend row right under the header, and footers
+        # may carry notes. A real country name always has a letter.
+        if not re.search(r"[A-Za-z]", country):
+            continue
         region = None
         if region_col is not None:
             rv = raw.iloc[r, region_col]
