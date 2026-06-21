@@ -19,6 +19,7 @@ Raw is written verbatim as all-string columns (the source mixes 'NA' sentinels
 and empty strings across numeric fields); the SQL transform does the typing.
 """
 
+import csv
 import io
 import zipfile
 
@@ -87,18 +88,24 @@ def _member_for(zf: zipfile.ZipFile, entity_id: str) -> str:
 
 
 def _member_indicator(zf: zipfile.ZipFile, member: str) -> str | None:
-    """Read the `indicator` value from the first data row of a CSV member."""
+    """Read the `indicator` value from the first data row of a CSV member. Parsed
+    with the csv module so quoted values are honoured — several indicator names
+    contain commas (e.g. 'Hourly wage, average')."""
     with zf.open(member) as fh:
         text = io.TextIOWrapper(fh, encoding="utf-8")
-        header = text.readline().rstrip("\n").split(",")
+        reader = csv.reader(text)
+        try:
+            header = next(reader)
+        except StopIteration:
+            return None
         if "indicator" not in header:
             return None
         idx = header.index("indicator")
-        first = text.readline().rstrip("\n")
-        if not first:
+        try:
+            first = next(reader)
+        except StopIteration:
             return None
-        # values here are simple tokens (no embedded commas in the indicator name)
-        return first.split(",")[idx]
+        return first[idx] if idx < len(first) else None
 
 
 def fetch_one(node_id: str) -> None:
