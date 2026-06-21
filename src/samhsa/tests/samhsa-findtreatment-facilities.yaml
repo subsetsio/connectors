@@ -1,0 +1,24 @@
+spec_id: samhsa-findtreatment-facilities
+status: active
+tests:
+  - not_null: name1
+    reason: every facility record has a primary name; nulls mean a parse/format break
+    certainty: 95
+  - not_null: state
+    reason: results come from per-state queries, so state is always populated
+    certainty: 95
+  - not_null: city
+    certainty: 85
+  - matches: {col: state, pattern: "^[A-Z]{2}$"}
+    reason: USPS two-letter state/territory codes
+    certainty: 90
+  - row_count: {min: 15000}
+    reason: ~24.7k facilities nationwide; a large shortfall means the state-id iteration collapsed
+    certainty: 85
+  - distinct_count: {col: state, min: 50}
+    reason: 50 states + DC + territories appear in the locator
+    certainty: 85
+  - matches: {col: zip, pattern: "^[0-9]{5}"}
+    reason: US ZIP codes; loose prefix match tolerates ZIP+4
+    certainty: 70
+    severity: warn

@@ -10,16 +10,18 @@ Each file is a complete history, so the correct shape is a stateless full
 re-pull every refresh (shape 1): download the whole file and overwrite. The
 files are small (~0.45MB each) and expose no incremental filter.
 
-The XLSX URLs live on a Hygraph asset CDN (graphassets.com) and the asset ids
-rotate every monthly release, so they are NOT hardcoded — each fetch scrapes the
-newsroom discovery page and resolves the current link by its anchor text. The
-discovery page returns an empty body without a browser User-Agent, and the
-Advertised Salary workbook ships a broken <dimension> (declares A1 only) plus a
-dangling drawing rel, so it is read read-only with reset_dimensions().
+The XLSX URLs live on a Hygraph asset CDN (graphassets.com, an S3/CloudFront
+origin) and the asset ids rotate every monthly release, so they are NOT
+hardcoded. Discovery is via SEEK's *public, unauthenticated* Hygraph GraphQL
+content API: query all spreadsheet assets and pick the most recently updated AU
+file by filename prefix. This deliberately avoids scraping the human newsroom
+page (au.seek.com), which sits behind Cloudflare bot management and returns 403
+to datacenter IPs; the GraphQL host and the CDN are both open. The Advertised
+Salary workbook ships a broken <dimension> (declares A1 only) plus a dangling
+drawing rel, so sheets are read read-only with reset_dimensions().
 """
 
 import io
-import re
 
 import openpyxl
 import pyarrow as pa
@@ -28,16 +30,22 @@ from subsets_utils import (
     SqlNodeSpec,
     configure_http,
     get,
+    post,
     save_raw_parquet,
     transient_retry,
 )
 
-DISCOVERY_URL = "https://au.seek.com/about/news/seek-employment-data"
+# Public Hygraph content API (project id embedded in SEEK's newsroom app).
+GRAPHQL_URL = (
+    "https://ap-southeast-2-seek-apac.cdn.hygraph.com"
+    "/content/cl583oqu74ttw01ug0g4s5hmt/master"
+)
+XLSX_MIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 UA = "Mozilla/5.0 (compatible; subsets-connector/1.0)"
 
-# Anchor text on the discovery page that precedes each download link.
-EMP_ANCHOR = "Download the latest SEEK Employment data"
-ASI_ANCHOR = "Download the latest SEEK Advertised Salary"
+# Filename prefixes distinguishing the two AU bulk files (NZ variants excluded).
+EMP_PREFIX = "AU_PUBLISHED_DATASET"   # employment workbook (Job Ad + Apps/Ad)
+ASI_PREFIX = "seek_asi_2"             # advertised salary; excludes seek_asi_nz_*
 
 # Expected source headers per sheet — assert against drift.
 JOBAD_HEADER = (
@@ -103,20 +111,39 @@ def _get(url, **kwargs):
     return resp
 
 
-def _discover_url(anchor: str) -> str:
-    """Resolve the current CDN download URL by its anchor text on the page."""
-    html = _get(DISCOVERY_URL).text
-    i = html.find(anchor)
-    if i < 0:
+@transient_retry()
+def _graphql_assets() -> list:
+    """Return every spreadsheet asset (newest first) from the public Hygraph API.
+
+    Server-side `where` filters are applied untrusted — Hygraph silently ignores
+    unknown filter args — so the caller re-filters in Python.
+    """
+    configure_http(headers={"User-Agent": UA})
+    query = (
+        '{ assets(where: {mimeType: "%s"}, orderBy: updatedAt_DESC, first: 200)'
+        ' { fileName url updatedAt } }' % XLSX_MIME
+    )
+    resp = post(GRAPHQL_URL, json={"query": query}, timeout=(10.0, 60.0))
+    resp.raise_for_status()
+    body = resp.json()
+    if body.get("errors"):
+        raise AssertionError(f"Hygraph GraphQL errors: {body['errors']}")
+    assets = body.get("data", {}).get("assets") or []
+    if not assets:
+        raise AssertionError("Hygraph returned no spreadsheet assets")
+    return assets
+
+
+def _discover_url(prefix: str) -> str:
+    """Latest-by-updatedAt asset URL whose filename starts with `prefix`."""
+    cand = [a for a in _graphql_assets() if a["fileName"].startswith(prefix)]
+    if not cand:
         raise AssertionError(
-            f"discovery anchor {anchor!r} not found on {DISCOVERY_URL} "
-            f"(page changed?)"
+            f"no spreadsheet asset with filename prefix {prefix!r} "
+            f"(SEEK renamed or stopped publishing?)"
         )
-    window = html[max(0, i - 600):i]
-    hrefs = re.findall(r'href="(https://[^"]*graphassets\.com/[^"]+)"', window)
-    if not hrefs:
-        raise AssertionError(f"no graphassets href preceding anchor {anchor!r}")
-    return hrefs[-1]
+    cand.sort(key=lambda a: a["updatedAt"], reverse=True)
+    return cand[0]["url"]
 
 
 def _read_sheet(content: bytes, sheet: str, expected_header: tuple) -> list:
@@ -159,19 +186,19 @@ def _rows_to_table(data_rows: list, schema: pa.Schema) -> pa.Table:
 
 
 def fetch_job_ad_index(node_id: str) -> None:
-    content = _get(_discover_url(EMP_ANCHOR)).content
+    content = _get(_discover_url(EMP_PREFIX)).content
     rows = _read_sheet(content, "SEEK Job Ad Index", JOBAD_HEADER)
     save_raw_parquet(_rows_to_table(rows, JOBAD_SCHEMA), node_id)
 
 
 def fetch_applications_per_ad_index(node_id: str) -> None:
-    content = _get(_discover_url(EMP_ANCHOR)).content
+    content = _get(_discover_url(EMP_PREFIX)).content
     rows = _read_sheet(content, "SEEK Applications per Ad Index", APPS_HEADER)
     save_raw_parquet(_rows_to_table(rows, APPS_SCHEMA), node_id)
 
 
 def fetch_advertised_salary_index(node_id: str) -> None:
-    content = _get(_discover_url(ASI_ANCHOR)).content
+    content = _get(_discover_url(ASI_PREFIX)).content
     rows = _read_sheet(content, "Sheet 1", ASI_HEADER)
     save_raw_parquet(_rows_to_table(rows, ASI_SCHEMA), node_id)
 
