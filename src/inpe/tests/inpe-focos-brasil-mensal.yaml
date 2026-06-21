@@ -1,0 +1,32 @@
+spec_id: inpe-focos-brasil-mensal
+status: active
+tests:
+  - not_null: ano
+  - not_null: mes
+  - not_null: n_focos
+  - column_type: {col: ano, type: integer}
+  - column_type: {col: mes, type: integer}
+  - column_type: {col: n_focos, type: integer}
+  - column_type: {col: frp_medio, type: float}
+  - between: {col: mes, lo: 1, hi: 12}
+    certainty: 99
+  - between: {col: ano, lo: 2002, hi: current_year()}
+    certainty: 95
+    points_outward: true
+  - unique: [ano, mes]
+    reason: one national row per month
+    certainty: 98
+  - at_least: {col: n_focos, expr: 1}
+    certainty: 99
+  - between: {col: risco_fogo_medio, lo: 0, hi: 1}
+    reason: INPE fire-risk index is normalised to 0..1
+    certainty: 80
+    severity: warn
+  - at_least: {col: frp_medio, expr: 0}
+    reason: fire radiative power (MW) is non-negative
+    certainty: 85
+    severity: warn
+  - at_least: {col: precipitacao_media, expr: 0}
+    reason: precipitation (mm) is non-negative
+    certainty: 85
+    severity: warn
