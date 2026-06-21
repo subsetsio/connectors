@@ -18,9 +18,12 @@ The eight published subsets need five shapes, dispatched by CONFIG[entity].mode:
   - matrix             : climate-normals wide matrices (metric x period) -> long format
 """
 import csv
+import fcntl
 import io
 import json
 import os
+import tempfile
+import time
 
 import pyarrow as pa  # noqa: F401  (kept for parity; raw is ndjson)
 from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, save_raw_ndjson
@@ -29,13 +32,43 @@ from constants import ANON_API_KEY, CONFIG, ENTITY_IDS
 
 BASE = "https://api.dataplatform.knmi.nl/open-data/v1"
 
+# Cross-process rate limit for KEYED open-data API calls (file listing + get-url).
+# The anonymous key allows ~50 req/min SHARED across all anonymous users; the 8
+# download specs run as parallel subprocesses on one runner, so without global
+# coordination they burst past the cap and 429. All specs share this runner's
+# filesystem, so a file-lock token spacer serializes their keyed calls to ~37/min
+# (1.6s apart), leaving headroom under the shared cap. Presigned S3 downloads are
+# NOT counted against the KNMI limit and stay unthrottled.
+_LOCK_PATH = os.path.join(tempfile.gettempdir(), "knmi_opendata_ratelimit.lock")
+_MIN_INTERVAL = 1.6
+
+
+def _throttle() -> None:
+    fd = os.open(_LOCK_PATH, os.O_RDWR | os.O_CREAT, 0o644)
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX)  # auto-released if the process dies
+        try:
+            last = float((os.read(fd, 64) or b"0").decode().strip() or 0)
+        except (ValueError, OSError):
+            last = 0.0
+        wait = last + _MIN_INTERVAL - time.time()
+        if wait > 0:
+            time.sleep(wait)
+        os.lseek(fd, 0, 0)
+        os.ftruncate(fd, 0)
+        os.write(fd, str(time.time()).encode())
+    finally:
+        fcntl.flock(fd, fcntl.LOCK_UN)
+        os.close(fd)
+
 
 def _api_key() -> str:
     return os.environ.get("KNMI_API_KEY") or ANON_API_KEY
 
 
-@transient_retry()
+@transient_retry(attempts=8, min_wait=5, max_wait=90)
 def _api_get_json(url: str, params: dict | None = None) -> dict:
+    _throttle()
     resp = get(url, params=params, headers={"Authorization": _api_key()},
                timeout=(10.0, 120.0))
     resp.raise_for_status()
