@@ -53,19 +53,30 @@ from constants import GCS_OBJECTS
 
 BUCKET_BASE = "https://storage.googleapis.com/basedosdados-public/"
 
-# Robust read_csv_auto options applied to every table. `sample_size=-1` infers
-# types from the whole file (no late-row type flips); the 16 MB line cap clears
-# the largest observed quoted free-text blob (~3.3 MB); null_padding +
-# strict_mode=false keep ragged rows instead of failing the table.
-_CSV_READ_OPTS = (
+# Robustness flags shared by every read attempt. `sample_size=-1` infers types
+# from the whole file (no late-row type flips); the 16 MB line cap clears the
+# largest observed quoted free-text blob (~3.3 MB); null_padding + strict_mode
+# =false keep ragged rows instead of failing the table; parallel=false because
+# null_padding is unsupported by the parallel scanner alongside quoted newlines.
+_BASE_OPTS = (
     "sample_size=-1, "
     "max_line_size=16777216, "
     "null_padding=true, "
     "strict_mode=false, "
     "parallel=false, "
-    "quote='\"', "
-    "escape='\"', "
     "ignore_errors=false"
+)
+
+# The catalog is dialect-heterogeneous and no single profile reads every table:
+# most parse under DuckDB's auto quote/escape sniffing, but a few free-text
+# tables carry doubled-quote escapes (`""`) the sniffer mis-reads and only parse
+# under the pinned RFC-4180 dialect — while *other* tables conversely break if
+# that dialect is forced. So we cascade: auto first (matches the majority that
+# already parsed cleanly), pinned dialect only as a fallback. First profile that
+# reads the whole file wins.
+_READ_PROFILES = (
+    _BASE_OPTS,                              # auto-detect quote/escape
+    _BASE_OPTS + ", quote='\"', escape='\"'",  # pinned RFC-4180 fallback
 )
 
 
@@ -89,9 +100,10 @@ def fetch_one(node_id: str) -> None:
 
     The runtime passes the spec id, which is both the lookup key and the asset
     name. We materialize the CSV into a DuckDB temp table once (full-file type
-    inference), cast any Delta-incompatible TIME columns to VARCHAR, then stream
-    the result to a parquet file saved as `<asset>.parquet` — the format the
-    transform's `read_parquet` view reads with no further sniffing.
+    inference) under the first read profile that parses the whole file, cast any
+    Delta-incompatible TIME columns to VARCHAR, then stream the result to a
+    parquet file saved as `<asset>.parquet` — the format the transform's
+    `read_parquet` view reads with no further sniffing.
     """
     import duckdb
 
@@ -107,23 +119,34 @@ def fetch_one(node_id: str) -> None:
             fh.write(content)
             tmp_csv = fh.name
         tmp_parquet = tmp_csv + ".parquet"
+        csv_path = tmp_csv.replace("'", "''")
+        out_path = tmp_parquet.replace("'", "''")
 
         con = duckdb.connect()
         try:
-            csv_path = tmp_csv.replace("'", "''")
-            con.execute(
-                f"CREATE TEMP TABLE _t AS "
-                f"SELECT * FROM read_csv_auto('{csv_path}', {_CSV_READ_OPTS})"
-            )
+            last_err: Exception | None = None
+            for i, opts in enumerate(_READ_PROFILES):
+                try:
+                    con.execute(
+                        f"CREATE OR REPLACE TEMP TABLE _t AS "
+                        f"SELECT * FROM read_csv_auto('{csv_path}', {opts})"
+                    )
+                    last_err = None
+                    break
+                except duckdb.Error as e:  # noqa: PERF203 — cheap, <=2 profiles
+                    last_err = e
+            if last_err is not None:
+                raise RuntimeError(
+                    f"{asset}: no read profile parsed the CSV"
+                ) from last_err
+
             cols = con.execute(
-                "SELECT column_name, column_type FROM "
-                "(DESCRIBE _t)"
+                "SELECT column_name, column_type FROM (DESCRIBE _t)"
             ).fetchall()
             projection = ", ".join(
                 f'"{name}"::VARCHAR AS "{name}"' if _is_time_type(ctype) else f'"{name}"'
                 for name, ctype in cols
             )
-            out_path = tmp_parquet.replace("'", "''")
             con.execute(
                 f"COPY (SELECT {projection} FROM _t) "
                 f"TO '{out_path}' (FORMAT parquet, COMPRESSION zstd)"

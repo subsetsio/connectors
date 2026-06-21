@@ -1,0 +1,16 @@
+spec_id: dbnomics-bea:nipa-t70304
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: a rank-accepted flagship dataset always returns at least one series-observation; empty raw means the dataset id is wrong or the series endpoint changed.
+    certainty: 90
+    points_outward: true
+  - not_null: provider_code
+    reason: every flattened observation row is stamped with its DBnomics provider code.
+    certainty: 97
+  - not_null: series_code
+    reason: every observation belongs to a series; series_code is always present in the API response.
+    certainty: 97
+  - not_null: period
+    reason: each observation is a (series, period) pair; period is one of the parallel arrays the API always returns.
+    certainty: 97

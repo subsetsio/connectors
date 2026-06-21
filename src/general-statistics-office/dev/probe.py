@@ -42,3 +42,11 @@ if not err(t):
         rr=c.post(url, data=f)
         print("Export ->", rr.status_code, "ct:", rr.headers.get('content-type','')[:40], "len", len(rr.content))
         print("  head:", rr.text[:200].replace(chr(10),' '))
+
+        et=rr.text
+        print("\n=== search export response for download pointers ===")
+        for pat in [r'FileDownload[^"\' ]*', r'window\.location[^;]*', r'location\.href[^;]*', r'<iframe[^>]*src=["\']([^"\']+)', r'meta[^>]*http-equiv=["\']refresh["\'][^>]*content=["\']([^"\']+)', r'href=["\']([^"\']*(?:Download|\.json|FileType|getfile|File)[^"\']*)', r'/pxweb/[^"\' ]*\.(?:json|px|csv)', r'__doPostBack\([^)]*Save[^)]*\)']:
+            h=re.findall(pat, et, re.I)
+            if h: print(f"  [{pat[:30]}]:", list(dict.fromkeys(h))[:5])
+        # any new form action or buttons mentioning save/download
+        print("  buttons w/ save/download:", re.findall(r'name=["\']([^"\']*(?:[Ss]ave|[Dd]ownload|[Ss]ubmit)[^"\']*)["\']', et)[:8])
