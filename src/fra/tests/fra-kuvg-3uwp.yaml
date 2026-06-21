@@ -5,5 +5,5 @@ tests:
     reason: FRA safety tables accumulate over time; a drop below this floor means the full-corpus Socrata export truncated on our side.
     certainty: 90
   - not_null: iyr
-    reason: "iyr" is a primary identifier present on every submitted record.
+    reason: Column iyr is a primary identifier present on every submitted record; nulls indicate a parse or column-shift bug.
     certainty: 90

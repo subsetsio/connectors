@@ -1,0 +1,12 @@
+spec_id: instituto-nacional-de-estad-sticas-df-toixagr-zona
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: this dataflow returned data when probed; an empty pull means the SDMX data endpoint changed or auth/format broke
+    certainty: 95
+  - not_null: TIME_PERIOD
+    reason: every SDMX observation row carries a TIME_PERIOD; nulls mean a malformed CSV parse
+    certainty: 95
+  - not_null: DATAFLOW
+    reason: SDMX-CSV stamps every row with its DATAFLOW key
+    certainty: 90

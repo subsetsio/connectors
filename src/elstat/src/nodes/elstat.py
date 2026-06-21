@@ -48,7 +48,13 @@ class EmptyPageError(RuntimeError):
     """The publication page rendered without its document portlets (server
     returns a degraded page under load). Retryable — a re-fetch usually fixes it."""
 
-PUBLICATION_URL = "https://www.statistics.gr/en/statistics/-/publication/{code}/-"
+# A publication's attachments usually live on its English page, but a few are
+# only listed on the Greek page (the workbooks themselves are still bilingual /
+# English). Try English first, then fall back to Greek.
+PUBLICATION_URLS = (
+    "https://www.statistics.gr/en/statistics/-/publication/{code}/-",
+    "https://www.statistics.gr/el/statistics/-/publication/{code}/-",
+)
 
 # Liferay document download links on a publication page. We do NOT rely on the
 # portlet INSTANCE id to tell data from non-data (it is not constant across
@@ -234,11 +240,12 @@ def _http_get(url, **kwargs):
     reraise=True,
 )
 def _get_page(code):
-    resp = _http_get(PUBLICATION_URL.format(code=code), timeout=(10.0, 90.0))
-    html = resp.text
-    if "documentID=" not in html:
-        raise EmptyPageError(f"publication page for {code} carried no document links")
-    return html
+    for tmpl in PUBLICATION_URLS:
+        resp = _http_get(tmpl.format(code=code), timeout=(10.0, 90.0))
+        html = resp.text
+        if "documentID=" in html:
+            return html
+    raise EmptyPageError(f"publication page for {code} carried no document links")
 
 
 def _excel_attachments(code):
