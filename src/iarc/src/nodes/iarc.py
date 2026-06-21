@@ -5,8 +5,8 @@ released vintages — GLOBOCAN 2022, CI5 Vol. XII — so each run re-fetches the
 whole corpus and overwrites; "refresh" means picking up the next vintage):
 
   GCO gateway REST API (https://gco.iarc.fr/gateway_prod/api/):
-    - globocan_estimates    data/rate/{sex}/{type}/{pops}/{cancers}/   (modelled 2022 incidence & mortality)
-    - tomorrow_projections  data/prediction/{sex}/{type}/{pops}/{cancers}/ (burden projections to 2050)
+    - globocan_estimates    data/rate/{type}/{sex}/{pops}/{cancers}/   (modelled 2022 incidence & mortality)
+    - tomorrow_projections  data/prediction/{type}/{sex}/{pops}/{cancers}/ (burden projections to 2050)
     - overtime_rates        overtime/v2/21 data/population/...          (observed registry time series)
     - globocan_cancers      meta/cancers/all/                          (cancer-site dictionary)
     - globocan_populations  meta/populations/all/                      (population/geography dictionary)
@@ -116,7 +116,7 @@ def fetch_globocan_estimates(node_id: str) -> None:
     out = []
     for sex in SEXES:
         for typ in TYPES:
-            payload = _get_json(f"{GLOBOCAN}/data/rate/{sex}/{typ}/{pops}/{cancers}/")
+            payload = _get_json(f"{GLOBOCAN}/data/rate/{typ}/{sex}/{pops}/{cancers}/")
             for r in (payload.get("dataset") or []):
                 ui = r.get("ui") or {}
                 out.append({
@@ -148,7 +148,7 @@ def fetch_tomorrow_projections(node_id: str) -> None:
     for sex in SEXES:
         for typ in TYPES:
             for can in cancer_codes:
-                payload = _get_json(f"{GLOBOCAN}/data/prediction/{sex}/{typ}/{pops}/{can}/")
+                payload = _get_json(f"{GLOBOCAN}/data/prediction/{typ}/{sex}/{pops}/{can}/")
                 for r in (payload.get("dataset") or []):
                     out.append({
                         "country_code": r.get("id"),
@@ -178,7 +178,7 @@ def fetch_overtime_rates(node_id: str) -> None:
         for typ in TYPES:
             for can in cancer_codes:
                 url = (
-                    f"{OVERTIME}/data/population/{sex}/{typ}/{pops}/{can}/"
+                    f"{OVERTIME}/data/population/{typ}/{sex}/{pops}/{can}/"
                     f"?year_start=1900&year_end=2030"
                 )
                 payload = _get_json(url)

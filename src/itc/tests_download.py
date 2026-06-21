@@ -1,10 +1,18 @@
 from subsets_utils import load_raw_ndjson
 
 
+def _download_ids(spec_ids):
+    # spec_ids carries both download and transform ids; raw assets exist only
+    # for the download nodes (transform nodes publish Delta tables, not raw).
+    return [s for s in spec_ids if not s.endswith("-transform")]
+
+
 def test_all_raw_assets_nonempty(spec_ids):
     """Every download node should write at least one row. An empty payload
     means the JSON envelope changed, pagination broke, or auth/format shifted."""
-    for sid in spec_ids:
+    ids = _download_ids(spec_ids)
+    assert ids, "no download spec ids passed to health test"
+    for sid in ids:
         rows = load_raw_ndjson(sid)
         assert rows, f"{sid}: raw ndjson has 0 rows"
 
