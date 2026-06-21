@@ -35,3 +35,15 @@ print("\nview td count:", t.count('<td'), "| numbers like 100.x present:", bool(
 # dump a data-ish slice
 m=re.search(r'(<table[^>]*PxWebTable.*?</table>)', t, re.S) or re.search(r'(<table[^>]*class="[^"]*table[^"]*".*?</table>)', t, re.S)
 print("found data table:", bool(m), (len(m.group(1)) if m else 0))
+
+print("\n=== hunt data-fetch endpoint in table view ===")
+for pat in [r'PxWebQueryData[^"\' ]*', r'GetTable[^"\' ]*', r'asmx[^"\' ]*', r'ashx[^"\' ]*', r'WebService[^"\' ]*',
+            r'PageMethod', r'ScriptManager', r'\.aspx/\w+', r'url\s*[:=]\s*["\'][^"\']+["\']',
+            r'data-url=["\'][^"\']+', r'PxWeb\w*\.(?:aspx|ashx|asmx)', r'tableData|TableData|jsonData|chartData']:
+    h=re.findall(pat, t, re.I)
+    if h: print(f"  [{pat[:25]}]:", list(dict.fromkeys(h))[:5])
+scripts=re.findall(r'<script[^>]*src=["\']([^"\']+)["\']', t)
+print("scripts:", [s for s in scripts if 'jquery' not in s.lower()][:12])
+# embedded inline script urls
+inline=re.findall(r'["\'](/pxweb/[^"\']*\.(?:aspx|ashx|asmx)[^"\']*)["\']', t)
+print("inline pxweb endpoints:", list(dict.fromkeys(inline))[:8])
