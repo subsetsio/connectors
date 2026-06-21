@@ -22,8 +22,9 @@ FETCH_PARAMS = {
         "uk-tariff-2021-01-01", "table", "measures-as-defined"),
     "dbt-uk-tariff-2021-01-01--measures-on-declarable-commodities": (
         "uk-tariff-2021-01-01", "table", "measures-on-declarable-commodities"),
-    "dbt-uk-tariff-2021-01-01--report--measures-on-declarable-commodities": (
-        "uk-tariff-2021-01-01", "report", "measures-on-declarable-commodities"),
+    # NOTE: the report `measures-on-declarable-commodities` was an exact
+    # duplicate of the table above (same schema, same ~1.1M rows) so it is not
+    # published — see rank rule "duplicate".
     "dbt-uk-trade-quotas--quotas": (
         "uk-trade-quotas", "table", "quotas"),
     "dbt-uk-trade-quotas--report--quotas-including-current-volumes": (
