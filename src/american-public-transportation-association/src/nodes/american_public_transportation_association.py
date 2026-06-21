@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import io
 import os
+import random
 import re
 import tempfile
 import time
@@ -42,7 +43,11 @@ from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
 from constants import ENTITY_IDS
 
 _PREFIX = "american-public-transportation-association-"
-_IMPERSONATE = "chrome"
+# Rotated across retries: see _get. A varied, recent set of real browser
+# fingerprints so no single JA3 is what Cloudflare rate-flags across the run.
+_IMPERSONATE_PROFILES = (
+    "chrome131", "chrome136", "chrome142", "edge101", "safari180", "firefox144",
+)
 
 # --- product discovery -------------------------------------------------------
 
