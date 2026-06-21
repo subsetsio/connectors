@@ -18,16 +18,23 @@ which are the correctness gate.
 """
 
 import io
+import os
 import re
 import csv
-import struct
+import time
 import zipfile
+import tempfile
+import itertools
 import unicodedata
 
+import httpx
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-from subsets_utils import get, transient_retry, raw_parquet_writer, NodeSpec, SqlNodeSpec
+from subsets_utils import (
+    get, get_client, transient_retry, is_transient,
+    raw_parquet_writer, NodeSpec, SqlNodeSpec,
+)
 from constants import ENTITY_MAP, ENTITY_IDS
 
 SLUG = "anp-brazil"
