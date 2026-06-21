@@ -1,0 +1,26 @@
+spec_id: inpe-focos-brasil-estado-mensal
+status: active
+tests:
+  - not_null: ano
+  - not_null: mes
+  - not_null: estado
+  - not_null: n_focos
+  - column_type: {col: ano, type: integer}
+  - column_type: {col: mes, type: integer}
+  - column_type: {col: n_focos, type: integer}
+  - between: {col: mes, lo: 1, hi: 12}
+    reason: month derived from data_pas timestamp; must be a calendar month
+    certainty: 99
+  - between: {col: ano, lo: 2002, hi: current_year()}
+    reason: INPE reference-satellite (AQUA_M-T) series begins 2003; no future years
+    certainty: 95
+    points_outward: true
+  - at_least: {col: n_focos, expr: 1}
+    reason: each row is a non-empty (state, month) group
+    certainty: 99
+  - unique: [ano, mes, estado]
+    reason: one aggregated row per state-month; dupes mean a year file was double-counted
+    certainty: 97
+  - distinct_count: {col: estado, min: 20, max: 40}
+    reason: Brazil has 26 states + Distrito Federal (~27); names stored uppercase
+    certainty: 85

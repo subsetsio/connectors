@@ -162,16 +162,20 @@ def _coerce(v):
 
 def _decode(dataset, colmap):
     """Flatten a json-stat (v1 'dataset' wrapper) response to long-format rows."""
-    # json-stat v1: 'id'/'size' are optional. When absent, dimension order is
-    # the order of the 'dimension' map and each size is its category count.
-    order = dataset.get("id") or list(dataset["dimension"].keys())
-    sizes = dataset.get("size") or [
-        len(dataset["dimension"][d]["category"]["index"]) for d in order
+    # PxWeb returns json-stat 1.0, where 'id'/'size'/'role' live *inside* the
+    # 'dimension' object; json-stat 2.0 puts them at the dataset top level. Handle
+    # both: prefer top-level, fall back to the nested copies, else infer order
+    # from the remaining dimension keys.
+    dim = dataset["dimension"]
+    _meta_keys = ("id", "size", "role")
+    order = dataset.get("id") or dim.get("id") or [k for k in dim if k not in _meta_keys]
+    sizes = dataset.get("size") or dim.get("size") or [
+        len(dim[d]["category"]["index"]) for d in order
     ]
     # position -> value label, per dimension
     pos_label = {}
     for d in order:
-        cat = dataset["dimension"][d]["category"]
+        cat = dim[d]["category"]
         index = cat["index"]
         labels = cat.get("label", {})
         arr = [None] * len(index)

@@ -1,0 +1,26 @@
+spec_id: inpe-focos-brasil-bioma-mensal
+status: active
+tests:
+  - not_null: ano
+  - not_null: mes
+  - not_null: bioma
+  - not_null: n_focos
+  - column_type: {col: ano, type: integer}
+  - column_type: {col: mes, type: integer}
+  - column_type: {col: n_focos, type: integer}
+  - between: {col: mes, lo: 1, hi: 12}
+    certainty: 99
+  - between: {col: ano, lo: 2002, hi: current_year()}
+    certainty: 95
+    points_outward: true
+  - unique: [ano, mes, bioma]
+    reason: one aggregated row per biome-month
+    certainty: 97
+  - enum:
+      col: bioma
+      values: ["Amazônia", "Cerrado", "Caatinga", "Mata Atlântica", "Pampa", "Pantanal"]
+    reason: Brazil's six official biomes as labelled by INPE
+    certainty: 90
+  - distinct_count: {col: bioma, min: 6, max: 6}
+    reason: exactly the six Brazilian biomes appear
+    certainty: 85

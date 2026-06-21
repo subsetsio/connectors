@@ -1,0 +1,20 @@
+spec_id: inpe-focos-brasil-municipio-anual
+status: active
+tests:
+  - not_null: ano
+  - not_null: estado
+  - not_null: municipio
+  - not_null: n_focos
+  - column_type: {col: ano, type: integer}
+  - column_type: {col: n_focos, type: integer}
+  - between: {col: ano, lo: 2002, hi: current_year()}
+    certainty: 95
+    points_outward: true
+  - at_least: {col: n_focos, expr: 1}
+    certainty: 99
+  - unique: [ano, estado, municipio]
+    reason: one row per municipality-year; the same municipio name recurs across states, so estado is part of the key
+    certainty: 96
+  - distinct_count: {col: municipio, min: 1000, max: 5570}
+    reason: Brazil has ~5570 municipalities; not every one records a fire every year, so the count of distinct names is well below that but in the thousands
+    certainty: 75

@@ -96,27 +96,34 @@ CONFIG = {
 # --- HTTP --------------------------------------------------------------------
 
 # Cloudflare intermittently serves a 403 interactive-challenge page even to the
-# Chrome-impersonating client (especially under a burst of requests); it clears
-# on retry. We therefore treat 403 as transient here alongside 429/5xx and the
-# usual network errors, with capped exponential backoff. This is the deliberate
-# different classification the standard transient_retry doesn't cover.
+# Chrome-impersonating client (especially under sustained requests); it clears on
+# retry. We treat 403 as transient here alongside 429/5xx and the usual network
+# errors. The critical detail (learned the hard way): retrying on the *same*
+# session does NOT clear a 403 — once Cloudflare flags a session/connection it
+# stays flagged, so 7 retries on one session all return 403. Each attempt
+# therefore opens a *fresh* session (new TLS handshake + empty cookie jar) and
+# rotates the browser-impersonation profile, which re-runs the challenge
+# clearance from scratch. Capped exponential backoff with jitter de-bursts the
+# request pattern so we don't re-trip the rate flag.
 _RETRY_STATUS = {403, 408, 429, 500, 502, 503, 504}
 
 
-def _get(session, url: str, attempts: int = 7) -> bytes:
+def _get(url: str, attempts: int = 12) -> bytes:
     last = None
     for i in range(attempts):
+        profile = _IMPERSONATE_PROFILES[i % len(_IMPERSONATE_PROFILES)]
         try:
-            resp = session.get(url, timeout=120)
-            if resp.status_code in _RETRY_STATUS:
-                last = f"HTTP {resp.status_code}"
-            else:
-                resp.raise_for_status()
-                return resp.content
+            with cffi_requests.Session(impersonate=profile) as session:
+                resp = session.get(url, timeout=120)
+                if resp.status_code in _RETRY_STATUS:
+                    last = f"HTTP {resp.status_code}"
+                else:
+                    resp.raise_for_status()
+                    return resp.content
         except Exception as e:  # noqa: BLE001 - network/transport error, logged + retried
             last = f"{type(e).__name__}: {e}"
         if i < attempts - 1:
-            time.sleep(min(60.0, 3.0 * (2 ** i)))
+            time.sleep(min(45.0, 2.0 * (2 ** i)) + random.uniform(0.0, 4.0))
     raise RuntimeError(f"fetch failed after {attempts} attempts for {url}: {last}")
 
 
@@ -135,7 +142,7 @@ def _get(session, url: str, attempts: int = 7) -> bytes:
 _CACHE_DIR = os.path.join(tempfile.gettempdir(), "apta-fetch-cache")
 
 
-def _product_bytes(session, product: str) -> bytes:
+def _product_bytes(product: str) -> bytes:
     os.makedirs(_CACHE_DIR, exist_ok=True)
     blob = os.path.join(_CACHE_DIR, f"{product}.bin")
     try:
@@ -144,8 +151,8 @@ def _product_bytes(session, product: str) -> bytes:
                 return fh.read()
     except OSError:
         pass  # missing or empty → fetch below
-    url = _discover(session, product)
-    content = _get(session, url)
+    url = _discover(product)
+    content = _get(url)
     tmp = f"{blob}.{os.getpid()}.tmp"
     with open(tmp, "wb") as fh:
         fh.write(content)
@@ -153,9 +160,9 @@ def _product_bytes(session, product: str) -> bytes:
     return content
 
 
-def _discover(session, product: str) -> str:
+def _discover(product: str) -> str:
     prod = PRODUCTS[product]
-    html = _get(session, prod["page"]).decode("utf-8", "replace")
+    html = _get(prod["page"]).decode("utf-8", "replace")
     pattern = (
         r'href="((?:https://www\.apta\.com)?/wp-content/uploads/[^"]*'
         + re.escape(prod["key"]) + r'[^"]*\.' + prod["ext"] + r')"'
@@ -443,11 +450,7 @@ def fetch_one(node_id: str) -> None:
     cfg = CONFIG[entity_id]
     prod = PRODUCTS[cfg["product"]]
 
-    session = cffi_requests.Session(impersonate=_IMPERSONATE)
-    try:
-        content = _product_bytes(session, cfg["product"])
-    finally:
-        session.close()
+    content = _product_bytes(cfg["product"])
 
     xlsx_bytes = content
     if prod.get("zip"):
