@@ -292,11 +292,14 @@ def parse_hbgi(df):
     return out
 
 
-_MMS_TITLES = (
-    "Multifamily Production Index",
-    "Multifamily Occupancy Index",
-    "Change in Overall Market Conditions",
-)
+def _mms_title(s):
+    if "Production Index" in s:
+        return "Multifamily Production Index"
+    if "Occupancy Index" in s:
+        return "Multifamily Occupancy Index"
+    if "Market Conditions" in s:
+        return "Change in Overall Market Conditions"
+    return None
 
 
 def parse_mms(df):
@@ -305,8 +308,9 @@ def parse_mms(df):
     for i in range(len(df)):
         s = _text(df.iat[i, 0])
         row_has_num = any(_num(df.iat[i, c]) is not None for c in range(1, df.shape[1]))
-        if s in _MMS_TITLES and not row_has_num:
-            index_type = s
+        title = _mms_title(s)
+        if title and not row_has_num:
+            index_type = title
         if _is_quarter_header(df, i):
             colperiod = _quarter_cols(df, i)
             continue

@@ -61,8 +61,11 @@ ID_TO_INDEX = {
 
 
 @transient_retry(attempts=6, min_wait=3, max_wait=60)
-def _fds(body: dict) -> dict:
-    resp = post(FDS_URL, json=body, headers=FDS_HEADERS, timeout=(10.0, 180.0))
+def _fds(endpoint: str, body: dict) -> dict:
+    # POST the path-based endpoint (/flexmonster/fields, /flexmonster/select).
+    # The bare /flexmonster URL is rejected by the WAF; only the suffixed paths
+    # pass, even though the request `type` is also carried in the body.
+    resp = post(f"{FDS_URL}/{endpoint}", json=body, headers=FDS_HEADERS, timeout=(10.0, 180.0))
     resp.raise_for_status()
     # The WAF returns HTTP 200 with an HTML 'Request Rejected' page instead of a
     # real error; treat a non-JSON body as transient so the retry kicks in.
@@ -102,7 +105,7 @@ def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime hands us the spec id; it IS the asset name
     index = ID_TO_INDEX[node_id]
 
-    fields = _fds({"index": index, "type": "fields"}).get("fields", [])
+    fields = _fds("fields", {"index": index, "type": "fields"}).get("fields", [])
     dims, measures = _classify_fields(fields)
     if not measures:
         # Nothing numeric to report — write an empty asset; the transform will
@@ -127,7 +130,7 @@ def fetch_one(node_id: str) -> None:
     page_total = 1
     while page < page_total:
         body = {"type": "select", "index": index, "query": query, "page": page}
-        resp = _fds(body)
+        resp = _fds("select", body)
         page_total = resp.get("pageTotal", 1) or 1
         for agg in resp.get("aggs", []):
             keys = agg.get("keys") or {}
