@@ -43,6 +43,12 @@ FDS_HEADERS = {
     "Accept": "application/json",
     "Origin": "https://database.stats.gov.sa",
     "Referer": "https://database.stats.gov.sa/",
+    # The F5 WAF rejects non-browser User-Agents (e.g. httpx's default), so we
+    # present a plain Chrome UA. ASCII only.
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
 }
 PAGE_SIZE = 50000  # server-fixed; informational
 
