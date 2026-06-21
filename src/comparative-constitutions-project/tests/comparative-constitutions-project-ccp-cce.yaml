@@ -1,0 +1,26 @@
+spec_id: comparative-constitutions-project-ccp-cce
+status: active
+tests:
+  - not_null: cowcode
+    certainty: 88
+  - not_null: country
+    certainty: 95
+  - not_null: year
+    reason: every event row is stamped with the year it occurred
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    reason: transform TRY_CASTs the year key to INTEGER
+    certainty: 90
+  - column_type: {col: cowcode, type: integer}
+    certainty: 80
+  - row_count: {min: 8000}
+    reason: CCE v6 ships ~20.6k event rows (non-event/amendment/new/...); floor well below that
+    certainty: 90
+  - between: {col: year, lo: 1789, hi: current_year()}
+    reason: chronology spans the first modern constitutions (1789) to the latest release year
+    certainty: 92
+  - not_null: evnttype
+    reason: most rows carry an event type, but a minority are blank placeholders
+    certainty: 55
+    severity: warn
+    points_outward: true

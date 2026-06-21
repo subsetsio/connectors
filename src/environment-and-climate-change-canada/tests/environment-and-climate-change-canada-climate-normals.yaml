@@ -1,0 +1,14 @@
+spec_id: environment-and-climate-change-canada-climate-normals
+status: active
+tests:
+  - not_null: feature_id
+    reason: every OGC API feature carries a stable top-level id, injected as feature_id by fetch_one
+    certainty: 95
+  - unique: feature_id
+    reason: OGC feature ids are unique within a collection; a dup means offset pagination re-read a shifted page
+    certainty: 85
+    severity: warn
+  - row_count: {min: 296463}
+    reason: collection reported ~592926 features during research; a count far below half that means the pull truncated (e.g. pagination stopped after page 1)
+    certainty: 80
+    points_outward: true

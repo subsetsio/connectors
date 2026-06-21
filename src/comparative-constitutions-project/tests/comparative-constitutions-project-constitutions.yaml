@@ -1,0 +1,26 @@
+spec_id: comparative-constitutions-project-constitutions
+status: active
+tests:
+  - not_null: id
+    reason: every Constitute record has a stable id like 'Afghanistan_1964'
+    certainty: 95
+  - unique: id
+    reason: one row per constitutional text; id is the natural key
+    certainty: 95
+  - not_null: country
+    certainty: 95
+  - not_null: region
+    reason: every constitution is assigned a world region
+    certainty: 88
+  - column_type: {col: years_in_force, type: integer}
+    reason: API returns years_in_force as an integer on every record
+    certainty: 85
+  - column_type: {col: year_to, type: integer}
+    certainty: 80
+  - row_count: {min: 150}
+    reason: the Constitute corpus exposes ~238 constitution metadata records
+    certainty: 88
+  - between: {col: year_to, lo: 1789, hi: current_year()}
+    reason: a constitution's end-year falls within the modern constitutional era
+    certainty: 75
+    severity: warn

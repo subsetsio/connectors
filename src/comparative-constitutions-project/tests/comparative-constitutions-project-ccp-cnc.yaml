@@ -1,0 +1,26 @@
+spec_id: comparative-constitutions-project-ccp-cnc
+status: active
+tests:
+  - not_null: cowcode
+    reason: every coded country-year row carries a Correlates-of-War country code
+    certainty: 90
+  - not_null: country
+    certainty: 95
+  - not_null: year
+    reason: the panel is keyed by country-year; year is the time axis
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    reason: transform TRY_CASTs the year key to INTEGER
+    certainty: 90
+  - column_type: {col: cowcode, type: integer}
+    reason: transform TRY_CASTs the cowcode key to INTEGER
+    certainty: 80
+  - row_count: {min: 12000}
+    reason: CNC v5 ships ~21.7k country-year rows; well above any plausible floor
+    certainty: 90
+  - between: {col: year, lo: 1789, hi: current_year()}
+    reason: CCP coding begins with the first modern constitutions (1789) and cannot exceed the current year
+    certainty: 92
+  - distinct_count: {col: year, min: 150}
+    reason: 1789-present yields ~235 distinct years of constitutional history
+    certainty: 85

@@ -1,0 +1,35 @@
+spec_id: dpiit-wpi-values
+status: active
+tests:
+  - not_null: item_code
+    certainty: 95
+  - not_null: date
+    certainty: 95
+  - not_null: index_value
+    reason: empty index cells are skipped at parse time, so every emitted row has a value
+    certainty: 95
+  - column_type: {col: date, type: date}
+    certainty: 95
+  - column_type: {col: index_value, type: float}
+    certainty: 90
+  - unique: [item_code, date]
+    reason: long format is one observation per commodity per month; dupes mean the wide-to-long melt double-counted a column
+    certainty: 90
+  - between: {col: index_value, lo: 0, hi: 100000}
+    reason: WPI is an index (base 2011-12=100); values cluster around 80-400 but a wide guard catches unit/parse errors
+    certainty: 80
+  - median_between: {col: index_value, lo: 80, hi: 400}
+    reason: most series sit in the 100-250 band a decade after the 2011-12=100 base
+    certainty: 60
+    severity: warn
+  - between: {col: date, lo: "2012-04-01", hi: today}
+    reason: the base 2011-12 monthly file starts April 2012; no future-dated observations
+    certainty: 85
+  - freshness: {col: date, reaches: today - 400d}
+    reason: OEA releases WPI monthly (~14th); the latest file should carry data within the last ~year
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - row_count: {min: 50000}
+    reason: ~700 items x ~170 months is >100k observations; far fewer means a truncated download
+    certainty: 80

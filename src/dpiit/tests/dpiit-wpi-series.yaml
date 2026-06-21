@@ -1,0 +1,21 @@
+spec_id: dpiit-wpi-series
+status: active
+tests:
+  - not_null: item_code
+    reason: every WPI commodity row carries a COMM_CODE; a null means the header/columns shifted
+    certainty: 95
+  - not_null: item_name
+    certainty: 95
+  - unique: item_code
+    reason: the catalog is one row per commodity item; dupes mean the de-dup by code broke
+    certainty: 90
+  - column_type: {col: weight, type: float}
+    certainty: 90
+  - between: {col: weight, lo: 0, hi: 100}
+    reason: WPI item weights are percentages of the All-commodities basket (All=100)
+    certainty: 85
+  - row_count: {min: 500}
+    reason: base 2011-12 has ~700 item-level series (117 primary + 16 fuel/power + 564 manufactured); far fewer means truncated parse
+    certainty: 85
+  - enum: {col: base_year, values: ["2011-12"]}
+    certainty: 90

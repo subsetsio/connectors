@@ -1,0 +1,40 @@
+spec_id: dpiit-core-industries
+status: active
+tests:
+  - not_null: sector
+    certainty: 95
+  - not_null: date
+    certainty: 95
+  - not_null: index_value
+    reason: rows are emitted from the Index sheet, so every row has an index value
+    certainty: 95
+  - column_type: {col: date, type: date}
+    certainty: 95
+  - column_type: {col: index_value, type: float}
+    certainty: 90
+  - enum:
+      col: sector
+      values: ["Overall", "Coal", "Crude Oil", "Natural Gas", "Petroleum Refinery Products", "Fertilizers", "Steel", "Cement", "Electricity"]
+    reason: the eight core industries plus the combined Overall index — a fixed nine-sector set
+    certainty: 90
+  - unique: [sector, date]
+    reason: one index observation per sector per month
+    certainty: 90
+  - between: {col: index_value, lo: 0, hi: 1000}
+    reason: ICI is an index (base 2011-12=100); levels run roughly 80-250
+    certainty: 80
+  - between: {col: date, lo: "2011-04-01", hi: today}
+    reason: the 2011-12 base ICI series starts April 2011; no future months
+    certainty: 85
+  - freshness: {col: date, reaches: today - 400d}
+    reason: ICI is released monthly; latest file should be current within ~a year
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - nullable: {col: growth_rate, max_null_frac: 0.2}
+    reason: YoY growth is undefined only for the first 12 months (2011), so <~20% of rows are null
+    certainty: 70
+    severity: warn
+  - row_count: {min: 1000}
+    reason: 9 sectors x ~180 months is >1500 rows
+    certainty: 80
