@@ -1,0 +1,29 @@
+spec_id: county-health-rankings-analytic
+status: active
+tests:
+  - not_null: release_year
+    reason: every analytic row carries the release year of its source file
+    certainty: 95
+  - not_null: measure_id
+    reason: measures are keyed off stable v### variable codes; a null means the code parse failed
+    certainty: 90
+  - not_null: fips
+    reason: fipscode is present on every analytic row (county/state/national)
+    certainty: 95
+  - column_type: {col: release_year, type: integer}
+    certainty: 95
+  - column_type: {col: raw_value, type: float}
+    certainty: 90
+  - matches: {col: fips, pattern: '^[0-9]{5}$'}
+    reason: 5-digit FIPS, zero-padded
+    certainty: 85
+    severity: warn
+  - between: {col: release_year, lo: 2010, hi: current_year()}
+    reason: analytic files run from the 2010 release to the current release
+    certainty: 90
+  - row_count: {min: 1000000}
+    reason: ~16 release years x ~3200 counties x ~50-90 measures, unpivoted to long form
+    certainty: 85
+  - distinct_count: {col: measure_name, min: 50}
+    reason: the current release alone carries ~90 measures; union across years is at least this
+    certainty: 80
