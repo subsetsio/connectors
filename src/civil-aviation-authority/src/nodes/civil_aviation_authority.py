@@ -256,6 +256,7 @@ def _fetch_punctuality(key):
 
 def fetch_one(node_id: str) -> None:
     """Fetch every annual release of one CAA table/analysis-type and save as ndjson."""
+    configure_http(headers={"User-Agent": _BROWSER_UA})  # avoid the WAF 403 on the default UA
     entity_id = node_id[len(SLUG) + 1:]   # strip 'civil-aviation-authority-'
     family, key = entity_id.split("-", 1)
     if family in _TABLE_FAMILIES:
