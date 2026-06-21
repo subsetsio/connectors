@@ -1,0 +1,10 @@
+spec_id: american-public-transportation-association-factbook-b-rural-tribal-totals
+status: active
+tests:
+  - not_null: state
+    reason: most Appendix B rows carry state; widespread nulls mean the header/row parse drifted
+    certainty: 80
+    severity: warn
+  - row_count: {min: 800}
+    reason: the source workbook is stable; far fewer rows means the parse or fetch broke
+    certainty: 88

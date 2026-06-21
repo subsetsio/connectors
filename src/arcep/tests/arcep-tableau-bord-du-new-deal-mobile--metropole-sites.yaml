@@ -1,0 +1,15 @@
+spec_id: arcep-tableau-bord-du-new-deal-mobile--metropole-sites
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: one row per mobile site in metropolitan France per quarter; a collapse to near-zero means the CSV family stopped enumerating
+    certainty: 80
+  - not_null: code_op
+    reason: code_op is a key/identifier column present on every source row
+    certainty: 85
+  - column_type: {col: code_op, type: string}
+    reason: raw is preserved verbatim as strings (decimal commas / leading zeros / NA sentinels)
+    certainty: 90
+  - not_null: _resource_title
+    reason: provenance column stamped on every row by the fetch fn
+    certainty: 99

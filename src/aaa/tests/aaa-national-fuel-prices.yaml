@@ -1,0 +1,29 @@
+spec_id: aaa-national-fuel-prices
+status: active
+tests:
+  - not_null: date
+  - not_null: fuel_grade
+  - not_null: price_usd
+  - column_type: {col: date, type: date}
+  - column_type: {col: price_usd, type: float}
+  - enum: {col: fuel_grade, values: [Regular, Mid-Grade, Premium, Diesel, E85]}
+    reason: AAA tracks exactly these five retail grades nationally
+    certainty: 90
+  - distinct_count: {col: fuel_grade, min: 4, max: 5}
+    reason: national table carries all 5 grades (E85 occasionally absent)
+    certainty: 85
+  - unique: [date, fuel_grade]
+    reason: one current-average price per grade per observation date; dupes mean a date batch was double-counted
+    certainty: 95
+  - between: {col: price_usd, lo: 0.5, hi: 12}
+    reason: US retail fuel in $/gal; outside this band signals a unit/parse error (cents vs dollars)
+    certainty: 90
+  - median_between: {col: price_usd, lo: 2, hi: 8}
+    reason: typical national average across grades sits a few dollars per gallon
+    certainty: 65
+    severity: warn
+  - freshness: {col: date, reaches: today - 7d}
+    reason: AAA updates every morning; a max date older than a week means our scrape has been failing, not the source
+    points_outward: true
+    severity: warn
+    certainty: 75

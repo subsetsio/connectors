@@ -1,0 +1,17 @@
+spec_id: australian-bureau-of-statistics-capex
+status: active
+tests:
+  - not_null: TIME_PERIOD
+    reason: SDMX-CSV emits a TIME_PERIOD value on every observation row; a null means our streaming CSV parse misaligned columns or dropped the header.
+    certainty: 95
+    severity: block
+  - not_null: OBS_VALUE
+    reason: every SDMX observation row carries an OBS_VALUE field (may be blank for suppressed cells, but the column is always present and non-null as a string in raw NDJSON).
+    certainty: 80
+    severity: warn
+  - row_count:
+      min: 1
+    reason: a dataflow's /data/{id}/all returns at least one observation; an empty raw asset means the flow was withdrawn upstream or the stream failed mid-fetch.
+    certainty: 90
+    points_outward: true
+    severity: warn

@@ -1,0 +1,15 @@
+spec_id: adobe-dei-year-over-year-growth-in-online-spend
+status: active
+tests:
+  - not_null: _file_date
+  - not_null: "Date"
+    certainty: 90
+  - not_null: "Growth"
+    reason: YoY growth chart carries a Growth percentage per month
+    certainty: 85
+  - matches: {col: _file_ym, pattern: '^[0-9]{4}-[a-z]{3}$'}
+    certainty: 95
+  - distinct_count: {col: _file_ym, min: 3}
+    certainty: 80
+  - row_count: {min: 10}
+    certainty: 80

@@ -1,0 +1,23 @@
+spec_id: abuse-ch-sslbl-certificates
+status: active
+# Raw is the SSLBL SSL-certificate blacklist CSV normalized to ndjson — all
+# string values. One row per blacklisted certificate, keyed by its SHA1
+# fingerprint.
+tests:
+  - not_null: sha1
+    reason: each listing is a certificate identified by its SHA1 fingerprint
+    certainty: 95
+  - matches: {col: sha1, pattern: '^[A-Fa-f0-9]{40}$'}
+    reason: an SSL certificate SHA1 fingerprint is a 40-char hex digest
+    certainty: 95
+  - unique: sha1
+    reason: SSLBL lists each malicious certificate fingerprint once
+    certainty: 80
+  - not_null: listingreason
+    reason: every SSLBL entry records why the certificate was blacklisted (e.g. "Vidar C&C")
+    certainty: 85
+  - row_count: {min: 500}
+    reason: the SSLBL certificate blacklist holds thousands of fingerprints; far fewer means a truncated download
+    certainty: 85
+    points_outward: true
+    severity: warn

@@ -1,0 +1,30 @@
+spec_id: apartment-list-vacancy-index
+status: active
+tests:
+  - not_null: location_name
+  - not_null: location_fips_code
+  - not_null: month
+  - not_null: value
+  - column_type: {col: month, type: date}
+  - column_type: {col: value, type: float}
+  - enum: {col: location_type, values: [National, State, Metro, County, City]}
+    reason: source publishes these five geographic levels only
+    certainty: 90
+  - unique: [location_type, location_name, month]
+    reason: melt emits one row per source location-row per month; dupes mean the file was double-parsed
+    certainty: 85
+  - row_count: {min: 40000}
+    reason: ~540 locations x ~110 months minus NA (~60k valued); <40k means truncated download
+    certainty: 80
+  - between: {col: value, lo: 0.0, hi: 0.5}
+    reason: vacancy index is a rate (share of units vacant); national runs ~0.05-0.08
+    certainty: 90
+  - at_most: {col: month, expr: today}
+    reason: no future months
+    certainty: 95
+    points_outward: true
+  - freshness: {col: month, reaches: today - 120d}
+    reason: monthly product; newest month should be within ~4 months
+    certainty: 70
+    points_outward: true
+    severity: warn

@@ -1,0 +1,32 @@
+spec_id: acled-demonstration-events
+status: active
+# National table: Non_HRP country rows ∪ HRP sheets aggregated up to country-month-year.
+# One row per country-month-year of demonstration event counts (no fatalities), 1997-present.
+tests:
+  - not_null: country
+  - not_null: month
+  - not_null: year
+  - not_null: events
+  - column_type: {col: year, type: integer}
+  - column_type: {col: events, type: integer}
+  - column_type: {col: country, type: string}
+  - enum: {col: month, values: [January, February, March, April, May, June, July, August, September, October, November, December]}
+    reason: source XLSX 'Month' column carries full English month names
+    certainty: 90
+  - between: {col: year, lo: 1997, hi: current_year()}
+    reason: ACLED coverage starts 1997 (Africa); no future-dated counts
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - at_least: {col: events, expr: 0}
+    reason: events are non-negative ACLED counts
+    certainty: 97
+  - unique: [country, month, year]
+    reason: one aggregated row per country-month-year; dupes mean HRP aggregation or Non_HRP union double-counted
+    certainty: 90
+  - distinct_count: {col: country, min: 150, max: 300}
+    reason: ACLED publishes ~243 countries/territories in the global thematic file
+    certainty: 80
+    severity: warn

@@ -1,0 +1,14 @@
+spec_id: american-public-transportation-association-factbook-b-rural-tribal-state-by-mode
+status: active
+tests:
+  - not_null: state
+    reason: most Appendix B rows carry state; widespread nulls mean the header/row parse drifted
+    certainty: 80
+    severity: warn
+  - not_null: mode
+    reason: most Appendix B rows carry mode; widespread nulls mean the header/row parse drifted
+    certainty: 80
+    severity: warn
+  - row_count: {min: 80}
+    reason: the source workbook is stable; far fewer rows means the parse or fetch broke
+    certainty: 88

@@ -1,0 +1,33 @@
+spec_id: apartment-list-rent-growth-yoy
+status: active
+tests:
+  - not_null: location_name
+  - not_null: location_fips_code
+  - not_null: month
+  - not_null: value
+  - column_type: {col: month, type: date}
+  - column_type: {col: value, type: float}
+  - enum: {col: location_type, values: [National, State, Metro, County, City]}
+    reason: source publishes these five geographic levels only
+    certainty: 90
+  - unique: [location_type, location_name, month]
+    reason: melt emits one row per source location-row per month
+    certainty: 85
+  - row_count: {min: 90000}
+    reason: ~1.3k locations x ~101 months minus NA (~130k valued, history starts 2018); <90k means truncated
+    certainty: 80
+  - between: {col: value, lo: -0.5, hi: 0.6}
+    reason: year-over-year rent growth as a fraction; pandemic swings stay within +/-50pct
+    certainty: 80
+  - at_most: {col: month, expr: today}
+    reason: no future months
+    certainty: 95
+    points_outward: true
+  - at_least: {col: month, expr: "2018-01-01"}
+    reason: YoY growth needs a year of history, so it begins January 2018
+    certainty: 85
+  - freshness: {col: month, reaches: today - 120d}
+    reason: monthly product; newest month should be within ~4 months
+    certainty: 70
+    points_outward: true
+    severity: warn

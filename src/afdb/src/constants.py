@@ -1,0 +1,35 @@
+# Entity union for the AfDB connector — the rank-active Knoema dataset ids
+# (score >= publish threshold). Copied verbatim from
+# data/sources/afdb/work/entity_union.json. This is DATA (which datasets we
+# pull), not logic — node modules import it and stay logic-only.
+ENTITY_IDS = [
+    "borikzb",
+    "chsrlff",
+    "dhujbpg",
+    "diuiuie",
+    "gdsbodd",
+    "godhwvg",
+    "gthfmjd",
+    "gvdfnxe",
+    "hbevwhe",
+    "hbubefg",
+    "hpgqmwe",
+    "ihzaajb",
+    "kflwcpf",
+    "ldvivmd",
+    "lgevikf",
+    "nbyenxf",
+    "onszrad",
+    "oyrjqnf",
+    "rhhcqob",
+    "rlfbljb",
+    "salbpsf",
+    "tdadmkb",
+    "tyhgopb",
+    "uqojosf",
+    "vomwoge",
+    "wbmdcgd",
+    "xfdqgf",
+    "ypvsazc",
+    "zxckmae",
+]

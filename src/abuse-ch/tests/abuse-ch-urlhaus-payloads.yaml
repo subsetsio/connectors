@@ -1,0 +1,26 @@
+spec_id: abuse-ch-urlhaus-payloads
+status: active
+# Raw is the URLhaus payloads CSV normalized to ndjson — all string values.
+# One row per (url, payload) sighting, so the sha256 hash is NOT unique across
+# rows (the same sample is served from many URLs).
+tests:
+  - not_null: sha256
+    reason: a payload row is identified by its sample hash; the transform drops null-sha256 rows, so the raw should already carry it
+    certainty: 90
+  - matches: {col: sha256, pattern: '^[A-Fa-f0-9]{64}$'}
+    reason: sha256 is a 64-char hex digest
+    certainty: 95
+  - nullable: {col: md5, max_null_frac: 0.5}
+    reason: md5 is usually present alongside sha256, though older payload rows occasionally omit it
+    certainty: 70
+  - matches: {col: md5, pattern: '^[A-Fa-f0-9]{32}$'}
+    reason: when present, md5 is a 32-char hex digest
+    certainty: 85
+  - not_null: url
+    reason: each payload row records the URL the sample was served from
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: the payloads feed lists tens of thousands of distributed samples; far fewer means a truncated download
+    certainty: 85
+    points_outward: true
+    severity: warn

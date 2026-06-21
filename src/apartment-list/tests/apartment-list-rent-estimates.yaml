@@ -1,0 +1,38 @@
+spec_id: apartment-list-rent-estimates
+status: active
+tests:
+  - not_null: location_name
+  - not_null: location_fips_code
+  - not_null: month
+  - not_null: value
+  - not_null: bed_size
+  - column_type: {col: month, type: date}
+  - column_type: {col: value, type: float}
+  - enum: {col: location_type, values: [National, State, Metro, County, City]}
+    reason: source publishes these five geographic levels only
+    certainty: 90
+  - enum: {col: bed_size, values: [overall, 1br, 2br]}
+    reason: rent estimates are split into overall / 1br / 2br only
+    certainty: 90
+  - unique: [location_type, location_name, bed_size, month]
+    reason: melt emits one row per source location-row (location x bed_size) per month
+    certainty: 85
+  - row_count: {min: 300000}
+    reason: ~3.9k location-bedsize rows x ~110 months minus NA (~438k valued); <300k means truncated
+    certainty: 80
+  - between: {col: value, lo: 200, hi: 20000}
+    reason: monthly median rent in USD; national overall ~1400, priciest metros' 2br stay under 20k
+    certainty: 80
+  - median_between: {col: value, lo: 800, hi: 3000}
+    reason: unit guard (dollars, not cents/thousands); typical US rents
+    certainty: 60
+    severity: warn
+  - at_most: {col: month, expr: today}
+    reason: no future months
+    certainty: 95
+    points_outward: true
+  - freshness: {col: month, reaches: today - 120d}
+    reason: monthly product; newest month should be within ~4 months
+    certainty: 70
+    points_outward: true
+    severity: warn

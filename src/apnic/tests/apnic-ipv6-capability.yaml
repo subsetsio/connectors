@@ -1,0 +1,23 @@
+spec_id: apnic-ipv6-capability
+status: active
+tests:
+  - not_null: economy
+    certainty: 95
+  - not_null: date
+    certainty: 95
+  - matches: {col: economy, pattern: "^[A-Z]{2}$"}
+    reason: economy is an ISO-3166 alpha-2 code
+    certainty: 85
+  - between: {col: capable_pc, lo: 0, hi: 100}
+    reason: capable_pc is a percentage of measured samples
+    certainty: 90
+  - between: {col: preferred_pc, lo: 0, hi: 100}
+    certainty: 90
+  - between: {col: capable_pc_30d, lo: 0, hi: 100}
+    certainty: 85
+  - distinct_count: {col: economy, min: 150}
+    reason: APNIC measures ~240 economies; far fewer means the economy enumeration broke
+    certainty: 75
+  - row_count: {min: 100000}
+    reason: ~240 economies x thousands of daily samples each
+    certainty: 75

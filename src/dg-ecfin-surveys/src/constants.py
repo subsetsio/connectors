@@ -1,0 +1,22 @@
+"""Dataset-id selections for the dg-ecfin-surveys connector.
+
+These lists name which datasets/entities the connector pulls. They are data, not
+logic, so they live here instead of being hardcoded in the node module(s), and are
+imported back as e.g. ``from constants import ENTITY_IDS``.
+
+This file sits outside ``nodes/`` on purpose: ``load_nodes`` only scans ``nodes/``,
+so it is never treated as a node module, and the runner puts ``src/`` on the path
+so the import resolves at validation and at runtime.
+"""
+
+
+ENTITY_IDS = [
+    "BCS_BUIL_M", "BCS_BUIL_SUB_M", "BCS_CONS_M", "BCS_CONS_Q",
+    "BCS_CONS_SUB_5_6", "BCS_CONS_SUB_M", "BCS_CONS_SUB_Q", "BCS_INDU_FINV",
+    "BCS_INDU_M", "BCS_INDU_PINV", "BCS_INDU_Q", "BCS_INDU_SINV",
+    "BCS_INDU_SUB_M", "BCS_INDU_SUB_Q", "BCS_LH_INDICATORS",
+    "BCS_MAIN_INDICATORS", "BCS_MIG_M", "BCS_MIG_Q", "BCS_RETA_M",
+    "BCS_RETA_SUB_M", "BCS_SERV_FINV", "BCS_SERV_M", "BCS_SERV_PINV",
+    "BCS_SERV_Q", "BCS_SERV_SINV", "BCS_SERV_SUB_M", "BCS_SERV_SUB_Q",
+    "BCS_UNC_INDICATORS",
+]

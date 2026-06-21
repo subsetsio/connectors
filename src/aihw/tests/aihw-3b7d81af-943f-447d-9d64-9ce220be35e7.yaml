@@ -1,0 +1,16 @@
+spec_id: aihw-3b7d81af-943f-447d-9d64-9ce220be35e7
+status: active
+tests:
+  - not_null: geography
+  - not_null: cause_of_death
+  - matches: {col: year, pattern: '\d{4}.\d{4}'}
+    reason: MORT period is a 4-digit start-end range like 2019-2023
+    certainty: 70
+    severity: warn
+  - enum: {col: SEX, values: [Males, Females, Persons]}
+    certainty: 65
+    severity: warn
+  - row_count: {min: 1000}
+    certainty: 80
+  - distinct_count: {col: geography, min: 5}
+    certainty: 80

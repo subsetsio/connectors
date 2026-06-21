@@ -1,0 +1,24 @@
+spec_id: arcep-sites-indisponibles--sites-indisponibles
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: daily unavailable-mobile-site incidents; date + operator always set; a collapse to near-zero means the CSV family stopped enumerating
+    certainty: 80
+  - not_null: date
+    reason: date is a key/identifier column present on every source row
+    certainty: 85
+  - column_type: {col: date, type: string}
+    reason: raw is preserved verbatim as strings (decimal commas / leading zeros / NA sentinels)
+    certainty: 90
+  - not_null: operateur
+    reason: operateur is a key/identifier column present on every source row
+    certainty: 85
+  - column_type: {col: operateur, type: string}
+    reason: raw is preserved verbatim as strings (decimal commas / leading zeros / NA sentinels)
+    certainty: 90
+  - not_null: _resource_title
+    reason: provenance column stamped on every row by the fetch fn
+    certainty: 99
+  - not_null: _period
+    reason: this family's resources are date/quarter partitioned, so a period is derivable from the title
+    certainty: 75

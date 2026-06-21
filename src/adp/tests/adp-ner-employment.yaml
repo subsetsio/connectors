@@ -1,0 +1,48 @@
+spec_id: adp-ner-employment
+status: active
+# National Employment Report — U.S. private employment levels (raw + seasonally
+# adjusted), one long-format row per (frequency, aggregation, category, month/week).
+# Raw download keeps `date` as an ISO string; the transform casts it to DATE.
+tests:
+  - not_null: date
+    reason: the date is the series index; a null period is a malformed/truncated CSV row
+    certainty: 99
+  - not_null: ner
+    reason: NER is the headline raw employment level — every row in the history carries one
+    certainty: 95
+  - not_null: ner_sa
+    reason: every published series ships both raw and seasonally-adjusted levels
+    certainty: 90
+  - column_type: {col: date, type: string}
+    reason: raw layer stores the ISO date verbatim; casting to DATE is the transform's job
+    certainty: 95
+  - column_type: {col: ner, type: float}
+    certainty: 95
+  - matches: {col: date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: source emits ISO yyyy-mm-dd month/week stamps
+    certainty: 90
+  - enum: {col: timestep, values: [M, W]}
+    reason: NER is published at monthly (M) and weekly (W) frequency only
+    certainty: 88
+  - enum: {col: aggregation, values: [National, Industry, Census Divisions, Establishment Size]}
+    reason: the four breakdown families ADP slices private employment by
+    certainty: 75
+    severity: warn
+  - unique: [timestep, aggregation, category, date]
+    reason: long format is one row per series-period; dupes mean the corpus was concatenated twice
+    certainty: 95
+  - between: {col: ner, lo: 50000, hi: 200000000}
+    reason: employment levels are absolute headcounts — smallest category slice >50k, national private employment <200M
+    certainty: 80
+    severity: warn
+  - between: {col: ner_sa, lo: 50000, hi: 200000000}
+    certainty: 80
+    severity: warn
+  - row_count: {min: 20000}
+    reason: ~26k rows in the full history and growing one release at a time; a sharp drop = partial download
+    certainty: 85
+  - freshness: {col: date, reaches: today - 120d}
+    reason: monthly release; the latest month should be no more than ~4 months stale
+    certainty: 80
+    points_outward: true
+    severity: warn

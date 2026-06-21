@@ -1,0 +1,29 @@
+spec_id: baker-hughes-na-rig-count-monthly
+status: active
+# Current NA report, 'NAM Monthly' long sheet. Monthly averages, so rig_count
+# is fractional. County/basin/trajectory granularity, 2024-present.
+tests:
+  - not_null: country
+  - not_null: rig_count
+  - not_null: year
+  - not_null: month
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - column_type: {col: rig_count, type: float}
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - between: {col: year, lo: 2023, hi: current_year()}
+    reason: monthly long-format begins 2024 (methodology change)
+    certainty: 88
+  - at_least: {col: rig_count, expr: 0}
+    reason: monthly-average rig counts are non-negative
+    certainty: 98
+  - between: {col: rig_count, lo: 0, hi: 10000}
+    reason: granular monthly averages are small; a large value means a total row leaked in
+    certainty: 80
+    severity: warn
+  - enum: {col: country, values: [CANADA, UNITED STATES]}
+    certainty: 90
+  - enum: {col: gom, values: [Yes, No]}
+    certainty: 85
+    severity: warn

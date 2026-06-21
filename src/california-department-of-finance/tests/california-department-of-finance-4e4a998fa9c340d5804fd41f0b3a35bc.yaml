@@ -1,0 +1,8 @@
+spec_id: california-department-of-finance-4e4a998fa9c340d5804fd41f0b3a35bc
+status: active
+tests:
+  - row_count: {min: 50}
+    reason: counties PL94 view layer (58 CA counties) is a stable published DRU layer (~100+ rows observed while probing); a collapse below this floor means a truncated page or an unshared/empty source.
+    certainty: 75
+    points_outward: true
+    severity: warn

@@ -1,0 +1,14 @@
+spec_id: california-department-of-finance-7a040ca9fc594092aa86da996036095e
+status: active
+tests:
+  - row_count: {min: 2500}
+    reason: E5 2025 v2 (city/sub-county estimates) is a stable published DRU layer (~5000+ rows observed while probing); a collapse below this floor means a truncated page or an unshared/empty source.
+    certainty: 75
+    points_outward: true
+    severity: warn
+  - not_null: County
+    reason: County is a key identity column present on every feature observed; nulls mean the attribute set changed upstream or we read the wrong layer.
+    certainty: 85
+  - not_null: Year
+    reason: Year is a key identity column present on every feature observed; nulls mean the attribute set changed upstream or we read the wrong layer.
+    certainty: 85

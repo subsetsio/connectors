@@ -1,0 +1,50 @@
+spec_id: agmarknet-prices
+status: active
+# Raw is the data.gov.in OGD resource snapshot, saved as NDJSON — every field
+# arrives as a JSON string (the API does not type-cast), so expectations here
+# are about presence/shape of the raw string columns, not numeric types. The
+# transform does the DATE/DOUBLE casting downstream.
+tests:
+  # Identity dimensions are always present on a mandi price record.
+  - not_null: state
+    reason: every price quote is attributed to a state/UT; a null state means the crawl merged a malformed record
+    certainty: 95
+  - not_null: commodity
+    reason: a price with no commodity is meaningless; the resource always carries it
+    certainty: 95
+  - not_null: arrival_date
+    reason: each row is the price for one arrival_date; the snapshot is built around it
+    certainty: 95
+  - not_null: modal_price
+    reason: modal price is the headline figure the dataset publishes per row
+    certainty: 85
+    severity: warn
+
+  # arrival_date is the source's DD/MM/YYYY string (the transform parses it).
+  - matches: {col: arrival_date, pattern: "^[0-9]{2}/[0-9]{2}/[0-9]{4}$"}
+    reason: the OGD resource formats arrival_date as DD/MM/YYYY; a different shape breaks the transform's try_strptime
+    certainty: 90
+
+  # Prices are numeric strings (Rs./Quintal). Allow optional decimals.
+  - matches: {col: modal_price, pattern: "^[0-9]+(\\.[0-9]+)?$"}
+    reason: modal_price is a plain numeric string; non-numeric text would mean the field semantics changed
+    certainty: 75
+    severity: warn
+
+  # Coverage: India reports across ~37 states/UTs and ~200 commodities. The
+  # two-pass window+boundary crawl must surface a broad spread, not collapse to
+  # a single window.
+  - distinct_count: {col: state, min: 15}
+    reason: a healthy daily snapshot spans many states; a handful means the crawl truncated to one window
+    certainty: 90
+  - distinct_count: {col: commodity, min: 50}
+    reason: ~200 commodities trade on a typical day; far fewer signals a partial pull
+    certainty: 80
+    severity: warn
+
+  # The daily snapshot has consistently held ~18k rows.
+  - row_count: {min: 5000}
+    reason: the resource holds ~18k rows for the current arrival_date; far fewer means a truncated crawl or a near-empty source day
+    certainty: 85
+    points_outward: true
+    severity: warn

@@ -1,0 +1,15 @@
+spec_id: ca-qc-isq-heures-hebdomadaires-habituelles-moyennes-pour-lensemble-des-emplois-resultats-selon-le-sexe-pour-diverses-caracteristiques-de-la-main-doeuvre-et-de-lemploi-quebec-ontario-et-canada
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every ISQ table melts to at least one (row, value-column) cell; 0 rows means the page/backend returned nothing
+    certainty: 90
+  - not_null: row_idx
+    certainty: 95
+  - column_type: {col: row_idx, type: integer}
+    certainty: 95
+  - not_null: col_label
+    reason: every emitted cell carries a column label (real header or synthesized colN)
+    certainty: 90
+  - column_type: {col: value_num, type: float}
+    certainty: 80

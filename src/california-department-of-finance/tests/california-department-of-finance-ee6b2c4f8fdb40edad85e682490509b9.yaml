@@ -1,0 +1,8 @@
+spec_id: california-department-of-finance-ee6b2c4f8fdb40edad85e682490509b9
+status: active
+tests:
+  - row_count: {min: 400}
+    reason: HU stock by year and HU type, county & sub-county is a stable published DRU layer (~800+ rows observed while probing); a collapse below this floor means a truncated page or an unshared/empty source.
+    certainty: 75
+    points_outward: true
+    severity: warn

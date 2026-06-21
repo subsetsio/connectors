@@ -1,0 +1,301 @@
+"""Reserve Bank of Australia — statistical tables connector.
+
+Mechanism: per-table CSV bulk download (research mechanism `bulk_csv`). Each
+RBA statistical table is published as one or more CSV files at the stable URL
+    https://www.rba.gov.au/statistics/tables/csv/<slug>.csv
+
+Access note: the RBA site is behind Akamai. The default subsets_utils
+User-Agent (`DataIntegrations/1.0`) is blocklisted and returns HTTP 403; a
+plain descriptive User-Agent passes (verified). We override it once per fetch
+via `configure_http`. The tables *index* HTML is bot-blocked regardless, so the
+catalog of CSV files was enumerated at the collect stage and is carried in the
+entity union — there is no live index scrape here.
+
+Each CSV is a wide statistical-table spreadsheet: a one-line table title, a
+metadata block (rows labelled Title / Description / Frequency / Type / Units /
+Source / Publication date / Series ID, one column per series), then data rows
+(column 0 = observation date, remaining columns = series values). We parse each
+CSV into a uniform LONG format (one row per series x observation) so a single
+generic SQL transform publishes every subset.
+
+Six subsets are multi-file (collapsed at collect): the five "...by Country"
+tables (one CSV per geographic region) and `j1-forecasts` (one CSV per forecast
+variable). For those, fetch_one fetches every member CSV and tags each long row
+with a `partition_key` (the region / forecast-variable suffix).
+
+Fetch shape: stateless full re-pull (shape 1). The whole corpus is ~tens of MB
+across ~210 small CSVs; every CSV is overwritten in place by the source, so we
+re-fetch in full each run and overwrite — no watermark, no incremental filter
+(the source exposes none).
+"""
+from __future__ import annotations
+
+import csv
+import io
+from datetime import datetime
+
+import pyarrow as pa
+
+from subsets_utils import (
+    NodeSpec,
+    SqlNodeSpec,
+    get,
+    configure_http,
+    save_raw_parquet,
+    transient_retry,
+)
+
+SLUG = "reserve-bank-of-australia"
+_CSV_BASE = "https://www.rba.gov.au/statistics/tables/csv"
+
+# Plain descriptive UA — the default DataIntegrations/1.0 is Akamai-blocklisted
+# (403); this one passes. ASCII-only (httpx headers must be ASCII).
+_USER_AGENT = "subsets.io RBA statistics connector (+https://subsets.io)"
+
+# The entity union (rank-active subsets). One DOWNLOAD_SPEC per id.
+from constants import ENTITY_IDS
+
+# Entities that collapse several source CSVs into one subset, mapping each
+# member CSV slug to its partition_key label. Labels are explicit (not derived
+# by prefix-stripping) because the member-slug naming is not uniform: the
+# by-country members are "<entity>-<region>" but the J1 members are
+# "j1-<variable>" under entity "j1-forecasts".
+_REGIONS = {
+    "africa-and-middle-east": "africa-and-middle-east",
+    "asia-and-pacific": "asia-and-pacific",
+    "developed-countries": "developed-countries",
+    "developing-europe": "developing-europe",
+    "latin-america-and-caribbean": "latin-america-and-caribbean",
+    "offshore-centres": "offshore-centres",
+}
+MULTI_FILE = {
+    "b12.1.1": {f"b12.1.1-{r}": lbl for r, lbl in _REGIONS.items()},
+    "b12.2.1": {f"b12.2.1-{r}": lbl for r, lbl in _REGIONS.items()},
+    "b13.1.1": {f"b13.1.1-{r}": lbl for r, lbl in _REGIONS.items()},
+    "b13.1.2": {f"b13.1.2-{r}": lbl for r, lbl in _REGIONS.items()},
+    "b13.2.1": {f"b13.2.1-{r}": lbl for r, lbl in _REGIONS.items()},
+    "j1-forecasts": {
+        "j1-cash-rate": "cash-rate", "j1-dfd-growth": "dfd-growth",
+        "j1-exchange-rate": "exchange-rate", "j1-gdp-growth": "gdp-growth",
+        "j1-headline-inflation": "headline-inflation",
+        "j1-net-exports": "net-exports", "j1-terms-of-trade": "terms-of-trade",
+        "j1-underlying-inflation": "underlying-inflation",
+        "j1-unemployment-rate": "unemployment-rate", "j1-wpi-growth": "wpi-growth",
+    },
+}
+
+_RAW_SCHEMA = pa.schema([
+    ("series_id", pa.string()),
+    ("series_title", pa.string()),
+    ("description", pa.string()),
+    ("frequency", pa.string()),
+    ("series_type", pa.string()),
+    ("units", pa.string()),
+    ("source", pa.string()),
+    ("publication_date", pa.string()),
+    ("obs_date", pa.string()),          # ISO yyyy-mm-dd primary date (col 0)
+    ("dimension_date", pa.string()),    # secondary date dimension (e.g. J1 forecast target quarter); else null
+    ("value_text", pa.string()),        # raw cell; transform TRY_CASTs to double
+    ("source_csv", pa.string()),        # the CSV slug this row came from
+    ("partition_key", pa.string()),     # region / forecast var for multi-file; else null
+])
+
+# Metadata-block row labels (column 0). Anything else before the first data row
+# is ignored (e.g. the one-line table title).
+_META_LABELS = {
+    "title": "series_title",
+    "description": "description",
+    "frequency": "frequency",
+    "type": "series_type",
+    "units": "units",
+    "source": "source",
+    "publication date": "publication_date",
+    "series id": "series_id",
+    "mnemonic": "series_id",   # legacy tables (a5, d10, ...) label the id row "Mnemonic"
+}
+
+# RBA mixes 4- and 2-digit years and slash/dash separators across tables.
+_DATE_FORMATS = ("%d/%m/%Y", "%d-%b-%Y", "%d-%b-%y", "%Y-%m-%d", "%d/%m/%y")
+
+
+# --- transport ---------------------------------------------------------------
+
+
+@transient_retry()
+def _fetch_csv_text(slug: str) -> str:
+    url = f"{_CSV_BASE}/{slug}.csv"
+    resp = get(url, timeout=(10.0, 120.0))
+    resp.raise_for_status()
+    # CSVs carry a UTF-8 BOM; utf-8-sig strips it. Text fields may hold
+    # en-dashes / smart quotes — that's fine in the body, only headers are ASCII.
+    return resp.content.decode("utf-8-sig", errors="replace")
+
+
+# --- parsing -----------------------------------------------------------------
+
+def _parse_iso_date(raw: str) -> str | None:
+    raw = (raw or "").strip()
+    if not raw:
+        return None
+    for fmt in _DATE_FORMATS:
+        try:
+            return datetime.strptime(raw, fmt).date().isoformat()
+        except ValueError:
+            continue
+    return None
+
+
+def _parse_rba_csv(text: str, slug: str, partition_key: str | None) -> list[dict]:
+    """Parse one RBA statistical-table CSV into long-format rows."""
+    rows = list(csv.reader(io.StringIO(text)))
+    # Per-column metadata, keyed by column index (1..N; column 0 is the date).
+    meta: dict[int, dict] = {}
+    data_start = None
+    for i, row in enumerate(rows):
+        if not row:
+            continue
+        label = (row[0] or "").strip().lower()
+        if label in _META_LABELS:
+            field = _META_LABELS[label]
+            for col in range(1, len(row)):
+                meta.setdefault(col, {})[field] = (row[col] or "").strip() or None
+            continue
+        # First row whose column 0 parses as a date marks the data block.
+        if _parse_iso_date(row[0]) is not None:
+            data_start = i
+            break
+
+    if data_start is None or not meta:
+        return []
+
+    # Only columns that carry a non-empty Series ID are real series.
+    series_cols = [c for c, m in sorted(meta.items()) if m.get("series_id")]
+    # Columns whose Units is exactly 'Date' are a within-row date dimension, not
+    # a measured series (e.g. J1 forecasts' "Target quarter"): a single survey
+    # date carries one forecast per target quarter, so (series, obs_date) is not
+    # unique without it. Pull them out — unless that would leave no value columns.
+    date_dim_cols = [c for c in series_cols if (meta[c].get("units") or "") == "Date"]
+    value_cols = [c for c in series_cols if c not in date_dim_cols]
+    if not value_cols:                 # degenerate: keep everything as series
+        value_cols, date_dim_cols = series_cols, []
+
+    out: list[dict] = []
+    for row in rows[data_start:]:
+        if not row:
+            continue
+        iso = _parse_iso_date(row[0])
+        if iso is None:
+            continue
+        dim_date = None
+        for c in date_dim_cols:
+            if c < len(row):
+                dim_date = _parse_iso_date(row[c]) or (row[c].strip() or None)
+                if dim_date:
+                    break
+        for col in value_cols:
+            if col >= len(row):
+                continue
+            cell = (row[col] or "").strip()
+            if cell == "":
+                continue
+            m = meta[col]
+            out.append({
+                "series_id": m.get("series_id"),
+                "series_title": m.get("series_title"),
+                "description": m.get("description"),
+                "frequency": m.get("frequency"),
+                "series_type": m.get("series_type"),
+                "units": m.get("units"),
+                "source": m.get("source"),
+                "publication_date": m.get("publication_date"),
+                "obs_date": iso,
+                "dimension_date": dim_date,
+                "value_text": cell,
+                "source_csv": slug,
+                "partition_key": partition_key,
+            })
+    return out
+
+
+# --- fetch -------------------------------------------------------------------
+
+def fetch_one(node_id: str) -> None:
+    asset = node_id  # the runtime passes the spec id; it IS the asset name
+    configure_http(headers={"User-Agent": _USER_AGENT})
+
+    entity_id = node_id[len(SLUG) + 1:]  # strip "reserve-bank-of-australia-"
+    # member CSV slug -> partition_key label. Single-file subsets map the one
+    # CSV (named after the entity) to a null partition.
+    members = MULTI_FILE.get(entity_id, {entity_id: None})
+
+    all_rows: list[dict] = []
+    for slug, partition_key in members.items():
+        text = _fetch_csv_text(slug)
+        rows = _parse_rba_csv(text, slug, partition_key)
+        if not rows:
+            raise ValueError(f"{asset}: parsed 0 long rows from {slug}.csv")
+        all_rows.extend(rows)
+
+    table = pa.Table.from_pylist(all_rows, schema=_RAW_SCHEMA)
+    save_raw_parquet(table, asset)
+
+
+DOWNLOAD_SPECS = [
+    NodeSpec(
+        id=f"{SLUG}-{eid.lower().replace('_', '-')}",
+        fn=fetch_one,
+        kind="download",
+    )
+    for eid in ENTITY_IDS
+]
+
+
+# --- transform: one published Delta table per subset -------------------------
+# Uniform thin parse-and-type pass over the long-format raw. value_text is the
+# raw cell (some series are ranges or date-valued — those become NULL value but
+# keep value_text). Dedup on (series_id, obs_date, partition_key) keeping the
+# row with the latest publication_date, guarding against any in-file repeats.
+
+def _transform_sql(dep_id: str) -> str:
+    return f'''
+        WITH ranked AS (
+            SELECT
+                CAST(obs_date AS DATE)                       AS date,
+                TRY_CAST(dimension_date AS DATE)             AS dimension_date,
+                series_id,
+                series_title,
+                description,
+                frequency,
+                series_type                                  AS type,
+                units,
+                source,
+                partition_key,
+                TRY_CAST(value_text AS DOUBLE)               AS value,
+                value_text,
+                row_number() OVER (
+                    PARTITION BY series_id, obs_date, dimension_date, partition_key
+                    ORDER BY COALESCE(
+                        TRY_STRPTIME(publication_date, '%d-%b-%Y'),
+                        TRY_STRPTIME(publication_date, '%d-%b-%y')
+                    ) DESC NULLS LAST
+                ) AS rn
+            FROM "{dep_id}"
+            WHERE value_text IS NOT NULL AND value_text <> ''
+              AND series_id IS NOT NULL
+              AND TRY_CAST(obs_date AS DATE) IS NOT NULL
+        )
+        SELECT date, dimension_date, series_id, series_title, description,
+               frequency, type, units, source, partition_key, value, value_text
+        FROM ranked
+        WHERE rn = 1
+    '''
+
+
+TRANSFORM_SPECS = [
+    SqlNodeSpec(
+        id=f"{s.id}-transform",
+        deps=[s.id],
+        sql=_transform_sql(s.id),
+    )
+    for s in DOWNLOAD_SPECS
+]

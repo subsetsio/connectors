@@ -1,0 +1,27 @@
+spec_id: american-public-transportation-association-ridership-by-mode-quarter
+status: active
+tests:
+  - not_null: year
+    reason: every quarterly row carries its calendar year
+    certainty: 97
+  - not_null: quarter
+    reason: every row carries its quarter label
+    certainty: 97
+  - column_type: {col: year, type: integer}
+    reason: year parsed to int
+    certainty: 90
+  - between: {col: year, lo: 1990, hi: 2035}
+    reason: the series starts in 1990
+    certainty: 90
+  - matches: {col: quarter, pattern: '^Q[1-4]$'}
+    reason: quarter labels are Q1-Q4
+    certainty: 88
+  - not_null: total_unlinked_trips_000s
+    reason: every quarter reports a national total ridership
+    certainty: 90
+  - unique: [year, quarter]
+    reason: one row per (year, quarter)
+    certainty: 80
+  - row_count: {min: 120}
+    reason: the source workbook is stable; far fewer rows means the parse or fetch broke
+    certainty: 85

@@ -1,0 +1,12 @@
+spec_id: census-and-statistics-department-210-06201a
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every C&SD web table publishes at least one component CSV of observations
+    certainty: 90
+  - not_null: stat_var
+    reason: the fetch fn tags every row with the statistical-variable code it came from
+    certainty: 97
+  - column_type: {col: obs_value, type: float}
+    reason: obs_value is the numeric observation; the fetch fn casts every cell to float
+    certainty: 85

@@ -1,0 +1,31 @@
+spec_id: american-enterprise-institute-housing-market-indicators
+status: active
+tests:
+  - not_null: metro
+    reason: every row is labelled with a metro (or 'National'); a null metro means parsing slipped a column
+    certainty: 95
+  - not_null: year_quarter
+    certainty: 95
+  - not_null: segment
+    certainty: 95
+  - matches: {col: year_quarter, pattern: "^[0-9]{4}:Q[1-4]$"}
+    reason: source encodes the period as 'YYYY:Qn'
+    certainty: 90
+  - enum: {col: segment, values: [Overall, Entry-level, Move-up]}
+    reason: AEI splits each metro into three market segments
+    certainty: 85
+  - column_type: {col: median_sale_price, type: float}
+    certainty: 80
+  - distinct_count: {col: metro, min: 90, max: 110}
+    reason: National + ~100 largest metros
+    certainty: 80
+  - row_count: {min: 10000}
+    reason: ~100 metros x 3 segments x 50+ quarters from 2012 onward
+    certainty: 85
+  - median_between: {col: median_sale_price, lo: 50000, hi: 1500000}
+    reason: US metro median sale prices in dollars; guards against a units shift (e.g. thousands)
+    certainty: 60
+    severity: warn
+  - unique: [metro, segment, year_quarter]
+    reason: one row per metro-segment-quarter; dupes mean the workbook was double-read
+    certainty: 85

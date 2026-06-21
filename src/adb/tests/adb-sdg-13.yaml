@@ -1,0 +1,30 @@
+spec_id: adb-sdg-13
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: an A.. full-dataflow pull of a rank-active leaf dataflow always returns observations; an empty raw table means the dataflow id is wrong or the endpoint changed.
+    certainty: 95
+  - not_null: DATAFLOW
+    certainty: 97
+  - not_null: FREQ
+    certainty: 97
+  - not_null: INDICATOR
+    reason: every SDMX-CSV observation row carries its indicator dimension.
+    certainty: 97
+  - not_null: ECONOMY_CODE
+    reason: every observation row carries its reference-area (economy) dimension.
+    certainty: 97
+  - not_null: TIME_PERIOD
+    certainty: 97
+  - enum: {col: FREQ, values: ["A"]}
+    reason: we request the A.. key (annual frequency); KIDB exposes only annual data, so FREQ is uniformly 'A'.
+    certainty: 95
+  - matches: {col: TIME_PERIOD, pattern: "^[0-9]{4}$"}
+    reason: SDMX TIME_PERIOD for annual data is a bare 4-digit year.
+    certainty: 95
+  - matches: {col: DATAFLOW, pattern: "^ADB:SDG_13\\("}
+    reason: SDMX-CSV stamps each row with the source dataflow urn 'ADB:SDG_13(<version>)'; a mismatch means this node fetched the wrong dataflow.
+    certainty: 90
+  - unique: [INDICATOR, ECONOMY_CODE, TIME_PERIOD]
+    reason: KIDB stores one observation per indicator-economy-year; duplicates would mean the SDMX-CSV was double-counted or the raw was appended without overwrite.
+    certainty: 88

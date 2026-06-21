@@ -1,0 +1,56 @@
+spec_id: adp-pay-insights
+status: active
+# Pay Insights — median YoY pay change (%) and median annual pay ($), one
+# long-format row per (aggregation, category, month). Monthly only, back to
+# 2020-11. Raw download keeps `date` as an ISO string; the transform casts it.
+tests:
+  - not_null: date
+    reason: the date is the series index; a null period is a malformed/truncated CSV row
+    certainty: 99
+  - not_null: median_pay_change
+    reason: every published row carries a median YoY pay-change reading
+    certainty: 95
+  - not_null: median_annual_pay
+    reason: every published row carries a median annual pay reading
+    certainty: 95
+  - column_type: {col: date, type: string}
+    reason: raw layer stores the ISO date verbatim; casting to DATE is the transform's job
+    certainty: 95
+  - column_type: {col: median_pay_change, type: float}
+    certainty: 95
+  - column_type: {col: median_annual_pay, type: float}
+    certainty: 95
+  - matches: {col: date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: source emits ISO yyyy-mm-dd month stamps
+    certainty: 90
+  - enum: {col: timestep, values: [M]}
+    reason: Pay Insights is published monthly only — no weekly series
+    certainty: 85
+    severity: warn
+  - enum: {col: aggregation, values: [State, Industry, Firm Size, Age, Gender, Worker Type]}
+    reason: the six breakdown families ADP slices pay by
+    certainty: 75
+    severity: warn
+  - unique: [timestep, aggregation, category, date]
+    reason: long format is one row per series-period; dupes mean the corpus was concatenated twice
+    certainty: 95
+  - between: {col: median_pay_change, lo: -20, hi: 50}
+    reason: median YoY pay change is a percent; real-world job-stayer medians sit in single-to-low-double digits, never near 100
+    certainty: 80
+    severity: warn
+  - between: {col: median_annual_pay, lo: 10000, hi: 500000}
+    reason: median annual pay is whole dollars (not thousands) — tens of thousands per the source
+    certainty: 80
+    severity: warn
+  - median_between: {col: median_annual_pay, lo: 30000, hi: 120000}
+    reason: cross-slice median annual pay should land in the $30k-$120k band; outside that signals a unit ($ vs $k) error
+    certainty: 65
+    severity: warn
+  - row_count: {min: 4000}
+    reason: ~5k rows in the full history and growing one release at a time; a sharp drop = partial download
+    certainty: 85
+  - freshness: {col: date, reaches: today - 120d}
+    reason: monthly release; the latest month should be no more than ~4 months stale
+    certainty: 80
+    points_outward: true
+    severity: warn

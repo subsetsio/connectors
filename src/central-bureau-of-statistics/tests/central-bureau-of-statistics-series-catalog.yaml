@@ -1,0 +1,23 @@
+spec_id: central-bureau-of-statistics-series-catalog
+status: active
+tests:
+  - not_null: series_id
+    reason: every catalog row is a real time series keyed by its numeric id
+    certainty: 95
+  - column_type: {col: series_id, type: integer}
+    certainty: 90
+  - unique: series_id
+    reason: one row per series; duplicates mean a subject subtree was double-counted
+    certainty: 85
+  - not_null: subject_code
+    reason: every series sits under a level-1 subject
+    certainty: 90
+  - nullable: {col: series_name, max_null_frac: 0.1}
+    reason: series name comes from the leaf path node; almost always present
+    certainty: 75
+  - nullable: {col: frequency, max_null_frac: 0.05}
+    reason: time dimension (Year/Month/Quarter) is set on essentially every series
+    certainty: 80
+  - row_count: {min: 5000}
+    reason: the national corpus spans tens of thousands of series across 33 subjects; <5k means the subject crawl stopped early
+    certainty: 80

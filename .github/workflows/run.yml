@@ -1,0 +1,60 @@
+name: Run Connector
+run-name: "${{ inputs.slug }} :: ${{ inputs.run_id }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: Connector directory under the repo root
+        required: true
+        type: string
+      run_id:
+        description: Harness run id (groups self-retrigger continuations)
+        required: false
+        type: string
+      dag_target:
+        description: Restrict the DAG to this node kind (e.g. transform)
+        required: false
+        type: string
+      dag_on_failure:
+        description: "crash | continue"
+        required: false
+        type: string
+        default: continue
+
+concurrency:
+  group: run-${{ inputs.slug }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+      - name: Run connector
+        working-directory: src/${{ inputs.slug }}
+        run: |
+          uv sync
+          uv run python -m src.subsets_utils.runner
+        env:
+          PYTHONUNBUFFERED: "1"
+          CI: "true"
+          # Capture http/data/run/state CSVs into LOG_DIR (evacuated to R2
+          # with the rest of the logs). Opt-in flag, default-on for cloud runs.
+          ENABLE_LOGGING: "true"
+          CONNECTOR_NAME: ${{ inputs.slug }}
+          RUN_ID: ${{ inputs.run_id }}
+          DAG_TARGET: ${{ inputs.dag_target }}
+          DAG_ON_FAILURE: ${{ inputs.dag_on_failure }}
+          # Single-repo: every Actions secret arrives as one JSON blob; the
+          # connector runner expands it into the environment at startup. No
+          # per-connector env wiring — `sync_secrets.py` is the only place
+          # secret names are managed.
+          HARNESS_SECRETS: ${{ toJSON(secrets) }}

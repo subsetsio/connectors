@@ -1,0 +1,15 @@
+spec_id: aihw-c39b4db3-5d92-4cc1-b49d-92e63fc72b77
+status: active
+tests:
+  - not_null: Year
+  - not_null: Cancer_Type
+  - between: {col: Year, lo: 1960, hi: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - row_count: {min: 100}
+    certainty: 80
+  - median_between: {col: Aust_Mortality_to_incidence_ratio, lo: 0, hi: 5}
+    reason: a mortality-to-incidence ratio is typically between 0 and ~2
+    certainty: 55
+    severity: warn

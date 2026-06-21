@@ -1,0 +1,16 @@
+spec_id: adobe-dei-total-dollars-spent-through-bnpl
+status: active
+tests:
+  - not_null: _file_date
+  - not_null: "date"
+    reason: this chart uses a lowercase 'date' key (M/D/YY or Excel serial)
+    certainty: 90
+  - not_null: "Growth"
+    reason: despite the slug name, the data column is a YoY percentage (Growth)
+    certainty: 80
+  - matches: {col: _file_ym, pattern: '^[0-9]{4}-[a-z]{3}$'}
+    certainty: 95
+  - distinct_count: {col: _file_ym, min: 3}
+    certainty: 80
+  - row_count: {min: 10}
+    certainty: 80

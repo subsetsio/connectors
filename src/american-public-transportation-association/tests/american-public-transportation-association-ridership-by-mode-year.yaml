@@ -1,0 +1,21 @@
+spec_id: american-public-transportation-association-ridership-by-mode-year
+status: active
+tests:
+  - not_null: year
+    reason: every annual row carries its year
+    certainty: 97
+  - column_type: {col: year, type: integer}
+    reason: year parsed to int
+    certainty: 90
+  - between: {col: year, lo: 1990, hi: 2035}
+    reason: the annual series starts in 1990
+    certainty: 90
+  - not_null: total_unlinked_trips_000s
+    reason: every year reports a national total
+    certainty: 90
+  - unique: [year]
+    reason: one row per year
+    certainty: 85
+  - row_count: {min: 30}
+    reason: the source workbook is stable; far fewer rows means the parse or fetch broke
+    certainty: 85

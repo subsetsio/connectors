@@ -1,0 +1,23 @@
+spec_id: central-bank-of-argentina-monetary-values
+status: active
+tests:
+  - not_null: idVariable
+    certainty: 95
+  - not_null: fecha
+    certainty: 95
+  - not_null: valor
+    reason: observation rows carry a numeric value; nulls would mean the detalle parse misaligned
+    certainty: 85
+  - column_type: {col: idVariable, type: integer}
+    certainty: 90
+  - column_type: {col: valor, type: float}
+    certainty: 90
+  - matches: {col: fecha, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: BCRA returns ISO dates per detalle point
+    certainty: 90
+  - unique: [idVariable, fecha]
+    reason: one observation per variable per date; dupes mean a page was re-pulled without overwrite
+    certainty: 90
+  - row_count: {min: 100000}
+    reason: ~1581 series, many daily since the 1990s; a tiny count means most series were dropped
+    certainty: 80

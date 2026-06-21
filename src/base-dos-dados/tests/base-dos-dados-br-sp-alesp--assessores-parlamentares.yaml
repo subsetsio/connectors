@@ -1,0 +1,6 @@
+spec_id: base-dos-dados-br-sp-alesp--assessores-parlamentares
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every one-click table publishes at least one data row; an empty publish means a truncated/failed download
+    certainty: 90

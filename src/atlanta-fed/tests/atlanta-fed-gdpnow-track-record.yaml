@@ -1,0 +1,34 @@
+spec_id: atlanta-fed-gdpnow-track-record
+status: active
+tests:
+  - not_null: quarter_end_date
+    reason: every track-record row is keyed by the forecast quarter; a null quarter means a parse misalignment
+    certainty: 95
+  - not_null: gdpnow_forecast
+    reason: a track-record row only exists once the model issued a final nowcast for that quarter
+    certainty: 95
+  - not_null: bea_advance_estimate
+    reason: a quarter enters the track record only after BEA publishes its advance estimate
+    certainty: 95
+  - column_type: {col: quarter_end_date, type: string}
+    reason: raw stores the quarter end as an ISO date string; the transform casts to DATE
+    certainty: 90
+  - column_type: {col: gdpnow_forecast, type: float}
+    certainty: 90
+  - unique: quarter_end_date
+    reason: one row per forecast quarter; dupes mean the sheet was double-read or overwrite failed
+    certainty: 95
+  - row_count: {min: 50}
+    reason: GDPNow track record runs since 2011:Q3 (~59 quarters as of 2026) and only grows
+    certainty: 90
+  - between: {col: gdpnow_forecast, lo: -70, hi: 50}
+    reason: annualized real-GDP nowcasts; the COVID Q2-2020 print reached ~-50, so allow wide bounds
+    certainty: 85
+    severity: warn
+  - between: {col: bea_advance_estimate, lo: -70, hi: 50}
+    reason: same annualized real-GDP scale as the nowcast it is compared against
+    certainty: 85
+    severity: warn
+  - relationship: {left: absolute_error, op: ">=", right: error}
+    reason: absolute_error is |error|, so it is always >= the signed error
+    certainty: 99

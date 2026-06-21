@@ -1,0 +1,9 @@
+spec_id: american-public-transportation-association-vehicle-equipment
+status: active
+tests:
+  - not_null: transit_agency_name
+    reason: every equipment row belongs to a named agency
+    certainty: 90
+  - row_count: {min: 400}
+    reason: the source workbook is stable; far fewer rows means the parse or fetch broke
+    certainty: 85

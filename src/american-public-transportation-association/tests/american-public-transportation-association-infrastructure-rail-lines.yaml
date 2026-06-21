@@ -1,0 +1,9 @@
+spec_id: american-public-transportation-association-infrastructure-rail-lines
+status: active
+tests:
+  - not_null: organization_name
+    reason: every infrastructure row belongs to a named organization
+    certainty: 88
+  - row_count: {min: 50}
+    reason: the source workbook is stable; far fewer rows means the parse or fetch broke
+    certainty: 85

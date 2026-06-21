@@ -1,0 +1,30 @@
+spec_id: aaa-state-fuel-prices
+status: active
+tests:
+  - not_null: date
+  - not_null: state_code
+  - not_null: fuel_grade
+  - not_null: price_usd
+  - column_type: {col: date, type: date}
+  - column_type: {col: price_usd, type: float}
+  - matches: {col: state_code, pattern: '^[A-Z]{2}$'}
+    reason: state/territory keyed by the page's 2-letter code
+    certainty: 95
+  - enum: {col: fuel_grade, values: [Regular, Mid-Grade, Premium, Diesel, E85]}
+    certainty: 90
+  - distinct_count: {col: state_code, min: 50}
+    reason: 50 states + DC + territories; far fewer means the state selector or per-state fetch broke
+    certainty: 90
+  - unique: [date, state_code, fuel_grade]
+    reason: one statewide average per grade per state per date
+    certainty: 95
+  - between: {col: price_usd, lo: 0.5, hi: 12}
+    reason: US retail fuel in $/gal; HI/CA run high but stay under ~7
+    certainty: 90
+  - median_between: {col: price_usd, lo: 2, hi: 8}
+    certainty: 60
+    severity: warn
+  - freshness: {col: date, reaches: today - 7d}
+    points_outward: true
+    severity: warn
+    certainty: 75

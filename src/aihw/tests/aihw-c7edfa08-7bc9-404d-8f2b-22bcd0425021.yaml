@@ -1,0 +1,14 @@
+spec_id: aihw-c7edfa08-7bc9-404d-8f2b-22bcd0425021
+status: active
+tests:
+  - not_null: year
+  - not_null: state
+  - between: {col: year, lo: 2008, hi: current_year()}
+    reason: youth detention data covers June 2008 onward
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - row_count: {min: 1000}
+    certainty: 80
+  - distinct_count: {col: state, min: 6}
+    certainty: 75

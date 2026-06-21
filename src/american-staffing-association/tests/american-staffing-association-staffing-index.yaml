@@ -1,0 +1,25 @@
+spec_id: american-staffing-association-staffing-index
+status: active
+# Raw is the "52 week 2006-present" tab of the ASA Staffing Index workbook,
+# written to ndjson with values kept as raw strings (blank cells -> null);
+# the transform does the date/number typing. One row per week-ending date
+# since June 2006, index set at 100 on 6/12/2006.
+tests:
+  - not_null: week_ending
+    reason: every weekly observation is keyed by its week-ending date
+    certainty: 95
+  - not_null: staffing_index
+    reason: the index level is the headline value of this series
+    certainty: 95
+  - matches: {col: week_ending, pattern: '^\d{1,2}/\d{1,2}/\d{4}$'}
+    reason: gviz exports the week-ending date as M/D/YYYY text
+    certainty: 90
+  - matches: {col: staffing_index, pattern: '^-?\d+(\.\d+)?$'}
+    reason: the index is a numeric value rendered as a decimal string
+    certainty: 90
+  - unique: week_ending
+    reason: the index publishes exactly one value per week-ending date
+    certainty: 85
+  - row_count: {min: 900}
+    reason: weekly since mid-2006 is ~1000 rows; far fewer means a truncated pull
+    certainty: 90

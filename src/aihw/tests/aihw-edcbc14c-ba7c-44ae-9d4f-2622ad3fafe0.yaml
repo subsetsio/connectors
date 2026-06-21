@@ -1,0 +1,20 @@
+spec_id: aihw-edcbc14c-ba7c-44ae-9d4f-2622ad3fafe0
+status: active
+tests:
+  - not_null: year
+  - not_null: cause_of_death
+  - row_count: {min: 100000}
+    reason: GRIM spans 1907-2023 x ~56 cause groups x sex x age bands (~373k rows observed)
+    certainty: 85
+  - between: {col: year, lo: 1900, hi: current_year()}
+    reason: GRIM starts as early as 1907; latest data ~2023
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - enum: {col: sex, values: [Males, Females, Persons]}
+    reason: GRIM reports by Males/Females/Persons
+    certainty: 65
+    severity: warn
+  - distinct_count: {col: grim, min: 40}
+    reason: all causes combined + 55 cause groupings
+    certainty: 80

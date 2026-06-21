@@ -1,0 +1,34 @@
+spec_id: bceao-values
+status: active
+tests:
+  - not_null: series_code
+  - not_null: value
+  - not_null: date
+  - not_null: locality
+  - not_null: frequency
+  - column_type: {col: value, type: float}
+  - column_type: {col: date, type: date}
+  - enum: {col: frequency, values: ["A", "M", "T", "J"]}
+    reason: we only fetch annual/monthly/quarterly/daily; S/H/D are excluded by design
+    certainty: 95
+  - enum: {col: locality, values: ["A", "B", "C", "D", "H", "K", "S", "T", "Z"]}
+    reason: 8 WAEMU member states + the UEMOA aggregate (EDEN's single-letter codes)
+    certainty: 95
+  - matches: {col: series_code, pattern: "^[A-Z]{2}[0-9]"}
+    reason: code is <sector 2 letters><subsector digit>... (locality prefix already stripped)
+    certainty: 90
+  - row_count: {min: 100000}
+    reason: thousands of series x 9 localities x decades of history; well over 100k non-null obs
+    certainty: 85
+  - distinct_count: {col: series_code, min: 1000}
+    reason: EDEN exposes well over a thousand distinct indicator codes
+    certainty: 85
+  - freshness: {col: date, reaches: today - 400d}
+    reason: daily money-market/treasury and monthly series keep the max date recent
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - at_least: {col: date, expr: "1960-01-01"}
+    reason: earliest annual history in EDEN starts around 1960
+    certainty: 75
+    severity: warn

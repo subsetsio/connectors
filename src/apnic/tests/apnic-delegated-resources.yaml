@@ -1,0 +1,23 @@
+spec_id: apnic-delegated-resources
+status: active
+tests:
+  - not_null: registry
+    reason: every delegated record names the registry (always 'apnic' here)
+    certainty: 95
+  - enum: {col: registry, values: ["apnic"]}
+    reason: this is the apnic-specific delegated file
+    certainty: 90
+  - enum: {col: resource_type, values: ["asn", "ipv4", "ipv6"]}
+    reason: RIR stats format only has these three resource types
+    certainty: 95
+  - enum: {col: status, values: ["allocated", "assigned", "available", "reserved"]}
+    reason: delegated-extended status vocabulary
+    certainty: 85
+  - not_null: resource_type
+    certainty: 95
+  - row_count: {min: 100000}
+    reason: APNIC delegated file held ~188k records when probed; a big drop means truncation
+    certainty: 80
+  - at_least: {col: value, expr: 1}
+    reason: address/ASN counts and prefix lengths are positive
+    certainty: 80

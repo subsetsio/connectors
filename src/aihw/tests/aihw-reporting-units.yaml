@@ -1,0 +1,22 @@
+spec_id: aihw-reporting-units
+status: active
+tests:
+  - not_null: reporting_unit_code
+  - not_null: reporting_unit_name
+  - unique: reporting_unit_code
+    reason: one row per reporting unit
+    certainty: 80
+  - column_type: {col: latitude, type: float}
+    certainty: 85
+  - column_type: {col: closed, type: boolean}
+    certainty: 85
+  - between: {col: latitude, lo: -45, hi: -9}
+    reason: Australian latitudes span roughly -10 (north) to -44 (Tasmania)
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - row_count: {min: 1000}
+    reason: ~1427 reporting units observed
+    certainty: 80
+  - distinct_count: {col: reporting_unit_type_name, min: 3}
+    certainty: 80

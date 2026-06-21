@@ -1,0 +1,26 @@
+spec_id: baker-hughes-worldwide-rig-count-historical-monthly
+status: active
+# Frozen 'Worldwide Rig Count' archive. Stable UUID, never updated. Monthly
+# rig counts by region (and 'Total World'), stacked year-blocks.
+tests:
+  - not_null: date
+  - not_null: region
+  - not_null: rig_count
+  - matches: {col: date, pattern: '^\d{4}-\d{2}-01$'}
+    reason: monthly data normalized to the first of the month, ISO string
+    certainty: 90
+  - at_least: {col: date, expr: '1990-01-01'}
+    reason: archive's earliest stacked year-block is 1990
+    certainty: 85
+  - at_most: {col: date, expr: '2024-04-01'}
+    reason: frozen archive ends Mar 2024; never re-published
+    certainty: 95
+  - at_least: {col: rig_count, expr: 0}
+    certainty: 98
+  - between: {col: rig_count, lo: 0, hi: 100000}
+    reason: "'Total World' is the largest aggregate, historically a few thousand"
+    certainty: 88
+    severity: warn
+  - distinct_count: {col: region, min: 5}
+    reason: continental regions plus a 'Total World' line
+    certainty: 85

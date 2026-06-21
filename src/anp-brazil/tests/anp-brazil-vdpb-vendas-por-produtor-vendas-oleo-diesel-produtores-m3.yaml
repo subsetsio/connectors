@@ -1,0 +1,12 @@
+spec_id: anp-brazil-vdpb-vendas-por-produtor-vendas-oleo-diesel-produtores-m3
+status: active
+tests:
+  - row_count: {min: 300}
+    reason: ANP publishes the full history for this series; a tiny table means a download/parse break or a renamed file path.
+    certainty: 80
+  - not_null: ano
+    reason: every row is stamped with its period; nulls here mean header misalignment or wrong delimiter/encoding.
+    certainty: 90
+  - matches: {col: ano, pattern: '^[0-9]{4}$'}
+    reason: raw period column must match the source's documented format (^[0-9]{4}$); a mismatch flags an encoding/delimiter regression.
+    certainty: 85

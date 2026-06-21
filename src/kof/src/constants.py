@@ -1,0 +1,58 @@
+"""Dataset-id selections for the kof connector.
+
+These lists name which datasets/entities the connector pulls. They are data, not
+logic, so they live here instead of being hardcoded in the node module(s), and are
+imported back as e.g. ``from constants import ENTITY_IDS``.
+
+This file sits outside ``nodes/`` on purpose: ``load_nodes`` only scans ``nodes/``,
+so it is never treated as a node module, and the runner puts ``src/`` on the path
+so the import resolves at validation and at runtime.
+"""
+
+
+ENTITY_IDS = [
+    "baro_vintages_monthly",
+    "bs_indicator",
+    "ch.kof.jobtracker",
+    "ch.kof.trsm.fcst.summer",
+    "ch.kof.trsm.fcst.winter",
+    "ch.kof.trsm.fcst.year",
+    "ch.seco.jobroom",
+    "ds.sbfi.pan",
+    "ds_globidx.v2017",
+    "ds_globidx.v2018",
+    "ds_globidx.v2019",
+    "ds_globidx.v2020",
+    "ds_globidx_2018_full_fx",
+    "ds_kof_baublatt_ausblick_qtr",
+    "globalbaro_vintages",
+    "globidx_v2020",
+    "kof_baublatt_ausblick",
+    "kof_consensus_forecast",
+    "kof_consensus_forecast_mean",
+    "kof_consensus_forecast_median",
+    "kof_consensus_forecast_prob",
+    "kof_consensus_forecast_stdev",
+    "ogd_ch.kof.barometer",
+    "ogd_ch.kof.bts_total",
+    "ogd_ch.kof.esi",
+    "ogd_ch.kof.globalbaro",
+    "ogd_ch.kof.ie",
+    "pan_survey",
+    "stringency_web",
+    "vja_public",
+    "vja_public_m",
+    "vja_public_new",
+    "vja_public_q",
+    "vja_shiny_current_account",
+    "vja_shiny_details",
+    "vja_shiny_gdp_deflator",
+    "vja_shiny_gdp_expenditure",
+    "vja_shiny_gdp_production",
+    "vja_shiny_labor_market",
+    "vja_shiny_ngdp_expenditure",
+    "vja_web_table_econ_vars",
+    "vja_web_table_gdp_prod",
+    "vja_web_table_gdp_util",
+    "vja_website_tables",
+]

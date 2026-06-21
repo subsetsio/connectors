@@ -1,0 +1,10 @@
+spec_id: american-public-transportation-association-factbook-b-uza-totals
+status: active
+tests:
+  - not_null: urbanized_area_uza
+    reason: most Appendix B rows carry urbanized_area_uza; widespread nulls mean the header/row parse drifted
+    certainty: 80
+    severity: warn
+  - row_count: {min: 300}
+    reason: the source workbook is stable; far fewer rows means the parse or fetch broke
+    certainty: 88

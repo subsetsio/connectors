@@ -1,0 +1,45 @@
+spec_id: acled-political-violence-subnational
+status: active
+# Subnational table: the HRP_* sheets as-is (admin2-month-year, ~24 HRP/crisis countries).
+# One row per country-admin1-admin2-month-year of political-violence counts, 1997-present.
+tests:
+  - not_null: country
+  - not_null: admin1
+  - not_null: month
+  - not_null: year
+  - not_null: events
+  - not_null: fatalities
+  - not_null: iso3
+  - column_type: {col: year, type: integer}
+  - column_type: {col: events, type: integer}
+  - column_type: {col: fatalities, type: integer}
+  - column_type: {col: country, type: string}
+  - nullable: {col: admin2, max_null_frac: 0.02}
+    reason: admin2 present on nearly every HRP row; a handful of national-total rows lack it
+    certainty: 80
+  - matches: {col: iso3, pattern: '^[A-Z]{3}$'}
+    reason: HDX HRP sheets carry a 3-letter ISO3 country code
+    certainty: 90
+  - enum: {col: month, values: [January, February, March, April, May, June, July, August, September, October, November, December]}
+    reason: source XLSX 'Month' column carries full English month names
+    certainty: 90
+  - between: {col: year, lo: 1997, hi: current_year()}
+    reason: ACLED coverage starts 1997; no future-dated counts
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - at_least: {col: events, expr: 0}
+    reason: events are non-negative ACLED counts
+    certainty: 97
+  - at_least: {col: fatalities, expr: 0}
+    reason: fatalities are non-negative ACLED counts
+    certainty: 97
+  - unique: [country, admin1, admin2, month, year]
+    reason: one row per admin2-month-year; dupes mean an HRP sheet was concatenated twice
+    certainty: 85
+  - distinct_count: {col: country, min: 15, max: 45}
+    reason: HRP/crisis-country list is ~24 and shifts year to year
+    certainty: 70
+    severity: warn

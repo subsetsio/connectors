@@ -1,0 +1,28 @@
+spec_id: american-public-transportation-association-factbook-a-table-1
+status: active
+tests:
+  - not_null: year
+    reason: every long-format row is keyed to a calendar year
+    certainty: 95
+  - not_null: mode
+    reason: every row reports trips for a named transit mode
+    certainty: 95
+  - not_null: unlinked_passenger_trips_millions
+    reason: a row exists only because it carries a non-null trip value
+    certainty: 90
+  - column_type: {col: year, type: integer}
+    reason: year is parsed to an int from the Year column
+    certainty: 90
+  - between: {col: year, lo: 1890, hi: 2035}
+    reason: Table 1 spans 1890 to the latest Fact Book year
+    certainty: 90
+  - between: {col: unlinked_passenger_trips_millions, lo: 0, hi: 1000000}
+    reason: trip counts (millions) are non-negative
+    certainty: 80
+  - unique: [year, mode]
+    reason: one trip value per (year, mode) cell
+    certainty: 70
+    severity: warn
+  - row_count: {min: 700}
+    reason: the source workbook is stable; far fewer rows means the parse or fetch broke
+    certainty: 85

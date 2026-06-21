@@ -1,0 +1,33 @@
+spec_id: apartment-list-rent-growth-mom
+status: active
+tests:
+  - not_null: location_name
+  - not_null: location_fips_code
+  - not_null: month
+  - not_null: value
+  - column_type: {col: month, type: date}
+  - column_type: {col: value, type: float}
+  - enum: {col: location_type, values: [National, State, Metro, County, City]}
+    reason: source publishes these five geographic levels only
+    certainty: 90
+  - unique: [location_type, location_name, month]
+    reason: melt emits one row per source location-row per month
+    certainty: 85
+  - row_count: {min: 100000}
+    reason: ~1.3k locations x ~112 months minus NA (~145k valued, history starts Feb 2017); <100k means truncated
+    certainty: 80
+  - between: {col: value, lo: -0.2, hi: 0.2}
+    reason: month-over-month rent growth as a fraction; single-month moves are small
+    certainty: 80
+  - at_most: {col: month, expr: today}
+    reason: no future months
+    certainty: 95
+    points_outward: true
+  - at_least: {col: month, expr: "2017-02-01"}
+    reason: MoM growth needs a prior month, so it begins February 2017
+    certainty: 85
+  - freshness: {col: month, reaches: today - 120d}
+    reason: monthly product; newest month should be within ~4 months
+    certainty: 70
+    points_outward: true
+    severity: warn

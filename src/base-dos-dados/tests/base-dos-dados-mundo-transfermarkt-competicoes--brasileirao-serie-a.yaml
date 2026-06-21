@@ -1,0 +1,6 @@
+spec_id: base-dos-dados-mundo-transfermarkt-competicoes--brasileirao-serie-a
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every one-click table publishes at least one data row; an empty publish means a truncated/failed download
+    certainty: 90

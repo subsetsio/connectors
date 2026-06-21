@@ -1,0 +1,35 @@
+spec_id: apartment-list-rent-estimates-summary
+status: active
+tests:
+  - not_null: location_name
+  - not_null: location_fips_code
+  - not_null: year
+  - not_null: month
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - column_type: {col: price_overall, type: float}
+  - enum: {col: location_type, values: [National, State, Metro, County, City]}
+    reason: source publishes these five geographic levels only
+    certainty: 90
+  - enum: {col: month, values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+    reason: month is a calendar month number
+    certainty: 95
+  - unique: [location_type, location_name]
+    reason: summary is a current snapshot, one row per location
+    certainty: 85
+  - row_count: {min: 800}
+    reason: ~1.3k locations in the snapshot; <800 means truncated
+    certainty: 80
+  - at_least: {col: year, expr: 2017}
+    reason: data history begins 2017
+    certainty: 85
+  - at_most: {col: year, expr: current_year()}
+    reason: snapshot reflects the latest published month, never a future year
+    certainty: 90
+    points_outward: true
+  - between: {col: price_overall, lo: 200, hi: 20000}
+    reason: current median rent in USD
+    certainty: 80
+  - between: {col: rent_change_yoy, lo: -0.5, hi: 0.6}
+    reason: year-over-year change as a fraction
+    certainty: 75

@@ -1,0 +1,17 @@
+spec_id: aihw-88399d53-d55c-466c-8f4a-6cb965d24d6d
+status: active
+tests:
+  - not_null: financial_year
+  - not_null: state
+  - matches: {col: financial_year, pattern: '\d{4}-\d{2}'}
+    reason: financial years are formatted like 1997-98
+    certainty: 85
+  - distinct_count: {col: state, min: 8}
+    reason: 8 states/territories (plus possibly a national total)
+    certainty: 75
+  - row_count: {min: 1000}
+    certainty: 80
+  - median_between: {col: real_expenditure_millions, lo: 0, hi: 100000}
+    reason: real expenditure reported in millions AUD
+    certainty: 50
+    severity: warn

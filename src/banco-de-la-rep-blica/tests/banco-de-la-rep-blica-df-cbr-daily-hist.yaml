@@ -1,0 +1,21 @@
+spec_id: banco-de-la-rep-blica-df-cbr-daily-hist
+status: active
+tests:
+  - not_null: subject
+    reason: every SDMX series carries a SUBJECT dimension; null means the SeriesKey parse broke
+    certainty: 95
+  - not_null: time_period
+    reason: every observation has a TIME_PERIOD; null means we picked the wrong element
+    certainty: 95
+  - not_null: obs_value
+    reason: rows without an observation value should not be emitted
+    certainty: 90
+  - enum: {col: reference_area, values: ["CO"]}
+    reason: Banco de la Republica publishes Colombian series only
+    certainty: 95
+  - row_count: {min: 800}
+    reason: full history of this dataflow; a sharp drop signals a WAF block page or truncated fetch
+    certainty: 80
+  - distinct_count: {col: subject, min: 1}
+    reason: at least one series must be present
+    certainty: 90

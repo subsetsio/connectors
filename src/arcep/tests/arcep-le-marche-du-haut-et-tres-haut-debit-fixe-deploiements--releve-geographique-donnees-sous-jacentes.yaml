@@ -1,0 +1,21 @@
+spec_id: arcep-le-marche-du-haut-et-tres-haut-debit-fixe-deploiements--releve-geographique-donnees-sous-jacentes
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: one row per commune; INSEE code identifies it; a collapse to near-zero means the CSV family stopped enumerating
+    certainty: 80
+  - not_null: insee_com
+    reason: insee_com is a key/identifier column present on every source row
+    certainty: 85
+  - column_type: {col: insee_com, type: string}
+    reason: raw is preserved verbatim as strings (decimal commas / leading zeros / NA sentinels)
+    certainty: 90
+  - not_null: oi_commune
+    reason: oi_commune is a key/identifier column present on every source row
+    certainty: 85
+  - column_type: {col: oi_commune, type: string}
+    reason: raw is preserved verbatim as strings (decimal commas / leading zeros / NA sentinels)
+    certainty: 90
+  - not_null: _resource_title
+    reason: provenance column stamped on every row by the fetch fn
+    certainty: 99

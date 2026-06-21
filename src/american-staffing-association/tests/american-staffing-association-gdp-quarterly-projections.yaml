@@ -1,0 +1,25 @@
+spec_id: american-staffing-association-gdp-quarterly-projections
+status: active
+# Raw is the GDP quarterly projections workbook, written to ndjson with values
+# kept as raw strings (percents like "4.4%", blank cells -> null); the
+# transform strips '%' and types. One row per (year, quarter) since 1990 with
+# the first/second/third/revised estimate vintages as columns.
+tests:
+  - not_null: year
+    reason: every projection row is keyed by year
+    certainty: 95
+  - not_null: quarter
+    reason: every projection row is keyed by calendar quarter
+    certainty: 95
+  - matches: {col: year, pattern: '^\d{4}$'}
+    reason: the year column is a 4-digit string
+    certainty: 90
+  - matches: {col: quarter, pattern: '^[1-4]$'}
+    reason: quarters are 1 through 4
+    certainty: 95
+  - unique: [year, quarter]
+    reason: one row per year-quarter; dupes mean an overwrite was skipped
+    certainty: 90
+  - row_count: {min: 120}
+    reason: quarterly since 1990 is ~140+ rows; far fewer means a truncated pull
+    certainty: 85

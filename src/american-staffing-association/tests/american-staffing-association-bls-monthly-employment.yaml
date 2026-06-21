@@ -1,0 +1,30 @@
+spec_id: american-staffing-association-bls-monthly-employment
+status: active
+# Raw is the BLS monthly employment workbook (long format), written to ndjson
+# with values kept as raw strings; the transform types year/value and derives
+# month. One row per (series id, year, period=M01..M12).
+tests:
+  - not_null: series_id
+    reason: each observation belongs to a BLS CES series
+    certainty: 95
+  - not_null: year
+    reason: every monthly observation carries its year
+    certainty: 95
+  - not_null: value
+    reason: the employment level is the observed value
+    certainty: 90
+  - matches: {col: series_id, pattern: '^CES\d+$'}
+    reason: ASA tracks BLS Current Employment Statistics series (CES prefix)
+    certainty: 80
+  - matches: {col: period, pattern: '^M\d{2}$'}
+    reason: BLS encodes the month as M01..M12
+    certainty: 90
+  - matches: {col: year, pattern: '^\d{4}$'}
+    reason: the year is split out of the "YYYY Mon" label as a 4-digit string
+    certainty: 90
+  - unique: [series_id, year, period]
+    reason: one row per series-month; dupes mean an overwrite was skipped
+    certainty: 90
+  - row_count: {min: 400}
+    reason: monthly since 1990 is ~430+ rows; far fewer means a truncated pull
+    certainty: 85

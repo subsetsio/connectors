@@ -1,0 +1,24 @@
+spec_id: arcep-qualite-des-reseaux-en-fibre-optique--indicateurs-de-qualite-ftth-par-reseau
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: FttH quality per infrastructure operator per period; a collapse to near-zero means the CSV family stopped enumerating
+    certainty: 80
+  - not_null: periode
+    reason: periode is a key/identifier column present on every source row
+    certainty: 85
+  - column_type: {col: periode, type: string}
+    reason: raw is preserved verbatim as strings (decimal commas / leading zeros / NA sentinels)
+    certainty: 90
+  - not_null: oi
+    reason: oi is a key/identifier column present on every source row
+    certainty: 85
+  - column_type: {col: oi, type: string}
+    reason: raw is preserved verbatim as strings (decimal commas / leading zeros / NA sentinels)
+    certainty: 90
+  - not_null: _resource_title
+    reason: provenance column stamped on every row by the fetch fn
+    certainty: 99
+  - not_null: _period
+    reason: this family's resources are date/quarter partitioned, so a period is derivable from the title
+    certainty: 75

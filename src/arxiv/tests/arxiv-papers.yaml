@@ -1,0 +1,71 @@
+spec_id: arxiv-papers
+status: active
+# Raw OAI-PMH metadataPrefix=arXiv record stream. Every column is a string at
+# the raw layer (typing happens in the transform). Assertions below are authored
+# from the OAI-PMH / arXiv-native schema, not from observed data: an OAI record
+# always carries a header datestamp and an <arXiv> body with id/title/abstract/
+# created; the bibliographic fields (doi, journal-ref, comments, license) are
+# present only for the minority of papers that have them.
+tests:
+  # --- presence: fields every arXiv record carries ---
+  - not_null: arxiv_id
+    reason: the <id> element is mandatory in the arXiv metadata format; a null id means a parse miss on our side
+    certainty: 97
+  - not_null: title
+    reason: every arXiv submission has a title
+    certainty: 96
+  - not_null: abstract
+    reason: arXiv requires an abstract on submission; a handful of very old records may lack one
+    certainty: 88
+    severity: warn
+  - not_null: datestamp
+    reason: the OAI-PMH record header always carries a datestamp; null means we failed to read the header
+    certainty: 98
+  - not_null: created
+    reason: arXiv metadata always exposes the creation date of v1
+    certainty: 92
+  - not_null: primary_category
+    reason: derived from the first token of <categories>; arXiv requires at least one category
+    certainty: 90
+    severity: warn
+
+  # --- format: ISO date strings and arXiv id schemes ---
+  - matches: {col: datestamp, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: OAI datestamps are day-granularity ISO dates
+    certainty: 95
+  - matches: {col: created, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: arXiv <created> is an ISO date
+    certainty: 90
+  - matches: {col: arxiv_id, pattern: '^([a-z-]+(\.[A-Z]{2})?/\d{7}|\d{4}\.\d{4,5})$'}
+    reason: old-scheme ids (archive/YYMMNNN) and new-scheme ids (YYMM.NNNNN); the <id> field carries no version suffix
+    certainty: 80
+    severity: warn
+
+  # --- bounds: creation dates fall in arXiv's lifetime ---
+  - between: {col: created, lo: '1991-01-01', hi: today}
+    reason: arXiv launched in 1991; nothing is created in the future
+    certainty: 90
+  - at_most: {col: datestamp, expr: today}
+    reason: a record cannot be datestamped after today
+    certainty: 95
+
+  # --- nullability of optional bibliographic fields ---
+  - nullable: {col: doi, max_null_frac: 0.95}
+    reason: most arXiv papers never register a DOI; the column is mostly null but should not be entirely so
+    certainty: 70
+    severity: warn
+  - nullable: {col: journal_ref, max_null_frac: 0.95}
+    reason: only published papers carry a journal reference; majority are preprints
+    certainty: 70
+    severity: warn
+
+  # --- scale & freshness ---
+  - row_count: {min: 100000}
+    reason: the arXiv corpus is millions of records; a complete sweep is well over 100k, though a mid-continuation run may hold less
+    certainty: 75
+    severity: warn
+  - freshness: {col: datestamp, reaches: today - 30d}
+    reason: the trailing overlap window re-harvests the current month every run, so the max datestamp should land within a month of today
+    certainty: 80
+    points_outward: true
+    severity: warn

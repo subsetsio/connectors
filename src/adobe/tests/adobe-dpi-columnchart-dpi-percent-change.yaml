@@ -1,0 +1,19 @@
+spec_id: adobe-dpi-columnchart-dpi-percent-change
+status: active
+tests:
+  - not_null: _file_date
+  - not_null: "month"
+    reason: each DPI snapshot row names its reference month
+    certainty: 90
+  - not_null: "all categories"
+    reason: the overall DPI index value should be present every month
+    certainty: 75
+    severity: warn
+  - matches: {col: _file_ym, pattern: '^[0-9]{4}-[a-z]{3}$'}
+    certainty: 95
+  - distinct_count: {col: _file_ym, min: 3}
+    reason: DPI files are one-month snapshots; crawl should gather several months
+    certainty: 80
+  - row_count: {min: 3}
+    reason: one wide row per crawled month
+    certainty: 85

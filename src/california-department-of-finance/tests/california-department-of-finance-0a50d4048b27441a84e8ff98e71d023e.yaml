@@ -1,0 +1,8 @@
+spec_id: california-department-of-finance-0a50d4048b27441a84e8ff98e71d023e
+status: active
+tests:
+  - row_count: {min: 1500}
+    reason: E5 annual percent pop change is a stable published DRU layer (~3000+ rows observed while probing); a collapse below this floor means a truncated page or an unshared/empty source.
+    certainty: 75
+    points_outward: true
+    severity: warn

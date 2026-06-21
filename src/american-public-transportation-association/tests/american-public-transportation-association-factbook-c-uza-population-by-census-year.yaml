@@ -1,0 +1,18 @@
+spec_id: american-public-transportation-association-factbook-c-uza-population-by-census-year
+status: active
+tests:
+  - not_null: census_year
+    reason: every row is stamped with its census year
+    certainty: 95
+  - not_null: urbanized_area
+    reason: every row names an urbanized area
+    certainty: 92
+  - column_type: {col: census_year, type: integer}
+    reason: census_year is an int
+    certainty: 90
+  - enum: {col: census_year, values: [1950, 1960, 1970, 1980, 1990, 2000, 2010]}
+    reason: the seven decennial censuses unioned
+    certainty: 90
+  - row_count: {min: 3000}
+    reason: the source workbook is stable; far fewer rows means the parse or fetch broke
+    certainty: 85

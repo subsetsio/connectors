@@ -1,0 +1,15 @@
+spec_id: aihw-7fbac314-4bf9-4601-b812-0307316ef5a4
+status: active
+tests:
+  - not_null: Year
+  - not_null: Cancer_Type
+  - between: {col: Year, lo: 1960, hi: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - enum: {col: Type, values: [Incidence, Mortality]}
+    certainty: 80
+  - row_count: {min: 1000}
+    certainty: 85
+  - distinct_count: {col: Cancer_Type, min: 20}
+    certainty: 80

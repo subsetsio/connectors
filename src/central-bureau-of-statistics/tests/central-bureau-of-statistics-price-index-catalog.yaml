@@ -1,0 +1,20 @@
+spec_id: central-bureau-of-statistics-price-index-catalog
+status: active
+tests:
+  - not_null: code
+    reason: every price-index series has a numeric code
+    certainty: 95
+  - column_type: {col: code, type: integer}
+    certainty: 90
+  - not_null: chapter_id
+    reason: every index series belongs to a chapter
+    certainty: 90
+  - not_null: index_name
+    reason: each index carries a human-readable name
+    certainty: 85
+  - unique: [chapter_id, code]
+    reason: one catalog row per (chapter, code); dupes mean dedup failed
+    certainty: 80
+  - row_count: {min: 30}
+    reason: 13 chapters, each with several index series (CPI alone has many components)
+    certainty: 80

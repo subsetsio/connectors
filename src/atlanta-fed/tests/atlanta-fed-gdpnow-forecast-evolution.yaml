@@ -1,0 +1,31 @@
+spec_id: atlanta-fed-gdpnow-forecast-evolution
+status: active
+tests:
+  - not_null: forecast_date
+    reason: each row is one within-quarter forecast update, stamped with the date the nowcast was issued
+    certainty: 95
+  - not_null: quarter_end_date
+    reason: every update targets a specific forecast quarter
+    certainty: 95
+  - not_null: gdp_nowcast
+    reason: a row exists only because the model produced a nowcast value on that date
+    certainty: 95
+  - column_type: {col: forecast_date, type: string}
+    reason: raw stores dates as ISO strings; the transform casts to DATE
+    certainty: 90
+  - column_type: {col: gdp_nowcast, type: float}
+    certainty: 90
+  - unique: [forecast_date, quarter_end_date]
+    reason: at most one nowcast per forecast date per target quarter; dupes signal overlapping archive sheets re-emitting the same update
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1000}
+    reason: ~30+ updates per quarter since 2011:Q3 across both archive sheets (~2000 rows as of 2026)
+    certainty: 90
+  - between: {col: gdp_nowcast, lo: -70, hi: 50}
+    reason: annualized real-GDP nowcasts; intra-quarter COVID values reached ~-54, so allow wide bounds
+    certainty: 85
+    severity: warn
+  - distinct_count: {col: quarter_end_date, min: 50}
+    reason: one distinct target quarter per forecast cycle since 2011:Q3
+    certainty: 90

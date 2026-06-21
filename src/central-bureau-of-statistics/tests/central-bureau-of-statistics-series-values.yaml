@@ -1,0 +1,20 @@
+spec_id: central-bureau-of-statistics-series-values
+status: active
+tests:
+  - not_null: series_id
+    reason: every observation belongs to a series
+    certainty: 95
+  - not_null: period
+    reason: every observation is stamped with a TimePeriod
+    certainty: 95
+  - column_type: {col: series_id, type: integer}
+    certainty: 90
+  - column_type: {col: value, type: float}
+    reason: observation values are numeric (nulls allowed for suppressed periods)
+    certainty: 85
+  - matches: {col: period, pattern: "^[0-9]{4}-[0-9]{2}$"}
+    reason: TimePeriod is YYYY-MM (yearly series use -01); a different shape breaks the date cast downstream
+    certainty: 80
+  - row_count: {min: 100000}
+    reason: tens of thousands of series each with years-to-decades of observations
+    certainty: 80

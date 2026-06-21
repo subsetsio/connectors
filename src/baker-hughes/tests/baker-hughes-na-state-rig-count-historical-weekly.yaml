@@ -1,0 +1,33 @@
+spec_id: baker-hughes-na-state-rig-count-historical-weekly
+status: active
+# Frozen 'Rigs by State (Jan 2000 - Mar 2024)' archive. Stable UUID, never
+# updated. Weekly state-level rig counts split by Land/Offshore/Inland Waters,
+# plus per-state and grand totals.
+tests:
+  - not_null: date
+  - not_null: area
+  - not_null: category
+  - not_null: location_label
+  - not_null: rig_count
+  - matches: {col: date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: date serialized as ISO date string
+    certainty: 95
+  - at_least: {col: date, expr: '2000-01-01'}
+    reason: archive starts Jan 2000
+    certainty: 95
+  - at_most: {col: date, expr: '2024-04-01'}
+    reason: frozen archive ends Mar 2024 (methodology change); it is never re-published
+    certainty: 95
+  - at_least: {col: rig_count, expr: 0}
+    certainty: 98
+  - between: {col: rig_count, lo: 0, hi: 10000}
+    reason: grand-total weekly US/NA rig counts peak in the low thousands
+    certainty: 85
+    severity: warn
+  - enum: {col: category, values: [Land, Offshore, Inland Waters, Total]}
+    reason: each state row is split into Land/Offshore/Inland Waters; per-state and grand totals map to Total
+    certainty: 80
+    severity: warn
+  - distinct_count: {col: area, min: 20}
+    reason: many US states plus Canada/grand-total labels
+    certainty: 85

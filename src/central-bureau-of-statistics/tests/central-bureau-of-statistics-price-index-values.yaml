@@ -1,0 +1,29 @@
+spec_id: central-bureau-of-statistics-price-index-values
+status: active
+tests:
+  - not_null: code
+    reason: every value row belongs to a price-index series
+    certainty: 95
+  - not_null: year
+    reason: every monthly observation is stamped with a year
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: index levels are numeric (current-base value)
+    certainty: 85
+  - between: {col: year, lo: 1948, hi: 2027}
+    reason: CBS price history runs back to ~1951; upper bound just past current year
+    certainty: 85
+  - at_most: {col: year, expr: current_year()}
+    reason: indices are published, not projected
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - between: {col: month, lo: 1, hi: 12}
+    reason: month is the numeric calendar month from /data/price
+    certainty: 90
+  - unique: [code, year, month]
+    reason: one observation per (code, year, month); dupes mean page overlap on our side
+    certainty: 80
+  - row_count: {min: 50000}
+    reason: ~1255 index series each with up to ~900 months of monthly history
+    certainty: 75

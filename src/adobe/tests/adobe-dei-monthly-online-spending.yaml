@@ -1,0 +1,17 @@
+spec_id: adobe-dei-monthly-online-spending
+status: active
+tests:
+  - not_null: _file_date
+  - not_null: "Date"
+    reason: every DEI online-spend row carries a date (M/D/YY string or Excel serial)
+    certainty: 90
+  - not_null: "Spend in billions"
+    reason: the chart's whole point is a monthly online-spend value
+    certainty: 85
+  - matches: {col: _file_ym, pattern: '^[0-9]{4}-[a-z]{3}$'}
+    certainty: 95
+  - distinct_count: {col: _file_ym, min: 3}
+    reason: rolling-window crawl should concatenate several monthly files
+    certainty: 80
+  - row_count: {min: 10}
+    certainty: 80

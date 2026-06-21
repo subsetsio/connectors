@@ -1,0 +1,32 @@
+spec_id: abuse-ch-urlhaus-urls
+status: active
+# Raw is the URLhaus full CSV dump normalized to ndjson; every value is stored
+# as a string (CSV -> ndjson), so type assertions are expressed as regex on the
+# string form rather than column_type.
+tests:
+  - not_null: id
+    reason: every URLhaus entry carries a numeric database id; a null id means the banner/comment rows leaked into the data
+    certainty: 95
+  - unique: id
+    reason: one row per URLhaus URL entry, keyed by its monotonic database id
+    certainty: 95
+  - matches: {col: id, pattern: '^[0-9]+$'}
+    reason: id is an integer rendered as a decimal string in the CSV
+    certainty: 95
+  - not_null: url
+    reason: the URL is the payload of this feed; it is never blank
+    certainty: 95
+  - matches: {col: url, pattern: '^https?://'}
+    reason: URLhaus tracks malware-distribution URLs, which are http(s) endpoints
+    certainty: 80
+  - enum: {col: url_status, values: [online, offline, unknown]}
+    reason: URLhaus marks each URL's reachability with one of these three labels
+    certainty: 85
+  - matches: {col: urlhaus_link, pattern: '^https://urlhaus\.abuse\.ch/url/'}
+    reason: the self-link always points back to the URLhaus url detail page
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: the full URLhaus dump holds ~100k+ active URLs; far below 1000 means a truncated download
+    certainty: 90
+    points_outward: true
+    severity: warn

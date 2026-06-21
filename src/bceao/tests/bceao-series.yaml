@@ -1,0 +1,22 @@
+spec_id: bceao-series
+status: active
+tests:
+  - not_null: series_code
+  - not_null: frequency
+  - not_null: label
+  - unique: [series_code, frequency]
+    reason: catalog is one row per (country-independent code, frequency)
+    certainty: 95
+  - enum: {col: frequency, values: ["A", "M", "T", "J"]}
+    certainty: 95
+  - enum: {col: sector, values: ["SR", "SF", "FP", "SE", "SS"]}
+    reason: the 5 EDEN top sectors; sector is the first 2 chars of the code
+    certainty: 90
+  - matches: {col: series_code, pattern: "^[A-Z]{2}[0-9]"}
+    certainty: 90
+  - between: {col: locality_count, lo: 1, hi: 9}
+    reason: a series is available for 1..9 localities (8 states + UEMOA aggregate)
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: well over a thousand distinct (code, frequency) pairs across all sectors
+    certainty: 85

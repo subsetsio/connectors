@@ -1,0 +1,35 @@
+spec_id: abuse-ch-feodotracker-c2
+status: active
+# Raw is the Feodo Tracker botnet C2 IP blocklist, a JSON array written to
+# ndjson with native types preserved — port and as_number are real integers,
+# the rest strings (hostname may be null).
+tests:
+  - not_null: ip_address
+    reason: each entry is a C2 server identified by its IP address
+    certainty: 95
+  - matches: {col: ip_address, pattern: '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$'}
+    reason: Feodo Tracker C2 entries are IPv4 dotted-quad addresses
+    certainty: 90
+  - column_type: {col: port, type: integer}
+    reason: the JSON feed encodes port as a native integer
+    certainty: 90
+  - between: {col: port, lo: 1, hi: 65535}
+    reason: a TCP port is in the valid 1-65535 range
+    certainty: 95
+  - column_type: {col: as_number, type: integer}
+    reason: the JSON feed encodes the autonomous-system number as a native integer
+    certainty: 85
+  - enum: {col: status, values: [online, offline]}
+    reason: Feodo Tracker marks each C2's reachability as online or offline
+    certainty: 85
+  - not_null: malware
+    reason: every C2 entry is attributed to a malware family (Emotet, Dridex, etc.)
+    certainty: 85
+  - unique: [ip_address, port]
+    reason: a C2 endpoint is uniquely identified by its ip:port pair
+    certainty: 75
+  - row_count: {min: 1}
+    reason: the active C2 blocklist is small but never empty
+    certainty: 90
+    points_outward: true
+    severity: warn

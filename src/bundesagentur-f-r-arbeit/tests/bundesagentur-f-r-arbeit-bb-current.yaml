@@ -1,0 +1,35 @@
+spec_id: bundesagentur-f-r-arbeit-bb-current
+status: active
+tests:
+  - not_null: metric
+    reason: every row is a (period, metric) cell; a null metric means the metricName key changed
+    certainty: 95
+  - not_null: date
+    reason: periods are German "Monat Jahr" labels parsed to a first-of-month ISO date; nulls = broken parse
+    certainty: 90
+  - not_null: value
+    reason: observed values are always numeric (no suppression markers seen while probing)
+    certainty: 80
+    severity: warn
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - row_count: {min: 45}
+    reason: table returns full history in one request and only grows; well below observed count
+    certainty: 85
+  - distinct_count: {col: metric, min: 14}
+    reason: the table's metric set is fixed by its definition; a drop means the response shape changed
+    certainty: 85
+  - between: {col: year, lo: 2005, hi: current_year()}
+    reason: BA labour-market statistics; no series predates the mid-2000s on these endpoints
+    certainty: 90
+  - at_least: {col: year, expr: 2023}
+    reason: earliest period the history is believed to reach back to
+    certainty: 70
+    severity: warn
+  - at_most: {col: year, expr: current_year()}
+    reason: monthly figures; the latest period is the current/most-recent month, never a future year
+    certainty: 90
+    points_outward: true
+    severity: warn

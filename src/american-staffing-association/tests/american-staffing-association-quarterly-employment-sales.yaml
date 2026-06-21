@@ -1,0 +1,31 @@
+spec_id: american-staffing-association-quarterly-employment-sales
+status: active
+# Raw is the ASA Staffing Employment & Sales Survey workbook, written to ndjson
+# with values kept as raw strings (currency like "$5,053,923", percents like
+# "11.1%", blank cells -> null); the transform strips formatting and types.
+# One row per (year, quarter) since 1992.
+tests:
+  - not_null: year
+    reason: every survey row is keyed by year
+    certainty: 95
+  - not_null: quarter
+    reason: every survey row is keyed by calendar quarter
+    certainty: 95
+  - not_null: sales
+    reason: industry sales is the primary measure and is reported every quarter
+    certainty: 85
+  - matches: {col: year, pattern: '^\d{4}$'}
+    reason: the year column is a 4-digit string
+    certainty: 90
+  - matches: {col: quarter, pattern: '^[1-4]$'}
+    reason: quarters are 1 through 4
+    certainty: 95
+  - matches: {col: sales, pattern: '^\$[\d,]+$'}
+    reason: sales are exported as a dollar-formatted string with thousands separators
+    certainty: 80
+  - unique: [year, quarter]
+    reason: one row per year-quarter; dupes mean an overwrite was skipped
+    certainty: 90
+  - row_count: {min: 120}
+    reason: quarterly since 1992 is ~130+ rows; far fewer means a truncated pull
+    certainty: 85

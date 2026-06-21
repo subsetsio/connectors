@@ -1,0 +1,9 @@
+spec_id: american-public-transportation-association-fare-fixed-route
+status: active
+tests:
+  - not_null: transit_agency_name
+    reason: every fare row belongs to a named transit agency
+    certainty: 90
+  - row_count: {min: 350}
+    reason: the source workbook is stable; far fewer rows means the parse or fetch broke
+    certainty: 85

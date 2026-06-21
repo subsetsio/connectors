@@ -1,0 +1,10 @@
+spec_id: ahrq-hc-239c
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every MEPS public-use file holds thousands of survey records; an empty table means the download or xlsx parse broke
+    certainty: 99
+  - row_count: {max: 5000000}
+    reason: largest MEPS event files (prescribed medicines) are a few hundred thousand rows; millions would signal a wrong/duplicated parse
+    certainty: 85
+    severity: warn

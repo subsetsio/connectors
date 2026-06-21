@@ -1,0 +1,22 @@
+spec_id: apnic-as-user-population
+status: active
+tests:
+  - not_null: asn
+    certainty: 95
+  - not_null: rank
+    certainty: 90
+  - unique: asn
+    reason: one row per AS for the current measurement window
+    certainty: 85
+  - at_least: {col: users, expr: 0}
+    reason: estimated end-user population is non-negative
+    certainty: 90
+  - between: {col: pct_internet, lo: 0, hi: 100}
+    reason: share of global Internet users is a percentage
+    certainty: 85
+  - matches: {col: cc, pattern: "^[A-Z]{2}$"}
+    reason: each AS is tagged with an ISO-3166 alpha-2 economy
+    certainty: 75
+  - row_count: {min: 10000}
+    reason: aspop listed ~45k ASes when probed; a big drop means the JSON was truncated
+    certainty: 80

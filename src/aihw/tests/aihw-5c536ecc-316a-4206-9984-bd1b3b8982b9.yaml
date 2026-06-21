@@ -1,0 +1,13 @@
+spec_id: aihw-5c536ecc-316a-4206-9984-bd1b3b8982b9
+status: active
+tests:
+  - not_null: Sex
+  - row_count: {min: 10000}
+    reason: NDSHS 2016 respondent-level microdata (~23.7k respondents observed)
+    certainty: 80
+  - distinct_count: {col: Sex, min: 2}
+    certainty: 80
+  - median_between: {col: Weight7, lo: 0, hi: 100000}
+    reason: survey weights are positive
+    certainty: 55
+    severity: warn

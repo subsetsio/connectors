@@ -1,0 +1,13 @@
+spec_id: canadian-centre-for-energy-information-stc:df-25100045
+status: active
+tests:
+  - not_null: TIME_PERIOD
+    reason: SDMX-CSV always carries the observation dimension (TIME_PERIOD) on every row
+    certainty: 95
+  - not_null: FREQ
+    reason: every SDMX series declares a frequency code
+    certainty: 90
+  - row_count:
+      min: 1
+    reason: a rank-active (non-archived) dataflow publishes at least one observation
+    certainty: 90

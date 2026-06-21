@@ -1,0 +1,23 @@
+spec_id: central-bank-of-argentina-monetary-series
+status: active
+tests:
+  - not_null: idVariable
+    reason: every variable in the BCRA catalog has an integer id
+    certainty: 95
+  - column_type: {col: idVariable, type: integer}
+    certainty: 90
+  - unique: idVariable
+    reason: the catalog is one row per monetary variable; dupes mean pagination re-pulled a page
+    certainty: 95
+  - not_null: descripcion
+    certainty: 90
+  - not_null: categoria
+    reason: categoria is the grouping field populated for every variable
+    certainty: 85
+  - row_count: {min: 1400}
+    reason: catalog reported count 1581; far fewer means pagination broke after page 1
+    certainty: 85
+  - distinct_count: {col: categoria, min: 5, max: 40}
+    reason: probing saw ~10 distinct categorias; a single one means the field stopped populating
+    certainty: 70
+    severity: warn

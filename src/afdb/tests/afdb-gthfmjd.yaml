@@ -1,0 +1,23 @@
+spec_id: afdb-gthfmjd
+status: active
+tests:
+  - not_null: date
+    reason: every observation is a (date, value) point; date is always present
+    certainty: 95
+  - not_null: value
+    reason: null values are dropped during expansion, so every written row has a value
+    certainty: 95
+  - not_null: frequency
+    certainty: 95
+  - row_count: {min: 1}
+    reason: a rank-active dataset must yield at least one observation; 0 = fetch/expansion broke
+    certainty: 95
+  - enum: {col: frequency, values: [D]}
+    reason: this dataset's native Knoema grid is 'D'; we fetch native to avoid forward-filled upsampling. A different value means native-frequency detection picked something else.
+    certainty: 75
+    severity: warn
+    points_outward: true
+  - column_type: {col: value, type: float}
+    reason: observations are numeric measures (counts, ratios, prices, scores)
+    certainty: 70
+    severity: warn

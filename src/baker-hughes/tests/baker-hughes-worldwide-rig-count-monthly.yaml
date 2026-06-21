@@ -1,0 +1,27 @@
+spec_id: baker-hughes-worldwide-rig-count-monthly
+status: active
+# Current Worldwide report, 'WW Monthly' long block. Region/country granularity
+# with drill_for / location / rig_status splits, 2024-present.
+tests:
+  - not_null: region
+  - not_null: country
+  - not_null: rig_count
+  - not_null: year
+  - not_null: month
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - column_type: {col: rig_count, type: float}
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - between: {col: year, lo: 2023, hi: current_year()}
+    reason: current WW long-format begins 2024 (methodology change)
+    certainty: 88
+  - at_least: {col: rig_count, expr: 0}
+    certainty: 98
+  - between: {col: rig_count, lo: 0, hi: 100000}
+    reason: country/region split rows; even regional aggregates stay well under this
+    certainty: 85
+    severity: warn
+  - distinct_count: {col: region, min: 5, max: 12}
+    reason: Baker Hughes groups the world into ~6 regions (Africa, Asia Pacific, Europe, Latin America, Middle East, North America)
+    certainty: 85

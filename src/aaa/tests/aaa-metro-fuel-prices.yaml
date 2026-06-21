@@ -1,0 +1,30 @@
+spec_id: aaa-metro-fuel-prices
+status: active
+tests:
+  - not_null: date
+  - not_null: state_code
+  - not_null: metro_area
+  - not_null: fuel_grade
+  - not_null: price_usd
+  - column_type: {col: date, type: date}
+  - column_type: {col: price_usd, type: float}
+  - matches: {col: state_code, pattern: '^[A-Z]{2}$'}
+    certainty: 95
+  - enum: {col: fuel_grade, values: [Regular, Mid-Grade, Premium, Diesel, E85]}
+    certainty: 90
+  - distinct_count: {col: metro_area, min: 100}
+    reason: a few hundred metro areas span the state pages; a sharp drop means metro-table parsing broke
+    certainty: 80
+  - unique: [date, state_code, metro_area, fuel_grade]
+    reason: one average per grade per metro per date
+    certainty: 90
+  - between: {col: price_usd, lo: 0.5, hi: 12}
+    reason: US retail fuel in $/gal
+    certainty: 90
+  - median_between: {col: price_usd, lo: 2, hi: 8}
+    certainty: 60
+    severity: warn
+  - freshness: {col: date, reaches: today - 7d}
+    points_outward: true
+    severity: warn
+    certainty: 75
