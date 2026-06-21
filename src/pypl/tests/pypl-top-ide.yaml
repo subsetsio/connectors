@@ -1,0 +1,27 @@
+spec_id: pypl-top-ide
+status: active
+tests:
+  - not_null: date
+  - not_null: country
+  - not_null: entity
+  - not_null: share
+  - column_type: {col: date, type: date}
+  - column_type: {col: entity, type: string}
+  - column_type: {col: share, type: float}
+  - unique: [date, country, entity]
+    reason: one share per (month, country, ide); dupes mean source duplicate-months weren't deduped
+    certainty: 95
+  - between: {col: share, lo: 0.0, hi: 1.0}
+    reason: shares are fractional search interest, 0..1, summing to ~1 across entities per month
+    certainty: 95
+  - enum: {col: country, values: [All, US, GB, DE, FR, IN]}
+    reason: PYPL publishes exactly these six country slices per index
+    certainty: 98
+  - distinct_count: {col: entity, min: 25}
+    reason: this index tracks at least this many ide entities
+    certainty: 85
+  - freshness: {col: date, reaches: today - 120d}
+    reason: PYPL regenerates the index roughly monthly from Google Trends
+    certainty: 70
+    points_outward: true
+    severity: warn

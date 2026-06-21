@@ -1,0 +1,35 @@
+spec_id: open-meteo-archive-daily
+status: active
+tests:
+  - not_null: name
+    certainty: 99
+  - not_null: date
+    certainty: 99
+  - column_type: {col: latitude, type: float}
+    certainty: 95
+  - between: {col: latitude, lo: -90, hi: 90}
+    certainty: 99
+    reason: curated city coordinates, always valid lat
+  - between: {col: longitude, lo: -180, hi: 180}
+    certainty: 99
+  - distinct_count: {col: name, min: 18, max: 24}
+    reason: 24 curated locations; a couple may skip on a source error
+    certainty: 90
+  - unique: [name, date]
+    reason: one daily reanalysis row per (city, date); dupes mean a non-overwrite re-pull
+    certainty: 95
+  - between: {col: temperature_2m_max, lo: -90, hi: 60}
+    reason: physical near-surface daily max air temperature range on Earth
+    certainty: 90
+    severity: warn
+  - median_between: {col: temperature_2m_mean, lo: -30, hi: 45}
+    reason: global-city daily mean temperatures cluster well within this band
+    certainty: 70
+    severity: warn
+  - row_count: {min: 400000}
+    reason: ~24 cities x ~31k days (1940-present); far fewer = pull truncated
+    certainty: 85
+  - at_least: {col: precipitation_sum, expr: 0}
+    reason: precipitation totals are non-negative
+    certainty: 95
+    severity: warn

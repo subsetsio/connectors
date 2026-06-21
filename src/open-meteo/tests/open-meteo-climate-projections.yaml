@@ -1,0 +1,34 @@
+spec_id: open-meteo-climate-projections
+status: active
+tests:
+  - not_null: name
+    certainty: 99
+  - not_null: model
+    certainty: 99
+  - not_null: date
+    certainty: 99
+  - enum: {col: model, values: [MRI_AGCM3_2_S, EC_Earth3P_HR, MPI_ESM1_2_XR]}
+    reason: exactly the three CMIP6 models we request
+    certainty: 95
+  - unique: [name, model, date]
+    reason: one projection row per (city, model, date)
+    certainty: 95
+  - distinct_count: {col: name, min: 18, max: 24}
+    certainty: 90
+  - between: {col: latitude, lo: -90, hi: 90}
+    certainty: 99
+  - between: {col: temperature_2m_max, lo: -90, hi: 60}
+    reason: physical daily max air temperature range
+    certainty: 90
+    severity: warn
+  - at_most: {col: date, expr: "2050-12-31"}
+    reason: downscaled CMIP6 projections end in 2050
+    certainty: 95
+    points_outward: true
+  - at_least: {col: date, expr: "1950-01-01"}
+    reason: projections begin in 1950
+    certainty: 95
+    points_outward: true
+  - row_count: {min: 1500000}
+    reason: ~24 cities x 3 models x ~36.9k days (1950-2050)
+    certainty: 85

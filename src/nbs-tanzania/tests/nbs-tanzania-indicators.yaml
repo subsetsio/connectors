@@ -1,0 +1,23 @@
+spec_id: nbs-tanzania-indicators
+status: active
+tests:
+  - not_null: indicator_id
+    reason: every SDG indicator row is keyed by its dotted code (e.g. 1.1.1)
+    certainty: 95
+  - not_null: area
+    certainty: 95
+  - unique: [indicator_id, area]
+    reason: one metadata row per indicator per area (Mainland/Zanzibar)
+    certainty: 90
+  - enum: {col: area, values: [mainland, zanzibar]}
+    reason: the corpus exposes exactly two areas
+    certainty: 95
+  - column_type: {col: is_reported, type: boolean}
+    certainty: 90
+  - row_count: {min: 380, max: 700}
+    reason: 243 Mainland + 191 Zanzibar = 434 indicators; bounds allow drift
+    certainty: 85
+  - matches: {col: indicator_id, pattern: "^[0-9]+"}
+    reason: SDG indicator codes start with a goal number
+    certainty: 80
+    severity: warn

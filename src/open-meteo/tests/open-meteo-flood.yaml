@@ -1,0 +1,24 @@
+spec_id: open-meteo-flood
+status: active
+tests:
+  - not_null: name
+    certainty: 99
+  - not_null: date
+    certainty: 99
+  - unique: [name, date]
+    reason: one daily discharge row per (city, date)
+    certainty: 95
+  - distinct_count: {col: name, min: 18, max: 24}
+    certainty: 90
+  - at_least: {col: river_discharge, expr: 0}
+    reason: river discharge is a non-negative flow rate (m3/s)
+    certainty: 95
+  - nullable: {col: river_discharge, max_null_frac: 0.5}
+    reason: early GloFAS years can be null for small cells, but most rows have a value
+    certainty: 75
+    severity: warn
+  - between: {col: latitude, lo: -90, hi: 90}
+    certainty: 99
+  - row_count: {min: 150000}
+    reason: ~24 cities x ~15k days (1984-present)
+    certainty: 85

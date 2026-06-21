@@ -1,0 +1,28 @@
+spec_id: open-meteo-air-quality
+status: active
+tests:
+  - not_null: name
+    certainty: 99
+  - not_null: time
+    certainty: 99
+  - unique: [name, time]
+    reason: one hourly row per (city, timestamp)
+    certainty: 95
+  - distinct_count: {col: name, min: 18, max: 24}
+    certainty: 90
+  - at_least: {col: pm10, expr: 0}
+    reason: particulate concentrations are non-negative (ug/m3)
+    certainty: 95
+    severity: warn
+  - at_least: {col: pm2_5, expr: 0}
+    certainty: 95
+    severity: warn
+  - relationship: {left: pm2_5, op: "<=", right: pm10}
+    reason: PM2.5 is the fine fraction of PM10, so should not exceed it
+    certainty: 75
+    severity: warn
+  - between: {col: latitude, lo: -90, hi: 90}
+    certainty: 99
+  - row_count: {min: 1200000}
+    reason: ~24 cities x ~108k hours (2013-present)
+    certainty: 85
