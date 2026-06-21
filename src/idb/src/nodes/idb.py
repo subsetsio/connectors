@@ -205,11 +205,18 @@ def fetch_one(node_id: str) -> None:
         raise ValueError(f"{asset}: no tabular resource found in package {pid!r}")
 
     # Group by identical column-set; publish the dominant group (most rows).
+    # Prefer datastore-backed groups: the CKAN datastore is the canonical,
+    # machine-parsed table, whereas attached XLSX files are frequently
+    # human-oriented summaries or cross-year roll-ups whose "largest sheet"
+    # is not the year-specific data (and can collide across sibling datasets).
+    # Only fall back to file-only groups when no resource has a usable datastore.
     groups: dict[tuple, list] = {}
     for p in probes:
         groups.setdefault(p["cols"], []).append(p)
-    winner_cols = max(groups, key=lambda c: sum(x["weight"] for x in groups[c]))
-    winner = groups[winner_cols]
+    ds_groups = {c: m for c, m in groups.items() if any(x["kind"] == "datastore" for x in m)}
+    pool = ds_groups or groups
+    winner_cols = max(pool, key=lambda c: sum(x["weight"] for x in pool[c]))
+    winner = pool[winner_cols]
 
     used: set = set()
     safe = [_sanitize(c, used) for c in winner_cols]
