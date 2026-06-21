@@ -1,0 +1,16 @@
+spec_id: civil-aviation-authority-airport-15
+status: active
+tests:
+  - not_null: family
+    reason: every row is tagged with its CAA data family in the fetch step
+    certainty: 99
+  - enum: {col: family, values: [airport]}
+    reason: this node only ingests the airport family
+    certainty: 99
+  - not_null: release_period
+    reason: every row is tagged with the annual release year it was scraped from
+    certainty: 95
+  - distinct_count: {col: release_period, min: 2}
+    reason: CAA publishes this table annually across many years; expect a multi-year span
+    certainty: 85
+    severity: warn
