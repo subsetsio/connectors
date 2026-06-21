@@ -1,0 +1,13 @@
+spec_id: instituto-de-estad-sticas-de-puerto-rico-directorio-de-instituciones-post-secundarias-tecnico-vocacionales-en-puerto-rico
+status: active
+tests:
+  - not_null: source_resource
+    reason: every extracted row is tagged by construction with its originating CKAN resource; a null means the extractor failed to record provenance.
+    certainty: 99
+  - not_null: source_file
+    reason: every extracted row records the file it came from (resource filename, zip member, or excel sheet); null means provenance tagging broke.
+    certainty: 99
+  - row_count:
+      min: 1
+    reason: a published Datos.PR package must yield at least one tabular row from its dominant-schema resource group; zero rows means extraction silently failed (format change, auth, or all resources non-tabular).
+    certainty: 80

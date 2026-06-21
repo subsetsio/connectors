@@ -27,17 +27,23 @@ Source quirks handled here:
 
 import io
 import re
-import time
 
+import httpx
 import pandas as pd
 import pyarrow as pa
+from ratelimit import limits, sleep_and_retry
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+)
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     configure_http,
     get,
+    is_transient,
     save_raw_parquet,
-    transient_retry,
 )
 
 BASE = "https://www.gunviolencearchive.org"
@@ -65,9 +71,17 @@ REPORT_SLUGS = (
 
 PAGE_SIZE = 25
 # Safety ceiling: the export-api caps at ~80 pages; this is well above that, so
-# tripping it means clamp-detection failed or the source changed — raise loudly.
+# tripping it means clamp-detection failed or the source changed -- raise loudly.
 MAX_PAGES = 200
-THROTTLE_SECONDS = 0.5
+
+# GVA's Cloudflare throttles aggressively (observed 429 after a short burst at
+# ~2 req/s from a datacenter IP). robots.txt advertises Crawl-delay: 10; we pace
+# well under one request every few seconds and let the Retry-After-aware retry
+# absorb any 429 the limiter doesn't prevent, so a transient block waits rather
+# than killing the run.
+RATE_PERIOD_SECONDS = 6
+RETRY_ATTEMPTS = 10
+MAX_RETRY_WAIT = 300
 
 _UUID_RE = re.compile(r"query/([a-f0-9-]{36})")
 _TITLE_RE = re.compile(r"<title>\s*(.*?)\s*</title>", re.S | re.I)
@@ -109,9 +123,31 @@ SCHEMA = pa.schema([
 ])
 
 
-@transient_retry()
-def _get(url, **kwargs):
-    resp = get(url, timeout=(10.0, 120.0), **kwargs)
+@sleep_and_retry
+@limits(calls=1, period=RATE_PERIOD_SECONDS)
+def _paced_get(url, params=None):
+    """Proactive pace: at most one request per RATE_PERIOD_SECONDS, process-wide."""
+    return get(url, params=params, timeout=(10.0, 120.0))
+
+
+def _retry_after_wait(retry_state):
+    """Honour a 429/503 Retry-After header; otherwise exponential backoff."""
+    exc = retry_state.outcome.exception()
+    if isinstance(exc, httpx.HTTPStatusError):
+        ra = exc.response.headers.get("Retry-After")
+        if ra and ra.strip().isdigit():
+            return min(MAX_RETRY_WAIT, int(ra.strip()))
+    return min(MAX_RETRY_WAIT, 4 * (2 ** (retry_state.attempt_number - 1)))
+
+
+@retry(
+    retry=retry_if_exception(is_transient),
+    stop=stop_after_attempt(RETRY_ATTEMPTS),
+    wait=_retry_after_wait,
+    reraise=True,
+)
+def _get(url, params=None):
+    resp = _paced_get(url, params=params)
     resp.raise_for_status()
     return resp
 
@@ -170,7 +206,6 @@ def _crawl_report(slug):
             for col in _COUNT_COLS:
                 row[col] = _clean_int(rec.get(col))
             rows.append(row)
-        time.sleep(THROTTLE_SECONDS)
     else:
         raise RuntimeError(
             f"/{slug} export-api did not terminate within {MAX_PAGES} pages -- "
