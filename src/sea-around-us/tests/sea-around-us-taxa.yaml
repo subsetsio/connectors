@@ -1,0 +1,16 @@
+spec_id: sea-around-us-taxa
+status: active
+tests:
+  - not_null: taxon_key
+  - column_type: {col: taxon_key, type: integer}
+  - unique: taxon_key
+    reason: taxon_key is the primary identifier; dupes mean the list was concatenated twice
+    certainty: 95
+  - not_null: scientific_name
+    reason: every taxon record has a scientific name
+    certainty: 90
+  - row_count: {min: 2000}
+    reason: the taxa list had ~3532 records when probed; <2000 means a truncated fetch
+    certainty: 90
+  - distinct_count: {col: taxon_key, min: 2000}
+    certainty: 90

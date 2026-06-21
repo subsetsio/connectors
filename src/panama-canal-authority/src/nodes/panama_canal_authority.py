@@ -94,7 +94,7 @@ def _export_one(s: dict):
             "location_identifier": [s["location_identifier"]] * n,
             "watershed": [s["watershed"]] * n,
             "unit": [unit] * n,
-            "date": pa.array(col(0), pa.date32()),
+            "date": col(0),
             "value_mean": col(1),
             "value_min": col(2),
             "value_max": col(3),

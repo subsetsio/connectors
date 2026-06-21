@@ -1,0 +1,30 @@
+spec_id: sea-around-us-catch-value-by-reporting-status
+status: active
+tests:
+  - not_null: region_type
+  - not_null: region_id
+  - column_type: {col: region_id, type: integer}
+  - not_null: category
+    reason: every catch series carries a breakdown label (taxon/group/sector/etc)
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - not_null: value
+    reason: rows with a null amount are dropped during fetch
+  - column_type: {col: value, type: float}
+  - at_least: {col: year, expr: 1950}
+    reason: the reconstruction starts in 1950
+    certainty: 95
+  - at_most: {col: year, expr: current_year()}
+    reason: catch is historical; a future year means a parsing/units error or source projections
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - at_least: {col: value, expr: 0}
+    reason: catch weight and landed value are non-negative
+    certainty: 85
+    severity: warn
+  - distinct_count: {col: region_type, min: 1, max: 4}
+    reason: we enumerate eez, lme, rfmo and global only
+    certainty: 85
+  - enum: {col: region_type, values: [eez, lme, rfmo, global]}
+    certainty: 90

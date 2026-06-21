@@ -1,0 +1,8 @@
+spec_id: statbel-nodeid658
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every Statbel open-data file has at least one data row; an empty raw asset means the DCAT URL resolve, download/unzip, or pipe-delimited parse broke (or the dataset was withdrawn upstream).
+    certainty: 80
+    points_outward: true
+    severity: warn
