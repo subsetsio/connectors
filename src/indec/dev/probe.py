@@ -1,20 +1,27 @@
 from subsets_utils import get
-import httpx
+from urllib.parse import urljoin
 
-BASE = "https://apis.datos.gob.ar/series/api/dump/sspm"
-url = f"{BASE}/series-tiempo-metadatos.csv"
+BASE = "https://apis.datos.gob.ar"
+start = "/series/api/dump/sspm/series-tiempo-metadatos.csv"
 
-# Step 1: get the 302 without following
-r = get(url, follow_redirects=False, timeout=(10,60))
-print("step1 status", r.status_code)
-loc = r.headers.get("location")
-print("location:", loc[:160] if loc else None)
+def resolve(url, max_hops=6):
+    cur = urljoin(BASE, url)
+    for _ in range(max_hops):
+        r = get(cur, follow_redirects=False, timeout=(10,60))
+        if r.status_code in (301,302,303,307,308):
+            loc = r.headers["location"]
+            cur = urljoin(cur, loc)
+            print("  ->", r.status_code, cur[:120])
+            continue
+        return cur, r
+    raise RuntimeError("too many redirects")
 
-# Step 2a: subsets get on the location
-r2 = get(loc, timeout=(10,120))
-print("2a subsets.get status", r2.status_code, "ctype", r2.headers.get("content-type"), "len", len(r2.content))
-
-# Step 2b: raw httpx with the literal URL, no param re-encoding
-with httpx.Client(timeout=120) as c:
-    r3 = c.get(loc)
-    print("2b httpx literal status", r3.status_code, "len", len(r3.content))
+print("=== resolving metadatos ===")
+final, r = resolve(start)
+print("FINAL status", r.status_code, "ctype", r.headers.get("content-type"), "len", len(r.content))
+if r.status_code == 200:
+    text = r.content.decode("utf-8", errors="replace")
+    lines = text.splitlines()
+    print("nlines", len(lines))
+    print("HEADER:", lines[0][:400])
+    print("ROW1:", lines[1][:400])

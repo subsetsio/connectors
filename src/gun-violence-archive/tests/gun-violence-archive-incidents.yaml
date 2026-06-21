@@ -1,0 +1,40 @@
+spec_id: gun-violence-archive-incidents
+status: active
+tests:
+  - not_null: incident_id
+    reason: every GVA incident row carries an Incident ID; nulls mean a parse/column shift
+    certainty: 95
+  - column_type: {col: incident_id, type: integer}
+    certainty: 90
+  - not_null: state
+    reason: every incident is geolocated to a US state in the export-api table
+    certainty: 90
+  - not_null: report_population
+    reason: we stamp the source standing-report slug on every row we ingest
+    certainty: 99
+  - not_null: incident_date
+    reason: the export-api always renders an Incident Date cell
+    certainty: 90
+  - matches: {col: incident_date, pattern: '^[A-Z][a-z]+ [0-9]{1,2}, [0-9]{4}$'}
+    reason: dates render as the source's free text e.g. "June 13, 2026"; a format change breaks the transform's strptime
+    certainty: 85
+  - column_type: {col: victims_killed, type: integer}
+    certainty: 85
+  - between: {col: victims_killed, lo: 0, hi: 100}
+    reason: these standing reports (accidental / officer-involved / child / teen) carry small per-incident casualty counts
+    certainty: 80
+    severity: warn
+  - between: {col: suspects_arrested, lo: 0, hi: 100}
+    certainty: 80
+    severity: warn
+  - distinct_count: {col: report_population, min: 8, max: 15}
+    reason: ~11 standing reports expose a static export-api UUID; far fewer means discovery degraded
+    certainty: 85
+  - row_count: {min: 5000}
+    reason: ~11 reports, several capped near the 2000-incident export-api ceiling, so the union is well into the thousands
+    certainty: 75
+    severity: warn
+  - distinct_count: {col: state, min: 30}
+    reason: gun-violence incidents span essentially every US state
+    certainty: 80
+    severity: warn
