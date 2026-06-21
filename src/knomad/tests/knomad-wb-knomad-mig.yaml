@@ -1,0 +1,25 @@
+spec_id: knomad-wb-knomad-mig
+status: active
+tests:
+  - not_null: country_code
+  - not_null: counterpart_code
+  - not_null: year
+  - not_null: migrant_stock
+  - column_type: {col: year, type: integer}
+  - column_type: {col: migrant_stock, type: float}
+  - at_least: {col: year, expr: 2021}
+    reason: bilateral migrant-stock matrix is published for reference year 2021
+    certainty: 85
+    severity: warn
+  - at_most: {col: year, expr: current_year()}
+    reason: observation year cannot exceed the current calendar year
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - at_least: {col: migrant_stock, expr: 0}
+    reason: migrant stocks are non-negative counts
+    certainty: 85
+    severity: warn
+  - row_count: {min: 11000}
+    reason: ~13032 origin-destination corridor cells observed for 2021
+    certainty: 80

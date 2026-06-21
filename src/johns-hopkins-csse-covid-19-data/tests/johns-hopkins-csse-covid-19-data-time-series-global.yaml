@@ -1,0 +1,28 @@
+spec_id: johns-hopkins-csse-covid-19-data-time-series-global
+status: active
+tests:
+  - not_null: date
+    reason: every melted row is a (geography, date, metric) cell; a null date means the wide->long melt mis-indexed the date header columns.
+    certainty: 95
+  - not_null: metric
+    reason: metric is assigned in code (confirmed/deaths/recovered) per source file; a null means a row was emitted outside the melt loop.
+    certainty: 95
+  - not_null: value
+    reason: empty cells are skipped during melt, so every emitted row carries a cumulative count.
+    certainty: 90
+  - enum: {col: metric, values: [confirmed, deaths, recovered]}
+    reason: exactly the three global time-series files are melted into this asset.
+    certainty: 95
+  - distinct_count: {col: metric, min: 3}
+    reason: all three metrics should be present across the unioned files.
+    certainty: 85
+  - not_null: country_region
+    reason: Country/Region is populated on every JHU global time-series row.
+    certainty: 90
+  - row_count: {min: 500000}
+    reason: ~280 geographies x ~1140 daily columns x up to 3 metrics; confirmed+deaths alone exceed 600k, recovered adds more before discontinuation.
+    certainty: 75
+  - matches: {col: date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: dates are reformatted from M/D/YY headers to ISO during melt.
+    certainty: 80
+    severity: warn
