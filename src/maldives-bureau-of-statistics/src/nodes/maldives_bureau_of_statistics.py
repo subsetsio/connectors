@@ -21,18 +21,50 @@ import io
 import math
 import re
 
+import httpx
 import pyarrow as pa
+import tenacity
 from constants import ENTITY_IDS
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
+    configure_http,
     get,
+    is_transient,
     save_raw_parquet,
-    transient_retry,
 )
 
 SLUG = "maldives-bureau-of-statistics"
 INDEX_URL = "https://statisticsmaldives.gov.mv/yearbook/statisticalarchive/"
+
+# The source sits behind a WAF that intermittently challenges non-browser
+# clients from cloud IPs with a 415 (and occasionally 403) on otherwise-valid
+# GETs. Present a browser User-Agent and treat those challenge codes as
+# retryable on top of the standard transient set (429/5xx/network).
+_BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "*/*",
+}
+_WAF_CODES = {403, 408, 415, 425, 429}
+
+
+def _retryable(exc: BaseException) -> bool:
+    if is_transient(exc):
+        return True
+    if isinstance(exc, httpx.HTTPStatusError):
+        return exc.response.status_code in _WAF_CODES
+    return False
+
+
+_waf_retry = tenacity.retry(
+    retry=tenacity.retry_if_exception(_retryable),
+    stop=tenacity.stop_after_attempt(8),
+    wait=tenacity.wait_exponential(min=4, max=120),
+    reraise=True,
+)
 
 SCHEMA = pa.schema([
     ("row_label", pa.string()),
@@ -44,14 +76,14 @@ SCHEMA = pa.schema([
 # ---------------------------------------------------------------------------
 # HTTP
 # ---------------------------------------------------------------------------
-@transient_retry()
+@_waf_retry
 def _get_text(url: str) -> str:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
     return resp.text
 
 
-@transient_retry()
+@_waf_retry
 def _get_bytes(url: str) -> bytes:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -228,6 +260,8 @@ def parse_grid(rows: list) -> list:
 # ---------------------------------------------------------------------------
 def fetch_one(node_id: str) -> None:
     import pandas as pd
+
+    configure_http(headers=_BROWSER_HEADERS)
 
     asset = node_id
     table_id = node_id[len(SLUG) + 1:]  # strip "maldives-bureau-of-statistics-"
