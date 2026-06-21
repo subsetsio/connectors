@@ -235,7 +235,7 @@ TRANSFORM_SPECS = [
                 fuel_grade,
                 CAST(price_usd AS DOUBLE) AS price_usd
             FROM "aaa-national-fuel-prices"
-            WHERE price_usd IS NOT NULL
+            WHERE price_usd > 0
         ''',
     ),
     SqlNodeSpec(
@@ -248,7 +248,7 @@ TRANSFORM_SPECS = [
                 fuel_grade,
                 CAST(price_usd AS DOUBLE) AS price_usd
             FROM "aaa-state-fuel-prices"
-            WHERE price_usd IS NOT NULL
+            WHERE price_usd > 0
         ''',
     ),
     SqlNodeSpec(
@@ -262,7 +262,7 @@ TRANSFORM_SPECS = [
                 fuel_grade,
                 CAST(price_usd AS DOUBLE) AS price_usd
             FROM "aaa-metro-fuel-prices"
-            WHERE price_usd IS NOT NULL
+            WHERE price_usd > 0
         ''',
     ),
 ]
