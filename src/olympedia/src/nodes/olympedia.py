@@ -70,6 +70,15 @@ def _ints_in_row(tds) -> list[int]:
     return out
 
 
+def _host_noc_from_row(row):
+    """Host NOC code from the flag <img> in an /editions row (src .../<CODE>.svg)."""
+    for src in row.xpath('.//img/@src'):
+        m = re.search(r"olympedia-flags.*/([A-Za-z]{2,4})\.svg$", src)
+        if m:
+            return m.group(1)
+    return None
+
+
 def _noc_from_row(row):
     """Extract (noc_code, country_name) from the first /countries/<CODE> link in a row."""
     code = name = None
@@ -126,7 +135,7 @@ def _parse_editions(doc):
                 if len(tds) < 7:
                     continue
                 edition_id = int(re.search(r"/editions/(\d+)$", ids[0]).group(1))
-                host_noc, _ = _noc_from_row(tr)
+                host_noc = _host_noc_from_row(tr)
                 rows_out.append({
                     "edition_id": edition_id,
                     "category": category,

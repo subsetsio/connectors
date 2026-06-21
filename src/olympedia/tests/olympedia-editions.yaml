@@ -7,6 +7,11 @@ tests:
     reason: one row per Olympic edition (the /editions/<id> integer id is the key)
     certainty: 95
   - not_null: city
+  - not_null: host_noc
+    reason: every edition has a host-nation flag (NOC code parsed from the flag image)
+    certainty: 90
+  - matches: {col: host_noc, pattern: "^[A-Za-z]{2,4}$"}
+    certainty: 85
   - enum: {col: category, values: ["Olympic Games", "Intercalated Games", "Youth Olympic Games"]}
     reason: we deliberately exclude Forerunners and Ancient Olympic Games sections
     certainty: 90
