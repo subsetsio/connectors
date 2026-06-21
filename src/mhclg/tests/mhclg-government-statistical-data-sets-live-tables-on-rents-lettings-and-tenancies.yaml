@@ -2,19 +2,20 @@ spec_id: mhclg-government-statistical-data-sets-live-tables-on-rents-lettings-an
 status: active
 tests:
   - not_null: attachment_filename
-    reason: every extracted cell records the source attachment it came from
+    reason: every extracted row records the source attachment it came from
     certainty: 99
-  - not_null: value
-    reason: the parser only emits non-empty cells; a null value means the writer schema drifted
+  - not_null: cells
+    reason: each row stores its cell values as a JSON array string; null means the writer drifted
     certainty: 99
   - column_type: {col: row_index, type: integer}
     certainty: 99
-  - column_type: {col: col_index, type: integer}
+  - column_type: {col: n_cols, type: integer}
     certainty: 99
-  - column_type: {col: value, type: string}
+  - column_type: {col: cells, type: string}
+    certainty: 99
+  - at_least: {col: n_cols, expr: 1}
+    reason: rows with zero non-empty cells are dropped in the transform
     certainty: 99
   - row_count: {min: 1}
-    reason: this publication exposes at least one parseable CSV/XLS/XLSX/ODS attachment, so the cell extraction is non-empty
+    reason: this publication exposes at least one parseable CSV/XLS/XLSX/ODS attachment
     certainty: 90
-  - at_least: {col: col_index, expr: 0}
-    certainty: 99

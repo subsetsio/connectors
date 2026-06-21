@@ -149,19 +149,17 @@ def _rows_ods(raw):
 
     zf = zipfile.ZipFile(io.BytesIO(raw))
     with zf.open("content.xml") as f:
-        ctx = etree.iterparse(f, events=("start", "end"))
-        cur_table = None
-        row_idx = 0
-        for event, el in ctx:
+        # only fire end events for rows and tables — skipping per-cell/per-text
+        # callbacks is the difference between minutes and seconds on big ODS.
+        ctx = etree.iterparse(f, events=("end",), tag=(row_tag, table_tag))
+        table_rows = {}  # id(table) -> running row index
+        for _event, el in ctx:
             if el.tag == table_tag:
-                if event == "start":
-                    cur_table = el.get(name_attr) or "table"
-                    row_idx = 0
-                else:
-                    el.clear()
+                el.clear()
                 continue
-            if event != "end" or el.tag != row_tag:
-                continue
+            parent = el.getparent()
+            cur_table = (parent.get(name_attr) or "table") if parent is not None else "table"
+            row_idx = table_rows.get(id(parent), 0)
             rep = int(el.get(rep_rows_attr) or 1)
             cells = []
             for cell in el.iterfind(cell_tag):
@@ -178,11 +176,12 @@ def _rows_ods(raw):
                 for _ in range(rep):
                     yield cur_table, row_idx, cleaned
                     row_idx += 1
+            table_rows[id(parent)] = row_idx
             # free this row and its already-processed previous siblings
             el.clear()
             prev = el.getprevious()
             while prev is not None:
-                el.getparent().remove(prev)
+                parent.remove(prev)
                 prev = el.getprevious()
 
 

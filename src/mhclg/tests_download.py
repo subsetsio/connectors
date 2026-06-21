@@ -1,51 +1,46 @@
 """Health-invariant tests for the MHCLG connector, run post-DAG in-connector.
 
-Catch silent degradation the file-existence check misses: empty extractions
-(endpoint switched format / attachment list changed), or a parser change that
-drops the uniform cell schema.
+Catch silent degradation file-existence misses: empty extractions (Content API
+stopped returning tabular attachments, or every parse failed), a dropped
+schema, or a `cells` payload that is no longer a JSON array.
 """
+
+import json
 
 from subsets_utils import load_raw_parquet
 
 EXPECTED_COLS = {
     "attachment_filename", "attachment_title", "content_type", "sheet_name",
-    "row_index", "col_index", "value", "value_numeric",
+    "row_index", "n_cols", "cells",
 }
 
 
 def test_all_raw_assets_nonempty(spec_ids):
-    """Every publication exposes at least one parseable spreadsheet, so its
-    cell extraction must hold rows. Zero rows means the Content API stopped
-    returning tabular attachments or every parse failed silently."""
-    empties = []
-    for sid in spec_ids:
-        table = load_raw_parquet(sid)
-        if len(table) == 0:
-            empties.append(sid)
+    """Every publication exposes at least one parseable spreadsheet, so its row
+    extraction must hold rows. Zero rows means the Content API stopped returning
+    tabular attachments or every parse failed silently."""
+    empties = [sid for sid in spec_ids if len(load_raw_parquet(sid)) == 0]
     assert not empties, f"{len(empties)} raw assets are empty: {empties[:5]}"
 
 
 def test_schema_uniform(spec_ids):
-    """The cell extraction schema is uniform across every publication; a drift
-    means the writer schema changed and downstream SQL will break."""
+    """The row-extraction schema is uniform across every publication; drift
+    means the writer schema changed and the SQL transforms will break."""
     for sid in spec_ids:
         cols = set(load_raw_parquet(sid).column_names)
         missing = EXPECTED_COLS - cols
         assert not missing, f"{sid}: missing columns {missing}"
 
 
-def test_some_numeric_values(spec_ids):
-    """Statistical tables are mostly numbers; across the whole connector a
-    meaningful fraction of cells must parse as numeric. All-null numeric would
-    mean the numeric parser silently broke."""
-    import pyarrow.compute as pc
-
-    numeric = 0
-    total = 0
+def test_cells_are_json_arrays(spec_ids):
+    """`cells` must always decode to a JSON list whose length matches n_cols —
+    that contract is what lets a consumer reconstruct the source tables."""
     for sid in spec_ids:
-        col = load_raw_parquet(sid).column("value_numeric")
-        total += len(col)
-        numeric += len(col) - col.null_count
-    assert total > 0, "no cells extracted across the entire connector"
-    frac = numeric / total
-    assert frac > 0.1, f"only {frac:.1%} of cells parsed as numeric; parser likely broke"
+        t = load_raw_parquet(sid)
+        if len(t) == 0:
+            continue
+        head = t.slice(0, 50).to_pylist()
+        for r in head:
+            arr = json.loads(r["cells"])
+            assert isinstance(arr, list), f"{sid}: cells is not a JSON list: {r['cells'][:80]}"
+            assert len(arr) == r["n_cols"], f"{sid}: n_cols={r['n_cols']} but cells has {len(arr)}"
