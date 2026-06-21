@@ -144,7 +144,9 @@ def _parse_csv(text):
     rows = list(reader)
     hdr_idx = None
     for i, row in enumerate(rows):
-        if row and row[0].strip().lower().replace(" ", "") == "rundate":
+        # First header cell is a run-date stamp: 'rundate' (airport/airline),
+        # 'Run Date' (punctuality summary), or 'run_date' (punctuality full).
+        if row and row[0].strip().lower().replace(" ", "").replace("_", "") == "rundate":
             hdr_idx = i
             break
     if hdr_idx is None:

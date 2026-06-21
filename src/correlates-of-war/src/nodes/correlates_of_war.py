@@ -120,16 +120,28 @@ def _transcode_to_utf8(src: str, dst: str):
             fout.write(chunk.decode("cp1252", errors="replace"))
 
 
+# Above this CSV size we stop type-sniffing: a full-file sniff (sample_size=-1)
+# on the ~800MB / 530-column IGO dyad file is pathologically slow and memory
+# hungry. Such files are read as all-VARCHAR (instant, bounded memory, never
+# errors on a stray value); the smaller, higher-value tables keep full
+# auto-typed inference from a whole-file sniff.
+_TYPE_SNIFF_MAX_BYTES = 300_000_000
+
+
 def _csv_to_parquet(csv_path: str, asset: str):
-    """Stream a CSV file through DuckDB into an auto-typed raw parquet."""
+    """Stream a CSV file through DuckDB into a raw parquet (bounded memory)."""
     con = duckdb.connect()
     try:
         lit = csv_path.replace("'", "''")
+        if os.path.getsize(csv_path) > _TYPE_SNIFF_MAX_BYTES:
+            read_opts = "all_varchar=true, sample_size=200000"
+        else:
+            read_opts = "sample_size=-1"
         sql = (
-            f"SELECT * FROM read_csv('{lit}', header=true, sample_size=-1, "
+            f"SELECT * FROM read_csv('{lit}', header=true, {read_opts}, "
             f"null_padding=true, ignore_errors=false, encoding='utf-8')"
         )
-        reader = con.execute(sql).fetch_record_batch(200_000)
+        reader = con.execute(sql).fetch_record_batch(50_000)
         schema = reader.schema
         rows = 0
         with raw_parquet_writer(asset, schema) as writer:
