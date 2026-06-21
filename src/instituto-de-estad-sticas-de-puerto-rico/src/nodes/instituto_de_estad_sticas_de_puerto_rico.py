@@ -152,6 +152,16 @@ def _sanitize_cols(cols):
     return out
 
 
+def _detect_encoding(sample: bytes) -> str:
+    if sample.startswith(b"\xef\xbb\xbf"):
+        return "utf-8-sig"
+    try:
+        sample.decode("utf-8")
+        return "utf-8"
+    except UnicodeDecodeError:
+        return "latin-1"
+
+
 def _decode(b: bytes) -> str:
     for enc in ("utf-8-sig", "utf-8", "latin-1"):
         try:
@@ -328,18 +338,21 @@ def _stream_csv_table(url: str, source_resource: str, source_file: str):
                     break
                 if len(sample) >= 65536:
                     break
-    text_sample = _decode(sample)
+    enc = _detect_encoding(sample)
+    text_sample = sample.decode(enc, errors="replace")
     delim = _sniff_delimiter(text_sample[:8192])
     header_line = text_sample.splitlines()[0] if text_sample else ""
     cols = _sanitize_cols(next(csv.reader(io.StringIO(header_line), delimiter=delim)))
 
     def rows():
+        import codecs
+        decoder = codecs.getincrementaldecoder(enc)(errors="replace")
         with client.stream("GET", url, timeout=(10.0, 600.0)) as resp:
             resp.raise_for_status()
             buf = ""
             first = True
             for chunk in resp.iter_bytes(chunk_size=1 << 20):
-                buf += chunk.decode("utf-8", errors="replace")
+                buf += decoder.decode(chunk)
                 lines = buf.split("\n")
                 buf = lines.pop()  # keep partial last line
                 for line in lines:
