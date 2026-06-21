@@ -1,0 +1,19 @@
+spec_id: hong-kong-observatory-astronomical-tides-hourly
+status: active
+tests:
+  - not_null: station
+  - not_null: hour
+  - column_type: {col: hour, type: integer}
+  - between: {col: hour, lo: 1, hi: 24}
+    reason: HHOT reports 24 hourly columns per day
+    certainty: 98
+  - unique: [station, year, month, day, hour]
+    reason: one predicted height per station/day/hour
+    certainty: 90
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - at_most: {col: year, expr: current_year() + 3}
+    reason: tide predictions extend only a couple of years ahead
+    certainty: 80
+    points_outward: true
+    severity: warn

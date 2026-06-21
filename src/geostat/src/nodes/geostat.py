@@ -162,8 +162,12 @@ def _coerce(v):
 
 def _decode(dataset, colmap):
     """Flatten a json-stat (v1 'dataset' wrapper) response to long-format rows."""
-    order = dataset["id"]
-    sizes = dataset["size"]
+    # json-stat v1: 'id'/'size' are optional. When absent, dimension order is
+    # the order of the 'dimension' map and each size is its category count.
+    order = dataset.get("id") or list(dataset["dimension"].keys())
+    sizes = dataset.get("size") or [
+        len(dataset["dimension"][d]["category"]["index"]) for d in order
+    ]
     # position -> value label, per dimension
     pos_label = {}
     for d in order:

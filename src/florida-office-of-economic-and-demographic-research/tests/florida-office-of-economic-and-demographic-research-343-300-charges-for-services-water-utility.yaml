@@ -1,0 +1,19 @@
+spec_id: florida-office-of-economic-and-demographic-research-343-300-charges-for-services-water-utility
+status: active
+tests:
+  - not_null: row_label
+    reason: every melted record takes its row_label from the worksheet's first (entity/period) column
+    certainty: 95
+  - not_null: measure
+    reason: every value column is labelled from its (possibly multi-row) header
+    certainty: 90
+  - not_null: value_text
+    reason: records are only emitted for non-empty cells
+    certainty: 95
+  - column_type: {col: value_text, type: string}
+    certainty: 90
+  - row_count: {min: 10}
+    reason: an EDR statistical workbook melts to at least a county-or-year table; under 10 cells means header/data detection failed for this file
+    certainty: 70
+    points_outward: false
+    severity: warn

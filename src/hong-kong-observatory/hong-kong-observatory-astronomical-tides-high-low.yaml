@@ -1,0 +1,18 @@
+spec_id: hong-kong-observatory-astronomical-tides-high-low
+status: active
+tests:
+  - not_null: station
+  - not_null: event
+  - column_type: {col: event, type: integer}
+  - between: {col: event, lo: 1, hi: 4}
+    reason: up to four high/low tide events are reported per day
+    certainty: 95
+  - unique: [station, year, month, day, event]
+    reason: one row per station/day/event slot
+    certainty: 90
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - at_most: {col: year, expr: current_year() + 3}
+    certainty: 80
+    points_outward: true
+    severity: warn

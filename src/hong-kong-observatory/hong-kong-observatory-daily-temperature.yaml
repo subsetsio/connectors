@@ -1,0 +1,22 @@
+spec_id: hong-kong-observatory-daily-temperature
+status: active
+tests:
+  - not_null: station
+  - not_null: measure
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - enum: {col: measure, values: [mean, max, min]}
+    reason: three CLM datatypes collapsed into one measure column
+    certainty: 95
+  - unique: [station, measure, year, month, day]
+    reason: one observation per station/measure/calendar day
+    certainty: 90
+  - between: {col: year, lo: 1884, hi: current_year()}
+    reason: HKO record starts 1884; nothing is dated in the future
+    certainty: 90
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - between: {col: day, lo: 1, hi: 31}
+    certainty: 99
+  - at_least: {col: year, expr: 1884}
+    certainty: 95

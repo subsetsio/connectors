@@ -1,0 +1,21 @@
+spec_id: hong-kong-observatory-weather-radiation-report
+status: active
+tests:
+  - not_null: report_date
+  - not_null: station
+  - not_null: metric
+  - matches: {col: report_date, pattern: '^[0-9]{8}$'}
+    reason: RYES dates are YYYYMMDD strings
+    certainty: 90
+  - unique: [report_date, station, metric]
+    reason: one value per station/metric/day
+    certainty: 85
+  - enum:
+      col: metric
+      values: [MaxTemp, MinTemp, Microsieverts, ReadingsMaxTemp, ReadingsMinTemp,
+               ReadingsMaxRH, ReadingsMinRH, ReadingsAvgRainfall, ReadingsAccumRainfall,
+               ReadingsRainfall, ReadingsMaxUVIndex, ReadingsMeanUVIndex,
+               ReadingsMinGrassTemp, ReadingsSunShine]
+    reason: documented RYES attribute suffixes (LocationName and global notes excluded in parse)
+    certainty: 75
+    severity: warn

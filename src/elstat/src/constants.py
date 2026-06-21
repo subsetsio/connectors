@@ -1,6 +1,6 @@
 """ELSTAT publication codes accepted by rank (the entity union).
-Each is one statistics.gr publication carrying >=1 downloadable Excel data file.
-Copied from data/sources/elstat/work/entity_union.json — data, not logic."""
+Each is one statistics.gr publication carrying >=1 downloadable Excel data
+table that melts to numeric observations. Data, not logic."""
 
 ENTITY_IDS = [
     "DKT03",
@@ -72,7 +72,6 @@ ENTITY_IDS = [
     "SEM95",
     "SEM96",
     "SFA01",
-    "SFA10",
     "SFC02",
     "SHE06",
     "SHE09",
@@ -84,7 +83,6 @@ ENTITY_IDS = [
     "SHE29",
     "SHE30",
     "SHE35",
-    "SIN06",
     "SIN09",
     "SIN21",
     "SJO01",
@@ -102,10 +100,7 @@ ENTITY_IDS = [
     "SJU18",
     "SJU21",
     "SJU30",
-    "SMA27",
     "SME09",
-    "SME12",
-    "SME16",
     "SME18",
     "SME21",
     "SOP03",

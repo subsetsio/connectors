@@ -1,0 +1,28 @@
+spec_id: iom-missing-migrants
+status: active
+tests:
+  - not_null: main_id
+    reason: Main ID is the row identifier for every recorded incident
+    certainty: 95
+  - unique: main_id
+    reason: one row per Missing Migrants incident record
+    certainty: 80
+    severity: warn
+  - column_type: {col: incident_date, type: date}
+    certainty: 90
+  - between: {col: incident_year, lo: 2014, hi: current_year()}
+    reason: Missing Migrants Project tracks deaths from 2014 onward
+    certainty: 90
+  - at_least: {col: total_dead_and_missing, expr: 0}
+    reason: dead-and-missing totals are non-negative counts
+    certainty: 90
+  - column_type: {col: total_dead_and_missing, type: integer}
+    certainty: 85
+  - row_count: {min: 10000}
+    reason: ~22k incidents recorded since 2014; far fewer means a truncated pull
+    certainty: 80
+  - freshness: {col: incident_date, reaches: today - 400d}
+    reason: actively maintained dataset; latest incident should be within ~1 year
+    points_outward: true
+    severity: warn
+    certainty: 70

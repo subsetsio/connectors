@@ -1,0 +1,13 @@
+spec_id: hong-kong-observatory-moon-times
+status: active
+tests:
+  - not_null: date
+  - unique: date
+    reason: one almanac row per calendar date
+    certainty: 95
+  - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
+    certainty: 95
+  - nullable: {col: transit, max_null_frac: 0.2}
+    reason: moon transit is occasionally absent on days the moon does not cross the meridian
+    certainty: 70
+    severity: warn
