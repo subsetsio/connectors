@@ -1,0 +1,15 @@
+spec_id: dbt-uk-tariff-2021-01-01--report--measures-on-declarable-commodities
+status: active
+tests:
+  - not_null: id
+    reason: surrogate row id on the published declarable-commodity measures report
+    certainty: 85
+  - not_null: commodity__code
+    reason: each row is anchored to a declarable commodity code
+    certainty: 85
+  - not_null: measure__type__id
+    reason: each row carries the measure type applied to the commodity
+    certainty: 80
+  - row_count: {min: 1000}
+    reason: the report mirrors the large measures-on-declarable-commodities view
+    certainty: 85

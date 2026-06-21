@@ -1,0 +1,12 @@
+spec_id: dbt-uk-trade-quotas--report--quotas-including-current-volumes
+status: active
+tests:
+  - not_null: quota_definition__sid
+    reason: every quota definition has a numeric system id
+    certainty: 90
+  - not_null: quota__order_number
+    reason: each quota carries its order number
+    certainty: 85
+  - row_count: {min: 50}
+    reason: the report covers all current UK trade quotas with volumes
+    certainty: 80
