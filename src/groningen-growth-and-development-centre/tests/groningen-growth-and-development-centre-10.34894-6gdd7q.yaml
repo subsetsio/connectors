@@ -1,0 +1,47 @@
+{
+  "spec_id": "groningen-growth-and-development-centre-10.34894-6gdd7q",
+  "status": "active",
+  "tests": [
+    {
+      "not_null": "iso3"
+    },
+    {
+      "not_null": "var"
+    },
+    {
+      "not_null": "isic4"
+    },
+    {
+      "column_type": {
+        "col": "year",
+        "type": "integer"
+      }
+    },
+    {
+      "column_type": {
+        "col": "value",
+        "type": "float"
+      }
+    },
+    {
+      "not_null": "value"
+    },
+    {
+      "between": {
+        "col": "year",
+        "lo": 1970,
+        "hi": 2015
+      },
+      "certainty": 90,
+      "reason": "observed year span for this release",
+      "points_outward": false,
+      "severity": "warn"
+    },
+    {
+      "row_count": {
+        "min": 100000
+      },
+      "reason": "melted long-table size seen while probing"
+    }
+  ]
+}

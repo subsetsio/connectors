@@ -1,16 +1,15 @@
-import os, yaml
+import os, json
 SLUG="groningen-growth-and-development-centre"
 TDIR="tests"; os.makedirs(TDIR, exist_ok=True)
 
-# per entity: list of test dicts
-def base(year_lo, year_hi, rows_min, dims, year_certainty=90, year_outward=False):
+def base(year_lo, year_hi, rows_min, dims, year_certainty=90):
     t=[{"not_null":d} for d in dims]
     t += [
         {"column_type":{"col":"year","type":"integer"}},
         {"column_type":{"col":"value","type":"float"}},
         {"not_null":"value"},
         {"between":{"col":"year","lo":year_lo,"hi":year_hi},"certainty":year_certainty,
-         "reason":"observed year span for this release","points_outward":year_outward,
+         "reason":"observed year span for this release","points_outward":False,
          "severity":"warn"},
         {"row_count":{"min":rows_min},"reason":"melted long-table size seen while probing"},
     ]
@@ -38,5 +37,5 @@ for eid,tests in SPECS.items():
     spec_id=f"{SLUG}-{eid}"
     doc={"spec_id":spec_id,"status":"active","tests":tests}
     with open(os.path.join(TDIR,spec_id+".yaml"),"w") as f:
-        yaml.safe_dump(doc,f,sort_keys=False,allow_unicode=True)
+        json.dump(doc,f,indent=2)
     print("wrote",spec_id+".yaml")

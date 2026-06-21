@@ -1,0 +1,65 @@
+spec_id: heritage-foundation-index-of-economic-freedom
+status: active
+tests:
+  - not_null: year
+    reason: year is injected from the edition we fetched; never null
+    certainty: 99
+  - not_null: country
+    reason: rows with a blank country cell are dropped during parse
+    certainty: 99
+  - not_null: component
+    reason: every emitted row carries a canonical component slug
+    certainty: 99
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: score, type: float}
+    certainty: 90
+  - between: {col: year, lo: 2009, hi: 2027}
+    reason: editions reach back to 2009; an edition may be named for next year
+    certainty: 90
+  - at_least: {col: year, expr: 2009}
+    certainty: 95
+  - at_most: {col: year, expr: current_year()}
+    reason: latest edition is typically named for the current year; a next-year edition shipped early would trip this
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: year, min: 15}
+    reason: ~18 editions (2009-2026); far fewer means a host went dark
+    certainty: 85
+  - distinct_count: {col: country, min: 150}
+    reason: the Index covers ~184 countries each edition
+    certainty: 85
+  - between: {col: score, lo: 0, hi: 100}
+    reason: every component and the overall index is scaled 0-100
+    certainty: 95
+  - enum:
+      col: component
+      values:
+        - overall
+        - property_rights
+        - judicial_effectiveness
+        - government_integrity
+        - freedom_from_corruption
+        - tax_burden
+        - fiscal_freedom
+        - fiscal_health
+        - government_spending
+        - government_size
+        - business_freedom
+        - labor_freedom
+        - monetary_freedom
+        - trade_freedom
+        - investment_freedom
+        - financial_freedom
+    reason: closed set of canonical component slugs the parser emits; a new value means an unmapped header slipped through
+    certainty: 90
+  - nullable: {col: score, max_null_frac: 0.5}
+    reason: some countries miss components in some editions, but most cells are populated
+    certainty: 80
+  - nullable: {col: region, max_null_frac: 0.2}
+    reason: region is present from 2010 on; only the 2009 edition lacks it
+    certainty: 80
+  - row_count: {min: 20000}
+    reason: ~18 editions x ~184 countries x ~11-13 components
+    certainty: 85

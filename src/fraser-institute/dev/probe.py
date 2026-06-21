@@ -20,7 +20,6 @@ def flatten(payload):
 con=duckdb.connect()
 for name,f in maps.items():
     rows=flatten(json.load(open(f)))
-    con.register(name, duckdb.from_arrow.__self__.values if False else None) or None
     # write ndjson temp and read
     p=f"/tmp/{name}.ndjson"
     with open(p,"w") as fh:

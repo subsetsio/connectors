@@ -1,0 +1,59 @@
+{
+  "spec_id": "groningen-growth-and-development-centre-10.34894-lch4ca",
+  "status": "active",
+  "tests": [
+    {
+      "not_null": "country"
+    },
+    {
+      "not_null": "var"
+    },
+    {
+      "not_null": "sector"
+    },
+    {
+      "column_type": {
+        "col": "year",
+        "type": "integer"
+      }
+    },
+    {
+      "column_type": {
+        "col": "value",
+        "type": "float"
+      }
+    },
+    {
+      "not_null": "value"
+    },
+    {
+      "between": {
+        "col": "year",
+        "lo": 1990,
+        "hi": 2025
+      },
+      "certainty": 90,
+      "reason": "observed year span for this release",
+      "points_outward": false,
+      "severity": "warn"
+    },
+    {
+      "row_count": {
+        "min": 10000
+      },
+      "reason": "melted long-table size seen while probing"
+    },
+    {
+      "enum": {
+        "col": "var",
+        "values": [
+          "VA",
+          "EMP"
+        ]
+      },
+      "certainty": 80,
+      "reason": "ETD reports value added and employment",
+      "severity": "warn"
+    }
+  ]
+}
