@@ -8,24 +8,28 @@ attachment (CSV / XLS / XLSX / ODS).
 
 The attachments are heterogeneous, multi-sheet spreadsheets with irregular
 title/merged-header layouts that differ table-to-table and year-to-year, so no
-single rectangular schema fits a publication. We therefore publish a faithful
-**cell-level long extraction**: one row per non-empty cell, carrying its source
-attachment, table title, sheet, and (row, column) coordinate plus a numeric
-parse. This is uniform across all publications, always non-empty, and lets a
-consumer reconstruct/pivot any underlying table by filtering on
-attachment_title / sheet_name and pivoting on row_index / col_index.
+single rectangular schema fits a publication — and some publications ship
+record-level microdata in 30 MB+ ODS files. We therefore publish a faithful,
+uniform **row-level long extraction**: one row per non-empty source row,
+carrying its source attachment, table title, sheet, 0-based row index, and the
+row's cell values as a JSON-encoded array of strings. A consumer reconstructs
+any underlying table by filtering on attachment_title / sheet_name and parsing
+`cells`.
 
-Fetch shape: stateless full re-pull (shape 1). The corpus is a few hundred
-spreadsheet files, re-pullable in one run; asset URLs are content-hash paths
+Every reader streams (chunked CSV, openpyxl read-only, lxml row-level iterparse
+for ODS) and rows are flushed in bounded parquet batches, so memory stays flat
+even on the 200 MB fire-statistics publication.
+
+Fetch shape: stateless full re-pull (shape 1). Asset URLs are content-hash paths
 that change on re-upload, so we re-resolve them from the Content API every run
 and never store a watermark.
 """
 
 import io
-import re
+import json
+import zipfile
 
 import pyarrow as pa
-import pyarrow.parquet as pq
 
 from subsets_utils import (
     NodeSpec,
@@ -38,28 +42,32 @@ from constants import ENTITY_IDS, BASE_PATHS
 
 CONTENT_API = "https://www.gov.uk/api/content/"
 
-# content types we can parse into cells; everything else (PDF/HTML previews,
-# zip bundles) is skipped.
 _CSV_TYPES = {"text/csv", "text/plain"}
 _XLSX_TYPES = {"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}
 _XLS_TYPES = {"application/vnd.ms-excel"}
 _ODS_TYPES = {"application/vnd.oasis.opendocument.spreadsheet"}
 _TABULAR_TYPES = _CSV_TYPES | _XLSX_TYPES | _XLS_TYPES | _ODS_TYPES
 
-# faithful, uniform schema for every publication.
 SCHEMA = pa.schema([
     ("attachment_filename", pa.string()),
     ("attachment_title", pa.string()),
     ("content_type", pa.string()),
     ("sheet_name", pa.string()),
     ("row_index", pa.int64()),
-    ("col_index", pa.int64()),
-    ("value", pa.string()),
-    ("value_numeric", pa.float64()),
+    ("n_cols", pa.int64()),
+    ("cells", pa.string()),  # JSON array of stringified cell values
 ])
 
-_NUM_RE = re.compile(r"^-?\d+(?:\.\d+)?$")
-_BATCH_ROWS = 200_000  # cells per parquet row group flush — bounds memory
+_BATCH_ROWS = 20_000  # source rows per parquet row group flush
+
+# ODS XML namespaces
+_NS_T = "urn:oasis:names:tc:opendocument:xmlns:table:1.0"
+_NS_O = "urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+_NS_TX = "urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+
+
+def _qn(ns, tag):
+    return "{%s}%s" % (ns, tag)
 
 
 @transient_retry()
@@ -76,57 +84,118 @@ def _get_bytes(url):
     return resp.content
 
 
-def _to_number(text):
-    """Best-effort numeric parse of a cell string, else None."""
-    t = text.strip().replace(",", "")
-    if t.endswith("%"):
-        t = t[:-1].strip()
-    if _NUM_RE.match(t):
-        try:
-            return float(t)
-        except ValueError:
-            return None
-    return None
+def _clean(cells):
+    """Trim trailing empties; return list or None if the row is all-empty."""
+    out = ["" if c is None else str(c).strip() for c in cells]
+    while out and out[-1] == "":
+        out.pop()
+    if not out or all(c == "" for c in out):
+        return None
+    return out
 
 
-def _iter_cells(filename, title, content_type, df, sheet_name):
-    """Yield (filename, title, content_type, sheet, row, col, value, num) for
-    every non-empty cell of a header-less DataFrame."""
-    values = df.values
-    nrows = len(values)
-    for r in range(nrows):
-        row = values[r]
-        for c in range(len(row)):
-            v = row[c]
-            if v is None:
-                continue
-            text = str(v).strip()
-            if not text or text.lower() == "nan":
-                continue
-            yield (filename, title, content_type, sheet_name, r, c, text, _to_number(text))
-
-
-def _sheets_for(content, raw):
-    """Return list of (sheet_name, DataFrame) read header-less, dtype object."""
+def _rows_csv(raw):
     import pandas as pd
 
-    if content in _CSV_TYPES:
-        # chunked to bound memory on very wide/long CSVs (e.g. 600+ cols).
-        return [("csv", chunk) for chunk in pd.read_csv(
-            io.BytesIO(raw), header=None, dtype=str, keep_default_na=False,
-            na_values=[], chunksize=20_000, low_memory=False, encoding_errors="replace",
-        )]
-    if content in _XLSX_TYPES:
-        engine = "openpyxl"
-    elif content in _XLS_TYPES:
-        engine = "xlrd"
-    elif content in _ODS_TYPES:
-        engine = "odf"
-    else:
-        return []
-    book = pd.read_excel(io.BytesIO(raw), sheet_name=None, header=None,
-                         dtype=object, engine=engine)
-    return list(book.items())
+    for chunk in pd.read_csv(
+        io.BytesIO(raw), header=None, dtype=str, keep_default_na=False,
+        na_values=[], chunksize=10_000, low_memory=False, encoding_errors="replace",
+    ):
+        base = chunk.index[0]
+        for off, row in enumerate(chunk.itertuples(index=False, name=None)):
+            cells = _clean(row)
+            if cells is not None:
+                yield "csv", base + off, cells
+
+
+def _rows_xlsx(raw):
+    from openpyxl import load_workbook
+
+    wb = load_workbook(io.BytesIO(raw), read_only=True, data_only=True)
+    try:
+        for ws in wb.worksheets:
+            for ri, row in enumerate(ws.iter_rows(values_only=True)):
+                cells = _clean(row)
+                if cells is not None:
+                    yield ws.title, ri, cells
+    finally:
+        wb.close()
+
+
+def _rows_xls(raw):
+    import xlrd
+
+    book = xlrd.open_workbook(file_contents=raw)
+    for sheet in book.sheets():
+        for ri in range(sheet.nrows):
+            cells = _clean(sheet.row_values(ri))
+            if cells is not None:
+                yield sheet.name, ri, cells
+
+
+def _rows_ods(raw):
+    """Stream ODS rows via lxml row-level iterparse, freeing each row's subtree
+    so a 30 MB record-level ODS stays flat in memory."""
+    from lxml import etree
+
+    row_tag = _qn(_NS_T, "table-row")
+    cell_tag = _qn(_NS_T, "table-cell")
+    table_tag = _qn(_NS_T, "table")
+    name_attr = _qn(_NS_T, "name")
+    rep_rows_attr = _qn(_NS_T, "number-rows-repeated")
+    rep_cols_attr = _qn(_NS_T, "number-columns-repeated")
+    value_attr = _qn(_NS_O, "value")
+    p_tag = _qn(_NS_TX, "p")
+
+    zf = zipfile.ZipFile(io.BytesIO(raw))
+    with zf.open("content.xml") as f:
+        ctx = etree.iterparse(f, events=("start", "end"))
+        cur_table = None
+        row_idx = 0
+        for event, el in ctx:
+            if el.tag == table_tag:
+                if event == "start":
+                    cur_table = el.get(name_attr) or "table"
+                    row_idx = 0
+                else:
+                    el.clear()
+                continue
+            if event != "end" or el.tag != row_tag:
+                continue
+            rep = int(el.get(rep_rows_attr) or 1)
+            cells = []
+            for cell in el.iterfind(cell_tag):
+                crep = int(cell.get(rep_cols_attr) or 1)
+                val = cell.get(value_attr)
+                if val is None:
+                    ps = cell.findall(p_tag)
+                    val = "".join("".join(p.itertext()) for p in ps) if ps else ""
+                cells.extend([val] * crep)
+            cleaned = _clean(cells)
+            if cleaned is None:
+                row_idx += rep  # blank run — advance index without emitting
+            else:
+                for _ in range(rep):
+                    yield cur_table, row_idx, cleaned
+                    row_idx += 1
+            # free this row and its already-processed previous siblings
+            el.clear()
+            prev = el.getprevious()
+            while prev is not None:
+                el.getparent().remove(prev)
+                prev = el.getprevious()
+
+
+def _rows_for(content_type, raw):
+    if content_type in _CSV_TYPES:
+        return _rows_csv(raw)
+    if content_type in _XLSX_TYPES:
+        return _rows_xlsx(raw)
+    if content_type in _XLS_TYPES:
+        return _rows_xls(raw)
+    if content_type in _ODS_TYPES:
+        return _rows_ods(raw)
+    return iter(())
 
 
 def fetch_one(node_id: str) -> None:
@@ -137,26 +206,16 @@ def fetch_one(node_id: str) -> None:
     doc = _get_json(CONTENT_API + base_path)
     attachments = (doc.get("details") or {}).get("attachments") or []
 
-    pending = []  # rows buffered before a flush
+    buf = {k: [] for k in SCHEMA.names}
     wrote_any = False
     with raw_parquet_writer(asset, SCHEMA) as writer:
         def flush():
-            nonlocal pending, wrote_any
-            if not pending:
+            nonlocal wrote_any
+            if not buf["row_index"]:
                 return
-            cols = list(zip(*pending))
-            table = pa.table({
-                "attachment_filename": pa.array(cols[0], pa.string()),
-                "attachment_title": pa.array(cols[1], pa.string()),
-                "content_type": pa.array(cols[2], pa.string()),
-                "sheet_name": pa.array(cols[3], pa.string()),
-                "row_index": pa.array(cols[4], pa.int64()),
-                "col_index": pa.array(cols[5], pa.int64()),
-                "value": pa.array(cols[6], pa.string()),
-                "value_numeric": pa.array(cols[7], pa.float64()),
-            }, schema=SCHEMA)
-            writer.write_table(table)
-            pending = []
+            writer.write_table(pa.table(buf, schema=SCHEMA))
+            for v in buf.values():
+                v.clear()
             wrote_any = True
 
         for att in attachments:
@@ -168,22 +227,24 @@ def fetch_one(node_id: str) -> None:
             title = att.get("title") or filename
             raw = _get_bytes(url)
             try:
-                sheets = _sheets_for(ct, raw)
+                for sheet_name, row_index, cells in _rows_for(ct, raw):
+                    buf["attachment_filename"].append(filename)
+                    buf["attachment_title"].append(title)
+                    buf["content_type"].append(ct)
+                    buf["sheet_name"].append(str(sheet_name))
+                    buf["row_index"].append(int(row_index))
+                    buf["n_cols"].append(len(cells))
+                    buf["cells"].append(json.dumps(cells, ensure_ascii=False))
+                    if len(buf["row_index"]) >= _BATCH_ROWS:
+                        flush()
             except Exception as exc:  # noqa: BLE001 - one bad file shouldn't sink the asset
                 print(f"  !! parse failed {asset} {filename} ({ct}): {type(exc).__name__}: {exc}")
                 continue
-            for sheet_name, df in sheets:
-                if df is None or df.empty:
-                    continue
-                for cell in _iter_cells(filename, title, ct, df, str(sheet_name)):
-                    pending.append(cell)
-                    if len(pending) >= _BATCH_ROWS:
-                        flush()
         flush()
 
         if not wrote_any:
-            # No parseable cells at all — write an empty (schema-only) table so the
-            # asset exists; the transform's 0-row guard will surface the problem.
+            # No parseable rows — write a schema-only table so the asset exists;
+            # the transform's 0-row guard surfaces the problem.
             writer.write_table(SCHEMA.empty_table())
 
 
@@ -196,9 +257,8 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-# One published Delta table per publication: a thin pass over the cell extraction,
-# dropping any all-empty rows the parser may have let through. Uniform across all
-# subsets because the raw schema is uniform.
+# One published Delta table per publication: a thin pass over the row extraction,
+# dropping any all-empty rows. Uniform across all subsets (uniform raw schema).
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
@@ -210,11 +270,10 @@ TRANSFORM_SPECS = [
                 content_type,
                 sheet_name,
                 CAST(row_index AS BIGINT) AS row_index,
-                CAST(col_index AS BIGINT) AS col_index,
-                value,
-                CAST(value_numeric AS DOUBLE) AS value_numeric
+                CAST(n_cols AS BIGINT) AS n_cols,
+                cells
             FROM "{s.id}"
-            WHERE value IS NOT NULL AND length(trim(value)) > 0
+            WHERE n_cols > 0
         ''',
     )
     for s in DOWNLOAD_SPECS
