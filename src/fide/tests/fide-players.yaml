@@ -1,0 +1,36 @@
+spec_id: fide-players
+status: active
+tests:
+  - not_null: fideid
+    reason: every player record carries a FIDE id; a null means the XML element set changed
+    certainty: 99
+  - unique: fideid
+    reason: the combined list has exactly one wide row per player; dupes mean the parse double-counted or batches overlapped
+    certainty: 97
+  - column_type: {col: fideid, type: integer}
+    certainty: 99
+  - column_type: {col: rating, type: integer}
+    certainty: 95
+  - not_null: name
+    reason: FIDE always publishes a player name
+    certainty: 90
+    severity: warn
+  - row_count: {min: 500000}
+    reason: the standard list alone is ~1M players; the combined list (any rated time control) is larger. <500k means a truncated download or parse stopping early
+    certainty: 90
+  - between: {col: rating, lo: 0, hi: 3000}
+    reason: FIDE standard Elo never exceeds ~2900 (Carlsen peak 2882); 0 is the unrated sentinel. A value above 3000 means a mis-parsed column
+    certainty: 95
+  - between: {col: blitz_rating, lo: 0, hi: 3200}
+    reason: blitz ratings run slightly higher than standard but stay well under 3200
+    certainty: 90
+    severity: warn
+  - between: {col: birthday, lo: 1900, hi: 2025}
+    reason: birth year of a living rated player; sentinel 0 is nulled in transform but raw may carry 0, so lo allows for cleaning downstream. A year >2025 is impossible
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: country, min: 150}
+    reason: FIDE has ~190 member federations; far fewer distinct country codes means the column mis-mapped
+    certainty: 85
+    severity: warn

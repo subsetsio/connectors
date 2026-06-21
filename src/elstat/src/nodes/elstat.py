@@ -26,6 +26,12 @@ import math
 import re
 
 import pandas as pd
+from tenacity import (
+    retry,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential,
+)
 
 from constants import ENTITY_IDS
 from subsets_utils import (
@@ -35,6 +41,11 @@ from subsets_utils import (
     save_raw_ndjson,
     transient_retry,
 )
+
+
+class EmptyPageError(RuntimeError):
+    """The publication page rendered without its document portlets (server
+    returns a degraded page under load). Retryable — a re-fetch usually fixes it."""
 
 PUBLICATION_URL = "https://www.statistics.gr/en/statistics/-/publication/{code}/-"
 
@@ -52,6 +63,9 @@ _EXCEL_CT = (
     "officedocument.spreadsheetml",      # .xlsx
     "application/vnd.ms-excel",          # legacy .xls
 )
+# EURO-SDMX metadata workbooks (filename token "_MT_") describe the series
+# (contacts, definitions) rather than carrying data — skip them.
+_METADATA_TOKEN = re.compile(r"_MT_", re.IGNORECASE)
 
 # --- generic workbook -> long-format melt ----------------------------------
 
@@ -203,22 +217,27 @@ def _select_excel(files):
 # --- HTTP ------------------------------------------------------------------
 
 @transient_retry()
-def _get_page(code):
-    resp = get(PUBLICATION_URL.format(code=code), timeout=(10.0, 90.0))
-    resp.raise_for_status()
-    html = resp.text
-    if "documentID=" not in html:
-        # The publication portlets sometimes render empty under load; treat a
-        # page with no document links as transient and let the retry re-fetch.
-        raise RuntimeError(f"publication page for {code} carried no document links")
-    return html
-
-
-@transient_retry()
-def _get_doc(url):
-    resp = get(url, timeout=(10.0, 180.0))
+def _http_get(url, **kwargs):
+    resp = get(url, **kwargs)
     resp.raise_for_status()
     return resp
+
+
+# Retry the whole page fetch when it comes back without document links — that is
+# a load-induced degraded render, not a real "no documents" state. Network-level
+# transients are already handled inside _http_get by transient_retry().
+@retry(
+    retry=retry_if_exception_type(EmptyPageError),
+    stop=stop_after_attempt(7),
+    wait=wait_exponential(multiplier=2, min=3, max=90),
+    reraise=True,
+)
+def _get_page(code):
+    resp = _http_get(PUBLICATION_URL.format(code=code), timeout=(10.0, 90.0))
+    html = resp.text
+    if "documentID=" not in html:
+        raise EmptyPageError(f"publication page for {code} carried no document links")
+    return html
 
 
 def _excel_attachments(code):
@@ -231,13 +250,15 @@ def _excel_attachments(code):
         if did in seen:
             continue
         seen.add(did)
-        resp = _get_doc(url)
+        resp = _http_get(url, timeout=(10.0, 180.0))
         ct = resp.headers.get("content-type", "").lower()
         if not any(x in ct for x in _EXCEL_CT):
             continue
         cd = resp.headers.get("content-disposition", "")
         fn = _FILENAME_RE.search(cd)
         fn = fn.group(1).strip() if fn else f"{code}_{did}.xlsx"
+        if _METADATA_TOKEN.search(fn):
+            continue
         files.append((fn, resp.content))
     return files
 
