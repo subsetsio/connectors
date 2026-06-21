@@ -102,6 +102,20 @@ def fetch_one(node_id: str) -> None:
     if not rows:
         raise RuntimeError(f"{tb_code}: no rows from any component")
 
+    # Components within a table do NOT always share the same classification
+    # dimensions (e.g. one component carries SEX, another doesn't), so the
+    # per-row key set is heterogeneous. DuckDB's read_json_auto infers the
+    # schema from a leading sample and hard-fails if a key first appears beyond
+    # that window. Normalise every row to the union of keys so the ndjson has a
+    # single stable schema regardless of where each dimension first appears.
+    all_keys = set()
+    for r in rows:
+        all_keys.update(r.keys())
+    for r in rows:
+        for k in all_keys:
+            if k not in r:
+                r[k] = None
+
     save_raw_ndjson(rows, asset)
 
 

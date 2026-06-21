@@ -64,15 +64,25 @@ DOWNLOAD_SPECS = [
 ]
 
 # One published Delta table per dataflow. DuckDB auto-detects the per-entity
-# SDMX-CSV schema (OBS_VALUE -> DOUBLE, dimension codes -> VARCHAR/INTEGER,
-# TIME_PERIOD kept as-is). All observation rows are kept — including blank
-# OBS_VALUE cells (OBS_STATUS carries the reason), so a sparse series still
-# publishes its full time grid rather than collapsing to zero rows.
+# SDMX-CSV schema (OBS_VALUE -> DOUBLE, dimension codes -> VARCHAR, TIME_PERIOD
+# kept as-is). All observation rows are kept — including blank OBS_VALUE cells
+# (OBS_STATUS carries the reason), so a sparse series still publishes its full
+# time grid rather than collapsing to zero rows.
+#
+# We drop seven SDMX boilerplate columns that are universal across every CL01
+# dataflow and carry no analytical value: DATAFLOW (the dataflow id, redundant
+# with the table name), INDICADOR (the constant indicator code), DECIMALS / MULT
+# (display formatting), and NOTAS / NOTAS_INDICADOR / FUENTE (mostly-null footnote
+# and source-code text). What remains is the meaningful payload: the breakdown
+# dimensions (AREA_REF + SEXO/EDAD/RAMA/CIUO/... as applicable), the unit (UNIDAD)
+# and frequency (FREQ) context, TIME_PERIOD, OBS_VALUE and OBS_STATUS.
+_DROP = "DATAFLOW, INDICADOR, DECIMALS, MULT, NOTAS, NOTAS_INDICADOR, FUENTE"
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
+        sql=f'SELECT * EXCLUDE ({_DROP}) FROM "{s.id}"',
     )
     for s in DOWNLOAD_SPECS
 ]
