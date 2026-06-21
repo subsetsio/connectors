@@ -1,0 +1,17 @@
+spec_id: guangdong-bureau-of-statistics-12-11
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every yearbook table holds data cells; 0 rows means the .xls 404'd, was truncated, or the layout changed and the melt found nothing
+    certainty: 90
+  - not_null: table_id
+    reason: the table id is stamped on every melted cell by the fetch fn
+    certainty: 99
+  - not_null: value_str
+    reason: every emitted cell carries its raw string value; a null means a cell was emitted with no content
+    certainty: 90
+  - column_type: {col: row_pos, type: integer}
+    certainty: 95
+  - column_type: {col: value_num, type: float}
+    reason: numeric cells are parsed to double; text-only cells leave it null but the column is float-typed
+    certainty: 88

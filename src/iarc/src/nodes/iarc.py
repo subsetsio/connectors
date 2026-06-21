@@ -77,6 +77,16 @@ def _codes(meta, key: str) -> str:
     return "_".join(str(rec[key]) for rec in meta)
 
 
+def _num(v):
+    """GCO returns 'NA' / '' for unavailable numeric cells — normalise to None."""
+    if v is None or (isinstance(v, str) and v.strip() in ("", "NA", "na", "N/A", "-")):
+        return None
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
 # --------------------------------------------------------------------------- #
 # GLOBOCAN meta dictionaries
 # --------------------------------------------------------------------------- #
@@ -109,13 +119,13 @@ def fetch_globocan_estimates(node_id: str) -> None:
                     "cancer_code": r.get("cancer_code"),
                     "sex": r.get("sex", sex),
                     "type": r.get("type", typ),
-                    "total": r.get("total"),
-                    "total_pop": r.get("total_pop"),
-                    "asr": r.get("asr"),
-                    "crude_rate": r.get("crude_rate"),
-                    "cum_risk_74": r.get("cum_risk_74"),
-                    "ui_low": ui.get("low"),
-                    "ui_high": ui.get("high"),
+                    "total": _num(r.get("total")),
+                    "total_pop": _num(r.get("total_pop")),
+                    "asr": _num(r.get("asr")),
+                    "crude_rate": _num(r.get("crude_rate")),
+                    "cum_risk_74": _num(r.get("cum_risk_74")),
+                    "ui_low": _num(ui.get("low")),
+                    "ui_high": _num(ui.get("high")),
                 })
     save_raw_ndjson(out, node_id)
 
@@ -141,10 +151,10 @@ def fetch_tomorrow_projections(node_id: str) -> None:
                         "sex": r.get("sex", sex),
                         "type": r.get("type", typ),
                         "year": r.get("year"),
-                        "cases_pred": r.get("cases_pred"),
-                        "cases_base": r.get("cases_base"),
-                        "change": r.get("change"),
-                        "percent": r.get("percent"),
+                        "cases_pred": _num(r.get("cases_pred")),
+                        "cases_base": _num(r.get("cases_base")),
+                        "change": _num(r.get("change")),
+                        "percent": _num(r.get("percent")),
                     })
     save_raw_ndjson(out, node_id)
 
@@ -289,8 +299,9 @@ def fetch_ci5_xii_detailed(node_id: str) -> None:
                 "cancer_code": site,
                 "cancer": cancer_label.get(site),
                 "age_band": band,
-                "cases": int(row[3]) if row[3] not in ("", None) else 0,
-                "person_years": int(row[4]) if row[4] not in ("", None) else 0,
+                # person-years are mid-year estimates and can be fractional
+                "cases": _num(row[3]) or 0,
+                "person_years": _num(row[4]) or 0.0,
             })
     save_raw_ndjson(out, node_id)
 

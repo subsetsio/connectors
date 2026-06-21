@@ -16,14 +16,12 @@ saving the gz verbatim. The runtime's SqlNodeSpec executor registers each raw
 dep as `read_csv_auto([...])` with *default* options (a 20 480-row type sniff,
 2 MB max line, strict mode) that the transform SQL cannot override. On this
 heterogeneous catalog (238 tables, 238 distinct column lists) those defaults
-fail on a minority of tables in three ways:
+fail on a minority of tables in four ways, all addressed here:
   - a column whose values flip type past the sniff sample (e.g. a code column
     that is all digits for 66 k rows then hits "J") — fixed by `sample_size=-1`
     (whole-file type inference);
   - quoted free-text fields with embedded newlines that blow past the 2 MB line
-    cap — fixed by a 16 MB `max_line_size`; the same fields carry doubled-quote
-    escapes (`""`) that the sniffer mis-reads, so we pin the standard RFC-4180
-    dialect (`quote='"'`, `escape='"'`) these BigQuery exports always use;
+    cap — fixed by a 16 MB `max_line_size`;
   - ragged rows with fewer columns than the header — fixed by `null_padding`
     + `strict_mode=false` (pad the short row, don't reject it). `null_padding`
     is incompatible with the *parallel* scanner when a table also has quoted
@@ -31,6 +29,11 @@ fail on a minority of tables in three ways:
     at ≤27 MB/table the single-threaded read is a non-issue;
   - and a column DuckDB sniffs as `TIME`, which Delta Lake cannot store at all
     — fixed by casting every `TIME`/`TIME WITH TIME ZONE` column to VARCHAR.
+A further wrinkle: no single quote/escape dialect reads every table — most parse
+under DuckDB's auto sniffing, but a few free-text tables only parse with the
+doubled-quote RFC-4180 dialect pinned, while *other* tables break if it is
+forced. So the read cascades over `_READ_PROFILES` (auto first, pinned dialect
+as fallback) and the first profile that reads the whole file wins.
 Doing the parse once here (with robust options) and persisting parquet means the
 transform reads a typed file with no re-sniffing, so each subset stays a thin
 `SELECT *` passthrough that still acts as the 0-row correctness gate.

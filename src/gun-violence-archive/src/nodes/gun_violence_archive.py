@@ -51,6 +51,19 @@ BROWSER_UA = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"
 )
+# A fuller browser fingerprint than UA alone — datacenter IPs get more scrutiny
+# from Cloudflare, and a request that looks like a real browser is less likely
+# to be challenged. All values ASCII.
+BROWSER_HEADERS = {
+    "User-Agent": BROWSER_UA,
+    "Accept": (
+        "text/html,application/xhtml+xml,application/xml;q=0.9,"
+        "image/avif,image/webp,*/*;q=0.8"
+    ),
+    "Accept-Language": "en-US,en;q=0.9",
+    "Connection": "keep-alive",
+    "Upgrade-Insecure-Requests": "1",
+}
 
 # Standing-report slugs that embed a static export-api query UUID. The per-year
 # Mass Shootings, Last 72 Hours, Mass Murders and Congress reports are rendered
@@ -74,13 +87,15 @@ PAGE_SIZE = 25
 # tripping it means clamp-detection failed or the source changed -- raise loudly.
 MAX_PAGES = 200
 
-# GVA's Cloudflare throttles aggressively (observed 429 after a short burst at
-# ~2 req/s from a datacenter IP). robots.txt advertises Crawl-delay: 10; we pace
-# well under one request every few seconds and let the Retry-After-aware retry
-# absorb any 429 the limiter doesn't prevent, so a transient block waits rather
-# than killing the run.
-RATE_PERIOD_SECONDS = 6
-RETRY_ATTEMPTS = 10
+# GVA's Cloudflare enforces a hard rate cap (~10 requests/min from a datacenter
+# IP) and, once tripped, BANS the IP for far longer than any retry budget can
+# absorb — so the only reliable strategy is to never trip it. robots.txt states
+# the rate explicitly: Crawl-delay: 10. We pace at one request per 12s (5/min,
+# comfortably under the cap) and treat 429 retries as a backstop only, not the
+# primary defence. At ~800 pages this is a multi-hour crawl, well within the
+# 6h CI ceiling.
+RATE_PERIOD_SECONDS = 12
+RETRY_ATTEMPTS = 8
 MAX_RETRY_WAIT = 300
 
 _UUID_RE = re.compile(r"query/([a-f0-9-]{36})")
@@ -232,7 +247,7 @@ def _clean_int(v):
 
 def fetch_incidents(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
-    configure_http(headers={"User-Agent": BROWSER_UA})
+    configure_http(headers=dict(BROWSER_HEADERS))
     rows = []
     for slug in REPORT_SLUGS:
         rows.extend(_crawl_report(slug))
