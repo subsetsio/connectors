@@ -223,13 +223,26 @@ def fetch_country_emissions(node_id: str) -> None:
     save_raw_parquet(table, asset)
 
 
+def _aggregate_member_to_annual(table: pa.Table) -> pa.Table:
+    """Collapse a member's monthly source rows to one row per (source_id, year)."""
+    year = pc.cast(pc.utf8_slice_codeunits(table.column("start_time"), 0, 4),
+                   pa.int32())
+    table = table.drop_columns(["start_time"]).append_column("year", year)
+    grouped = table.group_by(["source_id", "year"]).aggregate(ASSET_AGG)
+    # aggregate() names outputs "<col>_<func>"; rename back and reorder to schema.
+    rename = {f"{col}_{fn}": col for col, fn in ASSET_AGG}
+    grouped = grouped.rename_columns(
+        [rename.get(n, n) for n in grouped.column_names]
+    )
+    return grouped.select(ASSET_EMISSIONS_SCHEMA.names).cast(ASSET_EMISSIONS_SCHEMA)
+
+
 def fetch_asset_emissions(node_id: str) -> None:
     asset = node_id
     countries = _list_countries()
     if not countries:
         raise AssertionError("country definitions API returned no countries")
 
-    names = ASSET_EMISSIONS_SCHEMA.names
     total = 0
     with raw_parquet_writer(asset, ASSET_EMISSIONS_SCHEMA) as writer:
         for iso3 in countries:
@@ -240,20 +253,20 @@ def fetch_asset_emissions(node_id: str) -> None:
                 with zipfile.ZipFile(path) as zf:
                     for member in _members(zf, "_emissions_sources_"):
                         with zf.open(member) as fh:
-                            reader = pacsv.open_csv(
+                            tbl = pacsv.read_csv(
                                 fh, read_options=ASSET_READ,
                                 convert_options=ASSET_CONVERT,
                             )
-                            for batch in reader:
-                                # reorder to the declared schema and write
-                                tbl = pa.Table.from_batches([batch]).select(names)
-                                writer.write_table(tbl)
-                                total += tbl.num_rows
+                        if tbl.num_rows == 0:
+                            continue
+                        annual = _aggregate_member_to_annual(tbl)
+                        writer.write_table(annual)
+                        total += annual.num_rows
             finally:
                 os.unlink(path)
     if total == 0:
         raise AssertionError("no asset_emissions rows parsed from any package")
-    print(f"  {asset}: {total} source-level rows")
+    print(f"  {asset}: {total} annual source-level rows")
 
 
 DOWNLOAD_SPECS = [
@@ -298,27 +311,17 @@ TRANSFORM_SPECS = [
                 sector,
                 subsector,
                 gas,
+                year,
                 lat,
                 lon,
-                CAST(start_time AS TIMESTAMP)        AS period_start,
-                CAST(end_time   AS TIMESTAMP)        AS period_end,
-                CAST(substr(start_time, 1, 4) AS INTEGER) AS year,
-                temporal_granularity,
                 emissions_quantity,
                 activity,
                 activity_units,
-                emissions_factor,
-                emissions_factor_units,
                 capacity,
-                capacity_units,
-                capacity_factor
+                capacity_units
             FROM "climate-trace-asset-emissions"
-            WHERE emissions_quantity IS NOT NULL
-              AND source_id IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY source_id, subsector, gas, start_time, end_time, temporal_granularity
-                ORDER BY emissions_quantity DESC
-            ) = 1
+            WHERE source_id IS NOT NULL
+              AND year IS NOT NULL
         ''',
     ),
 ]

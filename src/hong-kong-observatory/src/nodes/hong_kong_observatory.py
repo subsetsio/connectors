@@ -47,7 +47,6 @@ from constants import CLM_STATIONS, TIDE_STATIONS, RYES_STATIONS
 
 BASE = "https://data.weather.gov.hk/weatherAPI/opendata/opendata.php"
 ERROR_SENTINEL = "Please include valid parameters"
-STATE_VERSION = 1
 
 # Hong Kong is UTC+8; "yesterday" / "today" are computed in HKT.
 HKT = timezone(timedelta(hours=8))
