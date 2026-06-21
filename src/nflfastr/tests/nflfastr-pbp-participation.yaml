@@ -1,0 +1,7 @@
+spec_id: nflfastr-pbp-participation
+status: active
+tests:
+  - not_null: nflverse_game_id
+  - row_count: {min: 135552}
+    certainty: 70
+    reason: conservative floor (~0.3x of 10 season file(s) at ~45184 rows each); a lower count means dropped files

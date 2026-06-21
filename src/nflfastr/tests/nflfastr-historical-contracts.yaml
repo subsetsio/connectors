@@ -1,0 +1,7 @@
+spec_id: nflfastr-historical-contracts
+status: active
+tests:
+  - not_null: player
+  - row_count: {min: 15514}
+    certainty: 70
+    reason: conservative floor (~0.3x of 1 season file(s) at ~51716 rows each); a lower count means dropped files

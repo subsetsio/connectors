@@ -1,0 +1,13 @@
+spec_id: nflfastr-qbr-season-level
+status: active
+tests:
+  - not_null: season
+  - column_type: {col: season, type: integer}
+  - at_most: {col: season, expr: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+    reason: nflverse seasons never exceed the current year; a higher value means a parsing/union error
+  - row_count: {min: 456}
+    certainty: 70
+    reason: conservative floor (~0.3x of 1 season file(s) at ~1523 rows each); a lower count means dropped files

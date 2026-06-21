@@ -1,0 +1,14 @@
+spec_id: nflfastr-games
+status: active
+tests:
+  - not_null: game_id
+  - unique: game_id
+    certainty: 95
+    reason: schedules has exactly one row per game
+  - not_null: season
+  - column_type: {col: season, type: integer}
+  - between: {col: season, lo: 1999, hi: current_year()}
+    certainty: 90
+  - row_count: {min: 6000}
+    certainty: 85
+    reason: ~285 games/season x 27 seasons

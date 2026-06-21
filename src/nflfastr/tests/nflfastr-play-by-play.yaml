@@ -1,0 +1,15 @@
+spec_id: nflfastr-play-by-play
+status: active
+tests:
+  - not_null: game_id
+  - not_null: season
+  - column_type: {col: season, type: integer}
+  - between: {col: season, lo: 1999, hi: current_year()}
+    certainty: 95
+    reason: nflfastR play-by-play starts in 1999 and runs to the current season
+  - unique: [game_id, play_id]
+    certainty: 80
+    reason: one row per play within a game; dupes mean a season file was unioned twice
+  - row_count: {min: 800000}
+    certainty: 85
+    reason: ~48k plays/season x 27 seasons; well under 1.3M actual
