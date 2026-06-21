@@ -1,0 +1,15 @@
+spec_id: ministry-of-ecology-and-environment-stations
+status: active
+tests:
+  - not_null: StationCode
+    reason: station code is the source's primary key for every record
+    certainty: 98
+  - unique: StationCode
+    reason: stations catalog is deduped to one row per national-control station
+    certainty: 95
+  - not_null: PositionName
+    reason: every station record carries a Chinese position name
+    certainty: 90
+  - row_count: {min: 1000, max: 5000}
+    reason: the national-control network is ~1600 stations; far fewer means a truncated live response
+    certainty: 85

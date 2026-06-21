@@ -1,0 +1,18 @@
+spec_id: ministry-of-ecology-and-environment-air-quality-readings
+status: active
+tests:
+  - not_null: StationCode
+    reason: every reading is tied to a monitoring station
+    certainty: 98
+  - not_null: time_ms
+    reason: epoch-ms is parsed from the .NET /Date()/ TimePoint for every row; a null means the parse broke
+    certainty: 95
+  - column_type: {col: time_ms, type: integer}
+    reason: time_ms is the parsed epoch-millisecond integer
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: at least the live hour across ~1600 stations; the rolling window adds more
+    certainty: 85
+  - distinct_count: {col: StationCode, min: 1000}
+    reason: readings span the whole national network each hour
+    certainty: 85

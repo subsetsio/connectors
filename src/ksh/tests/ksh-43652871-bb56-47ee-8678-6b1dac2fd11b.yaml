@@ -1,0 +1,9 @@
+spec_id: ksh-43652871-bb56-47ee-8678-6b1dac2fd11b
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: KSH HVD distribution (csv); a multi-dimensional statistical table should hold many observations. Far fewer rows means the csv payload was truncated or the parser yielded nothing.
+    certainty: 80
+  - not_null: DATAFLOW
+    reason: 'DATAFLOW' is an SDMX dimension key; dimension keys are populated on every observation. Nulls here mean a column-shift in parsing.
+    certainty: 85

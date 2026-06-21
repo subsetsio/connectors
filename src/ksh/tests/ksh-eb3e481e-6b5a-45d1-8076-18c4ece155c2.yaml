@@ -1,0 +1,9 @@
+spec_id: ksh-eb3e481e-6b5a-45d1-8076-18c4ece155c2
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: KSH HVD distribution (csv); a multi-dimensional statistical table should hold many observations. Far fewer rows means the csv payload was truncated or the parser yielded nothing.
+    certainty: 80
+  - not_null: FREQ
+    reason: 'FREQ' is an SDMX dimension key; dimension keys are populated on every observation. Nulls here mean a column-shift in parsing.
+    certainty: 85

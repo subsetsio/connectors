@@ -1,0 +1,9 @@
+spec_id: ksh-73a2a529-8e1c-4a8b-95a0-7c60c94b1b17
+status: active
+tests:
+  - row_count: {min: 10}
+    reason: KSH HVD distribution (csv); a multi-dimensional statistical table should hold many observations. Far fewer rows means the csv payload was truncated or the parser yielded nothing.
+    certainty: 80
+  - not_null: VARIABLE
+    reason: 'VARIABLE' is an SDMX dimension key; dimension keys are populated on every observation. Nulls here mean a column-shift in parsing.
+    certainty: 85
