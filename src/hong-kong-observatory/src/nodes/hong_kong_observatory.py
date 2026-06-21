@@ -282,7 +282,13 @@ def fetch_moon_times(node_id: str) -> None:
 
 
 # --------------------------------------------------------------------------- #
-# weather-radiation-report (RYES) - per-date JSON, incremental, month batches
+# weather-radiation-report (RYES) - per-date JSON, stateless full re-pull,
+# written as one parquet batch per calendar month (overwritten each run).
+#
+# Deliberately stateless: a watermark resume is unsafe here because raw batches
+# are not guaranteed to survive a failed prior run while state does, which would
+# silently skip months whose raw is gone. Re-pulling the whole 2019-09..yesterday
+# range each run (throttled, with 403-aware backoff) guarantees full coverage.
 # --------------------------------------------------------------------------- #
 _RYES_STATIONS_BY_LEN = sorted(RYES_STATIONS, key=len, reverse=True)
 

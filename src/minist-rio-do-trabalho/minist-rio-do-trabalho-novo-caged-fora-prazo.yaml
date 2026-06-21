@@ -1,0 +1,15 @@
+spec_id: minist-rio-do-trabalho-novo-caged-fora-prazo
+status: active
+tests:
+  - not_null: arquivo_fonte
+    reason: every row is injected with its source archive name during parsing
+    certainty: 98
+  - not_null: competencia
+    reason: monthly movement microdata; reference month (yyyymm) injected from the file path
+    certainty: 98
+  - column_type: {col: competencia, type: integer}
+    certainty: 90
+  - between: {col: competencia, lo: 199601, hi: 209912}
+    reason: yyyymm integer; CAGED begins 1996, upper bound is a sanity ceiling
+    certainty: 85
+    severity: warn
