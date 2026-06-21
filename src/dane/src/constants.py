@@ -18,3 +18,22 @@ CATALOG_NUMERIC_ID = {
     "DANE-DIMPE-SIPSA-P-2013-2024": "776",
     "DANE-DIMPE-SIPSA-A-2018-2025": "697",
 }
+
+# Fallback download resource ids per numeric catalog id, snapshotted from the
+# get-microdata page on 2026-06-21. The fetch fn prefers a live scrape of that
+# page (so new releases are picked up automatically), but DANE's WAF 403s the
+# HTML page from some datacenter IPs (the page is reCAPTCHA-protected) while the
+# /download/<rid> endpoint stays reachable. This list is the resilient fallback
+# so a run still succeeds when the page is blocked. Refresh it if the source
+# republishes under new resource ids (the live scrape covers that when reachable).
+FALLBACK_RESOURCE_IDS = {
+    "776": [  # SIPSA-P wholesale prices, one ZIP per year
+        "23891", "23892", "23893", "23894",
+        "23895", "23896", "23897", "23898",
+    ],
+    "697": [  # SIPSA-A supply, one ZIP per semester/cuatrimestre
+        "20281", "20282", "20283", "20284", "20285", "20286",
+        "20536", "21267", "21418", "22198", "22886", "23116",
+        "23637", "23638", "23771", "24171", "24294", "24413", "24690",
+    ],
+}

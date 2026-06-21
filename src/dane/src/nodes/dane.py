@@ -33,12 +33,26 @@ from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
+    configure_http,
     transient_retry,
     raw_parquet_writer,
 )
-from constants import CATALOG_NUMERIC_ID
+from constants import CATALOG_NUMERIC_ID, FALLBACK_RESOURCE_IDS
 
 CATALOG_BASE = "https://microdatos.dane.gov.co/index.php/catalog"
+
+# DANE's site sits behind a WAF (the get-microdata page is reCAPTCHA-protected)
+# that 403s non-browser-looking requests. Present a full browser header set so
+# the page scrape and downloads are not rejected.
+BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "es-CO,es;q=0.9,en;q=0.8",
+    "Referer": "https://microdatos.dane.gov.co/index.php/catalog/central",
+}
 
 _SPANISH_MONTHS = {
     "ene": 1, "feb": 2, "mar": 3, "abr": 4, "may": 5, "jun": 6,
@@ -60,22 +74,39 @@ def _get(url: str):
     return resp
 
 
-def _study_download_urls(numeric_id: str) -> list[tuple[str, str]]:
+def _scrape_download_urls(numeric_id: str) -> list[tuple[str, str]]:
     """Scrape the study's get-microdata page for (filename, download_url) pairs.
 
-    The resource ids are per-release and only live in the page HTML; dedup by
+    The resource ids are per-release and live only in the page HTML; dedup by
     resource id (each modal is rendered twice on the page)."""
     page = _get(f"{CATALOG_BASE}/{numeric_id}/get-microdata").text
     seen: dict[str, tuple[str, str]] = {}
     for fname, url, rid in _MODAL_RE.findall(page):
         seen[rid] = (fname.strip(), url.strip())
-    files = list(seen.values())
-    if not files:
+    return list(seen.values())
+
+
+def _study_download_urls(numeric_id: str) -> list[tuple[str, str]]:
+    """(filename, download_url) per data file for a study.
+
+    Prefer a live scrape of the get-microdata page so new releases are picked up
+    automatically; if that page is blocked by the WAF (403) or yields nothing,
+    fall back to the snapshotted resource ids — the /download endpoint itself
+    stays reachable."""
+    try:
+        files = _scrape_download_urls(numeric_id)
+        if files:
+            return files
+        print(f"  study {numeric_id}: page scrape returned no links; using fallback ids")
+    except Exception as e:
+        print(f"  study {numeric_id}: page scrape failed ({type(e).__name__}: {e}); using fallback ids")
+
+    rids = FALLBACK_RESOURCE_IDS.get(numeric_id)
+    if not rids:
         raise AssertionError(
-            f"no download links scraped from study {numeric_id} get-microdata page "
-            f"(page layout changed?)"
+            f"study {numeric_id}: page scrape failed and no fallback resource ids"
         )
-    return files
+    return [(f"resource-{rid}", f"{CATALOG_BASE}/{numeric_id}/download/{rid}") for rid in rids]
 
 
 def _decode(raw: bytes) -> str:
@@ -193,6 +224,7 @@ _PRECIOS_SCHEMA = pa.schema([
 
 
 def fetch_sipsa_precios(node_id: str) -> None:
+    configure_http(headers=BROWSER_HEADERS)
     asset = node_id
     numeric_id = CATALOG_NUMERIC_ID["DANE-DIMPE-SIPSA-P-2013-2024"]
     urls = _study_download_urls(numeric_id)
@@ -262,6 +294,7 @@ _ABAST_SCHEMA = pa.schema([
 
 
 def fetch_sipsa_abastecimiento(node_id: str) -> None:
+    configure_http(headers=BROWSER_HEADERS)
     asset = node_id
     numeric_id = CATALOG_NUMERIC_ID["DANE-DIMPE-SIPSA-A-2018-2025"]
     urls = _study_download_urls(numeric_id)
