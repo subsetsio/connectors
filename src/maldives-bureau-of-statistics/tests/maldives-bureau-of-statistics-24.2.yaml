@@ -1,0 +1,19 @@
+spec_id: maldives-bureau-of-statistics-24.2
+status: active
+tests:
+  - not_null: row_label
+    reason: every melted record carries the source row's stub label; a null means the label column was misdetected
+    certainty: 95
+  - not_null: series
+    reason: the column header band always yields a series name (falls back to col_N); null means header parsing broke
+    certainty: 90
+  - not_null: value
+    reason: the melt drops nulls and non-numeric cells before writing, so the raw value column is dense
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: all yearbook table cells are numeric statistics, coerced to double
+    certainty: 90
+  - row_count: {min: 3}
+    reason: each table is a multi-year / multi-category crosstab; a near-empty parse signals a layout change
+    certainty: 80
+    points_outward: false

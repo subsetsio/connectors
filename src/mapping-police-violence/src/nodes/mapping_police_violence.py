@@ -91,7 +91,7 @@ def fetch_killings(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
-    NodeSpec(id="mapping-police-violence-killings", fn=fetch_killings, kind="download"),
+    NodeSpec(id="mapping-police-violence-mapping-police-violence-killings", fn=fetch_killings, kind="download"),
 ]
 
 
@@ -157,14 +157,14 @@ SELECT
     prosecutor_special,
     independent_investigation,
     prosecutor_url
-FROM "mapping-police-violence-killings"
+FROM "mapping-police-violence-mapping-police-violence-killings"
 WHERE mpv_id IS NOT NULL
 """
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="mapping-police-violence-killings-transform",
-        deps=["mapping-police-violence-killings"],
+        deps=["mapping-police-violence-mapping-police-violence-killings"],
         sql=_SQL_KILLINGS,
     ),
 ]

@@ -54,7 +54,7 @@ def _stream_export(resource_id: str, asset: str) -> None:
         headers["X-App-Token"] = token  # optional; avoids throttling on big pulls
 
     client = get_client()
-    with raw_writer(asset, extension="csv", mode="wb", compression="gzip") as out:
+    with raw_writer(asset, extension="csv.gz", mode="wb", compression="gzip") as out:
         with client.stream(
             "GET", url, params=params, headers=headers, timeout=(10.0, 300.0)
         ) as resp:

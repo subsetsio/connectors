@@ -51,7 +51,7 @@ for asset, (rows, sql) in cases.items():
     with open(f, "w") as fh:
         for r in rows:
             fh.write(json.dumps(r) + "\n")
-    con.execute(f'CREATE OR REPLACE VIEW "{asset}" AS SELECT * FROM read_json_auto(?)', [f])
+    con.execute(f"CREATE OR REPLACE VIEW \"{asset}\" AS SELECT * FROM read_json_auto('{f}')")
     out = con.execute(sql).arrow()
     print(f"\n=== {asset}: raw={len(rows)} -> published rows={out.num_rows} cols={out.num_columns}")
     print("schema:", {c.name: str(c.type) for c in out.schema}.__repr__()[:400])
