@@ -1,0 +1,34 @@
+spec_id: ghs-index-ghs-index-scores
+status: active
+tests:
+  - not_null: country
+    reason: every melted row carries a country name from the source's Country column
+    certainty: 99
+  - not_null: year
+    certainty: 99
+  - not_null: indicator_code
+    reason: code is parsed from the column header, present for every score column
+    certainty: 99
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - enum: {col: year, values: [2019, 2021]}
+    reason: the 2021 release file carries exactly the 2019 and 2021 assessment years
+    certainty: 95
+  - enum: {col: level, values: [overall, category, indicator, subindicator, question]}
+    reason: indicator_code maps onto the GHS Index hierarchy depth; an 'other' level means a header failed to parse
+    certainty: 90
+  - unique: [country, year, indicator_code]
+    reason: one score per country, assessment year, and indicator code; dupes mean the melt mis-keyed
+    certainty: 95
+  - between: {col: score, lo: 0, hi: 100}
+    reason: all GHS Index scores are normalised 0-100
+    certainty: 90
+  - distinct_count: {col: country, min: 190, max: 200}
+    reason: the Index assesses 195 countries
+    certainty: 90
+  - distinct_count: {col: indicator_code, min: 305, max: 315}
+    reason: 311 hierarchical score columns (overall + 6 categories + 37 indicators + sub-indicators + questions)
+    certainty: 85
+  - row_count: {min: 100000, max: 130000}
+    reason: ~390 country-year rows x 311 indicators ~= 121k cells, all populated
+    certainty: 85

@@ -1,6 +1,9 @@
-# Auto-generated from the rank-accepted entity union (data/sources/dosm/work/entity_union.json).
+# Auto-generated from the rank-accepted entity union (score >= 50).
 # Maps each download NodeSpec id to its stable OpenDOSM parquet URL.
 # Data, not logic: which datasets we pull and where each full table lives.
+# NOTE: 'pricecatcher' is intentionally excluded — it is a >1M-rows/month
+# monthly-partitioned transactional firehose (templated URL), not a single
+# static table, so it does not fit this connector's uniform pull model.
 
 ENTITY_URLS = {
     'dosm-air-pollution': 'https://storage.data.gov.my/environment/air_pollution.parquet',
@@ -149,7 +152,6 @@ ENTITY_URLS = {
     'dosm-ppi-3d': 'https://storage.dosm.gov.my/ppi/ppi_3d.parquet',
     'dosm-ppi-sitc': 'https://storage.dosm.gov.my/ppi/ppi_sitc.parquet',
     'dosm-ppi-sop': 'https://storage.dosm.gov.my/ppi/ppi_sop.parquet',
-    'dosm-pricecatcher': 'https://storage.data.gov.my/pricecatcher/pricecatcher_YYYY-MM-DD.parquet',
     'dosm-prisoners-prison': 'https://storage.data.gov.my/publicsafety/prisoners_prison.parquet',
     'dosm-prisoners-state': 'https://storage.data.gov.my/publicsafety/prisoners_state.parquet',
     'dosm-productivity-annual': 'https://storage.dosm.gov.my/labour/productivity_annual.parquet',
