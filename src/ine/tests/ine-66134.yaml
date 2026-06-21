@@ -1,0 +1,33 @@
+spec_id: ine-66134
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: a valid INE table returns at least one series-observation from DATOS_TABLA; empty raw means the table id no longer resolves
+    certainty: 88
+  - not_null: table_id
+    reason: table_id is stamped on every row from the node id
+    certainty: 99
+  - enum: {col: table_id, values: ["66134"]}
+    reason: every row in this asset is for this one INE table; another id means cross-node contamination
+    certainty: 99
+  - not_null: fecha_ms
+    reason: every Data point carries a Fecha (epoch ms); a null means the parse dropped the date key
+    certainty: 95
+  - column_type: {col: fecha_ms, type: integer}
+    reason: Fecha is epoch milliseconds, stored as int64
+    certainty: 95
+  - column_type: {col: valor, type: float}
+    reason: Valor is the numeric observation, stored as float64 (nullable for suppressed cells)
+    certainty: 95
+  - not_null: serie_cod
+    reason: every series in a table has a COD identifier
+    certainty: 90
+    severity: warn
+  - not_null: anyo
+    reason: INE data points carry the year (Anyo); absent on some PC-Axis tables
+    certainty: 80
+    severity: warn
+  - distinct_count: {col: serie_cod, min: 1}
+    reason: a table contains at least one distinct series
+    certainty: 90
+    severity: warn

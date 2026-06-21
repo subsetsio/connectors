@@ -1,0 +1,31 @@
+spec_id: inpe-focos-america-sul-pais-mensal
+status: active
+tests:
+  - not_null: ano
+  - not_null: mes
+  - not_null: pais
+  - not_null: n_focos
+  - column_type: {col: ano, type: integer}
+  - column_type: {col: mes, type: integer}
+  - column_type: {col: n_focos, type: integer}
+  - between: {col: mes, lo: 1, hi: 12}
+    certainty: 99
+  - between: {col: ano, lo: 2002, hi: current_year()}
+    certainty: 95
+    points_outward: true
+  - at_least: {col: n_focos, expr: 1}
+    certainty: 99
+  - unique: [ano, mes, pais]
+    reason: one row per country-month across South America
+    certainty: 97
+  - enum:
+      col: pais
+      values: ["Brasil", "Argentina", "Bolivia", "Peru", "Paraguay", "Colombia",
+               "Venezuela", "Chile", "Ecuador", "Uruguay", "Guyana", "Suriname",
+               "Guiana Francesa"]
+    reason: AMS reference tree covers continental South American countries (Portuguese labels)
+    certainty: 65
+    severity: warn
+  - distinct_count: {col: pais, min: 8, max: 25}
+    reason: ~13 South American territories; expect at least the large ones each month-year
+    certainty: 75

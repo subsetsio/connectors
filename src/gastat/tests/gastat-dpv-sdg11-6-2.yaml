@@ -1,0 +1,6 @@
+spec_id: gastat-dpv-sdg11-6-2
+status: deferred
+# Catalog connector: this GASTAT table's response schema (column names,
+# types) is unknown until the first pull. The CData data API was 500ing
+# (server-side license outage) during authoring, so assertions are
+# authored from the first materialized chunk once the source recovers.
