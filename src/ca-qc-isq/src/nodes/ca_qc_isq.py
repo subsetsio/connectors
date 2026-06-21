@@ -218,40 +218,64 @@ def _flatten_cols(nodes, anc=()):
 def _dynamic_grid(table_no):
     hdr = _get(f"{KEN}.p_retrn_header?p_id_tabl={table_no}")
     cfg = json.loads(hdr.text)["tableConfig"]
-    cols = _flatten_cols(cfg.get("columns", []))
-    if not cols:
+    label_map = dict(_flatten_cols(cfg.get("columns", [])))
+    # The data query must use the EXACT field set/order from dataSource.fields —
+    # the flattened column tree omits fields (e.g. the `mesr` unit column and the
+    # row-group keys), and querying p_retrn_data with that partial set returns an
+    # empty body (this is why pivot/cross-tab tables came back with 0 rows).
+    ds = cfg.get("dataSource", {}) or {}
+    field_str = ds.get("fields") or ",".join(label_map)
+    fields = [f.strip() for f in field_str.split(",") if f.strip()]
+    if not fields:
         return [], []
-    fields = [f for f, _ in cols]
-    labels = [lab for _, lab in cols]
     champs = urllib.parse.quote(",".join(fields))
     body = _get(f"{KEN}.p_retrn_data?p_id_tabl={table_no}&p_champs={champs}")
     rows = list(_csv.reader(io.StringIO(body.text), delimiter=";"))
-    return [labels], rows[1:]  # drop the field-code header row; we supply labels
+    if not rows:
+        return [], []
+    # Row 0 is the field-code header; map each code to its human label (unknown
+    # codes — row keys, units — keep their code, which only affects the header,
+    # since their cell *values* become the long table's row labels, not col_label).
+    labels = [label_map.get(c.strip(), c.strip()) for c in rows[0]]
+    return [labels], rows[1:]
+
+
+def _expand_cells(tr):
+    """Expand a <tr> into a flat list of cell texts, repeating across colspans."""
+    out = []
+    for c in tr.xpath("./th|./td"):
+        try:
+            span = int(c.get("colspan", 1) or 1)
+        except ValueError:
+            span = 1
+        text = c.text_content()
+        for _ in range(max(1, span)):
+            out.append(text)
+    return out
 
 
 def _static_grid(html):
     root = lxml.html.fromstring(html)
-    tbl = root.find(".//table")
+    # The embedded fragment's outermost element often IS the <table>, so a
+    # descendant search (`.//table`) misses it — handle the root-is-table case.
+    tbl = root if root.tag == "table" else root.find(".//table")
     if tbl is None:
         return [], []
-    grid = []
+    thead = tbl.findall(".//thead/tr")
+    tbody = tbl.findall(".//tbody/tr")
+    if thead or tbody:
+        # ISQ static tables mark headers with <thead>/<tbody> but use <td> (not
+        # <th>) cells, so classify by section rather than tag.
+        headers = [_expand_cells(tr) for tr in thead if tr.xpath("./th|./td")]
+        data = [_expand_cells(tr) for tr in tbody if tr.xpath("./th|./td")]
+        return headers, data
+    # Fallback: no thead/tbody — classify a row as header iff every cell is <th>.
+    headers, data = [], []
     for tr in tbl.iterfind(".//tr"):
         cells = tr.xpath("./th|./td")
         if not cells:
             continue
-        is_header = all(c.tag == "th" for c in cells)
-        expanded = []
-        for c in cells:
-            try:
-                span = int(c.get("colspan", 1) or 1)
-            except ValueError:
-                span = 1
-            text = c.text_content()
-            for _ in range(max(1, span)):
-                expanded.append(text)
-        grid.append((is_header, expanded))
-    headers = [r for h, r in grid if h]
-    data = [r for h, r in grid if not h]
+        (headers if all(c.tag == "th" for c in cells) else data).append(_expand_cells(tr))
     return headers, data
 
 
