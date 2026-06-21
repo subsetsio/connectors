@@ -1,0 +1,9 @@
+spec_id: ministry-of-finance-e90e6853-0dc8-4604-ba52-f860a753f600
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: each accepted resource is a real multi-row Ministry of Finance table; 0 rows means the resource endpoint returned nothing (auth/UA stall or removed resource).
+    certainty: 90
+  - not_null: resource_id
+    reason: fetch_one stamps the source resource id on every row for joinability; a null means the row shape changed.
+    certainty: 95
