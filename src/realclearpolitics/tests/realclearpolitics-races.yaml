@@ -1,0 +1,23 @@
+spec_id: realclearpolitics-races
+status: active
+tests:
+  - not_null: race_id
+    reason: the race id is the primary key of the catalog
+    certainty: 99
+  - not_null: title
+    reason: every race json carries moduleInfo.title; null means moduleInfo was missing
+    certainty: 90
+  - unique: race_id
+    reason: one row per race; a duplicate means the same id was enumerated and written twice
+    certainty: 95
+  - column_type: {col: race_id, type: integer}
+    certainty: 95
+  - column_type: {col: num_candidates, type: integer}
+    certainty: 90
+  - distinct_count: {col: office, min: 3}
+    reason: the index spans multiple office types; <3 means category pages failed to parse
+    certainty: 85
+  - row_count: {min: 80}
+    reason: the latest_polls index pages collectively expose ~90+ active races
+    certainty: 75
+    severity: warn

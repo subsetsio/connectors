@@ -1,0 +1,22 @@
+spec_id: realclearpolitics-poll-readings
+status: active
+tests:
+  - not_null: race_id
+    reason: every reading belongs to a race; a null race_id means the moduleInfo id was lost
+    certainty: 99
+  - not_null: candidate
+    reason: a reading is per-candidate; null candidate means the candidate array was mis-parsed
+    certainty: 99
+  - column_type: {col: race_id, type: integer}
+    reason: race ids are the integer suffix of the epolls URL
+    certainty: 95
+  - enum: {col: reading_type, values: [rcp_average, poll]}
+    reason: each poll row is either RCP's own average (type rcp_average) or an underlying poll
+    certainty: 95
+  - distinct_count: {col: office, min: 3}
+    reason: the latest_polls index spans president/senate/governor/house/other; <3 means category pages failed to parse
+    certainty: 85
+  - row_count: {min: 800}
+    reason: ~90 active races, most with several polls x several candidates; far fewer means enumeration or per-race fetch broke
+    certainty: 75
+    severity: warn

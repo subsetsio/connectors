@@ -67,9 +67,13 @@ def _today_utc():
     return datetime.now(tz=timezone.utc).date()
 
 
-@transient_retry()  # 6 attempts, exp backoff; retries 429/5xx/network, then reraises
+# Generous connect timeout: the archive endpoint is slow to generate long
+# (1940-present) ranges and TLS handshakes can be slow on a loaded CI runner; a
+# tight connect timeout produces spurious handshake-timeout failures. 8 attempts
+# gives flaky-network windows room to recover before the DAG aborts.
+@transient_retry(attempts=8, min_wait=4, max_wait=90)
 def _request(base_url: str, params: dict) -> dict:
-    resp = get(base_url, params=params, timeout=(10.0, 180.0))
+    resp = get(base_url, params=params, timeout=(30.0, 180.0))
     resp.raise_for_status()
     return resp.json()
 
