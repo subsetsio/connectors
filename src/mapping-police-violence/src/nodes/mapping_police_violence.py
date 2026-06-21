@@ -163,7 +163,7 @@ WHERE mpv_id IS NOT NULL
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(
-        id="mapping-police-violence-killings-transform",
+        id="mapping-police-violence-mapping-police-violence-killings-transform",
         deps=["mapping-police-violence-mapping-police-violence-killings"],
         sql=_SQL_KILLINGS,
     ),
