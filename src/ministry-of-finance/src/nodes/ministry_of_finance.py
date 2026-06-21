@@ -26,14 +26,19 @@ fall back to the documented public sample key.
 
 import os
 
-import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     configure_http,
     get,
+    is_transient,
     save_raw_ndjson,
-    transient_retry,
+)
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    wait_random_exponential,
 )
 
 from constants import ENTITY_IDS
@@ -51,7 +56,22 @@ def _api_key() -> str:
     return os.environ.get("DATA_GOV_IN_API_KEY") or SAMPLE_KEY
 
 
-@transient_retry()  # 6 attempts, exponential backoff; retries 429/5xx/transport.
+# All 46 download specs run as concurrent subprocesses hitting the same host
+# with the same (shared, throttled) key, so 429s are common. The standard
+# jitter-free `wait_exponential` makes every process back off in lockstep and
+# collide on the same retry instants; full-jitter `wait_random_exponential`
+# desynchronizes the herd, and the extra attempts give the throttle time to
+# clear. Same `is_transient` classification as `transient_retry` (retries
+# 429/5xx/transport), just a herd-friendly wait policy.
+_rate_aware_retry = retry(
+    retry=retry_if_exception(is_transient),
+    stop=stop_after_attempt(12),
+    wait=wait_random_exponential(multiplier=2, max=240),
+    reraise=True,
+)
+
+
+@_rate_aware_retry
 def _fetch_page(resource_id: str, offset: int) -> dict:
     resp = get(
         f"{BASE}/resource/{resource_id}",

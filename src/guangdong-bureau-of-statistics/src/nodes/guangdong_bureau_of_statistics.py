@@ -64,7 +64,10 @@ SCHEMA = pa.schema([
 
 @transient_retry(attempts=8, min_wait=2, max_wait=60)
 def _fetch_xls(url: str) -> bytes:
-    resp = get(url, timeout=(10.0, 120.0))
+    # Source is China-hosted on plain HTTP port 8080 and is slow from foreign/
+    # cloud networks — the TCP handshake can take tens of seconds, so the connect
+    # timeout is generous (a 10s connect timeout fails every request from CI).
+    resp = get(url, timeout=(60.0, 180.0))
     resp.raise_for_status()
     content = resp.content
     if content[:2] != b"\xd0\xcf":  # OLE2 magic; a 200 HTML error page would fail xlrd
