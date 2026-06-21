@@ -8,7 +8,7 @@ def _find_data_table(doc):
     for t in doc.xpath("//table"):
         if any(a.tag in ("script", "style", "head") for a in t.iterancestors()):
             continue
-        rows = t.xpath("./tr") or t.xpath("./tbody/tr") or t.xpath(".//tr")
+        rows = t.xpath(".//tr")
         if len(rows) < 4:
             continue
         digits = len(NUM_RE.findall(t.text_content()))
@@ -45,7 +45,7 @@ def parse_indicator(html_text):
     t = _find_data_table(doc)
     if t is None:
         return []
-    rows = t.xpath("./tr") or t.xpath("./tbody/tr") or t.xpath(".//tr")
+    rows = t.xpath(".//tr")
     header_rows, data_rows = [], []
     for r in rows:
         cells = r.xpath("./td|./th")

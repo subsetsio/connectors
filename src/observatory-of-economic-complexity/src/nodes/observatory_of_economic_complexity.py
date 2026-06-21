@@ -17,6 +17,7 @@ time.
 
 from __future__ import annotations
 
+import csv
 import io
 import re
 
@@ -62,11 +63,24 @@ def _data_csv(params: dict):
     return r.text
 
 
-@transient_retry()
-def _members(cube: str, level: str) -> list[str]:
-    r = get(f"{BASE}/members", params={"cube": cube, "level": level}, timeout=(10.0, 120.0))
-    r.raise_for_status()
-    return [str(m["key"]) for m in r.json().get("members", [])]
+def _members(cube: str, level: str, measure: str) -> list[str]:
+    """Member keys of `level` that actually have data, enumerated via the
+    data.csv endpoint (a single-level drilldown). We deliberately do NOT use
+    the /members endpoint: it returns 403 Forbidden from the CI environment
+    while data.csv is open. The level's key lives in the "<level> ID" column
+    for labelled levels, or the bare "<level>" column for year/time levels.
+    """
+    text = _data_csv({"cube": cube, "drilldowns": level, "measures": measure})
+    if text is None:
+        raise RuntimeError(f"{cube}: member enumeration for {level!r} returned 413")
+    rows = list(csv.reader(io.StringIO(text)))
+    if not rows:
+        return []
+    header = rows[0]
+    target = f"{level} ID" if f"{level} ID" in header else level
+    idx = header.index(target)
+    keys = {r[idx] for r in rows[1:] if r and r[idx] != ""}
+    return sorted(keys)
 
 
 def _parse_csv(text: str, measure_snakes: set[str]) -> pa.Table | None:
@@ -144,7 +158,7 @@ def _fetch_partition(spec_id, cube, drilldowns, measures, split_order, measure_s
         )
     level = remaining[0]
     written = 0
-    for member in _members(cube, level):
+    for member in _members(cube, level, measures[0]):
         written += _fetch_partition(
             spec_id, cube, drilldowns, measures, split_order, measure_snakes,
             {**cuts, level: member}, applied + [level],

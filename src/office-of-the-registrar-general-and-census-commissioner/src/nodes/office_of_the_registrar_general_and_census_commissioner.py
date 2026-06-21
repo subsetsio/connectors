@@ -30,7 +30,7 @@ SLUG = "office-of-the-registrar-general-and-census-commissioner"
 API = "https://censusindia.gov.in/nada/index.php/api/tables/data"
 CENSUS_YEAR = 2011          # every API-served entity is a 2011 table
 GEO_LEVELS = "0,1"          # India + State/UT (bounded, high-reuse granularity)
-PAGE = 50000               # rows per request (path-based limit/offset)
+PAGE = 10000               # rows per request (server silently caps path-limit above ~10k)
 
 # eMudhra "emSign SSL CA - G1" intermediate, missing from the server's chain.
 # Its root ("emSign Root CA - G1") is in the Mozilla/certifi trust store.
@@ -109,8 +109,8 @@ def fetch_one(node_id: str) -> None:
         if not data:
             break
         rows.extend(data)
-        offset += PAGE
-        if found is not None and offset >= found:
+        offset += len(data)   # advance by rows actually returned (page may be capped)
+        if found and len(rows) >= found:
             break
     if not rows:
         raise AssertionError(f"{node_id}: API returned 0 rows for {table_id} at geo_level={GEO_LEVELS}")

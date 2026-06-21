@@ -142,23 +142,23 @@ TRANSFORM_SPECS = [
         deps=["samhsa-findtreatment-facilities"],
         sql='''
             SELECT DISTINCT
-                name1                              AS name,
-                NULLIF(name2, '')                  AS program_name,
-                NULLIF(street1, '')                AS street1,
-                NULLIF(street2, '')                AS street2,
-                city,
-                state,
-                zip,
-                NULLIF(phone, '')                  AS phone,
-                NULLIF(intake1, '')                AS intake_phone,
-                NULLIF(hotline1, '')               AS hotline_phone,
-                NULLIF(website, '')                AS website,
-                TRY_CAST(latitude AS DOUBLE)       AS latitude,
-                TRY_CAST(longitude AS DOUBLE)      AS longitude,
-                typeFacility                       AS facility_type
+                CAST(name1 AS VARCHAR)                   AS name,
+                NULLIF(CAST(name2 AS VARCHAR), '')       AS program_name,
+                NULLIF(CAST(street1 AS VARCHAR), '')     AS street1,
+                NULLIF(CAST(street2 AS VARCHAR), '')     AS street2,
+                CAST(city AS VARCHAR)                    AS city,
+                CAST(state AS VARCHAR)                   AS state,
+                CAST(zip AS VARCHAR)                     AS zip,
+                NULLIF(CAST(phone AS VARCHAR), '')       AS phone,
+                NULLIF(CAST(intake1 AS VARCHAR), '')     AS intake_phone,
+                NULLIF(CAST(hotline1 AS VARCHAR), '')    AS hotline_phone,
+                NULLIF(CAST(website AS VARCHAR), '')     AS website,
+                TRY_CAST(latitude AS DOUBLE)            AS latitude,
+                TRY_CAST(longitude AS DOUBLE)           AS longitude,
+                CAST(typeFacility AS VARCHAR)            AS facility_type
             FROM "samhsa-findtreatment-facilities"
-            WHERE name1 IS NOT NULL AND name1 <> ''
-              AND state IS NOT NULL AND state <> ''
+            WHERE name1 IS NOT NULL AND CAST(name1 AS VARCHAR) <> ''
+              AND state IS NOT NULL AND CAST(state AS VARCHAR) <> ''
         ''',
     ),
     SqlNodeSpec(
@@ -166,19 +166,19 @@ TRANSFORM_SPECS = [
         deps=["samhsa-escb-scz6"],
         sql='''
             SELECT
-                locationabbr                       AS location_code,
-                locationdesc                       AS location,
-                CAST(ffy_year AS INTEGER)          AS federal_fiscal_year,
-                topicdesc                          AS topic,
-                measuredesc                        AS measure,
-                submeasure                         AS submeasure,
-                CAST(data_value AS DOUBLE)         AS value,
-                data_value_unit                    AS unit,
-                data_value_type                    AS value_type,
-                source                             AS source
+                CAST(locationabbr AS VARCHAR)          AS location_code,
+                CAST(locationdesc AS VARCHAR)          AS location,
+                TRY_CAST(ffy_year AS INTEGER)          AS federal_fiscal_year,
+                CAST(topicdesc AS VARCHAR)             AS topic,
+                CAST(measuredesc AS VARCHAR)           AS measure,
+                CAST(submeasure AS VARCHAR)            AS submeasure,
+                TRY_CAST(data_value AS DOUBLE)         AS value,
+                CAST(data_value_unit AS VARCHAR)       AS unit,
+                CAST(data_value_type AS VARCHAR)       AS value_type,
+                CAST(source AS VARCHAR)                AS source
             FROM "samhsa-escb-scz6"
-            WHERE data_value IS NOT NULL AND data_value <> ''
-              AND ffy_year IS NOT NULL AND ffy_year <> ''
+            WHERE TRY_CAST(data_value AS DOUBLE) IS NOT NULL
+              AND TRY_CAST(ffy_year AS INTEGER) IS NOT NULL
         ''',
     ),
 ]
