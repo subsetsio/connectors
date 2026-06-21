@@ -1,0 +1,21 @@
+spec_id: federal-reserve-bank-of-kansas-city-services-survey
+status: active
+tests:
+  - not_null: date
+  - not_null: series
+  - not_null: value
+  - column_type: {col: date, type: date}
+  - column_type: {col: value, type: float}
+  - distinct_count: {col: series, min: 3}
+    certainty: 60
+  - row_count: {min: 100}
+    reason: monthly since ~2014 x several indicators
+    certainty: 55
+  - at_most: {col: date, expr: today}
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - freshness: {col: date, reaches: today - 90d}
+    points_outward: true
+    severity: warn
+    certainty: 55

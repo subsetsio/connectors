@@ -1,0 +1,24 @@
+spec_id: federal-reserve-bank-of-kansas-city-manufacturing-survey
+status: active
+tests:
+  - not_null: date
+  - not_null: series
+  - not_null: value
+  - column_type: {col: date, type: date}
+  - column_type: {col: value, type: float}
+  - distinct_count: {col: series, min: 3}
+    reason: monthly survey reports many diffusion indices (production, orders, employment, prices, ...)
+    certainty: 60
+  - row_count: {min: 200}
+    reason: months since ~2001 x several indicators in long format
+    certainty: 55
+  - at_most: {col: date, expr: today}
+    reason: observations are historical; no future-dated months expected
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - freshness: {col: date, reaches: today - 90d}
+    reason: monthly release
+    points_outward: true
+    severity: warn
+    certainty: 55

@@ -1,0 +1,22 @@
+spec_id: federal-reserve-bank-of-kansas-city-energy-survey
+status: active
+tests:
+  - not_null: date
+  - not_null: series
+  - not_null: value
+  - column_type: {col: date, type: date}
+  - column_type: {col: value, type: float}
+  - distinct_count: {col: series, min: 3}
+    certainty: 55
+  - row_count: {min: 40}
+    reason: quarterly since ~2014 x several indicators
+    certainty: 55
+  - at_most: {col: date, expr: today}
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - freshness: {col: date, reaches: today - 220d}
+    reason: quarterly release; allow lag
+    points_outward: true
+    severity: warn
+    certainty: 55

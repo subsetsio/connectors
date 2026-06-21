@@ -1,0 +1,22 @@
+spec_id: federal-reserve-bank-of-kansas-city-ag-credit-survey
+status: active
+tests:
+  - not_null: date
+  - not_null: series
+  - not_null: value
+  - column_type: {col: date, type: date}
+  - column_type: {col: value, type: float}
+  - distinct_count: {col: series, min: 3}
+    reason: ag credit survey spans interest rates, farmland values, credit-condition indices
+    certainty: 55
+  - row_count: {min: 80}
+    reason: quarterly history (some series back to the 1970s/80s) x several columns
+    certainty: 50
+  - at_most: {col: date, expr: today}
+    certainty: 78
+    points_outward: true
+    severity: warn
+  - freshness: {col: date, reaches: today - 220d}
+    points_outward: true
+    severity: warn
+    certainty: 55

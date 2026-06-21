@@ -1,0 +1,18 @@
+spec_id: federal-reserve-bank-of-kansas-city-lmci
+status: active
+tests:
+  - not_null: date
+  - not_null: series
+  - not_null: value
+  - column_type: {col: date, type: date}
+  - column_type: {col: value, type: float}
+  - distinct_count: {col: series, min: 2, max: 2}
+    reason: LMCI = level-of-activity (FRBKCLMCILA) + momentum (FRBKCLMCIM)
+    certainty: 88
+  - row_count: {min: 400}
+    reason: two monthly series from Jan 1992 -> ~400 each
+    certainty: 78
+  - freshness: {col: date, reaches: today - 120d}
+    points_outward: true
+    severity: warn
+    certainty: 70

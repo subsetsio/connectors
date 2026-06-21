@@ -1,0 +1,17 @@
+spec_id: elstat-sme21
+status: active
+tests:
+  - not_null: value
+    reason: every emitted cell is a parsed finite number; a null means the melt wrote a non-numeric cell
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: numeric observations are parsed to float before writing ndjson
+    certainty: 95
+  - not_null: source_file
+    reason: each row is tagged with the originating workbook filename
+    certainty: 95
+  - not_null: col_label
+    certainty: 90
+  - row_count: {min: 1}
+    reason: this publication exposes at least one Excel data table with numeric cells (verified during research)
+    certainty: 85
