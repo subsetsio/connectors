@@ -19,12 +19,14 @@ few minutes, so there is no watermark/cursor — revisions are picked up for fre
 
 import io
 import math
+import random
 import re
+import time
 
 import httpx
 import pyarrow as pa
 import tenacity
-from constants import ENTITY_IDS
+from constants import ENTITY_IDS, TABLE_URLS
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
@@ -35,7 +37,8 @@ from subsets_utils import (
 )
 
 SLUG = "maldives-bureau-of-statistics"
-INDEX_URL = "https://statisticsmaldives.gov.mv/yearbook/statisticalarchive/"
+BASE = "https://statisticsmaldives.gov.mv"
+INDEX_URL = f"{BASE}/yearbook/statisticalarchive/"
 
 # The source sits behind a WAF that intermittently challenges non-browser
 # clients from cloud IPs with a 415 (and occasionally 403) on otherwise-valid
@@ -59,10 +62,25 @@ def _retryable(exc: BaseException) -> bool:
     return False
 
 
+def _wait(retry_state) -> float:
+    """Honor a Retry-After header when the WAF/server sends one; otherwise fall
+    back to exponential backoff with jitter."""
+    exc = retry_state.outcome.exception() if retry_state.outcome else None
+    if isinstance(exc, httpx.HTTPStatusError):
+        ra = exc.response.headers.get("Retry-After")
+        if ra:
+            try:
+                return min(float(ra), 120.0)
+            except ValueError:
+                pass
+    base = tenacity.wait_exponential(min=5, max=120)(retry_state)
+    return base + random.uniform(0, 5)
+
+
 _waf_retry = tenacity.retry(
     retry=tenacity.retry_if_exception(_retryable),
-    stop=tenacity.stop_after_attempt(8),
-    wait=tenacity.wait_exponential(min=4, max=120),
+    stop=tenacity.stop_after_attempt(10),
+    wait=_wait,
     reraise=True,
 )
 
@@ -258,22 +276,39 @@ def parse_grid(rows: list) -> list:
 # ---------------------------------------------------------------------------
 # Fetch
 # ---------------------------------------------------------------------------
+def _download_table(table_id: str) -> bytes:
+    """Resolve and download one table's Excel workbook. Prefer the captured URL
+    manifest (avoids re-scraping the index on every node, which overloads the
+    source WAF); on a 404 the stored path has drifted, so fall back to a fresh
+    index scrape — preserving the research directive to resolve drifted URLs."""
+    rel = TABLE_URLS.get(table_id)
+    if rel:
+        try:
+            return _get_bytes(BASE + rel)
+        except httpx.HTTPStatusError as e:
+            if e.response.status_code != 404:
+                raise  # 415/5xx/etc are handled by retry, not a stale URL
+    href = _resolve_hrefs().get(table_id)
+    if href is None:
+        raise RuntimeError(
+            f"table {table_id!r} not found in archive index {INDEX_URL}"
+        )
+    return _get_bytes(href)
+
+
 def fetch_one(node_id: str) -> None:
     import pandas as pd
 
     configure_http(headers=_BROWSER_HEADERS)
+    # De-synchronize the ~122-node burst so the source WAF sees a spread of
+    # requests rather than a spike (which it answers with 415 challenges).
+    time.sleep(random.uniform(0, 20))
 
     asset = node_id
     table_id = node_id[len(SLUG) + 1:]  # strip "maldives-bureau-of-statistics-"
 
-    href = _resolve_hrefs().get(table_id)
-    if href is None:
-        raise RuntimeError(
-            f"{asset}: table {table_id!r} not found in archive index {INDEX_URL}"
-        )
-
-    content = _get_bytes(href)
-    engine = "openpyxl" if href.rsplit(".", 1)[-1].lower() == "xlsx" else "xlrd"
+    content = _download_table(table_id)
+    engine = "openpyxl" if content[:2] == b"PK" else "xlrd"
     df = pd.read_excel(io.BytesIO(content), header=None, engine=engine)
     recs = parse_grid(df.values.tolist())
 
