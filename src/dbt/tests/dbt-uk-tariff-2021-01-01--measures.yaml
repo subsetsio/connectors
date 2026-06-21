@@ -1,0 +1,19 @@
+spec_id: dbt-uk-tariff-2021-01-01--measures
+status: active
+tests:
+  - not_null: trackedmodel_ptr_id
+    reason: surrogate primary key, always present and integer
+    certainty: 90
+  - not_null: sid
+    reason: every measure has a numeric system id
+    certainty: 90
+  - not_null: measure_type_id
+    reason: each measure references a measure type
+    certainty: 80
+  - unique: sid
+    reason: sid identifies a single measure
+    certainty: 70
+    severity: warn
+  - row_count: {min: 100000}
+    reason: the raw measures table held ~2.9M rows when probed
+    certainty: 80

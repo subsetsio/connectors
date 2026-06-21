@@ -1,0 +1,15 @@
+spec_id: cepii-geodep
+# Direct CSV with header beginning: iso_d, hs6, year, i, ...
+tests:
+  - not_null: iso_d
+    certainty: 90
+  - not_null: hs6
+    certainty: 90
+  - not_null: year
+    certainty: 90
+  - between: {col: year, lo: 1990, hi: 2025}
+    certainty: 75
+    points_outward: true
+    severity: warn
+  - row_count: {min: 10000}
+    certainty: 80

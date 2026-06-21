@@ -1,0 +1,19 @@
+spec_id: dbt-uk-tariff-2021-01-01--commodities
+status: active
+tests:
+  - not_null: trackedmodel_ptr_id
+    reason: surrogate primary key, always present and integer
+    certainty: 90
+  - not_null: sid
+    reason: every commodity has a numeric system id
+    certainty: 90
+  - not_null: item_id
+    reason: the 10-digit commodity code is the defining attribute
+    certainty: 85
+  - unique: trackedmodel_ptr_id
+    reason: one row per tracked commodity version
+    certainty: 75
+    severity: warn
+  - row_count: {min: 1000}
+    reason: the UK commodity hierarchy has tens of thousands of codes
+    certainty: 85

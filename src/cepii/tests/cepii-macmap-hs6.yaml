@@ -1,0 +1,16 @@
+spec_id: cepii-macmap-hs6
+# Tab-delimited mmhs2 with header: reporter, partner, hs2, adv, w_rg.
+tests:
+  - not_null: reporter
+    certainty: 90
+  - not_null: partner
+    certainty: 90
+  - not_null: hs2
+    reason: HS2 chapter present on every applied-tariff row
+    certainty: 90
+  - not_null: adv
+    reason: applied ad-valorem equivalent is the core measure
+    certainty: 85
+  - row_count: {min: 10000}
+    reason: bilateral applied tariffs across many reporter/partner/HS2 cells
+    certainty: 80

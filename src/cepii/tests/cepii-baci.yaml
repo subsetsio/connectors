@@ -1,0 +1,27 @@
+spec_id: cepii-baci
+# Raw BACI CSVs (one per year) have the documented header t,i,j,k,v,q:
+# year, exporter (ISO numeric), importer, HS6 product, value (kUSD), quantity (t).
+tests:
+  - not_null: t
+    reason: every BACI row is stamped with a trade year
+    certainty: 95
+  - not_null: i
+    reason: exporter code present on every flow
+    certainty: 95
+  - not_null: j
+    reason: importer code present on every flow
+    certainty: 95
+  - not_null: k
+    reason: HS6 product code present on every flow
+    certainty: 95
+  - not_null: v
+    reason: trade value present on every flow
+    certainty: 90
+  - between: {col: t, lo: 1995, hi: 2025}
+    reason: HS92 edition spans 1995..latest release year
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - row_count: {min: 1000000}
+    reason: BACI is ~10M+ flows/year over 30 years; a tiny table means a truncated pull
+    certainty: 90

@@ -1,0 +1,9 @@
+spec_id: cepii-product-level-trade-elasticities
+# Direct CSV (ProTEE) with header beginning: HS6, zero, positiv, ...
+tests:
+  - not_null: HS6
+    reason: every elasticity row is keyed by an HS6 product
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: elasticities estimated for thousands of HS6 products
+    certainty: 80

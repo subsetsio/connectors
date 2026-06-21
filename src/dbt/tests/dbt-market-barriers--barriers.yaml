@@ -1,0 +1,16 @@
+spec_id: dbt-market-barriers--barriers
+status: active
+tests:
+  - not_null: id
+    reason: every market-access barrier has a stable id (e.g. "GD88QG")
+    certainty: 90
+  - not_null: title
+    reason: each barrier record carries a title
+    certainty: 85
+  - unique: id
+    reason: id is the per-barrier primary key; dupes mean the snapshot was double-read
+    certainty: 75
+    severity: warn
+  - row_count: {min: 100}
+    reason: the live barriers register held ~900+ barriers when probed
+    certainty: 80

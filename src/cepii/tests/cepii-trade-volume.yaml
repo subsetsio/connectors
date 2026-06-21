@@ -1,0 +1,15 @@
+spec_id: cepii-trade-volume
+# CSV header: aggregation_level, year, production_stage, trade_value_dollars,
+# price_index, trade_value_base100, trade_volume_base100.
+tests:
+  - not_null: year
+    certainty: 90
+  - not_null: production_stage
+    certainty: 85
+  - between: {col: year, lo: 1995, hi: 2025}
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - row_count: {min: 20}
+    reason: small aggregate index (years x production stage), but more than a handful of rows
+    certainty: 80

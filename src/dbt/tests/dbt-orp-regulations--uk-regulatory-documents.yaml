@@ -1,0 +1,16 @@
+spec_id: dbt-orp-regulations--uk-regulatory-documents
+status: active
+tests:
+  - not_null: id
+    reason: each regulatory document row has an id (last column of the table)
+    certainty: 85
+  - not_null: title
+    reason: every regulatory document is titled
+    certainty: 85
+  - unique: id
+    reason: id identifies a single regulatory document
+    certainty: 70
+    severity: warn
+  - row_count: {min: 100}
+    reason: the ORP register lists many hundreds of regulatory documents
+    certainty: 80

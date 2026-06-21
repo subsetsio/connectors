@@ -1,0 +1,14 @@
+spec_id: central-statistical-bureau-lal050m
+status: active
+tests:
+  - not_null: obs_value
+    reason: every emitted raw row is a non-null PxWeb observation (null cells are skipped at parse time)
+    certainty: 95
+  - column_type: {col: obs_value, type: float}
+    reason: observation values are cast to float during json-stat2 parsing
+    certainty: 90
+  - row_count: {min: 1}
+    reason: a published statistical table should carry at least one observation; 0 rows means the cube was entirely null or the fetch returned empty
+    certainty: 70
+    points_outward: true
+    severity: warn
