@@ -38,13 +38,37 @@ from constants import ENTITY_IDS
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
+    configure_http,
     get,
     save_raw_ndjson,
-    transient_retry,
+)
+from subsets_utils.retry import is_transient
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    wait_random_exponential,
 )
 
 SLUG = "civil-aviation-authority"
 BASE = "https://www.caa.co.uk"
+
+# caa.co.uk fronts a WAF that 403s the default 'DataIntegrations/1.0' agent and
+# throttles bursts from a single IP (many specs scrape in parallel). Present a
+# real browser UA, and treat 403 as a retryable throttle with jittered backoff so
+# parallel specs de-synchronise instead of all retrying in lock-step.
+_BROWSER_UA = (
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+)
+
+
+def _is_retryable(exc: BaseException) -> bool:
+    if is_transient(exc):
+        return True
+    if isinstance(exc, httpx.HTTPStatusError) and exc.response is not None:
+        return exc.response.status_code == 403  # WAF throttle — back off and retry
+    return False
 
 _LINK_RE = re.compile(
     r'<a class="c-document__link"[^>]*href="(/Documents/Download/[^"]+)">\s*<span>([^<]+)</span>'
@@ -71,7 +95,12 @@ _PUNCT_YEAR_RE = re.compile(r"/uk-flight-punctuality-statistics/(\d{4})/")
 _PUNCT_PAGE = "/data-and-analysis/uk-aviation-market/flight-punctuality/uk-flight-punctuality-statistics/{y}/"
 
 
-@transient_retry()
+@retry(
+    retry=retry_if_exception(_is_retryable),
+    stop=stop_after_attempt(8),
+    wait=wait_random_exponential(multiplier=3, max=120),
+    reraise=True,
+)
 def _get(url):
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()

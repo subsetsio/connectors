@@ -1,0 +1,17 @@
+spec_id: federal-reserve-bank-of-minneapolis-prop-share
+status: active
+tests:
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - column_type: {col: proportion, type: float}
+  - at_least: {col: year, expr: 2000}
+    certainty: 80
+  - at_most: {col: year, expr: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - enum: {col: geo_var, values: [usst, state, native_areas]}
+    certainty: 85
+  - row_count: {min: 150000}
+    reason: ~376k rows observed across the unioned files
+    certainty: 80

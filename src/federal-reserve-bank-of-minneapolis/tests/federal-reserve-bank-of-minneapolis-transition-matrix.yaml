@@ -1,0 +1,20 @@
+spec_id: federal-reserve-bank-of-minneapolis-transition-matrix
+status: active
+tests:
+  - not_null: y0
+  - not_null: y1
+  - column_type: {col: y0, type: integer}
+  - column_type: {col: y1, type: integer}
+  - column_type: {col: probability, type: float}
+  - relationship: {left: y0, op: <=, right: y1}
+    reason: base year precedes (or equals) the end year of the mobility horizon
+    certainty: 90
+  - between: {col: probability, lo: 0, hi: 1}
+    reason: transition-matrix cells are probabilities in [0,1]
+    certainty: 85
+    severity: warn
+  - enum: {col: geo_var, values: [usst, state, native_areas]}
+    certainty: 85
+  - row_count: {min: 1000000}
+    reason: ~2.16M rows observed
+    certainty: 80

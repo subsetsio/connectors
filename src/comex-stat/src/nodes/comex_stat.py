@@ -60,18 +60,30 @@ def _fetch_json(url: str):
 
 
 def _read_csv_all_string(raw: bytes) -> pa.Table:
-    """Parse a semicolon-delimited, quoted CSV with every column typed as string."""
-    header = raw.split(b"\n", 1)[0].decode("utf-8").replace('"', "").strip()
+    """Parse a semicolon-delimited, quoted CSV with every column typed as string.
+
+    Encoding is inconsistent across the source: transaction files are ASCII/UTF-8,
+    the auxiliary reference tables are ISO-8859-1 (Portuguese names). Try UTF-8,
+    fall back to ISO-8859-1 on invalid byte sequences."""
+    header = raw.split(b"\n", 1)[0].decode("ascii", errors="replace").replace('"', "").strip()
     cols = [c for c in header.split(";") if c]
-    return pacsv.read_csv(
-        io.BytesIO(raw),
-        read_options=pacsv.ReadOptions(encoding="utf-8"),
-        parse_options=pacsv.ParseOptions(delimiter=";"),
-        convert_options=pacsv.ConvertOptions(
-            column_types={c: pa.string() for c in cols},
-            strings_can_be_null=True,
-        ),
+    parse = pacsv.ParseOptions(delimiter=";")
+    convert = pacsv.ConvertOptions(
+        column_types={c: pa.string() for c in cols},
+        strings_can_be_null=True,
     )
+    for encoding in ("utf-8", "ISO-8859-1"):
+        try:
+            return pacsv.read_csv(
+                io.BytesIO(raw),
+                read_options=pacsv.ReadOptions(encoding=encoding),
+                parse_options=parse,
+                convert_options=convert,
+            )
+        except pa.lib.ArrowInvalid:
+            if encoding == "ISO-8859-1":
+                raise
+    raise AssertionError("unreachable")
 
 
 def _latest_year() -> int:

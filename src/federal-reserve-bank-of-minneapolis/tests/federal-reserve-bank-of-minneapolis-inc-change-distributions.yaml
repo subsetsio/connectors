@@ -1,0 +1,17 @@
+spec_id: federal-reserve-bank-of-minneapolis-inc-change-distributions
+status: active
+tests:
+  - not_null: y0
+  - not_null: y1
+  - column_type: {col: y0, type: integer}
+  - column_type: {col: y1, type: integer}
+  - relationship: {left: y0, op: <=, right: y1}
+    reason: base year precedes (or equals) the end year of the income-change horizon
+    certainty: 90
+  - at_least: {col: y0, expr: 2000}
+    certainty: 80
+  - enum: {col: geo_var, values: [usst, state, native_areas]}
+    certainty: 85
+  - row_count: {min: 1000000}
+    reason: ~2.1M rows observed (1- and 5-year horizons x US+states+native x W-2/1040)
+    certainty: 80

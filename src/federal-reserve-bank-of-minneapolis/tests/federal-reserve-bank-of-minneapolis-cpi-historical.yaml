@@ -1,0 +1,15 @@
+spec_id: federal-reserve-bank-of-minneapolis-cpi-historical
+status: active
+tests:
+  - not_null: series
+  - not_null: year
+  - enum: {col: series, values: [cpi_1800, cpi_1913]}
+    reason: exactly the two scraped historical CPI tables
+    certainty: 95
+  - column_type: {col: annual_average_index, type: float}
+  - column_type: {col: year, type: string}
+    reason: raw year is kept as text (carries a '*' preliminary marker for the latest year); cast to int in the transform
+    certainty: 90
+  - row_count: {min: 300}
+    reason: ~227 rows (1800-) + ~114 rows (1913-) = ~341
+    certainty: 85
