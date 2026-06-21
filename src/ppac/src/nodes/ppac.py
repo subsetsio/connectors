@@ -242,7 +242,7 @@ def fetch_rest(node_id: str) -> None:
     entity = _entity_of(node_id)
     cfg = REST_CONFIG[entity]
     rows = []
-    for fy in _discover_financial_years(entity):
+    for fy in _discover_financial_years(cfg["page_path"]):
         result = _post_ajax(cfg["method"], fy, cfg["report_by"], cfg["page_id"])
         rows.extend(_parse_uniform(result, fy, cfg["unit"], cfg.get("item_override")))
     if not rows:
@@ -257,7 +257,7 @@ def fetch_snapshot(node_id: str) -> None:
     """State -> single current value (active LPG customers / PMUY connections)."""
     entity = _entity_of(node_id)
     cfg = XLSX_SNAPSHOT[entity]
-    ws = _load_xlsx(_discover_xlsx_url(entity)).worksheets[0]
+    ws = _load_xlsx(_discover_xlsx_url(cfg["page_path"])).worksheets[0]
     rs = _rows_of(ws)
     hdr = _find_row(rs, lambda r: bool(r) and str(r[0] or "").strip().upper().startswith("STATE/UT"))
     if hdr is None:
@@ -391,9 +391,9 @@ def _spec_id(entity_id: str) -> str:
 
 
 _XLSX_BESPOKE = {
-    "infrastructure/installed-refinery-capacity": fetch_refinery_capacity,
-    "consumption/state-wise": fetch_statewise_consumption,
-    "natural-gas/import": fetch_lng_import,
+    "infrastructure-installed-refinery-capacity": fetch_refinery_capacity,
+    "consumption-state-wise": fetch_statewise_consumption,
+    "natural-gas-import": fetch_lng_import,
 }
 
 DOWNLOAD_SPECS = (
@@ -427,7 +427,7 @@ def _transform_sql(entity_id: str, dep_id: str) -> str:
             FROM "{dep_id}"
             WHERE state IS NOT NULL AND value IS NOT NULL
         '''
-    if entity_id == "infrastructure/installed-refinery-capacity":
+    if entity_id == "infrastructure-installed-refinery-capacity":
         return f'''
             SELECT company,
                    refinery,

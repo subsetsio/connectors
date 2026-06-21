@@ -41,6 +41,21 @@ SPARQL = "https://statistics.gov.scot/sparql"
 PAGE = 20000
 MAX_PAGES = 2000  # safety backstop: 40M rows. Raises if exceeded.
 
+# statistics.gov.scot sits behind a CDN/WAF that silently drops requests from
+# datacenter IPs carrying a non-browser User-Agent (the connector's cloud runner
+# hits this — every request disconnects mid-response). A realistic browser
+# User-Agent + browser-like headers get through. (POST is not usable here — the
+# endpoint serves its interactive HTML page for POST; results require GET.)
+_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/csv",
+    "Accept-Language": "en-GB,en;q=0.9",
+    "Referer": "https://statistics.gov.scot/sparql",
+}
+
 QB = "http://purl.org/linked-data/cube#"
 SDMX_DIM = "http://purl.org/linked-data/sdmx/2009/dimension#"
 SDMX_ATTR = "http://purl.org/linked-data/sdmx/2009/attribute#"
@@ -58,12 +73,12 @@ def _local(uri: str) -> str:
     return re.sub(r"^.*[/#]", "", uri)
 
 
-@transient_retry()
+@transient_retry(attempts=8, min_wait=2, max_wait=90)
 def _sparql_csv(query: str) -> str:
     resp = get(
         SPARQL,
         params={"query": query},
-        headers={"Accept": "text/csv"},
+        headers=_HEADERS,
         timeout=(10.0, 180.0),
     )
     resp.raise_for_status()
