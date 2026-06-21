@@ -102,7 +102,7 @@ def fetch_globocan_estimates(node_id: str) -> None:
     for sex in SEXES:
         for typ in TYPES:
             payload = _get_json(f"{GLOBOCAN}/data/rate/{sex}/{typ}/{pops}/{cancers}/")
-            for r in payload.get("dataset", []):
+            for r in (payload.get("dataset") or []):
                 ui = r.get("ui") or {}
                 out.append({
                     "country_code": r.get("country_code"),
@@ -125,24 +125,27 @@ def fetch_globocan_estimates(node_id: str) -> None:
 # --------------------------------------------------------------------------- #
 
 def fetch_tomorrow_projections(node_id: str) -> None:
-    cancers = _codes(_get_json(f"{GLOBOCAN}/meta/cancers/all/"), "cancer")
+    # The prediction endpoint caps response size: all-pops x all-cancers returns
+    # dataset:null, but all-pops x ONE-cancer is fine, so iterate per cancer.
+    cancer_codes = [r["cancer"] for r in _get_json(f"{GLOBOCAN}/meta/cancers/all/")]
     pops = _codes(_get_json(f"{GLOBOCAN}/meta/populations/all/"), "country_code")
     out = []
     for sex in SEXES:
         for typ in TYPES:
-            payload = _get_json(f"{GLOBOCAN}/data/prediction/{sex}/{typ}/{pops}/{cancers}/")
-            for r in payload.get("dataset", []):
-                out.append({
-                    "country_code": r.get("id"),
-                    "cancer_code": r.get("cancer"),
-                    "sex": r.get("sex", sex),
-                    "type": r.get("type", typ),
-                    "year": r.get("year"),
-                    "cases_pred": r.get("cases_pred"),
-                    "cases_base": r.get("cases_base"),
-                    "change": r.get("change"),
-                    "percent": r.get("percent"),
-                })
+            for can in cancer_codes:
+                payload = _get_json(f"{GLOBOCAN}/data/prediction/{sex}/{typ}/{pops}/{can}/")
+                for r in (payload.get("dataset") or []):
+                    out.append({
+                        "country_code": r.get("id"),
+                        "cancer_code": r.get("cancer", can),
+                        "sex": r.get("sex", sex),
+                        "type": r.get("type", typ),
+                        "year": r.get("year"),
+                        "cases_pred": r.get("cases_pred"),
+                        "cases_base": r.get("cases_base"),
+                        "change": r.get("change"),
+                        "percent": r.get("percent"),
+                    })
     save_raw_ndjson(out, node_id)
 
 
@@ -151,30 +154,33 @@ def fetch_tomorrow_projections(node_id: str) -> None:
 # --------------------------------------------------------------------------- #
 
 def fetch_overtime_rates(node_id: str) -> None:
-    cancers = _codes(_get_json(f"{OVERTIME}/meta/cancers/all/"), "cancer")
+    # Same response-size cap as prediction: all-pops x all-cancers overflows
+    # (returns a non-JSON error body), so iterate per cancer (all pops each).
+    cancer_codes = [r["cancer"] for r in _get_json(f"{OVERTIME}/meta/cancers/all/")]
     pops = _codes(_get_json(f"{OVERTIME}/meta/populations/all/"), "country_code")
     out = []
     for sex in SEXES:
         for typ in TYPES:
-            url = (
-                f"{OVERTIME}/data/population/{sex}/{typ}/{pops}/{cancers}/"
-                f"?year_start=1900&year_end=2030"
-            )
-            payload = _get_json(url)
-            for r in payload.get("dataset", []):
-                ages = r.get("ages") or {}
-                popn = r.get("populations") or {}
-                cases = sum(v for v in ages.values() if isinstance(v, (int, float)))
-                person_years = sum(v for v in popn.values() if isinstance(v, (int, float)))
-                out.append({
-                    "country_code": r.get("country", r.get("id")),
-                    "cancer_code": r.get("cancer"),
-                    "sex": r.get("sex", sex),
-                    "type": r.get("type", typ),
-                    "year": r.get("year"),
-                    "cases": cases,
-                    "person_years": person_years,
-                })
+            for can in cancer_codes:
+                url = (
+                    f"{OVERTIME}/data/population/{sex}/{typ}/{pops}/{can}/"
+                    f"?year_start=1900&year_end=2030"
+                )
+                payload = _get_json(url)
+                for r in (payload.get("dataset") or []):
+                    ages = r.get("ages") or {}
+                    popn = r.get("populations") or {}
+                    cases = sum(v for v in ages.values() if isinstance(v, (int, float)))
+                    person_years = sum(v for v in popn.values() if isinstance(v, (int, float)))
+                    out.append({
+                        "country_code": r.get("country", r.get("id")),
+                        "cancer_code": r.get("cancer", can),
+                        "sex": r.get("sex", sex),
+                        "type": r.get("type", typ),
+                        "year": r.get("year"),
+                        "cases": cases,
+                        "person_years": person_years,
+                    })
     save_raw_ndjson(out, node_id)
 
 
