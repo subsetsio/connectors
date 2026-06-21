@@ -44,9 +44,12 @@ INDEC_SOURCE = "Instituto Nacional de Estadística y Censos (INDEC)"
 # Page sizes. /search caps at 1000 series/page; /series caps at 1000 periods/page.
 SEARCH_PAGE = 1000
 SERIES_PERIODS = 1000
-# Series ids per /series call. Comfortably under URL limits; batched within a
-# single frequency so the wide response stays dense (no cross-frequency nulls).
-IDS_PER_CALL = 50
+# Series ids per /series call. The API hard-caps a request at 40 series
+# ("Cantidad de series pedidas por encima del limite permitido (40)"), so 40 is
+# the max. Batched within a single frequency so the wide response stays dense
+# (no cross-frequency nulls). The 400-bisect in _emit_batch is a safety net for
+# a stray bad id, not the size cap.
+IDS_PER_CALL = 40
 
 CATALOG_SCHEMA = pa.schema([
     ("series_id", pa.string()),

@@ -115,7 +115,11 @@ def _flow_sql(dep: str) -> str:
 # 3D bilateral matrices (BRE, MIG): origin x destination corridor.
 # REF_AREA is the indicator's primary country; COMP_BREAKDOWN_1 carries the
 # counterpart country, code-prefixed 'WB_KNOMAD_' (stripped here to ISO3).
-def _bilateral_sql(dep: str, value_col: str) -> str:
+# `unit_sql` is a SQL expression for the unit column: for remittances the
+# source's UNIT_MEASURE_LABEL ('US dollars') is correct, but the migration
+# matrix is mislabeled 'US dollars' upstream when the values are person counts,
+# so MIG passes a corrected literal instead of carrying the wrong source label.
+def _bilateral_sql(dep: str, value_col: str, unit_sql: str) -> str:
     return f'''
         SELECT
             REF_AREA                                          AS country_code,
@@ -124,7 +128,7 @@ def _bilateral_sql(dep: str, value_col: str) -> str:
             COMP_BREAKDOWN_1_LABEL                            AS counterpart,
             CAST(TIME_PERIOD AS INTEGER)                      AS year,
             TRY_CAST(OBS_VALUE AS DOUBLE)                     AS {value_col},
-            UNIT_MEASURE_LABEL                                AS unit,
+            {unit_sql}                                        AS unit,
             INDICATOR_LABEL                                   AS indicator,
             OBS_STATUS                                        AS obs_status
         FROM "{dep}"
@@ -149,11 +153,11 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="knomad-wb-knomad-bre-transform",
         deps=["knomad-wb-knomad-bre"],
-        sql=_bilateral_sql("knomad-wb-knomad-bre", "remittance_usd_million"),
+        sql=_bilateral_sql("knomad-wb-knomad-bre", "remittance_usd_million", "UNIT_MEASURE_LABEL"),
     ),
     SqlNodeSpec(
         id="knomad-wb-knomad-mig-transform",
         deps=["knomad-wb-knomad-mig"],
-        sql=_bilateral_sql("knomad-wb-knomad-mig", "migrant_stock"),
+        sql=_bilateral_sql("knomad-wb-knomad-mig", "migrant_stock", "'persons'"),
     ),
 ]
