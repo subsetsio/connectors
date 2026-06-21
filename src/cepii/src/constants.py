@@ -94,8 +94,9 @@ CONFIG = {
     },
     "eqchange": {
         # EER indices (186 trade partners, time-varying weights, annual, CPI-based);
-        # REER + NEER unioned with a `series` column.
-        "kind": "xls_url",
+        # each .xls is wide (one column per country) and gets melted to long, REER +
+        # NEER unioned with a `series` column.
+        "kind": "eqchange",
         "urls": [
             {"url": f"{BASE}/DATA_DOWNLOAD/EQCHANGE/186_TP/Weights_TV/EER/Indices/Annual/CPI_based/REER_Weights_TV.xls", "series": "REER"},
             {"url": f"{BASE}/DATA_DOWNLOAD/EQCHANGE/186_TP/Weights_TV/EER/Indices/Annual/CPI_based/NEER_Weights_TV.xls", "series": "NEER"},
@@ -107,8 +108,10 @@ CONFIG = {
         "members": ["dist_cepii.xls"],
     },
     "rprod": {
-        "kind": "xls_url",
-        "urls": [{"url": f"{BASE}/DATA_DOWNLOAD/EQCHANGE/RPROD.xls", "series": None}],
+        # Multi-sheet .xls (BS1..BS5 measures, country x year x weighting variant);
+        # the BS sheets are melted to long.
+        "kind": "rprod",
+        "url": f"{BASE}/DATA_DOWNLOAD/EQCHANGE/RPROD.xls",
     },
 }
 
