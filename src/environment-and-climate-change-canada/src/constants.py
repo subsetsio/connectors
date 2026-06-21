@@ -28,3 +28,29 @@ ENTITY_IDS = [
     "ltce-temperature",
     "swob-stations",
 ]
+
+# Observation collections are fetched PER STATION, not by walking the whole
+# collection with offset pagination. The GeoMet backend's offset pagination is
+# O(offset): a deep page on a multi-million-row collection takes minutes
+# (climate-monthly offset=1.9M measured at 161s), so a full crawl is unusable.
+# Filtering to one station returns a small indexed result in ~0.1s, so we
+# enumerate the stations from the companion station collection and pull each
+# station's slice. Maps obs collection -> (filter_field, stations_collection,
+# station_id_field). Every field verified live against /queryables + a filtered
+# /items call. Collections NOT listed here (the *-stations reference tables) are
+# small and fetched with plain shallow pagination.
+STATION_PARTITIONS = {
+    "climate-monthly":               ("CLIMATE_IDENTIFIER",  "climate-stations",     "CLIMATE_IDENTIFIER"),
+    "climate-normals":               ("CLIMATE_IDENTIFIER",  "climate-stations",     "CLIMATE_IDENTIFIER"),
+    "ahccd-annual":                  ("station_id__id_station", "ahccd-stations",    "station_id__id_station"),
+    "ahccd-monthly":                 ("station_id__id_station", "ahccd-stations",    "station_id__id_station"),
+    "ahccd-seasonal":                ("station_id__id_station", "ahccd-stations",    "station_id__id_station"),
+    "ahccd-trends":                  ("station_id__id_station", "ahccd-stations",    "station_id__id_station"),
+    "hydrometric-annual-peaks":      ("STATION_NUMBER",      "hydrometric-stations", "STATION_NUMBER"),
+    "hydrometric-annual-statistics": ("STATION_NUMBER",      "hydrometric-stations", "STATION_NUMBER"),
+    "hydrometric-monthly-mean":      ("STATION_NUMBER",      "hydrometric-stations", "STATION_NUMBER"),
+    "ltce-precipitation":            ("VIRTUAL_CLIMATE_ID",  "ltce-stations",        "VIRTUAL_CLIMATE_ID"),
+    "ltce-snowfall":                 ("VIRTUAL_CLIMATE_ID",  "ltce-stations",        "VIRTUAL_CLIMATE_ID"),
+    "ltce-temperature":              ("VIRTUAL_CLIMATE_ID",  "ltce-stations",        "VIRTUAL_CLIMATE_ID"),
+    "aqhi-observations-realtime":    ("location_id",         "aqhi-stations",        "location_id"),
+}

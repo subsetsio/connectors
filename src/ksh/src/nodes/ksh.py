@@ -103,6 +103,24 @@ def _parse_xml(text):
     return out
 
 
+def _normalize(rows):
+    """Force a uniform key set across every record (missing -> null).
+
+    SDMX-ML Series carry varying attribute sets, so parsed rows within one
+    resource can have heterogeneous keys. DuckDB's read_json_auto infers columns
+    from a leading sample and errors ("unknown key ...") when a later row carries
+    a key the sample never saw. Emitting every row with the full union of keys
+    makes the NDJSON objects homogeneous and the schema sample-independent."""
+    keys = []
+    seen = set()
+    for row in rows:
+        for k in row:
+            if k not in seen:
+                seen.add(k)
+                keys.append(k)
+    return [{k: row.get(k) for k in keys} for row in rows]
+
+
 def fetch_one(node_id):
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     rid = node_id[len(SLUG) + 1:]  # strip "ksh-" -> resource UUID
@@ -113,7 +131,7 @@ def fetch_one(node_id):
         rows = _parse_csv(resp.content.decode("utf-8-sig", errors="replace"))
     else:
         rows = _parse_xml(resp.content.decode("utf-8", errors="replace"))
-    save_raw_ndjson(rows, asset)
+    save_raw_ndjson(_normalize(rows), asset)
 
 
 DOWNLOAD_SPECS = [
