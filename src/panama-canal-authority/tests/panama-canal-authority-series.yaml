@@ -1,0 +1,22 @@
+spec_id: panama-canal-authority-series
+status: active
+tests:
+  - not_null: series_id
+    reason: the AQUARIUS dataset identifier (e.g. 'Stage.Telemetria@ALA') is the natural key; a null means the crawl lost it
+    certainty: 98
+  - unique: [series_id]
+    reason: one catalog row per series; the identifier embeds parameter, label and station so it is globally unique
+    certainty: 95
+  - not_null: parameter
+    reason: every series carries a ParameterName from the Datasets endpoint
+    certainty: 95
+  - not_null: location_identifier
+    reason: every series belongs to a station; the identifier is parsed from the dataset id
+    certainty: 97
+  - enum: {col: location_type, values: [Hydrology Station, Meteorology Station, Oceanographic Station]}
+    reason: the portal classifies every station into exactly these three LocType values
+    certainty: 88
+    severity: warn
+  - distinct_count: {col: parameter, min: 8}
+    reason: a healthy crawl spans many parameters (precipitation, stage, discharge, temperature, wind, ...); collapse means the crawl broke
+    certainty: 85

@@ -1,0 +1,27 @@
+spec_id: panama-canal-authority-values
+status: active
+tests:
+  - not_null: series_id
+    reason: every observation row is stamped with its source series identifier (the join key to the catalog)
+    certainty: 98
+  - not_null: date
+    reason: the daily roll-up derives one row per calendar day; the day is always set
+    certainty: 98
+  - not_null: value_mean
+    reason: a daily row only exists when at least one numeric reading was aggregated, so the mean is always present
+    certainty: 95
+  - column_type: {col: n_obs, type: integer}
+    certainty: 90
+  - between: {col: n_obs, lo: 1, hi: 100000}
+    reason: n_obs counts native readings folded into a day; at least 1, and even sub-minute telemetry stays well under 100k/day
+    certainty: 88
+  - unique: [series_id, date]
+    reason: the roll-up produces exactly one row per series per calendar day; dupes mean a re-pull without overwrite or an aggregation bug
+    certainty: 90
+  - distinct_count: {col: parameter, min: 8}
+    reason: observations should span the full parameter range, not a single collapsed metric
+    certainty: 85
+  - not_null: unit
+    reason: the unit is parsed from each export's 'Value (<unit>)' header and stamped on every row
+    certainty: 80
+    severity: warn

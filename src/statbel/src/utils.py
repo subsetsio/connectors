@@ -1,0 +1,187 @@
+"""Shared helpers for the Statbel connector.
+
+Statbel publishes its whole open-data corpus through the official DCAT-BE
+catalogue (Turtle/RDF). We resolve each dataset's current download URL from a
+fresh read of that catalogue (filenames are point-in-time, so they must not be
+hardcoded), download the tabular distribution, and normalise it to rows of
+strings that the SQL transform can publish.
+"""
+
+import csv
+import gzip
+import io
+import re
+import zipfile
+from functools import lru_cache
+
+from subsets_utils import get, transient_retry
+
+DCAT_URL = "https://doc.statbel.be/publications/DCAT/DCAT_opendata_datasets.ttl"
+
+# Distribution extensions we never read (geospatial / binary DB mirrors).
+NON_TABULAR_EXT = (
+    ".shp.zip", ".geojson.zip", ".gml.zip", ".kml.zip",
+    ".sqlite.zip", ".sqlite.tar.gz", ".mdb.zip", ".tar.gz",
+)
+# Delimited-text distributions, in preference order (best first).
+DELIMITED_EXT = (".csv", ".txt.zip", ".csv.zip", ".zip", ".gz")
+
+
+@transient_retry()
+def _fetch_bytes(url: str) -> bytes:
+    resp = get(url, timeout=(10.0, 180.0))
+    resp.raise_for_status()
+    return resp.content
+
+
+def _ext_of(filename: str) -> str:
+    fn = filename.lower()
+    for ext in (".shp.zip", ".geojson.zip", ".gml.zip", ".kml.zip",
+                ".sqlite.tar.gz", ".sqlite.zip", ".mdb.zip", ".tar.gz",
+                ".csv.zip", ".txt.zip"):
+        if fn.endswith(ext):
+            return ext
+    m = re.search(r"(\.[a-z0-9]+)$", fn)
+    return m.group(1) if m else ""
+
+
+def _split_records(text: str):
+    """Yield (subject_uri, body) for each top-level Turtle record. Records start
+    at column 0 with `<uri> ...`; continuations are indented."""
+    cur, buf = None, []
+    subj_re = re.compile(r"^<([^>]+)>\s")
+    for ln in text.splitlines():
+        if ln and not ln[0].isspace() and ln.startswith("<"):
+            if cur is not None:
+                yield cur, "\n".join(buf)
+            m = subj_re.match(ln)
+            cur = m.group(1) if m else None
+            buf = [ln]
+        else:
+            buf.append(ln)
+    if cur is not None:
+        yield cur, "\n".join(buf)
+
+
+@lru_cache(maxsize=1)
+def _catalog() -> dict:
+    """Parse the DCAT catalogue once per process. Returns
+    {identifier: [download_url, ...]} ordered by the dataset's listing."""
+    text = _fetch_bytes(DCAT_URL).decode("utf-8", errors="replace")
+    out = {}
+    for subj, body in _split_records(text):
+        if "a dcat:Dataset" not in body:
+            continue
+        ident_m = re.search(r'dct:identifier\s+"([^"]+)"', body)
+        node_m = re.search(r"/node/(\d+)", subj)
+        if ident_m:
+            key = ident_m.group(1)
+        elif node_m:
+            key = "NodeID" + node_m.group(1)
+        else:
+            continue
+        dist_block = re.search(
+            r"dcat:distribution\s+(.*?)(?:;\s*\n\s*[a-z]+:|\.\s*\n|\Z)", body, re.DOTALL
+        )
+        urls = []
+        if dist_block:
+            for uri in re.findall(r"<([^>]+)>", dist_block.group(1)):
+                urls.append(uri.split("#", 1)[0])
+        out[key] = urls
+    return out
+
+
+def resolve_download_url(entity_id: str) -> str:
+    """Pick the best delimited-text distribution URL for a dataset node."""
+    urls = _catalog().get(entity_id)
+    if not urls:
+        raise RuntimeError(f"{entity_id}: not present in DCAT catalogue")
+    by_ext = {}
+    for u in urls:
+        fn = u.rstrip("/").rsplit("/", 1)[-1]
+        by_ext.setdefault(_ext_of(fn), u)
+    for ext in DELIMITED_EXT:
+        if ext in by_ext:
+            return by_ext[ext]
+    raise RuntimeError(
+        f"{entity_id}: no delimited distribution; have {sorted(by_ext)}"
+    )
+
+
+def _decode(raw: bytes) -> str:
+    for enc in ("utf-8-sig", "utf-8", "latin-1"):
+        try:
+            return raw.decode(enc)
+        except UnicodeDecodeError:
+            continue
+    return raw.decode("latin-1", errors="replace")
+
+
+def _extract_text(url: str, raw: bytes) -> str:
+    """Return the decoded delimited-text body for a distribution."""
+    low = url.lower()
+    if low.endswith(".gz") and not low.endswith(".tar.gz"):
+        return _decode(gzip.decompress(raw))
+    if low.endswith(".zip"):  # .zip, .txt.zip, .csv.zip
+        with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+            members = [n for n in zf.namelist() if not n.endswith("/")]
+            # Prefer a .txt / .csv member; else the largest file.
+            members.sort(key=lambda n: (
+                not n.lower().endswith((".txt", ".csv")),
+                -zf.getinfo(n).file_size,
+            ))
+            if not members:
+                raise RuntimeError(f"empty zip: {url}")
+            return _decode(zf.read(members[0]))
+    return _decode(raw)
+
+
+def _sniff_delimiter(header: str) -> str:
+    counts = {d: header.count(d) for d in ("|", ";", "\t", ",")}
+    best = max(counts, key=counts.get)
+    return best if counts[best] > 0 else ","
+
+
+def _sanitize_columns(names):
+    out, seen = [], {}
+    for i, n in enumerate(names):
+        clean = re.sub(r"\s+", "_", (n or "").strip())
+        clean = re.sub(r"[^0-9A-Za-z_]+", "_", clean).strip("_")
+        if not clean:
+            clean = f"col_{i}"
+        if clean in seen:
+            seen[clean] += 1
+            clean = f"{clean}_{seen[clean]}"
+        else:
+            seen[clean] = 0
+        out.append(clean)
+    return out
+
+
+def fetch_rows(entity_id: str):
+    """Resolve, download and parse a Statbel dataset into a list of dict rows
+    (all values are strings — typing is left to consumers)."""
+    url = resolve_download_url(entity_id)
+    text = _extract_text(url, _fetch_bytes(url))
+    # Normalise newlines and drop a leading BOM if any survived.
+    text = text.lstrip("﻿").replace("\r\n", "\n").replace("\r", "\n")
+    first_nl = text.find("\n")
+    header_line = text[:first_nl] if first_nl != -1 else text
+    delim = _sniff_delimiter(header_line)
+    reader = csv.reader(io.StringIO(text), delimiter=delim)
+    try:
+        header = next(reader)
+    except StopIteration:
+        raise RuntimeError(f"{entity_id}: empty file at {url}")
+    cols = _sanitize_columns(header)
+    ncols = len(cols)
+    rows = []
+    for rec in reader:
+        if not rec or (len(rec) == 1 and rec[0] == ""):
+            continue
+        if len(rec) < ncols:
+            rec = rec + [""] * (ncols - len(rec))
+        elif len(rec) > ncols:
+            rec = rec[:ncols]
+        rows.append({cols[i]: rec[i] for i in range(ncols)})
+    return rows

@@ -1,0 +1,10 @@
+spec_id: olympedia-age-records
+status: active
+tests:
+  - not_null: athlete
+  - not_null: noc_code
+  - not_null: event
+  - not_null: age
+  - row_count: {min: 20}
+    reason: age-records page lists ~100 entries
+    certainty: 85

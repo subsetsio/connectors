@@ -1,0 +1,12 @@
+spec_id: olympedia-sports
+status: active
+tests:
+  - not_null: discipline_code
+  - not_null: discipline
+  - unique: discipline_code
+    reason: one row per discipline abbreviation
+    certainty: 90
+  - column_type: {col: olympic_status, type: boolean}
+  - row_count: {min: 100}
+    reason: ~144 disciplines observed
+    certainty: 90

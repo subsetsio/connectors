@@ -60,7 +60,7 @@ VALUES_SCHEMA = pa.schema(
         ("location_identifier", pa.string()),
         ("watershed", pa.string()),
         ("unit", pa.string()),
-        ("date", pa.date32()),
+        ("date", pa.string()),
         ("value_mean", pa.float64()),
         ("value_min", pa.float64()),
         ("value_max", pa.float64()),

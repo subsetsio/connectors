@@ -30,12 +30,14 @@ tests:
   - between: {col: rank, lo: 1, hi: 250}
     reason: ranks run 1..~180 across the covered countries; a wider span means rank parsed from the wrong column
     certainty: 80
-  - between: {col: score, lo: 0, hi: 250}
-    reason: scores are non-negative; older eras use a different point scale than the 0-100 post-2022 one, so the upper bound is deliberately loose
-    certainty: 70
-    severity: warn
+  - between: {col: score, lo: -15, hi: 150}
+    reason: two scales coexist — the 2002-2012 legacy point system (lower better, dips slightly negative, worst ~142) and the 2013+ 0-100 index; bounds cover both with headroom
+    certainty: 85
   - enum: {col: methodology_era, values: [old_pre2022, new_2022]}
-    reason: era is assigned by header detection; an unexpected value means the header layout changed
+    reason: era is assigned by header detection (sub-indicators added in 2022); an unexpected value means the header layout changed
+    certainty: 95
+  - enum: {col: score_scale, values: [legacy_points_lower_better, index_0_100_higher_better]}
+    reason: scale regime derived from year (<=2012 legacy points, >=2013 0-100 index); the overall score is not comparable across the two
     certainty: 95
   - distinct_count: {col: year, min: 20}
     reason: ~24 index years (2002-2026 minus 2011); far fewer means year discovery stopped early

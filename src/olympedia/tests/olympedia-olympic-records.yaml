@@ -1,0 +1,15 @@
+spec_id: olympedia-olympic-records
+status: active
+tests:
+  - not_null: event
+  - not_null: discipline_code
+  - not_null: current_record
+  - not_null: noc_code
+  - distinct_count: {col: discipline_code, min: 1}
+    reason: /records currently links a handful of disciplines; count may grow
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - row_count: {min: 5}
+    reason: each discipline contributes several current records
+    certainty: 80

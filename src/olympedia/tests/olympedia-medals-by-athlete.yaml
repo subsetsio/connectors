@@ -1,0 +1,14 @@
+spec_id: olympedia-medals-by-athlete
+status: active
+tests:
+  - not_null: athlete
+  - not_null: noc_code
+  - column_type: {col: gold, type: integer}
+  - relationship: {left: total, op: ">=", right: gold}
+    certainty: 95
+  - between: {col: total, lo: 1, hi: 40}
+    reason: top medalist (Phelps) has 28; leaderboard rows all have medals
+    certainty: 85
+  - row_count: {min: 10}
+    reason: leaderboard lists ~25 athletes
+    certainty: 85

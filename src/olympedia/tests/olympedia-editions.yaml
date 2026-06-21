@@ -1,0 +1,22 @@
+spec_id: olympedia-editions
+status: active
+tests:
+  - not_null: edition_id
+  - column_type: {col: edition_id, type: integer}
+  - unique: edition_id
+    reason: one row per Olympic edition (the /editions/<id> integer id is the key)
+    certainty: 95
+  - not_null: city
+  - enum: {col: category, values: ["Olympic Games", "Intercalated Games", "Youth Olympic Games"]}
+    reason: we deliberately exclude Forerunners and Ancient Olympic Games sections
+    certainty: 90
+  - enum: {col: season, values: ["Summer", "Winter", "Equestrian"]}
+    reason: season header text; Intercalated has an empty (null) season so this is warn
+    certainty: 70
+    severity: warn
+  - between: {col: year, lo: 1896, hi: 2040}
+    reason: modern era starts 1896; future Games are scheduled through the 2030s
+    certainty: 85
+  - row_count: {min: 60}
+    reason: ~75 modern editions; far fewer means a section table failed to parse
+    certainty: 90

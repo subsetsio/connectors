@@ -1,0 +1,17 @@
+spec_id: olympedia-medals-by-country
+status: active
+tests:
+  - not_null: noc_code
+  - unique: noc_code
+    reason: all-time totals are one row per NOC
+    certainty: 95
+  - column_type: {col: gold, type: integer}
+  - column_type: {col: total, type: integer}
+  - between: {col: gold, lo: 0, hi: 5000}
+    certainty: 80
+  - relationship: {left: total, op: ">=", right: gold}
+    reason: total = gold+silver+bronze, so total >= gold always
+    certainty: 95
+  - row_count: {min: 100}
+    reason: ~160 NOCs have won medals
+    certainty: 90

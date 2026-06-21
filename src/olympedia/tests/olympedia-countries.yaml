@@ -1,0 +1,13 @@
+spec_id: olympedia-countries
+status: active
+tests:
+  - not_null: noc_code
+  - not_null: country
+  - matches: {col: noc_code, pattern: "^[A-Za-z]{2,4}$"}
+    reason: NOC/IOC codes are 2-4 letter abbreviations
+    certainty: 90
+  - column_type: {col: competed_modern, type: boolean}
+  - enum: {col: section, values: ["modern", "ancient"]}
+  - row_count: {min: 300}
+    reason: ~271 modern + ~178 ancient countries observed
+    certainty: 90

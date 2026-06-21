@@ -1,0 +1,21 @@
+spec_id: olympedia-medal-table-by-edition
+status: active
+tests:
+  - not_null: edition_id
+  - not_null: noc_code
+  - column_type: {col: edition_id, type: integer}
+  - column_type: {col: gold, type: integer}
+  - between: {col: year, lo: 1896, hi: 2040}
+    certainty: 85
+  - relationship: {left: total, op: ">=", right: gold}
+    reason: per-edition NOC totals; total >= gold
+    certainty: 95
+  - unique: [edition_id, noc_code]
+    reason: one medal row per (edition, NOC)
+    certainty: 90
+  - distinct_count: {col: edition_id, min: 30}
+    reason: ~58 past editions have medal tables (future ones contribute no rows)
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: dozens of past editions x tens of NOCs each (Paris alone has 92 rows)
+    certainty: 85

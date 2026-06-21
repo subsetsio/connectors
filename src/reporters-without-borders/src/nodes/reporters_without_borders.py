@@ -58,7 +58,15 @@ SCHEMA = pa.schema([
     ("score_prev", pa.float64()),
     ("score_evolution", pa.float64()),
     ("methodology_era", pa.string()),
+    ("score_scale", pa.string()),
 ])
+
+# RSF's overall-score scale flips at 2013 (verified: sign of corr(score, rank)
+# flips). 2002-2012 use a legacy point system where LOWER is better (best
+# countries go negative, worst ~140); 2013 onward use a 0-100 index where HIGHER
+# is better. The two are NOT comparable, so the scale is published as a column.
+def _score_scale(file_year: int) -> str:
+    return "legacy_points_lower_better" if file_year <= 2012 else "index_0_100_higher_better"
 
 _SCORE_RE = re.compile(r"^Score(?: \d{4})?$")  # new-era main score: "Score" or "Score 2026"
 
@@ -135,6 +143,7 @@ def _parse_row(row: dict, fieldnames: list[str], new_era: bool, file_year: int) 
             "score_prev": _num(_pick(row, "Score N-1")),
             "score_evolution": _num(_pick(row, "Score evolution")),
             "methodology_era": "new_2022",
+            "score_scale": _score_scale(file_year),
         }
 
     # old era (2002-2021): overall score only
@@ -161,6 +170,7 @@ def _parse_row(row: dict, fieldnames: list[str], new_era: bool, file_year: int) 
         "score_prev": None,
         "score_evolution": None,
         "methodology_era": "old_pre2022",
+        "score_scale": _score_scale(file_year),
     }
 
 
@@ -223,7 +233,8 @@ TRANSFORM_SPECS = [
                 rank_evolution,
                 score_prev,
                 score_evolution,
-                methodology_era
+                methodology_era,
+                score_scale
             FROM "{ENTITY_ID}"
             WHERE iso IS NOT NULL
               AND year IS NOT NULL

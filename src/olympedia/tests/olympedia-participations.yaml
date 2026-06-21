@@ -1,0 +1,11 @@
+spec_id: olympedia-participations
+status: active
+tests:
+  - not_null: athlete
+  - column_type: {col: participations, type: integer}
+  - between: {col: participations, lo: 1, hi: 20}
+    reason: most-participations leaderboard tops out around 10-12
+    certainty: 80
+  - row_count: {min: 20}
+    reason: leaderboard lists ~50 athletes
+    certainty: 85
