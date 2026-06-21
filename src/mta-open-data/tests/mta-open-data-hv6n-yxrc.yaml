@@ -1,0 +1,6 @@
+spec_id: mta-open-data-hv6n-yxrc
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: this MTA dataset was accepted for publish because it carries data; a full Socrata CSV export should yield at least one row, so an empty table means the resource id is wrong or the dataset was withdrawn upstream
+    certainty: 90

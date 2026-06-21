@@ -261,12 +261,39 @@ _TOPIC_EXTRA = {
 }
 
 
+# Columns to drop per topic even though they're "core": the source ships them
+# but leaves them entirely empty for that topic.
+_TOPIC_DROP = {
+    "care-chronically-ill-last-2yrs": {"short_label", "cohort_web_label"},
+}
+
+# Dartmouth's missing/suppressed-value sentinel. The source writes -99999 (and
+# -999999 for some columns) when a cell is suppressed; these must become NULL,
+# NOT be treated as real measurements. Legitimate negative values exist (sparse
+# risk-adjusted "Other_discharges" rates reach about -1800), so the cutoff sits
+# safely below any real value and above the sentinels.
+_SENTINEL_CUTOFF = -9999
+
+# Numeric columns that carry the sentinel.
+_NUMERIC = {"DOUBLE", "BIGINT"}
+
+
+def _col_expr(c: str) -> str:
+    t = _COL_TYPE[c]
+    if t in _NUMERIC:
+        # NULL out the suppression sentinel, keep real (incl. small-negative) values.
+        return (
+            f"CASE WHEN TRY_CAST({c} AS DOUBLE) <= {_SENTINEL_CUTOFF} "
+            f"THEN NULL ELSE CAST({c} AS {t}) END AS {c}"
+        )
+    return f"CAST({c} AS {t}) AS {c}"
+
+
 def _topic_sql(entity: str) -> str:
     dep = _spec_id(entity)
-    cols = _CORE_COLS + _TOPIC_EXTRA[entity]
-    selects = ",\n            ".join(
-        f"CAST({c} AS {_COL_TYPE[c]}) AS {c}" for c in cols
-    )
+    drop = _TOPIC_DROP.get(entity, set())
+    cols = [c for c in (_CORE_COLS + _TOPIC_EXTRA[entity]) if c not in drop]
+    selects = ",\n            ".join(_col_expr(c) for c in cols)
     return f'''
         SELECT
             {selects}

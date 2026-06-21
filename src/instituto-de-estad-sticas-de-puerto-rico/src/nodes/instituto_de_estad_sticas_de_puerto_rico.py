@@ -231,21 +231,51 @@ def _excel_tables(content: bytes, source_resource: str, fmt: str):
     tables = []
     for sheet in xl.sheet_names:
         try:
-            df = xl.parse(sheet, dtype=str)
+            raw = xl.parse(sheet, header=None, dtype=str)
         except Exception as e:  # noqa: BLE001
             print(f"[{source_resource}] sheet {sheet} parse failed: {e}")
             continue
-        if df.shape[0] == 0 or df.shape[1] == 0:
+        if raw.shape[0] == 0 or raw.shape[1] == 0:
             continue
-        cols = _sanitize_cols(list(df.columns))
-        records = df.where(df.notna(), None).values.tolist()
+        grid = raw.where(raw.notna(), None).values.tolist()
+        h = _detect_header_row(grid)
+        header = grid[h]
+        cols = _sanitize_cols(header)
+        data = grid[h + 1:]
+        if not data:
+            continue
 
-        def rows(records=records, cols=cols):
-            for rec in records:
-                yield {cols[i]: rec[i] for i in range(len(cols))}
+        def rows(data=data, cols=cols):
+            for rec in data:
+                if all(v is None or v == "" for v in rec):
+                    continue
+                yield {cols[i]: (rec[i] if i < len(rec) else None)
+                       for i in range(len(cols))}
 
         tables.append(Table(cols, source_resource, f"{source_file_sheet(sheet)}", rows()))
     return tables
+
+
+def _detect_header_row(grid, scan=20):
+    """Pick the header row of a spreadsheet that may carry title/preamble rows.
+
+    Spreadsheets from this portal often start with a merged title and blank
+    rows, so the real header isn't row 0. The header is the first reasonably
+    "full" row (sparse preamble rows have few cells; the header is the first row
+    whose populated-cell count is close to the densest of the leading rows)."""
+    n = min(scan, len(grid))
+
+    def nonnull(row):
+        return sum(1 for v in row if v is not None and str(v).strip() != "")
+
+    counts = [nonnull(grid[i]) for i in range(n)]
+    peak = max(counts) if counts else 0
+    if peak <= 1:
+        return 0
+    for i in range(n):
+        if counts[i] >= max(2, int(0.7 * peak)):
+            return i
+    return 0
 
 
 def source_file_sheet(sheet):
