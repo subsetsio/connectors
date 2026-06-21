@@ -37,6 +37,14 @@ from constants import FETCH_PARAMS
 
 BASE = "https://data.api.trade.gov.uk"
 
+# market-barriers' per-table CSV is structurally ragged: the source flattens
+# nested objects (country_or_territory, sectors) into a variable number of
+# columns, so rows have 12 or 14 fields against a 12-name header — positional
+# CSV parsing silently corrupts ~44% of rows. The whole-dataset JSON for this
+# dataset is clean and well-keyed, so barriers is fetched and flattened from
+# JSON instead.
+BARRIERS_SPEC = "dbt-market-barriers--barriers"
+
 
 @transient_retry()
 def _fetch_csv_text(url: str) -> str:
@@ -47,7 +55,14 @@ def _fetch_csv_text(url: str) -> str:
     return resp.text
 
 
-def _rows(text: str):
+@transient_retry()
+def _fetch_json(url: str):
+    resp = get(url, params={"format": "json"}, timeout=(10.0, 300.0))
+    resp.raise_for_status()
+    return resp.json()
+
+
+def _csv_rows(text: str):
     # Free-text fields (descriptions, conditions) can be long; lift the field
     # size cap well above the default 128KB.
     csv.field_size_limit(1_000_000_000)
@@ -55,6 +70,7 @@ def _rows(text: str):
 
 
 def fetch_one(node_id: str) -> None:
+    """Flat tabular tables/reports: per-table CSV → NDJSON."""
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     dataset, kind, source_id = FETCH_PARAMS[node_id]
     segment = "tables" if kind == "table" else "reports"
@@ -62,11 +78,45 @@ def fetch_one(node_id: str) -> None:
     text = _fetch_csv_text(url)
     # Stream rows into NDJSON (gzip) — one dict alive at a time, so the
     # multi-million-row tables never materialize as a full list/arrow table.
-    save_raw_ndjson(_rows(text), asset, compression="gzip")
+    save_raw_ndjson(_csv_rows(text), asset, compression="gzip")
+
+
+def _flatten_barrier(b: dict) -> dict:
+    cot = b.get("country_or_territory") or {}
+    sectors = b.get("sectors") or []
+    return {
+        "id": b.get("id"),
+        "title": b.get("title"),
+        "summary": b.get("summary"),
+        "is_resolved": b.get("is_resolved"),
+        "status_date": b.get("status_date"),
+        "country_or_territory_name": cot.get("name"),
+        "country_or_territory_trading_bloc": cot.get("trading_bloc"),
+        "caused_by_trading_bloc": b.get("caused_by_trading_bloc"),
+        "trading_bloc": b.get("trading_bloc"),
+        "location": b.get("location"),
+        "sectors": ", ".join(s.get("name", "") for s in sectors) if sectors else None,
+        "last_published_on": b.get("last_published_on"),
+        "reported_on": b.get("reported_on"),
+    }
+
+
+def fetch_barriers(node_id: str) -> None:
+    """Market access barriers: whole-dataset JSON → flatten → NDJSON."""
+    asset = node_id
+    dataset, _kind, _source_id = FETCH_PARAMS[node_id]
+    url = f"{BASE}/v1/datasets/{dataset}/versions/latest/data"
+    data = _fetch_json(url)
+    rows = [_flatten_barrier(b) for b in data["barriers"]]
+    save_raw_ndjson(rows, asset, compression="gzip")
 
 
 DOWNLOAD_SPECS = [
-    NodeSpec(id=spec_id, fn=fetch_one, kind="download")
+    NodeSpec(
+        id=spec_id,
+        fn=fetch_barriers if spec_id == BARRIERS_SPEC else fetch_one,
+        kind="download",
+    )
     for spec_id in FETCH_PARAMS
 ]
 
