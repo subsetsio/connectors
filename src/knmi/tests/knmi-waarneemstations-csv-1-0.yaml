@@ -1,0 +1,19 @@
+spec_id: knmi-waarneemstations-csv-1-0
+status: active
+tests:
+  - not_null: station_id
+  - column_type: {col: station_id, type: integer}
+    certainty: 90
+  - unique: station_id
+    reason: one row per station in a single snapshot
+    certainty: 80
+  - row_count: {min: 20}
+    reason: KNMI operates several dozen automatic weather stations
+    certainty: 80
+  - between: {col: latitude, lo: 47.0, hi: 56.0}
+    reason: NL + North Sea platforms
+    certainty: 75
+    severity: warn
+  - between: {col: longitude, lo: -6.0, hi: 8.0}
+    certainty: 75
+    severity: warn

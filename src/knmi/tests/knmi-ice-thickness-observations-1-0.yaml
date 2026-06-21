@@ -1,0 +1,14 @@
+spec_id: knmi-ice-thickness-observations-1-0
+status: active
+tests:
+  - not_null: location
+  - not_null: date
+  - column_type: {col: year, type: integer}
+    certainty: 85
+  - between: {col: ice_depth_cm, lo: 0, hi: 100}
+    reason: lake/canal ice thickness in cm
+    certainty: 70
+    severity: warn
+  - between: {col: latitude, lo: 50.0, hi: 54.0}
+    certainty: 70
+    severity: warn

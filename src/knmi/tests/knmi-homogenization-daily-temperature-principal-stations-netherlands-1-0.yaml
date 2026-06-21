@@ -1,0 +1,17 @@
+spec_id: knmi-homogenization-daily-temperature-principal-stations-netherlands-1-0
+status: active
+tests:
+  - not_null: station
+  - not_null: variable
+  - not_null: date
+  - enum: {col: variable, values: [TG, TN, TX]}
+    reason: mean/min/max daily temperature variables
+    certainty: 85
+  - distinct_count: {col: station, min: 3, max: 12}
+    reason: a handful of principal long-record stations (Beek, DeBilt, DeKooy, Eelde, Vlissingen)
+    certainty: 80
+  - row_count: {min: 100000}
+    reason: ~5 stations x 3 vars x daily since 1907 is hundreds of thousands of rows
+    certainty: 80
+  - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
+    certainty: 90

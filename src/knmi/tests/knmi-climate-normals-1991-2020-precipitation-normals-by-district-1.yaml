@@ -1,0 +1,14 @@
+spec_id: knmi-climate-normals-1991-2020-precipitation-normals-by-district-1
+status: active
+tests:
+  - not_null: location
+  - not_null: metric
+  - not_null: period
+  - column_type: {col: value, type: float}
+    reason: climate-normal values parsed to float (missing -> null)
+    certainty: 80
+  - distinct_count: {col: location, min: 2}
+    reason: one file per station/district, all unpivoted into one table
+    certainty: 80
+  - row_count: {min: 100}
+    certainty: 80

@@ -1,0 +1,8 @@
+spec_id: general-authority-for-statistics-dpv-ats-sdbats231
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every GASTAT cube returns at least one observation row from the Flexmonster /select; an empty raw asset means the cube was withdrawn upstream or the FDS fetch/pagination broke.
+    certainty: 80
+    points_outward: true
+    severity: warn

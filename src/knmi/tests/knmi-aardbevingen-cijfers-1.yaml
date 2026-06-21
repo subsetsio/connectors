@@ -1,0 +1,18 @@
+spec_id: knmi-aardbevingen-cijfers-1
+status: active
+tests:
+  - not_null: year
+  - not_null: magnitude
+  - not_null: earthquake_count
+  - column_type: {col: year, type: integer}
+    certainty: 90
+  - between: {col: year, lo: 1985, hi: current_year()}
+    reason: KNMI Groningen earthquake-count catalogue starts in the 1980s; no future years
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - between: {col: magnitude, lo: 0.5, hi: 5.0}
+    reason: counts are bucketed by magnitude bins 1.0..3.5 in the Groningen catalogue
+    certainty: 80
+  - at_least: {col: earthquake_count, expr: 0}
+    certainty: 95
