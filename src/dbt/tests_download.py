@@ -9,9 +9,15 @@ near-empty payloads usually mean the data endpoint switched format, the
 from subsets_utils import load_raw_file
 
 
+def _download_ids(spec_ids):
+    """spec_ids carries both download and transform node ids; only download
+    nodes write a raw CSV, so the SQL-transform leaves are filtered out."""
+    return [s for s in spec_ids if not s.endswith("-transform")]
+
+
 def test_all_raw_assets_present_and_nonempty(spec_ids):
-    """Every spec's raw CSV should exist and carry a header plus data rows."""
-    for sid in spec_ids:
+    """Every download spec's raw CSV should exist and carry a header plus rows."""
+    for sid in _download_ids(spec_ids):
         text = load_raw_file(sid, extension="csv")
         assert isinstance(text, str) and text, f"{sid}: raw csv empty/undecodable"
         # header line + at least one data row
@@ -22,7 +28,7 @@ def test_all_raw_assets_present_and_nonempty(spec_ids):
 def test_no_html_error_page(spec_ids):
     """A failed fetch can return an S3/HTML error doc with a 200; guard so a
     transform never silently reads an error page as data."""
-    for sid in spec_ids:
+    for sid in _download_ids(spec_ids):
         head = load_raw_file(sid, extension="csv")[:200].lstrip().lower()
         assert not head.startswith("<?xml"), f"{sid}: looks like an XML error doc"
         assert not head.startswith("<!doctype"), f"{sid}: looks like an HTML page"
