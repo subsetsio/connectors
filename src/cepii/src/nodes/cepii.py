@@ -126,18 +126,49 @@ def _fetch_dta(url: str, asset: str) -> None:
         os.unlink(tmp.name)
 
 
-def _fetch_xls_urls(urls: list[dict], asset: str) -> None:
-    """Read one or more .xls/.xlsx URLs via pandas, optionally tag with a
-    `series` column, concatenate, and persist as a single plain CSV."""
+def _fetch_eqchange(cfg: dict, asset: str) -> None:
+    """EQCHANGE EER index .xls files are wide (Year + one column per country).
+    Melt each to long and union REER + NEER with a `series` column."""
     import pandas as pd
 
     frames = []
-    for spec in urls:
+    for spec in cfg["urls"]:
         df = pd.read_excel(io.BytesIO(_get_bytes(spec["url"])))
-        if spec.get("series"):
-            df.insert(0, "series", spec["series"])
-        frames.append(df)
-    out = pd.concat(frames, ignore_index=True)
+        idc = df.columns[0]  # 'Year'
+        long = df.melt(id_vars=[idc], var_name="country_indicator", value_name="value")
+        long = long.rename(columns={idc: "year"})
+        long["series"] = spec["series"]
+        long["country"] = long["country_indicator"].str.replace(
+            r"_(REER|NEER)_TV$", "", regex=True
+        )
+        frames.append(long[["series", "year", "country", "value"]])
+    out = pd.concat(frames, ignore_index=True).dropna(subset=["value"])
+    buf = io.StringIO()
+    out.to_csv(buf, index=False)
+    save_raw_file(buf.getvalue(), asset, extension="csv")
+
+
+def _fetch_rprod(cfg: dict, asset: str) -> None:
+    """RPROD.xls holds five Balassa-Samuelson measure sheets (BS1..BS5), each
+    country x year x weighting variant. Melt the BS sheets into one long table."""
+    import pandas as pd
+
+    xl = pd.ExcelFile(io.BytesIO(_get_bytes(cfg["url"])))
+    frames = []
+    for sheet in xl.sheet_names:
+        if not sheet.upper().startswith("BS"):
+            continue
+        df = xl.parse(sheet)
+        if "Country" not in df.columns or "Year" not in df.columns:
+            continue
+        long = df.melt(
+            id_vars=["Country", "Year"], var_name="indicator", value_name="value"
+        )
+        long["measure"] = sheet
+        frames.append(long[["measure", "Country", "Year", "indicator", "value"]])
+    if not frames:
+        raise AssertionError(f"{asset}: no BS measure sheets found in RPROD.xls")
+    out = pd.concat(frames, ignore_index=True).dropna(subset=["value"])
     buf = io.StringIO()
     out.to_csv(buf, index=False)
     save_raw_file(buf.getvalue(), asset, extension="csv")
