@@ -17,6 +17,7 @@ for whole-corpus extraction, and the catalog is re-pullable each run, so we
 re-fetch everything and overwrite — revisions are picked up for free.
 """
 
+import httpx
 import pyarrow as pa
 
 from subsets_utils import (
@@ -28,7 +29,14 @@ from subsets_utils import (
     raw_parquet_writer,
 )
 
-BASE = "http://www.ipeadata.gov.br/api/odata4"
+# HTTPS: the plain-HTTP (port 80) endpoint is dropped from cloud runners and
+# does not redirect to https, so we must request https directly.
+BASE = "https://www.ipeadata.gov.br/api/odata4"
+
+# Generous read timeout: some Regional series return hundreds of thousands of
+# rows in a single response. Short connect/write so dead connections fail fast
+# and transient_retry can back off.
+TIMEOUT = httpx.Timeout(connect=15.0, read=300.0, write=60.0, pool=60.0)
 
 # Metadados catalog fields (one record per series).
 META_FIELDS = [
@@ -53,7 +61,7 @@ VALUES_SCHEMA = pa.schema([
 
 @transient_retry()
 def _get_json(url: str):
-    resp = get(url, timeout=(10.0, 180.0))
+    resp = get(url, timeout=TIMEOUT)
     resp.raise_for_status()
     return resp.json()
 

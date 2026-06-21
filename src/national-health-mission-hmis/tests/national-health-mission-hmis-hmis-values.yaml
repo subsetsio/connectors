@@ -1,0 +1,33 @@
+spec_id: national-health-mission-hmis-hmis-values
+status: active
+tests:
+  - not_null: state
+    reason: every row is geographically located (state for All-India reports, the report's state for per-state reports)
+    certainty: 95
+  - not_null: parameter
+    reason: each row is one HMIS indicator (the `parameters` column); a null means a header/blank row leaked through
+    certainty: 90
+  - not_null: month
+    reason: rows are melted per fiscal month; month drives the published period
+    certainty: 95
+  - column_type: {col: fy_start_year, type: integer}
+    certainty: 90
+  - enum:
+      col: month
+      values: [january, february, march, april, may, june, july, august, september, october, november, december]
+    reason: month is normalised to lowercase fiscal-month names during melt
+    certainty: 95
+  - enum:
+      col: level
+      values: [state, district]
+    reason: All-India reports yield state-level rows; per-state reports yield district-level rows
+    certainty: 90
+  - between: {col: fy_start_year, lo: 2008, hi: current_year()}
+    reason: HMIS on data.gov.in starts at financial year 2008-09; nothing should predate it or be a future fiscal year
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - at_least: {col: total, expr: 0}
+    reason: HMIS measures are non-negative service/event counts
+    certainty: 80
+    severity: warn
