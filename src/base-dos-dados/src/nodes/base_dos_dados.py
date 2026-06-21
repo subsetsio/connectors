@@ -23,7 +23,10 @@ fail on a minority of tables in three ways:
   - quoted free-text fields with embedded newlines that blow past the 2 MB line
     cap — fixed by a 16 MB `max_line_size`;
   - ragged rows with fewer columns than the header — fixed by `null_padding`
-    + `strict_mode=false` (pad the short row, don't reject it);
+    + `strict_mode=false` (pad the short row, don't reject it). `null_padding`
+    is incompatible with the *parallel* scanner when a table also has quoted
+    newlines (free-text fields spanning lines), so we force `parallel=false`;
+    at ≤27 MB/table the single-threaded read is a non-issue;
   - and a column DuckDB sniffs as `TIME`, which Delta Lake cannot store at all
     — fixed by casting every `TIME`/`TIME WITH TIME ZONE` column to VARCHAR.
 Doing the parse once here (with robust options) and persisting parquet means the
@@ -57,6 +60,7 @@ _CSV_READ_OPTS = (
     "max_line_size=16777216, "
     "null_padding=true, "
     "strict_mode=false, "
+    "parallel=false, "
     "ignore_errors=false"
 )
 

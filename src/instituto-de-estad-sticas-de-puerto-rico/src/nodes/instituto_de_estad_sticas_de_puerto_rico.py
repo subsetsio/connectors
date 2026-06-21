@@ -89,7 +89,7 @@ zP3pGJ9FCbMHmMLLyuBd+uCWvVcF2ogYAawufChS/PT61D9rqzPRS5I2uqa3tmIT
 SLUG_TO_PKG = {f"{SLUG}-{e.lower().replace('_', '-')}": e for e in ENTITY_IDS}
 
 # Formats we extract tabular rows from. PDF/KML/shapefile are skipped.
-_TABULAR_FORMATS = {"CSV", "TXT", "TSV", "XLSX", "XLS", "JSON"}
+_TABULAR_FORMATS = {"CSV", "TXT", "TSV", "XLSX", "XLS", "JSON", "ZIP"}
 _CSV_LIKE = {"CSV", "TXT", "TSV"}
 _EXCEL_LIKE = {"XLSX", "XLS"}
 
@@ -402,6 +402,8 @@ def _expand_resource(res):
     if fmt == "JSON":
         t = _json_table(content, rname, url.rsplit("/", 1)[-1])
         return [t] if t else []
+    if fmt == "ZIP":
+        return _zip_tables(content, rname)
     return []
 
 
