@@ -110,6 +110,15 @@ def _ascii_ok(s: str) -> bool:
     return any(("a" <= c.lower() <= "z") or c.isdigit() for c in s)
 
 
+def _cell_str(v) -> str:
+    """Render a cell as a clean label token. Legacy .xls reads integer year
+    headers as floats (1985.0); show those as plain integers."""
+    if isinstance(v, (int, float)) and not (isinstance(v, float) and math.isnan(v)):
+        f = float(v)
+        return str(int(f)) if f.is_integer() else str(v)
+    return str(v).strip()
+
+
 def parse_grid(rows: list) -> list:
     """Melt a publication crosstab (list-of-rows grid) into tidy records.
 
@@ -183,7 +192,7 @@ def parse_grid(rows: list) -> list:
             if _isnull(v):
                 out.append(last)
             else:
-                last = str(v).strip()
+                last = _cell_str(v)
                 out.append(last)
         ff.append(out)
 
@@ -199,7 +208,7 @@ def parse_grid(rows: list) -> list:
     recs = []
     for r in data_rows:
         parts = [
-            str(r[j]).strip()
+            _cell_str(r[j])
             for j in label_cols
             if not _isnull(r[j]) and _ascii_ok(str(r[j]))
         ]
