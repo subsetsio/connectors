@@ -138,6 +138,21 @@ def _resolve_latest_zip(heading: str) -> str:
     return m.group(1)
 
 
+def _latest_zip_url(node_id: str, heading: str) -> str:
+    """Latest-version zip URL: scrape the download page (auto version
+    discovery), falling back to the pinned URL when the WordPress page blocks
+    us (datacenter 403) so the connector keeps running."""
+    try:
+        return _resolve_latest_zip(heading)
+    except Exception as exc:  # noqa: BLE001 - logged with context, then fall back
+        fallback = _PINNED_ZIP[node_id]
+        print(
+            f"[ccp] download-page scrape failed for {node_id} "
+            f"({type(exc).__name__}: {exc}); using pinned zip {fallback}"
+        )
+        return fallback
+
+
 def _pick_csv_member(zf: zipfile.ZipFile, code: str) -> str:
     """The full (non-_small) CSV member for this dataset code."""
     members = [
@@ -160,7 +175,7 @@ def fetch_bulk_csv(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     cfg = _BULK[node_id]
 
-    url = _resolve_latest_zip(cfg["heading"])
+    url = _latest_zip_url(node_id, cfg["heading"])
     blob = _get_bytes(url)
 
     with zipfile.ZipFile(io.BytesIO(blob)) as zf:

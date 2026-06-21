@@ -14,13 +14,17 @@ detail that the legacy files lack, and the OE-ratio column is named differently
 across files), so a fixed parquet schema would be brittle. We normalize keys in
 Python and let the transform re-type on read.
 
-Full re-pull every run (shape 1, stateless): the corpus is a frozen archive of
-small files (well under ~50MB total), so there is no incremental filter and none
-is needed; freshness is the maintain step's concern.
+Full re-pull every run (shape 1, stateless): the corpus is a frozen archive, so
+there is no incremental filter and none is needed; freshness is the maintain
+step's concern. Some files are large (the HSA/county end-of-life and discharge
+files are 100-170MB zipped, ~1-2GB / tens of millions of rows decompressed), so
+we DECOMPRESS EACH ZIP MEMBER AS A STREAM and write NDJSON incrementally via
+raw_writer -- never accumulating the corpus in memory.
 """
 
 import csv
 import io
+import json
 import zipfile
 
 from subsets_utils import (
@@ -28,7 +32,7 @@ from subsets_utils import (
     SqlNodeSpec,
     configure_http,
     get,
-    save_raw_ndjson,
+    raw_writer,
     transient_retry,
 )
 from constants import BASE, FILES, SLUG, TOPIC_ENTITIES

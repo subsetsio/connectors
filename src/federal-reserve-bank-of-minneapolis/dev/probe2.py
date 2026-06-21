@@ -13,7 +13,7 @@ for variant in ("pctl_of_inc_all_data", "na_pctl_of_inc_all_data"):
     paths.append(p)
 con = duckdb.connect()
 globlist = ", ".join(f"'{p}'" for p in paths)
-t = con.execute(f"SELECT * FROM read_csv([{globlist}], union_by_name=true, sample_size=-1)").arrow()
+t = con.execute(f"SELECT * FROM read_csv([{globlist}], union_by_name=true, sample_size=-1)").fetch_arrow_table()
 print("pctl_of_inc unioned rows:", t.num_rows, "cols:", t.num_columns)
 print("schema:")
 for f in t.schema:
