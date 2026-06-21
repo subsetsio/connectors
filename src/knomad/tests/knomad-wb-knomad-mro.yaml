@@ -1,0 +1,24 @@
+spec_id: knomad-wb-knomad-mro
+status: active
+tests:
+  - not_null: country_code
+  - not_null: country
+  - not_null: year
+  - not_null: value_usd_million
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value_usd_million, type: float}
+  - at_least: {col: year, expr: 2000}
+    reason: KNOMAD remittance outflow series begins in 2000
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: observation year cannot exceed the current calendar year
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - at_least: {col: value_usd_million, expr: 0}
+    reason: remittance outflows are non-negative US$ million
+    certainty: 85
+    severity: warn
+  - row_count: {min: 4000}
+    reason: ~4824 country-year observations observed (countries x 2000-2023)
+    certainty: 80

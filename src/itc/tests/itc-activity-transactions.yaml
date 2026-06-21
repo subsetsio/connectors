@@ -1,0 +1,13 @@
+spec_id: itc-activity-transactions
+status: active
+tests:
+  - not_null: identifier
+  - not_null: transaction_type
+  - enum: {col: transaction_type, values: [expenses, commitments, funds, disbursement, outgoing]}
+    reason: all_transactions has exactly these five IATI transaction buckets
+    certainty: 90
+  - not_null: date
+  - column_type: {col: value, type: float}
+  - row_count: {min: 200}
+    reason: most activities carry multiple expense/commitment/fund transactions
+    certainty: 70

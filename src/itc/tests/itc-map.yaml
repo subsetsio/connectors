@@ -1,0 +1,18 @@
+spec_id: itc-map
+status: active
+tests:
+  - not_null: year
+  - not_null: code
+  - column_type: {col: year, type: integer}
+  - unique: [year, code]
+    reason: map is one row per (year, recipient area); dupes mean a year was re-pulled
+    certainty: 90
+  - between: {col: year, lo: 2014, hi: 2029}
+    certainty: 90
+  - between: {col: latitude, lo: -90, hi: 90}
+    reason: lat is a geographic coordinate
+    certainty: 85
+    severity: warn
+  - between: {col: longitude, lo: -180, hi: 180}
+    certainty: 85
+    severity: warn

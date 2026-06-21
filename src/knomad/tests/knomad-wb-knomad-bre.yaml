@@ -1,0 +1,25 @@
+spec_id: knomad-wb-knomad-bre
+status: active
+tests:
+  - not_null: country_code
+  - not_null: counterpart_code
+  - not_null: year
+  - not_null: remittance_usd_million
+  - column_type: {col: year, type: integer}
+  - column_type: {col: remittance_usd_million, type: float}
+  - at_least: {col: year, expr: 2021}
+    reason: bilateral remittance matrix is published for reference year 2021
+    certainty: 85
+    severity: warn
+  - at_most: {col: year, expr: current_year()}
+    reason: observation year cannot exceed the current calendar year
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - at_least: {col: remittance_usd_million, expr: 0}
+    reason: corridor remittance flows are non-negative US$ million
+    certainty: 85
+    severity: warn
+  - row_count: {min: 9000}
+    reason: ~10619 origin-destination corridor cells observed for 2021
+    certainty: 80

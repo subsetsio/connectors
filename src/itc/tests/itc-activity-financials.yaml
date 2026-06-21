@@ -1,0 +1,16 @@
+spec_id: itc-activity-financials
+status: active
+tests:
+  - not_null: identifier
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - unique: [identifier, year]
+    reason: long format is one row per (activity, year); dupes mean the year maps merged wrong
+    certainty: 90
+  - between: {col: year, lo: 2010, hi: 2030}
+    reason: per-activity budget/expense years fall within the portfolio era
+    certainty: 80
+    severity: warn
+  - row_count: {min: 200}
+    reason: ~230 activities each spanning several years yields many rows
+    certainty: 75

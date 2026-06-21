@@ -1,0 +1,15 @@
+spec_id: itc-activities
+status: active
+tests:
+  - not_null: identifier
+  - not_null: title
+  - unique: identifier
+    reason: one row per IATI activity identifier
+    certainty: 95
+  - row_count: {min: 100}
+    reason: the activities catalog reports ~230 activities
+    certainty: 90
+  - matches: {col: identifier, pattern: "^XM-DAC-45001-"}
+    reason: all activities are ITC-published IATI ids (publisher XM-DAC-45001)
+    certainty: 80
+    severity: warn

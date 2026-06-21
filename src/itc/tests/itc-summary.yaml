@@ -1,0 +1,18 @@
+spec_id: itc-summary
+status: active
+tests:
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - unique: year
+    reason: one aggregate row per year; dupes mean the year loop double-ran
+    certainty: 95
+  - between: {col: year, lo: 2014, hi: 2029}
+    reason: general-info timespan is min=2014, max=2029
+    certainty: 90
+  - at_least: {col: budgets, expr: 0}
+    reason: portfolio budgets are non-negative aggregate sums
+    certainty: 80
+    severity: warn
+  - distinct_count: {col: year, min: 10}
+    reason: full span is ~16 years; a shortfall means year discovery broke
+    certainty: 85
