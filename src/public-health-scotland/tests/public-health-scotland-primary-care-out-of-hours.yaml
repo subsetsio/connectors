@@ -1,0 +1,13 @@
+spec_id: public-health-scotland-primary-care-out-of-hours
+status: active
+tests:
+  - not_null: resource_name
+    reason: every row is tagged by us with the source CKAN resource it came from
+    certainty: 99
+  - not_null: resource_id
+    reason: every row carries the datastore resource UUID it was dumped from
+    certainty: 99
+  - row_count:
+      min: 1
+    reason: an accepted PHS package always has at least one non-empty CSV resource
+    certainty: 95
