@@ -25,9 +25,9 @@ tests:
     reason: blitz ratings run slightly higher than standard but stay well under 3200
     certainty: 90
     severity: warn
-  - between: {col: birthday, lo: 1900, hi: 2025}
-    reason: birth year of a living rated player; sentinel 0 is nulled in transform but raw may carry 0, so lo allows for cleaning downstream. A year >2025 is impossible
-    certainty: 85
+  - between: {col: birthday, lo: 0, hi: 2025}
+    reason: raw birth year carries a 0 sentinel (nulled in transform) up to the current year; a value >2025 is impossible and signals a mis-parsed column
+    certainty: 90
     points_outward: true
     severity: warn
   - distinct_count: {col: country, min: 150}

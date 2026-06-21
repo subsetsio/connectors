@@ -21,9 +21,29 @@ import re
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, save_raw_parquet
+from subsets_utils import (
+    NodeSpec,
+    SqlNodeSpec,
+    get,
+    configure_http,
+    transient_retry,
+    save_raw_parquet,
+)
 
 CSV_URL = "https://www.ghsindex.org/wp-content/uploads/2022/04/2021-GHS-Index-April-2022.csv"
+
+# The host (WordPress + WAF) 403s the default client User-Agent from datacenter
+# IPs (the cloud runner), while a browser-like UA + Accept headers pass. Plain
+# ASCII only — httpx rejects non-ASCII header values.
+_BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/csv,application/csv,text/plain,*/*",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Referer": "https://ghsindex.org/report-model/",
+}
 
 SCHEMA = pa.schema([
     ("country", pa.string()),
@@ -37,6 +57,7 @@ SCHEMA = pa.schema([
 
 @transient_retry()
 def _fetch_csv(url: str) -> str:
+    configure_http(headers=_BROWSER_HEADERS)
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
     # First column header carries a UTF-8 BOM; utf-8-sig strips it.

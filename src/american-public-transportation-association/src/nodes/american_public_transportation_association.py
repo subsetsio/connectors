@@ -28,7 +28,9 @@ Appendix B agency tables) are snake-cased generically and passed through.
 from __future__ import annotations
 
 import io
+import os
 import re
+import tempfile
 import time
 import zipfile
 
@@ -111,6 +113,39 @@ def _get(session, url: str, attempts: int = 7) -> bytes:
         if i < attempts - 1:
             time.sleep(min(60.0, 3.0 * (2 ** i)))
     raise RuntimeError(f"fetch failed after {attempts} attempts for {url}: {last}")
+
+
+# Each accepted entity is its own download node and the orchestrator runs every
+# node in a *fresh forked process*, so there is no in-memory reuse between them.
+# But the 20 entities map to only 7 underlying products — Appendix B alone backs
+# 8 entities — so a naive "discover + download per entity" hammers www.apta.com
+# with ~40 requests (the same workbook fetched 8×), which escalates Cloudflare
+# from the occasional clearable 403 to *sustained* 403s partway through the run
+# (observed: 12/20 done, then blocked). We therefore cache the discovered URL and
+# the downloaded bytes per product on the filesystem, shared across the forked
+# children within a run, collapsing the corpus to one fetch per product (~14
+# requests). Writes are atomic (tmp + os.replace) so a concurrent or interrupted
+# fetch can never serve a truncated file. On the ephemeral cloud runner /tmp is
+# empty per run, so this never serves stale editions across runs.
+_CACHE_DIR = os.path.join(tempfile.gettempdir(), "apta-fetch-cache")
+
+
+def _product_bytes(session, product: str) -> bytes:
+    os.makedirs(_CACHE_DIR, exist_ok=True)
+    blob = os.path.join(_CACHE_DIR, f"{product}.bin")
+    try:
+        if os.path.getsize(blob) > 0:
+            with open(blob, "rb") as fh:
+                return fh.read()
+    except OSError:
+        pass  # missing or empty → fetch below
+    url = _discover(session, product)
+    content = _get(session, url)
+    tmp = f"{blob}.{os.getpid()}.tmp"
+    with open(tmp, "wb") as fh:
+        fh.write(content)
+    os.replace(tmp, blob)
+    return content
 
 
 def _discover(session, product: str) -> str:

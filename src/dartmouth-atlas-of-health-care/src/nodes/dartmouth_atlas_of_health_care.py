@@ -214,33 +214,62 @@ DOWNLOAD_SPECS = [
 # Transforms — one published Delta table per entity
 # ---------------------------------------------------------------------------
 
-def _topic_sql(dep: str) -> str:
+# SQL type per canonical column.
+_COL_TYPE = {
+    "geo_level": "VARCHAR", "geo_code": "VARCHAR", "geo_name": "VARCHAR",
+    "cohort": "VARCHAR", "measure_code": "VARCHAR", "measure_label": "VARCHAR",
+    "short_label": "VARCHAR", "cohort_web_label": "VARCHAR", "race": "VARCHAR",
+    "gender": "VARCHAR", "year": "INTEGER", "population": "BIGINT",
+    "adjusted_rate": "DOUBLE", "oe_ratio": "DOUBLE", "percentile": "DOUBLE",
+    "observed": "DOUBLE", "crude_rate": "DOUBLE", "expected": "DOUBLE",
+    "expected_adjusted": "DOUBLE", "oe_adjusted_ratio": "DOUBLE",
+    "std_error": "DOUBLE", "std_error_adjusted": "DOUBLE",
+    "ci_upper": "DOUBLE", "ci_lower": "DOUBLE",
+}
+
+# Columns every topic table carries.
+_CORE_COLS = [
+    "geo_level", "geo_code", "geo_name", "year", "population", "cohort",
+    "measure_code", "measure_label", "short_label", "cohort_web_label",
+    "adjusted_rate", "oe_ratio", "percentile",
+]
+
+# Columns BEYOND the core that each topic's source files actually populate.
+# Anything not listed here is structurally absent for that topic (the Atlas ships
+# different detail per topic) and is dropped so published tables carry no
+# all-null columns. Derived from the source CSV headers.
+_TOPIC_EXTRA = {
+    "reimbursements": [],
+    "end-of-life-inpatient-care": [
+        "race", "gender", "observed", "crude_rate", "expected",
+        "expected_adjusted", "oe_adjusted_ratio", "std_error",
+        "std_error_adjusted", "ci_upper", "ci_lower",
+    ],
+    "care-chronically-ill-last-2yrs": ["observed", "crude_rate", "ci_upper", "ci_lower"],
+    "primary-care-access-quality": [
+        "race", "observed", "crude_rate", "std_error", "ci_upper", "ci_lower",
+    ],
+    "post-discharge-events": [
+        "observed", "crude_rate", "expected", "expected_adjusted",
+        "oe_adjusted_ratio", "std_error", "std_error_adjusted",
+        "ci_upper", "ci_lower",
+    ],
+    "discharge-rates": [
+        "race", "gender", "observed", "crude_rate", "expected_adjusted",
+        "oe_adjusted_ratio", "std_error_adjusted", "ci_upper", "ci_lower",
+    ],
+}
+
+
+def _topic_sql(entity: str) -> str:
+    dep = _spec_id(entity)
+    cols = _CORE_COLS + _TOPIC_EXTRA[entity]
+    selects = ",\n            ".join(
+        f"CAST({c} AS {_COL_TYPE[c]}) AS {c}" for c in cols
+    )
     return f'''
         SELECT
-            CAST(geo_level AS VARCHAR)         AS geo_level,
-            CAST(geo_code AS VARCHAR)          AS geo_code,
-            CAST(geo_name AS VARCHAR)          AS geo_name,
-            CAST(year AS INTEGER)              AS year,
-            CAST(population AS BIGINT)         AS population,
-            CAST(cohort AS VARCHAR)            AS cohort,
-            CAST(measure_code AS VARCHAR)      AS measure_code,
-            CAST(measure_label AS VARCHAR)     AS measure_label,
-            CAST(short_label AS VARCHAR)       AS short_label,
-            CAST(cohort_web_label AS VARCHAR)  AS cohort_web_label,
-            CAST(race AS VARCHAR)              AS race,
-            CAST(gender AS VARCHAR)            AS gender,
-            CAST(observed AS DOUBLE)           AS observed,
-            CAST(crude_rate AS DOUBLE)         AS crude_rate,
-            CAST(adjusted_rate AS DOUBLE)      AS adjusted_rate,
-            CAST(expected AS DOUBLE)           AS expected,
-            CAST(expected_adjusted AS DOUBLE)  AS expected_adjusted,
-            CAST(oe_ratio AS DOUBLE)           AS oe_ratio,
-            CAST(oe_adjusted_ratio AS DOUBLE)  AS oe_adjusted_ratio,
-            CAST(std_error AS DOUBLE)          AS std_error,
-            CAST(std_error_adjusted AS DOUBLE) AS std_error_adjusted,
-            CAST(ci_upper AS DOUBLE)           AS ci_upper,
-            CAST(ci_lower AS DOUBLE)           AS ci_lower,
-            CAST(percentile AS DOUBLE)         AS percentile
+            {selects}
         FROM "{dep}"
         WHERE geo_code IS NOT NULL
           AND year IS NOT NULL
@@ -263,7 +292,7 @@ _CROSSWALK_SQL = '''
 '''
 
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{_spec_id(e)}-transform", deps=[_spec_id(e)], sql=_topic_sql(_spec_id(e)))
+    SqlNodeSpec(id=f"{_spec_id(e)}-transform", deps=[_spec_id(e)], sql=_topic_sql(e))
     for e in TOPIC_ENTITIES
 ] + [
     SqlNodeSpec(

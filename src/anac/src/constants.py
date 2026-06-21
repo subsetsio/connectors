@@ -16,9 +16,8 @@ real accents (the fetch code percent-encodes it).
 CATALOG = {
     # --- Aerodromos -------------------------------------------------------
     "aerodromos-aerodromos-privados-lista-de-aerodromos-privados-aerodromos-privados-aerodromosprivados": {
-        "kind": "file",
-        "path": "Aerodromos/Aeródromos Privados/Lista de aeródromos privados",
-        "match": "aerodromosprivados",
+        "kind": "dir",
+        "path": "Aerodromos/Aeródromos Privados/Lista de aeródromos privados/Aerodromos Privados",
     },
     "aerodromos-aerodromos-publicos-caracteristicas-gerais-pda-aerodromos-publicos-caracteristicas-gerais": {
         "kind": "dir",
