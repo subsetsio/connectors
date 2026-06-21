@@ -1,0 +1,21 @@
+spec_id: indec-indec-series
+status: active
+tests:
+  - not_null: series_id
+    reason: every catalog row is keyed by its series id
+    certainty: 99
+  - unique: series_id
+    reason: one row per INDEC series; dupes mean /search pagination double-counted
+    certainty: 95
+  - not_null: title
+    certainty: 90
+  - row_count: {min: 3000, max: 15000}
+    reason: INDEC exposes ~9,467 series via the platform; far outside this band means the source filter changed
+    certainty: 85
+  - enum: {col: dataset_source, values: ["Instituto Nacional de Estadística y Censos (INDEC)"]}
+    reason: the dataset_source filter must keep the catalog pure-INDEC; any other source is a filter leak
+    certainty: 95
+  - distinct_count: {col: frequency, min: 1, max: 12}
+    reason: a handful of distinct ISO frequencies (year/quarter/month/...) across INDEC series
+    certainty: 70
+    severity: warn
