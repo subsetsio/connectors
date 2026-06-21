@@ -1,0 +1,12 @@
+spec_id: federal-statistical-office-px-x-1304030000-132
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every published FSO cube has at least one non-null observation cell
+    certainty: 95
+  - not_null: value
+    reason: the fetch skips null cells, so every raw row carries a numeric value
+    certainty: 95
+  - not_null: cube_id
+    reason: constant provenance column stamped on every row by the fetch fn
+    certainty: 99
