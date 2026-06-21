@@ -1,0 +1,23 @@
+spec_id: eu-open-data-portal-catalogs
+status: active
+tests:
+  - not_null: catalog_id
+    reason: every catalog record has a stable id
+    certainty: 99
+  - unique: [catalog_id]
+    reason: one row per EU-institution source catalog
+    certainty: 95
+  - not_null: title
+    reason: every catalogue exposes a title (falls back to its id)
+    certainty: 95
+  - column_type: {col: dataset_count, type: integer}
+    certainty: 90
+  - not_null: dataset_count
+    reason: dataset_count comes from the country=eu catalog facet for every catalog
+    certainty: 90
+  - between: {col: dataset_count, lo: 0, hi: 100000}
+    reason: per-catalog EU-institution dataset counts are non-negative and well under 100k
+    certainty: 90
+  - row_count: {min: 50}
+    reason: ~113 EU-institution catalogs; <50 means the catalog facet enumeration broke
+    certainty: 85

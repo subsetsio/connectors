@@ -1,0 +1,14 @@
+spec_id: comex-stat-ncm
+status: active
+tests:
+  - not_null: CO_NCM
+  - not_null: NO_NCM_POR
+  - unique: CO_NCM
+    reason: NCM table is a product dimension with one row per 8-digit code
+    certainty: 90
+  - matches: {col: CO_NCM, pattern: "^[0-9]{8}$"}
+    reason: NCM is an 8-digit code
+    certainty: 90
+  - row_count: {min: 5000}
+    reason: the Brazilian NCM nomenclature holds ~13k active+historical 8-digit products
+    certainty: 80

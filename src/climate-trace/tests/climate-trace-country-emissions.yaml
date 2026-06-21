@@ -1,0 +1,28 @@
+spec_id: climate-trace-country-emissions
+status: active
+tests:
+  - not_null: iso3_country
+    reason: every country-level emissions row is keyed by an ISO3 country code
+    certainty: 98
+  - not_null: gas
+    certainty: 98
+  - enum: {col: gas, values: [co2e_100yr]}
+    reason: this subset is scoped to the co2e_100yr country packages only
+    certainty: 97
+  - column_type: {col: emissions_quantity, type: float}
+    certainty: 95
+  - enum: {col: emissions_quantity_units, values: [tonnes]}
+    reason: country_emissions are reported in tonnes per the schema observed while probing
+    certainty: 85
+  - distinct_count: {col: iso3_country, min: 150}
+    reason: Climate TRACE covers ~250 countries; far fewer means many packages 404'd or download truncated
+    certainty: 85
+  - distinct_count: {col: subsector, min: 40}
+    reason: ~68 subsectors across 10 sectors; a short list means sectors were dropped
+    certainty: 85
+  - row_count: {min: 50000}
+    reason: ~250 countries x ~68 subsectors x ~11 years, minus sparse combinations
+    certainty: 75
+  - matches: {col: start_time, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'}
+    reason: start_time is an ISO date-time string
+    certainty: 90

@@ -1,0 +1,31 @@
+spec_id: eu-open-data-portal-datasets
+status: active
+tests:
+  - not_null: dataset_id
+    reason: every DCAT-AP record carries a stable dataset id; nulls mean parsing broke
+    certainty: 99
+  - unique: [dataset_id]
+    reason: one row per EU-institution dataset after dedup
+    certainty: 95
+  - not_null: catalog
+    reason: every dataset belongs to exactly one source catalog
+    certainty: 95
+  - column_type: {col: dataset_id, type: string}
+    certainty: 95
+  - column_type: {col: num_distributions, type: integer}
+    certainty: 90
+  - column_type: {col: is_hvd, type: boolean}
+    certainty: 90
+  - enum: {col: country, values: [eu]}
+    reason: the connector is scoped to the country=eu (EU-institution) slice
+    certainty: 90
+  - row_count: {min: 10000}
+    reason: the EU-institution slice reports ~48k datasets; <10k means the country=eu catalog partitioning broke
+    certainty: 85
+  - distinct_count: {col: catalog, min: 50}
+    reason: ~113 EU-institution catalogs contribute; a sharp drop means catalog enumeration stopped early
+    certainty: 80
+  - not_null: title
+    reason: nearly every dataset has a title; a wave of nulls means the multilingual title flattening broke
+    certainty: 70
+    severity: warn

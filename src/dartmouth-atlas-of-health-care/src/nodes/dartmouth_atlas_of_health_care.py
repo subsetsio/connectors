@@ -144,21 +144,22 @@ def _normalize_topic_row(r: dict, geo_level: str) -> dict:
 
 
 def fetch_topic(node_id: str) -> None:
-    """Fetch + normalize one topic entity (the six long-format rate tables)."""
+    """Fetch + normalize one topic entity (the six long-format rate tables).
+
+    Streams every file's rows straight to a gzipped NDJSON raw asset."""
     configure_http(headers={"User-Agent": _UA})
     entity = _entity_of(node_id)
-    out = []
-    for rel in FILES[entity]:
-        basename = rel.rsplit("/", 1)[-1]
-        geo = _geo_level(basename)
-        _, rows = _fetch_zip_rows(BASE + rel)
-        for r in rows:
-            row = _normalize_topic_row(r, geo)
-            if row["geo_code"] and row["year"] is not None and row["measure_code"]:
-                out.append(row)
-    if not out:
+    written = 0
+    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
+        for rel in FILES[entity]:
+            geo = _geo_level(rel.rsplit("/", 1)[-1])
+            for r in _iter_csv_rows(BASE + rel):
+                row = _normalize_topic_row(r, geo)
+                if row["geo_code"] and row["year"] is not None and row["measure_code"]:
+                    fh.write(json.dumps(row) + "\n")
+                    written += 1
+    if not written:
         raise AssertionError(f"{node_id}: zero rows after normalizing {len(FILES[entity])} files")
-    save_raw_ndjson(out, node_id)
 
 
 def fetch_crosswalk(node_id: str) -> None:
@@ -168,33 +169,34 @@ def fetch_crosswalk(node_id: str) -> None:
     stamp each row with the file's `vintage` (the 4-digit year)."""
     configure_http(headers={"User-Agent": _UA})
     entity = _entity_of(node_id)
-    out = []
-    for rel in FILES[entity]:
-        basename = rel.rsplit("/", 1)[-1]
-        # ZipHsaHrr19.csv.zip -> vintage 2019
-        digits = "".join(ch for ch in basename if ch.isdigit())
-        vintage = 2000 + int(digits[-2:]) if digits else None
-        _, rows = _fetch_zip_rows(BASE + rel)
-        for r in rows:
-            zipcode = None
-            for k, v in r.items():
-                if k.startswith("zipcode") or k == "zip":
-                    zipcode = _s(v)
-                    break
-            out.append({
-                "zipcode": zipcode,
-                "hsa_num": _i(r.get("hsanum")),
-                "hsa_city": _s(r.get("hsacity")),
-                "hsa_state": _s(r.get("hsastate")),
-                "hrr_num": _i(r.get("hrrnum")),
-                "hrr_city": _s(r.get("hrrcity")),
-                "hrr_state": _s(r.get("hrrstate")),
-                "vintage": vintage,
-            })
-    out = [r for r in out if r["zipcode"]]
-    if not out:
+    written = 0
+    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
+        for rel in FILES[entity]:
+            basename = rel.rsplit("/", 1)[-1]
+            # ZipHsaHrr19.csv.zip -> vintage 2019
+            digits = "".join(ch for ch in basename if ch.isdigit())
+            vintage = 2000 + int(digits[-2:]) if digits else None
+            for r in _iter_csv_rows(BASE + rel):
+                zipcode = None
+                for k, v in r.items():
+                    if k.startswith("zipcode") or k == "zip":
+                        zipcode = _s(v)
+                        break
+                if not zipcode:
+                    continue
+                fh.write(json.dumps({
+                    "zipcode": zipcode,
+                    "hsa_num": _i(r.get("hsanum")),
+                    "hsa_city": _s(r.get("hsacity")),
+                    "hsa_state": _s(r.get("hsastate")),
+                    "hrr_num": _i(r.get("hrrnum")),
+                    "hrr_city": _s(r.get("hrrcity")),
+                    "hrr_state": _s(r.get("hrrstate")),
+                    "vintage": vintage,
+                }) + "\n")
+                written += 1
+    if not written:
         raise AssertionError(f"{node_id}: zero crosswalk rows")
-    save_raw_ndjson(out, node_id)
 
 
 def _spec_id(entity: str) -> str:

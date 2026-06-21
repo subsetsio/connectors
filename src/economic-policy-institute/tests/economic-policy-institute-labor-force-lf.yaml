@@ -1,0 +1,15 @@
+spec_id: economic-policy-institute-labor-force-lf
+status: active
+tests:
+  - not_null: indicator
+  - not_null: data_version
+  - not_null: date_interval
+  - not_null: year
+  - not_null: value
+  - enum: {col: date_interval, values: [month, year]}
+    reason: this indicator publishes only these date intervals per the EPI catalog availability
+    certainty: 90
+  - row_count: {min: 1}
+  - matches: {col: data_version, pattern: '^[0-9]{4}\.[0-9]+\.[0-9]+$'}
+    reason: data_version is the SWA release tag like 2026.6.17
+    certainty: 85

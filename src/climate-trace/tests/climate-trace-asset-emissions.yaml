@@ -1,0 +1,32 @@
+spec_id: climate-trace-asset-emissions
+status: active
+tests:
+  - not_null: source_id
+    reason: every source-level row identifies an emitting asset
+    certainty: 97
+  - not_null: iso3_country
+    certainty: 97
+  - not_null: gas
+    certainty: 98
+  - enum: {col: gas, values: [co2e_100yr]}
+    reason: this subset is scoped to the co2e_100yr country packages only
+    certainty: 97
+  - column_type: {col: emissions_quantity, type: float}
+    certainty: 95
+  - between: {col: lat, lo: -90, hi: 90}
+    reason: asset latitudes are geographic coordinates
+    certainty: 90
+    severity: warn
+  - between: {col: lon, lo: -180, hi: 180}
+    reason: asset longitudes are geographic coordinates
+    certainty: 90
+    severity: warn
+  - distinct_count: {col: iso3_country, min: 100}
+    reason: emitting assets span most countries; a short list means packages were dropped
+    certainty: 80
+  - distinct_count: {col: subsector, min: 40}
+    reason: source-level data spans most of the ~68 subsectors
+    certainty: 75
+  - row_count: {min: 100000}
+    reason: hundreds of thousands+ of geolocated emitting sources across all sectors and periods
+    certainty: 75

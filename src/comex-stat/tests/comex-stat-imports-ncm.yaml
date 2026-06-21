@@ -1,0 +1,21 @@
+spec_id: comex-stat-imports-ncm
+status: active
+tests:
+  - not_null: CO_ANO
+  - not_null: CO_NCM
+  - not_null: CO_PAIS
+  - column_type: {col: CO_ANO, type: string}
+    reason: raw is parsed all-string; typing happens in the transform
+    certainty: 95
+  - column_type: {col: VL_FRETE, type: string}
+    reason: import files carry freight (VL_FRETE) and insurance (VL_SEGURO) beyond the export schema
+    certainty: 90
+  - matches: {col: CO_ANO, pattern: "^[0-9]{4}$"}
+    reason: CO_ANO is a 4-digit calendar year
+    certainty: 95
+  - matches: {col: CO_NCM, pattern: "^[0-9]{8}$"}
+    reason: NCM is an 8-digit HS-derived product code
+    certainty: 88
+  - distinct_count: {col: CO_ANO, min: 25}
+    reason: full history streams 1997..latest; fewer means the year loop truncated
+    certainty: 90

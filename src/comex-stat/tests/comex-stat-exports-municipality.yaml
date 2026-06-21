@@ -1,0 +1,21 @@
+spec_id: comex-stat-exports-municipality
+status: active
+tests:
+  - not_null: CO_ANO
+  - not_null: SH4
+  - not_null: CO_MUN
+  - column_type: {col: CO_ANO, type: string}
+    reason: raw is parsed all-string; typing happens in the transform
+    certainty: 95
+  - matches: {col: CO_ANO, pattern: "^[0-9]{4}$"}
+    reason: CO_ANO is a 4-digit calendar year
+    certainty: 95
+  - matches: {col: SH4, pattern: "^[0-9]{4}$"}
+    reason: municipality files use 4-digit Harmonized System (SH4) product grain
+    certainty: 88
+  - matches: {col: CO_MUN, pattern: "^[0-9]+$"}
+    reason: CO_MUN is the numeric IBGE municipality code
+    certainty: 85
+  - distinct_count: {col: CO_ANO, min: 25}
+    reason: full history streams 1997..latest; fewer means the year loop truncated
+    certainty: 90
