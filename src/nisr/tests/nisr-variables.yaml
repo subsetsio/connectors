@@ -1,0 +1,30 @@
+spec_id: nisr-variables
+status: active
+# Raw is the long-format variable codebook (one row per study,variable) parsed
+# from each study's DDI-Codebook XML and written as NDJSON; scalar stats are
+# stored as strings or null.
+tests:
+  - not_null: var_id
+    reason: every DDI <var> element carries an ID attribute (V1, V2, ...); a null means the XML parse lost the variable key
+    certainty: 95
+  - not_null: study_id
+    reason: each codebook row is stamped with the NADA study id it was parsed from
+    certainty: 95
+  - matches: {col: var_id, pattern: '^V[0-9]+$'}
+    reason: DDI variable IDs in this catalog are the literal V-prefixed sequence (V1, V2, ...)
+    certainty: 80
+  - matches: {col: study_id, pattern: '^[0-9]+$'}
+    reason: study_id is the numeric NADA study id carried through from the catalog
+    certainty: 88
+  - unique: [study_id, var_id]
+    reason: a DDI variable ID is unique within its study; the pair is the natural key of the codebook
+    certainty: 88
+  - not_null: name
+    reason: DDI variables carry a name attribute; a high null rate means the source dropped variable names
+    certainty: 75
+    severity: warn
+  - row_count: {min: 500}
+    reason: a single study already yields ~500 variables and many studies publish a DDI, so the codebook should run into the thousands; far fewer means DDI fetching broke
+    certainty: 85
+    severity: warn
+    points_outward: true

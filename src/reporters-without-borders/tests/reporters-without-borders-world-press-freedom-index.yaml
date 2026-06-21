@@ -1,0 +1,45 @@
+spec_id: reporters-without-borders-world-press-freedom-index
+status: active
+tests:
+  - not_null: iso
+    reason: every RSF row is a country/territory keyed by ISO3; a null ISO means an aggregate row leaked or the column moved
+    certainty: 95
+  - not_null: year
+    reason: every yearly CSV stamps the index year in 'Year (N)'
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 90
+  - column_type: {col: score, type: float}
+    certainty: 90
+  - nullable: {col: score, max_null_frac: 0.05}
+    reason: nearly every country-year is scored; a handful of early-year/territory rows may have a blank overall score
+    certainty: 80
+  - nullable: {col: rank, max_null_frac: 0.05}
+    reason: ranks are present for essentially all rows; blanks would signal a parse/column shift
+    certainty: 80
+  - unique: [iso, year]
+    reason: one row per country per index year; duplicates mean a year file was double-parsed or the key columns shifted
+    certainty: 90
+  - between: {col: year, lo: 2002, hi: current_year()}
+    reason: first index is 2002; no index can carry a future year
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - between: {col: rank, lo: 1, hi: 250}
+    reason: ranks run 1..~180 across the covered countries; a wider span means rank parsed from the wrong column
+    certainty: 80
+  - between: {col: score, lo: 0, hi: 250}
+    reason: scores are non-negative; older eras use a different point scale than the 0-100 post-2022 one, so the upper bound is deliberately loose
+    certainty: 70
+    severity: warn
+  - enum: {col: methodology_era, values: [old_pre2022, new_2022]}
+    reason: era is assigned by header detection; an unexpected value means the header layout changed
+    certainty: 95
+  - distinct_count: {col: year, min: 20}
+    reason: ~24 index years (2002-2026 minus 2011); far fewer means year discovery stopped early
+    certainty: 85
+  - distinct_count: {col: iso, min: 150}
+    reason: the index covers ~180 countries/territories; far fewer means a truncated download
+    certainty: 85

@@ -1,0 +1,27 @@
+spec_id: nisr-studies
+status: active
+# Raw is the NADA catalog CSV export normalized to parquet; every value is
+# stored as a string (CSV -> parquet with an all-string schema), so numeric
+# assertions are expressed as regex on the string form.
+tests:
+  - not_null: id
+    reason: every NADA study row carries a numeric catalog id; a null id means the CSV header/blank rows leaked into the data
+    certainty: 95
+  - unique: id
+    reason: the catalog CSV is one row per study, keyed by the NADA study id
+    certainty: 95
+  - matches: {col: id, pattern: '^[0-9]+$'}
+    reason: the NADA study id is an integer rendered as a decimal string in the CSV export
+    certainty: 90
+  - not_null: titl
+    reason: every study has a title; a blank title means the title column shifted or the parse misaligned
+    certainty: 92
+  - not_null: surveyid
+    reason: NISR assigns each study a survey identifier (e.g. RWA-NISR-RAHS-2017-V0.1)
+    certainty: 80
+    severity: warn
+  - row_count: {min: 50}
+    reason: the catalog held ~75 studies during research; far below that means the CSV export truncated
+    certainty: 88
+    severity: warn
+    points_outward: true
