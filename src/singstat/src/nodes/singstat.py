@@ -60,10 +60,18 @@ def _resource_id(node_id: str) -> str:
     return node_id[len("singstat-"):].upper()
 
 
+# tabledata hard-caps a response at 5000 (series,period) cells regardless of the
+# `limit` value, so the full table must be paged via `offset` over the flattened
+# cell stream until a short/empty page signals the end.
+PAGE = 5000
+MAX_PAGES = 2000  # ~10M cells; a runaway guard, not an expected limit
+
+
 @transient_retry()
-def _fetch_tabledata(resource_id: str) -> dict:
+def _fetch_tabledata(resource_id: str, offset: int) -> dict:
     resp = get(
         f"{BASE}/tabledata/{resource_id}",
+        params={"limit": PAGE, "offset": offset},
         headers=_HEADERS,
         timeout=(10.0, 180.0),
     )
@@ -74,22 +82,36 @@ def _fetch_tabledata(resource_id: str) -> dict:
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     resource_id = _resource_id(node_id)
-    payload = _fetch_tabledata(resource_id)
 
-    data = payload.get("Data") or {}
     rows = []
-    for series in data.get("row", []):
-        series_no = series.get("seriesNo")
-        series_text = series.get("rowText")
-        uom = series.get("uoM")
-        for col in series.get("columns", []):
-            rows.append({
-                "series_no": series_no,
-                "series_text": series_text,
-                "uom": uom,
-                "period": col.get("key"),
-                "value": col.get("value"),
-            })
+    offset = 0
+    pages = 0
+    while True:
+        payload = _fetch_tabledata(resource_id, offset)
+        data = payload.get("Data") or {}
+        page_cells = 0
+        for series in data.get("row", []):
+            series_no = series.get("seriesNo")
+            series_text = series.get("rowText")
+            uom = series.get("uoM")
+            for col in series.get("columns", []):
+                rows.append({
+                    "series_no": series_no,
+                    "series_text": series_text,
+                    "uom": uom,
+                    "period": col.get("key"),
+                    "value": col.get("value"),
+                })
+                page_cells += 1
+        pages += 1
+        if page_cells < PAGE:
+            break
+        offset += PAGE
+        if pages >= MAX_PAGES:
+            raise RuntimeError(
+                f"{resource_id}: exceeded {MAX_PAGES} pages (>{MAX_PAGES * PAGE} "
+                f"cells) — source larger than expected, refusing to truncate"
+            )
 
     table = pa.Table.from_pylist(rows, schema=SCHEMA)
     save_raw_parquet(table, asset)
