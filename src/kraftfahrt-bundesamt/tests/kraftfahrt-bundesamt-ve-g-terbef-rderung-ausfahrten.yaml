@@ -1,0 +1,13 @@
+spec_id: kraftfahrt-bundesamt-ve-g-terbef-rderung-ausfahrten
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every KBA Statistikportal layer is a populated official table
+    certainty: 90
+  - not_null: Jahr
+    reason: Jahr is the primary reporting-period dimension; never suppressed
+    certainty: 85
+  - column_type: {col: Fahrten, type: integer}
+    reason: Fahrten is an esriFieldTypeInteger count
+    certainty: 75
+    severity: warn

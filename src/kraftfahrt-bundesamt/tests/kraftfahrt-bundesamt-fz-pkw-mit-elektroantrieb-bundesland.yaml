@@ -1,0 +1,9 @@
+spec_id: kraftfahrt-bundesamt-fz-pkw-mit-elektroantrieb-bundesland
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every KBA Statistikportal layer is a populated official table
+    certainty: 90
+  - not_null: Berichtszeitpunkt
+    reason: Berichtszeitpunkt is the primary reporting-period dimension; never suppressed
+    certainty: 85

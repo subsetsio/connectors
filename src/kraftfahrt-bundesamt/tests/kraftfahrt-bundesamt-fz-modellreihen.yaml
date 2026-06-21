@@ -1,0 +1,13 @@
+spec_id: kraftfahrt-bundesamt-fz-modellreihen
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every KBA Statistikportal layer is a populated official table
+    certainty: 90
+  - not_null: Berichtsjahr
+    reason: Berichtsjahr is the primary reporting-period dimension; never suppressed
+    certainty: 85
+  - column_type: {col: Anzahl, type: integer}
+    reason: Anzahl is an esriFieldTypeInteger count
+    certainty: 75
+    severity: warn
