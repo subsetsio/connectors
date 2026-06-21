@@ -1,44 +1,25 @@
-import json, duckdb, urllib.request
-# reuse already-downloaded /tmp files to avoid refetch
-import sys
-maps = {
- "efw":"/tmp/ftw_get_all_data.json",
- "allgov":"/tmp/ftw_get_states_data.json",
- "subnat":"/tmp/ftw_get_subnational_data.json",
+import json, duckdb, sys
+sys.path.insert(0, "src")
+from nodes.fraser_institute import TRANSFORM_SPECS, _flatten
+
+files = {
+ "fraser-institute-economic-freedom-of-the-world":"/tmp/ftw_get_all_data.json",
+ "fraser-institute-economic-freedom-of-north-america-allgov":"/tmp/ftw_get_states_data.json",
+ "fraser-institute-economic-freedom-of-north-america-subnational":"/tmp/ftw_get_subnational_data.json",
 }
-def flatten(payload):
-    rows=[]
-    for ys,recs in payload.items():
-        y=int(ys)
-        for rec in recs:
-            row={"year":y}
-            for k,v in rec.items():
-                if isinstance(v,dict): row[k.lower()]=v.get("value")
-                else: row[k]=v
-            rows.append(row)
-    return rows
-con=duckdb.connect()
-for name,f in maps.items():
-    rows=flatten(json.load(open(f)))
-    # write ndjson temp and read
-    p=f"/tmp/{name}.ndjson"
+con = duckdb.connect()
+for asset, f in files.items():
+    rows = _flatten(json.load(open(f)))
+    p = f"/tmp/{asset}.ndjson"
     with open(p,"w") as fh:
         for r in rows: fh.write(json.dumps(r)+"\n")
-SQL = {
-"efw": '''SELECT CAST(year AS INTEGER) year, country, iso_code,
- TRY_CAST(summary_index AS DOUBLE) economic_freedom_summary,
- TRY_CAST(rank AS INTEGER) world_rank, TRY_CAST(quartile AS INTEGER) quartile,
- TRY_CAST(area1 AS DOUBLE) size_of_government, TRY_CAST(area1rank AS INTEGER) sog_rank,
- TRY_CAST(area5 AS DOUBLE) regulation
- FROM read_json_auto('/tmp/efw.ndjson') WHERE iso_code IS NOT NULL AND iso_code<>'' ''',
-"allgov": '''SELECT CAST(year AS INTEGER) year, country, state_province, iso_code, type jt,
- TRY_CAST(summary_index AS DOUBLE) efs, TRY_CAST(rank AS INTEGER) rank,
- TRY_CAST(area6 AS DOUBLE) trade FROM read_json_auto('/tmp/allgov.ndjson') WHERE iso_code IS NOT NULL AND iso_code<>'' ''',
-"subnat": '''SELECT CAST(year AS INTEGER) year, country, state_province, iso_code,
- TRY_CAST(area3 AS DOUBLE) labor FROM read_json_auto('/tmp/subnat.ndjson') WHERE iso_code IS NOT NULL AND iso_code<>'' ''',
-}
-for name,sql in SQL.items():
-    r=con.execute(sql).arrow()
-    print(name, "rows", r.num_rows, "cols", r.num_columns,
-          "| years", con.execute(f"SELECT min(year),max(year),count(distinct year) FROM ({sql})").fetchone(),
-          "| dup(year,iso)", con.execute(f"SELECT count(*)-count(distinct (year||iso_code)) FROM ({sql})").fetchone()[0])
+    # register a view named after the asset id
+    con.execute(f'CREATE VIEW "{asset}" AS SELECT * FROM read_json_auto(?)', [p])
+
+for spec in TRANSFORM_SPECS:
+    res = con.execute(spec.sql).arrow()
+    name = spec.id.replace("-transform","")
+    yr = con.execute(f"SELECT min(year),max(year),count(distinct year) FROM ({spec.sql})").fetchone()
+    dup = con.execute(f"SELECT count(*)-count(distinct (CAST(year AS VARCHAR)||'|'||iso_code)) FROM ({spec.sql})").fetchone()[0]
+    print(f"{name}: rows={res.num_rows} cols={res.num_columns} years={yr} dup_year_iso={dup}")
+    print("   cols:", res.schema.names)

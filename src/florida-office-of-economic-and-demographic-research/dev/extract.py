@@ -32,10 +32,12 @@ def _numeric_count(row):
 
 def extract_sheet(sheet_name, rows):
     # drop fully-empty trailing/leading handled implicitly
-    # find first data row: first row with >=2 numeric cells in cols>=1
+    # find first data row: col0 is a non-empty label AND >=1 numeric in cols>=1.
+    # Requiring a non-empty col0 excludes stacked-header rows that carry a stray
+    # year number (e.g. "2025") but have an empty label column.
     first_data = None
     for i, row in enumerate(rows):
-        if _numeric_count(row) >= 2:
+        if len(row) and _txt(row[0]) and _numeric_count(row) >= 1:
             first_data = i
             break
     if first_data is None:

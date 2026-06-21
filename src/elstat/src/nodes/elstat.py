@@ -25,6 +25,7 @@ import io
 import math
 import re
 
+import httpx
 import pandas as pd
 from tenacity import (
     retry,
@@ -250,7 +251,16 @@ def _excel_attachments(code):
         if did in seen:
             continue
         seen.add(did)
-        resp = _http_get(url, timeout=(10.0, 180.0))
+        try:
+            resp = _http_get(url, timeout=(10.0, 180.0))
+        except httpx.HTTPStatusError as exc:
+            # A stale/removed attachment 404s (or other permanent 4xx). Skip that
+            # one document and keep the publication's other attachments.
+            sc = exc.response.status_code if exc.response is not None else None
+            if sc is not None and 400 <= sc < 500 and sc != 429:
+                print(f"elstat: skipping document {did} for {code}: HTTP {sc}")
+                continue
+            raise
         ct = resp.headers.get("content-type", "").lower()
         if not any(x in ct for x in _EXCEL_CT):
             continue
