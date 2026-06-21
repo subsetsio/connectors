@@ -36,6 +36,7 @@ import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
+    configure_http,
     post,
     raw_parquet_writer,
     transient_retry,
@@ -53,11 +54,33 @@ REF_PERIOD = "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"
 DATA_BASE = "http://statistics.gov.scot/data/"
 PAGE = 50000  # endpoint caps a single result set below 100k rows
 
+# Over a long run the shared httpx client pools one keep-alive connection across
+# thousands of requests; nginx eventually closes it and the next reuse raises
+# "Server disconnected without sending a response" (seen on cloud runs, never in
+# short local runs). `Connection: close` forces a fresh connection per request,
+# and a browser-style User-Agent avoids any UA filtering. Set once per process.
+_HTTP_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/124.0 Safari/537.36"
+    ),
+    "Accept-Language": "en-GB,en;q=0.9",
+    "Connection": "close",
+}
+_http_configured = False
+
 # Map each spec id back to its original-case dataset slug so the fetch fn can
 # rebuild the qb:DataSet URI. Pure computation — no I/O at import.
 ID_TO_ENTITY = {
     f"{SLUG}-{eid.lower().replace('_', '-')}": eid for eid in ENTITY_IDS
 }
+
+
+def _ensure_http():
+    global _http_configured
+    if not _http_configured:
+        configure_http(headers=_HTTP_HEADERS)
+        _http_configured = True
 
 
 @transient_retry(attempts=8, max_wait=120)
@@ -66,6 +89,7 @@ def _sparql(query: str) -> list[dict]:
 
     Retries transient network errors / 429 / 5xx with backoff.
     """
+    _ensure_http()
     resp = post(
         ENDPOINT,
         data={"query": query},

@@ -1,0 +1,9 @@
+spec_id: philippine-statistics-authority-2b-gp-rg-gig-1592b5cpig4-px
+status: active
+tests:
+  - column_type: {col: value, type: float}
+    reason: PXWeb json-stat2 cells are numeric observations; a non-float value column means the decode broke or the endpoint changed format.
+    certainty: 90
+  - row_count: {min: 1}
+    reason: every PXWeb leaf table has a non-empty cell grid; 0 rows means the pull returned nothing (auth/format break or empty response).
+    certainty: 95
