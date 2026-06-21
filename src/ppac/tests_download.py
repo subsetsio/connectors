@@ -10,18 +10,18 @@ from subsets_utils import load_raw_parquet
 
 # raw assets carrying a numeric `value` column (REST long tables + xlsx melts)
 _VALUE_ASSETS = [
-    "ppac-consumption/products-wise",
-    "ppac-production/petroleum-products",
-    "ppac-prices/international-prices-of-crude-oil",
-    "ppac-production/indigenous-crude-oil",
+    "ppac-consumption-products-wise",
+    "ppac-production-petroleum-products",
+    "ppac-prices-international-prices-of-crude-oil",
+    "ppac-production-indigenous-crude-oil",
     "ppac-import-export",
-    "ppac-natural-gas/production",
-    "ppac-natural-gas/consumption",
-    "ppac-production/crude-processing",
-    "ppac-consumption/active-domestic-customers",
-    "ppac-consumption/state-wise-pmuy-data",
-    "ppac-consumption/state-wise",
-    "ppac-natural-gas/import",
+    "ppac-natural-gas-production",
+    "ppac-natural-gas-consumption",
+    "ppac-production-crude-processing",
+    "ppac-consumption-active-domestic-customers",
+    "ppac-consumption-state-wise-pmuy-data",
+    "ppac-consumption-state-wise",
+    "ppac-natural-gas-import",
 ]
 
 
@@ -45,7 +45,7 @@ def test_value_columns_have_numbers(spec_ids):
 
 
 def test_refinery_capacity_has_capacity(spec_ids):
-    sid = "ppac-infrastructure/installed-refinery-capacity"
+    sid = "ppac-infrastructure-installed-refinery-capacity"
     if sid in spec_ids:
         table = load_raw_parquet(sid)
         col = table.column("capacity")

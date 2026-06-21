@@ -1,4 +1,4 @@
-spec_id: ppac-consumption/state-wise-pmuy-data
+spec_id: ppac-consumption-state-wise-pmuy-data
 status: active
 tests:
   - not_null: state
@@ -11,7 +11,7 @@ tests:
     severity: warn
   - column_type: {col: value, type: float}
     certainty: 95
-  - between: {col: value, lo: 0, hi: 1000000000.0}
+  - between: {col: value, lo: 0, hi: 1000000000}
     reason: per-state counts are positive and within plausible national bounds
     certainty: 75
     severity: warn

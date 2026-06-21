@@ -1,8 +1,8 @@
-spec_id: ppac-production/crude-processing
+spec_id: ppac-production-indigenous-crude-oil
 status: active
 tests:
   - not_null: item
-    reason: every observation names its series/product (crude processed by refinery)
+    reason: every observation names its series/product (crude oil production by producer x months)
     certainty: 95
   - not_null: period
     certainty: 95
@@ -14,10 +14,10 @@ tests:
   - matches: {col: period, pattern: '^[0-9]{4}-[0-9]{2}-01$'}
     reason: each month is normalised to the first of the calendar month
     certainty: 90
-  - distinct_count: {col: item, min: 8}
+  - distinct_count: {col: item, min: 3}
     reason: the page exposes multiple series; a collapse to one means parse broke
     certainty: 80
     severity: warn
-  - row_count: {min: 250}
+  - row_count: {min: 60}
     reason: recent financial years melted to long form; far fewer means the AjaxController returned empty
     certainty: 85

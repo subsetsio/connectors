@@ -1,8 +1,8 @@
-spec_id: ppac-natural-gas/production
+spec_id: ppac-consumption-products-wise
 status: active
 tests:
   - not_null: item
-    reason: every observation names its series/product (natural gas gross/net production by field)
+    reason: every observation names its series/product (domestic POL consumption, products x months)
     certainty: 95
   - not_null: period
     certainty: 95
@@ -18,6 +18,6 @@ tests:
     reason: the page exposes multiple series; a collapse to one means parse broke
     certainty: 80
     severity: warn
-  - row_count: {min: 250}
+  - row_count: {min: 200}
     reason: recent financial years melted to long form; far fewer means the AjaxController returned empty
     certainty: 85

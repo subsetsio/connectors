@@ -438,7 +438,7 @@ def _transform_sql(entity_id: str, dep_id: str) -> str:
             FROM "{dep_id}"
             WHERE refinery IS NOT NULL AND capacity IS NOT NULL
         '''
-    if entity_id == "consumption/state-wise":
+    if entity_id == "consumption-state-wise":
         return f'''
             SELECT product,
                    region,
@@ -449,7 +449,7 @@ def _transform_sql(entity_id: str, dep_id: str) -> str:
             FROM "{dep_id}"
             WHERE value IS NOT NULL
         '''
-    if entity_id == "natural-gas/import":
+    if entity_id == "natural-gas-import":
         return f'''
             SELECT metric,
                    fiscal_year,
