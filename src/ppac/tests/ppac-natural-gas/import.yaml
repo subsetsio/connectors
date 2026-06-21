@@ -1,0 +1,16 @@
+spec_id: ppac-natural-gas/import
+status: active
+tests:
+  - not_null: metric
+    certainty: 95
+  - not_null: fiscal_year
+    certainty: 95
+  - not_null: value
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - matches: {col: fiscal_year, pattern: '^[0-9]{4}-[0-9]{2}$'}
+    certainty: 90
+  - row_count: {min: 20}
+    reason: LNG import totals across ~13+ years for at least volume and value metrics
+    certainty: 80

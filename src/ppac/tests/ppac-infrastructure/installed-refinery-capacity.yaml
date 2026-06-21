@@ -1,0 +1,19 @@
+spec_id: ppac-infrastructure/installed-refinery-capacity
+status: active
+tests:
+  - not_null: refinery
+    certainty: 95
+  - not_null: capacity
+    certainty: 95
+  - not_null: company
+    reason: each refinery row inherits its parent company via forward-fill
+    certainty: 85
+  - column_type: {col: capacity, type: float}
+    certainty: 95
+  - between: {col: capacity, lo: 0, hi: 100000}
+    reason: refinery installed capacity in '000 MT/yr; largest Indian refineries are tens of thousands
+    certainty: 80
+    severity: warn
+  - row_count: {min: 15}
+    reason: India has ~23 operating refineries
+    certainty: 85

@@ -1,0 +1,20 @@
+spec_id: ppac-consumption/active-domestic-customers
+status: active
+tests:
+  - not_null: state
+    certainty: 95
+  - not_null: value
+    certainty: 95
+  - not_null: as_of
+    reason: snapshot carries the as-of date from the sheet header
+    certainty: 80
+    severity: warn
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - between: {col: value, lo: 0, hi: 100000}
+    reason: per-state counts are positive and within plausible national bounds
+    certainty: 75
+    severity: warn
+  - row_count: {min: 25}
+    reason: ~36 states/UTs plus regional subtotals
+    certainty: 85

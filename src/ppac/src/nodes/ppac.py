@@ -114,8 +114,15 @@ def _as_date_str(v):
         return None
     if hasattr(v, "strftime"):
         return v.strftime("%Y-%m-%d")
-    m = re.search(r"\d{4}-\d{2}-\d{2}", str(v))
-    return m.group(0) if m else None
+    s = str(v)
+    m = re.search(r"\d{4}-\d{2}-\d{2}", s)
+    if m:
+        return m.group(0)
+    m = re.search(r"(\d{1,2})\.(\d{1,2})\.(\d{4})", s)   # D.MM.YYYY (refinery as-of)
+    if m:
+        d, mo, y = m.groups()
+        return f"{int(y):04d}-{int(mo):02d}-{int(d):02d}"
+    return None
 
 
 def _fy_month_date(financial_year: str, month: str) -> str:
@@ -252,7 +259,7 @@ def fetch_snapshot(node_id: str) -> None:
     cfg = XLSX_SNAPSHOT[entity]
     ws = _load_xlsx(_discover_xlsx_url(entity)).worksheets[0]
     rs = _rows_of(ws)
-    hdr = _find_row(rs, lambda r: bool(r) and str(r[0] or "").strip().upper().startswith("STATE"))
+    hdr = _find_row(rs, lambda r: bool(r) and str(r[0] or "").strip().upper().startswith("STATE/UT"))
     if hdr is None:
         raise RuntimeError(f"{node_id}: no STATE/UT header row in workbook")
     as_of = _as_date_str(rs[hdr][1]) if len(rs[hdr]) > 1 else None
@@ -319,7 +326,7 @@ def fetch_statewise_consumption(node_id: str) -> None:
     for ws in wb.worksheets:
         product = _sheet_to_product(ws.title)
         rs = _rows_of(ws)
-        hdr = _find_row(rs, lambda r: bool(r) and str(r[0] or "").strip().upper().startswith("STATE"))
+        hdr = _find_row(rs, lambda r: bool(r) and str(r[0] or "").strip().upper().startswith("STATE/UT"))
         if hdr is None:
             continue
         years = [(j, str(y).strip()) for j, y in enumerate(rs[hdr])
