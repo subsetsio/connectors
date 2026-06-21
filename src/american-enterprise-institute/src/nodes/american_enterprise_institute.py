@@ -6,14 +6,26 @@ quarterly time-series .xlsx link (the path is versioned per release and carries
 a cache-buster query, so it must be rediscovered, never hardcoded) and pull the
 whole workbook. The workbook is small (~2 MB, ~16,800 rows covering 2012:Q1 ->
 latest) so we do a stateless full re-pull each run and overwrite — revisions are
-picked up for free. www.aei.org sits behind Cloudflare bot protection; a plain
-GET with the default browser User-Agent returns the real body (HEAD is
-challenged, so we never use HEAD).
+picked up for free.
+
+Cloudflare, and how we get around it (verified from CI):
+www.aei.org sits behind Cloudflare, which hard-403s the cloud runner's datacenter
+IP for the *dynamic HTML page* regardless of User-Agent or TLS fingerprint
+(curl_cffi Chrome impersonation is 403'd too — it's IP/ASN reputation, not JA3).
+But the *static .xlsx asset* under /wp-content/uploads/ is edge-cached and served
+to datacenter IPs without challenge. So discovery (find the current link) and
+download (fetch the file) need different handling:
+  * Discovery: try the page directly, then fall back to the r.jina.ai reader
+    proxy (fetches server-side from a non-blocked IP, returns the *current* page),
+    then to the Wayback Machine (archive.org, reachable from CI, but its snapshot
+    can lag a quarter). First route that yields a link wins.
+  * Download: the static workbook is fetched directly; curl_cffi (Chrome TLS) and
+    an allorigins server-side proxy are kept as belt-and-suspenders fallbacks.
 """
 
 import io
 import re
-import time
+import urllib.parse
 
 import httpx
 import openpyxl
@@ -22,13 +34,9 @@ import pyarrow as pa
 from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
 
 INDICATORS_PAGE = "https://www.aei.org/national-and-metro-housing-market-indicators/"
+JINA_READER = "https://r.jina.ai/"
+WAYBACK_AVAILABLE = "https://archive.org/wayback/available?url="
 
-# www.aei.org sits behind Cloudflare. From a normal machine a browser User-Agent
-# returns the real body, but the cloud runner's datacenter IP/TLS fingerprint is
-# 403'd regardless of User-Agent (verified: a real browser UA still 403s from CI).
-# So we send realistic browser headers on the logged subsets_utils path, and on a
-# 403 fall back to curl_cffi impersonating Chrome's TLS (JA3) handshake, which
-# clears the challenge. Same approach as the bruegel connector.
 BROWSER_HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -43,23 +51,26 @@ BROWSER_HEADERS = {
 
 
 def _curl_fetch(url: str, binary: bool):
-    """Cloudflare bypass: curl_cffi impersonates Chrome's TLS handshake, clearing
-    the challenge that 403s the logged client from the runner's datacenter IP.
-    Used only as the fallback when the subsets_utils path returns 403."""
+    """curl_cffi impersonates Chrome's TLS (JA3) handshake. Clears Cloudflare
+    challenges that key on the client fingerprint; does NOT defeat IP-reputation
+    blocks (so it helps the static asset, not the dynamic page from CI)."""
     from curl_cffi import requests as cr
 
-    last = None
-    for attempt in range(5):
-        try:
-            r = cr.get(url, impersonate="chrome", headers=BROWSER_HEADERS,
-                       timeout=180, allow_redirects=True)
-            if r.status_code == 200:
-                return r.content if binary else r.text
-            last = f"HTTP {r.status_code}"
-        except Exception as e:  # curl_cffi transport error — retry with backoff
-            last = f"{type(e).__name__}: {e}"
-        time.sleep(2 * (attempt + 1))
-    raise AssertionError(f"curl_cffi fallback failed for {url}: {last}")
+    r = cr.get(url, impersonate="chrome", headers=BROWSER_HEADERS,
+               timeout=180, allow_redirects=True)
+    if r.status_code != 200:
+        raise AssertionError(f"curl_cffi {url}: HTTP {r.status_code}")
+    return r.content if binary else r.text
+
+
+def _allorigins(url: str, binary: bool):
+    """Last-resort proxy: api.allorigins.win fetches the target server-side from
+    its own (non-blocked) IP and streams the raw bytes back."""
+    prox = "https://api.allorigins.win/raw?url=" + urllib.parse.quote(url, safe="")
+    resp = get(prox, headers=BROWSER_HEADERS, timeout=(10.0, 180.0))
+    resp.raise_for_status()
+    return resp.content if binary else resp.text
+
 
 # The 13 meaningful columns of the workbook's single "data" sheet (the sheet has
 # trailing empty columns we drop). Order matches the source header row exactly.
@@ -96,51 +107,92 @@ SCHEMA = pa.schema([
 ])
 
 
+def _extract_workbook_url(text: str) -> str | None:
+    """Pull the metro/national time-series workbook URL out of page text (HTML
+    href= or reader-proxy markdown). The page also links a 'Top-100-metros'
+    county crosswalk we don't publish; the time-series file is the one whose
+    name contains 'data_download'/'interactive'."""
+    urls = re.findall(r'https?://[^\s"\'<>)\]]+?\.xlsx(?:\?[^\s"\'<>)\]]*)?', text)
+    for u in urls:
+        low = u.lower()
+        if ("data_download" in low or "interactive" in low) and "top-100-metros" not in low:
+            return u
+    return None
+
+
+def _page_direct() -> str:
+    resp = get(INDICATORS_PAGE, headers=BROWSER_HEADERS, timeout=(10.0, 60.0))
+    resp.raise_for_status()
+    return resp.text
+
+
+def _page_via_jina() -> str:
+    # r.jina.ai renders the page server-side from a non-blocked IP and returns the
+    # current content (so the discovered link is fresh, unlike Wayback).
+    resp = get(JINA_READER + INDICATORS_PAGE, headers=BROWSER_HEADERS, timeout=(10.0, 120.0))
+    resp.raise_for_status()
+    return resp.text
+
+
+def _page_via_wayback() -> str:
+    # archive.org is reachable from CI; its raw (id_) replay preserves the
+    # original aei.org asset URLs. Snapshot may lag a quarter — last-resort only.
+    meta = get(WAYBACK_AVAILABLE + INDICATORS_PAGE, headers=BROWSER_HEADERS, timeout=(10.0, 60.0))
+    meta.raise_for_status()
+    snap = meta.json().get("archived_snapshots", {}).get("closest", {})
+    ts = snap.get("timestamp")
+    if not snap.get("available") or not ts:
+        raise AssertionError("no Wayback snapshot for indicators page")
+    raw = f"https://web.archive.org/web/{ts}id_/{INDICATORS_PAGE}"
+    resp = get(raw, headers=BROWSER_HEADERS, timeout=(10.0, 120.0))
+    resp.raise_for_status()
+    return resp.text
+
+
 @transient_retry()
-def _fetch_text(url: str) -> str:
-    try:
-        resp = get(url, headers=BROWSER_HEADERS, timeout=(10.0, 120.0))
-        resp.raise_for_status()
-        return resp.text
-    except httpx.HTTPStatusError as e:
-        if e.response.status_code == 403:
-            return _curl_fetch(url, binary=False)
-        raise
+def _discover_workbook_url() -> str:
+    """Find the current time-series workbook link, trying the live page first and
+    falling back to Cloudflare-immune routes (the runner's IP is 403'd on the
+    dynamic page). First route that yields a link wins."""
+    errors = []
+    for name, fetch in (
+        ("direct", _page_direct),
+        ("jina", _page_via_jina),
+        ("wayback", _page_via_wayback),
+    ):
+        try:
+            text = fetch()
+        except Exception as e:  # noqa: BLE001 — try the next route
+            errors.append(f"{name}: {type(e).__name__}: {str(e)[:120]}")
+            continue
+        url = _extract_workbook_url(text)
+        if url:
+            return url
+        errors.append(f"{name}: no workbook link in {len(text)} chars")
+    raise AssertionError(
+        "could not discover AEI workbook URL via any route:\n  " + "\n  ".join(errors)
+    )
 
 
 @transient_retry()
 def _fetch_bytes(url: str) -> bytes:
+    """Download the static workbook. It's edge-cached and normally served to CI
+    directly; curl_cffi and the allorigins proxy are fallbacks if Cloudflare ever
+    challenges the asset too."""
     try:
         resp = get(url, headers=BROWSER_HEADERS, timeout=(10.0, 180.0))
         resp.raise_for_status()
         return resp.content
     except httpx.HTTPStatusError as e:
-        if e.response.status_code == 403:
-            return _curl_fetch(url, binary=True)
-        raise
-
-
-def _discover_workbook_url() -> str:
-    """Scrape the indicators page for the current time-series workbook link.
-
-    The page exposes two .xlsx links: the metro/national time-series workbook
-    (filename contains 'data_download'/'interactive') and a 'Top-100-metros'
-    county crosswalk we don't publish. Pick the former; raise if it's gone
-    (the page changed shape and the connector needs a look).
-    """
-    html = _fetch_text(INDICATORS_PAGE)
-    links = re.findall(r'href="([^"]+\.xlsx[^"]*)"', html)
-    candidates = [
-        l for l in links
-        if ("data_download" in l.lower() or "interactive" in l.lower())
-        and "top-100-metros" not in l.lower()
-    ]
-    if not candidates:
-        raise AssertionError(
-            f"no time-series .xlsx link found on {INDICATORS_PAGE}; "
-            f"found xlsx links: {links}"
-        )
-    return candidates[0]
+        if e.response.status_code not in (403, 503):
+            raise
+    for fallback in (lambda: _curl_fetch(url, binary=True),
+                     lambda: _allorigins(url, binary=True)):
+        try:
+            return fallback()
+        except Exception:  # noqa: BLE001 — try the next fallback
+            continue
+    raise AssertionError(f"all download routes failed for {url}")
 
 
 def fetch_housing_market_indicators(node_id: str) -> None:
