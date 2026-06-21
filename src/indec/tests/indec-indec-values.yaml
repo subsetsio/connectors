@@ -1,0 +1,21 @@
+spec_id: indec-indec-values
+status: active
+tests:
+  - not_null: series_id
+    certainty: 99
+  - not_null: date
+    certainty: 99
+  - not_null: value
+    reason: nulls are skipped at fetch time; a null here means the parser broke
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - matches: {col: date, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}
+    reason: the platform emits ISO date strings (period start); other shapes mean a format change
+    certainty: 90
+  - row_count: {min: 100000}
+    reason: ~9,500 series each with tens-to-hundreds of observations -> well over 100k rows
+    certainty: 85
+  - distinct_count: {col: series_id, min: 3000}
+    reason: long-format must span most INDEC series; a low count means the /series fan-out collapsed
+    certainty: 85
