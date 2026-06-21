@@ -1,0 +1,18 @@
+spec_id: global-fund-allprogrammaticindicators
+status: active
+tests:
+  - not_null: programmaticIndicatorId
+    reason: each row is one programmatic-result measurement keyed by a uuid
+    certainty: 95
+  - unique: programmaticIndicatorId
+    reason: programmaticIndicatorId is the per-row PK; dupes mean a re-pulled page
+    certainty: 85
+  - not_null: indicatorName
+    reason: every result names its indicator (e.g. 'Cases of Malaria treated')
+    certainty: 90
+  - not_null: programmaticDataSet
+    reason: every row is tagged with its source dataset (e.g. Annual_Results)
+    certainty: 85
+  - row_count: {min: 8000}
+    reason: ~15313 rows observed; a large drop signals truncated pagination
+    certainty: 85

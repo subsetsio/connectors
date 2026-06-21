@@ -1,0 +1,29 @@
+spec_id: fraser-institute-economic-freedom-of-north-america-allgov
+status: active
+tests:
+  - not_null: iso_code
+    reason: every EFNA jurisdiction-year row carries a subnational ISO code (e.g. CA-AB, US-CA)
+    certainty: 95
+  - not_null: state_province
+    reason: the all-government EFNA index is reported per province/state
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    reason: year is cast to int in the flatten step
+    certainty: 95
+  - unique: [year, iso_code]
+    reason: one row per subnational jurisdiction per report year
+    certainty: 85
+  - between: {col: year, lo: 1985, hi: current_year()}
+    reason: the all-government EFNA series begins in 1985
+    certainty: 88
+  - at_most: {col: year, expr: current_year()}
+    reason: no future projections
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - enum: {col: country, values: [CAN, USA, MEX]}
+    reason: EFNA covers Canadian provinces, US states, and Mexican states only
+    certainty: 85
+  - row_count: {min: 1500}
+    reason: ~62 jurisdictions x ~27 years; a big shortfall means a truncated payload
+    certainty: 80

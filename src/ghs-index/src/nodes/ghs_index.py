@@ -19,6 +19,7 @@ import io
 import csv
 import re
 
+import httpx
 import pyarrow as pa
 
 from subsets_utils import (
@@ -31,10 +32,13 @@ from subsets_utils import (
 )
 
 CSV_URL = "https://www.ghsindex.org/wp-content/uploads/2022/04/2021-GHS-Index-April-2022.csv"
+WAYBACK_AVAILABLE = "https://archive.org/wayback/available"
 
-# The host (WordPress + WAF) 403s the default client User-Agent from datacenter
-# IPs (the cloud runner), while a browser-like UA + Accept headers pass. Plain
-# ASCII only — httpx rejects non-ASCII header values.
+# The origin (WordPress behind a WAF/Cloudflare) hard-403s requests from
+# datacenter IP ranges — including the cloud runner — regardless of User-Agent.
+# We still send browser-like headers (helps when the origin IS reachable, e.g.
+# local dev) but fall back to the Internet Archive's byte-identical snapshot
+# when the origin blocks us. ASCII-only header values — httpx rejects the rest.
 _BROWSER_HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -44,6 +48,10 @@ _BROWSER_HEADERS = {
     "Accept-Language": "en-US,en;q=0.9",
     "Referer": "https://ghsindex.org/report-model/",
 }
+
+# Origin returns these when it blocks rather than when the file is genuinely
+# gone — treat them as "try the archive", not a hard failure.
+_ORIGIN_BLOCK_STATUSES = {401, 403, 406, 429, 451}
 
 SCHEMA = pa.schema([
     ("country", pa.string()),
@@ -56,12 +64,36 @@ SCHEMA = pa.schema([
 
 
 @transient_retry()
+def _http_get(url: str, **kwargs) -> httpx.Response:
+    resp = get(url, timeout=(10.0, 120.0), **kwargs)
+    resp.raise_for_status()  # inside the retry: transient 5xx/429 get retried
+    return resp
+
+
+def _fetch_via_wayback(origin_url: str) -> bytes:
+    """Fetch the byte-identical Internet Archive snapshot of origin_url. The
+    `id_` modifier returns the original unmodified bytes (no Wayback toolbar)."""
+    meta = _http_get(WAYBACK_AVAILABLE, params={"url": origin_url}).json()
+    snap = (meta.get("archived_snapshots") or {}).get("closest") or {}
+    if not snap.get("available") or not snap.get("timestamp"):
+        raise RuntimeError(f"no Wayback snapshot available for {origin_url}")
+    raw_url = f"https://web.archive.org/web/{snap['timestamp']}id_/{origin_url}"
+    return _http_get(raw_url).content
+
+
 def _fetch_csv(url: str) -> str:
     configure_http(headers=_BROWSER_HEADERS)
-    resp = get(url, timeout=(10.0, 120.0))
-    resp.raise_for_status()
+    try:
+        content = _http_get(url).content
+    except httpx.HTTPStatusError as e:
+        status = e.response.status_code if e.response is not None else None
+        if status in _ORIGIN_BLOCK_STATUSES:
+            # Origin blocks datacenter IPs; the Internet Archive is not blocked.
+            content = _fetch_via_wayback(url)
+        else:
+            raise
     # First column header carries a UTF-8 BOM; utf-8-sig strips it.
-    return resp.content.decode("utf-8-sig")
+    return content.decode("utf-8-sig")
 
 
 def _parse_header(h: str) -> tuple[str, str]:

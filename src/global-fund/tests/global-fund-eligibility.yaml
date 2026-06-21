@@ -1,0 +1,23 @@
+spec_id: global-fund-eligibility
+status: active
+tests:
+  - not_null: eligibilityId
+    reason: each eligibility determination carries a uuid PK
+    certainty: 95
+  - unique: eligibilityId
+    reason: eligibilityId is the per-row PK
+    certainty: 90
+  - not_null: isEligible
+    reason: each row records whether the applicant is eligible (boolean)
+    certainty: 85
+  - column_type: {col: eligibilityYear, type: integer}
+    reason: eligibility is determined per calendar year, an integer
+    certainty: 90
+  - between: {col: eligibilityYear, lo: 2002, hi: 2035}
+    reason: the Global Fund started funding in 2002; future eligibility windows are published a few years ahead
+    certainty: 80
+    severity: warn
+    points_outward: true
+  - row_count: {min: 5000}
+    reason: ~10662 rows observed; a large drop signals truncated pagination
+    certainty: 85

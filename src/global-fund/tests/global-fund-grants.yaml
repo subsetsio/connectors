@@ -1,0 +1,17 @@
+spec_id: global-fund-grants
+status: active
+tests:
+  - not_null: id
+    reason: every grant agreement carries a uuid primary key
+    certainty: 95
+  - unique: id
+    reason: id is the grant's uuid PK; dupes mean a page was re-pulled into the snapshot
+    certainty: 90
+  - not_null: code
+    reason: every grant has a human code like ZAR-911-G14-T
+    certainty: 90
+  - column_type: {col: code, type: string}
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: ~1589 grants observed; a large drop signals truncated pagination
+    certainty: 80

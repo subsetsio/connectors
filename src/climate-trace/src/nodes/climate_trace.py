@@ -34,6 +34,7 @@ import tempfile
 import zipfile
 
 import pyarrow as pa
+import pyarrow.csv as pacsv
 
 from subsets_utils import (
     NodeSpec,
@@ -49,9 +50,38 @@ GAS = "co2e_100yr"
 COUNTRIES_URL = "https://api.climatetrace.org/v6/definitions/countries"
 PKG_URL = "https://downloads.climatetrace.org/latest/country_packages/{gas}/{iso3}.zip"
 
-# Asset-level batch size: bounds memory regardless of how large a single
-# country's source-level CSV is (big emitters have very many sources x months).
-ASSET_BATCH_ROWS = 100_000
+# Source-level CSVs hold millions of rows across all countries, so they are
+# parsed with pyarrow's C++ CSV reader (streaming batches) — orders of magnitude
+# faster than per-row Python parsing, which timed out the cloud job.
+ASSET_COLUMN_TYPES = {
+    "source_id": pa.string(),
+    "source_name": pa.string(),
+    "source_type": pa.string(),
+    "iso3_country": pa.string(),
+    "sector": pa.string(),
+    "subsector": pa.string(),
+    "start_time": pa.string(),
+    "end_time": pa.string(),
+    "lat": pa.float64(),
+    "lon": pa.float64(),
+    "gas": pa.string(),
+    "emissions_quantity": pa.float64(),
+    "temporal_granularity": pa.string(),
+    "activity": pa.float64(),
+    "activity_units": pa.string(),
+    "emissions_factor": pa.float64(),
+    "emissions_factor_units": pa.string(),
+    "capacity": pa.float64(),
+    "capacity_units": pa.string(),
+    "capacity_factor": pa.float64(),
+}
+ASSET_CONVERT = pacsv.ConvertOptions(
+    include_columns=list(ASSET_COLUMN_TYPES.keys()),
+    include_missing_columns=True,
+    column_types=ASSET_COLUMN_TYPES,
+    strings_can_be_null=True,
+)
+ASSET_READ = pacsv.ReadOptions(block_size=1 << 24)  # 16 MB blocks
 
 COUNTRY_EMISSIONS_SCHEMA = pa.schema([
     ("iso3_country", pa.string()),
@@ -184,23 +214,10 @@ def fetch_asset_emissions(node_id: str) -> None:
     countries = _list_countries()
     if not countries:
         raise AssertionError("country definitions API returned no countries")
-    float_cols = {"lat", "lon", "emissions_quantity", "activity",
-                  "emissions_factor", "capacity", "capacity_factor"}
-    str_cols = [c for c in ASSET_EMISSIONS_SCHEMA.names if c not in float_cols]
 
+    names = ASSET_EMISSIONS_SCHEMA.names
     total = 0
     with raw_parquet_writer(asset, ASSET_EMISSIONS_SCHEMA) as writer:
-        batch = []
-
-        def flush():
-            nonlocal batch, total
-            if not batch:
-                return
-            tbl = pa.Table.from_pylist(batch, schema=ASSET_EMISSIONS_SCHEMA)
-            writer.write_table(tbl)
-            total += len(batch)
-            batch = []
-
         for iso3 in countries:
             path = _download_country_zip(iso3)
             if path is None:
@@ -209,17 +226,17 @@ def fetch_asset_emissions(node_id: str) -> None:
                 with zipfile.ZipFile(path) as zf:
                     for member in _members(zf, "_emissions_sources_"):
                         with zf.open(member) as fh:
-                            reader = csv.DictReader(io.TextIOWrapper(fh, encoding="utf-8"))
-                            for r in reader:
-                                rec = {c: (r.get(c) or None) for c in str_cols}
-                                for c in float_cols:
-                                    rec[c] = _f(r.get(c))
-                                batch.append(rec)
-                                if len(batch) >= ASSET_BATCH_ROWS:
-                                    flush()
+                            reader = pacsv.open_csv(
+                                fh, read_options=ASSET_READ,
+                                convert_options=ASSET_CONVERT,
+                            )
+                            for batch in reader:
+                                # reorder to the declared schema and write
+                                tbl = pa.Table.from_batches([batch]).select(names)
+                                writer.write_table(tbl)
+                                total += tbl.num_rows
             finally:
                 os.unlink(path)
-        flush()
     if total == 0:
         raise AssertionError("no asset_emissions rows parsed from any package")
     print(f"  {asset}: {total} source-level rows")

@@ -1,0 +1,18 @@
+spec_id: global-fund-allfinancialindicators
+status: active
+tests:
+  - not_null: financialIndicatorId
+    reason: each row is one financial-indicator measurement keyed by a uuid
+    certainty: 95
+  - unique: financialIndicatorId
+    reason: financialIndicatorId is the per-row PK; dupes mean a re-pulled page
+    certainty: 85
+  - not_null: indicatorName
+    reason: every measurement names its indicator (e.g. 'Budget - Reference Rate')
+    certainty: 90
+  - not_null: financialDataSet
+    reason: every row is tagged with its source financial dataset (e.g. GrantBudget_ReferenceRate)
+    certainty: 85
+  - row_count: {min: 500000}
+    reason: ~1.24M rows observed; a large shortfall signals the $top>=50000 empty-page trap or truncation
+    certainty: 85

@@ -1,0 +1,28 @@
+spec_id: hawaii-dbedt-32200
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: a category/series pull of a rank-active leaf category always returns observations; an empty raw table means the category id is wrong or the endpoint/auth changed.
+    certainty: 95
+  - not_null: series_id
+    reason: every flattened observation row carries its source series id.
+    certainty: 97
+  - not_null: date
+    reason: each level observation has an observation date.
+    certainty: 97
+  - not_null: value
+    reason: the row is emitted by zipping the level transformation's dates[]/values[]; both are always present per probing.
+    certainty: 90
+  - matches: {col: date, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}
+    reason: UHERO observation dates are ISO calendar dates (period start).
+    certainty: 95
+  - matches: {col: value, pattern: "^-?[0-9]+(\\.[0-9]+)?$"}
+    reason: level values are plain decimal strings; a non-numeric token means the wrong transformation was read or the payload changed.
+    certainty: 80
+    severity: warn
+  - enum: {col: frequency, values: ["A", "Q", "M", "S", "W", "D"]}
+    reason: UHERO frequencyShort codes; DBEDT data is annual/quarterly/monthly, the rest are defensive.
+    certainty: 90
+  - unique: [series_id, date]
+    reason: one level observation per series per date; duplicates mean the raw was appended without overwrite or a series was emitted twice.
+    certainty: 90

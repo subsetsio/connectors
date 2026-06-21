@@ -1,0 +1,29 @@
+spec_id: fraser-institute-economic-freedom-of-the-world
+status: active
+tests:
+  - not_null: iso_code
+    reason: every EFW country-year row carries an ISO3 code; nulls mean the flatten dropped a field
+    certainty: 95
+  - not_null: summary_index
+    reason: the headline economic-freedom score is the reason the row exists
+    certainty: 90
+  - column_type: {col: year, type: integer}
+    reason: year is cast to int in the flatten step
+    certainty: 95
+  - unique: [year, iso_code]
+    reason: EFW publishes one row per country per report year
+    certainty: 85
+  - between: {col: year, lo: 1970, hi: current_year()}
+    reason: EFW history starts at 1970 (5-yearly to 2000, then annual)
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: no future projections in the index
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: year, min: 25}
+    reason: ~30 report-year buckets (1970,75,80,85,90,95, then annual 2000-2023)
+    certainty: 85
+  - row_count: {min: 3000}
+    reason: ~160 countries x ~30 year buckets ~= 4500 rows; a big shortfall means a truncated payload
+    certainty: 80

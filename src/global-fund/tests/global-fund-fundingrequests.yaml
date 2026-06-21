@@ -1,0 +1,18 @@
+spec_id: global-fund-fundingrequests
+status: active
+tests:
+  - not_null: id
+    reason: each funding request carries a uuid PK
+    certainty: 95
+  - unique: id
+    reason: id is the funding request's uuid PK
+    certainty: 90
+  - not_null: code
+    reason: every funding request has a code like FR15-BOL-H
+    certainty: 90
+  - not_null: geographyId
+    reason: each funding request is tied to a geography
+    certainty: 85
+  - row_count: {min: 400}
+    reason: ~615 rows observed; a large drop signals truncated pagination
+    certainty: 80
