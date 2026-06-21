@@ -112,6 +112,15 @@ def _d_year(s):
     return f"{int(s):04d}-01-01" if s.isdigit() else None
 
 
+def _glance_year(s):
+    """Glance Date labels are 'YYYY' or fiscal/crop years 'YYYY/YY'. Return the
+    leading 4-digit year as int, or None."""
+    if s is None:
+        return None
+    m = re.match(r"\s*(\d{4})", str(s))
+    return int(m.group(1)) if m else None
+
+
 def _d_week(s):
     """'W1.Jan.2017' -> approx date (week index -> day within month)."""
     if not s:
@@ -145,16 +154,18 @@ def fetch_glance(node_id: str) -> None:
     data = _js_array(_fetch_text(_GLANCE_DATA), "datatable")
     rows = []
     for rec in data:
-        d = _d_year(rec.get("Date"))
-        if not d:
+        period = rec.get("Date")
+        yr = _glance_year(period)
+        if yr is None:
             continue
         for code, meta in cols.items():
             val = _num(rec.get(code))
             if val is None:
                 continue
             rows.append({
-                "date": d,
-                "year": int(str(rec["Date"]).strip()),
+                "date": f"{yr:04d}-01-01",
+                "year": yr,
+                "period": period,
                 "indicator_code": code,
                 "indicator_title": meta.get("Title"),
                 "units": meta.get("units"),
@@ -326,6 +337,7 @@ def _sql_for(eid: str, dep: str) -> str:
         return f'''
             SELECT CAST(date AS DATE) AS date,
                    year,
+                   period,
                    indicator_code,
                    indicator_title,
                    units,

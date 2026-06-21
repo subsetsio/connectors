@@ -32,7 +32,11 @@ from tenacity import (
     wait_exponential,
 )
 
-GVIZ = "https://docs.google.com/spreadsheets/d/{sid}/gviz/tq?tqx=out:csv"
+# Note: tqx MUST travel in the params dict, not baked into the URL. httpx
+# replaces an existing query string when given a params dict, so a URL-level
+# "?tqx=out:csv" gets dropped the moment we add &sheet — gviz then defaults to
+# its JSON envelope instead of CSV. Keeping every param in one dict avoids that.
+GVIZ = "https://docs.google.com/spreadsheets/d/{sid}/gviz/tq"
 
 
 class _GvizNotCsv(RuntimeError):
@@ -60,7 +64,9 @@ _gviz_retry = retry(
 @_gviz_retry
 def _download_csv(spreadsheet_id: str, tab: str | None) -> list[list[str]]:
     url = GVIZ.format(sid=spreadsheet_id)
-    params = {"sheet": tab} if tab else None
+    params = {"tqx": "out:csv"}
+    if tab:
+        params["sheet"] = tab
     resp = get(url, params=params, timeout=(10.0, 120.0))
     resp.raise_for_status()
     text = resp.content.decode("utf-8", "replace")
