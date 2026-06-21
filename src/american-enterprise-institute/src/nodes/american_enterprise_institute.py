@@ -21,6 +21,16 @@ from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transien
 
 INDICATORS_PAGE = "https://www.aei.org/national-and-metro-housing-market-indicators/"
 
+# www.aei.org is behind Cloudflare bot protection: the default 'DataIntegrations'
+# User-Agent gets a 403 from runner IPs, while a normal browser UA returns the real
+# body (verified: page + workbook GET both 200). Send a browser UA on every request.
+BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+}
+
 # The 13 meaningful columns of the workbook's single "data" sheet (the sheet has
 # trailing empty columns we drop). Order matches the source header row exactly.
 COLUMNS = [
@@ -58,14 +68,14 @@ SCHEMA = pa.schema([
 
 @transient_retry()
 def _fetch_text(url: str) -> str:
-    resp = get(url, timeout=(10.0, 120.0))
+    resp = get(url, headers=BROWSER_HEADERS, timeout=(10.0, 120.0))
     resp.raise_for_status()
     return resp.text
 
 
 @transient_retry()
 def _fetch_bytes(url: str) -> bytes:
-    resp = get(url, timeout=(10.0, 180.0))
+    resp = get(url, headers=BROWSER_HEADERS, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.content
 

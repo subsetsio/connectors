@@ -187,6 +187,20 @@ DOWNLOAD_SPECS = [
 # zero-padded codes that CSV type inference would strip.
 
 _CUSTOM_SQL = {
+    # EQCHANGE ships wide (one column per <country>_<REER|NEER>_TV); reshape to long.
+    "cepii-eqchange": '''
+        SELECT
+            series,
+            CAST("Year" AS INTEGER)                                   AS year,
+            regexp_replace(country_indicator, '_(REER|NEER)_TV$', '') AS country,
+            CAST(value AS DOUBLE)                                     AS index_2010_100
+        FROM (
+            UNPIVOT "cepii-eqchange"
+            ON COLUMNS(* EXCLUDE (series, "Year"))
+            INTO NAME country_indicator VALUE value
+        )
+        WHERE value IS NOT NULL
+    ''',
     "cepii-baci": '''
         SELECT
             CAST(t AS INTEGER)                        AS year,

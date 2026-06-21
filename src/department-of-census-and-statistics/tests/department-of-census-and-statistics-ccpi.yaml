@@ -6,11 +6,11 @@ tests:
   - not_null: measure
   - not_null: value
   - enum: {col: measure, values: ["index", "mom_pct", "yoy_pct"]}
-    reason: "the CPI dashboard exposes index value plus month-on-month and year-on-year change"
+    reason: "CPI dashboard exposes index value plus month-on-month and year-on-year change"
     certainty: 90
   - column_type: {col: value, type: float}
     certainty: 90
-  - matches: {col: date, pattern: ^\d{4}-\d{2}-\d{2}$}
+  - matches: {col: date, pattern: '^\d{4}-\d{2}-\d{2}$'}
     reason: "date is normalised to ISO YYYY-MM-DD in the fetch fn"
     certainty: 95
   - row_count: {min: 1}
