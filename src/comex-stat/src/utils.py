@@ -9,9 +9,6 @@ the intermediate here and build a combined CA bundle (certifi roots + intermedia
 that completes the chain — verification stays ON.
 """
 
-import os
-import tempfile
-
 import certifi
 
 # Sectigo Public Server Authentication CA OV R36 — the intermediate the origin

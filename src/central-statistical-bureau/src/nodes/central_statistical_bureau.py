@@ -67,15 +67,60 @@ def _post_json(url: str, query: dict):
     return resp.json()
 
 
+# ---- value resolution ------------------------------------------------------
+
+def _resolve_values(url: str, variables):
+    """Return {var_code: [value_codes...]} for every variable.
+
+    Most variables inline their value codes in the table metadata. Large
+    classifications (e.g. CN 6-digit commodity codes, ~6500 values) are omitted
+    by PxWeb (empty `values`); for those we discover the full code list with a
+    `filter:"all"` query on that one variable, pinning every other variable to a
+    single value so the response stays small. The response's category index
+    lists all codes in order.
+    """
+    resolved = {}
+    empty = []
+    for v in variables:
+        vals = v.get("values") or []
+        if vals:
+            resolved[v["code"]] = list(vals)
+        else:
+            empty.append(v["code"])
+
+    for target in empty:
+        query = {"query": [], "response": {"format": "json-stat2"}}
+        for v in variables:
+            code = v["code"]
+            if code == target:
+                sel = {"filter": "all", "values": ["*"]}
+            elif resolved.get(code):
+                sel = {"filter": "item", "values": [resolved[code][0]]}
+            else:
+                # another uncountable variable — grab any single value
+                sel = {"filter": "top", "values": ["1"]}
+            query["query"].append({"code": code, "selection": sel})
+        js = _post_json(url, query)
+        index = js["dimension"][target]["category"]["index"]
+        if isinstance(index, dict):
+            codes = [None] * len(index)
+            for cval, pos in index.items():
+                codes[pos] = cval
+        else:
+            codes = list(index)
+        resolved[target] = codes
+    return resolved
+
+
 # ---- query planning: respect maxCells / maxValues --------------------------
 
-def _plan_blocks(variables):
+def _plan_blocks(resolved):
     """Split the full selection (all values of every variable) into query blocks
     each <= MAX_CELLS cells and with no single variable selecting > MAX_VALUES
     values. Splits the largest offending variable's value list in half until
     every block is within limits. Returns a list of {code: [value_codes...]}.
     """
-    full = {v["code"]: list(v["values"]) for v in variables}
+    full = {code: list(vals) for code, vals in resolved.items()}
 
     def cells(block):
         n = 1
@@ -193,7 +238,8 @@ def fetch_one(node_id: str) -> None:
 
     meta = _get_json(url)
     variables = meta["variables"]
-    blocks = _plan_blocks(variables)
+    resolved = _resolve_values(url, variables)
+    blocks = _plan_blocks(resolved)
 
     with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as fh:
         for block in blocks:
