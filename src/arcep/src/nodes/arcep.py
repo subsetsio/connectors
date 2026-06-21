@@ -79,6 +79,19 @@ def fetch_one(node_id: str) -> None:
 
     if not rows:
         raise AssertionError(f"{node_id}: parsed 0 rows from {len(members)} resource(s)")
+
+    # Resources within a family can carry different columns across quarters
+    # (e.g. a `percent_area` field added in later releases). DuckDB's
+    # read_json_auto infers the schema from a leading sample of the NDJSON and
+    # then errors on any later row bearing an unsampled key. Normalize every row
+    # to the union of keys (insertion-ordered, missing filled with None) so the
+    # raw NDJSON has one homogeneous schema and the pass-through transform reads
+    # cleanly regardless of sample size.
+    all_keys: dict[str, None] = {}
+    for rec in rows:
+        all_keys.update(dict.fromkeys(rec))
+    rows = [{k: rec.get(k) for k in all_keys} for rec in rows]
+
     save_raw_ndjson(rows, asset)
 
 
