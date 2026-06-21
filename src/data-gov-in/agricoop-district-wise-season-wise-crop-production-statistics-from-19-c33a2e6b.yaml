@@ -1,0 +1,16 @@
+spec_id: agricoop-district-wise-season-wise-crop-production-statistics-from-19-c33a2e6b
+status: active
+tests:
+  - not_null: crop
+    reason: every row is a crop observation; a null crop is a broken row
+    certainty: 95
+  - not_null: state_name
+    certainty: 90
+  - between: {col: crop_year, lo: 1997, hi: current_year()}
+    reason: the series is documented to start in crop year 1997
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - row_count: {min: 100000}
+    reason: probe of resource 35be999b reported total=246091 district/season/crop rows
+    certainty: 90

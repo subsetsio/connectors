@@ -1,0 +1,27 @@
+spec_id: optimal-blue-values
+status: active
+tests:
+  - not_null: index_name
+  - not_null: date
+  - not_null: rate
+  - column_type: {col: index_name, type: string}
+  - column_type: {col: date, type: date}
+  - column_type: {col: rate, type: float}
+  - unique: [index_name, date]
+    reason: one observation per index per day; dupes mean the raw was appended instead of overwritten
+    certainty: 95
+  - distinct_count: {col: index_name, min: 16, max: 16}
+    reason: chartData.json publishes exactly 16 OBMMI indices (6 headline + 10 FICO/LTV breakdowns)
+    certainty: 90
+  - between: {col: rate, lo: 0.5, hi: 20}
+    reason: US mortgage APRs over 2015-present sit roughly 2.5-8%; this is a wide sanity band for a unit/scale guard
+    certainty: 85
+    severity: warn
+  - row_count: {min: 40000}
+    reason: 16 indices x ~2800 business-day observations since 2015 is ~45k rows; far fewer means a truncated payload
+    certainty: 85
+  - freshness: {col: date, reaches: today - 30d}
+    reason: OBMMI updates on US business days; latest observation should be within the last few weeks
+    certainty: 80
+    points_outward: true
+    severity: warn

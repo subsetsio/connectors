@@ -1,0 +1,11 @@
+spec_id: agricoop-classified-area-under-land-use-statistics-lus-3db3addf
+status: active
+tests:
+  - not_null: state
+    certainty: 90
+  - not_null: class_name
+    reason: each row is a land-use class area; null class is a broken row
+    certainty: 90
+  - row_count: {min: 10000}
+    reason: probe of resource 8a3761be reported total=61292 state/district/year/class rows
+    certainty: 90

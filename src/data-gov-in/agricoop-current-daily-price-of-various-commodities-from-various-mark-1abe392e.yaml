@@ -1,0 +1,12 @@
+spec_id: agricoop-current-daily-price-of-various-commodities-from-various-mark-1abe392e
+status: active
+tests:
+  - not_null: commodity
+    certainty: 95
+  - not_null: market
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: live mandi snapshot; probe total=10601, varies by day but always thousands of quotes
+    certainty: 65
+    points_outward: true
+    severity: warn

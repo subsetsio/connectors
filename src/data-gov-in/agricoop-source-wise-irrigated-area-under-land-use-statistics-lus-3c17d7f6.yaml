@@ -1,0 +1,10 @@
+spec_id: agricoop-source-wise-irrigated-area-under-land-use-statistics-lus-3c17d7f6
+status: active
+tests:
+  - not_null: state
+    certainty: 90
+  - not_null: district
+    certainty: 85
+  - row_count: {min: 8000}
+    reason: probe of resource 512a034f reported total=48782 state/district/year/source rows
+    certainty: 90
