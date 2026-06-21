@@ -1,0 +1,21 @@
+spec_id: ofr-ofr-series-catalog
+status: active
+tests:
+  - not_null: mnemonic
+    reason: every catalog row identifies a series
+    certainty: 99
+  - unique: mnemonic
+    reason: one row per series across both monitors
+    certainty: 95
+  - not_null: dataset
+    reason: every series belongs to a dataset
+    certainty: 99
+  - enum: {col: monitor, values: [STFM, HFM]}
+    reason: series come only from the STFM and HFM monitors
+    certainty: 95
+  - distinct_count: {col: dataset, min: 9}
+    reason: 9 API datasets are harvested; fewer means a dataset endpoint failed
+    certainty: 90
+  - row_count: {min: 800}
+    reason: ~939 series across both monitors at authoring; far fewer means an endpoint dropped series
+    certainty: 80

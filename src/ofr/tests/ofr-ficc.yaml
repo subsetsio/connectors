@@ -1,0 +1,21 @@
+spec_id: ofr-ficc
+status: active
+tests:
+  - not_null: mnemonic
+    reason: every observation belongs to a series mnemonic
+    certainty: 99
+  - not_null: date
+    reason: every observation is dated
+    certainty: 99
+  - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
+    reason: OFR publishes ISO YYYY-MM-DD dates
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: rates/levels are numeric (nulls kept for missing obs)
+    certainty: 90
+  - row_count: {min: 50}
+    reason: 2 series x long history flattened long; far fewer means the dataset endpoint changed shape or a series dropped
+    certainty: 80
+  - distinct_count: {col: mnemonic, min: 2}
+    reason: dataset advertises ~2 series; fewer = partial response
+    certainty: 80
