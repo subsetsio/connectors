@@ -22,24 +22,57 @@ from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
-    transient_retry,
+    is_transient,
     save_raw_ndjson,
+)
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    wait_exponential,
 )
 
 GVIZ = "https://docs.google.com/spreadsheets/d/{sid}/gviz/tq?tqx=out:csv"
 
 
-@transient_retry()
+class _GvizNotCsv(RuntimeError):
+    """gviz returned its JSONP/HTML error envelope instead of CSV.
+
+    This happens intermittently under load even for a valid sheet — a single
+    bad response poisons the whole run — so it is treated as a retryable
+    transient alongside the usual network failures.
+    """
+
+
+def _gviz_or_transient(exc: BaseException) -> bool:
+    return isinstance(exc, _GvizNotCsv) or is_transient(exc)
+
+
+# Standard transient policy, widened to also retry the gviz non-CSV envelope.
+_gviz_retry = retry(
+    retry=retry_if_exception(_gviz_or_transient),
+    stop=stop_after_attempt(6),
+    wait=wait_exponential(min=4, max=120),
+    reraise=True,
+)
+
+
+@_gviz_retry
 def _download_csv(spreadsheet_id: str, tab: str | None) -> list[list[str]]:
     url = GVIZ.format(sid=spreadsheet_id)
     params = {"sheet": tab} if tab else None
     resp = get(url, params=params, timeout=(10.0, 120.0))
     resp.raise_for_status()
     text = resp.content.decode("utf-8", "replace")
-    if text.lstrip().startswith("<"):
-        # gviz returns an HTML error page (not CSV) when a sheet/tab is missing.
-        raise RuntimeError(
-            f"gviz returned HTML, not CSV, for {spreadsheet_id} tab={tab!r}"
+    head = text.lstrip()
+    # A healthy gviz CSV response always starts with a quoted header cell. When
+    # the export hiccups gviz instead returns an HTML error page ("<...") or its
+    # JSONP envelope ("/*O_o*/google.visualization.Query.setResponse({...
+    # reqId:"0"...})"). Either way it is not CSV — raise so the retry kicks in
+    # rather than letting the wrapper text leak into the parsed rows.
+    if not head.startswith('"'):
+        raise _GvizNotCsv(
+            f"gviz returned non-CSV for {spreadsheet_id} tab={tab!r}: {head[:80]!r}"
         )
     return list(csv.reader(io.StringIO(text)))
 
