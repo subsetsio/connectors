@@ -132,6 +132,7 @@ def _csv_to_parquet(csv_path: str, asset: str):
     """Stream a CSV file through DuckDB into a raw parquet (bounded memory)."""
     con = duckdb.connect()
     try:
+        con.execute("SET enable_progress_bar=false")
         lit = csv_path.replace("'", "''")
         if os.path.getsize(csv_path) > _TYPE_SNIFF_MAX_BYTES:
             read_opts = "all_varchar=true, sample_size=200000"
