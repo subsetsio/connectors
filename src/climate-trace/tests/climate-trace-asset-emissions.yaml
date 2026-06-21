@@ -2,17 +2,30 @@ spec_id: climate-trace-asset-emissions
 status: active
 tests:
   - not_null: source_id
-    reason: every source-level row identifies an emitting asset
+    reason: every row identifies an emitting asset
     certainty: 97
   - not_null: iso3_country
     certainty: 97
   - not_null: gas
     certainty: 98
+  - not_null: year
+    reason: rows are aggregated to annual grain, keyed by year
+    certainty: 97
   - enum: {col: gas, values: [co2e_100yr]}
     reason: this subset is scoped to the co2e_100yr country packages only
     certainty: 97
+  - column_type: {col: year, type: integer}
+    certainty: 95
   - column_type: {col: emissions_quantity, type: float}
     certainty: 95
+  - unique: [source_id, year]
+    reason: fetch aggregates monthly rows to one row per source per year; dupes mean the group-by broke
+    certainty: 90
+  - between: {col: year, lo: 2015, hi: 2027}
+    reason: source-level data spans roughly 2021 onward, with current-year YTD/projection
+    certainty: 85
+    points_outward: true
+    severity: warn
   - between: {col: lat, lo: -90, hi: 90}
     reason: asset latitudes are geographic coordinates
     certainty: 90
@@ -24,9 +37,9 @@ tests:
   - distinct_count: {col: iso3_country, min: 100}
     reason: emitting assets span most countries; a short list means packages were dropped
     certainty: 80
-  - distinct_count: {col: subsector, min: 40}
-    reason: source-level data spans most of the ~68 subsectors
-    certainty: 75
-  - row_count: {min: 100000}
-    reason: hundreds of thousands+ of geolocated emitting sources across all sectors and periods
+  - distinct_count: {col: subsector, min: 20}
+    reason: source-level (point) data covers many subsectors, though fewer than the ~68 diffuse ones
+    certainty: 70
+  - row_count: {min: 1000000}
+    reason: millions of geolocated source-year rows after annual aggregation
     certainty: 75
