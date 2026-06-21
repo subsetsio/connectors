@@ -23,14 +23,23 @@ and later runs only fetch new days. Everything else is a stateless full re-pull.
 
 import csv
 import io
+import time
 from datetime import date, datetime, timedelta, timezone
 
+import httpx
 import pyarrow as pa
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    wait_exponential,
+)
 
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
+    is_transient,
     transient_retry,
     save_raw_parquet,
     load_state,
@@ -45,6 +54,7 @@ STATE_VERSION = 1
 # Hong Kong is UTC+8; "yesterday" / "today" are computed in HKT.
 HKT = timezone(timedelta(hours=8))
 RYES_SOURCE_MIN = date(2019, 9, 10)
+RYES_THROTTLE_S = 0.4  # polite delay between per-date RYES requests
 
 
 # --------------------------------------------------------------------------- #
@@ -57,7 +67,21 @@ def _fetch_text(params) -> str:
     return resp.text
 
 
-@transient_retry()
+def _ryes_retryable(exc):
+    """RYES blocks on sustained request volume with HTTP 403, which clears after
+    a pause — so we retry 403 (with long backoff) on top of the usual transient
+    set. The per-request throttle below keeps us under the block threshold."""
+    if is_transient(exc):
+        return True
+    return isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code == 403
+
+
+@retry(
+    retry=retry_if_exception(_ryes_retryable),
+    wait=wait_exponential(multiplier=2, min=4, max=120),
+    stop=stop_after_attempt(8),
+    reraise=True,
+)
 def _fetch_json(params):
     resp = get(BASE, params=params, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -346,6 +370,7 @@ def fetch_weather_radiation_report(node_id: str) -> None:
         month_rows.extend(_parse_ryes_day(payload, cur.strftime("%Y%m%d")))
         last_done = cur.isoformat()
         cur += timedelta(days=1)
+        time.sleep(RYES_THROTTLE_S)  # stay under the source's volume-based 403 block
 
     flush()
     if last_done:

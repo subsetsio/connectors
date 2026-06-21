@@ -33,7 +33,6 @@ ENTITY_IDS = [
     'digilac-indicators',
     'emerging-and-sustainable-cities-initiative-datasets-1995-2015',
     'finlac-data-latin-america-and-the-caribbean-financial-inclusion-and-perform',
-    'freight-transport-and-logistics-statistics-yearbook-2012-2014',
     'harmonized-longitudinal-social-protection-survey-lsps-database-2016',
     'idb-agrimonitor-producer-support-estimates-pse-agricultural-policy-monitori',
     'idb-climate-finance-dataset-2024',
