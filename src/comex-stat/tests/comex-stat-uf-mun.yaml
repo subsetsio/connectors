@@ -1,0 +1,12 @@
+spec_id: comex-stat-uf-mun
+status: active
+tests:
+  - not_null: CO_MUN_GEO
+  - not_null: NO_MUN
+  - not_null: SG_UF
+  - unique: CO_MUN_GEO
+    reason: municipality dimension with one row per IBGE municipality code
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: Brazil has ~5570 municipalities
+    certainty: 85

@@ -1,0 +1,11 @@
+spec_id: comex-stat-pais
+status: active
+tests:
+  - not_null: CO_PAIS
+  - not_null: NO_PAIS
+  - unique: CO_PAIS
+    reason: country dimension with one row per Comex country code
+    certainty: 90
+  - row_count: {min: 100}
+    reason: the country table lists ~250 countries/territories
+    certainty: 85

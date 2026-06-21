@@ -1,0 +1,21 @@
+spec_id: dartmouth-atlas-of-health-care-discharge-rates
+status: active
+tests:
+  - not_null: geo_code
+  - not_null: year
+  - not_null: measure_code
+  - not_null: geo_level
+  - column_type: {col: year, type: integer}
+  - enum: {col: geo_level, values: [hrr, hsa, state, county]}
+    reason: geo_level is parsed from the source filename prefix; only these levels ship for this topic
+    certainty: 90
+  - between: {col: year, lo: 1992, hi: 2025}
+    reason: Atlas data for this topic begins at 1992 and the archive is frozen at 2019
+    certainty: 85
+  - at_most: {col: year, expr: current_year()}
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - row_count: {min: 50000}
+    reason: union of all geo-level/era files; far fewer rows means a file silently failed to download/parse
+    certainty: 80

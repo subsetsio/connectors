@@ -1,0 +1,17 @@
+spec_id: dartmouth-atlas-of-health-care-geography-crosswalk
+status: active
+tests:
+  - not_null: zipcode
+  - not_null: hrr_num
+  - not_null: hsa_num
+  - column_type: {col: hrr_num, type: integer}
+  - column_type: {col: vintage, type: integer}
+  - matches: {col: zipcode, pattern: '^[0-9]{5}$'}
+    reason: US ZIP codes are 5 digits, zero-padded (kept as string)
+    certainty: 85
+  - between: {col: vintage, lo: 2018, hi: 2019}
+    reason: only the 2018 and 2019 crosswalk vintages are published as CSV
+    certainty: 95
+  - row_count: {min: 50000}
+    reason: each yearly crosswalk covers ~40k ZIPs; two vintages ~80k rows
+    certainty: 85
