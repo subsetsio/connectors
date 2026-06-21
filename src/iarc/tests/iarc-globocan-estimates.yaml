@@ -1,0 +1,23 @@
+spec_id: iarc-globocan-estimates
+tests:
+  - not_null: country_code
+    reason: every estimate row is tied to a population code
+    certainty: 95
+  - not_null: cancer_code
+    reason: every estimate row is tied to a cancer code
+    certainty: 95
+  - enum: { col: sex, values: [0, 1, 2] }
+    reason: sex is both(0)/male(1)/female(2)
+    certainty: 95
+  - enum: { col: type, values: [0, 1] }
+    reason: type is incidence(0)/mortality(1)
+    certainty: 95
+  - row_count: { min: 10000 }
+    reason: ~237 pops x 41 cancers x 3 sexes x 2 types, minus gender-restricted combos
+    certainty: 80
+  - at_least: { col: total, expr: 0 }
+    reason: case counts are non-negative
+    certainty: 95
+  - distinct_count: { col: cancer_code, min: 30 }
+    reason: 36 cancer sites plus groupings
+    certainty: 85

@@ -1,0 +1,20 @@
+spec_id: iarc-ci5-xii-summary
+tests:
+  - not_null: registry_code
+    reason: every case row belongs to a registry
+    certainty: 95
+  - enum: { col: sex, values: [1, 2] }
+    reason: CI5 reports male(1)/female(2)
+    certainty: 90
+  - not_null: age_band
+    reason: every case row is in an age band
+    certainty: 95
+  - at_least: { col: cases, expr: 0 }
+    reason: case counts are non-negative
+    certainty: 95
+  - row_count: { min: 10000 }
+    reason: ~460 registries x sex x ~60 sites x 19 age bands
+    certainty: 80
+  - distinct_count: { col: registry_code, min: 100 }
+    reason: CI5 XII has 460 registries
+    certainty: 85

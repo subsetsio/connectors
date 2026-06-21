@@ -1,0 +1,17 @@
+spec_id: iarc-tomorrow-projections
+tests:
+  - not_null: year
+    reason: every projection row is for a year
+    certainty: 95
+  - between: { col: year, lo: 2022, hi: 2050 }
+    reason: projections run from the 2022 baseline to 2050
+    certainty: 90
+  - enum: { col: sex, values: [0, 1, 2] }
+    reason: sex is both/male/female
+    certainty: 90
+  - at_least: { col: cases_pred, expr: 0 }
+    reason: predicted case counts are non-negative
+    certainty: 90
+  - row_count: { min: 1000 }
+    reason: many pop x cancer x sex x type x year combinations
+    certainty: 80

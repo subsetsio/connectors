@@ -1,0 +1,17 @@
+spec_id: iarc-overtime-rates
+tests:
+  - not_null: year
+    reason: every observed point has a year
+    certainty: 95
+  - between: { col: year, lo: 1940, hi: 2030 }
+    reason: registry series span ~1943-2023
+    certainty: 85
+  - enum: { col: type, values: [0, 1] }
+    reason: type is incidence(0)/mortality(1)
+    certainty: 90
+  - at_least: { col: person_years, expr: 0 }
+    reason: person-years denominators are non-negative
+    certainty: 90
+  - row_count: { min: 1000 }
+    reason: 81 registries x many cancers x years x sexes
+    certainty: 80

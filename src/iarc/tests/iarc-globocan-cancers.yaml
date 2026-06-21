@@ -1,0 +1,14 @@
+spec_id: iarc-globocan-cancers
+tests:
+  - not_null: cancer
+    reason: cancer code is the dictionary key
+    certainty: 95
+  - not_null: label
+    reason: every cancer site has a label
+    certainty: 95
+  - unique: cancer
+    reason: one row per cancer code
+    certainty: 90
+  - row_count: { min: 36 }
+    reason: 36 sites plus grouping rows
+    certainty: 85

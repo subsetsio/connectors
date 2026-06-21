@@ -1,0 +1,14 @@
+spec_id: iarc-globocan-populations
+tests:
+  - not_null: country_code
+    reason: population code is the dictionary key
+    certainty: 95
+  - not_null: label
+    reason: every population has a name
+    certainty: 95
+  - row_count: { min: 180 }
+    reason: 185 countries plus aggregate populations
+    certainty: 85
+  - distinct_count: { col: country_code, min: 180 }
+    reason: distinct population codes
+    certainty: 85
