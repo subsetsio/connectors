@@ -24,9 +24,9 @@ for measure, dim in [("tonnage", "taxon"), ("value", "sector")]:
     tbl = sample_rows(measure, dim)
     sql = m._catch_transform_sql(did, measure, dim)
     con = duckdb.connect()
-    con.register(did, tbl)
+    con.register("raw_tbl", tbl)
     # the runtime registers a view named after dep id; emulate with the quoted name
-    con.execute(f'CREATE VIEW "{did}" AS SELECT * FROM {did}' )
+    con.execute(f@CREATE VIEW "{did}" AS SELECT * FROM raw_tbl@)
     res = con.execute(sql).arrow()
     print(f"\n== {did}: raw {tbl.num_rows} rows -> transform {res.num_rows} rows")
     print("   transform cols:", res.column_names)
