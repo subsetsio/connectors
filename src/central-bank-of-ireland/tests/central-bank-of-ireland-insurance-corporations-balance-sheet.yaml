@@ -1,0 +1,12 @@
+spec_id: central-bank-of-ireland-insurance-corporations-balance-sheet
+status: active
+tests:
+  - not_null: _resource
+    reason: every parsed CSV row is tagged with its source resource name; a null means the CSV parse/union path broke
+    certainty: 95
+  - row_count: {min: 1}
+    reason: this CKAN package publishes at least one CSV with data rows; 0 rows means package_show returned no CSV resource or the download truncated
+    certainty: 95
+  - column_type: {col: _resource, type: string}
+    reason: the provenance tag is always a string resource name
+    certainty: 95

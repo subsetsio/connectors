@@ -1,0 +1,16 @@
+spec_id: central-reserve-bank-of-peru-groups
+status: active
+tests:
+  - not_null: "group"
+    certainty: 95
+  - not_null: category
+    certainty: 90
+  - unique: [category, "group"]
+    reason: one row per (category, group) pair
+    certainty: 90
+  - row_count: {min: 300}
+    reason: ~640 distinct groups in the taxonomy
+    certainty: 85
+  - at_least: {col: series_count, expr: 1}
+    reason: a group only exists because at least one series belongs to it
+    certainty: 95

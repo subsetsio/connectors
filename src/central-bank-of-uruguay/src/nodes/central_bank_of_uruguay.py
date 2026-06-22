@@ -4,15 +4,20 @@ Single subset: the BCU `cotizaciones` SOAP web service publishes daily buy/sell
 rates (TCC/TCV) against the Uruguayan peso for every currency and accounting
 unit the bank quotes. Strategy is a stateless full re-pull: enumerate the
 universe of currencies once (the `awsbcumonedas` "Grupo 0 = todas" call, a
-superset of the local/mesa and international groups), then walk one-year windows
-from a conservative floor to today, pulling every currency's rates in a single
-multi-code `awsbcucotizaciones` call per window. The service caps each query at a
-one-year span ("Rango de fechas excede lo permitido"), so windows are <= 1 year;
-electronic history reaches back to ~2000, earlier windows simply return empty.
-~38 SOAP calls per refresh, so we re-pull the whole corpus each run (revisions
-picked up for free) rather than maintaining a watermark.
+superset of the local/mesa and international groups), then pull every currency's
+rates over the full history in a single multi-code `awsbcucotizaciones` call per
+month-window. The service caps each query's date span as a function of how many
+currencies are requested ("Rango de fechas excede lo permitido") — with the full
+~40-code set roughly two months is the ceiling, so we chunk by calendar month
+(safely under it). Electronic history reaches back to ~2000; earlier windows
+return empty. The ~300 monthly windows are fetched concurrently (the SOAP host
+has no documented rate limit) so the whole corpus re-pulls in seconds, and we
+re-fetch everything each run (revisions picked up for free) rather than keeping a
+watermark.
 """
 
+import concurrent.futures
+from calendar import monthrange
 from datetime import date, timezone, datetime
 import xml.etree.ElementTree as ET
 
@@ -27,10 +32,13 @@ _HEADERS = {"Content-Type": "text/xml; charset=utf-8", "SOAPAction": "Cotiza"}
 # Grupo 0 ("todas") is the full currency universe — verified superset of grupo 1
 # (local/mesa) and grupo 2 (internacional billete/cable + accounting units).
 _GRUPO = 0
-# BCU's electronic daily series begin ~2000; 1990 is a safe floor (earlier
+# BCU's electronic daily series begin ~2000; 1999 is a safe floor (earlier
 # windows return "No existe cotizacion" and yield no rows). The upper bound is
-# the current year, discovered at run time — never hardcoded.
-_FLOOR_YEAR = 1990
+# the current month, discovered at run time — never hardcoded.
+_FLOOR_YEAR = 1999
+# Concurrency for the per-month window fetches. No documented rate limit on the
+# SOAP host; modest fan-out keeps the full backfill to a few seconds.
+_MAX_WORKERS = 8
 
 SCHEMA = pa.schema([
     ("fecha", pa.string()),          # quote date, ISO yyyy-mm-dd (cast to DATE in transform)
@@ -85,6 +93,23 @@ def _fetch_window(codes: list[int], desde: str, hasta: str) -> list[dict]:
         "</cot:Entrada></cot:wsbcucotizaciones.Execute></soapenv:Body></soapenv:Envelope>"
     )
     root = ET.fromstring(_soap(_EP_COTIZ, env))
+
+    # respuestastatus.status: 1 = ok, 0 = no data / invalid window. An "excede"
+    # message means our chunking exceeded the per-call span cap and would
+    # silently drop data — that is our bug, so fail loudly.
+    status = None
+    mensaje = ""
+    for el in root.iter():
+        ln = _localname(el.tag)
+        if ln == "status" and status is None:
+            status = (el.text or "").strip()
+        elif ln == "mensaje":
+            mensaje = (el.text or "").strip()
+    if mensaje and "excede" in mensaje.lower():
+        raise AssertionError(
+            f"window {desde}..{hasta} exceeded the BCU span cap ({mensaje}); shrink the chunk"
+        )
+
     rows = []
     for dato in root.iter():
         if _localname(dato.tag) != "datoscotizaciones.dato":
@@ -92,6 +117,20 @@ def _fetch_window(codes: list[int], desde: str, hasta: str) -> list[dict]:
         fields = {_localname(c.tag): (c.text.strip() if c.text else None) for c in dato}
         rows.append(fields)
     return rows
+
+
+def _month_windows(floor_year: int, today: date) -> list[tuple[str, str]]:
+    windows = []
+    year, month = floor_year, 1
+    while (year, month) <= (today.year, today.month):
+        last = monthrange(year, month)[1]
+        desde = f"{year}-{month:02d}-01"
+        hasta = min(date(year, month, last), today).isoformat()
+        windows.append((desde, hasta))
+        month += 1
+        if month > 12:
+            month, year = 1, year + 1
+    return windows
 
 
 def _to_float(v):
@@ -110,12 +149,13 @@ def fetch_exchange_rates(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     codes = _enumerate_currencies()
     today = datetime.now(tz=timezone.utc).date()
+    windows = _month_windows(_FLOOR_YEAR, today)
 
     raw_rows = []
-    for year in range(_FLOOR_YEAR, today.year + 1):
-        desde = f"{year}-01-01"
-        hasta = min(date(year, 12, 31), today).isoformat()
-        raw_rows.extend(_fetch_window(codes, desde, hasta))
+    with concurrent.futures.ThreadPoolExecutor(max_workers=_MAX_WORKERS) as ex:
+        # ex.map preserves window order and re-raises the first worker exception.
+        for rows in ex.map(lambda w: _fetch_window(codes, w[0], w[1]), windows):
+            raw_rows.extend(rows)
 
     if not raw_rows:
         raise AssertionError("no exchange-rate rows returned across the full window range")
