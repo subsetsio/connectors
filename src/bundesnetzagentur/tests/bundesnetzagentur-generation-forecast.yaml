@@ -1,0 +1,39 @@
+spec_id: bundesnetzagentur-generation-forecast
+status: active
+tests:
+  - not_null: value
+    reason: fetch fn skips None readings before appending
+    certainty: 95
+  - not_null: date_ms
+    certainty: 95
+  - not_null: region
+    certainty: 95
+  - not_null: series_code
+    certainty: 95
+  - column_type: {col: date_ms, type: integer}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - column_type: {col: region, type: string}
+    certainty: 95
+  # Day-ahead forecast: values may legitimately carry a future (next-day)
+  # timestamp, hence the generous upper bound here.
+  - between: {col: date_ms, lo: 1.388e12, hi: 2.1e12}
+    reason: forecast series span 2015-present; day-ahead may post one day into the future
+    certainty: 80
+    points_outward: true
+  - unique: [region, series_code, date_ms]
+    reason: one daily forecast reading per series per control zone
+    certainty: 90
+  - enum: {col: region, values: [DE, 50Hertz, Amprion, TenneT, TransnetBW]}
+    reason: forecast generation is queried only for DE + the four control zones
+    certainty: 90
+  # Six forecast modules (total, wind on/offshore, solar, other, wind+solar).
+  - distinct_count: {col: series_code, min: 2, max: 6}
+    reason: six forecast modules requested
+    certainty: 85
+  - distinct_count: {col: region, min: 1, max: 5}
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: 6 modules x 5 zones x ~10y daily
+    certainty: 90

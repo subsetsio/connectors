@@ -1,0 +1,45 @@
+spec_id: celestrak-launches-by-country
+status: active
+# Expectations on the raw SATCAT pull (the full satcat.csv, ~69k objects).
+# All three download nodes fetch the identical SATCAT, so these beliefs hold
+# for each raw asset; the file name is the only thing that differs.
+tests:
+  - not_null: norad_cat_id
+    reason: SATCAT is keyed by NORAD catalog number; every cataloged object carries one
+    certainty: 97
+  - unique: norad_cat_id
+    reason: one row per cataloged space object
+    certainty: 95
+  - column_type: {col: norad_cat_id, type: integer}
+  - not_null: object_name
+    reason: every SATCAT entry has an object name (TBA placeholder when unnamed)
+    certainty: 90
+  - not_null: object_type
+    reason: each object is classified by type
+    certainty: 90
+  - enum: {col: object_type, values: [PAY, "R/B", DEB, UNK]}
+    reason: SATCAT object-type vocabulary — payload, rocket body, debris, unknown
+    certainty: 88
+  - row_count: {min: 50000, max: 150000}
+    reason: SATCAT holds ~69k objects cataloged since 1957 and grows steadily
+    certainty: 90
+  - matches: {col: launch_date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: SATCAT launch dates are ISO YYYY-MM-DD strings
+    certainty: 75
+    severity: warn
+  - between: {col: inclination, lo: 0, hi: 180}
+    reason: orbital inclination in degrees, 0 (equatorial) to 180 (retrograde)
+    certainty: 90
+    severity: warn
+  - between: {col: period, lo: 0, hi: 100000}
+    reason: orbital period in minutes; LEO ~90, GEO ~1436, allow margin for HEO/deep orbits
+    certainty: 80
+    severity: warn
+  - between: {col: perigee, lo: -50, hi: 600000}
+    reason: perigee altitude km; allow margin for high orbits and decaying objects
+    certainty: 75
+    severity: warn
+  - between: {col: apogee, lo: -50, hi: 600000}
+    reason: apogee altitude km; allow margin for high/eccentric orbits
+    certainty: 75
+    severity: warn

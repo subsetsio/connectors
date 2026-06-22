@@ -1,0 +1,6 @@
+spec_id: "cbs-netherlands-86132ned"
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every accepted CBS StatLine table publishes at least one data cell; an empty TypedDataSet means the Feed crawl returned nothing (auth/format/endpoint drift) rather than a real table.
+    certainty: 85

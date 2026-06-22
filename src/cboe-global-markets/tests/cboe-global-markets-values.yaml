@@ -1,0 +1,43 @@
+spec_id: cboe-global-markets-values
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: ~2000 catalog symbols each with multi-decade daily history (VIX from 1990, SPX from 1975) unify into millions of rows; a collapse to five figures means most history files stopped resolving
+    certainty: 85
+
+  - not_null: symbol
+    reason: the fetch fn stamps every row with its source ticker before writing
+    certainty: 99
+
+  - not_null: date
+    reason: rows with a blank DATE are dropped during parse, so every persisted row carries a date
+    certainty: 95
+
+  - not_null: close
+    reason: close is the one value column present in both the OHLC and close-only header shapes; rows without it are dropped during parse
+    certainty: 90
+
+  - column_type: {col: symbol, type: string}
+    reason: ticker preserved verbatim as a string (some carry a leading '.')
+    certainty: 95
+
+  - column_type: {col: date, type: string}
+    reason: raw MM/DD/YYYY is preserved as text and only cast to DATE in the transform
+    certainty: 90
+
+  - column_type: {col: close, type: float}
+    reason: index levels are parsed to float64 in the fetch fn
+    certainty: 90
+
+  - matches: {col: date, pattern: '^\d{1,2}/\d{1,2}/\d{4}$'}
+    reason: Cboe history CSVs render dates as M/D/YYYY (the transform casts with strptime '%m/%d/%Y')
+    certainty: 80
+
+  - distinct_count: {col: symbol, min: 100}
+    reason: the catalog enumerates ~2000 symbols; even after skipping 403/404/empty histories, hundreds of distinct series should remain
+    certainty: 85
+
+  - at_least: {col: close, expr: 0}
+    reason: Cboe index levels and volatility values are non-negative (a handful of spread/dispersion indices could differ, hence warn)
+    certainty: 75
+    severity: warn

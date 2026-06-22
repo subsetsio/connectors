@@ -1,0 +1,45 @@
+spec_id: bundesnetzagentur-generation-actual
+status: active
+tests:
+  # The fetch fn drops points whose value is None, so the raw asset must carry
+  # no nulls in any of the five emitted columns.
+  - not_null: value
+    reason: fetch fn skips None readings before appending; a null here means the filter broke
+    certainty: 95
+  - not_null: date_ms
+    certainty: 95
+  - not_null: region
+    certainty: 95
+  - not_null: series_code
+    certainty: 95
+  - not_null: series_label
+    certainty: 95
+  - column_type: {col: date_ms, type: integer}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - column_type: {col: region, type: string}
+    certainty: 95
+  # date_ms is unix-ms; SMARD generation series begin ~2015. Bounds are wide to
+  # absorb tz anchoring; the upper bound guards against a units/scale bug.
+  - between: {col: date_ms, lo: 1.388e12, hi: 2.1e12}
+    reason: daily chunks span 2015-present (~1.42e12) to now; out-of-band ms means a parse/scale bug
+    certainty: 80
+  # One row per (region, series_code, day). Dupes mean a chunk was concatenated
+  # twice or the open slice was re-pulled without overwrite.
+  - unique: [region, series_code, date_ms]
+    reason: each daily reading is one row per series per control zone
+    certainty: 90
+  # Generation-by-fuel is published for DE plus the four TSO control zones.
+  - enum: {col: region, values: [DE, 50Hertz, Amprion, TenneT, TransnetBW]}
+    reason: generation actual is queried only for DE + the four control zones
+    certainty: 90
+  # Up to 12 fuel modules (some may legitimately 404 for a given zone).
+  - distinct_count: {col: series_code, min: 2, max: 12}
+    reason: 12 fuel modules requested; at least a couple must materialise
+    certainty: 85
+  - distinct_count: {col: region, min: 1, max: 5}
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: 12 fuels x 5 zones x ~10y daily is well into the hundreds of thousands of rows
+    certainty: 90

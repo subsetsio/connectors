@@ -1,0 +1,8 @@
+spec_id: cdc-q8j9-sue7
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
+    certainty: 85
+    points_outward: true
+    severity: block

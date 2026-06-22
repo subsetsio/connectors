@@ -1,0 +1,44 @@
+spec_id: bundesnetzagentur-consumption
+status: active
+tests:
+  - not_null: value
+    reason: fetch fn skips None readings before appending
+    certainty: 95
+  - not_null: date_ms
+    certainty: 95
+  - not_null: region
+    certainty: 95
+  - not_null: series_code
+    certainty: 95
+  - column_type: {col: date_ms, type: integer}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - column_type: {col: region, type: string}
+    certainty: 95
+  - between: {col: date_ms, lo: 1.388e12, hi: 2.1e12}
+    reason: daily load series span 2015-present; out-of-band ms means a parse/scale bug
+    certainty: 80
+  - unique: [region, series_code, date_ms]
+    reason: one daily load reading per series per control zone
+    certainty: 90
+  - enum: {col: region, values: [DE, 50Hertz, Amprion, TenneT, TransnetBW]}
+    reason: consumption is queried only for DE + the four control zones
+    certainty: 90
+  # Three modules: total grid load (410), residual load (4359), pumped-storage
+  # consumption (4387).
+  - distinct_count: {col: series_code, min: 1, max: 3}
+    reason: three consumption modules requested
+    certainty: 85
+  - distinct_count: {col: region, min: 1, max: 5}
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: 3 measures x 5 zones x ~10y daily
+    certainty: 90
+  # Total grid load for Germany runs ~1e6 MWh/day; per-zone and residual/pumped
+  # figures are smaller, and residual load can dip negative, so this is a loose
+  # sanity band on the central tendency, not a hard gate.
+  - median_between: {col: value, lo: 1.0e3, hi: 2.0e6}
+    reason: daily MWh — total DE load ~1.1e6/day, zone/residual figures smaller; guards a unit slip
+    certainty: 55
+    severity: warn
