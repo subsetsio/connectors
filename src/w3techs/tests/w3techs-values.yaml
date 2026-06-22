@@ -1,0 +1,40 @@
+spec_id: w3techs-values
+status: active
+tests:
+  - not_null: category
+    reason: every scraped row is keyed to the category page it came from
+    certainty: 99
+  - not_null: technology
+    reason: each table row is a named technology (the <th> label)
+    certainty: 99
+  - not_null: date
+    reason: every value cell maps to a parsed header date
+    certainty: 99
+  - not_null: market_share_percent
+    reason: rows with empty/unparseable cells are dropped at parse time
+    certainty: 95
+  - column_type: {col: date, type: date}
+    certainty: 95
+  - column_type: {col: market_share_percent, type: float}
+    certainty: 95
+  - unique: [category, technology, date]
+    reason: one market-share value per (category, technology, date); dupes mean the table picker matched two grids or alignment slipped
+    certainty: 90
+  - between: {col: market_share_percent, lo: 0, hi: 100}
+    reason: market share is a percentage; <0.1% is recorded as its 0.1 upper bound
+    certainty: 97
+  - distinct_count: {col: category, min: 27, max: 27}
+    reason: exactly the 27 W3Techs survey categories are scraped
+    certainty: 90
+  - between: {col: date, lo: "2010-01-01", hi: today}
+    reason: yearly trend history starts ~2015 (earlier for some categories) and ends at the current snapshot; never in the future
+    certainty: 90
+    points_outward: true
+  - freshness: {col: date, reaches: today - 60d}
+    reason: the rightmost column is W3Techs' current daily snapshot, so the max date should be very recent; staleness points at the source/scrape, not parsing
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - at_most: {col: date, expr: today}
+    reason: no survey snapshot can be dated in the future
+    certainty: 95

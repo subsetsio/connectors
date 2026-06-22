@@ -112,8 +112,13 @@ def _melt(doc: dict):
     pos = {dk: _category_order(dim[dk]) for dk in ids}
 
     used = {"period", "unit", "value"}
-    period_dim = time_dims[0] if time_dims else None
-    unit_dim = metric_dims[0] if metric_dims else None
+    # role.time / role.metric may name a dimension that isn't in this dataset's
+    # indexed `id` list (NSI tags a constant/absent "periods" or "Units" that
+    # doesn't actually vary). Only honour the role when the dimension is real;
+    # otherwise the true axis (e.g. Edu_schYear) stays a labeled breakdown column
+    # rather than becoming a manufactured all-null `period`/`unit`.
+    period_dim = time_dims[0] if (time_dims and time_dims[0] in ids) else None
+    unit_dim = metric_dims[0] if (metric_dims and metric_dims[0] in ids) else None
     colmap = {}  # dimension id -> output column name (breakdown dims only)
     for dk in ids:
         if dk == period_dim or dk == unit_dim:
