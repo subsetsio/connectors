@@ -1,0 +1,15 @@
+spec_id: center-for-systemic-peace-mepv-annual
+status: active
+tests:
+  - not_null: country
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1946, hi: 2018}
+    reason: MEPV annual series, vintage 2018, covers 1946-2018
+    certainty: 90
+  - unique: [ccode, year]
+    reason: country-year panel; one row per country code per year
+    certainty: 80
+  - row_count: {min: 8000}
+    reason: ~10k country-years observed
+    certainty: 85

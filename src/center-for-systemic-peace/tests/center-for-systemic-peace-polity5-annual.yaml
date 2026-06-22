@@ -1,0 +1,19 @@
+spec_id: center-for-systemic-peace-polity5-annual
+status: active
+tests:
+  - not_null: country
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - column_type: {col: polity, type: integer}
+  - between: {col: year, lo: 1800, hi: 2018}
+    reason: Polity5 annual series, vintage 2018, covers 1800-2018
+    certainty: 90
+  - between: {col: polity, lo: -88, hi: 10}
+    reason: polity score is -10..10 plus standardized authority codes (-66,-77,-88)
+    certainty: 80
+  - unique: [ccode, year]
+    reason: country-year panel
+    certainty: 75
+  - row_count: {min: 15000}
+    reason: ~17.5k polity-country-years observed
+    certainty: 85

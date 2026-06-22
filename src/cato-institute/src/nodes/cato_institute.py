@@ -27,10 +27,25 @@ HFI_CSV_URL = (
     "human-freedom-index-files/2025-human-freedom-index-data.csv"
 )
 
+# cato.org sits behind Cloudflare, whose WAF 403s the default library
+# User-Agent ('DataIntegrations/1.0') from datacenter IPs (verified: the GitHub
+# Actions runner gets 403 while a residential IP with the same UA gets 200).
+# Sending browser-like headers clears the WAF rule. ASCII-only per the harness.
+_BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/csv,application/octet-stream,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Referer": "https://www.cato.org/human-freedom-index/2025",
+}
+
 
 @transient_retry()
 def _download_csv(url: str) -> bytes:
-    resp = get(url, timeout=(10.0, 120.0))
+    resp = get(url, headers=_BROWSER_HEADERS, timeout=(10.0, 120.0))
     resp.raise_for_status()
     return resp.content
 

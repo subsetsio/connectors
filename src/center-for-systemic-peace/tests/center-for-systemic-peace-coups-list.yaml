@@ -1,0 +1,11 @@
+spec_id: center-for-systemic-peace-coups-list
+status: active
+tests:
+  - not_null: country
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1946, hi: 2021}
+    certainty: 90
+  - row_count: {min: 500}
+    reason: ~871 coup events observed across 1946-2021
+    certainty: 85

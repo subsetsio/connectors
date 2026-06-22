@@ -1,0 +1,15 @@
+spec_id: center-for-systemic-peace-coups-annual
+status: active
+tests:
+  - not_null: country
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1946, hi: 2021}
+    reason: CSP Coups d'Etat annual series, vintage 2021, covers 1946-2021
+    certainty: 90
+  - unique: [scode, year]
+    reason: country-year panel; one row per state code per year
+    certainty: 80
+  - row_count: {min: 8000}
+    reason: ~10.4k country-years observed (>=170 states x 76 years)
+    certainty: 85

@@ -1,0 +1,19 @@
+spec_id: center-for-systemic-peace-state-fragility-index
+status: active
+tests:
+  - not_null: country
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - column_type: {col: sfi, type: integer}
+  - between: {col: year, lo: 1995, hi: 2018}
+    reason: State Fragility Index time series, vintage 2018, covers 1995-2018
+    certainty: 90
+  - between: {col: sfi, lo: 0, hi: 25}
+    reason: SFI total ranges 0 (no fragility) to 25 (extreme)
+    certainty: 85
+  - unique: [scode, year]
+    reason: country-year panel
+    certainty: 80
+  - row_count: {min: 3000}
+    reason: ~3960 country-years observed
+    certainty: 85

@@ -1,0 +1,19 @@
+spec_id: center-for-systemic-peace-high-casualty-terrorist-bombings
+status: active
+tests:
+  - not_null: year
+  - not_null: death
+  - column_type: {col: year, type: integer}
+  - column_type: {col: death, type: integer}
+  - between: {col: year, lo: 1989, hi: 2021}
+    reason: HCTB list covers Sep 1989 - Sep 2021
+    certainty: 90
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 95
+  - at_least: {col: death, expr: 15}
+    reason: list threshold is high-casualty (>=15 deaths) bombings
+    certainty: 70
+    severity: warn
+  - row_count: {min: 800}
+    reason: ~1409 bombing events observed
+    certainty: 85

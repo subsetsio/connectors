@@ -1,0 +1,13 @@
+spec_id: center-for-systemic-peace-mepv-episodes
+status: active
+tests:
+  - not_null: country
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1946, hi: 2018}
+    reason: MEPV full episode set; onset year within source coverage
+    certainty: 75
+    severity: warn
+  - row_count: {min: 5000}
+    reason: ~9k episode-year rows observed
+    certainty: 85

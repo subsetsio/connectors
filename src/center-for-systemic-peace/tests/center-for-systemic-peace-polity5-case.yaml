@@ -1,0 +1,16 @@
+spec_id: center-for-systemic-peace-polity5-case
+status: active
+tests:
+  - not_null: country
+  - not_null: scode
+  - column_type: {col: byear, type: integer}
+  - column_type: {col: eyear, type: integer}
+  - between: {col: byear, lo: 1776, hi: 2018}
+    reason: regime spell begin years within Polity coverage
+    certainty: 80
+  - relationship: {left: byear, op: "<=", right: eyear}
+    reason: a regime spell begins on or before it ends
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: ~1.7k regime spells observed
+    certainty: 85

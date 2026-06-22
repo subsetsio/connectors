@@ -1,0 +1,15 @@
+spec_id: center-for-systemic-peace-pitf-ethnic-war
+status: active
+tests:
+  - not_null: country
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1955, hi: 2018}
+    reason: PITF State Failure Problem Set covers 1955-2018 (vintage 2018)
+    certainty: 85
+  - column_type: {col: yrbegin, type: integer}
+  - relationship: {left: yrbegin, op: "<=", right: yrend}
+    reason: episode begin year precedes or equals end year
+    certainty: 85
+  - row_count: {min: 500}
+    certainty: 80
