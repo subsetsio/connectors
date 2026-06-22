@@ -20,6 +20,7 @@ We normalise every topic to one fixed long schema — dimensions are folded into
 import csv
 import io
 import json
+import math
 import zipfile
 
 import pyarrow as pa
@@ -88,9 +89,17 @@ def _to_float(value: str):
     if value == "":
         return None
     try:
-        return float(value)
+        f = float(value)
     except ValueError:
         return None
+    # BIS encodes missing/holiday/not-collected observations as the literal
+    # string "NaN" (see OBS_STATUS M/L/H). float() happily parses those to a NaN
+    # double, which is NOT NULL and would otherwise leak past the transform's
+    # IS NOT NULL gate as a junk "observation". Treat any non-finite value as
+    # missing so raw carries a clean None.
+    if not math.isfinite(f):
+        return None
+    return f
 
 
 def fetch_one(node_id: str) -> None:
@@ -210,7 +219,7 @@ _TRANSFORM_SQL = '''
         obs_status,
         dimensions
     FROM "{dep}"
-    WHERE obs_value IS NOT NULL
+    WHERE obs_value IS NOT NULL AND isfinite(obs_value)
 '''
 
 
