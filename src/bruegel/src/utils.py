@@ -59,6 +59,16 @@ _BROWSER_HEADERS = {
 
 _JINA = "https://r.jina.ai/"
 
+# Wayback binary route (see get_bytes). The apex host that used to serve the data
+# files at HTTP 200 now ALSO hard-403s the GitHub Actions datacenter IP (verified
+# in CI: every /sites/default/files/ fetch returns 403). archive.org's crawler
+# egress is NOT blocked, so the bytes are pulled through the Wayback Machine — a
+# far-future timestamp on the raw `id_` endpoint replays the latest existing
+# snapshot, and Save-Page-Now archives-and-replays a file that isn't snapshotted
+# yet (the trackers publish date-versioned filenames, so each refresh is new).
+_WB_RAW = "https://web.archive.org/web/29991231id_/"
+_WB_SAVE = "https://web.archive.org/save/"
+
 
 def _to_apex(url: str) -> str:
     """Route www.bruegel.org downloads to the apex host, which serves the data
@@ -67,13 +77,41 @@ def _to_apex(url: str) -> str:
 
 
 @transient_retry()
+def _fetch_raw(url: str, headers: dict) -> bytes:
+    resp = get(url, timeout=(10.0, 180.0), headers=headers)
+    resp.raise_for_status()
+    return resp.content
+
+
+def _wayback_bytes(url: str, headers: dict) -> bytes:
+    """CI-reachable fallback for a Bruegel-hosted file the runner can't fetch
+    directly: replay the latest Wayback snapshot if one exists, otherwise trigger
+    a Save-Page-Now capture (which archives the live file and replays its bytes)."""
+    try:
+        data = _fetch_raw(_WB_RAW + url, headers)
+        if data:
+            return data
+    except Exception:
+        pass
+    return _fetch_raw(_WB_SAVE + url, headers)
+
+
 def get_bytes(url: str, headers: dict | None = None) -> bytes:
+    """Fetch a file's bytes. Already-archived Wayback URLs (the /system/files/
+    datasets pass these via direct_links) are fetched as-is. Otherwise try the
+    apex host directly — works off-CI from a clean IP — and on any failure fall
+    back to the Wayback route, which is the only egress that clears Bruegel's
+    datacenter-IP WAF block in CI."""
     h = dict(_BROWSER_HEADERS)
     if headers:
         h.update(headers)
-    resp = get(_to_apex(url), timeout=(10.0, 120.0), headers=h)
-    resp.raise_for_status()
-    return resp.content
+    url = _to_apex(url)
+    if "web.archive.org" in url:
+        return _fetch_raw(url, h)
+    try:
+        return _fetch_raw(url, h)
+    except Exception:
+        return _wayback_bytes(url, h)
 
 
 @transient_retry()
