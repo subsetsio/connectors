@@ -325,6 +325,13 @@ _ID_NAME_RE = re.compile(
 )
 _HAS_LETTER = re.compile(r"[A-Za-z]")
 
+# Identifier columns whose NAME denotes a geographic place — preferred as the
+# `region` label over generic codes (e.g. an A-11 table's constant `table_name`
+# "A10ST1", which is a series code, not a place).
+_GEO_NAME_RE = re.compile(
+    r"(area_name|state|district|union_territory|territory|region|place|town|village|nation|ward|block)"
+)
+
 
 def _is_measure_col(col, rows):
     """A measure column is numeric across every non-null cell AND not named like
