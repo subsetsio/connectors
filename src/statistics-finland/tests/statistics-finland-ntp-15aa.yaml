@@ -1,0 +1,9 @@
+spec_id: statistics-finland-ntp-15aa
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: this StatFin table returned cells when probed via the PxWeb json-stat2 query; 0 rows means the query/format broke or every cell is suppressed
+    certainty: 90
+  - not_null: value
+    reason: fetch_one expands the json-stat2 hypercube and drops null cells, so every published row carries a numeric observation; nulls here mean the expansion or value parse changed
+    certainty: 95
