@@ -151,6 +151,7 @@ def _links_from_html(html: str) -> list[str]:
     return out
 
 
+@transient_retry()
 def _wayback_html(page_url: str) -> str:
     """Fetch the latest archived copy of a dataset page from the Wayback Machine.
     archive.org is not Cloudflare-fronted, so it's reachable from the cloud runner
