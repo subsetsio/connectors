@@ -1,0 +1,26 @@
+spec_id: banco-central-de-nicaragua-4-v-03-01-03
+status: active
+tests:
+  - not_null: value
+    reason: null value cells are dropped in parsing; surviving rows must carry a numeric value
+    certainty: 95
+  - not_null: year
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 90
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - row_count: {min: 1}
+    reason: each published table is a real time series; 0 rows means fetch/parse failed
+    certainty: 95
+  - between: {col: year, lo: 1900, hi: current_year()}
+    reason: BCN series start in the 1960s-2000s and never publish future years here
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - between: {col: month, lo: 1, hi: 12}
+    reason: month derives from Ene..Dic / quarter labels, always 1-12
+    certainty: 90
+  - unique: [date, col_index]
+    reason: one observation per (date, column position) within a table; dupes mean a sibling asset leaked in via the view-glob
+    certainty: 90

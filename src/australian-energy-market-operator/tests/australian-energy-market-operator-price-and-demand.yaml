@@ -13,9 +13,9 @@ tests:
     reason: one observation per region per settlement interval; AEMO month files don't overlap, so a dup means a boundary interval got double-counted
     certainty: 80
     severity: warn
-  - row_count: {min: 5000000}
-    reason: 6 regions x ~330 months, 5-min cadence (~8600 rows/month) once 5-min settlement began; full history is tens of millions of rows
-    certainty: 80
+  - row_count: {min: 4000000}
+    reason: full history is ~4.5M rows — 30-min cadence (~1500 rows/region-month) for most of 1998-2021 plus 5-min cadence (~8600 rows/region-month) since 2021, across the live regions and historical SNOWY1
+    certainty: 85
   - between: {col: total_demand, lo: -500, hi: 40000}
     reason: regional total demand in MW; positive in practice, capped well above the ~15GW NSW peak; small negatives possible with high rooftop PV
     certainty: 70

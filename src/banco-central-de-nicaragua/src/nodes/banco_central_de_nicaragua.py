@@ -28,7 +28,7 @@ import time
 import pyarrow as pa
 from bs4 import BeautifulSoup
 
-from constants import ENTITY_IDS
+from constants import ENTITY_IDS, SIEC_CODE
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
@@ -66,10 +66,12 @@ SCHEMA = pa.schema([
 ])
 
 
-# Spec ids lowercase the code and map '_' -> '-', which is lossy (the BCN file
-# server is case-sensitive: 4.IMAE.xls exists, 4.imae.xls 404s). So map each spec
-# id back to its exact original SIEC code rather than trying to reconstruct it.
-_CODE_BY_ID = {f"{SLUG}-{eid.lower().replace('_', '-')}": eid for eid in ENTITY_IDS}
+# Entity ids are dot-free slugs; the BCN file server is case-sensitive and the
+# codes carry dots (4.IMAE.xls exists, 4.imae.xls 404s), so map each spec id back
+# to its exact SIEC code via SIEC_CODE rather than reconstructing it.
+_CODE_BY_ID = {
+    f"{SLUG}-{eid.lower().replace('_', '-')}": SIEC_CODE[eid] for eid in ENTITY_IDS
+}
 
 
 def _norm(s: str) -> str:
