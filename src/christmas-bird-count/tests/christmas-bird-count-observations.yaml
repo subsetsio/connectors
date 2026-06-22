@@ -1,0 +1,37 @@
+spec_id: christmas-bird-count-observations
+status: active
+tests:
+  - not_null: circle_id
+    reason: every observation belongs to a circle; null id means the circle wasn't carried onto its rows
+    certainty: 95
+  - not_null: common_name
+    reason: the observation's species name is the COM_NAME cell; never blank for a kept row
+    certainty: 95
+  - not_null: count_year
+    reason: count_year is parsed from the "YYYY [N]" header of every observation cell
+    certainty: 90
+  - column_type: {col: count_year, type: integer}
+    certainty: 95
+  - column_type: {col: season_year, type: integer}
+    certainty: 95
+  - between: {col: count_year, lo: 1, hi: 140}
+    reason: count year 1 = the 1900-01 season; ~126 is the current season, 140 is generous headroom
+    certainty: 90
+  - between: {col: season_year, lo: 1900, hi: current_year()}
+    reason: counts run Dec-Jan; season_year is the December calendar year, from 1900 to the latest completed season
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - at_least: {col: number_per_party_hours, expr: 0}
+    reason: effort-normalized abundance is a non-negative rate
+    certainty: 90
+  - distinct_count: {col: common_name, min: 200}
+    reason: CBC records hundreds of species across the hemisphere
+    certainty: 85
+  - row_count: {min: 200000}
+    reason: thousands of circles x dozens of species x many years yields millions of presence rows; a tiny table means the crawl truncated
+    certainty: 80
+  - nullable: {col: how_many, max_null_frac: 0.6}
+    reason: how_many is null only for count-week-only ("cw") records; those are a minority of rows
+    certainty: 70
+    severity: warn
