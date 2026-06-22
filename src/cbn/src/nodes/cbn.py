@@ -233,7 +233,22 @@ def _grid(tableview: str):
 
 
 def _period_from_parts(parts):
-    """(frequency, period_label, date|None) for a non-daily header column."""
+    """(frequency, period_label, date|None) for a non-daily header column.
+
+    Headers are 1-3 levels. The canonical shapes:
+      [year]                      -> annual
+      [year, month|quarter]       -> monthly / quarterly
+      [year, quarter, dimension]  -> quarterly with a Credit/Debit- or
+                                     Assets/Liabilities-style dimension
+                                     (Balance of Payments tables 73 & 75).
+
+    The year and the month/quarter token can sit at any level, so locate them by
+    value rather than by position (the old [parts[0], parts[-1]] assumption
+    dropped the middle quarter of the 3-level BoP headers — collapsing all four
+    quarters of a year onto one period key and losing 3/4 of the rows). ALL
+    parts stay in the label so a dimension remains distinct in the
+    (indicator_id, period) key.
+    """
     parts = [p.strip() for p in parts if p and p.strip()]
     if not parts:
         return None, None, None
@@ -245,17 +260,20 @@ def _period_from_parts(parts):
         if m and m.group(1).lower() in _MONTHS:
             return "monthly", s, date(int(m.group(2)), _MONTHS[m.group(1).lower()], 1)
         return None, s, None
-    year, sub = parts[0], parts[-1]
-    if not re.fullmatch(r"\d{4}", year):
-        return None, f"{sub}-{year}", None
+    label = "-".join(reversed(parts))
+    year = next((p for p in parts if re.fullmatch(r"\d{4}", p)), None)
+    if year is None:
+        return None, label, None
     y = int(year)
+    sub = next(
+        (p for p in parts if p.lower() in _MONTHS or p.lower() in _QUARTERS), None
+    )
+    if sub is None:
+        return "annual", label, date(y, 1, 1)
     sl = sub.lower()
-    label = f"{sub}-{year}"
     if sl in _MONTHS:
         return "monthly", label, date(y, _MONTHS[sl], 1)
-    if sl in _QUARTERS:
-        return "quarterly", label, date(y, _QUARTERS[sl], 1)
-    return None, label, None
+    return "quarterly", label, date(y, _QUARTERS[sl], 1)
 
 
 def _looks_daily(col_parts) -> bool:
