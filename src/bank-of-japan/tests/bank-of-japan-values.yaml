@@ -1,0 +1,52 @@
+spec_id: bank-of-japan-values
+status: active
+# Long-format observations from /getDataCode: (db, series_code, frequency,
+# survey_date, value, last_update). The fetch drops rows with a null value or
+# null survey_date, and stores dates as YYYYMMDD/YYYYMM/YYYY *integers* whose
+# width tracks the frequency.
+tests:
+  - not_null: db
+    reason: every observation is tagged with its source DB; a null means the bucket loop lost its key
+    certainty: 99
+
+  - not_null: series_code
+    reason: each observation belongs to a series; /getDataCode echoes SERIES_CODE per row
+    certainty: 95
+
+  - not_null: value
+    reason: the fetch explicitly drops null/blank observations before writing, so the raw must carry a real value in every row
+    certainty: 98
+
+  - not_null: survey_date
+    reason: the fetch drops rows whose SURVEY_DATES fails to parse to an int, so survey_date is always present
+    certainty: 98
+
+  - column_type: {col: survey_date, type: integer}
+    reason: dates are stored as int32 YYYYMMDD/YYYYMM/YYYY at the download layer and parsed to DATE in the transform
+    certainty: 95
+
+  - column_type: {col: value, type: float}
+    certainty: 95
+
+  - column_type: {col: last_update, type: integer}
+    certainty: 95
+
+  - nullable: {col: last_update, max_null_frac: 0.2}
+    reason: LAST_UPDATE is usually present but _to_int can yield null on a malformed stamp; tolerate a small fraction
+    certainty: 80
+    severity: warn
+
+  - at_least: {col: survey_date, expr: 1800}
+    reason: the oldest annual observations are bare 4-digit years; nothing predates ~1800, so a value below that is a parse/encoding bug
+    certainty: 85
+    severity: warn
+
+  - at_most: {col: survey_date, expr: 21001231}
+    reason: the widest form is YYYYMMDD; a value beyond a plausible far-future YYYYMMDD ceiling means a malformed date slipped through
+    certainty: 85
+    severity: warn
+
+  - row_count: {min: 100000}
+    reason: the corpus spans millions of observations across all DBs/frequencies; a tiny count means the crawl mostly failed
+    certainty: 85
+    severity: warn

@@ -1,0 +1,46 @@
+spec_id: bank-of-japan-series
+status: active
+# The series catalog is a stateless full re-pull of /getMetadata, one row per
+# series_code per DB. Raw dates are kept as YYYYMMDD/YYYYMM/YYYY *strings*
+# (parsed in the transform), so column types here are all string.
+tests:
+  - not_null: db
+    reason: every catalog row is tagged with the DB it came from; a null means the per-DB fetch loop lost its key
+    certainty: 99
+
+  - not_null: series_code
+    reason: series_code is the catalog primary key returned by /getMetadata; a null/empty would be a layer-header row the fetch should not emit as a series
+    certainty: 90
+
+  - not_null: name
+    reason: /getMetadata returns a human name for every series; a null suggests the response shape changed
+    certainty: 90
+
+  - not_null: last_update
+    reason: every series carries a last-revision stamp used downstream for dedup/freshness
+    certainty: 88
+
+  - column_type: {col: series_code, type: string}
+    certainty: 95
+
+  - column_type: {col: frequency, type: string}
+    certainty: 95
+
+  - column_type: {col: last_update, type: string}
+    reason: dates are kept raw (mixed-width strings) at the download layer and only parsed to DATE in the transform
+    certainty: 95
+
+  - unique: [db, series_code]
+    reason: /getMetadata returns each series once per DB; the transform's QUALIFY dedup is defensive, so a real dup here points at a re-pull/overwrite bug
+    certainty: 80
+    severity: warn
+
+  - row_count: {min: 50000}
+    reason: ~50 BOJ databases each expose thousands of series; the full catalog is hundreds of thousands of rows
+    certainty: 85
+    severity: warn
+
+  - matches: {col: last_update, pattern: '^[0-9]{4,8}$'}
+    reason: last_update is an all-digits YYYY / YYYYMM / YYYYMMDD stamp; non-digit content means the metadata format drifted
+    certainty: 75
+    severity: warn
