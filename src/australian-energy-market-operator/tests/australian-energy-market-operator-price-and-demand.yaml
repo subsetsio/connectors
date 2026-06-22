@@ -1,0 +1,32 @@
+spec_id: australian-energy-market-operator-price-and-demand
+status: active
+tests:
+  - not_null: region
+  - not_null: settlement_date
+  - column_type: {col: settlement_date, type: timestamp}
+  - column_type: {col: total_demand, type: float}
+  - column_type: {col: rrp, type: float}
+  - enum: {col: region, values: [NSW1, QLD1, VIC1, SA1, TAS1, SNOWY1]}
+    reason: the five live NEM regions plus the abolished SNOWY1 (historical only)
+    certainty: 90
+  - unique: [region, settlement_date]
+    reason: one observation per region per settlement interval; AEMO month files don't overlap, so a dup means a boundary interval got double-counted
+    certainty: 80
+    severity: warn
+  - row_count: {min: 5000000}
+    reason: 6 regions x ~330 months, 5-min cadence (~8600 rows/month) once 5-min settlement began; full history is tens of millions of rows
+    certainty: 80
+  - between: {col: total_demand, lo: -500, hi: 40000}
+    reason: regional total demand in MW; positive in practice, capped well above the ~15GW NSW peak; small negatives possible with high rooftop PV
+    certainty: 70
+    severity: warn
+  - at_most: {col: settlement_date, expr: today}
+    reason: settlement intervals are historical/current, never future-dated
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - freshness: {col: settlement_date, reaches: today - 45d}
+    reason: the current-month file is published continuously, so the max interval should be within the last few weeks
+    certainty: 80
+    points_outward: true
+    severity: warn

@@ -1,69 +1,49 @@
-"""arXiv connector — full paper-metadata corpus via OAI-PMH.
+"""arXiv connector — full paper-metadata corpus from the public GCS snapshot.
 
-Mechanism (chosen by research): oai_pmh — https://oaipmh.arxiv.org/oai
-ListRecords with metadataPrefix=arXiv (the richest arXiv-native fields),
-iterating resumptionToken to completion. The corpus is ~2.6M records, far too
-large to re-pull in one run, so this is a record-stream firehose (shape 3):
+Mechanism: the whole-corpus arXiv metadata snapshot published anonymously in the
+free, requester-pays-free Google Cloud Storage bucket `gs://arxiv-dataset`
+(`metadata-v5/arxiv-metadata-oai.json`). This is the backing store of the
+Kaggle `Cornell-University/arxiv` dataset: one JSON object per line, one line per
+paper, covering the full corpus (~1.7M papers, arXiv id 0704.* onward plus the
+pre-2007 archive/YYMMNNN ids back to 1991).
 
-  - One download spec, `arxiv-papers` (the only rank-accepted entity).
-  - Raw is written as month-aligned parquet batches keyed by the OAI datestamp
-    window: asset id `arxiv-papers-<YYYY-MM-01>_<YYYY-MM-end>`. Every record has
-    exactly one current datestamp, so a full sweep of month windows from the
-    repo's earliest datestamp to today covers every record exactly once.
-  - A watermark (next date to harvest from) advances per completed month and is
-    saved after each batch, so a crash resumes from the last finished month.
-  - Each run re-harvests a trailing overlap window (current month, and the prior
-    month early in a month) so revisions/new submissions — which get a fresh
-    datestamp — are re-fetched; same-month batch ids overwrite idempotently and
-    the transform dedups by arxiv_id keeping the latest datestamp.
+Why not OAI-PMH (the research-preferred path)? arXiv's OAI endpoint
+(`oaipmh.arxiv.org`) sits behind a CDN that returns a hard `406 Not Acceptable`
+to requests from datacenter IP ranges — every GitHub Actions runner. Verified:
+the identical httpx client returns 200 from a residential IP and 406 from CI, so
+no header/UA/retry change can unblock it. The Kaggle API (fresh weekly snapshot)
+needs an auth token we don't have. The GCS snapshot is the only anonymous,
+cloud-runnable, whole-corpus metadata source. Its limitation is freshness: the
+public mirror is frozen at the 2020-08 snapshot, so coverage ends mid-2020.
 
-OAI flow control: HTTP 503 + Retry-After under load; the tenacity backoff finds
-the pace, and a courtesy ~1 req/3s limit honours the documented recommendation.
+Shape: single static file. There is no incremental window — every run streams
+the whole snapshot and rewrites the raw parquet batches idempotently (same input
+→ same deterministic batch ids), then the transform publishes one deduped table.
+
+The snapshot carries no date fields (its `versions` are bare strings), so the
+submission month is derived from the arXiv id, which deterministically encodes
+YYMM (new-style `YYMM.NNNNN`; old-style `archive/YYMMNNN`).
 """
 from __future__ import annotations
 
-import xml.etree.ElementTree as ET
-from datetime import date, datetime, timedelta, timezone
+import json
 
-import httpx
 import pyarrow as pa
-from ratelimit import limits, sleep_and_retry
-from tenacity import (
-    retry,
-    retry_if_exception,
-    stop_after_attempt,
-    wait_exponential,
+
+from subsets_utils import NodeSpec, SqlNodeSpec, get_client, save_raw_parquet
+
+# Anonymous, public, free (not requester-pays) HTTPS read of the GCS object.
+SNAPSHOT_URL = (
+    "https://storage.googleapis.com/arxiv-dataset/metadata-v5/arxiv-metadata-oai.json"
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, load_state, save_state, save_raw_parquet
+# Rows buffered before each parquet flush. ~1.7M rows / 100k ≈ 17 batches; keeps
+# peak memory bounded (abstracts dominate, ~1-2 KB/row).
+BATCH_ROWS = 100_000
 
-ENDPOINT = "https://oaipmh.arxiv.org/oai"
-STATE_VERSION = 1
-
-# arXiv's OAI endpoint sits behind a CDN (Google Frontend + Varnish) that returns
-# 406 Not Acceptable to requests from datacenter IPs carrying a generic
-# User-Agent. arXiv's access policy asks harvesters to identify themselves with a
-# descriptive UA and a contact address; sending that (plus explicit Accept
-# headers a normal client would send) is the documented way to stay un-blocked.
-HEADERS = {
-    "User-Agent": "subsets.io arXiv OAI harvester (+https://subsets.io; mailto:nathansnellaert@gmail.com)",
-    "Accept": "text/xml, application/xml;q=0.9, */*;q=0.8",
-    "Accept-Language": "en-US,en;q=0.9",
-}
-
-# Repository's earliest datestamp (from the Identify verb). Papers created before
-# the OAI service began carry this datestamp, so sweeping from here covers all.
-SOURCE_MIN = date(2005, 9, 16)
-# Trailing window re-pulled every run to catch revisions/new submissions (fresh
-# datestamp). Month-aligned harvesting means this always re-pulls the current
-# month; duplicates are dedup'd in the transform.
-OVERLAP_DAYS = 14
-# Safety ceiling: a single month window should never need this many pages. If it
-# does, the source grew unexpectedly — raise rather than silently truncate.
-PAGE_SAFETY_CAP = 5_000
-
-OAI = "{http://www.openarchives.org/OAI/2.0/}"
-ARX = "{http://arxiv.org/OAI/arXiv/}"
+# If more than this fraction of lines fail to parse, the download is corrupt —
+# raise rather than publish a truncated corpus.
+MAX_BAD_FRACTION = 0.01
 
 SCHEMA = pa.schema(
     [
@@ -71,204 +51,114 @@ SCHEMA = pa.schema(
         ("title", pa.string()),
         ("abstract", pa.string()),
         ("authors", pa.string()),
+        ("submitter", pa.string()),
         ("primary_category", pa.string()),
         ("categories", pa.string()),
         ("doi", pa.string()),
         ("journal_ref", pa.string()),
+        ("report_no", pa.string()),
         ("comments", pa.string()),
-        ("license", pa.string()),
-        ("created", pa.string()),
-        ("updated", pa.string()),
-        ("datestamp", pa.string()),
+        ("num_versions", pa.int32()),
+        ("created_date", pa.string()),
     ]
 )
 
-_TRANSIENT_EXC = (
-    httpx.ConnectError,
-    httpx.ConnectTimeout,
-    httpx.ReadTimeout,
-    httpx.WriteTimeout,
-    httpx.PoolTimeout,
-    httpx.RemoteProtocolError,
-    httpx.ProxyError,
-)
 
-
-def _is_transient(exc: BaseException) -> bool:
-    if isinstance(exc, _TRANSIENT_EXC):
-        return True
-    if isinstance(exc, httpx.HTTPStatusError):
-        code = exc.response.status_code
-        # 503 = documented OAI flow control. 403/406 = CDN bot-throttle from cloud
-        # IPs; observed to be intermittent, so back off and retry rather than die.
-        return code in (403, 406, 429) or 500 <= code < 600
-    return False
-
-
-@retry(
-    retry=retry_if_exception(_is_transient),
-    stop=stop_after_attempt(8),
-    wait=wait_exponential(min=4, max=120),
-    reraise=True,
-)
-@sleep_and_retry
-@limits(calls=1, period=3)  # documented courtesy: ~1 request every few seconds
-def _fetch(params: dict) -> str:
-    resp = get(ENDPOINT, params=params, headers=HEADERS, timeout=(10.0, 180.0))
-    resp.raise_for_status()
-    return resp.text
-
-
-def _text(el) -> str | None:
-    if el is None or el.text is None:
+def _clean(val) -> str | None:
+    if val is None:
         return None
-    val = el.text.strip()
-    return val or None
+    s = str(val).strip()
+    return s or None
 
 
-def _parse_records(root) -> list[dict]:
-    lr = root.find(f"{OAI}ListRecords")
-    if lr is None:
-        return []
-    rows = []
-    for rec in lr.findall(f"{OAI}record"):
-        header = rec.find(f"{OAI}header")
-        if header is not None and header.get("status") == "deleted":
-            continue  # tombstone — no metadata to publish
-        datestamp = _text(header.find(f"{OAI}datestamp")) if header is not None else None
-        meta = rec.find(f"{OAI}metadata")
-        if meta is None:
-            continue
-        arx = meta.find(f"{ARX}arXiv")
-        if arx is None:
-            continue
+def _created_date(arxiv_id: str | None) -> str | None:
+    """Month-granular submission date derived from the arXiv id.
 
-        authors = []
-        authors_el = arx.find(f"{ARX}authors")
-        if authors_el is not None:
-            for a in authors_el.findall(f"{ARX}author"):
-                key = _text(a.find(f"{ARX}keyname")) or ""
-                fore = _text(a.find(f"{ARX}forenames")) or ""
-                name = f"{key}, {fore}".strip(", ").strip() if fore else key
-                if name:
-                    authors.append(name)
-
-        categories = _text(arx.find(f"{ARX}categories"))
-        primary = categories.split()[0] if categories else None
-
-        rows.append(
-            {
-                "arxiv_id": _text(arx.find(f"{ARX}id")),
-                "title": _text(arx.find(f"{ARX}title")),
-                "abstract": _text(arx.find(f"{ARX}abstract")),
-                "authors": "; ".join(authors) if authors else None,
-                "primary_category": primary,
-                "categories": categories,
-                "doi": _text(arx.find(f"{ARX}doi")),
-                "journal_ref": _text(arx.find(f"{ARX}journal-ref")),
-                "comments": _text(arx.find(f"{ARX}comments")),
-                "license": _text(arx.find(f"{ARX}license")),
-                "created": _text(arx.find(f"{ARX}created")),
-                "updated": _text(arx.find(f"{ARX}updated")),
-                "datestamp": datestamp,
-            }
-        )
-    return rows
-
-
-def _resumption_token(root) -> str | None:
-    lr = root.find(f"{OAI}ListRecords")
-    if lr is None:
+    New-style ids are `YYMM.NNNNN` (April 2007 onward); old-style ids are
+    `archive[.subclass]/YYMMNNN`. Both put the YYMM right after the optional
+    `archive/` prefix. YY >= 91 maps to the 1900s (arXiv began 1991), else 2000s.
+    """
+    if not arxiv_id:
         return None
-    tok = lr.find(f"{OAI}resumptionToken")
-    if tok is None or not tok.text or not tok.text.strip():
+    tail = arxiv_id.split("/", 1)[1] if "/" in arxiv_id else arxiv_id
+    token = tail.split(".", 1)[0][:4]
+    if len(token) != 4 or not token.isdigit():
         return None
-    return tok.text.strip()
+    yy, mm = int(token[:2]), int(token[2:])
+    if not 1 <= mm <= 12:
+        return None
+    year = 1900 + yy if yy >= 91 else 2000 + yy
+    return f"{year:04d}-{mm:02d}-01"
 
 
-def _month_end(d: date) -> date:
-    if d.month == 12:
-        return date(d.year, 12, 31)
-    return date(d.year, d.month + 1, 1) - timedelta(days=1)
-
-
-def _harvest_window(frm: date, until: date) -> list[dict]:
-    """Page through every record with datestamp in [frm, until] via resumptionToken."""
-    params = {
-        "verb": "ListRecords",
-        "metadataPrefix": "arXiv",
-        "from": frm.isoformat(),
-        "until": until.isoformat(),
+def _row(rec: dict) -> dict:
+    cats = rec.get("categories")
+    if isinstance(cats, list):
+        cats = " ".join(c for c in cats if c)
+    cats = _clean(cats)
+    primary = cats.split()[0] if cats else None
+    versions = rec.get("versions")
+    arxiv_id = _clean(rec.get("id"))
+    return {
+        "arxiv_id": arxiv_id,
+        "title": _clean(rec.get("title")),
+        "abstract": _clean(rec.get("abstract")),
+        "authors": _clean(rec.get("authors")),
+        "submitter": _clean(rec.get("submitter")),
+        "primary_category": primary,
+        "categories": cats,
+        "doi": _clean(rec.get("doi")),
+        "journal_ref": _clean(rec.get("journal-ref")),
+        "report_no": _clean(rec.get("report-no")),
+        "comments": _clean(rec.get("comments")),
+        "num_versions": len(versions) if isinstance(versions, list) else None,
+        "created_date": _created_date(arxiv_id),
     }
-    rows: list[dict] = []
-    pages = 0
-    while True:
-        pages += 1
-        if pages > PAGE_SAFETY_CAP:
-            raise RuntimeError(
-                f"arxiv: window {frm}..{until} exceeded {PAGE_SAFETY_CAP} pages"
-            )
-        root = ET.fromstring(_fetch(params))
-        err = root.find(f"{OAI}error")
-        if err is not None:
-            code = err.get("code")
-            if code == "noRecordsMatch":
-                break
-            raise RuntimeError(
-                f"arxiv OAI error '{code}' for window {frm}..{until}: {err.text}"
-            )
-        rows.extend(_parse_records(root))
-        token = _resumption_token(root)
-        if not token:
-            break
-        # Subsequent pages carry ONLY the resumptionToken (it encodes from/until).
-        params = {"verb": "ListRecords", "resumptionToken": token}
-    return rows
+
+
+def _flush(rows: list[dict], asset_base: str, batch_idx: int) -> None:
+    table = pa.Table.from_pylist(rows, schema=SCHEMA)
+    save_raw_parquet(table, f"{asset_base}-{batch_idx:04d}")
 
 
 def fetch_papers(node_id: str) -> None:
-    asset_base = node_id  # "arxiv-papers" — also the dep view the transform reads
-    state = load_state(asset_base)
-    if state.get("schema_version") != STATE_VERSION:
-        state = {}  # unknown/absent version — reset and re-derive from the watermark
+    asset_base = node_id  # "arxiv-papers" — also the view the transform reads
+    client = get_client()
 
-    watermark = state.get("watermark")
-    start = date.fromisoformat(watermark) if watermark else SOURCE_MIN
-    today = datetime.now(tz=timezone.utc).date()
+    rows: list[dict] = []
+    batch_idx = 0
+    seen = 0
+    bad = 0
 
-    # Always re-harvest the trailing overlap so revisions are picked up; clamp to
-    # the repo floor and align to a month boundary for stable batch ids.
-    start = min(start, today - timedelta(days=OVERLAP_DAYS))
-    if start < SOURCE_MIN:
-        start = SOURCE_MIN
-    cur = date(start.year, start.month, 1)
+    with client.stream("GET", SNAPSHOT_URL, timeout=(30.0, 600.0)) as resp:
+        resp.raise_for_status()
+        for line in resp.iter_lines():
+            if not line or not line.strip():
+                continue
+            seen += 1
+            try:
+                rec = json.loads(line)
+            except json.JSONDecodeError:
+                bad += 1
+                continue
+            rows.append(_row(rec))
+            if len(rows) >= BATCH_ROWS:
+                _flush(rows, asset_base, batch_idx)
+                batch_idx += 1
+                rows = []
 
-    # No self-imposed time budget: sweep every month window until caught up to
-    # `today`, then return cleanly so the transform runs on the complete corpus.
-    # If the run nears its CI wall-clock the supervisor interrupts this node
-    # (→ pending → continuation) and the next run resumes from the saved
-    # watermark — per-batch raw+state writes below make that safe.
-    while cur <= today:
-        # The OAI server rejects a `from` earlier than its earliestDatestamp, so
-        # clamp the month-aligned window start to the repo floor (only the very
-        # first month, Sep 2005, is affected). batch ids stay stable.
-        m_start = max(cur, SOURCE_MIN)
-        m_end = min(_month_end(cur), today)
-        rows = _harvest_window(m_start, m_end)
-        if rows:
-            batch_key = f"{m_start.isoformat()}_{m_end.isoformat()}"
-            table = pa.Table.from_pylist(rows, schema=SCHEMA)
-            save_raw_parquet(table, f"{asset_base}-{batch_key}")  # raw FIRST
+    if rows:
+        _flush(rows, asset_base, batch_idx)
+        batch_idx += 1
 
-        cur = m_end + timedelta(days=1)  # advance to the day after this month
-        save_state(  # then advance the watermark
-            asset_base,
-            {
-                "schema_version": STATE_VERSION,
-                "watermark": cur.isoformat(),
-                "last_success_at": datetime.now(tz=timezone.utc).isoformat(),
-            },
+    if seen == 0:
+        raise RuntimeError("arxiv: snapshot stream yielded no lines")
+    if bad > seen * MAX_BAD_FRACTION:
+        raise RuntimeError(
+            f"arxiv: {bad}/{seen} lines failed to parse (> {MAX_BAD_FRACTION:.0%}) "
+            "— snapshot likely truncated or corrupt"
         )
+    print(f"  arxiv: streamed {seen:,} lines, {bad} bad, {batch_idx} batch(es)")
 
 
 DOWNLOAD_SPECS = [
@@ -285,22 +175,19 @@ TRANSFORM_SPECS = [
                 title,
                 abstract,
                 authors,
+                submitter,
                 primary_category,
                 categories,
                 doi,
                 journal_ref,
+                report_no,
                 comments,
-                license,
-                TRY_CAST(created AS DATE)    AS created_date,
-                TRY_CAST(updated AS DATE)    AS updated_date,
-                TRY_CAST(datestamp AS DATE)  AS datestamp
+                num_versions,
+                TRY_CAST(created_date AS DATE) AS created_date
             FROM (
                 SELECT
                     *,
-                    row_number() OVER (
-                        PARTITION BY arxiv_id
-                        ORDER BY datestamp DESC, updated DESC
-                    ) AS _rn
+                    row_number() OVER (PARTITION BY arxiv_id ORDER BY arxiv_id) AS _rn
                 FROM "arxiv-papers"
                 WHERE arxiv_id IS NOT NULL
             )
