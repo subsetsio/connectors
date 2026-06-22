@@ -96,6 +96,33 @@ def _fetch_page(table_id: str, offset: int) -> dict:
     return resp.json()
 
 
+def _num(v):
+    """Coerce the API's `value` (int counts, float areas, or '' for missing) to a
+    uniform float-or-None — the measure column mixes ints and floats."""
+    if v is None or isinstance(v, bool):
+        return None
+    if isinstance(v, (int, float)):
+        return float(v)
+    s = str(v).strip().replace(",", "")
+    if not s:
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        return None
+
+
+def _clean(row: dict) -> dict:
+    """The API emits '' (empty string) for missing/not-applicable cells in BOTH
+    the measure and the integer-coded dimension columns (e.g. work_status='').
+    DuckDB's read_json_auto infers a column's type from a sample then fails when
+    it later hits a ''. Normalise every '' to null (preserving genuine string
+    columns like area_name) and coerce the measure to float."""
+    out = {k: (None if v == "" else v) for k, v in row.items()}
+    out["value"] = _num(row.get("value"))
+    return out
+
+
 def fetch_one(node_id: str) -> None:
     table_id = ID_TO_TABLE[node_id]
     rows = []
@@ -108,7 +135,7 @@ def fetch_one(node_id: str) -> None:
         data = page.get("data") or []
         if not data:
             break
-        rows.extend(data)
+        rows.extend(_clean(r) for r in data)
         offset += len(data)   # advance by rows actually returned (page may be capped)
         if found and len(rows) >= found:
             break

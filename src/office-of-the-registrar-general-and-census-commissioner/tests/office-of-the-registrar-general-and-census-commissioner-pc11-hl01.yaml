@@ -10,9 +10,9 @@ tests:
   - enum: {col: geo_level, values: [0, 1]}
     reason: this connector fetches only national + state geography (geo_level=0,1)
     certainty: 95
-  - not_null: value
-    reason: the long-format measure column; a fetched row always has a numeric value
-    certainty: 80
+  - column_type: {col: value, type: float}
+    reason: the long-format measure, normalised to float (counts and areas); '' missing -> null
+    certainty: 85
   - row_count: {min: 1782}
     reason: ~3564 rows observed at geo_level 0,1 for PC11_HL01; a large drop = truncated pagination
     certainty: 80
