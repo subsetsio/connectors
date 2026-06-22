@@ -15,9 +15,9 @@ import io
 import re
 import urllib.parse
 import zipfile
-from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 
+import httpx
 from subsets_utils import get, post, transient_retry
 
 BASE = "https://panama.aquaticinformatics.net"
@@ -46,10 +46,26 @@ def _post(path: str, data: dict):
 
 
 @transient_retry()
-def _get(url: str, timeout=(10.0, 300.0)):
-    r = get(url, headers=PORTAL_HEADERS, timeout=timeout)
+def _export_payload(series_id: str) -> bytes:
+    """Fetch one series' export ZIP and return the inner CSV bytes.
+
+    Under sustained load the portal occasionally answers a 200 with a non-ZIP
+    body (a redirect/rate-limit HTML page) instead of the export. That is a
+    transient hiccup, so we raise a transient-classified error to make
+    `transient_retry` back off and retry rather than crashing the whole node on
+    one bad response.
+    """
+    q = urllib.parse.urlencode({"DataSet": series_id, "DateRange": "EntirePeriodOfRecord"})
+    r = get(f"{BASE}/Export/DataSet?{q}", headers=PORTAL_HEADERS, timeout=(10.0, 300.0))
     r.raise_for_status()
-    return r
+    content = r.content
+    if content[:2] != b"PK":
+        ctype = r.headers.get("content-type", "?")
+        raise httpx.RemoteProtocolError(
+            f"non-zip export for {series_id} (ct={ctype}, {len(content)} bytes)"
+        )
+    zf = zipfile.ZipFile(io.BytesIO(content))
+    return zf.read(zf.namelist()[0])
 
 
 def watershed_of(location_folder: str | None) -> str:
@@ -130,12 +146,7 @@ def export_daily(series_id: str):
     we collapse every series to one row per calendar day so the published table
     is a clean, uniform daily product instead of 285M mixed-frequency points.
     """
-    q = urllib.parse.urlencode(
-        {"DataSet": series_id, "DateRange": "EntirePeriodOfRecord"}
-    )
-    resp = _get(f"{BASE}/Export/DataSet?{q}")
-    zf = zipfile.ZipFile(io.BytesIO(resp.content))
-    payload = zf.read(zf.namelist()[0])
+    payload = _export_payload(series_id)
 
     unit = None
     # date -> [sum, count, min, max]

@@ -13,6 +13,8 @@ forecast-labelled outputs) are excluded in `utils` so only gauge readings ship.
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+import zipfile
+
 import httpx
 import pyarrow as pa
 from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet, raw_parquet_writer
@@ -71,14 +73,14 @@ VALUES_SCHEMA = pa.schema(
 
 
 def _export_one(s: dict):
-    """Fetch + daily-aggregate one series. Permanent 4xx -> skip (None)."""
+    """Fetch + daily-aggregate one series. A series whose export stays
+    unavailable after retries (permanent 4xx, or a persistently non-zip body) is
+    skipped (None) so one bad series never sinks the whole node."""
     try:
         unit, rows = export_daily(s["series_id"])
-    except httpx.HTTPStatusError as e:
-        if e.response is not None and 400 <= e.response.status_code < 500 and e.response.status_code != 429:
-            print(f"  skip {s['series_id']}: HTTP {e.response.status_code}")
-            return None
-        raise
+    except (httpx.HTTPError, zipfile.BadZipFile) as e:
+        print(f"  skip {s['series_id']}: {type(e).__name__}: {str(e)[:80]}")
+        return None
     if not rows:
         return None
     n = len(rows)
@@ -119,6 +121,13 @@ def fetch_values(node_id: str) -> None:
                     writer.write_table(batch)
                     written += 1
     print(f"  wrote daily observations for {written}/{len(series)} series")
+    # Guard: a handful of skips is fine, but a wholesale wipeout (rate-limit
+    # storm, portal down) must fail the node, not publish an empty table.
+    if written < 0.5 * len(series):
+        raise RuntimeError(
+            f"only {written}/{len(series)} series exported — treating as a "
+            f"systemic export failure rather than publishing a gutted table"
+        )
 
 
 DOWNLOAD_SPECS = [

@@ -1,5 +1,6 @@
 # Entity union (rank-accepted datasets), copied from
 # data/sources/new-york-state-open-data/work/entity_union.json
+# 4 datasets >50M rows gated below threshold (full-snapshot CSV too large).
 ENTITY_IDS = [
     '22ew-dxez',
     '238s-kr2h',
@@ -363,7 +364,6 @@ ENTITY_IDS = [
     'gugp-n5ip',
     'gwr7-vudk',
     'gx9b-d8qm',
-    'gxb3-akrn',
     'gy9h-ebus',
     'h2cu-nt33',
     'h2wd-9xfe',
@@ -556,7 +556,6 @@ ENTITY_IDS = [
     'qu52-5ejz',
     'qwti-3ybe',
     'qxyx-rrz9',
-    'qym9-xzj6',
     'qzve-kjga',
     'r4sv-k333',
     'r6db-kkzj',
@@ -607,7 +606,6 @@ ENTITY_IDS = [
     't4ba-giyx',
     't6yz-b64h',
     't7uh-5ac8',
-    't9kf-dqbc',
     't9v5-nhg7',
     'ta83-js48',
     'tb54-h6gg',
@@ -658,7 +656,6 @@ ENTITY_IDS = [
     'vapy-4d68',
     'vcp4-2eiu',
     'vdat-cgbe',
-    'vezn-fmmk',
     'vfju-zm9q',
     'vfqs-vuqv',
     'vgfa-ui3c',
