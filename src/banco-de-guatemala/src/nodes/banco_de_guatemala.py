@@ -17,9 +17,12 @@ history and overwrites. The Info* operations and TipoCambioRango take an
 explicit date window, so we request from a conservative early floor through
 "today" and let the server return whatever history exists.
 
-Transport note: Banguat's ASMX endpoints are served over plain HTTP — the HTTPS
-certificate fails verification (documented in research), and `verify=False` is
-disallowed, so the SOAP POSTs intentionally target http:// URLs.
+Transport note: the SOAP POSTs target https:// directly. The server 301-redirects
+http -> https, and following that redirect downgrades the POST to a bodyless GET
+(httpx redirect semantics) — which drops the SOAP envelope and makes BDEF return
+500 and TipoCambio return its HTML help page. Posting straight to https keeps the
+body intact. (Research flagged HTTPS cert issues seen from one probing host; the
+cloud egress verifies the cert fine.)
 
 BDEF exposes no per-variable frequency in its catalog, so `values` cascades
 the four frequency operations per variable (monthly -> annual -> daily ->
@@ -42,8 +45,8 @@ from subsets_utils import (
 )
 
 NS = "http://www.banguat.gob.gt/variables/ws/"
-BDEF_ENDPOINT = "http://www.banguat.gob.gt/variables/ws/BDEF.asmx"  # http: HTTPS cert fails verification
-TC_ENDPOINT = "http://www.banguat.gob.gt/variables/ws/TipoCambio.asmx"
+BDEF_ENDPOINT = "https://www.banguat.gob.gt/variables/ws/BDEF.asmx"  # https direct: avoid POST->GET on redirect
+TC_ENDPOINT = "https://www.banguat.gob.gt/variables/ws/TipoCambio.asmx"
 
 # Conservative lower bounds — the API returns only the history it actually has;
 # windows that reach before a series begins simply come back empty. These are
@@ -79,7 +82,14 @@ def _soap_call(endpoint: str, op: str, params: list[tuple[str, object]]) -> ET.E
         timeout=(15.0, 240.0),
     )
     resp.raise_for_status()
-    return ET.fromstring(resp.content)
+    try:
+        return ET.fromstring(resp.content)
+    except ET.ParseError as e:
+        head = resp.text[:300].replace("\n", " ")
+        raise AssertionError(
+            f"{op}: response was not well-formed XML ({e}); "
+            f"content-type={resp.headers.get('content-type')!r}; body starts: {head!r}"
+        ) from e
 
 
 def _local(tag: str) -> str:
