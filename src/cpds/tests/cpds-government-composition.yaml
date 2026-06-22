@@ -1,0 +1,29 @@
+spec_id: cpds-government-composition
+status: active
+tests:
+  - not_null: country
+    reason: each row is sourced from a per-country workbook sheet
+    certainty: 99
+  - not_null: year
+    reason: every government-spell row carries the calendar year
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 90
+  - between: {col: year, lo: 1959, hi: 2023}
+    reason: spells start at the year before the 1960 panel start; release covers through 2023
+    certainty: 85
+  - at_most: {col: year, expr: current_year()}
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: country, min: 30, max: 45}
+    reason: one workbook sheet per CPDS country (~36)
+    certainty: 85
+  - not_null: head_of_government
+    reason: the head-of-government (PM/President) column is populated for every spell
+    certainty: 75
+    severity: warn
+  - row_count: {min: 4000, max: 12000}
+    reason: ~36 countries x several government spells per year over 1959-2023
+    certainty: 70
+    severity: warn
