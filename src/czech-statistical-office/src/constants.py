@@ -1,6 +1,5 @@
 # Entity union for the czech-statistical-office connector.
 # Copied verbatim from data/sources/czech-statistical-office/work/entity_union.json
-# (the rank-accepted dataset ids). Data, not logic.
 
 ENTITY_IDS = [
     '010022',
@@ -119,15 +118,11 @@ ENTITY_IDS = [
     '340130',
     '340131',
     '990124-17',
-    '990154-18',
     'CZ_NACE_RES',
     'CZ_NACE_RES2025',
     'SLDB-VYBER',
-    'db_krok',
-    'db_mos',
     'klas80004',
     'klas80143',
-    'pr2023vysledky',
     'res_data',
     'res_pf_nace',
     'sldb2011_zakladni',
@@ -235,5 +230,4 @@ ENTITY_IDS = [
     'sldbdomac',
     'sldbdomy',
     'sldbvyjizdka',
-    'uredni_deska',
 ]
