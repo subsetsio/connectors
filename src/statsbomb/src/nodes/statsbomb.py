@@ -23,22 +23,21 @@ change. Freshness (whether a node runs at all) is the maintain step's concern, n
 """
 
 import concurrent.futures as cf
+import json
 
 import httpx
 import pyarrow as pa
+from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
-    transient_retry,
     save_raw_parquet,
-    load_state,
-    save_state,
 )
+from subsets_utils.retry import is_transient
 
 RAW = "https://raw.githubusercontent.com/statsbomb/open-data/master/data"
-STATE_VERSION = 1
 # Per-match files are fetched concurrently — raw.githubusercontent.com has no
 # documented rate limit and serves static files; ~12k tiny GETs would take hours
 # sequentially. httpx.Client is thread-safe for concurrent requests.
@@ -48,7 +47,19 @@ CONCURRENCY = 24
 # --------------------------------------------------------------------------- #
 # HTTP
 # --------------------------------------------------------------------------- #
-@transient_retry()
+def _retryable(exc: BaseException) -> bool:
+    # Standard transient classification PLUS JSON decode errors: a truncated /
+    # partially-read 200 body parses to a JSONDecodeError, which a re-fetch fixes
+    # (observed on a large three-sixty file). JSONDecodeError subclasses ValueError.
+    return is_transient(exc) or isinstance(exc, json.JSONDecodeError)
+
+
+@retry(
+    retry=retry_if_exception(_retryable),
+    stop=stop_after_attempt(6),
+    wait=wait_exponential(min=4, max=120),
+    reraise=True,
+)
 def _get_json(url: str):
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -99,50 +110,32 @@ def _match_ids_with_360():
 
 
 def _run_batched(node_id: str, match_ids, fetch_and_write):
-    """Shared resumable per-match batch loop with a done-set watermark.
+    """Stateless full concurrent re-pull: write one raw batch parquet per match.
 
-    Matches are fetched concurrently. Each worker writes its raw batch parquet
-    (a distinct asset id per match — safe to write in parallel) BEFORE the main
-    thread records the match as done, preserving the write-raw-before-state
-    invariant. State is checkpointed every CHECKPOINT completions so an interrupt
-    loses at most that many matches' progress (their raw is still on disk; they
-    just get re-fetched next run). Already-done matches are skipped, so a re-run
-    resumes from the watermark.
+    Raw assets are run-scoped (each run writes into its own raw dir), so there is
+    NO cross-run resumption to exploit — every run re-fetches the full corpus and
+    re-writes all per-match batches. Concurrency (CONCURRENCY workers) keeps a full
+    pull of thousands of small static files to a few minutes. Each worker writes a
+    distinct asset id (`<node_id>-<match_id>`), so parallel writes never collide.
+    Freshness (whether this node runs at all) is the maintain step's concern.
+
+    A worker exception propagates and fails the node — except a permanent 4xx on a
+    single match (a file flagged-available but absent), which is logged and skipped
+    so one bad match can't sink the whole asset. Transient/JSON errors are already
+    retried inside `_get_json`.
     """
-    CHECKPOINT = 50
-    state = load_state(node_id)
-    if state.get("schema_version") != STATE_VERSION:
-        state = {"schema_version": STATE_VERSION, "done": []}
-    done = set(state.get("done", []))
-    pending = [m for m in match_ids if m not in done]
-    if not pending:
-        return
-
     def _worker(mid):
         try:
             fetch_and_write(mid)
         except httpx.HTTPStatusError as exc:
-            # Permanent (404 etc.): the file is flagged but absent. Mark done so we
-            # don't retry it forever; transient 5xx/429 are already retried upstream.
             if exc.response is not None and 400 <= exc.response.status_code < 500:
                 print(f"  [skip] {node_id} match {mid}: {exc.response.status_code} {exc.request.url}")
-                return mid
+                return
             raise
-        return mid
 
-    since_save = 0
     with cf.ThreadPoolExecutor(max_workers=CONCURRENCY) as ex:
-        futures = [ex.submit(_worker, m) for m in pending]
-        for fut in cf.as_completed(futures):
-            mid = fut.result()  # re-raises a non-permanent failure -> node fails (resumable)
-            done.add(mid)
-            since_save += 1
-            if since_save >= CHECKPOINT:
-                state["done"] = sorted(done)
-                save_state(node_id, state)
-                since_save = 0
-    state["done"] = sorted(done)
-    save_state(node_id, state)
+        for fut in cf.as_completed([ex.submit(_worker, m) for m in match_ids]):
+            fut.result()  # re-raise any non-permanent failure -> node fails
 
 
 # --------------------------------------------------------------------------- #
