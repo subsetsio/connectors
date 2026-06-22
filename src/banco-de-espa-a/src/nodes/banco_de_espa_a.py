@@ -125,56 +125,43 @@ def _fetch_bytes(url):
     return resp.content
 
 
-def _classify_header(label):
-    label = label.strip().upper()
-    if "ALIAS" in label:
-        return "alias"
-    if "FRECUENCIA" in label:
-        return "freq"
-    if "DIGO" in label and "SERIE" in label:  # CODIGO DE LA SERIE (accent-safe)
-        return "code"
-    return None
-
-
 def _parse_value_csv(text, publication, alias_to_code, code_to_freq):
     """Unpivot one wide value CSV into long rows.
 
-    Two header layouts exist in the corpus: the common one has a CODIGO row +
-    FRECUENCIA row (6 header rows); ~96 BE tables instead lead with an ALIAS row
-    and omit both CODIGO and FRECUENCIA (4 header rows). So we detect rows
-    dynamically: header rows are classified by their first-column label and data
-    begins at the first row whose first column parses as a period. Identifiers
-    resolve to the canonical catalogue series code (alias -> code), and missing
-    inline frequency is backfilled from the catalogue.
+    Two header layouts exist in the corpus: the common one leads with a CODIGO
+    row and carries a FRECUENCIA row; ~96 BE tables instead lead with an
+    (unlabelled) ALIAS row and omit both the CODIGO label and the FRECUENCIA
+    row. So we treat the FIRST non-empty header row as the identifier row
+    regardless of its label, scan the remaining header rows for FRECUENCIA, and
+    take data to begin at the first row whose first column parses as a period.
+    Identifiers resolve to the canonical catalogue series code (an alias is
+    mapped to its code), and missing inline frequency is backfilled from the
+    catalogue. This is robust to header-row count and ordering.
     """
     rows = list(csv.reader(io.StringIO(text)))
     if not rows:
         return []
-    code_row = alias_row = freq_row = None
+    id_row = freq_row = None
     data_start = None
     for idx, r in enumerate(rows):
-        if not r:
+        if not r or not any(c.strip() for c in r):
             continue
         if _parse_period(r[0].strip()) is not None:
             data_start = idx
             break
-        kind = _classify_header(r[0])
         cells = [c.strip() for c in r[1:]]
-        if kind == "code":
-            code_row = cells
-        elif kind == "alias":
-            alias_row = cells
-        elif kind == "freq":
+        if id_row is None:
+            id_row = cells  # first header row holds the per-column identifiers
+        elif "FRECUENCIA" in r[0].strip().upper():
             freq_row = cells
-    if data_start is None:
+    if data_start is None or id_row is None:
         return []
 
-    ncols = max(len(code_row or []), len(alias_row or []))
     ids, freqs = [], []
-    for i in range(ncols):
-        code = code_row[i] if code_row and i < len(code_row) else ""
-        alias = alias_row[i] if alias_row and i < len(alias_row) else ""
-        ident = code or alias_to_code.get(alias, alias)
+    for i, raw_id in enumerate(id_row):
+        # raw_id is a canonical code in standard files, an alias in the ~96
+        # alias-led files. Keep it if it's already a known code, else map.
+        ident = raw_id if raw_id in code_to_freq else alias_to_code.get(raw_id, raw_id)
         ids.append(ident)
         f = freq_row[i] if freq_row and i < len(freq_row) else ""
         freqs.append(f or code_to_freq.get(ident) or None)

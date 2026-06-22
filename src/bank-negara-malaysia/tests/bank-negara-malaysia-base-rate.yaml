@@ -1,15 +1,17 @@
 spec_id: bank-negara-malaysia-base-rate
 status: active
 tests:
-  - not_null: bank_code
-    reason: every base-rate record is keyed by the publishing bank
-    certainty: 95
   - not_null: bank_name
+    reason: bank_name is the populated natural key; the API leaves bank_code blank
+      for many banks (Islamic banks, Agrobank, ...), so bank_name is what identifies a row
+    certainty: 95
+  - not_null: base_rate
+    reason: the base rate is the headline measure and is quoted for every bank
     certainty: 90
   - not_null: effective_date
     reason: the snapshot's effective_date is stamped onto every row from the meta block
     certainty: 90
-  - unique: bank_code
+  - unique: bank_name
     reason: this is a latest-state snapshot — one row per bank, no history
     certainty: 85
   - row_count: {min: 10, max: 100}
