@@ -38,7 +38,7 @@ tests:
   # Total grid load for Germany runs ~1e6 MWh/day; per-zone and residual/pumped
   # figures are smaller, and residual load can dip negative, so this is a loose
   # sanity band on the central tendency, not a hard gate.
-  - median_between: {col: value, lo: 1.0e3, hi: 2.0e6}
+  - median_between: {col: value, lo: 1000, hi: 2000000}
     reason: daily MWh — total DE load ~1.1e6/day, zone/residual figures smaller; guards a unit slip
     certainty: 55
     severity: warn

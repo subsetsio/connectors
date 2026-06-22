@@ -1,0 +1,45 @@
+spec_id: bundesnetzagentur-prices-dayahead
+status: active
+tests:
+  - not_null: value
+    reason: fetch fn skips None readings before appending
+    certainty: 95
+  - not_null: date_ms
+    certainty: 95
+  - not_null: region
+    certainty: 95
+  - not_null: series_code
+    certainty: 95
+  - not_null: series_label
+    certainty: 95
+  - column_type: {col: date_ms, type: integer}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - column_type: {col: region, type: string}
+    certainty: 95
+  # Market-price modules are all queried under the single DE-LU comparison view;
+  # the bidding zone is encoded in series_code/series_label, not region.
+  - enum: {col: region, values: [DE-LU]}
+    reason: every price module is fetched under region DE-LU only
+    certainty: 95
+  - distinct_count: {col: region, min: 1, max: 1}
+    reason: prices are pulled for a single region (DE-LU)
+    certainty: 95
+  - between: {col: date_ms, lo: 1.388e12, hi: 2.1e12}
+    reason: day-ahead price series span ~2015-present; out-of-band ms means a parse/scale bug
+    certainty: 80
+  - unique: [series_code, date_ms]
+    reason: one daily price per bidding-zone module; region is constant so it need not key the row
+    certainty: 90
+  # Up to 15 bidding-zone modules; some neighbour zones may be absent under DE-LU.
+  - distinct_count: {col: series_code, min: 2, max: 15}
+    reason: 15 bidding-zone price modules requested
+    certainty: 85
+  # Day-ahead wholesale prices in EUR/MWh: typically tens of euros, occasionally
+  # negative (oversupply) or spiking into the hundreds, so this bounds the
+  # central tendency only and is advisory.
+  - median_between: {col: value, lo: 0, hi: 200}
+    reason: EUR/MWh day-ahead price; historical daily median sits in the tens; guards a unit slip
+    certainty: 60
+    severity: warn
