@@ -1,0 +1,22 @@
+spec_id: central-electricity-authority-renewable-energy-generation
+status: active
+tests:
+  - not_null: Month
+    reason: each renewable-generation row carries a Mon-YYYY period
+    certainty: 85
+  - not_null: fy
+    reason: rows are grouped by financial year; fy is the flattened object key
+    certainty: 85
+  - matches: {col: Month, pattern: '^[A-Za-z]{3}-[0-9]{4}$'}
+    reason: period is Mon-YYYY; the endpoint carries some malformed historical rows so this is a soft check
+    certainty: 70
+    severity: warn
+  - column_type: {col: wind, type: string}
+    reason: generation figures arrive as quoted strings (some empty); transform TRY_CASTs to DOUBLE
+    certainty: 90
+  - column_type: {col: solar, type: string}
+    reason: generation figures arrive as quoted strings
+    certainty: 90
+  - row_count: {min: 300}
+    reason: monthly state/region renewable generation (~2200 observed); a steep drop signals truncation
+    certainty: 80

@@ -1,0 +1,26 @@
+spec_id: central-electricity-authority-transformation-capacity
+status: active
+tests:
+  - not_null: month
+    reason: each substation/transformation addition row carries a Mon-YYYY commissioning period
+    certainty: 90
+  - not_null: voltage_ratio
+    reason: every transformation entry records its voltage ratio (e.g. 220/33)
+    certainty: 90
+  - not_null: station_name
+    reason: every entry names the substation
+    certainty: 85
+  - matches: {col: month, pattern: '^[A-Za-z]{3}-[0-9]{4}$'}
+    reason: period is Mon-YYYY; transform parses %b-%Y
+    certainty: 80
+    severity: warn
+  - column_type: {col: capacity, type: string}
+    reason: transformer capacity (MVA) arrives as a quoted string; transform TRY_CASTs to DOUBLE
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: cumulative substation additions over many years (~2500 observed); a steep drop signals truncation
+    certainty: 85
+  - distinct_count: {col: sector, min: 2}
+    reason: entries split across sectors (Central/State/Private); collapse means the sector dimension broke
+    certainty: 75
+    severity: warn

@@ -1,0 +1,20 @@
+spec_id: connecticut-department-of-labor-nfe2-aprv
+status: active
+tests:
+  - not_null: area_code
+    reason: LAUS rows are keyed by substate area
+    certainty: 95
+  - not_null: area_title
+    certainty: 90
+  - row_count: {min: 200}
+    reason: substate areas x labor-force concepts (~900 observed)
+    certainty: 80
+  - enum:
+      col: data_type
+      values: [Labor Force, Employment, Unemployment, Unemployment Rate]
+    reason: LAUS concepts; a few rows carry a blank data_type so treat as warn
+    certainty: 70
+    severity: warn
+  - distinct_count: {col: area_code, min: 50}
+    reason: LAUS publishes many substate areas (counties, towns, NECTAs)
+    certainty: 85

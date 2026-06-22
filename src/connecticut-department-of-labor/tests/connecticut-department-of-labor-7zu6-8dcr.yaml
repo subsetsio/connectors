@@ -1,0 +1,19 @@
+spec_id: connecticut-department-of-labor-7zu6-8dcr
+status: active
+tests:
+  - not_null: year4
+    reason: QCEW rows are keyed by year
+    certainty: 95
+  - not_null: townname
+    certainty: 90
+  - not_null: naics2
+    certainty: 90
+  - row_count: {min: 20000}
+    reason: years x ~170 towns x NAICS-2 sectors; ~52k observed
+    certainty: 85
+  - matches: {col: year4, pattern: '^[0-9]{4}$'}
+    reason: raw SODA values are strings; year is a 4-digit calendar year
+    certainty: 90
+  - distinct_count: {col: naics2, min: 5}
+    reason: multiple 2-digit NAICS sectors plus the all-industries total
+    certainty: 85

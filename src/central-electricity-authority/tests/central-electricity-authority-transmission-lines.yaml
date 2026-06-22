@@ -1,0 +1,26 @@
+spec_id: central-electricity-authority-transmission-lines
+status: active
+tests:
+  - not_null: month
+    reason: each transmission-line addition row carries a Mon-YYYY commissioning period
+    certainty: 90
+  - not_null: voltage_level
+    reason: every line is recorded at a voltage level (kV)
+    certainty: 90
+  - matches: {col: month, pattern: '^[A-Za-z]{3}-[0-9]{4}$'}
+    reason: period is Mon-YYYY; transform parses %b-%Y
+    certainty: 80
+    severity: warn
+  - column_type: {col: voltage_level, type: string}
+    reason: voltage_level arrives as a quoted string (e.g. '765'); transform TRY_CASTs to INTEGER
+    certainty: 90
+  - column_type: {col: line_length, type: string}
+    reason: line length (ckm) arrives as a quoted string; transform TRY_CASTs to DOUBLE
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: cumulative line additions over many years (~2200 observed); a steep drop signals truncation
+    certainty: 85
+  - distinct_count: {col: sector, min: 2}
+    reason: lines are split across sectors (Central/State/Private); collapse means the sector dimension broke
+    certainty: 75
+    severity: warn
