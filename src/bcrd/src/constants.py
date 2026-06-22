@@ -2,8 +2,7 @@
 
 ENTITY_IDS: rank-accepted collect entity ids (score >= publish threshold).
 FILES_BY_SPEC: download spec id -> CDN-relative workbook paths composing that
-topic (year/month partitions of one schema listed together). Copied from the
-collect catalog + rank asset; consumed by src/nodes/bcrd.py.
+topic. Copied from the collect catalog + rank asset; consumed by nodes/bcrd.py.
 """
 
 ENTITY_IDS = [
@@ -1112,7 +1111,7 @@ FILES_BY_SPEC = {
         'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2026.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tasas-interbancarias-promedio-por-plazos': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Tasas_Interbancarias_Promedio_por_Plazos.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Tasas_Interbancarias_Promedio_por_Plazos.xlsm',
     ],
     'bcrd-sector-monetario-y-financiero-tasas-pasivas-me': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_pasivas_me.xlsx',

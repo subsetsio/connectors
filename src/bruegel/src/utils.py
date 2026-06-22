@@ -26,9 +26,18 @@ _FILE_RE = re.compile(
 # HTTP with retry/backoff on transient failures
 # ---------------------------------------------------------------------------
 
-# www.bruegel.org sits behind Cloudflare, which 403s the library's default
-# User-Agent from datacenter IPs. A realistic browser header set clears it
-# (verified: a bare default UA gets 403, these headers get 200). ASCII-only.
+# www.bruegel.org sits behind Cloudflare. From a normal machine a realistic
+# browser header set is enough, but from the cloud runner's datacenter IP the
+# www zone applies a stricter bot/WAF rule that 403s plain requests AND tarpits
+# (hangs) others — verified from a real CI run: the logged httpx client (no TLS
+# impersonation) *timed out*, and curl_cffi reached the file but got 403 because
+# it sent no Referer and carried no Cloudflare clearance cookie. The fix below:
+# (1) one warmed curl_cffi Session impersonating Chrome — the homepage GET banks
+# whatever cf_* cookie Cloudflare hands out, then every fetch reuses it; (2) a
+# same-origin Referer on every request (the file paths under /sites|/system are
+# protected by a referer/hotlink WAF rule); (3) the curl path triggers on
+# *timeouts and connect errors too*, not just HTTP 403, so the tarpitted page
+# fetches fall through to it instead of retry-then-die. ASCII-only headers.
 _BROWSER_HEADERS = {
     "User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
                    "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -36,61 +45,91 @@ _BROWSER_HEADERS = {
     "Accept": ("text/html,application/xhtml+xml,application/xml;q=0.9,"
                "image/avif,image/webp,*/*;q=0.8"),
     "Accept-Language": "en-US,en;q=0.9",
+    "Referer": BASE + "/datasets",
 }
+
+_IMPERSONATE = "chrome124"
+_curl_session = None
+
+
+def _get_curl_session():
+    """Lazily build a curl_cffi Session warmed against the Bruegel homepage so it
+    banks any Cloudflare clearance cookie before the first real fetch. Warm-up
+    failures are non-fatal — a session with browser-class TLS + the banked
+    cookies is still our best shot at the www-zone WAF."""
+    global _curl_session
+    if _curl_session is not None:
+        return _curl_session
+    from curl_cffi import requests as cr
+    s = cr.Session(impersonate=_IMPERSONATE, timeout=120)
+    s.headers.update(_BROWSER_HEADERS)
+    for warm in (BASE + "/", BASE + "/datasets"):
+        try:
+            s.get(warm, allow_redirects=True)
+        except Exception:
+            pass
+    _curl_session = s
+    return s
 
 
 def _curl_fetch(url: str, headers: dict | None, binary: bool):
-    """Cloudflare bypass. bruegel.org's Cloudflare serves us fine from a normal
-    machine but 403s the cloud runner's datacenter IP/TLS fingerprint regardless
-    of User-Agent (verified: a real browser UA still 403s from CI). curl_cffi
-    impersonates Chrome's TLS (JA3) handshake, which clears it. Used ONLY as the
-    fallback when the logged subsets_utils path returns 403."""
-    from curl_cffi import requests as cr
-    h = dict(_BROWSER_HEADERS)
+    """Fetch via the warmed curl_cffi Session (Chrome TLS + Cloudflare cookies +
+    Referer). Retries non-200 and transport errors with short backoff so it stays
+    inside the per-node budget instead of the old 30s-of-sleeps chain."""
+    s = _get_curl_session()
+    h = {"Referer": BASE + "/"}
     if headers:
         h.update(headers)
     last = None
-    for attempt in range(5):
+    for attempt in range(4):
         try:
-            r = cr.get(url, impersonate="chrome", headers=h, timeout=180,
-                       allow_redirects=True)
+            r = s.get(url, headers=h, timeout=120, allow_redirects=True)
             if r.status_code == 200:
                 return r.content if binary else r.text
             last = f"HTTP {r.status_code}"
         except Exception as e:  # curl_cffi transport error — retry with backoff
             last = f"{type(e).__name__}: {e}"
-        time.sleep(2 * (attempt + 1))
-    raise AssertionError(f"curl_cffi fallback failed for {url}: {last}")
+        time.sleep(1.5 * (attempt + 1))
+    raise AssertionError(f"curl_cffi fetch failed for {url}: {last}")
 
 
-@transient_retry()
+# Failures that mean "the logged client couldn't get through" — fall to curl.
+_CURL_FALLBACK_EXC = (
+    httpx.ConnectError, httpx.ConnectTimeout, httpx.ReadTimeout,
+    httpx.WriteTimeout, httpx.PoolTimeout, httpx.RemoteProtocolError,
+)
+
+
 def get_bytes(url: str, headers: dict | None = None) -> bytes:
     h = dict(_BROWSER_HEADERS)
     if headers:
         h.update(headers)
     try:
-        resp = get(url, timeout=(10.0, 180.0), headers=h)
+        resp = get(url, timeout=(10.0, 60.0), headers=h)
         resp.raise_for_status()
         return resp.content
     except httpx.HTTPStatusError as e:
-        if e.response.status_code == 403:
+        if e.response.status_code in (403, 429) or e.response.status_code >= 500:
             return _curl_fetch(url, headers, binary=True)
         raise
+    except _CURL_FALLBACK_EXC:
+        return _curl_fetch(url, headers, binary=True)
 
 
-@transient_retry()
 def get_text(url: str, headers: dict | None = None) -> str:
     h = dict(_BROWSER_HEADERS)
     if headers:
         h.update(headers)
     try:
-        resp = get(url, timeout=(10.0, 120.0), headers=h)
+        resp = get(url, timeout=(10.0, 60.0), headers=h)
         resp.raise_for_status()
         return resp.text
     except httpx.HTTPStatusError as e:
-        if e.response.status_code == 403:
+        if e.response.status_code in (403, 429) or e.response.status_code >= 500:
             return _curl_fetch(url, headers, binary=False)
         raise
+    except _CURL_FALLBACK_EXC:
+        return _curl_fetch(url, headers, binary=False)
 
 
 @transient_retry()
