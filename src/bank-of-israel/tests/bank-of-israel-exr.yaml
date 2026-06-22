@@ -1,0 +1,30 @@
+spec_id: bank-of-israel-exr
+status: active
+tests:
+  - not_null: SERIES_CODE
+    reason: SERIES_CODE is the SDMX series-code dimension; every BOI.STATISTICS observation row carries it. A null means the CSV header shifted or we read the wrong column.
+    certainty: 95
+  - not_null: TIME_PERIOD
+    reason: every SDMX observation is stamped with a TIME_PERIOD; a null means a malformed/partial CSV pull.
+    certainty: 95
+  - not_null: FREQ
+    reason: FREQ is a universal dimension across all BOI.STATISTICS dataflows.
+    certainty: 88
+  - column_type: {col: SERIES_CODE, type: string}
+    reason: raw is written all-VARCHAR per the download node's declared schema; series codes are alphanumeric strings.
+    certainty: 99
+  - column_type: {col: TIME_PERIOD, type: string}
+    reason: TIME_PERIOD kept as a string because frequency formats differ across flows (daily 2005-09-01, monthly 2005-09, quarterly 2005-Q1, annual 2005).
+    certainty: 99
+  - column_type: {col: OBS_VALUE, type: string}
+    reason: OBS_VALUE is stored as a string at the raw layer; the transform re-types it to DOUBLE downstream.
+    certainty: 99
+  - column_type: {col: FREQ, type: string}
+    reason: all raw columns are VARCHAR by construction of the per-dataflow schema.
+    certainty: 99
+  - row_count: {min: 1}
+    reason: the bulk per-dataflow pull returns at least one observation; the fetch fn asserts n>0 rows.
+    certainty: 95
+  - distinct_count: {col: SERIES_CODE, min: 1}
+    reason: a dataflow publishes one or more series; zero distinct series codes means an empty or wrong-shape payload.
+    certainty: 90

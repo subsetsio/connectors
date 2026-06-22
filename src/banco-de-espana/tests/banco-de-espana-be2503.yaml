@@ -1,0 +1,29 @@
+spec_id: banco-de-espana-be2503
+status: active
+tests:
+  - not_null: value
+    reason: fetch_one drops every observation whose cell does not parse to a finite number, so value is never null
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: declared float64 in RAW_SCHEMA
+    certainty: 95
+  - column_type: {col: date, type: date}
+    reason: declared date32 in RAW_SCHEMA; the Spanish period label is parsed to a calendar date
+    certainty: 90
+  - column_type: {col: period_label, type: string}
+    certainty: 90
+  - not_null: period_label
+    reason: rows are emitted only for non-empty period labels
+    certainty: 90
+  - row_count: {min: 1}
+    reason: each rank-active table file carries at least one published observation
+    certainty: 85
+  - at_most: {col: date, expr: today}
+    reason: published statistics are historical, not projections; a future observation date points to a parse error
+    certainty: 75
+    points_outward: true
+    severity: warn
+  - at_least: {col: date, expr: "1900-01-01"}
+    reason: Banco de Espana series do not predate the 20th century
+    certainty: 65
+    severity: warn

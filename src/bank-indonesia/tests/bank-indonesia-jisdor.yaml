@@ -1,0 +1,27 @@
+spec_id: bank-indonesia-jisdor
+status: active
+tests:
+  - not_null: date
+    reason: every JISDOR fixing is dated; tgl is the series key
+    certainty: 95
+  - not_null: buy
+    reason: JISDOR publishes a single USD/IDR reference rate, carried in the buy field
+    certainty: 90
+  - column_type: {col: date, type: string}
+    reason: raw keeps the ISO YYYY-MM-DD string; the transform CASTs to DATE
+    certainty: 90
+  - enum: {col: currency, values: [USD]}
+    reason: JISDOR is the USD/IDR spot reference only; no other currency is quoted
+    certainty: 95
+  - unique: date
+    reason: exactly one JISDOR fixing per business day
+    certainty: 95
+  - between: {col: buy, lo: 5000, hi: 30000}
+    reason: USD/IDR has traded ~8,000-17,000 over the JISDOR era (since 2013); a wide band guards unit errors
+    certainty: 80
+    severity: warn
+  - freshness: {col: date, reaches: today - 10d}
+    reason: JISDOR is fixed every business day; latest should be within ~10 days allowing weekends/holidays
+    certainty: 70
+    points_outward: true
+    severity: warn

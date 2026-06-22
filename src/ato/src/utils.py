@@ -55,6 +55,24 @@ def _entity_id(family: str, resource_name: str) -> str:
     return key.lower().replace("_", "-")
 
 
+def safe_columns(names) -> dict:
+    """Map raw CSV headers -> Delta-safe column names (lowercase snake_case),
+    deduplicated. ATO headers carry spaces, newlines, dots and footnote markers
+    that delta-rs rejects, so we normalise them and suffix any collisions.
+    """
+    out: dict[str, str] = {}
+    used: dict[str, int] = {}
+    for raw in names:
+        s = re.sub(r"[^0-9a-zA-Z]+", "_", str(raw)).strip("_").lower() or "col"
+        if s in used:
+            used[s] += 1
+            s = f"{s}_{used[s]}"
+        else:
+            used[s] = 0
+        out[raw] = s
+    return out
+
+
 @transient_retry()
 def _action(path: str, **params) -> dict:
     r = get(f"{BASE}/api/3/action/{path}", params=params, timeout=(10.0, 120.0))

@@ -21,10 +21,11 @@ The transform is a thin pass-through: datastore values are all text and the
 possible here; the SQL publishes the unioned rows as-is (light reshape only).
 """
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
+import pyarrow as pa
+from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
 
 from constants import ENTITY_IDS
-from utils import build_groups, csv_rows
+from utils import build_groups, csv_rows, safe_columns
 
 
 def fetch_one(node_id: str) -> None:
@@ -39,22 +40,27 @@ def fetch_one(node_id: str) -> None:
         raise RuntimeError(f"{node_id}: entity {entity_id!r} not found in live catalog")
 
     rows = []
-    keys: dict[str, None] = {}  # ordered set: first-seen column order
+    raw_keys: dict[str, None] = {}  # ordered set: first-seen column order
     for res in resources:
         if res["format"] != "CSV" or not res.get("url"):
             continue  # build only from the clean flat CSV editions
         for row in csv_rows(res["url"], res["income_year"]):
             rows.append(row)
             for k in row:
-                keys.setdefault(k, None)
+                raw_keys.setdefault(k, None)
 
-    # Editions of the same table drift their datastore field lists year to year.
-    # Give every row the same key set (missing -> null) so the runtime's
-    # read_json_auto infers one stable schema instead of tripping on a column
-    # that only appears in later rows.
-    cols = list(keys)
-    normalized = ({k: row.get(k) for k in cols} for row in rows)
-    save_raw_ndjson(normalized, asset)
+    # Editions of the same table drift their column sets year to year; build one
+    # union schema (missing -> null) with Delta-safe names, all stored as text
+    # (the raw CSV is untyped). An explicit pyarrow schema keeps even very wide
+    # tables (hundreds of columns) intact, which JSON auto-inference does not.
+    colmap = safe_columns(raw_keys)
+    schema = pa.schema([(colmap[k], pa.string()) for k in raw_keys])
+    records = [
+        {colmap[k]: (None if row.get(k) is None else str(row.get(k))) for k in raw_keys}
+        for row in rows
+    ]
+    table = pa.Table.from_pylist(records, schema=schema)
+    save_raw_parquet(table, asset)
 
 
 DOWNLOAD_SPECS = [

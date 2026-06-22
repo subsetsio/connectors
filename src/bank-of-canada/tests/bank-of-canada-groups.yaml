@@ -1,0 +1,20 @@
+spec_id: bank-of-canada-groups
+status: active
+tests:
+  - not_null: group_id
+    reason: group_id is the dict key from /lists/groups/json; every group must carry one
+    certainty: 99
+  - unique: group_id
+    reason: groups come keyed by id, so ids are unique by construction; a dupe means the parse re-emitted a key
+    certainty: 99
+  - column_type: {col: group_id, type: string}
+    certainty: 99
+  - column_type: {col: label, type: string}
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: research observed ~2,400 named groups; a count far below means the list endpoint truncated or changed shape
+    certainty: 85
+  - nullable: {col: label, max_null_frac: 0.2}
+    reason: most groups carry a human label; a high null fraction means the label field moved or emptied
+    certainty: 80
+    severity: warn

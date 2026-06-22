@@ -1,0 +1,22 @@
+spec_id: bank-of-estonia-1839
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: a public report flagged onAvalik/onAndmetega should reshape to at least one long (period, series, value) record; zero rows means the CSV matrix parser failed or the report has no public data
+    certainty: 80
+    severity: block
+  - not_null: series
+    reason: the parser only emits a record once a series label (row hierarchy + column dimension path) is built, so series is never null
+    certainty: 95
+  - not_null: value
+    reason: _num() returns None for blank/placeholder cells and those records are skipped, so every emitted value is a parsed float
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: value is pinned to pa.float64() in the module SCHEMA
+    certainty: 95
+  - column_type: {col: series, type: string}
+    reason: series is pinned to pa.string() in the module SCHEMA
+    certainty: 95
+  - column_type: {col: period, type: string}
+    reason: period is the verbatim CSV column-header label, pinned to pa.string()
+    certainty: 90

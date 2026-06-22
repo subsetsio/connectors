@@ -1,0 +1,20 @@
+spec_id: bank-of-canada-series
+status: active
+tests:
+  - not_null: series_id
+    reason: series_id is the dict key from /lists/series/json; every series must carry one
+    certainty: 99
+  - unique: series_id
+    reason: series come keyed by id, so ids are unique by construction; a dupe means the parse re-emitted a key
+    certainty: 99
+  - column_type: {col: series_id, type: string}
+    certainty: 99
+  - column_type: {col: label, type: string}
+    certainty: 95
+  - row_count: {min: 5000}
+    reason: research observed ~15,600 individual series; a count far below means the list endpoint truncated or changed shape
+    certainty: 85
+  - nullable: {col: label, max_null_frac: 0.2}
+    reason: most series carry a human label; a high null fraction means the label field moved or emptied
+    certainty: 75
+    severity: warn

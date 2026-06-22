@@ -1,0 +1,17 @@
+spec_id: banco-central-del-ecuador-documentos-publicacionesnotas-catalogo-cuentasnacionales-tou2007-2020p-nacimpor
+status: active
+# Generic melt: each BCE workbook is parsed into one tidy row per populated
+# cell (sheet, row_index, col_index, row_label, col_header, value, value_text).
+# These invariants are schema-level health checks shared by every workbook —
+# they catch a fetch that returned an error page or a melt that collapsed.
+tests:
+  - not_null: sheet
+    reason: every parsed cell is attributed to a worksheet; a null sheet means the melt structure broke
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: numeric cells are emitted as DOUBLE; a type change means the parser stopped coercing values
+    certainty: 90
+  - row_count: {min: 1}
+    reason: a populated workbook must yield at least one cell row; zero means the fetch hit an error page or the layout changed
+    certainty: 90
+    points_outward: true
