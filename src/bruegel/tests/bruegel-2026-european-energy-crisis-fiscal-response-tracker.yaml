@@ -1,0 +1,19 @@
+spec_id: bruegel-2026-european-energy-crisis-fiscal-response-tracker
+# Raw is the long form of the "Measures" sheet — one row per national fiscal
+# measure responding to the energy crisis, original Excel headers preserved.
+tests:
+  - not_null: Country
+    reason: every fiscal measure is attributed to a country; only stray subtotal/footer rows could lack one
+    certainty: 80
+    severity: warn
+  - not_null: "Measure Name"
+    reason: each tracked measure carries a name
+    certainty: 80
+    severity: warn
+  - row_count: {min: 100}
+    reason: the tracker catalogues hundreds of national energy-crisis measures across the EU since 2021
+    certainty: 70
+  - between: {col: "Measure in % of GDP", lo: 0, hi: 30}
+    reason: an individual measure's cost as a share of GDP is positive and well under ~30%; a breach suggests a unit/parse error
+    certainty: 55
+    severity: warn

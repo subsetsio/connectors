@@ -1,0 +1,44 @@
+{
+  "spec_id": "baseball-savant-pitch-movement",
+  "status": "active",
+  "tests": [
+    {
+      "not_null": "pitcher_id",
+      "reason": "every Statcast leaderboard row is keyed to a player/entity id (pitcher_id); a null id is a parse/column-shift bug on our side",
+      "certainty": 95
+    },
+    {
+      "column_type": {
+        "col": "pitcher_id",
+        "type": "integer"
+      },
+      "reason": "MLBAM player/entity ids are integers; our column-wise coercion types an all-numeric id column as int",
+      "certainty": 90
+    },
+    {
+      "column_type": {
+        "col": "_requested_year",
+        "type": "integer"
+      },
+      "reason": "fetch tags each row with the requested season as an int (or null for snapshot boards that ignore the year param)",
+      "certainty": 90
+    },
+    {
+      "between": {
+        "col": "_requested_year",
+        "lo": 2015,
+        "hi": "current_year()"
+      },
+      "reason": "we only request seasons from the Statcast era (2015) to the current year; nulls (snapshot boards) are skipped by the check",
+      "certainty": 85
+    },
+    {
+      "row_count": {
+        "min": 20
+      },
+      "reason": "a season-level board over the 2015-present era should always carry at least a few dozen qualified players; far fewer means a fetch/skip regression",
+      "certainty": 75,
+      "severity": "warn"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+spec_id: bruegel-eu-labour-market-outlook-dashboard
+# Raw is long: (year, country, indicator, breakdown, value).
+tests:
+  - not_null: year
+    reason: every observation is stamped with a year
+    certainty: 90
+  - not_null: country
+    reason: each series is reported for a country
+    certainty: 85
+  - not_null: value
+    reason: the parser skips None values
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    reason: year is cast to int in the parser
+    certainty: 85
+  - between: {col: year, lo: 1990, hi: 2040}
+    reason: a labour-market OUTLOOK includes forward projection years beyond the current year
+    certainty: 70
+    points_outward: true
+    severity: warn

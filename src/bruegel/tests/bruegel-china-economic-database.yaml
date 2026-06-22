@@ -1,0 +1,16 @@
+spec_id: bruegel-china-economic-database
+# Raw is the flattened Dash dashboard: one row per (page, chart, series, x, value).
+tests:
+  - not_null: page
+    reason: every observation is collected from a dashboard page route
+    certainty: 90
+  - not_null: chart
+    reason: each figure carries a title used as the chart label
+    certainty: 75
+    severity: warn
+  - not_null: value
+    reason: the parser skips None y-values, so every emitted row has a value
+    certainty: 95
+  - row_count: {min: 500}
+    reason: many pages, each with several charts/series and a long monthly history
+    certainty: 65

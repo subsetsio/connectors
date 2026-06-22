@@ -1,0 +1,75 @@
+{
+  "spec_id": "baseball-savant-statcast-pitches",
+  "status": "active",
+  "tests": [
+    {
+      "not_null": "game_date",
+      "reason": "every pitch belongs to a game on a date; read_csv_auto over the Savant pitch CSV always populates game_date",
+      "certainty": 90
+    },
+    {
+      "column_type": {
+        "col": "game_date",
+        "type": "date"
+      },
+      "reason": "game_date is an ISO yyyy-mm-dd; DuckDB read_csv_auto should infer a DATE",
+      "certainty": 70,
+      "severity": "warn"
+    },
+    {
+      "not_null": "pitcher",
+      "reason": "type=details pitch rows always carry the pitcher MLBAM id",
+      "certainty": 90
+    },
+    {
+      "column_type": {
+        "col": "pitcher",
+        "type": "integer"
+      },
+      "reason": "pitcher is an MLBAM id (integer)",
+      "certainty": 85
+    },
+    {
+      "not_null": "batter",
+      "reason": "type=details pitch rows always carry the batter MLBAM id",
+      "certainty": 90
+    },
+    {
+      "at_most": {
+        "col": "game_date",
+        "expr": "today"
+      },
+      "reason": "no pitch can be thrown in the future",
+      "certainty": 98,
+      "points_outward": true
+    },
+    {
+      "between": {
+        "col": "release_speed",
+        "lo": 20,
+        "hi": 110
+      },
+      "reason": "MLB pitch release speed in mph spans roughly 40-105; 20-110 is a generous physical envelope (nulls allowed for unmeasured pitches)",
+      "certainty": 85,
+      "severity": "warn"
+    },
+    {
+      "freshness": {
+        "col": "game_date",
+        "reaches": "today - 400d"
+      },
+      "reason": "a full-era re-pull should reach the most recent completed/ongoing season; a max older than ~400d means the firehose stopped early",
+      "certainty": 80,
+      "points_outward": true,
+      "severity": "warn"
+    },
+    {
+      "row_count": {
+        "min": 100000
+      },
+      "reason": "the full 2015-present pitch corpus is millions of rows; a re-pull under 100k means windows were dropped",
+      "certainty": 85,
+      "severity": "warn"
+    }
+  ]
+}

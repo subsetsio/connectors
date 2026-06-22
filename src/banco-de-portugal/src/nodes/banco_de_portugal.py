@@ -206,14 +206,6 @@ _TRANSIENT_EXC = (
 def _is_transient(exc: BaseException) -> bool:
     if isinstance(exc, _TRANSIENT_EXC):
         return True
-    # A 2xx with an empty / truncated body decodes to a JSONDecodeError. This is
-    # NOT a parsing bug on our side: under concurrent load the BPstat server
-    # intermittently returns an empty 200 body for a page it would otherwise
-    # serve fine (confirmed by re-fetching the same page successfully out of
-    # band). Treat it as transient so the backoff retries the same request — a
-    # genuinely malformed payload still gives up after the attempt budget.
-    if isinstance(exc, json.JSONDecodeError):
-        return True
     if isinstance(exc, httpx.HTTPStatusError):
         code = exc.response.status_code
         # Retry only genuinely transient HTTP conditions: rate-limiting (429)
@@ -364,9 +356,9 @@ def fetch_one(node_id: str) -> None:
             #  - a 5xx (server computes the page, then bails), and
             #  - an empty / non-JSON 200 body (server gives up and returns nothing,
             #    so resp.json() raises JSONDecodeError). Both recover the same way:
-            # shrink page_size and restart the dataset. The per-page @retry above
-            # already absorbs a genuinely intermittent empty blip at a given size;
-            # if it persists past the retry budget we land here and step down.
+            # shrink page_size and restart the dataset, rather than retrying the
+            # same oversized request (which just re-triggers the same drop and
+            # piles load on an already-struggling server — see _is_transient).
             shrinkable = isinstance(e, json.JSONDecodeError) or (
                 e.response.status_code in (500, 502, 503, 504)
             )

@@ -1,0 +1,23 @@
+spec_id: bruegel-divisia-monetary-aggregates-euro-area
+# Raw is the long form of the "Data" sheet: (date, series_name, category, subcategory, value).
+tests:
+  - not_null: date
+    reason: every observation is a YYYYMM period parsed to a month-start date
+    certainty: 95
+  - not_null: series_name
+    reason: each column maps to a unique series code
+    certainty: 90
+  - not_null: value
+    reason: the parser drops NaN cells, so every row carries a value
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: monetary aggregate values are floats
+    certainty: 85
+  - matches: {col: date, pattern: '\d{4}-\d{2}-\d{2}'}
+    reason: dates are normalised to a YYYY-MM-01 month start
+    certainty: 80
+  - freshness: {col: date, reaches: today - 400d}
+    reason: Divisia aggregates are updated periodically; a stale max usually means the source has not refreshed yet
+    certainty: 55
+    points_outward: true
+    severity: warn
