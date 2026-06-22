@@ -84,12 +84,13 @@ def _post(action: str, data: dict):
     return resp
 
 
-def _parse_viewer(viewer_html: str) -> dict:
-    """Pull reportVersion / departmentCode / freqType from the showSinglereport
-    script tag the report viewer embeds."""
+def _parse_viewer(viewer_html: str) -> dict | None:
+    """Pull reportVersion / departmentCode / freqType / usageType from the
+    showSinglereport script tag the report viewer embeds. Returns None when the
+    viewer is empty / has no report (a placeholder catalog entry)."""
     m = re.search(r'id="showSinglereport"([^>]*)>', viewer_html)
     if not m:
-        raise ValueError("showSinglereport tag not found in report viewer")
+        return None
     seg = m.group(1)
 
     def attr(name: str):
@@ -100,6 +101,10 @@ def _parse_viewer(viewer_html: str) -> dict:
         "reportVersion": attr("reportVersion"),
         "dept": attr("sourceDepartmentCode"),
         "freqType": attr("collectFrequenceTypeCode"),
+        # usageType varies per report (01 historical macro tables, 02 LS-style
+        # tables) and drives whether queryRptTimeFreqMask returns any masks at
+        # all — it MUST come from the viewer, not be assumed.
+        "usageType": attr("usageType") or "01",
     }
 
 
@@ -131,29 +136,40 @@ def _parse_template(tpl_html: str):
     return labels, datacells, min(r for r, _, _ in datacells), min(c for _, c, _ in datacells)
 
 
-def _freq_masks(report: str, sort: str) -> tuple[list[str], str | None]:
+def _freq_masks(report: str, sort: str, usage_type: str) -> tuple[list[str], str | None]:
     resp = _post(
         "queryRptTimeFreqMask",
         {
             "reportDataKeyDTO.reportNumber": report,
-            "reportDataKeyDTO.usageType": "01",
+            "reportDataKeyDTO.usageType": usage_type,
             "reportDataKeyDTO.dataSortTypeCode": sort,
         },
     )
-    blocks = resp.json()
-    if not blocks:
-        return [], None
-    return blocks[0].get("list", []) or [], blocks[0].get("departmentCode")
+    blocks = resp.json() or []
+    masks = []
+    dept = None
+    for blk in blocks:
+        # Two response shapes: macro reports return {departmentCode, list:[...]};
+        # LS-style reports return one object per period with collectFrequenceMask.
+        if blk.get("list"):
+            masks.extend(blk["list"])
+        elif blk.get("collectFrequenceMask"):
+            masks.append(blk["collectFrequenceMask"])
+        if not dept and blk.get("departmentCode"):
+            dept = blk["departmentCode"]
+    return masks, dept
 
 
-def _data_key(report, dept, mask, freq_type, subject, report_version) -> dict:
+def _data_key(report, dept, mask, freq_type, subject, report_version, usage_type) -> dict:
     return {
         "reportDataKeyDTO.reportNumber": report,
-        "reportDataKeyDTO.departmentCode": dept,
+        # the data call needs a departmentCode placeholder even when the report
+        # exposes none — the platform itself posts the literal string "null".
+        "reportDataKeyDTO.departmentCode": dept or "null",
         "reportDataKeyDTO.collectFrequenceMask": mask,
         "reportDataKeyDTO.collectDataVersion": "1",
         "reportDataKeyDTO.collectFrequenceTypeCode": freq_type or "",
-        "reportDataKeyDTO.usageType": "01",
+        "reportDataKeyDTO.usageType": usage_type,
         "reportDataKeyDTO.objectType": "04",
         "reportDataKeyDTO.objectCode": subject,
         "reportDataKeyDTO.reportVersion": report_version or "",
@@ -167,20 +183,27 @@ def fetch_one(node_id: str) -> None:
 
     # 1. Seed the session and read the report's version/department/frequency.
     viewer = _parse_viewer(_get_viewer(report, subject, sort))
+    rows = []
+    if viewer is None:
+        # Placeholder catalog entry with no actual report behind it — persist an
+        # empty asset rather than raising, so one dud entry can't abort the DAG.
+        save_raw_ndjson(rows, asset)
+        return
+
     report_version = viewer["reportVersion"]
     freq_type = viewer["freqType"]
+    usage_type = viewer["usageType"]
 
     # 2. Available time masks (+ department, which is missing from collect
-    #    metadata for ~half the reports but always present here).
-    masks, mask_dept = _freq_masks(report, sort)
+    #    metadata for ~half the reports but recoverable from the viewer / mask).
+    masks, mask_dept = _freq_masks(report, sort, usage_type)
     dept = viewer["dept"] or mask_dept
 
-    rows = []
     if masks:
         # 3. Template (cell layout) — version-keyed, so fetch once and reuse.
         tpl = _post(
             "updateReportHtml",
-            _data_key(report, dept, masks[0], freq_type, subject, report_version),
+            _data_key(report, dept, masks[0], freq_type, subject, report_version, usage_type),
         ).text
         labels, datacells, min_row, min_col = _parse_template(tpl)
 
@@ -202,7 +225,7 @@ def fetch_one(node_id: str) -> None:
             for mask in masks:
                 blocks = _post(
                     "queryReportData",
-                    _data_key(report, dept, mask, freq_type, subject, report_version),
+                    _data_key(report, dept, mask, freq_type, subject, report_version, usage_type),
                 ).json()
                 for block in blocks or []:
                     for data_row in block.get("data", []):
