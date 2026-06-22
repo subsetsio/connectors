@@ -1,0 +1,27 @@
+spec_id: cisco-umbrella-top-1m-tlds
+status: active
+tests:
+  - not_null: rank
+    reason: every row in the TLD popularity list carries a rank
+    certainty: 99
+  - not_null: tld
+    reason: every row is a (rank, tld) tuple
+    certainty: 99
+  - column_type: {col: rank, type: integer}
+    certainty: 95
+  - column_type: {col: tld, type: string}
+    certainty: 95
+  - unique: rank
+    reason: the TLD list is a strict ranking, one TLD per rank
+    certainty: 95
+  - at_least: {col: rank, expr: 1}
+    reason: ranks are 1-based
+    certainty: 95
+  - row_count: {min: 100, max: 50000}
+    reason: a few thousand TLDs exist; the ~89KB file holds on the order of 1-2k rows
+    certainty: 75
+    severity: warn
+  - matches: {col: tld, pattern: "^[A-Za-z0-9.-]+$"}
+    reason: TLDs are bare label strings (incl. multi-label public suffixes)
+    certainty: 75
+    severity: warn

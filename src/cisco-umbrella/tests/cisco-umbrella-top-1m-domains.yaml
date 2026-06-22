@@ -1,0 +1,26 @@
+spec_id: cisco-umbrella-top-1m-domains
+status: active
+tests:
+  - not_null: rank
+    reason: every row in the popularity list carries a rank
+    certainty: 99
+  - not_null: domain
+    reason: every row is a (rank, domain) tuple
+    certainty: 99
+  - column_type: {col: rank, type: integer}
+    certainty: 95
+  - column_type: {col: domain, type: string}
+    certainty: 95
+  - unique: rank
+    reason: the list is a strict ranking, one domain per rank
+    certainty: 95
+  - between: {col: rank, lo: 1, hi: 1000000}
+    reason: top-1m.csv is exactly the top 1,000,000 ranks
+    certainty: 95
+  - row_count: {min: 900000, max: 1000000}
+    reason: Cisco publishes the top 1,000,000 domains; verified exactly 1,000,000 rows while probing
+    certainty: 90
+  - matches: {col: domain, pattern: "^[A-Za-z0-9.-]+$"}
+    reason: domains are bare hostnames (labels, dots, hyphens) with no scheme or path
+    certainty: 80
+    severity: warn
