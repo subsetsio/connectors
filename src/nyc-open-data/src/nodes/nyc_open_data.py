@@ -55,14 +55,17 @@ def _csv_to_parquet(csv_path: str, pq_path: str) -> None:
     (better column types); on any inference/cast error fall back to
     all_varchar so the read is total."""
     con = duckdb.connect()
+    # 64MB max line — some datasets carry full-geometry WKT (MULTIPOLYGON /
+    # MULTILINESTRING) in a single CSV field that blows DuckDB's 2MB default.
+    big_line = "max_line_size=67108864"
     try:
         typed = (
             f"SELECT * FROM read_csv_auto('{csv_path}', "
-            f"normalize_names=true, header=true, sample_size=200000)"
+            f"normalize_names=true, header=true, sample_size=200000, {big_line})"
         )
         allvarchar = (
             f"SELECT * FROM read_csv_auto('{csv_path}', "
-            f"normalize_names=true, header=true, all_varchar=true)"
+            f"normalize_names=true, header=true, all_varchar=true, {big_line})"
         )
         copy_opts = "(FORMAT parquet, COMPRESSION zstd)"
         try:
