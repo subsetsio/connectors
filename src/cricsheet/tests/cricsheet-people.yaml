@@ -1,0 +1,18 @@
+spec_id: cricsheet-people
+status: active
+tests:
+  - not_null: identifier
+    reason: the register's primary key; every row has one.
+    certainty: 98
+  - unique: identifier
+    reason: one row per person in the register.
+    certainty: 95
+  - matches: {col: identifier, pattern: '^[0-9a-f]+$'}
+    reason: Cricsheet person identifiers are lowercase hex strings (e.g. b4a23876).
+    certainty: 92
+  - not_null: name
+    reason: every register entry has a name; probing found zero empties.
+    certainty: 95
+  - row_count: {min: 10000}
+    reason: the register held ~18k people when probed; a sharp drop signals a truncated download.
+    certainty: 85
