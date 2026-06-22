@@ -22,6 +22,8 @@ resumes without re-pulling. Matches are immutable once played, so closed batches
 change. Freshness (whether a node runs at all) is the maintain step's concern, not ours.
 """
 
+import concurrent.futures as cf
+
 import httpx
 import pyarrow as pa
 
@@ -37,6 +39,10 @@ from subsets_utils import (
 
 RAW = "https://raw.githubusercontent.com/statsbomb/open-data/master/data"
 STATE_VERSION = 1
+# Per-match files are fetched concurrently — raw.githubusercontent.com has no
+# documented rate limit and serves static files; ~12k tiny GETs would take hours
+# sequentially. httpx.Client is thread-safe for concurrent requests.
+CONCURRENCY = 24
 
 
 # --------------------------------------------------------------------------- #
@@ -93,28 +99,50 @@ def _match_ids_with_360():
 
 
 def _run_batched(node_id: str, match_ids, fetch_and_write):
-    """Shared resumable per-match batch loop with a done-set watermark."""
+    """Shared resumable per-match batch loop with a done-set watermark.
+
+    Matches are fetched concurrently. Each worker writes its raw batch parquet
+    (a distinct asset id per match — safe to write in parallel) BEFORE the main
+    thread records the match as done, preserving the write-raw-before-state
+    invariant. State is checkpointed every CHECKPOINT completions so an interrupt
+    loses at most that many matches' progress (their raw is still on disk; they
+    just get re-fetched next run). Already-done matches are skipped, so a re-run
+    resumes from the watermark.
+    """
+    CHECKPOINT = 50
     state = load_state(node_id)
     if state.get("schema_version") != STATE_VERSION:
         state = {"schema_version": STATE_VERSION, "done": []}
     done = set(state.get("done", []))
-    for mid in match_ids:
-        if mid in done:
-            continue
+    pending = [m for m in match_ids if m not in done]
+    if not pending:
+        return
+
+    def _worker(mid):
         try:
-            wrote = fetch_and_write(mid)
+            fetch_and_write(mid)
         except httpx.HTTPStatusError as exc:
             # Permanent (404 etc.): the file is flagged but absent. Mark done so we
             # don't retry it forever; transient 5xx/429 are already retried upstream.
             if exc.response is not None and 400 <= exc.response.status_code < 500:
                 print(f"  [skip] {node_id} match {mid}: {exc.response.status_code} {exc.request.url}")
-                wrote = True
-            else:
-                raise
-        if wrote:
+                return mid
+            raise
+        return mid
+
+    since_save = 0
+    with cf.ThreadPoolExecutor(max_workers=CONCURRENCY) as ex:
+        futures = [ex.submit(_worker, m) for m in pending]
+        for fut in cf.as_completed(futures):
+            mid = fut.result()  # re-raises a non-permanent failure -> node fails (resumable)
             done.add(mid)
-            state["done"] = sorted(done)
-            save_state(node_id, state)
+            since_save += 1
+            if since_save >= CHECKPOINT:
+                state["done"] = sorted(done)
+                save_state(node_id, state)
+                since_save = 0
+    state["done"] = sorted(done)
+    save_state(node_id, state)
 
 
 # --------------------------------------------------------------------------- #
