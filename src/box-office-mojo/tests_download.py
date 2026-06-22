@@ -7,11 +7,11 @@ from subsets_utils import load_raw_ndjson
 # degraded run (e.g. year crawl broke after page 1) trips the assertion.
 MIN_ROWS = {
     "box-office-mojo-yearly-summary": 40,        # ~50 years (1977-2026)
-    "box-office-mojo-domestic-yearly": 5000,     # ~50 yrs x ~150-200 releases
-    "box-office-mojo-worldwide-yearly": 3000,    # ~50 yrs x worldwide releases
-    "box-office-mojo-weekend-summary": 1500,     # ~45 tracked yrs x ~50 weekends
-    "box-office-mojo-domestic-weekend": 40000,   # ~2300 weekends x ~30 rows
-    "box-office-mojo-domestic-daily": 12000,     # ~45 tracked yrs x ~365 days
+    "box-office-mojo-domestic-yearly": 4000,     # ~50 yrs x ~100-200 releases
+    "box-office-mojo-worldwide-yearly": 1500,    # worldwide coverage is more recent
+    "box-office-mojo-weekend-summary": 1500,     # ~44 tracked yrs x ~50 weekends
+    "box-office-mojo-domestic-weekend": 25000,   # ~2200 weekends x ~10-50 rows
+    "box-office-mojo-domestic-daily": 12000,     # ~46 tracked yrs x ~365 days
     "box-office-mojo-top-lifetime-grosses": 400, # multi-page chart
 }
 

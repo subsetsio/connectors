@@ -1,15 +1,20 @@
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 from subsets_utils import get
+import xml.etree.ElementTree as ET
 
-url = "https://api.statistiken.bundesbank.de/rest/data/BBZVS01?format=csv"
-r = get(url, timeout=(10,120))
-lines = r.text.splitlines()
-print("=== ALL LINES (first cell only + count cols) ===")
-for i, ln in enumerate(lines):
-    cells = ln.split(";")
-    print(i, "ncols", len(cells), "| first:", repr(cells[0][:40]))
-print()
-print("=== try standard SDMX-CSV via Accept header ===")
-r2 = get(url.replace("?format=csv",""), headers={"Accept":"application/vnd.sdmx.data+csv;version=1.0.0"}, timeout=(10,120))
-print("status", r2.status_code, "ctype", r2.headers.get("content-type"))
-for ln in r2.text.splitlines()[:5]:
-    print(repr(ln[:300]))
+NS = {
+  "s":"http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure",
+}
+# datastructure for BBBK7
+r = get("https://api.statistiken.bundesbank.de/rest/metadata/datastructure/BBK/BBBK7",
+        headers={"Accept":"application/xml"}, timeout=(15,120))
+print("dsd status", r.status_code, "len", len(r.content))
+root = ET.fromstring(r.content)
+dims = root.iterfind(".//s:DimensionList/s:Dimension", NS)
+print("DIMENSIONS (in order):")
+for d in root.iterfind(".//s:DimensionList/s:Dimension", NS):
+    did = d.get("id"); pos = d.get("position")
+    cl = d.find(".//s:Enumeration/Ref", NS) or d.find(".//s:LocalRepresentation/s:Enumeration/Ref", NS)
+    clid = cl.get("id") if cl is not None else None
+    print(f"  pos={pos} id={did} codelist={clid}")

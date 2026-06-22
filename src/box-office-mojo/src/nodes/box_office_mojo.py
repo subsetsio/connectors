@@ -21,6 +21,7 @@ x ~45 tracked years ~= 2300 pages); this is the long-pole node by design.
 import io
 import re
 
+import httpx
 import pandas as pd
 
 from subsets_utils import (
@@ -42,6 +43,18 @@ def _get_html(url: str) -> str:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
     return resp.text
+
+
+def _get_html_optional(url: str) -> str | None:
+    """Fetch a per-period page, returning None if it does not exist (HTTP 4xx) —
+    e.g. a year before that report type was tracked (daily charts 400 for early
+    years). Transient errors (429/5xx) still retry and raise via _get_html."""
+    try:
+        return _get_html(url)
+    except httpx.HTTPStatusError as exc:
+        if 400 <= exc.response.status_code < 500:
+            return None
+        raise
 
 
 def _read_table(html: str):
@@ -136,7 +149,8 @@ def fetch_yearly_summary(node_id: str) -> None:
 def fetch_domestic_yearly(node_id: str) -> None:
     rows = []
     for year in _discover_years():
-        df = _read_table(_get_html(f"{BASE}/year/{year}/"))
+        html = _get_html_optional(f"{BASE}/year/{year}/")
+        df = _read_table(html) if html else None
         if df is not None:
             rows.extend(_str_rows(df, DOMESTIC_YEARLY_COLS, {"year": year}))
     save_raw_ndjson(rows, node_id)
@@ -145,7 +159,8 @@ def fetch_domestic_yearly(node_id: str) -> None:
 def fetch_worldwide_yearly(node_id: str) -> None:
     rows = []
     for year in _discover_years():
-        df = _read_table(_get_html(f"{BASE}/year/world/{year}/"))
+        html = _get_html_optional(f"{BASE}/year/world/{year}/")
+        df = _read_table(html) if html else None
         if df is not None:
             rows.extend(_str_rows(df, WORLDWIDE_YEARLY_COLS, {"year": year}))
     save_raw_ndjson(rows, node_id)
@@ -154,7 +169,8 @@ def fetch_worldwide_yearly(node_id: str) -> None:
 def fetch_weekend_summary(node_id: str) -> None:
     rows = []
     for year in _discover_years():
-        df = _read_table(_get_html(f"{BASE}/weekend/?yr={year}"))
+        html = _get_html_optional(f"{BASE}/weekend/?yr={year}")
+        df = _read_table(html) if html else None
         if df is not None:
             rows.extend(_str_rows(df, WEEKEND_SUMMARY_COLS, {"year": year}))
     save_raw_ndjson(rows, node_id)
@@ -163,10 +179,13 @@ def fetch_weekend_summary(node_id: str) -> None:
 def fetch_domestic_weekend(node_id: str) -> None:
     rows = []
     for year in _discover_years():
-        index_html = _get_html(f"{BASE}/weekend/?yr={year}")
+        index_html = _get_html_optional(f"{BASE}/weekend/?yr={year}")
+        if not index_html:
+            continue
         weekend_ids = sorted(set(re.findall(r"/weekend/(\d{4}W\d{2})/", index_html)))
         for wid in weekend_ids:
-            df = _read_table(_get_html(f"{BASE}/weekend/{wid}/"))
+            detail_html = _get_html_optional(f"{BASE}/weekend/{wid}/")
+            df = _read_table(detail_html) if detail_html else None
             if df is not None:
                 week = wid[5:].lstrip("0") or "0"
                 rows.extend(_str_rows(df, WEEKEND_DETAIL_COLS,
@@ -177,7 +196,8 @@ def fetch_domestic_weekend(node_id: str) -> None:
 def fetch_domestic_daily(node_id: str) -> None:
     rows = []
     for year in _discover_years():
-        df = _read_table(_get_html(f"{BASE}/daily/{year}/"))
+        html = _get_html_optional(f"{BASE}/daily/{year}/")
+        df = _read_table(html) if html else None
         if df is not None:
             rows.extend(_str_rows(df, DAILY_COLS, {"year": year}))
     save_raw_ndjson(rows, node_id)
@@ -192,7 +212,8 @@ def fetch_top_lifetime_grosses(node_id: str) -> None:
     for _ in range(MAX_CHART_PAGES):
         url = f"{BASE}/chart/top_lifetime_gross/?offset={offset}" if offset \
             else f"{BASE}/chart/top_lifetime_gross/"
-        df = _read_table(_get_html(url))
+        html = _get_html_optional(url)
+        df = _read_table(html) if html else None
         if df is None or len(df) == 0:
             break
         rows.extend(_str_rows(df, TOP_LIFETIME_COLS))
