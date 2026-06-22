@@ -1,0 +1,24 @@
+spec_id: statistics-poland-g655
+status: active
+tests:
+  - not_null: variable_id
+    reason: every BDL national observation is keyed by a variable id
+    certainty: 97
+  - not_null: year
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: variable_id, type: integer}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 90
+  - unique: [variable_id, year]
+    reason: one national (Poland) value per variable per year; dupes mean a variable was enumerated under two subgroups or the open slice was re-pulled
+    certainty: 88
+  - between: {col: year, lo: 1980, hi: 2060}
+    reason: BDL series start ~1995-1999; the population projection group (G655) extends to 2060
+    certainty: 85
+    severity: warn
+  - row_count: {min: 3}
+    reason: an accepted group resolves to at least a few variable-year national observations
+    certainty: 80

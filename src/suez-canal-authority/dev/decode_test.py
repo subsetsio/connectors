@@ -87,3 +87,52 @@ for eid,key in KEYMAP.items():
                 print(f"   {yc} range:",ys[0],"..",ys[-1],f"({len(ys)})")
     except Exception as e:
         print(eid,"ERR",type(e).__name__,str(e)[:160])
+
+print("\n\n========== GRAIN CHECKS ==========")
+def grain(eid,key,dims):
+    data,entity,props=fetch_report(key)
+    cols,rows=decode(data)
+    seen={}
+    for r in rows:
+        k=tuple(r.get(d) for d in dims)
+        seen.setdefault(k,0); seen[k]+=1
+    dups={k:v for k,v in seen.items() if v>1}
+    print(f"{eid}: {len(rows)} rows, key {dims} -> {len(seen)} distinct, {len(dups)} dup-keys")
+    if dups: print("   example dup:",list(dups.items())[:2])
+grain("01","37989a27-9212-47b5-af4a-4e24459656ce",["year","Month","Ship Type","Direction","State"])
+grain("05","f394fa83-f56e-4ff5-8877-a2c015ca9cfe",["year","Quarter","CategoryName_en","Port"])
+grain("06","620624d7-ba78-4a4b-a04a-3bb4d7f69b95",["year","Region","Direction","Terminal"])
+grain("07","4421f780-4bb4-47ac-8e7d-aba8b30360e6",["Year","CargoType","Goods","Direction"])
+grain("04","a9b8cc80-3266-4a27-bb9d-50ccb99ba5d6",["Year","Direction"])
+grain("03","173bc878-0a20-4bc1-b738-08d2de20719e",["Year"])
+grain("02","cfd839a0-d4ac-4df7-a6e7-308bf576098b",["Fiscal Year"])
+
+print("\n\n========== DUP ROW INSPECTION ==========")
+def show_dups(eid,key,dims,target):
+    data,entity,props=fetch_report(key)
+    cols,rows=decode(data)
+    matches=[r for r in rows if tuple(r.get(d) for d in dims)==target]
+    print(f"\n{eid} rows where {dims}=={target}:")
+    for r in matches: print("  ",r)
+show_dups("05","f394fa83-f56e-4ff5-8877-a2c015ca9cfe",["year","Quarter","CategoryName_en","Port"],(2014,3,'General Cargo','S/N'))
+show_dups("06","620624d7-ba78-4a4b-a04a-3bb4d7f69b95",["year","Region","Direction","Terminal"],(2011,'America','North / South','Origin'))
+# 07
+data,entity,props=fetch_report("4421f780-4bb4-47ac-8e7d-aba8b30360e6")
+cols,rows=decode(data)
+ms=[r for r in rows if (r.get("Year"),r.get("CargoType"),r.get("Goods"),r.get("Direction"))==(2011,'Cereals','Other Goods','South / North')]
+print("\n07 rows where (2011,Cereals,Other Goods,South/North):")
+for r in ms[:12]: print("  ",r)
+# check finer grains
+def grain2(eid,key,dims):
+    data,entity,props=fetch_report(key); cols,rows=decode(data)
+    seen={}
+    for r in rows:
+        k=tuple(r.get(d) for d in dims); seen[k]=seen.get(k,0)+1
+    dups=sum(1 for v in seen.values() if v>1)
+    print(f"{eid}: key {dims} -> {len(seen)} distinct of {len(rows)} rows, {dups} dup-keys")
+print()
+grain2("06","620624d7-ba78-4a4b-a04a-3bb4d7f69b95",["year","Region_Code","Direction","Terminal"])
+grain2("07","4421f780-4bb4-47ac-8e7d-aba8b30360e6",["Year","CargoType","Goods","Direction","Custom Order"])
+grain2("07","4421f780-4bb4-47ac-8e7d-aba8b30360e6",["Year","CargoType","Goods","Direction","Cargo Type"])
+grain2("05","f394fa83-f56e-4ff5-8877-a2c015ca9cfe",["year","Quarter","CategoryName_en","Port","prt"])
+grain2("05","f394fa83-f56e-4ff5-8877-a2c015ca9cfe",["year","Quarter","CategoryName_en","Port","vcode"])

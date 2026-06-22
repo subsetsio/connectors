@@ -113,7 +113,7 @@ def fetch_values(node_id: str) -> None:
     series = fetch_series()
     written = 0
     with raw_parquet_writer(asset, VALUES_SCHEMA) as writer:
-        with ThreadPoolExecutor(max_workers=6) as ex:
+        with ThreadPoolExecutor(max_workers=4) as ex:
             futures = {ex.submit(_export_one, s): s for s in series}
             for fut in as_completed(futures):
                 batch = fut.result()
