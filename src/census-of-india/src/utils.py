@@ -363,14 +363,20 @@ def excel_to_long(blob: bytes, filename: str):
     measure_cols = [c for c in cols if _is_measure_col(c, rows)]
     id_cols = [c for c in cols if c not in measure_cols]
 
-    # region: a human-readable geography label — the first identifier column
-    # whose values are mostly alphabetic (the place name, not a numeric code).
-    region_col = None
-    for c in id_cols:
+    # region: a human-readable geography label. Prefer an identifier column whose
+    # NAME denotes a place (area_name / state / district / ...); otherwise fall
+    # back to the first column whose VALUES are mostly alphabetic (a name, not a
+    # numeric code). This keeps the convenience column varying per geography even
+    # for tables like A-11 whose leading id column is a constant series code.
+    def _mostly_alpha(c):
         sample = [str(r[c]) for r in rows[:30] if r.get(c) is not None]
-        if sample and sum(1 for v in sample if _HAS_LETTER.search(v)) >= 0.6 * len(sample):
-            region_col = c
-            break
+        return sample and sum(1 for v in sample if _HAS_LETTER.search(v)) >= 0.6 * len(sample)
+
+    region_col = next(
+        (c for c in id_cols if _GEO_NAME_RE.search(c) and _mostly_alpha(c)), None
+    )
+    if region_col is None:
+        region_col = next((c for c in id_cols if _mostly_alpha(c)), None)
     if region_col is None and id_cols:
         region_col = id_cols[0]
 

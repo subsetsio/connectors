@@ -1,0 +1,25 @@
+spec_id: bioconductor-downloads
+status: active
+tests:
+  - not_null: package
+  - not_null: repo
+  - enum: {col: repo, values: [bioc, data-experiment, data-annotation, workflows]}
+    reason: the four Bioconductor package repositories; any other value means the union grew a repo we did not map
+    certainty: 95
+  - column_type: {col: year, type: integer}
+  - column_type: {col: downloads, type: integer}
+  - between: {col: year, lo: 2001, hi: current_year()}
+    reason: Bioconductor began in 2002 and download stats run from package inception; nothing predates 2001 and rows cannot be in the future
+    certainty: 90
+    points_outward: true
+  - at_least: {col: downloads, expr: 0}
+    reason: download counts are non-negative; a negative count means a parse misalignment
+    certainty: 99
+  - at_least: {col: distinct_ips, expr: 0}
+    certainty: 99
+  - row_count: {min: 100000}
+    reason: the bioc software file alone carried ~396k rows (monthly + annual 'all' rows) in a Jan-2026 snapshot; four repos combined are well over 100k
+    certainty: 90
+  - distinct_count: {col: package, min: 3000}
+    reason: ~3810 packages across the four repos; a much smaller count means a repo file failed to fetch or parse
+    certainty: 85

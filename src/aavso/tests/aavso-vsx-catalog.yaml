@@ -1,0 +1,41 @@
+spec_id: aavso-vsx-catalog
+status: active
+tests:
+  - not_null: OID
+    reason: OID is VSX's stable per-object id; every catalog row must carry one.
+    certainty: 95
+  - not_null: recno
+    reason: recno is the VizieR sequential row key we page on; never null.
+    certainty: 95
+  - not_null: Name
+    reason: every VSX object has a designation.
+    certainty: 90
+  - column_type: {col: OID, type: integer}
+    certainty: 90
+  - column_type: {col: RAJ2000, type: float}
+    certainty: 90
+  - column_type: {col: max, type: float}
+    certainty: 85
+  - unique: OID
+    reason: one row per object; duplicate OIDs mean paging re-pulled a window.
+    certainty: 90
+  - unique: recno
+    reason: recno is the unique VizieR record number; dupes mean a page overlap.
+    certainty: 95
+  - row_count: {min: 8000000}
+    reason: VSX held ~10.3M objects when researched; a far smaller count means paging stopped early.
+    certainty: 85
+  - between: {col: RAJ2000, lo: 0, hi: 360}
+    reason: right ascension in degrees.
+    certainty: 95
+  - between: {col: DEJ2000, lo: -90, hi: 90}
+    reason: declination in degrees.
+    certainty: 95
+  - between: {col: max, lo: -2, hi: 30}
+    reason: brightest-magnitude column spans roughly naked-eye to deep-survey limits.
+    certainty: 75
+    severity: warn
+  - median_between: {col: max, lo: 10, hi: 22}
+    reason: most VSX entries are faint survey discoveries (Gaia/ASAS-SN), so the median max magnitude is faint.
+    certainty: 60
+    severity: warn

@@ -1,0 +1,23 @@
+spec_id: bioconductor-packages
+status: active
+tests:
+  - not_null: package
+  - not_null: repo
+  - not_null: version
+    reason: every VIEWS record carries a Version field; a null means the DCF record split broke
+    certainty: 95
+  - enum: {col: repo, values: [bioc, data-experiment, data-annotation, workflows]}
+    certainty: 95
+  - unique: [package, repo]
+    reason: VIEWS lists each package once per repository; a duplicate means a record was emitted twice
+    certainty: 90
+  - row_count: {min: 3000}
+    reason: ~3810 packages across the four release repositories (2418 bioc + 928 annotation + 436 experiment + 28 workflows)
+    certainty: 85
+  - distinct_count: {col: repo, min: 4, max: 4}
+    reason: exactly the four repositories must be present; fewer means a VIEWS fetch silently failed
+    certainty: 95
+  - nullable: {col: biocviews, max_null_frac: 0.5}
+    reason: most software/experiment/workflow packages declare biocViews; annotation packages sometimes omit it, so allow up to half null
+    certainty: 70
+    severity: warn
