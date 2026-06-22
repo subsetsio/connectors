@@ -27,10 +27,14 @@ Keys are the OEC cube names = the rank-accepted entity union (49 entities).
 _ECI = {"drilldowns": ["Country Official", "Year"], "measures": ["ECI"], "split_order": ["Year"]}
 _PCI4 = {"drilldowns": ["HS4 Official", "Year"], "measures": ["PCI"], "split_order": ["Year"]}
 _PCI6 = {"drilldowns": ["HS6 Official", "Year"], "measures": ["PCI"], "split_order": ["Year"]}
+# BACI: HS2 product grain, eagerly partitioned by Year so every request is small
+# (~1.4 MB). The HS2-whole response is 43 MB and large responses stall under the
+# source's throttling — small per-year requests are the reliable shape.
 _BACI = {
-    "drilldowns": ["HS6 Official", "Exporter Country Official", "Year"],
+    "drilldowns": ["HS2 Official", "Exporter Country Official", "Year"],
     "measures": ["Trade Value", "Quantity"],
     "split_order": ["Year", "Exporter Country Official"],
+    "eager_split": True,
 }
 
 CUBES = {
@@ -91,15 +95,16 @@ CUBES = {
         "drilldowns": ["Trade Flow", "Reporter Country Official", "Service", "Year"],
         "measures": ["Service Value"],
         "split_order": ["Year", "Reporter Country Official"],
+        "eager_split": True,
     },
-    # --- Tariffs ---
+    # --- Tariffs (HS2 product grain — fits in a single small request) ---
     "tariffs_i_wits_a_hs_new": {
-        "drilldowns": ["Reporter Country Official", "HS6 Official", "Year"],
+        "drilldowns": ["Reporter Country Official", "HS2 Official", "Year"],
         "measures": ["Tariff"],
         "split_order": ["Year", "Reporter Country Official"],
     },
     "wto_tariffs": {
-        "drilldowns": ["Reporter Country Official", "Product Official", "Year"],
+        "drilldowns": ["Reporter Country Official", "HS2 Official", "Year"],
         "measures": [
             "Avg AdValorem Tariff",
             "Maximum AdValorem Tariff",
@@ -116,16 +121,16 @@ CUBES = {
     "trade_i_baci_a_22": _BACI,
     "trade_i_baci_a_92": _BACI,
     "trade_i_baci_a_96": _BACI,
-    # --- UN Comtrade (reporter side) ---
+    # --- UN Comtrade (reporter side, HS2/SITC grain, year-partitioned) ---
     "trade_i_comtrade_a_hs92": {
-        "drilldowns": ["Trade Flow", "Reporter Country Official", "HS6 Official", "Year"],
+        "drilldowns": ["Trade Flow", "Reporter Country Official", "HS2 Official", "Year"],
         "measures": ["Trade Value", "Quantity", "Weight"],
-        "split_order": ["Reporter Country Official", "Year"],
+        "split_order": ["Year", "Reporter Country Official"],
     },
     "trade_i_comtrade_a_sitc2": {
-        "drilldowns": ["Trade Flow", "Reporter Country Official", "Subgroup", "Year"],
+        "drilldowns": ["Trade Flow", "Reporter Country Official", "Division", "Year"],
         "measures": ["Trade Value", "Quantity", "Weight"],
-        "split_order": ["Reporter Country Official", "Year"],
+        "split_order": ["Year", "Reporter Country Official"],
     },
     "trade_i_comtrade_m_hs": {
         # monthly HS6 bilateral is far too large; publish at HS2 monthly grain.
@@ -135,7 +140,7 @@ CUBES = {
     },
     # --- OEC SITC2 historical trade (exporter side) ---
     "trade_i_oec_a_sitc2": {
-        "drilldowns": ["Exporter Country Official", "Subgroup", "Year"],
+        "drilldowns": ["Exporter Country Official", "Division", "Year"],
         "measures": ["Trade Value", "Quantity", "Weight"],
         "split_order": ["Year", "Exporter Country Official"],
     },
@@ -145,10 +150,11 @@ CUBES = {
         "measures": ["Trade Value", "Quantity", "Weight"],
         "split_order": ["Time", "Product Official"],
     },
-    # --- Bilateral relatedness (keeps both country sides) ---
+    # --- Bilateral relatedness (keeps both country sides; HS2 grain,
+    #     partitioned by exporter so each request is ~3.7 MB) ---
     "bilateral_relatedness": {
         "drilldowns": [
-            "HS4 Official",
+            "HS2 Official",
             "Exporter Country Official",
             "Importer Country Official",
             "Year",
@@ -162,6 +168,7 @@ CUBES = {
             "RCA Importer",
         ],
         "split_order": ["Exporter Country Official", "Importer Country Official"],
+        "eager_split": True,
     },
     # --- SEC 13F institutional manager filings ---
     "13f_managers": {

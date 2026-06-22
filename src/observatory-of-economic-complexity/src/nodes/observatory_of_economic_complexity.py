@@ -51,12 +51,16 @@ def _spec_id(cube: str) -> str:
 ID_TO_CUBE = {_spec_id(cube): cube for cube in CUBES}
 
 
-@transient_retry()
+@transient_retry(attempts=5, min_wait=2, max_wait=30)
 def _data_csv(params: dict):
     """GET data.csv. Returns response text on 200, or None when the server
     rejects the query as too large (HTTP 413) so the caller can partition.
-    5xx/429 are retried by the decorator; other 4xx raise (permanent)."""
-    r = get(f"{BASE}/data.csv", params=params, timeout=(10.0, 300.0))
+    5xx/429 are retried by the decorator; other 4xx raise (permanent).
+
+    Read timeout is kept tight (120s) so a stalled large response fails fast and
+    retries rather than hanging the node; the per-cube grain is chosen so normal
+    responses are small (single-digit MB) and return in a few seconds."""
+    r = get(f"{BASE}/data.csv", params=params, timeout=(10.0, 120.0))
     if r.status_code == 413:
         return None
     r.raise_for_status()
@@ -169,11 +173,26 @@ def _fetch_partition(spec_id, cube, drilldowns, measures, split_order, measure_s
 def fetch_one(node_id: str) -> None:
     cube = ID_TO_CUBE[node_id]
     cfg = CUBES[cube]
-    measure_snakes = {_snake(m) for m in cfg["measures"]}
-    written = _fetch_partition(
-        node_id, cube, cfg["drilldowns"], cfg["measures"], cfg["split_order"],
-        measure_snakes, cuts={}, applied=[],
-    )
+    drilldowns, measures, split_order = cfg["drilldowns"], cfg["measures"], cfg["split_order"]
+    measure_snakes = {_snake(m) for m in measures}
+
+    if cfg.get("eager_split"):
+        # Skip the whole-cube attempt (its response would be large) and go
+        # straight to partitioning by the first split level — many small
+        # requests instead of one big one.
+        level = split_order[0]
+        written = 0
+        for member in _members(cube, level, measures[0]):
+            written += _fetch_partition(
+                node_id, cube, drilldowns, measures, split_order, measure_snakes,
+                {level: member}, [level],
+            )
+    else:
+        written = _fetch_partition(
+            node_id, cube, drilldowns, measures, split_order, measure_snakes,
+            cuts={}, applied=[],
+        )
+
     if written == 0:
         raise RuntimeError(f"{cube}: fetched 0 rows across all partitions")
 
