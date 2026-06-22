@@ -127,10 +127,11 @@ def _fetch_window(codes: list[int], desde: date, hasta: date, grupo: int) -> lis
 
     out = []
     for r in rows:
-        if not r.get("Fecha"):  # nil-Fecha placeholder from an empty window
+        fecha = (r.get("Fecha") or "").strip()
+        if not fecha:  # nil/whitespace-Fecha placeholder from an empty window
             continue
         out.append({
-            "fecha": r["Fecha"],
+            "fecha": fecha,
             "moneda": int(r["Moneda"]),
             "nombre": (r.get("Nombre") or "").strip() or None,
             "codigo_iso": (r.get("CodigoISO") or "").strip() or None,

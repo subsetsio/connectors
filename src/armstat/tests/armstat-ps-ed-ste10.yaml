@@ -1,0 +1,6 @@
+spec_id: "armstat-ps-ed-ste10"
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every published ArmStatBank table has at least one data cell; an empty raw asset means the PX-Web select-all/export flow returned nothing.
+    certainty: 85
