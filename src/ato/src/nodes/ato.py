@@ -1,12 +1,15 @@
 """ATO connector — data.gov.au CKAN catalog.
 
 Each entity is a recurring ATO statistical table, collapsed across its
-per-income-year editions (one CKAN resource per year). We pull every year's
-flat table from the CKAN **datastore** (`datastore_search`, which returns the
-resource as typed-as-text rows), tag each row with its `income_year`, and write
-the union as one NDJSON raw asset. NDJSON (not parquet) because column sets
-drift across years for the same table — datastore field lists are not stable
-edition-to-edition, so a fixed schema would be wrong.
+per-income-year editions (one CKAN resource per year). We build only from the
+flat **CSV** editions: ATO published header-first CSV exports of its detailed
+tables (industry financial ratios, activity-statement ratios, etc.), mainly for
+the 2014-15 and 2015-16 income years. We download each year's CSV file
+directly, tag every row with its `income_year`, and write the union as one
+NDJSON raw asset. NDJSON (not parquet) because column sets drift across years
+for the same table, so a fixed schema would be wrong. The XLSX editions are
+deliberately skipped — their datastore parses are banner-polluted and their
+workbooks are multi-sheet, neither cleanly SQL-readable.
 
 Fetch shape: **stateless full re-pull** (decision shape 1). The whole corpus is
 small (datastore tables are tens of thousands of rows at most) and the source
