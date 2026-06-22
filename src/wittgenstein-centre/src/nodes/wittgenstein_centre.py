@@ -12,9 +12,15 @@ Seven detailed projection files (one per SSP scenario) share one schema and are
 unioned into a single `projection-results` raw asset with `scenario` added as a
 column. The smaller indicator files (ASFR, EDUprop, MYS, SX, SRB) carry every
 scenario as side-by-side columns; they are stored verbatim and unpivoted to a
-tidy `scenario` column in the transform. The recode dictionary is stored as-is
-and used both as its own published lookup and to decode region/education codes
-in the other transforms.
+tidy `scenario` column in the transform.
+
+Region and education codes (reg100, e1..e6) are decoded to human-readable
+`region_name` / `edu_label` columns *at download time*, by fetching the small
+recode dictionary and mapping in-memory. This is done here (not via a SQL join
+in the transform) so that every transform depends only on its own raw asset —
+a shared raw dependency read concurrently by many transforms is fragile under
+the object-store LIST that resolves dep globs. The recode dictionary is also
+stored as its own asset and published as a standalone lookup table.
 """
 
 import io
@@ -32,11 +38,13 @@ from subsets_utils import (
 )
 
 _RECORD = "https://zenodo.org/api/records/14718294"
+_RECODE_FILE = "Recode dictionary.csv"
 
 _SCENARIO_COLS = ["SSP1", "SSP2", "SSP2mig0", "SSP2mig2x", "SSP3", "SSP4", "SSP5"]
 
-# Coercion contract applied at CSV parse time. pyarrow uses these for columns
-# that are present and infers the rest (e.g. recode's var/varnm/... -> string).
+# Coercion contract applied at CSV parse time. pyarrow applies these to columns
+# that are present and infers the rest (recode's var/varnm/... -> string; entries
+# for columns a given file lacks are ignored).
 _COLUMN_TYPES = {
     "region": pa.string(),
     "Time": pa.int64(),
@@ -53,7 +61,7 @@ _SIMPLE_FILES = {
     "wittgenstein-centre-mean-years-schooling": "MYS_AG_SSPs_V14.csv",
     "wittgenstein-centre-sex-ratio-at-birth": "SRB_SSPs_V14.csv",
     "wittgenstein-centre-survival-ratios": "SX_AGE_SSPs_V14.csv",
-    "wittgenstein-centre-recode-dictionary": "Recode dictionary.csv",
+    "wittgenstein-centre-recode-dictionary": _RECODE_FILE,
 }
 
 # The 7 detailed projection files -> their scenario label, unioned into one asset.
@@ -69,9 +77,11 @@ _PROJ_FILES = {
 
 _PROJ_SCHEMA = pa.schema([
     ("region", pa.string()),
+    ("region_name", pa.string()),
     ("Time", pa.int64()),
     ("sex", pa.string()),
     ("edu", pa.string()),
+    ("edu_label", pa.string()),
     ("agest", pa.int64()),
     ("pop", pa.float64()),
     ("births", pa.float64()),
@@ -96,27 +106,62 @@ def _read_csv(content: bytes) -> pa.Table:
     return pacsv.read_csv(io.BytesIO(content), convert_options=convert)
 
 
+def _recode_maps() -> tuple[dict, dict]:
+    """(region code -> name, edu code -> label) from the recode dictionary."""
+    table = _read_csv(_fetch_csv_bytes(_RECODE_FILE))
+    var = table.column("var").to_pylist()
+    val = table.column("varval").to_pylist()
+    desc = table.column("varvaldesc").to_pylist()
+    region, edu = {}, {}
+    for v, code, label in zip(var, val, desc):
+        if v == "region":
+            region[code] = label
+        elif v == "edu":
+            edu[code] = label
+    return region, edu
+
+
+def _decode(table: pa.Table, region_map: dict, edu_map: dict) -> pa.Table:
+    """Append region_name (and edu_label, when an edu column exists)."""
+    regions = table.column("region").to_pylist()
+    table = table.append_column(
+        "region_name", pa.array([region_map.get(r) for r in regions], pa.string())
+    )
+    if "edu" in table.column_names:
+        edus = table.column("edu").to_pylist()
+        table = table.append_column(
+            "edu_label", pa.array([edu_map.get(e) for e in edus], pa.string())
+        )
+    return table
+
+
 def fetch_simple(node_id: str) -> None:
-    """One stable CSV -> one parquet asset, stored verbatim."""
+    """One stable CSV -> one parquet asset. Indicator files get region_name /
+    edu_label decoded inline; the recode dictionary is stored verbatim."""
     asset = node_id
-    filename = _SIMPLE_FILES[node_id]
-    table = _read_csv(_fetch_csv_bytes(filename))
+    table = _read_csv(_fetch_csv_bytes(_SIMPLE_FILES[node_id]))
+    if node_id != "wittgenstein-centre-recode-dictionary":
+        region_map, edu_map = _recode_maps()
+        table = _decode(table, region_map, edu_map)
     save_raw_parquet(table, asset)
 
 
 def fetch_projection_results(node_id: str) -> None:
-    """Union the 7 per-scenario detailed projection files into one asset,
-    adding a `scenario` column. Streamed one file at a time so peak memory is
-    a single ~1.2M-row file, not all 7 at once."""
+    """Union the 7 per-scenario detailed projection files into one asset, adding
+    `scenario` and decoded region_name/edu_label. Streamed one file at a time so
+    peak memory is a single ~1.2M-row file, not all 7 at once."""
     asset = node_id
+    region_map, edu_map = _recode_maps()
+    cols = [f.name for f in _PROJ_SCHEMA]
     with raw_parquet_writer(asset, _PROJ_SCHEMA) as writer:
         for filename, scenario in _PROJ_FILES.items():
             table = _read_csv(_fetch_csv_bytes(filename))
             table = table.append_column(
                 "scenario", pa.array([scenario] * table.num_rows, pa.string())
             )
+            table = _decode(table, region_map, edu_map)
             # Enforce the declared column order/types before the row-group write.
-            table = table.select([f.name for f in _PROJ_SCHEMA]).cast(_PROJ_SCHEMA)
+            table = table.select(cols).cast(_PROJ_SCHEMA)
             writer.write_table(table)
 
 
@@ -132,133 +177,110 @@ DOWNLOAD_SPECS = [
 
 
 # --- transforms: one tidy published Delta table per subset -------------------
+# Each transform reads ONLY its own raw asset (single dep). Region/edu names are
+# already decoded in the raw, so transforms stay a thin cast/unpivot pass.
 
-_RECODE = "wittgenstein-centre-recode-dictionary"
-# Region/education code decoders, reused across indicator transforms.
-_REG_CTE = (
-    f"reg AS (SELECT varval AS region, varvaldesc AS region_name "
-    f"FROM \"{_RECODE}\" WHERE var = 'region')"
-)
-_EDU_CTE = (
-    f"edu AS (SELECT varval AS edu, varvaldesc AS edu_label "
-    f"FROM \"{_RECODE}\" WHERE var = 'edu')"
-)
 _UNPIVOT_ON = ", ".join(_SCENARIO_COLS)
 
 
 def _indicator_sql(dep: str, value_name: str, *, has_edu: bool) -> str:
-    """Unpivot a wide indicator file to (..., scenario, <value_name>), decoding
-    region (and education, when present) via the recode dictionary."""
-    ctes = [_REG_CTE]
-    edu_select = ""
-    edu_join = ""
-    if has_edu:
-        ctes.append(_EDU_CTE)
-        edu_select = "l.edu, e.edu_label,"
-        edu_join = "LEFT JOIN edu e ON l.edu = e.edu"
-    ctes.append(
-        f"long AS (UNPIVOT \"{dep}\" ON {_UNPIVOT_ON} "
-        f"INTO NAME scenario VALUE value)"
-    )
+    """Unpivot a wide indicator asset to (..., scenario, <value_name>)."""
+    edu_select = "edu, edu_label," if has_edu else ""
     return f"""
-        WITH {', '.join(ctes)}
+        WITH long AS (
+            UNPIVOT "{dep}" ON {_UNPIVOT_ON} INTO NAME scenario VALUE value
+        )
         SELECT
-            l.region,
-            r.region_name,
-            CAST(l.Time AS INTEGER) AS year,
-            l.sex,
+            region,
+            region_name,
+            CAST(Time AS INTEGER) AS year,
+            sex,
             {edu_select}
-            CAST(l.agest AS INTEGER) AS age_start,
-            l.scenario,
-            CAST(l.value AS DOUBLE) AS {value_name}
-        FROM long l
-        LEFT JOIN reg r ON l.region = r.region
-        {edu_join}
-        WHERE l.value IS NOT NULL
+            CAST(agest AS INTEGER) AS age_start,
+            scenario,
+            CAST(value AS DOUBLE) AS {value_name}
+        FROM long
+        WHERE value IS NOT NULL
     """
 
 
-# SRB has no sex/edu/agest dimensions — handled inline.
 _SRB_SQL = f"""
-    WITH {_REG_CTE},
-    long AS (UNPIVOT "wittgenstein-centre-sex-ratio-at-birth" ON {_UNPIVOT_ON}
-             INTO NAME scenario VALUE value)
+    WITH long AS (
+        UNPIVOT "wittgenstein-centre-sex-ratio-at-birth" ON {_UNPIVOT_ON}
+        INTO NAME scenario VALUE value
+    )
     SELECT
-        l.region,
-        r.region_name,
-        CAST(l.Time AS INTEGER) AS year,
-        l.scenario,
-        CAST(l.value AS DOUBLE) AS sex_ratio_at_birth
-    FROM long l
-    LEFT JOIN reg r ON l.region = r.region
-    WHERE l.value IS NOT NULL
+        region,
+        region_name,
+        CAST(Time AS INTEGER) AS year,
+        scenario,
+        CAST(value AS DOUBLE) AS sex_ratio_at_birth
+    FROM long
+    WHERE value IS NOT NULL
 """
 
-_PROJ_SQL = f"""
-    WITH {_REG_CTE}, {_EDU_CTE}
+_PROJ_SQL = """
     SELECT
-        p.region,
-        r.region_name,
-        CAST(p.Time AS INTEGER) AS year,
-        p.sex,
-        p.edu,
-        e.edu_label,
-        CAST(p.agest AS INTEGER) AS age_start,
-        p.scenario,
-        CAST(p.pop AS DOUBLE) AS population,
-        CAST(p.births AS DOUBLE) AS births,
-        CAST(p.emi AS DOUBLE) AS emigrants,
-        CAST(p.imm AS DOUBLE) AS immigrants,
-        CAST(p.deaths AS DOUBLE) AS deaths
-    FROM "wittgenstein-centre-projection-results" p
-    LEFT JOIN reg r ON p.region = r.region
-    LEFT JOIN edu e ON p.edu = e.edu
+        region,
+        region_name,
+        CAST(Time AS INTEGER) AS year,
+        sex,
+        edu,
+        edu_label,
+        CAST(agest AS INTEGER) AS age_start,
+        scenario,
+        CAST(pop AS DOUBLE) AS population,
+        CAST(births AS DOUBLE) AS births,
+        CAST(emi AS DOUBLE) AS emigrants,
+        CAST(imm AS DOUBLE) AS immigrants,
+        CAST(deaths AS DOUBLE) AS deaths
+    FROM "wittgenstein-centre-projection-results"
 """
 
-_RECODE_SQL = f"""
+_RECODE_SQL = """
     SELECT
         var AS variable,
         varnm AS variable_label,
         varval AS code,
         varvaldesc AS description
-    FROM "{_RECODE}"
+    FROM "wittgenstein-centre-recode-dictionary"
     WHERE var IS NOT NULL
 """
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="wittgenstein-centre-asfr-transform",
-        deps=["wittgenstein-centre-asfr", _RECODE],
+        deps=["wittgenstein-centre-asfr"],
         sql=_indicator_sql("wittgenstein-centre-asfr", "asfr_births_per_1000_women", has_edu=True),
     ),
     SqlNodeSpec(
         id="wittgenstein-centre-edu-proportions-transform",
-        deps=["wittgenstein-centre-edu-proportions", _RECODE],
+        deps=["wittgenstein-centre-edu-proportions"],
         sql=_indicator_sql("wittgenstein-centre-edu-proportions", "proportion", has_edu=True),
     ),
     SqlNodeSpec(
         id="wittgenstein-centre-mean-years-schooling-transform",
-        deps=["wittgenstein-centre-mean-years-schooling", _RECODE],
+        deps=["wittgenstein-centre-mean-years-schooling"],
         sql=_indicator_sql("wittgenstein-centre-mean-years-schooling", "mean_years_schooling", has_edu=False),
     ),
     SqlNodeSpec(
         id="wittgenstein-centre-survival-ratios-transform",
-        deps=["wittgenstein-centre-survival-ratios", _RECODE],
+        deps=["wittgenstein-centre-survival-ratios"],
         sql=_indicator_sql("wittgenstein-centre-survival-ratios", "survival_ratio", has_edu=True),
     ),
     SqlNodeSpec(
         id="wittgenstein-centre-sex-ratio-at-birth-transform",
-        deps=["wittgenstein-centre-sex-ratio-at-birth", _RECODE],
+        deps=["wittgenstein-centre-sex-ratio-at-birth"],
         sql=_SRB_SQL,
     ),
     SqlNodeSpec(
         id="wittgenstein-centre-projection-results-transform",
-        deps=["wittgenstein-centre-projection-results", _RECODE],
+        deps=["wittgenstein-centre-projection-results"],
         sql=_PROJ_SQL,
     ),
     SqlNodeSpec(
         id="wittgenstein-centre-recode-dictionary-transform",
-        deps=[_RECODE],
+        deps=["wittgenstein-centre-recode-dictionary"],
         sql=_RECODE_SQL,
     ),
 ]
