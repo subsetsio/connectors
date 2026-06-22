@@ -1,0 +1,9 @@
+spec_id: alaska-department-of-labor-and-workforce-development-population-race-hispanic
+status: active
+tests:
+  - not_null: race
+  - not_null: population
+  - enum: {col: geo_level, values: [state, region_bca]}
+  - between: {col: year, lo: 2020, hi: 2026}
+    certainty: 85
+  - row_count: {min: 200}

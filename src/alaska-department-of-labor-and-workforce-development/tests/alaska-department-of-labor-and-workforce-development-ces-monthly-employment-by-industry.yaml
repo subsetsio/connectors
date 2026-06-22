@@ -1,0 +1,10 @@
+spec_id: alaska-department-of-labor-and-workforce-development-ces-monthly-employment-by-industry
+status: active
+tests:
+  - not_null: industry
+  - not_null: employment
+  - column_type: {col: month, type: integer}
+  - between: {col: month, lo: 1, hi: 12}
+  - between: {col: year, lo: 1990, hi: 2026}
+    certainty: 85
+  - row_count: {min: 1000}

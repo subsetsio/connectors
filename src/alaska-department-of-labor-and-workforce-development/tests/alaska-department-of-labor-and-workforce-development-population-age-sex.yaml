@@ -1,0 +1,10 @@
+spec_id: alaska-department-of-labor-and-workforce-development-population-age-sex
+status: active
+tests:
+  - not_null: age
+  - not_null: population
+  - enum: {col: sex, values: [Total, Male, Female]}
+  - enum: {col: geo_level, values: [state, region_bca, place]}
+  - between: {col: year, lo: 2020, hi: 2026}
+    certainty: 85
+  - row_count: {min: 1000}

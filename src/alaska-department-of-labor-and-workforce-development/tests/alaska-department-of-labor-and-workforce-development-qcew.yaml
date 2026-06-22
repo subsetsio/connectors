@@ -1,0 +1,9 @@
+spec_id: alaska-department-of-labor-and-workforce-development-qcew
+status: active
+tests:
+  - not_null: naics_code
+  - not_null: year
+  - column_type: {col: avg_employment, type: float}
+  - between: {col: year, lo: 2015, hi: 2026}
+    certainty: 85
+  - row_count: {min: 1000}

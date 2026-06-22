@@ -1,0 +1,11 @@
+spec_id: alaska-department-of-labor-and-workforce-development-consumer-price-index
+status: active
+tests:
+  - not_null: year
+  - not_null: cpi_index
+  - between: {col: year, lo: 1960, hi: 2026}
+    certainty: 85
+  - between: {col: cpi_index, lo: 10, hi: 600}
+    certainty: 75
+    severity: warn
+  - row_count: {min: 50}

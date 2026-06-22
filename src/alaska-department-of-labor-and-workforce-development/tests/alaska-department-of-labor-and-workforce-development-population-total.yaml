@@ -1,0 +1,10 @@
+spec_id: alaska-department-of-labor-and-workforce-development-population-total
+status: active
+tests:
+  - not_null: area_name
+  - not_null: population
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2020, hi: 2026}
+    certainty: 85
+  - enum: {col: geo_level, values: [bca, place, tract, anvsa, anrc, subarea, school_district]}
+  - row_count: {min: 500}

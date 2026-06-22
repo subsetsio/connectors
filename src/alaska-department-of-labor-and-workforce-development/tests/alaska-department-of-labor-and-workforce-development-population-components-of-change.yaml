@@ -1,0 +1,8 @@
+spec_id: alaska-department-of-labor-and-workforce-development-population-components-of-change
+status: active
+tests:
+  - not_null: area_name
+  - not_null: period
+  - not_null: population
+  - enum: {col: geo_level, values: [state, region_bca]}
+  - row_count: {min: 80}

@@ -1,0 +1,10 @@
+spec_id: alaska-department-of-labor-and-workforce-development-wages-by-occupation
+status: active
+tests:
+  - not_null: occupation_title
+  - column_type: {col: mean_wage, type: float}
+  - between: {col: median_wage, lo: 5, hi: 300}
+    reason: hourly wages in USD
+    certainty: 80
+    severity: warn
+  - row_count: {min: 200}

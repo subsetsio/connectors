@@ -1,0 +1,8 @@
+spec_id: alaska-department-of-labor-and-workforce-development-occupational-projections
+status: active
+tests:
+  - not_null: occupation_title
+  - column_type: {col: base_year, type: integer}
+  - between: {col: projected_year, lo: 2020, hi: 2040}
+    certainty: 80
+  - row_count: {min: 200}

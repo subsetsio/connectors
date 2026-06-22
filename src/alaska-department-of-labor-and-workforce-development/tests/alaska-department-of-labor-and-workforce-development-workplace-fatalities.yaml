@@ -1,0 +1,8 @@
+spec_id: alaska-department-of-labor-and-workforce-development-workplace-fatalities
+status: active
+tests:
+  - not_null: industry
+  - not_null: fatal_count
+  - between: {col: fatal_count, lo: 0, hi: 500}
+    certainty: 80
+  - row_count: {min: 10}

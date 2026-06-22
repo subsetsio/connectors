@@ -1,0 +1,10 @@
+spec_id: alaska-department-of-labor-and-workforce-development-nonfatal-injuries-illnesses
+status: active
+tests:
+  - not_null: industry
+  - not_null: incidence_rate
+  - enum: {col: case_type, values: [total_recordable, days_away_or_restricted_total, days_away_from_work, job_transfer_or_restriction, other_recordable]}
+  - between: {col: incidence_rate, lo: 0, hi: 50}
+    certainty: 80
+    severity: warn
+  - row_count: {min: 50}

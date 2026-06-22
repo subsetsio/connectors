@@ -1,0 +1,13 @@
+spec_id: alaska-department-of-labor-and-workforce-development-labor-force-area
+status: active
+tests:
+  - not_null: area_name
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1976, hi: 2026}
+    certainty: 90
+  - row_count: {min: 5000}
+    reason: every Alaska area x month back to 1976 -> tens of thousands of rows
+  - between: {col: unemployment_rate, lo: 0, hi: 60}
+    certainty: 80
+    severity: warn

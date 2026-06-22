@@ -1,0 +1,9 @@
+spec_id: alaska-department-of-labor-and-workforce-development-population-age-sex-race-hispanic
+status: active
+tests:
+  - not_null: age
+  - not_null: race
+  - not_null: population
+  - enum: {col: sex, values: [Total, Male, Female]}
+  - enum: {col: race_basis, values: [alone, aic]}
+  - row_count: {min: 5000}

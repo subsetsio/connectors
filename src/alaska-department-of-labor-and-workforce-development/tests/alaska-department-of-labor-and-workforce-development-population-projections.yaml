@@ -1,0 +1,10 @@
+spec_id: alaska-department-of-labor-and-workforce-development-population-projections
+status: active
+tests:
+  - not_null: age
+  - not_null: population
+  - enum: {col: scenario, values: [low, middle, high]}
+  - enum: {col: geo_level, values: [statewide, alaska_native]}
+  - between: {col: year, lo: 2020, hi: 2050}
+    certainty: 85
+  - row_count: {min: 500}
