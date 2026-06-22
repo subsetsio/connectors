@@ -1,0 +1,32 @@
+spec_id: cbo-economic-projections
+status: active
+tests:
+  - not_null: date
+    reason: tidy long CSVs always carry a period label
+    certainty: 90
+  - not_null: variable
+    reason: every observation names its series
+    certainty: 90
+  - not_null: estimate_type
+    reason: every projection row is flagged actual vs projected
+    certainty: 85
+  - not_null: vintage
+    reason: fetch tags every row with the distribution vintage (str)
+    certainty: 95
+  - not_null: file_type
+    reason: fetch tags every row with the distribution file_type (str)
+    certainty: 95
+  - column_type: {col: date, type: string}
+    reason: date is int (calendar/fiscal years) in some file_types and "2021q1" in quarterly, so fetch stringifies it everywhere
+    certainty: 85
+  - enum: {col: estimate_type, values: [actual, projected]}
+    reason: only these two flags observed while probing
+    certainty: 70
+    severity: warn
+  - enum: {col: file_type, values: [calendar, fiscal, quarterly]}
+    reason: the three projection frequencies in the catalog
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1000}
+    reason: ~11k rows per vintage across 5 vintages
+    certainty: 85

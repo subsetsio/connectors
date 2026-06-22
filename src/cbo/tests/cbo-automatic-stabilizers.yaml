@@ -1,0 +1,28 @@
+spec_id: cbo-automatic-stabilizers
+status: active
+tests:
+  - not_null: date
+    reason: tidy long CSVs always carry a period label
+    certainty: 90
+  - not_null: variable
+    reason: every observation names its series
+    certainty: 90
+  - not_null: vintage
+    reason: fetch tags every row with the distribution vintage (str)
+    certainty: 95
+  - not_null: file_type
+    reason: fetch tags every row with the distribution file_type (str)
+    certainty: 95
+  - column_type: {col: date, type: string}
+    reason: fiscal-year labels like "FY1965"
+    certainty: 90
+  - matches: {col: date, pattern: '^FY[0-9]{4}$'}
+    reason: this dataset only ships annual_fy distributions, labelled FYyyyy
+    certainty: 85
+  - enum: {col: file_type, values: [annual_fy]}
+    reason: catalog lists only annual_fy for automatic_stabilizers
+    certainty: 85
+    severity: warn
+  - row_count: {min: 100}
+    reason: ~1380 rows per vintage across 2 vintages; a near-empty pull means a truncated fetch
+    certainty: 85

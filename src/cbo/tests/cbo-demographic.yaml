@@ -1,0 +1,27 @@
+spec_id: cbo-demographic
+status: active
+tests:
+  - not_null: year
+    reason: every demographic distribution is keyed by year
+    certainty: 90
+  - not_null: vintage
+    reason: fetch tags every row with the distribution vintage (str)
+    certainty: 95
+  - not_null: file_type
+    reason: fetch tags every row with the distribution file_type (str)
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    reason: year is integer in every demographic distribution, so no drift-stringify
+    certainty: 88
+  - between: {col: year, lo: 2000, hi: 2100}
+    reason: CBO demographic series start ~2020 and project out to mid-century
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - enum: {col: file_type, values: [fertility, migration, mortality, population_bls, population_census, ss_area_population]}
+    reason: the six demographic sub-tables observed in the catalog
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1000}
+    reason: union of six sub-tables across vintages is tens of thousands of rows
+    certainty: 85
