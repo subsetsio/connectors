@@ -1,6 +1,8 @@
 # Auto-generated from the rank-accepted entity union + collect catalog.
 # ENTITY_IDS: the exact entity-union coverage target (one download spec each).
 # FILE_URLS: entity_id -> stable BCE .xlsx/.xls URL to fetch.
+# NOTE: a few accented filenames carry latin-1/UTF-8 mojibake from catalog
+# discovery; fetch_one repairs it at runtime (see _repair_mojibake).
 
 ENTITY_IDS = [
     'documentos-estadisticas-hidrocarburos-seriecifraspetroleras',
@@ -11,7 +13,6 @@ ENTITY_IDS = [
     'documentos-estadisticas-sectorexterno-balanzapagos-inversionextranjera-directa-id-pais',
     'documentos-estadisticas-sectorexterno-balanzapagos-inversionextranjera-directa-id-rama',
     'documentos-estadisticas-sectorexterno-balanzapagos-inversionextranjera-directa-id-webpub',
-    'documentos-estadisticas-sectorexterno-balanzapagos-inversionextranjera-directa-ied-webpub',
     'documentos-estadisticas-sectorexterno-balanzapagos-remesas-1-serie-de-datos-disponible-2007-i-2025-ii',
     'documentos-estadisticas-sectorexterno-balanzapagos-remesas-2-serie-de-datos-disponible-1993-2009',
     'documentos-estadisticas-sectorexterno-balanzapagos-remesas-flujo-de-remesas-de-trabajadores',
@@ -208,7 +209,6 @@ FILE_URLS = {
     'documentos-estadisticas-sectorexterno-balanzapagos-inversionextranjera-directa-id-pais': 'https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/InversionExtranjera/Directa/ID_Pais.xlsx',
     'documentos-estadisticas-sectorexterno-balanzapagos-inversionextranjera-directa-id-rama': 'https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/InversionExtranjera/Directa/ID_Rama.xlsx',
     'documentos-estadisticas-sectorexterno-balanzapagos-inversionextranjera-directa-id-webpub': 'https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/InversionExtranjera/Directa/ID_WEBPUB.xlsx',
-    'documentos-estadisticas-sectorexterno-balanzapagos-inversionextranjera-directa-ied-webpub': 'https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/InversionExtranjera/Directa/IED_WEBPUB.xlsx',
     'documentos-estadisticas-sectorexterno-balanzapagos-remesas-1-serie-de-datos-disponible-2007-i-2025-ii': 'https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/Remesas/1. Serie de datos disponible (2007.I - 2025.II).xlsx',
     'documentos-estadisticas-sectorexterno-balanzapagos-remesas-2-serie-de-datos-disponible-1993-2009': 'https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/Remesas/2. Serie de datos disponible (1993 - 2009).xlsx',
     'documentos-estadisticas-sectorexterno-balanzapagos-remesas-flujo-de-remesas-de-trabajadores': 'https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/Remesas/Flujo_de_remesas_de_trabajadores.xlsx',

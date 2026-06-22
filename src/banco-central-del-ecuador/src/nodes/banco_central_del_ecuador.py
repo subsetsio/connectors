@@ -58,6 +58,17 @@ def _ensure_http():
         _configured = True
 
 
+def _repair_mojibake(url: str) -> str:
+    """Undo the latin-1/UTF-8 mojibake some accented filenames picked up during
+    catalog discovery (e.g. 'histÃ³rica' -> 'histórica'). A no-op for pure-ASCII
+    URLs — ASCII round-trips through latin-1/UTF-8 unchanged — so it only ever
+    fixes the handful of accented paths and never touches the rest."""
+    try:
+        return url.encode("latin-1").decode("utf-8")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return url
+
+
 @transient_retry()
 def _download(url: str) -> bytes:
     # Generous read timeout — the long historical series run to ~12 MB.
@@ -185,7 +196,7 @@ def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     _ensure_http()
     entity_id = node_id[len(PREFIX):]
-    url = FILE_URLS[entity_id]
+    url = _repair_mojibake(FILE_URLS[entity_id])
     ext = "xls" if url.lower().endswith(".xls") else "xlsx"
 
     content = _download(url)
