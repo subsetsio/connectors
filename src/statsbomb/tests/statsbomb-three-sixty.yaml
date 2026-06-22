@@ -1,0 +1,17 @@
+spec_id: statsbomb-three-sixty
+status: active
+tests:
+  - not_null: event_uuid
+  - not_null: match_id
+  - column_type: {col: x, type: float}
+  - between: {col: x, lo: 0, hi: 120}
+    reason: freeze-frame positions are in the 120x80 StatsBomb pitch frame
+    certainty: 85
+    severity: warn
+  - between: {col: y, lo: 0, hi: 80}
+    reason: freeze-frame positions are in the 120x80 StatsBomb pitch frame
+    certainty: 85
+    severity: warn
+  - row_count: {min: 1000}
+    reason: hundreds of 360-enabled matches, each with many freeze-frame player rows
+    certainty: 85

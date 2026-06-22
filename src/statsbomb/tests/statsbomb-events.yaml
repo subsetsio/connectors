@@ -1,0 +1,24 @@
+spec_id: statsbomb-events
+status: active
+tests:
+  - not_null: id
+  - not_null: match_id
+  - not_null: type_name
+  - column_type: {col: minute, type: integer}
+  - between: {col: minute, lo: 0, hi: 150}
+    reason: match minute incl. stoppage/extra-time stays well under 150
+    certainty: 90
+  - between: {col: period, lo: 1, hi: 5}
+    reason: 2 halves, 2 extra-time periods, optionally a penalty period (5)
+    certainty: 90
+  - between: {col: location_x, lo: 0, hi: 120}
+    reason: StatsBomb pitch coordinate frame is 120x80; x in [0,120]
+    certainty: 85
+    severity: warn
+  - between: {col: location_y, lo: 0, hi: 80}
+    reason: StatsBomb pitch coordinate frame is 120x80; y in [0,80]
+    certainty: 85
+    severity: warn
+  - row_count: {min: 100000}
+    reason: ~2000-4000 events per match x thousands of matches = millions of rows
+    certainty: 90

@@ -1,0 +1,10 @@
+spec_id: statswales-873d50f9-f8d3-4221-be7b-5eb2c6f12d38
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every published StatsWales dataset returns at least one long-format data row; an empty CSV means the download failed or the dataset was withdrawn
+    certainty: 90
+  - column_type: {col: Data description, type: string}
+    reason: the standard StatsWales long-format export always carries a textual measure label in the "Data description" column
+    certainty: 80
+    severity: warn

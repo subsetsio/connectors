@@ -1,0 +1,14 @@
+spec_id: statistics-greenland-inxss101
+status: active
+tests:
+  - not_null: obs_value
+    reason: the json-stat2 parser writes one raw row per non-null cell, so obs_value is never null in raw
+    certainty: 95
+  - column_type: {col: obs_value, type: float}
+    reason: PxWeb observations are numeric; the parser casts each cell to float
+    certainty: 90
+  - row_count: {min: 1}
+    reason: a published statistical table should have at least one observation; 0 rows means the query plan or json-stat2 parse degraded
+    certainty: 85
+    points_outward: true
+    severity: warn

@@ -1,0 +1,16 @@
+spec_id: statsbomb-lineups
+status: active
+tests:
+  - not_null: match_id
+  - not_null: player_id
+  - column_type: {col: player_id, type: integer}
+  - not_null: player_name
+  - row_count: {min: 1000}
+    reason: ~25-40 players per match x thousands of matches
+    certainty: 85
+  - between: {col: jersey_number, lo: 0, hi: 99}
+    reason: shirt numbers are 1-99 (0 occasionally seen for unset)
+    certainty: 80
+    severity: warn
+  - at_least: {col: n_cards, expr: 0}
+    certainty: 90

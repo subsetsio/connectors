@@ -1,0 +1,16 @@
+spec_id: statsbomb-competitions
+status: active
+tests:
+  - not_null: competition_id
+  - not_null: season_id
+  - column_type: {col: competition_id, type: integer}
+  - unique: [competition_id, season_id]
+    reason: one row per competition+season; dupes mean the index was concatenated twice
+    certainty: 95
+  - row_count: {min: 20}
+    reason: open-data lists dozens of competition-seasons (saw ~80 while probing)
+    certainty: 85
+  - enum: {col: competition_gender, values: [male, female]}
+    reason: StatsBomb classifies every competition as male or female
+    certainty: 90
+  - not_null: competition_name

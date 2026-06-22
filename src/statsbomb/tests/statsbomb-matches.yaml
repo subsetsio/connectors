@@ -1,0 +1,21 @@
+spec_id: statsbomb-matches
+status: active
+tests:
+  - not_null: match_id
+  - column_type: {col: match_id, type: integer}
+  - unique: match_id
+    reason: one row per match; a match_id appears in exactly one competition-season file
+    certainty: 95
+  - not_null: home_team_name
+  - not_null: away_team_name
+  - row_count: {min: 1000}
+    reason: thousands of matches across all open-data competition-seasons (saw ~3961 probing)
+    certainty: 85
+  - between: {col: home_score, lo: 0, hi: 30}
+    reason: football full-time scores are small non-negative integers
+    certainty: 90
+  - between: {col: away_score, lo: 0, hi: 30}
+    certainty: 90
+  - at_least: {col: match_week, expr: 0}
+    certainty: 70
+    severity: warn
