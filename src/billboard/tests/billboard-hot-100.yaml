@@ -1,0 +1,69 @@
+spec_id: billboard-hot-100
+status: active
+tests:
+  # --- presence: the four fields every chart entry must carry ---
+  - not_null: chart_date
+    reason: every flattened row inherits its parent chart's date; a null means the parser dropped the date
+    certainty: 99
+  - not_null: rank
+    reason: this_week -> rank is the chart position; an entry without a position is malformed
+    certainty: 99
+  - not_null: song
+    reason: a Hot 100 entry is always a titled single
+    certainty: 98
+  - not_null: artist
+    reason: a Hot 100 entry always credits an artist
+    certainty: 98
+  - not_null: peak_position
+    reason: peak_position is reported for every entry (>= current rank)
+    certainty: 95
+  - not_null: weeks_on_chart
+    reason: weeks_on_chart is reported for every entry (>= 1)
+    certainty: 95
+
+  # --- types: raw parquet stores chart_date as ISO string, positions as integers ---
+  - column_type: {col: chart_date, type: string}
+    certainty: 95
+  - column_type: {col: rank, type: integer}
+    certainty: 95
+  - column_type: {col: song, type: string}
+    certainty: 95
+  - column_type: {col: artist, type: string}
+    certainty: 95
+  - column_type: {col: peak_position, type: integer}
+    certainty: 95
+  - column_type: {col: weeks_on_chart, type: integer}
+    certainty: 95
+
+  # --- shape of the chart positions ---
+  - between: {col: rank, lo: 1, hi: 100}
+    reason: the Hot 100 ranks singles 1 through 100
+    certainty: 99
+  - between: {col: peak_position, lo: 1, hi: 100}
+    reason: a peak is itself a Hot 100 position
+    certainty: 99
+  - at_least: {col: weeks_on_chart, expr: 1}
+    reason: an entry charting this week has been on for at least its debut week
+    certainty: 95
+
+  # --- last_week is null on debut entries (new this week) ---
+  - nullable: {col: last_week, max_null_frac: 0.5}
+    reason: last_week is null only for entries new to the chart; debuts are a minority of the ~100 weekly slots
+    certainty: 80
+    severity: warn
+
+  # --- chart_date format and one entry per (week, rank) ---
+  - matches: {col: chart_date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: the mirror publishes chart dates as ISO YYYY-MM-DD strings
+    certainty: 95
+  - unique: [chart_date, rank]
+    reason: each weekly chart assigns each rank 1-100 to exactly one entry; a dupe means a week was re-flattened without overwrite
+    certainty: 90
+
+  # --- corpus scale: ~3,540 weekly charts x ~100 rows from 1958-08-04 to present ---
+  - row_count: {min: 300000}
+    reason: ~3,540 weekly charts of ~100 entries each => ~354k rows; only grows over time
+    certainty: 90
+  - distinct_count: {col: chart_date, min: 3000}
+    reason: weekly charts since 1958 => over 3,000 distinct chart dates
+    certainty: 90

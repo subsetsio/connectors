@@ -1,0 +1,59 @@
+spec_id: bom-daily-weather-observations
+status: active
+tests:
+  # --- Structural: the parser must produce a fully-keyed long-format table ---
+  - not_null: date
+    reason: every parsed row is gated on a dd/mm/YYYY date match, so a null date means the parse produced a phantom row
+    certainty: 99
+  - not_null: station_slug
+    reason: slug comes from the tables/<state>/<slug>/ archive path; absence means a malformed member slipped through
+    certainty: 99
+  - not_null: state
+    reason: state is the top-level archive folder; every CSV lives under one of the 7 state dirs
+    certainty: 99
+  - column_type: {col: date, type: date}
+    certainty: 99
+  - column_type: {col: max_temp_c, type: float}
+    certainty: 95
+
+  # --- Domain: BOM Daily Weather Observations corpus shape ---
+  - enum: {col: state, values: [nsw, nt, qld, sa, tas, vic, wa]}
+    reason: research documents exactly 7 state/territory folders in IDCKWCDEA0/tables/
+    certainty: 95
+  - row_count: {min: 100000}
+    reason: ~700 stations x several years of daily rows; a tiny count means the bulk .tgz download or CSV parse silently degraded
+    certainty: 90
+  - distinct_count: {col: station_slug, min: 300}
+    reason: research observed ~700 climate stations; well under 300 means many station folders were dropped
+    certainty: 85
+
+  # --- Value sanity: these are real geophysical measurements, units fixed by docs ---
+  - between: {col: max_temp_c, lo: -25, hi: 60}
+    reason: Australian daily max temperatures; generous bounds catch unit/parse errors not weather extremes
+    certainty: 80
+    severity: warn
+  - between: {col: min_temp_c, lo: -30, hi: 50}
+    certainty: 80
+    severity: warn
+  - relationship: {left: min_temp_c, op: "<=", right: max_temp_c}
+    reason: daily minimum cannot exceed daily maximum; a violation means columns were swapped or mis-parsed
+    certainty: 85
+    severity: warn
+  - between: {col: max_relative_humidity_pct, lo: 0, hi: 100}
+    reason: relative humidity is a percentage by definition
+    certainty: 90
+    severity: warn
+  - between: {col: min_relative_humidity_pct, lo: 0, hi: 100}
+    certainty: 90
+    severity: warn
+  - at_least: {col: rainfall_mm, expr: 0}
+    reason: rainfall is a non-negative accumulation; negatives indicate a parse/sign error
+    certainty: 90
+    severity: warn
+
+  # --- Freshness: corpus is a rolling window to the current month ---
+  - freshness: {col: date, reaches: today - 90d}
+    reason: research says files run to the current/most-recent month; a stale max date points at the source not refreshing
+    certainty: 75
+    points_outward: true
+    severity: warn
