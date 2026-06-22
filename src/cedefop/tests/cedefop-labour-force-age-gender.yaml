@@ -1,0 +1,22 @@
+spec_id: cedefop-labour-force-age-gender
+status: active
+tests:
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - not_null: value
+  - column_type: {col: value, type: integer}
+  - not_null: country_l2
+  - not_null: gender
+  - not_null: ageband
+  - between: {col: year, lo: 2008, hi: 2045}
+    reason: Skills Forecast carries history from ~2015 plus projections to ~2035; the vintage may shift the window, so allow margin.
+    certainty: 90
+  - at_least: {col: value, expr: 0}
+    reason: employment / labour-force / demand counts are non-negative head-counts.
+    certainty: 95
+  - unique: [country_l2, gender, ageband, year]
+    reason: one row per dimension-tuple per year; a duplicate means a panel was fetched twice without dedup.
+    certainty: 90
+  - distinct_count: {col: country_l2, min: 25}
+    reason: the forecast covers EU-27 plus EFTA/candidate countries (~32); fewer means a partial pull.
+    certainty: 85
