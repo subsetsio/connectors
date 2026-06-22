@@ -7,10 +7,17 @@ download, a format switch, or an empty payload after the endpoint changed.
 from subsets_utils import load_raw_parquet
 
 
+def _download_ids(spec_ids):
+    """spec_ids carries every node that ran, including the SQL transforms (which
+    publish Delta tables, not raw parquet). Health checks here cover the raw
+    download assets only."""
+    return [sid for sid in spec_ids if not sid.endswith("-transform")]
+
+
 def test_all_raw_assets_nonempty(spec_ids):
     """Every download spec's raw parquet must hold rows. An empty payload
     usually means the ZIP/CSV format changed or the GET returned an error body."""
-    for sid in spec_ids:
+    for sid in _download_ids(spec_ids):
         table = load_raw_parquet(sid)
         assert len(table) > 0, f"{sid}: raw parquet has 0 rows"
 
@@ -18,7 +25,7 @@ def test_all_raw_assets_nonempty(spec_ids):
 def test_rank_column_present(spec_ids):
     """Both feeds are (rank, name) tuples — the rank column must survive parsing.
     A missing rank means the headerless CSV was misparsed."""
-    for sid in spec_ids:
+    for sid in _download_ids(spec_ids):
         table = load_raw_parquet(sid)
         assert "rank" in table.column_names, f"{sid}: missing 'rank' column ({table.column_names})"
 

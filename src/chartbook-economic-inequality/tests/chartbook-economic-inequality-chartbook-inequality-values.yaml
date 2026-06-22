@@ -1,0 +1,32 @@
+spec_id: chartbook-economic-inequality-chartbook-inequality-values
+status: active
+tests:
+  - not_null: country
+    reason: every observation belongs to one of the 25 covered countries
+    certainty: 95
+  - not_null: year
+    reason: long-format file always carries a year per row
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 90
+  - between: {col: year, lo: 1900, hi: 2015}
+    reason: source covers ~1900 through the latest compiled year (2015 in this release)
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: country, min: 25, max: 25}
+    reason: the Chartbook documents exactly 25 countries
+    certainty: 90
+  - enum:
+      col: dimension
+      values:
+        - Overall Income Inequality
+        - Top Income Shares
+        - Poverty Measures
+        - Dispersion of Earnings
+        - Wealth Inequality
+    reason: the five inequality dimensions the Chartbook is organised around
+    certainty: 90
+  - row_count: {min: 15000}
+    reason: source pre-materializes every country/year/dimension slot (~18.8k rows); a much smaller count means a truncated download
+    certainty: 80
