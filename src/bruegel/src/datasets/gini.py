@@ -12,6 +12,14 @@ EID = "global-and-regional-gini-coefficients-income-inequality"
 DEP = f"bruegel-{EID}"
 PAGE_PATH = "/dataset/global-and-regional-gini-coefficients-income-inequality"
 
+# The live file is under /system/files/, which the apex host 302s back to the
+# CI-blocked www. No mirror exists, but the Wayback Machine (CI-reachable) holds
+# the last archived edition — the ZIP/.xls "Database" sheet is structurally
+# identical, just a refresh or two behind. Used via run_download(direct_links=).
+FILE_URL = ("https://web.archive.org/web/20230219115914id_/"
+            "https://www.bruegel.org/sites/default/files/2023-01/"
+            "Global_income_inequality_database_ver_13Jan2023.zip")
+
 
 def parse(links):
     zf = zipfile.ZipFile(io.BytesIO(get_bytes(links[0])))

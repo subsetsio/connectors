@@ -8,14 +8,13 @@ fetch/parse/schema logic lives in the individual files under nodes/.
 """
 import datetime
 import re
-import time
 
-import httpx
 import pandas as pd
 
 from subsets_utils import get, post, save_raw_ndjson, transient_retry
 
 BASE = "https://www.bruegel.org"
+APEX = "https://bruegel.org"
 
 _FILE_RE = re.compile(
     r'href="((?:https?://[^"]+)?/(?:sites/default|system)/files/[^"]+\.(?:xlsx|xls|csv|zip|7z))"',
@@ -23,21 +22,32 @@ _FILE_RE = re.compile(
 )
 
 # ---------------------------------------------------------------------------
-# HTTP with retry/backoff on transient failures
+# HTTP — the CI reachability problem and how this module routes around it
 # ---------------------------------------------------------------------------
-
-# www.bruegel.org sits behind Cloudflare. From a normal machine a realistic
-# browser header set is enough, but from the cloud runner's datacenter IP the
-# www zone applies a stricter bot/WAF rule that 403s plain requests AND tarpits
-# (hangs) others — verified from a real CI run: the logged httpx client (no TLS
-# impersonation) *timed out*, and curl_cffi reached the file but got 403 because
-# it sent no Referer and carried no Cloudflare clearance cookie. The fix below:
-# (1) one warmed curl_cffi Session impersonating Chrome — the homepage GET banks
-# whatever cf_* cookie Cloudflare hands out, then every fetch reuses it; (2) a
-# same-origin Referer on every request (the file paths under /sites|/system are
-# protected by a referer/hotlink WAF rule); (3) the curl path triggers on
-# *timeouts and connect errors too*, not just HTTP 403, so the tarpitted page
-# fetches fall through to it instead of retry-then-die. ASCII-only headers.
+#
+# Bruegel sits behind Cloudflare. Verified across two real CI runs: the
+# *www* host applies a bot/WAF rule that blocks the GitHub Actions datacenter
+# IP for every path — plain httpx times out, and curl_cffi (Chrome TLS + warmed
+# cf cookies + Referer) still gets a hard HTTP 403 on the static files. No
+# client-side trick clears it, because the block is IP/zone-reputation, not a
+# fingerprint or challenge.
+#
+# Two facts make it solvable without that host:
+#   1. The rule is scoped to host == www.bruegel.org. The *apex* host
+#      `bruegel.org` and the per-tracker subdomains (e.g. european-clean-tech-
+#      tracker.bruegel.org) are NOT blocked. Apex serves the data files under
+#      /sites/default/files/ directly (HTTP 200, no redirect). (Apex does 302
+#      /dataset/ pages and /system/files/ to www, so those two need another
+#      route — see below.)
+#   2. The dataset *page* HTML (needed to resolve each refresh's date-versioned
+#      file URL) is reachable through r.jina.ai — Jina's reader fetches www from
+#      its own clean egress and returns the live HTML, with the Wayback Machine
+#      as a second, also-CI-reachable fallback.
+#
+# So: resolve the file link from the page via Jina/Wayback, then download the
+# bytes from the apex host. The only exceptions are the two datasets whose file
+# lives under /system/files/ (gini, sovereign) — apex 302s those to the blocked
+# www, so they pass an explicit Wayback file URL via run_download(direct_links=).
 _BROWSER_HEADERS = {
     "User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
                    "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -45,91 +55,35 @@ _BROWSER_HEADERS = {
     "Accept": ("text/html,application/xhtml+xml,application/xml;q=0.9,"
                "image/avif,image/webp,*/*;q=0.8"),
     "Accept-Language": "en-US,en;q=0.9",
-    "Referer": BASE + "/datasets",
 }
 
-_IMPERSONATE = "chrome124"
-_curl_session = None
+_JINA = "https://r.jina.ai/"
 
 
-def _get_curl_session():
-    """Lazily build a curl_cffi Session warmed against the Bruegel homepage so it
-    banks any Cloudflare clearance cookie before the first real fetch. Warm-up
-    failures are non-fatal — a session with browser-class TLS + the banked
-    cookies is still our best shot at the www-zone WAF."""
-    global _curl_session
-    if _curl_session is not None:
-        return _curl_session
-    from curl_cffi import requests as cr
-    s = cr.Session(impersonate=_IMPERSONATE, timeout=120)
-    s.headers.update(_BROWSER_HEADERS)
-    for warm in (BASE + "/", BASE + "/datasets"):
-        try:
-            s.get(warm, allow_redirects=True)
-        except Exception:
-            pass
-    _curl_session = s
-    return s
+def _to_apex(url: str) -> str:
+    """Route www.bruegel.org downloads to the apex host, which serves the data
+    files but isn't under the www datacenter-IP WAF rule."""
+    return url.replace("://www.bruegel.org/", "://bruegel.org/")
 
 
-def _curl_fetch(url: str, headers: dict | None, binary: bool):
-    """Fetch via the warmed curl_cffi Session (Chrome TLS + Cloudflare cookies +
-    Referer). Retries non-200 and transport errors with short backoff so it stays
-    inside the per-node budget instead of the old 30s-of-sleeps chain."""
-    s = _get_curl_session()
-    h = {"Referer": BASE + "/"}
-    if headers:
-        h.update(headers)
-    last = None
-    for attempt in range(4):
-        try:
-            r = s.get(url, headers=h, timeout=120, allow_redirects=True)
-            if r.status_code == 200:
-                return r.content if binary else r.text
-            last = f"HTTP {r.status_code}"
-        except Exception as e:  # curl_cffi transport error — retry with backoff
-            last = f"{type(e).__name__}: {e}"
-        time.sleep(1.5 * (attempt + 1))
-    raise AssertionError(f"curl_cffi fetch failed for {url}: {last}")
-
-
-# Failures that mean "the logged client couldn't get through" — fall to curl.
-_CURL_FALLBACK_EXC = (
-    httpx.ConnectError, httpx.ConnectTimeout, httpx.ReadTimeout,
-    httpx.WriteTimeout, httpx.PoolTimeout, httpx.RemoteProtocolError,
-)
-
-
+@transient_retry()
 def get_bytes(url: str, headers: dict | None = None) -> bytes:
     h = dict(_BROWSER_HEADERS)
     if headers:
         h.update(headers)
-    try:
-        resp = get(url, timeout=(10.0, 60.0), headers=h)
-        resp.raise_for_status()
-        return resp.content
-    except httpx.HTTPStatusError as e:
-        if e.response.status_code in (403, 429) or e.response.status_code >= 500:
-            return _curl_fetch(url, headers, binary=True)
-        raise
-    except _CURL_FALLBACK_EXC:
-        return _curl_fetch(url, headers, binary=True)
+    resp = get(_to_apex(url), timeout=(10.0, 120.0), headers=h)
+    resp.raise_for_status()
+    return resp.content
 
 
+@transient_retry()
 def get_text(url: str, headers: dict | None = None) -> str:
     h = dict(_BROWSER_HEADERS)
     if headers:
         h.update(headers)
-    try:
-        resp = get(url, timeout=(10.0, 60.0), headers=h)
-        resp.raise_for_status()
-        return resp.text
-    except httpx.HTTPStatusError as e:
-        if e.response.status_code in (403, 429) or e.response.status_code >= 500:
-            return _curl_fetch(url, headers, binary=False)
-        raise
-    except _CURL_FALLBACK_EXC:
-        return _curl_fetch(url, headers, binary=False)
+    resp = get(_to_apex(url), timeout=(10.0, 60.0), headers=h)
+    resp.raise_for_status()
+    return resp.text
 
 
 @transient_retry()
@@ -152,12 +106,21 @@ def _links_from_html(html: str) -> list[str]:
 
 
 @transient_retry()
+def _jina_html(page_url: str) -> str:
+    """Fetch the live dataset page HTML through Jina's reader, which reaches www
+    from its own (non-blocked) egress and returns the current, date-versioned
+    file link. X-Return-Format: html keeps the <a href> markup the regex needs."""
+    resp = get(_JINA + page_url, timeout=(10.0, 90.0),
+               headers={**_BROWSER_HEADERS, "X-Return-Format": "html"})
+    resp.raise_for_status()
+    return resp.text
+
+
+@transient_retry()
 def _wayback_html(page_url: str) -> str:
-    """Fetch the latest archived copy of a dataset page from the Wayback Machine.
-    archive.org is not Cloudflare-fronted, so it's reachable from the cloud runner
-    even when bruegel.org 403s the runner's IP. The archived page yields a dated
-    file URL; Bruegel keeps dated files live, so we then fetch that file directly
-    (static assets are edge-cached and not behind the dynamic-page WAF)."""
+    """Fallback page resolver: the latest Wayback snapshot (archive.org is also
+    CI-reachable). May lag a refresh or two, but apex keeps the older dated files
+    live, so a slightly stale link still downloads fine."""
     cdx = get("https://web.archive.org/cdx/search/cdx",
               params={"url": page_url, "output": "json", "limit": "-5",
                       "filter": "statuscode:200", "fl": "timestamp"},
@@ -174,19 +137,21 @@ def _wayback_html(page_url: str) -> str:
 
 
 def resolve_links(page_path: str) -> list[str]:
-    """Resolve a dataset's download link(s). Try the live page first (via the
-    logged client, then curl_cffi); if Cloudflare blocks the runner entirely,
-    fall back to the Wayback-archived page for the (dated) file URL."""
+    """Resolve a dataset's download link(s) to apex-host URLs. The page itself is
+    only reachable off-www, so try Jina (live, current) then Wayback (archived),
+    then a direct www attempt as a last resort. Links are rewritten to apex."""
     page_url = BASE + page_path
-    try:
-        out = _links_from_html(get_text(page_url))
-    except Exception:
-        out = []
-    if not out:
-        out = _links_from_html(_wayback_html(page_url))
+    out: list[str] = []
+    for resolver in (_jina_html, _wayback_html, get_text):
+        try:
+            out = _links_from_html(resolver(page_url))
+        except Exception:
+            out = []
+        if out:
+            break
     if not out:
         raise AssertionError(f"no download link found for {page_path}")
-    return out
+    return [_to_apex(u) for u in out]
 
 
 # ---------------------------------------------------------------------------
@@ -226,11 +191,19 @@ def xlsx_link(links: list[str]) -> str:
     return (cand or links)[0]
 
 
-def run_download(node_id: str, page_path: str | None, parser) -> None:
+def run_download(node_id: str, page_path: str | None, parser,
+                 direct_links: list[str] | None = None) -> None:
     """Resolve links (for Bruegel-hosted datasets), run the per-dataset parser,
     and write the tidy rows as raw NDJSON. External-source datasets pass
-    page_path=None and ignore the (empty) links list."""
-    links = resolve_links(page_path) if page_path else []
+    page_path=None and ignore the (empty) links list. Datasets whose file is on
+    a host the runner can't resolve from its page (the /system/files/ ones, which
+    apex 302s back to the blocked www) pass an explicit ``direct_links`` URL."""
+    if direct_links is not None:
+        links = direct_links
+    elif page_path:
+        links = resolve_links(page_path)
+    else:
+        links = []
     rows = parser(links)
     if not rows:
         raise AssertionError(f"{node_id}: parser produced 0 rows")

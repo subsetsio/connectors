@@ -43,7 +43,7 @@ def fetch_gas_imports(node_id: str) -> None:
 
 
 def fetch_gini(node_id: str) -> None:
-    run_download(node_id, gini.PAGE_PATH, gini.parse)
+    run_download(node_id, None, gini.parse, direct_links=[gini.FILE_URL])
 
 
 def fetch_trade(node_id: str) -> None:
@@ -59,7 +59,8 @@ def fetch_russian_trade(node_id: str) -> None:
 
 
 def fetch_sovereign(node_id: str) -> None:
-    run_download(node_id, sovereign.PAGE_PATH, sovereign.parse)
+    run_download(node_id, None, sovereign.parse,
+                 direct_links=[sovereign.FILE_URL])
 
 
 def fetch_fms(node_id: str) -> None:

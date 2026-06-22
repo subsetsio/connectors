@@ -12,6 +12,14 @@ EID = "sovereign-bond-holdings"
 DEP = f"bruegel-{EID}"
 PAGE_PATH = "/dataset/sovereign-bond-holdings"
 
+# The live file is under /system/files/, which the apex host 302s back to the
+# CI-blocked www. This is a static (2020) dataset, so the Wayback-archived copy
+# (CI-reachable) IS the current file — same workbook, same cross-country sheets.
+# Filename contains "dataset2", so parse()'s selector picks it unchanged.
+FILE_URL = ("https://web.archive.org/web/20201030130126id_/"
+            "https://www.bruegel.org/wp-content/uploads/2020/04/"
+            "202004_Bruegel_sovereign_bond_-holding_dataset2.xlsx")
+
 
 def parse(links):
     url = [u for u in links if "dataset2" in u.lower()] or [xlsx_link(links)]
