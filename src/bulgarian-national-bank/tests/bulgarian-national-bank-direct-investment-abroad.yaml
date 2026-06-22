@@ -1,0 +1,15 @@
+spec_id: bulgarian-national-bank-direct-investment-abroad
+status: active
+tests:
+  - not_null: keyfamily
+  - not_null: series_key
+  - not_null: period
+  - not_null: value
+    reason: blank/":"/"-" cells are dropped in the parser; surviving rows carry a numeric value
+    certainty: 90
+  - column_type: {col: value, type: float}
+  - column_type: {col: series_key, type: string}
+  - matches: {col: period, pattern: '^\d{4}'}
+    reason: every SDMX period begins with a 4-digit year (YYYY, YYYY-MM, YYYY-Qn, YYYY-MM-DD)
+    certainty: 90
+  - row_count: {min: 1}
