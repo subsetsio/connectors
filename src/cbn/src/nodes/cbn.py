@@ -405,18 +405,31 @@ def fetch_one(node_id: str) -> None:
     # cap). DAILY tables overflow the cap and the server answers "No data", so a
     # failed wide request is the signal to switch to the month-by-month daily
     # path. (Among the entity-union tables only the daily FX table overflows.)
-    wide = _search(table_id, ind_ids, f"{DATE_FLOOR_YEAR}-01-01",
-                   f"{end_year}-12-31", attempts=6)
-    if not _no_data(wide):
+    #
+    # A *successful* response can still come back partially rendered under load
+    # (fewer body rows than indicators). That is transient — re-issue the wide
+    # request a few times, asserting full alignment, before giving up.
+    start, stop = f"{DATE_FLOOR_YEAR}-01-01", f"{end_year}-12-31"
+    no_data = True
+    col_parts, body = None, []
+    for _ in range(6):
+        wide = _search(table_id, ind_ids, start, stop, attempts=6)
+        no_data = _no_data(wide)
+        if no_data:
+            break
         col_parts, body = _grid(wide.get("TableView") or "")
-        if not _check_alignment(body, ind_ids):
-            raise RuntimeError(
-                f"{asset}: body rows {len(body)} != indicators {len(ind_ids)} "
-                "(partial render)"
-            )
-        _emit_non_daily(col_parts, body, ind_ids, ind_names, out)
-    else:
+        if _check_alignment(body, ind_ids):
+            break
+        time.sleep(2.0)
+    if no_data:
         _fetch_daily(table_id, ind_ids, ind_names, end_year, out)
+    elif not _check_alignment(body, ind_ids):
+        raise RuntimeError(
+            f"{asset}: body rows {len(body)} != indicators {len(ind_ids)} "
+            "(partial render persisted after retries)"
+        )
+    else:
+        _emit_non_daily(col_parts, body, ind_ids, ind_names, out)
 
     rows = list(out.values())
     if not rows:
