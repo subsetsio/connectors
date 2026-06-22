@@ -34,8 +34,17 @@ PAGE_SIZE = 10000
 ASSET_BATCH = 120                 # assets per timeseries request (URL stays well under limits)
 MAX_PAGES_ABS = 100_000           # runaway-pagination safety ceiling (raises, never silent-returns)
 
-# Community daily metrics that are operational timestamps, not statistical values.
-SKIP_METRICS = {"AssetCompletionTime", "AssetEODCompletionTime"}
+# Metrics excluded from the published values table:
+#  - AssetCompletionTime / AssetEODCompletionTime: operational timestamps, not values.
+#  - volume_reported_spot_usd_1d: exchange SELF-reported spot volume, which Coin
+#    Metrics' own docs flag as wash-trading-contaminated. It carries physically
+#    impossible values (>1e50 USD) and is the untrusted counterpart to the
+#    pro-only trusted-volume metric — noise, not a clean statistical series.
+SKIP_METRICS = {
+    "AssetCompletionTime",
+    "AssetEODCompletionTime",
+    "volume_reported_spot_usd_1d",
+}
 
 # Metric-dictionary columns we keep from reference-data/asset-metrics.
 DICT_FIELDS = [
