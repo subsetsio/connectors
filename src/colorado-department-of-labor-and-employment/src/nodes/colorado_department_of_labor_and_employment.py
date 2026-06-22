@@ -7,17 +7,27 @@ Socrata open-data portal. We publish the CDLE-attributed labor-market tables
 Shape: stateless full re-pull. Each table is a single flat Socrata resource of
 modest size (a few thousand to ~330k rows); we page the SODA 2.1 JSON endpoint
 in full every refresh and overwrite. No watermark/cursor — revisions and late
-corrections are picked up for free. SODA returns every value as a JSON string,
-and the column set differs per dataset, so raw is written as NDJSON (no schema
-burden); the transform reads it back and publishes one Delta table per dataset.
+corrections are picked up for free.
+
+SODA returns every value as a JSON string and OMITS null fields per row, so the
+key set drifts row-to-row within one dataset (a sparse column appears only on
+the rows that have it). We therefore normalize each dataset to the union of its
+keys and write parquet with an explicit all-string schema — a stable contract
+that the transform can SELECT * cleanly. (Writing raw NDJSON instead lets
+DuckDB's JSON reader infer the schema from a sample and then fail on a later row
+carrying a key the sample never saw.)
 """
+
+import json
+
+import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
     transient_retry,
-    save_raw_ndjson,
+    save_raw_parquet,
 )
 from constants import ENTITY_IDS
 
