@@ -1,0 +1,24 @@
+spec_id: christmas-bird-count-circles
+status: active
+tests:
+  - not_null: circle_id
+    certainty: 95
+  - unique: circle_id
+    reason: one row per count circle; a dupe means the same cid was parsed twice
+    certainty: 95
+  - between: {col: latitude, lo: -90, hi: 90}
+    reason: decimal degrees parsed from the LatLong cell
+    certainty: 90
+  - between: {col: longitude, lo: -180, hi: 180}
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: the CBC spans a few thousand circles across the Western Hemisphere; far fewer means the cid-band scan missed most of the band
+    certainty: 80
+  - nullable: {col: abbrev, max_null_frac: 0.05}
+    reason: nearly every circle has a stable 4-letter count code; widespread nulls signal a parse break
+    certainty: 75
+    severity: warn
+  - unique: abbrev
+    reason: the 4-letter count code identifies a circle uniquely
+    certainty: 70
+    severity: warn
