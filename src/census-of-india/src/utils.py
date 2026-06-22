@@ -301,3 +301,85 @@ def parse_census_excel(blob: bytes, filename: str):
                 rec[names[c]] = txt if txt != "" else None
         out.append(rec)
     return out
+
+
+# ----------------------------------------------------------------------------
+# Wide → tidy-long reshape
+# ----------------------------------------------------------------------------
+#
+# Census tables span ~200 layouts with heterogeneous, often merged headers, so
+# there is no single stable wide schema to publish — and within a multi-file
+# entity (one .xls per state/UT) the geography column is even named differently
+# from file to file (e.g. `india_state_union_territory` vs `state_district`).
+# We melt every parsed workbook into a uniform long shape — (region, dimensions,
+# measure, value) — so all five entities, .xls and .xlsx alike, land on ONE raw
+# schema the SQL transform can publish from unchanged. Identifier columns are
+# preserved verbatim in the `dimensions` JSON; only genuine numeric measures
+# become value rows.
+
+# A column whose NAME matches this is an identifier/dimension even when its
+# cells are numeric: geographic/series codes, serial numbers, and the decadal
+# `census_year` of an A-02 table (a time dimension, not a measured quantity).
+_ID_NAME_RE = re.compile(
+    r"(^|_)(code|sl_no|s_no|sr_no|serial|year|decade|t_r_u|tru|name|table_name)(_|$)"
+)
+_HAS_LETTER = re.compile(r"[A-Za-z]")
+
+
+def _is_measure_col(col, rows):
+    """A measure column is numeric across every non-null cell AND not named like
+    an identifier. Anything else (text, or a numeric code/year) is a dimension."""
+    if _ID_NAME_RE.search(col):
+        return False
+    seen_number = False
+    for r in rows:
+        v = r.get(col)
+        if v is None:
+            continue
+        if isinstance(v, bool) or not isinstance(v, (int, float)):
+            return False
+        seen_number = True
+    return seen_number
+
+
+def excel_to_long(blob: bytes, filename: str):
+    """Parse one census workbook and melt it to tidy-long rows.
+
+    Returns a list of {region, dimensions, measure, value} dicts (value always a
+    non-null float). Empty list if the workbook has no recognizable data block —
+    the caller decides whether that's tolerable for the entity as a whole.
+    """
+    rows = parse_census_excel(blob, filename)
+    if not rows:
+        return []
+    cols = list(rows[0].keys())
+    measure_cols = [c for c in cols if _is_measure_col(c, rows)]
+    id_cols = [c for c in cols if c not in measure_cols]
+
+    # region: a human-readable geography label — the first identifier column
+    # whose values are mostly alphabetic (the place name, not a numeric code).
+    region_col = None
+    for c in id_cols:
+        sample = [str(r[c]) for r in rows[:30] if r.get(c) is not None]
+        if sample and sum(1 for v in sample if _HAS_LETTER.search(v)) >= 0.6 * len(sample):
+            region_col = c
+            break
+    if region_col is None and id_cols:
+        region_col = id_cols[0]
+
+    out = []
+    for r in rows:
+        dims = json.dumps({c: r.get(c) for c in id_cols}, ensure_ascii=False)
+        region = r.get(region_col) if region_col else None
+        region = str(region) if region is not None else None
+        for m in measure_cols:
+            v = r.get(m)
+            if v is None:
+                continue
+            out.append({
+                "region": region,
+                "dimensions": dims,
+                "measure": m,
+                "value": float(v),
+            })
+    return out
