@@ -563,11 +563,17 @@ def _try_chunk(chunk: list) -> list:
         "TABLEREQUEST": json.dumps(report),
     })
     obs = prospetto.get("GRAPHDATA", {}).get("observations", []) or []
-    # Reject the degraded (stripped) shape before it can reach the raw file: a
-    # single missing CUBEID means the server dropped the series key + dimensions
-    # for this pivot (see _DegradedResponse). Splitting/retrying recovers the
-    # full shape, so surface it as its own signal rather than saving junk.
-    if any("CUBEID" not in (o.get("values") or {}) for o in obs):
+    # Reject the degraded (stripped) shape before it can reach the raw file. The
+    # stripped shape is {DATA_OSS, FENEC, VALORE} — it carries VALORE but has lost
+    # the CUBEID series key + dimensions (see _DegradedResponse), so the tell is
+    # "VALORE present AND CUBEID absent". Measure-named tables (no VALORE; value
+    # lives in a measure-named column) legitimately have no CUBEID and must NOT be
+    # flagged — guarding on VALORE keeps that healthy shape from misfiring.
+    # Splitting/retrying recovers the full shape, so surface it as its own signal.
+    if any(
+        "VALORE" in (v := (o.get("values") or {})) and "CUBEID" not in v
+        for o in obs
+    ):
         raise _DegradedResponse(
             "stripped observations (missing CUBEID) for "
             + str(len(chunk)) + " series"
