@@ -1,0 +1,8 @@
+spec_id: u-s-department-of-transportation-q989-k45x
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: this Socrata dataset returned rows when probed during research; an empty pull means SODA pagination broke or the dataset was withdrawn upstream.
+    certainty: 80
+    points_outward: true
+    severity: warn
