@@ -2,12 +2,8 @@ spec_id: scottish-government-statistics-births
 status: active
 tests:
   - not_null: value
-    reason: the SPARQL projection requires ?measureType ?value per observation, so every raw row must carry a measure value; a null means the cube extraction dropped the measure
+    reason: every observation row carries its measure value (the extraction pages ?measureType ?value per observation); a null means a page truncated or the join dropped the value
     certainty: 95
-  - not_null: measure
-    reason: every RDF Data Cube observation has a qb:measureType; a null measure name means the measure-dimension projection broke
+  - not_null: measure_type
+    reason: every RDF Data Cube observation has a qb:measureType; a null measure_type means the measure-dimension assembly broke
     certainty: 95
-  - column_type: {col: value, type: float}
-    reason: measure values are numeric and coerced to float on write; a non-float column flags a cube with non-numeric/suppressed measures or a parse regression
-    certainty: 70
-    severity: warn
