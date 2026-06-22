@@ -1,0 +1,19 @@
+spec_id: dallas-fed-agsurvey
+status: active
+tests:
+  - not_null: date
+  - not_null: value
+  - not_null: series
+  - column_type: {col: date, type: date}
+  - column_type: {col: value, type: float}
+  - enum: {col: topic, values: [land_values, cash_rents, credit_conditions, loan_volume, lending, interest_rates]}
+    reason: the six Agricultural Survey topic workbooks combined into one table
+    certainty: 90
+  - row_count: {min: 10000}
+    reason: quarterly history since 2000 across six topics, several series each
+    certainty: 75
+  - freshness: {col: date, reaches: today - 300d}
+    reason: quarterly survey; latest quarter should be within ~3 quarters
+    certainty: 70
+    points_outward: true
+    severity: warn

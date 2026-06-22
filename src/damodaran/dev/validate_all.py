@@ -53,14 +53,19 @@ def is_num(v):
 def clean(v):
     if v is None: return ""
     s=str(v).strip(); return "" if s.lower()=="nan" else s
+def norm(x): return " ".join(clean(x).lower().split())
 def find_header(df, anchor):
-    a=anchor.lower()
+    a=norm(anchor)
     for i in range(min(len(df),60)):
-        if clean(df.iloc[i,0]).lower().startswith(a): return i
+        row=df.iloc[i].tolist()
+        if norm(row[0]).startswith(a) and sum(1 for v in row if clean(v))>=3:
+            return i
     return None
 def parse(content, anchor, sheet_hint):
     xls=pd.ExcelFile(io.BytesIO(content))
-    sheets = [sheet_hint] if (sheet_hint and sheet_hint in xls.sheet_names) else xls.sheet_names
+    order = ([sheet_hint] if (sheet_hint and sheet_hint in xls.sheet_names) else [])
+    order += [s for s in xls.sheet_names if s not in order]
+    sheets = order
     for sh in sheets:
         df=pd.read_excel(xls,sheet_name=sh,header=None)
         hi=find_header(df,anchor)

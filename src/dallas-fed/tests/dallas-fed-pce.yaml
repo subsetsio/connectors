@@ -1,0 +1,22 @@
+spec_id: dallas-fed-pce
+status: active
+tests:
+  - not_null: date
+  - not_null: value
+  - column_type: {col: date, type: date}
+  - column_type: {col: value, type: float}
+  - enum: {col: horizon, values: [1-month, 6-month, 12-month]}
+    reason: Dallas Fed publishes annualized trimmed mean PCE at 1-, 6-, and 12-month horizons
+    certainty: 95
+  - between: {col: value, lo: -30, hi: 30}
+    reason: annualized inflation rates in percent; outside this band signals a parse/unit error
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1000}
+    reason: monthly since 1977 across three horizons
+    certainty: 85
+  - freshness: {col: date, reaches: today - 120d}
+    reason: monthly release tracking BEA PCE
+    certainty: 75
+    points_outward: true
+    severity: warn

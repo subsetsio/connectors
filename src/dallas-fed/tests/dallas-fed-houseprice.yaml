@@ -1,0 +1,26 @@
+spec_id: dallas-fed-houseprice
+status: active
+tests:
+  - not_null: date
+  - not_null: value
+  - not_null: country
+  - column_type: {col: date, type: date}
+  - column_type: {col: value, type: float}
+  - enum: {col: metric, values: [house_price_index, real_house_price_index, personal_disposable_income, real_personal_disposable_income]}
+    reason: the four data sheets HPI/RHPI/PDI/RPDI in the International House Price Database
+    certainty: 90
+  - distinct_count: {col: country, min: 20}
+    reason: database covers ~25 countries plus two aggregates
+    certainty: 85
+  - at_least: {col: value, expr: 0}
+    reason: index levels and income series are positive
+    certainty: 80
+    severity: warn
+  - row_count: {min: 10000}
+    reason: quarterly since 1975 across ~28 series and four metrics
+    certainty: 80
+  - freshness: {col: date, reaches: today - 300d}
+    reason: quarterly release with a publication lag
+    certainty: 70
+    points_outward: true
+    severity: warn
