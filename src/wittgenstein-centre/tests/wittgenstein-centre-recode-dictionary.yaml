@@ -1,0 +1,15 @@
+spec_id: wittgenstein-centre-recode-dictionary
+status: active
+tests:
+  - not_null: var
+    reason: every recode row names the variable it decodes
+    certainty: 99
+  - not_null: varval
+    certainty: 95
+  - enum: {col: var, values: [region, agest, Time, scen, edu, mys, asfr, sx, srb, prop, pop, births, emi, imm]}
+    reason: the dictionary decodes exactly these variables in the V14 release
+    certainty: 80
+    severity: warn
+  - distinct_count: {col: varval, min: 200}
+    reason: ~228 region codes alone, plus age/edu/scenario codes
+    certainty: 80

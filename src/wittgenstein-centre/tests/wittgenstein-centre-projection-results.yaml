@@ -1,0 +1,26 @@
+spec_id: wittgenstein-centre-projection-results
+status: active
+tests:
+  - not_null: region
+    reason: every projection row is keyed to a region/country code
+    certainty: 99
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2020, hi: 2100}
+    reason: WIC v3 projections run 2020-2100 in 5-year steps
+    certainty: 95
+  - enum: {col: sex, values: [f, m]}
+    certainty: 95
+  - enum: {col: edu, values: [e1, e2, e3, e4, e5, e6]}
+    reason: six education categories (No Education .. Post Secondary)
+    certainty: 90
+  - enum: {col: scenario, values: [SSP1, SSP2, SSP2mig0, SSP2mig2x, SSP3, SSP4, SSP5]}
+    reason: the 7 per-scenario files unioned into one asset
+    certainty: 95
+  - at_least: {col: population, expr: 0}
+    reason: population counts (in thousands) are non-negative
+    certainty: 99
+  - at_least: {col: deaths, expr: 0}
+    certainty: 95
+  - distinct_count: {col: region, min: 150}
+    reason: ~200 countries plus regional aggregates; <150 means a truncated pull
+    certainty: 85

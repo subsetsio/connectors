@@ -1,0 +1,18 @@
+spec_id: wittgenstein-centre-survival-ratios
+status: active
+tests:
+  - not_null: region
+    certainty: 99
+  - column_type: {col: Time, type: integer}
+  - between: {col: Time, lo: 2020, hi: 2100}
+    certainty: 95
+  - enum: {col: sex, values: [f, m]}
+    certainty: 95
+  - enum: {col: edu, values: [e1, e2, e3, e4, e5, e6]}
+    certainty: 85
+  - between: {col: SSP2, lo: 0, hi: 1}
+    reason: five-year survival ratios are proportions in [0,1]
+    certainty: 90
+  - between: {col: agest, lo: -5, hi: 120}
+    reason: agest spans newborns (-5) through the open-ended top age group
+    certainty: 88

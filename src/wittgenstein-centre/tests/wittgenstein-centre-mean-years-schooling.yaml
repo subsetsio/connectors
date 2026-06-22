@@ -1,0 +1,17 @@
+spec_id: wittgenstein-centre-mean-years-schooling
+status: active
+tests:
+  - not_null: region
+    certainty: 99
+  - column_type: {col: Time, type: integer}
+  - between: {col: Time, lo: 2020, hi: 2100}
+    certainty: 95
+  - enum: {col: sex, values: [f, m]}
+    certainty: 95
+  - between: {col: agest, lo: 15, hi: 100}
+    reason: MYS is reported for the population aged 15 and above
+    certainty: 90
+  - between: {col: SSP2, lo: 0, hi: 25}
+    reason: mean years of schooling realistically falls within 0-25 years
+    certainty: 85
+    severity: warn

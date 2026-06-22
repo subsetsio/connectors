@@ -1,197 +1,266 @@
 """Scottish Government Statistics (statistics.gov.scot) — RDF Data Cube connector.
 
 statistics.gov.scot is a PublishMyData (Swirrl) linked-data platform. The
-statistical content lives in 276 W3C RDF Data Cubes (qb:DataSet); the rank step
+statistical content lives in W3C RDF Data Cubes (qb:DataSet); the rank step
 accepted 181 of them (the file-dataset blobs were demoted). Every cube uses the
-SDMX measure-dimension pattern, so a single generic extractor works for all of
-them:
+SDMX measure-dimension pattern, so one generic extractor serves all of them.
 
-  * discover the cube's dimensions from its DSD (qb:structure/qb:component),
-  * project one row per observation — each dimension value, the measure name
-    (qb:measureType), the measure value, and the unitMeasure attribute,
-  * paginate with LIMIT/OFFSET.
+Extraction is a stateless full re-pull per cube. For each cube we discover its
+dimensions from the DSD, then assemble one row per observation: a row carries
+each dimension value, the measure name (qb:measureType) and the measure value.
+To stay within the endpoint's limits the work is chunked by refPeriod and each
+chunk is keyset-paginated by observation URI — a global ORDER BY over a
+multi-million-row cube exceeds the server's ~30s query timeout, but ordering
+within a single period does not. After assembling a period we cross-check the
+row count against a COUNT(*) so a truncated/timed-out page fails loudly instead
+of publishing a partial table.
 
-Pagination notes (verified against the live endpoint):
-  * The endpoint enforces a ~30s server timeout. ORDER BY over a multi-million
-    -row cube blows that budget, so we paginate WITHOUT ORDER BY. The store's
-    scan order is deterministic (an identical query returns byte-identical rows),
-    so OFFSET paging is stable; the only artdefact is the occasional boundary
-    observation that carries two measure rows straddling a page edge, which the
-    transform removes with SELECT DISTINCT.
-  * A projected (joined) row hits the result-size cap around 25k rows, so we use
-    a 20000-row page.
-
-Fetch shape: stateless full re-pull. Each cube is re-extracted in full every run
-and overwritten downstream — revisions are picked up for free. There is no
-incremental delta filter on the data (only dct:modified per dataset, used for
-change detection elsewhere), so full corpus per refresh is the only option.
-Large cubes (up to ~8M observations) are streamed to gzip'd NDJSON so memory
-stays bounded.
+Transport: the endpoint sits behind nginx. Over a long cloud run the shared
+httpx client pools one keep-alive connection across thousands of requests; nginx
+eventually closes it and the next reuse raises "Server disconnected without
+sending a response" (only ever seen on cloud runs, never in short local runs).
+`Connection: close` forces a fresh connection per request, and a browser-style
+User-Agent avoids UA filtering. Queries go via POST to dodge URL-length limits.
 """
 
 import csv
 import io
-import json
 import re
+import time
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, raw_writer, transient_retry
-from constants import CUBE_IDS
+import pyarrow as pa
+from subsets_utils import (
+    NodeSpec,
+    SqlNodeSpec,
+    configure_http,
+    post,
+    raw_parquet_writer,
+    transient_retry,
+)
+from constants import CUBE_IDS as ENTITY_IDS
 
-SPARQL = "https://statistics.gov.scot/sparql"
-PAGE = 20000
-MAX_PAGES = 2000  # safety backstop: 40M rows. Raises if exceeded.
-
-# statistics.gov.scot sits behind a CDN/WAF that silently drops requests from
-# datacenter IPs carrying a non-browser User-Agent (the connector's cloud runner
-# hits this — every request disconnects mid-response). A realistic browser
-# User-Agent + browser-like headers get through. (POST is not usable here — the
-# endpoint serves its interactive HTML page for POST; results require GET.)
-_HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-    ),
-    "Accept": "text/csv",
-    "Accept-Language": "en-GB,en;q=0.9",
-    "Referer": "https://statistics.gov.scot/sparql",
-}
-
+SLUG = "scottish-government-statistics"
+ENDPOINT = "https://statistics.gov.scot/sparql"
 QB = "http://purl.org/linked-data/cube#"
-SDMX_DIM = "http://purl.org/linked-data/sdmx/2009/dimension#"
-SDMX_ATTR = "http://purl.org/linked-data/sdmx/2009/attribute#"
+MEASURE_TYPE = "http://purl.org/linked-data/cube#measureType"
+REF_PERIOD = "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"
+# RDF resource identifier prefix — the http-scheme IRI the triplestore uses to
+# identify each qb:DataSet (an opaque identifier, NOT a network URL; https would
+# not match). All actual HTTP traffic goes to the https ENDPOINT above.
+DATA_BASE = "http://statistics.gov.scot/data/"
+PAGE = 50000  # endpoint caps a single result set below 100k rows
 
-# download id -> original-case dataset slug (statistics.gov.scot URIs are
-# case-sensitive, and the spec id lowercases the slug).
-SLUG_BY_ID = {
-    f"scottish-government-statistics-{eid.lower().replace('_', '-')}": eid
-    for eid in CUBE_IDS
+_HTTP_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/124.0 Safari/537.36"
+    ),
+    "Accept-Language": "en-GB,en;q=0.9",
+    "Connection": "close",
+}
+_http_configured = False
+
+# Map each spec id back to its original-case dataset slug so the fetch fn can
+# rebuild the qb:DataSet URI (statistics.gov.scot slugs are case-sensitive and
+# the spec id lowercases them). Pure computation — no I/O at import.
+ID_TO_ENTITY = {
+    f"{SLUG}-{eid.lower().replace('_', '-')}": eid for eid in ENTITY_IDS
 }
 
 
-def _local(uri: str) -> str:
-    """Last path/fragment segment of a URI (the human-readable code/name)."""
-    return re.sub(r"^.*[/#]", "", uri)
+def _ensure_http():
+    global _http_configured
+    if not _http_configured:
+        configure_http(headers=_HTTP_HEADERS)
+        _http_configured = True
 
 
-@transient_retry(attempts=8, min_wait=2, max_wait=90)
-def _sparql_csv(query: str) -> str:
-    resp = get(
-        SPARQL,
-        params={"query": query},
-        headers=_HEADERS,
-        timeout=(10.0, 180.0),
+@transient_retry(attempts=8, max_wait=120)
+def _sparql(query: str) -> list[dict]:
+    """Run a SPARQL query via POST (avoids URL-length limits), CSV -> dicts.
+
+    Retries transient network errors / 429 / 5xx with backoff.
+    """
+    _ensure_http()
+    resp = post(
+        ENDPOINT,
+        data={"query": query},
+        headers={"Accept": "text/csv"},
+        timeout=(10.0, 300.0),
     )
     resp.raise_for_status()
-    return resp.text
+    return list(csv.DictReader(io.StringIO(resp.text)))
 
 
-def _rows(query: str) -> list[dict]:
-    return list(csv.DictReader(io.StringIO(_sparql_csv(query))))
+def _seg(uri):
+    """Last path/fragment segment of a URI ('.../gender/all' -> 'all')."""
+    if not uri:
+        return uri
+    return re.split(r"[/#]", uri.rstrip("/"))[-1]
+
+
+def _col(uri: str) -> str:
+    """Dimension URI -> snake_case column name (refArea -> ref_area)."""
+    name = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", _seg(uri))
+    return name.replace("-", "_").lower()
+
+
+def _esc(s: str) -> str:
+    return s.replace("\\", "\\\\").replace('"', '\\"')
+
+
+def _retry_nonempty(fn, what: str, ds_uri: str):
+    """Discovery/count queries return empty under throttling; retry a few times
+    before trusting an empty result."""
+    for attempt in range(5):
+        rows = fn()
+        if rows:
+            return rows
+        time.sleep(5 * (attempt + 1))
+    raise RuntimeError(f"{ds_uri}: {what} returned empty after retries")
 
 
 def _discover_dimensions(ds_uri: str) -> list[str]:
-    """Dimension property URIs for a cube, excluding qb:measureType."""
-    q = (
-        f"PREFIX qb: <{QB}>\n"
-        "SELECT DISTINCT ?dim WHERE { <%s> qb:structure/qb:component/qb:dimension ?dim\n"
-        "  FILTER(?dim != qb:measureType) }" % ds_uri
+    rows = _retry_nonempty(
+        lambda: _sparql(
+            f"PREFIX qb: <{QB}> SELECT DISTINCT ?dim WHERE {{ "
+            f"<{ds_uri}> qb:structure ?dsd . ?dsd qb:component ?c . "
+            f"?c qb:dimension ?dim }}"
+        ),
+        "dimension discovery",
+        ds_uri,
     )
-    return [r["dim"] for r in _rows(q)]
+    return [r["dim"] for r in rows if r["dim"] and r["dim"] != MEASURE_TYPE]
 
 
-def _column_names(dim_uris: list[str]) -> list[str]:
-    """Local-name per dimension, de-duplicated against collisions and reserved
-    output columns (measure/value/unit)."""
-    reserved = {"measure", "value", "unit"}
-    names, seen = [], set(reserved)
-    for uri in dim_uris:
-        base = _local(uri)
-        name = base
-        i = 1
-        while name in seen:
-            i += 1
-            name = f"{base}_{i}"
-        seen.add(name)
-        names.append(name)
-    return names
-
-
-def _page_query(ds_uri: str, dim_uris: list[str], cols: list[str], offset: int) -> str:
-    select = ["?measure", "?value", "?unit"] + [f"?{c}" for c in cols]
-    where = [
-        f"?o qb:dataSet <{ds_uri}> ; qb:measureType ?mU ; ?mU ?value .",
-        f"OPTIONAL {{ ?o <{SDMX_ATTR}unitMeasure> ?unitU }}",
-    ]
-    binds = [
-        'BIND(REPLACE(STR(?mU),"^.*[/#]","") AS ?measure)',
-        'BIND(REPLACE(STR(?unitU),"^.*[/#]","") AS ?unit)',
-    ]
-    for col, uri in zip(cols, dim_uris):
-        where.append(f"?o <{uri}> ?{col}U .")
-        binds.append(f'BIND(REPLACE(STR(?{col}U),"^.*[/#]","") AS ?{col})')
-    return (
-        f"PREFIX qb: <{QB}>\n"
-        f"SELECT {' '.join(select)} WHERE {{\n"
-        + "\n".join(where)
-        + "\n"
-        + "\n".join(binds)
-        + f"\n}} LIMIT {PAGE} OFFSET {offset}"
+def _discover_periods(ds_uri: str) -> list[str]:
+    rows = _retry_nonempty(
+        lambda: _sparql(
+            f"PREFIX qb: <{QB}> SELECT DISTINCT ?p WHERE {{ ?o qb:dataSet "
+            f"<{ds_uri}> ; <{REF_PERIOD}> ?p }} ORDER BY ?p"
+        ),
+        "period discovery",
+        ds_uri,
     )
+    return [r["p"] for r in rows if r["p"]]
 
 
-def _coerce_value(raw: str):
-    """Measure values are numeric; keep them as floats so the published column is
-    typed. Anything non-numeric falls through as the original string."""
-    if raw is None or raw == "":
-        return None
-    try:
-        return float(raw)
-    except (TypeError, ValueError):
-        return raw
+def _count(ds_uri: str, period_uri) -> int:
+    where = f"?o qb:dataSet <{ds_uri}>"
+    if period_uri:
+        where += f" ; <{REF_PERIOD}> <{period_uri}>"
+    rows = _retry_nonempty(
+        lambda: _sparql(
+            f"PREFIX qb: <{QB}> SELECT (COUNT(*) AS ?n) WHERE {{ {where} }}"
+        ),
+        "count",
+        ds_uri,
+    )
+    return int(rows[0]["n"])
 
 
-def fetch_cube(node_id: str) -> None:
-    eid = SLUG_BY_ID[node_id]
-    ds_uri = f"http://statistics.gov.scot/data/{eid}"
-    dim_uris = _discover_dimensions(ds_uri)
-    cols = _column_names(dim_uris)
+def _paged(select_vars: str, where_body: str) -> list[dict]:
+    """Keyset-page a query whose first projected var is ?obs."""
+    out = []
+    last = None
+    while True:
+        flt = f'FILTER(STR(?obs) > "{_esc(last)}")' if last else ""
+        rows = _sparql(
+            f"PREFIX qb: <{QB}> SELECT {select_vars} WHERE {{ "
+            f"{where_body} {flt} }} ORDER BY ?obs LIMIT {PAGE}"
+        )
+        if not rows:
+            break
+        out.extend(rows)
+        last = rows[-1]["obs"]
+        if len(rows) < PAGE:
+            break
+    return out
 
-    written = 0
-    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as f:
-        for page in range(MAX_PAGES):
-            rows = _rows(_page_query(ds_uri, dim_uris, cols, page * PAGE))
-            if not rows:
-                break
-            for r in rows:
-                out = {
-                    "measure": r.get("measure") or None,
-                    "value": _coerce_value(r.get("value")),
-                    "unit": r.get("unit") or None,
-                }
-                for c in cols:
-                    out[c] = r.get(c) or None
-                f.write(json.dumps(out, separators=(",", ":")) + "\n")
-            written += len(rows)
-            if len(rows) < PAGE:
-                break
-        else:
-            raise RuntimeError(
-                f"{node_id}: hit MAX_PAGES={MAX_PAGES} ({written} rows) — cube larger "
-                "than expected; raise the cap or chunk by refPeriod."
+
+def fetch_one(node_id: str) -> None:
+    asset = node_id  # the spec id IS the asset name
+    ds_uri = DATA_BASE + ID_TO_ENTITY[node_id]
+
+    dims = _discover_dimensions(ds_uri)
+    period_uri = REF_PERIOD if REF_PERIOD in dims else None
+    other = [(d, _col(d)) for d in dims if d != period_uri]
+
+    columns = (["ref_period"] if period_uri else []) + \
+        [col for _uri, col in other] + ["measure_type", "value"]
+    schema = pa.schema([(c, pa.string()) for c in columns])
+
+    periods = _discover_periods(ds_uri) if period_uri else [None]
+
+    with raw_parquet_writer(asset, schema) as writer:
+        for pv in periods:
+            expected = _count(ds_uri, pv)
+            base = f"?obs qb:dataSet <{ds_uri}>"
+            if pv:
+                base += f" ; <{period_uri}> <{pv}>"
+
+            # The measure value defines exactly one row per observation.
+            value_rows = _paged(
+                "?obs ?mt ?value",
+                base + f" ; <{MEASURE_TYPE}> ?mt ; ?mt ?value .",
             )
-    print(f"  {node_id}: {written:,} observations across {len(cols)} dimensions")
+            rowmap = {
+                r["obs"]: {"measure_type": _seg(r["mt"]), "value": r["value"]}
+                for r in value_rows
+            }
+            del value_rows
+
+            # Each dimension joined in as its own cheap selective scan.
+            for uri, col in other:
+                for r in _paged("?obs ?v", base + f" ; <{uri}> ?v ."):
+                    rec = rowmap.get(r["obs"])
+                    if rec is not None:
+                        rec[col] = _seg(r["v"])
+
+            if len(rowmap) != expected:
+                raise RuntimeError(
+                    f"{asset}: period {pv} assembled {len(rowmap)} rows, "
+                    f"expected {expected} — likely a truncated/timed-out page; "
+                    f"failing to avoid silent truncation"
+                )
+            if not rowmap:
+                continue
+
+            batch = []
+            period_seg = _seg(pv) if pv else None
+            for rec in rowmap.values():
+                row = {}
+                if period_uri:
+                    row["ref_period"] = period_seg
+                for _uri, col in other:
+                    row[col] = rec.get(col)
+                row["measure_type"] = rec["measure_type"]
+                row["value"] = rec["value"]
+                batch.append(row)
+            writer.write_table(pa.Table.from_pylist(batch, schema=schema))
+            del rowmap, batch
 
 
 DOWNLOAD_SPECS = [
-    NodeSpec(id=node_id, fn=fetch_cube, kind="download")
-    for node_id in SLUG_BY_ID
+    NodeSpec(
+        id=f"{SLUG}-{eid.lower().replace('_', '-')}",
+        fn=fetch_one,
+        kind="download",
+    )
+    for eid in ENTITY_IDS
 ]
 
+# Uniform thin transform: cast the measure value to DOUBLE (keeping every
+# cube-specific dimension column via SELECT * REPLACE) and drop non-numeric /
+# missing values. One published Delta table per cube.
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
-        sql=f'SELECT DISTINCT * FROM "{s.id}" WHERE value IS NOT NULL',
+        sql=(
+            f'SELECT * REPLACE (TRY_CAST(value AS DOUBLE) AS value) '
+            f'FROM "{s.id}" WHERE TRY_CAST(value AS DOUBLE) IS NOT NULL'
+        ),
     )
     for s in DOWNLOAD_SPECS
 ]

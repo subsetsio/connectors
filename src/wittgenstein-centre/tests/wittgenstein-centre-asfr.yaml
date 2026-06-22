@@ -1,0 +1,23 @@
+spec_id: wittgenstein-centre-asfr
+status: active
+tests:
+  - not_null: region
+    certainty: 99
+  - column_type: {col: Time, type: integer}
+  - between: {col: Time, lo: 2020, hi: 2100}
+    certainty: 95
+  - enum: {col: sex, values: [f]}
+    reason: fertility rates are reported for females only
+    certainty: 90
+  - enum: {col: edu, values: [e1, e2, e3, e4, e5, e6]}
+    certainty: 85
+  - between: {col: agest, lo: 15, hi: 45}
+    reason: reproductive age groups 15-49 (5-year groups start 15..45)
+    certainty: 90
+  - at_least: {col: SSP2, expr: 0}
+    reason: age-specific fertility rates (per 1000 women) are non-negative
+    certainty: 95
+  - between: {col: SSP2, lo: 0, hi: 500}
+    reason: per-1000-women ASFR peaks well under 500
+    certainty: 80
+    severity: warn

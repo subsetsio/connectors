@@ -1,0 +1,12 @@
+spec_id: wittgenstein-centre-sex-ratio-at-birth
+status: active
+tests:
+  - not_null: region
+    certainty: 99
+  - column_type: {col: Time, type: integer}
+  - between: {col: Time, lo: 2020, hi: 2100}
+    certainty: 95
+  - between: {col: SSP2, lo: 1.0, hi: 1.2}
+    reason: sex ratio at birth (male per female births) is biologically ~1.02-1.10
+    certainty: 85
+    severity: warn
