@@ -1,0 +1,29 @@
+spec_id: banco-central-del-paraguay-daily-usd-free-market-rate
+status: active
+tests:
+  - not_null: date
+    certainty: 99
+  - column_type: {col: date, type: date}
+    certainty: 95
+  - unique: date
+    reason: one free-market quote row per day (compra+venta merged)
+    certainty: 95
+  - between: {col: compra, lo: 1000, hi: 12000}
+    reason: free-market USD/PYG tracks the reference band (~5000-7500 in recent years)
+    certainty: 75
+    severity: warn
+  - between: {col: venta, lo: 1000, hi: 12000}
+    certainty: 75
+    severity: warn
+  - relationship: {left: compra, op: "<=", right: venta}
+    reason: buy (compra) should not exceed sell (venta) for a dealer quote
+    certainty: 70
+    severity: warn
+  - row_count: {min: 1500}
+    reason: free-market daily grid begins ~2013; ~250 business days x ~10+ years
+    certainty: 70
+  - freshness: {col: date, reaches: today - 60d}
+    reason: posted each business day; stale max points at the source/sweep
+    certainty: 65
+    points_outward: true
+    severity: warn
