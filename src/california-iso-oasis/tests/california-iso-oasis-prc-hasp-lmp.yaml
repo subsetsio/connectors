@@ -1,0 +1,23 @@
+spec_id: california-iso-oasis-prc-hasp-lmp
+status: active
+tests:
+  - not_null: INTERVALSTARTTIME_GMT
+    reason: every priced interval carries a GMT start; nulls mean a dropped/garbled row
+    certainty: 95
+  - matches: {col: INTERVALSTARTTIME_GMT, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}T'}
+    reason: OASIS emits ISO-8601 GMT timestamps like 2024-01-01T10:00:00-00:00
+    certainty: 90
+  - enum: {col: NODE, values: [TH_NP15_GEN-APND, TH_SP15_GEN-APND, TH_ZP26_GEN-APND]}
+    reason: we query exactly the three CAISO trading-hub nodes; any other node means the request fanned wider than intended
+    certainty: 92
+  - enum: {col: MARKET_RUN_ID, values: [HASP]}
+    reason: this report is fetched only for the HASP market run
+    certainty: 90
+  - not_null: MW
+    reason: the price/value column should be populated for hub LMP intervals
+    certainty: 80
+  - not_null: LMP_TYPE
+    certainty: 85
+  - row_count: {min: 500}
+    reason: a multi-year hub-node backfill is far more than 500 rows; fewer means the backfill barely ran
+    certainty: 85

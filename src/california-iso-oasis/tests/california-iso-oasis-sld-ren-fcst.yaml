@@ -1,0 +1,16 @@
+spec_id: california-iso-oasis-sld-ren-fcst
+status: active
+tests:
+  - not_null: INTERVALSTARTTIME_GMT
+    certainty: 95
+  - matches: {col: INTERVALSTARTTIME_GMT, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}T'}
+    certainty: 90
+  - enum: {col: MARKET_RUN_ID, values: [DAM]}
+    certainty: 88
+  - not_null: RENEWABLE_TYPE
+    reason: wind/solar forecast rows are typed by renewable resource
+    certainty: 85
+  - not_null: TRADING_HUB
+    certainty: 82
+  - row_count: {min: 500}
+    certainty: 85

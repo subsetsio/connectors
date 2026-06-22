@@ -1,0 +1,16 @@
+spec_id: california-iso-oasis-ene-slrs
+status: active
+tests:
+  - not_null: INTERVALSTARTTIME_GMT
+    certainty: 95
+  - matches: {col: INTERVALSTARTTIME_GMT, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}T'}
+    certainty: 90
+  - enum: {col: MARKET_RUN_ID, values: [DAM]}
+    certainty: 88
+  - not_null: SLRS_TYPE
+    reason: scheduled-energy rows are typed (generation/import/export/load)
+    certainty: 82
+  - not_null: MW
+    certainty: 78
+  - row_count: {min: 500}
+    certainty: 85
