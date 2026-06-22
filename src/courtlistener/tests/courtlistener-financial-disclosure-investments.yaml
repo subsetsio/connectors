@@ -1,0 +1,13 @@
+spec_id: courtlistener-financial-disclosure-investments
+status: active
+tests:
+  - not_null: id
+    reason: id is the table's PostgreSQL primary key; never null in a COPY dump.
+    certainty: 98
+  - unique: id
+    reason: primary key is unique per row; dupes would mean the stream was written twice without overwrite.
+    certainty: 95
+  - row_count:
+      min: 1
+    reason: a populated bulk table; 0 rows means an empty or truncated download.
+    certainty: 95

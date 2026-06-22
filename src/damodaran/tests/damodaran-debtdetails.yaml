@@ -1,0 +1,19 @@
+spec_id: damodaran-debtdetails
+status: active
+tests:
+  - not_null: category
+  - not_null: metric
+  - not_null: value
+  - column_type: {col: value, type: float}
+  - column_type: {col: category, type: string}
+  - column_type: {col: metric, type: string}
+  - row_count: {min: 30}
+    reason: each Damodaran family melts to dozens-to-thousands of category x metric rows; far fewer means the table wasn't found
+    certainty: 90
+  - distinct_count: {col: metric, min: 1}
+    reason: at least one numeric metric column per family
+    certainty: 95
+  - not_null: region
+  - distinct_count: {col: region, min: 2}
+    reason: regional family is published across multiple regions (US plus Europe/Japan/...); only one means region fetches silently failed
+    certainty: 85

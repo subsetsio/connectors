@@ -1,0 +1,18 @@
+spec_id: danmarks-nationalbank-dnrnum
+status: active
+tests:
+  - not_null: time
+    reason: every StatBank BULK cell carries a time-period coordinate (the Tid dimension)
+    certainty: 95
+  - not_null: value
+    reason: the INDHOLD field is always present per cell, written as a string ('..' marks a missing value)
+    certainty: 95
+  - column_type: {col: value, type: string}
+    reason: all BULK fields are serialized as JSON strings in raw NDJSON; the transform casts value to DOUBLE
+    certainty: 90
+  - column_type: {col: time, type: string}
+    reason: StatBank periods are coded strings (e.g. 2026M04, 2026Q1, 1977M01D03), kept verbatim
+    certainty: 90
+  - row_count: {min: 10}
+    reason: every table is a recurring multi-period time series with at least one dimension; <10 rows means a truncated/failed BULK extract
+    certainty: 85
