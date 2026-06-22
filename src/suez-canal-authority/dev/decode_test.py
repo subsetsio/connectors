@@ -62,3 +62,28 @@ import collections
 print("distinct years:", sorted(set(r.get("year") for r in rows))[:30])
 print("distinct CategoryName_en:", sorted(set(r.get("CategoryName_en") for r in rows)))
 print("distinct Port:", sorted(set(str(r.get("Port")) for r in rows)))
+
+print("\n\n========== ALL 7 REPORTS ==========")
+KEYMAP={
+ "01-monthly-number-net-ton-by-ship-type":"37989a27-9212-47b5-af4a-4e24459656ce",
+ "02-fiscal-year-statistical":"cfd839a0-d4ac-4df7-a6e7-308bf576098b",
+ "03-yearly-statistics":"173bc878-0a20-4bc1-b738-08d2de20719e",
+ "04-yearly-cargo-ton-by-direction":"a9b8cc80-3266-4a27-bb9d-50ccb99ba5d6",
+ "05-yealy-cargo-ton-by-region":"f394fa83-f56e-4ff5-8877-a2c015ca9cfe",
+ "06-yealy-cargo-ton-by-region-cont":"620624d7-ba78-4a4b-a04a-3bb4d7f69b95",
+ "07-yearly-cargo-ton-by-cargo-type":"4421f780-4bb4-47ac-8e7d-aba8b30360e6",
+}
+for eid,key in KEYMAP.items():
+    try:
+        data,entity,props=fetch_report(key)
+        cols,rows=decode(data)
+        print(f"\n## {eid}  entity={entity} nrows={len(rows)}")
+        print("   cols:",cols)
+        print("   sample:",rows[0] if rows else None)
+        # year-ish ranges
+        for yc in ("year","Year","Fiscal Year"):
+            if rows and yc in rows[0]:
+                ys=sorted(set(r[yc] for r in rows if r[yc] is not None))
+                print(f"   {yc} range:",ys[0],"..",ys[-1],f"({len(ys)})")
+    except Exception as e:
+        print(eid,"ERR",type(e).__name__,str(e)[:160])
