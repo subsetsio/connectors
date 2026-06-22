@@ -117,7 +117,19 @@ DOWNLOAD_SPECS = [
 # --- Transforms: one published Delta table per subset. Thin parse/cast/dedup;
 # overlap-free here (stateless full pull) but DISTINCT guards accidental dupes. ---
 
-_RATE_SQL = '''
+# exrates/daily-year returns a compact record (no country/currency labels);
+# fxrates/daily-year returns the full record with country + currency.
+_EXRATES_SQL = '''
+    SELECT DISTINCT
+        CAST(validFor AS DATE)        AS date,
+        currencyCode                  AS currency_code,
+        CAST(amount AS INTEGER)       AS amount,
+        CAST(rate AS DOUBLE)          AS rate
+    FROM "{dep}"
+    WHERE validFor IS NOT NULL AND rate IS NOT NULL
+'''
+
+_FXRATES_SQL = '''
     SELECT DISTINCT
         CAST(validFor AS DATE)        AS date,
         currencyCode                  AS currency_code,
@@ -141,8 +153,8 @@ _AVG_SQL = '''
 '''
 
 _SQL_BY_ENTITY = {
-    "exrates-daily": _RATE_SQL,
-    "fxrates-daily": _RATE_SQL,
+    "exrates-daily": _EXRATES_SQL,
+    "fxrates-daily": _FXRATES_SQL,
     "exrates-monthly-averages": _AVG_SQL,
     "exrates-monthly-cumulative-averages": _AVG_SQL,
     "exrates-quarterly-averages": _AVG_SQL,

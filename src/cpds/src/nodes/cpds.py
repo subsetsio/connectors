@@ -175,6 +175,10 @@ def fetch_government_composition(node_id: str) -> None:
                 if name is None:
                     continue
                 rec[name] = _jsonable(r[j] if j < len(r) else None)
+            try:
+                rec["year"] = int(rec["year"])
+            except (TypeError, ValueError):
+                continue  # not a real data row
             rows_out.append(rec)
 
     save_raw_ndjson(rows_out, node_id)

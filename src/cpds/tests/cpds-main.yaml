@@ -1,0 +1,27 @@
+spec_id: cpds-main
+status: active
+tests:
+  - not_null: year
+    reason: every row is a country-year observation; year is the panel time key
+    certainty: 99
+  - not_null: country
+    reason: country is the panel unit key
+    certainty: 99
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - unique: [country, year]
+    reason: CPDS is a balanced country-year panel; one row per country-year
+    certainty: 95
+  - between: {col: year, lo: 1960, hi: 2023}
+    reason: dataset is titled "1960-2023"; the update_2025 release covers through 2023
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: country, min: 30, max: 45}
+    reason: CPDS covers 36 OECD/EU countries; allow drift as members are added
+    certainty: 85
+  - row_count: {min: 1500, max: 3000}
+    reason: ~36 countries x 64 years ~= 2300; loose bounds for partial-coverage countries
+    certainty: 80

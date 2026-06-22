@@ -1,0 +1,20 @@
+spec_id: cran-logs-packages
+status: active
+tests:
+  - not_null: package
+    reason: every catalog row is keyed by a package name
+    certainty: 99
+  - unique: package
+    reason: crandb /-/latest returns one latest record per package
+    certainty: 95
+  - column_type: {col: package, type: string}
+    certainty: 99
+  - distinct_count: {col: package, min: 15000}
+    reason: CRAN hosts ~24k packages; a small count means the catalog fetch degraded
+    certainty: 90
+  - row_count: {min: 15000}
+    certainty: 90
+  - matches: {col: license, pattern: ".+"}
+    reason: nearly all CRAN packages declare a license; a fully-null column means field extraction broke
+    certainty: 70
+    severity: warn
