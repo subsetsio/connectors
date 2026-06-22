@@ -22,7 +22,7 @@ for e in ENTITIES:
         for row in data:
             f.write(json.dumps(row) + "\n")
     cols = con.execute(
-        f"SELECT name, type FROM (DESCRIBE SELECT * FROM read_json_auto('{p}'))"
+        f"SELECT column_name, column_type FROM (DESCRIBE SELECT * FROM read_json_auto('{p}'))"
     ).fetchall()
     print(f"\n### {e}  n={len(data)}")
     for name, typ in cols:
