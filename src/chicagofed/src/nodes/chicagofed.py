@@ -32,10 +32,9 @@ from subsets_utils import (
     save_raw_ndjson,
     transient_retry,
 )
-from constants import ENTITY_IDS, PERIOD_COL_OVERRIDES
+from constants import ENTITY_IDS, ENTITY_URLS, PERIOD_COL_OVERRIDES
 
 SLUG = "chicagofed"
-DATA_BASE = "https://api.data.chicagofed.org"
 
 # spec id -> original entity id (lowercasing is lossy, so map it explicitly)
 ID_TO_ENTITY = {
@@ -114,8 +113,7 @@ def _fetch_csv(url):
 def fetch_one(node_id):
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     entity_id = ID_TO_ENTITY[node_id]
-    provider, stem = entity_id.split("/", 1)
-    url = f"{DATA_BASE}/{provider}/{stem}.csv"
+    url = ENTITY_URLS[entity_id]
     period_col = PERIOD_COL_OVERRIDES.get(entity_id)
     text = _fetch_csv(url)
     rows = _parse_long(text, period_col)

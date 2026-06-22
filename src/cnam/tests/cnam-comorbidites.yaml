@@ -1,0 +1,16 @@
+spec_id: cnam-comorbidites
+status: active
+tests:
+  - not_null: annee
+    reason: every row of a CNAM annual series is stamped with its year; a null year means the export lost the time dimension
+    certainty: 95
+  - not_null: region
+    reason: every row carries a territorial code (national/region/departement); a null region means a dropped geography column
+    certainty: 90
+  - row_count: {min: 34187}
+    reason: ODS reported 40221 records at collect time; a full bulk export should return at least ~85% of that. A large shortfall means truncation or a partial export.
+    certainty: 85
+  - column_type: {col: ntop, type: integer}
+    reason: 'ntop' is the dataset's numeric measure; a string type means the ODS export changed its field typing
+    certainty: 70
+    severity: warn
