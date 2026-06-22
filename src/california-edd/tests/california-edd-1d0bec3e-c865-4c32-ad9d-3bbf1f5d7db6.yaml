@@ -1,0 +1,22 @@
+spec_id: california-edd-1d0bec3e-c865-4c32-ad9d-3bbf1f5d7db6
+status: active
+# Labor Force Participation Rate: US and California (monthly).
+tests:
+  - row_count: {min: 1}
+    reason: the fetch fn raises on a 0-row pull, so a materialized raw asset must carry monthly LFPR rows
+    certainty: 95
+  - not_null: Year
+    reason: every monthly observation carries its calendar year
+    certainty: 90
+  - between: {col: Year, lo: 1976, hi: current_year()}
+    reason: BLS labor-force series for CA begin in 1976; no row should post-date the current year
+    certainty: 85
+    severity: warn
+  - median_between: {col: California Labor Force Participation Rate, lo: 40, hi: 80}
+    reason: LFPR is a percentage that sits around 60; a median outside 40-80 means a unit/parse error
+    certainty: 70
+    severity: warn
+  - median_between: {col: US Labor Force Participation Rate, lo: 40, hi: 80}
+    reason: national LFPR sits around 62; a median outside 40-80 means a unit/parse error
+    certainty: 70
+    severity: warn

@@ -1,0 +1,28 @@
+spec_id: cbo-tax-parameters
+status: active
+tests:
+  - not_null: date
+    reason: tidy long CSVs always carry a period label
+    certainty: 90
+  - not_null: variable
+    reason: every observation names its series
+    certainty: 90
+  - not_null: vintage
+    reason: fetch tags every row with the distribution vintage (str)
+    certainty: 95
+  - not_null: file_type
+    reason: fetch tags every row with the distribution file_type (str)
+    certainty: 95
+  - column_type: {col: date, type: string}
+    reason: calendar-year labels like "CY2021"
+    certainty: 88
+  - matches: {col: date, pattern: '^CY[0-9]{4}$'}
+    reason: tax parameters ship annual_cy distributions labelled CYyyyy
+    certainty: 82
+  - enum: {col: file_type, values: [annual_cy]}
+    reason: catalog lists only annual_cy for tax_parameters
+    certainty: 85
+    severity: warn
+  - row_count: {min: 200}
+    reason: ~1700 rows per vintage across 3 vintages
+    certainty: 85

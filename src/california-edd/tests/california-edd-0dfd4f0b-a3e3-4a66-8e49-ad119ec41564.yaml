@@ -1,0 +1,18 @@
+spec_id: california-edd-0dfd4f0b-a3e3-4a66-8e49-ad119ec41564
+status: active
+# Unemployment Insurance Weekly Claims Data for California.
+tests:
+  - row_count: {min: 1}
+    reason: the fetch fn raises on a 0-row pull, so a materialized raw asset must carry weekly-claims rows
+    certainty: 95
+  - not_null: Area Name
+    reason: every weekly-claims observation is scoped to a named geography (statewide or a sub-area)
+    certainty: 90
+  - not_null: Filed week ended
+    reason: the filed-week date is the row's time key; a blank means the export shape changed
+    certainty: 85
+    severity: warn
+  - median_between: {col: Insured Unemployment Rate, lo: 0, hi: 25}
+    reason: IUR is a percentage that runs low single digits even in recessions; a median outside 0-25 signals a unit or parse error
+    certainty: 60
+    severity: warn

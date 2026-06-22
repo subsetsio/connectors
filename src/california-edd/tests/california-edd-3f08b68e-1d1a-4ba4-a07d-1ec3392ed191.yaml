@@ -1,0 +1,18 @@
+spec_id: california-edd-3f08b68e-1d1a-4ba4-a07d-1ec3392ed191
+status: active
+# Quarterly Census of Employment and Wages (QCEW).
+tests:
+  - row_count: {min: 1}
+    reason: the fetch fn raises on a 0-row pull, so a materialized raw asset must carry QCEW rows
+    certainty: 95
+  - not_null: Area Name
+    reason: every QCEW observation is scoped to a named area
+    certainty: 85
+  - not_null: NAICS Code
+    reason: QCEW rows are keyed by NAICS industry; a blank code means the export shape changed
+    certainty: 80
+    severity: warn
+  - between: {col: Year, lo: 1975, hi: current_year()}
+    reason: QCEW (ES-202) for CA reaches back to the mid-1970s; no row should post-date the current year
+    certainty: 85
+    severity: warn

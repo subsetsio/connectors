@@ -1,0 +1,20 @@
+spec_id: cbo-long-term-economic
+status: active
+tests:
+  - not_null: vintage
+    reason: fetch tags every row with the distribution vintage (str)
+    certainty: 95
+  - not_null: file_type
+    reason: fetch tags every row with the distribution file_type (str)
+    certainty: 95
+  - enum: {col: file_type, values: [levels, lfp_rates, rates]}
+    reason: long_term_economic ships level series, rate series, and an lfp_rates sub-table with its own dimension columns
+    certainty: 80
+    severity: warn
+  - column_type: {col: value, type: float}
+    reason: the levels/rates sub-tables are tidy long with a float value column
+    certainty: 70
+    severity: warn
+  - row_count: {min: 200}
+    reason: ~2000 rows per vintage across 3 vintages
+    certainty: 85

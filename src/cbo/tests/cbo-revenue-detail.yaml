@@ -1,0 +1,35 @@
+spec_id: cbo-revenue-detail
+status: active
+tests:
+  - not_null: date
+    reason: tidy long CSVs always carry a period label
+    certainty: 90
+  - not_null: variable
+    reason: every observation names its series
+    certainty: 90
+  - not_null: estimate_type
+    reason: every revenue row is flagged actual vs projected
+    certainty: 85
+  - not_null: vintage
+    reason: fetch tags every row with the distribution vintage (str)
+    certainty: 95
+  - not_null: file_type
+    reason: fetch tags every row with the distribution file_type (str)
+    certainty: 95
+  - column_type: {col: date, type: string}
+    reason: calendar/fiscal-year labels like "CY1995"/"FY2024"
+    certainty: 88
+  - matches: {col: date, pattern: '^(CY|FY)[0-9]{4}$'}
+    reason: annual_cy distributions use CYyyyy and annual_fy use FYyyyy
+    certainty: 82
+  - enum: {col: estimate_type, values: [actual, projected]}
+    reason: only these two flags observed while probing
+    certainty: 70
+    severity: warn
+  - enum: {col: file_type, values: [annual_cy, annual_fy]}
+    reason: catalog lists calendar- and fiscal-year revenue detail
+    certainty: 80
+    severity: warn
+  - row_count: {min: 200}
+    reason: ~2000 rows per vintage across 3 vintages
+    certainty: 85

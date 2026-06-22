@@ -1,0 +1,14 @@
+spec_id: california-edd-3f530a9c-782f-4f34-bf51-9edaa448e0db
+status: active
+# Paid Family Leave (PFL) - Monthly Data.
+tests:
+  - row_count: {min: 1}
+    reason: the fetch fn raises on a 0-row pull, so a materialized raw asset must carry monthly PFL rows
+    certainty: 95
+  - not_null: Year
+    reason: every monthly PFL observation carries its calendar year
+    certainty: 90
+  - between: {col: Year, lo: 2004, hi: current_year()}
+    reason: California PFL benefits began July 2004; no row should predate 2004 or post-date the current year
+    certainty: 80
+    severity: warn
