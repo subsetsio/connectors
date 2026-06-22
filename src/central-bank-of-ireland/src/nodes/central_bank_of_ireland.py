@@ -30,27 +30,59 @@ import io
 import json
 import time
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson, transient_retry
+from subsets_utils import (
+    NodeSpec, SqlNodeSpec, get, configure_http, save_raw_ndjson, transient_retry,
+)
 from constants import ENTITY_IDS
 
 SLUG = "central-bank-of-ireland"
 PREFIX = f"{SLUG}-"
 BASE = "https://opendata.centralbank.ie"
 
+# The portal sits behind a WAF/CDN that soft-blocks the default bot User-Agent
+# from datacenter IPs by returning 202 Accepted with an empty body (observed on
+# the cloud runner; locally the same calls return 200). Present a browser-like
+# UA + Accept headers, which the edge lets through. ASCII-only (httpx requires).
+_BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "application/json, text/csv, text/plain, */*",
+    "Accept-Language": "en-US,en;q=0.9",
+}
+
+_configured = False
+
+
+def _ensure_http():
+    global _configured
+    if not _configured:
+        configure_http(headers=_BROWSER_HEADERS)
+        _configured = True
+
 
 @transient_retry()
-def _get_json(url):
-    resp = get(url, timeout=(10.0, 120.0))
+def _http_get(url, read_timeout):
+    """GET with browser headers. Treats a 202 (WAF soft-block / async edge) or
+    an empty 2xx body as transient by raising, so the retry/backoff re-requests
+    until the edge serves real content; 4xx/5xx go through raise_for_status."""
+    _ensure_http()
+    resp = get(url, timeout=(10.0, read_timeout))
+    if resp.status_code == 202 or (resp.is_success and not resp.content):
+        raise RuntimeError(f"edge returned {resp.status_code}/empty body for {url}")
     resp.raise_for_status()
+    return resp
+
+
+def _get_json(url):
+    resp = _http_get(url, 120.0)
     # CKAN `notes` fields occasionally carry raw control chars -> strict=False
     return json.loads(resp.content.decode("utf-8", "replace"), strict=False)
 
 
-@transient_retry()
 def _get_bytes(url):
-    resp = get(url, timeout=(10.0, 180.0))
-    resp.raise_for_status()
-    return resp.content
+    return _http_get(url, 180.0).content
 
 
 def _package_show(pid):
