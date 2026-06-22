@@ -1,0 +1,25 @@
+spec_id: census-of-india-pc11-a02
+status: active
+tests:
+  - not_null: value
+    reason: every melted row carries a numeric measured value; null cells are dropped in the fetch
+    certainty: 95
+  - not_null: measure
+    reason: each long row names the measure column it was melted from
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: measures are coerced to float in excel_to_long
+    certainty: 90
+  - column_type: {col: census_year, type: integer}
+    certainty: 95
+  - not_null: region
+    reason: every census row is attributed to a geography (India / state / UT / district)
+    certainty: 80
+    severity: warn
+  - distinct_count: {col: measure, min: 3}
+    reason: each A-series table publishes several measures (population / males / females / ...)
+    certainty: 80
+    severity: warn
+  - enum: {col: census_year, values: [2011]}
+    reason: PC11 entities are the 2011 census; census_year is the table's census year (the per-row decade lives in dimensions)
+    certainty: 95

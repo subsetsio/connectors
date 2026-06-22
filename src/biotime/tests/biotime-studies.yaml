@@ -1,0 +1,16 @@
+spec_id: biotime-studies
+status: active
+tests:
+  - not_null: study_id
+    reason: study_id is the primary key of the metadata table
+    certainty: 98
+  - unique: study_id
+    reason: one row per STUDY_ID in the metadata CSV
+    certainty: 97
+  - row_count: {min: 300, max: 1000}
+    reason: 381 studies in the 24_06_2021 revision; a stub or truncated CSV would
+      fall below 300, a format change could blow past 1000
+    certainty: 90
+  - not_null: realm
+    reason: every study is assigned a realm (Marine/Freshwater/Terrestrial)
+    certainty: 85

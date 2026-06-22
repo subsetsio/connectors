@@ -1,0 +1,36 @@
+spec_id: allen-unger-commodity-prices-commodities
+status: active
+tests:
+  - not_null: item_year
+    reason: every price observation is anchored to a year; a null year means a parse misalignment
+    certainty: 95
+  - column_type: {col: item_year, type: integer}
+    certainty: 95
+  - not_null: commodity
+    reason: commodity is the primary descriptor of every price row
+    certainty: 95
+  - not_null: market
+    reason: every price is observed at a named market/town
+    certainty: 95
+  - not_null: item_value_original
+    reason: the original-units price is the raw measurement; probing showed 0 empties
+    certainty: 80
+  - column_type: {col: item_value_standardized, type: float}
+    certainty: 90
+  - between: {col: item_year, lo: 800, hi: 1920}
+    reason: database spans the High Middle Ages (earliest series ~965) to 1914; margins added
+    certainty: 88
+  - at_most: {col: item_year, expr: current_year()}
+    reason: historical price series — no future-dated observations
+    certainty: 97
+    points_outward: true
+    severity: warn
+  - row_count: {min: 100000}
+    reason: v2.1 of the deposit has 125,588 rows; a large shortfall means a truncated download
+    certainty: 88
+  - distinct_count: {col: commodity, min: 100}
+    reason: probing found 160 distinct commodities; the paper cites ~165
+    certainty: 85
+  - distinct_count: {col: market, min: 100}
+    reason: probing found 193 distinct markets/towns; the paper cites ~192
+    certainty: 85

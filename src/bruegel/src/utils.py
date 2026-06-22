@@ -8,6 +8,7 @@ fetch/parse/schema logic lives in the individual files under nodes/.
 """
 import datetime
 import re
+import time
 
 import pandas as pd
 
@@ -83,17 +84,54 @@ def _fetch_raw(url: str, headers: dict) -> bytes:
     return resp.content
 
 
+def _is_real_file(data: bytes) -> bool:
+    """Every Bruegel artefact get_bytes fetches is an xlsx/xls/zip/7z/csv — a
+    binary, never HTML. Wayback's Save-Page-Now *inline* replay is unreliable: it
+    sometimes returns an HTML status/holding page (HTTP 200) instead of the bytes
+    it just captured. Reject anything that smells like HTML/markup or is too small
+    to be a real workbook, so a bad inline replay falls through to a snapshot poll
+    rather than reaching the parser as a corrupt 'file is not a zip' payload."""
+    if not data or len(data) < 256:
+        return False
+    head = data[:64].lstrip().lower()
+    return not head.startswith((b"<!doctype", b"<html", b"<head", b"<?xml", b"<!--"))
+
+
 def _wayback_bytes(url: str, headers: dict) -> bytes:
     """CI-reachable fallback for a Bruegel-hosted file the runner can't fetch
-    directly: replay the latest Wayback snapshot if one exists, otherwise trigger
-    a Save-Page-Now capture (which archives the live file and replays its bytes)."""
+    directly. Replay the latest existing snapshot if present; else trigger a
+    Save-Page-Now capture. SPN's inline replay is flaky for URL-encoded paths, so
+    every candidate is content-validated and, if SPN doesn't hand back the bytes
+    directly, the freshly-created snapshot is polled (the capture lands a beat
+    after the /save/ call returns)."""
+    raw_url, save_url = _WB_RAW + url, _WB_SAVE + url
+    # 1) existing snapshot — the fast path on re-runs (and once a refresh is archived)
     try:
-        data = _fetch_raw(_WB_RAW + url, headers)
-        if data:
+        data = _fetch_raw(raw_url, headers)
+        if _is_real_file(data):
             return data
     except Exception:
         pass
-    return _fetch_raw(_WB_SAVE + url, headers)
+    # 2) trigger a capture; its inline body is the file often enough to try
+    try:
+        data = _fetch_raw(save_url, headers)
+        if _is_real_file(data):
+            return data
+    except Exception:
+        pass
+    # 3) SPN may have archived it even when its inline replay was a status page —
+    #    poll the now-existing snapshot with backoff.
+    last = "no snapshot"
+    for wait in (4, 8, 15, 25):
+        time.sleep(wait)
+        try:
+            data = _fetch_raw(raw_url, headers)
+            if _is_real_file(data):
+                return data
+            last = "snapshot not a binary yet"
+        except Exception as exc:
+            last = str(exc)
+    raise AssertionError(f"wayback could not retrieve a real file for {url}: {last}")
 
 
 def get_bytes(url: str, headers: dict | None = None) -> bytes:
@@ -109,9 +147,12 @@ def get_bytes(url: str, headers: dict | None = None) -> bytes:
     if "web.archive.org" in url:
         return _fetch_raw(url, h)
     try:
-        return _fetch_raw(url, h)
+        data = _fetch_raw(url, h)
+        if _is_real_file(data):
+            return data
     except Exception:
-        return _wayback_bytes(url, h)
+        pass
+    return _wayback_bytes(url, h)
 
 
 @transient_retry()

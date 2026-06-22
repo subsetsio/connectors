@@ -1,0 +1,17 @@
+spec_id: biotime-records
+status: active
+tests:
+  - not_null: study_id
+    reason: every observation belongs to a study; study_id is the partition key
+    certainty: 98
+  - column_type: {col: study_id, type: string}
+    reason: raw is saved faithfully as strings; typing happens in the transform
+    certainty: 95
+  - row_count: {min: 1000000}
+    reason: BioTIME 1.0 query table holds ~8.5M raw abundance records; a truncated
+      or partial unzip would land far below a million
+    certainty: 90
+  - distinct_count: {col: study_id, min: 300}
+    reason: ~381 studies in the 24_06_2021 revision; far fewer means the corpus was
+      partially read or a study filter leaked in
+    certainty: 85
