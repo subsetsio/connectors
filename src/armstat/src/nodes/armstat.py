@@ -26,14 +26,22 @@ import math
 import re
 import html as _html
 
+import httpx
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    wait_exponential,
+)
+
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
     post,
     save_raw_ndjson,
-    transient_retry,
 )
+from subsets_utils.retry import is_transient
 from constants import ASSET_PATHS, ENTITY_IDS
 
 HOST = "https://statbank.armstat.am"
@@ -42,14 +50,35 @@ _VIEW_BTN = "ctl00$ContentPlaceHolderMain$VariableSelector1$VariableSelector1$Bu
 _HIDDEN = ("__VIEWSTATE", "__VIEWSTATEGENERATOR", "__EVENTVALIDATION")
 
 
-@transient_retry()
+# ArmStatBank is an overloaded ASP.NET box that drops connections mid-stream:
+# the prior full run failed 308/774 nodes on "[Errno 104] Connection reset by
+# peer". httpx surfaces a reset *during the response read* as httpx.ReadError
+# (and a reset while sending as httpx.WriteError) — both NetworkError/
+# TransportError subclasses that the shared `transient_retry` predicate does
+# NOT cover, so those nodes failed hard and, under DAG_ON_FAILURE=crash, killed
+# the whole run. We retry the full transport-error family here (plus the
+# standard 429/5xx via `is_transient`), with extra attempts for the flaky host.
+def _armstat_transient(exc: BaseException) -> bool:
+    return isinstance(exc, httpx.TransportError) or is_transient(exc)
+
+
+def armstat_retry(*, attempts: int = 8, min_wait: float = 4, max_wait: float = 120):
+    return retry(
+        retry=retry_if_exception(_armstat_transient),
+        stop=stop_after_attempt(attempts),
+        wait=wait_exponential(min=min_wait, max=max_wait),
+        reraise=True,
+    )
+
+
+@armstat_retry()
 def _get(url):
     resp = get(url, timeout=_TIMEOUT)
     resp.raise_for_status()
     return resp
 
 
-@transient_retry()
+@armstat_retry()
 def _post(url, data):
     resp = post(url, data=data, timeout=_TIMEOUT)
     resp.raise_for_status()
