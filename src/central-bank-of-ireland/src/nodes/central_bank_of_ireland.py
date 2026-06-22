@@ -30,8 +30,10 @@ import io
 import json
 import time
 
+from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
+
 from subsets_utils import (
-    NodeSpec, SqlNodeSpec, get, configure_http, save_raw_ndjson, transient_retry,
+    NodeSpec, SqlNodeSpec, get, configure_http, save_raw_ndjson, is_transient,
 )
 from constants import ENTITY_IDS
 
@@ -55,6 +57,14 @@ _BROWSER_HEADERS = {
 _configured = False
 
 
+class _EdgeNotReady(Exception):
+    """Raised on a 202 / empty 2xx body from the WAF edge — retryable."""
+
+
+def _retryable(exc):
+    return isinstance(exc, _EdgeNotReady) or is_transient(exc)
+
+
 def _ensure_http():
     global _configured
     if not _configured:
@@ -62,15 +72,18 @@ def _ensure_http():
         _configured = True
 
 
-@transient_retry()
+@retry(retry=retry_if_exception(_retryable),
+       stop=stop_after_attempt(8),
+       wait=wait_exponential(min=2, max=60),
+       reraise=True)
 def _http_get(url, read_timeout):
     """GET with browser headers. Treats a 202 (WAF soft-block / async edge) or
-    an empty 2xx body as transient by raising, so the retry/backoff re-requests
-    until the edge serves real content; 4xx/5xx go through raise_for_status."""
+    an empty 2xx body as retryable, so backoff re-requests until the edge serves
+    real content; 4xx/5xx propagate via raise_for_status (5xx/429 also retry)."""
     _ensure_http()
     resp = get(url, timeout=(10.0, read_timeout))
     if resp.status_code == 202 or (resp.is_success and not resp.content):
-        raise RuntimeError(f"edge returned {resp.status_code}/empty body for {url}")
+        raise _EdgeNotReady(f"edge returned {resp.status_code}/empty body for {url}")
     resp.raise_for_status()
     return resp
 
