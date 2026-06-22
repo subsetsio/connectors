@@ -35,6 +35,7 @@ solve on retry.
 """
 
 import json
+from urllib.parse import quote
 
 import cloudscraper
 import pandas as pd
@@ -165,14 +166,18 @@ def _detect_frequency(dataset_id, dims, members_by_dim) -> str:
 
 
 def _iter_rows(dataset_id, dims, keys_by_dim, freq):
-    """Yield raw pivot rows, paging on continuationToken."""
+    """Yield raw pivot rows, paging on continuationToken.
+
+    The first page is a POST carrying the pivot request; each subsequent page is
+    a GET on /data/raw?continuationToken=<token>. (Re-POSTing the pivot body with
+    the token added is silently ignored by the API — it just re-serves page 1
+    forever, so any dataset exceeding the 1000-series page would loop endlessly.
+    The GET-with-token form is the only one the server actually honours; it
+    returns a falsy token on the final page so paging terminates.)"""
     req = _pivot_request(dataset_id, dims, keys_by_dim, freq)
-    token = None
+    resp = _post("/data/raw", req)
     pages = 0
     while True:
-        if token:
-            req["ContinuationToken"] = token
-        resp = _post("/data/raw", req)
         for row in resp.get("data") or []:
             yield row
         token = resp.get("continuationToken")
@@ -181,6 +186,7 @@ def _iter_rows(dataset_id, dims, keys_by_dim, freq):
             break
         if pages >= MAX_PAGES:
             raise RuntimeError(f"{dataset_id}: exceeded MAX_PAGES={MAX_PAGES} (source grew?)")
+        resp = _get(f"/data/raw?continuationToken={quote(token, safe='')}")
 
 
 def _expand(row, dims):
