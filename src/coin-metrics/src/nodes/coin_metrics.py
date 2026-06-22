@@ -101,10 +101,14 @@ def fetch_catalog(node_id: str) -> None:
 # --------------------------------------------------------------------------- #
 # Fetch: long-format daily values                                               #
 # --------------------------------------------------------------------------- #
-def _discover_daily_coverage() -> tuple[list[str], list[str]]:
-    """Return (sorted assets, sorted metrics) that have community 1d coverage."""
-    assets: set[str] = set()
-    metrics: set[str] = set()
+def _discover_daily_coverage() -> dict[str, list[str]]:
+    """Map each community-1d metric -> sorted list of assets that expose it.
+
+    The timeseries endpoint rejects (400/403) any request where a metric is not
+    community-supported for one of the requested assets, so we must request each
+    metric only against the assets that actually have it.
+    """
+    coverage: dict[str, set[str]] = {}
     for data in _paginate(f"{BASE}/catalog-v2/asset-metrics", {"page_size": 1000}):
         for a in data:
             asset_id = a["asset"]
@@ -114,9 +118,8 @@ def _discover_daily_coverage() -> tuple[list[str], list[str]]:
                     continue
                 for fr in m.get("frequencies", []):
                     if fr.get("community") and fr.get("frequency") == "1d":
-                        assets.add(asset_id)
-                        metrics.add(code)
-    return sorted(assets), sorted(metrics)
+                        coverage.setdefault(code, set()).add(asset_id)
+    return {code: sorted(assets) for code, assets in sorted(coverage.items())}
 
 
 def _melt_page(rows: list[dict], metrics: list[str]) -> pa.Table:
@@ -147,26 +150,26 @@ def _melt_page(rows: list[dict], metrics: list[str]) -> pa.Table:
 
 def fetch_values(node_id: str) -> None:
     asset = node_id
-    assets, metrics = _discover_daily_coverage()
-    if not assets or not metrics:
+    coverage = _discover_daily_coverage()
+    if not coverage:
         raise RuntimeError("no community daily coverage discovered — catalog-v2 shape changed")
-    metrics_param = ",".join(metrics)
 
     with raw_parquet_writer(asset, VALUES_SCHEMA) as writer:
-        for i in range(0, len(assets), ASSET_BATCH):
-            batch = assets[i:i + ASSET_BATCH]
-            params = {
-                "assets": ",".join(batch),
-                "metrics": metrics_param,
-                "frequency": "1d",
-                "page_size": PAGE_SIZE,
-            }
-            for data in _paginate(f"{BASE}/timeseries/asset-metrics", params):
-                if not data:
-                    continue
-                tbl = _melt_page(data, metrics)
-                if tbl.num_rows:
-                    writer.write_table(tbl)
+        for metric, assets in coverage.items():
+            for i in range(0, len(assets), ASSET_BATCH):
+                batch = assets[i:i + ASSET_BATCH]
+                params = {
+                    "assets": ",".join(batch),
+                    "metrics": metric,
+                    "frequency": "1d",
+                    "page_size": PAGE_SIZE,
+                }
+                for data in _paginate(f"{BASE}/timeseries/asset-metrics", params):
+                    if not data:
+                        continue
+                    tbl = _melt_page(data, [metric])
+                    if tbl.num_rows:
+                        writer.write_table(tbl)
 
 
 # --------------------------------------------------------------------------- #

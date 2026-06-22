@@ -1,0 +1,16 @@
+spec_id: chicagofed-cfnai/cfnai-data-series-csv
+status: active
+tests:
+  - not_null: period
+    reason: every long-form row is keyed by a period/date label from column 1 of the source CSV
+    certainty: 95
+  - not_null: series
+    reason: every value is tagged with the source column header it came from
+    certainty: 95
+  - not_null: value
+    reason: the melt parser only emits rows whose cell parsed as a finite number
+    certainty: 95
+  - row_count:
+      min: 4000
+    reason: conservative floor below the observed history; a big drop means a truncated or error response
+    certainty: 80

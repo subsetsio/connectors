@@ -1,0 +1,31 @@
+spec_id: central-bank-of-uruguay-exchange-rates
+status: active
+tests:
+  - not_null: fecha
+    reason: every quote row carries a date; nulls mean a parse break in the SOAP response
+    certainty: 95
+  - not_null: moneda
+    reason: every row identifies its currency code
+    certainty: 95
+  - column_type: {col: moneda, type: integer}
+    certainty: 90
+  - column_type: {col: tcc, type: float}
+    certainty: 85
+  - between: {col: tcc, lo: 0, hi: 1000000}
+    reason: rates are UYU-per-unit; positive and within a generous sanity band (USD ~40, but some units differ)
+    certainty: 70
+    severity: warn
+  - at_least: {col: tcc, expr: 0}
+    reason: exchange rates are never negative
+    certainty: 95
+  - distinct_count: {col: moneda, min: 20}
+    reason: Grupo 0 enumerates ~40 currencies/units; far fewer means the monedas enumeration degraded
+    certainty: 85
+  - row_count: {min: 50000}
+    reason: ~40 currencies x ~250 business days x ~25 years of history is hundreds of thousands of rows
+    certainty: 80
+  - freshness: {col: fecha, reaches: today - 14d}
+    reason: BCU publishes rates every business day; the latest quote should be recent
+    certainty: 80
+    points_outward: true
+    severity: warn
