@@ -1,0 +1,16 @@
+spec_id: transport-for-london-active-travel-counts
+status: active
+tests:
+  - not_null: site_id
+    reason: every count observation is tied to a monitoring site (SiteID)
+    certainty: 90
+  - not_null: count
+    reason: the Count column is the measurement; a missing value means a parse/column drift
+    certainty: 85
+  - not_null: date
+    reason: each count row carries its survey date
+    certainty: 85
+  - row_count: {min: 100000}
+    reason: ~87 quarterly/regional CSVs at tens of thousands of 15-minute rows each
+    certainty: 75
+    severity: warn

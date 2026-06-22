@@ -1,0 +1,22 @@
+spec_id: transport-for-london-accident-stats
+status: active
+tests:
+  - not_null: accident_id
+    reason: every AccidentDetail record carries an id; nulls mean the JSON shape changed
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    reason: year is stamped by the fetch loop, not parsed from the payload
+    certainty: 95
+  - between: {col: year, lo: 2005, hi: current_year()}
+    reason: AccidentStats publishes from 2005; the upper year is discovered live
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - enum: {col: severity, values: [Slight, Serious, Fatal]}
+    reason: TfL casualty severity is a fixed three-value scale
+    certainty: 70
+    severity: warn
+  - row_count: {min: 100000}
+    reason: ~15 published years at tens of thousands of collisions each
+    certainty: 75
+    severity: warn

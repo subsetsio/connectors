@@ -228,8 +228,8 @@ _SQL = {
             "Ship Type"                        AS ship_type,
             "Direction"                        AS direction,
             "State"                            AS cargo_state,
-            SUM(TRY_CAST("No" AS BIGINT))      AS num_vessels,
-            SUM(TRY_CAST("NetTonnage" AS DOUBLE)) AS net_tonnage
+            CAST(SUM(GREATEST(TRY_CAST("No" AS BIGINT), 0)) AS BIGINT) AS num_vessels,
+            SUM(GREATEST(TRY_CAST("NetTonnage" AS DOUBLE), 0)) AS net_tonnage
         FROM "{_M}"
         WHERE year IS NOT NULL AND "Ship Type" IS NOT NULL
         GROUP BY 1, 2, 3, 4, 5, 6
@@ -270,8 +270,8 @@ _SQL = {
             CAST("Quarter" AS INTEGER)         AS quarter,
             "CategoryName_en"                  AS ship_type,
             "Port"                             AS direction,
-            SUM(TRY_CAST("No" AS BIGINT))      AS num_vessels,
-            SUM(TRY_CAST("NetTonnage" AS DOUBLE)) AS net_tonnage
+            CAST(SUM(GREATEST(TRY_CAST("No" AS BIGINT), 0)) AS BIGINT) AS num_vessels,
+            SUM(GREATEST(TRY_CAST("NetTonnage" AS DOUBLE), 0)) AS net_tonnage
         FROM "{_Q}"
         WHERE year IS NOT NULL AND "CategoryName_en" IS NOT NULL
         GROUP BY 1, 2, 3, 4
@@ -283,7 +283,7 @@ _SQL = {
             "Region_Code"                          AS region_code,
             "Direction"                            AS direction,
             "Terminal"                             AS terminal,
-            SUM(TRY_CAST("CargoTonnage" AS DOUBLE)) AS cargo_tonnage
+            SUM(GREATEST(TRY_CAST("CargoTonnage" AS DOUBLE), 0)) AS cargo_tonnage
         FROM "{_RG}"
         WHERE year IS NOT NULL AND "Region" IS NOT NULL
         GROUP BY 1, 2, 3, 4, 5
@@ -294,7 +294,7 @@ _SQL = {
             "CargoType"                            AS cargo_type,
             "Goods"                                AS cargo_group,
             "Direction"                            AS direction,
-            SUM(TRY_CAST("CargoTonnage" AS DOUBLE)) AS cargo_tonnage
+            SUM(GREATEST(TRY_CAST("CargoTonnage" AS DOUBLE), 0)) AS cargo_tonnage
         FROM "{_CT}"
         WHERE "Year" IS NOT NULL AND "CargoType" IS NOT NULL
         GROUP BY 1, 2, 3, 4
