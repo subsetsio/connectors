@@ -1,0 +1,21 @@
+spec_id: suez-canal-authority-05-yealy-cargo-ton-by-region
+status: active
+tests:
+  - not_null: year
+  - not_null: "CategoryName_en"
+  - between: {col: year, lo: 2010, hi: "current_year()"}
+    certainty: 90
+  - between: {col: "Quarter", lo: 1, hi: 4}
+    reason: quarterly grain; quarter must be 1-4
+    certainty: 95
+  - enum: {col: "Port", values: ["N/S", "S/N"]}
+    reason: directional label is northbound/southbound
+    certainty: 80
+  - at_least: {col: "No", expr: 0}
+    certainty: 95
+  - distinct_count: {col: "CategoryName_en", min: 5}
+    reason: ~10 ship-type categories
+    certainty: 80
+  - row_count: {min: 500}
+    reason: observed ~1150 component rows
+    certainty: 70

@@ -1,0 +1,16 @@
+spec_id: suez-canal-authority-06-yealy-cargo-ton-by-region-cont
+status: active
+tests:
+  - not_null: year
+  - not_null: "Region"
+  - not_null: "Region_Code"
+  - between: {col: year, lo: 2010, hi: "current_year()"}
+    certainty: 90
+  - at_least: {col: "CargoTonnage", expr: 0}
+    certainty: 90
+  - distinct_count: {col: "Region", min: 3}
+    reason: cargo is broken down across several world regions
+    certainty: 80
+  - row_count: {min: 500}
+    reason: observed ~3225 component rows
+    certainty: 70

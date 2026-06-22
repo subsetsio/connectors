@@ -1,0 +1,19 @@
+spec_id: suez-canal-authority-03-yearly-statistics
+status: active
+tests:
+  - not_null: "Year"
+  - column_type: {col: "Year", type: integer}
+  - unique: "Year"
+    reason: one summary row per calendar year
+    certainty: 95
+  - between: {col: "Year", lo: 2000, hi: "current_year()"}
+    certainty: 90
+  - between: {col: "No ( Vessel )", lo: 1000, hi: 100000}
+    reason: annual canal transits run ~13k-26k vessels
+    certainty: 80
+    severity: warn
+  - at_least: {col: "Net Ton", expr: 0}
+    certainty: 90
+  - row_count: {min: 5}
+    reason: observed 10 years (2016 .. 2025)
+    certainty: 70

@@ -1,0 +1,19 @@
+spec_id: suez-canal-authority-02-fiscal-year-statistical
+status: active
+tests:
+  - not_null: "Fiscal Year"
+  - unique: "Fiscal Year"
+    reason: one summary row per fiscal year
+    certainty: 95
+  - matches: {col: "Fiscal Year", pattern: "^[0-9]{4}/[0-9]{4}$"}
+    reason: fiscal year is rendered as e.g. 2009/2010
+    certainty: 85
+  - nullable: {col: "No ( Vessel )", max_null_frac: 0.6}
+    reason: early fiscal years carry only toll figures, vessel/tonnage columns are null
+    certainty: 70
+  - at_least: {col: "Tolls (Million $ )", expr: 0}
+    certainty: 80
+    severity: warn
+  - row_count: {min: 8}
+    reason: observed 16 fiscal years (2009/2010 .. 2024/2025)
+    certainty: 75
