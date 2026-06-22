@@ -1,0 +1,51 @@
+spec_id: australian-bureau-of-meteorology-timeseries
+status: active
+# Catalog of the canonical daily series we publish values for: one row per
+# ts_id from getTimeseriesList per parameter, filtered to the canonical daily
+# ts_name. Columns: ts_id, ts_name, ts_unitname, station_no, station_name,
+# parametertype_name, from_date, to_date.
+tests:
+  - not_null: ts_id
+    reason: ts_id is the series key joining to values; KiWIS returns it for every series
+    certainty: 99
+
+  - not_null: parametertype_name
+    reason: every series belongs to one of the 11 water parameters we enumerate by
+    certainty: 95
+
+  - not_null: station_no
+    reason: every series is attached to a station
+    certainty: 95
+
+  - unique: ts_id
+    reason: one catalog row per series; a duplicate means a parameter list was appended twice
+    certainty: 90
+
+  - enum:
+      col: ts_name
+      values:
+        - DMQaQc.Merged.DailyTotal.09HR
+        - DMQaQc.Merged.DailyMean.24HR
+    reason: we filter getTimeseriesList to exactly the canonical daily ts_name per parameter, so only these two appear
+    certainty: 90
+
+  - enum:
+      col: parametertype_name
+      values:
+        - Rainfall
+        - Evaporation
+        - Ground Water Level
+        - Water Course Level
+        - Water Course Discharge
+        - Water Temperature
+        - Electrical Conductivity @ 25C
+        - pH
+        - Turbidity
+        - Storage Volume
+        - Storage Level
+    reason: the connector enumerates exactly these 11 named water parameters
+    certainty: 90
+
+  - row_count: {min: 5000}
+    reason: probing counted ~35k canonical daily series across the 11 parameters; far fewer means parameters were dropped
+    certainty: 80

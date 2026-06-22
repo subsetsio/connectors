@@ -1,18 +1,23 @@
-"""BSP per-table statistical workbooks (the parametric Excel family).
+"""Bangko Sentral ng Pilipinas (BSP) connector — all download + transform specs.
 
-The bsp.gov.ph statistics portal is a SharePoint site whose statistical
-time-series live in per-table Excel workbooks (one stable URL per table, linked
-from each catalog item's EXCEL field). Most are legacy binary .xls; some .xlsx.
+Two raw shapes, both saved as ndjson:
 
-DuckDB's SQL transforms can only read parquet/ndjson/csv, so all Excel parsing
-happens in Python (see ``utils._melt_workbook``). Each workbook is "melted" into
-a uniform long format — (sheet, row_label, column_header, value) — which is
-robust across the many heterogeneous BSP table layouts. The thin SQL transform
-then casts/filters and publishes one Delta table per subset.
+1. **Per-table statistical workbooks** (the bulk of the corpus). The bsp.gov.ph
+   statistics portal is a SharePoint site whose time-series live in per-table
+   Excel workbooks (one stable URL per table, linked from each catalog item's
+   EXCEL field). Most are legacy binary .xls; some .xlsx. DuckDB's SQL transforms
+   can only read parquet/ndjson/csv, so all Excel parsing happens in Python
+   (see ``utils._melt_workbook``). Each workbook is "melted" into a uniform long
+   format — (sheet, row_label, column_header, value, row_index, col_index) —
+   which is robust across the many heterogeneous BSP table layouts. The thin SQL
+   transform then casts/filters and publishes one Delta table per subset. The
+   consolidated Reference Exchange Rate Bulletin workbook (/Statistics/RERB/
+   RERB.xlsx) shares this exact melt + schema, so it is fetched the same way via
+   a fixed URL (``fetch_rerb``).
 
-The consolidated Reference Exchange Rate Bulletin workbook
-(``/Statistics/RERB/RERB.xlsx``) shares this exact melt + schema, so it is
-fetched here too via a fixed URL.
+2. **Daily peso exchange rates vs currencies** — comes from the native
+   'Exchange Rate' SharePoint list as JSON rows (snapshot), so it has its own
+   fetch body (``fetch_exchange_rate``), parse, and published schema.
 
 Fetch shape: stateless full re-pull. Each workbook is small (KBs-MB) and
 re-fetched in full every run; raw is overwritten. No watermark/cursor — BSP
@@ -22,7 +27,7 @@ upstream were dropped at rank time and are not part of the coverage set.
 
 from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
 
-from utils import _excel_url, _get_bytes, _melt_workbook
+from utils import BASE, _excel_url, _get_bytes, _get_json, _melt_workbook
 
 # entity_id -> relative EXCEL path (from the SharePoint catalog). Built from the
 # rank-accepted entity union; dead-link entries were dropped before this stage.
@@ -116,6 +121,8 @@ ENTITY_EXCEL = {
 # Non-Excel-catalog entity handled by a dedicated fetch function (same melt).
 RERB_XLSX = "/Statistics/RERB/RERB.xlsx"
 
+_EXCH_ID = "bangko-sentral-pilipinas-exchange-rate-currencies"
+
 
 # ---------------------------------------------------------------------------
 # Fetch functions
@@ -142,23 +149,63 @@ def fetch_rerb(node_id: str) -> None:
     save_raw_ndjson(rows, asset)
 
 
-# ---------------------------------------------------------------------------
-# DOWNLOAD_SPECS — one per Excel-family entity in the union
-# ---------------------------------------------------------------------------
-DOWNLOAD_SPECS = [
-    NodeSpec(
-        id=f"bangko-sentral-pilipinas-{eid}",
-        fn=fetch_one,
-        kind="download",
+def fetch_exchange_rate(node_id: str) -> None:
+    """Daily peso exchange rates vs currencies — native SharePoint JSON list."""
+    asset = node_id
+    url = (
+        f"{BASE}/_api/web/lists/getByTitle('Exchange%20Rate')/items?$top=5000"
     )
-    for eid in sorted(ENTITY_EXCEL)
-] + [
-    NodeSpec(
-        id="bangko-sentral-pilipinas-reference-exchange-rate-bulletin",
-        fn=fetch_rerb,
-        kind="download",
-    ),
-]
+    rows = []
+    while url:
+        j = _get_json(url)
+        for it in j.get("value", []):
+            cur = it.get("Title")
+            if not cur:
+                continue
+            rows.append(
+                {
+                    "currency": cur,
+                    "symbol": it.get("Symbol"),
+                    "unit": it.get("Unit"),
+                    "country_code": it.get("CountryCode"),
+                    "group": it.get("Group"),
+                    "usd_equivalent": it.get("USDequivalent"),
+                    "php_equivalent": it.get("PHPequivalent"),
+                    "eur_equivalent": it.get("EURequivalent"),
+                    "published_date": it.get("PublishedDate"),
+                }
+            )
+        url = j.get("odata.nextLink")
+    if not rows:
+        raise AssertionError("exchange-rate: no rows from SharePoint list")
+    save_raw_ndjson(rows, asset)
+
+
+# ---------------------------------------------------------------------------
+# DOWNLOAD_SPECS — one per entity in the union
+# ---------------------------------------------------------------------------
+DOWNLOAD_SPECS = (
+    [
+        NodeSpec(
+            id=f"bangko-sentral-pilipinas-{eid}",
+            fn=fetch_one,
+            kind="download",
+        )
+        for eid in sorted(ENTITY_EXCEL)
+    ]
+    + [
+        NodeSpec(
+            id="bangko-sentral-pilipinas-reference-exchange-rate-bulletin",
+            fn=fetch_rerb,
+            kind="download",
+        ),
+        NodeSpec(
+            id=_EXCH_ID,
+            fn=fetch_exchange_rate,
+            kind="download",
+        ),
+    ]
+)
 
 
 # ---------------------------------------------------------------------------
@@ -184,11 +231,28 @@ def _generic_sql(dep_id: str) -> str:
     '''
 
 
+def _exchange_sql(dep_id: str) -> str:
+    return f'''
+        SELECT
+            currency,
+            symbol,
+            unit,
+            country_code,
+            "group" AS currency_group,
+            TRY_CAST(usd_equivalent AS DOUBLE) AS usd_equivalent,
+            TRY_CAST(php_equivalent AS DOUBLE) AS php_equivalent,
+            TRY_CAST(eur_equivalent AS DOUBLE) AS eur_equivalent,
+            published_date
+        FROM "{dep_id}"
+        WHERE currency IS NOT NULL
+    '''
+
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
-        sql=_generic_sql(s.id),
+        sql=(_exchange_sql(s.id) if s.id == _EXCH_ID else _generic_sql(s.id)),
     )
     for s in DOWNLOAD_SPECS
 ]

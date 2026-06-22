@@ -92,9 +92,19 @@ def _iter_sheets(content: bytes, ext: str):
             wb.close()
 
 
-def _parse_workbook(content: bytes, ext: str) -> list:
-    """Generic melt of a BCE workbook into tidy long rows (see module docstring)."""
-    out = []
+def _parse_workbook(content: bytes, ext: str):
+    """Generic melt of a BCE workbook into tidy long columns (see module docstring).
+
+    Returns a columnar dict-of-lists (one list per SCHEMA field) rather than a
+    list-of-dicts — the largest workbook melts to ~1.5M cells, and columnar
+    accumulation keeps peak memory bounded.
+    """
+    sheet_c, ri_c, ci_c, rl_c, ch_c, val_c, txt_c = [], [], [], [], [], [], []
+
+    def emit(sheet, ri, ci, rl, ch, val, txt):
+        sheet_c.append(sheet); ri_c.append(ri); ci_c.append(ci)
+        rl_c.append(rl); ch_c.append(ch); val_c.append(val); txt_c.append(txt)
+
     for name, grid in _iter_sheets(content, ext):
         grid = [r for r in grid if r is not None]
         if not grid:
@@ -120,9 +130,7 @@ def _parse_workbook(content: bytes, ext: str) -> list:
             for ri, r in enumerate(grid):
                 for ci, v in enumerate(r):
                     if not empty(v):
-                        out.append({"sheet": name, "row_index": ri, "col_index": ci,
-                                    "row_label": None, "col_header": None,
-                                    "value": None, "value_text": _clean(v)})
+                        emit(name, ri, ci, None, None, None, _clean(v))
             continue
 
         header_rows = grid[:first_data]
@@ -159,16 +167,18 @@ def _parse_workbook(content: bytes, ext: str) -> list:
                 if empty(v):
                     continue
                 num = float(v) if _is_num(v) else None
-                out.append({
-                    "sheet": name,
-                    "row_index": first_data + ri,
-                    "col_index": ci,
-                    "row_label": row_label,
-                    "col_header": headers[ci],
-                    "value": num,
-                    "value_text": None if num is not None else _clean(v),
-                })
-    return out
+                emit(name, first_data + ri, ci, row_label, headers[ci],
+                     num, None if num is not None else _clean(v))
+
+    return {
+        "sheet": sheet_c,
+        "row_index": ri_c,
+        "col_index": ci_c,
+        "row_label": rl_c,
+        "col_header": ch_c,
+        "value": val_c,
+        "value_text": txt_c,
+    }
 
 
 def fetch_one(node_id: str) -> None:
@@ -186,11 +196,11 @@ def fetch_one(node_id: str) -> None:
             f"{asset}: expected an Excel workbook at {url}, got non-Excel bytes "
             f"(first bytes {head!r}) — the file may have moved")
 
-    rows = _parse_workbook(content, ext)
-    if not rows:
+    columns = _parse_workbook(content, ext)
+    if not columns["sheet"]:
         raise AssertionError(f"{asset}: workbook at {url} parsed to 0 rows")
 
-    table = pa.Table.from_pylist(rows, schema=SCHEMA)
+    table = pa.table(columns, schema=SCHEMA)
     save_raw_parquet(table, asset)
 
 

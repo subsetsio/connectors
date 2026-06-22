@@ -1,0 +1,35 @@
+spec_id: bank-of-england-values
+status: active
+# Expectations for the raw IADB observations parquet (long format: one row per
+# series_code x obs_date). Authored from the IADB's documented behaviour and the
+# node's own discovery/fetch guards, NOT from observed data.
+tests:
+  - not_null: series_code
+    reason: the node keys every observation row by its series code; a null means CSV parsing misaligned columns or an HTML error page leaked through as data
+    certainty: 95
+  - not_null: obs_date
+    reason: every observation is a (code, date, value) triple; the parser drops rows whose date fails to parse, so a surviving null date signals schema drift
+    certainty: 95
+  - column_type: {col: series_code, type: string}
+    reason: IADB series codes are short alphanumeric tokens (e.g. IUDSOIA), declared string in RAW_SCHEMA
+    certainty: 95
+  - column_type: {col: obs_date, type: date}
+    reason: obs_date is parsed to a date32 in RAW_SCHEMA; a non-date type means the parquet schema changed
+    certainty: 95
+  - column_type: {col: value, type: string}
+    reason: raw value is kept as text (RAW_SCHEMA) and only TRY_CAST to double in the transform; footnotes/blanks must survive the raw layer untyped
+    certainty: 90
+  - between: {col: obs_date, lo: '1963-01-01', hi: today}
+    reason: the IADB rejects any From date before 1963 (DATE_FROM floor) so no observation predates it, and no observation can be dated in the future
+    certainty: 90
+  - distinct_count: {col: series_code, min: 100}
+    reason: discovery harvests >=200 series codes (MIN_SERIES_CODES) from the A-Z index; even after tolerated skips the fetched corpus must span many distinct series, not a degenerate single-series pull
+    certainty: 80
+  - row_count: {min: 100000}
+    reason: hundreds of series, many daily/monthly since 1963, yield well over 100k observations; far fewer means discovery degraded or the bulk fetch was largely skipped
+    certainty: 70
+  - freshness: {col: obs_date, reaches: today - 45d}
+    reason: active IADB series (bank rate, FX, gilt yields) update daily/monthly, so the latest observation across the corpus should be recent; a stale max can mean the source paused or the WAF truncated the live pull
+    certainty: 65
+    points_outward: true
+    severity: warn
