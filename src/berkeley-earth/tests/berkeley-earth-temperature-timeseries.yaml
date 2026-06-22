@@ -1,0 +1,41 @@
+spec_id: berkeley-earth-temperature-timeseries
+status: active
+tests:
+  - not_null: region_slug
+  - not_null: variable
+  - not_null: year
+  - not_null: month
+  - not_null: monthly_anomaly
+    reason: every data row in a Berkeley Earth series carries a monthly anomaly; the moving-average columns may be NaN but the monthly value is the series itself
+    certainty: 90
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - between: {col: year, lo: 1700, hi: 2100}
+    reason: the longest series (global land TAVG) starts 1750; an upper bound of 2100 leaves slack without admitting parse garbage
+    certainty: 95
+  - at_most: {col: year, expr: current_year()}
+    reason: observational record cannot run past the current year
+    certainty: 95
+    points_outward: true
+    severity: warn
+  - enum: {col: variable, values: [TAVG, TMAX, TMIN]}
+    certainty: 99
+  - enum: {col: domain, values: [land, land_and_ocean]}
+    certainty: 99
+  - enum: {col: level, values: [global, continent, country, us-state]}
+    certainty: 99
+  - unique: [region_slug, level, variable, domain, year, month]
+    reason: one row per region/variable/domain per month; dupes mean a file was parsed twice or the dedup key is wrong
+    certainty: 90
+  - distinct_count: {col: region_slug, min: 50}
+    reason: ~160 continent/country/state slugs are enumerated; even with some 404s well over 50 should resolve
+    certainty: 85
+  - between: {col: monthly_anomaly, lo: -40, hi: 40}
+    reason: monthly temperature anomalies vs a 1951-1980 baseline sit within a few degrees; +/-40C bounds parse/unit errors, not climate
+    certainty: 80
+    severity: warn
+  - row_count: {min: 100000}
+    reason: ~160 regions x 3 variables x ~1500-3000 monthly rows plus global products is well over 100k rows
+    certainty: 85
