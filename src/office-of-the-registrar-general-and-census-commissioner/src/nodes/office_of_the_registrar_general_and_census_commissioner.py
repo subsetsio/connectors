@@ -112,13 +112,21 @@ def _num(v):
         return None
 
 
+# Sub-state geography codes that are structurally always 0/empty in this slice:
+# we fetch only geo_level 0 (India) and 1 (State/UT), so no district / sub-district
+# / town / town-village ever appears. Dropping them removes dead constant/all-null
+# columns; `state` + `geo_level` still fully identify each row's geography.
+_DEAD_GEO_COLS = ("district", "subdistrict", "town", "town_village")
+
+
 def _clean(row: dict) -> dict:
     """The API emits '' (empty string) for missing/not-applicable cells in BOTH
     the measure and the integer-coded dimension columns (e.g. work_status='').
     DuckDB's read_json_auto infers a column's type from a sample then fails when
     it later hits a ''. Normalise every '' to null (preserving genuine string
-    columns like area_name) and coerce the measure to float."""
-    out = {k: (None if v == "" else v) for k, v in row.items()}
+    columns like area_name), drop the structurally-dead sub-state geography
+    columns, and coerce the measure to float."""
+    out = {k: (None if v == "" else v) for k, v in row.items() if k not in _DEAD_GEO_COLS}
     out["value"] = _num(row.get("value"))
     return out
 
