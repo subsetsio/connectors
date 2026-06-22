@@ -37,8 +37,9 @@ _GRUPO = 0
 # the current month, discovered at run time — never hardcoded.
 _FLOOR_YEAR = 1999
 # Concurrency for the per-month window fetches. No documented rate limit on the
-# SOAP host; modest fan-out keeps the full backfill to a few seconds.
-_MAX_WORKERS = 8
+# SOAP host; moderate fan-out hides per-call latency without tripping the
+# server's connection limits.
+_MAX_WORKERS = 16
 
 SCHEMA = pa.schema([
     ("fecha", pa.string()),          # quote date, ISO yyyy-mm-dd (cast to DATE in transform)
@@ -57,9 +58,12 @@ def _localname(tag: str) -> str:
     return tag.rsplit("}", 1)[-1]
 
 
-@transient_retry()
+@transient_retry(attempts=8, min_wait=2, max_wait=60)
 def _soap(url: str, envelope: str) -> str:
-    resp = post(url, data=envelope.encode("utf-8"), headers=_HEADERS, timeout=(10.0, 300.0))
+    # Generous connect budget — the BCU host sits in Uruguay and is slow to
+    # reach from cloud runners; a per-call read cap keeps a hung request from
+    # stalling the whole backfill (it just retries).
+    resp = post(url, data=envelope.encode("utf-8"), headers=_HEADERS, timeout=(30.0, 120.0))
     resp.raise_for_status()
     return resp.text
 
