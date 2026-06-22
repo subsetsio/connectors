@@ -1,0 +1,18 @@
+spec_id: california-edd-4275ba49-3a31-4200-852d-faf5b857bb4c
+status: active
+# Civilian Unemployment Rate for US and California (monthly).
+tests:
+  - row_count: {min: 1}
+    reason: the fetch fn raises on a 0-row pull, so a materialized raw asset must carry monthly rate rows
+    certainty: 95
+  - not_null: Area Name
+    reason: each row is the US or California series, always named
+    certainty: 85
+  - between: {col: Year, lo: 1976, hi: current_year()}
+    reason: the unemployment-rate series begins in 1976; no row should post-date the current year
+    certainty: 85
+    severity: warn
+  - median_between: {col: Not Seasonally Adjusted, lo: 0, hi: 30}
+    reason: an unemployment rate is a percentage in low double digits; a median outside 0-30 means a unit/parse error
+    certainty: 65
+    severity: warn

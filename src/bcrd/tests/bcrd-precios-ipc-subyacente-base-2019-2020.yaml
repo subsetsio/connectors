@@ -1,0 +1,19 @@
+spec_id: bcrd-precios-ipc-subyacente-base-2019-2020
+status: active
+tests:
+  - not_null: file
+    reason: every cell record is tagged with its source workbook file
+    certainty: 95
+  - not_null: sheet
+    reason: every cell carries the sheet it came from
+    certainty: 95
+  - not_null: value
+    reason: only non-empty cells are emitted; a null value means a parser bug
+    certainty: 95
+  - column_type: {col: row, type: integer}
+    certainty: 95
+  - column_type: {col: col, type: integer}
+    certainty: 95
+  - row_count: {min: 1}
+    reason: a BCRD statistics workbook always has at least one populated cell
+    certainty: 90

@@ -1,0 +1,18 @@
+spec_id: california-edd-4362f500-87c8-4842-834a-bbc14fe9a771
+status: active
+# Labor Force Participation Rate By Age Groups.
+tests:
+  - row_count: {min: 1}
+    reason: the fetch fn raises on a 0-row pull, so a materialized raw asset must carry rows
+    certainty: 95
+  - not_null: Year
+    reason: every observation carries its calendar year
+    certainty: 90
+  - between: {col: Year, lo: 1976, hi: current_year()}
+    reason: the age-group participation series begins in 1976; no row should post-date the current year
+    certainty: 80
+    severity: warn
+  - median_between: {col: Age 25-34, lo: 40, hi: 95}
+    reason: prime-age (25-34) labor-force participation is a high percentage; a median outside 40-95 means a unit/parse error
+    certainty: 60
+    severity: warn

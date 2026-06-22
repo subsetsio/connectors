@@ -1,0 +1,25 @@
+spec_id: cea-india-percapitalconsumtion
+status: active
+tests:
+  - not_null: Year
+    reason: per-capita consumption is a yearly series; every row carries a financial year
+    certainty: 95
+  - not_null: State
+    reason: every row names a state/UT (or the 'Total All India' aggregate)
+    certainty: 95
+  - matches: {col: Year, pattern: '^[0-9]{4}-[0-9]{2}$'}
+    reason: financial year is formatted YYYY-YY (e.g. 2002-03) upstream; transform reads the leading year
+    certainty: 90
+  - column_type: {col: value, type: string}
+    reason: consumption (kWh/capita) arrives as a quoted string; transform TRY_CASTs to DOUBLE
+    certainty: 90
+  - row_count: {min: 500}
+    reason: ~30+ states x ~20+ financial years (~1000 observed); a steep drop signals truncation
+    certainty: 90
+  - distinct_count: {col: State, min: 20}
+    reason: ~36 states/UTs plus All India totals; far fewer means the state dimension collapsed
+    certainty: 80
+    severity: warn
+  - unique: [Year, State]
+    reason: one per-capita value per state per financial year; dupes mean a re-pull without overwrite
+    certainty: 85

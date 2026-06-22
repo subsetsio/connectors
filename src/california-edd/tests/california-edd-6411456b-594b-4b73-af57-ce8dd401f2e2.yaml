@@ -1,0 +1,18 @@
+spec_id: california-edd-6411456b-594b-4b73-af57-ce8dd401f2e2
+status: active
+# Occupational Employment and Wage Statistics (OEWS).
+tests:
+  - row_count: {min: 1}
+    reason: the fetch fn raises on a 0-row pull, so a materialized raw asset must carry OEWS rows
+    certainty: 95
+  - not_null: Area Name
+    reason: every OEWS observation is scoped to a named area
+    certainty: 85
+  - not_null: Occupational Title
+    reason: OEWS rows are keyed by occupation; a blank title means the export shape changed
+    certainty: 85
+    severity: warn
+  - between: {col: Year, lo: 2000, hi: current_year()}
+    reason: OEWS (formerly OES) wage estimates for CA run from ~2000 onward; no row should post-date the current year
+    certainty: 80
+    severity: warn

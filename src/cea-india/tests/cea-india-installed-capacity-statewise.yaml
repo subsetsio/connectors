@@ -1,0 +1,33 @@
+spec_id: cea-india-installed-capacity-statewise
+status: active
+tests:
+  - not_null: month
+    reason: every state-wise capacity row carries a Mon-YYYY period
+    certainty: 95
+  - not_null: state
+    reason: this endpoint is state-wise; every row names a state/UT
+    certainty: 95
+  - not_null: region
+    reason: each state is tagged with its grid region
+    certainty: 90
+  - matches: {col: month, pattern: '^[A-Za-z]{3}-[0-9]{4}$'}
+    reason: period is Mon-YYYY; transform parses %b-%Y
+    certainty: 85
+    severity: warn
+  - column_type: {col: grand_total, type: string}
+    reason: CEA quotes numerics as strings; transform TRY_CASTs to DOUBLE
+    certainty: 90
+  - row_count: {min: 1500}
+    reason: ~30+ states x ~5-6 regions x monthly since Jan-2019 (~3100 observed); a steep drop signals truncation
+    certainty: 90
+  - distinct_count: {col: state, min: 20}
+    reason: India has ~36 states/UTs; far fewer means the state dimension collapsed
+    certainty: 80
+    severity: warn
+  - distinct_count: {col: region, min: 5}
+    reason: five grid regions; collapse means region tagging broke
+    certainty: 80
+    severity: warn
+  - unique: [month, region, state]
+    reason: one snapshot per state per month; dupes mean a re-pull without overwrite
+    certainty: 85

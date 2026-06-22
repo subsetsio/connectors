@@ -1,0 +1,14 @@
+spec_id: california-edd-715d1324-ac02-4b11-b922-86bafa6eb80f
+status: active
+# Long-Term Occupational Employment Projections.
+tests:
+  - row_count: {min: 1}
+    reason: the fetch fn raises on a 0-row pull, so a materialized raw asset must carry projection rows
+    certainty: 95
+  - not_null: Occupational Title
+    reason: each projection row is keyed by an occupation
+    certainty: 85
+  - not_null: Period
+    reason: projections carry a base-to-projected year span (e.g. 2022-2032); a blank means the export shape changed
+    certainty: 85
+    severity: warn

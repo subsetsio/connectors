@@ -1,0 +1,22 @@
+spec_id: cea-india-installed-capacity-allindia
+status: active
+tests:
+  - not_null: month
+    reason: the all-India installed-capacity series carries a Mon-YYYY period on every row
+    certainty: 95
+  - matches: {col: month, pattern: '^[A-Za-z]{3}-[0-9]{4}$'}
+    reason: period is Mon-YYYY (e.g. Jan-2019); transform parses %b-%Y
+    certainty: 85
+    severity: warn
+  - column_type: {col: grand_total, type: string}
+    reason: CEA quotes numerics as strings ('349288.20999999996'); transform TRY_CASTs to DOUBLE
+    certainty: 90
+  - column_type: {col: coal, type: string}
+    reason: fuel capacity arrives as a quoted string
+    certainty: 90
+  - row_count: {min: 60}
+    reason: one all-India row per month since Jan-2019 (~97 observed); fewer than ~60 means a truncated pull
+    certainty: 90
+  - unique: month
+    reason: a single all-India snapshot per month; duplicate months mean overwrite did not run
+    certainty: 90

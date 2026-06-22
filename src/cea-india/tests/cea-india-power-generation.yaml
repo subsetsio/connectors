@@ -1,0 +1,29 @@
+spec_id: cea-india-power-generation
+status: active
+tests:
+  - not_null: Month
+    reason: each generation row carries a Mon-YYYY period
+    certainty: 90
+  - not_null: fy
+    reason: rows are grouped by financial year; fy is the object key flattened onto each row
+    certainty: 90
+  - not_null: mode
+    reason: generation is broken down by mode (coal/hydro/nuclear/imports/etc); every row names one
+    certainty: 90
+  - matches: {col: Month, pattern: '^[A-Za-z]{3}-[0-9]{4}$'}
+    reason: period is Mon-YYYY; transform parses %b-%Y
+    certainty: 80
+    severity: warn
+  - matches: {col: fy, pattern: '^[0-9]{4}-[0-9]{4}$'}
+    reason: financial year is YYYY-YYYY (e.g. 2019-2020), the flattened object key
+    certainty: 85
+  - column_type: {col: bus, type: string}
+    reason: bus (gross) energy arrives as a quoted string; transform TRY_CASTs to DOUBLE
+    certainty: 90
+  - row_count: {min: 150}
+    reason: monthly x multiple generation modes; history reaches back decades (~290 observed)
+    certainty: 80
+  - distinct_count: {col: mode, min: 3}
+    reason: several generation modes (coal, hydro, nuclear, imports, ...); collapse to one means the breakdown broke
+    certainty: 75
+    severity: warn

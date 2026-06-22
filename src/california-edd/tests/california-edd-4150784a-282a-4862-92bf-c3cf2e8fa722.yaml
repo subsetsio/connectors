@@ -1,0 +1,14 @@
+spec_id: california-edd-4150784a-282a-4862-92bf-c3cf2e8fa722
+status: active
+# Disability Insurance (DI) - Monthly Data.
+tests:
+  - row_count: {min: 1}
+    reason: the fetch fn raises on a 0-row pull, so a materialized raw asset must carry monthly DI rows
+    certainty: 95
+  - not_null: Year
+    reason: every monthly DI observation carries its calendar year
+    certainty: 90
+  - between: {col: Year, lo: 1990, hi: current_year()}
+    reason: the DI monthly series runs from the 1990s onward; no row should post-date the current year
+    certainty: 80
+    severity: warn

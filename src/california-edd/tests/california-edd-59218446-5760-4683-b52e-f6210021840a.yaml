@@ -1,0 +1,18 @@
+spec_id: california-edd-59218446-5760-4683-b52e-f6210021840a
+status: active
+# Local Area Unemployment Statistics (LAUS) - monthly.
+tests:
+  - row_count: {min: 1}
+    reason: the fetch fn raises on a 0-row pull, so a materialized raw asset must carry LAUS rows
+    certainty: 95
+  - not_null: Area Name
+    reason: every LAUS observation is scoped to a named county/city/region
+    certainty: 90
+  - between: {col: Year, lo: 1976, hi: current_year()}
+    reason: LAUS for CA areas begins in 1976; no row should post-date the current year
+    certainty: 85
+    severity: warn
+  - median_between: {col: Unemployment Rate, lo: 0, hi: 30}
+    reason: an unemployment rate is a percentage in low double digits; a median outside 0-30 means a unit/parse error
+    certainty: 65
+    severity: warn
