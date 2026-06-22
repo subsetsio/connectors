@@ -25,6 +25,7 @@ data interleaved), so a declared parquet schema would be the wrong contract.
 import io
 import math
 
+import msoffcrypto
 import pandas as pd
 
 from subsets_utils import (
@@ -50,13 +51,40 @@ def _download(url: str) -> bytes:
     return resp.content
 
 
+_OLE_MAGIC = b"\xd0\xcf\x11\xe0"
+# Excel's default key for a workbook "encrypted" with an empty password — BCRD
+# ships a few legacy .xls files this way (xlrd reports "Workbook is encrypted").
+_DEFAULT_XLS_PASSWORD = "VelvetSweatshop"
+
+
+def _decrypt_if_needed(content: bytes) -> bytes:
+    """Transparently decrypt a default-empty-password-encrypted OLE workbook.
+
+    Zip-based formats (.xlsx/.xlsm) and unencrypted .xls pass through unchanged.
+    """
+    if not content.startswith(_OLE_MAGIC):
+        return content
+    try:
+        office = msoffcrypto.OfficeFile(io.BytesIO(content))
+        if not office.is_encrypted():
+            return content
+        out = io.BytesIO()
+        office.load_key(password=_DEFAULT_XLS_PASSWORD)
+        office.decrypt(out)
+        return out.getvalue()
+    except Exception:  # noqa: BLE001 — fall back to the original bytes for the engine to try
+        return content
+
+
 def _read_sheets(content: bytes, filename: str) -> dict:
     """Read every sheet of a workbook as a header-less DataFrame.
 
-    Legacy ``.xls`` is OLE/BIFF (xlrd); ``.xlsx`` is zip-based (openpyxl). The
-    declared extension picks the preferred engine, with the other as fallback in
-    case a file is mislabelled.
+    Legacy ``.xls`` is OLE/BIFF (xlrd); ``.xlsx``/``.xlsm`` are zip-based
+    (openpyxl). The declared extension picks the preferred engine, with the
+    other as fallback in case a file is mislabelled. Default-password-encrypted
+    OLE files are decrypted first.
     """
+    content = _decrypt_if_needed(content)
     ext = filename.lower().rsplit(".", 1)[-1]
     engines = ["xlrd", "openpyxl"] if ext == "xls" else ["openpyxl", "xlrd"]
     last_err = None
@@ -149,7 +177,14 @@ def fetch_one(node_id: str) -> None:
                 print(f"{asset}: skipping {url} (HTTP {status})")
                 continue
             raise
-        sheets = _read_sheets(content, filename)
+        try:
+            sheets = _read_sheets(content, filename)
+        except Exception as err:  # noqa: BLE001
+            # A single corrupt/unreadable partition must not kill a multi-year
+            # topic; log and skip. If every file fails, the empty-guard below
+            # fails the node.
+            print(f"{asset}: skipping {filename} (unreadable: {type(err).__name__}: {err})")
+            continue
         all_rows.extend(_cells(sheets, filename))
 
     if not all_rows:
