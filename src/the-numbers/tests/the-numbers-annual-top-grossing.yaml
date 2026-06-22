@@ -1,0 +1,20 @@
+spec_id: the-numbers-annual-top-grossing
+status: active
+tests:
+  - not_null: year
+    certainty: 95
+  - not_null: title
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - between: {col: year, lo: 1970, hi: 2030}
+    reason: the annual market series spans a few decades up to the current year
+    certainty: 85
+    severity: warn
+  - at_least: {col: gross, expr: 0}
+    reason: annual gross is a non-negative dollar figure
+    certainty: 90
+  - unique: [year, rank]
+    reason: one film per (year, rank) within the annual top-grossing chart
+    certainty: 75
+    severity: warn

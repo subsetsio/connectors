@@ -1,0 +1,25 @@
+spec_id: the-numbers-daily-box-office
+status: active
+tests:
+  - not_null: chart_date
+    reason: every parsed row is stamped with its chart page date
+    certainty: 95
+  - not_null: title
+    reason: rows with no title are dropped during parse
+    certainty: 95
+  - column_type: {col: rank, type: integer}
+    certainty: 90
+  - between: {col: rank, lo: 1, hi: 250}
+    reason: a daily chart lists at most a few dozen films; 250 is generous headroom
+    certainty: 85
+    severity: warn
+  - at_least: {col: gross, expr: 0}
+    reason: daily gross is a non-negative dollar figure
+    certainty: 90
+  - at_least: {col: theaters, expr: 0}
+    certainty: 80
+    severity: warn
+  - at_least: {col: days_in_release, expr: 1}
+    reason: a film on the chart has been in release at least one day
+    certainty: 80
+    severity: warn

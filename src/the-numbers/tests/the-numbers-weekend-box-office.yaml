@@ -1,0 +1,19 @@
+spec_id: the-numbers-weekend-box-office
+status: active
+tests:
+  - not_null: chart_date
+    certainty: 95
+  - not_null: title
+    certainty: 95
+  - column_type: {col: rank, type: integer}
+    certainty: 90
+  - between: {col: rank, lo: 1, hi: 250}
+    reason: a weekend chart lists at most a few dozen films
+    certainty: 85
+    severity: warn
+  - at_least: {col: gross, expr: 0}
+    reason: weekend gross is a non-negative dollar figure
+    certainty: 90
+  - at_least: {col: days_in_release, expr: 1}
+    certainty: 80
+    severity: warn
