@@ -1,0 +1,19 @@
+spec_id: box-office-mojo-domestic-yearly
+status: active
+tests:
+  - not_null: rank
+  - not_null: release
+  - column_type: {col: rank, type: integer}
+  - unique: [year, rank]
+    reason: one ranked release row per year; dupes mean a year page was double-pulled
+    certainty: 90
+  - between: {col: year, lo: 1977, hi: current_year()}
+    certainty: 90
+  - at_least: {col: rank, expr: 1}
+    certainty: 95
+  - median_between: {col: gross, lo: 100000, hi: 1000000000}
+    reason: per-release annual domestic gross unit guard (dollars, not millions)
+    certainty: 55
+    severity: warn
+  - row_count: {min: 5000}
+    reason: ~50 years x ~150-200 ranked releases each

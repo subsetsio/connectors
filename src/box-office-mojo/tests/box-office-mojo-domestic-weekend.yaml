@@ -1,0 +1,19 @@
+spec_id: box-office-mojo-domestic-weekend
+status: active
+tests:
+  - not_null: weekend_id
+  - not_null: rank
+  - not_null: release
+  - unique: [weekend_id, rank]
+    reason: one ranked release row per weekend chart
+    certainty: 88
+  - matches: {col: weekend_id, pattern: "^[0-9]{4}W[0-9]{2}$"}
+    reason: weekend ids are YYYYWNN
+    certainty: 95
+  - between: {col: year, lo: 1982, hi: current_year()}
+    reason: BOM weekend charts begin in 1982
+    certainty: 80
+  - between: {col: rank, lo: 1, hi: 200}
+    certainty: 85
+  - row_count: {min: 40000}
+    reason: ~2300 weekends x ~25-50 ranked releases each

@@ -1,0 +1,18 @@
+spec_id: box-office-mojo-weekend-summary
+status: active
+tests:
+  - not_null: year
+  - not_null: week
+  - column_type: {col: week, type: integer}
+  - between: {col: week, lo: 1, hi: 53}
+    reason: ISO-ish week number within the year
+    certainty: 90
+  - unique: [year, week, long_weekend]
+    reason: one row per year/week, plus a separate long-weekend variant row
+    certainty: 80
+    severity: warn
+  - relationship: {left: overall_gross, op: ">=", right: top10_gross}
+    reason: overall weekend gross includes the top-10 subset
+    certainty: 80
+  - row_count: {min: 1500}
+    reason: ~45 tracked years x ~50 weekends each

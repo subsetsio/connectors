@@ -1,0 +1,16 @@
+spec_id: box-office-mojo-top-lifetime-grosses
+status: active
+tests:
+  - not_null: rank
+  - not_null: title
+  - column_type: {col: lifetime_gross, type: integer}
+  - unique: rank
+    reason: the chart is a strict ranking; one title per rank
+    certainty: 85
+  - at_least: {col: lifetime_gross, expr: 0}
+    certainty: 95
+  - between: {col: release_year, lo: 1900, hi: current_year()}
+    certainty: 85
+    points_outward: true
+  - row_count: {min: 400}
+    reason: multi-page chart paginated by offset (>=2 pages of 200)

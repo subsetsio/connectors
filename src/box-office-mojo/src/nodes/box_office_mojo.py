@@ -187,7 +187,7 @@ def fetch_top_lifetime_grosses(node_id: str) -> None:
     rows = []
     offset = 0
     for _ in range(MAX_CHART_PAGES):
-        url = f"{BASE}/chart/top_lifetime_gross/?area=XWW&offset={offset}" if offset \
+        url = f"{BASE}/chart/top_lifetime_gross/?offset={offset}" if offset \
             else f"{BASE}/chart/top_lifetime_gross/"
         df = _read_table(_get_html(url))
         if df is None or len(df) == 0:
@@ -277,7 +277,7 @@ TRANSFORM_SPECS = [
                 {_money('worldwide')}    AS worldwide_gross,
                 {_money('domestic')}     AS domestic_gross,
                 {_pct('domestic_pct')}   AS domestic_pct,
-                {_money('foreign')}      AS foreign_gross,
+                {_money('"foreign"')}    AS foreign_gross,
                 {_pct('foreign_pct')}    AS foreign_pct
             FROM "box-office-mojo-worldwide-yearly"
             WHERE {_int('rank')} IS NOT NULL

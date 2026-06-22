@@ -19,8 +19,7 @@ def slice_rows(url, colmap, extra=None):
 def run(name, rows, sql_template):
     con = duckdb.connect()
     con.register(name, __import__("pyarrow").Table.from_pylist(rows))
-    sql = sql_template.replace(f'"{name}"', name)
-    out = con.execute(sql).arrow()
+    out = con.execute(sql_template).fetch_arrow_table()
     print("=" * 60)
     print(name, "-> rows:", out.num_rows)
     print("schema:", [(f.name, str(f.type)) for f in out.schema])

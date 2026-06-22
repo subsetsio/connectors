@@ -1,0 +1,22 @@
+spec_id: box-office-mojo-domestic-daily
+status: active
+tests:
+  - not_null: date
+  - column_type: {col: date, type: date}
+  - unique: date
+    reason: one row per calendar day across all tracked years
+    certainty: 80
+    severity: warn
+  - enum:
+      col: day_of_week
+      values: [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]
+    certainty: 90
+  - between: {col: day_of_year, lo: 1, hi: 366}
+    certainty: 90
+  - freshness: {col: date, reaches: today - 30d}
+    reason: daily box office is published continuously; max date should be recent
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - row_count: {min: 12000}
+    reason: ~45 tracked years x ~365 days

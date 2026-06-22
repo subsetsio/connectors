@@ -1,0 +1,24 @@
+spec_id: box-office-mojo-yearly-summary
+status: active
+tests:
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - unique: year
+    reason: the /year/ index has exactly one summary row per calendar year
+    certainty: 95
+  - between: {col: year, lo: 1970, hi: current_year()}
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    certainty: 95
+    points_outward: true
+  - not_null: total_gross
+    reason: every listed year has a domestic total gross
+    certainty: 85
+  - between: {col: releases, lo: 1, hi: 2000}
+    certainty: 80
+  - median_between: {col: total_gross, lo: 100000000, hi: 20000000000}
+    reason: annual US domestic box office runs ~hundreds of millions to ~11B
+    certainty: 60
+    severity: warn
+  - row_count: {min: 40}
+    reason: BOM tracks domestic yearly totals from 1977 to present (~50 years)

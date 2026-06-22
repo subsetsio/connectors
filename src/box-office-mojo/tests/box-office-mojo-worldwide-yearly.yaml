@@ -1,0 +1,19 @@
+spec_id: box-office-mojo-worldwide-yearly
+status: active
+tests:
+  - not_null: rank
+  - not_null: release_group
+  - unique: [year, rank]
+    reason: one ranked release-group row per year
+    certainty: 90
+  - between: {col: year, lo: 1977, hi: current_year()}
+    certainty: 90
+  - between: {col: domestic_pct, lo: 0, hi: 100}
+    reason: domestic share of worldwide gross is a percentage
+    certainty: 80
+    severity: warn
+  - relationship: {left: worldwide_gross, op: ">=", right: domestic_gross}
+    reason: worldwide gross includes the domestic component
+    certainty: 85
+  - row_count: {min: 3000}
+    reason: ~50 years x worldwide ranked releases
