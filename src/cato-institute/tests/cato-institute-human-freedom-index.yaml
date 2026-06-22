@@ -1,0 +1,38 @@
+spec_id: cato-institute-human-freedom-index
+status: active
+tests:
+  - not_null: iso
+    reason: ISO country code is the row's geographic key; never null in the HFI panel.
+    certainty: 95
+  - not_null: year
+    reason: every row is a (jurisdiction, year) observation; year is always present.
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: hf_score, type: float}
+    reason: headline Human Freedom Index score is a continuous 0-10 measure.
+    certainty: 90
+  - unique: [iso, year]
+    reason: the panel has exactly one row per jurisdiction-year; dupes mean the file was concatenated or re-pulled without overwrite.
+    certainty: 95
+  - between: {col: year, lo: 2000, hi: current_year()}
+    reason: the index series starts in 2000; the latest edition lags the current year by ~2 years.
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: iso, min: 150, max: 200}
+    reason: HFI covers ~165 jurisdictions; a big drop signals a truncated download.
+    certainty: 85
+  - row_count: {min: 3000}
+    reason: ~165 jurisdictions x 24 years ~= 3960 rows; far fewer means the panel was truncated.
+    certainty: 90
+  - between: {col: hf_score, lo: 0, hi: 10}
+    reason: HFI scores are normalised to a 0-10 scale (observed ~1.9-9.8).
+    certainty: 85
+    severity: warn
+  - between: {col: hf_rank, lo: 1, hi: 200}
+    reason: rank is 1..number-of-ranked-jurisdictions (~165).
+    certainty: 85
+    severity: warn
