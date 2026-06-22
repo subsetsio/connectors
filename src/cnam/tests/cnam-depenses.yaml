@@ -8,9 +8,9 @@ tests:
     reason: every row carries a territorial code (national/region/departement); a null region means a dropped geography column
     certainty: 90
   - row_count: {min: 18972}
-    reason: ODS reported 22320 records at collect time; a full bulk export should return at least ~85% of that. A large shortfall means truncation or a partial export.
+    reason: ODS reported 22320 records at collect time; a full bulk export should return at least ~85% of that, so a large shortfall means truncation or a partial export
     certainty: 85
   - column_type: {col: montant, type: integer}
-    reason: 'montant' is the dataset's numeric measure; a string type means the ODS export changed its field typing
+    reason: the numeric measure column montant should remain numeric; a string type means the ODS export changed its field typing
     certainty: 70
     severity: warn

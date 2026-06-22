@@ -13,9 +13,9 @@ tests:
   - not_null: bowler
     reason: a delivery always has a bowler.
     certainty: 90
-  - matches: {col: match_id, pattern: '^[0-9]+$'}
-    reason: match_id is the numeric Cricinfo id.
-    certainty: 95
+  - matches: {col: match_id, pattern: '^[A-Za-z0-9_]+$'}
+    reason: match_id is the Cricinfo id — usually numeric but some older/domestic matches use string ids like 'wi_201706'.
+    certainty: 90
   - row_count: {min: 1000000}
     reason: the full corpus is ~22k matches averaging hundreds of deliveries — millions of rows; a low count means a truncated zip or partial parse.
     certainty: 90
