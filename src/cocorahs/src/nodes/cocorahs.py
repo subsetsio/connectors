@@ -96,21 +96,35 @@ def _fetch_csv(url: str, params: dict) -> bytes:
     raise RuntimeError(f"failed to fetch {url} params={params}: {last}")
 
 
+def _skip_invalid_row(row) -> str:
+    """Drop genuinely malformed rows (free-text Notes fields occasionally carry
+    unquoted line breaks that split a record into the wrong column count)."""
+    return "skip"
+
+
 def _parse_csv(content: bytes, columns: list[str], state: str | None) -> pa.Table:
     """Parse a CoCoRaHS CSV (all columns as strings) under a fixed schema.
 
     Handles the server's duplicate Hail header by supplying explicit column
-    names and skipping the original header row. Returns a 0-row table for
-    header-only (empty) responses. When `state` is given it is appended as a
-    constant column (the report CSVs carry no state field).
+    names and skipping the original header row, multi-line quoted Notes via
+    newlines_in_values, and the rare unquoted-newline record via an
+    invalid-row handler. Returns a 0-row table for header-only (empty)
+    responses. When `state` is given it is appended as a constant column (the
+    report CSVs carry no state field).
     """
     read_opts = pacsv.ReadOptions(column_names=columns, skip_rows=1)
+    parse_opts = pacsv.ParseOptions(
+        newlines_in_values=True, invalid_row_handler=_skip_invalid_row
+    )
     convert_opts = pacsv.ConvertOptions(
         column_types={c: pa.string() for c in columns},
         strings_can_be_null=True,
     )
     table = pacsv.read_csv(
-        io.BytesIO(content), read_options=read_opts, convert_options=convert_opts
+        io.BytesIO(content),
+        read_options=read_opts,
+        parse_options=parse_opts,
+        convert_options=convert_opts,
     )
     if state is not None:
         table = table.append_column(
