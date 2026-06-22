@@ -1,0 +1,10 @@
+spec_id: statistics-denmark-kv2hoved
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every rank-active StatBank table returns at least one BULK data row
+    certainty: 95
+  - not_null: INDHOLD
+    reason: BULK semicolon-CSV always carries the value column INDHOLD as a string (confidential cells are '..'/'.' but still non-null)
+    certainty: 80
+    severity: warn
