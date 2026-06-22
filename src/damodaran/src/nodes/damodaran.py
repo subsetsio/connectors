@@ -58,6 +58,18 @@ def _norm(v) -> str:
     return " ".join(_clean(v).lower().split())
 
 
+def _clean_header(v) -> str:
+    """Header label, with integral-float year columns normalized: pandas reads
+    a bare-year header cell as int in one file and float in another, which would
+    fragment the same metric into '2023' and '2023.0' across regions."""
+    s = _clean(v)
+    try:
+        f = float(s)
+    except ValueError:
+        return s
+    return str(int(f)) if f == int(f) else s
+
+
 def _to_number(v):
     """Return a finite float for numeric-looking cells, else None."""
     if v is None or isinstance(v, bool):
@@ -96,7 +108,7 @@ def _parse_table(content: bytes, anchor: str, sheet_hint):
         hi = _find_header(df, anchor)
         if hi is None:
             continue
-        header = [_clean(x) for x in df.iloc[hi].tolist()]
+        header = [_clean_header(x) for x in df.iloc[hi].tolist()]
         rows = []
         for k in range(hi + 1, len(df)):
             r = df.iloc[k].tolist()
