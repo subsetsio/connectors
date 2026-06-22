@@ -1,0 +1,28 @@
+spec_id: cenace-pml
+status: active
+tests:
+  - not_null: sistema
+  - not_null: proceso
+  - not_null: clv_nodo
+    reason: every PML row is anchored to a NodoP key
+  - not_null: fecha
+  - not_null: hora
+  - enum: {col: proceso, values: ["MDA", "MTR"]}
+    reason: SW-PML only serves the day-ahead and real-time markets
+    certainty: 95
+  - enum: {col: sistema, values: ["SIN", "BCA", "BCS"]}
+    reason: the three interconnected systems
+    certainty: 95
+  - column_type: {col: hora, type: integer}
+  - between: {col: hora, lo: 1, hi: 24}
+    reason: CENACE reports operation hours 1..24
+    certainty: 90
+  - column_type: {col: pml, type: float}
+  - matches: {col: clv_nodo, pattern: "^[0-9A-Za-z].*"}
+    reason: NodoP CLAVE keys are alphanumeric (e.g. 01PLO-115)
+    certainty: 70
+    severity: warn
+  - median_between: {col: pml, lo: 100, hi: 8000}
+    reason: Mexican local marginal prices are $/MWh, typically a few hundred to a few thousand pesos
+    certainty: 55
+    severity: warn

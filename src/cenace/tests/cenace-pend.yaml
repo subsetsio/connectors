@@ -1,0 +1,24 @@
+spec_id: cenace-pend
+status: active
+tests:
+  - not_null: sistema
+  - not_null: proceso
+  - not_null: zona_carga
+    reason: every PEND row is a load-zone (Zona de Carga) weighted price
+  - not_null: fecha
+  - not_null: hora
+  - enum: {col: proceso, values: ["MDA", "MTR"]}
+    certainty: 95
+  - enum: {col: sistema, values: ["SIN", "BCA", "BCS"]}
+    certainty: 95
+  - column_type: {col: hora, type: integer}
+  - between: {col: hora, lo: 1, hi: 24}
+    certainty: 90
+  - column_type: {col: pz, type: float}
+  - distinct_count: {col: zona_carga, min: 50}
+    reason: the node-less PEND call returns the full system snapshot (~108 load zones across SIN/BCA/BCS)
+    certainty: 80
+  - median_between: {col: pz, lo: 100, hi: 8000}
+    reason: load-zone energy prices are $/MWh, same scale as PML
+    certainty: 55
+    severity: warn

@@ -1,0 +1,23 @@
+spec_id: cenace-psc
+status: active
+tests:
+  - not_null: sistema
+  - not_null: proceso
+  - not_null: clv_zona_reserva
+    reason: every PSC row is anchored to a reserve zone
+  - not_null: fecha
+  - not_null: hora
+  - not_null: tipo_res
+    reason: ancillary-service prices are per reserve type
+  - enum: {col: proceso, values: ["MDA", "MTR"]}
+    certainty: 95
+  - enum: {col: sistema, values: ["SIN", "BCA", "BCS"]}
+    certainty: 95
+  - column_type: {col: hora, type: integer}
+  - between: {col: hora, lo: 1, hi: 24}
+    certainty: 90
+  - column_type: {col: pres, type: float}
+  - at_least: {col: pres, expr: 0}
+    reason: reserve (ancillary-service) prices are non-negative
+    certainty: 70
+    severity: warn

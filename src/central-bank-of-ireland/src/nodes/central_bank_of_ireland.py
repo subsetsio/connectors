@@ -20,9 +20,15 @@ the package's CSVs so the published table has one stable schema. Values are
 kept as strings (heterogeneous columns across 33 datasets make generic numeric
 typing unsafe); the transform is a thin passthrough.
 
-Cache caveat: this CKAN host serves stale cached bodies under rapid sequential
-requests (result.name != requested id). We cache-bust each package_show with a
-unique query param and verify result.name before accepting.
+Edge/cache caveat: the portal sits behind a CDN+WAF that (a) serves stale
+cached bodies under *rapid sequential* requests for distinct ids, and (b)
+soft-blocks origin cache-MISSES from datacenter IPs by returning 202 with an
+empty body. A unique cache-busting query param forces a miss on every call, so
+on the cloud runner it always tripped the 202 block. We therefore request the
+*canonical* `?id=<pid>` URL (edge-cached, served as a warm 200 hit to
+datacenter IPs) and verify result.name matches before accepting — the
+rapid-sequential staleness doesn't arise here because each package is fetched
+once, in its own NodeSpec process.
 """
 
 import csv
@@ -73,8 +79,8 @@ def _ensure_http():
 
 
 @retry(retry=retry_if_exception(_retryable),
-       stop=stop_after_attempt(8),
-       wait=wait_exponential(min=2, max=60),
+       stop=stop_after_attempt(5),
+       wait=wait_exponential(min=2, max=20),
        reraise=True)
 def _http_get(url, read_timeout):
     """GET with browser headers. Treats a 202 (WAF soft-block / async edge) or
@@ -99,16 +105,17 @@ def _get_bytes(url):
 
 
 def _package_show(pid):
-    """Return the package record, defeating the host's stale-cache race by
-    cache-busting and verifying result.name matches the requested id."""
+    """Return the package record from the canonical (edge-cacheable) URL,
+    verifying result.name matches the requested id to guard against the host's
+    rare stale-cache responses."""
     rec = None
-    for attempt in range(8):
-        rec = _get_json(f"{BASE}/api/3/action/package_show?id={pid}&_={attempt}")["result"]
+    for attempt in range(6):
+        rec = _get_json(f"{BASE}/api/3/action/package_show?id={pid}")["result"]
         if rec.get("name") == pid:
             return rec
-        time.sleep(0.5)
+        time.sleep(1.0 + attempt)  # back off; let any stale edge entry expire
     raise RuntimeError(
-        f"package_show for {pid} kept returning a stale record "
+        f"package_show for {pid} kept returning a mismatched record "
         f"(name={rec.get('name')!r}) after retries"
     )
 
