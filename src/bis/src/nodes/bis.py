@@ -173,11 +173,19 @@ def fetch_one(node_id: str) -> None:
     """
     asset = node_id
     flow = _flow_from_node(node_id)
-    content = _download_zip(BULK_URL.format(flow=flow))
 
-    zf = zipfile.ZipFile(io.BytesIO(content))
-    member = zf.namelist()[0]
+    fd, tmp_path = tempfile.mkstemp(prefix=f"{asset}-", suffix=".zip")
+    os.close(fd)
+    try:
+        _download_zip_to(BULK_URL.format(flow=flow), tmp_path)
+        with zipfile.ZipFile(tmp_path) as zf:
+            _ingest_member(zf, zf.namelist()[0], asset, flow)
+    finally:
+        os.remove(tmp_path)
 
+
+def _ingest_member(zf: zipfile.ZipFile, member: str, asset: str, flow: str) -> None:
+    """Stream one flat-CSV member of a BIS bulk zip into normalised Parquet."""
     empty_batch = lambda: {name: [] for name in SCHEMA.names}
     batch = empty_batch()
     pending = 0

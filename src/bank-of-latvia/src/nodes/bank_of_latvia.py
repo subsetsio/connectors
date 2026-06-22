@@ -79,12 +79,15 @@ def _is_transient(exc: BaseException) -> bool:
 
 # When the host load-sheds it can keep an IP throttled for several minutes, so a
 # node must stay patient enough to outlast the whole throttle window. Earlier runs
-# capped at 9 attempts (~4.5 min) and a handful of tables stayed 403 the whole
-# time; ride it out longer (~18 min worst case) and jitter each wait so retries on
-# successive tables don't re-synchronize into the host's burst detector.
+# capped at 9 attempts (~4.5 min), then 12 (~20 min), and a couple of tables still
+# stayed 403 the whole window — a sequential run saw tables 180 and 243 exhaust the
+# 12-attempt budget after ~20 min each while every other table cleared. The window
+# can exceed 20 min, so ride it out longer (18 attempts, ~56 min worst case) and
+# jitter each wait so retries on successive tables don't re-synchronize into the
+# host's burst detector.
 _RETRY = dict(
     retry=retry_if_exception(_is_transient),
-    stop=stop_after_attempt(12),
+    stop=stop_after_attempt(18),
     wait=wait_exponential(min=15, max=240) + wait_random(0, 15),
     reraise=True,
 )
