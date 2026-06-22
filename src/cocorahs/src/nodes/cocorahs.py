@@ -11,8 +11,10 @@ big state-year). It is pulled over a rolling multi-year window. The MultiDay /
 Hail / SigWx / Stations feeds are small and pulled over full history (1998+).
 """
 
+import calendar
 import datetime as dt
 import io
+import time
 
 import pyarrow as pa
 import pyarrow.csv as pacsv
@@ -84,16 +86,33 @@ FULL_HISTORY_START = 1998
 
 
 def _fetch_csv(url: str, params: dict) -> bytes:
-    """GET a CSV export with polite retries (the endpoint 500s intermittently)."""
+    """GET a CSV export with polite backoff retries.
+
+    The endpoint 500s intermittently and, more importantly, fails on
+    oversized responses — so callers keep each request's date range small
+    (the Daily feed is chunked by month).
+    """
     last = None
-    for attempt in range(5):
+    for attempt in range(6):
         try:
             resp = get(url, params=params, timeout=300)
             resp.raise_for_status()
             return resp.content
         except Exception as e:  # noqa: BLE001 - transient 5xx / timeouts
             last = e
+            time.sleep(min(3 * (attempt + 1), 20))
     raise RuntimeError(f"failed to fetch {url} params={params}: {last}")
+
+
+def _month_ranges(years: range) -> list[tuple[str, str]]:
+    """(StartDate, EndDate) MM/DD/YYYY pairs, one per calendar month, so each
+    Daily request stays small enough for the server to materialize."""
+    out = []
+    for y in years:
+        for m in range(1, 13):
+            last_day = calendar.monthrange(y, m)[1]
+            out.append((f"{m:02d}/01/{y}", f"{m:02d}/{last_day:02d}/{y}"))
+    return out
 
 
 def _skip_invalid_row(row) -> str:
@@ -143,18 +162,20 @@ def fetch_reports(node_id: str) -> None:
     this_year = dt.date.today().year
 
     if report_type == "Daily":
-        year_ranges = [
-            (f"01/01/{y}", f"12/31/{y}")
-            for y in range(this_year - DAILY_WINDOW_YEARS + 1, this_year + 1)
-        ]
+        # Monthly chunks over the rolling window: the Daily feed is huge and the
+        # server 500s on big (full-year, large-state) responses.
+        date_ranges = _month_ranges(
+            range(this_year - DAILY_WINDOW_YEARS + 1, this_year + 1)
+        )
     else:
-        year_ranges = [(f"01/01/{FULL_HISTORY_START}", f"12/31/{this_year}")]
+        # MultiDay / Hail / SigWx are small — one full-history request per state.
+        date_ranges = [(f"01/01/{FULL_HISTORY_START}", f"12/31/{this_year}")]
 
     schema = _report_schema(columns)
     wrote_any = False
     with raw_parquet_writer(node_id, schema) as writer:
         for state in STATES:
-            for start, end in year_ranges:
+            for start, end in date_ranges:
                 content = _fetch_csv(
                     REPORTS_URL,
                     {
