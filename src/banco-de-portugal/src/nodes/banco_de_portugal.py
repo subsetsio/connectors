@@ -359,13 +359,24 @@ def fetch_one(node_id: str) -> None:
             with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as f:
                 _crawl_dataset(domain_id, dataset_id, page_size, f)
             return
-        except httpx.HTTPStatusError as e:
-            code = e.response.status_code
-            # Server can't compute a page this large -> shrink and restart.
-            if code in (500, 502, 503, 504) and i + 1 < len(PAGE_SIZES):
+        except (httpx.HTTPStatusError, json.JSONDecodeError) as e:
+            # Two manifestations of the same "cube too big under load" failure:
+            #  - a 5xx (server computes the page, then bails), and
+            #  - an empty / non-JSON 200 body (server gives up and returns nothing,
+            #    so resp.json() raises JSONDecodeError). Both recover the same way:
+            # shrink page_size and restart the dataset. The per-page @retry above
+            # already absorbs a genuinely intermittent empty blip at a given size;
+            # if it persists past the retry budget we land here and step down.
+            shrinkable = isinstance(e, json.JSONDecodeError) or (
+                e.response.status_code in (500, 502, 503, 504)
+            )
+            if shrinkable and i + 1 < len(PAGE_SIZES):
                 last_err = e
+                reason = "empty/non-JSON body" if isinstance(
+                    e, json.JSONDecodeError
+                ) else f"HTTP {e.response.status_code}"
                 print(
-                    f"{asset}: {code} at page_size={page_size}; "
+                    f"{asset}: {reason} at page_size={page_size}; "
                     f"retrying whole dataset at page_size={PAGE_SIZES[i + 1]}"
                 )
                 continue
