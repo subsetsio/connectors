@@ -5,9 +5,9 @@ tests:
   - not_null: variable
   - not_null: year
   - not_null: month
-  - not_null: monthly_anomaly
-    reason: every data row in a Berkeley Earth series carries a monthly anomaly; the moving-average columns may be NaN but the monthly value is the series itself
-    certainty: 90
+  - nullable: {col: monthly_anomaly, max_null_frac: 0.5}
+    reason: most rows carry a monthly anomaly, but regional series have NaN gaps in low-coverage months (~15% on some countries); the moving-average columns are nullier still
+    certainty: 80
   - column_type: {col: year, type: integer}
   - column_type: {col: month, type: integer}
   - between: {col: month, lo: 1, hi: 12}
