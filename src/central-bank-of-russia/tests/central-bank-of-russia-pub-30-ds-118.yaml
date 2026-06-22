@@ -1,0 +1,34 @@
+spec_id: central-bank-of-russia-pub-30-ds-118
+status: active
+# Raw is long-format CBR data-service observations for one indicator
+# (publicationId=30, datasetId=118): one row per (date, measure, series column),
+# obs_val a JSON number, ISO date. The fetch raises if the indicator returns no
+# observations, so a materialized raw always carries at least one row.
+tests:
+  - row_count: {min: 1}
+    reason: the fetch fn raises AssertionError on an empty RawData[], so a persisted raw must hold observations; 0 rows means the data endpoint or measure iteration changed shape
+    certainty: 95
+  - not_null: publication_id
+    reason: every row is stamped with the indicator's publicationId, set as a constant by the fetch fn
+    certainty: 97
+  - not_null: dataset_id
+    reason: every row is stamped with the indicator's datasetId, set as a constant by the fetch fn
+    certainty: 97
+  - not_null: date
+    reason: each observation carries an ISO date; the published table is a time series keyed on it
+    certainty: 95
+  - not_null: obs_val
+    reason: rows with a null obs_val are dropped during parse, so the persisted column is fully populated
+    certainty: 95
+  - enum: {col: publication_id, values: [30]}
+    reason: this node pulls only publicationId=30; any other value means the wrong indicator was fetched or ids got crossed
+    certainty: 96
+  - enum: {col: dataset_id, values: [118]}
+    reason: this node pulls only datasetId=118; any other value means the wrong indicator was fetched
+    certainty: 96
+  - column_type: {col: obs_val, type: float}
+    reason: obs_val is parsed as a JSON number into a float64 column; a string type means the Russian decimal comma leaked through unparsed
+    certainty: 90
+  - column_type: {col: date, type: timestamp}
+    reason: dates are coerced from ISO strings to a pyarrow timestamp
+    certainty: 88

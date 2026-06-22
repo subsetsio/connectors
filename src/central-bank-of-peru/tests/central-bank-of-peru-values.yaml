@@ -1,0 +1,39 @@
+spec_id: central-bank-of-peru-values
+status: active
+tests:
+  - not_null: codigo_serie
+    reason: every observation belongs to a series; the parser only emits rows tied to a request code
+    certainty: 98
+  - not_null: date
+    reason: an observation with no parseable period is dropped before write, so date is always present in raw
+    certainty: 95
+  - not_null: value
+    reason: missing observations come back as 'n.d.' and are filtered out before write; only numeric values are stored
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: values are parsed via float() into a float64 column
+    certainty: 95
+  - column_type: {col: date, type: string}
+    reason: dates are stored as ISO 'YYYY-MM-DD' strings in raw and cast to DATE in the transform
+    certainty: 90
+  - column_type: {col: codigo_serie, type: string}
+    certainty: 95
+  - enum: {col: frecuencia, values: [Mensual, Anual, Trimestral, Diaria]}
+    reason: observations are crawled per the four catalog frequencies; any other value means the catalog parser leaked a stray field
+    certainty: 85
+    severity: warn
+  - matches: {col: date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: the period-label parser always emits ISO YYYY-MM-DD (month/quarter pinned to day 01); a deviation means a label format the parser mishandled
+    certainty: 88
+  - unique: [codigo_serie, date]
+    reason: a stateless full re-pull fetches each series once, so there is exactly one observation per series-date; dupes mean a batch and its per-series fallback both wrote
+    certainty: 80
+    severity: warn
+  - row_count: {min: 500000}
+    reason: ~17,100 series with deep monthly/annual/daily history yield millions of observations; under 500k means the crawl degraded silently
+    certainty: 85
+  - freshness: {col: date, reaches: today - 120d}
+    reason: daily FX/rate series publish near-daily, so the max observed date should be recent; a stale max usually means the source has not refreshed (wait/retry, not a code bug)
+    certainty: 70
+    points_outward: true
+    severity: warn

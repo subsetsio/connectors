@@ -1,0 +1,28 @@
+spec_id: central-bank-of-peru-series
+status: active
+tests:
+  - not_null: codigo_serie
+    reason: every catalog row is a series and must carry its code; a blank code means a parse/encoding fault on the semicolon/latin-1 file
+    certainty: 98
+  - unique: codigo_serie
+    reason: the metadata file is keyed one row per series code; dupes mean the catalog was double-parsed or the delimiter split a field
+    certainty: 95
+  - column_type: {col: codigo_serie, type: string}
+    certainty: 95
+  - column_type: {col: frecuencia, type: string}
+    certainty: 95
+  - enum: {col: frecuencia, values: [Mensual, Anual, Trimestral, Diaria]}
+    reason: research enumerates exactly four frequencies across the ~17,100 series; a new value means the source added a frequency (update belief + the values parser)
+    certainty: 85
+    severity: warn
+  - row_count: {min: 12000}
+    reason: the catalog holds ~17,100 series; a drop below 12k signals a truncated/changed metadata file
+    certainty: 90
+  - distinct_count: {col: grupo, min: 300}
+    reason: research counts ~643 series groups; a large fall means the group column shifted position or stopped populating
+    certainty: 75
+    severity: warn
+  - matches: {col: codigo_serie, pattern: '^[A-Za-z0-9._-]+$'}
+    reason: BCRP series codes are compact alphanumerics like PN00001MM; spaces or punctuation suggest a column-misalignment on the CSV
+    certainty: 70
+    severity: warn

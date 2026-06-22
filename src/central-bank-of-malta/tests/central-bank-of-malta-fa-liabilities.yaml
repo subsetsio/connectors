@@ -1,0 +1,25 @@
+spec_id: central-bank-of-malta-fa-liabilities
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: fetch_one raises ValueError when parse_workbook yields 0 rows, so a
+      written asset always has at least one melted value row.
+    certainty: 99
+  - not_null: value
+    reason: rows whose numeric cell is None are dropped in fetch_one before the
+      parquet write; a null here would mean the drop guard regressed.
+    certainty: 99
+  - column_type: {col: value, type: float}
+    reason: the raw pa.schema pins value to float64.
+    certainty: 99
+  - not_null: sheet
+    reason: every emitted row is tagged with its originating workbook sheet name.
+    certainty: 99
+  - column_type: {col: sheet, type: string}
+    certainty: 99
+  - not_null: series
+    reason: parse_sheet only emits value columns that carry a header label, so
+      every row gets a non-empty series lineage.
+    certainty: 90
+  - column_type: {col: series, type: string}
+    certainty: 99
