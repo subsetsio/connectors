@@ -18,23 +18,48 @@ Memory: a few dataflows are large (BBBK1 ~2.3GB / 5.6M obs, BBSIS ~720MB), so th
 CSV is streamed line-by-line and written to parquet in bounded row-group batches
 via `raw_parquet_writer` — never buffered whole in RAM.
 
-One dataflow needs special handling: BBKRT (the real-time/vintage database, 11
-dimensions including release year/month/day) is too large to materialize in a
-single request (HTTP 413). It is fetched one vintage *release year* at a time —
-each year written as its own batch file `bundesbank-bbkrt-<year>.parquet`. The
-transform's dep view globs `bundesbank-bbkrt-*` and unions every year, so the
-published table is identical in shape to every other dataflow's.
+Two dataflows are too large to materialize in a single whole-flow request:
+
+- BBKRT (the real-time/vintage database, 11 dimensions including release
+  year/month/day) is fetched one vintage *release year* at a time — each year
+  written as its own batch file `bundesbank-bbkrt-<year>.parquet`.
+- BBBK7 (and any other flow the server refuses whole) is fetched one *frequency*
+  at a time — the first DSD dimension of every standard flow is BBK_STD_FREQ, so
+  a `{flow}/{freq}.` key slices the flow into per-frequency batch files
+  `bundesbank-<flow>-<freq>.parquet`. Frequencies with no series return 404 and
+  are skipped.
+
+In both cases the transform's dep view globs `bundesbank-<flow>-*` and unions
+every batch, so the published table is identical in shape to every other
+dataflow's.
+
+Async preparation: the Bundesbank API assembles large datasets server-side. A
+request for a dataset still being prepared returns HTTP 413 with a
+"being prepared, please retry later" body (not a hard size cap); the same request
+returns 200 once preparation completes, and the result is cached server-side. So
+413 is a retry-until-ready signal. The whole-flow request for an oversized flow
+estimates a prohibitively long prep (e.g. BBBK7 ~140 min), so on a whole-flow 413
+we do NOT wait — we fall back to per-frequency slicing, whose smaller slices
+prepare in minutes; a 413 on a slice IS retried until the slice is ready.
 """
 import csv
 import xml.etree.ElementTree as ET
 
+import httpx
 import pyarrow as pa
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    wait_exponential,
+)
 
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
     get_client,
+    is_transient,
     raw_parquet_writer,
     transient_retry,
 )
@@ -80,6 +105,11 @@ _KEEP = {
 
 BATCH_ROWS = 250_000
 
+# Frequency codes of CL_BBK_STD_FREQ — the first dimension of every standard
+# dataflow. Used to slice a flow the server won't prepare whole; absent
+# frequencies simply 404 and are skipped.
+FREQ_CODES = ("A", "D", "H", "M", "Q", "W")
+
 # BBKRT (real-time/vintage DB) is fetched one release year at a time. Its DSD has
 # 11 dimensions with the release year at position 9 (1-based); a key that pins
 # only that dimension is 8 empty fields, the year, then 2 empty fields.
@@ -87,6 +117,27 @@ _BBKRT = "BBKRT"
 _BBKRT_NDIMS = 11
 _BBKRT_YEAR_POS = 9  # 1-based dimension position of BBK_RTD_REL_YEAR
 _BBKRT_YEAR_CODELIST = "CL_BBK_RTD_REL_YEAR"
+
+
+def _status(exc: BaseException) -> int | None:
+    return exc.response.status_code if isinstance(exc, httpx.HTTPStatusError) else None
+
+
+def _preparing_or_transient(exc: BaseException) -> bool:
+    """Retry on the standard transient set PLUS HTTP 413, which on this API means
+    'dataset still being prepared server-side, retry later' — not a hard size cap.
+    The identical request returns 200 once prep completes."""
+    return is_transient(exc) or _status(exc) == 413
+
+
+# Longer budget than the default transient policy: a slice can be 'preparing' for
+# a few minutes before it flips to 200.
+_prep_retry = retry(
+    retry=retry_if_exception(_preparing_or_transient),
+    stop=stop_after_attempt(12),
+    wait=wait_exponential(min=8, max=120),
+    reraise=True,
+)
 
 
 def _to_float(raw):
@@ -117,19 +168,21 @@ def _batch(rows):
     )
 
 
-def _stream_csv_into(url: str, writer) -> int:
-    """Stream one long-SDMX-CSV request and write it to `writer` in row-group
-    batches. Returns the number of observation rows written.
+def _stream_to_parquet(url: str, asset: str) -> int:
+    """GET one long-SDMX-CSV request and stream it into `<asset>.parquet` in
+    row-group batches. Returns the number of observation rows written.
 
-    Caller owns retry/atomicity: this helper assumes a fresh (truncated) target,
-    so the retried unit that calls it must reopen the writer on retry.
+    The parquet writer is opened only AFTER the response is confirmed 200, so a
+    failed request (an async-prep 413, a 404 for an absent slice, any 4xx/5xx)
+    raises before any file is created — it never leaves an empty asset behind.
+    A transient mid-stream failure is retried by the caller, which re-opens (and
+    truncates) the asset and re-streams, so no partial/duplicate rows survive.
     """
     client = get_client()
-    written = 0
     # (connect, read) — read timeout is per-chunk, generous for big dataflows.
     with client.stream("GET", url, headers={"Accept": SDMX_CSV},
                        timeout=(15.0, 300.0)) as resp:
-        resp.raise_for_status()
+        resp.raise_for_status()  # 4xx/5xx (incl. prep-413, absent-slice-404) raise here
         reader = csv.reader(resp.iter_lines(), delimiter=";")
         try:
             header = next(reader)
@@ -139,43 +192,69 @@ def _stream_csv_into(url: str, writer) -> int:
             header[0] = header[0].lstrip("﻿")
         keep_idx = {src: i for i, src in enumerate(header) if src in _KEEP}
 
-        rows = []
-        for fields in reader:
-            if not fields:
-                continue
-            rows.append({src: (fields[i] if i < len(fields) else None)
-                         for src, i in keep_idx.items()})
-            if len(rows) >= BATCH_ROWS:
+        written = 0
+        with raw_parquet_writer(asset, SCHEMA) as writer:
+            rows = []
+            for fields in reader:
+                if not fields:
+                    continue
+                rows.append({src: (fields[i] if i < len(fields) else None)
+                             for src, i in keep_idx.items()})
+                if len(rows) >= BATCH_ROWS:
+                    rb = _batch(rows)
+                    writer.write_batch(rb)
+                    written += rb.num_rows
+                    rows = []
+            if rows:
                 rb = _batch(rows)
                 writer.write_batch(rb)
                 written += rb.num_rows
-                rows = []
-        if rows:
-            rb = _batch(rows)
-            writer.write_batch(rb)
-            written += rb.num_rows
     return written
 
 
 @transient_retry()
 def _fetch_dataflow(asset: str, flow: str) -> int:
-    """Fetch a whole dataflow into a single parquet asset. The writer is opened
-    inside the retried body, so a transient mid-stream failure reopens (and
-    truncates) the asset and re-streams — no partial/duplicate rows survive."""
-    with raw_parquet_writer(asset, SCHEMA) as writer:
-        return _stream_csv_into(f"{API}/{flow}", writer)
+    """Fetch a whole dataflow into a single parquet asset. Retries transient
+    network/5xx/429 failures but NOT 413: a whole-flow 413 means the server's
+    full-flow preparation is prohibitively long, so the caller falls back to
+    per-frequency slicing instead of waiting it out."""
+    return _stream_to_parquet(f"{API}/{flow}", asset)
 
 
-@transient_retry()
+@_prep_retry
+def _fetch_freq(asset_freq: str, flow: str, freq: str) -> int:
+    """Fetch one frequency slice of a flow into its own batch asset. Retries the
+    async-prep 413 until the slice is ready. A 404 (no series at this frequency)
+    is not retried — it propagates so the caller can skip the frequency."""
+    return _stream_to_parquet(f"{API}/{flow}/{freq}.", asset_freq)
+
+
+def _fetch_by_frequency(asset: str, flow: str) -> None:
+    """Fallback for a flow the server won't prepare whole: pull it one frequency
+    at a time. Each populated frequency lands in `<asset>-<freq>.parquet`; the
+    transform globs `<asset>-*` and unions them. Absent frequencies 404 and are
+    skipped."""
+    wrote = 0
+    for freq in FREQ_CODES:
+        try:
+            wrote += _fetch_freq(f"{asset}-{freq}", flow, freq)
+        except httpx.HTTPStatusError as exc:
+            if _status(exc) == 404:
+                continue  # this frequency carries no series
+            raise
+    if wrote == 0:
+        raise AssertionError(f"{flow}: per-frequency fetch produced no rows")
+
+
+@_prep_retry
 def _fetch_bbkrt_year(asset_year: str, flow: str, year: str) -> int:
     """Fetch one BBKRT release year into its own batch asset. Same reopen-on-retry
     atomicity as a whole dataflow, scoped to the year so a blip re-pulls only that
-    year. The transform globs all year files back together."""
+    year. Retries the async-prep 413 too. The transform globs all year files."""
     parts = [""] * _BBKRT_NDIMS
     parts[_BBKRT_YEAR_POS - 1] = year
     key = ".".join(parts)
-    with raw_parquet_writer(asset_year, SCHEMA) as writer:
-        return _stream_csv_into(f"{API}/{flow}/{key}", writer)
+    return _stream_to_parquet(f"{API}/{flow}/{key}", asset_year)
 
 
 @transient_retry()
@@ -196,8 +275,15 @@ def fetch_one(node_id: str) -> None:
     if flow == _BBKRT:
         for year in _discover_years(_BBKRT_YEAR_CODELIST):
             _fetch_bbkrt_year(f"{asset}-{year}", flow, year)  # one batch per year
-    else:
+        return
+    try:
         _fetch_dataflow(asset, flow)
+    except httpx.HTTPStatusError as exc:
+        if _status(exc) != 413:
+            raise
+        # The server won't prepare this flow whole (prep too long) — slice it by
+        # frequency, whose smaller slices prepare in minutes.
+        _fetch_by_frequency(asset, flow)
 
 
 DOWNLOAD_SPECS = [
