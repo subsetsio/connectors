@@ -545,7 +545,7 @@ def _member_series(local_id: str, node_path: str) -> list:
     return [n for n in nodes if n.get("nodeType") == "CUBE"]
 
 
-def _try_chunk(chunk: list) -> list:
+def _try_chunk(chunk: list, allow_stripped: bool = False) -> list:
     """One PROSPETTODATI request for a group of member series -> its observations.
 
     PROSPETTODATI only returns flat GRAPHDATA.observations while the selection
@@ -574,6 +574,20 @@ def _try_chunk(chunk: list) -> list:
         "VALORE" in (v := (o.get("values") or {})) and "CUBEID" not in v
         for o in obs
     ):
+        # A lone cube that *persistently* serves the stripped shape can still be
+        # recovered: with exactly one series requested, every observation belongs
+        # to it, and a healthy pivot stamps each row's CUBEID with exactly that
+        # cube's localId (verified: the observed CUBEID set equals the requested
+        # localId set). So stamp the key in rather than dropping the whole table.
+        # For multi-series chunks the series key is genuinely ambiguous, so keep
+        # raising — the caller splits/retries to coax full graph mode back.
+        if allow_stripped and len(chunk) == 1:
+            key = chunk[0]["localId"]
+            for o in obs:
+                v = o.get("values")
+                if v is not None and "CUBEID" not in v:
+                    v["CUBEID"] = key
+            return obs
         raise _DegradedResponse(
             "stripped observations (missing CUBEID) for "
             + str(len(chunk)) + " series"
@@ -610,8 +624,10 @@ def _fetch_group(nodes: list) -> list:
         # Degraded (stripped) pivot. A smaller selection drops back under the
         # graph-mode cap and returns full columns, so split when we can; a lone
         # series can't be split, so retry it a few times (the degradation is
-        # transient under load). If it stays stripped, let it propagate — the
-        # asset fails loudly rather than publishing keyless, dimensionless rows.
+        # often transient under load). If it STILL strips after retries, the
+        # server just won't serve this lone cube in full graph mode — recover the
+        # series key from its localId (see _try_chunk allow_stripped) rather than
+        # failing the whole table over one stubborn series.
         if len(nodes) > 1:
             mid = len(nodes) // 2
             return _fetch_group(nodes[:mid]) + _fetch_group(nodes[mid:])
@@ -621,7 +637,7 @@ def _fetch_group(nodes: list) -> list:
                 return _try_chunk(nodes)
             except (_DegradedResponse, *_SPLIT_EXC):
                 continue
-        raise
+        return _try_chunk(nodes, allow_stripped=True)
     if obs:
         return obs
     if len(nodes) <= 1:
