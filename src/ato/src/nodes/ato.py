@@ -49,6 +49,11 @@ def fetch_one(node_id: str) -> None:
             for k in row:
                 raw_keys.setdefault(k, None)
 
+    if not rows:
+        # an accepted entity must have a flat CSV edition with data; an empty
+        # pull means the resource vanished or changed format upstream.
+        raise RuntimeError(f"{node_id}: no CSV rows fetched for {entity_id!r}")
+
     # Editions of the same table drift their column sets year to year; build one
     # union schema (missing -> null) with Delta-safe names, all stored as text
     # (the raw CSV is untyped). An explicit pyarrow schema keeps even very wide

@@ -2,6 +2,6 @@ spec_id: ato-taxation-statistics--financialratios5allentities1b-csv
 status: active
 tests:
   - row_count: {min: 1}
-    reason: every accepted entity has at least one flat CSV edition that returned thousands of rows during probing; an empty pull means the resource download URL changed or the CSV was truncated.
+    reason: every accepted entity has at least one flat CSV edition that returned rows during probing; an empty pull means the resource download URL changed or the CSV was truncated.
     certainty: 90
     severity: block
