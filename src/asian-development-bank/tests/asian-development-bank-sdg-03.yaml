@@ -1,0 +1,26 @@
+spec_id: asian-development-bank-sdg-03
+status: active
+tests:
+  - not_null: INDICATOR
+    reason: every observation belongs to an indicator (SDMX dimension)
+    certainty: 95
+  - not_null: ECONOMY_CODE
+    reason: every observation is tagged to an economy (SDMX dimension)
+    certainty: 95
+  - not_null: TIME_PERIOD
+    reason: every observation has a time period (SDMX dimension)
+    certainty: 95
+  - matches: {col: TIME_PERIOD, pattern: "^[0-9]{4}$"}
+    reason: KIDB TIME_PERIOD is a 4-digit calendar year
+    certainty: 88
+  - enum: {col: FREQ, values: ["A"]}
+    reason: KIDB is an annual publication; we fetch the annual (A) slice only
+    certainty: 85
+    severity: warn
+  - row_count: {min: 1}
+    reason: a rank-active dataflow has at least some observations
+    certainty: 95
+  - distinct_count: {col: ECONOMY_CODE, min: 3}
+    reason: ADB Key Indicators cover many Asia-Pacific economies, not a single one
+    certainty: 75
+    severity: warn

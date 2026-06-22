@@ -21,7 +21,7 @@ possible here; the SQL publishes the unioned rows as-is (light reshape only).
 from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
 
 from constants import ENTITY_IDS
-from utils import build_groups, datastore_rows
+from utils import build_groups, csv_rows
 
 
 def fetch_one(node_id: str) -> None:
@@ -35,13 +35,23 @@ def fetch_one(node_id: str) -> None:
         # grouping drifted from collect — a bug, not a transient condition.
         raise RuntimeError(f"{node_id}: entity {entity_id!r} not found in live catalog")
 
-    def _rows():
-        for res in resources:
-            if not res["datastore_active"]:
-                continue  # only datastore-backed editions are flat-readable
-            yield from datastore_rows(res["resource_id"], res["income_year"])
+    rows = []
+    keys: dict[str, None] = {}  # ordered set: first-seen column order
+    for res in resources:
+        if res["format"] != "CSV" or not res.get("url"):
+            continue  # build only from the clean flat CSV editions
+        for row in csv_rows(res["url"], res["income_year"]):
+            rows.append(row)
+            for k in row:
+                keys.setdefault(k, None)
 
-    save_raw_ndjson(_rows(), asset)
+    # Editions of the same table drift their datastore field lists year to year.
+    # Give every row the same key set (missing -> null) so the runtime's
+    # read_json_auto infers one stable schema instead of tripping on a column
+    # that only appears in later rows.
+    cols = list(keys)
+    normalized = ({k: row.get(k) for k in cols} for row in rows)
+    save_raw_ndjson(normalized, asset)
 
 
 DOWNLOAD_SPECS = [

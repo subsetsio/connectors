@@ -13,6 +13,8 @@ The normalisation here MUST stay byte-for-byte identical to the collect stage's
 harness validates download-spec coverage against them.
 """
 
+import csv
+import io
 import re
 
 from subsets_utils import get, transient_retry
@@ -100,58 +102,30 @@ def build_groups() -> dict:
             groups.setdefault(eid, []).append({
                 "income_year": year,
                 "resource_id": res["id"],
-                "format": fmt,
+                "format": (fmt or "").upper(),
+                "url": res.get("url"),
                 "datastore_active": bool(res.get("datastore_active")),
             })
     return groups
 
 
 @transient_retry()
-def _datastore_page(resource_id: str, limit: int, offset: int) -> dict:
-    r = get(f"{BASE}/api/3/action/datastore_search",
-            params={"resource_id": resource_id, "limit": limit, "offset": offset},
-            timeout=(10.0, 120.0))
+def _download(url: str) -> bytes:
+    r = get(url, timeout=(10.0, 180.0))
     r.raise_for_status()
-    body = r.json()
-    if not body.get("success"):
-        raise RuntimeError(f"datastore_search success=false for {resource_id}: {body!r}")
-    return body["result"]
+    return r.content
 
 
-# datastore-internal columns we never want in the published table.
-_DROP_COLS = {"_id", "_full_text", "rank"}
-
-# absolute safety ceiling: trips on unexpected source growth instead of looping
-# forever. ATO datastore tables are tens of thousands of rows at most.
-_MAX_PAGES = 2000
-_PAGE = 10000
-
-
-def datastore_rows(resource_id: str, income_year):
-    """Yield every row of a datastore resource as a dict, tagged with income_year.
-
-    datastore stores all values as strings; we keep them as-is (the transform
-    does light typing). Paginates by offset until `total` is reached.
+def csv_rows(url: str, income_year):
+    """Download a CSV resource and yield each data row as a dict tagged with
+    income_year. ATO publishes the flat, header-first CSV editions of its
+    statistical tables here (datastore-derived XLSX tables are banner-polluted,
+    so we deliberately read the CSV file, not the datastore).
     """
-    offset = 0
-    total = None
-    pages = 0
-    while True:
-        result = _datastore_page(resource_id, _PAGE, offset)
-        if total is None:
-            total = result.get("total", 0)
-        records = result.get("records", [])
-        if not records:
-            break
-        for rec in records:
-            row = {k: v for k, v in rec.items() if k not in _DROP_COLS}
-            row["income_year"] = income_year
-            yield row
-        offset += len(records)
-        pages += 1
-        if offset >= total:
-            break
-        if pages >= _MAX_PAGES:
-            raise RuntimeError(
-                f"datastore resource {resource_id} exceeded {_MAX_PAGES} pages "
-                f"(offset={offset}, total={total}) — unexpected source growth")
+    text = _download(url).decode("utf-8-sig", errors="replace")
+    reader = csv.DictReader(io.StringIO(text))
+    for rec in reader:
+        # csv.DictReader keys ragged trailing fields under None; drop them.
+        row = {k: v for k, v in rec.items() if k is not None}
+        row["income_year"] = income_year
+        yield row
