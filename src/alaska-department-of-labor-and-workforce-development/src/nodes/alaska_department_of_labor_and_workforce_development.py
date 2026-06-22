@@ -83,7 +83,7 @@ def load_wb(content: bytes):
     """Load an xlsx, stripping broken drawing refs that crash openpyxl on a
     few of the population workbooks."""
     try:
-        return openpyxl.load_workbook(io.BytesIO(content), data_only=True, read_only=True)
+        return openpyxl.load_workbook(io.BytesIO(content), data_only=True)
     except Exception:
         zin = zipfile.ZipFile(io.BytesIO(content))
         out = io.BytesIO()
@@ -98,7 +98,7 @@ def load_wb(content: bytes):
             zout.writestr(n, data)
         zout.close()
         out.seek(0)
-        return openpyxl.load_workbook(out, data_only=True, read_only=True)
+        return openpyxl.load_workbook(out, data_only=True)
 
 
 def _sheet_rows(wb, sheet) -> list:
@@ -437,7 +437,7 @@ def _parse_agesex(rows, geo):
         elif "Name" in s:
             area_col = c
         elif "FIPS" in s:
-            if "lace" in s:
+            if "lace" in s.lower():
                 place_fips = c
             else:
                 bca_fips = c
@@ -596,6 +596,9 @@ def _parse_asrh_sheet(rows, geo, basis, year):
                     s = v.strip()
                     if s and s not in ("Total", "Male", "Female"):
                         parts.append(s)
+        # dedupe duplicates (merged group cells repeat across the span) while
+        # preserving order: "White White White" -> "White"
+        parts = list(dict.fromkeys(parts))
         return " ".join(parts).strip() or "Total"
 
     out, last_area = [], None
@@ -659,6 +662,21 @@ def _discover_xlsx(article_path):
     return [l if l.startswith("http") else BASE + l for l in links]
 
 
+_AGE_BAND = re.compile(r"^\d{1,3}(-\d{1,3}|\+)?$")
+
+
+def _is_age_band(age):
+    """True for 5-year band / open-ended age labels (0-4, 85+, Total), False for
+    period rows (2023-24) or stray numeric values bleeding in from the wide
+    sheet's components-of-change block."""
+    if age.strip().lower() == "total":
+        return True
+    if not _AGE_BAND.match(age.strip()):
+        return False
+    first = int(re.match(r"\d{1,3}", age.strip()).group(0))
+    return first <= 120
+
+
 def _parse_proj_sheet(rows, geo, scenario):
     hdr = None
     for i in range(1, len(rows) + 1):
@@ -678,7 +696,7 @@ def _parse_proj_sheet(rows, geo, scenario):
         projected = bool(label and "proj" in label.lower())
         for r in range(hdr + 1, len(rows) + 1):
             age = _txt(_C(rows, r, ac))
-            if not age or _is_footnote(age):
+            if not age or _is_footnote(age) or not _is_age_band(age):
                 continue
             for sex, off in (("Total", 1), ("Male", 2), ("Female", 3)):
                 v = _num(_C(rows, r, ac + off))
