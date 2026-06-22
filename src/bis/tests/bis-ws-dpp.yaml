@@ -1,0 +1,34 @@
+spec_id: bis-ws-dpp
+status: active
+tests:
+  - not_null: dataflow
+    certainty: 99
+    reason: every row is stamped with the topic's dataflow id at fetch time
+  - enum: {col: dataflow, values: ["WS_DPP"]}
+    certainty: 99
+    reason: this node fetches exactly the WS_DPP bulk file, so dataflow is constant
+  - distinct_count: {col: dataflow, min: 1, max: 1}
+    certainty: 99
+    reason: a single-topic snapshot carries exactly one dataflow id
+  - not_null: series_key
+    certainty: 90
+    reason: series_key is folded from the SDMX dimension columns and is present on every observation
+  - not_null: time_period
+    certainty: 95
+    reason: the SDMX flat CSV carries TIME_PERIOD on every observation row
+  - column_type: {col: time_period, type: string}
+    certainty: 95
+    reason: time_period is kept as the canonical SDMX period string (mixed D/M/Q/A granularity)
+  - column_type: {col: obs_value, type: float}
+    certainty: 95
+    reason: OBS_VALUE is parsed to float64 at fetch; non-numeric cells become null
+  - row_count: {min: 1}
+    certainty: 95
+    reason: the WS_DPP bulk file (detailed residential property prices) is a populated BIS topic
+  - unique: [series_key, time_period]
+    certainty: 80
+    reason: one observation per series per period in a full snapshot; duplicates mean the bulk file was double-counted on our side
+  - enum: {col: freq, values: ["A", "S", "Q", "M", "W", "B", "D", "H"]}
+    certainty: 75
+    severity: warn
+    reason: SDMX CL_FREQ codes; an unexpected value means a new frequency we should map
