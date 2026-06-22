@@ -1,0 +1,42 @@
+# NIBRS National Estimates: Victimization Rates (uy37-xgmh)
+# NIBRS National Estimates share one 34-field aggregate-estimate schema. The
+# SODA API returns every value as a JSON string, so raw NDJSON columns read back
+# as VARCHAR; the transform TRY_CASTs the numeric ones. Expectations below are
+# authored from the BJS NIBRS National Estimates docs + a one-row probe.
+spec_id: bjs-uy37-xgmh
+status: active
+tests:
+  - not_null: time_series_start_year
+    reason: the data year anchors every estimate row; a null means a dropped/garbled record
+    certainty: 95
+  - not_null: indicator_name
+    reason: every aggregate row names the indicator it estimates
+    certainty: 90
+  - not_null: full_table
+    reason: each row cites its source NIBRS table; structurally always populated
+    certainty: 88
+  - not_null: estimate_type
+    reason: count/percent/rate label present on every estimate
+    certainty: 88
+  - column_type: {col: estimate, type: string}
+    reason: Socrata serializes all values as JSON strings; transform re-types with TRY_CAST(... AS DOUBLE)
+    certainty: 90
+  - matches: {col: time_series_start_year, pattern: '\d{4}'}
+    reason: a four-digit calendar year
+    certainty: 92
+  - between: {col: time_series_start_year, lo: 2010, hi: current_year()}
+    reason: NIBRS National Estimates begin with 2016; 2010 floor leaves headroom for revisions
+    certainty: 85
+  - at_most: {col: time_series_start_year, expr: current_year()}
+    reason: a published data year cannot exceed the current calendar year
+    certainty: 95
+    points_outward: true
+    severity: warn
+  - row_count: {min: 400000}
+    reason: guards the Socrata 1000-row default-page truncation (the fetch must set $limit); full table is far larger
+    certainty: 85
+  - enum: {col: estimate_geographic_location, values: [National]}
+    reason: National Estimates are national-scope; a subnational value would mean the corpus changed
+    certainty: 60
+    points_outward: true
+    severity: warn

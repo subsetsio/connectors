@@ -1,0 +1,20 @@
+spec_id: bruegel-european-natural-gas-imports
+# Raw is the melted daily_data CSV: (date, source, flow_gwh_d).
+tests:
+  - not_null: date
+    reason: every daily flow is stamped with a date
+    certainty: 95
+  - not_null: source
+    reason: flows are melted by import source/route
+    certainty: 90
+  - not_null: flow_gwh_d
+    reason: the parser drops NaN flow values
+    certainty: 95
+  - column_type: {col: flow_gwh_d, type: float}
+    reason: daily flow in GWh/day is a float
+    certainty: 85
+  - freshness: {col: date, reaches: today - 90d}
+    reason: daily import flows are refreshed weekly; a stale max blames the source
+    certainty: 60
+    points_outward: true
+    severity: warn

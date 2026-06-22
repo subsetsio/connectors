@@ -1,0 +1,24 @@
+spec_id: bruegel-global-trade-tracker
+# Raw is the flattened multi-sheet workbook: (date, commodity, unit, seasonal_adj, flow, partner, value).
+tests:
+  - not_null: date
+    reason: every observation is stamped with a date
+    certainty: 90
+  - not_null: commodity
+    reason: each sheet maps to a commodity used as the row's commodity label
+    certainty: 90
+  - not_null: value
+    reason: the parser skips NaN cells
+    certainty: 95
+  - not_null: partner
+    reason: each observation column is a trade partner
+    certainty: 75
+    severity: warn
+  - column_type: {col: value, type: float}
+    reason: trade values are numeric
+    certainty: 80
+  - freshness: {col: date, reaches: today - 250d}
+    reason: the global trade tracker updates with a reporting lag; a stale max blames the source
+    certainty: 55
+    points_outward: true
+    severity: warn

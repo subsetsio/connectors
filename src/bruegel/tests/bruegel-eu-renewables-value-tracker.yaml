@@ -1,0 +1,16 @@
+spec_id: bruegel-eu-renewables-value-tracker
+# Raw is the "Data" sheet preserving original headers: zone, year, tech, CF, MV, CV, composition.
+tests:
+  - not_null: zone
+    reason: every observation belongs to a bidding zone
+    certainty: 85
+  - not_null: year
+    reason: each row is stamped with a year
+    certainty: 85
+  - not_null: tech
+    reason: capacity factor / value metrics are reported per technology
+    certainty: 80
+  - between: {col: year, lo: 2010, hi: 2035}
+    reason: the tracker spans recent history and near-term outlook years
+    certainty: 60
+    severity: warn

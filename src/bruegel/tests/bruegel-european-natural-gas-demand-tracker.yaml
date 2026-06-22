@@ -1,0 +1,20 @@
+spec_id: bruegel-european-natural-gas-demand-tracker
+# Raw is long monthly demand: (date, country, sector, value) where value is TWh deviation vs baseline.
+tests:
+  - not_null: date
+    reason: each observation is a month-start date parsed from MM/YYYY
+    certainty: 95
+  - not_null: country
+    reason: demand is reported per country
+    certainty: 85
+  - not_null: value
+    reason: the parser skips None y-values
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: demand deviation is a TWh float
+    certainty: 80
+  - freshness: {col: date, reaches: today - 150d}
+    reason: the demand tracker updates roughly monthly; a stale max points at the source, not our code
+    certainty: 60
+    points_outward: true
+    severity: warn

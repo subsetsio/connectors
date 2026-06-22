@@ -1,0 +1,20 @@
+spec_id: bruegel-russian-foreign-trade-tracker
+# Raw is long across figure sheets: (figure, date, direction_of_trade, country, unit, sitc_code, sitc_category, value).
+tests:
+  - not_null: figure
+    reason: each row records which figure sheet it came from
+    certainty: 90
+  - not_null: date
+    reason: observations are date-stamped from the header date columns
+    certainty: 90
+  - not_null: value
+    reason: only numeric, non-NaN cells are emitted
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: trade values are cast to float in the parser
+    certainty: 85
+  - freshness: {col: date, reaches: today - 250d}
+    reason: the Russian trade tracker updates with a reporting lag; a stale max blames the source
+    certainty: 55
+    points_outward: true
+    severity: warn

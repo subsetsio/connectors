@@ -1,0 +1,15 @@
+spec_id: bruegel-european-clean-tech-tracker
+# Raw is the flattened Highcharts overview: (category, series, value).
+tests:
+  - not_null: category
+    reason: every point is keyed by a Highcharts category (destination country)
+    certainty: 85
+  - not_null: series
+    reason: each point belongs to a named series (project status)
+    certainty: 80
+  - not_null: value
+    reason: the parser skips None data points
+    certainty: 95
+  - row_count: {min: 5}
+    reason: the overview chart spans multiple countries across a few project-status series
+    certainty: 60

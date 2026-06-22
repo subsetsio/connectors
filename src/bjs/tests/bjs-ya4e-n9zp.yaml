@@ -1,0 +1,41 @@
+# NCVS Select Household Population (ya4e-n9zp)
+# NCVS Select is one-row-per-respondent microdata concatenated 1993-present.
+# The SODA API returns every value as a JSON string (raw NDJSON columns read
+# back as VARCHAR); the transform TRY_CASTs year/quarter/weights. Categorical
+# codes use sentinels (-1/-2) and stay VARCHAR. Authored from BJS NCVS Select
+# docs + a one-row probe.
+spec_id: bjs-ya4e-n9zp
+status: active
+tests:
+  - not_null: idhh
+    reason: the respondent/household identifier is present on every microdata row
+    certainty: 92
+  - not_null: year
+    reason: each record is stamped with its survey year
+    certainty: 95
+  - not_null: yearq
+    reason: year-quarter is the within-year time key; populated on every row
+    certainty: 90
+  - not_null: wgthhcy
+    reason: the survey weight needed to produce population estimates is always present
+    certainty: 88
+  - column_type: {col: year, type: string}
+    reason: Socrata serializes all values as JSON strings; transform re-types with TRY_CAST(year AS INTEGER)
+    certainty: 90
+  - matches: {col: year, pattern: '\d{4}'}
+    reason: a four-digit calendar year
+    certainty: 92
+  - matches: {col: yearq, pattern: '\d{4}\.\d'}
+    reason: survey year plus a 1-4 quarter, e.g. 1993.1
+    certainty: 85
+  - between: {col: year, lo: 1993, hi: current_year()}
+    reason: NCVS Select concatenates surveys from 1993 to the present
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: a survey year cannot exceed the current calendar year
+    certainty: 95
+    points_outward: true
+    severity: warn
+  - row_count: {min: 4000000}
+    reason: guards the Socrata 1000-row default-page truncation (the fetch must set $limit); microdata is far larger
+    certainty: 85
