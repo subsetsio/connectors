@@ -10,24 +10,30 @@ tests:
   - not_null: date
     reason: every value cell maps to a parsed header date
     certainty: 99
-  - not_null: market_share_percent
+  - not_null: metric
+    reason: every row is tagged with the trend view it came from
+    certainty: 99
+  - not_null: percent
     reason: rows with empty/unparseable cells are dropped at parse time
     certainty: 95
   - column_type: {col: date, type: date}
     certainty: 95
-  - column_type: {col: market_share_percent, type: float}
+  - column_type: {col: percent, type: float}
     certainty: 95
-  - unique: [category, technology, date]
-    reason: one market-share value per (category, technology, date); dupes mean the table picker matched two grids or alignment slipped
+  - enum: {col: metric, values: [market_share, usage]}
+    reason: the only two W3Techs trend views are market share (/ms/y) and usage (/all/y)
+    certainty: 98
+  - unique: [category, technology, date, metric]
+    reason: one percentage per (category, technology, date, metric); dupes mean the table picker matched two grids or alignment slipped
     certainty: 90
-  - between: {col: market_share_percent, lo: 0, hi: 100}
-    reason: market share is a percentage; <0.1% is recorded as its 0.1 upper bound
+  - between: {col: percent, lo: 0, hi: 100}
+    reason: market-share / usage are percentages; <0.1% is recorded as its 0.1 upper bound
     certainty: 97
   - distinct_count: {col: category, min: 27, max: 27}
     reason: exactly the 27 W3Techs survey categories are scraped
     certainty: 90
   - between: {col: date, lo: "2010-01-01", hi: today}
-    reason: yearly trend history starts ~2015 (earlier for some categories) and ends at the current snapshot; never in the future
+    reason: yearly trend history starts ~2015 (later for newer categories) and ends at the current snapshot; never in the future
     certainty: 90
     points_outward: true
   - freshness: {col: date, reaches: today - 60d}

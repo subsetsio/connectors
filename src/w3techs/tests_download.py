@@ -14,8 +14,8 @@ def test_raw_nonempty(spec_ids):
 
 
 def test_all_categories_present(spec_ids):
-    """The long-format table must cover all 27 survey categories; fewer means a
-    category page 404'd or the table picker missed it for some slug."""
+    """Every one of the 27 survey categories must contribute rows; fewer means a
+    category's trend pages both 404'd or the table picker missed them."""
     table = load_raw_parquet("w3techs-values")
     cats = set(table.column("category").to_pylist())
     assert len(cats) == EXPECTED_CATEGORIES, (
@@ -23,10 +23,19 @@ def test_all_categories_present(spec_ids):
     )
 
 
-def test_percent_in_range(spec_ids):
-    """Market share is a percentage in (0, 100]; values outside mean a parse
-    bug (e.g. failing to strip '%' or mis-aligning columns)."""
+def test_metric_values(spec_ids):
+    """Metric is the discriminator between the two trend views; an unexpected
+    value means a parsing/labelling bug."""
     table = load_raw_parquet("w3techs-values")
-    vals = table.column("market_share_percent").to_pylist()
+    metrics = set(table.column("metric").to_pylist())
+    assert metrics <= {"market_share", "usage"}, f"unexpected metric values: {metrics}"
+    assert metrics, "no metric values present"
+
+
+def test_percent_in_range(spec_ids):
+    """Percentages are in (0, 100]; values outside mean a parse bug (e.g. failing
+    to strip '%' or mis-aligning columns)."""
+    table = load_raw_parquet("w3techs-values")
+    vals = table.column("percent").to_pylist()
     bad = [v for v in vals if v is None or v < 0 or v > 100]
-    assert not bad, f"{len(bad)} market-share values out of [0,100] range; sample {bad[:5]}"
+    assert not bad, f"{len(bad)} percent values out of [0,100] range; sample {bad[:5]}"
