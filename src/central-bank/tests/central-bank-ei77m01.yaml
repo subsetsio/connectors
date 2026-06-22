@@ -1,0 +1,19 @@
+spec_id: central-bank-ei77m01
+status: active
+tests:
+  - not_null: period
+    reason: every flattened row carries its source period code (dataSets row[0]); a null means the flatten dropped the period column
+    certainty: 95
+  - not_null: series
+    reason: series is the cross-product label of the px cube's column dimensions; never empty for a real column
+    certainty: 90
+  - column_type: {col: series_index, type: integer}
+    reason: series_index is the 0-based column position within the cube row
+    certainty: 95
+  - row_count: {min: 1}
+    reason: every published CBC statistical table has at least one period x series observation
+    certainty: 95
+  - nullable: {col: value, max_null_frac: 0.95}
+    reason: raw value is the verbatim cell text incl. missing markers ('-'); a table that is >95% empty means the fetch or flatten broke, not just sparse data
+    certainty: 70
+    severity: warn
