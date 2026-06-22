@@ -27,9 +27,11 @@ gates whether a given file is refetched.
 import io
 import math
 import re
+import time
 
-import httpx
 import pyarrow as pa
+from curl_cffi import requests as cffi
+from curl_cffi.requests.exceptions import RequestException
 from tenacity import (
     retry,
     retry_if_exception,
@@ -37,7 +39,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet
+from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet, tracking
 
 SLUG = "central-bank-of-malta"
 BASE = "https://www.centralbankmalta.org"
@@ -328,36 +330,36 @@ def parse_workbook(content, ext):
 # Fetch
 # ----------------------------------------------------------------------------
 
-_TRANSIENT_EXC = (
-    httpx.ConnectError, httpx.ConnectTimeout, httpx.ReadTimeout,
-    httpx.WriteTimeout, httpx.PoolTimeout, httpx.RemoteProtocolError, httpx.ProxyError,
-)
+# The CBM site sits behind Cloudflare, which 403s requests whose TLS/JA3
+# fingerprint looks non-browser — which is exactly what a plain httpx/requests
+# client presents from a datacenter (cloud) IP, even with browser-like headers.
+# `subsets_utils.get` (httpx) therefore cannot fetch these files from the CI
+# runner; only a client that impersonates a real browser's TLS + HTTP/2
+# fingerprint passes. `curl_cffi` (impersonate="chrome") is that client. This is
+# the one justified deviation from routing HTTP through subsets_utils — we still
+# record every request into the run's HTTP diagnostics via tracking.record_http.
+_IMPERSONATE = "chrome"
+_BROWSER_HEADERS = {
+    "Referer": "https://www.centralbankmalta.org/e-and-s-statistics",
+}
+
+
+class _HttpStatusError(Exception):
+    """A >=400 response — carries the status code for retry/404 classification."""
+
+    def __init__(self, status_code, url):
+        self.status_code = status_code
+        self.url = url
+        super().__init__(f"HTTP {status_code} for {url}")
 
 
 def _is_transient(exc):
-    if isinstance(exc, _TRANSIENT_EXC):
+    # curl_cffi raises RequestException for connect/read/timeout/proxy errors.
+    if isinstance(exc, RequestException):
         return True
-    if isinstance(exc, httpx.HTTPStatusError):
-        code = exc.response.status_code
-        return code == 429 or 500 <= code < 600
+    if isinstance(exc, _HttpStatusError):
+        return exc.status_code == 429 or 500 <= exc.status_code < 600
     return False
-
-
-# The CBM web server (behind a WAF) rejects the default client User-Agent from
-# datacenter IPs with 403. A full browser-like header set passes the soft block.
-_BROWSER_HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-    ),
-    "Accept": (
-        "text/html,application/xhtml+xml,application/xml;q=0.9,"
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,"
-        "application/vnd.ms-excel,*/*;q=0.8"
-    ),
-    "Accept-Language": "en-US,en;q=0.9",
-    "Referer": "https://www.centralbankmalta.org/e-and-s-statistics",
-}
 
 
 def _quote_path(path):
@@ -372,9 +374,22 @@ def _quote_path(path):
     reraise=True,
 )
 def _download(url):
-    resp = get(url, headers=_BROWSER_HEADERS, timeout=(10.0, 120.0))
-    resp.raise_for_status()
-    return resp.content
+    t0 = time.time()
+    status = None
+    try:
+        resp = cffi.get(
+            url,
+            impersonate=_IMPERSONATE,
+            headers=_BROWSER_HEADERS,
+            timeout=120,
+        )
+        status = resp.status_code
+        if status >= 400:
+            raise _HttpStatusError(status, url)
+        return resp.content
+    finally:
+        tracking.record_http("GET", url, status,
+                             duration_ms=int((time.time() - t0) * 1000))
 
 
 def fetch_one(node_id):
@@ -385,8 +400,8 @@ def fetch_one(node_id):
 
     try:
         content = _download(_quote_path(path))
-    except httpx.HTTPStatusError as e:
-        if e.response.status_code != 404:
+    except _HttpStatusError as e:
+        if e.status_code != 404:
             raise
         # Both path patterns serve the same store; fall back to the flat form.
         filename = path.rsplit("/", 1)[-1]

@@ -1,0 +1,26 @@
+spec_id: caic-avalanche-accidents-colorado-accident-detail
+status: active
+tests:
+  - not_null: acc_date
+    reason: every Accident Explorer record carries an accident date; undated rows are dropped at fetch time
+    certainty: 95
+  - column_type: {col: acc_date, type: date}
+    certainty: 95
+  - row_count: {min: 20}
+    reason: the feed exposes a rolling ~5-year window of Colorado accidents (~88 observed); a near-empty body means the Apps-Script deployment id changed or the app errored
+    certainty: 80
+    points_outward: true
+  - between: {col: acc_no_killed, lo: 0, hi: 50}
+    reason: the explorer includes non-fatal accidents (killed may be 0); a per-event toll above ~50 is implausible
+    certainty: 85
+  - at_least: {col: acc_no_caught, expr: 0}
+    reason: number caught is a non-negative count
+    certainty: 90
+  - between: {col: elevation, lo: 0, hi: 15000}
+    reason: Colorado avalanche terrain tops out near 14,400 ft; values outside this are unit errors or bad data
+    certainty: 70
+    severity: warn
+  - between: {col: slope, lo: 0, hi: 90}
+    reason: slope angle in degrees
+    certainty: 75
+    severity: warn

@@ -1,0 +1,29 @@
+spec_id: caic-avalanche-accidents-us-avalanche-fatalities
+status: active
+tests:
+  - not_null: date
+    reason: every fatal-accident record is dated; rows without a date are skipped at fetch time
+    certainty: 95
+  - column_type: {col: date, type: date}
+    certainty: 95
+  - not_null: state
+    reason: the source records a state for every US accident
+    certainty: 90
+  - row_count: {min: 900}
+    reason: the Data sheet held ~1016 rows at build time and only grows; far fewer means the xlsx export broke or the wrong sheet was parsed
+    certainty: 90
+  - between: {col: avy_year, lo: 1950, hi: current_year()}
+    reason: avalanche years span 1951 to the current season
+    certainty: 90
+  - at_most: {col: avy_year, expr: current_year()}
+    reason: no future avalanche years
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - between: {col: killed, lo: 1, hi: 100}
+    reason: this is the FATALITY table — every row killed >=1; a per-event toll above ~100 would be unprecedented
+    certainty: 85
+  - distinct_count: {col: state, min: 5}
+    reason: accidents span many US states (17 observed); a collapse to 1-2 signals a filtered/broken pull
+    certainty: 80
+    severity: warn
