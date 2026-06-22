@@ -7,10 +7,15 @@ a truncated crawl, or the endpoint quietly changing its envelope shape.
 from subsets_utils import load_raw_ndjson
 
 
+def _download_ids(spec_ids):
+    # spec_ids may include transform node ids; only download nodes write raw ndjson.
+    return [s for s in spec_ids if not s.endswith("-transform")]
+
+
 def test_web_observations_nonempty(spec_ids):
     """The web-obs corpus is ~41k reports; a tiny or empty asset means the
     feed switched format or pagination stopped after page 1."""
-    for sid in spec_ids:
+    for sid in _download_ids(spec_ids):
         rows = load_raw_ndjson(sid)
         assert len(rows) >= 20000, f"{sid}: only {len(rows)} raw rows (expected >=20000)"
 
@@ -18,7 +23,7 @@ def test_web_observations_nonempty(spec_ids):
 def test_web_observations_shape(spec_ids):
     """Core fields must be present on the first record — guards against the
     endpoint returning a different object (e.g. an error envelope)."""
-    for sid in spec_ids:
+    for sid in _download_ids(spec_ids):
         rows = load_raw_ndjson(sid)
         sample = rows[0]
         for key in ("id", "timestamp", "see_aurora", "location"):
