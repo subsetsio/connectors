@@ -1,0 +1,279 @@
+"""Shared helpers for the Census of India connector.
+
+Two jobs:
+
+1. TLS: censusindia.gov.in serves only its leaf certificate and omits the
+   emSign intermediate, so the default certifi chain can't be built. We supply
+   the missing intermediate (issued by the emSign root that IS in certifi) and
+   install an httpx client that trusts the completed chain. This is NOT
+   `verify=False` — verification is fully enforced, we just hand it the cert the
+   server should have sent.
+
+2. Parsing: ORGI publishes each census table as an Excel workbook (xlsx for the
+   1991/2011 series, legacy .xls for 2001) with a multi-row, often merged header
+   followed by a row of column numbers ("1","2","3",...) that marks where the
+   data begins. `parse_census_excel` keys off that marker row, reconstructs
+   column names from the header block, forward-fills the merged left-hand
+   identifier columns, and infers per-column numeric vs text type.
+"""
+
+import io
+import re
+import ssl
+
+import certifi
+import httpx
+
+import subsets_utils.http_client as _hc
+
+# emSign SSL CA - G1 (subject), issued by emSign Root CA - G1 (in certifi).
+# Fetched from the leaf's AIA: http://repository.emsign.com/certs/emSignSSLCAG1.crt
+_EMSIGN_INTERMEDIATE_PEM = """-----BEGIN CERTIFICATE-----
+MIIEgjCCA2qgAwIBAgIKIXrVixxxPAAgkTANBgkqhkiG9w0BAQsFADBnMQswCQYD
+VQQGEwJJTjETMBEGA1UECxMKZW1TaWduIFBLSTElMCMGA1UEChMcZU11ZGhyYSBU
+ZWNobm9sb2dpZXMgTGltaXRlZDEcMBoGA1UEAxMTZW1TaWduIFJvb3QgQ0EgLSBH
+MTAeFw0xODAyMTgxODMwMDBaFw0zMzAyMTgxODMwMDBaMGYxCzAJBgNVBAYTAklO
+MRMwEQYDVQQLEwplbVNpZ24gUEtJMSUwIwYDVQQKExxlTXVkaHJhIFRlY2hub2xv
+Z2llcyBMaW1pdGVkMRswGQYDVQQDExJlbVNpZ24gU1NMIENBIC0gRzEwggEiMA0G
+CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCU1fhvfUV6OJOhMHAzBZDvxxpa5bvT
+S1x6S4rVQmP/+125Wj2gpxvtII2RyqXQFlZd3qAKMLgqgHGzeJcyjw6CXbzJHmri
+liVGWmuLn/NUKjKJgP9zd6eGOHe6mT1WjB9ZZEFLsDYoXBthTwcHdLWK2quJrHgS
+3hZiJnpkX+hmaY7DX89oUMI1uvCQaPljgTvtiR9vtmeg/GgyePX8K5EUMozX8ElR
+DMWkzdFUYv0DVcSQcbN1R/IDhWW1vPHzU8kexAMO4B/E5sj6FGrAeMM36/uZ3AmF
+4mt/0Ia2BKPsW/K2T3hkaNSTr2BKlUm6bRccONcNAyzyN258xcUcX+RJAgMBAAGj
+ggEvMIIBKzAfBgNVHSMEGDAWgBT77w2GnrDj3am58SEXfz788HcrGjAdBgNVHQ4E
+FgQUNNH3OTJFQEqZK32JaldprZWv4zcwDgYDVR0PAQH/BAQDAgEGMB0GA1UdJQQW
+MBQGCCsGAQUFBwMBBggrBgEFBQcDAjA9BgNVHSAENjA0MDIGBFUdIAAwKjAoBggr
+BgEFBQcCARYcaHR0cDovL3JlcG9zaXRvcnkuZW1zaWduLmNvbTASBgNVHRMBAf8E
+CDAGAQH/AgEAMDIGCCsGAQUFBwEBBCYwJDAiBggrBgEFBQcwAYYWaHR0cDovL29j
+c3AuZW1zaWduLmNvbTAzBgNVHR8ELDAqMCigJqAkhiJodHRwOi8vY3JsLmVtc2ln
+bi5jb20/Um9vdENBRzEuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAaBDZfBK+cP9Zk
+lI7QN3mkpgD+mYfp/03P51cUNlfAFoYd1G/4lU468rg7JLTwqFXcDzcmrWt8lmdi
+AMflxwLGeNObNS9RkpdiMDCdRItCHq00IMbbzj5rz+HSzAn6WsbLn9efn9WhO1MO
+72d1SsEbVOTw/Z3sfPpWS8DSp91TRZuRKReVmD967QnsQGYNKUG6esTV73dOigHC
+ndwglIXCUkaxTroFn7wT6Sqt9pklaqxBkEx/yzp0HxpZtC8uK6aOFx624S9yF8nk
+6U7rbscn4kJYOF+0U9JshFkQ4+cx5kKd3cGNtmaTzemoZSGn+Aty6H6/oDPteLpE
+cUPckzSa
+-----END CERTIFICATE-----
+"""
+
+_CA_INSTALLED = False
+
+
+def install_ca() -> None:
+    """Install an httpx client into subsets_utils that trusts the completed
+    emSign chain. Idempotent; call once at the top of each fetch fn (each spec
+    runs in its own subprocess, so the module-level client starts fresh)."""
+    global _CA_INSTALLED
+    if _CA_INSTALLED and _hc._client is not None:
+        return
+    ctx = ssl.create_default_context(cafile=certifi.where())
+    ctx.load_verify_locations(cadata=_EMSIGN_INTERMEDIATE_PEM)
+    if _hc._client is not None:
+        _hc._client.close()
+    _hc._client = httpx.Client(
+        timeout=_hc._client_config.get("timeout", 60),
+        headers=_hc._client_config.get("headers", {"User-Agent": "DataIntegrations/1.0"}),
+        follow_redirects=True,
+        verify=ctx,
+    )
+    _CA_INSTALLED = True
+
+
+# ----------------------------------------------------------------------------
+# Excel parsing
+# ----------------------------------------------------------------------------
+
+_NIL_TOKENS = {"", "-", "--", "---", "----", "n", "na", "n.a.", "n.a", "nil",
+               "neg", "@", "$", "&", "*", "..", "...", "x"}
+
+
+def _clean_text(v):
+    if v is None:
+        return ""
+    return re.sub(r"\s+", " ", str(v)).strip()
+
+
+def _to_number(v):
+    """Coerce a census cell to a number, or None for nil/footnote-only cells."""
+    s = _clean_text(v)
+    if s == "" or s.lower() in _NIL_TOKENS:
+        return None
+    # strip footnote markers and thousands separators, keep digits/sign/decimal
+    s2 = re.sub(r"[,\s]", "", s)
+    s2 = re.sub(r"[*@$&#%]+", "", s2)
+    s2 = s2.replace("--", "")
+    m = re.fullmatch(r"[-+]?\d*\.?\d+", s2)
+    if not m:
+        return None
+    f = float(s2)
+    return int(f) if f.is_integer() else f
+
+
+def _snake(name, used):
+    s = _clean_text(name).lower()
+    s = re.sub(r"[^a-z0-9]+", "_", s).strip("_")
+    if not s:
+        s = "col"
+    base = s[:60]
+    out = base
+    i = 2
+    while out in used:
+        out = f"{base}_{i}"
+        i += 1
+    used.add(out)
+    return out
+
+
+def _read_matrix(blob: bytes, filename: str):
+    """Return a dense list-of-lists of cell values with merged regions filled."""
+    ext = filename.lower().split("?")[0].rsplit(".", 1)[-1]
+    if ext == "xls":
+        return _read_xls(blob)
+    return _read_xlsx(blob)
+
+
+def _read_xlsx(blob: bytes):
+    import openpyxl
+    wb = openpyxl.load_workbook(io.BytesIO(blob), data_only=True)
+    try:
+        ws = wb[wb.sheetnames[0]]
+        nrows, ncols = ws.max_row or 0, ws.max_column or 0
+        grid = [[None] * ncols for _ in range(nrows)]
+        for row in ws.iter_rows():
+            for cell in row:
+                if cell.value is not None:
+                    grid[cell.row - 1][cell.column - 1] = cell.value
+        # fill merged regions (top-left value spreads to the whole range)
+        for rng in list(ws.merged_cells.ranges):
+            val = grid[rng.min_row - 1][rng.min_col - 1]
+            if val is None:
+                continue
+            for r in range(rng.min_row - 1, rng.max_row):
+                for c in range(rng.min_col - 1, rng.max_col):
+                    grid[r][c] = val
+        return grid
+    finally:
+        wb.close()
+
+
+def _read_xls(blob: bytes):
+    import xlrd
+    try:
+        wb = xlrd.open_workbook(file_contents=blob, formatting_info=True)
+        have_merge = True
+    except Exception:
+        wb = xlrd.open_workbook(file_contents=blob)
+        have_merge = False
+    sh = wb.sheet_by_index(0)
+    grid = [[sh.cell_value(r, c) for c in range(sh.ncols)] for r in range(sh.nrows)]
+    if have_merge:
+        for rlo, rhi, clo, chi in sh.merged_cells:
+            val = grid[rlo][clo]
+            for r in range(rlo, rhi):
+                for c in range(clo, chi):
+                    grid[r][c] = val
+    return grid
+
+
+def _find_marker(grid):
+    """Locate the row whose non-blank cells form a contiguous 1,2,3,... run.
+    Returns (row_index, [real column indices]) or (None, None)."""
+    for i, row in enumerate(grid[:40]):
+        seq = []  # (col, int_value)
+        ok = True
+        for c, v in enumerate(row):
+            s = _clean_text(v)
+            if s == "":
+                continue
+            m = re.fullmatch(r"(\d+)(?:\.0+)?", s)
+            if not m:
+                ok = False
+                break
+            seq.append((c, int(m.group(1))))
+        if ok and len(seq) >= 4 and [n for _, n in seq] == list(range(1, len(seq) + 1)):
+            return i, [c for c, _ in seq]
+    return None, None
+
+
+def parse_census_excel(blob: bytes, filename: str):
+    """Parse one ORGI census workbook into a list of row dicts.
+
+    Returns [] if no marker row is found (caller treats that as a parse miss).
+    """
+    grid = _read_matrix(blob, filename)
+    if not grid:
+        return []
+    marker_idx, cols = _find_marker(grid)
+    if marker_idx is None:
+        return []
+
+    header_rows = grid[:marker_idx]
+    data_rows = grid[marker_idx + 1:]
+
+    # Build a name per real column from the header block, skipping caption/title
+    # rows (a single filled cell, or one value spanning every column).
+    parts = {c: [] for c in cols}
+    for hrow in header_rows:
+        filled = [(c, _clean_text(hrow[c])) for c in cols
+                  if c < len(hrow) and _clean_text(hrow[c]) != ""]
+        if len(filled) <= 1:
+            continue
+        if len(set(v for _, v in filled)) == 1:  # one value merged across all
+            continue
+        for c, v in filled:
+            if not parts[c] or parts[c][-1] != v:
+                parts[c].append(v)
+    used = set()
+    names = {c: _snake(" ".join(parts[c]) if parts[c] else f"col{idx + 1}", used)
+             for idx, c in enumerate(cols)}
+
+    # Drop fully-blank data rows.
+    def blank(row):
+        return all(c >= len(row) or _clean_text(row[c]) == "" for c in cols)
+
+    data_rows = [r for r in data_rows if not blank(r)]
+    if not data_rows:
+        return []
+
+    # Classify each real column: value (dense + mostly numeric) vs identifier.
+    is_value = {}
+    n = len(data_rows)
+    for c in cols:
+        vals = [r[c] if c < len(r) else None for r in data_rows]
+        nonblank = [v for v in vals if _clean_text(v) != ""]
+        if not nonblank:
+            is_value[c] = False
+            continue
+        dense = len(nonblank) >= 0.7 * n
+        numeric = sum(1 for v in nonblank if _to_number(v) is not None)
+        is_value[c] = dense and numeric >= 0.7 * len(nonblank)
+
+    # Identifier block = leading real columns up to the first value column.
+    id_block = []
+    for c in cols:
+        if is_value[c]:
+            break
+        id_block.append(c)
+
+    # Forward-fill the identifier block (merged left-hand cells repeat downward).
+    last = {c: None for c in id_block}
+    out = []
+    for r in data_rows:
+        rec = {}
+        for c in cols:
+            cell = r[c] if c < len(r) else None
+            if c in id_block:
+                txt = _clean_text(cell)
+                if txt == "":
+                    txt = last[c]
+                else:
+                    last[c] = txt
+                rec[names[c]] = txt if txt not in (None, "") else None
+            elif is_value[c]:
+                rec[names[c]] = _to_number(cell)
+            else:
+                txt = _clean_text(cell)
+                rec[names[c]] = txt if txt != "" else None
+        out.append(rec)
+    return out
