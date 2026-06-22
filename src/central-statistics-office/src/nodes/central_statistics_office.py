@@ -23,6 +23,7 @@ from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
+    raw_asset_exists,
     save_raw_ndjson,
     transient_retry,
 )
@@ -51,6 +52,13 @@ def _fetch_csv(matrix: str) -> str:
 
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
+    # Idempotent within a run scope: this connector spans 6,341 tables and a
+    # single GitHub job (6h cap) cannot fetch them all, so a run finishes across
+    # several self-retriggered continuation jobs that share one run_id (and one
+    # raw scope). Skipping tables already pulled in this run lets each
+    # continuation make fresh progress instead of re-fetching from the top.
+    if raw_asset_exists(asset, ext="ndjson.zst"):
+        return
     matrix = ID_TO_MATRIX[node_id]
     text = _fetch_csv(matrix)
     # PxStat CSV is UTF-8 with a BOM; strip it so the first header isn't mangled.
