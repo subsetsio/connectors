@@ -18,7 +18,7 @@ for stem in ["GDPperCapita", "ArmedConflicts(International)", "GoldStandard", "P
     print("===", stem, r.status_code, r.headers.get("content-type"), len(r.content))
     if r.status_code != 200:
         continue
-    wb = openpyxl.load_workbook(io.BytesIO(r.content), read_only=True, data_only=True)
+    wb = openpyxl.load_workbook(io.BytesIO(r.content), data_only=True)
     print("  sheets:", wb.sheetnames)
     ws = None
     for name in wb.sheetnames:

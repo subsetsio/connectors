@@ -20,7 +20,10 @@ tests:
   - row_count: {min: 900000, max: 1000000}
     reason: Cisco publishes the top 1,000,000 domains; verified exactly 1,000,000 rows while probing
     certainty: 90
-  - matches: {col: domain, pattern: "^[A-Za-z0-9.-]+$"}
-    reason: domains are bare hostnames (labels, dots, hyphens) with no scheme or path
+  - matches: {col: domain, pattern: "^[A-Za-z0-9.,-]+$"}
+    reason: >-
+      domains are bare hostnames (labels, dots, hyphens); a handful of source
+      rows bundle several comma-separated hostnames into one quoted field, so a
+      comma is allowed too. No scheme/path/whitespace expected.
     certainty: 80
     severity: warn

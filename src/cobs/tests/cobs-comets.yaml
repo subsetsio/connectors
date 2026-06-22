@@ -1,0 +1,19 @@
+spec_id: cobs-comets
+status: active
+tests:
+  - not_null: id
+    reason: every comet catalog record carries a numeric object id; nulls mean the enumeration broke
+    certainty: 95
+  - unique: id
+    reason: comet_list.api returns one record per comet object
+    certainty: 95
+  - not_null: name
+    reason: every comet has a designation
+    certainty: 90
+  - row_count: {min: 1500}
+    reason: comet_list.api reported ~2446 comets (Sept 2025 docs cite 1640+ observed, total grows); a tiny count means truncation
+    certainty: 85
+  - enum: {col: is_observed, values: [true, false]}
+    reason: is_observed is a boolean flag in the catalog JSON
+    certainty: 80
+    severity: warn

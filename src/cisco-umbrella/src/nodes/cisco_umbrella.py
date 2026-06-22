@@ -12,6 +12,7 @@ short columns), so the shape is a stateless full re-pull: download, unzip, parse
 overwrite. Freshness gating is the maintain step's job, not ours.
 """
 
+import csv
 import io
 import zipfile
 
@@ -39,18 +40,25 @@ def _download_zip(url: str) -> bytes:
 
 
 def _parse_csv_zip(content: bytes) -> list[tuple[int, str]]:
-    """Each ZIP holds exactly one headerless CSV: `rank,name` per line."""
+    """Each ZIP holds exactly one headerless CSV: `rank,name` per line.
+
+    A handful of rows quote the name field because it bundles several
+    comma-separated hostnames (e.g. `564086,"ssl-images-amazon.com,m.media-..."`),
+    so parse with the csv module to honour the quoting and strip the surrounding
+    quote characters rather than splitting on the raw first comma.
+    """
     with zipfile.ZipFile(io.BytesIO(content)) as zf:
         names = zf.namelist()
         if len(names) != 1:
             raise AssertionError(f"expected one CSV in zip, got {names}")
-        raw = zf.read(names[0]).decode("utf-8")
+        text = zf.read(names[0]).decode("utf-8")
     rows: list[tuple[int, str]] = []
-    for line in raw.splitlines():
-        if not line:
+    for fields in csv.reader(io.StringIO(text)):
+        if not fields:
             continue
-        rank_str, _, name = line.partition(",")
-        rows.append((int(rank_str), name))
+        if len(fields) < 2:
+            raise AssertionError(f"malformed CSV row (expected rank,name): {fields!r}")
+        rows.append((int(fields[0]), fields[1]))
     return rows
 
 

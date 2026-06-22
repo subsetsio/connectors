@@ -1,0 +1,23 @@
+spec_id: cobs-observations
+status: active
+tests:
+  - not_null: obs_date
+    reason: every observation is timestamped
+    certainty: 90
+  - not_null: comet_id
+    reason: comet_id is injected from the queried comet; it must always be set
+    certainty: 95
+  - row_count: {min: 100000}
+    reason: source cites ~288,700 observations (Sept 2025); far fewer means the per-comet sweep stopped early
+    certainty: 80
+  - distinct_count: {col: comet_id, min: 500}
+    reason: ~1640 comets have been observed; observations should span many hundreds of distinct comets
+    certainty: 75
+  - enum: {col: obs_type, values: ["C", "V"]}
+    reason: COBS observation type is visual (V) or CCD/CMOS (C)
+    certainty: 70
+    severity: warn
+  - matches: {col: obs_date, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}"}
+    reason: obs_date is stored raw as 'YYYY-MM-DD HH:MM:SS' before the transform casts it
+    certainty: 80
+    severity: warn
