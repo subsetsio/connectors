@@ -32,16 +32,23 @@ def probe_xlsx(url, sheet_rows=10):
     print(f"  status={r.status_code} ctype={r.headers.get('content-type')} len={len(r.content)}")
     if r.status_code != 200:
         return
+    ro = False
     try:
         wb = openpyxl.load_workbook(io.BytesIO(r.content), data_only=True)
     except Exception as e:
-        print(f"  NOT a valid xlsx: {e}")
-        # show first bytes
-        print("  first bytes:", r.content[:120])
-        return
-    print(f"  sheets: {wb.sheetnames}")
+        try:
+            wb = openpyxl.load_workbook(io.BytesIO(r.content), data_only=True, read_only=True)
+            ro = True
+        except Exception as e2:
+            print(f"  NOT a valid xlsx: {e} / {e2}")
+            print("  first bytes:", r.content[:120])
+            return
+    print(f"  sheets: {wb.sheetnames}  (read_only={ro})")
     ws = wb[wb.sheetnames[0]]
-    print(f"  primary sheet '{ws.title}' max_row={ws.max_row} max_col={ws.max_column}")
+    if not ro:
+        print(f"  primary sheet '{ws.title}' max_row={ws.max_row} max_col={ws.max_column}")
+    else:
+        print(f"  primary sheet '{ws.title}'")
     for i, row in enumerate(ws.iter_rows(values_only=True)):
         if i >= sheet_rows: break
         cells = [("" if c is None else str(c))[:22] for c in row]
