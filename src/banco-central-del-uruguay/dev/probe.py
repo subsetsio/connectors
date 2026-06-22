@@ -51,3 +51,8 @@ print("  distinct ISO:",len(isos),isos)
 print("  sample:",rows[0] if rows else None)
 print("  uniq Forma:",sorted({r.get("FormaArbitrar") for r in rows}))
 print("  emisor sample:",sorted({r.get("Emisor") for r in rows})[:10])
+
+print("=== history depth probe (group 1, all codes) ===")
+for yr in ["1990","1995","2000","2003","2005","2010"]:
+    s,m,rows=cot(codes,f"{yr}-01-04",f"{yr}-01-31",1)
+    print(yr,"-> status",s,"msg",repr(m),"rows",len(rows), "firstFecha", rows[0]['Fecha'] if rows else None)
