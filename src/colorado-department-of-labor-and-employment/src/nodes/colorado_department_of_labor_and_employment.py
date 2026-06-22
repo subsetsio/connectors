@@ -75,8 +75,30 @@ def fetch_one(node_id: str) -> None:
             f"source grew unexpectedly or pagination is looping"
         )
 
-    # All values are JSON strings; columns differ per dataset → NDJSON.
-    save_raw_ndjson(rows, asset)
+    # SODA omits null fields per row, so the key set drifts across rows. Build a
+    # stable union of keys (first-seen order) and materialize every column as a
+    # string — the columns are all strings upstream and this keeps the parquet
+    # schema a fixed contract regardless of which rows carried which fields.
+    keys = []
+    seen = set()
+    for r in rows:
+        for k in r:
+            if k not in seen:
+                seen.add(k)
+                keys.append(k)
+
+    table = pa.table(
+        {k: pa.array([_as_str(r.get(k)) for r in rows], type=pa.string()) for k in keys}
+    )
+    save_raw_parquet(table, asset)
+
+
+def _as_str(v):
+    if v is None or isinstance(v, str):
+        return v
+    if isinstance(v, (dict, list)):
+        return json.dumps(v, separators=(",", ":"))
+    return str(v)
 
 
 DOWNLOAD_SPECS = [
