@@ -206,6 +206,14 @@ _TRANSIENT_EXC = (
 def _is_transient(exc: BaseException) -> bool:
     if isinstance(exc, _TRANSIENT_EXC):
         return True
+    # A 2xx with an empty / truncated body decodes to a JSONDecodeError. This is
+    # NOT a parsing bug on our side: under concurrent load the BPstat server
+    # intermittently returns an empty 200 body for a page it would otherwise
+    # serve fine (confirmed by re-fetching the same page successfully out of
+    # band). Treat it as transient so the backoff retries the same request — a
+    # genuinely malformed payload still gives up after the attempt budget.
+    if isinstance(exc, json.JSONDecodeError):
+        return True
     if isinstance(exc, httpx.HTTPStatusError):
         code = exc.response.status_code
         # Retry only genuinely transient HTTP conditions: rate-limiting (429)
