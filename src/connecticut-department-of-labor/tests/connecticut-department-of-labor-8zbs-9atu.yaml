@@ -1,0 +1,19 @@
+spec_id: connecticut-department-of-labor-8zbs-9atu
+status: active
+tests:
+  - not_null: year
+    reason: CES historical rows are keyed by year; a null year means a malformed row
+    certainty: 95
+  - not_null: area
+    certainty: 90
+  - not_null: industry_title
+    certainty: 90
+  - row_count: {min: 8000}
+    reason: CES NSA 1990-current is wide (one row per area/series/year); ~12.5k observed
+    certainty: 85
+  - matches: {col: year, pattern: '^[0-9]{4}$'}
+    reason: raw SODA values are strings; year is a 4-digit calendar year
+    certainty: 90
+  - distinct_count: {col: industry_title, min: 5}
+    reason: CES publishes multiple industry supersectors plus Total Nonfarm
+    certainty: 85

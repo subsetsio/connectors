@@ -1,0 +1,20 @@
+spec_id: connecticut-department-of-labor-h44w-mqs3
+status: active
+tests:
+  - not_null: area
+    certainty: 90
+  - not_null: publish_industry_title
+    certainty: 90
+  - row_count: {min: 100, max: 5000}
+    reason: a single-month snapshot across industries x areas (~325 observed)
+    certainty: 80
+  - matches: {col: year, pattern: '^[0-9]{4}$'}
+    reason: raw SODA values are strings; year is a 4-digit calendar year
+    certainty: 90
+  - enum:
+      col: month
+      values: [January, February, March, April, May, June, July, August, September, October, November, December]
+    reason: month is a full English month name; the snapshot rotates monthly
+    certainty: 85
+    points_outward: true
+    severity: warn
