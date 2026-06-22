@@ -48,9 +48,10 @@ def _read_table(html: str):
     """Return the first HTML table as a DataFrame, or None if the page has none
     (e.g. a year before that report type was tracked)."""
     try:
-        # Force the lxml parser (installed) — the default flavor can fall back
-        # to html5lib (not installed) on pages lxml-html doesn't fully like.
-        tables = pd.read_html(io.StringIO(html), flavor="lxml")
+        # Default flavor: pandas tries lxml first and falls back to
+        # bs4+html5lib on pages lxml-html chokes on (some weekend detail pages
+        # have malformed markup). All three parsers are pinned as deps.
+        tables = pd.read_html(io.StringIO(html))
     except ValueError:
         return None
     return tables[0] if tables else None
