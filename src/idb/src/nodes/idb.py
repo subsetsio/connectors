@@ -39,16 +39,16 @@ from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
-    get_client,
     transient_retry,
     raw_parquet_writer,
 )
 from constants import ENTITY_IDS
 
 BASE = "https://data.iadb.org/api/3/action"
-DUMP = "https://data.iadb.org/datastore/dump"
 TABULAR_FILE_FORMATS = {"CSV", "TSV", "TXT", "XLSX", "XLS", "XLSM"}
 BATCH_ROWS = 50_000
+SQL_PAGE = 30_000          # keyset page size for datastore_search_sql
+MAX_SQL_PAGES = 5_000      # safety ceiling (≈150M rows) — raises, never silent
 
 csv.field_size_limit(64 * 1024 * 1024)
 
@@ -164,20 +164,40 @@ def _probe_resource(rr: dict) -> dict | None:
     return None
 
 
-def _iter_dump_rows(rid: str, cols: tuple):
-    """Stream a datastore resource's full CSV dump, yielding dicts for `cols`."""
-    url = f"{DUMP}/{rid}"
-    client = get_client()
-    with client.stream("GET", url, timeout=httpx.Timeout(30.0, read=600.0)) as resp:
-        resp.raise_for_status()
-        reader = csv.reader(resp.iter_lines())
-        header = next(reader, None)
-        if not header:
-            return
-        pos = {c: i for i, c in enumerate(header)}
-        idx = [(c, pos[c]) for c in cols if c in pos]
-        for row in reader:
-            yield {c: (row[i] if i < len(row) else None) for c, i in idx}
+@transient_retry()
+def _sql_page(rid: str, last_id: int, limit: int) -> list[dict]:
+    """One keyset page of a datastore resource, ordered by the internal _id."""
+    sql = f'SELECT * FROM "{rid}" WHERE _id > {last_id} ORDER BY _id ASC LIMIT {limit}'
+    resp = get(f"{BASE}/datastore_search_sql", params={"sql": sql}, timeout=(10.0, 180.0))
+    resp.raise_for_status()
+    body = resp.json()
+    if not body.get("success"):
+        raise RuntimeError(f"datastore_search_sql failed for {rid}: {str(body.get('error'))[:200]}")
+    return body["result"]["records"]
+
+
+def _iter_datastore_rows(rid: str, cols: tuple, total):
+    """Stream every row of a datastore resource via keyset pagination on _id.
+
+    Each page is an independent, retryable request (vs the chunked /dump stream,
+    which silently truncated a 15M-row table when the connection closed early).
+    Termination is on an empty page — never on a short page — so a server-side
+    row cap below SQL_PAGE can't truncate us. Completeness is asserted against
+    the datastore's reported total."""
+    last_id, seen, pages = 0, 0, 0
+    while True:
+        recs = _sql_page(rid, last_id, SQL_PAGE)
+        if not recs:
+            break
+        pages += 1
+        if pages > MAX_SQL_PAGES:
+            raise RuntimeError(f"{rid}: exceeded {MAX_SQL_PAGES} pages — runaway pagination")
+        for rec in recs:
+            last_id = int(rec["_id"])
+            seen += 1
+            yield rec
+    if total and seen < int(total) * 0.99:
+        raise ValueError(f"{rid}: streamed {seen} rows but datastore reports {total} — truncated")
 
 
 def _to_str(v):
@@ -238,7 +258,11 @@ def fetch_one(node_id: str) -> None:
 
         for p in winner:
             rname = p["name"]
-            rows = _iter_dump_rows(p["rid"], winner_cols) if p["kind"] == "datastore" else iter(p["rows"])
+            rows = (
+                _iter_datastore_rows(p["rid"], winner_cols, p["weight"])
+                if p["kind"] == "datastore"
+                else iter(p["rows"])
+            )
             for row in rows:
                 buf.append([_to_str(row.get(c)) for c in winner_cols] + [rname])
                 if len(buf) >= BATCH_ROWS:
