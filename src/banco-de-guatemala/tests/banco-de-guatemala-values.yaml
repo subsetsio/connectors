@@ -1,0 +1,20 @@
+spec_id: banco-de-guatemala-values
+status: active
+tests:
+  - not_null: variable_id
+    reason: every observation carries the variable id it belongs to
+    certainty: 95
+  - enum: {col: frequency, values: [monthly, annual, daily, weekly]}
+    reason: each row is tagged with the BDEF frequency operation that produced it
+    certainty: 95
+  - column_type: {col: monto, type: float}
+    reason: BDEF Monto is an s:float in the WSDL
+    certainty: 90
+  - nullable: {col: monto, max_null_frac: 0.4}
+    reason: most observations have a value; a high null fraction means the wrong frequency op was kept
+    certainty: 70
+    severity: warn
+  - row_count: {min: 1000}
+    reason: a few hundred variables each with many monthly/daily/annual points -> thousands of rows
+    certainty: 70
+    severity: warn

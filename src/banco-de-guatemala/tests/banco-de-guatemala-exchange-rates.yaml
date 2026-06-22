@@ -1,0 +1,19 @@
+spec_id: banco-de-guatemala-exchange-rates
+status: active
+tests:
+  - not_null: fecha
+    reason: every TipoCambioRango Var carries the rate date
+    certainty: 95
+  - not_null: moneda
+    reason: each rate row carries a currency id
+    certainty: 85
+  - column_type: {col: venta, type: float}
+    reason: TipoCambio venta (sell) is an s:float in the WSDL
+    certainty: 90
+  - column_type: {col: compra, type: float}
+    reason: TipoCambio compra (buy) is an s:float in the WSDL
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: daily GTQ reference rates over decades -> well over a thousand rows
+    certainty: 75
+    severity: warn
