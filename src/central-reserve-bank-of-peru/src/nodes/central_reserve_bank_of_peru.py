@@ -191,26 +191,32 @@ def fetch_groups(node_id: str) -> None:
 # values — long-format observations (code-bucketed firehose)
 # ---------------------------------------------------------------------------
 
-def _two_digit_year(yy: int) -> int:
-    """Resolve a 2-digit year against a pivot at the current 2-digit year."""
-    pivot = datetime.now(tz=timezone.utc).year % 100
-    return 2000 + yy if yy <= pivot else 1900 + yy
+def _resolve_2dy(yy: int, base_year: int) -> int:
+    """Resolve a 2-digit year (daily/quarterly labels) using the series' known
+    4-digit start year — pick the century that puts the year within the series'
+    plausible span [base_year-1, now+2]. Daily/quarterly spans never cross 100
+    years, so this is unambiguous."""
+    now_year = datetime.now(tz=timezone.utc).year
+    for cand in (1900 + yy, 2000 + yy):
+        if base_year - 1 <= cand <= now_year + 2:
+            return cand
+    return 2000 + yy
 
 
-def _period_to_iso(label: str, freq: str) -> str | None:
+def _period_to_iso(label: str, freq: str, base_year: int) -> str | None:
     """Normalise a BCRP period label to an ISO date (period start). None if
     unparseable."""
     try:
         if freq == "Diaria":  # "10.Feb.26"
             d, mon, yy = label.split(".")
-            return f"{_two_digit_year(int(yy)):04d}-{_MONTHS[mon]:02d}-{int(d):02d}"
+            return f"{_resolve_2dy(int(yy), base_year):04d}-{_MONTHS[mon]:02d}-{int(d):02d}"
         if freq == "Mensual":  # "Ene.2024"
             mon, yyyy = label.split(".")
             return f"{int(yyyy):04d}-{_MONTHS[mon]:02d}-01"
         if freq == "Trimestral":  # "T1.00"
             q = int(label[1])
             yy = int(label.split(".")[1])
-            return f"{_two_digit_year(yy):04d}-{(q - 1) * 3 + 1:02d}-01"
+            return f"{_resolve_2dy(yy, base_year):04d}-{(q - 1) * 3 + 1:02d}-01"
         if freq == "Anual":  # "2024"
             return f"{int(label):04d}-01-01"
     except (ValueError, KeyError, IndexError):
@@ -230,14 +236,17 @@ def _parse_value(raw) -> float | None:
         return None
 
 
-def _series_window(freq: str, start_field: str) -> tuple[str, str]:
+def _start_year(start_field: str) -> int:
+    m = _YEAR_RE.search(start_field or "")
+    return int(m.group(1)) if m else 1900
+
+
+def _series_window(freq: str, start_year: int) -> tuple[str, str]:
     """Build (start, end) period params for the API from the series' own start
     year (keeps windows tight; an over-wide window is more likely to hit the
     flaky empty-page response)."""
     now_year = datetime.now(tz=timezone.utc).year
     end_year = now_year + 1
-    m = _YEAR_RE.search(start_field or "")
-    start_year = int(m.group(1)) if m else 1900
     if freq == "Diaria":
         return f"{start_year}-1-1", f"{end_year}-12-31"
     if freq == "Mensual":
@@ -249,7 +258,8 @@ def _series_window(freq: str, start_field: str) -> tuple[str, str]:
 
 
 def _fetch_series_observations(code: str, freq: str, start_field: str) -> list[dict]:
-    start, end = _series_window(freq, start_field)
+    base_year = _start_year(start_field)
+    start, end = _series_window(freq, base_year)
     # Spanish (default) period labels — "Ene.2024" / "10.Feb.26" / "T1.00" —
     # are what _period_to_iso parses; the English (ing) labels use "Jan"/"Q1".
     url = f"{API_BASE}/{code}/json/{start}/{end}"
@@ -263,7 +273,7 @@ def _fetch_series_observations(code: str, freq: str, start_field: str) -> list[d
         label = period.get("name", "")
         vals = period.get("values") or []
         value = _parse_value(vals[0]) if vals else None
-        iso = _period_to_iso(label, freq)
+        iso = _period_to_iso(label, freq, base_year)
         out.append({
             "series_code": code,
             "frequency": freq,

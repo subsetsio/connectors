@@ -7,7 +7,7 @@ tests:
     reason: observations with an unparseable period label are dropped in transform
     certainty: 95
   - not_null: value
-    reason: "n.d." / missing observations are dropped in transform
+    reason: missing observations (n.d.) are dropped in transform
     certainty: 95
   - column_type: {col: date, type: date}
     certainty: 95
