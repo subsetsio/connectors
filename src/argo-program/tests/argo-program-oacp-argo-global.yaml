@@ -1,0 +1,15 @@
+spec_id: argo-program-oacp-argo-global
+status: active
+tests:
+  - not_null: latitude
+    certainty: 98
+  - not_null: longitude
+    certainty: 98
+  - column_type: {col: latitude, type: float}
+  - column_type: {col: GLOBAL_PPD, type: float}
+    reason: permanent-pycnocline-depth grid variable, present in the OACP product
+    certainty: 85
+  - between: {col: latitude, lo: -90, hi: 90}
+    certainty: 98
+  - between: {col: longitude, lo: -180, hi: 180}
+    certainty: 90

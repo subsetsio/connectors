@@ -1,0 +1,26 @@
+spec_id: argo-program-argofloats
+status: active
+tests:
+  - not_null: platform_number
+    reason: every profile measurement belongs to an identified float (WMO id)
+    certainty: 95
+  - column_type: {col: latitude, type: float}
+  - column_type: {col: pres, type: float}
+  - between: {col: latitude, lo: -90, hi: 90}
+    reason: geographic latitude bounds
+    certainty: 98
+  - between: {col: longitude, lo: -180, hi: 180}
+    reason: ERDDAP serves longitude in -180..180
+    certainty: 95
+  - between: {col: pres, lo: -5, hi: 12000}
+    reason: pressure in decibar; Argo profiles the upper ~2000m, allow margin for deep floats
+    certainty: 85
+    severity: warn
+  - between: {col: temp, lo: -2.5, hi: 40}
+    reason: in-situ seawater temperature range; outliers usually bad-QC values
+    certainty: 75
+    severity: warn
+  - between: {col: psal, lo: 0, hi: 45}
+    reason: practical salinity (PSU); open-ocean ~33-38, allow estuarine/QC margin
+    certainty: 70
+    severity: warn

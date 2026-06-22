@@ -1,0 +1,20 @@
+spec_id: bangko-sentral-ng-pilipinas-bankstatistics-philbanksystem-lophc94-pbs
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every BSP PX-Web matrix exports at least one numeric observation cell; an empty raw asset means the Saveshow build returned nothing or the CSV parse broke.
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - not_null: value
+    reason: the normalizer only emits cells whose text parses to a number, so value is non-null by construction; nulls here mean the numeric-parse or typing regressed.
+    certainty: 90
+    severity: warn
+  - column_type: {col: value, type: float}
+    reason: observation values are coerced to double in the fetch function; a non-float type means the parquet schema contract broke.
+    certainty: 95
+    severity: warn
+  - column_type: {col: date, type: date}
+    reason: the period column is parsed to a date32; a different type means the date-parsing/typing path changed.
+    certainty: 85
+    severity: warn
