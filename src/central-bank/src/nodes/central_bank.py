@@ -24,6 +24,7 @@ and the API exposes no incremental filter, so each refresh re-fetches the whole
 table and overwrites. Freshness gating is the maintain step's job.
 """
 
+from datetime import date as _date
 from itertools import product
 
 import pyarrow as pa
@@ -65,6 +66,10 @@ def _parse_period(p: str):
         if len(p) == 4:                       # annual 'YYYY'
             return f"{p}-01-01"
         if len(p) == 8:                       # daily 'YYYYMMDD'
+            try:                              # guard codes like '20131000' (day 00 = month placeholder)
+                _date(int(p[0:4]), int(p[4:6]), int(p[6:8]))
+            except ValueError:
+                return None
             return f"{p[0:4]}-{p[4:6]}-{p[6:8]}"
         return None
     if "M" in p:                              # monthly 'YYYYMmm'
@@ -148,15 +153,18 @@ TRANSFORM_SPECS = [
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'''
-            SELECT
-                CAST(date AS DATE)                            AS date,
-                period,
-                series,
-                series_index,
-                TRY_CAST(replace(value, ',', '') AS DOUBLE)   AS value
-            FROM "{s.id}"
-            WHERE date IS NOT NULL
-              AND TRY_CAST(replace(value, ',', '') AS DOUBLE) IS NOT NULL
+            WITH src AS (
+                SELECT
+                    TRY_CAST(date AS DATE)                      AS d,
+                    period,
+                    series,
+                    series_index,
+                    TRY_CAST(replace(value, ',', '') AS DOUBLE) AS v
+                FROM "{s.id}"
+            )
+            SELECT d AS date, period, series, series_index, v AS value
+            FROM src
+            WHERE d IS NOT NULL AND v IS NOT NULL
         ''',
     )
     for s in DOWNLOAD_SPECS

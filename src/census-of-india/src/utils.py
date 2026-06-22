@@ -177,22 +177,26 @@ def _read_xls(blob: bytes):
 
 
 def _find_marker(grid):
-    """Locate the row whose non-blank cells form a contiguous 1,2,3,... run.
-    Returns (row_index, [real column indices]) or (None, None)."""
+    """Locate the column-number row that ORGI puts above the data: its non-blank
+    cells begin 1,2,3,... and increment by one. We walk that contiguous prefix
+    left-to-right and stop at the first break, so a stray integer elsewhere in
+    the row (footnote, page number) doesn't disqualify it. The prefix columns
+    are the real data columns. Returns (row_index, [cols]) or (None, None)."""
     for i, row in enumerate(grid[:40]):
-        seq = []  # (col, int_value)
-        ok = True
+        cols = []
+        expect = 1
         for c, v in enumerate(row):
             s = _clean_text(v)
             if s == "":
                 continue
             m = re.fullmatch(r"(\d+)(?:\.0+)?", s)
-            if not m:
-                ok = False
+            if m and int(m.group(1)) == expect:
+                cols.append(c)
+                expect += 1
+            else:
                 break
-            seq.append((c, int(m.group(1))))
-        if ok and len(seq) >= 4 and [n for _, n in seq] == list(range(1, len(seq) + 1)):
-            return i, [c for c, _ in seq]
+        if len(cols) >= 5:
+            return i, cols
     return None, None
 
 
@@ -236,18 +240,37 @@ def parse_census_excel(blob: bytes, filename: str):
     if not data_rows:
         return []
 
-    # Classify each real column: value (dense + mostly numeric) vs identifier.
+    # Classify each real column as value (numeric) vs identifier, using a clean
+    # HEAD sample of data rows — the contiguous block right under the marker is
+    # real data, while footnotes/notes collect at the bottom and would otherwise
+    # depress density. Nil tokens ("---", footnotes) count as numeric-compatible:
+    # they are nulls within a numeric column, not evidence the column is text.
+    sample = data_rows[:50]
+    ns = len(sample)
     is_value = {}
-    n = len(data_rows)
     for c in cols:
-        vals = [r[c] if c < len(r) else None for r in data_rows]
-        nonblank = [v for v in vals if _clean_text(v) != ""]
+        nonblank = [r[c] for r in sample if c < len(r) and _clean_text(r[c]) != ""]
         if not nonblank:
             is_value[c] = False
             continue
-        dense = len(nonblank) >= 0.7 * n
-        numeric = sum(1 for v in nonblank if _to_number(v) is not None)
-        is_value[c] = dense and numeric >= 0.7 * len(nonblank)
+        dense = len(nonblank) >= 0.5 * ns
+        numbers = sum(1 for v in nonblank if _to_number(v) is not None)
+        nilish = sum(1 for v in nonblank if _clean_text(v).lower() in _NIL_TOKENS)
+        numericish = numbers + nilish
+        is_value[c] = (dense
+                       and numericish >= 0.8 * len(nonblank)
+                       and numbers >= 0.3 * len(nonblank))
+
+    value_cols = [c for c in cols if is_value[c]]
+    if not value_cols:
+        return []
+
+    # Drop junk rows: a real data row populates at least one value column.
+    # Footnotes/notes (text only in the left margin) carry no value and go.
+    data_rows = [r for r in data_rows
+                 if any(c < len(r) and _clean_text(r[c]) != "" for c in value_cols)]
+    if not data_rows:
+        return []
 
     # Identifier block = leading real columns up to the first value column.
     id_block = []

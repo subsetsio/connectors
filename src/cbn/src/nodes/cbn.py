@@ -332,41 +332,55 @@ def _emit_daily_month(col_parts, body, ind_ids, ind_names, year, month, out):
             }
 
 
+def _fetch_month(table_id, ind_ids, year, month, far, attempts):
+    """Return (col_parts, body) for one month request, or (None, None) if the
+    month has no data / cannot be aligned."""
+    mj = _search(table_id, ind_ids, f"{year}-{month:02d}-01", far, attempts=attempts)
+    if _no_data(mj):
+        return None, None
+    cp, bd = _grid(mj.get("TableView") or "")
+    if not _check_alignment(bd, ind_ids):
+        # Partial render — one firmer retry before giving up on the month.
+        mj = _search(table_id, ind_ids, f"{year}-{month:02d}-01", far, attempts=3)
+        cp, bd = _grid(mj.get("TableView") or "")
+        if not _check_alignment(bd, ind_ids):
+            return None, None
+    return cp, bd
+
+
 def _fetch_daily(table_id, ind_ids, ind_names, end_year, out):
-    """Iterate month-by-month over years that have data. A year is probed once
-    (its January request); active years then get their remaining months."""
+    """Daily tables render only ~2 months from the start date (2nd month
+    mislabeled), so each month is requested separately. To avoid probing every
+    month of every empty year, first probe each year by its January request and
+    only walk the remaining months of active years. Returns True if any daily
+    data was found."""
+    far = f"{end_year + 1}-12-31"
+    found = False
     for year in range(DATE_FLOOR_YEAR, end_year + 1):
-        jan = _search(
-            table_id, ind_ids,
-            f"{year}-01-01", f"{end_year + 1}-12-31",
-            attempts=2,
-        )
-        if _no_data(jan):
+        cp, bd = _fetch_month(table_id, ind_ids, year, 1, far, attempts=1)
+        if cp is None and found:
+            # Once inside the active span, a sudden empty January is suspicious
+            # (could be a flake or the true end) — confirm with a retry.
+            cp, bd = _fetch_month(table_id, ind_ids, year, 1, far, attempts=2)
+        if cp is None:
             continue
-        col_parts, body = _grid(jan.get("TableView") or "")
-        if not _check_alignment(body, ind_ids):
-            jan = _search(table_id, ind_ids, f"{year}-01-01",
-                          f"{end_year + 1}-12-31", attempts=4)
-            col_parts, body = _grid(jan.get("TableView") or "")
-            if not _check_alignment(body, ind_ids):
+        if not found:
+            # Safety: confirm we really are on a daily table before applying
+            # positional day-of-month mapping. (Only daily tables reach this
+            # branch, but guard a non-daily table whose wide request flukily
+            # failed.)
+            if not _looks_daily(cp):
                 raise RuntimeError(
-                    f"daily t{table_id} {year}-01: body rows {len(body)} != "
-                    f"indicators {len(ind_ids)}"
+                    f"daily branch reached for non-daily table {table_id}"
                 )
-        _emit_daily_month(col_parts, body, ind_ids, ind_names, year, 1, out)
-        last_month = 12 if year < end_year else 12
-        for month in range(2, last_month + 1):
-            mj = _search(
-                table_id, ind_ids,
-                f"{year}-{month:02d}-01", f"{end_year + 1}-12-31",
-                attempts=2,
-            )
-            if _no_data(mj):
-                continue
-            cp, bd = _grid(mj.get("TableView") or "")
-            if not _check_alignment(bd, ind_ids):
+            found = True
+        _emit_daily_month(cp, bd, ind_ids, ind_names, year, 1, out)
+        for month in range(2, 13):
+            cp, bd = _fetch_month(table_id, ind_ids, year, month, far, attempts=1)
+            if cp is None:
                 continue
             _emit_daily_month(cp, bd, ind_ids, ind_names, year, month, out)
+    return found
 
 
 # --------------------------------------------------------------------------- #
@@ -386,27 +400,14 @@ def fetch_one(node_id: str) -> None:
     end_year = datetime.now(tz=timezone.utc).year + 1
     out = {}
 
-    # A bounded recent probe: detect daily frequency and confirm we can talk to
-    # the table. Recent windows are always under the render cap.
-    probe = _search(
-        table_id, ind_ids,
-        f"{max(DATE_FLOOR_YEAR, end_year - 3)}-01-01", f"{end_year}-12-31",
-        attempts=4,
-    )
-    probe_cp = None
-    if not _no_data(probe):
-        probe_cp, probe_body = _grid(probe.get("TableView") or "")
-
-    if probe_cp is not None and _looks_daily(probe_cp):
-        _fetch_daily(table_id, ind_ids, ind_names, end_year, out)
-    else:
-        # Non-daily: one request returns the entire history.
-        wide = _search(table_id, ind_ids, f"{DATE_FLOOR_YEAR}-01-01",
-                       f"{end_year}-12-31", attempts=5)
-        if _no_data(wide):
-            raise RuntimeError(
-                f"{asset}: no data for table {table_id}: {wide.get('Error')!r}"
-            )
+    # Annual/quarterly/monthly tables return their whole history in one request
+    # (<=~820 columns, well under the server's ~9000-column-per-series render
+    # cap). DAILY tables overflow the cap and the server answers "No data", so a
+    # failed wide request is the signal to switch to the month-by-month daily
+    # path. (Among the entity-union tables only the daily FX table overflows.)
+    wide = _search(table_id, ind_ids, f"{DATE_FLOOR_YEAR}-01-01",
+                   f"{end_year}-12-31", attempts=6)
+    if not _no_data(wide):
         col_parts, body = _grid(wide.get("TableView") or "")
         if not _check_alignment(body, ind_ids):
             raise RuntimeError(
@@ -414,6 +415,8 @@ def fetch_one(node_id: str) -> None:
                 "(partial render)"
             )
         _emit_non_daily(col_parts, body, ind_ids, ind_names, out)
+    else:
+        _fetch_daily(table_id, ind_ids, ind_names, end_year, out)
 
     rows = list(out.values())
     if not rows:

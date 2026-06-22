@@ -1,0 +1,24 @@
+# Average Exchange Rate Of The Nigerian Currency (Naira Per US Dollar)
+spec_id: cbn-table-50
+status: active
+tests:
+  - not_null: indicator_id
+  - not_null: value
+  - not_null: period
+  - column_type: {col: indicator_id, type: integer}
+  - column_type: {col: value, type: float}
+  - column_type: {col: date, type: date}
+  - unique: [indicator_id, period]
+    reason: one observation per indicator per period; dupes mean a window was re-emitted without dedup
+    certainty: 95
+  - row_count: {min: 1}
+  - at_most: {col: date, expr: today}
+    reason: observations are historical/current, not future-dated
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - freshness: {col: date, reaches: today - 500d}
+    reason: source publishes ongoing updates; a stale max date usually means the source lagged, not a fetch bug
+    certainty: 55
+    points_outward: true
+    severity: warn
