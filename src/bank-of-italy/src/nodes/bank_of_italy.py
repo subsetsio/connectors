@@ -612,14 +612,19 @@ def _fetch_group(nodes: list) -> list:
         if len(nodes) > 1:
             mid = len(nodes) // 2
             return _fetch_group(nodes[:mid]) + _fetch_group(nodes[mid:])
-        # Single series can't be split — give the server a few more tries.
+        # Single series can't be split — give the server a few more tries. A
+        # slow lone series often TIMES OUT first and only then settles into the
+        # degraded (stripped) shape, so the retry must accept _DegradedResponse
+        # too; otherwise that stripped response escapes uncaught. If it still
+        # won't serve full graph mode, recover the series key from its localId
+        # (allow_stripped) — same terminal fallback as the degraded branch.
         for attempt in range(3):
             time.sleep(2 * (attempt + 1))
             try:
                 return _try_chunk(nodes)
-            except _SPLIT_EXC:
+            except (_DegradedResponse, *_SPLIT_EXC):
                 continue
-        raise
+        return _try_chunk(nodes, allow_stripped=True)
     except _DegradedResponse:
         # Degraded (stripped) pivot. A smaller selection drops back under the
         # graph-mode cap and returns full columns, so split when we can; a lone
