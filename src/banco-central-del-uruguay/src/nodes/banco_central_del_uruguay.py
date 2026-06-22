@@ -191,6 +191,8 @@ TRANSFORM_SPECS = [
             FROM "banco-central-del-uruguay-exchange-rates"
             WHERE fecha IS NOT NULL
               AND tcc IS NOT NULL
+              AND tcc > 0          -- drop placeholder/no-quote rows (rate 0 = no publish that day)
+              AND tcv > 0
         ''',
     ),
 ]

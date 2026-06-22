@@ -60,9 +60,6 @@ RE_DAILY = re.compile(r"^(\d{1,2})\s+([A-Z]{3})\.?\s*(\d{4})$")
 RE_MONTH = re.compile(r"^([A-Z]{3})\.?\s*(\d{4})$")
 RE_YEAR = re.compile(r"^(\d{4})$")
 
-# Number of fixed metadata rows at the top of every value CSV.
-METADATA_ROWS = 6
-
 VALUES_SCHEMA = pa.schema([
     ("series_code", pa.string()),
     ("date", pa.date32()),
@@ -128,40 +125,103 @@ def _fetch_bytes(url):
     return resp.content
 
 
-def _parse_value_csv(text, publication):
-    """Unpivot one wide value CSV into long rows."""
+def _classify_header(label):
+    label = label.strip().upper()
+    if "ALIAS" in label:
+        return "alias"
+    if "FRECUENCIA" in label:
+        return "freq"
+    if "DIGO" in label and "SERIE" in label:  # CODIGO DE LA SERIE (accent-safe)
+        return "code"
+    return None
+
+
+def _parse_value_csv(text, publication, alias_to_code, code_to_freq):
+    """Unpivot one wide value CSV into long rows.
+
+    Two header layouts exist in the corpus: the common one has a CODIGO row +
+    FRECUENCIA row (6 header rows); ~96 BE tables instead lead with an ALIAS row
+    and omit both CODIGO and FRECUENCIA (4 header rows). So we detect rows
+    dynamically: header rows are classified by their first-column label and data
+    begins at the first row whose first column parses as a period. Identifiers
+    resolve to the canonical catalogue series code (alias -> code), and missing
+    inline frequency is backfilled from the catalogue.
+    """
     rows = list(csv.reader(io.StringIO(text)))
     if not rows:
         return []
-    codes = [c.strip() for c in rows[0][1:]]
-    freq_row = None
-    for r in rows[:METADATA_ROWS]:
-        if r and r[0].strip().upper().startswith("FRECUENCIA"):
-            freq_row = [f.strip() for f in r[1:]]
+    code_row = alias_row = freq_row = None
+    data_start = None
+    for idx, r in enumerate(rows):
+        if not r:
+            continue
+        if _parse_period(r[0].strip()) is not None:
+            data_start = idx
+            break
+        kind = _classify_header(r[0])
+        cells = [c.strip() for c in r[1:]]
+        if kind == "code":
+            code_row = cells
+        elif kind == "alias":
+            alias_row = cells
+        elif kind == "freq":
+            freq_row = cells
+    if data_start is None:
+        return []
+
+    ncols = max(len(code_row or []), len(alias_row or []))
+    ids, freqs = [], []
+    for i in range(ncols):
+        code = code_row[i] if code_row and i < len(code_row) else ""
+        alias = alias_row[i] if alias_row and i < len(alias_row) else ""
+        ident = code or alias_to_code.get(alias, alias)
+        ids.append(ident)
+        f = freq_row[i] if freq_row and i < len(freq_row) else ""
+        freqs.append(f or code_to_freq.get(ident) or None)
+
     out = []
-    for r in rows[METADATA_ROWS:]:
+    for r in rows[data_start:]:
         if not r:
             continue
         label = r[0].strip()
         date = _parse_period(label)
         if date is None:  # FUENTE / NOTAS footer rows and any stray labels
             continue
-        for i, code in enumerate(codes):
-            if not code:
+        for i, ident in enumerate(ids):
+            if not ident:
                 continue
             val = _parse_value(r[i + 1]) if i + 1 < len(r) else None
             if val is None:
                 continue
-            freq = freq_row[i] if freq_row and i < len(freq_row) else None
             out.append({
-                "series_code": code,
+                "series_code": ident,
                 "date": date,
                 "value": val,
-                "frequency": freq,
+                "frequency": freqs[i],
                 "period_label": label,
                 "publication": publication,
             })
     return out
+
+
+def _load_catalogue_maps():
+    """Build alias->canonical-code and code->frequency maps from the catalogue
+    CSVs, so value files that carry only an alias (and no inline frequency) can
+    be resolved to the canonical series code and frequency."""
+    alias_to_code, code_to_freq = {}, {}
+    for pub in PUBLICATIONS:
+        text = _fetch_bytes(f"{CSV_BASE}/catalogo_{pub}.csv").decode("latin-1")
+        for r in list(csv.reader(io.StringIO(text)))[1:]:
+            if not r or not r[0].strip():
+                continue
+            code = r[0].strip()
+            alias = r[2].strip() if len(r) > 2 else ""
+            freq = r[10].strip() if len(r) > 10 else ""
+            if alias:
+                alias_to_code.setdefault(alias, code)
+            if freq:
+                code_to_freq.setdefault(code, freq)
+    return alias_to_code, code_to_freq
 
 
 def fetch_values(node_id: str) -> None:
@@ -169,6 +229,7 @@ def fetch_values(node_id: str) -> None:
     stream to one parquet asset (batch per CSV file to bound memory)."""
     asset = node_id
     total = 0
+    alias_to_code, code_to_freq = _load_catalogue_maps()
     with raw_parquet_writer(asset, VALUES_SCHEMA) as writer:
         for pub in PUBLICATIONS:
             content = _fetch_bytes(f"{ZIP_BASE}/{pub}.zip")
@@ -178,7 +239,7 @@ def fetch_values(node_id: str) -> None:
                      and not n.lower().startswith("catalogo")]
             for name in names:
                 text = zf.read(name).decode("latin-1")
-                rows = _parse_value_csv(text, pub)
+                rows = _parse_value_csv(text, pub, alias_to_code, code_to_freq)
                 if not rows:
                     continue
                 table = pa.Table.from_pylist(rows, schema=VALUES_SCHEMA)
