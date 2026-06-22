@@ -1,0 +1,21 @@
+spec_id: bruegel-us-foreign-military-sales
+# Raw is the "MAINDATA" sheet preserving original headers, incl. country, financial_value, year, month.
+tests:
+  - not_null: country
+    reason: every announced sale is attributed to a buyer country; only stray footer rows could lack one
+    certainty: 80
+    severity: warn
+  - not_null: year
+    reason: each sale is dated by announcement year
+    certainty: 80
+    severity: warn
+  - between: {col: year, lo: 1950, hi: current_year()}
+    reason: the dataset covers post-war US foreign military sales up to the present
+    certainty: 75
+  - between: {col: month, lo: 1, hi: 12}
+    reason: month is a calendar month index
+    certainty: 80
+    severity: warn
+  - row_count: {min: 50}
+    reason: the workbook lists many announced arms sales by country and equipment
+    certainty: 65

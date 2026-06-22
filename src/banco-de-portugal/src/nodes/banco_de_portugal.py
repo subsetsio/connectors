@@ -41,7 +41,14 @@ BASE = "https://bpstat.bportugal.pt/data/v1"
 # with zero load). The cube cost varies per dataset, so we start large and shrink
 # on a persistent server error — restarting that dataset's pagination cleanly so
 # page boundaries stay consistent for the working size.
-PAGE_SIZES = [100, 50, 25, 10, 5]
+# The ladder must descend BELOW the smallest datasets' series counts: pages
+# enumerate *series*, so a dataset with only N series returns its entire cube on
+# one page for any page_size >= N (shrinking 100->5 does nothing for it). Some
+# datasets have very few series but thousands of dates (e.g. domain 29's
+# 23e0cdd5... is 4 series x 3016 dates -> a single 2.9MB cube the server drops
+# under concurrent load); only page_size 2/1 actually splits it into the small
+# (~160KB) pages that survive. page_size=1 caps at MAX_PAGES series per dataset.
+PAGE_SIZES = [100, 50, 25, 10, 5, 2, 1]
 MAX_PAGES = 5000         # safety ceiling; raises if hit (catches runaway growth)
 
 from constants import ENTITY_IDS

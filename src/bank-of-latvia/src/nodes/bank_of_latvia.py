@@ -211,14 +211,12 @@ def _hidden_fields(html: str) -> dict:
     return fields
 
 
-@retry(**_RETRY)
 def _get_page(url: str) -> str:
     resp = get(url, timeout=_TIMEOUT, headers={"Referer": f"{BASE}/lb/?lang=en"})
     resp.raise_for_status()
     return resp.text
 
 
-@retry(**_RETRY)
 def _post_export(url: str, data: dict) -> httpx.Response:
     resp = post(url, data=data, timeout=_TIMEOUT,
                 headers={"Referer": url, "Origin": BASE,
@@ -236,18 +234,15 @@ def _looks_like_csv(resp: httpx.Response) -> bool:
     return "text/html" not in ctype and "<html" not in head
 
 
-def fetch_one(node_id: str) -> None:
-    """Fetch one INTS table via the CSV-export postback, melt the pivot, and save
-    a long parquet. node_id is the spec id ('bank-of-latvia-<table_id>') and the
-    asset name; the table id is the suffix."""
-    configure_http(headers={"User-Agent": _UA})  # browser UA; resets shared client
-    asset = node_id
-    table_id = node_id[len(PREFIX):]
-    page_url = f"{BASE}/LB/Data/{table_id}?lang=en"
-
-    # Pace the crawl: the host load-sheds (403) under bursts, so jitter the start
-    # of each table's fetch to spread requests out.
-    time.sleep(random.uniform(2.0, 6.0))
+@retry(**_RETRY)
+def _export_csv(asset: str, table_id: str, page_url: str) -> str:
+    """GET the table page → harvest fresh hidden fields → POST the CSV-export
+    postback, returning the decoded CSV text. Retried as ONE unit: an ASP.NET
+    __VIEWSTATE / __EVENTVALIDATION is single-use and session-bound, so a 403 on
+    the POST often means the session/viewstate went stale, not just that we were
+    rate-limited. Re-POSTing the same captured form would then 403 forever; only a
+    fresh GET (new session cookie + new viewstate) can recover. Each retry
+    therefore reloads the page before re-exporting."""
     html = _get_page(page_url)
     fields = _hidden_fields(html)
     if "__VIEWSTATE" not in fields:
@@ -268,8 +263,22 @@ def fetch_one(node_id: str) -> None:
             f"{asset}: CSV export postback did not return a CSV "
             f"(status={resp.status_code} content-type={ctype!r} "
             f"content-disposition={disp!r}). First 300 chars: {snippet!r}")
+    return resp.content.decode("cp1257")  # INTS exports are Windows-1257
 
-    text = resp.content.decode("cp1257")  # INTS exports are Windows-1257
+
+def fetch_one(node_id: str) -> None:
+    """Fetch one INTS table via the CSV-export postback, melt the pivot, and save
+    a long parquet. node_id is the spec id ('bank-of-latvia-<table_id>') and the
+    asset name; the table id is the suffix."""
+    configure_http(headers={"User-Agent": _UA})  # browser UA; resets shared client
+    asset = node_id
+    table_id = node_id[len(PREFIX):]
+    page_url = f"{BASE}/LB/Data/{table_id}?lang=en"
+
+    # Pace the crawl: the host load-sheds (403) under bursts, so jitter the start
+    # of each table's fetch to spread requests out.
+    time.sleep(random.uniform(2.0, 6.0))
+    text = _export_csv(asset, table_id, page_url)
     records = parse_pivot(text, table_id)
     if not records:
         snippet = text[:300].replace("\n", " ")

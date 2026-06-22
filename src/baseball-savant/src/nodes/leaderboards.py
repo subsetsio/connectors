@@ -197,16 +197,20 @@ def fetch_leaderboard(node_id: str) -> None:
 # Specs
 # ---------------------------------------------------------------------------
 
-DOWNLOAD_SPECS = [
+# Named without the `_SPECS` suffix so `load_nodes()` does NOT discover them
+# directly: the canonical `baseball_savant.py` module concatenates these with the
+# statcast family into the single DOWNLOAD_SPECS / TRANSFORM_SPECS the harness
+# introspects. Discovering both here and there would duplicate every node id.
+LEADERBOARD_DOWNLOADS = [
     NodeSpec(id=f"{SLUG}-{slug.replace('_', '-')}", fn=fetch_leaderboard, kind="download")
     for slug in _LEADERBOARDS
 ]
 
-TRANSFORM_SPECS = [
+LEADERBOARD_TRANSFORMS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT * FROM "{s.id}"',
     )
-    for s in DOWNLOAD_SPECS
+    for s in LEADERBOARD_DOWNLOADS
 ]

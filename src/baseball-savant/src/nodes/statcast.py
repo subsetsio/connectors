@@ -83,15 +83,17 @@ def fetch_statcast_pitches(node_id: str) -> None:
 # Specs
 # ---------------------------------------------------------------------------
 
-DOWNLOAD_SPECS = [
+# Named without the `_SPECS` suffix so `load_nodes()` does NOT discover them
+# directly — see leaderboards.py. The canonical `baseball_savant.py` aggregates.
+STATCAST_DOWNLOADS = [
     NodeSpec(id=f"{SLUG}-statcast-pitches", fn=fetch_statcast_pitches, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+STATCAST_TRANSFORMS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT * FROM "{s.id}"',
     )
-    for s in DOWNLOAD_SPECS
+    for s in STATCAST_DOWNLOADS
 ]

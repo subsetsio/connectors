@@ -1,0 +1,25 @@
+spec_id: blockchain-com-charts-trade-volume
+status: active
+tests:
+  - not_null: x
+    reason: every observation has a timestamp; nulls mean the values array shape drifted
+    certainty: 95
+  - not_null: y
+    reason: every observation has a metric value
+    certainty: 90
+  - column_type: {col: x, type: integer}
+    reason: x is a unix-seconds timestamp returned as a JSON integer
+    certainty: 95
+  - column_type: {col: y, type: float}
+    reason: y is the metric value, stored as float64
+    certainty: 90
+  - row_count: {min: 100}
+    reason: this chart has years of history (daily or intraday); <100 points means a truncated pull
+    certainty: 85
+  - unique: x
+    reason: one observation per timestamp in a single full pull
+    certainty: 75
+    severity: warn
+  - between: {col: x, lo: 1220000000, hi: 2050000000}
+    reason: x must fall between Bitcoin's 2009 genesis era and the near future
+    certainty: 90
