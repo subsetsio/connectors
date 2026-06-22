@@ -33,6 +33,7 @@ frequency.
 from datetime import datetime, timezone
 import xml.etree.ElementTree as ET
 
+import httpx
 import pyarrow as pa
 
 from subsets_utils import (
@@ -81,7 +82,19 @@ def _soap_call(endpoint: str, op: str, params: list[tuple[str, object]]) -> ET.E
         },
         timeout=(15.0, 240.0),
     )
-    resp.raise_for_status()
+    try:
+        resp.raise_for_status()
+    except httpx.HTTPStatusError as e:
+        # ASMX returns SOAP faults as HTTP 500 with an explanatory body; the bare
+        # HTTPStatusError message drops it. Re-raise (still an HTTPStatusError, so
+        # transient_retry keeps retrying 5xx) with the body appended so the run's
+        # error tail reveals *why* the server faulted instead of an opaque 500.
+        body = (resp.text or "")[:800].replace("\n", " ")
+        raise httpx.HTTPStatusError(
+            f"{e}; SOAPAction={NS}{op}; body: {body!r}",
+            request=e.request,
+            response=e.response,
+        ) from e
     try:
         return ET.fromstring(resp.content)
     except ET.ParseError as e:
