@@ -75,15 +75,25 @@ def _post_jsonstat(url, query):
 
 
 def _fetch_meta(cube):
-    """GET cube metadata, trying languages in preference order."""
+    """GET cube metadata, trying languages in preference order.
+
+    A cube may be missing in some languages (400) AND a given language endpoint
+    can throw a transient 5xx; in both cases we fall through to the next
+    language and only give up once every language has been tried. This is what
+    makes the fetch robust across a long full run where any single endpoint can
+    blip a 500."""
     last = None
     for lang in LANGS:
         url = f"{BASE}/{lang}/{cube}/{cube}.px"
-        meta = _get_meta(url)
+        try:
+            meta = _get_meta(url)
+        except Exception as e:  # transient 5xx exhausted retries on this language
+            last = f"{url}: {type(e).__name__}: {e}"
+            continue
         if isinstance(meta, dict) and meta.get("variables"):
             return lang, url, meta
-        last = url
-    raise RuntimeError(f"cube {cube}: no metadata in any language (last tried {last})")
+        last = f"{url}: unavailable in this language"
+    raise RuntimeError(f"cube {cube}: no metadata in any language (last: {last})")
 
 
 def _sanitize(text, fallback):
