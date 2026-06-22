@@ -281,6 +281,10 @@ _TRANSFORM_SQL = '''
                 TRY_CAST(SPLIT_PART(time_period, '-Q', 1) AS INTEGER),
                 (TRY_CAST(SPLIT_PART(time_period, '-Q', 2) AS INTEGER) - 1) * 3 + 1,
                 1)
+            WHEN freq = 'H' THEN MAKE_DATE(
+                TRY_CAST(SPLIT_PART(time_period, '-S', 1) AS INTEGER),
+                (TRY_CAST(SPLIT_PART(time_period, '-S', 2) AS INTEGER) - 1) * 6 + 1,
+                1)
             ELSE NULL
         END AS period_start,
         obs_value,
