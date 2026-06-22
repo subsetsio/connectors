@@ -134,6 +134,22 @@ def _download(url: str) -> bytes:
     return r.content
 
 
+# ATO ships its dollar/count measures with thousands separators ("4,564,480,001",
+# "-15,751,233,886"). Stored verbatim they're un-aggregatable text, so we strip the
+# separators from any cell that is *unambiguously* a comma-grouped number (anchored,
+# ≤3 leading digits, one or more `,000` groups, optional sign/decimals). Bucket
+# labels ("a. 10,000 to less than 50,000"), ratios ("0.84") and "na" don't match the
+# anchored pattern, so they pass through untouched. Values stay text (the union
+# schema is heterogeneous), but a downstream cast now works.
+_GROUPED_NUMBER = re.compile(r"^-?\d{1,3}(,\d{3})+(\.\d+)?$")
+
+
+def _clean_value(v):
+    if isinstance(v, str) and _GROUPED_NUMBER.match(v):
+        return v.replace(",", "")
+    return v
+
+
 def csv_rows(url: str, income_year):
     """Download a CSV resource and yield each data row as a dict tagged with
     income_year. ATO publishes the flat, header-first CSV editions of its
@@ -144,6 +160,6 @@ def csv_rows(url: str, income_year):
     reader = csv.DictReader(io.StringIO(text))
     for rec in reader:
         # csv.DictReader keys ragged trailing fields under None; drop them.
-        row = {k: v for k, v in rec.items() if k is not None}
+        row = {k: _clean_value(v) for k, v in rec.items() if k is not None}
         row["income_year"] = income_year
         yield row
