@@ -613,7 +613,7 @@ def _fetch_group(nodes: list) -> list:
             time.sleep(2 * (attempt + 1))
             try:
                 return _try_chunk(nodes)
-            except (_DegradedResponse, _SPLIT_EXC):
+            except (_DegradedResponse, *_SPLIT_EXC):
                 continue
         raise
     if obs:
