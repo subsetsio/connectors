@@ -1,0 +1,15 @@
+spec_id: colorado-department-of-labor-and-employment-cjkq-q9ih
+status: active
+tests:
+  - not_null: periodyear
+    certainty: 95
+  - not_null: areaname
+    certainty: 90
+  - not_null: indcode
+    reason: employee counts are reported per industry code
+    certainty: 85
+  - matches: {col: periodyear, pattern: '^[0-9]{4}$'}
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: by industry, county, quarter since 2000
+    certainty: 90

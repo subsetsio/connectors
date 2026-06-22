@@ -1,0 +1,13 @@
+spec_id: colorado-department-of-labor-and-employment-bynd-i2hj
+status: active
+tests:
+  - not_null: periodyear
+    certainty: 95
+  - not_null: cpi
+    reason: the CPI index value is the measure of this table
+    certainty: 90
+  - matches: {col: periodyear, pattern: '^[0-9]{4}$'}
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: probed count was ~4.3k rows
+    certainty: 85

@@ -177,7 +177,22 @@ def _post_saveshow(body, cookie, referer):
     return r.content
 
 
-def _build_body(ma, path, html):
+# Saveshow build cost grows with the size of the requested cross-product. The
+# Akamai edge caps the build at ~120s, so a single full-snapshot POST 504s for
+# any large matrix (research flagged this and prescribed "chunk by a
+# high-cardinality variable"). We keep each POST's selected cross-product under
+# this many cells; matrices already under it take a single (proven) full POST.
+_CHUNK_CELLS = 1500
+
+
+def _build_body(ma, path, html, selection=None):
+    """Build the Saveshow POST body.
+
+    ``selection`` maps a 1-based variable index -> the list of value indices to
+    request for that variable; any variable absent from the map uses all of its
+    values. ``selection=None`` is the full snapshot (every value of every
+    variable) — the original, research-verified request.
+    """
     noofvar = int(_hidden(html, "noofvar") or "1")
     fields = [
         ("matrix", ma), ("root", path), ("classdir", path),
@@ -193,9 +208,58 @@ def _build_body(ma, path, html):
         fields.append((f"var{i}", _hidden(html, f"var{i}")))
         fields.append((f"Valdavarden{i}", "0"))
         fields.append((f"context{i}", ""))
-        for v in _value_indices(html, i):
+        values = _value_indices(html, i)
+        if selection is not None and i in selection:
+            values = selection[i]
+        for v in values:
             fields.append((f"values{i}", v))
     return urllib.parse.urlencode(fields).encode()
+
+
+def _plan_chunks(html):
+    """Return a list of per-request ``selection`` maps that together cover the
+    full matrix, each kept under ``_CHUNK_CELLS`` cells.
+
+    Returns ``[None]`` (a single full snapshot) when the matrix already fits or
+    when the value counts can't be parsed (fall back to the original behaviour).
+    """
+    noofvar = int(_hidden(html, "noofvar") or "1")
+    dims = {i: _value_indices(html, i) for i in range(1, noofvar + 1)}
+    counts = {i: len(v) for i, v in dims.items()}
+    total = 1
+    for c in counts.values():
+        total *= max(c, 1)
+    if total <= _CHUNK_CELLS or not any(counts.values()):
+        return [None]
+
+    # Chunk along the highest-cardinality variable; size each chunk so the
+    # cross-product with every other variable's full extent stays under cap.
+    chunk_var = max(counts, key=lambda i: counts[i])
+    others = 1
+    for i, c in counts.items():
+        if i != chunk_var:
+            others *= max(c, 1)
+    per_chunk = max(1, _CHUNK_CELLS // max(others, 1))
+    vals = dims[chunk_var]
+    plans = []
+    for start in range(0, len(vals), per_chunk):
+        plans.append({chunk_var: vals[start:start + per_chunk]})
+    return plans
+
+
+def _fetch_csv_rows(ma, path, html, cookie, referer, selection):
+    content = _post_saveshow(_build_body(ma, path, html, selection), cookie, referer)
+    if content[:2] != b"PK":
+        snippet = content[:200].decode("latin-1", "replace")
+        raise RuntimeError(f"{ma}: expected a ZIP from Saveshow, got: {snippet!r}")
+    zf = zipfile.ZipFile(io.BytesIO(content))
+    csv_members = [n for n in zf.namelist() if n.lower().endswith(".csv")]
+    if not csv_members:
+        raise RuntimeError(f"{ma}: ZIP had no .csv member ({zf.namelist()})")
+    rows = []
+    for name in csv_members:
+        rows.extend(_normalize_csv(zf.read(name).decode("latin-1", "replace")))
+    return rows
 
 
 def fetch_one(node_id: str) -> None:
@@ -205,24 +269,21 @@ def fetch_one(node_id: str) -> None:
     ma, path = meta["ma"], meta["path"]
 
     html, cookie = _get_varval(ma, path)
-    body = _build_body(ma, path, html)
     referer = f"{VARVAL}?ma={urllib.parse.quote(ma)}&path={urllib.parse.quote(path)}&lang=1"
-    content = _post_saveshow(body, cookie, referer)
 
-    if content[:2] != b"PK":
-        snippet = content[:200].decode("latin-1", "replace")
-        raise RuntimeError(f"{asset}: expected a ZIP from Saveshow, got: {snippet!r}")
-
-    zf = zipfile.ZipFile(io.BytesIO(content))
-    csv_members = [n for n in zf.namelist() if n.lower().endswith(".csv")]
-    if not csv_members:
-        raise RuntimeError(f"{asset}: ZIP had no .csv member ({zf.namelist()})")
-
+    # One POST per chunk (a single full-snapshot POST when the matrix is small).
+    # Each chunk partitions one variable, so the long-format rows concatenate
+    # with no overlap. The session cookie is matrix-scoped, so we re-GET varval
+    # per chunk to refresh it defensively against session expiry on slow builds.
+    plans = _plan_chunks(html)
     rows = []
-    for name in csv_members:
-        rows.extend(_normalize_csv(zf.read(name).decode("latin-1", "replace")))
+    for idx, selection in enumerate(plans):
+        if idx > 0:
+            html, cookie = _get_varval(ma, path)
+        rows.extend(_fetch_csv_rows(ma, path, html, cookie, referer, selection))
+
     if not rows:
-        raise RuntimeError(f"{asset}: parsed 0 numeric rows from {csv_members}")
+        raise RuntimeError(f"{asset}: parsed 0 numeric rows across {len(plans)} chunk(s)")
 
     table = pa.table({
         "row_label": pa.array([r[0] for r in rows], pa.string()),

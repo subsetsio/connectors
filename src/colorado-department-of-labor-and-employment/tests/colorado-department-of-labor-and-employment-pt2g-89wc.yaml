@@ -1,0 +1,12 @@
+spec_id: colorado-department-of-labor-and-employment-pt2g-89wc
+status: active
+tests:
+  - not_null: periodyear
+    certainty: 95
+  - not_null: areaname
+    certainty: 90
+  - matches: {col: periodyear, pattern: '^[0-9]{4}$'}
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: monthly by industry since 1990
+    certainty: 85

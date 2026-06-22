@@ -1,0 +1,15 @@
+spec_id: colorado-department-of-labor-and-employment-busm-qa5b
+status: active
+tests:
+  - not_null: periodyear
+    certainty: 95
+  - not_null: areaname
+    certainty: 90
+  - not_null: occcode
+    reason: wages are reported per occupation code
+    certainty: 85
+  - matches: {col: periodyear, pattern: '^[0-9]{4}$'}
+    certainty: 90
+  - row_count: {min: 50000}
+    reason: probed count was ~329k rows
+    certainty: 90

@@ -1,0 +1,14 @@
+spec_id: colorado-department-of-labor-and-employment-gyeb-jc69
+status: active
+tests:
+  - not_null: areaname
+    certainty: 90
+  - not_null: estemp
+    reason: base-year estimated employment, a core projection measure
+    certainty: 85
+  - not_null: projemp
+    reason: projected employment, the headline of a projections table
+    certainty: 85
+  - row_count: {min: 10000}
+    reason: probed count was ~91k rows
+    certainty: 90

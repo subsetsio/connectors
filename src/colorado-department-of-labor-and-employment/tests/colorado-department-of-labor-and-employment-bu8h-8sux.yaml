@@ -1,0 +1,15 @@
+spec_id: colorado-department-of-labor-and-employment-bu8h-8sux
+status: active
+tests:
+  - not_null: periodyear
+    certainty: 95
+  - not_null: areaname
+    certainty: 90
+  - not_null: population
+    reason: population is the sole measure of this table
+    certainty: 90
+  - matches: {col: periodyear, pattern: '^[0-9]{4}$'}
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: counties x years 1900-2015
+    certainty: 85
