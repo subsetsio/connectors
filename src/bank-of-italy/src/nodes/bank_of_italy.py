@@ -657,6 +657,21 @@ def fetch_one(node_id: str) -> None:
 
     if not rows:
         raise AssertionError(node_id + ": table " + local_id + " returned no observations")
+
+    # Stabilise the raw schema: a Bollettino table's observations carry different
+    # SDMX dimension keys per series (and the rate-registry tables omit CUBEID/
+    # VALORE entirely), so the saved ndjson is heterogeneous. The SQL transform's
+    # view is built with a bare read_json_auto(<paths>) whose schema is inferred
+    # from a leading sample; on a large, drifty table (e.g. TRI30021, ~1.8M obs)
+    # a column present only in later/other rows — CUBEID included — can be missed,
+    # and the transform's `* EXCLUDE (CUBEID, ...)` then fails to bind. Filling
+    # every row out to the full key union (missing -> null) makes the first row
+    # carry every column, so inference sees the complete schema regardless of
+    # ordering or sample window. Done in place to avoid doubling RSS.
+    all_keys = set().union(*(r.keys() for r in rows))
+    for r in rows:
+        for k in all_keys:
+            r.setdefault(k, None)
     save_raw_ndjson(rows, asset)
 
 
