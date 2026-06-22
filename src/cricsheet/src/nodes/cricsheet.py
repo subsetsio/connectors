@@ -167,7 +167,7 @@ TRANSFORM_SPECS = [
         deps=["cricsheet-deliveries"],
         sql='''
             SELECT
-                CAST(match_id AS BIGINT)                          AS match_id,
+                match_id,
                 season,
                 CAST(start_date AS DATE)                          AS start_date,
                 venue,
@@ -203,7 +203,7 @@ TRANSFORM_SPECS = [
         deps=["cricsheet-matches"],
         sql='''
             SELECT
-                CAST(match_id AS BIGINT)                          AS match_id,
+                match_id,
                 team_type,
                 gender,
                 season,
