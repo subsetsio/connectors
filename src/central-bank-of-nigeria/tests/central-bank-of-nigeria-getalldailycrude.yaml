@@ -1,0 +1,41 @@
+# Expectations for GetAllDailyCrude (CBN GetAll* raw, NDJSON).
+spec_id: central-bank-of-nigeria-getalldailycrude
+status: active
+tests:
+- not_null: id
+  certainty: 99
+  reason: id is the source primary key; every record carries one
+- column_type:
+    col: id
+    type: integer
+  certainty: 95
+  reason: id arrives as a JSON number -> BIGINT
+- unique: id
+  certainty: 90
+  reason: id is the source primary key; dupes mean the array was fetched/concatenated twice
+- not_null: postDate
+  certainty: 99
+  reason: daily price date index
+- column_type:
+    col: postDate
+    type: string
+  certainty: 95
+- matches:
+    col: postDate
+    pattern: ^\d{2}/\d{2}/\d{4}$
+  certainty: 90
+- column_type:
+    col: crudeOilPrice
+    type: string
+  certainty: 90
+- median_between:
+    col: crudeOilPrice
+    lo: 20
+    hi: 200
+  certainty: 60
+  severity: warn
+  reason: USD/barrel spot price
+- row_count:
+    min: 2500
+  certainty: 85
+  reason: daily since 2009 (~3.9k now); grows ~250/yr

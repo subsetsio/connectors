@@ -1,0 +1,33 @@
+# Expectations for GetAllIntPayments (CBN GetAll* raw, NDJSON).
+spec_id: central-bank-of-nigeria-getallintpayments
+status: active
+tests:
+- not_null: id
+  certainty: 99
+  reason: id is the source primary key; every record carries one
+- column_type:
+    col: id
+    type: integer
+  certainty: 95
+  reason: id arrives as a JSON number -> BIGINT
+- unique: id
+  certainty: 90
+  reason: id is the source primary key; dupes mean the array was fetched/concatenated twice
+- not_null: payDate
+  certainty: 99
+- column_type:
+    col: payDate
+    type: string
+  certainty: 95
+- matches:
+    col: payDate
+    pattern: ^\d{2}/\d{2}/\d{4}$
+  certainty: 90
+- column_type:
+    col: total
+    type: string
+  certainty: 90
+- row_count:
+    min: 250
+  certainty: 85
+  reason: monthly interest/payment records since 2003 (~376 now)

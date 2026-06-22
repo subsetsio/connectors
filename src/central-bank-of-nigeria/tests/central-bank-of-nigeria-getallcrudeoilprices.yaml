@@ -1,0 +1,51 @@
+# Expectations for GetAllCrudeOilPrices (CBN GetAll* raw, NDJSON).
+spec_id: central-bank-of-nigeria-getallcrudeoilprices
+status: active
+tests:
+- not_null: id
+  certainty: 99
+  reason: id is the source primary key; every record carries one
+- column_type:
+    col: id
+    type: integer
+  certainty: 95
+  reason: id arrives as a JSON number -> BIGINT
+- unique: id
+  certainty: 90
+  reason: id is the source primary key; dupes mean the array was fetched/concatenated twice
+- not_null: period
+  certainty: 95
+- column_type:
+    col: tyear
+    type: integer
+  certainty: 95
+- column_type:
+    col: tmonth
+    type: integer
+  certainty: 95
+- at_least:
+    col: tyear
+    expr: 2000
+  certainty: 90
+  reason: series begins in the 2000s
+- at_most:
+    col: tyear
+    expr: current_year()
+  certainty: 75
+  severity: warn
+  points_outward: true
+  reason: no future years expected; a breach means the source published ahead
+- column_type:
+    col: crudeOilPrice
+    type: string
+  certainty: 90
+- median_between:
+    col: crudeOilPrice
+    lo: 20
+    hi: 200
+  certainty: 60
+  severity: warn
+  reason: USD/barrel; median should sit in the tens-to-low-hundreds
+- row_count:
+    min: 150
+  certainty: 85

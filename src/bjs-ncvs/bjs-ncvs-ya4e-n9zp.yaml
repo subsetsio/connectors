@@ -1,0 +1,21 @@
+spec_id: bjs-ncvs-ya4e-n9zp
+status: active
+tests:
+  - not_null: idhh
+    reason: every microdata record carries a respondent/household id
+    certainty: 95
+  - not_null: year
+    reason: year is the longitudinal axis; never missing
+    certainty: 95
+  - matches: {col: year, pattern: "^[0-9]{4}$"}
+    reason: raw stored as strings; year is a 4-digit collection year
+    certainty: 90
+  - matches: {col: yearq, pattern: "^[0-9]{4}\.[0-9]$"}
+    reason: yearq is "<year>.<quarter>" e.g. 1993.1
+    certainty: 85
+  - distinct_count: {col: year, min: 30}
+    reason: concatenated 1993-2024 series spans 30+ collection years
+    certainty: 90
+  - row_count: {min: 4000000}
+    reason: floor set well below probed count to catch truncated pagination
+    certainty: 90

@@ -1,0 +1,49 @@
+# Expectations for GetAllNominalGDP (CBN GetAll* raw, NDJSON).
+spec_id: central-bank-of-nigeria-getallnominalgdp
+status: active
+tests:
+- not_null: id
+  certainty: 99
+  reason: id is the source primary key; every record carries one
+- column_type:
+    col: id
+    type: integer
+  certainty: 95
+  reason: id arrives as a JSON number -> BIGINT
+- unique: id
+  certainty: 90
+  reason: id is the source primary key; dupes mean the array was fetched/concatenated twice
+- not_null: period
+  certainty: 95
+  reason: Q1..Q4 / Annual marker
+- enum:
+    col: period
+    values:
+    - Q1
+    - Q2
+    - Q3
+    - Q4
+    - Annual
+  certainty: 70
+  severity: warn
+  reason: GDP rows are quarterly or full-year
+- column_type:
+    col: tyear
+    type: string
+  certainty: 85
+  reason: GDP tyear is a quoted 4-digit string in the raw
+- between:
+    col: tyear
+    lo: 1980
+    hi: current_year()
+  certainty: 80
+  severity: warn
+  reason: 4-digit years order identically lexically and numerically
+- column_type:
+    col: gdPatCurrentMarketPrices
+    type: string
+  certainty: 90
+- row_count:
+    min: 60
+  certainty: 80
+  reason: annual+quarterly since 1981 (~104 now)

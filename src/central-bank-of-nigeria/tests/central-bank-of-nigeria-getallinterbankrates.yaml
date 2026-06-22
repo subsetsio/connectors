@@ -1,0 +1,40 @@
+# Expectations for GetAllInterbankRates (CBN GetAll* raw, NDJSON).
+spec_id: central-bank-of-nigeria-getallinterbankrates
+status: active
+tests:
+- not_null: id
+  certainty: 99
+  reason: id is the source primary key; every record carries one
+- column_type:
+    col: id
+    type: integer
+  certainty: 95
+  reason: id arrives as a JSON number -> BIGINT
+- unique: id
+  certainty: 90
+  reason: id is the source primary key; dupes mean the array was fetched/concatenated twice
+- not_null: ratedate
+  certainty: 99
+- column_type:
+    col: ratedate
+    type: string
+  certainty: 95
+  reason: Month-DD-YYYY string; casting is the transform's job
+- matches:
+    col: ratedate
+    pattern: ^[A-Za-z]+-\d{1,2}-\d{4}$
+  certainty: 85
+  reason: source emits 'June-19-2026' style dates
+- not_null: ratetype
+  certainty: 90
+- median_between:
+    col: weightedaverage
+    lo: 1
+    hi: 60
+  certainty: 50
+  severity: warn
+  reason: interbank rates in percent
+- row_count:
+    min: 10000
+  certainty: 85
+  reason: daily per-tenor since 2001 (~18k now)

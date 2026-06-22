@@ -1,0 +1,40 @@
+# Expectations for GetAllReserves (CBN GetAll* raw, NDJSON).
+spec_id: central-bank-of-nigeria-getallreserves
+status: active
+tests:
+- not_null: id
+  certainty: 99
+  reason: id is the source primary key; every record carries one
+- column_type:
+    col: id
+    type: integer
+  certainty: 95
+  reason: id arrives as a JSON number -> BIGINT
+- unique: id
+  certainty: 90
+  reason: id is the source primary key; dupes mean the array was fetched/concatenated twice
+- not_null: moveDate
+  certainty: 99
+- column_type:
+    col: moveDate
+    type: string
+  certainty: 95
+- matches:
+    col: moveDate
+    pattern: ^\d{2}/\d{2}/\d{4}$
+  certainty: 90
+- column_type:
+    col: gross
+    type: string
+  certainty: 90
+- median_between:
+    col: gross
+    lo: 1000000000.0
+    hi: 1000000000000.0
+  certainty: 55
+  severity: warn
+  reason: external reserves in USD, tens of billions
+- row_count:
+    min: 3000
+  certainty: 85
+  reason: daily reserves since 2006 (~4.9k now)

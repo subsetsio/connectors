@@ -1,0 +1,23 @@
+spec_id: aurorasaurus-web-observations
+status: active
+tests:
+  - not_null: id
+    reason: every web observation is keyed by a server-assigned report id; a null id means the envelope changed or parsing broke
+    certainty: 99
+  - not_null: timestamp
+    reason: timestamp is the submission time, stamped server-side on every report
+    certainty: 95
+  - unique: id
+    reason: one row per report; duplicate ids mean pages were double-counted (e.g. live insert shifted the page window during the crawl)
+    certainty: 80
+  - row_count: {min: 20000}
+    reason: the full corpus was ~41,705 reports as of 2026-06 and only grows; far fewer means pagination stopped early
+    certainty: 85
+  - not_null: see_aurora
+    reason: see_aurora is a required boolean on every report (positive vs negative sighting)
+    certainty: 90
+  - freshness: {col: timestamp, reaches: today - 180d}
+    reason: an active citizen-science feed should have at least one submission within the last six months
+    certainty: 70
+    points_outward: true
+    severity: warn

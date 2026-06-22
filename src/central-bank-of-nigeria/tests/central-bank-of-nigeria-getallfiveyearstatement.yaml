@@ -1,0 +1,46 @@
+# Expectations for GetAllFiveYearStatement (CBN GetAll* raw, NDJSON).
+spec_id: central-bank-of-nigeria-getallfiveyearstatement
+status: active
+tests:
+- not_null: id
+  certainty: 99
+  reason: id is the source primary key; every record carries one
+- column_type:
+    col: id
+    type: integer
+  certainty: 95
+  reason: id arrives as a JSON number -> BIGINT
+- unique: id
+  certainty: 90
+  reason: id is the source primary key; dupes mean the array was fetched/concatenated twice
+- not_null: year
+  certainty: 99
+  reason: annual statement year
+- column_type:
+    col: year
+    type: string
+  certainty: 90
+  reason: year is a quoted 4-digit string in the raw
+- matches:
+    col: year
+    pattern: ^\d{4}$
+  certainty: 90
+- between:
+    col: year
+    lo: 1958
+    hi: current_year()
+  certainty: 80
+  severity: warn
+  reason: annual CBN statement years; 4-digit strings order the same lexically and numerically
+- not_null: date
+  certainty: 95
+- matches:
+    col: date
+    pattern: ^\d{1,2} [A-Za-z]+, \d{4}$
+  certainty: 80
+  severity: warn
+  reason: free-text 'DD Month, YYYY' date label
+- row_count:
+    min: 25
+  certainty: 80
+  reason: one row/year of audited statements (~41 now)
