@@ -12,8 +12,8 @@ tests:
     reason: curated city coordinates, always valid lat
   - between: {col: longitude, lo: -180, hi: 180}
     certainty: 99
-  - distinct_count: {col: name, min: 18, max: 24}
-    reason: 24 curated locations; a couple may skip on a source error
+  - distinct_count: {col: name, min: 4, max: 6}
+    reason: 6 curated locations; a couple may skip on a source error
     certainty: 90
   - unique: [name, date]
     reason: one daily reanalysis row per (city, date); dupes mean a non-overwrite re-pull
@@ -26,8 +26,11 @@ tests:
     reason: global-city daily mean temperatures cluster well within this band
     certainty: 70
     severity: warn
-  - row_count: {min: 400000}
-    reason: ~24 cities x ~31k days (1940-present); far fewer = pull truncated
+  - at_least: {col: date, expr: "2001-01-01"}
+    reason: archive window starts 2001
+    certainty: 95
+  - row_count: {min: 30000}
+    reason: ~6 cities x ~9k days (2001-present); far fewer = pull truncated
     certainty: 85
   - at_least: {col: precipitation_sum, expr: 0}
     reason: precipitation totals are non-negative
