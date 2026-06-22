@@ -1,0 +1,14 @@
+spec_id: dares-dares-defm-entrees-stages-formation-trim
+status: active
+tests:
+  - row_count: {min: 64}
+    reason: full one-shot ODS parquet export; source reports ~160 records, a large shortfall means a truncated download
+    certainty: 80
+  - not_null: date
+    reason: column date is a dimension key present on every row of this table
+    certainty: 90
+  - column_type: {col: date, type: string}
+    certainty: 85
+  - column_type: {col: valeur, type: float}
+    reason: column valeur carries the numeric measure for this statistical table
+    certainty: 80

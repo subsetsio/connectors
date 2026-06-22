@@ -1,0 +1,11 @@
+spec_id: dares-dares-defm-stock-regions-cvs-cjo-mens
+status: active
+tests:
+  - row_count: {min: 320955}
+    reason: full one-shot ODS parquet export; source reports ~802388 records, a large shortfall means a truncated download
+    certainty: 80
+  - not_null: date
+    reason: column date is a dimension key present on every row of this table
+    certainty: 90
+  - column_type: {col: date, type: string}
+    certainty: 85

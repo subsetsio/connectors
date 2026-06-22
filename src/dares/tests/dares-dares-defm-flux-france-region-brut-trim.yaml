@@ -1,0 +1,14 @@
+spec_id: dares-dares-defm-flux-france-region-brut-trim
+status: active
+tests:
+  - row_count: {min: 21070}
+    reason: full one-shot ODS parquet export; source reports ~52677 records, a large shortfall means a truncated download
+    certainty: 80
+  - not_null: date
+    reason: column date is a dimension key present on every row of this table
+    certainty: 90
+  - column_type: {col: date, type: string}
+    certainty: 85
+  - column_type: {col: nombre_de_demandeurs_d_emploi, type: integer}
+    reason: column nombre_de_demandeurs_d_emploi carries the numeric measure for this statistical table
+    certainty: 80

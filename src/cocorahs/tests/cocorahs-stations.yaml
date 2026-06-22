@@ -1,0 +1,22 @@
+spec_id: cocorahs-stations
+status: active
+tests:
+  - not_null: StationNumber
+    reason: the station number is the catalog's natural key, always present
+    certainty: 98
+  - not_null: State
+    reason: every station record carries its state
+    certainty: 95
+  - matches: {col: StationNumber, pattern: '^[A-Z]{2}-.+'}
+    reason: station numbers are namespaced by a 2-letter state prefix (StationNumber is the first CSV field, unpadded)
+    certainty: 92
+  - distinct_count: {col: StationNumber, min: 1000}
+    reason: the network has tens of thousands of stations; a tiny distinct count means the sweep broke
+    certainty: 88
+  - distinct_count: {col: State, min: 20}
+    reason: stations exist across dozens of states/territories
+    certainty: 85
+    severity: warn
+  - row_count: {min: 1000}
+    reason: CoCoRaHS has ~26k registered stations across its history
+    certainty: 88

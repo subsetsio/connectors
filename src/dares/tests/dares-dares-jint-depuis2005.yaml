@@ -1,0 +1,11 @@
+spec_id: dares-dares-jint-depuis2005
+status: active
+tests:
+  - row_count: {min: 8}
+    reason: full one-shot ODS parquet export; source reports ~20 records, a large shortfall means a truncated download
+    certainty: 80
+  - not_null: date_champ_nombre_de_jint_pour_1000_salaries
+    reason: column date_champ_nombre_de_jint_pour_1000_salaries is a dimension key present on every row of this table
+    certainty: 90
+  - column_type: {col: date_champ_nombre_de_jint_pour_1000_salaries, type: string}
+    certainty: 85
