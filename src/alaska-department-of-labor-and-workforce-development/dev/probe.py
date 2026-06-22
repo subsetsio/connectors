@@ -1,8 +1,26 @@
-import sys, io, traceback
+import sys, io, traceback, zipfile, re
 sys.path.insert(0, "src")
 import subsets_utils
 from subsets_utils import get
 import openpyxl
+
+def load_wb(content):
+    """Load xlsx, stripping broken drawing refs that crash openpyxl."""
+    try:
+        return openpyxl.load_workbook(io.BytesIO(content), data_only=True)
+    except Exception:
+        zin = zipfile.ZipFile(io.BytesIO(content))
+        out = io.BytesIO(); zout = zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED)
+        for n in zin.namelist():
+            if "drawing" in n.lower():
+                continue
+            data = zin.read(n)
+            if n.endswith(".rels") or n.endswith(".xml"):
+                data = re.sub(rb"<drawing[^>]*/>", b"", data)
+                data = re.sub(rb"<Relationship[^>]*drawing[^>]*/>", b"", data)
+            zout.writestr(n, data)
+        zout.close(); out.seek(0)
+        return openpyxl.load_workbook(out, data_only=True)
 
 BASE = "https://live.laborstats.alaska.gov"
 
@@ -32,23 +50,15 @@ def probe_xlsx(url, sheet_rows=10):
     print(f"  status={r.status_code} ctype={r.headers.get('content-type')} len={len(r.content)}")
     if r.status_code != 200:
         return
-    ro = False
     try:
-        wb = openpyxl.load_workbook(io.BytesIO(r.content), data_only=True)
+        wb = load_wb(r.content)
     except Exception as e:
-        try:
-            wb = openpyxl.load_workbook(io.BytesIO(r.content), data_only=True, read_only=True)
-            ro = True
-        except Exception as e2:
-            print(f"  NOT a valid xlsx: {e} / {e2}")
-            print("  first bytes:", r.content[:120])
-            return
-    print(f"  sheets: {wb.sheetnames}  (read_only={ro})")
+        print(f"  NOT a valid xlsx: {e}")
+        print("  first bytes:", r.content[:120])
+        return
+    print(f"  sheets: {wb.sheetnames}")
     ws = wb[wb.sheetnames[0]]
-    if not ro:
-        print(f"  primary sheet '{ws.title}' max_row={ws.max_row} max_col={ws.max_column}")
-    else:
-        print(f"  primary sheet '{ws.title}'")
+    print(f"  primary sheet '{ws.title}' max_row={ws.max_row} max_col={ws.max_column}")
     for i, row in enumerate(ws.iter_rows(values_only=True)):
         if i >= sheet_rows: break
         cells = [("" if c is None else str(c))[:22] for c in row]

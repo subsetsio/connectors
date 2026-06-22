@@ -33,7 +33,7 @@ for pkg in pkgs:
     for res in pkg.get("resources",[]):
         fmt=(res.get("format") or "")
         if "pdf" in fmt.lower(): continue
-        key=f"{fam}/{norm(res.get('name') or res.get('id'))}".lower().replace("_","-")
+        key=f"{fam}--{norm(res.get('name') or res.get('id'))}".lower().replace("_","-")
         groups.setdefault(key,[]).append((py,res["id"],fmt,bool(res.get("datastore_active")),res.get("name")))
 print("groups",len(groups))
 

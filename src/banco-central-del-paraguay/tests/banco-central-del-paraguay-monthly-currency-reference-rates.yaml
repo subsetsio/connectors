@@ -1,0 +1,31 @@
+spec_id: banco-central-del-paraguay-monthly-currency-reference-rates
+status: active
+tests:
+  - not_null: currency_code
+    reason: every parsed row is keyed by an ISO currency code
+    certainty: 95
+  - not_null: year
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 90
+  - matches: {col: currency_code, pattern: "^[A-Z]{2,4}$"}
+    reason: codes are upper-case ISO-4217 alpha strings extracted from the planilla
+    certainty: 90
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - between: {col: year, lo: 2001, hi: current_year()}
+    reason: BCP cotizacion archive starts 2001; sweep upper-bounded by current year
+    certainty: 90
+  - unique: [year, month, currency_code]
+    reason: one month-end close per currency per month; dupes mean a year was scraped twice
+    certainty: 90
+  - distinct_count: {col: currency_code, min: 15}
+    reason: the monthly planilla lists ~23 currencies
+    certainty: 80
+  - row_count: {min: 3000}
+    reason: ~23 currencies x ~12 months x ~25 years, minus sparse early months
+    certainty: 75
+  - at_most: {col: year, expr: current_year()}
+    certainty: 90
+    points_outward: true
+    severity: warn

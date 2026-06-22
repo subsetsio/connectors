@@ -1,0 +1,25 @@
+spec_id: banco-central-del-paraguay-daily-usd-reference-rate
+status: active
+tests:
+  - not_null: date
+    certainty: 99
+  - not_null: guaranies_per_usd
+    reason: rows are only emitted for grid cells that parsed as a number
+    certainty: 95
+  - column_type: {col: date, type: date}
+    certainty: 95
+  - unique: date
+    reason: one reference USD rate per business day
+    certainty: 95
+  - between: {col: guaranies_per_usd, lo: 1000, hi: 12000}
+    reason: USD/PYG ran ~3000-4700 in the 2000s and ~6000-7500 recently
+    certainty: 80
+    severity: warn
+  - row_count: {min: 3000}
+    reason: ~250 business days x ~25 years
+    certainty: 75
+  - freshness: {col: date, reaches: today - 60d}
+    reason: BCP posts the reference rate every business day; a stale max means the source or our sweep lagged
+    certainty: 70
+    points_outward: true
+    severity: warn
