@@ -1,0 +1,20 @@
+spec_id: clio-infra-historicalgenderequalityindex
+status: active
+tests:
+  - not_null: year
+  - not_null: value
+  - not_null: country
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - row_count: {min: 4355}
+    reason: upstream badge reports ~6222 observations; >=70% guards against a truncated/partial download
+    certainty: 80
+  - between: {col: year, lo: 1945, hi: 2008}
+    reason: indicator's stated coverage span is 1950-2003 (+/-5y slack)
+    certainty: 75
+    points_outward: true
+    severity: warn
+  - at_most: {col: year, expr: current_year()}
+    reason: historical reconstruction; no future-dated observations expected
+    certainty: 90
+    points_outward: true

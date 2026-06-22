@@ -1,0 +1,20 @@
+spec_id: clio-infra-numeracy(total)
+status: active
+tests:
+  - not_null: year
+  - not_null: value
+  - not_null: country
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - row_count: {min: 968}
+    reason: upstream badge reports ~1384 observations; >=70% guards against a truncated/partial download
+    certainty: 80
+  - between: {col: year, lo: 1495, hi: 1975}
+    reason: indicator's stated coverage span is 1500-1970 (+/-5y slack)
+    certainty: 75
+    points_outward: true
+    severity: warn
+  - at_most: {col: year, expr: current_year()}
+    reason: historical reconstruction; no future-dated observations expected
+    certainty: 90
+    points_outward: true

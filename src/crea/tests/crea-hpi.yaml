@@ -1,0 +1,48 @@
+spec_id: crea-hpi
+status: active
+tests:
+  - not_null: date
+  - not_null: geography
+  - not_null: housing_type
+  - not_null: frequency
+
+  - column_type: {col: date, type: date}
+  - column_type: {col: hpi_index, type: float}
+  - column_type: {col: benchmark_price, type: float}
+  - column_type: {col: seasonally_adjusted, type: boolean}
+
+  - unique: [date, geography, housing_type, frequency, seasonally_adjusted]
+    reason: one observation per geography x housing-type x date x frequency x adjustment; dupes mean a workbook was parsed twice or overwrite was skipped
+    certainty: 95
+
+  - enum: {col: frequency, values: [monthly, quarterly, annual]}
+    certainty: 95
+  - enum: {col: level, values: [national, provincial, board]}
+    certainty: 90
+  - enum: {col: housing_type, values: [composite, single_family, one_storey, two_storey, townhouse, apartment]}
+    reason: the six HPI housing categories CREA publishes; a new token means a header changed
+    certainty: 90
+
+  - between: {col: hpi_index, lo: 10, hi: 5000}
+    reason: index rebased to 100 at 2005-01; observed ~79-614 across geographies, wide band for headroom
+    certainty: 85
+  - between: {col: benchmark_price, lo: 10000, hi: 20000000}
+    reason: benchmark prices in CAD; observed ~75k-2.2M, wide band for hot markets
+    certainty: 85
+  - median_between: {col: benchmark_price, lo: 100000, hi: 2000000}
+    reason: unit guard - benchmark is whole CAD dollars, not thousands
+    certainty: 70
+    severity: warn
+
+  - distinct_count: {col: geography, min: 40}
+    reason: ~60 geographies (national + provinces + boards); a sharp drop means sheet enumeration broke
+    certainty: 90
+  - row_count: {min: 100000}
+    reason: ~200k long-format rows across 4 workbooks x ~60 geographies x 6 housing types x history to 2005
+    certainty: 85
+
+  - freshness: {col: date, reaches: today - 120d}
+    reason: monthly HPI is released around the 15th; the latest month should be within ~4 months
+    certainty: 80
+    points_outward: true
+    severity: warn
