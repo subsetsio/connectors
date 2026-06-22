@@ -1,13 +1,16 @@
-"""bom daily-weather-observations: the full Daily Weather Observations corpus.
+"""bom node module — Australian Bureau of Meteorology, anonymous FTP.
 
-Product IDCKWCDEA0, pulled as the single bulk archive IDCKWCDEA0.tgz (~60MB,
-~104k per-station/per-month CSVs) and reshaped into one long-format table — one
-row per (station, date) with the shared daily variables.
+Two subsets, both stateless full re-pulls (shape 1) from the Bureau's sanctioned
+anonymous-FTP channel (ftp.bom.gov.au); the www HTTP site blocks programmatic
+access. Both corpora are small enough to re-pull in full every refresh, which
+also picks up any revisions for free.
 
-Small enough to re-pull in full every run, so this is a stateless full re-pull
-(shape 1) — no watermark, no cursor. The corpus is a rolling window (~2016 to
-current month), so a fresh full snapshot each refresh also picks up any
-revisions for free.
+- daily-weather-observations: the whole Daily Weather Observations corpus
+  (product IDCKWCDEA0), pulled as the single bulk archive IDCKWCDEA0.tgz (~60MB,
+  ~104k per-station/per-month CSVs) and reshaped into one long-format table —
+  one row per (station, date) with the shared daily variables.
+- stations: the climate station catalogue (stations_db.txt), parsed from its
+  fixed layout into joinable reference data.
 """
 
 import csv as csvmod
@@ -18,8 +21,12 @@ import tarfile
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, raw_parquet_writer
+from subsets_utils import NodeSpec, SqlNodeSpec, raw_parquet_writer, save_raw_parquet
 from utils import ftp_retrieve
+
+# --------------------------------------------------------------------------- #
+# daily-weather-observations
+# --------------------------------------------------------------------------- #
 
 DWO_TGZ_PATH = "/anon/gen/clim_data/IDCKWCDEA0.tgz"
 
@@ -120,8 +127,65 @@ def fetch_observations(node_id: str) -> None:
             writer.write_batch(_to_batch(cols))
 
 
+# --------------------------------------------------------------------------- #
+# stations
+# --------------------------------------------------------------------------- #
+
+STATIONS_DB_PATH = "/anon/gen/clim_data/IDCKWCDEA0/tables/stations_db.txt"
+
+# stations_db.txt fixed layout: id, state, district, name, open-date-range, lat, lon
+_STATION_RE = re.compile(
+    r"^(\S+)\s+(\S+)\s+(\S+)\s+(.+?)\s+(\d{8})\.\.(\d{0,8})\s+"
+    r"(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s*$"
+)
+
+STATIONS_SCHEMA = pa.schema(
+    [
+        ("bom_station_id", pa.string()),
+        ("state", pa.string()),
+        ("district_code", pa.string()),
+        ("station_name", pa.string()),
+        ("open_date", pa.string()),
+        ("close_date", pa.string()),
+        ("latitude", pa.float64()),
+        ("longitude", pa.float64()),
+    ]
+)
+
+
+def fetch_stations(node_id: str) -> None:
+    asset = node_id
+    text = ftp_retrieve(STATIONS_DB_PATH).decode("latin-1")
+    rows = {name: [] for name in STATIONS_SCHEMA.names}
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        m = _STATION_RE.match(line)
+        if not m:
+            raise ValueError(f"unparseable stations_db row: {line!r}")
+        sid, state, district, name, open_d, close_d, lat, lon = m.groups()
+        rows["bom_station_id"].append(sid)
+        rows["state"].append(state)
+        rows["district_code"].append(district)
+        rows["station_name"].append(name.strip())
+        rows["open_date"].append(open_d or None)
+        rows["close_date"].append(close_d or None)
+        rows["latitude"].append(float(lat))
+        rows["longitude"].append(float(lon))
+    table = pa.table(
+        {n: pa.array(rows[n], type=STATIONS_SCHEMA.field(n).type) for n in STATIONS_SCHEMA.names},
+        schema=STATIONS_SCHEMA,
+    )
+    save_raw_parquet(table, asset)
+
+
+# --------------------------------------------------------------------------- #
+# specs
+# --------------------------------------------------------------------------- #
+
 DOWNLOAD_SPECS = [
     NodeSpec(id="bom-daily-weather-observations", fn=fetch_observations, kind="download"),
+    NodeSpec(id="bom-stations", fn=fetch_stations, kind="download"),
 ]
 
 TRANSFORM_SPECS = [
@@ -148,6 +212,23 @@ TRANSFORM_SPECS = [
             QUALIFY row_number() OVER (
                 PARTITION BY station_slug, date ORDER BY station_name
             ) = 1
+        ''',
+    ),
+    SqlNodeSpec(
+        id="bom-stations-transform",
+        deps=["bom-stations"],
+        sql='''
+            SELECT
+                bom_station_id,
+                state,
+                district_code,
+                station_name,
+                open_date,
+                close_date,
+                CAST(latitude  AS DOUBLE) AS latitude,
+                CAST(longitude AS DOUBLE) AS longitude
+            FROM "bom-stations"
+            WHERE bom_station_id IS NOT NULL
         ''',
     ),
 ]
