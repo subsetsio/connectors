@@ -1,0 +1,17 @@
+spec_id: banco-central-do-brasil-sgs-values
+status: active
+tests:
+  - not_null: series_code
+  - not_null: data
+    reason: every observation carries its dd/mm/yyyy date string
+    certainty: 90
+  - not_null: valor
+    reason: rows with a missing value are dropped in transform, but raw should carry the field
+    certainty: 75
+    severity: warn
+  - distinct_count: {col: series_code, min: 100}
+    reason: the firehose covers thousands of distinct series
+    certainty: 85
+  - row_count: {min: 100000}
+    reason: thousands of series x decades of (often daily) observations
+    certainty: 85

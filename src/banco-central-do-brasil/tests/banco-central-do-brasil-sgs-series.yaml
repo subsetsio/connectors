@@ -1,0 +1,16 @@
+spec_id: banco-central-do-brasil-sgs-series
+status: active
+tests:
+  - not_null: code
+  - unique: code
+    reason: one row per SGS series; the discovery dedupes by numeric code
+    certainty: 95
+  - column_type: {col: code, type: integer}
+    reason: SGS series codes are numeric (codigo_serie)
+    certainty: 90
+  - not_null: title
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1000}
+    reason: the CKAN portal exposes thousands of SGS series
+    certainty: 85

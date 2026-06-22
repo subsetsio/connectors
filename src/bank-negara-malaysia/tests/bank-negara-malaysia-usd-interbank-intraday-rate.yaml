@@ -1,0 +1,30 @@
+spec_id: bank-negara-malaysia-usd-interbank-intraday-rate
+status: active
+tests:
+  - not_null: date
+    reason: every intraday observation is keyed by date
+    certainty: 95
+  - not_null: highest_rate
+    reason: the intraday high is always quoted
+    certainty: 90
+  - not_null: lowest_rate
+    reason: the intraday low is always quoted
+    certainty: 90
+  - column_type: {col: highest_rate, type: float}
+    reason: the rate is a decimal MYR-per-USD value
+    certainty: 85
+  - relationship: {left: highest_rate, op: ">=", right: lowest_rate}
+    reason: the intraday high cannot be below the intraday low
+    certainty: 90
+  - between: {col: highest_rate, lo: 1, hi: 10}
+    reason: USD/MYR has traded roughly between 3 and 5 historically
+    certainty: 75
+    severity: warn
+  - row_count: {min: 500}
+    reason: daily series spanning many years
+    certainty: 75
+  - freshness: {col: date, reaches: today - 30d}
+    reason: published each business day; stale max = source lag
+    certainty: 75
+    points_outward: true
+    severity: warn

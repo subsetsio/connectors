@@ -1,0 +1,21 @@
+spec_id: banco-central-do-brasil-ptax-cotacaodolarperiodo
+status: active
+tests:
+  - not_null: cotacaoCompra
+  - not_null: cotacaoVenda
+  - not_null: dataHoraCotacao
+  - relationship: {left: cotacaoCompra, op: "<=", right: cotacaoVenda}
+    reason: the buy (compra) PTAX rate is never above the sell (venda) rate
+    certainty: 90
+  - between: {col: cotacaoVenda, lo: 0.8, hi: 12}
+    reason: BRL/USD has ranged ~1 (1999) to ~6 (recent); a value outside this is a unit/parse error
+    certainty: 80
+    severity: warn
+  - row_count: {min: 2000}
+    reason: ~250 trading days/year since 1999 yields thousands of daily bulletins
+    certainty: 85
+  - freshness: {col: dataHoraCotacao, reaches: today - 14d}
+    reason: PTAX is published every business day; the latest bulletin should be very recent
+    certainty: 75
+    points_outward: true
+    severity: warn

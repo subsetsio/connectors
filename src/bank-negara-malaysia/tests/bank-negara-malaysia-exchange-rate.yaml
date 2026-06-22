@@ -1,0 +1,30 @@
+spec_id: bank-negara-malaysia-exchange-rate
+status: active
+tests:
+  - not_null: currency_code
+    reason: every quote is keyed by ISO currency code
+    certainty: 95
+  - not_null: date
+    reason: every quote carries its observation date
+    certainty: 95
+  - not_null: unit
+    reason: the per-unit basis is always present (1 or 100)
+    certainty: 85
+  - column_type: {col: buying_rate, type: float}
+    reason: FX rates are decimal MYR-per-unit values
+    certainty: 80
+  - between: {col: buying_rate, lo: 0, hi: 1000}
+    reason: MYR per unit of any quoted currency stays well under 1000
+    certainty: 70
+    severity: warn
+  - distinct_count: {col: currency_code, min: 5}
+    reason: BNM quotes ~27 currencies; history covers at least the majors
+    certainty: 80
+  - row_count: {min: 1000}
+    reason: multiple currencies x ~15+ years of daily quotes
+    certainty: 80
+  - freshness: {col: date, reaches: today - 30d}
+    reason: FX is published every business day; a stale max means source lag
+    certainty: 80
+    points_outward: true
+    severity: warn

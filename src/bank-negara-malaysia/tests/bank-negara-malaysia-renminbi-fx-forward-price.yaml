@@ -1,0 +1,19 @@
+spec_id: bank-negara-malaysia-renminbi-fx-forward-price
+status: active
+tests:
+  - not_null: date
+    reason: the forward-price snapshot carries its observation date
+    certainty: 90
+  - not_null: selling_spot
+    reason: the spot leg of the selling curve is always present
+    certainty: 80
+  - column_type: {col: selling_spot, type: float}
+    reason: the spot price is a decimal CNY-per-MYR value
+    certainty: 75
+  - between: {col: selling_spot, lo: 0, hi: 10}
+    reason: CNY/MYR spot is a small positive figure (~0.6)
+    certainty: 65
+    severity: warn
+  - row_count: {min: 1}
+    reason: a single latest-state forward-price record
+    certainty: 80

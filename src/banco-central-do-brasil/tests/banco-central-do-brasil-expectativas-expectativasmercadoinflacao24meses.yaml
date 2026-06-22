@@ -1,0 +1,25 @@
+spec_id: banco-central-do-brasil-expectativas-expectativasmercadoinflacao24meses
+status: active
+tests:
+  - not_null: Indicador
+  - not_null: Data
+  - not_null: DataReferencia
+  - not_null: Media
+    reason: every Focus statistic row reports a mean expectation
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: a multi-year daily Focus survey set has thousands of rows
+    certainty: 85
+  - between: {col: numeroRespondentes, lo: 1, hi: 500}
+    reason: respondent count per indicator-date is a small positive institution count
+    certainty: 70
+    severity: warn
+  - enum: {col: baseCalculo, values: [0, 1]}
+    reason: baseCalculo flags the calculation base (0/1) in the Focus schema
+    certainty: 75
+    severity: warn
+  - freshness: {col: Data, reaches: today - 60d}
+    reason: Focus is published weekly; the latest survey date should be recent
+    certainty: 70
+    points_outward: true
+    severity: warn

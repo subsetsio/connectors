@@ -1,0 +1,23 @@
+spec_id: bank-of-italy-truf0400
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: a PROSPETTODATI pull of a rank-active Bollettino table always returns observations; an empty raw asset means the table id is wrong or the session/endpoint changed.
+    certainty: 95
+  - not_null: CUBEID
+    reason: every healthy observation carries its full SDMX series key; the fetch rejects stripped (CUBEID-less) pivots, so a null here means a parse/format change on our side.
+    certainty: 95
+  - not_null: DATA_OSS
+    reason: each long-format observation is keyed by its observation date.
+    certainty: 90
+  - not_null: VALORE
+    reason: each observation carries a value (a numeric string); a null means the pivot returned a placeholder cell.
+    certainty: 80
+    severity: warn
+  - matches: {col: DATA_OSS, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}"}
+    reason: DATA_OSS is an ISO timestamp string 'YYYY-MM-DD HH:MM:SS'.
+    certainty: 85
+  - unique: [CUBEID, DATA_OSS]
+    reason: CUBEID is the complete SDMX series key, so one observation per (series, date); duplicates mean a chunk overlapped or the asset was appended without overwrite.
+    certainty: 85
+    severity: warn

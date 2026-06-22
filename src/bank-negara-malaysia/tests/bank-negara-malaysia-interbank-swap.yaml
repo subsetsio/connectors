@@ -1,0 +1,21 @@
+spec_id: bank-negara-malaysia-interbank-swap
+status: active
+tests:
+  - not_null: date
+    reason: every interbank-swap volume row is keyed by date
+    certainty: 95
+  - column_type: {col: overnight, type: float}
+    reason: tenor volumes are decimal MYR-million figures
+    certainty: 75
+  - between: {col: overnight, lo: 0, hi: 1000000}
+    reason: swap volumes are non-negative and bounded well below a million MYR-million
+    certainty: 60
+    severity: warn
+  - row_count: {min: 500}
+    reason: daily series spanning many years
+    certainty: 75
+  - freshness: {col: date, reaches: today - 30d}
+    reason: published each business day; stale max = source lag
+    certainty: 70
+    points_outward: true
+    severity: warn

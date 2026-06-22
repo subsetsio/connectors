@@ -56,3 +56,13 @@ print("=== history depth probe (group 1, all codes) ===")
 for yr in ["1990","1995","2000","2003","2005","2010"]:
     s,m,rows=cot(codes,f"{yr}-01-04",f"{yr}-01-31",1)
     print(yr,"-> status",s,"msg",repr(m),"rows",len(rows), "firstFecha", rows[0]['Fecha'] if rows else None)
+
+print("=== floor 1996-1999 ===")
+for yr in ["1996","1997","1998","1999"]:
+    s,m,rows=cot(codes,f"{yr}-01-04",f"{yr}-01-31",1)
+    print(yr,"rows",len(rows) if s=="1" else 0, "status",s)
+# check group 2 arbitrajes shape
+print("=== group2 sample ===")
+g2=monedas(2); c2=[c for c,_ in g2]
+s,m,rows=cot(c2,"2025-06-02","2025-06-06",2)
+print("grp2 codes",len(c2),"status",s,"rows",len(rows),"sample",rows[0] if rows else None)

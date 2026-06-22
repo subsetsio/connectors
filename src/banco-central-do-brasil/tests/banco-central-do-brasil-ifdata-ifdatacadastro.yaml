@@ -1,0 +1,15 @@
+spec_id: banco-central-do-brasil-ifdata-ifdatacadastro
+status: active
+tests:
+  - not_null: CodInst
+  - not_null: NomeInstituicao
+  - not_null: Data
+    reason: every registry row is stamped with its AnoMes reporting period
+    certainty: 90
+  - distinct_count: {col: Uf, min: 1, max: 27}
+    reason: Brazilian institutions span at most the 26 states + DF
+    certainty: 85
+    severity: warn
+  - row_count: {min: 1000}
+    reason: thousands of institution-period rows across the quarterly backfill
+    certainty: 85

@@ -1,0 +1,21 @@
+spec_id: banco-central-do-brasil-expectativas-expectativasmercadotop5anuais
+status: active
+tests:
+  - not_null: Indicador
+  - not_null: Data
+  - not_null: DataReferencia
+  - not_null: Media
+    reason: every Top5 Focus row reports a mean of the top-5 forecasters
+    certainty: 90
+  - not_null: tipoCalculo
+    reason: Top5 sets are keyed by the ranking calculation type (short/medium/long)
+    certainty: 80
+    severity: warn
+  - row_count: {min: 500}
+    reason: a multi-year Top5 Focus set has hundreds-to-thousands of rows
+    certainty: 80
+  - freshness: {col: Data, reaches: today - 90d}
+    reason: Top5 is published periodically; latest survey date should be recent
+    certainty: 65
+    points_outward: true
+    severity: warn

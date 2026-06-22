@@ -1,0 +1,16 @@
+spec_id: bank-of-italy-pubbl-00-02-01-04-03
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: a PROSPETTODATI pull of this measure-named (rate-decision registry) table always returns observations.
+    certainty: 95
+  - not_null: MEASURES
+    reason: each row of a measure-named (wide) table names the measure whose value it carries; the value lives in the column of that name rather than in VALORE.
+    certainty: 90
+  - not_null: NUM_ORD
+    reason: every provision row carries its ordinal within an effective date.
+    certainty: 85
+  - not_null: DATA_PROV
+    reason: each provision carries its publication/provision date.
+    certainty: 80
+    severity: warn

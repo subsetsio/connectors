@@ -1,0 +1,23 @@
+spec_id: banco-central-do-brasil-ptax-cotacaomoedaperiodo
+status: active
+tests:
+  - not_null: cotacaoVenda
+  - not_null: dataHoraCotacao
+  - not_null: moeda
+    reason: the per-currency symbol is injected on every row during the fetch
+    certainty: 95
+  - relationship: {left: cotacaoCompra, op: "<=", right: cotacaoVenda}
+    reason: buy (compra) is never above sell (venda) for any currency
+    certainty: 85
+    severity: warn
+  - distinct_count: {col: moeda, min: 2, max: 100}
+    reason: PTAX quotes dozens of currencies; one symbol would mean the loop broke
+    certainty: 80
+  - row_count: {min: 2000}
+    reason: many currencies x daily bulletins x 25 years is large
+    certainty: 85
+  - freshness: {col: dataHoraCotacao, reaches: today - 14d}
+    reason: PTAX currency bulletins publish every business day
+    certainty: 70
+    points_outward: true
+    severity: warn

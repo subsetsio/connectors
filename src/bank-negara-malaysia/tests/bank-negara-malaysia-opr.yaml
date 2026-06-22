@@ -1,0 +1,30 @@
+spec_id: bank-negara-malaysia-opr
+status: active
+tests:
+  - not_null: date
+    reason: every OPR decision is keyed by its announcement date
+    certainty: 95
+  - not_null: year
+    reason: each decision carries its year
+    certainty: 90
+  - column_type: {col: year, type: integer}
+    reason: year is an integer calendar year
+    certainty: 85
+  - between: {col: year, lo: 2000, hi: current_year()}
+    reason: the OPR framework dates to the mid-2000s; no future-dated decisions
+    certainty: 85
+  - at_most: {col: year, expr: current_year()}
+    reason: policy decisions are never future-dated
+    certainty: 90
+  - between: {col: new_opr_level, lo: 0, hi: 10}
+    reason: the policy rate is a small annual percentage
+    certainty: 85
+    severity: warn
+  - row_count: {min: 30}
+    reason: several policy decisions per year across ~20 years
+    certainty: 80
+  - freshness: {col: date, reaches: today - 400d}
+    reason: OPR meets several times a year; a >1y-old max signals source lag
+    certainty: 70
+    points_outward: true
+    severity: warn

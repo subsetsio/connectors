@@ -1,0 +1,25 @@
+spec_id: bank-negara-malaysia-kijang-emas
+status: active
+tests:
+  - not_null: date
+    reason: every gold-price observation is keyed by its effective date
+    certainty: 95
+  - not_null: one_oz_buying
+    reason: the headline 1oz buying price is always quoted
+    certainty: 85
+  - between: {col: one_oz_buying, lo: 0, hi: 1000000}
+    reason: the Kijang Emas 1oz price is a positive MYR figure (thousands)
+    certainty: 75
+    severity: warn
+  - relationship: {left: one_oz_selling, op: ">=", right: one_oz_buying}
+    reason: the bank sells gold at or above its buying price
+    certainty: 80
+    severity: warn
+  - row_count: {min: 500}
+    reason: daily gold prices spanning many years
+    certainty: 75
+  - freshness: {col: date, reaches: today - 30d}
+    reason: published each business day; stale max = source lag
+    certainty: 70
+    points_outward: true
+    severity: warn

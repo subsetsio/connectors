@@ -1,0 +1,23 @@
+spec_id: bank-of-finland-bof-csec-publ
+status: active
+tests:
+  - row_count: {min: 10}
+    reason: every BoF dataset has many series each with a multi-year monthly/quarterly history
+    certainty: 95
+  - not_null: series
+    certainty: 99
+  - not_null: period
+    certainty: 99
+  - not_null: value
+    reason: the observations endpoint only returns periods that carry a value
+    certainty: 90
+  - matches: {col: period, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
+    reason: period is an ISO end-of-period date (e.g. 2002-01-31)
+    certainty: 90
+  - unique: [series, period]
+    reason: one observation per (series, period); duplicates mean a batch was double-counted
+    certainty: 95
+  - distinct_count: {col: series, min: 388}
+    reason: research observed 432 series for BOF_CSEC_PUBL; a large shortfall means series enumeration truncated
+    certainty: 80
+    severity: warn

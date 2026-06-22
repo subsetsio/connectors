@@ -1,0 +1,24 @@
+spec_id: bank-negara-malaysia-fx-turn-over
+status: active
+tests:
+  - not_null: date
+    reason: every turnover observation is keyed by date
+    certainty: 95
+  - not_null: total_sum
+    reason: the daily total FX turnover is the sole measure
+    certainty: 90
+  - column_type: {col: total_sum, type: float}
+    reason: turnover is a decimal volume (USD billions)
+    certainty: 80
+  - between: {col: total_sum, lo: 0, hi: 100000}
+    reason: daily FX turnover is a non-negative volume in the tens-to-hundreds range
+    certainty: 65
+    severity: warn
+  - row_count: {min: 500}
+    reason: daily series spanning many years
+    certainty: 75
+  - freshness: {col: date, reaches: today - 30d}
+    reason: turnover publishes each business day; stale max = source lag
+    certainty: 70
+    points_outward: true
+    severity: warn

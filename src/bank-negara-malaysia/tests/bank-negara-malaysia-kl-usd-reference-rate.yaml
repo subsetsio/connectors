@@ -1,0 +1,24 @@
+spec_id: bank-negara-malaysia-kl-usd-reference-rate
+status: active
+tests:
+  - not_null: date
+    reason: every reference-rate observation is keyed by date
+    certainty: 95
+  - not_null: rate
+    reason: the USD reference rate is the sole measure
+    certainty: 90
+  - column_type: {col: rate, type: float}
+    reason: the rate is a decimal MYR-per-USD value
+    certainty: 85
+  - between: {col: rate, lo: 1, hi: 10}
+    reason: USD/MYR has traded roughly between 3 and 5 historically
+    certainty: 75
+    severity: warn
+  - row_count: {min: 500}
+    reason: daily series spanning many years
+    certainty: 75
+  - freshness: {col: date, reaches: today - 30d}
+    reason: published each business day; stale max = source lag
+    certainty: 75
+    points_outward: true
+    severity: warn

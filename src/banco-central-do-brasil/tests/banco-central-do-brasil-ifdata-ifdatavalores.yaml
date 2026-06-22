@@ -1,0 +1,15 @@
+spec_id: banco-central-do-brasil-ifdata-ifdatavalores
+status: active
+tests:
+  - not_null: CodInst
+  - not_null: NumeroRelatorio
+  - not_null: AnoMes
+    reason: every reported figure carries its reporting period
+    certainty: 90
+  - enum: {col: TipoInstituicao, values: [1, 2, 3, 4]}
+    reason: the fetch enumerates exactly the four TipoInstituicao buckets
+    certainty: 85
+    severity: warn
+  - row_count: {min: 10000}
+    reason: reports x columns x institutions x quarters is very large
+    certainty: 85

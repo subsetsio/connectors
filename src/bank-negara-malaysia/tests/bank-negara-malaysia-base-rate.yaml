@@ -1,0 +1,24 @@
+spec_id: bank-negara-malaysia-base-rate
+status: active
+tests:
+  - not_null: bank_code
+    reason: every base-rate record is keyed by the publishing bank
+    certainty: 95
+  - not_null: bank_name
+    certainty: 90
+  - not_null: effective_date
+    reason: the snapshot's effective_date is stamped onto every row from the meta block
+    certainty: 90
+  - unique: bank_code
+    reason: this is a latest-state snapshot — one row per bank, no history
+    certainty: 85
+  - row_count: {min: 10, max: 100}
+    reason: ~35 licensed Malaysian banks publish a base rate
+    certainty: 80
+  - column_type: {col: base_rate, type: float}
+    reason: base rates are reported to 2 decimals (e.g. 2.70)
+    certainty: 80
+  - between: {col: base_rate, lo: 0, hi: 20}
+    reason: a bank base rate is a small annual percentage
+    certainty: 85
+    severity: warn

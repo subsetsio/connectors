@@ -1,0 +1,30 @@
+spec_id: bank-negara-malaysia-interest-volume
+status: active
+tests:
+  - not_null: product
+    reason: each row is tagged with the product slice it was fetched under
+    certainty: 95
+  - not_null: date
+    reason: every observation is keyed by date
+    certainty: 95
+  - enum: {col: product, values: [overall, interbank, money_market_operations]}
+    reason: the fetch crosses exactly these three product slices
+    certainty: 90
+  - distinct_count: {col: product, min: 3, max: 3}
+    reason: all three product slices are pulled every run
+    certainty: 85
+  - column_type: {col: overnight, type: float}
+    reason: volumes are decimal MYR-million figures
+    certainty: 70
+  - between: {col: overnight, lo: 0, hi: 1000000000}
+    reason: transacted volumes are non-negative and bounded
+    certainty: 60
+    severity: warn
+  - row_count: {min: 1000}
+    reason: three products x many years of daily observations
+    certainty: 75
+  - freshness: {col: date, reaches: today - 45d}
+    reason: published each business day; stale max = source lag
+    certainty: 75
+    points_outward: true
+    severity: warn
