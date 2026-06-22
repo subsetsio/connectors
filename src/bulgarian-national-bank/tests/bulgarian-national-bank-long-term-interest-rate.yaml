@@ -1,0 +1,19 @@
+spec_id: bulgarian-national-bank-long-term-interest-rate
+status: active
+tests:
+  - not_null: keyfamily
+  - not_null: series_key
+  - not_null: period
+  - not_null: value
+    reason: blank/":"/"-" cells are dropped in the parser; surviving rows carry a numeric value
+    certainty: 90
+  - column_type: {col: value, type: float}
+  - column_type: {col: series_key, type: string}
+  - matches: {col: period, pattern: '^\d{4}'}
+    reason: every SDMX period begins with a 4-digit year (YYYY, YYYY-MM, YYYY-Qn, YYYY-MM-DD)
+    certainty: 90
+  - between: {col: value, lo: -5, hi: 30}
+    reason: a long-term government-bond yield (percent) sits in single-to-low-double digits
+    certainty: 70
+    severity: warn
+  - row_count: {min: 1}

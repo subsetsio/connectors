@@ -1,0 +1,37 @@
+spec_id: bom-stations
+status: active
+tests:
+  # --- Structural: one row per station, stable identity ---
+  - not_null: bom_station_id
+    reason: the fixed-layout parser raises on an unparseable row, so every persisted row carries an id
+    certainty: 99
+  - unique: bom_station_id
+    reason: stations_db.txt is a catalogue keyed by station id; duplicates mean the layout regex over-matched
+    certainty: 95
+  - not_null: station_name
+    certainty: 95
+  - column_type: {col: latitude, type: float}
+    certainty: 99
+  - column_type: {col: longitude, type: float}
+    certainty: 99
+
+  # --- Domain: catalogue size ---
+  - row_count: {min: 300}
+    reason: the DWO station catalogue covers ~700 climate stations; far fewer means truncated parse
+    certainty: 85
+
+  # --- Geographic sanity: all stations sit within the Australian bounding box ---
+  - between: {col: latitude, lo: -45, hi: -9}
+    reason: continental Australia + Tasmania span ~10S to ~44S; a value outside means lat/lon swapped or mis-parsed
+    certainty: 90
+  - between: {col: longitude, lo: 110, hi: 156}
+    reason: Australian longitudes span ~112E (WA) to ~154E (QLD coast)
+    certainty: 90
+  - not_null: open_date
+    reason: stations_db.txt carries an 8-digit open date for every station record
+    certainty: 80
+    severity: warn
+  - matches: {col: open_date, pattern: "^[0-9]{8}$"}
+    reason: open date is parsed from a YYYYMMDD field
+    certainty: 80
+    severity: warn

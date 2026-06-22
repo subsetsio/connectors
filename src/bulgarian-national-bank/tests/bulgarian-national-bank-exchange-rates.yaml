@@ -1,0 +1,26 @@
+spec_id: bulgarian-national-bank-exchange-rates
+status: active
+tests:
+  - not_null: date
+  - not_null: currency_code
+  - not_null: rate_bgn
+    reason: every quoted observation carries a lev rate; null rates mean a parse miss
+    certainty: 90
+  - column_type: {col: rate_bgn, type: float}
+  - column_type: {col: ratio, type: float}
+  - column_type: {col: currency_code, type: string}
+  - matches: {col: date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: fetch fn normalises dd.mm.yyyy to ISO yyyy-mm-dd
+    certainty: 95
+  - at_least: {col: rate_bgn, expr: 0}
+    reason: a BGN exchange rate is strictly positive
+    certainty: 90
+    severity: warn
+  - distinct_count: {col: currency_code, min: 20}
+    reason: BNB has historically quoted 50+ currencies and metals; far fewer means the currency list was truncated
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1000}
+    reason: ~25 years of daily rates across many currencies is well into the tens of thousands of rows
+    certainty: 85
+    severity: warn

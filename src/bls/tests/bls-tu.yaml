@@ -1,0 +1,35 @@
+spec_id: bls-tu
+status: active
+tests:
+  - not_null: series_id
+    reason: every BLS flat-file observation row carries a series_id; a null means the tab split shifted/garbled.
+    certainty: 95
+  - not_null: year
+    reason: the parser drops any line whose year field is not all-digits, so every surviving row has a year.
+    certainty: 95
+  - not_null: period
+    reason: every observation row carries a period code (Mxx / Qxx / Sxx / Axx).
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    reason: year is parsed to int32 by the declared parquet schema.
+    certainty: 95
+  - column_type: {col: series_id, type: string}
+    reason: series_id is the tab-delimited string key.
+    certainty: 95
+  - column_type: {col: value, type: string}
+    reason: value is kept raw as a string ('-' sentinels exist); the numeric cast happens in the transform.
+    certainty: 95
+  - matches: {col: period, pattern: '^[A-Z][0-9]{2}$'}
+    reason: BLS period codes are one uppercase letter plus two digits (M01-M13, Q01-Q05, S01-S03, A01).
+    certainty: 90
+  - between: {col: year, lo: 1900, hi: current_year()}
+    reason: BLS series begin no earlier than the early 1900s (CPI ~1913 is the oldest) and never carry future years.
+    certainty: 85
+  - at_most: {col: year, expr: current_year()}
+    reason: BLS publishes historical/current observations, not projections; a future year signals a parse bug.
+    certainty: 85
+    severity: warn
+    points_outward: false
+  - row_count: {min: 1}
+    reason: each active survey database ships at least one observation file with rows.
+    certainty: 90

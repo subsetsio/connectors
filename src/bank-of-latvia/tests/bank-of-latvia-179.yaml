@@ -1,0 +1,31 @@
+spec_id: bank-of-latvia-179
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: fetch_one raises if it parses 0 data rows from the export, so a materialized table always has at least one row
+    certainty: 95
+  - not_null: table_id
+    reason: fetch_one stamps every melted record with the literal table id; it is never null
+    certainty: 99
+  - enum: {col: table_id, values: ["179"]}
+    reason: this node fetches exactly one INTS leaf table, so table_id carries only this table's id
+    certainty: 99
+  - column_type: {col: table_id, type: string}
+    reason: table_id is the source table identifier, kept as text
+    certainty: 99
+  - column_type: {col: row_label, type: string}
+    reason: row_label is the pivot's (possibly multi-level) row dimension joined as text
+    certainty: 99
+  - column_type: {col: period, type: string}
+    reason: period is the pivot's column-dimension / time label joined as text, not parsed to a date
+    certainty: 99
+  - not_null: value
+    reason: only numeric pivot cells become rows and value is a non-null float64; the transform also filters value IS NOT NULL
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: pivot cell values are parsed to float64
+    certainty: 99
+  - unique: [row_label, period]
+    reason: the INTS pivot asserts one value per (row_label, period) cell; a dup would mean two source rows collapsed to the same label string or the table was re-pulled without overwrite
+    certainty: 70
+    severity: warn
