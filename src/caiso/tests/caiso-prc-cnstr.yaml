@@ -1,0 +1,35 @@
+spec_id: caiso-prc-cnstr
+status: active
+tests:
+  - not_null: INTERVALSTARTTIME_GMT
+    reason: every OASIS report row is interval-stamped (GMT); a null means the CSV layout changed underneath us
+    certainty: 95
+  - not_null: INTERVALENDTIME_GMT
+    reason: paired with the start stamp on every row
+    certainty: 95
+  - column_type: {col: INTERVALSTARTTIME_GMT, type: string}
+    reason: OASIS emits ISO-8601 strings with a -0000 offset, parsed as text not native timestamps
+    certainty: 90
+  - not_null: OPR_DT
+    reason: the operating-date column is populated on every row of this report
+    certainty: 90
+  - column_type: {col: OPR_HR, type: integer}
+    reason: OPR_HR is the integer CAISO trading hour
+    certainty: 85
+  - between: {col: OPR_HR, lo: 1, hi: 25}
+    reason: CAISO numbers hours 1..24 (25 on the fall back DST day)
+    certainty: 85
+    severity: warn
+  - enum: {col: MARKET_RUN_ID, values: [DAM, HASP, RTM]}
+    reason: rows are filtered to the market_run_id values this report is queried for; an out-of-set value means the param contract changed
+    certainty: 85
+    severity: warn
+  - nullable: {col: MW, max_null_frac: 0.5}
+    reason: MW is the report's value column and is populated for the majority of rows
+    certainty: 70
+    severity: warn
+  - freshness: {col: INTERVALSTARTTIME_GMT, reaches: today - 14d}
+    reason: the fetch walks the date window up to the current day, so the max interval should be recent
+    certainty: 60
+    points_outward: true
+    severity: warn

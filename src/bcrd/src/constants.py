@@ -1,10 +1,9 @@
 """Generated catalog data for the BCRD connector — NOT logic.
 
-ENTITY_IDS: the rank-accepted collect entity ids (score >= publish threshold).
-FILES_BY_SPEC: maps each download spec id (f"bcrd-{entity_id}") to the list of
-CDN-relative workbook paths that compose that statistical topic (year/month
-partitions of one schema are listed together). Copied from the collect catalog
-and the rank asset; consumed by src/nodes/bcrd.py.
+ENTITY_IDS: rank-accepted collect entity ids (score >= publish threshold).
+FILES_BY_SPEC: download spec id -> CDN-relative workbook paths composing that
+topic (year/month partitions of one schema listed together). Copied from the
+collect catalog + rank asset; consumed by src/nodes/bcrd.py.
 """
 
 ENTITY_IDS = [
@@ -321,46 +320,46 @@ FILES_BY_SPEC = {
         'documents/estadisticas/documents/lleg_total_2022.xls',
     ],
     'bcrd-general-operaciones-pib-anual': [
-        'documents/estadisticas/documents/Operaciones_PIB_Anual.xls',
+        'documents/estadisticas/documents/Operaciones_PIB_Anual.xlsx',
     ],
     'bcrd-general-pib-dolares': [
         'documents/estadisticas/documents/pib_dolares.xls',
     ],
     'bcrd-general-pib-gasto-retro': [
-        'documents/estadisticas/documents/pib_gasto_retro.xls',
+        'documents/estadisticas/documents/pib_gasto_retro.xlsx',
     ],
     'bcrd-general-pib-origen-retro': [
-        'documents/estadisticas/documents/pib_origen_retro.xls',
+        'documents/estadisticas/documents/pib_origen_retro.xlsx',
     ],
     'bcrd-general-remesas-6': [
-        'documents/estadisticas/documents/Remesas_6.xls',
+        'documents/estadisticas/documents/Remesas_6.xlsx',
     ],
     'bcrd-general-remesas-gr': [
-        'documents/estadisticas/documents/Remesas_GR.xls',
+        'documents/estadisticas/documents/Remesas_GR.xlsx',
     ],
     'bcrd-general-remesas-mp': [
-        'documents/estadisticas/documents/Remesas_MP.xls',
+        'documents/estadisticas/documents/Remesas_MP.xlsx',
     ],
     'bcrd-general-remesas-pe': [
-        'documents/estadisticas/documents/Remesas_PE.xls',
+        'documents/estadisticas/documents/Remesas_PE.xlsx',
     ],
     'bcrd-general-remesas-pp': [
-        'documents/estadisticas/documents/Remesas_PP.xls',
+        'documents/estadisticas/documents/Remesas_PP.xlsx',
     ],
     'bcrd-general-remesas-pr': [
-        'documents/estadisticas/documents/Remesas_PR.xls',
+        'documents/estadisticas/documents/Remesas_PR.xlsx',
     ],
     'bcrd-general-remesas-pt': [
-        'documents/estadisticas/documents/Remesas_PT.xls',
+        'documents/estadisticas/documents/Remesas_PT.xlsx',
     ],
     'bcrd-general-remesas-tr': [
-        'documents/estadisticas/documents/Remesas_TR.xls',
+        'documents/estadisticas/documents/Remesas_TR.xlsx',
     ],
     'bcrd-general-reservas-internacionales': [
-        'documents/estadisticas/documents/reservas_internacionales.xls',
+        'documents/estadisticas/documents/reservas_internacionales.xlsx',
     ],
     'bcrd-general-serie-tpm': [
-        'documents/estadisticas/documents/Serie_TPM.xls',
+        'documents/estadisticas/documents/Serie_TPM.xlsx',
     ],
     'bcrd-general-tasa-entidades-financieras': [
         'documents/estadisticas/documents/TASA_ENTIDADES_FINANCIERAS.xls',
@@ -369,22 +368,22 @@ FILES_BY_SPEC = {
         'documents/estadisticas/documents/TASAS_AGENTES_CAMBIO.xls',
     ],
     'bcrd-mercado-cambiario-dolar-cheque-sondeo': [
-        'documents/estadisticas/mercado-cambiario/documents/DOLAR_CHEQUE_SONDEO.xls',
+        'documents/estadisticas/mercado-cambiario/documents/DOLAR_CHEQUE_SONDEO.xlsx',
     ],
     'bcrd-mercado-cambiario-dolar-transferencia-sondeo': [
-        'documents/estadisticas/mercado-cambiario/documents/DOLAR_TRANSFERENCIA_SONDEO.xls',
+        'documents/estadisticas/mercado-cambiario/documents/DOLAR_TRANSFERENCIA_SONDEO.xlsx',
     ],
     'bcrd-mercado-cambiario-dolar-ventanilla-sondeo': [
-        'documents/estadisticas/mercado-cambiario/documents/DOLAR_VENTANILLA_SONDEO.xls',
+        'documents/estadisticas/mercado-cambiario/documents/DOLAR_VENTANILLA_SONDEO.xlsx',
     ],
     'bcrd-mercado-cambiario-euro-cheque-sondeo': [
-        'documents/estadisticas/mercado-cambiario/documents/EURO_CHEQUE_SONDEO.xls',
+        'documents/estadisticas/mercado-cambiario/documents/EURO_CHEQUE_SONDEO.xlsx',
     ],
     'bcrd-mercado-cambiario-euro-transferencia-sondeo': [
-        'documents/estadisticas/mercado-cambiario/documents/EURO_TRANSFERENCIA_SONDEO.xls',
+        'documents/estadisticas/mercado-cambiario/documents/EURO_TRANSFERENCIA_SONDEO.xlsx',
     ],
     'bcrd-mercado-cambiario-euro-ventanilla-sondeo': [
-        'documents/estadisticas/mercado-cambiario/documents/EURO_VENTANILLA_SONDEO.xls',
+        'documents/estadisticas/mercado-cambiario/documents/EURO_VENTANILLA_SONDEO.xlsx',
     ],
     'bcrd-mercado-cambiario-operaciones-us': [
         'documents/estadisticas/mercado-cambiario/documents/Operaciones_us.xls',
@@ -393,7 +392,7 @@ FILES_BY_SPEC = {
         'documents/estadisticas/mercado-cambiario/documents/TASA_DOLAR_MERCADO_DERIVADOS.xls',
     ],
     'bcrd-mercado-cambiario-tasa-dolar-referencia-mc': [
-        'documents/estadisticas/mercado-cambiario/documents/TASA_DOLAR_REFERENCIA_MC.xls',
+        'documents/estadisticas/mercado-cambiario/documents/TASA_DOLAR_REFERENCIA_MC.xlsx',
     ],
     'bcrd-mercado-cambiario-tasa-entidades-financieras': [
         'documents/estadisticas/mercado-cambiario/documents/TASA_ENTIDADES_FINANCIERAS.xls',
@@ -402,7 +401,7 @@ FILES_BY_SPEC = {
         'documents/estadisticas/mercado-cambiario/documents/TASAS_AGENTES_CAMBIO.xls',
     ],
     'bcrd-mercado-cambiario-tasas-convertibles-otras-monedas': [
-        'documents/estadisticas/mercado-cambiario/documents/TASAS_CONVERTIBLES_OTRAS_MONEDAS.xls',
+        'documents/estadisticas/mercado-cambiario/documents/TASAS_CONVERTIBLES_OTRAS_MONEDAS.xlsx',
     ],
     'bcrd-mercado-cambiario-volatilidad-dolar': [
         'documents/estadisticas/mercado-cambiario/documents/VOLATILIDAD_DOLAR.xls',
@@ -411,55 +410,55 @@ FILES_BY_SPEC = {
         'documents/estadisticas/mercado-cambiario/documents/VOLATILIDAD_EURO.xls',
     ],
     'bcrd-mercado-de-trabajo-00-indicadores': [
-        'documents/estadisticas/mercado-de-trabajo/documents/00_Indicadores.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/00_Indicadores.xlsx',
     ],
     'bcrd-mercado-de-trabajo-01-pet': [
-        'documents/estadisticas/mercado-de-trabajo/documents/01_PET.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/01_PET.xlsx',
     ],
     'bcrd-mercado-de-trabajo-1-1-ocupados-rama': [
-        'documents/estadisticas/mercado-de-trabajo/documents/1_1_Ocupados_Rama.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/1_1_Ocupados_Rama.xlsx',
     ],
     'bcrd-mercado-de-trabajo-1-2-ocupados-ocupacion': [
-        'documents/estadisticas/mercado-de-trabajo/documents/1_2_Ocupados_Ocupacion.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/1_2_Ocupados_Ocupacion.xlsx',
     ],
     'bcrd-mercado-de-trabajo-1-3-ocupados-categoria': [
-        'documents/estadisticas/mercado-de-trabajo/documents/1_3_Ocupados_Categoria.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/1_3_Ocupados_Categoria.xlsx',
     ],
     'bcrd-mercado-de-trabajo-1-4-ocupados-edad': [
-        'documents/estadisticas/mercado-de-trabajo/documents/1_4_Ocupados_Edad.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/1_4_Ocupados_Edad.xlsx',
     ],
     'bcrd-mercado-de-trabajo-1-5-ocupados-educacion': [
-        'documents/estadisticas/mercado-de-trabajo/documents/1_5_Ocupados_Educacion.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/1_5_Ocupados_Educacion.xlsx',
     ],
     'bcrd-mercado-de-trabajo-2-1-sectores-rama': [
-        'documents/estadisticas/mercado-de-trabajo/documents/2_1_Sectores_Rama.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/2_1_Sectores_Rama.xlsx',
     ],
     'bcrd-mercado-de-trabajo-2-2-sectores-ocupacion': [
-        'documents/estadisticas/mercado-de-trabajo/documents/2_2_Sectores_Ocupacion.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/2_2_Sectores_Ocupacion.xlsx',
     ],
     'bcrd-mercado-de-trabajo-2-3-sectores-categoria': [
-        'documents/estadisticas/mercado-de-trabajo/documents/2_3_Sectores_Categoria.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/2_3_Sectores_Categoria.xlsx',
     ],
     'bcrd-mercado-de-trabajo-2-4-sectores-edad': [
-        'documents/estadisticas/mercado-de-trabajo/documents/2_4_Sectores_Edad.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/2_4_Sectores_Edad.xlsx',
     ],
     'bcrd-mercado-de-trabajo-2-5-sectores-educacion': [
-        'documents/estadisticas/mercado-de-trabajo/documents/2_5_Sectores_Educacion.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/2_5_Sectores_Educacion.xlsx',
     ],
     'bcrd-mercado-de-trabajo-3-1-deciles-rama': [
-        'documents/estadisticas/mercado-de-trabajo/documents/3_1_Deciles_Rama.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/3_1_Deciles_Rama.xlsx',
     ],
     'bcrd-mercado-de-trabajo-3-2-deciles-ocupacion': [
-        'documents/estadisticas/mercado-de-trabajo/documents/3_2_Deciles_Ocupacion.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/3_2_Deciles_Ocupacion.xlsx',
     ],
     'bcrd-mercado-de-trabajo-3-3-deciles-categoria': [
-        'documents/estadisticas/mercado-de-trabajo/documents/3_3_Deciles_Categoria.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/3_3_Deciles_Categoria.xlsx',
     ],
     'bcrd-mercado-de-trabajo-3-4-deciles-edad': [
-        'documents/estadisticas/mercado-de-trabajo/documents/3_4_Deciles_Edad.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/3_4_Deciles_Edad.xlsx',
     ],
     'bcrd-mercado-de-trabajo-3-5-deciles-educacion': [
-        'documents/estadisticas/mercado-de-trabajo/documents/3_5_Deciles_Educacion.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/3_5_Deciles_Educacion.xlsx',
     ],
     'bcrd-mercado-de-trabajo-indicadores-mercado-15-fa': [
         'documents/estadisticas/mercado-de-trabajo/documents/indicadores_mercado_15_fa.xls',
@@ -468,7 +467,7 @@ FILES_BY_SPEC = {
         'documents/estadisticas/mercado-de-trabajo/documents/indicadores_mercado_fa.xls',
     ],
     'bcrd-mercado-de-trabajo-informalidad-total': [
-        'documents/estadisticas/mercado-de-trabajo/documents/Informalidad_total.xls',
+        'documents/estadisticas/mercado-de-trabajo/documents/Informalidad_total.xlsx',
     ],
     'bcrd-mercado-de-trabajo-pob-condicion-categoria-15-fa': [
         'documents/estadisticas/mercado-de-trabajo/documents/pob_condicion_categoria_15_fa.xls',
@@ -639,7 +638,7 @@ FILES_BY_SPEC = {
         'documents/estadisticas/mercado-de-trabajo/documents/tasa_participacion_fa.xls',
     ],
     'bcrd-precios-anexos-documento-metodologico-ipc-base-anual-oct-2019-sep': [
-        'documents/estadisticas/precios/documents/Anexos_documento_metodologico_IPC_base_anual_oct_2019-sep_2020.xls',
+        'documents/estadisticas/precios/documents/Anexos_documento_metodologico_IPC_base_anual_oct_2019-sep_2020.xlsx',
     ],
     'bcrd-precios-ipc': [
         'documents/estadisticas/precios/documents/ipc.xls',
@@ -657,13 +656,13 @@ FILES_BY_SPEC = {
         'documents/estadisticas/precios/documents/ipc_anual_base_2019-2020.xls',
     ],
     'bcrd-precios-ipc-articulos-base-2019-2020': [
-        'documents/estadisticas/precios/documents/ipc_articulos_base_2019-2020.xls',
+        'documents/estadisticas/precios/documents/ipc_articulos_base_2019-2020.xlsx',
     ],
     'bcrd-precios-ipc-base-2019-2020': [
         'documents/estadisticas/precios/documents/ipc_base_2019-2020.xls',
     ],
     'bcrd-precios-ipc-base-2019-2020-serie-referencial': [
-        'documents/estadisticas/precios/documents/ipc_base_2019-2020_serie_referencial.xls',
+        'documents/estadisticas/precios/documents/ipc_base_2019-2020_serie_referencial.xlsx',
     ],
     'bcrd-precios-ipc-bienes': [
         'documents/estadisticas/precios/documents/ipc_bienes.xls',
@@ -687,16 +686,16 @@ FILES_BY_SPEC = {
         'documents/estadisticas/precios/documents/ipc_regiones_base_2019-2020.xls',
     ],
     'bcrd-precios-ipc-subyacente-base-2019-2020': [
-        'documents/estadisticas/precios/documents/ipc_subyacente_base_2019-2020.xls',
+        'documents/estadisticas/precios/documents/ipc_subyacente_base_2019-2020.xlsx',
     ],
     'bcrd-precios-ipc-tnt-base-2019-2020': [
         'documents/estadisticas/precios/documents/ipc_tnt_base_2019-2020.xls',
     ],
     'bcrd-sector-externo-balanza-de-servicios-anual': [
-        'documents/estadisticas/sector-externo/documents/Balanza-de-Servicios-anual.xls',
+        'documents/estadisticas/sector-externo/documents/Balanza-de-Servicios-anual.xlsx',
     ],
     'bcrd-sector-externo-balanza-de-servicios-trimestral': [
-        'documents/estadisticas/sector-externo/documents/Balanza-de-Servicios-trimestral.xls',
+        'documents/estadisticas/sector-externo/documents/Balanza-de-Servicios-trimestral.xlsx',
     ],
     'bcrd-sector-externo-bpagos': [
         'documents/estadisticas/sector-externo/documents/bpagos.xls',
@@ -714,19 +713,19 @@ FILES_BY_SPEC = {
         'documents/estadisticas/sector-externo/documents/Deuda_Consolidada_Por_Fuente.xls',
     ],
     'bcrd-sector-externo-deuda-consolidada-por-fuente-trimestral': [
-        'documents/estadisticas/sector-externo/documents/Deuda_Consolidada_Por_Fuente_Trimestral.xls',
+        'documents/estadisticas/sector-externo/documents/Deuda_Consolidada_Por_Fuente_Trimestral.xlsx',
     ],
     'bcrd-sector-externo-deuda-consolidada-por-sector': [
         'documents/estadisticas/sector-externo/documents/Deuda_Consolidada_Por_Sector.xls',
     ],
     'bcrd-sector-externo-deuda-consolidada-por-sector-trimestral': [
-        'documents/estadisticas/sector-externo/documents/Deuda_Consolidada_Por_Sector_Trimestral.xls',
+        'documents/estadisticas/sector-externo/documents/Deuda_Consolidada_Por_Sector_Trimestral.xlsx',
     ],
     'bcrd-sector-externo-deuda1961-2004': [
         'documents/estadisticas/sector-externo/documents/Deuda1961-2004.xls',
     ],
     'bcrd-sector-externo-deudabc': [
-        'documents/estadisticas/sector-externo/documents/DeudaBC.xls',
+        'documents/estadisticas/sector-externo/documents/DeudaBC.xlsx',
     ],
     'bcrd-sector-externo-exportaciones-anuales': [
         'documents/estadisticas/sector-externo/documents/exportaciones_anuales.xls',
@@ -824,118 +823,118 @@ FILES_BY_SPEC = {
         'documents/estadisticas/sector-externo/documents/piianual.xls',
     ],
     'bcrd-sector-externo-piianual-6': [
-        'documents/estadisticas/sector-externo/documents/piianual_6.xls',
+        'documents/estadisticas/sector-externo/documents/piianual_6.xlsx',
     ],
     'bcrd-sector-externo-piitrim': [
         'documents/estadisticas/sector-externo/documents/piitrim.xls',
     ],
     'bcrd-sector-externo-piitrim-6': [
-        'documents/estadisticas/sector-externo/documents/piitrim_6.xls',
+        'documents/estadisticas/sector-externo/documents/piitrim_6.xlsx',
     ],
     'bcrd-sector-externo-planillar-anual': [
-        'documents/estadisticas/sector-externo/documents/planillar_anual.xls',
+        'documents/estadisticas/sector-externo/documents/planillar_anual.xlsx',
     ],
     'bcrd-sector-externo-planillar2023mensual': [
-        'documents/estadisticas/sector-externo/documents/planillar2023mensual.xls',
+        'documents/estadisticas/sector-externo/documents/planillar2023mensual.xlsx',
     ],
     'bcrd-sector-externo-planillar2024mensual': [
-        'documents/estadisticas/sector-externo/documents/planillar2024mensual.xls',
+        'documents/estadisticas/sector-externo/documents/planillar2024mensual.xlsx',
     ],
     'bcrd-sector-externo-planillar2025mensual': [
-        'documents/estadisticas/sector-externo/documents/planillar2025mensual.xls',
+        'documents/estadisticas/sector-externo/documents/planillar2025mensual.xlsx',
     ],
     'bcrd-sector-externo-planillar2026mensual': [
-        'documents/estadisticas/sector-externo/documents/planillar2026mensual.xls',
+        'documents/estadisticas/sector-externo/documents/planillar2026mensual.xlsx',
     ],
     'bcrd-sector-externo-remesas-6': [
-        'documents/estadisticas/sector-externo/documents/Remesas_6.xls',
+        'documents/estadisticas/sector-externo/documents/Remesas_6.xlsx',
     ],
     'bcrd-sector-externo-remesas-gr': [
-        'documents/estadisticas/sector-externo/documents/Remesas_GR.xls',
+        'documents/estadisticas/sector-externo/documents/Remesas_GR.xlsx',
     ],
     'bcrd-sector-externo-remesas-mp': [
-        'documents/estadisticas/sector-externo/documents/Remesas_MP.xls',
+        'documents/estadisticas/sector-externo/documents/Remesas_MP.xlsx',
     ],
     'bcrd-sector-externo-remesas-pe': [
-        'documents/estadisticas/sector-externo/documents/Remesas_PE.xls',
+        'documents/estadisticas/sector-externo/documents/Remesas_PE.xlsx',
     ],
     'bcrd-sector-externo-remesas-pp': [
-        'documents/estadisticas/sector-externo/documents/Remesas_PP.xls',
+        'documents/estadisticas/sector-externo/documents/Remesas_PP.xlsx',
     ],
     'bcrd-sector-externo-remesas-pr': [
-        'documents/estadisticas/sector-externo/documents/Remesas_PR.xls',
+        'documents/estadisticas/sector-externo/documents/Remesas_PR.xlsx',
     ],
     'bcrd-sector-externo-remesas-pt': [
-        'documents/estadisticas/sector-externo/documents/Remesas_PT.xls',
+        'documents/estadisticas/sector-externo/documents/Remesas_PT.xlsx',
     ],
     'bcrd-sector-externo-remesas-tr': [
-        'documents/estadisticas/sector-externo/documents/Remesas_TR.xls',
+        'documents/estadisticas/sector-externo/documents/Remesas_TR.xlsx',
     ],
     'bcrd-sector-externo-reservas-internacionales': [
-        'documents/estadisticas/sector-externo/documents/reservas_internacionales.xls',
+        'documents/estadisticas/sector-externo/documents/reservas_internacionales.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-activos-bc-osd-me': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/activos_bc_osd_me.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/activos_bc_osd_me.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-agregados-monetarios': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/agregados_monetarios.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/agregados_monetarios.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-agregados-monetarios-sectores': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/agregados_monetarios_sectores.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/agregados_monetarios_sectores.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-balance-osd-activos': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/balance_osd_activos.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/balance_osd_activos.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-balance-osd-activos-me': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/balance_osd_activos_me.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/balance_osd_activos_me.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-balance-osd-activos-mn': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/balance_osd_activos_mn.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/balance_osd_activos_mn.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-balance-osd-pasivos': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/balance_osd_pasivos.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/balance_osd_pasivos.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-balance-osd-pasivos-me': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/balance_osd_pasivos_me.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/balance_osd_pasivos_me.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-balance-osd-pasivos-mn': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/balance_osd_pasivos_mn.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/balance_osd_pasivos_mn.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-balance-osd-resumen': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/balance_osd_resumen.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/balance_osd_resumen.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-base-monetaria': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/base_monetaria.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/base_monetaria.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-bm-costo-margenes': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/bm_costo_margenes.xls',
     ],
     'bcrd-sector-monetario-y-financiero-canalizacion-por-provincias': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Canalizacion_por_Provincias.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Canalizacion_por_Provincias.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-captacion-por-provincias': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Captacion_por_Provincias.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Captacion_por_Provincias.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-composicion-capital-bc-me': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/composicion_capital_bc_me.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/composicion_capital_bc_me.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-composicion-capital-osd-me': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/composicion_capital_osd_me.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/composicion_capital_osd_me.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-credito-nofinanciero-bc': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/credito_nofinanciero_bc.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/credito_nofinanciero_bc.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-credito-nofinanciero-osd': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/credito_nofinanciero_osd.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/credito_nofinanciero_osd.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-encaje-bancario': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/encaje_bancario.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/encaje_bancario.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-indicadores-armonizados-bcrd': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/indicadores_armonizados_bcrd.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/indicadores_armonizados_bcrd.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-indicadores-armonizados-osd': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/indicadores_armonizados_osd.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/indicadores_armonizados_osd.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-interbancarios': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2008.xls',
@@ -946,138 +945,138 @@ FILES_BY_SPEC = {
         'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2013.xls',
         'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2014.xls',
         'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2015.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2016.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2017.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2018.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2019.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2020.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2021.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2022.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2023.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2024.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2025.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2026.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2016.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2017.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2018.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2019.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2020.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2021.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2022.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2023.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2024.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2025.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_2026.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-interbancarios-plazos-1-a-7-dias': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_Plazos_1_a_7_dias.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Interbancarios_Plazos_1_a_7_dias.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-operaciones-interb': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/operaciones_interb.xls',
     ],
     'bcrd-sector-monetario-y-financiero-operaciones-monetarias': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/operaciones_monetarias.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/operaciones_monetarias.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-panorama-osf': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/panorama_osf.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/panorama_osf.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-panorama-pbc': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/panorama_pbc.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/panorama_pbc.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-panorama-pbm': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/panorama_pbm.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/panorama_pbm.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-panorama-posd': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/panorama_posd.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/panorama_posd.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-panorama-psd': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/panorama_psd.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/panorama_psd.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-panorama-sf': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/panorama_sf.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/panorama_sf.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-prestamos-por-destino-armonizados': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/prestamos_por_destino_armonizados.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/prestamos_por_destino_armonizados.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-serie-indicadores-bcrd': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/serie_indicadores_bcrd.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/serie_indicadores_bcrd.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-serie-indicadores-osd': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/serie_indicadores_osd.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/serie_indicadores_osd.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-serie-prestamos-por-destino-armonizados': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/serie_prestamos_por_destino_armonizados.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/serie_prestamos_por_destino_armonizados.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-serie-tpm': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/Serie_TPM.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/Serie_TPM.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-taap-activa': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/taap_activa.xls',
     ],
     'bcrd-sector-monetario-y-financiero-taap-activad': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/taap_activad.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/taap_activad.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-taap-pasiva': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/taap_pasiva.xls',
     ],
     'bcrd-sector-monetario-y-financiero-taap-pasivad': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/taap_pasivad.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/taap_pasivad.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tasa-remunerada-lombarda': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/tasa_remunerada_lombarda.xls',
     ],
     'bcrd-sector-monetario-y-financiero-tasas-activas-me': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_activas_me.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_activas_me.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tasas-activas-mn': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_activas_mn.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_activas_mn.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tasas-diariasaayp': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2000.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2001.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2002.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2003.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2004.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2005.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2006.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2007.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2008.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2009.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2010.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2011.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2012.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2013.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2014.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2015.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2016.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2017.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2018.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2019.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2020.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2021.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2022.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2023.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2024.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2025.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2026.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2000.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2001.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2002.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2003.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2004.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2005.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2006.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2007.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2008.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2009.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2010.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2011.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2012.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2013.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2014.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2015.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2016.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2017.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2018.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2019.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2020.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2021.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2022.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2023.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2024.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2025.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasAAYP-2026.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tasas-diariasbac': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2000.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2001.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2002.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2003.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2004.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2005.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2006.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2007.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2008.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2009.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2010.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2011.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2012.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2013.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2014.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2015.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2016.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2017.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2018.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2019.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2020.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2021.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2022.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2023.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2024.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2025.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2026.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2000.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2001.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2002.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2003.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2004.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2005.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2006.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2007.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2008.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2009.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2010.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2011.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2012.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2013.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2014.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2015.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2016.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2017.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2018.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2019.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2020.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2021.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2022.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2023.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2024.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2025.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBAC-2026.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tasas-diariasbm': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2007.xls',
@@ -1089,37 +1088,37 @@ FILES_BY_SPEC = {
         'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2013.xls',
         'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2014.xls',
         'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2015.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2016.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2017.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2018.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2019.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2020.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2021.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2022.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2023.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2024.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2025.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2026.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2016.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2017.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2018.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2019.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2020.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2021.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2022.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2023.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2024.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2025.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasBM-2026.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tasas-diariascdc': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2018.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2019.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2020.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2021.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2022.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2023.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2024.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2025.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2026.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2018.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2019.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2020.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2021.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2022.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2023.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2024.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2025.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_diariasCDC-2026.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tasas-interbancarias-promedio-por-plazos': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/Tasas_Interbancarias_Promedio_por_Plazos.xls',
     ],
     'bcrd-sector-monetario-y-financiero-tasas-pasivas-me': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_pasivas_me.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_pasivas_me.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tasas-pasivas-mn': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_pasivas_mn.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_pasivas_mn.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tasas-semanalesaap': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesAAP-2008.xls',
@@ -1173,22 +1172,22 @@ FILES_BY_SPEC = {
         'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2014.xls',
         'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2015.xls',
         'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2016.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2017.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2018.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2019.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2020.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2021.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2022.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2023.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2024.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2025.xls',
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2026.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2017.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2018.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2019.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2020.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2021.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2022.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2023.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2024.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2025.xlsx',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tasas_semanalesBM-2026.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tbac-activad': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tbac_activad.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tbac_activad.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tbac-pasivad': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tbac_pasivad.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tbac_pasivad.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tbd-activa': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/tbd_activa.xls',
@@ -1200,19 +1199,19 @@ FILES_BY_SPEC = {
         'documents/estadisticas/sector-monetario-y-financiero/documents/tbm_activa-1991-2007.xls',
     ],
     'bcrd-sector-monetario-y-financiero-tbm-activad': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tbm_activad.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tbm_activad.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tbm-activad-usd': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tbm-activad-usd.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tbm-activad-usd.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tbm-pasiva-1991-2007': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/tbm_pasiva-1991-2007.xls',
     ],
     'bcrd-sector-monetario-y-financiero-tbm-pasivad': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tbm_pasivad.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tbm_pasivad.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tbm-pasivad-usd': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tbm-pasivad-usd.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tbm-pasivad-usd.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-tbm-us': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/tbm_us.xls',
@@ -1230,19 +1229,19 @@ FILES_BY_SPEC = {
         'documents/estadisticas/sector-monetario-y-financiero/documents/tf_pasiva.xls',
     ],
     'bcrd-sector-monetario-y-financiero-tf-pasivad': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/tf_pasivad.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/tf_pasivad.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-ti-reales': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/ti_reales.xls',
     ],
     'bcrd-sector-monetario-y-financiero-valores-bc-mn': [
-        'documents/estadisticas/sector-monetario-y-financiero/documents/valores_bc_mn.xls',
+        'documents/estadisticas/sector-monetario-y-financiero/documents/valores_bc_mn.xlsx',
     ],
     'bcrd-sector-monetario-y-financiero-volatilidades': [
         'documents/estadisticas/sector-monetario-y-financiero/documents/volatilidades.xls',
     ],
     'bcrd-sector-real-fbkf': [
-        'documents/estadisticas/sector-real/documents/fbkf.xls',
+        'documents/estadisticas/sector-real/documents/fbkf.xlsx',
     ],
     'bcrd-sector-real-oferta-demanda-constantes': [
         'documents/estadisticas/sector-real/documents/oferta_demanda_constantes.xls',
@@ -1252,12 +1251,12 @@ FILES_BY_SPEC = {
     ],
     'bcrd-sector-real-pib': [
         'documents/estadisticas/sector-real/documents/pib.xls',
-        'documents/estadisticas/sector-real/documents/pib_2007.xls',
-        'documents/estadisticas/sector-real/documents/pib_2018.xls',
+        'documents/estadisticas/sector-real/documents/pib_2007.xlsx',
+        'documents/estadisticas/sector-real/documents/pib_2018.xlsx',
     ],
     'bcrd-sector-real-pib-deflactor': [
         'documents/estadisticas/sector-real/documents/pib_deflactor_2007.xls',
-        'documents/estadisticas/sector-real/documents/pib_deflactor_2018.xls',
+        'documents/estadisticas/sector-real/documents/pib_deflactor_2018.xlsx',
     ],
     'bcrd-sector-real-pib-dolares': [
         'documents/estadisticas/sector-real/documents/pib_dolares.xls',
@@ -1266,25 +1265,25 @@ FILES_BY_SPEC = {
     'bcrd-sector-real-pib-gasto': [
         'documents/estadisticas/sector-real/documents/pib_gasto.xls',
         'documents/estadisticas/sector-real/documents/pib_gasto_2007.xls',
-        'documents/estadisticas/sector-real/documents/pib_gasto_2018.xls',
+        'documents/estadisticas/sector-real/documents/pib_gasto_2018.xlsx',
     ],
     'bcrd-sector-real-pib-gasto-retro': [
-        'documents/estadisticas/sector-real/documents/pib_gasto_retro.xls',
-        'documents/estadisticas/sector-real/documents/pib_gasto_retro_2018.xls',
+        'documents/estadisticas/sector-real/documents/pib_gasto_retro.xlsx',
+        'documents/estadisticas/sector-real/documents/pib_gasto_retro_2018.xlsx',
     ],
     'bcrd-sector-real-pib-gasto-trimestral': [
         'documents/estadisticas/sector-real/documents/pib_gasto_trimestral.xls',
     ],
     'bcrd-sector-real-pib-origen': [
-        'documents/estadisticas/sector-real/documents/pib_origen_2007.xls',
-        'documents/estadisticas/sector-real/documents/pib_origen_2018.xls',
+        'documents/estadisticas/sector-real/documents/pib_origen_2007.xlsx',
+        'documents/estadisticas/sector-real/documents/pib_origen_2018.xlsx',
     ],
     'bcrd-sector-real-pib-origen-anual': [
         'documents/estadisticas/sector-real/documents/pib_origen_anual.xls',
     ],
     'bcrd-sector-real-pib-origen-retro': [
-        'documents/estadisticas/sector-real/documents/pib_origen_retro.xls',
-        'documents/estadisticas/sector-real/documents/pib_origen_retro_2018.xls',
+        'documents/estadisticas/sector-real/documents/pib_origen_retro.xlsx',
+        'documents/estadisticas/sector-real/documents/pib_origen_retro_2018.xlsx',
     ],
     'bcrd-sector-real-pib-origen-trim': [
         'documents/estadisticas/sector-real/documents/pib_origen_trim.xls',
@@ -1513,7 +1512,7 @@ FILES_BY_SPEC = {
         'documents/estadisticas/sector-turismo/documents/turismo_fiscal.xls',
     ],
     'bcrd-sector-turismo-turismo-fiscal-mensual': [
-        'documents/estadisticas/sector-turismo/documents/turismo_fiscal_mensual.xls',
+        'documents/estadisticas/sector-turismo/documents/turismo_fiscal_mensual.xlsx',
     ],
     'bcrd-sector-turismo-turismo-gasto-estadia': [
         'documents/estadisticas/sector-turismo/documents/turismo_gasto_estadia.xls',
@@ -1560,6 +1559,6 @@ FILES_BY_SPEC = {
         'documents/estadisticas/sector-turismo/documents/turismo_ocupacion_2026.xls',
     ],
     'bcrd-sector-turismo-turismo-valor': [
-        'documents/estadisticas/sector-turismo/documents/turismo_valor.xls',
+        'documents/estadisticas/sector-turismo/documents/turismo_valor.xlsx',
     ],
 }
