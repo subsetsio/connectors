@@ -1,0 +1,25 @@
+spec_id: cocorahs-daily-reports
+status: active
+tests:
+  - not_null: StationNumber
+    reason: every CoCoRaHS report is filed by a station; a null means the parse lost the natural key
+    certainty: 97
+  - not_null: ObservationDate
+    reason: the report date is the row's primary temporal key and is always present
+    certainty: 96
+  - not_null: State
+    reason: State is stamped on every row from the request path, never null
+    certainty: 99
+  - matches: {col: ObservationDate, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
+    reason: ObservationDate is the first CSV field, an unpadded ISO date
+    certainty: 92
+  - matches: {col: State, pattern: '^[A-Z]{2}$'}
+    reason: State is the 2-letter code we stamp from the iterated state list
+    certainty: 95
+  - distinct_count: {col: State, min: 20}
+    reason: a healthy all-states sweep covers dozens of states; a collapse means the iteration broke
+    certainty: 85
+    severity: warn
+  - row_count: {min: 10000}
+    reason: a multi-year national daily-precip window is millions of rows; thousands at most means the pull truncated
+    certainty: 90
