@@ -1,0 +1,20 @@
+spec_id: coin-metrics-asset-metrics-catalog
+status: active
+tests:
+  - not_null: metric
+    reason: every dictionary row is keyed by a metric code; a null key means the parse dropped the field
+    certainty: 99
+  - unique: metric
+    reason: reference-data/asset-metrics returns one definition per metric code
+    certainty: 95
+  - column_type: {col: metric, type: string}
+    certainty: 99
+  - column_type: {col: data_type, type: string}
+    certainty: 90
+  - row_count: {min: 50}
+    reason: the asset-metric dictionary spans hundreds of metrics across network/market products
+    certainty: 85
+  - enum: {col: data_type, values: ["bigint", "decimal", "string", "double", "integer"]}
+    reason: Coin Metrics documents metric data_type as bigint or decimal; widen if a new type ships
+    certainty: 70
+    severity: warn

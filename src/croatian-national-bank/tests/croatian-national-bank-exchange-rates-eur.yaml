@@ -1,0 +1,36 @@
+spec_id: croatian-national-bank-exchange-rates-eur
+status: active
+tests:
+  - not_null: datum_primjene
+    reason: every rate-list row carries the application date; a null means the parse dropped the date key
+    certainty: 98
+  - not_null: valuta
+    reason: every row is a currency quote keyed by ISO alpha code
+    certainty: 99
+  - not_null: srednji_tecaj
+    reason: the middle rate is the primary published value and is present on every quote
+    certainty: 97
+  - not_null: kupovni_tecaj
+    reason: buying rate is published for every currency on every day
+    certainty: 95
+  - not_null: prodajni_tecaj
+    reason: selling rate is published for every currency on every day
+    certainty: 95
+  - not_null: drzava_iso
+    reason: the euro endpoint stamps an ISO country code on each currency
+    certainty: 90
+  - matches: {col: datum_primjene, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
+    reason: the API returns the application date as an ISO yyyy-mm-dd string
+    certainty: 95
+  - matches: {col: srednji_tecaj, pattern: '^-?[0-9]+,[0-9]+$'}
+    reason: HNB serialises rates with a comma decimal separator (e.g. 1,094200)
+    certainty: 92
+  - unique: [datum_primjene, valuta]
+    reason: one quote per currency per day; duplicates mean a re-pull without overwrite or an overlapping range
+    certainty: 90
+  - distinct_count: {col: valuta, min: 12}
+    reason: the daily euro list has carried ~13 currencies; a collapse means a truncated pull
+    certainty: 90
+  - row_count: {min: 9000}
+    reason: ~13 currencies x ~875 business days since euro adoption (2023-01-01) is ~11k rows; well above 9k
+    certainty: 85

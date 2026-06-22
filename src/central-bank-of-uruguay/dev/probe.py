@@ -13,7 +13,7 @@ def monedas(grupo):
         f"<cot:wsbcumonedas.Execute><cot:Entrada><cot:Grupo>{grupo}</cot:Grupo>"
         "</cot:Entrada></cot:wsbcumonedas.Execute></soapenv:Body></soapenv:Envelope>"
     )
-    r = post(ENDPOINT_MON, data=env.encode(), headers=HEADERS, timeout=(10, 120), verify=False)
+    r = post(ENDPOINT_MON, data=env.encode(), headers=HEADERS, timeout=(10, 120))
     return r.text
 
 
@@ -27,7 +27,7 @@ def cotiz(code, grupo, desde, hasta):
         f"<cot:Grupo>{grupo}</cot:Grupo>"
         "</cot:Entrada></cot:wsbcucotizaciones.Execute></soapenv:Body></soapenv:Envelope>"
     )
-    r = post(ENDPOINT_COT, data=env.encode(), headers=HEADERS, timeout=(10, 300), verify=False)
+    r = post(ENDPOINT_COT, data=env.encode(), headers=HEADERS, timeout=(10, 300))
     return r.text
 
 

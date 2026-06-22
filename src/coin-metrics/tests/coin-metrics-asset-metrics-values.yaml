@@ -1,0 +1,33 @@
+spec_id: coin-metrics-asset-metrics-values
+status: active
+tests:
+  - not_null: asset
+    certainty: 99
+  - not_null: metric
+    certainty: 99
+  - not_null: date
+    certainty: 99
+  - not_null: value
+    reason: null values are dropped during melt; a null here means a parse/schema regression
+    certainty: 95
+  - column_type: {col: date, type: date}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - unique: [asset, metric, date]
+    reason: one daily observation per asset-metric; dupes mean a batch was double-written
+    certainty: 90
+  - row_count: {min: 100000}
+    reason: hundreds of assets x ~20 community daily metrics x years of history is well into the millions of rows
+    certainty: 80
+  - distinct_count: {col: metric, min: 5}
+    reason: the community daily metric universe includes PriceUSD, CapMrktEstUSD, ReferenceRate, AdrActCnt, TxCnt and more
+    certainty: 90
+  - freshness: {col: date, reaches: today - 7d}
+    reason: daily community metrics update each day; a stale max date points at the source, not our code
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - at_most: {col: date, expr: today}
+    reason: no future-dated observations
+    certainty: 95

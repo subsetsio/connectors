@@ -1,0 +1,24 @@
+spec_id: cricsheet-matches
+status: active
+tests:
+  - not_null: match_id
+    reason: derived from the info file's match_id key (or its filename); always present.
+    certainty: 98
+  - unique: match_id
+    reason: exactly one _info.csv (hence one row) per match; dupes mean the info parse double-counted.
+    certainty: 95
+  - matches: {col: match_id, pattern: '^[0-9]+$'}
+    reason: match_id is the numeric Cricinfo id.
+    certainty: 95
+  - not_null: gender
+    reason: every Cricsheet match info carries a gender (male/female).
+    certainty: 95
+  - not_null: match_type
+    reason: every match has a match_type (T20, ODI, Test, ...).
+    certainty: 92
+  - enum: {col: gender, values: ['male', 'female']}
+    reason: Cricsheet records gender as exactly male or female.
+    certainty: 90
+  - row_count: {min: 15000}
+    reason: ~22k matches published minus withheld; far fewer means missing info files.
+    certainty: 85
