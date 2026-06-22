@@ -1,0 +1,18 @@
+spec_id: czech-national-bank-exrates-daily
+status: active
+tests:
+  - not_null: validFor
+  - not_null: rate
+  - not_null: currencyCode
+  - column_type: {col: rate, type: float}
+  - between: {col: rate, lo: 0, hi: 100000}
+    reason: CZK per `amount` foreign units; even high-denomination currencies stay well under this
+    certainty: 85
+  - distinct_count: {col: currencyCode, min: 20}
+    reason: the daily fixing covers a few dozen currencies
+    certainty: 90
+  - freshness: {col: validFor, reaches: today - 10d}
+    reason: exrates fixing is published every CNB business day
+    certainty: 85
+    points_outward: true
+    severity: warn

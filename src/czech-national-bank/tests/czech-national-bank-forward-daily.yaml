@@ -1,0 +1,17 @@
+spec_id: czech-national-bank-forward-daily
+status: active
+tests:
+  - not_null: validFor
+  - not_null: forwardPoints
+  - not_null: ccyPair
+  - not_null: maturity
+  - column_type: {col: forwardPoints, type: float}
+  - enum: {col: ccyPair, values: [EUR_TO_CZK, USD_TO_CZK]}
+    reason: only EUR and USD forward points vs CZK are published
+    certainty: 75
+  - enum: {col: maturity, values: [THREE_MONTH, SIX_MONTH]}
+    certainty: 75
+  - freshness: {col: validFor, reaches: today - 10d}
+    certainty: 80
+    points_outward: true
+    severity: warn

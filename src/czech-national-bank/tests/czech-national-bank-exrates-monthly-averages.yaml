@@ -1,0 +1,15 @@
+spec_id: czech-national-bank-exrates-monthly-averages
+status: active
+tests:
+  - not_null: year
+  - not_null: average
+  - not_null: currencyCode
+  - column_type: {col: average, type: float}
+  - between: {col: year, lo: 1990, hi: current_year()}
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    certainty: 95
+  - between: {col: average, lo: 0, hi: 100000}
+    certainty: 80
+  - distinct_count: {col: currencyCode, min: 20}
+    certainty: 85

@@ -1,0 +1,24 @@
+spec_id: continuous-plankton-recorder-sahfos-cpr-zoo
+status: active
+tests:
+  - not_null: occurrenceID
+    reason: occurrenceID is the DwC core record id; every occurrence row must carry one
+    certainty: 97
+  - column_type: {col: occurrenceID, type: string}
+    reason: raw is parsed all-VARCHAR; the transform casts downstream
+    certainty: 95
+  - not_null: eventID
+    reason: every CPR occurrence is tied to a sampling event (the silk sample)
+    certainty: 90
+  - not_null: scientificName
+    reason: the North Atlantic zooplankton core names every observed taxon
+    certainty: 85
+    severity: warn
+  - distinct_count: {col: scientificName, min: 100}
+    reason: CPR zooplankton spans hundreds of taxa; far fewer means a truncated pull
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1000000}
+    reason: zooplankton occurrence core is the largest CPR archive (~1.4GB); expect millions of rows
+    certainty: 70
+    severity: warn

@@ -1,0 +1,17 @@
+spec_id: czech-national-bank-fxrates-daily
+status: active
+tests:
+  - not_null: validFor
+  - not_null: rate
+  - not_null: currencyCode
+  - column_type: {col: rate, type: float}
+  - between: {col: rate, lo: 0, hi: 1000000}
+    certainty: 80
+  - distinct_count: {col: currencyCode, min: 50}
+    reason: fxrates covers many less-traded currencies vs CZK
+    certainty: 85
+  - freshness: {col: validFor, reaches: today - 45d}
+    reason: fxrates ("other currencies") is published monthly
+    certainty: 75
+    points_outward: true
+    severity: warn

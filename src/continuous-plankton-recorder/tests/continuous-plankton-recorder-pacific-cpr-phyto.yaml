@@ -1,0 +1,20 @@
+spec_id: continuous-plankton-recorder-pacific-cpr-phyto
+status: active
+tests:
+  - not_null: occurrenceID
+    reason: occurrenceID is the DwC core record id; every occurrence row must carry one
+    certainty: 97
+  - column_type: {col: occurrenceID, type: string}
+    reason: raw is parsed all-VARCHAR; the transform casts downstream
+    certainty: 95
+  - not_null: eventID
+    reason: every CPR occurrence is tied to a sampling event (the silk sample)
+    certainty: 90
+  - not_null: scientificName
+    reason: the Pacific phytoplankton core names every observed taxon
+    certainty: 85
+    severity: warn
+  - row_count: {min: 80000}
+    reason: Pacific CPR phytoplankton v1.4 holds ~136k occurrence rows
+    certainty: 75
+    severity: warn

@@ -1,0 +1,20 @@
+spec_id: continuous-plankton-recorder-scotian-shelf
+status: active
+tests:
+  - not_null: occurrenceID
+    reason: occurrenceID is the DwC core record id; every occurrence row must carry one
+    certainty: 97
+  - column_type: {col: occurrenceID, type: string}
+    reason: raw is parsed all-VARCHAR; the transform casts downstream
+    certainty: 95
+  - not_null: eventID
+    reason: every CPR occurrence is tied to a sampling event (the silk sample)
+    certainty: 90
+  - not_null: scientificNameID
+    reason: the Scotian Shelf occurrence core identifies taxa by scientificNameID (no scientificName column)
+    certainty: 85
+    severity: warn
+  - row_count: {min: 400000}
+    reason: Scotian Shelf samples v1.18 holds ~624k occurrence rows
+    certainty: 75
+    severity: warn

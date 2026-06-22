@@ -1,0 +1,15 @@
+spec_id: czech-national-bank-omo-daily
+status: active
+tests:
+  - not_null: tradeDate
+  - not_null: operationType
+  - column_type: {col: marginalRateInPercent, type: float}
+  - between: {col: marginalRateInPercent, lo: -5, hi: 30}
+    reason: policy/operation rates in percent
+    certainty: 80
+    severity: warn
+  - freshness: {col: tradeDate, reaches: today - 45d}
+    reason: open-market operations occur regularly but not strictly daily
+    certainty: 70
+    points_outward: true
+    severity: warn

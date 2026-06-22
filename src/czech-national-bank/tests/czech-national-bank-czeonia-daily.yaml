@@ -1,0 +1,14 @@
+spec_id: czech-national-bank-czeonia-daily
+status: active
+tests:
+  - not_null: validFor
+  - not_null: rate
+  - column_type: {col: rate, type: float}
+  - between: {col: rate, lo: -2, hi: 30}
+    reason: CZEONIA overnight rate in percent
+    certainty: 85
+  - freshness: {col: validFor, reaches: today - 10d}
+    reason: CZEONIA published every business day
+    certainty: 85
+    points_outward: true
+    severity: warn

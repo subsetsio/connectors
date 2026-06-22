@@ -1,0 +1,14 @@
+spec_id: czech-national-bank-pribor-daily
+status: active
+tests:
+  - not_null: validFor
+  - not_null: pribor
+  - column_type: {col: pribor, type: float}
+  - between: {col: pribor, lo: 0, hi: 50}
+    reason: PRIBOR interbank rate in percent; historically up to mid-teens
+    certainty: 85
+  - freshness: {col: validFor, reaches: today - 10d}
+    reason: PRIBOR fixed every business day
+    certainty: 85
+    points_outward: true
+    severity: warn
