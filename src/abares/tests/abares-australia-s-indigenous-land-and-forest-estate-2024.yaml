@@ -1,0 +1,12 @@
+spec_id: abares-australia-s-indigenous-land-and-forest-estate-2024
+status: active
+tests:
+  - row_count: {min: 500}
+    reason: Indigenous land and forest estate 2024 — ~970 attribute rows.
+    certainty: 90
+  - not_null: count
+    reason: COUNT is the area tally on every row.
+    certainty: 85
+  - distinct_count: {col: state, min: 6}
+    reason: covers the Australian states and territories.
+    certainty: 75

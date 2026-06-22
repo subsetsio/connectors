@@ -1,0 +1,12 @@
+spec_id: abares-forests-of-australia-2023
+status: active
+tests:
+  - row_count: {min: 500}
+    reason: Forests of Australia 2023 attribute table — ~687 forest type/state rows.
+    certainty: 90
+  - not_null: count
+    reason: COUNT is the pixel/area tally for every attribute combination.
+    certainty: 85
+  - distinct_count: {col: state, min: 6}
+    reason: covers the Australian states and territories.
+    certainty: 80

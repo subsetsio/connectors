@@ -1,0 +1,10 @@
+spec_id: abares-australian-crop-report-february-2018-no-185
+status: active
+tests:
+  - row_count: {min: 10}
+    reason: Australian Crop Report Feb 2018 crop-data table — ~29 rows.
+    certainty: 85
+  - distinct_count: {col: crop, min: 3}
+    reason: several distinct crops are listed.
+    certainty: 60
+    severity: warn

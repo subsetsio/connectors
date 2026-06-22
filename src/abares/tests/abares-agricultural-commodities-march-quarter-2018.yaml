@@ -1,0 +1,10 @@
+spec_id: abares-agricultural-commodities-march-quarter-2018
+status: active
+tests:
+  - row_count: {min: 8}
+    reason: March 2018 agricultural commodities statistics table — ~17 rows (small wide pivot).
+    certainty: 85
+  - distinct_count: {col: trade, min: 2}
+    reason: the Trade dimension carries at least a couple of distinct categories.
+    certainty: 60
+    severity: warn

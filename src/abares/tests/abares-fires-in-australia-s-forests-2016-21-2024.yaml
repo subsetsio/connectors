@@ -1,0 +1,12 @@
+spec_id: abares-fires-in-australia-s-forests-2016-21-2024
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: Fires in Australia's forests 2016-21 — ~38k forest-area attribute rows.
+    certainty: 90
+  - not_null: count
+    reason: COUNT is the area tally on every row.
+    certainty: 85
+  - distinct_count: {col: state, min: 6}
+    reason: covers the Australian states and territories.
+    certainty: 80
