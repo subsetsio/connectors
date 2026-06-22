@@ -15,34 +15,40 @@ def pct(s):
     s = s.strip().replace("%", "").replace("+", "")
     return float(s) if s and s not in ("-",) else None
 
+def rows_of(tid):
+    return doc.get_element_by_id(tid).findall(".//tr")
+
+def tds(tr):
+    return tr.findall("td")
+
+def ths(tr):
+    return tr.findall("th")
+
 # --- top20 ---
-rows = doc.cssselect("table#top20 tr")
+rows = rows_of("top20")
 print("\n# top20 rows:", len(rows))
 for tr in rows[1:4]:
-    tds = tr.cssselect("td")
-    print([cell_text(c) for c in tds])
+    print([cell_text(c) for c in tds(tr)])
 
 # --- otherPL ---
-rows = doc.cssselect("table#otherPL tr")
+rows = rows_of("otherPL")
 print("\n# otherPL rows:", len(rows))
 for tr in rows[1:3]:
-    print([cell_text(c) for c in tr.cssselect("td")])
+    print([cell_text(c) for c in tds(tr)])
 
 # --- VLTH ---
-tbl = doc.cssselect("table#VLTH")[0]
-header = [cell_text(c) for c in tbl.cssselect("tr")[0].cssselect("th")]
+rows = rows_of("VLTH")
+header = [cell_text(c) for c in ths(rows[0])]
 print("\n# VLTH header:", header)
-for tr in tbl.cssselect("tr")[1:3]:
-    print([cell_text(c) for c in tr.cssselect("td")])
+for tr in rows[1:3]:
+    print([cell_text(c) for c in tds(tr)])
 
 # --- PLHoF ---
-tbl = doc.cssselect("table#PLHoF")[0]
 print("\n# PLHoF rows:")
-for tr in tbl.cssselect("tr"):
-    tds = tr.cssselect("td")
-    if len(tds) >= 2:
-        print(cell_text(tds[0]), "|", cell_text(tds[1]))
-        break
+for tr in rows_of("PLHoF"):
+    cells = tds(tr)
+    if len(cells) >= 2:
+        print(cell_text(cells[0]), "|", cell_text(cells[1]))
 
 # --- chart series ---
 m = re.search(r"series:\s*\[(.*?)\]\s*\}\s*\)", html, re.S)

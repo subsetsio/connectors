@@ -1,0 +1,21 @@
+spec_id: tiobe-very-long-term-history
+status: active
+tests:
+  - not_null: language
+  - not_null: snapshot_year
+  - not_null: position
+  - column_type: {col: snapshot_year, type: integer}
+  - column_type: {col: position, type: integer}
+  - unique: [language, snapshot_year]
+    reason: one position per language per snapshot column
+    certainty: 95
+  - between: {col: position, lo: 1, hi: 200}
+    reason: positions are ranks; the table lists leaders but tails can reach the dozens
+    certainty: 85
+  - distinct_count: {col: snapshot_year, min: 5}
+    reason: the VLTH table has ~9 five-year-interval columns
+    certainty: 85
+  - at_most: {col: snapshot_year, expr: current_year()}
+    certainty: 90
+    points_outward: true
+    severity: warn

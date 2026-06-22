@@ -1,0 +1,20 @@
+spec_id: tiobe-hall-of-fame
+status: active
+tests:
+  - not_null: year
+  - not_null: language
+  - column_type: {col: year, type: integer}
+  - unique: year
+    reason: one Programming Language of the Year per year
+    certainty: 95
+  - between: {col: year, lo: 2003, hi: 2100}
+    reason: the award started in 2003
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: no winner is announced for a future year
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - row_count: {min: 15}
+    reason: award running annually since 2003
+    certainty: 85

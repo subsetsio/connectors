@@ -1,0 +1,20 @@
+spec_id: tiobe-current-rankings
+status: active
+tests:
+  - not_null: position
+  - not_null: language
+  - not_null: rating_pct
+  - column_type: {col: position, type: integer}
+  - unique: position
+    reason: top-20 table has one row per rank
+    certainty: 95
+  - unique: language
+    certainty: 90
+  - between: {col: position, lo: 1, hi: 20}
+    reason: this is the top-20 table
+    certainty: 95
+  - row_count: {min: 20, max: 20}
+    reason: the #top20 table is exactly 20 rows
+    certainty: 90
+  - between: {col: rating_pct, lo: 0, hi: 100}
+    certainty: 95

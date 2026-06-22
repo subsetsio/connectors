@@ -1,0 +1,40 @@
+spec_id: visa-global-smi
+status: active
+tests:
+  - not_null: date
+  - not_null: country_code
+  - not_null: country
+  - not_null: spending_segment
+  - not_null: index_value
+  - column_type: {col: date, type: date}
+  - column_type: {col: index_value, type: float}
+  - matches: {col: country_code, pattern: "^[A-Z]{3}$"}
+    reason: workbook keys each row by a 3-letter ISO-style code
+    certainty: 90
+  - enum: {col: country_code, values: ["AUS", "IND", "JPN", "BRA", "EUR", "GBR"]}
+    reason: the six economies/regions in the Global appendix
+    certainty: 90
+  - enum: {col: spending_segment, values: ["All segments", "Discretionary", "Non-Discretionary"]}
+    reason: Global uses "All segments" (no separate Headline) plus the two sub-segments
+    certainty: 90
+  - distinct_count: {col: country_code, min: 6, max: 6}
+    reason: exactly six economies are published
+    certainty: 85
+  - unique: [date, country_code, spending_segment]
+    reason: one index value per country/segment per month; no SA/NSA split here
+    certainty: 90
+  - between: {col: index_value, lo: 0, hi: 200}
+    reason: SMI is a diffusion index scored 0-200, 100 = neutral
+    certainty: 95
+  - median_between: {col: index_value, lo: 80, hi: 120}
+    reason: index oscillates around the neutral 100 threshold
+    certainty: 60
+    severity: warn
+  - at_least: {col: date, expr: "2024-04-01"}
+    reason: Global history starts Apr-2024
+    certainty: 85
+  - freshness: {col: date, reaches: today - 180d}
+    reason: monthly file; latest month should be within ~6 months of today
+    certainty: 70
+    points_outward: true
+    severity: warn

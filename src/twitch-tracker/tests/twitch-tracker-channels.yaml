@@ -1,0 +1,36 @@
+spec_id: twitch-tracker-channels
+status: active
+tests:
+  - not_null: channel
+    reason: channel login is the natural key; a null means a malformed row leaked through
+    certainty: 99
+  - column_type: {col: channel, type: string}
+    certainty: 99
+  - column_type: {col: avg_viewers, type: integer}
+    reason: the API returns integer viewer counts
+    certainty: 90
+  - unique: channel
+    reason: one row per channel per snapshot; dupes mean a seed was queried twice or overwrite failed
+    certainty: 95
+  - not_null: rank
+    reason: every tracked channel has a 30-day rank in the summary payload
+    certainty: 85
+  - row_count: {min: 15}
+    reason: of ~50 well-known seed channels, the large majority are tracked and active; <15 means widespread empty responses (rate-limited) or an endpoint change
+    certainty: 80
+  - between: {col: rank, lo: 1, hi: 5000000}
+    reason: TwitchTracker ranks span 1..a few million tracked channels
+    certainty: 85
+  - at_least: {col: avg_viewers, expr: 0}
+    reason: average concurrent viewers cannot be negative
+    certainty: 95
+  - at_least: {col: hours_watched, expr: 0}
+    certainty: 95
+  - at_least: {col: followers_total, expr: 0}
+    reason: total follower count is a non-negative cumulative figure
+    certainty: 95
+  - freshness: {col: captured_date, reaches: today - 2d}
+    reason: captured_date is stamped at fetch time, so it should always be ~today
+    certainty: 90
+    points_outward: false
+    severity: warn

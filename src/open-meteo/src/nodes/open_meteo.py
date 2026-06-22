@@ -7,17 +7,17 @@ curated set of global cities (see src/constants.py). Location is a column on the
 long-format table, never a per-location node.
 
 Products (one DOWNLOAD_SPEC + one TRANSFORM_SPEC each):
-  - archive-daily        ERA5/ERA5-Land daily reanalysis, 1940-present
-  - climate-projections  downscaled CMIP6 daily projections, 1950-2050, x models
+  - archive-daily        ERA5/ERA5-Land daily reanalysis, 2001-present
+  - climate-projections  downscaled CMIP6 daily projections, 1950-2050
   - flood                GloFAS daily river discharge, 1984-present
   - air-quality          CAMS hourly air quality, 2013-present
 
 Fetch shape: stateless full re-pull. Each refresh re-fetches every location's
-full history in one request (start_date..end_date) and overwrites. There is no
-watermark — the archive/climate/flood/AQ ranges are bounded and re-pulling picks
-up reanalysis revisions for free. The archive node is the slow one (~30s per
-location for the full 1940-present daily range); all products run as independent
-nodes, so wall-clock is the single slowest node, not the sum.
+full window in one request (start_date..end_date) and overwrites. There is no
+watermark — the ranges are bounded and re-pulling picks up reanalysis revisions
+for free. Scope (6 cities, trimmed variables/ranges) is sized to fit the free
+non-commercial tier's call-weight cap (see constants.py); the 429-retry backoff
+absorbs the per-minute limit shared across the four concurrent nodes.
 """
 
 import hashlib
@@ -61,10 +61,12 @@ def _prepare_node(node_id: str) -> None:
     if offset:
         time.sleep(offset)
 
-# Documented dataset bounds (constants of the upstream datasets, not arbitrary
-# year ranges). Open-Meteo docs: ERA5 from 1940, GloFAS from 1984, CAMS air
-# quality from 2013, CMIP6 downscaled projections 1950-2050.
-ARCHIVE_START = "1940-01-01"
+# Dataset start bounds (constants of the upstream datasets). GloFAS from 1984,
+# CAMS air quality from 2013, CMIP6 downscaled projections 1950-2050. The ERA5
+# archive reaches back to 1940, but the free-tier call-weight cap (cost scales
+# with span x variables) makes an 86-year pull impossible, so the archive window
+# is trimmed to a still-substantial recent multi-decade span.
+ARCHIVE_START = "2001-01-01"
 FLOOD_START = "1984-01-01"
 AIR_QUALITY_START = "2013-01-01"
 CLIMATE_START = "1950-01-01"
@@ -73,33 +75,28 @@ CLIMATE_END = "2050-12-31"
 # Reanalysis products lag real time; pull up to a few days before today.
 ARCHIVE_LATENCY_DAYS = 6
 
+# Variable sets trimmed to the highest-value columns so each product's call
+# weight stays inside the free-tier budget (see constants.py for the math).
 ARCHIVE_DAILY_VARS = [
     "temperature_2m_max", "temperature_2m_min", "temperature_2m_mean",
-    "precipitation_sum", "rain_sum", "snowfall_sum",
-    "wind_speed_10m_max", "wind_gusts_10m_max",
-    "shortwave_radiation_sum", "et0_fao_evapotranspiration",
+    "precipitation_sum",
 ]
-CLIMATE_DAILY_VARS = [
-    "temperature_2m_max", "temperature_2m_min", "temperature_2m_mean",
-    "precipitation_sum", "wind_speed_10m_mean",
-    "shortwave_radiation_sum", "relative_humidity_2m_mean",
-]
+CLIMATE_DAILY_VARS = ["temperature_2m_max"]
 FLOOD_DAILY_VARS = ["river_discharge"]
-AIR_QUALITY_HOURLY_VARS = [
-    "pm10", "pm2_5", "carbon_monoxide", "nitrogen_dioxide",
-    "sulphur_dioxide", "ozone", "aerosol_optical_depth", "dust", "uv_index",
-]
+AIR_QUALITY_HOURLY_VARS = ["pm10", "pm2_5", "ozone"]
 
 
 def _today_utc():
     return datetime.now(tz=timezone.utc).date()
 
 
-# Generous connect timeout: the archive endpoint is slow to generate long
-# (1940-present) ranges and TLS handshakes can be slow on a loaded CI runner; a
-# tight connect timeout produces spurious handshake-timeout failures. 8 attempts
-# gives flaky-network windows room to recover before the DAG aborts.
-@transient_retry(attempts=8, min_wait=4, max_wait=90)
+# Generous connect timeout (slow archive generation + loaded-CI TLS handshakes).
+# Many attempts with long backoff: the free tier returns 429 when the per-minute
+# call-weight budget (600 units/min, shared across the four concurrent nodes) is
+# briefly exceeded; minute buckets reset within ~60s, so retrying rides through
+# them. Total per-run scope is kept under the 5k/hour bucket so we never hit the
+# unrecoverable hourly wall.
+@transient_retry(attempts=12, min_wait=5, max_wait=120)
 def _request(base_url: str, params: dict) -> dict:
     resp = get(base_url, params=params, timeout=(30.0, 180.0))
     resp.raise_for_status()

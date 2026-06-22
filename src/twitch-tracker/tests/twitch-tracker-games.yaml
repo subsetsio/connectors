@@ -1,0 +1,34 @@
+spec_id: twitch-tracker-games
+status: active
+tests:
+  - not_null: game
+    reason: game/category name is the natural key
+    certainty: 99
+  - column_type: {col: game, type: string}
+    certainty: 99
+  - column_type: {col: avg_viewers, type: integer}
+    certainty: 90
+  - unique: game
+    reason: one row per game per snapshot; dupes mean a seed was queried twice or overwrite failed
+    certainty: 95
+  - not_null: rank
+    reason: every tracked category has a 30-day rank
+    certainty: 85
+  - row_count: {min: 15}
+    reason: of ~45 major game categories, most are continuously streamed and tracked; <15 means rate-limiting or an endpoint change
+    certainty: 80
+  - between: {col: rank, lo: 1, hi: 1000000}
+    reason: category ranks span 1..the tail of tracked categories
+    certainty: 85
+  - at_least: {col: avg_viewers, expr: 0}
+    certainty: 95
+  - at_least: {col: avg_channels, expr: 0}
+    reason: average concurrent channels is a non-negative count
+    certainty: 95
+  - at_least: {col: hours_watched, expr: 0}
+    certainty: 95
+  - freshness: {col: captured_date, reaches: today - 2d}
+    reason: captured_date is stamped at fetch time
+    certainty: 90
+    points_outward: false
+    severity: warn

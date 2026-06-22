@@ -1,0 +1,25 @@
+spec_id: tiobe-historical-ratings
+status: active
+tests:
+  - not_null: language
+  - not_null: date
+  - not_null: rating_pct
+  - column_type: {col: date, type: date}
+  - column_type: {col: rating_pct, type: float}
+  - unique: [language, date]
+    reason: one rating per language per year-month; dupes mean the month-dedup broke
+    certainty: 95
+  - between: {col: rating_pct, lo: 0, hi: 100}
+    reason: ratings are percentages of the index
+    certainty: 95
+  - distinct_count: {col: language, min: 8, max: 15}
+    reason: the chart plots the top ~10 languages; far from 10 means the series regex drifted
+    certainty: 85
+  - row_count: {min: 2000}
+    reason: ~10 languages x ~290 monthly points since 2001-06
+    certainty: 80
+  - freshness: {col: date, reaches: today - 120d}
+    reason: TIOBE refreshes monthly; the latest point should be within a few months
+    certainty: 75
+    points_outward: true
+    severity: warn

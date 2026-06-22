@@ -1,0 +1,17 @@
+spec_id: tiobe-next-50-languages
+status: active
+tests:
+  - not_null: position
+  - not_null: language
+  - column_type: {col: position, type: integer}
+  - unique: position
+    certainty: 90
+  - between: {col: position, lo: 21, hi: 50}
+    reason: the #otherPL table covers ranks 21-50
+    certainty: 90
+  - row_count: {min: 25, max: 35}
+    reason: nominally 30 rows (ranks 21-50)
+    certainty: 85
+  - between: {col: rating_pct, lo: 0, hi: 100}
+    certainty: 80
+    severity: warn
