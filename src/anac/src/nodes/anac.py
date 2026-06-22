@@ -82,10 +82,12 @@ HTTP_TIMEOUT = httpx.Timeout(connect=15.0, read=90.0, write=90.0, pool=15.0)
 _CONCURRENCY = 8
 
 # Wall-clock budget per node invocation. On expiry the node persists progress
-# and returns True for a continuation, yielding the run's remaining time budget
-# to other nodes. Comfortably under a typical cloud run budget so the node gets
-# to checkpoint cleanly rather than being SIGTERM'd mid-file.
-_INVOCATION_BUDGET_S = 25 * 60
+# and returns True for a continuation. Sharded writes + per-chunk state
+# checkpointing make a hard SIGTERM at the run's deadline cheap (at most one
+# in-flight chunk is lost), so this is set high to let even the largest series
+# (VRA, airfares) finish within a single run rather than burning extra
+# continuation windows — each of which carries heavy CI queue overhead.
+_INVOCATION_BUDGET_S = 120 * 60
 
 
 # --------------------------------------------------------------------------- #

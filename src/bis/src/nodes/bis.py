@@ -21,16 +21,20 @@ import csv
 import io
 import json
 import math
+import os
+import tempfile
+import time
 import zipfile
 
+import httpx
 import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
-    get,
+    get_client,
+    is_transient,
     raw_parquet_writer,
-    transient_retry,
 )
 
 # The rank-accepted entity union — one BIS dataflow per id. Copied from
@@ -64,12 +68,71 @@ SCHEMA = pa.schema(
 )
 
 
-@transient_retry()
-def _download_zip(url: str) -> bytes:
-    # Read timeout is generous: the largest topics are ~350 MB compressed.
-    resp = get(url, timeout=(15.0, 600.0))
-    resp.raise_for_status()
-    return resp.content
+# (connect, read) seconds. Read is generous: the largest topics are ~350 MB.
+_TIMEOUT = (15.0, 600.0)
+_DOWNLOAD_ATTEMPTS = 8
+_CHUNK = 1 << 20  # 1 MiB
+
+
+def _download_zip_to(url: str, dest_path: str) -> None:
+    """Stream a bulk zip to ``dest_path``, resuming via HTTP Range on drops.
+
+    BIS serves the largest topics (locational/consolidated banking ~350 MB) from
+    a static host that occasionally closes the connection mid-body — a buffered
+    ``.content`` read of the whole file then fails with RemoteProtocolError and a
+    plain retry re-downloads from byte 0 (and tends to drop at the same offset).
+    Instead we stream to disk and, on a transient drop, re-request only the
+    missing tail with ``Range: bytes=<have>-``. We send ``Accept-Encoding:
+    identity`` and use ``iter_raw`` so on-the-wire byte offsets match the file
+    (a zip is already compressed, so the server returns it uncompressed anyway).
+    """
+    client = get_client()
+    have = 0
+    expected = None
+    last_exc = None
+
+    for attempt in range(_DOWNLOAD_ATTEMPTS):
+        headers = {"Accept-Encoding": "identity"}
+        if have:
+            headers["Range"] = f"bytes={have}-"
+        try:
+            with client.stream("GET", url, headers=headers, timeout=_TIMEOUT) as resp:
+                # Server ignored our Range (full 200 instead of 206 partial):
+                # restart from scratch so we don't append a second full copy.
+                if have and resp.status_code == 200:
+                    have = 0
+                # 416 = we already have the whole file; nothing left to fetch.
+                if have and resp.status_code == 416:
+                    return
+                resp.raise_for_status()
+
+                if expected is None:
+                    cl = resp.headers.get("Content-Length")
+                    # On a 206 the length is of the *remaining* range, so only
+                    # trust Content-Length to set the total on a fresh 200.
+                    if cl is not None and resp.status_code == 200:
+                        expected = int(cl)
+
+                mode = "ab" if have else "wb"
+                with open(dest_path, mode) as fh:
+                    for chunk in resp.iter_raw(_CHUNK):
+                        fh.write(chunk)
+                        have += len(chunk)
+
+            # Stream ended cleanly. Guard against a silent short read.
+            if expected is not None and have < expected:
+                raise httpx.RemoteProtocolError(
+                    f"short read: have {have} of {expected} bytes"
+                )
+            return
+        except Exception as exc:  # noqa: BLE001 - re-raise non-transient below
+            if not is_transient(exc):
+                raise
+            last_exc = exc
+            # Exponential backoff, capped; keep `have` so we resume the tail.
+            time.sleep(min(4 * 2 ** attempt, 120))
+
+    raise last_exc
 
 
 def _flow_from_node(node_id: str) -> str:
