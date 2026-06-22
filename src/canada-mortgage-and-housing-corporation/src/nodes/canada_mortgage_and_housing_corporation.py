@@ -22,6 +22,7 @@ import io
 import re
 import zipfile
 
+import httpx
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
@@ -179,7 +180,18 @@ def fetch_one(node_id: str) -> None:
     for res in resources:
         url = res["url"]
         product_id = _product_id(url)
-        header, raw_rows = _read_csv_member(_download(url))
+        try:
+            content = _download(url)
+        except httpx.HTTPStatusError as exc:
+            # A bundled StatCan table can be discontinued (e.g. 34101000 in the
+            # Mortgage-loan-approvals package now 404s). Skip the dead resource
+            # and keep the live ones; the package still has data.
+            if exc.response.status_code in (403, 404, 410):
+                print(f"[{pid}] skipping discontinued resource {product_id} "
+                      f"({exc.response.status_code}): {url}")
+                continue
+            raise
+        header, raw_rows = _read_csv_member(content)
         rows.extend(_normalise_table(product_id, header, raw_rows))
 
     assert rows, f"{pid}: parsed 0 rows from {len(resources)} resource(s)"
