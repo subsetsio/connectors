@@ -1,0 +1,25 @@
+spec_id: atlantic-council-entities
+status: active
+tests:
+  - not_null: entity_id
+  - not_null: name
+  - unique: entity_id
+    reason: one row per geographic entity
+    certainty: 99
+  - row_count: {min: 180, max: 200}
+    reason: 164 countries + 19 aggregate groupings = 183 entities; allow small drift
+    certainty: 90
+  - enum: {col: entity_type, values: [country, region, special-state, status-group, global]}
+    certainty: 95
+  - between: {col: freedom_index, lo: 0, hi: 100}
+    reason: index scores are normalized 0-100
+    certainty: 90
+    severity: warn
+  - between: {col: prosperity_index, lo: 0, hi: 100}
+    certainty: 90
+    severity: warn
+  - between: {col: freedom_rank, lo: 1, hi: 164}
+    reason: country ranks span 1..164; groupings have null rank
+    certainty: 85
+    points_outward: true
+    severity: warn

@@ -1,0 +1,36 @@
+spec_id: aaii-investor-sentiment-survey-investor-sentiment-survey-weekly
+status: active
+tests:
+  - not_null: date
+    reason: every weekly row is keyed by its reported date; a null date means a footer/summary row leaked through the date filter
+    certainty: 95
+  - column_type: {col: date, type: date}
+    certainty: 95
+  - unique: date
+    reason: one row per reporting week; duplicates mean the snapshot was concatenated or the overwrite was skipped
+    certainty: 90
+  - row_count: {min: 1500}
+    reason: weekly survey since mid-1987 is ~2000+ rows; far fewer means a truncated download or the Incapsula challenge page parsed as data
+    certainty: 90
+  - between: {col: bullish, lo: 0.0, hi: 1.0}
+    reason: bullish is a share of respondents, stored as a fraction 0..1
+    certainty: 90
+  - between: {col: bearish, lo: 0.0, hi: 1.0}
+    reason: bearish is a fraction 0..1
+    certainty: 90
+  - between: {col: neutral, lo: 0.0, hi: 1.0}
+    reason: neutral is a fraction 0..1
+    certainty: 90
+  - between: {col: total, lo: 0.95, hi: 1.05}
+    reason: bullish+neutral+bearish should sum to ~1.0 each week (rounding aside)
+    certainty: 80
+    severity: warn
+  - freshness: {col: date, reaches: today - 60d}
+    reason: AAII posts a new weekly row every Thursday; via the Wayback fallback the latest row can lag the live source by a few weeks
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - between: {col: sp500_weekly_close, lo: 100, hi: 100000}
+    reason: S&P 500 weekly close has ranged from ~300 (1987) to several thousand; a value outside this band signals a column-misalignment
+    certainty: 75
+    severity: warn

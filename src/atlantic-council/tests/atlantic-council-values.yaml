@@ -1,0 +1,32 @@
+spec_id: atlantic-council-values
+status: active
+tests:
+  - not_null: entity_id
+  - not_null: indicator_code
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - at_least: {col: year, expr: 1995}
+    reason: the indexes start in 1995 per yearRange.json
+    certainty: 95
+  - at_most: {col: year, expr: current_year()}
+    reason: index lags the calendar; max year should never exceed the current year
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - between: {col: value, lo: 0, hi: 100}
+    reason: every index/subindex/indicator score is normalized to 0-100
+    certainty: 85
+    severity: warn
+  - between: {col: rank, lo: 1, hi: 164}
+    reason: ranks are 1..164 across the scored countries; groupings carry null rank
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - enum: {col: entity_type, values: [country, region, special-state, status-group, global]}
+    certainty: 95
+  - distinct_count: {col: indicator_code, min: 24, max: 24}
+    reason: the F&P codebook has exactly 24 metrics (2 indexes + 3 subindexes + 19 indicators)
+    certainty: 90
+  - unique: [entity_id, year, indicator_code]
+    reason: one observation per entity-year-indicator; dupes mean an entity was pulled twice
+    certainty: 95

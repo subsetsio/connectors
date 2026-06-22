@@ -1,0 +1,15 @@
+spec_id: atlantic-council-indicators
+status: active
+tests:
+  - not_null: indicator_code
+  - not_null: label
+  - unique: indicator_code
+    reason: the codebook keys the long-format value table
+    certainty: 99
+  - row_count: {min: 24, max: 24}
+    reason: fixed codebook of 24 metrics
+    certainty: 95
+  - enum: {col: level, values: [index, subindex, indicator]}
+    certainty: 99
+  - enum: {col: index, values: [freedom, prosperity]}
+    certainty: 99

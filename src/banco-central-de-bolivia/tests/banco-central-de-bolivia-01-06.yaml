@@ -1,0 +1,16 @@
+spec_id: banco-central-de-bolivia-01-06
+status: active
+tests:
+  - not_null: table_code
+    reason: every cell row records which bulletin table it came from
+    certainty: 99
+  - column_type: {col: row, type: integer}
+    certainty: 95
+  - column_type: {col: col, type: integer}
+    certainty: 95
+  - at_least: {col: row, expr: 0}
+    reason: row index is a non-negative spreadsheet coordinate
+    certainty: 99
+  - row_count: {min: 5}
+    reason: a BCB statistical table always has multiple populated cells; <5 means a truncated or failed xlsx parse
+    certainty: 85
