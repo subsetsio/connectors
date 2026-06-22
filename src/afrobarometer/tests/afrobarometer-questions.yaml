@@ -1,0 +1,23 @@
+spec_id: afrobarometer-questions
+status: active
+tests:
+  - not_null: variable_code
+  - unique: variable_code
+    reason: one row per distinct ODA variable code; dupes mean the round-union dedup broke
+    certainty: 95
+  - column_type: {col: question_id, type: integer}
+  - not_null: title
+    certainty: 85
+  - between: {col: latest_round_num, lo: 1, hi: 10}
+    reason: Afrobarometer has run 10 rounds (R1 1999 .. R10 2024/2025)
+    certainty: 95
+  - between: {col: n_rounds, lo: 1, hi: 10}
+    certainty: 95
+  - row_count: {min: 3000}
+    reason: probing the 10 round indices yielded ~4300 distinct survey variables; far fewer means an index call silently returned empty
+    certainty: 80
+  - at_most: {col: latest_round_num, expr: 10}
+    points_outward: true
+    severity: warn
+    reason: a new round would raise this; reconcile rather than assume a bug
+    certainty: 70

@@ -1,7 +1,0 @@
-spec_id: ato-taxation-statistics--individuals-table-18
-status: active
-tests:
-  - row_count: {min: 1}
-    reason: every accepted entity is a datastore-backed ATO table that returned rows during probing; an empty pull means the datastore resource id changed or the dump silently truncated.
-    certainty: 90
-    severity: block

@@ -1,0 +1,25 @@
+spec_id: afrobarometer-values
+status: active
+tests:
+  - not_null: variable_code
+  - not_null: country
+  - not_null: pct_valid
+  - column_type: {col: weighted_n, type: float}
+  - between: {col: round_num, lo: 1, hi: 10}
+    reason: every observation belongs to one of the 10 survey rounds
+    certainty: 95
+  - between: {col: pct_valid, lo: 0, hi: 100}
+    reason: pct_valid is a percentage of valid responses within a country/round
+    certainty: 95
+  - at_least: {col: weighted_n, expr: 0}
+    reason: weighted frequencies are non-negative
+    certainty: 95
+  - distinct_count: {col: country, min: 30}
+    reason: Afrobarometer has surveyed ~39-51 distinct African countries across rounds
+    certainty: 85
+  - distinct_count: {col: variable_code, min: 1000}
+    reason: thousands of distinct survey variables carry at least one usable cell
+    certainty: 75
+  - row_count: {min: 200000}
+    reason: thousands of variables x dozens of countries x rounds x answer categories; a tiny count means the per-question pull degraded
+    certainty: 70
