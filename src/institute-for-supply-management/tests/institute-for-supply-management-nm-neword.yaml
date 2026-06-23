@@ -1,0 +1,35 @@
+spec_id: institute-for-supply-management-nm-neword
+status: active
+tests:
+  - not_null: date
+    reason: every observation row carries its month; a null date means the period array misaligned with values
+    certainty: 95
+  - not_null: value
+    reason: missing observations are dropped in the fetch fn, so persisted rows must all carry a numeric value
+    certainty: 95
+  - not_null: metric
+    reason: metric is derived from the DBnomics series_name; null means a series lost its name
+    certainty: 90
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - column_type: {col: date, type: date}
+    certainty: 95
+  - unique: [date, series_code]
+    reason: long format is one row per series per month; dupes mean a page was re-pulled without overwrite
+    certainty: 90
+  - between: {col: value, lo: -100, hi: 200}
+    reason: ISM publishes diffusion indices (0-100), headline PMI (~30-70), and net (-100..100) — all sit inside this band
+    certainty: 85
+  - at_most: {col: date, expr: today}
+    reason: ISM reports a month after the fact; no future-dated observations
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - freshness: {col: date, reaches: today - 120d}
+    reason: monthly (some components less frequent) series mirrored via DBnomics; a stale max usually means the source/mirror has not refreshed yet
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - row_count: {min: 6}
+    reason: each ISM diffusion index has years of monthly history; a near-empty pull signals a broken response
+    certainty: 85
