@@ -1,0 +1,56 @@
+spec_id: glodap-bottle-data
+status: active
+tests:
+  - not_null: expocode
+    reason: every bottle sample belongs to a cruise identified by its WOCE expocode
+    certainty: 95
+  - not_null: cruise
+    reason: GLODAP assigns every row an integer cruise number
+    certainty: 95
+  - not_null: year
+    reason: sampling year is always recorded
+    certainty: 95
+  - column_type: {col: expocode, type: string}
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 90
+  - column_type: {col: latitude, type: float}
+    certainty: 90
+  - column_type: {col: salinity, type: float}
+    certainty: 90
+  - row_count: {min: 500000}
+    reason: the v2.2023 merged master file holds ~1.4M water samples; far fewer means a truncated download
+    certainty: 90
+  - distinct_count: {col: expocode, min: 500}
+    reason: GLODAPv2.2023 synthesises 1108 cruises; a collapse to a handful means parsing broke
+    certainty: 85
+  - between: {col: latitude, lo: -90, hi: 90}
+    reason: geographic latitude
+    certainty: 97
+  - between: {col: longitude, lo: -180, hi: 360}
+    reason: GLODAP stores longitude in either -180..180 or 0..360 convention
+    certainty: 90
+  - between: {col: year, lo: 1970, hi: 2024}
+    reason: GLODAPv2.2023 spans 1972-2021
+    certainty: 85
+  - at_most: {col: year, expr: current_year()}
+    reason: no samples from the future
+    certainty: 95
+    points_outward: true
+    severity: warn
+  - between: {col: region, lo: 1, hi: 7}
+    reason: GLODAP basin/region codes run 1-7
+    certainty: 70
+    severity: warn
+  - between: {col: pressure, lo: 0, hi: 12000}
+    reason: ocean pressure in dbar, full-depth profiles
+    certainty: 80
+    severity: warn
+  - between: {col: salinity, lo: 0, hi: 45}
+    reason: practical salinity (PSU) of seawater
+    certainty: 75
+    severity: warn
+  - between: {col: temperature, lo: -5, hi: 45}
+    reason: in-situ seawater temperature (deg C)
+    certainty: 75
+    severity: warn

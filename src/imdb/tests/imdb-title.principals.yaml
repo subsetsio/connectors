@@ -1,0 +1,16 @@
+spec_id: imdb-title.principals
+status: active
+tests:
+  - not_null: tconst
+  - not_null: nconst
+  - matches: {col: tconst, pattern: '^tt[0-9]+$'}
+    certainty: 97
+  - matches: {col: nconst, pattern: '^nm[0-9]+$'}
+    certainty: 97
+  - not_null: category
+  - unique: [tconst, ordering]
+    reason: ordering disambiguates the principals of one title
+    certainty: 85
+  - row_count: {min: 40000000}
+    reason: largest file, tens of millions of credit rows
+    certainty: 75

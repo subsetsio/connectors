@@ -1,0 +1,30 @@
+spec_id: grape-harvest-dates-regions
+status: active
+tests:
+  - not_null: region
+    certainty: 99
+  - not_null: region_code
+    certainty: 99
+  - not_null: latitude
+    certainty: 99
+  - not_null: longitude
+    certainty: 99
+  - column_type: {col: latitude, type: float}
+    certainty: 95
+  - column_type: {col: longitude, type: float}
+    certainty: 95
+  - unique: region_code
+    reason: each regional composite series has one distinct short code
+    certainty: 99
+  - unique: region
+    reason: region names are distinct
+    certainty: 99
+  - row_count: {min: 27, max: 27}
+    reason: the database is fixed at 27 regional composite series
+    certainty: 99
+  - between: {col: latitude, lo: 42, hi: 50}
+    reason: vineyards span Spain (~42N) to Germany/Luxembourg (~50N)
+    certainty: 90
+  - between: {col: longitude, lo: -4, hi: 11}
+    reason: from Spain (~-3.3) and Atlantic France to Northern Italy (~10.2)
+    certainty: 90

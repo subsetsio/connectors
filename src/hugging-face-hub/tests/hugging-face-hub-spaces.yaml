@@ -1,0 +1,21 @@
+spec_id: hugging-face-hub-spaces
+status: active
+tests:
+  - not_null: id
+    reason: every space row is keyed by its repo id
+    certainty: 98
+  - unique: id
+    reason: one row per space repo; rare cross-page dupes are dedup'd in transform
+    certainty: 80
+    severity: warn
+  - row_count: {min: 50000}
+    reason: the Hub hosts ~700k space repos; <50k means pagination broke early
+    certainty: 90
+  - between: {col: likes, lo: 0, hi: 100000000}
+    reason: like counts are small non-negative integers
+    certainty: 85
+    severity: warn
+  - not_null: lastModified
+    reason: every repo carries a lastModified timestamp
+    certainty: 90
+    severity: warn

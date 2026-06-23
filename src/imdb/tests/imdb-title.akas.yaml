@@ -1,0 +1,14 @@
+spec_id: imdb-title.akas
+status: active
+tests:
+  - not_null: titleId
+  - matches: {col: titleId, pattern: '^tt[0-9]+$'}
+    certainty: 97
+  - not_null: title
+  - unique: [titleId, ordering]
+    reason: ordering disambiguates the alternate titles of one title
+    certainty: 85
+  - enum: {col: isOriginalTitle, values: ['0', '1']}
+    certainty: 85
+  - row_count: {min: 5000000}
+    certainty: 75

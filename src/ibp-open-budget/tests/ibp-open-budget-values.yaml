@@ -1,0 +1,38 @@
+spec_id: ibp-open-budget-values
+status: active
+tests:
+  - not_null: indicator_code
+    reason: every observation carries its source INDICATOR code
+    certainty: 95
+  - not_null: ref_area
+    reason: every observation is attached to a country (REF_AREA ISO3)
+    certainty: 95
+  - not_null: time_period
+    reason: every observation has a survey year
+    certainty: 95
+  - column_type: {col: indicator_code, type: string}
+    certainty: 90
+  - column_type: {col: ref_area, type: string}
+    certainty: 90
+  - matches: {col: ref_area, pattern: "^[A-Z]{3}$"}
+    reason: Data360 REF_AREA is ISO3 country code; all 125 areas were 3-letter during probing
+    certainty: 85
+  - enum:
+      col: indicator_code
+      values: [IBP_OBS_RANK, IBP_OBS_OBI, IBP_OBS_SAI_OBI, IBP_OBS_LEG_OBI, IBP_OBS_OVERSIGHT_OBI, IBP_OBS_PUB_ENG]
+    reason: IBP_OBS publishes exactly these 6 indicators; a new code means the dataset changed
+    certainty: 90
+  - distinct_count: {col: indicator_code, min: 6, max: 6}
+    reason: all 6 indicators should be pulled every run; fewer means a fetch dropped one
+    certainty: 90
+  - distinct_count: {col: ref_area, min: 80, max: 200}
+    reason: OBS covers ~125 countries; well under 80 means pagination/fetch broke
+    certainty: 80
+  - row_count: {min: 3000}
+    reason: ~918 rows per indicator x 6 indicators ~= 5500 observations
+    certainty: 80
+  - between: {col: time_period, lo: "2006", hi: "2030"}
+    reason: OBS rounds run 2006-2023 (string compare ok for 4-digit years); upper headroom for new rounds
+    certainty: 85
+    points_outward: true
+    severity: warn

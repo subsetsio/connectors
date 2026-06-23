@@ -1,0 +1,52 @@
+spec_id: hld-life-tables
+status: active
+tests:
+  - not_null: country
+    reason: every HLD row is keyed to a country/area 3-letter code; a null means a parse shift
+    certainty: 98
+  - not_null: year1
+    reason: the reference period start year is always populated in HLD life tables
+    certainty: 95
+  - column_type: {col: year1, type: integer}
+    certainty: 95
+  - column_type: {col: sex, type: integer}
+    certainty: 95
+  - column_type: {col: qx, type: float}
+    certainty: 95
+  - enum: {col: sex, values: [1, 2]}
+    reason: HLD codes male=1, female=2; combined-sex tables (3) are not present in the bulk file
+    certainty: 75
+    points_outward: true
+    severity: warn
+  - enum: {col: type_lt, values: [1, 2, 4]}
+    reason: TypeLT methodological codes — 1 recalculated complete, 2 abridged-from-complete, 4 abridged-from-published
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - between: {col: age, lo: 0, hi: 130}
+    reason: life-table ages run from 0 to an open terminal interval; 130 is a generous ceiling
+    certainty: 92
+  - between: {col: qx, lo: 0, hi: 1}
+    reason: q(x) is a probability of death within the age interval — must lie in [0,1]
+    certainty: 95
+  - at_least: {col: mx, expr: 0}
+    reason: m(x) is a central death rate, never negative
+    certainty: 95
+  - between: {col: ex, lo: 0, hi: 120}
+    reason: e(x) is remaining life expectancy in years; bounded well under 120
+    certainty: 88
+    severity: warn
+  - at_least: {col: year1, expr: 1700}
+    reason: earliest HLD reference periods are 18th century (observed min 1751)
+    certainty: 88
+  - at_most: {col: year2, expr: current_year()}
+    reason: HLD publishes observed historical life tables, not projections
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - row_count: {min: 1500000}
+    reason: the full corpus is ~2.3M rows across 142 countries; far fewer means a truncated download
+    certainty: 90
+  - distinct_count: {col: country, min: 130, max: 250}
+    reason: HLD covers ~142 countries/areas; a big drop signals a partial pull
+    certainty: 85

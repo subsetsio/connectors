@@ -1,0 +1,21 @@
+spec_id: hugging-face-hub-datasets
+status: active
+tests:
+  - not_null: id
+    reason: every dataset row is keyed by its repo id
+    certainty: 98
+  - unique: id
+    reason: one row per dataset repo; rare cross-page dupes are dedup'd in transform
+    certainty: 80
+    severity: warn
+  - row_count: {min: 50000}
+    reason: the Hub hosts ~450k dataset repos; <50k means pagination broke early
+    certainty: 90
+  - between: {col: downloads, lo: 0, hi: 100000000000}
+    reason: download counts are non-negative integers
+    certainty: 85
+    severity: warn
+  - not_null: lastModified
+    reason: every repo carries a lastModified timestamp
+    certainty: 90
+    severity: warn

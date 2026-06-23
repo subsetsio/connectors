@@ -1,0 +1,11 @@
+spec_id: imdb-title.crew
+status: active
+tests:
+  - not_null: tconst
+  - matches: {col: tconst, pattern: '^tt[0-9]+$'}
+    certainty: 97
+  - unique: tconst
+    reason: one crew row per title
+    certainty: 92
+  - row_count: {min: 9000000}
+    certainty: 80

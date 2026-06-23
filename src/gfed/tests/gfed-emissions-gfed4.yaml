@@ -1,0 +1,37 @@
+spec_id: gfed-emissions-gfed4
+status: active
+tests:
+  - not_null: species
+  - not_null: fire_type
+  - not_null: region
+  - not_null: year
+  - not_null: unit
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 90
+  - column_type: {col: species, type: string}
+  - unique: [species, fire_type, region, year]
+    reason: one row per species x fire-type x region x year; dupes mean a species file was parsed twice or sections misaligned
+    certainty: 95
+  - between: {col: year, lo: 1997, hi: 2024}
+    reason: GFED4.1s is a frozen legacy product covering 1997-2023 (2017+ beta), superseded by GFED5
+    certainty: 92
+  - at_least: {col: value, expr: 0}
+    reason: emissions are physical masses, never negative
+    certainty: 98
+  - distinct_count: {col: year, min: 25}
+    reason: GFED4.1s covers 1997-2023 (~27 years)
+    certainty: 90
+  - distinct_count: {col: region, min: 12, max: 18}
+    reason: 14 GFED basis regions plus a Global aggregate (~15)
+    certainty: 90
+  - distinct_count: {col: fire_type, min: 6, max: 8}
+    reason: 7 stacked fire-type sub-tables per species file
+    certainty: 90
+  - distinct_count: {col: species, min: 30}
+    reason: GFED4.1s publishes ~41 per-species tables
+    certainty: 85
+  - row_count: {min: 50000}
+    reason: ~41 species x 7 fire types x 15 regions x ~27 years ~= 116k rows
+    certainty: 80

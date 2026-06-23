@@ -1,8 +1,0 @@
-  -> Saved dev-af-sample.parquet (streamed)
-ArgoFloats sample parsed rows: 57061
-Traceback (most recent call last):
-  File "/Users/nathansnellaert/Documents/hardened/connectors/src/argo-program/dev/validate.py", line 23, in <module>
-    run_transform("argo-program-argofloats", "dev-af-sample", "argo-program-argofloats-transform")
-  File "/Users/nathansnellaert/Documents/hardened/connectors/src/argo-program/dev/validate.py", line 10, in run_transform
-    con.execute(f'CREATE VIEW "{view_name}" AS SELECT * FROM read_parquet(?)', [p])
-_duckdb.BinderException: Binder Error: Unexpected prepared parameter. This type of statement can't be prepared!

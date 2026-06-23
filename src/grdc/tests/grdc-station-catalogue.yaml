@@ -1,0 +1,31 @@
+spec_id: grdc-station-catalogue
+status: active
+tests:
+  - not_null: grdc_no
+    reason: grdc_no is the catalogue primary key; every station record carries one
+    certainty: 99
+  - unique: grdc_no
+    reason: one row per gauging station; dupes mean the file was concatenated or re-pulled without overwrite
+    certainty: 97
+  - column_type: {col: grdc_no, type: integer}
+    reason: GRDC station numbers are integers (e.g. 1104150)
+    certainty: 95
+  - row_count: {min: 10000, max: 20000}
+    reason: the global GRDC network is ~11,879 stations; a sharp drop = truncated download, a surge = format change
+    certainty: 88
+  - not_null: country
+    reason: every station is attributed to a country
+    certainty: 95
+  - distinct_count: {col: country, min: 100}
+    reason: the network spans ~160 countries; far fewer means country attribution broke
+    certainty: 85
+  - between: {col: lat, lo: -90, hi: 90}
+    reason: latitudes are valid WGS84 degrees
+    certainty: 95
+  - between: {col: long, lo: -180, hi: 180}
+    reason: longitudes are valid WGS84 degrees
+    certainty: 95
+  - at_least: {col: lta_discharge, expr: 0}
+    reason: long-term mean discharge is a non-negative flow rate (m3/s); nulls allowed for stations without a computed mean
+    certainty: 80
+    severity: warn

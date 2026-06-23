@@ -1,0 +1,14 @@
+spec_id: imdb-title.ratings
+status: active
+tests:
+  - not_null: tconst
+  - matches: {col: tconst, pattern: '^tt[0-9]+$'}
+    certainty: 97
+  - unique: tconst
+    reason: one aggregate rating row per title
+    certainty: 95
+  - not_null: averageRating
+  - not_null: numVotes
+  - row_count: {min: 1000000}
+    reason: ~1.5M titles carry ratings
+    certainty: 80

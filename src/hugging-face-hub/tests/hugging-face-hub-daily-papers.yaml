@@ -1,0 +1,21 @@
+spec_id: hugging-face-hub-daily-papers
+status: active
+tests:
+  - not_null: paper_id
+    reason: every daily-papers row carries the arXiv-style paper id
+    certainty: 95
+  - unique: paper_id
+    reason: a paper is featured once; the same id resurfacing across days is dedup'd in transform
+    certainty: 70
+    severity: warn
+  - row_count: {min: 100}
+    reason: the curated feed has accumulated thousands of papers; <100 means pagination stopped at page 1
+    certainty: 80
+  - not_null: title
+    reason: every featured paper has a title
+    certainty: 95
+    severity: warn
+  - between: {col: upvotes, lo: 0, hi: 1000000}
+    reason: community upvotes are small non-negative integers
+    certainty: 80
+    severity: warn

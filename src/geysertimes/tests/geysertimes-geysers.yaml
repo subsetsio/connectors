@@ -1,0 +1,21 @@
+spec_id: geysertimes-geysers
+status: active
+tests:
+  - not_null: geyser_id
+    certainty: 99
+  - unique: geyser_id
+    reason: one row per geyser in the reference catalog
+    certainty: 95
+  - not_null: geyser_name
+    certainty: 95
+  - row_count: {min: 300}
+    reason: ~480 geysers catalogued; far fewer means /geysers returned a partial payload
+    certainty: 85
+  - between: {col: latitude, lo: 44.0, hi: 45.0}
+    reason: all geysers are in Yellowstone (NW Wyoming), latitude ~44.4
+    certainty: 80
+    severity: warn
+  - between: {col: longitude, lo: -111.5, hi: -110.0}
+    reason: all geysers are in Yellowstone, longitude ~-110.8
+    certainty: 80
+    severity: warn

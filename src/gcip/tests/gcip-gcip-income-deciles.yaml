@@ -1,0 +1,31 @@
+spec_id: gcip-gcip-income-deciles
+status: active
+tests:
+  - not_null: country
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - column_type: {col: mean_income, type: float}
+  - column_type: {col: population, type: integer}
+  - unique: [country, year]
+    reason: one row per country-year; dupes mean the CSV was concatenated or re-parsed without overwrite
+    certainty: 95
+  - between: {col: year, lo: 1980, hi: 2015}
+    reason: the archived mirror spans 1980-2015 (the 'as of April 2019' GCIP income benchmark); a value outside means the file changed
+    certainty: 90
+  - distinct_count: {col: country, min: 120, max: 180}
+    reason: GCIP income panel covers ~144 countries; far fewer = truncated parse, far more = junk rows
+    certainty: 85
+  - at_least: {col: population, expr: 100000}
+    reason: GCIP excludes micro-states; smallest populations are several hundred thousand persons (raw head count, not millions)
+    certainty: 80
+    severity: warn
+  - relationship: {left: decile_1_income, op: "<=", right: decile_10_income}
+    reason: deciles are ordered low-to-high income within each country-year; D1 must never exceed D10
+    certainty: 95
+  - relationship: {left: mean_income, op: ">=", right: decile_1_income}
+    reason: the mean cannot fall below the lowest decile's income
+    certainty: 90
+  - median_between: {col: mean_income, lo: 200, hi: 20000}
+    reason: monthly real incomes in 2005 USD PPP; a median far outside this band signals a unit/scale shift
+    certainty: 60
+    severity: warn

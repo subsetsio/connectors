@@ -1,0 +1,17 @@
+spec_id: imdb-title.basics
+status: active
+tests:
+  - not_null: tconst
+  - matches: {col: tconst, pattern: '^tt[0-9]+$'}
+    reason: IMDb title ids are 'tt' followed by digits
+    certainty: 97
+  - unique: tconst
+    reason: title.basics has exactly one row per title id
+    certainty: 92
+  - enum: {col: isAdult, values: ['0', '1']}
+    reason: isAdult is a 0/1 flag in the raw TSV
+    certainty: 90
+  - not_null: titleType
+  - row_count: {min: 9000000}
+    reason: IMDb has ~11M titles; far below that means a truncated download
+    certainty: 85

@@ -1,0 +1,37 @@
+spec_id: football-data-co-uk-matches-main
+status: active
+tests:
+  - not_null: home_team
+    reason: every match row has both teams; nulls mean blank lines slipped through
+    certainty: 95
+  - not_null: away_team
+    certainty: 95
+  - not_null: season
+    reason: season is injected from the file URL for every row
+    certainty: 95
+  - column_type: {col: date, type: date}
+    reason: dd/mm/yyyy or dd/mm/yy parsed in the transform
+    certainty: 85
+  - column_type: {col: ft_home_goals, type: integer}
+    certainty: 90
+  - between: {col: ft_home_goals, lo: 0, hi: 30}
+    reason: full-time goals for one team in one match
+    certainty: 90
+  - between: {col: ft_away_goals, lo: 0, hi: 30}
+    certainty: 90
+  - enum: {col: ft_result, values: [H, D, A]}
+    reason: full-time result is home win / draw / away win
+    certainty: 90
+    severity: warn
+  - between: {col: b365_home, lo: 1.0, hi: 1000.0}
+    reason: decimal match odds are >= 1.0
+    certainty: 70
+    severity: warn
+  - row_count: {min: 100000}
+    reason: ~690 season-division files of a few hundred matches each
+    certainty: 90
+  - freshness: {col: date, reaches: today - 120d}
+    reason: current-season files updated twice weekly in-season; off-season the max date lags
+    certainty: 70
+    points_outward: true
+    severity: warn

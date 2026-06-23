@@ -1,0 +1,13 @@
+spec_id: imdb-name.basics
+status: active
+tests:
+  - not_null: nconst
+  - matches: {col: nconst, pattern: '^nm[0-9]+$'}
+    certainty: 97
+  - unique: nconst
+    reason: one row per person id
+    certainty: 95
+  - not_null: primaryName
+  - row_count: {min: 11000000}
+    reason: ~14M persons in name.basics
+    certainty: 80

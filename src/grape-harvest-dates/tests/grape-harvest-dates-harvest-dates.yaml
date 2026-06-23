@@ -1,0 +1,37 @@
+spec_id: grape-harvest-dates-harvest-dates
+status: active
+tests:
+  - not_null: region
+    reason: every observation belongs to a named region
+    certainty: 99
+  - not_null: region_code
+    certainty: 99
+  - not_null: year
+    certainty: 99
+  - not_null: harvest_date
+    reason: blank cells are skipped during parsing; a stored row must carry a value
+    certainty: 99
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: harvest_date, type: float}
+    certainty: 95
+  - unique: [region_code, year]
+    reason: one composite harvest-date value per region per year
+    certainty: 95
+  - between: {col: year, lo: 1354, hi: 2007}
+    reason: period of record is 1354-2007 AD per the file header
+    certainty: 95
+  - at_least: {col: year, expr: 1354}
+    reason: 1354 (Burgundy) is the most ancient harvest date in the dataset
+    certainty: 90
+  - distinct_count: {col: region_code, min: 27, max: 27}
+    reason: 27 regional composite series
+    certainty: 95
+  - between: {col: harvest_date, lo: -40, hi: 90}
+    reason: dates are days after 31 August; can be negative for very early harvests (e.g. 2003) but stay within a roughly two-month band
+    certainty: 80
+    severity: warn
+  - row_count: {min: 4000, max: 9000}
+    reason: ~5900 non-blank cells across 27 series of variable length (mean ~45 obs/series x ~380 source records)
+    certainty: 70
+    severity: warn

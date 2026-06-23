@@ -293,10 +293,16 @@ DOWNLOAD_SPECS = [
 
 
 # ---- transforms: one thin SQL pass per subset -------------------------------
-# The two Summary tables (report type 1) are already a time series: each monthly
-# page repeats the full history (row_label = 'YYYY.MM'/'YYYY'), so dedup keeping
-# the most recent page. Every other report type is a per-month cross-section
-# (the period is the page year-month; row_label is a country/section/commodity).
+# The two Summary tables (report type 1) are already a time series: each page
+# repeats the full history in the FIRST column (row_label), so the period lives
+# in row_label, not the page year-month. The annual table (A) labels rows with a
+# bare year ('1981'); the monthly table (B) with 'YYYY.MM' ('2025.01'). Parse
+# both into a real DATE and keep only genuine period rows: this also discards
+# rows that leak in from a mislabelled source page (e.g. the Feb-2020 index links
+# the annual-summary row to a by-HS-division table, injecting commodity-heading
+# row_labels that are not periods). Then dedup keeping the most recent page.
+# Every other report type is a per-month cross-section (the period is the page
+# year-month; row_label is a country/section/commodity).
 
 def _is_summary(download_id: str) -> bool:
     return download_id.startswith("gacc-1-summary")
@@ -304,16 +310,38 @@ def _is_summary(download_id: str) -> bool:
 
 def _summary_sql(did: str) -> str:
     return f'''
+        WITH parsed AS (
+            SELECT
+                CASE
+                    WHEN regexp_full_match(row_label, '\\d{{4}}\\.\\d{{1,2}}')
+                        THEN make_date(
+                            CAST(split_part(row_label, '.', 1) AS INTEGER),
+                            CAST(split_part(row_label, '.', 2) AS INTEGER), 1)
+                    WHEN regexp_full_match(row_label, '\\d{{4}}')
+                        THEN make_date(CAST(row_label AS INTEGER), 1, 1)
+                END                                          AS period,
+                regexp_full_match(row_label, '\\d{{4}}\\.\\d{{1,2}}') AS is_monthly,
+                col_index,
+                col_header                                   AS measure,
+                unit,
+                CAST(value AS DOUBLE)                        AS value,
+                page_year,
+                page_month
+            FROM "{did}"
+            WHERE value IS NOT NULL
+        )
         SELECT
-            row_label                    AS period,
+            period,
+            CAST(year(period) AS INTEGER)                    AS year,
+            CASE WHEN is_monthly THEN CAST(month(period) AS INTEGER) END AS month,
             col_index,
-            col_header                   AS measure,
+            measure,
             unit,
-            CAST(value AS DOUBLE)        AS value
-        FROM "{did}"
-        WHERE value IS NOT NULL
+            value
+        FROM parsed
+        WHERE period IS NOT NULL
         QUALIFY row_number() OVER (
-            PARTITION BY row_label, col_index
+            PARTITION BY period, col_index
             ORDER BY page_year DESC, page_month DESC
         ) = 1
     '''

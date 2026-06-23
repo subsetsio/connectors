@@ -1,0 +1,14 @@
+spec_id: imdb-title.episode
+status: active
+tests:
+  - not_null: tconst
+  - not_null: parentTconst
+  - matches: {col: tconst, pattern: '^tt[0-9]+$'}
+    certainty: 97
+  - matches: {col: parentTconst, pattern: '^tt[0-9]+$'}
+    certainty: 97
+  - unique: tconst
+    reason: each episode title id appears once
+    certainty: 90
+  - row_count: {min: 5000000}
+    certainty: 75

@@ -1,0 +1,29 @@
+spec_id: globe-at-night-observations
+status: active
+tests:
+  - not_null: id
+    reason: every observation row carries an ID; nulls mean a parse/column-map break
+    certainty: 95
+  - not_null: file_year
+    reason: file_year is stamped from the discovered CSV filename for every row
+    certainty: 99
+  - column_type: {col: id, type: string}
+    reason: raw is kept faithful to source — all columns stored as strings, typed in transform
+    certainty: 95
+  - matches: {col: id, pattern: "^[0-9]+$"}
+    reason: source IDs are bare integers
+    certainty: 90
+  - matches: {col: file_year, pattern: "^[0-9]{4}$"}
+    reason: file_year derived from GaN{YEAR}.csv filename
+    certainty: 99
+  - row_count: {min: 150000}
+    reason: ~250k-300k observations across 2006-2025; well above 150k even allowing for shrinkage
+    certainty: 85
+  - distinct_count: {col: file_year, min: 18}
+    reason: 2006-2025 inventory = 20 years; allow a small margin for a year being temporarily unlisted
+    certainty: 85
+    points_outward: true
+  - not_null: country
+    reason: every observation records a country/region; widespread nulls would signal a column shift
+    certainty: 60
+    severity: warn
