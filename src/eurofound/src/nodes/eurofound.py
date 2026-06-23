@@ -176,7 +176,9 @@ TRANSFORM_SPECS = [
                 sector,
                 TRY_CAST(in_panel AS INTEGER) AS in_panel
             FROM "eurofound-collectively-agreed-wages-agreements"
-            WHERE agreement_id IS NOT NULL
+            -- real agreement ids look like 'CA-AT-1865'; this also drops the
+            -- trailing "Applied filters: ..." footer note row in the xlsx sheet.
+            WHERE agreement_id LIKE 'CA-%'
         ''',
     ),
     SqlNodeSpec(
