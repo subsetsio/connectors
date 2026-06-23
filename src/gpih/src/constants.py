@@ -1,6 +1,9 @@
 # Generated from the rank-accepted entity union + collect catalog.
 # Data, not logic: which workbooks to pull (ENTITY_IDS) and the source
 # filename behind each (ENTITY_FILES, used to build the download URL).
+# Note: russia-20-ag-content-20-ruble-1535-1913 is overridden to the
+# working source file (the site's listed %20 href 404s); the dead
+# Hellie salaries link was dropped at rank (dead_source_link).
 
 ENTITY_IDS = [
     '1897-1904-occup-matrix-2a',
@@ -151,7 +154,6 @@ ENTITY_IDS = [
     'russia-firewood-p-1606-1871',
     'russia-p-w-1590s-1871',
     'russia-paper-prices-1590s-1790s',
-    'russia-w-27s-salaries-1613-1725-hellie',
     'russia-w-salaries-1613-1725',
     'russia-wheat-c1500-c1870',
     'san-francisco-wholesale-prices-1847-1900-and-california-wages-1870-1928',
@@ -347,12 +349,11 @@ ENTITY_FILES = {
     'prices-wages-argentina-bolivia-20-05-2012': 'prices-wages-argentina-bolivia_20-05-2012.xls',
     'pune-1796-1831': 'Pune_1796-1831.xls',
     'rent-wage-ratios-latin-america': 'Rent-wage_ratios_Latin_America.xlsx',
-    'russia-20-ag-content-20-ruble-1535-1913': 'Russia%20_Ag_content%20_ruble_1535-1913.xls',
+    'russia-20-ag-content-20-ruble-1535-1913': 'Russia_Ag_content_ruble_1535-1913.xls',
     'russia-egg-prices-c1500-c1870': 'Russia_egg_prices_c1500-c1870.xls',
     'russia-firewood-p-1606-1871': 'Russia_firewood_p_1606-1871.xls',
     'russia-p-w-1590s-1871': 'Russia_p_w_1590s-1871.xls',
     'russia-paper-prices-1590s-1790s': 'Russia_paper_prices_1590s-1790s.xls',
-    'russia-w-27s-salaries-1613-1725-hellie': 'Russia_w%27s_salaries_1613-1725_(Hellie).xls',
     'russia-w-salaries-1613-1725': 'Russia_w_salaries_1613-1725.xls',
     'russia-wheat-c1500-c1870': 'Russia_wheat_c1500-c1870.xls',
     'san-francisco-wholesale-prices-1847-1900-and-california-wages-1870-1928': 'San_Francisco_wholesale_prices_1847-1900_and_California_wages_1870-1928.xls',
