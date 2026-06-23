@@ -89,7 +89,7 @@ ENTITIES = {
         "num_fields": ("pml", "pml_ene", "pml_per", "pml_cng"),
         "str_fields": (),
         "node_listed": True,
-        "backfill_days": 60,
+        "backfill_days": 21,
     },
     "pend": {
         "service": "SWPEND",
