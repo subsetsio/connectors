@@ -35,8 +35,13 @@ BASE = "https://systems.inei.gob.pe/SIRTOD/app/consulta"
 BATCH_SIZE = 50              # indicators per data request (comma-joined)
 ANIO_DESDE = "1900"         # query floor; the real start is whatever the source returns
 TIMEOUT = (10.0, 180.0)     # (connect, read)
-# The source encodes "no data for this month/year" as this sentinel; filtered in transform.
-MISSING_SENTINEL = -9999999999.0
+# INEI encodes "no data" with magic NA codes: -9999999999.99999 and -8888888888.88888.
+# The transforms drop rows whose value falls in a narrow band around either code
+# (precise bands, so legitimate large negatives -- e.g. trade balances -- survive).
+_SENTINEL_FILTER = (
+    "value NOT BETWEEN -10000000000.0 AND -9999999999.0 "
+    "AND value NOT BETWEEN -8888888889.0 AND -8888888888.0"
+)
 
 
 @transient_retry()
@@ -79,11 +84,20 @@ def _theme_path(leaf: dict, folders: dict[str, dict]) -> tuple[str | None, str |
     """Resolve a leaf's immediate parent folder name and its top-level theme."""
     parent = folders.get(leaf.get("idPadre"))
     immediate = (parent.get("nombreTema") or "").strip() or None if parent else None
+    # Climb idPadre to the highest resolvable folder. The tree has two hierarchies:
+    # the main one roots at the synthetic "1", a second (census) one roots at a node
+    # that isn't tagged as a folder -- so we stop at the last folder we can resolve
+    # rather than discarding the whole chain.
     root = parent
     guard = 0
-    # Climb idPadre until the parent is the synthetic root ("1").
-    while root and root.get("idPadre") not in (None, "", "1") and guard < 50:
-        root = folders.get(root.get("idPadre"))
+    while root and guard < 50:
+        pid = root.get("idPadre")
+        if pid in (None, "", "1"):
+            break
+        nxt = folders.get(pid)
+        if nxt is None:
+            break
+        root = nxt
         guard += 1
     root_name = (root.get("nombreTema") or "").strip() or None if root else None
     return immediate, root_name
@@ -252,14 +266,14 @@ TRANSFORM_SPECS = [
         id="inei-values-annual-transform",
         deps=["inei-values-annual"],
         sql=f"""
-            SELECT
-                indicador_id,
-                anio AS year,
-                valor AS value
-            FROM "inei-values-annual"
-            WHERE valor IS NOT NULL
-              AND valor > {MISSING_SENTINEL}
+            SELECT indicador_id, anio AS year, value
+            FROM (
+                SELECT indicador_id, anio, valor AS value
+                FROM "inei-values-annual"
+            ) AS a
+            WHERE value IS NOT NULL
               AND anio IS NOT NULL
+              AND {_SENTINEL_FILTER}
         """,
     ),
     SqlNodeSpec(
@@ -278,7 +292,7 @@ TRANSFORM_SPECS = [
                 INTO NAME month_col VALUE value
             ) AS u
             WHERE value IS NOT NULL
-              AND value > {MISSING_SENTINEL}
+              AND {_SENTINEL_FILTER}
         """,
     ),
 ]
