@@ -1,0 +1,9 @@
+spec_id: election-commission-of-india-f7f1bf09-7633-4474-96b2-62630c70f33c
+status: active
+tests:
+  - not_null: state_name
+    reason: every voter-information row is keyed by a State/UT name
+    certainty: 95
+  - row_count: {min: 25, max: 90}
+    reason: per-state (and per constituency-type) turnout rows for the 2024 LS election; a stop after page 1 (demo key caps 10/page) would land far under this
+    certainty: 90

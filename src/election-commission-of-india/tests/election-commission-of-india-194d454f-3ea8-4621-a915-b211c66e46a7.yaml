@@ -1,0 +1,15 @@
+spec_id: election-commission-of-india-194d454f-3ea8-4621-a915-b211c66e46a7
+status: active
+tests:
+  - not_null: winner_name
+    reason: every successful-candidate row names the winner
+    certainty: 95
+  - not_null: constituency
+    reason: each row is keyed to a parliamentary constituency
+    certainty: 95
+  - row_count: {min: 500, max: 545}
+    reason: one row per declared seat in the 543-seat Lok Sabha (a couple may be absent, e.g. uncontested Surat); well under 500 means pagination stopped early
+    certainty: 90
+  - unique: [state, constituency]
+    reason: at most one winner per constituency within a state
+    certainty: 80

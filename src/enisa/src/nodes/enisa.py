@@ -27,16 +27,40 @@ from each record's nested enisaIdProduct array).
 
 import json
 
-from subsets_utils import get, transient_retry, raw_writer
+import httpx
+from ratelimit import limits, sleep_and_retry
+from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
+
+from subsets_utils import get, configure_http, is_transient, raw_writer
 
 BASE = "https://euvdservices.enisa.europa.eu/api"
 PAGE_SIZE = 100
 # Safety ceiling: ~3.6k pages today; raise (not silently truncate) if the
 # corpus ever blows past ~2x that, which would mean our termination broke.
 MAX_PAGES = 8000
+# Descriptive UA — the default UA tripped the EUVD WAF under sustained load.
+USER_AGENT = "subsets.io-connector/1.0 (+https://subsets.io; data ingestion)"
 
 
-@transient_retry()
+def _is_retryable(exc: BaseException) -> bool:
+    """Standard transient set PLUS HTTP 403. The EUVD endpoint returns 403
+    (not 429) when its WAF rate-blocks the client IP under sustained crawling;
+    that block is temporary, so back off and retry rather than failing the run."""
+    if is_transient(exc):
+        return True
+    if isinstance(exc, httpx.HTTPStatusError):
+        return exc.response.status_code == 403
+    return False
+
+
+@retry(
+    retry=retry_if_exception(_is_retryable),
+    stop=stop_after_attempt(8),
+    wait=wait_exponential(min=5, max=120),
+    reraise=True,
+)
+@sleep_and_retry
+@limits(calls=60, period=60)  # 1 req/s per process; ~2/s combined across the 2 specs
 def _fetch_page(page: int) -> dict:
     resp = get(
         f"{BASE}/search",
@@ -100,6 +124,7 @@ def _vuln_row(rec: dict) -> dict:
 
 
 def fetch_vulnerabilities(node_id: str) -> None:
+    configure_http(headers={"User-Agent": USER_AGENT})
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as fh:
         for rec in _iter_records():
@@ -107,6 +132,7 @@ def fetch_vulnerabilities(node_id: str) -> None:
 
 
 def fetch_affected_products(node_id: str) -> None:
+    configure_http(headers={"User-Agent": USER_AGENT})
     asset = node_id
     with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as fh:
         for rec in _iter_records():

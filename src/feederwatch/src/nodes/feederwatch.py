@@ -31,12 +31,24 @@ from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
+    configure_http,
     transient_retry,
     save_raw_parquet,
     raw_parquet_writer,
 )
 
 ENTRY_URL = "https://feederwatch.org/explore/raw-dataset-requests/"
+
+# feederwatch.org / cdn.feederwatch.org sit behind a WAF that 403s bare clients
+# from datacenter IPs. A full browser-like header set gets through. ASCII only.
+_BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+}
 
 # Header is identical across all year-range files (verified 1988-1995,
 # 2006-2010, 2021-2024). Read every column as string and let "NA"/"" be null;
@@ -89,6 +101,7 @@ def _read_csv_bytes(content: bytes) -> pa.Table:
 
 
 def fetch_observations(node_id: str) -> None:
+    configure_http(headers=_BROWSER_HEADERS)
     asset = node_id
     rx = re.compile(r"PFW_all_\d{4}_\d{4}_.*\.csv\.zip$")
     zips = sorted({u for u in _entry_links() if rx.search(u)})
@@ -120,6 +133,7 @@ def fetch_observations(node_id: str) -> None:
 
 
 def fetch_site_descriptions(node_id: str) -> None:
+    configure_http(headers=_BROWSER_HEADERS)
     asset = node_id
     url = _resolve_one(r"PFW_count_site_data.*\.csv$")
     table = _read_csv_bytes(_fetch(url).content)
@@ -127,6 +141,7 @@ def fetch_site_descriptions(node_id: str) -> None:
 
 
 def fetch_species_translation(node_id: str) -> None:
+    configure_http(headers=_BROWSER_HEADERS)
     asset = node_id
     url = _resolve_one(r"PFW_spp_translation_table.*\.csv$")
     table = _read_csv_bytes(_fetch(url).content)

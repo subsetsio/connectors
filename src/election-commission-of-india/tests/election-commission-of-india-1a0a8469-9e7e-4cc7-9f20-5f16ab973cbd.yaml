@@ -1,0 +1,12 @@
+spec_id: election-commission-of-india-1a0a8469-9e7e-4cc7-9f20-5f16ab973cbd
+status: active
+tests:
+  - not_null: state_ut
+    reason: every row is a State/UT (or the all-India total); the key label is always present
+    certainty: 95
+  - unique: state_ut
+    reason: one row per State/UT in the 2024 electors summary; dupes mean the page was re-pulled without overwrite
+    certainty: 85
+  - row_count: {min: 25, max: 45}
+    reason: 28 states + 8 UTs plus possible total/header rows; far fewer means pagination stopped early
+    certainty: 90

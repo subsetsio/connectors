@@ -1,0 +1,12 @@
+spec_id: election-commission-of-india-0bd877c0-031d-49da-a743-d102dec6e7b7
+status: active
+tests:
+  - not_null: state_ut
+    reason: each row is a State/UT candidates-per-constituency summary
+    certainty: 95
+  - unique: state_ut
+    reason: one row per State/UT; dupes mean a page was re-pulled without overwrite
+    certainty: 85
+  - row_count: {min: 25, max: 45}
+    reason: 28 states + 8 UTs plus possible total row
+    certainty: 90

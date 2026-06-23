@@ -1,0 +1,9 @@
+spec_id: election-commission-of-india-a27ba4e9-73c2-40d1-90b2-41d71ea7c283
+status: active
+tests:
+  - not_null: constituency_name___code
+    reason: each highlight row identifies a parliamentary constituency
+    certainty: 90
+  - row_count: {min: 5, max: 40}
+    reason: a small highlights table (per-constituency candidate breakdown rows); empty means the fetch broke
+    certainty: 80
