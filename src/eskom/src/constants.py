@@ -20,7 +20,6 @@ PAGE_PATHS = {
     "station-build-up-last-7-days": "supply-side/station-build-up-for-the-last-7-days/",
     "system-hourly-actual-and-forecasted-demand": "demand-side/system-hourly-actual-and-forecasted-demand/",
     "system-hourly-demand-and-available-capacity": "demand-side/system-hourly-demand-and-available-capacity/",
-    "total-hourly-renewable-generation": "renewables-performance/total-hourly-renewable-generation/",
     "total-monthly-ocgt-energy-utilization": "ocgt-usage/total-monthly-ocgt-eskom-ipp-and-gt-energy-utilization/",
     "weekly-energy-demand": "demand-side/weekly-energy-demand/",
     "weekly-generation-capacity-breakdown": "outage-performance/weekly-eskom-generation-capacity-breakdown/",
