@@ -1,0 +1,15 @@
+spec_id: eurofound-collectively-agreed-wages-agreements
+status: active
+tests:
+  - not_null: agreement_id
+  - not_null: country
+  - row_count: {min: 300}
+    reason: ~662 collective agreements catalogued
+    certainty: 80
+  - unique: agreement_id
+    reason: one row per collective agreement identifier
+    certainty: 70
+    severity: warn
+  - distinct_count: {col: country, min: 10}
+    certainty: 70
+    severity: warn

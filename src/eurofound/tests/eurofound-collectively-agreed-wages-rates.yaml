@@ -1,0 +1,17 @@
+spec_id: eurofound-collectively-agreed-wages-rates
+status: active
+tests:
+  - not_null: country
+  - not_null: year
+  - column_type: {col: year, type: integer}
+    certainty: 80
+  - between: {col: year, lo: 2000, hi: 2030}
+    reason: database covers collectively-agreed wage observations ~2015 onward
+    certainty: 85
+  - row_count: {min: 50000}
+    reason: ~198k monthly rate observations across EU collective agreements; far fewer means the xlsx sheet read truncated
+    certainty: 85
+  - distinct_count: {col: country, min: 10}
+    reason: collective-agreement wage coverage spans many EU member states
+    certainty: 70
+    severity: warn
