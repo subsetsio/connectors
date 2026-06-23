@@ -21,6 +21,7 @@ column types.
 
 import os
 
+from ratelimit import limits, sleep_and_retry
 from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson, transient_retry
 
 from constants import ENTITY_IDS
@@ -40,8 +41,18 @@ def _dl_id(entity_id: str) -> str:
     return f"{SLUG}-{entity_id.lower().replace('_', '-')}"
 
 
-@transient_retry()
+# The shared public OGD sample key is rate-limited; pace requests (per-process)
+# and lean on transient_retry's backoff to ride out any 429s. A registered
+# DATA_GOV_IN_API_KEY lifts both the page cap and the rate limit.
+@sleep_and_retry
+@limits(calls=60, period=60)
+def _throttle() -> None:
+    return None
+
+
+@transient_retry(attempts=8, min_wait=5, max_wait=120)
 def _fetch_page(resource_id: str, offset: int) -> dict:
+    _throttle()
     resp = get(
         BASE + resource_id,
         params={
