@@ -1,0 +1,17 @@
+spec_id: harvard-growth-lab-atlas-of-economic-complexity-sitc-country-country-year
+status: active
+tests:
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1960, hi: current_year()}
+    certainty: 85
+  - at_most: {col: year, expr: current_year()}
+    certainty: 80
+    points_outward: true
+    severity: warn
+    reason: Atlas years are historical trade; a future year means a source/parse shift.
+  - not_null: partner_country_id
+  - column_type: {col: partner_country_id, type: integer}
+  - unique: [country_id, partner_country_id, year]
+    reason: one row per country-partner-year
+    certainty: 88
