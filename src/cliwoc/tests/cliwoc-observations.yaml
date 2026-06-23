@@ -1,0 +1,28 @@
+spec_id: cliwoc-observations
+status: active
+tests:
+  - row_count: {min: 250000, max: 400000}
+    reason: CLIWOC release 2.1 holds ~287k logbook observations; a much smaller count means the TSV download was truncated.
+    certainty: 90
+  - nullable: {col: logbook_id, max_null_frac: 0.001}
+    reason: nearly every observation carries its source logbook identifier (1 known blank in v2.1); a high null rate means the LogbookIdent column moved or the parse misaligned.
+    certainty: 85
+  - column_type: {col: latitude, type: float}
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: record_date, type: date}
+    certainty: 95
+  - between: {col: latitude, lo: -90, hi: 90}
+    reason: decimal latitude in degrees.
+    certainty: 95
+  - between: {col: longitude, lo: -180, hi: 180}
+    reason: decimal longitude in degrees.
+    certainty: 95
+  - between: {col: year, lo: 1650, hi: 1860}
+    reason: corpus spans 1750-1854; margin allows a few early/late stragglers.
+    certainty: 85
+  - distinct_count: {col: nationality, min: 3, max: 40}
+    reason: four chief nationalities (British, Dutch, French, Spanish) plus spelling/variant labels.
+    certainty: 80
+    severity: warn

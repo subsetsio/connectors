@@ -1,0 +1,18 @@
+spec_id: department-for-transport-dft-traffic-counts-aadf
+status: active
+tests:
+  - not_null: count_point_id
+  - not_null: year
+  - column_type: {col: year, type: integer}
+    certainty: 90
+  - between: {col: year, lo: 2000, hi: current_year()}
+    reason: AADF count-point estimates start in 2000 per the road-traffic docs
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - unique: [count_point_id, year]
+    reason: one AADF row per count point per year; dupes mean the file was concatenated twice
+    certainty: 80
+  - at_least: {col: all_motor_vehicles, expr: 0}
+    reason: daily flow counts are non-negative
+    certainty: 95

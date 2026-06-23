@@ -1,0 +1,17 @@
+spec_id: department-for-transport-dft-traffic-counts-aadf-by-direction
+status: active
+tests:
+  - not_null: count_point_id
+  - not_null: year
+  - not_null: direction_of_travel
+  - column_type: {col: year, type: integer}
+    certainty: 90
+  - between: {col: year, lo: 2000, hi: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - unique: [count_point_id, year, direction_of_travel]
+    reason: one row per count point, year and direction of travel
+    certainty: 78
+  - at_least: {col: all_motor_vehicles, expr: 0}
+    certainty: 95

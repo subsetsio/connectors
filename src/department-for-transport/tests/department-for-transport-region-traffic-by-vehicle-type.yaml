@@ -1,0 +1,14 @@
+spec_id: department-for-transport-region-traffic-by-vehicle-type
+status: active
+tests:
+  - not_null: region_id
+  - not_null: year
+  - between: {col: year, lo: 1993, hi: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - unique: [region_id, year]
+    reason: one row per region per year
+    certainty: 85
+  - at_least: {col: all_motor_vehicles, expr: 0}
+    certainty: 95
