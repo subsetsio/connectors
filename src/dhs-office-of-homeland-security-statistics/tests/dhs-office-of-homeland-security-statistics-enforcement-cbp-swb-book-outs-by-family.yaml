@@ -1,0 +1,7 @@
+spec_id: dhs-office-of-homeland-security-statistics-enforcement-cbp-swb-book-outs-by-family
+status: active
+tests:
+  - row_count: {min: 73}
+    reason: parsed sheet 'CBP SWB Book-Outs by Family' yielded 146 rows on probe; a run materially below half that means the point-in-time workbook rotated, the Akamai TLS block returned (empty), or header detection failed.
+    certainty: 80
+    severity: block

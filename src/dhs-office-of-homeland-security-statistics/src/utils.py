@@ -240,14 +240,23 @@ def parse_sheet(content: bytes, sheet_name: str):
     # column with text content (e.g. month names, country labels) breaks the
     # suffix and, with everything to its left, is a label column.
     def col_stats(local_c):
+        # num = parses as a number; tot = num + genuine-text cells. Suppression
+        # markers (X/D/- ...) are numeric-nulls, not text, so they neither count
+        # as text nor break the numeric run.
         num = tot = 0
         for r in data:
             for b in range(width // k):
                 v = cell(r, b * k + local_c)
-                if _clean(v):
+                s = _clean(v)
+                if not s:
+                    continue
+                if _to_number(v) is not None:
+                    num += 1
                     tot += 1
-                    if _to_number(v) is not None:
-                        num += 1
+                elif s.lower() in _SUPPRESSED:
+                    continue
+                else:
+                    tot += 1
         return num, tot
 
     stats = [col_stats(c) for c in range(k)]
