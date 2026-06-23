@@ -1,0 +1,23 @@
+spec_id: eg-capmas-subjects
+status: active
+tests:
+  - not_null: sub_subject_id
+    reason: every taxonomy row is a sub-subject keyed by its integer id
+    certainty: 95
+  - not_null: main_subject_id
+    certainty: 95
+  - column_type: {col: sub_subject_id, type: integer}
+    certainty: 90
+  - unique: sub_subject_id
+    reason: Subject/HasData lists each sub-subject once under its main subject
+    certainty: 90
+  - row_count: {min: 15, max: 60}
+    reason: collect saw 24 sub-subjects under 3 main subjects; a large change means the tree shape shifted
+    certainty: 85
+  - not_null: sub_subject_ar
+    reason: Arabic title is the source's primary label and always present
+    certainty: 90
+  - distinct_count: {col: main_subject_id, min: 3, max: 3}
+    reason: CAPMAS groups everything under exactly 3 main subjects (Economy / Demographic-Social / Environment)
+    certainty: 80
+    severity: warn

@@ -1,0 +1,40 @@
+spec_id: eg-capmas-indicators
+status: active
+tests:
+  - not_null: indicator_id
+    reason: the indicator id is the catalog key for every row
+    certainty: 95
+  - column_type: {col: indicator_id, type: integer}
+    certainty: 90
+  - unique: indicator_id
+    reason: one row per indicator after dedup; a dup means the same indicator was emitted under two publications
+    certainty: 80
+    severity: warn
+  - row_count: {min: 4000, max: 12000}
+    reason: the subject-tree enumeration counted 7353 indicators; dedup trims slightly
+    certainty: 80
+  - not_null: name_ar
+    reason: Arabic name is the source's primary label, always present on an indicator
+    certainty: 90
+  - nullable: {col: name_en, max_null_frac: 0.35}
+    reason: most indicators carry an English translation, but a minority are Arabic-only
+    certainty: 60
+    severity: warn
+  - nullable: {col: measure_unit_en, max_null_frac: 0.4}
+    reason: units come from IndicatorDetails; some indicators omit a unit or its English translation
+    certainty: 55
+    severity: warn
+  - between: {col: start_year, lo: 1900, hi: current_year()}
+    reason: coverage starts in the modern statistical era
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - at_most: {col: end_year, expr: current_year()}
+    reason: end of coverage should not exceed the current year unless the source publishes projections
+    certainty: 60
+    points_outward: true
+    severity: warn
+  - relationship: {left: start_year, op: "<=", right: end_year}
+    reason: coverage window is ordered
+    certainty: 80
+    severity: warn

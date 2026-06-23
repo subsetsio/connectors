@@ -1,0 +1,35 @@
+spec_id: eg-capmas-values
+status: active
+tests:
+  - not_null: indicator_id
+    reason: every observation belongs to an indicator
+    certainty: 95
+  - not_null: year
+    reason: every CAPMAS observation is stamped with a year (quarter/month optional)
+    certainty: 90
+  - column_type: {col: year, type: integer}
+    certainty: 90
+  - column_type: {col: value, type: float}
+    certainty: 90
+  - not_null: category_id
+    reason: each point belongs to a breakdown category (the IndicatorFilter series id)
+    certainty: 85
+  - row_count: {min: 20000}
+    reason: ~7k indicators, each with several breakdown categories x multiple periods
+    certainty: 70
+  - distinct_count: {col: indicator_id, min: 1000}
+    reason: observations should span most of the catalog, not a handful of indicators
+    certainty: 75
+  - between: {col: year, lo: 1950, hi: current_year()}
+    reason: annual coverage falls in the modern era; values beyond this year would be projections
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - between: {col: quarter, lo: 1, hi: 4}
+    reason: quarter is 1-4 when present
+    certainty: 85
+    severity: warn
+  - between: {col: month, lo: 1, hi: 12}
+    reason: month is 1-12 when present
+    certainty: 85
+    severity: warn
