@@ -1,0 +1,21 @@
+spec_id: inaturalist-taxa
+status: active
+tests:
+  - not_null: taxon_id
+    reason: taxon_id is the primary key of the taxonomy table
+    certainty: 95
+  - unique: taxon_id
+    reason: one row per taxon
+    certainty: 90
+  - not_null: name
+    reason: every taxon carries a scientific name
+    certainty: 85
+    severity: warn
+  - enum: {col: active, values: ["true", "false"]}
+    reason: active is a boolean flag exported as the literal strings true/false (raw is untyped)
+    certainty: 90
+  - row_count: {min: 500000}
+    reason: the iNaturalist taxonomy holds well over 500k taxa and grows monthly
+    certainty: 75
+    points_outward: true
+    severity: warn

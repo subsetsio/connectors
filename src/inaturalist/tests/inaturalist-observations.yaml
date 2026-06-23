@@ -1,0 +1,24 @@
+spec_id: inaturalist-observations
+status: active
+tests:
+  - not_null: observation_uuid
+    reason: every observation row is keyed by a UUID; nulls mean a misaligned TSV parse
+    certainty: 95
+  - unique: observation_uuid
+    reason: observation_uuid is the primary key of the open-data observations table
+    certainty: 90
+  - column_type: {col: observation_uuid, type: string}
+    reason: raw is persisted untyped (all columns string); typing happens in the transform
+    certainty: 95
+  - matches: {col: observation_uuid, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"}
+    reason: UUID v4 textual form
+    certainty: 85
+  - enum: {col: quality_grade, values: [research, needs_id, casual]}
+    reason: iNaturalist quality grades are exactly these three labels
+    certainty: 80
+    severity: warn
+  - row_count: {min: 50000000}
+    reason: the open-data (CC-licensed) observations corpus is well over 50M rows and only grows
+    certainty: 75
+    points_outward: true
+    severity: warn

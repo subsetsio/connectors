@@ -1,0 +1,41 @@
+spec_id: ivey-purchasing-managers-index-ivey-pmi
+status: active
+tests:
+  - not_null: date
+    reason: every row is a month observation; a null month means the M/YYYY parse failed
+    certainty: 95
+  - not_null: seasonal_adjustment
+    reason: every row is tagged with the section heading it came from
+    certainty: 95
+  - column_type: {col: date, type: date}
+    certainty: 90
+  - column_type: {col: ivey_pmi, type: float}
+    certainty: 90
+  - enum: {col: seasonal_adjustment, values: [seasonally_adjusted, not_seasonally_adjusted]}
+    reason: the page renders exactly two tables, one per seasonal-adjustment variant
+    certainty: 95
+  - unique: [date, seasonal_adjustment]
+    reason: one row per (month, adjustment); dupes mean a table was parsed twice
+    certainty: 95
+  - between: {col: ivey_pmi, lo: 0, hi: 100}
+    reason: a diffusion index is bounded 0-100 by construction (above 50 = expansion)
+    certainty: 95
+  - between: {col: employment_index, lo: 0, hi: 100}
+    certainty: 95
+  - between: {col: prices_index, lo: 0, hi: 100}
+    certainty: 95
+  - between: {col: deliveries_index, lo: 0, hi: 100}
+    certainty: 95
+  - between: {col: inventories_index, lo: 0, hi: 100}
+    certainty: 95
+  - row_count: {min: 40}
+    reason: two tables of a rolling ~24-month window = ~48 rows; <40 means a table failed to parse
+    certainty: 80
+  - distinct_count: {col: seasonal_adjustment, min: 2, max: 2}
+    reason: exactly the seasonally-adjusted and not-seasonally-adjusted variants
+    certainty: 90
+  - freshness: {col: date, reaches: today - 90d}
+    reason: published monthly on the first business day; the latest month should be recent
+    certainty: 80
+    points_outward: true
+    severity: warn
