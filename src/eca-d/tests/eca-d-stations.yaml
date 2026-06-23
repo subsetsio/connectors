@@ -1,0 +1,27 @@
+spec_id: eca-d-stations
+status: active
+tests:
+  - not_null: station_id
+  - not_null: station_name
+  - not_null: country
+  - not_null: latitude
+  - not_null: longitude
+  - column_type: {col: station_id, type: integer}
+  - column_type: {col: latitude, type: float}
+  - column_type: {col: longitude, type: float}
+  - unique: station_id
+    reason: STAID is the primary key of the ECA&D station registry
+    certainty: 95
+  - between: {col: latitude, lo: -60, hi: 85}
+    reason: ECA&D covers Europe, the Mediterranean and MENA; latitudes well within these bounds
+    certainty: 90
+  - between: {col: longitude, lo: -180, hi: 195}
+    reason: longitudes span the Atlantic to the Middle East
+    certainty: 90
+  - matches: {col: country, pattern: '^[A-Z]{2}$'}
+    reason: CN is a two-letter ISO country code
+    certainty: 85
+    severity: warn
+  - row_count: {min: 10000}
+    reason: ECA&D registers tens of thousands of stations
+    certainty: 90

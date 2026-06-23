@@ -1,0 +1,30 @@
+spec_id: eca-d-blend-hu
+status: active
+tests:
+  - not_null: station_id
+  - not_null: date
+  - not_null: value
+  - column_type: {col: station_id, type: integer}
+  - column_type: {col: date, type: integer}
+  - column_type: {col: value, type: integer}
+  - row_count: {min: 1000}
+    reason: every blended element spans thousands of station-days of valid observations
+    certainty: 90
+  - between: {col: date, lo: 17000101, hi: 20301231}
+    reason: ECA&D daily series begin in the 18th century; no dates beyond the near future
+    certainty: 90
+  - enum: {col: quality, values: [0, 1]}
+    reason: missing observations (Q=9, value=-9999) are dropped at parse; only valid(0)/suspect(1) remain
+    certainty: 85
+  - unique: [station_id, date]
+    reason: the blended series carries one value per station per day
+    certainty: 75
+    severity: warn
+  - at_least: {col: value, expr: 0}
+    reason: raw integer value within the element's documented physical range (lower bound)
+    certainty: 70
+    severity: warn
+  - at_most: {col: value, expr: 100}
+    reason: raw integer value within the element's documented physical range (upper bound)
+    certainty: 70
+    severity: warn

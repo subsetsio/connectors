@@ -1,0 +1,19 @@
+spec_id: drees-4161-couverture-des-risques-sociaux-a-partir-des-donnees-acpr
+status: active
+tests:
+  - row_count: {min: 3019}
+    reason: full ODS parquet export held 6038 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "type_d_organismes_complementaires"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "type_d_organismes_complementaires", type: string}
+    certainty: 90
+  - not_null: "type_de_contrats"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "type_de_contrats", type: string}
+    certainty: 90
+  - column_type: {col: "annee", type: integer}
+    reason: numeric measure column; type drift here means the export schema changed.
+    certainty: 80

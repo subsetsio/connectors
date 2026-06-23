@@ -1,0 +1,30 @@
+spec_id: dsec-macao-values
+status: active
+tests:
+  - not_null: indicator_id
+    certainty: 99
+  - not_null: value
+    reason: null observations are dropped in the fetch fn before writing raw
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 90
+  - enum: {col: data_period, values: [Yearly, Quarterly, Monthly, ThreeConsecutiveMonths]}
+    reason: we request exactly these four period types and tag each row with the one requested
+    certainty: 95
+  - between: {col: year, lo: 1900, hi: 2027}
+    reason: DSEC series start in the 20th century; upper bound is current year + a little slack
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: observations should not be dated in the future
+    certainty: 75
+    points_outward: true
+    severity: warn
+  - row_count: {min: 100000}
+    reason: ~7400 yearly leaves x ~20 years plus quarterly/monthly should exceed 100k rows; far fewer means batches silently failed
+    certainty: 85
+  - unique: [indicator_id, data_period, year, period_id]
+    reason: one observation per indicator/period-type/year/period; dupes mean a batch was double-counted
+    certainty: 80
+    severity: warn

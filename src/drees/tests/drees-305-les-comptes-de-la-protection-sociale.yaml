@@ -1,0 +1,19 @@
+spec_id: drees-305-les-comptes-de-la-protection-sociale
+status: active
+tests:
+  - row_count: {min: 7827}
+    reason: full ODS parquet export held 15654 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "annee"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "annee", type: string}
+    certainty: 90
+  - not_null: "ps_niveau"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "ps_niveau", type: string}
+    certainty: 90
+  - column_type: {col: "val", type: float}
+    reason: numeric measure column; type drift here means the export schema changed.
+    certainty: 80
