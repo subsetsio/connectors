@@ -1,0 +1,44 @@
+spec_id: isc-gem-earthquakes
+status: active
+tests:
+  - not_null: id
+    reason: every USGS ComCat event carries a stable id (prefixed 'iscgem'); a null means a parse/format break
+    certainty: 98
+  - not_null: time
+    certainty: 98
+  - not_null: mag
+    reason: ISC-GEM is a magnitude catalogue; every event has an Mw estimate
+    certainty: 95
+  - unique: id
+    reason: one row per earthquake event; dupes mean offset pages overlapped or overwrite failed
+    certainty: 95
+  - matches: {col: id, pattern: "^iscgem"}
+    reason: this is the catalog=iscgem mirror; all event ids are iscgem-prefixed
+    certainty: 90
+  - column_type: {col: latitude, type: float}
+    certainty: 95
+  - column_type: {col: longitude, type: float}
+    certainty: 95
+  - between: {col: latitude, lo: -90, hi: 90}
+    certainty: 98
+  - between: {col: longitude, lo: -180, hi: 180}
+    certainty: 98
+  - between: {col: mag, lo: 3.0, hi: 10.0}
+    reason: ISC-GEM targets large events (Mw>=~5), and no instrumental quake exceeds ~9.6
+    certainty: 90
+  - between: {col: depth, lo: 0, hi: 800}
+    reason: hypocentral depth in km; deepest earthquakes reach ~700km
+    certainty: 85
+    severity: warn
+  - enum: {col: magType, values: [mw, Mw, MW]}
+    reason: ISC-GEM expresses all magnitudes as moment magnitude Mw
+    certainty: 80
+    severity: warn
+  - row_count: {min: 50000}
+    reason: probed total is ~74153 events; a large shortfall means pagination truncated
+    certainty: 90
+  - freshness: {col: updated, reaches: today - 730d}
+    reason: the USGS mirror is periodically re-derived; max updated should be within ~2y
+    certainty: 60
+    points_outward: true
+    severity: warn

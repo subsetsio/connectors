@@ -1,0 +1,31 @@
+spec_id: international-aluminium-primary-aluminium-smelting-power-consumption
+status: active
+tests:
+  - not_null: period_end
+  - not_null: series
+  - not_null: category
+  - not_null: value
+  - column_type: {col: value, type: float}
+  - column_type: {col: period_end, type: date}
+  - column_type: {col: period_start, type: date}
+    certainty: 95
+  - row_count: {min: 5}
+    reason: every IAI publication has multiple periods x dimensions; <5 means the cell matrix failed to flatten
+    certainty: 95
+  - relationship: {left: period_start, op: <=, right: period_end}
+    reason: a period's start precedes its end (months/years)
+    certainty: 99
+  - at_most: {col: period_end, expr: today}
+    reason: IAI publishes observed history, not forward projections
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - unique: [period_end, series_group, series, category]
+    reason: one cell per period x (row-group,row) x column; dupes mean the asset was appended instead of overwritten. (warn — null series_group uniqueness semantics are engine-dependent)
+    certainty: 70
+    severity: warn
+  - freshness: {col: period_end, reaches: today - 600d}
+    reason: source releases on its own cadence; stale max usually means a not-yet-published period, not our bug
+    certainty: 70
+    points_outward: true
+    severity: warn
