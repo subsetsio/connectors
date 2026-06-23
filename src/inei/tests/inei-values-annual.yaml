@@ -1,0 +1,24 @@
+spec_id: inei-values-annual
+status: active
+tests:
+  - not_null: indicador_id
+    reason: every observation belongs to an indicator
+    certainty: 95
+  - not_null: anio
+    reason: every annual observation is stamped with its year
+    certainty: 95
+  - column_type: {col: anio, type: integer}
+    certainty: 95
+  - unique: [indicador_id, anio]
+    reason: one national annual value per indicator-year; dupes mean a batch was double-pulled
+    certainty: 85
+  - between: {col: anio, lo: 1900, hi: 2100}
+    reason: INEI series start in the 20th century and population projections run past 2050
+    certainty: 90
+  - row_count: {min: 30000}
+    reason: ~6900 indicators x ~10-30 years of national history is hundreds of thousands of rows
+    certainty: 75
+  - distinct_count: {col: indicador_id, min: 2000}
+    reason: the great majority of indicators publish at annual frequency
+    certainty: 75
+    severity: warn

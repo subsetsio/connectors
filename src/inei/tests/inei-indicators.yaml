@@ -1,0 +1,21 @@
+spec_id: inei-indicators
+status: active
+tests:
+  - not_null: codigo_indicador
+    reason: every catalog leaf carries a codigoIndicador; a null means the tree parse broke
+    certainty: 95
+  - not_null: nombre_indicador
+    reason: indicators always have a Spanish name in arboltematico
+    certainty: 90
+  - unique: codigo_indicador
+    reason: one catalog row per indicator id; dupes mean leaves were double-counted
+    certainty: 90
+  - column_type: {col: codigo_indicador, type: integer}
+    certainty: 95
+  - row_count: {min: 4000}
+    reason: arboltematico exposed ~6940 indicators while researching; <4000 means truncation
+    certainty: 85
+  - distinct_count: {col: tema_raiz, min: 3, max: 60}
+    reason: top-level themes (DEMOGRAFICO/SOCIAL/ECONOMICO/...) number a few, not hundreds
+    certainty: 70
+    severity: warn
