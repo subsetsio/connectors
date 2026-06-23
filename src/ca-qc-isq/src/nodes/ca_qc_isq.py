@@ -32,13 +32,15 @@ import io
 import re
 import csv as _csv
 import json
+import time
 import urllib.parse
 
+import httpx
 import pyarrow as pa
 import lxml.html
 
 from subsets_utils import (
-    NodeSpec, SqlNodeSpec, get, transient_retry, save_raw_parquet,
+    NodeSpec, SqlNodeSpec, get, save_raw_parquet,
 )
 from constants import ENTITY_IDS
 
@@ -171,29 +173,68 @@ def _melt(headers, data):
 
 # ---- source-specific grid builders -----------------------------------------
 
-@transient_retry()
-def _get(url):
-    resp = get(url, timeout=(10.0, 120.0))
-    resp.raise_for_status()
-    return resp
+# ISQ silently rate-limits a long run: deep into a 2,000+ table pull the Next.js
+# /produit/tableau/ pages start intermittently returning 404 (and the odd 403)
+# for tables that exist — confirmed by re-fetching the same slugs minutes later
+# (all 200). The pls/ken data backend stays reliable. So we retry the throttle
+# statuses with exponential backoff. 404 is opt-in (the front-end page only, and
+# only after a fast first pass has ruled out a genuinely missing page) so we
+# never burn backoff on a real 404.
+_RETRY_STATUS = frozenset({403, 408, 425, 429, 500, 502, 503, 504})
+
+
+def _get(url, *, retry_404=False, tries=8, base_wait=4.0, max_wait=180.0):
+    codes = _RETRY_STATUS | ({404} if retry_404 else frozenset())
+    wait = base_wait
+    last = None
+    for attempt in range(tries):
+        try:
+            resp = get(url, timeout=(10.0, 120.0))
+        except httpx.HTTPError as exc:           # transport/timeout: always retry
+            last = exc
+            if attempt == tries - 1:
+                raise
+            time.sleep(wait)
+            wait = min(wait * 2, max_wait)
+            continue
+        if resp.status_code in codes and attempt < tries - 1:
+            time.sleep(wait)
+            wait = min(wait * 2, max_wait)
+            continue
+        resp.raise_for_status()
+        return resp
+    if last is not None:
+        raise last
+    raise RuntimeError(f"_get exhausted with no response: {url}")
 
 
 def _page_data(slug):
-    """Return props.pageProps.data for a tableau slug, trying EN then FR."""
+    """Return props.pageProps.data for a tableau slug, trying EN then FR.
+
+    Fast pass first (no 404 retry). If every language 404s — usually ISQ
+    throttling the front-end, not a genuinely missing page — escalate to a
+    backoff pass that retries 404 too before giving up."""
     last = None
-    for lang in ("en", "fr"):
-        try:
-            resp = _get(f"{BASE}/{lang}/produit/tableau/{urllib.parse.quote(slug)}")
-        except Exception as exc:  # noqa: BLE001 - logged URL + class, then continue
-            last = exc
-            continue
-        m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', resp.text, re.S)
-        if not m:
-            continue
-        try:
-            return json.loads(m.group(1))["props"]["pageProps"]["data"]
-        except (KeyError, ValueError):
-            continue
+    for retry_404 in (False, True):
+        for lang in ("en", "fr"):
+            url = f"{BASE}/{lang}/produit/tableau/{urllib.parse.quote(slug)}"
+            try:
+                resp = _get(url, retry_404=retry_404)
+            except httpx.HTTPStatusError as exc:
+                last = exc
+                if exc.response.status_code == 404:
+                    continue  # try the other language, then escalate
+                raise
+            except httpx.HTTPError as exc:  # noqa: BLE001 - logged, then continue
+                last = exc
+                continue
+            m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', resp.text, re.S)
+            if not m:
+                continue
+            try:
+                return json.loads(m.group(1))["props"]["pageProps"]["data"]
+            except (KeyError, ValueError):
+                continue
     if last is not None:
         raise last
     return None
@@ -216,7 +257,7 @@ def _flatten_cols(nodes, anc=()):
 
 
 def _dynamic_grid(table_no):
-    hdr = _get(f"{KEN}.p_retrn_header?p_id_tabl={table_no}")
+    hdr = _get(f"{KEN}.p_retrn_header?p_id_tabl={table_no}", retry_404=True)
     cfg = json.loads(hdr.text)["tableConfig"]
     label_map = dict(_flatten_cols(cfg.get("columns", [])))
     # The data query must use the EXACT field set/order from dataSource.fields —
@@ -229,7 +270,7 @@ def _dynamic_grid(table_no):
     if not fields:
         return [], []
     champs = urllib.parse.quote(",".join(fields))
-    body = _get(f"{KEN}.p_retrn_data?p_id_tabl={table_no}&p_champs={champs}")
+    body = _get(f"{KEN}.p_retrn_data?p_id_tabl={table_no}&p_champs={champs}", retry_404=True)
     rows = list(_csv.reader(io.StringIO(body.text), delimiter=";"))
     if not rows:
         return [], []
