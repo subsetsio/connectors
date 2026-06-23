@@ -85,6 +85,17 @@ def _slug(s: str) -> str:
     return s.strip("-")
 
 
+# The unit caption is "Unit:US$1,000" (ASCII or full-width colon). Match on the
+# colon, NOT a bare "unit" prefix — country rows like "United States" /
+# "United Kingdom" / "United Arab Emirates" start with "unit" and must NOT be
+# mistaken for the caption (doing so drops those rows and corrupts `unit`).
+_UNIT_CAPTION = re.compile(r"\s*unit\s*[:：]", re.I)
+
+
+def _is_unit_caption(s: str) -> bool:
+    return bool(_UNIT_CAPTION.match(s))
+
+
 def _parse_value(s: str):
     t = s.replace(",", "").replace("%", "").strip()
     if t in ("", "-", "--", "—"):
@@ -152,8 +163,8 @@ def _melt(grid: list) -> list:
     unit = None
     for row in grid:
         for c in row:
-            if c.lower().startswith("unit"):
-                unit = (c.split(":", 1)[-1].strip() if ":" in c else c) or None
+            if _is_unit_caption(c):
+                unit = re.split(r"[:：]", c, 1)[-1].strip() or None
                 break
         if unit:
             break
@@ -170,7 +181,7 @@ def _melt(grid: list) -> list:
         return len(ne) > 0 and len(set(ne)) <= 1
 
     def is_unit_row(r):
-        return any(c.lower().startswith("unit") for c in r)
+        return any(_is_unit_caption(c) for c in r)
 
     # Header block = leading rows before first data row, minus the spanned title
     # row and the unit caption. Includes the period-scope row ('1'/'1to1').
@@ -188,7 +199,7 @@ def _melt(grid: list) -> list:
     out = []
     for ri, row in enumerate(grid[first:]):
         label = row[0] if row else ""
-        if not label or label.lower().startswith("unit") or nonempty_same(row):
+        if not label or _is_unit_caption(label) or nonempty_same(row):
             continue
         for ci in range(1, len(row)):
             out.append({
