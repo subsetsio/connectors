@@ -1,0 +1,14 @@
+spec_id: federal-reserve-bank-of-new-york-reference-rates
+status: active
+tests:
+  - not_null: effectiveDate
+  - not_null: type
+  - enum: {col: type, values: [TGCR, BGCR, SOFR, SOFRAI, EFFR, OBFR]}
+    reason: the six published reference-rate types (secured + unsecured); a new value means the API added a series
+    certainty: 85
+  - row_count: {min: 5000}
+    reason: several daily series over many years; far fewer means a window/family fetch silently failed
+    certainty: 85
+  - distinct_count: {col: type, min: 5}
+    reason: should cover at least 5 of the 6 rate types
+    certainty: 90

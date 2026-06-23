@@ -1,0 +1,13 @@
+spec_id: federal-reserve-bank-of-new-york-repo-operations
+status: active
+tests:
+  - not_null: operationId
+  - unique: operationId
+    reason: one flat row per repo/reverse-repo operation after dropping nested detail arrays
+    certainty: 88
+  - enum: {col: operationType, values: [Repo, Reverse Repo]}
+    reason: the two operation types this family exposes
+    certainty: 80
+  - row_count: {min: 3000}
+    reason: ~8000 historical operations observed
+    certainty: 80

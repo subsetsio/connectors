@@ -1,0 +1,10 @@
+spec_id: federal-reserve-bank-of-new-york-securities-lending-operations
+status: active
+tests:
+  - not_null: operationId
+  - unique: operationId
+    reason: one row per securities-lending operation across all year chunks; dupes mean a year window overlapped
+    certainty: 88
+  - row_count: {min: 3000}
+    reason: ~250 ops/year across ~25+ years; far fewer means year-chunking dropped years
+    certainty: 80
