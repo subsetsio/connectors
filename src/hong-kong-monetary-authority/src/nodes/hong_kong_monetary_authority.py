@@ -44,7 +44,12 @@ _SEG_RE = re.compile(r"segment is missing or invalid input\s*\(([^)]+)\)", re.I)
 @transient_retry()  # 6 attempts, exponential backoff on transient + 429 + 5xx
 def _request(path: str, params: dict) -> dict:
     resp = get(BASE + path, params=params, timeout=(10.0, 120.0))
-    resp.raise_for_status()
+    # The HKMA API signals BOTH real errors and "you must pass segment" as HTTP
+    # 400 with a JSON envelope (header.success=False, header.err_msg names the
+    # valid segments). So we only escalate genuinely transient statuses for the
+    # retry decorator; every other status is parsed from the body by the caller.
+    if resp.status_code == 429 or resp.status_code >= 500:
+        resp.raise_for_status()
     return resp.json()
 
 
