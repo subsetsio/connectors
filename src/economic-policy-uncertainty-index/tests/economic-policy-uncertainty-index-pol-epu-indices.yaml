@@ -1,0 +1,29 @@
+spec_id: economic-policy-uncertainty-index-pol-epu-indices
+status: active
+tests:
+  - column_type: {col: date, type: date}
+    reason: parser emits date32; every subset is a date-indexed time series
+    certainty: 95
+  - column_type: {col: series, type: string}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: index levels are continuous; non-numeric cells are dropped in parsing
+    certainty: 95
+  - not_null: date
+    certainty: 95
+  - not_null: series
+    certainty: 95
+  - not_null: value
+    reason: the parser only emits rows whose value coerces to a real number
+    certainty: 95
+  - unique: [date, series]
+    reason: long format is one value per (date, series); the parser de-dupes overlapping rows, so dupes signal a parse/merge bug
+    certainty: 90
+  - row_count: {min: 1}
+    reason: a published EPU file always has at least one observation
+    certainty: 95
+  - at_most: {col: date, expr: today}
+    reason: these are realized monthly/daily indices, not forecasts; a future date means a date-parse bug (e.g. D/M/Y vs M/D/Y)
+    certainty: 80
+    points_outward: false
+    severity: warn
