@@ -1,24 +1,15 @@
-from subsets_utils import get, post
-import json
-
-# 1) batching: multiple indicator_ids, wide year range, all periods
-body = {
-    "indicator_ids": ["9029", "9031", "9020"],  # mixed: yearly-only and yearly+monthly
-    "language": "en-us",
-    "types": ["VAL"],
-    "dataPeriods": ["Yearly", "Quarterly", "Monthly", "ThreeConsecutiveMonths"],
-    "fromYear": 1980,
-    "toYear": 2026,
-}
-r = post("https://www.dsec.gov.mo/TimeSeriesApi/App/IndicatorValue/LatestSameEndPeriodv3",
-         json=body, timeout=(10, 120))
-print("HTTP", r.status_code)
-d = r.json()
-print("Status:", d["Status"], "Debug:", (d.get("Debug_msg") or "")[:120])
-v = d["Value"]
-print("num indicators returned:", len(v))
-for ind in v:
-    rows = ind["dsecIndicatorData"]
-    periods = sorted(set((row.get("type"), row.get("PeriodID")) for row in rows))
-    yrs = sorted(set(row["Year"] for row in rows))
-    print(f"  id={ind['indicatorId']} rows={len(rows)} year_range={yrs[0] if yrs else None}-{yrs[-1] if yrs else None} sample_row={rows[0] if rows else None}")
+from subsets_utils import post
+URL="https://www.dsec.gov.mo/TimeSeriesApi/App/IndicatorValue/LatestSameEndPeriodv3"
+def call(label, body):
+    r=post(URL, json=body, timeout=(10,120)); d=r.json()
+    v=d.get("Value"); n=len(v) if isinstance(v,list) else v
+    print(f"[{label}] Status={d['Status']} nInd={n}", "" if d['Status']=="OK" else (d.get('Debug_msg') or '')[:90])
+    return d
+# parallel arrays: dataPeriods per id
+call("batch2 parallel periods", {"indicator_ids":["9029","9031"],"language":"en-us","types":["VAL","VAL"],"dataPeriods":["Yearly","Yearly"],"fromYear":1980,"toYear":2026})
+# parallel arrays with all-periods each via nested? try types parallel only
+call("batch2 types parallel, periods1", {"indicator_ids":["9029","9031"],"language":"en-us","types":["VAL","VAL"],"dataPeriods":["Yearly"],"fromYear":1980,"toYear":2026})
+d=call("batch2 parallel both", {"indicator_ids":["9029","9031"],"language":"en-us","types":["VAL","VAL"],"dataPeriods":["Yearly","Yearly"],"fromYear":1980,"toYear":2026})
+if d['Status']=="OK":
+    for ind in d['Value']:
+        print("   id",ind['indicatorId'],"rows",len(ind['dsecIndicatorData']))
