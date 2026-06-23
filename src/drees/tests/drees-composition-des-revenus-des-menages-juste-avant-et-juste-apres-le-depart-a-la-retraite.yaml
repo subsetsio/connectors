@@ -1,0 +1,19 @@
+spec_id: drees-composition-des-revenus-des-menages-juste-avant-et-juste-apres-le-depart-a-la-retraite
+status: active
+tests:
+  - row_count: {min: 13286}
+    reason: full ODS parquet export held 26572 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "premiere_annee_pleine_de_retraite"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "premiere_annee_pleine_de_retraite", type: string}
+    certainty: 90
+  - not_null: "caracteristique"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "caracteristique", type: string}
+    certainty: 90
+  - column_type: {col: "de_personnes_disposant_de_ce_type_de_revenu", type: float}
+    reason: numeric measure column; type drift here means the export schema changed.
+    certainty: 80

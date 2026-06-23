@@ -1,0 +1,19 @@
+spec_id: drees-comptes-de-la-sante-partage-volume-prix
+status: active
+tests:
+  - row_count: {min: 2739}
+    reason: full ODS parquet export held 5478 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "annee"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "annee", type: string}
+    certainty: 90
+  - not_null: "poste_lib"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "poste_lib", type: string}
+    certainty: 90
+  - column_type: {col: "poste_niveau", type: integer}
+    reason: numeric measure column; type drift here means the export schema changed.
+    certainty: 80

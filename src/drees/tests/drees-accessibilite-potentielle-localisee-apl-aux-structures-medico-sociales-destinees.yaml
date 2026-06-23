@@ -1,0 +1,14 @@
+spec_id: drees-accessibilite-potentielle-localisee-apl-aux-structures-medico-sociales-destinees
+status: active
+tests:
+  - row_count: {min: 18285}
+    reason: full ODS parquet export held 36571 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "code_com"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "code_com", type: string}
+    certainty: 90
+  - column_type: {col: "apl_ehpa", type: float}
+    reason: numeric measure column; type drift here means the export schema changed.
+    certainty: 80

@@ -1,0 +1,16 @@
+spec_id: drees-619-indicateurs-financiers
+status: active
+tests:
+  - row_count: {min: 14695}
+    reason: full ODS parquet export held 29391 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "annee"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "annee", type: string}
+    certainty: 90
+  - not_null: "lib_reg"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "lib_reg", type: string}
+    certainty: 90

@@ -8,17 +8,22 @@ incremental query surface (no since/cursor) and the whole object is rewritten
 in place on each annual release, so every node does a stateless full re-pull and
 overwrites — revisions are picked up for free.
 
-Raw is written as gzipped CSV (`<id>.csv.gz`), streamed straight from the source
-(the ~1GB uncompressed raw_counts file never lands in memory). DuckDB reads the
-CSV views directly in TRANSFORM_SPECS, where each subset is cast/renamed into its
-published Delta table.
+Raw is written as Parquet (`<id>.parquet`), streamed batch-by-batch straight
+from the source CSV (the ~1GB uncompressed raw_counts file never lands fully in
+memory). The CSV is parsed with PyArrow rather than handed to DuckDB's CSV
+auto-detection because the source encodes nulls as the literal token ``NA`` on
+minor-road rows (e.g. ``link_length_km``); PyArrow maps ``NA`` to null while
+keeping the column numeric, so the typed Parquet feeds the TRANSFORM_SPECS
+cleanly. DuckDB reads the Parquet views in TRANSFORM_SPECS, where each subset is
+cast/renamed into its published Delta table.
 """
 
 import io
-import shutil
 import zipfile
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, raw_writer, transient_retry
+import pyarrow.csv as pacsv
+
+from subsets_utils import NodeSpec, SqlNodeSpec, get, raw_parquet_writer, transient_retry
 
 BASE = "https://storage.googleapis.com/dft-statistics/road-traffic/downloads/data-gov-uk/"
 
@@ -33,7 +38,11 @@ DATASETS = {
     "department-for-transport-region-traffic-by-vehicle-type": "region_traffic_by_vehicle_type.csv",
 }
 
-_CHUNK = 8 * 1024 * 1024
+# Block large enough that the first chunk spans many count points / road types,
+# so PyArrow's per-column type inference sees real values (not an all-NA prefix).
+_READ_OPTS = pacsv.ReadOptions(block_size=64 * 1024 * 1024)
+# The source writes "NA" for missing numerics; map it (and bare empties) to null.
+_CONVERT_OPTS = pacsv.ConvertOptions(null_values=["NA", ""], strings_can_be_null=True)
 
 
 @transient_retry()
@@ -44,6 +53,15 @@ def _fetch(url: str):
     return resp
 
 
+def _csv_to_parquet(fileobj, asset: str) -> None:
+    reader = pacsv.open_csv(
+        fileobj, read_options=_READ_OPTS, convert_options=_CONVERT_OPTS
+    )
+    with raw_parquet_writer(asset, reader.schema) as writer:
+        for batch in reader:
+            writer.write_batch(batch)
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the raw asset name
     filename = DATASETS[node_id]
@@ -52,13 +70,10 @@ def fetch_one(node_id: str) -> None:
     if filename.endswith(".zip"):
         zf = zipfile.ZipFile(io.BytesIO(resp.content))
         member = next(n for n in zf.namelist() if n.lower().endswith(".csv"))
-        with zf.open(member) as src, raw_writer(
-            asset, "csv.gz", mode="wb", compression="gzip"
-        ) as dst:
-            shutil.copyfileobj(src, dst, length=_CHUNK)
+        with zf.open(member) as src:
+            _csv_to_parquet(src, asset)
     else:
-        with raw_writer(asset, "csv.gz", mode="wb", compression="gzip") as dst:
-            dst.write(resp.content)
+        _csv_to_parquet(io.BytesIO(resp.content), asset)
 
 
 DOWNLOAD_SPECS = [
