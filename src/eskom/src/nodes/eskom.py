@@ -263,7 +263,7 @@ def _rows_from_visual(data: dict):
             out.append({
                 "period_label": period_label,
                 "period_ms": period_ms,
-                "series": _clean_series(names[i]) if i < len(names) else f"col{i}",
+                "series": _clean_series(cols[i]["name"]),
                 "value": value,
             })
     return out

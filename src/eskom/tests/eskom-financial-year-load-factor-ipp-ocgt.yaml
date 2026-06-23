@@ -1,0 +1,22 @@
+spec_id: eskom-financial-year-load-factor-ipp-ocgt
+status: active
+tests:
+  - not_null: series
+    reason: every long row names the measure it carries; a null series means the descriptor/data column alignment broke
+    certainty: 95
+  - not_null: period_label
+    reason: each row is keyed by a period/dimension label; null means a row could not be placed
+    certainty: 90
+  - not_null: value
+    reason: null-valued rows are dropped during decode; any null here is a decode bug
+    certainty: 90
+  - column_type: {col: value, type: float}
+    reason: Power BI measures are numeric; values are coerced to float in the fetch fn
+    certainty: 95
+  - row_count: {min: 3}
+    reason: this report exposes a financial-year / summary window; far fewer rows means the Power BI query returned a truncated/empty model
+    certainty: 70
+    points_outward: true
+  - distinct_count: {col: series, min: 1}
+    reason: at least one measure series must be published from this dashboard
+    certainty: 90
