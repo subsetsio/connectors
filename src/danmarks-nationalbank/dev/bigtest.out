@@ -1,0 +1,14 @@
+DNVPDKR2: FAIL HTTPStatusError Server error '500 Internal Server Error' for url 'https://api.statbank.dk/v1/data'
+For more information check: https://d
+Traceback (most recent call last):
+  File "/Users/nathansnellaert/Documents/hardened/connectors/src/danmarks-nationalbank/dev/bigtest.py", line 29, in <module>
+    inf=info(tid)
+        ^^^^^^^^^
+  File "/Users/nathansnellaert/Documents/hardened/connectors/src/danmarks-nationalbank/dev/bigtest.py", line 7, in info
+    r.raise_for_status(); return r.json()
+    ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nathansnellaert/Documents/hardened/connectors/src/danmarks-nationalbank/.venv/lib/python3.12/site-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Server error '500 Internal Server Error' for url 'https://api.statbank.dk/v1/tableinfo/DNIFHVEM?format=JSON'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500
+EXIT 1
