@@ -1,0 +1,17 @@
+spec_id: guttmacher-institute-kthnf
+status: active
+tests:
+  - not_null: state
+    certainty: 95
+  - not_null: year
+    certainty: 95
+  - unique: [state, year]
+    reason: one row per state-year of pregnancy/birth/abortion rates
+    certainty: 85
+  - between: {col: year, lo: 1973, hi: 2025}
+    reason: series documented as 1973-2020 national / state trends; allow a little headroom
+    certainty: 80
+    severity: warn
+  - row_count: {min: 500}
+    reason: ~50 states + national x ~48 years
+    certainty: 85

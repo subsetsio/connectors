@@ -1,0 +1,12 @@
+spec_id: guttmacher-institute-5k7fp
+status: active
+tests:
+  - not_null: country
+    reason: every abortion-incidence record names a country
+    certainty: 95
+  - distinct_count: {col: country, min: 20}
+    reason: a global compilation should cover dozens of countries; far fewer means a truncated pull
+    certainty: 85
+  - row_count: {min: 50}
+    reason: national records across 1990-2018; a handful of rows means the download broke
+    certainty: 85

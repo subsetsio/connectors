@@ -1,0 +1,7 @@
+spec_id: hong-kong-monetary-authority-financial-market-infra.trade-repository.hktr-data-disclose-fx
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every HKMA Open API endpoint in scope returns at least one record; an empty table means the endpoint changed shape or started requiring a new parameter.
+    certainty: 95
+    severity: block

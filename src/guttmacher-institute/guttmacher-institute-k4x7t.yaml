@@ -1,0 +1,15 @@
+spec_id: guttmacher-institute-k4x7t
+status: active
+tests:
+  - not_null: state
+    reason: each monthly estimate is for a state (or national aggregate)
+    certainty: 95
+  - not_null: month
+    certainty: 95
+  - relationship: {left: lowerbound, op: "<=", right: upperbound}
+    reason: median estimate sits within its [lowerbound, upperbound] confidence interval
+    certainty: 85
+    severity: warn
+  - row_count: {min: 200}
+    reason: many states x many months since 2020
+    certainty: 85

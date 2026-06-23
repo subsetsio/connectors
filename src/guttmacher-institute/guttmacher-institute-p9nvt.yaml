@@ -1,0 +1,11 @@
+spec_id: guttmacher-institute-p9nvt
+status: active
+tests:
+  - not_null: country
+    reason: Adding It Up estimates are country-level; every row names a country
+    certainty: 90
+  - distinct_count: {col: country, min: 20}
+    reason: AIU covers low- and middle-income countries (dozens); far fewer means a truncated pull
+    certainty: 85
+  - row_count: {min: 50}
+    certainty: 85

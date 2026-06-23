@@ -1,0 +1,11 @@
+spec_id: guttmacher-institute-nmf8k
+status: active
+tests:
+  - not_null: a_country
+    reason: Adding It Up adolescent estimates are country-level
+    certainty: 90
+  - distinct_count: {col: a_country, min: 20}
+    reason: AIU covers dozens of low- and middle-income countries
+    certainty: 85
+  - row_count: {min: 50}
+    certainty: 85

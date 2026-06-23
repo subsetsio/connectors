@@ -1,0 +1,10 @@
+spec_id: guttmacher-institute-mbu6s
+status: active
+tests:
+  - not_null: weight_as
+    reason: every survey respondent carries an analysis weight
+    certainty: 70
+    severity: warn
+  - row_count: {min: 500}
+    reason: a national reproductive-health survey has thousands of respondents
+    certainty: 85
