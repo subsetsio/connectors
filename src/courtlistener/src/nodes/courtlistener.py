@@ -37,6 +37,8 @@ BUCKET = "https://com-courtlistener-storage.s3-us-west-2.amazonaws.com"
 BASE = f"{BUCKET}/bulk-data/"
 S3_NS = "{http://s3.amazonaws.com/doc/2006-03-01/}"
 BATCH_ROWS = 50_000
+MAX_BATCH_BYTES = 64 << 20  # flush a batch once its text reaches ~64 MiB,
+                           # so text-heavy rows can't balloon a fixed-row batch
 DL_CHUNK = 1 << 20  # 1 MiB network reads
 
 
@@ -143,18 +145,22 @@ def _download_table(asset: str, url: str) -> int:
         with raw_parquet_writer(asset, schema) as writer:
             columns = [[] for _ in range(ncol)]
             n = 0
+            batch_bytes = 0
             for row in rdr:
                 if len(row) != ncol:  # defensive: align ragged rows to header width
                     row = (row + [None] * ncol)[:ncol]
                 for i in range(ncol):
                     v = row[i]
                     columns[i].append(v if v != "" else None)
+                    if v:
+                        batch_bytes += len(v)
                 n += 1
                 total += 1
-                if n >= BATCH_ROWS:
+                if n >= BATCH_ROWS or batch_bytes >= MAX_BATCH_BYTES:
                     _flush(writer, columns, schema)
                     columns = [[] for _ in range(ncol)]
                     n = 0
+                    batch_bytes = 0
             if n:
                 _flush(writer, columns, schema)
     if total == 0:

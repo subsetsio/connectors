@@ -8,11 +8,15 @@ I/O. The bulk tables are quarterly PostgreSQL COPY dumps with stable schemas.
 """
 
 # The entity union — one bulk table per entry, each a distinct relational schema.
+# NOTE: `dockets` (71M rows x 54 cols) and `opinion-clusters` (71M rows x 36 cols,
+# text-heavy) are intentionally excluded: the harness subset profiler materializes
+# each published table fully in memory (to_pyarrow_table), so 71M-row tables are
+# not publishable here. They remain in the catalog (rank < threshold) for a
+# curator to revisit if large-table support lands.
 ENTITY_IDS = [
     "citation-map",
     "citations",
     "courts",
-    "dockets",
     "financial-disclosure-investments",
     "financial-disclosures",
     "financial-disclosures-agreements",
@@ -23,7 +27,6 @@ ENTITY_IDS = [
     "financial-disclosures-reimbursements",
     "financial-disclosures-spousal-income",
     "fjc-integrated-database",
-    "opinion-clusters",
     "oral-arguments",
     "parentheticals",
     "people-db-people",
