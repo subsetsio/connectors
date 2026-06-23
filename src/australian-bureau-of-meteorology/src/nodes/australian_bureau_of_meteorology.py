@@ -43,7 +43,16 @@ from subsets_utils import (
 
 from constants import BASE_URL, PARAM_DAILY_TSNAME
 
-STATE_VERSION = 1
+STATE_VERSION = 2
+
+# Per-chunk completion is stored under a dedicated top-level state key
+# (CHUNK_PREFIX + chunk_key), never nested under one growing dict. save_state's
+# lineage tracking diffs state *by top-level key* and stringifies old+new for
+# every key that changed — a single nested `chunks` dict therefore re-records the
+# whole (growing) blob on every per-chunk checkpoint, which is O(n^2) in the
+# number of chunks and overflowed the orchestrator's result pipe. Flat keys make
+# each checkpoint a single small one-key diff.
+CHUNK_PREFIX = "c:"
 
 # getTimeseriesValues caps total data points per request (~60k observed; a
 # 250-series x 127-year call 500s). Daily series have ~1 point/day, so keep
@@ -260,12 +269,21 @@ def _param_slug(parameter: str) -> str:
 
 
 def fetch_values(node_id: str) -> None:
-    state = load_state(node_id)
-    if state.get("schema_version") != STATE_VERSION:
-        if state:
-            print(f"  state schema {state.get('schema_version')} != {STATE_VERSION}; resetting")
-        state = {"schema_version": STATE_VERSION, "chunks": {}}
-    chunks_done = state.setdefault("chunks", {})
+    raw = load_state(node_id)
+    if raw.get("schema_version") == STATE_VERSION:
+        state = raw
+    elif raw.get("schema_version") == 1 and isinstance(raw.get("chunks"), dict):
+        # Migrate v1's single nested `chunks` dict into flat per-chunk keys,
+        # preserving prior progress so we re-pull only changed series.
+        state = {"schema_version": STATE_VERSION}
+        for chunk_key, marker in raw["chunks"].items():
+            state[f"{CHUNK_PREFIX}{chunk_key}"] = marker
+        print(f"  migrated {len(raw['chunks'])} chunk markers from state schema 1")
+        save_state(node_id, state)
+    else:
+        if raw:
+            print(f"  state schema {raw.get('schema_version')} != {STATE_VERSION}; resetting")
+        state = {"schema_version": STATE_VERSION}
 
     # No self-imposed run budget: sweep every parameter/chunk. State is
     # checkpointed after each chunk, so a supervisor interrupt resumes here.
@@ -282,8 +300,9 @@ def fetch_values(node_id: str) -> None:
 
         for ci, members in enumerate(chunks):
             chunk_key = f"{pslug}-{ci:05d}"
+            state_key = f"{CHUNK_PREFIX}{chunk_key}"
             signature = _chunk_signature(members)
-            prev = chunks_done.get(chunk_key, {})
+            prev = state.get(state_key, {})
             if prev.get("sig") == signature and prev.get("complete"):
                 continue  # unchanged since last successful pull
 
@@ -303,7 +322,7 @@ def fetch_values(node_id: str) -> None:
             asset = f"{node_id}-{chunk_key}"
             table = pa.Table.from_pylist(rows, schema=VALUES_SCHEMA)
             save_raw_parquet(table, asset)  # write raw before advancing state
-            chunks_done[chunk_key] = {"sig": signature, "complete": True}
+            state[state_key] = {"sig": signature, "complete": True}
             save_state(node_id, state)  # checkpoint after each chunk
 
 
@@ -343,8 +362,8 @@ TRANSFORM_SPECS = [
                 parametertype_name AS parameter,
                 ts_name,
                 ts_unitname AS unit,
-                CAST(substr(from_date, 1, 10) AS DATE) AS coverage_from,
-                CAST(substr(to_date, 1, 10) AS DATE)   AS coverage_to
+                TRY_CAST(substr(from_date, 1, 10) AS DATE) AS coverage_from,
+                TRY_CAST(substr(to_date, 1, 10) AS DATE)   AS coverage_to
             FROM "australian-bureau-of-meteorology-timeseries"
             WHERE ts_id IS NOT NULL AND ts_id <> ''
             QUALIFY row_number() OVER (PARTITION BY ts_id ORDER BY to_date DESC) = 1
@@ -363,13 +382,14 @@ TRANSFORM_SPECS = [
                 t.parametertype_name AS parameter,
                 t.ts_name,
                 t.ts_unitname        AS unit,
-                CAST(substr(v.timestamp, 1, 10) AS DATE) AS date,
-                CAST(v.value AS DOUBLE)                  AS value
+                TRY_CAST(substr(v.timestamp, 1, 10) AS DATE) AS date,
+                CAST(v.value AS DOUBLE)                       AS value
             FROM "australian-bureau-of-meteorology-values" v
             LEFT JOIN "australian-bureau-of-meteorology-timeseries" t USING (ts_id)
             WHERE v.value IS NOT NULL
+              AND TRY_CAST(substr(v.timestamp, 1, 10) AS DATE) IS NOT NULL
             QUALIFY row_number() OVER (
-                PARTITION BY v.ts_id, CAST(substr(v.timestamp, 1, 10) AS DATE)
+                PARTITION BY v.ts_id, TRY_CAST(substr(v.timestamp, 1, 10) AS DATE)
                 ORDER BY v.timestamp DESC
             ) = 1
         ''',
