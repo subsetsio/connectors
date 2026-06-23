@@ -1,0 +1,36 @@
+spec_id: iaea-pris-performance
+status: active
+tests:
+  - not_null: reactor_id
+    certainty: 99
+  - not_null: year
+    certainty: 99
+  - column_type: {col: year, type: integer}
+    certainty: 99
+  - unique: [reactor_id, year]
+    reason: the annual operating-history table has one row per reactor-year; a dupe means a page was scraped twice or the cumulative columns leaked in.
+    certainty: 95
+  - between: {col: year, lo: 1950, hi: 2026}
+    reason: the first power reactors reported to PRIS date to the mid-1950s; data runs to the latest completed/in-progress year.
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: performance is historical/current — no forward projections.
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - row_count: {min: 8000}
+    reason: ~720 reactors x typically 10-50 reporting years each yields well over 10k rows; far fewer means truncated history.
+    certainty: 80
+  - at_least: {col: year, expr: 2024}
+    reason: operating reactors report the most recent completed year, so the max year should reach near-present.
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - between: {col: load_factor_pct, lo: 0, hi: 120}
+    reason: annual load factor is a percentage; uprated units can slightly exceed 100, but values far outside 0-120 signal a column mis-map.
+    certainty: 75
+    severity: warn
+  - median_between: {col: electricity_supplied_gwh, lo: 100, hi: 12000}
+    reason: a reactor-year's net generation is typically a few thousand GW.h; a median far outside this suggests a unit or column error.
+    certainty: 60
+    severity: warn
