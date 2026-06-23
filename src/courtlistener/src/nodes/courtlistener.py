@@ -199,10 +199,20 @@ _INT_COLS = {"year", "year_of_tape", "depth", "citation_count", "page_count",
              "scdb_votes_majority", "scdb_votes_minority", "votes_yes", "votes_no"}
 _DOUBLE_COLS = {"position", "score", "votes_yes_percent", "votes_no_percent",
                 "monetary_demand", "amount_received"}
-# Massive free-text blobs dropped from the published table: they overflow
-# DuckDB's 2GB regular Arrow string buffer and are full-document text, not the
-# statistical/metadata content these subsets are published for. Raw retains them.
-_DROP_COLS = {"stt_transcript"}
+# Per-table columns dropped from the PUBLISHED table (raw retains everything).
+# These are full-document free-text blobs (opinion bodies, transcripts, syllabi)
+# that (a) overflow DuckDB's 2GB regular Arrow string buffer when a batch's
+# string column exceeds 2GB and (b) are document text, not the statistical /
+# metadata content these subsets are published for. Per-table (not global) so a
+# short coded column like fjc's `disposition` is NOT dropped.
+_DROP_COLS = {
+    "oral-arguments": {"stt_transcript"},
+    "opinion-clusters": {
+        "syllabus", "headnotes", "summary", "procedural_history", "history",
+        "headmatter", "arguments", "posture", "attorneys", "disposition",
+        "cross_reference", "correction", "other_dates",
+    },
+}
 
 
 def _is_date_col(col: str) -> bool:
@@ -234,7 +244,8 @@ def _col_expr(table: str, col: str) -> str:
 
 
 def _build_sql(table: str, asset: str) -> str:
-    cols = [c for c in TABLE_COLUMNS[table] if c not in _DROP_COLS]
+    drop = _DROP_COLS.get(table, set())
+    cols = [c for c in TABLE_COLUMNS[table] if c not in drop]
     exprs = ",\n    ".join(_col_expr(table, c) for c in cols)
     return f'SELECT\n    {exprs}\nFROM "{asset}"'
 
