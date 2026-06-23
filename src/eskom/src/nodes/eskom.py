@@ -232,7 +232,11 @@ def _rows_from_visual(data: dict):
         return []
     ncols = len(cols)
     group_idx = [i for i in range(ncols) if not cols[i]["is_measure"]]
-    measure_idx = [i for i in range(ncols) if cols[i]["is_measure"]]
+    # Some visuals carry a date/time column aggregated as a "measure" (a
+    # Min/Max of the time axis); its epoch-ms value is not a real metric, so
+    # drop datetime-typed measures.
+    measure_idx = [i for i in range(ncols)
+                   if cols[i]["is_measure"] and cols[i]["type"] != T_DATETIME]
     time_idx = next((i for i in group_idx if cols[i]["type"] == T_DATETIME), None)
     cat_idx = [i for i in group_idx if i != time_idx]
 
