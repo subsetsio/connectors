@@ -1,0 +1,20 @@
+spec_id: jm-boj-fs.ma.06
+status: active
+tests:
+  - not_null: date
+  - not_null: series
+  - not_null: value
+    reason: parser only emits rows for non-null numeric cells; a null here means a coercion regression
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 90
+  - column_type: {col: date, type: date}
+    certainty: 90
+  - row_count: {min: 5}
+    reason: every BOJ statistical workbook holds a multi-year time series; <5 rows means the melt missed the data region
+    certainty: 85
+  - at_most: {col: date, expr: today}
+    reason: observation dates should not be in the future
+    certainty: 80
+    points_outward: true
+    severity: warn
