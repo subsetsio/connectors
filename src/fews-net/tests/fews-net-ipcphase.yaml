@@ -1,0 +1,33 @@
+spec_id: fews-net-ipcphase
+status: active
+tests:
+  - not_null: id
+    reason: every FDW datapoint carries a numeric row id (the natural key)
+    certainty: 97
+  - unique: id
+    reason: one raw row per FDW ipcphase datapoint id; per-country pulls don't overlap
+    certainty: 88
+  - column_type: {col: id, type: integer}
+    reason: FDW row ids are integers
+    certainty: 90
+  - not_null: country_code
+    reason: every classification is stamped with an ISO-3166 country_code
+    certainty: 90
+  - not_null: value
+    reason: an ipcphase datapoint is the IPC phase value itself
+    certainty: 85
+  - column_type: {col: value, type: float}
+    reason: the phase is delivered as a JSON number (e.g. 3.0)
+    certainty: 80
+  - not_null: scenario
+    reason: every classification belongs to a scenario (CS / ML1 / ML2)
+    certainty: 85
+  - matches: {col: reporting_date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
+    reason: reporting_date is an ISO date string in the raw JSON
+    certainty: 85
+    severity: warn
+  - row_count: {min: 100000}
+    reason: Kenya alone returns ~157k rows, so the global pull is larger still
+    certainty: 70
+    severity: warn
+    points_outward: true

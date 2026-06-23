@@ -1,0 +1,23 @@
+spec_id: fews-net-ipcpopulationsize
+status: active
+tests:
+  - not_null: id
+    reason: every FDW datapoint carries a numeric row id (the natural key)
+    certainty: 97
+  - unique: id
+    reason: one raw row per FDW ipcpopulationsize datapoint id
+    certainty: 88
+  - column_type: {col: id, type: integer}
+    reason: FDW row ids are integers
+    certainty: 90
+  - not_null: country_code
+    reason: each population estimate is stamped with an ISO-3166 country_code
+    certainty: 88
+  - not_null: phase
+    reason: a population estimate is always tied to an IPC phase bucket (e.g. 3+)
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: the global corpus is ~4.8k peak-needs estimates
+    certainty: 70
+    severity: warn
+    points_outward: true
