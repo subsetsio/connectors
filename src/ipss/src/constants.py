@@ -9,7 +9,6 @@ ENTITY_PATHS = {
     '005-e': 'ssj-db/e/005-e.xls',
     '006-e': 'ssj-db/e/006-e.xls',
     '007-e': 'ssj-db/e/007-e.xls',
-    '008-e': 'ssj-db/e/008-e.xls',
     '009-e': 'ssj-db/e/009-e.xls',
     '010-e': 'ssj-db/e/010-e.xls',
     '011-e': 'ssj-db/e/011-e.xls',
@@ -112,5 +111,4 @@ ENTITY_PATHS = {
     'pp2023gts04': 'pp-zenkoku/j/zenkoku2023/db_zenkoku2023/g_tables/xls/pp2023gts04.xlsx',
     'pp2023gts05': 'pp-zenkoku/j/zenkoku2023/db_zenkoku2023/g_tables/xls/pp2023gts05.xlsx',
     'pp2023gts06': 'pp-zenkoku/j/zenkoku2023/db_zenkoku2023/g_tables/xls/pp2023gts06.xlsx',
-    'spp8': 'pp-zenkoku/j/zenkoku2023/db_zenkoku2023/s_tables/spp8.xlsx',
 }
