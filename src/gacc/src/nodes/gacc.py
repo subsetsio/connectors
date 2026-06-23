@@ -46,7 +46,11 @@ _MONTHS = {
     "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
     "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12,
 }
-_PERIODCODE = re.compile(r"\d+(to\d+)?$")
+# A period-scope token in the header's second row: a bare month index ('1'..'12'
+# = that single month) or a cumulative range ('1to3' / '1 to 3' / '1 to' = YTD).
+# Source formatting is inconsistent (with/without spaces, trailing number
+# sometimes dropped), so the pattern is deliberately permissive.
+_PERIODCODE = re.compile(r"\d+(\s*to\s*\d*)?")
 
 RAW_SCHEMA = pa.schema([
     ("report_type", pa.string()),
@@ -100,9 +104,10 @@ def _real_number(s: str) -> bool:
 
 
 def _scope(tok: str) -> str:
-    if re.fullmatch(r"\d+", tok):
+    t = tok.strip()
+    if re.fullmatch(r"\d+", t):
         return "current"
-    if re.fullmatch(r"\d+to\d+", tok):
+    if re.fullmatch(r"\d+\s*to\s*\d*", t):
         return "cumulative"
     return tok
 
