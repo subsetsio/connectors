@@ -232,8 +232,8 @@ TRANSFORM_SPECS = [
                 TRY_CAST(maturityRangeEnd AS DATE)     AS maturity_range_end,
                 TRY_CAST(totalParAmtSubmitted AS DOUBLE) AS total_par_submitted,
                 TRY_CAST(totalParAmtAccepted AS DOUBLE)  AS total_par_accepted,
-                releaseTime                            AS release_time,
-                closeTime                              AS close_time,
+                CAST(releaseTime AS VARCHAR)           AS release_time,
+                CAST(closeTime AS VARCHAR)             AS close_time,
                 note,
                 TRY_CAST(lastUpdated AS TIMESTAMP)     AS last_updated
             FROM "federal-reserve-bank-of-new-york-treasury-operations"
@@ -298,8 +298,8 @@ TRANSFORM_SPECS = [
                 TRY_CAST(maturityDate AS DATE)         AS maturity_date,
                 operationType                          AS operation_type,
                 auctionStatus                          AS auction_status,
-                releaseTime                            AS release_time,
-                closeTime                              AS close_time,
+                CAST(releaseTime AS VARCHAR)           AS release_time,
+                CAST(closeTime AS VARCHAR)             AS close_time,
                 TRY_CAST(totalParAmtSubmitted AS DOUBLE) AS total_par_submitted,
                 TRY_CAST(totalParAmtAccepted AS DOUBLE)  AS total_par_accepted,
                 note,

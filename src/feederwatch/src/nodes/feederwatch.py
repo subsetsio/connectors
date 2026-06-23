@@ -11,7 +11,16 @@ exists and none is needed.
 
 URLs are point-in-time — both the path segment (e.g. 202406) and the filename
 date stamp (May2024) increment each annual release — so we never hardcode them.
-Each fetch fn scrapes the entry page and resolves the current links.
+We resolve the current links at run time, then download the files themselves.
+
+Link discovery: the entry page (feederwatch.org) is behind a Cloudflare managed
+challenge that hard-403s datacenter IPs, so it is unreachable from the CI runner
+even with browser headers. The data files, however, live on a *separate* host
+(cdn.feederwatch.org = CloudFront + S3) which serves fine from anywhere. So we
+discover the current link set from the most recent Wayback Machine snapshot of
+the entry page (web.archive.org is reachable from CI and re-archives the page
+within days of each annual release), then download the resolved CloudFront URLs
+directly. We still try the live page first, in case it is ever reachable.
 
 Three subsets:
   * observations        — the core checklist counts (7 year-range ZIPs, one
@@ -38,9 +47,19 @@ from subsets_utils import (
 )
 
 ENTRY_URL = "https://feederwatch.org/explore/raw-dataset-requests/"
+ENTRY_TARGET = "feederwatch.org/explore/raw-dataset-requests/"  # for Wayback
+WAYBACK_CDX = "https://web.archive.org/cdx/search/cdx"
+WAYBACK_WEB = "https://web.archive.org/web"
 
-# feederwatch.org / cdn.feederwatch.org sit behind a WAF that 403s bare clients
-# from datacenter IPs. A full browser-like header set gets through. ASCII only.
+# Any cdn.feederwatch.org data file URL. Used to scrape both the live HTML and
+# the Wayback-rewritten HTML (where it appears embedded after the /web/<ts>/
+# prefix), so the same pattern recovers the original CloudFront URL from both.
+_CDN_LINK_RX = re.compile(
+    r"https://cdn\.feederwatch\.org/data/[^\s\"'<>\\]+\.(?:zip|csv)"
+)
+
+# A full browser-like header set. Harmless on CloudFront/Wayback; lets us also
+# try the live Cloudflare page on the off chance it is reachable. ASCII only.
 _BROWSER_HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -74,21 +93,53 @@ def _fetch(url: str):
     return resp
 
 
-def _entry_links() -> list[str]:
-    """All cdn.feederwatch.org links on the entry page (current release)."""
+def _links_from_live() -> list[str]:
+    """CDN links from the live entry page (usually 403 from a datacenter IP)."""
     html = _fetch(ENTRY_URL).text
-    links = re.findall(r"https://cdn\.feederwatch\.org/data/[^\s\"'<>]+", html)
-    if not links:
-        raise RuntimeError(f"no cdn.feederwatch.org links found on {ENTRY_URL}")
-    return links
+    return sorted(set(_CDN_LINK_RX.findall(html)))
+
+
+def _links_from_wayback() -> list[str]:
+    """CDN links from the most recent usable Wayback snapshot of the entry page.
+
+    Walk snapshots newest-first; some are JS-stubs / challenge captures with no
+    links, so take the first snapshot that yields the full CloudFront link set.
+    """
+    cdx = _fetch(
+        f"{WAYBACK_CDX}?url={ENTRY_TARGET}&output=json&fl=timestamp"
+        f"&filter=statuscode:200&collapse=digest&limit=-40"
+    ).json()
+    # First row is the header (["timestamp"]); newest-first.
+    timestamps = [row[0] for row in cdx[1:]][::-1]
+    for ts in timestamps:
+        html = _fetch(f"{WAYBACK_WEB}/{ts}/https://{ENTRY_TARGET}").text
+        links = sorted(set(_CDN_LINK_RX.findall(html)))
+        if links:
+            return links
+    raise RuntimeError(
+        "no FeederWatch CDN links found in any recent Wayback snapshot of "
+        f"{ENTRY_TARGET}"
+    )
+
+
+def _entry_links() -> list[str]:
+    """All current cdn.feederwatch.org data links — live page, else Wayback."""
+    try:
+        links = _links_from_live()
+        if links:
+            return links
+    except Exception as exc:  # Cloudflare 403 et al. — fall back to Wayback.
+        print(f"  live entry page unavailable ({type(exc).__name__}: {exc}); "
+              f"discovering links via Wayback Machine")
+    return _links_from_wayback()
 
 
 def _resolve_one(pattern: str) -> str:
-    """Return the single entry-page link matching `pattern`, else raise."""
+    """Return the single discovered link matching `pattern`, else raise."""
     rx = re.compile(pattern)
     hits = sorted({u for u in _entry_links() if rx.search(u)})
     if not hits:
-        raise RuntimeError(f"no entry-page link matched {pattern!r} on {ENTRY_URL}")
+        raise RuntimeError(f"no FeederWatch link matched {pattern!r}")
     if len(hits) > 1:
         raise RuntimeError(f"expected one link for {pattern!r}, got {len(hits)}: {hits}")
     return hits[0]
