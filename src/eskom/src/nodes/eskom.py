@@ -137,16 +137,22 @@ def _query_visual(rk, model, report_id, pq):
 
 def _decode_dsr(data: dict):
     """Reconstruct Power BI DSR rows: carry-forward repeat bitmask (R), null
-    bitmask (Ø) and ValueDicts (DN) dictionary indices. Returns
-    (column_names, type_codes, dict_names, rows-as-resolved-lists)."""
-    select = data.get("descriptor", {}).get("Select", [])
-    names = [s.get("Name", "") for s in select]
+    bitmask (Ø) and ValueDicts (DN) dictionary indices.
+
+    Data rows follow the DSR "S" schema order (columns named G0/M0/...); the
+    descriptor's Select can be in a different projection order, so we align
+    name/Kind onto the data columns via the shared G0/M0 id ("Value"). Returns
+    (cols, rows) where each col is {id, type, name, is_measure}.
+    """
+    descriptor = data.get("descriptor", {}).get("Select", [])
+    desc_by_id = {s.get("Value"): s for s in descriptor}
     ds = data["dsr"]["DS"][0]
     dm = ds["PH"][0]["DM0"]
     schema = next((x["S"] for x in dm if "S" in x), None)
     if schema is None:
-        return names, [], [], []
+        return [], []
     ncols = len(schema)
+    sids = [s.get("N") for s in schema]
     types = [s.get("T") for s in schema]
     dnames = [s.get("DN") for s in schema]
     dicts = ds.get("ValueDicts", {})
@@ -180,7 +186,17 @@ def _decode_dsr(data: dict):
                     v = d[v]
             resolved.append(v)
         rows.append(resolved)
-    return names, types, dnames, rows
+
+    cols = []
+    for i in range(ncols):
+        d = desc_by_id.get(sids[i], {})
+        cols.append({
+            "id": sids[i],
+            "type": types[i],
+            "name": d.get("Name", sids[i]),
+            "is_measure": d.get("Kind") == 2,
+        })
+    return cols, rows
 
 
 _AGG_RE = re.compile(r"^[A-Za-z]+\((.*)\)$")
@@ -211,17 +227,13 @@ def _rows_from_visual(data: dict):
     """Turn one decoded visual into long rows keyed (period_label, period_ms,
     series, value). Drops rows that cannot be placed (null time axis / null
     value)."""
-    names, types, dnames, rows = _decode_dsr(data)
+    cols, rows = _decode_dsr(data)
     if not rows:
         return []
-    ncols = len(types)
-    sel = data.get("descriptor", {}).get("Select", [])
-    # In the descriptor, Select[i].Kind == 2 is an aggregated measure; anything
-    # else (Kind 1) is a grouping column.
-    is_measure = [s.get("Kind") == 2 for s in sel] + [False] * (ncols - len(sel))
-    group_idx = [i for i in range(ncols) if not is_measure[i]]
-    measure_idx = [i for i in range(ncols) if is_measure[i]]
-    time_idx = next((i for i in group_idx if types[i] == T_DATETIME), None)
+    ncols = len(cols)
+    group_idx = [i for i in range(ncols) if not cols[i]["is_measure"]]
+    measure_idx = [i for i in range(ncols) if cols[i]["is_measure"]]
+    time_idx = next((i for i in group_idx if cols[i]["type"] == T_DATETIME), None)
     cat_idx = [i for i in group_idx if i != time_idx]
 
     out = []

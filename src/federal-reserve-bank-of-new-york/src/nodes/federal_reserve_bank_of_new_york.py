@@ -402,21 +402,19 @@ TRANSFORM_SPECS = [
         id="federal-reserve-bank-of-new-york-soma-holdings-transform",
         deps=["federal-reserve-bank-of-new-york-soma-holdings"],
         sql='''
+            -- security_description / term / issuer / current_face_value /
+            -- is_aggregated are never populated in the monthly Treasury bulk
+            -- file (always empty), so they are dropped here.
             SELECT
                 CAST(as_of_date AS DATE)               AS as_of_date,
                 TRIM(cusip, chr(39)) AS cusip,
                 security_type,
-                security_description,
-                term,
                 TRY_CAST(maturity_date AS DATE)        AS maturity_date,
-                issuer,
                 TRY_CAST(spread_pct AS DOUBLE)         AS spread_pct,
                 TRY_CAST(coupon_pct AS DOUBLE)         AS coupon_pct,
-                TRY_CAST(current_face_value AS DOUBLE) AS current_face_value,
                 TRY_CAST(par_value AS DOUBLE)          AS par_value,
                 TRY_CAST(inflation_compensation AS DOUBLE) AS inflation_compensation,
-                TRY_CAST(percent_outstanding AS DOUBLE) AS percent_outstanding,
-                is_aggregated
+                TRY_CAST(percent_outstanding AS DOUBLE) AS percent_outstanding
             FROM "federal-reserve-bank-of-new-york-soma-holdings"
             WHERE as_of_date IS NOT NULL
         ''',
