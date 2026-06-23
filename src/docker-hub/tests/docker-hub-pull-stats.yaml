@@ -1,0 +1,22 @@
+spec_id: docker-hub-pull-stats
+status: active
+tests:
+  - not_null: repo
+    certainty: 99
+  - not_null: pull_count
+    reason: pull_count is the core metric; the API always returns it for public repos
+    certainty: 95
+  - unique: repo
+    reason: one snapshot row per official image per run; dupes mean pages overlapped
+    certainty: 95
+  - column_type: {col: pull_count, type: integer}
+    certainty: 90
+  - at_least: {col: pull_count, expr: 0}
+    reason: cumulative lifetime pull totals are non-negative
+    certainty: 99
+  - row_count: {min: 100, max: 500}
+    reason: ~179 official images expected; <100 signals broken pagination
+    certainty: 85
+  - not_null: snapshot_date
+    reason: every row is stamped with the fetch date so snapshots are distinguishable over time
+    certainty: 99

@@ -1,0 +1,19 @@
+spec_id: docker-hub-official-images
+status: active
+tests:
+  - not_null: repo
+    reason: every official image must have a slug; a null means the listing record changed shape
+    certainty: 99
+  - not_null: namespace
+    certainty: 99
+  - unique: repo
+    reason: one row per official image in the library namespace; dupes mean pages overlapped
+    certainty: 95
+  - enum: {col: namespace, values: ["library"]}
+    reason: this subset is scoped to the curated Docker Official Images namespace only
+    certainty: 99
+  - row_count: {min: 100, max: 500}
+    reason: the library namespace held ~179 official images at authoring time; <100 means pagination broke, >500 means scope changed
+    certainty: 85
+  - column_type: {col: status, type: integer}
+    certainty: 90
