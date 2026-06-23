@@ -290,7 +290,7 @@ TRANSFORM_SPECS = [
                 status,
                 rloi_id
             FROM "defra-flood-monitoring-stations"
-            WHERE notation IS NOT NULL
+            WHERE notation IS NOT NULL AND notation <> ''
         ''',
     ),
     SqlNodeSpec(
@@ -310,7 +310,7 @@ TRANSFORM_SPECS = [
                 value_type,
                 datum_type
             FROM "defra-flood-monitoring-measures"
-            WHERE notation IS NOT NULL
+            WHERE notation IS NOT NULL AND notation <> ''
         ''',
     ),
     SqlNodeSpec(
@@ -342,7 +342,7 @@ TRANSFORM_SPECS = [
                 TRY_CAST(lat AS DOUBLE)  AS lat,
                 TRY_CAST(long AS DOUBLE) AS lon
             FROM "defra-flood-monitoring-floods"
-            WHERE notation IS NOT NULL
+            WHERE notation IS NOT NULL AND notation <> ''
         ''',
     ),
     SqlNodeSpec(
@@ -358,11 +358,10 @@ TRANSFORM_SPECS = [
                 TRY_CAST(easting AS DOUBLE)  AS easting,
                 TRY_CAST(northing AS DOUBLE) AS northing,
                 TRY_CAST(date_opened AS DATE) AS date_opened,
-                status,
                 station_guid,
                 wiski_id
             FROM "defra-hydrology-stations"
-            WHERE notation IS NOT NULL
+            WHERE notation IS NOT NULL AND notation <> ''
         ''',
     ),
     SqlNodeSpec(
@@ -383,7 +382,7 @@ TRANSFORM_SPECS = [
                 unit_name,
                 observation_type
             FROM "defra-hydrology-measures"
-            WHERE notation IS NOT NULL
+            WHERE notation IS NOT NULL AND notation <> ''
         ''',
     ),
     SqlNodeSpec(
