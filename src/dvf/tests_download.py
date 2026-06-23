@@ -16,14 +16,11 @@ KEY_COLUMNS = {
 
 
 def _batch_assets():
-    # Batch files are named dvf-transactions-<year>-<dept>(.parquet[.zst])
+    # Batch files are named dvf-transactions-<year>-<dept>.parquet
     names = set()
-    for path in list_raw_files("dvf-transactions-"):
+    for path in list_raw_files("dvf-transactions-*.parquet"):
         stem = path.rsplit("/", 1)[-1]
-        for suffix in (".parquet.zst", ".parquet"):
-            if stem.endswith(suffix):
-                names.add(stem[: -len(suffix)])
-                break
+        names.add(stem[: -len(".parquet")])
     return sorted(names)
 
 
