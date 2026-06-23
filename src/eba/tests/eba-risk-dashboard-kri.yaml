@@ -1,0 +1,20 @@
+spec_id: eba-risk-dashboard-kri
+status: active
+tests:
+  - not_null: period
+  - not_null: country
+  - not_null: indicator_code
+  - column_type: {col: period, type: integer}
+  - column_type: {col: value, type: float}
+  - between: {col: period, lo: 201400, hi: 209912}
+    reason: Period is a YYYYMM reference date; the dashboard starts 2014-Q4 (201412)
+    certainty: 95
+  - distinct_count: {col: country, min: 25}
+    reason: ~26-30 EU/EEA reporting countries plus EU/EEA aggregates
+    certainty: 85
+  - distinct_count: {col: indicator_code, min: 10}
+    reason: probing showed ~20 KRI codes (AQT/FND/LIQ/...)
+    certainty: 80
+  - row_count: {min: 5000}
+    reason: ~46 quarters x ~28 countries x ~20 indicators is tens of thousands of rows
+    certainty: 85

@@ -1,0 +1,15 @@
+spec_id: eba-te-sovereign-exposures
+status: active
+tests:
+  - not_null: LEI_Code
+  - not_null: Period
+  - not_null: Item
+  - matches: {col: Period, pattern: '^[0-9]{6}$'}
+    reason: Period is a YYYYMM reference date stored as text in the tr_sov.csv full database
+    certainty: 90
+  - distinct_count: {col: NSA, min: 18}
+    reason: ~26 EU/EEA national supervisory authorities report; allow headroom for coverage drift
+    certainty: 80
+  - row_count: {min: 5000}
+    reason: bank-by-bank long table for ~120 banks across several reference dates and many items
+    certainty: 85

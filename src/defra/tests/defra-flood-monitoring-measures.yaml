@@ -1,0 +1,13 @@
+spec_id: defra-flood-monitoring-measures
+status: active
+tests:
+  - not_null: notation
+  - unique: notation
+    reason: measure notation is the unique series id
+    certainty: 95
+  - row_count: {min: 4000}
+    reason: ~7200 measures observed
+    certainty: 85
+  - not_null: parameter
+    certainty: 70
+    severity: warn

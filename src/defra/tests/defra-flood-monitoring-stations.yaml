@@ -1,0 +1,18 @@
+spec_id: defra-flood-monitoring-stations
+status: active
+tests:
+  - not_null: notation
+  - unique: notation
+    reason: one row per flood-monitoring station; dupes mean the list was re-pulled/merged wrong
+    certainty: 95
+  - row_count: {min: 3000}
+    reason: ~5500 stations observed; <3000 implies pagination broke
+    certainty: 85
+  - between: {col: lat, lo: 49.0, hi: 61.5}
+    reason: stations are in Great Britain
+    certainty: 80
+    severity: warn
+  - between: {col: long, lo: -9.0, hi: 2.5}
+    reason: GB longitude band
+    certainty: 80
+    severity: warn

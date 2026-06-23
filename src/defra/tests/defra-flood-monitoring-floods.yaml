@@ -1,0 +1,13 @@
+spec_id: defra-flood-monitoring-floods
+status: active
+tests:
+  - not_null: notation
+  - unique: notation
+    reason: one row per flood-warning area
+    certainty: 95
+  - row_count: {min: 2000}
+    reason: ~4200 flood areas observed; this reference set is stable
+    certainty: 85
+  - between: {col: lat, lo: 49.0, hi: 61.5}
+    certainty: 75
+    severity: warn

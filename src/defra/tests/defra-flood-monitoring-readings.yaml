@@ -1,0 +1,10 @@
+spec_id: defra-flood-monitoring-readings
+status: active
+tests:
+  - not_null: measure_id
+  - row_count: {min: 2000}
+    reason: ~5500 latest readings (one per measure) observed
+    certainty: 85
+  - not_null: date_time
+    reason: every latest reading carries a timestamp
+    certainty: 90

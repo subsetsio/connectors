@@ -1,0 +1,12 @@
+spec_id: defra-hydrology-measures
+status: active
+tests:
+  - not_null: notation
+  - unique: notation
+    certainty: 95
+  - row_count: {min: 15000}
+    reason: ~32000 hydrology measures observed
+    certainty: 85
+  - not_null: observed_property
+    certainty: 70
+    severity: warn

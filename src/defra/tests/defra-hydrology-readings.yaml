@@ -1,0 +1,10 @@
+spec_id: defra-hydrology-readings
+status: active
+tests:
+  - not_null: measure_id
+  - not_null: date
+    reason: every reading row carries its observation date
+    certainty: 90
+  - row_count: {min: 50000}
+    reason: ~310k rows/day over a 7-day window; <50k implies the window/day fetch broke
+    certainty: 80

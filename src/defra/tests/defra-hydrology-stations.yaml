@@ -1,0 +1,12 @@
+spec_id: defra-hydrology-stations
+status: active
+tests:
+  - not_null: notation
+  - unique: notation
+    certainty: 95
+  - row_count: {min: 5000}
+    reason: ~9500 hydrology stations observed
+    certainty: 85
+  - between: {col: lat, lo: 49.0, hi: 61.5}
+    certainty: 75
+    severity: warn
