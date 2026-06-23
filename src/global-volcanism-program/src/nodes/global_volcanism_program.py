@@ -153,15 +153,27 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-# Per-subset publish SQL. For the two layers whose exact attribute schema is known
-# (Holocene volcanoes & eruptions) we TRY_CAST the numeric columns to proper types
-# while preserving every other column via `* EXCLUDE`. The Pleistocene volcanoes
-# and E3 emissions layers were not probeable from the authoring environment, so
-# they publish their attributes faithfully as-is (untyped text) — a clean SELECT *.
+# Per-subset publish SQL. We TRY_CAST numeric columns to proper types while
+# preserving every other column via `* EXCLUDE`. The Holocene & Pleistocene
+# volcano layers share the same geographic columns (typed identically so they
+# stay consistent across datasets); Pleistocene has no Last_Eruption_Year, so it
+# gets its own cast list. The E3 emissions layer already arrives well-typed
+# (StartDate/EndDate dates, SO2_Kilotons float, Emission_ID/VolcanoNumber ints)
+# with its own distinct schema, so it stays a faithful SELECT *.
 _VOLCANOES_ID = f"{SLUG}-smithsonian-votw-holocene-volcanoes"
 _ERUPTIONS_ID = f"{SLUG}-smithsonian-votw-holocene-eruptions"
+_PLEISTOCENE_ID = f"{SLUG}-smithsonian-votw-pleistocene-volcanoes"
 
 _SQL_BY_SPEC = {
+    _PLEISTOCENE_ID: f'''
+        SELECT
+            * EXCLUDE (Volcano_Number, Latitude, Longitude, Elevation),
+            TRY_CAST(Volcano_Number AS BIGINT) AS Volcano_Number,
+            TRY_CAST(Latitude AS DOUBLE)       AS Latitude,
+            TRY_CAST(Longitude AS DOUBLE)      AS Longitude,
+            TRY_CAST(Elevation AS DOUBLE)      AS Elevation
+        FROM "{_PLEISTOCENE_ID}"
+    ''',
     _VOLCANOES_ID: f'''
         SELECT
             * EXCLUDE (Volcano_Number, Last_Eruption_Year, Latitude, Longitude, Elevation),
