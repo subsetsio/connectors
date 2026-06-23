@@ -1,0 +1,25 @@
+spec_id: clinicaltrials-gov-studies
+status: active
+tests:
+  - not_null: nct_id
+    reason: every study record carries an NCT id
+    certainty: 99
+  - column_type: {col: nct_id, type: string}
+    certainty: 95
+  - unique: nct_id
+    reason: studies is one row per registered study; dupes mean a page was double-written
+    certainty: 95
+  - matches: {col: nct_id, pattern: "^NCT[0-9]{8}$"}
+    reason: ClinicalTrials.gov ids are NCT + 8 digits
+    certainty: 95
+  - row_count: {min: 400000}
+    reason: registry holds ~590K studies (verified totalCount 2026-06); a low count = pagination broke
+    certainty: 90
+  - enum: {col: study_type, values: [INTERVENTIONAL, OBSERVATIONAL, EXPANDED_ACCESS]}
+    reason: v2 StudyType enum; null allowed for unposted records
+    certainty: 75
+    severity: warn
+  - not_null: overall_status
+    reason: every study has a recruitment status
+    certainty: 90
+    severity: warn

@@ -1,0 +1,17 @@
+spec_id: clinicaltrials-gov-interventions
+status: active
+tests:
+  - not_null: nct_id
+    certainty: 99
+  - not_null: intervention_name
+    reason: an intervention row exists only with a name
+    certainty: 95
+  - matches: {col: nct_id, pattern: "^NCT[0-9]{8}$"}
+    certainty: 95
+  - row_count: {min: 200000}
+    reason: interventional studies (~60% of corpus) list >=1 intervention
+    certainty: 80
+  - enum: {col: intervention_type, values: [DRUG, DEVICE, BIOLOGICAL, PROCEDURE, RADIATION, BEHAVIORAL, GENETIC, DIETARY_SUPPLEMENT, COMBINATION_PRODUCT, DIAGNOSTIC_TEST, OTHER]}
+    reason: v2 InterventionType enum; null allowed
+    certainty: 70
+    severity: warn

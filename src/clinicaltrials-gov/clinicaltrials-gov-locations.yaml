@@ -1,0 +1,13 @@
+spec_id: clinicaltrials-gov-locations
+status: active
+tests:
+  - not_null: nct_id
+    certainty: 99
+  - column_type: {col: facility, type: string}
+    certainty: 80
+  - matches: {col: nct_id, pattern: "^NCT[0-9]{8}$"}
+    certainty: 95
+  - row_count: {min: 300000}
+    reason: many studies are multi-site; some have no posted locations
+    certainty: 75
+    severity: warn

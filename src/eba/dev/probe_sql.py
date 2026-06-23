@@ -18,7 +18,7 @@ sql = '''
     FROM "eba-te-sovereign-exposures"
     WHERE TRY_CAST("Amount" AS DOUBLE) IS NOT NULL
 '''
-res = con.execute(sql).arrow()
+res = con.execute(sql).fetch_arrow_table()
 print("TE rows in:", tbl.num_rows, "out:", res.num_rows)
 print("TE out cols:", res.column_names)
 print("Period dtype:", res.schema.field("Period").type, "Amount:", res.schema.field("Amount").type)
@@ -29,5 +29,5 @@ kri = pa.table({"period":pa.array([201412,202603],pa.int32()),"country":["AT","E
                 "value":pa.array([0.06,None],pa.float64())})
 con.register("eba-risk-dashboard-kri", kri)
 ksql='SELECT CAST(period AS INTEGER) AS period, country, indicator_code, indicator_name, CAST(value AS DOUBLE) AS value FROM "eba-risk-dashboard-kri" WHERE value IS NOT NULL'
-kres=con.execute(ksql).arrow()
+kres=con.execute(ksql).fetch_arrow_table()
 print("KRI out rows:", kres.num_rows, "cols:", kres.column_names)

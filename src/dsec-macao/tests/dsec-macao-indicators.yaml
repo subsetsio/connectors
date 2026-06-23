@@ -1,0 +1,25 @@
+spec_id: dsec-macao-indicators
+status: active
+tests:
+  - not_null: indicator_id
+    reason: every tree node has a stable integer IndicatorID
+    certainty: 99
+  - unique: indicator_id
+    reason: the walk dedups nodes by IndicatorID, so the catalog has one row per indicator
+    certainty: 95
+  - column_type: {col: indicator_id, type: integer}
+    certainty: 95
+  - column_type: {col: is_leaf, type: boolean}
+    certainty: 90
+  - row_count: {min: 5000}
+    reason: full traversal yields ~9896 nodes (~7911 leaves); far fewer means the tree walk stopped early
+    certainty: 90
+  - not_null: name_en
+    reason: DSEC publishes an English description (DescriptionEngl) for every node
+    certainty: 80
+    severity: warn
+  - at_most: {col: max_year, expr: current_year()}
+    reason: a node's latest data year should not exceed the current year
+    certainty: 75
+    points_outward: true
+    severity: warn

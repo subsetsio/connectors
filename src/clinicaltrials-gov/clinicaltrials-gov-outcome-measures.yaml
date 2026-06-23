@@ -1,0 +1,16 @@
+spec_id: clinicaltrials-gov-outcome-measures
+status: active
+tests:
+  - not_null: nct_id
+    certainty: 99
+  - not_null: measure
+    reason: an outcome row exists only with a measure description
+    certainty: 95
+  - enum: {col: outcome_type, values: [primary, secondary]}
+    reason: we tag each outcome by which array it came from
+    certainty: 99
+  - matches: {col: nct_id, pattern: "^NCT[0-9]{8}$"}
+    certainty: 95
+  - row_count: {min: 300000}
+    reason: most studies define >=1 primary outcome
+    certainty: 85

@@ -1,0 +1,16 @@
+spec_id: clinicaltrials-gov-conditions
+status: active
+tests:
+  - not_null: nct_id
+    certainty: 99
+  - not_null: condition
+    reason: a condition row exists only when the study lists a condition string
+    certainty: 99
+  - matches: {col: nct_id, pattern: "^NCT[0-9]{8}$"}
+    certainty: 95
+  - row_count: {min: 400000}
+    reason: most studies list >=1 condition; ~590K studies -> well over 400K condition rows
+    certainty: 85
+  - unique: [nct_id, condition]
+    reason: transform dedups; one row per study-condition pair
+    certainty: 90

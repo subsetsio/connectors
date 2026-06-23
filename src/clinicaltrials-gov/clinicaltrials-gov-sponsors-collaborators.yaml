@@ -1,0 +1,18 @@
+spec_id: clinicaltrials-gov-sponsors-collaborators
+status: active
+tests:
+  - not_null: nct_id
+    certainty: 99
+  - not_null: name
+    reason: a sponsor/collaborator row exists only with an organization name
+    certainty: 95
+  - not_null: role
+    certainty: 99
+  - enum: {col: role, values: [lead, collaborator]}
+    reason: lead sponsor + each collaborator
+    certainty: 99
+  - matches: {col: nct_id, pattern: "^NCT[0-9]{8}$"}
+    certainty: 95
+  - row_count: {min: 400000}
+    reason: every study has exactly one lead sponsor -> >=590K rows before collaborators
+    certainty: 90
