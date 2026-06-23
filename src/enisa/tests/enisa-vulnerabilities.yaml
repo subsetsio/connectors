@@ -1,0 +1,27 @@
+spec_id: enisa-vulnerabilities
+status: active
+tests:
+  - not_null: id
+  - matches: {col: id, pattern: '^EUVD-'}
+    reason: every EUVD record id is formatted EUVD-YYYY-NNNNN
+    certainty: 95
+  - unique: id
+    reason: one row per EUVD identifier after dedup-by-most-recent in the transform
+    certainty: 90
+  - row_count: {min: 200000}
+    reason: the full corpus was ~359k records mid-2026 and only grows; a small count means the crawl truncated
+    certainty: 85
+  - column_type: {col: base_score, type: float}
+    certainty: 80
+  - between: {col: base_score, lo: 0, hi: 10}
+    reason: CVSS base scores are bounded 0-10 across all versions
+    certainty: 90
+  - between: {col: n_products, lo: 0, hi: 100000}
+    reason: count of affected products per vuln; non-negative, never absurdly large
+    certainty: 80
+    severity: warn
+  - freshness: {col: date_published, reaches: today - 30d}
+    reason: ENISA publishes new vulnerabilities continuously; a stale max means the source paused or our crawl missed the front pages
+    certainty: 70
+    points_outward: true
+    severity: warn
