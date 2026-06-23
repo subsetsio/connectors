@@ -34,13 +34,6 @@ from constants import ENTITY_IDS, WORKSPACE
 SLUG = "global-volcanism-program"
 WFS_URL = "https://webservices.volcano.si.edu/geoserver/GVP-VOTW/wfs"
 
-# WFS 2.0.0 page size. The largest layer (Holocene eruptions) is ~11k features,
-# so this is two-to-three pages; volcano layers fit in one.
-PAGE_SIZE = 5000
-# Safety ceiling: ~1M features. Real layers are far smaller; blowing past this
-# means the source grew unexpectedly (or paging looped) — raise, never truncate.
-MAX_PAGES = 200
-
 # spec id -> WFS typeName. The spec id lowercases/hyphenates the entity id, which
 # is lossy, so keep an explicit forward map built from the canonical entity ids.
 TYPENAME_BY_SPEC = {
@@ -80,63 +73,74 @@ def _retryable(exc: Exception) -> bool:
     wait=wait_exponential(multiplier=2, min=2, max=60),
     reraise=True,
 )
-def _get_csv_page(typename: str, start_index: int) -> str:
-    """One WFS 2.0.0 GetFeature CSV page. The layer is selected with `typeName`
-    (the spelling this GeoServer's verified examples use) and paged with
-    `count`/`startIndex`. On any HTTP error we surface the GeoServer
-    ExceptionReport body — its `400` is otherwise opaque."""
-    params = [
+def _wfs_get(params: list) -> "httpx.Response":
+    """One WFS request. On any HTTP error we surface the GeoServer
+    ExceptionReport body — its bare `400` is otherwise opaque. A RuntimeError
+    here is not transient, so the retry predicate lets it through immediately."""
+    resp = get(WFS_URL, params=params, timeout=(15.0, 180.0))
+    if resp.status_code >= 400:
+        raise RuntimeError(
+            f"WFS {resp.status_code} for params={params}: {resp.text[:600]}"
+        )
+    return resp
+
+
+def _number_matched(typename: str) -> int | None:
+    """Authoritative feature count via WFS resultType=hits (no features pulled).
+    Used to detect a silently truncated full pull. Returns None if the server
+    omits the count attribute."""
+    resp = _wfs_get([
         ("service", "WFS"),
         ("version", "2.0.0"),
         ("request", "GetFeature"),
         ("typeName", typename),
-        ("outputFormat", "csv"),
-        ("count", str(PAGE_SIZE)),
-        ("startIndex", str(start_index)),
-    ]
-    resp = get(WFS_URL, params=params, timeout=(15.0, 180.0))
-    if resp.status_code >= 400:
-        raise RuntimeError(
-            f"WFS GetFeature {resp.status_code} for {typename} "
-            f"(start={start_index}): {resp.text[:600]}"
-        )
-    ctype = resp.headers.get("content-type", "")
-    text = resp.text
-    # GeoServer returns service exceptions as XML with a 200; CSV begins with a
-    # header row, never with '<'. Fail loudly so the retry/triage path sees it.
-    if "xml" in ctype.lower() or text.lstrip().startswith("<"):
-        raise RuntimeError(
-            f"WFS returned a non-CSV/exception response for {typename}: "
-            f"{text[:600]}"
-        )
-    return text
+        ("resultType", "hits"),
+    ])
+    # WFS 2.0.0 -> numberMatched; older GeoServer hits -> numberOfFeatures.
+    m = re.search(r'number(?:Matched|OfFeatures)="(\d+)"', resp.text)
+    return int(m.group(1)) if m else None
 
 
 def fetch_layer(node_id: str) -> None:
     configure_http(headers={"User-Agent": _UA})
     typename = TYPENAME_BY_SPEC[node_id]
 
-    rows: list[dict] = []
-    start = 0
-    for page in range(MAX_PAGES):
-        text = _get_csv_page(typename, start)
-        reader = csv.DictReader(io.StringIO(text))
-        page_rows = [
-            {_safe_col(k): (v if v != "" else None) for k, v in rec.items()}
-            for rec in reader
-        ]
-        rows.extend(page_rows)
-        if len(page_rows) < PAGE_SIZE:
-            break
-        start += PAGE_SIZE
-    else:
+    # These GeoServer layers expose no primary key, so WFS startIndex/count
+    # offset paging is refused ("Cannot do natural order without a primary key").
+    # The layers are small, so we pull each in one unpaged GetFeature and verify
+    # completeness against the server's own numberMatched rather than paging.
+    expected = _number_matched(typename)
+
+    resp = _wfs_get([
+        ("service", "WFS"),
+        ("version", "2.0.0"),
+        ("request", "GetFeature"),
+        ("typeName", typename),
+        ("outputFormat", "csv"),
+    ])
+    text = resp.text
+    if text.lstrip().startswith("<"):
+        # XML ExceptionReport returned with a 200.
         raise RuntimeError(
-            f"{node_id}: WFS paging hit MAX_PAGES={MAX_PAGES} without draining "
-            f"{typename}; the layer grew past expectations — raise the ceiling."
+            f"{node_id}: WFS returned a non-CSV/exception response for {typename}: "
+            f"{text[:600]}"
         )
+
+    reader = csv.DictReader(io.StringIO(text))
+    rows = [
+        {_safe_col(k): (v if v != "" else None) for k, v in rec.items()}
+        for rec in reader
+    ]
 
     if not rows:
         raise RuntimeError(f"{node_id}: WFS GetFeature returned 0 features for {typename}")
+    if expected is not None and len(rows) < expected:
+        # A short pull means the server capped maxFeatures; never publish a
+        # silently truncated layer — fail so we add sortBy-based paging instead.
+        raise RuntimeError(
+            f"{node_id}: truncated pull — got {len(rows)} of {expected} features "
+            f"for {typename}; server applied a maxFeatures cap."
+        )
     save_raw_ndjson(rows, node_id)
 
 
