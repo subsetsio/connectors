@@ -216,8 +216,9 @@ def _rows_from_visual(data: dict):
         return []
     ncols = len(types)
     sel = data.get("descriptor", {}).get("Select", [])
-    # group columns = non-aggregation selects; measures = aggregation selects.
-    is_measure = ["Aggregation" in s for s in sel] + [False] * (ncols - len(sel))
+    # In the descriptor, Select[i].Kind == 2 is an aggregated measure; anything
+    # else (Kind 1) is a grouping column.
+    is_measure = [s.get("Kind") == 2 for s in sel] + [False] * (ncols - len(sel))
     group_idx = [i for i in range(ncols) if not is_measure[i]]
     measure_idx = [i for i in range(ncols) if is_measure[i]]
     time_idx = next((i for i in group_idx if types[i] == T_DATETIME), None)
