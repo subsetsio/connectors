@@ -138,6 +138,13 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="isc-gem-earthquakes-transform",
         deps=["isc-gem-earthquakes"],
+        # Only the columns the iscgem mirror actually populates with signal are
+        # published. Dropped: num_stations / rms / azimuthal_gap_deg /
+        # min_distance_deg / horizontal_error_km (all-null upstream for this
+        # catalogue) and magnitude_type / event_type / status / location_source /
+        # magnitude_source (constant by construction — every row is an Mw,
+        # reviewed earthquake sourced from iscgem). magType is always Mw, noted
+        # in the catalogue docs rather than carried as a constant column.
         sql='''
             SELECT
                 id                                  AS event_id,
@@ -146,19 +153,9 @@ TRANSFORM_SPECS = [
                 CAST(longitude AS DOUBLE)           AS longitude,
                 CAST(depth AS DOUBLE)               AS depth_km,
                 CAST(mag AS DOUBLE)                 AS magnitude,
-                magType                             AS magnitude_type,
-                place,
-                type                                AS event_type,
-                status,
-                locationSource                      AS location_source,
-                magSource                           AS magnitude_source,
-                CAST(horizontalError AS DOUBLE)     AS horizontal_error_km,
-                CAST(depthError AS DOUBLE)          AS depth_error_km,
                 CAST(magError AS DOUBLE)            AS magnitude_error,
-                CAST(nst AS BIGINT)                 AS num_stations,
-                CAST(gap AS DOUBLE)                 AS azimuthal_gap_deg,
-                CAST(dmin AS DOUBLE)                AS min_distance_deg,
-                CAST(rms AS DOUBLE)                 AS rms,
+                CAST(depthError AS DOUBLE)          AS depth_error_km,
+                place,
                 CAST(updated AS TIMESTAMP)          AS updated
             FROM "isc-gem-earthquakes"
             WHERE id IS NOT NULL
