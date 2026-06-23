@@ -144,18 +144,31 @@ def _rows(ws) -> list:
     return [list(r) for r in ws.iter_rows(values_only=True)]
 
 
+# Canonical metric names, keyed by the header text with all whitespace stripped
+# (one country sheet carries a literal line break inside "Consumption").
+_BAL_CANON = {
+    "area": "Area",
+    "yield": "Yield",
+    "production": "Production",
+    "beginningstocks": "Beginning Stocks",
+    "imports": "Imports",
+    "consumption": "Consumption",
+    "exports": "Exports",
+    "endingstocks": "Ending Stocks",
+    "s/u*": "S/U *",
+    "s/u": "S/U *",
+}
+
 _BAL_UNITS = {
     "area": "'000 ha",
     "yield": "kg/ha",
-    "production": "'000 metric tonnes",
-    "beginning stocks": "'000 metric tonnes",
-    "imports": "'000 metric tonnes",
-    "consumption": "'000 metric tonnes",
-    "exports": "'000 metric tonnes",
-    "ending stocks": "'000 metric tonnes",
     "s/u *": "ratio",
-    "s/u": "ratio",
 }
+
+
+def _canon_metric(cell) -> str:
+    key = re.sub(r"\s+", "", _s(cell)).lower()
+    return _BAL_CANON.get(key, _norm(cell))
 
 
 def parse_balance(wb) -> list:
@@ -175,7 +188,8 @@ def parse_balance(wb) -> list:
         country = _s(data[1][1]) if len(data[1]) > 1 else ""
         if not country:
             country = name
-        metrics = {ci: hdr[ci] for ci in range(2, len(hdr)) if hdr[ci]}
+        metrics = {ci: _canon_metric(data[4][ci])
+                   for ci in range(2, len(hdr)) if hdr[ci]}
         for r in data[7:]:
             season = _s(r[1]) if len(r) > 1 else ""
             if not _SEASON.match(season):
@@ -282,10 +296,14 @@ def _parse_price_seasonal(wb, name) -> list:
         return _norm(" ".join(parts))
 
     out = []
+    started = False
     for r in data[ds:]:
         period = _s(r[0])
         if not _SEASON.match(period):
+            if started:
+                break  # end of the absolute block; an indexed copy follows
             continue
+        started = True
         for ci in range(1, ncol):
             if ci >= len(r) or r[ci] is None or _s(r[ci]) == "":
                 continue
@@ -321,10 +339,14 @@ def _parse_price_futures(wb) -> list:
         return []
     ncol = max(len(r) for r in data)
     out = []
+    started = False
     for r in data[ds:]:
         period = _s(r[0])
         if not _MONTH_YEAR.match(period):
+            if started:
+                break  # end of the absolute block; an indexed copy follows
             continue
+        started = True
         for ci in range(1, ncol):
             if ci >= len(r) or r[ci] is None or _s(r[ci]) == "":
                 continue
