@@ -270,9 +270,18 @@ def _parse_price_seasonal(wb, name) -> list:
     if ds is None:
         return []
     title = _norm(data[1][0]) or _norm(data[0][0])
-    header = data[4:ds]
+    # Header block = rows between the title/courtesy lines and the first data
+    # row. The grouping row (country or CURRENT/FORWARD) sits at varying depth
+    # across sheets, so anchor on the last title line rather than a fixed index.
+    title_end = max(
+        [i for i, r in enumerate(data[:ds])
+         if "COURTESY" in _s(r[0]).upper() or "PRICES OF" in _s(r[0]).upper()],
+        default=2,
+    )
+    header = data[title_end + 1:ds]
     unit_rows = [h for h in header if any(_UNIT_KW.search(_s(c)) for c in h[1:])]
-    label_rows = [h for h in header if h not in unit_rows] or header
+    label_rows = [h for h in header
+                  if h not in unit_rows and any(_s(c) for c in h[1:])]
     group = _ffill(label_rows[0]) if label_rows else []
     ncol = max(len(r) for r in data)
 
@@ -281,8 +290,9 @@ def _parse_price_seasonal(wb, name) -> list:
         if ci < len(group) and group[ci]:
             parts.append(group[ci])
         for h in label_rows[1:]:
-            if ci < len(h) and _s(h[ci]):
-                parts.append(_s(h[ci]))
+            frag = _s(h[ci]) if ci < len(h) else ""
+            if frag and not re.match(r"^\d+/$", frag):  # drop footnote refs
+                parts.append(frag)
         return _norm(" ".join(parts))
 
     def unit(ci):

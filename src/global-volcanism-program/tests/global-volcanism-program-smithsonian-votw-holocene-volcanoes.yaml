@@ -1,0 +1,28 @@
+spec_id: global-volcanism-program-smithsonian-votw-holocene-volcanoes
+status: active
+tests:
+  - not_null: Volcano_Number
+    reason: every Holocene volcano has a GVP volcano number; it is the primary key
+    certainty: 95
+  - not_null: Volcano_Name
+    reason: every volcano record is named
+    certainty: 95
+  - unique: Volcano_Number
+    reason: one row per volcano; dupes mean the layer was paged/unioned wrong
+    certainty: 95
+  - matches: {col: Volcano_Number, pattern: '^[0-9]+$'}
+    reason: GVP volcano numbers are positive integers (e.g. 210010), stored as text in raw CSV
+    certainty: 90
+  - matches: {col: Latitude, pattern: '^-?[0-9]+(\.[0-9]+)?$'}
+    reason: decimal-degree latitude in EPSG:4326, possibly negative
+    certainty: 85
+  - matches: {col: Longitude, pattern: '^-?[0-9]+(\.[0-9]+)?$'}
+    reason: decimal-degree longitude in EPSG:4326, possibly negative
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: GVP lists ~1.2-1.4k Holocene volcanoes; a short pull means paging broke
+    certainty: 85
+  - distinct_count: {col: Country, min: 40}
+    reason: Holocene volcanism spans dozens of countries
+    certainty: 75
+    severity: warn

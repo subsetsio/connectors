@@ -1,0 +1,18 @@
+spec_id: global-volcanism-program-smithsonian-votw-pleistocene-volcanoes
+status: active
+tests:
+  - not_null: Volcano_Number
+    reason: like every VOTW volcano layer, each Pleistocene volcano carries a GVP volcano number (primary key)
+    certainty: 85
+  - not_null: Volcano_Name
+    reason: VOTW volcano records are named
+    certainty: 85
+  - unique: Volcano_Number
+    reason: one row per volcano
+    certainty: 85
+  - matches: {col: Volcano_Number, pattern: '^[0-9]+$'}
+    reason: GVP volcano numbers are positive integers, stored as text in raw CSV
+    certainty: 80
+  - row_count: {min: 50}
+    reason: the Pleistocene volcano layer holds at least a few hundred volcanoes; a near-empty pull means paging broke
+    certainty: 75
