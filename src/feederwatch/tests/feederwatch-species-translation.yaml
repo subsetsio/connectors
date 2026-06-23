@@ -1,0 +1,21 @@
+spec_id: feederwatch-species-translation
+status: active
+tests:
+  - not_null: species_code
+    reason: the species code is the codebook primary key
+    certainty: 95
+  - unique: species_code
+    reason: one row per species/taxon code
+    certainty: 90
+  - not_null: scientific_name
+    certainty: 85
+  - not_null: american_english_name
+    reason: most taxa have an English common name, though a few rare/spuh codes may not
+    certainty: 75
+    severity: warn
+  - row_count: {min: 500}
+    reason: the translation table lists thousands of species and taxa
+    certainty: 80
+  - matches: {col: species_code, pattern: '^[a-z0-9]+$'}
+    reason: eBird-style species codes are lowercase alphanumerics
+    certainty: 75

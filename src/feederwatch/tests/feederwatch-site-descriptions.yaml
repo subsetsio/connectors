@@ -1,0 +1,22 @@
+spec_id: feederwatch-site-descriptions
+status: active
+tests:
+  - not_null: loc_id
+    reason: every site-description row is keyed to a count location
+    certainty: 95
+  - not_null: proj_period_id
+    reason: site attributes are recorded per project (season) period
+    certainty: 95
+  - unique: [loc_id, proj_period_id]
+    reason: expected grain is one description per location per project period
+    certainty: 70
+    severity: warn
+  - row_count: {min: 50000}
+    reason: "over 60k count sites across many seasons yields hundreds of thousands of site-period rows"
+    certainty: 80
+  - matches: {col: loc_id, pattern: '^L[0-9]+$'}
+    reason: FeederWatch location ids are 'L' followed by digits
+    certainty: 85
+  - matches: {col: proj_period_id, pattern: '^PFW_[0-9]{4}$'}
+    reason: project period ids look like PFW_2005
+    certainty: 85
