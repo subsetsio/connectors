@@ -1,0 +1,21 @@
+spec_id: fatal-encounters-fatal-encounters
+status: active
+tests:
+  - row_count: {min: 20000}
+    reason: the database has ~31.5k records since 2000 and only grows; a tiny count means a truncated or errored export
+    certainty: 95
+  - not_null: unique_id
+    reason: every record carries a Unique ID; rows without one are formula/spacer artifacts we filter out
+    certainty: 95
+  - unique: unique_id
+    reason: Unique ID is the primary key of the sheet; dupes would mean the parse picked up the redundant id column or doubled rows
+    certainty: 95
+  - not_null: name
+    reason: name is always populated, falling back to "Name withheld by police" when unknown
+    certainty: 90
+  - matches: {col: state, pattern: "^[A-Z]{2}$"}
+    reason: location of death is a US state/DC two-letter code; non-conforming values signal a column misalignment
+    certainty: 85
+  - not_null: state
+    reason: every incident is geolocated to a US state or DC
+    certainty: 80
