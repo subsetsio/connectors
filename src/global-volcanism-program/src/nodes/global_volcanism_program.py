@@ -81,17 +81,14 @@ def _retryable(exc: Exception) -> bool:
     reraise=True,
 )
 def _get_csv_page(typename: str, start_index: int) -> str:
-    """One WFS GetFeature CSV page. typeName is sent under both the 2.0.0 spelling
-    (typeNames) and the legacy/vendor spelling (typeName); GeoServer honours
-    whichever it expects and ignores the other."""
+    """One WFS 2.0.0 GetFeature CSV page. The layer is selected with `typeNames`
+    (the WFS 2.0.0 spelling) and paged with `count`/`startIndex`."""
     params = [
         ("service", "WFS"),
         ("version", "2.0.0"),
         ("request", "GetFeature"),
         ("typeNames", typename),
-        ("typeName", typename),
         ("outputFormat", "csv"),
-        ("srsName", "EPSG:4326"),
         ("count", str(PAGE_SIZE)),
         ("startIndex", str(start_index)),
     ]

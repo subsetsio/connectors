@@ -1,0 +1,19 @@
+spec_id: icac-extra-fine-cotton-supply
+status: active
+tests:
+  - not_null: item
+  - not_null: country
+  - not_null: value
+  - column_type: {col: year_begin, type: integer}
+  - between: {col: year_begin, lo: 1980, hi: 2030}
+    reason: extra-fine table starts 1980/81 with short-horizon projections
+    certainty: 80
+  - enum:
+      col: item
+      values: [BEGINNING STOCKS, PRODUCTION, CONSUMPTION, EXPORTS, IMPORTS]
+    reason: the supply/use balance sections of Table 3
+    certainty: 75
+    severity: warn
+  - unique: [item, country, year_begin]
+    reason: one row per item-country-year; dupes mean section/country parsing drifted
+    certainty: 85

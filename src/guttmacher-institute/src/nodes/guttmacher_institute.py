@@ -70,6 +70,20 @@ def _list_csv_files(osf_node: str) -> list[tuple[int, str, str]]:
     return found
 
 
+def _to_utf8(content: bytes) -> bytes:
+    """Normalize CSV bytes to UTF-8. Clean UTF-8 files pass through the first
+    (strict) decode unchanged; Windows-encoded exports (e.g. the GSRHE survey,
+    a Dynata cp1252 dump with smart quotes/accents in free-text answers) decode
+    via cp1252 so DuckDB's read_csv_auto, which only accepts UTF-8, can read
+    them. latin-1 is the never-fail fallback."""
+    for enc in ("utf-8", "utf-8-sig", "cp1252", "latin-1"):
+        try:
+            return content.decode(enc).encode("utf-8")
+        except UnicodeDecodeError:
+            continue
+    return content.decode("latin-1").encode("utf-8")
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     osf_node = node_id[len(f"{SLUG}-"):]
@@ -86,7 +100,7 @@ def fetch_one(node_id: str) -> None:
     if not download_url:
         raise AssertionError(f"{node_id}: primary CSV {name!r} has no download link")
 
-    content = _download(download_url)
+    content = _to_utf8(_download(download_url))
     save_raw_file(content, asset, extension="csv")
 
 

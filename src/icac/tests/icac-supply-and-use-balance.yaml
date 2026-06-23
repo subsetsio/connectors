@@ -1,0 +1,27 @@
+spec_id: icac-supply-and-use-balance
+status: active
+tests:
+  - not_null: country
+  - not_null: metric
+  - not_null: value
+  - column_type: {col: year_begin, type: integer}
+  - unique: [country, season, metric]
+    reason: one row per country-season-metric; dupes mean a stacked (indexed) block was re-read
+    certainty: 90
+  - between: {col: year_begin, lo: 1920, hi: 2030}
+    reason: world series start 1920/21, by-country 1940/41, with ~5yr projections
+    certainty: 85
+  - enum:
+      col: metric
+      values: [Area, Yield, Production, Beginning Stocks, Imports, Consumption, Exports, Ending Stocks, "S/U *"]
+    reason: the fixed balance-sheet column set; new labels mean a header changed
+    certainty: 75
+    severity: warn
+  - enum:
+      col: unit
+      values: ["'000 ha", "kg/ha", "'000 metric tonnes", "ratio"]
+    certainty: 70
+    severity: warn
+  - distinct_count: {col: country, min: 30}
+    reason: ~71 dedicated country/world balance sheets; <30 means sheets were dropped
+    certainty: 85

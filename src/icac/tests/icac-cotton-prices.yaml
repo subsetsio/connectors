@@ -1,0 +1,18 @@
+spec_id: icac-cotton-prices
+status: active
+tests:
+  - not_null: source_table
+  - not_null: quotation
+  - not_null: period
+  - not_null: value
+  - enum:
+      col: period_type
+      values: [season, month]
+    reason: 87*/88 are season-keyed annual quotations; 89 is monthly NY futures
+    certainty: 90
+  - unique: [source_table, quotation, period]
+    reason: one observation per quotation-period within a table; dupes = header label collision or indexed block re-read
+    certainty: 85
+  - distinct_count: {col: quotation, min: 50}
+    reason: ~130 distinct price quotations across the CIF/polyester/futures tables
+    certainty: 75

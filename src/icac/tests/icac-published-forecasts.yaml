@@ -1,0 +1,24 @@
+spec_id: icac-published-forecasts
+status: active
+tests:
+  - not_null: variable
+  - not_null: forecast_season
+  - not_null: horizon
+  - not_null: publication_round
+  - not_null: value
+  - enum:
+      col: horizon
+      values: ["Two Seasons Ahead", "One Season Ahead", "The Same Season"]
+    reason: the three forecast horizons published per season
+    certainty: 85
+  - unique: [variable, forecast_season, horizon, publication_round]
+    reason: one forecast value per variable-season-horizon-round; dupes = indexed second block re-read
+    certainty: 85
+  - distinct_count: {col: variable, min: 15}
+    reason: ~25 forecast variables (World/regional area, yield, production, consumption, stocks, trade, A Index)
+    certainty: 80
+  - enum:
+      col: unit
+      values: ["Thousand Hectares", "Kilograms per Hectare", "Million Tonnes", "Cents per Pound"]
+    certainty: 65
+    severity: warn
