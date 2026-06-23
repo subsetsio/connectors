@@ -81,19 +81,25 @@ def _retryable(exc: Exception) -> bool:
     reraise=True,
 )
 def _get_csv_page(typename: str, start_index: int) -> str:
-    """One WFS 2.0.0 GetFeature CSV page. The layer is selected with `typeNames`
-    (the WFS 2.0.0 spelling) and paged with `count`/`startIndex`."""
+    """One WFS 2.0.0 GetFeature CSV page. The layer is selected with `typeName`
+    (the spelling this GeoServer's verified examples use) and paged with
+    `count`/`startIndex`. On any HTTP error we surface the GeoServer
+    ExceptionReport body — its `400` is otherwise opaque."""
     params = [
         ("service", "WFS"),
         ("version", "2.0.0"),
         ("request", "GetFeature"),
-        ("typeNames", typename),
+        ("typeName", typename),
         ("outputFormat", "csv"),
         ("count", str(PAGE_SIZE)),
         ("startIndex", str(start_index)),
     ]
     resp = get(WFS_URL, params=params, timeout=(15.0, 180.0))
-    resp.raise_for_status()
+    if resp.status_code >= 400:
+        raise RuntimeError(
+            f"WFS GetFeature {resp.status_code} for {typename} "
+            f"(start={start_index}): {resp.text[:600]}"
+        )
     ctype = resp.headers.get("content-type", "")
     text = resp.text
     # GeoServer returns service exceptions as XML with a 200; CSV begins with a
@@ -101,7 +107,7 @@ def _get_csv_page(typename: str, start_index: int) -> str:
     if "xml" in ctype.lower() or text.lstrip().startswith("<"):
         raise RuntimeError(
             f"WFS returned a non-CSV/exception response for {typename}: "
-            f"{text[:300]}"
+            f"{text[:600]}"
         )
     return text
 
