@@ -110,8 +110,7 @@ TRANSFORM_SPECS = [
                 ref_area                         AS country_iso3,
                 CAST(time_period AS INTEGER)     AS year,
                 CAST(obs_value AS DOUBLE)        AS value,
-                unit_measure,
-                obs_status
+                unit_measure
             FROM "ibp-open-budget-values"
             WHERE obs_value IS NOT NULL
               AND obs_value <> ''

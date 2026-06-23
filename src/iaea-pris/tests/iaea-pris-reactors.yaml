@@ -1,0 +1,32 @@
+spec_id: iaea-pris-reactors
+status: active
+tests:
+  - not_null: reactor_id
+    reason: reactor_id is the scrape's primary key (the ?current=N id); never null.
+    certainty: 99
+  - column_type: {col: reactor_id, type: integer}
+    certainty: 99
+  - unique: reactor_id
+    reason: one row per reactor; a dupe means the id walk revisited pages.
+    certainty: 98
+  - not_null: name
+    reason: every PRIS reactor page has a name span; null means the spec block moved.
+    certainty: 95
+  - not_null: country
+    reason: every reactor page links its country via a CountryDetails anchor.
+    certainty: 90
+  - row_count: {min: 600, max: 1500}
+    reason: ~720 reactor ids observed (operational + shut down + under construction); a wide band for growth, but <600 means the walk stopped early.
+    certainty: 90
+  - distinct_count: {col: country_code, min: 25}
+    reason: ~30+ countries operate or have operated power reactors.
+    certainty: 85
+  - between: {col: reference_unit_power_mwe, lo: 1, hi: 2000}
+    reason: net electrical capacity ranges from tiny demonstrators (~5-11 MWe) to EPR-class (~1750 MWe).
+    certainty: 80
+    severity: warn
+  - at_most: {col: commercial_operation_date, expr: today}
+    reason: a commercial operation date should not be in the future, though some entries carry planned dates.
+    certainty: 70
+    points_outward: true
+    severity: warn
