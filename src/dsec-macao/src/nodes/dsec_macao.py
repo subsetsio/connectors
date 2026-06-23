@@ -160,8 +160,10 @@ def _as_bool(v):
 
 
 def _as_int(v):
+    # The API returns numeric ids as JSON floats (e.g. Parent=9001.0) and years
+    # as strings ("2002"); int(float(...)) handles both, int("9001.0") would not.
     try:
-        return int(str(v).strip())
+        return int(float(str(v).strip()))
     except (TypeError, ValueError):
         return None
 
