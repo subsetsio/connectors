@@ -1,0 +1,23 @@
+spec_id: debian-popcon-source-packages-max
+status: active
+tests:
+  - not_null: rank
+  - not_null: name
+  - not_null: inst
+  - column_type: {col: rank, type: integer}
+  - column_type: {col: inst, type: integer}
+  - unique: name
+    reason: one row per source package (metrics are the max over its binaries)
+    certainty: 90
+  - unique: rank
+    certainty: 95
+  - row_count: {min: 20000}
+    reason: same source-package universe as the summed view (~40k)
+    certainty: 90
+  - between: {col: inst, lo: 0, hi: 1000000}
+    reason: max install across a source's binaries; peaks near ~300k like the per-package view
+    certainty: 85
+  - relationship: {left: vote, op: "<=", right: inst}
+    reason: max vote <= max inst since each binary's vote <= its inst
+    certainty: 75
+    severity: warn

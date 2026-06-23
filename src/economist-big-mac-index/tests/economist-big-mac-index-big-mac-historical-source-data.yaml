@@ -1,0 +1,28 @@
+spec_id: economist-big-mac-index-big-mac-historical-source-data
+status: active
+tests:
+  - not_null: date
+  - not_null: iso_a3
+  - not_null: currency_code
+  - not_null: local_price
+  - not_null: dollar_ex
+  - column_type: {col: date, type: date}
+  - column_type: {col: local_price, type: float}
+  - column_type: {col: dollar_ex, type: float}
+  - unique: [date, iso_a3]
+    reason: one legacy input observation per country per release date
+    certainty: 95
+  - matches: {col: iso_a3, pattern: '^[A-Z]{3}$'}
+    reason: includes historical codes (SUN Soviet Union, YUG Yugoslavia, DEU West Germany)
+    certainty: 90
+  - between: {col: local_price, lo: 0, hi: 1000000}
+    certainty: 90
+  - at_most: {col: date, expr: '2000-01-01'}
+    reason: this is the legacy 1986-1999 file; modern observations live in big-mac-source-data
+    certainty: 95
+  - at_least: {col: date, expr: '1986-01-01'}
+    reason: the index began in 1986
+    certainty: 95
+  - row_count: {min: 250}
+    reason: ~12-30 countries across ~14 semi-annual dates 1986-1999
+    certainty: 85

@@ -1,0 +1,31 @@
+spec_id: debian-popcon-packages
+status: active
+tests:
+  - not_null: rank
+  - not_null: name
+  - not_null: inst
+  - not_null: maintainer
+    reason: the per-binary-package view always carries a parenthesized maintainer (literally "Not in sid" when unknown)
+    certainty: 90
+  - column_type: {col: rank, type: integer}
+  - column_type: {col: inst, type: integer}
+  - unique: name
+    reason: one row per binary package in the whole archive
+    certainty: 90
+  - unique: rank
+    reason: rank is a dense 1..N ordering, one per row
+    certainty: 95
+  - row_count: {min: 100000}
+    reason: the whole-archive popcon listing carries ~200k binary packages; far fewer means a truncated download
+    certainty: 90
+  - between: {col: inst, lo: 0, hi: 1000000}
+    reason: inst is a reporting-installation count; the busiest packages peak near ~300k submitters
+    certainty: 85
+  - relationship: {left: vote, op: "<=", right: inst}
+    reason: regular users (vote) are a subset of installers (inst)
+    certainty: 80
+    severity: warn
+  - relationship: {left: no_files, op: "<=", right: inst}
+    reason: no-files entries are a subset of installs
+    certainty: 80
+    severity: warn

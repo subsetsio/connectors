@@ -1,0 +1,27 @@
+spec_id: economist-big-mac-index-big-mac-adjusted-index
+status: active
+tests:
+  - not_null: date
+  - not_null: iso_a3
+  - not_null: currency_code
+  - not_null: adj_price
+  - not_null: GDP_bigmac
+  - column_type: {col: date, type: date}
+  - column_type: {col: adj_price, type: float}
+  - column_type: {col: USD, type: float}
+  - unique: [date, iso_a3]
+    reason: one GDP-adjusted row per country per release date
+    certainty: 95
+  - matches: {col: iso_a3, pattern: '^[A-Z]{3}$'}
+    certainty: 90
+  - between: {col: adj_price, lo: 0, hi: 100}
+    reason: GDP-adjusted price expressed in USD, same order of magnitude as the dollar price
+    certainty: 80
+    severity: warn
+  - row_count: {min: 800}
+    reason: adjusted index excludes country-dates without a GDP figure, so fewer rows than raw
+    certainty: 85
+  - freshness: {col: date, reaches: today - 400d}
+    certainty: 80
+    points_outward: true
+    severity: warn

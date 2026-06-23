@@ -1,0 +1,46 @@
+spec_id: dvf-transactions
+status: active
+tests:
+  - not_null: id_mutation
+    reason: every mutation row carries DGFiP's mutation id
+    certainty: 95
+  - not_null: date_mutation
+    reason: every transaction has a mutation date
+    certainty: 95
+  - matches: {col: date_mutation, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
+    reason: geo-dvf date_mutation is ISO YYYY-MM-DD
+    certainty: 90
+  - column_type: {col: valeur_fonciere, type: float}
+    reason: transaction amount parsed as decimal in raw
+    certainty: 90
+  - column_type: {col: latitude, type: float}
+    certainty: 85
+  - column_type: {col: longitude, type: float}
+    certainty: 85
+  - between: {col: latitude, lo: -23, hi: 52}
+    reason: mainland France + overseas DOMs (Reunion ~-21, Guadeloupe ~16, mainland ~42-51)
+    certainty: 85
+    severity: warn
+  - between: {col: longitude, lo: -64, hi: 56}
+    reason: spans Caribbean DOMs (~-61) to Reunion (~55)
+    certainty: 85
+    severity: warn
+  - distinct_count: {col: code_departement, min: 90}
+    reason: ~97 departments incl. overseas; Alsace-Moselle/Mayotte excluded by law
+    certainty: 90
+  - enum: {col: nature_mutation, values: ["Vente", "Vente en l'état futur d'achèvement", "Adjudication", "Expropriation", "Echange", "Vente terrain à bâtir"]}
+    reason: DVF mutation-nature vocabulary is a small closed set
+    certainty: 75
+    severity: warn
+  - median_between: {col: valeur_fonciere, lo: 1000, hi: 5000000}
+    reason: unit guard — typical French property transaction values in euros
+    certainty: 55
+    severity: warn
+  - row_count: {min: 3000000}
+    reason: ~5 years x national coverage is tens of millions of parcel-rows
+    certainty: 75
+  - freshness: {col: date_mutation, reaches: today - 540d}
+    reason: latest geo-dvf release lags ~6-18 months; the most recent year may be partial
+    certainty: 70
+    points_outward: true
+    severity: warn

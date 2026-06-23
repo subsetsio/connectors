@@ -1,0 +1,28 @@
+spec_id: economist-big-mac-index-big-mac-source-data
+status: active
+tests:
+  - not_null: date
+  - not_null: iso_a3
+  - not_null: currency_code
+  - not_null: local_price
+  - not_null: dollar_ex
+  - column_type: {col: date, type: date}
+  - column_type: {col: local_price, type: float}
+  - column_type: {col: GDP_dollar, type: float}
+  - unique: [date, iso_a3]
+    reason: one input observation per country per release date
+    certainty: 95
+  - matches: {col: iso_a3, pattern: '^[A-Z]{3}$'}
+    certainty: 90
+  - between: {col: local_price, lo: 0, hi: 1000000}
+    reason: positive local-currency price
+    certainty: 90
+  - between: {col: dollar_ex, lo: 0, hi: 100000000}
+    reason: USD exchange rate is positive; some weak-currency rates are very large
+    certainty: 85
+  - row_count: {min: 1500}
+    certainty: 85
+  - freshness: {col: date, reaches: today - 400d}
+    certainty: 80
+    points_outward: true
+    severity: warn

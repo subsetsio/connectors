@@ -1,0 +1,32 @@
+spec_id: economist-big-mac-index-big-mac-full-index
+status: active
+tests:
+  - not_null: date
+  - not_null: iso_a3
+  - not_null: currency_code
+  - not_null: local_price
+  - column_type: {col: date, type: date}
+  - column_type: {col: iso_a3, type: string}
+  - column_type: {col: local_price, type: float}
+  - column_type: {col: dollar_price, type: float}
+  - unique: [date, iso_a3]
+    reason: one Big Mac observation per country per semi-annual release date
+    certainty: 95
+  - matches: {col: iso_a3, pattern: '^[A-Z]{3}$'}
+    reason: ISO-3166 alpha-3 (incl. EUZ for euro area)
+    certainty: 90
+  - between: {col: local_price, lo: 0, hi: 1000000}
+    reason: a Big Mac price in local currency is positive (some hyperinflation-era values are large)
+    certainty: 90
+  - between: {col: dollar_price, lo: 0, hi: 100}
+    reason: a Big Mac in USD has never exceeded a few tens of dollars
+    certainty: 85
+    severity: warn
+  - row_count: {min: 1000}
+    reason: ~50-60 countries x ~40 semi-annual dates since 2000
+    certainty: 85
+  - freshness: {col: date, reaches: today - 400d}
+    reason: index is published roughly twice a year; latest should be within ~13 months
+    certainty: 80
+    points_outward: true
+    severity: warn

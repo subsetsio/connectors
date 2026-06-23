@@ -1,0 +1,31 @@
+spec_id: economist-big-mac-index-big-mac-raw-index
+status: active
+tests:
+  - not_null: date
+  - not_null: iso_a3
+  - not_null: currency_code
+  - not_null: local_price
+  - not_null: USD
+  - column_type: {col: date, type: date}
+  - column_type: {col: iso_a3, type: string}
+  - column_type: {col: USD, type: float}
+  - unique: [date, iso_a3]
+    reason: one row per country per release date
+    certainty: 95
+  - matches: {col: iso_a3, pattern: '^[A-Z]{3}$'}
+    certainty: 90
+  - between: {col: dollar_price, lo: 0, hi: 100}
+    reason: USD Big Mac price never exceeds a few tens of dollars
+    certainty: 85
+    severity: warn
+  - between: {col: USD, lo: -1, hi: 5}
+    reason: raw index is a fractional over/under-valuation (e.g. +/- 0.5), bounded well within +/-1..few
+    certainty: 75
+    severity: warn
+  - row_count: {min: 1000}
+    certainty: 85
+  - freshness: {col: date, reaches: today - 400d}
+    reason: published roughly twice a year
+    certainty: 80
+    points_outward: true
+    severity: warn

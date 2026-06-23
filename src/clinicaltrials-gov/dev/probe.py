@@ -6,23 +6,23 @@ from subsets_utils import get, configure_http
 
 BASE = "https://clinicaltrials.gov/api/v2/studies"
 
-# Default UA got a 403. Try a descriptive UA.
-configure_http(headers={"User-Agent": "subsets.io-connector/1.0 (data integration; contact@subsets.io)"})
+UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
 
-params = {
-    "pageSize": 3,
-    "fields": "NCTId,BriefTitle,OverallStatus,Phases,Conditions,LeadSponsorName",
-    "countTotal": "true",
-}
-r = get(BASE, params=params, timeout=(10, 60))
-print("STATUS", r.status_code)
-print("REQ UA", r.request.headers.get("user-agent"))
-if r.status_code != 200:
-    print("BODY", r.text[:500])
-else:
-    data = r.json()
-    print("TOP KEYS", list(data.keys()))
-    print("totalCount", data.get("totalCount"))
-    print("nextPageToken?", "nextPageToken" in data)
-    print("FIRST STUDY:")
-    print(json.dumps(data["studies"][0], indent=2)[:2500])
+for desc, hdrs in [
+    ("browser-UA+accept", {"User-Agent": UA, "Accept": "application/json"}),
+    ("only-accept", {"Accept": "application/json"}),
+]:
+    configure_http(headers=hdrs)
+    try:
+        r = get(BASE, params={"pageSize": 2, "fields": "NCTId,BriefTitle,Conditions", "countTotal": "true"}, timeout=(10, 60))
+        print(desc, "->", r.status_code, "| sent UA:", r.request.headers.get("user-agent"))
+        if r.status_code == 200:
+            data = r.json()
+            print("  TOP KEYS", list(data.keys()), "totalCount", data.get("totalCount"), "nextToken?", "nextPageToken" in data)
+            print("  STUDY0", json.dumps(data["studies"][0])[:800])
+            break
+        else:
+            print("  BODY", r.text[:200])
+    except Exception as e:
+        print(desc, "EXC", type(e).__name__, str(e)[:200])

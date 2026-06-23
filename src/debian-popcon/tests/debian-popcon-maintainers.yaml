@@ -1,0 +1,23 @@
+spec_id: debian-popcon-maintainers
+status: active
+tests:
+  - not_null: rank
+  - not_null: name
+  - not_null: inst
+  - column_type: {col: rank, type: integer}
+  - column_type: {col: inst, type: integer}
+  - unique: name
+    reason: one row per maintainer/developer (metrics summed over their packages)
+    certainty: 90
+  - unique: rank
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: ~2k maintainers/teams in the archive; far fewer means a truncated download
+    certainty: 85
+  - between: {col: inst, lo: 0, hi: 1000000000}
+    reason: summed installs across a maintainer's packages; the "Not in sid" bucket peaks ~33M
+    certainty: 85
+  - relationship: {left: vote, op: "<=", right: inst}
+    reason: summed votes <= summed installs
+    certainty: 80
+    severity: warn

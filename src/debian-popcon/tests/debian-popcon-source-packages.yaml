@@ -1,0 +1,23 @@
+spec_id: debian-popcon-source-packages
+status: active
+tests:
+  - not_null: rank
+  - not_null: name
+  - not_null: inst
+  - column_type: {col: rank, type: integer}
+  - column_type: {col: inst, type: integer}
+  - unique: name
+    reason: one row per source package (metrics summed over its binaries)
+    certainty: 90
+  - unique: rank
+    certainty: 95
+  - row_count: {min: 20000}
+    reason: ~40k source packages in the archive; far fewer means a truncated download
+    certainty: 90
+  - between: {col: inst, lo: 0, hi: 1000000000}
+    reason: summed installs across binaries; the "Not in sid" bucket peaks around ~33M
+    certainty: 85
+  - relationship: {left: vote, op: "<=", right: inst}
+    reason: summed votes <= summed installs (each binary's vote <= its inst)
+    certainty: 80
+    severity: warn

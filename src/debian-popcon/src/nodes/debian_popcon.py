@@ -69,9 +69,10 @@ def _parse(text: str) -> list[dict]:
     rows = []
     for line in text.splitlines():
         s = line.rstrip()
-        if not s or s.startswith("#") or s.lstrip().startswith("-"):
-            continue  # blank, comment header, or the footer separator rule
-
+        if not s or s.startswith("#"):
+            continue  # blank or comment header
+        if s.lstrip().startswith("-"):
+            break  # the footer separator rule; everything after is the Total row
         # Right-anchored: peel the optional trailing "(maintainer)".
         maintainer = None
         if s.endswith(")") and "(" in s:
