@@ -1,0 +1,13 @@
+spec_id: fca-retail-intermediary-market
+status: active
+tests:
+  - not_null: year
+  - not_null: value
+  - not_null: metric
+  - column_type: {col: value, type: float}
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2016, hi: current_year()}
+    reason: RMAR underlying-data tables run from 2016
+    certainty: 85
+  - row_count: {min: 50}
+    certainty: 75

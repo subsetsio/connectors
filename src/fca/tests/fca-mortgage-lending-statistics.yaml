@@ -1,0 +1,21 @@
+spec_id: fca-mortgage-lending-statistics
+status: active
+tests:
+  - not_null: metric
+  - not_null: value
+  - column_type: {col: value, type: float}
+  - column_type: {col: year, type: integer}
+  - enum: {col: quarter, values: [Q1, Q2, Q3, Q4]}
+    reason: MLAR is a quarterly return
+    certainty: 95
+  - between: {col: year, lo: 2007, hi: current_year()}
+    reason: the MLAR long-run series begins 2007 Q1
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: year, min: 15}
+    reason: long-run file spans ~18 years of quarters
+    certainty: 85
+  - row_count: {min: 5000}
+    certainty: 80

@@ -1,0 +1,11 @@
+spec_id: fca-product-sales
+status: active
+tests:
+  - not_null: period
+  - not_null: no_of_sales
+  - column_type: {col: no_of_sales, type: float}
+  - matches: {col: period, pattern: "^Q[1-4]-[0-9]{4}$"}
+    reason: retail investments PSD is reported per calendar quarter e.g. 'Q1-2020'
+    certainty: 90
+  - row_count: {min: 200}
+    certainty: 80

@@ -1,0 +1,15 @@
+spec_id: fca-firm-complaints
+status: active
+tests:
+  - not_null: semester
+  - not_null: volume
+  - column_type: {col: volume, type: float}
+  - enum: {col: breakdown_type, values: [firm_type, product_group, product_specific]}
+    reason: the aggregate workbook has exactly three breakdown sheets
+    certainty: 90
+  - matches: {col: semester, pattern: "^[0-9]{4} H[12]$"}
+    reason: complaints are reported per half-year semester e.g. '2025 H2'
+    certainty: 85
+  - row_count: {min: 500}
+    reason: ~2000 long rows observed across 3 sheets x many semesters
+    certainty: 80

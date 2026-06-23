@@ -1,0 +1,14 @@
+spec_id: fca-general-insurance-value-measures
+status: active
+tests:
+  - not_null: firm_name
+  - not_null: product_category
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2019, hi: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - row_count: {min: 200}
+    reason: firm x product x year rows above the FCA reporting threshold
+    certainty: 75

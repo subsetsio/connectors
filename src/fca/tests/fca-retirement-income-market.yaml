@@ -1,0 +1,12 @@
+spec_id: fca-retirement-income-market
+status: active
+tests:
+  - not_null: row_label
+  - not_null: period
+  - not_null: value
+  - column_type: {col: value, type: float}
+  - matches: {col: period, pattern: "[A-Za-z]{3} [0-9]{4} - [A-Za-z]{3} [0-9]{4}"}
+    reason: RIDR reports per half-year window e.g. 'Apr 2018 - Sep 2018'
+    certainty: 85
+  - row_count: {min: 500}
+    certainty: 75
