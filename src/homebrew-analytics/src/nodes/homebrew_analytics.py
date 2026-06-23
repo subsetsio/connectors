@@ -15,6 +15,8 @@ separate asset). `count`/`percent` arrive as strings upstream and are parsed to
 numeric here so the parquet raw is already typed.
 """
 
+from datetime import date
+
 import pyarrow as pa
 
 from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
@@ -66,8 +68,10 @@ def fetch_report(node_id: str) -> None:
     rows = []
     for window in WINDOWS:
         payload = _fetch_window(category, window)
-        start = payload["start_date"]
-        end = payload["end_date"]
+        # ISO date strings ("2026-05-24") -> date objects; the date32 schema
+        # columns are backed by int days and cannot coerce raw strings.
+        start = date.fromisoformat(payload["start_date"])
+        end = date.fromisoformat(payload["end_date"])
         items = payload["items"]
         if not items:
             raise AssertionError(f"{category}/{window}: empty items array")
