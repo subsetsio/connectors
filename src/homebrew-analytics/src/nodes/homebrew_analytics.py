@@ -104,9 +104,10 @@ def _transform_sql(download_id: str, item_name: str) -> str:
     # Thin parse-and-type pass: rename the generic `item` column to its semantic
     # name, keep one row per (window, rank). Drop the long tail of count==0 rows
     # (formulae/casks observed 0 times in the window carry no signal).
+    # "window" is a reserved keyword in DuckDB (window functions) — quote it.
     return f'''
         SELECT
-            window,
+            "window"                   AS window,
             CAST(window_start AS DATE) AS window_start,
             CAST(window_end   AS DATE) AS window_end,
             CAST(rank AS INTEGER)      AS rank,
