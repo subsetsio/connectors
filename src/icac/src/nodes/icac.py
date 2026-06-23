@@ -396,10 +396,14 @@ def parse_forecasts(wb) -> list:
         if ds is None:
             continue
         ncol = max(len(r) for r in data)
+        started = False
         for r in data[ds:]:
             fs = _s(r[0])
             if not _FC_SEASON.match(fs):
+                if started:
+                    break  # end of the absolute block; an indexed copy follows
                 continue
+            started = True
             for ci in range(1, ncol):
                 if ci >= len(r) or r[ci] is None or _s(r[ci]) == "":
                     continue
