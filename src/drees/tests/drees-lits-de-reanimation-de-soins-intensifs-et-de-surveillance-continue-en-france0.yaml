@@ -1,0 +1,19 @@
+spec_id: drees-lits-de-reanimation-de-soins-intensifs-et-de-surveillance-continue-en-france0
+status: active
+tests:
+  - row_count: {min: 7570}
+    reason: full ODS parquet export held 15141 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "id_geo"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "id_geo", type: string}
+    certainty: 90
+  - not_null: "statut_etab"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "statut_etab", type: string}
+    certainty: 90
+  - column_type: {col: "nb_lit", type: float}
+    reason: numeric measure column; type drift here means the export schema changed.
+    certainty: 80

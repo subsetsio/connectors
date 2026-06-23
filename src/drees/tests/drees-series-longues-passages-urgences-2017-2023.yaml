@@ -1,0 +1,19 @@
+spec_id: drees-series-longues-passages-urgences-2017-2023
+status: active
+tests:
+  - row_count: {min: 123966}
+    reason: full ODS parquet export held 247933 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "dep"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "dep", type: string}
+    certainty: 90
+  - not_null: "libelle_dep"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "libelle_dep", type: string}
+    certainty: 90
+  - column_type: {col: "nb_passages", type: float}
+    reason: numeric measure column; type drift here means the export schema changed.
+    certainty: 80

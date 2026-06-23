@@ -1,0 +1,19 @@
+spec_id: drees-ods-revenu-liberal-des-medecins-liberaux-prod2022
+status: active
+tests:
+  - row_count: {min: 114}
+    reason: full ODS parquet export held 228 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "annee"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "annee", type: string}
+    certainty: 90
+  - not_null: "specialites_medicales"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "specialites_medicales", type: string}
+    certainty: 90
+  - column_type: {col: "revenu_annuel_moyen_en_euros_courants", type: integer}
+    reason: numeric measure column; type drift here means the export schema changed.
+    certainty: 80

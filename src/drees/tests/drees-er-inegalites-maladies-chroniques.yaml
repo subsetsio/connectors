@@ -1,0 +1,19 @@
+spec_id: drees-er-inegalites-maladies-chroniques
+status: active
+tests:
+  - row_count: {min: 23088}
+    reason: full ODS parquet export held 46176 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "type"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "type", type: string}
+    certainty: 90
+  - not_null: "vartaux"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "vartaux", type: string}
+    certainty: 90
+  - column_type: {col: "i_cat", type: integer}
+    reason: numeric measure column; type drift here means the export schema changed.
+    certainty: 80

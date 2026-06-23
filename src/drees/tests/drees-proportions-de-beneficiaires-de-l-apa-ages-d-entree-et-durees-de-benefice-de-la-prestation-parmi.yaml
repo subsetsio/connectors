@@ -1,0 +1,19 @@
+spec_id: drees-proportions-de-beneficiaires-de-l-apa-ages-d-entree-et-durees-de-benefice-de-la-prestation-parmi
+status: active
+tests:
+  - row_count: {min: 1102}
+    reason: full ODS parquet export held 2205 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "critere_de_ventilation"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "critere_de_ventilation", type: string}
+    certainty: 90
+  - not_null: "categorie"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "categorie", type: string}
+    certainty: 90
+  - column_type: {col: "poids_de_la_categorie_parmi_les_retraites_gen_1946_a_1950", type: float}
+    reason: numeric measure column; type drift here means the export schema changed.
+    certainty: 80

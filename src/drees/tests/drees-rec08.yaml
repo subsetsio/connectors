@@ -1,0 +1,19 @@
+spec_id: drees-rec08
+status: active
+tests:
+  - row_count: {min: 591}
+    reason: full ODS parquet export held 1182 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "champ"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "champ", type: string}
+    certainty: 90
+  - not_null: "sexe"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "sexe", type: string}
+    certainty: 90
+  - column_type: {col: "retraites_nes_a_l_etranger_et_residents_en_france", type: float}
+    reason: numeric measure column; type drift here means the export schema changed.
+    certainty: 80

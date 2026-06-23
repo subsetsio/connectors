@@ -1,0 +1,19 @@
+spec_id: drees-repartition-par-categorie-de-niveau-de-vie-juste-avant-et-juste-apres-le-depart-a-la-retraite
+status: active
+tests:
+  - row_count: {min: 7904}
+    reason: full ODS parquet export held 15808 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "premiere_annee_pleine_de_retraite"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "premiere_annee_pleine_de_retraite", type: string}
+    certainty: 90
+  - not_null: "caracteristique"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "caracteristique", type: string}
+    certainty: 90
+  - column_type: {col: "part_du_groupe_de_niveau_de_vie_au_sein_de_la_categorie", type: float}
+    reason: numeric measure column; type drift here means the export schema changed.
+    certainty: 80

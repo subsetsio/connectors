@@ -1,0 +1,19 @@
+spec_id: drees-effectifs-salaries-hospitaliers-series-longues
+status: active
+tests:
+  - row_count: {min: 184}
+    reason: full ODS parquet export held 368 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "secteur"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "secteur", type: string}
+    certainty: 90
+  - not_null: "annee"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "annee", type: string}
+    certainty: 90
+  - column_type: {col: "effectifs", type: float}
+    reason: numeric measure column; type drift here means the export schema changed.
+    certainty: 80

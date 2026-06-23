@@ -1,0 +1,19 @@
+spec_id: drees-trajectoires-des-beneficiaires-de-minima-sociaux
+status: active
+tests:
+  - row_count: {min: 2288}
+    reason: full ODS parquet export held 4576 rows when authored; a much smaller count means the export was truncated or the fetch failed.
+    certainty: 90
+  - not_null: "serie_id"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "serie_id", type: string}
+    certainty: 90
+  - not_null: "serie_label"
+    reason: dimension column, observed fully populated across the export.
+    certainty: 80
+  - column_type: {col: "serie_label", type: string}
+    certainty: 90
+  - column_type: {col: "maturite_a_privilegier", type: integer}
+    reason: numeric measure column; type drift here means the export schema changed.
+    certainty: 80
