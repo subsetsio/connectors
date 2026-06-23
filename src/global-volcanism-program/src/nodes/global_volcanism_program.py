@@ -157,14 +157,25 @@ DOWNLOAD_SPECS = [
 # preserving every other column via `* EXCLUDE`. The Holocene & Pleistocene
 # volcano layers share the same geographic columns (typed identically so they
 # stay consistent across datasets); Pleistocene has no Last_Eruption_Year, so it
-# gets its own cast list. The E3 emissions layer already arrives well-typed
-# (StartDate/EndDate dates, SO2_Kilotons float, Emission_ID/VolcanoNumber ints)
-# with its own distinct schema, so it stays a faithful SELECT *.
+# gets its own cast list. The E3 emissions layer has its own distinct schema
+# (SO2 mass, per-emission start/end dates as YYYYMMDD strings); we cast its SO2
+# mass to DOUBLE, its ids to BIGINT, and its dates to real DATEs.
 _VOLCANOES_ID = f"{SLUG}-smithsonian-votw-holocene-volcanoes"
 _ERUPTIONS_ID = f"{SLUG}-smithsonian-votw-holocene-eruptions"
 _PLEISTOCENE_ID = f"{SLUG}-smithsonian-votw-pleistocene-volcanoes"
+_EMISSIONS_ID = f"{SLUG}-e3webapp-emissions"
 
 _SQL_BY_SPEC = {
+    _EMISSIONS_ID: f'''
+        SELECT
+            * EXCLUDE (Emission_ID, VolcanoNumber, SO2_Kilotons, StartDate, EndDate),
+            TRY_CAST(Emission_ID AS BIGINT)        AS Emission_ID,
+            TRY_CAST(VolcanoNumber AS BIGINT)      AS VolcanoNumber,
+            TRY_CAST(SO2_Kilotons AS DOUBLE)       AS SO2_Kilotons,
+            TRY_CAST(TRY_STRPTIME(StartDate, '%Y%m%d') AS DATE) AS StartDate,
+            TRY_CAST(TRY_STRPTIME(EndDate, '%Y%m%d') AS DATE)   AS EndDate
+        FROM "{_EMISSIONS_ID}"
+    ''',
     _PLEISTOCENE_ID: f'''
         SELECT
             * EXCLUDE (Volcano_Number, Latitude, Longitude, Elevation),
