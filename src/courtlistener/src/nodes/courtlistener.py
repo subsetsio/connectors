@@ -23,6 +23,7 @@ import bz2
 import csv
 import io
 import re
+import sys
 import urllib.parse
 import xml.etree.ElementTree as ET
 
@@ -105,6 +106,19 @@ def _discover_latest_date(table: str) -> str:
     return latest
 
 
+def _raise_csv_field_limit():
+    """CourtListener opinion/oral-argument tables embed multi-100KB text fields
+    (syllabus, headnotes, transcripts) that blow past csv's default 128KB field
+    cap. Lift it to the platform max."""
+    limit = sys.maxsize
+    while True:
+        try:
+            csv.field_size_limit(limit)
+            return
+        except OverflowError:
+            limit //= 10
+
+
 def _flush(writer, columns, schema):
     writer.write_batch(
         pa.record_batch([pa.array(col, type=pa.string()) for col in columns], schema=schema)
@@ -115,6 +129,7 @@ def _flush(writer, columns, schema):
 def _download_table(asset: str, url: str) -> int:
     """Stream the bz2 CSV at `url` into `asset` as all-string Parquet. Idempotent:
     raw_parquet_writer overwrites, so a retry restarts cleanly from scratch."""
+    _raise_csv_field_limit()
     client = get_client()
     total = 0
     with client.stream("GET", url, timeout=(10.0, 300.0)) as resp:
