@@ -90,7 +90,13 @@ def _force_ipv4() -> None:
     _ipv4_forced = True
 
 
-@transient_retry()
+# A full-corpus crawl runs for hours and hammers one host; opendata.cbs.nl
+# answers deep `$skip` pages but intermittently throws a transient 503 under
+# sustained load (observed mid-crawl on a large table). The standard 6-attempt
+# policy exhausted inside one bad window and crashed the whole DAG, so widen the
+# budget: 10 attempts with backoff to 300s rides out a multi-minute server
+# wobble without giving up. 429/5xx/network errors are all `is_transient`.
+@transient_retry(attempts=10, min_wait=4, max_wait=300)
 def _fetch_page(url: str, params: dict | None = None) -> dict:
     resp = get(url, params=params, timeout=(10.0, 180.0))
     resp.raise_for_status()
