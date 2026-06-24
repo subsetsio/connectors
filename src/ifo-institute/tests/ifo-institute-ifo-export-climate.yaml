@@ -1,0 +1,27 @@
+spec_id: ifo-institute-ifo-export-climate
+status: active
+tests:
+  - not_null: date
+  - not_null: series
+  - not_null: value
+  - column_type: {col: date, type: date}
+  - column_type: {col: series, type: string}
+  - column_type: {col: value, type: float}
+  - unique: [date, series]
+    reason: the workbook is melted to one row per (date, series); a duplicate means a sheet was double-parsed or raw wasn't overwritten
+    certainty: 90
+  - distinct_count: {col: series, min: 1}
+    reason: each monthly product carries at least one composed series label across its sheets
+    certainty: 90
+  - row_count: {min: 50}
+    reason: monthly business-survey series span many years of months, so the melted table holds far more than a handful of rows
+    certainty: 85
+  - between: {col: date, lo: "1990-01-01", hi: today}
+    reason: the current monthly files cover reunified-Germany survey history (post-1990); no observation should be dated in the future
+    certainty: 80
+    severity: warn
+  - freshness: {col: date, reaches: today - 120d}
+    reason: ifo publishes these series monthly near month-end; the latest observation should be within the last few months
+    certainty: 75
+    points_outward: true
+    severity: warn
