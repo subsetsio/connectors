@@ -151,6 +151,14 @@ def _fetch_indicator_observations(indicator_id: str, source_id: str):
         raise
     out = []
     for r in records:
+        value = _to_float(r.get("value"))
+        # The long-format API emits a row per country x year even when no value
+        # was reported — the large majority of cells. Those null-value rows carry
+        # no observation and are dropped by the transform anyway, so skip them at
+        # the source: it shrinks raw ~5-10x and keeps the firehose / DuckDB dedup
+        # well clear of the memory ceiling on a ~29.5k-indicator sweep.
+        if value is None:
+            continue
         out.append({
             "indicator_code": _nested(r, "indicator", "id") or indicator_id,
             "indicator_name": _nested(r, "indicator", "value"),
@@ -159,7 +167,7 @@ def _fetch_indicator_observations(indicator_id: str, source_id: str):
             "country_iso3": (r.get("countryiso3code") or "").strip(),
             "country_name": _nested(r, "country", "value"),
             "date": (r.get("date") or "").strip(),
-            "value": _to_float(r.get("value")),
+            "value": value,
             "unit": (r.get("unit") or "").strip(),
             "obs_status": (r.get("obs_status") or "").strip(),
         })

@@ -17,6 +17,7 @@ bulk path — the corpus is re-pulled per annual release.
 import gzip
 import io
 import re
+import time
 import xml.etree.ElementTree as ET
 
 import pyarrow as pa
@@ -34,6 +35,20 @@ from subsets_utils import (
 STATE_VERSION = 1
 BASE_URL = "https://ftp.ncbi.nlm.nih.gov/pubmed/baseline/"
 FILE_RE = re.compile(r"(pubmed\d{2}n\d{4})\.xml\.gz")
+
+# Files fetched per invocation. The runner has no DAG_TIME_BUDGET, so the only
+# continuation mechanism is a node returning True (-> exit 2 -> self-retrigger
+# with the SAME RUN_ID, preserving run-scoped raw). We therefore bound each
+# invocation to a batch and request continuation while files remain, rather
+# than risk one ~38M-citation pass overrunning the 355-min GitHub job limit
+# (which is a host SIGTERM -> run marked failed, NO retrigger). ~1,334 files /
+# 250 ≈ 6 invocations.
+FILES_PER_RUN = 250
+
+# Politeness gap between file fetches. NCBI documents no hard cap on the FTP/
+# HTTPS host and legacy production saw no 429s, but a small delay keeps us a
+# good citizen; transient_retry still backs off any 429/5xx that does occur.
+DOWNLOAD_DELAY = 0.5
 
 SCHEMA = pa.schema([
     ("pmid", pa.string()),
@@ -163,21 +178,29 @@ def _parse_articles(xml_bytes: bytes) -> list[dict]:
     return records
 
 
-def fetch_citations(node_id: str) -> None:
-    """Download every PubMed baseline file whose raw is not already present in
-    THIS run's scope, writing one parquet batch per file. Loops until the whole
-    baseline is drained — the supervisor bounds wall-clock by interrupting the
-    node, and the per-file raw write makes resumption safe.
+def fetch_citations(node_id: str):
+    """Fetch up to FILES_PER_RUN baseline files not already present in THIS
+    run's scope, writing one parquet batch per file. Returns True while files
+    remain so the runner self-retriggers (same RUN_ID) to drain the rest;
+    returns None on the final batch so the transform publishes the full corpus.
+
+    Why batch + continuation rather than one loop over everything: the runner
+    sets no DAG_TIME_BUDGET, so there is no in-node deadline interrupt — the
+    only continuation path is a node returning True (-> exit 2 -> self-retrigger
+    with the SAME RUN_ID). A single pass over all ~1,334 files risks overrunning
+    the 355-min GitHub job limit, which is a host SIGTERM that marks the run
+    failed with NO retrigger. Bounding each invocation makes progress monotonic
+    and the wall-clock per invocation predictable.
 
     Raw is run-scoped in cloud (<connector>/runs/<run_id>/raw/...), so the
     authoritative "already done" set is the raw that exists in the *current*
     run — NOT a globally-persisted `completed` list. Global state survives
     across distinct runs, so trusting it would make a fresh run skip every file
-    (its raw scope starts empty), leaving the transform with no raw to read —
-    exactly the failure we hit. Deriving completion from raw existence means a
-    brand-new run re-fetches the whole corpus, while a self-retriggering chain
-    (same RUN_ID, shared raw scope) resumes precisely where it left off. State
-    is still written, but only as an observable record — never load-bearing.
+    (its raw scope starts empty), leaving the transform with no raw to read.
+    Deriving completion from raw existence means a brand-new run re-fetches the
+    whole corpus, while a self-retriggering chain (same RUN_ID, shared raw
+    scope) resumes precisely where it left off. State is written too, but only
+    as an observable record — never load-bearing.
     """
     prefix, nums = _discover_baseline()
     valid = set(nums)
@@ -188,16 +211,29 @@ def fetch_citations(node_id: str) -> None:
         m = re.search(r"-(\d{4})\.parquet$", rel)
         if m and int(m.group(1)) in valid:
             completed.add(int(m.group(1)))
-    save_state(node_id, {
-        "schema_version": STATE_VERSION,
-        "release": prefix,
-        "completed": sorted(completed),
-    })
+
+    def _record_state():
+        save_state(node_id, {
+            "schema_version": STATE_VERSION,
+            "release": prefix,
+            "total": len(nums),
+            "completed": sorted(completed),
+        })
+
+    _record_state()
 
     pending = [n for n in nums if n not in completed]
-    print(f"{prefix}: {len(completed)} present, {len(pending)} pending of {len(nums)}")
+    if not pending:
+        print(f"{prefix}: all {len(nums)} files present — corpus complete")
+        return  # None -> download done -> transform publishes the full corpus
 
-    for n in pending:
+    batch = pending[:FILES_PER_RUN]
+    print(
+        f"{prefix}: {len(completed)} present, fetching {len(batch)} "
+        f"of {len(pending)} pending ({len(nums)} total)"
+    )
+
+    for i, n in enumerate(batch):
         filename = f"{prefix}{n:04d}.xml.gz"
         asset = f"{node_id}-{n:04d}"  # pure batch coordinate: the file number
         raw = _fetch_bytes(BASE_URL + filename)
@@ -205,12 +241,17 @@ def fetch_citations(node_id: str) -> None:
         table = pa.Table.from_pylist(records, schema=SCHEMA)
         save_raw_parquet(table, asset)          # write raw first
         completed.add(n)
-        save_state(node_id, {                    # then advance state
-            "schema_version": STATE_VERSION,
-            "release": prefix,
-            "completed": sorted(completed),
-        })
+        _record_state()                          # then advance observable state
         print(f"  {filename}: {len(records):,} citations")
+        if i + 1 < len(batch):
+            time.sleep(DOWNLOAD_DELAY)
+
+    remaining = len(pending) - len(batch)
+    if remaining > 0:
+        print(f"{remaining} files remaining — requesting continuation")
+        return True  # needs_continuation -> retrigger with same RUN_ID
+    print(f"{prefix}: corpus complete ({len(completed)}/{len(nums)} files)")
+    # None -> download done -> transform runs against the full run-scoped raw
 
 
 DOWNLOAD_SPECS = [
