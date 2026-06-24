@@ -91,6 +91,16 @@ def _fetch_csv(url: str) -> httpx.Response:
     if resp.status_code in (403, 404, 410):
         return resp
     resp.raise_for_status()
+    # OWID's Cloudflare worker intermittently returns an HTML error page with a
+    # 200 status instead of the CSV (a re-request moments later serves the real
+    # table). Detect it and raise a transient protocol error so the retry kicks
+    # in, rather than parsing the HTML into a garbage one-column raw table.
+    ctype = resp.headers.get("content-type", "")
+    if "html" in ctype.lower() or resp.content.lstrip()[:1] == b"<":
+        raise httpx.RemoteProtocolError(
+            f"expected CSV, got an HTML page (content-type={ctype!r})",
+            request=resp.request,
+        )
     return resp
 
 
