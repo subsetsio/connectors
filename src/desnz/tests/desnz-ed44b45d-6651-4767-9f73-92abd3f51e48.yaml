@@ -1,0 +1,24 @@
+spec_id: desnz-ed44b45d-6651-4767-9f73-92abd3f51e48
+status: active
+tests:
+  - not_null: resource
+    reason: every emitted long-format row is tagged with the CKAN resource it came from; a null means the melt wrote a row without provenance
+    certainty: 99
+  - not_null: series
+    reason: each cell is keyed by its detected column header; a null header means header detection misfired
+    certainty: 97
+  - not_null: value_text
+    reason: empty cells are skipped at melt time, so every persisted row has a non-empty text value
+    certainty: 99
+  - column_type: {col: row_label, type: string}
+    reason: the row label is the first-column value rendered as text
+    certainty: 95
+  - column_type: {col: value_text, type: string}
+    reason: cell values are always stored as text (value_num carries the numeric parse)
+    certainty: 95
+  - row_count: {min: 1}
+    reason: this package exposes at least one tabular resource with a detectable data block (smart_meter_installations)
+    certainty: 90
+  - distinct_count: {col: series, min: 1}
+    reason: a detected table has at least one value column
+    certainty: 90
