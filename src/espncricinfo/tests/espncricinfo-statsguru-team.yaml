@@ -1,0 +1,14 @@
+spec_id: espncricinfo-statsguru-team
+tests:
+  - not_null: team
+    reason: every Statsguru team record names a team
+    certainty: 95
+  - not_null: match_class
+    reason: each record is tagged with the match class it was pulled under
+    certainty: 95
+  - enum: {col: match_class, values: [Test, ODI, T20I]}
+    reason: we crawl exactly classes 1/2/3
+    certainty: 95
+  - row_count: {min: 5}
+    reason: dozens of teams across the three classes (few Test sides, many T20I)
+    certainty: 88
