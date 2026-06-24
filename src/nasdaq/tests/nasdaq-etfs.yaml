@@ -1,0 +1,22 @@
+spec_id: nasdaq-etfs
+status: active
+tests:
+  - not_null: symbol
+    reason: every ETF screener row is keyed by ticker
+    certainty: 95
+  - not_null: companyName
+    reason: the ETF screener carries a fund name for every ticker
+    certainty: 85
+  - column_type: {col: symbol, type: string}
+    reason: raw is ndjson, all scalars string-coerced via _s
+    certainty: 95
+  - unique: symbol
+    reason: one row per listed ETF; the screener paginates 50/page and advances by rows returned, so a dupe means overlap
+    certainty: 88
+  - row_count: {min: 1000}
+    reason: Nasdaq lists ~4.5k ETFs (totalrecords); the fetch fn raises below 1000, so a smaller raw means truncation before that guard
+    certainty: 90
+  - distinct_count: {col: symbol, min: 1000}
+    reason: distinct tickers should track the full ETF universe
+    certainty: 85
+    severity: warn

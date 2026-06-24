@@ -149,7 +149,7 @@ def _date_from_parts(parts):
     for a year + month/quarter and combine them; failing that we try parsing any
     single part as a self-contained date string.
     """
-    year = month = quarter = None
+    year = month = quarter = day = None
     for p in parts:
         p = p.strip()
         if not p:
@@ -164,12 +164,23 @@ def _date_from_parts(parts):
         if m:
             quarter = int(m.group(1))
             continue
+        m = re.fullmatch(r"\d{1,2}", p)
+        if m and 1 <= int(p) <= 31:
+            # A bare 1-2 digit token is a day-of-month (hierarchical daily tables
+            # carry an outer Year and Month plus an inner numeric Day). Only used
+            # when a named month is also present, to avoid mistaking value indices.
+            day = int(p)
+            continue
     if year is not None:
+        if month is not None:
+            for cand in ([day] if day else []) + [28, 1]:
+                try:
+                    return datetime.date(year, month, cand)
+                except ValueError:
+                    continue
+        if quarter is not None:
+            return datetime.date(year, (quarter - 1) * 3 + 1, 1)
         try:
-            if month is not None:
-                return datetime.date(year, month, 1)
-            if quarter is not None:
-                return datetime.date(year, (quarter - 1) * 3 + 1, 1)
             return datetime.date(year, 1, 1)
         except ValueError:
             return None
