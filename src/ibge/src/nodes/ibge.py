@@ -75,7 +75,7 @@ _TIMEOUT = httpx.Timeout(connect=15.0, read=60.0, write=60.0, pool=15.0)
 )
 def get_json(url: str):
     resp = get(url, timeout=_TIMEOUT, headers=_HEADERS)
-    if resp.status_code >= 500:
+    if resp.status_code >= 500 or resp.status_code == 429:
         raise _Transient(f"{resp.status_code} for {url}")
     resp.raise_for_status()
     return resp.json()
