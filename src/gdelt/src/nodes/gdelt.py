@@ -68,6 +68,7 @@ from subsets_utils import (
 # GDELT 2.0 begins 2015-02-18; v1 (1979-2015) uses an incompatible schema/cadence
 # and is intentionally excluded.
 SOURCE_MIN_DATE = datetime(2015, 2, 18).date()
+_SOURCE_MIN_DAY8 = "20150218"  # same bound as YYYYMMDD for lexical event-day filtering
 
 _MASTER_FILE_LIST_URL = "http://data.gdeltproject.org/gdeltv2/masterfilelist.txt"
 
@@ -188,9 +189,16 @@ def _index_export_urls_by_date(master_text: str) -> dict[str, list[str]]:
     return by_date
 
 
-def _aggregate_day(urls: list[str]) -> dict:
+def _aggregate_day(urls: list[str], date8: str) -> dict:
     """Fetch every export file for one file-date and roll its events up to
-    (event_day, action-country ISO2, event_root, quad). Returns a dict keyed by
+    (event_day, action-country ISO2, event_root, quad). `date8` is the file-date
+    (YYYYMMDD); events whose extracted event day falls outside
+    [2015-02-18, date8] are dropped — GDELT dates an event by the action date its
+    article reports, so a file routinely carries a few rows dated to historical
+    references (pre-2015, even pre-2000) or, from parse noise, the future. Those
+    are not contemporaneous detections and would smear the time series, so we keep
+    only event days within GDELT 2.0's coverage and no later than the file itself.
+    Returns a dict keyed by
     that tuple -> [num_events, sum_mentions, sum_articles, sum_goldstein, sum_tone]."""
     agg: dict[tuple, list] = defaultdict(lambda: [0, 0, 0, 0.0, 0.0])
     for url in urls:
@@ -224,6 +232,11 @@ def _aggregate_day(urls: list[str]) -> dict:
                 continue
             day = f[_I_DAY]
             if len(day) != 8 or not day.isdigit():
+                continue
+            # Drop event days outside GDELT 2.0 coverage or later than this file
+            # (historical article references / future-dated parse noise). YYYYMMDD
+            # strings compare lexically == chronologically.
+            if day < _SOURCE_MIN_DAY8 or day > date8:
                 continue
             try:
                 quad = int(f[_I_QUAD])
@@ -317,7 +330,7 @@ def fetch_events(node_id: str) -> None:
         # node if the run nears its CI budget; the per-date raw write below (an
         # interrupt loses at most the in-flight date) makes resume safe — the
         # `done` set rebuilt next continuation skips every batch already written.
-        agg = _aggregate_day(by_date[date8])
+        agg = _aggregate_day(by_date[date8], date8)
         date_iso = f"{date8[:4]}-{date8[4:6]}-{date8[6:8]}"
         table = _build_batch(agg)
         # Always write a batch — a 0-row batch (all files missing/404 for the day)
