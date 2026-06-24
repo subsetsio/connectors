@@ -359,8 +359,13 @@ TRANSFORM_SPECS = [
                 league_name,
                 format,
                 match_class,
-                CAST(date AS TIMESTAMP)             AS start_time,
-                CAST(CAST(date AS TIMESTAMP) AS DATE) AS match_date,
+                -- ESPN stamps "YYYY-MM-DDTHH:MMZ" (and occasionally with seconds);
+                -- neither parses via a plain TIMESTAMP cast, so try both formats.
+                coalesce(
+                    try_strptime(date, '%Y-%m-%dT%H:%MZ'),
+                    try_strptime(date, '%Y-%m-%dT%H:%M:%SZ')
+                )                                   AS start_time,
+                CAST(substr(date, 1, 10) AS DATE)   AS match_date,
                 TRY_CAST(season AS INTEGER)         AS season,
                 venue, city, country,
                 home_team, away_team,
