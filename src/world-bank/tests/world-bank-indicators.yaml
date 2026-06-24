@@ -1,0 +1,21 @@
+spec_id: world-bank-indicators
+status: active
+tests:
+  - not_null: id
+    reason: the indicator code is the primary key of the /indicator catalog
+    certainty: 98
+  - column_type: {col: id, type: string}
+    certainty: 95
+  - unique: id
+    reason: each indicator code appears exactly once in the catalog
+    certainty: 90
+  - not_null: name
+    reason: every indicator carries a human-readable name
+    certainty: 92
+  - row_count: {min: 10000}
+    reason: the all-databases indicator universe is ~24k-29.5k records; a collapse below 10k means enumeration stopped after page 1
+    certainty: 85
+  - matches: {col: id, pattern: '^[A-Za-z0-9._]+$'}
+    reason: World Bank indicator codes are dotted alphanumerics (e.g. NY.GDP.MKTP.CD)
+    certainty: 80
+    severity: warn

@@ -69,8 +69,16 @@ def _csv_resources(pkg: str) -> list[tuple[str, str]]:
     rec = _api("package_show", id=pkg)
     out = []
     for r in rec.get("resources", []) or []:
-        if (r.get("format") or "").upper() == "CSV":
-            out.append((r["id"], r.get("name") or r["id"]))
+        if (r.get("format") or "").upper() != "CSV":
+            continue
+        # Only datastore-active resources can be pulled via /datastore/dump/.
+        # Non-active CSVs (archives, lagging monthly loads, supplementary
+        # cross-boundary files) 404 on the dump endpoint, so skip them.
+        if not r.get("datastore_active"):
+            print(f"[skip] {pkg}: resource {r['id']} ({r.get('name')}) "
+                  "not datastore_active")
+            continue
+        out.append((r["id"], r.get("name") or r["id"]))
     return out
 
 

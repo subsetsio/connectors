@@ -1,0 +1,24 @@
+spec_id: reddit-subreddit-subscribers
+status: active
+# Raw schema (batched parquet, one row per subreddit x monthly period):
+# subreddit(str), date(epoch s int), value(float subscriber count).
+# One precomputed r/<name>/subscribers series per enumerated >=50k-subscriber subreddit.
+tests:
+  - not_null: subreddit
+  - not_null: date
+  - column_type: {col: subreddit, type: string}
+  - column_type: {col: date, type: integer}
+  - column_type: {col: value, type: float}
+  - distinct_count: {col: subreddit, min: 5000}
+    reason: flagship table; the >=50k-subscriber universe is ~15k subreddits, far fewer means enumeration truncated
+    certainty: 85
+  - between: {col: date, lo: 1100000000, hi: 1900000000}
+    reason: epoch seconds; subscriber series run back to ~2018 for most subs, trailing edge near now
+    certainty: 85
+  - at_least: {col: value, expr: 0}
+    reason: subscriber counts are non-negative; the series begins when the sub was small
+    certainty: 90
+  - nullable: {col: value, max_null_frac: 0.1}
+    reason: time_series occasionally emits gaps; the transform filters them, but raw should be mostly populated
+    certainty: 70
+    severity: warn

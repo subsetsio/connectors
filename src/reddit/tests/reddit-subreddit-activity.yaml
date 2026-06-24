@@ -1,0 +1,26 @@
+spec_id: reddit-subreddit-activity
+status: active
+# Raw schema (batched parquet, one row per subreddit x metric x monthly period):
+# subreddit(str), metric(str), date(epoch s int), value(float).
+# Four precomputed r/<name>/* activity keys per enumerated >=50k-subscriber subreddit.
+tests:
+  - not_null: subreddit
+  - not_null: metric
+  - not_null: date
+  - column_type: {col: subreddit, type: string}
+  - column_type: {col: metric, type: string}
+  - column_type: {col: date, type: integer}
+  - column_type: {col: value, type: float}
+  - enum: {col: metric, values: [posts_count, comments_count, posts_sum_score, comments_sum_score]}
+    reason: the four per-subreddit activity keys the fetch fn requests
+    certainty: 95
+  - distinct_count: {col: subreddit, min: 1000}
+    reason: per-subreddit activity over the ~15k >=50k-subscriber universe; thousands at minimum even after skips
+    certainty: 80
+  - between: {col: date, lo: 1100000000, hi: 1900000000}
+    reason: epoch seconds; Reddit history starts mid-2005, trailing edge near now
+    certainty: 85
+  - at_least: {col: value, expr: 0}
+    reason: per-subreddit monthly counts and aggregate score sums are non-negative
+    certainty: 75
+    severity: warn

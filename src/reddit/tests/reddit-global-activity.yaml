@@ -1,0 +1,32 @@
+spec_id: reddit-global-activity
+status: active
+# Raw schema (one row per metric x monthly period): metric(str), date(epoch s int), value(float).
+# Sourced from the four precomputed Arctic Shift global/* time_series keys.
+tests:
+  - not_null: metric
+  - not_null: date
+  - column_type: {col: metric, type: string}
+  - column_type: {col: date, type: integer}
+  - column_type: {col: value, type: float}
+  - enum: {col: metric, values: [posts_count, comments_count, posts_sum_score, comments_sum_score]}
+    reason: exactly the four global metrics the fetch fn requests
+    certainty: 95
+  - distinct_count: {col: metric, min: 4, max: 4}
+    reason: all four global keys must return data; fewer means a key came back empty
+    certainty: 90
+  - between: {col: date, lo: 1100000000, hi: 1900000000}
+    reason: epoch seconds; Reddit history starts mid-2005 (~1.12e9), trailing edge near now
+    certainty: 85
+  - at_least: {col: value, expr: 0}
+    reason: monthly Reddit-wide counts and aggregate score sums are non-negative
+    certainty: 80
+    severity: warn
+  - row_count: {min: 400}
+    reason: ~20y monthly x 4 metrics ~ 960 points; well above 400 even allowing short keys
+    certainty: 75
+    severity: warn
+  - freshness: {col: date, reaches: today - 90d}
+    reason: monthly series should extend to within ~36h-incomplete trailing edge; stale max means the source stopped updating
+    certainty: 70
+    points_outward: true
+    severity: warn

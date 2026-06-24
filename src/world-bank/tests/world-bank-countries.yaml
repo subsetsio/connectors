@@ -1,0 +1,25 @@
+spec_id: world-bank-countries
+status: active
+tests:
+  - not_null: id
+    reason: every economy/aggregate row carries the World Bank 3-char code as its key
+    certainty: 98
+  - column_type: {col: id, type: string}
+    certainty: 95
+  - unique: id
+    reason: the /country endpoint lists each economy/aggregate exactly once
+    certainty: 95
+  - not_null: name
+    reason: every economy/aggregate has a display name
+    certainty: 95
+  - row_count: {min: 200, max: 1000}
+    reason: ~218 economies plus ~80 aggregate regions — comfortably between 200 and 1000
+    certainty: 85
+  - between: {col: latitude, lo: -90, hi: 90}
+    reason: latitude in degrees; aggregate rows carry null (ignored by the check)
+    certainty: 80
+    severity: warn
+  - between: {col: longitude, lo: -180, hi: 180}
+    reason: longitude in degrees; aggregate rows carry null (ignored by the check)
+    certainty: 80
+    severity: warn

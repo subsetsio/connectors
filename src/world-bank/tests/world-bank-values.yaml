@@ -1,0 +1,23 @@
+spec_id: world-bank-values
+status: active
+tests:
+  - not_null: indicator_code
+    reason: every observation row is tied to the indicator it measures
+    certainty: 95
+  - not_null: country_id
+    reason: every observation is reported for a country or aggregate
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: observations are numeric measures parsed to float
+    certainty: 90
+  - column_type: {col: date, type: string}
+    reason: the API returns date as a period token (year, sometimes YYYYMmm/YYYYQq), stored raw as string
+    certainty: 90
+  - matches: {col: date, pattern: '^[0-9]{4}'}
+    reason: every observation period begins with a 4-digit year
+    certainty: 80
+    severity: warn
+  - nullable: {col: value, max_null_frac: 0.95}
+    reason: many indicator x country x year cells are unobserved, but not literally all of them
+    certainty: 60
+    severity: warn
