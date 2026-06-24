@@ -3,23 +3,37 @@
 GDELT publishes the full firehose of CAMEO-coded world news events as one
 tab-delimited CSV.zip "export" file per 15-minute interval (~96/day), listed in
 masterfilelist.txt, from 2015-02-18 onward. The full row-level corpus is ~600M
-rows / ~390k files — far too large to re-materialize on every refresh (the
-published Delta table is rebuilt with overwrite() each run). So, like the
-gh-archive connector, we AGGREGATE on the fly: for each complete past UTC day we
-fetch that day's export files, roll the events up to
-(event_day x action-location country x CAMEO event-root x quad class) with event
-counts and mention/article/Goldstein/tone measures, and write ONE small parquet
-batch per file-date. The published subset `gdelt-events` is the glob-union of
-those batches, re-aggregated in SQL into a clean conflict/cooperation time series.
+rows / ~390k files — too large to publish at row grain, so we AGGREGATE on the
+fly: for each complete past UTC day we fetch that day's export files, roll the
+events up to (event_day x action-location country x CAMEO event-root x quad class)
+with event counts and mention/article/Goldstein/tone measures, and write ONE
+small parquet batch per file-date. The published subset `gdelt-events` is the
+glob-union of those batches, re-aggregated in SQL into a clean
+conflict/cooperation time series. The aggregate is tiny: ~3.5k groups/day x ~4150
+days ≈ 14M rows for the whole 11-year history — a few hundred MB of parquet.
 
-This is the record-stream firehose shape (one entity, many immutable per-file-date
-batches). State holds a date watermark — the last fully-processed GDELT file-date
-— and the fetch fn loops day-by-day from the watermark to the most recent complete
-day (yesterday UTC), never into today (whose 15-minute files are still
-accumulating). There is no self-imposed run budget: the loop runs until caught up
-to the live edge; the supervisor interrupts the node if a run nears its CI limit
-and the next run resumes from the saved watermark. Raw is written before state
-every batch, so an interrupt loses at most the in-flight day.
+DESIGN — stateless full re-pull (NO connector-scoped watermark). This is
+deliberate and load-bearing. In this harness raw is *run-scoped*
+(`runs/<run_id>/raw/`) while state is *connector-scoped*, and the SQL transform
+rebuilds the table with overwrite() from the glob-union of THIS run's raw only.
+A shared watermark that skipped file-dates fetched by a *prior* run — whose
+batches live in that prior run's raw dir, invisible to this run's transform —
+would silently publish a partial table (exactly the failure mode an earlier
+watermarked version hit: the backfill split across two run_ids and the published
+table covered only the second run's slice). So every run re-fetches the whole
+history into its own raw dir and the transform sees all of it. At ~2.7s/file-date
+the full backfill is ~11k s of fetch, inside the cloud DAG_TIME_BUDGET (~5.75h),
+so a single run materializes the complete table; revisions are picked up for free
+because no high-water mark is ever trusted.
+
+Resume is per-run and idempotent, NOT stateful: on a supervisor interrupt ->
+continuation (same run_id, same raw dir) the loop skips file-dates whose batch is
+already present in this run's raw, so it picks up where it left off without
+re-fetching. There is no self-imposed run budget — the loop runs until caught up
+to the live edge (yesterday UTC; today's 15-minute files are still accumulating)
+and the supervisor caps wall-clock. The cost is that a *fresh* run_id re-fetches
+the corpus from scratch; that is the price of a guaranteed-complete table under
+run-scoped raw, and it is what makes the connector robust to run fragmentation.
 
 Why event_day (not file-date) is the grain: a 15-minute export file mostly
 contains events dated that day, but carries a few late-detected stragglers dated
@@ -37,7 +51,7 @@ lookups on www.gdeltproject.org are not used here — labels are applied in SQL.
 import io
 import zipfile
 from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 import httpx
 import pyarrow as pa
@@ -47,12 +61,9 @@ from subsets_utils import (
     SqlNodeSpec,
     get,
     save_raw_parquet,
-    load_state,
-    save_state,
+    list_raw_files,
     transient_retry,
 )
-
-STATE_VERSION = 1
 
 # GDELT 2.0 begins 2015-02-18; v1 (1979-2015) uses an incompatible schema/cadence
 # and is intentionally excluded.
@@ -250,64 +261,74 @@ def _aggregate_day(urls: list[str]) -> dict:
     return agg
 
 
-def fetch_events(node_id: str) -> None:
-    state = load_state(node_id)
-    if state.get("schema_version") != STATE_VERSION:
-        if state:
-            print(f"  state schema_version mismatch — resetting (was {state.get('schema_version')})")
-        state = {}
+def _build_batch(agg: dict) -> "pa.Table":
+    """Materialize one file-date's aggregate dict into a _BATCH_SCHEMA table
+    (0 rows if the dict is empty — a valid, skippable batch)."""
+    rows = {
+        "date": [], "action_geo_country_iso2": [], "event_root_code": [],
+        "quad_class": [], "num_events": [], "sum_mentions": [],
+        "sum_articles": [], "sum_goldstein": [], "sum_tone": [],
+    }
+    for (d, iso2, root, quad), (n, m, a, g, t) in agg.items():
+        rows["date"].append(d)
+        rows["action_geo_country_iso2"].append(iso2)
+        rows["event_root_code"].append(root)
+        rows["quad_class"].append(quad)
+        rows["num_events"].append(n)
+        rows["sum_mentions"].append(m)
+        rows["sum_articles"].append(a)
+        rows["sum_goldstein"].append(g)
+        rows["sum_tone"].append(t)
+    return pa.table(rows, schema=_BATCH_SCHEMA)
 
-    watermark = state.get("watermark")  # last fully-processed file-date (YYYY-MM-DD) or None
-    start = (
-        datetime.fromisoformat(watermark).date() + timedelta(days=1)
-        if watermark else SOURCE_MIN_DATE
-    )
+
+def fetch_events(node_id: str) -> None:
+    """Stateless full re-pull (see module docstring). Re-materialize every
+    complete GDELT file-date from 2015-02-18 to yesterday UTC as one parquet
+    batch each, skipping batches already present in THIS run's raw dir so a
+    continuation resumes cheaply. No watermark, no self-imposed run budget."""
     today_utc = datetime.now(tz=timezone.utc).date()
-    if start >= today_utc:
-        print(f"  caught up to live edge (watermark={watermark}); nothing to do")
-        return
+
+    # File-dates already materialized in THIS run (resume after a continuation).
+    # Raw is run-scoped, so this set is empty on a fresh run_id and grows as the
+    # backfill progresses; it is the only "state" the loop needs.
+    prefix = f"{node_id}-"
+    done = {
+        rel.rsplit("/", 1)[-1][len(prefix):].split(".", 1)[0]
+        for rel in list_raw_files(f"{prefix}*")
+    }
 
     print("  fetching master file list...")
     by_date = _index_export_urls_by_date(_fetch_master_list())
 
-    # Process only COMPLETE past days, in order, from the watermark forward.
-    pending = sorted(d for d in by_date if start <= datetime.strptime(d, "%Y%m%d").date() < today_utc)
+    # Only COMPLETE past days (never today), in order, minus what's already done.
+    pending = sorted(
+        d for d in by_date
+        if SOURCE_MIN_DATE <= datetime.strptime(d, "%Y%m%d").date() < today_utc
+        and f"{d[:4]}-{d[4:6]}-{d[6:8]}" not in done
+    )
     if not pending:
-        print(f"  no pending complete days (watermark={watermark}, today={today_utc})")
+        print(f"  nothing to fetch ({len(done)} batches already present, caught up to {today_utc})")
         return
-    print(f"  {len(pending)} pending file-dates: {pending[0]} .. {pending[-1]}")
+    print(f"  {len(pending)} file-dates to fetch: {pending[0]} .. {pending[-1]} ({len(done)} already done)")
 
     for date8 in pending:
         # No self-imposed cap: loop until caught up. The supervisor interrupts the
-        # node if the run nears its CI budget; per-day raw+state writes make that
-        # interrupt safe to resume.
+        # node if the run nears its CI budget; the per-date raw write below (an
+        # interrupt loses at most the in-flight date) makes resume safe — the
+        # `done` set rebuilt next continuation skips every batch already written.
         agg = _aggregate_day(by_date[date8])
         date_iso = f"{date8[:4]}-{date8[4:6]}-{date8[6:8]}"
-        if agg:
-            rows = {
-                "date": [], "action_geo_country_iso2": [], "event_root_code": [],
-                "quad_class": [], "num_events": [], "sum_mentions": [],
-                "sum_articles": [], "sum_goldstein": [], "sum_tone": [],
-            }
-            for (d, iso2, root, quad), (n, m, a, g, t) in agg.items():
-                rows["date"].append(d)
-                rows["action_geo_country_iso2"].append(iso2)
-                rows["event_root_code"].append(root)
-                rows["quad_class"].append(quad)
-                rows["num_events"].append(n)
-                rows["sum_mentions"].append(m)
-                rows["sum_articles"].append(a)
-                rows["sum_goldstein"].append(g)
-                rows["sum_tone"].append(t)
-            table = pa.table(rows, schema=_BATCH_SCHEMA)
-            # Batch key is pure batch info (the file-date); the asset id composes
-            # slug + entity + batch_key. One immutable file per GDELT file-date.
-            save_raw_parquet(table, f"{node_id}-{date_iso}")
+        table = _build_batch(agg)
+        # Always write a batch — a 0-row batch (all files missing/404 for the day)
+        # still marks the date done so a continuation doesn't re-fetch the gap, and
+        # is harmless to the transform's union/GROUP BY. Batch key is pure batch
+        # info (the file-date); the asset id composes slug + entity + batch_key.
+        save_raw_parquet(table, f"{node_id}-{date_iso}")
+        if table.num_rows:
             print(f"  {date_iso}: {sum(agg[k][0] for k in agg):,} events -> {table.num_rows:,} groups")
         else:
-            print(f"  {date_iso}: no events (all files missing) — skipping batch")
-        # Write raw before state, always.
-        save_state(node_id, {"schema_version": STATE_VERSION, "watermark": date_iso})
+            print(f"  {date_iso}: no events (all files missing) — empty batch")
 
 
 DOWNLOAD_SPECS = [
