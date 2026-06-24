@@ -26,8 +26,10 @@ import re
 import time
 
 import httpx
+from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
 from subsets_utils import NodeSpec, SqlNodeSpec, get, post, save_raw_ndjson, transient_retry
+from subsets_utils.retry import is_transient
 from constants import ENTITY_PATHS
 
 _BASE = "https://pxdata.stat.fi/PXWeb/api/v1/en"
@@ -40,7 +42,23 @@ def _throttle():
     time.sleep(_PACE_S)
 
 
-@transient_retry(attempts=8, max_wait=90)
+def _meta_retryable(exc):
+    """Retry predicate for the metadata GET. Same as the standard transient set
+    (network errors / 429 / 5xx) PLUS client 400/403: PxWeb intermittently
+    rejects the metadata endpoint with 400/403 under load even for valid tables
+    (confirmed — a table that 400s here returns 200 on a later try). Without
+    this, one transient blip raises out of fetch_one, fails the node, and flips
+    the whole run's status from continuation to 'failed', suppressing the
+    retrigger and stranding the other ~1000 tables (the 2026-06-22 failure)."""
+    if is_transient(exc):
+        return True
+    if isinstance(exc, httpx.HTTPStatusError):
+        return exc.response.status_code in (400, 403)
+    return False
+
+
+@retry(retry=retry_if_exception(_meta_retryable), stop=stop_after_attempt(8),
+       wait=wait_exponential(min=4, max=90), reraise=True)
 def _get_meta(url):
     _throttle()
     r = get(url, timeout=(10.0, 120.0))

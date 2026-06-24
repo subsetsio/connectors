@@ -1,0 +1,29 @@
+spec_id: usgs-time-series-metadata
+# One row per published time series: its parameter, statistic, unit, and period
+# of record. Raw is stringified NDJSON.
+status: active
+tests:
+  - not_null: id
+    reason: every time-series-metadata feature has an id (32-char hex); the transform keys on it.
+    certainty: 90
+  - unique: id
+    reason: one row per time series; a dupe means a paging overlap leaked into raw.
+    certainty: 80
+  - not_null: parameter_code
+    reason: a time series is defined by the parameter it measures.
+    certainty: 85
+  - matches: {col: parameter_code, pattern: '^\d{5}$'}
+    reason: USGS parameter codes are 5-digit zero-padded (e.g. 00010 water temperature).
+    certainty: 80
+  - not_null: statistic_id
+    reason: a time series carries the statistic it summarizes (e.g. mean, max).
+    certainty: 80
+  - matches: {col: statistic_id, pattern: '^\d{5}$'}
+    reason: USGS statistic ids are 5-digit zero-padded (e.g. 00003 mean).
+    certainty: 75
+    severity: warn
+  - row_count: {min: 100000}
+    reason: the catalog of distinct time series across the network is large; a tiny count signals a partial crawl.
+    certainty: 60
+    points_outward: true
+    severity: warn
