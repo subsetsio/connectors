@@ -1,0 +1,20 @@
+spec_id: eurocontrol-network-manager-en-route-atfm-delay-aua-post-ops
+status: active
+tests:
+  - not_null: YEAR
+    reason: every observation row carries its reporting year
+    certainty: 95
+  - column_type: {col: YEAR, type: integer}
+    reason: the year column is a numeric coerced from the source file
+    certainty: 85
+  - at_least: {col: YEAR, expr: 2009}
+    reason: EUROCONTROL PRU performance series begin no earlier than 2010
+    certainty: 85
+  - at_most: {col: YEAR, expr: current_year()}
+    reason: a future year would mean the source published projections or a parse offset
+    certainty: 75
+    points_outward: true
+    severity: warn
+  - row_count: {min: 1}
+    reason: a full-snapshot bulk file should never publish an empty table
+    certainty: 95

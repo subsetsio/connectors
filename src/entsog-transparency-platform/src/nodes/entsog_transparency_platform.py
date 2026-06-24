@@ -226,6 +226,9 @@ FROM ranked
 WHERE rn = 1 AND TRY_CAST(NULLIF(value, '') AS DOUBLE) IS NOT NULL
 '''
 
+# CMP unavailable-capacity records are sparse by nature (mostly "no congestion"
+# placeholders); the `value`/measure fields are structurally empty, so we publish
+# the populated dimension + remark columns and the partially-populated period.
 _CMPUNAVAILABLES_SQL = '''
 WITH ranked AS (
     SELECT *, row_number() OVER (
@@ -236,22 +239,24 @@ WITH ranked AS (
 )
 SELECT
     id,
-    TRY_CAST(periodFrom AS TIMESTAMP)       AS period_from,
-    TRY_CAST(periodTo AS TIMESTAMP)         AS period_to,
     operatorKey                             AS operator_key,
     operatorLabel                           AS operator_label,
     pointKey                                AS point_key,
     pointLabel                              AS point_label,
     directionKey                            AS direction_key,
-    indicator,
     allocationProcess                       AS allocation_process,
-    unit,
-    TRY_CAST(NULLIF(value, '') AS DOUBLE)   AS value,
+    TRY_CAST(periodFrom AS TIMESTAMP)       AS period_from,
+    TRY_CAST(periodTo AS TIMESTAMP)         AS period_to,
+    NULLIF(generalRemarks, '')              AS general_remarks,
     TRY_CAST(lastUpdateDateTime AS TIMESTAMP) AS last_update
 FROM ranked
 WHERE rn = 1
 '''
 
+# CMP unsuccessful-request records are likewise sparse (mostly "no unfulfilled
+# requests" placeholders); the period columns are structurally empty here (dates
+# live in the auction/capacity fields, themselves usually "N/A"), so we keep the
+# populated dims, the (sparse but meaningful) volume measures, and the remark.
 _CMPUNSUCCESSFULREQUESTS_SQL = '''
 WITH ranked AS (
     SELECT *, row_number() OVER (
@@ -262,19 +267,16 @@ WITH ranked AS (
 )
 SELECT
     id,
-    TRY_CAST(periodFrom AS TIMESTAMP)               AS period_from,
-    TRY_CAST(periodTo AS TIMESTAMP)                 AS period_to,
     operatorKey                                     AS operator_key,
     operatorLabel                                   AS operator_label,
     pointKey                                        AS point_key,
     pointLabel                                      AS point_label,
     directionKey                                    AS direction_key,
-    indicator,
-    unit,
     TRY_CAST(NULLIF(requestedVolume, '') AS DOUBLE)   AS requested_volume,
     TRY_CAST(NULLIF(allocatedVolume, '') AS DOUBLE)   AS allocated_volume,
     TRY_CAST(NULLIF(unallocatedVolume, '') AS DOUBLE) AS unallocated_volume,
     TRY_CAST(NULLIF(occurenceCount, '') AS BIGINT)    AS occurence_count,
+    NULLIF(generalRemarks, '')                      AS general_remarks,
     TRY_CAST(lastUpdateDateTime AS TIMESTAMP)         AS last_update
 FROM ranked
 WHERE rn = 1
