@@ -33,9 +33,11 @@ _PREFIX = f"{SLUG}-"
 _BASE = "https://api.data.gov.in/resource/"
 _SAMPLE_KEY = "579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b"
 _PAGE = 1000
-# Safety ceiling: these are administrative tables, not firehoses. ~1M rows means
-# the source changed shape — raise loudly rather than silently truncate.
-_MAX_PAGES = 1000
+# Safety ceiling on request count. The data endpoint advances by however many
+# records the server actually returns per call (a registered DATA_GOV_IN_API_KEY
+# honours limit=1000; the public sample key silently caps at 10/call), so this
+# bounds runaway loops, not a fixed row total. ~5M rows at 1000/call.
+_MAX_PAGES = 5000
 
 
 def _api_key() -> str:
@@ -73,13 +75,16 @@ def fetch_one(node_id: str) -> None:
         if not records:
             break
         rows.extend(records)
-        offset += _PAGE
+        # Advance by what the server actually returned, NOT a fixed page size:
+        # the endpoint may return fewer than the requested limit (the public
+        # sample key caps at 10/call), and a fixed += _PAGE would skip the gap.
+        offset += len(records)
         pages += 1
         if total is not None and offset >= total:
             break
         if pages > _MAX_PAGES:
             raise RuntimeError(
-                f"{asset}: exceeded {_MAX_PAGES} pages (total={total}); "
+                f"{asset}: exceeded {_MAX_PAGES} pages (offset={offset}, total={total}); "
                 "source grew past expectations — raise the ceiling deliberately"
             )
     save_raw_ndjson(rows, asset)
