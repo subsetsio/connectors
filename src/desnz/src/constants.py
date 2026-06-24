@@ -1,5 +1,7 @@
-# uuid -> CKAN package name for the 44 rank-accepted DESNZ data.gov.uk packages.
+# uuid -> CKAN package name for the rank-accepted DESNZ data.gov.uk packages.
 # Copied from the collect catalog / entity union; this is data, not logic.
+# (3 packages de-listed at rank: gamma-radiation files are 410 Gone; properties-not-
+#  connected and postcode-estimates expose only gov.uk landing pages, no data file.)
 
 ENTITY_CKAN = {
     '065d267f-23bc-4d0e-9a56-52d388d5835c': 'desnz-heat-networks-planning-database',
@@ -13,9 +15,7 @@ ENTITY_CKAN = {
     '473afefd-9028-48d1-a959-c865c1387a9d': 'national_energy_efficiency_data-framework_need',
     '480984d5-13d7-48b1-93c8-2a0871ef5543': 'electricity_consumption_at_local_authority_level',
     '4b7b7f64-0b97-4a6e-8e45-1218b9a81876': 'total_fuels_consumption_at_local_authority_level',
-    '4f5d442f-a5ae-4865-8e51-091d0a4d2324': 'desnz-ambient-gamma-radiation-dose-rates-across-the-uk',
     '50474412-ef94-429c-8041-1265a5d0efe4': 'warm-homes-social-housing-fund',
-    '619c8203-d0e9-4967-946e-3f28b4484c4d': 'estimates-of-properties-not-connected-to-the-gas-network',
     '6e7e309e-d2b5-400d-92b7-dd520712aee7': 'sub-national_electricity_consumption_in_northern_ireland',
     '723c243d-2f1a-4d27-8b61-cdb93e5b10ff': 'local_authority_carbon_dioxide_emissions',
     '738a7bdb-a533-443d-bd02-69a8dd7fe68d': 'solar-pv-cost-data',
@@ -37,7 +37,6 @@ ENTITY_CKAN = {
     'cf609fce-0158-4b3d-901a-b81951f4eeeb': 'consumption_of_non-gas_non-electricity_and_non-road_transport_fuels',
     'd24e5973-dc24-4016-b9bd-da9409752498': 'boiler-upgrade-scheme-statistics',
     'de45c29d-1abf-4357-b1ef-5fa87f5e2e73': 'historical-coke-and-breeze-data-coal-carbonized-and-coke-and-breeze-produced-at-coke-ovens',
-    'e7d4c1cf-45a0-4070-878f-24ad9641f655': 'domestic-electricity-and-gas-estimates-by-postcode-in-great-britain',
     'eb8e6778-85de-47f8-ae5d-204bc5b4f2cd': 'gas_consumption_at_local_authority_level',
     'ed44b45d-6651-4767-9f73-92abd3f51e48': 'smart_meter_installations',
     'ed629618-7b69-465d-8e0a-0546b1809fc7': 'electricity_and_gas_consumption_at_middle_layer_super_output_area_mlsoa_and_intermediate_geography_z',

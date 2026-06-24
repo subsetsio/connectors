@@ -100,6 +100,11 @@ def _read_sheets(content, fmt, url):
 
     head = content[:8]
     sheets = []
+    # Soft-404 guard: some CKAN resource URLs point at gov.uk landing pages (or a
+    # withdrawn-file notice) that return 200 with an HTML body. Never parse HTML
+    # as data — skip it so a csv-labeled HTML page can't leak junk rows.
+    if content[:512].lstrip()[:14].lower().startswith((b"<!doctype", b"<html")):
+        return sheets
     if head[:4] == b"PK\x03\x04":
         # Zip container: xlsx or ods. Try the modern Excel reader, fall back to ODF.
         try:
