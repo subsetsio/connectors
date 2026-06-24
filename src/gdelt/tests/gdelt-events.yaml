@@ -1,0 +1,102 @@
+spec_id: gdelt-events
+status: active
+# Raw layer is the per-file-date aggregate batch (one parquet per processed GDELT
+# file-date), glob-unioned. Grain: (event_day, action-country ISO2, CAMEO event
+# root, quad class) with event counts and summed mention/article/Goldstein/tone
+# measures. Assertions are authored from the GDELT 2.0 Event 2.0 spec + our own
+# aggregation contract (_BATCH_SCHEMA), not from observed data. NOTE: the same
+# (date, country, root, quad) tuple may legitimately recur across file-date
+# batches (late-detected stragglers re-attributed to their event day), so the raw
+# union is NOT unique on that key — the transform's GROUP BY re-sums them. Scale
+# and freshness are warn-only because a multi-year backfill is supervisor-bounded:
+# a mid-backfill continuation run holds only a prefix of history.
+tests:
+  # --- presence: every aggregate cell carries these ---
+  - not_null: date
+    reason: every aggregate row is keyed on its event day; a null date is an aggregation bug
+    certainty: 98
+  - not_null: event_root_code
+    reason: rows with an empty CAMEO root are dropped in _aggregate_day, so the column is never null
+    certainty: 97
+  - not_null: quad_class
+    reason: only quads 1..4 are aggregated; null means a grouping-key bug
+    certainty: 97
+  - not_null: num_events
+    reason: the count measure is always populated for an aggregate cell
+    certainty: 98
+  - not_null: sum_mentions
+    reason: summed mention count, always written (defaults to 0 on a parse miss)
+    certainty: 95
+  - not_null: sum_articles
+    reason: summed article count, always written
+    certainty: 95
+
+  # --- types: the declared _BATCH_SCHEMA contract ---
+  - column_type: {col: date, type: string}
+    reason: event day is stored as a YYYY-MM-DD string, not a DATE
+    certainty: 90
+  - column_type: {col: event_root_code, type: string}
+    reason: CAMEO root is a zero-padded two-char code kept as text
+    certainty: 92
+  - column_type: {col: quad_class, type: integer}
+    reason: quad class is an int8 in the batch schema
+    certainty: 92
+  - column_type: {col: num_events, type: integer}
+    reason: event count is int64
+    certainty: 95
+  - column_type: {col: sum_goldstein, type: float}
+    reason: summed Goldstein is a float64
+    certainty: 92
+  - column_type: {col: sum_tone, type: float}
+    reason: summed document tone is a float64
+    certainty: 92
+
+  # --- format & domain ---
+  - matches: {col: date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: event day is an ISO day string
+    certainty: 95
+  - matches: {col: action_geo_country_iso2, pattern: '^[A-Z]{2}$'}
+    reason: non-null country codes are FIPS->ISO 3166-1 alpha-2 (exactly two upper-case letters)
+    certainty: 90
+  - enum: {col: event_root_code, values: ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20']}
+    reason: CAMEO event root codes span 01..20 (the 20 top-level event categories)
+    certainty: 90
+  - enum: {col: quad_class, values: [1, 2, 3, 4]}
+    reason: GDELT quad class is one of 1 (verbal coop), 2 (material coop), 3 (verbal conflict), 4 (material conflict)
+    certainty: 95
+
+  # --- nullability of the optional geo key ---
+  - nullable: {col: action_geo_country_iso2, max_null_frac: 0.7}
+    reason: many events lack an action-location country, or carry a FIPS code with no ISO mapping, so they fall into the null bucket; this should still be a minority-to-half share, not nearly everything
+    certainty: 55
+    severity: warn
+
+  # --- bounds: counts non-negative, dates within GDELT 2.0's lifetime ---
+  - at_least: {col: num_events, expr: 1}
+    reason: an aggregate cell exists only because at least one event mapped to it
+    certainty: 97
+  - at_least: {col: sum_mentions, expr: 0}
+    reason: mention counts are non-negative
+    certainty: 95
+  - at_least: {col: sum_articles, expr: 0}
+    reason: article counts are non-negative
+    certainty: 95
+  - between: {col: date, lo: '2015-02-18', hi: today}
+    reason: GDELT 2.0 starts 2015-02-18; no event is dated in the future
+    certainty: 88
+  - at_most: {col: date, expr: today}
+    reason: the fetch loop never processes today's still-accumulating files, so the max event day is in the past
+    certainty: 92
+    points_outward: true
+    severity: warn
+
+  # --- scale & freshness (warn: a mid-backfill run holds only a prefix) ---
+  - row_count: {min: 1000}
+    reason: even a single processed GDELT day rolls up to thousands of (country, root, quad) cells
+    certainty: 75
+    severity: warn
+  - freshness: {col: date, reaches: today - 7d}
+    reason: once caught up to the live edge the max event day lands within a week of today; a mid-backfill continuation run legitimately lags far behind
+    certainty: 50
+    points_outward: true
+    severity: warn
