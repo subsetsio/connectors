@@ -1,0 +1,34 @@
+spec_id: fema-hmasubapplicationsfinancialtransactions
+status: active
+tests:
+  - not_null: id
+    reason: OpenFEMA appends a system-generated record id to every row of every dataset
+    certainty: 95
+  - unique: id
+    reason: the OpenFEMA record id is a per-row unique key; dupes mean the full-file was concatenated/double-pulled
+    certainty: 95
+  - column_type: {col: id, type: string}
+    reason: OpenFEMA serves id as uuid in the typed full-file
+    certainty: 90
+  - row_count: {min: 3332}
+    reason: catalog recordCount=6664 at migration; a full-corpus snapshot should not fall below ~half that without a truncated download
+    certainty: 80
+    severity: block
+  - not_null: subapplicationIdentifier
+    reason: subapplicationIdentifier is a documented primary-key component (non-nullable in the data dictionary)
+    certainty: 90
+  - not_null: transactionType
+    reason: transactionType is a documented primary-key component (non-nullable in the data dictionary)
+    certainty: 90
+  - not_null: transactionDate
+    reason: transactionDate is a documented primary-key component (non-nullable in the data dictionary)
+    certainty: 90
+  - not_null: amount
+    reason: amount is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - column_type: {col: transactionDate, type: date}
+    reason: server typed full-file delivers transactionDate as date; a string here means format drift (CSV fallback / changed export)
+    certainty: 80
+  - column_type: {col: paymentNumber, type: integer}
+    reason: server typed full-file delivers paymentNumber as integer; a string here means format drift (CSV fallback / changed export)
+    certainty: 80

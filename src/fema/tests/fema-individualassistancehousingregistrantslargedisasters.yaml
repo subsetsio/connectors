@@ -1,0 +1,31 @@
+spec_id: fema-individualassistancehousingregistrantslargedisasters
+status: active
+tests:
+  - not_null: id
+    reason: OpenFEMA appends a system-generated record id to every row of every dataset
+    certainty: 95
+  - unique: id
+    reason: the OpenFEMA record id is a per-row unique key; dupes mean the full-file was concatenated/double-pulled
+    certainty: 95
+  - column_type: {col: id, type: string}
+    reason: OpenFEMA serves id as uuid in the typed full-file
+    certainty: 90
+  - row_count: {min: 3183667}
+    reason: catalog recordCount=6367334 at migration; a full-corpus snapshot should not fall below ~half that without a truncated download
+    certainty: 80
+    severity: block
+  - not_null: disasterNumber
+    reason: disasterNumber is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - not_null: householdComposition
+    reason: householdComposition is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - not_null: specialNeeds
+    reason: specialNeeds is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - column_type: {col: rentalAssistanceEndDate, type: date}
+    reason: server typed full-file delivers rentalAssistanceEndDate as date; a string here means format drift (CSV fallback / changed export)
+    certainty: 80
+  - column_type: {col: disasterNumber, type: integer}
+    reason: server typed full-file delivers disasterNumber as integer; a string here means format drift (CSV fallback / changed export)
+    certainty: 80

@@ -1,0 +1,13 @@
+spec_id: fema-fimanfippolicies
+status: active
+tests:
+  - not_null: id
+    reason: OpenFEMA appends a system-generated record id to every row of every dataset
+    certainty: 95
+  - unique: id
+    reason: the OpenFEMA record id is a per-row unique key; dupes mean the full-file was concatenated/double-pulled
+    certainty: 95
+  - row_count: {min: 36800901}
+    reason: catalog recordCount=73601802 at migration; a full-corpus snapshot should not fall below ~half that without a truncated download
+    certainty: 80
+    severity: block

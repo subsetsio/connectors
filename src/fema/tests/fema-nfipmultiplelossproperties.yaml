@@ -1,0 +1,31 @@
+spec_id: fema-nfipmultiplelossproperties
+status: active
+tests:
+  - not_null: id
+    reason: OpenFEMA appends a system-generated record id to every row of every dataset
+    certainty: 95
+  - unique: id
+    reason: the OpenFEMA record id is a per-row unique key; dupes mean the full-file was concatenated/double-pulled
+    certainty: 95
+  - column_type: {col: id, type: string}
+    reason: OpenFEMA serves id as uuid in the typed full-file
+    certainty: 90
+  - row_count: {min: 120131}
+    reason: catalog recordCount=240263 at migration; a full-corpus snapshot should not fall below ~half that without a truncated download
+    certainty: 80
+    severity: block
+  - not_null: communityIdNumber
+    reason: communityIdNumber is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - not_null: communityName
+    reason: communityName is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - not_null: nfipRl
+    reason: nfipRl is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - column_type: {col: asOfDate, type: date}
+    reason: server typed full-file delivers asOfDate as date; a string here means format drift (CSV fallback / changed export)
+    certainty: 80
+  - column_type: {col: latitude, type: float}
+    reason: server typed full-file delivers latitude as float; a string here means format drift (CSV fallback / changed export)
+    certainty: 80

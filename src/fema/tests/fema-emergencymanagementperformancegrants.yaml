@@ -1,0 +1,31 @@
+spec_id: fema-emergencymanagementperformancegrants
+status: active
+tests:
+  - not_null: id
+    reason: OpenFEMA appends a system-generated record id to every row of every dataset
+    certainty: 95
+  - unique: id
+    reason: the OpenFEMA record id is a per-row unique key; dupes mean the full-file was concatenated/double-pulled
+    certainty: 95
+  - column_type: {col: id, type: string}
+    reason: OpenFEMA serves id as uuid in the typed full-file
+    certainty: 90
+  - row_count: {min: 12985}
+    reason: catalog recordCount=25970 at migration; a full-corpus snapshot should not fall below ~half that without a truncated download
+    certainty: 80
+    severity: block
+  - not_null: reportingPeriod
+    reason: reportingPeriod is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - not_null: state
+    reason: state is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - not_null: legalAgencyName
+    reason: legalAgencyName is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - column_type: {col: projectStartDate, type: date}
+    reason: server typed full-file delivers projectStartDate as date; a string here means format drift (CSV fallback / changed export)
+    certainty: 80
+  - column_type: {col: fundingAmount, type: float}
+    reason: server typed full-file delivers fundingAmount as float; a string here means format drift (CSV fallback / changed export)
+    certainty: 80

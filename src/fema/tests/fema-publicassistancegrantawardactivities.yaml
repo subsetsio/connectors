@@ -1,0 +1,22 @@
+spec_id: fema-publicassistancegrantawardactivities
+status: active
+tests:
+  - not_null: id
+    reason: OpenFEMA appends a system-generated record id to every row of every dataset
+    certainty: 95
+  - unique: id
+    reason: the OpenFEMA record id is a per-row unique key; dupes mean the full-file was concatenated/double-pulled
+    certainty: 95
+  - row_count: {min: 476865}
+    reason: catalog recordCount=953731 at migration; a full-corpus snapshot should not fall below ~half that without a truncated download
+    certainty: 80
+    severity: block
+  - not_null: region
+    reason: region is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - not_null: disasterNumber
+    reason: disasterNumber is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - not_null: sriaDisaster
+    reason: sriaDisaster is non-nullable per the OpenFEMA data dictionary
+    certainty: 85

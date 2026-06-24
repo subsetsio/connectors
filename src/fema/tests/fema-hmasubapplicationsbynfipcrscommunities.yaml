@@ -1,0 +1,28 @@
+spec_id: fema-hmasubapplicationsbynfipcrscommunities
+status: active
+tests:
+  - not_null: id
+    reason: OpenFEMA appends a system-generated record id to every row of every dataset
+    certainty: 95
+  - unique: id
+    reason: the OpenFEMA record id is a per-row unique key; dupes mean the full-file was concatenated/double-pulled
+    certainty: 95
+  - column_type: {col: id, type: string}
+    reason: OpenFEMA serves id as uuid in the typed full-file
+    certainty: 90
+  - row_count: {min: 111401}
+    reason: catalog recordCount=222802 at migration; a full-corpus snapshot should not fall below ~half that without a truncated download
+    certainty: 80
+    severity: block
+  - not_null: subapplicationIdentifier
+    reason: subapplicationIdentifier is a documented primary-key component (non-nullable in the data dictionary)
+    certainty: 90
+  - not_null: communityName
+    reason: communityName is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - not_null: county
+    reason: county is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - not_null: stateAbbreviation
+    reason: stateAbbreviation is non-nullable per the OpenFEMA data dictionary
+    certainty: 85

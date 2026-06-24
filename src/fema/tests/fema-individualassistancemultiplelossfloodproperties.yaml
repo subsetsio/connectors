@@ -1,0 +1,31 @@
+spec_id: fema-individualassistancemultiplelossfloodproperties
+status: active
+tests:
+  - not_null: id
+    reason: OpenFEMA appends a system-generated record id to every row of every dataset
+    certainty: 95
+  - unique: id
+    reason: the OpenFEMA record id is a per-row unique key; dupes mean the full-file was concatenated/double-pulled
+    certainty: 95
+  - column_type: {col: id, type: integer}
+    reason: OpenFEMA serves id as bigint in the typed full-file
+    certainty: 90
+  - row_count: {min: 543940}
+    reason: catalog recordCount=1087881 at migration; a full-corpus snapshot should not fall below ~half that without a truncated download
+    certainty: 80
+    severity: block
+  - not_null: disasterNumber
+    reason: disasterNumber is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - not_null: declarationDate
+    reason: declarationDate is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - not_null: fipsStateCode
+    reason: fipsStateCode is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - column_type: {col: declarationDate, type: date}
+    reason: server typed full-file delivers declarationDate as date; a string here means format drift (CSV fallback / changed export)
+    certainty: 80
+  - column_type: {col: disasterNumber, type: integer}
+    reason: server typed full-file delivers disasterNumber as integer; a string here means format drift (CSV fallback / changed export)
+    certainty: 80

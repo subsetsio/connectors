@@ -1,0 +1,30 @@
+spec_id: fema-nfipcommunitystatusbook
+status: active
+tests:
+  - row_count: {min: 12526}
+    reason: catalog recordCount=25053 at migration; a full-corpus snapshot should not fall below ~half that without a truncated download
+    certainty: 80
+    severity: block
+  - not_null: communityIdNumber
+    reason: communityIdNumber is a documented primary-key component (non-nullable in the data dictionary)
+    certainty: 90
+  - not_null: communityName
+    reason: communityName is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - not_null: county
+    reason: county is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - not_null: state
+    reason: state is non-nullable per the OpenFEMA data dictionary
+    certainty: 85
+  - column_type: {col: initialFloodHazardBoundaryMap, type: date}
+    reason: server typed full-file delivers initialFloodHazardBoundaryMap as date; a string here means format drift (CSV fallback / changed export)
+    certainty: 80
+  - column_type: {col: classRating, type: integer}
+    reason: server typed full-file delivers classRating as integer; a string here means format drift (CSV fallback / changed export)
+    certainty: 80
+  - freshness: {col: lastRefresh, reaches: today - 540d}
+    reason: "OpenFEMA stamps lastRefresh on every refresh; a max older than ~18mo suggests the dataset is frozen upstream (reconcile, not necessarily our bug)"
+    certainty: 55
+    points_outward: true
+    severity: warn
