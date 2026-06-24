@@ -90,18 +90,7 @@ def _read_clause(dep_id: str) -> tuple[list[str], str]:
 
     base = _raw_base_uri()
     paths = [f"{base}/{rel}" for rel in rels]
-    reader = readers.pop()
-    if reader == "read_json_auto":
-        # Per-file shards drift in their column SET (ANAC's yearly CSVs gain and
-        # drop columns). Without union_by_name DuckDB infers the schema from a
-        # bounded sample of shards and then raises "unknown key" on a later shard
-        # that introduces a new column. union_by_name=true detects every shard's
-        # schema and unions columns by name — the documented design for this
-        # layout. Each shard's records are keyed by that CSV's header, so the
-        # schema is uniform within a shard and the default per-file sample is
-        # enough; values are written as strings, so only the column set varies.
-        return rels, f"read_json_auto({paths}, union_by_name=true)"
-    return rels, f"{reader}({paths})"
+    return rels, f"{readers.pop()}({paths})"
 
 
 def run_sql_node(spec: SqlNodeSpec) -> None:
