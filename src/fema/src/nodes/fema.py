@@ -122,20 +122,27 @@ _TRANSIENT_EXC = (
 )
 
 
+class _TransientDownload(Exception):
+    """A response that arrived intact at the HTTP layer but is not the dataset:
+    an Akamai/Drupal HTML error stub served with a 2xx, or a length-mismatched
+    body. Raised so the retry decorator re-fetches instead of writing garbage."""
+
+
 def _is_transient(exc: BaseException) -> bool:
-    if isinstance(exc, _TRANSIENT_EXC):
+    if isinstance(exc, (_TRANSIENT_EXC, _TransientDownload)):
         return True
     if isinstance(exc, httpx.HTTPStatusError):
         code = exc.response.status_code
-        # 503 is common while OpenFEMA builds a large full-file on demand.
+        # 503 is common while OpenFEMA builds/streams a large corpus on demand;
+        # 429 under load. Both clear on a later attempt — they are not permanent.
         return code == 429 or 500 <= code < 600
     return False
 
 
 @retry(
     retry=retry_if_exception(_is_transient),
-    stop=stop_after_attempt(5),
-    wait=wait_exponential(min=5, max=120),
+    stop=stop_after_attempt(8),
+    wait=wait_exponential(min=10, max=300),
     reraise=True,
 )
 def _download(node_id: str, url: str, ext: str, params: dict | None = None) -> None:
@@ -149,15 +156,37 @@ def _download(node_id: str, url: str, ext: str, params: dict | None = None) -> N
     size — required for the multi-GB datasets. We use the shared httpx client's
     streaming interface (a public subsets_utils export) because the buffered
     get() would hold the entire file in RAM.
+
+    Two failure modes peculiar to OpenFEMA-behind-Akamai are folded into the
+    transient-retry path rather than being written out as data:
+      - a 2xx whose `content-type` is text/html — Akamai's "access denied" /
+        Drupal "page not found" stub, served intermittently for the largest
+        on-demand corpora instead of the real file;
+      - a body shorter than the advertised Content-Length (httpx raises
+        RemoteProtocolError itself, but a clean truncation is double-checked).
+    Both clear on a later attempt, so we raise `_TransientDownload` to re-fetch.
+    The retry budget (8 attempts, backoff to 300s) spans ~15 min — enough to ride
+    out the 503/HTML-stub windows the heavy datasets show under concurrent load.
     """
     client = get_client()
     # (connect, read) — read timeout is generous: full-file delivery of the
     # largest datasets streams for minutes.
     with client.stream("GET", url, params=params, timeout=(15.0, 900.0)) as resp:
         resp.raise_for_status()
+        ctype = resp.headers.get("content-type", "").lower()
+        if "text/html" in ctype:
+            # Not the dataset — an Akamai/Drupal error page slipped through as 2xx.
+            raise _TransientDownload(f"{node_id}: HTML error stub (content-type={ctype!r})")
+        expected = resp.headers.get("content-length")
+        written = 0
         with raw_writer(node_id, ext, mode="wb") as out:
             for chunk in resp.iter_bytes(1 << 20):  # 1 MiB
                 out.write(chunk)
+                written += len(chunk)
+        if expected is not None and written != int(expected):
+            raise _TransientDownload(
+                f"{node_id}: truncated download ({written} of {expected} bytes)"
+            )
 
 
 def fetch_one(node_id: str) -> None:

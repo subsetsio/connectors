@@ -39,8 +39,18 @@ from tenacity import (
 from subsets_utils import NodeSpec, SqlNodeSpec, get, raw_writer
 
 BASE_URL = "https://api.insee.fr/melodi"
-PAGE_SIZE = 50000   # smaller pages -> smaller responses, less prone to mid-body truncation
-MAX_PAGES = 10000   # safety ceiling (~500M obs); largest real datacube ~290 pages
+# Melodi serves pretty-printed JSON over chunked transfer with NO Content-Length,
+# so httpx cannot detect a truncated body — a mid-stream connection drop yields a
+# partial response that fails to parse (json.JSONDecodeError "Unterminated string").
+# These drops are flaky/random, and their probability rises sharply with response
+# size: at maxResult=50000 (~38MB on the widest datacube) every attempt truncated
+# and all retries were exhausted; at ~7-9MB responses complete reliably and the
+# rare drop is recovered by the retry decorator below (which treats a decode error
+# as transient). 10000 obs/page keeps the widest datacube (~760 B/obs) near 7.5MB
+# while staying large enough that the 30 req/min rate limit, not request count,
+# stays the throughput bound.
+PAGE_SIZE = 10000
+MAX_PAGES = 10000   # safety ceiling (~100M obs/datacube); largest real datacube ~1430 pages
 
 from constants import ENTITY_IDS
 

@@ -13,6 +13,8 @@ always re-fetching. No watermark / cursor / state.
 
 import pyarrow as pa
 
+import time
+
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
@@ -42,21 +44,40 @@ SCHEMA = pa.schema([
 
 
 @transient_retry()  # 6 attempts, exponential backoff over transient errors + 429 + 5xx
-def _fetch_table(table_id: str) -> list:
-    """Fetch one INE table whole. Returns the list of series dicts.
+def _fetch_once(table_id: str):
+    """One network fetch of a table's DATOS_TABLA payload (parsed JSON).
 
-    Treats an empty body as transient (INE intermittently returns empty 200s on
-    rapid sequential requests) so the retry decorator backs off and retries.
+    The retry decorator only covers network-layer failures (connect/read
+    timeouts, 429, 5xx); the payload-shape handling lives in `_fetch_table`.
     """
     resp = get(f"{BASE}/DATOS_TABLA/{table_id}", timeout=(10.0, 180.0))
     resp.raise_for_status()
     if not resp.content or not resp.content.strip():
         raise ValueError(f"empty body for table {table_id}")
-    data = resp.json()
-    if not isinstance(data, list):
-        # API returns a list of series; anything else is an unexpected payload
-        raise ValueError(f"unexpected payload type {type(data)} for table {table_id}")
-    return data
+    return resp.json()
+
+
+def _fetch_table(table_id: str, *, shape_attempts: int = 4) -> list:
+    """Fetch one INE table whole, returning the list of series dicts.
+
+    DATOS_TABLA normally returns a JSON *list* of series. It sometimes returns
+    a JSON *dict* instead — either a persistent status (`No puede mostrarse por
+    restricciones de volumen` for tables too large to serve whole, `No existen
+    series para la tabla` for empty tables) or an intermittent server blip on a
+    table that is otherwise fine. The non-servable tables are excluded upstream
+    at rank, so any dict we see here is treated as transient: re-fetch a few
+    times with backoff before giving up. A bare `ValueError` (not a network
+    transient) so the run surfaces a clear, non-retryable error for any table
+    that is genuinely dict-only and slipped through the rank exclusion.
+    """
+    last = None
+    for i in range(shape_attempts):
+        data = _fetch_once(table_id)
+        if isinstance(data, list):
+            return data
+        last = data.get("status") if isinstance(data, dict) else type(data)
+        time.sleep(2 * (i + 1))
+    raise ValueError(f"non-list payload for table {table_id} after retries: {last!r}")
 
 
 def fetch_one(node_id: str) -> None:
