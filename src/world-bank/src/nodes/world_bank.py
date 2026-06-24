@@ -13,6 +13,8 @@ src/utils.py):
                 indicator id completed. The data API exposes no modified-since
                 filter, so values are re-derived by sweeping the indicator catalog.
 """
+import os
+
 import httpx
 import pyarrow as pa
 
@@ -25,7 +27,14 @@ from utils import (
     _indicator_rows,
 )
 
-STATE_VERSION = 1
+# v2: the watermark is now scoped to RUN_ID. Raw is run-scoped
+# (<connector>/runs/<run_id>/raw/...) while state persists across runs, so a
+# watermark carried across separate refreshes would leave the sweep "drained"
+# forever — fetching nothing and starving the transform of raw. Keying state on
+# the current RUN_ID makes every new run re-sweep the full corpus from scratch,
+# while still resuming across the supervisor's chained jobs *within* one run
+# (they share RUN_ID and the run-scoped raw dir).
+STATE_VERSION = 2
 
 # How many indicators accumulate into one parquet batch file — tuned so each batch
 # lands at a moderate size. There is no per-run indicator/time cap: the loop sweeps
