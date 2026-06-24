@@ -1,0 +1,33 @@
+spec_id: un-statistics-division-sdg-data
+status: active
+# SDG Global Database flagship: one observations row per series x geo-area x year.
+# Raw is parquet with the explicit SDG_SCHEMA; value is kept as a string and only
+# TRY_CAST to DOUBLE in the transform, so the raw assertions here cover the
+# dimension columns and the integer year, not the (string) value's numeric range.
+tests:
+  - not_null: series
+    reason: every SDG observation belongs to a statistical series (Series/List parentage)
+    certainty: 95
+  - not_null: geo_area_code
+    reason: geoAreaCode is the M49 area key on every observation
+    certainty: 90
+  - not_null: goal
+    reason: every series carries its goal parent in Series/List; a null means the join dropped
+    certainty: 85
+  - column_type: {col: time_period, type: integer}
+    reason: time_period is coerced to int year (int32) in _to_int_year
+    certainty: 95
+  - not_null: time_period
+    reason: observations are stamped with a timePeriodStart year
+    certainty: 85
+    severity: warn
+  - between: {col: time_period, lo: 1960, hi: 2030}
+    reason: SDG series are mostly post-2000 annual; allow a wide historical floor and 2030 milestone years
+    certainty: 70
+    severity: warn
+  - distinct_count: {col: series, min: 100}
+    reason: ~571 series in Series/List; even if many are empty, well over 100 carry data
+    certainty: 85
+  - row_count: {min: 100000}
+    reason: the flagship database holds hundreds of thousands of observations across 200+ areas
+    certainty: 90

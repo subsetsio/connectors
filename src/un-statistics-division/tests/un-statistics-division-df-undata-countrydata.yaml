@@ -1,0 +1,26 @@
+spec_id: un-statistics-division-df-undata-countrydata
+status: active
+# UNSD CountryData SDMX flow, saved verbatim as SDMX-CSV. Columns:
+# DATAFLOW, FREQ, SERIES, UNIT, LOCATION, AGE_GROUP, SEX, REF_AREA, SOURCE_TYPE,
+# TIME_PERIOD, OBS_VALUE, UNIT_MULT, TIME_DETAIL, NATURE, SOURCE_DETAIL, FOOTNOTES.
+tests:
+  - not_null: SERIES
+    reason: every CountryData observation is keyed to an indicator SERIES code
+    certainty: 95
+  - not_null: REF_AREA
+    reason: SDMX observations always carry the reference-area dimension
+    certainty: 95
+  - not_null: TIME_PERIOD
+    reason: every SDMX observation is stamped with a period (year)
+    certainty: 95
+  - between: {col: TIME_PERIOD, lo: 1950, hi: 2030}
+    reason: country survey data starts ~1990; a wide floor guards against malformed years
+    certainty: 85
+  - at_most: {col: TIME_PERIOD, expr: current_year()}
+    reason: observed country data should not be stamped in the future
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - row_count: {min: 1000}
+    reason: CountryData spans many series, areas and years; far more than 1k rows
+    certainty: 90

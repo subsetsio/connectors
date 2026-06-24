@@ -1,0 +1,29 @@
+spec_id: un-statistics-division-df-undata-energy
+status: active
+# UNSD Energy Statistics SDMX flow, saved verbatim as SDMX-CSV. Columns:
+# DATAFLOW, FREQ, REF_AREA, COMMODITY, TRANSACTION, TIME_PERIOD, OBS_VALUE,
+# UNIT_MULT, UNIT_MEASURE, OBS_STATUS, CONVERSION_FACTOR.
+tests:
+  - not_null: REF_AREA
+    reason: every energy observation is keyed to a reference area
+    certainty: 95
+  - not_null: COMMODITY
+    reason: the energy commodity dimension is part of every observation key
+    certainty: 95
+  - not_null: TRANSACTION
+    reason: the transaction (flow) dimension is part of every observation key
+    certainty: 95
+  - not_null: TIME_PERIOD
+    reason: every SDMX observation is stamped with a year
+    certainty: 95
+  - between: {col: TIME_PERIOD, lo: 1950, hi: 2030}
+    reason: UNSD energy statistics start in 1990; a wide floor guards against malformed years
+    certainty: 85
+  - at_most: {col: TIME_PERIOD, expr: current_year()}
+    reason: energy statistics are historical, not projected into the future
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - row_count: {min: 100000}
+    reason: the energy flow is one of the largest UNSD dataflows (~84MB CSV)
+    certainty: 90

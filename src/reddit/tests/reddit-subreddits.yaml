@@ -1,0 +1,27 @@
+spec_id: reddit-subreddits
+status: active
+# Raw schema (single parquet snapshot, one row per subreddit):
+# subreddit(str), subscribers(int), created_utc(epoch s int), over18(bool),
+# subreddit_type(str), lang(str), num_posts(int), num_comments(int).
+# Current metadata for every subreddit at/above the 50k-subscriber enumeration floor.
+tests:
+  - not_null: subreddit
+  - not_null: subscribers
+  - unique: subreddit
+    reason: enumeration dedupes by lowercased display_name; one snapshot row per subreddit
+    certainty: 90
+  - column_type: {col: subscribers, type: integer}
+  - column_type: {col: created_utc, type: integer}
+  - column_type: {col: over18, type: boolean}
+  - at_least: {col: subscribers, expr: 50000}
+    reason: enumeration filters min_subscribers=50000, so every snapshot row clears the floor
+    certainty: 95
+  - distinct_count: {col: subreddit, min: 5000}
+    reason: ~15k subreddits sit at/above the 50k-subscriber floor
+    certainty: 80
+  - row_count: {min: 5000}
+    reason: one row per >=50k-subscriber subreddit; far fewer means enumeration truncated
+    certainty: 80
+  - between: {col: created_utc, lo: 1100000000, hi: 1900000000}
+    reason: subreddit creation epoch seconds; Reddit launched mid-2005, none predate it
+    certainty: 90
