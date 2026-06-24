@@ -177,7 +177,14 @@ TRANSFORM_SPECS = [
                 CAST(value_sum  AS DOUBLE) AS value_sum,
                 CAST(n_obs AS INTEGER) AS n_obs
             FROM "panama-canal-authority-values"
-            WHERE date IS NOT NULL AND value_mean IS NOT NULL
+            WHERE date IS NOT NULL
+              AND value_mean IS NOT NULL AND isfinite(value_mean)
+              -- Drop sentinel/placeholder timestamps: a stray 1900-01-01 null-date
+              -- marker and any future-dated rows (forecast stragglers — no real
+              -- observation lies in the future). Genuine historical data (1930s+)
+              -- is kept.
+              AND date > DATE '1900-01-01'
+              AND date <= current_date
         ''',
     ),
 ]

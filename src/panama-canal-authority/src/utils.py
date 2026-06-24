@@ -12,6 +12,7 @@ Both node fetches share the catalog crawl + the per-station filtering here.
 """
 
 import io
+import math
 import re
 import urllib.parse
 import zipfile
@@ -29,11 +30,13 @@ PORTAL_HEADERS = {
 # Stations / labels that are NOT observed measurements. The "SIMULACIONES"
 # station holds model what-if scenario runs (e.g. drought forecast cadets), the
 # "Tst*" stations are test rigs, and any series whose label advertises a
-# forecast/simulation is a model output, not a gauge reading. None of these
-# belong in a published observations table.
+# forecast/simulation/idealized curve is a model output, not a gauge reading.
+# "Idealizada" tide series are harmonic tide predictions (they project years into
+# the future, e.g. to 2029) — model output, unlike the "Telem Radar/Shaft" gauge
+# readings at real stations. None of these belong in a published observations table.
 EXCLUDE_LOCATIONS = {"SIMULACIONES"}
 EXCLUDE_LOC_PREFIXES = ("Tst",)
-FORECAST_LABEL_RE = re.compile(r"forecast|pron[oó]s|simulac", re.IGNORECASE)
+FORECAST_LABEL_RE = re.compile(r"forecast|pron[oó]s|simulac|idealiz", re.IGNORECASE)
 
 _UNIT_RE = re.compile(r"Value\s*\(([^)]*)\)")
 
@@ -171,6 +174,11 @@ def export_daily(series_id: str):
         try:
             v = float(token)
         except ValueError:
+            continue
+        # The portal emits "NaN" for missing/flagged readings; float() parses it
+        # happily and one NaN would poison the whole day's sum/mean. Drop any
+        # non-finite value so each day aggregates only real observations.
+        if not math.isfinite(v):
             continue
         slot = agg.get(day)
         if slot is None:
