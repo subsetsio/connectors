@@ -1,0 +1,35 @@
+spec_id: usgs-daily
+# Daily summarized values, published as a recent rolling window (WINDOW_DAYS=14)
+# because the national corpus is unbounded. Raw is stringified NDJSON; time is a
+# date (no intraday component).
+status: active
+tests:
+  - not_null: time_series_id
+    reason: every daily value belongs to a time series; the transform drops rows without it.
+    certainty: 95
+  - not_null: time
+    reason: a daily value is keyed by its date; the transform requires it.
+    certainty: 95
+  - not_null: monitoring_location_id
+    reason: every value is attributed to a monitoring location.
+    certainty: 90
+  - unique: [time_series_id, time]
+    reason: one summarized value per series per day; a dupe means a page overlap DISTINCT had to clean.
+    certainty: 80
+  - matches: {col: time, pattern: '^\d{4}-\d{2}-\d{2}'}
+    reason: daily 'time' is an ISO date (YYYY-MM-DD), not a full timestamp.
+    certainty: 85
+  - matches: {col: parameter_code, pattern: '^\d{5}$'}
+    reason: USGS parameter codes are 5-digit zero-padded.
+    certainty: 80
+    severity: warn
+  - freshness: {col: time, reaches: today - 16d}
+    reason: a 14-day window pinned to run time should reach within ~16 days of today; staler means the source lagged.
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - row_count: {min: 1000}
+    reason: a national 14-day window of daily values is sizeable; near-zero signals an empty or failed crawl.
+    certainty: 60
+    points_outward: true
+    severity: warn

@@ -1,0 +1,27 @@
+spec_id: usgs-field-measurements
+# Discrete field measurements (manual readings taken during site visits).
+# Raw is stringified NDJSON.
+status: active
+tests:
+  - not_null: monitoring_location_id
+    reason: every field reading is taken at a monitoring location; the transform drops rows without it.
+    certainty: 90
+  - not_null: field_measurements_series_id
+    reason: each reading belongs to a field-measurement series.
+    certainty: 85
+  - not_null: time
+    reason: a field reading records when the observation was made.
+    certainty: 90
+  - matches: {col: monitoring_location_id, pattern: '^USGS-[0-9A-Za-z]+$'}
+    reason: location ids are "USGS-<siteno>".
+    certainty: 75
+    severity: warn
+  - matches: {col: parameter_code, pattern: '^\d{5}$'}
+    reason: USGS parameter codes are 5-digit zero-padded (e.g. 72019 water level).
+    certainty: 80
+    severity: warn
+  - row_count: {min: 50000}
+    reason: decades of discrete field readings across the network are numerous; a tiny count signals a partial crawl.
+    certainty: 60
+    points_outward: true
+    severity: warn

@@ -1,0 +1,27 @@
+spec_id: usgs-combined-metadata
+# Combined metadata: one row per (location, parameter, statistic) time-series the
+# site exposes, joined with location attributes. Raw is stringified NDJSON.
+status: active
+tests:
+  - not_null: id
+    reason: each combined-metadata feature has an OGC feature id; the transform keys on it.
+    certainty: 90
+  - unique: id
+    reason: one row per metadata feature; a dupe means a paging overlap leaked into raw.
+    certainty: 80
+  - not_null: monitoring_location_id
+    reason: every metadata record references the location it describes.
+    certainty: 90
+  - matches: {col: monitoring_location_id, pattern: '^USGS-[0-9A-Za-z]+$'}
+    reason: water-data location ids are "USGS-<siteno>" (e.g. USGS-443707090325601).
+    certainty: 75
+    severity: warn
+  - nullable: {col: parameter_code, max_null_frac: 0.1}
+    reason: most rows describe a specific measured parameter; a few location-only rows may omit it.
+    certainty: 55
+    severity: warn
+  - row_count: {min: 50000}
+    reason: combined metadata fans location x parameter x statistic, so it is large; a tiny count signals a partial crawl.
+    certainty: 60
+    points_outward: true
+    severity: warn

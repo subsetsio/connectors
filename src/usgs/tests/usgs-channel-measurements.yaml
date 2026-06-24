@@ -1,0 +1,26 @@
+spec_id: usgs-channel-measurements
+# Channel/cross-section measurements captured during streamflow field visits.
+# Raw is stringified NDJSON.
+status: active
+tests:
+  - not_null: id
+    reason: every channel measurement has an OGC feature id (a UUID); the transform keys on it.
+    certainty: 90
+  - unique: id
+    reason: one row per channel measurement; a dupe means a paging overlap leaked into raw.
+    certainty: 80
+  - not_null: monitoring_location_id
+    reason: every measurement is taken at a monitoring location.
+    certainty: 90
+  - not_null: field_visit_id
+    reason: a channel measurement is recorded during a field visit and references it.
+    certainty: 80
+  - matches: {col: monitoring_location_id, pattern: '^USGS-[0-9A-Za-z]+$'}
+    reason: location ids are "USGS-<siteno>".
+    certainty: 75
+    severity: warn
+  - row_count: {min: 10000}
+    reason: channel measurements accumulate across decades of gauging visits; a tiny count signals a partial crawl.
+    certainty: 55
+    points_outward: true
+    severity: warn

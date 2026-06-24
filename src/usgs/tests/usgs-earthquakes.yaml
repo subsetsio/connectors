@@ -1,0 +1,38 @@
+spec_id: usgs-earthquakes
+# FDSN ComCat global event catalog (since 1900), crawled by ascending time cursor
+# and parsed from CSV to NDJSON. Raw values are strings.
+status: active
+tests:
+  - not_null: id
+    reason: every ComCat event has a stable event id (e.g. tx2024aaaa); the transform keys on it.
+    certainty: 95
+  - not_null: time
+    reason: an event without an origin time is unusable; the transform requires it.
+    certainty: 95
+  - unique: id
+    reason: each ComCat event id is globally unique; a dupe means the ascending-time cursor re-pulled a boundary window.
+    certainty: 85
+  - not_null: latitude
+    reason: located events always carry a hypocenter latitude.
+    certainty: 90
+  - not_null: longitude
+    reason: located events always carry a hypocenter longitude.
+    certainty: 90
+  - matches: {col: id, pattern: '^[a-z0-9]+$'}
+    reason: ComCat ids are a lowercase network code plus alphanumerics (nc73..., tx2024...).
+    certainty: 70
+    severity: warn
+  - nullable: {col: mag, max_null_frac: 0.1}
+    reason: most events carry a magnitude; a small fraction (felt-only / non-tectonic) may lack one.
+    certainty: 60
+    severity: warn
+  - freshness: {col: time, reaches: today - 30d}
+    reason: the catalog ingests events continuously, so a whole-corpus pull should reach within a month of today.
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - row_count: {min: 1000000}
+    reason: the global catalog since 1900 holds millions of events; far fewer signals a truncated crawl.
+    certainty: 75
+    points_outward: true
+    severity: warn

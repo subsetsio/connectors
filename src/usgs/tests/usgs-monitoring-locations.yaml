@@ -1,0 +1,30 @@
+spec_id: usgs-monitoring-locations
+# USGS Water OGC monitoring-locations: the national site registry (~1.9M sites).
+# One feature per monitoring location; raw is stringified NDJSON.
+status: active
+tests:
+  - not_null: id
+    reason: every feature carries an OGC feature id (e.g. "AL012-90100100001"); the transform keys on it.
+    certainty: 95
+  - unique: id
+    reason: one row per monitoring location; a dupe means a paging-cursor overlap leaked through to raw.
+    certainty: 85
+  - not_null: monitoring_location_number
+    reason: the site number is the location's stable identifier and is always populated.
+    certainty: 85
+  - not_null: agency_code
+    reason: every site is attributed to a reporting agency (USGS or a cooperator).
+    certainty: 85
+  - matches: {col: id, pattern: '^[A-Za-z0-9]+-[0-9A-Za-z]+$'}
+    reason: feature id is "<agency_code>-<site_number>" (e.g. AL012-90100100001).
+    certainty: 65
+    severity: warn
+  - row_count: {min: 500000}
+    reason: the national registry spans ~1.9M historic and active sites; far fewer signals a truncated crawl.
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - nullable: {col: _lat, max_null_frac: 0.4}
+    reason: most locations carry point geometry, but some legacy sites lack coordinates.
+    certainty: 55
+    severity: warn

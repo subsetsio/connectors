@@ -1,0 +1,44 @@
+spec_id: 'us-census-bureau-pep/stchar5'
+status: active
+tests:
+  - not_null: geo_level
+    reason: every EAV cell is tagged with the geography level it was queried at
+    certainty: 95
+  - not_null: variable
+    reason: every melted cell carries its source column header
+    certainty: 95
+  - not_null: value
+    reason: API cells with a null value are dropped before writing, so value is never null in raw
+    certainty: 95
+  - not_null: row_id
+    reason: row_id is assigned to every melted response row
+    certainty: 95
+  - column_type: {col: row_id, type: integer}
+    reason: row_id is a 0-based integer counter written as a JSON number
+    certainty: 90
+  - column_type: {col: variable, type: string}
+    certainty: 90
+  - column_type: {col: value, type: string}
+    reason: value is text because Census mixes numeric estimates with annotation codes ('-', 'N', '(X)')
+    certainty: 85
+  - column_type: {col: geo_level, type: string}
+    certainty: 90
+  - at_least: {col: row_id, expr: 0}
+    reason: row_id counts up from 0 within the dataset
+    certainty: 95
+  - distinct_count: {col: variable, min: 1}
+    reason: every dataset exposes at least one requested column in the variable axis
+    certainty: 90
+  - row_count: {min: 1}
+    reason: the fetch raises if no slice returns data, so a persisted raw asset always holds at least one cell
+    certainty: 90
+  - not_null: vintage
+    reason: aggregate datasets stamp every cell with their immutable vintage year
+    certainty: 90
+  - column_type: {col: vintage, type: integer}
+    certainty: 90
+  - enum: {col: vintage, values: [2014]}
+    reason: this download pulls exactly one immutable vintage
+    certainty: 90
+  - between: {col: vintage, lo: 2014, hi: 2014}
+    certainty: 90

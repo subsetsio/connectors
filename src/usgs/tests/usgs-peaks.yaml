@@ -1,0 +1,33 @@
+spec_id: usgs-peaks
+# Annual peak streamflow / gage-height values (one peak per site-water-year).
+# Raw is stringified NDJSON.
+status: active
+tests:
+  - not_null: id
+    reason: every peak feature has an OGC feature id; the transform keys on it.
+    certainty: 90
+  - unique: id
+    reason: one row per peak feature; a dupe means a paging overlap leaked into raw.
+    certainty: 80
+  - not_null: monitoring_location_id
+    reason: every annual peak is attributed to a monitoring location.
+    certainty: 90
+  - not_null: water_year
+    reason: peaks are organized by water year; it identifies the annual maximum.
+    certainty: 85
+  - matches: {col: water_year, pattern: '^\d{4}$'}
+    reason: water_year is a 4-digit year.
+    certainty: 85
+  - matches: {col: monitoring_location_id, pattern: '^USGS-[0-9A-Za-z]+$'}
+    reason: location ids are "USGS-<siteno>".
+    certainty: 75
+    severity: warn
+  - matches: {col: parameter_code, pattern: '^\d{5}$'}
+    reason: peaks are discharge (00060) or gage height (00065), both 5-digit parameter codes.
+    certainty: 75
+    severity: warn
+  - row_count: {min: 200000}
+    reason: roughly a century of annual peaks across thousands of gauges; far fewer signals a truncated crawl.
+    certainty: 65
+    points_outward: true
+    severity: warn
