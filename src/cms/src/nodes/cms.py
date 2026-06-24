@@ -136,11 +136,19 @@ DOWNLOAD_SPECS = [
 # One published Delta table per dataset. Each dataset has its own column set, so
 # the transform is an honest pass-through over the NDJSON view (read_json_auto
 # yields VARCHAR columns straight from the published CSV values).
+#
+# `SET arrow_large_buffer_size=true` makes DuckDB export string columns as Arrow
+# large_string (64-bit offsets). The largest CMS datasets carry a text column
+# whose concatenated bytes exceed the 2 GiB regular-string-buffer limit, which
+# otherwise fails the Arrow record-batch export ("maximum total string size for
+# regular string buffers is 2147483647"). large_string stores identically in
+# parquet/Delta, so this is harmless for the small datasets and required for the
+# few huge ones.
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
+        sql=f'SET arrow_large_buffer_size=true;\nSELECT * FROM "{s.id}"',
     )
     for s in DOWNLOAD_SPECS
 ]
