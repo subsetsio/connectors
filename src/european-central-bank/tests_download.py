@@ -1,21 +1,18 @@
 """Health invariants for ECB raw downloads, run post-DAG inside the connector."""
 
-import json
+import pyarrow.parquet as pq
 
-from subsets_utils import raw_reader
+from subsets_utils import raw_parquet_localpath
 
 
 def test_raw_has_records(spec_ids):
-    """Every dataflow's raw NDJSON must hold at least one parseable observation.
-
-    Streams the first line only (some flows are many millions of rows) — empty
-    or unparseable raw means the endpoint switched format or returned nothing.
-    """
+    """Every dataflow's raw Parquet must hold observations and carry the core
+    SDMX columns. Reads only file metadata + schema (no data load) so it stays
+    memory-bounded even for the multi-million-row flows (SHS, MMSR, SEC)."""
     for sid in spec_ids:
-        with raw_reader(sid, "ndjson.gz", mode="rt", compression="gzip") as f:
-            first = f.readline()
-        assert first and first.strip(), f"{sid}: raw NDJSON is empty"
-        rec = json.loads(first)
-        assert "TIME_PERIOD" in rec and "OBS_VALUE" in rec, (
-            f"{sid}: first record missing expected SDMX columns; got {list(rec)[:8]}"
-        )
+        with raw_parquet_localpath(sid) as path:
+            md = pq.read_metadata(path)
+            cols = set(md.schema.names)
+        assert md.num_rows > 0, f"{sid}: raw parquet has 0 rows"
+        missing = {"KEY", "TIME_PERIOD", "OBS_VALUE"} - cols
+        assert not missing, f"{sid}: raw parquet missing SDMX columns {missing}"

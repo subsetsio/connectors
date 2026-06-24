@@ -7,24 +7,28 @@ gzip NDJSON, one record per observation.
 
 Fetch shape: **stateless full re-pull**. The whole flow is re-fetched every
 refresh and overwritten; revisions and late corrections are picked up for free.
-The response is streamed and parsed line-by-line into NDJSON so memory stays
-bounded regardless of flow size (the largest flows — SHS, MMSR, SEC — can be
-many millions of observations).
+The response is streamed and parsed line-by-line into batched Parquet so memory
+stays bounded regardless of flow size (the largest flows — SHS, MMSR, SEC — can
+be many millions of observations).
 
-NDJSON (not parquet) is deliberate: each dataflow carries its own DSD dimension
-columns (EXR has CURRENCY/EXR_TYPE, YC has FM_MATURITY/DATA_TYPE_FM, ...), so
-there is no single stable schema across the 75 assets. NDJSON lets each asset
-keep its own columns and lets the transform re-type on read.
+Each dataflow carries its own DSD dimension columns (EXR has CURRENCY/EXR_TYPE,
+YC has FM_MATURITY/DATA_TYPE_FM, ...), so there is no single schema across the
+75 assets — each asset gets a per-flow schema derived from its CSV header. Every
+column is written as a string: SDMX-CSV values are text, and an all-VARCHAR raw
+keeps the transform's re-typing explicit (`TRY_CAST` in SQL) and immune to the
+JSON type-inference pitfalls a `read_json_auto` view hits when a column is empty
+across the inference sample window and populated only later in the file.
 """
 
 import csv
-import json
+
+import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get_client,
-    raw_writer,
+    raw_parquet_writer,
     transient_retry,
 )
 from constants import ENTITY_IDS
@@ -32,6 +36,7 @@ from constants import ENTITY_IDS
 SLUG = "european-central-bank"
 PREFIX = f"{SLUG}-"
 DATA_BASE = "https://data-api.ecb.europa.eu/service/data"
+BATCH_ROWS = 50_000  # rows per parquet row-group flush
 
 
 def _flow_from_node_id(node_id: str) -> str:
@@ -44,9 +49,20 @@ def _flow_from_node_id(node_id: str) -> str:
     return node_id[len(PREFIX):].replace("-", "_").upper()
 
 
+def _flush(writer, schema, batch):
+    cols = [
+        pa.array([row[i] for row in batch], type=pa.string())
+        for i in range(len(schema))
+    ]
+    writer.write_table(pa.Table.from_arrays(cols, schema=schema))
+
+
 @transient_retry()  # 6 attempts, exponential backoff, reraise on exhaustion
 def _stream_flow(flow: str, asset: str) -> int:
-    """Stream one dataflow's SDMX-CSV into gzip NDJSON. Returns rows written."""
+    """Stream one dataflow's SDMX-CSV into batched all-string Parquet.
+
+    Returns the number of observation rows written.
+    """
     url = f"{DATA_BASE}/{flow}"
     client = get_client()
     written = 0
@@ -65,13 +81,24 @@ def _stream_flow(flow: str, asset: str) -> int:
             header = next(reader)
         except StopIteration:
             raise RuntimeError(f"{flow}: empty CSV response (no header)")
-        with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as out:
+        ncol = len(header)
+        schema = pa.schema([(h, pa.string()) for h in header])
+        with raw_parquet_writer(asset, schema) as writer:
+            batch = []
             for row in reader:
-                # Map empty SDMX cells to null; keep everything else verbatim.
-                rec = {h: (v if v != "" else None) for h, v in zip(header, row)}
-                out.write(json.dumps(rec, separators=(",", ":")))
-                out.write("\n")
-                written += 1
+                # Normalize every row to exactly the header width; map empty
+                # SDMX cells to null, keep everything else verbatim as text.
+                rec = [None] * ncol
+                for i, v in enumerate(row[:ncol]):
+                    rec[i] = v if v != "" else None
+                batch.append(rec)
+                if len(batch) >= BATCH_ROWS:
+                    _flush(writer, schema, batch)
+                    written += len(batch)
+                    batch = []
+            if batch:
+                _flush(writer, schema, batch)
+                written += len(batch)
     return written
 
 
