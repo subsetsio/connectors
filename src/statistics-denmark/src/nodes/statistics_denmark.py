@@ -97,9 +97,14 @@ def fetch_one(node_id: str) -> None:
     for v in others:
         rows_per_unit *= max(1, len(v.get("values") or []))
     per_req = max(1, _ROW_BUDGET // max(1, rows_per_unit))
+    per_req = min(per_req, _MAX_SELECT)  # keep enumerated selections under the 500 ceiling
 
     chunk_values = [val["id"] for val in (chunk_var.get("values") or [])]
     if not chunk_values:
+        slices = [["*"]]
+    elif len(chunk_values) <= per_req:
+        # One request covers the whole dimension — use "*" instead of enumerating,
+        # which both shrinks the body and sidesteps the explicit-list 500.
         slices = [["*"]]
     else:
         slices = [chunk_values[i:i + per_req] for i in range(0, len(chunk_values), per_req)]
