@@ -62,7 +62,7 @@ def _armstat_transient(exc: BaseException) -> bool:
     return isinstance(exc, httpx.TransportError) or is_transient(exc)
 
 
-def armstat_retry(*, attempts: int = 8, min_wait: float = 4, max_wait: float = 120):
+def armstat_retry(*, attempts: int = 14, min_wait: float = 4, max_wait: float = 240):
     return retry(
         retry=retry_if_exception(_armstat_transient),
         stop=stop_after_attempt(attempts),
