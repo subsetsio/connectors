@@ -8,13 +8,26 @@ HTTP 200, e.g. "Symbol not exists.") is a permanent per-entity skip. Numeric
 fields are human-formatted strings ($, commas, %) and are cleaned/typed in the
 SQL transforms, not here.
 
+Robustness note: this backend is flaky from datacenter IPs. Two observed
+failure modes, both handled here:
+  - a 200 response with a non-JSON body (empty / HTML challenge) — `resp.json()`
+    raises; treated as transient (`_BadJson`) and retried, then surfaced.
+  - a screener page returning an empty rows[] for a VALID mid-stream offset —
+    NOT end-of-data; the paginator retries the page instead of stopping early.
+
 This module holds the shared HTTP client, the envelope/scalar helpers, and the
 screener-pagination enumeration reused by the screeners and the historical-price
 crawl. It contains no NodeSpec definitions.
 """
-from ratelimit import limits, sleep_and_retry
+import json
+import time
 
-from subsets_utils import get, transient_retry
+from ratelimit import limits, sleep_and_retry
+from tenacity import (
+    retry, retry_if_exception, stop_after_attempt, wait_exponential,
+)
+
+from subsets_utils import get, is_transient
 
 BASE = "https://api.nasdaq.com/api"
 HDRS = {
@@ -31,11 +44,31 @@ DIV_WINDOW_FWD = 14
 # --- HTTP -------------------------------------------------------------------
 
 
-@transient_retry()
+class BadJson(ValueError):
+    """A 200 response whose body isn't parseable JSON. api.nasdaq.com does this
+    intermittently (empty body / HTML challenge), especially from cloud IPs.
+    Classified transient so the retry policy below retries it."""
+
+
+def _retryable(exc: BaseException) -> bool:
+    # Standard transient set (network / 429 / 5xx) PLUS non-JSON 200 bodies.
+    return is_transient(exc) or isinstance(exc, (BadJson, json.JSONDecodeError))
+
+
+@retry(
+    retry=retry_if_exception(_retryable),
+    stop=stop_after_attempt(6),
+    wait=wait_exponential(min=4, max=120),
+    reraise=True,
+)
 def _get_json(url: str) -> dict:
     resp = get(url, headers=HDRS, timeout=(10.0, 120.0))
     resp.raise_for_status()
-    return resp.json()
+    try:
+        return resp.json()
+    except (json.JSONDecodeError, ValueError) as exc:
+        # 200 with a non-JSON body — retry; surface as BadJson if it persists.
+        raise BadJson(f"non-JSON body from {url}: {exc}") from exc
 
 
 @sleep_and_retry
@@ -59,43 +92,38 @@ def _s(v):
 
 
 # --- universe enumeration (shared by screeners + historical-prices) ---------
+#
+# The offset-paginated screener endpoint (?limit=&offset=) is unusable for a
+# full pull: it caps at 50 rows/page regardless of limit, intermittently
+# returns an empty page for a valid offset, AND reorders the live feed between
+# requests so fixed-offset pages overlap and drop ~15% of the universe on
+# dedup. The `download=true` variant returns the ENTIRE table in one request
+# (stocks ~7.1k, ETFs ~4.5k), so we use that exclusively.
 
-def _screener_rows(path: str, rows_accessor) -> list[dict]:
-    """Paginate a screener endpoint to completeness. The endpoint may silently
-    cap the page size (the ETF screener honors at most 50/page regardless of the
-    requested limit), so advance the offset by the actual rows returned, not by
-    the requested limit."""
-    out: list[dict] = []
-    offset, limit = 0, 5000
-    MAX_PAGES = 5000  # safety ceiling — raises rather than looping forever
-    for _ in range(MAX_PAGES):
-        payload = _get_json(f"{BASE}/screener/{path}?limit={limit}&offset={offset}")
+def _screener_download(path: str, extract, retries: int = 6) -> list[dict]:
+    """Full screener snapshot via ?download=true, in one request.
+
+    `extract` pulls the row list out of the response `data` object (the two
+    screeners nest it differently). Retries a transient empty body (the backend
+    is flaky from cloud IPs) before giving up loudly."""
+    for attempt in range(retries):
+        payload = _get_json(f"{BASE}/screener/{path}?download=true")
         if not _envelope_ok(payload):
-            raise RuntimeError(f"screener/{path} bad envelope at offset={offset}")
-        rows, total = rows_accessor(payload["data"])
-        if total is None:
-            raise RuntimeError(f"screener/{path} missing totalrecords")
-        if not rows:
-            break
-        out.extend(rows)
-        offset += len(rows)
-        if offset >= total:
-            break
-    else:
-        raise RuntimeError(f"screener/{path} exceeded {MAX_PAGES} pages")
-    return out
+            raise RuntimeError(f"screener/{path} download bad envelope")
+        rows = extract(payload.get("data") or {})
+        if rows:
+            return rows
+        time.sleep(1.0 * (attempt + 1))  # transient empty snapshot — retry
+    raise RuntimeError(
+        f"screener/{path} download returned no rows after {retries} retries"
+    )
 
 
 def _stock_rows() -> list[dict]:
-    return _screener_rows(
-        "stocks",
-        lambda d: (d.get("table", {}).get("rows", []), d.get("totalrecords")),
-    )
+    # stocks: data.rows
+    return _screener_download("stocks", lambda d: d.get("rows") or [])
 
 
 def _etf_rows() -> list[dict]:
-    return _screener_rows(
-        "etf",
-        lambda d: (d.get("records", {}).get("data", {}).get("rows", []),
-                   d.get("records", {}).get("totalrecords")),
-    )
+    # etf: data.data.rows (nested one level deeper than stocks)
+    return _screener_download("etf", lambda d: (d.get("data") or {}).get("rows") or [])

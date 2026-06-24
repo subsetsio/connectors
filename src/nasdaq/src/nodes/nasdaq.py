@@ -26,7 +26,7 @@ from subsets_utils import (
 )
 
 from utils import (
-    BASE, _s, _get_json, _get_json_paced, _envelope_ok,
+    BASE, _s, _get_json, _get_json_paced, _envelope_ok, BadJson,
     _stock_rows, _etf_rows, DIV_WINDOW_BACK, DIV_WINDOW_FWD,
 )
 
@@ -219,6 +219,12 @@ def _fetch_hist_symbol(symbol: str, assetclass: str,
         if 400 <= code < 500 and code != 429:
             return []
         raise
+    except BadJson:
+        # One ticker persistently returning a non-JSON body (after the retry
+        # policy exhausted) is a per-symbol skip, not a crawl-killing failure —
+        # the universe is ~11k symbols and a single WAF-blocked/delisted ticker
+        # must not abort the whole firehose.
+        return []
     if not _envelope_ok(payload):
         return []  # 'Symbol not exists.' / no data — permanent per-symbol skip
     data = payload.get("data") or {}
