@@ -11,21 +11,38 @@ Three published subsets, all sourced from the public KiWIS QueryServices API
   * ``values``     — long-format daily observations for every series in the
                      catalog (getTimeseriesValues). The flagship subset.
 
-`values` is a resumable firehose. The full corpus is ~35k daily series and tens
-of millions of observations, far too large for one request: getTimeseriesValues
-caps total returned data points (~60k; a 250-series x 127-year request 500s), so
-we batch a bounded number of series over bounded date windows sized to stay under
-the cap. Work is checkpointed per (parameter, series-chunk): each chunk writes one
-raw parquet and advances state, so a supervisor interrupt resumes from the next
-chunk. A chunk's state carries a signature derived from its members' coverage
-`to` dates, so a later refresh re-pulls only chunks whose series gained new data
-(BOM revises and extends series); unchanged chunks are skipped. State holds that
-signature set, never a terminal done flag.
+`values` is a continuation-resumable firehose. The full corpus is ~35k daily
+series and hundreds of millions of observations — far more than one
+getTimeseriesValues request (it caps total returned data points at ~60k) and
+more than one 6h CI job. So we batch a bounded number of series over bounded
+date windows sized to stay under the point cap, write one raw parquet per
+(parameter, series-chunk), and drive progress through the orchestrator's
+**continuation** mechanism rather than durable cross-run state.
 
-No incremental server-side query is used for the snapshot — getTimeseriesValues
-takes from/to but we re-derive each chunk's window from its series' coverage and
-re-pull the full span; the coverage signature is what makes refresh cheap.
+Resume model — this is the crucial bit:
+
+  * Raw assets are *run-scoped* (``runs/<RUN_ID>/raw/…``); state files are
+    *durable* (``data/state/…``). A continuation chain reuses the same RUN_ID,
+    so completed chunks' raw parquets accumulate within the chain. A *fresh*
+    dispatch gets a new RUN_ID and an empty raw dir.
+  * Therefore resume is keyed on ``raw_asset_exists(chunk_asset)`` — "is this
+    chunk already materialised in THIS run?" — never on a durable "complete"
+    flag. (Skipping on durable state was the original bug: a fresh run inherited
+    the prior chain's "all complete" markers, skipped every chunk, wrote zero
+    raw, and the transform failed with "no raw files found".)
+  * When a soft wall-clock budget (just under the orchestrator's
+    ``DAG_TIME_BUDGET``) is spent with chunks still unwritten, the node returns
+    ``True`` to request a continuation; the runner re-triggers with the same
+    RUN_ID and we pick up at the first chunk whose raw is missing. When every
+    chunk's raw exists, the node returns ``None`` (done) and the downstream
+    transform runs over the full accumulated corpus.
+
+No incremental server-side query is used — getTimeseriesValues takes from/to but
+we re-derive each chunk's window from its members' coverage and pull the full
+span; the published Delta table is overwritten from raw each successful run.
 """
+import os
+import time
 import pyarrow as pa
 from datetime import date, timedelta
 
@@ -37,29 +54,16 @@ from subsets_utils import (
     get,
     transient_retry,
     save_raw_parquet,
-    load_state,
-    save_state,
+    raw_asset_exists,
 )
 
 from constants import BASE_URL, PARAM_DAILY_TSNAME
 
-STATE_VERSION = 2
-
-# Per-chunk completion is stored under a dedicated top-level state key
-# (CHUNK_PREFIX + chunk_key), never nested under one growing dict. save_state's
-# lineage tracking diffs state *by top-level key* and stringifies old+new for
-# every key that changed — a single nested `chunks` dict therefore re-records the
-# whole (growing) blob on every per-chunk checkpoint, which is O(n^2) in the
-# number of chunks and overflowed the orchestrator's result pipe. Flat keys make
-# each checkpoint a single small one-key diff.
-CHUNK_PREFIX = "c:"
-
-# getTimeseriesValues caps total data points per request (~60k observed; a
-# 250-series x 127-year call 500s). Daily series have ~1 point/day, so keep
-# n_series * window_days comfortably under the cap.
-MAX_POINTS_PER_CALL = 36000
+# getTimeseriesValues caps total data points per request (~60k observed). Daily
+# series carry ~1 point/day, so keep n_series * window_days under the cap; a
+# denser-than-expected window is caught by the split-on-500 fallback below.
 SERIES_PER_CALL = 80
-WINDOW_DAYS = MAX_POINTS_PER_CALL // SERIES_PER_CALL  # 450 days (~1.2y)
+WINDOW_DAYS = 730  # ~2y; 80 * 730 = 58_400 worst-case points, under the ~60k cap
 
 # Coverage fallbacks when a series reports no from/to (sparse/empty series).
 GLOBAL_START = date(1900, 1, 1)
@@ -67,6 +71,11 @@ GLOBAL_START = date(1900, 1, 1)
 # Safety ceiling: a single (chunk, window) sub-request that keeps 500ing even
 # after splitting down to a 1-day window is a real failure, not source size.
 MIN_WINDOW_DAYS = 1
+
+# Yield for continuation this many seconds before the orchestrator's hard
+# DAG_TIME_BUDGET deadline, so we always stop on a clean chunk boundary (a
+# completed raw parquet) rather than being SIGKILLed mid-write.
+CONTINUATION_MARGIN_S = 900.0
 
 
 # --------------------------------------------------------------------------- #
@@ -244,13 +253,6 @@ def _fetch_window(ts_ids: list[str], start: date, end: date) -> list[dict]:
                 continue
             rows.append({"ts_id": tsid, "timestamp": point[0], "value": value})
     return rows
-
-
-def _chunk_signature(members: list[dict]) -> str:
-    """Signature over a chunk's series coverage end-dates + size. Advances when
-    BOM extends/revises any member, triggering a re-pull on refresh."""
-    max_to = max((m["to_date"] or "") for m in members)
-    return f"{max_to}:{len(members)}"
 
 
 def _chunk_bounds(members: list[dict]) -> tuple[date, date]:

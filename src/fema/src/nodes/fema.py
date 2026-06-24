@@ -75,10 +75,10 @@ ENTITY_VERSIONS = {
 ENTITY_IDS = list(ENTITY_VERSIONS)
 
 # Per-dataset download format. Default is parquet (server-typed, smallest), but
-# the OpenFEMA full-file generator does NOT serve parquet for some datasets:
+# the OpenFEMA pre-generated full-file does NOT serve parquet for some datasets:
 #   - parquet absent from the catalog `distribution` entirely (json-only), or
-#   - parquet offered but on-demand generation fails at scale (400 at ~25M rows,
-#     503 at ~73M rows) — confirmed by a full run.
+#   - parquet offered but on-demand full-file generation fails at scale (400 at
+#     ~25M rows, 503 at ~73M rows) — confirmed by a full run.
 # For those we fall back to a SQL-readable full-file the server DOES serve. This
 # is deterministic (one format = one extension per asset) so the transform's
 # raw-file glob never sees mixed formats. CSV is read via read_csv_auto and JSONL
@@ -90,6 +90,17 @@ FORMAT_OVERRIDES = {
     "IpawsArchivedAlerts": "jsonl",                         # only json formats offered
 }
 
+# Datasets whose pre-generated full-file is unreliable: the on-demand generator
+# 503s/400s (the origin times out building a multi-GB file and Akamai serves an
+# HTML error page, NOT a retryable "still building" response — so plain retry of
+# the static URL never converges). The OpenFEMA `$allrecords=true` flag instead
+# *streams* the whole corpus directly from the query engine, bypassing the
+# file-generation step entirely. Verified 200 + correct content-type for all
+# four; the streamed CSV/JSONL carries the same columns (incl. the system `id`)
+# as the static file. We scope it to exactly the override datasets — the 34
+# parquet datasets serve their cached full-file fine and need no streaming.
+ALLRECORDS = set(FORMAT_OVERRIDES)
+
 
 def _format_for(name: str) -> str:
     return FORMAT_OVERRIDES.get(name, "parquet")
@@ -99,7 +110,7 @@ def _format_for(name: str) -> str:
 # names contain no underscores, so the contract's
 # f"fema-{eid.lower().replace('_','-')}" reduces to a plain lowercase here.
 _BY_SPEC_ID = {
-    f"fema-{name.lower().replace('_', '-')}": (name, ver, _format_for(name))
+    f"fema-{name.lower().replace('_', '-')}": (name, ver, _format_for(name), name in ALLRECORDS)
     for name, ver in ENTITY_VERSIONS.items()
 }
 
@@ -127,7 +138,7 @@ def _is_transient(exc: BaseException) -> bool:
     wait=wait_exponential(min=5, max=120),
     reraise=True,
 )
-def _download(node_id: str, url: str, ext: str) -> None:
+def _download(node_id: str, url: str, ext: str, params: dict | None = None) -> None:
     """Stream one full-corpus file verbatim into the raw store under `ext`.
 
     raise_for_status() fires BEFORE the raw_writer opens, so a permanent 4xx
@@ -142,7 +153,7 @@ def _download(node_id: str, url: str, ext: str) -> None:
     client = get_client()
     # (connect, read) — read timeout is generous: full-file delivery of the
     # largest datasets streams for minutes.
-    with client.stream("GET", url, timeout=(15.0, 900.0)) as resp:
+    with client.stream("GET", url, params=params, timeout=(15.0, 900.0)) as resp:
         resp.raise_for_status()
         with raw_writer(node_id, ext, mode="wb") as out:
             for chunk in resp.iter_bytes(1 << 20):  # 1 MiB
@@ -152,9 +163,12 @@ def _download(node_id: str, url: str, ext: str) -> None:
 def fetch_one(node_id: str) -> None:
     """Download one OpenFEMA dataset's full-corpus file. node_id IS the asset
     name; recover the (EntityName, version, format) from it to build the URL."""
-    name, version, fmt = _BY_SPEC_ID[node_id]
+    name, version, fmt, allrecords = _BY_SPEC_ID[node_id]
     url = f"{_BASE}/v{version}/{name}.{fmt}"
-    _download(node_id, url, fmt)
+    # $allrecords streams the whole corpus from the query engine, sidestepping
+    # the unreliable on-demand full-file generator for the largest datasets.
+    params = {"$allrecords": "true"} if allrecords else None
+    _download(node_id, url, fmt, params)
 
 
 DOWNLOAD_SPECS = [

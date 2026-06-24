@@ -55,12 +55,21 @@ def _is_retryable(exc: BaseException) -> bool:
 
 @retry(
     retry=retry_if_exception(_is_retryable),
-    stop=stop_after_attempt(8),
-    wait=wait_exponential(min=5, max=120),
+    # Long, patient backoff: a tripped WAF block persists for minutes, so give it
+    # up to ~25 min cumulative to clear before failing the spec (10/20/40/.../300s).
+    stop=stop_after_attempt(10),
+    wait=wait_exponential(min=10, max=300),
     reraise=True,
 )
 @sleep_and_retry
-@limits(calls=60, period=60)  # 1 req/s per process; ~2/s combined across the 2 specs
+# Smooth, non-bursty pacing: one request per second, evenly spaced. The previous
+# `calls=60, period=60` bucket let the client fire 60 requests back-to-back when
+# the server responded fast (the cloud runner did ~200 sub-second pages in 89s,
+# ~2.3 req/s, and the EUVD WAF 403-blocked it). A bucket of 1 can never burst, so
+# the IP never exceeds 1 req/s. Specs run sequentially (DAG_PARALLELISM=1), so the
+# combined IP rate is also <=1 req/s. A full ~3600-page crawl takes ~1h; two
+# sequential crawls ~2h, well within the 355-min job budget.
+@limits(calls=1, period=1)
 def _fetch_page(page: int) -> dict:
     resp = get(
         f"{BASE}/search",
@@ -185,7 +194,7 @@ TRANSFORM_SPECS = [
                 CAST(epss AS DOUBLE)               AS epss,
                 assigner,
                 aliases,
-                references,
+                "references",
                 CAST(n_products AS INTEGER)        AS n_products
             FROM ranked
             WHERE rn = 1

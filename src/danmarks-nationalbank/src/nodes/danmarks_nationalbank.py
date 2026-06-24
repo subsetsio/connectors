@@ -10,14 +10,23 @@ Fetch shape: **stateless full re-pull** (the default). Every refresh pulls each
 table in its entirety and overwrites; no watermark is trusted, so revisions and
 late corrections are picked up for free.
 
-Why the data request is chunked by time: the BULK endpoint reliably 500s / drops
-the connection when asked to stream a single multi-hundred-MB response (several
-of these tables are 600MB-950MB as one extract — DNSUBOH, DNVP2, DNVPDKF,
-DNVPDKR2). So instead of one POST with Tid=["*"], we pull the table in slices of
-consecutive time periods, sized adaptively from the table's dimension
-cardinalities so each response stays ~TARGET_CELLS small, and stream every slice
-into the same gzip NDJSON asset. The non-time dimensions are always pulled in
-full ("*") within each slice.
+Why the data request is chunked: the BULK endpoint reliably 500s / drops the
+connection (incomplete chunked read) when asked to stream a single
+multi-hundred-MB response (several of these tables are 600MB-950MB as one
+extract — DNSUBOH, DNVP2, DNVPDKF, DNVPDKR2). So instead of one POST with
+Tid=["*"], we pull the table in slices kept to ~TARGET_ROWS rows each.
+
+The slice size is set from *actual* row counts, not the dense cardinality
+product: many tables are extremely sparse (e.g. DNVPDKR2's dense cross-product is
+~100M cells, yet one month is only ~0.7M real rows in 158MB), so a dense estimate
+either over-splits into hundreds of thousands of tiny requests or — worse —
+under-splits because it can't see that a *single* period already blows past the
+limit. We instead probe the most-recent (largest) period to learn rows/period,
+then either pack several periods per request (small tables) or pull one period at
+a time while splitting the widest non-time dimension into batches (giant tables).
+Every fetch is additionally wrapped in a reactive splitter: if a slice still
+drops after the transient retries, it is bisected along its widest axis and
+retried, guaranteeing forward progress regardless of the size estimate.
 
 Raw format: NDJSON (gzip). The tables are heterogeneous — each has its own
 dimension list — and all cell fields are written as JSON strings (the StatBank
@@ -26,6 +35,7 @@ here. The transform re-types the value column to DOUBLE.
 """
 
 import json
+import math
 
 from subsets_utils import (
     NodeSpec,
@@ -40,12 +50,15 @@ from constants import ENTITY_IDS
 SLUG = "danmarks-nationalbank"
 API = "https://api.statbank.dk/v1"
 
-# Target cells per /v1/data request. Kept well under the giant single-shot
-# responses that make the server 500; an over/under estimate of a few × still
-# lands far below the failing multi-million-cell extracts.
-TARGET_CELLS = 250_000
-# Safety ceiling on periods per slice, independent of the cardinality estimate.
+# Target *actual rows* per /v1/data request. Sized from a live probe (not the
+# dense cardinality product). ~200k rows is a few tens of MB per response — well
+# under the multi-hundred-MB single-shot extracts that make the server drop the
+# connection, while keeping the request count sane for the giant sparse tables.
+TARGET_ROWS = 200_000
+# Safety ceiling on periods per slice, independent of the row estimate.
 MAX_PERIODS_PER_CHUNK = 2_000
+# Max recursive bisections in the reactive splitter before giving up.
+MAX_SPLIT_DEPTH = 12
 
 
 def _table_id(node_id: str) -> str:
@@ -78,9 +91,9 @@ def _column_keys(header: str, time_codes: set) -> list:
 
 @transient_retry()
 def _fetch_slice(body: dict, time_codes: set) -> list:
-    """Fetch one time-slice as a list of record dicts. Bounded by TARGET_CELLS,
-    so it fits comfortably in memory; retried cleanly as a whole on transient
-    errors (no partial writes leak — the caller writes only on success)."""
+    """Fetch one slice as a list of record dicts. Bounded by TARGET_ROWS, so it
+    fits comfortably in memory; retried cleanly as a whole on transient errors
+    (no partial writes leak — the caller writes only on success)."""
     rows = []
     with get_client().stream("POST", f"{API}/data", json=body, timeout=(10.0, 600.0)) as resp:
         resp.raise_for_status()
@@ -102,54 +115,90 @@ def _fetch_slice(body: dict, time_codes: set) -> list:
     return rows
 
 
+def _emit_box(table_id: str, var_specs: list, time_codes: set, emit, depth: int = 0) -> None:
+    """Fetch one box (explicit value lists on every dimension) and emit its rows.
+
+    The reactive safety net: every dimension is passed as an explicit value list
+    (never "*"), so if the request still drops after the transient retries, we
+    bisect the widest axis and recurse on the halves — guaranteeing forward
+    progress no matter how wrong the up-front size estimate was."""
+    body = {"table": table_id, "lang": "en", "format": "BULK", "variables": var_specs}
+    try:
+        rows = _fetch_slice(body, time_codes)
+    except Exception:
+        widest = max(range(len(var_specs)), key=lambda i: len(var_specs[i]["values"]))
+        if depth >= MAX_SPLIT_DEPTH or len(var_specs[widest]["values"]) < 2:
+            raise
+        vals = var_specs[widest]["values"]
+        mid = len(vals) // 2
+        for half in (vals[:mid], vals[mid:]):
+            sub = [dict(s) for s in var_specs]
+            sub[widest] = {"code": var_specs[widest]["code"], "values": half}
+            _emit_box(table_id, sub, time_codes, emit, depth + 1)
+        return
+    emit(rows)
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     table_id = _table_id(node_id)
     info = _tableinfo(table_id)
     variables = info["variables"]
-    varcodes = [v["id"] for v in variables]
 
     time_var = next((v for v in variables if v.get("time")), None)
     time_codes = {time_var["id"].upper()} if time_var else set()
+    # Explicit value lists per non-time dimension (so any axis is bisectable).
+    nt_specs = [
+        {"code": v["id"], "values": [x["id"] for x in v["values"]]}
+        for v in variables if not v.get("time")
+    ]
 
     written = 0
     with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as f:
-        if time_var is None:
-            # No time dimension: a single full extract (these are small).
-            body = {
-                "table": table_id, "lang": "en", "format": "BULK",
-                "variables": [{"code": c, "values": ["*"]} for c in varcodes],
-            }
-            for rec in _fetch_slice(body, time_codes):
+        def emit(rows):
+            nonlocal written
+            for rec in rows:
                 f.write(json.dumps(rec, separators=(",", ":")))
                 f.write("\n")
                 written += 1
+
+        if time_var is None:
+            # No time dimension: a single full extract (these are small).
+            _emit_box(table_id, nt_specs, time_codes, emit)
         else:
             time_code = time_var["id"]
-            period_ids = [val["id"] for val in time_var["values"]]
-            # Size each slice from the non-time cardinality so a slice's response
-            # stays ~TARGET_CELLS regardless of how wide the table is.
-            other_cells = 1
-            for v in variables:
-                if not v.get("time"):
-                    other_cells *= max(1, len(v["values"]))
-            per_chunk = max(1, TARGET_CELLS // max(1, other_cells))
-            per_chunk = min(per_chunk, MAX_PERIODS_PER_CHUNK)
-            non_time = [c for c in varcodes if c != time_code]
+            periods = [val["id"] for val in time_var["values"]]
 
-            for i in range(0, len(period_ids), per_chunk):
-                chunk = period_ids[i:i + per_chunk]
-                body = {
-                    "table": table_id, "lang": "en", "format": "BULK",
-                    "variables": (
-                        [{"code": c, "values": ["*"]} for c in non_time]
-                        + [{"code": time_code, "values": chunk}]
-                    ),
-                }
-                for rec in _fetch_slice(body, time_codes):
-                    f.write(json.dumps(rec, separators=(",", ":")))
-                    f.write("\n")
-                    written += 1
+            # Probe the most-recent (largest) period to learn actual rows/period.
+            recent = periods[-1]
+            before = written
+            _emit_box(table_id, nt_specs + [{"code": time_code, "values": [recent]}],
+                      time_codes, emit)
+            rows_recent = max(1, written - before)
+            remaining = periods[:-1]
+
+            if rows_recent <= TARGET_ROWS:
+                # Small enough to pack several periods into one request.
+                per_chunk = min(MAX_PERIODS_PER_CHUNK, max(1, TARGET_ROWS // rows_recent))
+                for i in range(0, len(remaining), per_chunk):
+                    chunk = remaining[i:i + per_chunk]
+                    _emit_box(table_id, nt_specs + [{"code": time_code, "values": chunk}],
+                              time_codes, emit)
+            else:
+                # A single period already exceeds the target: pull one period at a
+                # time, splitting the widest non-time dimension into batches so each
+                # request lands near TARGET_ROWS rows.
+                split_n = max(2, math.ceil(rows_recent / TARGET_ROWS))
+                big = max(range(len(nt_specs)), key=lambda i: len(nt_specs[i]["values"]))
+                big_vals = nt_specs[big]["values"]
+                bs = max(1, math.ceil(len(big_vals) / split_n))
+                batches = [big_vals[j:j + bs] for j in range(0, len(big_vals), bs)]
+                for p in remaining:
+                    for bvals in batches:
+                        specs = [dict(s) for s in nt_specs]
+                        specs[big] = {"code": nt_specs[big]["code"], "values": bvals}
+                        specs.append({"code": time_code, "values": [p]})
+                        _emit_box(table_id, specs, time_codes, emit)
 
     if written == 0:
         # An active table that yields no rows means the BULK contract changed.
