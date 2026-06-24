@@ -291,7 +291,6 @@ def fetch_values(node_id: str):
     Returns True to request a continuation (chunks still unwritten in this run),
     or None when the full corpus is materialised."""
     deadline = _soft_deadline()
-    pending = 0   # chunks still needing a fetch when we yielded
     written = 0   # chunks materialised this invocation
 
     for parameter, ts_name in sorted(PARAM_DAILY_TSNAME.items()):
@@ -315,8 +314,9 @@ def fetch_values(node_id: str):
             # Out of time — defer the rest to a continuation (same RUN_ID, so the
             # chunks we've written persist and we'll skip them next invocation).
             if deadline is not None and time.monotonic() >= deadline:
-                pending += 1
-                continue
+                print(f"  values: time budget spent after {written} chunk(s) this "
+                      f"run — requesting continuation")
+                return True
 
             ts_ids = [m["ts_id"] for m in members]
             start, end = _chunk_bounds(members)
@@ -337,10 +337,6 @@ def fetch_values(node_id: str):
             save_raw_parquet(table, asset)
             written += 1
 
-    if pending:
-        print(f"  values: wrote {written} chunk(s) this run, {pending} still "
-              f"pending — requesting continuation")
-        return True
     print(f"  values: corpus complete ({written} chunk(s) written this run)")
     return None
 
