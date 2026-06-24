@@ -1,0 +1,13 @@
+spec_id: federal-reserve-bank-of-atlanta-deflation-probabilities
+status: active
+tests:
+  - not_null: date
+  - not_null: probability
+  - column_type: {col: probability, type: float}
+  - between: {col: probability, lo: -1, hi: 101}
+    reason: values are percent probabilities, expected within 0-100 (small slack for rounding)
+    certainty: 80
+    severity: warn
+  - row_count: {min: 500}
+    reason: established Atlanta Fed product with years of history; far fewer rows means a truncated or failed download
+    certainty: 85

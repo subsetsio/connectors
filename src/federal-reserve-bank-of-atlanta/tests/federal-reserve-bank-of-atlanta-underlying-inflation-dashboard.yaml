@@ -1,0 +1,10 @@
+spec_id: federal-reserve-bank-of-atlanta-underlying-inflation-dashboard
+status: active
+tests:
+  - not_null: date
+  - not_null: measure
+  - not_null: value
+  - column_type: {col: value, type: float}
+  - row_count: {min: 100}
+    reason: established Atlanta Fed product with years of history; far fewer rows means a truncated or failed download
+    certainty: 85

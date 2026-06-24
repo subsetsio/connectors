@@ -121,25 +121,32 @@ def fetch_csv_block(node_id: str) -> None:
                 raise AssertionError(
                     f"{name}: unexpected header {reader.fieldnames!r}"
                 )
+
+            def _txt(r, key):
+                """Canonical field as trimmed string, or None (missing/blank)."""
+                col = fm.get(key)
+                if col is None:
+                    return None
+                v = r.get(col)
+                if v is None:
+                    return None
+                v = v.strip()
+                return v or None
+
             for r in reader:
-                ed = r.get(fm["extraction_date"]) if "extraction_date" in fm else None
                 row = {
-                    "reporting_entity": (r.get(fm["reporting_entity"]) or "").strip() or None,
-                    "reference_period": (r.get(fm["reference_period"]) or "").strip() or None,
+                    "reporting_entity": _txt(r, "reporting_entity"),
+                    "reference_period": _txt(r, "reference_period"),
                     "frequency": frequency,
-                    "undertaking_type": (r.get(fm["undertaking_type"]).strip() or None)
-                    if "undertaking_type" in fm else None,
-                    "metric": (r.get(fm["metric"]).strip() or None)
-                    if "metric" in fm else None,
-                    "business_type": (r.get(fm["business_type"]).strip() or None)
-                    if "business_type" in fm else None,
-                    "item_code": (r.get(fm["item_code"]) or "").strip() or None,
-                    "item_name": (r.get(fm["item_name"]) or "").strip() or None
-                    if "item_name" in fm else None,
+                    "undertaking_type": _txt(r, "undertaking_type"),
+                    "metric": _txt(r, "metric"),
+                    "business_type": _txt(r, "business_type"),
+                    "item_code": _txt(r, "item_code"),
+                    "item_name": _txt(r, "item_name"),
                     "value": _to_float(r.get(fm["value"])) if "value" in fm else None,
                     "n_submissions": _to_int(r.get(fm["n_submissions"]))
                     if "n_submissions" in fm else None,
-                    "extraction_date": (ed or "").strip() or None,
+                    "extraction_date": _txt(r, "extraction_date"),
                 }
                 fh.write(json.dumps(row) + "\n")
                 wrote += 1

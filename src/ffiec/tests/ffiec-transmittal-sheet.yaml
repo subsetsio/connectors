@@ -1,0 +1,36 @@
+spec_id: ffiec-transmittal-sheet
+status: active
+# Expectations on the RAW HMDA Transmittal Sheet asset (all columns VARCHAR;
+# one parquet batch per snapshot year, globbed as ffiec-transmittal-sheet-*).
+# The TS is the cover sheet of each filing: one row per institution per year.
+tests:
+  - not_null: lei
+    reason: every transmittal row identifies its filer by LEI
+    certainty: 95
+  - not_null: activity_year
+    certainty: 95
+  - matches: {col: activity_year, pattern: '^20[0-9]{2}$'}
+    reason: 4-digit reporting year
+    certainty: 95
+  - matches: {col: lei, pattern: '^[A-Z0-9]{20}$'}
+    reason: an LEI is exactly 20 uppercase alphanumeric characters (ISO 17442)
+    certainty: 85
+  - unique: [lei, activity_year]
+    reason: the TS is one cover-sheet row per filer per year; dupes mean a year batch was double-counted
+    certainty: 80
+  - enum: {col: agency_code, values: ['1', '2', '3', '5', '7', '9']}
+    reason: HMDA supervisory agency codes 1=OCC 2=FRS 3=FDIC 5=NCUA 7=HUD 9=CFPB
+    certainty: 80
+    severity: warn
+  - enum: {col: calendar_quarter, values: ['1', '2', '3', '4']}
+    reason: calendar_quarter is 1-4; the year-end snapshot is typically quarter 4
+    certainty: 65
+    severity: warn
+  - row_count: {min: 4000}
+    reason: thousands of institutions file HMDA each year, unioned across years
+    certainty: 85
+  - distinct_count: {col: activity_year, min: 5}
+    reason: modern snapshot spans 2018 through the latest released year
+    certainty: 80
+    points_outward: true
+    severity: warn
