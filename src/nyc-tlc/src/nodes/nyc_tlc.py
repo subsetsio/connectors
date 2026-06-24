@@ -183,12 +183,24 @@ def _retryable(exc: BaseException) -> bool:
     return isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code == 403
 
 
+# CloudFront throttles bursts of small-file requests per-IP with a 403, and the
+# throttle window outlasts a short backoff: a single run pulls ~600 files across
+# four series back-to-back, so by the time the small green/fhv months stream
+# through, hundreds of requests have already landed. Retry 403 over a long window
+# (~12 attempts, up to 120s apart ≈ 15min total) so a throttle clears mid-retry
+# rather than failing the whole DAG.
 _fetch_retry = retry(
     retry=retry_if_exception(_retryable),
-    stop=stop_after_attempt(8),
-    wait=wait_exponential(min=2, max=60),
+    stop=stop_after_attempt(12),
+    wait=wait_exponential(min=2, max=120),
     reraise=True,
 )
+
+# Minimum spacing between successive month fetches within a series, to keep the
+# request rate under CloudFront's burst threshold (the small monthly files
+# otherwise fire several per second). Cheap insurance: ~0.5s × 600 files ≈ 5min
+# against a multi-hour run.
+FETCH_PACING_S = 0.5
 
 
 # --- month helpers ----------------------------------------------------------
@@ -318,7 +330,9 @@ def _fetch_series(node_id: str) -> None:
     print(f"[{node_id}] {len(months)} months {months[0]}..{months[-1]}; "
           f"{len(todo)} to fetch ({len(completed)} already done)")
 
-    for month in todo:
+    for i, month in enumerate(todo):
+        if i:
+            time.sleep(FETCH_PACING_S)
         url = f"{BASE}/{stem}_{month}.parquet"
         _normalize_month(url, f"{node_id}-{month}", colspecs)
         completed.add(month)
