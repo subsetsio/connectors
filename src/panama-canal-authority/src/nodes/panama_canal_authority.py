@@ -163,20 +163,24 @@ TRANSFORM_SPECS = [
         id="panama-canal-authority-values-transform",
         deps=["panama-canal-authority-values"],
         sql='''
-            SELECT
-                series_id,
-                parameter,
-                label,
-                location_identifier,
-                watershed,
-                unit,
-                CAST(date AS DATE) AS date,
-                CAST(value_mean AS DOUBLE) AS value_mean,
-                CAST(value_min  AS DOUBLE) AS value_min,
-                CAST(value_max  AS DOUBLE) AS value_max,
-                CAST(value_sum  AS DOUBLE) AS value_sum,
-                CAST(n_obs AS INTEGER) AS n_obs
-            FROM "panama-canal-authority-values"
+            WITH parsed AS (
+                SELECT
+                    series_id,
+                    parameter,
+                    label,
+                    location_identifier,
+                    watershed,
+                    unit,
+                    TRY_CAST(date AS DATE) AS date,
+                    CAST(value_mean AS DOUBLE) AS value_mean,
+                    CAST(value_min  AS DOUBLE) AS value_min,
+                    CAST(value_max  AS DOUBLE) AS value_max,
+                    CAST(value_sum  AS DOUBLE) AS value_sum,
+                    CAST(n_obs AS INTEGER) AS n_obs
+                FROM "panama-canal-authority-values"
+            )
+            SELECT *
+            FROM parsed
             WHERE date IS NOT NULL
               AND value_mean IS NOT NULL AND isfinite(value_mean)
               -- Drop sentinel/placeholder timestamps: a stray 1900-01-01 null-date
