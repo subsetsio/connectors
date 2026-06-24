@@ -1,0 +1,27 @@
+spec_id: nasdaq-historical-prices
+status: active
+tests:
+  - not_null: symbol
+    reason: every OHLCV row is tagged with the symbol it was crawled for
+    certainty: 95
+  - not_null: date
+    reason: every trade row carries its session date
+    certainty: 95
+  - enum: {col: assetclass, values: [stocks, etf]}
+    reason: the universe is the stocks + ETF screeners; assetclass is set to one of these two by the crawl
+    certainty: 95
+  - column_type: {col: close, type: string}
+    reason: raw is ndjson, OHLCV values kept as raw strings ($, commas); the transform strips and casts
+    certainty: 90
+  - matches: {col: date, pattern: '^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}$'}
+    reason: Nasdaq historical dates render as US m/d/Y strings
+    certainty: 80
+    severity: warn
+  - distinct_count: {col: symbol, min: 3000}
+    reason: the crawl spans a >5000-symbol universe; even with per-symbol skips, distinct symbols with data should exceed 3000
+    certainty: 80
+    severity: warn
+  - row_count: {min: 100000}
+    reason: thousands of symbols x ~10 years of daily bars produces millions of rows; 100k is a conservative floor that still catches a collapsed crawl
+    certainty: 70
+    severity: warn

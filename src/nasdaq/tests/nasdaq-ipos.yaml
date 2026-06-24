@@ -1,0 +1,20 @@
+spec_id: nasdaq-ipos
+status: active
+tests:
+  - not_null: dealID
+    reason: dealID is the natural key for a priced offering; the transform requires it non-null
+    certainty: 88
+  - not_null: companyName
+    reason: every priced IPO row names the issuer
+    certainty: 80
+  - column_type: {col: dealID, type: string}
+    reason: raw is ndjson, all scalars string-coerced via _s
+    certainty: 90
+  - matches: {col: pricedDate, pattern: '^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}$'}
+    reason: priced IPOs carry a US m/d/Y priced date; occasional blanks possible
+    certainty: 70
+    severity: warn
+  - row_count: {min: 5}
+    reason: ~13 months of priced IPOs across exchanges yields at least a handful even in a slow market
+    certainty: 65
+    severity: warn

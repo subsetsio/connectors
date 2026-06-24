@@ -1,0 +1,20 @@
+spec_id: nasdaq-splits
+status: active
+tests:
+  - not_null: symbol
+    reason: every split calendar row names the instrument
+    certainty: 90
+  - column_type: {col: symbol, type: string}
+    reason: raw is ndjson, all scalars string-coerced via _s
+    certainty: 95
+  - not_null: executionDate
+    reason: upcoming-split entries carry an execution date; a null suggests a malformed row
+    certainty: 70
+    severity: warn
+  - matches: {col: executionDate, pattern: '^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}$'}
+    reason: execution dates render as US m/d/Y strings
+    certainty: 70
+    severity: warn
+  - row_count: {min: 1}
+    reason: the splits calendar is an upcoming-events snapshot; the fetch fn raises when empty, so the raw always holds at least one row
+    certainty: 90

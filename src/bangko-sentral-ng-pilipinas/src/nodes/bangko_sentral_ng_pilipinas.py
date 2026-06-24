@@ -207,34 +207,56 @@ def _ffill(row):
 def _normalize(csv_text, numberstub, noofvar):
     """PX-Web ``prntc`` CSV -> [(row_label, col_label, value, date)].
 
-    Layout: a title row, then one header row per heading variable
-    (``noofvar - numberstub`` of them), then the data rows. Each row carries
-    ``numberstub`` leading stub-label columns followed by the data columns.
+    Layout: a title row, then one header row per *heading* variable
+    (``noofvar - numberstub`` of them), then the body. The data columns begin at
+    column ``numberstub``. When there are multiple *stub* variables PX-Web nests
+    them hierarchically: an outer stub value sits alone on a section line (its
+    label at column ``level``, nothing after), and only the innermost stub label
+    appears on each data line at column ``numberstub-1``. We carry the section
+    values down into each data row.
     """
     rows = []
     for r in csv.reader(io.StringIO(csv_text)):
-        # Drop the SSI/HTML wrapper lines and the single-cell title row.
-        if len(r) < 2 or any("<" in c for c in r):
+        # Drop the SSI/HTML wrapper lines; keep everything else (including the
+        # single-cell stub-section lines).
+        if any("<" in c for c in r):
             continue
-        rows.append([c.strip() for c in r])
+        cells = [c.strip() for c in r]
+        if not any(cells):
+            continue
+        rows.append(cells)
+    if not rows:
+        return []
+
     n_head = max(noofvar - numberstub, 0)
     n_stub = max(numberstub, 1)
-    if len(rows) <= n_head:
-        return []
-    header_rows = [_ffill(r) for r in rows[:n_head]]
-    data_rows = rows[n_head:]
+
+    # Skip a leading single-cell title row if present (headers carry >= 2 cells).
+    idx = 0
+    if sum(1 for c in rows[0] if c and c not in _NULLISH) <= 1:
+        idx = 1
+    header_rows = [_ffill(r) for r in rows[idx:idx + n_head]]
+    body = rows[idx + n_head:]
 
     out = []
-    stub_carry = [""] * n_stub
-    for r in data_rows:
-        # Stub labels (down-fill so a spanned outer stub carries to its rows).
-        stub_parts = []
-        for s in range(n_stub):
-            cell = r[s].strip() if s < len(r) else ""
-            if cell and cell not in _NULLISH:
-                stub_carry[s] = cell
-            stub_parts.append(stub_carry[s])
-        stub_parts = [p for p in stub_parts if p]
+    carry = [""] * n_stub
+    for r in body:
+        fnb = next((k for k, c in enumerate(r)
+                    if c and c not in _NULLISH), None)
+        if fnb is None:
+            continue
+        if fnb < n_stub - 1:
+            # Outer stub section header: set this level, reset deeper levels.
+            carry[fnb] = r[fnb]
+            for d in range(fnb + 1, n_stub):
+                carry[d] = ""
+            continue
+        # Data line: innermost stub label sits at column n_stub-1 (blank => carry
+        # the previous one, e.g. a single-stub continuation).
+        inner = r[n_stub - 1].strip() if n_stub - 1 < len(r) else ""
+        if inner and inner not in _NULLISH:
+            carry[n_stub - 1] = inner
+        stub_parts = [c for c in carry if c]
         row_label = " | ".join(stub_parts)
         for j in range(n_stub, len(r)):
             v = _parse_num(r[j])

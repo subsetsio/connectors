@@ -60,12 +60,17 @@ _HEADERS = {
 _TIMEOUT = httpx.Timeout(connect=15.0, read=60.0, write=60.0, pool=15.0)
 
 
+# servicodados goes through stretches of connect-timeouts from cloud egress IPs
+# then recovers. Retry generously (8 attempts, backoff capped at 60s ≈ a few
+# minutes of riding out an outage) so a transient blip is absorbed *inside* one
+# node — that keeps the orchestrator's consecutive-failure halt from tripping on
+# a run-start egress outage.
 @retry(
     retry=retry_if_exception_type(
         (_Transient, httpx.TransportError, httpx.TimeoutException)
     ),
-    wait=wait_exponential(multiplier=2, max=30),
-    stop=stop_after_attempt(6),
+    wait=wait_exponential(multiplier=2, max=60),
+    stop=stop_after_attempt(8),
     reraise=True,
 )
 def get_json(url: str):
