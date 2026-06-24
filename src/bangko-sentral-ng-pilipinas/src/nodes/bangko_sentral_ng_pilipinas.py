@@ -107,6 +107,13 @@ def _parse_date(s):
             return datetime.date(int(m.group(1)), int(m.group(2)), 1)
         except ValueError:
             return None
+    # YYYY:NNM  (BSP CPI period codes, e.g. "1994:01M")
+    m = re.match(r"^(\d{4}):(\d{1,2})M$", s, re.I)
+    if m:
+        try:
+            return datetime.date(int(m.group(1)), int(m.group(2)), 1)
+        except ValueError:
+            return None
     # Quarter: Q1 2005 / 2005Q1
     m = re.match(r"^Q([1-4])\s*(\d{4})$", s, re.I) or re.match(r"^(\d{4})\s*Q([1-4])$", s, re.I)
     if m:

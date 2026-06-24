@@ -1,0 +1,22 @@
+spec_id: nasdaq-stocks
+status: active
+tests:
+  - not_null: symbol
+    reason: every screener row is a listed instrument keyed by ticker
+    certainty: 95
+  - not_null: name
+    reason: the stocks screener carries a company name for every ticker
+    certainty: 85
+  - column_type: {col: symbol, type: string}
+    reason: raw is ndjson with all scalars coerced to strings via _s; SQL transform does the typing
+    certainty: 95
+  - unique: symbol
+    reason: the screener snapshot is one row per listed ticker; dupes mean pagination overlapped pages
+    certainty: 88
+  - row_count: {min: 3000}
+    reason: Nasdaq lists ~7k common stocks; the fetch fn itself raises below 3000, so a smaller raw means a silent truncation upstream of that guard
+    certainty: 90
+  - distinct_count: {col: symbol, min: 3000}
+    reason: distinct tickers should track the full listed universe
+    certainty: 85
+    severity: warn
