@@ -1,0 +1,16 @@
+spec_id: entsog-transparency-platform-interruptions
+status: active
+tests:
+  - not_null: id
+    certainty: 95
+  - not_null: periodFrom
+    reason: each interruption event has a period start
+    certainty: 90
+  - not_null: operatorKey
+    certainty: 90
+  - unique: id
+    reason: the full-corpus pull returns one row per interruption id
+    certainty: 85
+  - row_count: {min: 10000}
+    reason: the interruptions corpus is tens of thousands of events
+    certainty: 90

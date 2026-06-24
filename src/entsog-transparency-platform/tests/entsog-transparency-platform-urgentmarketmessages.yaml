@@ -1,0 +1,23 @@
+spec_id: entsog-transparency-platform-urgentmarketmessages
+status: active
+tests:
+  - not_null: id
+    certainty: 95
+  - not_null: messageId
+    reason: every UMM carries a publisher message id
+    certainty: 90
+  - not_null: publicationDateTime
+    reason: each message is stamped with its publication time
+    certainty: 90
+  - column_type: {col: publicationDateTime, type: timestamp}
+    reason: publicationDateTime is an ISO8601 instant; read_json_auto infers TIMESTAMP
+    certainty: 75
+    severity: warn
+  - unique: id
+    reason: one row per UMM id
+    certainty: 80
+  - row_count: {min: 20}
+    reason: the UMM endpoint returns at least a few dozen recent transparency messages
+    certainty: 80
+    points_outward: true
+    severity: warn

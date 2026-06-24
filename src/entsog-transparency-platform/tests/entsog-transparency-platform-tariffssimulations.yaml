@@ -1,0 +1,16 @@
+spec_id: entsog-transparency-platform-tariffssimulations
+status: active
+tests:
+  - not_null: id
+    certainty: 90
+  - not_null: operatorKey
+    certainty: 90
+  - not_null: productType
+    reason: each simulation row is for a specific capacity product type
+    certainty: 85
+  - unique: id
+    reason: one row per tariff-simulation id
+    certainty: 75
+  - row_count: {min: 500}
+    reason: tariff simulations span operators x points x products, in the thousands
+    certainty: 85
