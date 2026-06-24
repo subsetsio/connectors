@@ -215,25 +215,41 @@ def _h_taylor_rule(_asset):
 
 
 def _h_underlying_inflation(_asset):
-    # ChartData: repeating per-measure blocks. Row 1 marks each block with 'DATE';
-    # the column to its right is the measure's 12-month value, named on row 0.
+    # ChartData: row 1 holds column codes, row 0 the human measure names. Every
+    # measure's 12-month growth series is a column whose code ends in '_12M', with
+    # the measure name on row 0 above it; all share the dates in the 'DATE' column.
     rows = _ws_rows(_fetch_bytes(URLS["underlying-inflation-dashboard"]), "ChartData")
     if len(rows) < 3:
         return []
     label_row, head_row = rows[0], rows[1]
-    date_cols = [j for j, c in enumerate(head_row) if str(c).strip().upper() == "DATE"]
-    out = []
-    for dc in date_cols:
-        vc = dc + 1
-        measure = label_row[vc] if vc < len(label_row) else None
-        if not measure:
+    date_col = next(
+        (j for j, c in enumerate(head_row) if str(c).strip().upper() == "DATE"), None
+    )
+    if date_col is None:
+        raise AssertionError("underlying-inflation-dashboard: no DATE column in ChartData")
+    measure_cols = []
+    seen = set()
+    for j, c in enumerate(head_row):
+        if not c or not str(c).strip().upper().endswith("_12M"):
             continue
-        measure = str(measure).strip()
-        for r in rows[2:]:
-            d = _iso(r[dc]) if dc < len(r) else None
-            v = _num(r[vc]) if vc < len(r) else None
-            if d and v is not None:
-                out.append({"date": d, "measure": measure, "value": v})
+        name = label_row[j] if j < len(label_row) else None
+        if not name:
+            continue
+        name = str(name).strip()
+        if name in seen:
+            continue
+        seen.add(name)
+        measure_cols.append((j, name))
+    out = []
+    for r in rows[2:]:
+        d = _iso(r[date_col]) if date_col < len(r) else None
+        if not d:
+            continue
+        for j, name in measure_cols:
+            v = _num(r[j]) if j < len(r) else None
+            if v is None:
+                continue
+            out.append({"date": d, "measure": name, "value": v})
     return out
 
 

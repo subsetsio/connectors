@@ -1,0 +1,24 @@
+spec_id: entsog-transparency-platform-operationaldata
+status: active
+tests:
+  - not_null: id
+    reason: every operationaldata row carries the composite id used as the dedup key
+    certainty: 95
+  - not_null: indicator
+    reason: the indicator (Physical Flow, Allocation, capacity series, ...) is the measure label on every row
+    certainty: 95
+  - not_null: periodFrom
+    reason: each observation is stamped with its period start
+    certainty: 90
+  - column_type: {col: periodFrom, type: timestamp}
+    reason: periodFrom is an ISO8601 instant; read_json_auto infers TIMESTAMP
+    certainty: 75
+    severity: warn
+  - row_count: {min: 100000}
+    reason: the monthly backfill from 2021-02 spans dozens of months at ~100-180k rows each
+    certainty: 90
+  - freshness: {col: periodFrom, reaches: today - 60d}
+    reason: daily flow rows should extend to within ~2 months of now if the feed is live
+    certainty: 80
+    points_outward: true
+    severity: warn

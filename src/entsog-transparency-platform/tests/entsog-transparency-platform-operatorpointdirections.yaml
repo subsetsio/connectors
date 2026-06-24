@@ -1,0 +1,20 @@
+spec_id: entsog-transparency-platform-operatorpointdirections
+status: active
+tests:
+  - not_null: id
+    certainty: 95
+  - not_null: pointKey
+    reason: every operator-point-direction row identifies a network point
+    certainty: 95
+  - not_null: operatorKey
+    reason: every row is attributed to a TSO/operator
+    certainty: 95
+  - not_null: directionKey
+    reason: each row is an entry/exit direction at the point
+    certainty: 90
+  - unique: id
+    reason: this is a reference dimension — one row per operator-point-direction id
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: ENTSOG covers ~40 TSOs across thousands of point-directions
+    certainty: 90
