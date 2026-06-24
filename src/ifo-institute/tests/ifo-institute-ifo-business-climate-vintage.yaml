@@ -1,0 +1,38 @@
+spec_id: ifo-institute-ifo-business-climate-vintage
+status: active
+tests:
+  - not_null: date
+  - not_null: sector
+  - not_null: indicator
+  - not_null: vintage
+  - not_null: value
+  - column_type: {col: date, type: date}
+  - column_type: {col: sector, type: string}
+  - column_type: {col: indicator, type: string}
+  - column_type: {col: vintage, type: string}
+  - column_type: {col: value, type: float}
+  - unique: [date, sector, indicator, vintage]
+    reason: the real-time files are melted to one row per (date, sector, indicator, vintage); a duplicate means a sheet was double-parsed or raw wasn't overwritten
+    certainty: 90
+  - enum: {col: indicator, values: [Climate, Situation, Expectations]}
+    reason: each vintage workbook has exactly three sheets — Climate, Situation, Expectations — used directly as the indicator label
+    certainty: 90
+  - enum: {col: sector, values: [Germany, Industry and Trade, Manufacturing, Services, Trade, Wholesale Trade, Retail Trade, Construction]}
+    reason: exactly eight sector vintage files are fetched and unioned, with underscores normalised to spaces
+    certainty: 88
+  - distinct_count: {col: sector, min: 8, max: 8}
+    reason: the union covers all eight sector vintage files and no more
+    certainty: 85
+  - matches: {col: vintage, pattern: "^v[0-9]{4}m[0-9]{2}$"}
+    reason: vintage column headers are point-in-time stamps like v2018m04
+    certainty: 60
+    severity: warn
+  - between: {col: date, lo: "2005-01-01", hi: today}
+    reason: the real-time/vintage dataset begins in January 2005; no observation should be dated in the future
+    certainty: 80
+    severity: warn
+  - freshness: {col: date, reaches: today - 200d}
+    reason: vintage files extend with each monthly release, so the latest observation month should be reasonably recent
+    certainty: 65
+    points_outward: true
+    severity: warn

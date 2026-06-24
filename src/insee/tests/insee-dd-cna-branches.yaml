@@ -1,0 +1,17 @@
+spec_id: insee-dd-cna-branches
+status: active
+tests:
+  - row_count: {min: 218766}
+    reason: "catalog numObservations=437533 for DD_CNA_BRANCHES; a >50% shortfall means a truncated/partial pull on our side, not a source change"
+    certainty: 85
+    severity: block
+  - not_null: OBS_MEASURE
+    reason: "every Melodi observation carries exactly one measure key; flatten lifts it to OBS_MEASURE, so it is never null"
+    certainty: 90
+  - column_type: {col: OBS_VALUE, type: float}
+    reason: "flatten casts each numeric measure value to float; a non-float column means the measure payload shape changed"
+    certainty: 90
+  - not_null: TIME_PERIOD
+    reason: "periodicity=Annual; Melodi time-series observations carry a TIME_PERIOD dimension \u2014 missing = a snapshot datacube or a renamed dim, learn rather than alarm"
+    certainty: 75
+    severity: warn

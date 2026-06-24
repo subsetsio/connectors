@@ -1,0 +1,16 @@
+spec_id: oecd-oecd.els.jai:dsd-taxben-ptr@df-ptrccub
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: an accepted OECD dataflow returns at least one SDMX observation; 0 rows means the data request 404'd, the flow was withdrawn, or the SDMX-CSV parse broke
+    certainty: 90
+  - column_type: {col: time_period, type: string}
+    reason: SDMX-CSV TIME_PERIOD is passed through verbatim as a string ("2020", "2020-Q1", "2020-M01")
+    certainty: 88
+  - not_null: time_period
+    reason: every SDMX observation is stamped with a TIME_PERIOD coordinate
+    certainty: 80
+  - column_type: {col: value, type: float}
+    reason: OBS_VALUE is coerced to float in _to_value; statistical observations are numeric (nulls allowed for missing obs)
+    certainty: 78
+    severity: warn

@@ -1,0 +1,27 @@
+spec_id: ibge-municipios
+status: active
+tests:
+  - not_null: municipio_id
+    reason: every municipality row has an IBGE code
+    certainty: 99
+  - unique: municipio_id
+    reason: one row per municipality; the 7-digit IBGE code is the natural key
+    certainty: 98
+  - not_null: municipio
+    reason: every municipality has a name
+    certainty: 97
+  - column_type: {col: uf_id, type: integer}
+    reason: the localidades v1 endpoint returns numeric UF ids
+    certainty: 85
+  - distinct_count: {col: uf_sigla, min: 27, max: 27}
+    reason: Brazil has 26 states plus the Federal District = 27 UFs
+    certainty: 92
+  - distinct_count: {col: regiao_sigla, min: 5, max: 5}
+    reason: Brazil has 5 macro-regions (N, NE, CO, SE, S)
+    certainty: 95
+  - matches: {col: uf_sigla, pattern: "^[A-Z]{2}$"}
+    reason: UF abbreviations are two uppercase letters
+    certainty: 95
+  - row_count: {min: 5500, max: 5600}
+    reason: Brazil currently has ~5570 municipalities
+    certainty: 85
