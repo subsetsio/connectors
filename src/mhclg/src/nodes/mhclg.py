@@ -37,6 +37,7 @@ from subsets_utils import (
     get,
     transient_retry,
     raw_parquet_writer,
+    raw_asset_exists,
 )
 from constants import ENTITY_IDS, BASE_PATHS
 
@@ -133,9 +134,21 @@ def _rows_xls(raw):
                 yield sheet.name, ri, cells
 
 
+_MAX_COLS = 4096  # cap a repeated-cell run so full-width padding can't explode a row
+
+
 def _rows_ods(raw):
     """Stream ODS rows via lxml row-level iterparse, freeing each row's subtree
-    so a 30 MB record-level ODS stays flat in memory."""
+    so a record-level ODS stays flat in memory.
+
+    ODS encodes blank padding with `number-columns-repeated` (up to 16384, the
+    sheet width) and `number-rows-repeated` (up to ~1.05M, the sheet height).
+    Naively expanding every repeated empty cell turns an 87 MB file into billions
+    of throwaway list entries (O(rows × 16384)). Instead we defer empty cells into
+    a running counter and only materialise them when a real value follows — so a
+    trailing full-width pad is never built (it's dropped, exactly as `_clean`
+    would), interior gaps stay bounded by `_MAX_COLS`, and only true data cells
+    cost work. Blank rows still advance the index without emitting."""
     from lxml import etree
 
     row_tag = _qn(_NS_T, "table-row")
@@ -162,13 +175,23 @@ def _rows_ods(raw):
             row_idx = table_rows.get(id(parent), 0)
             rep = int(el.get(rep_rows_attr) or 1)
             cells = []
+            pending_empty = 0  # deferred empties — flushed only before a real value
             for cell in el.iterfind(cell_tag):
                 crep = int(cell.get(rep_cols_attr) or 1)
+                if crep > _MAX_COLS:
+                    crep = _MAX_COLS
                 val = cell.get(value_attr)
                 if val is None:
                     ps = cell.findall(p_tag)
                     val = "".join("".join(p.itertext()) for p in ps) if ps else ""
-                cells.extend([val] * crep)
+                if val == "":
+                    pending_empty += crep
+                else:
+                    if pending_empty:
+                        cells.extend([""] * pending_empty)
+                        pending_empty = 0
+                    cells.extend([val] * crep)
+            # trailing pending_empty is intentionally dropped (== _clean's trim)
             cleaned = _clean(cells)
             if cleaned is None:
                 row_idx += rep  # blank run — advance index without emitting
@@ -199,6 +222,13 @@ def _rows_for(content_type, raw):
 
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
+    # Resume contract: continuations re-invoke every pending download, so a node
+    # already materialised in a prior invocation must be a no-op. Without this,
+    # each continuation re-pulls all completed assets and starves the budget for
+    # the not-yet-done heavy nodes — the DAG never converges.
+    if raw_asset_exists(asset):
+        print(f"  -> skip {asset} (raw already present)")
+        return
     entity_id = node_id[len("mhclg-"):]
     base_path = BASE_PATHS[entity_id]
 
