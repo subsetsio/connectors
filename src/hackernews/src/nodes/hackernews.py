@@ -50,6 +50,21 @@ from subsets_utils import (
     transient_retry,
 )
 
+
+def _item_transient(exc: BaseException) -> bool:
+    """Retry predicate for the per-item async crawl — broader than the stdlib
+    ``is_transient``. A ~48.5M-request firehose over many hours reliably hits
+    every flavour of network-layer fault, including ones the shared tuple omits
+    (most notably ``httpx.ReadError`` — a connection dropped mid-read — which is
+    NOT ``ReadTimeout`` and was what killed run 20260624-145022 after ~3.8h).
+    Retrying the whole ``httpx.TransportError`` family (connect/read/write
+    timeouts, network read/write/close errors, protocol + proxy errors) plus the
+    standard 429/5xx classification covers them all, while still letting genuine
+    bugs (KeyError/TypeError) and permanent 4xx propagate."""
+    if isinstance(exc, httpx.TransportError):
+        return True
+    return is_transient(exc)
+
 BASE = "https://hacker-news.firebaseio.com/v0"
 
 # ASCII-only User-Agent (httpx headers must be ASCII).
@@ -65,8 +80,11 @@ BATCH_SIZE = 100_000
 # concurrent against the same Firebase host.
 CONCURRENCY = 150
 
-# Per-item async-fetch retry policy (transient errors only).
-_MAX_ATTEMPTS = 6
+# Per-item async-fetch retry policy (transient errors only). 8 attempts with a
+# 60s-capped exponential backoff rides out brief network outages (~4-5 min total)
+# without failing the whole run — at firehose scale a single un-retried transport
+# error aborts the node and wastes the in-flight batch.
+_MAX_ATTEMPTS = 8
 
 # Bump when the watermark contract changes; unknown versions reset state.
 STATE_VERSION = 1
@@ -135,7 +153,7 @@ async def _afetch_item(client: httpx.AsyncClient, sem: asyncio.Semaphore,
             resp.raise_for_status()
             return resp.json()
         except Exception as exc:  # noqa: BLE001 — reclassified immediately
-            if is_transient(exc) and attempt < _MAX_ATTEMPTS - 1:
+            if _item_transient(exc) and attempt < _MAX_ATTEMPTS - 1:
                 await asyncio.sleep(min(60.0, 2.0 ** attempt))
                 continue
             raise
