@@ -128,8 +128,11 @@ def _fetch_point(base_url: str, lat: float, lon: float, granularity: str,
 def _rows_for_point(block: dict, variables: list, time_key: str,
                     base_cols: dict) -> list:
     """Flatten an Open-Meteo granularity block (parallel arrays) into one dict
-    per timestamp, prefixed with the location's base columns."""
-    times = block.get(time_key, [])
+    per timestamp, prefixed with the location's base columns. Open-Meteo always
+    returns the time axis under the literal key ``time`` regardless of
+    granularity; ``time_key`` is only the name we publish that axis under (e.g.
+    ``date`` for daily products, ``time`` for hourly)."""
+    times = block.get("time", [])
     cols = {v: block.get(v, [None] * len(times)) for v in variables}
     rows = []
     for i, t in enumerate(times):

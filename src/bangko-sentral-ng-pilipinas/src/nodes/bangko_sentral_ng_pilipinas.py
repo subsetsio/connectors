@@ -188,6 +188,16 @@ def _date_from_parts(parts):
         d = _parse_date(p)
         if d is not None:
             return d
+    # Period phrases like "Outstanding as of December 2005": require BOTH a month
+    # name and a 4-digit year inside one part (a strong date signal) so we don't
+    # mistake a stray year embedded in a classification label.
+    for p in parts:
+        mm = re.search(r"\b([A-Za-z]{3,9})\b[^0-9]*\b((?:19|20)\d{2})\b", p)
+        if mm and mm.group(1).lower() in _MONTHS:
+            try:
+                return datetime.date(int(mm.group(2)), _MONTHS[mm.group(1).lower()], 1)
+            except ValueError:
+                pass
     return None
 
 
