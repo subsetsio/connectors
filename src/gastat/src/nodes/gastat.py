@@ -22,9 +22,12 @@ from constants import ENTITY_IDS
 
 BASE = "https://api.stats.gov.sa/v1/stats"
 
-# Page size for $top/$skip. No documented max; 10k rows/CSV page is well within
-# a single response for these aggregate tables.
-PAGE = 10000
+# Page size for $top/$skip. The CData gateway grows slow per-request and starts
+# returning 504s well before any row limit (the latency is fixed server-side
+# overhead, not row volume — small tables 504 at top=10000 too); a 5k page keeps
+# every request comfortably under the gateway timeout while still being one or
+# two requests for the largest tables here.
+PAGE = 5000
 
 # Safety ceiling: a single GASTAT table exceeding 10M rows would be wildly
 # beyond any observed table and signals runaway pagination — raise, don't loop.
