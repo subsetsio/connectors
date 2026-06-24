@@ -1,0 +1,23 @@
+spec_id: eiopa-group-balance-sheet
+status: active
+tests:
+  - not_null: item_code
+    reason: every published row is a Solvency II reporting item; a null item code means a header/footer row leaked
+    certainty: 95
+  - not_null: reporting_entity
+    reason: every row is attributed to a reporting country (solo) or region (group)
+    certainty: 92
+  - not_null: value
+    reason: the transform filters out null Value cells, so the published value column is fully populated
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 90
+  - column_type: {col: extraction_date, type: date}
+    reason: Date of extraction (yyyymmdd) is parsed to a DATE in the transform
+    certainty: 88
+  - enum: {col: frequency, values: [quarterly, annual]}
+    reason: this subset unions only the listed reporting frequencies
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: ~30 EEA reporters x ~10 years x dozens of items yields many thousands of value rows; far fewer means a truncated download
+    certainty: 85

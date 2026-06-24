@@ -1,0 +1,29 @@
+spec_id: eiopa-financial-stability-indicators
+status: active
+tests:
+  - not_null: item_name
+    reason: every row is an indicator; the indicator name is forward-filled across its period block
+    certainty: 92
+  - not_null: reference_period
+    reason: every published row is a (indicator, Q4 reference period) cell
+    certainty: 95
+  - not_null: median
+    reason: the transform filters out rows with a null median percentile
+    certainty: 95
+  - column_type: {col: median, type: float}
+    certainty: 90
+  - column_type: {col: n_observations, type: integer}
+    reason: number of observations behind each percentile distribution
+    certainty: 80
+    severity: warn
+  - row_count: {min: 20}
+    reason: a handful of financial-stability indicators x ~10 annual Q4 reference periods; far fewer means the pivoted sheet failed to parse
+    certainty: 80
+  - relationship: {left: p10, op: "<=", right: median}
+    reason: the 10th percentile must not exceed the median within a distribution
+    certainty: 75
+    severity: warn
+  - relationship: {left: median, op: "<=", right: p90}
+    reason: the median must not exceed the 90th percentile within a distribution
+    certainty: 75
+    severity: warn

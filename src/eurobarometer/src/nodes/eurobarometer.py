@@ -231,14 +231,22 @@ def _parse_question_sheet(rows):
     if not countries:
         return None
 
+    # Each answer is two consecutive rows: a count row then a share row. The
+    # share row's label cell may be empty (old .xls) or carry the English label
+    # (modern .xlsx, the count row holding the French one). Drop only
+    # fully-blank rows — that keeps count/share pairs adjacent and aligned.
+    def _label(r):
+        v = r[1] if len(r) > 1 else None
+        return str(v).strip() if v is not None and str(v).strip() != "" else None
+
     data_rows = [r for r in rows[base_idx + 1:]
-                 if len(r) > 1 and r[1] is not None and str(r[1]).strip() != ""]
+                 if any(c is not None for c in r[1:])]
     out = []
     i, n = 0, len(data_rows)
-    while i + 1 < n + 1 and i + 1 <= n - 1:
+    while i + 1 <= n - 1:
         cnt_row, pct_row = data_rows[i], data_rows[i + 1]
-        # sanity: the percentage row must look like shares (fractions or null
-        # tokens). If not, pairing has drifted — stop parsing this sheet.
+        # sanity: the share row must look like shares (fractions in [0,1] or
+        # null tokens). If not, pairing has drifted — stop parsing this sheet.
         pct_cells = [pct_row[ci] for ci in countries if ci < len(pct_row)]
         looks_pct = any(
             _is_share(c) or (isinstance(c, str) and c.strip().lower() in _NULL_TOKENS)
@@ -246,12 +254,15 @@ def _parse_question_sheet(rows):
         )
         if not looks_pct:
             break
-        answer = str(pct_row[1]).strip()
-        is_subtotal = answer == "Total" or answer.startswith(("Total '", 'Total "'))
+        answer = _label(pct_row) or _label(cnt_row)
+        is_subtotal = answer is not None and (
+            answer == "Total" or answer.startswith(("Total '", 'Total "')))
         if answer and not is_subtotal:
             for ci, code in countries.items():
                 wn = _num(cnt_row[ci]) if ci < len(cnt_row) else None
                 sh = _num(pct_row[ci]) if ci < len(pct_row) else None
+                if sh is not None and not 0.0 <= sh <= 1.0:
+                    sh = None  # not a valid share — drop rather than publish a count as a fraction
                 if wn is None and sh is None:
                     continue
                 out.append((code, answer, wn, sh))
