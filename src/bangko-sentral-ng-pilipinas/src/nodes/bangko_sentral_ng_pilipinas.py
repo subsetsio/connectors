@@ -40,10 +40,32 @@ import html as htmlmod
 import urllib.parse
 
 import pyarrow as pa
+import httpx
+from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 from subsets_utils import (
-    NodeSpec, SqlNodeSpec, get, post, save_raw_parquet, transient_retry,
+    NodeSpec, SqlNodeSpec, get, post, save_raw_parquet, is_transient,
 )
 from constants import ENTITY_META
+
+
+def _bsp_is_retryable(exc):
+    """Retry the standard transient failures (network / 429 / 5xx) and, for this
+    source, a 404. BSP's PX-Web ASP intermittently 302-redirects a *valid* matrix
+    to main-error404.asp under load; a genuinely dead matrix still fails after the
+    retries are exhausted."""
+    if is_transient(exc):
+        return True
+    return (isinstance(exc, httpx.HTTPStatusError)
+            and exc.response.status_code in (403, 404))
+
+
+def _bsp_retry(attempts=5, min_wait=5, max_wait=45):
+    return retry(
+        retry=retry_if_exception(_bsp_is_retryable),
+        stop=stop_after_attempt(attempts),
+        wait=wait_exponential(min=min_wait, max=max_wait),
+        reraise=True,
+    )
 
 PREFIX = "bangko-sentral-ng-pilipinas-"
 VARVAL = "https://www.bsp.gov.ph/PXWeb2007/Dialog/varval.asp"
@@ -107,13 +129,19 @@ def _parse_date(s):
             return datetime.date(int(m.group(1)), int(m.group(2)), 1)
         except ValueError:
             return None
-    # YYYY:NNM  (BSP CPI period codes, e.g. "1994:01M")
-    m = re.match(r"^(\d{4}):(\d{1,2})M$", s, re.I)
+    # YYYY:[O0]NNM  (BSP CPI period codes, e.g. "1994:01M", "1994:O1M", "1994:O10M")
+    m = re.match(r"^(\d{4}):[O0]?(\d{1,2})M$", s, re.I)
     if m:
         try:
             return datetime.date(int(m.group(1)), int(m.group(2)), 1)
         except ValueError:
             return None
+    # End-YYYY / End-of-YYYY  (year-end annual snapshots, e.g. "End-2001")
+    m = re.match(r"^End[-\s]*(?:of[-\s]*)?(\d{4})$", s, re.I)
+    if m:
+        y = int(m.group(1))
+        if 1900 <= y <= 2100:
+            return datetime.date(y, 12, 31)
     # Quarter: Q1 2005 / 2005Q1
     m = re.match(r"^Q([1-4])\s*(\d{4})$", s, re.I) or re.match(r"^(\d{4})\s*Q([1-4])$", s, re.I)
     if m:
@@ -293,7 +321,7 @@ def _value_indices(html, i):
     return re.findall(r'<option VALUE="([^"]*)"', block.group(1), re.I)
 
 
-@transient_retry(attempts=4, min_wait=5, max_wait=45)
+@_bsp_retry(attempts=8, min_wait=4, max_wait=60)
 def _get_varval(ma, path):
     r = get(VARVAL, params={"ma": ma, "path": path, "lang": "1"}, timeout=(15.0, 90.0))
     r.raise_for_status()
@@ -301,7 +329,7 @@ def _get_varval(ma, path):
     return r.content.decode("latin-1", "replace"), cookie
 
 
-@transient_retry(attempts=4, min_wait=5, max_wait=45)
+@_bsp_retry(attempts=8, min_wait=4, max_wait=60)
 def _post_saveshow(body, cookie, referer):
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -317,16 +345,22 @@ def _post_saveshow(body, cookie, referer):
     return r.content
 
 
-def _build_body(ma, path, html):
+def _build_body(ma, path, html, selection=None):
     """Build the Saveshow POST body as the browser form submits it.
 
     The field set, ordering and the derived counts (Valdavarden / stubceller /
     headceller) all matter: classic PX-Web ASP hangs server-side on a malformed
-    body. We request every value of every variable (a full snapshot).
+    body. By default we request every value of every variable (a full snapshot);
+    ``selection`` maps a 1-based variable index -> the subset of value indices to
+    request for that variable (used to chunk wide matrices under PX-Web's
+    presentation column limit).
     """
     noofvar = int(_hidden(html, "noofvar") or "1")
     numberstub = int(_hidden(html, "numberstub") or "1")
     sel = {i: _value_indices(html, i) for i in range(1, noofvar + 1)}
+    if selection:
+        for i, vals in selection.items():
+            sel[i] = vals
     counts = {i: len(sel[i]) for i in sel}
 
     stubceller = 1
@@ -373,6 +407,39 @@ def _decode_response(content):
     return content.decode("latin-1", "replace")
 
 
+# PX-Web caps the number of columns it will render in one presentation table
+# (wide matrices return "You have selected more than the limit ..."). A full
+# snapshot of ~150 columns is proven to build, so we partition the heading
+# dimension to keep each request under this cap and concatenate the long-format
+# rows (each chunk is a disjoint slice of one heading variable).
+_MAX_COLS = 150
+
+
+def _heading_plans(html, noofvar, numberstub):
+    """Return a list of per-request ``selection`` maps that keep each request's
+    presentation columns under ``_MAX_COLS``; ``[None]`` (one full snapshot) when
+    the matrix already fits."""
+    sel = {i: _value_indices(html, i) for i in range(1, noofvar + 1)}
+    heading = list(range(numberstub + 1, noofvar + 1))
+    counts = {i: len(sel[i]) for i in heading}
+    headceller = 1
+    for c in counts.values():
+        headceller *= max(c, 1)
+    if headceller <= _MAX_COLS or not heading:
+        return [None]
+    big = max(heading, key=lambda i: counts[i])
+    others = headceller // max(counts[big], 1)
+    per = max(1, _MAX_COLS // max(others, 1))
+    vals = sel[big]
+    return [{big: vals[k:k + per]} for k in range(0, len(vals), per)]
+
+
+def _msg_excerpt(text):
+    """Pull the PX-Web error message out of a non-data response, for diagnostics."""
+    m = re.search(r"PX-Web Message[^<]*", text)
+    return m.group(0).strip() if m else text[:120].strip()
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id
     eid = node_id[len(PREFIX):]
@@ -384,8 +451,19 @@ def fetch_one(node_id: str) -> None:
     numberstub = int(_hidden(html, "numberstub") or "1")
     referer = f"{VARVAL}?ma={urllib.parse.quote(ma)}&path={urllib.parse.quote(path)}&lang=1"
 
-    content = _post_saveshow(_build_body(ma, path, html), cookie, referer)
-    rows = _normalize(_decode_response(content), numberstub, noofvar)
+    plans = _heading_plans(html, noofvar, numberstub)
+    rows = []
+    for idx, selection in enumerate(plans):
+        if idx > 0:
+            # The session cookie is matrix-scoped; refresh it per chunk so a slow
+            # build can't outlive it.
+            html, cookie = _get_varval(ma, path)
+        content = _post_saveshow(_build_body(ma, path, html, selection), cookie, referer)
+        text = _decode_response(content)
+        chunk = _normalize(text, numberstub, noofvar)
+        if not chunk and "PX-Web Message" in text:
+            raise RuntimeError(f"{asset}: source build error: {_msg_excerpt(text)}")
+        rows.extend(chunk)
 
     if not rows:
         raise RuntimeError(f"{asset}: parsed 0 numeric rows from the matrix CSV")
