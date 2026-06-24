@@ -270,25 +270,30 @@ def _param_slug(parameter: str) -> str:
     return "".join(keep).strip("-").replace("--", "-") or "param"
 
 
-def fetch_values(node_id: str) -> None:
-    raw = load_state(node_id)
-    if raw.get("schema_version") == STATE_VERSION:
-        state = raw
-    elif raw.get("schema_version") == 1 and isinstance(raw.get("chunks"), dict):
-        # Migrate v1's single nested `chunks` dict into flat per-chunk keys,
-        # preserving prior progress so we re-pull only changed series.
-        state = {"schema_version": STATE_VERSION}
-        for chunk_key, marker in raw["chunks"].items():
-            state[f"{CHUNK_PREFIX}{chunk_key}"] = marker
-        print(f"  migrated {len(raw['chunks'])} chunk markers from state schema 1")
-        save_state(node_id, state)
-    else:
-        if raw:
-            print(f"  state schema {raw.get('schema_version')} != {STATE_VERSION}; resetting")
-        state = {"schema_version": STATE_VERSION}
+def _soft_deadline() -> float | None:
+    """monotonic() time after which we should yield for a continuation, leaving
+    CONTINUATION_MARGIN_S of headroom before the orchestrator's hard
+    DAG_TIME_BUDGET. None (no budget) means run to completion in one process —
+    the local/dev path."""
+    try:
+        budget = float(os.environ.get("DAG_TIME_BUDGET", "0"))
+    except ValueError:
+        budget = 0.0
+    if budget <= 0:
+        return None
+    return time.monotonic() + max(budget - CONTINUATION_MARGIN_S, 60.0)
 
-    # No self-imposed run budget: sweep every parameter/chunk. State is
-    # checkpointed after each chunk, so a supervisor interrupt resumes here.
+
+def fetch_values(node_id: str):
+    """Materialise every (parameter, series-chunk) as one raw parquet, resuming
+    on raw existence and yielding via continuation when the time budget is spent.
+
+    Returns True to request a continuation (chunks still unwritten in this run),
+    or None when the full corpus is materialised."""
+    deadline = _soft_deadline()
+    pending = 0   # chunks still needing a fetch when we yielded
+    written = 0   # chunks materialised this invocation
+
     for parameter, ts_name in sorted(PARAM_DAILY_TSNAME.items()):
         try:
             series = _canonical_series(parameter, ts_name)
@@ -301,12 +306,17 @@ def fetch_values(node_id: str) -> None:
                   for i in range(0, len(series), SERIES_PER_CALL)]
 
         for ci, members in enumerate(chunks):
-            chunk_key = f"{pslug}-{ci:05d}"
-            state_key = f"{CHUNK_PREFIX}{chunk_key}"
-            signature = _chunk_signature(members)
-            prev = state.get(state_key, {})
-            if prev.get("sig") == signature and prev.get("complete"):
-                continue  # unchanged since last successful pull
+            asset = f"{node_id}-{pslug}-{ci:05d}"
+            # Resume on run-scoped raw: a chunk already written in THIS run (or
+            # an earlier link of this continuation chain, same RUN_ID) is done.
+            if raw_asset_exists(asset):
+                continue
+
+            # Out of time — defer the rest to a continuation (same RUN_ID, so the
+            # chunks we've written persist and we'll skip them next invocation).
+            if deadline is not None and time.monotonic() >= deadline:
+                pending += 1
+                continue
 
             ts_ids = [m["ts_id"] for m in members]
             start, end = _chunk_bounds(members)
@@ -317,15 +327,22 @@ def fetch_values(node_id: str) -> None:
                 try:
                     rows.extend(_fetch_window(ts_ids, w_start, w_end))
                 except httpx.HTTPStatusError as exc:
-                    print(f"  values {chunk_key} window {w_start}..{w_end}: "
+                    print(f"  values {asset} window {w_start}..{w_end}: "
                           f"HTTP {exc.response.status_code}; skipped")
                 w_start = w_end + timedelta(days=1)
 
-            asset = f"{node_id}-{chunk_key}"
+            # Write raw even when empty: the parquet's existence is the resume
+            # marker, so an all-gap chunk isn't re-attempted every continuation.
             table = pa.Table.from_pylist(rows, schema=VALUES_SCHEMA)
-            save_raw_parquet(table, asset)  # write raw before advancing state
-            state[state_key] = {"sig": signature, "complete": True}
-            save_state(node_id, state)  # checkpoint after each chunk
+            save_raw_parquet(table, asset)
+            written += 1
+
+    if pending:
+        print(f"  values: wrote {written} chunk(s) this run, {pending} still "
+              f"pending — requesting continuation")
+        return True
+    print(f"  values: corpus complete ({written} chunk(s) written this run)")
+    return None
 
 
 # --------------------------------------------------------------------------- #
