@@ -49,7 +49,8 @@ from subsets_utils import (
     save_state,
 )
 
-STATE_VERSION = 1
+STATE_VERSION = 2
+_SAVE_EVERY = 50  # checkpoint cadence for the responses crawl (see fetch_responses)
 
 # --- enumeration (DCAT) -----------------------------------------------------
 
@@ -304,12 +305,17 @@ def fetch_responses(node_id: str) -> None:
 
     datasets = _enumerate_commu_datasets()
     print(f"[responses] {len(datasets)} COMMU datasets enumerated")
-    n_written = n_skip_novola = n_empty = 0
+    n_written = n_skip_novola = n_empty = n_seen = 0
+    # Persist state periodically, not every dataset: the lineage record diffs
+    # the full (growing) `processed` map on each save, so per-dataset saves are
+    # O(n^2) and blow the snapshot size cap. Every SAVE_EVERY datasets keeps the
+    # record small while bounding re-fetch on interrupt to one window.
     for it in datasets:
         did = it["id"]
         version = _dataset_version(it)
         if processed.get(did) == version:
             continue  # unchanged since last successful pull
+        n_seen += 1
         asset = f"{asset_prefix}-{did}"
         try:
             vola = _find_volume_a(it.get("distributions", []))
@@ -345,12 +351,13 @@ def fetch_responses(node_id: str) -> None:
                 save_raw_parquet(table, asset)  # raw FIRST
                 processed[did] = version         # then advance state
                 n_written += 1
-            save_state(asset_prefix, state)
         except Exception as exc:  # noqa: BLE001 — isolate per-dataset, log loudly
             print(f"[responses] {did}: FAILED url={vola} {type(exc).__name__}: {exc}")
             skipped[did] = {"reason": f"{type(exc).__name__}: {exc}"[:200],
                             "expires_at": now + 14 * 86400}
-            save_state(asset_prefix, state)
+        if n_seen % _SAVE_EVERY == 0:
+            save_state(asset_prefix, state)  # checkpoint a window of progress
+    save_state(asset_prefix, state)          # final flush
     print(f"[responses] done: {n_written} datasets written, "
           f"{n_skip_novola} without Volume-A, {n_empty} empty, "
           f"{len(skipped)} skipped(transient)")
