@@ -1,0 +1,29 @@
+spec_id: federal-register-agencies
+status: active
+tests:
+  - not_null: id
+    reason: each agency record has a stable integer id; null means a malformed row
+    certainty: 97
+  - not_null: name
+    reason: agency name is always populated in /agencies.json
+    certainty: 95
+  - not_null: slug
+    reason: every agency has a URL slug used for joins/links
+    certainty: 90
+  - column_type: {col: id, type: integer}
+    reason: agency ids are integers (e.g. 12, 557)
+    certainty: 95
+  - column_type: {col: name, type: string}
+    reason: agency name is a plain string
+    certainty: 95
+  - unique: id
+    reason: /agencies.json returns one record per agency; a dup means double-write
+    certainty: 95
+  - row_count: {min: 300, max: 2000}
+    reason: the FR agency taxonomy is ~470 records and grows slowly; far outside this band signals a fetch/format change
+    certainty: 85
+    severity: warn
+  - column_type: {col: parent_id, type: integer}
+    reason: parent_id, when present, references another agency id (integer); top-level agencies have null
+    certainty: 80
+    severity: warn

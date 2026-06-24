@@ -1,0 +1,40 @@
+spec_id: federal-register-documents
+status: active
+tests:
+  - not_null: document_number
+    reason: every Federal Register document carries a citation document_number; a null means a dropped/garbled record on our side
+    certainty: 97
+  - not_null: type
+    reason: type (Rule/Proposed Rule/Notice/Presidential Document) is always present in the API payload
+    certainty: 95
+  - not_null: publication_date
+    reason: publication_date drives the year-partitioned fetch; it is always present
+    certainty: 95
+  - column_type: {col: document_number, type: string}
+    reason: document numbers are alphanumeric citation strings like "2024-01974", stored as raw strings
+    certainty: 95
+  - column_type: {col: publication_date, type: string}
+    reason: raw asset stores publication_date as the ISO YYYY-MM-DD string; the transform casts it to DATE
+    certainty: 95
+  - column_type: {col: page_length, type: integer}
+    reason: page_length is an integer page count in the API
+    certainty: 85
+  - enum: {col: type, values: [Rule, Proposed Rule, Notice, Presidential Document, Correction, Sunshine Act Document]}
+    reason: the FR document taxonomy; a new value means the source added a category we should map
+    certainty: 75
+    severity: warn
+  - unique: document_number
+    reason: document_number is the global natural key; dupes across year batches mean a window was re-pulled without dedup
+    certainty: 80
+    severity: warn
+  - matches: {col: document_number, pattern: '^[A-Za-z0-9]+-[0-9]+$'}
+    reason: modern document numbers are YEAR-SEQ; very old (1990s) records may differ, so warn only
+    certainty: 70
+    severity: warn
+  - row_count: {min: 1000}
+    reason: a full multi-year corpus crawl yields hundreds of thousands of rows; under 1000 means the crawl barely ran
+    certainty: 90
+    severity: warn
+  - matches: {col: publication_date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
+    reason: publication_date is an ISO calendar date string
+    certainty: 90
