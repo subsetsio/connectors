@@ -1,0 +1,29 @@
+spec_id: eurobarometer-responses
+status: active
+tests:
+  - not_null: survey_id
+    reason: every response row is tagged with the survey dataset it came from
+    certainty: 95
+  - not_null: question_code
+    reason: the sheet name (question code) identifies the question; never empty
+    certainty: 95
+  - not_null: country
+    reason: each banner column is a country / EU-aggregate code
+    certainty: 95
+  - not_null: answer
+    reason: each row is one answer category (English label, or the only label on old .xls)
+    certainty: 90
+  - column_type: {col: share, type: float}
+  - column_type: {col: weighted_n, type: float}
+  - between: {col: share, lo: 0, hi: 1}
+    reason: share is a within-(country×question) response proportion, so a fraction
+    certainty: 90
+  - at_least: {col: weighted_n, expr: 0}
+    reason: weighted respondent counts are non-negative
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: many surveys × ~200 questions × ~30 countries × several answers each
+    certainty: 85
+  - distinct_count: {col: country, min: 10}
+    reason: Eurobarometer covers all EU member states plus EU aggregates
+    certainty: 85

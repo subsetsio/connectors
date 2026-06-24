@@ -1,0 +1,19 @@
+spec_id: eurobarometer-surveys
+status: active
+tests:
+  - not_null: survey_id
+    reason: the DCAT dataset id, present on every catalog record
+    certainty: 98
+  - unique: survey_id
+    reason: one row per Eurobarometer survey dataset
+    certainty: 95
+  - nullable: {col: title, max_null_frac: 0.1}
+    reason: nearly all COMMU datasets carry an English title; a few may not
+    certainty: 80
+  - column_type: {col: num_distributions, type: integer}
+  - at_least: {col: num_distributions, expr: 1}
+    reason: a published dataset has at least one distribution
+    certainty: 85
+  - row_count: {min: 100}
+    reason: roughly 900-1000 DG-Communication Eurobarometer datasets in the catalog
+    certainty: 80
