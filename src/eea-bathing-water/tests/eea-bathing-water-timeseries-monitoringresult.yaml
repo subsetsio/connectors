@@ -1,0 +1,18 @@
+spec_id: eea-bathing-water-timeseries-monitoringresult
+status: active
+tests:
+  - not_null: bathingWaterIdentifier
+    certainty: 95
+  - not_null: sampleDate
+    reason: "a monitoring sample is dated"
+    certainty: 85
+  - column_type: {"col": "season", "type": "integer"}
+    certainty: 95
+  - matches: {"col": "sampleDate", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}
+    reason: "ISO date string in raw"
+    certainty: 85
+  - between: {"col": "season", "lo": 1990, "hi": "current_year()"}
+    certainty: 90
+  - row_count: {"min": 1000000}
+    reason: "largest table, ~2.85M monitoring results"
+    certainty: 80

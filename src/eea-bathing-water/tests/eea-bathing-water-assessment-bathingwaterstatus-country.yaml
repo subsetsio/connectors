@@ -1,0 +1,19 @@
+spec_id: eea-bathing-water-assessment-bathingwaterstatus-country
+status: active
+tests:
+  - not_null: countryCode
+    certainty: 95
+  - matches: {"col": "countryCode", "pattern": "^[A-Z]{2}$"}
+    certainty: 90
+  - column_type: {"col": "season", "type": "integer"}
+    certainty: 95
+  - column_type: {"col": "numberOfBathingWaters", "type": "integer"}
+    certainty: 90
+  - at_least: {"col": "numberOfBathingWaters", "expr": 0}
+    reason: "a count of bathing waters cannot be negative"
+    certainty: 95
+  - between: {"col": "season", "lo": 1990, "hi": "current_year()"}
+    certainty: 90
+  - row_count: {"min": 100}
+    reason: "country x season x zone-type aggregate, a few thousand rows"
+    certainty: 80

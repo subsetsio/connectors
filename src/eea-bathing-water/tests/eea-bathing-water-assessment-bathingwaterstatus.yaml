@@ -1,0 +1,14 @@
+spec_id: eea-bathing-water-assessment-bathingwaterstatus
+status: active
+tests:
+  - not_null: bathingWaterIdentifier
+    certainty: 95
+  - column_type: {"col": "season", "type": "integer"}
+    certainty: 95
+  - between: {"col": "season", "lo": 1990, "hi": "current_year()"}
+    certainty: 90
+  - matches: {"col": "countryCode", "pattern": "^[A-Z]{2}$"}
+    certainty: 85
+  - row_count: {"min": 10000}
+    reason: "~680k rows (one per BW x season x zone-type status)"
+    certainty: 85

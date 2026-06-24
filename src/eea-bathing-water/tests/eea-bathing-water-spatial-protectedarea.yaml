@@ -1,0 +1,21 @@
+spec_id: eea-bathing-water-spatial-protectedarea
+status: active
+tests:
+  - not_null: countryCode
+    certainty: 85
+  - column_type: {"col": "lat", "type": "float"}
+    reason: "decimal latitude stored as double"
+    certainty: 85
+  - column_type: {"col": "lon", "type": "float"}
+    certainty: 85
+  - column_type: {"col": "cYear", "type": "integer"}
+    certainty: 90
+  - between: {"col": "lat", "lo": -90, "hi": 90}
+    reason: "valid WGS84 latitude"
+    certainty: 90
+  - between: {"col": "lon", "lo": -180, "hi": 180}
+    reason: "valid WGS84 longitude"
+    certainty: 90
+  - row_count: {"min": 1000}
+    reason: "~31k protected-area records"
+    certainty: 80
