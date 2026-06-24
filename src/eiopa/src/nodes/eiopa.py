@@ -271,18 +271,29 @@ DOWNLOAD_SPECS = [
 
 # ----------------------------------------------------------------- TRANSFORM_SPECS
 
-def _generic_long_sql(dep: str, premiums: bool) -> str:
-    extra = ""
-    if premiums:
-        extra = "metric,\n            business_type,\n            "
+def _generic_long_sql(dep: str, entity: str) -> str:
+    """Build the long-format transform, selecting only the columns the source
+    template actually populates (so no all-null columns are published):
+      - undertaking_type: solo balance-sheet / own-funds only (group files and
+        the premiums template don't carry it).
+      - item_name: every block except premiums (premiums labels via `Item`/
+        `Business type`, mapped to metric/business_type — there is no Item name).
+      - metric / business_type: premiums only.
+    """
+    is_group = entity.startswith("group-")
+    is_premiums = "premiums" in entity
+    cols = ["reporting_entity", "reference_period", "frequency"]
+    if not is_group and not is_premiums:
+        cols.append("undertaking_type")
+    if is_premiums:
+        cols += ["metric", "business_type"]
+    cols.append("item_code")
+    if not is_premiums:
+        cols.append("item_name")
+    select = ",\n            ".join(cols)
     return f'''
         SELECT DISTINCT
-            reporting_entity,
-            reference_period,
-            frequency,
-            undertaking_type,
-            {extra}item_code,
-            item_name,
+            {select},
             CAST(value AS DOUBLE) AS value,
             TRY_CAST(n_submissions AS BIGINT) AS n_submissions,
             CAST(try_strptime(extraction_date, '%Y%m%d') AS DATE) AS extraction_date
@@ -327,7 +338,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"eiopa-{eid}-transform",
         deps=[f"eiopa-{eid}"],
-        sql=_generic_long_sql(f"eiopa-{eid}", premiums="premiums" in eid),
+        sql=_generic_long_sql(f"eiopa-{eid}", eid),
     )
     for eid in CSV_FILES
 ] + [

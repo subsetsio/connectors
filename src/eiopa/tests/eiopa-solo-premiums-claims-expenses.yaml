@@ -21,9 +21,6 @@ tests:
   - row_count: {min: 1000}
     reason: ~30 EEA reporters x ~10 years x dozens of items yields many thousands of value rows; far fewer means a truncated download
     certainty: 85
-  - not_null: undertaking_type
-    reason: solo files always carry an undertaking-type breakdown (incl. 'Undertaking type not published')
-    certainty: 85
   - not_null: metric
     reason: premiums/claims/expenses rows carry the metric-group 'Item' column
     certainty: 80
