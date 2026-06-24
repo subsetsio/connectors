@@ -1,0 +1,28 @@
+spec_id: un-statistics-division-df-undata-unfcc
+status: active
+# UNSD greenhouse-gas / UNFCCC SDMX flow, saved verbatim as SDMX-CSV. Columns:
+# DATAFLOW, FREQ, INDICATOR, REF_AREA, UNIT, TIME_PERIOD, OBS_VALUE.
+tests:
+  - not_null: INDICATOR
+    reason: every UNFCCC observation is keyed to an emissions INDICATOR code
+    certainty: 95
+  - not_null: REF_AREA
+    reason: every observation is keyed to a reporting country
+    certainty: 95
+  - not_null: TIME_PERIOD
+    reason: every SDMX observation is stamped with a year
+    certainty: 95
+  - not_null: UNIT
+    reason: emissions values carry a unit (e.g. Gg_CO2) on every row
+    certainty: 85
+  - between: {col: TIME_PERIOD, lo: 1950, hi: 2030}
+    reason: national GHG inventories run from 1990; a wide floor guards against malformed years
+    certainty: 85
+  - at_most: {col: TIME_PERIOD, expr: current_year()}
+    reason: reported inventory years should not exceed the current year
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - row_count: {min: 200}
+    reason: GHG inventories cover dozens of countries across 30+ years and several indicators
+    certainty: 90

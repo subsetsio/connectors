@@ -28,6 +28,12 @@ from constants import ENTITY_IDS
 SLUG = "statistics-denmark"
 BASE = "https://api.statbank.dk/v1"
 _ROW_BUDGET = 300_000  # target max data rows per BULK request
+# The StatBank /data endpoint returns HTTP 500 when a single variable's explicit
+# value list is large (empirically it breaks between ~4000 and ~6000 ids — daily
+# time series like DNRENTD have 10k+ Tid values). A wildcard "*" selection of the
+# same dimension streams fine, so the limit is on enumerated selections, not on
+# response size. Cap the per-request chunk well under that ceiling.
+_MAX_SELECT = 3000
 
 
 def _table_id(node_id: str) -> str:

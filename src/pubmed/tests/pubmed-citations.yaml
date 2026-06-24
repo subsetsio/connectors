@@ -1,0 +1,39 @@
+spec_id: pubmed-citations
+status: active
+tests:
+  # --- block: things that must be true of any sane MEDLINE parse ---
+  - not_null: pmid
+    reason: PMID is the MEDLINE natural key — every PubmedArticle/MedlineCitation carries a <PMID>; the parser skips records lacking one, so a null in raw means the key column was misread
+    certainty: 99
+  - column_type: {col: pmid, type: string}
+    reason: PMIDs are kept as strings in the declared raw schema (identifier, not a numeric to be arithmetic'd); a non-string column means the schema contract drifted
+    certainty: 95
+  - matches: {col: pmid, pattern: '^[0-9]+$'}
+    reason: a PMID renders as digits only; any non-numeric value means the wrong element (e.g. a Version attr or a different id) was read into the column
+    certainty: 95
+
+  # --- warn: distributional beliefs from the PubMed/MEDLINE corpus shape ---
+  - nullable: {col: title, max_null_frac: 0.05}
+    reason: essentially every citation has an ArticleTitle; only a sliver (vernacular-only or stub records) legitimately lack one, so a large null fraction means ArticleTitle parsing broke
+    certainty: 85
+    severity: warn
+  - nullable: {col: journal, max_null_frac: 0.05}
+    reason: MEDLINE indexes journal articles — Journal/Title is present on essentially every record; widespread nulls mean the Journal element path changed
+    certainty: 85
+    severity: warn
+  - nullable: {col: abstract, max_null_frac: 0.9}
+    reason: abstracts are common but far from universal (older records, letters, editorials, errata omit them) — the real null rate runs ~40-70%; this guards against a 100%-null parse break while allowing the genuine high rate
+    certainty: 75
+    severity: warn
+  - nullable: {col: pub_date, max_null_frac: 0.1}
+    reason: nearly every citation carries a PubDate (Year or MedlineDate); a high null rate means the PubDate parse path regressed
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1000000}
+    reason: the annual baseline is ~38M citations across ~1,300 gzipped files; even a substantially interrupted crawl clears a million rows across the unioned shards. Fewer means the crawl barely ran or the listing format changed
+    certainty: 80
+    severity: warn
+  - distinct_count: {col: pmid, min: 1000000}
+    reason: PMIDs are globally unique across the baseline, so distinct PMIDs track row count closely; a collapse to few distinct values means batches overwrote each other or a constant was stamped
+    certainty: 80
+    severity: warn

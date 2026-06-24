@@ -1,0 +1,29 @@
+spec_id: un-statistics-division-df-undata-energybalance
+status: active
+# UNSD Energy Balance SDMX flow, saved verbatim as SDMX-CSV. Columns:
+# DATAFLOW, REF_AREA, COMMODITY, TRANSACTION, UNIT, TIME_PERIOD, OBS_VALUE,
+# ESTIMATE, FOOTNOTES, UNIT_MULT.
+tests:
+  - not_null: REF_AREA
+    reason: every energy-balance observation is keyed to a reference area
+    certainty: 95
+  - not_null: COMMODITY
+    reason: the commodity dimension is part of every observation key
+    certainty: 95
+  - not_null: TRANSACTION
+    reason: the transaction dimension is part of every observation key
+    certainty: 95
+  - not_null: TIME_PERIOD
+    reason: every SDMX observation is stamped with a year
+    certainty: 95
+  - between: {col: TIME_PERIOD, lo: 1950, hi: 2030}
+    reason: the energy balance series start in 1990; a wide floor guards against malformed years
+    certainty: 85
+  - at_most: {col: TIME_PERIOD, expr: current_year()}
+    reason: energy-balance statistics are historical, not projected
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - row_count: {min: 50000}
+    reason: the energy-balance flow holds tens of thousands of observations across areas and years
+    certainty: 90
