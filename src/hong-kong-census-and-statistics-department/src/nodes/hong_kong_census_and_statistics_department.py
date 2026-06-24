@@ -59,6 +59,18 @@ def _to_float(raw):
         return None
 
 
+def _clean(v):
+    """Empty -> None; strip a stray matched pair of surrounding double quotes.
+    A few component CSVs deliver classification codes pre-quoted (e.g. SEX as
+    `"F"`/`"M"` in table 215-16002), which csv.DictReader preserves verbatim;
+    normalize them to the bare code so dimension values don't split."""
+    if v is None or v == "":
+        return None
+    if len(v) >= 2 and v[0] == '"' and v[-1] == '"':
+        v = v[1:-1]
+    return v
+
+
 def _parse_csv(text, sv, sp):
     """Yield one dict per data row, original columns + stat_var/stat_pres/value."""
     reader = csv.DictReader(io.StringIO(text))
@@ -67,7 +79,7 @@ def _parse_csv(text, sv, sp):
         for k, v in row.items():
             if k in ("obs_value", "sd_value") or k is None:
                 continue
-            out[k] = (v if v not in ("",) else None)
+            out[k] = _clean(v)
         out["stat_var"] = sv
         out["stat_pres"] = sp
         out["value"] = _to_float(row.get("obs_value"))
