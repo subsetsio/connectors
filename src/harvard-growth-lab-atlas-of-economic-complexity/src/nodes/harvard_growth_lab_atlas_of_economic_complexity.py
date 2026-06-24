@@ -22,6 +22,7 @@ from subsets_utils import (
     SqlNodeSpec,
     get,
     get_client,
+    raw_asset_exists,
     raw_parquet_writer,
     transient_retry,
 )
@@ -167,38 +168,40 @@ def _cast_batch(batch, schema, level):
 
 
 @transient_retry()
-def _build_asset(asset, files, schema, include_level):
-    """Stream every constituent CSV into one parquet asset. Wrapped whole in
-    retry: any mid-stream failure restarts from a fresh (truncating) writer, so
-    a partial download never leaves duplicated rows behind."""
+def _build_part(part_id, fid, level, schema, include_level):
+    """Stream ONE constituent CSV into its own parquet part, with the full
+    union schema. Retry is scoped to this single file — a mid-stream blip
+    re-downloads only this part (truncating its writer), never the sibling
+    parts. The multi-GB bilateral tables ship as several year-range split
+    files, so this bounds a restart to one ~few-GB file instead of the whole
+    asset, and lets a continuation re-run skip parts already on disk."""
     read_opts = pacsv.ReadOptions(block_size=BLOCK)
     parse_opts = pacsv.ParseOptions(newlines_in_values=False)
-    with raw_parquet_writer(asset, schema) as writer:
-        for fid, label, level in files:
-            cols = _header(fid)
-            conv = pacsv.ConvertOptions(
-                column_types={c: pa.string() for c in cols},
-                strings_can_be_null=True,
+    cols = _header(fid)
+    conv = pacsv.ConvertOptions(
+        column_types={c: pa.string() for c in cols},
+        strings_can_be_null=True,
+    )
+    lvl = level if include_level else None
+    url = f"{DATAVERSE}/access/datafile/{fid}"
+    client = get_client()
+    with raw_parquet_writer(part_id, schema) as writer:
+        with client.stream("GET", url, timeout=(10.0, 600.0)) as resp:
+            resp.raise_for_status()
+            stream = io.BufferedReader(_HttpRaw(resp.iter_bytes()), buffer_size=BLOCK)
+            reader = pacsv.open_csv(
+                stream, read_options=read_opts, parse_options=parse_opts,
+                convert_options=conv,
             )
-            lvl = level if include_level else None
-            url = f"{DATAVERSE}/access/datafile/{fid}"
-            client = get_client()
-            with client.stream("GET", url, timeout=(10.0, 600.0)) as resp:
-                resp.raise_for_status()
-                stream = io.BufferedReader(_HttpRaw(resp.iter_bytes()), buffer_size=BLOCK)
-                reader = pacsv.open_csv(
-                    stream, read_options=read_opts, parse_options=parse_opts,
-                    convert_options=conv,
-                )
-                while True:
-                    try:
-                        batch = reader.read_next_batch()
-                    except StopIteration:
-                        break
-                    if batch.num_rows == 0:
-                        continue
-                    rb = _cast_batch(batch, schema, lvl)
-                    writer.write_table(pa.Table.from_batches([rb], schema=schema))
+            while True:
+                try:
+                    batch = reader.read_next_batch()
+                except StopIteration:
+                    break
+                if batch.num_rows == 0:
+                    continue
+                rb = _cast_batch(batch, schema, lvl)
+                writer.write_table(pa.Table.from_batches([rb], schema=schema))
 
 
 def fetch_one(node_id: str) -> None:
@@ -218,7 +221,16 @@ def fetch_one(node_id: str) -> None:
         fields.append(("product_level", pa.int32()))
     schema = pa.schema(fields)
 
-    _build_asset(asset, files, schema, include_level)
+    # One parquet part per constituent file (batch layout `<asset>-NN`). The
+    # SqlNodeSpec transform globs `<asset>-*` and unions them, so splitting is
+    # transparent downstream. Parts already on disk (a prior continuation link)
+    # are skipped, making the multi-hour bilateral pulls resumable.
+    for i, (fid, _label, level) in enumerate(files):
+        part_id = f"{asset}-{i:02d}"
+        if raw_asset_exists(part_id):
+            print(f"  -> part {part_id} already present, skipping")
+            continue
+        _build_part(part_id, fid, level, schema, include_level)
 
 
 DOWNLOAD_SPECS = [
