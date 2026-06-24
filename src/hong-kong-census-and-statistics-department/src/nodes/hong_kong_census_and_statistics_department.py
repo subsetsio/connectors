@@ -60,15 +60,19 @@ def _to_float(raw):
 
 
 def _clean(v):
-    """Empty -> None; strip a stray matched pair of surrounding double quotes.
-    A few component CSVs deliver classification codes pre-quoted (e.g. SEX as
-    `"F"`/`"M"` in table 215-16002), which csv.DictReader preserves verbatim;
-    normalize them to the bare code so dimension values don't split."""
-    if v is None or v == "":
+    """Empty -> None; strip surrounding whitespace and any stray matched pairs
+    of surrounding double quotes. Some component CSVs (e.g. SEX in table
+    215-16002, served quote-wrapped to cloud clients) deliver classification
+    codes wrapped in one *or more* layers of double quotes — `"M"`, `""M""` —
+    which csv.DictReader preserves verbatim. Peel every wrapping layer so the
+    bare code (`M`) lands and dimension values don't split. No legitimate code
+    here both starts and ends with `"`, so this only removes artifacts."""
+    if v is None:
         return None
-    if len(v) >= 2 and v[0] == '"' and v[-1] == '"':
-        v = v[1:-1]
-    return v
+    v = v.strip()
+    while len(v) >= 2 and v[0] == '"' and v[-1] == '"':
+        v = v[1:-1].strip()
+    return v or None
 
 
 def _parse_csv(text, sv, sp):
