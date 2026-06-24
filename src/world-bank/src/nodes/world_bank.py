@@ -168,9 +168,13 @@ def _fetch_indicator_observations(indicator_id: str, source_id: str):
 
 def fetch_values(node_id: str) -> None:
     state_key = node_id  # "world-bank-values"
+    run_id = os.environ.get("RUN_ID")
     state = load_state(state_key)
-    if state.get("schema_version") != STATE_VERSION:
-        state = {"schema_version": STATE_VERSION, "watermark": ""}
+    # Resume only within the same run (raw is run-scoped, so a watermark from a
+    # prior run points at batches that no longer exist). A new RUN_ID — or an
+    # older state schema — restarts the full sweep from scratch.
+    if state.get("schema_version") != STATE_VERSION or state.get("run_id") != run_id:
+        state = {"schema_version": STATE_VERSION, "run_id": run_id, "watermark": ""}
     watermark = state.get("watermark", "")
 
     # Discover the full indicator universe (id-sorted) every run. The list is
@@ -196,7 +200,7 @@ def fetch_values(node_id: str) -> None:
             save_raw_parquet(table, f"{node_id}-{batch_key}")  # write raw FIRST
 
         # Advance watermark to the last indicator id in this chunk, then persist.
-        state = {"schema_version": STATE_VERSION, "watermark": chunk[-1][0]}
+        state = {"schema_version": STATE_VERSION, "run_id": run_id, "watermark": chunk[-1][0]}
         save_state(state_key, state)
 
         idx += len(chunk)
