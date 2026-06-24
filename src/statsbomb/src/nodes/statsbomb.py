@@ -16,10 +16,13 @@ Fetch strategy (per research's chosen mechanism `github_raw_json`):
 competitions and matches are small enough for a stateless full re-pull written to a
 single parquet asset. events / lineups / three_sixty span thousands of immutable
 per-match files (~15M events total), so they are written as per-match parquet batches
-(`statsbomb-<entity>-<match_id>.parquet`) with a resumable done-set watermark in state:
-already-fetched matches are skipped, so the supervisor can interrupt and the next run
-resumes without re-pulling. Matches are immutable once played, so closed batches never
-change. Freshness (whether a node runs at all) is the maintain step's concern, not ours.
+(`statsbomb-<entity>-<match_id>.parquet`). The corpus exceeds one continuation job's
+time budget, so the pull is resumable: a match whose batch already exists in this run's
+raw dir is skipped, so when the supervisor interrupts at the deadline and re-triggers a
+continuation (same RUN_ID, same raw dir), the next job resumes past what is already on
+disk instead of re-pulling from scratch. Matches are immutable once played, so an
+existing batch is never stale. Freshness (whether a node runs at all) is the maintain
+step's concern, not ours.
 """
 
 import concurrent.futures as cf
@@ -33,6 +36,7 @@ from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
+    raw_asset_exists,
     save_raw_parquet,
 )
 from subsets_utils.retry import is_transient
@@ -110,21 +114,30 @@ def _match_ids_with_360():
 
 
 def _run_batched(node_id: str, match_ids, fetch_and_write):
-    """Stateless full concurrent re-pull: write one raw batch parquet per match.
+    """Resumable concurrent per-match pull: write one raw batch parquet per match.
 
-    Raw assets are run-scoped (each run writes into its own raw dir), so there is
-    NO cross-run resumption to exploit — every run re-fetches the full corpus and
-    re-writes all per-match batches. Concurrency (CONCURRENCY workers) keeps a full
-    pull of thousands of small static files to a few minutes. Each worker writes a
-    distinct asset id (`<node_id>-<match_id>`), so parallel writes never collide.
-    Freshness (whether this node runs at all) is the maintain step's concern.
+    Raw is run-scoped (`<connector>/runs/<run_id>/raw/`), but a logical run spans
+    multiple continuation jobs that all REUSE the same RUN_ID (see runner.py), so a
+    job's batches persist into the next continuation's raw dir. This corpus (~3960
+    matches × 3 entities) does not fit in a single job's time budget: a job that
+    re-fetched the whole corpus would be interrupted at the deadline, marked pending,
+    and re-fetch from scratch next time — spinning forever with zero net progress.
 
-    A worker exception propagates and fails the node — except a permanent 4xx on a
-    single match (a file flagged-available but absent), which is logged and skipped
-    so one bad match can't sink the whole asset. Transient/JSON errors are already
-    retried inside `_get_json`.
+    So we RESUME: skip any match whose batch already exists in this run dir. Each
+    continuation does only the matches the previous jobs didn't reach, guaranteeing
+    forward progress until the entity completes and is marked done. The existence
+    check is one cheap HEAD per match (concurrent), far cheaper than re-downloading.
+    Matches are immutable once played, so a present batch is never stale.
+
+    A worker exception propagates and fails the node — except (a) a permanent 4xx on
+    a single match (file flagged-available but absent) and (b) a JSON parse error
+    that survives `_get_json`'s retries (a genuinely malformed source file, observed
+    on three-sixty), both logged and skipped so one bad file in ~3960 can't sink the
+    whole entity. The post-download `row_count` test still guards wholesale failure.
     """
     def _worker(mid):
+        if raw_asset_exists(f"{node_id}-{mid}"):
+            return  # already fetched by an earlier continuation job — resume past it
         try:
             fetch_and_write(mid)
         except httpx.HTTPStatusError as exc:
@@ -132,6 +145,9 @@ def _run_batched(node_id: str, match_ids, fetch_and_write):
                 print(f"  [skip] {node_id} match {mid}: {exc.response.status_code} {exc.request.url}")
                 return
             raise
+        except json.JSONDecodeError as exc:
+            print(f"  [skip] {node_id} match {mid}: malformed JSON after retries ({exc})")
+            return
 
     with cf.ThreadPoolExecutor(max_workers=CONCURRENCY) as ex:
         for fut in cf.as_completed([ex.submit(_worker, m) for m in match_ids]):

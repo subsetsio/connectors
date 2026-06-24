@@ -1,11 +1,19 @@
-"""USGS water data — OGC API Features (https://api.waterdata.usgs.gov/ogcapi/v0).
+"""USGS connector — two independent REST surfaces, one node module.
 
-The modernized OGC API Features service. Each collection's `/items` endpoint is
+Surface 1 — **water OGC** (https://api.waterdata.usgs.gov/ogcapi/v0): the
+modernized OGC API Features service. Each collection's `/items` endpoint is
 cursor-paginated (`limit` + opaque `next` cursor). We crawl a collection end to
 end and stream every feature's properties to one gzipped NDJSON raw asset.
 Property values are stringified on write so the raw is type-stable regardless of
 source drift; the SQL transform re-types with TRY_CAST. Point geometry (when
 present) is flattened to _lat/_lon.
+
+Surface 2 — **FDSN earthquakes** (https://earthquake.usgs.gov/fdsnws/event/1):
+the ComCat / ANSS global event catalog. FDSN caps a single query at 20000
+events, so we crawl with an ascending time cursor (`orderby=time-asc`,
+`starttime=<watermark>`, `limit=20000`), advancing `starttime` to the last
+event time of each page until a short page drains the catalog. CSV format,
+parsed to NDJSON rows.
 
 Freshness model — stateless full re-pull (the harness default). Every run
 re-fetches the whole corpus and overwrites; revisions and late corrections are
@@ -25,19 +33,24 @@ annual tables and are crawled in full (peaks ~1M, monitoring-locations ~1.9M).
 Rate limits — the water OGC service throttles with HTTP 429 under sustained
 load; nodes run sequentially (DAG_PARALLELISM=1) and the shared transport
 retries 429/5xx with exponential backoff, which paces the crawl to whatever
-the service allows. A free API key (optional) would raise the ceiling.
+the service allows. A free API key (optional) would raise the ceiling. FDSN is
+crawled the same way.
 """
 from __future__ import annotations
 
+import csv
+import io
 import json
 from datetime import datetime, timedelta, timezone
 
 import httpx
 
 from subsets_utils import NodeSpec, SqlNodeSpec, raw_writer
-from utils import MAX_PAGES, get_json
+from utils import MAX_PAGES, get_json, get_text
 
-# --- source surface ----------------------------------------------------------
+# =============================================================================
+# Surface 1 — USGS water data (OGC API Features)
+# =============================================================================
 
 WATER_BASE = "https://api.waterdata.usgs.gov/ogcapi/v0"
 
@@ -64,8 +77,6 @@ WINDOW_DAYS = {
     "daily": 14,
 }
 
-
-# --- shared helpers ----------------------------------------------------------
 
 def _stringify(value) -> str | None:
     """Coerce any OGC property value to a string (None stays None) so the raw
@@ -100,8 +111,6 @@ def _feature_row(feature: dict) -> dict:
         row["id"] = _stringify(feature.get("id"))
     return row
 
-
-# --- water OGC fetch ---------------------------------------------------------
 
 def fetch_water(node_id: str) -> None:
     """Crawl one OGC collection's items end to end (or within a rolling window
@@ -168,18 +177,99 @@ def fetch_water(node_id: str) -> None:
     print(f"  {asset}: {total} rows over {pages} page(s)")
 
 
-# --- download specs ----------------------------------------------------------
+# =============================================================================
+# Surface 2 — USGS earthquakes (FDSN ComCat event catalog)
+# =============================================================================
+
+FDSN_BASE = "https://earthquake.usgs.gov/fdsnws/event/1"
+
+# FDSN event catalog floor; modern detection density makes pre-1900 negligible.
+EQ_SOURCE_MIN = "1900-01-01T00:00:00Z"
+EQ_PAGE_LIMIT = 20_000  # FDSN hard per-query cap.
+
+
+def fetch_earthquakes(node_id: str) -> None:
+    """Crawl the FDSN ComCat event catalog with an ascending time cursor.
+
+    FDSN caps one query at 20000 events, so we page by time: request events
+    from `starttime` ordered ascending, then advance `starttime` to the last
+    event's time and repeat until a page returns fewer than the cap. The
+    boundary overlap between pages is removed by the transform's DISTINCT.
+    """
+    asset = node_id
+    watermark = EQ_SOURCE_MIN
+    pages = 0
+    total = 0
+    url = f"{FDSN_BASE}/query"
+
+    with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as fh:
+        while True:
+            params = {
+                "format": "csv",
+                "orderby": "time-asc",
+                "starttime": watermark,
+                "limit": EQ_PAGE_LIMIT,
+            }
+            try:
+                text = get_text(url, params)
+            except (httpx.HTTPStatusError, httpx.RequestError) as exc:
+                # Persistent failure on one time window must not abort the
+                # connector — finalize the partial catalog if we have data.
+                if total == 0:
+                    raise
+                print(
+                    f"  WARNING {asset}: window from {watermark} failed after "
+                    f"retries ({type(exc).__name__}: {exc}); finalizing partial "
+                    f"catalog with {total} events from {pages} page(s)"
+                )
+                break
+            rows = list(csv.DictReader(io.StringIO(text)))
+            if not rows:
+                break
+            for row in rows:
+                fh.write(json.dumps(row) + "\n")
+            total += len(rows)
+            pages += 1
+
+            last_time = rows[-1].get("time")
+            if not last_time:
+                raise RuntimeError(
+                    f"{asset}: page {pages} row missing 'time' — cannot advance cursor"
+                )
+            if len(rows) < EQ_PAGE_LIMIT:
+                break  # short page == caught up to the live edge
+            if last_time == watermark:
+                raise RuntimeError(
+                    f"{asset}: cursor stuck at {watermark} ({total} rows) — "
+                    f">{EQ_PAGE_LIMIT} events share one timestamp"
+                )
+            watermark = last_time
+            if pages >= MAX_PAGES:
+                raise RuntimeError(
+                    f"{asset}: hit MAX_PAGES={MAX_PAGES} at {watermark} "
+                    f"({total} rows) — catalog larger than expected"
+                )
+    print(f"  {asset}: {total} events over {pages} page(s)")
+
+
+# =============================================================================
+# Download specs — one raw fetch per accepted entity (8 water + 1 earthquakes)
+# =============================================================================
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"usgs-{eid}", fn=fetch_water, kind="download")
     for eid in WATER_ENTITY_IDS
+] + [
+    NodeSpec(id="usgs-earthquakes", fn=fetch_earthquakes, kind="download"),
 ]
 
 
-# --- transforms — one published Delta table per subset -----------------------
+# =============================================================================
+# Transforms — one published Delta table per subset.
 # Each transform reads its NDJSON raw view (all source columns are VARCHAR),
 # TRY_CASTs to real types, drops rows without a key, and DISTINCTs away any
 # boundary-overlap duplicates. A 0-row result fails the node by design.
+# =============================================================================
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(
@@ -363,6 +453,31 @@ TRANSFORM_SPECS = [
                 "last_modified"                             AS last_modified
             FROM "usgs-time-series-metadata"
             WHERE "id" IS NOT NULL
+        ''',
+    ),
+    SqlNodeSpec(
+        id="usgs-earthquakes-transform",
+        deps=["usgs-earthquakes"],
+        sql='''
+            SELECT DISTINCT
+                "id"                                AS id,
+                TRY_CAST("time" AS TIMESTAMP)       AS time,
+                TRY_CAST("latitude" AS DOUBLE)      AS latitude,
+                TRY_CAST("longitude" AS DOUBLE)     AS longitude,
+                TRY_CAST("depth" AS DOUBLE)         AS depth,
+                TRY_CAST("mag" AS DOUBLE)           AS magnitude,
+                "magType"                           AS mag_type,
+                "place"                             AS place,
+                "type"                              AS event_type,
+                "net"                               AS network,
+                "status"                            AS status,
+                TRY_CAST("gap" AS DOUBLE)           AS gap,
+                TRY_CAST("dmin" AS DOUBLE)          AS dmin,
+                TRY_CAST("rms" AS DOUBLE)           AS rms,
+                TRY_CAST("nst" AS INTEGER)          AS nst,
+                TRY_CAST("updated" AS TIMESTAMP)    AS updated
+            FROM "usgs-earthquakes"
+            WHERE "id" IS NOT NULL AND "time" IS NOT NULL
         ''',
     ),
 ]
