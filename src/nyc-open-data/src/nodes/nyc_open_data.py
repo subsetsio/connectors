@@ -51,29 +51,40 @@ def _download_csv(url: str, headers: dict, dest_path: str) -> None:
 
 
 def _csv_to_parquet(csv_path: str, pq_path: str) -> None:
-    """Normalize the CSV to parquet via DuckDB. Try typed sniffing first
-    (better column types); on any inference/cast error fall back to
-    all_varchar so the read is total."""
+    """Normalize the CSV to parquet via DuckDB. Three tiers, each more
+    tolerant than the last, so a read over 947 heterogeneous source CSVs
+    never errors the run:
+
+      1. typed sniffing       — best column types when the file is clean
+      2. all_varchar          — total read when type inference can't cast
+      3. all_varchar tolerant — ragged rows (embedded newlines, wrong column
+                                counts) recovered via null_padding + ignore_errors
+    """
     con = duckdb.connect()
     # 64MB max line — some datasets carry full-geometry WKT (MULTIPOLYGON /
     # MULTILINESTRING) in a single CSV field that blows DuckDB's 2MB default.
     big_line = "max_line_size=67108864"
+    copy_opts = "(FORMAT parquet, COMPRESSION zstd)"
+    reads = [
+        f"SELECT * FROM read_csv_auto('{csv_path}', "
+        f"normalize_names=true, header=true, sample_size=200000, {big_line})",
+        f"SELECT * FROM read_csv_auto('{csv_path}', "
+        f"normalize_names=true, header=true, all_varchar=true, {big_line})",
+        f"SELECT * FROM read_csv_auto('{csv_path}', "
+        f"normalize_names=true, header=true, all_varchar=true, {big_line}, "
+        f"null_padding=true, ignore_errors=true)",
+    ]
     try:
-        typed = (
-            f"SELECT * FROM read_csv_auto('{csv_path}', "
-            f"normalize_names=true, header=true, sample_size=200000, {big_line})"
-        )
-        allvarchar = (
-            f"SELECT * FROM read_csv_auto('{csv_path}', "
-            f"normalize_names=true, header=true, all_varchar=true, {big_line})"
-        )
-        copy_opts = "(FORMAT parquet, COMPRESSION zstd)"
-        try:
-            con.execute(f"COPY ({typed}) TO '{pq_path}' {copy_opts}")
-        except duckdb.Error:
+        last_err: Exception | None = None
+        for query in reads:
             if os.path.exists(pq_path):
                 os.remove(pq_path)
-            con.execute(f"COPY ({allvarchar}) TO '{pq_path}' {copy_opts}")
+            try:
+                con.execute(f"COPY ({query}) TO '{pq_path}' {copy_opts}")
+                return
+            except duckdb.Error as exc:
+                last_err = exc
+        raise last_err  # every tier failed — surface the final error
     finally:
         con.close()
 
