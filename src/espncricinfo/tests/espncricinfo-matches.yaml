@@ -1,0 +1,22 @@
+spec_id: espncricinfo-matches
+tests:
+  - not_null: event_id
+    reason: every ESPN scoreboard event carries a numeric event id
+    certainty: 95
+  - not_null: league_id
+    reason: events are always enumerated under a league
+    certainty: 95
+  - column_type: {col: event_id, type: string}
+    reason: ids are kept as strings in raw (cast to BIGINT in transform)
+    certainty: 80
+  - not_null: date
+    reason: every match has a scheduled start datetime
+    certainty: 90
+  - row_count: {min: 1}
+    reason: the currently-active league set always has at least one match
+    certainty: 90
+    points_outward: true
+  - unique: event_id
+    reason: one row per match; cross-league dups would mean dedup broke
+    certainty: 75
+    severity: warn

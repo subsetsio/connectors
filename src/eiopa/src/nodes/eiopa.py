@@ -110,7 +110,8 @@ def _csv_field_map(fieldnames):
 
 def fetch_csv_block(node_id: str) -> None:
     asset = node_id
-    files = CSV_FILES[node_id]
+    entity = node_id[len("eiopa-"):]   # spec id is prefixed; CSV_FILES keys are bare
+    files = CSV_FILES[entity]
     with _ndjson_sink(asset) as fh:
         wrote = 0
         for name, frequency in files:

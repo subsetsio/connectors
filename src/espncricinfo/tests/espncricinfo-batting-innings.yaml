@@ -1,0 +1,22 @@
+spec_id: espncricinfo-batting-innings
+tests:
+  - not_null: player_id
+    reason: every batting line is attributed to one batter
+    certainty: 95
+  - not_null: event_id
+    reason: every scorecard line belongs to a match
+    certainty: 95
+  - row_count: {min: 1}
+    reason: the active set always carries completed matches with scorecards
+    certainty: 85
+    points_outward: true
+  - between: {col: innings, lo: 1, hi: 4}
+    reason: a cricket match has at most four innings
+    certainty: 95
+  - between: {col: runs, lo: 0, hi: 500}
+    reason: a single-innings individual score is bounded (record is 400*)
+    certainty: 90
+  - between: {col: fours, lo: 0, hi: 100}
+    reason: boundary counts in one innings are small
+    certainty: 85
+    severity: warn

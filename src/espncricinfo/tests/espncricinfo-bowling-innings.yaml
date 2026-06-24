@@ -1,0 +1,22 @@
+spec_id: espncricinfo-bowling-innings
+tests:
+  - not_null: player_id
+    reason: every bowling line is attributed to one bowler
+    certainty: 95
+  - not_null: event_id
+    reason: every scorecard line belongs to a match
+    certainty: 95
+  - row_count: {min: 1}
+    reason: the active set always carries completed matches with bowling figures
+    certainty: 85
+    points_outward: true
+  - between: {col: innings, lo: 1, hi: 4}
+    reason: a cricket match has at most four innings
+    certainty: 95
+  - between: {col: wickets, lo: 0, hi: 10}
+    reason: at most ten wickets can fall to one bowler in an innings
+    certainty: 95
+  - between: {col: economy, lo: 0, hi: 40}
+    reason: per-over economy is bounded in practice
+    certainty: 80
+    severity: warn

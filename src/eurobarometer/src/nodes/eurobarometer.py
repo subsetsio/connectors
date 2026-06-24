@@ -57,10 +57,11 @@ _SEARCH_URL = "https://data.europa.eu/api/hub/search/search"
 _COMMU_PUBLISHER = "Directorate-General for Communication"
 _PAGE_SIZE = 100
 
-# "Volume A" = results by question. Match "volume A", "volume_A", "volume A.xlsx",
-# "ebs_474_volume_A_xls.zip" — but NOT volume AA / AP / AAP / B / C (the 'a' must
-# not be followed by another letter or digit).
-_VOLA_RE = re.compile(r"volume[ _]?a(?![a-z0-9])", re.I)
+# "Volume A" = results by question. Match the many spellings the catalog uses:
+# "volume A", "volume_A.xlsx", "ebs_474_volume_A_xls.zip", "ebs517_vol_A.zip",
+# "vol_A", "volA" — but NOT volume AA / AP / AAP / B / C (the trailing 'a' must
+# not be followed by another letter or digit) and not a mid-word "vol".
+_VOLA_RE = re.compile(r"(?<![a-z])vol(?:ume)?[ _]?a(?![a-z0-9])", re.I)
 # A '<<Back to content' / 'Index' workbook also carries a per-sheet stub; the
 # real data sheets are the ones with a TOTAL base row (detected structurally).
 _NULL_TOKENS = {"-", "", ":", "n.a.", "na", "n/a", "*"}

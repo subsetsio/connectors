@@ -81,9 +81,18 @@ def _fetch_all(endpoint: str, base_params: dict) -> list[dict]:
 
 
 def _stringify(row: dict) -> dict:
-    """Coerce every value to a string (or None) so each NDJSON column reads back
-    as a uniform VARCHAR regardless of the JSON type the API emitted."""
-    return {k: (None if v is None else str(v)) for k, v in row.items()}
+    """Coerce every value to a string, mapping null AND empty-string to None.
+
+    DuckDB's read_json_auto (used by the runtime to register the raw view)
+    auto-detects temporal/numeric columns even from JSON *string* values, then
+    raises a ConversionException if such a column also contains an empty string
+    "". Emitting None instead of "" keeps those rows as clean NULLs so the
+    column infers and reads without error; genuinely mixed columns (e.g. CMP
+    auction fields full of "N/A") stay VARCHAR and the transforms TRY_CAST them."""
+    return {
+        k: (None if v is None or v == "" else str(v))
+        for k, v in row.items()
+    }
 
 
 def _months(sy: int, sm: int, ey: int, em: int):
