@@ -1,0 +1,11 @@
+spec_id: cms-8900b9c5-50b7-43de-9bdd-0d7113a8355e
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: >-
+      collect dropped the empty/header-only and ZIP-only CMS datasets, so every
+      pulled dataset should stream at least one data row; 0 rows means a
+      truncated or failed bulk-CSV download, or a rotated/empty endpoint.
+    certainty: 90
+    points_outward: false
+    severity: block

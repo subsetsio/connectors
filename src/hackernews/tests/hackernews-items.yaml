@@ -1,0 +1,53 @@
+spec_id: hackernews-items
+status: active
+tests:
+  # Every item the Firebase API returns carries an integer id; it is the
+  # primary key the whole corpus is addressed by. A null id means the parse
+  # dropped the key field — a code/engine bug.
+  - not_null: id
+    certainty: 99
+  - column_type: {col: id, type: integer}
+    certainty: 99
+
+  # Ids are monotonically increasing from 1 (item #1 is "Y Combinator").
+  - at_least: {col: id, expr: 1}
+    certainty: 99
+
+  # Each id is fetched exactly once (disjoint id-range batches; a refetched
+  # in-flight boundary batch overwrites its own deterministic asset). Dupes
+  # would mean batch ranges overlapped or a batch was appended, not overwritten.
+  - unique: id
+    reason: id-range batches are disjoint and overwrite-keyed; dupes mean overlapping/appended batches on our side
+    certainty: 90
+
+  # The API documents exactly five item types; anything else means the
+  # endpoint shape changed or the parser mislabelled a record.
+  - not_null: type
+    certainty: 99
+  - enum: {col: type, values: [story, comment, job, poll, pollopt]}
+    reason: the five item types documented at github.com/HackerNews/API
+    certainty: 95
+
+  # time is unix-seconds parsed to a timestamp. Present on essentially all
+  # items, but a small tail of deleted-but-present records can lack it.
+  - column_type: {col: time, type: timestamp}
+    certainty: 90
+  - nullable: {col: time, max_null_frac: 0.02}
+    reason: only deleted/degenerate items lack a creation time
+    certainty: 70
+    severity: warn
+
+  # Most items have an author; deleted/dead items can be missing 'by'.
+  - nullable: {col: by, max_null_frac: 0.25}
+    reason: deleted and dead items drop the author field
+    certainty: 60
+    severity: warn
+
+  # A fully drained crawl reaches the live edge (newest items are seconds old).
+  # Mid-backfill the watermark may still be far from the head, so this is a
+  # soft, source-pointing signal rather than a hard gate.
+  - freshness: {col: time, reaches: today - 400d}
+    reason: a drained firehose reaches recent items; staleness usually = backfill still in progress, not our bug
+    points_outward: true
+    certainty: 55
+    severity: warn
