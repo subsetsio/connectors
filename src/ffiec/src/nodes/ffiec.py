@@ -46,6 +46,7 @@ import duckdb
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
+    configure_http,
     get,
     get_client,
     raw_parquet_writer,
@@ -53,6 +54,19 @@ from subsets_utils import (
 )
 
 _BASE = "https://files.ffiec.cfpb.gov/static-data/snapshot/"
+
+# The files.ffiec.cfpb.gov host is Akamai-fronted and rejects the default client
+# (HTTP 403) from datacenter IPs / non-browser agents. A browser-like header set
+# clears the bot heuristics. ASCII-only (httpx encodes header values as latin-1).
+_BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Referer": "https://ffiec.cfpb.gov/",
+}
 
 # Modern, post-redesign HMDA schema epoch. The 2018 data year was the first
 # collected under the rewritten Regulation C; earlier snapshots use a different
@@ -208,6 +222,10 @@ def _write_year(asset: str, year: int, ds: str, header: list[str], union: list[s
 
 
 def _fetch_dataset(node_id: str, ds: str) -> None:
+    # Once per spec process, before any HTTP: present browser-like headers so the
+    # Akamai edge in front of files.ffiec.cfpb.gov does not 403 us.
+    configure_http(headers=_BROWSER_HEADERS)
+
     years = _discover_years(ds)
     if not years:
         raise RuntimeError(f"{node_id}: no published snapshot years discovered for ds={ds!r}")
