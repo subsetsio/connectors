@@ -13,11 +13,23 @@ Authoring order is download → maintain. Before maintain has run, there are
 no MaintainSpecs and every NodeSpec executes. That's the right default for
 the first crawl.
 """
+import os
 import sys
 from pathlib import Path
 
 # Put src/ on sys.path so spawn-context child processes can import nodes.<module>.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+# CMS is 722 nodes (361 dataset downloads + 361 transforms). Run fully
+# sequentially the DAG takes ~2.5h — the ~88 min of bulk-CSV downloads plus a
+# spawn-per-node subprocess for every one of the 722 nodes — which brushes the
+# job's effective wall-clock ceiling and leaves no headroom (a late run was
+# killed seconds after publishing all 361 subsets). Each node runs in its own
+# isolated child (own httpx client; transforms stream via DuckDB record
+# batches), and the CSV downloads are bandwidth-bound and memory-light, so a
+# modest fan-out is safe and cuts wall time to well under the deadline.
+# `setdefault` lets the cloud override it if ever needed.
+os.environ.setdefault("DAG_PARALLELISM", "4")
 
 from subsets_utils import load_nodes, validate_environment, run_health_tests
 
