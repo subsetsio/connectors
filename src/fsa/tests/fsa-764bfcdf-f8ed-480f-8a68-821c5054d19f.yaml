@@ -1,0 +1,21 @@
+spec_id: fsa-764bfcdf-f8ed-480f-8a68-821c5054d19f
+status: active
+tests:
+  - not_null: value
+    reason: only non-empty spreadsheet cells are emitted, so every row has a value
+    certainty: 95
+  - not_null: resource_id
+    reason: each cell carries the CKAN resource it came from
+    certainty: 95
+  - column_type: {col: row_idx, type: integer}
+    certainty: 90
+  - column_type: {col: col_idx, type: integer}
+    certainty: 90
+  - column_type: {col: value, type: string}
+    certainty: 90
+  - row_count: {min: 1}
+    reason: this package ranked above threshold for carrying at least one non-empty FSA spreadsheet resource
+    certainty: 85
+  - at_least: {col: col_idx, expr: 0}
+    reason: column coordinates are zero-based, non-negative
+    certainty: 95
