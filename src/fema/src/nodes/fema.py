@@ -11,13 +11,34 @@ stream of the source parquet into the raw store and the transform is a thin
 Fetch shape: **stateless full re-pull** (shape 1). Every dataset is a single
 stable URL returning the whole corpus; we re-fetch in full each run and
 overwrite. No watermark/cursor — revisions and late corrections are picked up
-for free. The handful of very large datasets (FimaNfipPolicies ~73.6M rows,
-IndividualsAndHouseholdsProgramValidRegistrations ~25.8M, IpawsArchivedAlerts
-~4.9M, IndividualAssistanceHousingRegistrantsLargeDisasters ~6.4M, FimaNfipClaims
-~2.7M, ...) are streamed chunk-by-chunk straight to the raw store so peak memory
-stays bounded regardless of file size. On-demand generation for these can be
-slow and occasionally 503s while the server builds the file — both are covered
-by the transient-retry decorator.
+for free. The large datasets (IndividualAssistanceHousingRegistrantsLargeDisasters
+~6.4M rows, IpawsArchivedAlerts ~4.9M, FimaNfipClaims ~2.7M, ...) are streamed
+chunk-by-chunk straight to the raw store so peak memory stays bounded regardless
+of file size. On-demand generation for these can be slow and occasionally 503s
+while the server builds the file — covered by the transient-retry decorator.
+
+Scope note — three catalog entities are deliberately EXCLUDED (scored below the
+publish threshold in rank, rule `not_extractable_at_scale`): FimaNfipPolicies
+(~73.6M rows), IndividualsAndHouseholdsProgramValidRegistrations (~25.8M), and
+IpawsArchivedAlerts (~4.84M). Every `/api/open/` access path fails for them
+within practical limits:
+  - the on-demand full file 503s (origin can't build a multi-GB file before the
+    gateway times out);
+  - the `$allrecords` stream is unreliable at scale — it either drops mid-body
+    (`incomplete chunked read`, not resumable) or silently caps: IpawsArchived-
+    Alerts returns a clean but truncated ~1.22M of 4.84M records (its only bulk
+    formats are JSON, so there is no parquet/CSV alternative);
+  - deep `$skip` paging rescans from offset 0 (a single deep page > 2 min);
+  - keyset paging (`$orderby id` + `$filter id gt`) is stable but ~28 s / 10k
+    rows → 20-57 h for the largest, and ~2.7 h of 100 MB/page for Ipaws's heavy
+    CAP-XML records;
+  - the pre-built static files OpenFEMA hosts are Akamai-protected (403 to
+    non-browser clients).
+Everything <=6.4M rows downloads cleanly as a single full file (parquet, or the
+one CSV override that fits under the `$allrecords` cap), so the cutoff is a
+capability boundary, not an arbitrary one. Re-introduce these only with a
+fundamentally different transport (e.g. an authenticated/bucket mirror, or a
+checkpointed keyset pager budgeted for multi-hour runs).
 """
 
 import httpx
@@ -39,7 +60,6 @@ ENTITY_VERSIONS = {
     "FemaWebDisasterDeclarations": 1,
     "FemaWebDisasterSummaries": 1,
     "FimaNfipClaims": 2,
-    "FimaNfipPolicies": 2,
     "HazardMitigationAssistanceMitigatedProperties": 4,
     "HazardMitigationAssistanceProjects": 4,
     "HazardMitigationAssistanceProjectsByNfipCrsCommunities": 2,
@@ -55,8 +75,6 @@ ENTITY_VERSIONS = {
     "HousingAssistanceRenters": 2,
     "IndividualAssistanceHousingRegistrantsLargeDisasters": 1,
     "IndividualAssistanceMultipleLossFloodProperties": 1,
-    "IndividualsAndHouseholdsProgramValidRegistrations": 2,
-    "IpawsArchivedAlerts": 1,
     "MissionAssignments": 2,
     "NfipCommunityStatusBook": 1,
     "NfipMultipleLossProperties": 1,
@@ -84,10 +102,7 @@ ENTITY_IDS = list(ENTITY_VERSIONS)
 # raw-file glob never sees mixed formats. CSV is read via read_csv_auto and JSONL
 # via read_json_auto in the transform.
 FORMAT_OVERRIDES = {
-    "FimaNfipPolicies": "csv",                              # parquet 503s @73.6M
-    "IndividualsAndHouseholdsProgramValidRegistrations": "csv",  # parquet 400 @25.8M
     "PublicAssistanceGrantAwardActivities": "csv",          # parquet not offered
-    "IpawsArchivedAlerts": "jsonl",                         # only json formats offered
 }
 
 # Datasets whose pre-generated full-file is unreliable: the on-demand generator
@@ -194,8 +209,9 @@ def fetch_one(node_id: str) -> None:
     name; recover the (EntityName, version, format) from it to build the URL."""
     name, version, fmt, allrecords = _BY_SPEC_ID[node_id]
     url = f"{_BASE}/v{version}/{name}.{fmt}"
-    # $allrecords streams the whole corpus from the query engine, sidestepping
-    # the unreliable on-demand full-file generator for the largest datasets.
+    # $allrecords streams the corpus from the query engine, sidestepping the
+    # on-demand full-file generator (which is not offered in CSV for this entity).
+    # Only used where the dataset fits under the stream's ~1.2M-record ceiling.
     params = {"$allrecords": "true"} if allrecords else None
     _download(node_id, url, fmt, params)
 
@@ -209,40 +225,18 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-# One published Delta table per dataset. The OpenFEMA parquet/csv full files are
-# flat tabular, so the transform is a thin pass-through: SELECT * republishes the
-# full corpus, and the runtime's 0-rows-is-failure rule guards a broken download.
-#
-# IpawsArchivedAlerts is the exception: its JSONL carries nested list/struct
-# columns (`info`, `code`), a raw CAP-XML `originalMessage`, and geo blobs. A
-# SELECT * would publish unusable nested columns, so we project the flat alert
-# metadata (one row per alert: who/when/what/scope) and stringify `code`.
-_IPAWS = "fema-ipawsarchivedalerts"
-_CUSTOM_SQL = {
-    _IPAWS: f'''
-        SELECT
-            id,
-            identifier,
-            sender,
-            TRY_CAST(sent AS TIMESTAMP) AS sent,
-            status,
-            msgType,
-            source,
-            scope,
-            restriction,
-            note,
-            cogId,
-            xmlns,
-            array_to_string(code, ',') AS code
-        FROM "{_IPAWS}"
-    ''',
-}
-
+# One published Delta table per dataset. Every retained OpenFEMA full file
+# (parquet or the one CSV override) is flat tabular, so the transform is a thin
+# pass-through: SELECT * republishes the full corpus, and the runtime's
+# 0-rows-is-failure rule guards a broken download. (The lone dataset that needed
+# a projecting transform — IpawsArchivedAlerts, whose JSONL carried nested CAP
+# structs — was dropped in rank as not_extractable_at_scale, so no custom SQL
+# remains.)
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
-        sql=_CUSTOM_SQL.get(s.id, f'SELECT * FROM "{s.id}"'),
+        sql=f'SELECT * FROM "{s.id}"',
     )
     for s in DOWNLOAD_SPECS
 ]
