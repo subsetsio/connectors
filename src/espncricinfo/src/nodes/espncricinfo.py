@@ -504,7 +504,9 @@ TRANSFORM_SPECS = [
                 TRY_CAST(st AS INTEGER)   AS stumped,
                 TRY_CAST(ct_wk AS INTEGER) AS caught_keeper,
                 TRY_CAST(ct_fi AS INTEGER) AS caught_fielder,
-                TRY_CAST(md AS INTEGER)   AS max_dismissals_innings,
+                -- MD is formatted "N (Nct Mst)"; the leading integer is the
+                -- max dismissals in an innings.
+                TRY_CAST(regexp_extract(md, '^[0-9]+', 0) AS INTEGER) AS max_dismissals_innings,
                 TRY_CAST(d_i AS DOUBLE)   AS dismissals_per_innings
             FROM "espncricinfo-statsguru-fielding"
             WHERE player IS NOT NULL
