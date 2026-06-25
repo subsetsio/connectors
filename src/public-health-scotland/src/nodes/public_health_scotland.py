@@ -21,7 +21,8 @@ schemas cannot be hand-typed, and the transform publishes them as-is.
 import csv
 import io
 import re
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
+from itertools import islice
 
 import pyarrow as pa
 from subsets_utils import (
@@ -39,7 +40,7 @@ PREFIX = f"{SLUG}-"
 API = "https://www.opendata.nhs.scot/api/3/action"
 DUMP = "https://www.opendata.nhs.scot/datastore/dump"
 WRITE_CHUNK = 50_000  # rows per parquet row-group flush
-DOWNLOAD_WORKERS = 6  # concurrent /datastore/dump fetches (NHS serves ~2 MB/s
+DOWNLOAD_WORKERS = 8  # concurrent /datastore/dump fetches (NHS serves ~2 MB/s
 #                       per connection; the dumps are network-bound, so overlap
 #                       them — bounded to keep peak memory in check on the runner)
 
@@ -139,38 +140,55 @@ def fetch_one(node_id: str) -> None:
         rid, rname = rr
         return rid, rname, _dump_text(rid)
 
-    # Pass 2 — download each resource's CSV (network-bound) concurrently in
-    # bounded batches, but parse and write to the single parquet on the main
-    # thread (raw_parquet_writer is not thread-safe). Batching caps how many
-    # full CSV blobs are resident at once. Rows map onto the union schema
-    # (missing columns -> null, empty strings -> null).
+    def _write_resource(writer, rid: str, rname: str, text: str) -> int:
+        """Parse one resource's CSV onto the union schema and write it. Returns
+        the row count. Missing columns -> null, empty strings -> null."""
+        reader = csv.DictReader(io.StringIO(text))
+        written = 0
+        buf: list[dict] = []
+        for row in reader:
+            rec = {c: None for c in col_order}
+            for k, v in row.items():
+                if k is None:
+                    continue
+                sk = _sanitize(k)
+                if sk == "_id" or sk not in seen:
+                    continue
+                rec[sk] = v if (v is not None and v != "") else None
+            rec["resource_id"] = rid
+            rec["resource_name"] = rname
+            buf.append(rec)
+            if len(buf) >= WRITE_CHUNK:
+                writer.write_table(pa.Table.from_pylist(buf, schema=schema))
+                written += len(buf)
+                buf = []
+        if buf:
+            writer.write_table(pa.Table.from_pylist(buf, schema=schema))
+            written += len(buf)
+        return written
+
+    # Pass 2 — download each resource's CSV (network-bound) concurrently, but
+    # parse and write to the single parquet on the main thread (the writer is
+    # not thread-safe). A saturated sliding window keeps exactly
+    # DOWNLOAD_WORKERS fetches in flight at all times — a new one is submitted
+    # the moment one completes — so no worker idles waiting on the slowest peer
+    # (resource sizes vary ~10x). That also bounds peak memory to ~workers full
+    # CSV blobs. Completion order is irrelevant: every row carries its
+    # resource_id/resource_name tag.
     with raw_parquet_writer(asset, schema) as writer:
         total = 0
+        pending = iter(resources)
         with ThreadPoolExecutor(max_workers=DOWNLOAD_WORKERS) as ex:
-            for i in range(0, len(resources), DOWNLOAD_WORKERS):
-                batch = resources[i:i + DOWNLOAD_WORKERS]
-                for rid, rname, text in ex.map(_download, batch):
-                    reader = csv.DictReader(io.StringIO(text))
-                    buf: list[dict] = []
-                    for row in reader:
-                        rec = {c: None for c in col_order}
-                        for k, v in row.items():
-                            if k is None:
-                                continue
-                            sk = _sanitize(k)
-                            if sk == "_id" or sk not in seen:
-                                continue
-                            rec[sk] = v if (v is not None and v != "") else None
-                        rec["resource_id"] = rid
-                        rec["resource_name"] = rname
-                        buf.append(rec)
-                        if len(buf) >= WRITE_CHUNK:
-                            writer.write_table(pa.Table.from_pylist(buf, schema=schema))
-                            total += len(buf)
-                            buf = []
-                    if buf:
-                        writer.write_table(pa.Table.from_pylist(buf, schema=schema))
-                        total += len(buf)
+            inflight = {ex.submit(_download, rr)
+                        for rr in islice(pending, DOWNLOAD_WORKERS)}
+            while inflight:
+                done, inflight = wait(inflight, return_when=FIRST_COMPLETED)
+                for fut in done:
+                    rid, rname, text = fut.result()
+                    nxt = next(pending, None)
+                    if nxt is not None:
+                        inflight.add(ex.submit(_download, nxt))
+                    total += _write_resource(writer, rid, rname, text)
         if total == 0:
             raise RuntimeError(f"{pkg}: all resources empty (0 rows total)")
         print(f"[fetch] {asset}: {len(resources)} resources, {total} rows, {len(cols)} cols")
