@@ -420,6 +420,7 @@ TRANSFORM_SPECS = [
                 CAST(share AS DOUBLE)      AS share
             FROM "eurobarometer-responses"
             WHERE country IS NOT NULL
+              AND country <> '-'              -- stray empty banner-column header
               AND answer IS NOT NULL
               AND (weighted_n IS NOT NULL OR share IS NOT NULL)
         ''',
@@ -433,7 +434,6 @@ TRANSFORM_SPECS = [
                 title,
                 publisher,
                 TRY_CAST(issued AS TIMESTAMP)   AS issued,
-                TRY_CAST(modified AS TIMESTAMP)  AS modified,
                 num_distributions,
                 has_volume_a
             FROM "eurobarometer-surveys"
