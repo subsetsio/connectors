@@ -40,9 +40,11 @@ PREFIX = f"{SLUG}-"
 API = "https://www.opendata.nhs.scot/api/3/action"
 DUMP = "https://www.opendata.nhs.scot/datastore/dump"
 WRITE_CHUNK = 50_000  # rows per parquet row-group flush
-DOWNLOAD_WORKERS = 8  # concurrent /datastore/dump fetches (NHS serves ~2 MB/s
-#                       per connection; the dumps are network-bound, so overlap
-#                       them — bounded to keep peak memory in check on the runner)
+DOWNLOAD_WORKERS = 6  # concurrent /datastore/dump fetches. The dumps are
+#                       network-bound (~2 MB/s per connection), so overlap them
+#                       — but stay gentle: 8 concurrent heavy dumps strained the
+#                       gateway into 504s. 6 keeps a strong aggregate rate (full
+#                       run ~1h) while easing server load, and bounds peak memory.
 
 
 @transient_retry()
@@ -55,10 +57,15 @@ def _api(action: str, **params) -> dict:
     return payload["result"]
 
 
-@transient_retry()
+# The big dumps (~150 MB dispenser/prescriber files) are slow to generate
+# server-side and the gateway intermittently 504s one when several are pulled
+# at once. Be patient: more attempts and a longer backoff ride out a transient
+# 504/timeout instead of failing the whole 70-spec run; the read timeout is
+# generous since a single big file can take minutes even on its own.
+@transient_retry(attempts=8, min_wait=5, max_wait=180)
 def _dump_text(resource_id: str) -> str:
     # Full CSV for one resource. No bom -> clean ASCII header (no BOM on col 0).
-    resp = get(f"{DUMP}/{resource_id}", timeout=(10.0, 300.0))
+    resp = get(f"{DUMP}/{resource_id}", timeout=(10.0, 600.0))
     resp.raise_for_status()
     return resp.text
 
