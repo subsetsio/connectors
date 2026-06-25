@@ -61,6 +61,11 @@ def _get_text(url, params=None):
 
 
 # --- league / event crawl (shared by matches/batting/bowling) ---------------
+def _sid(x):
+    """String id, or None when absent — never the literal 'None'."""
+    return str(x) if x is not None else None
+
+
 def _active_leagues():
     """Active leagues from the personalized header, unioned with pinned majors.
     Returns list of (league_id, league_name)."""
@@ -120,7 +125,10 @@ def _collect_events():
                       f"{type(exc).__name__}: {exc}")
                 continue
             for ev in sb.get("events", []):
-                eid = str(ev.get("id"))
+                eid = ev.get("id")
+                if eid is None:
+                    continue  # skip malformed events with no id
+                eid = str(eid)
                 if eid in seen_events:
                     continue
                 seen_events.add(eid)
@@ -148,8 +156,8 @@ def _match_row(league_id, league_name, ev):
     if isinstance(season, dict):
         season = season.get("year")
     return {
-        "event_id": str(ev.get("id")),
-        "league_id": str(league_id),
+        "event_id": _sid(ev.get("id")),
+        "league_id": _sid(league_id),
         "league_name": league_name,
         "format": cls.get("eventType"),
         "match_class": cls.get("generalClassCard") or cls.get("name"),
@@ -186,13 +194,13 @@ def _flatten_period(period):
 
 def _innings_lines(league_id, league_name, ev, summ, kind):
     """Yield batting or bowling rows from a /summary roster block."""
-    event_id = str(ev.get("id"))
+    event_id = _sid(ev.get("id"))
     rows = []
     for roster in summ.get("rosters", []):
         team = (roster.get("team") or {}).get("displayName")
         for player in roster.get("roster", []):
             ath = player.get("athlete") or {}
-            pid = str(ath.get("id"))
+            pid = _sid(ath.get("id"))
             pname = ath.get("displayName")
             for per in player.get("linescores", []):
                 d = _flatten_period(per)
@@ -204,7 +212,7 @@ def _innings_lines(league_id, league_name, ev, summ, kind):
                         continue
                     rows.append({
                         "event_id": event_id,
-                        "league_id": str(league_id),
+                        "league_id": _sid(league_id),
                         "innings": innings,
                         "team": team,
                         "player_id": pid,
@@ -225,7 +233,7 @@ def _innings_lines(league_id, league_name, ev, summ, kind):
                         continue
                     rows.append({
                         "event_id": event_id,
-                        "league_id": str(league_id),
+                        "league_id": _sid(league_id),
                         "innings": innings,
                         "team": team,
                         "player_id": pid,
@@ -354,8 +362,8 @@ TRANSFORM_SPECS = [
         deps=["espncricinfo-matches"],
         sql='''
             SELECT
-                CAST(event_id AS BIGINT)            AS event_id,
-                CAST(league_id AS BIGINT)           AS league_id,
+                TRY_CAST(event_id AS BIGINT)        AS event_id,
+                TRY_CAST(league_id AS BIGINT)       AS league_id,
                 league_name,
                 format,
                 match_class,
@@ -372,7 +380,10 @@ TRANSFORM_SPECS = [
                 home_score, away_score, winner_team,
                 status, description
             FROM "espncricinfo-matches"
-            WHERE event_id IS NOT NULL
+            WHERE TRY_CAST(event_id AS BIGINT) IS NOT NULL
+            QUALIFY row_number() OVER (
+                PARTITION BY event_id ORDER BY status
+            ) = 1
         ''',
     ),
     SqlNodeSpec(
@@ -380,11 +391,11 @@ TRANSFORM_SPECS = [
         deps=["espncricinfo-batting-innings"],
         sql='''
             SELECT
-                CAST(event_id AS BIGINT)      AS event_id,
-                CAST(league_id AS BIGINT)     AS league_id,
+                TRY_CAST(event_id AS BIGINT)  AS event_id,
+                TRY_CAST(league_id AS BIGINT) AS league_id,
                 TRY_CAST(innings AS INTEGER)  AS innings,
                 team,
-                CAST(player_id AS BIGINT)     AS player_id,
+                TRY_CAST(player_id AS BIGINT) AS player_id,
                 player_name,
                 TRY_CAST(runs AS INTEGER)     AS runs,
                 TRY_CAST(balls AS INTEGER)    AS balls,
@@ -395,7 +406,11 @@ TRANSFORM_SPECS = [
                 TRY_CAST(not_out AS INTEGER)  AS not_out,
                 dismissal
             FROM "espncricinfo-batting-innings"
-            WHERE player_id IS NOT NULL
+            WHERE TRY_CAST(player_id AS BIGINT) IS NOT NULL
+              AND TRY_CAST(event_id AS BIGINT) IS NOT NULL
+            QUALIFY row_number() OVER (
+                PARTITION BY event_id, innings, player_id ORDER BY runs DESC
+            ) = 1
         ''',
     ),
     SqlNodeSpec(
@@ -403,11 +418,11 @@ TRANSFORM_SPECS = [
         deps=["espncricinfo-bowling-innings"],
         sql='''
             SELECT
-                CAST(event_id AS BIGINT)      AS event_id,
-                CAST(league_id AS BIGINT)     AS league_id,
+                TRY_CAST(event_id AS BIGINT)  AS event_id,
+                TRY_CAST(league_id AS BIGINT) AS league_id,
                 TRY_CAST(innings AS INTEGER)  AS innings,
                 team,
-                CAST(player_id AS BIGINT)     AS player_id,
+                TRY_CAST(player_id AS BIGINT) AS player_id,
                 player_name,
                 TRY_CAST(overs AS DOUBLE)     AS overs,
                 TRY_CAST(maidens AS INTEGER)  AS maidens,
@@ -419,7 +434,11 @@ TRANSFORM_SPECS = [
                 TRY_CAST(dots AS INTEGER)     AS dots,
                 TRY_CAST(bowling_position AS INTEGER) AS bowling_position
             FROM "espncricinfo-bowling-innings"
-            WHERE player_id IS NOT NULL
+            WHERE TRY_CAST(player_id AS BIGINT) IS NOT NULL
+              AND TRY_CAST(event_id AS BIGINT) IS NOT NULL
+            QUALIFY row_number() OVER (
+                PARTITION BY event_id, innings, player_id ORDER BY wickets DESC
+            ) = 1
         ''',
     ),
     SqlNodeSpec(
