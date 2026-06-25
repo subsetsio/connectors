@@ -21,6 +21,7 @@ schemas cannot be hand-typed, and the transform publishes them as-is.
 import csv
 import io
 import re
+from concurrent.futures import ThreadPoolExecutor
 
 import pyarrow as pa
 from subsets_utils import (
@@ -38,6 +39,9 @@ PREFIX = f"{SLUG}-"
 API = "https://www.opendata.nhs.scot/api/3/action"
 DUMP = "https://www.opendata.nhs.scot/datastore/dump"
 WRITE_CHUNK = 50_000  # rows per parquet row-group flush
+DOWNLOAD_WORKERS = 6  # concurrent /datastore/dump fetches (NHS serves ~2 MB/s
+#                       per connection; the dumps are network-bound, so overlap
+#                       them — bounded to keep peak memory in check on the runner)
 
 
 @transient_retry()
@@ -93,6 +97,17 @@ def _resource_fields(resource_id: str) -> list[str]:
         return []
 
 
+def _header_fields(rid: str) -> tuple[str, list[str]]:
+    """(rid, column names) for one resource. Prefer the cheap datastore field
+    list; fall back to the dump header for the rare active resource the
+    datastore can't introspect."""
+    fields = _resource_fields(rid)
+    if not fields:
+        header = next(csv.reader(io.StringIO(_dump_text(rid))), [])
+        fields = [h for h in header if h.lstrip("﻿") != "_id"]
+    return rid, fields
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     pkg = node_id[len(PREFIX):]
@@ -101,61 +116,64 @@ def fetch_one(node_id: str) -> None:
     if not resources:
         raise RuntimeError(f"{pkg}: no CSV resources found in package_show")
 
-    # Pass 1 — build the union column order across all resources. Prefer the
-    # datastore field list; fall back to the dump header, caching that text so
-    # the streaming pass below doesn't re-download it.
+    # Pass 1 — build the union column order across all resources. Fetch the
+    # per-resource field lists concurrently (cheap datastore metadata calls),
+    # then fold them in stable resource order so the column layout is
+    # deterministic across runs regardless of completion order.
+    with ThreadPoolExecutor(max_workers=DOWNLOAD_WORKERS) as ex:
+        fields_by_rid = dict(ex.map(_header_fields, [rid for rid, _ in resources]))
+
     col_order: list[str] = []
     seen: set[str] = set()
-    cached: dict[str, str] = {}
-    res_meta: list[tuple[str, str]] = []  # (resource_id, resource_name)
-
-    for rid, rname in resources:
-        fields = _resource_fields(rid)
-        if not fields:
-            text = _dump_text(rid)
-            cached[rid] = text
-            header = next(csv.reader(io.StringIO(text)), [])
-            fields = [h for h in header if h.lstrip("﻿") != "_id"]
-        for f in fields:
+    for rid, _ in resources:
+        for f in fields_by_rid.get(rid, []):
             s = _sanitize(f)
             if s not in seen:
                 seen.add(s)
                 col_order.append(s)
-        res_meta.append((rid, rname))
 
     cols = ["resource_id", "resource_name"] + col_order
     schema = pa.schema([(c, pa.string()) for c in cols])
 
-    # Pass 2 — stream each resource's CSV into one parquet, mapped onto the
-    # union schema (missing columns -> null, empty strings -> null).
+    def _download(rr: tuple[str, str]) -> tuple[str, str, str]:
+        rid, rname = rr
+        return rid, rname, _dump_text(rid)
+
+    # Pass 2 — download each resource's CSV (network-bound) concurrently in
+    # bounded batches, but parse and write to the single parquet on the main
+    # thread (raw_parquet_writer is not thread-safe). Batching caps how many
+    # full CSV blobs are resident at once. Rows map onto the union schema
+    # (missing columns -> null, empty strings -> null).
     with raw_parquet_writer(asset, schema) as writer:
         total = 0
-        for rid, rname in res_meta:
-            text = cached.pop(rid, None) or _dump_text(rid)
-            reader = csv.DictReader(io.StringIO(text))
-            buf: list[dict] = []
-            for row in reader:
-                rec = {c: None for c in col_order}
-                for k, v in row.items():
-                    if k is None:
-                        continue
-                    sk = _sanitize(k)
-                    if sk == "_id" or sk not in seen:
-                        continue
-                    rec[sk] = v if (v is not None and v != "") else None
-                rec["resource_id"] = rid
-                rec["resource_name"] = rname
-                buf.append(rec)
-                if len(buf) >= WRITE_CHUNK:
-                    writer.write_table(pa.Table.from_pylist(buf, schema=schema))
-                    total += len(buf)
-                    buf = []
-            if buf:
-                writer.write_table(pa.Table.from_pylist(buf, schema=schema))
-                total += len(buf)
+        with ThreadPoolExecutor(max_workers=DOWNLOAD_WORKERS) as ex:
+            for i in range(0, len(resources), DOWNLOAD_WORKERS):
+                batch = resources[i:i + DOWNLOAD_WORKERS]
+                for rid, rname, text in ex.map(_download, batch):
+                    reader = csv.DictReader(io.StringIO(text))
+                    buf: list[dict] = []
+                    for row in reader:
+                        rec = {c: None for c in col_order}
+                        for k, v in row.items():
+                            if k is None:
+                                continue
+                            sk = _sanitize(k)
+                            if sk == "_id" or sk not in seen:
+                                continue
+                            rec[sk] = v if (v is not None and v != "") else None
+                        rec["resource_id"] = rid
+                        rec["resource_name"] = rname
+                        buf.append(rec)
+                        if len(buf) >= WRITE_CHUNK:
+                            writer.write_table(pa.Table.from_pylist(buf, schema=schema))
+                            total += len(buf)
+                            buf = []
+                    if buf:
+                        writer.write_table(pa.Table.from_pylist(buf, schema=schema))
+                        total += len(buf)
         if total == 0:
             raise RuntimeError(f"{pkg}: all resources empty (0 rows total)")
-        print(f"[fetch] {asset}: {len(res_meta)} resources, {total} rows, {len(cols)} cols")
+        print(f"[fetch] {asset}: {len(resources)} resources, {total} rows, {len(cols)} cols")
 
 
 DOWNLOAD_SPECS = [
