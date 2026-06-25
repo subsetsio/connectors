@@ -34,7 +34,6 @@ from __future__ import annotations
 
 import io
 import re
-import time
 import zipfile
 
 import pyarrow as pa
@@ -45,12 +44,7 @@ from subsets_utils import (
     get,
     transient_retry,
     save_raw_parquet,
-    load_state,
-    save_state,
 )
-
-STATE_VERSION = 2
-_SAVE_EVERY = 50  # checkpoint cadence for the responses crawl (see fetch_responses)
 
 # --- enumeration (DCAT) -----------------------------------------------------
 
@@ -284,43 +278,29 @@ RESPONSES_SCHEMA = pa.schema([
 ])
 
 
-def _dataset_version(it):
-    return it.get("modified") or it.get("issued") or ""
-
-
 def fetch_responses(node_id: str) -> None:
     """Crawl the COMMU catalog, parse each survey's Volume-A workbook into long
-    format, write one parquet batch per dataset. Incremental by catalog version
-    (release shape): a dataset is reprocessed only when its version changes."""
-    asset_prefix = node_id  # "eurobarometer-responses"
-    state = load_state(asset_prefix)
-    if state.get("schema_version") != STATE_VERSION:
-        state = {"schema_version": STATE_VERSION, "processed": {}, "skipped": {}}
-    processed = state.setdefault("processed", {})
-    skipped = state.setdefault("skipped", {})
-    now = int(time.time())
-    # expire stale skip markers so source recovery needs no human
-    for did in [d for d, m in skipped.items() if m.get("expires_at", 0) < now]:
-        skipped.pop(did, None)
+    format, write one parquet batch per dataset (``<node_id>-<dataset_id>``).
 
+    Stateless full re-pull: every run materializes the whole corpus fresh. A run
+    is an isolated full execution (raw is not carried over between runs), so the
+    download MUST write all raw each time — skipping via a persisted watermark
+    would leave the transform with no raw to read. The corpus is small enough
+    (~440 small workbooks, a few minutes) that full re-pull is the right default;
+    cross-run skipping is the later maintain step's concern, not this node's.
+    Per-dataset failures are isolated (logged) so one bad workbook can't sink the
+    whole crawl."""
+    asset_prefix = node_id  # "eurobarometer-responses"
     datasets = _enumerate_commu_datasets()
     print(f"[responses] {len(datasets)} COMMU datasets enumerated")
-    n_written = n_skip_novola = n_empty = n_seen = 0
-    # Persist state periodically, not every dataset: the lineage record diffs
-    # the full (growing) `processed` map on each save, so per-dataset saves are
-    # O(n^2) and blow the snapshot size cap. Every SAVE_EVERY datasets keeps the
-    # record small while bounding re-fetch on interrupt to one window.
+    n_written = n_skip_novola = n_empty = n_failed = 0
     for it in datasets:
         did = it["id"]
-        version = _dataset_version(it)
-        if processed.get(did) == version:
-            continue  # unchanged since last successful pull
-        n_seen += 1
         asset = f"{asset_prefix}-{did}"
+        vola = None
         try:
             vola = _find_volume_a(it.get("distributions", []))
             if vola is None:
-                processed[did] = version  # no results workbook for this version
                 n_skip_novola += 1
                 continue
             url, fid = vola
@@ -342,25 +322,20 @@ def fetch_responses(node_id: str) -> None:
                         "share": sh,
                     })
             if not rows:
-                # workbook present but nothing parseable — record + log, don't retry forever
-                processed[did] = version
                 n_empty += 1
                 print(f"[responses] {did}: no parseable rows from {fid} workbook")
-            else:
-                table = pa.Table.from_pylist(rows, schema=RESPONSES_SCHEMA)
-                save_raw_parquet(table, asset)  # raw FIRST
-                processed[did] = version         # then advance state
-                n_written += 1
+                continue
+            table = pa.Table.from_pylist(rows, schema=RESPONSES_SCHEMA)
+            save_raw_parquet(table, asset)
+            n_written += 1
         except Exception as exc:  # noqa: BLE001 — isolate per-dataset, log loudly
+            n_failed += 1
             print(f"[responses] {did}: FAILED url={vola} {type(exc).__name__}: {exc}")
-            skipped[did] = {"reason": f"{type(exc).__name__}: {exc}"[:200],
-                            "expires_at": now + 14 * 86400}
-        if n_seen % _SAVE_EVERY == 0:
-            save_state(asset_prefix, state)  # checkpoint a window of progress
-    save_state(asset_prefix, state)          # final flush
     print(f"[responses] done: {n_written} datasets written, "
-          f"{n_skip_novola} without Volume-A, {n_empty} empty, "
-          f"{len(skipped)} skipped(transient)")
+          f"{n_skip_novola} without Volume-A, {n_empty} empty, {n_failed} failed")
+    if n_written == 0:
+        raise RuntimeError("[responses] no datasets produced any rows — the "
+                           "catalog shape or the Volume-A parser is broken")
 
 
 # --- surveys (subset 2) -----------------------------------------------------
