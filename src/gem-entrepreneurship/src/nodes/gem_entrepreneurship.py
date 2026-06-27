@@ -36,7 +36,6 @@ from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
-    configure_http,
     transient_retry,
     save_raw_parquet,
 )
@@ -276,7 +275,6 @@ def _read_sav_from_zip(content: bytes) -> tuple[pd.DataFrame, object]:
 def fetch_one(node_id: str) -> None:
     """Fetch + reshape all National Level Data files for one survey into one
     long-format parquet. node_id is e.g. 'gem-entrepreneurship-aps-national'."""
-    configure_http(headers={"User-Agent": BROWSER_UA})
     entity = node_id[len("gem-entrepreneurship-"):]   # 'aps-national' / 'nes-national'
     survey = entity.split("-")[0]                       # 'aps' / 'nes'
 

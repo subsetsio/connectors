@@ -1,0 +1,16 @@
+spec_id: maritime-and-port-authority-of-singapore-d-60410de1bc1e63ddcf51a619081b11b3
+status: active
+tests:
+  - not_null: year
+    reason: every row is keyed on its time period; a null period means a malformed pull
+    certainty: 95
+  - row_count: {min: 124}
+    reason: floor is 80% of the 155 rows seen while probing; this monthly/annual series only grows
+    certainty: 90
+  - matches: {col: year, pattern: '^[0-9]{4}$'}
+    reason: annual period is a 4-digit year
+    certainty: 90
+  - unique: [year, purpose_type]
+    reason: one row per period x purpose_type; duplicates mean the table was pulled without overwrite
+    certainty: 80
+    severity: warn

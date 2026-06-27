@@ -1,0 +1,21 @@
+spec_id: lincoln-institute-glance-property-tax-features
+status: active
+tests:
+  - not_null: state
+  - not_null: year
+  - not_null: metric
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: string}
+    reason: feature flags are categorical (Yes/No), not numeric
+  - enum: {col: value, values: ["Yes", "No"]}
+    reason: boolean feature flags; NA is mapped to null and dropped
+    certainty: 80
+    severity: warn
+  - between: {col: year, lo: 2010, hi: current_year()}
+    certainty: 85
+  - distinct_count: {col: metric, min: 4}
+    reason: 5 property-tax feature flags
+    certainty: 85
+  - unique: [state, year, metric]
+    certainty: 90

@@ -1,0 +1,23 @@
+spec_id: lincoln-institute-glance-sources-of-local-general-revenue
+status: active
+tests:
+  - not_null: state
+  - not_null: year
+  - not_null: metric
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - between: {col: year, lo: 2010, hi: current_year()}
+    certainty: 85
+  - between: {col: value, lo: 0, hi: 1.5}
+    reason: revenue-source shares are fractions in [0,1] (small slack for rounding)
+    certainty: 70
+    severity: warn
+  - distinct_count: {col: state, min: 40}
+    reason: 50 states + DC
+    certainty: 85
+  - distinct_count: {col: metric, min: 6}
+    reason: 8 local-revenue source categories
+    certainty: 85
+  - unique: [state, year, metric]
+    certainty: 90

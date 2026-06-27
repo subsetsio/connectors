@@ -1,0 +1,16 @@
+spec_id: maritime-and-port-authority-of-singapore-d-4f5abbf4486bf8e52bbed3be56dde562
+status: active
+tests:
+  - not_null: month
+    reason: every row is keyed on its time period; a null period means a malformed pull
+    certainty: 95
+  - row_count: {min: 4825}
+    reason: floor is 80% of the 6032 rows seen while probing; this monthly/annual series only grows
+    certainty: 90
+  - matches: {col: month, pattern: '^[0-9]{4}-[0-9]{2}$'}
+    reason: data.gov.sg encodes the monthly period as YYYY-MM text
+    certainty: 90
+  - unique: [month, bunker_type]
+    reason: one row per period x bunker_type; duplicates mean the table was pulled without overwrite
+    certainty: 80
+    severity: warn
