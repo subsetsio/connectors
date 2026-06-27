@@ -1,0 +1,43 @@
+spec_id: openchargemap-pois
+status: active
+tests:
+  - not_null: id
+    reason: every POI in the OCM export has an integer ID; a null id means a row failed to parse
+    certainty: 99
+  - unique: id
+    reason: one row per POI; the export is one file per POI keyed by OCM id, so ids are globally unique
+    certainty: 97
+  - column_type: {col: id, type: integer}
+    certainty: 95
+  - not_null: country_code
+    reason: country_code is derived from the data/<ISO2>/ folder the POI file lives in; always present
+    certainty: 98
+  - matches: {col: country_code, pattern: "^[A-Z]{2}$"}
+    reason: folder names are 2-letter ISO country codes
+    certainty: 95
+  - not_null: latitude
+    reason: AddressInfo.Latitude/Longitude were present on every probed POI; OCM requires coordinates
+    certainty: 90
+  - between: {col: latitude, lo: -90, hi: 90}
+    certainty: 97
+  - between: {col: longitude, lo: -180, hi: 180}
+    certainty: 97
+  - row_count: {min: 150000}
+    reason: probing the full export tarball yielded ~266k POI files worldwide; a much smaller count means a truncated download
+    certainty: 85
+    points_outward: true
+  - distinct_count: {col: country_code, min: 100}
+    reason: the export ships ~126 country folders
+    certainty: 85
+  - at_least: {col: num_connections, expr: 0}
+    reason: connection summary counts the Connections[] array; never negative
+    certainty: 95
+  - between: {col: max_power_kw, lo: 0, hi: 2000}
+    reason: charger power in kW; a handful of MW-class is plausible but >2000 indicates a unit/parse error
+    certainty: 80
+    severity: warn
+  - freshness: {col: date_created, reaches: today - 1500d}
+    reason: OCM has POIs created continuously since 2011; the newest creation date should be reasonably recent
+    certainty: 70
+    points_outward: true
+    severity: warn

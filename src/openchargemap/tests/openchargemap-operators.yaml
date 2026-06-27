@@ -1,0 +1,21 @@
+spec_id: openchargemap-operators
+status: active
+tests:
+  - not_null: id
+    reason: every operator in referencedata.json carries an integer ID
+    certainty: 99
+  - unique: id
+    reason: operator id is the primary key of the reference table
+    certainty: 98
+  - column_type: {col: id, type: integer}
+    certainty: 95
+  - not_null: title
+    reason: every operator record had a Title on probing
+    certainty: 95
+  - row_count: {min: 700, max: 5000}
+    reason: referencedata.json listed 968 operators when probed; expect growth but the same order of magnitude
+    certainty: 85
+    points_outward: true
+  - column_type: {col: is_private_individual, type: boolean}
+    reason: IsPrivateIndividual is a JSON boolean
+    certainty: 85
