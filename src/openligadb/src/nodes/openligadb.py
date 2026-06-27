@@ -81,11 +81,28 @@ def _league_seasons():
     return sorted(pairs.keys())
 
 
-def _result_points(match_results, type_id):
-    for r in match_results or []:
-        if r.get("resultTypeID") == type_id:
-            return r.get("pointsTeam1"), r.get("pointsTeam2")
-    return None, None
+def _extract_results(match_results):
+    """Pull (halftime, full-time) scores out of a match's matchResults list.
+
+    resultTypeID is NOT a reliable discriminator: the full-time score is type 2
+    in the modern Bundesliga but type 0 (and frequently the only entry) across
+    most other leagues. The stable signal is resultName ('Endergebnis' = final,
+    'Halbzeitergebnis' = halftime). Fallback for the final: the highest
+    resultOrderID is the last/most-complete recorded score."""
+    results = match_results or []
+    ht1 = ht2 = ft1 = ft2 = None
+    final = None
+    for r in results:
+        name = r.get("resultName") or ""
+        if "Halbzeit" in name:
+            ht1, ht2 = r.get("pointsTeam1"), r.get("pointsTeam2")
+        if "Endergebnis" in name:
+            final = r
+    if final is None and results:
+        final = max(results, key=lambda r: r.get("resultOrderID") or 0)
+    if final is not None:
+        ft1, ft2 = final.get("pointsTeam1"), final.get("pointsTeam2")
+    return ht1, ht2, ft1, ft2
 
 
 def _season_int(value, fallback):
@@ -106,8 +123,7 @@ def fetch_matches(node_id: str) -> None:
         if not matches:
             continue
         for m in matches:
-            ht1, ht2 = _result_points(m.get("matchResults"), 1)
-            ft1, ft2 = _result_points(m.get("matchResults"), 2)
+            ht1, ht2, ft1, ft2 = _extract_results(m.get("matchResults"))
             group = m.get("group") or {}
             team1 = m.get("team1") or {}
             team2 = m.get("team2") or {}
