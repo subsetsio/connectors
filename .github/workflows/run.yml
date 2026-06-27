@@ -38,6 +38,15 @@ jobs:
       - uses: astral-sh/setup-uv@v4
         with:
           enable-cache: true
+      - name: Install connector system packages (opt-in)
+        working-directory: src/${{ inputs.slug }}
+        run: |
+          # A connector that needs OS-level tools (e.g. mdbtools for MS Access)
+          # ships an apt-packages.txt; absent file = no-op for every other connector.
+          if [ -f apt-packages.txt ]; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq $(grep -vE '^\s*#|^\s*$' apt-packages.txt)
+          fi
       - name: Run connector
         working-directory: src/${{ inputs.slug }}
         run: |

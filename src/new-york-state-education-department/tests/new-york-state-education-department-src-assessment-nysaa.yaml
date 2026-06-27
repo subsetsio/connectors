@@ -1,0 +1,20 @@
+spec_id: new-york-state-education-department-src-assessment-nysaa
+status: active
+tests:
+  - not_null: report_year
+    reason: report_year is injected from the source file's school year; every row has it.
+    certainty: 99
+  - column_type: {col: report_year, type: integer}
+    certainty: 99
+  - between: {col: report_year, lo: 1995, hi: 2027}
+    reason: NYSED publishes school years from the late 1990s through the current cycle.
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - row_count: {min: 50}
+    reason: every NYSED statewide table covers thousands of institutions x years.
+    certainty: 85
+  - not_null: entity_cd
+    reason: column entity_cd is the institution or educator identifier for this table; non-null on every data row.
+    certainty: 80
+    severity: warn
