@@ -89,7 +89,6 @@ ENTITY_IDS = [
     'e70pq',
     'e710q',
     'e711x',
-    'e716q',
     'e719x',
     'e791n',
     'e7xoj',
