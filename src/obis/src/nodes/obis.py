@@ -186,12 +186,20 @@ _CHECKLIST_KEYS = [
 
 def fetch_checklist(node_id: str) -> None:
     asset = node_id
-    # Normalise to a fixed key set so the NDJSON has a stable column union for
-    # the SQL transform (lower-rank taxa omit family/genus/species otherwise).
-    rows = [
-        {k: r.get(k) for k in _CHECKLIST_KEYS}
-        for r in _paginate("/checklist", 10000)
-    ]
+    # The global /checklist endpoint can only be paged to skip<100000 (server
+    # 500s past its max_result_window), but the corpus is ~197k taxa. Partition
+    # by OBIS node instead — every node's checklist is < 100k so paging stays
+    # under the cap, and every taxon belongs to >=1 node (it only exists in the
+    # checklist because it has occurrences, which live in node datasets). Each
+    # node row carries that node's per-taxon record count; the transform sums
+    # them across nodes back to the global count and dedupes to one row per
+    # taxon. Normalise to a fixed key set so the NDJSON has a stable column
+    # union (lower-rank taxa omit family/genus/species otherwise).
+    nodes = _get_json("/node").get("results", [])
+    rows = []
+    for nd in nodes:
+        for r in _paginate("/checklist", 10000, nodeid=nd.get("id")):
+            rows.append({k: r.get(k) for k in _CHECKLIST_KEYS})
     save_raw_ndjson(rows, asset)
 
 
@@ -280,24 +288,25 @@ TRANSFORM_SPECS = [
         sql='''
             SELECT
                 CAST(taxonID AS BIGINT) AS taxon_id,
-                scientificName AS scientific_name,
-                taxonRank AS taxon_rank,
-                taxonomicStatus AS taxonomic_status,
-                acceptedNameUsage AS accepted_name_usage,
-                kingdom,
-                phylum,
-                "class" AS class,
-                "order" AS "order",
-                family,
-                genus,
-                species,
-                is_marine,
-                is_brackish,
-                is_freshwater,
-                is_terrestrial,
-                CAST(records AS BIGINT) AS records
+                any_value(scientificName) AS scientific_name,
+                any_value(taxonRank) AS taxon_rank,
+                any_value(taxonomicStatus) AS taxonomic_status,
+                any_value(acceptedNameUsage) AS accepted_name_usage,
+                any_value(kingdom) AS kingdom,
+                any_value(phylum) AS phylum,
+                any_value("class") AS class,
+                any_value("order") AS "order",
+                any_value(family) AS family,
+                any_value(genus) AS genus,
+                any_value(species) AS species,
+                any_value(is_marine) AS is_marine,
+                any_value(is_brackish) AS is_brackish,
+                any_value(is_freshwater) AS is_freshwater,
+                any_value(is_terrestrial) AS is_terrestrial,
+                SUM(TRY_CAST(records AS BIGINT)) AS records
             FROM "obis-checklist"
             WHERE taxonID IS NOT NULL
+            GROUP BY taxonID
         ''',
     ),
 ]

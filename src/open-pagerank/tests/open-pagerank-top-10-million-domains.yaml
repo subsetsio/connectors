@@ -1,0 +1,37 @@
+spec_id: open-pagerank-top-10-million-domains
+status: active
+tests:
+  - not_null: rank
+    reason: rank is the 1-based ordinal position parsed from the first CSV column; a null means the parse lost it
+    certainty: 99
+  - not_null: domain
+    reason: every ranked row names a domain (the natural key)
+    certainty: 99
+  - not_null: open_page_rank
+    reason: every row carries an Open PageRank score in the third CSV column
+    certainty: 98
+  - column_type: {col: rank, type: integer}
+    certainty: 97
+  - column_type: {col: domain, type: string}
+    certainty: 97
+  - column_type: {col: open_page_rank, type: float}
+    certainty: 97
+  - between: {col: open_page_rank, lo: 0, hi: 10}
+    reason: Open PageRank is a 0-10 PageRank-style scale (observed range 2.62 at rank 10M up to 10.00 at the top)
+    certainty: 95
+  - between: {col: rank, lo: 1, hi: 11000000}
+    reason: the "Top 10 Million" list ranks positions 1..~10,000,000; small slack above 10M for future releases
+    certainty: 92
+  - unique: rank
+    reason: rank is a dense ordinal sequence — each position appears exactly once
+    certainty: 95
+  - unique: domain
+    reason: one row per domain in the ranking; a duplicate means a re-pull without overwrite or a parse fault
+    certainty: 90
+  - row_count: {min: 9000000}
+    reason: the corpus is ~10,000,000 rows; a large shortfall signals a truncated transfer
+    certainty: 90
+  - matches: {col: domain, pattern: '^[A-Za-z0-9.-]+\.[A-Za-z0-9-]+$'}
+    reason: domains are bare hostnames (e.g. www.facebook.com) with at least one dot-separated TLD label
+    certainty: 80
+    severity: warn

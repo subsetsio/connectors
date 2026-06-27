@@ -3,14 +3,15 @@ status: active
 tests:
   - not_null: taxonID
   - not_null: scientificName
-  - unique: taxonID
-    reason: one row per taxon; taxonID is the primary key
-    certainty: 90
   - row_count: {min: 150000}
-    reason: OBIS reports ~197k taxa in the checklist
+    reason: >
+      Raw is the per-node checklist (one row per taxon per OBIS node, ~540k
+      rows); the transform sums across nodes to ~197k distinct taxa. taxonID is
+      NOT unique in raw (a taxon recurs across nodes) — uniqueness holds only
+      after the transform's GROUP BY.
     certainty: 90
   - at_least: {col: records, expr: 0}
-    reason: per-taxon occurrence counts are non-negative
+    reason: per-node, per-taxon occurrence counts are non-negative
     certainty: 85
   - enum: {col: taxonomicStatus, values: [accepted, unaccepted, alternate representation, nomen dubium, nomen nudum, temporary name, uncertain]}
     reason: WoRMS taxonomic-status vocabulary

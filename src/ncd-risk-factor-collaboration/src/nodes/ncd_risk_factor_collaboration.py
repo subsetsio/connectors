@@ -22,6 +22,7 @@ there is no incremental filter, so every run re-fetches and overwrites.
 """
 
 import io
+import re
 import zipfile
 
 import httpx
@@ -102,10 +103,18 @@ FILES = {
     ],
 }
 
-LOWER_SUFFIX = " lower 95% uncertainty interval"
-UPPER_SUFFIX = " upper 95% uncertainty interval"
-# Column names (after strip) treated as dimensions, never as indicators.
+# Bound columns are named one of two ways across releases:
+#   prefixed:   "<indicator> lower 95% uncertainty interval [(unit)]"  (most files)
+#   standalone: "Lower 95% uncertainty interval"  (single-indicator files, e.g. BP)
+# Match case-insensitively and reconstruct the base indicator by removing the phrase.
+LOWER_RE = re.compile(r"lower 95% uncertainty interval", re.I)
+UPPER_RE = re.compile(r"upper 95% uncertainty interval", re.I)
+# Column names treated as dimensions, never as indicators.
 DIM_NAMES = {"Country/Region/World", "ISO", "Sex", "Year", "Age", "Age group"}
+
+
+def _norm(s: str) -> str:
+    return re.sub(r"\s+", " ", s).strip()
 
 
 @transient_retry(attempts=6, min_wait=4, max_wait=120)
