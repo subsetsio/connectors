@@ -96,9 +96,10 @@ TRANSFORM_SPECS = [
                 TRY_CAST("Wilks" AS DOUBLE)                   AS wilks,
                 TRY_CAST("Glossbrenner" AS DOUBLE)            AS glossbrenner,
                 TRY_CAST("Goodlift" AS DOUBLE)                AS goodlift,
-                CASE WHEN "Tested" = 'Yes' THEN TRUE
-                     WHEN "Tested" = '' THEN NULL
-                     ELSE FALSE END                           AS tested,
+                -- OPL sets Tested='Yes' only for drug-tested categories; blank
+                -- means the lifter did NOT enter a tested category. Map blank to
+                -- FALSE so this is a clean, fully-populated boolean.
+                ("Tested" = 'Yes')                            AS tested,
                 NULLIF("Country", '')                         AS country,
                 NULLIF("State", '')                           AS state,
                 "Federation"                                  AS federation,
