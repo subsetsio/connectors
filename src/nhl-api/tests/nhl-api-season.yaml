@@ -1,0 +1,10 @@
+spec_id: nhl-api-season
+status: active
+tests:
+  - not_null: id
+  - unique: id
+    reason: reference dimension has one row per id
+    certainty: 90
+  - column_type: {col: id, type: integer}
+  - row_count: {min: 100}
+    reason: 108 NHL seasons exist (1917-18 .. 2025-26)

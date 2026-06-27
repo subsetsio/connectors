@@ -1,0 +1,10 @@
+spec_id: nhl-api-team
+status: active
+tests:
+  - not_null: id
+  - unique: id
+    reason: reference dimension has one row per id
+    certainty: 90
+  - column_type: {col: id, type: integer}
+  - row_count: {min: 30}
+    reason: 30+ franchises/teams over NHL history
