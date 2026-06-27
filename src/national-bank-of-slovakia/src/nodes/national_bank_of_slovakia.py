@@ -54,9 +54,10 @@ BASE = "https://nbs.sk/export/en"
 EARLIEST_DAILY_YEAR = 1999      # ECB euro reference rates begin 1999-01-04
 EARLIEST_FOREIGN_YEAR = 1996    # NBS selected-foreign-currency rates begin 1996
 
-# Modest concurrency for the per-day daily backfill — nbs.sk documents no rate
-# limit and served probes instantly; 8 workers keeps us polite.
-_DAILY_WORKERS = 8
+# Modest concurrency for the per-day daily backfill. nbs.sk documents no rate
+# limit, but its WAF returns 403 on bursts (8 concurrent workers trips it);
+# 4 sustains a full year (~260 requests) cleanly while keeping backfill brisk.
+_DAILY_WORKERS = 4
 
 DAILY_SCHEMA = pa.schema([
     ("date", pa.date32()),

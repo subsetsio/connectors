@@ -30,9 +30,12 @@ from subsets_utils import (
 BASE = "https://www.oenb.at/isadataservice"
 LANG = "EN"
 
-# Positions per data request. The endpoint accepts many pos= in one call; keep
-# the batch modest so individual responses stay small and parseable.
-POS_PER_REQUEST = 25
+# Positions per data request. The endpoint accepts many pos= in one call, but
+# each pos fans out across every dimension combination x frequency x its full
+# history -- a handful of positions can be >100k observations -- so keep the
+# batch small to bound per-request response size and memory. Each request's rows
+# are written as their own parquet batch file.
+POS_PER_REQUEST = 10
 
 SLUG = "oesterreichische-nationalbank"
 
@@ -140,50 +143,54 @@ def fetch_positions(node_id: str) -> None:
 
 # --- download: observations -----------------------------------------------------
 
-def _data_rows_for_node(hierid: str, positions: list[str]) -> dict:
+def _data_rows_for_chunk(hierid: str, chunk: list[str]) -> dict:
     cols = {f.name: [] for f in VALUES_SCHEMA}
-    for chunk in _chunks(positions, POS_PER_REQUEST):
-        params = [("lang", LANG), ("hierid", hierid)] + [("pos", p) for p in chunk]
-        root = ET.fromstring(_get_xml("data", params))
-        for ds in root.iter("dataSet"):
-            a = ds.attrib
-            vals = ds.find("values")
-            if vals is None:
-                continue
-            for o in vals.findall("obs"):
-                cols["pos"].append(a.get("pos"))
-                cols["pos_title"].append(a.get("posTitle"))
-                cols["hierid"].append(hierid)
-                cols["freq"].append(a.get("freq"))
-                cols["attr1"].append(a.get("attr1"))
-                cols["attr1_dim"].append(a.get("attr1Dim"))
-                cols["attr2"].append(a.get("attr2"))
-                cols["attr2_dim"].append(a.get("attr2Dim"))
-                cols["attr3"].append(a.get("attr3"))
-                cols["attr3_dim"].append(a.get("attr3Dim"))
-                cols["attr4"].append(a.get("attr4"))
-                cols["attr4_dim"].append(a.get("attr4Dim"))
-                cols["unit_mult"].append(a.get("unitMult"))
-                cols["unit_text"].append(a.get("unitText"))
-                cols["period"].append(o.get("periode"))
-                cols["value"].append(_parse_float(o.get("value")))
+    params = [("lang", LANG), ("hierid", hierid)] + [("pos", p) for p in chunk]
+    root = ET.fromstring(_get_xml("data", params))
+    for ds in root.iter("dataSet"):
+        a = ds.attrib
+        vals = ds.find("values")
+        if vals is None:
+            continue
+        for o in vals.findall("obs"):
+            cols["pos"].append(a.get("pos"))
+            cols["pos_title"].append(a.get("posTitle"))
+            cols["hierid"].append(hierid)
+            cols["freq"].append(a.get("freq"))
+            cols["attr1"].append(a.get("attr1"))
+            cols["attr1_dim"].append(a.get("attr1Dim"))
+            cols["attr2"].append(a.get("attr2"))
+            cols["attr2_dim"].append(a.get("attr2Dim"))
+            cols["attr3"].append(a.get("attr3"))
+            cols["attr3_dim"].append(a.get("attr3Dim"))
+            cols["attr4"].append(a.get("attr4"))
+            cols["attr4_dim"].append(a.get("attr4Dim"))
+            cols["unit_mult"].append(a.get("unitMult"))
+            cols["unit_text"].append(a.get("unitText"))
+            cols["period"].append(o.get("periode"))
+            cols["value"].append(_parse_float(o.get("value")))
     return cols
 
 
 def fetch_values(node_id: str) -> None:
-    asset = node_id  # batch files written as f"{asset}-{hierid}"
+    # One parquet batch file per (node, position-chunk):
+    # f"{node_id}-{hierid}-{chunk_index}". Each pos fans out into a large number
+    # of observations, so writing per chunk keeps peak memory bounded. The
+    # transform globs "{node_id}-*" to union every batch.
+    asset = node_id
     nodes = _category_nodes()
     wrote_any = False
     for hierid, _name in nodes:
         positions = [pos for pos, _t in _positions_for_node(hierid)]
         if not positions:
             continue  # branch node, no series
-        cols = _data_rows_for_node(hierid, positions)
-        if not cols["pos"]:
-            continue  # node yielded no observations
-        table = pa.table(cols, schema=VALUES_SCHEMA)
-        save_raw_parquet(table, f"{asset}-{hierid}")
-        wrote_any = True
+        for ci, chunk in enumerate(_chunks(positions, POS_PER_REQUEST)):
+            cols = _data_rows_for_chunk(hierid, chunk)
+            if not cols["pos"]:
+                continue  # this chunk yielded no observations
+            table = pa.table(cols, schema=VALUES_SCHEMA)
+            save_raw_parquet(table, f"{asset}-{hierid}-{ci}")
+            wrote_any = True
     if not wrote_any:
         raise AssertionError("values walk produced no observations for any node")
 
