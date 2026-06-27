@@ -222,9 +222,7 @@ TRANSFORM_SPECS = [
                 event_name,
                 CAST(latitude  AS DOUBLE) AS latitude,
                 CAST(longitude AS DOUBLE) AS longitude,
-                CAST(recorder_id AS BIGINT) AS recorder_id,
-                town,
-                county
+                CAST(recorder_id AS BIGINT) AS recorder_id
             FROM "natures-calendar-observations"
             WHERE observation_date IS NOT NULL
               AND observation_id IS NOT NULL

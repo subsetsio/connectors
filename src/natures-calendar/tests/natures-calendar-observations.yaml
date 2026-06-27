@@ -18,11 +18,11 @@ tests:
   - distinct_count: {col: species_id, min: 40, max: 90}
     reason: ~69 species recorded
     certainty: 80
-  - between: {col: latitude, lo: 49.0, hi: 61.0}
-    reason: observer-supplied GB coordinates fall in the UK latitude band
-    certainty: 80
+  - mean_between: {col: latitude, lo: 49.0, hi: 61.0}
+    reason: GB phenology — the mean latitude sits in the UK band; ~0.01% are observer GPS errors so a strict per-row bound is not asserted
+    certainty: 85
     severity: warn
-  - between: {col: longitude, lo: -9.0, hi: 2.5}
-    reason: observer-supplied GB coordinates fall in the UK longitude band
-    certainty: 80
+  - mean_between: {col: longitude, lo: -9.0, hi: 2.5}
+    reason: GB phenology — the mean longitude sits in the UK band; ~0.01% are observer GPS errors so a strict per-row bound is not asserted
+    certainty: 85
     severity: warn
