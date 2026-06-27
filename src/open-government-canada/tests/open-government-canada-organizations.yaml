@@ -1,0 +1,18 @@
+spec_id: open-government-canada-organizations
+status: active
+tests:
+  - not_null: org_id
+    reason: every organization has a stable CKAN id; it is the table's primary key
+    certainty: 99
+  - unique: org_id
+    reason: one row per organization
+    certainty: 95
+  - row_count: {min: 100}
+    reason: organization_list returns ~350 orgs (132 active publishers + requestor orgs)
+    certainty: 85
+  - at_least: {col: package_count, expr: 0}
+    reason: package_count is a non-negative dataset tally
+    certainty: 90
+  - not_null: name
+    reason: every org carries a slug name
+    certainty: 90

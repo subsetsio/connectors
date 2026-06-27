@@ -1,0 +1,26 @@
+spec_id: nd-gain-readiness
+status: active
+tests:
+  - not_null: iso3
+  - not_null: year
+  - not_null: category
+  - not_null: score
+  - column_type: {col: year, type: integer}
+  - column_type: {col: score, type: float}
+  - unique: [iso3, year, category]
+    reason: one score per country-year-category across the overall readiness index and its 3 sectors
+    certainty: 95
+  - between: {col: score, lo: 0, hi: 1}
+    reason: readiness scores are 0-1 normalized
+    certainty: 90
+  - enum:
+      col: category
+      values: [readiness, economic, governance, social]
+    reason: overall readiness plus economic, governance and social sectors
+    certainty: 80
+  - between: {col: year, lo: 1990, hi: current_year()}
+    certainty: 85
+  - distinct_count: {col: category, min: 4, max: 5}
+    certainty: 80
+  - row_count: {min: 18000}
+    certainty: 80

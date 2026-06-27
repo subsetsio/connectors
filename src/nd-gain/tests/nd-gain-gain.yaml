@@ -1,0 +1,26 @@
+spec_id: nd-gain-gain
+status: active
+tests:
+  - not_null: iso3
+  - not_null: year
+  - not_null: score
+  - column_type: {col: year, type: integer}
+  - column_type: {col: score, type: float}
+  - unique: [iso3, year]
+    reason: one overall ND-GAIN score per country per year; dupes mean the wide CSV was melted or written twice
+    certainty: 95
+  - between: {col: score, lo: 0, hi: 100}
+    reason: the overall index is published on a 0-100 scale
+    certainty: 90
+  - between: {col: year, lo: 1990, hi: current_year()}
+    certainty: 85
+  - at_most: {col: year, expr: current_year()}
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: iso3, min: 170, max: 210}
+    reason: index covers ~192 UN countries
+    certainty: 85
+  - row_count: {min: 4000}
+    reason: ~192 countries x ~30 years, minus missing values
+    certainty: 80

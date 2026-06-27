@@ -1,28 +1,30 @@
 """NuGet connector.
 
-Two published subsets:
+Two published subsets, each built from exactly one download asset (single-dep
+transforms — a two-dep SQL transform over R2 trips an s3fs directory-listing
+cache bug where resolving the first dep's prefix glob hides the second dep's
+files):
 
 - ``package_versions`` — the full version-publication history, harvested from
   the V3 **catalog** (the append-only event log). Every catalog page carries
   ``nuget:id`` / ``nuget:version`` / ``commitTimeStamp`` / ``@type`` inline, so
-  the whole ~12M-event corpus is reachable by fetching the ~22,700 pages, with
+  the whole ~12M-event corpus is reachable by fetching the ~22,700 pages with
   no per-leaf fetch. One row per (package_id, version) publish event; the
   transform dedups to the latest event per version and drops deletes. This is
-  the authoritative complete package-id universe and the publication
-  time-series.
+  the publication time-series and the complete package-id universe.
 
-- ``packages`` — a per-package aggregate over the full catalog universe
-  (~505k packages: version_count + first/last publish date) LEFT JOINed to
-  download/popularity stats from the **search** service. Download counts are
-  only exposed by search, which hard-caps ``skip`` at ~10,000, so
-  ``total_downloads`` / ``verified`` / ``tags`` are populated for the
-  most-downloaded ~10k packages (which hold essentially all download volume)
-  and null for the long tail.
+- ``packages`` — the most-downloaded packages from the **search** service
+  (download-weighted default ranking, up to the ~10k ``skip`` cap). Search is
+  the only public source of download counts, and it cannot enumerate the full
+  ~505k corpus, so this is the popular head — which holds essentially all
+  download volume. One row per package with totals, verification, tags and
+  version count.
 
-Catalog harvest is a firehose: batched by catalog-page-position range, state
-watermark = pages permanently completed, fetched concurrently (immutable
-CDN-served JSON). The final, still-growing catalog page is always reprocessed;
-duplicate version events that result are dedup'd in the transform.
+The catalog harvest is a stateless full re-pull every run (~22.7k immutable
+CDN-served pages, fetched concurrently, ~6 min). Raw is not retained across
+runs and every run re-executes every spec, so there is no incremental state to
+keep; deterministic page-range batch ids overwrite cleanly. The final,
+still-growing catalog page is re-pulled every run for free.
 """
 import concurrent.futures as cf
 
@@ -33,11 +35,7 @@ from subsets_utils import (
     get,
     transient_retry,
     save_raw_parquet,
-    load_state,
-    save_state,
 )
-
-STATE_VERSION = 1
 
 CATALOG_INDEX = "https://api.nuget.org/v3/catalog0/index.json"
 SEARCH_URL = "https://azuresearch-usnc.nuget.org/query"
@@ -59,6 +57,7 @@ PACKAGES_SCHEMA = pa.schema([
     ("latest_version", pa.string()),
     ("total_downloads", pa.int64()),
     ("verified", pa.bool_()),
+    ("version_count", pa.int64()),
     ("authors", pa.string()),
     ("tags", pa.string()),
 ])
@@ -86,20 +85,16 @@ def _fetch_pages(urls):
 
 
 def fetch_package_versions(node_id: str) -> None:
-    """Harvest the full NuGet V3 catalog into batched parquet (firehose)."""
-    state = load_state(node_id)
-    if state.get("schema_version") != STATE_VERSION:
-        state = {"schema_version": STATE_VERSION, "pages_done": 0}
-
+    """Harvest the full NuGet V3 catalog into batched parquet (stateless full
+    re-pull; immutable pages fetched concurrently)."""
     index = _get_json(CATALOG_INDEX)
     page_urls = [it["@id"] for it in index["items"]]
     total = len(page_urls)
     if total == 0:
         raise AssertionError("catalog index returned 0 pages")
 
-    start = state.get("pages_done", 0)
+    start = 0
     while start < total:
-        # Loop until the catalog is drained; no self-imposed time/record cap.
         end = min(start + PAGES_PER_BATCH, total)
         rows = _fetch_pages(page_urls[start:end])
         if not rows:
@@ -107,18 +102,11 @@ def fetch_package_versions(node_id: str) -> None:
         table = pa.Table.from_pylist(rows, schema=VERSIONS_SCHEMA)
         save_raw_parquet(table, f"{node_id}-{start:06d}-{end - 1:06d}")
         start = end
-        # Write raw before state; never permanently advance past the last
-        # (still-growing) page — it is reprocessed every run.
-        save_state(node_id, {
-            "schema_version": STATE_VERSION,
-            "pages_done": min(end, total - 1),
-        })
 
 
 def fetch_packages(node_id: str) -> None:
-    """Most-downloaded packages from the search service (download-weighted
-    default ranking, up to the ~10k skip cap). Only public source of download
-    counts."""
+    """Most-downloaded packages from the search service (the only public source
+    of download counts; capped at ~10k by the skip limit)."""
     rows = []
     seen = set()
     for skip in range(0, SEARCH_SKIP_CAP, SEARCH_PAGE_SIZE):
@@ -146,6 +134,7 @@ def fetch_packages(node_id: str) -> None:
                 "latest_version": p.get("version"),
                 "total_downloads": int(p.get("totalDownloads") or 0),
                 "verified": bool(p.get("verified")),
+                "version_count": len(p.get("versions") or []),
                 "authors": ", ".join(authors) if isinstance(authors, list) else (authors or ""),
                 "tags": ", ".join(tags) if isinstance(tags, list) else (tags or ""),
             })
@@ -161,25 +150,23 @@ DOWNLOAD_SPECS = [
 ]
 
 
-_VERSIONS_RANKED = '''
-    SELECT
-        package_id,
-        version,
-        commit_timestamp,
-        is_delete,
-        row_number() OVER (
-            PARTITION BY lower(package_id), version
-            ORDER BY commit_timestamp DESC
-        ) AS rn
-    FROM "nuget-package-versions"
-'''
-
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="nuget-package-versions-transform",
         deps=["nuget-package-versions"],
-        sql=f'''
-            WITH ranked AS ({_VERSIONS_RANKED})
+        sql='''
+            WITH ranked AS (
+                SELECT
+                    package_id,
+                    version,
+                    commit_timestamp,
+                    is_delete,
+                    row_number() OVER (
+                        PARTITION BY lower(package_id), version
+                        ORDER BY commit_timestamp DESC
+                    ) AS rn
+                FROM "nuget-package-versions"
+            )
             SELECT
                 package_id,
                 version,
@@ -191,39 +178,18 @@ TRANSFORM_SPECS = [
     ),
     SqlNodeSpec(
         id="nuget-packages-transform",
-        deps=["nuget-package-versions", "nuget-packages"],
-        sql=f'''
-            WITH ranked AS ({_VERSIONS_RANKED}),
-            live AS (
-                SELECT
-                    lower(package_id) AS pkg_key,
-                    package_id,
-                    CAST(commit_timestamp AS TIMESTAMP) AS published
-                FROM ranked
-                WHERE rn = 1 AND is_delete = FALSE
-            ),
-            agg AS (
-                SELECT
-                    pkg_key,
-                    any_value(package_id) AS catalog_id,
-                    count(*) AS version_count,
-                    min(published) AS first_published,
-                    max(published) AS last_published
-                FROM live
-                GROUP BY pkg_key
-            )
+        deps=["nuget-packages"],
+        sql='''
             SELECT
-                COALESCE(s.package_id, a.catalog_id) AS package_id,
-                a.version_count,
-                a.first_published,
-                a.last_published,
-                s.total_downloads,
-                s.verified,
-                s.latest_version,
-                s.authors,
-                s.tags
-            FROM agg a
-            LEFT JOIN "nuget-packages" s ON lower(s.package_id) = a.pkg_key
+                package_id,
+                latest_version,
+                total_downloads,
+                verified,
+                version_count,
+                authors,
+                tags
+            FROM "nuget-packages"
+            WHERE package_id IS NOT NULL
         ''',
     ),
 ]

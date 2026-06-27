@@ -1,0 +1,26 @@
+spec_id: open-government-canada-datasets
+status: active
+tests:
+  - not_null: dataset_id
+    reason: every CKAN package has a stable id; it is the table's primary key
+    certainty: 99
+  - unique: dataset_id
+    reason: one row per package after dedup; dupes mean paging overlap wasn't collapsed
+    certainty: 95
+  - row_count: {min: 30000}
+    reason: the portal reports ~47k packages; far fewer means paging truncated
+    certainty: 90
+  - column_type: {col: num_resources, type: integer}
+    certainty: 90
+  - distinct_count: {col: organization, min: 50}
+    reason: ~130 publishers federate into this portal
+    certainty: 85
+  - not_null: organization
+    reason: packages are owned by a publishing organization
+    certainty: 75
+    severity: warn
+  - freshness: {col: metadata_modified, reaches: today - 30d}
+    reason: the portal reindexes/updates continuously; a stale max means harvest stopped
+    certainty: 70
+    points_outward: true
+    severity: warn
