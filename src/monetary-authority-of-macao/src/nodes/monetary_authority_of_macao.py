@@ -142,6 +142,31 @@ def _month_of(x):
     return None
 
 
+def _date_of(x):
+    """Parse a datetime/date or a D/M/YYYY or YYYY-M-D date string -> date | None."""
+    if isinstance(x, datetime.datetime):
+        return x.date()
+    if isinstance(x, datetime.date):
+        return x
+    if isinstance(x, str):
+        s = x.strip()
+        m = re.fullmatch(r'(\d{1,2})/(\d{1,2})/(\d{4})', s)
+        if m:
+            d, mo, y = int(m.group(1)), int(m.group(2)), int(m.group(3))
+            try:
+                return datetime.date(y, mo, d)
+            except ValueError:
+                return None
+        m = re.fullmatch(r'(\d{4})[-/](\d{1,2})[-/](\d{1,2})', s)
+        if m:
+            y, mo, d = map(int, m.groups())
+            try:
+                return datetime.date(y, mo, d)
+            except ValueError:
+                return None
+    return None
+
+
 def _qdate(y, q): return datetime.date(y, q * 3, 1).isoformat()
 def _mdate(y, m): return datetime.date(y, m, 1).isoformat()
 def _ydate(y):    return datetime.date(y, 12, 31).isoformat()
@@ -202,7 +227,7 @@ def parse_grid(grid):
         r.extend([None] * (ncol - len(r)))
     nrow = len(grid)
     col0 = [grid[r][0] for r in range(nrow)]
-    year_down = sum(1 for c in col0 if _is_year(c) or isinstance(c, (datetime.date, datetime.datetime)))
+    year_down = sum(1 for c in col0 if _is_year(c) or _date_of(c) is not None)
     if year_down >= 4:
         return _parse_rows(grid, nrow, ncol)
     return _parse_cols(grid, nrow, ncol)
@@ -247,46 +272,87 @@ def _row_headers(grid, nrow, ncol, value_start, first_data):
     return headers
 
 
+def _component(grid, nrow, c, lo, hi):
+    """True if column c is an integer date-component column (values in [lo, hi])."""
+    nums = [_as_num(grid[r][c]) for r in range(nrow)]
+    nums = [n for n in nums if n is not None]
+    if len(nums) < 2:
+        return False
+    good = [n for n in nums if n == int(n) and lo <= n <= hi]
+    return len(good) >= 0.8 * len(nums)
+
+
 def _parse_rows(grid, nrow, ncol):
-    cand = [r for r in range(nrow) if any(_as_num(grid[r][c]) is not None for c in range(1, ncol))]
-    if not cand:
-        return []
-    months = [_month_of(grid[r][1]) for r in cand] if ncol > 1 else []
-    has_month = bool(months) and sum(1 for m in months if m) >= max(3, len(cand) * 0.5)
-    value_start = 2 if has_month else 1
+    # col0 is full dates rather than bare years? -> one date per row.
+    n_date0 = sum(1 for r in range(nrow) if _date_of(grid[r][0]) is not None)
+    n_year0 = sum(1 for r in range(nrow) if _is_year(grid[r][0]))
+    date_mode = n_date0 >= n_year0
+
+    # Period component columns on the left (year [/ month [/ day]]). Year and
+    # month may be merged (present only on the first sub-row), so carry forward.
+    if date_mode:
+        month_col = day_col = False
+        value_start = 1
+    else:
+        month_col = ncol > 1 and _component(grid, nrow, 1, 1, 12)
+        day_col = (month_col and ncol > 2 and _component(grid, nrow, 2, 1, 31)
+                   and any((_as_num(grid[r][2]) or 0) > 12 for r in range(nrow)))
+        value_start = 3 if day_col else 2 if month_col else 1
+
     yrrows = [r for r in range(nrow)
-              if _is_year(grid[r][0]) or isinstance(grid[r][0], (datetime.date, datetime.datetime))]
+              if _is_year(grid[r][0]) or _date_of(grid[r][0]) is not None]
     if not yrrows:
         return []
     first_data = min(yrrows)
     headers = _row_headers(grid, nrow, ncol, value_start, first_data)
-    out, cur_year = [], None
+    leaf_q = {}
+    for c in range(value_start, ncol):
+        for r in range(first_data - 1, -1, -1):
+            v = grid[r][c]
+            if v is not None and _clean(v) != "":
+                leaf_q[c] = _q_of(v); break
+    out, cur_year, cur_month = [], None, None
     for r in range(nrow):
         v0 = grid[r][0]
-        is_date = isinstance(v0, (datetime.date, datetime.datetime))
-        if is_date:
-            d = v0.date() if isinstance(v0, datetime.datetime) else v0
-            year, part, date, period = d.year, f"{d.month:02d}", d.isoformat(), d.isoformat()
-            cur_year = year
+        if date_mode:
+            d = _date_of(v0)
+            if d is None:
+                continue
+            year, part, date, period, is_q = d.year, f"{d.month:02d}", d.isoformat(), d.isoformat(), False
         else:
             if _is_year(v0):
                 cur_year = int(float(v0))
-            if has_month:
-                m = _month_of(grid[r][1])
-                if not m or cur_year is None:
+            if month_col:
+                mv = _month_of(grid[r][1])
+                if mv:
+                    cur_month = mv
+            if cur_year is None:
+                continue
+            if day_col:
+                dv = _as_num(grid[r][2])
+                if dv is None or cur_month is None:
                     continue
-                year, part, date, period = cur_year, f"{m:02d}", _mdate(cur_year, m), f"{cur_year}-{m:02d}"
+                try:
+                    d = datetime.date(cur_year, cur_month, int(dv))
+                except ValueError:
+                    continue
+                year, part, date, period, is_q = cur_year, None, d.isoformat(), d.isoformat(), False
+            elif month_col:
+                if cur_month is None:
+                    continue
+                year, part = cur_year, f"{cur_month:02d}"
+                date, period, is_q = _mdate(cur_year, cur_month), f"{cur_year}-{cur_month:02d}", False
             else:
                 if not _is_year(v0):
                     continue
-                year, part, date, period = cur_year, None, _ydate(cur_year), str(cur_year)
+                year, part, date, period, is_q = cur_year, None, _ydate(cur_year), str(cur_year), True
         for c in range(value_start, ncol):
             val = _as_num(grid[r][c])
             if val is None:
                 continue
             ser = headers[c]
-            q = _q_of(ser)
-            if q and part is None and not is_date:
+            q = leaf_q.get(c)
+            if q and is_q:
                 out.append({"series": "value", "period": f"{year}-Q{q}", "year": year,
                             "part": f"Q{q}", "date": _qdate(year, q), "value": val})
             else:
