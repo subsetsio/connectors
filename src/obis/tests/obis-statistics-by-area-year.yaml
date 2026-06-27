@@ -1,0 +1,18 @@
+spec_id: obis-statistics-by-area-year
+status: active
+tests:
+  - not_null: areaid
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - unique: [areaid, year]
+    reason: one record count per marine area per year
+    certainty: 90
+  - between: {col: year, lo: 1000, hi: 2030}
+    certainty: 90
+  - at_least: {col: records, expr: 1}
+    reason: an area-year row is only emitted when records exist
+    certainty: 90
+  - enum: {col: area_type, values: [abnj, ebsa, iho, lme, mwhs, obis]}
+    reason: area types come from OBIS's fixed area-type vocabulary
+    certainty: 75
+    severity: warn

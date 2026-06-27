@@ -1,0 +1,17 @@
+spec_id: obis-statistics-by-node-year
+status: active
+tests:
+  - not_null: nodeid
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - unique: [nodeid, year]
+    reason: one record count per OBIS node per year
+    certainty: 90
+  - between: {col: year, lo: 1000, hi: 2030}
+    certainty: 90
+  - at_least: {col: records, expr: 1}
+    reason: a node-year row is only emitted when records exist
+    certainty: 90
+  - distinct_count: {col: nodeid, min: 20, max: 60}
+    reason: OBIS has ~38 regional/thematic nodes; most contribute data
+    certainty: 80

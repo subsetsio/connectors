@@ -1,0 +1,20 @@
+spec_id: obis-statistics-by-year
+status: active
+tests:
+  - not_null: year
+  - not_null: records
+  - column_type: {col: year, type: integer}
+  - unique: year
+    reason: one row per calendar year — global records-per-year time series
+    certainty: 95
+  - between: {col: year, lo: 1000, hi: 2030}
+    reason: OBIS reports a year range starting ~1103; upper bound guards typos
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: occurrence years should not exceed the present
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - at_least: {col: records, expr: 1}
+    reason: every reported year has at least one occurrence record
+    certainty: 95
