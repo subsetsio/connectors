@@ -106,6 +106,7 @@ TRANSFORM_SPECS = [
                 TRY_CAST("Date" AS DATE)                      AS date,
                 "MeetCountry"                                 AS meet_country,
                 NULLIF("MeetState", '')                       AS meet_state,
+                NULLIF("MeetTown", '')                        AS meet_town,
                 "MeetName"                                    AS meet_name
             FROM "openpowerlifting-results"
         ''',
