@@ -1,0 +1,51 @@
+spec_id: ocean-health-index-scores
+status: active
+tests:
+  - not_null: scenario
+    reason: every row is stamped with the assessment year it was computed for
+    certainty: 97
+  - not_null: goal
+    reason: every score belongs to a goal/sub-goal (or the composite Index)
+    certainty: 97
+  - not_null: dimension
+    reason: every row reports one of the OHI dimensions (score/status/trend/...)
+    certainty: 97
+  - not_null: region_id
+    reason: every score is for a region (0 = Global average, 1..220 EEZs)
+    certainty: 97
+  - not_null: region_name
+    reason: region_name is carried inline on every row of the source CSV
+    certainty: 95
+  - column_type: {col: scenario, type: integer}
+    reason: scenario is the assessment year, parsed to int
+    certainty: 95
+  - column_type: {col: region_id, type: integer}
+    reason: region_id is the integer OHI region key
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: value is the numeric 0-100 index (status/score/pressures/resilience) or -1..1 trend, parsed to float
+    certainty: 90
+  - enum: {col: dimension, values: [score, status, trend, future, pressures, resilience]}
+    reason: OHI computes exactly these six dimensions; an unexpected value means the parse drifted
+    certainty: 90
+  - between: {col: scenario, lo: 2012, hi: 2035}
+    reason: the global assessment starts in 2012; upper bound is generous slack for future cycles
+    certainty: 90
+  - between: {col: region_id, lo: 0, hi: 400}
+    reason: region ids are small non-negative integers (~222 regions incl. Global average)
+    certainty: 90
+  - distinct_count: {col: scenario, min: 10}
+    reason: a healthy pull spans well over a decade of assessment years (2012-present)
+    certainty: 85
+    severity: warn
+  - distinct_count: {col: goal, min: 15}
+    reason: 10 goals plus sub-goals plus the composite Index gives ~19 distinct codes
+    certainty: 85
+    severity: warn
+  - unique: [scenario, goal, dimension, region_id]
+    reason: one value per (year, goal, dimension, region); dupes mean a re-pull without overwrite or a parse fault
+    certainty: 85
+  - nullable: {col: value, max_null_frac: 0.4}
+    reason: some (region, goal, dimension) combinations are genuinely missing and stored as null; allow a meaningful share but a mostly-null column means the value parse broke
+    certainty: 75
+    severity: warn
