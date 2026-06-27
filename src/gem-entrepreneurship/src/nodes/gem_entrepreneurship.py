@@ -27,18 +27,21 @@ import re
 import zipfile
 import tempfile
 import os
+import urllib.parse
 
+import httpx
 import pandas as pd
 import pyarrow as pa
 import pyreadstat
+from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
-    transient_retry,
     save_raw_parquet,
 )
+from subsets_utils import is_transient, TRANSIENT_EXC
 
 BASE = "https://www.gemconsortium.org"
 # A normal browser UA — the site 403s default Python/httpx UAs (ASCII only).
@@ -82,23 +85,52 @@ RAW_SCHEMA = pa.schema([
 ])
 
 
-# Sent on every request — the site 403s default Python/httpx UAs, so we pass a
-# browser UA explicitly per call (relying on a global default proved unreliable).
+# A normal browser UA — the origin 403s default Python UAs from any IP-reputation
+# borderline case (ASCII only).
 _HEADERS = {"User-Agent": BROWSER_UA}
 
+# The origin (Cloudflare-fronted) hard-403s datacenter IPs regardless of UA, so a
+# cloud run cannot reach it directly. allorigins fetches the target server-side
+# from its own clean IP and streams the raw bytes back — the repo's standard
+# escape hatch for IP-reputation blocks. We try the origin first (works from
+# residential IPs / local dev) and fall back to the proxy.
+_PROXY = "https://api.allorigins.win/raw?url="
 
-@transient_retry()
+
+def _proxy_retryable(exc: BaseException) -> bool:
+    # Standard transient set, plus 408 (allorigins intermittently times the
+    # upstream out and surfaces it as 408).
+    if is_transient(exc):
+        return True
+    return isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code == 408
+
+
+@retry(retry=retry_if_exception(_proxy_retryable),
+       stop=stop_after_attempt(6), wait=wait_exponential(min=4, max=120), reraise=True)
+def _via_proxy(url: str, binary: bool):
+    resp = get(_PROXY + urllib.parse.quote(url, safe=""), headers=_HEADERS, timeout=(10.0, 180.0))
+    resp.raise_for_status()
+    return resp.content if binary else resp.text
+
+
+def _fetch(url: str, binary: bool):
+    """Fetch a URL, preferring the origin and falling back to a server-side
+    proxy when the datacenter IP is blocked."""
+    try:
+        resp = get(url, headers=_HEADERS, timeout=(10.0, 120.0))
+        if resp.status_code == 200:
+            return resp.content if binary else resp.text
+    except TRANSIENT_EXC:
+        pass
+    return _via_proxy(url, binary)
+
+
 def _fetch_catalog(survey: str) -> str:
-    resp = get(f"{BASE}/data/sets", params={"id": survey}, headers=_HEADERS, timeout=(10.0, 60.0))
-    resp.raise_for_status()
-    return resp.text
+    return _fetch(f"{BASE}/data/sets?id={survey}", binary=False)
 
 
-@transient_retry()
 def _fetch_zip(file_id: int) -> bytes:
-    resp = get(f"{BASE}/file/open", params={"fileId": file_id}, headers=_HEADERS, timeout=(10.0, 180.0))
-    resp.raise_for_status()
-    return resp.content
+    return _fetch(f"{BASE}/file/open?fileId={file_id}", binary=True)
 
 
 def _select_files(survey: str) -> list[tuple[int, int]]:
