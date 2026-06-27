@@ -1,0 +1,25 @@
+spec_id: kyoto-cherry-blossom-bloom-dates
+status: active
+tests:
+  - not_null: year
+  - not_null: day_of_year
+    reason: a row only exists when there is a recorded full-flowering observation
+    certainty: 95
+  - column_type: {col: year, type: integer}
+  - column_type: {col: day_of_year, type: integer}
+  - unique: year
+    reason: one row per calendar year; dupes mean the CSV was concatenated twice
+    certainty: 95
+  - between: {col: year, lo: 812, hi: current_year()}
+    reason: the Aono/OWID series starts at 812 CE and runs to the current year
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - between: {col: day_of_year, lo: 80, hi: 130}
+    reason: Kyoto peak bloom falls late March to early May, i.e. ~day 84-125
+    certainty: 85
+  - row_count: {min: 700}
+    reason: ~838 observed years as of 2026; a big drop means truncated download
+    certainty: 90

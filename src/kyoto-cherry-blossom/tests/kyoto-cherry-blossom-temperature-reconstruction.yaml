@@ -1,0 +1,22 @@
+spec_id: kyoto-cherry-blossom-temperature-reconstruction
+status: active
+tests:
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - unique: year
+    reason: one row per calendar year in the NOAA reconstruction file
+    certainty: 95
+  - between: {col: year, lo: 801, hi: 2010}
+    reason: NOAA kyoto2010temp.txt is a frozen snapshot spanning 801-2005 CE
+    certainty: 90
+  - between: {col: temp_reconstructed, lo: 3, hi: 13}
+    reason: reconstructed March mean temperature at Kyoto sits roughly 4-11 C
+    certainty: 80
+    severity: warn
+  - between: {col: temp_observed, lo: 3, hi: 13}
+    reason: observed March mean temperature at Kyoto sits roughly 4-11 C
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1000}
+    reason: ~1205 year rows (incl. sparse early years); a big drop means truncation
+    certainty: 85
