@@ -142,28 +142,32 @@ def _month_of(x):
     return None
 
 
+def _mk_date(y, mo, d):
+    """Build a date, rejecting out-of-range years (source typos, e.g. 5004)."""
+    if not (1900 <= y <= 2100):
+        return None
+    try:
+        return datetime.date(y, mo, d)
+    except ValueError:
+        return None
+
+
 def _date_of(x):
     """Parse a datetime/date or a D/M/YYYY or YYYY-M-D date string -> date | None."""
     if isinstance(x, datetime.datetime):
-        return x.date()
+        x = x.date()
     if isinstance(x, datetime.date):
-        return x
+        return x if 1900 <= x.year <= 2100 else None
     if isinstance(x, str):
         s = x.strip()
         m = re.fullmatch(r'(\d{1,2})/(\d{1,2})/(\d{4})', s)
         if m:
             d, mo, y = int(m.group(1)), int(m.group(2)), int(m.group(3))
-            try:
-                return datetime.date(y, mo, d)
-            except ValueError:
-                return None
+            return _mk_date(y, mo, d)
         m = re.fullmatch(r'(\d{4})[-/](\d{1,2})[-/](\d{1,2})', s)
         if m:
             y, mo, d = map(int, m.groups())
-            try:
-                return datetime.date(y, mo, d)
-            except ValueError:
-                return None
+            return _mk_date(y, mo, d)
     return None
 
 
