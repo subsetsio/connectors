@@ -1,0 +1,15 @@
+spec_id: odepa-catastro-fruticola
+status: active
+tests:
+  - not_null: Anio
+    reason: each cadastre record carries the survey year
+    certainty: 98
+  - not_null: Especie
+    reason: the fruit species is the core dimension of the cadastre
+    certainty: 95
+  - matches: {col: Anio, pattern: '^\d{4}$'}
+    reason: Anio is a 4-digit year string
+    certainty: 95
+  - row_count: {min: 5000}
+    reason: per-orchard-block plantation records across regions and survey years
+    certainty: 82

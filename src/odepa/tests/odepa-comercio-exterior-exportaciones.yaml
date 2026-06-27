@@ -1,0 +1,18 @@
+spec_id: odepa-comercio-exterior-exportaciones
+status: active
+tests:
+  - not_null: Anio
+    reason: every trade record carries its year
+    certainty: 98
+  - not_null: Producto
+    reason: every export line names the product
+    certainty: 95
+  - not_null: Pais destino
+    reason: exports record a destination country (distinguishes the export schema from imports)
+    certainty: 90
+  - matches: {col: Anio, pattern: '^\d{4}$'}
+    reason: Anio is a 4-digit year string
+    certainty: 95
+  - row_count: {min: 10000}
+    reason: monthly product x destination exports across 1998..present is a large table
+    certainty: 85

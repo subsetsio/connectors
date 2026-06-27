@@ -1,0 +1,7 @@
+spec_id: open-power-system-data-national-generation-capacity--national-generation-capacity-stacked
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: full-snapshot table; far fewer rows means a truncated or empty download
+    certainty: 80
+    severity: block

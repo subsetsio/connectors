@@ -1,0 +1,11 @@
+spec_id: open-power-system-data-household-data--household-data-60min-singleindex
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: full-snapshot table; far fewer rows means a truncated or empty download
+    certainty: 80
+    severity: block
+  - not_null: utc_timestamp
+    reason: every observation row is timestamped; a null timestamp means a header/parse shift
+    certainty: 80
+    severity: warn

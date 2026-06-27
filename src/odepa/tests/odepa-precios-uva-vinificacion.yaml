@@ -1,0 +1,15 @@
+spec_id: odepa-precios-uva-vinificacion
+status: active
+tests:
+  - not_null: Anio
+    reason: each wine-grape spot price carries its year
+    certainty: 98
+  - not_null: Variedad
+    reason: the grape variety is the core dimension of this dataset
+    certainty: 92
+  - matches: {col: Anio, pattern: '^\d{4}$'}
+    reason: Anio is a 4-digit year string
+    certainty: 95
+  - row_count: {min: 100}
+    reason: spot prices from buying centres since 2020 — smaller, seasonal dataset
+    certainty: 80

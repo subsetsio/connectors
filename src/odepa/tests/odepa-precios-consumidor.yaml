@@ -1,0 +1,18 @@
+spec_id: odepa-precios-consumidor
+status: active
+tests:
+  - not_null: Anio
+    reason: every consumer-price row is stamped with its capture year
+    certainty: 98
+  - not_null: Producto
+    reason: a price observation without a product is meaningless
+    certainty: 95
+  - matches: {col: Anio, pattern: '^\d{4}$'}
+    reason: Anio is a 4-digit year string in the raw CSV
+    certainty: 95
+  - matches: {col: Fecha inicio, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: capture-week start is an ISO date in the raw CSV
+    certainty: 90
+  - row_count: {min: 5000}
+    reason: weekly prices across many products, regions and years (2008..present) yield a large table
+    certainty: 85

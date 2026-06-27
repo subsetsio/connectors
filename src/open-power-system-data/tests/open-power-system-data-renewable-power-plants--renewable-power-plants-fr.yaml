@@ -1,0 +1,11 @@
+spec_id: open-power-system-data-renewable-power-plants--renewable-power-plants-fr
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: full-snapshot table; far fewer rows means a truncated or empty download
+    certainty: 80
+    severity: warn
+  - not_null: electrical_capacity
+    reason: a plant registry row should carry an installed-capacity value
+    certainty: 65
+    severity: warn

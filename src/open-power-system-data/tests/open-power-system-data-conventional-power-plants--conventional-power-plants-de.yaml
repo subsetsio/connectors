@@ -1,0 +1,11 @@
+spec_id: open-power-system-data-conventional-power-plants--conventional-power-plants-de
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: full-snapshot table; far fewer rows means a truncated or empty download
+    certainty: 80
+    severity: block
+  - not_null: id
+    reason: each conventional plant row has a stable id
+    certainty: 70
+    severity: warn

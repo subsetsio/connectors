@@ -1,0 +1,15 @@
+spec_id: odepa-precios-mayoristas-de-frutas-y-hortalizas
+status: active
+tests:
+  - not_null: Fecha
+    reason: each wholesale produce price is stamped with its capture date
+    certainty: 98
+  - not_null: Producto
+    reason: a price observation without a product is meaningless
+    certainty: 95
+  - matches: {col: Fecha, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: Fecha is an ISO date string in the raw CSV
+    certainty: 92
+  - row_count: {min: 10000}
+    reason: daily fruit/vegetable wholesale prices across markets and products over many years
+    certainty: 85
