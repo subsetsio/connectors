@@ -136,7 +136,7 @@ TRANSFORM_SPECS = [
                     CAST(year AS INTEGER)                AS year,
                     season,
                     strptime(date, '%m/%d/%Y')::DATE     AS date,
-                    to_timestamp(observed_unix)          AS observed_at,
+                    make_timestamp(CAST(observed_unix AS BIGINT) * 1000000) AS observed_at,
                     CAST(latitude AS DOUBLE)             AS latitude,
                     CAST(longitude AS DOUBLE)            AS longitude,
                     CAST(elevation AS DOUBLE)            AS elevation,

@@ -24,11 +24,11 @@ tests:
     severity: warn
   - enum:
       col: record
-      values: [BiocapPerCap, BiocapTotGHA, EFConsPerCap, EFConsTotGHA, GDP, HDI, Population]
-    reason: the 8 type codes map onto exactly these 7 record values (BCtot and earth both map to BiocapTotGHA)
+      values: [BiocapPerCap, BiocapTotGHA, EFConsPerCap, EFConsTotGHA, Earths, GDP-USD, HDI, Population]
+    reason: the /data endpoint's record field carries these 8 values (one per record type; note Earths and GDP-USD, which differ from the /types record labels)
     certainty: 90
-  - distinct_count: {col: record, min: 7}
-    reason: all record types should appear in a full pull
+  - distinct_count: {col: record, min: 8}
+    reason: all 8 record types should appear in a full pull
     certainty: 90
   - row_count: {min: 20000}
     reason: 8 record types x ~200 countries x ~64 years yields tens of thousands of rows
