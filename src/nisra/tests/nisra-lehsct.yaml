@@ -1,0 +1,12 @@
+spec_id: nisra-lehsct
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every PxStat cube returns at least one data cell; 0 rows means a truncated or empty ReadDataset response
+    certainty: 95
+  - not_null: STATISTIC
+    reason: PxStat CSV carries the STATISTIC code on every cell row
+    certainty: 90
+  - not_null: VALUE
+    reason: the VALUE column is always present in PxStat CSV output; a null/missing column means the response format changed
+    certainty: 80

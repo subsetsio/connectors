@@ -317,7 +317,7 @@ _WEATHER_SQL = f'''
 _SPECIES_SQL = f'''
     SELECT
         TRY_CAST(TRIM(Seq) AS INTEGER) AS seq,
-        TRIM(AOU)                      AS aou,
+        TRY_CAST(TRIM(AOU) AS INTEGER) AS aou,
         TRIM(English_Common_Name)      AS english_common_name,
         TRIM(French_Common_Name)       AS french_common_name,
         TRIM("Order")                  AS "order",
@@ -335,7 +335,7 @@ _STATE_COUNTS_SQL = f'''
         TRIM(Route)                           AS route,
         TRIM(RPID)                            AS rpid,
         TRY_CAST(TRIM(Year) AS INTEGER)       AS year,
-        TRIM(AOU)                             AS aou,
+        TRY_CAST(TRIM(AOU) AS INTEGER) AS aou,
         {_counts_select(["Count10", "Count20", "Count30", "Count40", "Count50", "StopTotal", "SpeciesTotal"])}
     FROM "{SLUG}-state-counts"
 '''
@@ -348,7 +348,7 @@ _FIFTY_SQL = f'''
         TRIM(Route)                           AS route,
         TRIM(RPID)                            AS rpid,
         TRY_CAST(TRIM(Year) AS INTEGER)       AS year,
-        TRIM(AOU)                             AS aou,
+        TRY_CAST(TRIM(AOU) AS INTEGER) AS aou,
         {_counts_select([f"Stop{i}" for i in range(1, 51)])}
     FROM "{SLUG}-fifty-stop-counts"
 '''
@@ -357,7 +357,7 @@ _FIFTY_SQL = f'''
 def _indices_sql(asset_id: str) -> str:
     return f'''
     SELECT
-        TRIM(AOU)                       AS aou,
+        TRY_CAST(TRIM(AOU) AS INTEGER) AS aou,
         TRIM(Region)                    AS region,
         TRY_CAST(TRIM(Year) AS INTEGER) AS year,
         TRY_CAST(TRIM("Index") AS DOUBLE)   AS annual_index,
@@ -370,7 +370,7 @@ def _indices_sql(asset_id: str) -> str:
 
 def _trends_sql(asset_id: str, has_years: bool) -> str:
     cols = [
-        'TRIM(AOU) AS aou',
+        'TRY_CAST(TRIM(AOU) AS INTEGER) AS aou',
         'TRIM(Region) AS region',
         'TRIM("Region Name") AS region_name',
         'TRIM(Species) AS species',
