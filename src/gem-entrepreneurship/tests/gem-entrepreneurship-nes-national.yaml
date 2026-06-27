@@ -1,0 +1,32 @@
+spec_id: gem-entrepreneurship-nes-national
+status: active
+tests:
+  - not_null: year
+    reason: every reshaped row is stamped with its source survey year
+    certainty: 99
+  - not_null: indicator
+    reason: the unpivoted measure column name is the indicator key
+    certainty: 99
+  - not_null: value
+    reason: null measures are dropped during reshape
+    certainty: 99
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - between: {col: year, lo: 1998, hi: current_year()}
+    reason: NES National Level Data files run 1999..present
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: indicator, min: 15}
+    reason: NES exposes the framework-condition item and summary scores
+    certainty: 80
+  - distinct_count: {col: economy_name, min: 20}
+    reason: GEM NES covers ~100 economies across its history
+    certainty: 80
+  - row_count: {min: 1000}
+    reason: 20+ years x dozens of economies x framework-condition measures
+    certainty: 90

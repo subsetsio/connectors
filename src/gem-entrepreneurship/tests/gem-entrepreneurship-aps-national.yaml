@@ -1,0 +1,32 @@
+spec_id: gem-entrepreneurship-aps-national
+status: active
+tests:
+  - not_null: year
+    reason: every reshaped row is stamped with its source survey year
+    certainty: 99
+  - not_null: indicator
+    reason: the unpivoted measure column name is the indicator key
+    certainty: 99
+  - not_null: value
+    reason: null measures are dropped during reshape
+    certainty: 99
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - between: {col: year, lo: 2001, hi: current_year()}
+    reason: APS National Level Data files run 2002..present
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: indicator, min: 20}
+    reason: each APS file exposes well over twenty national-level measures
+    certainty: 85
+  - distinct_count: {col: economy_name, min: 30}
+    reason: GEM APS covers ~100 economies across its history
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: 20+ years x ~70 economies x dozens of indicators
+    certainty: 90
