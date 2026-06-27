@@ -1,0 +1,42 @@
+spec_id: nasa-firms-viirs-detections
+status: active
+tests:
+  - not_null: latitude
+    reason: every detection has a geolocation; nulls mean a parse/column-shift bug
+    certainty: 98
+  - not_null: longitude
+    certainty: 98
+  - column_type: {col: latitude, type: float}
+    certainty: 95
+  - column_type: {col: bright_ti4, type: float}
+    certainty: 90
+  - between: {col: latitude, lo: -90, hi: 90}
+    reason: WGS84 latitude bounds
+    certainty: 98
+  - between: {col: longitude, lo: -180, hi: 180}
+    reason: WGS84 longitude bounds
+    certainty: 98
+  - at_least: {col: frp, expr: 0}
+    reason: fire radiative power is non-negative
+    certainty: 90
+  - enum: {col: daynight, values: [D, N]}
+    reason: VIIRS day/night flag is D or N
+    certainty: 95
+  - matches: {col: acq_date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
+    reason: acq_date is a raw YYYY-MM-DD string at the raw layer
+    certainty: 95
+  - enum: {col: satellite, values: [N, N20, N21]}
+    reason: VIIRS platform codes — N=SNPP (archive+recent), N20/N21=NOAA-20/21 (recent feed only)
+    certainty: 85
+    severity: warn
+  - enum: {col: confidence, values: [l, n, h, low, nominal, high]}
+    reason: VIIRS confidence is categorical — archive uses l/n/h, recent feed uses low/nominal/high
+    certainty: 85
+    severity: warn
+  - between: {col: bright_ti4, lo: 200, hi: 420}
+    reason: VIIRS I4 brightness temperature in Kelvin (saturates near 367K)
+    certainty: 60
+    severity: warn
+  - row_count: {min: 5000000}
+    reason: full VIIRS SNPP history across all countries is ~200M rows; a tiny table means the archive crawl broke
+    certainty: 90
