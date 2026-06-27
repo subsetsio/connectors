@@ -40,7 +40,8 @@ SCHEMA = pa.schema([
     ("iso", pa.string()),               # ISO3 for countries, null otherwise
     ("sex", pa.string()),
     ("year", pa.int64()),
-    ("age", pa.string()),               # "Age-standardised" / "Crude" / age group / null
+    ("age_group", pa.string()),         # real age range (e.g. "20-24"), null when aggregated
+    ("estimate_type", pa.string()),     # age_standardised | crude | age_specific
     ("geographic_level", pa.string()),  # country | region | world
     ("indicator", pa.string()),         # central-estimate column name (incl. unit)
     ("value", pa.float64()),
@@ -48,58 +49,62 @@ SCHEMA = pa.schema([
     ("upper_95", pa.float64()),
 ])
 
-# Per risk factor: the source files to union. Each is (path, level, kind).
-# kind "csv" = a direct CSV; "zip" = a zip archive of per-country CSVs.
+# Per risk factor: the source files to union. Each is (path, level, estimate_type, kind).
+#   level         : country | region | world
+#   estimate_type : how the estimate is aggregated over age, taken from the filename
+#                   (age_standardised | crude | age_specific). NOT all releases carry
+#                   an "Age" column, so this disambiguates age-std vs crude rows.
+#   kind          : "csv" = a direct CSV; "zip" = a zip archive of per-country CSVs.
 # Filenames verified from the ncdrisc.org data-download pages.
 FILES = {
     "adult-bmi": [
-        ("bmi-2026/adult/NCD_RisC_Nature_2026_BMI_age_standardised_country.csv", "country", "csv"),
-        ("bmi-2026/adult/NCD_RisC_Nature_2026_BMI_age_standardised_region.csv", "region", "csv"),
-        ("bmi-2026/adult/NCD_RisC_Nature_2026_BMI_age_standardised_world.csv", "world", "csv"),
+        ("bmi-2026/adult/NCD_RisC_Nature_2026_BMI_age_standardised_country.csv", "country", "age_standardised", "csv"),
+        ("bmi-2026/adult/NCD_RisC_Nature_2026_BMI_age_standardised_region.csv", "region", "age_standardised", "csv"),
+        ("bmi-2026/adult/NCD_RisC_Nature_2026_BMI_age_standardised_world.csv", "world", "age_standardised", "csv"),
     ],
     "child-adolescent-bmi": [
-        ("bmi-2026/child_ado/NCD_RisC_Nature_2026_BMI_child_adolescent_country_ageStd.csv", "country", "csv"),
-        ("bmi-2026/child_ado/NCD_RisC_Nature_2026_BMI_child_adolescent_region.csv", "region", "csv"),
-        ("bmi-2026/child_ado/NCD_RisC_Nature_2026_BMI_child_adolescent_world.csv", "world", "csv"),
+        ("bmi-2026/child_ado/NCD_RisC_Nature_2026_BMI_child_adolescent_country_ageStd.csv", "country", "age_standardised", "csv"),
+        ("bmi-2026/child_ado/NCD_RisC_Nature_2026_BMI_child_adolescent_region.csv", "region", "age_specific", "csv"),
+        ("bmi-2026/child_ado/NCD_RisC_Nature_2026_BMI_child_adolescent_world.csv", "world", "age_specific", "csv"),
     ],
     "urban-rural-bmi": [
-        ("bmi-2019/NCD_RisC_Nature_2019_age_standardised_country.csv", "country", "csv"),
-        ("bmi-2019/NCD_RisC_Nature_2019_age_standardised_region.csv", "region", "csv"),
-        ("bmi-2019/NCD_RisC_Nature_2019_age_standardised_world.csv", "world", "csv"),
+        ("bmi-2019/NCD_RisC_Nature_2019_age_standardised_country.csv", "country", "age_standardised", "csv"),
+        ("bmi-2019/NCD_RisC_Nature_2019_age_standardised_region.csv", "region", "age_standardised", "csv"),
+        ("bmi-2019/NCD_RisC_Nature_2019_age_standardised_world.csv", "world", "age_standardised", "csv"),
     ],
     "diabetes": [
-        ("dm-2024/NCD_RisC_Lancet_2024_Diabetes_age_standardised_countries.csv", "country", "csv"),
-        ("dm-2024/NCD_RisC_Lancet_2024_Diabetes_age_standardised_regions.csv", "region", "csv"),
-        ("dm-2024/NCD_RisC_Lancet_2024_Diabetes_age_standardised_world.csv", "world", "csv"),
-        ("dm-2024/NCD_RisC_Lancet_2024_Diabetes_crude_countries.csv", "country", "csv"),
-        ("dm-2024/NCD_RisC_Lancet_2024_Diabetes_crude_regions.csv", "region", "csv"),
-        ("dm-2024/NCD_RisC_Lancet_2024_Diabetes_crude_world.csv", "world", "csv"),
+        ("dm-2024/NCD_RisC_Lancet_2024_Diabetes_age_standardised_countries.csv", "country", "age_standardised", "csv"),
+        ("dm-2024/NCD_RisC_Lancet_2024_Diabetes_age_standardised_regions.csv", "region", "age_standardised", "csv"),
+        ("dm-2024/NCD_RisC_Lancet_2024_Diabetes_age_standardised_world.csv", "world", "age_standardised", "csv"),
+        ("dm-2024/NCD_RisC_Lancet_2024_Diabetes_crude_countries.csv", "country", "crude", "csv"),
+        ("dm-2024/NCD_RisC_Lancet_2024_Diabetes_crude_regions.csv", "region", "crude", "csv"),
+        ("dm-2024/NCD_RisC_Lancet_2024_Diabetes_crude_world.csv", "world", "crude", "csv"),
     ],
     "cholesterol": [
-        ("chol/NCD_RisC_Nature_2020_Cholesterol_age_standardised_countries.csv", "country", "csv"),
-        ("chol/NCD_RisC_Nature_2020_Cholesterol_age_standardised_regions.csv", "region", "csv"),
-        ("chol/NCD_RisC_Nature_2020_Cholesterol_age_standardised_world.csv", "world", "csv"),
+        ("chol/NCD_RisC_Nature_2020_Cholesterol_age_standardised_countries.csv", "country", "age_standardised", "csv"),
+        ("chol/NCD_RisC_Nature_2020_Cholesterol_age_standardised_regions.csv", "region", "age_standardised", "csv"),
+        ("chol/NCD_RisC_Nature_2020_Cholesterol_age_standardised_world.csv", "world", "age_standardised", "csv"),
     ],
     "blood-pressure": [
-        ("bp/NCD_RisC_Lancet_2017_BP_age_standardised_countries.csv", "country", "csv"),
-        ("bp/NCD_RisC_Lancet_2017_BP_age_standardised_regions.csv", "region", "csv"),
-        ("bp/NCD_RisC_Lancet_2017_BP_age_standardised_world.csv", "world", "csv"),
-        ("bp/NCD_RisC_Lancet_2017_BP_crude_countries.csv", "country", "csv"),
-        ("bp/NCD_RisC_Lancet_2017_BP_crude_regions.csv", "region", "csv"),
-        ("bp/NCD_RisC_Lancet_2017_BP_crude_world.csv", "world", "csv"),
+        ("bp/NCD_RisC_Lancet_2017_BP_age_standardised_countries.csv", "country", "age_standardised", "csv"),
+        ("bp/NCD_RisC_Lancet_2017_BP_age_standardised_regions.csv", "region", "age_standardised", "csv"),
+        ("bp/NCD_RisC_Lancet_2017_BP_age_standardised_world.csv", "world", "age_standardised", "csv"),
+        ("bp/NCD_RisC_Lancet_2017_BP_crude_countries.csv", "country", "crude", "csv"),
+        ("bp/NCD_RisC_Lancet_2017_BP_crude_regions.csv", "region", "crude", "csv"),
+        ("bp/NCD_RisC_Lancet_2017_BP_crude_world.csv", "world", "crude", "csv"),
     ],
     "hypertension": [
-        ("hypertension/NCD-RisC_Lancet_2021_Hypertension_age_standardised_countries.csv", "country", "csv"),
-        ("hypertension/NCD-RisC_Lancet_2021_Hypertension_age_standardised_regions.csv", "region", "csv"),
-        ("hypertension/NCD-RisC_Lancet_2021_Hypertension_age_standardised_world.csv", "world", "csv"),
-        ("hypertension/NCD-RisC_Lancet_2021_Hypertension_crude_countries.csv", "country", "csv"),
-        ("hypertension/NCD-RisC_Lancet_2021_Hypertension_crude_regions.csv", "region", "csv"),
-        ("hypertension/NCD-RisC_Lancet_2021_Hypertension_crude_world.csv", "world", "csv"),
+        ("hypertension/NCD-RisC_Lancet_2021_Hypertension_age_standardised_countries.csv", "country", "age_standardised", "csv"),
+        ("hypertension/NCD-RisC_Lancet_2021_Hypertension_age_standardised_regions.csv", "region", "age_standardised", "csv"),
+        ("hypertension/NCD-RisC_Lancet_2021_Hypertension_age_standardised_world.csv", "world", "age_standardised", "csv"),
+        ("hypertension/NCD-RisC_Lancet_2021_Hypertension_crude_countries.csv", "country", "crude", "csv"),
+        ("hypertension/NCD-RisC_Lancet_2021_Hypertension_crude_regions.csv", "region", "crude", "csv"),
+        ("hypertension/NCD-RisC_Lancet_2021_Hypertension_crude_world.csv", "world", "crude", "csv"),
     ],
     "child-adolescent-height": [
-        ("bmi-height-2020/height/global/NCD_RisC_Lancet_2020_height_child_adolescent_global.csv", "world", "csv"),
-        ("bmi-height-2020/height/regional/NCD_RisC_Lancet_2020_height_child_adolescent_region.csv", "region", "csv"),
-        ("bmi-height-2020/height/all_countries/NCD_RisC_Lancet_2020_height_child_adolescent_country.zip", "country", "zip"),
+        ("bmi-height-2020/height/global/NCD_RisC_Lancet_2020_height_child_adolescent_global.csv", "world", "age_specific", "csv"),
+        ("bmi-height-2020/height/regional/NCD_RisC_Lancet_2020_height_child_adolescent_region.csv", "region", "age_specific", "csv"),
+        ("bmi-height-2020/height/all_countries/NCD_RisC_Lancet_2020_height_child_adolescent_country.zip", "country", "age_specific", "zip"),
     ],
 }
 
@@ -162,7 +167,11 @@ def _find_triples(cols: list) -> list:
     return triples
 
 
-def _parse_csv_bytes(content: bytes, level: str) -> pd.DataFrame:
+# "Age"-column values that are really an aggregation label, not a real age range.
+_AGG_LABELS = {"age-standardised", "age-standardized", "crude", "total", "all ages"}
+
+
+def _parse_csv_bytes(content: bytes, level: str, estimate_type: str) -> pd.DataFrame:
     """Unpivot one wide NCD-RisC CSV into the uniform tidy long schema."""
     df = pd.read_csv(io.BytesIO(content), dtype=str, encoding="utf-8-sig")
     df.columns = [c.strip() for c in df.columns]
@@ -180,7 +189,14 @@ def _parse_csv_bytes(content: bytes, level: str) -> pd.DataFrame:
     iso = df[iso_col] if iso_col else pd.Series([None] * n)
     sex = df[sex_col] if sex_col else pd.Series([None] * n)
     year = df[year_col] if year_col else pd.Series([None] * n)
-    age = df[age_col] if age_col else pd.Series([None] * n)
+    # age_group holds only real age ranges; aggregation labels ("Age-standardised",
+    # "Crude") are dropped because estimate_type already captures them.
+    if age_col:
+        age_raw = df[age_col]
+        is_label = age_raw.astype(str).str.strip().str.lower().isin(_AGG_LABELS)
+        age_group = age_raw.mask(is_label, other=None)
+    else:
+        age_group = pd.Series([None] * n)
 
     frames = []
     for central, lc, uc in triples:
@@ -189,7 +205,8 @@ def _parse_csv_bytes(content: bytes, level: str) -> pd.DataFrame:
             "iso": iso.values,
             "sex": sex.values,
             "year": year.values,
-            "age": age.values,
+            "age_group": age_group.values,
+            "estimate_type": estimate_type,
             "geographic_level": level,
             "indicator": _norm(central),
             "value": df[central].values,
@@ -206,7 +223,7 @@ def _to_table(long: pd.DataFrame) -> pa.Table:
     # Drop rows with no central estimate or no year (nothing to publish).
     long = long.dropna(subset=["value", "year"])
     long["year"] = long["year"].astype("int64")
-    for c in ("entity", "iso", "sex", "age", "indicator"):
+    for c in ("entity", "iso", "sex", "age_group", "indicator"):
         long[c] = long[c].where(long[c].notna(), None)
     return pa.Table.from_pandas(long[SCHEMA.names], schema=SCHEMA, preserve_index=False)
 
@@ -217,7 +234,7 @@ def fetch_one(node_id: str) -> None:
     specs = FILES[entity_id]
 
     frames = []
-    for path, level, kind in specs:
+    for path, level, estimate_type, kind in specs:
         url = f"{BASE}/{path}"
         try:
             content = _download(url)
@@ -234,9 +251,9 @@ def fetch_one(node_id: str) -> None:
                 raise ValueError(f"{url}: zip has no CSV members")
             for m in members:
                 with zf.open(m) as f:
-                    frames.append(_parse_csv_bytes(f.read(), level))
+                    frames.append(_parse_csv_bytes(f.read(), level, estimate_type))
         else:
-            frames.append(_parse_csv_bytes(content, level))
+            frames.append(_parse_csv_bytes(content, level, estimate_type))
 
     if not frames:
         raise RuntimeError(f"{asset}: no source files yielded data")
@@ -262,7 +279,8 @@ TRANSFORM_SPECS = [
                 iso,
                 sex,
                 CAST(year AS INTEGER) AS year,
-                age,
+                age_group,
+                estimate_type,
                 geographic_level,
                 indicator,
                 CAST(value AS DOUBLE)    AS value,

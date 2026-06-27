@@ -1,0 +1,19 @@
+spec_id: national-bank-of-ukraine-monetary
+status: active
+tests:
+  - not_null: id_api
+    reason: every NBU statistics record is tagged with a series identifier (id_api)
+    certainty: 95
+  - not_null: dt
+    reason: every observation is keyed by its date (dt, YYYYMMDD)
+    certainty: 95
+  - matches: {col: dt, pattern: '^[0-9]{8}$'}
+    reason: dt is an 8-character YYYYMMDD date string
+    certainty: 90
+  - not_null: value
+    reason: observations carry a numeric value; persistent nulls signal a parse/format break
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1}
+    reason: a populated dataset must return at least one record
+    certainty: 95

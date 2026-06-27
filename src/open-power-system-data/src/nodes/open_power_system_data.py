@@ -13,14 +13,22 @@ in full and overwrites — no watermark, no incremental filter (the source expos
 none). The biggest table (hourly time_series, ~50k rows × 300 cols) is ~123MB in
 memory, comfortably in RAM.
 
-Raw format: the CSVs are clean, comma-delimited, single-header tabular files, but
-schemas vary widely (13 to 656 columns) and many columns are sparse. We let
-DuckDB infer types over the *whole* file (`sample_size=-1`, which falls back to
-VARCHAR on genuinely mixed columns rather than erroring) and write the result as
-parquet. The SQL transform is then a thin pass-through that publishes the typed
-table verbatim.
+Raw format: the CSVs are comma-delimited, double-quoted, single-header tabular
+files (RFC 4180), but schemas vary widely (13 to 656 columns) and many columns
+are sparse. We parse with an explicit dialect and let DuckDB infer types over the
+*whole* file (`sample_size=-1`, which falls back to VARCHAR on genuinely mixed
+columns rather than erroring), then write parquet. The SQL transform is then a
+thin pass-through that publishes the typed table verbatim.
+
+A couple of OPSD tables (notably `renewable_power_plants_UK`) contain a stray
+record with an *unquoted embedded newline* — a non-RFC-4180 malformation that
+DuckDB's (and pandas') tokenizer cannot reconcile. For those, `_csv_to_arrow`
+falls back to Python's lenient `csv` module: it keeps only header-width rows
+(dropping the malformed fragments), rewrites a clean CSV, and lets DuckDB infer
+types from that. The number of dropped rows is logged.
 """
 
+import csv
 import os
 import tempfile
 
@@ -37,6 +45,9 @@ from constants import ENTITY_IDS
 
 SLUG = "open-power-system-data"
 BASE = "https://data.open-power-system-data.org"
+# Generous ceiling: OPSD rows are short, but a malformed embedded newline can make
+# DuckDB see one enormous "line" before it errors into the repair fallback.
+MAX_LINE_SIZE = 10_000_000
 
 
 def _spec_id(entity_id: str) -> str:
@@ -56,6 +67,69 @@ def _download_csv(url: str) -> bytes:
     return resp.content
 
 
+def _duckdb_read(path: str):
+    """Parse a clean RFC-4180 CSV to an Arrow table with full-file type
+    inference. The Arrow path (vs fetchall) avoids the tz->python datetime
+    materialization that would need pytz for timezone-aware columns."""
+    safe = path.replace("'", "''")
+    con = duckdb.connect()
+    try:
+        # ignore_errors=true drops structurally-malformed rows in-engine (e.g. the
+        # single stray unquoted-embedded-newline record in renewable_power_plants_DE),
+        # so a 1.7M-row file never has to round-trip through Python. With
+        # sample_size=-1 the inferred types fit every row (VARCHAR fallback on
+        # genuine mixing), so only column-count-broken rows are dropped, never
+        # well-formed ones. Gross drops are caught by the row_count expectations.
+        return con.execute(
+            f"""SELECT * FROM read_csv('{safe}',
+                 delim=',', quote='"', escape='"', header=true,
+                 sample_size=-1, ignore_errors=true,
+                 max_line_size={MAX_LINE_SIZE})"""
+        ).fetch_arrow_table()
+    finally:
+        con.close()
+
+
+def _repair_to_clean_csv(src_path: str) -> tuple[str, int]:
+    """Re-emit a strict RFC-4180 CSV keeping only header-width rows. Drops any
+    row whose field count differs from the header (the fragments left behind by
+    an unquoted embedded newline). Returns (clean_path, n_dropped)."""
+    with open(src_path, newline="", encoding="utf-8") as f:
+        rows = list(csv.reader(f))
+    header = rows[0]
+    width = len(header)
+    good = [r for r in rows[1:] if len(r) == width]
+    dropped = (len(rows) - 1) - len(good)
+    clean = tempfile.NamedTemporaryFile(
+        suffix=".csv", delete=False, mode="w", newline="", encoding="utf-8"
+    )
+    try:
+        writer = csv.writer(clean)
+        writer.writerow(header)
+        writer.writerows(good)
+    finally:
+        clean.close()
+    return clean.name, dropped
+
+
+def _csv_to_arrow(tmp_path: str, asset: str):
+    """Primary: parse with explicit dialect. Fallback: repair non-RFC-4180
+    files via the csv module, then parse the cleaned copy."""
+    try:
+        return _duckdb_read(tmp_path)
+    except duckdb.Error as exc:
+        print(f"[{asset}] strict CSV parse failed ({type(exc).__name__}); "
+              f"repairing with csv-module fallback")
+        clean_path, dropped = _repair_to_clean_csv(tmp_path)
+        try:
+            table = _duckdb_read(clean_path)
+        finally:
+            if os.path.exists(clean_path):
+                os.unlink(clean_path)
+        print(f"[{asset}] repaired: {table.num_rows} rows kept, {dropped} malformed row(s) dropped")
+        return table
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     entity_id = ENTITY_BY_SPEC[node_id]
@@ -64,23 +138,15 @@ def fetch_one(node_id: str) -> None:
 
     content = _download_csv(url)
 
-    # Write to a scratch temp file so DuckDB can do full-file type inference,
-    # then convert to an Arrow table (the Arrow path avoids the timezone->python
-    # datetime materialization that needs pytz). This is scratch I/O, not raw
-    # persistence — the raw asset is written via save_raw_parquet below.
+    # Write to a scratch temp file so DuckDB can do full-file type inference.
+    # This is scratch I/O, not raw persistence — the raw asset is written via
+    # save_raw_parquet below.
     tmp_path = None
     try:
         with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as tmp:
             tmp.write(content)
             tmp_path = tmp.name
-        safe_path = tmp_path.replace("'", "''")
-        con = duckdb.connect()
-        try:
-            table = con.execute(
-                f"SELECT * FROM read_csv_auto('{safe_path}', sample_size=-1)"
-            ).fetch_arrow_table()
-        finally:
-            con.close()
+        table = _csv_to_arrow(tmp_path, asset)
     finally:
         if tmp_path and os.path.exists(tmp_path):
             os.unlink(tmp_path)

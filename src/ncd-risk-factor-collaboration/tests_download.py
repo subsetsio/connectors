@@ -8,8 +8,8 @@ indicator) that file existence alone misses.
 from subsets_utils import load_raw_parquet
 
 EXPECTED_COLS = {
-    "entity", "iso", "sex", "year", "age", "geographic_level",
-    "indicator", "value", "lower_95", "upper_95",
+    "entity", "iso", "sex", "year", "age_group", "estimate_type",
+    "geographic_level", "indicator", "value", "lower_95", "upper_95",
 }
 
 
