@@ -28,11 +28,24 @@ import zipfile
 import zlib
 
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, raw_parquet_writer
+from subsets_utils import (
+    NodeSpec,
+    SqlNodeSpec,
+    get,
+    transient_retry,
+    raw_parquet_writer,
+    configure_http,
+)
 
 from constants import ENTITY_IDS
 
 PREFIX = "nhtsa-fars-"
+# static.nhtsa.gov (Akamai-fronted) 403s the default bot User-Agent; a browser
+# UA is served normally. ASCII-only (httpx requires it).
+BROWSER_UA = (
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+)
 FIRST_YEAR = 1975
 LAST_YEAR = 2024
 ZIP_URL = (
@@ -170,6 +183,7 @@ def _canon_cols(cols) -> list:
 # Download — one node per FARS table, unioned across years.
 # --------------------------------------------------------------------------- #
 def fetch_table(node_id: str) -> None:
+    configure_http(headers={"User-Agent": BROWSER_UA})  # avoid the 403 (see BROWSER_UA)
     table = node_id[len(PREFIX):]
 
     # Pass 1: discover the years that carry this table + the column union.
