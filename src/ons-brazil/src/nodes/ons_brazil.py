@@ -7,22 +7,27 @@ resources are direct-download files on the public S3 bucket
 (plus PDF/JSON data dictionaries we ignore). We pull the Parquet variant of
 every data resource and union the years into one raw asset per dataset.
 
-Shape: stateless full re-pull (shape 1). The yearly Parquet files are small
-(tens of KB each; whole datasets are at most tens of MB), so re-fetching the
-full corpus each refresh is cheap and picks up the source's recurring
-revisions for free. No incremental filter exists on CKAN package data.
+Shape: stateless full re-pull (shape 1). No incremental filter exists on CKAN
+package data, so each refresh re-reads the full corpus and picks up the
+source's recurring revisions for free.
+
+A dataset is the union of its yearly/daily Parquet resources. Some datasets
+(hourly/semi-hourly: dados_hidrologicos_ho, programacao_*, disponibilidade_usina)
+span hundreds of files and are far too large to concatenate in memory, so we
+stream them through DuckDB: `read_parquet(<urls>, union_by_name=true)` unifies
+the per-year schemas (columns added over time, occasional type drift) and we
+write the streamed result to one raw Parquet via the streaming writer. Bounded
+memory regardless of dataset size, and a single output file keeps the SQL
+transform's `read_parquet([...])` happy (it does not union by name).
 """
 
-import io
-
-import pyarrow as pa
-import pyarrow.parquet as pq
+import duckdb
 
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
-    save_raw_parquet,
+    raw_parquet_writer,
     transient_retry,
 )
 from constants import ENTITY_IDS
@@ -39,7 +44,8 @@ SPEC_TO_PKG = {
 
 
 @transient_retry()  # 6 attempts, exp backoff; retries 429/5xx/transient network
-def _package_show(pkg_id: str) -> list[dict]:
+def _parquet_urls(pkg_id: str) -> list[str]:
+    """The S3 Parquet resource URLs for one CKAN package."""
     resp = get(
         f"{CKAN_BASE}/package_show",
         params={"id": pkg_id},
@@ -49,36 +55,43 @@ def _package_show(pkg_id: str) -> list[dict]:
     body = resp.json()
     if not body.get("success"):
         raise RuntimeError(f"package_show {pkg_id}: success=false")
-    return body["result"]["resources"]
-
-
-@transient_retry()
-def _download_parquet(url: str) -> pa.Table:
-    resp = get(url, timeout=(10.0, 300.0))
-    resp.raise_for_status()
-    return pq.read_table(io.BytesIO(resp.content))
+    return [
+        r["url"]
+        for r in body["result"]["resources"]
+        if (r.get("format") or "").upper() == "PARQUET" and r.get("url")
+    ]
 
 
 def fetch_one(node_id: str) -> None:
-    """Pull every Parquet resource of one CKAN package and union the years
-    into a single raw parquet asset named after the spec id."""
+    """Stream every Parquet resource of one CKAN package, union the per-year
+    schemas, and write a single raw parquet asset named after the spec id."""
     asset = node_id
     pkg_id = SPEC_TO_PKG[node_id]
 
-    resources = _package_show(pkg_id)
-    parquet_urls = [
-        r["url"]
-        for r in resources
-        if (r.get("format") or "").upper() == "PARQUET" and r.get("url")
-    ]
-    if not parquet_urls:
+    urls = _parquet_urls(pkg_id)
+    if not urls:
         # Every rank-accepted package advertised a PARQUET variant at collect
         # time; none here means the source changed shape — fail loudly.
         raise RuntimeError(f"{pkg_id}: no PARQUET resources found")
+    if any("'" in u for u in urls):  # SQL string-literal safety
+        raise RuntimeError(f"{pkg_id}: unexpected quote in resource URL")
 
-    tables = [_download_parquet(url) for url in parquet_urls]
-    combined = pa.concat_tables(tables, promote_options="permissive")
-    save_raw_parquet(combined, asset)
+    con = duckdb.connect()
+    con.execute("INSTALL httpfs; LOAD httpfs;")
+    url_list = "[" + ",".join("'" + u + "'" for u in urls) + "]"
+    rel = con.sql(
+        f"SELECT * FROM read_parquet({url_list}, union_by_name=true)"
+    )
+
+    reader = rel.fetch_record_batch()
+    wrote = False
+    with raw_parquet_writer(asset, reader.schema) as writer:
+        for batch in reader:
+            if batch.num_rows:
+                writer.write_batch(batch)
+                wrote = True
+    if not wrote:
+        raise RuntimeError(f"{pkg_id}: union of {len(urls)} parquet(s) was empty")
 
 
 DOWNLOAD_SPECS = [
