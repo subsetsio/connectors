@@ -1,0 +1,26 @@
+spec_id: nd-gain-trends
+status: active
+tests:
+  - not_null: iso3
+  - not_null: measure
+  - not_null: value
+  - not_null: sign
+  - column_type: {col: value, type: float}
+  - unique: [iso3, measure]
+    reason: one trend slope per country per headline measure
+    certainty: 95
+  - enum:
+      col: measure
+      values: [gain, vulnerability, readiness]
+    reason: trends are published for the three headline measures
+    certainty: 90
+  - enum:
+      col: sign
+      values: [-1, 0, 1]
+    reason: sign flags the slope direction
+    certainty: 85
+  - distinct_count: {col: measure, min: 3, max: 3}
+    certainty: 90
+  - row_count: {min: 400}
+    reason: ~192 countries x 3 measures, minus countries lacking a trend
+    certainty: 80

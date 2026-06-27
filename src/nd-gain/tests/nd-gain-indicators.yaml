@@ -1,0 +1,25 @@
+spec_id: nd-gain-indicators
+status: active
+tests:
+  - not_null: iso3
+  - not_null: year
+  - not_null: indicator_id
+  - column_type: {col: year, type: integer}
+  - column_type: {col: score_value, type: float}
+  - unique: [iso3, year, indicator_id]
+    reason: raw/input/score variants are joined into one row per country-year-indicator
+    certainty: 95
+  - between: {col: year, lo: 1990, hi: current_year()}
+    certainty: 85
+  - distinct_count: {col: indicator_id, min: 45, max: 55}
+    reason: 45 underlying indicators plus context series (gdp, pop, hdi)
+    certainty: 80
+  - matches: {col: indicator_id, pattern: "^(id_[a-z]+_[0-9]+|gdp|pop|hdi)$"}
+    reason: indicator folders are id_<sector>_<NN> plus the gdp/pop/hdi context series
+    certainty: 70
+  - median_between: {col: score_value, lo: 0, hi: 1}
+    reason: most indicators carry 0-1 normalized scores; context series (gdp/pop) are un-normalized and skew the max, so only the median is constrained
+    certainty: 60
+    severity: warn
+  - row_count: {min: 150000}
+    certainty: 80
