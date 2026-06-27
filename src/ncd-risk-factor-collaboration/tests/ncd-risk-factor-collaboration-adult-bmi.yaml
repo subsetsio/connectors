@@ -1,0 +1,39 @@
+spec_id: ncd-risk-factor-collaboration-adult-bmi
+status: active
+tests:
+  - not_null: entity
+    reason: every estimate row names a country/region/world entity
+    certainty: 95
+  - not_null: year
+    certainty: 95
+  - not_null: sex
+    reason: NCD-RisC estimates are reported per sex
+    certainty: 90
+  - not_null: indicator
+    certainty: 95
+  - not_null: value
+    reason: the download drops rows with no central estimate, so raw value is always present
+    certainty: 90
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - enum: {col: geographic_level, values: [country, region, world]}
+    reason: we union exactly these three aggregation levels
+    certainty: 90
+  - between: {col: year, lo: 1990, hi: 2027}
+    reason: this NCD-RisC release spans roughly 1990 to the publication year
+    certainty: 75
+    severity: warn
+  - at_most: {col: year, expr: current_year()}
+    reason: estimates do not project beyond the current year
+    points_outward: true
+    certainty: 70
+    severity: warn
+  - distinct_count: {col: entity, min: 50}
+    reason: country-level data covers ~190 countries; well above 50 distinct entities
+    certainty: 85
+  - distinct_count: {col: sex, min: 2, max: 3}
+    reason: men and women, occasionally a combined category
+    certainty: 70
+    severity: warn
