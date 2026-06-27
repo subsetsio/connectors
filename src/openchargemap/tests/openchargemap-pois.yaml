@@ -32,9 +32,9 @@ tests:
   - at_least: {col: num_connections, expr: 0}
     reason: connection summary counts the Connections[] array; never negative
     certainty: 95
-  - between: {col: max_power_kw, lo: 0, hi: 2000}
-    reason: charger power in kW; a handful of MW-class is plausible but >2000 indicates a unit/parse error
-    certainty: 80
+  - median_between: {col: max_power_kw, lo: 3, hi: 100}
+    reason: typical charger power is a few-to-tens of kW (probed median ~11 kW); a median outside 3-100 signals a unit error (W vs kW). Individual rows include source-entered outliers up to 1e6, so this guards the central tendency, not the max.
+    certainty: 85
     severity: warn
   - freshness: {col: date_created, reaches: today - 1500d}
     reason: OCM has POIs created continuously since 2011; the newest creation date should be reasonably recent

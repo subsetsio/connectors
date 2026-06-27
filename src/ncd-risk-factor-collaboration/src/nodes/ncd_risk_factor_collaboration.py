@@ -125,19 +125,49 @@ def _download(url: str) -> bytes:
     return resp.content
 
 
+def _find_triples(cols: list) -> list:
+    """Pair each central indicator column with its lower/upper 95% bound columns.
+
+    Returns a list of (central_col, lower_col, upper_col). Handles both
+    prefixed bounds (matched by base name) and a single standalone generic
+    bound pair (matched to the lone unpaired indicator).
+    """
+    lower_cols = [c for c in cols if LOWER_RE.search(c)]
+    upper_cols = [c for c in cols if UPPER_RE.search(c)]
+    bound_set = set(lower_cols) | set(upper_cols)
+    centrals = [c for c in cols if c not in bound_set and c not in DIM_NAMES]
+
+    lower_by_base = {_norm(LOWER_RE.sub(" ", c)): c for c in lower_cols}
+    upper_by_base = {_norm(UPPER_RE.sub(" ", c)): c for c in upper_cols}
+
+    triples, unpaired = [], []
+    for c in centrals:
+        k = _norm(c)
+        lc, uc = lower_by_base.get(k), upper_by_base.get(k)
+        if lc and uc:
+            triples.append((c, lc, uc))
+        else:
+            unpaired.append(c)
+
+    # Standalone generic bounds (base "") attach to the single unpaired indicator.
+    gl, gu = lower_by_base.get(""), upper_by_base.get("")
+    if len(unpaired) == 1 and gl and gu:
+        triples.append((unpaired[0], gl, gu))
+        unpaired = []
+
+    if not triples:
+        raise ValueError(f"no indicator triples found; columns={cols[:10]}")
+    if unpaired:
+        raise ValueError(f"indicator columns without bounds: {unpaired}")
+    return triples
+
+
 def _parse_csv_bytes(content: bytes, level: str) -> pd.DataFrame:
     """Unpivot one wide NCD-RisC CSV into the uniform tidy long schema."""
     df = pd.read_csv(io.BytesIO(content), dtype=str, encoding="utf-8-sig")
     df.columns = [c.strip() for c in df.columns]
     cols = list(df.columns)
-
-    # The unit may trail the suffix, e.g. "Mean X lower 95% ... (mmol/L)" -> base
-    # "Mean X (mmol/L)". Reconstruct the base by removing the suffix substring.
-    lowers = {c.replace(LOWER_SUFFIX, ""): c for c in cols if LOWER_SUFFIX in c}
-    uppers = {c.replace(UPPER_SUFFIX, ""): c for c in cols if UPPER_SUFFIX in c}
-    bases = [c for c in cols if c in lowers and c in uppers]
-    if not bases:
-        raise ValueError(f"no indicator triples found; columns={cols[:8]}")
+    triples = _find_triples(cols)
 
     entity_col = "Country/Region/World" if "Country/Region/World" in cols else None
     iso_col = "ISO" if "ISO" in cols else None
@@ -153,7 +183,7 @@ def _parse_csv_bytes(content: bytes, level: str) -> pd.DataFrame:
     age = df[age_col] if age_col else pd.Series([None] * n)
 
     frames = []
-    for base in bases:
+    for central, lc, uc in triples:
         frames.append(pd.DataFrame({
             "entity": entity.values,
             "iso": iso.values,
@@ -161,10 +191,10 @@ def _parse_csv_bytes(content: bytes, level: str) -> pd.DataFrame:
             "year": year.values,
             "age": age.values,
             "geographic_level": level,
-            "indicator": base,
-            "value": df[base].values,
-            "lower_95": df[lowers[base]].values,
-            "upper_95": df[uppers[base]].values,
+            "indicator": _norm(central),
+            "value": df[central].values,
+            "lower_95": df[lc].values,
+            "upper_95": df[uc].values,
         }))
     return pd.concat(frames, ignore_index=True)
 
