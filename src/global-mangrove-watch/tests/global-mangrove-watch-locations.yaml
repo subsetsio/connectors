@@ -1,0 +1,13 @@
+spec_id: global-mangrove-watch-locations
+status: active
+tests:
+  - not_null: id
+    reason: every location has a numeric id (the widget join key)
+    certainty: 95
+  - not_null: name
+    certainty: 95
+  - enum: {col: location_type, values: [country, wdpa, worldwide]}
+    certainty: 90
+  - row_count: {min: 3000}
+    reason: full catalog is ~3124 (122 countries + 3001 WDPA + worldwide); fewer means truncated
+    certainty: 90

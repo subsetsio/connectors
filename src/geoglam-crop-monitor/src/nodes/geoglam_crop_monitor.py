@@ -190,8 +190,12 @@ TRANSFORM_SPECS = [
                     NULLIF(TRIM(region), '')  AS region,
                     NULLIF(TRIM(crop), '')    AS crop,
                     CASE
-                        WHEN TRIM(conditions) IN ('', 'No Data', '#N/A', 'N/A', 'NA')
-                        THEN NULL ELSE TRIM(conditions)
+                        WHEN UPPER(TRIM(conditions)) IN ('', 'NO DATA', '#N/A', 'N/A', 'NA')
+                            THEN NULL
+                        -- unambiguous source spelling errors of 'Favourable'
+                        WHEN TRIM(conditions) IN ('Favuorable', 'Favourble')
+                            THEN 'Favourable'
+                        ELSE TRIM(conditions)
                     END AS condition,
                     NULLIF(TRIM(drivers), '') AS drivers
                 FROM "geoglam-crop-monitor-crop-conditions"

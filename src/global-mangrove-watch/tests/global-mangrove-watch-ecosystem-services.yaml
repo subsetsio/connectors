@@ -1,0 +1,12 @@
+spec_id: global-mangrove-watch-ecosystem-services
+status: active
+tests:
+  - not_null: location_id
+    reason: every widget row is scoped to a location
+    certainty: 95
+  - enum: {col: location_type, values: [country, worldwide]}
+    reason: we fetch only countries + worldwide aggregate
+    certainty: 95
+  - distinct_count: {col: location_id, min: 10}
+    reason: a healthy pull covers many countries; <10 means the locations enumeration broke after one entry
+    certainty: 80
