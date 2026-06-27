@@ -1,0 +1,28 @@
+spec_id: natures-calendar-observations
+status: active
+tests:
+  - not_null: observation_id
+  - not_null: observation_date
+  - not_null: species_id
+  - not_null: event_id
+  - column_type: {col: observation_id, type: integer}
+  - unique: observation_id
+    reason: each citizen-science observation has a unique source id; a duplicate means a (species,event,year) slice was double-counted
+    certainty: 90
+  - matches: {col: observation_date, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}"}
+    reason: observationDate is an ISO datetime string
+    certainty: 90
+  - row_count: {min: 50000}
+    reason: the UK's largest phenology database; >200k records cited, oak-budburst alone is ~13k
+    certainty: 80
+  - distinct_count: {col: species_id, min: 40, max: 90}
+    reason: ~69 species recorded
+    certainty: 80
+  - between: {col: latitude, lo: 49.0, hi: 61.0}
+    reason: observer-supplied GB coordinates fall in the UK latitude band
+    certainty: 80
+    severity: warn
+  - between: {col: longitude, lo: -9.0, hi: 2.5}
+    reason: observer-supplied GB coordinates fall in the UK longitude band
+    certainty: 80
+    severity: warn

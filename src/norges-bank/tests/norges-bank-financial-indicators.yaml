@@ -1,0 +1,16 @@
+spec_id: norges-bank-financial-indicators
+status: active
+tests:
+  - not_null: TIME_PERIOD
+    reason: every SDMX observation has a time period; nulls mean the CSV component columns were misaligned during parsing
+    certainty: 95
+  - column_type: {col: TIME_PERIOD, type: string}
+    reason: raw is unparsed SDMX CSV; TIME_PERIOD kept as string because grain varies by dataflow (daily date, year, quarter, datetime)
+    certainty: 90
+  - row_count: {min: 5}
+    reason: dataflow exposes ~5 series via the SDMX 'all' key, each with historical observations; far fewer rows means a truncated download
+    certainty: 80
+  - not_null: OBS_VALUE
+    reason: the CSV always emits an OBS_VALUE cell per row (may be empty/NaN string in raw; the transform drops non-finite values)
+    certainty: 70
+    severity: warn

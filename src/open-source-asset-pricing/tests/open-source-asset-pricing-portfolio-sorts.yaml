@@ -1,0 +1,29 @@
+spec_id: open-source-asset-pricing-portfolio-sorts
+status: active
+tests:
+  - not_null: signalname
+    certainty: 95
+  - not_null: port
+    certainty: 95
+  - not_null: date
+    certainty: 95
+  - not_null: ret
+    reason: PredictorPortsFull carries a return for every signal/port/month row
+    certainty: 90
+  - column_type: {col: ret, type: float}
+    certainty: 90
+  - column_type: {col: Nlong, type: integer}
+    certainty: 85
+  - enum: {col: port, values: ['01','02','03','04','05','06','07','08','09','10','LS']}
+    reason: original-paper sort has deciles 01-10 plus the long-short (LS) leg
+    certainty: 85
+  - distinct_count: {col: signalname, min: 100, max: 260}
+    reason: continuous predictors with decile sorts (~135 in PredictorPortsFull)
+    certainty: 80
+  - row_count: {min: 500000}
+    reason: ~135 predictors x 11 ports x hundreds of months
+    certainty: 80
+  - between: {col: Nlong, lo: 0, hi: 10000}
+    reason: number of long stocks per portfolio-month, non-negative and bounded
+    certainty: 75
+    severity: warn

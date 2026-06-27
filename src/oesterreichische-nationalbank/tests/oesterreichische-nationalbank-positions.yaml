@@ -1,0 +1,22 @@
+spec_id: oesterreichische-nationalbank-positions
+status: active
+tests:
+  - not_null: pos
+    reason: every catalog row is keyed by its position (indicator) code
+    certainty: 99
+  - not_null: hierid
+    reason: each position belongs to exactly one category node
+    certainty: 95
+  - unique: pos
+    reason: the walk found position_node_pairs == position_count, so each pos maps to one node and appears once
+    certainty: 85
+  - column_type: {col: pos, type: string}
+    certainty: 99
+  - column_type: {col: hierid, type: string}
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: collect enumerated ~1862 positions; allow headroom for catalog churn
+    certainty: 90
+  - distinct_count: {col: hierid, min: 10}
+    reason: positions spread across ~31 leaf category nodes
+    certainty: 80

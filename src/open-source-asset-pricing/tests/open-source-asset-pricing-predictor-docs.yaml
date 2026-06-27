@@ -1,0 +1,19 @@
+spec_id: open-source-asset-pricing-predictor-docs
+status: active
+tests:
+  - not_null: Acronym
+    reason: every documented signal row has an acronym (the join key); nulls mean a parse shift
+    certainty: 95
+  - unique: Acronym
+    reason: SignalDoc has one row per signal acronym
+    certainty: 90
+  - distinct_count: {col: Acronym, min: 250, max: 600}
+    reason: ~212 predictors + ~114 placebos ~= 331 documented signals
+    certainty: 85
+  - row_count: {min: 250}
+    reason: full codebook should carry a few hundred signal rows
+    certainty: 90
+  - not_null: Year
+    reason: each predictor cites a publication year
+    certainty: 70
+    severity: warn

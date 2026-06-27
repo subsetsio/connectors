@@ -1,0 +1,22 @@
+spec_id: ntsb-aviation-accidents
+tests:
+  - not_null: cm_mkey
+    reason: every CAROL case carries a master key (cm_mkey)
+    certainty: 95
+  - unique: cm_mkey
+    reason: raw is one row per investigation case; year buckets are disjoint
+    certainty: 90
+  - row_count:
+      min: 50000
+    reason: aviation corpus spans 1962-present, well over 100k cases; 50k is a safe floor
+    certainty: 85
+  - enum:
+      col: cm_mode
+      values: ["Aviation"]
+    reason: every query is filtered to Event.Mode is Aviation
+    certainty: 95
+  - at_least:
+      col: cm_fatalInjuryCount
+      expr: 0
+    reason: injury counts are non-negative
+    certainty: 95

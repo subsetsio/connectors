@@ -1,0 +1,25 @@
+spec_id: open-source-asset-pricing-long-short-returns
+status: active
+tests:
+  - not_null: date
+    certainty: 95
+  - not_null: predictor
+    certainty: 95
+  - not_null: ret
+    reason: melt drops NA cells, so every emitted long row has a real return
+    certainty: 95
+  - column_type: {col: ret, type: float}
+    certainty: 90
+  - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
+    reason: month-end dates serialized YYYY-MM-DD in the raw wide file
+    certainty: 85
+  - distinct_count: {col: predictor, min: 150, max: 260}
+    reason: ~212 predictors have a long-short return column in PredictorLSretWide
+    certainty: 85
+  - row_count: {min: 100000}
+    reason: ~212 predictors x up to ~1188 months, minus early NA years
+    certainty: 80
+  - mean_between: {col: ret, lo: -10, hi: 10}
+    reason: monthly long-short returns are in percent, single-digit magnitudes on average
+    certainty: 60
+    severity: warn

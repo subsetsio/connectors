@@ -1,0 +1,21 @@
+spec_id: natures-calendar-species-events
+status: active
+tests:
+  - not_null: species_id
+  - not_null: event_id
+  - not_null: species_name
+  - not_null: event_name
+  - column_type: {col: species_id, type: integer}
+  - column_type: {col: event_id, type: integer}
+  - unique: [species_id, event_id]
+    reason: one row per (species, event) phenology series; dupes mean the tree walk double-counted a leaf
+    certainty: 95
+  - row_count: {min: 140, max: 260}
+    reason: the catalog held 179 species-event leaves when researched; tolerate the project adding/retiring a few
+    certainty: 85
+  - distinct_count: {col: species_group, min: 5, max: 12}
+    reason: eight species groups (Trees, Shrubs, Birds, Insects, Flowers, Grasses, Amphibians, Fungi)
+    certainty: 80
+  - between: {col: range_month_from, lo: 1, hi: 12}
+    certainty: 85
+    severity: warn

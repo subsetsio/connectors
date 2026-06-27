@@ -1,0 +1,39 @@
+spec_id: national-bank-of-slovakia-exchange-rate-daily
+status: active
+tests:
+  - not_null: date
+    reason: every observation is dated; a null date means the CSV date column moved
+    certainty: 95
+  - not_null: currency
+    certainty: 95
+  - not_null: rate
+    reason: empty rate cells are dropped during parsing, never emitted as null
+    certainty: 90
+  - column_type: {col: date, type: date}
+    certainty: 95
+  - column_type: {col: currency, type: string}
+    certainty: 95
+  - column_type: {col: rate, type: float}
+    certainty: 95
+  - at_least: {col: rate, expr: 0}
+    reason: EUR reference rates are strictly positive
+    certainty: 95
+  - at_most: {col: rate, expr: 1000000}
+    reason: the weakest daily-quoted units (IDR, KRW) sit in the thousands, never millions
+    certainty: 80
+    severity: warn
+  - at_least: {col: date, expr: '1999-01-01'}
+    reason: ECB euro reference rates begin 1999-01-04; nothing earlier should appear
+    certainty: 90
+  - at_most: {col: date, expr: today}
+    reason: the walk never requests future dates
+    certainty: 95
+  - distinct_count: {col: currency, min: 20, max: 60}
+    reason: ~30 currencies quoted today, ~40 distinct codes across history (incl. legacy EEK/LTL/LVL/HRK)
+    certainty: 80
+    severity: warn
+  - freshness: {col: date, reaches: today - 7d}
+    reason: NBS republishes ECB rates each TARGET working day; latest should be within a week
+    certainty: 75
+    points_outward: true
+    severity: warn

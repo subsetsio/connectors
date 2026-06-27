@@ -1,0 +1,14 @@
+spec_id: nhtsa-fars-accident
+status: active
+tests:
+  - not_null: case_year
+    reason: case_year is synthesized from the source ZIP's year directory on every row; a null means the year-union loop dropped rows.
+  - column_type: {col: case_year, type: integer}
+    reason: case_year is written as int32; a non-integer type means the parquet schema was built wrong.
+  - between: {col: case_year, lo: 1975, hi: current_year()}
+    reason: FARS National files start in 1975 and never exceed the current calendar year; out-of-range means a wrong year was stamped.
+  - row_count: {min: 5000}
+    severity: warn
+    certainty: 70
+    points_outward: true
+    reason: 'accident' appears in 50 case years (1975-); >=~100 rows/year is a low bar, so fewer means a year silently produced no rows (member-extract or union failure).
