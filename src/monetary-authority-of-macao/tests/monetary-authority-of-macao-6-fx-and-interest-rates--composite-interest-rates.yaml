@@ -1,0 +1,27 @@
+spec_id: monetary-authority-of-macao-6-fx-and-interest-rates--composite-interest-rates
+status: active
+tests:
+  - not_null: series
+    reason: every long-format row carries the (composed) series label; nulls mean label extraction broke
+    certainty: 95
+  - not_null: period
+    certainty: 95
+  - not_null: value
+    reason: parser only emits numeric cells; a null value means a non-numeric cell leaked through
+    certainty: 90
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - between: {col: year, lo: 1980, hi: 2100}
+    reason: AMCM monetary/financial series begin 1984; quarterly/monthly through the present
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: observations are historical, not projected
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - row_count: {min: 5}
+    reason: each worksheet is a multi-period time series; a near-empty table means the sheet layout changed
+    certainty: 75
+    severity: warn
