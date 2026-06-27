@@ -17,6 +17,6 @@ tests:
     certainty: 99
   - column_type: {col: verified, type: boolean}
     certainty: 90
-  - row_count: {min: 5000}
-    reason: search default ranking returns ~10k popular packages before the skip cap; far fewer means pagination broke
+  - row_count: {min: 3000}
+    reason: the empty-query search returns the most-downloaded head up to its skip ceiling (~4000 distinct packages observed); far fewer means pagination broke
     certainty: 85
