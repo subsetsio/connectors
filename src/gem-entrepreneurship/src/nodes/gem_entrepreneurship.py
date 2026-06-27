@@ -57,20 +57,15 @@ EXCLUDE_TITLE = ("region", "additional", "education", "training", "financing", "
 # Pseudo-economies (global aggregate / averages) that appear as a row in some files.
 AGGREGATE_NAMES = {"GEM", "GLOBAL", "WORLD", "AVERAGE", "MEAN", "TOTAL", "GLOBAL AVERAGE", "ALL"}
 
-# Identifier / classification columns — never an indicator. Matched on column
-# name OR its .sav label (case-insensitive substring).
-_ID_LABEL_KW = (
-    "country", "region", "income", "classif", "oecd", "brics", "world", "sample",
-    "case identif", "phone code", "numeric code", "alpha", "internet", "2-char",
-    "2-letter", "2 letter", "pais", "país", "participating", "name",
-    "report_income", "country (1)", "worldregion", "identificator", "gcr",
-    "original order", "number of expert",
-)
+# Identifier / classification columns — never an indicator. Matched on the
+# column NAME only: indicator labels are full sentences ("In my country, there
+# is sufficient...") that contain words like "country"/"income", so matching on
+# labels would wrongly drop real measures.
 _ID_NAME_KW = (
     "country", "ctry", "region", "income", "oecd", "brics", "wbinc", "wefinc",
     "wb_inc", "wb_income", "sample", "worldreg", "classif", "cou_or_reg",
     "report_income", "pais", "país", "crname", "ctryalp", "plotmark",
-    "composite_i", "cat_gcr",
+    "composite_i", "cat_gcr", "worldregion",
 )
 
 RAW_SCHEMA = pa.schema([
@@ -147,11 +142,12 @@ def _fetch_catalog(survey: str) -> str:
     )
 
 
-def _fetch_zip(file_id: int) -> bytes:
+def _fetch_file(file_id: int) -> bytes:
+    # Payload is either a ZIP (PK) or a raw SPSS .sav ($FL2), depending on the file.
     return _fetch(
         f"{BASE}/file/open?fileId={file_id}",
         binary=True,
-        validate=lambda b: isinstance(b, (bytes, bytearray)) and b[:2] == b"PK",
+        validate=lambda b: isinstance(b, (bytes, bytearray)) and (b[:2] == b"PK" or b[:4] == b"$FL2"),
     )
 
 
@@ -181,10 +177,9 @@ def _select_files(survey: str) -> list[tuple[int, int]]:
     return sorted((year, v[1]) for year, v in chosen.items())
 
 
-def _is_id_col(col: str, label: str) -> bool:
+def _is_id_col(col: str) -> bool:
     nl = col.lower()
-    ll = (label or "").lower()
-    return any(k in ll for k in _ID_LABEL_KW) or any(k in nl for k in _ID_NAME_KW)
+    return any(k in nl for k in _ID_NAME_KW)
 
 
 def _is_junk_col(col: str) -> bool:
@@ -259,7 +254,7 @@ def _reshape(df: pd.DataFrame, meta, year: int, survey: str) -> pd.DataFrame:
         c for c in df.columns
         if pd.api.types.is_numeric_dtype(df[c])
         and c != code_col
-        and not _is_id_col(c, labels.get(c))
+        and not _is_id_col(c)
         and not _is_junk_col(c)
     ]
     if not value_cols:
@@ -310,18 +305,30 @@ def _reshape(df: pd.DataFrame, meta, year: int, survey: str) -> pd.DataFrame:
                  "indicator", "variable", "label", "value"]]
 
 
-def _read_sav_from_zip(content: bytes) -> tuple[pd.DataFrame, object]:
-    zf = zipfile.ZipFile(io.BytesIO(content))
-    names = [n for n in zf.namelist() if n.lower().endswith(".sav") and not n.startswith("__MACOSX")]
-    if not names:
-        raise AssertionError(f"zip has no .sav member: {zf.namelist()}")
-    data = zf.read(names[0])
+def _read_sav(content: bytes) -> tuple[pd.DataFrame, object]:
+    """The download endpoint serves some files ZIP-wrapped (PK magic) and others
+    as a raw SPSS .sav (\"$FL2\" magic) — handle both."""
+    if content[:2] == b"PK":
+        zf = zipfile.ZipFile(io.BytesIO(content))
+        names = [n for n in zf.namelist()
+                 if n.lower().endswith(".sav") and not n.startswith("__MACOSX")]
+        if not names:
+            raise AssertionError(f"zip has no .sav member: {zf.namelist()}")
+        data = zf.read(names[0])
+    elif content[:4] == b"$FL2":
+        data = content
+    else:
+        raise AssertionError(f"unrecognized download payload (first bytes: {content[:8]!r})")
     # pyreadstat reads from a path; the .sav is small (<1MB), so a temp file is fine.
     tmp = tempfile.NamedTemporaryFile(suffix=".sav", delete=False)
     try:
         tmp.write(data)
         tmp.close()
-        return pyreadstat.read_sav(tmp.name)
+        try:
+            return pyreadstat.read_sav(tmp.name)
+        except pyreadstat.ReadstatError:
+            # A few older files carry non-UTF-8 (Latin-1) string bytes.
+            return pyreadstat.read_sav(tmp.name, encoding="latin1")
     finally:
         os.unlink(tmp.name)
 
@@ -334,7 +341,7 @@ def fetch_one(node_id: str) -> None:
 
     frames: list[pd.DataFrame] = []
     for year, file_id in _select_files(survey):
-        df, meta = _read_sav_from_zip(_fetch_zip(file_id))
+        df, meta = _read_sav(_fetch_file(file_id))
         frames.append(_reshape(df, meta, year, survey))
 
     combined = pd.concat(frames, ignore_index=True)

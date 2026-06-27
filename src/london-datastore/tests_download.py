@@ -3,10 +3,10 @@
 Run post-DAG inside the connector. They catch silent degradation that file
 existence alone misses: an endpoint that started returning an HTML error page
 instead of a CSV, an auth wall, a truncated download — all of which surface as
-an empty raw asset.
+an empty or column-less raw asset.
 """
 
-from subsets_utils import load_raw_ndjson
+from subsets_utils import load_raw_parquet
 
 
 def test_all_raw_assets_nonempty(spec_ids):
@@ -15,18 +15,18 @@ def test_all_raw_assets_nonempty(spec_ids):
     login, or a header-only file)."""
     empty = []
     for sid in spec_ids:
-        rows = load_raw_ndjson(sid)
-        if not rows:
+        table = load_raw_parquet(sid)
+        if table.num_rows == 0:
             empty.append(sid)
-    assert not empty, f"{len(empty)} raw assets are empty: {empty[:10]}"
+    assert not empty, f"{len(empty)} raw assets have 0 rows: {empty[:10]}"
 
 
-def test_rows_are_objects(spec_ids):
-    """Each NDJSON record should be a dict with at least one column — guards
-    against a parser regression that emits scalars or empty objects."""
+def test_all_raw_assets_have_columns(spec_ids):
+    """Each parquet asset should have at least one column — guards against a
+    parser regression that drops the header."""
     bad = []
     for sid in spec_ids:
-        rows = load_raw_ndjson(sid)
-        if rows and (not isinstance(rows[0], dict) or len(rows[0]) == 0):
+        table = load_raw_parquet(sid)
+        if table.num_columns == 0:
             bad.append(sid)
-    assert not bad, f"{len(bad)} assets have malformed rows: {bad[:10]}"
+    assert not bad, f"{len(bad)} assets have no columns: {bad[:10]}"

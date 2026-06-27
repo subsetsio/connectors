@@ -12,12 +12,13 @@ mid CSVs; we re-fetch every refresh and overwrite. No watermark/cursor —
 there is no usable incremental filter (CKAN exposes metadata_modified only
 for sorting), and re-pulling picks up upstream revisions for free.
 
-Raw format: NDJSON (zstd). CSVs are heterogeneous across packages, so a
-fixed parquet schema makes no sense; we parse each CSV leniently in Python
-(robust to encoding, quoting, ragged rows) and emit one JSON object per
-data row with the cleaned header as keys (all values as strings/null). The
-keys are uniform within an asset, so DuckDB's read_json_auto detects a clean
-schema for the transform.
+Raw format: Parquet, one file per package with an explicit per-column schema
+inferred in Python. Each package's single CSV has a stable column set, so
+parquet fits. We infer each column as int64 / double / string from its values
+and write that exact schema — which keeps numeric columns properly typed while
+leaving time-of-day ("19:00") and date-like text as strings. That matters:
+DuckDB's read_json_auto would re-infer such strings as TIME, a type Delta Lake
+rejects; pinning string at the raw layer avoids that and is Delta-safe.
 """
 
 from __future__ import annotations
@@ -25,14 +26,18 @@ from __future__ import annotations
 import csv
 import io
 
+import pyarrow as pa
+
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
-    save_raw_ndjson,
+    save_raw_parquet,
     transient_retry,
 )
 from constants import ENTITY_IDS
+
+_INT64_MIN, _INT64_MAX = -(2 ** 63), 2 ** 63 - 1
 
 SLUG = "london-datastore"
 PREFIX = f"{SLUG}-"
@@ -91,21 +96,54 @@ def _decode(content: bytes) -> str:
     return content.decode("utf-8", "replace")
 
 
-def _iter_rows(content: bytes):
-    """Yield one dict per CSV data row, keyed by cleaned header. Lenient:
-    pads/truncates ragged rows to the header width."""
+def _parse_columns(content: bytes) -> tuple[list[str], dict[str, list]]:
+    """Parse a CSV into (column order, {col: [str|None, ...]}). Lenient:
+    pads/truncates ragged rows to the header width, skips blank rows."""
     reader = csv.reader(io.StringIO(_decode(content)))
     try:
         header = next(reader)
     except StopIteration:
-        return
+        return [], {}
     cols = _clean_headers(header)
     ncol = len(cols)
+    data: dict[str, list] = {c: [] for c in cols}
     for row in reader:
         if not row or all(c == "" for c in row):
             continue
         vals = (row + [None] * ncol)[:ncol]
-        yield {cols[i]: (vals[i] if vals[i] not in ("", None) else None) for i in range(ncol)}
+        for i, c in enumerate(cols):
+            v = vals[i]
+            data[c].append(v if v not in ("", None) else None)
+    return cols, data
+
+
+def _is_int(v: str) -> bool:
+    s = v[1:] if v[:1] in ("+", "-") else v
+    if not s.isdigit():
+        return False
+    if len(s) > 1 and s[0] == "0":
+        return False  # leading-zero code (ward/postcode) — keep as string
+    return _INT64_MIN <= int(v) <= _INT64_MAX
+
+
+def _is_float(v: str) -> bool:
+    if v.strip().lower() in ("nan", "inf", "-inf", "infinity", "-infinity"):
+        return False  # don't let these collapse a column to float
+    try:
+        float(v)
+        return True
+    except ValueError:
+        return False
+
+
+def _column_array(values: list) -> pa.Array:
+    """Infer int64 / double / string for a column and build the typed array."""
+    nonnull = [v for v in values if v is not None]
+    if nonnull and all(_is_int(v) for v in nonnull):
+        return pa.array([int(v) if v is not None else None for v in values], type=pa.int64())
+    if nonnull and all(_is_float(v) for v in nonnull):
+        return pa.array([float(v) if v is not None else None for v in values], type=pa.float64())
+    return pa.array(values, type=pa.string())
 
 
 def fetch_one(node_id: str) -> None:
@@ -122,7 +160,12 @@ def fetch_one(node_id: str) -> None:
     # the largest CSV so we publish the substantive table.
     resource = max(csv_resources, key=lambda r: int(r.get("size") or 0))
     content = _download(resource["url"])
-    save_raw_ndjson(_iter_rows(content), asset)
+    cols, data = _parse_columns(content)
+    if not cols:
+        raise RuntimeError(f"{entity_id}: CSV had no header row")
+    arrays = [_column_array(data[c]) for c in cols]
+    table = pa.table({c: arr for c, arr in zip(cols, arrays)})
+    save_raw_parquet(table, asset)
 
 
 DOWNLOAD_SPECS = [
