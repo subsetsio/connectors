@@ -138,29 +138,78 @@ def _parse_workbook(content: bytes, ext: str) -> list:
     return records
 
 
-def _resolve_file(entity: str) -> tuple:
-    """Return (absolute_url, ext) for the entity's spreadsheet."""
-    kind, path = ENTITY_SRC[entity]
-    if kind == "file":
-        return BASE + path, path.rsplit(".", 1)[-1].lower()
-    html = _get_text(BASE + path)
+def _long_from_frame(sheet: str, block: str, df: "pd.DataFrame") -> list:
+    """Melt a header-resolved DataFrame (row 0 = data) into long records."""
+    cols = [str(c) for c in df.columns]
+    if not cols:
+        return []
+    row_dim = cols[0]
+    records = []
+    for _, row in df.iterrows():
+        label = "" if _is_blank(row.iloc[0]) else str(row.iloc[0]).strip()
+        for j in range(1, len(cols)):
+            val = row.iloc[j]
+            if _is_blank(val):
+                continue
+            records.append({
+                "sheet": sheet,
+                "block": block,
+                "row_dim": row_dim,
+                "row_label": label,
+                "column": cols[j],
+                "col_index": j,
+                "value": str(val).strip(),
+                "value_num": _to_num(val),
+            })
+    return records
+
+
+def _parse_report_table(html: str, entity: str) -> list:
+    """Some tables (the 4-weekly 'periodic' ones) ship no spreadsheet: the data
+    is embedded as an HTML <table id="reportTable"> that a Tabulator widget
+    renders client-side. Parse that table directly into long records."""
+    m = re.search(r'<table[^>]*id="reportTable"[^>]*>.*?</table>', html, re.I | re.S)
+    if not m:
+        return []
+    title = re.search(r'reportFilename\s*=\s*"([^"]+)"', html)
+    block = title.group(1).strip() if title else entity
+    frames = pd.read_html(io.StringIO(m.group(0)))
+    records = []
+    for df in frames:
+        records.extend(_long_from_frame("reportTable", block, df))
+    return records
+
+
+def _find_link(html: str) -> str | None:
     links = _LINK_RE.findall(html)
     if not links:
-        raise ValueError(f"{entity}: no spreadsheet link found on {path}")
+        return None
     # prefer .ods (uniform parser), then .csv, then .xlsx
-    pref = (next((l for l in links if l.lower().endswith(".ods")), None)
+    return (next((l for l in links if l.lower().endswith(".ods")), None)
             or next((l for l in links if l.lower().endswith(".csv")), None)
             or links[0])
-    return BASE + pref, pref.rsplit(".", 1)[-1].lower()
 
 
 def fetch_one(node_id: str) -> None:
     entity = node_id[len(SLUG) + 1:]            # strip "office-of-rail-and-road-"
-    url, ext = _resolve_file(entity)
-    content = _get_bytes(url)
-    records = _parse_workbook(content, ext)
+    kind, path = ENTITY_SRC[entity]
+    if kind == "file":
+        url = BASE + path
+        records = _parse_workbook(_get_bytes(url), path.rsplit(".", 1)[-1].lower())
+        source = url
+    else:
+        html = _get_text(BASE + path)
+        link = _find_link(html)
+        if link:
+            ext = link.rsplit(".", 1)[-1].lower()
+            records = _parse_workbook(_get_bytes(BASE + link), ext)
+            source = link
+        else:
+            # no downloadable spreadsheet -> embedded HTML report table
+            records = _parse_report_table(html, entity)
+            source = path
     if not records:
-        raise ValueError(f"{entity}: parsed 0 records from {url}")
+        raise ValueError(f"{entity}: parsed 0 records from {source}")
     save_raw_ndjson(records, node_id)
 
 
