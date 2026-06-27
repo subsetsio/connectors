@@ -46,6 +46,14 @@ BROWSER_UA = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 )
+# Full browser-like header set — the Akamai edge on static.nhtsa.gov 403s
+# datacenter requests that don't look like a browser navigation.
+BROWSER_HEADERS = {
+    "User-Agent": BROWSER_UA,
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Referer": "https://www.nhtsa.gov/",
+}
 FIRST_YEAR = 1975
 LAST_YEAR = 2024
 ZIP_URL = (
@@ -183,7 +191,7 @@ def _canon_cols(cols) -> list:
 # Download — one node per FARS table, unioned across years.
 # --------------------------------------------------------------------------- #
 def fetch_table(node_id: str) -> None:
-    configure_http(headers={"User-Agent": BROWSER_UA})  # avoid the 403 (see BROWSER_UA)
+    configure_http(headers=BROWSER_HEADERS)  # avoid the Akamai 403 (see BROWSER_HEADERS)
     table = node_id[len(PREFIX):]
 
     # Pass 1: discover the years that carry this table + the column union.

@@ -1,0 +1,14 @@
+spec_id: office-of-rail-and-road-table-1555
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every ORR statistical table has at least one data row; 0 rows means the spreadsheet download or the long-format parse failed
+    certainty: 95
+  - not_null: sheet
+  - not_null: column
+    reason: each long record names the source column it was melted from
+  - not_null: value
+    reason: the parser only emits populated cells, so the raw value string is always present
+  - column_type: {col: col_index, type: integer}
+    certainty: 85
+    severity: warn
