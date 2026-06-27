@@ -294,6 +294,10 @@ def _reshape(df: pd.DataFrame, meta, year: int, survey: str) -> pd.DataFrame:
         yy = f"{year % 100:02d}"
         mask = (long["variable"].str.len() > 2) & (long["variable"].str.lower().str[-2:] == yy)
         long.loc[mask, "indicator"] = long.loc[mask, "variable"].str[:-2]
+    # Case drifts across survey years (tea/TEA, Opport/opport); lower-case the
+    # canonical code so a single indicator key spans every year. The raw,
+    # case-preserving source name stays in `variable`.
+    long["indicator"] = long["indicator"].str.lower()
 
     # Drop global-aggregate pseudo-economy rows.
     name_upper = long["economy_name"].astype("string").str.strip().str.upper()

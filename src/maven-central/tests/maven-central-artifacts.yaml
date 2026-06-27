@@ -1,0 +1,31 @@
+spec_id: maven-central-artifacts
+status: active
+tests:
+  - not_null: group_id
+    reason: every Maven coordinate has a groupId; a null means a malformed Solr doc
+    certainty: 98
+  - not_null: artifact_id
+    reason: every Maven coordinate has an artifactId
+    certainty: 98
+  - column_type: {col: version_count, type: integer}
+    reason: versionCount is an integer count of published versions
+    certainty: 90
+  - unique: [group_id, artifact_id]
+    reason: default Solr core is one doc per groupId:artifactId; dupes mean offset-paging drift was not de-duplicated
+    certainty: 85
+  - at_least: {col: version_count, expr: 1}
+    reason: an artifact is in the index because at least one version was published
+    certainty: 90
+    severity: warn
+  - row_count: {min: 400000}
+    reason: probed numFound=661801 on 2026-06-27; the catalog only grows, so a full pull well under this means pagination truncated
+    certainty: 80
+  - freshness: {col: last_updated, reaches: today - 60d}
+    reason: Maven Central receives new artifact versions continuously, so the most recent latest-version timestamp should be within the last couple of months
+    certainty: 75
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: packaging, min: 2}
+    reason: packaging spans jar/pom/aar/bundle/...; only one distinct value means the field stopped being populated
+    certainty: 80
+    severity: warn
