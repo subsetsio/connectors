@@ -1,0 +1,20 @@
+spec_id: listenbrainz-sitewide-recordings
+status: active
+tests:
+  - not_null: track_name
+    reason: every top-recording row names a track
+    certainty: 95
+  - not_null: range
+    certainty: 99
+  - enum: {col: range, values: [week, month, quarter, half_yearly, year, all_time]}
+    certainty: 95
+  - column_type: {col: listen_count, type: integer}
+    certainty: 85
+  - between: {col: listen_count, lo: 1, hi: 100000000000}
+    certainty: 80
+    severity: warn
+  - row_count: {min: 200}
+    reason: top recordings across several ranges (all_time capped 1000) yields hundreds of rows
+    certainty: 85
+  - distinct_count: {col: range, min: 1}
+    certainty: 90

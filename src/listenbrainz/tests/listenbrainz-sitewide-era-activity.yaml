@@ -1,0 +1,25 @@
+spec_id: listenbrainz-sitewide-era-activity
+status: active
+tests:
+  - not_null: year
+    reason: each row is a recording-release year bucket
+    certainty: 95
+  - not_null: range
+    certainty: 99
+  - column_type: {col: year, type: integer}
+    certainty: 90
+  - between: {col: year, lo: 1000, hi: 2027}
+    reason: release years span recorded-music history; a handful of bad/old tags exist
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - column_type: {col: listen_count, type: integer}
+    certainty: 85
+  - between: {col: listen_count, lo: 0, hi: 100000000000000}
+    certainty: 80
+    severity: warn
+  - row_count: {min: 30}
+    reason: many year buckets across several windows
+    certainty: 80
+  - distinct_count: {col: range, min: 1}
+    certainty: 90

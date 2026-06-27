@@ -1,0 +1,21 @@
+spec_id: listenbrainz-sitewide-listening-activity
+status: active
+tests:
+  - not_null: time_range
+    reason: each bucket carries its human label (year/day/etc.)
+    certainty: 95
+  - not_null: range
+    certainty: 99
+  - enum: {col: range, values: [week, month, quarter, half_yearly, year, all_time]}
+    certainty: 95
+  - column_type: {col: listen_count, type: integer}
+    certainty: 85
+  - between: {col: listen_count, lo: 0, hi: 100000000000000}
+    reason: a bucket can legitimately have zero listens; total across all users is large
+    certainty: 80
+    severity: warn
+  - row_count: {min: 20}
+    reason: several windows each split into time buckets
+    certainty: 80
+  - distinct_count: {col: range, min: 1}
+    certainty: 90

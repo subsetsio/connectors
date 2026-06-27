@@ -1,0 +1,24 @@
+spec_id: listenbrainz-sitewide-artist-map
+status: active
+tests:
+  - not_null: country
+    reason: each row is keyed by an artist-origin country code
+    certainty: 95
+  - matches: {col: country, pattern: '^[A-Z]{2,3}$'}
+    reason: countries are reported as ISO alpha codes (e.g. USA, GBR)
+    certainty: 75
+    severity: warn
+  - not_null: range
+    certainty: 99
+  - enum: {col: range, values: [week, month, quarter, half_yearly, year, all_time]}
+    certainty: 95
+  - column_type: {col: artist_count, type: integer}
+    certainty: 85
+  - between: {col: artist_count, lo: 1, hi: 100000000}
+    certainty: 80
+    severity: warn
+  - row_count: {min: 20}
+    reason: dozens of countries across several windows
+    certainty: 75
+  - distinct_count: {col: range, min: 1}
+    certainty: 90

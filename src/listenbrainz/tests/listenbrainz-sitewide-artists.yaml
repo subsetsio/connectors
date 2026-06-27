@@ -1,0 +1,24 @@
+spec_id: listenbrainz-sitewide-artists
+status: active
+tests:
+  - not_null: artist_name
+    reason: every top-artist row names an artist
+    certainty: 95
+  - not_null: range
+    reason: each row is tagged with the aggregation window it came from
+    certainty: 99
+  - enum: {col: range, values: [week, month, quarter, half_yearly, year, all_time]}
+    reason: we only request these six rolling windows
+    certainty: 95
+  - column_type: {col: listen_count, type: integer}
+    certainty: 85
+  - between: {col: listen_count, lo: 1, hi: 100000000000}
+    reason: sitewide artist listen counts are positive and well under 1e11
+    certainty: 80
+    severity: warn
+  - row_count: {min: 200}
+    reason: top-1000 artists across several ranges yields hundreds of rows
+    certainty: 85
+  - distinct_count: {col: range, min: 1}
+    reason: at least one window must be computed; usually all six
+    certainty: 90
