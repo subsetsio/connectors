@@ -1,0 +1,14 @@
+spec_id: national-river-flow-archive-pot-stage
+status: active
+tests:
+  - not_null: station_id
+  - column_type: {col: station_id, type: integer}
+  - column_type: {col: t, type: string}
+  - not_null: t
+  - distinct_count: {col: station_id, min: 505}
+    reason: feed should cover most of the ~842 stations offering pot-stage; a collapse means the station filter or fetch loop broke
+    certainty: 80
+  - between: {col: value, lo: -10, hi: 100}
+    reason: gauge stage in metres relative to local datum; wide sanity band
+    certainty: 60
+    severity: warn

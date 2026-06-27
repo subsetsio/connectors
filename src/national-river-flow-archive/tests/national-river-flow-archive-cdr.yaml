@@ -1,0 +1,13 @@
+spec_id: national-river-flow-archive-cdr
+status: active
+tests:
+  - not_null: station_id
+  - column_type: {col: station_id, type: integer}
+  - column_type: {col: t, type: string}
+  - not_null: t
+  - distinct_count: {col: station_id, min: 955}
+    reason: feed should cover most of the ~1592 stations offering cdr; a collapse means the station filter or fetch loop broke
+    certainty: 80
+  - at_least: {col: value, expr: 0}
+    reason: rainfall accumulation is non-negative
+    certainty: 90

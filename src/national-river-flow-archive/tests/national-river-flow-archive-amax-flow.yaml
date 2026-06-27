@@ -1,0 +1,13 @@
+spec_id: national-river-flow-archive-amax-flow
+status: active
+tests:
+  - not_null: station_id
+  - column_type: {col: station_id, type: integer}
+  - column_type: {col: t, type: string}
+  - not_null: t
+  - distinct_count: {col: station_id, min: 555}
+    reason: feed should cover most of the ~926 stations offering amax-flow; a collapse means the station filter or fetch loop broke
+    certainty: 80
+  - at_least: {col: value, expr: 0}
+    reason: river flow in m3/s is non-negative
+    certainty: 85

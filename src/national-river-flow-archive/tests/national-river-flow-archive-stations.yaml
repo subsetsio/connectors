@@ -1,0 +1,22 @@
+spec_id: national-river-flow-archive-stations
+status: active
+tests:
+  - not_null: station_id
+  - column_type: {col: station_id, type: integer}
+  - unique: station_id
+    reason: one row per gauging station
+    certainty: 95
+  - not_null: name
+  - row_count: {min: 1000}
+    reason: NRFA has ~1600 gauging stations
+    certainty: 90
+  - between: {col: latitude, lo: 49, hi: 61}
+    reason: stations are in Great Britain / UK
+    certainty: 90
+  - between: {col: longitude, lo: -9, hi: 2}
+    reason: UK longitudes
+    certainty: 90
+  - at_least: {col: catchment_area_km2, expr: 0}
+    reason: catchment area is non-negative
+    certainty: 80
+    severity: warn
