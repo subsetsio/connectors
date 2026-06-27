@@ -45,6 +45,10 @@ _REQUEST_HEADERS = {
 }
 _RETRYABLE_STATUS = {403, 429, 500, 502, 503, 504}
 _MAX_ATTEMPTS = 7
+# Polite spacing between requests. CAROL's Cloudflare flags datacenter IPs that
+# burst the API; keeping the per-IP rate low (~one request every ~1.5s, well
+# under a request/sec) keeps the whole-corpus crawl below that threshold.
+_REQUEST_SPACING_S = 1.5
 
 # CAROL aviation coverage starts in 1962. Upper bound is the current year.
 START_YEAR = 1962
@@ -148,9 +152,13 @@ def _post_year(year, offset):
 def _iter_all_cases():
     """Yield every aviation case, walking one request per calendar year."""
     end_year = datetime.now(tz=timezone.utc).year
+    first = True
     for year in range(START_YEAR, end_year + 1):
         offset = 0
         while True:
+            if not first:
+                time.sleep(_REQUEST_SPACING_S)
+            first = False
             batch = _post_year(year, offset)
             if not batch:
                 break
