@@ -1,0 +1,23 @@
+spec_id: kof-swiss-economic-institute-ch.seco.jobroom
+status: active
+tests:
+  - not_null: series_key
+    reason: every KOF observation belongs to a named series key; a null means the flatten dropped the key
+    certainty: 98
+  - not_null: date
+    reason: every observation carries a date; a null date means the response shape changed
+    certainty: 98
+  - column_type: {col: series_key, type: string}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    reason: values are numeric (int/float coerced to float64); nulls are real gaps and allowed
+    certainty: 90
+  - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}$'}
+    reason: KOF public series are monthly/quarterly/annual stamped as 'YYYY-MM' month strings
+    certainty: 95
+  - row_count: {min: 1}
+    reason: a published KOF collection always returns at least one observation; 0 = empty/private payload
+    certainty: 99
+  - distinct_count: {col: series_key, min: 1}
+    reason: a collection holds one or more member series
+    certainty: 98
