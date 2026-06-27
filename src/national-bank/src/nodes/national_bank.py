@@ -6,13 +6,13 @@ the complete all-currency snapshot (KZT per `quant` units of each currency) for 
 calendar date. There is no bulk/range export, so the full history is built by
 iterating one HTTP request per calendar date.
 
-Shape: date-bucketed firehose (one raw batch per year). Backfill walks every year
-from SOURCE_MIN_YEAR to the current year, fetching all days of each year. Closed
-years are immutable and recorded in state (`completed_years`) so they are never
-re-fetched; the current year is re-pulled every run to pick up new days and any
-revisions. State carries no terminal flag — `completed_years` is the bucket
-watermark. Raw is written per year (`national-bank-fx-rates-<year>`) and the SQL
-transform glob-unions all year batches.
+Shape: stateless full re-pull. Each run re-fetches the whole history — every year
+from SOURCE_MIN_YEAR to today — and overwrites. Raw is run-scoped (each run starts
+with an empty raw dir), so cross-run state/skip logic would silently drop history;
+a full re-pull is the only correct shape here, and it also picks up any source
+revisions for free. The corpus is small (~331k rows / ~2MB) but spans ~9700 dates,
+so raw is written one batch per year (`national-bank-fx-rates-<year>`) to bound
+memory; the SQL transform glob-unions all year batches.
 """
 
 from concurrent.futures import ThreadPoolExecutor
@@ -24,14 +24,10 @@ from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
-    load_state,
     save_raw_parquet,
-    save_state,
     transient_retry,
 )
 import xml.etree.ElementTree as ET
-
-STATE_VERSION = 1
 
 # Documented floor: the get_rates.cfm feed returns data from late 1999 onward
 # (probed: 1997-1998 empty; 15.12.1999 onward populated). Earlier dates return an
@@ -122,35 +118,16 @@ def _fetch_year(year: int, end: date) -> list[dict]:
 def fetch_fx_rates(node_id: str) -> None:
     asset_base = node_id  # "national-bank-fx-rates"
 
-    state = load_state(asset_base)
-    if state.get("schema_version") != STATE_VERSION:
-        state = {}  # unknown/missing version -> rebuild from scratch
-    completed = set(state.get("completed_years", []))
-
     today = datetime.now(tz=timezone.utc).date()  # frozen for this run
     current_year = today.year
 
+    # Full re-pull every run: every year is fetched and its batch overwritten.
+    # Raw is run-scoped, so there is nothing to resume from across runs.
     for year in range(SOURCE_MIN_YEAR, current_year + 1):
-        is_current = year == current_year
-        if year in completed and not is_current:
-            continue  # closed bucket, immutable
-
         rows = _fetch_year(year, today)
         if rows:
             table = pa.Table.from_pylist(rows, schema=SCHEMA)
-            save_raw_parquet(table, f"{asset_base}-{year}")  # write raw FIRST
-
-        if not is_current:
-            completed.add(year)  # then advance bucket watermark
-            save_state(asset_base, {
-                "schema_version": STATE_VERSION,
-                "completed_years": sorted(completed),
-            })
-
-    save_state(asset_base, {
-        "schema_version": STATE_VERSION,
-        "completed_years": sorted(completed),
-    })
+            save_raw_parquet(table, f"{asset_base}-{year}")
 
 
 DOWNLOAD_SPECS = [
