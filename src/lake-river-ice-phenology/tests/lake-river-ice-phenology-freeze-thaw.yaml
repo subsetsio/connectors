@@ -1,0 +1,25 @@
+spec_id: lake-river-ice-phenology-freeze-thaw
+status: active
+tests:
+  - not_null: lakecode
+    reason: every observation belongs to a waterbody; a null code means a parse/column shift
+    certainty: 95
+  - not_null: season
+    reason: each row is one ice season for one waterbody; season is the core dimension
+    certainty: 95
+  - row_count:
+      min: 30000
+    reason: probed 37603 rows in Oct-2023 snapshot; well below 30k means a truncated download
+    certainty: 90
+  - matches:
+      col: lakeorriver
+      pattern: '^[LR]$'
+    reason: the type flag is L (lake) or R (river) per the user guide
+    certainty: 80
+    severity: warn
+  - distinct_count:
+      col: lakecode
+      min: 500
+    reason: database covers ~865 waterbodies; far fewer distinct codes means rows were dropped
+    certainty: 80
+    severity: warn

@@ -1,0 +1,22 @@
+spec_id: lake-river-ice-phenology-physical-characteristics
+status: active
+tests:
+  - not_null: lakecode
+    reason: one row per waterbody keyed by lakecode; a null code means a column shift
+    certainty: 95
+  - row_count:
+      min: 800
+      max: 1100
+    reason: probed 868 rows (one per waterbody) in the Oct-2023 snapshot
+    certainty: 90
+  - distinct_count:
+      col: lakecode
+      min: 800
+    reason: lakecode is the per-waterbody key joinable to freeze_thaw; ~865 distinct expected
+    certainty: 85
+  - matches:
+      col: lakeorriver
+      pattern: '^[LR]$'
+    reason: the type flag is L (lake) or R (river) per the user guide
+    certainty: 80
+    severity: warn
