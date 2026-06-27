@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import csv
 import io
+import re
 
 import pyarrow as pa
 
@@ -71,12 +72,22 @@ def _is_csv(resource: dict) -> bool:
     return url.endswith(".csv")
 
 
+def _safe_name(raw: str, i: int) -> str:
+    """Sanitize a CSV header into a Delta/Parquet-safe column name. Characters
+    like , ; ( ) % & £ / break Delta's schema handling, so collapse anything
+    outside [alnum _ -] to underscore; keep it readable (words preserved)."""
+    name = re.sub(r"[^0-9A-Za-z _-]+", "_", (raw or "").strip())
+    name = re.sub(r"\s+", " ", name).strip()
+    name = re.sub(r"_+", "_", name).strip("_ ").strip()
+    return name or f"col_{i + 1}"
+
+
 def _clean_headers(names: list[str]) -> list[str]:
-    """Make column names non-empty and unique, preserving order."""
+    """Make column names safe, non-empty, and unique, preserving order."""
     used: set[str] = set()
     out: list[str] = []
     for i, raw in enumerate(names):
-        name = (raw or "").strip() or f"col_{i + 1}"
+        name = _safe_name(raw, i)
         candidate = name
         n = 1
         while candidate in used:
