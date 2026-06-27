@@ -115,7 +115,10 @@ FILES = {
 LOWER_RE = re.compile(r"lower 95% uncertainty interval", re.I)
 UPPER_RE = re.compile(r"upper 95% uncertainty interval", re.I)
 # Column names treated as dimensions, never as indicators.
-DIM_NAMES = {"Country/Region/World", "ISO", "Sex", "Year", "Age", "Age group"}
+DIM_NAMES = {"Country/Region/World", "Country", "Region", "ISO", "Sex", "Year", "Age", "Age group"}
+# The geography label column, in priority order (the height release uses bare
+# "Country"/"Region"; everything else uses the combined "Country/Region/World").
+ENTITY_COLS = ("Country/Region/World", "Country", "Region")
 
 
 def _norm(s: str) -> str:
@@ -181,7 +184,7 @@ def _parse_csv_bytes(content: bytes, level: str, estimate_type: str) -> pd.DataF
     cols = list(df.columns)
     triples = _find_triples(cols)
 
-    entity_col = "Country/Region/World" if "Country/Region/World" in cols else None
+    entity_col = next((c for c in ENTITY_COLS if c in cols), None)
     iso_col = "ISO" if "ISO" in cols else None
     sex_col = "Sex" if "Sex" in cols else None
     year_col = "Year" if "Year" in cols else None

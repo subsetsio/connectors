@@ -13,13 +13,22 @@ source's recurring revisions for free.
 
 A dataset is the union of its yearly/daily Parquet resources. Some datasets
 (hourly/semi-hourly: dados_hidrologicos_ho, programacao_*, disponibilidade_usina)
-span hundreds of files and are far too large to concatenate in memory, so we
-stream them through DuckDB: `read_parquet(<urls>, union_by_name=true)` unifies
-the per-year schemas (columns added over time, occasional type drift) and we
-write the streamed result to one raw Parquet via the streaming writer. Bounded
-memory regardless of dataset size, and a single output file keeps the SQL
-transform's `read_parquet([...])` happy (it does not union by name).
+span hundreds of files and are far too large to concatenate in memory. So we:
+
+  1. download each resource to a local temp file (httpx, retried) — reliable,
+     and avoids DuckDB httpfs range-read flakiness on S3;
+  2. let DuckDB read the local files with `union_by_name=true` (unifying the
+     per-year schemas: columns added over time, occasional type drift) and
+     stream the result to one raw Parquet via the streaming writer.
+
+Memory is bounded regardless of dataset size — the per-year files live on disk,
+DuckDB streams batches, and only one download sits in RAM at a time. A single
+output file keeps the SQL transform's `read_parquet([...])` happy (it does not
+union by name).
 """
+
+import os
+import tempfile
 
 import duckdb
 
@@ -62,9 +71,18 @@ def _parquet_urls(pkg_id: str) -> list[str]:
     ]
 
 
+@transient_retry()
+def _download_to(url: str, path: str) -> None:
+    resp = get(url, timeout=(10.0, 300.0))
+    resp.raise_for_status()
+    with open(path, "wb") as f:  # local scratch file, not a raw asset
+        f.write(resp.content)
+
+
 def fetch_one(node_id: str) -> None:
-    """Stream every Parquet resource of one CKAN package, union the per-year
-    schemas, and write a single raw parquet asset named after the spec id."""
+    """Download every Parquet resource of one CKAN package to local scratch,
+    union the per-year schemas via DuckDB, and stream a single raw parquet
+    asset named after the spec id."""
     asset = node_id
     pkg_id = SPEC_TO_PKG[node_id]
 
@@ -73,25 +91,31 @@ def fetch_one(node_id: str) -> None:
         # Every rank-accepted package advertised a PARQUET variant at collect
         # time; none here means the source changed shape — fail loudly.
         raise RuntimeError(f"{pkg_id}: no PARQUET resources found")
-    if any("'" in u for u in urls):  # SQL string-literal safety
-        raise RuntimeError(f"{pkg_id}: unexpected quote in resource URL")
 
-    con = duckdb.connect()
-    con.execute("INSTALL httpfs; LOAD httpfs;")
-    url_list = "[" + ",".join("'" + u + "'" for u in urls) + "]"
-    rel = con.sql(
-        f"SELECT * FROM read_parquet({url_list}, union_by_name=true)"
-    )
+    with tempfile.TemporaryDirectory(prefix=f"{asset}-") as tmp:
+        local_files = []
+        for i, url in enumerate(urls):
+            path = os.path.join(tmp, f"{i:05d}.parquet")
+            _download_to(url, path)
+            local_files.append(path)
 
-    reader = rel.fetch_record_batch()
-    wrote = False
-    with raw_parquet_writer(asset, reader.schema) as writer:
-        for batch in reader:
-            if batch.num_rows:
-                writer.write_batch(batch)
-                wrote = True
-    if not wrote:
-        raise RuntimeError(f"{pkg_id}: union of {len(urls)} parquet(s) was empty")
+        con = duckdb.connect()
+        file_list = "[" + ",".join("'" + p + "'" for p in local_files) + "]"
+        rel = con.sql(
+            f"SELECT * FROM read_parquet({file_list}, union_by_name=true)"
+        )
+
+        reader = rel.fetch_record_batch()
+        wrote = False
+        with raw_parquet_writer(asset, reader.schema) as writer:
+            for batch in reader:
+                if batch.num_rows:
+                    writer.write_batch(batch)
+                    wrote = True
+        if not wrote:
+            raise RuntimeError(
+                f"{pkg_id}: union of {len(urls)} parquet(s) was empty"
+            )
 
 
 DOWNLOAD_SPECS = [
