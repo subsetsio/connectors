@@ -122,7 +122,6 @@ def _parse_csv_bytes(content: bytes, level: str) -> pd.DataFrame:
     df.columns = [c.strip() for c in df.columns]
     cols = list(df.columns)
 
-    lowers = {c[: -len(LOWER_SUFFIX)]: c for c in cols if c.endswith(LOWER_SUFFIX)}
     # The unit may trail the suffix, e.g. "Mean X lower 95% ... (mmol/L)" -> base
     # "Mean X (mmol/L)". Reconstruct the base by removing the suffix substring.
     lowers = {c.replace(LOWER_SUFFIX, ""): c for c in cols if LOWER_SUFFIX in c}
