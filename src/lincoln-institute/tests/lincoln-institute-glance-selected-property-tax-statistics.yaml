@@ -1,0 +1,21 @@
+spec_id: lincoln-institute-glance-selected-property-tax-statistics
+status: active
+tests:
+  - not_null: state
+  - not_null: year
+  - not_null: metric
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - between: {col: year, lo: 2010, hi: current_year()}
+    reason: the Glance tool publishes structured data only in the 2010s
+    certainty: 85
+  - distinct_count: {col: state, min: 40}
+    reason: 50 states + DC (some metrics add a US row)
+    certainty: 85
+  - distinct_count: {col: metric, min: 8}
+    reason: 12 selected-statistic metrics (incl. rank metrics)
+    certainty: 85
+  - unique: [state, year, metric]
+    reason: one value per state-year-metric
+    certainty: 90

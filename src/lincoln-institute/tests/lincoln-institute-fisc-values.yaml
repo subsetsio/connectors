@@ -1,0 +1,25 @@
+spec_id: lincoln-institute-fisc-values
+status: active
+tests:
+  - not_null: city
+  - not_null: state
+  - not_null: year
+  - not_null: category
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - between: {col: year, lo: 1977, hi: current_year()}
+    reason: FiSC series begin in 1977; never exceeds the current year
+    certainty: 95
+  - distinct_count: {col: city, min: 150}
+    reason: ~212 real central cities in the FiSC panel
+    certainty: 90
+  - distinct_count: {col: category, min: 30}
+    reason: revenues (42) + expenditures (23) + debts (10) finance categories
+    certainty: 85
+  - unique: [city, year, category]
+    reason: one observation per city-year-category; dupes mean a city was melted twice
+    certainty: 90
+  - row_count: {min: 100000}
+    reason: ~200 cities x ~47 years x ~70 categories
+    certainty: 75

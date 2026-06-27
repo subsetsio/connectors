@@ -1,0 +1,19 @@
+spec_id: lincoln-institute-atlas-blocks-and-roads-1
+status: active
+tests:
+  - not_null: city
+  - not_null: metric
+  - not_null: value
+    reason: null cells are dropped during flattening; survivors must be numeric
+  - column_type: {col: value, type: float}
+  - distinct_count: {col: city, min: 150}
+    reason: the global sample is ~200 cities
+    certainty: 85
+  - distinct_count: {col: metric, min: 15}
+    reason: the Blocks & Roads table carries ~22 street-network metrics
+    certainty: 85
+  - between: {col: latitude, lo: -90, hi: 90}
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: ~200 cities x ~22 metrics x 2 periods (Pre-1990 / 1990-2015)
+    certainty: 80

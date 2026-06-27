@@ -1,0 +1,12 @@
+spec_id: movebank-move-424
+status: active
+tests:
+  - row_count:
+      min: 1
+    reason: every published Movebank study archives at least one tracking record; 0 rows means a truncated or empty download
+    certainty: 95
+  - not_null: study_name
+    reason: study-name is a standard Movebank export column written on every event row
+    certainty: 85
+    severity: warn
+    points_outward: false

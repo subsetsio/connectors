@@ -1,0 +1,21 @@
+spec_id: lincoln-institute-atlas-areas-and-densities
+status: active
+tests:
+  - not_null: city
+  - not_null: metric
+    reason: every melted row belongs to a named metric group
+  - not_null: value
+    reason: null cells are dropped during flattening; survivors must be numeric
+  - column_type: {col: value, type: float}
+  - between: {col: latitude, lo: -90, hi: 90}
+    reason: CBD latitude is a real geographic coordinate
+    certainty: 95
+  - between: {col: longitude, lo: -180, hi: 180}
+    reason: CBD longitude is a real geographic coordinate
+    certainty: 95
+  - distinct_count: {col: metric, min: 10}
+    reason: the Areas & Densities table carries ~18 quantitative metrics
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: ~200 cities x ~18 metrics x up to 3 periods
+    certainty: 80

@@ -83,16 +83,21 @@ RAW_SCHEMA = pa.schema([
 ])
 
 
+# Sent on every request — the site 403s default Python/httpx UAs, so we pass a
+# browser UA explicitly per call (relying on a global default proved unreliable).
+_HEADERS = {"User-Agent": BROWSER_UA}
+
+
 @transient_retry()
 def _fetch_catalog(survey: str) -> str:
-    resp = get(f"{BASE}/data/sets", params={"id": survey}, timeout=(10.0, 60.0))
+    resp = get(f"{BASE}/data/sets", params={"id": survey}, headers=_HEADERS, timeout=(10.0, 60.0))
     resp.raise_for_status()
     return resp.text
 
 
 @transient_retry()
 def _fetch_zip(file_id: int) -> bytes:
-    resp = get(f"{BASE}/file/open", params={"fileId": file_id}, timeout=(10.0, 180.0))
+    resp = get(f"{BASE}/file/open", params={"fileId": file_id}, headers=_HEADERS, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.content
 
