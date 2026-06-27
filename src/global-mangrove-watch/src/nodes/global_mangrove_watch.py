@@ -166,11 +166,10 @@ _TRANSFORM_SQL = {
         WHERE value IS NOT NULL
     ''',
     "net_change": f'''
+        -- gain/loss are returned by the API but always null on this endpoint; dropped.
         SELECT {_LOC},
             CAST(year AS INTEGER)      AS year,
-            CAST(net_change AS DOUBLE) AS net_change,
-            TRY_CAST(gain AS DOUBLE)   AS gain,
-            TRY_CAST(loss AS DOUBLE)   AS loss
+            CAST(net_change AS DOUBLE) AS net_change
         FROM "{_spec_id("net_change")}"
         WHERE net_change IS NOT NULL
     ''',
@@ -215,8 +214,9 @@ _TRANSFORM_SQL = {
         FROM "{_spec_id("restoration-potential")}"
     ''',
     "mitigation_potentials": f'''
+        -- the API returns year=null for every mitigation-potential row (these are
+        -- static potential estimates, not time-indexed); year column dropped.
         SELECT {_LOC},
-            TRY_CAST(year AS INTEGER) AS year,
             indicator,
             category,
             CAST(value AS DOUBLE) AS value

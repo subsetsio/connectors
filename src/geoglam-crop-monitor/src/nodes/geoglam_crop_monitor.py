@@ -18,6 +18,7 @@ context and install a fully-verifying httpx client.
 """
 import os
 import ssl
+from concurrent.futures import ThreadPoolExecutor
 
 import certifi
 import httpx
