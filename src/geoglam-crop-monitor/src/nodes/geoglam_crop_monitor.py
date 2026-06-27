@@ -197,7 +197,10 @@ TRANSFORM_SPECS = [
                             THEN 'Favourable'
                         ELSE TRIM(conditions)
                     END AS condition,
-                    NULLIF(TRIM(drivers), '') AS drivers
+                    CASE
+                        WHEN UPPER(TRIM(drivers)) IN ('', 'NO DATA', '#N/A', 'N/A', 'NA')
+                        THEN NULL ELSE TRIM(drivers)
+                    END AS drivers
                 FROM "geoglam-crop-monitor-crop-conditions"
             ),
             ranked AS (
