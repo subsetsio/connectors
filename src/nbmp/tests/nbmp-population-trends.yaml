@@ -1,0 +1,15 @@
+spec_id: nbmp-population-trends
+status: active
+tests:
+  - not_null: term
+    reason: every summary row belongs to a short_term or long_term table; a null means the table-marker scan broke
+    certainty: 95
+  - not_null: species
+    reason: each trend row names a species; nulls indicate a column-alignment failure
+    certainty: 95
+  - row_count: {min: 40}
+    reason: two stacked tables (short + long term) held ~70 rows in the 2026 pull; far fewer means a sheet-layout change
+    certainty: 80
+  - distinct_count: {col: term, min: 2}
+    reason: both short_term and long_term tables must be parsed; only one means the second table was missed
+    certainty: 90

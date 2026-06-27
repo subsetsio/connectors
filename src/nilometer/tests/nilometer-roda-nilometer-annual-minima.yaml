@@ -1,0 +1,32 @@
+spec_id: nilometer-roda-nilometer-annual-minima
+status: active
+tests:
+  - not_null: year
+    reason: every observation is keyed by year; a null year means parsing misaligned
+    certainty: 99
+  - not_null: min_level
+    reason: each year carries one minimum-level reading; nulls mean the c(...) vector was misparsed
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 99
+  - column_type: {col: min_level, type: integer}
+    certainty: 95
+  - unique: year
+    reason: exactly one annual-minimum row per year
+    certainty: 99
+  - contiguous: {col: year}
+    reason: the longmemo NileMin series is a gapless yearly run 622-1284; a gap means a dropped value
+    certainty: 90
+  - between: {col: year, lo: 622, hi: 1284}
+    reason: documented span of the Roda-gauge minima as distributed by Beran/longmemo
+    certainty: 95
+  - at_most: {col: year, expr: 1284}
+    reason: the historical record in this file ends at 1284 (first missing annual minimum is 1285)
+    certainty: 95
+  - row_count: {min: 655, max: 670}
+    reason: longmemo ships 663 observations; small slack for a future minor data correction
+    certainty: 90
+  - between: {col: min_level, lo: 800, hi: 1600}
+    reason: gauge readings are 1000 + offsets; observed range ~935-1466, so this is a unit/offset guard
+    certainty: 70
+    severity: warn
