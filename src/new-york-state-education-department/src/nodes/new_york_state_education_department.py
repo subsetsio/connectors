@@ -169,24 +169,9 @@ def _match_table(db_path: str, table_re: str) -> str | None:
     return None
 
 
-def _export_header(db_path: str, table: str) -> list[str]:
-    """Just the column names — read the first CSV line and stop (cheap)."""
-    proc = subprocess.Popen(
-        ["mdb-export", db_path, table],
-        stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True,
-    )
-    try:
-        first = proc.stdout.readline()
-    finally:
-        proc.stdout.close()
-        proc.kill()
-        proc.wait()
-    return next(csv.reader([first])) if first else []
-
-
 def _export_rows(db_path: str, table: str):
-    """Yield (header, row_iter): stream every data row of `table` as a list of
-    string cells. mdb-export emits RFC-style CSV; csv.reader handles quoting."""
+    """Yield header then every data row of `table` as a list of string cells.
+    mdb-export emits RFC-style CSV; csv.reader handles quoting/embedded newlines."""
     # stderr -> DEVNULL: streaming a large table while reading a PIPE'd stderr
     # risks a deadlock if mdbtools fills the stderr buffer. A genuine failure
     # still surfaces as a positive exit code.
@@ -213,9 +198,15 @@ def _export_rows(db_path: str, table: str):
 
 
 # --------------------------------------------------------------------------- #
-# Column normalization + value typing
+# Column normalization + deterministic value typing
 # --------------------------------------------------------------------------- #
+# Identifier-ish columns are kept as strings even when they look numeric (school
+# codes carry leading zeros: ENTITY_CD "000000000001").
 _ID_TOKENS = {"cd", "code", "id", "beds", "bedscode", "phone", "index", "inst", "ind"}
+# NYSED placeholders for "no data" / privacy-suppressed cells — mapped to NULL so a
+# column that is otherwise numeric stays cleanly numeric instead of mixing a stray
+# string that breaks DuckDB's read_json_auto type inference.
+_NULL_TOKENS = {"", "-", "--", "---", ".", "..", "s", "n/a", "na", "null", "*", "#"}
 _INT_RE = re.compile(r"-?\d+")
 _FLOAT_RE = re.compile(r"-?(\d+\.\d*|\.\d+|\d+\.\d+)([eE][-+]?\d+)?")
 
@@ -234,25 +225,12 @@ def _is_id_col(norm_name: str) -> bool:
     return any(t in _ID_TOKENS or t.endswith("id") or t.endswith("cd") for t in toks)
 
 
-def _coerce(value: str, is_id: bool):
+def _clean(value) -> str | None:
+    """Strip and map NYSED null/suppression placeholders to None."""
     if value is None:
         return None
     s = value.strip()
-    if s == "":
-        return None
-    if is_id:
-        return s
-    if _INT_RE.fullmatch(s):
-        try:
-            return int(s)
-        except ValueError:
-            pass
-    if _FLOAT_RE.fullmatch(s):
-        try:
-            return float(s)
-        except ValueError:
-            pass
-    return s
+    return None if s.lower() in _NULL_TOKENS else s
 
 
 # --------------------------------------------------------------------------- #
@@ -268,51 +246,88 @@ def fetch_one(node_id: str) -> None:
     if not files:
         raise RuntimeError(f"{eid}: no ZIPs discovered for category {category!r}")
 
-    # Pass A — resolve, per year, the matching table + its normalized columns,
-    # and build the ordered union of columns across every year that has it.
-    matched: list[tuple[int, str, str, list[str]]] = []   # (year, db, table, norm_cols)
-    union: list[str] = ["report_year"]
-    seen = {"report_year"}
-    for year, url in sorted(files):  # ascending so union order follows history
+    matched = []  # (year, db_path, table)
+    for year, url in sorted(files):  # ascending so column-union order follows history
         db = _cached_db(url)
         if db is None:
             continue
         table = _match_table(db, table_re)
-        if table is None:
-            continue
-        norm_cols = [_norm(c) for c in _export_header(db, table)]
-        matched.append((year, db, table, norm_cols))
-        for c in norm_cols:
-            if c not in seen:
-                seen.add(c)
-                union.append(c)
-
+        if table is not None:
+            matched.append((year, db, table))
     if not matched:
         raise RuntimeError(
             f"{eid}: no year had a table matching /{table_re}/ in category {category!r}"
         )
 
-    id_flags = {c: _is_id_col(c) for c in union}
-
-    # Pass B — stream every matched year's rows into one gzipped NDJSON asset.
+    # Pass 1 — export every matched year once, stage cleaned string rows to a temp
+    # NDJSON, and learn each column's type from EVERY value (not a sample). A column
+    # is numeric only if every non-null value is numeric; identifiers stay strings.
+    union: list[str] = ["report_year"]
+    numeric: dict[str, bool] = {}     # col -> still all-numeric so far
+    is_float: dict[str, bool] = {}
+    seen = {"report_year"}
+    stage = os.path.join(_CACHE_DIR, hashlib.sha1(node_id.encode()).hexdigest() + ".stage.ndjson.gz")
+    os.makedirs(_CACHE_DIR, exist_ok=True)
     total = 0
-    with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as out:
-        for year, db, table, _cols in matched:
+    with gzip.open(stage, "wt", encoding="utf-8") as stg:
+        for year, db, table in matched:
             rows = _export_rows(db, table)
             header = next(rows, None)
             if header is None:
                 continue
             hnorm = [_norm(c) for c in header]
+            for c in hnorm:
+                if c not in seen:
+                    seen.add(c)
+                    union.append(c)
+                    numeric[c] = not _is_id_col(c)
+                    is_float[c] = False
             for row in rows:
-                rec = {c: None for c in union}
-                rec["report_year"] = year
+                rec = {"report_year": year}
                 for col, val in zip(hnorm, row):
-                    rec[col] = _coerce(val, id_flags.get(col, False))
-                out.write(json.dumps(rec, separators=(",", ":")) + "\n")
+                    s = _clean(val)
+                    rec[col] = s
+                    if s is not None and numeric.get(col):
+                        if _INT_RE.fullmatch(s):
+                            pass
+                        elif _FLOAT_RE.fullmatch(s):
+                            is_float[col] = True
+                        else:
+                            numeric[col] = False
+                stg.write(json.dumps(rec, separators=(",", ":")) + "\n")
                 total += 1
+
     if total == 0:
+        try:
+            os.remove(stage)
+        except OSError:
+            pass
         raise RuntimeError(f"{eid}: matched {len(matched)} year(s) but produced 0 rows")
-    print(f"  {eid}: {total:,} rows across {len(matched)} year(s)")
+
+    # Pass 2 — re-emit with each column at its decided type, padded to the union.
+    try:
+        with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as out, \
+                gzip.open(stage, "rt", encoding="utf-8") as stg:
+            for line in stg:
+                src = json.loads(line)
+                rec = {}
+                for col in union:
+                    v = src.get(col)
+                    if col == "report_year":
+                        rec[col] = v
+                    elif v is None:
+                        rec[col] = None
+                    elif numeric.get(col):
+                        rec[col] = float(v) if is_float[col] else int(v)
+                    else:
+                        rec[col] = v
+                out.write(json.dumps(rec, separators=(",", ":")) + "\n")
+    finally:
+        try:
+            os.remove(stage)
+        except OSError:
+            pass
+    print(f"  {eid}: {total:,} rows across {len(matched)} year(s), {len(union)} cols")
 
 
 DOWNLOAD_SPECS = [
