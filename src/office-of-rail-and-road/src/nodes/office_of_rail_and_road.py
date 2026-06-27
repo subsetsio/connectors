@@ -21,6 +21,9 @@ import re
 import math
 
 import pandas as pd
+from odf import teletype
+from odf.opendocument import load as _odf_load
+from odf.table import Table, TableRow, TableCell
 from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson, transient_retry
 from constants import ENTITY_IDS, ENTITY_SRC
 
@@ -73,23 +76,74 @@ def _get_bytes(url: str) -> bytes:
     return get(url, timeout=120).content
 
 
-def _parse_sheet(sheet_name: str, df: "pd.DataFrame") -> list:
-    """Flatten one sheet into long records, block- and header-aware."""
+_REPEAT_CAP = 1000   # ODS pads trailing empty space with huge repeat counts
+
+
+def _cell_value(cell) -> "str | None":
+    """Display text of an ODS cell, or its office:value, or None.
+
+    Returning the text (not a typed value) keeps numeric parsing in _to_num and
+    sidesteps pandas' odf reader, which raises on error-typed cells."""
+    text = teletype.extractText(cell).strip()
+    if text:
+        return text
+    v = cell.getAttribute("value")        # office:value (numeric cells)
+    return v if v not in (None, "") else None
+
+
+def _read_ods(content: bytes) -> dict:
+    """Read an ODS workbook into {sheet_name: list-of-rows} grids using odfpy
+    directly. Robust to error cells and to repeated-cell/row padding."""
+    doc = _odf_load(io.BytesIO(content))
+    sheets = {}
+    for table in doc.spreadsheet.getElementsByType(Table):
+        name = table.getAttribute("name") or ""
+        grid = []
+        for tr in table.getElementsByType(TableRow):
+            rr = int(tr.getAttribute("numberrowsrepeated") or 1)
+            cells = []
+            for tc in tr.getElementsByType(TableCell):
+                cr = int(tc.getAttribute("numbercolumnsrepeated") or 1)
+                val = _cell_value(tc)
+                if cr > _REPEAT_CAP and val is None:
+                    cr = 1            # trailing column padding
+                cells.extend([val] * cr)
+            while cells and cells[-1] is None:
+                cells.pop()
+            if rr > _REPEAT_CAP and not cells:
+                rr = 1                # trailing row padding
+            for _ in range(rr):
+                grid.append(list(cells))
+        while grid and not any(c is not None for c in grid[-1]):
+            grid.pop()
+        sheets[name] = grid
+    return sheets
+
+
+def _parse_sheet(sheet_name: str, rows: list) -> list:
+    """Flatten one sheet (list of cell-rows) into long records, block- and
+    header-aware."""
     records = []
     header = None      # list of (col_index, header_text)
     row_dim = None
     block = sheet_name
     after_title = False
-    for raw in df.values.tolist():
+    for raw in rows:
         cells = list(raw)
         nn = [(j, c) for j, c in enumerate(cells) if not _is_blank(c)]
         if not nn:
             continue
+        # A title row introduces a sub-table: its first cell is a table code
+        # ("Table 5200b:", "7210a2:"). This covers BOTH vertically stacked blocks
+        # (single-cell title) and horizontally stacked blocks (several titles
+        # across one row, e.g. the regional tables) -- in either case the next
+        # populated row is the real header.
+        first_j, first_v = nn[0]
+        if first_j == 0 and _TITLE_RE.match(str(first_v).strip()):
+            block = str(first_v).strip()
+            after_title = True
+            continue
         if len(nn) == 1:
-            txt = str(nn[0][1]).strip()
-            if _TITLE_RE.match(txt):
-                block = txt
-                after_title = True
             continue
         # >=2 populated cells: a header row or a data row. Switch header only at
         # sheet start or immediately after a sub-table title -- never re-detect
@@ -124,17 +178,28 @@ def _parse_sheet(sheet_name: str, df: "pd.DataFrame") -> list:
     return records
 
 
+# Boilerplate sheets (anchored at the sheet-name start so data sheets like
+# "4143_Complaint_contact_methods" are NOT excluded).
+_SKIP_SHEET_RE = re.compile(
+    r"^\W*(cover|notes?|contents?|metadata|definitions?|about|contact|guidance|index)\b",
+    re.I,
+)
+
+
 def _parse_workbook(content: bytes, ext: str) -> list:
     if ext == "csv":
         df = pd.read_csv(io.BytesIO(content), header=None, dtype=str)
-        return _parse_sheet("data", df)
-    engine = "odf" if ext == "ods" else "openpyxl"
-    sheets = pd.read_excel(io.BytesIO(content), sheet_name=None, header=None, engine=engine)
+        return _parse_sheet("data", df.values.tolist())
+    if ext == "ods":
+        sheets = _read_ods(content)
+    else:  # xlsx / xls
+        frames = pd.read_excel(io.BytesIO(content), sheet_name=None, header=None, dtype=str)
+        sheets = {name: df.values.tolist() for name, df in frames.items()}
     records = []
-    for name, df in sheets.items():
-        if re.search(r"cover|note|content|metadata|contact|definition", name, re.I):
+    for name, rows in sheets.items():
+        if _SKIP_SHEET_RE.match(name or ""):
             continue
-        records.extend(_parse_sheet(name, df))
+        records.extend(_parse_sheet(name, rows))
     return records
 
 
