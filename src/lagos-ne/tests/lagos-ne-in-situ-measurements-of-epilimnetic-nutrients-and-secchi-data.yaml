@@ -1,0 +1,36 @@
+spec_id: lagos-ne-in-situ-measurements-of-epilimnetic-nutrients-and-secchi-data
+status: active
+tests:
+  - not_null: eventida10873
+    reason: eventida10873 is the sampling-event primary key; never missing
+    certainty: 95
+  - unique: eventida10873
+    reason: one row per sampling event; dupes mean the snapshot was double-loaded
+    certainty: 90
+  - not_null: lagoslakeid
+    reason: every measurement belongs to a lake (joins to morphometry)
+    certainty: 95
+  - column_type: {col: sampledate, type: date}
+    reason: sampledate is an ISO YYYY-MM-DD calendar date
+    certainty: 90
+  - column_type: {col: secchi, type: float}
+    reason: Secchi depth is a real-valued measurement (metres)
+    certainty: 90
+  - at_most: {col: sampledate, expr: today}
+    reason: no sample can be dated in the future
+    certainty: 95
+    points_outward: true
+    severity: warn
+  - at_least: {col: sampledate, expr: '1900-01-01'}
+    reason: LAGOS-NE-LIMNO records begin in the 1920s; anything pre-1900 is a parse bug
+    certainty: 85
+  - row_count: {min: 500000}
+    reason: edi.101.3 holds ~816k measurement events; far fewer means a truncated download
+    certainty: 85
+  - between: {col: secchi, lo: 0, hi: 60}
+    reason: Secchi transparency in metres; physically 0..~50m, observed max ~29m
+    certainty: 75
+    severity: warn
+  - distinct_count: {col: lagoslakeid, min: 1000}
+    reason: thousands of distinct lakes are sampled across the corpus
+    certainty: 80

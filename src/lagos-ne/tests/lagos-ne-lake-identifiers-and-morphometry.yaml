@@ -1,0 +1,21 @@
+spec_id: lagos-ne-lake-identifiers-and-morphometry
+status: active
+tests:
+  - not_null: lagoslakeid
+    reason: lagoslakeid is the lake primary key; never missing
+    certainty: 95
+  - unique: lagoslakeid
+    reason: one row per lake; dupes mean the snapshot was double-loaded
+    certainty: 90
+  - column_type: {col: nhd_lat, type: float}
+    reason: latitude is a real-valued coordinate
+    certainty: 90
+  - between: {col: nhd_lat, lo: 24, hi: 50}
+    reason: LAGOS-NE covers 17 NE/upper-Midwest US states (observed 34.6..49.4N)
+    certainty: 90
+  - between: {col: nhd_long, lo: -105, hi: -66}
+    reason: same region, western-to-eastern US longitudes (observed -97.9..-67.0)
+    certainty: 90
+  - row_count: {min: 50000}
+    reason: edi.101.3 holds ~141k lakes; far fewer means a truncated download
+    certainty: 85
