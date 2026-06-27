@@ -71,22 +71,33 @@ def _download_csv(url: str) -> bytes:
     return resp.content
 
 
-def _duckdb_read(path: str):
-    """Parse a clean RFC-4180 CSV to an Arrow table with full-file type
-    inference. The Arrow path (vs fetchall) avoids the tz->python datetime
-    materialization that would need pytz for timezone-aware columns."""
+def _sniff_dialect(header_line: bytes) -> tuple[str, str]:
+    """Decide (delimiter, decimal_separator) from the header line. OPSD packages
+    are either comma-delimited with a '.' decimal, or (when2heat) semicolon-
+    delimited with a ',' decimal — the European convention couples the two."""
+    if header_line.count(b";") > header_line.count(b","):
+        return ";", ","
+    return ",", "."
+
+
+def _duckdb_read(path: str, delim: str, decimal: str):
+    """Parse a CSV to an Arrow table with full-file type inference. The Arrow
+    path (vs fetchall) avoids the tz->python datetime materialization that would
+    need pytz for timezone-aware columns.
+
+    ignore_errors=true drops structurally-malformed rows in-engine (e.g. the
+    single stray unquoted-embedded-newline record in renewable_power_plants_DE),
+    so a 1.7M-row file never has to round-trip through Python. With sample_size=-1
+    the inferred types fit every row (VARCHAR fallback on genuine mixing), so only
+    column-count-broken rows are dropped, never well-formed ones. Gross drops are
+    caught by the row_count expectations."""
     safe = path.replace("'", "''")
     con = duckdb.connect()
     try:
-        # ignore_errors=true drops structurally-malformed rows in-engine (e.g. the
-        # single stray unquoted-embedded-newline record in renewable_power_plants_DE),
-        # so a 1.7M-row file never has to round-trip through Python. With
-        # sample_size=-1 the inferred types fit every row (VARCHAR fallback on
-        # genuine mixing), so only column-count-broken rows are dropped, never
-        # well-formed ones. Gross drops are caught by the row_count expectations.
         return con.execute(
             f"""SELECT * FROM read_csv('{safe}',
-                 delim=',', quote='"', escape='"', header=true,
+                 delim='{delim}', quote='"', escape='"', header=true,
+                 decimal_separator='{decimal}',
                  sample_size=-1, ignore_errors=true,
                  max_line_size={MAX_LINE_SIZE})"""
         ).fetch_arrow_table()
@@ -94,12 +105,12 @@ def _duckdb_read(path: str):
         con.close()
 
 
-def _repair_to_clean_csv(src_path: str) -> tuple[str, int]:
-    """Re-emit a strict RFC-4180 CSV keeping only header-width rows. Drops any
-    row whose field count differs from the header (the fragments left behind by
-    an unquoted embedded newline). Returns (clean_path, n_dropped)."""
+def _repair_to_clean_csv(src_path: str, delim: str) -> tuple[str, int]:
+    """Re-emit a strict CSV keeping only header-width rows. Drops any row whose
+    field count differs from the header (the fragments left behind by an unquoted
+    embedded newline). Returns (clean_path, n_dropped)."""
     with open(src_path, newline="", encoding="utf-8") as f:
-        rows = list(csv.reader(f))
+        rows = list(csv.reader(f, delimiter=delim))
     header = rows[0]
     width = len(header)
     good = [r for r in rows[1:] if len(r) == width]
@@ -108,7 +119,7 @@ def _repair_to_clean_csv(src_path: str) -> tuple[str, int]:
         suffix=".csv", delete=False, mode="w", newline="", encoding="utf-8"
     )
     try:
-        writer = csv.writer(clean)
+        writer = csv.writer(clean, delimiter=delim)
         writer.writerow(header)
         writer.writerows(good)
     finally:
@@ -117,16 +128,19 @@ def _repair_to_clean_csv(src_path: str) -> tuple[str, int]:
 
 
 def _csv_to_arrow(tmp_path: str, asset: str):
-    """Primary: parse with explicit dialect. Fallback: repair non-RFC-4180
+    """Primary: parse with the sniffed dialect. Fallback: repair non-RFC-4180
     files via the csv module, then parse the cleaned copy."""
+    with open(tmp_path, "rb") as f:
+        header_line = f.readline()
+    delim, decimal = _sniff_dialect(header_line)
     try:
-        return _duckdb_read(tmp_path)
+        return _duckdb_read(tmp_path, delim, decimal)
     except duckdb.Error as exc:
         print(f"[{asset}] strict CSV parse failed ({type(exc).__name__}); "
               f"repairing with csv-module fallback")
-        clean_path, dropped = _repair_to_clean_csv(tmp_path)
+        clean_path, dropped = _repair_to_clean_csv(tmp_path, delim)
         try:
-            table = _duckdb_read(clean_path)
+            table = _duckdb_read(clean_path, delim, decimal)
         finally:
             if os.path.exists(clean_path):
                 os.unlink(clean_path)
