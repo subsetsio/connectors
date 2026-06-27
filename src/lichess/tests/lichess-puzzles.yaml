@@ -1,0 +1,29 @@
+spec_id: lichess-puzzles
+status: active
+tests:
+  - not_null: PuzzleId
+    reason: PuzzleId is the primary key of the puzzle database; a null means a malformed/truncated CSV row
+    certainty: 98
+  - unique: PuzzleId
+    reason: one row per puzzle; duplicates mean the file was concatenated or read twice
+    certainty: 95
+  - not_null: FEN
+    reason: every puzzle is defined by a starting FEN position
+    certainty: 97
+  - not_null: Moves
+    reason: every puzzle carries its solution move sequence
+    certainty: 97
+  - column_type: {col: Rating, type: integer}
+    certainty: 95
+  - row_count: {min: 5000000}
+    reason: the database held ~6.0M rated puzzles as of 2026-06; a much smaller count means a truncated download
+    certainty: 90
+  - between: {col: Rating, lo: 300, hi: 4000}
+    reason: Glicko puzzle ratings sit roughly in the 400-3400 band; well outside means a parse/column shift
+    certainty: 85
+  - between: {col: Popularity, lo: -100, hi: 100}
+    reason: Popularity is a net up/down vote score bounded to [-100, 100]
+    certainty: 85
+  - at_least: {col: NbPlays, expr: 0}
+    reason: play counts are non-negative
+    certainty: 95
