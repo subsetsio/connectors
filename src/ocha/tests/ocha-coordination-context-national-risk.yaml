@@ -1,0 +1,20 @@
+spec_id: ocha-coordination-context-national-risk
+status: active
+tests:
+- column_type:
+    col: overall_risk
+    type: float
+- between:
+    col: overall_risk
+    lo: 0
+    hi: 10
+  reason: INFORM risk is a 0-10 index
+  certainty: 90
+- column_type:
+    col: global_rank
+    type: integer
+- at_least:
+    col: global_rank
+    expr: 1
+  certainty: 90
+- not_null: location_code

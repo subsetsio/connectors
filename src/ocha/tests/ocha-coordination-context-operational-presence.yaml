@@ -1,0 +1,11 @@
+spec_id: ocha-coordination-context-operational-presence
+status: active
+tests:
+- not_null: org_acronym
+- not_null: sector_code
+- not_null: location_code
+- between:
+    col: admin_level
+    lo: 0
+    hi: 2
+  certainty: 90

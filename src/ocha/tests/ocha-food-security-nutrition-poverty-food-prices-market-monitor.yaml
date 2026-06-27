@@ -1,0 +1,27 @@
+spec_id: ocha-food-security-nutrition-poverty-food-prices-market-monitor
+status: active
+tests:
+- column_type:
+    col: price
+    type: float
+- at_least:
+    col: price
+    expr: 0
+  reason: prices are non-negative
+  certainty: 90
+- not_null: commodity_code
+- not_null: market_code
+- not_null: currency_code
+- not_null: location_code
+- between:
+    col: lat
+    lo: -90
+    hi: 90
+  certainty: 90
+  severity: warn
+- between:
+    col: lon
+    lo: -180
+    hi: 180
+  certainty: 90
+  severity: warn

@@ -1,0 +1,29 @@
+spec_id: ocha-food-security-nutrition-poverty-poverty-rate
+status: active
+tests:
+- column_type:
+    col: mpi
+    type: float
+- between:
+    col: mpi
+    lo: 0
+    hi: 1
+  reason: MPI is in [0,1]
+  certainty: 85
+  severity: warn
+- column_type:
+    col: headcount_ratio
+    type: float
+- between:
+    col: headcount_ratio
+    lo: 0
+    hi: 100
+  reason: headcount ratio is a percentage
+  certainty: 85
+  severity: warn
+- not_null: location_code
+- between:
+    col: admin_level
+    lo: 0
+    hi: 2
+  certainty: 90

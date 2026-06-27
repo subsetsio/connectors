@@ -1,0 +1,23 @@
+spec_id: ocha-climate-rainfall
+status: active
+tests:
+- column_type:
+    col: rainfall
+    type: float
+- at_least:
+    col: rainfall
+    expr: 0
+  reason: rainfall in mm is non-negative
+  certainty: 90
+  severity: warn
+- not_null: location_code
+- not_null: aggregation_period
+- at_least:
+    col: number_pixels
+    expr: 0
+  certainty: 90
+- between:
+    col: admin_level
+    lo: 0
+    hi: 2
+  certainty: 90

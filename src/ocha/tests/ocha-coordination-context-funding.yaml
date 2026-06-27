@@ -1,0 +1,16 @@
+spec_id: ocha-coordination-context-funding
+status: active
+tests:
+- column_type:
+    col: funding_usd
+    type: float
+- column_type:
+    col: requirements_usd
+    type: float
+- at_least:
+    col: funding_usd
+    expr: 0
+  reason: USD funding is non-negative
+  certainty: 90
+- not_null: location_code
+- not_null: appeal_code

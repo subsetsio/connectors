@@ -1,0 +1,21 @@
+spec_id: ocha-affected-people-refugees-persons-of-concern
+status: active
+tests:
+- not_null: population
+- column_type:
+    col: population
+    type: integer
+- at_least:
+    col: population
+    expr: 0
+  certainty: 95
+- not_null: origin_location_code
+- not_null: asylum_location_code
+- not_null: population_group
+- between:
+    col: min_age
+    lo: 0
+    hi: 120
+  reason: age ranges in years
+  certainty: 85
+  severity: warn

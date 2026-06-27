@@ -1,0 +1,20 @@
+spec_id: ocha-affected-people-humanitarian-needs
+status: active
+tests:
+- not_null: population
+- column_type:
+    col: population
+    type: integer
+- at_least:
+    col: population
+    expr: 0
+  reason: people-in-need counts are non-negative
+  certainty: 95
+- not_null: location_code
+- not_null: sector_code
+- between:
+    col: admin_level
+    lo: 0
+    hi: 2
+  reason: HAPI admin levels are 0/1/2
+  certainty: 90

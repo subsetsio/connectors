@@ -1,0 +1,24 @@
+spec_id: ocha-food-security-nutrition-poverty-food-security
+status: active
+tests:
+- column_type:
+    col: population_in_phase
+    type: integer
+- at_least:
+    col: population_in_phase
+    expr: 0
+  certainty: 95
+- not_null: ipc_phase
+- not_null: location_code
+- between:
+    col: population_fraction_in_phase
+    lo: 0
+    hi: 1
+  reason: a fraction in [0,1]
+  certainty: 85
+  severity: warn
+- between:
+    col: admin_level
+    lo: 0
+    hi: 2
+  certainty: 90
