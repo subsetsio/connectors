@@ -16,6 +16,10 @@ matches and goals both read getmatchdata independently (download nodes are
 independent); the redundant fetch is cheap on this unmetered API.
 """
 
+from urllib.parse import quote
+
+import httpx
+
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
@@ -32,6 +36,31 @@ def _get_json(path):
     resp = get(f"{BASE}{path}", timeout=(10.0, 120.0), headers={"Accept": "application/json"})
     resp.raise_for_status()
     return resp.json()
+
+
+def _seg(value):
+    """URL-encode a single path segment. The community catalog contains junk
+    shortcuts with spaces and even slashes (e.g. 'AK NM/J W'); without encoding
+    those break path routing into a 404."""
+    return quote(str(value), safe="")
+
+
+def _get_league_json(endpoint, shortcut, season):
+    """Fetch one league-season endpoint, tolerating a malformed/unknown entry.
+
+    Valid leagues return 200 (an empty list when there's no data). A junk
+    catalog entry yields a permanent 4xx — skip it per-league rather than
+    failing the whole corpus node. 5xx/429 are retried upstream by
+    transient_retry; an exhausted-retry 4xx still lands here and is skipped."""
+    path = f"/{endpoint}/{_seg(shortcut)}/{_seg(season)}"
+    try:
+        return _get_json(path)
+    except httpx.HTTPStatusError as exc:
+        status = exc.response.status_code
+        if 400 <= status < 500:
+            print(f"[openligadb] skip {endpoint} {shortcut!r}/{season!r}: HTTP {status}")
+            return []
+        raise
 
 
 def _league_seasons():
@@ -73,7 +102,7 @@ def fetch_matches(node_id: str) -> None:
     asset = node_id
     rows = []
     for shortcut, season in _league_seasons():
-        matches = _get_json(f"/getmatchdata/{shortcut}/{season}")
+        matches = _get_league_json("getmatchdata", shortcut, season)
         if not matches:
             continue
         for m in matches:
@@ -114,7 +143,7 @@ def fetch_goals(node_id: str) -> None:
     asset = node_id
     rows = []
     for shortcut, season in _league_seasons():
-        matches = _get_json(f"/getmatchdata/{shortcut}/{season}")
+        matches = _get_league_json("getmatchdata", shortcut, season)
         if not matches:
             continue
         for m in matches:
@@ -143,7 +172,7 @@ def fetch_standings(node_id: str) -> None:
     asset = node_id
     rows = []
     for shortcut, season in _league_seasons():
-        table = _get_json(f"/getbltable/{shortcut}/{season}")
+        table = _get_league_json("getbltable", shortcut, season)
         if not table:
             continue
         season_int = _season_int(season, season)
@@ -170,7 +199,7 @@ def fetch_goalgetters(node_id: str) -> None:
     asset = node_id
     rows = []
     for shortcut, season in _league_seasons():
-        scorers = _get_json(f"/getgoalgetters/{shortcut}/{season}")
+        scorers = _get_league_json("getgoalgetters", shortcut, season)
         if not scorers:
             continue
         season_int = _season_int(season, season)

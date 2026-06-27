@@ -1,0 +1,27 @@
+spec_id: openelections-pa
+status: active
+tests:
+  - not_null: state
+    reason: every row is stamped with the state slug from the repo name
+    certainty: 99
+  - not_null: election_date
+    reason: election_date is parsed from the mandatory YYYYMMDD filename prefix
+    certainty: 97
+  - column_type: {col: votes, type: integer}
+    reason: votes is coerced to int64 in the fetch fn
+    certainty: 95
+  - enum: {col: state, values: ["pa"]}
+    reason: this asset holds only the pa repo; any other value means cross-state contamination
+    certainty: 99
+  - at_least: {col: votes, expr: 0}
+    reason: vote counts are non-negative
+    certainty: 90
+    severity: warn
+  - not_null: candidate
+    reason: OpenElections rows name a candidate (or ballot option) per result line
+    certainty: 80
+    severity: warn
+    points_outward: true
+  - row_count: {min: 1}
+    reason: an accepted (rank>=50) state repo always has at least some standardized results
+    certainty: 95

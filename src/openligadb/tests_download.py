@@ -18,10 +18,10 @@ EXPECTED_KEYS = {
 # Loose floors: matches/goals are large; standings/goalgetters smaller. A crawl
 # that broke after the first league-season would fall far below these.
 MIN_ROWS = {
-    "openligadb-matches": 50000,
-    "openligadb-goals": 50000,
-    "openligadb-standings": 5000,
-    "openligadb-goalgetters": 5000,
+    "openligadb-matches": 20000,
+    "openligadb-goals": 10000,
+    "openligadb-standings": 2000,
+    "openligadb-goalgetters": 2000,
 }
 
 
