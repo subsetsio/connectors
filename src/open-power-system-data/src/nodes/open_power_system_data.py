@@ -13,19 +13,23 @@ in full and overwrites — no watermark, no incremental filter (the source expos
 none). The biggest table (hourly time_series, ~50k rows × 300 cols) is ~123MB in
 memory, comfortably in RAM.
 
-Raw format: the CSVs are comma-delimited, double-quoted, single-header tabular
-files (RFC 4180), but schemas vary widely (13 to 656 columns) and many columns
-are sparse. We parse with an explicit dialect and let DuckDB infer types over the
-*whole* file (`sample_size=-1`, which falls back to VARCHAR on genuinely mixed
-columns rather than erroring), then write parquet. The SQL transform is then a
-thin pass-through that publishes the typed table verbatim.
+Raw format: the CSVs are double-quoted, single-header tabular files, but their
+**dialect is not uniform** — most packages are comma-delimited with a `.` decimal
+(e.g. `0.504`), while `when2heat` is semicolon-delimited with a `,` decimal
+(e.g. `2,8` = 2.8), the European convention. We therefore sniff the delimiter
+from the header line and pair `;`→decimal-comma / `,`→decimal-point, then let
+DuckDB infer types over the *whole* file (`sample_size=-1`, VARCHAR fallback on
+genuine mixing). `ignore_errors=true` drops the occasional structurally-broken
+row (see below) in-engine rather than failing the whole table. The SQL transform
+is then a thin pass-through that publishes the typed table verbatim.
 
-A couple of OPSD tables (notably `renewable_power_plants_UK`) contain a stray
-record with an *unquoted embedded newline* — a non-RFC-4180 malformation that
-DuckDB's (and pandas') tokenizer cannot reconcile. For those, `_csv_to_arrow`
-falls back to Python's lenient `csv` module: it keeps only header-width rows
-(dropping the malformed fragments), rewrites a clean CSV, and lets DuckDB infer
-types from that. The number of dropped rows is logged.
+A couple of OPSD tables (notably `renewable_power_plants_UK`, and one row of
+`renewable_power_plants_DE`) contain a stray record with an *unquoted embedded
+newline* — a non-RFC-4180 malformation. DE's single bad row is dropped in-engine
+by `ignore_errors`; UK's breaks DuckDB's column-count auto-detection outright, so
+`_csv_to_arrow` falls back to Python's lenient `csv` module: it keeps only
+header-width rows (dropping the malformed fragments), rewrites a clean CSV, and
+lets DuckDB infer types from that. Dropped-row counts are logged.
 """
 
 import csv
