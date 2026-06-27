@@ -38,6 +38,7 @@ FEATURE_SERVER = (
 )
 PAGE_SIZE = 2000
 MAX_PAGES = 50  # safety ceiling per layer (~1k rows/layer; raise+fail if exceeded)
+FETCH_WORKERS = 8  # parallel layer fetches — cuts wall time well under the node budget
 
 # InCommon RSA Server CA 2 — the intermediate the server omits. Public cert,
 # fetched from http://crt.sectigo.com/InCommonRSAServerCA2.crt; chains to
@@ -106,7 +107,9 @@ def _install_verified_client() -> None:
 
 @transient_retry()
 def _get_json(url: str, **params) -> dict:
-    resp = get(url, params=params, timeout=(10.0, 120.0))
+    # Short read timeout: a layer query returns ~1k rows in a second or two, so a
+    # hung connection should fail fast and be retried, not block for minutes.
+    resp = get(url, params=params, timeout=(10.0, 45.0))
     resp.raise_for_status()
     return resp.json()
 
@@ -116,9 +119,15 @@ def _list_layers() -> list[dict]:
     return meta.get("layers", [])
 
 
-def _query_layer(layer_id: int) -> list[dict]:
-    """Return every feature's attributes for one monthly layer, paging through
-    resultOffset until the server stops flagging exceededTransferLimit."""
+def _query_layer(layer: dict) -> list[dict]:
+    """Return the long-format rows for one monthly layer, paging through
+    resultOffset until the server stops flagging exceededTransferLimit. The
+    assessed month comes from the layer name (Global_Synthesis_YYYYMM)."""
+    name = layer.get("name", "")
+    period = name.rsplit("_", 1)[-1]
+    if not (len(period) == 6 and period.isdigit()):
+        return []  # skip any non-monthly layer the service might add
+    layer_id = layer["id"]
     rows, offset = [], 0
     for _ in range(MAX_PAGES):
         j = _get_json(
@@ -132,7 +141,16 @@ def _query_layer(layer_id: int) -> list[dict]:
             f="json",
         )
         feats = j.get("features", [])
-        rows.extend(f.get("attributes", {}) for f in feats)
+        for feat in feats:
+            attrs = feat.get("attributes", {})
+            rows.append({
+                "period": period,
+                "country": attrs.get("Country"),
+                "region": attrs.get("Region"),
+                "crop": attrs.get("Crop"),
+                "conditions": attrs.get("Conditions"),
+                "drivers": attrs.get("Drivers"),
+            })
         if not j.get("exceededTransferLimit") or not feats:
             return rows
         offset += len(feats)
@@ -145,21 +163,14 @@ def fetch_crop_conditions(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     _install_verified_client()
 
-    rows = []
-    for layer in _list_layers():
-        name = layer.get("name", "")
-        period = name.rsplit("_", 1)[-1]  # Global_Synthesis_YYYYMM -> YYYYMM
-        if not (len(period) == 6 and period.isdigit()):
-            continue  # skip any non-monthly layer the service might add
-        for attrs in _query_layer(layer["id"]):
-            rows.append({
-                "period": period,
-                "country": attrs.get("Country"),
-                "region": attrs.get("Region"),
-                "crop": attrs.get("Crop"),
-                "conditions": attrs.get("Conditions"),
-                "drivers": attrs.get("Drivers"),
-            })
+    layers = _list_layers()
+    # Fetch layers concurrently — 48 independent small queries; bounded pool keeps
+    # the source happy while finishing in seconds. Any layer's exhausted retries
+    # propagate and fail the node (no silent partial coverage).
+    rows: list[dict] = []
+    with ThreadPoolExecutor(max_workers=FETCH_WORKERS) as pool:
+        for layer_rows in pool.map(_query_layer, layers):
+            rows.extend(layer_rows)
 
     if not rows:
         raise RuntimeError("FeatureServer returned no monthly layers / no features")
