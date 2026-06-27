@@ -29,6 +29,7 @@ union by name).
 
 import os
 import tempfile
+from concurrent.futures import ThreadPoolExecutor
 
 import duckdb
 
@@ -93,11 +94,11 @@ def fetch_one(node_id: str) -> None:
         raise RuntimeError(f"{pkg_id}: no PARQUET resources found")
 
     with tempfile.TemporaryDirectory(prefix=f"{asset}-") as tmp:
-        local_files = []
-        for i, url in enumerate(urls):
-            path = os.path.join(tmp, f"{i:05d}.parquet")
-            _download_to(url, path)
-            local_files.append(path)
+        local_files = [os.path.join(tmp, f"{i:05d}.parquet") for i in range(len(urls))]
+        # The pooled httpx client is thread-safe; S3 per-request latency
+        # dominates, so fetch in parallel. Exceptions propagate (fail the spec).
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            list(pool.map(lambda pair: _download_to(*pair), zip(urls, local_files)))
 
         con = duckdb.connect()
         file_list = "[" + ",".join("'" + p + "'" for p in local_files) + "]"
