@@ -147,7 +147,6 @@ _CASE_FIELDS = (
     "cm_onboard_Total",
     "cm_HazmatInvolved",
     "cm_hasSafetyRec",
-    "cm_isStudy",
     "cm_agency",
     "cm_launch",
     "cm_closed",
@@ -155,7 +154,6 @@ _CASE_FIELDS = (
     "cm_mostRecentReportType",
     "cm_recentReportPublishDate",
     "cm_originalPublishedDate",
-    "cm_docketDate",
 )
 
 # Vehicle-level scalar fields (drop the nested cm_events / cm_injuries arrays).
@@ -253,15 +251,13 @@ TRANSFORM_SPECS = [
                 CAST(cm_onboard_Total AS BIGINT)              AS onboard_total,
                 CAST(cm_HazmatInvolved AS BOOLEAN)            AS hazmat_involved,
                 CAST(cm_hasSafetyRec AS BOOLEAN)              AS has_safety_rec,
-                CAST(cm_isStudy AS BOOLEAN)                   AS is_study,
                 CAST(cm_agency AS VARCHAR)                    AS agency,
                 CAST(cm_launch AS VARCHAR)                    AS launch,
                 CAST(cm_closed AS BOOLEAN)                    AS is_closed,
                 CAST(cm_completionStatus AS VARCHAR)          AS completion_status,
                 CAST(cm_mostRecentReportType AS VARCHAR)      AS most_recent_report_type,
                 CAST(cm_recentReportPublishDate AS TIMESTAMP) AS recent_report_publish_date,
-                CAST(cm_originalPublishedDate AS TIMESTAMP)   AS original_published_date,
-                CAST(cm_docketDate AS TIMESTAMP)              AS docket_date
+                CAST(cm_originalPublishedDate AS TIMESTAMP)   AS original_published_date
             FROM "ntsb-aviation-accidents"
             WHERE cm_mkey IS NOT NULL
             QUALIFY row_number() OVER (
