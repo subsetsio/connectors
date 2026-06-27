@@ -1,0 +1,38 @@
+spec_id: global-footprint-network-values
+status: active
+tests:
+  - not_null: year
+    reason: every observation is stamped with its year
+    certainty: 99
+  - not_null: record
+    reason: every row carries its record-type code (the metric)
+    certainty: 99
+  - not_null: countryCode
+    reason: every observation belongs to a country/region entity
+    certainty: 99
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 90
+  - between: {col: year, lo: 1961, hi: 2030}
+    reason: the National Footprint Accounts start in 1961; upper bound padded for nowcast years
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: should not exceed the current year; relax if GFN ships forward projections
+    certainty: 75
+    points_outward: true
+    severity: warn
+  - enum:
+      col: record
+      values: [BiocapPerCap, BiocapTotGHA, EFConsPerCap, EFConsTotGHA, GDP, HDI, Population]
+    reason: the 8 type codes map onto exactly these 7 record values (BCtot and earth both map to BiocapTotGHA)
+    certainty: 90
+  - distinct_count: {col: record, min: 7}
+    reason: all record types should appear in a full pull
+    certainty: 90
+  - row_count: {min: 20000}
+    reason: 8 record types x ~200 countries x ~64 years yields tens of thousands of rows
+    certainty: 90
+  - distinct_count: {col: countryCode, min: 150}
+    reason: ~200 countries/regions have data across the accounts
+    certainty: 85
