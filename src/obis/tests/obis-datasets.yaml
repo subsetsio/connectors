@@ -1,0 +1,15 @@
+spec_id: obis-datasets
+status: active
+tests:
+  - not_null: dataset_id
+  - not_null: title
+  - unique: dataset_id
+    reason: one row per OBIS dataset; dataset id is the primary key
+    certainty: 95
+  - row_count: {min: 5000}
+    reason: OBIS reports ~6760 datasets
+    certainty: 90
+  - at_least: {col: records, expr: 0}
+    reason: per-dataset record counts are non-negative
+    certainty: 85
+    severity: warn

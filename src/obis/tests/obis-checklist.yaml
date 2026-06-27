@@ -1,0 +1,18 @@
+spec_id: obis-checklist
+status: active
+tests:
+  - not_null: taxonID
+  - not_null: scientificName
+  - unique: taxonID
+    reason: one row per taxon; taxonID is the primary key
+    certainty: 90
+  - row_count: {min: 150000}
+    reason: OBIS reports ~197k taxa in the checklist
+    certainty: 90
+  - at_least: {col: records, expr: 0}
+    reason: per-taxon occurrence counts are non-negative
+    certainty: 85
+  - enum: {col: taxonomicStatus, values: [accepted, unaccepted, alternate representation, nomen dubium, nomen nudum, temporary name, uncertain]}
+    reason: WoRMS taxonomic-status vocabulary
+    certainty: 60
+    severity: warn
