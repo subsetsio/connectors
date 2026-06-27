@@ -1,0 +1,36 @@
+spec_id: majestic-million-majestic-million
+status: active
+tests:
+  - row_count: {min: 990000, max: 1000000}
+    reason: the report is the "Majestic Million" — exactly the top 1,000,000 domains; far fewer means a truncated/partial download.
+    certainty: 95
+  - not_null: GlobalRank
+    reason: every row is ranked; a null rank means a malformed parse.
+    certainty: 95
+  - not_null: Domain
+    reason: the domain is the natural key of the report.
+    certainty: 95
+  - unique: GlobalRank
+    reason: GlobalRank is a dense 1..1,000,000 ranking, one row per rank.
+    certainty: 90
+  - unique: Domain
+    reason: one row per domain in the report.
+    certainty: 90
+  - column_type: {col: GlobalRank, type: integer}
+    certainty: 95
+  - column_type: {col: RefSubNets, type: integer}
+    certainty: 95
+  - between: {col: GlobalRank, lo: 1, hi: 1000000}
+    reason: GlobalRank ranks the top million domains.
+    certainty: 95
+  - at_least: {col: RefSubNets, expr: 0}
+    reason: referring-subnet counts are non-negative.
+    certainty: 90
+  - distinct_count: {col: TLD, min: 100}
+    reason: the top million domains span hundreds of TLDs (com, org, net, country codes, new gTLDs).
+    certainty: 80
+    severity: warn
+  - matches: {col: TLD, pattern: '^[a-z0-9-]+$'}
+    reason: TLDs are lowercase alphanumeric/hyphen labels.
+    certainty: 75
+    severity: warn

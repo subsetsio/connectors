@@ -38,7 +38,11 @@ FEATURE_SERVER = (
 )
 PAGE_SIZE = 2000
 MAX_PAGES = 50  # safety ceiling per layer (~1k rows/layer; raise+fail if exceeded)
-FETCH_WORKERS = 8  # parallel layer fetches — cuts wall time well under the node budget
+# Parallel layer fetches. Kept modest: the ArcGIS FeatureServer occasionally
+# stalls a connection under heavy concurrent load, and a single stalled read
+# that exhausts its retries fails the whole node. 4 workers still finishes ~48
+# small queries in well under ~15s while keeping the source happy.
+FETCH_WORKERS = 4
 
 # InCommon RSA Server CA 2 — the intermediate the server omits. Public cert,
 # fetched from http://crt.sectigo.com/InCommonRSAServerCA2.crt; chains to
@@ -105,11 +109,13 @@ def _install_verified_client() -> None:
     )
 
 
-@transient_retry()
+# A layer query returns ~1k rows in a second or two, so a hung connection should
+# fail fast and be retried quickly rather than block for minutes. Tight per-call
+# timeout (10s connect / 25s read) plus bounded, fast backoff keeps the whole
+# node's worst case well within its time budget even if a layer needs retries.
+@transient_retry(attempts=5, min_wait=2, max_wait=15)
 def _get_json(url: str, **params) -> dict:
-    # Short read timeout: a layer query returns ~1k rows in a second or two, so a
-    # hung connection should fail fast and be retried, not block for minutes.
-    resp = get(url, params=params, timeout=(10.0, 45.0))
+    resp = get(url, params=params, timeout=(10.0, 25.0))
     resp.raise_for_status()
     return resp.json()
 
