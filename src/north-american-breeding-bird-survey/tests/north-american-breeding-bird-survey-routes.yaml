@@ -1,0 +1,19 @@
+spec_id: north-american-breeding-bird-survey-routes
+status: active
+tests:
+  - not_null: route
+  - column_type: {col: country_num, type: integer}
+  - row_count: {min: 4000}
+    reason: BBS has thousands of established roadside routes across the US and Canada
+    certainty: 85
+  - distinct_count: {col: country_num, min: 1, max: 2}
+    reason: routes are in the US (840) and Canada (124) only
+    certainty: 90
+  - between: {col: latitude, lo: 10, hi: 75}
+    reason: North American routes span roughly Mexico border to northern Canada/Alaska
+    certainty: 85
+    severity: warn
+  - between: {col: longitude, lo: -180, hi: -50}
+    reason: western Alaska to Atlantic seaboard
+    certainty: 85
+    severity: warn

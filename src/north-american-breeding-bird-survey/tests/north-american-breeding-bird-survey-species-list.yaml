@@ -1,0 +1,12 @@
+spec_id: north-american-breeding-bird-survey-species-list
+status: active
+tests:
+  - not_null: aou
+  - not_null: english_common_name
+  - row_count: {min: 500}
+    reason: BBS tracks 700+ taxa (species, races, unidentified groupings)
+    certainty: 85
+  - unique: aou
+    reason: AOU number is the taxon's primary key in the species list
+    certainty: 75
+    severity: warn

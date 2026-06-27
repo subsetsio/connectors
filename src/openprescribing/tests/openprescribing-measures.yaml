@@ -1,0 +1,13 @@
+spec_id: openprescribing-measures
+tests:
+  - not_null: measure_id
+    reason: every repo definition file has a slug; null means parse broke
+    certainty: 98
+  - unique: measure_id
+    reason: one row per measure definition file
+    certainty: 95
+  - not_null: name
+    certainty: 90
+  - row_count: {min: 50}
+    reason: the source repo ships ~80 standardised measure definitions
+    certainty: 90

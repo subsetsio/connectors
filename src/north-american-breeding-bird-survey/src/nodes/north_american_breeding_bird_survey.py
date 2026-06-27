@@ -369,33 +369,32 @@ def _indices_sql(asset_id: str) -> str:
 
 
 def _trends_sql(asset_id: str, has_years: bool) -> str:
-    years_col = "TRIM(Years) AS years," if has_years else ""
+    cols = [
+        'TRIM(AOU) AS aou',
+        'TRIM(Region) AS region',
+        'TRIM("Region Name") AS region_name',
+        'TRIM(Species) AS species',
+        'TRIM(Model) AS model',
+        'TRIM("Credibility Code") AS credibility_code',
+        'TRIM("Sample Size Code") AS sample_size_code',
+        'TRIM("Precision Code") AS precision_code',
+        'TRIM("Abundance Code") AS abundance_code',
+        'TRIM(Significance) AS significance',
+        'TRY_CAST(TRIM("N Routes") AS INTEGER) AS n_routes',
+        'TRY_CAST(TRIM(Trend) AS DOUBLE) AS trend',
+        'TRY_CAST(TRIM("2.5%CI") AS DOUBLE) AS ci_lower',
+        'TRY_CAST(TRIM("97.5%CI") AS DOUBLE) AS ci_upper',
+        'TRY_CAST(TRIM("Relative Abundance") AS DOUBLE) AS relative_abundance',
+    ]
+    if has_years:
+        cols.append('TRIM(Years) AS years')
+    select = ",\n        ".join(cols)
     return f'''
     SELECT
-        TRIM(AOU)                                 AS aou,
-        TRIM(Region)                              AS region,
-        TRIM("Region Name")                       AS region_name,
-        TRIM(Species)                             AS species,
-        TRIM(Model)                               AS model,
-        TRIM("Credibility Code")                  AS credibility_code,
-        TRIM("Sample Size Code")                  AS sample_size_code,
-        TRIM("Precision Code")                    AS precision_code,
-        TRIM("Abundance Code")                    AS abundance_code,
-        TRIM(Significance)                        AS significance,
-        TRY_CAST(TRIM("N Routes") AS INTEGER)     AS n_routes,
-        TRY_CAST(TRIM(Trend) AS DOUBLE)           AS trend,
-        TRY_CAST(TRIM("2.5%CI") AS DOUBLE)        AS ci_lower,
-        TRY_CAST(TRIM("97.5%CI") AS DOUBLE)       AS ci_upper,
-        TRY_CAST(TRIM("Relative Abundance") AS DOUBLE) AS relative_abundance,
-        {years_col}
-        TRIM(AOU)                                 AS _aou_keep
+        {select}
     FROM "{asset_id}"
     WHERE TRIM(AOU) <> ''
 '''
-
-
-# Note: the trailing `_aou_keep` above keeps the SELECT list valid whether or not
-# the optional `years,` line is present (it can never leave a dangling comma).
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(id=f"{SLUG}-routes-transform", deps=[f"{SLUG}-routes"], sql=_ROUTES_SQL),

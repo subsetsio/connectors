@@ -1,0 +1,16 @@
+spec_id: north-american-breeding-bird-survey-fifty-stop-counts
+status: active
+tests:
+  - not_null: aou
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1997, hi: current_year()}
+    reason: per-stop 50-stop data is complete only from 1997 to present
+    certainty: 80
+    severity: warn
+  - row_count: {min: 500000}
+    reason: one row per (route-run, species) from 1997 onward
+    certainty: 85
+  - at_least: {col: stop1, expr: 0}
+    reason: per-stop bird counts are non-negative
+    certainty: 90
+    severity: warn

@@ -1,0 +1,20 @@
+spec_id: north-american-breeding-bird-survey-analysis-core-indices
+status: active
+tests:
+  - not_null: aou
+  - not_null: region
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1966, hi: current_year()}
+    reason: core annual indices cover the full 1966-present period
+    certainty: 90
+  - at_least: {col: annual_index, expr: 0}
+    reason: modeled abundance indices are non-negative
+    certainty: 80
+    severity: warn
+  - row_count: {min: 50000}
+    reason: one row per (species, region, year) across ~500 species and many regions
+    certainty: 80
+  - relationship: {left: ci_lower, op: "<=", right: ci_upper}
+    reason: 2.5% credible bound should not exceed the 97.5% bound
+    certainty: 80
+    severity: warn

@@ -1,0 +1,17 @@
+spec_id: north-american-breeding-bird-survey-analysis-core-trends
+status: active
+tests:
+  - not_null: aou
+  - not_null: region
+  - column_type: {col: trend, type: float}
+  - row_count: {min: 500}
+    reason: one row per (species, region) over hundreds of species
+    certainty: 85
+  - between: {col: trend, lo: -50, hi: 50}
+    reason: annual percent-change population trends realistically fall in this band
+    certainty: 65
+    severity: warn
+  - relationship: {left: ci_lower, op: "<=", right: ci_upper}
+    reason: lower credible bound should not exceed the upper bound
+    certainty: 80
+    severity: warn

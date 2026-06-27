@@ -1,0 +1,18 @@
+spec_id: north-american-breeding-bird-survey-weather
+status: active
+tests:
+  - not_null: route_data_id
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1966, hi: current_year()}
+    reason: survey began in 1966; runs are not dated in the future
+    certainty: 90
+  - between: {col: month, lo: 1, hi: 12}
+    reason: month-of-year field
+    certainty: 95
+  - row_count: {min: 100000}
+    reason: one row per route-run over ~60 years of thousands of routes
+    certainty: 85
+  - at_most: {col: year, expr: current_year()}
+    certainty: 90
+    points_outward: true
+    severity: warn

@@ -1,0 +1,12 @@
+spec_id: openprescribing-bnf-codes
+tests:
+  - not_null: bnf_code
+    certainty: 98
+  - unique: bnf_code
+    reason: deduplicated across all measure definitions
+    certainty: 95
+  - enum: {col: level, values: [chapter, section, paragraph, subparagraph, chemical, product, presentation, other]}
+    certainty: 90
+  - row_count: {min: 50}
+    reason: measures reference many BNF presentation codes in their filters
+    certainty: 75

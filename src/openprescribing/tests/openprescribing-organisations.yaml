@@ -1,0 +1,13 @@
+spec_id: openprescribing-organisations
+tests:
+  - not_null: org_id
+    certainty: 90
+  - not_null: org_name
+    certainty: 85
+  - enum: {col: org_level, values: [regional_team, icb, sicbl, pcn, practice]}
+    reason: we enumerate these five NHS org levels
+    certainty: 90
+  - row_count: {min: 100}
+    reason: ~6500 practices dominate; even without practices >100 orgs exist
+    certainty: 75
+    points_outward: true
