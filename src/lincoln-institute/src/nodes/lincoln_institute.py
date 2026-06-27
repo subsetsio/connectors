@@ -177,6 +177,11 @@ def fetch_atlas(node_id):
         region = r[2].strip() if len(r) > 2 else None
         lat = _parse_num(r[col_lat]) if col_lat is not None and col_lat < len(r) else None
         lon = _parse_num(r[col_lon]) if col_lon is not None and col_lon < len(r) else None
+        # A handful of source rows (e.g. Sydney, Parepare) have latitude and
+        # longitude transposed. A real latitude is always within +/-90, so a
+        # >90 magnitude unambiguously identifies the swap; correct it.
+        if lat is not None and lon is not None and abs(lat) > 90 and abs(lon) <= 90:
+            lat, lon = lon, lat
         for idx, metric, period in metric_cols:
             if idx >= len(r):
                 continue
