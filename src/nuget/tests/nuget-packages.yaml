@@ -1,0 +1,22 @@
+spec_id: nuget-packages
+status: active
+tests:
+  - not_null: package_id
+    reason: every search result has an id
+    certainty: 99
+  - not_null: total_downloads
+    reason: search results always carry totalDownloads
+    certainty: 95
+  - unique: package_id
+    reason: one row per package id (deduped across search pages); dupes mean dedup broke
+    certainty: 95
+  - column_type: {col: total_downloads, type: integer}
+    certainty: 95
+  - at_least: {col: total_downloads, expr: 0}
+    reason: download counts are non-negative
+    certainty: 99
+  - column_type: {col: verified, type: boolean}
+    certainty: 90
+  - row_count: {min: 5000}
+    reason: search default ranking returns ~10k popular packages before the skip cap; far fewer means pagination broke
+    certainty: 85
