@@ -2,7 +2,7 @@ spec_id: nhtsa-fars-miper
 status: active
 tests:
   - not_null: case_year
-    reason: case_year is synthesized from the source ZIP's year directory on every row; a null means the year-union loop dropped rows.
+    reason: case_year is synthesized from the source ZIP year directory on every row; a null means the year-union loop dropped rows.
   - column_type: {col: case_year, type: integer}
     reason: case_year is written as int32; a non-integer type means the parquet schema was built wrong.
   - between: {col: case_year, lo: 1975, hi: current_year()}
@@ -11,4 +11,4 @@ tests:
     severity: warn
     certainty: 70
     points_outward: true
-    reason: 'miper' appears in 43 case years (1982-); >=~100 rows/year is a low bar, so fewer means a year silently produced no rows (member-extract or union failure).
+    reason: "Table miper appears in 43 case years (1982-present); at least ~100 rows/year is a low bar, so a lower total means a year silently produced no rows (member-extract or year-union failure)."
