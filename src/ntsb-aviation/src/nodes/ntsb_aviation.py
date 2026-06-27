@@ -20,12 +20,31 @@ download<->entity contract means each re-pulls the corpus):
 
 import io
 import json
+import time
 import zipfile
 from datetime import datetime, timezone
 
-from subsets_utils import NodeSpec, SqlNodeSpec, post, save_raw_ndjson, transient_retry
+from subsets_utils import NodeSpec, SqlNodeSpec, is_transient, post, save_raw_ndjson
 
 FILE_EXPORT_URL = "https://data.ntsb.gov/carol-main-public/api/Query/FileExport"
+
+# CAROL sits behind Cloudflare, which intermittently 403s datacenter IPs (e.g.
+# CI runners) with a bot challenge even though the request is valid. A
+# browser-like UA + Referer lowers that suspicion, and 403/429/5xx are retried
+# with backoff (a transient edge challenge usually clears on a later edge hit).
+_REQUEST_HEADERS = {
+    "Accept": "*/*",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Content-Type": "application/json",
+    "Origin": "https://data.ntsb.gov",
+    "Referer": "https://data.ntsb.gov/carol-main-public/query-builder",
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+}
+_RETRYABLE_STATUS = {403, 429, 500, 502, 503, 504}
+_MAX_ATTEMPTS = 7
 
 # CAROL aviation coverage starts in 1962. Upper bound is the current year.
 START_YEAR = 1962
@@ -90,21 +109,40 @@ def _year_payload(year, offset):
     }
 
 
-@transient_retry()
 def _post_year(year, offset):
-    resp = post(
-        FILE_EXPORT_URL,
-        json=_year_payload(year, offset),
-        headers={"Accept": "*/*", "Origin": "https://data.ntsb.gov"},
-        timeout=(10.0, 180.0),
+    """POST one year's FileExport, retrying transient network errors and
+    retryable HTTP statuses (incl. Cloudflare 403) with exponential backoff."""
+    last = None
+    for attempt in range(_MAX_ATTEMPTS):
+        try:
+            resp = post(
+                FILE_EXPORT_URL,
+                json=_year_payload(year, offset),
+                headers=_REQUEST_HEADERS,
+                timeout=(10.0, 180.0),
+            )
+        except Exception as exc:  # noqa: BLE001 - classified via is_transient
+            if is_transient(exc) and attempt < _MAX_ATTEMPTS - 1:
+                last = exc
+                time.sleep(min(4 * 2 ** attempt, 90))
+                continue
+            raise
+        if resp.status_code in _RETRYABLE_STATUS and attempt < _MAX_ATTEMPTS - 1:
+            last = RuntimeError(
+                f"HTTP {resp.status_code} from FileExport (year={year}, offset={offset})"
+            )
+            time.sleep(min(4 * 2 ** attempt, 90))
+            continue
+        resp.raise_for_status()
+        zf = zipfile.ZipFile(io.BytesIO(resp.content))
+        name = next(n for n in zf.namelist() if n.endswith(".json"))
+        data = json.loads(zf.read(name))
+        if not isinstance(data, list):
+            raise TypeError(f"expected JSON array, got {type(data).__name__}")
+        return data
+    raise RuntimeError(
+        f"FileExport failed after {_MAX_ATTEMPTS} attempts (year={year}): {last}"
     )
-    resp.raise_for_status()
-    zf = zipfile.ZipFile(io.BytesIO(resp.content))
-    name = next(n for n in zf.namelist() if n.endswith(".json"))
-    data = json.loads(zf.read(name))
-    if not isinstance(data, list):
-        raise TypeError(f"expected JSON array, got {type(data).__name__}")
-    return data
 
 
 def _iter_all_cases():
