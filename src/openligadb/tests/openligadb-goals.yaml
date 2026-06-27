@@ -1,0 +1,20 @@
+spec_id: openligadb-goals
+status: active
+tests:
+  - not_null: goal_id
+    reason: every goal event carries a stable integer goalID
+    certainty: 95
+  - not_null: match_id
+    reason: each goal belongs to a match and joins back via match_id
+    certainty: 95
+  - column_type: {col: goal_id, type: integer}
+    certainty: 90
+  - unique: goal_id
+    reason: goal ids are globally unique; dupes mean a match was ingested twice
+    certainty: 85
+  - between: {col: league_season, lo: 1962, hi: 2027}
+    certainty: 90
+  - between: {col: match_minute, lo: 0, hi: 130}
+    reason: a goal minute lies within regulation+stoppage/extra time
+    certainty: 75
+    severity: warn

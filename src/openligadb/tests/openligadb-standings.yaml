@@ -1,0 +1,20 @@
+spec_id: openligadb-standings
+status: active
+tests:
+  - not_null: team_id
+    certainty: 95
+  - not_null: league_shortcut
+    certainty: 95
+  - column_type: {col: points, type: integer}
+    certainty: 90
+  - unique: [league_shortcut, league_season, team_id]
+    reason: one standings row per team per league-season
+    certainty: 90
+  - between: {col: points, lo: 0, hi: 160}
+    reason: league points are non-negative and bounded by season length
+    certainty: 85
+  - between: {col: matches, lo: 0, hi: 80}
+    reason: matches played per team in a season is small
+    certainty: 85
+  - between: {col: league_season, lo: 1962, hi: 2027}
+    certainty: 90

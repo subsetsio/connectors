@@ -1,0 +1,21 @@
+spec_id: openligadb-goalgetters
+status: active
+tests:
+  - not_null: goal_getter_id
+    certainty: 90
+  - not_null: league_shortcut
+    certainty: 95
+  - column_type: {col: goal_count, type: integer}
+    certainty: 90
+  - unique: [league_shortcut, league_season, goal_getter_id]
+    reason: one scorer row per player per league-season
+    certainty: 85
+  - at_least: {col: goal_count, expr: 0}
+    reason: a season goal tally is non-negative
+    certainty: 90
+  - between: {col: goal_count, lo: 0, hi: 100}
+    reason: top single-season tallies stay well under 100
+    certainty: 80
+    severity: warn
+  - between: {col: league_season, lo: 1962, hi: 2027}
+    certainty: 90

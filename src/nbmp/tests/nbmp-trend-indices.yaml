@@ -1,0 +1,15 @@
+spec_id: nbmp-trend-indices
+status: active
+tests:
+  - not_null: year
+    reason: every index point is for a specific year; a null means the year column failed to cast
+    certainty: 95
+  - not_null: smoothed_index
+    reason: the transform drops rows whose smoothed index won't cast, so survivors must be non-null
+    certainty: 95
+  - row_count: {min: 1500}
+    reason: sheet 1_Trend_indices_and_CIs held ~2000 rows in the 2026 pull; a large drop means the xlsx layout changed and parsing degraded
+    certainty: 80
+  - distinct_count: {col: species, min: 8}
+    reason: trends are published for ~11 GB bat species; far fewer means a parse or header-detection failure
+    certainty: 85
