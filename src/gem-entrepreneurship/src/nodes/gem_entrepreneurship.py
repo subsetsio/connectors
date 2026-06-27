@@ -85,52 +85,74 @@ RAW_SCHEMA = pa.schema([
 ])
 
 
-# A normal browser UA — the origin 403s default Python UAs from any IP-reputation
-# borderline case (ASCII only).
+# A normal browser UA (ASCII only).
 _HEADERS = {"User-Agent": BROWSER_UA}
 
 # The origin (Cloudflare-fronted) hard-403s datacenter IPs regardless of UA, so a
-# cloud run cannot reach it directly. allorigins fetches the target server-side
-# from its own clean IP and streams the raw bytes back — the repo's standard
-# escape hatch for IP-reputation blocks. We try the origin first (works from
-# residential IPs / local dev) and fall back to the proxy.
-_PROXY = "https://api.allorigins.win/raw?url="
+# cloud run cannot reach it directly. We fall back to free server-side proxies
+# that fetch the target from their own clean IP and stream the raw bytes back —
+# the repo's standard escape hatch for IP-reputation blocks. Two independent
+# proxies are tried in turn because any single free proxy flakes (520/522).
+_PROXIES = (
+    lambda u: "https://proxy.cors.sh/" + u,
+    lambda u: "https://api.allorigins.win/raw?url=" + urllib.parse.quote(u, safe=""),
+)
 
 
 def _proxy_retryable(exc: BaseException) -> bool:
-    # Standard transient set, plus 408 (allorigins intermittently times the
-    # upstream out and surfaces it as 408).
+    # Standard transient set, plus 408 (proxies surface upstream timeouts as 408).
     if is_transient(exc):
         return True
     return isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code == 408
 
 
 @retry(retry=retry_if_exception(_proxy_retryable),
-       stop=stop_after_attempt(6), wait=wait_exponential(min=4, max=120), reraise=True)
-def _via_proxy(url: str, binary: bool):
-    resp = get(_PROXY + urllib.parse.quote(url, safe=""), headers=_HEADERS, timeout=(10.0, 180.0))
+       stop=stop_after_attempt(4), wait=wait_exponential(min=3, max=40), reraise=True)
+def _proxy_get(proxy_url: str, binary: bool):
+    resp = get(proxy_url, headers=_HEADERS, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.content if binary else resp.text
 
 
-def _fetch(url: str, binary: bool):
-    """Fetch a URL, preferring the origin and falling back to a server-side
-    proxy when the datacenter IP is blocked."""
+def _fetch(url: str, binary: bool, validate):
+    """Fetch a URL, preferring the origin and falling back through server-side
+    proxies when the datacenter IP is blocked. `validate(payload) -> bool`
+    guards against a proxy returning a junk 200 (error/captcha page)."""
+    # Origin first — works from residential IPs / local dev.
     try:
         resp = get(url, headers=_HEADERS, timeout=(10.0, 120.0))
         if resp.status_code == 200:
-            return resp.content if binary else resp.text
+            payload = resp.content if binary else resp.text
+            if validate(payload):
+                return payload
     except TRANSIENT_EXC:
         pass
-    return _via_proxy(url, binary)
+    last_err = None
+    for build in _PROXIES:
+        try:
+            payload = _proxy_get(build(url), binary)
+            if validate(payload):
+                return payload
+            last_err = AssertionError(f"proxy returned unexpected content for {url}")
+        except Exception as e:  # noqa: BLE001 — try the next proxy, remember why
+            last_err = e
+    raise AssertionError(f"all fetch routes failed for {url}: {last_err!r}")
 
 
 def _fetch_catalog(survey: str) -> str:
-    return _fetch(f"{BASE}/data/sets?id={survey}", binary=False)
+    return _fetch(
+        f"{BASE}/data/sets?id={survey}",
+        binary=False,
+        validate=lambda t: isinstance(t, str) and "national level data" in t.lower(),
+    )
 
 
 def _fetch_zip(file_id: int) -> bytes:
-    return _fetch(f"{BASE}/file/open?fileId={file_id}", binary=True)
+    return _fetch(
+        f"{BASE}/file/open?fileId={file_id}",
+        binary=True,
+        validate=lambda b: isinstance(b, (bytes, bytearray)) and b[:2] == b"PK",
+    )
 
 
 def _select_files(survey: str) -> list[tuple[int, int]]:
