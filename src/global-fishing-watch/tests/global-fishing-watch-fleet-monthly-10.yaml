@@ -1,0 +1,38 @@
+spec_id: global-fishing-watch-fleet-monthly-10
+status: active
+tests:
+  - not_null: date
+    reason: every effort observation is dated to the first of its month
+    certainty: 95
+  - not_null: flag
+    reason: fleet product is aggregated by flag state; flag is a grouping key
+    certainty: 90
+  - column_type: {col: hours, type: float}
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - between: {col: year, lo: 2012, hi: current_year()}
+    reason: dataset begins 2012; nothing should post-date the current year
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - between: {col: cell_ll_lat, lo: -90, hi: 90}
+    reason: latitudes of grid-cell lower-left corner
+    certainty: 99
+  - between: {col: cell_ll_lon, lo: -180, hi: 180}
+    reason: longitudes of grid-cell lower-left corner
+    certainty: 99
+  - at_least: {col: hours, expr: 0}
+    reason: apparent-presence hours cannot be negative
+    certainty: 95
+  - relationship: {left: fishing_hours, op: "<=", right: hours}
+    reason: detected fishing hours are a subset of total presence hours in a cell
+    certainty: 85
+  - freshness: {col: date, reaches: today - 900d}
+    reason: v3 covers through 2024; a much staler max means the wrong/old record was pulled
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - row_count: {min: 1000000}
+    reason: global monthly effort over 13 years is tens of millions of rows
+    certainty: 90

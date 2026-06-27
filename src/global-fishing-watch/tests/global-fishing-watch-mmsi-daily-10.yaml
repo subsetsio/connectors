@@ -1,0 +1,32 @@
+spec_id: global-fishing-watch-mmsi-daily-10
+status: active
+tests:
+  - not_null: date
+    reason: every per-vessel effort observation is dated
+    certainty: 95
+  - not_null: mmsi
+    reason: this product is keyed on the vessel MMSI identifier
+    certainty: 95
+  - column_type: {col: mmsi, type: string}
+    reason: MMSI kept as string to preserve any leading characters/widths
+    certainty: 90
+  - column_type: {col: fishing_hours, type: float}
+    certainty: 95
+  - between: {col: cell_ll_lat, lo: -90, hi: 90}
+    certainty: 99
+  - between: {col: cell_ll_lon, lo: -180, hi: 180}
+    certainty: 99
+  - at_least: {col: hours, expr: 0}
+    reason: presence hours cannot be negative
+    certainty: 95
+  - relationship: {left: fishing_hours, op: "<=", right: hours}
+    reason: detected fishing hours are a subset of total presence hours
+    certainty: 85
+  - freshness: {col: date, reaches: today - 900d}
+    reason: v3 covers through 2024
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - row_count: {min: 1000000}
+    reason: per-vessel daily effort over 13 years is many millions of rows
+    certainty: 90

@@ -8,9 +8,13 @@ tests:
     certainty: 99
   - column_type: {col: year, type: integer}
     certainty: 90
-  - between: {col: year, lo: 1000, hi: 2027}
-    reason: release years span recorded-music history; a handful of bad/old tags exist
-    certainty: 70
+  - between: {col: year, lo: 1850, hi: 3000}
+    reason: >
+      raw release years span recorded-music history, but MusicBrainz carries a
+      few erroneous far-future tags (observed up to 2913); the transform bounds
+      the published table to <= current_year + 1. This wide raw bound only
+      catches truly absurd values.
+    certainty: 60
     points_outward: true
     severity: warn
   - column_type: {col: listen_count, type: integer}

@@ -1,0 +1,34 @@
+spec_id: global-fishing-watch-fishing-vessels
+status: active
+tests:
+  - not_null: mmsi
+    reason: the vessel table is keyed on MMSI
+    certainty: 95
+  - not_null: year
+    reason: one row per vessel-year
+    certainty: 90
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: vessel_class_gfw, type: string}
+    certainty: 90
+  - column_type: {col: self_reported_fishing_vessel, type: boolean}
+    certainty: 85
+  - between: {col: year, lo: 2012, hi: current_year()}
+    reason: vessel records span the 2012-onward AIS dataset
+    certainty: 90
+    points_outward: true
+    severity: warn
+  - at_least: {col: fishing_hours, expr: 0}
+    reason: fishing hours cannot be negative
+    certainty: 95
+  - relationship: {left: fishing_hours, op: "<=", right: active_hours}
+    reason: fishing hours are a subset of active (moving) hours
+    certainty: 75
+    severity: warn
+  - between: {col: length_m_gfw, lo: 0, hi: 500}
+    reason: fishing-vessel lengths in meters fall well under 500m
+    certainty: 80
+    severity: warn
+  - row_count: {min: 100000}
+    reason: the dataset tracks >190k unique AIS devices across years
+    certainty: 85

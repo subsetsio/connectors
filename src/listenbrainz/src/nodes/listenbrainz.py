@@ -201,11 +201,12 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="listenbrainz-sitewide-artist-activity-transform",
         deps=["listenbrainz-sitewide-artist-activity"],
+        # artist_mbid is intentionally dropped: the sitewide artist-activity
+        # endpoint never populates it (always null), unlike sitewide/artists.
         sql=f'''
             SELECT
                 range,
                 name AS artist_name,
-                artist_mbid,
                 CAST(listen_count AS BIGINT) AS listen_count,
                 {_WINDOW_COLS}
             FROM "listenbrainz-sitewide-artist-activity"
@@ -223,6 +224,9 @@ TRANSFORM_SPECS = [
                 CAST(to_timestamp(last_updated) AS TIMESTAMP) AS updated_at
             FROM "listenbrainz-sitewide-era-activity"
             WHERE year IS NOT NULL AND listen_count IS NOT NULL
+              -- drop garbage MusicBrainz release-year tags (e.g. 2913); recorded
+              -- music spans ~1860 to the near future.
+              AND year BETWEEN 1860 AND CAST(EXTRACT(YEAR FROM current_date) AS INTEGER) + 1
         ''',
     ),
     SqlNodeSpec(
