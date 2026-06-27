@@ -303,7 +303,7 @@ TRANSFORM_SPECS = [
                 any_value(is_brackish) AS is_brackish,
                 any_value(is_freshwater) AS is_freshwater,
                 any_value(is_terrestrial) AS is_terrestrial,
-                SUM(TRY_CAST(records AS BIGINT)) AS records
+                CAST(SUM(TRY_CAST(records AS BIGINT)) AS BIGINT) AS records
             FROM "obis-checklist"
             WHERE taxonID IS NOT NULL
             GROUP BY taxonID
