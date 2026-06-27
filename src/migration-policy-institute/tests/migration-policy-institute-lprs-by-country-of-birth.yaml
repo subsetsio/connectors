@@ -1,0 +1,16 @@
+spec_id: migration-policy-institute-lprs-by-country-of-birth
+status: active
+tests:
+  - not_null: variable
+  - not_null: value_text
+  - column_type: {col: value_num, type: float}
+  - column_type: {col: row_id, type: integer}
+  - row_count:
+      min: 10
+    reason: every MPI Data Hub workbook holds at least a few dozen data cells; near-zero means the file moved (Cloudflare/404) or the workbook layout broke parsing
+    certainty: 90
+  - distinct_count:
+      col: variable
+      min: 1
+    reason: at least one column header/variable should be present
+    certainty: 95
