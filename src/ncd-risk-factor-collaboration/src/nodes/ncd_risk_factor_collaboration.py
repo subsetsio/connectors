@@ -163,7 +163,10 @@ def _find_triples(cols: list) -> list:
     if not triples:
         raise ValueError(f"no indicator triples found; columns={cols[:10]}")
     if unpaired:
-        raise ValueError(f"indicator columns without bounds: {unpaired}")
+        # Columns without a 95% bound pair are ancillary stats (e.g. "Mean height
+        # standard error"), not publishable indicators. Drop them, but log so a
+        # genuinely new bound-less indicator doesn't vanish silently.
+        print(f"ignoring non-indicator columns (no 95% bounds): {unpaired}")
     return triples
 
 
