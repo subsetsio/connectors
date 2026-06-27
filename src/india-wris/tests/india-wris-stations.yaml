@@ -1,0 +1,22 @@
+spec_id: india-wris-stations
+status: active
+tests:
+  - column_type: {col: station_code, type: string}
+    reason: station registry codes are strings in our canonical schema
+    certainty: 90
+  - not_null: dataset
+    reason: every station row is tagged with the dataset/theme it belongs to
+    certainty: 90
+  - between: {col: latitude, lo: 5.5, hi: 38}
+    reason: Indian station coordinates
+    certainty: 70
+    severity: warn
+  - between: {col: longitude, lo: 67, hi: 98}
+    reason: Indian station coordinates
+    certainty: 70
+    severity: warn
+  - row_count: {min: 1}
+    reason: the station-master endpoints should enumerate measuring stations
+    certainty: 70
+    points_outward: true
+    severity: warn

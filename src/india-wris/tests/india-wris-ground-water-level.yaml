@@ -1,0 +1,23 @@
+spec_id: india-wris-ground-water-level
+status: active
+tests:
+  - column_type: {col: station_code, type: string}
+    reason: canonical normalization renders station_code as a string
+    certainty: 90
+  - between: {col: latitude, lo: 5.5, hi: 38}
+    reason: stations lie within India's latitude span; out-of-range = bad coords or wrong parse
+    certainty: 75
+    severity: warn
+  - between: {col: longitude, lo: 67, hi: 98}
+    reason: stations lie within India's longitude span
+    certainty: 75
+    severity: warn
+  - row_count: {min: 1}
+    reason: the ground-water-level module should return observations for at least one state
+    certainty: 75
+    points_outward: true
+    severity: block
+  - nullable: {col: value, max_null_frac: 0.5}
+    reason: single-measurement themes carry a numeric value on most rows
+    certainty: 60
+    severity: warn
