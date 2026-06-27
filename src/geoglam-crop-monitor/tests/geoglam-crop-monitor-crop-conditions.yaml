@@ -1,0 +1,35 @@
+spec_id: geoglam-crop-monitor-crop-conditions
+status: active
+tests:
+  - not_null: period
+    reason: every row is stamped with the YYYYMM from its FeatureServer layer name
+    certainty: 95
+  - not_null: country
+    reason: each crop-condition feature belongs to a country
+    certainty: 90
+  - not_null: crop
+    reason: each feature is a (region, crop) assessment cell
+    certainty: 90
+  - not_null: conditions
+    reason: the Conditions attribute is always present (may be a blank/No-Data marker, never null)
+    certainty: 85
+  - column_type: {col: period, type: string}
+  - matches: {col: period, pattern: '^20[0-9]{4}$'}
+    reason: period is YYYYMM derived from Global_Synthesis_YYYYMM layer names
+    certainty: 90
+  - row_count: {min: 30000}
+    reason: ~48 monthly layers x ~1000 region-crop features each (~50k total)
+    certainty: 80
+  - distinct_count: {col: period, min: 24}
+    reason: one distinct period per monthly layer; >=24 months published since 2022-01
+    certainty: 85
+  - distinct_count: {col: crop, min: 5}
+    reason: GEOGLAM tracks wheat/maize/rice/soybean/sorghum/millet families at minimum
+    certainty: 80
+  - enum:
+      col: conditions
+      values: ['Exceptional', 'Favourable', 'Watch', 'Poor', 'Failure', 'No Data', '#N/A', 'N/A', 'NA', ' ', '']
+    reason: GEOGLAM condition classes plus blank / No-Data markers seen while probing
+    certainty: 60
+    severity: warn
+    points_outward: true
