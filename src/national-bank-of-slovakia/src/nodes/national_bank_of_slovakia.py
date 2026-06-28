@@ -6,21 +6,29 @@ returns exactly one period's document, so building the full history means walkin
 the period axis (one request per business day for the daily feed, one per month
 for the foreign feed).
 
-Two subsets, each fetched as a **yearly firehose**:
+Two subsets, each fetched as a **chunked yearly firehose**:
 
   * exchange-rate-daily          — ECB EUR reference rates NBS republishes, ~30
     currencies, daily on TARGET working days, history back to 1999.
   * exchange-rate-foreign-monthly — NBS "selected foreign currencies" vs EUR,
     ~130-150 currencies, monthly, history back to 1996.
 
-Why a firehose and not a stateless full re-pull: the daily feed alone is ~7000
-business-day documents. Re-fetching all of them on every refresh would be both
-slow and rude to a public government endpoint. Instead raw is written one parquet
-**batch per year** (`<spec-id>-<year>`); closed (past) years are immutable and
-fetched once (tracked in state), and only the open current year is re-pulled each
-refresh. The SQL transform globs `<spec-id>-*` so every year batch unions back
-together. State holds only the set of completed closed years — a monotonic
-watermark, never a terminal flag.
+Why chunked + continuation (not a single full re-pull):
+nbs.sk sits behind a WAF that returns 403 once a single client IP has made a few
+thousand requests in a run — and the daily feed alone is ~7000 business-day
+documents, far past that ceiling. So each invocation fetches only a bounded
+**chunk of years**, writes one parquet batch per year (`<spec-id>-<year>`), records
+the completed (immutable) years in state, and returns ``True`` while more history
+remains. The runtime turns that truthy return into a *continuation*: it
+re-dispatches the run — on a fresh GitHub runner with a fresh IP, resetting the
+WAF's per-IP counter — until the fn returns ``False`` (fully drained). Closed
+years are fetched once; steady-state refreshes only re-pull the open current year.
+
+WAF resilience: a 403/429 mid-chunk raises ``_WafBlocked``, which the driver treats
+as "this IP is blocked" — it persists the years completed so far and returns
+``True`` to retry on the next continuation's fresh IP (bounded by a blocked-streak
+guard so a sustained block degrades to publishing partial history rather than
+looping forever). Genuine transient errors (network, 5xx) are retried in place.
 
 The daily export returns the rate effective *on or before* the requested date
 (weekends/holidays echo the preceding business day, with the true date inside the
@@ -46,7 +54,7 @@ from subsets_utils import (
     save_state,
 )
 
-STATE_VERSION = 1
+STATE_VERSION = 2
 BASE = "https://nbs.sk/export/en"
 
 # Source facts (the start of each series). The *end* is always discovered from
@@ -54,10 +62,19 @@ BASE = "https://nbs.sk/export/en"
 EARLIEST_DAILY_YEAR = 1999      # ECB euro reference rates begin 1999-01-04
 EARLIEST_FOREIGN_YEAR = 1996    # NBS selected-foreign-currency rates begin 1996
 
-# Modest concurrency for the per-day daily backfill. nbs.sk documents no rate
-# limit, but its WAF returns 403 on bursts (8 concurrent workers trips it);
-# 4 sustains a full year (~260 requests) cleanly while keeping backfill brisk.
-_DAILY_WORKERS = 4
+# Bounded work per invocation, kept well under the WAF's per-IP request ceiling
+# (a single run reached ~2800 requests before a 403). 4 daily years ≈ ~1040
+# requests; the foreign feed is tiny (~12 requests/year) so one chunk covers it.
+_DAILY_CHUNK_YEARS = 4
+_FOREIGN_CHUNK_YEARS = 40
+
+# Modest concurrency for the per-day daily backfill. 8 workers tripped the WAF
+# immediately; 3 keeps a single bounded chunk brisk while staying gentle.
+_DAILY_WORKERS = 3
+
+# Give up backfilling (publish whatever history we have) after this many
+# consecutive continuations that made zero progress against a sustained block.
+_MAX_BLOCKED_STREAK = 5
 
 DAILY_SCHEMA = pa.schema([
     ("date", pa.date32()),
@@ -76,13 +93,22 @@ FOREIGN_SCHEMA = pa.schema([
 _FOREIGN_NS = {"n": "http://www.sitemaps.org/schemas/sitemap/0.9"}
 
 
+class _WafBlocked(Exception):
+    """Raised on a 403/429 — the current IP is blocked; retry on a fresh one."""
+
+
 def _today() -> date:
     return datetime.now(tz=timezone.utc).date()
 
 
 @transient_retry()
-def _fetch(url: str):
+def _http_get(url: str):
     resp = get(url, timeout=(10.0, 120.0))
+    # 403/429 are the WAF's "you've made too many requests from this IP" signal.
+    # Retrying on the same IP won't help, so surface it for the fresh-IP retry
+    # path instead of letting transient_retry/raise_for_status churn on it.
+    if resp.status_code in (403, 429):
+        raise _WafBlocked(f"HTTP {resp.status_code} for {url}")
     resp.raise_for_status()
     return resp
 
@@ -119,13 +145,14 @@ def _parse_daily_csv(text: str):
 
 
 def _fetch_daily_day(d: date):
-    resp = _fetch(f"{BASE}/exchange-rate/{d.isoformat()}/csv")
+    resp = _http_get(f"{BASE}/exchange-rate/{d.isoformat()}/csv")
     return _parse_daily_csv(resp.text)
 
 
 def _fetch_daily_year(year: int) -> list[dict]:
     """Fetch every business day of `year` (up to today) concurrently and dedup by
-    the document's own effective date (holidays/weekends echo the prior day)."""
+    the document's own effective date (holidays/weekends echo the prior day).
+    Propagates _WafBlocked if the WAF blocks this IP mid-year."""
     start = date(year, 1, 1)
     end = min(date(year, 12, 31), _today())
     days = []
@@ -183,44 +210,81 @@ def _fetch_foreign_year(year: int) -> list[dict]:
         last_month = today.month
     rows: list[dict] = []
     for month in range(1, last_month + 1):
-        resp = _fetch(f"{BASE}/exchange-rate-foreign/{year}-{month:02d}/xml")
+        resp = _http_get(f"{BASE}/exchange-rate-foreign/{year}-{month:02d}/xml")
         if not resp.content.strip():
             continue
         rows.extend(_parse_foreign_xml(resp.content))
     return rows
 
 
-# --- shared yearly-firehose driver -----------------------------------------
+# --- shared chunked-firehose driver ----------------------------------------
 
-def _run_yearly_firehose(node_id, earliest_year, year_fetcher, schema):
+def _save_year(node_id, year, rows, schema):
+    if rows:
+        save_raw_parquet(pa.Table.from_pylist(rows, schema=schema), f"{node_id}-{year}")
+
+
+def _run_yearly_firehose(node_id, earliest_year, year_fetcher, schema, chunk_years):
+    """Process up to `chunk_years` of the remaining backfill, then signal whether a
+    continuation is needed. Returns True (more history to fetch) or False (drained).
+    """
     state = load_state(node_id)
     if state.get("schema_version") != STATE_VERSION:
-        state = {"schema_version": STATE_VERSION, "completed_years": []}
+        state = {"schema_version": STATE_VERSION, "completed_years": [], "blocked_streak": 0}
     completed = set(state.get("completed_years", []))
+    blocked_streak = int(state.get("blocked_streak", 0))
     current_year = _today().year
+    remaining_closed = [y for y in range(earliest_year, current_year) if y not in completed]
 
-    for year in range(earliest_year, current_year + 1):
-        closed = year < current_year
-        if closed and year in completed:
-            continue  # immutable, already fetched
-        rows = year_fetcher(year)
-        if rows:
-            table = pa.Table.from_pylist(rows, schema=schema)
-            save_raw_parquet(table, f"{node_id}-{year}")  # raw before state
-        if closed:
-            completed.add(year)
-            save_state(node_id, {
-                "schema_version": STATE_VERSION,
-                "completed_years": sorted(completed),
-            })
+    # The set of years this invocation will attempt. Closed years come first, in
+    # bounded chunks; only once every closed year is done do we fetch the open
+    # (current) year — which is never marked completed, so refreshes re-pull it.
+    if remaining_closed:
+        target_years = remaining_closed[:chunk_years]
+        finishing = False  # closed years and/or the open year still remain after this
+    else:
+        target_years = [current_year]
+        finishing = True   # the open year is the last thing to fetch
+
+    def _persist():
+        save_state(node_id, {
+            "schema_version": STATE_VERSION,
+            "completed_years": sorted(completed),
+            "blocked_streak": blocked_streak,
+        })
+
+    try:
+        for year in target_years:
+            rows = year_fetcher(year)
+            _save_year(node_id, year, rows, schema)
+            if year < current_year:
+                completed.add(year)
+            blocked_streak = 0
+            _persist()
+    except _WafBlocked as exc:
+        blocked_streak += 1
+        _persist()
+        print(f"[nbs] {node_id}: WAF blocked ({exc}); "
+              f"blocked_streak={blocked_streak}, completed={len(completed)} years")
+        if blocked_streak >= _MAX_BLOCKED_STREAK:
+            print(f"[nbs] {node_id}: giving up backfill after {blocked_streak} blocked "
+                  "continuations — publishing partial history")
+            return False
+        return True  # retry remaining years on the next continuation's fresh IP
+
+    return not finishing  # True while closed/open years remain; False once drained
 
 
-def fetch_exchange_rate_daily(node_id: str) -> None:
-    _run_yearly_firehose(node_id, EARLIEST_DAILY_YEAR, _fetch_daily_year, DAILY_SCHEMA)
+def fetch_exchange_rate_daily(node_id: str) -> bool:
+    return _run_yearly_firehose(
+        node_id, EARLIEST_DAILY_YEAR, _fetch_daily_year, DAILY_SCHEMA, _DAILY_CHUNK_YEARS
+    )
 
 
-def fetch_exchange_rate_foreign_monthly(node_id: str) -> None:
-    _run_yearly_firehose(node_id, EARLIEST_FOREIGN_YEAR, _fetch_foreign_year, FOREIGN_SCHEMA)
+def fetch_exchange_rate_foreign_monthly(node_id: str) -> bool:
+    return _run_yearly_firehose(
+        node_id, EARLIEST_FOREIGN_YEAR, _fetch_foreign_year, FOREIGN_SCHEMA, _FOREIGN_CHUNK_YEARS
+    )
 
 
 DOWNLOAD_SPECS = [
