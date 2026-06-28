@@ -1,51 +1,30 @@
-"""Post-DAG health invariants for the NBS exchange-rate connector.
+"""Post-DAG health invariants for the NBS exchange-rate connector (foreign feed).
 
-Raw is written as yearly firehose batches (`<spec-id>-<year>.parquet`), so we load
-via the batch glob rather than a single asset file."""
+The foreign feed is written as a single parquet asset per its download spec."""
 
-from subsets_utils import list_raw_files, load_raw_parquet
-
-
-def _batch_assets(spec_id):
-    return [rel[: -len(".parquet")] for rel in list_raw_files(f"{spec_id}-*.parquet")]
+from subsets_utils import load_raw_parquet
 
 
-def test_raw_batches_present_and_nonempty(spec_ids):
-    """Each download spec must have at least one yearly batch with rows. Zero
-    batches or all-empty batches means the export endpoint changed shape, the
-    date/month walk broke, or parsing silently dropped everything."""
+def test_foreign_raw_nonempty(spec_ids):
+    """The monthly foreign feed must hold rows. An empty payload means the WAF
+    blocked us, the endpoint changed shape, or parsing dropped everything."""
     for sid in spec_ids:
-        assets = _batch_assets(sid)
-        assert assets, f"{sid}: no yearly batch parquet files found"
-        total = sum(load_raw_parquet(a).num_rows for a in assets)
-        assert total > 0, f"{sid}: all {len(assets)} yearly batches are empty"
-
-
-def test_daily_has_long_history(spec_ids):
-    """The daily feed spans 1999..now (~25+ years); far fewer batches means the
-    backfill stalled or the year range regressed."""
-    sid = "national-bank-of-slovakia-exchange-rate-daily"
-    if sid not in spec_ids:
-        return
-    assets = _batch_assets(sid)
-    assert len(assets) >= 20, f"{sid}: only {len(assets)} yearly batches; expected the full 1999+ history"
-
-
-def test_daily_columns(spec_ids):
-    sid = "national-bank-of-slovakia-exchange-rate-daily"
-    if sid not in spec_ids:
-        return
-    assets = _batch_assets(sid)
-    cols = set(load_raw_parquet(assets[0]).column_names)
-    assert {"date", "currency", "rate"} <= cols, f"{sid}: unexpected columns {cols}"
+        table = load_raw_parquet(sid)
+        assert table.num_rows > 0, f"{sid}: raw parquet has 0 rows"
 
 
 def test_foreign_columns(spec_ids):
-    sid = "national-bank-of-slovakia-exchange-rate-foreign-monthly"
-    if sid not in spec_ids:
-        return
-    assets = _batch_assets(sid)
-    cols = set(load_raw_parquet(assets[0]).column_names)
-    assert {"valid_from", "country", "currency_code", "currency_name", "value"} <= cols, (
-        f"{sid}: unexpected columns {cols}"
-    )
+    for sid in spec_ids:
+        cols = set(load_raw_parquet(sid).column_names)
+        assert {"valid_from", "country", "currency_code", "currency_name", "value"} <= cols, (
+            f"{sid}: unexpected columns {cols}"
+        )
+
+
+def test_foreign_currency_breadth(spec_ids):
+    """Each month quotes ~130-150 currencies; across all history we expect well
+    over 100 distinct codes. Far fewer means the walk was truncated."""
+    for sid in spec_ids:
+        table = load_raw_parquet(sid)
+        distinct = len(set(table.column("currency_code").to_pylist()))
+        assert distinct >= 100, f"{sid}: only {distinct} distinct currency codes"
