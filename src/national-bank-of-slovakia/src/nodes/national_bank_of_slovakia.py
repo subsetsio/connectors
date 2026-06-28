@@ -18,9 +18,14 @@ selected-foreign-currency feed, whose low request volume stays under that ceilin
 
 Fetch shape: stateless full re-pull. ~370 monthly documents fit comfortably in one
 run and in memory (~50k rows), so each refresh re-walks 1996..current month and
-overwrites — revisions are picked up for free, no watermark to drift. Requests are
-sequential with a small politeness delay and a browser-like User-Agent to stay
-gentle on the WAF.
+overwrites — revisions are picked up for free, no watermark to drift.
+
+WAF pacing: nbs.sk fronts a rate/token-bucket WAF that 403s a client IP that bursts
+(observed: ~150 requests at ~125 req/min trips it; but a slow ~10 req/min pace
+sustained thousands of requests in probing). So requests are strictly sequential,
+single-connection, spaced ~6s apart (~10 req/min) with a browser-like User-Agent —
+the full ~370-month walk finishes in ~35 min, well under the per-IP burst ceiling
+and the run budget.
 
 The XML uses NBS's <nbsExtRateList> shape (under, quirkily, the sitemap namespace);
 values carry comma thousands-separators. Some currency codes (CFA franc XOF, East
@@ -48,14 +53,14 @@ from subsets_utils import (
 BASE = "https://nbs.sk/export/en"
 EARLIEST_FOREIGN_YEAR = 1996    # NBS selected-foreign-currency rates begin 1996
 
-# Browser-like UA + a small inter-request delay: the source documents no rate
-# limit but fronts a WAF; staying gentle keeps the (low-volume) monthly walk
-# under its radar.
+# Browser-like UA + a deliberate inter-request delay holding the pace near
+# ~10 req/min — slow enough to stay under the WAF's burst ceiling that 403s
+# faster clients (see module docstring).
 _USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 )
-_REQUEST_DELAY_S = 0.3
+_REQUEST_DELAY_S = 6.0
 
 FOREIGN_SCHEMA = pa.schema([
     ("valid_from", pa.date32()),
