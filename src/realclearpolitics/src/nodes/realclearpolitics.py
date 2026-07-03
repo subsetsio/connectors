@@ -201,6 +201,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="realclearpolitics-poll-readings-transform",
         deps=["realclearpolitics-poll-readings"],
+        temporal="poll_end_date",
         sql='''
             SELECT
                 CAST(race_id AS BIGINT)                         AS race_id,
@@ -234,6 +235,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="realclearpolitics-races-transform",
         deps=["realclearpolitics-races"],
+        key=("race_id",),
+        temporal="year",
         sql='''
             SELECT
                 CAST(race_id AS BIGINT)         AS race_id,

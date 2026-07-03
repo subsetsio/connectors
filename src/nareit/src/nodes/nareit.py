@@ -187,6 +187,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="nareit-monthly-returns-transform",
         deps=["nareit-monthly-returns"],
+        key=("date", "index"),
+        temporal="date",
         sql='''
             SELECT
                 date,

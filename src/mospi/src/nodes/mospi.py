@@ -402,11 +402,32 @@ def _transform_sql(asset_id: str, numcols: list[str]) -> str:
     )
 
 
+# Datasets whose long panel carries a `year` observation-period column (freshness
+# = max year). The single-round NSS/NFHS surveys (nfhs, nss76/77/78/80) have no
+# year column and are timeless here. Keys are left undeclared everywhere: these
+# are wide long panels with many nullable dimension columns and no verified
+# unique grain, so an asserted key would risk a false uniqueness anomaly.
+_TEMPORAL_YEAR = {
+    "aishe-getaisherecords", "asi-getasidata", "asuse-getasuserecords",
+    "cpi-getcpiindex", "cpi-getitemindex", "cpialrl-getcpialrlrecords",
+    "energy-getenergyrecords", "envstats-getenvstatsrecords",
+    "gender-getgenderrecords", "hces-gethcesrecords", "iip-getiipdata",
+    "mnre-getdatabyenergy", "nas-getnasdata", "plfs-getdata",
+    "rbi-getrbirecords", "tus-gettusrecords", "udise-getudiserecords",
+    "wpi-getwpirecords",
+}
+
+
+def _transform_temporal(eid: str) -> dict:
+    return {"temporal": "year"} if eid in _TEMPORAL_YEAR else {}
+
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_transform_sql(s.id, _NUMCOLS.get(s.id[len("mospi-"):], ["value"])),
+        **_transform_temporal(s.id[len("mospi-"):]),
     )
     for s in DOWNLOAD_SPECS
 ]

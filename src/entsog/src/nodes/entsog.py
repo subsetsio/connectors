@@ -473,7 +473,27 @@ TRANSFORM_SQL = {
     '''),
 }
 
+# Primary observation-period column per subset. The reference/dimension tables
+# (operators, operatorpointdirections, connectionpoints, interconnections) are
+# timeless catalogs and declare no temporal.
+TEMPORAL_BY_ID = {
+    "entsog-urgentmarketmessages": "publication_datetime",
+    "entsog-tariffssimulations": "period_from",
+    "entsog-tariffsfulls": "period_from",
+    "entsog-operationaldata": "period_from",
+    "entsog-interruptions": "period_from",
+    "entsog-cmpunavailables": "period_from",
+    "entsog-cmpunsuccessfulrequests": "period_from",
+    "entsog-cmpauctions": "auction_from",
+}
+
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=TRANSFORM_SQL[s.id])
+    SqlNodeSpec(
+        id=f"{s.id}-transform",
+        deps=[s.id],
+        sql=TRANSFORM_SQL[s.id],
+        key=("id",),
+        temporal=TEMPORAL_BY_ID.get(s.id),
+    )
     for s in DOWNLOAD_SPECS
 ]

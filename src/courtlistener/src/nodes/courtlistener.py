@@ -255,6 +255,15 @@ TRANSFORM_SPECS = [
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_build_sql(s.id[len(SLUG) + 1:], s.id),
+        # Every bulk table is a PostgreSQL dump keyed on its `id` primary key
+        # (always retained by the projection). `date_modified` is the record
+        # update timestamp and the freshness signal wherever the table carries it.
+        key=("id",),
+        temporal=(
+            "date_modified"
+            if "date_modified" in TABLE_COLUMNS[s.id[len(SLUG) + 1:]]
+            else None
+        ),
     )
     for s in DOWNLOAD_SPECS
 ]

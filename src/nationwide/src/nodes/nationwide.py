@@ -235,6 +235,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{spec.id}-transform",
         deps=[spec.id],
+        key=("date",),
+        temporal="date",
         sql=(
             f'PIVOT (SELECT date, series, value FROM "{spec.id}") '
             f"ON series USING first(value) GROUP BY date ORDER BY date"

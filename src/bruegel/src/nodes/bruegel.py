@@ -98,10 +98,31 @@ DOWNLOAD_SPECS = [
 ]
 
 
+# Per-dataset grain declarations (purely declarative; keyed by dataset module).
+# Only the key=/temporal= kwargs are supplied — nothing else about the spec
+# changes. Datasets whose grain is not confidently unique are left key-less;
+# generic long extractions with no period column (china, cleantech) get neither.
+_GRAIN = {
+    energy_crisis: {"temporal": "date_announced"},
+    divisia: {"temporal": "date"},
+    labour_market: {"temporal": "year"},
+    renewables: {"temporal": "year"},
+    gas_demand: {"temporal": "date"},
+    gas_imports: {"temporal": "date"},
+    gini: {"temporal": "year"},
+    trade: {"temporal": "date"},
+    reer: {"temporal": "period"},
+    russian_trade: {"temporal": "date"},
+    sovereign: {"temporal": "date"},
+    fms: {"key": ("id",), "temporal": "year"},
+}
+
+
 def _transform(mod) -> SqlNodeSpec:
     """Build the publishing leaf for a dataset module from its `_SQL` template."""
     return SqlNodeSpec(id=f"{mod.DEP}-transform", deps=[mod.DEP],
-                       sql=mod._SQL.replace("{dep}", mod.DEP))
+                       sql=mod._SQL.replace("{dep}", mod.DEP),
+                       **_GRAIN.get(mod, {}))
 
 
 TRANSFORM_SPECS = [

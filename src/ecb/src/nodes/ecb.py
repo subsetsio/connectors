@@ -227,6 +227,8 @@ TRANSFORM_SPECS = [
             WHERE obs_value IS NOT NULL
               AND TRY_CAST(obs_value AS DOUBLE) IS NOT NULL
         ''',
+        key=("series_key", "time_period"),
+        temporal="time_period",
     )
     for s in DOWNLOAD_SPECS
 ]

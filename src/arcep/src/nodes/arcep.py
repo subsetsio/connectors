@@ -101,6 +101,56 @@ DOWNLOAD_SPECS = [
 ]
 
 
+# Per-subset grain declarations, keyed by download/spec id. Values are
+# (key, temporal) on OUTPUT columns of the pass-through SELECT *. `_period` is the
+# connector-tagged partition period (always populated for every row). Keys are
+# declared only where uniqueness is well supported; the schema-drifting
+# new-deal-mobile inventories (columns renamed across quarters) and the
+# period-concatenated geographic panels are left keyless.
+_GRAIN = {
+    # FTTH national quality time series — one row per date.
+    "arcep-qualite-des-reseaux-en-fibre-optique--historique-des-indicateurs-de-qualite-ftth-au-niveau-national": (
+        ("date",), "date",
+    ),
+    # FTTH quality by parent operator — one row per (date, parent).
+    "arcep-qualite-des-reseaux-en-fibre-optique--historique-des-indicateurs-de-qualite-ftth-par-maison-mere": (
+        ("date", "maison_mere"), "date",
+    ),
+    # MCC/MNC/IMSI code registry — one row per assigned code.
+    "arcep-ressources-en-numerotation-telephonique--majmnc-liste-des-codes-mcc-mnc-imsi-attribues": (
+        ("mcc_mnc",), "date_attribution",
+    ),
+    # MAJNUM number-block registry — one row per prefix (ezabpqm).
+    "arcep-ressources-en-numerotation-telephonique--majnum-liste-des-ressources-en-numerotation-telephoniques-attribuees": (
+        ("ezabpqm",), "date_attribution",
+    ),
+    # MAJPORTA routing-prefix registry — one row per prefix.
+    "arcep-ressources-en-numerotation-telephonique--majporta-liste-des-prefixes-de-routage": (
+        ("ezabpqm",), "date_attribution",
+    ),
+    # IPv6 adoption — one row per (country, date).
+    "arcep-statistiques-ipv6--data-ipv6": (
+        ("iso", "date"), "date",
+    ),
+    # Temporal-only (grain uncertain / period-concatenated / schema-drifting).
+    "arcep-le-marche-du-haut-et-tres-haut-debit-fixe-deploiements--releve-geographique-donnees-sous-jacentes": (
+        None, "date_fin_dep",
+    ),
+    "arcep-qualite-des-reseaux-en-fibre-optique--historique-des-indicateurs-de-qualite-de-realisation-des-raccordements-et-de-delais-de-reprise-des-malfacons": (
+        None, "_period",
+    ),
+    "arcep-qualite-des-reseaux-en-fibre-optique--indicateurs-de-qualite-ftth-par-reseau": (
+        None, "_period",
+    ),
+    "arcep-sites-indisponibles--sites-indisponibles": (None, "date"),
+    "arcep-tableau-bord-du-new-deal-mobile--indicateurs-couverture-4g": (None, "trimestre"),
+    "arcep-tableau-bord-du-new-deal-mobile--liste-sites-operateurs-mobiles": (None, "_period"),
+    "arcep-tableau-bord-du-new-deal-mobile--metropole-sites": (
+        None, "date_ouverturecommerciale_5g",
+    ),
+}
+
+
 # Each subset is published 1:1 from its raw family asset. The transform is a thin
 # pass-through: DuckDB reads the NDJSON (union of columns across the family's
 # resources) and publishes it. Empty result = node failure by design.
@@ -109,6 +159,8 @@ TRANSFORM_SPECS = [
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT * FROM "{s.id}"',
+        key=_GRAIN.get(s.id, (None, None))[0],
+        temporal=_GRAIN.get(s.id, (None, None))[1],
     )
     for s in DOWNLOAD_SPECS
 ]

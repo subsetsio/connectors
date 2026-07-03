@@ -178,6 +178,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="agmarknet-prices-transform",
         deps=["agmarknet-prices"],
+        key=("state", "district", "market", "commodity", "variety", "grade", "arrival_date"),
+        temporal="arrival_date",
         sql='''
             SELECT DISTINCT
                 state,

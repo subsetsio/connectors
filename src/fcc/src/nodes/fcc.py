@@ -75,10 +75,28 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
+# Per-dataset grain declarations (spec id -> (key, temporal)). Only the datasets
+# with a genuinely unique natural id and/or a real observation-period column are
+# declared; the broadband deployment tables (hoconum/tech, no unique id, no date)
+# and the contact-registry tables are left undeclared. Every named column is an
+# output column of that dataset's SELECT *.
+_GRAIN = {
+    "fcc-3b3k-34jp": (("grantee_code",), "date_received"),
+    "fcc-3xyp-aqkj": (("id",), "issue_date"),
+    "fcc-acbv-jbb4": (("number",), "sys_updated_on"),
+    "fcc-dpq5-ta9j": (("psap_id",), "date_last_modified"),
+    # u_location_id is unique; sys_updated_on is the record-recency column
+    # (u_expired_date is a future-dated license expiry, a poor freshness signal).
+    "fcc-euz5-46g2": (("u_location_id",), "sys_updated_on"),
+    "fcc-xqgr-24et": (None, "issued_date"),
+}
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        key=_GRAIN.get(s.id, (None, None))[0],
+        temporal=_GRAIN.get(s.id, (None, None))[1],
         sql=f'SELECT * FROM "{s.id}"',
     )
     for s in DOWNLOAD_SPECS

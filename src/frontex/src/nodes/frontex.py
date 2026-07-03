@@ -197,5 +197,7 @@ TRANSFORM_SPECS = [
               AND route IS NOT NULL
               AND nationality IS NOT NULL
         ''',
+        key=("month", "route", "border_type", "nationality"),
+        temporal="month",
     ),
 ]

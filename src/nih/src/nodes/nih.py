@@ -279,11 +279,22 @@ _SQL_BY_ID = {
     "nih-publication": _PUBLICATION_SQL,
 }
 
+# Grain / period per subset. PROJECT rows are one-per-application (application_id
+# is unique); ABSTRACT/PUBLICATION recur the same application_id/pmid across
+# yearly batch files, so their key is left undeclared.
+_GRAIN = {
+    "nih-project": {"key": ("application_id",), "temporal": "fiscal_year"},
+    "nih-abstract": {"key": None, "temporal": None},
+    "nih-publication": {"key": None, "temporal": "pub_year"},
+}
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_SET_PREAMBLE + _SQL_BY_ID[s.id],
+        key=_GRAIN[s.id]["key"],
+        temporal=_GRAIN[s.id]["temporal"],
     )
     for s in DOWNLOAD_SPECS
 ]

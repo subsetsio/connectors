@@ -183,10 +183,14 @@ TRANSFORM_SPECS = [
         id="coinmetrics-asset-metrics-transform",
         deps=["coinmetrics-asset-metrics"],
         sql=_transform_sql("coinmetrics-asset-metrics", "asset"),
+        key=("asset", "metric", "time"),
+        temporal="time",
     ),
     SqlNodeSpec(
         id="coinmetrics-institution-metrics-transform",
         deps=["coinmetrics-institution-metrics"],
         sql=_transform_sql("coinmetrics-institution-metrics", "institution"),
+        key=("institution", "metric", "time"),
+        temporal="time",
     ),
 ]

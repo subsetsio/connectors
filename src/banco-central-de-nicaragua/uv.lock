@@ -370,6 +370,7 @@ dependencies = [
     { name = "ratelimit" },
     { name = "requests" },
     { name = "s3fs" },
+    { name = "subsets-utils" },
     { name = "tenacity" },
     { name = "tqdm" },
     { name = "xlrd" },
@@ -394,6 +395,7 @@ requires-dist = [
     { name = "ratelimit" },
     { name = "requests" },
     { name = "s3fs", specifier = ">=2024.0" },
+    { name = "subsets-utils", editable = "../../lib/subsets_utils" },
     { name = "tenacity" },
     { name = "tqdm" },
     { name = "xlrd", specifier = ">=2.0" },
@@ -1887,6 +1889,33 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/47/2c/0a5f6f8ee0d5589e48c7640213ed5175d52cf540a06725b628cc1a45d6ce/soupsieve-2.8.4.tar.gz", hash = "sha256:e121fd02e975c695e4e9e8774a5ee35d74714b59307868dcc5319ad2d9e3328e", size = 121110, upload-time = "2026-05-24T13:55:57.154Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/5e/f5/0c41cb68dcae6b7de4fac4188a3a9589e21fb31df21ea3a2e888db95e6c9/soupsieve-2.8.4-py3-none-any.whl", hash = "sha256:e7e6b0769c8f51ed59acab6e994b00621096cfb1c640a7509295987388fbaf65", size = 37304, upload-time = "2026-05-24T13:55:55.406Z" },
+]
+
+[[package]]
+name = "subsets-utils"
+version = "0.1.0"
+source = { editable = "../../lib/subsets_utils" }
+dependencies = [
+    { name = "deltalake" },
+    { name = "duckdb" },
+    { name = "fsspec" },
+    { name = "httpx" },
+    { name = "psutil" },
+    { name = "pyarrow" },
+    { name = "s3fs" },
+    { name = "tenacity" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "deltalake", specifier = ">=1.3.1" },
+    { name = "duckdb" },
+    { name = "fsspec", specifier = ">=2024.0" },
+    { name = "httpx" },
+    { name = "psutil", specifier = ">=7.2.1" },
+    { name = "pyarrow" },
+    { name = "s3fs", specifier = ">=2024.0" },
+    { name = "tenacity" },
 ]
 
 [[package]]

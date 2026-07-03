@@ -160,6 +160,8 @@ TRANSFORM_SPECS = [
             FROM "ipea-series"
             WHERE SERCODIGO IS NOT NULL
         ''',
+        key=("series_code",),
+        temporal="last_updated",
     ),
     SqlNodeSpec(
         id="ipea-values-transform",
@@ -175,5 +177,7 @@ TRANSFORM_SPECS = [
             WHERE VALVALOR IS NOT NULL
               AND VALDATA IS NOT NULL
         ''',
+        key=("series_code", "date", "geo_level", "territory_code"),
+        temporal="date",
     ),
 ]

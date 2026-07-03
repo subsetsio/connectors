@@ -1,0 +1,22 @@
+# CBS 83583NED — Banen van werknemers in december, SBI 2008 × bedrijfsgrootte.
+key: [period, industry_sbi2008, company_size]
+temporal: year
+columns:
+  - name: period
+    type: VARCHAR
+    description: CBS period code (YYYYJJ00 = annual, measured in December)
+  - name: year
+    type: BIGINT
+    description: observation year, parsed from the period code
+  - name: period_label
+    type: VARCHAR
+    description: Dutch period label, e.g. "2021 december"
+  - name: industry_sbi2008
+    type: VARCHAR
+    description: economic activity (SBI 2008 section/division label, Dutch)
+  - name: company_size
+    type: VARCHAR
+    description: company size class by persons employed (Dutch label)
+  - name: jobs_thousands
+    type: DOUBLE
+    description: employee jobs in December, x 1 000 (CBS measure M000308)

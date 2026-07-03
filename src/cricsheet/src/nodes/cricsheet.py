@@ -197,6 +197,10 @@ TRANSFORM_SPECS = [
             FROM "cricsheet-deliveries"
             WHERE match_id IS NOT NULL AND match_id <> ''
         ''',
+        # No key declared: a ball number can recur within an innings (wides/
+        # no-balls are re-bowled), so (match_id, innings, ball) is not a proven
+        # unique grain for this append-style ball-by-ball log.
+        temporal="start_date",
     ),
     SqlNodeSpec(
         id="cricsheet-matches-transform",
@@ -229,6 +233,8 @@ TRANSFORM_SPECS = [
             FROM "cricsheet-matches"
             WHERE match_id IS NOT NULL
         ''',
+        key=("match_id",),
+        temporal="start_date",
     ),
     SqlNodeSpec(
         id="cricsheet-people-transform",
@@ -243,5 +249,7 @@ TRANSFORM_SPECS = [
             FROM "cricsheet-people"
             WHERE identifier IS NOT NULL AND identifier <> ''
         ''',
+        # Player/official identity register — one row per person, no time dimension.
+        key=("identifier",),
     ),
 ]

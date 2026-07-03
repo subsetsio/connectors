@@ -227,11 +227,23 @@ _TRANSFORM_SQL = {
     ''',
 }
 
+# Natural key per bulk table (IMDb's documented relational grains).
+_TRANSFORM_KEY = {
+    "imdb-title.basics": ("tconst",),
+    "imdb-title.ratings": ("tconst",),
+    "imdb-title.akas": ("tconst", "ordering"),
+    "imdb-title.crew": ("tconst",),
+    "imdb-title.episode": ("tconst",),
+    "imdb-title.principals": ("tconst", "ordering"),
+    "imdb-name.basics": ("nconst",),
+}
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_TRANSFORM_SQL[s.id],
+        key=_TRANSFORM_KEY[s.id],
     )
     for s in DOWNLOAD_SPECS
 ]

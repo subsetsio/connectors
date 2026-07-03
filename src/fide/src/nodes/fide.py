@@ -159,5 +159,6 @@ TRANSFORM_SPECS = [
             FROM "fide-players"
             WHERE fideid IS NOT NULL
         ''',
+        key=("fide_id",),
     ),
 ]

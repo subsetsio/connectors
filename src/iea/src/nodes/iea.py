@@ -113,6 +113,12 @@ def _transform_sql(dep_id: str) -> str:
 
 
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_transform_sql(s.id))
+    SqlNodeSpec(
+        id=f"{s.id}-transform",
+        deps=[s.id],
+        sql=_transform_sql(s.id),
+        key=("year", "country", "flow", "product"),
+        temporal="year",
+    )
     for s in DOWNLOAD_SPECS
 ]

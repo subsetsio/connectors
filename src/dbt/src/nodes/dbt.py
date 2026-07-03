@@ -120,6 +120,30 @@ DOWNLOAD_SPECS = [
     for spec_id in FETCH_PARAMS
 ]
 
+# Per-subset grain (each source table's primary key) and observation period.
+# Keys are the source tables' identity columns; temporal columns use the start
+# of each record's validity/effective period as the observation date.
+_KEY = {
+    "dbt-market-barriers--barriers": ("id",),
+    "dbt-orp-regulations--uk-regulatory-documents": ("id",),
+    "dbt-uk-tariff-2021-01-01--commodities": ("trackedmodel_ptr_id",),
+    "dbt-uk-tariff-2021-01-01--measures": ("trackedmodel_ptr_id",),
+    "dbt-uk-tariff-2021-01-01--measures-as-defined": ("id",),
+    "dbt-uk-tariff-2021-01-01--measures-on-declarable-commodities": ("id",),
+    "dbt-uk-trade-quotas--quotas": ("quota_definition__sid",),
+    "dbt-uk-trade-quotas--report--quotas-including-current-volumes": ("quota_definition__sid",),
+}
+_TEMPORAL = {
+    "dbt-market-barriers--barriers": "status_date",
+    "dbt-orp-regulations--uk-regulatory-documents": "date_issued",
+    "dbt-uk-tariff-2021-01-01--commodities": "validity_start",
+    "dbt-uk-tariff-2021-01-01--measures": "validity_start",
+    "dbt-uk-tariff-2021-01-01--measures-as-defined": "measure__effective_start_date",
+    "dbt-uk-tariff-2021-01-01--measures-on-declarable-commodities": "measure__effective_start_date",
+    "dbt-uk-trade-quotas--quotas": "quota_definition__validity_start_date",
+    "dbt-uk-trade-quotas--report--quotas-including-current-volumes": "quota_definition__validity_start_date",
+}
+
 # One published Delta table per subset. The NDJSON raw is already the
 # publishable shape (one row per source record); the transform is a thin
 # pass-through that also serves as the correctness gate — a 0-row result fails
@@ -129,6 +153,8 @@ TRANSFORM_SPECS = [
         id=f"{spec.id}-transform",
         deps=[spec.id],
         sql=f'SELECT * FROM "{spec.id}"',
+        key=_KEY.get(spec.id),
+        temporal=_TEMPORAL.get(spec.id),
     )
     for spec in DOWNLOAD_SPECS
 ]

@@ -144,6 +144,8 @@ TRANSFORM_SPECS = [
             FROM "{s.id}"
             WHERE fecha_ms IS NOT NULL
         ''',
+        key=("series_code", "date"),
+        temporal="date",
     )
     for s in DOWNLOAD_SPECS
 ]

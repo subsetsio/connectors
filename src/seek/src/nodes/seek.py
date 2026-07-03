@@ -221,6 +221,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="seek-job-ad-index-transform",
         deps=["seek-job-ad-index"],
+        key=("date", "country", "state"),
+        temporal="date",
         sql='''
             SELECT
                 CAST(date AS DATE) AS date,
@@ -239,6 +241,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="seek-applications-per-ad-index-transform",
         deps=["seek-applications-per-ad-index"],
+        key=("date", "country", "state"),
+        temporal="date",
         sql='''
             SELECT
                 CAST(date AS DATE) AS date,
@@ -257,6 +261,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="seek-advertised-salary-index-transform",
         deps=["seek-advertised-salary-index"],
+        key=("date", "country", "state", "classification"),
+        temporal="date",
         sql='''
             SELECT
                 CAST(date AS DATE) AS date,

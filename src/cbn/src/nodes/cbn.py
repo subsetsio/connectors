@@ -495,6 +495,8 @@ TRANSFORM_SPECS = [
                 PARTITION BY indicator_id, period ORDER BY date
             ) = 1
         ''',
+        key=("indicator_id", "period"),
+        temporal="date",
     )
     for s in DOWNLOAD_SPECS
 ]

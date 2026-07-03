@@ -253,11 +253,15 @@ def _transform_sql(entity: str) -> str:
     '''
 
 
+# All three catalogs are one-row-per-repo (deduped by repo id) with lastModified
+# as the per-repo observation timestamp — uniform grain across the comprehension.
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_transform_sql(s.id[len("huggingface-"):]),
+        key=("id",),
+        temporal="last_modified",
     )
     for s in DOWNLOAD_SPECS
 ]

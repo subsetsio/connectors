@@ -75,6 +75,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="openpowerlifting-results-transform",
         deps=["openpowerlifting-results"],
+        temporal="date",
         sql='''
             SELECT
                 "Name"                                        AS name,

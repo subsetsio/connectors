@@ -202,7 +202,27 @@ _T = {
     ''',
 }
 
+# Grain per subset: each is a faceted marginal/panel aggregate, so the facet
+# value(s) are the unique key. Year panels carry an observation-period column.
+_GRAIN = {
+    "gbif-occurrences-by-year": (("year",), "year"),
+    "gbif-occurrences-by-publishing-country": (("publishing_country",), None),
+    "gbif-occurrences-by-issue": (("issue",), None),
+    "gbif-occurrences-by-license": (("license",), None),
+    "gbif-datasets-by-type": (("dataset_type",), None),
+    "gbif-datasets-by-publishing-country": (("publishing_country",), None),
+    "gbif-occurrences-by-year-and-country": (("country", "year"), "year"),
+    "gbif-occurrences-by-year-and-kingdom": (("kingdom_key", "year"), "year"),
+    "gbif-occurrences-by-year-and-basis-of-record": (("basis_of_record", "year"), "year"),
+}
+
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{download_id}-transform", deps=[download_id], sql=sql)
+    SqlNodeSpec(
+        id=f"{download_id}-transform",
+        deps=[download_id],
+        sql=sql,
+        key=_GRAIN[download_id][0],
+        temporal=_GRAIN[download_id][1],
+    )
     for download_id, sql in _T.items()
 ]

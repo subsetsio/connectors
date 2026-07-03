@@ -145,6 +145,8 @@ TRANSFORM_SPECS = [
               AND TRY_CAST(value AS DOUBLE) IS NOT NULL
               AND NOT isnan(TRY_CAST(value AS DOUBLE))
         ''',
+        key=("period", "series"),
+        temporal="period",
     )
     for s in DOWNLOAD_SPECS
 ]

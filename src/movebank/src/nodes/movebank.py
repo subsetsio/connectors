@@ -174,6 +174,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        temporal="timestamp",
         sql=_transform_sql(s.id),
     )
     for s in DOWNLOAD_SPECS

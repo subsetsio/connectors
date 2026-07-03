@@ -219,6 +219,8 @@ TRANSFORM_SPECS = [
         kind="transform",
         deps=(f"ibge-{eid}",),
         sql=_agg_sql(f"ibge-{eid}"),
+        key=("variavel_id", "localidade_id", "periodo", "categoria"),
+        temporal="periodo",
     )
     for eid in _AGG_IDS
 ] + [
@@ -228,5 +230,6 @@ TRANSFORM_SPECS = [
         kind="transform",
         deps=("ibge-municipios",),
         sql=_MUNI_SQL,
+        key=("municipio_id",),
     ),
 ]

@@ -303,6 +303,7 @@ TRANSFORM_SPECS = (
             id=f"unodc-{eid}-transform",
             deps=[f"unodc-{eid}"],
             sql=_cts_sql(f"unodc-{eid}"),
+            temporal="year",
         )
         for eid in _CTS_ENTITIES
     ]
@@ -311,11 +312,13 @@ TRANSFORM_SPECS = (
             id="unodc-data-wildlife-trafficking-transform",
             deps=["unodc-data-wildlife-trafficking"],
             sql=_WILDLIFE_SQL,
+            temporal="year_range",
         ),
         SqlNodeSpec(
             id="unodc-sdg-dataset-transform",
             deps=["unodc-sdg-dataset"],
             sql=_SDG_SQL,
+            temporal="year",
         ),
     ]
 )

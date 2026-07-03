@@ -140,6 +140,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        key=("series_key", "obs_index"),
+        temporal="date",
         sql=_transform_sql(s.id),
     )
     for s in DOWNLOAD_SPECS

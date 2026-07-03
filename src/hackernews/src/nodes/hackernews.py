@@ -242,5 +242,7 @@ TRANSFORM_SPECS = [
             WHERE id IS NOT NULL
             QUALIFY row_number() OVER (PARTITION BY id ORDER BY time DESC) = 1
         ''',
+        key=("id",),
+        temporal="time",
     ),
 ]

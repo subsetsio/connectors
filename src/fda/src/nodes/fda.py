@@ -421,10 +421,42 @@ DOWNLOAD_SPECS = [
 # Thin publish: each partition batch already carries a uniform string schema,
 # so the transform just glob-unions the batches into the published table. Types
 # are deferred to curation (openFDA date/flag encodings vary across endpoints).
+
+# Per-entity grain (entity -> (key, temporal)). Keys use the endpoint's natural
+# unique id (confirmed unique in profiling); temporal prefers a populated
+# event/receipt/posting date over open-ended expiry/end dates. Reference tables
+# with no observation period (classification, drugsfda, substance, tobacco) and
+# tables with no confirmed unique id (device-pma, registrationlisting,
+# drug-shortages) are left partly/fully undeclared. Every named column is an
+# output column of that entity's SELECT *.
+_GRAIN = {
+    "animalandveterinary-event": (("unique_aer_id_number",), "original_receive_date"),
+    "cosmetic-event": (("report_number",), "initial_received_date"),
+    "device-510k": (("k_number",), "decision_date"),
+    "device-classification": (("product_code",), None),
+    "device-enforcement": (("recall_number",), "report_date"),
+    "device-pma": (None, "decision_date"),
+    "device-recall": (("product_res_number",), "event_date_posted"),
+    "device-registrationlisting": (None, "reg_expiry_date_year"),
+    "device-udi": (("public_device_record_key",), "publish_date"),
+    "drug-drugsfda": (("application_number",), None),
+    "drug-enforcement": (("recall_number",), "center_classification_date"),
+    "drug-label": (("id",), "effective_time"),
+    "drug-ndc": (("product_id",), "marketing_start_date"),
+    "drug-shortages": (None, None),
+    "food-enforcement": (("recall_number",), "report_date"),
+    "food-event": (("report_number",), "date_created"),
+    "other-nsde": (("package_ndc",), "marketing_start_date"),
+    "other-substance": (("uuid",), None),
+    "tobacco-problem": (("report_id",), None),
+}
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        key=_GRAIN.get(s.id[len("fda-"):], (None, None))[0],
+        temporal=_GRAIN.get(s.id[len("fda-"):], (None, None))[1],
         sql=f'SELECT * FROM "{s.id}"',
     )
     for s in DOWNLOAD_SPECS

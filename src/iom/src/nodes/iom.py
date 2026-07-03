@@ -194,6 +194,7 @@ TRANSFORM_SPECS = [
             FROM "iom-dtm-displacement"
             WHERE TRY_CAST(num_present_idp_ind AS BIGINT) IS NOT NULL
         ''',
+        temporal="reporting_date",
     ),
     SqlNodeSpec(
         id="iom-missing-migrants-transform",
@@ -228,5 +229,7 @@ TRANSFORM_SPECS = [
             FROM "iom-missing-migrants"
             WHERE main_id IS NOT NULL
         ''',
+        key=("main_id",),
+        temporal="incident_date",
     ),
 ]

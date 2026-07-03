@@ -194,10 +194,16 @@ TRANSFORM_SPECS = [
         id="cpds-main-transform",
         deps=("cpds-main",),
         sql='SELECT * FROM "cpds-main" ORDER BY country, year',
+        key=("country", "year"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="cpds-government-composition-transform",
         deps=("cpds-government-composition",),
         sql='SELECT * FROM "cpds-government-composition" ORDER BY country, year',
+        # No key: a country can have multiple governments in one year (the sheet
+        # carries investiture_date / investiture_date_2), so (country, year) is
+        # not a unique grain.
+        temporal="year",
     ),
 ]

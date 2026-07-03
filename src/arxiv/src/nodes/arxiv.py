@@ -193,5 +193,7 @@ TRANSFORM_SPECS = [
             )
             WHERE _rn = 1
         ''',
+        key=("arxiv_id",),
+        temporal="created_date",
     ),
 ]

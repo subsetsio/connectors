@@ -168,6 +168,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="unep-national-transform",
         deps=["unep-national"],
+        key=("adm0_code", "year"),
+        temporal="year",
         sql=f'''
             SELECT
                 CAST(year AS INTEGER)      AS year,
@@ -181,6 +183,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="unep-subnational-adm1-transform",
         deps=["unep-subnational-adm1"],
+        key=("adm0_code", "adm1_code", "year"),
+        temporal="year",
         sql=f'''
             SELECT
                 CAST(year AS INTEGER)      AS year,
@@ -196,6 +200,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="unep-subnational-adm2-transform",
         deps=["unep-subnational-adm2"],
+        key=("adm0_code", "adm1_code", "adm2_code", "year"),
+        temporal="year",
         sql=f'''
             SELECT
                 CAST(year AS INTEGER)      AS year,
@@ -213,6 +219,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="unep-basins-transform",
         deps=["unep-basins"],
+        key=("pfaf_id", "basin_level", "year"),
+        temporal="year",
         sql=f'''
             SELECT
                 CAST(year AS INTEGER)    AS year,

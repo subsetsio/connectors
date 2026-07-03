@@ -163,6 +163,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="samhsa-escb-scz6-transform",
         deps=["samhsa-escb-scz6"],
+        temporal="federal_fiscal_year",
         sql='''
             SELECT
                 CAST(locationabbr AS VARCHAR)          AS location_code,

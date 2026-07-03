@@ -466,11 +466,18 @@ def _transform_sql(slug: str) -> str:
     return cfg.get("sql", f'SELECT * FROM "hud-{slug}"')
 
 
+# Every program carries a `fiscal_year` column (added per row on ingest, and
+# retained by the income/rent COLUMNS projections), which is the yearly-snapshot
+# observation period — uniform temporal for all programs. No key is declared:
+# the geographic identifier column drifts by name across vintages (fips2010 /
+# fips2025 / fips coexist as sparse columns), so no consistently-populated grain
+# column exists to key on.
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"hud-{eid}-transform",
         deps=[f"hud-{eid}"],
         sql=_transform_sql(eid),
+        temporal="fiscal_year",
     )
     for eid in ENTITY_IDS
 ]

@@ -102,6 +102,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"pypl-{eid}-transform",
         deps=[f"pypl-{eid}"],
+        key=("date", "country", cfg["col"]),
+        temporal="date",
         sql=f'''
             SELECT
                 CAST(date AS DATE)      AS date,

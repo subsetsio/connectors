@@ -199,6 +199,8 @@ TRANSFORM_SPECS = [
             FROM ranked
             WHERE rn = 1
         ''',
+        key=("id",),
+        temporal="date_published",
     ),
     SqlNodeSpec(
         id="enisa-affected-products-transform",
@@ -213,5 +215,6 @@ TRANSFORM_SPECS = [
             WHERE euvd_id IS NOT NULL
               AND product_name IS NOT NULL
         ''',
+        key=("euvd_id", "product_name", "vendor_name", "product_version"),
     ),
 ]

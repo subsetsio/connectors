@@ -344,6 +344,7 @@ TRANSFORM_SPECS = [
             f'FROM "{s.id}" '
             f'WHERE obs_date IS NOT NULL'
         ),
+        temporal="date",
     )
     for s in DOWNLOAD_SPECS
 ]

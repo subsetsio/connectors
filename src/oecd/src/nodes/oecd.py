@@ -146,6 +146,7 @@ TRANSFORM_SPECS = [
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT * FROM "{s.id}" WHERE value IS NOT NULL',
+        temporal="time_period",
     )
     for s in DOWNLOAD_SPECS
 ]

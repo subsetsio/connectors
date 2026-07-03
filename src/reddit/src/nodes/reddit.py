@@ -195,6 +195,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="reddit-global-activity-transform",
         deps=["reddit-global-activity"],
+        key=("date",),
+        temporal="date",
         sql='''
             SELECT
                 CAST(to_timestamp(date) AS DATE)                          AS date,
@@ -210,6 +212,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="reddit-subreddit-activity-transform",
         deps=["reddit-subreddit-activity"],
+        key=("subreddit", "date"),
+        temporal="date",
         sql='''
             SELECT
                 subreddit,
@@ -225,6 +229,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="reddit-subreddit-subscribers-transform",
         deps=["reddit-subreddit-subscribers"],
+        key=("subreddit", "date"),
+        temporal="date",
         sql='''
             SELECT
                 subreddit,
@@ -238,6 +244,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="reddit-subreddits-transform",
         deps=["reddit-subreddits"],
+        key=("subreddit",),
         sql='''
             SELECT
                 subreddit,

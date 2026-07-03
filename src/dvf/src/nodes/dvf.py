@@ -111,6 +111,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="dvf-transactions-transform",
         deps=["dvf-transactions"],
+        temporal="date_mutation",
         sql='''
             SELECT
                 id_mutation,

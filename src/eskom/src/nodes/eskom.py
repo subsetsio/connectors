@@ -324,6 +324,12 @@ _TRANSFORM_SQL = '''
 '''
 
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_TRANSFORM_SQL.format(dep=s.id))
+    SqlNodeSpec(
+        id=f"{s.id}-transform",
+        deps=[s.id],
+        sql=_TRANSFORM_SQL.format(dep=s.id),
+        key=("period_label", "series"),
+        temporal="period_label",
+    )
     for s in DOWNLOAD_SPECS
 ]

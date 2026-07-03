@@ -285,7 +285,26 @@ _TRANSFORM_SQL = {
     ''',
 }
 
+# Each subset is one observation per period: the date-indexed series are keyed by
+# `date` (unique per row), the yearly series by `year`. All are temporal on that
+# same period column.
+_GRAIN = {
+    "silso-daily-total": (("date",), "date"),
+    "silso-monthly-total": (("date",), "date"),
+    "silso-monthly-smoothed-total": (("date",), "date"),
+    "silso-yearly-total": (("year",), "year"),
+    "silso-daily-hemispheric": (("date",), "date"),
+    "silso-monthly-hemispheric": (("date",), "date"),
+    "silso-monthly-smoothed-hemispheric": (("date",), "date"),
+}
+
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_TRANSFORM_SQL[s.id])
+    SqlNodeSpec(
+        id=f"{s.id}-transform",
+        deps=[s.id],
+        key=_GRAIN[s.id][0],
+        temporal=_GRAIN[s.id][1],
+        sql=_TRANSFORM_SQL[s.id],
+    )
     for s in DOWNLOAD_SPECS
 ]

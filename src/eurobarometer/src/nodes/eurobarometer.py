@@ -403,6 +403,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="eurobarometer-surveys-transform",
         deps=["eurobarometer-surveys"],
+        key=("survey_id",),
+        temporal="issued",
         sql='''
             SELECT
                 survey_id,

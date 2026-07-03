@@ -168,6 +168,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        temporal="timeframe",
         sql=f'''
             SELECT
                 location,

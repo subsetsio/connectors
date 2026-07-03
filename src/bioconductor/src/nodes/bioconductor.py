@@ -159,6 +159,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="bioconductor-downloads-transform",
         deps=["bioconductor-downloads"],
+        key=("package", "repo", "year", "month"),
+        temporal="date",
         sql='''
             SELECT
                 make_date(CAST(year AS INTEGER), m.month_num, 1) AS date,
@@ -179,6 +181,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="bioconductor-packages-transform",
         deps=["bioconductor-packages"],
+        key=("package", "repo"),
         sql='''
             SELECT
                 package,

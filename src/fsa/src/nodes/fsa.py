@@ -201,6 +201,7 @@ TRANSFORM_SPECS = [
             FROM "{s.id}"
             WHERE value IS NOT NULL AND value <> ''
         ''',
+        key=("resource_id", "sheet", "row_idx", "col_idx"),
     )
     for s in DOWNLOAD_SPECS
 ]

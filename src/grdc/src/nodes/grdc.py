@@ -91,5 +91,6 @@ TRANSFORM_SPECS = [
         id="grdc-station-catalogue-transform",
         deps=["grdc-station-catalogue"],
         sql=_STATION_SQL,
+        key=("grdc_no",),
     ),
 ]

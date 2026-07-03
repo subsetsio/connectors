@@ -3,6 +3,7 @@ name = "dhs-program"
 version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [
+    "subsets-utils",
     "s3fs>=2024.0",
     "fsspec>=2024.0",
     "httpx",
@@ -22,3 +23,6 @@ dependencies = [
     "py7zr>=0.20",
     "lxml>=4.9",
 ]
+
+[tool.uv.sources]
+subsets-utils = { path = "../../lib/subsets_utils", editable = true }

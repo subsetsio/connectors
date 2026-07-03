@@ -147,6 +147,8 @@ TRANSFORM_SPECS = [
                 PARTITION BY release_date, id_team ORDER BY rank
             ) = 1
         ''',
+        key=("release_date", "id_team"),
+        temporal="release_date",
     )
     for s in DOWNLOAD_SPECS
 ]

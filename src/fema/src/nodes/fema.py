@@ -237,6 +237,10 @@ TRANSFORM_SPECS = [
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT * FROM "{s.id}"',
+        # Every OpenFEMA record carries a system-assigned unique `id` (the API's
+        # documented per-record primary key), present in every full-file corpus
+        # incl. the $allrecords streams — see the download notes above.
+        key=("id",),
     )
     for s in DOWNLOAD_SPECS
 ]

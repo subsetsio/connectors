@@ -488,6 +488,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="statsbomb-competitions-transform",
         deps=["statsbomb-competitions"],
+        key=("competition_id", "season_id"),
         sql='''
             SELECT
                 CAST(competition_id AS BIGINT)            AS competition_id,
@@ -509,6 +510,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="statsbomb-matches-transform",
         deps=["statsbomb-matches"],
+        key=("match_id",),
+        temporal="match_date",
         sql='''
             SELECT
                 CAST(match_id AS BIGINT)              AS match_id,
@@ -541,6 +544,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="statsbomb-events-transform",
         deps=["statsbomb-events"],
+        key=("id",),
         sql='''
             SELECT *
             FROM "statsbomb-events"
@@ -550,6 +554,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="statsbomb-lineups-transform",
         deps=["statsbomb-lineups"],
+        key=("match_id", "player_id"),
         sql='''
             SELECT *
             FROM "statsbomb-lineups"

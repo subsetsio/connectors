@@ -440,6 +440,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="fca-firm-complaints-transform",
         deps=["fca-firm-complaints"],
+        temporal="semester",
         sql='''
             SELECT semester,
                    breakdown_type,
@@ -455,6 +456,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="fca-general-insurance-value-measures-transform",
         deps=["fca-general-insurance-value-measures"],
+        key=("firm_name", "product_category", "year"),
+        temporal="year",
         sql='''
             SELECT firm_name,
                    product_category,
@@ -470,6 +473,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="fca-mortgage-lending-statistics-transform",
         deps=["fca-mortgage-lending-statistics"],
+        temporal="year",
         sql='''
             SELECT table_sheet,
                    sub_table_ref,
@@ -485,6 +489,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="fca-product-sales-transform",
         deps=["fca-product-sales"],
+        temporal="period",
         sql='''
             SELECT grouped_by,
                    category,
@@ -500,6 +505,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="fca-retail-intermediary-market-transform",
         deps=["fca-retail-intermediary-market"],
+        temporal="year",
         sql='''
             SELECT section,
                    table_title,
@@ -513,6 +519,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="fca-retirement-income-market-transform",
         deps=["fca-retirement-income-market"],
+        temporal="period",
         sql='''
             SELECT table_title,
                    row_label,

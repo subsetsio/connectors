@@ -210,6 +210,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{spec.id}-transform",
         deps=[spec.id],
+        temporal="election_date",
         sql=f'''
             SELECT
                 state,

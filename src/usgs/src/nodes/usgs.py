@@ -299,6 +299,7 @@ TRANSFORM_SPECS = [
             FROM "usgs-monitoring-locations"
             WHERE "id" IS NOT NULL
         ''',
+        key=("id",),
     ),
     SqlNodeSpec(
         id="usgs-peaks-transform",
@@ -318,6 +319,7 @@ TRANSFORM_SPECS = [
             FROM "usgs-peaks"
             WHERE "monitoring_location_id" IS NOT NULL
         ''',
+        temporal="water_year",
     ),
     SqlNodeSpec(
         id="usgs-daily-transform",
@@ -337,6 +339,8 @@ TRANSFORM_SPECS = [
             FROM "usgs-daily"
             WHERE "time_series_id" IS NOT NULL AND "time" IS NOT NULL
         ''',
+        key=("time_series_id", "date"),
+        temporal="date",
     ),
     SqlNodeSpec(
         id="usgs-continuous-transform",
@@ -356,6 +360,8 @@ TRANSFORM_SPECS = [
             FROM "usgs-continuous"
             WHERE "time_series_id" IS NOT NULL AND "time" IS NOT NULL
         ''',
+        key=("time_series_id", "time"),
+        temporal="time",
     ),
     SqlNodeSpec(
         id="usgs-field-measurements-transform",
@@ -376,6 +382,7 @@ TRANSFORM_SPECS = [
             FROM "usgs-field-measurements"
             WHERE "monitoring_location_id" IS NOT NULL
         ''',
+        temporal="time",
     ),
     SqlNodeSpec(
         id="usgs-channel-measurements-transform",
@@ -402,6 +409,8 @@ TRANSFORM_SPECS = [
             FROM "usgs-channel-measurements"
             WHERE "id" IS NOT NULL
         ''',
+        key=("id",),
+        temporal="time",
     ),
     SqlNodeSpec(
         id="usgs-combined-metadata-transform",
@@ -429,6 +438,7 @@ TRANSFORM_SPECS = [
             FROM "usgs-combined-metadata"
             WHERE "id" IS NOT NULL
         ''',
+        key=("id",),
     ),
     SqlNodeSpec(
         id="usgs-time-series-metadata-transform",
@@ -454,6 +464,7 @@ TRANSFORM_SPECS = [
             FROM "usgs-time-series-metadata"
             WHERE "id" IS NOT NULL
         ''',
+        key=("id",),
     ),
     SqlNodeSpec(
         id="usgs-earthquakes-transform",
@@ -479,5 +490,7 @@ TRANSFORM_SPECS = [
             FROM "usgs-earthquakes"
             WHERE "id" IS NOT NULL AND "time" IS NOT NULL
         ''',
+        key=("id",),
+        temporal="time",
     ),
 ]

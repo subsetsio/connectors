@@ -173,6 +173,8 @@ TRANSFORM_SPECS = [
             cfg["dims"],
             cfg["value_col"],
         ),
+        key=tuple("country" if d == "country_l2" else d for d in cfg["dims"]) + ("year",),
+        temporal="year",
     )
     for eid, cfg in SUBSETS.items()
 ]

@@ -112,6 +112,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="listenbrainz-sitewide-artists-transform",
         deps=["listenbrainz-sitewide-artists"],
+        key=("range", "rank"),
+        temporal="updated_at",
         sql=f'''
             SELECT
                 range,
@@ -127,6 +129,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="listenbrainz-sitewide-releases-transform",
         deps=["listenbrainz-sitewide-releases"],
+        key=("range", "rank"),
+        temporal="updated_at",
         sql=f'''
             SELECT
                 range,
@@ -146,6 +150,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="listenbrainz-sitewide-release-groups-transform",
         deps=["listenbrainz-sitewide-release-groups"],
+        key=("range", "rank"),
+        temporal="updated_at",
         sql=f'''
             SELECT
                 range,
@@ -165,6 +171,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="listenbrainz-sitewide-recordings-transform",
         deps=["listenbrainz-sitewide-recordings"],
+        key=("range", "rank"),
+        temporal="updated_at",
         sql=f'''
             SELECT
                 range,
@@ -186,6 +194,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="listenbrainz-sitewide-listening-activity-transform",
         deps=["listenbrainz-sitewide-listening-activity"],
+        key=("range", "time_range"),
+        temporal="updated_at",
         sql='''
             SELECT
                 range,
@@ -201,6 +211,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="listenbrainz-sitewide-artist-activity-transform",
         deps=["listenbrainz-sitewide-artist-activity"],
+        key=("range", "artist_name"),
+        temporal="updated_at",
         # artist_mbid is intentionally dropped: the sitewide artist-activity
         # endpoint never populates it (always null), unlike sitewide/artists.
         sql=f'''
@@ -216,6 +228,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="listenbrainz-sitewide-era-activity-transform",
         deps=["listenbrainz-sitewide-era-activity"],
+        key=("range", "year"),
+        temporal="updated_at",
         sql='''
             SELECT
                 range,
@@ -232,6 +246,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="listenbrainz-sitewide-artist-map-transform",
         deps=["listenbrainz-sitewide-artist-map"],
+        key=("range", "country"),
+        temporal="updated_at",
         sql='''
             SELECT
                 range,

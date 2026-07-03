@@ -257,6 +257,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="dpiit-wpi-series-transform",
         deps=["dpiit-wpi-series"],
+        key=("item_code",),
         sql='''
             SELECT
                 item_code,
@@ -270,6 +271,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="dpiit-wpi-values-transform",
         deps=["dpiit-wpi-values"],
+        key=("item_code", "date"),
+        temporal="date",
         sql='''
             SELECT
                 item_code,
@@ -285,6 +288,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="dpiit-core-industries-transform",
         deps=["dpiit-core-industries"],
+        key=("sector", "date"),
+        temporal="date",
         sql='''
             SELECT
                 sector,

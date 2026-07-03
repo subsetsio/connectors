@@ -321,6 +321,44 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_DT_GT
 ]
 
+# Grain per subset. Each table is long-format: the flatten emits exactly one row
+# per (dimension-combo x data_series row), so the key is the full set of
+# dimension columns (all columns other than the measures rate/count/percent/
+# risk/median_age/*_ci/*_se/modeled_*/rel_*/aa_percent). `temporal` is the
+# `year` column for the trend tables; the rate/rates/distribution/median-age
+# cross-sections carry no period column and are left timeless.
+_GRAIN = {
+    "seer-incidence-and-mortality-comparison-long-term-trends": (("sex", "race", "age_range", "rate_type", "site", "year"), "year"),
+    "seer-incidence-and-mortality-comparison-median-age": (("sex", "race", "data_type", "site"), None),
+    "seer-incidence-and-mortality-comparison-rates-by-age": (("sex", "race", "rate_type", "site", "age_range"), None),
+    "seer-incidence-and-mortality-comparison-recent-rates": (("sex", "race", "age_range", "stage", "data_type", "site"), None),
+    "seer-incidence-and-mortality-comparison-recent-trends": (("sex", "race", "age_range", "stage", "rate_type", "site", "year"), "year"),
+    "seer-prevalence-complete": (("sex", "age_range", "site"), None),
+    "seer-prevalence-limited-duration": (("sex", "race", "age_range", "prev_duration", "site"), None),
+    "seer-risk-of-diagnosis-dying-risk-comparisons": (("stat_type", "sex", "race", "age_range", "risk_interval", "site"), None),
+    "seer-risk-of-diagnosis-dying-risk-intervals": (("stat_type", "sex", "race", "age_range", "site", "risk_interval"), None),
+    "seer-seer-incidence-long-term-trends": (("rate_type", "sex", "race", "age_range", "subtype", "site", "year"), "year"),
+    "seer-seer-incidence-median-age": (("sex", "race", "site"), None),
+    "seer-seer-incidence-rates-by-age": (("rate_type", "sex", "race", "subtype", "site", "age_range"), None),
+    "seer-seer-incidence-recent-rates": (("sex", "race", "age_range", "stage", "subtype", "site"), None),
+    "seer-seer-incidence-recent-trends": (("rate_type", "sex", "race", "age_range", "stage", "subtype", "site", "year"), "year"),
+    "seer-seer-incidence-rural-urban-rates": (("rucc", "sex", "race", "age_range", "site"), None),
+    "seer-seer-incidence-rural-urban-trends": (("rucc", "sex", "race", "age_range", "site", "year"), "year"),
+    "seer-seer-incidence-stage-distribution": (("sex", "race", "age_range", "stage", "site"), None),
+    "seer-survival-5-year-survival": (("sex", "race", "age_range", "stage", "subtype", "site"), None),
+    "seer-survival-by-time-since-diagnosis": (("sex", "race", "age_range", "stage", "subtype", "site", "survival_interval"), None),
+    "seer-survival-conditional-survival": (("sex", "race", "age_range", "stage", "years_since_dx", "subtype", "site"), None),
+    "seer-survival-long-term-trends": (("relative_survival_interval", "sex", "race", "age_range", "site", "year"), "year"),
+    "seer-survival-recent-trends": (("relative_survival_interval", "sex", "race", "age_range", "stage", "site", "year"), "year"),
+    "seer-us-mortality-long-term-trends": (("sex", "race", "age_range", "site", "year"), "year"),
+    "seer-us-mortality-median-age": (("sex", "race", "site"), None),
+    "seer-us-mortality-rates-by-age": (("sex", "race", "site", "age_range"), None),
+    "seer-us-mortality-recent-rates": (("sex", "race", "age_range", "site"), None),
+    "seer-us-mortality-recent-trends": (("sex", "race", "age_range", "site", "year"), "year"),
+    "seer-us-mortality-rural-urban-rates": (("rucc", "sex", "race", "age_range", "site"), None),
+    "seer-us-mortality-rural-urban-trends": (("rucc", "sex", "race", "age_range", "site", "year"), "year"),
+}
+
 # One published Delta table per subset. Raw is already decoded and typed (NDJSON
 # numbers parse natively in DuckDB), so the transform is a straight projection;
 # it still acts as the correctness gate — a malformed raw or empty result fails
@@ -329,6 +367,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        key=_GRAIN[s.id][0],
+        temporal=_GRAIN[s.id][1],
         sql=f'SELECT * FROM "{s.id}"',
     )
     for s in DOWNLOAD_SPECS

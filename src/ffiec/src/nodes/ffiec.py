@@ -347,10 +347,18 @@ _TS_SQL = '''
 '''
 
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id="ffiec-lar-transform", deps=["ffiec-lar"], sql=_LAR_SQL),
+    SqlNodeSpec(
+        id="ffiec-lar-transform",
+        deps=["ffiec-lar"],
+        sql=_LAR_SQL,
+        key=(),  # HMDA LAR is a loan-application register: no public record id
+        temporal="activity_year",
+    ),
     SqlNodeSpec(
         id="ffiec-transmittal-sheet-transform",
         deps=["ffiec-transmittal-sheet"],
         sql=_TS_SQL,
+        key=("lei", "activity_year"),
+        temporal="activity_year",
     ),
 ]

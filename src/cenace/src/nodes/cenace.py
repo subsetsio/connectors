@@ -327,11 +327,21 @@ _TRANSFORM_SQL = {
     ''',
 }
 
+# Per-product published grain (long-format one price per system x market x
+# node/zone x date x hour); date is the observation period for freshness.
+_TRANSFORM_KEY = {
+    "pml": ("sistema", "proceso", "node", "date", "hour"),
+    "pend": ("sistema", "proceso", "load_zone", "date", "hour"),
+    "psc": ("sistema", "proceso", "reserve_zone", "reserve_type", "date", "hour"),
+}
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_TRANSFORM_SQL[s.id[len(SLUG) + 1:]].format(dep=s.id),
+        key=_TRANSFORM_KEY[s.id[len(SLUG) + 1:]],
+        temporal="date",
     )
     for s in DOWNLOAD_SPECS
 ]

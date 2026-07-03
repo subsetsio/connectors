@@ -190,6 +190,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        temporal="period",
         sql=f'''
             SELECT
                 CAST(indicator_id AS INTEGER)        AS indicator_id,

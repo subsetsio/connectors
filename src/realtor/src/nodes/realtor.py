@@ -177,11 +177,27 @@ def _build_sql(spec_id: str, entity_id: str) -> str:
     """
 
 
+# Panel grain per entity: date x primary geography (one row per geography per
+# month; the WHERE guard drops null-geo summary rows). temporal is always date.
+_KEY = {
+    "core_country":   ("date",),
+    "core_state":     ("date", "state_code"),
+    "core_metro":     ("date", "cbsa_code"),
+    "core_county":    ("date", "county_fips"),
+    "core_zip":       ("date", "postal_code"),
+    "hotness_metro":  ("date", "cbsa_code"),
+    "hotness_county": ("date", "county_fips"),
+    "hotness_zip":    ("date", "postal_code"),
+}
+
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{spec_id}-transform",
         deps=[spec_id],
         sql=_build_sql(spec_id, entity_id),
+        key=_KEY[entity_id],
+        temporal="date",
     )
     for entity_id, spec_id in (
         (eid, f"realtor-{eid.replace('_', '-')}") for eid in _FILES

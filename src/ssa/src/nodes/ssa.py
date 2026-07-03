@@ -206,6 +206,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{_spec_id(eid)}-transform",
         deps=[_spec_id(eid)],
+        key=("state",),
+        temporal="year",
         sql=_build_sql(_spec_id(eid), state_col, year, fmap),
     )
     for eid, (state_col, year, fmap) in _TRANSFORM_PLAN.items()

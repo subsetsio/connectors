@@ -256,6 +256,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="ukhsa-values-transform",
         deps=["ukhsa-values"],
+        temporal="date",
         sql='''
             SELECT DISTINCT
                 theme,

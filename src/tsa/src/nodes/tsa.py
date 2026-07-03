@@ -151,6 +151,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="tsa-passenger-volumes-transform",
         deps=["tsa-passenger-volumes"],
+        key=("date",),
+        temporal="date",
         sql='''
             SELECT
                 CAST(date AS DATE)        AS date,

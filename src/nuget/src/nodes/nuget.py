@@ -175,6 +175,8 @@ TRANSFORM_SPECS = [
             FROM ranked
             WHERE rn = 1 AND is_delete = FALSE
         ''',
+        key=("package_id", "version"),
+        temporal="published",
     ),
     SqlNodeSpec(
         id="nuget-packages-transform",
@@ -191,5 +193,6 @@ TRANSFORM_SPECS = [
             FROM "nuget-packages"
             WHERE package_id IS NOT NULL
         ''',
+        key=("package_id",),
     ),
 ]

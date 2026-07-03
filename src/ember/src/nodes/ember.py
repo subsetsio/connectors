@@ -184,20 +184,28 @@ TRANSFORM_SPECS = [
         id="ember-global-yearly-transform",
         deps=["ember-global-yearly"],
         sql=_transform_sql("ember-global-yearly", _GLOBAL_SELECT, monthly=False),
+        key=("area", "year", "category", "subcategory", "variable"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="ember-global-monthly-transform",
         deps=["ember-global-monthly"],
         sql=_transform_sql("ember-global-monthly", _GLOBAL_SELECT, monthly=True),
+        key=("area", "date", "category", "subcategory", "variable"),
+        temporal="date",
     ),
     SqlNodeSpec(
         id="ember-us-yearly-transform",
         deps=["ember-us-yearly"],
         sql=_transform_sql("ember-us-yearly", _US_SELECT, monthly=False),
+        key=("state", "year", "category", "subcategory", "variable"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="ember-us-monthly-transform",
         deps=["ember-us-monthly"],
         sql=_transform_sql("ember-us-monthly", _US_SELECT, monthly=True),
+        key=("state", "date", "category", "subcategory", "variable"),
+        temporal="date",
     ),
 ]

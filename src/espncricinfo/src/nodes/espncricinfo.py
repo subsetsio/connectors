@@ -360,6 +360,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="espncricinfo-matches-transform",
         deps=["espncricinfo-matches"],
+        key=("event_id",),
+        temporal="start_time",
         sql='''
             SELECT
                 TRY_CAST(event_id AS BIGINT)        AS event_id,
@@ -389,6 +391,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="espncricinfo-batting-innings-transform",
         deps=["espncricinfo-batting-innings"],
+        key=("event_id", "innings", "player_id"),
         sql='''
             SELECT
                 TRY_CAST(event_id AS BIGINT)  AS event_id,
@@ -416,6 +419,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="espncricinfo-bowling-innings-transform",
         deps=["espncricinfo-bowling-innings"],
+        key=("event_id", "innings", "player_id"),
         sql='''
             SELECT
                 TRY_CAST(event_id AS BIGINT)  AS event_id,
@@ -540,6 +544,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="espncricinfo-statsguru-team-transform",
         deps=["espncricinfo-statsguru-team"],
+        key=("match_class", "team"),
         sql='''
             SELECT
                 match_class,

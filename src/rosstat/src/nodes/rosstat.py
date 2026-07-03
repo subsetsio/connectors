@@ -335,12 +335,20 @@ DOWNLOAD_SPECS = [
 
 # One published Delta table per dataset. Schemas are heterogeneous (each dataset
 # ships its own column list), so the transform is a thin pass-through over the
-# normalized wide NDJSON.
+# normalized wide NDJSON. Grains differ per dataset and most are one-off wide
+# statistical tables / code dictionaries with no reliable common key or period
+# column, so they are left undeclared. Only the multi-year municipal population
+# panel carries an obvious observation period.
+_GRAIN = {
+    "rosstat-7708234640-population": dict(temporal="year"),
+}
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT * FROM "{s.id}"',
+        **_GRAIN.get(s.id, {}),
     )
     for s in DOWNLOAD_SPECS
 ]

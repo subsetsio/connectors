@@ -194,6 +194,8 @@ TRANSFORM_SPECS = [
             WHERE value IS NOT NULL
             ORDER BY date, region, source
         ''',
+        key=("date", "region", "source"),
+        temporal="date",
     ),
     SqlNodeSpec(
         id="bundesnetzagentur-consumption-transform",
@@ -208,6 +210,8 @@ TRANSFORM_SPECS = [
             WHERE value IS NOT NULL
             ORDER BY date, region, measure
         ''',
+        key=("date", "region", "measure"),
+        temporal="date",
     ),
     SqlNodeSpec(
         id="bundesnetzagentur-generation-forecast-transform",
@@ -222,6 +226,8 @@ TRANSFORM_SPECS = [
             WHERE value IS NOT NULL
             ORDER BY date, region, source
         ''',
+        key=("date", "region", "source"),
+        temporal="date",
     ),
     SqlNodeSpec(
         id="bundesnetzagentur-prices-dayahead-transform",
@@ -235,5 +241,7 @@ TRANSFORM_SPECS = [
             WHERE value IS NOT NULL
             ORDER BY date, bidding_zone
         ''',
+        key=("date", "bidding_zone"),
+        temporal="date",
     ),
 ]

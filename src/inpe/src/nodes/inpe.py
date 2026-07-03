@@ -288,6 +288,8 @@ TRANSFORM_SPECS = [
             WHERE estado IS NOT NULL AND n_focos > 0
             ORDER BY ano, mes, estado
         ''',
+        key=("ano", "mes", "estado"),
+        temporal="ano",
     ),
     SqlNodeSpec(
         id="inpe-focos-brasil-bioma-mensal-transform",
@@ -302,6 +304,8 @@ TRANSFORM_SPECS = [
             WHERE bioma IS NOT NULL AND n_focos > 0
             ORDER BY ano, mes, bioma
         ''',
+        key=("ano", "mes", "bioma"),
+        temporal="ano",
     ),
     SqlNodeSpec(
         id="inpe-focos-brasil-municipio-anual-transform",
@@ -316,6 +320,8 @@ TRANSFORM_SPECS = [
             WHERE estado IS NOT NULL AND municipio IS NOT NULL AND n_focos > 0
             ORDER BY ano, estado, municipio
         ''',
+        key=("ano", "estado", "municipio"),
+        temporal="ano",
     ),
     SqlNodeSpec(
         id="inpe-focos-brasil-mensal-transform",
@@ -333,6 +339,8 @@ TRANSFORM_SPECS = [
             WHERE n_focos > 0
             ORDER BY ano, mes
         ''',
+        key=("ano", "mes"),
+        temporal="ano",
     ),
     SqlNodeSpec(
         id="inpe-focos-america-sul-pais-mensal-transform",
@@ -347,5 +355,7 @@ TRANSFORM_SPECS = [
             WHERE pais IS NOT NULL AND n_focos > 0
             ORDER BY ano, mes, pais
         ''',
+        key=("ano", "mes", "pais"),
+        temporal="ano",
     ),
 ]

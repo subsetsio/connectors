@@ -128,5 +128,6 @@ TRANSFORM_SPECS = [
             FROM "hld-life-tables"
             WHERE country IS NOT NULL
         ''',
+        temporal="year_start",
     ),
 ]

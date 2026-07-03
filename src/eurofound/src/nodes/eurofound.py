@@ -140,6 +140,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="eurofound-collectively-agreed-wages-rates-transform",
         deps=["eurofound-collectively-agreed-wages-rates"],
+        temporal="period",
         sql='''
             SELECT
                 country,
@@ -166,6 +167,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="eurofound-collectively-agreed-wages-agreements-transform",
         deps=["eurofound-collectively-agreed-wages-agreements"],
+        key=("agreement_id",),
         sql='''
             SELECT
                 agreement_id,
@@ -184,6 +186,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="eurofound-covid19-eu-policywatch-transform",
         deps=["eurofound-covid19-eu-policywatch"],
+        key=("record_id",),
+        temporal="end_date",
         sql='''
             SELECT
                 CAST(record_id AS VARCHAR) AS record_id,

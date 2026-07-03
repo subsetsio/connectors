@@ -390,55 +390,58 @@ DOWNLOAD_SPECS = [
 # --------------------------------------------------------------------------- #
 # transforms — one published Delta table per subset (thin cast/select)
 # --------------------------------------------------------------------------- #
-def _t(download_id, sql):
-    return SqlNodeSpec(id=f"{download_id}-transform", deps=[download_id], sql=sql)
+def _t(download_id, sql, *, key, temporal="date"):
+    return SqlNodeSpec(
+        id=f"{download_id}-transform", deps=[download_id], sql=sql,
+        key=key, temporal=temporal,
+    )
 
 
 TRANSFORM_SPECS = [
     _t("nahb-hmi-national-history", '''
         SELECT CAST(date AS DATE) AS date, CAST(hmi AS DOUBLE) AS hmi
         FROM "nahb-hmi-national-history" WHERE hmi IS NOT NULL
-    '''),
+    ''', key=("date",)),
     _t("nahb-hmi-components-history", '''
         SELECT DISTINCT CAST(date AS DATE) AS date, component,
                CAST(value AS DOUBLE) AS value
         FROM "nahb-hmi-components-history" WHERE value IS NOT NULL
-    '''),
+    ''', key=("date", "component")),
     _t("nahb-hmi-regional-history", '''
         SELECT DISTINCT CAST(date AS DATE) AS date, region,
                CAST(hmi AS DOUBLE) AS hmi
         FROM "nahb-hmi-regional-history" WHERE hmi IS NOT NULL
-    '''),
+    ''', key=("date", "region")),
     _t("nahb-hmi-regional-3mo-moving-average", '''
         SELECT DISTINCT CAST(date AS DATE) AS date, region,
                CAST(hmi_3mo_ma AS DOUBLE) AS hmi_3mo_ma
         FROM "nahb-hmi-regional-3mo-moving-average" WHERE hmi_3mo_ma IS NOT NULL
-    '''),
+    ''', key=("date", "region")),
     _t("nahb-rmi-national-history", '''
         SELECT period, CAST(date AS DATE) AS date, indicator,
                CAST(value AS DOUBLE) AS value
         FROM "nahb-rmi-national-history" WHERE value IS NOT NULL
-    '''),
+    ''', key=("date", "indicator")),
     _t("nahb-rmi-regional-history", '''
         SELECT period, CAST(date AS DATE) AS date, region, measure,
                CAST(value AS DOUBLE) AS value
         FROM "nahb-rmi-regional-history" WHERE value IS NOT NULL
-    '''),
+    ''', key=("date", "region", "measure")),
     _t("nahb-chi-history", '''
         SELECT period, CAST(date AS DATE) AS date,
                CAST(msa_fip AS INTEGER) AS msa_fip,
                CAST(flag AS INTEGER) AS flag, name,
                CAST(value AS DOUBLE) AS value
         FROM "nahb-chi-history" WHERE value IS NOT NULL
-    '''),
+    ''', key=("date", "msa_fip", "flag")),
     _t("nahb-hbgi-full-findings", '''
         SELECT period, CAST(date AS DATE) AS date, metric, segment, geography,
                CAST(value AS DOUBLE) AS value
         FROM "nahb-hbgi-full-findings" WHERE value IS NOT NULL
-    '''),
+    ''', key=("date", "metric", "segment", "geography")),
     _t("nahb-mms-survey", '''
         SELECT period, CAST(date AS DATE) AS date, index_type, component,
                CAST(value AS DOUBLE) AS value
         FROM "nahb-mms-survey" WHERE value IS NOT NULL
-    '''),
+    ''', key=("date", "index_type", "component")),
 ]

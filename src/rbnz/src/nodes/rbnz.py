@@ -524,6 +524,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        temporal="date",
         sql=f'''
             SELECT DISTINCT
                 CAST(date AS DATE)     AS date,

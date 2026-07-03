@@ -206,10 +206,25 @@ DOWNLOAD_SPECS = [
 # is a thin typed pass — keep every (string) dimension column, retype `value` to
 # DOUBLE, and drop rows whose value is empty/non-numeric (so an all-flag, no-data
 # row never publishes a null measure).
+
+# Temporal (observation-period) column per domain. Almost every FAOSTAT domain is
+# a long panel keyed on `year_code`; the survey-based domains carry no year column
+# (omit temporal), and the world census (WCAD) is keyed on the census round.
+_NO_TEMPORAL = {"FDIQ", "HCES", "MDDW", "RLIS"}
+_TEMPORAL_OVERRIDE = {"WCAD": "wca_round_code"}
+
+
+def _temporal_for(code: str):
+    if code in _NO_TEMPORAL:
+        return None
+    return _TEMPORAL_OVERRIDE.get(code, "year_code")
+
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        temporal=_temporal_for(s.id[len(ID_PREFIX):].upper()),
         sql=f'''
             SELECT * REPLACE (TRY_CAST("value" AS DOUBLE) AS "value")
             FROM "{s.id}"

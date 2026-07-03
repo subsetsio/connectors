@@ -272,12 +272,38 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
+# Per-dataset grain declarations (purely declarative; keyed by spec id).
+# Keys come only from profile-verified unique columns; annual/subnational
+# panels get a temporal period but no key (composite grain not verified unique).
+_GRAIN = {
+    "prio-1":  dict(temporal="year"),          # annual battle-deaths panel
+    "prio-3":  dict(temporal="year"),          # annual onset (country-year)
+    "prio-4":  dict(temporal="year"),          # armed conflict dataset (conflict-year)
+    "prio-5":  dict(temporal="year"),          # conflict sites (conflict-year)
+    "prio-6":  dict(key=("eventid",)),         # georeferenced events
+    "prio-7":  dict(key=("eventid",), temporal="eventdate"),
+    "prio-8":  dict(key=("gedid",), temporal="date_start"),
+    "prio-10": dict(temporal="disc"),          # diamond location register
+    "prio-11": dict(),                          # petroleum location register (timeless)
+    "prio-16": dict(temporal="year"),
+    "prio-20": dict(temporal="year"),          # polyarchy (country-year)
+    "prio-23": dict(key=("conflepid",), temporal="ependdate"),
+    "prio-31": dict(),                          # conflict recurrence (no clean period)
+    "prio-32": dict(key=("eventid",)),
+    "prio-35": dict(temporal="year"),          # subnational area panel
+    "prio-36": dict(temporal="year"),          # subnational HDI panel
+    "prio-37": dict(temporal="year"),          # subnational corruption panel
+    "prio-39": dict(key=("spell_id",), temporal="start_year"),
+    "prio-40": dict(key=("pgid", "measurement_date"), temporal="measurement_date"),
+}
+
 # One published Delta table per dataset: a thin pass over the parsed raw.
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT * FROM "{s.id}"',
+        **_GRAIN.get(s.id, {}),
     )
     for s in DOWNLOAD_SPECS
 ]

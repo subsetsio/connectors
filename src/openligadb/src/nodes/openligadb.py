@@ -242,6 +242,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="openligadb-matches-transform",
         deps=["openligadb-matches"],
+        key=("match_id",),
+        temporal="match_datetime_utc",
         sql='''
             SELECT
                 CAST(match_id AS BIGINT)             AS match_id,
@@ -272,6 +274,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="openligadb-goals-transform",
         deps=["openligadb-goals"],
+        key=("goal_id",),
+        temporal="league_season",
         sql='''
             SELECT
                 CAST(goal_id AS BIGINT)        AS goal_id,
@@ -295,6 +299,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="openligadb-standings-transform",
         deps=["openligadb-standings"],
+        key=("league_shortcut", "league_season", "team_id"),
+        temporal="league_season",
         sql='''
             SELECT
                 league_shortcut,
@@ -318,6 +324,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="openligadb-goalgetters-transform",
         deps=["openligadb-goalgetters"],
+        key=("league_shortcut", "league_season", "goal_getter_id"),
+        temporal="league_season",
         sql='''
             SELECT
                 league_shortcut,

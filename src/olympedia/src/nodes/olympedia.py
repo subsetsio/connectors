@@ -385,6 +385,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="olympedia-editions-transform",
         deps=["olympedia-editions"],
+        key=("edition_id",),
+        temporal="year",
         sql='''
             SELECT
                 CAST(edition_id AS INTEGER) AS edition_id,
@@ -403,6 +405,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="olympedia-countries-transform",
         deps=["olympedia-countries"],
+        key=("noc_code",),
         sql='''
             SELECT
                 noc_code,
@@ -416,6 +419,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="olympedia-sports-transform",
         deps=["olympedia-sports"],
+        key=("discipline_code",),
         sql='''
             SELECT
                 discipline_code,
@@ -430,6 +434,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="olympedia-medals-by-country-transform",
         deps=["olympedia-medals-by-country"],
+        key=("noc_code",),
         sql='''
             SELECT
                 noc_code,
@@ -445,6 +450,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="olympedia-medals-by-athlete-transform",
         deps=["olympedia-medals-by-athlete"],
+        key=("athlete",),
         sql='''
             SELECT
                 athlete,
@@ -460,6 +466,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="olympedia-participations-transform",
         deps=["olympedia-participations"],
+        key=("athlete",),
         sql='''
             SELECT
                 athlete,
@@ -492,6 +499,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="olympedia-medal-table-by-edition-transform",
         deps=["olympedia-medal-table-by-edition"],
+        key=("edition_id", "noc_code"),
+        temporal="year",
         sql='''
             SELECT
                 CAST(edition_id AS INTEGER) AS edition_id,

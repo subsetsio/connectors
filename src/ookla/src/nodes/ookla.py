@@ -209,6 +209,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="ookla-performance-transform",
         deps=["ookla-performance"],
+        key=("quadkey", "connection_type", "year", "quarter"),
+        temporal="period_start",
         sql='''
             SELECT
                 quadkey,

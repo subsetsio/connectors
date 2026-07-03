@@ -198,6 +198,8 @@ TRANSFORM_SPECS = [
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_transform_sql(s.id),
+        key=("snapshot_date", "storefront", "feed_type", "rank"),
+        temporal="snapshot_date",
     )
     for s in DOWNLOAD_SPECS
 ]

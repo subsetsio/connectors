@@ -258,15 +258,21 @@ TRANSFORM_SPECS = [
         id="celestrak-satellite-catalog-transform",
         deps=["celestrak-satellite-catalog"],
         sql=_SATELLITE_CATALOG_SQL,
+        key=("norad_id",),
+        temporal="launch_date",
     ),
     SqlNodeSpec(
         id="celestrak-launches-by-country-transform",
         deps=["celestrak-launches-by-country"],
         sql=_LAUNCHES_BY_COUNTRY_SQL,
+        key=("year", "country"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="celestrak-constellation-growth-transform",
         deps=["celestrak-constellation-growth"],
         sql=_CONSTELLATION_GROWTH_SQL,
+        key=("constellation", "year"),
+        temporal="year",
     ),
 ]

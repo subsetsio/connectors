@@ -265,6 +265,6 @@ def _transform_sql(asset: str) -> str:
 
 
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_transform_sql(s.id))
+    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], temporal="date", sql=_transform_sql(s.id))
     for s in DOWNLOAD_SPECS
 ]

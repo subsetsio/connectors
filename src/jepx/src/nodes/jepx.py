@@ -129,6 +129,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="jepx-spot-market-transform",
         deps=["jepx-spot-market"],
+        key=("date", "slot"),
+        temporal="date",
         sql='''
             SELECT
                 strptime(delivery_date, '%Y/%m/%d')::DATE AS date,

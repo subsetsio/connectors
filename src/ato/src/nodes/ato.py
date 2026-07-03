@@ -78,11 +78,16 @@ DOWNLOAD_SPECS = [
 ]
 
 
+# Every row is tagged with its edition's `income_year` (see fetch_one), so it is
+# the uniform observation-period column across all of these heterogeneous
+# statistical tables. Grains differ per table and are not reliably keyable, so
+# only temporal is declared.
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT * FROM "{s.id}"',
+        temporal="income_year",
     )
     for s in DOWNLOAD_SPECS
 ]

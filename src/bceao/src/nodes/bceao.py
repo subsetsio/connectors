@@ -425,6 +425,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="bceao-series-transform",
         deps=["bceao-series"],
+        key=("series_code", "frequency"),
         sql='''
             SELECT
                 series_code,
@@ -443,6 +444,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="bceao-values-transform",
         deps=["bceao-values"],
+        temporal="date",
         sql='''
             SELECT
                 series_code,

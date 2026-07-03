@@ -123,6 +123,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="aavso-vsx-catalog-transform",
         deps=["aavso-vsx-catalog"],
+        key=("oid",),
         sql='''
             SELECT
                 recno,

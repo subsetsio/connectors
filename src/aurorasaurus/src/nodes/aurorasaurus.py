@@ -93,5 +93,7 @@ TRANSFORM_SPECS = [
             FROM "aurorasaurus-web-observations"
             WHERE id IS NOT NULL
         ''',
+        key=("report_id",),
+        temporal="observed_at",
     ),
 ]

@@ -386,6 +386,10 @@ TRANSFORM_SPECS = [
               AND precio_cop_kg IS NOT NULL
               AND precio_cop_kg > 0
         ''',
+        # No key: SELECT DISTINCT dedups whole rows, but the same
+        # (fecha, producto, mercado) can carry multiple prices/cpc codes, so no
+        # column subset is a proven unique grain.
+        temporal="fecha",
     ),
     # Supply: aggregate record-level deliveries to monthly kg by
     # department x group x food item (compact, analysis-ready supply series).
@@ -408,5 +412,8 @@ TRANSFORM_SPECS = [
               AND cantidad_kg > 0
             GROUP BY 1, 2, 3, 4, 5
         ''',
+        # Aggregate grain == the GROUP BY columns (unique by construction).
+        key=("mes", "departamento", "depto_codigo", "grupo", "alimento"),
+        temporal="mes",
     ),
 ]

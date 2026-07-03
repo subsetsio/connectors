@@ -121,5 +121,7 @@ TRANSFORM_SPECS = [
             FROM "gcip-gcip-income-deciles"
             WHERE country IS NOT NULL AND year IS NOT NULL
         ''',
+        key=("country", "year"),
+        temporal="year",
     ),
 ]

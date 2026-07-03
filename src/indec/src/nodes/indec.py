@@ -214,6 +214,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="indec-indec-series-transform",
         deps=["indec-indec-series"],
+        key=("series_id",),
+        temporal="time_index_end",
         sql='''
             SELECT
                 series_id,
@@ -234,6 +236,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="indec-indec-values-transform",
         deps=["indec-indec-values"],
+        key=("series_id", "date"),
+        temporal="date",
         sql='''
             SELECT DISTINCT
                 series_id,

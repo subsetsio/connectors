@@ -190,11 +190,29 @@ def _transform_sql(slug: str, dep_id: str) -> str:
     )
 
 
+# Single-region families whose row dimension (`category`) is a time period
+# rather than an industry/country — their headline table is anchored on a
+# Year/Date column, so `category` IS the observation period.
+_CATEGORY_TEMPORAL = {"histretsp", "histimpl", "macro"}
+
+
+def _transform_key(slug: str) -> tuple[str, ...]:
+    # Long/tidy schema: one value per dimension tuple. Regional families keep a
+    # region column; single-region families drop it (see _transform_sql).
+    if FAMILIES[slug]["regional"]:
+        return ("region", "category", "metric")
+    return ("category", "metric")
+
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{spec.id}-transform",
         deps=[spec.id],
         sql=_transform_sql(spec.id[len("damodaran-"):], spec.id),
+        key=_transform_key(spec.id[len("damodaran-"):]),
+        temporal=(
+            "category" if spec.id[len("damodaran-"):] in _CATEGORY_TEMPORAL else None
+        ),
     )
     for spec in DOWNLOAD_SPECS
 ]

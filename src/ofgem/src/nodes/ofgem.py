@@ -320,6 +320,8 @@ TRANSFORM_SPECS = [
             FROM "{s.id}"
             WHERE value IS NOT NULL
         ''',
+        # Uniform long format: one row per (x-axis category, series) cell.
+        key=("category", "series"),
     )
     for s in DOWNLOAD_SPECS
 ]

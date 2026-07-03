@@ -270,6 +270,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        temporal="date",
         sql=_build_sql(s.id, GROUPS[_group_of(s.id)]),
     )
     for s in DOWNLOAD_SPECS

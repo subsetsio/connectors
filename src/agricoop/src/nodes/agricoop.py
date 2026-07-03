@@ -180,10 +180,33 @@ _T = {
     ''',
 }
 
+# Per-resource grain (key) and observation-period (temporal) declarations,
+# keyed by download-spec id (parallel to _T above). Purely declarative.
+_KEY = {
+    "agricoop-district-wise-season-wise-crop-production-statistics-from-19-c33a2e6b":
+        ("state_name", "district_name", "crop_year", "season", "crop"),
+    "agricoop-current-daily-price-of-various-commodities-from-various-mark-1abe392e":
+        ("state", "district", "market", "commodity", "variety", "grade", "arrival_date"),
+    "agricoop-classified-area-under-land-use-statistics-lus-3db3addf":
+        ("state", "district", "year", "class_name"),
+    "agricoop-source-wise-irrigated-area-under-land-use-statistics-lus-3c17d7f6":
+        ("state", "district", "year", "irrigation_source"),
+    "agricoop-state-wise-number-and-area-of-operational-holdings-for-sched-2273cec3":
+        ("state_ut",),
+}
+_TEMPORAL = {
+    "agricoop-district-wise-season-wise-crop-production-statistics-from-19-c33a2e6b": "crop_year",
+    "agricoop-current-daily-price-of-various-commodities-from-various-mark-1abe392e": "arrival_date",
+    "agricoop-classified-area-under-land-use-statistics-lus-3db3addf": "year",
+    "agricoop-source-wise-irrigated-area-under-land-use-statistics-lus-3c17d7f6": "year",
+}
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        key=_KEY[s.id],
+        temporal=_TEMPORAL.get(s.id),
         sql=_T[s.id].format(dep=s.id),
     )
     for s in DOWNLOAD_SPECS

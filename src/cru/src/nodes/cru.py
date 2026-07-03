@@ -158,5 +158,7 @@ TRANSFORM_SPECS = [
             FROM "cru-country-values"
             WHERE value IS NOT NULL
         ''',
+        key=("country", "variable", "year", "period"),
+        temporal="year",
     ),
 ]

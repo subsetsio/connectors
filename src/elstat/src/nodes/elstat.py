@@ -319,6 +319,7 @@ TRANSFORM_SPECS = [
             FROM "{s.id}"
             WHERE value IS NOT NULL
         ''',
+        key=("source_file", "sheet", "row_idx", "col_idx"),
     )
     for s in DOWNLOAD_SPECS
 ]

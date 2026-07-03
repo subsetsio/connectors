@@ -180,6 +180,7 @@ TRANSFORM_SPECS = [
             FROM "{s.id}"
             WHERE value IS NOT NULL
         ''',
+        key=("sheet", "row", "col"),
     )
     for s in DOWNLOAD_SPECS
 ]

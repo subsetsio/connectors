@@ -515,6 +515,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="icac-supply-and-use-balance-transform",
         deps=["icac-supply-and-use-balance"],
+        key=("country", "season", "metric"),
+        temporal="season",
         sql='''
             SELECT
                 country,
@@ -530,6 +532,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="icac-extra-fine-cotton-supply-transform",
         deps=["icac-extra-fine-cotton-supply"],
+        key=("item", "country", "season"),
+        temporal="season",
         sql='''
             SELECT
                 item,
@@ -544,6 +548,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="icac-cotton-prices-transform",
         deps=["icac-cotton-prices"],
+        key=("source_table", "quotation", "period"),
+        temporal="period",
         sql='''
             SELECT
                 source_table,
@@ -559,6 +565,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="icac-published-forecasts-transform",
         deps=["icac-published-forecasts"],
+        key=("variable", "forecast_season", "horizon", "publication_round"),
+        temporal="forecast_season",
         sql='''
             SELECT
                 variable,

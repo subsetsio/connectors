@@ -198,5 +198,7 @@ TRANSFORM_SPECS = [
                 ORDER BY percent DESC
             ) = 1
         ''',
+        key=("category", "technology", "date", "metric"),
+        temporal="date",
     ),
 ]

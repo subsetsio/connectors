@@ -318,16 +318,59 @@ _CONFIG = {
 }
 
 
+# Per-resource grain declarations (output-column names). None key = undeclared
+# (grain ambiguous); () = genuinely keyless observation microdata.
+_GRAIN = {
+    # GRIM — national deaths by cause/age/sex/year.
+    "edcbc14c-ba7c-44ae-9d4f-2622ad3fafe0": (
+        ("grim_code", "year", "sex", "age_group"), "year",
+    ),
+    # ACIM Combined Rates.
+    "7e4d5726-8daa-4c14-8a46-96b701e8b3ca": (
+        ("year", "sex", "type", "cancer_type"), "year",
+    ),
+    # ACIM Combined Counts.
+    "7fbac314-4bf9-4601-b812-0307316ef5a4": (
+        ("year", "sex", "type", "cancer_type"), "year",
+    ),
+    # ACIM Combined Ratio.
+    "c39b4db3-5d92-4cc1-b49d-92e63fc72b77": (
+        ("year", "sex", "cancer_type"), "year",
+    ),
+    # MORT_TABLE_2 — leading causes by region; ranked-row grain ambiguous.
+    "3b7d81af-943f-447d-9d64-9ce220be35e7": (None, "period"),
+    # MORT_TABLE_1 — summary measures by region; row-id grain ambiguous.
+    "a5de4e7e-d062-4356-9d1b-39f44b1961dc": (None, "period"),
+    # Health expenditure by area and source.
+    "88399d53-d55c-466c-8f4a-6cb965d24d6d": (
+        ("financial_year", "state", "area_of_expenditure",
+         "broad_source_of_funding", "detailed_source_of_funding"),
+        "financial_year",
+    ),
+    # Youth justice detention — average nightly population, quarterly.
+    "c7edfa08-7bc9-404d-8f2b-22bcd0425021": (
+        ("age_group", "indigenous_status", "legal_status", "sex", "state",
+         "quarter", "year"),
+        "year",
+    ),
+    # NDSHS — respondent-level survey microdata (no id column): keyless.
+    "5c536ecc-316a-4206-9984-bd1b3b8982b9": ((), None),
+}
+
+
 def _ckan_transforms():
     specs = []
     for rid, (cols, guard) in _CONFIG.items():
         download_id = f"aihw-{rid}"
         guard_out = next(out for _, out, _ in cols if out == guard)
+        key, temporal = _GRAIN.get(rid, (None, None))
         specs.append(
             SqlNodeSpec(
                 id=f"{download_id}-transform",
                 deps=[download_id],
                 sql=_select(download_id, cols, guard_out),
+                key=key,
+                temporal=temporal,
             )
         )
     return specs
@@ -352,5 +395,6 @@ TRANSFORM_SPECS = _ckan_transforms() + [
         id="aihw-reporting-units-transform",
         deps=["aihw-reporting-units"],
         sql=_REPORTING_UNITS_SQL,
+        key=("reporting_unit_code",),
     ),
 ]

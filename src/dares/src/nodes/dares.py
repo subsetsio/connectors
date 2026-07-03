@@ -60,6 +60,44 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
+# Datasets whose published table carries a `date` observation-period column
+# (every dataset except dares-jint-depuis2005, whose source ships a single
+# merged column). Keys are left undeclared: these are heterogeneous SELECT *
+# pass-throughs of long panels with per-dataset grains, none proven unique.
+_TEMPORAL_DATE = frozenset({
+    "dares-dares-defm-age-detaille-mens",
+    "dares-dares-defm-age-detaille-trim",
+    "dares-dares-defm-communales-brutes",
+    "dares-dares-defm-entrees-stage-formation-mens",
+    "dares-dares-defm-entrees-stages-formation-trim",
+    "dares-dares-defm-flux-france-region-brut-mens",
+    "dares-dares-defm-flux-france-region-brut-trim",
+    "dares-dares-defm-flux-france-region-cvs-mens",
+    "dares-dares-defm-flux-france-region-cvs-trim",
+    "dares-dares-defm-stock-france-brut-mens",
+    "dares-dares-defm-stock-france-brut-trim",
+    "dares-dares-defm-stock-france-cvs",
+    "dares-dares-defm-stock-france-cvs-trim",
+    "dares-dares-defm-stock-region-cvs-trim",
+    "dares-dares-defm-stock-regions-brut-mens",
+    "dares-dares-defm-stock-regions-brut-trim",
+    "dares-dares-defm-stock-regions-cvs-cjo-mens",
+    "dares-dares-defm-zone-emploi-mens",
+    "dares-dares-defm-zoneeemploi-brut-trim",
+    "dares-dares-emploivacants-brut-emploisoccupes",
+    "dares-dares-emploivacants-brut-emploisvacants",
+    "dares-dares-emploivacants-cvs-emploisoccupes",
+    "dares-dares-emploivacants-cvs-emploisvacants",
+    "dares-dares-emploivacants-cvs-typevacance",
+    "dares-dares-jint-1975-2004",
+    "dares-dares-offres-collectees-satisfaites-france-travail-brutes-mens",
+    "dares-dares-offres-collectees-satisfaites-france-travail-brutes-trim",
+    "dares-dares-offres-collectees-satisfaites-france-travail-cvs-cjo-mens",
+    "dares-dares-offres-collectees-satisfaites-france-travail-cvs-cjo-trim",
+    "dares-dares-tempspartiel-annuelles",
+    "dares-dares-tempspartiel-detail-annuelles",
+})
+
 # One published Delta table per dataset. The ODS parquet export is already a
 # clean, typed table, so each transform is a straight pass-through republish;
 # heterogeneous per-dataset schemas rule out any shared projection. A 0-row
@@ -69,6 +107,7 @@ TRANSFORM_SPECS = [
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT * FROM "{s.id}"',
+        temporal="date" if s.id in _TEMPORAL_DATE else None,
     )
     for s in DOWNLOAD_SPECS
 ]

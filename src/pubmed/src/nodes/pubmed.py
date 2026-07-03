@@ -262,6 +262,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="pubmed-citations-transform",
         deps=["pubmed-citations"],
+        key=("pmid",),
+        temporal="pub_date",
         sql='''
             SELECT
                 pmid,

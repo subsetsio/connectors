@@ -208,26 +208,36 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="adobe-dei-monthly-online-spending-transform",
         deps=["adobe-dei-monthly-online-spending"],
+        key=("date",),
+        temporal="date",
         sql=_dei_series_sql("adobe-dei-monthly-online-spending", '"Date"', '"Spend in billions"'),
     ),
     SqlNodeSpec(
         id="adobe-dei-year-over-year-growth-in-online-spend-transform",
         deps=["adobe-dei-year-over-year-growth-in-online-spend"],
+        key=("date",),
+        temporal="date",
         sql=_dei_series_sql("adobe-dei-year-over-year-growth-in-online-spend", '"Date"', '"Growth"'),
     ),
     SqlNodeSpec(
         id="adobe-dei-buy-now-pay-later-monthly-spend-transform",
         deps=["adobe-dei-buy-now-pay-later-monthly-spend"],
+        key=("date",),
+        temporal="date",
         sql=_dei_series_sql("adobe-dei-buy-now-pay-later-monthly-spend", '"Date"', '"Spend in billions"'),
     ),
     SqlNodeSpec(
         id="adobe-dei-total-dollars-spent-through-bnpl-transform",
         deps=["adobe-dei-total-dollars-spent-through-bnpl"],
+        key=("date",),
+        temporal="date",
         sql=_dei_series_sql("adobe-dei-total-dollars-spent-through-bnpl", '"date"', '"Growth"'),
     ),
     SqlNodeSpec(
         id="adobe-dpi-columnchart-dpi-percent-change-transform",
         deps=[_DPI_ASSET],
+        key=("date", "category"),
+        temporal="date",
         sql=_DPI_SQL,
     ),
 ]

@@ -168,6 +168,29 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
+# Grain / observation-period per published table. The season-aggregated stat
+# reports carry exactly one row per (playerId|teamId, seasonId, gameTypeId) —
+# consistent row counts across reports confirm this. Bios reports aggregate a
+# player across seasons (per gameType), so they have no seasonId. Reference
+# catalogs are keyed on their surrogate `id`.
+_REFERENCE_GRAIN = {
+    "nhl-franchise": {"key": ("id",)},
+    "nhl-team": {"key": ("id",)},
+    "nhl-season": {"key": ("id",), "temporal": "endDate"},
+}
+_BIOS_IDS = {"nhl-goalie-bios", "nhl-skater-bios"}
+
+GRAIN: dict[str, dict] = {}
+for _s in DOWNLOAD_SPECS:
+    if _s.id in _REFERENCE_GRAIN:
+        GRAIN[_s.id] = _REFERENCE_GRAIN[_s.id]
+    elif _s.id in _BIOS_IDS:
+        GRAIN[_s.id] = {"key": ("playerId", "gameTypeId")}
+    elif _s.id.startswith("nhl-team-"):
+        GRAIN[_s.id] = {"key": ("seasonId", "teamId", "gameTypeId"), "temporal": "seasonId"}
+    else:
+        GRAIN[_s.id] = {"key": ("playerId", "seasonId", "gameTypeId"), "temporal": "seasonId"}
+
 # Each report/catalog raw asset publishes one Delta table. The raw is already
 # the clean tabular shape the source returns; the transform is a thin
 # parse-and-publish pass (DuckDB types the NDJSON columns; a 0-row result fails
@@ -177,6 +200,8 @@ TRANSFORM_SPECS = [
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT * FROM "{s.id}"',
+        key=GRAIN.get(s.id, {}).get("key"),
+        temporal=GRAIN.get(s.id, {}).get("temporal"),
     )
     for s in DOWNLOAD_SPECS
 ]

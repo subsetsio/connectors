@@ -302,6 +302,20 @@ def _generic_long_sql(dep: str, entity: str) -> str:
     '''
 
 
+def _generic_long_key(entity: str) -> tuple:
+    """Dimensional grain of a generic long block: the identifier columns that
+    the SELECT emits, excluding item_name (a label determined by item_code)."""
+    is_group = entity.startswith("group-")
+    is_premiums = "premiums" in entity
+    key = ["reporting_entity", "reference_period", "frequency"]
+    if not is_group and not is_premiums:
+        key.append("undertaking_type")
+    if is_premiums:
+        key += ["metric", "business_type"]
+    key.append("item_code")
+    return tuple(key)
+
+
 _EXPOSURE_SQL = '''
     SELECT DISTINCT
         reference_period,
@@ -339,6 +353,8 @@ TRANSFORM_SPECS = [
         id=f"eiopa-{eid}-transform",
         deps=[f"eiopa-{eid}"],
         sql=_generic_long_sql(f"eiopa-{eid}", eid),
+        key=_generic_long_key(eid),
+        temporal="reference_period",
     )
     for eid in CSV_FILES
 ] + [
@@ -346,10 +362,13 @@ TRANSFORM_SPECS = [
         id="eiopa-solo-asset-exposures-transform",
         deps=["eiopa-solo-asset-exposures"],
         sql=_EXPOSURE_SQL,
+        temporal="reference_period",
     ),
     SqlNodeSpec(
         id="eiopa-financial-stability-indicators-transform",
         deps=["eiopa-financial-stability-indicators"],
         sql=_FS_SQL,
+        key=("item_name", "reference_period"),
+        temporal="reference_period",
     ),
 ]

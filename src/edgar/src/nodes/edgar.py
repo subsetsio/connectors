@@ -212,5 +212,7 @@ TRANSFORM_SPECS = [
                 ORDER BY emissions_kt DESC
             ) = 1
         ''',
+        key=("country_code", "ipcc_sector_code", "gas", "fossil_bio", "year"),
+        temporal="year",
     ),
 ]

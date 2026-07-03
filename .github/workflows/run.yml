@@ -51,7 +51,7 @@ jobs:
         working-directory: src/${{ inputs.slug }}
         run: |
           uv sync
-          uv run python -m src.subsets_utils.runner
+          uv run python -m subsets_utils.runner
         env:
           PYTHONUNBUFFERED: "1"
           CI: "true"

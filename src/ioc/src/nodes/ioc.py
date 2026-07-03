@@ -201,5 +201,6 @@ TRANSFORM_SPECS = [
               AND sport IS NOT NULL
               AND gender IS NOT NULL
         ''',
+        key=("edition", "noc_code", "sport", "gender"),
     ),
 ]

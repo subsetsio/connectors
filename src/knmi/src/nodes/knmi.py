@@ -353,7 +353,32 @@ def _sql_for(dep_id: str) -> str:
     return _SQL.get(dep_id, _MATRIX_SQL).format(dep=dep_id)
 
 
+# Per-subset grain (key) and freshness period (temporal), keyed by dep id.
+_MATRIX_KEY = ("location", "metric", "period")
+_KEY = {
+    "knmi-aardbevingen-cijfers-1": ("year", "magnitude"),
+    "knmi-waarneemstations-csv-1-0": ("station_id",),
+    "knmi-homogenization-daily-temperature-principal-stations-netherlands-1-0":
+        ("station", "variable", "date"),
+    "knmi-climate-normals-1991-2020-climate-normals-by-station-1": _MATRIX_KEY,
+    "knmi-climate-normals-1991-2020-day-normals-by-station-1": _MATRIX_KEY,
+    "knmi-climate-normals-1991-2020-per-10-days-by-station-1": _MATRIX_KEY,
+    "knmi-climate-normals-1991-2020-precipitation-normals-by-district-1": _MATRIX_KEY,
+}
+_TEMPORAL = {
+    "knmi-aardbevingen-cijfers-1": "year",
+    "knmi-homogenization-daily-temperature-principal-stations-netherlands-1-0": "date",
+    "knmi-ice-thickness-observations-1-0": "obs_date",
+}
+
+
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_sql_for(s.id))
+    SqlNodeSpec(
+        id=f"{s.id}-transform",
+        deps=[s.id],
+        sql=_sql_for(s.id),
+        **({"key": _KEY[s.id]} if s.id in _KEY else {}),
+        **({"temporal": _TEMPORAL[s.id]} if s.id in _TEMPORAL else {}),
+    )
     for s in DOWNLOAD_SPECS
 ]

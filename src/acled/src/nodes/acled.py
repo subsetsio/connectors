@@ -222,6 +222,9 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"acled-{eid}-transform",
         deps=[f"acled-{eid}"],
+        key=("date", "country") if scope == "national"
+            else ("date", "country", "admin1", "admin2"),
+        temporal="date",
         sql=_transform_sql(f"acled-{eid}", scope, has_fat),
     )
     for eid, (_pkg, scope, has_fat) in CONFIG.items()

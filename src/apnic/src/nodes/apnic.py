@@ -219,6 +219,7 @@ TRANSFORM_SPECS = [
                 opaque_id
             FROM "apnic-delegated-resources"
         ''',
+        temporal="allocation_date",
     ),
     SqlNodeSpec(
         id="apnic-ipv6-capability-transform",
@@ -237,6 +238,8 @@ TRANSFORM_SPECS = [
             FROM "apnic-ipv6-capability"
             WHERE "date" IS NOT NULL AND seen IS NOT NULL
         ''',
+        key=("economy", "date"),
+        temporal="date",
     ),
     SqlNodeSpec(
         id="apnic-as-user-population-transform",
@@ -254,5 +257,6 @@ TRANSFORM_SPECS = [
             FROM "apnic-as-user-population"
             WHERE asn IS NOT NULL
         ''',
+        key=("asn",),
     ),
 ]

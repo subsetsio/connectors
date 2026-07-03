@@ -334,6 +334,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="openprescribing-measures-transform",
         deps=["openprescribing-measures"],
+        key=("measure_id",),
         sql='''
             SELECT
                 measure_id,
@@ -359,6 +360,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="openprescribing-measure-values-transform",
         deps=["openprescribing-measure-values"],
+        key=("measure", "org_level", "org_id", "date"),
+        temporal="date",
         sql='''
             SELECT
                 measure,
@@ -381,6 +384,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="openprescribing-spending-transform",
         deps=["openprescribing-spending"],
+        key=("bnf_code", "org_id", "date"),
+        temporal="date",
         sql='''
             SELECT
                 bnf_code,
@@ -403,6 +408,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="openprescribing-bnf-codes-transform",
         deps=["openprescribing-bnf-codes"],
+        key=("bnf_code",),
         sql='''
             SELECT
                 bnf_code,
@@ -416,6 +422,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="openprescribing-organisations-transform",
         deps=["openprescribing-organisations"],
+        key=("org_level", "org_id"),
         sql='''
             SELECT
                 CAST(org_id AS VARCHAR)   AS org_id,

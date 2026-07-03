@@ -279,6 +279,7 @@ TRANSFORM_SPECS = [
             FROM "{s.id}"
             WHERE num_value IS NOT NULL OR txt_value IS NOT NULL
         ''',
+        temporal="time",
     )
     for s in DOWNLOAD_SPECS
 ]

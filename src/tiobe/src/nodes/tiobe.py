@@ -229,6 +229,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="tiobe-historical-ratings-transform",
         deps=["tiobe-historical-ratings"],
+        key=("language", "date"),
+        temporal="date",
         sql='''
             SELECT
                 language,
@@ -241,6 +243,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="tiobe-current-rankings-transform",
         deps=["tiobe-current-rankings"],
+        key=("language",),
         sql='''
             SELECT
                 CAST(position AS INTEGER)            AS position,
@@ -255,6 +258,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="tiobe-next-50-languages-transform",
         deps=["tiobe-next-50-languages"],
+        key=("language",),
         sql='''
             SELECT
                 CAST(position AS INTEGER)  AS position,
@@ -267,6 +271,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="tiobe-hall-of-fame-transform",
         deps=["tiobe-hall-of-fame"],
+        key=("year",),
+        temporal="year",
         sql='''
             SELECT
                 CAST(year AS INTEGER) AS year,
@@ -278,6 +284,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="tiobe-very-long-term-history-transform",
         deps=["tiobe-very-long-term-history"],
+        key=("language", "snapshot_year"),
+        temporal="snapshot_year",
         sql='''
             SELECT
                 language,

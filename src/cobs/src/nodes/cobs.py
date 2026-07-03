@@ -165,6 +165,8 @@ TRANSFORM_SPECS = [
             FROM "cobs-comets"
             WHERE id IS NOT NULL
         ''',
+        key=("comet_id",),
+        temporal="perihelion_date",
     ),
     SqlNodeSpec(
         id="cobs-observations-transform",
@@ -208,5 +210,7 @@ TRANSFORM_SPECS = [
             FROM "cobs-observations"
             WHERE obs_date IS NOT NULL AND comet_id IS NOT NULL
         ''',
+        key=(),
+        temporal="obs_date",
     ),
 ]

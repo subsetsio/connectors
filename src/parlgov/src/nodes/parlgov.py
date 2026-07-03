@@ -193,10 +193,22 @@ _TRANSFORM_SQL = {
     """,
 }
 
+# Every table carries a unique integer `id` (its primary key). Only the cabinet
+# and election tables have a genuine observation-period column; the party/country
+# tables are timeless reference dimensions and get no temporal.
+_TEMPORAL = {
+    "parlgov-data-cabinet": "start_date",
+    "parlgov-data-election": "election_date",
+    "parlgov-view-cabinet": "start_date",
+    "parlgov-view-election": "election_date",
+}
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        key=("id",),
+        temporal=_TEMPORAL.get(s.id),
         sql=_TRANSFORM_SQL[s.id].format(src=s.id),
     )
     for s in DOWNLOAD_SPECS

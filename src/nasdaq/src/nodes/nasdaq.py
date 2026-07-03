@@ -291,6 +291,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="nasdaq-dividends-transform",
         deps=["nasdaq-dividends"],
+        key=("symbol", "ex_date"),
+        temporal="ex_date",
         sql='''
             SELECT
                 symbol,
@@ -312,6 +314,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="nasdaq-earnings-transform",
         deps=["nasdaq-earnings"],
+        key=("symbol", "report_date"),
+        temporal="report_date",
         sql=f'''
             SELECT
                 -- report_date is ISO 'YYYY-MM-DD'; the JSON reader may infer it
@@ -336,6 +340,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="nasdaq-etfs-transform",
         deps=["nasdaq-etfs"],
+        key=("symbol",),
         sql=f'''
             SELECT
                 symbol,
@@ -351,6 +356,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="nasdaq-historical-prices-transform",
         deps=["nasdaq-historical-prices"],
+        key=("symbol", "date"),
+        temporal="date",
         sql=f'''
             SELECT
                 symbol,
@@ -373,6 +380,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="nasdaq-ipos-transform",
         deps=["nasdaq-ipos"],
+        key=("deal_id",),
+        temporal="priced_date",
         sql=f'''
             SELECT
                 dealID AS deal_id,
@@ -391,6 +400,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="nasdaq-splits-transform",
         deps=["nasdaq-splits"],
+        key=("symbol", "execution_date"),
+        temporal="execution_date",
         sql='''
             SELECT
                 symbol,
@@ -407,6 +418,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="nasdaq-stocks-transform",
         deps=["nasdaq-stocks"],
+        key=("symbol",),
         sql=f'''
             SELECT
                 symbol,

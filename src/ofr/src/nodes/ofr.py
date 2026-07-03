@@ -227,11 +227,27 @@ def _transform_sql(download_id):
     '''
 
 
+def _key_for(download_id):
+    if download_id == _FSI_ID:
+        return ("date",)              # one wide row per date
+    if download_id == _CATALOG_ID:
+        return ("mnemonic",)          # one row per series
+    return ("mnemonic", "date")       # long-format: one obs per series per date
+
+
+def _temporal_for(download_id):
+    if download_id == _CATALOG_ID:
+        return "start_date"           # series-coverage start (only date column)
+    return "date"
+
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_transform_sql(s.id),
+        key=_key_for(s.id),
+        temporal=_temporal_for(s.id),
     )
     for s in DOWNLOAD_SPECS
 ]

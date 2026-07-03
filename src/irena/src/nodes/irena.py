@@ -279,7 +279,27 @@ _TRANSFORMS = {
     ),
 }
 
+# Each raw asset is a JSON-stat hypercube unfolded to long rows, so a cell is
+# uniquely identified by its full set of dimension labels (the columns below,
+# excluding the measured value and the constant unit). Year is present in every
+# table and is the observation period.
+_KEYS = {
+    "irena-country-eleccap": ("year", "country", "technology", "grid_connection"),
+    "irena-country-elecgen": ("year", "country", "technology", "data_type", "grid_connection"),
+    "irena-heatgen": ("year", "country", "technology", "grid_connection"),
+    "irena-pubfin": ("year", "country", "technology"),
+    "irena-re-share": ("year", "region", "indicator"),
+    "irena-region-eleccap": ("year", "region", "technology", "grid_connection"),
+    "irena-region-elecgen": ("year", "region", "technology", "data_type"),
+}
+
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{download_id}-transform", deps=[download_id], sql=sql)
+    SqlNodeSpec(
+        id=f"{download_id}-transform",
+        deps=[download_id],
+        sql=sql,
+        key=_KEYS[download_id],
+        temporal="year",
+    )
     for download_id, sql in _TRANSFORMS.items()
 ]

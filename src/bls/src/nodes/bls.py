@@ -173,6 +173,7 @@ def _transform_sql(download_id: str) -> str:
 
 
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_transform_sql(s.id))
+    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_transform_sql(s.id),
+                key=("series_id", "year", "period"), temporal="date")
     for s in DOWNLOAD_SPECS
 ]

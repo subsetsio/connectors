@@ -61,11 +61,17 @@ DOWNLOAD_SPECS = [
 # One published Delta table per dataset. The export is already typed and flat,
 # so the transform is a thin verbatim republish (the correctness gate: a wrong
 # raw shape or an empty export fails the node here instead of publishing garbage).
+# Every dataset is an annual CNAM series keyed on `annee`, so temporal is declared
+# uniformly. Keys are left undeclared: these are aggregate statistical panels that
+# stack multiple aggregation perspectives (the `vision_*` flag columns) and levels
+# (national / region / departement) in one table, and the profile found no column
+# or composite observed unique — so no grain can be declared with confidence.
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT * FROM "{s.id}"',
+        temporal="annee",
     )
     for s in DOWNLOAD_SPECS
 ]

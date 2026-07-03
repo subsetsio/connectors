@@ -1594,11 +1594,28 @@ def _transform_sql(dep_id: str, entity_id: str) -> str:
     )
 
 
+def _transform_key(entity_id: str) -> tuple:
+    # The published grain is the full dimensional combination of the ILOSTAT
+    # long series: ref_area x source x period, plus exactly the dimension
+    # columns this indicator carries (mirrors _transform_sql's dim selection).
+    has_sex, n_classif = ENTITY_META.get(entity_id, (1, 2))
+    dims = []
+    if has_sex:
+        dims.append("sex")
+    if n_classif >= 1:
+        dims.append("classif1")
+    if n_classif >= 2:
+        dims.append("classif2")
+    return ("ref_area", "source", "time_period", *dims)
+
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_transform_sql(s.id, eid),
+        key=_transform_key(eid),
+        temporal="date",
     )
     for s, eid in zip(DOWNLOAD_SPECS, ENTITY_IDS)
 ]

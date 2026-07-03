@@ -173,6 +173,7 @@ TRANSFORM_SPECS = [
         id=f"{_node_id(entity)}-transform",
         deps=(_node_id(entity),),
         sql=f'SELECT * FROM "{_node_id(entity)}"',
+        temporal="vintage",
     )
     for entity in ENTITY_IDS
 ]

@@ -372,6 +372,9 @@ TRANSFORM_SPECS = [
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_summary_sql(s.id) if _is_summary(s.id) else _crosssection_sql(s.id),
+        key=("period", "col_index") if _is_summary(s.id)
+        else ("year", "month", "row_label", "col_index"),
+        temporal="period",
     )
     for s in DOWNLOAD_SPECS
 ]

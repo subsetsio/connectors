@@ -205,6 +205,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="teranet-values-transform",
         deps=["teranet-values"],
+        key=("date", "market"),
+        temporal="date",
         sql='''
             -- An index value of 0 is never valid (base 100 = June 2005); the
             -- source writes a literal 0.00 in smoothing-warmup cells where the

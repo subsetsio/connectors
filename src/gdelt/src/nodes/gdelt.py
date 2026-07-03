@@ -414,5 +414,7 @@ TRANSFORM_SPECS = [
             FROM rolled
             WHERE num_events > 0
         ''',
+        key=("date", "action_geo_country_iso2", "event_root_code", "quad_class"),
+        temporal="date",
     ),
 ]

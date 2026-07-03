@@ -331,6 +331,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="iarc-globocan-estimates-transform",
         deps=["iarc-globocan-estimates"],
+        key=("country_code", "cancer_code", "sex", "measure_type"),
         sql='''
             SELECT
                 CAST(country_code AS BIGINT)  AS country_code,
@@ -352,6 +353,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="iarc-globocan-cancers-transform",
         deps=["iarc-globocan-cancers"],
+        key=("cancer_code",),
         sql='''
             SELECT
                 CAST(cancer AS BIGINT)        AS cancer_code,
@@ -367,6 +369,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="iarc-globocan-populations-transform",
         deps=["iarc-globocan-populations"],
+        key=("country_code",),
         sql='''
             SELECT
                 CAST(country_code AS BIGINT)  AS country_code,
@@ -387,6 +390,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="iarc-tomorrow-projections-transform",
         deps=["iarc-tomorrow-projections"],
+        key=("country_code", "cancer_code", "sex", "measure_type", "year"),
+        temporal="year",
         sql='''
             SELECT
                 CAST(country_code AS BIGINT)  AS country_code,
@@ -406,6 +411,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="iarc-overtime-rates-transform",
         deps=["iarc-overtime-rates"],
+        key=("country_code", "cancer_code", "sex", "measure_type", "year"),
+        temporal="year",
         sql='''
             SELECT
                 CAST(country_code AS BIGINT)  AS country_code,
@@ -426,6 +433,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="iarc-ci5-xii-summary-transform",
         deps=["iarc-ci5-xii-summary"],
+        key=("registry_code", "sex", "cancer_code", "age_band"),
         sql='''
             SELECT
                 CAST(registry_code AS BIGINT) AS registry_code,
@@ -443,6 +451,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="iarc-ci5-xii-detailed-transform",
         deps=["iarc-ci5-xii-detailed"],
+        key=("registry_code", "sex", "cancer_code", "age_band"),
         sql='''
             SELECT
                 CAST(registry_code AS BIGINT) AS registry_code,

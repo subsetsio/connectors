@@ -106,6 +106,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="jodi-oil-world-monthly-transform",
         deps=["jodi-oil-world-monthly"],
+        key=("month", "country_code", "product", "flow", "unit"),
+        temporal="month",
         sql='''
             SELECT
                 CAST(TIME_PERIOD || '-01' AS DATE) AS month,

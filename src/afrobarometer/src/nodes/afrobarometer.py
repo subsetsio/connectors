@@ -202,6 +202,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="afrobarometer-questions-transform",
         deps=["afrobarometer-questions"],
+        key=("variable_code",),
         sql='''
             SELECT
                 variable_code,
@@ -218,6 +219,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="afrobarometer-values-transform",
         deps=["afrobarometer-values"],
+        key=("variable_code", "country", "round_num", "answer_code"),
+        temporal="round_num",
         sql='''
             SELECT
                 variable_code,

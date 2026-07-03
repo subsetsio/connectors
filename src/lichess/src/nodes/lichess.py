@@ -42,6 +42,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="lichess-puzzles-transform",
         deps=["lichess-puzzles"],
+        key=("puzzle_id",),
         sql='''
             SELECT
                 "PuzzleId"                     AS puzzle_id,

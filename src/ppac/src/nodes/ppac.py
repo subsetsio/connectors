@@ -461,7 +461,31 @@ def _transform_sql(entity_id: str, dep_id: str) -> str:
     raise RuntimeError(f"no transform SQL for entity {entity_id}")
 
 
+# Per-entity grain declarations (purely declarative; keyed by _entity_of(id)).
+_GRAIN = {
+    # XLSX snapshots: one row per state as of a single date.
+    "consumption-active-domestic-customers": dict(key=("state",), temporal="as_of"),
+    "consumption-state-wise-pmuy-data": dict(key=("state",), temporal="as_of"),
+    # Refinery register: one row per refinery.
+    "infrastructure-installed-refinery-capacity": dict(key=("refinery",), temporal="as_of"),
+    # Single-series REST table: one row per date.
+    "prices-international-prices-of-crude-oil": dict(key=("date",), temporal="date"),
+    # Long panels: temporal only (natural key not verified unique).
+    "consumption-state-wise": dict(temporal="fiscal_year"),
+    "natural-gas-import": dict(temporal="fiscal_year"),
+}
+
+
+def _grain_kwargs(entity_id: str) -> dict:
+    if entity_id in _GRAIN:
+        return _GRAIN[entity_id]
+    if entity_id in REST_CONFIG:          # generic long REST table
+        return {"temporal": "date"}
+    return {}
+
+
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_transform_sql(_entity_of(s.id), s.id))
+    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_transform_sql(_entity_of(s.id), s.id),
+                **_grain_kwargs(_entity_of(s.id)))
     for s in DOWNLOAD_SPECS
 ]

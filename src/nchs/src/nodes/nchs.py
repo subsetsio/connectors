@@ -105,11 +105,30 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
+# Per-dataset primary observation-period column (published/sanitized names).
+# These Socrata tables have heterogeneous grains; only freshness (temporal) is
+# declared, for the datasets that expose a clear period column in their profile.
+TEMPORAL_BY_ID = {
+    "nchs-489q-934x": "year_and_quarter",
+    "nchs-4bc2-bbpq": "week_end",
+    "nchs-53g5-jf7x": "end_date",
+    "nchs-76vv-a7x8": "year_and_quarter",
+    "nchs-9cpv-whbv": "week_ending_date",
+    "nchs-jqwm-z2g9": "year_and_quarter",
+    "nchs-muzy-jte6": "week_ending_date",
+    "nchs-pj7m-y5uh": "year",
+    "nchs-r8kw-7aab": "year",
+    "nchs-tpcp-uiv5": "year",
+    "nchs-v2g4-wqg2": "analysisdate",
+    "nchs-xkkf-xrst": "week_ending_date",
+}
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT * FROM "{s.id}"',
+        temporal=TEMPORAL_BY_ID.get(s.id),
     )
     for s in DOWNLOAD_SPECS
 ]

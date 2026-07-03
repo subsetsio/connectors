@@ -191,5 +191,7 @@ TRANSFORM_SPECS = [
                 archive_institution
             FROM "cliwoc-observations"
         ''',
+        key=(),
+        temporal="record_date",
     ),
 ]

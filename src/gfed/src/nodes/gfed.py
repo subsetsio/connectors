@@ -192,6 +192,8 @@ TRANSFORM_SPECS = [
                 ORDER BY value
             ) = 1
         ''',
+        key=("species", "fire_type", "region", "year"),
+        temporal="year",
     )
     for s in DOWNLOAD_SPECS
 ]

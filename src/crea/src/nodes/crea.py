@@ -209,5 +209,7 @@ TRANSFORM_SPECS = [
             FROM "crea-hpi"
             WHERE hpi_index IS NOT NULL OR benchmark_price IS NOT NULL
         ''',
+        key=("date", "geography", "housing_type", "frequency", "seasonally_adjusted"),
+        temporal="date",
     ),
 ]

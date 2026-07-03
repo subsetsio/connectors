@@ -252,11 +252,50 @@ _CUSTOM_SQL = {
     ''',
 }
 
+# Per-database published grain and observation period. Omitted entries are left
+# undeclared: macmap-hs6 aggregates HS6 raw down to HS2 without dedup, so
+# (reporter, partner, hs2) is not unique. Wide/static tables (chelem, geodist,
+# language) have a grain but no single period column.
+_KEY = {
+    "cepii-baci": ("year", "exporter_iso", "importer_iso", "product_hs92"),
+    "cepii-chelem": ("exporter", "importer", "secgroup", "product"),
+    "cepii-econmap": ("code_wb", "year"),
+    "cepii-eqchange": ("series", "year", "country"),
+    "cepii-geodep": ("iso_d", "hs6", "year"),
+    "cepii-geodist": ("iso_o", "iso_d"),
+    "cepii-gravity": ("year", "country_id_o", "country_id_d"),
+    "cepii-intense": ("Date", "Actor1CountryCode", "Actor2CountryCode", "Category"),
+    "cepii-language": ("iso_o", "iso_d"),
+    "cepii-product-level-trade-elasticities": ("HS6",),
+    "cepii-rprod": ("measure", "Country", "Year", "indicator"),
+    "cepii-trade-unit-values": ("t", "r", "p", "k"),
+    "cepii-trade-volume": ("aggregation_level", "year", "production_stage"),
+    "cepii-tradeprod": ("year", "iso3_tp_o", "iso3_tp_d", "industry"),
+    "cepii-tradhist": ("iso_o", "iso_d", "year"),
+    "cepii-world-trade-flows-characterization": ("t", "i", "j", "k"),
+}
+_TEMPORAL = {
+    "cepii-baci": "year",
+    "cepii-econmap": "year",
+    "cepii-eqchange": "year",
+    "cepii-geodep": "year",
+    "cepii-gravity": "year",
+    "cepii-intense": "Date",
+    "cepii-rprod": "Year",
+    "cepii-trade-unit-values": "t",
+    "cepii-trade-volume": "year",
+    "cepii-tradeprod": "year",
+    "cepii-tradhist": "year",
+    "cepii-world-trade-flows-characterization": "t",
+}
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_CUSTOM_SQL.get(s.id, f'SELECT * FROM "{s.id}"'),
+        key=_KEY.get(s.id),
+        temporal=_TEMPORAL.get(s.id),
     )
     for s in DOWNLOAD_SPECS
 ]

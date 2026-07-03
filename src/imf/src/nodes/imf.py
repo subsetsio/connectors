@@ -225,6 +225,7 @@ TRANSFORM_SPECS = [
             FROM "{s.id}"
             WHERE TRY_CAST(OBS_VALUE AS DOUBLE) IS NOT NULL
         ''',
+        temporal="TIME_PERIOD",
     )
     for s in DOWNLOAD_SPECS
 ]

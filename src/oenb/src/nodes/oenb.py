@@ -202,6 +202,10 @@ TRANSFORM_SPECS = [
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_SQL.format(dep=s.id),
+        # Series identity within a dataset is (pos, dimensions, freq, period);
+        # one observation per series per period (see module docstring).
+        key=("series_code", "dimensions", "frequency", "period"),
+        temporal="date",
     )
     for s in DOWNLOAD_SPECS
 ]

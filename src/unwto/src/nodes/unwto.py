@@ -145,5 +145,7 @@ TRANSFORM_SPECS = [
             FROM "unwto-tourism-arrivals-expenditure"
             GROUP BY country_code, year
         ''',
+        key=("country_code", "year"),
+        temporal="year",
     ),
 ]

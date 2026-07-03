@@ -133,6 +133,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="sarb-values-transform",
         deps=["sarb-values"],
+        key=("data_type", "timeseries_code", "date"),
+        temporal="date",
         sql=r'''
             WITH cleaned AS (
                 SELECT

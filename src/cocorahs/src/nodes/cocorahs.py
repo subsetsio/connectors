@@ -251,6 +251,7 @@ TRANSFORM_SPECS = [
             FROM "cocorahs-daily-reports"
             WHERE TRY_CAST(TRIM(ObservationDate) AS DATE) IS NOT NULL
         ''',
+        temporal="observation_date",
     ),
     SqlNodeSpec(
         id="cocorahs-multiday-reports-transform",
@@ -271,6 +272,7 @@ TRANSFORM_SPECS = [
             FROM "cocorahs-multiday-reports"
             WHERE TRY_CAST(TRIM(StartDate) AS DATE) IS NOT NULL
         ''',
+        temporal="start_date",
     ),
     SqlNodeSpec(
         id="cocorahs-hail-reports-transform",
@@ -298,6 +300,7 @@ TRANSFORM_SPECS = [
             FROM "cocorahs-hail-reports"
             WHERE TRY_CAST(TRIM(ObservationDate) AS DATE) IS NOT NULL
         ''',
+        temporal="observation_date",
     ),
     SqlNodeSpec(
         id="cocorahs-sigwx-reports-transform",
@@ -320,6 +323,7 @@ TRANSFORM_SPECS = [
             FROM "cocorahs-sigwx-reports"
             WHERE TRY_CAST(TRIM(ObservationDate) AS DATE) IS NOT NULL
         ''',
+        temporal="observation_date",
     ),
     SqlNodeSpec(
         id="cocorahs-stations-transform",
@@ -341,5 +345,7 @@ TRANSFORM_SPECS = [
             FROM "cocorahs-stations"
             WHERE TRIM(StationNumber) IS NOT NULL AND TRIM(StationNumber) <> ''
         ''',
+        key=("station_number",),
+        temporal="updated_at",
     ),
 ]

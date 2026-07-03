@@ -195,6 +195,8 @@ TRANSFORM_SPECS = [
             FROM "visa-north-america-smi"
             WHERE index_value IS NOT NULL
         ''',
+        key=("date", "geography", "spending_segment", "seasonal_adjustment"),
+        temporal="date",
     ),
     SqlNodeSpec(
         id="visa-global-smi-transform",
@@ -209,5 +211,7 @@ TRANSFORM_SPECS = [
             FROM "visa-global-smi"
             WHERE index_value IS NOT NULL
         ''',
+        key=("date", "country_code", "spending_segment"),
+        temporal="date",
     ),
 ]

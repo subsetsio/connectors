@@ -192,6 +192,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="bom-daily-weather-observations-transform",
         deps=["bom-daily-weather-observations"],
+        key=("station_slug", "date"),
+        temporal="date",
         sql='''
             SELECT
                 state,
@@ -217,6 +219,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="bom-stations-transform",
         deps=["bom-stations"],
+        key=("bom_station_id",),
         sql='''
             SELECT
                 bom_station_id,

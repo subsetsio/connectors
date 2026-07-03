@@ -230,6 +230,8 @@ TRANSFORM_SPECS = [
             WHERE year IS NOT NULL
             ORDER BY year
         ''',
+        key=("year",),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="obis-statistics-by-node-year-transform",
@@ -244,6 +246,8 @@ TRANSFORM_SPECS = [
             FROM "obis-statistics-by-node-year"
             WHERE nodeid IS NOT NULL AND year IS NOT NULL
         ''',
+        key=("nodeid", "year"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="obis-statistics-by-area-year-transform",
@@ -258,6 +262,8 @@ TRANSFORM_SPECS = [
             FROM "obis-statistics-by-area-year"
             WHERE areaid IS NOT NULL AND year IS NOT NULL
         ''',
+        key=("areaid", "year"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="obis-datasets-transform",
@@ -281,6 +287,8 @@ TRANSFORM_SPECS = [
             FROM "obis-datasets"
             WHERE dataset_id IS NOT NULL
         ''',
+        key=("dataset_id",),
+        temporal="updated",
     ),
     SqlNodeSpec(
         id="obis-checklist-transform",
@@ -308,5 +316,6 @@ TRANSFORM_SPECS = [
             WHERE taxonID IS NOT NULL
             GROUP BY taxonID
         ''',
+        key=("taxon_id",),
     ),
 ]

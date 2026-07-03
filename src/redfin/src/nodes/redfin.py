@@ -219,6 +219,9 @@ TRANSFORM_SPECS = [
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_market_sql(s.id, national=s.id.endswith("-national")),
+        # Grain = the QUALIFY partition: date (national) or date x region.
+        key=("date",) if s.id.endswith("-national") else ("date", "region_name"),
+        temporal="date",
     )
     for s in DOWNLOAD_SPECS
 ]

@@ -156,5 +156,6 @@ TRANSFORM_SPECS = [
             FROM "google-community-mobility-reports"
             WHERE date IS NOT NULL AND date <> ''
         """,
+        temporal="date",
     ),
 ]

@@ -303,6 +303,8 @@ TRANSFORM_SPECS = [
         id=f"{spec.id}-transform",
         deps=[spec.id],
         sql=_TRANSFORM_SQL.format(dep=spec.id),
+        key=("series_key", "time_period"),
+        temporal="period_start",
     )
     for spec in DOWNLOAD_SPECS
 ]

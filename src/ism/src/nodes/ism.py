@@ -150,6 +150,8 @@ TRANSFORM_SPECS = [
             GROUP BY date
             ORDER BY date
         ''',
+        key=("date",),
+        temporal="date",
     )
     for s in DOWNLOAD_SPECS
 ]

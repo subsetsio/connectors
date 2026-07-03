@@ -229,6 +229,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="aaa-national-fuel-prices-transform",
         deps=["aaa-national-fuel-prices"],
+        key=("date", "fuel_grade"),
+        temporal="date",
         sql='''
             SELECT DISTINCT
                 CAST(date AS DATE)        AS date,
@@ -241,6 +243,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="aaa-state-fuel-prices-transform",
         deps=["aaa-state-fuel-prices"],
+        key=("date", "state_code", "fuel_grade"),
+        temporal="date",
         sql='''
             SELECT DISTINCT
                 CAST(date AS DATE)        AS date,
@@ -254,6 +258,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="aaa-metro-fuel-prices-transform",
         deps=["aaa-metro-fuel-prices"],
+        key=("date", "state_code", "metro_area", "fuel_grade"),
+        temporal="date",
         sql='''
             SELECT DISTINCT
                 CAST(date AS DATE)        AS date,

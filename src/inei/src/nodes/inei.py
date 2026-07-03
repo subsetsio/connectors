@@ -275,6 +275,8 @@ TRANSFORM_SPECS = [
               AND anio IS NOT NULL
               AND {_SENTINEL_FILTER}
         """,
+        key=("indicador_id", "year"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="inei-values-monthly-transform",
@@ -294,5 +296,7 @@ TRANSFORM_SPECS = [
             WHERE value IS NOT NULL
               AND {_SENTINEL_FILTER}
         """,
+        key=("indicador_id", "date"),
+        temporal="date",
     ),
 ]

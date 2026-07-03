@@ -342,6 +342,8 @@ TRANSFORM_SPECS = [
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_transform_sql(s.id),
+        key=("series_id", "time_period"),
+        temporal="date",
     )
     for s in DOWNLOAD_SPECS
 ]

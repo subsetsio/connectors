@@ -182,6 +182,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="nbmp-trend-indices-transform",
         deps=["nbmp-trend-indices"],
+        key=("geographical_scale", "species", "survey", "year"),
+        temporal="year",
         sql='''
             SELECT
                 geographical_scale,
@@ -202,6 +204,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="nbmp-population-trends-transform",
         deps=["nbmp-population-trends"],
+        key=("country", "species", "survey_type", "term"),
         sql='''
             SELECT
                 country,

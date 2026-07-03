@@ -292,6 +292,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        key=(),
         sql=f'''
             SELECT
                 attachment_filename,

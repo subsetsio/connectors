@@ -230,7 +230,26 @@ _SQL = {
 }
 
 
+# Primary observation-period column per subset (the date/year each row's
+# measurement is stamped with). Keys are left undeclared: each table is a
+# long observation panel with no column subset confidently unique.
+_TEMPORAL = {
+    "odepa-catastro-fruticola": "anio",
+    "odepa-comercio-exterior-exportaciones": "anio",
+    "odepa-comercio-exterior-importaciones": "anio",
+    "odepa-precios-consumidor": "fecha_termino",
+    "odepa-precios-mayoristas-de-flores-y-follajes": "fecha",
+    "odepa-precios-mayoristas-de-frutas-y-hortalizas": "fecha",
+    "odepa-precios-uva-vinificacion": "fecha_precio_vigente",
+}
+
+
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_SQL[s.id])
+    SqlNodeSpec(
+        id=f"{s.id}-transform",
+        deps=[s.id],
+        sql=_SQL[s.id],
+        temporal=_TEMPORAL[s.id],
+    )
     for s in DOWNLOAD_SPECS
 ]

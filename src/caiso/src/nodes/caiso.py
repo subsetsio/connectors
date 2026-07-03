@@ -384,6 +384,7 @@ TRANSFORM_SPECS = [
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT DISTINCT * FROM "{s.id}"',
+        temporal="INTERVALENDTIME_GMT",
     )
     for s in DOWNLOAD_SPECS
 ]

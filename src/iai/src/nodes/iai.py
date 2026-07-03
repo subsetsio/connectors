@@ -162,6 +162,8 @@ TRANSFORM_SPECS = [
             FROM "iai-primary-aluminium-production"
             WHERE value IS NOT NULL
         ''',
+        key=("date", "region"),
+        temporal="date",
     ),
     SqlNodeSpec(
         id="iai-alumina-production-transform",
@@ -174,6 +176,8 @@ TRANSFORM_SPECS = [
             FROM "iai-alumina-production"
             WHERE value IS NOT NULL
         ''',
+        key=("date", "alumina_grade", "region"),
+        temporal="date",
     ),
     SqlNodeSpec(
         id="iai-primary-aluminium-smelting-energy-intensity-transform",
@@ -186,6 +190,8 @@ TRANSFORM_SPECS = [
             FROM "iai-primary-aluminium-smelting-energy-intensity"
             WHERE value IS NOT NULL
         ''',
+        key=("year", "energy_type", "region"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="iai-primary-aluminium-smelting-power-consumption-transform",
@@ -203,6 +209,8 @@ TRANSFORM_SPECS = [
             FROM "iai-primary-aluminium-smelting-power-consumption"
             WHERE value IS NOT NULL
         ''',
+        key=("year", "metric", "region"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="iai-metallurgical-alumina-refining-energy-intensity-transform",
@@ -214,6 +222,8 @@ TRANSFORM_SPECS = [
             FROM "iai-metallurgical-alumina-refining-energy-intensity"
             WHERE value IS NOT NULL
         ''',
+        key=("year", "region"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="iai-metallurgical-alumina-refining-fuel-consumption-transform",
@@ -226,6 +236,8 @@ TRANSFORM_SPECS = [
             FROM "iai-metallurgical-alumina-refining-fuel-consumption"
             WHERE value IS NOT NULL
         ''',
+        key=("year", "metric", "region"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="iai-fluoride-emissions-transform",
@@ -238,6 +250,8 @@ TRANSFORM_SPECS = [
             FROM "iai-fluoride-emissions"
             WHERE value IS NOT NULL
         ''',
+        key=("year", "metric", "technology"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="iai-perfluorocarbon-pfc-emissions-transform",
@@ -258,6 +272,8 @@ TRANSFORM_SPECS = [
             WHERE value IS NOT NULL
               AND CAST(row_id AS INTEGER) BETWEEN 32 AND 46
         ''',
+        key=("year", "scope", "metric", "technology"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="iai-workplace-accidents-transform",
@@ -270,6 +286,8 @@ TRANSFORM_SPECS = [
             FROM "iai-workplace-accidents"
             WHERE value IS NOT NULL
         ''',
+        key=("year", "process", "metric"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="iai-greenhouse-gas-emissions-aluminium-sector-transform",
@@ -282,6 +300,8 @@ TRANSFORM_SPECS = [
             FROM "iai-greenhouse-gas-emissions-aluminium-sector"
             WHERE value IS NOT NULL
         ''',
+        key=("year", "emission_source", "process"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="iai-greenhouse-gas-emissions-intensity-primary-aluminium-transform",
@@ -294,6 +314,8 @@ TRANSFORM_SPECS = [
             FROM "iai-greenhouse-gas-emissions-intensity-primary-aluminium"
             WHERE value IS NOT NULL
         ''',
+        key=("year", "process", "emission_source"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="iai-primary-aluminium-smelting-power-consumption-by-country-transform",
@@ -306,5 +328,7 @@ TRANSFORM_SPECS = [
             FROM "iai-primary-aluminium-smelting-power-consumption-by-country"
             WHERE value IS NOT NULL
         ''',
+        key=("year", "country", "power_source"),
+        temporal="year",
     ),
 ]

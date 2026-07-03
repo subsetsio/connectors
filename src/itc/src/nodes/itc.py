@@ -176,6 +176,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="itc-summary-transform",
         deps=["itc-summary"],
+        key=("year",),
+        temporal="year",
         sql='''
             SELECT
                 CAST(year AS INTEGER)        AS year,
@@ -192,6 +194,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="itc-map-transform",
         deps=["itc-map"],
+        key=("year", "code"),
+        temporal="year",
         sql='''
             SELECT
                 CAST(year AS INTEGER)     AS year,
@@ -211,6 +215,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="itc-activities-transform",
         deps=["itc-activities"],
+        key=("identifier",),
+        temporal="date_first_expense",
         sql='''
             SELECT
                 identifier,
@@ -232,6 +238,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="itc-activity-financials-transform",
         deps=["itc-activity-financials"],
+        key=("identifier", "year"),
+        temporal="year",
         sql='''
             SELECT
                 identifier,
@@ -245,6 +253,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="itc-activity-transactions-transform",
         deps=["itc-activity-transactions"],
+        key=(),
+        temporal="date",
         sql='''
             SELECT
                 identifier,

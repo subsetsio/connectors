@@ -237,6 +237,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="openchargemap-pois-transform",
         deps=["openchargemap-pois"],
+        key=("id",),
+        temporal="date_last_verified",
         sql='''
             SELECT
                 id,
@@ -271,6 +273,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="openchargemap-operators-transform",
         deps=["openchargemap-operators"],
+        key=("id",),
         sql='''
             SELECT
                 id,

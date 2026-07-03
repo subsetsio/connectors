@@ -121,6 +121,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="biotime-records-transform",
         deps=["biotime-records"],
+        temporal="year",
         sql='''
             SELECT
                 TRY_CAST(study_id   AS INTEGER) AS study_id,
@@ -144,6 +145,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="biotime-studies-transform",
         deps=["biotime-studies"],
+        key=("study_id",),
         sql='''
             SELECT
                 TRY_CAST(study_id AS INTEGER)          AS study_id,

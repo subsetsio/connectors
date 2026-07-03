@@ -274,6 +274,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="defra-flood-monitoring-stations-transform",
         deps=["defra-flood-monitoring-stations"],
+        key=("notation",),
+        temporal="date_opened",
         sql='''
             SELECT
                 notation,
@@ -296,6 +298,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="defra-flood-monitoring-measures-transform",
         deps=["defra-flood-monitoring-measures"],
+        key=("notation",),
         sql='''
             SELECT
                 notation,
@@ -316,6 +319,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="defra-flood-monitoring-readings-transform",
         deps=["defra-flood-monitoring-readings"],
+        key=("measure_id",),
+        temporal="observed_at",
         sql='''
             SELECT
                 measure_id,
@@ -329,6 +334,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="defra-flood-monitoring-floods-transform",
         deps=["defra-flood-monitoring-floods"],
+        key=("notation",),
         sql='''
             SELECT
                 notation,
@@ -348,6 +354,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="defra-hydrology-stations-transform",
         deps=["defra-hydrology-stations"],
+        key=("notation",),
+        temporal="date_opened",
         sql='''
             SELECT
                 notation,
@@ -367,6 +375,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="defra-hydrology-measures-transform",
         deps=["defra-hydrology-measures"],
+        key=("notation",),
         sql='''
             SELECT
                 notation,
@@ -388,6 +397,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="defra-hydrology-readings-transform",
         deps=["defra-hydrology-readings"],
+        temporal="observed_at",
         sql='''
             SELECT
                 measure_id,

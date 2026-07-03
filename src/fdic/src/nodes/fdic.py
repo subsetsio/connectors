@@ -240,11 +240,26 @@ DOWNLOAD_SPECS = [
 # Raw parquet is already curated and typed, so each transform is a thin
 # pass-through publish. Dep view is named after the download id.
 
+# Per-endpoint published grain (key) and primary observation-period column
+# (temporal). Declarative metadata only, keyed by bare endpoint name.
+GRAIN: dict[str, tuple[tuple[str, ...], str | None]] = {
+    "institutions": (("CERT",), None),
+    "financials": (("CERT", "REPDTE"), "REPDTE"),
+    "locations": (("UNINUM",), None),
+    "history": (("ID",), "PROCDATE"),
+    "failures": (("ID",), "FAILYR"),
+    "sod": (("ID",), "YEAR"),
+    "summary": (("YEAR", "STALP"), "YEAR"),
+    "demographics": (("ID",), "REPDTE"),
+}
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT * FROM "{s.id}"',
+        key=GRAIN[s.id[len("fdic-"):]][0],
+        temporal=GRAIN[s.id[len("fdic-"):]][1],
     )
     for s in DOWNLOAD_SPECS
 ]

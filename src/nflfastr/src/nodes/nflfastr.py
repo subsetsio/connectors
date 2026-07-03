@@ -118,6 +118,51 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
+# Per-subset grain / observation-period declarations. Keyed by DOWNLOAD spec id.
+# Keys are declared only for the well-known nflverse grains we are confident are
+# unique; the observation period is the `season` column (the ETL `loaded`/
+# `birth_date`/`dt` timestamps are freshness metadata, not the row's period).
+GRAIN = {
+    # canonical unique grains
+    "nflfastr-play-by-play": {"key": ("game_id", "play_id"), "temporal": "season"},
+    "nflfastr-pbp-participation": {"key": ("nflverse_game_id", "play_id")},  # no period column
+    "nflfastr-games": {"key": ("game_id",), "temporal": "season"},
+    "nflfastr-players": {"key": ("gsis_id",)},  # player dimension, timeless
+    "nflfastr-ftn-charting": {"key": ("ftn_play_id",), "temporal": "season"},
+    "nflfastr-officials": {"key": ("game_id", "official_id"), "temporal": "season"},
+    "nflfastr-snap-counts": {"key": ("game_id", "pfr_player_id"), "temporal": "season"},
+    "nflfastr-ngs-passing": {"key": ("season", "season_type", "week", "player_gsis_id"), "temporal": "season"},
+    "nflfastr-ngs-receiving": {"key": ("season", "season_type", "week", "player_gsis_id"), "temporal": "season"},
+    "nflfastr-ngs-rushing": {"key": ("season", "season_type", "week", "player_gsis_id"), "temporal": "season"},
+    "nflfastr-qbr-season-level": {"key": ("season", "season_type", "player_id"), "temporal": "season"},
+    "nflfastr-qbr-week-level": {"key": ("season", "season_type", "game_id", "player_id"), "temporal": "season"},
+    "nflfastr-stats-player-reg": {"key": ("player_id", "season", "season_type"), "temporal": "season"},
+    "nflfastr-stats-player-post": {"key": ("player_id", "season", "season_type"), "temporal": "season"},
+    "nflfastr-stats-player-regpost": {"key": ("player_id", "season", "season_type"), "temporal": "season"},
+    "nflfastr-stats-player-week": {"key": ("player_id", "season", "week", "season_type"), "temporal": "season"},
+    "nflfastr-stats-team-reg": {"key": ("season", "team", "season_type"), "temporal": "season"},
+    "nflfastr-stats-team-post": {"key": ("season", "team", "season_type"), "temporal": "season"},
+    "nflfastr-stats-team-regpost": {"key": ("season", "team", "season_type"), "temporal": "season"},
+    "nflfastr-stats-team-week": {"key": ("season", "week", "team", "season_type"), "temporal": "season"},
+    # period only (grain not confidently unique: multi-team splits / nullable ids)
+    "nflfastr-advstats-season-def": {"temporal": "season"},
+    "nflfastr-advstats-season-pass": {"temporal": "season"},
+    "nflfastr-advstats-season-rec": {"temporal": "season"},
+    "nflfastr-advstats-season-rush": {"temporal": "season"},
+    "nflfastr-advstats-week-def": {"temporal": "season"},
+    "nflfastr-advstats-week-pass": {"temporal": "season"},
+    "nflfastr-advstats-week-rec": {"temporal": "season"},
+    "nflfastr-advstats-week-rush": {"temporal": "season"},
+    "nflfastr-combine": {"temporal": "season"},
+    "nflfastr-depth-charts": {"temporal": "season"},
+    "nflfastr-draft-picks": {"temporal": "season"},
+    "nflfastr-historical-contracts": {"temporal": "year_signed"},
+    "nflfastr-injuries": {"temporal": "season"},
+    "nflfastr-roster": {"temporal": "season"},
+    "nflfastr-roster-weekly": {"temporal": "season"},
+    "nflfastr-trades": {"temporal": "season"},
+}
+
 # One published Delta table per subset. The raw parquet is already clean, typed,
 # self-describing nflverse data, so the transform is a typed pass-through: it is
 # the correctness gate (fails loudly if raw is missing/empty/unreadable) without
@@ -127,6 +172,8 @@ TRANSFORM_SPECS = [
         id=f"{spec.id}-transform",
         deps=[spec.id],
         sql=f'SELECT * FROM "{spec.id}"',
+        key=GRAIN.get(spec.id, {}).get("key"),
+        temporal=GRAIN.get(spec.id, {}).get("temporal"),
     )
     for spec in DOWNLOAD_SPECS
 ]

@@ -198,6 +198,7 @@ TRANSFORM_SPECS = [
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=_transform_sql(s.id),
+        temporal="time_series_start_year" if _entity_of(s.id) in _NIBRS_IDS else "year",
     )
     for s in DOWNLOAD_SPECS
 ]

@@ -150,6 +150,8 @@ TRANSFORM_SPECS = [
                 PARTITION BY eruptionID ORDER BY CAST(timeUpdated AS BIGINT) DESC
             ) = 1
         ''',
+        key=("eruption_id",),
+        temporal="eruption_time",
     ),
     SqlNodeSpec(
         id="geysertimes-geysers-transform",
@@ -170,5 +172,6 @@ TRANSFORM_SPECS = [
                 PARTITION BY id ORDER BY CAST(serverUpdate AS BIGINT) DESC
             ) = 1
         ''',
+        key=("geyser_id",),
     ),
 ]

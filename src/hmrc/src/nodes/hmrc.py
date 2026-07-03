@@ -331,7 +331,23 @@ _SQL = {
     ''',
 }
 
+# Per-subset grain declarations (purely declarative, keyed by download-spec id).
+# The trader-disclosure tables are existence facts — one row per trader ×
+# commodity × period (× trade type) — so the full dimension tuple is the grain.
+# Commodity is the CN8/HS/SITC classification reference keyed by its id. OTS/RTS
+# are aggregate value facts whose complete dimension grain isn't verifiable here,
+# so they carry only a temporal (their monthly period) and no key.
+_GRAIN = {
+    "hmrc-ots": {"temporal": "month"},
+    "hmrc-rts": {"temporal": "month"},
+    "hmrc-trade": {"key": ("trader_id", "commodity_id", "month_id", "trade_type_id"), "temporal": "month"},
+    "hmrc-import": {"key": ("trader_id", "commodity_id", "month_id"), "temporal": "month"},
+    "hmrc-export": {"key": ("trader_id", "commodity_id", "month_id"), "temporal": "month"},
+    "hmrc-yearlytrade": {"key": ("trader_id", "commodity_id", "year", "trade_type_id"), "temporal": "year"},
+    "hmrc-commodity": {"key": ("commodity_id",)},
+}
+
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_SQL[s.id])
+    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_SQL[s.id], **_GRAIN.get(s.id, {}))
     for s in DOWNLOAD_SPECS
 ]

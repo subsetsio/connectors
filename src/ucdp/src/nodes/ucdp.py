@@ -132,6 +132,37 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
+# Per-dataset grain declarations (entity id -> optional key/temporal kwargs).
+# Event-level datasets (the GED family, CACE, DECO, the External Support
+# Datasets) carry a genuine unique event/row id, verified unique in the profile.
+# The yearly conflict/dyad/country panels get their observation period (year)
+# but no key — their composite grain is not verified unique here, so declaring
+# one is unsafe. Entities absent from this map (e.g. actor) stay undeclared.
+GRAINS = {
+    "cace": {"key": ("id",), "temporal": "year"},
+    "candidate-ged": {"key": ("id",), "temporal": "date_start"},
+    "deco": {"key": ("id",), "temporal": "year"},
+    "esd-ay": {"key": ("id",), "temporal": "year"},
+    "esd-dy": {"key": ("id",), "temporal": "year"},
+    "esd-ty": {"key": ("id",), "temporal": "year"},
+    "ged": {"key": ("id",), "temporal": "date_start"},
+    "vpp-ged": {"key": ("id",), "temporal": "date_start"},
+    "brd-conf": {"temporal": "year"},
+    "brd-dyadic": {"temporal": "year"},
+    "dyadic": {"temporal": "year"},
+    "nonstate": {"temporal": "year"},
+    "onesided": {"temporal": "year"},
+    "term-conflict": {"temporal": "year"},
+    "term-dyad": {"temporal": "year"},
+    "ucdp-prio-acd": {"temporal": "year"},
+    "organizedviolencecy": {"temporal": "year"},
+    "onset-interstate-conflict": {"temporal": "year"},
+    "onset-intrastate-conflict": {"temporal": "year"},
+    "onset-intrastate-country": {"temporal": "year"},
+    "cid-dyadyear": {"temporal": "year"},
+    "cid-dyadissueyear": {"temporal": "year"},
+}
+
 # One published Delta table per dataset. The raw parquet is already clean,
 # typed, full-snapshot tabular, so the transform is a straight pass-through; the
 # runtime overwrites the table named (transform id minus "-transform").
@@ -140,6 +171,7 @@ TRANSFORM_SPECS = [
         id=f"{_PREFIX}{eid}-transform",
         deps=(f"{_PREFIX}{eid}",),
         sql=f'SELECT * FROM "{_PREFIX}{eid}"',
+        **GRAINS.get(eid, {}),
     )
     for eid in ENTITY_IDS
 ]

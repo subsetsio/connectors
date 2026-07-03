@@ -143,21 +143,29 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="knomad-wb-knomad-mri-transform",
         deps=["knomad-wb-knomad-mri"],
+        key=("country_code", "year"),
+        temporal="year",
         sql=_flow_sql("knomad-wb-knomad-mri"),
     ),
     SqlNodeSpec(
         id="knomad-wb-knomad-mro-transform",
         deps=["knomad-wb-knomad-mro"],
+        key=("country_code", "year"),
+        temporal="year",
         sql=_flow_sql("knomad-wb-knomad-mro"),
     ),
     SqlNodeSpec(
         id="knomad-wb-knomad-bre-transform",
         deps=["knomad-wb-knomad-bre"],
+        key=("country_code", "counterpart_code", "year"),
+        temporal="year",
         sql=_bilateral_sql("knomad-wb-knomad-bre", "remittance_usd_million", "UNIT_MEASURE_LABEL"),
     ),
     SqlNodeSpec(
         id="knomad-wb-knomad-mig-transform",
         deps=["knomad-wb-knomad-mig"],
+        key=("country_code", "counterpart_code", "year"),
+        temporal="year",
         sql=_bilateral_sql("knomad-wb-knomad-mig", "migrant_stock", "'persons'"),
     ),
 ]

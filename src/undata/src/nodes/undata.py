@@ -127,6 +127,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        temporal="TIME_PERIOD",
         sql=f'''
             WITH casted AS (
                 SELECT

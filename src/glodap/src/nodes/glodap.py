@@ -195,5 +195,6 @@ TRANSFORM_SPECS = [
         id="glodap-bottle-data-transform",
         deps=["glodap-bottle-data"],
         sql='SELECT * FROM "glodap-bottle-data"',
+        temporal="year",
     ),
 ]

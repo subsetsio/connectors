@@ -223,6 +223,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="eba-risk-dashboard-kri-transform",
         deps=["eba-risk-dashboard-kri"],
+        key=("period", "country", "indicator_code"),
+        temporal="period",
         sql='''
             SELECT
                 CAST(period AS INTEGER)  AS period,
@@ -237,21 +239,25 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="eba-te-credit-risk-transform",
         deps=["eba-te-credit-risk"],
+        temporal="Period",
         sql=_TE_SQL.format(dep="eba-te-credit-risk"),
     ),
     SqlNodeSpec(
         id="eba-te-market-risk-transform",
         deps=["eba-te-market-risk"],
+        temporal="Period",
         sql=_TE_SQL.format(dep="eba-te-market-risk"),
     ),
     SqlNodeSpec(
         id="eba-te-sovereign-exposures-transform",
         deps=["eba-te-sovereign-exposures"],
+        temporal="Period",
         sql=_TE_SQL.format(dep="eba-te-sovereign-exposures"),
     ),
     SqlNodeSpec(
         id="eba-te-other-exposures-transform",
         deps=["eba-te-other-exposures"],
+        temporal="Period",
         sql=_TE_SQL.format(dep="eba-te-other-exposures"),
     ),
 ]

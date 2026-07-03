@@ -258,6 +258,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        temporal="time_label",
         sql=f'''
             SELECT
                 statistic_code,

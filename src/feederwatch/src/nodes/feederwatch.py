@@ -239,6 +239,7 @@ TRANSFORM_SPECS = [
             FROM "feederwatch-observations"
             WHERE OBS_ID IS NOT NULL
         ''',
+        temporal="year",
     ),
     SqlNodeSpec(
         id="feederwatch-site-descriptions-transform",
@@ -248,6 +249,7 @@ TRANSFORM_SPECS = [
             FROM "feederwatch-site-descriptions"
             WHERE loc_id IS NOT NULL
         ''',
+        temporal="create_dt",
     ),
     SqlNodeSpec(
         id="feederwatch-species-translation-transform",
@@ -264,5 +266,6 @@ TRANSFORM_SPECS = [
             FROM "feederwatch-species-translation"
             WHERE species_code IS NOT NULL
         ''',
+        key=("species_code",),
     ),
 ]

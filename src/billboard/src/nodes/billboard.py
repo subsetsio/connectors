@@ -73,6 +73,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="billboard-hot-100-transform",
         deps=["billboard-hot-100"],
+        key=("chart_date", "rank"),
+        temporal="chart_date",
         sql='''
             SELECT
                 CAST(chart_date AS DATE)        AS chart_date,

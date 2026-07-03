@@ -156,10 +156,20 @@ def _transform_sql(spec_id: str) -> str:
     return tmpl.replace("__DEP__", spec_id)
 
 
+def _transform_key(spec_id: str) -> tuple:
+    return ("date",) if _ID_BY_SPEC[spec_id] in _LONG_IDS else ("data_series", "period")
+
+
+def _transform_temporal(spec_id: str) -> str:
+    return "date" if _ID_BY_SPEC[spec_id] in _LONG_IDS else "period"
+
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        key=_transform_key(s.id),
+        temporal=_transform_temporal(s.id),
         sql=_transform_sql(s.id),
     )
     for s in DOWNLOAD_SPECS

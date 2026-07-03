@@ -95,6 +95,8 @@ TRANSFORM_SPECS = [
             FROM "fhwa-54nx-se7f"
             WHERE year IS NOT NULL AND TRY_CAST(year AS INTEGER) IS NOT NULL
         ''',
+        key=("year",),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="fhwa-hvfw-tcmn-transform",
@@ -108,6 +110,8 @@ TRANSFORM_SPECS = [
             WHERE year IS NOT NULL AND state IS NOT NULL
               AND TRY_CAST(year AS INTEGER) IS NOT NULL
         ''',
+        key=("year", "state"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="fhwa-ix2d-bsqq-transform",
@@ -122,6 +126,8 @@ TRANSFORM_SPECS = [
             WHERE year IS NOT NULL AND state IS NOT NULL AND revenues IS NOT NULL
               AND TRY_CAST(year AS INTEGER) IS NOT NULL
         ''',
+        key=("year", "state", "revenue_source"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="fhwa-mt5m-skz3-transform",
@@ -144,6 +150,8 @@ TRANSFORM_SPECS = [
             WHERE year IS NOT NULL AND state IS NOT NULL
               AND TRY_CAST(year AS INTEGER) IS NOT NULL
         ''',
+        key=("year", "state"),
+        temporal="year",
     ),
     SqlNodeSpec(
         id="fhwa-taz8-hut2-transform",
@@ -158,5 +166,7 @@ TRANSFORM_SPECS = [
             WHERE fiscal_year IS NOT NULL
               AND TRY_CAST(fiscal_year AS INTEGER) IS NOT NULL
         ''',
+        key=("fiscal_year",),
+        temporal="fiscal_year",
     ),
 ]

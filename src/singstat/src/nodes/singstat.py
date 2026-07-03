@@ -131,6 +131,8 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
+        key=("series_no", "period"),
+        temporal="period",
         sql=f'''
             SELECT
                 period,

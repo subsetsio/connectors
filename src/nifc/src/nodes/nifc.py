@@ -312,7 +312,29 @@ _SQL = {
     ''',
 }
 
+# Grain / observation-period per layer. Only _INCIDENTS has a confirmed-unique
+# id (irwin_id); VIIRS thermal hotspots are a keyless satellite-detection log;
+# the perimeter/occurrence tables record a fire across many rows (revisions /
+# perimeter snapshots) with no single unique column, so their key is left
+# undeclared. Temporal is each table's event/period column.
+_GRAIN = {
+    _RAWS: {"key": None, "temporal": "observed_at"},
+    _PERIM: {"key": None, "temporal": "fire_discovery_at"},
+    _INFORM: {"key": None, "temporal": "fire_discovery_at"},
+    _INCIDENTS: {"key": ("irwin_id",), "temporal": "fire_discovery_at"},
+    _VIIRS: {"key": (), "temporal": "acquired_date"},
+    _HISTORY: {"key": None, "temporal": "fire_year"},
+    _IMSR: {"key": None, "temporal": "post_year"},
+    _GEOMAC: {"key": None, "temporal": "fire_year"},
+}
+
 TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_SQL[s.id])
+    SqlNodeSpec(
+        id=f"{s.id}-transform",
+        deps=[s.id],
+        sql=_SQL[s.id],
+        key=_GRAIN[s.id]["key"],
+        temporal=_GRAIN[s.id]["temporal"],
+    )
     for s in DOWNLOAD_SPECS
 ]
