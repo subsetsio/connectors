@@ -17,9 +17,11 @@ bundles, so a new forecast vintage (which rotates the 'skills-2026' segment) is
 picked up automatically. Despite the .json.gz extension the server returns plain
 JSON (already decompressed), so we parse the response text directly.
 
-Each fetch melts the wide year columns into long format (one row per
-entity x year) and saves NDJSON; the SQL transform is then a thin rename/cast
-that publishes one Delta table per indicator panel.
+Each fetch melts the wide year columns into long format and collapses the
+source's structural redundancy (identical EU-27 aggregates shipped in an `-eu`
+companion; unlabelled component+total stacks in the qualification panel) down to
+one row per dimension-tuple x year before saving NDJSON; the SQL transform is
+then a thin rename/cast that publishes one Delta table per indicator panel.
 """
 
 import re
@@ -98,6 +100,34 @@ def _melt(records):
                 yield {**dims, "year": int(k), "value": v}
 
 
+def _collapse(rows):
+    """Enforce one row per dimension-tuple×year — the raw contract this
+    connector promises.
+
+    Some Skills Forecast panels carry structural redundancy under *identical*
+    dimension columns, with no label to tell the rows apart:
+
+      * the occupation/sector country panels ship an `-eu` companion file that
+        merely repeats the EU-27 aggregate already present in the main panel
+        (byte-identical values), and
+      * the labour-force-by-qualification panel stacks two components plus their
+        additive total (component + component = total) for every
+        (country, qualification, year).
+
+    Neither redundant series is something we publish, so we keep the maximum
+    value per dimension-tuple×year. For the identical EU duplicates that is a
+    no-op; for the stacked qualification panel the total is — being the sum of
+    two non-negative components — always the maximum, so this deterministically
+    selects the total. Panels that are already unique pass through untouched.
+    """
+    best = {}
+    for row in rows:
+        key = tuple(sorted((k, v) for k, v in row.items() if k != "value"))
+        if key not in best or row["value"] > best[key]["value"]:
+            best[key] = row
+    return list(best.values())
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     entity = node_id[len("cedefop-"):]
@@ -128,6 +158,7 @@ def fetch_one(node_id: str) -> None:
 
     if not rows:
         raise AssertionError(f"{asset}: melted to 0 rows — upstream panel shape changed")
+    rows = _collapse(rows)
     save_raw_ndjson(rows, asset)
 
 
@@ -150,8 +181,9 @@ def _transform_sql(download_id: str, dims, value_col: str) -> str:
         else:
             select_dims.append(d)
     dim_sql = ",\n            ".join(select_dims)
-    # Partition on the RAW column names (pre-rename) to dedup the rare overlap a
-    # belt-and-suspenders EU-aggregate append could introduce.
+    # Raw is already collapsed to one row per dimension-tuple×year in the fetch
+    # (see _collapse), so this QUALIFY is a defensive no-op — kept to guarantee
+    # the published key holds even if an upstream vintage changes shape.
     key_cols = ", ".join(dims)
     return f'''
         SELECT
