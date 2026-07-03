@@ -185,6 +185,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="world-bank-countries-transform",
         deps=["world-bank-countries"],
+        key=("country_code",),
         sql='''
             SELECT
                 id                  AS country_code,
@@ -204,6 +205,7 @@ TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="world-bank-indicators-transform",
         deps=["world-bank-indicators"],
+        key=("indicator_code",),
         sql='''
             SELECT
                 id                          AS indicator_code,
