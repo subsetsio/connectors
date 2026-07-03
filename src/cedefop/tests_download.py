@@ -4,21 +4,31 @@ Run post-DAG inside the connector. They load each download node's raw asset via
 the same loader the fetch used (NDJSON) and catch silent degradation that file
 existence alone misses: empty payloads, lost year/value columns, a panel that
 melted to nothing.
+
+`spec_ids` is every node in the run's DAG — downloads *and* transforms. Only the
+download nodes write raw NDJSON, so we scope to them (transform ids carry the
+`-transform` suffix); loading raw for a transform id would raise FileNotFoundError.
 """
 
 from subsets_utils import load_raw_ndjson
 
 
+def _download_ids(spec_ids):
+    """Download specs only — transform node ids end in '-transform' and have no
+    raw asset to load."""
+    return [sid for sid in spec_ids if not sid.endswith("-transform")]
+
+
 def test_all_raw_assets_nonempty(spec_ids):
     """Every download asset should hold melted long-format rows."""
-    for sid in spec_ids:
+    for sid in _download_ids(spec_ids):
         rows = load_raw_ndjson(sid)
         assert len(rows) > 0, f"{sid}: raw NDJSON has 0 rows"
 
 
 def test_long_format_columns_present(spec_ids):
     """Each melted row must carry a year + value plus at least one dimension."""
-    for sid in spec_ids:
+    for sid in _download_ids(spec_ids):
         rows = load_raw_ndjson(sid)
         sample = rows[0]
         assert "year" in sample, f"{sid}: no 'year' column — melt shape changed"
@@ -30,7 +40,7 @@ def test_long_format_columns_present(spec_ids):
 def test_year_span_is_multiyear(spec_ids):
     """A real forecast panel spans many years; a single year means the wide
     year columns collapsed."""
-    for sid in spec_ids:
+    for sid in _download_ids(spec_ids):
         rows = load_raw_ndjson(sid)
         years = {int(r["year"]) for r in rows if r.get("year") is not None}
         assert len(years) >= 5, f"{sid}: only {len(years)} distinct years"
