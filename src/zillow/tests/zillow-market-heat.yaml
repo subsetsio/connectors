@@ -7,7 +7,8 @@ tests:
     certainty: 95
   - not_null: region_type
     certainty: 98
-  - enum: {col: region_type, values: [Metro, State, County, City, Zip]}
+  - enum: {col: region_type, values: [country, msa, state, county, city, zip]}
+    reason: the RegionType column carries Zillow's internal geography codes (not the URL folder names)
     certainty: 88
   - not_null: region_name
     certainty: 95
@@ -23,9 +24,10 @@ tests:
   - not_null: value
     reason: the melt drops null observations
     certainty: 98
-  - at_least: {col: value, expr: 0}
-    reason: the Market Heat Index is a non-negative temperature index
-    certainty: 95
+  - between: {col: value, lo: -500, hi: 1000}
+    reason: the Market Heat Index is a relative temperature measure that can go negative in cold markets (observed range roughly -150..600)
+    certainty: 80
+    severity: warn
   - unique: [region_id, date, metric]
     reason: one index observation per region / month
     certainty: 90

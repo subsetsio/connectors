@@ -7,8 +7,8 @@ tests:
     certainty: 95
   - not_null: region_type
     certainty: 98
-  - enum: {col: region_type, values: [Metro, State, County, City, Zip]}
-    reason: ZORI is published at these geography levels (note ZORI has no State file historically, but the enum lists all valid levels)
+  - enum: {col: region_type, values: [country, msa, state, county, city, zip]}
+    reason: RegionType carries Zillow's internal geography codes; ZORI has no state file so 'state' simply won't appear, which the enum allows
     certainty: 88
   - not_null: region_name
     certainty: 95

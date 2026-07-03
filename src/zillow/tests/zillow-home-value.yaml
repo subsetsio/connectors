@@ -9,8 +9,8 @@ tests:
     certainty: 95
   - not_null: region_type
     certainty: 98
-  - enum: {col: region_type, values: [Metro, State, County, City, Zip]}
-    reason: ZHVI is published at these five geography levels only
+  - enum: {col: region_type, values: [country, msa, state, county, city, zip]}
+    reason: the RegionType column carries Zillow's internal geography codes (not the URL folder names)
     certainty: 90
   - not_null: region_name
     certainty: 95
