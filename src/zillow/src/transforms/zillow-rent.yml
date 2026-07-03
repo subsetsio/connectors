@@ -1,0 +1,22 @@
+# Zillow Observed Rent Index (ZORI) by geography and month.
+key: [region_id, date]
+temporal: date
+columns:
+  - name: date
+    type: DATE
+    description: "Observation month, as the month-end date (YYYY-MM-DD)."
+  - name: region_id
+    type: BIGINT
+    description: "Zillow RegionID; globally unique across geography levels."
+  - name: region_type
+    type: VARCHAR
+    description: "Geography level of the region: one of country, msa (metro), state, county, city, zip."
+  - name: region_name
+    type: VARCHAR
+    description: "Human-readable region name."
+  - name: state_code
+    type: VARCHAR
+    description: "USPS two-letter state code; null for the national row and for regions that span states."
+  - name: rent
+    type: DOUBLE
+    description: "Zillow Observed Rent Index (ZORI): typical observed market-rate rent across all home types (SFR + condo + multifamily), smoothed & seasonally adjusted, USD per month."

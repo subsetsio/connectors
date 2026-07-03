@@ -1,0 +1,40 @@
+# Zillow sales and listing-price metrics by geography and month.
+key: [region_id, date]
+temporal: date
+columns:
+  - name: date
+    type: DATE
+    description: "Observation month, as the month-end date (YYYY-MM-DD)."
+  - name: region_id
+    type: BIGINT
+    description: "Zillow RegionID; globally unique across geography levels."
+  - name: region_type
+    type: VARCHAR
+    description: "Geography level of the region: one of country, msa (metro), state, county, city, zip."
+  - name: region_name
+    type: VARCHAR
+    description: "Human-readable region name."
+  - name: state_code
+    type: VARCHAR
+    description: "USPS two-letter state code; null for the national row and for regions that span states."
+  - name: median_list_price
+    type: DOUBLE
+    description: "Median list price of for-sale listings, smoothed, USD."
+  - name: median_sale_price
+    type: DOUBLE
+    description: "Median sale price of homes that sold, smoothed & seasonally adjusted, USD."
+  - name: sales_count
+    type: DOUBLE
+    description: "Count of homes sold during the month (published for the metro and national levels only; null elsewhere)."
+  - name: pct_sold_above_list
+    type: DOUBLE
+    description: "Share of homes that sold above their final list price (fraction, 0-1), smoothed."
+  - name: pct_sold_below_list
+    type: DOUBLE
+    description: "Share of homes that sold below their final list price (fraction, 0-1), smoothed."
+  - name: days_to_pending
+    type: DOUBLE
+    description: "Mean number of days listings were on the market before going pending, smoothed."
+  - name: pct_price_cut
+    type: DOUBLE
+    description: "Share of active listings that had a price cut during the month (fraction, 0-1), smoothed."

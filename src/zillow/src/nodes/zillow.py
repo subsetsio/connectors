@@ -23,7 +23,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_parquet_writer,
     transient_retry,
@@ -163,34 +162,5 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-
-def _pivot_sql(download_id: str, metric_names: list[str]) -> str:
-    """Pivot the long raw asset to one wide column per metric, keyed (date, region_id)."""
-    cols = ",\n".join(
-        f"            MAX(value) FILTER (WHERE metric = '{m}') AS {m}"
-        for m in metric_names
-    )
-    return f'''
-        SELECT
-            CAST(date AS DATE) AS date,
-            region_id,
-            ANY_VALUE(region_type) AS region_type,
-            ANY_VALUE(region_name) AS region_name,
-            ANY_VALUE(state_code) AS state_code,
-{cols}
-        FROM "{download_id}"
-        GROUP BY region_id, date
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"zillow-{eid.lower().replace('_', '-')}-transform",
-        deps=[f"zillow-{eid.lower().replace('_', '-')}"],
-        sql=_pivot_sql(
-            f"zillow-{eid.lower().replace('_', '-')}",
-            [m[0] for m in METRICS[eid]],
-        ),
-    )
-    for eid in ENTITY_IDS
-]
+# Transforms live as file pairs under src/transforms/<table>.sql + .yml — each
+# pivots its long raw asset to a wide, typed, contracted table. See that dir.

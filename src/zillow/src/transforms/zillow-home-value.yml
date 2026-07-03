@@ -1,0 +1,49 @@
+# Zillow Home Value Index (ZHVI) by geography and month.
+key: [region_id, date]
+temporal: date
+columns:
+  - name: date
+    type: DATE
+    description: "Observation month, as the month-end date (YYYY-MM-DD)."
+  - name: region_id
+    type: BIGINT
+    description: "Zillow RegionID; globally unique across geography levels."
+  - name: region_type
+    type: VARCHAR
+    description: "Geography level of the region: one of country, msa (metro), state, county, city, zip."
+  - name: region_name
+    type: VARCHAR
+    description: "Human-readable region name."
+  - name: state_code
+    type: VARCHAR
+    description: "USPS two-letter state code; null for the national row and for regions that span states."
+  - name: all_homes
+    type: DOUBLE
+    description: "ZHVI typical home value (all homes: single-family + condo/co-op), 35th-65th percentile tier, smoothed & seasonally adjusted, USD."
+  - name: single_family
+    type: DOUBLE
+    description: "ZHVI typical value for single-family homes, smoothed & seasonally adjusted, USD."
+  - name: condo
+    type: DOUBLE
+    description: "ZHVI typical value for condo/co-op homes, smoothed & seasonally adjusted, USD."
+  - name: bed_1
+    type: DOUBLE
+    description: "ZHVI typical value for 1-bedroom homes, smoothed & seasonally adjusted, USD."
+  - name: bed_2
+    type: DOUBLE
+    description: "ZHVI typical value for 2-bedroom homes, smoothed & seasonally adjusted, USD."
+  - name: bed_3
+    type: DOUBLE
+    description: "ZHVI typical value for 3-bedroom homes, smoothed & seasonally adjusted, USD."
+  - name: bed_4
+    type: DOUBLE
+    description: "ZHVI typical value for 4-bedroom homes, smoothed & seasonally adjusted, USD."
+  - name: bed_5_plus
+    type: DOUBLE
+    description: "ZHVI typical value for 5+ bedroom homes, smoothed & seasonally adjusted, USD."
+  - name: bottom_tier
+    type: DOUBLE
+    description: "ZHVI bottom-tier home value (5th-35th percentile), smoothed & seasonally adjusted, USD."
+  - name: top_tier
+    type: DOUBLE
+    description: "ZHVI top-tier home value (65th-95th percentile), smoothed & seasonally adjusted, USD."
