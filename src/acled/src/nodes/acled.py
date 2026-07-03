@@ -200,6 +200,12 @@ _DATE = "CAST(strptime(month || ' ' || CAST(year AS VARCHAR), '%B %Y') AS DATE) 
 def _transform_sql(download_id: str, scope: str, has_fat: bool) -> str:
     fat = ",\n            CAST(fatalities AS BIGINT) AS fatalities" if has_fat else ""
     if scope == "subnational":
+        # The declared key is (date, country, admin1, admin2), so every part must
+        # be non-null. ACLED codes maritime incidents under water-body admin1s
+        # (Ukraine "Sea of Azov" / "Black Sea") that have NO admin2 subdivision —
+        # these arrive as null-admin2 rows, all with 0 events/0 fatalities across
+        # every month. They carry no data and can't be placed at admin2 grain, so
+        # drop them: guaranteeing the key columns non-null keeps the key honest.
         return f'''
         SELECT
             {_DATE},
@@ -207,6 +213,7 @@ def _transform_sql(download_id: str, scope: str, has_fat: bool) -> str:
             CAST(events AS BIGINT) AS events{fat}
         FROM "{download_id}"
         WHERE month IS NOT NULL AND year IS NOT NULL
+          AND country IS NOT NULL AND admin1 IS NOT NULL AND admin2 IS NOT NULL
         '''
     return f'''
         SELECT
