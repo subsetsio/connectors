@@ -7,7 +7,7 @@ from .io import (
     save_raw_ndjson, load_raw_ndjson,
     save_raw_file, load_raw_file,
     save_raw_parquet, load_raw_parquet, raw_parquet_localpath,
-    list_raw_files, delete_raw_file, raw_asset_exists,
+    list_raw_files, list_raw_fragments, delete_raw_file, raw_asset_exists,
     raw_writer, raw_reader, raw_parquet_writer,
 )
 from .delta import merge, overwrite, append, WriteResult
@@ -36,7 +36,7 @@ __all__ = [
     'save_raw_ndjson', 'load_raw_ndjson',
     'save_raw_file', 'load_raw_file',
     'save_raw_parquet', 'load_raw_parquet', 'raw_parquet_localpath',
-    'list_raw_files', 'delete_raw_file',
+    'list_raw_files', 'list_raw_fragments', 'delete_raw_file',
     'raw_asset_exists',
     # Streaming I/O
     'raw_writer', 'raw_reader', 'raw_parquet_writer',

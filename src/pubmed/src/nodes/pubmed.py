@@ -16,6 +16,7 @@ bulk path — the corpus is re-pulled per annual release.
 """
 import gzip
 import io
+import os
 import re
 import time
 import xml.etree.ElementTree as ET
@@ -27,7 +28,7 @@ from subsets_utils import (
     SqlNodeSpec,
     get,
     save_raw_parquet,
-    list_raw_files,
+    list_raw_fragments,
     save_state,
     transient_retry,
 )
@@ -192,25 +193,26 @@ def fetch_citations(node_id: str):
     failed with NO retrigger. Bounding each invocation makes progress monotonic
     and the wall-clock per invocation predictable.
 
-    Raw is run-scoped in cloud (<connector>/runs/<run_id>/raw/...), so the
-    authoritative "already done" set is the raw that exists in the *current*
-    run — NOT a globally-persisted `completed` list. Global state survives
-    across distinct runs, so trusting it would make a fresh run skip every file
-    (its raw scope starts empty), leaving the transform with no raw to read.
-    Deriving completion from raw existence means a brand-new run re-fetches the
-    whole corpus, while a self-retriggering chain (same RUN_ID, shared raw
-    scope) resumes precisely where it left off. State is written too, but only
-    as an observable record — never load-bearing.
+    The authoritative "already done" set is the raw manifest's fragments
+    COMMITTED under the *current* RUN_ID — the commit log, not a directory
+    listing and not the globally-persisted `completed` list. Global state
+    survives across distinct runs, so trusting it would make a fresh run skip
+    every file; a directory listing would resurrect a failed leg's discarded
+    (never-committed) writes, which the manifest-first transform cannot see.
+    Each completed leg commits its fragments, so a self-retriggering chain
+    (same RUN_ID) resumes precisely where it left off, while a brand-new run
+    re-fetches the whole corpus. State is written too, but only as an
+    observable record — never load-bearing.
     """
     prefix, nums = _discover_baseline()
     valid = set(nums)
 
-    # Authoritative done-set: raw files already written in this run's scope.
+    # Authoritative done-set: fragments committed in this run.
+    run_id = os.environ.get("RUN_ID", "unknown")
     completed = set()
-    for rel in list_raw_files(f"{node_id}-*.parquet"):
-        m = re.search(r"-(\d{4})\.parquet$", rel)
-        if m and int(m.group(1)) in valid:
-            completed.add(int(m.group(1)))
+    for frag, meta in list_raw_fragments(node_id, "parquet").items():
+        if meta.get("run_id") == run_id and frag.isdigit() and int(frag) in valid:
+            completed.add(int(frag))
 
     def _record_state():
         save_state(node_id, {
@@ -235,11 +237,11 @@ def fetch_citations(node_id: str):
 
     for i, n in enumerate(batch):
         filename = f"{prefix}{n:04d}.xml.gz"
-        asset = f"{node_id}-{n:04d}"  # pure batch coordinate: the file number
         raw = _fetch_bytes(BASE_URL + filename)
         records = _parse_articles(gzip.decompress(raw))
         table = pa.Table.from_pylist(records, schema=SCHEMA)
-        save_raw_parquet(table, asset)          # write raw first
+        # write raw first — the file number is the fragment key
+        save_raw_parquet(table, node_id, fragment=f"{n:04d}")
         completed.add(n)
         _record_state()                          # then advance observable state
         print(f"  {filename}: {len(records):,} citations")

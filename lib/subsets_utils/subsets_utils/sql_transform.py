@@ -26,7 +26,6 @@ from . import raw_manifest
 from .config import raw_uri
 from .delta import overwrite
 from .duckdb import _configure
-from .io import list_raw_files
 from .spec import SqlNodeSpec
 
 # Extension (after stripping compression suffixes) → DuckDB table function.
@@ -57,9 +56,16 @@ def _reader_for(rel_path: str) -> str | None:
 
 
 def _raw_base_uri() -> str:
-    """The run-scoped raw dir (s3:// or local), derived the same way
-    list_raw_files derives it — by probing raw_uri."""
+    """The run-scoped raw dir (s3:// or local), derived by probing raw_uri
+    (the "__probe__" asset is never created — raw_uri only builds the path)."""
     return raw_uri("__probe__", "__").rsplit("/", 1)[0]
+
+
+def _glob_raw(pattern: str) -> list[str]:
+    """Glob the run-scoped raw dir — the PRE-MANIFEST read fallback only
+    (manifest-first resolution lives in `_read_clause`)."""
+    from .io import list_raw_files
+    return list_raw_files(pattern)
 
 
 def _read_clause(dep_id: str) -> tuple[list[str], str]:
@@ -79,9 +85,9 @@ def _read_clause(dep_id: str) -> tuple[list[str], str]:
         paths = [uri for _, uri in resolved]
         source = "manifest"
     else:
-        rels = list_raw_files(f"{dep_id}.*")
+        rels = _glob_raw(f"{dep_id}.*")
         if not rels:
-            rels = list_raw_files(f"{dep_id}-*")
+            rels = _glob_raw(f"{dep_id}-*")
         if not rels:
             raise FileNotFoundError(
                 f"SqlNodeSpec dep {dep_id!r}: no raw files found "

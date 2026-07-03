@@ -177,7 +177,6 @@ def save_raw_file(content: str | bytes, asset_id: str, extension: str = "txt", *
     "full" fragment, replacing every previously recorded fragment. A named
     fragment writes `<asset_id>-<fragment>.<ext>` and replaces only that key,
     leaving sibling fragments intact (incremental partitions of one asset)."""
-    from .tracking import record_write
     data = content.encode("utf-8") if isinstance(content, str) else content
     oid = raw_manifest.object_id(asset_id, fragment)
     uri = raw_uri(oid, extension, entity_id=entity_id)
@@ -186,7 +185,6 @@ def save_raw_file(content: str | bytes, asset_id: str, extension: str = "txt", *
                              hash=raw_manifest.content_hash(data),
                              entity_id=entity_id, fragment=fragment)
     print(f"  -> Saved {oid}.{extension}")
-    record_write(f"raw/{(entity_id + '/') if entity_id else ''}{oid}.{extension}")
     return uri
 
 
@@ -233,7 +231,6 @@ def save_raw_json(data, asset_id: str, compress: bool = False, *, entity_id: str
     Default None = legacy flat layout.
     fragment: None (default) = the whole asset ("full", replaces all recorded
     fragments); a name = replace just that fragment (see save_raw_file)."""
-    from .tracking import record_write
     if compress:
         ext = "json.gz"
         buf = io.BytesIO()
@@ -250,7 +247,6 @@ def save_raw_json(data, asset_id: str, compress: bool = False, *, entity_id: str
                              hash=raw_manifest.content_hash(content),
                              entity_id=entity_id, fragment=fragment)
     print(f"  -> Saved {oid}.{ext}")
-    record_write(f"raw/{(entity_id + '/') if entity_id else ''}{oid}.{ext}")
     return uri
 
 
@@ -299,7 +295,6 @@ def save_raw_ndjson(rows, asset_id: str, *, compression: str | None = "zstd", fr
         fragment: None (default) = the whole asset ("full", replaces all
             recorded fragments); a name = replace just that fragment.
     """
-    from .tracking import record_write
     if compression not in _NDJSON_EXT:
         raise ValueError(f"compression must be 'zstd', 'gzip', or None; got {compression!r}")
     ext = _NDJSON_EXT[compression]
@@ -328,7 +323,6 @@ def save_raw_ndjson(rows, asset_id: str, *, compression: str | None = "zstd", fr
                              hash=raw_manifest.content_hash(content),
                              fragment=fragment)
     print(f"  -> Saved {oid}.{ext} ({n:,} records)")
-    record_write(f"raw/{oid}.{ext}")
     return uri
 
 
@@ -372,7 +366,6 @@ def save_raw_parquet(data: pa.Table, asset_id: str, *, fragment: str | None = No
 
     fragment: None (default) = the whole asset ("full", replaces all recorded
     fragments); a name = replace just that fragment (see save_raw_file)."""
-    from .tracking import record_write
     if hasattr(data, "read_all"):
         data = data.read_all()
     buf = io.BytesIO()
@@ -385,7 +378,6 @@ def save_raw_parquet(data: pa.Table, asset_id: str, *, fragment: str | None = No
                              hash=raw_manifest.content_hash(content),
                              fragment=fragment)
     print(f"  -> Saved {oid}.parquet ({data.num_rows:,} rows)")
-    record_write(f"raw/{oid}.parquet")
     return uri
 
 
@@ -497,7 +489,6 @@ def raw_writer(
             for row in stream:
                 f.write(json.dumps(row) + "\\n")
     """
-    from .tracking import record_write
     oid = raw_manifest.object_id(asset_id, fragment)
     uri = raw_uri(oid, extension)
     fs = get_fs(uri)
@@ -512,7 +503,6 @@ def raw_writer(
                              size=_written_size(fs, uri), hash=None,
                              fragment=fragment)
     print(f"  -> Saved {oid}.{extension}")
-    record_write(f"raw/{oid}.{extension}")
 
 
 @contextmanager
@@ -558,7 +548,6 @@ def raw_parquet_writer(asset_id: str, schema: pa.Schema, *, compression: str = "
             for batch in stream_wikipedia():
                 w.write_batch(batch)
     """
-    from .tracking import record_write
     oid = raw_manifest.object_id(asset_id, fragment)
     uri = raw_uri(oid, "parquet")
     fs = get_fs(uri)
@@ -572,7 +561,6 @@ def raw_parquet_writer(asset_id: str, schema: pa.Schema, *, compression: str = "
                              size=_written_size(fs, uri), hash=None,
                              fragment=fragment)
     print(f"  -> Saved {oid}.parquet (streamed)")
-    record_write(f"raw/{oid}.parquet")
 
 
 # =============================================================================
@@ -580,10 +568,18 @@ def raw_parquet_writer(asset_id: str, schema: pa.Schema, *, compression: str = "
 # =============================================================================
 
 def list_raw_files(pattern: str) -> list[str]:
-    """List raw files matching a glob pattern (relative to the raw dir).
+    """List raw files in the RUN-SCOPED raw dir matching a glob pattern.
+
+    For POST-DOWNLOAD ENUMERATION ONLY — health tests (tests_download.py)
+    globbing the batches their own run just wrote, dev smoke scripts. This is
+    a physical directory listing, NOT the commit log: it can return objects
+    the raw manifest discarded (a failed leg's writes). NEVER derive a fetch
+    fn's skip/done-set from it — an uncommitted object skipped as "done"
+    becomes a silent hole in the published table, because transforms resolve
+    manifest-first. Skip decisions use `list_raw_fragments`.
 
     Args:
-        pattern: Glob like "items/*.json.gz" — relative to <connector>/data/raw/
+        pattern: Glob like "items/*.json.gz" — relative to the raw dir.
 
     Returns:
         Sorted list of relative paths.
@@ -617,6 +613,38 @@ def list_raw_files(pattern: str) -> list[str]:
         str(p.relative_to(raw_dir)) for p in raw_dir.glob(pattern)
         if not str(p.relative_to(raw_dir)).startswith(".manifest")
     )
+
+
+def list_raw_fragments(asset_id: str, extension: str = "parquet", *,
+                       entity_id: str | None = None) -> dict[str, dict]:
+    """Live fragments of a raw asset per the COMMIT LOG — the committed raw
+    manifest overlaid with this process's own pending writes.
+
+    Returns {fragment: {"path", "size", "run_id", "fetched_at", ...}} where
+    "full" is the whole-asset fragment; {} when the manifest has no entry for
+    (asset_id, extension).
+
+    This is the correct basis for incremental skip decisions ("which windows
+    are already fetched"): an object the manifest does not reference does not
+    exist — a failed leg's unreferenced writes must be refetched, or transforms
+    (which resolve manifest-first) silently miss them. Never derive a done-set
+    from directory listings.
+
+    Scope the done-set to the current run for continuation-leg resume (each
+    completed leg commits, so prior legs' fragments are visible here):
+
+        frags = list_raw_fragments(node_id, "csv.gz")
+        done = {f for f, m in frags.items()
+                if m.get("run_id") == os.environ.get("RUN_ID", "unknown")}
+
+    Drop the run_id filter (or filter on fetched_at) for cross-run incremental
+    policies.
+    """
+    entry = raw_manifest.asset_entry(asset_id, extension, entity_id=entity_id)
+    if not entry:
+        return {}
+    return {k: dict(v) for k, v in (entry.get("fragments") or {}).items()
+            if isinstance(v, dict)}
 
 
 def raw_asset_exists(asset_id: str, ext: str = "parquet", max_age_days: int | None = None, *, entity_id: str | None = None) -> bool:

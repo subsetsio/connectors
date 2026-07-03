@@ -372,7 +372,12 @@ def _stage(entry: dict) -> None:
 def stage_write(asset_id: str, ext: str, uri: str, *, size: int | None,
                 hash: str | None, entity_id: str | None = None,
                 fragment: str | None = None) -> None:
-    """Stage a manifest entry for a raw object that was just written at `uri`."""
+    """Stage a manifest entry for a raw object that was just written at `uri`.
+
+    Also records the write into run-record lineage (run.json `raw_writes`) —
+    staging is the single bookkeeping point for raw writes; io's save fns make
+    one call, not two parallel ones."""
+    tracking.record_write("raw/" + uri.split("/raw/", 1)[-1])
     _stage({
         "op": "put",
         "asset": asset_key(asset_id, entity_id),

@@ -41,7 +41,6 @@ from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get,
-    list_raw_files,
     load_state,
     raw_parquet_writer,
     save_state,

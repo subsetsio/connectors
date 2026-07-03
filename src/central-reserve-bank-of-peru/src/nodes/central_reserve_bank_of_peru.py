@@ -30,6 +30,7 @@ network/5xx/429 errors.
 from datetime import datetime, timezone
 import csv
 import io
+import os
 import re
 
 import httpx
@@ -45,7 +46,7 @@ from subsets_utils import (
     SqlNodeSpec,
     get,
     is_transient,
-    list_raw_files,
+    list_raw_fragments,
     save_raw_ndjson,
     save_state,
 )
@@ -73,7 +74,6 @@ _MONTHS = {
 }
 
 _YEAR_RE = re.compile(r"(\d{4})")
-_BATCH_RE = re.compile(r"-(\d{6})-(\d{6})\.ndjson\.zst$")
 
 
 # ---------------------------------------------------------------------------
@@ -285,11 +285,15 @@ def _fetch_series_observations(code: str, freq: str, start_field: str) -> list[d
 
 
 def fetch_values(node_id: str) -> None:
-    # Resume index = highest code-index already covered by raw in THIS run scope.
+    # Resume index = highest code-index covered by fragments COMMITTED in this
+    # run (fragment key: "<start>-<end>" span). The raw manifest, never a
+    # directory listing — a failed leg's uncommitted batches must re-fetch or
+    # the manifest-first transform silently misses them.
+    run_id = os.environ.get("RUN_ID", "unknown")
     done = 0
-    for rel in list_raw_files(f"{node_id}-*.ndjson.zst"):
-        m = _BATCH_RE.search(rel)
-        if m:
+    for frag, meta in list_raw_fragments(node_id, "ndjson.zst").items():
+        m = re.fullmatch(r"(\d{6})-(\d{6})", frag)
+        if m and meta.get("run_id") == run_id:
             done = max(done, int(m.group(2)))
 
     series = [
@@ -315,12 +319,14 @@ def fetch_values(node_id: str) -> None:
         processed += 1
         if processed % VALUES_BATCH_CODES == 0 or len(batch) >= VALUES_BATCH_ROWS:
             if batch:
-                save_raw_ndjson(batch, f"{node_id}-{batch_start:06d}-{done + processed:06d}")
+                save_raw_ndjson(batch, node_id,
+                                fragment=f"{batch_start:06d}-{done + processed:06d}")
                 batch = []
                 batch_start = done + processed
             _checkpoint(done + processed)
     if batch:
-        save_raw_ndjson(batch, f"{node_id}-{batch_start:06d}-{done + processed:06d}")
+        save_raw_ndjson(batch, node_id,
+                        fragment=f"{batch_start:06d}-{done + processed:06d}")
     _checkpoint(done + processed)
 
 

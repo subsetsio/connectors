@@ -49,6 +49,7 @@ plain HTTP only (its HTTPS endpoint presents an invalid certificate). The codeli
 lookups on www.gdeltproject.org are not used here — labels are applied in SQL.
 """
 import io
+import os
 import zipfile
 from collections import defaultdict
 from datetime import datetime, timezone
@@ -61,7 +62,7 @@ from subsets_utils import (
     SqlNodeSpec,
     get,
     save_raw_parquet,
-    list_raw_files,
+    list_raw_fragments,
     transient_retry,
 )
 
@@ -298,18 +299,18 @@ def _build_batch(agg: dict) -> "pa.Table":
 def fetch_events(node_id: str) -> None:
     """Stateless full re-pull (see module docstring). Re-materialize every
     complete GDELT file-date from 2015-02-18 to yesterday UTC as one parquet
-    batch each, skipping batches already present in THIS run's raw dir so a
-    continuation resumes cheaply. No watermark, no self-imposed run budget."""
+    fragment each, skipping fragments this run already COMMITTED to the raw
+    manifest so a continuation resumes cheaply. No watermark, no run budget."""
     today_utc = datetime.now(tz=timezone.utc).date()
 
-    # File-dates already materialized in THIS run (resume after a continuation).
-    # Raw is run-scoped, so this set is empty on a fresh run_id and grows as the
-    # backfill progresses; it is the only "state" the loop needs.
-    prefix = f"{node_id}-"
-    done = {
-        rel.rsplit("/", 1)[-1][len(prefix):].split(".", 1)[0]
-        for rel in list_raw_files(f"{prefix}*")
-    }
+    # File-dates already committed in THIS run: each completed leg commits its
+    # fragments (stamped with our RUN_ID), so the set is empty on a fresh
+    # run_id and grows as the backfill progresses. The commit log — never a
+    # directory listing: a failed leg's uncommitted batches must re-fetch or
+    # the manifest-first transform would silently miss those dates.
+    run_id = os.environ.get("RUN_ID", "unknown")
+    done = {frag for frag, meta in list_raw_fragments(node_id, "parquet").items()
+            if meta.get("run_id") == run_id}
 
     print("  fetching master file list...")
     by_date = _index_export_urls_by_date(_fetch_master_list())
@@ -335,9 +336,9 @@ def fetch_events(node_id: str) -> None:
         table = _build_batch(agg)
         # Always write a batch — a 0-row batch (all files missing/404 for the day)
         # still marks the date done so a continuation doesn't re-fetch the gap, and
-        # is harmless to the transform's union/GROUP BY. Batch key is pure batch
-        # info (the file-date); the asset id composes slug + entity + batch_key.
-        save_raw_parquet(table, f"{node_id}-{date_iso}")
+        # is harmless to the transform's union/GROUP BY. The file-date is the
+        # fragment key of the one raw asset (object name: <node_id>-<date>.parquet).
+        save_raw_parquet(table, node_id, fragment=date_iso)
         if table.num_rows:
             print(f"  {date_iso}: {sum(agg[k][0] for k in agg):,} events -> {table.num_rows:,} groups")
         else:

@@ -19,6 +19,7 @@ Shared HTTP/retry/OData plumbing lives in `src/utils.py`; this module owns the
 fetch logic, the DOWNLOAD_SPECS, and the TRANSFORM_SPECS.
 """
 from datetime import date, datetime, timezone
+import os
 import re
 
 import httpx
@@ -26,7 +27,7 @@ import httpx
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
-    list_raw_files,
+    list_raw_fragments,
     save_raw_ndjson,
     save_state,
 )
@@ -85,7 +86,6 @@ IFDATA_START_YEAR = _env_int("BCB_IFDATA_START_YEAR", 2000)
 # IFData enumeration knobs.
 IFDATA_TIPOS = (1, 2, 3, 4)      # TipoInstituicao buckets (prudential / financial / ...)
 
-_ANOMES_RE = re.compile(r"-(\d{6})\.ndjson\.zst$")
 
 
 def _quarters(start_year: int):
@@ -105,24 +105,26 @@ def fetch_ifdata(node_id: str) -> None:
     TipoInstituicao × Relatorio (reports enumerated from ListaDeRelatorio).
     One raw batch per AnoMes, sweeping every quarter from the floor to now.
 
-    Raw is run-scoped in this harness (runs/<run_id>/raw/...) while state is
-    durable across runs, so the set of already-done quarters is derived from the
-    raw present in THIS run's scope — never a globally-persisted watermark. A
-    watermark would survive into a fresh run and make it skip every quarter, yet
-    land its (empty) raw in a new scope, leaving the transform with no raw to
+    The set of already-done quarters is derived from the raw manifest's
+    fragments committed under THIS run's RUN_ID — never a globally-persisted
+    watermark. A watermark would survive into a fresh run and make it skip
+    every quarter yet commit no raw, leaving the transform with nothing to
     read — exactly the failure that poisoned ifdatacadastro. Deriving the
-    done-set from raw means a fresh run re-pulls the corpus while a continuation
-    (same RUN_ID, shared raw scope) resumes from the quarter it left off. State
-    is still written, but only as an observable record — never load-bearing.
+    done-set from committed fragments means a fresh run re-pulls the corpus
+    while a continuation (same RUN_ID; each completed leg commits) resumes
+    from the quarter it left off. State is still written, but only as an
+    observable record — never load-bearing.
     """
     entity = _entity(node_id)
 
-    # Authoritative done-set: AnoMes buckets already written in this run's scope.
-    done: set[int] = set()
-    for rel in list_raw_files(f"{node_id}-*.ndjson.zst"):
-        m = _ANOMES_RE.search(rel)
-        if m:
-            done.add(int(m.group(1)))
+    # Authoritative done-set: AnoMes fragments COMMITTED in this run (the raw
+    # manifest, never a directory listing — a failed leg's uncommitted buckets
+    # must re-fetch or the manifest-first transform silently misses them).
+    run_id = os.environ.get("RUN_ID", "unknown")
+    done: set[int] = {
+        int(frag) for frag, meta in list_raw_fragments(node_id, "ndjson.zst").items()
+        if meta.get("run_id") == run_id and frag.isdigit()
+    }
 
     relatorios: list[str] = []
     if entity == "ifdata-ifdatavalores":
@@ -153,7 +155,7 @@ def fetch_ifdata(node_id: str) -> None:
                         continue
                     rows.extend(got)
         if rows:
-            save_raw_ndjson(rows, f"{node_id}-{anomes}")
+            save_raw_ndjson(rows, node_id, fragment=str(anomes))
             done.add(anomes)
         save_state(node_id, {
             "schema_version": STATE_VERSION,
@@ -248,7 +250,6 @@ SGS_BATCH = _env_int("BCB_SGS_BATCH", 50)                 # series per raw batch
 SGS_START_YEAR = _env_int("BCB_SGS_START_YEAR", 1990)     # daily-history floor
 SGS_WINDOW_YEARS = 10            # SGS rejects daily pulls wider than 10 years
 
-_SGS_BATCH_RE = re.compile(r"-(\d{6})-(\d{6})\.ndjson\.zst$")
 
 
 def _discover_sgs_series() -> list[dict]:
@@ -337,11 +338,14 @@ def fetch_sgs_values(node_id: str) -> None:
     re-pulls; a continuation (same RUN_ID) resumes after the highest code index
     already written. State is written only as an observable record.
     """
-    # Resume index = highest code-index covered by raw already in this run.
+    # Resume index = highest code-index covered by fragments COMMITTED in this
+    # run (fragment key: "<start>-<end>" span). The commit log, never a
+    # directory listing — see the ifdata done-set note.
+    run_id = os.environ.get("RUN_ID", "unknown")
     done_count = 0
-    for rel in list_raw_files(f"{node_id}-*.ndjson.zst"):
-        m = _SGS_BATCH_RE.search(rel)
-        if m:
+    for frag, meta in list_raw_fragments(node_id, "ndjson.zst").items():
+        m = re.fullmatch(r"(\d{6})-(\d{6})", frag)
+        if m and meta.get("run_id") == run_id:
             done_count = max(done_count, int(m.group(2)))
 
     codes = [s["code"] for s in _discover_sgs_series()]
@@ -364,7 +368,8 @@ def fetch_sgs_values(node_id: str) -> None:
         processed += 1
         if len(batch) >= 200000 or processed % SGS_BATCH == 0:
             if batch:
-                save_raw_ndjson(batch, f"{node_id}-{batch_start:06d}-{done_count + processed:06d}")
+                save_raw_ndjson(batch, node_id,
+                                fragment=f"{batch_start:06d}-{done_count + processed:06d}")
                 batch = []
                 batch_start = done_count + processed
             _checkpoint(done_count + processed)

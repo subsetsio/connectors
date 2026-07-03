@@ -17,8 +17,9 @@ transform is a thin parse-and-publish pass (`SELECT *`).
 
 from datetime import datetime, timezone, timedelta, date
 import gzip
+import os
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_file, list_raw_files
+from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_file, list_raw_fragments
 
 from utils import SLUG, STATCAST_ERA_START_YEAR, _fetch_csv_text
 
@@ -53,29 +54,28 @@ def _season_windows(start_year: int, end: date):
 # ---------------------------------------------------------------------------
 # Statcast pitch-by-pitch (date-windowed, resumable full re-pull)
 # ---------------------------------------------------------------------------
-# Raw is run-scoped in this harness (runs/<run_id>/raw/...) while state is durable
-# across runs, so a *cross-run* watermark would let a later run skip fetching yet
-# land its raw in a fresh, empty scope. The corpus is therefore re-pulled in full
-# every *run*. But the ~960-window era walk does not fit in one 355-min job, so a
-# run is split across continuation legs that all share this run's RUN_ID — hence
-# its raw scope. Each leg lists the windows already saved in that shared scope and
-# skips them (`list_raw_files`), fetching only the un-downloaded tail. Progress is
-# therefore monotonic across legs: a leg that runs out of budget mid-walk is
-# resumed by the next leg from where raw leaves off, and once every window is
-# present the download returns immediately so the transform leg gets a full budget.
+# The corpus is re-pulled in full every *run* (revisions), but the ~960-window
+# era walk does not fit in one 355-min job, so a run is split across
+# continuation legs sharing this run's RUN_ID. Each window is a named FRAGMENT
+# of the one raw asset; every completed leg commits its fragments to the raw
+# manifest, so the done-set is the manifest's fragments from this run — the
+# commit log, not a directory listing. A leg that failed mid-walk committed
+# nothing: its windows re-fetch, so an object the manifest never referenced
+# can never be skipped into a hole in the published table.
 
 def fetch_statcast_pitches(node_id: str) -> None:
     end = datetime.now(timezone.utc).date()
 
-    # Windows already saved in this run's (leg-shared) raw scope — skip them so a
-    # continuation leg only fetches the tail the prior legs didn't reach.
-    already = set(list_raw_files(f"{node_id}-*.csv.gz"))
+    # Windows already committed in this run (fragments stamped with our RUN_ID,
+    # written by prior legs) — skip them; fetch only the un-downloaded tail.
+    run_id = os.environ.get("RUN_ID", "unknown")
+    already = {frag for frag, meta in list_raw_fragments(node_id, "csv.gz").items()
+               if meta.get("run_id") == run_id}
     n_have = len(already)
     n_new = 0
 
     for cur, win_end in _season_windows(STATCAST_ERA_START_YEAR, end):
-        fname = f"{node_id}-{win_end.isoformat()}.csv.gz"
-        if fname in already:
+        if win_end.isoformat() in already:
             continue
         url = (
             "https://baseballsavant.mlb.com/statcast_search/csv?all=true&type=details"
@@ -102,8 +102,9 @@ def fetch_statcast_pitches(node_id: str) -> None:
             # DuckDB read_csv_auto. No per-row Python coercion -> fast at 8M rows.
             save_raw_file(
                 gzip.compress(text.encode("utf-8")),
-                f"{node_id}-{win_end.isoformat()}",
+                node_id,
                 extension="csv.gz",
+                fragment=win_end.isoformat(),
             )
             n_new += 1
 
