@@ -5,9 +5,11 @@ status: active
 # paper. NOT OAI-PMH: that endpoint returns 406 to datacenter IPs, so there is no
 # OAI record header and therefore no `datestamp` / `<created>` field. The node
 # projects each record to a fixed 13-column schema and derives `created_date`
-# (month granularity, YYYY-MM-01) from the YYMM encoded in the arXiv id. The
-# public mirror is frozen at the 2020-08 snapshot, so coverage ends mid-2020 —
-# there is deliberately no freshness assertion (the corpus does not advance).
+# (month granularity, YYYY-MM-01) from the YYMM encoded in the arXiv id.
+coverage:
+  frozen: true
+  reason: the public GCS mirror is frozen at the 2020-08 snapshot, so coverage
+    ends mid-2020 — the corpus does not advance, hence no freshness assertion.
 tests:
   # --- presence: fields every snapshot record carries ---
   - not_null: arxiv_id
