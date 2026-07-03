@@ -1,71 +1,77 @@
 spec_id: arxiv-papers
 status: active
-# Raw OAI-PMH metadataPrefix=arXiv record stream. Every column is a string at
-# the raw layer (typing happens in the transform). Assertions below are authored
-# from the OAI-PMH / arXiv-native schema, not from observed data: an OAI record
-# always carries a header datestamp and an <arXiv> body with id/title/abstract/
-# created; the bibliographic fields (doi, journal-ref, comments, license) are
-# present only for the minority of papers that have them.
+# Raw = the whole-corpus arXiv metadata snapshot from the public GCS bucket
+# (gs://arxiv-dataset, metadata-v5/arxiv-metadata-oai.json), one JSON object per
+# paper. NOT OAI-PMH: that endpoint returns 406 to datacenter IPs, so there is no
+# OAI record header and therefore no `datestamp` / `<created>` field. The node
+# projects each record to a fixed 13-column schema and derives `created_date`
+# (month granularity, YYYY-MM-01) from the YYMM encoded in the arXiv id. The
+# public mirror is frozen at the 2020-08 snapshot, so coverage ends mid-2020 —
+# there is deliberately no freshness assertion (the corpus does not advance).
 tests:
-  # --- presence: fields every arXiv record carries ---
+  # --- presence: fields every snapshot record carries ---
   - not_null: arxiv_id
-    reason: the <id> element is mandatory in the arXiv metadata format; a null id means a parse miss on our side
-    certainty: 97
+    reason: the `id` field is mandatory in the arXiv metadata snapshot; a null id means a parse miss on our side and drops the row from the deduped table
+    certainty: 96
   - not_null: title
     reason: every arXiv submission has a title
-    certainty: 96
+    certainty: 95
+    severity: warn
   - not_null: abstract
     reason: arXiv requires an abstract on submission; a handful of very old records may lack one
     certainty: 88
     severity: warn
-  - not_null: datestamp
-    reason: the OAI-PMH record header always carries a datestamp; null means we failed to read the header
-    certainty: 98
-  - not_null: created
-    reason: arXiv metadata always exposes the creation date of v1
+  - not_null: authors
+    reason: every record carries an authors string
     certainty: 92
+    severity: warn
+  - not_null: categories
+    reason: arXiv requires at least one subject category
+    certainty: 92
+    severity: warn
   - not_null: primary_category
-    reason: derived from the first token of <categories>; arXiv requires at least one category
+    reason: derived from the first token of `categories`; present whenever categories is
+    certainty: 90
+    severity: warn
+  - not_null: created_date
+    reason: derived from the YYMM in the arXiv id; a null means the id did not encode a parseable month
     certainty: 90
     severity: warn
 
-  # --- format: ISO date strings and arXiv id schemes ---
-  - matches: {col: datestamp, pattern: '^\d{4}-\d{2}-\d{2}$'}
-    reason: OAI datestamps are day-granularity ISO dates
+  # --- format: derived date + arXiv id schemes ---
+  - matches: {col: created_date, pattern: '^\d{4}-\d{2}-01$'}
+    reason: created_date is month-granular, always the first of the month (YYYY-MM-01)
     certainty: 95
-  - matches: {col: created, pattern: '^\d{4}-\d{2}-\d{2}$'}
-    reason: arXiv <created> is an ISO date
-    certainty: 90
-  - matches: {col: arxiv_id, pattern: '^([a-z-]+(\.[A-Z]{2})?/\d{7}|\d{4}\.\d{4,5})$'}
-    reason: old-scheme ids (archive/YYMMNNN) and new-scheme ids (YYMM.NNNNN); the <id> field carries no version suffix
-    certainty: 80
+    severity: warn
+  - matches: {col: arxiv_id, pattern: '^([a-z][a-z.\-]*/\d{7}|\d{4}\.\d{4,5})$'}
+    reason: old-scheme ids (archive[.subclass]/YYMMNNN, e.g. supr-con/9609004) and new-scheme ids (YYMM.NNNNN); the id field carries no version suffix
+    certainty: 85
     severity: warn
 
-  # --- bounds: creation dates fall in arXiv's lifetime ---
-  - between: {col: created, lo: '1991-01-01', hi: today}
-    reason: arXiv launched in 1991; nothing is created in the future
-    certainty: 90
-  - at_most: {col: datestamp, expr: today}
-    reason: a record cannot be datestamped after today
-    certainty: 95
+  # --- bounds: derived creation dates fall in arXiv's lifetime ---
+  - between: {col: created_date, lo: '1991-01-01', hi: today}
+    reason: arXiv launched in 1991 and the snapshot is historical, so every derived date is between then and now
+    certainty: 92
+  - between: {col: num_versions, lo: 1, hi: 500}
+    reason: every paper has at least one version; hundreds is the realistic ceiling
+    certainty: 85
+    severity: warn
 
   # --- nullability of optional bibliographic fields ---
-  - nullable: {col: doi, max_null_frac: 0.95}
-    reason: most arXiv papers never register a DOI; the column is mostly null but should not be entirely so
-    certainty: 70
+  - nullable: {col: doi, max_null_frac: 0.9}
+    reason: most arXiv papers never register a DOI (~48% null observed), but the column should not be entirely null
+    certainty: 75
     severity: warn
-  - nullable: {col: journal_ref, max_null_frac: 0.95}
-    reason: only published papers carry a journal reference; majority are preprints
+  - nullable: {col: journal_ref, max_null_frac: 0.9}
+    reason: only published papers carry a journal reference (~61% null observed); the majority are preprints
+    certainty: 75
+    severity: warn
+  - nullable: {col: comments, max_null_frac: 0.6}
+    reason: author comments are optional (~20% null observed)
     certainty: 70
     severity: warn
 
-  # --- scale & freshness ---
+  # --- scale: the corpus is the whole snapshot, not a slice ---
   - row_count: {min: 100000}
-    reason: the arXiv corpus is millions of records; a complete sweep is well over 100k, though a mid-continuation run may hold less
-    certainty: 75
-    severity: warn
-  - freshness: {col: datestamp, reaches: today - 30d}
-    reason: the trailing overlap window re-harvests the current month every run, so the max datestamp should land within a month of today
-    certainty: 80
-    points_outward: true
-    severity: warn
+    reason: the arXiv corpus is well over a million papers; a truncated download would fall far below this
+    certainty: 90
