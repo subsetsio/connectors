@@ -230,7 +230,6 @@ TRANSFORM_SPECS = [
             SELECT
                 id                          AS indicator_code,
                 name,
-                NULLIF(unit, '')            AS unit,
                 source_id,
                 NULLIF(source_name, '')     AS source_name,
                 NULLIF(source_note, '')     AS definition,
