@@ -10,6 +10,30 @@ so the import resolves at validation and at runtime.
 """
 
 
+# Datasets too large to pull via the full bulk-CSV export. Row counts were
+# measured directly against the SODA count endpoint (see the connector notes);
+# each of these exceeds 50 million rows, so the `/rows.csv` export streams for
+# hours under Socrata's throttled anonymous pool and would publish as a
+# multi-GB Delta table — impractical for a full every-run re-pull. The fetch
+# fn fails these fast (rather than stalling the sequential DAG for hours), and
+# they are covered by run-level spec waivers. Revisit only if an incremental /
+# partitioned fetch path is added for the giant environmental daily series.
+#   96sd-hxdt  136,267,479  Daily Census Tract-Level PM2.5 Concentrations 2016-2020
+#   hf2a-3ebq  136,267,479  (twin of 96sd-hxdt)
+#   n8mc-b4w4  106,219,500
+#   vbim-akqf  106,219,500  (twin of n8mc-b4w4)
+#   b72x-p96c   61,156,480
+#   vpk8-vfhm   61,156,480  (twin of b72x-p96c)
+OVERSIZED_IDS = frozenset({
+    "96sd-hxdt",
+    "hf2a-3ebq",
+    "n8mc-b4w4",
+    "vbim-akqf",
+    "b72x-p96c",
+    "vpk8-vfhm",
+})
+
+
 ENTITY_IDS = [
     "24w5-nppr", "24xb-jxbc", "25m4-6qqq", "29hc-w46k", "2den-c3u2", "2dwv-vfam", "2ew6-ywp6",
     "2m7c-st88", "2m93-xvra", "2nf2-f75n", "2qxe-cmv4", "2snk-eav4", "2t2r-sf6s", "2v3t-r3np",

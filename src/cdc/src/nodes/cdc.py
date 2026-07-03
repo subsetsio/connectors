@@ -19,6 +19,7 @@ source schema 1:1.
 
 from __future__ import annotations
 
+import time
 
 from subsets_utils import (
     MaintainSpec,
@@ -30,6 +31,8 @@ from subsets_utils import (
     transient_retry,
 )
 
+from constants import ENTITY_IDS, OVERSIZED_IDS
+
 # Per-dataset bulk CSV export. The 4x4 id is the only variable; the URL is stable
 # and persistent (research: url_stability="persistent").
 _EXPORT_URL = "https://data.cdc.gov/api/views/{dataset_id}/rows.csv?accessType=DOWNLOAD"
@@ -37,10 +40,22 @@ _EXPORT_URL = "https://data.cdc.gov/api/views/{dataset_id}/rows.csv?accessType=D
 # Stream chunk size for the CSV download.
 _CHUNK = 1 << 20  # 1 MiB
 
-# The rank-accepted entity union — the 654 Socrata dataset ids to publish.
-# Inlined (no module-level I/O); the authoritative source is
-# data/sources/cdc/work/entity_union.json.
-from constants import ENTITY_IDS
+# Hard wall-clock cap per dataset. The `/rows.csv` export is chunked (no
+# Content-Length) and Socrata's anonymous pool throttles to ~1 MB/s, so the
+# per-read timeout never fires on a slow-but-steady multi-GB stream — one giant
+# table would otherwise stall the whole sequential DAG for hours. This bounds
+# every fetch: a dataset that can't finish in the window fails cleanly (a
+# non-transient error, so it is NOT retried) and the run continues past it. The
+# known >50M-row tables are already short-circuited (OVERSIZED_IDS) so they fail
+# instantly rather than burning the window; this is the backstop for anything
+# not pre-identified. Sized above the largest kept table (~28M rows ≈ 30 min).
+_MAX_DOWNLOAD_SECONDS = 2700  # 45 min
+
+
+class DatasetUnavailable(RuntimeError):
+    """Permanent, non-retryable: the dataset can't be pulled via bulk CSV
+    (too large for a full export, or removed from the portal). Excused by a
+    run-level spec waiver."""
 
 
 @transient_retry()
@@ -49,15 +64,22 @@ def _download_csv_gz(url: str, asset: str) -> None:
 
     Streaming + gzip keeps memory flat regardless of export size, and writing the
     raw inside the retried fn means a mid-stream transient failure simply re-opens
-    the writer (truncating any partial bytes) on the next attempt.
+    the writer (truncating any partial bytes) on the next attempt. A total
+    elapsed-time cap guards against an unbounded slow stream.
     """
     client = get_client()
+    started = time.monotonic()
     # (connect, read) timeouts — a generous read window for multi-MB exports.
     with client.stream("GET", url, timeout=(10.0, 300.0)) as resp:
         resp.raise_for_status()
         with raw_writer(asset, "csv.gz", mode="wb", compression="gzip") as out:
             for chunk in resp.iter_bytes(_CHUNK):
                 out.write(chunk)
+                if time.monotonic() - started > _MAX_DOWNLOAD_SECONDS:
+                    raise DatasetUnavailable(
+                        f"{asset}: bulk CSV export exceeded the "
+                        f"{_MAX_DOWNLOAD_SECONDS}s cap — too large for a full re-pull"
+                    )
 
 
 def fetch_one(node_id: str) -> None:
@@ -66,6 +88,12 @@ def fetch_one(node_id: str) -> None:
     "cdc-" prefix."""
     asset = node_id
     dataset_id = node_id[len("cdc-"):]
+    if dataset_id in OVERSIZED_IDS:
+        # Known >50M-row table: don't even start the multi-hour stream. Fail
+        # fast and let the waiver excuse it (see constants.OVERSIZED_IDS).
+        raise DatasetUnavailable(
+            f"{dataset_id}: known oversized table — not pulled via bulk CSV export"
+        )
     _download_csv_gz(_EXPORT_URL.format(dataset_id=dataset_id), asset)
 
 
