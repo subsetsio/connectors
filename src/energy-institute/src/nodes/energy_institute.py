@@ -46,7 +46,7 @@ from curl_cffi.requests.exceptions import (
 )
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 
 # Pinned to the 2025 (74th) edition. Refresh annually - see module docstring.
 PANEL_CSV_URL = "https://www.energyinst.org/__data/assets/file/0011/1659656/panel.csv"
@@ -140,29 +140,5 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="energy-institute-values", fn=fetch_values, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="energy-institute-values-transform",
-        deps=["energy-institute-values"],
-        sql='''
-            WITH long AS (
-                UNPIVOT "energy-institute-values"
-                ON COLUMNS(* EXCLUDE (
-                    Country, Year, ISO3166_alpha3, ISO3166_numeric,
-                    Region, SubRegion, OPEC, EU, OECD, CIS
-                ))
-                INTO NAME measure_code VALUE value
-            )
-            SELECT
-                Country               AS country,
-                CAST(Year AS INTEGER) AS year,
-                ISO3166_alpha3        AS iso3,
-                Region                AS region,
-                SubRegion             AS subregion,
-                measure_code,
-                CAST(value AS DOUBLE) AS value
-            FROM long
-            WHERE value IS NOT NULL
-        ''',
-    ),
-]
+# Transforms live as a file pair in src/transforms/energy-institute-values.{sql,yml}
+# (the authoring format), not as a module-level TRANSFORM_SPECS list.

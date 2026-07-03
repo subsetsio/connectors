@@ -1,0 +1,34 @@
+# Energy Institute — Statistical Review of World Energy, tidy long form.
+# One row per country/region-year-measure; the wide source panel is UNPIVOTed
+# so a single value column carries every energy metric, keyed by measure_code.
+key: [country, year, measure_code]   # grain: one observation per country-year-measure
+temporal: year                       # integer observation year — declared so freshness is read
+columns:
+  - name: country
+    type: VARCHAR
+    description: Country or aggregate region name as labelled by the Energy Institute. Includes economic/geographic aggregates (e.g. "Total World", "OECD", "European Union", "Non-OPEC") alongside individual countries.
+  - name: year
+    type: INTEGER
+    description: Observation year, 1965 through the latest annual edition.
+  - name: iso3
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 country code. Aggregate/region rows carry an Energy Institute pseudo-code prefixed "O-" (e.g. O-NAM for North America) rather than a real ISO code.
+  - name: region
+    type: VARCHAR
+    description: Broad Energy Institute region grouping (Africa, Asia Pacific, CIS, Europe, Middle East, North America, S. & Cent. America). Null for global and cross-region aggregate rows.
+  - name: subregion
+    type: VARCHAR
+    description: Finer Energy Institute sub-region grouping (e.g. Western Africa, Caribbean). Null for global and cross-region aggregate rows.
+  - name: measure_code
+    type: VARCHAR
+    description: >-
+      Energy Institute measure identifier encoding both the quantity and its unit.
+      Suffixes give the unit: _ej exajoules, _twh terawatt-hours, _mt/_kt million/thousand
+      tonnes, _kbd/_kboed thousand barrels (of oil equivalent) per day, _bcm/_bcfd billion
+      cubic metres/feet per day, _mtco2 million tonnes CO2, _pct percent. Examples:
+      oilcons_ej (oil consumption), coalprod_mt (coal production), elect_twh (electricity
+      generation), solar_twh, co2_mtco2 (CO2 emissions), lithium_kt (mine production),
+      refcaputil_pct (refinery utilisation), pop (population, millions).
+  - name: value
+    type: DOUBLE
+    description: Observed value of measure_code for the country-year, in the unit encoded by the measure code suffix. Null observations are dropped.
