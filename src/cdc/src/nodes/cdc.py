@@ -21,9 +21,11 @@ from __future__ import annotations
 
 
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
     SqlNodeSpec,
     get_client,
+    raw_asset_exists,
     raw_writer,
     transient_retry,
 )
@@ -74,6 +76,36 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
+]
+
+# Freshness policy — also the intra-run resume mechanism.
+#
+# There is no portal-wide changed-since feed (research), and the Socrata bulk CSV
+# export exposes no reliable HEAD validator to diff against, so freshness is
+# age-based: a dataset already fetched within the window is treated as fresh and
+# skipped. The window doubles as the DAG's continuation-resume signal — the raw
+# manifest spans runs, so on a self-retriggered link every dataset fetched by an
+# earlier link of the SAME run (RUN_ID pinned) reads back as fresh and is skipped,
+# letting a sequential 654-dataset run accumulate progress across links instead of
+# restarting from scratch each invocation.
+#
+# 6 days sits just under the 7-day default refresh cadence: a scheduled weekly
+# re-run (new RUN_ID) sees the prior run's raw as ~7d old and re-pulls the whole
+# corpus, while any single run — even one that spans a day of continuation links —
+# always skips what it has already fetched. FORCE_REFRESH=1 bypasses all of this.
+_MAINTAIN_MAX_AGE_DAYS = 6
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=s.id,
+        description=(
+            "Full corpus re-pull on the 7-day default cadence (no source "
+            "changed-since feed); age-gated at 6 days, which also drives "
+            "within-run continuation resume."
+        ),
+        check=lambda aid: raw_asset_exists(aid, "csv.gz", max_age_days=_MAINTAIN_MAX_AGE_DAYS),
+    )
+    for s in DOWNLOAD_SPECS
 ]
 
 # One published Delta table per subset: a thin pass-through of the dataset CSV.
