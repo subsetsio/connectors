@@ -1,0 +1,43 @@
+spec_id: energy-institute-values
+status: active
+tests:
+  - not_null: Country
+    reason: every panel row is a country/region observation; Country is the primary dimension and can never be blank
+    certainty: 99
+  - not_null: Year
+    reason: the panel is country-year; every row is stamped with the observation year
+    certainty: 99
+  - column_type: {col: Year, type: integer}
+    reason: Year is parsed to int32 in the fetch schema; a float/string here means the header shifted or the parse broke
+    certainty: 95
+  - between: {col: Year, lo: 1965, hi: 2035}
+    reason: the Statistical Review series starts in 1965; the upper bound leaves generous slack for future editions
+    certainty: 95
+  - at_most: {col: Year, expr: current_year()}
+    reason: the annual edition reports history only, but future projections would reconcile rather than signal a bug
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - freshness: {col: Year, reaches: 2023}
+    reason: the latest edition carries data through the prior full year; a max Year stuck far below signals a stale pinned URL
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - unique: [Country, Year]
+    reason: the consolidated panel is exactly one row per country/region per year; dupes mean a re-pull without overwrite or a bad parse
+    certainty: 90
+  - row_count: {min: 5000}
+    reason: ~141 countries/regions x ~60 years is ~7.7k rows; far fewer means a truncated download or a Cloudflare challenge page slipped through
+    certainty: 85
+  - distinct_count: {col: Country, min: 100}
+    reason: the panel covers ~141 countries and regional aggregates; a collapse to a handful means the parse lost the dimension
+    certainty: 85
+    severity: warn
+  - not_null: Region
+    reason: every country/region row is assigned a Region grouping in the source panel
+    certainty: 85
+    severity: warn
+  - nullable: {col: ISO3166_alpha3, max_null_frac: 0.4}
+    reason: real countries carry an ISO3 code, but regional/economic aggregates (Total World, OPEC, European Union) legitimately have none; allow a large but bounded null share
+    certainty: 80
+    severity: warn
