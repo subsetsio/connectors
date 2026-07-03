@@ -1,0 +1,39 @@
+spec_id: zillow-rent
+status: active
+tests:
+  - not_null: region_id
+    certainty: 98
+  - column_type: {col: region_id, type: integer}
+    certainty: 95
+  - not_null: region_type
+    certainty: 98
+  - enum: {col: region_type, values: [Metro, State, County, City, Zip]}
+    reason: ZORI is published at these geography levels (note ZORI has no State file historically, but the enum lists all valid levels)
+    certainty: 88
+  - not_null: region_name
+    certainty: 95
+  - not_null: date
+    certainty: 98
+  - matches: {col: date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    certainty: 95
+  - not_null: metric
+    certainty: 98
+  - enum: {col: metric, values: [rent]}
+    reason: this theme fetches the single ZORI series
+    certainty: 98
+  - not_null: value
+    reason: the melt drops null observations
+    certainty: 98
+  - at_least: {col: value, expr: 0}
+    reason: ZORI is a dollar rent index; negatives are impossible
+    certainty: 97
+  - unique: [region_id, date, metric]
+    reason: one rent observation per region / month
+    certainty: 90
+  - median_between: {col: value, lo: 500, hi: 6000}
+    reason: US typical monthly rents run a few hundred to several thousand dollars
+    certainty: 70
+    severity: warn
+  - row_count: {min: 10000}
+    reason: one metric across several geographies x thousands of regions x ~120 monthly points
+    certainty: 85

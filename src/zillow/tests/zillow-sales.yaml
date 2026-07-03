@@ -1,0 +1,34 @@
+spec_id: zillow-sales
+status: active
+tests:
+  - not_null: region_id
+    certainty: 98
+  - column_type: {col: region_id, type: integer}
+    certainty: 95
+  - not_null: region_type
+    certainty: 98
+  - enum: {col: region_type, values: [Metro, State, County, City, Zip]}
+    certainty: 88
+  - not_null: region_name
+    certainty: 95
+  - not_null: date
+    certainty: 98
+  - matches: {col: date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    certainty: 95
+  - not_null: metric
+    certainty: 98
+  - enum: {col: metric, values: [median_list_price, median_sale_price, sales_count, pct_sold_above_list, pct_sold_below_list, days_to_pending, pct_price_cut]}
+    reason: the seven sales/listing series this theme fetches
+    certainty: 95
+  - not_null: value
+    reason: the melt drops null observations
+    certainty: 98
+  - at_least: {col: value, expr: 0}
+    reason: prices, counts, day-counts and percentages in this theme are all non-negative
+    certainty: 95
+  - unique: [region_id, date, metric]
+    reason: one observation per region / month / series
+    certainty: 90
+  - row_count: {min: 10000}
+    reason: seven metrics across several geographies x thousands of regions x monthly points
+    certainty: 85

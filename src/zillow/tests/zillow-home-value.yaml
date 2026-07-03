@@ -1,0 +1,42 @@
+spec_id: zillow-home-value
+status: active
+tests:
+  - not_null: region_id
+    reason: every Zillow research row carries a RegionID; a null means the id column moved or the melt lost it
+    certainty: 98
+  - column_type: {col: region_id, type: integer}
+    reason: RegionID is Zillow's integer region key, cast to int64 in the melt
+    certainty: 95
+  - not_null: region_type
+    certainty: 98
+  - enum: {col: region_type, values: [Metro, State, County, City, Zip]}
+    reason: ZHVI is published at these five geography levels only
+    certainty: 90
+  - not_null: region_name
+    certainty: 95
+  - not_null: date
+    certainty: 98
+  - matches: {col: date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: date columns are month-end YYYY-MM-DD headers from the wide CSV
+    certainty: 95
+  - not_null: metric
+    certainty: 98
+  - enum: {col: metric, values: [all_homes, single_family, condo, bed_1, bed_2, bed_3, bed_4, bed_5_plus, bottom_tier, top_tier]}
+    reason: the ten ZHVI variants this theme fetches
+    certainty: 95
+  - not_null: value
+    reason: the melt drops null observations, so surviving rows must have a value
+    certainty: 98
+  - at_least: {col: value, expr: 0}
+    reason: ZHVI is a dollar home-value index; negative values are impossible
+    certainty: 95
+  - unique: [region_id, date, metric]
+    reason: one home-value observation per region / month / metric variant
+    certainty: 90
+  - median_between: {col: value, lo: 50000, hi: 2000000}
+    reason: US typical home values run tens of thousands to low millions across regions and tiers
+    certainty: 65
+    severity: warn
+  - row_count: {min: 100000}
+    reason: ten metrics x five geographies x thousands of regions x ~300 monthly points is millions of long rows
+    certainty: 85
