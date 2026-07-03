@@ -1,6 +1,6 @@
 """Post-DAG health invariants — catch silent degradation (empty payloads,
 truncated downloads, format drift) that file-existence alone misses."""
-from subsets_utils import load_raw_parquet, list_raw_files
+from subsets_utils import load_raw_parquet
 
 
 def test_countries_nonempty(spec_ids):
@@ -19,17 +19,13 @@ def test_indicators_nonempty(spec_ids):
     assert table.column("id").null_count == 0, "indicators: null id present"
 
 
-def test_values_batches_nonempty(spec_ids):
-    """The firehose writes one parquet batch per chunk of indicators. At least
-    one batch must exist for this run and carry real, non-null observations."""
-    batches = list_raw_files("world-bank-values-*.parquet")
-    assert batches, "values: no batch parquet files were written"
-    total = 0
-    for rel in batches:
-        asset_id = rel[: -len(".parquet")]
-        table = load_raw_parquet(asset_id)
-        total += len(table)
-        assert table.column("value").null_count < len(table), (
-            f"values batch {asset_id}: every value is null"
-        )
-    assert total > 0, "values: all batches empty"
+def test_values_nonempty(spec_ids):
+    """The WDI bulk archive unpivots to millions of long-format observations.
+    A collapse to a handful means the bulk CSV changed shape, the ZIP member
+    was renamed, or the unpivot dropped everything."""
+    table = load_raw_parquet("world-bank-values")
+    assert len(table) >= 1_000_000, (
+        f"values: only {len(table)} rows (expected >=1,000,000)"
+    )
+    assert table.column("value").null_count == 0, "values: null value present"
+    assert table.column("indicator_code").null_count == 0, "values: null indicator_code"

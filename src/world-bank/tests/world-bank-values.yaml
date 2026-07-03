@@ -2,21 +2,27 @@ spec_id: world-bank-values
 status: active
 tests:
   - not_null: indicator_code
-    reason: every observation row is tied to the indicator it measures
+    reason: every observation row is tied to the WDI indicator it measures
     certainty: 95
-  - not_null: country_id
-    reason: every observation is reported for a country or aggregate
+  - not_null: country_code
+    reason: every observation is reported for a country or aggregate (World Bank 3-char code)
+    certainty: 95
+  - not_null: year
+    reason: every observation carries the year it was observed (unpivoted from the wide CSV's year columns)
+    certainty: 95
+  - not_null: value
+    reason: the unpivot drops empty/non-numeric cells, so every stored row carries a real numeric observation
     certainty: 95
   - column_type: {col: value, type: float}
-    reason: observations are numeric measures parsed to float
+    reason: observations are numeric measures cast to double
     certainty: 90
-  - column_type: {col: date, type: string}
-    reason: the API returns date as a period token (year, sometimes YYYYMmm/YYYYQq), stored raw as string
+  - column_type: {col: year, type: integer}
+    reason: year is the integer column header from the wide WDI CSV
     certainty: 90
-  - matches: {col: date, pattern: '^[0-9]{4}'}
-    reason: every observation period begins with a 4-digit year
-    certainty: 80
+  - between: {col: year, lo: 1960, hi: 2100}
+    reason: the WDI series begin in 1960; the upper bound guards against a malformed header column
+    certainty: 85
     severity: warn
-  - not_null: value
-    reason: the fetch drops null-value cells at the source, so every stored row carries a real observation
-    certainty: 90
+  - row_count: {min: 1000000}
+    reason: the WDI bulk archive unpivots to ~9M non-null observations across ~1,500 indicators and ~260 economies
+    certainty: 80
