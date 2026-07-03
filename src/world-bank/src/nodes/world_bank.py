@@ -97,9 +97,29 @@ _INDICATOR_SCHEMA = pa.schema([
 ])
 
 
+def _indicator_pref(row: dict) -> tuple:
+    """Ordering key for choosing a canonical row when an indicator code appears
+    in several databases: prefer WDI (source 2 — the flagship the `values` table
+    draws from), then the lowest source id, for a deterministic pick."""
+    sid = row.get("source_id") or ""
+    return (0 if sid == "2" else 1, sid)
+
+
 def fetch_indicators(node_id: str) -> None:
     asset = node_id
-    rows = _indicator_rows()
+    # The /indicator catalog lists an indicator once per database it belongs to,
+    # so a code can recur across sources (66 such codes as of 2026-07, e.g. the
+    # Food-Prices-for-Nutrition series shared with its archive). The published
+    # catalog is keyed on the indicator code, so collapse to one row per code.
+    best: dict[str, dict] = {}
+    for r in _indicator_rows():
+        rid = r.get("id")
+        if not rid:
+            continue
+        cur = best.get(rid)
+        if cur is None or _indicator_pref(r) < _indicator_pref(cur):
+            best[rid] = r
+    rows = sorted(best.values(), key=lambda r: r["id"])
     table = pa.Table.from_pylist(rows, schema=_INDICATOR_SCHEMA)
     save_raw_parquet(table, asset)
 
