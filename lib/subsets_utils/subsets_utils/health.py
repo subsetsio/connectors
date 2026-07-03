@@ -86,9 +86,15 @@ def run_health_tests(connector_root) -> None:
     if not tests_file.is_file():
         return
 
+    # Scope spec_ids to the stage the tests file targets: tests_download.py must
+    # only see download spec ids (its loaders read raw parquet — a transform id
+    # has no raw asset), tests_transform.py only transform ids. The dag carries
+    # every node regardless of target, so filter by the node's `kind`. This is
+    # the documented contract ("spec_ids = the download spec ids that ran").
+    want_kind = "transform" if target == "transform" else "download"
     spec_ids = [
         n.get("id") for n in (run.get("dag", {}).get("nodes") or [])
-        if isinstance(n, dict) and n.get("id")
+        if isinstance(n, dict) and n.get("id") and n.get("kind") == want_kind
     ]
     available = {"slug": os.environ.get("CONNECTOR_NAME", ""), "spec_ids": spec_ids}
     if target == "transform":
