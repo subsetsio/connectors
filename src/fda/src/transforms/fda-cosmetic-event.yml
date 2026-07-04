@@ -1,0 +1,22 @@
+# MoCRA/CAERS cosmetic adverse-event reports. Dropped: meddra_version (constant) and event_date (Excel-mangled free text like '01-Apr').
+key: [report_number]
+temporal: initial_received_date
+columns:
+  - name: report_number
+    type: BIGINT
+    description: Unique cosmetic adverse-event report number.
+  - name: report_type
+    type: VARCHAR
+    description: "Intake channel/era of the report: Direct, Pre-MoCRA, etc."
+  - name: report_version
+    type: INTEGER
+    description: Version of the report (resubmissions increment it).
+  - name: legacy_report_id
+    type: VARCHAR
+    description: Report id in the legacy CAERS system; empty for post-MoCRA reports (~40% missing).
+  - name: initial_received_date
+    type: DATE
+    description: Date FDA first received the report.
+  - name: latest_received_date
+    type: DATE
+    description: Date FDA received the most recent version of the report.

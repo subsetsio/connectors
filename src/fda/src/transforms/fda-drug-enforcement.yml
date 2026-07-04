@@ -1,0 +1,61 @@
+# Weekly FDA Enforcement Report recalls, drugs only (constant product_type dropped).
+key: [recall_number]
+temporal: report_date
+columns:
+  - name: recall_number
+    type: VARCHAR
+    description: "FDA recall number (unique per product-level enforcement report); kept verbatim (rare blank/'N/A' source values)."
+  - name: event_id
+    type: BIGINT
+    description: FDA recall event id; one event may span multiple products.
+  - name: status
+    type: VARCHAR
+    description: "Recall status: Ongoing, Completed, Terminated."
+  - name: classification
+    type: VARCHAR
+    description: "Hazard class: Class I (most serious) to Class III."
+  - name: recalling_firm
+    type: VARCHAR
+    description: Firm conducting the recall.
+  - name: product_description
+    type: VARCHAR
+    description: Description of the recalled product.
+  - name: product_quantity
+    type: VARCHAR
+    description: Free-text quantity of product in commerce (units vary).
+  - name: reason_for_recall
+    type: VARCHAR
+    description: Why the product was recalled.
+  - name: voluntary_mandated
+    type: VARCHAR
+    description: Whether the recall was firm-initiated (voluntary) or FDA-mandated.
+  - name: initial_firm_notification
+    type: VARCHAR
+    description: How customers were first notified (Letter, Press Release, Visit, ...).
+  - name: distribution_pattern
+    type: VARCHAR
+    description: Free-text geographic distribution of the product.
+  - name: recall_initiation_date
+    type: DATE
+    description: Date the firm initiated the recall (rare source typos parse to NULL).
+  - name: center_classification_date
+    type: DATE
+    description: Date the FDA center classified the recall.
+  - name: report_date
+    type: DATE
+    description: Date the recall entered the weekly FDA Enforcement Report.
+  - name: termination_date
+    type: DATE
+    description: Date FDA terminated the recall; NULL while open.
+  - name: city
+    type: VARCHAR
+    description: Recalling firm city.
+  - name: state
+    type: VARCHAR
+    description: Recalling firm US state; empty for foreign firms.
+  - name: country
+    type: VARCHAR
+    description: Recalling firm country.
+  - name: postal_code
+    type: VARCHAR
+    description: Recalling firm postal code.

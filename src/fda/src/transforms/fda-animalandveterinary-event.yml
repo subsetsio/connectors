@@ -1,0 +1,28 @@
+# CVM animal & veterinary adverse-event reports; constant foreign_or_domestic ('Domestic') dropped.
+key: [unique_aer_id_number]
+temporal: original_receive_date
+columns:
+  - name: unique_aer_id_number
+    type: VARCHAR
+    description: Unique adverse-event report identifier assigned by FDA CVM (e.g. USA-USFDACVM-2022-US-035916).
+  - name: report_id
+    type: VARCHAR
+    description: CVM internal report number; not unique across report versions.
+  - name: original_receive_date
+    type: DATE
+    description: Date FDA first received the report.
+  - name: onset_date
+    type: DATE
+    description: Date the adverse event began; ~10% missing and rare source typos parse to NULL.
+  - name: type_of_information
+    type: VARCHAR
+    description: "Report category, e.g. 'Adverse Event', 'Manufacturing/Product Defect', 'Safety Issue'."
+  - name: primary_reporter
+    type: VARCHAR
+    description: "Who filed the report: Animal Owner, Veterinarian, etc."
+  - name: number_of_animals_affected
+    type: BIGINT
+    description: Count of animals affected by the event as reported; missing on ~11% of reports.
+  - name: number_of_animals_treated
+    type: BIGINT
+    description: Count of animals treated with the product; missing on ~11% of reports.

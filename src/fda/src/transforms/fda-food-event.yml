@@ -1,0 +1,13 @@
+# CAERS food (and dietary supplement/cosmetic legacy) adverse-event reports.
+key: [report_number]
+temporal: date_created
+columns:
+  - name: report_number
+    type: VARCHAR
+    description: CAERS report number (unique).
+  - name: date_created
+    type: DATE
+    description: Date the report entered CAERS.
+  - name: date_started
+    type: DATE
+    description: Date the adverse event began; NULL on ~34% of reports.

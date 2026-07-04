@@ -1,0 +1,21 @@
+# GSRS substance registration records (UNII registry).
+key: [uuid]
+columns:
+  - name: uuid
+    type: VARCHAR
+    description: GSRS substance record UUID (unique).
+  - name: unii
+    type: VARCHAR
+    description: FDA Unique Ingredient Identifier (10-char); missing on ~3% of records.
+  - name: substance_class
+    type: VARCHAR
+    description: "Substance class: chemical, protein, mixture, polymer, structurallyDiverse, ..."
+  - name: definition_type
+    type: VARCHAR
+    description: PRIMARY or ALTERNATIVE definition.
+  - name: definition_level
+    type: VARCHAR
+    description: "Definition completeness: COMPLETE, INCOMPLETE, REPRESENTATIVE, ..."
+  - name: version
+    type: BIGINT
+    description: Record version number in GSRS.

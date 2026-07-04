@@ -1,0 +1,40 @@
+# Comprehensive NDC SPL Data Elements (NSDE): one row per package NDC.
+key: [package_ndc]
+temporal: marketing_start_date
+columns:
+  - name: package_ndc
+    type: VARCHAR
+    description: Package NDC in labeler-product-package form (unique).
+  - name: package_ndc11
+    type: VARCHAR
+    description: "11-character normalized package NDC (a few compounded-product codes carry letters or '*')."
+  - name: proprietary_name
+    type: VARCHAR
+    description: Proprietary (brand) name.
+  - name: dosage_form
+    type: VARCHAR
+    description: Dosage form.
+  - name: marketing_category
+    type: VARCHAR
+    description: Marketing category (NDA, ANDA, C/DAILY..., 62+ values incl. animal categories).
+  - name: application_number_or_citation
+    type: VARCHAR
+    description: Application number or monograph citation (~14% missing).
+  - name: product_type
+    type: VARCHAR
+    description: Product type (human/animal drug categories).
+  - name: billing_unit
+    type: VARCHAR
+    description: NCPDP billing unit (EA/GM/ML); populated on ~26% of rows.
+  - name: marketing_start_date
+    type: DATE
+    description: Marketing start date.
+  - name: marketing_end_date
+    type: DATE
+    description: Marketing end date, incl. announced future ends; NULL while open-ended.
+  - name: inactivation_date
+    type: DATE
+    description: Date the listing was inactivated, when it was.
+  - name: reactivation_date
+    type: DATE
+    description: Date an inactivated listing was reactivated, when it was.

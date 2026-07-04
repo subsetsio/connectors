@@ -1,0 +1,52 @@
+# Establishment registration x device listing; the source flattens one row per registration-listing-premarket link, with no natural unique key — published keyless.
+key: []
+temporal: reg_expiry_date_year
+columns:
+  - name: registration_number
+    type: VARCHAR
+    description: Establishment registration number.
+  - name: fei_number
+    type: VARCHAR
+    description: FDA Establishment Identifier.
+  - name: name
+    type: VARCHAR
+    description: Establishment name.
+  - name: status_code
+    type: INTEGER
+    description: Registration status code (1=active).
+  - name: initial_importer_flag
+    type: VARCHAR
+    description: "Y/N: establishment is an initial importer."
+  - name: reg_expiry_date_year
+    type: INTEGER
+    description: Year the registration expires; registrations renew annually, so this tracks the snapshot year.
+  - name: address_line_1
+    type: VARCHAR
+    description: Establishment street address.
+  - name: city
+    type: VARCHAR
+    description: Establishment city.
+  - name: state_code
+    type: VARCHAR
+    description: US state code; empty for foreign establishments.
+  - name: iso_country_code
+    type: VARCHAR
+    description: ISO country code.
+  - name: zip_code
+    type: VARCHAR
+    description: Postal code.
+  - name: owner_operator_firm_name
+    type: VARCHAR
+    description: Owner/operator firm of the establishment.
+  - name: k_number
+    type: VARCHAR
+    description: 510(k) number the listed device was cleared under, when any.
+  - name: pma_number
+    type: VARCHAR
+    description: PMA number the listed device was approved under, when any.
+  - name: establishment_type
+    type: VARCHAR
+    description: "Activity performed: Manufacture, Repack/Relabel, Sterilize, etc."
+  - name: proprietary_name
+    type: VARCHAR
+    description: Proprietary name of the listed device (first name when the source lists several).

@@ -1,0 +1,43 @@
+# Current and resolved drug shortages; a status log with no natural unique key (published keyless, exact duplicate source rows dropped). Dates arrive MM/DD/YYYY and are normalized to ISO by the fetch.
+key: []
+temporal: update_date
+columns:
+  - name: package_ndc
+    type: VARCHAR
+    description: Package NDC of the product in shortage.
+  - name: generic_name
+    type: VARCHAR
+    description: Generic name of the product.
+  - name: company_name
+    type: VARCHAR
+    description: Marketing firm.
+  - name: presentation
+    type: VARCHAR
+    description: Product presentation (strength, form, pack).
+  - name: status
+    type: VARCHAR
+    description: "Shortage status: Current, Resolved, or To Be Discontinued."
+  - name: update_type
+    type: VARCHAR
+    description: "Update type: New, Revised, or Reverified."
+  - name: therapeutic_category
+    type: VARCHAR
+    description: Therapeutic category.
+  - name: dosage_form
+    type: VARCHAR
+    description: Dosage form.
+  - name: initial_posting_date
+    type: DATE
+    description: Date the shortage was first posted.
+  - name: update_date
+    type: DATE
+    description: Date of the latest update to the record.
+  - name: discontinued_date
+    type: DATE
+    description: Announced discontinuation date; NULL for ~72% of rows.
+  - name: contact_info
+    type: VARCHAR
+    description: Company contact for availability questions.
+  - name: related_info
+    type: VARCHAR
+    description: Additional shortage notes.

@@ -1,0 +1,64 @@
+# Device recalls from the FDA Recall Enterprise System (RES).
+key: [product_res_number]
+temporal: event_date_posted
+columns:
+  - name: product_res_number
+    type: VARCHAR
+    description: RES product recall number (unique), e.g. Z-0842-2015.
+  - name: cfres_id
+    type: BIGINT
+    description: RES internal record id.
+  - name: res_event_number
+    type: BIGINT
+    description: RES recall event number; one event may span multiple products.
+  - name: recall_status
+    type: VARCHAR
+    description: Open, Classified, Completed, or Terminated.
+  - name: action
+    type: VARCHAR
+    description: Action taken by the firm (free text).
+  - name: product_code
+    type: VARCHAR
+    description: Three-letter FDA product classification code.
+  - name: product_description
+    type: VARCHAR
+    description: Description of the recalled device.
+  - name: product_quantity
+    type: VARCHAR
+    description: Free-text quantity in commerce (units vary).
+  - name: recalling_firm
+    type: VARCHAR
+    description: Firm conducting the recall.
+  - name: reason_for_recall
+    type: VARCHAR
+    description: Why the device was recalled.
+  - name: root_cause_description
+    type: VARCHAR
+    description: FDA-assigned root cause category.
+  - name: distribution_pattern
+    type: VARCHAR
+    description: Free-text geographic distribution.
+  - name: firm_fei_number
+    type: BIGINT
+    description: FDA Establishment Identifier of the recalling firm.
+  - name: event_date_created
+    type: DATE
+    description: Date the RES event record was created; populated on ~23% of rows.
+  - name: event_date_initiated
+    type: DATE
+    description: Date the firm initiated the recall (contains rare source typos, e.g. year 0010).
+  - name: event_date_posted
+    type: DATE
+    description: Date FDA posted the recall; NULL on ~23% of rows (pre-posting records).
+  - name: event_date_terminated
+    type: DATE
+    description: Date the recall was terminated; NULL while open.
+  - name: city
+    type: VARCHAR
+    description: Recalling firm city.
+  - name: state
+    type: VARCHAR
+    description: Recalling firm state/region.
+  - name: postal_code
+    type: VARCHAR
+    description: Recalling firm postal code.

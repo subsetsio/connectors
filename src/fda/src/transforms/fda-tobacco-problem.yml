@@ -1,0 +1,22 @@
+# Tobacco product problem reports (Safety Reporting Portal). date_submitted arrives MM/DD/YYYY and is normalized to ISO by the fetch.
+key: [report_id]
+temporal: date_submitted
+columns:
+  - name: report_id
+    type: BIGINT
+    description: Problem report id (unique).
+  - name: date_submitted
+    type: DATE
+    description: Date the report was submitted to FDA.
+  - name: nonuser_affected
+    type: VARCHAR
+    description: "Whether a non-user was affected: Yes / No / Neither / Unknown."
+  - name: number_tobacco_products
+    type: BIGINT
+    description: Count of tobacco products named in the report.
+  - name: number_health_problems
+    type: BIGINT
+    description: Count of health problems reported.
+  - name: number_product_problems
+    type: BIGINT
+    description: Count of product problems reported.

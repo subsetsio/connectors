@@ -1,0 +1,58 @@
+# Premarket approvals: one row per PMA original or supplement.
+key: [pma_number, supplement_number]
+temporal: decision_date
+columns:
+  - name: pma_number
+    type: VARCHAR
+    description: PMA application number (P/N/D/H prefix + digits).
+  - name: supplement_number
+    type: VARCHAR
+    description: Supplement number (e.g. S001); empty string for the original application (part of the key, kept verbatim).
+  - name: supplement_type
+    type: VARCHAR
+    description: "Supplement track, e.g. '30-Day Notice', 'Real-Time Process'."
+  - name: supplement_reason
+    type: VARCHAR
+    description: Why the supplement was filed.
+  - name: applicant
+    type: VARCHAR
+    description: Company holding the PMA.
+  - name: trade_name
+    type: VARCHAR
+    description: Device trade name.
+  - name: generic_name
+    type: VARCHAR
+    description: Device generic name.
+  - name: product_code
+    type: VARCHAR
+    description: Three-letter FDA product classification code.
+  - name: advisory_committee
+    type: VARCHAR
+    description: Medical specialty panel code.
+  - name: advisory_committee_description
+    type: VARCHAR
+    description: Advisory committee spelled out.
+  - name: decision_code
+    type: VARCHAR
+    description: FDA decision code (e.g. APPR, OK30).
+  - name: decision_date
+    type: DATE
+    description: Date of the FDA decision.
+  - name: date_received
+    type: DATE
+    description: Date FDA received the application.
+  - name: fed_reg_notice_date
+    type: DATE
+    description: Federal Register notice date; populated on ~3% of rows (older originals).
+  - name: expedited_review_flag
+    type: VARCHAR
+    description: "Y/N: expedited review granted."
+  - name: docket_number
+    type: VARCHAR
+    description: Federal Register docket number, when any.
+  - name: city
+    type: VARCHAR
+    description: Applicant city.
+  - name: state
+    type: VARCHAR
+    description: Applicant US state code; empty for foreign applicants.

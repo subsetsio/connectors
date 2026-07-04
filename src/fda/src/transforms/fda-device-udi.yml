@@ -1,0 +1,70 @@
+# GUDID unique device identification records (AccessGUDID full release). Constant record_status ('Published') dropped.
+key: [public_device_record_key]
+temporal: publish_date
+columns:
+  - name: public_device_record_key
+    type: VARCHAR
+    description: GUDID public device record key (UUID, unique).
+  - name: brand_name
+    type: VARCHAR
+    description: Device brand name.
+  - name: version_or_model_number
+    type: VARCHAR
+    description: Version or model number on the label.
+  - name: catalog_number
+    type: VARCHAR
+    description: Labeler catalog number (~42% missing).
+  - name: company_name
+    type: VARCHAR
+    description: Labeler company name.
+  - name: device_description
+    type: VARCHAR
+    description: Labeler description of the device.
+  - name: labeler_duns_number
+    type: VARCHAR
+    description: DUNS number of the labeler (9 digits, leading zeros meaningful).
+  - name: commercial_distribution_status
+    type: VARCHAR
+    description: In/Not in Commercial Distribution.
+  - name: commercial_distribution_end_date
+    type: DATE
+    description: Date distribution ended; source sentinel 9999-12-31 published as NULL.
+  - name: device_count_in_base_package
+    type: BIGINT
+    description: Number of devices in the base package.
+  - name: is_rx
+    type: BOOLEAN
+    description: Prescription-use device.
+  - name: is_otc
+    type: BOOLEAN
+    description: Over-the-counter device.
+  - name: is_kit
+    type: BOOLEAN
+    description: Device is a kit.
+  - name: is_combination_product
+    type: BOOLEAN
+    description: Device is a combination product.
+  - name: is_single_use
+    type: BOOLEAN
+    description: Single-use device.
+  - name: has_lot_or_batch_number
+    type: BOOLEAN
+    description: Label carries a lot/batch number.
+  - name: has_serial_number
+    type: BOOLEAN
+    description: Label carries a serial number.
+  - name: has_expiration_date
+    type: BOOLEAN
+    description: Label carries an expiration date.
+  - name: mri_safety
+    type: VARCHAR
+    description: MRI safety status (MR Safe / MR Conditional / MR Unsafe / labeling silent).
+  - name: publish_date
+    type: DATE
+    description: Date the record was published to AccessGUDID.
+  - name: public_version_number
+    type: BIGINT
+    description: Version number of the public record.
+  - name: public_version_date
+    type: DATE
+    description: Date of the current public record version.

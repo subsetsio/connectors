@@ -1,0 +1,46 @@
+# NDC Directory: one row per marketed drug product (product_id = NDC + SPL doc id).
+key: [product_id]
+temporal: marketing_start_date
+columns:
+  - name: product_id
+    type: VARCHAR
+    description: "Unique product id: product NDC + '_' + SPL document id."
+  - name: product_ndc
+    type: VARCHAR
+    description: Labeler-product NDC segment (4-5 + 3-4 digits).
+  - name: spl_id
+    type: VARCHAR
+    description: SPL document id the listing derives from.
+  - name: brand_name
+    type: VARCHAR
+    description: Brand name (~16% missing).
+  - name: brand_name_base
+    type: VARCHAR
+    description: Brand name without suffixes.
+  - name: generic_name
+    type: VARCHAR
+    description: Generic (non-proprietary) name.
+  - name: labeler_name
+    type: VARCHAR
+    description: Labeler firm name.
+  - name: product_type
+    type: VARCHAR
+    description: Product type (HUMAN PRESCRIPTION DRUG, HUMAN OTC DRUG, VACCINE, ...).
+  - name: dosage_form
+    type: VARCHAR
+    description: Dosage form (TABLET, INJECTION, ...).
+  - name: marketing_category
+    type: VARCHAR
+    description: Marketing category (NDA, ANDA, OTC MONOGRAPH, ...).
+  - name: application_number
+    type: VARCHAR
+    description: Application number or monograph citation backing the listing (~28% missing).
+  - name: marketing_start_date
+    type: DATE
+    description: Date marketing of the product started.
+  - name: listing_expiration_date
+    type: DATE
+    description: Date the listing expires unless renewed.
+  - name: finished
+    type: BOOLEAN
+    description: True for finished drug products, false for unfinished (API, bulk).

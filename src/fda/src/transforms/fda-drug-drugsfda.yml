@@ -1,0 +1,27 @@
+# Drugs@FDA approved drug applications; openfda-derived fields are first-listed values and missing where no openFDA match exists (~57%).
+key: [application_number]
+columns:
+  - name: application_number
+    type: VARCHAR
+    description: "Application number: NDA/ANDA/BLA + digits (unique)."
+  - name: sponsor_name
+    type: VARCHAR
+    description: Application sponsor.
+  - name: brand_name
+    type: VARCHAR
+    description: First openFDA-harmonized brand name.
+  - name: generic_name
+    type: VARCHAR
+    description: First openFDA-harmonized generic name.
+  - name: manufacturer_name
+    type: VARCHAR
+    description: First openFDA-harmonized manufacturer.
+  - name: product_type
+    type: VARCHAR
+    description: HUMAN PRESCRIPTION DRUG or HUMAN OTC DRUG.
+  - name: route
+    type: VARCHAR
+    description: First administration route (e.g. ORAL).
+  - name: substance_name
+    type: VARCHAR
+    description: First active substance name.

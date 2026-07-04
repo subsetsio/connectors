@@ -1,0 +1,48 @@
+# Device classification database: one row per FDA product code. Constant review_code ('') dropped.
+key: [product_code]
+columns:
+  - name: product_code
+    type: VARCHAR
+    description: Three-letter FDA product classification code (unique).
+  - name: device_name
+    type: VARCHAR
+    description: Generic device name for the product code.
+  - name: device_class
+    type: VARCHAR
+    description: "Regulatory class: 1, 2, 3, U (unclassified), N (not classified), f (HDE)."
+  - name: regulation_number
+    type: VARCHAR
+    description: 21 CFR regulation number, e.g. 892.8500; empty when none applies.
+  - name: medical_specialty
+    type: VARCHAR
+    description: Two-letter medical specialty panel code.
+  - name: medical_specialty_description
+    type: VARCHAR
+    description: Medical specialty spelled out.
+  - name: review_panel
+    type: VARCHAR
+    description: Review panel code.
+  - name: submission_type_id
+    type: VARCHAR
+    description: Code for the premarket submission type required (1=510(k), 2=PMA, ...).
+  - name: gmp_exempt_flag
+    type: VARCHAR
+    description: "Y/N: exempt from Good Manufacturing Practice requirements."
+  - name: implant_flag
+    type: VARCHAR
+    description: Y when the device is an implant.
+  - name: life_sustain_support_flag
+    type: VARCHAR
+    description: Y when the device is life-sustaining/life-supporting.
+  - name: third_party_flag
+    type: VARCHAR
+    description: Y when eligible for third-party 510(k) review.
+  - name: summary_malfunction_reporting
+    type: VARCHAR
+    description: Eligible/Ineligible for summary malfunction reporting.
+  - name: unclassified_reason
+    type: VARCHAR
+    description: Code for why a device is unclassified, when applicable.
+  - name: definition
+    type: VARCHAR
+    description: Free-text definition/scope of the product code.

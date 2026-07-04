@@ -1,0 +1,34 @@
+# Structured Product Labeling (SPL) index: one row per current label document; openfda fields missing where no match (~67%).
+key: [id]
+temporal: effective_time
+columns:
+  - name: id
+    type: VARCHAR
+    description: SPL document id (UUID, unique per label version).
+  - name: effective_time
+    type: DATE
+    description: Label effective date; a handful of source typos parse to NULL.
+  - name: spl_set_id
+    type: VARCHAR
+    description: SPL set id constant across versions of the same label.
+  - name: brand_name
+    type: VARCHAR
+    description: First openFDA-harmonized brand name.
+  - name: generic_name
+    type: VARCHAR
+    description: First openFDA-harmonized generic name.
+  - name: manufacturer_name
+    type: VARCHAR
+    description: First openFDA-harmonized manufacturer/labeler.
+  - name: product_type
+    type: VARCHAR
+    description: HUMAN PRESCRIPTION DRUG / HUMAN OTC DRUG / other.
+  - name: route
+    type: VARCHAR
+    description: First administration route.
+  - name: substance_name
+    type: VARCHAR
+    description: First active substance name.
+  - name: product_ndc
+    type: VARCHAR
+    description: First product NDC on the label.

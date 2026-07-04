@@ -1,0 +1,58 @@
+# 510(k) premarket notifications (device clearances).
+key: [k_number]
+temporal: decision_date
+columns:
+  - name: k_number
+    type: VARCHAR
+    description: "510(k) submission number: K/BK + 6 digits, or DEN + 6 digits for De Novo requests."
+  - name: applicant
+    type: VARCHAR
+    description: Company that submitted the 510(k).
+  - name: device_name
+    type: VARCHAR
+    description: Device trade/proprietary name on the submission.
+  - name: product_code
+    type: VARCHAR
+    description: Three-letter FDA product classification code.
+  - name: clearance_type
+    type: VARCHAR
+    description: "Review track: Traditional, Special, Abbreviated, etc."
+  - name: decision_code
+    type: VARCHAR
+    description: FDA decision code (e.g. SESE, DENG).
+  - name: decision_description
+    type: VARCHAR
+    description: "Decision spelled out, e.g. 'Substantially Equivalent'."
+  - name: decision_date
+    type: DATE
+    description: Date of the FDA decision.
+  - name: date_received
+    type: DATE
+    description: Date FDA received the submission.
+  - name: advisory_committee
+    type: VARCHAR
+    description: Two-letter medical specialty panel code assigned to the device.
+  - name: advisory_committee_description
+    type: VARCHAR
+    description: Advisory committee spelled out (e.g. Cardiovascular).
+  - name: review_advisory_committee
+    type: VARCHAR
+    description: Panel code of the committee that reviewed the submission.
+  - name: expedited_review_flag
+    type: VARCHAR
+    description: Y when the submission had expedited review; empty otherwise (published as NULL).
+  - name: third_party_flag
+    type: VARCHAR
+    description: "Y/N: reviewed by an accredited third party."
+  - name: city
+    type: VARCHAR
+    description: Applicant city.
+  - name: state
+    type: VARCHAR
+    description: Applicant US state code; empty for foreign applicants.
+  - name: country_code
+    type: VARCHAR
+    description: Applicant ISO country code.
+  - name: postal_code
+    type: VARCHAR
+    description: Applicant postal code.

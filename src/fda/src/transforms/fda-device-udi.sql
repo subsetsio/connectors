@@ -1,0 +1,25 @@
+-- fda-device-udi: GUDID unique device identification records (AccessGUDID full release). Constant record_status ('Published') dropped.
+SELECT
+    "public_device_record_key" AS public_device_record_key,
+    NULLIF(trim("brand_name"), '') AS brand_name,
+    NULLIF(trim("version_or_model_number"), '') AS version_or_model_number,
+    NULLIF(trim("catalog_number"), '') AS catalog_number,
+    "company_name" AS company_name,
+    NULLIF(trim("device_description"), '') AS device_description,
+    "labeler_duns_number" AS labeler_duns_number,
+    "commercial_distribution_status" AS commercial_distribution_status,
+    TRY_CAST(NULLIF("commercial_distribution_end_date", '9999-12-31') AS DATE) AS commercial_distribution_end_date,
+    TRY_CAST(TRY_CAST("device_count_in_base_package" AS DOUBLE) AS BIGINT) AS device_count_in_base_package,
+    TRY_CAST("is_rx" AS BOOLEAN) AS is_rx,
+    TRY_CAST("is_otc" AS BOOLEAN) AS is_otc,
+    TRY_CAST("is_kit" AS BOOLEAN) AS is_kit,
+    TRY_CAST("is_combination_product" AS BOOLEAN) AS is_combination_product,
+    TRY_CAST("is_single_use" AS BOOLEAN) AS is_single_use,
+    TRY_CAST("has_lot_or_batch_number" AS BOOLEAN) AS has_lot_or_batch_number,
+    TRY_CAST("has_serial_number" AS BOOLEAN) AS has_serial_number,
+    TRY_CAST("has_expiration_date" AS BOOLEAN) AS has_expiration_date,
+    "mri_safety" AS mri_safety,
+    TRY_CAST("publish_date" AS DATE) AS publish_date,
+    TRY_CAST(TRY_CAST("public_version_number" AS DOUBLE) AS BIGINT) AS public_version_number,
+    TRY_CAST("public_version_date" AS DATE) AS public_version_date
+FROM "fda-device-udi"
