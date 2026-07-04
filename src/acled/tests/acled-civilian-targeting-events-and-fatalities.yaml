@@ -35,3 +35,10 @@ tests:
     reason: ACLED publishes ~243 countries/territories in the global thematic file
     certainty: 80
     severity: warn
+  - freshness: {col: year, reaches: current_year()}
+    reason: ACLED refreshes the global files weekly and the latest completed
+      year is always present; the raw's only orderable temporal column is the
+      integer year (month is an English name string), so freshness is asserted
+      on year. Published tables carry a first-of-month date derived from month+year.
+    points_outward: true
+    certainty: 85
