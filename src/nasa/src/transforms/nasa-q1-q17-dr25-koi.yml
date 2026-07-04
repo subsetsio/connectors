@@ -1,0 +1,386 @@
+# Kepler Q1-Q17 DR25 KOI delivery: one row per KOI (verified unique). Frozen 2017 data release.
+# curation: dropped 24 all-null, 0 *_reflink (HTML), 0 *_solnid, 2 '*str' display-dup columns.
+key: [kepoi_name]
+temporal: koi_vet_date
+columns:
+  - name: kepid
+    type: BIGINT
+    description: "KIC Identification Number"
+  - name: kepoi_name
+    type: VARCHAR
+    description: "Kepler Object of Interest Name"
+  - name: kepler_name
+    type: VARCHAR
+    description: "Kepler Name (confirmed planet)"
+  - name: ra
+    type: DOUBLE
+    description: "RA Value [decimal degrees]"
+  - name: ra_err
+    type: DOUBLE
+    description: "RA Uncertainty [decimal degrees]"
+  - name: dec
+    type: DOUBLE
+    description: "Dec Value [decimal degrees]"
+  - name: dec_err
+    type: DOUBLE
+    description: "Dec Uncertainty [decimal degrees]"
+  - name: koi_gmag
+    type: DOUBLE
+    description: "Stellar g (Sloan) Magnitude Value [mags]"
+  - name: koi_rmag
+    type: DOUBLE
+    description: "Stellar r (Sloan) Magnitude Value [mags]"
+  - name: koi_imag
+    type: DOUBLE
+    description: "Stellar i (Sloan) Magnitude Value [mags]"
+  - name: koi_zmag
+    type: DOUBLE
+    description: "Stellar z (Sloan) Magnitude Value [mags]"
+  - name: koi_jmag
+    type: DOUBLE
+    description: "Stellar J (2MASS) Magnitude Value [mags]"
+  - name: koi_jmag_err
+    type: DOUBLE
+    description: "Stellar J (2MASS) Magnitude Uncertainty [mags]"
+  - name: koi_hmag
+    type: DOUBLE
+    description: "Stellar H (2MASS) Magnitude Value [mags]"
+  - name: koi_hmag_err
+    type: DOUBLE
+    description: "Stellar H (2MASS) Magnitude Uncertainty [mags]"
+  - name: koi_kmag
+    type: DOUBLE
+    description: "Stellar K (2MASS) Magnitude Value [mags]"
+  - name: koi_kmag_err
+    type: DOUBLE
+    description: "Stellar K (2MASS) Magnitude Uncertainty [mags]"
+  - name: koi_kepmag
+    type: DOUBLE
+    description: "Stellar Kepler-band Magnitude Value [mags]"
+  - name: koi_delivname
+    type: VARCHAR
+    description: "Delivery Name"
+  - name: koi_vet_stat
+    type: VARCHAR
+    description: "Delivery Vetting Status"
+  - name: koi_quarters
+    type: VARCHAR
+    description: "Bit of Quarters"
+  - name: koi_disposition
+    type: VARCHAR
+    description: "Exoplanet Archive Disposition"
+  - name: koi_pdisposition
+    type: VARCHAR
+    description: "Disposition using Kepler Data"
+  - name: koi_count
+    type: BIGINT
+    description: "Number of KOIs Identified in the System"
+  - name: koi_num_transits
+    type: BIGINT
+    description: "Number of Transits Detected"
+  - name: koi_max_sngle_ev
+    type: DOUBLE
+    description: "Single Event Statistics"
+  - name: koi_max_mult_ev
+    type: DOUBLE
+    description: "Multiple Event Statistics"
+  - name: koi_bin_oedp_sig
+    type: DOUBLE
+    description: "Binary Discrimination odd-even Depth Significance"
+  - name: koi_limbdark_mod
+    type: VARCHAR
+    description: "Limb Darkening Model Name"
+  - name: koi_ldm_coeff4
+    type: DOUBLE
+    description: "Limb Darkening Coefficient 4"
+  - name: koi_ldm_coeff3
+    type: DOUBLE
+    description: "Limb Darkening Coefficient 3"
+  - name: koi_ldm_coeff2
+    type: DOUBLE
+    description: "Limb Darkening Coefficient 2"
+  - name: koi_ldm_coeff1
+    type: DOUBLE
+    description: "Limb Darkening Coefficient 1"
+  - name: koi_trans_mod
+    type: VARCHAR
+    description: "Transit Model Name"
+  - name: koi_model_snr
+    type: DOUBLE
+    description: "Model Signal to Noise Ratio"
+  - name: koi_time0bk
+    type: DOUBLE
+    description: "Time to First Transit Value [BKJD=BJD-2454833]"
+  - name: koi_time0bk_err1
+    type: DOUBLE
+    description: "Time to First Transit Upper Uncertainty [BKJD]"
+  - name: koi_time0bk_err2
+    type: DOUBLE
+    description: "Time to First Transit Lower Uncertainty [BKJD]"
+  - name: koi_eccen
+    type: DOUBLE
+    description: "Eccentricity Value"
+  - name: koi_prad
+    type: DOUBLE
+    description: "Planet Radius Value [Earth radii] [Rearth]"
+  - name: koi_prad_err1
+    type: DOUBLE
+    description: "Planet Radius Upper Uncertainty [Earth radii] [Rearth]"
+  - name: koi_prad_err2
+    type: DOUBLE
+    description: "Planet Radius Lower Uncertainty [Earth radii] [Rearth]"
+  - name: koi_sma
+    type: DOUBLE
+    description: "Semi-Major Axis Value [AU]"
+  - name: koi_impact
+    type: DOUBLE
+    description: "Minimun Impact Parameter Value"
+  - name: koi_impact_err1
+    type: DOUBLE
+    description: "Minimun Impact Parameter Upper Uncertainty"
+  - name: koi_impact_err2
+    type: DOUBLE
+    description: "Minimun Impact Parameter Lower Uncertainty"
+  - name: koi_duration
+    type: DOUBLE
+    description: "Transit Duration Value [hours]"
+  - name: koi_duration_err1
+    type: DOUBLE
+    description: "Transit Duration Upper Uncertainty [hours]"
+  - name: koi_duration_err2
+    type: DOUBLE
+    description: "Transit Duration Lower Uncertainty [hours]"
+  - name: koi_depth
+    type: DOUBLE
+    description: "Transit Depth Value [ppm]"
+  - name: koi_depth_err1
+    type: DOUBLE
+    description: "Transit Depth Upper Uncertainty [ppm]"
+  - name: koi_depth_err2
+    type: DOUBLE
+    description: "Transit Depth Lower Uncertainty [ppm]"
+  - name: koi_period
+    type: DOUBLE
+    description: "Transit Period Value [days]"
+  - name: koi_period_err1
+    type: DOUBLE
+    description: "Transit Period Upper Uncertainty [days]"
+  - name: koi_period_err2
+    type: DOUBLE
+    description: "Transit Period Lower Uncertainty [days]"
+  - name: koi_ror
+    type: DOUBLE
+    description: "Planet-Star Radius Ratio Value"
+  - name: koi_ror_err1
+    type: DOUBLE
+    description: "Planet-Star Radius Ratio Upper Uncertainty"
+  - name: koi_ror_err2
+    type: DOUBLE
+    description: "Planet-Star Radius Ratio Lower Uncertainty"
+  - name: koi_dor
+    type: DOUBLE
+    description: "Planet-Star Distance over Star Radius Value"
+  - name: koi_dor_err1
+    type: DOUBLE
+    description: "Planet-Star Distance over Star Radius Upper Uncertainty"
+  - name: koi_dor_err2
+    type: DOUBLE
+    description: "Planet-Star Distance over Star Radius Lower Uncertainty"
+  - name: koi_incl
+    type: DOUBLE
+    description: "Orbital Inclination Value [deg]"
+  - name: koi_teq
+    type: DOUBLE
+    description: "Equilibrium Temperature Value [K]"
+  - name: koi_steff
+    type: DOUBLE
+    description: "Stellar Effective Temperature Value [K]"
+  - name: koi_steff_err1
+    type: DOUBLE
+    description: "Stellar Effective Temperature Upper Uncertainty [K]"
+  - name: koi_steff_err2
+    type: DOUBLE
+    description: "Stellar Effective Temperature Lower Uncertainty [K]"
+  - name: koi_slogg
+    type: DOUBLE
+    description: "Stellar Surface Gravity Value [log10(cm/s**2)]"
+  - name: koi_slogg_err1
+    type: DOUBLE
+    description: "Stellar Surface Gravity Upper Uncertainty [log10(cm/s**2)]"
+  - name: koi_slogg_err2
+    type: DOUBLE
+    description: "Stellar Surface Gravity Lower Uncertainty [log10(cm/s**2)]"
+  - name: koi_smet
+    type: DOUBLE
+    description: "Stellar Metallicity Value [dex]"
+  - name: koi_smet_err1
+    type: DOUBLE
+    description: "Stellar Metallicity Upper Uncertainty [dex]"
+  - name: koi_smet_err2
+    type: DOUBLE
+    description: "Stellar Metallicity Lower Uncertainty [dex]"
+  - name: koi_srad
+    type: DOUBLE
+    description: "Stellar Radius Value [Solar radii] [Rsun]"
+  - name: koi_srad_err1
+    type: DOUBLE
+    description: "Stellar Radius Upper Uncertainty [Solar radii] [Rsun]"
+  - name: koi_srad_err2
+    type: DOUBLE
+    description: "Stellar Radius Lower Uncertainty [Solar radii] [Rsun]"
+  - name: koi_smass
+    type: DOUBLE
+    description: "Stellar Mass Value [Solar mass] [Msun]"
+  - name: koi_smass_err1
+    type: DOUBLE
+    description: "Stellar Mass Upper Uncertainty [Solar mass] [Msun]"
+  - name: koi_smass_err2
+    type: DOUBLE
+    description: "Stellar Mass Lower Uncertainty [Solar mass] [Msun]"
+  - name: koi_sparprov
+    type: VARCHAR
+    description: "Stellar Parameters Provenance"
+  - name: koi_fwm_stat_sig
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Statistic Significance"
+  - name: koi_fwm_sra
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion of Source in RA Value"
+  - name: koi_fwm_sra_err
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion of Source in RA Uncertainty"
+  - name: koi_fwm_sdec
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion of Source in Dec Value"
+  - name: koi_fwm_sdec_err
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion of Source in Dec Uncertainty"
+  - name: koi_fwm_srao
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Source Offset in RA Value"
+  - name: koi_fwm_srao_err
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Source Offset in RA Uncertainty"
+  - name: koi_fwm_sdeco
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Source Offset in Dec Value"
+  - name: koi_fwm_sdeco_err
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Source Offset in Dec Uncertainty"
+  - name: koi_fwm_prao
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Peak Offset in RA Value"
+  - name: koi_fwm_prao_err
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Peak Offset in RA Uncertainty"
+  - name: koi_fwm_pdeco
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Peak Offset in Dec Value"
+  - name: koi_fwm_pdeco_err
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Peak Offset in Dec Uncertainty"
+  - name: koi_dicco_mra
+    type: DOUBLE
+    description: "Diff Image Control Centroid Single Fit Offset in RA Value"
+  - name: koi_dicco_mra_err
+    type: DOUBLE
+    description: "Diff Image Control Centroid Single Fit Offset in RA Uncertainty"
+  - name: koi_dicco_mdec
+    type: DOUBLE
+    description: "Diff Image Control Centroid Single Fit Offset in Dec Value"
+  - name: koi_dicco_mdec_err
+    type: DOUBLE
+    description: "Diff Image Control Centroid Single Fit Offset in Dec Uncertainty"
+  - name: koi_dicco_msky
+    type: DOUBLE
+    description: "Diff Image Control Centroid Single Fit Offset in Sky Value"
+  - name: koi_dicco_msky_err
+    type: DOUBLE
+    description: "Diff Image Control Centroid Single Fit Offset in Sky Uncertainty"
+  - name: koi_dikco_mra
+    type: DOUBLE
+    description: "Diff Image KIC Centroid Single Fit Offset in RA Value"
+  - name: koi_dikco_mra_err
+    type: DOUBLE
+    description: "Diff Image KIC Centroid Single Fit Offset in RA Uncertainty"
+  - name: koi_dikco_mdec
+    type: DOUBLE
+    description: "Diff Image KIC Centroid Single Fit Offset in Dec Value"
+  - name: koi_dikco_mdec_err
+    type: DOUBLE
+    description: "Diff Image KIC Centroid Single Fit Offset in Dec Uncertainty"
+  - name: koi_dikco_msky
+    type: DOUBLE
+    description: "Diff Image KIC Centroid Single Fit Offset in Sky Value"
+  - name: koi_dikco_msky_err
+    type: DOUBLE
+    description: "Diff Image KIC Centroid Single Fit Offset in Sky Uncertainty"
+  - name: koi_comment
+    type: VARCHAR
+    description: "Comment"
+  - name: koi_vet_date
+    type: VARCHAR
+    description: "Vetting Status Date"
+  - name: koi_tce_plnt_num
+    type: BIGINT
+    description: "TCE Planet Number"
+  - name: koi_tce_delivname
+    type: VARCHAR
+    description: "TCE Delivery Name"
+  - name: koi_datalink_dvs
+    type: VARCHAR
+    description: "Link to DVS file"
+  - name: koi_disp_prov
+    type: VARCHAR
+    description: "Disposition Provenance"
+  - name: koi_parm_prov
+    type: VARCHAR
+    description: "KOI Parameter Provenance"
+  - name: koi_time0
+    type: DOUBLE
+    description: "Time to First Transit Value [BJD]"
+  - name: koi_time0_err1
+    type: DOUBLE
+    description: "Time to First Transit Upper Uncertainty [BJD]"
+  - name: koi_time0_err2
+    type: DOUBLE
+    description: "Time to First Transit Lower Uncertainty [BJD]"
+  - name: koi_datalink_dvr
+    type: VARCHAR
+    description: "Link to DVR file"
+  - name: koi_fpflag_nt
+    type: BIGINT
+    description: "Non-transit Like False Positive Flag"
+  - name: koi_fpflag_ss
+    type: BIGINT
+    description: "Significant Secondary False Positive Flag"
+  - name: koi_fpflag_co
+    type: BIGINT
+    description: "Centroid Offset False Positive Flag"
+  - name: koi_fpflag_ec
+    type: BIGINT
+    description: "Ephemeris Match Indicates Contamination False Positive Flag"
+  - name: koi_insol
+    type: DOUBLE
+    description: "Insolation Flux Value [Earth flux]"
+  - name: koi_insol_err1
+    type: DOUBLE
+    description: "Insolation Flux Upper Uncertainty [Earth flux]"
+  - name: koi_insol_err2
+    type: DOUBLE
+    description: "Insolation Flux Lower Uncertainty [Earth flux]"
+  - name: koi_srho
+    type: DOUBLE
+    description: "Fitted Stellar Density Value [g/cm*3]"
+  - name: koi_srho_err1
+    type: DOUBLE
+    description: "Fitted Stellar Density Upper Uncertainty [g/cm*3]"
+  - name: koi_srho_err2
+    type: DOUBLE
+    description: "Fitted Stellar Density Lower Uncertainty [g/cm*3]"
+  - name: koi_fittype
+    type: VARCHAR
+    description: "Planetary Fit Type (LS, MCMC, DV, none, etc.)"
+  - name: koi_score
+    type: DOUBLE
+    description: "Kepler Object of Interest Score"

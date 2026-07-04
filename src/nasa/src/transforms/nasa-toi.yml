@@ -1,0 +1,227 @@
+# TESS Objects of Interest: one row per TOI number (verified unique).
+# curation: dropped 15 all-null, 0 *_reflink (HTML), 0 *_solnid, 2 '*str' display-dup columns.
+key: [toi]
+temporal: rowupdate
+columns:
+  - name: tid
+    type: BIGINT
+    description: "TESS Input Catalog Identifier (TIC ID)"
+  - name: toi
+    type: VARCHAR
+    description: "TESS Object of Interest Identifier (TOI nnn.xx)"
+  - name: toidisplay
+    type: VARCHAR
+    description: "toidisplay"
+  - name: toipfx
+    type: VARCHAR
+    description: "TESS Object of Interest Prefix (Stellar Portion of TOI Name)"
+  - name: ctoi_alias
+    type: VARCHAR
+    description: "Community TESS Object of Interest Alias"
+  - name: pl_pnum
+    type: BIGINT
+    description: "Number of Planets"
+  - name: tfopwg_disp
+    type: VARCHAR
+    description: "TFOPWG Disposition"
+  - name: st_tmag
+    type: DOUBLE
+    description: "Stellar TESS Magnitude Value"
+  - name: st_tmagerr1
+    type: DOUBLE
+    description: "Stellar TESS Magnitude Upper Uncertainty"
+  - name: st_tmagerr2
+    type: DOUBLE
+    description: "Stellar TESS Magnitude Lower Uncertainty"
+  - name: st_tmagsymerr
+    type: BIGINT
+    description: "Stellar TESS Magnitude Symmetric Error Flag"
+  - name: st_tmaglim
+    type: BIGINT
+    description: "Stellar TESS Magnitude Limit Flag"
+  - name: ra
+    type: DOUBLE
+    description: "Right Ascension (J2000) Value [deg]"
+  - name: dec
+    type: DOUBLE
+    description: "Declination (J2000) Value [deg]"
+  - name: st_pmra
+    type: DOUBLE
+    description: "Stellar Proper Motion in Right Ascension Value [mas/yr]"
+  - name: st_pmraerr1
+    type: DOUBLE
+    description: "Stellar Proper Motion in Right Ascension Upper Uncertainty [mas/yr]"
+  - name: st_pmraerr2
+    type: DOUBLE
+    description: "Stellar Proper Motion in Right Ascension Lower Uncertainty [mas/yr]"
+  - name: st_pmrasymerr
+    type: BIGINT
+    description: "Stellar Proper Motion in Right Ascension Symmetric Error Flag"
+  - name: st_pmralim
+    type: BIGINT
+    description: "stellar proper motion in right ascension limit flag"
+  - name: st_pmdec
+    type: DOUBLE
+    description: "Stellar Proper Motion in Declination Value [mas/yr]"
+  - name: st_pmdecerr1
+    type: DOUBLE
+    description: "Stellar Proper Motion in Declination Upper Uncertainty [mas/yr]"
+  - name: st_pmdecerr2
+    type: DOUBLE
+    description: "Stellar Proper Motion in Declination Lower Uncertainty [mas/yr]"
+  - name: st_pmdecsymerr
+    type: BIGINT
+    description: "Stellar Proper Motion in Declination Symmetric Error Flag"
+  - name: st_pmdeclim
+    type: BIGINT
+    description: "Stellar Proper Motion in Declination Limit Flag"
+  - name: pl_tranmid
+    type: DOUBLE
+    description: "Planet Transit Midpoint Value [BJD]"
+  - name: pl_tranmiderr1
+    type: DOUBLE
+    description: "Planet Transit Midpoint Upper Uncertainty [BJD]"
+  - name: pl_tranmiderr2
+    type: DOUBLE
+    description: "Planit Transit Midpoint Lower Uncertainty [BJD]"
+  - name: pl_tranmidsymerr
+    type: BIGINT
+    description: "Planet Transit Midpoint Symmetric Error Flag"
+  - name: pl_tranmidlim
+    type: BIGINT
+    description: "Planet Transit Midpoint Limit Flag"
+  - name: pl_orbper
+    type: DOUBLE
+    description: "Planet Orbital Period Value [days]"
+  - name: pl_orbpererr1
+    type: DOUBLE
+    description: "Planet Orbital Period Upper Uncertainty [days]"
+  - name: pl_orbpererr2
+    type: DOUBLE
+    description: "Planet Orbital Period Lower Uncertainty [days]"
+  - name: pl_orbpersymerr
+    type: BIGINT
+    description: "Planet Orbital Period Symmetric Error Flag"
+  - name: pl_orbperlim
+    type: BIGINT
+    description: "Planet Orbital Period Limit Flag"
+  - name: pl_trandurh
+    type: DOUBLE
+    description: "Planet Transit Duration Value [hours]"
+  - name: pl_trandurherr1
+    type: DOUBLE
+    description: "Planet Transit Duration Upper Uncertainty [hours]"
+  - name: pl_trandurherr2
+    type: DOUBLE
+    description: "Planet Transit Duration Lower Uncertainty [hours]"
+  - name: pl_trandurhsymerr
+    type: BIGINT
+    description: "Planet Transit Duration Symmetric Error Flag"
+  - name: pl_trandurhlim
+    type: BIGINT
+    description: "Planet Transit Duration Limit Flag"
+  - name: pl_trandep
+    type: DOUBLE
+    description: "Planet Transit Depth Value [ppm]"
+  - name: pl_trandeperr1
+    type: DOUBLE
+    description: "Planet Transit Depth Upper Uncertainty [ppm]"
+  - name: pl_trandeperr2
+    type: DOUBLE
+    description: "Planet Transit Depth Lower Uncertainty [ppm]"
+  - name: pl_trandepsymerr
+    type: BIGINT
+    description: "Planet Transit Depth Symmetric Error Flag"
+  - name: pl_trandeplim
+    type: BIGINT
+    description: "Planet Transit Depth Limit Flag"
+  - name: pl_rade
+    type: DOUBLE
+    description: "Planet Radius Value [R_Earth]"
+  - name: pl_radeerr1
+    type: DOUBLE
+    description: "Planet Radius Upper Uncertainty [R_Earth]"
+  - name: pl_radeerr2
+    type: DOUBLE
+    description: "Planet Radius Lower Uncertainty [R_Earth]"
+  - name: pl_radesymerr
+    type: BIGINT
+    description: "Planet Radius Symmetric Error Flag"
+  - name: pl_radelim
+    type: BIGINT
+    description: "Planet Radius Limit Flag"
+  - name: pl_insol
+    type: DOUBLE
+    description: "Planet Insolation Value [Earth flux]"
+  - name: pl_eqt
+    type: DOUBLE
+    description: "Planet Equilibrium Temperature Value [K]"
+  - name: st_dist
+    type: DOUBLE
+    description: "Stellar Distance Value [pc]"
+  - name: st_disterr1
+    type: DOUBLE
+    description: "Stellar Distance Upper Uncertainty [pc]"
+  - name: st_disterr2
+    type: DOUBLE
+    description: "Stellar Distance Lower Uncertainty [pc]"
+  - name: st_distsymerr
+    type: BIGINT
+    description: "Stellar Distance Symmetric Error Flag"
+  - name: st_distlim
+    type: BIGINT
+    description: "Stellar Distance Limit Flag"
+  - name: st_teff
+    type: DOUBLE
+    description: "Stellar Effective Temperature Value [K]"
+  - name: st_tefferr1
+    type: DOUBLE
+    description: "Stellar Effective Termperature Upper Uncertainty [K]"
+  - name: st_tefferr2
+    type: DOUBLE
+    description: "Stellar Effecitve Temperature Lower Uncertainty [K]"
+  - name: st_teffsymerr
+    type: BIGINT
+    description: "Stellar Effective Temperature Symmetric Error Flag"
+  - name: st_tefflim
+    type: BIGINT
+    description: "Stellar Effective Temperature Limit Flag"
+  - name: st_logg
+    type: DOUBLE
+    description: "Stellar log(g) Value [cm/s**2]"
+  - name: st_loggerr1
+    type: DOUBLE
+    description: "Stellar log(g) Upper Uncertanty [cm/s**2]"
+  - name: st_loggerr2
+    type: DOUBLE
+    description: "Stellar log(g) Lower Uncertainty [cm/s**2]"
+  - name: st_loggsymerr
+    type: BIGINT
+    description: "Stellar log(g) Symmetric Error Flag"
+  - name: st_logglim
+    type: BIGINT
+    description: "Stellar log(g) Limit Flag"
+  - name: st_rad
+    type: DOUBLE
+    description: "Stellar Radius Value [R_Sun]"
+  - name: st_raderr1
+    type: DOUBLE
+    description: "Stellar Radius Upper Uncertainty [R_Sun]"
+  - name: st_raderr2
+    type: DOUBLE
+    description: "Stellar Radius Lower Uncertainty [R_Sun]"
+  - name: st_radsymerr
+    type: BIGINT
+    description: "Stellar Radius Symmetric Error Flag"
+  - name: st_radlim
+    type: BIGINT
+    description: "Stellar Radius Limit Flag"
+  - name: toi_created
+    type: VARCHAR
+    description: "TOI Created Date"
+  - name: rowupdate
+    type: VARCHAR
+    description: "Last Update Date"
+  - name: release_date
+    type: VARCHAR
+    description: "Release Date"

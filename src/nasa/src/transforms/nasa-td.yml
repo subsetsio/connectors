@@ -1,0 +1,368 @@
+# Transit Depths (td): one row per transit-depth measurement per reference; multiple rows per planet, explicitly keyless.
+# curation: dropped 5 all-null, 0 *_reflink (HTML), 0 *_solnid, 2 '*str' display-dup columns.
+key: []
+temporal: rowupdate
+columns:
+  - name: pl_name
+    type: VARCHAR
+    description: "Planet Name"
+  - name: sy_refname
+    type: VARCHAR
+    description: "System Parameter Reference (citation text extracted from the archive's HTML anchor)"
+  - name: ra
+    type: DOUBLE
+    description: "RA [decimal] [deg]"
+  - name: dec
+    type: DOUBLE
+    description: "Dec [decimal] [deg]"
+  - name: glon
+    type: DOUBLE
+    description: "Galactic Longitude [deg]"
+  - name: glat
+    type: DOUBLE
+    description: "Galactic Latitude [deg]"
+  - name: elon
+    type: DOUBLE
+    description: "Ecliptic Longitude [deg]"
+  - name: elat
+    type: DOUBLE
+    description: "Ecliptic Latitude [deg]"
+  - name: default_flag
+    type: BIGINT
+    description: "Default Parameter Set"
+  - name: pl_refname
+    type: VARCHAR
+    description: "Planetary Parameter Reference (citation text extracted from the archive's HTML anchor)"
+  - name: pl_orbper
+    type: DOUBLE
+    description: "Orbital Period [day]"
+  - name: pl_orbpererr1
+    type: DOUBLE
+    description: "Orbital Period Upper Unc. [day]"
+  - name: pl_orbpererr2
+    type: DOUBLE
+    description: "Orbital Period Lower Unc. [day]"
+  - name: pl_orbperlim
+    type: BIGINT
+    description: "Orbital Period Limit Flag"
+  - name: pl_rade
+    type: DOUBLE
+    description: "Planet Radius [Earth Radius] [Rearth]"
+  - name: pl_radeerr1
+    type: DOUBLE
+    description: "Planet Radius Upper Unc. [Earth Radius] [Rearth]"
+  - name: pl_radeerr2
+    type: DOUBLE
+    description: "Planet Radius Lower Unc. [Earth Radius] [Rearth]"
+  - name: pl_radelim
+    type: BIGINT
+    description: "Planet Radius Limit Flag"
+  - name: pl_radj
+    type: DOUBLE
+    description: "Planet Radius [Jupiter Radius] [Rjupiter]"
+  - name: pl_radjerr1
+    type: DOUBLE
+    description: "Planet Radius Upper Unc. [Jupiter Radius] [Rjupiter]"
+  - name: pl_radjerr2
+    type: DOUBLE
+    description: "Planet Radius Lower Unc. [Jupiter Radius] [Rjupiter]"
+  - name: pl_radjlim
+    type: BIGINT
+    description: "Planet Radius Limit Flag"
+  - name: pl_orbeccen
+    type: DOUBLE
+    description: "Eccentricity"
+  - name: pl_orbeccenerr1
+    type: DOUBLE
+    description: "Eccentricity Upper Unc."
+  - name: pl_orbeccenerr2
+    type: DOUBLE
+    description: "Eccentricity Lower Unc."
+  - name: pl_orbeccenlim
+    type: BIGINT
+    description: "Eccentricity Limit Flag"
+  - name: pl_orbincl
+    type: DOUBLE
+    description: "Inclination [deg]"
+  - name: pl_orbinclerr1
+    type: DOUBLE
+    description: "Inclination Upper Unc. [deg]"
+  - name: pl_orbinclerr2
+    type: DOUBLE
+    description: "Inclination Lower Unc. [deg]"
+  - name: pl_orbincllim
+    type: BIGINT
+    description: "Inclination Limit Flag"
+  - name: pl_tranmid
+    type: DOUBLE
+    description: "Transit Midpoint [day]"
+  - name: pl_tranmiderr1
+    type: DOUBLE
+    description: "Transit Midpoint Upper Unc. [day]"
+  - name: pl_tranmiderr2
+    type: DOUBLE
+    description: "Transit Midpoint Lower Unc. [day]"
+  - name: pl_tranmidlim
+    type: BIGINT
+    description: "Transit Midpoint Limit Flag"
+  - name: pl_tsystemref
+    type: VARCHAR
+    description: "Time Reference Frame and Standard"
+  - name: ttv_flag
+    type: BIGINT
+    description: "Data show Transit Timing Variations"
+  - name: pl_imppar
+    type: DOUBLE
+    description: "Impact Parameter"
+  - name: pl_impparerr1
+    type: DOUBLE
+    description: "Impact Parameter Upper Unc."
+  - name: pl_impparerr2
+    type: DOUBLE
+    description: "Impact Parameter Lower Unc."
+  - name: pl_impparlim
+    type: BIGINT
+    description: "Impact Parameter Limit Flag"
+  - name: pl_trandep
+    type: DOUBLE
+    description: "Transit Depth [%]"
+  - name: pl_trandeperr1
+    type: DOUBLE
+    description: "Transit Depth Upper Unc. [%]"
+  - name: pl_trandeperr2
+    type: DOUBLE
+    description: "Transit Depth Lower Unc. [%]"
+  - name: pl_trandeplim
+    type: BIGINT
+    description: "Transit Depth Limit Flag"
+  - name: pl_trandur
+    type: DOUBLE
+    description: "Transit Duration [hour]"
+  - name: pl_trandurerr1
+    type: DOUBLE
+    description: "Transit Duration Upper Unc. [hour]"
+  - name: pl_trandurerr2
+    type: DOUBLE
+    description: "Transit Duration Lower Unc. [hour]"
+  - name: pl_trandurlim
+    type: BIGINT
+    description: "Transit Duration Limit Flag"
+  - name: pl_ratdor
+    type: DOUBLE
+    description: "Ratio of Semi-Major Axis to Stellar Radius"
+  - name: pl_ratdorerr1
+    type: DOUBLE
+    description: "Ratio of Semi-Major Axis to Stellar Radius Upper Unc."
+  - name: pl_ratdorerr2
+    type: DOUBLE
+    description: "Ratio of Semi-Major Axis to Stellar Radius Lower Unc."
+  - name: pl_ratdorlim
+    type: BIGINT
+    description: "Ratio of Semi-Major Axis to Stellar Radius Limit Flag"
+  - name: pl_ratror
+    type: DOUBLE
+    description: "Ratio of Planet to Stellar Radius"
+  - name: pl_ratrorerr1
+    type: DOUBLE
+    description: "Ratio of Planet to Stellar Radius Upper Unc."
+  - name: pl_ratrorerr2
+    type: DOUBLE
+    description: "Ratio of Planet to Stellar Radius Lower Unc."
+  - name: pl_ratrorlim
+    type: BIGINT
+    description: "Ratio of Planet to Stellar Radius Limit Flag"
+  - name: st_refname
+    type: VARCHAR
+    description: "Stellar Parameter Reference (citation text extracted from the archive's HTML anchor)"
+  - name: st_teff
+    type: DOUBLE
+    description: "Stellar Effective Temperature [K]"
+  - name: st_tefferr1
+    type: DOUBLE
+    description: "Stellar Effective Temperature Upper Unc. [K]"
+  - name: st_tefferr2
+    type: DOUBLE
+    description: "Stellar Effective Temperature Lower Unc. [K]"
+  - name: st_tefflim
+    type: BIGINT
+    description: "Stellar Effective Temperature Limit Flag"
+  - name: st_rad
+    type: DOUBLE
+    description: "Stellar Radius [Solar Radius] [Rsun]"
+  - name: st_raderr1
+    type: DOUBLE
+    description: "Stellar Radius Upper Unc. [Solar Radius] [Rsun]"
+  - name: st_raderr2
+    type: DOUBLE
+    description: "Stellar Radius Lower Unc. [Solar Radius] [Rsun]"
+  - name: st_radlim
+    type: BIGINT
+    description: "Stellar Radius Limit Flag"
+  - name: st_logg
+    type: DOUBLE
+    description: "Stellar Surface Gravity [log(cm/s**2)]"
+  - name: st_loggerr1
+    type: DOUBLE
+    description: "Stellar Surface Gravity Upper Unc. [log(cm/s**2)]"
+  - name: st_loggerr2
+    type: DOUBLE
+    description: "Stellar Surface Gravity Lower Unc. [log(cm/s**2)]"
+  - name: st_logglim
+    type: BIGINT
+    description: "Stellar Surface Gravity Limit Flag"
+  - name: sy_bmag
+    type: DOUBLE
+    description: "B (Johnson) Magnitude"
+  - name: sy_bmagerr1
+    type: DOUBLE
+    description: "B (Johnson) Magnitude Upper Unc"
+  - name: sy_bmagerr2
+    type: DOUBLE
+    description: "B (Johnson) Magnitude Lower Unc"
+  - name: sy_vmag
+    type: DOUBLE
+    description: "V (Johnson) Magnitude"
+  - name: sy_vmagerr1
+    type: DOUBLE
+    description: "V (Johnson) Magnitude Upper Unc"
+  - name: sy_vmagerr2
+    type: DOUBLE
+    description: "V (Johnson) Magnitude Lower Unc"
+  - name: sy_jmag
+    type: DOUBLE
+    description: "J (2MASS) Magnitude"
+  - name: sy_jmagerr1
+    type: DOUBLE
+    description: "J (2MASS) Magnitude Upper Unc"
+  - name: sy_jmagerr2
+    type: DOUBLE
+    description: "J (2MASS) Magnitude Lower Unc"
+  - name: sy_hmag
+    type: DOUBLE
+    description: "H (2MASS) Magnitude"
+  - name: sy_hmagerr1
+    type: DOUBLE
+    description: "H (2MASS) Magnitude Upper Unc"
+  - name: sy_hmagerr2
+    type: DOUBLE
+    description: "H (2MASS) Magnitude Lower Unc"
+  - name: sy_kmag
+    type: DOUBLE
+    description: "Ks (2MASS) Magnitude"
+  - name: sy_kmagerr1
+    type: DOUBLE
+    description: "Ks (2MASS) Magnitude Upper Unc"
+  - name: sy_kmagerr2
+    type: DOUBLE
+    description: "Ks (2MASS) Magnitude Lower Unc"
+  - name: sy_umag
+    type: DOUBLE
+    description: "u (Sloan) Magnitude"
+  - name: sy_umagerr1
+    type: DOUBLE
+    description: "u (Sloan) Magnitude Upper Unc"
+  - name: sy_umagerr2
+    type: DOUBLE
+    description: "u (Sloan) Magnitude Lower Unc"
+  - name: sy_gmag
+    type: DOUBLE
+    description: "g (Sloan) Magnitude"
+  - name: sy_gmagerr1
+    type: DOUBLE
+    description: "g (Sloan) Magnitude Upper Unc"
+  - name: sy_gmagerr2
+    type: DOUBLE
+    description: "g (Sloan) Magnitude Lower Unc"
+  - name: sy_rmag
+    type: DOUBLE
+    description: "r (Sloan) Magnitude"
+  - name: sy_rmagerr1
+    type: DOUBLE
+    description: "r (Sloan) Magnitude Upper Unc"
+  - name: sy_rmagerr2
+    type: DOUBLE
+    description: "r (Sloan) Magnitude Lower Unc"
+  - name: sy_imag
+    type: DOUBLE
+    description: "i (Sloan) Magnitude"
+  - name: sy_imagerr1
+    type: DOUBLE
+    description: "i (Sloan) Magnitude Upper Unc"
+  - name: sy_imagerr2
+    type: DOUBLE
+    description: "i (Sloan) Magnitude Lower Unc"
+  - name: sy_zmag
+    type: DOUBLE
+    description: "z (Sloan) Magnitude"
+  - name: sy_zmagerr1
+    type: DOUBLE
+    description: "z (Sloan) Magnitude Upper Unc"
+  - name: sy_zmagerr2
+    type: DOUBLE
+    description: "z (Sloan) Magnitude Lower Unc"
+  - name: sy_w1mag
+    type: DOUBLE
+    description: "W1 (WISE) Magnitude"
+  - name: sy_w1magerr1
+    type: DOUBLE
+    description: "W1 (WISE) Magnitude Upper Unc"
+  - name: sy_w1magerr2
+    type: DOUBLE
+    description: "W1 (WISE) Magnitude Lower Unc"
+  - name: sy_w2mag
+    type: DOUBLE
+    description: "W2 (WISE) Magnitude"
+  - name: sy_w2magerr1
+    type: DOUBLE
+    description: "W2 (WISE) Magnitude Upper Unc"
+  - name: sy_w2magerr2
+    type: DOUBLE
+    description: "W2 (WISE) Magnitude Lower Unc"
+  - name: sy_w3mag
+    type: DOUBLE
+    description: "W3 (WISE) Magnitude"
+  - name: sy_w3magerr1
+    type: DOUBLE
+    description: "W3 (WISE) Magnitude Upper Unc"
+  - name: sy_w3magerr2
+    type: DOUBLE
+    description: "W3 (WISE) Magnitude Lower Unc"
+  - name: sy_w4mag
+    type: DOUBLE
+    description: "W4 (WISE) Magnitude"
+  - name: sy_w4magerr1
+    type: DOUBLE
+    description: "W4 (WISE) Magnitude Upper Unc"
+  - name: sy_w4magerr2
+    type: DOUBLE
+    description: "W4 (WISE) Magnitude Lower Unc"
+  - name: sy_gaiamag
+    type: DOUBLE
+    description: "Gaia Magnitude"
+  - name: sy_gaiamagerr1
+    type: DOUBLE
+    description: "Gaia Magnitude Upper Unc"
+  - name: sy_gaiamagerr2
+    type: DOUBLE
+    description: "Gaia Magnitude Lower Unc"
+  - name: sy_tmag
+    type: DOUBLE
+    description: "TESS Magnitude"
+  - name: sy_tmagerr1
+    type: DOUBLE
+    description: "TESS Magnitude Upper Unc"
+  - name: sy_tmagerr2
+    type: DOUBLE
+    description: "TESS Magnitude Lower Unc"
+  - name: sy_kepmag
+    type: DOUBLE
+    description: "Kepler Magnitude"
+  - name: rowupdate
+    type: VARCHAR
+    description: "Date of Last Update"
+  - name: pl_pubdate
+    type: VARCHAR
+    description: "Planetary Parameter Reference Publication Date"
+  - name: releasedate
+    type: VARCHAR
+    description: "Release Date"

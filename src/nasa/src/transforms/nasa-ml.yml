@@ -1,0 +1,772 @@
+# Microlensing planetary systems: one row per parameter set per reference; explicitly keyless. No populated update-date column, so no temporal declared (see the download spec's freshness handling).
+# curation: dropped 203 all-null, 0 *_reflink (HTML), 4 *_solnid, 63 '*str' display-dup columns.
+key: []
+columns:
+  - name: hostid
+    type: DOUBLE
+    description: "hostid"
+  - name: systemid
+    type: DOUBLE
+    description: "systemid"
+  - name: ra
+    type: DOUBLE
+    description: "RA Value [decimal degrees]"
+  - name: rasymerr
+    type: BIGINT
+    description: "rasymerr"
+  - name: dec
+    type: DOUBLE
+    description: "Dec Value [decimal degrees]"
+  - name: decsymerr
+    type: BIGINT
+    description: "decsymerr"
+  - name: glon
+    type: DOUBLE
+    description: "Galactic Longitude [deg]"
+  - name: glat
+    type: DOUBLE
+    description: "Galactic Latitude [deg]"
+  - name: pl_massj
+    type: DOUBLE
+    description: "Planet Mass [Jupiter Mass] [Mjupiter]"
+  - name: pl_massjerr1
+    type: DOUBLE
+    description: "Planet Mass Upper Uncertainty [Jupiter Mass] [Mjupiter]"
+  - name: pl_massjerr2
+    type: DOUBLE
+    description: "Planet Mass Lower Uncertainty [Jupiter Mass] [Mjupiter]"
+  - name: pl_massjlim
+    type: BIGINT
+    description: "Planet Mass Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: pl_massjsymerr
+    type: DOUBLE
+    description: "pl massjsymerr"
+  - name: pl_masse
+    type: DOUBLE
+    description: "Planet Mass [Earth mass] [Mearth]"
+  - name: pl_masseerr1
+    type: DOUBLE
+    description: "Planet Mass Upper Uncertainty [Earth Mass] [Mearth]"
+  - name: pl_masseerr2
+    type: DOUBLE
+    description: "Planet Mass Lower Uncertainty [Earth Mass] [Mearth]"
+  - name: pl_masselim
+    type: BIGINT
+    description: "Planet Mass Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: pl_massesymerr
+    type: DOUBLE
+    description: "pl massesymerr"
+  - name: pl_orbsmax
+    type: DOUBLE
+    description: "Planet-Star Projected Semi-Major Axis [AU]"
+  - name: pl_orbsmaxerr1
+    type: DOUBLE
+    description: "Planet-Star Projected Semi-Major Axis Upper Uncertainty [AU]"
+  - name: pl_orbsmaxerr2
+    type: DOUBLE
+    description: "Planet-Star Projected Semi-Major Axis Lower Uncertainty [AU]"
+  - name: pl_orbsmaxlim
+    type: BIGINT
+    description: "Planet-Star Projected Semi-Major Axis Limit Flag (0=\"=\", +1=\">\","
+  - name: pl_orbsmaxsymerr
+    type: DOUBLE
+    description: "pl orbsmaxsymerr"
+  - name: st_mass
+    type: DOUBLE
+    description: "Lens Mass [Solar Mass] [Msun]"
+  - name: st_masserr1
+    type: DOUBLE
+    description: "Lens Mass Upper Uncertainty [Solar Mass] [Msun]"
+  - name: st_masserr2
+    type: DOUBLE
+    description: "Lens Mass Lower Uncertainty [Solar Mass] [Msun]"
+  - name: st_masslim
+    type: BIGINT
+    description: "Lens Mass Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: st_masssymerr
+    type: DOUBLE
+    description: "st masssymerr"
+  - name: sy_dist
+    type: DOUBLE
+    description: "Lens Distance [kpc]"
+  - name: sy_disterr1
+    type: DOUBLE
+    description: "Lens Distance Upper Uncertainty [kpc]"
+  - name: sy_disterr2
+    type: DOUBLE
+    description: "Lens Distance Lower Uncertainty [kpc]"
+  - name: sy_distlim
+    type: BIGINT
+    description: "Lens Distance Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: sy_distsymerr
+    type: DOUBLE
+    description: "sy distsymerr"
+  - name: ml_dists
+    type: DOUBLE
+    description: "Source Distance [kpc]"
+  - name: ml_distserr1
+    type: DOUBLE
+    description: "Source Distance Upper Uncertainty [kpc]"
+  - name: ml_distserr2
+    type: DOUBLE
+    description: "Source Distance Lower Uncertainty [kpc]"
+  - name: ml_distslim
+    type: BIGINT
+    description: "Source Distance Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_tsepmin
+    type: DOUBLE
+    description: "Time of Lens-Source Minimum Separation [day]"
+  - name: ml_tsepminerr1
+    type: DOUBLE
+    description: "Time of Lens-Source Minimum Separation Upper Uncertainty [day]"
+  - name: ml_tsepminerr2
+    type: DOUBLE
+    description: "Time of Lens-Source Minimum Separation Lower Uncertainty [day]"
+  - name: ml_tsepminlim
+    type: BIGINT
+    description: "Time of Lens-Source Minimum Separation Limit Flag (0=\"=\", +1=\">\","
+  - name: ml_sepminnorm
+    type: DOUBLE
+    description: "Normalized Lens-Source Minimum Separation"
+  - name: ml_sepminnormerr1
+    type: DOUBLE
+    description: "Normalized Lens-Source Minimum Separation Upper Uncertainty"
+  - name: ml_sepminnormerr2
+    type: DOUBLE
+    description: "Normalized Lens-Source Minimum Separation Lower Uncertainty"
+  - name: ml_sepminnormlim
+    type: BIGINT
+    description: "Normalized Lens-Source Minimum Separation Limit Flag (0=\"=\", +1=\""
+  - name: ml_xtimeein
+    type: DOUBLE
+    description: "Einstein Crossing time [day]"
+  - name: ml_xtimeeinerr1
+    type: DOUBLE
+    description: "Einstein Crossing Time Upper Uncertainty [day]"
+  - name: ml_xtimeeinerr2
+    type: DOUBLE
+    description: "Einstein Crossing Time Lower Uncertainty [day]"
+  - name: ml_xtimeeinlim
+    type: BIGINT
+    description: "Einstein Crossing Time Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_radsnorm
+    type: DOUBLE
+    description: "Normalized Source Angular Radius (10**-3)"
+  - name: ml_radsnormerr1
+    type: DOUBLE
+    description: "Normalized Source Angular Radius Upper Uncertainty"
+  - name: ml_radsnormerr2
+    type: DOUBLE
+    description: "Normalized Source Angular Radius Lower Uncertainty"
+  - name: ml_radsnormlim
+    type: BIGINT
+    description: "Normalized Source Angular Radius Limit Flag (0=\"=\", +1=\">\", -1=\"<"
+  - name: ml_sepinsnorp
+    type: DOUBLE
+    description: "Planet-Star Projected, Normalized Semi-Major Axis"
+  - name: ml_sepinsnorperr1
+    type: DOUBLE
+    description: "Planet-Star Projected, Normalized Semi-Major Axis Upper Uncertain"
+  - name: ml_sepinsnorperr2
+    type: DOUBLE
+    description: "Planet-Star Projected, Normalized Semi-Major Axis Lower Uncertain"
+  - name: ml_sepinsnorplim
+    type: BIGINT
+    description: "Planet-Star Projected, Normalized Semi-Major Axis Limit Flag (0=\""
+  - name: ml_massratio
+    type: DOUBLE
+    description: "Planet-Star Mass Ratio (10**-4)"
+  - name: ml_massratioerr1
+    type: DOUBLE
+    description: "Planet-Star Mass Ratio Upper Uncertainty"
+  - name: ml_massratioerr2
+    type: DOUBLE
+    description: "Planet-Star Mass Ratio Lower Uncertainty"
+  - name: ml_massratiolim
+    type: BIGINT
+    description: "Planet-Star Mass Ratio Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_angstlax
+    type: DOUBLE
+    description: "Source Trajectory-Lens Axis Angle [rad]"
+  - name: ml_angstlaxerr1
+    type: DOUBLE
+    description: "Source Trajectory-Lens Axis Angle Upper Uncertainty [rad]"
+  - name: ml_angstlaxerr2
+    type: DOUBLE
+    description: "Source Trajectory-Lens Axis Angle Lower Uncertainty [rad]"
+  - name: ml_angstlaxlim
+    type: BIGINT
+    description: "Source Trajectory-Lens Axis Angle Limit Flag (0=\"=\", +1=\">\", -1=\""
+  - name: ml_magis
+    type: DOUBLE
+    description: "Source I-band [mag]"
+  - name: ml_magiserr1
+    type: DOUBLE
+    description: "Source I-band Upper Uncertainty [mag]"
+  - name: ml_magiserr2
+    type: DOUBLE
+    description: "Source I-band Lower Uncertainty [mag]"
+  - name: ml_magislim
+    type: BIGINT
+    description: "Source I-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_magibl
+    type: DOUBLE
+    description: "Blend I-band [mag]"
+  - name: ml_magiblerr1
+    type: DOUBLE
+    description: "Blend I-band Upper Uncertainty [mag]"
+  - name: ml_magiblerr2
+    type: DOUBLE
+    description: "Blend I-band Lower Uncertainty [mag]"
+  - name: ml_magibllim
+    type: BIGINT
+    description: "Blend I-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_radeinang
+    type: DOUBLE
+    description: "Angular Einstein radius [mas]"
+  - name: ml_radeinangerr1
+    type: DOUBLE
+    description: "Angular Einstein radius Upper Uncertainty [mas]"
+  - name: ml_radeinangerr2
+    type: DOUBLE
+    description: "Angular Einstein radius Lower Uncertainty [mas]"
+  - name: ml_radeinanglim
+    type: BIGINT
+    description: "Angular Einstein radius Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_pmrells
+    type: DOUBLE
+    description: "Lens-source Relative Proper Motion [mas/yr]"
+  - name: ml_pmrellserr1
+    type: DOUBLE
+    description: "Lens-source Relative Proper Motion Upper Uncertainty [mas/yr]"
+  - name: ml_pmrellserr2
+    type: DOUBLE
+    description: "Lens-source Relative Proper Motion Lower Uncertainty [mas/yr]"
+  - name: ml_pmrellslim
+    type: BIGINT
+    description: "Lens-source Relative Proper Motion Limit Flag (0=\"=\", +1=\">\", -1="
+  - name: ml_plxrel
+    type: DOUBLE
+    description: "Lens-Source Relative Parallax [mas]"
+  - name: ml_plxrelerr1
+    type: DOUBLE
+    description: "Lens-Source Relative Parallax Upper Uncertainty [mas]"
+  - name: ml_plxrelerr2
+    type: DOUBLE
+    description: "Lens-Source Relative Parallax Lower Uncertainty [mas]"
+  - name: ml_plxrellim
+    type: BIGINT
+    description: "Lens-Source Relative Parallax Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_plxmicro
+    type: DOUBLE
+    description: "Microlens Parallax [mas]"
+  - name: ml_plxmicroerr1
+    type: DOUBLE
+    description: "Microlens Parallax Upper Uncertainty [mas]"
+  - name: ml_plxmicroerr2
+    type: DOUBLE
+    description: "Microlens Parallax Lower Uncertainty [mas]"
+  - name: ml_plxmicrolim
+    type: BIGINT
+    description: "Microlens Parallax Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_plxmicroe
+    type: DOUBLE
+    description: "Microlens Parallax (East component) [mas]"
+  - name: ml_plxmicroeerr1
+    type: DOUBLE
+    description: "Microlens Parallax (East component) Upper Uncertainty [mas]"
+  - name: ml_plxmicroeerr2
+    type: DOUBLE
+    description: "Microlens Parallax (East component) Lower Uncertainty [mas]"
+  - name: ml_plxmicroelim
+    type: BIGINT
+    description: "Microlens Parallax (East component) Limit Flag (0=\"=\", +1=\">\", -1"
+  - name: ml_plxmicron
+    type: DOUBLE
+    description: "Microlens Parallax (North component) [mas]"
+  - name: ml_plxmicronerr1
+    type: DOUBLE
+    description: "Microlens Parallax (North component) Upper Uncertainty [mas]"
+  - name: ml_plxmicronerr2
+    type: DOUBLE
+    description: "Microlens Parallax (North component) Lower Uncertainty [mas]"
+  - name: ml_plxmicronlim
+    type: BIGINT
+    description: "Microlens Parallax (North component) Limit Flag (0=\"=\", +1=\">\", -"
+  - name: ml_dsdt
+    type: DOUBLE
+    description: "Planet-Star Separation Rate of Change [yr**-1] [1/yr]"
+  - name: ml_dsdterr1
+    type: DOUBLE
+    description: "Planet-Star Separation Rate of Change Upper Uncertainty [yr**-1] [1/yr]"
+  - name: ml_dsdterr2
+    type: DOUBLE
+    description: "Planet-Star Separation Rate of Change Lower Uncertainty [yr**-1] [1/yr]"
+  - name: ml_dsdtlim
+    type: BIGINT
+    description: "Planet-Star Separation Rate of Change Limit Flag (0=\"=\", +1=\">\","
+  - name: ml_dalphadt
+    type: DOUBLE
+    description: "Source Trajectory Angle Rate of Change [deg/yr]"
+  - name: ml_dalphadterr1
+    type: DOUBLE
+    description: "Source Trajectory Angle Rate of Change Upper Uncertainty [deg/yr]"
+  - name: ml_dalphadterr2
+    type: DOUBLE
+    description: "Source Trajectory Angle Rate of Change Lower Uncertainty [deg/yr]"
+  - name: ml_dalphadtlim
+    type: BIGINT
+    description: "Source Trajectory Angle Rate of Change Limit Flag (0=\"=\", +1=\">\","
+  - name: ml_radsang
+    type: DOUBLE
+    description: "Source Angular Radius [uas]"
+  - name: ml_radsangerr1
+    type: DOUBLE
+    description: "Source Angular Radius Upper Uncertainty [uas]"
+  - name: ml_radsangerr2
+    type: DOUBLE
+    description: "Source Angular Radius Lower Uncertainty [uas]"
+  - name: ml_radsanglim
+    type: BIGINT
+    description: "Source Angular Radius Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_radsphy
+    type: DOUBLE
+    description: "Source Physical Radius [Solar Radii] [RSun]"
+  - name: ml_radsphyerr1
+    type: DOUBLE
+    description: "Source Physical Radius Upper Uncertainty [Solar Radii] [RSun]"
+  - name: ml_radsphyerr2
+    type: DOUBLE
+    description: "Source Physical Radius Lower Uncertainty [Solar Radii] [RSun]"
+  - name: ml_radsphylim
+    type: BIGINT
+    description: "Source Physical Radius Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_xtimesrc
+    type: DOUBLE
+    description: "Source crossing time [day]"
+  - name: ml_xtimesrcerr1
+    type: DOUBLE
+    description: "Source crossing time Upper Uncertainty [day]"
+  - name: ml_xtimesrcerr2
+    type: DOUBLE
+    description: "Source crossing time Lower Uncertainty [day]"
+  - name: ml_xtimesrclim
+    type: BIGINT
+    description: "Source crossing time Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_efftime
+    type: DOUBLE
+    description: "Effective Timescale [day]"
+  - name: ml_efftimeerr1
+    type: DOUBLE
+    description: "Effective Timescale Upper Uncertainty [day]"
+  - name: ml_efftimeerr2
+    type: DOUBLE
+    description: "Effective Timescale Lower Uncertainty [day]"
+  - name: ml_efftimelim
+    type: BIGINT
+    description: "Effective Timescale Limit Flag (0=\"=\", +1=\">\", -1=\"<\") [day]"
+  - name: ml_pms
+    type: DOUBLE
+    description: "Source Proper Motion [mas/yr]"
+  - name: ml_pmserr1
+    type: DOUBLE
+    description: "Source Proper Motion Upper Uncertainty [mas/yr]"
+  - name: ml_pmserr2
+    type: DOUBLE
+    description: "Source Proper Motion Lower Uncertainty [mas/yr]"
+  - name: ml_pmslim
+    type: BIGINT
+    description: "Source Proper Motion Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_magiso
+    type: DOUBLE
+    description: "Source De-Reddened I-band [mag]"
+  - name: ml_magisoerr1
+    type: DOUBLE
+    description: "Source De-Reddened I-band Upper Uncertainty [mag]"
+  - name: ml_magisoerr2
+    type: DOUBLE
+    description: "Source De-Reddened I-band Lower Uncertainty [mag]"
+  - name: ml_magisolim
+    type: BIGINT
+    description: "Source De-Reddened I-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_magjso
+    type: DOUBLE
+    description: "Source De-reddened J-band [mag]"
+  - name: ml_magjsoerr1
+    type: DOUBLE
+    description: "Source De-reddened J-band Upper Uncertainty [mag]"
+  - name: ml_magjsoerr2
+    type: DOUBLE
+    description: "Source De-reddened J-band Lower Uncertainty [mag]"
+  - name: ml_magjsolim
+    type: BIGINT
+    description: "Source De-reddened J-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_magjs
+    type: DOUBLE
+    description: "Source J-band [mag]"
+  - name: ml_magjserr1
+    type: DOUBLE
+    description: "Source J-band Upper Uncertainty [mag]"
+  - name: ml_magjserr2
+    type: DOUBLE
+    description: "Source J-band Upper Uncertainty [mag]"
+  - name: ml_magjslim
+    type: BIGINT
+    description: "Source J-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_magvs
+    type: DOUBLE
+    description: "Source V-band [mag]"
+  - name: ml_magvserr1
+    type: DOUBLE
+    description: "Source V-band Upper Uncertainty [mag]"
+  - name: ml_magvserr2
+    type: DOUBLE
+    description: "Source V-band Lower Uncertainty [mag]"
+  - name: ml_magvslim
+    type: BIGINT
+    description: "Source V-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_magvso
+    type: DOUBLE
+    description: "Source De-Reddened V-band [mag]"
+  - name: ml_magvsoerr1
+    type: DOUBLE
+    description: "Source De-Reddened V-band Upper Uncertainty [mag]"
+  - name: ml_magvsoerr2
+    type: DOUBLE
+    description: "Source De-Reddened V-band Lower Uncertainty [mag]"
+  - name: ml_magvsolim
+    type: BIGINT
+    description: "Source De-Reddened V-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_maghs
+    type: DOUBLE
+    description: "Source H-band [mag]"
+  - name: ml_maghserr1
+    type: DOUBLE
+    description: "Source H-band Upper Uncertainty [mag]"
+  - name: ml_maghserr2
+    type: DOUBLE
+    description: "Source H-band Lower Uncertainty [mag]"
+  - name: ml_maghslim
+    type: BIGINT
+    description: "Source H-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_maghso
+    type: DOUBLE
+    description: "Source De-Reddened H-band [mag]"
+  - name: ml_maghsoerr1
+    type: DOUBLE
+    description: "Source De-Reddened H-band Upper Uncertainty [mag]"
+  - name: ml_maghsoerr2
+    type: DOUBLE
+    description: "Source De-Reddened H-band Lower Uncertainty [mag]"
+  - name: ml_maghsolim
+    type: BIGINT
+    description: "Source De-Reddened H-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_magks
+    type: DOUBLE
+    description: "Source K-band [mag]"
+  - name: ml_magkserr1
+    type: DOUBLE
+    description: "Source K-band Upper Uncertainty [mag]"
+  - name: ml_magkserr2
+    type: DOUBLE
+    description: "Source K-band Lower Uncertainty [mag]"
+  - name: ml_magkslim
+    type: BIGINT
+    description: "Source K-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_magkso
+    type: DOUBLE
+    description: "Source De-Reddened K-band [mag]"
+  - name: ml_magksoerr1
+    type: DOUBLE
+    description: "Source De-Reddened K-band Upper Uncertainty [mag]"
+  - name: ml_magksoerr2
+    type: DOUBLE
+    description: "Source De-Reddened K-band Lower Uncertainty [mag]"
+  - name: ml_magksolim
+    type: BIGINT
+    description: "Source De-Reddened K-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_magibase
+    type: DOUBLE
+    description: "Event Baseline I-band [mag]"
+  - name: ml_magibaseerr1
+    type: DOUBLE
+    description: "Event Baseline I-band Upper Uncertainty [mag]"
+  - name: ml_magibaseerr2
+    type: DOUBLE
+    description: "Event Baseline I-band Lower Uncertainty [mag]"
+  - name: ml_magibaselim
+    type: BIGINT
+    description: "Event Baseline I-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: sy_vmag
+    type: DOUBLE
+    description: "Lens V-band [mag]"
+  - name: sy_vmagerr1
+    type: DOUBLE
+    description: "Lens V-band Upper Uncertainty [mag]"
+  - name: sy_vmagerr2
+    type: DOUBLE
+    description: "Lens V-band Lower Uncertainty [mag]"
+  - name: sy_vmaglim
+    type: BIGINT
+    description: "Lens V-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: sy_vmagsymerr
+    type: DOUBLE
+    description: "sy vmagsymerr"
+  - name: sy_icmag
+    type: DOUBLE
+    description: "Lens I-band [mag]"
+  - name: sy_icmagerr1
+    type: DOUBLE
+    description: "Lens I-band Upper Uncertainty [mag]"
+  - name: sy_icmagerr2
+    type: DOUBLE
+    description: "Lens I-band Lower Uncertainty [mag]"
+  - name: sy_icmaglim
+    type: BIGINT
+    description: "Lens I-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: sy_icmagsymerr
+    type: DOUBLE
+    description: "sy icmagsymerr"
+  - name: sy_jmag
+    type: DOUBLE
+    description: "Lens J-band [mag]"
+  - name: sy_jmagerr1
+    type: DOUBLE
+    description: "Lens J-band Upper Uncertainty [mag]"
+  - name: sy_jmagerr2
+    type: DOUBLE
+    description: "Lens J-band Lower Uncertainty [mag]"
+  - name: sy_jmaglim
+    type: BIGINT
+    description: "Lens J-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: sy_jmagsymerr
+    type: DOUBLE
+    description: "sy jmagsymerr"
+  - name: sy_hmag
+    type: DOUBLE
+    description: "Lens H-band [mag]"
+  - name: sy_hmagerr1
+    type: DOUBLE
+    description: "Lens H-band Upper Uncertainty [mag]"
+  - name: sy_hmagerr2
+    type: DOUBLE
+    description: "Lens H-band Lower Uncertainty [mag]"
+  - name: sy_hmaglim
+    type: BIGINT
+    description: "Lens H-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: sy_hmagsymerr
+    type: DOUBLE
+    description: "sy hmagsymerr"
+  - name: sy_kmag
+    type: DOUBLE
+    description: "Lens K-band [mag]"
+  - name: sy_kmagerr1
+    type: DOUBLE
+    description: "Lens K-band Upper Uncertainty [mag]"
+  - name: sy_kmagerr2
+    type: DOUBLE
+    description: "Lens K-band Lower Uncertainty [mag]"
+  - name: sy_kmaglim
+    type: BIGINT
+    description: "Lens K-band Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: sy_kmagsymerr
+    type: DOUBLE
+    description: "sy kmagsymerr"
+  - name: ml_extifld
+    type: DOUBLE
+    description: "Line-of-Sight I-band Extinction [mag]"
+  - name: ml_extiflderr1
+    type: DOUBLE
+    description: "Line-of-Sight I-band Extinction Upper Uncertainty [mag]"
+  - name: ml_extiflderr2
+    type: DOUBLE
+    description: "Line-of-Sight I-band Extinction Lower Uncertainty [mag]"
+  - name: ml_extifldlim
+    type: BIGINT
+    description: "Line-of-Sight I-band Extinction Limit Flag (0=\"=\", +1=\">\", -1=\"<\""
+  - name: ml_extvfld
+    type: DOUBLE
+    description: "Line-of-Sight V-band Extinction [mag]"
+  - name: ml_extvflderr1
+    type: DOUBLE
+    description: "Line-of-Sight V-band Extinction Upper Uncertainty [mag]"
+  - name: ml_extvflderr2
+    type: DOUBLE
+    description: "Line-of-Sight V-band Extinction Lower Uncertainty [mag]"
+  - name: ml_extvfldlim
+    type: BIGINT
+    description: "Line-of-Sight V-band Extinction Limit Flag (0=\"=\", +1=\">\", -1=\"<\""
+  - name: ml_extjfld
+    type: DOUBLE
+    description: "Line-of-Sight J-band Extinction [mag]"
+  - name: ml_extjflderr1
+    type: DOUBLE
+    description: "Line-of-Sight J-band Extinction Upper Uncertainty [mag]"
+  - name: ml_extjflderr2
+    type: DOUBLE
+    description: "Line-of-Sight J-band Extinction Lower Uncertainty [mag]"
+  - name: ml_extjfldlim
+    type: BIGINT
+    description: "Line-of-Sight J-band Extinction Limit Flag (0=\"=\", +1=\">\", -1=\"<\""
+  - name: ml_exthfld
+    type: DOUBLE
+    description: "Line-of-Sight H-band Extinction [mag]"
+  - name: ml_exthflderr1
+    type: DOUBLE
+    description: "Line-of-Sight H-band Extinction Upper Uncertainty [mag]"
+  - name: ml_exthflderr2
+    type: DOUBLE
+    description: "Line-of-Sight H-band Extinction Lower Uncertainty [mag]"
+  - name: ml_exthfldlim
+    type: BIGINT
+    description: "Line-of-Sight H-band Extinction Limit Flag (0=\"=\", +1=\">\", -1=\"<\""
+  - name: ml_extkfld
+    type: DOUBLE
+    description: "Line-of-Sight K-band Extinction [mag]"
+  - name: ml_extkflderr1
+    type: DOUBLE
+    description: "Line-of-Sight K-band Extinction Upper Uncertainty [mag]"
+  - name: ml_extkflderr2
+    type: DOUBLE
+    description: "Line-of-Sight K-band Extinction Lower Uncertainty [mag]"
+  - name: ml_extkfldlim
+    type: BIGINT
+    description: "Line-of-Sight K-band Extinction Limit Flag (0=\"=\", +1=\">\", -1=\"<\""
+  - name: ml_colvis
+    type: DOUBLE
+    description: "Source (V-I) [mag]"
+  - name: ml_colviserr1
+    type: DOUBLE
+    description: "Source (V-I) Upper Uncertainty [mag]"
+  - name: ml_colviserr2
+    type: DOUBLE
+    description: "Source (V-I) Lower Uncertainty [mag]"
+  - name: ml_colvislim
+    type: BIGINT
+    description: "Source (V-I) Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_colviso
+    type: DOUBLE
+    description: "Source De-Reddened (V-I) [mag]"
+  - name: ml_colvisoerr1
+    type: DOUBLE
+    description: "Source De-Reddened (V-I) Upper Uncertainty [mag]"
+  - name: ml_colvisoerr2
+    type: DOUBLE
+    description: "Source De-Reddened (V-I) Lower Uncertainty [mag]"
+  - name: ml_colvisolim
+    type: BIGINT
+    description: "Source De-Reddened (V-I) Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_colvks
+    type: DOUBLE
+    description: "Source (V-K) [mag]"
+  - name: ml_colvkserr1
+    type: DOUBLE
+    description: "Source (V-K) Upper Uncertainty [mag]"
+  - name: ml_colvkserr2
+    type: DOUBLE
+    description: "Source (V-K) Lower Uncertainty [mag]"
+  - name: ml_colvkslim
+    type: BIGINT
+    description: "Source (V-K) Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_colvkso
+    type: DOUBLE
+    description: "Source De-Reddened (V-K) [mag]"
+  - name: ml_colvksoerr1
+    type: DOUBLE
+    description: "Source De-Reddened (V-K) Upper Uncertainty [mag]"
+  - name: ml_colvksoerr2
+    type: DOUBLE
+    description: "Source De-Reddened (V-K) Lower Uncertainty [mag]"
+  - name: ml_colvksolim
+    type: BIGINT
+    description: "Source De-Reddened (V-K) Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_colihs
+    type: DOUBLE
+    description: "Source (I-H) [mag]"
+  - name: ml_colihserr1
+    type: DOUBLE
+    description: "Source (I-H) Upper Uncertainty [mag]"
+  - name: ml_colihserr2
+    type: DOUBLE
+    description: "Source (I-H) Lower Uncertainty [mag]"
+  - name: ml_colihslim
+    type: BIGINT
+    description: "Source (I-H) Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_colihso
+    type: DOUBLE
+    description: "Source De-Reddened (I-H) [mag]"
+  - name: ml_colihsoerr1
+    type: DOUBLE
+    description: "Source De-Reddened (I-H) Upper Uncertainty [mag]"
+  - name: ml_colihsoerr2
+    type: DOUBLE
+    description: "Source De-Reddened (I-H) Lower Uncertainty [mag]"
+  - name: ml_colihsolim
+    type: BIGINT
+    description: "Source De-Reddened (I-H) Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_colhks
+    type: DOUBLE
+    description: "Source (H-K) [mag]"
+  - name: ml_colhkserr1
+    type: DOUBLE
+    description: "Source (H-K) Upper Uncertainty [mag]"
+  - name: ml_colhkserr2
+    type: DOUBLE
+    description: "Source (H-K) Lower Uncertainty [mag]"
+  - name: ml_colhkslim
+    type: BIGINT
+    description: "Source (H-K) Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_colhkso
+    type: DOUBLE
+    description: "Source De-Reddened (H-K) [mag]"
+  - name: ml_colhksolim
+    type: BIGINT
+    description: "Source De-Reddened (H-K) Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_colvibl
+    type: DOUBLE
+    description: "Blend (V-I) [mag]"
+  - name: ml_colviblerr1
+    type: DOUBLE
+    description: "Blend (V-I) Upper Uncertainty [mag]"
+  - name: ml_colviblerr2
+    type: DOUBLE
+    description: "Blend (V-I) Lower Uncertainty [mag]"
+  - name: ml_colvibllim
+    type: BIGINT
+    description: "Blend (V-I) Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_redvi
+    type: DOUBLE
+    description: "Line-of-sight Reddening E(V-I) [mag]"
+  - name: ml_redvierr1
+    type: DOUBLE
+    description: "Line-of-Sight Reddening E(V-I) Upper Uncertainty [mag]"
+  - name: ml_redvierr2
+    type: DOUBLE
+    description: "Line-of-Sight Reddening E(V-I) Lower Uncertainty [mag]"
+  - name: ml_redvilim
+    type: BIGINT
+    description: "Line-of-Sight Reddening E(V-I) Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_redhk
+    type: DOUBLE
+    description: "Line-of-sight Reddening E(H-K) [mag]"
+  - name: ml_redhklim
+    type: BIGINT
+    description: "Line-of-sight Reddening E(H-K) Limit Flag (0=\"=\", +1=\">\", -1=\"<\")"
+  - name: ml_modeldef
+    type: BIGINT
+    description: "Default Model (1 = default, 0 = non-default)"
+  - name: ml_modelchisq
+    type: DOUBLE
+    description: "Model Chi-Squared"
+  - name: cb_flag
+    type: BIGINT
+    description: "Circumbinary Flag (1 = yes, 0 = no)"
+  - name: ml_description
+    type: VARCHAR
+    description: "Microlensing model description"
+  - name: pl_name
+    type: VARCHAR
+    description: "Planet name"
+  - name: htmllink
+    type: VARCHAR
+    description: "ADS Reference link"

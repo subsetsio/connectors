@@ -1,0 +1,1142 @@
+# Planetary Systems Composite Parameters: one best-composite row per confirmed planet (pl_name verified unique on the full dump).
+# curation: dropped 108 all-null, 74 *_reflink (HTML), 69 *_solnid, 73 '*str' display-dup columns.
+key: [pl_name]
+temporal: disc_pubdate
+columns:
+  - name: systemid
+    type: DOUBLE
+    description: "systemid"
+  - name: sy_name
+    type: VARCHAR
+    description: "sy name"
+  - name: objectid
+    type: DOUBLE
+    description: "objectid"
+  - name: pl_name
+    type: VARCHAR
+    description: "Planet Name"
+  - name: pl_letter
+    type: VARCHAR
+    description: "Planet Letter"
+  - name: hostid
+    type: DOUBLE
+    description: "hostid"
+  - name: hostname
+    type: VARCHAR
+    description: "Host Name"
+  - name: hd_name
+    type: VARCHAR
+    description: "HD ID"
+  - name: hip_name
+    type: VARCHAR
+    description: "HIP ID"
+  - name: tic_id
+    type: VARCHAR
+    description: "TIC ID"
+  - name: gaia_dr2_id
+    type: VARCHAR
+    description: "Gaia DR2_ID"
+  - name: ttv_flag
+    type: BIGINT
+    description: "Data show Transit Timing Variations"
+  - name: ptv_flag
+    type: BIGINT
+    description: "Detected by Pulsation Timing Variations"
+  - name: tran_flag
+    type: BIGINT
+    description: "Detected by Transits"
+  - name: rv_flag
+    type: BIGINT
+    description: "Detected by Radial Velocity Variations"
+  - name: ast_flag
+    type: BIGINT
+    description: "Detected by Astrometric Variations"
+  - name: obm_flag
+    type: BIGINT
+    description: "Detected by Orbital Brightness Modulations"
+  - name: micro_flag
+    type: BIGINT
+    description: "Detected by Microlensing"
+  - name: etv_flag
+    type: BIGINT
+    description: "Detected by Eclipse Timing Variations"
+  - name: ima_flag
+    type: BIGINT
+    description: "Detected by Imaging"
+  - name: dkin_flag
+    type: BIGINT
+    description: "Detected by Disk Kinematics"
+  - name: pul_flag
+    type: BIGINT
+    description: "Detected by Pulsar Timing Variations"
+  - name: pl_controv_flag
+    type: BIGINT
+    description: "Controversial Flag"
+  - name: disc_pubdate
+    type: VARCHAR
+    description: "Discovery Publication Date"
+  - name: disc_year
+    type: BIGINT
+    description: "Discovery Year"
+  - name: disc_refid
+    type: BIGINT
+    description: "disc refid"
+  - name: disc_method
+    type: VARCHAR
+    description: "disc method"
+  - name: discoverymethod
+    type: VARCHAR
+    description: "Discovery Method"
+  - name: disc_locale
+    type: VARCHAR
+    description: "Discovery Locale"
+  - name: disc_facility
+    type: VARCHAR
+    description: "Discovery Facility"
+  - name: disc_instrument
+    type: VARCHAR
+    description: "Discovery Instrument"
+  - name: disc_telescope
+    type: VARCHAR
+    description: "Discovery Telescope"
+  - name: disc_refname
+    type: VARCHAR
+    description: "Discovery Reference (citation text extracted from the archive's HTML anchor)"
+  - name: sy_snum
+    type: BIGINT
+    description: "Number of Stars"
+  - name: sy_pnum
+    type: BIGINT
+    description: "Number of Planets"
+  - name: sy_mnum
+    type: BIGINT
+    description: "Number of Moons"
+  - name: cb_flag
+    type: BIGINT
+    description: "Circumbinary Flag"
+  - name: st_nphot
+    type: BIGINT
+    description: "Number of Photometry Time Series"
+  - name: st_nrvc
+    type: BIGINT
+    description: "Number of Radial Velocity Time Series"
+  - name: st_nspec
+    type: BIGINT
+    description: "Number of Stellar Spectra Measurements"
+  - name: pl_nespec
+    type: BIGINT
+    description: "Number of Eclipse Spectra"
+  - name: pl_ntranspec
+    type: BIGINT
+    description: "Number of Transmission Spectra"
+  - name: pl_nnotes
+    type: BIGINT
+    description: "Number of Notes"
+  - name: ra
+    type: DOUBLE
+    description: "RA [decimal] [deg]"
+  - name: raerr1
+    type: DOUBLE
+    description: "raerr1"
+  - name: raerr2
+    type: DOUBLE
+    description: "raerr2"
+  - name: rasymerr
+    type: BIGINT
+    description: "rasymerr"
+  - name: dec
+    type: DOUBLE
+    description: "Dec [decimal] [deg]"
+  - name: decerr1
+    type: DOUBLE
+    description: "decerr1"
+  - name: decerr2
+    type: DOUBLE
+    description: "decerr2"
+  - name: decsymerr
+    type: BIGINT
+    description: "decsymerr"
+  - name: glon
+    type: DOUBLE
+    description: "Galactic Longitude [deg]"
+  - name: glat
+    type: DOUBLE
+    description: "Galactic Latitude [deg]"
+  - name: elon
+    type: DOUBLE
+    description: "Ecliptic Longitude [deg]"
+  - name: elat
+    type: DOUBLE
+    description: "Ecliptic Latitude [deg]"
+  - name: pl_orbper
+    type: DOUBLE
+    description: "Orbital Period [days]"
+  - name: pl_orbpererr1
+    type: DOUBLE
+    description: "Orbital Period Upper Unc. [days]"
+  - name: pl_orbpererr2
+    type: DOUBLE
+    description: "Orbital Period Lower Unc. [days]"
+  - name: pl_orbpersymerr
+    type: DOUBLE
+    description: "pl orbpersymerr"
+  - name: pl_orbperlim
+    type: BIGINT
+    description: "Orbital Period Limit Flag"
+  - name: pl_orblper
+    type: DOUBLE
+    description: "Argument of Periastron [deg]"
+  - name: pl_orblpererr1
+    type: DOUBLE
+    description: "Argument of Periastron Upper Unc. [deg]"
+  - name: pl_orblpererr2
+    type: DOUBLE
+    description: "Argument of Periastron Lower Unc. [deg]"
+  - name: pl_orblpersymerr
+    type: DOUBLE
+    description: "pl orblpersymerr"
+  - name: pl_orblperlim
+    type: BIGINT
+    description: "Argument of Periastron Limit Flag"
+  - name: pl_orbsmax
+    type: DOUBLE
+    description: "Orbit Semi-Major Axis [au])"
+  - name: pl_orbsmaxerr1
+    type: DOUBLE
+    description: "Orbit Semi-Major Axis Upper Unc. [au]"
+  - name: pl_orbsmaxerr2
+    type: DOUBLE
+    description: "Orbit Semi-Major Axis Lower Unc. [au]"
+  - name: pl_orbsmaxsymerr
+    type: DOUBLE
+    description: "pl orbsmaxsymerr"
+  - name: pl_orbsmaxlim
+    type: BIGINT
+    description: "Orbit Semi-Major Axis Limit Flag"
+  - name: pl_orbincl
+    type: DOUBLE
+    description: "Inclination [deg]"
+  - name: pl_orbinclerr1
+    type: DOUBLE
+    description: "Inclination Upper Unc. [deg]"
+  - name: pl_orbinclerr2
+    type: DOUBLE
+    description: "Inclination Lower Unc. [deg]"
+  - name: pl_orbinclsymerr
+    type: DOUBLE
+    description: "pl orbinclsymerr"
+  - name: pl_orbincllim
+    type: BIGINT
+    description: "Inclination Limit Flag"
+  - name: pl_orbtper
+    type: DOUBLE
+    description: "Epoch of Periastron [days]"
+  - name: pl_orbtpererr1
+    type: DOUBLE
+    description: "Epoch of Periastron Upper Unc. [days]"
+  - name: pl_orbtpererr2
+    type: DOUBLE
+    description: "Epoch of Periastron Lower Unc. [days]"
+  - name: pl_orbtpersymerr
+    type: DOUBLE
+    description: "pl orbtpersymerr"
+  - name: pl_orbtperlim
+    type: BIGINT
+    description: "Epoch of Periastron Limit Flag"
+  - name: pl_orbtper_systemref
+    type: VARCHAR
+    description: "Time Solnid Frame and Standard"
+  - name: pl_orbeccen
+    type: DOUBLE
+    description: "Eccentricity"
+  - name: pl_orbeccenerr1
+    type: DOUBLE
+    description: "Eccentricity Upper Unc."
+  - name: pl_orbeccenerr2
+    type: DOUBLE
+    description: "Eccentricity Lower Unc."
+  - name: pl_orbeccensymerr
+    type: DOUBLE
+    description: "pl orbeccensymerr"
+  - name: pl_orbeccenlim
+    type: BIGINT
+    description: "Eccentricity Limit Flag"
+  - name: pl_eqt
+    type: DOUBLE
+    description: "Equilibrium Temperature [K]"
+  - name: pl_eqterr1
+    type: DOUBLE
+    description: "Equilibrium Temperature Upper Unc. [K]"
+  - name: pl_eqterr2
+    type: DOUBLE
+    description: "Equilibrium Temperature Lower Unc. [K]"
+  - name: pl_eqtsymerr
+    type: DOUBLE
+    description: "pl eqtsymerr"
+  - name: pl_eqtlim
+    type: BIGINT
+    description: "Equilibrium Temperature Limit Flag"
+  - name: pl_occdep
+    type: DOUBLE
+    description: "Occultation Depth [%]"
+  - name: pl_occdeperr1
+    type: DOUBLE
+    description: "Occultation Depth Upper Unc. [%]"
+  - name: pl_occdeperr2
+    type: DOUBLE
+    description: "Occultation Depth Lower Unc. [%]"
+  - name: pl_occdepsymerr
+    type: DOUBLE
+    description: "pl occdepsymerr"
+  - name: pl_occdeplim
+    type: BIGINT
+    description: "Occultation Depth Limit Flag"
+  - name: pl_insol
+    type: DOUBLE
+    description: "Insolation Flux [Earth Flux]"
+  - name: pl_insolerr1
+    type: DOUBLE
+    description: "Insolation Flux Upper Unc. [Earth Flux]"
+  - name: pl_insolerr2
+    type: DOUBLE
+    description: "Insolation Flux Lower Unc. [Earth Flux]"
+  - name: pl_insolsymerr
+    type: DOUBLE
+    description: "pl insolsymerr"
+  - name: pl_insollim
+    type: BIGINT
+    description: "Insolation Flux Limit Flag"
+  - name: pl_dens
+    type: DOUBLE
+    description: "Planet Density [g/cm**3]"
+  - name: pl_denserr1
+    type: DOUBLE
+    description: "Planet Density Upper Unc. [g/cm**3]"
+  - name: pl_denserr2
+    type: DOUBLE
+    description: "Planet Density Lower Unc. [g/cm**3]"
+  - name: pl_denssymerr
+    type: DOUBLE
+    description: "pl denssymerr"
+  - name: pl_denslim
+    type: BIGINT
+    description: "Planet Density Limit Flag"
+  - name: pl_trandep
+    type: DOUBLE
+    description: "Transit Depth [%]"
+  - name: pl_trandeperr1
+    type: DOUBLE
+    description: "Transit Depth Upper Unc. [%]"
+  - name: pl_trandeperr2
+    type: DOUBLE
+    description: "Transit Depth Lower Unc. [%]"
+  - name: pl_trandepsymerr
+    type: DOUBLE
+    description: "pl trandepsymerr"
+  - name: pl_trandeplim
+    type: BIGINT
+    description: "Transit Depth Limit Flag"
+  - name: pl_tranmid
+    type: DOUBLE
+    description: "Transit Midpoint [days]"
+  - name: pl_tranmiderr1
+    type: DOUBLE
+    description: "Transit Midpoint Upper Unc. [days]"
+  - name: pl_tranmiderr2
+    type: DOUBLE
+    description: "Transit Midpoint Lower Unc. [days]"
+  - name: pl_tranmidsymerr
+    type: DOUBLE
+    description: "pl tranmidsymerr"
+  - name: pl_tranmidlim
+    type: BIGINT
+    description: "Transit Midpoint Limit Flag"
+  - name: pl_tranmid_systemref
+    type: VARCHAR
+    description: "Time Reference Frame and Standard"
+  - name: pl_trandur
+    type: DOUBLE
+    description: "Transit Duration [hours]"
+  - name: pl_trandurerr1
+    type: DOUBLE
+    description: "Transit Duration Upper Unc. [hours]"
+  - name: pl_trandurerr2
+    type: DOUBLE
+    description: "Transit Duration Lower Unc. [hours]"
+  - name: pl_trandursymerr
+    type: DOUBLE
+    description: "pl trandursymerr"
+  - name: pl_trandurlim
+    type: BIGINT
+    description: "Transit Duration Limit Flag"
+  - name: pl_rvamp
+    type: DOUBLE
+    description: "Radial Velocity Amplitude [m/s]"
+  - name: pl_rvamperr1
+    type: DOUBLE
+    description: "Radial Velocity Amplitude Upper Unc. [m/s]"
+  - name: pl_rvamperr2
+    type: DOUBLE
+    description: "Radial Velocity Amplitude Lower Unc. [m/s]"
+  - name: pl_rvampsymerr
+    type: DOUBLE
+    description: "pl rvampsymerr"
+  - name: pl_rvamplim
+    type: BIGINT
+    description: "Radial Velocity Amplitude Limit Flag"
+  - name: pl_radj
+    type: DOUBLE
+    description: "Planet Radius [Jupiter Radius]"
+  - name: pl_radjerr1
+    type: DOUBLE
+    description: "Planet Radius Upper Unc. [Jupiter Radius]"
+  - name: pl_radjerr2
+    type: DOUBLE
+    description: "Planet Radius Lower Unc. [Jupiter Radius]"
+  - name: pl_radjsymerr
+    type: DOUBLE
+    description: "pl radjsymerr"
+  - name: pl_radjlim
+    type: BIGINT
+    description: "Planet Radius Limit Flag"
+  - name: pl_rade
+    type: DOUBLE
+    description: "Planet Radius [Earth Radius]"
+  - name: pl_radeerr1
+    type: DOUBLE
+    description: "Planet Radius Upper Unc. [Earth Radius]"
+  - name: pl_radeerr2
+    type: DOUBLE
+    description: "Planet Radius Lower Unc. [Earth Radius]"
+  - name: pl_radesymerr
+    type: DOUBLE
+    description: "pl radesymerr"
+  - name: pl_radelim
+    type: BIGINT
+    description: "Planet Radius Limit Flag"
+  - name: pl_ratror
+    type: DOUBLE
+    description: "Ratio of Planet to Stellar Radius"
+  - name: pl_ratrorerr1
+    type: DOUBLE
+    description: "Ratio of Planet to Stellar Radius Upper Unc."
+  - name: pl_ratrorerr2
+    type: DOUBLE
+    description: "Ratio of Planet to Stellar Radius Lower Unc."
+  - name: pl_ratrorsymerr
+    type: DOUBLE
+    description: "pl ratrorsymerr"
+  - name: pl_ratrorlim
+    type: BIGINT
+    description: "Ratio of Planet to Stellar Radius Limit Flag"
+  - name: pl_ratdor
+    type: DOUBLE
+    description: "Ratio of Semi-Major Axis to Stellar Radius"
+  - name: pl_ratdorerr1
+    type: DOUBLE
+    description: "Ratio of Semi-Major Axis to Stellar Radius Upper Unc."
+  - name: pl_ratdorerr2
+    type: DOUBLE
+    description: "Ratio of Semi-Major Axis to Stellar Radius Lower Unc."
+  - name: pl_ratdorsymerr
+    type: DOUBLE
+    description: "pl ratdorsymerr"
+  - name: pl_ratdorlim
+    type: BIGINT
+    description: "Ratio of Semi-Major Axis to Stellar Radius Limit Flag"
+  - name: pl_imppar
+    type: DOUBLE
+    description: "Impact Parameter"
+  - name: pl_impparerr1
+    type: DOUBLE
+    description: "Impact Parameter Upper Unc."
+  - name: pl_impparerr2
+    type: DOUBLE
+    description: "Impact Parameter Lower Unc."
+  - name: pl_impparsymerr
+    type: DOUBLE
+    description: "pl impparsymerr"
+  - name: pl_impparlim
+    type: BIGINT
+    description: "Impact Parameter Limit Flag"
+  - name: pl_cmassj
+    type: DOUBLE
+    description: "pl cmassj"
+  - name: pl_cmassjerr1
+    type: DOUBLE
+    description: "pl cmassjerr1"
+  - name: pl_cmassjerr2
+    type: DOUBLE
+    description: "pl cmassjerr2"
+  - name: pl_cmassjsymerr
+    type: DOUBLE
+    description: "pl cmassjsymerr"
+  - name: pl_cmassjlim
+    type: DOUBLE
+    description: "pl cmassjlim"
+  - name: pl_cmasse
+    type: DOUBLE
+    description: "pl cmasse"
+  - name: pl_cmasseerr1
+    type: DOUBLE
+    description: "pl cmasseerr1"
+  - name: pl_cmasseerr2
+    type: DOUBLE
+    description: "pl cmasseerr2"
+  - name: pl_cmassesymerr
+    type: DOUBLE
+    description: "pl cmassesymerr"
+  - name: pl_cmasselim
+    type: DOUBLE
+    description: "pl cmasselim"
+  - name: pl_massj
+    type: DOUBLE
+    description: "pl massj"
+  - name: pl_massjerr1
+    type: DOUBLE
+    description: "pl massjerr1"
+  - name: pl_massjerr2
+    type: DOUBLE
+    description: "pl massjerr2"
+  - name: pl_massjsymerr
+    type: DOUBLE
+    description: "pl massjsymerr"
+  - name: pl_massjlim
+    type: DOUBLE
+    description: "pl massjlim"
+  - name: pl_masse
+    type: DOUBLE
+    description: "pl masse"
+  - name: pl_masseerr1
+    type: DOUBLE
+    description: "pl masseerr1"
+  - name: pl_masseerr2
+    type: DOUBLE
+    description: "pl masseerr2"
+  - name: pl_massesymerr
+    type: DOUBLE
+    description: "pl massesymerr"
+  - name: pl_masselim
+    type: DOUBLE
+    description: "pl masselim"
+  - name: pl_bmassj
+    type: DOUBLE
+    description: "Planet Mass or Mass*sin(i) [Jupiter Mass]"
+  - name: pl_bmassjerr1
+    type: DOUBLE
+    description: "Planet Mass or Mass*sin(i) [Jupiter Mass] Upper Unc."
+  - name: pl_bmassjerr2
+    type: DOUBLE
+    description: "Planet Mass or Mass*sin(i) [Jupiter Mass] Lower Unc."
+  - name: pl_bmassjsymerr
+    type: DOUBLE
+    description: "pl bmassjsymerr"
+  - name: pl_bmassjlim
+    type: BIGINT
+    description: "Planet Mass or Mass*sin(i) [Jupiter Mass] Limit Flag"
+  - name: pl_bmasse
+    type: DOUBLE
+    description: "Planet Mass or Mass*sin(i) [Earth Mass]"
+  - name: pl_bmasseerr1
+    type: DOUBLE
+    description: "Planet Mass or Mass*sin(i) [Earth Mass] Upper Unc."
+  - name: pl_bmasseerr2
+    type: DOUBLE
+    description: "Planet Mass or Mass*sin(i) [Earth Mass] Lower Unc."
+  - name: pl_bmassesymerr
+    type: DOUBLE
+    description: "pl bmassesymerr"
+  - name: pl_bmasselim
+    type: BIGINT
+    description: "Planet Mass or Mass*sin(i) [Earth Mass] Limit Flag"
+  - name: pl_bmassprov
+    type: VARCHAR
+    description: "Planet Mass or Mass*sin(i) Provenance"
+  - name: pl_msinij
+    type: DOUBLE
+    description: "pl msinij"
+  - name: pl_msinijerr1
+    type: DOUBLE
+    description: "pl msinijerr1"
+  - name: pl_msinijerr2
+    type: DOUBLE
+    description: "pl msinijerr2"
+  - name: pl_msinijsymerr
+    type: DOUBLE
+    description: "pl msinijsymerr"
+  - name: pl_msinijlim
+    type: DOUBLE
+    description: "pl msinijlim"
+  - name: pl_msinie
+    type: DOUBLE
+    description: "pl msinie"
+  - name: pl_msinieerr1
+    type: DOUBLE
+    description: "pl msinieerr1"
+  - name: pl_msinieerr2
+    type: DOUBLE
+    description: "pl msinieerr2"
+  - name: pl_msiniesymerr
+    type: DOUBLE
+    description: "pl msiniesymerr"
+  - name: pl_msinielim
+    type: DOUBLE
+    description: "pl msinielim"
+  - name: pl_projobliq
+    type: DOUBLE
+    description: "Projected Obliquity [deg]"
+  - name: pl_projobliqerr1
+    type: DOUBLE
+    description: "Projected Obliquity Upper Unc. [deg]"
+  - name: pl_projobliqerr2
+    type: DOUBLE
+    description: "Projected Obliquity Lower Unc. [deg]"
+  - name: pl_projobliqsymerr
+    type: DOUBLE
+    description: "pl projobliqsymerr"
+  - name: pl_projobliqlim
+    type: BIGINT
+    description: "Projected Obliquity Limit Flag"
+  - name: pl_trueobliq
+    type: DOUBLE
+    description: "True Obliquity [deg]"
+  - name: pl_trueobliqerr1
+    type: DOUBLE
+    description: "True Obliquity Upper Unc. [deg]"
+  - name: pl_trueobliqerr2
+    type: DOUBLE
+    description: "True Obliquity Lower Unc. [deg]"
+  - name: pl_trueobliqsymerr
+    type: DOUBLE
+    description: "pl trueobliqsymerr"
+  - name: pl_trueobliqlim
+    type: BIGINT
+    description: "True Obliquity Limit Flag"
+  - name: st_teff
+    type: DOUBLE
+    description: "Stellar Effective Temperature [K]"
+  - name: st_tefferr1
+    type: DOUBLE
+    description: "Stellar Effective Temperature Upper Upper Unc. [K]"
+  - name: st_tefferr2
+    type: DOUBLE
+    description: "Stellar Effective Temperature Lower Lower Unc. [K]"
+  - name: st_teffsymerr
+    type: DOUBLE
+    description: "st teffsymerr"
+  - name: st_tefflim
+    type: BIGINT
+    description: "Stellar Effective Temperature Limit Flag"
+  - name: st_log_rhk
+    type: DOUBLE
+    description: "st log rhk"
+  - name: st_log_rhkerr1
+    type: DOUBLE
+    description: "st log rhkerr1"
+  - name: st_log_rhkerr2
+    type: DOUBLE
+    description: "st log rhkerr2"
+  - name: st_log_rhksymerr
+    type: DOUBLE
+    description: "st log rhksymerr"
+  - name: st_log_rhklim
+    type: DOUBLE
+    description: "st log rhklim"
+  - name: st_met
+    type: DOUBLE
+    description: "Stellar Metallicity [dex]"
+  - name: st_meterr1
+    type: DOUBLE
+    description: "Stellar Metallicity Upper Unc. [dex]"
+  - name: st_meterr2
+    type: DOUBLE
+    description: "Stellar Metallicity Lower Unc. [dex]"
+  - name: st_metsymerr
+    type: DOUBLE
+    description: "st metsymerr"
+  - name: st_metlim
+    type: BIGINT
+    description: "Stellar Metallicity Limit Flag"
+  - name: st_metratio
+    type: VARCHAR
+    description: "Stellar Metallicity Ratio"
+  - name: st_radv
+    type: DOUBLE
+    description: "Systemic Radial Velocity [km/s]"
+  - name: st_radverr1
+    type: DOUBLE
+    description: "Systemic Radial Velocity Upper Unc. [km/s]"
+  - name: st_radverr2
+    type: DOUBLE
+    description: "Systemic Radial Velocity Lower Unc. [km/s]"
+  - name: st_radvsymerr
+    type: DOUBLE
+    description: "st radvsymerr"
+  - name: st_radvlim
+    type: BIGINT
+    description: "Systemic Radial Velocity Limit Flag"
+  - name: st_vsin
+    type: DOUBLE
+    description: "Stellar Rotational Velocity [km/s]"
+  - name: st_vsinerr1
+    type: DOUBLE
+    description: "Stellar Rotational Velocity [km/s] Upper Unc."
+  - name: st_vsinerr2
+    type: DOUBLE
+    description: "Stellar Rotational Velocity [km/s] Lower Unc."
+  - name: st_vsinsymerr
+    type: DOUBLE
+    description: "st vsinsymerr"
+  - name: st_vsinlim
+    type: BIGINT
+    description: "Stellar Rotational Velocity Limit Flag"
+  - name: st_rotp
+    type: DOUBLE
+    description: "Stellar Rotational Period [days]"
+  - name: st_rotperr1
+    type: DOUBLE
+    description: "Stellar Rotational Period [days] Upper Unc."
+  - name: st_rotperr2
+    type: DOUBLE
+    description: "Stellar Rotational Period [days] Lower Unc."
+  - name: st_rotpsymerr
+    type: DOUBLE
+    description: "st rotpsymerr"
+  - name: st_rotplim
+    type: BIGINT
+    description: "Stellar Rotational Period Limit Flag"
+  - name: st_lum
+    type: DOUBLE
+    description: "Stellar Luminosity [log(Solar)]"
+  - name: st_lumerr1
+    type: DOUBLE
+    description: "Stellar Luminosity Upper Unc. [log(Solar)]"
+  - name: st_lumerr2
+    type: DOUBLE
+    description: "Stellar Luminosity Lower Unc. [log(Solar)]"
+  - name: st_lumsymerr
+    type: DOUBLE
+    description: "st lumsymerr"
+  - name: st_lumlim
+    type: BIGINT
+    description: "Stellar Luminosity Limit Flag"
+  - name: st_spectype
+    type: VARCHAR
+    description: "Spectral Type"
+  - name: st_logg
+    type: DOUBLE
+    description: "Stellar Surface Gravity [log10(cm/s**2)]"
+  - name: st_loggerr1
+    type: DOUBLE
+    description: "Stellar Surface Gravity Upper Unc. [log10(cm/s**2)]"
+  - name: st_loggerr2
+    type: DOUBLE
+    description: "Stellar Surface Gravity Lower Unc. [log10(cm/s**2)]"
+  - name: st_loggsymerr
+    type: DOUBLE
+    description: "st loggsymerr"
+  - name: st_logglim
+    type: BIGINT
+    description: "Stellar Surface Gravity Limit Flag"
+  - name: st_age
+    type: DOUBLE
+    description: "Stellar Age [Gyr]"
+  - name: st_ageerr1
+    type: DOUBLE
+    description: "Stellar Age Upper Unc. [Gyr]"
+  - name: st_ageerr2
+    type: DOUBLE
+    description: "Stellar Age Lower Unc. [Gyr]"
+  - name: st_agesymerr
+    type: DOUBLE
+    description: "st agesymerr"
+  - name: st_agelim
+    type: BIGINT
+    description: "Stellar Age Limit Flag"
+  - name: st_mass
+    type: DOUBLE
+    description: "Stellar Mass [Solar mass]"
+  - name: st_masserr1
+    type: DOUBLE
+    description: "Stellar Mass Upper Unc. [Solar mass]"
+  - name: st_masserr2
+    type: DOUBLE
+    description: "Stellar Mass Lower Unc. [Solar mass]"
+  - name: st_masssymerr
+    type: DOUBLE
+    description: "st masssymerr"
+  - name: st_masslim
+    type: BIGINT
+    description: "Stellar Mass Limit Flag"
+  - name: st_dens
+    type: DOUBLE
+    description: "Stellar Density [g/cm**3]"
+  - name: st_denserr1
+    type: DOUBLE
+    description: "Stellar Density Upper Unc. [g/cm**3]"
+  - name: st_denserr2
+    type: DOUBLE
+    description: "Stellar Density Lower Unc. [g/cm**3]"
+  - name: st_denssymerr
+    type: DOUBLE
+    description: "st denssymerr"
+  - name: st_denslim
+    type: BIGINT
+    description: "Stellar Density Limit Flag"
+  - name: st_rad
+    type: DOUBLE
+    description: "Stellar Radius [Solar Radius]"
+  - name: st_raderr1
+    type: DOUBLE
+    description: "Stellar Radius Upper Unc. [Solar Radius]"
+  - name: st_raderr2
+    type: DOUBLE
+    description: "Stellar Radius Lower Unc. [Solar Radius]"
+  - name: st_radsymerr
+    type: DOUBLE
+    description: "st radsymerr"
+  - name: st_radlim
+    type: BIGINT
+    description: "Stellar Radius Limit Flag"
+  - name: sy_pm
+    type: DOUBLE
+    description: "Total Proper Motion [mas/yr]"
+  - name: sy_pmerr1
+    type: DOUBLE
+    description: "Total Proper Motion Upper Unc [mas/yr]"
+  - name: sy_pmerr2
+    type: DOUBLE
+    description: "Total Proper Motion Lower Unc [mas/yr]"
+  - name: sy_pmsymerr
+    type: DOUBLE
+    description: "sy pmsymerr"
+  - name: sy_pmra
+    type: DOUBLE
+    description: "Proper Motion (RA) [mas/yr]"
+  - name: sy_pmraerr1
+    type: DOUBLE
+    description: "Proper Motion (RA) [mas/yr] Upper Unc"
+  - name: sy_pmraerr2
+    type: DOUBLE
+    description: "Proper Motion (RA) [mas/yr] Lower Unc"
+  - name: sy_pmrasymerr
+    type: DOUBLE
+    description: "sy pmrasymerr"
+  - name: sy_pmdec
+    type: DOUBLE
+    description: "Proper Motion (Dec) [mas/yr]"
+  - name: sy_pmdecerr1
+    type: DOUBLE
+    description: "Proper Motion (Dec) [mas/yr] Upper Unc"
+  - name: sy_pmdecerr2
+    type: DOUBLE
+    description: "Proper Motion (Dec) [mas/yr] Lower Unc"
+  - name: sy_pmdecsymerr
+    type: DOUBLE
+    description: "sy pmdecsymerr"
+  - name: sy_plx
+    type: DOUBLE
+    description: "Parallax [mas]"
+  - name: sy_plxerr1
+    type: DOUBLE
+    description: "Parallax [mas] Upper Unc"
+  - name: sy_plxerr2
+    type: DOUBLE
+    description: "Parallax [mas] Lower Unc"
+  - name: sy_plxsymerr
+    type: DOUBLE
+    description: "sy plxsymerr"
+  - name: sy_plxlim
+    type: DOUBLE
+    description: "sy plxlim"
+  - name: sy_dist
+    type: DOUBLE
+    description: "Distance [pc]"
+  - name: sy_disterr1
+    type: DOUBLE
+    description: "Distance [pc] Upper Unc"
+  - name: sy_disterr2
+    type: DOUBLE
+    description: "Distance [pc] Lower Unc"
+  - name: sy_distsymerr
+    type: DOUBLE
+    description: "sy distsymerr"
+  - name: sy_distlim
+    type: DOUBLE
+    description: "sy distlim"
+  - name: sy_bmag
+    type: DOUBLE
+    description: "B (Johnson) Magnitude"
+  - name: sy_bmagerr1
+    type: DOUBLE
+    description: "B (Johnson) Magnitude Upper Unc"
+  - name: sy_bmagerr2
+    type: DOUBLE
+    description: "B (Johnson) Magnitude Lower Unc"
+  - name: sy_bmagsymerr
+    type: DOUBLE
+    description: "sy bmagsymerr"
+  - name: sy_vmag
+    type: DOUBLE
+    description: "V (Johnson) Magnitude"
+  - name: sy_vmagerr1
+    type: DOUBLE
+    description: "V (Johnson) Magnitude Upper Unc"
+  - name: sy_vmagerr2
+    type: DOUBLE
+    description: "V (Johnson) Magnitude Lower Unc"
+  - name: sy_vmaglim
+    type: DOUBLE
+    description: "sy vmaglim"
+  - name: sy_vmagsymerr
+    type: DOUBLE
+    description: "sy vmagsymerr"
+  - name: sy_jmag
+    type: DOUBLE
+    description: "J (2MASS) Magnitude"
+  - name: sy_jmagerr1
+    type: DOUBLE
+    description: "J (2MASS) Magnitude Upper Unc"
+  - name: sy_jmagerr2
+    type: DOUBLE
+    description: "J (2MASS) Magnitude Lower Unc"
+  - name: sy_jmaglim
+    type: DOUBLE
+    description: "sy jmaglim"
+  - name: sy_jmagsymerr
+    type: DOUBLE
+    description: "sy jmagsymerr"
+  - name: sy_hmag
+    type: DOUBLE
+    description: "H (2MASS) Magnitude"
+  - name: sy_hmagerr1
+    type: DOUBLE
+    description: "H (2MASS) Magnitude Upper Unc"
+  - name: sy_hmagerr2
+    type: DOUBLE
+    description: "H (2MASS) Magnitude Lower Unc"
+  - name: sy_hmaglim
+    type: DOUBLE
+    description: "sy hmaglim"
+  - name: sy_hmagsymerr
+    type: DOUBLE
+    description: "sy hmagsymerr"
+  - name: sy_kmag
+    type: DOUBLE
+    description: "Ks (2MASS) Magnitude"
+  - name: sy_kmagerr1
+    type: DOUBLE
+    description: "Ks (2MASS) Magnitude Upper Unc"
+  - name: sy_kmagerr2
+    type: DOUBLE
+    description: "Ks (2MASS) Magnitude Lower Unc"
+  - name: sy_kmaglim
+    type: DOUBLE
+    description: "sy kmaglim"
+  - name: sy_kmagsymerr
+    type: DOUBLE
+    description: "sy kmagsymerr"
+  - name: sy_umag
+    type: DOUBLE
+    description: "u (Sloan) Magnitude"
+  - name: sy_umagerr1
+    type: DOUBLE
+    description: "u (Sloan) Magnitude Upper Unc"
+  - name: sy_umagerr2
+    type: DOUBLE
+    description: "u (Sloan) Magnitude Lower Unc"
+  - name: sy_umagsymerr
+    type: DOUBLE
+    description: "sy umagsymerr"
+  - name: sy_rmag
+    type: DOUBLE
+    description: "r (Sloan) Magnitude"
+  - name: sy_rmagerr1
+    type: DOUBLE
+    description: "r (Sloan) Magnitude Upper Unc"
+  - name: sy_rmagerr2
+    type: DOUBLE
+    description: "r (Sloan) Magnitude Lower Unc"
+  - name: sy_rmagsymerr
+    type: DOUBLE
+    description: "sy rmagsymerr"
+  - name: sy_imag
+    type: DOUBLE
+    description: "i (Sloan) Magnitude"
+  - name: sy_imagerr1
+    type: DOUBLE
+    description: "i (Sloan) Magnitude Upper Unc"
+  - name: sy_imagerr2
+    type: DOUBLE
+    description: "i (Sloan) Magnitude Lower Unc"
+  - name: sy_imaglim
+    type: DOUBLE
+    description: "sy imaglim"
+  - name: sy_imagsymerr
+    type: DOUBLE
+    description: "sy imagsymerr"
+  - name: sy_zmag
+    type: DOUBLE
+    description: "z (Sloan) Magnitude"
+  - name: sy_zmagerr1
+    type: DOUBLE
+    description: "z (Sloan) Magnitude Upper Unc"
+  - name: sy_zmagerr2
+    type: DOUBLE
+    description: "z (Sloan) Magnitude Lower Unc"
+  - name: sy_zmagsymerr
+    type: DOUBLE
+    description: "sy zmagsymerr"
+  - name: sy_w1mag
+    type: DOUBLE
+    description: "W1 (WISE) Magnitude"
+  - name: sy_w1magerr1
+    type: DOUBLE
+    description: "W1 (WISE) Magnitude Upper Unc"
+  - name: sy_w1magerr2
+    type: DOUBLE
+    description: "W1 (WISE) Magnitude Lower Unc"
+  - name: sy_w1magsymerr
+    type: DOUBLE
+    description: "sy w1magsymerr"
+  - name: sy_w2mag
+    type: DOUBLE
+    description: "W2 (WISE) Magnitude"
+  - name: sy_w2magerr1
+    type: DOUBLE
+    description: "W2 (WISE) Magnitude Upper Unc"
+  - name: sy_w2magerr2
+    type: DOUBLE
+    description: "W2 (WISE) Magnitude Lower Unc"
+  - name: sy_w2magsymerr
+    type: DOUBLE
+    description: "sy w2magsymerr"
+  - name: sy_w3mag
+    type: DOUBLE
+    description: "W3 (WISE) Magnitude"
+  - name: sy_w3magerr1
+    type: DOUBLE
+    description: "W3 (WISE) Magnitude Upper Unc"
+  - name: sy_w3magerr2
+    type: DOUBLE
+    description: "W3 (WISE) Magnitude Lower Unc"
+  - name: sy_w3magsymerr
+    type: DOUBLE
+    description: "sy w3magsymerr"
+  - name: sy_w4mag
+    type: DOUBLE
+    description: "W4 (WISE) Magnitude"
+  - name: sy_w4magerr1
+    type: DOUBLE
+    description: "W4 (WISE) Magnitude Upper Unc"
+  - name: sy_w4magerr2
+    type: DOUBLE
+    description: "W4 (WISE) Magnitude Lower Unc"
+  - name: sy_w4magsymerr
+    type: DOUBLE
+    description: "sy w4magsymerr"
+  - name: sy_icmag
+    type: DOUBLE
+    description: "I (Cousins) Magnitude"
+  - name: sy_icmagerr1
+    type: DOUBLE
+    description: "I (Cousins) Magnitude Upper Unc"
+  - name: sy_icmagerr2
+    type: DOUBLE
+    description: "I (Cousins) Magnitude Lower Unc"
+  - name: sy_icmaglim
+    type: DOUBLE
+    description: "sy icmaglim"
+  - name: sy_icmagsymerr
+    type: DOUBLE
+    description: "sy icmagsymerr"
+  - name: sy_gmag
+    type: DOUBLE
+    description: "g (Sloan) Magnitude"
+  - name: sy_gmagerr1
+    type: DOUBLE
+    description: "g (Sloan) Magnitude Upper Unc"
+  - name: sy_gmagerr2
+    type: DOUBLE
+    description: "g (Sloan) Magnitude Lower Unc"
+  - name: sy_gmagsymerr
+    type: DOUBLE
+    description: "sy gmagsymerr"
+  - name: sy_gaiamag
+    type: DOUBLE
+    description: "Gaia Magnitude"
+  - name: sy_gaiamagerr1
+    type: DOUBLE
+    description: "Gaia Magnitude Upper Unc"
+  - name: sy_gaiamagerr2
+    type: DOUBLE
+    description: "Gaia Magnitude Lower Unc"
+  - name: sy_gaiamagsymerr
+    type: DOUBLE
+    description: "sy gaiamagsymerr"
+  - name: sy_tmag
+    type: DOUBLE
+    description: "TESS Magnitude"
+  - name: sy_tmagerr1
+    type: DOUBLE
+    description: "TESS Magnitude Upper Unc"
+  - name: sy_tmagerr2
+    type: DOUBLE
+    description: "TESS Magnitude Lower Unc"
+  - name: sy_tmagsymerr
+    type: DOUBLE
+    description: "sy tmagsymerr"
+  - name: sy_kepmag
+    type: DOUBLE
+    description: "Kepler Magnitude"
+  - name: sy_kepmagsymerr
+    type: DOUBLE
+    description: "sy kepmagsymerr"
+  - name: x
+    type: DOUBLE
+    description: "Spatial Coordinate X"
+  - name: y
+    type: DOUBLE
+    description: "Spatial Coordinate Y"
+  - name: z
+    type: DOUBLE
+    description: "Spatial Coordinate Z"
+  - name: htm20
+    type: BIGINT
+    description: "Spatial Index"
+  - name: pl_angsep
+    type: DOUBLE
+    description: "Angular Separation [mas]"
+  - name: pl_angseplim
+    type: DOUBLE
+    description: "Angular Separation Limit Flag"
+  - name: pl_ndispec
+    type: BIGINT
+    description: "Number of Direct Imaging Spectra"
+  - name: gaia_dr3_id
+    type: VARCHAR
+    description: "Gaia DR3_ID"
+  - name: pl_nobs_jwst_tran
+    type: BIGINT
+    description: "Number of JWST Observations - Transit"
+  - name: pl_nobs_jwst_e
+    type: BIGINT
+    description: "Number of JWST Observations - Exclipse"
+  - name: pl_nobs_jwst_di
+    type: BIGINT
+    description: "Number of JWST Observations - Direct Imaging"
+  - name: pl_nobs_jwst_pc
+    type: BIGINT
+    description: "Number of JWST Observations - Phase Curve"
+  - name: pl_tsm
+    type: DOUBLE
+    description: "Transit Spectroscopy Metric"
+  - name: pl_tsmlim
+    type: BIGINT
+    description: "Transit Spectroscopy Metric Limit"
+  - name: pl_esm
+    type: DOUBLE
+    description: "Emission Spectroscopy Metric"
+  - name: pl_esmlim
+    type: BIGINT
+    description: "Emission Spectroscopy Metric Limit"

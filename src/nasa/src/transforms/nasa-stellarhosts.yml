@@ -1,0 +1,400 @@
+# Stellar Hosts: one row per star per parameter reference — not unique on (sy_name, hostname, st_refname) (verified), so explicitly keyless. No temporal column in the dump.
+# curation: dropped 2 all-null, 0 *_reflink (HTML), 0 *_solnid, 2 '*str' display-dup columns.
+key: []
+columns:
+  - name: hostname
+    type: VARCHAR
+    description: "Host Name"
+  - name: hd_name
+    type: VARCHAR
+    description: "HD ID"
+  - name: hip_name
+    type: VARCHAR
+    description: "HIP ID"
+  - name: tic_id
+    type: VARCHAR
+    description: "TIC ID"
+  - name: st_refname
+    type: VARCHAR
+    description: "Stellar Parameter Reference (citation text extracted from the archive's HTML anchor)"
+  - name: sy_refname
+    type: VARCHAR
+    description: "System Parameter Reference (citation text extracted from the archive's HTML anchor)"
+  - name: ra
+    type: DOUBLE
+    description: "RA [decimal] [deg]"
+  - name: dec
+    type: DOUBLE
+    description: "Dec [decimal] [deg]"
+  - name: glon
+    type: DOUBLE
+    description: "Galactic Longitude [deg]"
+  - name: glat
+    type: DOUBLE
+    description: "Galactic Latitude [deg]"
+  - name: elon
+    type: DOUBLE
+    description: "Ecliptic Longitude [deg]"
+  - name: elat
+    type: DOUBLE
+    description: "Ecliptic Latitude [deg]"
+  - name: sy_icmag
+    type: DOUBLE
+    description: "I (Cousins) Magnitude"
+  - name: sy_icmagerr1
+    type: DOUBLE
+    description: "I (Cousins) Magnitude Upper Unc"
+  - name: sy_icmagerr2
+    type: DOUBLE
+    description: "I (Cousins) Magnitude Lower Unc"
+  - name: st_teff
+    type: DOUBLE
+    description: "Stellar Effective Temperature [K]"
+  - name: st_tefferr1
+    type: DOUBLE
+    description: "Stellar Effective Temperature Upper Unc. [K]"
+  - name: st_tefferr2
+    type: DOUBLE
+    description: "Stellar Effective Temperature Lower Unc. [K]"
+  - name: st_tefflim
+    type: BIGINT
+    description: "Stellar Effective Temperature Limit Flag"
+  - name: st_met
+    type: DOUBLE
+    description: "Stellar Metallicity [dex]"
+  - name: st_meterr1
+    type: DOUBLE
+    description: "Stellar Metallicity Upper Unc. [dex]"
+  - name: st_meterr2
+    type: DOUBLE
+    description: "Stellar Metallicity Lower Unc. [dex]"
+  - name: st_metlim
+    type: BIGINT
+    description: "Stellar Metallicity Limit Flag"
+  - name: st_radv
+    type: DOUBLE
+    description: "Systemic Radial Velocity [km/s]"
+  - name: st_radverr1
+    type: DOUBLE
+    description: "Systemic Radial Velocity Upper Unc. [km/s]"
+  - name: st_radverr2
+    type: DOUBLE
+    description: "Systemic Radial Velocity Lower Unc. [km/s]"
+  - name: st_radvlim
+    type: BIGINT
+    description: "Systemic Radial Velocity Limit Flag"
+  - name: st_vsin
+    type: DOUBLE
+    description: "Stellar Rotational Velocity [km/s]"
+  - name: st_vsinerr1
+    type: DOUBLE
+    description: "Stellar Rotational Velocity [km/s] Upper Unc."
+  - name: st_vsinerr2
+    type: DOUBLE
+    description: "Stellar Rotational Velocity [km/s] Lower Unc."
+  - name: st_vsinlim
+    type: BIGINT
+    description: "Stellar Rotational Velocity Limit Flag"
+  - name: st_lum
+    type: DOUBLE
+    description: "Stellar Luminosity [log(Solar)] [log(Lsun)]"
+  - name: st_lumerr1
+    type: DOUBLE
+    description: "Stellar Luminosity Upper Unc. [log(Solar)] [log(Lsun)]"
+  - name: st_lumerr2
+    type: DOUBLE
+    description: "Stellar Luminosity Lower Unc. [log(Solar)] [log(Lsun)]"
+  - name: st_lumlim
+    type: BIGINT
+    description: "Stellar Luminosity Limit Flag"
+  - name: st_logg
+    type: DOUBLE
+    description: "Stellar Surface Gravity [log(cm/s**2)]"
+  - name: st_loggerr1
+    type: DOUBLE
+    description: "Stellar Surface Gravity Upper Unc. [log(cm/s**2)]"
+  - name: st_loggerr2
+    type: DOUBLE
+    description: "Stellar Surface Gravity Lower Unc. [log(cm/s**2)]"
+  - name: st_logglim
+    type: BIGINT
+    description: "Stellar Surface Gravity Limit Flag"
+  - name: st_age
+    type: DOUBLE
+    description: "Stellar Age [Gyr]"
+  - name: st_ageerr1
+    type: DOUBLE
+    description: "Stellar Age Upper Unc. [Gyr]"
+  - name: st_ageerr2
+    type: DOUBLE
+    description: "Stellar Age Lower Unc. [Gyr]"
+  - name: st_agelim
+    type: BIGINT
+    description: "Stellar Age Limit Flag"
+  - name: st_mass
+    type: DOUBLE
+    description: "Stellar Mass [Solar mass] [Msun]"
+  - name: st_masserr1
+    type: DOUBLE
+    description: "Stellar Mass Upper Unc. [Solar mass] [Msun]"
+  - name: st_masserr2
+    type: DOUBLE
+    description: "Stellar Mass Lower Unc. [Solar mass] [Msun]"
+  - name: st_masslim
+    type: BIGINT
+    description: "Stellar Mass Limit Flag"
+  - name: st_dens
+    type: DOUBLE
+    description: "Stellar Density [g/cm**3]"
+  - name: st_denserr1
+    type: DOUBLE
+    description: "Stellar Density Upper Unc. [g/cm**3]"
+  - name: st_denserr2
+    type: DOUBLE
+    description: "Stellar Density Lower Unc. [g/cm**3]"
+  - name: st_denslim
+    type: BIGINT
+    description: "Stellar Density Limit Flag"
+  - name: st_rad
+    type: DOUBLE
+    description: "Stellar Radius [Solar Radius] [Rsun]"
+  - name: st_raderr1
+    type: DOUBLE
+    description: "Stellar Radius Upper Unc. [Solar Radius] [Rsun]"
+  - name: st_raderr2
+    type: DOUBLE
+    description: "Stellar Radius Lower Unc. [Solar Radius] [Rsun]"
+  - name: st_radlim
+    type: BIGINT
+    description: "Stellar Radius Limit Flag"
+  - name: sy_snum
+    type: BIGINT
+    description: "Number of Stars"
+  - name: sy_pnum
+    type: BIGINT
+    description: "Number of Planets"
+  - name: sy_mnum
+    type: BIGINT
+    description: "Number of Moons"
+  - name: sy_pm
+    type: DOUBLE
+    description: "Total Proper Motion [mas/yr]"
+  - name: sy_pmerr1
+    type: DOUBLE
+    description: "Total Proper Motion Upper Unc [mas/yr]"
+  - name: sy_pmerr2
+    type: DOUBLE
+    description: "Total Proper Motion Lower Unc [mas/yr]"
+  - name: sy_pmra
+    type: DOUBLE
+    description: "Proper Motion (RA) [mas/yr]"
+  - name: sy_pmraerr1
+    type: DOUBLE
+    description: "Proper Motion (RA) [mas/yr] Upper Unc"
+  - name: sy_pmraerr2
+    type: DOUBLE
+    description: "Proper Motion (RA) [mas/yr] Lower Unc"
+  - name: sy_pmdec
+    type: DOUBLE
+    description: "Proper Motion (Dec) [mas/yr]"
+  - name: sy_pmdecerr1
+    type: DOUBLE
+    description: "Proper Motion (Dec) [mas/yr] Upper Unc"
+  - name: sy_pmdecerr2
+    type: DOUBLE
+    description: "Proper Motion (Dec) [mas/yr] Lower Unc"
+  - name: sy_plx
+    type: DOUBLE
+    description: "Parallax [mas]"
+  - name: sy_plxerr1
+    type: DOUBLE
+    description: "Parallax [mas] Upper Unc"
+  - name: sy_plxerr2
+    type: DOUBLE
+    description: "Parallax [mas] Lower Unc"
+  - name: sy_dist
+    type: DOUBLE
+    description: "Distance [pc]"
+  - name: sy_disterr1
+    type: DOUBLE
+    description: "Distance [pc] Upper Unc"
+  - name: sy_disterr2
+    type: DOUBLE
+    description: "Distance [pc] Lower Unc"
+  - name: sy_bmag
+    type: DOUBLE
+    description: "B (Johnson) Magnitude"
+  - name: sy_bmagerr1
+    type: DOUBLE
+    description: "B (Johnson) Magnitude Upper Unc"
+  - name: sy_bmagerr2
+    type: DOUBLE
+    description: "B (Johnson) Magnitude Lower Unc"
+  - name: sy_vmag
+    type: DOUBLE
+    description: "V (Johnson) Magnitude"
+  - name: sy_vmagerr1
+    type: DOUBLE
+    description: "V (Johnson) Magnitude Upper Unc"
+  - name: sy_vmagerr2
+    type: DOUBLE
+    description: "V (Johnson) Magnitude Lower Unc"
+  - name: sy_jmag
+    type: DOUBLE
+    description: "J (2MASS) Magnitude"
+  - name: sy_jmagerr1
+    type: DOUBLE
+    description: "J (2MASS) Magnitude Upper Unc"
+  - name: sy_jmagerr2
+    type: DOUBLE
+    description: "J (2MASS) Magnitude Lower Unc"
+  - name: sy_hmag
+    type: DOUBLE
+    description: "H (2MASS) Magnitude"
+  - name: sy_hmagerr1
+    type: DOUBLE
+    description: "H (2MASS) Magnitude Upper Unc"
+  - name: sy_hmagerr2
+    type: DOUBLE
+    description: "H (2MASS) Magnitude Lower Unc"
+  - name: sy_kmag
+    type: DOUBLE
+    description: "Ks (2MASS) Magnitude"
+  - name: sy_kmagerr1
+    type: DOUBLE
+    description: "Ks (2MASS) Magnitude Upper Unc"
+  - name: sy_kmagerr2
+    type: DOUBLE
+    description: "Ks (2MASS) Magnitude Lower Unc"
+  - name: sy_umag
+    type: DOUBLE
+    description: "u (Sloan) Magnitude"
+  - name: sy_umagerr1
+    type: DOUBLE
+    description: "u (Sloan) Magnitude Upper Unc"
+  - name: sy_umagerr2
+    type: DOUBLE
+    description: "u (Sloan) Magnitude Lower Unc"
+  - name: sy_rmag
+    type: DOUBLE
+    description: "r (Sloan) Magnitude"
+  - name: sy_rmagerr1
+    type: DOUBLE
+    description: "r (Sloan) Magnitude Upper Unc"
+  - name: sy_rmagerr2
+    type: DOUBLE
+    description: "r (Sloan) Magnitude Lower Unc"
+  - name: sy_imag
+    type: DOUBLE
+    description: "i (Sloan) Magnitude"
+  - name: sy_imagerr1
+    type: DOUBLE
+    description: "i (Sloan) Magnitude Upper Unc"
+  - name: sy_imagerr2
+    type: DOUBLE
+    description: "i (Sloan) Magnitude Lower Unc"
+  - name: sy_zmag
+    type: DOUBLE
+    description: "z (Sloan) Magnitude"
+  - name: sy_zmagerr1
+    type: DOUBLE
+    description: "z (Sloan) Magnitude Upper Unc"
+  - name: sy_zmagerr2
+    type: DOUBLE
+    description: "z (Sloan) Magnitude Lower Unc"
+  - name: sy_w1mag
+    type: DOUBLE
+    description: "W1 (WISE) Magnitude"
+  - name: sy_w1magerr1
+    type: DOUBLE
+    description: "W1 (WISE) Magnitude Upper Unc"
+  - name: sy_w1magerr2
+    type: DOUBLE
+    description: "W1 (WISE) Magnitude Lower Unc"
+  - name: sy_w2mag
+    type: DOUBLE
+    description: "W2 (WISE) Magnitude"
+  - name: sy_w2magerr1
+    type: DOUBLE
+    description: "W2 (WISE) Magnitude Upper Unc"
+  - name: sy_w2magerr2
+    type: DOUBLE
+    description: "W2 (WISE) Magnitude Lower Unc"
+  - name: sy_w3mag
+    type: DOUBLE
+    description: "W3 (WISE) Magnitude"
+  - name: sy_w3magerr1
+    type: DOUBLE
+    description: "W3 (WISE) Magnitude Upper Unc"
+  - name: sy_w3magerr2
+    type: DOUBLE
+    description: "W3 (WISE) Magnitude Lower Unc"
+  - name: sy_w4mag
+    type: DOUBLE
+    description: "W4 (WISE) Magnitude"
+  - name: sy_w4magerr1
+    type: DOUBLE
+    description: "W4 (WISE) Magnitude Upper Unc"
+  - name: sy_w4magerr2
+    type: DOUBLE
+    description: "W4 (WISE) Magnitude Lower Unc"
+  - name: sy_gmag
+    type: DOUBLE
+    description: "g (Sloan) Magnitude"
+  - name: sy_gmagerr1
+    type: DOUBLE
+    description: "g (Sloan) Magnitude Upper Unc"
+  - name: sy_gmagerr2
+    type: DOUBLE
+    description: "g (Sloan) Magnitude Lower Unc"
+  - name: sy_gaiamag
+    type: DOUBLE
+    description: "Gaia Magnitude"
+  - name: sy_gaiamagerr1
+    type: DOUBLE
+    description: "Gaia Magnitude Upper Unc"
+  - name: sy_gaiamagerr2
+    type: DOUBLE
+    description: "Gaia Magnitude Lower Unc"
+  - name: sy_tmag
+    type: DOUBLE
+    description: "TESS Magnitude"
+  - name: sy_tmagerr1
+    type: DOUBLE
+    description: "TESS Magnitude Upper Unc"
+  - name: sy_tmagerr2
+    type: DOUBLE
+    description: "TESS Magnitude Lower Unc"
+  - name: sy_name
+    type: VARCHAR
+    description: "System Name"
+  - name: st_metratio
+    type: VARCHAR
+    description: "Stellar Metallicity Ratio"
+  - name: st_spectype
+    type: VARCHAR
+    description: "Spectral Type"
+  - name: sy_kepmag
+    type: DOUBLE
+    description: "Kepler Magnitude"
+  - name: st_rotp
+    type: DOUBLE
+    description: "Stellar Rotational Period [day]"
+  - name: st_rotperr1
+    type: DOUBLE
+    description: "Stellar Rotational Period [day] Upper Unc."
+  - name: st_rotperr2
+    type: DOUBLE
+    description: "Stellar Rotational Period [day] Lower Unc."
+  - name: st_rotplim
+    type: BIGINT
+    description: "Stellar Rotational Period Limit Flag"
+  - name: gaia_dr2_id
+    type: VARCHAR
+    description: "Gaia DR2 ID"
+  - name: gaia_dr3_id
+    type: VARCHAR
+    description: "Gaia DR3 ID"
+  - name: cb_flag
+    type: BIGINT
+    description: "Circumbinary Flag"

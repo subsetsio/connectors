@@ -1,0 +1,128 @@
+# Kepler Q1-Q17 DR25 Supplemental KOI: one row per KOI (verified unique). Frozen supplemental disposition set.
+# curation: dropped 110 all-null, 0 *_reflink (HTML), 0 *_solnid, 2 '*str' display-dup columns.
+key: [kepoi_name]
+temporal: koi_vet_date
+columns:
+  - name: kepid
+    type: BIGINT
+    description: "KIC Identification Number"
+  - name: kepoi_name
+    type: VARCHAR
+    description: "Kepler Object of Interest Name"
+  - name: kepler_name
+    type: VARCHAR
+    description: "Kepler Name (confirmed planet)"
+  - name: ra
+    type: DOUBLE
+    description: "RA Value [decimal degrees]"
+  - name: ra_err
+    type: DOUBLE
+    description: "RA Uncertainty [decimal degrees]"
+  - name: dec
+    type: DOUBLE
+    description: "Dec Value [decimal degrees]"
+  - name: dec_err
+    type: DOUBLE
+    description: "Dec Uncertainty [decimal degrees]"
+  - name: koi_gmag
+    type: DOUBLE
+    description: "Stellar g (Sloan) Magnitude Value [mags]"
+  - name: koi_rmag
+    type: DOUBLE
+    description: "Stellar r (Sloan) Magnitude Value [mags]"
+  - name: koi_imag
+    type: DOUBLE
+    description: "Stellar i (Sloan) Magnitude Value [mags]"
+  - name: koi_zmag
+    type: DOUBLE
+    description: "Stellar z (Sloan) Magnitude Value [mags]"
+  - name: koi_jmag
+    type: DOUBLE
+    description: "Stellar J (2MASS) Magnitude Value [mags]"
+  - name: koi_jmag_err
+    type: DOUBLE
+    description: "Stellar J (2MASS) Magnitude Uncertainty [mags]"
+  - name: koi_hmag
+    type: DOUBLE
+    description: "Stellar H (2MASS) Magnitude Value [mags]"
+  - name: koi_hmag_err
+    type: DOUBLE
+    description: "Stellar H (2MASS) Magnitude Uncertainty [mags]"
+  - name: koi_kmag
+    type: DOUBLE
+    description: "Stellar K (2MASS) Magnitude Value [mags]"
+  - name: koi_kmag_err
+    type: DOUBLE
+    description: "Stellar K (2MASS) Magnitude Uncertainty [mags]"
+  - name: koi_kepmag
+    type: DOUBLE
+    description: "Stellar Kepler-band Magnitude Value [mags]"
+  - name: koi_delivname
+    type: VARCHAR
+    description: "Delivery Name"
+  - name: koi_vet_stat
+    type: VARCHAR
+    description: "Delivery Vetting Status"
+  - name: koi_disposition
+    type: VARCHAR
+    description: "Exoplanet Archive Disposition"
+  - name: koi_pdisposition
+    type: VARCHAR
+    description: "Disposition using Kepler Data"
+  - name: koi_count
+    type: BIGINT
+    description: "Number of KOIs Identified in the System"
+  - name: koi_time0bk
+    type: DOUBLE
+    description: "Time to First Transit Value [BKJD=BJD-2454833]"
+  - name: koi_time0bk_err1
+    type: DOUBLE
+    description: "Time to First Transit Upper Uncertainty [BKJD]"
+  - name: koi_time0bk_err2
+    type: DOUBLE
+    description: "Time to First Transit Lower Uncertainty [BKJD]"
+  - name: koi_period
+    type: DOUBLE
+    description: "Transit Period Value [days]"
+  - name: koi_period_err1
+    type: DOUBLE
+    description: "Transit Period Upper Uncertainty [days]"
+  - name: koi_period_err2
+    type: DOUBLE
+    description: "Transit Period Lower Uncertainty [days]"
+  - name: koi_vet_date
+    type: VARCHAR
+    description: "Vetting Status Date"
+  - name: koi_tce_delivname
+    type: VARCHAR
+    description: "TCE Delivery Name"
+  - name: koi_disp_prov
+    type: VARCHAR
+    description: "Disposition Provenance"
+  - name: koi_parm_prov
+    type: VARCHAR
+    description: "KOI Parameter Provenance"
+  - name: koi_time0
+    type: DOUBLE
+    description: "Time to First Transit Value [BJD]"
+  - name: koi_time0_err1
+    type: DOUBLE
+    description: "Time to First Transit Upper Uncertainty [BJD]"
+  - name: koi_time0_err2
+    type: DOUBLE
+    description: "Time to First Transit Lower Uncertainty [BJD]"
+  - name: koi_datalink_dvr
+    type: VARCHAR
+    description: "Link to DVR file"
+  - name: koi_fpflag_nt
+    type: BIGINT
+    description: "Non-transit Like False Positive Flag"
+  - name: koi_fpflag_ss
+    type: BIGINT
+    description: "Significant Secondary False Positive Flag"
+  - name: koi_fpflag_co
+    type: BIGINT
+    description: "Centroid Offset False Positive Flag"
+  - name: koi_fpflag_ec
+    type: BIGINT
+    description: "Ephemeris Match Indicates Contamination False Positive Flag"

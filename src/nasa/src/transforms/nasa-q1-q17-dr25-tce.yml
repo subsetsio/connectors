@@ -1,0 +1,443 @@
+# Kepler Q1-Q17 DR25 threshold-crossing events: one row per (kepid, tce_plnt_num) (verified unique). Frozen 2017 delivery.
+# curation: dropped 12 all-null, 0 *_reflink (HTML), 0 *_solnid, 0 '*str' display-dup columns.
+key: [kepid, tce_plnt_num]
+temporal: rowupdate
+columns:
+  - name: ra
+    type: DOUBLE
+    description: "RA Value [decimal degrees]"
+  - name: dec
+    type: DOUBLE
+    description: "Dec Value [decimal degrees]"
+  - name: tce_delivname
+    type: VARCHAR
+    description: "Delivery Name"
+  - name: tce_datalink_dvr
+    type: VARCHAR
+    description: "Link to DVR file"
+  - name: tce_datalink_dvs
+    type: VARCHAR
+    description: "Link to DVS file"
+  - name: tce_nkoi
+    type: BIGINT
+    description: "Number of Associated KOIs to the corresponding KepID"
+  - name: kepid
+    type: BIGINT
+    description: "KIC Identification Number"
+  - name: tce_plnt_num
+    type: BIGINT
+    description: "Planet Number"
+  - name: tce_num_transits
+    type: BIGINT
+    description: "Number of transits detected in TCE"
+  - name: tce_max_sngle_ev
+    type: DOUBLE
+    description: "Single Event Statistics"
+  - name: tce_max_mult_ev
+    type: DOUBLE
+    description: "Multiple Event Statistics"
+  - name: tce_fwm_sra_err
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion of Source in RA Uncertainty"
+  - name: tce_fwm_sra
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion of Source in RA Value"
+  - name: tce_fwm_sdec_err
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion of Source in Dec Uncertainty"
+  - name: tce_fwm_sdec
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion of Source in Dec Value"
+  - name: tce_fwm_srao_err
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Source offset in RA Uncertainty"
+  - name: tce_fwm_srao
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Source offset in RA Value"
+  - name: tce_fwm_sdeco_err
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Source offset in Dec Uncertainty"
+  - name: tce_fwm_sdeco
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Source offset in Dec Value"
+  - name: tce_fwm_prao_err
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Peak offset in RA Uncertainty"
+  - name: tce_fwm_prao
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Peak offset in RA Value"
+  - name: tce_fwm_pdeco_err
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Peak offset in Dec Uncertainty"
+  - name: tce_fwm_pdeco
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Peak offset in Dec Value"
+  - name: tce_fwm_stat
+    type: DOUBLE
+    description: "Flux Weighted Centroid Motion Statistic Value"
+  - name: tce_dicco_mdec_err
+    type: DOUBLE
+    description: "Diff Image Control Centroid Single Fit Offset in Dec Uncertainty"
+  - name: tce_dicco_mdec
+    type: DOUBLE
+    description: "Diff Image Control Centroid Single Fit Offset in Dec Value"
+  - name: tce_dicco_mra_err
+    type: DOUBLE
+    description: "Diff Image Control Centroid Single Fit Offset in RA Uncertainty"
+  - name: tce_dicco_mra
+    type: DOUBLE
+    description: "Diff Image Control Centroid Single Fit Offset in RA Value"
+  - name: tce_dicco_msky_err
+    type: DOUBLE
+    description: "Diff Image Control Centroid Single Fit Offset in Sky Uncertainty"
+  - name: tce_dicco_msky
+    type: DOUBLE
+    description: "Diff Image Control Centroid Single Fit Offset in Sky Value"
+  - name: tce_dikco_mdec_err
+    type: DOUBLE
+    description: "Diff Image KIC Centroid Single Fit Offset in Dec Uncertainty"
+  - name: tce_dikco_mdec
+    type: DOUBLE
+    description: "Diff Image KIC Centroid Single Fit Offset in Dec Value"
+  - name: tce_dikco_mra_err
+    type: DOUBLE
+    description: "Diff Image KIC Centroid Single Fit Offset in RA Uncertainty"
+  - name: tce_dikco_mra
+    type: DOUBLE
+    description: "Diff Image KIC Centroid Single Fit Offset in RA Value"
+  - name: tce_dikco_msky_err
+    type: DOUBLE
+    description: "Diff Image KIC Centroid Single Fit Offset in Sky Uncertainty"
+  - name: tce_dikco_msky
+    type: DOUBLE
+    description: "Diff Image KIC Centroid Single Fit Offset in Sky Value"
+  - name: tce_bin_oedp_stat
+    type: DOUBLE
+    description: "Binary Discrimination Odd-even Depth Statistics"
+  - name: tce_full_conv
+    type: VARCHAR
+    description: "Full Convergence Flag"
+  - name: tce_limbdark_mod
+    type: VARCHAR
+    description: "Limb Darkening Model Name"
+  - name: tce_ldm_coeff4
+    type: DOUBLE
+    description: "Limb Darkening Coefficient 4"
+  - name: tce_ldm_coeff3
+    type: DOUBLE
+    description: "Limb Darkening Coefficient 3"
+  - name: tce_ldm_coeff2
+    type: DOUBLE
+    description: "Limb Darkening Coefficient 2"
+  - name: tce_ldm_coeff1
+    type: DOUBLE
+    description: "Limb Darkening Coefficient 1"
+  - name: tce_trans_mod
+    type: VARCHAR
+    description: "Transit Model Name"
+  - name: tce_model_snr
+    type: DOUBLE
+    description: "Model Signal to Noise Ratio"
+  - name: tce_model_dof
+    type: DOUBLE
+    description: "Model Degrees of Freedom"
+  - name: tce_model_chisq
+    type: DOUBLE
+    description: "Model Chi Square"
+  - name: tce_time0bk_err
+    type: DOUBLE
+    description: "Time to First Transit Uncertainty [BKJD] [days]"
+  - name: tce_time0bk
+    type: DOUBLE
+    description: "Time to First Transit Value [BKJD] [days]"
+  - name: tce_eccen_err
+    type: DOUBLE
+    description: "Eccentricity Uncertainty"
+  - name: tce_eccen
+    type: DOUBLE
+    description: "Eccentricity Value"
+  - name: tce_longp_err
+    type: DOUBLE
+    description: "Longitude of Periastron Uncertainty [deg]"
+  - name: tce_longp
+    type: DOUBLE
+    description: "Longitude of Periastron Value [deg]"
+  - name: tce_prad_err
+    type: DOUBLE
+    description: "Planet Radius Uncertainty [Earth radii]"
+  - name: tce_prad
+    type: DOUBLE
+    description: "Planet Radius Value [Earth radii]"
+  - name: tce_sma_err
+    type: DOUBLE
+    description: "Semi-Major Axis Uncertainty [AU]"
+  - name: tce_sma
+    type: DOUBLE
+    description: "Semi-Major Axis Value [AU]"
+  - name: tce_impact_err
+    type: DOUBLE
+    description: "Minimum Impact Parameter Uncertainty"
+  - name: tce_impact
+    type: DOUBLE
+    description: "Minimum Impact Parameter Value"
+  - name: tce_duration_err
+    type: DOUBLE
+    description: "Transit Duration Uncertainty [hrs] [hours]"
+  - name: tce_duration
+    type: DOUBLE
+    description: "Transit Duration Value [hrs] [hours]"
+  - name: tce_ingress_err
+    type: DOUBLE
+    description: "Transit Ingress Time Uncertainty [hrs] [hours]"
+  - name: tce_ingress
+    type: DOUBLE
+    description: "Transit Ingress Time Value [hrs] [hours]"
+  - name: tce_depth_err
+    type: DOUBLE
+    description: "Transit Depth Uncertainty [ppm]"
+  - name: tce_depth
+    type: DOUBLE
+    description: "Transit Depth Value [ppm]"
+  - name: tce_period_err
+    type: DOUBLE
+    description: "Transit Period Uncertainty [days]"
+  - name: tce_period
+    type: DOUBLE
+    description: "Transit Period Value [days]"
+  - name: tce_ror_err
+    type: DOUBLE
+    description: "Planet to Star Radius Uncertainty"
+  - name: tce_ror
+    type: DOUBLE
+    description: "Planet to Star Radius Value"
+  - name: tce_dor_err
+    type: DOUBLE
+    description: "SMA to Star Radius Uncertainty"
+  - name: tce_dor
+    type: DOUBLE
+    description: "SMA to Star Radius Value"
+  - name: tce_incl_err
+    type: DOUBLE
+    description: "Orbital Inclination Uncertainty [deg]"
+  - name: tce_incl
+    type: DOUBLE
+    description: "Orbital Inclination Value [deg]"
+  - name: tce_eqt_err
+    type: DOUBLE
+    description: "Equilibrium Temperature Uncertainty [K]"
+  - name: tce_eqt
+    type: DOUBLE
+    description: "Equilibrium Temperature Value [K]"
+  - name: tce_steff_err
+    type: DOUBLE
+    description: "Effective Temperature Uncertainty [K]"
+  - name: tce_steff
+    type: DOUBLE
+    description: "Effective Temperature Value [K]"
+  - name: tce_slogg_err
+    type: DOUBLE
+    description: "Stellar Surface Gravity Uncertainty [log10(cm/s**2)]"
+  - name: tce_slogg
+    type: DOUBLE
+    description: "Stellar Surface Gravity Value [log10(cm/s**2)]"
+  - name: tce_smet_err
+    type: DOUBLE
+    description: "Stellar Metallicity Uncertainty [dex]"
+  - name: tce_smet
+    type: DOUBLE
+    description: "Stellar Metallicity Value [dex]"
+  - name: rowupdate
+    type: VARCHAR
+    description: "Last Update Date"
+  - name: tce_robstat
+    type: DOUBLE
+    description: "Robust Statistics from planetCandidate"
+  - name: tce_dof2
+    type: DOUBLE
+    description: "Degrees of Freedom 2 from planetCandidate"
+  - name: tce_dof1
+    type: DOUBLE
+    description: "Degrees of Freedom 1 from planetCandidate"
+  - name: tce_chisq2
+    type: DOUBLE
+    description: "Chi Square 2 from planetCandidate"
+  - name: tce_chisq1
+    type: DOUBLE
+    description: "Chi Square 1 from planetCandidate"
+  - name: tce_mesmad
+    type: DOUBLE
+    description: "Weak Secondary MAD multi-event statistic"
+  - name: tce_minmes
+    type: DOUBLE
+    description: "Weak Secondary Minimum Multi-even Statistic"
+  - name: tce_minmesd
+    type: DOUBLE
+    description: "Weak Secondary Minimum Multi-even Statistic phase [days]"
+  - name: tce_maxmes
+    type: DOUBLE
+    description: "Weak Secondary Maximun Multi-even Statistic"
+  - name: tce_maxmesd
+    type: DOUBLE
+    description: "Weak Secondary Maximun Multi-even Statistic phase [days]"
+  - name: tce_quarters
+    type: VARCHAR
+    description: "Bit of Quarters Observed"
+  - name: tce_steff_prov
+    type: VARCHAR
+    description: "Stellar Effective Temperature Provenance"
+  - name: tce_slogg_prov
+    type: VARCHAR
+    description: "Stellar Surface Gravity Provenance"
+  - name: tce_smet_prov
+    type: VARCHAR
+    description: "Stellar Metallicity Provenance"
+  - name: tce_sradius_prov
+    type: VARCHAR
+    description: "Stellar Radius Provenance"
+  - name: tce_sradius_err
+    type: DOUBLE
+    description: "Stellar Radius Value [Solar radii]"
+  - name: tce_sradius
+    type: DOUBLE
+    description: "Stellar Radius Uncertainty [Solar radii]"
+  - name: tce_rmesmad
+    type: DOUBLE
+    description: "Calculated Ratio between MES and MAD MES"
+  - name: tce_rsnrmes
+    type: DOUBLE
+    description: "Calculated Ratio between SNR and MES"
+  - name: tce_rminmes
+    type: DOUBLE
+    description: "Calculated Ratio between minimum MES and MES"
+  - name: tce_time0_err
+    type: DOUBLE
+    description: "Time to First Transit uncertainty [BJD] [days]"
+  - name: tce_time0
+    type: DOUBLE
+    description: "Time to First Transit value [BJD] [days]"
+  - name: boot_fap
+    type: DOUBLE
+    description: "Bootstrap False Alarm Probability"
+  - name: boot_mesthresh
+    type: DOUBLE
+    description: "Bootstrap MES Threshold"
+  - name: boot_mesmean
+    type: DOUBLE
+    description: "Bootstrap Mean of MES Distribution"
+  - name: boot_messtd
+    type: DOUBLE
+    description: "Bootstrap Standard Deviation of MES Distribution"
+  - name: tce_chisqgofdof
+    type: DOUBLE
+    description: "Chi Square Goodness of Fit"
+  - name: tce_chisqgof
+    type: DOUBLE
+    description: "Degrees of Freedom for the Chi Square Goodness of Fit"
+  - name: tce_insol_err
+    type: DOUBLE
+    description: "Insolation Flux Uncertainty [Earth Flux] [Fearth]"
+  - name: tce_insol
+    type: DOUBLE
+    description: "Insolation Flux Value [Earth Flux] [Fearth]"
+  - name: tcet_period_err
+    type: DOUBLE
+    description: "Transit Period Uncertainty from Trapezoidal Fit [days]"
+  - name: tcet_period
+    type: DOUBLE
+    description: "Transit Period Value from Trapezoidal Fit [days]"
+  - name: tcet_time0bk_err
+    type: DOUBLE
+    description: "Time to First Transit Uncertainty from Trapezoidal Fit [days]"
+  - name: tcet_time0bk
+    type: DOUBLE
+    description: "Time to First Transit Value from Trapezoidal Fit [days]"
+  - name: tcet_time0_err
+    type: DOUBLE
+    description: "Time to First Transit Uncertainty from Trapezoidal Fit [days]"
+  - name: tcet_time0
+    type: DOUBLE
+    description: "Time to First Transit Value from Trapezoidal Fit [days]"
+  - name: tcet_duration_err
+    type: DOUBLE
+    description: "Transit Duration Uncertainty from Trapezoidal Fit [hrs]"
+  - name: tcet_duration
+    type: DOUBLE
+    description: "Transit Duration Value from Trapezoidal Fit [hrs]"
+  - name: tcet_ingress_err
+    type: DOUBLE
+    description: "Transit Ingress Time Uncertainty from Trapezoidal Fit [hrs]"
+  - name: tcet_ingress
+    type: DOUBLE
+    description: "Transit Ingress Time Value from Trapezoidal Fit [hrs]"
+  - name: tcet_depth_err
+    type: DOUBLE
+    description: "Transit Depth Uncertainty from Trapezoidal Fit [ppm]"
+  - name: tcet_depth
+    type: DOUBLE
+    description: "Transit Depth Value from Trapezoidal Fit [ppm]"
+  - name: tcet_full_conv
+    type: VARCHAR
+    description: "Full Convergence Flag for Trapezoidal Fit"
+  - name: tcet_model_chisq
+    type: DOUBLE
+    description: "Model Chi Square from Trapezoidal Fit"
+  - name: tcet_model_dof
+    type: DOUBLE
+    description: "Model Degrees of Freedom from Trapezoidal Fit"
+  - name: wst_robstat
+    type: DOUBLE
+    description: "Robust Statistics from Weak Secondary"
+  - name: wst_depth
+    type: DOUBLE
+    description: "Transit Depth Value from Weak Secondary [ppm]"
+  - name: wst_depth_err
+    type: DOUBLE
+    description: "Transit Depth Uncertainty from Weak Secondary [ppm]"
+  - name: tce_mesmedian
+    type: DOUBLE
+    description: "Weak Secondary Median Multi-event Statistic"
+  - name: tce_albedo
+    type: DOUBLE
+    description: "Geometric Planet Albedo Value"
+  - name: tce_albedo_err
+    type: DOUBLE
+    description: "Geometric Planet Albedo Uncertainty"
+  - name: tce_ptemp
+    type: DOUBLE
+    description: "Planet Effective Temperature Value [K]"
+  - name: tce_ptemp_err
+    type: DOUBLE
+    description: "Planet Effective Temperature Uncertainty [K]"
+  - name: tce_albedo_stat
+    type: DOUBLE
+    description: "Albedo Comparison Statistic"
+  - name: tce_ptemp_stat
+    type: DOUBLE
+    description: "Temperature Comparison Statistic"
+  - name: tce_cap_stat
+    type: DOUBLE
+    description: "Core Aperture Correlation Statistic"
+  - name: tce_hap_stat
+    type: DOUBLE
+    description: "Halo Aperture Correlation Statistic"
+  - name: tce_rb_tpdur
+    type: BIGINT
+    description: "Test Pulse Duration"
+  - name: tce_rb_tcount0
+    type: BIGINT
+    description: "Transit Counts for Severity Level = 0.0"
+  - name: tce_rb_tcount1
+    type: BIGINT
+    description: "Transit Counts for Severity Level = 1.0"
+  - name: tce_rb_tcount2
+    type: BIGINT
+    description: "Transit Counts for Severity Level = 2.0"
+  - name: tce_rb_tcount3
+    type: BIGINT
+    description: "Transit Counts for Severity Level = 3.0"
+  - name: tce_rb_tcount4
+    type: BIGINT
+    description: "Transit Counts for Severity Level = 4.0"
+  - name: tce_rogue_flag
+    type: BIGINT
+    description: "Rogue TCE flag"
