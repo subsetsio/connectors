@@ -9,7 +9,6 @@ filter exists and the corpus is tiny, so we overwrite the published table every 
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -46,27 +45,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="cisa-kev-known-exploited-vulnerabilities", fn=fetch_kev, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="cisa-kev-known-exploited-vulnerabilities-transform",
-        deps=["cisa-kev-known-exploited-vulnerabilities"],
-        sql='''
-            SELECT
-                cveID                                         AS cve_id,
-                vendorProject                                 AS vendor_project,
-                product,
-                vulnerabilityName                             AS vulnerability_name,
-                CAST(dateAdded AS DATE)                        AS date_added,
-                CAST(dueDate AS DATE)                          AS due_date,
-                knownRansomwareCampaignUse                     AS known_ransomware_campaign_use,
-                shortDescription                              AS short_description,
-                requiredAction                                AS required_action,
-                notes,
-                array_to_string(cwes, '; ')                    AS cwes,
-                catalogVersion                                AS catalog_version,
-                dateReleased                                  AS date_released
-            FROM "cisa-kev-known-exploited-vulnerabilities"
-            WHERE cveID IS NOT NULL
-        ''',
-    ),
-]
+# Transforms are authored as file pairs under src/transforms/ (SQL + YAML contract).
