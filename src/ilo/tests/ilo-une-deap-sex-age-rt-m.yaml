@@ -1,0 +1,11 @@
+spec_id: ilo-une-deap-sex-age-rt-m
+status: active
+tests:
+  - not_null: time_period
+  - not_null: ref_area
+  - column_type: {col: obs_value, type: float}
+  - column_type: {col: time_period, type: string}
+  - freshness: {col: time_period, reaches: 2026}
+    points_outward: true
+    certainty: 80
+    reason: "ILOSTAT TOC declares this indicator (freq M) covers through 2026; the fetched raw's latest period must reach that year. A lower max means the download truncated or the source withdrew recent data."

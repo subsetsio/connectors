@@ -1,0 +1,39 @@
+# Household Debt Service and Financial Obligations Ratios (DSR).
+# quarterly household debt service and financial obligations as a percent of disposable personal income.
+# One row per series per observation period. obs_status <> 'A' rows are the
+# source's missing-value sentinels (-9999 / -999999) and are filtered out;
+# G.17 and H.6 repeat identical series blocks across SDMX DataSets, hence the
+# dedup in the SQL (exact duplicates only — verified zero conflicting groups).
+key: [series_id, date]
+temporal: date
+columns:
+  - name: series_id
+    type: VARCHAR
+    description: "Federal Reserve Board series mnemonic (SDMX SERIES_NAME), unique within the release, e.g. dimension-coded ids like IP.B50001.S or RIFLGFCY10_N.B."
+  - name: date
+    type: DATE
+    description: "Observation period. Daily series carry the observation date; weekly/monthly/quarterly/annual series are labeled by period-end date."
+  - name: value
+    type: DOUBLE
+    description: "Observed value in `unit` scaled by `unit_multiplier`. Missing observations are dropped, not published as sentinels."
+  - name: frequency
+    type: VARCHAR
+    description: "Observation frequency label decoded from the FRB CL_FREQ codelist (e.g. Business day, Weekly (Wednesday), Monthly, Quarterly, Annual)."
+  - name: unit
+    type: VARCHAR
+    description: "Unit of measure, verbatim from the FRB SDMX series attributes (e.g. Percent, Currency, Index:_2017_100 meaning index 2017=100)."
+  - name: unit_multiplier
+    type: DOUBLE
+    description: "Scale factor applied to value's unit (1 = as-is, 1000000 = millions, 1e9 = billions; H.10 uses 0.01 for some quotations)."
+  - name: currency
+    type: VARCHAR
+    description: "Currency of denomination (USD) for currency-denominated series; null for rates, indexes and ratios (source 'NA' mapped to null)."
+  - name: short_description
+    type: VARCHAR
+    description: "FRB short description annotation for the series."
+  - name: long_description
+    type: VARCHAR
+    description: "FRB long description annotation; equals short_description in releases that publish only one text."
+  - name: series_attributes
+    type: VARCHAR
+    description: "Full SDMX series-level attribute set as a JSON object — carries the release-specific key dimensions (e.g. SA seasonal-adjustment flag, SERIES_CODE, instrument/maturity codes) beyond the fixed columns."
