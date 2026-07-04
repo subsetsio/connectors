@@ -1,0 +1,23 @@
+# WTS — Trade weights (ECB Data Portal SDMX dataflow WTS)
+# freq: constant 'A' — dropped, noted on time_period
+# unit: constant 'PC' — dropped, folded into value description
+# unit_mult: constant '-2' — dropped, folded into value description
+# decimals: display metadata — dropped
+key: [series_key, time_period]
+temporal: time_period
+columns:
+  - name: series_key
+    type: VARCHAR
+    description: "full dot-separated SDMX series key identifying one series of the ECB WTS dataflow"
+  - name: time_period
+    type: BIGINT
+    description: "observation year; all series in this flow are annual"
+  - name: value
+    type: DOUBLE
+    description: "numeric observation value (unit code PC for every series; values are scaled by 10^-2)"
+  - name: obs_status
+    type: VARCHAR
+    description: "SDMX observation status code (A normal, B break, E estimated, P provisional, U low reliability)"
+  - name: title
+    type: VARCHAR
+    description: "human-readable English series title from the ECB catalog (name plus unit/compilation notes)"

@@ -32,7 +32,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -346,6 +345,26 @@ FIELDS: dict[str, list[tuple[str, str]]] = {
 }
 
 
+# openFDA serializes most dates as YYYYMMDD or ISO YYYY-MM-DD, both of which
+# order correctly as strings. These two endpoints use MM/DD/YYYY, which does
+# not — normalize to ISO in the fetch so raw stays order-comparable (freshness
+# tests read max(col)) and the transform cast is uniform.
+MDY_DATE_FIELDS: dict[str, tuple[str, ...]] = {
+    "drug-shortages": ("initial_posting_date", "update_date", "discontinued_date"),
+    "tobacco-problem": ("date_submitted",),
+}
+
+
+def _mdy_to_iso(v: str | None) -> str | None:
+    if v is None:
+        return None
+    parts = v.split("/")
+    if len(parts) != 3 or len(parts[2]) != 4:
+        return v  # leave malformed values verbatim; the transform TRY_CASTs
+    m, d, y = parts
+    return f"{y}-{m.zfill(2)}-{d.zfill(2)}"
+
+
 @transient_retry()
 def _get_bytes(url: str) -> bytes:
     resp = get(url, timeout=(10.0, 300.0))
@@ -403,6 +422,8 @@ def fetch_one(node_id: str) -> None:
         for rec in records:
             for col, path in fields:
                 columns[col].append(_extract(rec, path))
+        for col in MDY_DATE_FIELDS.get(entity, ()):
+            columns[col] = [_mdy_to_iso(v) for v in columns[col]]
 
         table = pa.table(
             {col: pa.array(columns[col], type=pa.string()) for col, _ in fields},
@@ -418,46 +439,5 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-# Thin publish: each partition batch already carries a uniform string schema,
-# so the transform just glob-unions the batches into the published table. Types
-# are deferred to curation (openFDA date/flag encodings vary across endpoints).
-
-# Per-entity grain (entity -> (key, temporal)). Keys use the endpoint's natural
-# unique id (confirmed unique in profiling); temporal prefers a populated
-# event/receipt/posting date over open-ended expiry/end dates. Reference tables
-# with no observation period (classification, drugsfda, substance, tobacco) and
-# tables with no confirmed unique id (device-pma, registrationlisting,
-# drug-shortages) are left partly/fully undeclared. Every named column is an
-# output column of that entity's SELECT *.
-_GRAIN = {
-    "animalandveterinary-event": (("unique_aer_id_number",), "original_receive_date"),
-    "cosmetic-event": (("report_number",), "initial_received_date"),
-    "device-510k": (("k_number",), "decision_date"),
-    "device-classification": (("product_code",), None),
-    "device-enforcement": (("recall_number",), "report_date"),
-    "device-pma": (None, "decision_date"),
-    "device-recall": (("product_res_number",), "event_date_posted"),
-    "device-registrationlisting": (None, "reg_expiry_date_year"),
-    "device-udi": (("public_device_record_key",), "publish_date"),
-    "drug-drugsfda": (("application_number",), None),
-    "drug-enforcement": (("recall_number",), "center_classification_date"),
-    "drug-label": (("id",), "effective_time"),
-    "drug-ndc": (("product_id",), "marketing_start_date"),
-    "drug-shortages": (None, None),
-    "food-enforcement": (("recall_number",), "report_date"),
-    "food-event": (("report_number",), "date_created"),
-    "other-nsde": (("package_ndc",), "marketing_start_date"),
-    "other-substance": (("uuid",), None),
-    "tobacco-problem": (("report_id",), None),
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        key=_GRAIN.get(s.id[len("fda-"):], (None, None))[0],
-        temporal=_GRAIN.get(s.id[len("fda-"):], (None, None))[1],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
-]
+# Transforms are authored as file pairs under src/transforms/<table>.sql + .yml
+# (one curated SELECT + contract per published subset).

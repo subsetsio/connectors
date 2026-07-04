@@ -1,0 +1,27 @@
+# SUP — Supervisory Banking Statistics (ECB Data Portal SDMX dataflow SUP)
+# unit: absent in this flow (100% null) — dropped
+# decimals: display metadata — dropped
+key: [series_key, time_period]
+temporal: time_period
+columns:
+  - name: series_key
+    type: VARCHAR
+    description: "full dot-separated SDMX series key identifying one series of the ECB SUP dataflow"
+  - name: freq
+    type: VARCHAR
+    description: "SDMX frequency code of the series (A annual, H half-yearly, S semi-annual, Q quarterly, M monthly, W weekly, B business-daily, D daily, E event)"
+  - name: time_period
+    type: VARCHAR
+    description: "SDMX observation period; format follows the series frequency (YYYY, YYYY-Qn, YYYY-Sn/Hn, YYYY-MM, YYYY-Wnn or YYYY-MM-DD)"
+  - name: value
+    type: DOUBLE
+    description: "numeric observation value; the unit is encoded in the series key dimensions"
+  - name: obs_status
+    type: VARCHAR
+    description: "SDMX observation status code (A normal, B break, E estimated, P provisional, U low reliability)"
+  - name: title
+    type: VARCHAR
+    description: "human-readable English series title from the ECB catalog (name plus unit/compilation notes)"
+  - name: unit_mult
+    type: BIGINT
+    description: "unit multiplier as a power of ten: the published value is expressed in units of 10^unit_mult"

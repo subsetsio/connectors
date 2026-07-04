@@ -1,0 +1,21 @@
+# SHS — Securities Holding Statistics (ECB Data Portal SDMX dataflow SHS)
+# freq: constant 'Q' — dropped, noted on time_period
+# obs_status: constant 'A' (normal value) — dropped
+# unit: absent in this flow (100% null) — dropped
+# unit_mult: constant '6' — dropped, folded into value description
+# decimals: display metadata — dropped
+key: [series_key, time_period]
+temporal: time_period
+columns:
+  - name: series_key
+    type: VARCHAR
+    description: "full dot-separated SDMX series key identifying one series of the ECB SHS dataflow"
+  - name: time_period
+    type: VARCHAR
+    description: "SDMX observation period; format follows the series frequency (YYYY, YYYY-Qn, YYYY-Sn/Hn, YYYY-MM, YYYY-Wnn or YYYY-MM-DD); all series in this flow are quarterly"
+  - name: value
+    type: DOUBLE
+    description: "numeric observation value (values are scaled by 10^6)"
+  - name: title
+    type: VARCHAR
+    description: "human-readable English series title from the ECB catalog (name plus unit/compilation notes)"

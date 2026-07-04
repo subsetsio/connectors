@@ -1,0 +1,21 @@
+# AME — AMECO (ECB Data Portal SDMX dataflow AME)
+# freq: constant 'A' — dropped, noted on time_period
+# obs_status: constant 'A' (normal value) — dropped
+# unit: absent in this flow (100% null) — dropped
+# unit_mult: absent in this flow (100% null) — dropped
+# decimals: display metadata — dropped
+key: [series_key, time_period]
+temporal: time_period
+columns:
+  - name: series_key
+    type: VARCHAR
+    description: "full dot-separated SDMX series key identifying one series of the ECB AME dataflow"
+  - name: time_period
+    type: BIGINT
+    description: "observation year; all series in this flow are annual"
+  - name: value
+    type: DOUBLE
+    description: "numeric observation value; the unit is encoded in the series key dimensions"
+  - name: title
+    type: VARCHAR
+    description: "human-readable English series title from the ECB catalog (name plus unit/compilation notes)"
