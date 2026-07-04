@@ -1,0 +1,27 @@
+# CNEOS fireball and bolide reports (fireball.api). One row per event;
+# event timestamps verified duplicate-free in raw. lat/lon hemisphere flags
+# folded into signed coordinates.
+key: [event_time]
+temporal: event_time
+columns:
+  - name: event_time
+    type: TIMESTAMP
+    description: date/time of peak brightness (UT)
+  - name: radiated_energy_e10j
+    type: DOUBLE
+    description: total radiated energy, in units of 1e10 joules
+  - name: impact_energy_kt
+    type: DOUBLE
+    description: computed total impact energy, kilotons TNT
+  - name: latitude
+    type: DOUBLE
+    description: signed latitude in degrees (south negative); null when location unknown
+  - name: longitude
+    type: DOUBLE
+    description: signed longitude in degrees (west negative); null when location unknown
+  - name: altitude_km
+    type: DOUBLE
+    description: altitude above the reference geoid at peak brightness, km; often null
+  - name: velocity_kms
+    type: DOUBLE
+    description: pre-impact velocity, km/s; often null

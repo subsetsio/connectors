@@ -1,0 +1,41 @@
+# NASA EONET v3 natural events (all statuses), one row per event geometry.
+# Verified against raw: (event_id, observed_at) is duplicate-free.
+key: [event_id, observed_at]
+temporal: observed_at
+columns:
+  - name: event_id
+    type: VARCHAR
+    description: EONET event id (e.g. "EONET_6513"); repeats across rows for multi-geometry events
+  - name: title
+    type: VARCHAR
+    description: human-readable event title (trimmed)
+  - name: category_id
+    type: VARCHAR
+    description: EONET category id (wildfires, severeStorms, volcanoes, seaLakeIce, ...)
+  - name: category_title
+    type: VARCHAR
+    description: human-readable category title
+  - name: source_id
+    type: VARCHAR
+    description: id of the first attributed source feed for the event
+  - name: observed_at
+    type: TIMESTAMP
+    description: timestamp of this geometry observation (UTC)
+  - name: geom_type
+    type: VARCHAR
+    description: GeoJSON geometry type of the observation (Point or Polygon)
+  - name: longitude
+    type: DOUBLE
+    description: point longitude in degrees; null for polygon geometries
+  - name: latitude
+    type: DOUBLE
+    description: point latitude in degrees; null for polygon geometries
+  - name: magnitude_value
+    type: DOUBLE
+    description: magnitude of the observation in magnitude_unit (e.g. storm wind speed); null when not reported
+  - name: magnitude_unit
+    type: VARCHAR
+    description: unit for magnitude_value (kts, acres, NM^2, ...); null when not reported
+  - name: closed_at
+    type: TIMESTAMP
+    description: when the event was marked closed; null while the event is open

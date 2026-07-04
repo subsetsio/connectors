@@ -1,0 +1,14 @@
+# NASA GISS GISTEMP v4 surface temperature analysis - annual means by
+# latitude band, long format. Complete years only.
+key: [year, zone]
+temporal: year
+columns:
+  - name: year
+    type: BIGINT
+    description: observation year, 1880 through the latest complete year
+  - name: zone
+    type: VARCHAR
+    description: latitude band - Glob, NHem, SHem, or a bounded band like 24N-90N / EQU-24N / 90S-64S
+  - name: anomaly_c
+    type: DOUBLE
+    description: annual temperature anomaly in degrees Celsius relative to the 1951-1980 base period

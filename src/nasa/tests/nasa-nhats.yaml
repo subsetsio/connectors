@@ -20,3 +20,6 @@ tests:
   - row_count: {min: 5000}
     reason: probed 6983 objects; the compliant list grows with NEA discovery
     certainty: 85
+  - freshness: {col: obs_end, reaches: today - 30d}
+    reason: observation-opportunity windows extend into the future across the list; a max obs_end in the past means a stale snapshot
+    points_outward: true

@@ -1,0 +1,17 @@
+# NASA GISS GISTEMP v4 surface temperature analysis - monthly/seasonal means,
+# Global + Northern/Southern Hemisphere, long format.
+key: [region, year, period]
+temporal: year
+columns:
+  - name: region
+    type: VARCHAR
+    description: spatial aggregate the anomaly is computed over - Global, NH (northern hemisphere) or SH (southern hemisphere)
+  - name: year
+    type: BIGINT
+    description: observation year, 1880 onward
+  - name: period
+    type: VARCHAR
+    description: month (Jan..Dec) or aggregate period - J-D calendar year, D-N Dec-Nov year, DJF/MAM/JJA/SON meteorological seasons
+  - name: anomaly_c
+    type: DOUBLE
+    description: temperature anomaly in degrees Celsius relative to the 1951-1980 base period

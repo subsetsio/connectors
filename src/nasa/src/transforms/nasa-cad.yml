@@ -1,0 +1,38 @@
+# JPL SSD/CNEOS close-approach data (cad.api), full 1900..2100 window.
+# Verified against raw: (des, jd) and (des, cd) both duplicate-free.
+key: [des, close_approach_time]
+temporal: close_approach_time
+columns:
+  - name: des
+    type: VARCHAR
+    description: primary designation of the asteroid or comet (e.g. "2021 PDC", "433")
+  - name: orbit_id
+    type: BIGINT
+    description: orbit solution id the approach was computed from
+  - name: jd_tdb
+    type: DOUBLE
+    description: time of closest approach as Julian Date (TDB)
+  - name: close_approach_time
+    type: TIMESTAMP
+    description: time of closest approach, parsed from JPL's "YYYY-Mon-DD HH:MM" calendar form (TDB)
+  - name: dist_au
+    type: DOUBLE
+    description: nominal approach distance, au
+  - name: dist_min_au
+    type: DOUBLE
+    description: 3-sigma minimum approach distance, au
+  - name: dist_max_au
+    type: DOUBLE
+    description: 3-sigma maximum approach distance, au
+  - name: v_rel_kms
+    type: DOUBLE
+    description: velocity relative to Earth at close approach, km/s
+  - name: v_inf_kms
+    type: DOUBLE
+    description: velocity relative to a massless Earth (v-infinity), km/s
+  - name: t_sigma_f
+    type: VARCHAR
+    description: 3-sigma uncertainty in approach time, formatted "d_HH:MM" / "HH:MM" / "< 00:01"
+  - name: h_mag
+    type: DOUBLE
+    description: absolute magnitude H; null when unknown

@@ -1,0 +1,48 @@
+# CNEOS Sentry II impact-risk monitoring list (sentry.api summary mode).
+# Snapshot table: objects join on discovery and leave when impact risk is
+# excluded, so row membership changes between runs.
+key: [des]
+temporal: last_obs
+columns:
+  - name: des
+    type: VARCHAR
+    description: primary designation of the monitored object (e.g. "2008 JL3", "101955")
+  - name: object_id
+    type: VARCHAR
+    description: internal Sentry object id
+  - name: fullname
+    type: VARCHAR
+    description: full object name/designation as displayed by JPL
+  - name: h_mag
+    type: DOUBLE
+    description: absolute magnitude H
+  - name: diameter_km
+    type: DOUBLE
+    description: estimated diameter, km (often derived from H assuming 0.14 albedo)
+  - name: v_inf_kms
+    type: DOUBLE
+    description: velocity relative to a massless Earth at encounter (v-infinity), km/s; null when not computed
+  - name: impact_prob_cum
+    type: DOUBLE
+    description: cumulative Earth impact probability across all tabulated potential impacts
+  - name: n_impacts
+    type: BIGINT
+    description: number of tabulated potential impacts
+  - name: palermo_scale_cum
+    type: DOUBLE
+    description: cumulative Palermo technical hazard scale (log10; values below 0 are less than the background risk)
+  - name: palermo_scale_max
+    type: DOUBLE
+    description: maximum single-impact Palermo scale value
+  - name: torino_scale_max
+    type: BIGINT
+    description: maximum Torino scale value (0-10; currently 0 for all listed objects, kept because a nonzero value is exactly the news)
+  - name: impact_year_range
+    type: VARCHAR
+    description: year range of the tabulated potential impacts, "YYYY-YYYY"
+  - name: last_obs
+    type: DATE
+    description: date of the last observation used in the orbit solution
+  - name: last_obs_jd
+    type: DOUBLE
+    description: last-observation epoch as Julian Date
