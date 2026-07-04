@@ -23,7 +23,6 @@ import csv
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get_client,
     raw_parquet_writer,
     transient_retry,
