@@ -1,0 +1,27 @@
+spec_id: nasa-cad
+status: active
+tests:
+  - not_null: des
+    reason: every close-approach row names an object designation
+    certainty: 95
+  - not_null: cd
+    reason: calendar date of close approach is always populated
+    certainty: 95
+  - not_null: jd
+    certainty: 95
+  - matches: {col: cd, pattern: '\d{4}-[A-Z][a-z]{2}-\d{2} \d{2}:\d{2}'}
+    reason: JPL CAD calendar dates use the fixed "YYYY-Mon-DD HH:MM" format
+    certainty: 85
+  - between: {col: jd, lo: 2415000, hi: 2488100}
+    reason: our fetch requests the 1900-01-01..2100-01-01 window (JD ~2415021..2488069); values are fixed-width numeric strings so min/max order correctly
+    certainty: 90
+  - freshness: {col: jd, reaches: 2461000}
+    reason: the requested window extends to 2100, so max JD must sit decades past the present (JD 2461000 ~ 2025); a lower max means the fetch window collapsed
+    certainty: 90
+  - median_between: {col: dist, lo: 0.005, hi: 0.05}
+    reason: the API default dist-max is 0.05 au, so the median approach distance must sit inside that cap
+    certainty: 80
+    severity: warn
+  - row_count: {min: 30000}
+    reason: probed 42673 approaches for the full window; grows as new orbits are computed
+    certainty: 85
