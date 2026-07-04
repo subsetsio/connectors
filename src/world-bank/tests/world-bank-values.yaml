@@ -26,3 +26,12 @@ tests:
   - row_count: {min: 1000000}
     reason: the WDI bulk archive unpivots to ~9M non-null observations across ~1,500 indicators and ~260 economies
     certainty: 80
+  - freshness: {col: year, reaches: 2024}
+    reason: >-
+      WDI is refreshed annually with a ~1-year reporting lag; the current archive
+      reaches 2025, so max(year) must stay at or above 2024. A regression below
+      this floor means the bulk download broke or the source stopped advancing.
+      (year is an integer column, so the bound is a literal rather than a today-Nd
+      date token; annual cadence ⇒ ~1 year of slack.)
+    certainty: 85
+    points_outward: true

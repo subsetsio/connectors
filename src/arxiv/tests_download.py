@@ -9,7 +9,7 @@ _PREFIX = "arxiv-papers-"
 def _batch_assets() -> list[str]:
     """Distinct batch asset ids for the papers snapshot, derived from raw files."""
     assets = set()
-    for path in list_raw_files("arxiv-papers"):
+    for path in list_raw_files(f"{_PREFIX}*.parquet"):
         name = path.split("/")[-1]
         stem = name.split(".")[0]  # strip .parquet / .zst extensions
         if stem.startswith(_PREFIX):
