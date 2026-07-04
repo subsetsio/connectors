@@ -115,6 +115,7 @@ class SqlNodeSpec(NodeSpec):
     key: tuple[str, ...] | None = None
     temporal: str | None = None
     columns: tuple[ColumnSpec, ...] | None = None
+    reader_args: str | None = None
 
     def __post_init__(self):
         super().__post_init__()
@@ -125,6 +126,13 @@ class SqlNodeSpec(NodeSpec):
             )
         if not isinstance(self.sql, str) or not self.sql.strip():
             raise ValueError(f"SqlNodeSpec {self.id!r}: sql must be a non-empty string")
+        if self.reader_args is not None and (
+            not isinstance(self.reader_args, str) or not self.reader_args.strip()
+        ):
+            raise ValueError(
+                f"SqlNodeSpec {self.id!r}: reader_args must be a non-empty string "
+                "(a raw kwargs fragment appended to the dep reader call) or None"
+            )
         if self.kind != "transform":
             raise ValueError(
                 f"SqlNodeSpec {self.id!r}: kind must be 'transform' (got {self.kind!r})"

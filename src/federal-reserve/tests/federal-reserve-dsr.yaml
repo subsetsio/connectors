@@ -1,0 +1,31 @@
+spec_id: federal-reserve-dsr
+status: active
+tests:
+  - not_null: series_name
+    reason: every SDMX Series element carries a SERIES_NAME attribute; a null means the parser mis-read the compact format
+    certainty: 95
+  - not_null: time_period
+    reason: every Obs carries TIME_PERIOD in the FRB SDMX compact format
+    certainty: 95
+  - column_type: {col: obs_value, type: float}
+    reason: OBS_VALUE is parsed to float64 by the fetch fn's fixed pyarrow schema
+    certainty: 95
+  - matches: {col: time_period, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: FRB SDMX dumps write TIME_PERIOD as YYYY-MM-DD for every frequency (period-end dates for non-daily series); a drift here silently nulls the downstream DATE cast
+    certainty: 85
+  - unique: [series_name, time_period]
+    reason: SDMX compact format carries one Obs per series per period; duplicates would mean a double-parse or a series repeated across DataSets in the release
+    certainty: 75
+    severity: warn
+  - at_least: {col: time_period, expr: '1900-01-01'}
+    reason: no FRB statistical release reaches back before the 20th century; earlier dates mean a mangled period parse
+    certainty: 90
+    severity: warn
+
+  - row_count: {min: 200}
+    reason: floor well under the release's observation count as of mid-2026; fewer rows means a truncated zip or a partial parse (quarterly ratios published with roughly a two-quarter lag)
+    certainty: 80
+
+  - freshness: {col: time_period, reaches: today - 300d}
+    reason: quarterly ratios published with roughly a two-quarter lag; slack sized to the publication cadence plus revision lag
+    points_outward: true

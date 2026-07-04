@@ -1,0 +1,38 @@
+spec_id: iea-tfcbysource
+status: active
+tests:
+  - not_null: year
+    reason: long-format annual series; every row is one country-year observation
+    certainty: 95
+  - not_null: country
+    reason: rows are keyed by country/region code (ISO3 or region name)
+    certainty: 95
+  - not_null: units
+    reason: every observation carries its unit label; probing showed 100% presence
+    certainty: 85
+    severity: warn
+  - matches: {col: year, pattern: '(19|20)\d{2}'}
+    reason: year is a 4-digit calendar year (arrives as string for most indicators)
+    certainty: 90
+  - between: {col: year, lo: 1960, hi: 2030}
+    reason: browser coverage starts 1960/1971/1990 depending on indicator; no far-future projections in the free slice
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: statistics, not projections - though IEA occasionally ships provisional current-year points
+    certainty: 75
+    points_outward: true
+    severity: warn
+  - freshness: {col: year, reaches: 2021}
+    reason: IEA annual releases lag ~2 years (probed indicators reach 2023/2024 in mid-2026); a max below 2021 means a truncated fetch or a frozen corpus
+    points_outward: true
+  - row_count: {min: 100}
+    reason: full corpus per indicator spans >=150 countries x >=30 years; probed 1.9k-37k rows. <100 rows means a stub/error payload
+    certainty: 85
+  - nullable: {col: value, max_null_frac: 0.9}
+    reason: sparse country/flow combos are null (probed 1-4%), but a near-all-null series means a soft-error stub response
+    certainty: 80
+    severity: warn
+  - unique: [year, country, flow, product]
+    reason: one observation per country-year-flow-product; probing found 0 dups. The transform declares this as its key, so learn about dupes here
+    certainty: 75
+    severity: warn
