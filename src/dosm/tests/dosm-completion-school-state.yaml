@@ -1,5 +1,8 @@
 spec_id: dosm-completion-school-state
-# Catalog connector: each OpenDOSM dataset has its own column list,
-# unknown until the first pull. Deferred per the download-test schema;
-# concrete assertions are authored from the materialized shape.
+# Catalog connector: OpenDOSM dataset; the column list is materialized
+# from the first pull. Freshness/coverage authored from the observed shape.
 status: deferred
+coverage:
+  frozen: true
+  reason: >-
+    Fixed snapshot at the vintage DOSM last published: source data_as_of is 2022 and the latest observed date is 2022-01-01 (annual series). DOSM has not advanced this dataset since, so no freshness gate applies to the raw corpus; fleet re-collect/re-run will re-observe and this lapses if the source resumes.

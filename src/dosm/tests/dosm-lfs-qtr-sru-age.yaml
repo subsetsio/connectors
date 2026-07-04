@@ -1,5 +1,10 @@
 spec_id: dosm-lfs-qtr-sru-age
-# Catalog connector: each OpenDOSM dataset has its own column list,
-# unknown until the first pull. Deferred per the download-test schema;
-# concrete assertions are authored from the materialized shape.
+# Catalog connector: OpenDOSM dataset; the column list is materialized
+# from the first pull. Freshness/coverage authored from the observed shape.
 status: deferred
+tests:
+  - freshness: {col: date, reaches: today - 490d}
+    reason: >-
+      DOSM still refreshes this quarterly series (source data_as_of 2025-Q3); latest observed date is 2025-07-01. reaches slack = one quarterly period plus publication lag, so a normal release keeps max(date) within range; a miss points at DOSM, not our fetch.
+    points_outward: true
+    certainty: 75
