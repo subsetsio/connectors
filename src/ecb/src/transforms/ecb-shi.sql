@@ -1,7 +1,7 @@
 SELECT
     series_key,
     freq,
-    CAST(time_period AS BIGINT) AS time_period,
+    time_period,
     CAST(obs_value AS DOUBLE) AS value,
     obs_status,
     title,

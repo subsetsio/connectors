@@ -2,6 +2,5 @@ spec_id: imf-na-main
 status: active
 tests:
   - row_count: {min: 1}
-    reason: a full-dataflow SDMX-CSV pull ('~/*' = latest version, all series) of a rank-active IMF dataflow always returns observations; an empty raw table means the dataflow id is wrong or the endpoint changed.
-    certainty: 95
-    points_outward: false
+    reason: raw rows exist even though the IMF endpoint returns them with empty dimensions/values; the transform (not this raw test) drops them to zero, which the waiver covers.
+    certainty: 90

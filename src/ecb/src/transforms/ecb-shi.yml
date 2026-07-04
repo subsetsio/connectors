@@ -10,8 +10,8 @@ columns:
     type: VARCHAR
     description: "SDMX frequency code of the series (A annual, H half-yearly, S semi-annual, Q quarterly, M monthly, W weekly, B business-daily, D daily, E event)"
   - name: time_period
-    type: BIGINT
-    description: "observation year"
+    type: VARCHAR
+    description: "SDMX observation period; annual series use YYYY, quarterly series YYYY-Qn"
   - name: value
     type: DOUBLE
     description: "numeric observation value"

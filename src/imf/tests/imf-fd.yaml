@@ -1,7 +1,9 @@
 spec_id: imf-fd
+coverage:
+  frozen: true
+  reason: closed/vintage dataflow — the raw corpus stops at TIME_PERIOD max ~2020; it does not advance, so no freshness assertion applies.
 status: active
 tests:
   - row_count: {min: 1}
-    reason: a full-dataflow SDMX-CSV pull ('~/*' = latest version, all series) of a rank-active IMF dataflow always returns observations; an empty raw table means the dataflow id is wrong or the endpoint changed.
+    reason: a full-dataflow SDMX-CSV pull returns observations even for a closed corpus.
     certainty: 95
-    points_outward: false

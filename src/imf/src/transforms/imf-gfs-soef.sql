@@ -1,0 +1,13 @@
+-- imf-gfs-soef: IMF SDMX 3.0 dataflow, long format (dimensions + period + value).
+-- Measure 'OBS_VALUE' cast to DOUBLE; non-numeric/empty observations dropped.
+SELECT
+  "COUNTRY",
+  "SECTOR",
+  "GFS_GRP",
+  "INDICATOR",
+  "TYPE_OF_TRANSFORMATION",
+  "FREQUENCY",
+  "TIME_PERIOD",
+  TRY_CAST("OBS_VALUE" AS DOUBLE) AS "OBS_VALUE"
+FROM "imf-gfs-soef"
+WHERE TRY_CAST("OBS_VALUE" AS DOUBLE) IS NOT NULL

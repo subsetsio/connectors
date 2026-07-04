@@ -5,3 +5,6 @@ tests:
     reason: a full-dataflow SDMX-CSV pull ('~/*' = latest version, all series) of a rank-active IMF dataflow always returns observations; an empty raw table means the dataflow id is wrong or the endpoint changed.
     certainty: 95
     points_outward: false
+  - freshness: {col: TIME_PERIOD, reaches: current_year() - 3}
+    reason: IMF statistical dataflows are actively maintained; the latest TIME_PERIOD stays within a few years of the present. A stale max period means the refresh silently stopped advancing.
+    certainty: 80
