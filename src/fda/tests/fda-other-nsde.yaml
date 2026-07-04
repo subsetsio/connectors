@@ -7,8 +7,8 @@ tests:
   - unique: package_ndc
     reason: one row per package NDC; the published table keys on it
     certainty: 85
-  - matches: {col: package_ndc11, pattern: '[0-9A-Za-z]{11}'}
-    reason: the normalized package NDC is 11 characters; mostly numeric but compounded/outsourcing-facility codes carry letters
+  - matches: {col: package_ndc11, pattern: '[0-9A-Za-z*]{11}'}
+    reason: the normalized package NDC is 11 characters; mostly numeric, but some codes carry letters and a couple ship a literal '*' placeholder digit
     certainty: 80
     severity: warn
   - row_count: {min: 500000}
