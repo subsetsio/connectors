@@ -1,8 +1,9 @@
 # NHATS (Near-Earth Object Human Space Flight Accessible Targets Study)
 # compliant-object snapshot (nhats.api summary mode). One row per NEA meeting
 # the round-trip delta-v/duration constraints; membership grows with discovery.
+# No temporal: the API's observation-window date fields proved unstable
+# (all-null on some pulls) and are not published — see the .sql note.
 key: [des]
-temporal: obs_window_end
 columns:
   - name: des
     type: VARCHAR
@@ -46,24 +47,12 @@ columns:
   - name: n_trajectories
     type: BIGINT
     description: number of compliant round-trip trajectory solutions found
-  - name: obs_window_start
-    type: DATE
-    description: start of the next optical observation opportunity window; null when none upcoming
-  - name: obs_window_end
-    type: DATE
-    description: end of the next optical observation opportunity window; null when none upcoming
   - name: obs_flag
     type: VARCHAR
     description: observation-window quality flag; null when no window
   - name: obs_mag
     type: DOUBLE
-    description: brightest apparent magnitude during the observation window
-  - name: radar_obs_arecibo
-    type: DATE
-    description: date of a potential Arecibo radar observation opportunity; null when none
-  - name: radar_obs_goldstone
-    type: DATE
-    description: date of a potential Goldstone radar observation opportunity; null when none
+    description: brightest apparent magnitude during the next observation window
   - name: radar_snr_arecibo
     type: DOUBLE
     description: predicted radar signal-to-noise at Arecibo; null when no opportunity

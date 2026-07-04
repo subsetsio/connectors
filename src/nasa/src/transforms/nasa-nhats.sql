@@ -1,5 +1,9 @@
 -- NHATS human-accessible NEA snapshot: one row per compliant object. The
 -- nested min_dv / min_dur dicts were flattened at download (min_dv_dv etc).
+-- The API's observation-window / radar-opportunity DATE fields (obs_start,
+-- obs_end, radar_obs_a, radar_obs_g) flip between populated and all-null
+-- across same-day pulls; all-null makes their inferred type unstable, so they
+-- are deliberately not published (obs_mag/obs_flag/radar_snr stay).
 SELECT
     "des" AS des,
     trim("fullname") AS fullname,
@@ -15,12 +19,8 @@ SELECT
     CAST("min_dur_dv" AS DOUBLE) AS min_dur_dv_kms,
     "min_dur_dur" AS min_dur_days,
     "n_via_traj" AS n_trajectories,
-    "obs_start" AS obs_window_start,
-    "obs_end" AS obs_window_end,
     NULLIF(trim("obs_flag"), '') AS obs_flag,
     CAST("obs_mag" AS DOUBLE) AS obs_mag,
-    "radar_obs_a" AS radar_obs_arecibo,
-    "radar_obs_g" AS radar_obs_goldstone,
     CAST("radar_snr_a" AS DOUBLE) AS radar_snr_arecibo,
     CAST("radar_snr_g" AS DOUBLE) AS radar_snr_goldstone
 FROM "nasa-nhats"

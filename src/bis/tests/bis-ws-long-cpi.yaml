@@ -32,3 +32,7 @@ tests:
     certainty: 75
     severity: warn
     reason: SDMX CL_FREQ codes; an unexpected value means a new frequency we should map
+  - freshness: {col: time_period, reaches: today - 120d}
+    certainty: 75
+    points_outward: true
+    reason: long consumer price series are monthly with a ~2 month lag
