@@ -53,20 +53,26 @@ def test_core_observation_columns_present(spec_ids):
 
 def test_obs_value_mostly_numeric(spec_ids):
     """The value column is stored as a string in raw but must contain numbers.
-    If a sample of a dataflow has no parseable values, we fetched the wrong
-    thing. (ISORA mixes numeric indicators with categorical survey answers, so
-    we only require SOME numeric values in the sample, not all.)"""
+    If a dataflow has no parseable values at all, we fetched the wrong thing.
+
+    Many dataflows are sparse (e.g. GFS OBS_VALUE is >90% null — a dense
+    dimension cross-product with few populated cells), so a fixed head window
+    can be entirely null while the table is fine. Drop nulls/empties FIRST, then
+    check that the populated values parse as numbers. (ISORA mixes numeric
+    indicators with categorical survey answers, so we only require SOME numeric
+    values among the populated ones, not all.)"""
     bad = []
     for sid in _testable(spec_ids):
         table = load_raw_parquet(sid)
         vcol = _value_col(table.column_names)
         if vcol is None:
             continue
-        sample = table.column(vcol).slice(0, 1000).to_pylist()
+        populated = [v for v in table.column(vcol).drop_null().slice(0, 5000).to_pylist()
+                     if v != ""]
+        if not populated:
+            continue  # column entirely null/empty — caught by other invariants
         parseable = 0
-        for v in sample:
-            if v in (None, ""):
-                continue
+        for v in populated:
             try:
                 float(v)
                 parseable += 1
@@ -74,4 +80,4 @@ def test_obs_value_mostly_numeric(spec_ids):
                 pass
         if parseable == 0:
             bad.append(sid)
-    assert not bad, f"{len(bad)} assets have no numeric value in first 1000 rows: {bad[:10]}"
+    assert not bad, f"{len(bad)} assets have no numeric value among populated cells: {bad[:10]}"
