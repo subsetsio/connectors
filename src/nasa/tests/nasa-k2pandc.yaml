@@ -5,9 +5,9 @@ tests:
     certainty: 90
   - enum: {col: default_flag, values: [0, 1]}
     certainty: 95
-  - between: {col: disc_year, lo: 2014, hi: current_year()}
-    reason: K2 mission started observing in 2014; dispositions keep being published after mission end
-    certainty: 80
+  - between: {col: disc_year, lo: 2009, hi: current_year()}
+    reason: mostly K2-era (2014+) but a few entries carry earlier Kepler-era discovery years (2011 observed 2026-07); 2009 = Kepler launch floor
+    certainty: 85
     severity: warn
   - row_count: {min: 3500}
     reason: probed 4049 rows (planets and candidates, one per reference)

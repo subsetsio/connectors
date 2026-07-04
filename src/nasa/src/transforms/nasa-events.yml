@@ -26,10 +26,10 @@ columns:
     description: GeoJSON geometry type of the observation (Point or Polygon)
   - name: longitude
     type: DOUBLE
-    description: point longitude in degrees; null for polygon geometries
+    description: point longitude in degrees; null for polygon geometries and for the few source-side invalid coordinate pairs (nulled when either value is out of physical range)
   - name: latitude
     type: DOUBLE
-    description: point latitude in degrees; null for polygon geometries
+    description: point latitude in degrees; null for polygon geometries and for the few source-side invalid coordinate pairs
   - name: magnitude_value
     type: DOUBLE
     description: magnitude of the observation in magnitude_unit (e.g. storm wind speed); null when not reported

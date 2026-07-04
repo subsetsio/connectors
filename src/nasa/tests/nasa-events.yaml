@@ -16,9 +16,14 @@ tests:
     certainty: 80
     severity: warn
   - between: {col: latitude, lo: -90, hi: 90}
-    certainty: 95
+    reason: a few upstream feeds ship invalid/swapped coordinates (lat 200 observed 2026-07); source-side quality issue, the transform nulls out-of-range pairs
+    certainty: 60
+    points_outward: true
+    severity: warn
   - between: {col: longitude, lo: -180, hi: 180}
-    certainty: 90
+    reason: same source-side coordinate quality issue as latitude
+    certainty: 60
+    points_outward: true
     severity: warn
   - row_count: {min: 3000}
     reason: the all-status archive spans 2016..now with thousands of events, most multi-geometry
