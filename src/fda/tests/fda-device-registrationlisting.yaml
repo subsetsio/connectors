@@ -1,8 +1,8 @@
 spec_id: fda-device-registrationlisting
 status: active
 tests:
-  - not_null: establishment_type
-    reason: every registration-listing record states the establishment's activity type
+  - nullable: {col: establishment_type, max_null_frac: 0.001}
+    reason: establishment_type is present on all but a handful of registration records (11 nulls of ~327k observed June 2026)
     certainty: 80
   - enum: {col: initial_importer_flag, values: ['N', 'Y']}
     reason: importer flag is a Y/N field

@@ -7,9 +7,9 @@ tests:
   - unique: package_ndc
     reason: one row per package NDC; the published table keys on it
     certainty: 85
-  - matches: {col: package_ndc11, pattern: '[0-9]{11}'}
-    reason: the 11-digit normalized package NDC is fixed-width numeric
-    certainty: 85
+  - matches: {col: package_ndc11, pattern: '[0-9A-Za-z]{11}'}
+    reason: the normalized package NDC is 11 characters; mostly numeric but compounded/outsourcing-facility codes carry letters
+    certainty: 80
     severity: warn
   - row_count: {min: 500000}
     reason: comprehensive NDC SPL data elements corpus only grows; June 2026 export held ~660k

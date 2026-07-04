@@ -7,9 +7,9 @@ tests:
   - unique: application_number
     reason: one row per application; the published table keys on it
     certainty: 90
-  - matches: {col: application_number, pattern: '(ANDA|NDA|BLA)[0-9]{6}'}
-    reason: application numbers are ANDA/NDA/BLA plus six digits
-    certainty: 75
+  - matches: {col: application_number, pattern: '(ANDA|NDA|BLA)[0-9]{5,6}'}
+    reason: application numbers are ANDA/NDA/BLA plus six digits; a couple of legacy NDAs ship five
+    certainty: 80
     severity: warn
   - row_count: {min: 25000}
     reason: approved applications only accumulate; June 2026 export held ~29k

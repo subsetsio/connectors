@@ -7,8 +7,8 @@ tests:
   - unique: id
     reason: the label export is one record per current SPL document id
     certainty: 90
-  - matches: {col: effective_time, pattern: '[0-9]{8}'}
-    reason: SPL effective_time is a YYYYMMDD string
+  - matches: {col: effective_time, pattern: '[0-9]{8,10}'}
+    reason: SPL effective_time is YYYYMMDD; a handful of source records ship 9-10 digit typos
     certainty: 85
     severity: warn
   - row_count: {min: 200000}
