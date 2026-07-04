@@ -1,0 +1,53 @@
+# fao-af — grain verified against run 20260704-101214 raw (0 duplicate groups).
+# year_code dropped (redundant with year); leading apostrophes stripped from M49/CPC/SDG/FBS codes.
+key: [area_code, indicator_code, degree_code, sex_code, institution_code, year]
+temporal: year
+columns:
+  - name: area_code
+    type: BIGINT
+    description: "FAOSTAT numeric area code for the country or region"
+  - name: area_code_m49
+    type: VARCHAR
+    description: "UN M49 area code (3-digit, zero-padded string)"
+  - name: area
+    type: VARCHAR
+    description: "Country, territory or regional aggregate name"
+  - name: indicator_code
+    type: BIGINT
+    description: "FAOSTAT indicator code identifying the measure"
+  - name: indicator
+    type: VARCHAR
+    description: "Indicator name; determines `unit`"
+  - name: degree_code
+    type: BIGINT
+    description: "Qualification-level code"
+  - name: degree
+    type: VARCHAR
+    description: "Qualification level of research staff"
+  - name: sex_code
+    type: BIGINT
+    description: "FAOSTAT sex dimension code"
+  - name: sex_code_sdg
+    type: VARCHAR
+    description: "SDG-convention sex code"
+  - name: sex
+    type: VARCHAR
+    description: "Sex dimension label (Male / Female / Total)"
+  - name: institution_code
+    type: BIGINT
+    description: "Institution-type code"
+  - name: institution
+    type: VARCHAR
+    description: "Institution type performing the R&D"
+  - name: year
+    type: BIGINT
+    description: "Observation year"
+  - name: unit
+    type: VARCHAR
+    description: "Unit of measure for `value`"
+  - name: value
+    type: DOUBLE
+    description: "Observed value in `unit`; rows without a numeric value (flag-only or censored entries) are dropped"
+  - name: flag
+    type: VARCHAR
+    description: "FAOSTAT observation-status flag (A official, E estimated, I imputed, X international source, ...)"

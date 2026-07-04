@@ -1,0 +1,46 @@
+# fao-hces — grain verified against run 20260704-101214 raw (0 duplicate groups).
+# year_code dropped (redundant with year); leading apostrophes stripped from M49/CPC/SDG/FBS codes.
+key: [survey_code, geographic_level_code, food_group_code, indicator_code, element_code]
+columns:
+  - name: survey_code
+    type: BIGINT
+    description: "FAOSTAT survey code (country x year x survey vintage)"
+  - name: survey
+    type: VARCHAR
+    description: "Survey name (country, year and survey programme)"
+  - name: geographic_level_code
+    type: BIGINT
+    description: "Geographic-level code (national / urban / rural ...)"
+  - name: geographic_level
+    type: VARCHAR
+    description: "Geographic level of the estimate"
+  - name: food_group_code
+    type: VARCHAR
+    description: "Food-group code"
+  - name: food_group
+    type: VARCHAR
+    description: "Food group of the estimate"
+  - name: indicator_code
+    type: BIGINT
+    description: "FAOSTAT indicator code identifying the measure"
+  - name: indicator
+    type: VARCHAR
+    description: "Indicator name; determines `unit`"
+  - name: element_code
+    type: VARCHAR
+    description: "FAOSTAT element code identifying the measure"
+  - name: element
+    type: VARCHAR
+    description: "Measure name (e.g. Production, Import quantity); determines `unit`"
+  - name: unit
+    type: VARCHAR
+    description: "Unit of measure for `value`"
+  - name: value
+    type: DOUBLE
+    description: "Observed value in `unit`; rows without a numeric value (flag-only or censored entries) are dropped"
+  - name: flag
+    type: VARCHAR
+    description: "FAOSTAT observation-status flag (A official, E estimated, I imputed, X international source, ...)"
+  - name: note
+    type: VARCHAR
+    description: "Free-text footnote from the source; usually null"

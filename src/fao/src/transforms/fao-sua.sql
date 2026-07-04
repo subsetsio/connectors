@@ -1,0 +1,19 @@
+-- fao-sua: typed long-format FAOSTAT Normalized dump.
+-- Rows whose value is empty or non-numeric (flag-only or censored) are dropped.
+SELECT
+    CAST("area_code" AS BIGINT)      AS area_code,
+    ltrim("area_code_m49", '''')     AS area_code_m49,
+    "area"                           AS area,
+    "food_group_code"                AS food_group_code,
+    "food_group"                     AS food_group,
+    CAST("indicator_code" AS BIGINT) AS indicator_code,
+    "indicator"                      AS indicator,
+    CAST("element_code" AS BIGINT)   AS element_code,
+    "element"                        AS element,
+    CAST("year" AS BIGINT)           AS year,
+    "unit"                           AS unit,
+    CAST("value" AS DOUBLE)          AS value,
+    "flag"                           AS flag,
+    "note"                           AS note
+FROM "fao-sua"
+WHERE TRY_CAST("value" AS DOUBLE) IS NOT NULL

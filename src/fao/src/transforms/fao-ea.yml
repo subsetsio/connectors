@@ -1,0 +1,53 @@
+# fao-ea — grain verified against run 20260704-101214 raw (0 duplicate groups).
+# year_code dropped (redundant with year); leading apostrophes stripped from M49/CPC/SDG/FBS codes.
+key: [donor_code, recipient_country_code, item_code, element_code, purpose_code, year]
+temporal: year
+columns:
+  - name: donor_code
+    type: BIGINT
+    description: "FAOSTAT numeric code of the donor country or agency"
+  - name: donor_code_m49
+    type: VARCHAR
+    description: "UN M49 code of the donor (3-digit, zero-padded string)"
+  - name: donor
+    type: VARCHAR
+    description: "Donor country or agency name"
+  - name: recipient_country_code
+    type: BIGINT
+    description: "FAOSTAT numeric code of the recipient country"
+  - name: recipient_country_code_m49
+    type: VARCHAR
+    description: "UN M49 code of the recipient country (zero-padded string)"
+  - name: recipient_country
+    type: VARCHAR
+    description: "Recipient country name"
+  - name: item_code
+    type: BIGINT
+    description: "FAOSTAT numeric item code"
+  - name: item
+    type: VARCHAR
+    description: "Item name (commodity, product, land-use class or category)"
+  - name: element_code
+    type: BIGINT
+    description: "FAOSTAT element code identifying the measure"
+  - name: element
+    type: VARCHAR
+    description: "Measure name (e.g. Production, Import quantity); determines `unit`"
+  - name: purpose_code
+    type: BIGINT
+    description: "OECD/CRS purpose code of the development flow"
+  - name: purpose
+    type: VARCHAR
+    description: "Purpose of the development flow (OECD/CRS sector)"
+  - name: year
+    type: BIGINT
+    description: "Observation year"
+  - name: unit
+    type: VARCHAR
+    description: "Unit of measure for `value`"
+  - name: value
+    type: DOUBLE
+    description: "Observed value in `unit`; rows without a numeric value (flag-only or censored entries) are dropped"
+  - name: flag
+    type: VARCHAR
+    description: "FAOSTAT observation-status flag (A official, E estimated, I imputed, X international source, ...)"

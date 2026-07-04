@@ -1,0 +1,50 @@
+# fao-wcad — grain verified against run 20260704-101214 raw (0 duplicate groups).
+# year_code dropped (redundant with year); leading apostrophes stripped from M49/CPC/SDG/FBS codes.
+key: [area_code, item_code, element_code, wca_round_code, census_year_code]
+temporal: wca_round_code
+columns:
+  - name: area_code
+    type: BIGINT
+    description: "FAOSTAT numeric area code for the country or region"
+  - name: area_code_m49
+    type: VARCHAR
+    description: "UN M49 area code (3-digit, zero-padded string)"
+  - name: area
+    type: VARCHAR
+    description: "Country, territory or regional aggregate name"
+  - name: item_code
+    type: BIGINT
+    description: "FAOSTAT numeric item code"
+  - name: item
+    type: VARCHAR
+    description: "Item name (commodity, product, land-use class or category)"
+  - name: element_code
+    type: BIGINT
+    description: "FAOSTAT element code identifying the measure"
+  - name: element
+    type: VARCHAR
+    description: "Measure name (e.g. Production, Import quantity); determines `unit`"
+  - name: wca_round_code
+    type: BIGINT
+    description: "World Census of Agriculture decennial round (e.g. 2010, 2020)"
+  - name: wca_round
+    type: BIGINT
+    description: "World Census of Agriculture round label"
+  - name: census_year_code
+    type: BIGINT
+    description: "Code of the national census year within the WCA round"
+  - name: census_year
+    type: VARCHAR
+    description: "National census year(s) the observation was collected in"
+  - name: unit
+    type: VARCHAR
+    description: "Unit of measure for `value`"
+  - name: value
+    type: DOUBLE
+    description: "Observed value in `unit`; rows without a numeric value (flag-only or censored entries) are dropped"
+  - name: flag
+    type: VARCHAR
+    description: "FAOSTAT observation-status flag (A official, E estimated, I imputed, X international source, ...)"
+  - name: note
+    type: VARCHAR
+    description: "Free-text footnote from the source; usually null"
