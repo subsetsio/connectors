@@ -1,0 +1,17 @@
+spec_id: nasa-stellarhosts
+status: active
+tests:
+  - not_null: sy_name
+    reason: every stellar-hosts row belongs to a named planetary system
+    certainty: 90
+  - not_null: hostname
+    certainty: 90
+  - row_count: {min: 40000}
+    reason: probed 47693 rows (one per star-reference pair); grows with the archive
+    certainty: 85
+  - between: {col: sy_snum, lo: 1, hi: 10}
+    reason: systems have 1..4 known stars today; 10 is a generous physical ceiling
+    certainty: 85
+  - between: {col: sy_pnum, lo: 0, hi: 20}
+    reason: largest known systems have 8 planets; 20 is a safety ceiling
+    certainty: 85

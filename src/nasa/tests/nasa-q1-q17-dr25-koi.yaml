@@ -1,0 +1,18 @@
+spec_id: nasa-q1-q17-dr25-koi
+status: active
+coverage:
+  frozen: true
+  reason: Q1-Q17 DR25 KOI is the final uniform Kepler pipeline delivery (2017); a closed data release that does not advance
+tests:
+  - not_null: kepoi_name
+    certainty: 95
+  - unique: kepoi_name
+    reason: one row per KOI in the DR25 delivery
+    certainty: 95
+  - not_null: kepid
+    certainty: 95
+  - between: {col: koi_score, lo: 0, hi: 1}
+    certainty: 90
+  - row_count: {min: 8000, max: 8100}
+    reason: probed exactly 8054 rows; a frozen delivery must not change
+    certainty: 95

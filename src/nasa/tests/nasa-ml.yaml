@@ -1,0 +1,13 @@
+spec_id: nasa-ml
+status: active
+tests:
+  - not_null: pl_name
+    reason: microlensing table keys on planet name
+    certainty: 85
+  - row_count: {min: 700}
+    reason: probed 888 microlensing rows; KMTNet/OGLE discoveries keep adding
+    certainty: 85
+  - distinct_count: {col: pl_name, min: 150}
+    reason: 200+ published microlensing planets, multiple parameter rows each
+    certainty: 75
+    severity: warn

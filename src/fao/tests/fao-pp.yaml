@@ -1,8 +1,8 @@
 spec_id: fao-pp
 status: active
 tests:
-  - row_count: {min: 100}
-    reason: prior full pull published 0 rows after the non-numeric-value filter; the raw superset dropping below half of that means a truncated download or a changed ZIP layout
+  - row_count: {min: 659781}
+    reason: prior full pull published 1319563 rows after the non-numeric-value filter; the raw superset dropping below half of that means a truncated download or a changed ZIP layout
     certainty: 90
   - not_null: area_code
     reason: area_code is the primary key dimension of every FAOSTAT Normalized row; nulls mean a header/parse shift

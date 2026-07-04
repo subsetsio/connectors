@@ -1,0 +1,17 @@
+spec_id: nasa-k2pandc
+status: active
+tests:
+  - not_null: pl_name
+    certainty: 90
+  - enum: {col: default_flag, values: [0, 1]}
+    certainty: 95
+  - between: {col: disc_year, lo: 2014, hi: current_year()}
+    reason: K2 mission started observing in 2014; dispositions keep being published after mission end
+    certainty: 80
+    severity: warn
+  - row_count: {min: 3500}
+    reason: probed 4049 rows (planets and candidates, one per reference)
+    certainty: 90
+  - freshness: {col: rowupdate, reaches: today - 365d}
+    reason: still actively curated (max rowupdate 2 days old at probe time), but K2 updates are sporadic - a year of slack
+    points_outward: true

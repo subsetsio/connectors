@@ -1,0 +1,18 @@
+spec_id: nasa-q1-q17-dr25-tce
+status: active
+coverage:
+  frozen: true
+  reason: Q1-Q17 DR25 TCE is the final Kepler pipeline transit-crossing-event delivery (max rowupdate 2017-04-06 at probe time); a closed release that does not advance
+tests:
+  - not_null: kepid
+    certainty: 95
+  - unique: [kepid, tce_plnt_num]
+    reason: a TCE is identified by star id + planet-candidate number within that star
+    certainty: 90
+  - between: {col: tce_period, lo: 0, hi: 1000}
+    reason: Kepler's ~4-year baseline caps detectable periods well under 1000 days
+    certainty: 85
+    severity: warn
+  - row_count: {min: 34000, max: 34100}
+    reason: probed exactly 34032 rows; frozen delivery
+    certainty: 95

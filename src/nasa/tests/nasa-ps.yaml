@@ -1,0 +1,25 @@
+spec_id: nasa-ps
+status: active
+tests:
+  - not_null: pl_name
+    reason: every Planetary Systems row is one planet-parameter set; a null name means a broken CSV parse
+    certainty: 95
+  - not_null: hostname
+    certainty: 95
+  - column_type: {col: disc_year, type: integer}
+    certainty: 90
+  - enum: {col: default_flag, values: [0, 1]}
+    reason: archive-defined boolean marking the default parameter set per planet
+    certainty: 95
+  - between: {col: disc_year, lo: 1988, hi: current_year()}
+    reason: earliest confirmed exoplanet publications date to the late 1980s; discovery years cannot be in the future
+    certainty: 90
+  - distinct_count: {col: pl_name, min: 5000}
+    reason: the archive confirms 5900+ planets; ps carries every one at least once
+    certainty: 90
+  - row_count: {min: 35000}
+    reason: probed ~40k rows (one per planet-reference pair); the table only grows
+    certainty: 90
+  - freshness: {col: rowupdate, reaches: today - 60d}
+    reason: ps is updated weekly by the archive (max rowupdate was 2 days old at probe time)
+    points_outward: true

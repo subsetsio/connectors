@@ -1,0 +1,23 @@
+spec_id: nasa-cumulative
+status: active
+coverage:
+  frozen: true
+  reason: the cumulative KOI list is a closed Kepler-mission product; it was finalized after DR25 (last activity table updates ~2018) and does not advance
+tests:
+  - not_null: kepoi_name
+    certainty: 95
+  - unique: kepoi_name
+    reason: one row per Kepler Object of Interest
+    certainty: 95
+  - not_null: kepid
+    certainty: 95
+  - enum: {col: koi_disposition, values: [CONFIRMED, CANDIDATE, FALSE POSITIVE, REFUTED]}
+    reason: archive disposition vocabulary for KOIs
+    certainty: 85
+    severity: warn
+  - between: {col: koi_score, lo: 0, hi: 1}
+    reason: Robovetter disposition score is a probability
+    certainty: 90
+  - row_count: {min: 9000, max: 10500}
+    reason: probed 9564 KOIs; the table is frozen so the count should not move
+    certainty: 90

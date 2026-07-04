@@ -1,0 +1,17 @@
+spec_id: nasa-toi
+status: active
+tests:
+  - not_null: toi
+    certainty: 95
+  - unique: toi
+    reason: one row per TESS Object of Interest number
+    certainty: 90
+  - not_null: tid
+    reason: every TOI is tied to a TIC star id
+    certainty: 90
+  - row_count: {min: 7000}
+    reason: probed 8035 TOIs; TESS keeps producing new ones
+    certainty: 90
+  - freshness: {col: rowupdate, reaches: today - 90d}
+    reason: the TOI table is refreshed continuously from TFOPWG (max rowupdate ~2 weeks old at probe time)
+    points_outward: true

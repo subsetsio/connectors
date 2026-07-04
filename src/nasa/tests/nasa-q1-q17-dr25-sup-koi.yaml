@@ -1,0 +1,15 @@
+spec_id: nasa-q1-q17-dr25-sup-koi
+status: active
+coverage:
+  frozen: true
+  reason: the DR25 Supplemental KOI table is a closed Kepler product (final supplemental disposition set, 2018); it does not advance
+tests:
+  - not_null: kepoi_name
+    certainty: 95
+  - unique: kepoi_name
+    certainty: 90
+  - not_null: kepid
+    certainty: 95
+  - row_count: {min: 9400, max: 9700}
+    reason: probed 9564 rows; frozen delivery
+    certainty: 90

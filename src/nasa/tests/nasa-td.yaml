@@ -1,0 +1,14 @@
+spec_id: nasa-td
+status: active
+tests:
+  - not_null: pl_name
+    reason: transit-depth rows are per planet
+    certainty: 85
+  - enum: {col: default_flag, values: [0, 1]}
+    certainty: 90
+  - row_count: {min: 30000}
+    reason: probed 36144 rows; transit measurements accumulate
+    certainty: 85
+  - freshness: {col: rowupdate, reaches: today - 120d}
+    reason: updated alongside ps (max rowupdate 2 days old at probe time)
+    points_outward: true

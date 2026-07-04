@@ -1,0 +1,18 @@
+spec_id: nasa-pscomppars
+status: active
+tests:
+  - not_null: pl_name
+    certainty: 95
+  - unique: pl_name
+    reason: pscomppars is by design one composite row per confirmed planet
+    certainty: 95
+  - not_null: hostname
+    certainty: 90
+  - between: {col: disc_year, lo: 1988, hi: current_year()}
+    certainty: 90
+  - row_count: {min: 5500}
+    reason: probed 6316 confirmed planets; the count only grows
+    certainty: 90
+  - freshness: {col: disc_pubdate, reaches: today - 365d}
+    reason: new planets are added continuously (max disc_pubdate was the current month at probe time); a year of slack covers publication lulls
+    points_outward: true
