@@ -14,14 +14,9 @@ tests:
   - matches: {col: year, pattern: '(19|20)\d{2}'}
     reason: year is a 4-digit calendar year (arrives as string for most indicators)
     certainty: 90
-  - between: {col: year, lo: 1960, hi: 2030}
-    reason: browser coverage starts 1960/1971/1990 depending on indicator; no far-future projections in the free slice
-    certainty: 90
-  - at_most: {col: year, expr: current_year()}
-    reason: statistics, not projections - though IEA occasionally ships provisional current-year points
-    certainty: 75
-    points_outward: true
-    severity: warn
+  - between: {col: year, lo: 1960, hi: 2055}
+    reason: SDG 7.1 electricity-access series ships IEA projection years through 2050 (observed max 2050 in the 2026 corpus)
+    certainty: 85
   - freshness: {col: year, reaches: 2021}
     reason: IEA annual releases lag ~2 years (probed indicators reach 2023/2024 in mid-2026); a max below 2021 means a truncated fetch or a frozen corpus
     points_outward: true

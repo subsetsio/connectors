@@ -1,0 +1,23 @@
+# Energy intensity per unit of GDP (SDG 7.3) — IEA Energy Statistics Data Browser, /stats/indicator/SDG73
+# Dropped: seriesLabel (duplicates the dim label), flowOrder/productOrder
+# (presentational), units (constant 'MJ per 2021 USD PPP', folded into value description)
+# and the constant/all-null flow+product columns (single-series indicator).
+key:
+- year
+- country
+temporal: year
+columns:
+- name: year
+  type: BIGINT
+  description: Observation year (calendar year; parsed from the API's string year).
+- name: country
+  type: VARCHAR
+  description: 'IEA country/region code: ISO3 alpha-3 for individual countries, IEA aggregate codes (e.g.
+    WORLD, OECDTOT, AFRICA, WEOEUR) for regions.'
+- name: country_label
+  type: VARCHAR
+  description: IEA short display name for the country/region (uppercase, abbreviated; renamed from `short`).
+- name: value
+  type: DOUBLE
+  description: 'Energy intensity per unit of GDP (SDG 7.3) (TES/GDP PPP), in MJ per 2021 USD PPP. Source
+    publication: IEA Sustainable Development Goal 7. No-observation (null) rows are dropped.'

@@ -1,0 +1,31 @@
+# CO2 emissions by sector — IEA Energy Statistics Data Browser, /stats/indicator/CO2BySector
+# Dropped: seriesLabel (duplicates the dim label), flowOrder/productOrder
+# (presentational), units (constant 'MtCO2', folded into value description)
+# and the constant/all-null product* columns.
+key:
+- year
+- country
+- flow
+temporal: year
+columns:
+- name: year
+  type: BIGINT
+  description: Observation year (calendar year; parsed from the API's string year).
+- name: country
+  type: VARCHAR
+  description: 'IEA country/region code: ISO3 alpha-3 for individual countries, IEA aggregate codes (e.g.
+    WORLD, OECDTOT, AFRICA, WEOEUR) for regions.'
+- name: country_label
+  type: VARCHAR
+  description: IEA short display name for the country/region (uppercase, abbreviated; renamed from `short`).
+- name: flow
+  type: VARCHAR
+  description: IEA flow/sector code for this indicator's breakdown dimension (e.g. 'ELECHEAT', 'ONONSPEC',
+    'FISHING', 'TOTTRANS').
+- name: flow_label
+  type: VARCHAR
+  description: Human-readable label for `flow`.
+- name: value
+  type: DOUBLE
+  description: 'CO2 emissions by sector, in MtCO2. Source publication: IEA Greenhouse Gas Emissions from
+    Energy. No-observation (null) rows are dropped.'

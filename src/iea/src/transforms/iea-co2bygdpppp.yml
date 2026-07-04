@@ -1,0 +1,24 @@
+# CO2 emissions per unit of GDP (PPP) — IEA Energy Statistics Data Browser, /stats/indicator/CO2ByGDPPPP
+# Dropped: seriesLabel (duplicates the dim label), flowOrder/productOrder
+# (presentational), units (constant 'kgCO2eq per US dollar (2020 prices)', folded into value description)
+# and the constant/all-null flow+product columns (single-series indicator).
+key:
+- year
+- country
+temporal: year
+columns:
+- name: year
+  type: BIGINT
+  description: Observation year (calendar year; parsed from the API's string year).
+- name: country
+  type: VARCHAR
+  description: 'IEA country/region code: ISO3 alpha-3 for individual countries, IEA aggregate codes (e.g.
+    WORLD, OECDTOT, AFRICA, WEOEUR) for regions.'
+- name: country_label
+  type: VARCHAR
+  description: IEA short display name for the country/region (uppercase, abbreviated; renamed from `short`).
+- name: value
+  type: DOUBLE
+  description: 'CO2 emissions per unit of GDP (PPP) (CO2/GDP PPP (kgCO2 per 2020 USD)), in kgCO2eq per
+    US dollar (2020 prices). Source publication: IEA Energy Transitions Indicators. No-observation (null)
+    rows are dropped.'
