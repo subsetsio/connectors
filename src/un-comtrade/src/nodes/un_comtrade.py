@@ -15,24 +15,33 @@ endpoint (same host) tells us exactly which years each reporter has data for,
 so we never waste calls on empty years and the period set is discovered from
 the source (never hardcoded).
 
-Crawl shape — batched, resumable (one parquet batch per reporter):
-  ~219 active reporters x ~25-35 available years ~= 6-8k calls. The public
-  endpoint sustains ~1 req/sec (verified); we throttle to ~0.8 req/sec, so a
-  full crawl is ~2-3h — within one CI run, and resumable if interrupted. State
-  stores a per-reporter signature (hash of getDA period+checksum pairs); a
-  reporter is re-fetched only when its signature changes (picks up source
-  revisions) or has never been fetched. Raw is written per reporter before
-  state advances, so an interrupt loses at most the in-flight reporter and the
-  next run resumes. No self-imposed time/record budget — the supervisor caps
-  wall-clock by interrupting the node; the per-reporter raw+state writes make
-  that safe.
+## Fetch shape — stateless full re-pull, one raw FRAGMENT per reporter
 
-No incremental date filter exists (getDA carries no since cursor); refreshes
-re-evaluate every reporter's signature. Net weight is omitted — it is 0/missing
-for the TOTAL aggregation.
+There is NO incremental cursor on this API (getDA carries no since/modifiedAfter
+filter — verified), so per the download rubric this is a **stateless full
+re-pull**: every fresh run re-crawls all reporters and all their years. We do
+NOT keep a persistent per-reporter "already fetched" signature — that pattern is
+a trap here, because raw is written into a *run-scoped* prefix
+(`runs/<run_id>/raw/`) while such state would persist across runs, so a re-run
+would skip "done" reporters and leave the new run's raw holed (the transform
+then materializes on a fraction of the matrix). Correctness first: each run's
+raw is complete and self-contained.
+
+The full crawl is large (~219 reporters x ~25-35 years ~= 7k calls) and the
+public endpoint's true sustainable rate is ~0.6 req/sec (measured: >~0.8/sec
+draws sustained 429s), so a full crawl is ~3-4h — near, but under, one CI
+window. To survive a supervisor interrupt we write one raw fragment per reporter
+(`fragment=<reporterCode>` of the single `un-comtrade-values` asset) and RESUME
+WITHIN THE RUN from the raw manifest: a reporter already committed under the
+current RUN_ID is skipped. This is run-scoped resume (the firehose-continuation
+pattern), not cross-run state — a brand-new run_id starts a clean full crawl,
+while the supervisor's continuation of the same run_id picks up where it left
+off. The transform's dep view glob-unions every `un-comtrade-values-*` fragment
+automatically.
+
+Net weight is omitted — it is 0/missing for the TOTAL aggregation.
 """
-import hashlib
-import json
+import os
 
 import httpx
 import pyarrow as pa
@@ -40,15 +49,10 @@ from ratelimit import limits, sleep_and_retry
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
-    load_state,
+    list_raw_fragments,
     save_raw_parquet,
-    save_state,
-    transient_retry,
 )
-
-STATE_VERSION = 1
 
 REPORTERS_URL = "https://comtradeapi.un.org/files/v1/app/reference/Reporters.json"
 DA_URL = "https://comtradeapi.un.org/public/v1/getDA/C/A/HS"
@@ -75,20 +79,23 @@ SCHEMA = pa.schema([
 ])
 
 
-# Rate limiter sits on the innermost HTTP attempt so that EVERY attempt
-# (including tenacity retries) is throttled — the public endpoint cooldown-bans
-# sub-second bursts. ~0.8 req/sec (80% of the ~1 req/sec sustainable rate).
+# Base pacing so `get`'s built-in 429 backoff rarely has to fire: the public
+# endpoint 429s sustained bursts above ~0.7 req/sec (measured), so we pace at
+# ~0.55 req/sec (11 calls / 20s). `subsets_utils.get` ALREADY retries transient
+# errors + 429/5xx with exponential backoff and honours Retry-After — we do NOT
+# stack a second retry layer on top (that multiplies the waits). ratelimit is
+# per-process, which is fine: this connector's single download spec owns the
+# whole rate budget in its own spawn subprocess.
 @sleep_and_retry
-@limits(calls=4, period=5)
+@limits(calls=11, period=20)
 def _throttled_get(url: str, params: dict | None) -> httpx.Response:
-    resp = get(url, params=params, timeout=(10.0, 120.0))
-    resp.raise_for_status()
-    return resp
+    return get(url, params=params, timeout=(10.0, 120.0))
 
 
-@transient_retry()
 def _api_get(url: str, params: dict | None = None):
-    return _throttled_get(url, params).json()
+    resp = _throttled_get(url, params)
+    resp.raise_for_status()
+    return resp.json()
 
 
 def _active_reporters() -> list[dict]:
@@ -112,26 +119,20 @@ def _active_reporters() -> list[dict]:
     return out
 
 
-def _data_availability(reporter_code: int) -> list[dict]:
-    """getDA rows for a reporter (which years/datasets have data). [] on 404."""
+def _available_years(reporter_code: int) -> list[int]:
+    """Years for which this reporter has annual HS data, from keyless getDA.
+    [] on 404 (reporter absent from the availability index)."""
     try:
         payload = _api_get(DA_URL, {"reporterCode": str(reporter_code)})
     except httpx.HTTPStatusError as e:
         if e.response.status_code == 404:
             return []
         raise
-    return payload.get("data") or []
-
-
-def _signature(da_rows: list[dict]) -> str:
-    """Stable hash of (period, datasetChecksum) pairs — changes when the source
-    revises any of the reporter's annual datasets."""
-    pairs = sorted(
-        (row.get("period"), row.get("datasetChecksum")) for row in da_rows
-    )
-    return hashlib.sha256(
-        json.dumps(pairs, default=str, sort_keys=True).encode()
-    ).hexdigest()[:16]
+    return sorted({
+        int(row["period"])
+        for row in (payload.get("data") or [])
+        if row.get("period") is not None
+    })
 
 
 def _fetch_year(reporter_code: int, year: int) -> list[dict]:
@@ -179,77 +180,45 @@ def _clean(rec: dict) -> dict:
 
 
 def fetch_values(node_id: str) -> None:
-    """Crawl the full bilateral matrix, one resumable parquet batch per reporter.
+    """Crawl the full bilateral matrix, one raw fragment per reporter.
 
-    Batch asset id = f"{node_id}-{reporterCode}" so the transform's dep view
-    glob-unions every reporter batch automatically.
+    Stateless full re-pull with run-scoped resume: a reporter whose fragment is
+    already committed under THIS run_id is skipped, so a supervisor-interrupted
+    run resumes without re-fetching completed reporters and without persisting a
+    cross-run watermark that would hole a fresh run's raw.
     """
-    state = load_state(node_id)
-    if state.get("schema_version") != STATE_VERSION:
-        state = {"schema_version": STATE_VERSION, "reporters": {}}
-    done = state.setdefault("reporters", {})
+    run_id = os.environ.get("RUN_ID", "unknown")
+    done = {
+        frag for frag, meta in list_raw_fragments(node_id).items()
+        if meta.get("run_id") == run_id
+    }
 
     reporters = _active_reporters()
-    print(f"UN Comtrade: {len(reporters)} active reporters")
+    print(f"UN Comtrade: {len(reporters)} active reporters "
+          f"({len(done)} already done this run)")
 
     for i, rep in enumerate(reporters, 1):
         code = rep["code"]
-        da_rows = _data_availability(code)
-        periods = sorted({
-            int(row["period"]) for row in da_rows if row.get("period") is not None
-        })
-        sig = _signature(da_rows)
+        frag = str(code)
+        if frag in done:
+            continue  # committed earlier in this same run — resume past it
 
-        if done.get(str(code)) == sig:
-            continue  # already fetched at this revision — resume / incremental skip
-
+        years = _available_years(code)
         rows: list[dict] = []
-        for year in periods:
+        for year in years:
             rows.extend(_clean(r) for r in _fetch_year(code, year))
 
         if rows:
             table = pa.Table.from_pylist(rows, schema=SCHEMA)
-            save_raw_parquet(table, f"{node_id}-{code}")
+            save_raw_parquet(table, node_id, fragment=frag)
             print(f"  [{i}/{len(reporters)}] {rep['name']} ({code}): "
-                  f"{len(rows):,} rows over {len(periods)} years")
+                  f"{len(rows):,} rows over {len(years)} years")
         else:
+            # No data for this reporter (or all years 404/empty). Write nothing
+            # — an empty fragment would fail the nonempty-batch health check.
             print(f"  [{i}/{len(reporters)}] {rep['name']} ({code}): no data")
-
-        # Raw written before state — a crash here re-fetches one reporter, never
-        # records a phantom completion.
-        done[str(code)] = sig
-        save_state(node_id, state)
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="un-comtrade-values", fn=fetch_values, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="un-comtrade-values-transform",
-        deps=["un-comtrade-values"],
-        sql='''
-            SELECT
-                CAST(refYear AS INTEGER)        AS year,
-                CAST(reporterCode AS INTEGER)   AS reporter_code,
-                any_value(reporterISO)          AS reporter_iso,
-                any_value(reporterDesc)         AS reporter,
-                CAST(partnerCode AS INTEGER)    AS partner_code,
-                any_value(partnerISO)           AS partner_iso,
-                any_value(partnerDesc)          AS partner,
-                flowDesc                        AS flow,
-                SUM(primaryValue)               AS trade_value_usd,
-                bool_or(isReported)             AS is_reported
-            FROM "un-comtrade-values"
-            WHERE cmdCode = 'TOTAL'
-              AND primaryValue IS NOT NULL
-              AND refYear IS NOT NULL
-              AND reporterCode IS NOT NULL
-              AND partnerCode IS NOT NULL
-              AND flowDesc IS NOT NULL
-            GROUP BY refYear, reporterCode, partnerCode, flowDesc
-        ''',
-    ),
 ]
