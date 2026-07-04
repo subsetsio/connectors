@@ -139,11 +139,21 @@ MAINTAIN_SPECS = [
 # One published Delta table per subset: a thin pass-through of the dataset CSV.
 # The runtime registers each dep's gzipped raw as a `read_csv_auto` view, so
 # SELECT * publishes the source schema as DuckDB infers it.
+#
+# `reader_args="sample_size=-1"` forces read_csv_auto to infer column types from
+# the ENTIRE file rather than the default 20k-row sample. The Socrata exports are
+# heterogeneous and long: a column that looks numeric in the first tens of
+# thousands of rows can carry a stray string far deeper (e.g. ymmh-divb's
+# `major_lab_method`: numeric-looking early, "yes"/"no" later), which a sampled
+# inference mistypes as DOUBLE and then fails to scan. Full-file inference sizes
+# every column correctly while still preserving genuine numeric types (unlike
+# all_varchar), keeping the published schema a faithful 1:1 mirror of the source.
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",
         deps=[s.id],
         sql=f'SELECT * FROM "{s.id}"',
+        reader_args="sample_size=-1",
     )
     for s in DOWNLOAD_SPECS
 ]

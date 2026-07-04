@@ -68,7 +68,7 @@ def _glob_raw(pattern: str) -> list[str]:
     return list_raw_files(pattern)
 
 
-def _read_clause(dep_id: str) -> tuple[list[str], str]:
+def _read_clause(dep_id: str, reader_args: str | None = None) -> tuple[list[str], str]:
     """Build the DuckDB FROM-clause for one dep's raw file(s).
     Returns (raw path refs, FROM-clause) so the caller can record reads.
 
@@ -78,6 +78,10 @@ def _read_clause(dep_id: str) -> tuple[list[str], str]:
     knows nothing: exact-name match (`<dep>.<ext>`) wins; only when absent do
     we accept the batch layout (`<dep>-*`) so a sibling asset whose id extends
     this one (e.g. `slug-us` vs `slug-us-east`) can't be swallowed by the glob.
+
+    `reader_args` (from the spec) is a raw kwargs fragment appended to the
+    reader call — e.g. "sample_size=-1" so read_csv_auto infers types from the
+    whole file instead of the default sample, or "all_varchar=true".
     """
     resolved = raw_manifest.dep_fragments(dep_id)
     if resolved is not None:
@@ -112,7 +116,9 @@ def _read_clause(dep_id: str) -> tuple[list[str], str]:
             f"across {len(rels)} files (via {source}) — one format per asset"
         )
 
-    return rels, f"{readers.pop()}({paths})"
+    reader = readers.pop()
+    args = f", {reader_args}" if reader_args else ""
+    return rels, f"{reader}({paths}{args})"
 
 
 def _canonical_type(type_expr: str) -> str:
@@ -163,7 +169,7 @@ def run_sql_node(spec: SqlNodeSpec) -> None:
     from .tracking import record_read
 
     for dep in spec.deps:
-        rels, clause = _read_clause(dep)
+        rels, clause = _read_clause(dep, spec.reader_args)
         duckdb.sql(f'CREATE OR REPLACE TEMP VIEW "{dep}" AS SELECT * FROM {clause}')
         # DuckDB reads bypass load_raw_* so lineage is recorded here. Manifest
         # refs already carry a raw/ segment (they may span run dirs); glob rels
