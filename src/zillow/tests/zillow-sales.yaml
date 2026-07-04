@@ -30,6 +30,9 @@ tests:
   - unique: [region_id, date, metric]
     reason: one observation per region / month / series
     certainty: 90
+  - freshness: {col: date, reaches: today - 75d}
+    reason: Zillow refreshes the sales/listing series monthly (month-end dated, ~2-3 week publish lag); the latest observation should stay within ~2.5 months of today
+    certainty: 90
   - row_count: {min: 10000}
     reason: seven metrics across several geographies x thousands of regions x monthly points
     certainty: 85

@@ -34,6 +34,9 @@ tests:
     reason: US typical monthly rents run a few hundred to several thousand dollars
     certainty: 70
     severity: warn
+  - freshness: {col: date, reaches: today - 75d}
+    reason: Zillow refreshes ZORI monthly (month-end dated, ~2-3 week publish lag); the latest observation should stay within ~2.5 months of today
+    certainty: 90
   - row_count: {min: 10000}
     reason: one metric across several geographies x thousands of regions x ~120 monthly points
     certainty: 85

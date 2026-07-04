@@ -31,6 +31,9 @@ tests:
   - unique: [region_id, date, metric]
     reason: one index observation per region / month
     certainty: 90
+  - freshness: {col: date, reaches: today - 75d}
+    reason: Zillow refreshes the Market Heat Index monthly (month-end dated, ~2-3 week publish lag); the latest observation should stay within ~2.5 months of today
+    certainty: 90
   - row_count: {min: 5000}
     reason: one metric across several geographies x thousands of regions x monthly points
     certainty: 85

@@ -37,6 +37,9 @@ tests:
     reason: US typical home values run tens of thousands to low millions across regions and tiers
     certainty: 65
     severity: warn
+  - freshness: {col: date, reaches: today - 75d}
+    reason: Zillow refreshes ZHVI monthly (month-end dated, ~2-3 week publish lag); the latest observation should stay within ~2.5 months of today
+    certainty: 90
   - row_count: {min: 100000}
     reason: ten metrics x five geographies x thousands of regions x ~300 monthly points is millions of long rows
     certainty: 85
