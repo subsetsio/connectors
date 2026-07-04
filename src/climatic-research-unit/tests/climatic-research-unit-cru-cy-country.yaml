@@ -7,6 +7,9 @@ tests:
   - not_null: month
   - column_type: {col: year, type: integer}
   - column_type: {col: month, type: integer}
+  - freshness: {col: date, reaches: today - 800d}
+    reason: CRU CY tracks the annual CRU TS release (v4.09 covers through 2024); a new version lands roughly yearly, so the latest month must be within ~26 months or the release has stalled
+    certainty: 85
   - enum: {col: variable, values: [cld, dtr, frs, pet, pre, tmn, tmp, tmx, vap, wet]}
     reason: CRU CY publishes the 10 CRU TS climate variables, one subdirectory each
     certainty: 95

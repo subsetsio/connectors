@@ -6,6 +6,9 @@ tests:
   - not_null: month
   - column_type: {col: year, type: integer}
   - column_type: {col: month, type: integer}
+  - freshness: {col: date, reaches: today - 180d}
+    reason: monthly anomaly series republished with a ~2-4 month lag; the latest month must land within ~6 months or the feed has stalled
+    certainty: 90
   - enum: {col: region, values: [nh, sh, gl]}
     reason: CRU publishes exactly three region series per product (northern/southern hemisphere + global)
     certainty: 95

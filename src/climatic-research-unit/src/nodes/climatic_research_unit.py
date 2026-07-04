@@ -23,6 +23,7 @@ Two fetch shapes:
 """
 
 import re
+from datetime import date
 
 import pyarrow as pa
 from subsets_utils import (
@@ -67,8 +68,13 @@ VAR_UNITS = {
 TEMP_MISSING = -9.999
 CY_MISSING = -999.0
 
+# `date` (first-of-month) is carried on the RAW so the download-test freshness
+# assertion has a real date column to read (year/month alone can't express a
+# date-slack bound). The transforms recompute it from year/month, so the
+# published schema is unchanged.
 TEMP_SCHEMA = pa.schema([
     ("region", pa.string()),
+    ("date", pa.date32()),
     ("year", pa.int32()),
     ("month", pa.int32()),
     ("value", pa.float64()),
@@ -79,6 +85,7 @@ CY_SCHEMA = pa.schema([
     ("country", pa.string()),
     ("variable", pa.string()),
     ("unit", pa.string()),
+    ("date", pa.date32()),
     ("year", pa.int32()),
     ("month", pa.int32()),
     ("value", pa.float64()),
@@ -127,7 +134,7 @@ def _parse_temperature(text: str):
 def fetch_temperature(node_id: str) -> None:
     asset = node_id
     template = TEMP_FILES[node_id]
-    regions, years, months, vals, cnts = [], [], [], [], []
+    regions, dates, years, months, vals, cnts = [], [], [], [], [], []
     for region in REGIONS:
         url = TEMP_BASE + template.format(r=region)
         text = _get_text(url)
@@ -136,6 +143,7 @@ def fetch_temperature(node_id: str) -> None:
             raise AssertionError(f"{asset}: no rows parsed from {url}")
         for year, month, value, count in parsed:
             regions.append(region)
+            dates.append(date(year, month, 1))
             years.append(year)
             months.append(month)
             vals.append(value)
@@ -143,6 +151,7 @@ def fetch_temperature(node_id: str) -> None:
     table = pa.table(
         {
             "region": regions,
+            "date": dates,
             "year": years,
             "month": months,
             "value": vals,
@@ -204,7 +213,7 @@ def fetch_country(node_id: str) -> None:
             files = _list_per_files(var_dir)
             if not files:
                 raise AssertionError(f"{asset}: no .per files for variable {variable} at {var_dir}")
-            v_country, v_var, v_unit, v_year, v_month, v_value = [], [], [], [], [], []
+            v_country, v_var, v_unit, v_date, v_year, v_month, v_value = [], [], [], [], [], [], []
             for fname in files:
                 text = _get_text(var_dir + fname)
                 country, rows = _parse_country_file(text, variable)
@@ -212,6 +221,7 @@ def fetch_country(node_id: str) -> None:
                     v_country.append(country)
                     v_var.append(variable)
                     v_unit.append(unit)
+                    v_date.append(date(year, month, 1))
                     v_year.append(year)
                     v_month.append(month)
                     v_value.append(value)
@@ -220,6 +230,7 @@ def fetch_country(node_id: str) -> None:
                     "country": v_country,
                     "variable": v_var,
                     "unit": v_unit,
+                    "date": v_date,
                     "year": v_year,
                     "month": v_month,
                     "value": v_value,
