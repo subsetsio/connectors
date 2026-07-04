@@ -52,6 +52,17 @@ BASE = "https://reporter.nih.gov/services/exporter"
 
 ENTITY_IDS = ["ABSTRACT", "PROJECT", "PUBLICATION"]
 
+# Characters that `str.splitlines()` treats as line boundaries but
+# `json.dumps(ensure_ascii=False)` leaves RAW in the output (they are >= 0x20, so
+# the JSON encoder does not escape them). Left in place they split one NDJSON
+# record across physical lines, so the canonical Python reader
+# (`load_raw_ndjson`, which does `text.splitlines()`) fails with "Unterminated
+# string" mid-abstract. DuckDB's read_json_auto only splits on \n and is
+# unaffected, but the raw must be safe for BOTH readers — normalize them to a
+# space in every string value. (\v \f \x1c-\x1e and \r are < 0x20 and already
+# escaped by json.dumps, so they need no handling here.)
+_LINE_SEPARATORS = str.maketrans({"\u2028": " ", "\u2029": " ", "\u0085": " "})
+
 # Canonical (modern) column set per group, normalized (upper, underscores). Every
 # emitted row carries exactly these keys (missing -> null) PLUS any extra columns
 # a given year's file happens to have. Guaranteeing presence makes the DuckDB
@@ -140,7 +151,7 @@ def _write_year(asset: str, content: bytes, canonical: list[str]) -> int:
                     if not col:
                         continue
                     if isinstance(v, str):
-                        val = v.replace("﻿", "").strip()  # drop embedded BOMs
+                        val = v.replace("\ufeff", "").translate(_LINE_SEPARATORS).strip()  # drop embedded BOMs + normalize stray line separators
                     else:
                         val = v
                     row[col] = val if val not in (None, "") else None

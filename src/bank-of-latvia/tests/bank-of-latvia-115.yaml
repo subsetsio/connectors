@@ -1,5 +1,8 @@
 spec_id: bank-of-latvia-115
 status: active
+coverage:
+  frozen: true
+  reason: "EUR exchange rate against LVL, daily. Latvia adopted the euro on 2014-01-01, so the lats (LVL) reference-rate series ends 2013-12-31 and the source table no longer advances — no freshness assertion applies."
 tests:
   - row_count: {min: 1}
     reason: fetch_one raises if it parses 0 data rows from the export, so a materialized table always has at least one row

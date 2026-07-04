@@ -19,6 +19,9 @@ tests:
   - column_type: {col: period, type: string}
     reason: period is the pivot's column-dimension / time label joined as text, not parsed to a date
     certainty: 99
+  - freshness: {col: period, reaches: "2024"}
+    reason: "Annual table; 'period' carries the reference year as a label (latest observed 2025). A max period below the prior full year means the yearly export stopped refreshing. Floor is a literal prior year because the column is a bare year string and the source lags the current calendar year."
+    certainty: 80
   - not_null: value
     reason: only numeric pivot cells become rows and value is a non-null float64; the transform also filters value IS NOT NULL
     certainty: 95
