@@ -1,0 +1,21 @@
+spec_id: nasa-sentry
+status: active
+tests:
+  - not_null: des
+    certainty: 95
+  - unique: des
+    reason: the Sentry risk list has one summary row per object designation
+    certainty: 90
+  - not_null: ps_cum
+    reason: cumulative Palermo scale is the core risk metric, always computed
+    certainty: 85
+  - median_between: {col: ps_cum, lo: -12, hi: -2}
+    reason: Palermo scale values on the risk list are negative (median around -7)
+    certainty: 75
+    severity: warn
+  - freshness: {col: last_obs, reaches: today - 365d}
+    reason: newly discovered objects join the list continuously, so the most recent last-observation date across the list must be within a year
+    points_outward: true
+  - row_count: {min: 1000}
+    reason: probed 2162 objects; the list both grows (new discoveries) and shrinks (objects removed when risk is excluded)
+    certainty: 80

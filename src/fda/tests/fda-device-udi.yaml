@@ -1,0 +1,23 @@
+spec_id: fda-device-udi
+status: active
+tests:
+  - not_null: public_device_record_key
+    reason: the GUDID public record key identifies each device record
+    certainty: 95
+  - unique: public_device_record_key
+    reason: one row per GUDID device record; the published table keys on it
+    certainty: 90
+  - matches: {col: public_device_record_key, pattern: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'}
+    reason: GUDID record keys are lowercase UUIDs
+    certainty: 85
+    severity: warn
+  - enum: {col: is_rx, values: ['true', 'false']}
+    reason: boolean flags serialize as true/false strings in this raw
+    certainty: 85
+    severity: warn
+  - row_count: {min: 4000000}
+    reason: GUDID holds ~5M published records and only grows; June 2026 export held ~5.1M
+    certainty: 80
+  - freshness: {col: publish_date, reaches: today - 180d}
+    reason: GUDID publishes continuously; max publish_date lagging half a year means the export stalled
+    points_outward: true

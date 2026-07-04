@@ -1,0 +1,19 @@
+spec_id: fda-cosmetic-event
+status: active
+tests:
+  - not_null: report_number
+    reason: report_number identifies each cosmetic adverse-event report
+    certainty: 90
+  - unique: report_number
+    reason: one row per report; the published table keys on it with no dup anomalies
+    certainty: 85
+  - matches: {col: latest_received_date, pattern: '[0-9]{8}'}
+    reason: cosmetic event receive dates are YYYYMMDD strings
+    certainty: 85
+    severity: warn
+  - row_count: {min: 60000}
+    reason: corpus only grows; the June 2026 export held ~85k records
+    certainty: 80
+  - freshness: {col: latest_received_date, reaches: today - 600d}
+    reason: export observed ~10 months behind the receive dates (MoCRA processing lag); generous slack, but a frozen export must still block
+    points_outward: true

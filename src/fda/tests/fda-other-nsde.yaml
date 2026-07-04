@@ -1,0 +1,19 @@
+spec_id: fda-other-nsde
+status: active
+tests:
+  - not_null: package_ndc
+    reason: NSDE is package-level; every row carries its package NDC
+    certainty: 95
+  - unique: package_ndc
+    reason: one row per package NDC; the published table keys on it
+    certainty: 85
+  - matches: {col: package_ndc11, pattern: '[0-9]{11}'}
+    reason: the 11-digit normalized package NDC is fixed-width numeric
+    certainty: 85
+    severity: warn
+  - row_count: {min: 500000}
+    reason: comprehensive NDC SPL data elements corpus only grows; June 2026 export held ~660k
+    certainty: 80
+  - freshness: {col: marketing_start_date, reaches: today - 120d}
+    reason: NSDE refreshes monthly with newly marketed packages
+    points_outward: true

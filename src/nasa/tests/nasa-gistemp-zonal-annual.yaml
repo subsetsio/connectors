@@ -1,0 +1,24 @@
+spec_id: nasa-gistemp-zonal-annual
+status: active
+tests:
+  - enum: {col: zone, values: [Glob, NHem, SHem, 24N-90N, 24S-24N, 90S-24S, 64N-90N, 44N-64N, 24N-44N, EQU-24N, 24S-EQU, 44S-24S, 64S-44S, 90S-64S]}
+    reason: the ZonAnn header carries exactly these 14 latitude bands
+    certainty: 90
+  - unique: [year, zone]
+    reason: one annual anomaly per zone-year
+    certainty: 95
+  - between: {col: year, lo: 1880, hi: current_year()}
+    certainty: 95
+  - contiguous: {col: year, within: zone}
+    reason: every zone is a gapless 1880..latest-complete-year run
+    certainty: 90
+  - freshness: {col: year, reaches: 2025}
+    reason: annual table carries complete years only; 2025 was present at authoring time (2026-07), so any load missing it is stale (static floor - integer years cannot compare against date tokens)
+    points_outward: true
+  - nullable: {col: anomaly_c, max_null_frac: 0.02}
+    reason: complete-year zonal means are essentially never missing
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1900}
+    reason: 146 years x 14 zones ~ 2044 rows, growing by 14 per year
+    certainty: 90

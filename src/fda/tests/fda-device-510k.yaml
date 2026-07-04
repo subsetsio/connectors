@@ -1,0 +1,23 @@
+spec_id: fda-device-510k
+status: active
+tests:
+  - not_null: k_number
+    reason: every 510(k) record carries its K/BK/DEN submission number
+    certainty: 95
+  - unique: k_number
+    reason: one row per premarket notification; the published table keys on it
+    certainty: 90
+  - matches: {col: k_number, pattern: '(K|BK|DEN)[0-9]{6}'}
+    reason: 510(k) numbers are K/BK (traditional/abbreviated) or DEN (De Novo) plus 6 digits
+    certainty: 80
+    severity: warn
+  - matches: {col: decision_date, pattern: '[0-9]{4}-[0-9]{2}-[0-9]{2}'}
+    reason: device endpoints serialize dates as ISO YYYY-MM-DD
+    certainty: 85
+    severity: warn
+  - row_count: {min: 140000}
+    reason: clearances only accumulate; the June 2026 export held ~175k
+    certainty: 80
+  - freshness: {col: decision_date, reaches: today - 90d}
+    reason: 510(k) releases update monthly; max decision_date should track within a quarter
+    points_outward: true

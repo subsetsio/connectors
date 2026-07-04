@@ -1,0 +1,26 @@
+spec_id: nasa-fireball
+status: active
+tests:
+  - not_null: date
+    reason: every fireball event carries a peak-brightness timestamp
+    certainty: 95
+  - not_null: energy
+    reason: radiated energy is the reporting trigger for CNEOS fireballs
+    certainty: 90
+  - matches: {col: date, pattern: '\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'}
+    reason: CNEOS fireball timestamps are "YYYY-MM-DD HH:MM:SS"
+    certainty: 85
+  - freshness: {col: date, reaches: today - 180d}
+    reason: multiple fireballs are recorded per month; six months of slack covers reporting lag
+    points_outward: true
+  - nullable: {col: lat, max_null_frac: 0.5}
+    reason: location is unavailable for a minority of events
+    certainty: 70
+    severity: warn
+  - median_between: {col: energy, lo: 0.05, hi: 10}
+    reason: radiated energies are reported in units of 10^10 J; most events are small
+    certainty: 60
+    severity: warn
+  - row_count: {min: 900}
+    reason: probed 1064 events since 1988; append-only
+    certainty: 90

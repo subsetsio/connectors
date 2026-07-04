@@ -1,0 +1,19 @@
+spec_id: fda-food-event
+status: active
+tests:
+  - not_null: report_number
+    reason: CAERS report number identifies each food adverse-event report
+    certainty: 90
+  - unique: report_number
+    reason: one row per CAERS report; the published table keys on it
+    certainty: 85
+  - matches: {col: date_created, pattern: '[0-9]{8}'}
+    reason: food event dates are YYYYMMDD strings
+    certainty: 85
+    severity: warn
+  - row_count: {min: 120000}
+    reason: CAERS corpus only grows; June 2026 export held ~150k
+    certainty: 80
+  - freshness: {col: date_created, reaches: today - 400d}
+    reason: quarterly export with processing lag; a year-stale max means the export stopped advancing
+    points_outward: true

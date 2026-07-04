@@ -1,0 +1,16 @@
+spec_id: fda-device-classification
+status: active
+tests:
+  - not_null: product_code
+    reason: the three-letter product code is the classification's identity
+    certainty: 95
+  - unique: product_code
+    reason: the classification database is one row per product code
+    certainty: 90
+  - matches: {col: product_code, pattern: '[A-Z]{3}'}
+    reason: FDA product codes are three uppercase letters
+    certainty: 85
+    severity: warn
+  - row_count: {min: 6000, max: 20000}
+    reason: ~7k product codes exist; 20k+ would mean the endpoint changed grain
+    certainty: 80

@@ -1,0 +1,19 @@
+spec_id: fda-animalandveterinary-event
+status: active
+tests:
+  - not_null: unique_aer_id_number
+    reason: unique_aer_id_number is the CVM adverse-event report identifier; every record carries one
+    certainty: 90
+  - unique: unique_aer_id_number
+    reason: one row per adverse-event report; dupes mean a partition was double-ingested
+    certainty: 85
+  - matches: {col: original_receive_date, pattern: '[0-9]{8}'}
+    reason: openFDA animalandveterinary dates are YYYYMMDD strings
+    certainty: 85
+    severity: warn
+  - row_count: {min: 1000000}
+    reason: report corpus only grows; the June 2026 export held ~1.34M records
+    certainty: 80
+  - freshness: {col: original_receive_date, reaches: today - 400d}
+    reason: quarterly bulk export with multi-month reporting lag; a year-stale max means the export stopped advancing
+    points_outward: true

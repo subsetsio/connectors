@@ -1,0 +1,22 @@
+spec_id: nasa-nhats
+status: active
+tests:
+  - not_null: des
+    certainty: 95
+  - unique: des
+    reason: NHATS publishes one accessibility summary per object
+    certainty: 90
+  - not_null: min_dv_dv
+    reason: minimum delta-v is the defining NHATS metric; our fetch flattens the nested min_dv dict to min_dv_dv
+    certainty: 85
+  - median_between: {col: h, lo: 15, hi: 35}
+    reason: NHATS targets are small NEAs, absolute magnitudes cluster ~18-30
+    certainty: 75
+    severity: warn
+  - median_between: {col: min_dv_dv, lo: 3, hi: 12}
+    reason: NHATS admission requires round-trip delta-v <= 12 km/s
+    certainty: 70
+    severity: warn
+  - row_count: {min: 5000}
+    reason: probed 6983 objects; the compliant list grows with NEA discovery
+    certainty: 85

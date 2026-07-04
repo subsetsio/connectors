@@ -1,0 +1,19 @@
+spec_id: fda-device-recall
+status: active
+tests:
+  - not_null: product_res_number
+    reason: the RES product number identifies each device recall record
+    certainty: 90
+  - unique: product_res_number
+    reason: one row per recalled product; the published table keys on it
+    certainty: 85
+  - matches: {col: event_date_posted, pattern: '[0-9]{4}-[0-9]{2}-[0-9]{2}'}
+    reason: device recall dates are ISO YYYY-MM-DD
+    certainty: 85
+    severity: warn
+  - row_count: {min: 45000}
+    reason: recall corpus (2002-present) only grows; June 2026 export held ~58k
+    certainty: 80
+  - freshness: {col: event_date_posted, reaches: today - 120d}
+    reason: device recalls post weekly; a quarter-stale max means the export stalled
+    points_outward: true

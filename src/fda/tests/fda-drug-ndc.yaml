@@ -1,0 +1,19 @@
+spec_id: fda-drug-ndc
+status: active
+tests:
+  - not_null: product_id
+    reason: product_id (NDC + SPL id) identifies each NDC directory product
+    certainty: 95
+  - unique: product_id
+    reason: NDC directory is one row per product_id; the published table keys on it
+    certainty: 90
+  - matches: {col: product_ndc, pattern: '[0-9]{4,5}-[0-9]{3,4}'}
+    reason: product NDCs are labeler-product segments (4-5 and 3-4 digits)
+    certainty: 85
+    severity: warn
+  - row_count: {min: 100000}
+    reason: listed products churn but stay six figures; June 2026 export held ~136k
+    certainty: 75
+  - freshness: {col: marketing_start_date, reaches: today - 90d}
+    reason: NDC directory refreshes daily/weekly with newly marketed products
+    points_outward: true

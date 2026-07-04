@@ -1,0 +1,20 @@
+spec_id: fda-other-substance
+status: active
+tests:
+  - not_null: uuid
+    reason: GSRS substance records carry a UUID identity
+    certainty: 95
+  - unique: uuid
+    reason: one row per substance record; the published table keys on it
+    certainty: 90
+  - matches: {col: unii, pattern: '[0-9A-Z]{10}'}
+    reason: UNIIs are 10-character uppercase alphanumeric codes
+    certainty: 85
+    severity: warn
+  - enum: {col: definition_type, values: ['PRIMARY', 'ALTERNATIVE']}
+    reason: GSRS definitions are primary or alternative
+    certainty: 70
+    severity: warn
+  - row_count: {min: 130000}
+    reason: substance registry only grows; June 2026 export held ~167k
+    certainty: 80

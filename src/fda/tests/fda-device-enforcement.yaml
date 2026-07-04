@@ -1,0 +1,27 @@
+spec_id: fda-device-enforcement
+status: active
+tests:
+  - not_null: recall_number
+    reason: enforcement reports carry a recall number (occasionally an empty string, never missing)
+    certainty: 85
+  - unique: recall_number
+    reason: one row per recall-product enforcement report; published table keys on it with no dup anomalies
+    certainty: 80
+  - enum: {col: classification, values: ['Class I', 'Class II', 'Class III', 'Not Yet Classified']}
+    reason: recall classification is a closed FDA vocabulary
+    certainty: 90
+    severity: warn
+  - enum: {col: product_type, values: ['Devices']}
+    reason: the device enforcement endpoint only carries Devices recalls
+    certainty: 90
+    severity: warn
+  - matches: {col: report_date, pattern: '[0-9]{8}'}
+    reason: enforcement dates are YYYYMMDD strings
+    certainty: 85
+    severity: warn
+  - row_count: {min: 30000}
+    reason: enforcement corpus (2012-present) only grows; June 2026 export held ~39k
+    certainty: 80
+  - freshness: {col: report_date, reaches: today - 90d}
+    reason: enforcement reports publish weekly; a quarter-stale max means the export stalled
+    points_outward: true

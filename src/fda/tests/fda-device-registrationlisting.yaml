@@ -1,0 +1,16 @@
+spec_id: fda-device-registrationlisting
+status: active
+tests:
+  - not_null: establishment_type
+    reason: every registration-listing record states the establishment's activity type
+    certainty: 80
+  - enum: {col: initial_importer_flag, values: ['N', 'Y']}
+    reason: importer flag is a Y/N field
+    certainty: 85
+    severity: warn
+  - row_count: {min: 250000}
+    reason: active registrations hover above 300k; June 2026 export held ~327k
+    certainty: 75
+  - freshness: {col: reg_expiry_date_year, reaches: today - 400d}
+    reason: registrations renew annually, so the max expiry year must be at least the prior year
+    points_outward: true

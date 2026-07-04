@@ -1,0 +1,32 @@
+spec_id: nasa-gistemp-monthly-anomalies
+status: active
+tests:
+  - enum: {col: region, values: [Global, NH, SH]}
+    reason: our fetch stacks exactly the three GISTEMP hemispheric files under these labels
+    certainty: 100
+  - enum: {col: period, values: [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, J-D, D-N, DJF, MAM, JJA, SON]}
+    reason: the GISTEMP table header carries 12 months plus 6 aggregate periods
+    certainty: 95
+  - unique: [region, year, period]
+    reason: one anomaly per region-year-period cell
+    certainty: 95
+  - between: {col: year, lo: 1880, hi: current_year()}
+    reason: the GISTEMP record starts in 1880
+    certainty: 95
+  - contiguous: {col: year, within: region}
+    reason: each region is a gapless 1880..present yearly run; a gap means a dropped file or parse skip
+    certainty: 90
+  - freshness: {col: year, reaches: 2026}
+    reason: monthly release cadence; 2026 rows existed at authoring time (2026-07), so any load missing them is stale (static floor - integer years cannot compare against date tokens)
+    points_outward: true
+  - nullable: {col: anomaly_c, max_null_frac: 0.05}
+    reason: only the current partial year and one 1880 seasonal cell are '***' (null); overall null share stays tiny
+    certainty: 80
+    severity: warn
+  - median_between: {col: anomaly_c, lo: -0.2, hi: 0.4}
+    reason: anomalies vs the 1951-1980 base; the long-record median sits near zero, pulled slightly positive by recent warming
+    certainty: 70
+    severity: warn
+  - row_count: {min: 7000}
+    reason: 147 years x 18 periods x 3 regions ~ 7900 rows, growing yearly
+    certainty: 90
