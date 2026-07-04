@@ -1,0 +1,54 @@
+# WPP2024 abridged life tables by sex (Medium variant).
+# Source: UN DESA, World Population Prospects 2024. Population/birth/death counts are in thousands.
+# Only the Medium (standard) projection variant is published; the source Variant column is dropped.
+key: [location_id, year, sex, age_group]
+temporal: year
+columns:
+  - name: location_id
+    type: BIGINT
+    description: "UN M49 numeric location code (WPP LocID)."
+  - name: location_name
+    type: VARCHAR
+    description: "Name of the country, area, region, or aggregate."
+  - name: year
+    type: BIGINT
+    description: "Reference year of the observation."
+  - name: sex
+    type: VARCHAR
+    description: "Sex the row refers to: Total (both sexes), Male, or Female."
+  - name: age_group
+    type: VARCHAR
+    description: "Age group label. Open-ended top group is suffixed '+'."
+  - name: age_start
+    type: BIGINT
+    description: "Lower bound (starting age) of the age group, in years."
+  - name: central_death_rate
+    type: DOUBLE
+    description: "mx - central death rate in the age interval."
+  - name: prob_dying
+    type: DOUBLE
+    description: "qx - probability of dying within the age interval for someone alive at its start."
+  - name: prob_surviving
+    type: DOUBLE
+    description: "px - probability of surviving the age interval (1 - qx)."
+  - name: survivors
+    type: DOUBLE
+    description: "lx - survivors at exact age x per 100,000 live births (life-table radix)."
+  - name: deaths
+    type: DOUBLE
+    description: "dx - deaths within the age interval per 100,000 live births."
+  - name: person_years_lived
+    type: DOUBLE
+    description: "nLx - person-years lived within the age interval."
+  - name: survival_ratio
+    type: DOUBLE
+    description: "Sx - survivorship ratio (proportion surviving from one age group to the next)."
+  - name: person_years_above
+    type: DOUBLE
+    description: "Tx - total person-years lived above exact age x."
+  - name: life_expectancy
+    type: DOUBLE
+    description: "ex - expectation of life: mean remaining years at exact age x."
+  - name: avg_years_in_interval
+    type: DOUBLE
+    description: "ax - average years lived in the interval by those dying in it."

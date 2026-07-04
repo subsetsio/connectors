@@ -1,0 +1,183 @@
+# WPP2024 demographic indicators (Medium/standard projection variant).
+# Source: UN DESA, World Population Prospects 2024. Population/birth/death counts are in thousands.
+# Only the Medium (standard) projection variant is published; the source Variant column is dropped.
+key: [location_id, year]
+temporal: year
+columns:
+  - name: location_id
+    type: BIGINT
+    description: "UN M49 numeric location code (WPP LocID)."
+  - name: location_name
+    type: VARCHAR
+    description: "Name of the country, area, region, or aggregate."
+  - name: iso3
+    type: VARCHAR
+    description: "ISO 3166-1 alpha-3 country code; null for regional, development, and other aggregates."
+  - name: location_type
+    type: VARCHAR
+    description: "Location category, e.g. Country/Area, World, SDG region, income group."
+  - name: year
+    type: BIGINT
+    description: "Reference year of the observation."
+  - name: population_jan1
+    type: DOUBLE
+    description: "Total population on 1 January, in thousands."
+  - name: population_july1
+    type: DOUBLE
+    description: "Total population on 1 July (mid-year), in thousands."
+  - name: population_male_july1
+    type: DOUBLE
+    description: "Male population on 1 July, in thousands."
+  - name: population_female_july1
+    type: DOUBLE
+    description: "Female population on 1 July, in thousands."
+  - name: population_density
+    type: DOUBLE
+    description: "Population per square kilometre (mid-year)."
+  - name: sex_ratio
+    type: DOUBLE
+    description: "Population sex ratio: males per 100 females."
+  - name: median_age
+    type: DOUBLE
+    description: "Median age of the population, in years."
+  - name: natural_change
+    type: DOUBLE
+    description: "Natural population change (births minus deaths), in thousands."
+  - name: natural_change_rate
+    type: DOUBLE
+    description: "Rate of natural change, per 1,000 population."
+  - name: population_change
+    type: DOUBLE
+    description: "Annual population change, in thousands."
+  - name: population_growth_rate
+    type: DOUBLE
+    description: "Average annual population growth rate, in percent."
+  - name: doubling_time
+    type: DOUBLE
+    description: "Population doubling time at the current growth rate, in years."
+  - name: births
+    type: DOUBLE
+    description: "Number of births, in thousands."
+  - name: births_age15_19
+    type: DOUBLE
+    description: "Births to mothers aged 15-19, in thousands."
+  - name: crude_birth_rate
+    type: DOUBLE
+    description: "Crude birth rate: births per 1,000 population."
+  - name: total_fertility_rate
+    type: DOUBLE
+    description: "Total fertility rate: live births per woman."
+  - name: net_reproduction_rate
+    type: DOUBLE
+    description: "Net reproduction rate: surviving daughters per woman."
+  - name: mean_age_childbearing
+    type: DOUBLE
+    description: "Mean age of childbearing, in years."
+  - name: sex_ratio_at_birth
+    type: DOUBLE
+    description: "Sex ratio at birth: male births per 100 female births."
+  - name: deaths
+    type: DOUBLE
+    description: "Number of deaths, in thousands."
+  - name: deaths_male
+    type: DOUBLE
+    description: "Male deaths, in thousands."
+  - name: deaths_female
+    type: DOUBLE
+    description: "Female deaths, in thousands."
+  - name: crude_death_rate
+    type: DOUBLE
+    description: "Crude death rate: deaths per 1,000 population."
+  - name: life_expectancy_birth
+    type: DOUBLE
+    description: "Life expectancy at birth (both sexes), in years."
+  - name: life_expectancy_birth_male
+    type: DOUBLE
+    description: "Male life expectancy at birth, in years."
+  - name: life_expectancy_birth_female
+    type: DOUBLE
+    description: "Female life expectancy at birth, in years."
+  - name: life_expectancy_age15
+    type: DOUBLE
+    description: "Life expectancy at age 15 (both sexes), in years."
+  - name: life_expectancy_age15_male
+    type: DOUBLE
+    description: "Male life expectancy at age 15, in years."
+  - name: life_expectancy_age15_female
+    type: DOUBLE
+    description: "Female life expectancy at age 15, in years."
+  - name: life_expectancy_age65
+    type: DOUBLE
+    description: "Life expectancy at age 65 (both sexes), in years."
+  - name: life_expectancy_age65_male
+    type: DOUBLE
+    description: "Male life expectancy at age 65, in years."
+  - name: life_expectancy_age65_female
+    type: DOUBLE
+    description: "Female life expectancy at age 65, in years."
+  - name: life_expectancy_age80
+    type: DOUBLE
+    description: "Life expectancy at age 80 (both sexes), in years."
+  - name: life_expectancy_age80_male
+    type: DOUBLE
+    description: "Male life expectancy at age 80, in years."
+  - name: life_expectancy_age80_female
+    type: DOUBLE
+    description: "Female life expectancy at age 80, in years."
+  - name: infant_deaths
+    type: DOUBLE
+    description: "Infant deaths (under age 1), in thousands."
+  - name: infant_mortality_rate
+    type: DOUBLE
+    description: "Infant mortality rate: infant deaths per 1,000 live births."
+  - name: births_surviving_age1
+    type: DOUBLE
+    description: "Live births surviving to age 1, in thousands."
+  - name: under5_deaths
+    type: DOUBLE
+    description: "Deaths under age 5, in thousands."
+  - name: under5_mortality
+    type: DOUBLE
+    description: "Under-five mortality (5q0): deaths before age 5 per 1,000 live births."
+  - name: mortality_0_40
+    type: DOUBLE
+    description: "Probability of dying between ages 0 and 40 (both sexes), per 1,000."
+  - name: mortality_0_40_male
+    type: DOUBLE
+    description: "Male probability of dying between ages 0 and 40, per 1,000."
+  - name: mortality_0_40_female
+    type: DOUBLE
+    description: "Female probability of dying between ages 0 and 40, per 1,000."
+  - name: mortality_0_60
+    type: DOUBLE
+    description: "Probability of dying between ages 0 and 60 (both sexes), per 1,000."
+  - name: mortality_0_60_male
+    type: DOUBLE
+    description: "Male probability of dying between ages 0 and 60, per 1,000."
+  - name: mortality_0_60_female
+    type: DOUBLE
+    description: "Female probability of dying between ages 0 and 60, per 1,000."
+  - name: mortality_15_50
+    type: DOUBLE
+    description: "Probability of dying between ages 15 and 50 (both sexes), per 1,000."
+  - name: mortality_15_50_male
+    type: DOUBLE
+    description: "Male probability of dying between ages 15 and 50, per 1,000."
+  - name: mortality_15_50_female
+    type: DOUBLE
+    description: "Female probability of dying between ages 15 and 50, per 1,000."
+  - name: mortality_15_60
+    type: DOUBLE
+    description: "Probability of dying between ages 15 and 60 (both sexes), per 1,000."
+  - name: mortality_15_60_male
+    type: DOUBLE
+    description: "Male probability of dying between ages 15 and 60, per 1,000."
+  - name: mortality_15_60_female
+    type: DOUBLE
+    description: "Female probability of dying between ages 15 and 60, per 1,000."
+  - name: net_migration
+    type: DOUBLE
+    description: "Net number of migrants, in thousands."
+  - name: net_migration_rate
+    type: DOUBLE
+    description: "Net migration rate, per 1,000 population."

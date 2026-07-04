@@ -1,0 +1,36 @@
+# WPP2024 population on 1 January by 5-year age group and sex (Medium variant).
+# Source: UN DESA, World Population Prospects 2024. Population/birth/death counts are in thousands.
+# Only the Medium (standard) projection variant is published; the source Variant column is dropped.
+key: [location_id, year, age_group]
+temporal: year
+columns:
+  - name: location_id
+    type: BIGINT
+    description: "UN M49 numeric location code (WPP LocID)."
+  - name: location_name
+    type: VARCHAR
+    description: "Name of the country, area, region, or aggregate."
+  - name: iso3
+    type: VARCHAR
+    description: "ISO 3166-1 alpha-3 country code; null for regional, development, and other aggregates."
+  - name: location_type
+    type: VARCHAR
+    description: "Location category, e.g. Country/Area, World, SDG region, income group."
+  - name: year
+    type: BIGINT
+    description: "Reference year of the observation."
+  - name: age_group
+    type: VARCHAR
+    description: "Age group label. Open-ended top group is suffixed '+'."
+  - name: age_start
+    type: BIGINT
+    description: "Lower bound (starting age) of the age group, in years."
+  - name: population_total
+    type: DOUBLE
+    description: "Total population in the age group (both sexes), in thousands."
+  - name: population_male
+    type: DOUBLE
+    description: "Male population in the age group, in thousands."
+  - name: population_female
+    type: DOUBLE
+    description: "Female population in the age group, in thousands."

@@ -1,0 +1,30 @@
+# WPP2024 fertility by single age of mother (Medium variant).
+# Source: UN DESA, World Population Prospects 2024. Population/birth/death counts are in thousands.
+# Only the Medium (standard) projection variant is published; the source Variant column is dropped.
+key: [location_id, year, age_group]
+temporal: year
+columns:
+  - name: location_id
+    type: BIGINT
+    description: "UN M49 numeric location code (WPP LocID)."
+  - name: location_name
+    type: VARCHAR
+    description: "Name of the country, area, region, or aggregate."
+  - name: year
+    type: BIGINT
+    description: "Reference year of the observation."
+  - name: age_group
+    type: VARCHAR
+    description: "Age group label. Open-ended top group is suffixed '+'."
+  - name: age_start
+    type: BIGINT
+    description: "Lower bound (starting age) of the age group, in years."
+  - name: fertility_rate
+    type: DOUBLE
+    description: "Age-specific fertility rate: births per 1,000 women in the age group."
+  - name: fertility_rate_pct
+    type: DOUBLE
+    description: "Percentage age-specific fertility rate: share of total fertility contributed by the age group."
+  - name: births
+    type: DOUBLE
+    description: "Births to mothers in the age group, in thousands."
