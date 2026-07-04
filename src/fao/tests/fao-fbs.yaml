@@ -1,0 +1,27 @@
+spec_id: fao-fbs
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: prior full pull published 0 rows after the non-numeric-value filter; the raw superset dropping below half of that means a truncated download or a changed ZIP layout
+    certainty: 90
+  - not_null: area_code
+    reason: area_code is the primary key dimension of every FAOSTAT Normalized row; nulls mean a header/parse shift
+    certainty: 95
+  - not_null: element_code
+    reason: every FAOSTAT Normalized row carries a element code; nulls mean a header/parse shift
+    certainty: 95
+  - nullable: {col: value, max_null_frac: 0.9}
+    reason: raw keeps flag-only rows with empty value, but a >90%-null value column means the data CSV was misparsed
+    certainty: 80
+    severity: warn
+  - not_null: year
+    reason: the observation year is part of the row key in every Normalized domain
+    certainty: 95
+  - matches: {col: year, pattern: '[0-9]{4}'}
+    reason: year is a plain 4-digit calendar year in every FAOSTAT Normalized dump; a mismatch means a column shift or format change
+    certainty: 90
+    severity: warn
+  - freshness: {col: year, reaches: 2021}
+    reason: domain observed through 2023 at authoring (2026); FAOSTAT annual releases lag 1-2 years, so max(year) regressing below 2021 means the source republished a truncated dump
+    certainty: 85
+    points_outward: true

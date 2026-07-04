@@ -18,11 +18,8 @@ float and may be null). NDJSON avoids a brittle parquet schema; the transform
 SQL re-types each field with explicit CASTs.
 """
 
-import pyarrow as pa  # noqa: F401  (kept available; not required for ndjson path)
-
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -84,41 +81,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(eid), fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-
-def _transform_sql(dep_id: str) -> str:
-    # One thin parse-and-type pass per indicator. Types drift across
-    # indicators, so every field is CAST explicitly. `short` is the uppercase
-    # region/country name; `country` is the ISO3 / region code.
-    return f'''
-        SELECT
-            CAST(year AS INTEGER)                                       AS year,
-            CAST(country AS VARCHAR)                                    AS country,
-            regexp_replace(CAST(short AS VARCHAR), '^\s+|\s+$', '', 'g')        AS country_label,
-            CAST(flow AS VARCHAR)                                       AS flow,
-            regexp_replace(CAST(flowLabel AS VARCHAR), '^\s+|\s+$', '', 'g')    AS flow_label,
-            CAST(flowOrder AS INTEGER)                                  AS flow_order,
-            CAST(product AS VARCHAR)                                    AS product,
-            regexp_replace(CAST(productLabel AS VARCHAR), '^\s+|\s+$', '', 'g') AS product_label,
-            CAST(productOrder AS INTEGER)                               AS product_order,
-            regexp_replace(CAST(seriesLabel AS VARCHAR), '^\s+|\s+$', '', 'g')  AS series_label,
-            regexp_replace(CAST(units AS VARCHAR), '^\s+|\s+$', '', 'g')        AS units,
-            CAST(value AS DOUBLE)                                       AS value
-        FROM "{dep_id}"
-        WHERE value IS NOT NULL
-          AND year IS NOT NULL
-          AND country IS NOT NULL
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id),
-        key=("year", "country", "flow", "product"),
-        temporal="year",
-    )
-    for s in DOWNLOAD_SPECS
 ]

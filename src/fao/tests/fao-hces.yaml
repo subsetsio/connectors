@@ -1,0 +1,16 @@
+spec_id: fao-hces
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: prior full pull published 0 rows after the non-numeric-value filter; the raw superset dropping below half of that means a truncated download or a changed ZIP layout
+    certainty: 90
+  - not_null: survey_code
+    reason: survey_code is the primary key dimension of every FAOSTAT Normalized row; nulls mean a header/parse shift
+    certainty: 95
+  - not_null: element_code
+    reason: every FAOSTAT Normalized row carries a element code; nulls mean a header/parse shift
+    certainty: 95
+  - nullable: {col: value, max_null_frac: 0.9}
+    reason: raw keeps flag-only rows with empty value, but a >90%-null value column means the data CSV was misparsed
+    certainty: 80
+    severity: warn
