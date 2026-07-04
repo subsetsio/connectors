@@ -1,8 +1,15 @@
 spec_id: cdc-gypc-kpgn
 status: active
 tests:
-  - row_count: {min: 1}
-    reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
-    certainty: 85
-    points_outward: true
-    severity: block
+- row_count:
+    min: 1
+  reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
+  certainty: 85
+  points_outward: true
+  severity: block
+- freshness:
+    col: START_TIME
+    reaches: today - 640d
+  reason: published series still advancing (source data_updated_at 2026-03-20, newest 'START_TIME' = 2025-01-10); a load older than the reaches slack means the Socrata export went stale or the series was discontinued upstream
+  certainty: 75
+  points_outward: true

@@ -1,8 +1,15 @@
 spec_id: cdc-rgnm-fkqb
 status: active
 tests:
-  - row_count: {min: 1}
-    reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
-    certainty: 85
-    points_outward: true
-    severity: block
+- row_count:
+    min: 1
+  reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
+  certainty: 85
+  points_outward: true
+  severity: block
+- freshness:
+    col: Mmwrweek_end
+    reaches: today - 45d
+  reason: published series still advancing (source data_updated_at 2026-06-12, newest 'Mmwrweek_end' = 2026-06-20T00:00:00); a load older than the reaches slack means the Socrata export went stale or the series was discontinued upstream
+  certainty: 75
+  points_outward: true

@@ -1,8 +1,12 @@
 spec_id: cdc-mtc3-kq6r
 status: active
+coverage:
+  frozen: true
+  reason: "frozen historical corpus: newest 'Median \nDonation Date' = 2021-12-17 (~1660d before profiling) and the series has not advanced (source data_updated_at 2022-02-18); re-add a freshness assertion if CDC resumes publishing"
 tests:
-  - row_count: {min: 1}
-    reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
-    certainty: 85
-    points_outward: true
-    severity: block
+- row_count:
+    min: 1
+  reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
+  certainty: 85
+  points_outward: true
+  severity: block

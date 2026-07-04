@@ -1,8 +1,12 @@
 spec_id: cdc-ut5n-bmc3
 status: active
+coverage:
+  frozen: true
+  reason: 'frozen historical corpus: newest ''Date Time'' = 2024-01-05T19:00:00 (~911d before profiling) and the series has not advanced (source data_updated_at 2024-03-20); re-add a freshness assertion if CDC resumes publishing'
 tests:
-  - row_count: {min: 1}
-    reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
-    certainty: 85
-    points_outward: true
-    severity: block
+- row_count:
+    min: 1
+  reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
+  certainty: 85
+  points_outward: true
+  severity: block
