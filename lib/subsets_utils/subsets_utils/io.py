@@ -591,6 +591,12 @@ def list_raw_files(pattern: str) -> list[str]:
 
     if base_uri.startswith("s3://"):
         fs = get_fs(base_uri)
+        # The fsspec instance is process-cached and s3fs caches directory
+        # listings, so a listing taken earlier in this process (e.g. in the
+        # orchestrator while the DAG was still writing) would hide objects
+        # written since. A physical listing must reflect the store as it is
+        # NOW — drop the cached listings before globbing.
+        fs.invalidate_cache()
         try:
             matches = fs.glob(f"{base_uri}/{pattern}")
         except FileNotFoundError:
