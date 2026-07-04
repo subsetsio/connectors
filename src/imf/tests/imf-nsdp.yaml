@@ -1,0 +1,7 @@
+spec_id: imf-nsdp
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: a full-dataflow SDMX-CSV pull ('~/*' = latest version, all series) of a rank-active IMF dataflow always returns observations; an empty raw table means the dataflow id is wrong or the endpoint changed.
+    certainty: 95
+    points_outward: false
