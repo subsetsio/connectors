@@ -3,7 +3,11 @@
 Four no-auth NASA surfaces, one download NodeSpec per rank-accepted entity:
 
 - Exoplanet Archive TAP (11 tables): full-table `select * from <t>` CSV dumps,
-  streamed to gzipped CSV raw (tables run up to ~48k rows x 720 cols).
+  parsed row-by-row and written as TYPED parquet (schema baked in
+  src/constants.py). Parquet — not raw CSV — because the TAP dumps embed HTML
+  reference anchors whose quoting violates strict CSV: DuckDB's read_csv_auto
+  (what the transform runtime uses) cannot sniff pscomppars/ml/k2pandc at all.
+  Python's csv module parses them fine, so the normalization happens here.
 - JPL SSD/CNEOS REST (cad, fireball, sentry, nhats): small JSON snapshots,
   flattened to NDJSON. cad is pulled with a fixed wide 1900..2100 window
   (the endpoint's full advertised horizon, not a hardcoded data range).
@@ -18,9 +22,14 @@ stage as transforms/<table>.sql — none live here.
 
 from __future__ import annotations
 
-import httpx
+import csv
+import tempfile
 
-from subsets_utils import NodeSpec, get_client, raw_writer, save_raw_ndjson
+import httpx
+import pyarrow as pa
+
+from subsets_utils import NodeSpec, get_client, raw_parquet_writer, save_raw_ndjson
+from constants import EXO_COLUMN_KINDS
 from utils import get_json, get_text, retry
 
 # ---------------------------------------------------------------------------
@@ -34,6 +43,12 @@ EXOPLANET_TABLES = [
 
 TAP_SYNC = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync"
 
+_PA_TYPES = {"int": pa.int64(), "double": pa.float64(), "string": pa.string()}
+_BATCH_ROWS = 4000
+# TAP rows occasionally arrive malformed (ml: 2 rows with one extra field on
+# the 2026-07 pull). Tolerate a tiny fraction, fail loudly past it.
+_MAX_BAD_ROW_FRAC = 0.005
+
 
 def _spec_id(entity: str) -> str:
     return "nasa-" + entity.lower().replace("_", "-")
@@ -43,27 +58,81 @@ def _spec_id(entity: str) -> str:
 _EXO_BY_SPEC = {_spec_id(t): t for t in EXOPLANET_TABLES}
 
 
+def _cell(token: str, kind: str):
+    if token == "":
+        return None
+    if kind == "int":
+        return int(token)
+    if kind == "double":
+        return float(token)
+    return token
+
+
 @retry
 def fetch_exoplanet(node_id: str) -> None:
     asset = node_id
     table = _EXO_BY_SPEC[node_id]
+    kinds = dict(EXO_COLUMN_KINDS[asset])
     params = {"query": f"select * from {table}", "format": "csv"}
     client = get_client()
-    # Stream straight to disk: tables range up to ~48k rows x 720 cols, too big
-    # to hold the whole CSV in memory comfortably. Retry re-opens (overwrites).
-    with raw_writer(asset, "csv.gz", mode="wt", compression="gzip") as out:
+
+    # Stage the body to a temp file first (up to ~150MB of CSV), then parse.
+    # csv.reader needs quote-aware line reassembly, so parse from a real file
+    # opened with newline='' rather than a streaming line iterator.
+    with tempfile.TemporaryFile(mode="w+", encoding="utf-8", newline="") as tmp:
         with client.stream(
             "GET", TAP_SYNC, params=params,
             timeout=httpx.Timeout(600.0, connect=15.0),
         ) as resp:
             resp.raise_for_status()
-            wrote_any = False
             for chunk in resp.iter_text():
                 if chunk:
-                    out.write(chunk)
-                    wrote_any = True
-    if not wrote_any:
-        raise AssertionError(f"{asset}: TAP returned an empty body for {table}")
+                    tmp.write(chunk)
+        tmp.seek(0)
+
+        reader = csv.reader(tmp)
+        header = next(reader, None)
+        if not header:
+            raise AssertionError(f"{asset}: TAP returned an empty body for {table}")
+        unknown = [c for c in header if c not in kinds]
+        missing = [c for c in kinds if c not in set(header)]
+        if unknown or missing:
+            raise AssertionError(
+                f"{asset}: TAP schema drift vs constants.EXO_COLUMN_KINDS — "
+                f"unknown={unknown[:5]} missing={missing[:5]} — regenerate the schema"
+            )
+        schema = pa.schema([(c, _PA_TYPES[kinds[c]]) for c in header])
+        width = len(header)
+
+        rows = bad = 0
+        batch: list[list] = []
+
+        def _flush(writer):
+            cols = list(zip(*batch)) if batch else [[] for _ in header]
+            writer.write_table(pa.table(
+                {c: list(v) for c, v in zip(header, cols)}, schema=schema))
+            batch.clear()
+
+        with raw_parquet_writer(asset, schema) as writer:
+            for raw_row in reader:
+                if len(raw_row) != width:
+                    bad += 1
+                    continue
+                rows += 1
+                batch.append([_cell(tok, kinds[c]) for tok, c in zip(raw_row, header)])
+                if len(batch) >= _BATCH_ROWS:
+                    _flush(writer)
+            _flush(writer)
+            # Raise inside the writer block: an empty/over-corrupt result must
+            # never commit to the raw manifest.
+            if rows == 0:
+                raise AssertionError(f"{asset}: TAP returned no data rows for {table}")
+            if bad > max(1, int((rows + bad) * _MAX_BAD_ROW_FRAC)):
+                raise AssertionError(
+                    f"{asset}: {bad} malformed CSV rows of {rows + bad} — source format drifted"
+                )
+    if bad:
+        print(f"  {asset}: dropped {bad} malformed CSV row(s) of {rows + bad}")
 
 
 # ---------------------------------------------------------------------------
