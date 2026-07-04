@@ -210,21 +210,3 @@ DOWNLOAD_SPECS = [
     NodeSpec(id=_node_id(eid), fn=fetch_one, kind="download")
     for eid in ENTITIES
 ]
-
-
-# One published Delta table per dataflow. Keep every dimension + attribute column
-# as-is (strings), cast OBS_VALUE to DOUBLE, and drop rows whose value is missing
-# or non-numeric (including the structural rows SDMX emits with an empty value).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT * REPLACE (TRY_CAST(OBS_VALUE AS DOUBLE) AS OBS_VALUE)
-            FROM "{s.id}"
-            WHERE TRY_CAST(OBS_VALUE AS DOUBLE) IS NOT NULL
-        ''',
-        temporal="TIME_PERIOD",
-    )
-    for s in DOWNLOAD_SPECS
-]
