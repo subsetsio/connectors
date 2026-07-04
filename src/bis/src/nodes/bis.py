@@ -231,6 +231,13 @@ def _ingest_member(zf: zipfile.ZipFile, member: str, asset: str, flow: str) -> N
             if len(row) < ncols:
                 row = row + [""] * (ncols - len(row))
 
+            # The bulk file interleaves series-metadata rows (no TIME_PERIOD,
+            # no OBS_VALUE, attribute-only) with observation rows. They aren't
+            # observations — keeping them pollutes the raw with empty-period
+            # rows that collide on (series_key, time_period).
+            if not row[ti].strip():
+                continue
+
             dims = {codes[i]: row[i] for i in dim_idx}
             batch["dataflow"].append(flow)
             batch["series_key"].append(".".join(_code(row[i]) for i in dim_idx))
