@@ -20,7 +20,10 @@ SELECT
     FUNDING_ICS                                   AS funding_ics,
     FUNDING_MECHANISM                             AS funding_mechanism,
     ARRA_FUNDED                                   AS arra_funded,
-    ASSISTANCE_LISTING_NUMBER                     AS assistance_listing_number,
+    -- read_json_auto types this column as JSON over the corpus (it is all-null
+    -- in pre-2020s files, so the union widens to JSON); cast to text and strip
+    -- the quotes JSON adds around scalar string values.
+    trim(CAST(ASSISTANCE_LISTING_NUMBER AS VARCHAR), '"') AS assistance_listing_number,
     OPPORTUNITY_NUMBER                            AS opportunity_number,
     PROJECT_TITLE                                 AS project_title,
     ORG_NAME                                      AS org_name,
