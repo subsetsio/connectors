@@ -10,6 +10,9 @@ tests:
   - between: {col: year, lo: 2008, hi: 2045}
     reason: Skills Forecast carries history from ~2015 plus projections to ~2035; the vintage may shift the window, so allow margin.
     certainty: 90
+  - freshness: {col: year, reaches: current_year()}
+    reason: The forecast is re-pulled from the current vintage each run and always projects ~10 years out; if the reachable year falls below the present year the loaded vintage is badly stale.
+    certainty: 90
   - at_least: {col: value, expr: 0}
     reason: employment / labour-force / demand counts are non-negative head-counts.
     certainty: 95
