@@ -7,8 +7,8 @@ columns:
     type: VARCHAR
     description: primary designation of the asteroid or comet (e.g. "2021 PDC", "433")
   - name: orbit_id
-    type: BIGINT
-    description: orbit solution id the approach was computed from
+    type: VARCHAR
+    description: orbit solution id the approach was computed from (numeric for asteroids, packed alphanumeric for comets, e.g. "K192/12")
   - name: jd_tdb
     type: DOUBLE
     description: time of closest approach as Julian Date (TDB)

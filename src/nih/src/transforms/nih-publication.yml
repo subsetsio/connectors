@@ -1,0 +1,48 @@
+key: [pmid]
+temporal: pub_year
+columns:
+  - name: pmid
+    type: BIGINT
+    description: PubMed identifier of the publication — the unique key of this table.
+  - name: pmc_id
+    type: VARCHAR
+    description: PubMed Central identifier (PMCID) of the full-text article, where deposited; null otherwise.
+  - name: pub_title
+    type: VARCHAR
+    description: Title of the publication.
+  - name: pub_year
+    type: INTEGER
+    description: Year of publication (observation period of the row).
+  - name: pub_date
+    type: VARCHAR
+    description: Publication date as reported by PubMed (source form, e.g. "2025 Nov 14" or "2025 May"; not ISO-normalized).
+  - name: author_list
+    type: VARCHAR
+    description: Semicolon-delimited author list ("Last, First; ...") as reported by PubMed.
+  - name: affiliation
+    type: VARCHAR
+    description: Author affiliation string as reported by PubMed (typically the first author's).
+  - name: country
+    type: VARCHAR
+    description: Country of publication of the journal, as reported by PubMed.
+  - name: journal_title
+    type: VARCHAR
+    description: Full journal title.
+  - name: journal_title_abbr
+    type: VARCHAR
+    description: NLM abbreviated journal title (e.g. "J Org Chem").
+  - name: journal_volume
+    type: VARCHAR
+    description: Journal volume (source string; may be non-numeric).
+  - name: journal_issue
+    type: VARCHAR
+    description: Journal issue (source string; may be a range like "3-4").
+  - name: issn
+    type: VARCHAR
+    description: International Standard Serial Number of the journal.
+  - name: page_number
+    type: VARCHAR
+    description: Page range or article/e-locator id (source string, e.g. "15965-15971" or "e10291").
+  - name: lang
+    type: VARCHAR
+    description: Language of the publication as a three-letter code (e.g. "eng").

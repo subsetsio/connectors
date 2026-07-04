@@ -12,8 +12,8 @@ columns:
     type: VARCHAR
     description: full object name/designation as displayed by JPL (trimmed)
   - name: orbit_id
-    type: BIGINT
-    description: orbit solution id
+    type: VARCHAR
+    description: orbit solution id (not always numeric - comet solutions use packed alphanumeric ids)
   - name: h_mag
     type: DOUBLE
     description: absolute magnitude H

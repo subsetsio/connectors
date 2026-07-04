@@ -1,0 +1,8 @@
+key: [application_id]
+columns:
+  - name: application_id
+    type: BIGINT
+    description: NIH application identifier — foreign key to nih-project.application_id; the abstract belongs to that funded application.
+  - name: abstract_text
+    type: VARCHAR
+    description: Full project abstract text as submitted (long free text; embargoed/withheld abstracts are absent).

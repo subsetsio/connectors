@@ -7,7 +7,7 @@
 SELECT
     "des" AS des,
     trim("fullname") AS fullname,
-    CAST("orbit_id" AS BIGINT) AS orbit_id,
+    "orbit_id" AS orbit_id,
     CAST("h" AS DOUBLE) AS h_mag,
     CAST("occ" AS BIGINT) AS orbit_condition_code,
     CAST("min_size" AS DOUBLE) AS min_size_m,

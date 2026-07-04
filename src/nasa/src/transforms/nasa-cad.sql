@@ -3,7 +3,7 @@
 -- numerics and parse the non-ISO calendar date ("2026-Jan-01 12:00").
 SELECT
     "des" AS des,
-    CAST("orbit_id" AS BIGINT) AS orbit_id,
+    "orbit_id" AS orbit_id,
     CAST("jd" AS DOUBLE) AS jd_tdb,
     strptime("cd", '%Y-%b-%d %H:%M') AS close_approach_time,
     CAST("dist" AS DOUBLE) AS dist_au,

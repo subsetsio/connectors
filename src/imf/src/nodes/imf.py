@@ -22,8 +22,10 @@ import csv
 
 import pyarrow as pa
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
     get_client,
+    raw_asset_exists,
     raw_parquet_writer,
     transient_retry,
 )
@@ -208,5 +210,27 @@ def fetch_one(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=_node_id(eid), fn=fetch_one, kind="download")
+    for eid in ENTITIES
+]
+
+
+# Freshness policy: the full per-dataflow re-pull is expensive (the whole corpus
+# is ~1-2 hours of streaming CSV), while the fastest IMF release cadence for
+# these dataflows is monthly. The SDMX 3.0 portal exposes no reliable
+# incremental filter (the documented c[TIME_PERIOD] component 400s) and no
+# per-dataflow validator header we can trust, so skip on raw age: refetch a
+# dataflow only when its committed raw is older than ~25 days (about one monthly
+# release). FORCE_REFRESH=1 bypasses this. (inferred cadence — no single
+# published schedule spans all dataflows.)
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=_node_id(eid),
+        description=(
+            "IMF SDMX 3.0 dataflow; monthly-or-slower releases. Skip refetch "
+            "while committed raw is younger than 25 days (inferred — no single "
+            "published cadence)."
+        ),
+        check=lambda aid: raw_asset_exists(aid, "parquet", max_age_days=25),
+    )
     for eid in ENTITIES
 ]

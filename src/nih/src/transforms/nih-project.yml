@@ -1,0 +1,120 @@
+key: [application_id]
+temporal: fiscal_year
+columns:
+  - name: application_id
+    type: BIGINT
+    description: NIH application identifier — the unique key of an ExPORTER project row (one funding action / budget period of a grant).
+  - name: core_project_num
+    type: VARCHAR
+    description: Core project number, stable across the budget periods of one award (e.g. R01CA123456); groups an application's renewals/continuations.
+  - name: full_project_num
+    type: VARCHAR
+    description: Full IMPAC-II project number including application type, activity, IC, serial, suffix and support year (e.g. 5R01CA123456-03).
+  - name: subproject_id
+    type: VARCHAR
+    description: Subproject identifier for multi-project (P/U mechanism) awards; null for standard single-project applications.
+  - name: fiscal_year
+    type: INTEGER
+    description: NIH fiscal year the funding action belongs to (parsed from the source FY column). Observation period of the row.
+  - name: activity_code
+    type: VARCHAR
+    description: Activity/grant-mechanism code (e.g. R01, U01, F32, T32) identifying the funding program type.
+  - name: application_type
+    type: VARCHAR
+    description: Application type code (1=new, 2=competing renewal, 3=supplement, 4=extension, 5=non-competing continuation, 7/9=transfers).
+  - name: administering_ic
+    type: VARCHAR
+    description: Two-letter code of the NIH Institute or Center administering the award (e.g. CA, AI, HL).
+  - name: ic_name
+    type: VARCHAR
+    description: Full name of the administering NIH Institute/Center or other awarding agency.
+  - name: funding_ics
+    type: VARCHAR
+    description: All Institutes/Centers contributing funds and their amounts, as a semicolon-delimited "IC:amount" source string.
+  - name: funding_mechanism
+    type: VARCHAR
+    description: High-level funding mechanism grouping (e.g. RESEARCH PROJECTS, TRAINING, SBIR-STTR, OTHERS).
+  - name: arra_funded
+    type: VARCHAR
+    description: Whether the award was funded under the 2009 Recovery Act (ARRA) — "Y" or "N".
+  - name: assistance_listing_number
+    type: VARCHAR
+    description: CFDA / Assistance Listing number of the federal program funding the award (e.g. 93.393).
+  - name: opportunity_number
+    type: VARCHAR
+    description: Funding opportunity announcement (FOA/NOFO) number the application responded to.
+  - name: project_title
+    type: VARCHAR
+    description: Title of the funded project.
+  - name: org_name
+    type: VARCHAR
+    description: Name of the applicant/recipient organization.
+  - name: org_city
+    type: VARCHAR
+    description: City of the recipient organization.
+  - name: org_state
+    type: VARCHAR
+    description: State/province of the recipient organization (US two-letter code where applicable).
+  - name: org_country
+    type: VARCHAR
+    description: Country of the recipient organization.
+  - name: org_zipcode
+    type: VARCHAR
+    description: Postal code of the recipient organization (unformatted source string; may include ZIP+4 without a hyphen).
+  - name: org_dept
+    type: VARCHAR
+    description: Department within the recipient organization, where reported.
+  - name: org_duns
+    type: VARCHAR
+    description: DUNS number of the recipient organization (legacy identifier; superseded by UEI in later years).
+  - name: ed_inst_type
+    type: VARCHAR
+    description: Educational-institution type classification of the recipient (e.g. SCHOOLS OF MEDICINE), where reported.
+  - name: pi_names
+    type: VARCHAR
+    description: Principal investigator name(s), semicolon-delimited; the contact PI is marked "(contact)".
+  - name: pi_ids
+    type: VARCHAR
+    description: NIH profile ID(s) of the principal investigator(s), semicolon-delimited and aligned to pi_names.
+  - name: program_officer_name
+    type: VARCHAR
+    description: Name of the NIH program officer overseeing the award, where reported.
+  - name: study_section
+    type: VARCHAR
+    description: Code of the scientific review group (study section) that reviewed the application.
+  - name: study_section_name
+    type: VARCHAR
+    description: Name of the scientific review group (study section).
+  - name: support_year
+    type: INTEGER
+    description: Support year (budget period ordinal) of the award within its project, e.g. 3 = third year.
+  - name: budget_start
+    type: DATE
+    description: Start date of the budget period funded by this application.
+  - name: budget_end
+    type: DATE
+    description: End date of the budget period funded by this application.
+  - name: project_start
+    type: DATE
+    description: Start date of the overall project (first budget period).
+  - name: project_end
+    type: DATE
+    description: Projected end date of the overall project (last budget period).
+  - name: award_notice_date
+    type: DATE
+    description: Date the Notice of Award was issued for this funding action.
+  - name: direct_cost_amt
+    type: DOUBLE
+    description: Direct costs awarded for this funding action, in US dollars.
+  - name: indirect_cost_amt
+    type: DOUBLE
+    description: Indirect (facilities & administrative) costs awarded for this funding action, in US dollars.
+  - name: total_cost
+    type: DOUBLE
+    description: Total costs awarded for this funding action (direct + indirect), in US dollars.
+  - name: total_cost_sub_project
+    type: DOUBLE
+    description: Total costs attributed to the subproject, in US dollars, for multi-project awards.
+  - name: public_health_relevance
+    type: VARCHAR
+    description: Public Health Relevance statement (PHR) — the applicant's plain-language description of the project's public-health significance.
