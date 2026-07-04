@@ -1,0 +1,32 @@
+spec_id: nih-project
+status: active
+# Raw is stringly-typed NDJSON (every field written as a JSON string or null),
+# UPPER_SNAKE column names normalized in the fetch fn. Assertions are authored
+# against that raw shape, not the cast/typed transform output.
+tests:
+  - column_type: {col: APPLICATION_ID, type: string}
+    reason: fetch writes every value as a JSON string; the transform TRY_CASTs later
+    certainty: 90
+  - nullable: {col: APPLICATION_ID, max_null_frac: 0.02}
+    reason: >-
+      APPLICATION_ID is the source record key and is populated on essentially
+      every row; the transform's WHERE APPLICATION_ID IS NOT NULL guards only the
+      rare legacy blank, so a small null fraction is tolerated here.
+    certainty: 80
+  - row_count: {min: 1500000}
+    reason: >-
+      42 fiscal years (FY1985-2025) of NIH/HHS award records, ~80-90k/year
+      recently; the full corpus is well over 1.5M rows. A far smaller count means
+      years silently failed to download.
+    certainty: 85
+  - between: {col: FY, lo: 1985, hi: current_year()}
+    reason: ExPORTER PROJECT files span FY1985 to the current fiscal year.
+    certainty: 90
+  - freshness: {col: FY, reaches: 2024}
+    reason: >-
+      Annual fiscal-year release (FY2025 file published 2026-03). The bound is a
+      static year lagging the current FY by ~1 cycle to absorb the publish lag;
+      bump it during fleet maintenance as new fiscal years land. A max FY below
+      it means the recent-year files stopped downloading.
+    points_outward: true
+    certainty: 85

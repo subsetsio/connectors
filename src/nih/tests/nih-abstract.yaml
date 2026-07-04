@@ -1,0 +1,25 @@
+spec_id: nih-abstract
+status: active
+# Raw is stringly-typed NDJSON with exactly two columns: APPLICATION_ID and
+# ABSTRACT_TEXT. No time dimension, so no freshness assertion (the abstract file
+# carries no year column; freshness is tracked on the PROJECT subset instead).
+tests:
+  - column_type: {col: APPLICATION_ID, type: string}
+    reason: fetch writes every value as a JSON string; the transform TRY_CASTs later
+    certainty: 90
+  - nullable: {col: APPLICATION_ID, max_null_frac: 0.02}
+    reason: >-
+      Each abstract row joins to a project by APPLICATION_ID; it is populated on
+      essentially every row (the transform drops the rare null-id row).
+    certainty: 80
+  - nullable: {col: ABSTRACT_TEXT, max_null_frac: 0.1}
+    reason: >-
+      This is the abstracts file, so most rows carry text; a modest fraction may
+      be blank (withheld/embargoed abstracts). A large null fraction would mean
+      the long-text field was truncated or mis-parsed.
+    certainty: 70
+  - row_count: {min: 1000000}
+    reason: >-
+      41 fiscal years of project abstracts; the corpus is over 1M rows. A far
+      smaller count means yearly files silently failed to download.
+    certainty: 85

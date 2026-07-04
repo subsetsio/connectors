@@ -1,0 +1,58 @@
+spec_id: un-comtrade-values
+status: active
+tests:
+  # --- freshness (required: refYear is the temporal dimension) ---------------
+  - freshness: {col: refYear, reaches: current_year() - 2}
+    reason: >-
+      Annual bilateral trade; major reporters (USA/DEU) already carry the prior
+      year and getDA shows data through 2025. Allow a 2-year lag so an early-year
+      run before the latest annual release publishes does not falsely block.
+    certainty: 90
+
+  # --- grain / key columns must be present -----------------------------------
+  - not_null: refYear
+    reason: every Comtrade record carries refYear; it is the period partition key
+    certainty: 98
+  - not_null: reporterCode
+    reason: the reporting economy is intrinsic to every trade record
+    certainty: 98
+  - not_null: partnerCode
+    reason: the partner economy (incl. World=0) is intrinsic to every record
+    certainty: 98
+
+  # --- query invariants: we pin flowCode=M,X and cmdCode=TOTAL ---------------
+  - enum: {col: flowDesc, values: [Import, Export]}
+    reason: flowCode=M,X maps to exactly Import/Export; any other value means the query drifted
+    certainty: 95
+  - enum: {col: cmdCode, values: [TOTAL]}
+    reason: cmdCode=TOTAL is pinned in the query; a non-TOTAL row means the partition params drifted
+    certainty: 97
+
+  # --- types the transform relies on -----------------------------------------
+  - column_type: {col: refYear, type: integer}
+    reason: refYear is cast to INTEGER in transform and used as the year dimension
+    certainty: 95
+  - column_type: {col: primaryValue, type: float}
+    reason: primaryValue is summed as the USD trade value; must be numeric
+    certainty: 90
+
+  # --- year bounds -----------------------------------------------------------
+  - at_most: {col: refYear, expr: current_year()}
+    reason: no annual dataset can report a future year; a larger value means a parse/type error
+    certainty: 97
+  - at_least: {col: refYear, expr: 1900}
+    reason: HS-classified annual data begins ~1988 (earliest observed 1991); pre-1900 is impossible and signals corruption
+    certainty: 95
+
+  # --- coverage: the full bilateral matrix, not a truncated crawl ------------
+  - row_count: {min: 500000}
+    reason: >-
+      ~219 reporters x ~25-35 years x ~220 partners x 2 flows is ~3M rows; a total
+      far below 500k means the reporter crawl barely started or the endpoint format changed
+    certainty: 80
+  - distinct_count: {col: reporterCode, min: 150}
+    reason: the active reference list holds ~219 reporters; far fewer means the crawl truncated
+    certainty: 85
+  - distinct_count: {col: refYear, min: 20}
+    reason: the annual series spans ~1991-2025; a handful of years means a truncated period crawl
+    certainty: 85

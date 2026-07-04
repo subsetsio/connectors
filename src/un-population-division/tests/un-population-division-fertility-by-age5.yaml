@@ -1,0 +1,28 @@
+spec_id: un-population-division-fertility-by-age5
+status: active
+tests:
+  - not_null: LocID
+    certainty: 98
+    reason: every WPP row is keyed to a location; a null LocID means a header/footer row leaked into the body
+  - not_null: Time
+    certainty: 98
+    reason: every observation carries a reference year
+  - column_type: {col: LocID, type: integer}
+    certainty: 95
+  - column_type: {col: Time, type: integer}
+    certainty: 95
+  - between: {col: Time, lo: 1950, hi: 2101}
+    certainty: 90
+    reason: WPP2024 spans 1950 (series start) through the 2100 projection horizon (demographic indicators carry a 2101 mid-year point)
+  - unique: [LocID, Time, AgeGrp, Variant]
+    certainty: 88
+    reason: one row per location-year per age group within a projection variant; dupes mean the split year-range/sex files were concatenated without overwrite or the source grain changed
+  - not_null: AgeGrp
+    certainty: 95
+  - row_count: {min: 1500000}
+    certainty: 70
+    severity: warn
+    reason: guards against a truncated/partial download; the full corpus is far larger than this floor
+  - freshness: {col: Time, reaches: current_year()}
+    points_outward: true
+    reason: WPP publishes projections to 2100, so the max year must always reach beyond the present; a max below the current year means projection rows are missing

@@ -1,0 +1,33 @@
+spec_id: nih-publication
+status: active
+# Raw is stringly-typed NDJSON, UPPER_SNAKE columns. PUB_YEAR is the time
+# dimension of the published publications subset, so freshness is asserted here.
+tests:
+  - column_type: {col: PMID, type: string}
+    reason: fetch writes every value as a JSON string; the transform TRY_CASTs later
+    certainty: 90
+  - nullable: {col: PMID, max_null_frac: 0.05}
+    reason: >-
+      PMID is the PubMed identifier and the subset key; it is present on nearly
+      every publication row (the transform drops the rare null-PMID row).
+    certainty: 80
+  - row_count: {min: 1000000}
+    reason: >-
+      46 calendar years (1980-2025) of NIH-linked publications; the corpus runs
+      into the millions. A far smaller count means yearly files did not download.
+    certainty: 85
+  - between: {col: PUB_YEAR, lo: 1900, hi: current_year()}
+    reason: >-
+      PUB_YEAR is the publication year; it should land in a sane historical
+      window and never exceed the current calendar year. Loose lower bound
+      because a publication's year can predate the release-year file it appears in.
+    certainty: 75
+    severity: warn
+  - freshness: {col: PUB_YEAR, reaches: 2024}
+    reason: >-
+      Publications are released on a calendar-year cadence (the 2025 file was
+      published 2026-03). The static bound lags the current year by ~1 cycle to
+      absorb the publish lag; bump it during fleet maintenance. A max PUB_YEAR
+      below it means recent release-year files stopped downloading.
+    points_outward: true
+    certainty: 85
