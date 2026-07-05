@@ -38,17 +38,69 @@ decorator's exponential backoff (429 is transient) finds the natural pace.
 import csv
 import itertools
 import json as _json
+import time
 
+import httpx
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    wait_exponential,
+)
 
 from subsets_utils import (
     NodeSpec,
     SqlNodeSpec,
     get_client,
+    is_transient,
     raw_writer,
-    transient_retry,
 )
 
 BASE = "https://sdmx.oecd.org/public/rest/data"
+
+# OECD SDMX enforces 429s with no documented ceiling and throttles shared
+# (GitHub Actions) egress IPs aggressively. The first full run lost 38/314
+# dataflows to 429s that outlasted the stock 6-attempt backoff. Two levers fix
+# it: (1) a patient, Retry-After-honouring retry that rides out sustained
+# throttling, and (2) a minimum spacing between request STARTS so a burst of
+# small fast tables doesn't itself trip the limiter. Nodes run sequentially
+# (DAG_PARALLELISM=1) so a module-level clock is enough — no locking needed.
+_MIN_REQUEST_SPACING_S = 1.5
+_last_request_ts = 0.0
+_RETRY_CAP_S = 300.0
+
+
+def _throttle() -> None:
+    global _last_request_ts
+    wait = _last_request_ts + _MIN_REQUEST_SPACING_S - time.monotonic()
+    if wait > 0:
+        time.sleep(wait)
+    _last_request_ts = time.monotonic()
+
+
+def _oecd_wait(retry_state) -> float:
+    """Backoff that honours a 429's Retry-After header when present, else falls
+    back to exponential backoff. Capped so one wedged dataflow can't stall the
+    whole run indefinitely."""
+    exc = retry_state.outcome.exception() if retry_state.outcome else None
+    if isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code == 429:
+        ra = exc.response.headers.get("Retry-After")
+        if ra:
+            try:
+                return min(float(ra), _RETRY_CAP_S)
+            except ValueError:
+                pass  # HTTP-date form is rare here; fall through to exponential
+    return wait_exponential(min=5, max=_RETRY_CAP_S)(retry_state)
+
+
+# 10 patient attempts (vs the stock 6): cumulative backoff reaches ~20 min per
+# dataflow, enough to outlast OECD's transient throttling windows.
+_oecd_retry = retry(
+    retry=retry_if_exception(is_transient),
+    stop=stop_after_attempt(10),
+    wait=_oecd_wait,
+    reraise=True,
+)
 
 # Only DATAFLOW is a pure envelope column we drop; TIME_PERIOD/OBS_VALUE are
 # renamed; everything else (dimensions + attributes) is kept as a column.
@@ -69,9 +121,10 @@ def _to_value(raw: str):
 _SKIP_404 = object()
 
 
-@transient_retry()
+@_oecd_retry
 def _stream_to_ndjson(agency: str, dataflow: str, asset: str):
     url = f"{BASE}/{agency},{dataflow}/all?format=csv"
+    _throttle()
     client = get_client()
     with client.stream("GET", url, timeout=(10.0, 600.0)) as resp:
         if resp.status_code == 404:
