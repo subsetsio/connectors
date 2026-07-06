@@ -44,6 +44,12 @@ AUTO_HOLD_AFTER = 3
 DEFAULT_CADENCE_DAYS = int(os.environ.get("OPERATE_DEFAULT_CADENCE_DAYS", "7"))
 DEFAULT_DISPATCH_LIMIT = int(os.environ.get("OPERATE_DISPATCH_LIMIT", "10"))
 
+# GH Actions is free on the public connectors repo; this prices what the runs
+# WOULD cost on paid GH-hosted linux runners ($0.008/min), from the run.json's
+# own connector wall-clock (a lower bound of the billed job time — setup steps
+# and per-job minute rounding aren't visible from R2).
+GHA_LINUX_USD_PER_MIN = 0.008
+
 
 def env(name: str, *alts: str) -> str:
     for key in (name, *alts):
@@ -297,12 +303,16 @@ def observe(r2: R2, slug: str, in_flight_run_id: str | None) -> Observation:
             continue
 
         changed = _data_changed(doc)
+        started, finished = parse_iso(doc.get("started_at")), parse_iso(doc.get("finished_at"))
+        minutes = ((finished - started).total_seconds() / 60.0
+                   if started and finished and finished >= started else None)
         summary = {
             "run_id": rid,
             "status": status,
             "finished_at": doc.get("finished_at"),
             "url": doc.get("github_run_url"),
             "data_changed": changed,
+            "minutes": round(minutes, 1) if minutes is not None else None,
         }
         obs.runs.append(summary)
         if obs.latest is None:
@@ -373,6 +383,7 @@ def observe_fleet(r2: R2, gh: GitHub) -> tuple[list[dict], dict[str, dict]]:
         contract = maintenance_contract(slug, gh)
         obs = observe(r2, slug, (inflight.get(slug) or {}).get("run_id"))
         verdict = classify(contract, obs, inflight.get(slug))
+        scanned_minutes = sum(r["minutes"] for r in obs.runs if r["minutes"] is not None)
         rows.append({
             "slug": slug,
             **contract,
@@ -381,9 +392,27 @@ def observe_fleet(r2: R2, gh: GitHub) -> tuple[list[dict], dict[str, dict]]:
             "consecutive_failures": obs.consecutive_hard_failures,
             "data_last_changed_at": obs.data_last_changed_at,
             "in_flight": inflight.get(slug),
+            "run_minutes_scanned": round(scanned_minutes, 1),
+            "runs_scanned": len(obs.runs),
             **verdict,
         })
     return rows, inflight
+
+
+def gha_cost(rows: list[dict]) -> dict:
+    """Fleet compute footprint over each connector's scanned run window (the
+    newest SCAN_RUNS concluded runs): total connector wall-clock minutes and
+    what they would cost on paid GH-hosted linux runners. The repo is public,
+    so the real bill is $0 — this is the 'what are we consuming' number."""
+    minutes = sum(r.get("run_minutes_scanned") or 0 for r in rows)
+    runs = sum(r.get("runs_scanned") or 0 for r in rows)
+    return {
+        "runs_scanned": runs,
+        "run_minutes": round(minutes, 1),
+        "hypothetical_usd": round(minutes * GHA_LINUX_USD_PER_MIN, 2),
+        "usd_per_min": GHA_LINUX_USD_PER_MIN,
+        "note": "connector wall-clock from run.json; lower bound of billed job time; public repo → actual cost $0",
+    }
 
 
 # ---- rendering -------------------------------------------------------------------
@@ -399,22 +428,29 @@ def sort_rows(rows: list[dict]) -> list[dict]:
 
 
 def render(rows: list[dict]) -> str:
-    header = (f"{'connector':34} {'last-ok':>8} {'cad':>5} {'chg':>8} "
+    header = (f"{'connector':34} {'last-ok':>8} {'cad':>5} {'chg':>8} {'min':>7} "
               f"{'fails':>5} {'attention':10}  note")
     lines = [header, "-" * len(header)]
     for r in sort_rows(rows):
         last = f"{r['age_days']:.1f}d" if r["age_days"] is not None else "never"
         chg_age = age_days(r["data_last_changed_at"])
         chg = f"{chg_age:.1f}d" if chg_age is not None else "-"
+        latest_min = (r.get("latest") or {}).get("minutes")
+        mins = f"{latest_min:.0f}m" if latest_min is not None else "-"
         note = r.get("cadence_note") or ""
         lines.append(
-            f"{r['slug']:34} {last:>8} {str(r['cadence_days']) + 'd':>5} {chg:>8} "
+            f"{r['slug']:34} {last:>8} {str(r['cadence_days']) + 'd':>5} {chg:>8} {mins:>7} "
             f"{r['consecutive_failures'] or '-':>5} {r['attention']:10}  {note:.60}"
         )
     tally: dict[str, int] = {}
     for r in rows:
         tally[r["attention"]] = tally.get(r["attention"], 0) + 1
     lines += ["", " · ".join(f"{n} {a}" for a, n in sorted(tally.items(), key=lambda kv: -kv[1]))]
+    cost = gha_cost(rows)
+    lines.append(
+        f"compute (last {SCAN_RUNS} runs/connector): {cost['runs_scanned']} runs · "
+        f"{cost['run_minutes']:.0f} min · ~${cost['hypothetical_usd']:.2f} at GH-hosted rates "
+        f"(public repo → actually $0)")
     flagged = [r["slug"] for r in rows if r["needs_attention"]]
     if flagged:
         lines.append("needs attention: " + ", ".join(sorted(flagged)))

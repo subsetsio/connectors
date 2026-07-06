@@ -74,6 +74,7 @@ def main() -> int:
             "connectors": lib.sort_rows(rows),
             "needs_attention": sorted(r["slug"] for r in rows if r["needs_attention"]),
             "dispatched": dispatched,
+            "gha": lib.gha_cost(rows),
         }
         r2.put_json(lib.STATUS_KEY, status)
         print(f"\nstatus written to s3://{r2.bucket}/{lib.STATUS_KEY}")
