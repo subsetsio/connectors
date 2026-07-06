@@ -1,0 +1,45 @@
+# The scheduled operate tick — vendored into the connectors repo at
+# .github/workflows/operate.yml by operate/deploy.sh (this copy is the source
+# of truth; edit here, then re-run deploy.sh).
+#
+# Dispatches due production connectors and publishes _operate/status.json.
+# Uses GH_RETRIGGER_PAT because GITHUB_TOKEN cannot dispatch workflows on its
+# own repo (same reason the runner's self-retrigger uses it).
+name: Operate Tick
+run-name: "operate tick (${{ github.event_name }})"
+
+on:
+  schedule:
+    - cron: "17 5 * * *" # daily 05:17 UTC
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Observe and report only; dispatch nothing
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: operate-tick
+  cancel-in-progress: false
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install --quiet boto3 requests
+      - name: Tick
+        run: python ops/tick.py ${{ inputs.dry_run && '--dry-run' || '' }}
+        env:
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          HARNESS_CONNECTORS_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GH_RETRIGGER_PAT }}
+          OPERATE_CONNECTORS_DIR: ${{ github.workspace }}
