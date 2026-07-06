@@ -1,0 +1,16 @@
+spec_id: unhcr-solutions
+status: active
+tests:
+  - row_count: {min: 1000}
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1951, hi: current_year()}
+    certainty: 95
+    points_outward: true
+  - not_null: year
+  - not_null: coo_iso
+  - not_null: coa_iso
+  - column_type: {col: returned_refugees, type: integer}
+  - nullable: {col: returned_refugees, max_null_frac: 0.95}
+  - freshness: {col: year, reaches: today - 2y}
+    points_outward: true
+    reason: Durable solutions data is part of the annual Refugee Data Finder release.

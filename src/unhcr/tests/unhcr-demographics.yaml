@@ -1,0 +1,18 @@
+spec_id: unhcr-demographics
+status: active
+tests:
+  - row_count: {min: 30000}
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1951, hi: current_year()}
+    certainty: 95
+    points_outward: true
+  - not_null: year
+  - not_null: coo_iso
+  - not_null: coa_iso
+  - column_type: {col: total, type: integer}
+  - column_type: {col: f_total, type: integer}
+  - column_type: {col: m_total, type: integer}
+  - nullable: {col: total, max_null_frac: 0.95}
+  - freshness: {col: year, reaches: today - 2y}
+    points_outward: true
+    reason: UNHCR demographic breakdowns are part of the annual Refugee Data Finder release.

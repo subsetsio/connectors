@@ -1,0 +1,16 @@
+spec_id: unhcr-idmc
+status: active
+tests:
+  - row_count: {min: 100}
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1951, hi: current_year()}
+    certainty: 90
+    points_outward: true
+  - not_null: year
+  - not_null: coo_iso
+  - not_null: coa_iso
+  - column_type: {col: total, type: integer}
+  - nullable: {col: total, max_null_frac: 0.95}
+  - freshness: {col: year, reaches: today - 2y}
+    points_outward: true
+    reason: IDMC displacement data in Refugee Data Finder should advance with annual UNHCR releases.

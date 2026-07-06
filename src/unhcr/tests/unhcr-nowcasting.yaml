@@ -1,0 +1,17 @@
+spec_id: unhcr-nowcasting
+status: active
+tests:
+  - row_count: {min: 1}
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2020, hi: current_year()}
+    certainty: 80
+    points_outward: true
+  - not_null: year
+  - not_null: month
+  - not_null: source
+  - column_type: {col: refugees, type: integer}
+  - column_type: {col: asylum_seekers, type: integer}
+  - nullable: {col: refugees, max_null_frac: 0.95}
+  - freshness: {col: year, reaches: today - 400d}
+    points_outward: true
+    reason: Nowcasting is a current estimate endpoint and should be updated more frequently than the annual historical tables.

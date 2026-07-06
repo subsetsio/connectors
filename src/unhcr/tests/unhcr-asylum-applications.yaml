@@ -1,0 +1,18 @@
+spec_id: unhcr-asylum-applications
+status: active
+tests:
+  - row_count: {min: 50000}
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1951, hi: current_year()}
+    certainty: 95
+    points_outward: true
+  - not_null: year
+  - not_null: coo_iso
+  - not_null: coa_iso
+  - not_null: procedure_type
+  - not_null: app_type
+  - column_type: {col: applied, type: integer}
+  - nullable: {col: applied, max_null_frac: 0.95}
+  - freshness: {col: year, reaches: today - 2y}
+    points_outward: true
+    reason: UNHCR asylum application data is part of the annual Refugee Data Finder release.

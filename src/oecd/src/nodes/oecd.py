@@ -36,8 +36,11 @@ Rate limits: OECD enforces 429s without a documented ceiling; the retry
 decorator's exponential backoff (429 is transient) finds the natural pace.
 """
 import csv
+import fcntl
 import itertools
 import json as _json
+import os
+import random
 import time
 
 import httpx
@@ -63,19 +66,34 @@ BASE = "https://sdmx.oecd.org/public/rest/data"
 # dataflows to 429s that outlasted the stock 6-attempt backoff. Two levers fix
 # it: (1) a patient, Retry-After-honouring retry that rides out sustained
 # throttling, and (2) a minimum spacing between request STARTS so a burst of
-# small fast tables doesn't itself trip the limiter. Nodes run sequentially
-# (DAG_PARALLELISM=1) so a module-level clock is enough — no locking needed.
-_MIN_REQUEST_SPACING_S = 1.5
-_last_request_ts = 0.0
+# small fast tables doesn't itself trip the limiter.
+#
+# Each DAG node runs in a fresh subprocess, so an in-memory timestamp resets
+# between specs. Keep the request clock in /tmp behind an advisory lock so the
+# whole runner shares one cadence.
+_MIN_REQUEST_SPACING_S = 5.0
+_THROTTLE_STATE = "/tmp/subsets-oecd-sdmx-last-request.txt"
 _RETRY_CAP_S = 300.0
 
 
 def _throttle() -> None:
-    global _last_request_ts
-    wait = _last_request_ts + _MIN_REQUEST_SPACING_S - time.monotonic()
-    if wait > 0:
-        time.sleep(wait)
-    _last_request_ts = time.monotonic()
+    os.makedirs(os.path.dirname(_THROTTLE_STATE), exist_ok=True)
+    with open(_THROTTLE_STATE, "a+") as fh:
+        fcntl.flock(fh, fcntl.LOCK_EX)
+        fh.seek(0)
+        raw = fh.read().strip()
+        try:
+            last = float(raw) if raw else 0.0
+        except ValueError:
+            last = 0.0
+        wait = last + _MIN_REQUEST_SPACING_S - time.monotonic()
+        if wait > 0:
+            time.sleep(wait)
+        fh.seek(0)
+        fh.truncate()
+        fh.write(str(time.monotonic()))
+        fh.flush()
+        fcntl.flock(fh, fcntl.LOCK_UN)
 
 
 def _oecd_wait(retry_state) -> float:
@@ -90,14 +108,16 @@ def _oecd_wait(retry_state) -> float:
                 return min(float(ra), _RETRY_CAP_S)
             except ValueError:
                 pass  # HTTP-date form is rare here; fall through to exponential
-    return wait_exponential(min=5, max=_RETRY_CAP_S)(retry_state)
+    base = wait_exponential(min=10, max=_RETRY_CAP_S)(retry_state)
+    return base + random.uniform(0, min(base, 30.0))
 
 
-# 10 patient attempts (vs the stock 6): cumulative backoff reaches ~20 min per
-# dataflow, enough to outlast OECD's transient throttling windows.
+# 12 patient attempts (vs the stock 6): cumulative backoff can ride out long
+# OECD throttle windows, while the cap prevents one wedged dataflow from
+# consuming the whole GitHub job.
 _oecd_retry = retry(
     retry=retry_if_exception(is_transient),
-    stop=stop_after_attempt(10),
+    stop=stop_after_attempt(12),
     wait=_oecd_wait,
     reraise=True,
 )
