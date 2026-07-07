@@ -1,0 +1,25 @@
+spec_id: steam-spy-apps
+status: active
+tests:
+  - not_null: appid
+    reason: every Steam Spy app record is keyed by Steam appid
+    certainty: 95
+  - not_null: name
+    reason: app names should be present for cataloged Steam applications
+    certainty: 90
+  - column_type: {col: appid, type: integer}
+    certainty: 95
+  - unique: appid
+    reason: request=all pages should not overlap; duplicate appids imply a pagination or source issue
+    certainty: 90
+  - row_count: {min: 10000}
+    reason: the public Steam catalog contains far more than one page of applications
+    certainty: 85
+  - at_least: {col: source_page, expr: 0}
+    certainty: 95
+  - at_least: {col: positive, expr: 0}
+    reason: review counts are non-negative
+    certainty: 90
+  - at_least: {col: negative, expr: 0}
+    reason: review counts are non-negative
+    certainty: 90
