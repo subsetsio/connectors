@@ -1,5 +1,8 @@
 spec_id: bank-negara-malaysia-renminbi-fx-forward-price
 status: active
+coverage:
+  frozen: true
+  reason: BNM's renminbi forward-price endpoint currently returns a single historical 2020 quote; the source does not provide an advancing time series for this resource.
 tests:
   - not_null: date
     reason: the forward-price snapshot carries its observation date
@@ -16,7 +19,4 @@ tests:
     severity: warn
   - row_count: {min: 1}
     reason: a single latest-state forward-price record
-    certainty: 80
-  - freshness: {col: date, reaches: today - 30d}
-    reason: BNM exposes the renminbi forward price as a latest quote; the observation date should remain recent.
     certainty: 80

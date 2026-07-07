@@ -1,5 +1,8 @@
 spec_id: banco-central-del-ecuador-documentos-informacioneconomica-cuentasnacionales-regionales-cantonales-retropolaci-n-cnr-cantonal-2007-2018-pub-valores
 status: active
+coverage:
+  frozen: true
+  reason: Closed retropolation workbook for 2007-2018; worksheet labels are fixed historical years plus an Indice tab, so the inferred temporal sheet column is not expected to advance.
 # Generic melt: each BCE workbook is parsed into one tidy row per populated
 # cell (sheet, row_index, col_index, row_label, col_header, value, value_text).
 # These invariants are schema-level health checks shared by every workbook —

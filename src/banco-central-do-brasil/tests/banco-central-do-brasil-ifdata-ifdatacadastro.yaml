@@ -13,3 +13,7 @@ tests:
   - row_count: {min: 1000}
     reason: thousands of institution-period rows across the quarterly backfill
     certainty: 85
+  - freshness: {col: Data, reaches: today - 180d}
+    reason: IFData registry rows are keyed by quarterly reporting periods and published with a multi-month lag
+    certainty: 75
+    severity: warn

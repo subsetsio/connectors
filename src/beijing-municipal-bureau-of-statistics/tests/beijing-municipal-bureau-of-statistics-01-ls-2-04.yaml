@@ -16,3 +16,6 @@ tests:
   - column_type: {col: value, type: string}
     reason: raw cell values are persisted verbatim as strings; numeric cast happens in transform
     certainty: 95
+  - freshness: {col: mask, reaches: '2000'}
+    reason: this historical report currently tops out at 2000; requiring at least that period catches incomplete or regressed report pulls without pretending the archived table advances on a live cadence
+    certainty: 75

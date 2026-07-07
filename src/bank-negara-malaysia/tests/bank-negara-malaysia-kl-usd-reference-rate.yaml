@@ -5,8 +5,9 @@ tests:
     reason: every reference-rate observation is keyed by date
     certainty: 95
   - not_null: rate
-    reason: the USD reference rate is the sole measure
+    reason: the USD reference rate is the sole measure; BNM history has a single null historical observation, so this warns rather than blocking.
     certainty: 90
+    severity: warn
   - column_type: {col: rate, type: float}
     reason: the rate is a decimal MYR-per-USD value
     certainty: 85

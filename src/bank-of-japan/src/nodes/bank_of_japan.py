@@ -11,17 +11,14 @@ Raw is written one parquet file per DB (``bank-of-japan-series-<db>``); the
 transform glob-unions them.
 
 ``values`` is the observations: long-format (db, series_code, frequency,
-survey_date, value, last_update), sourced from /getDataCode. Fetch shape: a
-content-signature incremental crawl. The full corpus is too large to re-pull
-every run (CO/TANKAN alone is ~168k series), and the API exposes no server-side
-``since`` filter — only a per-series LAST_UPDATE that can be diffed client-side.
-So we bucket series by (db, frequency), and for each bucket store a signature
-``max(last_update):n_series``. A bucket whose signature is unchanged is skipped;
-a changed bucket is re-pulled. The crawl sweeps every bucket; bucket state is
-checkpointed after each chunk, so if the supervisor interrupts the node the next
-run resumes from the unfinished buckets — buckets already current are skipped.
-Duplicate rows produced by re-pulling a revised bucket are collapsed in the
-transform by keeping the highest last_update per (db, series_code, survey_date).
+survey_date, value, last_update), sourced from /getDataCode. The API exposes no
+server-side ``since`` filter, so the node sweeps the full corpus, bucketed by
+(db, frequency). Bucket state is checkpointed after each chunk so if the
+supervisor interrupts the node the next run resumes from the unfinished bucket.
+Completed buckets are re-pulled on the next invoked run so the current run has
+inspectable raw batches for tests and transforms. Duplicate rows produced by
+re-pulling a revised bucket are collapsed in the transform by keeping the
+highest last_update per (db, series_code, survey_date).
 getDataCode requires all codes in one request to share a frequency (hence
 bucketing by frequency); it caps at 250 codes and 60000 data points per request,
 paging the data-point overflow via NEXTPOSITION -> startPosition.
@@ -210,16 +207,20 @@ def fetch_values(node_id: str) -> None:
             bucket_key = f"{db}|{freq}"
             signature = _bucket_signature(members)
             prev = buckets_done.get(bucket_key, {})
-            if prev.get("sig") == signature and prev.get("complete"):
-                continue  # unchanged and fully pulled since last successful run
-
             codes = sorted(m["series_code"] for m in members)
             freq_slug = _freq_slug(freq)
             chunks = [codes[i:i + CODES_PER_CALL]
                       for i in range(0, len(codes), CODES_PER_CALL)]
-            # Resume mid-bucket only when the signature is unchanged; a revised
-            # bucket (new signature) restarts at chunk 0 so updated rows re-pull.
-            start_chunk = prev.get("done_chunks", 0) if prev.get("sig") == signature else 0
+            # Resume mid-bucket only when the signature is unchanged and the
+            # previous attempt did not finish. A completed prior run must not
+            # short-circuit this fetch: when the node is invoked, it needs to
+            # materialise raw batches for the current run so tests and
+            # transforms see an inspectable, current raw manifest.
+            start_chunk = (
+                prev.get("done_chunks", 0)
+                if prev.get("sig") == signature and not prev.get("complete")
+                else 0
+            )
 
             for ci in range(start_chunk, len(chunks)):
                 try:

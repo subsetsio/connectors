@@ -15,3 +15,7 @@ tests:
   - row_count: {min: 100000}
     reason: thousands of series x decades of (often daily) observations
     certainty: 85
+  - freshness: {col: date, reaches: today - 60d}
+    reason: the SGS corpus includes daily and monthly BCB series; at least some observations should reach the recent publication window
+    certainty: 80
+    severity: warn

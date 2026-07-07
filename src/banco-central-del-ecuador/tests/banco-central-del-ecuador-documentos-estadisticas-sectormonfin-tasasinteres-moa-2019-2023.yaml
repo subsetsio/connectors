@@ -1,5 +1,8 @@
 spec_id: banco-central-del-ecuador-documentos-estadisticas-sectormonfin-tasasinteres-moa-2019-2023
 status: active
+coverage:
+  frozen: true
+  reason: Historical 2019-2023 workbook snapshot; worksheet labels include fixed years plus non-period tabs such as Marco Legal, so the inferred temporal sheet column is not a live freshness field.
 # Generic melt: each BCE workbook is parsed into one tidy row per populated
 # cell (sheet, row_index, col_index, row_label, col_header, value, value_text).
 # These invariants are schema-level health checks shared by every workbook —

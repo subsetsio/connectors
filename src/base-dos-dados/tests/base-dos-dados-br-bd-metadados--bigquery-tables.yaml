@@ -1,5 +1,8 @@
 spec_id: base-dos-dados-br-bd-metadados--bigquery-tables
 status: active
+coverage:
+  frozen: true
+  reason: Base dos Dados one-click-download is a credential-free public mirror snapshot, not the live BigQuery lake; this raw object has no published update cadence and is treated as frozen until the mirror object changes.
 tests:
   - row_count: {min: 1}
     reason: every one-click table publishes at least one data row; an empty publish means a truncated/failed download

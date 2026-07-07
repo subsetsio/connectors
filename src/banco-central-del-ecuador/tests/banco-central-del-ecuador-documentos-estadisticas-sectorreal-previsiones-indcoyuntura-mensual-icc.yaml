@@ -15,3 +15,7 @@ tests:
     reason: a populated workbook must yield at least one cell row; zero means the fetch hit an error page or the layout changed
     certainty: 90
     points_outward: true
+  - freshness: {col: row_label, reaches: "today - 120d"}
+    reason: BCE monthly confidence-index workbook should include recent monthly periods; observed row_label reaches 2026-04 during evaluation.
+    certainty: 90
+    points_outward: true

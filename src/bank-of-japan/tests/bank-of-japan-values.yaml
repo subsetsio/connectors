@@ -5,6 +5,10 @@ status: active
 # null survey_date, and stores dates as YYYYMMDD/YYYYMM/YYYY *integers* whose
 # width tracks the frequency.
 tests:
+  - freshness: {col: last_update, reaches: today - 45d}
+    reason: BOJ's main time-series statistics refresh on business days; the pulled observation buckets should include source revisions from the last several weeks
+    certainty: 85
+
   - not_null: db
     reason: every observation is tagged with its source DB; a null means the bucket loop lost its key
     certainty: 99

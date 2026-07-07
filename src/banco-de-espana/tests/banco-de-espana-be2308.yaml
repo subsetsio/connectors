@@ -27,3 +27,6 @@ tests:
     reason: Banco de Espana series do not predate the 20th century
     certainty: 65
     severity: warn
+  - freshness: {col: date, reaches: "2026-02-01"}
+    reason: profiled latest observation date for this Banco de Espana table; catches future regressions while allowing historical tables to remain historical
+    certainty: 80

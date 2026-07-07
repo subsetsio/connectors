@@ -7,6 +7,9 @@ tests:
   - not_null: time_period
     reason: every observation has a TIME_PERIOD; null means we picked the wrong element
     certainty: 95
+  - freshness: {col: time_period, reaches: "2026-05"}
+    reason: monthly stock-index series should include the latest completed monthly observations
+    certainty: 85
   - not_null: obs_value
     reason: rows without an observation value should not be emitted
     certainty: 90

@@ -4,6 +4,10 @@ status: active
 # series_code per DB. Raw dates are kept as YYYYMMDD/YYYYMM/YYYY *strings*
 # (parsed in the transform), so column types here are all string.
 tests:
+  - freshness: {col: end_date, reaches: today - 90d}
+    reason: BOJ time-series metadata includes current or scheduled end dates; the catalog should include series whose coverage reaches the current quarter
+    certainty: 85
+
   - not_null: db
     reason: every catalog row is tagged with the DB it came from; a null means the per-DB fetch loop lost its key
     certainty: 99

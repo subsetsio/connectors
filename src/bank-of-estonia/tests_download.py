@@ -7,12 +7,17 @@ format drift)."""
 from subsets_utils import load_raw_parquet
 
 
+def _raw_spec_ids(spec_ids):
+    return [sid for sid in spec_ids if not sid.endswith("-transform")]
+
+
 def test_all_raw_assets_nonempty(spec_ids):
     """Every report we kept is public + has-data, so its parsed long table must
     hold rows. Zero rows means the CSV came back empty or the matrix parser
     failed to recognise the layout."""
     empties = []
-    for sid in spec_ids:
+    raw_ids = _raw_spec_ids(spec_ids)
+    for sid in raw_ids:
         try:
             t = load_raw_parquet(sid)
         except Exception as e:  # noqa: BLE001 - surface which asset + error class
@@ -20,7 +25,7 @@ def test_all_raw_assets_nonempty(spec_ids):
             continue
         if t.num_rows == 0:
             empties.append(f"{sid} (0 rows)")
-    assert not empties, f"{len(empties)}/{len(spec_ids)} raw assets empty/unreadable: {empties[:15]}"
+    assert not empties, f"{len(empties)}/{len(raw_ids)} raw assets empty/unreadable: {empties[:15]}"
 
 
 def test_dates_mostly_parsed(spec_ids):
@@ -28,7 +33,7 @@ def test_dates_mostly_parsed(spec_ids):
     A high null-date rate means a period-label format the parser doesn't cover."""
     total = 0
     dated = 0
-    for sid in spec_ids:
+    for sid in _raw_spec_ids(spec_ids):
         t = load_raw_parquet(sid)
         if t.num_rows == 0:
             continue
@@ -43,7 +48,7 @@ def test_values_are_numeric(spec_ids):
     """Values must be real floats, not all-null — guards against a parser that
     silently drops every cell (e.g. a number-format change)."""
     nonnull = 0
-    for sid in spec_ids:
+    for sid in _raw_spec_ids(spec_ids):
         t = load_raw_parquet(sid)
         if t.num_rows == 0:
             continue

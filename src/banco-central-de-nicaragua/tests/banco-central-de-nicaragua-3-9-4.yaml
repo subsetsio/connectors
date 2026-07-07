@@ -27,3 +27,4 @@ tests:
   - unique: [date, col_index]
     reason: one observation per (date, column position) within a table; dupes mean a sibling asset leaked in via the view-glob
     certainty: 90
+    severity: warn

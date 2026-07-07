@@ -1,5 +1,8 @@
 spec_id: bank-of-estonia-2881
 status: active
+coverage:
+  frozen: true
+  reason: historical/discontinued Eesti Pank report; published profile currently ends at 2024-01-01 and should not be judged against a moving freshness target
 tests:
   - row_count: {min: 1}
     reason: a public report flagged onAvalik/onAndmetega should reshape to at least one long (period, series, value) record; zero rows means the CSV matrix parser failed or the report has no public data

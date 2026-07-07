@@ -7,6 +7,9 @@ tests:
   - not_null: time_period
     reason: every observation has a TIME_PERIOD; null means we picked the wrong element
     certainty: 95
+  - freshness: {col: time_period, reaches: "20260601"}
+    reason: daily exchange-rate series should reach the recent publication window
+    certainty: 85
   - not_null: obs_value
     reason: rows without an observation value should not be emitted
     certainty: 90

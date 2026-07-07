@@ -1,6 +1,10 @@
 spec_id: bank-of-estonia-2259
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 500d}
+    reason: Eesti Pank statistical reports publish with varied monthly/quarterly/annual lags; current active reports should have observations within roughly 16 months of today
+    certainty: 80
+    severity: block
   - row_count: {min: 1}
     reason: a public report flagged onAvalik/onAndmetega should reshape to at least one long (period, series, value) record; zero rows means the CSV matrix parser failed or the report has no public data
     certainty: 80

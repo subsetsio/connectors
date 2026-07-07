@@ -12,7 +12,8 @@ tests:
   - enum: {col: sector, values: ["SR", "SF", "FP", "SE", "SS"]}
     reason: the 5 EDEN top sectors; sector is the first 2 chars of the code
     certainty: 90
-  - matches: {col: series_code, pattern: "^[A-Z]{2}[0-9]{4}[AMTJ]0[A-Z]{2}$"}
+  - matches: {col: series_code, pattern: "^[A-Z]{2}[0-9]{4}[AMTJ]([0-9][A-Z]{2}|X{3})$"}
+    reason: EDEN catalog codes are <sector><4 digits><frequency><marker>; most markers are 0xx, with observed 1xx and XXX variants
     certainty: 90
   - between: {col: locality_count, lo: 1, hi: 9}
     reason: a series is available for 1..9 localities (8 states + UEMOA aggregate)
