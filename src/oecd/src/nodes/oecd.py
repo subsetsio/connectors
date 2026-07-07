@@ -52,10 +52,12 @@ from tenacity import (
 )
 
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
     SqlNodeSpec,
     get_client,
     is_transient,
+    raw_asset_exists,
     raw_writer,
 )
 
@@ -209,6 +211,20 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=s.id,
+        description=(
+            "OECD SDMX dataflows update on source-specific statistical "
+            "release schedules; skip raw assets fetched in the last 30 days "
+            "using the committed raw manifest (inferred from "
+            "https://sdmx.oecd.org/public/rest/dataflow/all/all/latest)."
+        ),
+        check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=30),
+    )
+    for s in DOWNLOAD_SPECS
 ]
 
 # One thin SQL transform per dataflow: pass the tidy long rows through, keeping
