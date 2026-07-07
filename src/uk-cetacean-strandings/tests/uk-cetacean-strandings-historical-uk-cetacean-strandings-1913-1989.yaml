@@ -1,0 +1,24 @@
+spec_id: uk-cetacean-strandings-historical-uk-cetacean-strandings-1913-1989
+status: active
+coverage:
+  frozen: true
+  reason: NHM historical archive covers 1913-1989 and does not advance; post-1990 CSIP records require permission and are out of scope.
+tests:
+  - not_null: S_W_No
+    reason: Stranded Whale number identifies each record in the historical archive.
+    certainty: 95
+  - unique: S_W_No
+    reason: One row per recorded stranding individual; duplicate identifiers indicate duplicate ingestion.
+    certainty: 90
+  - not_null: Scientific Name
+    reason: The cleaned dataset corrected taxonomy for each record.
+    certainty: 90
+  - row_count: {min: 4000, max: 5000}
+    reason: CKAN reports 4,311 historical records; a much smaller or larger count means pagination or source scope changed.
+    certainty: 95
+  - between: {col: Year_val, lo: 1913, hi: 1989}
+    reason: This raw asset is explicitly the historical 1913-1989 archive.
+    certainty: 95
+  - column_type: {col: Year_val, type: string}
+    reason: Raw preserves CKAN values as strings; transform owns explicit typing.
+    certainty: 95
