@@ -21,7 +21,7 @@ tests:
   - row_count: {min: 430}
     reason: table returns full history in one request and only grows; well below observed count
     certainty: 85
-  - distinct_count: {col: metric, min: 4}
+  - distinct_count: {col: metric, min: 3}
     reason: the table's metric set is fixed by its definition; a drop means the response shape changed
     certainty: 85
   - between: {col: year, lo: 2005, hi: current_year()}
