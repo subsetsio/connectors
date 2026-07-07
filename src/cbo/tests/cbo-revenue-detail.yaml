@@ -1,6 +1,9 @@
 spec_id: cbo-revenue-detail
 status: active
 tests:
+  - freshness: {col: vintage, reaches: today - 800d}
+    reason: CBO release vintages are irregular/annual; allow multi-year slack while catching a stale GitHub mirror
+    certainty: 80
   - not_null: date
     reason: tidy long CSVs always carry a period label
     certainty: 90

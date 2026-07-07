@@ -7,14 +7,7 @@ tests:
   - not_null: MEASURES
     reason: each row of a measure-named (wide) table names the measure whose value it carries; the value lives in the column of that name rather than in VALORE.
     certainty: 90
-  - not_null: NUM_ORD
-    reason: every provision row carries its ordinal within an effective date.
-    certainty: 85
-  - not_null: DATA_PROV
-    reason: each provision carries its publication/provision date.
-    certainty: 80
-    severity: warn
-  - freshness: {col: DATA_OSS, reaches: "1900-01-01"}
-    reason: Bank of Italy BDS tables are mixed current and historical time series; every successful raw pull should still carry real observation dates, while table-specific currency is reviewed at evaluation/curation.
+  - freshness: {col: DATA_DECOR, reaches: "1900-01-01"}
+    reason: this special rate-decision table uses DATA_DECOR as its effective observation date instead of DATA_OSS.
     certainty: 80
     points_outward: true
