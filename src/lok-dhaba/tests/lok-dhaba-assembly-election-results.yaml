@@ -1,0 +1,22 @@
+spec_id: lok-dhaba-assembly-election-results
+status: active
+coverage:
+  frozen: true
+  reason: static bulk export snapshot last modified 2023-06-02; no published update cadence found
+tests:
+  - not_null: State_Name
+  - not_null: Assembly_No
+  - not_null: Constituency_No
+  - not_null: Year
+  - not_null: Candidate
+  - not_null: Party
+  - not_null: Votes
+  - not_null: Election_Type
+  - column_type: {col: Year, type: string}
+  - column_type: {col: Votes, type: string}
+  - column_type: {col: Candidate, type: string}
+  - row_count: {min: 100000}
+    reason: all-states assembly export is the largest Lok Dhaba candidate-results file
+    certainty: 80
+  - matches: {col: Election_Type, pattern: 'State Assembly Election'}
+    certainty: 90

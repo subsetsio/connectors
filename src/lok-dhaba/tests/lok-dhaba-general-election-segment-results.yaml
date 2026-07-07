@@ -1,0 +1,24 @@
+spec_id: lok-dhaba-general-election-segment-results
+status: active
+coverage:
+  frozen: true
+  reason: static bulk export snapshot last modified 2023-06-02; no published update cadence found
+tests:
+  - not_null: State_Name
+  - not_null: Assembly_No
+  - not_null: Constituency_No
+  - not_null: Year
+  - not_null: PC_Name
+  - not_null: PC_No
+  - not_null: Candidate
+  - not_null: Party
+  - not_null: Votes
+  - not_null: Election_Type
+  - column_type: {col: Year, type: string}
+  - column_type: {col: Votes, type: string}
+  - column_type: {col: Candidate, type: string}
+  - row_count: {min: 50000}
+    reason: segmentwise all-states GE export spans candidate rows by assembly segment
+    certainty: 80
+  - matches: {col: Election_Type, pattern: 'AC Segment Wise'}
+    certainty: 90
