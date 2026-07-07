@@ -5,6 +5,7 @@ import io
 import posixpath
 import re
 import zipfile
+from datetime import UTC, datetime
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlparse
 
@@ -137,6 +138,7 @@ def _catalog_products() -> list[dict]:
 
 def fetch_products(node_id: str) -> None:
     products = _catalog_products()
+    fetched_at = datetime.now(UTC).isoformat()
     rows = [
         {
             "product_id": product["product_id"],
@@ -144,6 +146,7 @@ def fetch_products(node_id: str) -> None:
             "excel_available": product["excel_available"],
             "ascii_available": product["ascii_available"],
             "link_count": product["link_count"],
+            "fetched_at": fetched_at,
         }
         for product in products
     ]
@@ -190,6 +193,7 @@ def _records_from_ascii(product: dict, file_name: str, data: bytes) -> list[dict
                 "row_number": row_number,
                 "row_values": row,
                 "row_object": None,
+                "fetched_at": product["fetched_at"],
             }
         )
     return rows
@@ -212,15 +216,19 @@ def _records_from_excel(product: dict, file_name: str, data: bytes) -> list[dict
                     "source_format": "excel",
                     "sheet_name": str(sheet_name),
                     "row_number": int(idx) + 1,
-                    "row_values": values,
-                    "row_object": None,
-                }
-            )
+                "row_values": values,
+                "row_object": None,
+                "fetched_at": product["fetched_at"],
+            }
+        )
     return rows
 
 
 def fetch_values(node_id: str) -> None:
     products = _catalog_products()
+    fetched_at = datetime.now(UTC).isoformat()
+    for product in products:
+        product["fetched_at"] = fetched_at
     selected = [(product, _preferred_link(product)) for product in products]
     selected = [(product, link) for product, link in selected if link is not None]
     if not selected:
