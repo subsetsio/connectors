@@ -8,7 +8,7 @@ re-pull every run.
 """
 import pyarrow as pa
 import pyarrow.parquet as pq
-from subsets_utils import NodeSpec, SqlNodeSpec, raw_parquet_writer
+from subsets_utils import NodeSpec, raw_parquet_writer
 from utils import SLUG, get_json, fetch_indicators_list
 
 # Flush the values stream to a parquet row group every ~100k buffered rows so
@@ -77,25 +77,4 @@ def fetch_values(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-values", fn=fetch_values, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{SLUG}-values-transform",
-        deps=[f"{SLUG}-values"],
-        sql=f'''
-            SELECT DISTINCT
-                indicator_id,
-                geo_unit,
-                CAST(year AS INTEGER)  AS year,
-                CAST(value AS DOUBLE)  AS value,
-                magnitude,
-                qualifier
-            FROM "{SLUG}-values"
-            WHERE indicator_id IS NOT NULL
-              AND geo_unit IS NOT NULL
-              AND year IS NOT NULL
-              AND value IS NOT NULL
-        ''',
-    ),
 ]

@@ -1,6 +1,6 @@
 """UIS indicators catalog — one row per indicatorCode (reference subset)."""
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 from utils import SLUG, fetch_indicators_list
 
 _INDICATORS_SCHEMA = pa.schema([
@@ -41,25 +41,4 @@ def fetch_indicators(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-indicators", fn=fetch_indicators, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{SLUG}-indicators-transform",
-        deps=[f"{SLUG}-indicators"],
-        sql=f'''
-            SELECT
-                indicator_code,
-                name,
-                theme,
-                last_data_update,
-                last_data_update_description,
-                CAST(total_record_count AS BIGINT) AS total_record_count,
-                CAST(year_min AS INTEGER)          AS year_min,
-                CAST(year_max AS INTEGER)          AS year_max,
-                geo_unit_types
-            FROM "{SLUG}-indicators"
-            WHERE indicator_code IS NOT NULL
-        ''',
-    ),
 ]
