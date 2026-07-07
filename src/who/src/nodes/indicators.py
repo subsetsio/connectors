@@ -8,7 +8,7 @@ import logging
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 from utils import BASE, fetch_odata
 
 log = logging.getLogger("who")
@@ -43,20 +43,4 @@ def fetch_indicators(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="who-indicators", fn=fetch_indicators, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="who-indicators-transform",
-        deps=["who-indicators"],
-        sql='''
-            SELECT
-                IndicatorCode AS indicator_code,
-                IndicatorName AS indicator_name,
-                Language      AS language
-            FROM "who-indicators"
-            WHERE IndicatorCode IS NOT NULL
-        ''',
-    ),
 ]

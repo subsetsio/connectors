@@ -1,0 +1,35 @@
+spec_id: undp-mpi
+status: active
+tests:
+  - row_count: {min: 80}
+    reason: gMPI Table 1 should include country-level rows for the current MPI release
+    certainty: 90
+  - not_null: country
+  - not_null: survey
+  - not_null: mpi_value
+  - column_type: {col: country, type: string}
+  - column_type: {col: survey, type: string}
+  - column_type: {col: mpi_value, type: float}
+  - column_type: {col: headcount_pct, type: float}
+  - column_type: {col: intensity_pct, type: float}
+  - unique: [country, survey]
+    reason: the workbook has one Table 1 observation per country and survey period
+    certainty: 90
+  - between: {col: mpi_value, lo: 0, hi: 1}
+    reason: MPI is an index value bounded between zero and one
+    certainty: 98
+  - between: {col: headcount_pct, lo: 0, hi: 100}
+    reason: headcount is published as a percentage
+    certainty: 95
+  - between: {col: intensity_pct, lo: 0, hi: 100}
+    reason: intensity is published as a percentage
+    certainty: 95
+  - between: {col: contrib_health_pct, lo: 0, hi: 100}
+    reason: dimensional contributions are percentages
+    certainty: 90
+  - between: {col: contrib_education_pct, lo: 0, hi: 100}
+    reason: dimensional contributions are percentages
+    certainty: 90
+  - between: {col: contrib_living_standards_pct, lo: 0, hi: 100}
+    reason: dimensional contributions are percentages
+    certainty: 90

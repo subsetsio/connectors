@@ -1,0 +1,34 @@
+spec_id: who-values
+status: active
+tests:
+  - not_null: Id
+    reason: each GHO observation row has a stable Id from the API
+    certainty: 95
+  - not_null: IndicatorCode
+    reason: every value row belongs to one indicator
+    certainty: 98
+  - not_null: TimeDim
+    reason: GHO observations are temporal and carry a TimeDim year/period
+    certainty: 95
+  - column_type: {col: Id, type: integer}
+    certainty: 95
+  - column_type: {col: IndicatorCode, type: string}
+    certainty: 98
+  - column_type: {col: NumericValue, type: float}
+    certainty: 90
+  - column_type: {col: Date, type: string}
+    certainty: 90
+  - distinct_count: {col: IndicatorCode, min: 1000}
+    reason: the all-indicator crawl should cover most of the GHO indicator universe
+    certainty: 85
+  - row_count: {min: 1000000}
+    reason: a full GHO observation crawl is a large corpus; a much smaller payload means the per-indicator crawl likely stopped early
+    certainty: 85
+  - matches: {col: TimeDim, pattern: '^[0-9]{4}.*$'}
+    reason: WHO GHO TimeDim values start with a four-digit year for the published annual/period series
+    certainty: 80
+    severity: warn
+  - freshness: {col: Date, reaches: today - 400d}
+    reason: at least some WHO GHO observations are updated within the last annual refresh window
+    certainty: 80
+    points_outward: true

@@ -1,5 +1,8 @@
 spec_id: bank-of-latvia-289
 status: active
+coverage:
+  frozen: true
+  reason: Bank of Latvia INTS leaf tables are a mixed statistical archive; some series advance and others are historical or discontinued, so this per-table raw asset is not expected to satisfy a universal freshness horizon.
 tests:
   - row_count: {min: 1}
     reason: fetch_one raises if it parses 0 data rows from the export, so a materialized table always has at least one row

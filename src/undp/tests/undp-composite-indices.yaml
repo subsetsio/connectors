@@ -1,0 +1,34 @@
+spec_id: undp-composite-indices
+status: active
+tests:
+  - row_count: {min: 20000}
+    reason: the HDRO complete time-series CSV should unpivot to tens of thousands of observations
+    certainty: 95
+  - not_null: iso3
+    reason: every observation should retain the country or aggregate ISO3 code from the source row
+    certainty: 95
+  - not_null: indicator
+  - not_null: year
+  - not_null: value
+  - column_type: {col: iso3, type: string}
+  - column_type: {col: country, type: string}
+  - column_type: {col: indicator, type: string}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - unique: [iso3, indicator, year]
+    reason: the source has one value per country or aggregate, indicator, and reporting year
+    certainty: 95
+  - between: {col: year, lo: 1990, hi: 2023}
+    reason: HDR25 complete time series is published for reporting years 1990 through 2023
+    certainty: 95
+  - freshness: {col: year, reaches: 2023}
+    reason: the 2025 HDR bulk file is the current versioned release and reports through 2023
+    certainty: 90
+    points_outward: true
+  - distinct_count: {col: indicator, min: 20}
+    reason: the complete composite-indices file covers HDI, IHDI, GDI, GII, PHDI and component indicators
+    certainty: 95
+  - median_between: {col: value, lo: 0, hi: 100000}
+    reason: values combine unit-scale indices, percentages, years, and income measures; this catches gross parse/unit failures
+    certainty: 70
+    severity: warn

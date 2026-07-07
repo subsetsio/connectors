@@ -1,0 +1,23 @@
+spec_id: undata-df-sdg-glh
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: each UNdata SDMX dataflow selected by rank returned observations during research and prior runs
+    certainty: 95
+  - not_null: DATAFLOW
+    reason: SDMX-CSV rows identify their originating dataflow
+    certainty: 95
+  - not_null: TIME_PERIOD
+    reason: every UNdata observation is keyed by a reporting period
+    certainty: 95
+  - not_null: OBS_VALUE
+    reason: raw observations should include a measure cell, even though some flows may have sparse values
+    certainty: 70
+    severity: warn
+  - column_type: {col: TIME_PERIOD, type: string}
+    reason: TIME_PERIOD is preserved from SDMX-CSV for transform-stage parsing
+    certainty: 90
+  - freshness: {col: TIME_PERIOD, reaches: today - 10y}
+    reason: UNdata redistributes actively maintained statistical dataflows, with some annual series lagging several years
+    certainty: 70
+    points_outward: true

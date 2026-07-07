@@ -3,12 +3,11 @@
 Mechanism: GHO OData API (https://ghoapi.azureedge.net/api), no auth, Azure CDN.
 """
 
-from subsets_utils import get, transient_retry
+from subsets_utils import get
 
 BASE = "https://ghoapi.azureedge.net/api"
 
 
-@transient_retry(min_wait=2, max_wait=60)
 def get_json(url: str) -> dict:
     resp = get(url, timeout=(10.0, 120.0), headers={"Accept": "application/json"})
     resp.raise_for_status()

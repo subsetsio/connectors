@@ -1,0 +1,20 @@
+spec_id: noaa-international-best-track-archive-for-climate-stewardship-ibtracs
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: IBTrACS ALL is a global 3-hourly best-track archive; a smaller pull usually means the CSV header or units row handling changed.
+    certainty: 95
+  - not_null: SID
+  - not_null: ISO_TIME
+  - column_type: {col: SID, type: string}
+  - column_type: {col: ISO_TIME, type: string}
+  - column_type: {col: SEASON, type: string}
+  - between: {col: SEASON, lo: 1840, hi: current_year()}
+    reason: IBTrACS seasons are historical through the present, with no future-season rows expected.
+    certainty: 90
+  - unique: [SID, ISO_TIME]
+    reason: the selected ALL CSV has one canonical row per storm timestamp after the fetch keeps the authoritative columns.
+    certainty: 85
+  - freshness: {col: ISO_TIME, reaches: today - 400d}
+    reason: IBTrACS active best tracks should include recent seasons, allowing lag for final stewardship updates.
+    points_outward: true

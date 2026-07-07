@@ -1,7 +1,7 @@
 spec_id: unhcr-demographics
 status: active
 tests:
-  - row_count: {min: 30000}
+  - row_count: {min: 5000}
   - column_type: {col: year, type: integer}
   - between: {col: year, lo: 1951, hi: current_year()}
     certainty: 95

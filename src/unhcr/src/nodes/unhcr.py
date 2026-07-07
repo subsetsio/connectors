@@ -22,7 +22,6 @@ from subsets_utils import (
     NodeSpec,
     get,
     save_raw_ndjson,
-    transient_retry,
 )
 
 BASE = "https://api.unhcr.org/population/v1/"
@@ -47,7 +46,6 @@ ENTITY_IDS = [
 _NO_BREAKDOWN = {"nowcasting"}
 
 
-@transient_retry()
 def _fetch_page(endpoint: str, params: dict) -> dict:
     resp = get(BASE + endpoint + "/", params=params, timeout=(10.0, 180.0))
     resp.raise_for_status()

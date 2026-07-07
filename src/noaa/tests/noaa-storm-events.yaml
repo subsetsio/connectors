@@ -1,0 +1,19 @@
+spec_id: noaa-storm-events
+status: active
+tests:
+  - row_count: {min: 500000}
+    reason: Storm Events detail files span yearly CSVs from 1950 onward; a lower count indicates file enumeration or parsing truncated.
+    certainty: 95
+  - not_null: EVENT_ID
+  - not_null: YEAR
+  - column_type: {col: EVENT_ID, type: string}
+  - column_type: {col: YEAR, type: string}
+  - distinct_count: {col: YEAR, min: 60}
+    reason: the yearly bulk directory should cover more than six decades.
+    certainty: 95
+  - unique: EVENT_ID
+    reason: EVENT_ID identifies a storm event detail record in the NOAA Storm Events details files.
+    certainty: 85
+  - freshness: {col: YEAR, reaches: current_year()}
+    reason: the SWDI yearly bulk directory normally includes a current-year partial detail file.
+    points_outward: true

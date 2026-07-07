@@ -2,6 +2,9 @@ spec_id: bank-of-latvia-115
 status: active
 coverage:
   frozen: true
+  reason: Bank of Latvia INTS leaf tables are a mixed statistical archive; some series advance and others are historical or discontinued, so this per-table raw asset is not expected to satisfy a universal freshness horizon.
+coverage:
+  frozen: true
   reason: "EUR exchange rate against LVL, daily. Latvia adopted the euro on 2014-01-01, so the lats (LVL) reference-rate series ends 2013-12-31 and the source table no longer advances — no freshness assertion applies."
 tests:
   - row_count: {min: 1}

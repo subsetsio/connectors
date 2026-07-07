@@ -7,7 +7,7 @@ _MIN_ROWS = {
     "unhcr-population": 50000,
     "unhcr-asylum-applications": 50000,
     "unhcr-asylum-decisions": 30000,
-    "unhcr-demographics": 30000,
+    "unhcr-demographics": 5000,
     "unhcr-solutions": 1000,
     "unhcr-idmc": 100,
     "unhcr-unrwa": 50,

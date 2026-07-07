@@ -1,0 +1,20 @@
+spec_id: noaa-northeast-snowfall-impact-scale
+status: active
+tests:
+  - row_count: {min: 20}
+    reason: NESIS is a compact historical ranked-event table, but it should contain many named storms.
+    certainty: 90
+  - not_null: Rank
+  - not_null: NESIS
+  - column_type: {col: Rank, type: string}
+  - column_type: {col: NESIS, type: string}
+  - column_type: {col: Category, type: string}
+  - between: {col: Category, lo: 1, hi: 5}
+    reason: NESIS categories are defined on a 1-5 impact scale.
+    certainty: 90
+  - distinct_count: {col: Rank, min: 20}
+    reason: rank values should cover the event list, not collapse to one malformed row.
+    certainty: 85
+  - freshness: {col: "End Dat", reaches: today - 10y}
+    reason: NESIS only advances when qualifying Northeast snowstorms occur; a multi-year gap can be valid.
+    points_outward: true

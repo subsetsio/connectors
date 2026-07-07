@@ -1,0 +1,20 @@
+spec_id: noaa-regional-snowfall-index
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: RSI spans multiple regions and historical storms; a smaller pull means the dated access CSV discovery likely broke.
+    certainty: 95
+  - not_null: STORM_ID
+  - not_null: REGION
+  - column_type: {col: STORM_ID, type: string}
+  - column_type: {col: REGION, type: string}
+  - column_type: {col: YEAR, type: string}
+  - distinct_count: {col: REGION, min: 5}
+    reason: RSI is regional, so the raw table should include all major regional buckets.
+    certainty: 90
+  - between: {col: REGION_CODE, lo: 1, hi: 6}
+    reason: NOAA RSI region codes are a small fixed set.
+    certainty: 85
+  - freshness: {col: End, reaches: today - 10y}
+    reason: RSI updates depend on qualifying snowfall events and may legitimately have no very recent rows.
+    points_outward: true

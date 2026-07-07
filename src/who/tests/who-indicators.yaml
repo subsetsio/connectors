@@ -1,0 +1,24 @@
+spec_id: who-indicators
+status: active
+tests:
+  - not_null: IndicatorCode
+    reason: every GHO indicator row is keyed by IndicatorCode
+    certainty: 98
+  - not_null: IndicatorName
+    reason: the indicator catalog should carry display names for discovery
+    certainty: 95
+  - column_type: {col: IndicatorCode, type: string}
+    certainty: 98
+  - column_type: {col: IndicatorName, type: string}
+    certainty: 95
+  - column_type: {col: Language, type: string}
+    certainty: 90
+  - unique: IndicatorCode
+    reason: the GHO catalog has one row per indicator code in the English feed
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: GHO currently exposes thousands of indicators; far fewer means pagination or response parsing broke
+    certainty: 85
+coverage:
+  frozen: true
+  reason: raw indicator catalog has no observation-time field; freshness is validated on who-values Date instead

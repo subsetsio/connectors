@@ -1,0 +1,32 @@
+spec_id: unep-basins
+status: active
+coverage:
+  frozen: true
+  reason: UNEP GCS objects hydrobasins3-all-2018.csv through hydrobasins6-all-2018.csv are fixed 1984-2018 SDG 6.6.1 snapshots; future releases are expected as re-versioned filenames rather than in-place updates.
+tests:
+  - row_count: {min: 300000}
+    reason: HydroBASINS Pfafstetter levels 3 through 6 over 35 annual observations
+    certainty: 90
+  - not_null: year
+  - not_null: pfaf_id
+  - not_null: level
+  - column_type: {col: year, type: integer}
+  - column_type: {col: pfaf_id, type: integer}
+  - column_type: {col: level, type: integer}
+  - column_type: {col: permanent_sq_km, type: float}
+  - column_type: {col: seasonal_sq_km, type: float}
+  - between: {col: year, lo: 1984, hi: 2018}
+    reason: published 2018 vintage covers annual observations from 1984 through 2018
+    certainty: 95
+  - enum: {col: level, values: [3, 4, 5, 6]}
+    reason: connector unions the four published HydroBASINS aggregate files
+    certainty: 95
+  - unique: [pfaf_id, level, year]
+    reason: one row per basin, Pfafstetter level, and year
+    certainty: 95
+  - median_between: {col: permanent_sq_km, lo: 0, hi: 100000}
+    reason: surface-water area is non-negative and basin medians should stay below continental scale
+    certainty: 80
+  - median_between: {col: seasonal_sq_km, lo: 0, hi: 100000}
+    reason: surface-water area is non-negative and basin medians should stay below continental scale
+    certainty: 80

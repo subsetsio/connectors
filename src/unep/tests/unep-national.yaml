@@ -1,0 +1,29 @@
+spec_id: unep-national
+status: active
+coverage:
+  frozen: true
+  reason: UNEP GCS object gaul0-all-2018.csv is a fixed 1984-2018 SDG 6.6.1 snapshot; future releases are expected as re-versioned filenames rather than in-place updates.
+tests:
+  - row_count: {min: 8000}
+    reason: about 240 countries and territories over 35 annual observations
+    certainty: 90
+  - not_null: year
+  - not_null: adm0_code
+  - not_null: country_name
+  - column_type: {col: year, type: integer}
+  - column_type: {col: adm0_code, type: integer}
+  - column_type: {col: country_name, type: string}
+  - column_type: {col: permanent_sq_km, type: float}
+  - column_type: {col: seasonal_sq_km, type: float}
+  - between: {col: year, lo: 1984, hi: 2018}
+    reason: published 2018 vintage covers annual observations from 1984 through 2018
+    certainty: 95
+  - unique: [adm0_code, year]
+    reason: one row per national GAUL unit and year
+    certainty: 95
+  - median_between: {col: permanent_sq_km, lo: 0, hi: 100000}
+    reason: surface-water area is non-negative and national medians should stay well below continental scale
+    certainty: 80
+  - median_between: {col: seasonal_sq_km, lo: 0, hi: 100000}
+    reason: surface-water area is non-negative and national medians should stay well below continental scale
+    certainty: 80
