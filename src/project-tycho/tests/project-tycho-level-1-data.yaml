@@ -1,0 +1,27 @@
+spec_id: project-tycho-level-1-data
+status: active
+coverage:
+  frozen: true
+  reason: HealthData.gov mirror is a fixed historical Project Tycho release ending in 2013.
+tests:
+  - not_null: epi_week
+    certainty: 95
+  - not_null: disease
+    certainty: 95
+  - column_type: {col: epi_week, type: string}
+    certainty: 95
+  - column_type: {col: cases, type: string}
+    certainty: 95
+  - matches: {col: epi_week, pattern: "^[0-9]{6}$"}
+    reason: Project Tycho Level 1 encodes epidemiological year/week as YYYYWW text.
+    certainty: 90
+  - distinct_count: {col: disease, min: 40}
+    reason: Level 1 covers many nationally notifiable diseases, not a one-disease slice.
+    certainty: 85
+  - row_count: {min: 700000}
+    reason: Socrata metadata reports about 759k rows; a much smaller file is truncated.
+    certainty: 90
+  - between: {col: epi_week, lo: 188801, hi: 201399}
+    reason: This historical mirror covers reporting weeks through 2013.
+    certainty: 80
+    severity: warn

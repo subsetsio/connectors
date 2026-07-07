@@ -1,0 +1,17 @@
+spec_id: reuters-institute-markets
+status: active
+tests:
+  - not_null: market_code
+    reason: market_code is the join key used by observation country_code
+    certainty: 98
+  - not_null: name
+    reason: every market has a display name in the reference JSON
+    certainty: 95
+  - unique: market_code
+    reason: the reference JSON is keyed by market code
+    certainty: 98
+  - row_count: {min: 50, max: 80}
+    reason: 2026 interactive lists 55 market entries including ALL and submarkets
+    certainty: 85
+  - column_type: {col: all_markets, type: boolean}
+    certainty: 95

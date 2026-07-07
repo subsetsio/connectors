@@ -1,0 +1,20 @@
+spec_id: reuters-institute-questions
+status: active
+tests:
+  - not_null: question_id
+    reason: every answer option belongs to a question group
+    certainty: 95
+  - not_null: option_id
+    reason: option_id is the join key used by survey observations
+    certainty: 98
+  - not_null: option_label
+    reason: every answer option has a display label in the codebook
+    certainty: 95
+  - unique: option_id
+    reason: answer option ids are globally distinct across question groups
+    certainty: 90
+  - row_count: {min: 70, max: 150}
+    reason: current reference has 76 answer options; lower counts mean codebook parsing broke
+    certainty: 85
+  - column_type: {col: question_id, type: string}
+    certainty: 95

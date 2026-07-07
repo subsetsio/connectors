@@ -1,0 +1,17 @@
+spec_id: reuters-institute-demographics
+status: active
+tests:
+  - not_null: demographic_id
+    reason: every demographic option belongs to a demographic split variable
+    certainty: 95
+  - not_null: option_id
+    reason: option_id is the join key used by observation split_value
+    certainty: 95
+  - unique: option_id
+    reason: demographic option ids are stable codebook keys
+    certainty: 90
+  - row_count: {min: 10, max: 30}
+    reason: current reference has five demographic dimensions and 13 options
+    certainty: 85
+  - column_type: {col: demographic_id, type: string}
+    certainty: 95

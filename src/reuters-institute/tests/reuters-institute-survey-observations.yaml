@@ -1,0 +1,38 @@
+spec_id: reuters-institute-survey-observations
+status: active
+tests:
+  - not_null: question_id
+    reason: question_id is added from the source path for each fetched question CSV
+    certainty: 98
+  - not_null: year
+    reason: every aggregate survey observation has a survey year
+    certainty: 98
+  - not_null: country_code
+    reason: every observation is scoped to a market or ALL-market aggregate
+    certainty: 98
+  - not_null: option_id
+    reason: every observation measures a question answer option
+    certainty: 98
+  - not_null: pct
+    reason: every stored observation is a percentage share
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: pct, type: float}
+    certainty: 95
+  - between: {col: year, lo: 2013, hi: current_year()}
+    reason: the interactive currently covers 2013 through the latest report year
+    certainty: 90
+  - between: {col: pct, lo: 0, hi: 1}
+    reason: percentages are stored as fractions from 0 to 1
+    certainty: 95
+  - row_count: {min: 400000}
+    reason: the 11 current question-group CSVs total about 460k rows
+    certainty: 85
+  - distinct_count: {col: question_id, min: 11}
+    reason: the 2026 reference JSON lists 11 question groups
+    certainty: 90
+  - freshness: {col: year, reaches: 2026}
+    reason: the 2026 Digital News Report interactive should include 2026 survey data
+    certainty: 85
+    points_outward: true
