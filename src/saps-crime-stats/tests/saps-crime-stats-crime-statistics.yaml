@@ -1,0 +1,18 @@
+spec_id: saps-crime-stats-crime-statistics
+status: active
+tests:
+  - row_count: {min: 250000}
+    reason: each detailed workbook has tens of thousands of station/category rows; fewer rows indicates most releases were not parsed
+    certainty: 85
+  - distinct_count: {col: source_workbook, min: 20}
+    reason: the current and archive pages expose roughly 29 XLSX detailed releases
+    certainty: 85
+  - not_null: station
+  - not_null: province
+  - not_null: crime_category
+  - not_null: crime_code
+  - column_type: {col: release_year_start, type: integer}
+  - freshness: {col: release_year_start, reaches: current_year() - 2}
+    reason: SAPS publishes quarterly releases; a latest release older than two years indicates the index scrape or source publication is stale
+    certainty: 80
+    points_outward: true
