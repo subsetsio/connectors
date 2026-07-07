@@ -1,0 +1,33 @@
+key: [year, origin_id, asylum_country_id]
+temporal: year
+columns:
+  - name: year
+    type: BIGINT
+    description: Calendar year of the internally displaced persons observation.
+  - name: origin_id
+    type: BIGINT
+    description: UNHCR numeric country or territory identifier for the displaced persons country of origin.
+  - name: origin_code
+    type: VARCHAR
+    description: UNHCR country or territory code for the displaced persons country of origin.
+  - name: origin_iso3
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 code for the country of origin, where available.
+  - name: origin_name
+    type: VARCHAR
+    description: Country or territory of origin name supplied by UNHCR.
+  - name: asylum_country_id
+    type: BIGINT
+    description: UNHCR numeric country or territory identifier for the asylum or residence country.
+  - name: asylum_country_code
+    type: VARCHAR
+    description: UNHCR country or territory code for the asylum or residence country.
+  - name: asylum_country_iso3
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 code for the asylum or residence country, where available.
+  - name: asylum_country_name
+    type: VARCHAR
+    description: Asylum or residence country or territory name supplied by UNHCR.
+  - name: internally_displaced_persons
+    type: BIGINT
+    description: Number of internally displaced persons reported through UNHCR's IDMC endpoint.

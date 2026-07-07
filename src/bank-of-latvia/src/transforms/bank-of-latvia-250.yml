@@ -1,0 +1,18 @@
+key: []
+temporal: year
+columns:
+  - name: table_id
+    type: VARCHAR
+    description: Bank of Latvia INTS source table identifier.
+  - name: row_label
+    type: VARCHAR
+    description: Row dimension label from the source pivot; multiple hierarchy levels are joined with vertical bars.
+  - name: period
+    type: VARCHAR
+    description: Column or period dimension label from the source pivot; multiple header levels are joined with vertical bars.
+  - name: year
+    type: BIGINT
+    description: Observation year parsed from the period label or row label when present.
+  - name: value
+    type: DOUBLE
+    description: Numeric observation value as published by the Bank of Latvia export.

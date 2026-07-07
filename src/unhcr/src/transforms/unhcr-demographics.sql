@@ -1,0 +1,27 @@
+SELECT
+    CAST("year" AS BIGINT) AS year,
+    CAST(coo_id AS BIGINT) AS origin_id,
+    coo AS origin_code,
+    coo_iso AS origin_iso3,
+    trim(coo_name) AS origin_name,
+    CAST(coa_id AS BIGINT) AS asylum_country_id,
+    coa AS asylum_country_code,
+    coa_iso AS asylum_country_iso3,
+    trim(coa_name) AS asylum_country_name,
+    CAST(f_0_4 AS BIGINT) AS female_0_4,
+    CAST(f_5_11 AS BIGINT) AS female_5_11,
+    CAST(f_12_17 AS BIGINT) AS female_12_17,
+    CAST(f_18_59 AS BIGINT) AS female_18_59,
+    CAST(f_60 AS BIGINT) AS female_60_plus,
+    CAST(f_other AS BIGINT) AS female_other,
+    CAST(f_total AS BIGINT) AS female_total,
+    CAST(m_0_4 AS BIGINT) AS male_0_4,
+    CAST(m_5_11 AS BIGINT) AS male_5_11,
+    CAST(m_12_17 AS BIGINT) AS male_12_17,
+    CAST(m_18_59 AS BIGINT) AS male_18_59,
+    CAST(m_60 AS BIGINT) AS male_60_plus,
+    CAST(m_other AS BIGINT) AS male_other,
+    CAST(m_total AS BIGINT) AS male_total,
+    CAST(total AS BIGINT) AS total
+FROM "unhcr-demographics"
+WHERE total IS NOT NULL

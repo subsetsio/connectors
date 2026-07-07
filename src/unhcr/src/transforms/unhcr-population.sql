@@ -1,0 +1,20 @@
+SELECT
+    CAST("year" AS BIGINT) AS year,
+    CAST(coo_id AS BIGINT) AS origin_id,
+    coo AS origin_code,
+    coo_iso AS origin_iso3,
+    trim(coo_name) AS origin_name,
+    CAST(coa_id AS BIGINT) AS asylum_country_id,
+    coa AS asylum_country_code,
+    coa_iso AS asylum_country_iso3,
+    trim(coa_name) AS asylum_country_name,
+    CAST(refugees AS BIGINT) AS refugees,
+    CAST(asylum_seekers AS BIGINT) AS asylum_seekers,
+    CAST(returned_refugees AS BIGINT) AS returned_refugees,
+    CAST(idps AS BIGINT) AS internally_displaced_persons,
+    CAST(returned_idps AS BIGINT) AS returned_internally_displaced_persons,
+    CAST(stateless AS BIGINT) AS stateless_persons,
+    CAST(ooc AS BIGINT) AS other_people_of_concern,
+    TRY_CAST(CAST(oip AS VARCHAR) AS BIGINT) AS other_people_in_need,
+    CAST(hst AS BIGINT) AS host_community
+FROM "unhcr-population"

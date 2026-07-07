@@ -1,0 +1,33 @@
+key: [year, asylum_country_id]
+temporal: year
+columns:
+  - name: year
+    type: BIGINT
+    description: Calendar year of the UNRWA Palestine refugees observation.
+  - name: origin_id
+    type: BIGINT
+    description: UNHCR numeric country or territory identifier for the Palestine refugee origin category.
+  - name: origin_code
+    type: VARCHAR
+    description: UNHCR country or territory code for the Palestine refugee origin category.
+  - name: origin_iso3
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 code for the Palestine refugee origin category, where available.
+  - name: origin_name
+    type: VARCHAR
+    description: Origin category name supplied by UNHCR for Palestine refugees.
+  - name: asylum_country_id
+    type: BIGINT
+    description: UNHCR numeric country or territory identifier for the UNRWA area or country.
+  - name: asylum_country_code
+    type: VARCHAR
+    description: UNHCR country or territory code for the UNRWA area or country.
+  - name: asylum_country_iso3
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 code for the UNRWA area or country, where available.
+  - name: asylum_country_name
+    type: VARCHAR
+    description: UNRWA area or country name supplied by UNHCR.
+  - name: palestine_refugees
+    type: BIGINT
+    description: Number of Palestine refugees under UNRWA mandate.

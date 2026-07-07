@@ -1,0 +1,45 @@
+key: [year, origin_id, asylum_country_id, procedure_type, application_type, decision_level, application_basis]
+temporal: year
+columns:
+  - name: year
+    type: BIGINT
+    description: Calendar year of the asylum application observations.
+  - name: origin_id
+    type: BIGINT
+    description: UNHCR numeric country or territory identifier for the applicant country of origin.
+  - name: origin_code
+    type: VARCHAR
+    description: UNHCR country or territory code for the applicant country of origin.
+  - name: origin_iso3
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 code for the applicant country of origin, where available.
+  - name: origin_name
+    type: VARCHAR
+    description: Country or territory of origin name supplied by UNHCR.
+  - name: asylum_country_id
+    type: BIGINT
+    description: UNHCR numeric country or territory identifier for the asylum country.
+  - name: asylum_country_code
+    type: VARCHAR
+    description: UNHCR country or territory code for the asylum country.
+  - name: asylum_country_iso3
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 code for the asylum country, where available.
+  - name: asylum_country_name
+    type: VARCHAR
+    description: Asylum country or territory name supplied by UNHCR.
+  - name: procedure_type
+    type: VARCHAR
+    description: UNHCR procedure type code for the application record.
+  - name: application_type
+    type: VARCHAR
+    description: UNHCR application type code.
+  - name: decision_level
+    type: VARCHAR
+    description: UNHCR decision level code associated with the application record.
+  - name: application_basis
+    type: VARCHAR
+    description: UNHCR basis code for whether applications are counted as persons or cases.
+  - name: applications
+    type: BIGINT
+    description: Number of asylum applications for the origin, asylum country, procedure, and basis.

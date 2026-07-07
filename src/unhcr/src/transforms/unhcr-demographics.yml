@@ -1,0 +1,75 @@
+key: [year, origin_id, asylum_country_id]
+temporal: year
+columns:
+  - name: year
+    type: BIGINT
+    description: Calendar year of the demographic population observations.
+  - name: origin_id
+    type: BIGINT
+    description: UNHCR numeric country or territory identifier for the population country of origin.
+  - name: origin_code
+    type: VARCHAR
+    description: UNHCR country or territory code for the population country of origin.
+  - name: origin_iso3
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 code for the population country of origin, where available.
+  - name: origin_name
+    type: VARCHAR
+    description: Country or territory of origin name supplied by UNHCR.
+  - name: asylum_country_id
+    type: BIGINT
+    description: UNHCR numeric country or territory identifier for the asylum or residence country.
+  - name: asylum_country_code
+    type: VARCHAR
+    description: UNHCR country or territory code for the asylum or residence country.
+  - name: asylum_country_iso3
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 code for the asylum or residence country, where available.
+  - name: asylum_country_name
+    type: VARCHAR
+    description: Asylum or residence country or territory name supplied by UNHCR.
+  - name: female_0_4
+    type: BIGINT
+    description: Female population aged 0 to 4 years.
+  - name: female_5_11
+    type: BIGINT
+    description: Female population aged 5 to 11 years.
+  - name: female_12_17
+    type: BIGINT
+    description: Female population aged 12 to 17 years.
+  - name: female_18_59
+    type: BIGINT
+    description: Female population aged 18 to 59 years.
+  - name: female_60_plus
+    type: BIGINT
+    description: Female population aged 60 years and older.
+  - name: female_other
+    type: BIGINT
+    description: Female population where age was not classified into the standard age bands.
+  - name: female_total
+    type: BIGINT
+    description: Total female population.
+  - name: male_0_4
+    type: BIGINT
+    description: Male population aged 0 to 4 years.
+  - name: male_5_11
+    type: BIGINT
+    description: Male population aged 5 to 11 years.
+  - name: male_12_17
+    type: BIGINT
+    description: Male population aged 12 to 17 years.
+  - name: male_18_59
+    type: BIGINT
+    description: Male population aged 18 to 59 years.
+  - name: male_60_plus
+    type: BIGINT
+    description: Male population aged 60 years and older.
+  - name: male_other
+    type: BIGINT
+    description: Male population where age was not classified into the standard age bands.
+  - name: male_total
+    type: BIGINT
+    description: Total male population.
+  - name: total
+    type: BIGINT
+    description: Total population across reported sex and age bands.

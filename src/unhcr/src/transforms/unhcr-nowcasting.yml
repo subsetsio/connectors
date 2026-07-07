@@ -1,0 +1,18 @@
+key: [year, month, source]
+temporal: year
+columns:
+  - name: year
+    type: BIGINT
+    description: Calendar year for the nowcast estimate.
+  - name: month
+    type: VARCHAR
+    description: Month label for the nowcast estimate as supplied by UNHCR.
+  - name: source
+    type: VARCHAR
+    description: Source label for the nowcast estimate.
+  - name: refugees
+    type: BIGINT
+    description: Nowcast estimate of refugees.
+  - name: asylum_seekers
+    type: BIGINT
+    description: Nowcast estimate of asylum seekers.
