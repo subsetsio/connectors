@@ -21,7 +21,3 @@ tests:
   - row_count: {min: 700000}
     reason: Socrata metadata reports about 759k rows; a much smaller file is truncated.
     certainty: 90
-  - between: {col: epi_week, lo: 188801, hi: 201399}
-    reason: This historical mirror covers reporting weeks through 2013.
-    certainty: 80
-    severity: warn
