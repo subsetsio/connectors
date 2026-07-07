@@ -1,31 +1,31 @@
 """Post-DAG health invariants for the UN Comtrade connector.
 
 The single download spec (`un-comtrade-values`) writes one parquet batch per
-reporter named `un-comtrade-values-<code>`, so we discover batches by glob
-rather than loading the bare spec id.
+year named `un-comtrade-values-<year>`, so we discover batches by glob rather
+than loading the bare spec id.
 """
 from subsets_utils import list_raw_files, load_raw_parquet
 
 
 def _batch_assets() -> list[str]:
-    # raw/un-comtrade-values-<code>.parquet -> asset id "un-comtrade-values-<code>"
+    # raw/un-comtrade-values-<year>.parquet -> asset id "un-comtrade-values-<year>"
     return [
         f.removesuffix(".parquet")
         for f in list_raw_files("un-comtrade-values-*.parquet")
     ]
 
 
-def test_many_reporter_batches():
-    """One batch per reporting economy; ~219 expected. A handful means the
-    crawl barely started or the reporter list collapsed."""
+def test_many_year_batches():
+    """One batch per annual period; ~35 expected. A handful means the crawl
+    barely started or the availability list collapsed."""
     batches = _batch_assets()
-    assert len(batches) >= 150, (
-        f"only {len(batches)} reporter batches; expected >=150"
+    assert len(batches) >= 20, (
+        f"only {len(batches)} year batches; expected >=20"
     )
 
 
 def test_batches_nonempty_and_typed():
-    """Each batch must hold rows with the expected trade columns — guards
+    """Each batch must hold rows with the expected trade columns - guards
     against an endpoint format switch silently writing empty/garbage parquet."""
     batches = _batch_assets()
     required = {
