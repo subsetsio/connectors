@@ -1,0 +1,10 @@
+spec_id: socat-socat-v2026-fulldata
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: full SOCAT v2026 trajectory export should contain millions of observations
+    certainty: 90
+  - freshness: {col: time, reaches: today - 400d}
+    reason: SOCAT v2026 includes observations through 2025/2026
+    certainty: 80
+    points_outward: true

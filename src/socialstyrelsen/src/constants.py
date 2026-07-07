@@ -1,0 +1,36 @@
+ENTITY_IDS = [
+    "amning",
+    "diagnoserioppenvard",
+    "diagnoserislutenoppenvard",
+    "diagnoserislutenvard",
+    "dodsorsaker",
+    "dodsorsaker_manad",
+    "drgstatistikislutenvard",
+    "graviditeterforlossningarochnyfodda",
+    "lakemedel",
+    "operationerioppenvard",
+    "operationerislutenvard",
+    "skadorochskadehandelserisverigeskommunerochlan",
+    "tandhalsa",
+    "yttreorsakertillskadorochforgiftningar",
+    "yttreorsakertillskadorochforgiftningarbarn",
+]
+
+
+SUBJECT_NAMES = {
+    "amning": "Amning, arsuppgifter",
+    "diagnoserioppenvard": "Diagnoser i oppen vard, arsuppgifter",
+    "diagnoserislutenoppenvard": "Diagnoser i sluten och/eller specialiserad oppen vard, arsuppgifter",
+    "diagnoserislutenvard": "Diagnoser i sluten vard, arsuppgifter",
+    "dodsorsaker": "Dodsorsaker, arsuppgifter",
+    "dodsorsaker_manad": "Dodsorsaker, manadsuppgifter",
+    "drgstatistikislutenvard": "DRG-statistik i sluten vard, arsuppgifter",
+    "graviditeterforlossningarochnyfodda": "Graviditeter, forlossningar och nyfodda, arsuppgifter",
+    "lakemedel": "Lakemedel, arsuppgifter",
+    "operationerioppenvard": "Operationer i oppen vard (dagkirurgi), arsuppgifter",
+    "operationerislutenvard": "Operationer i sluten vard, arsuppgifter",
+    "skadorochskadehandelserisverigeskommunerochlan": "Skador och skadehandelser i Sveriges kommuner och lan, arsuppgifter",
+    "tandhalsa": "Tandhalsa, arsuppgifter",
+    "yttreorsakertillskadorochforgiftningar": "Yttre orsaker till skador och forgiftningar, arsuppgifter",
+    "yttreorsakertillskadorochforgiftningarbarn": "Yttre orsaker till skador och forgiftningar - barn, arsuppgifter",
+}

@@ -1,0 +1,18 @@
+spec_id: scimago-journal-country-rank-country-rankings
+status: active
+tests:
+  - not_null: year
+  - not_null: country
+  - not_null: rank
+  - column_type: {col: year, type: integer}
+  - column_type: {col: country, type: string}
+  - column_type: {col: documents, type: integer}
+  - row_count: {min: 5000}
+  - distinct_count: {col: country, min: 200}
+  - between: {col: year, lo: 1996, hi: current_year()}
+    reason: SCImago country rankings start in 1996 and should not contain future years.
+    certainty: 95
+  - freshness: {col: year, reaches: current_year() - 1}
+    reason: The maintained mirror exposes annual country ranking parquet snapshots.
+    certainty: 85
+    points_outward: true

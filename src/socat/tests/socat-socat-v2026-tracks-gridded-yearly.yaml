@@ -1,0 +1,10 @@
+spec_id: socat-socat-v2026-tracks-gridded-yearly
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: yearly 1x1 gridded product should contain many populated grid cells
+    certainty: 85
+  - freshness: {col: valid_tax_date, reaches: today - 400d}
+    reason: current annual SOCAT gridded release should reach the latest release year
+    certainty: 80
+    points_outward: true

@@ -1,0 +1,10 @@
+spec_id: socat-socat-v2026-qrtrdeg-gridded-coast-monthly
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: quarter-degree coastal monthly gridded product should be a large grid
+    certainty: 85
+  - freshness: {col: valid_tax_date, reaches: today - 400d}
+    reason: current annual SOCAT gridded release should reach the latest release year
+    certainty: 80
+    points_outward: true

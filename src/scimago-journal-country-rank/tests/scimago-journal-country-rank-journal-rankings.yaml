@@ -1,0 +1,20 @@
+spec_id: scimago-journal-country-rank-journal-rankings
+status: active
+tests:
+  - not_null: year
+  - not_null: sourceid
+  - not_null: title
+  - not_null: rank
+  - column_type: {col: year, type: integer}
+  - column_type: {col: sourceid, type: integer}
+  - column_type: {col: title, type: string}
+  - column_type: {col: sjr, type: float}
+  - row_count: {min: 500000}
+  - distinct_count: {col: sourceid, min: 30000}
+  - between: {col: year, lo: 1999, hi: current_year()}
+    reason: SCImago journal rankings start in 1999 and should not contain future years.
+    certainty: 95
+  - freshness: {col: year, reaches: current_year() - 1}
+    reason: The maintained mirror exposes annual journal ranking parquet snapshots.
+    certainty: 85
+    points_outward: true

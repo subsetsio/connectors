@@ -1,0 +1,10 @@
+spec_id: socat-socat-v2026-decimated
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: decimated SOCAT trajectory export should contain many observations
+    certainty: 90
+  - freshness: {col: time, reaches: today - 400d}
+    reason: SOCAT v2026 includes observations through 2025/2026
+    certainty: 80
+    points_outward: true

@@ -1,0 +1,14 @@
+spec_id: shiller-data-us-home-prices
+status: active
+tests:
+  - row_count: {min: 120}
+  - column_type: {col: period_value, type: float}
+  - nullable: {col: period_value, max_null_frac: 0.2}
+  - at_least: {col: period_value, expr: 2024}
+    reason: the current promoted workbook should include recent home-price rows
+    certainty: 75
+    points_outward: true
+  - freshness: {col: period_value, reaches: 2024}
+    reason: the source says this workbook is updated monthly; a stale max period should block promotion
+    certainty: 75
+    points_outward: true
