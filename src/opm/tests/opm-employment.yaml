@@ -1,0 +1,16 @@
+spec_id: opm-employment
+status: active
+tests:
+  - row_count: {min: 100000000}
+    reason: employment snapshots are large aggregate files; a much lower count indicates partial fragment loss
+    certainty: 85
+  - not_null: source_filename
+  - not_null: source_year
+  - enum: {col: source_family, values: ["employment"]}
+  - between: {col: source_year, lo: 2005, hi: current_year()}
+  - freshness: {col: source_year, reaches: current_year()}
+    reason: OPM Federal Workforce Data currently publishes current-year employment files
+    points_outward: true
+  - distinct_count: {col: source_filename, min: 150}
+    reason: current=true should expose the historical employment file catalog
+    certainty: 90

@@ -1,0 +1,16 @@
+spec_id: opm-separations
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: current separations history should span hundreds of monthly Parquet fragments
+    certainty: 90
+  - not_null: source_filename
+  - not_null: source_year
+  - enum: {col: source_family, values: ["separations"]}
+  - between: {col: source_year, lo: 2005, hi: current_year()}
+  - freshness: {col: source_year, reaches: current_year()}
+    reason: OPM Federal Workforce Data currently publishes monthly current-year files
+    points_outward: true
+  - distinct_count: {col: source_filename, min: 200}
+    reason: current=true should expose the historical separations file catalog
+    certainty: 90
