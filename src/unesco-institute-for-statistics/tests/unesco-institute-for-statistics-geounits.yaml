@@ -1,0 +1,18 @@
+spec_id: unesco-institute-for-statistics-geounits
+status: active
+tests:
+  - row_count: {min: 400}
+    reason: UIS geounits catalog contains national units plus regional aggregates.
+    certainty: 95
+  - not_null: id
+  - not_null: name
+  - not_null: type
+  - column_type: {col: id, type: string}
+  - column_type: {col: name, type: string}
+  - column_type: {col: type, type: string}
+  - unique: id
+    reason: each UIS geounit id identifies one country or aggregate.
+    certainty: 95
+  - enum: {col: type, values: [NATIONAL, REGIONAL]}
+    reason: UIS currently classifies geounits as national units or regional aggregates.
+    certainty: 90

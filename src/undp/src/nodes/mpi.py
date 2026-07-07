@@ -13,7 +13,7 @@ import re
 import openpyxl
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import fetch_bytes, num
 
 MPI_URL = "https://hdr.undp.org/sites/default/files/publications/additional-files/2025-10/2025_gMPI_Table1and2.xlsx"
@@ -76,35 +76,3 @@ def fetch_mpi(node_id: str) -> None:
         raise AssertionError(f"{asset}: parsed 0 country rows from gMPI Table 1")
     table = pa.Table.from_pylist(rows, schema=MPI_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="undp-mpi", fn=fetch_mpi, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="undp-mpi-transform",
-        deps=["undp-mpi"],
-        sql='''
-            SELECT
-                country,
-                survey,
-                CAST(mpi_value AS DOUBLE) AS mpi_value,
-                CAST(headcount_pct AS DOUBLE) AS headcount_pct,
-                CAST(pop_poor_survey_thousands AS DOUBLE) AS pop_poor_survey_thousands,
-                CAST(pop_poor_2023_thousands AS DOUBLE) AS pop_poor_2023_thousands,
-                CAST(intensity_pct AS DOUBLE) AS intensity_pct,
-                CAST(inequality AS DOUBLE) AS inequality,
-                CAST(severe_poverty_pct AS DOUBLE) AS severe_poverty_pct,
-                CAST(vulnerable_pct AS DOUBLE) AS vulnerable_pct,
-                CAST(contrib_health_pct AS DOUBLE) AS contrib_health_pct,
-                CAST(contrib_education_pct AS DOUBLE) AS contrib_education_pct,
-                CAST(contrib_living_standards_pct AS DOUBLE) AS contrib_living_standards_pct,
-                CAST(national_poverty_pct AS DOUBLE) AS national_poverty_pct,
-                CAST(ppp300_poverty_pct AS DOUBLE) AS ppp300_poverty_pct
-            FROM "undp-mpi"
-            WHERE mpi_value IS NOT NULL
-        ''',
-    ),
-]

@@ -1,0 +1,26 @@
+spec_id: unesco-institute-for-statistics-values
+status: active
+tests:
+  - row_count: {min: 5000000}
+    reason: full per-indicator crawl is expected to fetch millions of observations.
+    certainty: 90
+  - not_null: indicator_id
+  - not_null: geo_unit
+  - not_null: year
+  - column_type: {col: indicator_id, type: string}
+  - column_type: {col: geo_unit, type: string}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - between: {col: year, lo: 1970, hi: current_year()}
+    reason: UIS API dataAvailability currently spans from 1970 and should not publish future years.
+    certainty: 90
+  - freshness: {col: year, reaches: 2024}
+    reason: UIS annual data releases currently expose observations through at least 2024.
+    points_outward: true
+    certainty: 85
+  - distinct_count: {col: indicator_id, min: 4000}
+    reason: values fetch should cover most indicator codes, not just a small sample.
+    certainty: 85
+  - matches: {col: geo_unit, pattern: "[A-Z0-9_]+"}
+    reason: UIS geounit identifiers are compact uppercase codes.
+    certainty: 80

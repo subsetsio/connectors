@@ -1,6 +1,9 @@
 spec_id: bls-pr
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 1500d}
+    reason: BLS selected programs refresh on mixed monthly, quarterly, annual, and projection-vintage cadences; the latest accepted observation should remain within roughly four years unless the source stops updating.
+    certainty: 80
   - not_null: series_id
     reason: every BLS flat-file observation row carries a series_id; a null means the tab split shifted/garbled.
     certainty: 95

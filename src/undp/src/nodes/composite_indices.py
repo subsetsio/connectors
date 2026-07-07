@@ -15,7 +15,7 @@ import re
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import fetch_bytes, num
 
 CSV_URL = "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv"
@@ -81,27 +81,3 @@ def fetch_composite_indices(node_id: str) -> None:
         raise AssertionError(f"{asset}: parsed 0 observations from composite-indices CSV")
     table = pa.Table.from_pylist(rows, schema=CI_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="undp-composite-indices", fn=fetch_composite_indices, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="undp-composite-indices-transform",
-        deps=["undp-composite-indices"],
-        sql='''
-            SELECT
-                iso3,
-                country,
-                hdicode,
-                region,
-                indicator,
-                CAST(year AS INTEGER) AS year,
-                CAST(value AS DOUBLE) AS value
-            FROM "undp-composite-indices"
-            WHERE value IS NOT NULL
-        ''',
-    ),
-]

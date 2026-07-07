@@ -1,24 +1,24 @@
-"""who-values — long-format observations across every WHO GHO indicator.
-
-Subset: who-values — one request per indicator returns its full series; we crawl
-all indicators (codes from /Indicator) and stream them to one parquet asset.
-A per-indicator permanent error is logged and skipped so one bad indicator never
-sinks the whole crawl.
-"""
+"""WHO GHO raw downloads."""
 
 import logging
 
 import httpx
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, raw_parquet_writer
+from subsets_utils import NodeSpec, raw_parquet_writer, save_raw_parquet
 from utils import BASE, fetch_odata
 
 log = logging.getLogger("who")
 
 
-# Raw fidelity: every column kept as string except the four numeric measures.
-# Year/timestamps stay textual here and are cast in the transform SQL.
+_INDICATOR_SCHEMA = pa.schema(
+    [
+        ("IndicatorCode", pa.string()),
+        ("IndicatorName", pa.string()),
+        ("Language", pa.string()),
+    ]
+)
+
 _VALUES_SCHEMA = pa.schema(
     [
         ("Id", pa.int64()),
@@ -49,9 +49,7 @@ _VALUES_SCHEMA = pa.schema(
     ]
 )
 
-_STR_COLS = [
-    f.name for f in _VALUES_SCHEMA if f.type == pa.string()
-]
+_STR_COLS = [f.name for f in _VALUES_SCHEMA if f.type == pa.string()]
 _FLOAT_COLS = ["NumericValue", "Low", "High"]
 
 
@@ -78,8 +76,25 @@ def _normalize_value_row(r: dict) -> dict:
     return out
 
 
+def fetch_indicators(node_id: str) -> None:
+    rows = fetch_odata(f"{BASE}/Indicator")
+    if not rows:
+        raise RuntimeError("WHO /Indicator returned no rows")
+
+    norm = [
+        {
+            "IndicatorCode": r.get("IndicatorCode"),
+            "IndicatorName": r.get("IndicatorName"),
+            "Language": r.get("Language"),
+        }
+        for r in rows
+    ]
+    table = pa.Table.from_pylist(norm, schema=_INDICATOR_SCHEMA)
+    save_raw_parquet(table, node_id)
+    log.info("who-indicators: wrote %d indicators", table.num_rows)
+
+
 def fetch_values(node_id: str) -> None:
-    asset = node_id
     indicators = fetch_odata(f"{BASE}/Indicator")
     codes = sorted({r["IndicatorCode"] for r in indicators if r.get("IndicatorCode")})
     if not codes:
@@ -88,13 +103,12 @@ def fetch_values(node_id: str) -> None:
 
     total = 0
     skipped: list[str] = []
-    with raw_parquet_writer(asset, _VALUES_SCHEMA) as writer:
+    with raw_parquet_writer(node_id, _VALUES_SCHEMA) as writer:
         for i, code in enumerate(codes):
             try:
                 rows = fetch_odata(f"{BASE}/{code}")
             except httpx.HTTPStatusError as e:
-                # Permanent client errors (e.g. 404 for a withdrawn code): skip,
-                # don't sink the whole crawl. Transient errors already retried.
+                # Permanent client errors can occur for withdrawn indicator codes.
                 if e.response.status_code == 404 or (
                     400 <= e.response.status_code < 500
                     and e.response.status_code != 429
@@ -124,5 +138,6 @@ def fetch_values(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id="who-indicators", fn=fetch_indicators, kind="download"),
     NodeSpec(id="who-values", fn=fetch_values, kind="download"),
 ]
