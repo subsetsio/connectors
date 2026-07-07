@@ -1,0 +1,19 @@
+spec_id: speedrun-games
+status: active
+tests:
+  - not_null: id
+    reason: every game catalog record has a stable Speedrun.com game id
+    certainty: 98
+  - not_null: abbreviation
+    reason: bulk game records expose source abbreviations
+    certainty: 95
+  - not_null: weblink
+    reason: bulk game records expose a human web link
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: the public game catalog contains many thousands of games; fewer than 1000 means pagination broke
+    certainty: 95
+  - unique: id
+    reason: each game id should appear once in the bulk catalog
+    certainty: 95
+

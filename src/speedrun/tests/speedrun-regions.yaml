@@ -1,0 +1,16 @@
+spec_id: speedrun-regions
+status: active
+tests:
+  - not_null: id
+    reason: every region record has a stable Speedrun.com region id
+    certainty: 98
+  - not_null: name
+    reason: region names are required reference labels
+    certainty: 98
+  - row_count: {min: 3}
+    reason: the API should at least expose major release regions
+    certainty: 90
+  - unique: id
+    reason: each region id should appear once
+    certainty: 95
+

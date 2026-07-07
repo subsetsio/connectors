@@ -1,0 +1,16 @@
+spec_id: speedrun-platforms
+status: active
+tests:
+  - not_null: id
+    reason: every platform record has a stable Speedrun.com platform id
+    certainty: 98
+  - not_null: name
+    reason: platform names are required reference labels
+    certainty: 98
+  - row_count: {min: 50}
+    reason: Speedrun.com tracks many console, PC, and device platforms
+    certainty: 90
+  - unique: id
+    reason: each platform id should appear once
+    certainty: 95
+

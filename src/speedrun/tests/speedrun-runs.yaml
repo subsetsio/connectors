@@ -1,0 +1,25 @@
+spec_id: speedrun-runs
+status: active
+tests:
+  - not_null: id
+    reason: every run record has a stable Speedrun.com run id
+    certainty: 98
+  - not_null: game
+    reason: each run belongs to a game
+    certainty: 97
+  - not_null: category
+    reason: each run belongs to a speedrun category
+    certainty: 97
+  - not_null: status
+    reason: run verification state is part of the source record
+    certainty: 95
+  - row_count: {min: 10000}
+    reason: the public runs corpus is large; fewer than 10000 rows means pagination or filtering broke
+    certainty: 90
+  - unique: id
+    reason: each run id should appear once in an unfiltered full snapshot
+    certainty: 90
+  - freshness: {col: _fetched_at, reaches: today - 7d}
+    reason: _fetched_at is stamped during download; a stale max means the raw asset was not refreshed
+    points_outward: false
+
