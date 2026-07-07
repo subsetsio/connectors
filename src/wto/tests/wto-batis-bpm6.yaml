@@ -1,0 +1,40 @@
+spec_id: wto-batis-bpm6
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: BaTiS BPM6 is a large bilateral services panel; a smaller file indicates truncation or a changed archive.
+    certainty: 90
+  - not_null: Reporter
+    reason: every BaTiS row carries a reporter economy.
+    certainty: 95
+  - not_null: Partner
+    reason: every BaTiS row carries a partner economy.
+    certainty: 95
+  - not_null: Flow
+    reason: every BaTiS row is imports or exports.
+    certainty: 95
+  - not_null: Year
+    reason: every BaTiS row carries an annual period.
+    certainty: 95
+  - column_type: {col: Year, type: string}
+    reason: the downloader preserves raw CSV fields as strings; transforms own numeric casting.
+    certainty: 95
+  - column_type: {col: Balanced_value, type: string}
+    reason: the downloader preserves raw CSV fields as strings; transforms own numeric casting.
+    certainty: 95
+  - matches: {col: Year, pattern: '^[0-9]{4}$'}
+    reason: Year is a four-digit annual period in the source CSV.
+    certainty: 95
+  - enum: {col: Flow, values: [Exports, Imports]}
+    reason: BaTiS BPM6 publishes bilateral services exports and imports.
+    certainty: 90
+  - distinct_count: {col: Reporter, min: 150}
+    reason: BaTiS BPM6 covers most economies; a much smaller count means a partial download.
+    certainty: 85
+  - distinct_count: {col: Item_code, min: 20}
+    reason: BaTiS BPM6 spans EBOPS service categories, not a single aggregate.
+    certainty: 85
+  - freshness: {col: Year, reaches: "2024"}
+    reason: the current BaTiS BPM6 file covers 2005-2024; regression below 2024 means stale or broken raw.
+    certainty: 85
+    points_outward: true

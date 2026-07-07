@@ -1,0 +1,39 @@
+spec_id: wto-tismos
+status: active
+coverage:
+  frozen: true
+  reason: TISMOS is a fixed historical mode-of-supply corpus covering 2005-2017 in the public WTO files; it is not expected to advance annually.
+tests:
+  - row_count: {min: 100000}
+    reason: TISMOS imports and exports together are a sizeable historical panel; a smaller file indicates truncation or a changed archive.
+    certainty: 85
+  - not_null: FLOW
+    reason: every TISMOS row is imports or exports.
+    certainty: 95
+  - not_null: REPORTER
+    reason: every TISMOS row carries a reporter economy.
+    certainty: 95
+  - not_null: INDICATOR
+    reason: every TISMOS row carries an indicator or service category.
+    certainty: 95
+  - not_null: YEAR
+    reason: every TISMOS row carries an annual period.
+    certainty: 95
+  - column_type: {col: YEAR, type: string}
+    reason: the downloader preserves raw CSV fields as strings; transforms own numeric casting.
+    certainty: 95
+  - column_type: {col: VALUE, type: string}
+    reason: the downloader preserves raw CSV fields as strings; transforms own numeric casting.
+    certainty: 95
+  - matches: {col: YEAR, pattern: '^[0-9]{4}$'}
+    reason: YEAR is a four-digit annual period in the source CSV.
+    certainty: 95
+  - enum: {col: FLOW, values: [Imports, Exports]}
+    reason: the connector combines the public TISMOS imports and exports files.
+    certainty: 90
+  - distinct_count: {col: REPORTER, min: 100}
+    reason: TISMOS covers many economies; a much smaller count means a partial download.
+    certainty: 85
+  - distinct_count: {col: MODE, min: 4}
+    reason: TISMOS is explicitly by mode of supply; collapsing below four modes signals a malformed file or parse.
+    certainty: 85

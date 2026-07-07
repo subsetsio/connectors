@@ -1,0 +1,34 @@
+spec_id: wto-merchandise-indices-annual
+status: active
+tests:
+  - row_count: {min: 50000}
+    reason: WTO merchandise indices annual bulk CSV is a multi-economy, multi-indicator panel; a smaller file indicates truncation or a changed archive.
+    certainty: 85
+  - not_null: IndicatorCode
+    reason: every row belongs to a WTO indicator series.
+    certainty: 95
+  - not_null: ReporterCode
+    reason: every row is reported by an economy or aggregate.
+    certainty: 95
+  - not_null: Year
+    reason: every observation carries an annual period.
+    certainty: 95
+  - column_type: {col: Year, type: string}
+    reason: the downloader preserves raw CSV fields as strings; transforms own numeric casting.
+    certainty: 95
+  - column_type: {col: Value, type: string}
+    reason: the downloader preserves raw CSV fields as strings; transforms own numeric casting.
+    certainty: 95
+  - matches: {col: Year, pattern: '^[0-9]{4}$'}
+    reason: Year is a four-digit annual period in the source CSV.
+    certainty: 95
+  - distinct_count: {col: ReporterCode, min: 150}
+    reason: WTO annual merchandise indices cover most WTO economies and aggregates; a much smaller count means a partial download.
+    certainty: 85
+  - distinct_count: {col: IndicatorCode, min: 3}
+    reason: the bulk file contains multiple merchandise index indicators, not a single slice.
+    certainty: 80
+  - freshness: {col: Year, reaches: "2024"}
+    reason: stats.wto.org annual files were observed current through 2024; regression below 2024 means stale or broken raw.
+    certainty: 85
+    points_outward: true

@@ -1,0 +1,34 @@
+spec_id: wto-services-annual
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: WTO services annual bulk CSV is a large multi-economy panel; a smaller file indicates truncation or a changed archive.
+    certainty: 85
+  - not_null: IndicatorCode
+    reason: every row belongs to a WTO services indicator series.
+    certainty: 95
+  - not_null: ReporterCode
+    reason: every row is reported by an economy or aggregate.
+    certainty: 95
+  - not_null: Year
+    reason: every observation carries an annual period.
+    certainty: 95
+  - column_type: {col: Year, type: string}
+    reason: the downloader preserves raw CSV fields as strings; transforms own numeric casting.
+    certainty: 95
+  - column_type: {col: Value, type: string}
+    reason: the downloader preserves raw CSV fields as strings; transforms own numeric casting.
+    certainty: 95
+  - matches: {col: Year, pattern: '^[0-9]{4}$'}
+    reason: Year is a four-digit annual period in the source CSV.
+    certainty: 95
+  - distinct_count: {col: ReporterCode, min: 150}
+    reason: WTO annual services data cover most WTO economies and aggregates; a much smaller count means a partial download.
+    certainty: 85
+  - distinct_count: {col: IndicatorCode, min: 20}
+    reason: the bulk file contains many services indicators and categories, not a single slice.
+    certainty: 80
+  - freshness: {col: Year, reaches: "2024"}
+    reason: stats.wto.org annual files were observed current through 2024; regression below 2024 means stale or broken raw.
+    certainty: 85
+    points_outward: true
