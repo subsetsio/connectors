@@ -1,0 +1,25 @@
+spec_id: pypi-stats-recent-downloads
+status: active
+tests:
+  - row_count: {min: 60}
+    reason: 21 top packages times 3 recent periods should produce 63 rows.
+    certainty: 95
+  - not_null: package
+  - not_null: period
+  - not_null: downloads
+  - column_type: {col: package, type: string}
+  - column_type: {col: period, type: string}
+  - column_type: {col: downloads, type: integer}
+  - enum: {col: period, values: [last_day, last_week, last_month]}
+    reason: pypistats recent endpoint returns exactly these aggregate periods.
+    certainty: 95
+  - unique: [package, period]
+    reason: one aggregate count per package-period.
+    certainty: 95
+  - at_least: {col: downloads, expr: 0}
+    reason: download counts should never be negative.
+    certainty: 99
+  - freshness: {col: fetched_at, reaches: today - 7d}
+    reason: raw recent aggregates are refreshed daily from the API; fetched_at is stamped at successful download time.
+    points_outward: false
+    certainty: 95
