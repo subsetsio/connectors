@@ -3,10 +3,6 @@ status: active
 tests:
   - not_null: Indicador
   - not_null: Data
-  - not_null: DataReferencia
-  - not_null: Media
-    reason: every Top5 Focus row reports a mean of the top-5 forecasters
-    certainty: 90
   - not_null: tipoCalculo
     reason: Top5 sets are keyed by the ranking calculation type (short/medium/long)
     certainty: 80

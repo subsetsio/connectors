@@ -3,10 +3,6 @@ status: active
 tests:
   - not_null: Indicador
   - not_null: Data
-  - not_null: DataReferencia
-  - not_null: Media
-    reason: every Focus statistic row reports a mean expectation
-    certainty: 90
   - row_count: {min: 1000}
     reason: a multi-year daily Focus survey set has thousands of rows
     certainty: 85

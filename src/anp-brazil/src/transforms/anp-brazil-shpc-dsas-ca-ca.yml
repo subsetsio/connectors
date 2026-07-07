@@ -1,0 +1,57 @@
+key: [date, regiao_sigla, estado_sigla, municipio, revenda, cnpj_da_revenda, nome_da_rua, numero_rua, complemento, bairro, cep, produto, unidade_de_medida, bandeira]
+temporal: date
+columns:
+  - name: date
+    type: DATE
+    description: "First day of the observation month or collection date."
+  - name: year
+    type: INTEGER
+    description: "Observation year parsed from the source period."
+  - name: month
+    type: INTEGER
+    description: "Observation month parsed from the source period."
+  - name: regiao_sigla
+    type: VARCHAR
+    description: "Brazilian macro-region abbreviation reported by ANP."
+  - name: estado_sigla
+    type: VARCHAR
+    description: "Brazilian state abbreviation reported by ANP."
+  - name: municipio
+    type: VARCHAR
+    description: "Brazilian municipality name reported by ANP."
+  - name: revenda
+    type: VARCHAR
+    description: "Retail station name reported by ANP."
+  - name: cnpj_da_revenda
+    type: VARCHAR
+    description: "Brazilian CNPJ identifier for the retail station."
+  - name: nome_da_rua
+    type: VARCHAR
+    description: "Street name of the retail station."
+  - name: numero_rua
+    type: VARCHAR
+    description: "Street number of the retail station."
+  - name: complemento
+    type: VARCHAR
+    description: "Additional address information for the retail station."
+  - name: bairro
+    type: VARCHAR
+    description: "Neighborhood of the retail station."
+  - name: cep
+    type: VARCHAR
+    description: "Brazilian postal code of the retail station."
+  - name: produto
+    type: VARCHAR
+    description: "Product or fuel category label reported by ANP."
+  - name: unidade_de_medida
+    type: VARCHAR
+    description: "Unit of measure reported by ANP for the price observation."
+  - name: bandeira
+    type: VARCHAR
+    description: "Retail fuel brand reported by ANP."
+  - name: valor_de_venda
+    type: DOUBLE
+    description: "Retail sale price reported by ANP."
+  - name: valor_de_compra
+    type: DOUBLE
+    description: "Retail purchase price reported by ANP, when available."

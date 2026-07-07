@@ -1,0 +1,24 @@
+key: [date, derivado, regiao, estado]
+temporal: date
+columns:
+  - name: date
+    type: DATE
+    description: "First day of the observation month or collection date."
+  - name: year
+    type: INTEGER
+    description: "Observation year parsed from the source period."
+  - name: month
+    type: INTEGER
+    description: "Observation month parsed from the source period."
+  - name: derivado
+    type: VARCHAR
+    description: "Petroleum derivative category reported by ANP."
+  - name: regiao
+    type: VARCHAR
+    description: "Brazilian region label reported by ANP."
+  - name: estado
+    type: VARCHAR
+    description: "Brazilian state name reported by ANP."
+  - name: vendas
+    type: DOUBLE
+    description: "Sales volume in cubic meters unless the source table title states otherwise."

@@ -1,0 +1,33 @@
+key: [date, codigo_do_produto, descricao_do_produto, regiao_de_origem, uf_de_origem, regiao_do_destinatario, uf_do_destinatario]
+temporal: date
+columns:
+  - name: date
+    type: DATE
+    description: "First day of the observation month or collection date."
+  - name: year
+    type: INTEGER
+    description: "Observation year parsed from the source period."
+  - name: month
+    type: INTEGER
+    description: "Observation month parsed from the source period."
+  - name: codigo_do_produto
+    type: VARCHAR
+    description: "ANP product code."
+  - name: descricao_do_produto
+    type: VARCHAR
+    description: "ANP product description."
+  - name: regiao_de_origem
+    type: VARCHAR
+    description: "Origin region reported by ANP."
+  - name: uf_de_origem
+    type: VARCHAR
+    description: "Origin Brazilian state abbreviation reported by ANP."
+  - name: regiao_do_destinatario
+    type: VARCHAR
+    description: "Destination region reported by ANP."
+  - name: uf_do_destinatario
+    type: VARCHAR
+    description: "Destination Brazilian state abbreviation reported by ANP."
+  - name: volume_l
+    type: DOUBLE
+    description: "Lubricant movement volume in liters."

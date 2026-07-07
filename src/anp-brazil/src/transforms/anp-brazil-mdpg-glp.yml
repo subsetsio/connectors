@@ -1,0 +1,36 @@
+key: [date, agente_regulado, codigo_do_produto, nome_do_produto, regiao_origem, regiao_destinatario, mercado_destinatario, codigo_de_embalagem_glp]
+temporal: date
+columns:
+  - name: date
+    type: DATE
+    description: "First day of the observation month or collection date."
+  - name: year
+    type: INTEGER
+    description: "Observation year parsed from the source period."
+  - name: month
+    type: INTEGER
+    description: "Observation month parsed from the source period."
+  - name: agente_regulado
+    type: VARCHAR
+    description: "Regulated company or agent name reported by ANP."
+  - name: codigo_do_produto
+    type: VARCHAR
+    description: "ANP product code."
+  - name: nome_do_produto
+    type: VARCHAR
+    description: "ANP product name."
+  - name: regiao_origem
+    type: VARCHAR
+    description: "Origin region reported by ANP."
+  - name: regiao_destinatario
+    type: VARCHAR
+    description: "Destination region reported by ANP."
+  - name: mercado_destinatario
+    type: VARCHAR
+    description: "Destination market category reported by ANP."
+  - name: codigo_de_embalagem_glp
+    type: VARCHAR
+    description: "ANP packaging code for GLP containers."
+  - name: quantidade_de_produto_mil_ton
+    type: DOUBLE
+    description: "Product quantity in thousand metric tons."

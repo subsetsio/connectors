@@ -1,0 +1,24 @@
+key: [date, produto, operacao_comercial]
+temporal: date
+columns:
+  - name: date
+    type: DATE
+    description: "First day of the observation month or collection date."
+  - name: year
+    type: INTEGER
+    description: "Observation year parsed from the source period."
+  - name: month
+    type: INTEGER
+    description: "Observation month parsed from the source period."
+  - name: produto
+    type: VARCHAR
+    description: "Product or fuel category label reported by ANP."
+  - name: operacao_comercial
+    type: VARCHAR
+    description: "Commercial operation type, such as import or export."
+  - name: importado
+    type: DOUBLE
+    description: "Imported natural gas volume reported by ANP."
+  - name: dispendio
+    type: DOUBLE
+    description: "Import expenditure reported by ANP."

@@ -1,0 +1,21 @@
+key: [date, regiao_origem, regiao_destino]
+temporal: date
+columns:
+  - name: date
+    type: DATE
+    description: "First day of the observation month or collection date."
+  - name: year
+    type: INTEGER
+    description: "Observation year parsed from the source period."
+  - name: month
+    type: INTEGER
+    description: "Observation month parsed from the source period."
+  - name: regiao_origem
+    type: VARCHAR
+    description: "Origin region reported by ANP."
+  - name: regiao_destino
+    type: VARCHAR
+    description: "Destination region reported by ANP."
+  - name: vendas_de_biodiesel
+    type: DOUBLE
+    description: "Biodiesel B100 sales volume in cubic meters."

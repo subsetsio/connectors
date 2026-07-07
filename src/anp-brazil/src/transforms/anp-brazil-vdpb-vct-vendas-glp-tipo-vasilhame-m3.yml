@@ -1,0 +1,24 @@
+key: [date, grande_regiao, unidade_da_federacao, vasilhame]
+temporal: date
+columns:
+  - name: date
+    type: DATE
+    description: "First day of the observation month or collection date."
+  - name: year
+    type: INTEGER
+    description: "Observation year parsed from the source period."
+  - name: month
+    type: INTEGER
+    description: "Observation month parsed from the source period."
+  - name: grande_regiao
+    type: VARCHAR
+    description: "Brazilian macro-region reported by ANP."
+  - name: unidade_da_federacao
+    type: VARCHAR
+    description: "Brazilian state or federal district name reported by ANP."
+  - name: vasilhame
+    type: VARCHAR
+    description: "GLP container size category reported by ANP."
+  - name: vendas
+    type: DOUBLE
+    description: "Sales volume in cubic meters unless the source table title states otherwise."

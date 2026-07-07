@@ -1,0 +1,36 @@
+key: [date, uf_origem, uf_destino, produto, classificacao, sub_classificacao, operacao, modal]
+temporal: date
+columns:
+  - name: date
+    type: DATE
+    description: "First day of the observation month or collection date."
+  - name: year
+    type: INTEGER
+    description: "Observation year parsed from the source period."
+  - name: month
+    type: INTEGER
+    description: "Observation month parsed from the source period."
+  - name: uf_origem
+    type: VARCHAR
+    description: "Origin Brazilian state abbreviation reported by ANP."
+  - name: uf_destino
+    type: VARCHAR
+    description: "Destination Brazilian state abbreviation reported by ANP."
+  - name: produto
+    type: VARCHAR
+    description: "Product or fuel category label reported by ANP."
+  - name: classificacao
+    type: VARCHAR
+    description: "Logistics classification reported by ANP."
+  - name: sub_classificacao
+    type: VARCHAR
+    description: "Logistics sub-classification reported by ANP."
+  - name: operacao
+    type: VARCHAR
+    description: "Logistics operation category reported by ANP."
+  - name: modal
+    type: VARCHAR
+    description: "Transport mode reported by ANP."
+  - name: qtd_produto_liquido
+    type: DOUBLE
+    description: "Liquid product quantity reported by ANP."
