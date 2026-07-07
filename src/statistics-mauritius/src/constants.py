@@ -1,0 +1,16 @@
+ENTITY_IDS = [
+    "capita-gdp-current-market-prices-republic-mauritius-2006-2019",
+    "cases-reported-offences-type-republic-mauritius-2007-2017",
+    "convicted-offences-according-un-classification-crime-statistical-purposes-mauritius-and",
+    "employment-sex-public-and-private-sectors-republic-mauritius-march-2007-2019",
+    "external-merchandise-trade-statistics-republic-mauritius-year-1938-4th-quarter-2019",
+    "gross-domestic-product-gdp-current-market-prices-republic-mauritius-2006-2019",
+    "immunisations-reported-government-services",
+    "infant-mortality-statistics-republic-mauritius",
+    "mid-year-population-sex-republic-mauritius",
+    "statistics-caesarian-section-cs-mauritius",
+    "statistics-relating-notification-hiv-aids-cases-and-deaths-mauritius",
+    "transport-statistics-island-mauritius-2007-2016",
+    "vital-statistics-district-and-gender-republic-mauritius",
+    "vital-statistics-rates-republic-mauritius",
+]

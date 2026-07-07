@@ -1,0 +1,25 @@
+spec_id: swiid-swiid
+status: active
+tests:
+  - not_null: country
+  - not_null: year
+  - column_type: {col: country, type: string}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: gini_disp, type: float}
+  - unique: [country, year]
+    reason: SWIID summary has one row per country-year.
+    certainty: 95
+  - row_count: {min: 6000}
+    reason: Recent SWIID releases contain over 6600 country-year summary rows.
+    certainty: 90
+  - distinct_count: {col: country, min: 190}
+    reason: SWIID currently covers about 199 countries.
+    certainty: 90
+  - between: {col: year, lo: 1960, hi: 2026}
+    reason: Research and Dataverse metadata describe coverage from 1960 to the current release period.
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: SWIID is historical/current-year inequality estimates, not future projections.
+    certainty: 85
+    points_outward: true
+    severity: warn
