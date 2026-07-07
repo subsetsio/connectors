@@ -1,0 +1,31 @@
+spec_id: steam-charts-chart-values
+status: active
+tests:
+  - not_null: app_id
+    reason: each chart point is keyed by Steam app id
+    certainty: 95
+  - not_null: observed_at
+    reason: chart JSON points are [timestamp, value] pairs
+    certainty: 95
+  - not_null: players
+    reason: chart JSON values should be numeric player counts
+    certainty: 90
+  - column_type: {col: app_id, type: integer}
+    certainty: 95
+  - column_type: {col: observed_at, type: timestamp}
+    certainty: 95
+  - column_type: {col: players, type: integer}
+    certainty: 90
+  - unique: [app_id, observed_at]
+    reason: one chart value per app per timestamp
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: chart JSON should produce many historical points after crawling the catalog
+    certainty: 75
+  - distinct_count: {col: app_id, min: 100}
+    reason: healthy chart crawling should reach well beyond a handful of games
+    certainty: 85
+  - freshness: {col: fetched_at, reaches: today - 7d}
+    reason: this full-corpus scrape is a live refresh
+    certainty: 90
+    points_outward: true

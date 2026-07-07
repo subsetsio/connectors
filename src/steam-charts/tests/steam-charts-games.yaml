@@ -1,0 +1,26 @@
+spec_id: steam-charts-games
+status: active
+tests:
+  - not_null: app_id
+    reason: every game row must carry the Steam app id parsed from the source link
+    certainty: 95
+  - not_null: name
+    reason: the top-games table displays a game name for each app id
+    certainty: 95
+  - unique: app_id
+    reason: the raw games catalog deduplicates app ids across paginated top pages
+    certainty: 90
+  - column_type: {col: app_id, type: integer}
+    certainty: 95
+  - column_type: {col: current_players, type: integer}
+    certainty: 90
+  - row_count: {min: 100}
+    reason: healthy pagination reaches well beyond the first page of 25 games
+    certainty: 85
+  - distinct_count: {col: source_page, min: 4}
+    reason: top-games pagination should expose many pages; fewer pages suggests pagination broke
+    certainty: 80
+  - freshness: {col: fetched_at, reaches: today - 7d}
+    reason: this snapshot is re-fetched from the live Steam Charts pages
+    certainty: 90
+    points_outward: true

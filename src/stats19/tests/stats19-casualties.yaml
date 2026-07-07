@@ -1,0 +1,22 @@
+spec_id: stats19-casualties
+status: active
+tests:
+  - row_count: {min: 1500000}
+    reason: complete validated casualty history from 1979 onward has well over one million records.
+    certainty: 95
+  - not_null: collision_index
+  - not_null: collision_year
+  - not_null: collision_ref_no
+  - not_null: vehicle_reference
+  - not_null: casualty_reference
+  - column_type: {col: collision_index, type: string}
+  - column_type: {col: collision_year, type: integer}
+  - column_type: {col: vehicle_reference, type: integer}
+  - column_type: {col: casualty_reference, type: integer}
+  - between: {col: collision_year, lo: 1979, hi: current_year()}
+    reason: STATS19 open data begins in 1979 and should not contain future collision years.
+    certainty: 95
+  - freshness: {col: collision_year, reaches: current_year() - 2}
+    reason: final validated annual data is released each September, so the complete-history file should reach at least the prior full year.
+    points_outward: true
+    certainty: 90

@@ -1,0 +1,20 @@
+spec_id: stats-sa-time-series-values
+status: active
+tests:
+  - not_null: product_id
+  - not_null: product_title
+  - not_null: source_file
+  - not_null: source_format
+  - not_null: row_number
+  - row_count: {min: 1000}
+    reason: the accepted time-series products should produce many tabular rows across ZIP files
+    certainty: 70
+  - column_type: {col: product_id, type: string}
+  - column_type: {col: product_title, type: string}
+  - column_type: {col: source_file, type: string}
+  - column_type: {col: source_format, type: string}
+  - column_type: {col: row_number, type: integer}
+  - enum: {col: source_format, values: [ascii, excel]}
+  - freshness: {col: fetched_at, reaches: today - 14d}
+    reason: raw files are fetched by the connector run; fetched_at should reflect a current run
+    points_outward: false
