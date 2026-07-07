@@ -1,0 +1,16 @@
+spec_id: osv-ecosystems
+status: active
+tests:
+  - row_count: {min: 30}
+    reason: OSV currently lists dozens of supported ecosystems.
+    certainty: 90
+  - not_null: ecosystem
+  - not_null: vulnerability_count
+  - column_type: {col: ecosystem, type: string}
+  - column_type: {col: vulnerability_count, type: integer}
+  - unique: ecosystem
+    reason: each ecosystem should appear once in the landing-page count list.
+    certainty: 95
+  - distinct_count: {col: ecosystem, min: 30}
+    reason: parser should preserve multi-word ecosystem names rather than collapsing to a tiny set.
+    certainty: 90

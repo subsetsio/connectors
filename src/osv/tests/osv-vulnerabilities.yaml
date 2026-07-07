@@ -1,0 +1,19 @@
+spec_id: osv-vulnerabilities
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: OSV all.zip should contain hundreds of thousands of vulnerability records across ecosystems.
+    certainty: 90
+  - not_null: id
+  - not_null: modified
+  - not_null: _source_path
+  - column_type: {col: id, type: string}
+  - column_type: {col: modified, type: timestamp}
+  - column_type: {col: _source_path, type: string}
+  - freshness: {col: modified, reaches: today - 7d}
+    reason: OSV is continuously exported and modified timestamps should include recent records.
+    points_outward: true
+    certainty: 85
+  - distinct_count: {col: _source_ecosystem, min: 25}
+    reason: full corpus should span many ecosystems; a low count indicates a partial archive parse.
+    certainty: 85

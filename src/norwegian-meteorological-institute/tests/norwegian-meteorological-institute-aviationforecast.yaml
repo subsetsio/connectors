@@ -1,0 +1,19 @@
+spec_id: norwegian-meteorological-institute-aviationforecast
+status: active
+tests:
+  - not_null: endpoint
+    reason: available.json classifies each aviation text feed by endpoint
+    certainty: 98
+  - not_null: content
+    reason: every finite aviation feed URL should return a text forecast/report document
+    certainty: 90
+  - row_count: {min: 6, max: 20}
+    reason: aviationforecast available.json currently lists a small finite set of AW/IGA feeds
+    certainty: 85
+  - distinct_count: {col: endpoint, min: 2, max: 3}
+    reason: the accepted feed should include both aw and iga endpoint families
+    certainty: 85
+  - freshness: {col: fetched_at, reaches: today - 2d}
+    reason: aviation forecast raw was fetched during this run
+    certainty: 95
+    points_outward: false

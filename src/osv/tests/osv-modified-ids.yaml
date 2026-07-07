@@ -1,0 +1,16 @@
+spec_id: osv-modified-ids
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: modified_id.csv indexes the full OSV corpus and should contain many records.
+    certainty: 85
+  - not_null: modified
+  - not_null: source_path
+  - not_null: osv_id
+  - column_type: {col: modified, type: timestamp}
+  - column_type: {col: source_path, type: string}
+  - column_type: {col: osv_id, type: string}
+  - freshness: {col: modified, reaches: today - 7d}
+    reason: OSV modified_id.csv is continuously exported and should show recent modifications.
+    points_outward: true
+    certainty: 85

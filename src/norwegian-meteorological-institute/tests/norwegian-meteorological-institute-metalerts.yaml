@@ -1,0 +1,20 @@
+spec_id: norwegian-meteorological-institute-metalerts
+status: active
+tests:
+  - not_null: alert_id
+    reason: every GeoJSON alert feature carries a properties.id identifier
+    certainty: 95
+  - not_null: title
+    reason: public alerts should include a human-readable title
+    certainty: 90
+  - column_type: {col: interval_start, type: string}
+    certainty: 80
+  - row_count: {min: 1}
+    reason: metalerts all.json should return current alert features; an empty feed may happen rarely but usually means parsing broke
+    certainty: 65
+    points_outward: true
+    severity: warn
+  - freshness: {col: fetched_at, reaches: today - 2d}
+    reason: alerts are continuously updated; the connector should have fetched the current feed
+    certainty: 95
+    points_outward: false

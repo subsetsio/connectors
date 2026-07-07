@@ -1,0 +1,22 @@
+spec_id: norwegian-meteorological-institute-tidalwater
+status: active
+tests:
+  - not_null: harbor
+    reason: each parsed water-level observation comes from a named harbor
+    certainty: 98
+  - not_null: observed_at
+    reason: each parsed tabular row carries year/month/day/hour/minute columns
+    certainty: 95
+  - column_type: {col: total, type: float}
+    reason: total water level is parsed from a numeric text column
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: about 31 harbors with several days of 10-minute forecasts should produce thousands of rows
+    certainty: 85
+  - distinct_count: {col: harbor, min: 25, max: 40}
+    reason: tidalwater available.json currently lists roughly 31 harbor feeds
+    certainty: 90
+  - freshness: {col: fetched_at, reaches: today - 2d}
+    reason: tidalwater raw was fetched during this run
+    certainty: 95
+    points_outward: false
