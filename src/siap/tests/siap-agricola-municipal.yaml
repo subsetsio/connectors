@@ -1,0 +1,26 @@
+spec_id: siap-agricola-municipal
+status: active
+tests:
+  - not_null: source_year
+    certainty: 99
+  - column_type: {col: source_year, type: integer}
+    certainty: 99
+  - between: {col: source_year, lo: 2003, hi: current_year()}
+    certainty: 95
+  - freshness: {col: source_year, reaches: 2024}
+    reason: the current SIAP agricultural municipal catalog lists annual CSVs through 2024
+    certainty: 90
+    points_outward: true
+  - not_null: anio
+    certainty: 99
+  - not_null: idmunicipio
+    certainty: 95
+  - not_null: idcultivo
+    certainty: 95
+  - column_type: {col: volumenproduccion, type: float}
+    certainty: 95
+  - row_count: {min: 100000}
+    reason: all municipal agricultural years combined should be much larger than a single partial CSV
+    certainty: 90
+  - distinct_count: {col: source_year, min: 22}
+    certainty: 95

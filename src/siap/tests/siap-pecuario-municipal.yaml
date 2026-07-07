@@ -1,0 +1,26 @@
+spec_id: siap-pecuario-municipal
+status: active
+tests:
+  - not_null: source_year
+    certainty: 99
+  - column_type: {col: source_year, type: integer}
+    certainty: 99
+  - between: {col: source_year, lo: 2006, hi: current_year()}
+    certainty: 95
+  - freshness: {col: source_year, reaches: 2024}
+    reason: the current SIAP livestock municipal catalog lists annual CSVs through 2024
+    certainty: 90
+    points_outward: true
+  - not_null: anio
+    certainty: 99
+  - not_null: cvempio
+    certainty: 95
+  - not_null: cveproducto
+    certainty: 95
+  - column_type: {col: volumen, type: float}
+    certainty: 95
+  - row_count: {min: 50000}
+    reason: all municipal livestock years combined should be much larger than a single partial CSV
+    certainty: 90
+  - distinct_count: {col: source_year, min: 18}
+    certainty: 95

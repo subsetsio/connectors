@@ -1,0 +1,23 @@
+spec_id: siap-pecuario-nacional
+status: active
+coverage:
+  frozen: true
+  reason: SIAP publishes this national historical livestock series only for 1980-2005; current years use the municipal schema.
+tests:
+  - not_null: source_year
+    certainty: 99
+  - column_type: {col: source_year, type: integer}
+    certainty: 99
+  - between: {col: source_year, lo: 1980, hi: 2005}
+    certainty: 99
+  - not_null: anio
+    certainty: 99
+  - not_null: cveproducto
+    certainty: 95
+  - column_type: {col: volumen, type: float}
+    certainty: 95
+  - row_count: {min: 10000}
+    reason: all national livestock years combined should be much larger than a single partial CSV
+    certainty: 90
+  - distinct_count: {col: source_year, min: 26}
+    certainty: 99
