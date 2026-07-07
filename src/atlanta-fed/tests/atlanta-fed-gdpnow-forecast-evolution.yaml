@@ -1,6 +1,9 @@
 spec_id: atlanta-fed-gdpnow-forecast-evolution
 status: active
 tests:
+  - freshness: {col: forecast_date, reaches: today - 120d}
+    reason: GDPNow forecast updates are recurring within each nowcast cycle; allow quarterly slack for gaps between cycles and source publication delays
+    certainty: 90
   - not_null: forecast_date
     reason: each row is one within-quarter forecast update, stamped with the date the nowcast was issued
     certainty: 95

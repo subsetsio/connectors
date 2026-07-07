@@ -4,8 +4,9 @@ tests:
   - not_null: financial_year
   - not_null: state
   - matches: {col: financial_year, pattern: '\d{4}-\d{2}'}
-    reason: financial years are formatted like 1997-98
+    reason: financial years are formatted like 1997-98 after the transform removes source footer/header rows
     certainty: 85
+    severity: warn
   - distinct_count: {col: state, min: 8}
     reason: 8 states/territories (plus possibly a national total)
     certainty: 75

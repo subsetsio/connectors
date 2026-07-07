@@ -23,3 +23,6 @@ tests:
   - row_count: {min: 900}
     reason: weekly since mid-2006 is ~1000 rows; far fewer means a truncated pull
     certainty: 90
+  - freshness: {col: week_ending, reaches: today - 45d}
+    reason: ASA says Staffing Index results are typically posted nine days after the work week; 45 days catches stale dashboard pulls
+    certainty: 80

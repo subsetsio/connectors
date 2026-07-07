@@ -1,5 +1,8 @@
 spec_id: ato-taxation-statistics--individual-tax-table-20-national-map-data
 status: active
+coverage:
+  frozen: true
+  reason: ATO Taxation Statistics individual tax Table 20 national map data is a fixed historical 2011-12 table; later postcode income-year tables are published as separate resources rather than in-place updates to this file.
 tests:
   - row_count: {min: 1}
     reason: every accepted entity has at least one flat CSV edition that returned rows during probing; an empty pull means the resource download URL changed or the CSV was truncated.

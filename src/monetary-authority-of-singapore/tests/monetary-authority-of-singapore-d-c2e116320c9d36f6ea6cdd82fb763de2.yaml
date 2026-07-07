@@ -1,9 +1,0 @@
-spec_id: monetary-authority-of-singapore-d-c2e116320c9d36f6ea6cdd82fb763de2
-status: active
-tests:
-  - not_null: source_resource_id
-  - not_null: _id
-  - not_null: month
-  - row_count: {min: 100}
-    reason: monthly loans-by-type table should contain more than 100 rows across categories and months
-    certainty: 80

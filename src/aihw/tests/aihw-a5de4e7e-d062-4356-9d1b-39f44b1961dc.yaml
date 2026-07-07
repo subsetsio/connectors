@@ -1,5 +1,8 @@
 spec_id: aihw-a5de4e7e-d062-4356-9d1b-39f44b1961dc
 status: active
+coverage:
+  frozen: true
+  reason: MORT mortality-over-regions-and-time resource is a fixed historical extract for the observed 4-year period range rather than a rolling current feed.
 tests:
   - not_null: geography
   - matches: {col: YEAR, pattern: '\d{4}.\d{4}'}

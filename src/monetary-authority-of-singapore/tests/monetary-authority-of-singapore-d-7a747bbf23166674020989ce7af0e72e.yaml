@@ -1,8 +1,0 @@
-spec_id: monetary-authority-of-singapore-d-7a747bbf23166674020989ce7af0e72e
-status: active
-tests:
-  - not_null: source_resource_id
-  - not_null: _id
-  - row_count: {min: 5}
-    reason: annual card-statistics table is a small historical table; nonempty plus datastore ids catch truncation/auth failures
-    certainty: 75

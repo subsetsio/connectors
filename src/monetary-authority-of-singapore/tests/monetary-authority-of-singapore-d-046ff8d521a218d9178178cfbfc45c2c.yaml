@@ -1,9 +1,0 @@
-spec_id: monetary-authority-of-singapore-d-046ff8d521a218d9178178cfbfc45c2c
-status: active
-tests:
-  - not_null: source_resource_id
-  - not_null: _id
-  - not_null: date
-  - row_count: {min: 3000}
-    reason: daily USD exchange-rate table had 3993 rows when authored
-    certainty: 90

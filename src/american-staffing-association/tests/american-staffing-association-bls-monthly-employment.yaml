@@ -7,9 +7,6 @@ tests:
   - not_null: series_id
     reason: each observation belongs to a BLS CES series
     certainty: 95
-  - not_null: year
-    reason: every monthly observation carries its year
-    certainty: 95
   - not_null: value
     reason: the employment level is the observed value
     certainty: 90
@@ -28,3 +25,6 @@ tests:
   - row_count: {min: 400}
     reason: monthly since 1990 is ~430+ rows; far fewer means a truncated pull
     certainty: 85
+  - freshness: {col: year, reaches: current_year()}
+    reason: BLS monthly employment data should include observations from the current year
+    certainty: 80

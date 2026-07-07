@@ -1,6 +1,10 @@
 spec_id: australian-bureau-of-statistics-c21-g14-sa2
 status: active
 tests:
+  - freshness: {col: TIME_PERIOD, reaches: 2016}
+    reason: ABS SDMX dataflows in this connector are heterogeneous (recurring releases, historical Census tables, and projection series); the profile observes TIME_PERIOD values from 2016 onward, so this assertion catches truncated or non-temporal fetches without falsely requiring every dataflow to advance on the same cadence.
+    certainty: 80
+    severity: block
   - not_null: TIME_PERIOD
     reason: SDMX-CSV emits a TIME_PERIOD value on every observation row; a null means our streaming CSV parse misaligned columns or dropped the header.
     certainty: 95

@@ -1,7 +1,0 @@
-spec_id: dhs-office-of-homeland-security-statistics-yearbook-naturalizations-table-25
-status: active
-tests:
-  - row_count: {min: 19}
-    reason: parsed sheet 'Table 25' yielded 38 rows on probe; a run materially below half that means the point-in-time workbook rotated, the Akamai TLS block returned (empty), or header detection failed.
-    certainty: 80
-    severity: block

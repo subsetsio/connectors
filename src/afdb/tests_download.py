@@ -17,7 +17,7 @@ def test_every_asset_has_a_raw_file(spec_ids):
     means the fetch crashed before writing (often a Cloudflare 403 that
     exhausted retries)."""
     for sid in spec_ids:
-        files = list_raw_files(sid)
+        files = list_raw_files(f"{sid}.ndjson*")
         assert files, f"{sid}: no raw file written"
 
 

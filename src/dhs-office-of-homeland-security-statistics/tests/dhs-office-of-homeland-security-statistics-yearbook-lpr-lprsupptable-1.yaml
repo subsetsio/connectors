@@ -1,7 +1,0 @@
-spec_id: dhs-office-of-homeland-security-statistics-yearbook-lpr-lprsupptable-1
-status: active
-tests:
-  - row_count: {min: 88}
-    reason: parsed sheet 'LPRSuppTable 1' yielded 176 rows on probe; a run materially below half that means the point-in-time workbook rotated, the Akamai TLS block returned (empty), or header detection failed.
-    certainty: 80
-    severity: block

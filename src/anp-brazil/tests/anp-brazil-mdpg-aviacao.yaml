@@ -1,6 +1,9 @@
 spec_id: anp-brazil-mdpg-aviacao
 status: active
 tests:
+  - freshness: {col: ano, reaches: 2024}
+    reason: ANP updates this monthly series with lag; the raw file should include at least a recent year.
+    certainty: 80
   - row_count: {min: 300}
     reason: ANP publishes the full history for this series; a tiny table means a download/parse break or a renamed file path.
     certainty: 80

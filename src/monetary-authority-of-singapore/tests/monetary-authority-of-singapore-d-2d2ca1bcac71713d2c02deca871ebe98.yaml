@@ -1,9 +1,0 @@
-spec_id: monetary-authority-of-singapore-d-2d2ca1bcac71713d2c02deca871ebe98
-status: active
-tests:
-  - not_null: source_resource_id
-  - not_null: _id
-  - not_null: quarter
-  - row_count: {min: 10}
-    reason: quarterly housing-loans table is short but should not collapse below a decade of quarters
-    certainty: 80

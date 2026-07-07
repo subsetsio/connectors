@@ -44,3 +44,6 @@ tests:
   - matches: {col: snapshot_date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
     reason: snapshot_date is derived from feed.updated as an ISO date string in the raw NDJSON
     certainty: 90
+  - freshness: {col: snapshot_date, reaches: today - 30d}
+    reason: Apple chart feeds are current snapshots; a successful recent run should reach the last month
+    certainty: 90

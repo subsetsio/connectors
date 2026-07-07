@@ -1,5 +1,8 @@
 spec_id: ato-taxation-statistics--individuals-table-14d-csv
 status: active
+coverage:
+  frozen: true
+  reason: ATO Taxation Statistics individuals Table 14D CSV is a fixed historical table covering 2010-11 through 2014-15; newer taxation statistics editions publish separate resources instead of extending this file.
 tests:
   - row_count: {min: 1}
     reason: every accepted entity has at least one flat CSV edition that returned rows during probing; an empty pull means the resource download URL changed or the CSV was truncated.

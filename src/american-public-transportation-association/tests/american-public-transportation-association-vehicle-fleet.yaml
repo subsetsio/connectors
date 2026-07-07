@@ -1,5 +1,8 @@
 spec_id: american-public-transportation-association-vehicle-fleet
 status: active
+coverage:
+  frozen: true
+  reason: the temporal-looking last_data_submission field is a per-agency survey-response attribute, not the publication freshness dimension; the current 2025 Vehicle Database can legitimately contain older or N/A agency submissions
 tests:
   - not_null: transit_agency_name
     reason: every fleet row belongs to a named agency

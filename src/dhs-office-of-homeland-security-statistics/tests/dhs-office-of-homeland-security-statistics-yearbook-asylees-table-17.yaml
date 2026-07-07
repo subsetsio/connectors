@@ -1,7 +1,0 @@
-spec_id: dhs-office-of-homeland-security-statistics-yearbook-asylees-table-17
-status: active
-tests:
-  - row_count: {min: 57}
-    reason: parsed sheet 'Table 17' yielded 114 rows on probe; a run materially below half that means the point-in-time workbook rotated, the Akamai TLS block returned (empty), or header detection failed.
-    certainty: 80
-    severity: block

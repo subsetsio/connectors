@@ -1,5 +1,8 @@
 spec_id: american-public-transportation-association-fare-fixed-route
 status: active
+coverage:
+  frozen: true
+  reason: the temporal-looking year_of_most_recent_fare_change field is an agency fare-policy attribute, not the publication freshness dimension; the current 2025 Fare Database can legitimately contain old fare-change years such as Before 1995
 tests:
   - not_null: transit_agency_name
     reason: every fare row belongs to a named transit agency

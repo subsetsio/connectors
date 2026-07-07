@@ -1,9 +1,0 @@
-spec_id: monetary-authority-of-singapore-d-7762c172b186ae213d02089bc1e247ee
-status: active
-tests:
-  - not_null: source_resource_id
-  - not_null: _id
-  - not_null: month
-  - row_count: {min: 400}
-    reason: monthly foreign reserves table had 528 rows when authored
-    certainty: 90

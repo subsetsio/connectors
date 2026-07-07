@@ -1,6 +1,9 @@
 spec_id: atlanta-fed-gdpnow-track-record
 status: active
 tests:
+  - freshness: {col: release_date, reaches: today - 120d}
+    reason: the track record advances when BEA advance estimates arrive after each quarter; allow quarterly slack for the release cycle
+    certainty: 90
   - not_null: quarter_end_date
     reason: every track-record row is keyed by the forecast quarter; a null quarter means a parse misalignment
     certainty: 95

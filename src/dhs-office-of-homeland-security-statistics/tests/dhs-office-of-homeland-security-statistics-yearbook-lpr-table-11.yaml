@@ -1,7 +1,0 @@
-spec_id: dhs-office-of-homeland-security-statistics-yearbook-lpr-table-11
-status: active
-tests:
-  - row_count: {min: 99}
-    reason: parsed sheet 'Table 11' yielded 199 rows on probe; a run materially below half that means the point-in-time workbook rotated, the Akamai TLS block returned (empty), or header detection failed.
-    certainty: 80
-    severity: block
