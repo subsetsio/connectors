@@ -1,0 +1,19 @@
+spec_id: ted-eu-procurement-notices
+status: active
+tests:
+  - not_null: publication_number
+    reason: every parsed TED XML notice should expose a publication number
+    certainty: 90
+  - not_null: package_issue_token
+    reason: fetch tags every row with the OJ S daily package identifier
+    certainty: 95
+  - not_null: package_publication_date
+    reason: fetch derives the daily package date from the official release calendar
+    certainty: 95
+  - row_count: {min: 1}
+    reason: a published OJ S daily package should contain at least one XML notice
+    certainty: 95
+  - freshness: {col: package_publication_date, reaches: today - 14d}
+    reason: TED daily packages are published Monday to Friday; a two-week slack covers weekends and holidays
+    certainty: 85
+    points_outward: true

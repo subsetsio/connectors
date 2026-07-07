@@ -1,0 +1,22 @@
+spec_id: uk-poms-ukpoms-1kmpantrapdata-2017-2022-insects
+status: active
+coverage:
+  frozen: true
+  reason: versioned EIDC package for the fixed 2017-2022 UK PoMS release
+tests:
+  - row_count: {min: 1000}
+    reason: pan-trap insect occurrences should have many rows; a smaller file is likely truncated or the ZIP member changed
+    certainty: 90
+  - not_null: sample_id
+    certainty: 95
+  - not_null: occurrence_id
+    certainty: 95
+  - not_null: year
+    certainty: 95
+  - column_type: {col: occurrence_id, type: string}
+    certainty: 95
+  - enum: {col: year, values: ["2017", "2018", "2019", "2020", "2021", "2022"]}
+    certainty: 95
+  - unique: occurrence_id
+    reason: occurrence_id is the natural occurrence key in the source export
+    certainty: 85

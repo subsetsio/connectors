@@ -1,0 +1,22 @@
+spec_id: uk-poms-ukpoms-1kmfitcountdata-2017-2022
+status: active
+coverage:
+  frozen: true
+  reason: versioned EIDC package for the fixed 2017-2022 UK PoMS release
+tests:
+  - row_count: {min: 1000}
+    reason: the 1 km FIT Count CSV has thousands of survey rows; a smaller file is likely truncated or the ZIP member changed
+    certainty: 90
+  - not_null: sample_id
+    certainty: 95
+  - not_null: year
+    certainty: 95
+  - column_type: {col: sample_id, type: string}
+    certainty: 95
+  - column_type: {col: year, type: string}
+    certainty: 95
+  - enum: {col: year, values: ["2017", "2018", "2019", "2020", "2021", "2022"]}
+    certainty: 95
+  - unique: sample_id
+    reason: each FIT Count sample row should carry a unique sample id
+    certainty: 85
