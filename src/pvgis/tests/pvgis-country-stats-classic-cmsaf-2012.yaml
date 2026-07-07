@@ -1,0 +1,28 @@
+spec_id: pvgis-country-stats-classic-cmsaf-2012
+status: active
+coverage:
+  frozen: true
+  reason: PVGIS publishes this as a fixed historical country-summary workbook; source Last-Modified is unchanged since 2019.
+tests:
+  - row_count: {min: 2200, max: 2500}
+    reason: the 33-country workbook normalizes to 2305 long metric/statistic rows
+    certainty: 90
+  - not_null: country_code
+    certainty: 95
+  - not_null: country_name
+    certainty: 95
+  - not_null: metric_group
+    certainty: 95
+  - not_null: statistic
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - distinct_count: {col: country_code, min: 33, max: 33}
+    reason: classic+CMSAF workbook covers 33 EU member states and candidate countries
+    certainty: 90
+  - distinct_count: {col: sheet, min: 6, max: 6}
+    reason: workbook has six data sheets plus the explanation sheet, which is normalized as metadata
+    certainty: 95
+  - between: {col: value, lo: 0, hi: 2500}
+    reason: values are annual irradiation/yield, optimum angle, and derived differences
+    certainty: 85
