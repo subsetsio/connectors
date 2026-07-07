@@ -1,0 +1,22 @@
+spec_id: pangaea-glacierlengthsaustria
+status: active
+coverage:
+  frozen: true
+  reason: Austrian glacier length observations are an archived PANGAEA collection; refreshes check the complete OAI set rather than a published release calendar.
+tests:
+  - coverage:
+      col: source_doi
+      expected: 69
+    reason: OAI ListIdentifiers for set GlacierLengthsAustria returned 69 active DOI records during collect/download authoring.
+    certainty: 95
+  - row_count:
+      min: 100
+    reason: Parsed long-cell raw should contain source manifest rows plus tabular cells from the .tab payloads.
+    certainty: 90
+  - not_null: source_doi
+  - not_null: record_type
+  - not_null: collection
+  - enum:
+      col: record_type
+      values: ["source", "cell"]
+    certainty: 95
