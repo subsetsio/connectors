@@ -1,0 +1,9 @@
+spec_id: smhi-ocobs-parameters
+status: active
+coverage:
+  frozen: true
+  reason: parameter catalog is reference metadata and has no temporal observation column
+tests:
+  - row_count: {min: 10}
+  - not_null: parameter_key
+  - distinct_count: {col: parameter_key, min: 10}

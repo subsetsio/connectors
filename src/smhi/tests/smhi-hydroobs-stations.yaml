@@ -1,0 +1,10 @@
+spec_id: smhi-hydroobs-stations
+status: active
+coverage:
+  frozen: true
+  reason: station catalog is reference metadata and has no temporal observation column
+tests:
+  - row_count: {min: 300}
+  - not_null: parameter_key
+  - not_null: station_key
+  - distinct_count: {col: station_key, min: 300}

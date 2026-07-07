@@ -1,0 +1,12 @@
+spec_id: smhi-ocobs-observations
+status: active
+tests:
+  - row_count: {min: 1000}
+  - not_null: parameter_key
+  - not_null: station_key
+  - not_null: date
+  - not_null: value
+  - matches: {col: date, pattern: "^\\d{4}-\\d{2}-\\d{2}$"}
+  - freshness: {col: date, reaches: today - 45d}
+    points_outward: true
+    reason: oceanographic station archives are updated, but not every station reports daily

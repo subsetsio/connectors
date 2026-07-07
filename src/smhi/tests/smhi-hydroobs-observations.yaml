@@ -1,0 +1,12 @@
+spec_id: smhi-hydroobs-observations
+status: active
+tests:
+  - row_count: {min: 10000}
+  - not_null: parameter_key
+  - not_null: station_key
+  - not_null: date
+  - not_null: value
+  - matches: {col: date, pattern: "^\\d{4}-\\d{2}-\\d{2}$"}
+  - freshness: {col: date, reaches: today - 14d}
+    points_outward: true
+    reason: hydrological observations include latest-day alongside corrected archive for active stations
