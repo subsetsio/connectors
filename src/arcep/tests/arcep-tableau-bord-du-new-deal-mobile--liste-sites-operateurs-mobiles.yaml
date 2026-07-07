@@ -1,5 +1,8 @@
 spec_id: arcep-tableau-bord-du-new-deal-mobile--liste-sites-operateurs-mobiles
 status: active
+coverage:
+  frozen: true
+  reason: This accepted family is a historical 2018-T2 through 2018-T3 New Deal Mobile site inventory extract; newer dashboard resources are separate schema families.
 tests:
   - row_count: {min: 1000}
     reason: one row per mobile site per operator; a collapse to near-zero means the CSV family stopped enumerating

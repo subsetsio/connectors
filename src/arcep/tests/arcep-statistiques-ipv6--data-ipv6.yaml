@@ -10,6 +10,9 @@ tests:
   - column_type: {col: date, type: string}
     reason: raw is preserved verbatim as strings (decimal commas / leading zeros / NA sentinels)
     certainty: 90
+  - freshness: {col: date, reaches: today - 120d}
+    reason: ARCEP IPv6 adoption data is a monthly time series; the latest observation should stay within roughly one quarter
+    certainty: 75
   - not_null: _resource_title
     reason: provenance column stamped on every row by the fetch fn
     certainty: 99

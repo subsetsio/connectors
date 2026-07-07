@@ -1,4 +1,7 @@
 spec_id: adb-eo-na-curr-gdp-exp
+coverage:
+  frozen: true
+  reason: base_year is reference metadata, not the observation period; observation year remains current in TIME_PERIOD/year.
 status: active
 tests:
   - row_count: {min: 1}
@@ -22,7 +25,7 @@ tests:
   - matches: {col: TIME_PERIOD, pattern: "^[0-9]{4}$"}
     reason: SDMX TIME_PERIOD for annual data is a bare 4-digit year.
     certainty: 95
-  - matches: {col: DATAFLOW, pattern: "^ADB:EO_NA_CURR_GDP_EXP\\("}
+  - matches: {col: DATAFLOW, pattern: "^ADB:EO_NA_CURR_GDP_EXP\\(.*\\)$"}
     reason: SDMX-CSV stamps each row with the source dataflow urn 'ADB:EO_NA_CURR_GDP_EXP(<version>)'; a mismatch means this node fetched the wrong dataflow.
     certainty: 90
   - unique: [INDICATOR, ECONOMY_CODE, TIME_PERIOD]

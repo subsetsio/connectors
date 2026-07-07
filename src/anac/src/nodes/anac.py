@@ -266,6 +266,60 @@ def _parse_csv(content: bytes):
         yield {header[i]: (row[i] if i < len(row) else None) for i in range(width)}
 
 
+def _csv_header(content: bytes) -> list[str]:
+    text = _decode(content)
+    lines = text.splitlines()
+    if not lines:
+        return []
+    delim = _detect_delim(lines)
+    start = _find_header(lines, delim)
+    if start is None:
+        return []
+    reader = csv.reader(lines[start:], delimiter=delim)
+    try:
+        return _dedupe_header(next(reader))
+    except StopIteration:
+        return []
+
+
+@transient_retry()
+def _http_get_prefix(url: str):
+    """Read enough of a CSV to inspect its preamble and header."""
+    r = get(url, headers={"Range": "bytes=0-65535"}, timeout=HTTP_TIMEOUT)
+    if r.status_code >= 400:
+        r.raise_for_status()
+    return r
+
+
+def _header_union(items: list[tuple[str, bool]]) -> list[str]:
+    """Return a stable union of CSV headers for a multi-file asset.
+
+    DuckDB's JSON reader fixes its schema from early shards; padding every row
+    to the node-level header union prevents a later shard from introducing an
+    "unknown key" during transform.
+    """
+    columns: list[str] = []
+    seen: set[str] = set()
+    for url, optional in items:
+        try:
+            r = _http_get_prefix(url)
+        except httpx.HTTPStatusError as e:
+            if optional and e.response.status_code == 404:
+                continue
+            raise
+        for col in _csv_header(r.content):
+            if col not in seen:
+                seen.add(col)
+                columns.append(col)
+    return columns
+
+
+def _pad_row(row: dict, columns: list[str] | None) -> dict:
+    if not columns:
+        return row
+    return {col: row.get(col) for col in columns}
+
+
 # --------------------------------------------------------------------------- #
 # Download node — one generic fetcher for every entity
 #
@@ -296,7 +350,13 @@ def _shard_id(node_id: str, idx: int) -> str:
     return f"{node_id}.s{idx:05d}"
 
 
-def _fetch_shard(node_id: str, idx: int, url: str, optional: bool) -> int:
+def _fetch_shard(
+    node_id: str,
+    idx: int,
+    url: str,
+    optional: bool,
+    columns: list[str] | None,
+) -> int:
     """Fetch one source file into its shard. Idempotent: an existing shard is a
     no-op, and an absent optional file (404) resolves without writing. Returns
     the shard index so the caller can mark it resolved."""
@@ -308,7 +368,7 @@ def _fetch_shard(node_id: str, idx: int, url: str, optional: bool) -> int:
         return idx
     with raw_writer(shard, "ndjson.gz", mode="wt", compression="gzip") as out:
         for rec in _parse_csv(r.content):
-            out.write(json.dumps(rec, ensure_ascii=False))
+            out.write(json.dumps(_pad_row(rec, columns), ensure_ascii=False))
             out.write("\n")
     return idx
 
@@ -328,16 +388,21 @@ def fetch_one(node_id: str):
         items = _discover_items(desc)
         if not items:
             raise RuntimeError(f"{node_id}: no CSV files discovered for {desc}")
+        columns = None
+        if desc["kind"] != "airfares" and len(items) > 1:
+            columns = _header_union(items)
         st = {
             "run_id": run_id,
             "urls": [u for u, _ in items],
             "optional": [bool(o) for _, o in items],
+            "columns": columns,
             "resolved": [],
         }
         save_state(node_id, st)
 
     urls = st["urls"]
     optional = st["optional"]
+    columns = st.get("columns")
     resolved = set(st.get("resolved", []))
     pending = [i for i in range(len(urls)) if i not in resolved]
     if not pending:
@@ -350,7 +415,7 @@ def fetch_one(node_id: str):
             chunk = pending[i:i + _CONCURRENCY]
             i += len(chunk)
             futs = [
-                ex.submit(_fetch_shard, node_id, idx, urls[idx], optional[idx])
+                ex.submit(_fetch_shard, node_id, idx, urls[idx], optional[idx], columns)
                 for idx in chunk
             ]
             for fut in futs:

@@ -22,7 +22,7 @@ tests:
   - matches: {col: TIME_PERIOD, pattern: "^[0-9]{4}$"}
     reason: SDMX TIME_PERIOD for annual data is a bare 4-digit year.
     certainty: 95
-  - matches: {col: DATAFLOW, pattern: "^ADB:SDG_07\\("}
+  - matches: {col: DATAFLOW, pattern: "^ADB:SDG_07\\(.*\\)$"}
     reason: SDMX-CSV stamps each row with the source dataflow urn 'ADB:SDG_07(<version>)'; a mismatch means this node fetched the wrong dataflow.
     certainty: 90
   - unique: [INDICATOR, ECONOMY_CODE, TIME_PERIOD]

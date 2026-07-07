@@ -1,5 +1,8 @@
 spec_id: arcep-tableau-bord-du-new-deal-mobile--metropole-sites
 status: active
+coverage:
+  frozen: true
+  reason: This table is a fixed historical metropolitan mobile-site inventory with commercial-opening dates through 2022, not an actively advancing observation feed.
 tests:
   - row_count: {min: 1000}
     reason: one row per mobile site in metropolitan France per quarter; a collapse to near-zero means the CSV family stopped enumerating

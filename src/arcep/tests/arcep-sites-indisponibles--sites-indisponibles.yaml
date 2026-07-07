@@ -1,5 +1,8 @@
 spec_id: arcep-sites-indisponibles--sites-indisponibles
 status: active
+coverage:
+  frozen: true
+  reason: This source file is a fixed historical list of mobile-site unavailability incidents ending in 2021-03, not a continuing feed.
 tests:
   - row_count: {min: 100}
     reason: daily unavailable-mobile-site incidents; date + operator always set; a collapse to near-zero means the CSV family stopped enumerating

@@ -16,3 +16,6 @@ tests:
   - not_null: _period
     reason: this family's resources are date/quarter partitioned, so a period is derivable from the title
     certainty: 75
+  - freshness: {col: date, reaches: today - 365d}
+    reason: ARCEP updates the national FttH quality history with recent monthly observations; the latest observation should stay within about one year
+    certainty: 75

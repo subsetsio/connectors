@@ -56,9 +56,17 @@ def family_slug_of(title: str, dataset_slug: str) -> str:
 
 
 def period_from_title(title: str) -> str | None:
-    """Best-effort partition coordinate extracted from a resource title:
-    YYYYTX / YYYY_TX quarter, YYYY-MM-DD day, or a bare YYYY year."""
+    """Best-effort partition coordinate extracted from a resource title.
+
+    Prefer the latest endpoint of a title range such as
+    ``11/2022 - 09/2025``; that is the resource vintage useful for freshness.
+    Then fall back to YYYYTX / YYYY_TX quarter, YYYY-MM-DD day, or a bare year.
+    """
     t = title or ""
+    month_years = re.findall(r"(?<!\d)(\d{1,2})/(\d{4})(?!\d)", t)
+    if month_years:
+        month, year = month_years[-1]
+        return f"{year}-{int(month):02d}"
     m = re.search(r"(?<!\d)(\d{4})[ _-]?[Tt](\d)(?!\d)", t)
     if m:
         return f"{m.group(1)}-T{m.group(2)}"

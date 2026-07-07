@@ -19,3 +19,6 @@ tests:
   - not_null: _resource_title
     reason: provenance column stamped on every row by the fetch fn
     certainty: 99
+  - freshness: {col: _period, reaches: 2026}
+    reason: this geographic deployment extract is published as a yearly resource; the title-derived _period should reach the current 2026 vintage
+    certainty: 75

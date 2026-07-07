@@ -1,5 +1,8 @@
 spec_id: arcep-tableau-bord-du-new-deal-mobile--indicateurs-couverture-4g
 status: active
+coverage:
+  frozen: true
+  reason: This accepted family is a historical 2018-T2 through 2022-T2 New Deal Mobile coverage extract; newer dashboard resources are separate schema families.
 tests:
   - row_count: {min: 100}
     reason: quarterly 4G coverage indicators per operator/department; a collapse to near-zero means the CSV family stopped enumerating
