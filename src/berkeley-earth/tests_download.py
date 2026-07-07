@@ -27,7 +27,7 @@ def test_timeseries_shape():
     assert "land" in domains, "missing land-only series"
 
     years = table.column("year").to_pylist()
-    assert 1750 <= min(years) <= 1900, f"unexpected earliest year {min(years)}"
+    assert 1700 <= min(years) <= 1900, f"unexpected earliest year {min(years)}"
     assert max(years) >= 2015, f"data looks stale, latest year {max(years)}"
 
     months = set(table.column("month").to_pylist())

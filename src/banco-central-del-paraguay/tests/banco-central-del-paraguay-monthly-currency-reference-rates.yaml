@@ -25,6 +25,11 @@ tests:
   - row_count: {min: 3000}
     reason: ~23 currencies x ~12 months x ~25 years, minus sparse early months
     certainty: 75
+  - freshness: {col: date, reaches: today - 90d}
+    reason: BCP publishes monthly reference-rate closes; a stale max date beyond roughly one quarter means the source or our scrape lagged
+    certainty: 70
+    points_outward: true
+    severity: warn
   - at_most: {col: year, expr: current_year()}
     certainty: 90
     points_outward: true
