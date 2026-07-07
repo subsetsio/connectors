@@ -16,7 +16,7 @@ tests:
     reason: California CES industry series run from 1990 onward; no row should post-date the current year
     certainty: 85
     severity: warn
-  - freshness: {col: Date, reaches: today - 120d}
-    reason: CES is a monthly labor-market series; allow several months for EDD/BLS release lag and revisions
+  - freshness: {col: Year, reaches: current_year()}
+    reason: CES is a monthly labor-market series and should include observations in the current calendar year
     certainty: 80
     points_outward: true

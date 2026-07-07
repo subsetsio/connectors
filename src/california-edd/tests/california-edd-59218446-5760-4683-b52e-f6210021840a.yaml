@@ -16,7 +16,7 @@ tests:
     reason: an unemployment rate is a percentage in low double digits; a median outside 0-30 means a unit/parse error
     certainty: 65
     severity: warn
-  - freshness: {col: Benchmark, reaches: current_year() - 1}
-    reason: LAUS benchmark updates annually; current-year-minus-one catches stale benchmark snapshots without requiring unreleased revisions
+  - freshness: {col: Year, reaches: current_year()}
+    reason: LAUS is a monthly series and should include observations in the current calendar year
     certainty: 75
     points_outward: true

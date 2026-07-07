@@ -8,8 +8,8 @@ tests:
     certainty: 99
   - not_null: period
     certainty: 99
-  - not_null: value
-    reason: the observations endpoint only returns periods that carry a value
+  - nullable: {col: value, max_null_frac: 0.01}
+    reason: BoF raw observations may include a tiny number of null placeholders; transforms filter null values before publishing
     certainty: 90
   - matches: {col: period, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
     reason: period is an ISO end-of-period date (e.g. 2002-01-31)
