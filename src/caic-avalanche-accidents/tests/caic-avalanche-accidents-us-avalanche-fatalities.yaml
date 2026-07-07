@@ -1,5 +1,8 @@
 spec_id: caic-avalanche-accidents-us-avalanche-fatalities
 status: active
+coverage:
+  frozen: true
+  reason: event-history corpus with no published release cadence; new rows only appear when CAIC updates the curated fatality workbook after relevant incidents, so row-count/range checks catch broken pulls better than a rolling freshness SLA
 tests:
   - not_null: date
     reason: every fatal-accident record is dated; rows without a date are skipped at fetch time

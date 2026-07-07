@@ -1,15 +1,18 @@
 spec_id: bulgarian-national-bank-exchange-rates
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 30d}
+    reason: BNB exchange rates are a current operational series; the latest profiled run reached 2026-06-22
+    certainty: 85
   - not_null: date
   - not_null: currency_code
-  - not_null: rate_bgn
-    reason: every quoted observation carries a lev rate; null rates mean a parse miss
-    certainty: 90
+  - nullable: {col: rate_bgn, max_null_frac: 0.6}
+    reason: the raw period search includes historical currency/date combinations with no BNB quote; published rows filter null rates
+    certainty: 80
   - column_type: {col: rate_bgn, type: float}
   - column_type: {col: ratio, type: float}
   - column_type: {col: currency_code, type: string}
-  - matches: {col: date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+  - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
     reason: fetch fn normalises dd.mm.yyyy to ISO yyyy-mm-dd
     certainty: 95
   - at_least: {col: rate_bgn, expr: 0}

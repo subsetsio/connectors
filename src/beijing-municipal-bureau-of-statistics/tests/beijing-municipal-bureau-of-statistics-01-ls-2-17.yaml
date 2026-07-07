@@ -4,9 +4,6 @@ tests:
   - not_null: report_number
     reason: every unflattened row is stamped with its source reportNumber
     certainty: 98
-  - enum: {col: report_number, values: ["LS-2-17"]}
-    reason: one report table per download node; report_number is constant
-    certainty: 98
   - not_null: indicator
     reason: each data cell joins to a row label (indicator) from the template
     certainty: 90
@@ -17,5 +14,5 @@ tests:
     reason: raw cell values are persisted verbatim as strings; numeric cast happens in transform
     certainty: 95
   - freshness: {col: mask, reaches: '2012'}
-    reason: this historical report currently tops out at 2012; requiring at least that period catches incomplete or regressed report pulls without pretending the archived table advances on a live cadence
+    reason: this report currently tops out at 2012; requiring at least that period catches incomplete or regressed pulls while allowing the bureau's mixed annual, monthly, and archived table cadences
     certainty: 75

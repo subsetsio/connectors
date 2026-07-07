@@ -1,0 +1,15 @@
+key: [date, currency_id]
+temporal: date
+columns:
+  - name: date
+    type: DATE
+    description: Observation date for the Banguat reference exchange rate.
+  - name: currency_id
+    type: INTEGER
+    description: Banco de Guatemala currency identifier reported by TipoCambioRango.
+  - name: buy_rate
+    type: DOUBLE
+    description: Reference buy exchange rate value from TipoCambioRango.
+  - name: sell_rate
+    type: DOUBLE
+    description: Reference sell exchange rate value from TipoCambioRango.

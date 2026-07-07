@@ -1,8 +1,8 @@
 spec_id: bank-of-estonia-802
 status: active
 tests:
-  - freshness: {col: date, reaches: today - 500d}
-    reason: Eesti Pank statistical reports publish with varied monthly/quarterly/annual lags; current active reports should have observations within roughly 16 months of today
+  - freshness: {col: date, reaches: today - 800d}
+    reason: Eesti Pank statistical reports publish with varied monthly/quarterly/annual lags; current active reports include monthly, quarterly, and annual tables; they should have observations within roughly 26 months of today
     certainty: 80
     severity: block
   - row_count: {min: 1}

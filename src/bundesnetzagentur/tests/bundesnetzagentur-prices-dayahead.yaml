@@ -1,6 +1,9 @@
 spec_id: bundesnetzagentur-prices-dayahead
 status: active
 tests:
+  - freshness: {col: date_ms, reaches: 1779494400000}
+    reason: SMARD daily day-ahead prices should refresh within weeks; allows upstream validation lag
+    certainty: 85
   - not_null: value
     reason: fetch fn skips None readings before appending
     certainty: 95

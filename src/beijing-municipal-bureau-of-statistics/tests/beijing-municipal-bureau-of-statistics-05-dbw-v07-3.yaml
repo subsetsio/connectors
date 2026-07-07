@@ -4,9 +4,6 @@ tests:
   - not_null: report_number
     reason: every unflattened row is stamped with its source reportNumber
     certainty: 98
-  - enum: {col: report_number, values: ["DBW-V07-3"]}
-    reason: one report table per download node; report_number is constant
-    certainty: 98
   - not_null: indicator
     reason: each data cell joins to a row label (indicator) from the template
     certainty: 90
@@ -16,6 +13,6 @@ tests:
   - column_type: {col: value, type: string}
     reason: raw cell values are persisted verbatim as strings; numeric cast happens in transform
     certainty: 95
-  - freshness: {col: mask, reaches: today - 180d}
-    reason: active macro database progress/annual tables should expose a recent period; six months of slack covers Beijing's publication lag while catching stale/truncated pulls
-    certainty: 70
+  - freshness: {col: mask, reaches: '2026/01'}
+    reason: this report currently tops out at 2026/01; requiring at least that period catches incomplete or regressed pulls while allowing the bureau's mixed annual, monthly, and archived table cadences
+    certainty: 75

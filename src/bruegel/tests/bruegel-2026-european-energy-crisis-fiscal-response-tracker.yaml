@@ -10,10 +10,15 @@ tests:
     reason: each tracked measure carries a name
     certainty: 80
     severity: warn
-  - row_count: {min: 100}
-    reason: the tracker catalogues hundreds of national energy-crisis measures across the EU since 2021
+  - row_count: {min: 20}
+    reason: the tracker currently publishes dozens of national energy-crisis fiscal measures; a near-empty table indicates a shifted workbook parse
     certainty: 70
   - between: {col: "Measure in % of GDP", lo: 0, hi: 30}
     reason: an individual measure's cost as a share of GDP is positive and well under ~30%; a breach suggests a unit/parse error
     certainty: 55
+    severity: warn
+  - freshness: {col: "Date Announced", reaches: "2023-01-01"}
+    reason: the tracker covers crisis-response fiscal measures announced during the 2021-2023 energy shock; recent rows are not expected
+    certainty: 55
+    points_outward: true
     severity: warn

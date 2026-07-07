@@ -1,6 +1,9 @@
 spec_id: bundesnetzagentur-generation-actual
 status: active
 tests:
+  - freshness: {col: date_ms, reaches: 1779494400000}
+    reason: SMARD daily market data should refresh within weeks; allows upstream validation lag
+    certainty: 85
   # The fetch fn drops points whose value is None, so the raw asset must carry
   # no nulls in any of the five emitted columns.
   - not_null: value

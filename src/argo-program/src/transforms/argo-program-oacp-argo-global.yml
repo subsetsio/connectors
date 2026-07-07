@@ -1,0 +1,23 @@
+key: [dataset_id, row_type, variable_name, attribute_name]
+columns:
+  - name: dataset_id
+    type: VARCHAR
+    description: ERDDAP dataset identifier for the OACP Argo global climatology metadata catalog.
+  - name: row_type
+    type: VARCHAR
+    description: ERDDAP metadata row class, either variable or attribute.
+  - name: variable_name
+    type: VARCHAR
+    description: ERDDAP variable name, or NC_GLOBAL for dataset-level attributes.
+  - name: attribute_name
+    type: VARCHAR
+    description: ERDDAP attribute name; __variable__ marks the variable definition row where no attribute name is supplied.
+  - name: data_type
+    type: VARCHAR
+    description: ERDDAP declared data type for the variable or attribute value.
+  - name: value
+    type: VARCHAR
+    description: Metadata text value from the ERDDAP info endpoint, including units, labels, limits, and documentation strings where provided.
+  - name: source_url
+    type: VARCHAR
+    description: ERDDAP info endpoint URL used to fetch this metadata catalog.

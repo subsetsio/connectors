@@ -19,7 +19,9 @@ def parse(links):
             if "daily_data" in n.lower() and n.lower().endswith(".csv")][0]
     df = pd.read_csv(io.BytesIO(zf.read(name)))
     df = df.rename(columns={df.columns[0]: "date"})
-    df["date"] = pd.to_datetime(df["date"], dayfirst=True, errors="coerce").dt.date.astype(str)
+    df["date"] = pd.to_datetime(df["date"], dayfirst=True, errors="coerce")
+    df = df.dropna(subset=["date"])
+    df["date"] = df["date"].dt.date.astype(str)
     long = df.melt(id_vars=["date"], var_name="source", value_name="flow_gwh_d")
     long = long.dropna(subset=["flow_gwh_d"])
     return records(long)

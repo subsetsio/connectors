@@ -16,3 +16,7 @@ tests:
     reason: an unemployment rate is a percentage in low double digits; a median outside 0-30 means a unit/parse error
     certainty: 65
     severity: warn
+  - freshness: {col: Date, reaches: today - 120d}
+    reason: civilian unemployment rates are monthly; allow several months for EDD/BLS release lag and revisions
+    certainty: 80
+    points_outward: true

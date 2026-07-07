@@ -1,5 +1,8 @@
 spec_id: caic-avalanche-accidents-colorado-accident-detail
 status: active
+coverage:
+  frozen: true
+  reason: rolling accident-history feed with no published release cadence; records advance only when qualifying Colorado incidents are added, so row-count/date invariants are the reliable gate rather than a calendar freshness SLA
 tests:
   - not_null: acc_date
     reason: every Accident Explorer record carries an accident date; undated rows are dropped at fetch time
