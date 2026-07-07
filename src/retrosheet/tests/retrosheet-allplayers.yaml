@@ -1,0 +1,6 @@
+spec_id: retrosheet-allplayers
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: allplayers.csv spans player-team-season rows across the Retrosheet corpus; a smaller file is likely truncated or the wrong ZIP member.
+    certainty: 85

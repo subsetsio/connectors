@@ -1,0 +1,37 @@
+spec_id: primap-hist-emissions
+status: active
+tests:
+  - not_null: source
+  - not_null: scenario
+  - not_null: provenance
+  - not_null: area
+  - not_null: entity
+  - not_null: unit
+  - not_null: category
+  - not_null: year
+  - not_null: value
+  - column_type: {col: source, type: string}
+  - column_type: {col: scenario, type: string}
+  - column_type: {col: provenance, type: string}
+  - column_type: {col: area, type: string}
+  - column_type: {col: entity, type: string}
+  - column_type: {col: unit, type: string}
+  - column_type: {col: category, type: string}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - row_count: {min: 1000000}
+    reason: the long-form standard PRIMAP-hist release should contain millions of non-null observations
+    certainty: 90
+  - distinct_count: {col: area, min: 220}
+    reason: PRIMAP-hist covers almost all UNFCCC parties plus most non-UNFCCC territories
+    certainty: 90
+  - distinct_count: {col: year, min: 250}
+    reason: current releases span 1750 onward
+    certainty: 90
+  - between: {col: year, lo: 1750, hi: current_year()}
+    reason: PRIMAP-hist is historical annual data, not forward projections
+    certainty: 85
+  - freshness: {col: year, reaches: 2024}
+    reason: v2.7 includes data through 2024; future releases should continue to satisfy this floor
+    certainty: 95
+    points_outward: true

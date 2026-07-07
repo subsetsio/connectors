@@ -1,0 +1,6 @@
+spec_id: retrosheet-batting
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: batting.csv is a player-game table over more than 200,000 games; a shortfall indicates a truncated download.
+    certainty: 90

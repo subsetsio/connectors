@@ -1,0 +1,17 @@
+spec_id: paho-core-indicators
+status: active
+tests:
+  - not_null: paho_indicator_id
+    reason: PAHO indicator id is the natural key for this reference table
+    certainty: 98
+  - not_null: indicator_name
+    reason: every indicator in the catalog should have an English label
+    certainty: 95
+  - column_type: {col: paho_indicator_id, type: integer}
+    certainty: 98
+  - unique: paho_indicator_id
+    reason: the derived catalog has one row per PAHO indicator id
+    certainty: 95
+  - row_count: {min: 290}
+    reason: the Core Indicators release exposes roughly 300 distinct PAHO indicator ids
+    certainty: 90

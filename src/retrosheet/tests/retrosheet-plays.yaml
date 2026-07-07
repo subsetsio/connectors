@@ -1,0 +1,6 @@
+spec_id: retrosheet-plays
+status: active
+tests:
+  - row_count: {min: 10000000}
+    reason: Retrosheet states the parsed play-by-play file contains over 16 million play rows.
+    certainty: 95

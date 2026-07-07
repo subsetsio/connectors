@@ -1,0 +1,6 @@
+spec_id: retrosheet-teamstats
+status: active
+tests:
+  - row_count: {min: 400000}
+    reason: teamstats.csv should have approximately two team rows per game across the Retrosheet corpus.
+    certainty: 90

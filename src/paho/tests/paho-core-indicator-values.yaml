@@ -1,0 +1,32 @@
+spec_id: paho-core-indicator-values
+status: active
+tests:
+  - not_null: paho_indicator_id
+    reason: PAHO indicator id is the natural join key to the indicator catalog
+    certainty: 98
+  - not_null: indicator_name
+    reason: each observation carries the indicator label
+    certainty: 95
+  - not_null: spatial_dim
+    reason: each observation is attached to a country, territory, subregion, or regional aggregate code
+    certainty: 95
+  - not_null: time_dim
+    reason: the dataset is a time-indexed indicator corpus
+    certainty: 95
+  - column_type: {col: paho_indicator_id, type: integer}
+    certainty: 98
+  - column_type: {col: numeric_value, type: float}
+    certainty: 90
+  - row_count: {min: 300000}
+    reason: the 2026 release has about 344k rows; a smaller pull likely means the ZIP or CSV parse was truncated
+    certainty: 90
+  - distinct_count: {col: paho_indicator_id, min: 290}
+    reason: the Core Indicators release exposes roughly 300 distinct PAHO indicator ids
+    certainty: 90
+  - distinct_count: {col: spatial_dim, min: 45}
+    reason: PAHO covers countries, territories, subregions, and regional aggregates across the Americas
+    certainty: 90
+  - freshness: {col: accessed_at, reaches: today - 500d}
+    reason: PAHO Core Indicators are refreshed periodically; accessed_at should remain within roughly one annual cycle plus slack
+    certainty: 75
+    points_outward: true
