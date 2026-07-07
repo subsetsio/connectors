@@ -1,0 +1,30 @@
+spec_id: sesnsp-d9b2792a-33a2-4ea8-8527-210d9e99de5e
+status: active
+tests:
+  - row_count: {min: 400000}
+    reason: state-level monthly crime incidence from 2015 through the latest annual slice has hundreds of thousands of rows
+    certainty: 90
+  - not_null: anio
+  - not_null: clave_ent
+  - not_null: entidad
+  - not_null: fecha
+  - not_null: modalidad
+  - column_type: {col: anio, type: integer}
+  - column_type: {col: clave_ent, type: string}
+  - column_type: {col: entidad, type: string}
+  - column_type: {col: fecha, type: date}
+  - column_type: {col: incidencia_delictiva, type: integer}
+  - between: {col: anio, lo: 2015, hi: current_year()}
+    reason: current methodology covers observations beginning in 2015 and should not include future years
+    certainty: 95
+  - at_least: {col: anio, expr: 2025}
+    reason: verified CKAN package covers through December 2025
+    certainty: 95
+  - freshness: {col: fecha, reaches: today - 400d}
+    reason: SESNSP publishes monthly; a max date older than roughly one year indicates a stale mirror or bad pull
+    certainty: 85
+    points_outward: true
+  - median_between: {col: incidencia_delictiva, lo: 0, hi: 1000}
+    reason: crime counts are non-negative and the median offense-month count should remain modest
+    certainty: 75
+    severity: warn

@@ -1,0 +1,32 @@
+spec_id: sesnsp-57fbd692-3e5c-4b1b-8621-694cb3a33035
+status: active
+tests:
+  - row_count: {min: 2000000}
+    reason: municipal incidence is normalized from a wide monthly file over all municipalities, offense classes, and years
+    certainty: 85
+  - not_null: anio
+  - not_null: clave_ent
+  - not_null: cve_municipio
+  - not_null: municipio
+  - not_null: fecha
+  - not_null: modalidad
+  - column_type: {col: anio, type: integer}
+  - column_type: {col: clave_ent, type: string}
+  - column_type: {col: cve_municipio, type: string}
+  - column_type: {col: municipio, type: string}
+  - column_type: {col: fecha, type: date}
+  - column_type: {col: incidencia_delictiva, type: integer}
+  - between: {col: anio, lo: 2015, hi: current_year()}
+    reason: current methodology covers observations beginning in 2015 and should not include future years
+    certainty: 95
+  - at_least: {col: anio, expr: 2025}
+    reason: verified CKAN package covers through December 2025
+    certainty: 95
+  - freshness: {col: fecha, reaches: today - 400d}
+    reason: SESNSP publishes monthly; a max date older than roughly one year indicates a stale mirror or bad pull
+    certainty: 85
+    points_outward: true
+  - median_between: {col: incidencia_delictiva, lo: 0, hi: 100}
+    reason: municipal crime counts are non-negative and mostly sparse
+    certainty: 75
+    severity: warn

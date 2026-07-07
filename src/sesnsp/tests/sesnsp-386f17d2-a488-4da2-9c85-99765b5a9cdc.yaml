@@ -1,0 +1,32 @@
+spec_id: sesnsp-386f17d2-a488-4da2-9c85-99765b5a9cdc
+status: active
+tests:
+  - row_count: {min: 500000}
+    reason: victim counts are normalized from a wide monthly file by state, offense, sex, age range, and year
+    certainty: 85
+  - not_null: anio
+  - not_null: clave_ent
+  - not_null: entidad
+  - not_null: fecha
+  - not_null: modalidad
+  - not_null: sexo
+  - not_null: rango_edad
+  - column_type: {col: anio, type: integer}
+  - column_type: {col: clave_ent, type: string}
+  - column_type: {col: entidad, type: string}
+  - column_type: {col: fecha, type: date}
+  - column_type: {col: victimas, type: integer}
+  - between: {col: anio, lo: 2015, hi: current_year()}
+    reason: current methodology covers observations beginning in 2015 and should not include future years
+    certainty: 95
+  - at_least: {col: anio, expr: 2025}
+    reason: verified CKAN package covers through December 2025
+    certainty: 95
+  - freshness: {col: fecha, reaches: today - 400d}
+    reason: SESNSP publishes monthly; a max date older than roughly one year indicates a stale mirror or bad pull
+    certainty: 85
+    points_outward: true
+  - median_between: {col: victimas, lo: 0, hi: 100}
+    reason: victim counts are non-negative and mostly sparse after state/offense/sex/age/month grouping
+    certainty: 75
+    severity: warn

@@ -1,0 +1,26 @@
+spec_id: stanford-open-policing-project-ks-wichita
+status: active
+coverage:
+  frozen: true
+  reason: Stanford Open Policing Project Stacks files are fixed historical public-release snapshots; no publisher refresh cadence is documented.
+tests:
+  - not_null: _source_entity_id
+    reason: download adds the collect entity id to every row for provenance
+    certainty: 99
+  - not_null: _source_file
+    reason: every row should carry the Stacks ZIP filename it came from
+    certainty: 99
+  - not_null: _row_number
+    reason: row number is added during CSV streaming and supports stable row identity
+    certainty: 99
+  - column_type: {col: _row_number, type: integer}
+    certainty: 99
+  - not_null: date
+    reason: the data page reports stop-date coverage for every accepted location
+    certainty: 95
+  - matches: {col: date, pattern: '^([0-9]{4}-[0-9]{2}-[0-9]{2}|NA)$'}
+    reason: documented standardized stop date is YYYY-MM-DD; some source rows may carry NA
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: the smallest collected location has more than 6,000 stops; below 1,000 indicates truncation or parse failure
+    certainty: 90
