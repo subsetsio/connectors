@@ -71,6 +71,7 @@ def main():
     (tdir / "synth-a.yml").write_text(
         "key: [period, region]\n"
         "temporal: period\n"
+        "sort: [period, region]\n"
         "columns:\n"
         "  - name: period\n"
         "    type: DATE\n"
@@ -93,6 +94,7 @@ def main():
         assert s.id == "synth-a-transform" and s.deps == ("synth-a",)
         assert s.table == "synth-a"
         assert s.key == ("period", "region") and s.temporal == "period"
+        assert s.sort == ("period", "region")
         assert [c.name for c in s.columns] == ["period", "value", "region"]
     check("loader parses sql+yml pair", t_loader)
 
@@ -106,6 +108,10 @@ def main():
         expect_raises(lambda: load_transform_dir(tdir), "unknown key(s) ['bogus_key']")
         (tdir / "bad.yml").write_text("key: [nope]\ncolumns:\n  - name: x\n    type: INT\n")
         expect_raises(lambda: load_transform_dir(tdir), "key column(s) ['nope'] not in contract")
+        (tdir / "bad.yml").write_text("sort: [nope]\ncolumns:\n  - name: x\n    type: INT\n")
+        expect_raises(lambda: load_transform_dir(tdir), "sort column(s) ['nope'] not in contract")
+        (tdir / "bad.yml").write_text("sort: []\ncolumns:\n  - name: x\n    type: INT\n")
+        expect_raises(lambda: load_transform_dir(tdir), "sort must be None (unsorted) or a non-empty list")
         (tdir / "bad.yml").write_text("columns: []\n")
         expect_raises(lambda: load_transform_dir(tdir), "`columns` must be a non-empty list")
         (tdir / "bad.sql").unlink(); (tdir / "bad.yml").unlink()
@@ -137,7 +143,24 @@ def main():
         regions = set(table.column("region").to_pylist())
         assert "Utrecht" in regions and "Utrecht " not in regions
         assert any(v is None for v in table.column("value").to_pylist())
+        # sort: [period, region] — raw rows cycle periods, so an unsorted
+        # write would interleave; the publish must be globally ordered.
+        pairs = list(zip(table.column("period").to_pylist(),
+                         table.column("region").to_pylist()))
+        assert pairs == sorted(pairs), "published rows must follow spec.sort"
     check("run_sql_node executes and publishes Delta per contract", t_run_ok)
+
+    def t_rerun_unchanged():
+        # The transform streams, but under the materialize cap the delta layer
+        # buffers and content-hashes it: an identical re-run must publish-skip
+        # (no new Delta version), not churn a version per scheduled run.
+        from deltalake import DeltaTable
+        [spec] = load_transform_dir(tdir)
+        before = DeltaTable(str(tmp / "data" / "subsets" / "synth-a")).version()
+        sql_transform.run_sql_node(spec)
+        after = DeltaTable(str(tmp / "data" / "subsets" / "synth-a")).version()
+        assert after == before, f"unchanged re-run bumped version {before} -> {after}"
+    check("identical transform re-run is a publish-skip", t_rerun_unchanged)
 
     def t_contract_violation():
         [spec] = load_transform_dir(tdir)

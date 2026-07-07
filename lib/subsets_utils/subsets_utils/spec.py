@@ -108,6 +108,26 @@ class SqlNodeSpec(NodeSpec):
     comprehension-generated transforms); file-based transforms always carry
     one. When both `columns` and `key`/`temporal` are declared, key and
     temporal must reference contracted column names.
+
+    `write_mode` declares how the result reaches the Delta table:
+    "overwrite" (default) = full replace, for sources that deliver the
+    complete dataset every run; "merge" = upsert on `key`, for sources whose
+    runs bring partial/incremental data — target rows absent from this run's
+    output survive, and re-running identical data is a no-op (no version
+    bloat); "append" = blind insert, ONLY for immutable event logs (key ()
+    or a disjoint-partition load). "merge" requires a non-empty `key`: the
+    merge grain IS the declared uniqueness contract, never inferred from the
+    data shape.
+
+    `sort` declares the physical row order of the published table: the
+    result is sorted ascending on these column(s) (DuckDB ORDER BY, nulls
+    last) before the Delta write. A sorted write is deterministic for
+    identical input and produces file/row-group min/max stats that let
+    engines skip data on range predicates. Prefer the temporal column
+    first, then enough of the key to break ties — a unique sort (the full
+    key) makes output fully deterministic. None (default) = unsorted; rows
+    land in whatever order the SQL emits. Sort columns must reference
+    contract columns when a contract is declared.
     """
     fn: Callable | None = None
     kind: str = "transform"
@@ -116,6 +136,8 @@ class SqlNodeSpec(NodeSpec):
     temporal: str | None = None
     columns: tuple[ColumnSpec, ...] | None = None
     reader_args: str | None = None
+    write_mode: str = "overwrite"
+    sort: tuple[str, ...] | None = None
 
     def __post_init__(self):
         super().__post_init__()
@@ -164,6 +186,38 @@ class SqlNodeSpec(NodeSpec):
             raise ValueError(
                 f"SqlNodeSpec {self.id!r}: temporal must be a non-empty column name"
             )
+        if self.write_mode not in ("overwrite", "merge", "append"):
+            raise ValueError(
+                f"SqlNodeSpec {self.id!r}: write_mode must be 'overwrite', "
+                f"'merge' or 'append' (got {self.write_mode!r})"
+            )
+        if self.write_mode == "merge" and not self.key:
+            raise ValueError(
+                f"SqlNodeSpec {self.id!r}: write_mode 'merge' requires a "
+                "non-empty key — the merge grain is the declared uniqueness "
+                "contract, never inferred from the data"
+            )
+        if self.sort is not None:
+            if isinstance(self.sort, str):
+                raise TypeError(
+                    f"SqlNodeSpec {self.id!r}: sort must be a list/tuple of column "
+                    f"names, not a str ({self.sort!r})"
+                )
+            if not isinstance(self.sort, tuple):
+                object.__setattr__(self, "sort", tuple(self.sort))
+            if not self.sort:
+                raise ValueError(
+                    f"SqlNodeSpec {self.id!r}: sort must be None (unsorted) or a "
+                    "non-empty list — an empty sort is meaningless"
+                )
+            bad = [c for c in self.sort if not isinstance(c, str) or not c.strip()]
+            if bad:
+                raise ValueError(
+                    f"SqlNodeSpec {self.id!r}: sort columns must be non-empty strings "
+                    f"(got {bad!r})"
+                )
+            if len(set(self.sort)) != len(self.sort):
+                raise ValueError(f"SqlNodeSpec {self.id!r}: duplicate column in sort {self.sort!r}")
         if self.columns is not None:
             if not isinstance(self.columns, tuple):
                 object.__setattr__(self, "columns", tuple(self.columns))
@@ -193,6 +247,12 @@ class SqlNodeSpec(NodeSpec):
                 raise ValueError(
                     f"SqlNodeSpec {self.id!r}: temporal {self.temporal!r} not in contract columns"
                 )
+            if self.sort:
+                missing = [c for c in self.sort if c not in name_set]
+                if missing:
+                    raise ValueError(
+                        f"SqlNodeSpec {self.id!r}: sort column(s) {missing} not in contract columns"
+                    )
 
     @property
     def table(self) -> str:

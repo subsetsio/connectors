@@ -195,9 +195,10 @@ def _target_row_count(dt: DeltaTable) -> int:
     no data scan. Returns -1 if unavailable so callers can still report.
     """
     try:
-        # deltalake ≥1.0 returns an arro3 RecordBatch; bridge to pyarrow.
-        batch = pa.record_batch(dt.get_add_actions(flatten=True))
-        col = batch.column("num_records")
+        # deltalake ≥1.0 returns an arro3 RecordBatch; pa.record_batch() can't
+        # ingest it directly — bridge through the Arrow PyCapsule interface
+        # via pa.table() instead.
+        col = pa.table(dt.get_add_actions(flatten=True)).column("num_records")
         return int(sum(v for v in col.to_pylist() if v is not None))
     except Exception:
         return -1
@@ -232,21 +233,67 @@ def _source_hash(source, schema: pa.Schema, target_row_count: int) -> str:
 
 # ---- skip-unchanged publishing ----------------------------------------------
 #
-# Every overwrite/merge commit records a fingerprint of its source in the
-# Delta commitInfo. When the next run brings byte-identical data, the write is
+# Every write commit records a fingerprint of its source in the Delta
+# commitInfo. When the next run brings byte-identical data, the write is
 # skipped entirely — no new Delta version, so catalog.json pins and the
 # downstream sync manifest don't churn on no-op scheduled re-runs.
 #
 # Two clearly separated namespaces:
 #   subsets_data_hash  — TRUE content hash (pa.Table sources only). Safe to
-#                        compare for skipping.
+#                        compare for skipping. What it fingerprints depends on
+#                        subsets_write_mode: the full table state (overwrite),
+#                        the merge SOURCE (merge), or the appended BATCH
+#                        (append) — the mode guards below keep them apart.
 #   subsets_state_hash — weak schema descriptor for streaming sources.
 #                        NEVER used for skipping (a RecordBatchReader can't be
 #                        hashed without materializing, and its post-hoc
 #                        rowcount descriptor isn't known until after the
 #                        commit exists — so only the schema part is stored).
-# Plus subsets_write_mode ("overwrite" / "merge") so a merge-source hash is
-# never mistaken for a full-table-state hash (see _unchanged_result).
+#
+# Streaming sources used to be excluded entirely (always write, version churn
+# on every unchanged re-run — SQL transforms always stream). Two mechanisms
+# close that gap: _buffer_to_cap materializes streams that fit under a size
+# cap so the exact-hash path applies, and merge()'s value-compare update
+# predicate lets delta-rs skip the empty commit even for streams that don't.
+
+
+def _materialize_cap_bytes() -> int:
+    """SUBSETS_MATERIALIZE_CAP_MB (default 512; 0 disables buffering)."""
+    try:
+        mb = float(os.environ.get("SUBSETS_MATERIALIZE_CAP_MB", "512"))
+    except ValueError:
+        mb = 512.0
+    return int(mb * 1024 * 1024)
+
+
+def _buffer_to_cap(source, name: str):
+    """A pa.Table when a streaming source fits under the materialize cap,
+    else an equivalent reader (buffered batches chained with the remainder —
+    no data lost). Table sources pass through untouched.
+
+    Materializing small streams is what makes skip-unchanged (and the append
+    retry guard) work for SQL transforms, whose sources always arrive as
+    RecordBatchReaders. Streams that exceed the cap keep true streaming
+    semantics: bounded memory, no content hash, every write a new version."""
+    if not isinstance(source, pa.RecordBatchReader):
+        return source
+    cap = _materialize_cap_bytes()
+    if cap <= 0:
+        return source
+    batches, total = [], 0
+    for batch in source:
+        batches.append(batch)
+        total += batch.nbytes
+        if total > cap:
+            print(f"[delta] {name}: stream exceeds materialize cap "
+                  f"({total:,} > {cap:,} bytes) — streaming write, no skip-unchanged")
+
+            def _chain(buffered=batches, rest=source):
+                yield from buffered
+                yield from rest
+
+            return pa.RecordBatchReader.from_batches(source.schema, _chain())
+    return pa.Table.from_batches(batches, schema=source.schema)
 
 
 class _HashSink:
@@ -365,6 +412,55 @@ def _unchanged_result(
     return WriteResult(uri=uri, version=version, hash=content_hash, rows=rows, unchanged=True)
 
 
+# ---- post-write maintenance ------------------------------------------------
+#
+# Without this, every write leaves all prior part files and log entries in
+# place forever — a connector overwriting a 100MB table on every scheduled run
+# bloats linearly. Runs every _MAINTAIN_EVERY versions so the S3 LIST cost is
+# amortized; a maintenance failure must never fail the write that triggered it.
+
+_MAINTAIN_EVERY = 20
+
+
+def _retention_hours() -> float:
+    try:
+        return float(os.environ.get("SUBSETS_DELTA_RETENTION_HOURS", "168"))
+    except ValueError:
+        return 168.0
+
+
+def _maintain(dt: DeltaTable, name: str) -> None:
+    """Checkpoint the log and vacuum unreferenced files, every Nth version."""
+    try:
+        version = dt.version()
+        if not version or version % _MAINTAIN_EVERY != 0:
+            return
+        dt.create_checkpoint()
+        hours = _retention_hours()
+        removed = dt.vacuum(retention_hours=hours, dry_run=False,
+                            enforce_retention_duration=False)
+        print(f"[delta] {name}: v{version} maintenance — checkpointed log, "
+              f"vacuumed {len(removed)} file(s) older than {hours:g}h")
+    except Exception as e:
+        print(f"[delta] {name}: maintenance skipped ({type(e).__name__}: {e})")
+
+
+# Full replaces losing a large share of rows are the classic silent-truncation
+# failure (source regressed, pagination broke, partial file). Same threshold
+# as the harness's blocking baseline_row_shrink anomaly.
+_SHRINK_WARN_FRACTION = 0.30
+
+
+def _warn_on_shrink(name: str, prev_rows: int | None, new_rows: int) -> None:
+    if prev_rows is None or prev_rows <= 0 or new_rows < 0:
+        return
+    if new_rows < prev_rows * (1 - _SHRINK_WARN_FRACTION):
+        pct = 100 * (1 - new_rows / prev_rows)
+        print(f"⚠️  [overwrite] {name}: rows shrank {prev_rows:,} → {new_rows:,} "
+              f"(-{pct:.0f}%) — a full replace should not lose history; check "
+              "the source, or declare write_mode: merge if runs bring partial data")
+
+
 def _validate_keys(table: pa.Table, keys: list[str], name: str):
     """Validate key columns before merge.
 
@@ -442,13 +538,18 @@ def merge(
     Returns:
         WriteResult with uri, version, hash, rows, unchanged.
 
-    Skip-unchanged: when the source is a pa.Table whose content hash equals
-    the one stored by the immediately previous commit (itself a merge of the
-    same source, or an overwrite that left the table equal to it), the merge
-    is a no-op and is skipped — no write, no version bump, unchanged=True.
-    Set SUBSETS_FORCE_WRITE=1 to always write.
+    Skip-unchanged, two layers: (1) when the source is a pa.Table (or a
+    stream that materialized under the cap) whose content hash equals the one
+    stored by the immediately previous commit, the merge is skipped outright —
+    no target scan, no version bump, unchanged=True. (2) Even when the hash
+    can't decide (large streams, older commits), the when_matched_update
+    carries a value-compare predicate, so a merge that changes nothing
+    produces no actions and delta-rs skips the commit — same no version bump,
+    reported as unchanged=True. Set SUBSETS_FORCE_WRITE=1 to bypass both
+    (unconditional update: matched rows rewritten even if identical).
     """
     source = _delta_safe_source(source, name)
+    source = _buffer_to_cap(source, name)
     is_reader = isinstance(source, pa.RecordBatchReader)
     if is_reader and validate:
         raise ValueError(
@@ -520,11 +621,12 @@ def merge(
         h = content_hash or _source_hash(source, schema, new_count)
         _log_write_meta(name, schema, new_count, "merge (created)")
     else:
+        version_before = dt.version()
         # Build merge predicate
         predicate = " AND ".join([f"target.{k} = source.{k}" for k in keys])
         updates = {col: f"source.{col}" for col in column_names}
 
-        dt.merge(
+        merger = dt.merge(
             source=source,
             predicate=predicate,
             source_alias="source",
@@ -532,19 +634,41 @@ def merge(
             commit_properties=_run_commit_properties(
                 {**hash_meta, "subsets_write_mode": "merge"}
             ),
-        ).when_matched_update(
-            updates=updates
-        ).when_not_matched_insert(
-            updates=updates
-        ).execute()
+        )
+        # Update only matched rows whose non-key values actually CHANGED. An
+        # unconditional when_matched_update rewrites every matched file even
+        # for identical data (and bumps the version); with the predicate,
+        # delta-rs emits no actions when nothing changed and skips the commit
+        # entirely — the no-op path for sources the pre-merge hash check can't
+        # cover (streams over the cap, equal re-merges after older commits).
+        # A table whose columns are all keys gets no update branch at all: a
+        # matched row is identical by definition.
+        non_key = [c for c in column_names if c not in keys]
+        if non_key:
+            if _force_write():
+                merger = merger.when_matched_update(updates=updates)
+            else:
+                row_changed = " OR ".join(
+                    f"target.{c} IS DISTINCT FROM source.{c}" for c in non_key
+                )
+                merger = merger.when_matched_update(updates=updates, predicate=row_changed)
+        metrics = merger.when_not_matched_insert(updates=updates).execute()
 
         # Rowcount from Delta log (parquet footers), not by materializing target.
-        new_count = _target_row_count(dt)
         version = dt.version()
+        new_count = _target_row_count(dt)
         h = content_hash or _source_hash(source, schema, new_count)
-        _log_write_meta(name, schema, new_count, f"merge → {new_count:,} total")
+        if version == version_before:
+            # No actions → delta-rs skipped the empty commit: a true no-op.
+            print(f"[skip] {name}: merge changed nothing")
+            record_write(f"subsets/{name}", version=version, hash=h, unchanged=True)
+            return WriteResult(uri=uri, version=version, hash=h, rows=new_count, unchanged=True)
+        ins = metrics.get("num_target_rows_inserted", "?") if isinstance(metrics, dict) else "?"
+        upd = metrics.get("num_target_rows_updated", "?") if isinstance(metrics, dict) else "?"
+        _log_write_meta(name, schema, new_count, f"merge +{ins} ~{upd} → {new_count:,} total")
 
     record_write(f"subsets/{name}", version=version, hash=h)
+    _maintain(dt, name)
     return WriteResult(uri=uri, version=version, hash=h, rows=new_count)
 
 
@@ -573,10 +697,13 @@ def overwrite(
     Skip-unchanged: when the source is a pa.Table whose content hash equals
     the one stored by the previous overwrite commit (same partitioning), the
     write is skipped — no version bump, unchanged=True in the result. Reader
-    sources always write (can't hash a stream without materializing it).
+    sources are buffered up to SUBSETS_MATERIALIZE_CAP_MB (default 512; 0
+    disables): under the cap they become tables and skip like one; over it
+    they stream and always write (can't hash without materializing).
     Set SUBSETS_FORCE_WRITE=1 to always write.
     """
     source = _delta_safe_source(source, name)
+    source = _buffer_to_cap(source, name)
     is_reader = isinstance(source, pa.RecordBatchReader)
 
     if not is_reader and len(source) == 0:
@@ -592,18 +719,20 @@ def overwrite(
     # already wrote exactly this data (no version bump, no manifest churn).
     content_hash = None if is_reader else _content_hash(source)
 
-    if content_hash is not None and not _force_write():
-        try:
-            existing = DeltaTable(uri, storage_options=opts)
-        except Exception:
-            existing = None  # missing/unreadable table → write normally
-        if existing is not None:
-            skipped = _unchanged_result(
-                existing, uri, name, content_hash,
-                mode="overwrite", partition_by=partition_by,
-            )
-            if skipped is not None:
-                return skipped
+    try:
+        existing = DeltaTable(uri, storage_options=opts)
+    except Exception:
+        existing = None  # missing/unreadable table → write normally
+
+    if existing is not None and content_hash is not None and not _force_write():
+        skipped = _unchanged_result(
+            existing, uri, name, content_hash,
+            mode="overwrite", partition_by=partition_by,
+        )
+        if skipped is not None:
+            return skipped
+
+    prev_rows = _target_row_count(existing) if existing is not None else None
 
     if content_hash is not None:
         commit_meta = {"subsets_data_hash": content_hash}
@@ -629,7 +758,9 @@ def overwrite(
     h = content_hash or _source_hash(source, schema, new_count)
 
     _log_write_meta(name, schema, new_count, "overwrite")
+    _warn_on_shrink(name, prev_rows, new_count)
     record_write(f"subsets/{name}", version=version, hash=h)
+    _maintain(dt, name)
     return WriteResult(uri=uri, version=version, hash=h, rows=new_count)
 
 
@@ -652,8 +783,20 @@ def append(
     Accepts pa.Table or pa.RecordBatchReader. Readers stream through
     deltalake without materializing in memory — use for chunked loads
     (e.g. per-partition dedup) driven by DuckDB's fetch_record_batch().
+
+    Retry guard: when the immediately previous commit was an append of
+    exactly this content, this call is a re-run (GHA retry, a relaunched
+    transform over unchanged raw), not a new batch — appending again would
+    duplicate every row, and append has no key to dedupe on. The write is
+    skipped (unchanged=True). Genuinely new batches hash differently, so
+    multi-chunk loads are unaffected; the guard only sees the LAST commit,
+    so re-running chunk 1 after chunk 2 still duplicates — a retried
+    multi-chunk append must restart from a clean table version. Streams over
+    the materialize cap can't be hashed and are never guarded.
+    Set SUBSETS_FORCE_WRITE=1 to always write.
     """
     source = _delta_safe_source(source, name)
+    source = _buffer_to_cap(source, name)
     is_reader = isinstance(source, pa.RecordBatchReader)
 
     if not is_reader and len(source) == 0:
@@ -668,6 +811,31 @@ def append(
     uri = subsets_uri(name)
     opts = backend.deltalake_options(uri)
 
+    content_hash = None if is_reader else _content_hash(source)
+
+    if content_hash is not None and not _force_write():
+        try:
+            dt = DeltaTable(uri, storage_options=opts)
+        except Exception:
+            dt = None  # missing table → first write, nothing to guard against
+        if dt is not None:
+            meta = _last_commit_meta(dt)
+            if (meta.get("subsets_write_mode") == "append"
+                    and meta.get("subsets_data_hash") == content_hash):
+                version = dt.version()
+                rows = _target_row_count(dt)
+                print(f"[skip] {name}: identical to previous append")
+                record_write(f"subsets/{name}", version=version,
+                             hash=content_hash, unchanged=True)
+                return WriteResult(uri=uri, version=version, hash=content_hash,
+                                   rows=rows, unchanged=True)
+
+    if content_hash is not None:
+        commit_meta = {"subsets_data_hash": content_hash}
+    else:
+        commit_meta = {"subsets_state_hash": _weak_state_hash(schema)}
+    commit_meta["subsets_write_mode"] = "append"
+
     write_deltalake(
         uri,
         source,
@@ -675,14 +843,15 @@ def append(
         partition_by=partition_by,
         storage_options=opts,
         schema_mode="merge",  # Allow schema evolution for append
-        commit_properties=_run_commit_properties(),
+        commit_properties=_run_commit_properties(commit_meta),
     )
 
     dt = DeltaTable(uri, storage_options=opts)
     version = dt.version()
     new_count = _target_row_count(dt)
-    h = _source_hash(source, schema, new_count)
+    h = content_hash or _source_hash(source, schema, new_count)
 
     _log_write_meta(name, schema, new_count, "append")
     record_write(f"subsets/{name}", version=version, hash=h)
+    _maintain(dt, name)
     return WriteResult(uri=uri, version=version, hash=h, rows=new_count)

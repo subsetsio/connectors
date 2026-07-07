@@ -18,6 +18,14 @@ yml schema (unknown keys are errors — typo safety):
     deps: [asset-id, ...]     # optional; default [<stem>]
     key: [col, ...]           # optional; [] = explicitly keyless; absent = undeclared
     temporal: period          # optional; must be a contract column
+    write_mode: overwrite     # optional; overwrite (default) | merge | append.
+                              # merge upserts on `key` (requires non-empty key) —
+                              # use when runs bring partial/incremental data so
+                              # the table isn't fully replaced every run.
+    sort: [col, ...]          # optional; physical row order of the published
+                              # table (ascending, nulls last). Deterministic
+                              # output + range-skip stats; temporal first, then
+                              # key tiebreakers. Absent = unsorted.
     columns:                  # required, non-empty, ordered
       - name: period          # published column name
         type: VARCHAR         # DuckDB type (aliases fine — canonicalized at verify)
@@ -42,7 +50,7 @@ import yaml
 
 from .spec import ColumnSpec, SqlNodeSpec
 
-_YML_KEYS = {"deps", "key", "temporal", "columns"}
+_YML_KEYS = {"deps", "key", "temporal", "write_mode", "sort", "columns"}
 _COLUMN_KEYS = {"name", "type", "description"}
 
 
@@ -109,6 +117,16 @@ def _load_pair(sql_path: Path, yml_path: Path) -> SqlNodeSpec:
     if temporal is not None and not isinstance(temporal, str):
         raise _fail(yml_path, "`temporal` must be a column-name string")
 
+    write_mode = doc.get("write_mode", "overwrite")
+    if not isinstance(write_mode, str):
+        raise _fail(yml_path, "`write_mode` must be a string: overwrite | merge | append")
+
+    sort = doc.get("sort", None)
+    if sort is not None:
+        if isinstance(sort, str) or not isinstance(sort, list) or not all(isinstance(c, str) for c in sort):
+            raise _fail(yml_path, "`sort` must be a list of column-name strings")
+        sort = tuple(sort)
+
     try:
         return SqlNodeSpec(
             id=f"{table}-transform",
@@ -117,6 +135,8 @@ def _load_pair(sql_path: Path, yml_path: Path) -> SqlNodeSpec:
             key=key,
             temporal=temporal,
             columns=_parse_columns(yml_path, doc["columns"]),
+            write_mode=write_mode,
+            sort=sort,
         )
     except (TypeError, ValueError) as e:
         raise _fail(yml_path, str(e)) from e

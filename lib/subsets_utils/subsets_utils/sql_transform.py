@@ -13,9 +13,12 @@ the objects a prior run committed. When the manifest has no entry for the dep
 raw dir (`<dep>.<ext>` first, then the batch layout `<dep>-*`). Either way,
 files are mapped to the matching DuckDB reader by extension and registered as
 a temp view named after the dep id. The connector's SQL then runs against
-those views and the result streams into `overwrite(<table>)`. Zero rows is a
-failure: the transform is the correctness gate on raw, and an empty publish
-means the raw shape or the SQL is wrong.
+those views and the result — sorted per `spec.sort` when declared — streams
+into the Delta write the spec declares:
+`overwrite(<table>)` (the default full replace), `merge(<table>, key=spec.key)`
+(upsert — for incremental sources), or `append(<table>)` (immutable event
+logs). Zero rows is a failure: the transform is the correctness gate on raw,
+and an empty publish means the raw shape or the SQL is wrong.
 """
 
 from __future__ import annotations
@@ -24,7 +27,7 @@ import duckdb
 
 from . import raw_manifest
 from .config import raw_uri
-from .delta import overwrite
+from .delta import append, merge, overwrite
 from .duckdb import _configure
 from .spec import SqlNodeSpec
 
@@ -163,7 +166,8 @@ def _verify_contract(spec: SqlNodeSpec) -> "duckdb.DuckDBPyRelation":
 
 
 def run_sql_node(spec: SqlNodeSpec) -> None:
-    """Execute one SqlNodeSpec: views for deps, run sql, overwrite Delta table."""
+    """Execute one SqlNodeSpec: views for deps, run sql, write the Delta table
+    per spec.write_mode (overwrite | merge-on-key | append)."""
     _configure()  # S3 credentials for DuckDB when in cloud mode
 
     from .tracking import record_read
@@ -183,6 +187,14 @@ def run_sql_node(spec: SqlNodeSpec) -> None:
     rel = _verify_contract(spec)
     if spec.columns is not None:
         print(f"[sql-transform] contract ok: {len(spec.columns)} column(s)")
+
+    # Declared physical order: sort AFTER the contract check (ORDER BY doesn't
+    # change the bound output shape). DuckDB external-sorts (spilling if
+    # needed) and still streams the sorted result batch-by-batch.
+    if spec.sort:
+        order_expr = ", ".join(f'"{c}"' for c in spec.sort)
+        rel = rel.order(order_expr)
+        print(f"[sql-transform] sort: ORDER BY {order_expr}")
 
     # fetch_record_batch() streams — the result never fully materializes in
     # memory. Peek until the first non-empty batch BEFORE writing: an empty
@@ -205,4 +217,13 @@ def run_sql_node(spec: SqlNodeSpec) -> None:
         yield from reader
 
     import pyarrow as pa
-    overwrite(pa.RecordBatchReader.from_batches(reader.schema, _chain()), spec.table)
+    source = pa.RecordBatchReader.from_batches(reader.schema, _chain())
+    if spec.write_mode == "merge":
+        # Key uniqueness on a stream can't be pre-validated (validate would
+        # consume it); the harness's key_check anomalies gate the published
+        # table on the same grain post-hoc.
+        merge(source, spec.table, key=list(spec.key), validate=False)
+    elif spec.write_mode == "append":
+        append(source, spec.table)
+    else:
+        overwrite(source, spec.table)
