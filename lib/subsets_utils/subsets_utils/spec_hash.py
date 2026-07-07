@@ -11,24 +11,21 @@ The hash is a function of:
   - every same-module top-level def/const transitively reachable from it
   - every connector-local imported def reached via fence-dir resolution
   - external imports (requests, stdlib, ...) → leaf tokens by module name
-  - subsets_utils imports → leaf tokens ALWAYS, stamped with
-    SUBSETS_UTILS_VERSION. The library ships inside the connector's src/
-    (inside the fence), but hashing its internals would make every
-    connector's spec hashes churn on any library edit; instead it is treated
-    as an external dependency whose version token is bumped by hand when a
-    library change should force re-runs.
+  - subsets_utils imports → leaf tokens ALWAYS. The library ships inside the
+    connector's src/ (inside the fence), but hashing its internals would make
+    every connector's spec hashes churn on any library edit; instead it is
+    treated as an external dependency. Library-wide staleness is the harness
+    fingerprint's job (run_extract.harness_fingerprint), not this hash's.
 
 Cosmetic edits (whitespace, comments, docstrings, local-var renames) do not
 change the hash. Behavioral edits (signature change, helper edit, constant
 value change) do.
 
-Used by:
-  - the harness ImplementStep pre-spawn to write expected_hashes.json
-  - the orchestrator post-success to stamp _metadata.code_hash
-Both layers call this same pure function so the values agree by construction.
-CAVEAT: ast.dump output can differ across Python minor versions — both layers
-must run the same minor (currently pinned to 3.11 by the connector venvs and
-run.yml) or hashes computed on either side will spuriously disagree.
+Used by the HARNESS only (run_extract.code_hash_snapshot loads this file
+standalone at run-download/run-transform); the orchestrator never hashes.
+CAVEAT: ast.dump output can differ across Python minor versions — snapshots
+must be computed under the same minor (currently pinned to 3.11 by the
+connector venvs and run.yml) or hashes will spuriously disagree over time.
 """
 from __future__ import annotations
 
@@ -41,12 +38,10 @@ from pathlib import Path
 from typing import Iterable
 
 # Packages that are ALWAYS leaf tokens, even when their source resolves inside
-# the fence (the library is copied into every connector's src/). The version
-# string is part of every leaf token: bump it when a library change should
-# invalidate existing spec hashes and force re-runs; leave it alone for
-# internal refactors that don't change fetch behavior.
-SUBSETS_UTILS_VERSION = "1"
-_LEAF_PACKAGES = {"subsets_utils": SUBSETS_UTILS_VERSION}
+# the fence (the library is copied into every connector's src/). Library-wide
+# invalidation is deliberately NOT this hash's job — the harness fingerprint
+# (run_extract.harness_fingerprint) stales runs when the library changes.
+_LEAF_PACKAGES = frozenset({"subsets_utils"})
 
 
 # =============================================================================
@@ -363,8 +358,8 @@ def _walk_and_collect(
             if level == 0 and root in _LEAF_PACKAGES:
                 # The library lives inside the fence (copied into each
                 # connector's src/) but is deliberately NOT walked — see the
-                # module docstring. Its version stamp is the whole token.
-                parts.append(f"ext:{mod}:{orig}:v{_LEAF_PACKAGES[root]}")
+                # module docstring. The import name is the whole token.
+                parts.append(f"ext:{mod}:{orig}")
                 continue
             resolved = _resolve_local_module(mod, level, idx.file, fence_dirs)
             if resolved is not None:

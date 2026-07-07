@@ -101,9 +101,8 @@ def save_state(asset: str, state_data: dict) -> str:
 
     Fetch-fn-managed state only. Underscore-prefixed keys are reserved for
     the orchestrator (see `record_completion`) — passing one here raises.
-    Existing `_metadata` on disk (e.g. `code_hash` written post-success)
-    is preserved across this write; only `updated_at` and `run_id` get
-    refreshed each save.
+    Existing `_metadata` on disk is preserved across this write; only
+    `updated_at` and `run_id` get refreshed each save.
     """
     import os
     for k in state_data:
@@ -131,23 +130,25 @@ def save_state(asset: str, state_data: dict) -> str:
     return uri
 
 
-def record_completion(asset: str, code_hash: str | None) -> str:
-    """Stamp `_metadata.code_hash` for `asset` after a successful materialization.
+def record_completion(asset: str) -> str:
+    """Stamp `_metadata.updated_at` + `run_id` for `asset` after a successful
+    materialization — provenance for "when, and by which run, was this state
+    last written".
 
     Called by the orchestrator post-success — not by fetch fns. Bypasses the
     `save_state` reserved-prefix guard because it operates ENTIRELY under the
     reserved namespace; fetch-fn-managed keys are preserved as-is.
-
-    A `None` hash means "compute failed; we don't know what produced this state"
-    and is recorded honestly rather than papering over it.
     """
     import os
     existing = _load_state_raw(asset)
     existing_meta = existing.get("_metadata", {}) if isinstance(existing.get("_metadata"), dict) else {}
+    # The legacy code_hash stamp is dropped on rewrite: it never drove a
+    # decision (staleness is the harness's R2 code_hashes snapshot) and a
+    # stale copy would only mislead.
+    existing_meta.pop("code_hash", None)
 
     merged_meta = {
         **existing_meta,
-        "code_hash": code_hash,
         "updated_at": datetime.now().isoformat(),
         "run_id": os.environ.get("RUN_ID", "unknown"),
     }

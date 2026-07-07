@@ -39,7 +39,6 @@ nodes ran in this invocation when they hadn't, and the harness's on-disk
 probe disagreed with the orchestrator about where to find raw.
 """
 
-import hashlib
 import importlib.util
 import json
 import multiprocessing
@@ -55,9 +54,8 @@ from pathlib import Path
 from typing import Callable
 
 from . import raw_manifest, tracking
-from .io import record_completion, _load_state_raw
+from .io import record_completion
 from .spec import MaintainSpec, NodeSpec, SqlNodeSpec
-from .spec_hash import compute_spec_hash, compute_sql_spec_hash
 from .tracking import (
     clear_tracking,
     get_asset_version,
@@ -82,16 +80,6 @@ _MP_CTX = multiprocessing.get_context("spawn")
 # node accidentally stuffing a large pa.Table into a tracking record. 10 MB is
 # generous: tracking records are tiny strings and stack snippets.
 _MAX_RESULT_PICKLE_BYTES = 10 * 1024 * 1024
-
-
-def _topology_hash(specs: list[NodeSpec]) -> str:
-    """Hash of the graph — used to detect changes between invocations.
-    Topology is the set of (id, kind, sorted deps), so adding/removing an edge
-    changes the hash."""
-    items = sorted(
-        (spec.id, spec.kind, sorted(spec.deps)) for spec in specs
-    )
-    return hashlib.md5(json.dumps(items).encode()).hexdigest()[:16]
 
 
 def _validate_deps(specs_by_id: dict[str, NodeSpec]) -> None:
@@ -302,7 +290,6 @@ class DAG:
         # mean different things (see _overall_status).
         self._on_failure = "crash"
         self._finalized = False
-        self.topology_hash = _topology_hash(specs)
 
         for spec in specs:
             self.state[spec.id] = {
@@ -339,49 +326,8 @@ class DAG:
         # was removed because it caused log/run.json to lie about which nodes
         # actually ran THIS invocation — the harness probe and the orchestrator
         # disagreed on where to find raw, and the agent saw phantom failures.
-        # Per-asset idempotency now flows through state's `_metadata.code_hash`
-        # rolled by record_completion after each successful run.
-
-        # Per-spec code hashes:
-        #   self._current_hashes[id]  — what THIS orchestrator computes for the
-        #                                spec right now; stamped into state on
-        #                                success. Audit-trail only — never
-        #                                drives a skip/run decision by itself.
-        #   self._expected_hashes     — what the harness expects (read from
-        #                                $HARNESS_EXPECTED_HASHES_FILE). Drives
-        #                                the bypass-maintain decision below.
-        #                                In prod the env var is unset → None →
-        #                                no bypass logic → behavior identical
-        #                                to today.
-        self._current_hashes: dict[str, str | None] = {}
-        for spec in specs:
-            if isinstance(spec, SqlNodeSpec):
-                # The SQL text is the node's whole body — hash it directly.
-                self._current_hashes[spec.id] = compute_sql_spec_hash(spec.sql)
-                continue
-            try:
-                import inspect as _inspect
-                src_file = _inspect.getsourcefile(spec.fn)
-            except (TypeError, OSError):
-                src_file = None
-            if src_file:
-                fence = [Path(src_file).parents[1]] if Path(src_file).parents else []
-            else:
-                fence = []
-            self._current_hashes[spec.id] = compute_spec_hash(
-                src_file, getattr(spec.fn, "__name__", ""),
-                fence_dirs=fence,
-            )
-
-        hashes_file = os.environ.get("HARNESS_EXPECTED_HASHES_FILE")
-        self._expected_hashes: dict[str, str | None] | None = None
-        if hashes_file:
-            try:
-                self._expected_hashes = json.loads(Path(hashes_file).read_text())
-                print(f"[DAG] expected hashes loaded ({len(self._expected_hashes)} specs) from {hashes_file}")
-            except (OSError, json.JSONDecodeError) as e:
-                print(f"[DAG] WARN: failed to read {hashes_file}: {e} — proceeding without hash gate")
-                self._expected_hashes = None
+        # Code staleness is the HARNESS's job (its R2 code_hashes snapshot vs
+        # the run record); the orchestrator itself never hashes spec code.
 
     # =========================================================================
     # Order
@@ -431,13 +377,6 @@ class DAG:
         raises is treated as "not fresh" and logged — never lose a fetch over
         a buggy maintain check.
 
-        Code-hash gate (dev-side activation only): when the harness writes
-        $HARNESS_EXPECTED_HASHES_FILE and a spec's stored `_metadata.code_hash`
-        on disk differs from the harness-expected hash, MaintainSpec is
-        bypassed entirely for that spec — it stays `pending` and will run.
-        In prod the env var is absent → this branch is no-op → behavior
-        matches today.
-
         Only operates on `pending` nodes; "done" from resume/DAG_TARGET is
         left alone (already-done is already-fresh by definition)."""
         force = os.environ.get("FORCE_REFRESH", "").strip().lower() in ("1", "true", "yes")
@@ -445,27 +384,10 @@ class DAG:
             print("[DAG] FORCE_REFRESH set — maintain skips bypassed")
             return
 
-        forced_by_hash = 0
         skipped = 0
         for spec in order:
             if self.state[spec.id]["status"] != "pending":
                 continue
-
-            if self._expected_hashes is not None:
-                stored = None
-                try:
-                    raw = _load_state_raw(spec.id)
-                    meta = raw.get("_metadata") if isinstance(raw.get("_metadata"), dict) else None
-                    stored = meta.get("code_hash") if meta else None
-                except Exception:
-                    stored = None
-                expected = self._expected_hashes.get(spec.id)
-                if stored != expected:
-                    short_s = (stored or "")[:7] or "—"
-                    short_e = (expected or "")[:7] or "—"
-                    print(f"[DAG] {spec.id} forcing re-run (hash mismatch: {short_s}→{short_e})")
-                    forced_by_hash += 1
-                    continue  # leave pending; do NOT run maintain check
 
             maintain = self._maintain.get(spec.id)
             if maintain is None:
@@ -489,8 +411,6 @@ class DAG:
         if skipped:
             self.save_state()
             print(f"[DAG] Maintain: {skipped} asset(s) skipped as fresh")
-        if forced_by_hash:
-            print(f"[DAG] Code-hash gate: {forced_by_hash} asset(s) forced to re-run")
 
     # =========================================================================
     # Execution
@@ -608,15 +528,13 @@ class DAG:
         else:
             raw_manifest.discard_node(task_id)
 
-        # Record completion: stamp `_metadata.code_hash` in the spec's state
-        # file with the hash this orchestrator computed at init. Audit record
-        # of "what code produced this state"; in dev the next harness run
-        # diffs against this. Only on success — failures preserve the prior
-        # state file unchanged. Runs even on needs_continuation (the spec
-        # made progress under this code).
+        # Record completion: stamp `_metadata.updated_at` + `run_id` in the
+        # spec's state file — provenance for "when/which run last wrote this
+        # state". Only on success — failures preserve the prior state file
+        # unchanged. Runs even on needs_continuation (the spec made progress).
         if result["status"] == "done":
             try:
-                record_completion(task_id, self._current_hashes.get(task_id))
+                record_completion(task_id)
             except Exception as e:
                 # Don't let a state-write hiccup tank an otherwise successful node.
                 print(f"[DAG] WARN: record_completion failed for {task_id}: {type(e).__name__}: {e}")
@@ -1208,7 +1126,6 @@ class DAG:
             "run_id": os.environ.get("RUN_ID", "unknown"),
             "connector": os.environ.get("CONNECTOR_NAME") or Path.cwd().name,
             "status": self._overall_status(),
-            "topology_hash": self.topology_hash,
             "started_at": min(
                 (n.get("started_at") for n in self.state.values() if n.get("started_at")),
                 default=None,
@@ -1242,8 +1159,6 @@ class DAG:
         payload = self.to_json()
         if "invocations" in existing:
             payload["invocations"] = existing["invocations"]
-        if "git_hash" in existing:
-            payload["git_hash"] = existing["git_hash"]
         _atomic_write_json(path, payload)
 
 
