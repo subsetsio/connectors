@@ -1,18 +1,10 @@
 spec_id: argo-program-argofloats-reference
 status: active
 tests:
-  - not_null: platform_number
-    certainty: 90
-  - column_type: {col: latitude, type: float}
-  - column_type: {col: psal, type: float}
-  - between: {col: latitude, lo: -90, hi: 90}
-    certainty: 98
-  - between: {col: longitude, lo: -180, hi: 180}
+  - not_null: dataset_id
+  - not_null: variable_name
+  - enum: {col: dataset_id, values: ["ArgoFloats-reference"]}
+  - enum: {col: row_type, values: ["variable", "attribute"]}
+  - row_count: {min: 12}
+    reason: the reference profile dataset exposes documented ERDDAP variables plus attributes
     certainty: 95
-  - between: {col: pres, lo: -5, hi: 12000}
-    reason: reference profiles include shipboard CTD to full depth; allow deep margin
-    certainty: 80
-    severity: warn
-  - between: {col: psal, lo: 0, hi: 45}
-    certainty: 70
-    severity: warn

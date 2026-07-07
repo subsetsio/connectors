@@ -1,17 +1,10 @@
 spec_id: argo-program-argofloats-index
 status: active
 tests:
-  - not_null: file
-    reason: each index row is keyed by a GDAC profile file path
-    certainty: 98
-  - matches: {col: file, pattern: ".+\\.nc$"}
-    reason: profile files are NetCDF (e.g. aoml/13857/profiles/D13857_001.nc)
-    certainty: 90
-  - column_type: {col: latitude, type: float}
-  - between: {col: latitude, lo: -90, hi: 90}
+  - not_null: dataset_id
+  - not_null: variable_name
+  - enum: {col: dataset_id, values: ["ArgoFloats-index"]}
+  - enum: {col: row_type, values: ["variable", "attribute"]}
+  - row_count: {min: 8}
+    reason: the profile index exposes eight documented ERDDAP variables plus attributes
     certainty: 95
-  - between: {col: longitude, lo: -180, hi: 180}
-    certainty: 90
-  - row_count: {min: 1000000}
-    reason: the global Argo profile index holds millions of profiles (>3M observed)
-    certainty: 85

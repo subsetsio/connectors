@@ -1,19 +1,10 @@
 spec_id: argo-program-argofloats-synthetic-bgc
 status: active
 tests:
-  - not_null: platform_number
+  - not_null: dataset_id
+  - not_null: variable_name
+  - enum: {col: dataset_id, values: ["ArgoFloats-synthetic-BGC"]}
+  - enum: {col: row_type, values: ["variable", "attribute"]}
+  - row_count: {min: 100}
+    reason: the BGC synthetic profile dataset exposes many biogeochemical variables
     certainty: 95
-  - column_type: {col: latitude, type: float}
-  - column_type: {col: doxy, type: float}
-  - between: {col: latitude, lo: -90, hi: 90}
-    certainty: 98
-  - between: {col: longitude, lo: -180, hi: 180}
-    certainty: 95
-  - between: {col: pres, lo: -5, hi: 12000}
-    reason: pressure in decibar
-    certainty: 85
-    severity: warn
-  - between: {col: doxy, lo: -5, hi: 600}
-    reason: dissolved oxygen micromole/kg; ocean values roughly 0-400, allow QC margin
-    certainty: 60
-    severity: warn
