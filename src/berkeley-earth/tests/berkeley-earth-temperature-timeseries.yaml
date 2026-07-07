@@ -27,8 +27,9 @@ tests:
   - enum: {col: level, values: [global, continent, country, us-state]}
     certainty: 99
   - unique: [region_slug, level, variable, domain, year, month]
-    reason: one row per region/variable/domain per month; dupes mean a file was parsed twice or the dedup key is wrong
+    reason: the raw source can contain duplicate region/variable/domain/month rows; the transform deduplicates this grain before publishing, so raw duplicates should be reviewed but are not a download failure
     certainty: 90
+    severity: warn
   - distinct_count: {col: region_slug, min: 50}
     reason: ~160 continent/country/state slugs are enumerated; even with some 404s well over 50 should resolve
     certainty: 85
@@ -39,3 +40,6 @@ tests:
   - row_count: {min: 100000}
     reason: ~160 regions x 3 variables x ~1500-3000 monthly rows plus global products is well over 100k rows
     certainty: 85
+  - freshness: {col: year, reaches: 2024}
+    reason: Berkeley Earth updates these files in-place on an approximately monthly release cycle, but the regional archive can lag the monthly global report; allow enough slack for delayed annualized regional refreshes while still flagging multi-year staleness
+    certainty: 75

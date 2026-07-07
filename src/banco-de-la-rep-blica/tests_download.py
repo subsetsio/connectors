@@ -17,14 +17,14 @@ _RAW_COLUMNS = {
 def test_all_raw_assets_nonempty(spec_ids):
     """Every dataflow must yield observations. 0 rows means the endpoint
     blocked us (WAF) or the SDMX shape changed."""
-    for sid in spec_ids:
+    for sid in _raw_spec_ids(spec_ids):
         table = load_raw_parquet(sid)
         assert len(table) > 0, f"{sid}: raw parquet has 0 rows"
 
 
 def test_raw_schema_stable(spec_ids):
     """The parsed SeriesKey/Attribute/Obs columns must all be present."""
-    for sid in spec_ids:
+    for sid in _raw_spec_ids(spec_ids):
         cols = set(load_raw_parquet(sid).column_names)
         missing = _RAW_COLUMNS - cols
         assert not missing, f"{sid}: missing raw columns {missing}"
@@ -34,7 +34,7 @@ def test_obs_value_mostly_numeric(spec_ids):
     """obs_value is a stringified number in SDMX; a sample should parse as
     float. A column that is suddenly all non-numeric means we grabbed the
     wrong element (e.g. a status code) or a block page."""
-    for sid in spec_ids:
+    for sid in _raw_spec_ids(spec_ids):
         table = load_raw_parquet(sid)
         vals = table.column("obs_value").to_pylist()[:200]
         parsed = 0
@@ -47,3 +47,7 @@ def test_obs_value_mostly_numeric(spec_ids):
             except (TypeError, ValueError):
                 pass
         assert parsed > 0, f"{sid}: no numeric obs_value in first {len(vals)} rows"
+
+
+def _raw_spec_ids(spec_ids):
+    return [sid for sid in spec_ids if not sid.endswith("-transform")]

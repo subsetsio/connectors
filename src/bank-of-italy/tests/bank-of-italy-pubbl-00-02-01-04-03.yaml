@@ -14,3 +14,7 @@ tests:
     reason: each provision carries its publication/provision date.
     certainty: 80
     severity: warn
+  - freshness: {col: DATA_OSS, reaches: "1900-01-01"}
+    reason: Bank of Italy BDS tables are mixed current and historical time series; every successful raw pull should still carry real observation dates, while table-specific currency is reviewed at evaluation/curation.
+    certainty: 80
+    points_outward: true

@@ -67,3 +67,9 @@ tests:
   - distinct_count: {col: chart_date, min: 3000}
     reason: weekly charts since 1958 => over 3,000 distinct chart dates
     certainty: 90
+
+  # --- freshness: Billboard Hot 100 is a weekly chart; allow publication/mirror lag ---
+  - freshness: {col: chart_date, reaches: today - 35d}
+    reason: the Hot 100 advances weekly; a max chart_date older than five weeks means the mirror or downloader is stale
+    certainty: 90
+    points_outward: true

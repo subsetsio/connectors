@@ -1,5 +1,8 @@
 spec_id: bank-negara-malaysia-base-rate
 status: active
+coverage:
+  frozen: true
+  reason: BNM exposes base-rate as a latest-state bank snapshot; effective_date is the rate-effective date for current rows, not a regularly advancing observation date.
 tests:
   - not_null: bank_name
     reason: bank_name is the populated natural key; the API leaves bank_code blank

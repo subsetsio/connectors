@@ -25,3 +25,7 @@ tests:
   - row_count: {min: 1}
     reason: a rank-active dataset has at least one series with observations
     certainty: 90
+  - freshness: {col: reference_date, reaches: today - 700d}
+    reason: BPstat mixes daily, monthly, quarterly, and annual datasets; every active dataset should contain an observation within the prior 700 days.
+    certainty: 80
+    points_outward: true

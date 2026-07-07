@@ -1,5 +1,8 @@
 spec_id: bangko-sentral-ng-pilipinas-spei-of-a14b-of-remittances-a
 status: active
+coverage:
+  frozen: true
+  reason: "Legacy BSP PX-Web 2007 statistical database snapshot; published tables observed in the latest successful run are historical and do not advance as a current feed."
 tests:
   - row_count: {min: 1}
     reason: every BSP PX-Web matrix exports at least one numeric observation cell; an empty raw asset means the Saveshow build returned nothing or the CSV parse broke.

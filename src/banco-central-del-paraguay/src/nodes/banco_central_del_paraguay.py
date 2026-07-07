@@ -99,12 +99,19 @@ def _valid_date(year, month, day):
         return None
 
 
+def _month_end(year, month):
+    if month == 12:
+        return date(year, 12, 31)
+    return date(year, month + 1, 1) - date.resolution
+
+
 # --------------------------------------------------------------------------- #
 # monthly-currency-reference-rates
 # --------------------------------------------------------------------------- #
 _MONTHLY_SCHEMA = pa.schema([
     ("year", pa.int32()),
     ("month", pa.int32()),
+    ("date", pa.date32()),
     ("currency_code", pa.string()),
     ("currency_name", pa.string()),
     ("units_per_usd", pa.float64()),
@@ -126,6 +133,7 @@ def fetch_monthly_currency(node_id):
                 rows.append({
                     "year": year,
                     "month": month,
+                    "date": _month_end(year, month),
                     "currency_code": cells[1],
                     "currency_name": cells[0].rstrip(" *").strip(),
                     "units_per_usd": _num(cells[2]),

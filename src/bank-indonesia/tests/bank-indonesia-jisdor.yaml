@@ -20,8 +20,8 @@ tests:
     reason: USD/IDR has traded ~8,000-17,000 over the JISDOR era (since 2013); a wide band guards unit errors
     certainty: 80
     severity: warn
-  - freshness: {col: date, reaches: today - 10d}
-    reason: JISDOR is fixed every business day; latest should be within ~10 days allowing weekends/holidays
+  - freshness: {col: date, reaches: today - 30d}
+    reason: JISDOR is fixed every business day; allow a month of slack for source/API lag, holidays, and connector scheduling
     certainty: 70
     points_outward: true
     severity: warn

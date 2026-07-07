@@ -1,5 +1,8 @@
 spec_id: banco-central-de-nicaragua-4-v-03-05
 status: active
+coverage:
+  frozen: true
+  reason: "BCN SIEC static table files behave as historical snapshots with non-uniform endpoints; the current published corpus profiles with max(date) spanning 2008-10-01 to 2024-03-01 rather than a single recurring freshness cadence. Re-add per-table freshness assertions if BCN resumes advancing these files uniformly."
 tests:
   - not_null: value
     reason: null value cells are dropped in parsing; surviving rows must carry a numeric value

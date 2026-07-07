@@ -14,8 +14,8 @@ tests:
   - enum: {col: locality, values: ["A", "B", "C", "D", "H", "K", "S", "T", "Z"]}
     reason: 8 WAEMU member states + the UEMOA aggregate (EDEN's single-letter codes)
     certainty: 95
-  - matches: {col: series_code, pattern: "^[A-Z]{2}[0-9]"}
-    reason: code is <sector 2 letters><subsector digit>... (locality prefix already stripped)
+  - matches: {col: series_code, pattern: "^(E|[A-Z]{2}[0-9]{4}[AMTJ]0[A-Z]{2})$"}
+    reason: code is <sector 2 letters><4 digits><frequency>0<valuation> (locality prefix already stripped); EDEN also emits E for exchange-rate observations
     certainty: 90
   - row_count: {min: 100000}
     reason: thousands of series x 9 localities x decades of history; well over 100k non-null obs

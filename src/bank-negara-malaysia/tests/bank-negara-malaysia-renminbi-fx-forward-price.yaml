@@ -17,3 +17,6 @@ tests:
   - row_count: {min: 1}
     reason: a single latest-state forward-price record
     certainty: 80
+  - freshness: {col: date, reaches: today - 30d}
+    reason: BNM exposes the renminbi forward price as a latest quote; the observation date should remain recent.
+    certainty: 80

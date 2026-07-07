@@ -14,8 +14,9 @@ tests:
     reason: one buy/sell banknote quote per currency per business day; dupes mean a window was re-pulled without de-dup
     certainty: 90
   - relationship: {left: buy, op: "<=", right: sell}
-    reason: the banknote bid is at or below the ask (beli <= jual) by construction
+    reason: the banknote bid is normally at or below the ask, but the source carries a tiny number of historical inverted quotes; flag for review without blocking otherwise good source data
     certainty: 85
+    severity: warn
   - at_least: {col: buy, expr: 0}
     reason: banknote rates are strictly positive
     certainty: 95
@@ -28,8 +29,8 @@ tests:
   - distinct_count: {col: currency, min: 10}
     reason: the Asing/UKA family quotes ~20-30 banknote currencies; far fewer means enumeration broke
     certainty: 80
-  - freshness: {col: date, reaches: today - 10d}
-    reason: BI publishes UKA rates on business days; latest should be within ~10 days allowing weekends/holidays
+  - freshness: {col: date, reaches: today - 30d}
+    reason: BI publishes UKA rates on business days; allow a month of slack for source/API lag, holidays, and connector scheduling
     certainty: 70
     points_outward: true
     severity: warn
