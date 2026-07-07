@@ -1,0 +1,9 @@
+spec_id: statistics-sweden-tab443
+status: active
+tests:
+  - not_null: table_id
+  - not_null: period_start
+  - row_count: {min: 1000}
+  - freshness: {col: period_start, reaches: today - 120d}
+    points_outward: true
+    reason: monthly GDP indicator should include a recent month

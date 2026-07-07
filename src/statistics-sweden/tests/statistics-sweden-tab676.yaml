@@ -1,0 +1,9 @@
+spec_id: statistics-sweden-tab676
+status: active
+tests:
+  - not_null: table_id
+  - not_null: period_start
+  - row_count: {min: 100}
+  - freshness: {col: period_start, reaches: today - 180d}
+    points_outward: true
+    reason: quarterly GDP indicator should include a recent quarter

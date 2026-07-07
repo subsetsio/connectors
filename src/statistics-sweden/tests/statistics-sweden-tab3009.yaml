@@ -1,0 +1,9 @@
+spec_id: statistics-sweden-tab3009
+status: active
+tests:
+  - not_null: table_id
+  - not_null: period_start
+  - row_count: {min: 80000}
+  - freshness: {col: period_start, reaches: today - 90d}
+    points_outward: true
+    reason: monthly LFS employment table should include a recent month
