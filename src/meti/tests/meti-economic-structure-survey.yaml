@@ -1,0 +1,9 @@
+spec_id: meti-economic-structure-survey
+status: active
+tests:
+  - not_null: kind
+  - not_null: entity_id
+  - row_count: {min: 1}
+    reason: accepted METI entity must produce at least page/file provenance or table rows
+    certainty: 95
+    points_outward: true
