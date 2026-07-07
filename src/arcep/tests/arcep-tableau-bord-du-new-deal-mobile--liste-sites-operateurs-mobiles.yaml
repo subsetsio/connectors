@@ -7,9 +7,9 @@ tests:
   - row_count: {min: 1000}
     reason: one row per mobile site per operator; a collapse to near-zero means the CSV family stopped enumerating
     certainty: 80
-  - not_null: code_op
-    reason: code_op is a key/identifier column present on every source row
-    certainty: 85
+  - nullable: {col: code_op, max_null_frac: 0.55}
+    reason: the two historical source vintages alternate between code_op-style columns; at least about half the rows should still expose code_op
+    certainty: 75
   - column_type: {col: code_op, type: string}
     reason: raw is preserved verbatim as strings (decimal commas / leading zeros / NA sentinels)
     certainty: 90

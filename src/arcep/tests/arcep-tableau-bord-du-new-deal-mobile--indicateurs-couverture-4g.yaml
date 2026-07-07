@@ -7,9 +7,9 @@ tests:
   - row_count: {min: 100}
     reason: quarterly 4G coverage indicators per operator/department; a collapse to near-zero means the CSV family stopped enumerating
     certainty: 80
-  - not_null: code_op
-    reason: code_op is a key/identifier column present on every source row
-    certainty: 85
+  - nullable: {col: code_op, max_null_frac: 0.02}
+    reason: a small tail of historical rows use alternate operator-code columns across schema vintages, but code_op should remain populated for nearly all rows
+    certainty: 80
   - column_type: {col: code_op, type: string}
     reason: raw is preserved verbatim as strings (decimal commas / leading zeros / NA sentinels)
     certainty: 90

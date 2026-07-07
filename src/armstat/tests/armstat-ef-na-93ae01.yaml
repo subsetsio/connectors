@@ -4,3 +4,6 @@ tests:
   - row_count: {min: 1}
     reason: every published ArmStatBank table has at least one data cell; an empty raw asset means the PX-Web select-all/export flow returned nothing.
     certainty: 85
+  - freshness: {"col": "years", "reaches": "2013"}
+    reason: guard against stale ArmStatBank exports by requiring the raw table to reach the latest period observed in the accepted published profile.
+    certainty: 80

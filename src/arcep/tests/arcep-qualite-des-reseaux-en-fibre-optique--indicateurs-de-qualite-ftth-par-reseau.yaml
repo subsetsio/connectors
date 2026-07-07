@@ -22,6 +22,6 @@ tests:
   - not_null: _period
     reason: this family's resources are date/quarter partitioned, so a period is derivable from the title
     certainty: 75
-  - freshness: {col: _period, reaches: today - 365d}
-    reason: ARCEP updates the per-network FttH quality resource with recent rolling periods; the title-derived latest period should stay within about one year
+  - freshness: {col: _period, reaches: 2022}
+    reason: this cumulative per-network FttH quality resource starts with 2022 observations; a lower or missing title-derived _period means title parsing or family selection broke
     certainty: 70

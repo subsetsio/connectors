@@ -12,7 +12,7 @@ tests:
   - row_count: {min: 1}
     reason: a rank-active dataset must yield at least one observation; 0 = fetch/expansion broke
     certainty: 95
-  - freshness: {col: date, reaches: 2023-01-01}
+  - freshness: {col: date, reaches: "2023-01-01"}
     reason: latest published observation/projection for this AfDB table reached 2023-01-01 in the profiled run; older output means the portal fetch or transform lost temporal coverage
     certainty: 80
   - enum: {col: frequency, values: [A]}

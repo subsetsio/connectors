@@ -10,8 +10,8 @@ tests:
   - not_null: date
     reason: date is a key/identifier column present on every source row
     certainty: 85
-  - column_type: {col: date, type: string}
-    reason: raw is preserved verbatim as strings (decimal commas / leading zeros / NA sentinels)
+  - column_type: {col: date, type: date}
+    reason: DuckDB infers this ISO date column as DATE when testing the raw NDJSON; a non-date type means the source stopped publishing parseable incident dates
     certainty: 90
   - not_null: operateur
     reason: operateur is a key/identifier column present on every source row

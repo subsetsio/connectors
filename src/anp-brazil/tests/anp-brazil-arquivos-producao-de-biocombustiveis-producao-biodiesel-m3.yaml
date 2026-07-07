@@ -1,8 +1,8 @@
 spec_id: anp-brazil-arquivos-producao-de-biocombustiveis-producao-biodiesel-m3
 status: active
 tests:
-  - freshness: {col: ano, reaches: 2023}
-    reason: this historical biodiesel production series currently reaches 2023 in ANP's published file; alert if the raw pull drops below that observed coverage.
+  - freshness: {col: ano, reaches: 2024}
+    reason: ANP's biodiesel production files include a current monthly partition; the raw pull should include at least a recent year.
     certainty: 80
   - row_count: {min: 300}
     reason: ANP publishes the full history for this series; a tiny table means a download/parse break or a renamed file path.
