@@ -1,5 +1,8 @@
 spec_id: cbe-gdp--gdp-at-factor-cost-current
 status: active
+coverage:
+  frozen: true
+  reason: CBE currently publishes this current-price GDP historical workbook set only through 2022-07; no newer files are listed for this dataset in the live download-list pages.
 tests:
   - not_null: value
     reason: every melted cell is a numeric observation; a null value means a non-data cell leaked into the value column

@@ -10,3 +10,6 @@ tests:
   - matches: {col: ano, pattern: '^[0-9]{4}$'}
     reason: raw period column must match the source's documented format (^[0-9]{4}$); a mismatch flags an encoding/delimiter regression.
     certainty: 85
+  - freshness: {col: ano, reaches: 2024}
+    reason: ANP updates this annual municipality table as yearly observations are released; stale max year means the source file or parser stopped advancing.
+    points_outward: true

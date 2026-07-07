@@ -25,3 +25,7 @@ tests:
     certainty: 75
     points_outward: true
     severity: warn
+  - freshness: {col: date, reaches: today - 180d}
+    reason: WPI/PPI is monthly/annual; allow about six months for source publication lag and scrape timing
+    certainty: 80
+    points_outward: true

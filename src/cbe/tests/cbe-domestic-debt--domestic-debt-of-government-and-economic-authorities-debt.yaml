@@ -1,5 +1,8 @@
 spec_id: cbe-domestic-debt--domestic-debt-of-government-and-economic-authorities-debt
 status: active
+coverage:
+  frozen: true
+  reason: CBE currently publishes this domestic-debt historical workbook set only through 2020-06; no newer files are listed for this dataset in the live download-list pages.
 tests:
   - not_null: value
     reason: every melted cell is a numeric observation; a null value means a non-data cell leaked into the value column

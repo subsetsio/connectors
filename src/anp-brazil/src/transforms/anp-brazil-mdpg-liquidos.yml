@@ -1,4 +1,4 @@
-key: [date, agente_regulado, codigo_do_produto, nome_do_produto, descricao_do_produto, regiao_origem, regiao_destinatario, mercado_destinatario]
+key: [date, agente_regulado, codigo_do_produto, nome_do_produto, descricao_do_produto, regiao_origem, uf_origem, regiao_destinatario, uf_destino, mercado_destinatario]
 temporal: date
 columns:
   - name: date
@@ -25,9 +25,15 @@ columns:
   - name: regiao_origem
     type: VARCHAR
     description: "Origin region reported by ANP."
+  - name: uf_origem
+    type: VARCHAR
+    description: "Origin Brazilian state abbreviation reported by ANP."
   - name: regiao_destinatario
     type: VARCHAR
     description: "Destination region reported by ANP."
+  - name: uf_destino
+    type: VARCHAR
+    description: "Destination Brazilian state abbreviation reported by ANP."
   - name: mercado_destinatario
     type: VARCHAR
     description: "Destination market category reported by ANP."
