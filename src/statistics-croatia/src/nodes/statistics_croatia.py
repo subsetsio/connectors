@@ -1,0 +1,146 @@
+"""Statistics Croatia PxWeb downloads."""
+
+from __future__ import annotations
+
+from itertools import product
+from urllib.parse import quote
+
+from constants import ENTITY_METADATA
+from subsets_utils import NodeSpec, get, post, save_raw_ndjson
+
+
+BASE_URL = "https://web.dzs.hr/PxWeb/api/v1/en"
+SPEC_PREFIX = "statistics-croatia-"
+
+
+def _table_url(meta: dict) -> str:
+    parts = list(meta["category_path"]) + [meta["id"]]
+    return BASE_URL + "/" + "/".join(quote(part, safe="") for part in parts)
+
+
+def _entity_id_from_spec(spec_id: str) -> str:
+    if not spec_id.startswith(SPEC_PREFIX):
+        raise ValueError(f"unexpected spec id: {spec_id}")
+    return spec_id[len(SPEC_PREFIX) :]
+
+
+def _query_all(metadata: dict) -> dict:
+    return {
+        "query": [
+            {
+                "code": variable["code"],
+                "selection": {
+                    "filter": "item",
+                    "values": variable.get("values", []),
+                },
+            }
+            for variable in metadata.get("variables", [])
+        ],
+        "response": {"format": "JSON-stat2"},
+    }
+
+
+def _labels_by_code(dimension: dict) -> dict:
+    category = dimension.get("category") or {}
+    return category.get("label") or {}
+
+
+def _codes_by_position(dimension: dict) -> list[str]:
+    category = dimension.get("category") or {}
+    index = category.get("index") or {}
+    if isinstance(index, list):
+        return list(index)
+    codes = [None] * len(index)
+    for code, pos in index.items():
+        if isinstance(pos, int) and 0 <= pos < len(codes):
+            codes[pos] = code
+    return [code for code in codes if code is not None]
+
+
+def _value_at(values, offset: int):
+    if isinstance(values, list):
+        return values[offset] if offset < len(values) else None
+    if isinstance(values, dict):
+        return values.get(str(offset), values.get(offset))
+    return None
+
+
+def _jsonstat_rows(dataset: dict, *, entity_id: str, source_meta: dict):
+    ids = dataset.get("id") or []
+    sizes = dataset.get("size") or []
+    dimensions = dataset.get("dimension") or {}
+    values = dataset.get("value") or []
+    statuses = dataset.get("status") or {}
+
+    dim_codes = []
+    dim_labels = {}
+    for dim_id in ids:
+        dim = dimensions.get(dim_id) or {}
+        dim_codes.append(_codes_by_position(dim))
+        dim_labels[dim_id] = _labels_by_code(dim)
+
+    eliminated = {}
+    for dim_id, dim in dimensions.items():
+        if dim_id in ids:
+            continue
+        extension = dim.get("extension") or {}
+        if extension.get("elimination"):
+            labels = _labels_by_code(dim)
+            eliminated[dim_id] = labels
+
+    multipliers = []
+    running = 1
+    for size in reversed(sizes):
+        multipliers.insert(0, running)
+        running *= size
+
+    for coords in product(*[range(size) for size in sizes]):
+        offset = sum(coord * multiplier for coord, multiplier in zip(coords, multipliers))
+        value = _value_at(values, offset)
+        if value is None:
+            continue
+
+        dimension_codes = {}
+        dimension_labels = {}
+        for dim_id, coord, codes in zip(ids, coords, dim_codes):
+            code = codes[coord] if coord < len(codes) else str(coord)
+            dimension_codes[dim_id] = code
+            dimension_labels[dim_id] = dim_labels.get(dim_id, {}).get(code)
+
+        yield {
+            "entity_id": entity_id,
+            "table_id": source_meta["id"],
+            "table_title": dataset.get("label") or source_meta.get("text"),
+            "source_updated": dataset.get("updated") or source_meta.get("updated"),
+            "category_path": source_meta.get("category_path") or [],
+            "dimension_codes": dimension_codes,
+            "dimension_labels": dimension_labels,
+            "eliminated_dimensions": eliminated,
+            "value": value,
+            "status": _value_at(statuses, offset),
+        }
+
+
+def fetch_one(spec_id: str) -> None:
+    entity_id = _entity_id_from_spec(spec_id)
+    source_meta = ENTITY_METADATA[entity_id]
+    url = _table_url(source_meta)
+
+    metadata_resp = get(url, timeout=(10.0, 120.0))
+    metadata_resp.raise_for_status()
+    metadata = metadata_resp.json()
+
+    data_resp = post(url, json=_query_all(metadata), timeout=(10.0, 300.0))
+    data_resp.raise_for_status()
+    dataset = data_resp.json()
+
+    rows = list(_jsonstat_rows(dataset, entity_id=entity_id, source_meta=source_meta))
+    if not rows:
+        raise ValueError(f"{spec_id}: PxWeb response produced no non-null observations")
+    save_raw_ndjson(rows, spec_id)
+
+
+DOWNLOAD_SPECS = [
+    NodeSpec(id=f"{SPEC_PREFIX}{entity_id.lower().replace('_', '-')}", fn=fetch_one)
+    for entity_id in ENTITY_METADATA
+]
