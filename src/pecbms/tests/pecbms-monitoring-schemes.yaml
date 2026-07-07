@@ -1,0 +1,11 @@
+spec_id: pecbms-monitoring-schemes
+status: active
+tests:
+  - row_count: {min: 50}
+  - not_null: country_code
+  - not_null: country
+  - not_null: scheme_index
+  - unique: [country_code, scheme_index]
+    reason: countries can have multiple schemes, indexed in source order
+    certainty: 95
+  - distinct_count: {col: country_code, min: 45}

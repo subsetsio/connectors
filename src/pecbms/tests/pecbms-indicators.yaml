@@ -1,0 +1,9 @@
+spec_id: pecbms-indicators
+status: active
+tests:
+  - row_count: {min: 10}
+  - not_null: indicator_id
+  - not_null: indicator_name
+  - not_null: region
+  - unique: indicator_id
+  - distinct_count: {col: indicator_id, min: 10}

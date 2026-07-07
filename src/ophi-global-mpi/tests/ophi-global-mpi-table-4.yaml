@@ -1,0 +1,17 @@
+spec_id: ophi-global-mpi-table-4
+status: active
+coverage:
+  frozen: true
+  reason: OPHI Global MPI 2025 table URLs are versioned annual-release workbooks; this raw asset intentionally mirrors the 2025 snapshot.
+tests:
+  - row_count: {min: 100}
+  - not_null: sheet_name
+  - not_null: row_index
+  - not_null: column_index
+  - not_null: table_number
+  - column_type: {col: release_year, type: integer}
+  - column_type: {col: table_number, type: integer}
+  - column_type: {col: row_index, type: integer}
+  - column_type: {col: column_index, type: integer}
+  - enum: {col: table_number, values: [4]}
+  - distinct_count: {col: sheet_name, min: 1}

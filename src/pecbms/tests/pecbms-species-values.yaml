@@ -1,0 +1,18 @@
+spec_id: pecbms-species-values
+status: active
+tests:
+  - row_count: {min: 7000}
+  - not_null: species_id
+  - not_null: year
+  - not_null: index_value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: index_value, type: float}
+  - unique: [species_id, year]
+    reason: each species has one published index value per year
+    certainty: 95
+  - between: {col: year, lo: 1980, hi: current_year()}
+    certainty: 95
+  - distinct_count: {col: species_id, min: 160}
+  - freshness: {col: year, reaches: 2024}
+    points_outward: true
+    reason: the 2025 update publishes data through 2024

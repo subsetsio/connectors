@@ -1,0 +1,10 @@
+spec_id: pecbms-species
+status: active
+tests:
+  - row_count: {min: 160}
+  - not_null: species_id
+  - not_null: species_name
+  - unique: species_id
+  - enum: {col: habitat, values: [farmland, forest, other]}
+    certainty: 90
+    severity: warn
