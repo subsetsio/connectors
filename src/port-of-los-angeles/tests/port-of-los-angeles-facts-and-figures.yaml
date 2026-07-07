@@ -1,0 +1,16 @@
+spec_id: port-of-los-angeles-facts-and-figures
+status: active
+tests:
+  - not_null: page_slug
+    certainty: 98
+  - not_null: value
+    reason: raw HTML statistics are normalized to one non-empty cell per row
+    certainty: 95
+  - enum: {col: page_slug, values: [facts-and-figures]}
+    certainty: 98
+  - row_count: {min: 40}
+    reason: facts and figures should include key statistics, economic impacts, and jobs tables
+    certainty: 80
+  - distinct_count: {col: table_index, min: 3}
+    reason: the page normally has several summary tables
+    certainty: 75

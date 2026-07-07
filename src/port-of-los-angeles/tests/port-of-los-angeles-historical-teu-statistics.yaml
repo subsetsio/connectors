@@ -1,0 +1,25 @@
+spec_id: port-of-los-angeles-historical-teu-statistics
+status: active
+coverage:
+  frozen: true
+  reason: DataLA's historical TEU mirror is a fixed 1980-2015 archive last updated in 2020; current Port statistics are fetched from the Port website specs.
+tests:
+  - not_null: year
+    reason: the Socrata table is keyed by calendar year
+    certainty: 98
+  - not_null: teus_in_million
+    reason: every historical year carries an annual TEU total in millions
+    certainty: 98
+  - column_type: {col: year, type: integer}
+    certainty: 98
+  - column_type: {col: teus_in_million, type: float}
+    certainty: 98
+  - unique: year
+    reason: one annual historical record per year
+    certainty: 98
+  - between: {col: year, lo: 1980, hi: 2015}
+    reason: the public DataLA mirror covers 1980 through 2015
+    certainty: 95
+  - row_count: {min: 36, max: 60}
+    reason: a sharp count change means the mirror schema or coverage changed
+    certainty: 90

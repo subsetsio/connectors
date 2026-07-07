@@ -1,0 +1,16 @@
+spec_id: port-of-los-angeles-breakbulk-statistics
+status: active
+tests:
+  - not_null: page_slug
+    certainty: 98
+  - not_null: value
+    reason: raw HTML statistics are normalized to one non-empty cell per row
+    certainty: 95
+  - enum: {col: page_slug, values: [breakbulk-statistics]}
+    certainty: 98
+  - row_count: {min: 45}
+    reason: the page has multiple breakbulk commodity tables; fewer cells means table extraction collapsed
+    certainty: 85
+  - distinct_count: {col: table_index, min: 3}
+    reason: recyclable metal, bulk steel, and bulk fruit are separate tables
+    certainty: 85

@@ -1,0 +1,17 @@
+spec_id: port-of-los-angeles-cruise-statistics
+status: active
+tests:
+  - not_null: page_slug
+    certainty: 98
+  - not_null: value
+    reason: raw HTML statistics are normalized to one non-empty cell per row
+    certainty: 95
+  - enum: {col: page_slug, values: [cruise-statistics]}
+    certainty: 98
+  - row_count: {min: 80}
+    reason: the page carries annual cruise calls and passengers back to 1990
+    certainty: 85
+  - matches: {col: value, pattern: "^(19|20)[0-9]{2}$"}
+    reason: at least one parsed cell should be a calendar year
+    certainty: 70
+    severity: warn
