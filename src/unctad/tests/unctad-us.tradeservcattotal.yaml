@@ -1,2 +1,7 @@
 spec_id: unctad-us.tradeservcattotal
 status: deferred
+tests:
+  - freshness: {col: year, reaches: "2020"}
+    reason: UNCTADstat temporal series should include observations from 2020 or later; this catches stale/incomplete pulls while allowing the source's mixed annual, quarterly, monthly, and interval calendars.
+    certainty: 80
+    points_outward: true

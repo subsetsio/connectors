@@ -39,7 +39,7 @@ from tenacity import (
     retry, retry_if_exception, stop_after_attempt, wait_exponential, wait_random,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, post, configure_http, save_raw_parquet
+from subsets_utils import NodeSpec, get, post, configure_http, save_raw_parquet
 
 BASE = "https://statdb.bank.lv"
 PREFIX = "bank-of-latvia-"
@@ -295,17 +295,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{PREFIX}{eid.lower().replace('_', '-')}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per INTS table, from its long parquet. All tables
-# share the (table_id, row_label, period, value) long schema; row_label and period
-# carry the table's own dimension breakdown as text (each INTS leaf is a distinct
-# pivot, so there is no shared set of typed dimension columns to normalize to).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT table_id, row_label, period, value FROM "{s.id}" WHERE value IS NOT NULL',
-    )
-    for s in DOWNLOAD_SPECS
 ]
