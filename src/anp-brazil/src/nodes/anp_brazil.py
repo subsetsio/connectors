@@ -33,7 +33,7 @@ import pyarrow.parquet as pq
 
 from subsets_utils import (
     get, get_client, transient_retry, is_transient,
-    raw_parquet_writer, NodeSpec, SqlNodeSpec,
+    raw_parquet_writer, NodeSpec,
 )
 from constants import ENTITY_MAP, ENTITY_IDS
 
@@ -405,120 +405,5 @@ def fetch_one(node_id):
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{eid}", fn=fetch_one, kind="download")
-    for eid in ENTITY_IDS
-]
-
-# ---------------------------------------------------------------------------
-# transforms — one published Delta table per subset (locale-aware typing)
-# ---------------------------------------------------------------------------
-
-# Brazilian numeric: strip thousands dots, comma -> decimal point.
-def _num(col):
-    return f"TRY_CAST(replace(replace(trim(\"{col}\"), '.', ''), ',', '.') AS DOUBLE)"
-
-
-def _dim(col):
-    return f'NULLIF(TRIM("{col}"), \'\') AS {col}'
-
-
-# Month: Portuguese 3-letter (long-history files) OR numeric (mdpg files).
-_MONTH = (
-    "CASE upper(trim(\"{m}\")) "
-    "WHEN 'JAN' THEN 1 WHEN 'JANEIRO' THEN 1 "
-    "WHEN 'FEV' THEN 2 WHEN 'FEVEREIRO' THEN 2 "
-    "WHEN 'MAR' THEN 3 WHEN 'MARÇO' THEN 3 WHEN 'MARCO' THEN 3 "
-    "WHEN 'ABR' THEN 4 WHEN 'ABRIL' THEN 4 "
-    "WHEN 'MAI' THEN 5 WHEN 'MAIO' THEN 5 "
-    "WHEN 'JUN' THEN 6 WHEN 'JUNHO' THEN 6 "
-    "WHEN 'JUL' THEN 7 WHEN 'JULHO' THEN 7 "
-    "WHEN 'AGO' THEN 8 WHEN 'AGOSTO' THEN 8 "
-    "WHEN 'SET' THEN 9 WHEN 'SETEMBRO' THEN 9 "
-    "WHEN 'OUT' THEN 10 WHEN 'OUTUBRO' THEN 10 "
-    "WHEN 'NOV' THEN 11 WHEN 'NOVEMBRO' THEN 11 "
-    "WHEN 'DEZ' THEN 12 WHEN 'DEZEMBRO' THEN 12 "
-    "ELSE TRY_CAST(trim(\"{m}\") AS INTEGER) END"
-)
-
-# Per-entity transform recipe: (kind, dims, values). kind picks the date source.
-#   monthly -> make_date(ano, month("mes"), 1)
-#   periodo -> "YYYY/MM"      mesano -> "MM/YYYY"      coleta -> "DD/MM/YYYY"
-#   annual  -> year only (no date/month)
-TRANSFORMS = {
-    "ppgn-el-producao-petroleo-m3": ("monthly", ["grande_regiao", "unidade_da_federacao", "produto", "localizacao"], ["producao"]),
-    "ppgn-el-producao-lgn-m3": ("monthly", ["grande_regiao", "unidade_da_federacao", "produto"], ["producao"]),
-    "ppgn-el-queima-e-perda-gn-1000m3": ("monthly", ["grande_regiao", "unidade_da_federacao", "produto", "localizacao"], ["queimado"]),
-    "ppgn-el-consumo-proprio-gn1000m3": ("monthly", ["grande_regiao", "unidade_da_federacao", "produto", "localizacao"], ["consumo"]),
-    "ppgn-el-gn-disponivel-1000m3": ("monthly", ["grande_regiao", "unidade_da_federacao", "produto", "localizacao"], ["disponivel"]),
-    "arquivos-producao-de-biocombustiveis-producao-biodiesel-m3": ("monthly", ["grande_regiao", "unidade_da_federacao", "produtor", "produto"], ["producao"]),
-    "arquivos-producao-de-biocombustiveis-producao-etanol-anidro-hidratado-m3": ("monthly", ["grande_regiao", "unidade_da_federacao", "produto"], ["producao"]),
-    "vdpb-vendas-derivados-petroleo-e-etanol-vendas-combustiveis-m3": ("monthly", ["grande_regiao", "unidade_da_federacao", "produto"], ["vendas"]),
-    "vdpb-vcs-vendas-combustiveis-segmento-m3": ("monthly", ["unidade_da_federacao", "produto", "segmento"], ["vendas"]),
-    "vdpb-vct-vendas-glp-tipo-vasilhame-m3": ("monthly", ["grande_regiao", "unidade_da_federacao", "vasilhame"], ["vendas"]),
-    "vdpb-vendas-por-produtor-vendas-oleo-diesel-produtores-m3": ("monthly", ["derivado", "regiao", "estado"], ["vendas"]),
-    "ie-petroleo-importacoes-exportacoes-petroleo": ("monthly", ["produto", "operacao_comercial"], ["importado_exportado", "dispendio_receita"]),
-    "ie-gn-importacao-gas-natural": ("monthly", ["produto", "operacao_comercial"], ["importado", "dispendio"]),
-    "ie-derivados-importacoes-exportacoes-derivados": ("monthly", ["produto", "operacao_comercial"], ["importado_exportado", "dispendio_receita"]),
-    "mdpg-asfalto": ("monthly", ["agente_regulado", "codigo_do_produto", "nome_do_produto", "regiao_origem", "regiao_destinatario", "mercado_destinatario"], ["quantidade_de_produto_mil_ton"]),
-    "mdpg-aviacao": ("monthly", ["agente_regulado", "codigo_do_produto", "nome_do_produto", "regiao_origem", "regiao_destinatario", "mercado_destinatario"], ["quantidade_de_produto_mil_m3"]),
-    "mdpg-liquidos": ("monthly", ["agente_regulado", "codigo_do_produto", "nome_do_produto", "descricao_do_produto", "regiao_origem", "regiao_destinatario", "mercado_destinatario"], ["quantidade_de_produto_mil_m3"]),
-    "mdpg-glp": ("monthly", ["agente_regulado", "codigo_do_produto", "nome_do_produto", "regiao_origem", "regiao_destinatario", "mercado_destinatario", "codigo_de_embalagem_glp"], ["quantidade_de_produto_mil_ton"]),
-    "mdpg-solvente": ("monthly", ["agente_regulado", "codigo_do_produto", "nome_do_produto", "regiao_origem", "regiao_destinatario", "mercado_destinatario"], ["quantidade_de_produto_mil_m3"]),
-    "mdpg-trr": ("monthly", ["agente_regulado", "codigo_do_produto", "nome_do_produto", "regiao_de_origem", "uf_origem", "regiao_de_destino", "uf_destino", "mercado_destinatario"], ["quantidade_de_produto_mil_m3"]),
-    "mdpg-fornecedores-vendas-diretas": ("monthly", ["codigo_operacao", "nome_operacao", "codigo_do_produto", "nome_do_produto", "codigo_agente_regulado", "agente_regulado", "regiao_origem", "regiao_destinatario", "mercado_destinatario"], ["quantidade_de_produto_mil_m3"]),
-    "mdpg-lubrificante": ("monthly", ["codigo_do_produto", "descricao_do_produto", "regiao_de_origem", "uf_de_origem", "regiao_do_destinatario", "uf_do_destinatario"], ["volume_l"]),
-    "mdpg-movimentacaologistica": ("periodo", ["uf_origem", "uf_destino", "produto", "classificacao", "sub_classificacao", "operacao", "modal"], ["qtd_produto_liquido"]),
-    "vdpb-vendas-de-biodiesel-vendas-biodiesel-b100-m3": ("mesano", ["regiao_origem", "regiao_destino"], ["vendas_de_biodiesel"]),
-    "shpc-dsas-ca-ca": ("coleta", ["regiao_sigla", "estado_sigla", "municipio", "revenda", "cnpj_da_revenda", "nome_da_rua", "numero_rua", "complemento", "bairro", "cep", "produto", "unidade_de_medida", "bandeira"], ["valor_de_venda", "valor_de_compra"]),
-    "vdpb-vaehdpm-asfalto-vendas-anuais-de-asfalto-por-municipio": ("annual", ["grande_regiao", "uf", "produto", "codigo_ibge", "municipio"], ["vendas"]),
-    "vdpb-vaehdpm-glp-vendas-anuais-de-glp-por-municipio": ("annual", ["grande_regiao", "uf", "produto", "codigo_ibge", "municipio"], ["p13", "outros"]),
-    "vdpb-vaehdpm-oleo-combustivel-vendas-anuais-de-oleo-combustivel-por-municipio": ("annual", ["grande_regiao", "uf", "produto", "codigo_ibge", "municipio"], ["vendas"]),
-    "arquivos-vendas-anuais-de-etanol-hidratado-e-derivados-de-petroleo-por-estado-ve": ("annual", ["grande_regiao", "estado", "produto"], ["vendas"]),
-}
-
-
-def _date_expr(kind):
-    if kind == "monthly":
-        return f'make_date(TRY_CAST(trim("ano") AS INTEGER), {_MONTH.format(m="mes")}, 1)'
-    if kind == "periodo":
-        return ("make_date(TRY_CAST(split_part(trim(\"periodo\"), '/', 1) AS INTEGER), "
-                "TRY_CAST(split_part(trim(\"periodo\"), '/', 2) AS INTEGER), 1)")
-    if kind == "mesano":
-        return ("make_date(TRY_CAST(split_part(trim(\"mes_ano\"), '/', 2) AS INTEGER), "
-                "TRY_CAST(split_part(trim(\"mes_ano\"), '/', 1) AS INTEGER), 1)")
-    if kind == "coleta":
-        return "TRY_CAST(try_strptime(trim(\"data_da_coleta\"), '%d/%m/%Y') AS DATE)"
-    raise ValueError(kind)
-
-
-def _build_sql(asset, kind, dims, values):
-    dim_sel = ", ".join(_dim(d) for d in dims)
-    val_sel = ", ".join(f"{_num(v)} AS {v}" for v in values)
-    val_not_null = " OR ".join(f"{v} IS NOT NULL" for v in values)
-    if kind == "annual":
-        inner = (
-            f'SELECT TRY_CAST(trim("ano") AS INTEGER) AS year, '
-            f'{dim_sel}, {val_sel} FROM "{asset}"'
-        )
-        return (
-            f"SELECT year, {', '.join(dims)}, {', '.join(values)} "
-            f"FROM ({inner}) WHERE year IS NOT NULL AND ({val_not_null})"
-        )
-    inner = (
-        f"SELECT {_date_expr(kind)} AS date, {dim_sel}, {val_sel} FROM \"{asset}\""
-    )
-    return (
-        f"SELECT date, CAST(EXTRACT(year FROM date) AS INTEGER) AS year, "
-        f"CAST(EXTRACT(month FROM date) AS INTEGER) AS month, "
-        f"{', '.join(dims)}, {', '.join(values)} "
-        f"FROM ({inner}) WHERE date IS NOT NULL AND ({val_not_null})"
-    )
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{SLUG}-{eid}-transform",
-        deps=[f"{SLUG}-{eid}"],
-        sql=_build_sql(f"{SLUG}-{eid}", *TRANSFORMS[eid]),
-    )
     for eid in ENTITY_IDS
 ]
