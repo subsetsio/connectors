@@ -1,5 +1,8 @@
 spec_id: canadian-centre-for-energy-information-stc:df-25100039
 status: active
+coverage:
+  frozen: true
+  reason: historical electricity table is frozen at 2016-02 in the CCEI SDMX feed; it does not advance monthly
 tests:
   - not_null: TIME_PERIOD
     reason: SDMX-CSV always carries the observation dimension (TIME_PERIOD) on every row

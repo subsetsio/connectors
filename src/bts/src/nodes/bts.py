@@ -61,10 +61,11 @@ OVERLAP_PERIODS = 2
 # The rank-accepted entity union (TranStats obfuscated table codes).
 from constants import ENTITY_IDS
 
-# Tables that publish a /PREZIP/ surface (probed). All others use the generic
-# custom-download surface. The exact prezip filename prefix is still discovered
-# at runtime — this set only routes which surface a table uses.
-PREZIP_TABLES = {"FGJ", "FGK", "FHK", "FKF", "FLM"}
+# Tables that publish a working /PREZIP/ surface (probed). All others use the
+# generic custom-download surface. DB1B tables expose a prezip button but its
+# redirect currently points at non-existent On_Time_DB1B* filenames, so route
+# them through the custom form.
+PREZIP_TABLES = {"FGJ", "FGK"}
 
 _GET_PAGE = "https://www.transtats.bts.gov/DL_SelectFields.asp?gnoyr_VQ={code}&QO_fu146_anzr=b0-gvzr"
 _POST_PAGE = "https://www.transtats.bts.gov/DL_SelectFields.aspx?gnoyr_VQ={code}&QO_fu146_anzr=b0-gvzr"
@@ -111,10 +112,15 @@ def _page_meta(code: str) -> dict:
     periods = re.findall(r'<option value="(\d+)"', period_block.group(0)) if period_block else []
     periods = sorted(periods, key=int)
 
+    period_values = {int(p) for p in periods}
     if len(periods) == 12:
         period_type = "M"
-    elif len(periods) == 4:
+    elif period_values == {1, 2, 3, 4}:
         period_type = "Q"
+    elif period_values and all(1 <= p <= 12 for p in period_values):
+        # Some BTS tables publish only March/June/September/December selector
+        # values. They are month codes, not quarter numbers.
+        period_type = "M"
     else:
         period_type = "A"  # annual: one file per year, no period selector
 

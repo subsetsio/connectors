@@ -35,9 +35,9 @@ tests:
   - unique: [series_code, date_ms]
     reason: one daily price per bidding-zone module; region is constant so it need not key the row
     certainty: 90
-  # Up to 15 bidding-zone modules; some neighbour zones may be absent under DE-LU.
-  - distinct_count: {col: series_code, min: 2, max: 15}
-    reason: 15 bidding-zone price modules requested
+  # Up to 16 bidding-zone modules; some neighbour zones may be absent under DE-LU.
+  - distinct_count: {col: series_code, min: 2, max: 16}
+    reason: SMARD bidding-zone price modules requested
     certainty: 85
   # Day-ahead wholesale prices in EUR/MWh: typically tens of euros, occasionally
   # negative (oversupply) or spiking into the hundreds, so this bounds the

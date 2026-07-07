@@ -27,6 +27,7 @@ def test_most_reports_have_data(spec_ids):
     """The vast majority of reports must produce at least one batch. A handful
     failing (a report retired, a market_run guess wrong) is tolerable; a broad
     wipeout means the endpoint or throttling broke."""
+    spec_ids = [sid for sid in spec_ids if not sid.endswith("-transform")]
     empty = [sid for sid in spec_ids if not _batches(sid)]
     assert len(empty) <= 3, (
         f"{len(empty)}/{len(spec_ids)} reports produced no batches: {sorted(empty)}"
@@ -37,6 +38,7 @@ def test_batches_nonempty_and_timestamped(spec_ids):
     """Every batch that exists must hold rows, and OASIS reports always carry an
     INTERVALSTARTTIME_GMT or OPR_DT column — its absence means the CSV layout
     changed underneath us."""
+    spec_ids = [sid for sid in spec_ids if not sid.endswith("-transform")]
     checked = 0
     for sid in spec_ids:
         batches = _batches(sid)

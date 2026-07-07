@@ -1,6 +1,9 @@
 spec_id: bundesagentur-f-r-arbeit-alo-current
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 120d}
+    reason: current labour-market key figures are monthly and should reach a recent reporting month
+    certainty: 85
   - not_null: metric
     reason: every row is a (period, metric) cell; a null metric means the metricName key changed
     certainty: 95

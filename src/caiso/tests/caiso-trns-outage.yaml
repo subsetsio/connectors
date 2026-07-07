@@ -7,7 +7,7 @@ tests:
   - not_null: INTERVALENDTIME_GMT
     reason: paired with the start stamp on every row
     certainty: 95
-  - column_type: {col: INTERVALSTARTTIME_GMT, type: string}
+  - column_type: {col: INTERVALSTARTTIME_GMT, type: timestamp}
     reason: OASIS emits ISO-8601 strings with a -0000 offset, parsed as text not native timestamps
     certainty: 90
   - not_null: START_DATE

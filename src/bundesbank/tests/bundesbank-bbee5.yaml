@@ -1,5 +1,8 @@
 spec_id: bundesbank-bbee5
 status: active
+coverage:
+  frozen: true
+  reason: historical exchange-rate-effects IIP index dataflow; latest published observation is 2022-Q3 and the source exposes it as a non-advancing series
 tests:
   - row_count: {min: 1}
     reason: a whole-dataflow SDMX-CSV pull always returns at least one observation; zero rows means the flowRef 404'd or the media type stopped being honoured

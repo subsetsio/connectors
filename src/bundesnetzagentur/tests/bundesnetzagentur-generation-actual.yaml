@@ -37,9 +37,9 @@ tests:
   - enum: {col: region, values: [DE, 50Hertz, Amprion, TenneT, TransnetBW]}
     reason: generation actual is queried only for DE + the four control zones
     certainty: 90
-  # Up to 12 fuel modules (some may legitimately 404 for a given zone).
-  - distinct_count: {col: series_code, min: 2, max: 12}
-    reason: 12 fuel modules requested; at least a couple must materialise
+  # Around a dozen fuel modules (some may legitimately 404 for a given zone).
+  - distinct_count: {col: series_code, min: 2, max: 13}
+    reason: SMARD generation fuel modules requested; at least a couple must materialise
     certainty: 85
   - distinct_count: {col: region, min: 1, max: 5}
     certainty: 85

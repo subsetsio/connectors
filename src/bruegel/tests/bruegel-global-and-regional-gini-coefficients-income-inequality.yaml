@@ -13,10 +13,9 @@ tests:
   - column_type: {col: gini, type: float}
     reason: gini coefficients are floats
     certainty: 85
-  - between: {col: gini, lo: 0, hi: 1}
-    reason: a gini coefficient is bounded on [0,1]; a breach usually means the source uses a 0-100 index instead
-    certainty: 55
-    severity: warn
+  - between: {col: gini, lo: 0, hi: 100}
+    reason: Bruegel stores gini coefficients on a 0-100 index scale
+    certainty: 80
   - between: {col: year, lo: 1800, hi: current_year()}
     reason: long-run global inequality series reach back into the 19th century but not beyond the current year
     certainty: 70

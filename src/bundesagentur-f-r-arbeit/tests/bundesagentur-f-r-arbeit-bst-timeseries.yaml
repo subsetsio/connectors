@@ -1,6 +1,9 @@
 spec_id: bundesagentur-f-r-arbeit-bst-timeseries
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 300d}
+    reason: employment time series publish with a substantially longer reporting lag than unemployment tables
+    certainty: 85
   - not_null: metric
     reason: every row is a (period, metric) cell; a null metric means the metricName key changed
     certainty: 95

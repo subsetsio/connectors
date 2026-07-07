@@ -1,6 +1,9 @@
 spec_id: bundesbank-bbdb2
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 1100d}
+    reason: Bundesbank SDMX dataflows use mixed daily, monthly, quarterly, semiannual, annual, and revision-only cadences; three-year slack covers slow official statistical releases while still catching stale pulls
+    certainty: 80
   - row_count: {min: 1}
     reason: a whole-dataflow SDMX-CSV pull always returns at least one observation; zero rows means the flowRef 404'd or the media type stopped being honoured
     certainty: 95

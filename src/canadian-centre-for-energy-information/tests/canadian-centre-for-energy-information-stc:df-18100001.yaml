@@ -1,6 +1,10 @@
 spec_id: canadian-centre-for-energy-information-stc:df-18100001
 status: active
 tests:
+  - freshness: {col: TIME_PERIOD, reaches: 2025-10}
+    reason: monthly price table should include recent months; allow roughly nine months release lag
+    certainty: 85
+    points_outward: true
   - not_null: TIME_PERIOD
     reason: SDMX-CSV always carries the observation dimension (TIME_PERIOD) on every row
     certainty: 95

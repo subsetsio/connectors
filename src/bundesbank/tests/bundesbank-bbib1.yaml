@@ -1,5 +1,8 @@
 spec_id: bundesbank-bbib1
 status: active
+coverage:
+  frozen: true
+  reason: historical Bundesbank interest-rate-statistics dataflow; latest published observation is 2003-06 and current rate statistics are covered by other active dataflows
 tests:
   - row_count: {min: 1}
     reason: a whole-dataflow SDMX-CSV pull always returns at least one observation; zero rows means the flowRef 404'd or the media type stopped being honoured

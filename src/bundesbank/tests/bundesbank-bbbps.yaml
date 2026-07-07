@@ -1,5 +1,8 @@
 spec_id: bundesbank-bbbps
 status: active
+coverage:
+  frozen: true
+  reason: historical IFRS group profit-and-loss dataflow; latest published observation is 2021-Q3 and the source exposes no current update cadence for this series
 tests:
   - row_count: {min: 1}
     reason: a whole-dataflow SDMX-CSV pull always returns at least one observation; zero rows means the flowRef 404'd or the media type stopped being honoured

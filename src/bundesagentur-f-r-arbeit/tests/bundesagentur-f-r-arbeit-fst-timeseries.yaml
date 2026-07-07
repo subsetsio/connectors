@@ -1,6 +1,9 @@
 spec_id: bundesagentur-f-r-arbeit-fst-timeseries
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 180d}
+    reason: funding and rehabilitation time series have a multi-month publication lag but should stay within half a year
+    certainty: 85
   - not_null: metric
     reason: every row is a (period, metric) cell; a null metric means the metricName key changed
     certainty: 95

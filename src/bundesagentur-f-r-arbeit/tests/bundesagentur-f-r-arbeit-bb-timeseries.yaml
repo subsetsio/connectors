@@ -1,6 +1,9 @@
 spec_id: bundesagentur-f-r-arbeit-bb-timeseries
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 120d}
+    reason: apprenticeship-market time series update monthly and should reach a recent reporting month
+    certainty: 85
   - not_null: metric
     reason: every row is a (period, metric) cell; a null metric means the metricName key changed
     certainty: 95
