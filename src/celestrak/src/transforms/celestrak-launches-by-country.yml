@@ -1,0 +1,17 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, country]
+temporal: year
+sort: [year, country]
+columns:
+  - name: year
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: payloads
+    type: BIGINT
+  - name: rocket_bodies
+    type: BIGINT
+  - name: debris
+    type: BIGINT
+  - name: total
+    type: BIGINT

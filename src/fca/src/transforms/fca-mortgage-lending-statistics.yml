@@ -1,0 +1,18 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: table_sheet
+    type: VARCHAR
+  - name: sub_table_ref
+    type: VARCHAR
+  - name: metric
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: quarter
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

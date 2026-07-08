@@ -1,0 +1,81 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [id]
+temporal: year
+sort: [year, id]
+columns:
+  - name: id
+    type: INTEGER
+  - name: active
+    type: TINYINT
+  - name: year
+    type: SMALLINT
+  - name: actor_id
+    type: SMALLINT
+  - name: actor_name
+    type: VARCHAR
+  - name: actor_nonstate
+    type: TINYINT
+  - name: oppo_id
+    type: SMALLINT
+  - name: oppo_name
+    type: VARCHAR
+  - name: dyad_id
+    type: SMALLINT
+  - name: dyad_name
+    type: VARCHAR
+  - name: civil
+    type: TINYINT
+  - name: conflict_id
+    type: SMALLINT
+  - name: location
+    type: VARCHAR
+  - name: gwno_a
+    type: SMALLINT
+  - name: country_a
+    type: VARCHAR
+  - name: gwno_b
+    type: DOUBLE
+  - name: country_b
+    type: VARCHAR
+  - name: ext_id
+    type: DOUBLE
+  - name: ext_name
+    type: VARCHAR
+  - name: ext_nonstate
+    type: DOUBLE
+  - name: ext_coalition
+    type: DOUBLE
+  - name: ext_coalition_name
+    type: VARCHAR
+  - name: ext_elements
+    type: DOUBLE
+  - name: ext_bothsides
+    type: DOUBLE
+  - name: ext_alleged
+    type: TINYINT
+  - name: ext_sup
+    type: TINYINT
+  - name: ext_x
+    type: TINYINT
+  - name: ext_p
+    type: TINYINT
+  - name: ext_y
+    type: TINYINT
+  - name: ext_w
+    type: TINYINT
+  - name: ext_m
+    type: TINYINT
+  - name: ext_t
+    type: TINYINT
+  - name: ext_f
+    type: TINYINT
+  - name: ext_i
+    type: TINYINT
+  - name: ext_l
+    type: TINYINT
+  - name: ext_o
+    type: TINYINT
+  - name: ext_u
+    type: TINYINT
+  - name: ext_sum
+    type: TINYINT

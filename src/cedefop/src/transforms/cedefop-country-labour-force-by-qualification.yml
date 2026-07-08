@@ -1,0 +1,13 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [country, qualification, year]
+temporal: year
+sort: [year, country, qualification]
+columns:
+  - name: country
+    type: VARCHAR
+  - name: qualification
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: labour_force
+    type: BIGINT

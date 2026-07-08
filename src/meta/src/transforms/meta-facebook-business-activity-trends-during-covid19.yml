@@ -1,0 +1,30 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: ds
+sort: [ds]
+columns:
+  - name: gadm_id
+    type: VARCHAR
+  - name: gadm_name
+    type: VARCHAR
+  - name: gadm_level
+    type: BIGINT
+  - name: gadm0_name
+    type: VARCHAR
+  - name: gadm1_name
+    type: VARCHAR
+  - name: gadm2_name
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: business_vertical
+    type: VARCHAR
+  - name: activity_quantile
+    type: DOUBLE
+  - name: activity_percentage
+    type: DOUBLE
+  - name: crisis_ds
+    type: DATE
+  - name: ds
+    type: DATE
+  - name: _source_file
+    type: VARCHAR

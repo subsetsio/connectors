@@ -1,0 +1,13 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [range, year]
+temporal: updated_at
+sort: [updated_at, range, year]
+columns:
+  - name: range
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: listen_count
+    type: BIGINT
+  - name: updated_at
+    type: TIMESTAMP

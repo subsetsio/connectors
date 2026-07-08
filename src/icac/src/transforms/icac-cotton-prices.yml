@@ -1,0 +1,17 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [source_table, quotation, period]
+temporal: period
+sort: [period, source_table, quotation]
+columns:
+  - name: source_table
+    type: VARCHAR
+  - name: table_title
+    type: VARCHAR
+  - name: quotation
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: period_type
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

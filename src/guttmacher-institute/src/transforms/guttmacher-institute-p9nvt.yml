@@ -1,0 +1,1136 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: country
+    type: VARCHAR
+  - name: data_source_year
+    type: VARCHAR
+  - name: iso_numeric
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: subregion
+    type: VARCHAR
+  - name: wra
+    type: DOUBLE
+  - name: pct_currentlymarried
+    type: DOUBLE
+  - name: pct_formerlymarried
+    type: DOUBLE
+  - name: pct_nevermarried
+    type: DOUBLE
+  - name: allpreg
+    type: DOUBLE
+  - name: allpreg_birth
+    type: DOUBLE
+  - name: allpreg_abo
+    type: DOUBLE
+  - name: allpreg_miscar
+    type: DOUBLE
+  - name: allpreg_stillbirth
+    type: DOUBLE
+  - name: ipreg
+    type: DOUBLE
+  - name: ipreg_birth
+    type: DOUBLE
+  - name: ipreg_abo
+    type: BIGINT
+  - name: ipreg_miscar
+    type: DOUBLE
+  - name: ipreg_stillbirth
+    type: DOUBLE
+  - name: upreg
+    type: DOUBLE
+  - name: upreg_birth
+    type: DOUBLE
+  - name: upreg_abo
+    type: DOUBLE
+  - name: upreg_miscar
+    type: DOUBLE
+  - name: upreg_stillbirth
+    type: DOUBLE
+  - name: allpreg_subreg
+    type: DOUBLE
+  - name: allpreg_birth_subreg
+    type: DOUBLE
+  - name: allpreg_abo_subreg
+    type: DOUBLE
+  - name: allpreg_miscarsb_subreg
+    type: DOUBLE
+  - name: ipreg_subreg
+    type: DOUBLE
+  - name: ipreg_birth_subreg
+    type: DOUBLE
+  - name: ipreg_abo_subreg
+    type: BIGINT
+  - name: upreg_subreg
+    type: DOUBLE
+  - name: upreg_birth_subreg
+    type: DOUBLE
+  - name: upreg_abo_subreg
+    type: DOUBLE
+  - name: pct_upreg
+    type: DOUBLE
+  - name: pct_upreg_subreg
+    type: DOUBLE
+  - name: safe_abortions
+    type: DOUBLE
+  - name: lesssafe_abortions
+    type: DOUBLE
+  - name: leastsafe_abortions
+    type: DOUBLE
+  - name: safe_abortions_subreg
+    type: DOUBLE
+  - name: lesssafe_abortions_subreg
+    type: DOUBLE
+  - name: leastsafe_abortions_subreg
+    type: DOUBLE
+  - name: pct_upreg_larcster
+    type: DOUBLE
+  - name: pct_upreg_sarc
+    type: DOUBLE
+  - name: pct_upreg_trad
+    type: DOUBLE
+  - name: pct_upreg_nouse
+    type: DOUBLE
+  - name: pct_matdeaths_abortions
+    type: DOUBLE
+  - name: pct_matdeaths_safeabs
+    type: DOUBLE
+  - name: pct_matdeaths_unsafeabs
+    type: DOUBLE
+  - name: pct_matdeaths_miscar
+    type: DOUBLE
+  - name: pct_matdeaths_ectopic
+    type: DOUBLE
+  - name: pct_matdeaths_hem
+    type: DOUBLE
+  - name: pct_matdeaths_hyptn
+    type: DOUBLE
+  - name: pct_matdeaths_inf
+    type: DOUBLE
+  - name: pct_matdeaths_other
+    type: DOUBLE
+  - name: pct_matdeaths_indirect
+    type: DOUBLE
+  - name: rate_matdeaths
+    type: DOUBLE
+  - name: rate_matdeaths_ipreg
+    type: DOUBLE
+  - name: rate_matdeaths_upreg
+    type: DOUBLE
+  - name: rate_matdeaths_nonabs
+    type: DOUBLE
+  - name: rate_matdeaths_upreg_nonabs
+    type: DOUBLE
+  - name: rate_matdeaths_abs
+    type: DOUBLE
+  - name: rate_matdeaths_safeabs
+    type: DOUBLE
+  - name: rate_matdeaths_unsafeabs
+    type: DOUBLE
+  - name: inneed
+    type: DOUBLE
+  - name: modmethods
+    type: DOUBLE
+  - name: femster
+    type: DOUBLE
+  - name: malester
+    type: DOUBLE
+  - name: iud
+    type: DOUBLE
+  - name: implant
+    type: DOUBLE
+  - name: inj
+    type: DOUBLE
+  - name: pill
+    type: DOUBLE
+  - name: condom
+    type: DOUBLE
+  - name: patchring
+    type: DOUBLE
+  - name: ecp
+    type: DOUBLE
+  - name: femcondom
+    type: DOUBLE
+  - name: lam
+    type: DOUBLE
+  - name: fabm
+    type: DOUBLE
+  - name: othersup
+    type: DOUBLE
+  - name: unmetneed_mod
+    type: DOUBLE
+  - name: tradmethods
+    type: DOUBLE
+  - name: nomethod
+    type: DOUBLE
+  - name: noneed
+    type: DOUBLE
+  - name: unmetneed_any
+    type: DOUBLE
+  - name: unmetneed_ityu
+    type: DOUBLE
+  - name: unmetneed_itn
+    type: DOUBLE
+  - name: inneed_1519
+    type: DOUBLE
+  - name: modmethods_1519
+    type: DOUBLE
+  - name: ster_1519
+    type: DOUBLE
+  - name: larc_1519
+    type: DOUBLE
+  - name: sarc_1519
+    type: DOUBLE
+  - name: unmetneed_mod_1519
+    type: DOUBLE
+  - name: tradmethods_1519
+    type: DOUBLE
+  - name: nomethod_1519
+    type: DOUBLE
+  - name: noneed_1519
+    type: DOUBLE
+  - name: inneed_2024
+    type: DOUBLE
+  - name: modmethods_2024
+    type: DOUBLE
+  - name: ster_2024
+    type: DOUBLE
+  - name: larc_2024
+    type: DOUBLE
+  - name: sarc_2024
+    type: DOUBLE
+  - name: unmetneed_mod_2024
+    type: DOUBLE
+  - name: tradmethods_2024
+    type: DOUBLE
+  - name: nomethod_2024
+    type: DOUBLE
+  - name: noneed_2024
+    type: DOUBLE
+  - name: inneed_2534
+    type: DOUBLE
+  - name: modmethods_2534
+    type: DOUBLE
+  - name: ster_2534
+    type: DOUBLE
+  - name: larc_2534
+    type: DOUBLE
+  - name: sarc_2534
+    type: DOUBLE
+  - name: unmetneed_mod_2534
+    type: DOUBLE
+  - name: tradmethods_2534
+    type: DOUBLE
+  - name: nomethod_2534
+    type: DOUBLE
+  - name: noneed_2534
+    type: DOUBLE
+  - name: inneed_3549
+    type: DOUBLE
+  - name: modmethods_3549
+    type: DOUBLE
+  - name: ster_3549
+    type: DOUBLE
+  - name: larc_3549
+    type: DOUBLE
+  - name: sarc_3549
+    type: DOUBLE
+  - name: unmetneed_mod_3549
+    type: DOUBLE
+  - name: tradmethods_3549
+    type: DOUBLE
+  - name: nomethod_3549
+    type: DOUBLE
+  - name: noneed_3549
+    type: DOUBLE
+  - name: unmetneed_any_1519
+    type: DOUBLE
+  - name: unmetneed_any_2024
+    type: DOUBLE
+  - name: unmetneed_any_2534
+    type: DOUBLE
+  - name: unmetneed_any_3549
+    type: DOUBLE
+  - name: unmetneed_ityu_1519
+    type: DOUBLE
+  - name: unmetneed_itn_1519
+    type: DOUBLE
+  - name: inneed_wealthlow
+    type: DOUBLE
+  - name: modmethods_wealthlow
+    type: DOUBLE
+  - name: ster_wealthlow
+    type: DOUBLE
+  - name: larc_wealthlow
+    type: DOUBLE
+  - name: sarc_wealthlow
+    type: DOUBLE
+  - name: unmetneed_mod_wealthlow
+    type: DOUBLE
+  - name: tradmethods_wealthlow
+    type: DOUBLE
+  - name: nomethod_wealthlow
+    type: DOUBLE
+  - name: noneed_wealthlow
+    type: DOUBLE
+  - name: inneed_wealthhigh
+    type: DOUBLE
+  - name: modmethods_wealthhigh
+    type: DOUBLE
+  - name: ster_wealthhigh
+    type: DOUBLE
+  - name: larc_wealthhigh
+    type: DOUBLE
+  - name: sarc_wealthhigh
+    type: DOUBLE
+  - name: unmetneed_mod_wealthhigh
+    type: DOUBLE
+  - name: tradmethods_wealthhigh
+    type: DOUBLE
+  - name: nomethod_wealthhigh
+    type: DOUBLE
+  - name: noneed_wealthhigh
+    type: DOUBLE
+  - name: inneed_urban
+    type: DOUBLE
+  - name: modmethods_urban
+    type: DOUBLE
+  - name: ster_urban
+    type: DOUBLE
+  - name: larc_urban
+    type: DOUBLE
+  - name: sarc_urban
+    type: DOUBLE
+  - name: unmetneed_mod_urban
+    type: DOUBLE
+  - name: tradmethods_urban
+    type: DOUBLE
+  - name: nomethod_urban
+    type: DOUBLE
+  - name: noneed_urban
+    type: DOUBLE
+  - name: inneed_rural
+    type: DOUBLE
+  - name: modmethods_rural
+    type: DOUBLE
+  - name: ster_rural
+    type: DOUBLE
+  - name: larc_rural
+    type: DOUBLE
+  - name: sarc_rural
+    type: DOUBLE
+  - name: unmetneed_mod_rural
+    type: DOUBLE
+  - name: tradmethods_rural
+    type: DOUBLE
+  - name: nomethod_rural
+    type: DOUBLE
+  - name: noneed_rural
+    type: DOUBLE
+  - name: inneed_parity0
+    type: DOUBLE
+  - name: modmethods_parity0
+    type: DOUBLE
+  - name: ster_parity0
+    type: DOUBLE
+  - name: larc_parity0
+    type: DOUBLE
+  - name: sarc_parity0
+    type: DOUBLE
+  - name: unmetneed_mod_parity0
+    type: DOUBLE
+  - name: tradmethods_parity0
+    type: DOUBLE
+  - name: nomethod_parity0
+    type: DOUBLE
+  - name: noneed_parity0
+    type: DOUBLE
+  - name: inneed_parity1plus
+    type: DOUBLE
+  - name: modmethods_parity1plus
+    type: DOUBLE
+  - name: ster_parity1plus
+    type: DOUBLE
+  - name: larc_parity1plus
+    type: DOUBLE
+  - name: sarc_parity1plus
+    type: DOUBLE
+  - name: unmetneed_mod_parity1plus
+    type: DOUBLE
+  - name: tradmethods_parity1plus
+    type: DOUBLE
+  - name: nomethod_parity1plus
+    type: DOUBLE
+  - name: noneed_parity1plus
+    type: DOUBLE
+  - name: unmetneed_any_wealthlow
+    type: DOUBLE
+  - name: unmetneed_any_wealthhigh
+    type: DOUBLE
+  - name: unmetneed_any_urban
+    type: DOUBLE
+  - name: unmetneed_any_rural
+    type: DOUBLE
+  - name: unmetneed_any_parity0
+    type: DOUBLE
+  - name: unmetneed_any_parity1plus
+    type: DOUBLE
+  - name: inneed_married
+    type: DOUBLE
+  - name: modmethods_married
+    type: DOUBLE
+  - name: ster_married
+    type: DOUBLE
+  - name: larc_married
+    type: DOUBLE
+  - name: sarc_married
+    type: DOUBLE
+  - name: unmetneed_mod_married
+    type: DOUBLE
+  - name: tradmethods_married
+    type: DOUBLE
+  - name: nomethod_married
+    type: DOUBLE
+  - name: noneed_married
+    type: DOUBLE
+  - name: inneed_formerlymar
+    type: DOUBLE
+  - name: modmethods_formerlymar
+    type: DOUBLE
+  - name: ster_formerlymar
+    type: DOUBLE
+  - name: larc_formerlymar
+    type: DOUBLE
+  - name: sarc_formerlymar
+    type: DOUBLE
+  - name: unmetneed_mod_formerlymar
+    type: DOUBLE
+  - name: tradmethods_formerlymar
+    type: DOUBLE
+  - name: nomethod_formerlymar
+    type: DOUBLE
+  - name: noneed_formerlymar
+    type: DOUBLE
+  - name: inneed_nevermar
+    type: DOUBLE
+  - name: modmethods_nevermar
+    type: DOUBLE
+  - name: ster_nevermar
+    type: DOUBLE
+  - name: larc_nevermar
+    type: DOUBLE
+  - name: sarc_nevermar
+    type: DOUBLE
+  - name: unmetneed_mod_nevermar
+    type: DOUBLE
+  - name: tradmethods_nevermar
+    type: DOUBLE
+  - name: nomethod_nevermar
+    type: DOUBLE
+  - name: noneed_nevermar
+    type: DOUBLE
+  - name: unmetneed_any_married
+    type: DOUBLE
+  - name: unmetneed_any_formerlymar
+    type: DOUBLE
+  - name: unmetneed_any_nevermar
+    type: DOUBLE
+  - name: dem_any_satisfied
+    type: DOUBLE
+  - name: dem_any_sat_1519
+    type: DOUBLE
+  - name: dem_any_sat_2024
+    type: DOUBLE
+  - name: dem_any_sat_2534
+    type: DOUBLE
+  - name: dem_any_sat_3549
+    type: DOUBLE
+  - name: dem_any_sat_wealthlow
+    type: DOUBLE
+  - name: dem_any_sat_wealthhigh
+    type: DOUBLE
+  - name: dem_any_sat_urban
+    type: DOUBLE
+  - name: dem_any_sat_rural
+    type: DOUBLE
+  - name: dem_any_sat_parity0
+    type: DOUBLE
+  - name: dem_any_sat_parity1plus
+    type: DOUBLE
+  - name: dem_any_sat_married
+    type: DOUBLE
+  - name: dem_any_sat_formerlymar
+    type: DOUBLE
+  - name: dem_any_sat_nevermar
+    type: DOUBLE
+  - name: dem_mod_satisfied
+    type: DOUBLE
+  - name: dem_mod_sat_1519
+    type: DOUBLE
+  - name: dem_mod_sat_2024
+    type: DOUBLE
+  - name: dem_mod_sat_2534
+    type: DOUBLE
+  - name: dem_mod_sat_3549
+    type: DOUBLE
+  - name: dem_mod_sat_wealthlow
+    type: DOUBLE
+  - name: dem_mod_sat_wealthhigh
+    type: DOUBLE
+  - name: dem_mod_sat_urban
+    type: DOUBLE
+  - name: dem_mod_sat_rural
+    type: DOUBLE
+  - name: dem_mod_sat_parity0
+    type: DOUBLE
+  - name: dem_mod_sat_parity1plus
+    type: DOUBLE
+  - name: dem_mod_sat_married
+    type: DOUBLE
+  - name: dem_mod_sat_formerlymar
+    type: DOUBLE
+  - name: dem_mod_sat_nevermar
+    type: DOUBLE
+  - name: pct_sev_preeclamp_need
+    type: DOUBLE
+  - name: pct_eclamp_need
+    type: DOUBLE
+  - name: pct_obstlabor_need
+    type: DOUBLE
+  - name: pct_sepsis_need
+    type: DOUBLE
+  - name: pct_aphem_need
+    type: DOUBLE
+  - name: pct_pphem_need
+    type: DOUBLE
+  - name: pct_sev_preeclamp_care
+    type: DOUBLE
+  - name: pct_eclamp_care
+    type: DOUBLE
+  - name: pct_obstlabor_care
+    type: DOUBLE
+  - name: pct_sepsis_care
+    type: DOUBLE
+  - name: pct_aphem_care
+    type: DOUBLE
+  - name: pct_pphem_care
+    type: DOUBLE
+  - name: pct_asphyxia_need
+    type: DOUBLE
+  - name: pct_lbw_need
+    type: DOUBLE
+  - name: pct_sepsisinf_need
+    type: DOUBLE
+  - name: pct_asphyxia_care
+    type: DOUBLE
+  - name: pct_lbw_care
+    type: DOUBLE
+  - name: pct_sepsisinf_care
+    type: DOUBLE
+  - name: safemethod_va
+    type: DOUBLE
+  - name: safemethod_de
+    type: DOUBLE
+  - name: safemethod_mifemiso_ls12
+    type: DOUBLE
+  - name: safemethod_mifemiso_12p
+    type: DOUBLE
+  - name: safemethod_miso_ls12
+    type: DOUBLE
+  - name: safemethod_miso_12p
+    type: DOUBLE
+  - name: lessmethod_va
+    type: DOUBLE
+  - name: lessmethod_dc
+    type: DOUBLE
+  - name: lessmethod_mifemiso_ls12
+    type: DOUBLE
+  - name: lessmethod_mifemiso_12p
+    type: DOUBLE
+  - name: lessmethod_miso_ls12
+    type: DOUBLE
+  - name: lessmethod_miso_12p
+    type: DOUBLE
+  - name: hivpos_livebirth
+    type: DOUBLE
+  - name: hivpos_livebirth_art
+    type: DOUBLE
+  - name: hiv_perinatal_current
+    type: DOUBLE
+  - name: hiv_perinatal_full
+    type: DOUBLE
+  - name: hiv_general_epidemic
+    type: BIGINT
+  - name: anc_less4
+    type: DOUBLE
+  - name: anc_4plus
+    type: DOUBLE
+  - name: facility_delivery_yes
+    type: DOUBLE
+  - name: facility_delivery_no
+    type: DOUBLE
+  - name: sba_delivery
+    type: DOUBLE
+  - name: csection
+    type: DOUBLE
+  - name: pct_sev_preeclamp_qacare
+    type: DOUBLE
+  - name: pct_eclamp_qacare
+    type: DOUBLE
+  - name: pct_obstlabor_qacare
+    type: DOUBLE
+  - name: pct_sepsis_qacare
+    type: DOUBLE
+  - name: pct_aphem_qacare
+    type: DOUBLE
+  - name: pct_pphem_qacare
+    type: DOUBLE
+  - name: pct_lbw_qacare
+    type: DOUBLE
+  - name: pct_sepsisinf_qacare
+    type: DOUBLE
+  - name: pct_asphyxia_qacare
+    type: DOUBLE
+  - name: sti_asymp
+    type: DOUBLE
+  - name: sti_symp_care
+    type: DOUBLE
+  - name: sti_symp_nocare
+    type: DOUBLE
+  - name: sti_nocare
+    type: DOUBLE
+  - name: pid_from_notrt_chlgon
+    type: DOUBLE
+  - name: pid_trt
+    type: DOUBLE
+  - name: infertility_from_pid
+    type: DOUBLE
+  - name: upreg_no_cp
+    type: DOUBLE
+  - name: upreg_birth_no_cp
+    type: DOUBLE
+  - name: upreg_abo_no_cp
+    type: DOUBLE
+  - name: upreg_safe_abo_no_cp
+    type: DOUBLE
+  - name: upreg_lesssafe_abo_no_cp
+    type: DOUBLE
+  - name: upreg_leastsafe_abo_no_cp
+    type: DOUBLE
+  - name: upreg_miscar_no_cp
+    type: DOUBLE
+  - name: upreg_stillbirth_no_cp
+    type: DOUBLE
+  - name: adj_median_unmet_failrate
+    type: DOUBLE
+  - name: femster_failrate
+    type: DOUBLE
+  - name: malester_failrate
+    type: DOUBLE
+  - name: iud_failrate
+    type: DOUBLE
+  - name: implant_failrate
+    type: DOUBLE
+  - name: inj_failrate
+    type: DOUBLE
+  - name: pill_failrate
+    type: DOUBLE
+  - name: condom_failrate
+    type: DOUBLE
+  - name: otherhorm_failrate
+    type: DOUBLE
+  - name: femcondom_failrate
+    type: DOUBLE
+  - name: lam_failrate
+    type: DOUBLE
+  - name: fabm_failrate
+    type: DOUBLE
+  - name: othersup_failrate
+    type: DOUBLE
+  - name: perabs_failrate
+    type: DOUBLE
+  - name: withdraw_failrate
+    type: DOUBLE
+  - name: othertrad_failrate
+    type: DOUBLE
+  - name: nomethod_failrate
+    type: DOUBLE
+  - name: nocare_rate_aphem
+    type: DOUBLE
+  - name: nocare_rate_pphem
+    type: DOUBLE
+  - name: nocare_rate_hyptn
+    type: DOUBLE
+  - name: nocare_rate_sepsis
+    type: DOUBLE
+  - name: nocare_rate_ectopic
+    type: DOUBLE
+  - name: nocare_rate_otherdirect
+    type: DOUBLE
+  - name: nocare_rate_indirect
+    type: DOUBLE
+  - name: nocare_rate_miscar
+    type: DOUBLE
+  - name: nocare_rate_unsafe_abo
+    type: DOUBLE
+  - name: nocare_rate_safe_abo
+    type: DOUBLE
+  - name: ineff_aphem
+    type: DOUBLE
+  - name: ineff_pphem
+    type: DOUBLE
+  - name: ineff_hyptn
+    type: DOUBLE
+  - name: ineff_sepsis
+    type: DOUBLE
+  - name: ineff_ectopic
+    type: DOUBLE
+  - name: ineff_otherdirect
+    type: DOUBLE
+  - name: ineff_indirect
+    type: DOUBLE
+  - name: ineff_miscar
+    type: DOUBLE
+  - name: ineff_unsafe_abo
+    type: DOUBLE
+  - name: upreg_all2mod_cp
+    type: DOUBLE
+  - name: upreg_births_all2mod_cp
+    type: DOUBLE
+  - name: upreg_abo_all2mod_cp
+    type: DOUBLE
+  - name: upreg_safe_abo_all2mod_cp
+    type: DOUBLE
+  - name: upreg_lesssafe_abo_all2mod_cp
+    type: DOUBLE
+  - name: upreg_leastsafe_abo_all2mod_cp
+    type: DOUBLE
+  - name: upreg_miscar_all2mod_cp
+    type: DOUBLE
+  - name: upreg_stillbirth_all2mod_cp
+    type: DOUBLE
+  - name: upreg_non2mod_cp
+    type: DOUBLE
+  - name: upreg_births_non2mod_cp
+    type: DOUBLE
+  - name: upreg_abo_non2mod_cp
+    type: DOUBLE
+  - name: upreg_safe_abo_non2mod_cp
+    type: DOUBLE
+  - name: upreg_lesssafe_abo_non2mod_cp
+    type: DOUBLE
+  - name: upreg_leastsafe_abo_non2mod_cp
+    type: DOUBLE
+  - name: upreg_miscar_non2mod_cp
+    type: DOUBLE
+  - name: upreg_stillbirth_non2mod_cp
+    type: DOUBLE
+  - name: upreg_ityu2mod_cp
+    type: DOUBLE
+  - name: upreg_births_ityu2mod_cp
+    type: DOUBLE
+  - name: upreg_abo_ityu2mod_cp
+    type: DOUBLE
+  - name: upreg_safe_abo_ityu2mod_cp
+    type: DOUBLE
+  - name: upreg_lesssafe_abo_ityu2mod_cp
+    type: DOUBLE
+  - name: upreg_leastsafe_abo_ityu2mod_cp
+    type: DOUBLE
+  - name: upreg_miscar_ityu2mod_cp
+    type: DOUBLE
+  - name: upreg_stillbirth_ityu2mod_cp
+    type: DOUBLE
+  - name: avbyallmod_upreg
+    type: DOUBLE
+  - name: avbyallmod_upreg_birth
+    type: DOUBLE
+  - name: avbyallmod_upreg_abo
+    type: DOUBLE
+  - name: avbyallmod_upreg_safe_abo
+    type: DOUBLE
+  - name: avbyallmod_upreg_lesssafe_abo
+    type: DOUBLE
+  - name: avbyallmod_upreg_leastsafe_abo
+    type: DOUBLE
+  - name: avbyallmod_upreg_miscarriage
+    type: DOUBLE
+  - name: avbyallmod_upreg_stillbirth
+    type: DOUBLE
+  - name: avbynonmod_upreg
+    type: DOUBLE
+  - name: avbynonmod_upreg_birth
+    type: DOUBLE
+  - name: avbynonmod_upreg_abo
+    type: DOUBLE
+  - name: avbynonmod_upreg_safe_abo
+    type: DOUBLE
+  - name: avbynonmod_upreg_lesssafe_abo
+    type: DOUBLE
+  - name: avbynonmod_upreg_leastsafe_abo
+    type: DOUBLE
+  - name: avbynonmod_upreg_miscarriage
+    type: DOUBLE
+  - name: avbynonmod_upreg_stillbirth
+    type: DOUBLE
+  - name: avbyityumod_upreg
+    type: DOUBLE
+  - name: avbyityumod_upreg_birth
+    type: DOUBLE
+  - name: avbyityumod_upreg_abo
+    type: DOUBLE
+  - name: avbyityumod_upreg_safe_abo
+    type: DOUBLE
+  - name: avbyityumod_upreg_lesssafe_abo
+    type: DOUBLE
+  - name: avbyityumod_upreg_leastsafe_abo
+    type: DOUBLE
+  - name: avbyityumod_upreg_miscarriage
+    type: DOUBLE
+  - name: avbyityumod_upreg_stillbirth
+    type: DOUBLE
+  - name: pac_curr
+    type: DOUBLE
+  - name: pac_all2mod_all_prnc
+    type: DOUBLE
+  - name: pac_all2mod_all_prnc_safeab
+    type: DOUBLE
+  - name: matdeath_no_cp_no_prnc
+    type: DOUBLE
+  - name: matdeath
+    type: DOUBLE
+  - name: matdeath_curr_cp_all_prnc
+    type: DOUBLE
+  - name: matdeath_all2mod_curr_prnc
+    type: DOUBLE
+  - name: matdeath_all2mod_prnc_safeab
+    type: DOUBLE
+  - name: matdeath_all2mod_all_prnc
+    type: DOUBLE
+  - name: pac_non2mod_all_prnc
+    type: DOUBLE
+  - name: pac_non2mod_all_prnc_safeab
+    type: DOUBLE
+  - name: matdeath_non2mod_curr_prnc
+    type: DOUBLE
+  - name: matdeath_non2mod_prnc_safeab
+    type: DOUBLE
+  - name: matdeath_non2mod_all_prnc
+    type: DOUBLE
+  - name: pac_ityu2mod_all_prnc
+    type: DOUBLE
+  - name: pac_ityu2mod_all_prnc_safeab
+    type: DOUBLE
+  - name: matdeath_ityu2mod_curr_prnc
+    type: DOUBLE
+  - name: matdeath_ityu2mod_prnc_safeab
+    type: DOUBLE
+  - name: matdeath_ityu2mod_all_prnc
+    type: DOUBLE
+  - name: curr_costs
+    type: DOUBLE
+  - name: curr_costs_percap
+    type: DOUBLE
+  - name: curr_costs_direct
+    type: DOUBLE
+  - name: curr_costs_progsys
+    type: DOUBLE
+  - name: costs_progsys_curr_inflate
+    type: DOUBLE
+  - name: curr_cp_costs
+    type: DOUBLE
+  - name: curr_costs_cp_percap
+    type: DOUBLE
+  - name: curr_cp_costs_direct
+    type: DOUBLE
+  - name: curr_cp_costs_progsys
+    type: DOUBLE
+  - name: curr_prnc_costs
+    type: DOUBLE
+  - name: curr_costs_prnc_percap
+    type: DOUBLE
+  - name: curr_prnc_costs_direct
+    type: DOUBLE
+  - name: curr_prnc_costs_progsys
+    type: DOUBLE
+  - name: curr_prnc_costs_ipreg
+    type: DOUBLE
+  - name: curr_prnc_costs_upreg
+    type: DOUBLE
+  - name: curr_prnc_costs_anc
+    type: DOUBLE
+  - name: curr_prnc_costs_delpostnatal
+    type: DOUBLE
+  - name: curr_prnc_costs_newborn
+    type: DOUBLE
+  - name: curr_prnc_costs_pmtct
+    type: DOUBLE
+  - name: curr_abo_pac_costs
+    type: DOUBLE
+  - name: curr_abo_pac_costs_percap
+    type: DOUBLE
+  - name: curr_abo_costs_direct
+    type: DOUBLE
+  - name: curr_abo_costs_progsys
+    type: DOUBLE
+  - name: curr_abo_costs_service
+    type: DOUBLE
+  - name: curr_abo_costs_safe
+    type: DOUBLE
+  - name: curr_abo_costs_lesssafe
+    type: DOUBLE
+  - name: curr_pac_costs
+    type: DOUBLE
+  - name: curr_pac_costs_safe_abo
+    type: DOUBLE
+  - name: curr_pac_costs_unsafe_ab
+    type: DOUBLE
+  - name: curr_sti_costs
+    type: DOUBLE
+  - name: curr_costs_sti_percap
+    type: DOUBLE
+  - name: curr_sti_costs_direct
+    type: DOUBLE
+  - name: curr_sti_costs_progsys
+    type: DOUBLE
+  - name: curr_sti_noprc
+    type: DOUBLE
+  - name: curr_sti_noprc_direct
+    type: DOUBLE
+  - name: curr_sti_noprc_progsys
+    type: DOUBLE
+  - name: curr_sti_costs_wra
+    type: DOUBLE
+  - name: curr_pid_notrt_chlgon
+    type: DOUBLE
+  - name: all2mod_costs
+    type: DOUBLE
+  - name: all2mod_costs_percap
+    type: DOUBLE
+  - name: all2mod_costs_direct
+    type: DOUBLE
+  - name: all2mod_costs_progsys
+    type: DOUBLE
+  - name: costs_progsys_all_inflate
+    type: DOUBLE
+  - name: all2mod_inc_costs_percap
+    type: DOUBLE
+  - name: all2mod_costs_cp
+    type: DOUBLE
+  - name: all2mod_costs_cp_percap
+    type: DOUBLE
+  - name: all2mod_cp_costs_direct
+    type: DOUBLE
+  - name: all2mod_cp_costs_progsys
+    type: DOUBLE
+  - name: all2mod_prnc_costs
+    type: DOUBLE
+  - name: all2mod_costs_prnc_percap
+    type: DOUBLE
+  - name: all2mod_prnc_costs_direct
+    type: DOUBLE
+  - name: all2mod_prnc_costs_progsys
+    type: DOUBLE
+  - name: all2mod_prnc_costs_ipreg
+    type: DOUBLE
+  - name: all2mod_prnc_costs_upreg
+    type: DOUBLE
+  - name: all2mod_prnc_costs_anc
+    type: DOUBLE
+  - name: all2mod_prnc_costs_delpostnatal
+    type: DOUBLE
+  - name: all2mod_prnc_costs_newborn
+    type: DOUBLE
+  - name: all2mod_prnc_costs_pmtct
+    type: DOUBLE
+  - name: all2mod_abo_pac_costs
+    type: DOUBLE
+  - name: all2mod_abo_pac_costs_percap
+    type: DOUBLE
+  - name: all2mod_abo_costs_direct
+    type: DOUBLE
+  - name: all2mod_abo_costs_progsys
+    type: DOUBLE
+  - name: all2mod_abo_costs_service
+    type: DOUBLE
+  - name: all2mod_abo_costs_safe
+    type: DOUBLE
+  - name: all2mod_abo_costs_lesssafe
+    type: DOUBLE
+  - name: all2mod_pac_costs
+    type: DOUBLE
+  - name: all2mod_pac_costs_safe_abo
+    type: DOUBLE
+  - name: all2mod_pac_costs_unsafe_ab
+    type: DOUBLE
+  - name: all2mod_sti_costs
+    type: DOUBLE
+  - name: all2mod_costs_sti_percap
+    type: DOUBLE
+  - name: all2mod_sti_costs_direct
+    type: DOUBLE
+  - name: all2mod_sti_costs_progsys
+    type: DOUBLE
+  - name: all2mod_sti_noprc
+    type: DOUBLE
+  - name: all2mod_sti_noprc_progsys
+    type: DOUBLE
+  - name: all2mod_sti_noprc_direct
+    type: DOUBLE
+  - name: all2mod_sti_costs_wra
+    type: DOUBLE
+  - name: all2mod_pid_notrt_chlgon
+    type: BIGINT
+  - name: non2mod_costs
+    type: DOUBLE
+  - name: non2mod_costs_percap
+    type: DOUBLE
+  - name: non2mod_costs_direct
+    type: DOUBLE
+  - name: non2mod_costs_progsys
+    type: DOUBLE
+  - name: non2mod_costs_cp
+    type: DOUBLE
+  - name: non2mod_costs_cp_percap
+    type: DOUBLE
+  - name: non2mod_cp_costs_direct
+    type: DOUBLE
+  - name: non2mod_cp_costs_progsys
+    type: DOUBLE
+  - name: non2mod_costs_prnc_percap
+    type: DOUBLE
+  - name: non2mod_costs_sti_percap
+    type: DOUBLE
+  - name: non2mod_inc_costs_percap
+    type: DOUBLE
+  - name: non2mod_prnc_costs
+    type: DOUBLE
+  - name: non2mod_prnc_costs_direct
+    type: DOUBLE
+  - name: non2mod_prnc_costs_progsys
+    type: DOUBLE
+  - name: non2mod_prnc_costs_ipreg
+    type: DOUBLE
+  - name: non2mod_prnc_costs_upreg
+    type: DOUBLE
+  - name: non2mod_prnc_costs_anc
+    type: DOUBLE
+  - name: non2mod_prnc_costs_delpostnatal
+    type: DOUBLE
+  - name: non2mod_prnc_costs_newborn
+    type: DOUBLE
+  - name: non2mod_prnc_costs_pmtct
+    type: DOUBLE
+  - name: non2mod_abo_pac_costs
+    type: DOUBLE
+  - name: non2mod_abo_pac_costs_percap
+    type: DOUBLE
+  - name: non2mod_abo_costs_direct
+    type: DOUBLE
+  - name: non2mod_abo_costs_progsys
+    type: DOUBLE
+  - name: non2mod_abo_costs_service
+    type: DOUBLE
+  - name: non2mod_abo_costs_safe
+    type: DOUBLE
+  - name: non2mod_abo_costs_lesssafe
+    type: DOUBLE
+  - name: non2mod_pac_costs
+    type: DOUBLE
+  - name: non2mod_pac_costs_safe_abo
+    type: DOUBLE
+  - name: non2mod_pac_costs_unsafe_ab
+    type: DOUBLE
+  - name: non2mod_sti_costs
+    type: DOUBLE
+  - name: non2mod_sti_costs_direct
+    type: DOUBLE
+  - name: non2mod_sti_costs_progsys
+    type: DOUBLE
+  - name: non2mod_sti_noprc
+    type: DOUBLE
+  - name: non2mod_sti_noprc_progsys
+    type: DOUBLE
+  - name: non2mod_sti_noprc_direct
+    type: DOUBLE
+  - name: non2mod_sti_costs_wra
+    type: DOUBLE
+  - name: non2mod_pid_notrt_chlgon
+    type: BIGINT
+  - name: ityu2mod_costs
+    type: DOUBLE
+  - name: ityu2mod_costs_percap
+    type: DOUBLE
+  - name: ityu2mod_costs_direct
+    type: DOUBLE
+  - name: ityu2mod_costs_progsys
+    type: DOUBLE
+  - name: ityu2mod_costs_cp
+    type: DOUBLE
+  - name: ityu2mod_costs_cp_percap
+    type: DOUBLE
+  - name: ityu2mod_cp_costs_direct
+    type: DOUBLE
+  - name: ityu2mod_cp_costs_progsys
+    type: DOUBLE
+  - name: ityu2mod_costs_prnc_percap
+    type: DOUBLE
+  - name: ityu2mod_costs_sti_percap
+    type: DOUBLE
+  - name: ityu2mod_inc_costs_percap
+    type: DOUBLE
+  - name: ityu2mod_prnc_costs
+    type: DOUBLE
+  - name: ityu2mod_prnc_costs_direct
+    type: DOUBLE
+  - name: ityu2mod_prnc_costs_progsys
+    type: DOUBLE
+  - name: ityu2mod_prnc_costs_ipreg
+    type: DOUBLE
+  - name: ityu2mod_prnc_costs_upreg
+    type: DOUBLE
+  - name: ityu2mod_prnc_costs_anc
+    type: DOUBLE
+  - name: ityu2mod_prnc_costs_delpostnatal
+    type: DOUBLE
+  - name: ityu2mod_prnc_costs_newborn
+    type: DOUBLE
+  - name: ityu2mod_prnc_costs_pmtct
+    type: DOUBLE
+  - name: ityu2mod_abo_pac_costs
+    type: DOUBLE
+  - name: ityu2mod_abo_pac_costs_percap
+    type: DOUBLE
+  - name: ityu2mod_abo_costs_direct
+    type: DOUBLE
+  - name: ityu2mod_abo_costs_progsys
+    type: DOUBLE
+  - name: ityu2mod_abo_costs_service
+    type: DOUBLE
+  - name: ityu2mod_abo_costs_safe
+    type: DOUBLE
+  - name: ityu2mod_abo_costs_lesssafe
+    type: DOUBLE
+  - name: ityu2mod_pac_costs
+    type: DOUBLE
+  - name: ityu2mod_pac_costs_safe_abo
+    type: DOUBLE
+  - name: ityu2mod_pac_costs_unsafe_ab
+    type: DOUBLE
+  - name: ityu2mod_sti_costs
+    type: DOUBLE
+  - name: ityu2mod_sti_costs_direct
+    type: DOUBLE
+  - name: ityu2mod_sti_costs_progsys
+    type: DOUBLE
+  - name: ityu2mod_sti_noprc
+    type: DOUBLE
+  - name: ityu2mod_sti_noprc_progsys
+    type: DOUBLE
+  - name: ityu2mod_sti_noprc_direct
+    type: DOUBLE
+  - name: ityu2mod_sti_costs_wra
+    type: DOUBLE
+  - name: ityu2mod_pid_notrt_chlgon
+    type: BIGINT

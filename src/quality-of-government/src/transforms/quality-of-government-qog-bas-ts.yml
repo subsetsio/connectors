@@ -1,0 +1,534 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: ccode
+    type: DOUBLE
+  - name: ccode_qog
+    type: BIGINT
+  - name: ccodealp
+    type: VARCHAR
+  - name: ccodealp_year
+    type: VARCHAR
+  - name: ccodecow
+    type: DOUBLE
+  - name: cname
+    type: VARCHAR
+  - name: cname_qog
+    type: VARCHAR
+  - name: cname_year
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: ajr_settmort
+    type: DOUBLE
+  - name: atop_ally
+    type: DOUBLE
+  - name: atop_number
+    type: DOUBLE
+  - name: bci_bci
+    type: DOUBLE
+  - name: bgi_dai
+    type: DOUBLE
+  - name: bgi_pgpi
+    type: DOUBLE
+  - name: bgi_sci
+    type: DOUBLE
+  - name: bicc_gmi
+    type: DOUBLE
+  - name: biu_offrel
+    type: BIGINT
+  - name: bl_asyf
+    type: DOUBLE
+  - name: bl_asym
+    type: DOUBLE
+  - name: bl_asymf
+    type: DOUBLE
+  - name: bmr_dem
+    type: DOUBLE
+  - name: bmr_demdur
+    type: DOUBLE
+  - name: cai_cai2
+    type: DOUBLE
+  - name: cbi_cbiu
+    type: DOUBLE
+  - name: cbi_cbiw
+    type: DOUBLE
+  - name: cbie_index
+    type: DOUBLE
+  - name: ccp_cc
+    type: BIGINT
+  - name: ccp_childwrk
+    type: BIGINT
+  - name: ccp_equal
+    type: BIGINT
+  - name: ccp_freerel
+    type: BIGINT
+  - name: ccp_slave
+    type: BIGINT
+  - name: ccp_strike
+    type: BIGINT
+  - name: chga_demo
+    type: BIGINT
+  - name: ciri_assn
+    type: DOUBLE
+  - name: ciri_dommov
+    type: DOUBLE
+  - name: ciri_formov
+    type: DOUBLE
+  - name: ciri_injud
+    type: DOUBLE
+  - name: ciri_physint
+    type: DOUBLE
+  - name: ciri_polpris
+    type: DOUBLE
+  - name: ciri_speech
+    type: DOUBLE
+  - name: ciri_tort
+    type: DOUBLE
+  - name: cpds_enps
+    type: DOUBLE
+  - name: cpds_enpv
+    type: DOUBLE
+  - name: cpds_la
+    type: DOUBLE
+  - name: cpds_lall
+    type: DOUBLE
+  - name: cpds_lcom
+    type: DOUBLE
+  - name: cpds_lcon
+    type: DOUBLE
+  - name: cpds_le
+    type: DOUBLE
+  - name: cpds_lfe
+    type: DOUBLE
+  - name: cpds_lg
+    type: DOUBLE
+  - name: cpds_ll
+    type: DOUBLE
+  - name: cpds_lls
+    type: DOUBLE
+  - name: cpds_lmo
+    type: DOUBLE
+  - name: cpds_lnl
+    type: DOUBLE
+  - name: cpds_lo
+    type: DOUBLE
+  - name: cpds_lp
+    type: DOUBLE
+  - name: cpds_lpc
+    type: DOUBLE
+  - name: cpds_lpen
+    type: DOUBLE
+  - name: cpds_lper
+    type: DOUBLE
+  - name: cpds_lr
+    type: DOUBLE
+  - name: cpds_lreg
+    type: DOUBLE
+  - name: cpds_lrel
+    type: DOUBLE
+  - name: cpds_ls
+    type: DOUBLE
+  - name: cpds_tg
+    type: BIGINT
+  - name: cpds_vt
+    type: DOUBLE
+  - name: cri_contr
+    type: DOUBLE
+  - name: cspf_sfi
+    type: DOUBLE
+  - name: diat_ti
+    type: DOUBLE
+  - name: dr_eg
+    type: DOUBLE
+  - name: dr_ig
+    type: DOUBLE
+  - name: dr_pg
+    type: DOUBLE
+  - name: dr_sg
+    type: DOUBLE
+  - name: ef_ef
+    type: DOUBLE
+  - name: egov_egov
+    type: DOUBLE
+  - name: fh_aor
+    type: DOUBLE
+  - name: fh_cl
+    type: DOUBLE
+  - name: fh_ep
+    type: DOUBLE
+  - name: fh_feb
+    type: DOUBLE
+  - name: fh_fog
+    type: DOUBLE
+  - name: fh_pair
+    type: DOUBLE
+  - name: fh_pr
+    type: DOUBLE
+  - name: fh_rol
+    type: DOUBLE
+  - name: fh_status
+    type: DOUBLE
+  - name: fhn_fotnsc
+    type: DOUBLE
+  - name: fhn_fotnst
+    type: BIGINT
+  - name: fhp_score5
+    type: DOUBLE
+  - name: fhp_status5
+    type: DOUBLE
+  - name: fi_ftradeint
+    type: DOUBLE
+  - name: fi_index
+    type: DOUBLE
+  - name: gd_ptsa
+    type: DOUBLE
+  - name: gd_ptsh
+    type: DOUBLE
+  - name: gfs_rcr
+    type: DOUBLE
+  - name: gle_cgdpc
+    type: DOUBLE
+  - name: gle_exp
+    type: DOUBLE
+  - name: gle_gdp
+    type: DOUBLE
+  - name: gle_imp
+    type: DOUBLE
+  - name: gle_pop
+    type: DOUBLE
+  - name: gle_rgdpc
+    type: DOUBLE
+  - name: gle_trade
+    type: DOUBLE
+  - name: gol_enep
+    type: DOUBLE
+  - name: gol_est
+    type: BIGINT
+  - name: gol_est_spec
+    type: BIGINT
+  - name: gol_pr
+    type: BIGINT
+  - name: gpi_gpi
+    type: DOUBLE
+  - name: gwf_regimetype
+    type: BIGINT
+  - name: h_j
+    type: DOUBLE
+  - name: hrv_index
+    type: DOUBLE
+  - name: ht_colonial
+    type: BIGINT
+  - name: ht_ipolity2
+    type: DOUBLE
+  - name: ht_region
+    type: BIGINT
+  - name: ht_regtype
+    type: BIGINT
+  - name: ht_regtype1
+    type: BIGINT
+  - name: iaep_bp
+    type: BIGINT
+  - name: iaep_cc
+    type: BIGINT
+  - name: iaep_epmf
+    type: BIGINT
+  - name: iaep_es
+    type: BIGINT
+  - name: iaep_osp
+    type: BIGINT
+  - name: iaep_ufs
+    type: BIGINT
+  - name: icd_infcapirt
+    type: DOUBLE
+  - name: icrg_qog
+    type: DOUBLE
+  - name: ideavt_legvt
+    type: DOUBLE
+  - name: iiag_be
+    type: DOUBLE
+  - name: iiag_edu
+    type: DOUBLE
+  - name: iiag_gov
+    type: DOUBLE
+  - name: iiag_hd
+    type: DOUBLE
+  - name: iiag_he
+    type: DOUBLE
+  - name: iiag_inf
+    type: DOUBLE
+  - name: iiag_srol
+    type: DOUBLE
+  - name: ipu_l_sw
+    type: DOUBLE
+  - name: ipu_u_sw
+    type: DOUBLE
+  - name: jw_bicameral
+    type: DOUBLE
+  - name: lis_gini
+    type: DOUBLE
+  - name: mad_gdppc
+    type: DOUBLE
+  - name: mad_gdppc1900
+    type: DOUBLE
+  - name: nelda_mbbe
+    type: DOUBLE
+  - name: nelda_mtop
+    type: DOUBLE
+  - name: nelda_oa
+    type: DOUBLE
+  - name: nelda_rpae
+    type: DOUBLE
+  - name: ohi_ohi
+    type: DOUBLE
+  - name: p_durable
+    type: DOUBLE
+  - name: p_polity2
+    type: DOUBLE
+  - name: prp_prp
+    type: DOUBLE
+  - name: pwt_hci
+    type: DOUBLE
+  - name: pwt_pop
+    type: DOUBLE
+  - name: rd_inw
+    type: DOUBLE
+  - name: rd_outw
+    type: DOUBLE
+  - name: ross_gas_value_2014
+    type: DOUBLE
+  - name: ross_oil_value_2014
+    type: DOUBLE
+  - name: ti_cpi
+    type: DOUBLE
+  - name: top_top10_income_share
+    type: DOUBLE
+  - name: top_top1_income_share
+    type: DOUBLE
+  - name: undp_hdi
+    type: DOUBLE
+  - name: van_index
+    type: DOUBLE
+  - name: vdem_corr
+    type: DOUBLE
+  - name: vdem_delibdem
+    type: DOUBLE
+  - name: vdem_egaldem
+    type: DOUBLE
+  - name: vdem_gender
+    type: DOUBLE
+  - name: vdem_libdem
+    type: DOUBLE
+  - name: vdem_mecorrpt
+    type: DOUBLE
+  - name: vdem_partipdem
+    type: DOUBLE
+  - name: vdem_polyarchy
+    type: DOUBLE
+  - name: vdem_regimeamb
+    type: BIGINT
+  - name: wbgi_cce
+    type: DOUBLE
+  - name: wbgi_gee
+    type: DOUBLE
+  - name: wbgi_pve
+    type: DOUBLE
+  - name: wbgi_rle
+    type: DOUBLE
+  - name: wdi_acel
+    type: DOUBLE
+  - name: wdi_acelr
+    type: DOUBLE
+  - name: wdi_acelu
+    type: DOUBLE
+  - name: wdi_afp
+    type: DOUBLE
+  - name: wdi_agedr
+    type: DOUBLE
+  - name: wdi_ane
+    type: DOUBLE
+  - name: wdi_araland
+    type: DOUBLE
+  - name: wdi_area
+    type: DOUBLE
+  - name: wdi_armexp
+    type: DOUBLE
+  - name: wdi_armimp
+    type: DOUBLE
+  - name: wdi_birth
+    type: DOUBLE
+  - name: wdi_broadb
+    type: DOUBLE
+  - name: wdi_busden
+    type: DOUBLE
+  - name: wdi_co2
+    type: DOUBLE
+  - name: wdi_death
+    type: DOUBLE
+  - name: wdi_debt
+    type: DOUBLE
+  - name: wdi_eduprp
+    type: DOUBLE
+  - name: wdi_eduprs
+    type: DOUBLE
+  - name: wdi_elerenew
+    type: DOUBLE
+  - name: wdi_elprodcoal
+    type: DOUBLE
+  - name: wdi_elprodgas
+    type: DOUBLE
+  - name: wdi_elprodhyd
+    type: DOUBLE
+  - name: wdi_elprodnuc
+    type: DOUBLE
+  - name: wdi_elprodoil
+    type: DOUBLE
+  - name: wdi_emp
+    type: DOUBLE
+  - name: wdi_empagr
+    type: DOUBLE
+  - name: wdi_empagrf
+    type: DOUBLE
+  - name: wdi_empagrm
+    type: DOUBLE
+  - name: wdi_empind
+    type: DOUBLE
+  - name: wdi_empindf
+    type: DOUBLE
+  - name: wdi_empindm
+    type: DOUBLE
+  - name: wdi_empser
+    type: DOUBLE
+  - name: wdi_empserf
+    type: DOUBLE
+  - name: wdi_empserm
+    type: DOUBLE
+  - name: wdi_eneimp
+    type: DOUBLE
+  - name: wdi_expedu
+    type: DOUBLE
+  - name: wdi_expeduge
+    type: DOUBLE
+  - name: wdi_expedup
+    type: DOUBLE
+  - name: wdi_expedus
+    type: DOUBLE
+  - name: wdi_expedut
+    type: DOUBLE
+  - name: wdi_expmil
+    type: DOUBLE
+  - name: wdi_fdiin
+    type: DOUBLE
+  - name: wdi_fdiout
+    type: DOUBLE
+  - name: wdi_fertility
+    type: DOUBLE
+  - name: wdi_forest
+    type: DOUBLE
+  - name: wdi_fossil
+    type: DOUBLE
+  - name: wdi_gdpagr
+    type: DOUBLE
+  - name: wdi_gdpcapcon2015
+    type: DOUBLE
+  - name: wdi_gdpind
+    type: DOUBLE
+  - name: wdi_gerp
+    type: DOUBLE
+  - name: wdi_gerpp
+    type: DOUBLE
+  - name: wdi_gers
+    type: DOUBLE
+  - name: wdi_gert
+    type: DOUBLE
+  - name: wdi_gini
+    type: DOUBLE
+  - name: wdi_homicides
+    type: DOUBLE
+  - name: wdi_idpdis
+    type: DOUBLE
+  - name: wdi_internet
+    type: DOUBLE
+  - name: wdi_lfpf
+    type: DOUBLE
+  - name: wdi_lifexp
+    type: DOUBLE
+  - name: wdi_lifexpf
+    type: DOUBLE
+  - name: wdi_lifexpm
+    type: DOUBLE
+  - name: wdi_migration
+    type: DOUBLE
+  - name: wdi_nerp
+    type: DOUBLE
+  - name: wdi_ners
+    type: DOUBLE
+  - name: wdi_pop
+    type: DOUBLE
+  - name: wdi_pop14
+    type: DOUBLE
+  - name: wdi_pop1564
+    type: DOUBLE
+  - name: wdi_pop65
+    type: DOUBLE
+  - name: wdi_popden
+    type: DOUBLE
+  - name: wdi_poprul
+    type: DOUBLE
+  - name: wdi_popurb
+    type: DOUBLE
+  - name: wdi_region
+    type: BIGINT
+  - name: wdi_semp
+    type: DOUBLE
+  - name: wdi_spr
+    type: DOUBLE
+  - name: wdi_tacpsr
+    type: DOUBLE
+  - name: wdi_taxrev
+    type: DOUBLE
+  - name: wdi_tele
+    type: DOUBLE
+  - name: wdi_trade
+    type: DOUBLE
+  - name: wdi_unempfilo
+    type: DOUBLE
+  - name: wdi_unempilo
+    type: DOUBLE
+  - name: wdi_unempmilo
+    type: DOUBLE
+  - name: wdi_unempyfilo
+    type: DOUBLE
+  - name: wdi_unempyilo
+    type: DOUBLE
+  - name: wdi_unempymilo
+    type: DOUBLE
+  - name: wdi_wip
+    type: DOUBLE
+  - name: who_halet
+    type: DOUBLE
+  - name: who_sanittot
+    type: DOUBLE
+  - name: wjp_abs_cor
+    type: DOUBLE
+  - name: wjp_civ_just
+    type: DOUBLE
+  - name: wjp_cj_cor
+    type: DOUBLE
+  - name: wjp_crim_jus
+    type: DOUBLE
+  - name: wjp_crsys_cor
+    type: DOUBLE
+  - name: wjp_exec_br
+    type: DOUBLE
+  - name: wjp_gov_pow
+    type: DOUBLE
+  - name: wjp_jud_br
+    type: DOUBLE
+  - name: wjp_leg_br
+    type: DOUBLE
+  - name: wjp_ord_secur
+    type: DOUBLE
+  - name: wjp_pol_mil
+    type: DOUBLE
+  - name: wr_regtype
+    type: BIGINT

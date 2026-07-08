@@ -1,0 +1,65 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [seasonId, teamId, gameTypeId]
+temporal: seasonId
+sort: [seasonId, teamId, gameTypeId]
+columns:
+  - name: gamesPlayed
+    type: BIGINT
+  - name: lossLeadPeriod1
+    type: BIGINT
+  - name: lossLeadPeriod2
+    type: BIGINT
+  - name: lossTrailPeriod1
+    type: BIGINT
+  - name: lossTrailPeriod2
+    type: BIGINT
+  - name: otLossLeadPeriod1
+    type: BIGINT
+  - name: otLossLeadPeriod2
+    type: BIGINT
+  - name: otLossTrailPeriod1
+    type: BIGINT
+  - name: otLossTrailPeriod2
+    type: BIGINT
+  - name: period1GoalsAgainst
+    type: BIGINT
+  - name: period1GoalsFor
+    type: BIGINT
+  - name: period2GoalsAgainst
+    type: BIGINT
+  - name: period2GoalsFor
+    type: BIGINT
+  - name: pointPct
+    type: DOUBLE
+  - name: seasonId
+    type: BIGINT
+  - name: teamFullName
+    type: VARCHAR
+  - name: teamId
+    type: BIGINT
+  - name: tiesLeadPeriod1
+    type: BIGINT
+  - name: tiesLeadPeriod2
+    type: BIGINT
+  - name: tiesTrailPeriod1
+    type: BIGINT
+  - name: tiesTrailPeriod2
+    type: BIGINT
+  - name: winPctLeadPeriod1
+    type: DOUBLE
+  - name: winPctLeadPeriod2
+    type: DOUBLE
+  - name: winPctTrailPeriod1
+    type: DOUBLE
+  - name: winPctTrailPeriod2
+    type: DOUBLE
+  - name: winsLeadPeriod1
+    type: BIGINT
+  - name: winsLeadPeriod2
+    type: BIGINT
+  - name: winsTrailPeriod1
+    type: BIGINT
+  - name: winsTrailPeriod2
+    type: BIGINT
+  - name: gameTypeId
+    type: BIGINT

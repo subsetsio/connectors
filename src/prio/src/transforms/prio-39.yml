@@ -1,0 +1,335 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [spell_id]
+temporal: start_year
+sort: [start_year, spell_id]
+columns:
+  - name: campaign_name
+    type: INTEGER
+  - name: id
+    type: INTEGER
+  - name: country_name
+    type: INTEGER
+  - name: location_country_id
+    type: DOUBLE
+  - name: target_country_id
+    type: DOUBLE
+  - name: counter_id
+    type: DOUBLE
+  - name: phase
+    type: INTEGER
+  - name: start_year
+    type: INTEGER
+  - name: start_month
+    type: INTEGER
+  - name: start_date
+    type: INTEGER
+  - name: start_prec
+    type: INTEGER
+  - name: end_year
+    type: INTEGER
+  - name: end_month
+    type: INTEGER
+  - name: end_date
+    type: INTEGER
+  - name: end_prec
+    type: INTEGER
+  - name: peak_participant_size
+    type: DOUBLE
+  - name: size_without_petition
+    type: DOUBLE
+  - name: demand_autonomy
+    type: INTEGER
+  - name: demand_secession
+    type: INTEGER
+  - name: demand_gov
+    type: INTEGER
+  - name: demand_regime
+    type: INTEGER
+  - name: demand_civilrights
+    type: INTEGER
+  - name: demand_free_expression
+    type: INTEGER
+  - name: demand_election
+    type: INTEGER
+  - name: demand_executive
+    type: INTEGER
+  - name: demand_political_power
+    type: INTEGER
+  - name: demand_demo
+    type: INTEGER
+  - name: demand_change_note
+    type: DOUBLE
+  - name: demand_demand_note
+    type: DOUBLE
+  - name: coord_leaders
+    type: INTEGER
+  - name: nv_violent_flank
+    type: DOUBLE
+  - name: nv_violent_activity
+    type: DOUBLE
+  - name: nv_violent_activity_25
+    type: DOUBLE
+  - name: nv_violent_activity_1000
+    type: DOUBLE
+  - name: nv_weapon_acq
+    type: DOUBLE
+  - name: nv_weapon_train
+    type: DOUBLE
+  - name: v_nonviolent_flank
+    type: DOUBLE
+  - name: v_nonviolent_activity
+    type: DOUBLE
+  - name: v_nonviolent_activity_25
+    type: DOUBLE
+  - name: v_nonviolent_activity_1000
+    type: DOUBLE
+  - name: atleast_peasant
+    type: DOUBLE
+  - name: atleast_rural
+    type: DOUBLE
+  - name: atleast_agrarianelites
+    type: DOUBLE
+  - name: atleast_indwork
+    type: DOUBLE
+  - name: atleast_nonindurban
+    type: DOUBLE
+  - name: atleast_pubemp
+    type: DOUBLE
+  - name: atleast_business
+    type: DOUBLE
+  - name: atleast_professionals
+    type: DOUBLE
+  - name: atleast_intellectuals
+    type: DOUBLE
+  - name: atleast_students
+    type: DOUBLE
+  - name: atleast_urb_middle_class
+    type: DOUBLE
+  - name: atleast_milemp
+    type: DOUBLE
+  - name: atleast_relethnic
+    type: DOUBLE
+  - name: atleast_workers_general
+    type: DOUBLE
+  - name: dominate_peasant
+    type: DOUBLE
+  - name: dominate_rural
+    type: DOUBLE
+  - name: dominate_agrarianelites
+    type: DOUBLE
+  - name: dominate_indwork
+    type: DOUBLE
+  - name: dominate_nonindurban
+    type: DOUBLE
+  - name: dominate_pubemp
+    type: DOUBLE
+  - name: dominate_business
+    type: DOUBLE
+  - name: dominate_professionals
+    type: DOUBLE
+  - name: dominate_intellectuals
+    type: DOUBLE
+  - name: dominate_students
+    type: DOUBLE
+  - name: dominate_urb_middle_class
+    type: DOUBLE
+  - name: dominate_milemp
+    type: DOUBLE
+  - name: dominate_relethnic
+    type: DOUBLE
+  - name: dominate_workers_general
+    type: DOUBLE
+  - name: originate_peasant
+    type: DOUBLE
+  - name: originate_rural
+    type: DOUBLE
+  - name: originate_agrarianelites
+    type: DOUBLE
+  - name: originate_indwork
+    type: DOUBLE
+  - name: originate_nonindurban
+    type: DOUBLE
+  - name: originate_pubemp
+    type: DOUBLE
+  - name: originate_business
+    type: DOUBLE
+  - name: originate_professionals
+    type: DOUBLE
+  - name: originate_intellectuals
+    type: DOUBLE
+  - name: originate_students
+    type: DOUBLE
+  - name: originate_urb_middle_class
+    type: DOUBLE
+  - name: originate_milemp
+    type: DOUBLE
+  - name: originate_relethnic
+    type: DOUBLE
+  - name: originate_workers_general
+    type: DOUBLE
+  - name: socialgroup_change_note
+    type: DOUBLE
+  - name: org_polparty
+    type: DOUBLE
+  - name: org_polparty_name
+    type: DOUBLE
+  - name: org_student
+    type: DOUBLE
+  - name: org_religious
+    type: DOUBLE
+  - name: org_laborunion
+    type: DOUBLE
+  - name: org_womens
+    type: DOUBLE
+  - name: org_militaryvet
+    type: DOUBLE
+  - name: org_militarygovt
+    type: DOUBLE
+  - name: org_rebels
+    type: DOUBLE
+  - name: org_rebels_name
+    type: DOUBLE
+  - name: org_civilsociety_other
+    type: DOUBLE
+  - name: org_other
+    type: DOUBLE
+  - name: org_other_name
+    type: DOUBLE
+  - name: ide_socialist_marxist
+    type: DOUBLE
+  - name: ide_republican
+    type: INTEGER
+  - name: ide_democracy_hr
+    type: INTEGER
+  - name: ide_conservative
+    type: INTEGER
+  - name: ide_nationalist
+    type: INTEGER
+  - name: ide_ethnicity
+    type: INTEGER
+  - name: rel_catholic
+    type: INTEGER
+  - name: rel_protestant
+    type: INTEGER
+  - name: rel_buddhist
+    type: INTEGER
+  - name: rel_islamist
+    type: INTEGER
+  - name: rel_other
+    type: DOUBLE
+  - name: notes
+    type: DOUBLE
+  - name: certainty_demands
+    type: INTEGER
+  - name: certainty_socialgroups
+    type: INTEGER
+  - name: sources
+    type: INTEGER
+  - name: coder
+    type: INTEGER
+  - name: socialgroup_check
+    type: DOUBLE
+  - name: coding_note
+    type: DOUBLE
+  - name: team
+    type: INTEGER
+  - name: country_id
+    type: DOUBLE
+  - name: date_start
+    type: INTEGER
+  - name: date_end
+    type: INTEGER
+  - name: right_censored
+    type: INTEGER
+  - name: team_no
+    type: INTEGER
+  - name: spell_id
+    type: INTEGER
+  - name: campaign_id
+    type: INTEGER
+  - name: country_free_campaign_id
+    type: INTEGER
+  - name: countered_by_campaign_id
+    type: DOUBLE
+  - name: countered
+    type: INTEGER
+  - name: countering_campaign_id
+    type: DOUBLE
+  - name: countering
+    type: INTEGER
+  - name: clash
+    type: INTEGER
+  - name: abortion_campaign
+    type: INTEGER
+  - name: pride_antipride_campaign
+    type: INTEGER
+  - name: demand_main_remove_gov
+    type: INTEGER
+  - name: demand_main_remove_regime
+    type: INTEGER
+  - name: demand_main_institutional
+    type: INTEGER
+  - name: demand_main_secession
+    type: INTEGER
+  - name: demand_main_autonomy
+    type: INTEGER
+  - name: peak_size_2
+    type: INTEGER
+  - name: peak_size_3
+    type: INTEGER
+  - name: peak_size_4
+    type: INTEGER
+  - name: peak_size_6
+    type: INTEGER
+  - name: peak_size_5
+    type: INTEGER
+  - name: peak_size_1
+    type: INTEGER
+  - name: peak_without_petition_2
+    type: INTEGER
+  - name: peak_without_petition_3
+    type: INTEGER
+  - name: peak_without_petition_4
+    type: INTEGER
+  - name: peak_without_petition_6
+    type: INTEGER
+  - name: peak_without_petition_5
+    type: INTEGER
+  - name: peak_without_petition_7
+    type: INTEGER
+  - name: peak_without_petition_0
+    type: INTEGER
+  - name: peak_without_petition_1
+    type: INTEGER
+  - name: campaign_strategy_violent
+    type: INTEGER
+  - name: campaign_strategy_nonviolent
+    type: INTEGER
+  - name: demand_regime_anti
+    type: INTEGER
+  - name: demand_main_remove_regime_anti
+    type: INTEGER
+  - name: demand_gov_anti
+    type: INTEGER
+  - name: demand_main_remove_gov_anti
+    type: INTEGER
+  - name: demand_gov_hos_only
+    type: INTEGER
+  - name: demand_gov_part_of_cabinet
+    type: INTEGER
+  - name: demand_gov_cabinet
+    type: INTEGER
+  - name: demand_gov_any
+    type: INTEGER
+  - name: demand_civilrights_anti
+    type: INTEGER
+  - name: demand_election_anti
+    type: INTEGER
+  - name: demand_executive_anti
+    type: INTEGER
+  - name: demand_free_expression_anti
+    type: INTEGER
+  - name: demand_main_institutional_anti
+    type: INTEGER
+  - name: demand_main
+    type: INTEGER

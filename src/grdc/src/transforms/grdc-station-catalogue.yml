@@ -1,0 +1,70 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [grdc_no]
+sort: [grdc_no]
+columns:
+  - name: grdc_no
+    type: BIGINT
+  - name: wmo_region
+    type: INTEGER
+  - name: sub_region
+    type: INTEGER
+  - name: river
+    type: VARCHAR
+  - name: station
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: nat_id
+    type: VARCHAR
+  - name: downstream_station_no
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: catchment_area_km2
+    type: DOUBLE
+  - name: altitude_m
+    type: DOUBLE
+  - name: daily_start_year
+    type: INTEGER
+  - name: daily_end_year
+    type: INTEGER
+  - name: daily_years
+    type: DOUBLE
+  - name: daily_missing_pct
+    type: DOUBLE
+  - name: monthly_start_year
+    type: INTEGER
+  - name: monthly_end_year
+    type: INTEGER
+  - name: monthly_years
+    type: DOUBLE
+  - name: monthly_missing_pct
+    type: DOUBLE
+  - name: record_start_year
+    type: INTEGER
+  - name: record_end_year
+    type: INTEGER
+  - name: record_years
+    type: DOUBLE
+  - name: lta_discharge_m3s
+    type: DOUBLE
+  - name: runoff_volume_km3_yr
+    type: DOUBLE
+  - name: runoff_height_mm_yr
+    type: DOUBLE
+  - name: provider_id
+    type: INTEGER
+  - name: last_import_year
+    type: INTEGER
+  - name: timeseries_type
+    type: VARCHAR
+  - name: region_name
+    type: VARCHAR
+  - name: subregion_name
+    type: VARCHAR
+  - name: ocean
+    type: VARCHAR
+  - name: river_basin
+    type: VARCHAR

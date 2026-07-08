@@ -1,0 +1,379 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [reportbaseid]
+temporal: aadtyear
+sort: [aadtyear, reportbaseid]
+columns:
+  - name: crossingid
+    type: VARCHAR
+  - name: reportbaseid
+    type: VARCHAR
+  - name: parentreportbaseid
+    type: VARCHAR
+  - name: crossingclosed
+    type: VARCHAR
+  - name: reportingagencytypeid
+    type: VARCHAR
+  - name: reportingagencyid
+    type: VARCHAR
+  - name: revisiondate
+    type: VARCHAR
+  - name: reasonid
+    type: VARCHAR
+  - name: crossingidsuffix
+    type: VARCHAR
+  - name: reportstatus
+    type: VARCHAR
+  - name: lastupdated
+    type: VARCHAR
+  - name: railroad
+    type: VARCHAR
+  - name: statecd
+    type: VARCHAR
+  - name: statename
+    type: VARCHAR
+  - name: cntycd
+    type: VARCHAR
+  - name: countyname
+    type: VARCHAR
+  - name: nearest
+    type: VARCHAR
+  - name: citycd
+    type: VARCHAR
+  - name: cityname
+    type: VARCHAR
+  - name: street
+    type: VARCHAR
+  - name: blocknumb
+    type: VARCHAR
+  - name: highway
+    type: VARCHAR
+  - name: sepind
+    type: VARCHAR
+  - name: seprr1
+    type: VARCHAR
+  - name: seprr2
+    type: VARCHAR
+  - name: seprr3
+    type: VARCHAR
+  - name: seprr4
+    type: VARCHAR
+  - name: multfrmsfiled
+    type: VARCHAR
+  - name: sameind
+    type: VARCHAR
+  - name: samerr1
+    type: VARCHAR
+  - name: samerr2
+    type: VARCHAR
+  - name: samerr3
+    type: VARCHAR
+  - name: samerr4
+    type: VARCHAR
+  - name: rrid
+    type: VARCHAR
+  - name: ttstn
+    type: VARCHAR
+  - name: ttstnnam
+    type: VARCHAR
+  - name: rrmain
+    type: VARCHAR
+  - name: xingownr
+    type: VARCHAR
+  - name: typexing
+    type: VARCHAR
+  - name: xpurpose
+    type: VARCHAR
+  - name: posxing
+    type: VARCHAR
+  - name: openpub
+    type: VARCHAR
+  - name: typetrnsrvcids
+    type: VARCHAR
+  - name: develtypid
+    type: VARCHAR
+  - name: xingadj
+    type: VARCHAR
+  - name: xngadjno
+    type: VARCHAR
+  - name: whistban
+    type: VARCHAR
+  - name: whistdate
+    type: VARCHAR
+  - name: hscorrid
+    type: VARCHAR
+  - name: sfxhscorrid
+    type: VARCHAR
+  - name: latitude
+    type: VARCHAR
+  - name: longitude
+    type: VARCHAR
+  - name: llsource
+    type: VARCHAR
+  - name: rrnarr1
+    type: VARCHAR
+  - name: rrnarr2
+    type: VARCHAR
+  - name: rrnarr3
+    type: VARCHAR
+  - name: rrnarr4
+    type: VARCHAR
+  - name: stnarr1
+    type: VARCHAR
+  - name: stnarr2
+    type: VARCHAR
+  - name: stnarr3
+    type: VARCHAR
+  - name: stnarr4
+    type: VARCHAR
+  - name: rrnarr
+    type: VARCHAR
+  - name: stnarr
+    type: VARCHAR
+  - name: polcont
+    type: VARCHAR
+  - name: rrcont
+    type: VARCHAR
+  - name: hwycont
+    type: VARCHAR
+  - name: thrrequestno
+    type: VARCHAR
+  - name: ccmqzid
+    type: VARCHAR
+  - name: operatingrailroadcode
+    type: VARCHAR
+  - name: operatingrailroadtype
+    type: VARCHAR
+  - name: rrdiv
+    type: VARCHAR
+  - name: rrsubdiv
+    type: VARCHAR
+  - name: branch
+    type: VARCHAR
+  - name: prfxmilepost
+    type: VARCHAR
+  - name: milepost
+    type: VARCHAR
+  - name: sfxmilepost
+    type: VARCHAR
+  - name: lt1passmov
+    type: VARCHAR
+  - name: passcnt
+    type: VARCHAR
+  - name: daythru
+    type: VARCHAR
+  - name: nghtthru
+    type: VARCHAR
+  - name: totalswt
+    type: VARCHAR
+  - name: totalltr
+    type: VARCHAR
+  - name: lt1mov
+    type: VARCHAR
+  - name: weektrnmov
+    type: VARCHAR
+  - name: yeartrnmov
+    type: VARCHAR
+  - name: maxttspd
+    type: VARCHAR
+  - name: minspd
+    type: VARCHAR
+  - name: maxspd
+    type: VARCHAR
+  - name: maintrk
+    type: VARCHAR
+  - name: sidingtrk
+    type: VARCHAR
+  - name: yardtrk
+    type: VARCHAR
+  - name: transittrk
+    type: VARCHAR
+  - name: industrytrk
+    type: VARCHAR
+  - name: othrtrk
+    type: VARCHAR
+  - name: othrtrkdes
+    type: VARCHAR
+  - name: spselids
+    type: VARCHAR
+  - name: sgnleqp
+    type: VARCHAR
+  - name: emonitordvce
+    type: VARCHAR
+  - name: healthmonitor
+    type: VARCHAR
+  - name: nosigns
+    type: VARCHAR
+  - name: xbuck
+    type: VARCHAR
+  - name: stopstd
+    type: VARCHAR
+  - name: yieldstd
+    type: VARCHAR
+  - name: advwarn
+    type: VARCHAR
+  - name: advw10_1
+    type: VARCHAR
+  - name: advw10_2
+    type: VARCHAR
+  - name: advw10_3
+    type: VARCHAR
+  - name: advw10_4
+    type: VARCHAR
+  - name: advw10_11
+    type: VARCHAR
+  - name: advw10_12
+    type: VARCHAR
+  - name: low_grnd
+    type: VARCHAR
+  - name: low_grndsigns
+    type: VARCHAR
+  - name: pavemrkids
+    type: VARCHAR
+  - name: channel
+    type: VARCHAR
+  - name: exempt
+    type: VARCHAR
+  - name: enssign
+    type: VARCHAR
+  - name: othsgn
+    type: VARCHAR
+  - name: othsgn1
+    type: VARCHAR
+  - name: othdes1
+    type: VARCHAR
+  - name: othsgn2
+    type: VARCHAR
+  - name: othdes2
+    type: VARCHAR
+  - name: othsgn3
+    type: VARCHAR
+  - name: othdes3
+    type: VARCHAR
+  - name: prvxsign
+    type: VARCHAR
+  - name: led
+    type: VARCHAR
+  - name: gates
+    type: VARCHAR
+  - name: gateped
+    type: VARCHAR
+  - name: gateconf
+    type: VARCHAR
+  - name: gateconftype
+    type: VARCHAR
+  - name: flashov
+    type: VARCHAR
+  - name: flashnov
+    type: VARCHAR
+  - name: cflashtype
+    type: VARCHAR
+  - name: flashpost
+    type: VARCHAR
+  - name: flashposttype
+    type: VARCHAR
+  - name: bkl_flashpost
+    type: VARCHAR
+  - name: sdl_flashpost
+    type: VARCHAR
+  - name: flashpai
+    type: VARCHAR
+  - name: awdidate
+    type: VARCHAR
+  - name: awhornchk
+    type: VARCHAR
+  - name: awhornldate
+    type: VARCHAR
+  - name: hwytrafsignl
+    type: VARCHAR
+  - name: wigwags
+    type: VARCHAR
+  - name: bells
+    type: VARCHAR
+  - name: specpro
+    type: VARCHAR
+  - name: flashoth
+    type: VARCHAR
+  - name: flashothdes
+    type: VARCHAR
+  - name: hwynrsig
+    type: VARCHAR
+  - name: intrprmp
+    type: VARCHAR
+  - name: premptype
+    type: VARCHAR
+  - name: hwtrfpsig
+    type: VARCHAR
+  - name: hwtrfpsigsdis
+    type: VARCHAR
+  - name: hwtrfpsiglndis
+    type: VARCHAR
+  - name: monitordev
+    type: VARCHAR
+  - name: wdcode
+    type: VARCHAR
+  - name: traficln
+    type: VARCHAR
+  - name: traflntype
+    type: VARCHAR
+  - name: hwypved
+    type: VARCHAR
+  - name: downst
+    type: VARCHAR
+  - name: illumina
+    type: VARCHAR
+  - name: xsurfdate
+    type: VARCHAR
+  - name: xsurfwidth
+    type: VARCHAR
+  - name: xsurflength
+    type: VARCHAR
+  - name: xsurfaceids
+    type: VARCHAR
+  - name: xsurothr
+    type: VARCHAR
+  - name: hwynear
+    type: VARCHAR
+  - name: hwyndist
+    type: VARCHAR
+  - name: xangle
+    type: VARCHAR
+  - name: compower
+    type: VARCHAR
+  - name: hwysys
+    type: VARCHAR
+  - name: hwyclasscd
+    type: VARCHAR
+  - name: hwyclassrdtpid
+    type: VARCHAR
+  - name: sthwy1
+    type: VARCHAR
+  - name: hwyspeed
+    type: VARCHAR
+  - name: hwyspeedps
+    type: VARCHAR
+  - name: lrsrouteid
+    type: VARCHAR
+  - name: lrsmilepost
+    type: VARCHAR
+  - name: aadt
+    type: VARCHAR
+  - name: aadtyear
+    type: VARCHAR
+  - name: pcttruk
+    type: VARCHAR
+  - name: schlbuschk
+    type: VARCHAR
+  - name: schlbscnt
+    type: VARCHAR
+  - name: hazmtveh
+    type: VARCHAR
+  - name: emrgncysrvc
+    type: VARCHAR
+  - name: reportyear
+    type: VARCHAR
+  - name: reporttype
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: city_state_location
+    type: VARCHAR

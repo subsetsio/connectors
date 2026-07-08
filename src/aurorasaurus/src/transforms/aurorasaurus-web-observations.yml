@@ -1,0 +1,35 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [report_id]
+temporal: observed_at
+sort: [observed_at, report_id]
+columns:
+  - name: report_id
+    type: BIGINT
+  - name: observed_at
+    type: TIMESTAMP
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: country
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: saw_aurora
+    type: BOOLEAN
+  - name: sky
+    type: VARCHAR
+  - name: colors
+    type: VARCHAR
+  - name: types
+    type: VARCHAR
+  - name: activities
+    type: VARCHAR
+  - name: height
+    type: VARCHAR
+  - name: comment
+    type: VARCHAR
+  - name: report_time_start
+    type: TIMESTAMP
+  - name: report_time_end
+    type: TIMESTAMP

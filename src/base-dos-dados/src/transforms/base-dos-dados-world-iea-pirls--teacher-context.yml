@@ -1,0 +1,374 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: country_iso3_code
+    type: DOUBLE
+  - name: country_id
+    type: BIGINT
+  - name: population_id
+    type: BIGINT
+  - name: standardized_grade_id
+    type: BIGINT
+  - name: grade_id
+    type: BIGINT
+  - name: school_id
+    type: BIGINT
+  - name: teacher_id
+    type: BIGINT
+  - name: teacher_link_number
+    type: BIGINT
+  - name: teacher_link_id
+    type: BIGINT
+  - name: language_teacher_questionnaire
+    type: DOUBLE
+  - name: locale_teacher_questionnaire_id
+    type: DOUBLE
+  - name: atbg01
+    type: DOUBLE
+  - name: atbg02
+    type: DOUBLE
+  - name: atbg03
+    type: DOUBLE
+  - name: atbg04
+    type: DOUBLE
+  - name: atbg05aa
+    type: BOOLEAN
+  - name: atbg05ab
+    type: BOOLEAN
+  - name: atbg05ac
+    type: BOOLEAN
+  - name: atbg05ad
+    type: BOOLEAN
+  - name: atbg05ba
+    type: DOUBLE
+  - name: atbg05bb
+    type: DOUBLE
+  - name: atbg05bc
+    type: DOUBLE
+  - name: atbg05bd
+    type: DOUBLE
+  - name: atbg05be
+    type: DOUBLE
+  - name: atbg05bf
+    type: DOUBLE
+  - name: atbg05bg
+    type: DOUBLE
+  - name: atbg05bh
+    type: DOUBLE
+  - name: atbg05bi
+    type: DOUBLE
+  - name: atbg05bj
+    type: DOUBLE
+  - name: atbg05bk
+    type: DOUBLE
+  - name: atbg06
+    type: DOUBLE
+  - name: atbg07aa
+    type: BOOLEAN
+  - name: atbg07ba
+    type: DOUBLE
+  - name: atbg07ab
+    type: BOOLEAN
+  - name: atbg07bb
+    type: DOUBLE
+  - name: atbg07ac
+    type: BOOLEAN
+  - name: atbg07bc
+    type: DOUBLE
+  - name: atbg07ad
+    type: BOOLEAN
+  - name: atbg07bd
+    type: DOUBLE
+  - name: atbg07ae
+    type: BOOLEAN
+  - name: atbg07be
+    type: DOUBLE
+  - name: atbg07af
+    type: BOOLEAN
+  - name: atbg07bf
+    type: DOUBLE
+  - name: atbg07ag
+    type: BOOLEAN
+  - name: atbg07bg
+    type: DOUBLE
+  - name: atbg08a
+    type: DOUBLE
+  - name: atbg08b
+    type: DOUBLE
+  - name: atbg08c
+    type: DOUBLE
+  - name: atbg08d
+    type: DOUBLE
+  - name: atbg08e
+    type: DOUBLE
+  - name: atbg09a
+    type: DOUBLE
+  - name: atbg09b
+    type: DOUBLE
+  - name: atbg09c
+    type: DOUBLE
+  - name: atbg09d
+    type: DOUBLE
+  - name: atbg10a
+    type: DOUBLE
+  - name: atbg10b
+    type: DOUBLE
+  - name: atbg10c
+    type: DOUBLE
+  - name: atbg10d
+    type: DOUBLE
+  - name: atbg10e
+    type: DOUBLE
+  - name: atbg10f
+    type: DOUBLE
+  - name: atbg10g
+    type: DOUBLE
+  - name: atbg10h
+    type: DOUBLE
+  - name: atbg10i
+    type: DOUBLE
+  - name: atbg10j
+    type: DOUBLE
+  - name: atbg10k
+    type: DOUBLE
+  - name: atbg10l
+    type: DOUBLE
+  - name: atbg11a
+    type: DOUBLE
+  - name: atbg11b
+    type: DOUBLE
+  - name: atbg11c
+    type: DOUBLE
+  - name: atbg11d
+    type: DOUBLE
+  - name: atbg11e
+    type: DOUBLE
+  - name: atbg11f
+    type: DOUBLE
+  - name: atbg11g
+    type: DOUBLE
+  - name: atbg11h
+    type: DOUBLE
+  - name: atbg11i
+    type: DOUBLE
+  - name: atbg12a
+    type: DOUBLE
+  - name: atbg12b
+    type: DOUBLE
+  - name: atbg12c
+    type: DOUBLE
+  - name: atbg12d
+    type: DOUBLE
+  - name: atbg12e
+    type: DOUBLE
+  - name: atbg12f
+    type: DOUBLE
+  - name: atbr01a
+    type: DOUBLE
+  - name: atbr01b
+    type: DOUBLE
+  - name: atbr02a
+    type: DOUBLE
+  - name: atbr02b
+    type: DOUBLE
+  - name: atbr03a
+    type: DOUBLE
+  - name: atbr03b
+    type: DOUBLE
+  - name: atbr03c
+    type: DOUBLE
+  - name: atbr03d
+    type: DOUBLE
+  - name: atbr03e
+    type: DOUBLE
+  - name: atbr03f
+    type: DOUBLE
+  - name: atbr03g
+    type: DOUBLE
+  - name: atbr03h
+    type: DOUBLE
+  - name: atbr04
+    type: DOUBLE
+  - name: atbr05
+    type: DOUBLE
+  - name: atbr06a
+    type: DOUBLE
+  - name: atbr06b
+    type: DOUBLE
+  - name: atbr06c
+    type: DOUBLE
+  - name: atbr06d
+    type: DOUBLE
+  - name: atbr06e
+    type: DOUBLE
+  - name: atbr07aa
+    type: DOUBLE
+  - name: atbr07ab
+    type: DOUBLE
+  - name: atbr07ac
+    type: DOUBLE
+  - name: atbr07ad
+    type: DOUBLE
+  - name: atbr07ba
+    type: DOUBLE
+  - name: atbr07bb
+    type: DOUBLE
+  - name: atbr07bc
+    type: DOUBLE
+  - name: atbr07bd
+    type: DOUBLE
+  - name: atbr08a
+    type: DOUBLE
+  - name: atbr08b
+    type: DOUBLE
+  - name: atbr08c
+    type: DOUBLE
+  - name: atbr08d
+    type: DOUBLE
+  - name: atbr08e
+    type: DOUBLE
+  - name: atbr08f
+    type: DOUBLE
+  - name: atbr08g
+    type: DOUBLE
+  - name: atbr08h
+    type: DOUBLE
+  - name: atbr09a
+    type: DOUBLE
+  - name: atbr09b
+    type: DOUBLE
+  - name: atbr09c
+    type: DOUBLE
+  - name: atbr09d
+    type: DOUBLE
+  - name: atbr09e
+    type: DOUBLE
+  - name: atbr09f
+    type: DOUBLE
+  - name: atbr09g
+    type: DOUBLE
+  - name: atbr09h
+    type: DOUBLE
+  - name: atbr09i
+    type: DOUBLE
+  - name: atbr10a
+    type: DOUBLE
+  - name: atbr10b
+    type: DOUBLE
+  - name: atbr10c
+    type: DOUBLE
+  - name: atbr10d
+    type: DOUBLE
+  - name: atbr10e
+    type: DOUBLE
+  - name: atbr10f
+    type: DOUBLE
+  - name: atbr10g
+    type: DOUBLE
+  - name: atbr10h
+    type: DOUBLE
+  - name: atbr10i
+    type: DOUBLE
+  - name: atbr10j
+    type: DOUBLE
+  - name: atbr10k
+    type: DOUBLE
+  - name: atbr10l
+    type: DOUBLE
+  - name: atbr11a
+    type: DOUBLE
+  - name: atbr11b
+    type: DOUBLE
+  - name: atbr11c
+    type: DOUBLE
+  - name: atbr11d
+    type: DOUBLE
+  - name: atbr11e
+    type: DOUBLE
+  - name: atbr12a
+    type: BOOLEAN
+  - name: atbr12ba
+    type: BOOLEAN
+  - name: atbr12bb
+    type: BOOLEAN
+  - name: atbr12bc
+    type: BOOLEAN
+  - name: atbr12bd
+    type: BOOLEAN
+  - name: atbr12c
+    type: DOUBLE
+  - name: atbr12da
+    type: DOUBLE
+  - name: atbr12db
+    type: DOUBLE
+  - name: atbr12dc
+    type: DOUBLE
+  - name: atbr12ea
+    type: DOUBLE
+  - name: atbr12eb
+    type: DOUBLE
+  - name: atbr12ec
+    type: DOUBLE
+  - name: atbr12ed
+    type: DOUBLE
+  - name: atbr12ee
+    type: DOUBLE
+  - name: atbr13a
+    type: BOOLEAN
+  - name: atbr13b
+    type: DOUBLE
+  - name: atbr13c
+    type: DOUBLE
+  - name: atbr13d
+    type: DOUBLE
+  - name: atbr13e
+    type: BOOLEAN
+  - name: atbr14
+    type: DOUBLE
+  - name: atbr15
+    type: DOUBLE
+  - name: atbr16
+    type: DOUBLE
+  - name: atbr17a
+    type: DOUBLE
+  - name: atbr17b
+    type: DOUBLE
+  - name: atbr17c
+    type: DOUBLE
+  - name: atbr18a
+    type: DOUBLE
+  - name: atbr18b
+    type: DOUBLE
+  - name: atbr18c
+    type: DOUBLE
+  - name: atbr18d
+    type: DOUBLE
+  - name: atbr18e
+    type: DOUBLE
+  - name: atbr19
+    type: DOUBLE
+  - name: atbgeas
+    type: DOUBLE
+  - name: atdgeas
+    type: DOUBLE
+  - name: atbgsos
+    type: DOUBLE
+  - name: atdgsos
+    type: DOUBLE
+  - name: atbgtjs
+    type: DOUBLE
+  - name: atdgtjs
+    type: DOUBLE
+  - name: atbgsli
+    type: DOUBLE
+  - name: atdgsli
+    type: DOUBLE
+  - name: atdglihy
+    type: DOUBLE
+  - name: atdgrihy
+    type: DOUBLE
+  - name: version
+    type: BIGINT
+  - name: scope
+    type: BIGINT
+  - name: pirls_type
+    type: VARCHAR

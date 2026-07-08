@@ -1,0 +1,28 @@
+SELECT
+    main_id,
+    incident_id,
+    incident_type,
+    region_of_incident,
+    TRY_CAST(incident_date AS DATE)             AS incident_date,
+    TRY_CAST(incident_year AS INTEGER)          AS incident_year,
+    month,
+    TRY_CAST(number_dead AS BIGINT)             AS number_dead,
+    TRY_CAST(min_estimated_missing AS BIGINT)   AS min_estimated_missing,
+    TRY_CAST(total_dead_and_missing AS BIGINT)  AS total_dead_and_missing,
+    TRY_CAST(number_survivors AS BIGINT)        AS number_survivors,
+    TRY_CAST(number_females AS BIGINT)          AS number_females,
+    TRY_CAST(number_males AS BIGINT)            AS number_males,
+    TRY_CAST(number_children AS BIGINT)         AS number_children,
+    country_of_origin,
+    region_of_origin,
+    cause_of_death,
+    country_of_incident,
+    migration_route,
+    location_of_incident,
+    coordinates,
+    unsd_geographical_grouping,
+    information_source,
+    source_url,
+    TRY_CAST(source_quality AS INTEGER)         AS source_quality
+FROM "iom-missing-migrants"
+WHERE main_id IS NOT NULL

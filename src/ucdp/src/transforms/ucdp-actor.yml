@@ -1,0 +1,72 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: ActorId
+    type: BIGINT
+  - name: NameData
+    type: BLOB
+  - name: NameOrig
+    type: BLOB
+  - name: NameOrigFull
+    type: BLOB
+  - name: NameOrigFullEng
+    type: BLOB
+  - name: NameChange
+    type: BIGINT
+  - name: NewName
+    type: BLOB
+  - name: NewNameFullMotherTongue
+    type: BLOB
+  - name: NewNameFullEng
+    type: BLOB
+  - name: Org
+    type: BIGINT
+  - name: ConflictId
+    type: VARCHAR
+  - name: DyadId
+    type: VARCHAR
+  - name: PrimaryParty
+    type: BIGINT
+  - name: OSID
+    type: BIGINT
+  - name: OSCoalition
+    type: BIGINT
+  - name: OSCoalitionID
+    type: VARCHAR
+  - name: NSID
+    type: VARCHAR
+  - name: NSCoalition
+    type: BIGINT
+  - name: NSCoalitionID
+    type: VARCHAR
+  - name: Splinter
+    type: BIGINT
+  - name: NamePrev
+    type: BLOB
+  - name: ActorIdPrev
+    type: VARCHAR
+  - name: SplitTemp
+    type: BIGINT
+  - name: NameSplitTemp
+    type: VARCHAR
+  - name: ActorIdSplitTemp
+    type: BIGINT
+  - name: Alliance
+    type: BIGINT
+  - name: NameAlliance
+    type: BLOB
+  - name: ActorIdAlliance
+    type: VARCHAR
+  - name: JoinGroup
+    type: BIGINT
+  - name: GroupName
+    type: VARCHAR
+  - name: ActorIdGroup
+    type: VARCHAR
+  - name: Location
+    type: VARCHAR
+  - name: GWNOLoc
+    type: VARCHAR
+  - name: Region
+    type: VARCHAR
+  - name: Version
+    type: DOUBLE

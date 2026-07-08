@@ -1,0 +1,19 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [data_type, timeseries_code, date]
+temporal: date
+sort: [date, data_type, timeseries_code]
+columns:
+  - name: date
+    type: DATE
+  - name: timeseries_code
+    type: VARCHAR
+  - name: measure_name
+    type: VARCHAR
+  - name: category_code
+    type: VARCHAR
+  - name: category_name
+    type: VARCHAR
+  - name: data_type
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

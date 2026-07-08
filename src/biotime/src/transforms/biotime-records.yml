@@ -1,0 +1,32 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: study_id
+    type: INTEGER
+  - name: year
+    type: INTEGER
+  - name: month
+    type: INTEGER
+  - name: day
+    type: INTEGER
+  - name: sample_desc
+    type: VARCHAR
+  - name: plot
+    type: VARCHAR
+  - name: id_species
+    type: INTEGER
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: abundance
+    type: DOUBLE
+  - name: biomass
+    type: DOUBLE
+  - name: genus
+    type: VARCHAR
+  - name: species
+    type: VARCHAR
+  - name: genus_species
+    type: VARCHAR

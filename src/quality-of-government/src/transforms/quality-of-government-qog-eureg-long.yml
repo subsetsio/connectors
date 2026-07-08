@@ -1,0 +1,676 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: region_code
+    type: VARCHAR
+  - name: region_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: level
+    type: BIGINT
+  - name: nuts0
+    type: VARCHAR
+  - name: nuts1
+    type: VARCHAR
+  - name: nuts2
+    type: VARCHAR
+  - name: cname
+    type: VARCHAR
+  - name: cri_contr
+    type: BIGINT
+  - name: cri_cvalue
+    type: DOUBLE
+  - name: cri_singleb
+    type: DOUBLE
+  - name: cri_nocall
+    type: DOUBLE
+  - name: cri_nonopen
+    type: DOUBLE
+  - name: cri_taxhav
+    type: DOUBLE
+  - name: eqi_score
+    type: DOUBLE
+  - name: eqi_zquality
+    type: DOUBLE
+  - name: eqi_zimpartiality
+    type: DOUBLE
+  - name: eqi_zcorruption
+    type: DOUBLE
+  - name: eqi_zcorruptper
+    type: DOUBLE
+  - name: eqi_zcorruptexp
+    type: DOUBLE
+  - name: eqi_norm_eqi
+    type: DOUBLE
+  - name: eqi_norm_qual
+    type: DOUBLE
+  - name: eqi_norm_impart
+    type: DOUBLE
+  - name: eqi_norm_corrupt
+    type: DOUBLE
+  - name: eqi_norm_corruptper
+    type: DOUBLE
+  - name: eqi_norm_corruptexp
+    type: DOUBLE
+  - name: eu_cri_bur
+    type: BIGINT
+  - name: eu_cri_inthom
+    type: BIGINT
+  - name: eu_cri_rob
+    type: BIGINT
+  - name: eu_agemoth
+    type: DOUBLE
+  - name: eu_agemoth1
+    type: DOUBLE
+  - name: eu_nmarpct
+    type: DOUBLE
+  - name: eu_totferrt
+    type: DOUBLE
+  - name: eu_death_totalf
+    type: BIGINT
+  - name: eu_death_totalm
+    type: BIGINT
+  - name: eu_death_totalt
+    type: BIGINT
+  - name: eu_death_y1f
+    type: BIGINT
+  - name: eu_death_y1m
+    type: BIGINT
+  - name: eu_death_y1t
+    type: BIGINT
+  - name: eu_death_y20f
+    type: BIGINT
+  - name: eu_death_y20m
+    type: BIGINT
+  - name: eu_death_y20t
+    type: BIGINT
+  - name: eu_death_y50f
+    type: BIGINT
+  - name: eu_death_y50m
+    type: BIGINT
+  - name: eu_death_y50t
+    type: BIGINT
+  - name: eu_death_y70f
+    type: BIGINT
+  - name: eu_death_y70m
+    type: BIGINT
+  - name: eu_death_y70t
+    type: BIGINT
+  - name: eu_d2jan_f
+    type: BIGINT
+  - name: eu_d2jan_m
+    type: BIGINT
+  - name: eu_d2jan_t
+    type: BIGINT
+  - name: eu_d3area_lat
+    type: DOUBLE
+  - name: eu_d3area_t
+    type: DOUBLE
+  - name: eu_per_km2
+    type: DOUBLE
+  - name: eu_frate_total
+    type: DOUBLE
+  - name: eu_frate_y15
+    type: DOUBLE
+  - name: eu_frate_y30
+    type: DOUBLE
+  - name: eu_frate_y35
+    type: DOUBLE
+  - name: eu_mlifexp_f
+    type: DOUBLE
+  - name: eu_mlifexp_m
+    type: DOUBLE
+  - name: eu_mlifexp_t
+    type: DOUBLE
+  - name: eu_edatt_ed02_y2564f
+    type: DOUBLE
+  - name: eu_edatt_ed02_y2564m
+    type: DOUBLE
+  - name: eu_edatt_ed02_y2564t
+    type: DOUBLE
+  - name: eu_edatt_ed34_y2564f
+    type: DOUBLE
+  - name: eu_edatt_ed34_y2564m
+    type: DOUBLE
+  - name: eu_edatt_ed34_y2564t
+    type: DOUBLE
+  - name: eu_edatt_ed58_y2564f
+    type: DOUBLE
+  - name: eu_edatt_ed58_y2564m
+    type: DOUBLE
+  - name: eu_edatt_ed58_y2564t
+    type: DOUBLE
+  - name: eu_edatt_ed02_y3034f
+    type: DOUBLE
+  - name: eu_edatt_ed02_y3034m
+    type: DOUBLE
+  - name: eu_edatt_ed02_y3034t
+    type: DOUBLE
+  - name: eu_edatt_ed34_y3034f
+    type: DOUBLE
+  - name: eu_edatt_ed34_y3034m
+    type: DOUBLE
+  - name: eu_edatt_ed34_y3034t
+    type: DOUBLE
+  - name: eu_edatt_ed58_y3034f
+    type: DOUBLE
+  - name: eu_edatt_ed58_y3034m
+    type: DOUBLE
+  - name: eu_edatt_ed58_y3034t
+    type: DOUBLE
+  - name: eu_eduleave_f
+    type: DOUBLE
+  - name: eu_eduleave_m
+    type: DOUBLE
+  - name: eu_eduleave_t
+    type: DOUBLE
+  - name: eu_neet_y1524f
+    type: DOUBLE
+  - name: eu_neet_y1524m
+    type: DOUBLE
+  - name: eu_neet_y1524t
+    type: DOUBLE
+  - name: eu_empl_durtotal
+    type: DOUBLE
+  - name: eu_empl_dury_gt3
+    type: DOUBLE
+  - name: eu_empl_dury13
+    type: DOUBLE
+  - name: eu_empl_edled02
+    type: DOUBLE
+  - name: eu_empl_edled34
+    type: DOUBLE
+  - name: eu_empl_edled58
+    type: DOUBLE
+  - name: eu_empl_edltotal
+    type: DOUBLE
+  - name: eu_epred12
+    type: DOUBLE
+  - name: eu_epred58
+    type: DOUBLE
+  - name: eu_env_wasdsp_i
+    type: DOUBLE
+  - name: eu_env_wasgen
+    type: DOUBLE
+  - name: eu_env_wasrcv_e
+    type: DOUBLE
+  - name: eu_env_wasrcy_c_d
+    type: DOUBLE
+  - name: eu_hea_cs_f
+    type: BIGINT
+  - name: eu_hea_cs_m
+    type: BIGINT
+  - name: eu_hea_cs_t
+    type: BIGINT
+  - name: eu_hea_hiv_f
+    type: BIGINT
+  - name: eu_hea_hiv_m
+    type: BIGINT
+  - name: eu_hea_hiv_t
+    type: BIGINT
+  - name: eu_hea_ipd_f
+    type: BIGINT
+  - name: eu_hea_ipd_m
+    type: BIGINT
+  - name: eu_hea_ipd_t
+    type: BIGINT
+  - name: eu_hea_np_f
+    type: BIGINT
+  - name: eu_hea_np_m
+    type: BIGINT
+  - name: eu_hea_np_t
+    type: BIGINT
+  - name: eu_hea_ns_f
+    type: BIGINT
+  - name: eu_hea_ns_m
+    type: BIGINT
+  - name: eu_hea_ns_t
+    type: BIGINT
+  - name: eu_hea_pr_f
+    type: BIGINT
+  - name: eu_hea_sh_f
+    type: BIGINT
+  - name: eu_hea_sh_m
+    type: BIGINT
+  - name: eu_hea_sh_t
+    type: BIGINT
+  - name: eu_hea_tox_f
+    type: BIGINT
+  - name: eu_hea_tox_m
+    type: BIGINT
+  - name: eu_hea_tox_t
+    type: BIGINT
+  - name: eu_hea_bed
+    type: DOUBLE
+  - name: eu_hea_bedcur
+    type: DOUBLE
+  - name: eu_hea_bedlt
+    type: DOUBLE
+  - name: eu_hea_bedoth
+    type: DOUBLE
+  - name: eu_hea_bedpsy
+    type: DOUBLE
+  - name: eu_hea_bedreh
+    type: DOUBLE
+  - name: eu_hea_dent
+    type: DOUBLE
+  - name: eu_hea_mdoc
+    type: DOUBLE
+  - name: eu_hea_nurs
+    type: DOUBLE
+  - name: eu_hea_pharm
+    type: DOUBLE
+  - name: eu_hea_phys
+    type: DOUBLE
+  - name: eu_emtk_ab_f
+    type: DOUBLE
+  - name: eu_emtk_ab_m
+    type: DOUBLE
+  - name: eu_emtk_ab_t
+    type: DOUBLE
+  - name: eu_emtk_c_f
+    type: DOUBLE
+  - name: eu_emtk_c_m
+    type: DOUBLE
+  - name: eu_emtk_c_t
+    type: DOUBLE
+  - name: eu_emtk_chtc_f
+    type: DOUBLE
+  - name: eu_emtk_chtc_m
+    type: DOUBLE
+  - name: eu_emtk_chtc_t
+    type: DOUBLE
+  - name: eu_emtk_df_f
+    type: DOUBLE
+  - name: eu_emtk_df_m
+    type: DOUBLE
+  - name: eu_emtk_df_t
+    type: DOUBLE
+  - name: eu_emtk_gu_f
+    type: DOUBLE
+  - name: eu_emtk_gu_m
+    type: DOUBLE
+  - name: eu_emtk_gu_t
+    type: DOUBLE
+  - name: eu_emtk_htc_f
+    type: DOUBLE
+  - name: eu_emtk_htc_m
+    type: DOUBLE
+  - name: eu_emtk_htc_t
+    type: DOUBLE
+  - name: eu_emtk_j_f
+    type: DOUBLE
+  - name: eu_emtk_j_m
+    type: DOUBLE
+  - name: eu_emtk_j_t
+    type: DOUBLE
+  - name: eu_emtk_k_f
+    type: DOUBLE
+  - name: eu_emtk_k_m
+    type: DOUBLE
+  - name: eu_emtk_k_t
+    type: DOUBLE
+  - name: eu_emtk_kis_f
+    type: DOUBLE
+  - name: eu_emtk_kis_m
+    type: DOUBLE
+  - name: eu_emtk_kis_t
+    type: DOUBLE
+  - name: eu_emtk_kl_f
+    type: DOUBLE
+  - name: eu_emtk_kl_m
+    type: DOUBLE
+  - name: eu_emtk_kl_t
+    type: DOUBLE
+  - name: eu_emtk_m_f
+    type: DOUBLE
+  - name: eu_emtk_m_m
+    type: DOUBLE
+  - name: eu_emtk_m_t
+    type: DOUBLE
+  - name: eu_emtk_n_f
+    type: DOUBLE
+  - name: eu_emtk_n_m
+    type: DOUBLE
+  - name: eu_emtk_n_t
+    type: DOUBLE
+  - name: eu_emtk_ou_f
+    type: DOUBLE
+  - name: eu_emtk_ou_m
+    type: DOUBLE
+  - name: eu_emtk_ou_t
+    type: DOUBLE
+  - name: eu_emtk_p_f
+    type: DOUBLE
+  - name: eu_emtk_p_m
+    type: DOUBLE
+  - name: eu_emtk_p_t
+    type: DOUBLE
+  - name: eu_emtk_q_f
+    type: DOUBLE
+  - name: eu_emtk_q_m
+    type: DOUBLE
+  - name: eu_emtk_q_t
+    type: DOUBLE
+  - name: eu_emtk_r_f
+    type: DOUBLE
+  - name: eu_emtk_r_m
+    type: DOUBLE
+  - name: eu_emtk_r_t
+    type: DOUBLE
+  - name: eu_emtk_s_f
+    type: DOUBLE
+  - name: eu_emtk_s_m
+    type: DOUBLE
+  - name: eu_emtk_s_t
+    type: DOUBLE
+  - name: eu_povrisk_pc
+    type: DOUBLE
+  - name: eu_lwoin_pc
+    type: DOUBLE
+  - name: eu_lwoin_pc_y_lt60
+    type: DOUBLE
+  - name: eu_matdep_pc
+    type: DOUBLE
+  - name: eu_povr_pc
+    type: DOUBLE
+  - name: eu_igs_b3_12
+    type: BIGINT
+  - name: eu_igs_bfeu
+    type: BIGINT
+  - name: eu_igs_bhols
+    type: BIGINT
+  - name: eu_igs_blt12
+    type: BIGINT
+  - name: eu_igs_bumt12x
+    type: BIGINT
+  - name: eu_igs_buy3
+    type: BIGINT
+  - name: eu_is_bacc
+    type: BIGINT
+  - name: eu_iu_never
+    type: BIGINT
+  - name: eu_iu_govform
+    type: BIGINT
+  - name: eu_iu_govint
+    type: BIGINT
+  - name: eu_is_iacc
+    type: BIGINT
+  - name: eu_iu_ohw
+    type: BIGINT
+  - name: eu_iu_ohw3
+    type: BIGINT
+  - name: eu_iu_iday
+    type: BIGINT
+  - name: eu_iu_ilt12
+    type: BIGINT
+  - name: eu_iu_iu3
+    type: BIGINT
+  - name: eu_iu_iubk
+    type: BIGINT
+  - name: eu_iu_iucpp
+    type: BIGINT
+  - name: eu_iu_iuse
+    type: BIGINT
+  - name: eu_iu_iusell
+    type: BIGINT
+  - name: eu_iu_iusnet
+    type: BIGINT
+  - name: eu_iu_iux
+    type: BIGINT
+  - name: eu_emp_ft_f
+    type: DOUBLE
+  - name: eu_emp_ft_m
+    type: DOUBLE
+  - name: eu_emp_ft_t
+    type: DOUBLE
+  - name: eu_emp_pt_f
+    type: DOUBLE
+  - name: eu_emp_pt_m
+    type: DOUBLE
+  - name: eu_emp_pt_t
+    type: DOUBLE
+  - name: eu_emp_1524f
+    type: DOUBLE
+  - name: eu_emp_1524m
+    type: DOUBLE
+  - name: eu_emp_1524t
+    type: DOUBLE
+  - name: eu_emp_2064f
+    type: DOUBLE
+  - name: eu_emp_2064m
+    type: DOUBLE
+  - name: eu_emp_2064t
+    type: DOUBLE
+  - name: eu_emp_2534f
+    type: DOUBLE
+  - name: eu_emp_2534m
+    type: DOUBLE
+  - name: eu_emp_2534t
+    type: DOUBLE
+  - name: eu_emp_ge25f
+    type: DOUBLE
+  - name: eu_emp_ge25m
+    type: DOUBLE
+  - name: eu_emp_ge25t
+    type: DOUBLE
+  - name: eu_emp_ge65f
+    type: DOUBLE
+  - name: eu_emp_ge65m
+    type: DOUBLE
+  - name: eu_emp_ge65t
+    type: DOUBLE
+  - name: eu_emp_a
+    type: DOUBLE
+  - name: eu_emp_be
+    type: DOUBLE
+  - name: eu_emp_f
+    type: DOUBLE
+  - name: eu_emp_gi
+    type: DOUBLE
+  - name: eu_emp_j
+    type: DOUBLE
+  - name: eu_emp_k
+    type: DOUBLE
+  - name: eu_emp_l
+    type: DOUBLE
+  - name: eu_emp_m_n
+    type: DOUBLE
+  - name: eu_emp_oq
+    type: DOUBLE
+  - name: eu_emp_ru
+    type: DOUBLE
+  - name: eu_emp_total
+    type: DOUBLE
+  - name: eu_ltu_pc_act
+    type: DOUBLE
+  - name: eu_ltu_pc_une
+    type: DOUBLE
+  - name: eu_ltu_ths
+    type: DOUBLE
+  - name: eu_unemp_1524f
+    type: DOUBLE
+  - name: eu_unemp_1524m
+    type: DOUBLE
+  - name: eu_unemp_1524t
+    type: DOUBLE
+  - name: eu_unemp_1574f
+    type: DOUBLE
+  - name: eu_unemp_1574m
+    type: DOUBLE
+  - name: eu_unemp_1574t
+    type: DOUBLE
+  - name: eu_unemp_2064f
+    type: DOUBLE
+  - name: eu_unemp_2064m
+    type: DOUBLE
+  - name: eu_unemp_2064t
+    type: DOUBLE
+  - name: eu_unemp_ge15f
+    type: DOUBLE
+  - name: eu_unemp_ge15m
+    type: DOUBLE
+  - name: eu_unemp_ge15t
+    type: DOUBLE
+  - name: eu_unemp_ge25f
+    type: DOUBLE
+  - name: eu_unemp_ge25m
+    type: DOUBLE
+  - name: eu_unemp_ge25t
+    type: DOUBLE
+  - name: eu_b5n_eur_hab
+    type: BIGINT
+  - name: eu_b5n_mio_eur
+    type: DOUBLE
+  - name: eu_b5n_mio_nac
+    type: DOUBLE
+  - name: eu_b5n_mio_pps
+    type: DOUBLE
+  - name: eu_b6n_eur_hab
+    type: BIGINT
+  - name: eu_b6n_mio_eur
+    type: DOUBLE
+  - name: eu_b6n_mio_nac
+    type: DOUBLE
+  - name: eu_b6n_mio_pps
+    type: DOUBLE
+  - name: eu_b7n_mio_eur
+    type: DOUBLE
+  - name: eu_b7n_mio_nac
+    type: DOUBLE
+  - name: eu_eng_cdd
+    type: DOUBLE
+  - name: eu_eng_hdd
+    type: DOUBLE
+  - name: eu_rdexp_bes
+    type: DOUBLE
+  - name: eu_rdexp_gov
+    type: DOUBLE
+  - name: eu_rdexp_hes
+    type: DOUBLE
+  - name: eu_rdexp_pnp
+    type: DOUBLE
+  - name: eu_rdexp_total
+    type: DOUBLE
+  - name: eu_prd_bes_f
+    type: BIGINT
+  - name: eu_prd_bes_t
+    type: BIGINT
+  - name: eu_prd_gov_f
+    type: BIGINT
+  - name: eu_prd_gov_t
+    type: BIGINT
+  - name: eu_prd_hes_f
+    type: BIGINT
+  - name: eu_prd_hes_t
+    type: BIGINT
+  - name: eu_prd_pnp_f
+    type: BIGINT
+  - name: eu_prd_pnp_t
+    type: BIGINT
+  - name: eu_prd_total_f
+    type: BIGINT
+  - name: eu_prd_total_t
+    type: BIGINT
+  - name: eu_mio_eur
+    type: DOUBLE
+  - name: eu_gdp_mio_pps
+    type: DOUBLE
+  - name: eu_gdp_pps_hab
+    type: BIGINT
+  - name: eu_gdp_pps_hab_eu27_2020
+    type: BIGINT
+  - name: eu_dinc_pps_hab
+    type: DOUBLE
+  - name: eu_pinc_pps_hab
+    type: BIGINT
+  - name: eu_rgva_pch_pre
+    type: DOUBLE
+  - name: eu_cnmigratrt
+    type: DOUBLE
+  - name: eu_growrt
+    type: DOUBLE
+  - name: eu_natgrowrt
+    type: DOUBLE
+  - name: eu_tour_nstour_bedpl
+    type: BIGINT
+  - name: eu_tour_nstour_estbl
+    type: BIGINT
+  - name: eu_tour_bedpl
+    type: DOUBLE
+  - name: eu_tour_bedrm
+    type: DOUBLE
+  - name: eu_tour_nscamp
+    type: BIGINT
+  - name: eu_tour_nshotel
+    type: BIGINT
+  - name: eu_tour_nssa
+    type: BIGINT
+  - name: eu_tour_nstour
+    type: BIGINT
+  - name: eu_rac_inj
+    type: BIGINT
+  - name: eu_rac_kil
+    type: BIGINT
+  - name: eu_atf_frm_ld
+    type: BIGINT
+  - name: eu_atf_frm_ld_nld
+    type: BIGINT
+  - name: eu_atf_frm_nld
+    type: BIGINT
+  - name: eu_mtp_pas_crd
+    type: BIGINT
+  - name: eu_mtp_pas_crd_arr
+    type: BIGINT
+  - name: eu_mtp_pas_crd_dep
+    type: BIGINT
+  - name: eu_mtf_fr_ld
+    type: BIGINT
+  - name: eu_mtf_fr_ld_nld
+    type: BIGINT
+  - name: eu_mtf_fr_nld
+    type: BIGINT
+  - name: eu_mtp_pas
+    type: BIGINT
+  - name: eu_mtp_pas_demb
+    type: BIGINT
+  - name: eu_mtp_pas_emb
+    type: BIGINT
+  - name: eu_troad_cnl
+    type: BIGINT
+  - name: eu_troad_mway
+    type: BIGINT
+  - name: eu_troad_rd_oth
+    type: BIGINT
+  - name: eu_troad_riv
+    type: BIGINT
+  - name: eu_troad_rl
+    type: BIGINT
+  - name: eu_troad_rl_elc
+    type: BIGINT
+  - name: eu_troad_rl_tge2
+    type: BIGINT
+  - name: eu_vs_bus_tot
+    type: BIGINT
+  - name: eu_vs_car
+    type: BIGINT
+  - name: eu_vs_lor
+    type: BIGINT
+  - name: eu_vs_moto
+    type: BIGINT
+  - name: eu_vs_spe
+    type: BIGINT
+  - name: eu_vs_tot_x_tm
+    type: BIGINT
+  - name: eu_vs_trc
+    type: BIGINT
+  - name: eu_vs_trl_strl
+    type: BIGINT
+  - name: eu_vs_utl
+    type: BIGINT
+  - name: eu_epry2564f
+    type: DOUBLE
+  - name: eu_epry2564m
+    type: DOUBLE
+  - name: eu_epry2564t
+    type: DOUBLE

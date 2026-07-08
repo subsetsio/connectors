@@ -1,0 +1,19 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [sistema, proceso, reserve_zone, reserve_type, date, hour]
+temporal: date
+sort: [date, sistema, proceso, reserve_zone, reserve_type, hour]
+columns:
+  - name: sistema
+    type: VARCHAR
+  - name: proceso
+    type: VARCHAR
+  - name: reserve_zone
+    type: VARCHAR
+  - name: reserve_type
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: hour
+    type: INTEGER
+  - name: pres
+    type: DOUBLE

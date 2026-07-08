@@ -1,0 +1,87 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [id]
+temporal: year
+sort: [year, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: type_of_violence
+    type: BIGINT
+  - name: conflict_new_id
+    type: BIGINT
+  - name: conflict_name
+    type: VARCHAR
+  - name: dyad_new_id
+    type: BIGINT
+  - name: side_a_new_id
+    type: BIGINT
+  - name: side_a
+    type: VARCHAR
+  - name: side_b_new_id
+    type: BIGINT
+  - name: side_b
+    type: VARCHAR
+  - name: country_id
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: source_article
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: date_start
+    type: VARCHAR
+  - name: date_end
+    type: VARCHAR
+  - name: deaths_a
+    type: BIGINT
+  - name: deaths_b
+    type: BIGINT
+  - name: civilian_deaths
+    type: BIGINT
+  - name: unknown
+    type: BIGINT
+  - name: best
+    type: BIGINT
+  - name: high
+    type: BIGINT
+  - name: low
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: VARCHAR
+  - name: electoral_vio
+    type: BIGINT
+  - name: electoral_vio_uncertainty
+    type: BIGINT
+  - name: electoral_vio_source
+    type: VARCHAR
+  - name: electoral_purpose
+    type: VARCHAR
+  - name: electoral_side_a
+    type: VARCHAR
+  - name: electoral_side_a_2
+    type: VARCHAR
+  - name: electoral_side_a_inc
+    type: BIGINT
+  - name: electoral_side_b
+    type: VARCHAR
+  - name: electoral_side_b_2
+    type: VARCHAR
+  - name: electoral_side_b_inc
+    type: BIGINT
+  - name: electoral_perpetrator
+    type: BIGINT
+  - name: electoral_targets
+    type: VARCHAR
+  - name: electoral_type
+    type: VARCHAR
+  - name: electoral_timing
+    type: VARCHAR
+  - name: relid
+    type: VARCHAR
+  - name: ucdp_ged
+    type: BIGINT

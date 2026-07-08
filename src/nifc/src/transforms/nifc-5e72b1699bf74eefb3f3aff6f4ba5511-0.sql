@@ -1,0 +1,22 @@
+SELECT
+    attr_UniqueFireIdentifier                AS unique_fire_id,
+    COALESCE(attr_IncidentName, poly_IncidentName) AS incident_name,
+    attr_IrwinID                             AS irwin_id,
+    attr_POOState                            AS state,
+    attr_POOCounty                           AS county,
+    attr_GACC                                AS gacc,
+    attr_FireCause                           AS fire_cause,
+    attr_FireCauseGeneral                    AS fire_cause_general,
+    attr_IncidentTypeCategory                AS incident_type_category,
+    TRY_CAST(COALESCE(poly_GISAcres, attr_IncidentSize) AS DOUBLE) AS gis_acres,
+    TRY_CAST(attr_FinalAcres AS DOUBLE)      AS final_acres,
+    TRY_CAST(attr_PercentContained AS DOUBLE) AS percent_contained,
+    TRY_CAST(attr_InitialLatitude AS DOUBLE)  AS latitude,
+    TRY_CAST(attr_InitialLongitude AS DOUBLE) AS longitude,
+    CASE WHEN epoch_ms(TRY_CAST(attr_FireDiscoveryDateTime AS BIGINT)) BETWEEN TIMESTAMP '1900-01-01' AND TIMESTAMP '2027-12-31' THEN epoch_ms(TRY_CAST(attr_FireDiscoveryDateTime AS BIGINT)) END      AS fire_discovery_at,
+    CASE WHEN epoch_ms(TRY_CAST(attr_ContainmentDateTime AS BIGINT)) BETWEEN TIMESTAMP '1900-01-01' AND TIMESTAMP '2027-12-31' THEN epoch_ms(TRY_CAST(attr_ContainmentDateTime AS BIGINT)) END        AS containment_at,
+    CASE WHEN epoch_ms(TRY_CAST(attr_FireOutDateTime AS BIGINT)) BETWEEN TIMESTAMP '1900-01-01' AND TIMESTAMP '2027-12-31' THEN epoch_ms(TRY_CAST(attr_FireOutDateTime AS BIGINT)) END            AS fire_out_at,
+    CASE WHEN epoch_ms(TRY_CAST(poly_DateCurrent AS BIGINT)) BETWEEN TIMESTAMP '1900-01-01' AND TIMESTAMP '2027-12-31' THEN epoch_ms(TRY_CAST(poly_DateCurrent AS BIGINT)) END                AS perimeter_date_current,
+    attr_FireMgmtComplexity                  AS fire_mgmt_complexity,
+    attr_IncidentComplexityLevel             AS incident_complexity_level
+FROM "nifc-5e72b1699bf74eefb3f3aff6f4ba5511-0"

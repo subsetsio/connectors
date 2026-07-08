@@ -1,0 +1,63 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [seasonId, teamId, gameTypeId]
+temporal: seasonId
+sort: [seasonId, teamId, gameTypeId]
+columns:
+  - name: gamesPlayed
+    type: BIGINT
+  - name: goalsAgainst3On4
+    type: BIGINT
+  - name: goalsAgainst3On5
+    type: BIGINT
+  - name: goalsAgainst3On6
+    type: BIGINT
+  - name: goalsAgainst4On3
+    type: BIGINT
+  - name: goalsAgainst4On4
+    type: BIGINT
+  - name: goalsAgainst4On5
+    type: BIGINT
+  - name: goalsAgainst4On6
+    type: BIGINT
+  - name: goalsAgainst5On3
+    type: BIGINT
+  - name: goalsAgainst5On4
+    type: BIGINT
+  - name: goalsAgainst5On5
+    type: BIGINT
+  - name: goalsAgainst5On6
+    type: BIGINT
+  - name: goalsAgainst6On3
+    type: BIGINT
+  - name: goalsAgainst6On4
+    type: BIGINT
+  - name: goalsAgainst6On5
+    type: BIGINT
+  - name: goalsAgainst6On6
+    type: BIGINT
+  - name: goalsAgainstAllPulls
+    type: BIGINT
+  - name: goalsAgainstPerGame
+    type: DOUBLE
+  - name: goalsFor
+    type: BIGINT
+  - name: losses
+    type: BIGINT
+  - name: otLosses
+    type: BIGINT
+  - name: pointPct
+    type: DOUBLE
+  - name: points
+    type: BIGINT
+  - name: seasonId
+    type: BIGINT
+  - name: teamFullName
+    type: VARCHAR
+  - name: teamId
+    type: BIGINT
+  - name: ties
+    type: BIGINT
+  - name: wins
+    type: BIGINT
+  - name: gameTypeId
+    type: BIGINT

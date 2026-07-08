@@ -1,0 +1,51 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [season, season_type, week, player_gsis_id]
+temporal: season
+sort: [season, season_type, week, player_gsis_id]
+columns:
+  - name: season
+    type: INTEGER
+  - name: season_type
+    type: VARCHAR
+  - name: week
+    type: INTEGER
+  - name: player_display_name
+    type: VARCHAR
+  - name: player_position
+    type: VARCHAR
+  - name: team_abbr
+    type: VARCHAR
+  - name: avg_cushion
+    type: DOUBLE
+  - name: avg_separation
+    type: DOUBLE
+  - name: avg_intended_air_yards
+    type: DOUBLE
+  - name: percent_share_of_intended_air_yards
+    type: DOUBLE
+  - name: receptions
+    type: INTEGER
+  - name: targets
+    type: INTEGER
+  - name: catch_percentage
+    type: DOUBLE
+  - name: yards
+    type: INTEGER
+  - name: rec_touchdowns
+    type: INTEGER
+  - name: avg_yac
+    type: DOUBLE
+  - name: avg_expected_yac
+    type: DOUBLE
+  - name: avg_yac_above_expectation
+    type: DOUBLE
+  - name: player_gsis_id
+    type: VARCHAR
+  - name: player_first_name
+    type: VARCHAR
+  - name: player_last_name
+    type: VARCHAR
+  - name: player_jersey_number
+    type: INTEGER
+  - name: player_short_name
+    type: VARCHAR

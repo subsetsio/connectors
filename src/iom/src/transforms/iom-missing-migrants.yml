@@ -1,0 +1,55 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [main_id]
+temporal: incident_date
+sort: [incident_date, main_id]
+columns:
+  - name: main_id
+    type: VARCHAR
+  - name: incident_id
+    type: VARCHAR
+  - name: incident_type
+    type: VARCHAR
+  - name: region_of_incident
+    type: VARCHAR
+  - name: incident_date
+    type: DATE
+  - name: incident_year
+    type: INTEGER
+  - name: month
+    type: VARCHAR
+  - name: number_dead
+    type: BIGINT
+  - name: min_estimated_missing
+    type: BIGINT
+  - name: total_dead_and_missing
+    type: BIGINT
+  - name: number_survivors
+    type: BIGINT
+  - name: number_females
+    type: BIGINT
+  - name: number_males
+    type: BIGINT
+  - name: number_children
+    type: BIGINT
+  - name: country_of_origin
+    type: VARCHAR
+  - name: region_of_origin
+    type: VARCHAR
+  - name: cause_of_death
+    type: VARCHAR
+  - name: country_of_incident
+    type: VARCHAR
+  - name: migration_route
+    type: VARCHAR
+  - name: location_of_incident
+    type: VARCHAR
+  - name: coordinates
+    type: VARCHAR
+  - name: unsd_geographical_grouping
+    type: VARCHAR
+  - name: information_source
+    type: VARCHAR
+  - name: source_url
+    type: VARCHAR
+  - name: source_quality
+    type: INTEGER

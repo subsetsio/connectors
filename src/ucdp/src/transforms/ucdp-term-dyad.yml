@@ -1,0 +1,80 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: dyad_id
+    type: BIGINT
+  - name: conflict_id
+    type: BIGINT
+  - name: location
+    type: VARCHAR
+  - name: side_a
+    type: VARCHAR
+  - name: side_a_id
+    type: VARCHAR
+  - name: side_a_2nd
+    type: VARCHAR
+  - name: side_b
+    type: VARCHAR
+  - name: side_b_id
+    type: VARCHAR
+  - name: side_b_2nd
+    type: VARCHAR
+  - name: incompatibility
+    type: BIGINT
+  - name: territory_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: intensity_level
+    type: BIGINT
+  - name: type_of_conflict
+    type: BIGINT
+  - name: start_date
+    type: DATE
+  - name: start_prec
+    type: BIGINT
+  - name: start_date2
+    type: DATE
+  - name: start_prec2
+    type: BIGINT
+  - name: gwno_a
+    type: VARCHAR
+  - name: gwno_a_2nd
+    type: VARCHAR
+  - name: gwno_b
+    type: VARCHAR
+  - name: gwno_b_2nd
+    type: VARCHAR
+  - name: gwno_loc
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: type_of_conflict2
+    type: BIGINT
+  - name: d_epid
+    type: BIGINT
+  - name: d_epno
+    type: BIGINT
+  - name: d_ep_startyear
+    type: BIGINT
+  - name: d_epterm
+    type: BIGINT
+  - name: d_outcome
+    type: BIGINT
+  - name: d_ep_endyear
+    type: BIGINT
+  - name: d_ependdate
+    type: VARCHAR
+  - name: d_ependprec
+    type: BIGINT
+  - name: d_ep_durcount
+    type: BIGINT
+  - name: d_ep_dur
+    type: BIGINT
+  - name: d_cfiredate
+    type: VARCHAR
+  - name: d_peagdate
+    type: VARCHAR
+  - name: version
+    type: DOUBLE

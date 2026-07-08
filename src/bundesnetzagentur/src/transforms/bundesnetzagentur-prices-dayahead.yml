@@ -1,0 +1,11 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, bidding_zone]
+temporal: date
+sort: [date, bidding_zone]
+columns:
+  - name: date
+    type: DATE
+  - name: bidding_zone
+    type: VARCHAR
+  - name: price_eur_mwh
+    type: DOUBLE

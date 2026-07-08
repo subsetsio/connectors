@@ -1,0 +1,29 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, state]
+temporal: year
+sort: [year, state]
+columns:
+  - name: year
+    type: INTEGER
+  - name: state
+    type: VARCHAR
+  - name: vehicles_weighed_fixed_scale
+    type: BIGINT
+  - name: vehicles_weighed_wim_scale
+    type: BIGINT
+  - name: vehicles_weighed_portable_scale
+    type: BIGINT
+  - name: vehicles_weighed_semi_portable_scale
+    type: BIGINT
+  - name: oversize_violations
+    type: BIGINT
+  - name: overweight_violations
+    type: BIGINT
+  - name: non_divisible_trip_permits
+    type: BIGINT
+  - name: non_divisible_annual_permits
+    type: BIGINT
+  - name: divisible_trip_permits
+    type: BIGINT
+  - name: divisible_annual_permits
+    type: BIGINT

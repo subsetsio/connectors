@@ -1,0 +1,103 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [id]
+temporal: date_start
+sort: [date_start, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: relid
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: active_year
+    type: BOOLEAN
+  - name: code_status
+    type: VARCHAR
+  - name: type_of_violence
+    type: BIGINT
+  - name: conflict_dset_id
+    type: BIGINT
+  - name: conflict_new_id
+    type: BIGINT
+  - name: conflict_name
+    type: VARCHAR
+  - name: dyad_dset_id
+    type: BIGINT
+  - name: dyad_new_id
+    type: BIGINT
+  - name: dyad_name
+    type: VARCHAR
+  - name: side_a_dset_id
+    type: BIGINT
+  - name: side_a_new_id
+    type: BIGINT
+  - name: side_a
+    type: VARCHAR
+  - name: side_b_dset_id
+    type: BIGINT
+  - name: side_b_new_id
+    type: BIGINT
+  - name: side_b
+    type: VARCHAR
+  - name: number_of_sources
+    type: BIGINT
+  - name: source_article
+    type: VARCHAR
+  - name: source_office
+    type: VARCHAR
+  - name: source_date
+    type: VARCHAR
+  - name: source_headline
+    type: VARCHAR
+  - name: source_original
+    type: VARCHAR
+  - name: where_prec
+    type: BIGINT
+  - name: where_coordinates
+    type: VARCHAR
+  - name: where_description
+    type: VARCHAR
+  - name: adm_1
+    type: VARCHAR
+  - name: adm_2
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: geom_wkt
+    type: VARCHAR
+  - name: priogrid_gid
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: country_id
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: event_clarity
+    type: BIGINT
+  - name: date_prec
+    type: BIGINT
+  - name: date_start
+    type: TIMESTAMP_NS
+  - name: date_end
+    type: TIMESTAMP_NS
+  - name: deaths_a
+    type: BIGINT
+  - name: deaths_b
+    type: BIGINT
+  - name: deaths_civilians
+    type: BIGINT
+  - name: deaths_unknown
+    type: BIGINT
+  - name: best
+    type: BIGINT
+  - name: high
+    type: BIGINT
+  - name: low
+    type: BIGINT
+  - name: gwnoa
+    type: VARCHAR
+  - name: gwnob
+    type: BIGINT

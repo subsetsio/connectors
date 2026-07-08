@@ -1,0 +1,152 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: country
+    type: VARCHAR
+  - name: country_id
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: govt_name
+    type: VARCHAR
+  - name: sb_exist
+    type: BIGINT
+  - name: sb_dyad_count
+    type: BIGINT
+  - name: sb_dyad_ids
+    type: VARCHAR
+  - name: sb_dyad_names
+    type: VARCHAR
+  - name: sb_deaths_parties
+    type: BIGINT
+  - name: sb_deaths_civilians
+    type: BIGINT
+  - name: sb_deaths_unknown
+    type: BIGINT
+  - name: sb_total_deaths_best
+    type: BIGINT
+  - name: sb_total_deaths_high
+    type: BIGINT
+  - name: sb_total_deaths_low
+    type: BIGINT
+  - name: sb_intrastate_exist
+    type: BIGINT
+  - name: sb_intrastate_dyad_count
+    type: BIGINT
+  - name: sb_intrastate_dyad_ids
+    type: VARCHAR
+  - name: sb_intrastate_dyad_names
+    type: VARCHAR
+  - name: sb_intrastate_govt_inv_incomp
+    type: BIGINT
+  - name: sb_intrastate_deaths_parties
+    type: BIGINT
+  - name: sb_intrastate_deaths_civilians
+    type: BIGINT
+  - name: sb_intrastate_deaths_unknown
+    type: BIGINT
+  - name: sb_intrastate_deaths_best
+    type: BIGINT
+  - name: sb_intrastate_deaths_high
+    type: BIGINT
+  - name: sb_intrastate_deaths_low
+    type: BIGINT
+  - name: sb_interstate_exist
+    type: BIGINT
+  - name: sb_interstate_dyad_count
+    type: BIGINT
+  - name: sb_interstate_dyad_ids
+    type: VARCHAR
+  - name: sb_interstate_dyad_names
+    type: VARCHAR
+  - name: sb_interstate_govt_inv_incomp
+    type: BIGINT
+  - name: sb_interstate_deaths_parties
+    type: BIGINT
+  - name: sb_interstate_deaths_civilians
+    type: BIGINT
+  - name: sb_interstate_deaths_unknown
+    type: BIGINT
+  - name: sb_interstate_deaths_best
+    type: BIGINT
+  - name: sb_interstate_deaths_high
+    type: BIGINT
+  - name: sb_interstate_deaths_low
+    type: BIGINT
+  - name: ns_exist
+    type: BIGINT
+  - name: ns_dyad_count
+    type: BIGINT
+  - name: ns_dyad_ids
+    type: VARCHAR
+  - name: ns_dyad_names
+    type: VARCHAR
+  - name: ns_deaths_parties
+    type: BIGINT
+  - name: ns_deaths_civilians
+    type: BIGINT
+  - name: ns_deaths_unknown
+    type: BIGINT
+  - name: ns_total_deaths_best
+    type: BIGINT
+  - name: ns_total_deaths_high
+    type: BIGINT
+  - name: ns_total_deaths_low
+    type: BIGINT
+  - name: os_exist
+    type: BIGINT
+  - name: os_dyad_count
+    type: BIGINT
+  - name: os_dyad_ids
+    type: VARCHAR
+  - name: os_dyad_names
+    type: VARCHAR
+  - name: os_govt_inv
+    type: BIGINT
+  - name: os_govt_killings_best
+    type: BIGINT
+  - name: os_govt_killings_high
+    type: BIGINT
+  - name: os_govt_killings_low
+    type: BIGINT
+  - name: os_any_govt_inv
+    type: BIGINT
+  - name: os_any_govt_killings_best
+    type: BIGINT
+  - name: os_any_govt_killings_high
+    type: BIGINT
+  - name: os_any_govt_killings_low
+    type: BIGINT
+  - name: os_nsgroup_inv
+    type: BIGINT
+  - name: os_nsgroup_killings_best
+    type: BIGINT
+  - name: os_nsgroup_killings_high
+    type: BIGINT
+  - name: os_nsgroup_killings_low
+    type: BIGINT
+  - name: os_killings_unknown
+    type: BIGINT
+  - name: os_total_deaths_best
+    type: BIGINT
+  - name: os_total_deaths_high
+    type: BIGINT
+  - name: os_total_deaths_low
+    type: BIGINT
+  - name: cumulative_total_deaths_parties_in_orgvio
+    type: BIGINT
+  - name: cumulative_total_deaths_civilians_in_orgvio
+    type: BIGINT
+  - name: cumulative_total_deaths_unknown_in_orgvio
+    type: BIGINT
+  - name: cumulative_total_deaths_in_orgvio_best
+    type: BIGINT
+  - name: cumulative_total_deaths_in_orgvio_high
+    type: BIGINT
+  - name: cumulative_total_deaths_in_orgvio_low
+    type: BIGINT
+  - name: Version
+    type: DOUBLE

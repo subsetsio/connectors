@@ -1,0 +1,28 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: release_year
+    type: BIGINT
+  - name: state_fips
+    type: VARCHAR
+  - name: county_fips
+    type: VARCHAR
+  - name: fips
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: measure_id
+    type: BIGINT
+  - name: measure_name
+    type: VARCHAR
+  - name: raw_value
+    type: DOUBLE
+  - name: numerator
+    type: DOUBLE
+  - name: denominator
+    type: DOUBLE
+  - name: ci_low
+    type: DOUBLE
+  - name: ci_high
+    type: DOUBLE

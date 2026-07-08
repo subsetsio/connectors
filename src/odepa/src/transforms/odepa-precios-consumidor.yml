@@ -1,0 +1,34 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: fecha_termino
+sort: [fecha_termino]
+columns:
+  - name: anio
+    type: INTEGER
+  - name: mes
+    type: INTEGER
+  - name: semana
+    type: INTEGER
+  - name: fecha_inicio
+    type: DATE
+  - name: fecha_termino
+    type: DATE
+  - name: id_region
+    type: INTEGER
+  - name: region
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: tipo_punto_monitoreo
+    type: VARCHAR
+  - name: grupo
+    type: VARCHAR
+  - name: producto
+    type: VARCHAR
+  - name: unidad
+    type: VARCHAR
+  - name: precio_minimo
+    type: DOUBLE
+  - name: precio_maximo
+    type: DOUBLE
+  - name: precio_promedio
+    type: DOUBLE

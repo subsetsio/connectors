@@ -1,0 +1,36 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: season
+sort: [season]
+columns:
+  - name: game_id
+    type: VARCHAR
+  - name: pfr_game_id
+    type: VARCHAR
+  - name: season
+    type: INTEGER
+  - name: week
+    type: INTEGER
+  - name: game_type
+    type: VARCHAR
+  - name: team
+    type: VARCHAR
+  - name: opponent
+    type: VARCHAR
+  - name: pfr_player_name
+    type: VARCHAR
+  - name: pfr_player_id
+    type: VARCHAR
+  - name: carries
+    type: DOUBLE
+  - name: rushing_yards_before_contact
+    type: DOUBLE
+  - name: rushing_yards_before_contact_avg
+    type: DOUBLE
+  - name: rushing_yards_after_contact
+    type: DOUBLE
+  - name: rushing_yards_after_contact_avg
+    type: DOUBLE
+  - name: rushing_broken_tackles
+    type: DOUBLE
+  - name: receiving_broken_tackles
+    type: DOUBLE

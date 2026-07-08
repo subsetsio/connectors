@@ -1,0 +1,15 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [month, route, border_type, nationality]
+temporal: month
+sort: [month, route, border_type, nationality]
+columns:
+  - name: month
+    type: DATE
+  - name: route
+    type: VARCHAR
+  - name: border_type
+    type: VARCHAR
+  - name: nationality
+    type: VARCHAR
+  - name: detections
+    type: BIGINT

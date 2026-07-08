@@ -1,0 +1,832 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: C0
+    type: BIGINT
+  - name: cname
+    type: VARCHAR
+  - name: ccode
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: cname_qog
+    type: VARCHAR
+  - name: ccode_qog
+    type: BIGINT
+  - name: ccodealp
+    type: VARCHAR
+  - name: ccodealp_year
+    type: VARCHAR
+  - name: ccodecow
+    type: BIGINT
+  - name: ccodevdem
+    type: BIGINT
+  - name: cname_year
+    type: VARCHAR
+  - name: version
+    type: VARCHAR
+  - name: act_act
+    type: BIGINT
+  - name: as_rifr
+    type: DOUBLE
+  - name: as_ws
+    type: DOUBLE
+  - name: bti_envc
+    type: DOUBLE
+  - name: ccci_coop
+    type: DOUBLE
+  - name: ccci_em
+    type: DOUBLE
+  - name: ccci_fin
+    type: DOUBLE
+  - name: ccci_kyoto
+    type: DOUBLE
+  - name: ccci_rep
+    type: DOUBLE
+  - name: ccci_unfccc
+    type: DOUBLE
+  - name: cckp_rain
+    type: DOUBLE
+  - name: cckp_temp
+    type: DOUBLE
+  - name: ccl_exepp
+    type: BIGINT
+  - name: ccl_leglp
+    type: BIGINT
+  - name: ccl_lpp
+    type: BIGINT
+  - name: ccl_mitlpp
+    type: BIGINT
+  - name: ccl_nexep
+    type: BIGINT
+  - name: ccl_nlegl
+    type: BIGINT
+  - name: ccl_nlp
+    type: BIGINT
+  - name: ccl_nmitlp
+    type: BIGINT
+  - name: edgar_bc
+    type: DOUBLE
+  - name: edgar_ch4
+    type: DOUBLE
+  - name: edgar_co
+    type: DOUBLE
+  - name: edgar_co2gdp
+    type: DOUBLE
+  - name: edgar_co2pc
+    type: DOUBLE
+  - name: edgar_co2t
+    type: DOUBLE
+  - name: edgar_n2o
+    type: DOUBLE
+  - name: edgar_nh3
+    type: DOUBLE
+  - name: edgar_nmvoc
+    type: DOUBLE
+  - name: edgar_nox
+    type: DOUBLE
+  - name: edgar_oc
+    type: DOUBLE
+  - name: edgar_pm10
+    type: DOUBLE
+  - name: edgar_pm25
+    type: DOUBLE
+  - name: edgar_so2
+    type: DOUBLE
+  - name: edi_edi
+    type: DOUBLE
+  - name: edi_gaarr
+    type: DOUBLE
+  - name: edi_gadrei
+    type: DOUBLE
+  - name: edi_gaerr
+    type: DOUBLE
+  - name: edi_gair
+    type: DOUBLE
+  - name: edi_gapc
+    type: DOUBLE
+  - name: edi_gbs
+    type: BIGINT
+  - name: edi_gee
+    type: DOUBLE
+  - name: edi_gepd
+    type: DOUBLE
+  - name: edi_gepp
+    type: DOUBLE
+  - name: edi_gewi
+    type: BIGINT
+  - name: edi_gftir
+    type: DOUBLE
+  - name: edi_ggr
+    type: DOUBLE
+  - name: edi_gicm
+    type: DOUBLE
+  - name: edi_gip
+    type: DOUBLE
+  - name: edi_gipirm
+    type: DOUBLE
+  - name: edi_gira
+    type: DOUBLE
+  - name: edi_gpajad
+    type: DOUBLE
+  - name: edi_gper
+    type: DOUBLE
+  - name: edi_gppa
+    type: DOUBLE
+  - name: edi_gppc
+    type: DOUBLE
+  - name: edi_gppr
+    type: BIGINT
+  - name: edi_grpcspa
+    type: DOUBLE
+  - name: edi_gser
+    type: DOUBLE
+  - name: edi_jp
+    type: DOUBLE
+  - name: edi_pati
+    type: DOUBLE
+  - name: edi_pp
+    type: DOUBLE
+  - name: ef_bcpc
+    type: DOUBLE
+  - name: ef_bct
+    type: DOUBLE
+  - name: ef_bul
+    type: DOUBLE
+  - name: ef_bul_bc
+    type: DOUBLE
+  - name: ef_bulp
+    type: DOUBLE
+  - name: ef_carb
+    type: DOUBLE
+  - name: ef_carb_bc
+    type: BIGINT
+  - name: ef_carbp
+    type: DOUBLE
+  - name: ef_crop
+    type: DOUBLE
+  - name: ef_crop_bc
+    type: DOUBLE
+  - name: ef_cropp
+    type: DOUBLE
+  - name: ef_ef
+    type: DOUBLE
+  - name: ef_efp
+    type: DOUBLE
+  - name: ef_eft
+    type: DOUBLE
+  - name: ef_eftp
+    type: DOUBLE
+  - name: ef_fg
+    type: DOUBLE
+  - name: ef_fg_bc
+    type: DOUBLE
+  - name: ef_fgp
+    type: DOUBLE
+  - name: ef_for
+    type: DOUBLE
+  - name: ef_for_bc
+    type: DOUBLE
+  - name: ef_forp
+    type: DOUBLE
+  - name: ef_gl
+    type: DOUBLE
+  - name: ef_gl_bc
+    type: DOUBLE
+  - name: ef_glp
+    type: DOUBLE
+  - name: em_envmin
+    type: BIGINT
+  - name: emdat_damage
+    type: DOUBLE
+  - name: emdat_naffect
+    type: DOUBLE
+  - name: emdat_ndeath
+    type: DOUBLE
+  - name: emdat_ndis
+    type: BIGINT
+  - name: emdat_nhome
+    type: DOUBLE
+  - name: emdat_ninj
+    type: BIGINT
+  - name: emdat_ntotaff
+    type: DOUBLE
+  - name: engo_nengo
+    type: BIGINT
+  - name: epc_bath
+    type: BIGINT
+  - name: epc_car
+    type: BIGINT
+  - name: epc_co2
+    type: BIGINT
+  - name: epc_dete
+    type: BIGINT
+  - name: epc_enef
+    type: BIGINT
+  - name: epc_ener
+    type: BIGINT
+  - name: epc_fors
+    type: BIGINT
+  - name: epc_lead
+    type: BIGINT
+  - name: epc_nois
+    type: BIGINT
+  - name: epc_pawa
+    type: BIGINT
+  - name: epc_soil
+    type: BIGINT
+  - name: epc_watp
+    type: BIGINT
+  - name: epcc_audi_ch2
+    type: BIGINT
+  - name: epcc_audi_in2
+    type: BIGINT
+  - name: epcc_bath_ch2
+    type: BIGINT
+  - name: epcc_bath_in2
+    type: BIGINT
+  - name: epcc_car_co
+    type: DOUBLE
+  - name: epcc_car_hc
+    type: DOUBLE
+  - name: epcc_car_nox
+    type: DOUBLE
+  - name: epcc_care_ch2
+    type: BIGINT
+  - name: epcc_care_in2
+    type: BIGINT
+  - name: epcc_cd_dwsum
+    type: BIGINT
+  - name: epcc_cd_upsum
+    type: BIGINT
+  - name: epcc_ch_kum
+    type: BIGINT
+  - name: epcc_ch2
+    type: BIGINT
+  - name: epcc_cont_ch2
+    type: BIGINT
+  - name: epcc_cont_in2
+    type: BIGINT
+  - name: epcc_cowa_ch2
+    type: BIGINT
+  - name: epcc_cowa_in2
+    type: BIGINT
+  - name: epcc_dete_ch2
+    type: BIGINT
+  - name: epcc_dete_in2
+    type: BIGINT
+  - name: epcc_ecol_ch2
+    type: BIGINT
+  - name: epcc_ecol_in2
+    type: BIGINT
+  - name: epcc_eias_ch2
+    type: BIGINT
+  - name: epcc_eias_in2
+    type: BIGINT
+  - name: epcc_enef_ch2
+    type: BIGINT
+  - name: epcc_enef_in2
+    type: BIGINT
+  - name: epcc_glas_ch2
+    type: BIGINT
+  - name: epcc_glas_in2
+    type: BIGINT
+  - name: epcc_glas2_s
+    type: BIGINT
+  - name: epcc_intro_kum
+    type: BIGINT
+  - name: epcc_land_ch2
+    type: BIGINT
+  - name: epcc_lanr_in2
+    type: BIGINT
+  - name: epcc_lcp_dust
+    type: BIGINT
+  - name: epcc_lcp_nox
+    type: BIGINT
+  - name: epcc_lcp_so2
+    type: BIGINT
+  - name: epcc_lcpt_ch2
+    type: BIGINT
+  - name: epcc_lcpt_in2
+    type: BIGINT
+  - name: epcc_lead_ch2
+    type: BIGINT
+  - name: epcc_lead_in2
+    type: BIGINT
+  - name: epcc_lead_s
+    type: DOUBLE
+  - name: epcc_moto_ch2
+    type: BIGINT
+  - name: epcc_moto_in2
+    type: BIGINT
+  - name: epcc_moto_s
+    type: BIGINT
+  - name: epcc_nois_ch2
+    type: BIGINT
+  - name: epcc_nois_in2
+    type: BIGINT
+  - name: epcc_nois_s
+    type: BIGINT
+  - name: epcc_pact_ch2
+    type: BIGINT
+  - name: epcc_pact_in2
+    type: BIGINT
+  - name: epcc_pape_ch2
+    type: BIGINT
+  - name: epcc_pape_in2
+    type: BIGINT
+  - name: epcc_pape2_s
+    type: BIGINT
+  - name: epcc_soil_ch2
+    type: BIGINT
+  - name: epcc_soil_in2
+    type: BIGINT
+  - name: epcc_sulp_ch2
+    type: BIGINT
+  - name: epcc_sulp_in2
+    type: BIGINT
+  - name: epcc_sulp_s
+    type: DOUBLE
+  - name: epcc_susp_ch2
+    type: BIGINT
+  - name: epcc_susp_in2
+    type: BIGINT
+  - name: epcc_wabo_s
+    type: BIGINT
+  - name: epcc_waco_s
+    type: DOUBLE
+  - name: epcc_wacr_s
+    type: DOUBLE
+  - name: epcc_waef_ch2
+    type: BIGINT
+  - name: epcc_waef_in2
+    type: BIGINT
+  - name: epcc_wale_s
+    type: DOUBLE
+  - name: epcc_wapr_ch2
+    type: BIGINT
+  - name: epcc_wapr_in2
+    type: BIGINT
+  - name: epcc_wazi_s
+    type: DOUBLE
+  - name: epi_agr
+    type: DOUBLE
+  - name: epi_air
+    type: DOUBLE
+  - name: epi_ape
+    type: DOUBLE
+  - name: epi_bca
+    type: DOUBLE
+  - name: epi_bdh
+    type: DOUBLE
+  - name: epi_bhv
+    type: DOUBLE
+  - name: epi_cch
+    type: DOUBLE
+  - name: epi_cda
+    type: DOUBLE
+  - name: epi_cha
+    type: DOUBLE
+  - name: epi_ecs
+    type: DOUBLE
+  - name: epi_eh
+    type: DOUBLE
+  - name: epi_epi
+    type: DOUBLE
+  - name: epi_ev
+    type: DOUBLE
+  - name: epi_fct
+    type: DOUBLE
+  - name: epi_fga
+    type: DOUBLE
+  - name: epi_fsh
+    type: DOUBLE
+  - name: epi_fss
+    type: DOUBLE
+  - name: epi_ghp
+    type: DOUBLE
+  - name: epi_gib
+    type: DOUBLE
+  - name: epi_grl
+    type: DOUBLE
+  - name: epi_h2o
+    type: DOUBLE
+  - name: epi_had
+    type: DOUBLE
+  - name: epi_hmt
+    type: DOUBLE
+  - name: epi_lcb
+    type: DOUBLE
+  - name: epi_mpa
+    type: DOUBLE
+  - name: epi_msw
+    type: DOUBLE
+  - name: epi_mti
+    type: DOUBLE
+  - name: epi_noa
+    type: DOUBLE
+  - name: epi_nxa
+    type: DOUBLE
+  - name: epi_ozd
+    type: DOUBLE
+  - name: epi_par
+    type: DOUBLE
+  - name: epi_pbd
+    type: DOUBLE
+  - name: epi_pmd
+    type: DOUBLE
+  - name: epi_sda
+    type: DOUBLE
+  - name: epi_shi
+    type: DOUBLE
+  - name: epi_snm
+    type: DOUBLE
+  - name: epi_spi
+    type: DOUBLE
+  - name: epi_tbg
+    type: DOUBLE
+  - name: epi_tbn
+    type: DOUBLE
+  - name: epi_tcl
+    type: DOUBLE
+  - name: epi_usd
+    type: DOUBLE
+  - name: epi_uwd
+    type: DOUBLE
+  - name: epi_wmg
+    type: DOUBLE
+  - name: epi_wrs
+    type: DOUBLE
+  - name: epi_wtl
+    type: DOUBLE
+  - name: epi_wwt
+    type: DOUBLE
+  - name: ess_banhhap_m
+    type: DOUBLE
+  - name: ess_ccnthum_p
+    type: DOUBLE
+  - name: ess_ccrdprs_m
+    type: DOUBLE
+  - name: ess_clmchng_p
+    type: DOUBLE
+  - name: ess_clmthgt_m
+    type: DOUBLE
+  - name: ess_gvsrdcc_m
+    type: DOUBLE
+  - name: ess_impenv_m
+    type: DOUBLE
+  - name: ess_inctxff_m
+    type: DOUBLE
+  - name: ess_lklmten_m
+    type: DOUBLE
+  - name: ess_sbsrnen_m
+    type: DOUBLE
+  - name: ess_wrclmch_m
+    type: DOUBLE
+  - name: fao_luagr
+    type: DOUBLE
+  - name: fao_luagrara
+    type: DOUBLE
+  - name: fao_luagrcrop
+    type: DOUBLE
+  - name: fao_luagrirrac
+    type: DOUBLE
+  - name: fao_luagrirreq
+    type: DOUBLE
+  - name: fao_luagrirreqcrop
+    type: DOUBLE
+  - name: fao_luagrorg
+    type: DOUBLE
+  - name: fao_luagrpas
+    type: DOUBLE
+  - name: fao_luagrpcrop
+    type: DOUBLE
+  - name: fao_lucrop
+    type: DOUBLE
+  - name: fao_luforest
+    type: DOUBLE
+  - name: fao_luforplant
+    type: DOUBLE
+  - name: fao_luforreg
+    type: DOUBLE
+  - name: fao_lupas
+    type: DOUBLE
+  - name: gg_asew_pop
+    type: DOUBLE
+  - name: gg_asewp
+    type: DOUBLE
+  - name: gg_asews
+    type: DOUBLE
+  - name: gg_asewt
+    type: DOUBLE
+  - name: gg_buapc
+    type: DOUBLE
+  - name: gg_buapt
+    type: DOUBLE
+  - name: gg_ei
+    type: DOUBLE
+  - name: gg_envrd_gbaord
+    type: DOUBLE
+  - name: gg_envrd_gdp
+    type: DOUBLE
+  - name: gg_eoda
+    type: DOUBLE
+  - name: gg_erdgdp
+    type: DOUBLE
+  - name: gg_etp
+    type: DOUBLE
+  - name: gg_etpw
+    type: DOUBLE
+  - name: gg_ffrd
+    type: DOUBLE
+  - name: gg_frs
+    type: DOUBLE
+  - name: gg_fsmc
+    type: DOUBLE
+  - name: gg_iufr
+    type: DOUBLE
+  - name: gg_mao
+    type: DOUBLE
+  - name: gg_ml
+    type: DOUBLE
+  - name: gg_mpm
+    type: DOUBLE
+  - name: gg_mr
+    type: DOUBLE
+  - name: gg_mwgpc
+    type: DOUBLE
+  - name: gg_mwipt
+    type: DOUBLE
+  - name: gg_mwlpt
+    type: DOUBLE
+  - name: gg_mwrpt
+    type: DOUBLE
+  - name: gg_oda_ccm
+    type: DOUBLE
+  - name: gg_pm25ex10p
+    type: DOUBLE
+  - name: gg_pm25ex35p
+    type: DOUBLE
+  - name: gg_pm25exm
+    type: DOUBLE
+  - name: gg_pt
+    type: DOUBLE
+  - name: gg_re_tpes
+    type: DOUBLE
+  - name: gg_reperegen
+    type: DOUBLE
+  - name: gg_rerd_erd
+    type: DOUBLE
+  - name: gg_tbs
+    type: DOUBLE
+  - name: gg_tms
+    type: DOUBLE
+  - name: gg_tps
+    type: DOUBLE
+  - name: gg_wsa
+    type: DOUBLE
+  - name: gg_wsi
+    type: DOUBLE
+  - name: iead_eif1
+    type: BIGINT
+  - name: iead_eif2
+    type: BIGINT
+  - name: iead_eif3
+    type: BIGINT
+  - name: iead_inforce
+    type: BIGINT
+  - name: iead_inforce_noterm
+    type: BIGINT
+  - name: iead_rat
+    type: BIGINT
+  - name: iead_sig
+    type: BIGINT
+  - name: iead_term
+    type: BIGINT
+  - name: iead_withdraw1
+    type: BIGINT
+  - name: iead_withdraw2
+    type: BIGINT
+  - name: issp_10am
+    type: DOUBLE
+  - name: issp_12ap
+    type: DOUBLE
+  - name: issp_12bp
+    type: DOUBLE
+  - name: issp_12cp
+    type: DOUBLE
+  - name: issp_13am
+    type: DOUBLE
+  - name: issp_13bm
+    type: DOUBLE
+  - name: issp_13em
+    type: DOUBLE
+  - name: issp_13gm
+    type: DOUBLE
+  - name: issp_15ap
+    type: DOUBLE
+  - name: issp_18p
+    type: DOUBLE
+  - name: issp_19am
+    type: DOUBLE
+  - name: issp_19bm
+    type: DOUBLE
+  - name: issp_1ap
+    type: DOUBLE
+  - name: issp_20am
+    type: DOUBLE
+  - name: issp_20ap
+    type: DOUBLE
+  - name: issp_20dm
+    type: DOUBLE
+  - name: issp_21p
+    type: DOUBLE
+  - name: issp_22ap
+    type: DOUBLE
+  - name: issp_22bp
+    type: DOUBLE
+  - name: issp_22cp
+    type: DOUBLE
+  - name: issp_6m
+    type: DOUBLE
+  - name: issp_8am
+    type: DOUBLE
+  - name: issp_8bm
+    type: DOUBLE
+  - name: issp_9am
+    type: DOUBLE
+  - name: nrmi_nrpi
+    type: DOUBLE
+  - name: oecd_cctr_gdp
+    type: DOUBLE
+  - name: oecd_cctr_tot
+    type: DOUBLE
+  - name: oecd_eampg
+    type: DOUBLE
+  - name: oecd_epea
+    type: DOUBLE
+  - name: oecd_eps
+    type: DOUBLE
+  - name: oecd_etr_gdp
+    type: DOUBLE
+  - name: oecd_etr_tot
+    type: DOUBLE
+  - name: oecd_pm25ex15p
+    type: DOUBLE
+  - name: oecd_pm25ex25p
+    type: DOUBLE
+  - name: oecd_polagdpg
+    type: DOUBLE
+  - name: ohi_aoacc
+    type: DOUBLE
+  - name: ohi_caacid
+    type: DOUBLE
+  - name: ohi_chp
+    type: DOUBLE
+  - name: ohi_csslr
+    type: DOUBLE
+  - name: ohi_csst
+    type: DOUBLE
+  - name: ohi_cuv
+    type: DOUBLE
+  - name: ohi_fah
+    type: DOUBLE
+  - name: ohi_fchb
+    type: DOUBLE
+  - name: ohi_fclb
+    type: DOUBLE
+  - name: ohi_hab
+    type: DOUBLE
+  - name: ohi_habcom
+    type: DOUBLE
+  - name: ohi_habeez
+    type: DOUBLE
+  - name: ohi_hdinter
+    type: DOUBLE
+  - name: ohi_hshb
+    type: DOUBLE
+  - name: ohi_hssb
+    type: DOUBLE
+  - name: ohi_lpai
+    type: DOUBLE
+  - name: ohi_lpao
+    type: DOUBLE
+  - name: ohi_maricul
+    type: DOUBLE
+  - name: ohi_npblast
+    type: DOUBLE
+  - name: ohi_npcyan
+    type: DOUBLE
+  - name: ohi_ohi
+    type: DOUBLE
+  - name: ohi_pc3
+    type: DOUBLE
+  - name: ohi_pchem
+    type: DOUBLE
+  - name: ohi_pn3
+    type: DOUBLE
+  - name: ohi_pnutrient
+    type: DOUBLE
+  - name: ohi_ptrash
+    type: DOUBLE
+  - name: ohi_saali
+    type: DOUBLE
+  - name: ohi_tjpt
+    type: DOUBLE
+  - name: ohi_tour
+    type: DOUBLE
+  - name: ohi_trsust
+    type: DOUBLE
+  - name: ohi_water
+    type: DOUBLE
+  - name: ross_gas_exp
+    type: DOUBLE
+  - name: ross_gas_netexp
+    type: DOUBLE
+  - name: ross_gas_netexpc
+    type: DOUBLE
+  - name: ross_gas_price
+    type: DOUBLE
+  - name: ross_gas_prod
+    type: DOUBLE
+  - name: ross_gas_value_2000
+    type: DOUBLE
+  - name: ross_gas_value_2014
+    type: DOUBLE
+  - name: ross_oil_exp
+    type: DOUBLE
+  - name: ross_oil_netexp
+    type: DOUBLE
+  - name: ross_oil_netexpc
+    type: DOUBLE
+  - name: ross_oil_price
+    type: DOUBLE
+  - name: ross_oil_prod
+    type: DOUBLE
+  - name: ross_oil_value_2000
+    type: DOUBLE
+  - name: ross_oil_value_2014
+    type: DOUBLE
+  - name: sgi_en
+    type: DOUBLE
+  - name: sgi_enen
+    type: DOUBLE
+  - name: sgi_enge
+    type: DOUBLE
+  - name: sgi_epe
+    type: BIGINT
+  - name: sgi_ger
+    type: BIGINT
+  - name: slaws_mit_ex_l3
+    type: BIGINT
+  - name: slaws_mit_ex_lt
+    type: BIGINT
+  - name: slaws_mit_l3
+    type: BIGINT
+  - name: slaws_mit_leg_l3
+    type: BIGINT
+  - name: slaws_mit_leg_lt
+    type: BIGINT
+  - name: slaws_mit_lt
+    type: BIGINT
+  - name: vparty_envseat
+    type: DOUBLE
+  - name: vparty_envvote
+    type: DOUBLE
+  - name: wdi_agrland
+    type: DOUBLE
+  - name: wdi_araland
+    type: DOUBLE
+  - name: wdi_area
+    type: DOUBLE
+  - name: wdi_areabelow
+    type: DOUBLE
+  - name: wdi_co2
+    type: DOUBLE
+  - name: wdi_forest
+    type: DOUBLE
+  - name: wdi_fossil
+    type: DOUBLE
+  - name: wdi_idpdis
+    type: DOUBLE
+  - name: wdi_piesr
+    type: DOUBLE
+  - name: wdi_precip
+    type: BIGINT
+  - name: wdi_tpa
+    type: DOUBLE
+  - name: wvs_ameop
+    type: DOUBLE
+  - name: wvs_ceom
+    type: DOUBLE
+  - name: wvs_deop
+    type: DOUBLE
+  - name: wvs_epmip
+    type: DOUBLE
+  - name: wvs_epmpp
+    type: DOUBLE
+  - name: wvs_imeop
+    type: DOUBLE
+  - name: wvs_pedp
+    type: DOUBLE
+  - name: wvs_ploem
+    type: DOUBLE

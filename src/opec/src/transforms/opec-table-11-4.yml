@@ -1,0 +1,25 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [series, period]
+temporal: period_start
+sort: [period_start, series, period]
+columns:
+  - name: series
+    type: VARCHAR
+  - name: section
+    type: VARCHAR
+  - name: item
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: period_start
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: report_period
+    type: VARCHAR
+  - name: report_date
+    type: DATE
+  - name: table_title
+    type: VARCHAR

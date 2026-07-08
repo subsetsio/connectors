@@ -1,0 +1,28 @@
+SELECT
+    "Country"                               AS country,
+    TRIM("League")                          AS league,
+    "Season"                                AS season,
+    COALESCE(TRY_STRPTIME("Date", '%d/%m/%y'), TRY_STRPTIME("Date", '%d/%m/%Y'))::DATE                                 AS date,
+    NULLIF("Time", '')                      AS kickoff_time,
+    "Home"                                  AS home_team,
+    "Away"                                  AS away_team,
+    TRY_CAST("HG" AS INTEGER)               AS home_goals,
+    TRY_CAST("AG" AS INTEGER)               AS away_goals,
+    "Res"                                   AS result,
+    TRY_CAST("PSCH" AS DOUBLE)              AS pinnacle_close_home,
+    TRY_CAST("PSCD" AS DOUBLE)              AS pinnacle_close_draw,
+    TRY_CAST("PSCA" AS DOUBLE)              AS pinnacle_close_away,
+    TRY_CAST("MaxCH" AS DOUBLE)             AS max_close_home,
+    TRY_CAST("MaxCD" AS DOUBLE)             AS max_close_draw,
+    TRY_CAST("MaxCA" AS DOUBLE)             AS max_close_away,
+    TRY_CAST("AvgCH" AS DOUBLE)             AS avg_close_home,
+    TRY_CAST("AvgCD" AS DOUBLE)             AS avg_close_draw,
+    TRY_CAST("AvgCA" AS DOUBLE)             AS avg_close_away,
+    TRY_CAST("BFECH" AS DOUBLE)             AS betfair_close_home,
+    TRY_CAST("BFECD" AS DOUBLE)             AS betfair_close_draw,
+    TRY_CAST("BFECA" AS DOUBLE)             AS betfair_close_away,
+    TRY_CAST("B365CH" AS DOUBLE)            AS b365_close_home,
+    TRY_CAST("B365CD" AS DOUBLE)            AS b365_close_draw,
+    TRY_CAST("B365CA" AS DOUBLE)            AS b365_close_away
+FROM "football-data-co-uk-matches-extra"
+WHERE "Home" IS NOT NULL AND "Away" IS NOT NULL

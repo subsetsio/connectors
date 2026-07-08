@@ -1,0 +1,42 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: occurrence_id
+    type: VARCHAR
+  - name: event_id
+    type: VARCHAR
+  - name: catalog_number
+    type: VARCHAR
+  - name: basis_of_record
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: month
+    type: INTEGER
+  - name: day
+    type: INTEGER
+  - name: event_time
+    type: VARCHAR
+  - name: decimal_latitude
+    type: DOUBLE
+  - name: decimal_longitude
+    type: DOUBLE
+  - name: minimum_depth_m
+    type: DOUBLE
+  - name: maximum_depth_m
+    type: DOUBLE
+  - name: sampling_protocol
+    type: VARCHAR
+  - name: sample_size_value
+    type: DOUBLE
+  - name: sample_size_unit
+    type: VARCHAR
+  - name: taxon_id
+    type: VARCHAR
+  - name: scientific_name_id
+    type: VARCHAR
+  - name: scientific_name
+    type: VARCHAR
+  - name: accepted_name_usage
+    type: VARCHAR
+  - name: modified
+    type: TIMESTAMP

@@ -1,0 +1,48 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [FILM]
+sort: [FILM]
+columns:
+  - name: FILM
+    type: VARCHAR
+  - name: RottenTomatoes
+    type: BIGINT
+  - name: RottenTomatoes_User
+    type: BIGINT
+  - name: Metacritic
+    type: BIGINT
+  - name: Metacritic_User
+    type: DOUBLE
+  - name: IMDB
+    type: DOUBLE
+  - name: Fandango_Stars
+    type: DOUBLE
+  - name: Fandango_Ratingvalue
+    type: DOUBLE
+  - name: RT_norm
+    type: DOUBLE
+  - name: RT_user_norm
+    type: DOUBLE
+  - name: Metacritic_norm
+    type: DOUBLE
+  - name: Metacritic_user_nom
+    type: DOUBLE
+  - name: IMDB_norm
+    type: DOUBLE
+  - name: RT_norm_round
+    type: DOUBLE
+  - name: RT_user_norm_round
+    type: DOUBLE
+  - name: Metacritic_norm_round
+    type: DOUBLE
+  - name: Metacritic_user_norm_round
+    type: DOUBLE
+  - name: IMDB_norm_round
+    type: DOUBLE
+  - name: Metacritic_user_vote_count
+    type: BIGINT
+  - name: IMDB_user_vote_count
+    type: BIGINT
+  - name: Fandango_votes
+    type: BIGINT
+  - name: Fandango_Difference
+    type: DOUBLE

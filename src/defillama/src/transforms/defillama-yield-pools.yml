@@ -1,0 +1,40 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: pool_id
+    type: VARCHAR
+  - name: chain
+    type: VARCHAR
+  - name: project
+    type: VARCHAR
+  - name: symbol
+    type: VARCHAR
+  - name: pool_meta
+    type: VARCHAR
+  - name: tvl_usd
+    type: DOUBLE
+  - name: apy
+    type: DOUBLE
+  - name: apy_base
+    type: DOUBLE
+  - name: apy_reward
+    type: DOUBLE
+  - name: apy_mean_30d
+    type: DOUBLE
+  - name: apy_pct_1d
+    type: DOUBLE
+  - name: apy_pct_7d
+    type: DOUBLE
+  - name: apy_pct_30d
+    type: DOUBLE
+  - name: stablecoin
+    type: BOOLEAN
+  - name: il_risk
+    type: VARCHAR
+  - name: exposure
+    type: VARCHAR
+  - name: pool_count
+    type: BIGINT
+  - name: volume_usd_1d
+    type: DOUBLE
+  - name: volume_usd_7d
+    type: DOUBLE

@@ -1,0 +1,17 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, country, technology, grid_connection]
+temporal: year
+sort: [year, country, technology, grid_connection]
+columns:
+  - name: year
+    type: INTEGER
+  - name: country
+    type: VARCHAR
+  - name: technology
+    type: VARCHAR
+  - name: grid_connection
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR

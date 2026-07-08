@@ -1,0 +1,15 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [country_from, country_to, migration_month]
+temporal: migration_month
+sort: [migration_month, country_from, country_to]
+columns:
+  - name: country_from
+    type: VARCHAR
+  - name: country_to
+    type: VARCHAR
+  - name: migration_month
+    type: VARCHAR
+  - name: num_migrants
+    type: BIGINT
+  - name: _source_file
+    type: VARCHAR

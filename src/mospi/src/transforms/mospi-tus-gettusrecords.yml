@@ -1,0 +1,44 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: icatus_activity
+    type: VARCHAR
+  - name: day_of_week
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: activity
+    type: JSON
+  - name: usual_principal_activity
+    type: JSON
+  - name: marital_status
+    type: JSON
+  - name: quintile_class_of_umpce
+    type: JSON
+  - name: level_of_education
+    type: JSON
+  - name: social_group
+    type: JSON
+  - name: sub_indicator
+    type: JSON
+  - name: sna_activity
+    type: JSON
+  - name: broad_principal_activity_status
+    type: JSON
+  - name: place_of_activity
+    type: JSON
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,584 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: income_year
+sort: [income_year]
+columns:
+  - name: taxable_status
+    type: VARCHAR
+  - name: residency_status
+    type: VARCHAR
+  - name: taxable_income_range
+    type: VARCHAR
+  - name: tax_brackets
+    type: VARCHAR
+  - name: number_of_individuals_no
+    type: VARCHAR
+  - name: taxable_income_or_loss_no
+    type: VARCHAR
+  - name: taxable_income_or_loss
+    type: VARCHAR
+  - name: gross_tax_no
+    type: VARCHAR
+  - name: gross_tax
+    type: VARCHAR
+  - name: medicare_levy_no
+    type: VARCHAR
+  - name: medicare_levy
+    type: VARCHAR
+  - name: medicare_levy_surcharge_no
+    type: VARCHAR
+  - name: medicare_levy_surcharge
+    type: VARCHAR
+  - name: net_tax_no
+    type: VARCHAR
+  - name: net_tax
+    type: VARCHAR
+  - name: help_assessment_debt_no
+    type: VARCHAR
+  - name: help_assessment_debt
+    type: VARCHAR
+  - name: salary_or_wages_no
+    type: VARCHAR
+  - name: salary_or_wages
+    type: VARCHAR
+  - name: allowances_earnings_tips_directors_fees_etc_no
+    type: VARCHAR
+  - name: allowances_earnings_tips_directors_fees_etc
+    type: VARCHAR
+  - name: employer_lump_sum_payments_amount_a_no
+    type: VARCHAR
+  - name: employer_lump_sum_payments_amount_a
+    type: VARCHAR
+  - name: employment_termination_payments_taxable_component_no
+    type: VARCHAR
+  - name: employment_termination_payments_taxable_component
+    type: VARCHAR
+  - name: australian_government_allowances_and_payments_no
+    type: VARCHAR
+  - name: australian_government_allowances_and_payments
+    type: VARCHAR
+  - name: australian_government_pensions_and_allowances_no
+    type: VARCHAR
+  - name: australian_government_pensions_and_allowances
+    type: VARCHAR
+  - name: australian_annuities_and_superannuation_income_streams_taxable_component_taxed_element_no
+    type: VARCHAR
+  - name: australian_annuities_and_superannuation_income_streams_taxable_component_taxed_element
+    type: VARCHAR
+  - name: australian_annuities_and_superannuation_income_streams_taxable_component_untaxed_element_no
+    type: VARCHAR
+  - name: australian_annuities_and_superannuation_income_streams_taxable_component_untaxed_element
+    type: VARCHAR
+  - name: gross_interest_no
+    type: VARCHAR
+  - name: gross_interest
+    type: VARCHAR
+  - name: dividends_unfranked_no
+    type: VARCHAR
+  - name: dividends_unfranked
+    type: VARCHAR
+  - name: dividends_franked_no
+    type: VARCHAR
+  - name: dividends_franked
+    type: VARCHAR
+  - name: dividends_franking_credit_no
+    type: VARCHAR
+  - name: dividends_franking_credit
+    type: VARCHAR
+  - name: total_income_or_loss_no
+    type: VARCHAR
+  - name: total_income_or_loss
+    type: VARCHAR
+  - name: total_work_related_car_expenses_no
+    type: VARCHAR
+  - name: total_work_related_car_expenses
+    type: VARCHAR
+  - name: work_related_travel_expenses_no
+    type: VARCHAR
+  - name: work_related_travel_expenses
+    type: VARCHAR
+  - name: total_work_related_uniform_clothing_expenses_no
+    type: VARCHAR
+  - name: total_work_related_uniform_clothing_expenses
+    type: VARCHAR
+  - name: total_work_related_self_education_expenses_no
+    type: VARCHAR
+  - name: total_work_related_self_education_expenses
+    type: VARCHAR
+  - name: other_work_related_expenses_no
+    type: VARCHAR
+  - name: other_work_related_expenses
+    type: VARCHAR
+  - name: low_value_pool_deduction_no
+    type: VARCHAR
+  - name: low_value_pool_deduction
+    type: VARCHAR
+  - name: interest_deductions_no
+    type: VARCHAR
+  - name: interest_deductions
+    type: VARCHAR
+  - name: dividend_deductions_no
+    type: VARCHAR
+  - name: dividend_deductions
+    type: VARCHAR
+  - name: gifts_or_donations_no
+    type: VARCHAR
+  - name: gifts_or_donations
+    type: VARCHAR
+  - name: cost_of_managing_tax_affairs_no
+    type: VARCHAR
+  - name: cost_of_managing_tax_affairs
+    type: VARCHAR
+  - name: total_deductions_no
+    type: VARCHAR
+  - name: total_deductions
+    type: VARCHAR
+  - name: total_reportable_fringe_benefits_amount_no
+    type: VARCHAR
+  - name: total_reportable_fringe_benefits_amount
+    type: VARCHAR
+  - name: reportable_employer_superannuation_contributions_no
+    type: VARCHAR
+  - name: reportable_employer_superannuation_contributions
+    type: VARCHAR
+  - name: net_primary_production_distribution_no
+    type: VARCHAR
+  - name: net_primary_production_distribution
+    type: VARCHAR
+  - name: net_non_primary_production_distribution_no
+    type: VARCHAR
+  - name: net_non_primary_production_distribution
+    type: VARCHAR
+  - name: share_of_franking_credit_from_franked_dividends_no
+    type: VARCHAR
+  - name: share_of_franking_credit_from_franked_dividends
+    type: VARCHAR
+  - name: net_psi_transferred_no
+    type: VARCHAR
+  - name: net_psi_transferred
+    type: VARCHAR
+  - name: deferred_non_commercial_business_losses_primary_production_deferred_losses_no
+    type: VARCHAR
+  - name: deferred_non_commercial_business_losses_primary_production_deferred_losses
+    type: VARCHAR
+  - name: deferred_non_commercial_business_losses_non_primary_production_deferred_losses_no
+    type: VARCHAR
+  - name: deferred_non_commercial_business_losses_non_primary_production_deferred_losses
+    type: VARCHAR
+  - name: capital_gains_net_capital_gain_no
+    type: VARCHAR
+  - name: capital_gains_net_capital_gain
+    type: VARCHAR
+  - name: estimated_tax_on_net_capital_gains_no
+    type: VARCHAR
+  - name: estimated_tax_on_net_capital_gains
+    type: VARCHAR
+  - name: capital_gains_total_current_year_capital_gains_no
+    type: VARCHAR
+  - name: capital_gains_total_current_year_capital_gains
+    type: VARCHAR
+  - name: capital_gains_net_capital_losses_carried_forward_no
+    type: VARCHAR
+  - name: capital_gains_net_capital_losses_carried_forward
+    type: VARCHAR
+  - name: foreign_source_income_assessable_foreign_source_income_no
+    type: VARCHAR
+  - name: foreign_source_income_assessable_foreign_source_income
+    type: VARCHAR
+  - name: foreign_source_income_other_net_foreign_source_income_no
+    type: VARCHAR
+  - name: foreign_source_income_other_net_foreign_source_income
+    type: VARCHAR
+  - name: foreign_source_income_foreign_income_tax_offset_no
+    type: VARCHAR
+  - name: foreign_source_income_foreign_income_tax_offset
+    type: VARCHAR
+  - name: gross_rent_no
+    type: VARCHAR
+  - name: gross_rent
+    type: VARCHAR
+  - name: rent_interest_deductions_no
+    type: VARCHAR
+  - name: rent_interest_deductions
+    type: VARCHAR
+  - name: rent_capital_works_deductions_no
+    type: VARCHAR
+  - name: rent_capital_works_deductions
+    type: VARCHAR
+  - name: rent_other_rental_deductions_no
+    type: VARCHAR
+  - name: rent_other_rental_deductions
+    type: VARCHAR
+  - name: net_rent_profit_no
+    type: VARCHAR
+  - name: net_rent_profit
+    type: VARCHAR
+  - name: net_rent_loss_no
+    type: VARCHAR
+  - name: net_rent_loss
+    type: VARCHAR
+  - name: net_rent_no
+    type: VARCHAR
+  - name: net_rent
+    type: VARCHAR
+  - name: other_income_category_1_no
+    type: VARCHAR
+  - name: other_income_category_1
+    type: VARCHAR
+  - name: other_income_category_2_no
+    type: VARCHAR
+  - name: other_income_category_2
+    type: VARCHAR
+  - name: personal_superannuation_contributions_no
+    type: VARCHAR
+  - name: personal_superannuation_contributions
+    type: VARCHAR
+  - name: other_deductions_no
+    type: VARCHAR
+  - name: other_deductions
+    type: VARCHAR
+  - name: total_business_income_no
+    type: VARCHAR
+  - name: total_business_income
+    type: VARCHAR
+  - name: total_business_expenses_no
+    type: VARCHAR
+  - name: total_business_expenses
+    type: VARCHAR
+  - name: net_income_or_loss_from_business_no
+    type: VARCHAR
+  - name: net_income_or_loss_from_business
+    type: VARCHAR
+  - name: estimated_business_net_tax_no
+    type: VARCHAR
+  - name: estimated_business_net_tax
+    type: VARCHAR
+  - name: australian_superannuation_income_stream_tax_offset_no
+    type: VARCHAR
+  - name: australian_superannuation_income_stream_tax_offset
+    type: VARCHAR
+  - name: total_net_medical_expenses_tax_offset_no
+    type: VARCHAR
+  - name: total_net_medical_expenses_tax_offset
+    type: VARCHAR
+  - name: low_income_tax_offset_no
+    type: VARCHAR
+  - name: low_income_tax_offset
+    type: VARCHAR
+  - name: employment_termination_payment_tax_offset_no
+    type: VARCHAR
+  - name: employment_termination_payment_tax_offset
+    type: VARCHAR
+  - name: help_debt_balance_no
+    type: VARCHAR
+  - name: help_debt_balance
+    type: VARCHAR
+  - name: sfss_debt_balance_no
+    type: VARCHAR
+  - name: sfss_debt_balance
+    type: VARCHAR
+  - name: people_with_private_health_insurance_no
+    type: VARCHAR
+  - name: tax_withheld_from_salary_or_wages_no
+    type: VARCHAR
+  - name: tax_withheld_from_salary_or_wages
+    type: VARCHAR
+  - name: income_year
+    type: VARCHAR
+  - name: taxable_income_range_tax_brackets
+    type: VARCHAR
+  - name: number_of_individuals_no_1
+    type: VARCHAR
+  - name: taxable_income_or_loss_no_1
+    type: VARCHAR
+  - name: taxable_income_or_loss_1
+    type: VARCHAR
+  - name: tax_on_taxable_income_no
+    type: VARCHAR
+  - name: tax_on_taxable_income
+    type: VARCHAR
+  - name: medicare_levy_no_1
+    type: VARCHAR
+  - name: medicare_levy_1
+    type: VARCHAR
+  - name: medicare_levy_surcharge_no_1
+    type: VARCHAR
+  - name: medicare_levy_surcharge_1
+    type: VARCHAR
+  - name: total_medicare_levy_liability_no
+    type: VARCHAR
+  - name: total_medicare_levy_liability
+    type: VARCHAR
+  - name: net_tax_no_1
+    type: VARCHAR
+  - name: net_tax_1
+    type: VARCHAR
+  - name: help_assessment_debt_no_1
+    type: VARCHAR
+  - name: help_assessment_debt_1
+    type: VARCHAR
+  - name: salary_or_wages_no_1
+    type: VARCHAR
+  - name: salary_or_wages_1
+    type: VARCHAR
+  - name: tax_withheld_from_salary_or_wages_no_1
+    type: VARCHAR
+  - name: tax_withheld_from_salary_or_wages_1
+    type: VARCHAR
+  - name: allowances_earnings_tips_directors_fees_etc_no_1
+    type: VARCHAR
+  - name: allowances_earnings_tips_directors_fees_etc_1
+    type: VARCHAR
+  - name: employer_lump_sum_payments_amount_a_no_1
+    type: VARCHAR
+  - name: employer_lump_sum_payments_amount_a_1
+    type: VARCHAR
+  - name: employment_termination_payments_taxable_component_no_1
+    type: VARCHAR
+  - name: employment_termination_payments_taxable_component_1
+    type: VARCHAR
+  - name: australian_government_allowances_and_payments_no_1
+    type: VARCHAR
+  - name: australian_government_allowances_and_payments_1
+    type: VARCHAR
+  - name: australian_government_pensions_and_allowances_no_1
+    type: VARCHAR
+  - name: australian_government_pensions_and_allowances_1
+    type: VARCHAR
+  - name: australian_annuities_and_superannuation_income_streams_taxable_component_taxed_element_no_1
+    type: VARCHAR
+  - name: australian_annuities_and_superannuation_income_streams_taxable_component_taxed_element_1
+    type: VARCHAR
+  - name: australian_annuities_and_superannuation_income_streams_taxable_component_untaxed_element_no_1
+    type: VARCHAR
+  - name: australian_annuities_and_superannuation_income_streams_taxable_component_untaxed_element_1
+    type: VARCHAR
+  - name: gross_interest_no_1
+    type: VARCHAR
+  - name: gross_interest_1
+    type: VARCHAR
+  - name: dividends_unfranked_no_1
+    type: VARCHAR
+  - name: dividends_unfranked_1
+    type: VARCHAR
+  - name: dividends_franked_no_1
+    type: VARCHAR
+  - name: dividends_franked_1
+    type: VARCHAR
+  - name: dividends_franking_credit_no_1
+    type: VARCHAR
+  - name: dividends_franking_credit_1
+    type: VARCHAR
+  - name: total_income_or_loss_no_1
+    type: VARCHAR
+  - name: total_income_or_loss_1
+    type: VARCHAR
+  - name: total_work_related_car_expenses_no_1
+    type: VARCHAR
+  - name: total_work_related_car_expenses_1
+    type: VARCHAR
+  - name: work_related_travel_expenses_no_1
+    type: VARCHAR
+  - name: work_related_travel_expenses_1
+    type: VARCHAR
+  - name: total_work_related_uniform_clothing_expenses_no_1
+    type: VARCHAR
+  - name: total_work_related_uniform_clothing_expenses_1
+    type: VARCHAR
+  - name: total_work_related_self_education_expenses_no_1
+    type: VARCHAR
+  - name: total_work_related_self_education_expenses_1
+    type: VARCHAR
+  - name: other_work_related_expenses_no_1
+    type: VARCHAR
+  - name: other_work_related_expenses_1
+    type: VARCHAR
+  - name: total_work_related_expenses_no
+    type: VARCHAR
+  - name: total_work_related_expenses
+    type: VARCHAR
+  - name: low_value_pool_deduction_no_1
+    type: VARCHAR
+  - name: low_value_pool_deduction_1
+    type: VARCHAR
+  - name: interest_deductions_no_1
+    type: VARCHAR
+  - name: interest_deductions_1
+    type: VARCHAR
+  - name: dividend_deductions_no_1
+    type: VARCHAR
+  - name: dividend_deductions_1
+    type: VARCHAR
+  - name: gifts_or_donations_no_1
+    type: VARCHAR
+  - name: gifts_or_donations_1
+    type: VARCHAR
+  - name: cost_of_managing_tax_affairs_no_1
+    type: VARCHAR
+  - name: cost_of_managing_tax_affairs_1
+    type: VARCHAR
+  - name: total_deductions_no_1
+    type: VARCHAR
+  - name: total_deductions_1
+    type: VARCHAR
+  - name: total_reportable_fringe_benefits_amount_no_1
+    type: VARCHAR
+  - name: total_reportable_fringe_benefits_amount_1
+    type: VARCHAR
+  - name: reportable_employer_superannuation_contributions_no_1
+    type: VARCHAR
+  - name: reportable_employer_superannuation_contributions_1
+    type: VARCHAR
+  - name: p_t_net_primary_production_amount_no
+    type: VARCHAR
+  - name: p_t_net_primary_production_amount
+    type: VARCHAR
+  - name: p_t_net_non_primary_production_amount_no
+    type: VARCHAR
+  - name: p_t_net_non_primary_production_amount
+    type: VARCHAR
+  - name: share_of_franking_credit_from_franked_dividends_no_1
+    type: VARCHAR
+  - name: share_of_franking_credit_from_franked_dividends_1
+    type: VARCHAR
+  - name: net_psi_transferred_no_1
+    type: VARCHAR
+  - name: net_psi_transferred_1
+    type: VARCHAR
+  - name: deferred_non_commercial_business_losses_primary_production_deferred_losses_no_1
+    type: VARCHAR
+  - name: deferred_non_commercial_business_losses_primary_production_deferred_losses_1
+    type: VARCHAR
+  - name: deferred_non_commercial_business_losses_non_primary_production_deferred_losses_no_1
+    type: VARCHAR
+  - name: deferred_non_commercial_business_losses_non_primary_production_deferred_losses_1
+    type: VARCHAR
+  - name: capital_gains_net_capital_gain_no_1
+    type: VARCHAR
+  - name: capital_gains_net_capital_gain_1
+    type: VARCHAR
+  - name: estimated_tax_on_net_capital_gains_no_1
+    type: VARCHAR
+  - name: estimated_tax_on_net_capital_gains_1
+    type: VARCHAR
+  - name: capital_gains_total_current_year_capital_gains_no_1
+    type: VARCHAR
+  - name: capital_gains_total_current_year_capital_gains_1
+    type: VARCHAR
+  - name: capital_gains_net_capital_losses_carried_forward_no_1
+    type: VARCHAR
+  - name: capital_gains_net_capital_losses_carried_forward_1
+    type: VARCHAR
+  - name: foreign_source_income_assessable_foreign_source_income_no_1
+    type: VARCHAR
+  - name: foreign_source_income_assessable_foreign_source_income_1
+    type: VARCHAR
+  - name: foreign_source_income_other_net_foreign_source_income_no_1
+    type: VARCHAR
+  - name: foreign_source_income_other_net_foreign_source_income_1
+    type: VARCHAR
+  - name: foreign_source_income_foreign_income_tax_offset_no_1
+    type: VARCHAR
+  - name: foreign_source_income_foreign_income_tax_offset_1
+    type: VARCHAR
+  - name: gross_rent_no_1
+    type: VARCHAR
+  - name: gross_rent_1
+    type: VARCHAR
+  - name: rent_interest_deductions_no_1
+    type: VARCHAR
+  - name: rent_interest_deductions_1
+    type: VARCHAR
+  - name: rent_capital_works_deductions_no_1
+    type: VARCHAR
+  - name: rent_capital_works_deductions_1
+    type: VARCHAR
+  - name: rent_other_rental_deductions_no_1
+    type: VARCHAR
+  - name: rent_other_rental_deductions_1
+    type: VARCHAR
+  - name: net_rent_profit_no_1
+    type: VARCHAR
+  - name: net_rent_profit_1
+    type: VARCHAR
+  - name: net_rent_loss_no_1
+    type: VARCHAR
+  - name: net_rent_loss_1
+    type: VARCHAR
+  - name: net_rent_no_1
+    type: VARCHAR
+  - name: net_rent_1
+    type: VARCHAR
+  - name: other_income_category_1_no_1
+    type: VARCHAR
+  - name: other_income_category_1_1
+    type: VARCHAR
+  - name: other_income_category_2_no_1
+    type: VARCHAR
+  - name: other_income_category_2_1
+    type: VARCHAR
+  - name: personal_superannuation_contributions_no_1
+    type: VARCHAR
+  - name: personal_superannuation_contributions_1
+    type: VARCHAR
+  - name: other_deductions_no_1
+    type: VARCHAR
+  - name: other_deductions_1
+    type: VARCHAR
+  - name: total_business_income_no_1
+    type: VARCHAR
+  - name: total_business_income_1
+    type: VARCHAR
+  - name: total_business_expenses_no_1
+    type: VARCHAR
+  - name: total_business_expenses_1
+    type: VARCHAR
+  - name: net_income_or_loss_from_business_no_1
+    type: VARCHAR
+  - name: net_income_or_loss_from_business_1
+    type: VARCHAR
+  - name: estimated_business_net_tax_no_1
+    type: VARCHAR
+  - name: estimated_business_net_tax_1
+    type: VARCHAR
+  - name: australian_superannuation_income_stream_tax_offset_no_1
+    type: VARCHAR
+  - name: australian_superannuation_income_stream_tax_offset_1
+    type: VARCHAR
+  - name: small_business_income_tax_offset_no
+    type: VARCHAR
+  - name: small_business_income_tax_offset
+    type: VARCHAR
+  - name: low_income_tax_offset_no_1
+    type: VARCHAR
+  - name: low_income_tax_offset_1
+    type: VARCHAR
+  - name: employment_termination_payment_tax_offset_no_1
+    type: VARCHAR
+  - name: employment_termination_payment_tax_offset_1
+    type: VARCHAR
+  - name: help_debt_balance_no_1
+    type: VARCHAR
+  - name: help_debt_balance_1
+    type: VARCHAR
+  - name: sfss_debt_balance_no_1
+    type: VARCHAR
+  - name: sfss_debt_balance_1
+    type: VARCHAR
+  - name: tsl_debt_balance_no
+    type: VARCHAR
+  - name: tsl_debt_balance
+    type: VARCHAR
+  - name: people_with_private_health_insurance_no_1
+    type: VARCHAR
+  - name: private_health_insurance_your_australian_government_rebate_received_no
+    type: VARCHAR
+  - name: private_health_insurance_your_australian_government_rebate_received
+    type: VARCHAR
+  - name: private_health_insurance_rebate_no
+    type: VARCHAR
+  - name: private_health_insurance_rebate
+    type: VARCHAR
+  - name: excess_private_health_reduction_or_refund_rebate_reduced_no
+    type: VARCHAR
+  - name: excess_private_health_reduction_or_refund_rebate_reduced
+    type: VARCHAR

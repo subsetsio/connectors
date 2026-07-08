@@ -1,0 +1,33 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [dataset_id]
+temporal: updated
+sort: [updated, dataset_id]
+columns:
+  - name: dataset_id
+    type: UUID
+  - name: title
+    type: VARCHAR
+  - name: node_names
+    type: VARCHAR
+  - name: institutions
+    type: VARCHAR
+  - name: license
+    type: VARCHAR
+  - name: core
+    type: VARCHAR
+  - name: records
+    type: BIGINT
+  - name: occurrence_count
+    type: BIGINT
+  - name: dropped_count
+    type: BIGINT
+  - name: published
+    type: TIMESTAMP
+  - name: created
+    type: TIMESTAMP
+  - name: updated
+    type: TIMESTAMP
+  - name: extent_wkt
+    type: VARCHAR
+  - name: citation
+    type: VARCHAR

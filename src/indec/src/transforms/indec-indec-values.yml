@@ -1,0 +1,11 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [series_id, date]
+temporal: date
+sort: [date, series_id]
+columns:
+  - name: series_id
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: value
+    type: DOUBLE

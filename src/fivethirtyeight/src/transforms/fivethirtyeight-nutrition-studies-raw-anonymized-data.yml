@@ -1,0 +1,2190 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [ID]
+sort: [ID]
+columns:
+  - name: ID
+    type: BIGINT
+  - name: cancer
+    type: VARCHAR
+  - name: diabetes
+    type: VARCHAR
+  - name: heart_disease
+    type: VARCHAR
+  - name: belly
+    type: VARCHAR
+  - name: ever_smoked
+    type: VARCHAR
+  - name: currently_smoke
+    type: VARCHAR
+  - name: smoke_often
+    type: VARCHAR
+  - name: smoke_rarely
+    type: VARCHAR
+  - name: never_smoked
+    type: VARCHAR
+  - name: quit_smoking
+    type: VARCHAR
+  - name: left_hand
+    type: VARCHAR
+  - name: right_hand
+    type: VARCHAR
+  - name: readingMath
+    type: VARCHAR
+  - name: mathReading
+    type: VARCHAR
+  - name: favCable
+    type: VARCHAR
+  - name: unfavCable
+    type: VARCHAR
+  - name: neutralCable
+    type: VARCHAR
+  - name: noCrash
+    type: VARCHAR
+  - name: yesCrash
+    type: VARCHAR
+  - name: uhCrash
+    type: VARCHAR
+  - name: rash
+    type: VARCHAR
+  - name: cat
+    type: VARCHAR
+  - name: dog
+    type: VARCHAR
+  - name: Dems
+    type: VARCHAR
+  - name: atheist
+    type: VARCHAR
+  - name: Jewish
+    type: VARCHAR
+  - name: BREAKFASTSANDWICHFREQ
+    type: BIGINT
+  - name: BREAKFASTSANDWICHQUAN
+    type: BIGINT
+  - name: EGGSFREQ
+    type: BIGINT
+  - name: EGGSQUAN
+    type: BIGINT
+  - name: YOGURTFREQ
+    type: BIGINT
+  - name: YOGURTQUAN
+    type: BIGINT
+  - name: COTTAGECHEESEFREQ
+    type: BIGINT
+  - name: COTTAGECHEESEQUAN
+    type: BIGINT
+  - name: CREAMCHEESEFREQ
+    type: BIGINT
+  - name: CREAMCHEESEQUAN
+    type: BIGINT
+  - name: SLICEDCHEESEFREQ
+    type: BIGINT
+  - name: SLICEDCHEESEQUAN
+    type: BIGINT
+  - name: COLDCEREALFREQ
+    type: BIGINT
+  - name: COLDCEREALQUAN
+    type: BIGINT
+  - name: WHOLEGRAINCEREALFREQ
+    type: BIGINT
+  - name: WHOLEGRAINCEREALQUAN
+    type: BIGINT
+  - name: GRITSFREQ
+    type: BIGINT
+  - name: GRITSQUAN
+    type: BIGINT
+  - name: MILKONCEREALFREQ
+    type: BIGINT
+  - name: MILKONCEREALQUAN
+    type: BIGINT
+  - name: BROWNRICEFREQ
+    type: BIGINT
+  - name: BROWNRICEQUAN
+    type: BIGINT
+  - name: WHITERICEFREQ
+    type: BIGINT
+  - name: WHITERICEQUAN
+    type: BIGINT
+  - name: PANCAKEFREQ
+    type: BIGINT
+  - name: PANCAKEQUAN
+    type: BIGINT
+  - name: PASTRIESFREQ
+    type: BIGINT
+  - name: PASTRIESQUAN
+    type: BIGINT
+  - name: BISCUITFREQ
+    type: BIGINT
+  - name: BISCUITQUAN
+    type: BIGINT
+  - name: CORNBREADFREQ
+    type: BIGINT
+  - name: CORNBREADQUAN
+    type: BIGINT
+  - name: BUNSFREQ
+    type: BIGINT
+  - name: BUNSQUAN
+    type: BIGINT
+  - name: BAGELFREQ
+    type: BIGINT
+  - name: BAGELQUAN
+    type: BIGINT
+  - name: TORTILLASFREQ
+    type: BIGINT
+  - name: TORTILLASQUAN
+    type: BIGINT
+  - name: OTHERBREADSFREQ
+    type: BIGINT
+  - name: OTHERBREADSQUAN
+    type: BIGINT
+  - name: BROCCOLIFREQ
+    type: BIGINT
+  - name: BROCCOLIQUAN
+    type: BIGINT
+  - name: CARROTSFREQ
+    type: BIGINT
+  - name: CARROTSQUAN
+    type: BIGINT
+  - name: CORNFREQ
+    type: BIGINT
+  - name: CORNQUAN
+    type: BIGINT
+  - name: GREENBEANSFREQ
+    type: BIGINT
+  - name: GREENBEANSQUAN
+    type: BIGINT
+  - name: COOKEDGREENSFREQ
+    type: BIGINT
+  - name: COOKEDGREENSQUAN
+    type: BIGINT
+  - name: CABBAGEFREQ
+    type: BIGINT
+  - name: CABBAGEQUAN
+    type: BIGINT
+  - name: GREENSALADFREQ
+    type: BIGINT
+  - name: GREENSALADQUAN
+    type: BIGINT
+  - name: RAWTOMATOESFREQ
+    type: BIGINT
+  - name: RAWTOMATOESQUAN
+    type: BIGINT
+  - name: SALADDRESSINGSFREQ
+    type: BIGINT
+  - name: SALADDRESSINGSQUAN
+    type: BIGINT
+  - name: AVOCADOFREQ
+    type: BIGINT
+  - name: AVOCADOQUAN
+    type: BIGINT
+  - name: SWEETPOTATOESFREQ
+    type: BIGINT
+  - name: SWEETPOTATOESQUAN
+    type: BIGINT
+  - name: FRIESFREQ
+    type: BIGINT
+  - name: FRIESQUAN
+    type: BIGINT
+  - name: POTATOESFREQ
+    type: BIGINT
+  - name: POTATOESQUAN
+    type: BIGINT
+  - name: OTHERVEGGIESFREQ
+    type: BIGINT
+  - name: OTHERVEGGIESQUAN
+    type: BIGINT
+  - name: MELONSFREQ
+    type: BIGINT
+  - name: MELONSQUAN
+    type: BIGINT
+  - name: BERRIESFREQ
+    type: BIGINT
+  - name: BERRIESQUAN
+    type: BIGINT
+  - name: BANANASFREQ
+    type: BIGINT
+  - name: BANANASQUAN
+    type: BIGINT
+  - name: APPLESFREQ
+    type: BIGINT
+  - name: APPLESQUAN
+    type: BIGINT
+  - name: ORANGESFREQ
+    type: BIGINT
+  - name: ORANGESQUAN
+    type: BIGINT
+  - name: PEACHESFREQ
+    type: BIGINT
+  - name: PEACHESQUAN
+    type: BIGINT
+  - name: OTHERFRESHFRUITFREQ
+    type: BIGINT
+  - name: OTHERFRESHFRUITQUAN
+    type: BIGINT
+  - name: DRIEDFRUITFREQ
+    type: BIGINT
+  - name: DRIEDFRUITQUAN
+    type: BIGINT
+  - name: CANNEDFRUITFREQ
+    type: BIGINT
+  - name: CANNEDFRUITQUAN
+    type: BIGINT
+  - name: REFRIEDBEANSFREQ
+    type: BIGINT
+  - name: REFRIEDBEANSQUAN
+    type: BIGINT
+  - name: BEANSFREQ
+    type: BIGINT
+  - name: BEANSQUAN
+    type: BIGINT
+  - name: TOFUFREQ
+    type: BIGINT
+  - name: TOFUQUAN
+    type: BIGINT
+  - name: MEATSUBSTITUTESFREQ
+    type: BIGINT
+  - name: MEATSUBSTITUTESQUAN
+    type: BIGINT
+  - name: LENTILSOUPFREQ
+    type: BIGINT
+  - name: LENTILSOUPQUAN
+    type: BIGINT
+  - name: VEGETABLESOUPFREQ
+    type: BIGINT
+  - name: VEGETABLESOUPQUAN
+    type: BIGINT
+  - name: OTHERSOUPFREQ
+    type: BIGINT
+  - name: OTHERSOUPQUAN
+    type: BIGINT
+  - name: PIZZAFREQ
+    type: BIGINT
+  - name: PIZZAQUAN
+    type: BIGINT
+  - name: MACANDCHEESEFREQ
+    type: BIGINT
+  - name: MACANDCHEESEQUAN
+    type: BIGINT
+  - name: SPAGHETTIFREQ
+    type: BIGINT
+  - name: SPAGHETTIQUAN
+    type: BIGINT
+  - name: OTHERNOODLESFREQ
+    type: BIGINT
+  - name: OTHERNOODLESQUAN
+    type: BIGINT
+  - name: EGGROLLFREQ
+    type: BIGINT
+  - name: EGGROLLQUAN
+    type: BIGINT
+  - name: EATMEAT
+    type: BIGINT
+  - name: HAMBURGERFREQ
+    type: BIGINT
+  - name: HAMBURGERQUAN
+    type: BIGINT
+  - name: HOTDOGFREQ
+    type: BIGINT
+  - name: HOTDOGQUAN
+    type: BIGINT
+  - name: BACONSAUSAGEFREQ
+    type: BIGINT
+  - name: BACONSAUSAGEQUAN
+    type: BIGINT
+  - name: LUNCHMEATFREQ
+    type: BIGINT
+  - name: LUNCHMEATQUAN
+    type: BIGINT
+  - name: MEATBALLSFREQ
+    type: BIGINT
+  - name: MEATBALLSQUAN
+    type: BIGINT
+  - name: STEAKFREQ
+    type: BIGINT
+  - name: STEAKQUAN
+    type: BIGINT
+  - name: TACOFREQ
+    type: BIGINT
+  - name: TACOQUAN
+    type: BIGINT
+  - name: RIBSFREQ
+    type: BIGINT
+  - name: RIBSQUAN
+    type: BIGINT
+  - name: PORKCHOPSFREQ
+    type: BIGINT
+  - name: PORKCHOPSQUAN
+    type: BIGINT
+  - name: BEEFPORKDISHFREQ
+    type: BIGINT
+  - name: BEEFPORKDISHQUAN
+    type: BIGINT
+  - name: LIVERFREQ
+    type: BIGINT
+  - name: LIVERQUAN
+    type: BIGINT
+  - name: VARIETYMEATFREQ
+    type: BIGINT
+  - name: VARIETYMEATQUAN
+    type: BIGINT
+  - name: VEALLAMBGAMEFREQ
+    type: BIGINT
+  - name: VEALLAMBGAMEQUAN
+    type: BIGINT
+  - name: FRIEDORBREADEDCHICKENFREQ
+    type: BIGINT
+  - name: FRIEDORBREADEDCHICKENQUAN
+    type: BIGINT
+  - name: ROASTCHICKENFREQ
+    type: BIGINT
+  - name: ROASTCHICKENQUAN
+    type: BIGINT
+  - name: OTHERCHICKENDISHFREQ
+    type: BIGINT
+  - name: OTHERCHICKENDISHQUAN
+    type: BIGINT
+  - name: EATFISH
+    type: BIGINT
+  - name: OYSTERSFREQ
+    type: BIGINT
+  - name: OYSTERSQUAN
+    type: BIGINT
+  - name: SHELLFISHFREQ
+    type: BIGINT
+  - name: SHELLFISHQUAN
+    type: BIGINT
+  - name: TUNAFREQ
+    type: BIGINT
+  - name: TUNAQUAN
+    type: BIGINT
+  - name: SALMONFREQ
+    type: BIGINT
+  - name: SALMONQUAN
+    type: BIGINT
+  - name: FRIEDORBREADEDFISHFREQ
+    type: BIGINT
+  - name: FRIEDORBREADEDFISHQUAN
+    type: BIGINT
+  - name: OTHERFISHFREQ
+    type: BIGINT
+  - name: OTHERFISHQUAN
+    type: BIGINT
+  - name: PEANUTBUTTERFREQ
+    type: BIGINT
+  - name: PEANUTBUTTERQUAN
+    type: BIGINT
+  - name: WALNUTSFREQ
+    type: BIGINT
+  - name: WALNUTSQUAN
+    type: BIGINT
+  - name: OTHERNUTSFREQ
+    type: BIGINT
+  - name: OTHERNUTSQUAN
+    type: BIGINT
+  - name: PROTEINBARSFREQ
+    type: BIGINT
+  - name: PROTEINBARSQUAN
+    type: BIGINT
+  - name: CEREALBARSFREQ
+    type: BIGINT
+  - name: CEREALBARSQUAN
+    type: BIGINT
+  - name: POPCORNFREQ
+    type: BIGINT
+  - name: POPCORNQUAN
+    type: BIGINT
+  - name: WHOLEGRAINCRACKERSFREQ
+    type: BIGINT
+  - name: WHOLEGRAINCRACKERSQUAN
+    type: BIGINT
+  - name: OTHERCRACKERSFREQ
+    type: BIGINT
+  - name: OTHERCRACKERSQUAN
+    type: BIGINT
+  - name: CORNCHIPSFREQ
+    type: BIGINT
+  - name: CORNCHIPSQUAN
+    type: BIGINT
+  - name: OTHERCHIPSFREQ
+    type: BIGINT
+  - name: OTHERCHIPSQUAN
+    type: BIGINT
+  - name: DONUTSFREQ
+    type: BIGINT
+  - name: DONUTSQUAN
+    type: BIGINT
+  - name: CAKESFREQ
+    type: BIGINT
+  - name: CAKESQUAN
+    type: BIGINT
+  - name: COOKIESFREQ
+    type: BIGINT
+  - name: COOKIESQUAN
+    type: BIGINT
+  - name: PUMPKINPIEFREQ
+    type: BIGINT
+  - name: PUMPKINPIEQUAN
+    type: BIGINT
+  - name: OTHERPIESFREQ
+    type: BIGINT
+  - name: OTHERPIESQUAN
+    type: BIGINT
+  - name: ICECREAMFREQ
+    type: BIGINT
+  - name: ICECREAMQUAN
+    type: BIGINT
+  - name: PUDDINGFREQ
+    type: BIGINT
+  - name: PUDDINGQUAN
+    type: BIGINT
+  - name: SAUCEICECREAMFREQ
+    type: BIGINT
+  - name: SAUCEICECREAMQUAN
+    type: BIGINT
+  - name: POPSICLESFREQ
+    type: BIGINT
+  - name: POPSICLESQUAN
+    type: BIGINT
+  - name: CHOCOLATECANDYFREQ
+    type: BIGINT
+  - name: CHOCOLATECANDYQUAN
+    type: BIGINT
+  - name: OTHERCANDIESFREQ
+    type: BIGINT
+  - name: OTHERCANDIESQUAN
+    type: BIGINT
+  - name: MARGARINEFREQ
+    type: BIGINT
+  - name: MARGARINEQUAN
+    type: BIGINT
+  - name: BUTTERFREQ
+    type: BIGINT
+  - name: BUTTERQUAN
+    type: BIGINT
+  - name: MAYOFREQ
+    type: BIGINT
+  - name: MAYOQUAN
+    type: BIGINT
+  - name: SALSAFREQ
+    type: BIGINT
+  - name: SALSAQUAN
+    type: BIGINT
+  - name: BARBECUESAUCEFREQ
+    type: BIGINT
+  - name: BARBECUESAUCEQUAN
+    type: BIGINT
+  - name: OTHERRICHSAUCESFREQ
+    type: BIGINT
+  - name: OTHERRICHSAUCESQUAN
+    type: BIGINT
+  - name: JAMFREQ
+    type: BIGINT
+  - name: JAMQUAN
+    type: BIGINT
+  - name: PICKLESFREQ
+    type: BIGINT
+  - name: PICKLESQUAN
+    type: BIGINT
+  - name: SALTFREQ
+    type: BIGINT
+  - name: SALTQUAN
+    type: BIGINT
+  - name: COCOAFREQ
+    type: BIGINT
+  - name: COCOAQUAN
+    type: BIGINT
+  - name: MILKFREQ
+    type: BIGINT
+  - name: MILKQUAN
+    type: BIGINT
+  - name: MEALREPLACEMENTDRINKSFREQ
+    type: BIGINT
+  - name: MEALREPLACEMENTDRINKSQUAN
+    type: BIGINT
+  - name: TOMATOJUICEFREQ
+    type: BIGINT
+  - name: TOMATOJUICEQUAN
+    type: BIGINT
+  - name: ORANGEJUICEFREQ
+    type: BIGINT
+  - name: ORANGEJUICEQUAN
+    type: BIGINT
+  - name: OTHERFRUITJUICESFREQ
+    type: BIGINT
+  - name: OTHERFRUITJUICESQUAN
+    type: BIGINT
+  - name: HICFREQ
+    type: BIGINT
+  - name: HICQUAN
+    type: BIGINT
+  - name: SOMEJUICEFREQ
+    type: BIGINT
+  - name: SOMEJUICEQUAN
+    type: BIGINT
+  - name: ICEDTEAFREQ
+    type: BIGINT
+  - name: ICEDTEAQUAN
+    type: BIGINT
+  - name: SPORTSDRINKSFREQ
+    type: BIGINT
+  - name: SPORTSDRINKSQUAN
+    type: BIGINT
+  - name: ENERGYDRINKSFREQ
+    type: BIGINT
+  - name: ENERGYDRINKSQUAN
+    type: BIGINT
+  - name: LEMONADEFREQ
+    type: BIGINT
+  - name: LEMONADEQUAN
+    type: BIGINT
+  - name: SODAFREQ
+    type: BIGINT
+  - name: SODAQUAN
+    type: BIGINT
+  - name: BEERFREQ
+    type: BIGINT
+  - name: BEERQUAN
+    type: BIGINT
+  - name: WINEFREQ
+    type: BIGINT
+  - name: WINEQUAN
+    type: BIGINT
+  - name: COCKTAILSFREQ
+    type: BIGINT
+  - name: COCKTAILSQUAN
+    type: BIGINT
+  - name: WATERFREQ
+    type: BIGINT
+  - name: WATERQUAN
+    type: BIGINT
+  - name: COFFEEDRINKSFREQ
+    type: BIGINT
+  - name: COFFEEDRINKSQUAN
+    type: BIGINT
+  - name: COFFEEFREQ
+    type: BIGINT
+  - name: COFFEEQUAN
+    type: BIGINT
+  - name: HOTTEAFREQ
+    type: BIGINT
+  - name: HOTTEAQUAN
+    type: BIGINT
+  - name: COFFEEDRINKSKIND
+    type: BIGINT
+  - name: COFFEEDRINKSTYPE
+    type: BIGINT
+  - name: DECAFCOFFEETYPE
+    type: BIGINT
+  - name: REGULARCOFFEETYPE
+    type: BIGINT
+  - name: BOTHKINDSCOFFEETYPE
+    type: BIGINT
+  - name: DONTDRINKCOFFEETYPE
+    type: BIGINT
+  - name: CREAMINCOFFEE
+    type: BIGINT
+  - name: SUGARINCOFFEE
+    type: BIGINT
+  - name: COFFEESUGARTEASPOONS
+    type: BIGINT
+  - name: DECAFHOTTEATYPE
+    type: BIGINT
+  - name: REGULARHOTTEATYPE
+    type: BIGINT
+  - name: BOTHKINDSHOTTEATYPE
+    type: BIGINT
+  - name: DONTDRINKHOTTEATYPE
+    type: BIGINT
+  - name: CREAMINTEA
+    type: BIGINT
+  - name: SUGARINTEA
+    type: BIGINT
+  - name: TEASUGARTEASPOONS
+    type: BIGINT
+  - name: MILKTYPE
+    type: BIGINT
+  - name: MEALREPLACEMENTDRINKSTYPE
+    type: BIGINT
+  - name: ORANGEJUICETYPE
+    type: BIGINT
+  - name: ICEDTEATYPE
+    type: BIGINT
+  - name: LEMONADETYPE
+    type: BIGINT
+  - name: ENERGYDRINKSTYPE
+    type: BIGINT
+  - name: SODATYPE
+    type: BIGINT
+  - name: SODACAFFEINE
+    type: BIGINT
+  - name: BEERTYPE
+    type: BIGINT
+  - name: WINETYPE
+    type: BIGINT
+  - name: SLICEDCHEESETYPE
+    type: BIGINT
+  - name: YOGURTKIND
+    type: BIGINT
+  - name: YOGURTTYPE
+    type: BIGINT
+  - name: SALADDRESSINGSTYPE
+    type: BIGINT
+  - name: SPAGHETTITYPE
+    type: BIGINT
+  - name: OTHERNOODLESTYPE
+    type: BIGINT
+  - name: HAMBURGERTYPE
+    type: BIGINT
+  - name: FATONMEATTYPE
+    type: BIGINT
+  - name: CHICKENSKINTYPE
+    type: BIGINT
+  - name: HOTDOGTYPE
+    type: BIGINT
+  - name: LUNCHMEATTYPE
+    type: BIGINT
+  - name: CAKESTYPE
+    type: BIGINT
+  - name: COOKIESTYPE
+    type: BIGINT
+  - name: ICECREAMTYPE
+    type: BIGINT
+  - name: PROTEINBARSTYPE
+    type: BIGINT
+  - name: BAGELTYPE
+    type: BIGINT
+  - name: BUNSTYPE
+    type: BIGINT
+  - name: OTHERBREADSTYPE
+    type: BIGINT
+  - name: TORTILLASTYPE
+    type: BIGINT
+  - name: POPCORNTYPE
+    type: BIGINT
+  - name: CRACKERSTYPE
+    type: BIGINT
+  - name: MAYOTYPE
+    type: BIGINT
+  - name: ALLBRANORIGTYPE
+    type: BIGINT
+  - name: ALLBRANCOMPTYPE
+    type: BIGINT
+  - name: APPLEJACKSTYPE
+    type: BIGINT
+  - name: BRANFLAKESTYPE
+    type: BIGINT
+  - name: CAPNCRUNCHTYPE
+    type: BIGINT
+  - name: CHEERIOSPLAINTYPE
+    type: BIGINT
+  - name: CHEERIOSHONNUTTYPE
+    type: BIGINT
+  - name: CHEXWHEATTYPE
+    type: BIGINT
+  - name: CHEXOTHERTYPE
+    type: BIGINT
+  - name: CINNTOASTCRTYPE
+    type: BIGINT
+  - name: COCOAKRISPIESTYPE
+    type: BIGINT
+  - name: CORNFLAKESTYPE
+    type: BIGINT
+  - name: CORNPOPSTYPE
+    type: BIGINT
+  - name: FIBERONETYPE
+    type: BIGINT
+  - name: FROOTLOOPSTYPE
+    type: BIGINT
+  - name: FROSTEDFLAKESTYPE
+    type: BIGINT
+  - name: FROSTEDMINIWHEATSTYPE
+    type: BIGINT
+  - name: GRANOLATYPE
+    type: BIGINT
+  - name: GRAPENUTSTYPE
+    type: BIGINT
+  - name: HONBUNCHOATSTYPE
+    type: BIGINT
+  - name: KASHIGOLNORHR2HRTYPE
+    type: BIGINT
+  - name: LIFETYPE
+    type: BIGINT
+  - name: LUCKYCHARMSTYPE
+    type: BIGINT
+  - name: OATSQUARESTYPE
+    type: BIGINT
+  - name: RAISINBRANTYPE
+    type: BIGINT
+  - name: RICEKRISPIESTYPE
+    type: BIGINT
+  - name: SHREDDEDWHEATTYPE
+    type: BIGINT
+  - name: SPECIALKPLAINTYPE
+    type: BIGINT
+  - name: SPECIALKFLAVSTYPE
+    type: BIGINT
+  - name: TOTALTYPE
+    type: BIGINT
+  - name: WHEATIESTYPE
+    type: BIGINT
+  - name: OTHERSWEETCEREALTYPE
+    type: BIGINT
+  - name: OTHERUNSWEETCEREALTYPE
+    type: BIGINT
+  - name: OTHERWHOLEGRAINCEREALTYPE
+    type: BIGINT
+  - name: OTHERFIBERCEREALTYPE
+    type: BIGINT
+  - name: DONTEATORDONTKNOWCEREALTYPE
+    type: BIGINT
+  - name: COOKINGFATPAMORNONE
+    type: BIGINT
+  - name: COOKINGFATBUTTER
+    type: BIGINT
+  - name: COOKINGFATHALF
+    type: BIGINT
+  - name: COOKINGFATSTICKMARG
+    type: BIGINT
+  - name: COOKINGFATSOFTTUBMARG
+    type: BIGINT
+  - name: COOKINGFATLOWFATMARG
+    type: BIGINT
+  - name: COOKINGFATOLIVE
+    type: BIGINT
+  - name: COOKINGFATCANOLA
+    type: BIGINT
+  - name: COOKINGFATCORN
+    type: BIGINT
+  - name: COOKINGFATPEANUT
+    type: BIGINT
+  - name: COOKINGFATLARD
+    type: BIGINT
+  - name: COOKINGFATCRISCO
+    type: BIGINT
+  - name: COOKINGFATOTHER
+    type: BIGINT
+  - name: COOKINGFATDONTKNOW
+    type: BIGINT
+  - name: USEVITSREGULARLY
+    type: BIGINT
+  - name: PRENATALVITSAMOUNT
+    type: BIGINT
+  - name: PRENATALVITSYEARS
+    type: BIGINT
+  - name: ONEADAYAMOUNT
+    type: BIGINT
+  - name: ONEADAYYEARS
+    type: BIGINT
+  - name: BCOMPLEXTYPEVITSAMOUNT
+    type: BIGINT
+  - name: BCOMPLEXTYPEVITSYEARS
+    type: BIGINT
+  - name: ANTIOXIDANTCOMBOAMOUNT
+    type: BIGINT
+  - name: ANTIOXIDANTCOMBOYEARS
+    type: BIGINT
+  - name: VITAMINAAMOUNT
+    type: BIGINT
+  - name: VITAMINAYEARS
+    type: BIGINT
+  - name: VITAMINB6AMOUNT
+    type: BIGINT
+  - name: VITAMINB6YEARS
+    type: BIGINT
+  - name: VITAMINB12AMOUNT
+    type: BIGINT
+  - name: VITAMINB12YEARS
+    type: BIGINT
+  - name: VITAMINCAMOUNT
+    type: BIGINT
+  - name: VITAMINCYEARS
+    type: BIGINT
+  - name: VITAMINDAMOUNT
+    type: BIGINT
+  - name: VITAMINDYEARS
+    type: BIGINT
+  - name: VITAMINEAMOUNT
+    type: BIGINT
+  - name: VITAMINEYEARS
+    type: BIGINT
+  - name: FOLICACIDAMOUNT
+    type: BIGINT
+  - name: FOLICACIDYEARS
+    type: BIGINT
+  - name: CALCIUMAMOUNT
+    type: BIGINT
+  - name: CALCIUMYEARS
+    type: BIGINT
+  - name: IRONAMOUNT
+    type: BIGINT
+  - name: IRONYEARS
+    type: BIGINT
+  - name: ZINCAMOUNT
+    type: BIGINT
+  - name: ZINCYEARS
+    type: BIGINT
+  - name: OMEGASUPPFREQ
+    type: BIGINT
+  - name: OMEGASUPPYEARS
+    type: BIGINT
+  - name: FIBERSUPPAMOUNT
+    type: BIGINT
+  - name: FIBERSUPPYEARS
+    type: BIGINT
+  - name: MINERALSYESORNO
+    type: BIGINT
+  - name: VITAMINCQUAN
+    type: BIGINT
+  - name: VITAMINEQUAN
+    type: BIGINT
+  - name: CALCIUMQUAN
+    type: BIGINT
+  - name: VITAMINDQUAN
+    type: BIGINT
+  - name: FISHOILTYPE
+    type: BIGINT
+  - name: FLAXHEMPSEEDOILTYPE
+    type: BIGINT
+  - name: KRILLOILTYPE
+    type: BIGINT
+  - name: ALGAEOILTYPE
+    type: BIGINT
+  - name: OMEGA3DONTKNOWTYPE
+    type: BIGINT
+  - name: VEGGIESFREQ
+    type: BIGINT
+  - name: FRUITSFREQ
+    type: BIGINT
+  - name: FATOILFREQ
+    type: BIGINT
+  - name: MEALS
+    type: BIGINT
+  - name: SNACKS
+    type: BIGINT
+  - name: LIGHTHOUSEFREQ
+    type: BIGINT
+  - name: LIGHTHOUSETIME
+    type: BIGINT
+  - name: SLOWWALKFREQ
+    type: BIGINT
+  - name: SLOWWALKTIME
+    type: BIGINT
+  - name: JOBSTANDFREQ
+    type: BIGINT
+  - name: JOBSTANDTIME
+    type: BIGINT
+  - name: CHILDCAREFREQ
+    type: BIGINT
+  - name: CHILDCARETIME
+    type: BIGINT
+  - name: WEEDYARDFREQ
+    type: BIGINT
+  - name: WEEDYARDTIME
+    type: BIGINT
+  - name: BRISKWALKFREQ
+    type: BIGINT
+  - name: BRISKWALKTIME
+    type: BIGINT
+  - name: JOBWALKFREQ
+    type: BIGINT
+  - name: JOBWALKTIME
+    type: BIGINT
+  - name: HEAVYWORKFREQ
+    type: BIGINT
+  - name: HEAVYWORKTIME
+    type: BIGINT
+  - name: JOBLIFTFREQ
+    type: BIGINT
+  - name: JOBLIFTTIME
+    type: BIGINT
+  - name: EXERGYMFREQ
+    type: BIGINT
+  - name: EXERGYMTIME
+    type: BIGINT
+  - name: BIKESWIMFREQ
+    type: BIGINT
+  - name: BIKESWIMTIME
+    type: BIGINT
+  - name: LATINO
+    type: BIGINT
+  - name: WHITE
+    type: BIGINT
+  - name: BLACK
+    type: BIGINT
+  - name: ASIAN
+    type: BIGINT
+  - name: NATIVEAMER
+    type: BIGINT
+  - name: HAWAIIAN
+    type: BIGINT
+  - name: NOTPROVIDED
+    type: BIGINT
+  - name: GROUP_SOLID_COUNT
+    type: BIGINT
+  - name: GROUP_SOLID_TOTAL_FREQUENCY
+    type: DOUBLE
+  - name: GROUP_SOLID_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ALCOHOLICBEVERAGES_TOTAL_KCAL
+    type: DOUBLE
+  - name: GROUP_ALCOHOLICBEVERAGES_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ALCOHOLICBEVERAGES_TOTAL_FREQUENCY
+    type: DOUBLE
+  - name: GROUP_SUGARYBEVG_TOTAL_KCAL
+    type: DOUBLE
+  - name: GROUP_SUGARYBEVG_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SUGARYBEVG_TOTAL_FREQUENCY
+    type: DOUBLE
+  - name: GROUP_A_SUGBEV_TOTAL_KCAL
+    type: DOUBLE
+  - name: GROUP_A_SUGBEV_TOTAL_FREQUENCY
+    type: DOUBLE
+  - name: GROUP_SWEETS_TOTAL_KCAL
+    type: DOUBLE
+  - name: GROUP_SWEETS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SWEETS_TOTAL_FREQUENCY
+    type: DOUBLE
+  - name: DT_KCAL
+    type: DOUBLE
+  - name: DT_PROT
+    type: DOUBLE
+  - name: DT_CARB
+    type: DOUBLE
+  - name: DT_TFAT
+    type: DOUBLE
+  - name: DT_ALCO
+    type: DOUBLE
+  - name: DT_SUG_T
+    type: DOUBLE
+  - name: DT_FIBE
+    type: DOUBLE
+  - name: DT_MOIS
+    type: DOUBLE
+  - name: DT_SFAT
+    type: DOUBLE
+  - name: DT_MFAT
+    type: DOUBLE
+  - name: DT_PFAT
+    type: DOUBLE
+  - name: DT_CHOL
+    type: DOUBLE
+  - name: DT_S040
+    type: DOUBLE
+  - name: DT_S060
+    type: DOUBLE
+  - name: DT_S080
+    type: DOUBLE
+  - name: DT_S100
+    type: DOUBLE
+  - name: DT_S120
+    type: DOUBLE
+  - name: DT_S140
+    type: DOUBLE
+  - name: DT_S160
+    type: DOUBLE
+  - name: DT_S180
+    type: DOUBLE
+  - name: DT_M161
+    type: DOUBLE
+  - name: DT_M181
+    type: DOUBLE
+  - name: DT_M201
+    type: DOUBLE
+  - name: DT_M221
+    type: DOUBLE
+  - name: DT_P182
+    type: DOUBLE
+  - name: DT_P183
+    type: DOUBLE
+  - name: DT_P184
+    type: DOUBLE
+  - name: DT_P204
+    type: DOUBLE
+  - name: DT_P205
+    type: DOUBLE
+  - name: DT_P225
+    type: DOUBLE
+  - name: DT_P226
+    type: DOUBLE
+  - name: DT_VARAE
+    type: DOUBLE
+  - name: DT_RET
+    type: DOUBLE
+  - name: DT_ACARO
+    type: DOUBLE
+  - name: DT_BCARO
+    type: DOUBLE
+  - name: DT_CRYPT
+    type: DOUBLE
+  - name: DT_LYCO
+    type: DOUBLE
+  - name: DT_LUTZE
+    type: DOUBLE
+  - name: DT_ATOC
+    type: DOUBLE
+  - name: DT_ATAD
+    type: DOUBLE
+  - name: DT_VITD
+    type: DOUBLE
+  - name: DT_VITK
+    type: DOUBLE
+  - name: DT_VITC
+    type: DOUBLE
+  - name: DT_THIA
+    type: DOUBLE
+  - name: DT_RIBO
+    type: DOUBLE
+  - name: DT_NIAC
+    type: DOUBLE
+  - name: DT_VITB6
+    type: DOUBLE
+  - name: DT_TFOL
+    type: DOUBLE
+  - name: FOL_DFE
+    type: DOUBLE
+  - name: DT_FOLAC
+    type: DOUBLE
+  - name: DT_FOLFD
+    type: DOUBLE
+  - name: DT_VB12
+    type: DOUBLE
+  - name: DT_B12AD
+    type: DOUBLE
+  - name: DT_CHLN
+    type: DOUBLE
+  - name: DT_CALC
+    type: DOUBLE
+  - name: DT_IRON
+    type: DOUBLE
+  - name: DT_MAGN
+    type: DOUBLE
+  - name: DT_PHOS
+    type: DOUBLE
+  - name: DT_POTA
+    type: DOUBLE
+  - name: DT_SODI
+    type: DOUBLE
+  - name: DT_ZINC
+    type: DOUBLE
+  - name: DT_COPP
+    type: DOUBLE
+  - name: DT_SEL
+    type: DOUBLE
+  - name: DT_CAFFN
+    type: DOUBLE
+  - name: DT_THEO
+    type: DOUBLE
+  - name: CYAD
+    type: DOUBLE
+  - name: DELPH
+    type: DOUBLE
+  - name: MALVIDIN
+    type: DOUBLE
+  - name: PELARGDIN
+    type: DOUBLE
+  - name: PEONIDIN
+    type: DOUBLE
+  - name: PETUNIDIN
+    type: DOUBLE
+  - name: EPICATEC
+    type: DOUBLE
+  - name: EPICATECG3
+    type: DOUBLE
+  - name: EPICATEGC
+    type: DOUBLE
+  - name: EPICATEGC3G
+    type: DOUBLE
+  - name: CATECHIN
+    type: DOUBLE
+  - name: GALCATEGC
+    type: DOUBLE
+  - name: THEAFLAVIN
+    type: DOUBLE
+  - name: THEAFLV33D
+    type: DOUBLE
+  - name: THEAFLV3PG
+    type: DOUBLE
+  - name: THEAFLV3G
+    type: DOUBLE
+  - name: THEARBIGN
+    type: DOUBLE
+  - name: ERIODICTYL
+    type: DOUBLE
+  - name: HESPT
+    type: DOUBLE
+  - name: NARING
+    type: DOUBLE
+  - name: APIGEN
+    type: DOUBLE
+  - name: LUTEOL
+    type: DOUBLE
+  - name: ISORHMNTN
+    type: DOUBLE
+  - name: KAEMF
+    type: DOUBLE
+  - name: MYRIC
+    type: DOUBLE
+  - name: QUERCE
+    type: DOUBLE
+  - name: DDZEIN
+    type: DOUBLE
+  - name: GNSTEIN
+    type: DOUBLE
+  - name: GLYCTEIN
+    type: DOUBLE
+  - name: T_ANTHOCYADNS
+    type: DOUBLE
+  - name: T_FLAVAN3OLS
+    type: DOUBLE
+  - name: T_FLAVANONES
+    type: DOUBLE
+  - name: T_FLAVONES
+    type: DOUBLE
+  - name: T_FLAVONOLS
+    type: DOUBLE
+  - name: T_ISOFLAVONES
+    type: DOUBLE
+  - name: T_FLAVONOIDS
+    type: DOUBLE
+  - name: GI
+    type: DOUBLE
+  - name: GL
+    type: DOUBLE
+  - name: F_TOTAL
+    type: DOUBLE
+  - name: F_CITMLB
+    type: DOUBLE
+  - name: F_OTHER
+    type: DOUBLE
+  - name: F_JUICE
+    type: DOUBLE
+  - name: F_WHOLE
+    type: DOUBLE
+  - name: V_TOTAL
+    type: DOUBLE
+  - name: V_DRKGR
+    type: DOUBLE
+  - name: V_REDOR_TOTAL
+    type: DOUBLE
+  - name: V_REDOR_TOMATO
+    type: DOUBLE
+  - name: V_REDOR_OTHER
+    type: DOUBLE
+  - name: V_STARCHY_TOTAL
+    type: DOUBLE
+  - name: V_STARCHY_POTATO
+    type: DOUBLE
+  - name: V_STARCHY_OTHER
+    type: DOUBLE
+  - name: V_OTHER
+    type: DOUBLE
+  - name: V_LEGUMES
+    type: DOUBLE
+  - name: G_TOTAL
+    type: DOUBLE
+  - name: G_WHOLE
+    type: DOUBLE
+  - name: G_REFINED
+    type: DOUBLE
+  - name: PF_TOTAL
+    type: DOUBLE
+  - name: PF_MPS_TOTAL
+    type: DOUBLE
+  - name: PF_MEAT
+    type: DOUBLE
+  - name: PF_CUREDMEAT
+    type: DOUBLE
+  - name: PF_ORGAN
+    type: DOUBLE
+  - name: PF_POULT
+    type: DOUBLE
+  - name: PF_SEAFD_HI
+    type: DOUBLE
+  - name: PF_SEAFD_LOW
+    type: DOUBLE
+  - name: PF_EGGS
+    type: DOUBLE
+  - name: PF_SOY
+    type: DOUBLE
+  - name: PF_NUTSDS
+    type: DOUBLE
+  - name: PF_LEGUMES
+    type: DOUBLE
+  - name: D_TOTAL
+    type: DOUBLE
+  - name: D_MILK
+    type: DOUBLE
+  - name: D_YOGURT
+    type: DOUBLE
+  - name: D_CHEESE
+    type: DOUBLE
+  - name: OILS
+    type: DOUBLE
+  - name: SOLID_FATS
+    type: DOUBLE
+  - name: ADD_SUGARS
+    type: DOUBLE
+  - name: A_DRINKS
+    type: DOUBLE
+  - name: D_SOY
+    type: DOUBLE
+  - name: M_SOY_ND
+    type: DOUBLE
+  - name: ADSUG_NA
+    type: DOUBLE
+  - name: OILS_M
+    type: DOUBLE
+  - name: SOLID_FATS_M
+    type: DOUBLE
+  - name: A_BEV_KC
+    type: DOUBLE
+  - name: AA_BEV
+    type: DOUBLE
+  - name: AV_TOT_S
+    type: DOUBLE
+  - name: AF_TOT_S
+    type: DOUBLE
+  - name: GROUP_A_SUGBEV_TOTAL_GRAMS
+    type: DOUBLE
+  - name: R_MEAT_S
+    type: DOUBLE
+  - name: A_NUT_S
+    type: DOUBLE
+  - name: A_BEAN_S
+    type: DOUBLE
+  - name: DHA_EPA
+    type: DOUBLE
+  - name: ADJ_PUFA
+    type: DOUBLE
+  - name: DT_TRFAT
+    type: DOUBLE
+  - name: PCTALCH
+    type: DOUBLE
+  - name: PSGTOT
+    type: DOUBLE
+  - name: PSGWHL
+    type: DOUBLE
+  - name: PSVEGNBP
+    type: DOUBLE
+  - name: PSVEGDKG
+    type: DOUBLE
+  - name: PSVEGORN
+    type: DOUBLE
+  - name: PSVEGOTH
+    type: DOUBLE
+  - name: PSVEGPOT
+    type: DOUBLE
+  - name: PSFRUIT
+    type: DOUBLE
+  - name: PSDAIRY
+    type: DOUBLE
+  - name: PSMFP
+    type: DOUBLE
+  - name: PSNUTSD
+    type: DOUBLE
+  - name: PSEGGS
+    type: DOUBLE
+  - name: PSLEGSOY
+    type: DOUBLE
+  - name: PSOILS
+    type: DOUBLE
+  - name: SUP_VITA
+    type: DOUBLE
+  - name: SUP_LZ
+    type: BIGINT
+  - name: SUP_VITD
+    type: DOUBLE
+  - name: SUP_VITE
+    type: DOUBLE
+  - name: SUP_VK
+    type: DOUBLE
+  - name: SUP_B1
+    type: DOUBLE
+  - name: SUP_B2
+    type: DOUBLE
+  - name: SUP_NIAC
+    type: DOUBLE
+  - name: SUP_B6
+    type: DOUBLE
+  - name: SUP_FOL
+    type: DOUBLE
+  - name: SUP_B12
+    type: DOUBLE
+  - name: SUP_VITC
+    type: DOUBLE
+  - name: SUP_CA
+    type: DOUBLE
+  - name: SUP_CU
+    type: DOUBLE
+  - name: SUP_IRON
+    type: DOUBLE
+  - name: SUP_MG
+    type: DOUBLE
+  - name: SUP_SE
+    type: DOUBLE
+  - name: SUP_ZINC
+    type: DOUBLE
+  - name: SUP_ALA
+    type: BIGINT
+  - name: SUP_OLEIC
+    type: DOUBLE
+  - name: SUP_OM_3
+    type: DOUBLE
+  - name: SUP_OM_6
+    type: DOUBLE
+  - name: SUP_EPA
+    type: DOUBLE
+  - name: SUP_DHA
+    type: DOUBLE
+  - name: SUP_FIBER
+    type: DOUBLE
+  - name: KCAL_EXPENDITURE_ALL
+    type: DOUBLE
+  - name: KCAL_EXPENDITURE_RECR
+    type: DOUBLE
+  - name: LOWMINS
+    type: DOUBLE
+  - name: MODMINS
+    type: DOUBLE
+  - name: VIGMINS
+    type: DOUBLE
+  - name: RECRMINS
+    type: DOUBLE
+  - name: METMINS
+    type: DOUBLE
+  - name: METMINRECR
+    type: DOUBLE
+  - name: GROUP_BREAKFAST_SANDWICH_WITH_EGG_OR_MEAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OTHER_EGGS_OR_OMELETS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_YOGURT_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_YOGURT_PLAIN_LOW_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_YOGURT_PLAIN_NON_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_YOGURT_PLAIN_FULL_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_YOGURT_SWEET_LOW_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_YOGURT_SWEET_NON_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_YOGURT_SWEET_FULL_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COTTAGE_CHEESE_RICOTTA_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CREAM_CHEESE_SOUR_CREAM_DIP_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CHEESE_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_CHEESE_LOW_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CHEESE_FULL_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ALL_BRAN_ORIGINAL_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ALL_BRAN_COMPLETE_COMPLETE_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_APPLE_JACKS_COOKIE_CRISP_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BRAN_FLAKES_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_CAP_N_CRUNCH_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CHEERIOS_PLAIN_OR_MULTI_GRAIN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CHEERIOS_HONEY_NUT_FLAVORS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CHEX_WHEAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CHEX_OTHER_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CINNAMON_TOAST_CRUNCH_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COCOA_KRISPIES_PEBBLES_PUFFS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CORN_FLAKES_CORN_PUFFS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CORN_POPS_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_FIBER_ONE_BRAN_BUDS_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_FROOT_LOOPS_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_FROSTED_FLAKES_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_FROSTED_MINI_WHEATS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_GRANOLA_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_GRAPE_NUTS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_HONEY_BUNCHES_OF_OATS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_KASHI_GOLEAN_HEART_2_HEART_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_LIFE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_LUCKY_CHARMS_FRUITY_PEBBLES_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_OATMEAL_SQUARES_OAT_BRAN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_RAISIN_BRAN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_RICE_KRISPIES_PUFFED_RICE_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_SHREDDED_WHEAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SPECIAL_K_PLAIN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SPECIAL_K_FLAVORS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_TOTAL_PRODUCT_19_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_WHEATIES_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_OTHER_NOT_WHOLEGRAIN_SWEET_CEREAL_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_OTHER_NOT_WHOLEGRAIN_UNSWEETENED_CEREAL_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OTHER_WHOLE_GRAIN_CEREAL_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OTHER_FIBER_CEREAL_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_DONT_EAT_CEREAL_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_OATMEAL_WHOLEGRAIN_COOKED_CEREAL_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_GRITS_CREAM_OF_WHEAT_MUSH_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BROWN_RICE_DISHES_WITH_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_WHITE_RICE_DISHES_WITH_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_PANCAKES_WAFFLES_FRENCH_TOAST_CREPES_WITH_SYRUP_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BREAKFAST_PASTRY_MUFFINS_QUICK_BREAD_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BISCUITS_SCONES_CROISSANTS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CORN_BREAD_HUSH_PUPPIES_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SANDWICH_BUNS_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_SANDWICH_BUNS_WHITE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SANDWICH_BUNS_MULTIGRAIN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SANDWICH_BUNS_WHOLEGRAIN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SANDWICH_BUNS_MIX_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BAGELS_ENG_MUFFIN_PITA_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_BAGELS_WHITE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BAGELS_MULTIGRAIN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BAGELS_WHOLEGRAIN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BAGELS_MIX_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_TORTILLAS_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_TORTILLAS_CORN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_TORTILLAS_FLOUR_WHEAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_TORTILLA_MIX_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BREAD_DINNER_ROLLS_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_BREAD_WHITE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BREAD_MULTI_GRAIN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BREAD_WHOLE_GRAIN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BREAD_MIX_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BROCCOLI_BRUSSEL_SPROUTS_CHINESE_BROCCOLI_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CARROTS_CARROT_MIXES_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CORN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_GREEN_BEANS_PEAS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_GREENS_SPINACH_COOKED_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CABBAGE_SLAW_CHINESE_CABBAGES_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_GREEN_SALAD_RAW_SPINACH_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_RAW_TOMATOES_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SALAD_DRESSING_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_SALAD_DRESSING_LOW_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SALAD_DRESSING_FAT_FREE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SALAD_DRESSING_REGULAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SALAD_DRESSING_OIL_AND_VINEGAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_AVOCADO_GUACAMOLE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SWEET_POTATO_YAM_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_FRENCH_FRIES_FRIED_POTATOES_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_WHITE_POTATOES_NOT_FRIED_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ANY_OTHER_VEGETABLE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_MELONS_YEAR_ROUND_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_STRAWBERRIES_YEAR_ROUND_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BANANAS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_APPLES_PEARS_RAW_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ORANGE_TANGERINE_GRAPEFRUIT_FRESH_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_PEACH_NECTARINE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OTHER_FRESH_FRUIT_FRUIT_SALAD_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_RAISINS_DRIED_FRUIT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CANNED_FRUIT_APPLESAUCE_WITH_CANNED_CITRUS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_REFRIED_BEANS_HUMMUS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OTHER_BEANS_LENTIL_CHILI_NOT_RICE_AND_BEANS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_TOFU_OR_TEMPEH_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_MEAT_SUBSTITUTES_VEGETABLE_MEATS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BEAN_SPLIT_PEA_LENTIL_SOUP_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_VEGETABLE_SOUP_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OTHER_SOUP_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_PIZZA_PIZZA_POCKETS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_MAC_AND_CHEESE_CHEESE_DISHES_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SPAGHETTI_PASTA_WITH_TOMATO_SAUCE_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_SPAGHETTI_MEATLESS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SPAGHETTI_WITH_MEAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OTHER_NOODLES_PASTA_SOPA_SECA_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_OTHER_NOODLES_WHITE_PASTA_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OTHER_NOODLES_PASTA_MIX_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OTHER_NOODLES_WHOLE_GRAIN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_EGG_ROLLS_WANTONS_DUMPLINGS_SAMOSAS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BURGERS_GROUND_MEATS_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_HAMBURGER_PATTY_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CHEESEBURGER_MEAT_AND_CHEESE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_TURKEY_BURGER_THE_MEAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_HOT_DOG_DINNER_SAUSAGE_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_HOT_DOG_BEEF_OR_PORK_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_HOT_DOG_POULTRY_LOW_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SAUSAGE_BACON_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_LUNCH_MEATS_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_LUNCH_MEATS_BEEF_OR_PORK_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_LUNCH_MEATS_POULTRY_LOW_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_MEAT_LOAF_MEAT_BALLS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_STEAK_ROAST_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_STEAK_ROAST_FAT_OFF_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_STEAK_ROAST_FAT_ON_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_TACOS_BURRITOS_ENCHILADAS_WITH_MEAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_RIBS_SPARERIBS_BBQ_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_PORK_CHOPS_ROAST_HAM_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_PORK_FAT_OFF_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_PORK_FAT_ON_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_MIXED_DISH_WITH_BEEF_PORK_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_LIVER_LIVERWURST_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_FEET_NECK_TAIL_TONGUE_CHITLINS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_VEAL_LAMB_GOAT_GAME_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_FRIED_OR_COATED_CHICKEN_TURKEY_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_FRIED_OR_COATED_CHIX_NO_SKIN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_FRIED_OR_COATED_CHIX_ATE_SKIN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_FRIED_OR_COATED_CHIX_ATE_SKIN_SOMETIMES_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_POULTRY_UNCOATED_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_POULTRY_UNCOATED_NO_SKIN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_POULTRY_UNCOATED_ATE_SKIN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_POULTRY_UNCOATED_ATE_SKIN_SOMETIMES_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_CHICKEN_OR_TURKEY_MIXED_DISH_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OYSTERS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SHELLFISH_EXCEPT_OYSTERS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_TUNA_TUNA_IN_DISHES_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_HIGH_OMEGA3_FISH_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_FRIED_FISH_FISH_STICKS_SANDWICH_BREADED_FILLETS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OTHER_FISH_DISHES_LOW_OMEGA3_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_PEANUT_BUTTER_NUT_BUTTER_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_WALNUTS_FLAX_SEEDS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_PEANUTS_OTHER_NUTS_SEEDS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_PROTEIN_ENERGY_BARS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_HIGH_ENERGY_BAR_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_HIGH_PROTEIN_BAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CEREAL_GRANOLA_BARS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_POPCORN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_POPCORN_AIR_POP_FAT_FREE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_POPCORN_LOW_FAT_LIGHT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_POPCORN_REGULAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_POPCORN_CARAMEL_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_WHOLE_GRAIN_CRACKERS_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_WHOLE_GRAIN_CRACKERS_LOW_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_WHOLE_GRAIN_CRACKERS_REGULAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OTHER_CRACKERS_PRETZELS_NOT_WHOLEGRAIN_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_OTHER_CRACKERS_PRETZELS_LOW_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OTHER_CRACKERS_FILLED_PRETZELS_REGULAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_TORTILLA_OR_CORN_CHIPS_CORN_NUTS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CORN_PUFFS_TWISTS_SOY_POTATO_CHIPS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_DONUTS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CAKE_CUPCAKES_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_CAKE_LOW_SUGAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CAKE_LOW_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CAKE_REGULAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COOKIES_BROWNIES_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_COOKIES_LOW_SUGAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COOKIES_LOW_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COOKIES_REGULAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_PUMPKIN_SWEET_POTATO_PIE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OTHER_PIE_OR_COBBLER_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ICE_CREAM_FROZEN_YOGURT_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_ICE_CREAM_LOW_SUGAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ICE_CREAM_FROZEN_YOGURT_LOW_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ICE_CREAM_REGULAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_PUDDING_CUSTARD_FLAN_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CHOCOLATE_SAUCE_TOPPINGS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_POPSICLES_SHERBET_ICES_JELLO_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CHOCOLATE_CANDY_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CANDY_NOT_CHOCOLATE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_MARGARINE_AT_TABLE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BUTTER_AT_TABLE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_MAYO_SANDWICH_SPREAD_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_MAYO_LIGHT_LOW_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_MAYO_REGULAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_KETCHUP_SALSA_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_MUSTARD_BBQ_SAUCE_SOY_SAUCE_ETC_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_GRAVY_RICH_SAUCE_PEANUT_SAUCE_MOLE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_JAM_JELLY_MARMALADE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_PICKLES_SAUERKRAUT_KIMCHI_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_TABLE_SALT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_CHOCOLATE_MILK_COCOA_HOT_CHOCOLATE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_MILK_AND_MILK_SUBSTITUTES_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_WHOLE_MILK_4_PCT_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_REDUCED_FAT_2_PCT_MILK_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_LOW_FAT_1_PCT_MILK_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_NON_FAT_SKIM_MILK_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SOY_MILK_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_RICE_MILK_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_OTHER_MILK_ALMOND_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_MEAL_DRINKS_PROTEIN_DRINKS_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_SLIM_FAST_TYPE_REGULAR_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_SLIM_FAST_TYPE_LOW_CARB_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_HIGH_PROTEIN_DRINKS_REGULAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_HIGH_PROTEIN_DRINKS_LOW_CARB_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_TOMATO_VEGETABLE_JUICE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ORANGE_GRAPEFRUIT_JUICE_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_OJ_CALCIUM_FORTIFIED_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OJ_GRAPEFRUIT_JUICE_NOT_CALCIUM_FORTIFIED_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_OTHER_100_PCT_JUICE_AND_BLENDS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_HI_C_CRANBERRY_JUICE_TANG_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_DRINKS_WITH_SOME_JUICE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ICED_TEA_ALL_KINDS_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_ICE_TEA_HOME_NO_SUGAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ICE_TEA_HOME_SUGAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ICE_TEA_BOTTLE_NO_SUGAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ICE_TEA_BOTTLE_SUGAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_GATORADE_POWERADE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ENERGY_DRINKS_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_ENERGY_DRINKS_LOW_SUGAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_ENERGY_DRINKS_SUGAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_KOOLAID_HORCHATA_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_LOW_CAL_KOOLAID_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_REGULAR_KOOLAID_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SODA_OR_POP_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_SODA_DIET_NO_CAFFEINE_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_SODA_DIET_CAFFEINE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SODA_SUGAR_NO_CAFFEINE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SODA_SUGAR_CAFFEINE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_SODA_DIET_UNSURE_CAFFEINE_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_SODA_SUGAR_UNSURE_CAFFEINE_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_SODA_DECAF_UNSURE_SUGAR_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_SODA_CAFFEINE_UNSURE_SUGAR_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_BEER_ANY_KIND_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_BEER_REGULAR_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BEER_LIGHT_LOW_CARB_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BEER_NON_ALCOHOLIC_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_WINE_WINE_COOLERS_ALL_KINDS_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_WINE_RED_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_WINE_WHITE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_BOTH_RED_AND_WHITE_WINE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_LIQUOR_COCKTAILS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_WATER_BOTTLED_OR_TAP_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_MILKY_COFFEE_DRINK_ANY_KIND_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_LATTE_CAPPUCCINO_1_PCT_OR_2_PCT_MILK_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_LATTE_CAPPUCCINO_WHOLE_MILK_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_LATTE_CAPPUCCINO_NON_FAT_MILK_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_LATTE_CAPPUCCINO_SOY_MILK_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_LATTE_CAPPUCCINO_SOMETHING_ELSE_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_CAFE_LECHE_1_PCT_OR_2_PCT_MILK_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_CAFE_LECHE_WHOLE_MILK_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_CAFE_LECHE_NON_FAT_MILK_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_CAFE_LECHE_SOY_MILK_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_CAFE_LECHE_SOMETHING_ELSE_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_MOCHA_1_PCT_OR_2_PCT_MILK_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_MOCHA_WHOLE_MILK_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_MOCHA_NON_FAT_MILK_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_MOCHA_SOY_MILK_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_MOCHA_SOMETHING_ELSE_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_FRAPPUCCINO_1_PCT_OR_2_PCT_MILK_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_FRAPPUCCINO_WHOLE_MILK_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_FRAPPUCCINO_NON_FAT_MILK_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_FRAPPUCCINO_SOY_MILK_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_FRAPPUCCINO_SOMETHING_ELSE_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_COFFEE_DECAF_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COFFEE_CAFFEINE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COFFEE_BOTH_KINDS_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_COFFEE_DONT_DRINK_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_HOT_TEA_DECAF_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_HOT_TEA_CAFFEINE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_HOT_TEA_BOTH_KINDS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_HOT_TEA_DONT_DRINK_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_CREAM_OR_HALF_N_HALF_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_NON_DAIRY_CREAMER_LIQUID_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_CONDENSED_MILK_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_SUGAR_OR_HONEY_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_COOKING_FAT_POP_MIX_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_NON_STICK_SPRAY_SR27_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_COOK_FAT_BUTTER_OR_GHEE_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COOK_FAT_BUTTER_MARGARINE_BLEND_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COOK_FAT_MARGARINE_STICK_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COOK_FAT_MARGARINE_TUB_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COOK_FAT_MARGARINE_LOW_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COOK_FAT_OLIVE_OIL_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COOK_FAT_CANOLA_SAFFLOWER_OILS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COOK_FAT_CORN_VEGETABLE_OIL_BLENDS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COOK_FAT_PEANUT_OIL_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_COOK_FAT_ANIMAL_FAT_TOTAL_GRAMS
+    type: DOUBLE
+  - name: GROUP_COOK_FAT_VEG_SHORTENING_CRISCO_TOTAL_GRAMS
+    type: BIGINT
+  - name: GROUP_COOK_FAT_OTHER_OIL_COCONUT_VARIOUS_NFS_VEGETABLE_OILS_TOTAL_GRAMS
+    type: DOUBLE
+  - name: ASH
+    type: DOUBLE
+  - name: SUCS
+    type: DOUBLE
+  - name: GLUS
+    type: DOUBLE
+  - name: FRUS
+    type: DOUBLE
+  - name: LACS
+    type: DOUBLE
+  - name: MALS
+    type: DOUBLE
+  - name: GALS
+    type: DOUBLE
+  - name: STARCH
+    type: DOUBLE
+  - name: MN
+    type: DOUBLE
+  - name: FLD
+    type: DOUBLE
+  - name: NIACIN_EQUIV_NE
+    type: DOUBLE
+  - name: PANTAC
+    type: DOUBLE
+  - name: B_CAROTENE_EQUIV
+    type: DOUBLE
+  - name: VITA_IU
+    type: DOUBLE
+  - name: TOCPHB
+    type: DOUBLE
+  - name: TOCPHG
+    type: DOUBLE
+  - name: TOCPHD
+    type: DOUBLE
+  - name: TOCTRA
+    type: DOUBLE
+  - name: TOCTRB
+    type: DOUBLE
+  - name: TOCTRG
+    type: DOUBLE
+  - name: TOCTRD
+    type: DOUBLE
+  - name: ERGCAL
+    type: DOUBLE
+  - name: CHOCAL
+    type: DOUBLE
+  - name: VITD_IU
+    type: DOUBLE
+  - name: VITE_IU
+    type: DOUBLE
+  - name: VITK1D
+    type: DOUBLE
+  - name: MK4
+    type: DOUBLE
+  - name: F13D0
+    type: DOUBLE
+  - name: F15D0
+    type: DOUBLE
+  - name: F17D0
+    type: DOUBLE
+  - name: F20D0
+    type: DOUBLE
+  - name: F22D0
+    type: DOUBLE
+  - name: F24D0
+    type: DOUBLE
+  - name: F14D1
+    type: DOUBLE
+  - name: F15D1
+    type: DOUBLE
+  - name: F16D1C
+    type: DOUBLE
+  - name: F17D1
+    type: DOUBLE
+  - name: F18D1C
+    type: DOUBLE
+  - name: F22D1C
+    type: DOUBLE
+  - name: F24D1C
+    type: DOUBLE
+  - name: F18D2CN6
+    type: DOUBLE
+  - name: F18D2CLA
+    type: DOUBLE
+  - name: F18D2I
+    type: DOUBLE
+  - name: F18D3CN3
+    type: DOUBLE
+  - name: F18D3CN6
+    type: DOUBLE
+  - name: F18D3I
+    type: DOUBLE
+  - name: F20D2CN6
+    type: DOUBLE
+  - name: F20D3
+    type: DOUBLE
+  - name: F20D3N3
+    type: DOUBLE
+  - name: F20D3N6
+    type: DOUBLE
+  - name: F20D4N6
+    type: BIGINT
+  - name: F21D5
+    type: BIGINT
+  - name: F22D4
+    type: DOUBLE
+  - name: F16D1T
+    type: DOUBLE
+  - name: F18D1T
+    type: DOUBLE
+  - name: F18D1TN7
+    type: DOUBLE
+  - name: F22D1T
+    type: DOUBLE
+  - name: F18D2TT
+    type: DOUBLE
+  - name: F18D2T
+    type: DOUBLE
+  - name: FATRNM
+    type: DOUBLE
+  - name: FATRNP
+    type: DOUBLE
+  - name: PHYSTR
+    type: DOUBLE
+  - name: STID7
+    type: DOUBLE
+  - name: CAMD5
+    type: DOUBLE
+  - name: SITSTR
+    type: DOUBLE
+  - name: TRP_G
+    type: DOUBLE
+  - name: THR_G
+    type: DOUBLE
+  - name: ILE_G
+    type: DOUBLE
+  - name: LEU_G
+    type: DOUBLE
+  - name: LYS_G
+    type: DOUBLE
+  - name: MET_G
+    type: DOUBLE
+  - name: CYS_G
+    type: DOUBLE
+  - name: PHE_G
+    type: DOUBLE
+  - name: TYR_G
+    type: DOUBLE
+  - name: VAL_G
+    type: DOUBLE
+  - name: ARG_G
+    type: DOUBLE
+  - name: HISTN_G
+    type: DOUBLE
+  - name: ALA_G
+    type: DOUBLE
+  - name: ASP_G
+    type: DOUBLE
+  - name: GLU_G
+    type: DOUBLE
+  - name: GLY_G
+    type: DOUBLE
+  - name: PRO_G
+    type: DOUBLE
+  - name: SER_G
+    type: DOUBLE
+  - name: HYP
+    type: DOUBLE
+  - name: PAC_1
+    type: DOUBLE
+  - name: PAC_2
+    type: DOUBLE
+  - name: PAC_3
+    type: DOUBLE
+  - name: PAC_4
+    type: DOUBLE
+  - name: PAC_7
+    type: DOUBLE
+  - name: PAC10
+    type: DOUBLE
+  - name: BETN_C
+    type: DOUBLE
+  - name: CHOLNFR
+    type: DOUBLE
+  - name: CHOLNGPC
+    type: DOUBLE
+  - name: CHOLNPC
+    type: DOUBLE
+  - name: CHOLNPTC
+    type: DOUBLE
+  - name: CHOLNSM
+    type: DOUBLE
+  - name: DT_FIBER_INSOL
+    type: DOUBLE
+  - name: DT_FIBER_SOL
+    type: DOUBLE
+  - name: DT_PROT_ANIMAL
+    type: DOUBLE
+  - name: DT_PROT_VEGETABLE
+    type: DOUBLE
+  - name: DT_NITROGEN
+    type: DOUBLE
+  - name: PHYTIC_ACID
+    type: DOUBLE
+  - name: OXALIC_ACID
+    type: DOUBLE
+  - name: COUMESTROL
+    type: DOUBLE
+  - name: BIOCHANIN_A
+    type: DOUBLE
+  - name: FORMONONETIN
+    type: DOUBLE

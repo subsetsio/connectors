@@ -1,0 +1,90 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: balance_of_payments
+    type: VARCHAR
+  - name: trade_category
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: month
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: trade
+    type: VARCHAR
+  - name: country_group
+    type: VARCHAR
+  - name: country_sub_group
+    type: VARCHAR
+  - name: countries
+    type: VARCHAR
+  - name: currency
+    type: VARCHAR
+  - name: reference_rate
+    type: VARCHAR
+  - name: ex_rate_fluctuations
+    type: VARCHAR
+  - name: commodities
+    type: VARCHAR
+  - name: export_commodities
+    type: VARCHAR
+  - name: external_debt_sector
+    type: VARCHAR
+  - name: external_debt_other_sector
+    type: JSON
+  - name: external_debt_term
+    type: VARCHAR
+  - name: external_debt_items
+    type: VARCHAR
+  - name: foreign_exchange_reserve_type
+    type: JSON
+  - name: foreign_exchange_reserve_currency
+    type: JSON
+  - name: period
+    type: JSON
+  - name: import_commodities
+    type: JSON
+  - name: external_debt_agreement
+    type: JSON
+  - name: external_debt_category
+    type: JSON
+  - name: external_debt_sub_category
+    type: JSON
+  - name: external_debt_institutions
+    type: JSON
+  - name: bop_overall
+    type: JSON
+  - name: transaction_type
+    type: JSON
+  - name: quarter
+    type: JSON
+  - name: sub_category
+    type: JSON
+  - name: components
+    type: JSON
+  - name: sub_components
+    type: JSON
+  - name: currency_type
+    type: JSON
+  - name: NRI_deposits_sub_indicator
+    type: JSON
+  - name: NRI_deposits_category
+    type: JSON
+  - name: transaction
+    type: JSON
+  - name: market
+    type: JSON
+  - name: conversion
+    type: JSON
+  - name: product
+    type: JSON
+  - name: trade_type
+    type: JSON
+  - name: value
+    type: DOUBLE

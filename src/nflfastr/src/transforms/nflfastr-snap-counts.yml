@@ -1,0 +1,37 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [game_id, pfr_player_id]
+temporal: season
+sort: [season, game_id, pfr_player_id]
+columns:
+  - name: game_id
+    type: VARCHAR
+  - name: pfr_game_id
+    type: VARCHAR
+  - name: season
+    type: INTEGER
+  - name: game_type
+    type: VARCHAR
+  - name: week
+    type: INTEGER
+  - name: player
+    type: VARCHAR
+  - name: pfr_player_id
+    type: VARCHAR
+  - name: position
+    type: VARCHAR
+  - name: team
+    type: VARCHAR
+  - name: opponent
+    type: VARCHAR
+  - name: offense_snaps
+    type: DOUBLE
+  - name: offense_pct
+    type: DOUBLE
+  - name: defense_snaps
+    type: DOUBLE
+  - name: defense_pct
+    type: DOUBLE
+  - name: st_snaps
+    type: DOUBLE
+  - name: st_pct
+    type: DOUBLE

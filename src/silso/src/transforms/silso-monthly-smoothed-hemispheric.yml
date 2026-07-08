@@ -1,0 +1,27 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date]
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: DATE
+  - name: smoothed_sn_total
+    type: DOUBLE
+  - name: smoothed_sn_north
+    type: DOUBLE
+  - name: smoothed_sn_south
+    type: DOUBLE
+  - name: std_total
+    type: DOUBLE
+  - name: std_north
+    type: DOUBLE
+  - name: std_south
+    type: DOUBLE
+  - name: n_obs_total
+    type: BIGINT
+  - name: n_obs_north
+    type: BIGINT
+  - name: n_obs_south
+    type: BIGINT
+  - name: definitive
+    type: BOOLEAN

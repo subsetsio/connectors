@@ -1,0 +1,31 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [arxiv_id]
+temporal: created_date
+sort: [created_date, arxiv_id]
+columns:
+  - name: arxiv_id
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: abstract
+    type: VARCHAR
+  - name: authors
+    type: VARCHAR
+  - name: submitter
+    type: VARCHAR
+  - name: primary_category
+    type: VARCHAR
+  - name: categories
+    type: VARCHAR
+  - name: doi
+    type: VARCHAR
+  - name: journal_ref
+    type: VARCHAR
+  - name: report_no
+    type: VARCHAR
+  - name: comments
+    type: VARCHAR
+  - name: num_versions
+    type: INTEGER
+  - name: created_date
+    type: DATE

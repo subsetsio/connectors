@@ -1,0 +1,432 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: ano
+    type: BIGINT
+  - name: regiao
+    type: VARCHAR
+  - name: localizacao
+    type: VARCHAR
+  - name: rede
+    type: VARCHAR
+  - name: atu_ei
+    type: DOUBLE
+  - name: atu_ei_creche
+    type: DOUBLE
+  - name: atu_ei_pre_escola
+    type: DOUBLE
+  - name: atu_ef
+    type: DOUBLE
+  - name: atu_ef_anos_iniciais
+    type: DOUBLE
+  - name: atu_ef_anos_finais
+    type: DOUBLE
+  - name: atu_ef_1_ano
+    type: DOUBLE
+  - name: atu_ef_2_ano
+    type: DOUBLE
+  - name: atu_ef_3_ano
+    type: DOUBLE
+  - name: atu_ef_4_ano
+    type: DOUBLE
+  - name: atu_ef_5_ano
+    type: DOUBLE
+  - name: atu_ef_6_ano
+    type: DOUBLE
+  - name: atu_ef_7_ano
+    type: DOUBLE
+  - name: atu_ef_8_ano
+    type: DOUBLE
+  - name: atu_ef_9_ano
+    type: DOUBLE
+  - name: atu_ef_turmas_unif_multi_fluxo
+    type: DOUBLE
+  - name: atu_em
+    type: DOUBLE
+  - name: atu_em_1_ano
+    type: DOUBLE
+  - name: atu_em_2_ano
+    type: DOUBLE
+  - name: atu_em_3_ano
+    type: DOUBLE
+  - name: atu_em_4_ano
+    type: DOUBLE
+  - name: atu_em_nao_seriado
+    type: DOUBLE
+  - name: had_ei
+    type: DOUBLE
+  - name: had_ei_creche
+    type: DOUBLE
+  - name: had_ei_pre_escola
+    type: DOUBLE
+  - name: had_ef
+    type: DOUBLE
+  - name: had_ef_anos_iniciais
+    type: DOUBLE
+  - name: had_ef_anos_finais
+    type: DOUBLE
+  - name: had_ef_1_ano
+    type: DOUBLE
+  - name: had_ef_2_ano
+    type: DOUBLE
+  - name: had_ef_3_ano
+    type: DOUBLE
+  - name: had_ef_4_ano
+    type: DOUBLE
+  - name: had_ef_5_ano
+    type: DOUBLE
+  - name: had_ef_6_ano
+    type: DOUBLE
+  - name: had_ef_7_ano
+    type: DOUBLE
+  - name: had_ef_8_ano
+    type: DOUBLE
+  - name: had_ef_9_ano
+    type: DOUBLE
+  - name: had_em
+    type: DOUBLE
+  - name: had_em_1_ano
+    type: DOUBLE
+  - name: had_em_2_ano
+    type: DOUBLE
+  - name: had_em_3_ano
+    type: DOUBLE
+  - name: had_em_4_ano
+    type: DOUBLE
+  - name: had_em_nao_seriado
+    type: DOUBLE
+  - name: tdi_ef
+    type: DOUBLE
+  - name: tdi_ef_anos_iniciais
+    type: DOUBLE
+  - name: tdi_ef_anos_finais
+    type: DOUBLE
+  - name: tdi_ef_1_ano
+    type: DOUBLE
+  - name: tdi_ef_2_ano
+    type: DOUBLE
+  - name: tdi_ef_3_ano
+    type: DOUBLE
+  - name: tdi_ef_4_ano
+    type: DOUBLE
+  - name: tdi_ef_5_ano
+    type: DOUBLE
+  - name: tdi_ef_6_ano
+    type: DOUBLE
+  - name: tdi_ef_7_ano
+    type: DOUBLE
+  - name: tdi_ef_8_ano
+    type: DOUBLE
+  - name: tdi_ef_9_ano
+    type: DOUBLE
+  - name: tdi_em
+    type: DOUBLE
+  - name: tdi_em_1_ano
+    type: DOUBLE
+  - name: tdi_em_2_ano
+    type: DOUBLE
+  - name: tdi_em_3_ano
+    type: DOUBLE
+  - name: tdi_em_4_ano
+    type: DOUBLE
+  - name: taxa_aprovacao_ef
+    type: DOUBLE
+  - name: taxa_aprovacao_ef_anos_iniciais
+    type: DOUBLE
+  - name: taxa_aprovacao_ef_anos_finais
+    type: DOUBLE
+  - name: taxa_aprovacao_ef_1_ano
+    type: DOUBLE
+  - name: taxa_aprovacao_ef_2_ano
+    type: DOUBLE
+  - name: taxa_aprovacao_ef_3_ano
+    type: DOUBLE
+  - name: taxa_aprovacao_ef_4_ano
+    type: DOUBLE
+  - name: taxa_aprovacao_ef_5_ano
+    type: DOUBLE
+  - name: taxa_aprovacao_ef_6_ano
+    type: DOUBLE
+  - name: taxa_aprovacao_ef_7_ano
+    type: DOUBLE
+  - name: taxa_aprovacao_ef_8_ano
+    type: DOUBLE
+  - name: taxa_aprovacao_ef_9_ano
+    type: DOUBLE
+  - name: taxa_aprovacao_em
+    type: DOUBLE
+  - name: taxa_aprovacao_em_1_ano
+    type: DOUBLE
+  - name: taxa_aprovacao_em_2_ano
+    type: DOUBLE
+  - name: taxa_aprovacao_em_3_ano
+    type: DOUBLE
+  - name: taxa_aprovacao_em_4_ano
+    type: DOUBLE
+  - name: taxa_aprovacao_em_nao_seriado
+    type: DOUBLE
+  - name: taxa_reprovacao_ef
+    type: DOUBLE
+  - name: taxa_reprovacao_ef_anos_iniciais
+    type: DOUBLE
+  - name: taxa_reprovacao_ef_anos_finais
+    type: DOUBLE
+  - name: taxa_reprovacao_ef_1_ano
+    type: DOUBLE
+  - name: taxa_reprovacao_ef_2_ano
+    type: DOUBLE
+  - name: taxa_reprovacao_ef_3_ano
+    type: DOUBLE
+  - name: taxa_reprovacao_ef_4_ano
+    type: DOUBLE
+  - name: taxa_reprovacao_ef_5_ano
+    type: DOUBLE
+  - name: taxa_reprovacao_ef_6_ano
+    type: DOUBLE
+  - name: taxa_reprovacao_ef_7_ano
+    type: DOUBLE
+  - name: taxa_reprovacao_ef_8_ano
+    type: DOUBLE
+  - name: taxa_reprovacao_ef_9_ano
+    type: DOUBLE
+  - name: taxa_reprovacao_em
+    type: DOUBLE
+  - name: taxa_reprovacao_em_1_ano
+    type: DOUBLE
+  - name: taxa_reprovacao_em_2_ano
+    type: DOUBLE
+  - name: taxa_reprovacao_em_3_ano
+    type: DOUBLE
+  - name: taxa_reprovacao_em_4_ano
+    type: DOUBLE
+  - name: taxa_reprovacao_em_nao_seriado
+    type: DOUBLE
+  - name: taxa_abandono_ef
+    type: DOUBLE
+  - name: taxa_abandono_ef_anos_iniciais
+    type: DOUBLE
+  - name: taxa_abandono_ef_anos_finais
+    type: DOUBLE
+  - name: taxa_abandono_ef_1_ano
+    type: DOUBLE
+  - name: taxa_abandono_ef_2_ano
+    type: DOUBLE
+  - name: taxa_abandono_ef_3_ano
+    type: DOUBLE
+  - name: taxa_abandono_ef_4_ano
+    type: DOUBLE
+  - name: taxa_abandono_ef_5_ano
+    type: DOUBLE
+  - name: taxa_abandono_ef_6_ano
+    type: DOUBLE
+  - name: taxa_abandono_ef_7_ano
+    type: DOUBLE
+  - name: taxa_abandono_ef_8_ano
+    type: DOUBLE
+  - name: taxa_abandono_ef_9_ano
+    type: DOUBLE
+  - name: taxa_abandono_em
+    type: DOUBLE
+  - name: taxa_abandono_em_1_ano
+    type: DOUBLE
+  - name: taxa_abandono_em_2_ano
+    type: DOUBLE
+  - name: taxa_abandono_em_3_ano
+    type: DOUBLE
+  - name: taxa_abandono_em_4_ano
+    type: DOUBLE
+  - name: taxa_abandono_em_nao_seriado
+    type: DOUBLE
+  - name: tnr_ef
+    type: DOUBLE
+  - name: tnr_ef_anos_iniciais
+    type: DOUBLE
+  - name: tnr_ef_anos_finais
+    type: DOUBLE
+  - name: tnr_ef_1_ano
+    type: DOUBLE
+  - name: tnr_ef_2_ano
+    type: DOUBLE
+  - name: tnr_ef_3_ano
+    type: DOUBLE
+  - name: tnr_ef_4_ano
+    type: DOUBLE
+  - name: tnr_ef_5_ano
+    type: DOUBLE
+  - name: tnr_ef_6_ano
+    type: DOUBLE
+  - name: tnr_ef_7_ano
+    type: DOUBLE
+  - name: tnr_ef_8_ano
+    type: DOUBLE
+  - name: tnr_ef_9_ano
+    type: DOUBLE
+  - name: tnr_em
+    type: DOUBLE
+  - name: tnr_em_1_ano
+    type: DOUBLE
+  - name: tnr_em_2_ano
+    type: DOUBLE
+  - name: tnr_em_3_ano
+    type: DOUBLE
+  - name: tnr_em_4_ano
+    type: DOUBLE
+  - name: tnr_em_nao_seriado
+    type: DOUBLE
+  - name: dsu_ei
+    type: DOUBLE
+  - name: dsu_ei_creche
+    type: DOUBLE
+  - name: dsu_ei_pre_escola
+    type: DOUBLE
+  - name: dsu_ef
+    type: DOUBLE
+  - name: dsu_ef_anos_iniciais
+    type: DOUBLE
+  - name: dsu_ef_anos_finais
+    type: DOUBLE
+  - name: dsu_em
+    type: DOUBLE
+  - name: dsu_ep
+    type: DOUBLE
+  - name: dsu_eja
+    type: DOUBLE
+  - name: dsu_ee
+    type: DOUBLE
+  - name: afd_ei_grupo_1
+    type: DOUBLE
+  - name: afd_ei_grupo_2
+    type: DOUBLE
+  - name: afd_ei_grupo_3
+    type: DOUBLE
+  - name: afd_ei_grupo_4
+    type: DOUBLE
+  - name: afd_ei_grupo_5
+    type: DOUBLE
+  - name: afd_ef_grupo_1
+    type: DOUBLE
+  - name: afd_ef_grupo_2
+    type: DOUBLE
+  - name: afd_ef_grupo_3
+    type: DOUBLE
+  - name: afd_ef_grupo_4
+    type: DOUBLE
+  - name: afd_ef_grupo_5
+    type: DOUBLE
+  - name: afd_ef_anos_iniciais_grupo_1
+    type: DOUBLE
+  - name: afd_ef_anos_iniciais_grupo_2
+    type: DOUBLE
+  - name: afd_ef_anos_iniciais_grupo_3
+    type: DOUBLE
+  - name: afd_ef_anos_iniciais_grupo_4
+    type: DOUBLE
+  - name: afd_ef_anos_iniciais_grupo_5
+    type: DOUBLE
+  - name: afd_ef_anos_finais_grupo_1
+    type: DOUBLE
+  - name: afd_ef_anos_finais_grupo_2
+    type: DOUBLE
+  - name: afd_ef_anos_finais_grupo_3
+    type: DOUBLE
+  - name: afd_ef_anos_finais_grupo_4
+    type: DOUBLE
+  - name: afd_ef_anos_finais_grupo_5
+    type: DOUBLE
+  - name: afd_em_grupo_1
+    type: DOUBLE
+  - name: afd_em_grupo_2
+    type: DOUBLE
+  - name: afd_em_grupo_3
+    type: DOUBLE
+  - name: afd_em_grupo_4
+    type: DOUBLE
+  - name: afd_em_grupo_5
+    type: DOUBLE
+  - name: afd_eja_fundamental_grupo_1
+    type: DOUBLE
+  - name: afd_eja_fundamental_grupo_2
+    type: DOUBLE
+  - name: afd_eja_fundamental_grupo_3
+    type: DOUBLE
+  - name: afd_eja_fundamental_grupo_4
+    type: DOUBLE
+  - name: afd_eja_fundamental_grupo_5
+    type: DOUBLE
+  - name: afd_eja_medio_grupo_1
+    type: DOUBLE
+  - name: afd_eja_medio_grupo_2
+    type: DOUBLE
+  - name: afd_eja_medio_grupo_3
+    type: DOUBLE
+  - name: afd_eja_medio_grupo_4
+    type: DOUBLE
+  - name: afd_eja_medio_grupo_5
+    type: DOUBLE
+  - name: ird_baixa_regularidade
+    type: DOUBLE
+  - name: ird_media_baixa
+    type: DOUBLE
+  - name: ird_media_alta
+    type: DOUBLE
+  - name: ird_alta
+    type: DOUBLE
+  - name: ied_ef_nivel_1
+    type: DOUBLE
+  - name: ied_ef_nivel_2
+    type: DOUBLE
+  - name: ied_ef_nivel_3
+    type: DOUBLE
+  - name: ied_ef_nivel_4
+    type: DOUBLE
+  - name: ied_ef_nivel_5
+    type: DOUBLE
+  - name: ied_ef_nivel_6
+    type: DOUBLE
+  - name: ied_ef_anos_iniciais_nivel_1
+    type: DOUBLE
+  - name: ied_ef_anos_iniciais_nivel_2
+    type: DOUBLE
+  - name: ied_ef_anos_iniciais_nivel_3
+    type: DOUBLE
+  - name: ied_ef_anos_iniciais_nivel_4
+    type: DOUBLE
+  - name: ied_ef_anos_iniciais_nivel_5
+    type: DOUBLE
+  - name: ied_ef_anos_iniciais_nivel_6
+    type: DOUBLE
+  - name: ied_ef_anos_finais_nivel_1
+    type: DOUBLE
+  - name: ied_ef_anos_finais_nivel_2
+    type: DOUBLE
+  - name: ied_ef_anos_finais_nivel_3
+    type: DOUBLE
+  - name: ied_ef_anos_finais_nivel_4
+    type: DOUBLE
+  - name: ied_ef_anos_finais_nivel_5
+    type: DOUBLE
+  - name: ied_ef_anos_finais_nivel_6
+    type: DOUBLE
+  - name: ied_em_nivel_1
+    type: DOUBLE
+  - name: ied_em_nivel_2
+    type: DOUBLE
+  - name: ied_em_nivel_3
+    type: DOUBLE
+  - name: ied_em_nivel_4
+    type: DOUBLE
+  - name: ied_em_nivel_5
+    type: DOUBLE
+  - name: ied_em_nivel_6
+    type: DOUBLE
+  - name: icg_nivel_1
+    type: DOUBLE
+  - name: icg_nivel_2
+    type: DOUBLE
+  - name: icg_nivel_3
+    type: DOUBLE
+  - name: icg_nivel_4
+    type: DOUBLE
+  - name: icg_nivel_5
+    type: DOUBLE
+  - name: icg_nivel_6
+    type: DOUBLE

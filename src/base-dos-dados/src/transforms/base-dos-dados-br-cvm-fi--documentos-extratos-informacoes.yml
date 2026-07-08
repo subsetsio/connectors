@@ -1,0 +1,240 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: ano
+    type: BIGINT
+  - name: mes
+    type: BIGINT
+  - name: cnpj
+    type: BIGINT
+  - name: cnpj_basico
+    type: BIGINT
+  - name: denominacao_social
+    type: VARCHAR
+  - name: data_competencia
+    type: VARCHAR
+  - name: condominio
+    type: VARCHAR
+  - name: indicador_negociacao_mercado
+    type: BIGINT
+  - name: nome_mercado
+    type: VARCHAR
+  - name: tipo_prazo
+    type: VARCHAR
+  - name: prazo
+    type: VARCHAR
+  - name: publico_alvo
+    type: VARCHAR
+  - name: indicador_registro_anbima
+    type: BIGINT
+  - name: classificacao_anbima
+    type: VARCHAR
+  - name: forma_distribuicao
+    type: VARCHAR
+  - name: politica_investimento
+    type: VARCHAR
+  - name: porcentagem_aplicacao_maximo_fundo_ligado
+    type: DOUBLE
+  - name: indicador_resultados_carteira_incorporado_patrimonio_liquido
+    type: BIGINT
+  - name: indicador_fundo_cotas
+    type: BIGINT
+  - name: indicador_fundo_espelho
+    type: DOUBLE
+  - name: aplicacao_minima
+    type: DOUBLE
+  - name: indicador_atualizacao_diaria_cota
+    type: BIGINT
+  - name: prazo_atualizacao_valor_cota
+    type: VARCHAR
+  - name: cota_emissao
+    type: VARCHAR
+  - name: patrimonio_liquido_cota
+    type: VARCHAR
+  - name: quantidade_dias_conversao_cota
+    type: BIGINT
+  - name: quantidade_dias_pagamento_cota
+    type: BIGINT
+  - name: quantidade_dias_carencia_resgate_cotas
+    type: DOUBLE
+  - name: quantidade_dias_pagamento_resgates
+    type: BIGINT
+  - name: tipo_prazo_pagamento_resgates
+    type: VARCHAR
+  - name: indicador_cobranca_taxa_saida_resgates
+    type: BIGINT
+  - name: taxa_administracao
+    type: DOUBLE
+  - name: taxa_maxima_custodia
+    type: DOUBLE
+  - name: indicador_taxa_performance
+    type: BIGINT
+  - name: taxa_performance
+    type: DOUBLE
+  - name: parametro_taxa_performance
+    type: VARCHAR
+  - name: porcentagem_indice_referencia_taxa_performance
+    type: DOUBLE
+  - name: valor_cumpom
+    type: DOUBLE
+  - name: metodo_calculo_taxa_performance
+    type: VARCHAR
+  - name: informacoes_adicionais_taxa_performance
+    type: VARCHAR
+  - name: indicador_taxa_ingresso
+    type: BIGINT
+  - name: taxa_ingresso_real
+    type: DOUBLE
+  - name: porcentagem_taxa_ingresso
+    type: DOUBLE
+  - name: indicador_cobranca_taxa_saida
+    type: BIGINT
+  - name: taxa_saida_real
+    type: DOUBLE
+  - name: porcentagem_taxa_saida
+    type: DOUBLE
+  - name: indicador_operacoes_derivativos
+    type: BIGINT
+  - name: finalidade_operacoes_derivativos
+    type: VARCHAR
+  - name: indicador_operacoes_valor_superior_patrimonio_liquido
+    type: BIGINT
+  - name: fator_limite_total_operacoes_patrimonio_liquido
+    type: DOUBLE
+  - name: indicador_contraparte_ligado
+    type: BIGINT
+  - name: indicador_investimentos_exterior
+    type: BIGINT
+  - name: aplicacao_maxima_ativo_exterior
+    type: DOUBLE
+  - name: indicador_ativo_credito_privado
+    type: BIGINT
+  - name: aplicacao_maxima_ativo_credito_privado
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_emissor_instituicao_financeira
+    type: BIGINT
+  - name: porcentagem_exposicao_maxima_emissor_instituicao_financeira
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_emissor_companhias_abertas
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_emissor_companhias_abertas
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_emissor_fundos_investimento
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_emissor_fundos_investimento
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_emissor_uniao_federal
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_emissor_uniao_federal
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_emissor_adm_gestor_pessoas_ligadas
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_emissor_adm_gestor_pessoas_ligadas
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_emissor_outros
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_emissor_outros
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cotas_fi
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_cotas_fi
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cotas_fic
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_cotas_fic
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cotas_fi_qualificados
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_cotas_fi_qualificados
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cotas_fic_qualificados
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_cotas_fic_qualificados
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cotas_fi_profissionais
+    type: BIGINT
+  - name: porcentagem_exposicao_maxima_cotas_fi_profissionais
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cotas_fic_profissionais
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_cotas_fic_profissionais
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cotas_fii
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_cotas_fii
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cotas_fidc
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_cotas_fidc
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cotas_ficfidc
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_cotas_ficfidc
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cotas_fidic_np
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_cotas_fidic_np
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cotas_ficfidic_np
+    type: BIGINT
+  - name: porcentagem_exposicao_maxima_cotas_ficfidc_np
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cotas_etf
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_cotas_etf
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cota_cri
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_cota_cri
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_titulos_publicos_operacoes_comprimessadas
+    type: BIGINT
+  - name: porcentagem_exposicao_maxima_titulos_publicos_operacoes_comprimessadas
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_ouro
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_ouro
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_titulos_instituicao_financeira_bacen
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_titulos_instituicao_financeira_bacen
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_valores_mobiliarios
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_valores_mobiliarios
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_acoes
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_acoes
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_debenture
+    type: BIGINT
+  - name: porcentagem_exposicao_maxima_debenture
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_notas_promissorias
+    type: BIGINT
+  - name: porcentagem_exposicao_maxima_notas_promissorias
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_operacoes_compromissadas_titulos_credito_privado
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_operacoes_compromissadas_titulos_credito_privado
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_derivativos
+    type: BIGINT
+  - name: porcentagem_exposicao_maxima_derivativos
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_outros
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_outros
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cotas_fmiee
+    type: DOUBLE
+  - name: porcentagem_exposicao_maxima_cotas_fmiee
+    type: BIGINT
+  - name: porcentagem_exposicao_minima_cotas_fip
+    type: BIGINT
+  - name: porcentagem_exposicao_maxima_cotas_fip
+    type: DOUBLE
+  - name: porcentagem_exposicao_minima_cotas_ficfip
+    type: BIGINT
+  - name: porcentagem_exposicao_maxima_cotas_ficfip
+    type: DOUBLE

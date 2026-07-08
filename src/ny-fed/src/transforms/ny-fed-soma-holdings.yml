@@ -1,0 +1,26 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: as_of_date
+    type: DATE
+  - name: instrument_group
+    type: VARCHAR
+  - name: security_type
+    type: VARCHAR
+  - name: cusip
+    type: VARCHAR
+  - name: maturity_date
+    type: DATE
+  - name: issuer
+    type: VARCHAR
+  - name: coupon_rate
+    type: DOUBLE
+  - name: par_value
+    type: DOUBLE
+  - name: inflation_compensation
+    type: DOUBLE
+  - name: percent_outstanding
+    type: DOUBLE
+  - name: change_from_prior_week
+    type: DOUBLE
+  - name: change_from_prior_year
+    type: DOUBLE

@@ -1,0 +1,17 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [variable, forecast_season, horizon, publication_round]
+temporal: forecast_season
+sort: [forecast_season, variable, horizon, publication_round]
+columns:
+  - name: variable
+    type: VARCHAR
+  - name: forecast_season
+    type: VARCHAR
+  - name: horizon
+    type: VARCHAR
+  - name: publication_round
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

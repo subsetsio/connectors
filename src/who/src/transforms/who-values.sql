@@ -1,0 +1,25 @@
+SELECT
+    CAST(Id AS BIGINT)              AS observation_id,
+    IndicatorCode                   AS indicator_code,
+    SpatialDimType                  AS spatial_dim_type,
+    SpatialDim                      AS spatial_dim,
+    ParentLocationCode              AS parent_location_code,
+    ParentLocation                  AS parent_location,
+    TimeDimType                     AS time_dim_type,
+    TRY_CAST(TimeDim AS INTEGER)    AS year,
+    TimeDim                         AS time_dim,
+    Dim1Type                        AS dim1_type,
+    Dim1                            AS dim1,
+    Dim2Type                        AS dim2_type,
+    Dim2                            AS dim2,
+    Dim3Type                        AS dim3_type,
+    Dim3                            AS dim3,
+    DataSourceDim                   AS data_source,
+    Value                           AS value_display,
+    NumericValue                    AS numeric_value,
+    Low                             AS low,
+    High                            AS high,
+    Comments                        AS comments,
+    TRY_CAST(Date AS TIMESTAMP)     AS updated_at
+FROM "who-values"
+WHERE Id IS NOT NULL

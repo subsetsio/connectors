@@ -1,0 +1,5 @@
+SELECT
+    * EXCLUDE (OBS_VALUE),
+    TRY_CAST(OBS_VALUE AS DOUBLE) AS obs_value
+FROM "national-bank-of-belgium-df-cbanacce4"
+WHERE TRY_CAST(OBS_VALUE AS DOUBLE) IS NOT NULL

@@ -1,0 +1,17 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [category, technology, date, metric]
+temporal: date
+sort: [date, category, technology, metric]
+columns:
+  - name: category
+    type: VARCHAR
+  - name: category_name
+    type: VARCHAR
+  - name: technology
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: metric
+    type: VARCHAR
+  - name: percent
+    type: DOUBLE

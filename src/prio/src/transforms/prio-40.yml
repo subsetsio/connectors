@@ -1,0 +1,57 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [pgid, measurement_date]
+temporal: measurement_date
+sort: [measurement_date, pgid]
+columns:
+  - name: pgid
+    type: INTEGER
+  - name: measurement_date
+    type: DATE
+  - name: cru_tmp
+    type: DOUBLE
+  - name: cru_pre
+    type: DOUBLE
+  - name: cru_pet
+    type: DOUBLE
+  - name: cshapes_cover_share
+    type: DOUBLE
+  - name: cshapes_gwcode
+    type: DOUBLE
+  - name: geoepr_reg_excluded
+    type: DOUBLE
+  - name: bdist1
+    type: DOUBLE
+  - name: bdist2
+    type: DOUBLE
+  - name: bdist3
+    type: DOUBLE
+  - name: ghsl_population_grid
+    type: DOUBLE
+  - name: hilda_cropland
+    type: DOUBLE
+  - name: hilda_forest
+    type: DOUBLE
+  - name: hilda_grassland
+    type: DOUBLE
+  - name: hilda_ocean
+    type: DOUBLE
+  - name: hilda_pasture
+    type: DOUBLE
+  - name: hilda_sparse
+    type: DOUBLE
+  - name: hilda_urban
+    type: DOUBLE
+  - name: hilda_water
+    type: DOUBLE
+  - name: linight_mean
+    type: DOUBLE
+  - name: geopko_troops_count
+    type: DOUBLE
+  - name: geopko_operations_count
+    type: DOUBLE
+  - name: speibase6_mean
+    type: DOUBLE
+  - name: ghs_wup_degurba_urban
+    type: DOUBLE
+  - name: ucdp_ged
+    type: DOUBLE

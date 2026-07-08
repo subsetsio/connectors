@@ -1,0 +1,33 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [comet_id]
+temporal: perihelion_date
+sort: [perihelion_date, comet_id]
+columns:
+  - name: comet_id
+    type: BIGINT
+  - name: comet_type
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: fullname
+    type: VARCHAR
+  - name: mpc_name
+    type: VARCHAR
+  - name: icq_name
+    type: VARCHAR
+  - name: component
+    type: VARCHAR
+  - name: current_mag
+    type: DOUBLE
+  - name: perihelion_date
+    type: TIMESTAMP
+  - name: perihelion_mag
+    type: DOUBLE
+  - name: peak_mag
+    type: DOUBLE
+  - name: peak_mag_date
+    type: DATE
+  - name: is_observed
+    type: BOOLEAN
+  - name: is_active
+    type: BOOLEAN

@@ -1,0 +1,32 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: ghsa_id
+    type: VARCHAR
+  - name: cve_id
+    type: VARCHAR
+  - name: aliases
+    type: VARCHAR
+  - name: summary
+    type: VARCHAR
+  - name: severity
+    type: VARCHAR
+  - name: cvss_v3_vector
+    type: VARCHAR
+  - name: cvss_v4_vector
+    type: VARCHAR
+  - name: cwe_ids
+    type: VARCHAR
+  - name: github_reviewed
+    type: BOOLEAN
+  - name: published_at
+    type: TIMESTAMP
+  - name: modified_at
+    type: TIMESTAMP
+  - name: withdrawn_at
+    type: TIMESTAMP
+  - name: github_reviewed_at
+    type: TIMESTAMP
+  - name: nvd_published_at
+    type: TIMESTAMP
+  - name: source_directory
+    type: VARCHAR

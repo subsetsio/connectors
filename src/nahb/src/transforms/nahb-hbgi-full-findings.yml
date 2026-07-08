@@ -1,0 +1,17 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, metric, segment, geography]
+temporal: date
+sort: [date, metric, segment, geography]
+columns:
+  - name: period
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: metric
+    type: VARCHAR
+  - name: segment
+    type: VARCHAR
+  - name: geography
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

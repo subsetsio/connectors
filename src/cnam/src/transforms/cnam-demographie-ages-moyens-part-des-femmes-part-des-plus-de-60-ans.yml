@@ -1,0 +1,28 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: annee
+sort: [annee]
+columns:
+  - name: annee
+    type: DATE
+  - name: profession_sante
+    type: VARCHAR
+  - name: part_femmes
+    type: DOUBLE
+  - name: part_hommes
+    type: DOUBLE
+  - name: part_des_60_ans_et_plus
+    type: DOUBLE
+  - name: part_des_moins_de_60_ans
+    type: DOUBLE
+  - name: age_moyen_global
+    type: BIGINT
+  - name: age_moyen_femmes
+    type: BIGINT
+  - name: age_moyen_hommes
+    type: BIGINT
+  - name: vision_generale_all
+    type: VARCHAR
+  - name: vision_generale_prescriptions
+    type: VARCHAR
+  - name: vision_profession_territoire
+    type: VARCHAR

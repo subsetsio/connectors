@@ -1,0 +1,25 @@
+SELECT * REPLACE (
+    TRY_CAST(NULLIF("Year", '') AS INTEGER) AS "Year",
+    TRY_CAST(NULLIF("CensusTractMinorityRatioPercent", '') AS DOUBLE) AS "CensusTractMinorityRatioPercent",
+    TRY_CAST(NULLIF("CensusTractMedFamIncomeAmount", '') AS DOUBLE) AS "CensusTractMedFamIncomeAmount",
+    TRY_CAST(NULLIF("LocalAreaMedianIncomeAmount", '') AS DOUBLE) AS "LocalAreaMedianIncomeAmount",
+    TRY_CAST(NULLIF("TotalMonthlyIncomeAmount", '') AS DOUBLE) AS "TotalMonthlyIncomeAmount",
+    TRY_CAST(NULLIF("HUDMedianIncomeAmount", '') AS DOUBLE) AS "HUDMedianIncomeAmount",
+    TRY_CAST(NULLIF("LoanAcquisitionActualUPBAmt", '') AS DOUBLE) AS "LoanAcquisitionActualUPBAmt",
+    TRY_CAST(NULLIF("LTVRatioPercent", '') AS DOUBLE) AS "LTVRatioPercent",
+    TRY_CAST(NULLIF("ScheduledTotalPaymentCount", '') AS DOUBLE) AS "ScheduledTotalPaymentCount",
+    TRY_CAST(NULLIF("LoanAmortizationMaxTermMonths", '') AS DOUBLE) AS "LoanAmortizationMaxTermMonths",
+    TRY_CAST(NULLIF("BorrowerCount", '') AS DOUBLE) AS "BorrowerCount",
+    TRY_CAST(NULLIF("Borrower1AgeAtApplicationYears", '') AS DOUBLE) AS "Borrower1AgeAtApplicationYears",
+    TRY_CAST(NULLIF("Borrower2AgeAtApplicationYears", '') AS DOUBLE) AS "Borrower2AgeAtApplicationYears",
+    TRY_CAST(NULLIF("PropertyUnitCount", '') AS DOUBLE) AS "PropertyUnitCount",
+    TRY_CAST(NULLIF("NoteRatePercent", '') AS DOUBLE) AS "NoteRatePercent",
+    TRY_CAST(NULLIF("NoteAmount", '') AS DOUBLE) AS "NoteAmount",
+    TRY_CAST(NULLIF("HousingExpenseRatioPercent", '') AS DOUBLE) AS "HousingExpenseRatioPercent",
+    TRY_CAST(NULLIF("TotalDebtExpenseRatioPercent", '') AS DOUBLE) AS "TotalDebtExpenseRatioPercent",
+    TRY_CAST(NULLIF("Borrower1CreditScoreValue", '') AS DOUBLE) AS "Borrower1CreditScoreValue",
+    TRY_CAST(NULLIF("Borrower2CreditScoreValue", '') AS DOUBLE) AS "Borrower2CreditScoreValue",
+    TRY_CAST(NULLIF("PMICoveragePercent", '') AS DOUBLE) AS "PMICoveragePercent",
+    TRY_CAST(NULLIF("MarginRatePercent", '') AS DOUBLE) AS "MarginRatePercent"
+)
+FROM "fhfa-pudb-fhlbank"

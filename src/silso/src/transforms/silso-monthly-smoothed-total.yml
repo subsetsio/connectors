@@ -1,0 +1,15 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date]
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: DATE
+  - name: smoothed_sunspot_number
+    type: DOUBLE
+  - name: std_dev
+    type: DOUBLE
+  - name: n_observations
+    type: BIGINT
+  - name: definitive
+    type: BOOLEAN

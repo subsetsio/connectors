@@ -1,0 +1,56 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: market_id
+    type: VARCHAR
+  - name: event_id
+    type: VARCHAR
+  - name: event_slug
+    type: VARCHAR
+  - name: event_title
+    type: VARCHAR
+  - name: neg_risk
+    type: BOOLEAN
+  - name: question
+    type: VARCHAR
+  - name: slug
+    type: VARCHAR
+  - name: condition_id
+    type: VARCHAR
+  - name: outcome_yes_price
+    type: DOUBLE
+  - name: outcome_no_price
+    type: DOUBLE
+  - name: volume_usd
+    type: DOUBLE
+  - name: volume_24h_usd
+    type: DOUBLE
+  - name: volume_1wk_usd
+    type: DOUBLE
+  - name: volume_1mo_usd
+    type: DOUBLE
+  - name: volume_1yr_usd
+    type: DOUBLE
+  - name: liquidity_usd
+    type: DOUBLE
+  - name: last_trade_price
+    type: DOUBLE
+  - name: best_bid
+    type: DOUBLE
+  - name: best_ask
+    type: DOUBLE
+  - name: spread
+    type: DOUBLE
+  - name: competitive
+    type: DOUBLE
+  - name: is_active
+    type: BOOLEAN
+  - name: is_closed
+    type: BOOLEAN
+  - name: start_date
+    type: DATE
+  - name: end_date
+    type: DATE
+  - name: created_at
+    type: TIMESTAMP
+  - name: updated_at
+    type: TIMESTAMP

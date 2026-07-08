@@ -1,0 +1,23 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [id]
+temporal: start_date
+sort: [start_date, id]
+columns:
+  - name: id
+    type: INTEGER
+  - name: cabinet_name
+    type: VARCHAR
+  - name: start_date
+    type: DATE
+  - name: termination_date
+    type: DATE
+  - name: caretaker
+    type: BOOLEAN
+  - name: country_id
+    type: INTEGER
+  - name: election_id
+    type: INTEGER
+  - name: wikipedia
+    type: VARCHAR
+  - name: data_source
+    type: VARCHAR

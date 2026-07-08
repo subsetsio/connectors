@@ -1,0 +1,19 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [firm_name, product_category, year]
+temporal: year
+sort: [year, firm_name, product_category]
+columns:
+  - name: firm_name
+    type: VARCHAR
+  - name: product_category
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: band_claims_frequency
+    type: VARCHAR
+  - name: band_claims_acceptance_rate
+    type: VARCHAR
+  - name: band_average_claims_payout
+    type: VARCHAR
+  - name: band_claims_complaints_pct
+    type: VARCHAR

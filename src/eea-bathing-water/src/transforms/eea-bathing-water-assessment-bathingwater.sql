@@ -1,0 +1,22 @@
+SELECT
+        "bathingWaterIdentifier",
+        "countryCode",
+        "hasAbnormalSituationDuringInsufficientInterval",
+        "hasAbnormalSituationDuringSeasonStart",
+        "hasBeenContinuouslyMonitoredInLastAssessmentPeriod",
+        "hasBeenInaccessibleInLastAssessmentPeriod",
+        "hasBeenNewlyIdentifiedInLastAssessmentPeriod",
+        "hasInaccessibilityDuringInsufficientInterval",
+        "hasInaccessibilityDuringSeasonStart",
+        "hasMetMaximumIntervalBetweenSamples",
+        "hasMinimumNumberOfSamples",
+        "hasMinimumNumberOfSamplesInLastAssessmentPeriod",
+        "hasPreSeasonSample",
+        "hasQualityChangesDuringInsufficientInterval",
+        "hasQualityChangesDuringSeasonStart",
+        "hasQualityChangesInLastAssessmentPeriod",
+        "hasReportedData",
+        "reasonForManualClassification",
+        "season",
+        "UID"
+    FROM "eea-bathing-water-assessment-bathingwater"

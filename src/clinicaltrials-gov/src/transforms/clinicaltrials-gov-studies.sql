@@ -1,0 +1,28 @@
+SELECT DISTINCT
+    nct_id,
+    brief_title,
+    official_title,
+    overall_status,
+    why_stopped,
+    start_date,
+    primary_completion_date,
+    completion_date,
+    study_first_post_date,
+    last_update_post_date,
+    study_type,
+    phase,
+    CAST(enrollment_count AS BIGINT) AS enrollment_count,
+    enrollment_type,
+    allocation,
+    intervention_model,
+    primary_purpose,
+    masking,
+    sex,
+    minimum_age,
+    maximum_age,
+    CAST(healthy_volunteers AS BOOLEAN) AS healthy_volunteers,
+    lead_sponsor_name,
+    lead_sponsor_class,
+    responsible_party_type
+FROM "clinicaltrials-gov-studies"
+WHERE nct_id IS NOT NULL

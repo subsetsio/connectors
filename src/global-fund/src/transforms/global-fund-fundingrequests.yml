@@ -1,0 +1,42 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: submissionDate
+    type: TIMESTAMP
+  - name: window
+    type: VARCHAR
+  - name: reviewApproach
+    type: VARCHAR
+  - name: reviewDate
+    type: TIMESTAMP
+  - name: reviewOutcome
+    type: VARCHAR
+  - name: differentiationCategory
+    type: VARCHAR
+  - name: geographyId
+    type: UUID
+  - name: id
+    type: UUID
+  - name: code
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: title
+    type: JSON
+  - name: description
+    type: JSON
+  - name: statusId
+    type: JSON
+  - name: periodStartDate
+    type: JSON
+  - name: periodEndDate
+    type: JSON
+  - name: periodFrom
+    type: VARCHAR
+  - name: periodTo
+    type: VARCHAR
+  - name: iatI_ActivityIdentifier
+    type: JSON
+  - name: dateTimeCreated
+    type: TIMESTAMP
+  - name: dateTimeUpdated
+    type: TIMESTAMP

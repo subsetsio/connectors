@@ -1,0 +1,112 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: member_id
+    type: BIGINT
+  - name: new_2025_data
+    type: VARCHAR
+  - name: survey_sent_in_2025
+    type: VARCHAR
+  - name: last_data_submission
+    type: VARCHAR
+  - name: transit_agency_name
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state_or_province
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: month_of_most_recent_fare_change
+    type: VARCHAR
+  - name: year_of_most_recent_fare_change
+    type: VARCHAR
+  - name: disabled_minimum_base_fare
+    type: DOUBLE
+  - name: disabled_maximum_base_fare
+    type: DOUBLE
+  - name: attendant_to_disabled_minimum_base_fare
+    type: DOUBLE
+  - name: attendant_to_disabled_maximum_base_fare
+    type: DOUBLE
+  - name: companion_to_disabled_minimum_base_fare
+    type: DOUBLE
+  - name: companion_to_disabled_maximum_base_fare
+    type: DOUBLE
+  - name: senior_minimum_base_fare
+    type: DOUBLE
+  - name: senior_maximum_base_fare
+    type: DOUBLE
+  - name: pre_school_child_minimum_base_fare
+    type: DOUBLE
+  - name: pre_school_chiild_maximum_base_fare
+    type: DOUBLE
+  - name: elementary_school_child_minimum_base_fare
+    type: DOUBLE
+  - name: elementary_school_child_maximum_base_fare
+    type: DOUBLE
+  - name: secondary_school_child_minimum_base_fare
+    type: DOUBLE
+  - name: secondary_school_child_maximum_base_fare
+    type: DOUBLE
+  - name: university_student_minimum_base_fare
+    type: DOUBLE
+  - name: university_student_maximum_base_fare
+    type: DOUBLE
+  - name: low_income_person_minimum_base_fare
+    type: DOUBLE
+  - name: low_income_person_maximum_base_fare
+    type: DOUBLE
+  - name: social_service_agency_client_minimum_base_fare
+    type: DOUBLE
+  - name: social_service_agency_client_maximum_base_fare
+    type: DOUBLE
+  - name: general_public_minimum_base_fare
+    type: DOUBLE
+  - name: general_public_maximum_base_fare
+    type: DOUBLE
+  - name: service_in_areas_fixed_route_service_does_not_operate
+    type: VARCHAR
+  - name: service_during_hours_fixed_route_service_does_not_operate
+    type: VARCHAR
+  - name: service_during_same_hours_and_in_same_areas_as_fixed_route_service
+    type: VARCHAR
+  - name: service_only_when_space_available
+    type: VARCHAR
+  - name: mobility_pilot_with_uber
+    type: VARCHAR
+  - name: mobility_pilot_with_lyft
+    type: VARCHAR
+  - name: mobility_pilot_with_via
+    type: VARCHAR
+  - name: mobility_pilot_with_other
+    type: VARCHAR
+  - name: self_operated_mobility_pilot
+    type: VARCHAR
+  - name: first_last_mile_mobility_pilot
+    type: VARCHAR
+  - name: paratransit_supplement_mobility_pilot
+    type: VARCHAR
+  - name: other_service_mobility_pilot
+    type: VARCHAR
+  - name: mobility_pilot_per_trip_subsidy_discount_voucher_amount_minimum
+    type: DOUBLE
+  - name: mobility_pilot_per_trip_subsidy_discount_voucher_amount_maximum
+    type: DOUBLE
+  - name: mobility_pilot_flat_or_distance_based_fare_maximum
+    type: DOUBLE
+  - name: mobility_pilot_flat_or_distance_based_fare_minimum
+    type: DOUBLE
+  - name: mobility_pilot_fare_notes
+    type: VARCHAR
+  - name: microtransit_mobility_pilot
+    type: VARCHAR
+  - name: pilotnotes
+    type: VARCHAR
+  - name: suspended_fares_due_to_covid_19
+    type: VARCHAR
+  - name: reduced_fares_due_to_covid_19
+    type: VARCHAR
+  - name: start_of_fare_suspension_reduction
+    type: VARCHAR
+  - name: end_of_fare_suspension_reduction
+    type: VARCHAR

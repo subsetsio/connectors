@@ -1,0 +1,23 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, cbsa_code]
+temporal: date
+sort: [date, cbsa_code]
+columns:
+  - name: date
+    type: DATE
+  - name: cbsa_code
+    type: VARCHAR
+  - name: metro_name
+    type: VARCHAR
+  - name: hotness_rank
+    type: BIGINT
+  - name: hotness_score
+    type: DOUBLE
+  - name: supply_score
+    type: DOUBLE
+  - name: demand_score
+    type: DOUBLE
+  - name: median_days_on_market
+    type: BIGINT
+  - name: median_listing_price
+    type: DOUBLE

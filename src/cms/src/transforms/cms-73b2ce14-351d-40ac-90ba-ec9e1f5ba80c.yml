@@ -1,0 +1,380 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: ACO_ID
+    type: VARCHAR
+  - name: ACO_Name
+    type: VARCHAR
+  - name: Agree_Type
+    type: VARCHAR
+  - name: Agreement_Period_Num
+    type: VARCHAR
+  - name: Current_Start_Date
+    type: DATE
+  - name: Current_Track
+    type: VARCHAR
+  - name: Risk_Model
+    type: VARCHAR
+  - name: Assign_Type
+    type: VARCHAR
+  - name: SNF_Waiver
+    type: VARCHAR
+  - name: N_AB
+    type: VARCHAR
+  - name: Sav_rate
+    type: VARCHAR
+  - name: MinSavPerc
+    type: VARCHAR
+  - name: BnchmkMinExp
+    type: VARCHAR
+  - name: GenSaveLoss
+    type: VARCHAR
+  - name: DisAdj
+    type: VARCHAR
+  - name: Impact_Mid_Year_Termination
+    type: VARCHAR
+  - name: EarnSaveLoss
+    type: VARCHAR
+  - name: DisAffQual
+    type: VARCHAR
+  - name: Met_QPS
+    type: VARCHAR
+  - name: Met_AltQPS
+    type: VARCHAR
+  - name: Met_40pctl
+    type: VARCHAR
+  - name: Met_Incentive
+    type: VARCHAR
+  - name: Met_FirstYear
+    type: VARCHAR
+  - name: Report_WI
+    type: VARCHAR
+  - name: Report_eCQM_CQM_MedicareCQM
+    type: VARCHAR
+  - name: Met_SSP_quality_reporting_requirements
+    type: VARCHAR
+  - name: QualScore
+    type: VARCHAR
+  - name: Recvd40p
+    type: VARCHAR
+  - name: AIP
+    type: VARCHAR
+  - name: AIPBalance
+    type: VARCHAR
+  - name: AIPRecoup
+    type: VARCHAR
+  - name: AIPOwe
+    type: VARCHAR
+  - name: RegAdj
+    type: VARCHAR
+  - name: PriorSavAdj
+    type: VARCHAR
+  - name: FinalAdjCat
+    type: VARCHAR
+  - name: UpdatedBnchmk
+    type: VARCHAR
+  - name: Guardrail
+    type: VARCHAR
+  - name: HistBnchmk
+    type: VARCHAR
+  - name: ABtotBnchmk
+    type: VARCHAR
+  - name: ABtotExp
+    type: VARCHAR
+  - name: FinalShareRate
+    type: VARCHAR
+  - name: ReducedSS
+    type: VARCHAR
+  - name: FinalLossRate
+    type: VARCHAR
+  - name: Rev_Exp_Cat
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_ESRD_BY1
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_DIS_BY1
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_AGDU_BY1
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_AGND_BY1
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_ESRD_BY2
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_DIS_BY2
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_AGDU_BY2
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_AGND_BY2
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_ESRD_BY3
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_DIS_BY3
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_AGDU_BY3
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_AGND_BY3
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_ESRD_PY
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_DIS_PY
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_AGDU_PY
+    type: VARCHAR
+  - name: Per_Capita_Exp_ALL_AGND_PY
+    type: VARCHAR
+  - name: Per_Capita_Exp_TOTAL_PY
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_ESRD_BY1
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_DIS_BY1
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_AGDU_BY1
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_AGND_BY1
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_ESRD_BY2
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_DIS_BY2
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_AGDU_BY2
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_AGND_BY2
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_ESRD_BY3
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_DIS_BY3
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_AGDU_BY3
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_AGND_BY3
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_ESRD_PY
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_DIS_PY
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_AGDU_PY
+    type: VARCHAR
+  - name: CMS_HCC_RiskScore_AGND_PY
+    type: VARCHAR
+  - name: Demog_RiskScore_ESRD_PY
+    type: VARCHAR
+  - name: Demog_RiskScore_DIS_PY
+    type: VARCHAR
+  - name: Demog_RiskScore_AGDU_PY
+    type: VARCHAR
+  - name: Demog_RiskScore_AGND_PY
+    type: VARCHAR
+  - name: Demog_RiskScore_ESRD_BY3
+    type: VARCHAR
+  - name: Demog_RiskScore_DIS_BY3
+    type: VARCHAR
+  - name: Demog_RiskScore_AGDU_BY3
+    type: VARCHAR
+  - name: Demog_RiskScore_AGND_BY3
+    type: VARCHAR
+  - name: RR_weight_ESRD_PY
+    type: VARCHAR
+  - name: RR_weight_DIS_PY
+    type: VARCHAR
+  - name: RR_weight_AGDU_PY
+    type: VARCHAR
+  - name: RR_weight_AGND_PY
+    type: VARCHAR
+  - name: N_AB_Year_ESRD_BY3
+    type: VARCHAR
+  - name: N_AB_Year_DIS_BY3
+    type: VARCHAR
+  - name: N_AB_Year_AGED_Dual_BY3
+    type: VARCHAR
+  - name: N_AB_Year_AGED_NonDual_BY3
+    type: VARCHAR
+  - name: N_AB_Year_PY
+    type: VARCHAR
+  - name: N_AB_Year_ESRD_PY
+    type: VARCHAR
+  - name: N_AB_Year_DIS_PY
+    type: VARCHAR
+  - name: N_AB_Year_AGED_Dual_PY
+    type: VARCHAR
+  - name: N_AB_Year_AGED_NonDual_PY
+    type: VARCHAR
+  - name: N_AB_Year_Dual_PY
+    type: VARCHAR
+  - name: N_AB_Year_NonDual_PY
+    type: VARCHAR
+  - name: N_Ben_VA_Only
+    type: VARCHAR
+  - name: N_Ben_CBA_Only
+    type: VARCHAR
+  - name: N_Ben_CBA_and_VA
+    type: VARCHAR
+  - name: N_Ben_Age_0_64
+    type: VARCHAR
+  - name: N_Ben_Age_65_74
+    type: VARCHAR
+  - name: N_Ben_Age_75_84
+    type: VARCHAR
+  - name: N_Ben_Age_85plus
+    type: VARCHAR
+  - name: N_Ben_Female
+    type: VARCHAR
+  - name: N_Ben_Male
+    type: VARCHAR
+  - name: N_Ben_Race_White
+    type: VARCHAR
+  - name: N_Ben_Race_Black
+    type: VARCHAR
+  - name: N_Ben_Race_Asian
+    type: VARCHAR
+  - name: N_Ben_Race_Hisp
+    type: VARCHAR
+  - name: N_Ben_Race_Native
+    type: VARCHAR
+  - name: N_Ben_Race_Other
+    type: VARCHAR
+  - name: N_Ben_Race_Unknown
+    type: VARCHAR
+  - name: CapAnn_INP_All
+    type: VARCHAR
+  - name: CapAnn_INP_S_trm
+    type: VARCHAR
+  - name: CapAnn_INP_L_trm
+    type: VARCHAR
+  - name: CapAnn_INP_Rehab
+    type: VARCHAR
+  - name: CapAnn_INP_Psych
+    type: VARCHAR
+  - name: CapAnn_HSP
+    type: VARCHAR
+  - name: CapAnn_SNF
+    type: VARCHAR
+  - name: CapAnn_OPD
+    type: VARCHAR
+  - name: CapAnn_PB
+    type: VARCHAR
+  - name: CapAnn_AmbPay
+    type: VARCHAR
+  - name: CapAnn_HHA
+    type: VARCHAR
+  - name: CapAnn_DME
+    type: VARCHAR
+  - name: ADM
+    type: VARCHAR
+  - name: ADM_S_Trm
+    type: VARCHAR
+  - name: ADM_L_Trm
+    type: VARCHAR
+  - name: ADM_Rehab
+    type: VARCHAR
+  - name: ADM_Psych
+    type: VARCHAR
+  - name: P_EDV_Vis
+    type: VARCHAR
+  - name: P_EDV_Vis_HOSP
+    type: VARCHAR
+  - name: P_CT_VIS
+    type: VARCHAR
+  - name: P_MRI_VIS
+    type: VARCHAR
+  - name: P_EM_Total
+    type: VARCHAR
+  - name: P_EM_PCP_Vis
+    type: VARCHAR
+  - name: P_EM_SP_Vis
+    type: VARCHAR
+  - name: P_Nurse_Vis
+    type: VARCHAR
+  - name: P_FQHC_RHC_Vis
+    type: VARCHAR
+  - name: P_SNF_ADM
+    type: VARCHAR
+  - name: SNF_LOS
+    type: VARCHAR
+  - name: SNF_PayperStay
+    type: VARCHAR
+  - name: N_CAH
+    type: VARCHAR
+  - name: N_FQHC
+    type: VARCHAR
+  - name: N_RHC
+    type: VARCHAR
+  - name: N_ETA
+    type: VARCHAR
+  - name: N_Hosp
+    type: VARCHAR
+  - name: N_Fac_Other
+    type: VARCHAR
+  - name: N_PCP
+    type: VARCHAR
+  - name: N_Spec
+    type: VARCHAR
+  - name: N_NP
+    type: VARCHAR
+  - name: N_PA
+    type: VARCHAR
+  - name: N_CNS
+    type: VARCHAR
+  - name: Perc_Dual
+    type: VARCHAR
+  - name: Perc_LTI
+    type: VARCHAR
+  - name: CAHPS_1
+    type: VARCHAR
+  - name: CAHPS_2
+    type: VARCHAR
+  - name: CAHPS_3
+    type: VARCHAR
+  - name: CAHPS_4
+    type: VARCHAR
+  - name: CAHPS_5
+    type: VARCHAR
+  - name: CAHPS_6
+    type: VARCHAR
+  - name: CAHPS_7
+    type: VARCHAR
+  - name: CAHPS_11
+    type: VARCHAR
+  - name: CAHPS_9
+    type: VARCHAR
+  - name: CAHPS_8
+    type: VARCHAR
+  - name: Measure_479
+    type: VARCHAR
+  - name: Measure_484
+    type: VARCHAR
+  - name: QualityID_318
+    type: VARCHAR
+  - name: QualityID_110
+    type: VARCHAR
+  - name: QualityID_226
+    type: VARCHAR
+  - name: QualityID_134_WI
+    type: VARCHAR
+  - name: QualityID_134_eCQM
+    type: VARCHAR
+  - name: QualityID_134_MIPSCQM
+    type: VARCHAR
+  - name: QualityID_134_MedicareCQM
+    type: VARCHAR
+  - name: QualityID_113
+    type: VARCHAR
+  - name: QualityID_112
+    type: VARCHAR
+  - name: QualityID_438
+    type: VARCHAR
+  - name: QualityID_370
+    type: VARCHAR
+  - name: QualityID_001_WI
+    type: VARCHAR
+  - name: QualityID_001_eCQM
+    type: VARCHAR
+  - name: QualityID_001_MIPSCQM
+    type: VARCHAR
+  - name: QualityID_001_MedicareCQM
+    type: VARCHAR
+  - name: QualityID_236_WI
+    type: VARCHAR
+  - name: QualityID_236_eCQM
+    type: VARCHAR
+  - name: QualityID_236_MIPSCQM
+    type: VARCHAR
+  - name: QualityID_236_MedicareCQM
+    type: VARCHAR

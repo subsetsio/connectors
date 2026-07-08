@@ -1,0 +1,22 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [stat_type, sex, race, age_range, risk_interval, site]
+sort: [stat_type, sex, race, age_range, risk_interval, site]
+columns:
+  - name: stat_type
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: race
+    type: VARCHAR
+  - name: age_range
+    type: VARCHAR
+  - name: risk_interval
+    type: VARCHAR
+  - name: site
+    type: VARCHAR
+  - name: risk
+    type: DOUBLE
+  - name: risk_lower_ci
+    type: DOUBLE
+  - name: risk_upper_ci
+    type: DOUBLE

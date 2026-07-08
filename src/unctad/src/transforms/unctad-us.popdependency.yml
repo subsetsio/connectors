@@ -1,0 +1,20 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: series
+    type: VARCHAR
+  - name: series_label
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: economy
+    type: VARCHAR
+  - name: economy_label
+    type: VARCHAR
+  - name: persons_per_hundred_persons_aged_15_64
+    type: DOUBLE
+  - name: persons_per_hundred_persons_aged_15_64_footnote
+    type: VARCHAR
+  - name: persons_per_hundred_persons_aged_15_64_missing_value
+    type: VARCHAR

@@ -1,0 +1,20 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [registry_code, sex, cancer_code, age_band]
+sort: [registry_code, sex, cancer_code, age_band]
+columns:
+  - name: registry_code
+    type: BIGINT
+  - name: registry
+    type: VARCHAR
+  - name: sex
+    type: INTEGER
+  - name: cancer_code
+    type: BIGINT
+  - name: cancer
+    type: VARCHAR
+  - name: icd10
+    type: VARCHAR
+  - name: age_band
+    type: VARCHAR
+  - name: cases
+    type: BIGINT

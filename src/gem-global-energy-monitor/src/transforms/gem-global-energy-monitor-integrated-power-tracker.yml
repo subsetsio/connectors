@@ -1,0 +1,106 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: type
+    type: VARCHAR
+  - name: country_area
+    type: VARCHAR
+  - name: subregion
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: plant_project_name
+    type: VARCHAR
+  - name: unit_phase_name
+    type: VARCHAR
+  - name: plant_project_name_local
+    type: VARCHAR
+  - name: plant_project_name_other
+    type: VARCHAR
+  - name: capacity_mw
+    type: DOUBLE
+  - name: status
+    type: VARCHAR
+  - name: start_year
+    type: BIGINT
+  - name: retired_year
+    type: BIGINT
+  - name: technology
+    type: VARCHAR
+  - name: capacity_rating_solar_only
+    type: JSON
+  - name: associated_storage
+    type: JSON
+  - name: fuel_combustion_only
+    type: VARCHAR
+  - name: fuel_classification_oil_gas_only
+    type: VARCHAR
+  - name: equipment_manufacturer_model_oil_gas_only
+    type: VARCHAR
+  - name: hydrogen_production
+    type: JSON
+  - name: hydrogen_capable
+    type: VARCHAR
+  - name: data_center_ppa_geothermal_only
+    type: JSON
+  - name: country_area_1_hydropower_only
+    type: JSON
+  - name: country_area_2_hydropower_only
+    type: JSON
+  - name: country_area_1_capacity_mw_hydropower_only
+    type: JSON
+  - name: country_area_2_capacity_mw_hydropower_only
+    type: JSON
+  - name: river_watercourse_hydropower_only
+    type: JSON
+  - name: operator_s
+    type: VARCHAR
+  - name: owner_s
+    type: VARCHAR
+  - name: owner_s_gem_entity_id
+    type: VARCHAR
+  - name: parent_s
+    type: VARCHAR
+  - name: parent_s_gem_entity_id
+    type: VARCHAR
+  - name: chp
+    type: VARCHAR
+  - name: ccs
+    type: VARCHAR
+  - name: conversion_replacement
+    type: VARCHAR
+  - name: unit_conversion_year
+    type: BIGINT
+  - name: conversion_from_replacement_of_fuel
+    type: VARCHAR
+  - name: conversion_from_replacement_of_gem_unit_id
+    type: VARCHAR
+  - name: conversion_to_fuel
+    type: VARCHAR
+  - name: conversion_to_gem_unit_id
+    type: VARCHAR
+  - name: captive_industry_type
+    type: VARCHAR
+  - name: captive_industry_use
+    type: VARCHAR
+  - name: captive_non_industry_use
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: location_accuracy
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: local_area_taluk_county
+    type: VARCHAR
+  - name: major_area_prefecture_district
+    type: VARCHAR
+  - name: subnational_unit_state_province
+    type: VARCHAR
+  - name: gem_location_id
+    type: VARCHAR
+  - name: gem_unit_phase_id
+    type: VARCHAR
+  - name: gem_wiki_url
+    type: VARCHAR

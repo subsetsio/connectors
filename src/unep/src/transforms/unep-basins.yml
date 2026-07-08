@@ -1,0 +1,23 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [pfaf_id, basin_level, year]
+temporal: year
+sort: [year, pfaf_id, basin_level]
+columns:
+  - name: year
+    type: INTEGER
+  - name: pfaf_id
+    type: BIGINT
+  - name: basin_level
+    type: INTEGER
+  - name: permanent_sq_km
+    type: DOUBLE
+  - name: projected_permanent_sq_km
+    type: DOUBLE
+  - name: permanent_5yr_sq_km
+    type: DOUBLE
+  - name: seasonal_sq_km
+    type: DOUBLE
+  - name: projected_seasonal_sq_km
+    type: DOUBLE
+  - name: seasonal_5yr_sq_km
+    type: DOUBLE

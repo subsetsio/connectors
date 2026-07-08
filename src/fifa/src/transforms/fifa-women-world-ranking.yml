@@ -1,0 +1,25 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [release_date, id_team]
+temporal: release_date
+sort: [release_date, id_team]
+columns:
+  - name: release_date
+    type: DATE
+  - name: gender
+    type: VARCHAR
+  - name: rank
+    type: INTEGER
+  - name: id_team
+    type: VARCHAR
+  - name: team_name
+    type: VARCHAR
+  - name: country_code
+    type: VARCHAR
+  - name: total_points
+    type: DOUBLE
+  - name: previous_rank
+    type: INTEGER
+  - name: previous_points
+    type: DOUBLE
+  - name: confederation
+    type: VARCHAR

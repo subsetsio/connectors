@@ -1,0 +1,38 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [oid]
+sort: [oid]
+columns:
+  - name: recno
+    type: BIGINT
+  - name: oid
+    type: BIGINT
+  - name: name
+    type: VARCHAR
+  - name: variability_flag
+    type: BIGINT
+  - name: ra_deg
+    type: DOUBLE
+  - name: dec_deg
+    type: DOUBLE
+  - name: variability_type
+    type: VARCHAR
+  - name: max_mag_limit_flag
+    type: VARCHAR
+  - name: max_mag
+    type: DOUBLE
+  - name: max_mag_band
+    type: VARCHAR
+  - name: min_is_amplitude_flag
+    type: VARCHAR
+  - name: min_mag_limit_flag
+    type: VARCHAR
+  - name: min_mag
+    type: DOUBLE
+  - name: min_mag_band
+    type: VARCHAR
+  - name: epoch_jd
+    type: DOUBLE
+  - name: period_days
+    type: DOUBLE
+  - name: spectral_type
+    type: VARCHAR

@@ -1,0 +1,29 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, iso3_tp_o, iso3_tp_d, industry]
+temporal: year
+sort: [year, iso3_tp_o, iso3_tp_d, industry]
+columns:
+  - name: year
+    type: BIGINT
+  - name: iso3_tp_o
+    type: VARCHAR
+  - name: iso3_tp_d
+    type: VARCHAR
+  - name: pref
+    type: DOUBLE
+  - name: mfn
+    type: DOUBLE
+  - name: tariff
+    type: DOUBLE
+  - name: trade_sq_iy
+    type: DOUBLE
+  - name: trade_sq_yr
+    type: DOUBLE
+  - name: flag_extra_neg
+    type: BIGINT
+  - name: flag_extra_cty
+    type: BIGINT
+  - name: flag_extra_avg
+    type: BIGINT
+  - name: industry
+    type: VARCHAR

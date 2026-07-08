@@ -1,0 +1,6 @@
+SELECT series, period, year, part, CAST(date AS DATE) AS date, value
+FROM "monetary-authority-of-macao-5-external-activities--external-credit-by-currency"
+WHERE value IS NOT NULL
+QUALIFY row_number() OVER (
+    PARTITION BY series, period, part ORDER BY value DESC
+) = 1

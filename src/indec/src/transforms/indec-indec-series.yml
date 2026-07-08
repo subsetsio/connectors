@@ -1,0 +1,27 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [series_id]
+temporal: time_index_end
+sort: [time_index_end, series_id]
+columns:
+  - name: series_id
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: units
+    type: VARCHAR
+  - name: time_index_start
+    type: DATE
+  - name: time_index_end
+    type: DATE
+  - name: dataset_title
+    type: VARCHAR
+  - name: dataset_source
+    type: VARCHAR
+  - name: dataset_theme
+    type: VARCHAR
+  - name: dataset_publisher
+    type: VARCHAR

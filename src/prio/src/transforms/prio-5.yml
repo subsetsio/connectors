@@ -1,0 +1,22 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: id
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: radius
+    type: BIGINT
+  - name: conflict_area
+    type: DOUBLE
+  - name: conflict_site
+    type: VARCHAR
+  - name: conflict_territory
+    type: VARCHAR
+  - name: version
+    type: VARCHAR

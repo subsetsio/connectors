@@ -1,0 +1,57 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [id]
+temporal: date_modified
+sort: [date_modified, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: date_created
+    type: TIMESTAMP
+  - name: date_modified
+    type: TIMESTAMP
+  - name: date_completed
+    type: TIMESTAMP
+  - name: fjc_id
+    type: BIGINT
+  - name: slug
+    type: VARCHAR
+  - name: name_first
+    type: VARCHAR
+  - name: name_middle
+    type: VARCHAR
+  - name: name_last
+    type: VARCHAR
+  - name: name_suffix
+    type: VARCHAR
+  - name: date_dob
+    type: DATE
+  - name: date_granularity_dob
+    type: VARCHAR
+  - name: date_dod
+    type: DATE
+  - name: date_granularity_dod
+    type: VARCHAR
+  - name: dob_city
+    type: VARCHAR
+  - name: dob_state
+    type: VARCHAR
+  - name: dob_country
+    type: VARCHAR
+  - name: dod_city
+    type: VARCHAR
+  - name: dod_state
+    type: VARCHAR
+  - name: dod_country
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: religion
+    type: VARCHAR
+  - name: ftm_total_received
+    type: VARCHAR
+  - name: ftm_eid
+    type: VARCHAR
+  - name: has_photo
+    type: VARCHAR
+  - name: is_alias_of_id
+    type: BIGINT

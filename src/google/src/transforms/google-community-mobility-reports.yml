@@ -1,0 +1,34 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: date
+sort: [date]
+columns:
+  - name: country_region_code
+    type: VARCHAR
+  - name: country_region
+    type: VARCHAR
+  - name: sub_region_1
+    type: VARCHAR
+  - name: sub_region_2
+    type: VARCHAR
+  - name: metro_area
+    type: VARCHAR
+  - name: iso_3166_2_code
+    type: VARCHAR
+  - name: census_fips_code
+    type: VARCHAR
+  - name: place_id
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: retail_and_recreation_pct_change
+    type: DOUBLE
+  - name: grocery_and_pharmacy_pct_change
+    type: DOUBLE
+  - name: parks_pct_change
+    type: DOUBLE
+  - name: transit_stations_pct_change
+    type: DOUBLE
+  - name: workplaces_pct_change
+    type: DOUBLE
+  - name: residential_pct_change
+    type: DOUBLE

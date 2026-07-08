@@ -1,0 +1,85 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: []
+temporal: activity_year
+sort: [activity_year]
+columns:
+  - name: activity_year
+    type: INTEGER
+  - name: lei
+    type: VARCHAR
+  - name: state_code
+    type: VARCHAR
+  - name: county_code
+    type: VARCHAR
+  - name: census_tract
+    type: VARCHAR
+  - name: derived_msa_md
+    type: VARCHAR
+  - name: conforming_loan_limit
+    type: VARCHAR
+  - name: derived_loan_product_type
+    type: VARCHAR
+  - name: derived_dwelling_category
+    type: VARCHAR
+  - name: derived_ethnicity
+    type: VARCHAR
+  - name: derived_race
+    type: VARCHAR
+  - name: derived_sex
+    type: VARCHAR
+  - name: action_taken
+    type: INTEGER
+  - name: purchaser_type
+    type: INTEGER
+  - name: preapproval
+    type: INTEGER
+  - name: loan_type
+    type: INTEGER
+  - name: loan_purpose
+    type: INTEGER
+  - name: lien_status
+    type: INTEGER
+  - name: reverse_mortgage
+    type: INTEGER
+  - name: open_end_line_of_credit
+    type: INTEGER
+  - name: business_or_commercial_purpose
+    type: INTEGER
+  - name: loan_amount
+    type: DOUBLE
+  - name: combined_loan_to_value_ratio
+    type: DOUBLE
+  - name: interest_rate
+    type: DOUBLE
+  - name: rate_spread
+    type: DOUBLE
+  - name: hoepa_status
+    type: INTEGER
+  - name: total_loan_costs
+    type: DOUBLE
+  - name: loan_term
+    type: INTEGER
+  - name: property_value
+    type: DOUBLE
+  - name: occupancy_type
+    type: INTEGER
+  - name: total_units
+    type: VARCHAR
+  - name: income
+    type: DOUBLE
+  - name: debt_to_income_ratio
+    type: VARCHAR
+  - name: applicant_age
+    type: VARCHAR
+  - name: co_applicant_age
+    type: VARCHAR
+  - name: denial_reason_1
+    type: INTEGER
+  - name: tract_population
+    type: INTEGER
+  - name: tract_minority_population_percent
+    type: DOUBLE
+  - name: ffiec_msa_md_median_family_income
+    type: INTEGER
+  - name: tract_to_msa_income_percentage
+    type: DOUBLE

@@ -1,0 +1,32 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: first_seen_utc
+    type: TIMESTAMP
+  - name: ioc_id
+    type: BIGINT
+  - name: ioc_value
+    type: VARCHAR
+  - name: ioc_type
+    type: VARCHAR
+  - name: threat_type
+    type: VARCHAR
+  - name: fk_malware
+    type: VARCHAR
+  - name: malware_alias
+    type: VARCHAR
+  - name: malware_printable
+    type: VARCHAR
+  - name: last_seen_utc
+    type: TIMESTAMP
+  - name: confidence_level
+    type: INTEGER
+  - name: is_compromised
+    type: VARCHAR
+  - name: reference
+    type: VARCHAR
+  - name: tags
+    type: VARCHAR
+  - name: anonymous
+    type: VARCHAR
+  - name: reporter
+    type: VARCHAR

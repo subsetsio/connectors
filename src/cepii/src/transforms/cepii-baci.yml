@@ -1,0 +1,17 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, exporter_iso, importer_iso, product_hs92]
+temporal: year
+sort: [year, exporter_iso, importer_iso, product_hs92]
+columns:
+  - name: year
+    type: INTEGER
+  - name: exporter_iso
+    type: INTEGER
+  - name: importer_iso
+    type: INTEGER
+  - name: product_hs92
+    type: VARCHAR
+  - name: value_kusd
+    type: DOUBLE
+  - name: quantity_t
+    type: DOUBLE

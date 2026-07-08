@@ -1,0 +1,51 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [season, season_type, player_id]
+temporal: season
+sort: [season, season_type, player_id]
+columns:
+  - name: season
+    type: INTEGER
+  - name: season_type
+    type: VARCHAR
+  - name: game_week
+    type: VARCHAR
+  - name: team_abb
+    type: VARCHAR
+  - name: player_id
+    type: VARCHAR
+  - name: name_short
+    type: VARCHAR
+  - name: rank
+    type: DOUBLE
+  - name: qbr_total
+    type: DOUBLE
+  - name: pts_added
+    type: DOUBLE
+  - name: qb_plays
+    type: DOUBLE
+  - name: epa_total
+    type: DOUBLE
+  - name: pass
+    type: DOUBLE
+  - name: run
+    type: DOUBLE
+  - name: exp_sack
+    type: DOUBLE
+  - name: penalty
+    type: DOUBLE
+  - name: qbr_raw
+    type: DOUBLE
+  - name: sack
+    type: DOUBLE
+  - name: name_first
+    type: VARCHAR
+  - name: name_last
+    type: VARCHAR
+  - name: name_display
+    type: VARCHAR
+  - name: headshot_href
+    type: VARCHAR
+  - name: team
+    type: VARCHAR
+  - name: qualified
+    type: BOOLEAN

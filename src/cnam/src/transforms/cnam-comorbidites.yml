@@ -1,0 +1,36 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: annee
+sort: [annee]
+columns:
+  - name: annee
+    type: DATE
+  - name: patho_niv1
+    type: VARCHAR
+  - name: patho_niv2
+    type: VARCHAR
+  - name: patho_niv3
+    type: VARCHAR
+  - name: top
+    type: VARCHAR
+  - name: comorbidite
+    type: VARCHAR
+  - name: libelle_comorbidite
+    type: VARCHAR
+  - name: region
+    type: BIGINT
+  - name: dept
+    type: BIGINT
+  - name: ncomorb
+    type: BIGINT
+  - name: ntop
+    type: BIGINT
+  - name: proportion_comorb
+    type: DOUBLE
+  - name: patho_niv1_comorb
+    type: VARCHAR
+  - name: patho_niv2_comorb
+    type: VARCHAR
+  - name: patho_niv3_comorb
+    type: VARCHAR
+  - name: niveau_prioritaire
+    type: VARCHAR

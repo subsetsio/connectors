@@ -1,0 +1,266 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: FIRST_PART_YEAR
+sort: [FIRST_PART_YEAR]
+columns:
+  - name: ACO_ID
+    type: VARCHAR
+  - name: ACO_NAME
+    type: VARCHAR
+  - name: ACO_TYPE
+    type: VARCHAR
+  - name: FIRST_PART_YEAR
+    type: VARCHAR
+  - name: PERF_YEAR
+    type: VARCHAR
+  - name: RISK_ARRANGEMENT
+    type: VARCHAR
+  - name: STOP_LOSS_ELECTION
+    type: VARCHAR
+  - name: CAPITATION_ARRANGEMENT
+    type: VARCHAR
+  - name: ENHANCED_PCC_ELECTION
+    type: VARCHAR
+  - name: APO_ELECTION
+    type: VARCHAR
+  - name: ALIGNMENT_PLUS
+    type: VARCHAR
+  - name: DISCOUNT
+    type: VARCHAR
+  - name: RETENTION_WITHHOLD
+    type: VARCHAR
+  - name: UNADJ_BENCHMARK
+    type: VARCHAR
+  - name: FINAL_BENCHMARK
+    type: VARCHAR
+  - name: NORM_RISK_SCORE
+    type: VARCHAR
+  - name: CIF_CAP_RISK
+    type: VARCHAR
+  - name: HEBA_UP_AMT
+    type: VARCHAR
+  - name: HEBA_DOWN_AMT
+    type: VARCHAR
+  - name: HEBA_UP_MNTHS
+    type: VARCHAR
+  - name: HEBA_DOWN_MNTHS
+    type: VARCHAR
+  - name: SAV_RATE
+    type: VARCHAR
+  - name: TRENDED_AD_BASELINE
+    type: VARCHAR
+  - name: TRENDED_ESRD_BASELINE
+    type: VARCHAR
+  - name: REGIONAL_AD_BASELINE
+    type: VARCHAR
+  - name: REGIONAL_ESRD_BASELINE
+    type: VARCHAR
+  - name: HIST_AD_BASELINE_ADJ
+    type: VARCHAR
+  - name: HIST_ESRD_BASELINE_ADJ
+    type: VARCHAR
+  - name: TOT_COST_CARE_NET
+    type: VARCHAR
+  - name: TOT_COST_CARE
+    type: VARCHAR
+  - name: GROSS_SAVINGS
+    type: VARCHAR
+  - name: SHARED_SAVINGS
+    type: VARCHAR
+  - name: SHARED_SAVINGS_SEQ
+    type: VARCHAR
+  - name: CAP_PMT_AMT
+    type: VARCHAR
+  - name: EPCC_PMT_AMT
+    type: VARCHAR
+  - name: CLM_PMT_AMT
+    type: VARCHAR
+  - name: EXPND_DME
+    type: VARCHAR
+  - name: EXPND_HHA
+    type: VARCHAR
+  - name: EXPND_HSP
+    type: VARCHAR
+  - name: EXPND_INP_ALL
+    type: VARCHAR
+  - name: EXPND_OPD
+    type: VARCHAR
+  - name: EXPND_PB
+    type: VARCHAR
+  - name: EXPND_SNF
+    type: VARCHAR
+  - name: HIST_BY1_AD_PBPM
+    type: VARCHAR
+  - name: HIST_BY1_ESRD_PBPM
+    type: VARCHAR
+  - name: HIST_BY2_AD_PBPM
+    type: VARCHAR
+  - name: HIST_BY2_ESRD_PBPM
+    type: VARCHAR
+  - name: HIST_BY3_AD_PBPM
+    type: VARCHAR
+  - name: HIST_BY3_ESRD_PBPM
+    type: VARCHAR
+  - name: HIST_BY1_AD_RISKSCORE
+    type: VARCHAR
+  - name: HIST_BY1_ESRD_RISKSCORE
+    type: VARCHAR
+  - name: HIST_BY2_AD_RISKSCORE
+    type: VARCHAR
+  - name: HIST_BY2_ESRD_RISKSCORE
+    type: VARCHAR
+  - name: HIST_BY3_AD_RISKSCORE
+    type: VARCHAR
+  - name: HIST_BY3_ESRD_RISKSCORE
+    type: VARCHAR
+  - name: HIST_BY4_AD_RISKSCORE
+    type: VARCHAR
+  - name: HIST_BY4_ESRD_RISKSCORE
+    type: VARCHAR
+  - name: PY_AD_BLEND_MNTHS
+    type: VARCHAR
+  - name: PY_ESRD_BLEND_MNTHS
+    type: VARCHAR
+  - name: PY_AD_RATEBOOK_MNTHS
+    type: VARCHAR
+  - name: PY_ESRD_RATEBOOK_MNTHS
+    type: VARCHAR
+  - name: PY_AD_BLEND_RISKSCORE
+    type: VARCHAR
+  - name: PY_ESRD_BLEND_RISKSCORE
+    type: VARCHAR
+  - name: PY_AD_RATEBOOK_RISKSCORE
+    type: VARCHAR
+  - name: PY_ESRD_RATEBOOK_RISKSCORE
+    type: VARCHAR
+  - name: N_ETA
+    type: VARCHAR
+  - name: N_CAH
+    type: VARCHAR
+  - name: N_FQHC
+    type: VARCHAR
+  - name: N_RHC
+    type: VARCHAR
+  - name: N_HOSP
+    type: VARCHAR
+  - name: N_FAC_OTHER
+    type: VARCHAR
+  - name: N_PCP
+    type: VARCHAR
+  - name: N_SPEC
+    type: VARCHAR
+  - name: N_NP
+    type: VARCHAR
+  - name: N_PA
+    type: VARCHAR
+  - name: N_CNS
+    type: VARCHAR
+  - name: QUAL_SCR
+    type: VARCHAR
+  - name: ACR_SCR
+    type: VARCHAR
+  - name: UAMCC_SCR
+    type: VARCHAR
+  - name: DAH_SCR
+    type: VARCHAR
+  - name: TFU_SCR
+    type: VARCHAR
+  - name: SSM_TACI_SCR
+    type: VARCHAR
+  - name: SSM_COM_SCR
+    type: VARCHAR
+  - name: SSM_CC_SCR
+    type: VARCHAR
+  - name: SSM_SDM_SCR
+    type: VARCHAR
+  - name: SSM_PR_SCR
+    type: VARCHAR
+  - name: SSM_CHOS_SCR
+    type: VARCHAR
+  - name: SSM_HPE_SCR
+    type: VARCHAR
+  - name: SSM_SPR_SCR
+    type: VARCHAR
+  - name: CISEP_FLAG
+    type: VARCHAR
+  - name: HPP_FLAG
+    type: VARCHAR
+  - name: HDR_ADJUST
+    type: VARCHAR
+  - name: BENE_CNT
+    type: VARCHAR
+  - name: N_BEN_AGE_0_64
+    type: VARCHAR
+  - name: N_BEN_AGE_65_74
+    type: VARCHAR
+  - name: N_BEN_AGE_75_84
+    type: VARCHAR
+  - name: N_BEN_AGE_85PLUS
+    type: VARCHAR
+  - name: N_BEN_MALE
+    type: VARCHAR
+  - name: N_BEN_FEMALE
+    type: VARCHAR
+  - name: N_BEN_SEX_UNKNOWN
+    type: VARCHAR
+  - name: N_BEN_RACE_WHITE
+    type: VARCHAR
+  - name: N_BEN_RACE_BLACK
+    type: VARCHAR
+  - name: N_BEN_RACE_ASIAN
+    type: VARCHAR
+  - name: N_BEN_RACE_HISP
+    type: VARCHAR
+  - name: N_BEN_RACE_NATIVE
+    type: VARCHAR
+  - name: N_BEN_RACE_PI
+    type: VARCHAR
+  - name: N_BEN_RACE_OTHER
+    type: VARCHAR
+  - name: PERC_DUAL
+    type: VARCHAR
+  - name: PERC_LTI
+    type: VARCHAR
+  - name: EXPND_INP_S_TRM
+    type: VARCHAR
+  - name: EXPND_INP_L_TRM
+    type: VARCHAR
+  - name: EXPND_INP_REHAB
+    type: VARCHAR
+  - name: EXPND_INP_PSYCH
+    type: VARCHAR
+  - name: EXPND_AMBUPAY
+    type: VARCHAR
+  - name: ADM_S_TRM_N
+    type: VARCHAR
+  - name: ADM_L_TRM_N
+    type: VARCHAR
+  - name: ADM_REHAB_N
+    type: VARCHAR
+  - name: ADM_PSYCH_N
+    type: VARCHAR
+  - name: ADM_N
+    type: VARCHAR
+  - name: P_EDV_VIS
+    type: VARCHAR
+  - name: P_EDV_VIS_HOSP
+    type: VARCHAR
+  - name: P_CT_VIS
+    type: VARCHAR
+  - name: P_MRI_VIS
+    type: VARCHAR
+  - name: P_EM_PCP_VIS
+    type: VARCHAR
+  - name: P_EM_SP_VIS
+    type: VARCHAR
+  - name: P_EM_TOTAL
+    type: VARCHAR
+  - name: P_NURSE_VIS
+    type: VARCHAR
+  - name: P_FQHC_RHC_VIS
+    type: VARCHAR
+  - name: P_SNF_ADM
+    type: VARCHAR
+  - name: SNF_LOS
+    type: VARCHAR
+  - name: SNF_PAYPERSTAY
+    type: VARCHAR

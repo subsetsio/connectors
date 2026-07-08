@@ -1,0 +1,32 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: VARCHAR
+  - name: flagofregistration
+    type: VARCHAR
+  - name: flagofregistration_label
+    type: VARCHAR
+  - name: beneficialownership
+    type: VARCHAR
+  - name: beneficialownership_label
+    type: VARCHAR
+  - name: dead_weight_tons_in_thousands
+    type: DOUBLE
+  - name: dead_weight_tons_in_thousands_footnote
+    type: VARCHAR
+  - name: dead_weight_tons_in_thousands_missing_value
+    type: VARCHAR
+  - name: percentage_of_total_fleet
+    type: DOUBLE
+  - name: percentage_of_total_fleet_footnote
+    type: VARCHAR
+  - name: percentage_of_total_fleet_missing_value
+    type: VARCHAR
+  - name: number_of_ships
+    type: DOUBLE
+  - name: number_of_ships_footnote
+    type: VARCHAR
+  - name: number_of_ships_missing_value
+    type: VARCHAR

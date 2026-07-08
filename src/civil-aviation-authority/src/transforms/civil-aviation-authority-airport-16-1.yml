@@ -1,0 +1,74 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: rundate
+    type: VARCHAR
+  - name: report_period
+    type: BIGINT
+  - name: airport_cluster
+    type: BIGINT
+  - name: rpt_apt_grp_cd
+    type: BIGINT
+  - name: rpt_apt_grp_name
+    type: VARCHAR
+  - name: rpt_apt_name
+    type: VARCHAR
+  - name: total_mail
+    type: DOUBLE
+  - name: mail_sd_shd_uk
+    type: DOUBLE
+  - name: mail_pu_shd_uk
+    type: DOUBLE
+  - name: mail_sd_shd_fe
+    type: DOUBLE
+  - name: mail_pu_shd_fe
+    type: DOUBLE
+  - name: mail_sd_shd_fn
+    type: DOUBLE
+  - name: mail_pu_shd_fn
+    type: DOUBLE
+  - name: mail_sd_cht_uk
+    type: DOUBLE
+  - name: mail_pu_cht_uk
+    type: DOUBLE
+  - name: mail_sd_cht_fe
+    type: DOUBLE
+  - name: mail_pu_cht_fe
+    type: DOUBLE
+  - name: mail_sd_cht_fn
+    type: DOUBLE
+  - name: mail_pu_cht_fn
+    type: DOUBLE
+  - name: release_period
+    type: BIGINT
+  - name: family
+    type: VARCHAR
+  - name: reporting_period
+    type: BIGINT
+  - name: reporting_airport_group_name
+    type: VARCHAR
+  - name: reporting_airport_name
+    type: VARCHAR
+  - name: mail_set_down_scheduled_UK
+    type: DOUBLE
+  - name: mail_picked_up_scheduled_UK
+    type: DOUBLE
+  - name: mail_set_down_scheduled_foreign_EU
+    type: DOUBLE
+  - name: mail_picked_up_scheduled_foreign_EU
+    type: DOUBLE
+  - name: mail_set_down_scheduled_foreign_non_EU
+    type: DOUBLE
+  - name: mail_picked_up_scheduled_foreign_non_EU
+    type: DOUBLE
+  - name: mail_set_down_charter_UK
+    type: DOUBLE
+  - name: mail_picked_up_charter_UK
+    type: DOUBLE
+  - name: mail_set_down_charter_foreign_EU
+    type: DOUBLE
+  - name: mail_picked_up_charter_foreign_EU
+    type: DOUBLE
+  - name: mail_set_down_charter_foreign_non_EU
+    type: DOUBLE
+  - name: mail_picked_up_charter_foreign_non_EU
+    type: DOUBLE

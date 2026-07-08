@@ -1,0 +1,19 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [trackedmodel_ptr_id]
+temporal: validity_start
+sort: [validity_start, trackedmodel_ptr_id]
+columns:
+  - name: trackedmodel_ptr_id
+    type: VARCHAR
+  - name: sid
+    type: VARCHAR
+  - name: item_id
+    type: VARCHAR
+  - name: suffix
+    type: VARCHAR
+  - name: statistical
+    type: VARCHAR
+  - name: validity_start
+    type: DATE
+  - name: validity_end
+    type: VARCHAR

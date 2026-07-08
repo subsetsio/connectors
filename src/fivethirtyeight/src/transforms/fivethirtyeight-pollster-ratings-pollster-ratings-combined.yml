@@ -1,0 +1,30 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [pollster_rating_id]
+sort: [pollster_rating_id]
+columns:
+  - name: pollster
+    type: VARCHAR
+  - name: pollster_rating_id
+    type: BIGINT
+  - name: aapor_roper
+    type: BOOLEAN
+  - name: inactive
+    type: BOOLEAN
+  - name: numeric_grade
+    type: DOUBLE
+  - name: rank
+    type: BIGINT
+  - name: POLLSCORE
+    type: DOUBLE
+  - name: wtd_avg_transparency
+    type: DOUBLE
+  - name: number_polls_pollster_total
+    type: BIGINT
+  - name: percent_partisan_work
+    type: DOUBLE
+  - name: error_ppm
+    type: DOUBLE
+  - name: bias_ppm
+    type: DOUBLE
+  - name: number_polls_pollster_time_weighted
+    type: DOUBLE

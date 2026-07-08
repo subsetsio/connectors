@@ -1,0 +1,332 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: source_resource
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: scode
+    type: VARCHAR
+  - name: area
+    type: VARCHAR
+  - name: po-total
+    type: VARCHAR
+  - name: ps-popgw
+    type: VARCHAR
+  - name: ps-popsw
+    type: VARCHAR
+  - name: ps-popto
+    type: VARCHAR
+  - name: ps-wgwfr
+    type: VARCHAR
+  - name: ps-wswfr
+    type: VARCHAR
+  - name: ps-wtofr
+    type: VARCHAR
+  - name: ps-wgwsa
+    type: VARCHAR
+  - name: ps-wswsa
+    type: VARCHAR
+  - name: ps-wsato
+    type: VARCHAR
+  - name: ps-total
+    type: VARCHAR
+  - name: ps-loss
+    type: VARCHAR
+  - name: ps-deliv
+    type: VARCHAR
+  - name: ps-prcap
+    type: VARCHAR
+  - name: ps-facil
+    type: VARCHAR
+  - name: ps-facdb
+    type: VARCHAR
+  - name: co-wgwfr
+    type: VARCHAR
+  - name: co-wswfr
+    type: VARCHAR
+  - name: co-wtotl
+    type: VARCHAR
+  - name: co-psdel
+    type: VARCHAR
+  - name: co-total
+    type: VARCHAR
+  - name: co-cuse
+    type: VARCHAR
+  - name: do-sspop
+    type: VARCHAR
+  - name: do-ssgwf
+    type: VARCHAR
+  - name: do-ssswf
+    type: VARCHAR
+  - name: do-sstot
+    type: VARCHAR
+  - name: do-sspcp
+    type: VARCHAR
+  - name: do-pspop
+    type: VARCHAR
+  - name: do-psdel
+    type: VARCHAR
+  - name: do-pspcp
+    type: VARCHAR
+  - name: do-total
+    type: VARCHAR
+  - name: do-cuse
+    type: VARCHAR
+  - name: in-wgwfr
+    type: VARCHAR
+  - name: in-wgwsa
+    type: VARCHAR
+  - name: in-wgwto
+    type: VARCHAR
+  - name: in-wswfr
+    type: VARCHAR
+  - name: in-wswsa
+    type: VARCHAR
+  - name: in-wswto
+    type: VARCHAR
+  - name: in-wtofr
+    type: VARCHAR
+  - name: in-wtosa
+    type: VARCHAR
+  - name: in-wtotl
+    type: VARCHAR
+  - name: in-recww
+    type: VARCHAR
+  - name: in-psdel
+    type: VARCHAR
+  - name: in-total
+    type: VARCHAR
+  - name: in-cufr
+    type: VARCHAR
+  - name: in-cusal
+    type: VARCHAR
+  - name: in-cuse
+    type: VARCHAR
+  - name: in-facil
+    type: VARCHAR
+  - name: in-facdb
+    type: VARCHAR
+  - name: pt-wgwfr
+    type: VARCHAR
+  - name: pt-wswfr
+    type: VARCHAR
+  - name: pt-wswsa
+    type: VARCHAR
+  - name: pt-wswto
+    type: VARCHAR
+  - name: pt-frtot
+    type: VARCHAR
+  - name: pt-wtotl
+    type: VARCHAR
+  - name: pt-psdel
+    type: VARCHAR
+  - name: pt-total
+    type: VARCHAR
+  - name: pt-cufr
+    type: VARCHAR
+  - name: pt-cusal
+    type: VARCHAR
+  - name: pt-cuse
+    type: VARCHAR
+  - name: pt-power
+    type: VARCHAR
+  - name: pt-facil
+    type: VARCHAR
+  - name: pt-facdb
+    type: VARCHAR
+  - name: pf-wgwfr
+    type: VARCHAR
+  - name: pf-wswfr
+    type: VARCHAR
+  - name: pf-wswsa
+    type: VARCHAR
+  - name: pf-wswto
+    type: VARCHAR
+  - name: pf-frtot
+    type: VARCHAR
+  - name: pf-wtotl
+    type: VARCHAR
+  - name: pf-psdel
+    type: VARCHAR
+  - name: pf-total
+    type: VARCHAR
+  - name: pf-cufr
+    type: VARCHAR
+  - name: pf-cusal
+    type: VARCHAR
+  - name: pf-cuse
+    type: VARCHAR
+  - name: pf-power
+    type: VARCHAR
+  - name: pf-facil
+    type: VARCHAR
+  - name: pf-facdb
+    type: VARCHAR
+  - name: pg-wgwfr
+    type: VARCHAR
+  - name: pg-wgwsa
+    type: VARCHAR
+  - name: pg-wtotl
+    type: VARCHAR
+  - name: pg-cufr
+    type: VARCHAR
+  - name: pg-cusal
+    type: VARCHAR
+  - name: pg-power
+    type: VARCHAR
+  - name: pg-facil
+    type: VARCHAR
+  - name: pg-facdb
+    type: VARCHAR
+  - name: pn-wgwfr
+    type: VARCHAR
+  - name: pn-wswfr
+    type: VARCHAR
+  - name: pn-wswsa
+    type: VARCHAR
+  - name: pn-wswto
+    type: VARCHAR
+  - name: pn-frtot
+    type: VARCHAR
+  - name: pn-wtotl
+    type: VARCHAR
+  - name: pn-psdel
+    type: VARCHAR
+  - name: pn-total
+    type: VARCHAR
+  - name: pn-cufr
+    type: VARCHAR
+  - name: pn-cusal
+    type: VARCHAR
+  - name: pn-cuse
+    type: VARCHAR
+  - name: pn-power
+    type: VARCHAR
+  - name: pn-facil
+    type: VARCHAR
+  - name: pn-facdb
+    type: VARCHAR
+  - name: mi-wgwfr
+    type: VARCHAR
+  - name: mi-wgwsa
+    type: VARCHAR
+  - name: mi-gwtot
+    type: VARCHAR
+  - name: mi-wswfr
+    type: VARCHAR
+  - name: mi-wswsa
+    type: VARCHAR
+  - name: mi-swtot
+    type: VARCHAR
+  - name: mi-frtot
+    type: VARCHAR
+  - name: mi-satot
+    type: VARCHAR
+  - name: mi-total
+    type: VARCHAR
+  - name: mi-cufr
+    type: VARCHAR
+  - name: mi-cusal
+    type: VARCHAR
+  - name: mi-cuse
+    type: VARCHAR
+  - name: ls-gwtot
+    type: VARCHAR
+  - name: ls-swtot
+    type: VARCHAR
+  - name: ls-total
+    type: VARCHAR
+  - name: ls-cuse
+    type: VARCHAR
+  - name: la-gwtot
+    type: VARCHAR
+  - name: la-swtot
+    type: VARCHAR
+  - name: la-total
+    type: VARCHAR
+  - name: la-cuse
+    type: VARCHAR
+  - name: lv-gwtot
+    type: VARCHAR
+  - name: lv-swtot
+    type: VARCHAR
+  - name: lv-total
+    type: VARCHAR
+  - name: lv-cuse
+    type: VARCHAR
+  - name: ir-wgwfr
+    type: VARCHAR
+  - name: ir-wswfr
+    type: VARCHAR
+  - name: ir-recww
+    type: VARCHAR
+  - name: ir-frtot
+    type: VARCHAR
+  - name: ir-spray
+    type: VARCHAR
+  - name: ir-flood
+    type: VARCHAR
+  - name: ir-irrig
+    type: VARCHAR
+  - name: ir-convy
+    type: VARCHAR
+  - name: ir-cuse
+    type: VARCHAR
+  - name: hy-total
+    type: VARCHAR
+  - name: hy-power
+    type: VARCHAR
+  - name: hy-facil
+    type: VARCHAR
+  - name: hy-facdb
+    type: VARCHAR
+  - name: ww-facpu
+    type: VARCHAR
+  - name: ww-facot
+    type: VARCHAR
+  - name: ww-facil
+    type: VARCHAR
+  - name: ww-retrn
+    type: VARCHAR
+  - name: ww-facdb
+    type: VARCHAR
+  - name: ww-recww
+    type: VARCHAR
+  - name: re-evap
+    type: VARCHAR
+  - name: re-area
+    type: VARCHAR
+  - name: to-gwfr
+    type: VARCHAR
+  - name: to-gwsal
+    type: VARCHAR
+  - name: to-gwtot
+    type: VARCHAR
+  - name: to-swfr
+    type: VARCHAR
+  - name: to-swsal
+    type: VARCHAR
+  - name: to-swtot
+    type: VARCHAR
+  - name: to-frtot
+    type: VARCHAR
+  - name: to-satot
+    type: VARCHAR
+  - name: to-total
+    type: VARCHAR
+  - name: to-recww
+    type: VARCHAR
+  - name: to-cufr
+    type: VARCHAR
+  - name: to-cusal
+    type: VARCHAR
+  - name: to-cuse
+    type: VARCHAR
+  - name: to-convy
+    type: VARCHAR

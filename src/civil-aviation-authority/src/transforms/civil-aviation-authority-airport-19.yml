@@ -1,0 +1,44 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: rundate
+    type: VARCHAR
+  - name: this_period
+    type: BIGINT
+  - name: last_period
+    type: BIGINT
+  - name: airport_cluster
+    type: BIGINT
+  - name: rpt_apt_grp_cd
+    type: BIGINT
+  - name: rpt_apt_grp_name
+    type: VARCHAR
+  - name: rpt_apt_name
+    type: VARCHAR
+  - name: total_pax_fw_tp
+    type: BIGINT
+  - name: total_pax_fw_lp
+    type: BIGINT
+  - name: total_pax_fw_pc
+    type: DOUBLE
+  - name: total_pax_rw_tp
+    type: BIGINT
+  - name: total_pax_rw_lp
+    type: BIGINT
+  - name: total_pax_rw_pc
+    type: DOUBLE
+  - name: total_atms_fw_tp
+    type: BIGINT
+  - name: total_atms_fw_lp
+    type: BIGINT
+  - name: total_atms_fw_pc
+    type: DOUBLE
+  - name: total_atms_rw_tp
+    type: BIGINT
+  - name: total_atms_rw_lp
+    type: BIGINT
+  - name: total_atms_rw_pc
+    type: DOUBLE
+  - name: release_period
+    type: BIGINT
+  - name: family
+    type: VARCHAR

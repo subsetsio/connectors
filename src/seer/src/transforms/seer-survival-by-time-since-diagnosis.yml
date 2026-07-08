@@ -1,0 +1,28 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [sex, race, age_range, stage, subtype, site, survival_interval]
+sort: [sex, race, age_range, stage, subtype, site, survival_interval]
+columns:
+  - name: sex
+    type: VARCHAR
+  - name: race
+    type: VARCHAR
+  - name: age_range
+    type: VARCHAR
+  - name: stage
+    type: VARCHAR
+  - name: subtype
+    type: VARCHAR
+  - name: site
+    type: VARCHAR
+  - name: survival_interval
+    type: BIGINT
+  - name: rate
+    type: DOUBLE
+  - name: rate_se
+    type: DOUBLE
+  - name: rate_lower_ci
+    type: DOUBLE
+  - name: rate_upper_ci
+    type: DOUBLE
+  - name: count
+    type: BIGINT

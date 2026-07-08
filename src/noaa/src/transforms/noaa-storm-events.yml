@@ -1,0 +1,56 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: event_id
+    type: BIGINT
+  - name: episode_id
+    type: BIGINT
+  - name: begin_date
+    type: DATE
+  - name: begin_time
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: month_name
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: state_fips
+    type: INTEGER
+  - name: event_type
+    type: VARCHAR
+  - name: cz_type
+    type: VARCHAR
+  - name: cz_name
+    type: VARCHAR
+  - name: wfo
+    type: VARCHAR
+  - name: injuries_direct
+    type: INTEGER
+  - name: injuries_indirect
+    type: INTEGER
+  - name: deaths_direct
+    type: INTEGER
+  - name: deaths_indirect
+    type: INTEGER
+  - name: damage_property
+    type: VARCHAR
+  - name: damage_crops
+    type: VARCHAR
+  - name: magnitude
+    type: DOUBLE
+  - name: magnitude_type
+    type: VARCHAR
+  - name: tor_f_scale
+    type: VARCHAR
+  - name: begin_lat
+    type: DOUBLE
+  - name: begin_lon
+    type: DOUBLE
+  - name: end_lat
+    type: DOUBLE
+  - name: end_lon
+    type: DOUBLE
+  - name: source
+    type: VARCHAR
+  - name: flood_cause
+    type: VARCHAR

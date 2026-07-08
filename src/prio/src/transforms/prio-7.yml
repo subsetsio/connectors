@@ -1,0 +1,37 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [eventid]
+temporal: eventdate
+sort: [eventdate, eventid]
+columns:
+  - name: conflictid
+    type: BIGINT
+  - name: incompatibility
+    type: BIGINT
+  - name: territory
+    type: VARCHAR
+  - name: eventid
+    type: BIGINT
+  - name: eventdate
+    type: TIMESTAMP
+  - name: eventtype
+    type: BIGINT
+  - name: side_a
+    type: VARCHAR
+  - name: side_b
+    type: VARCHAR
+  - name: countryname
+    type: VARCHAR
+  - name: gwno
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: locationname
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: geoprecision
+    type: BIGINT
+  - name: transferactor
+    type: VARCHAR

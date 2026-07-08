@@ -1,0 +1,34 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: annee
+sort: [annee]
+columns:
+  - name: annee
+    type: DATE
+  - name: profession_sante
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: libelle_region
+    type: VARCHAR
+  - name: departement
+    type: VARCHAR
+  - name: libelle_departement
+    type: VARCHAR
+  - name: poste_prescription
+    type: VARCHAR
+  - name: libelle_poste_prescription
+    type: VARCHAR
+  - name: montant_total_prescription
+    type: VARCHAR
+  - name: montant_moyen_prescription
+    type: VARCHAR
+  - name: vision_generale_all
+    type: VARCHAR
+  - name: vision_generale_prescriptions
+    type: VARCHAR
+  - name: vision_profession_territoire
+    type: VARCHAR
+  - name: montant_total_prescription_integer
+    type: BIGINT
+  - name: montant_moyen_prescription_integer
+    type: BIGINT

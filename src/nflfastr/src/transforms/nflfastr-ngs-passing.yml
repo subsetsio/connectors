@@ -1,0 +1,63 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [season, season_type, week, player_gsis_id]
+temporal: season
+sort: [season, season_type, week, player_gsis_id]
+columns:
+  - name: season
+    type: INTEGER
+  - name: season_type
+    type: VARCHAR
+  - name: week
+    type: INTEGER
+  - name: player_display_name
+    type: VARCHAR
+  - name: player_position
+    type: VARCHAR
+  - name: team_abbr
+    type: VARCHAR
+  - name: avg_time_to_throw
+    type: DOUBLE
+  - name: avg_completed_air_yards
+    type: DOUBLE
+  - name: avg_intended_air_yards
+    type: DOUBLE
+  - name: avg_air_yards_differential
+    type: DOUBLE
+  - name: aggressiveness
+    type: DOUBLE
+  - name: max_completed_air_distance
+    type: DOUBLE
+  - name: avg_air_yards_to_sticks
+    type: DOUBLE
+  - name: attempts
+    type: INTEGER
+  - name: pass_yards
+    type: INTEGER
+  - name: pass_touchdowns
+    type: INTEGER
+  - name: interceptions
+    type: INTEGER
+  - name: passer_rating
+    type: DOUBLE
+  - name: completions
+    type: INTEGER
+  - name: completion_percentage
+    type: DOUBLE
+  - name: expected_completion_percentage
+    type: DOUBLE
+  - name: completion_percentage_above_expectation
+    type: DOUBLE
+  - name: avg_air_distance
+    type: DOUBLE
+  - name: max_air_distance
+    type: DOUBLE
+  - name: player_gsis_id
+    type: VARCHAR
+  - name: player_first_name
+    type: VARCHAR
+  - name: player_last_name
+    type: VARCHAR
+  - name: player_jersey_number
+    type: INTEGER
+  - name: player_short_name
+    type: VARCHAR

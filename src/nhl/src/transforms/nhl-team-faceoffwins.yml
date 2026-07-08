@@ -1,0 +1,59 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [seasonId, teamId, gameTypeId]
+temporal: seasonId
+sort: [seasonId, teamId, gameTypeId]
+columns:
+  - name: defensiveZoneFaceoffLosses
+    type: BIGINT
+  - name: defensiveZoneFaceoffWins
+    type: BIGINT
+  - name: defensiveZoneFaceoffs
+    type: BIGINT
+  - name: evFaceoffs
+    type: BIGINT
+  - name: evFaceoffsLost
+    type: BIGINT
+  - name: evFaceoffsWon
+    type: BIGINT
+  - name: faceoffWinPct
+    type: DOUBLE
+  - name: faceoffsLost
+    type: BIGINT
+  - name: faceoffsWon
+    type: BIGINT
+  - name: gamesPlayed
+    type: BIGINT
+  - name: neutralZoneFaceoffLosses
+    type: BIGINT
+  - name: neutralZoneFaceoffWins
+    type: BIGINT
+  - name: neutralZoneFaceoffs
+    type: BIGINT
+  - name: offensiveZoneFaceoffLosses
+    type: BIGINT
+  - name: offensiveZoneFaceoffWins
+    type: BIGINT
+  - name: offensiveZoneFaceoffs
+    type: BIGINT
+  - name: ppFaceoffs
+    type: BIGINT
+  - name: ppFaceoffsLost
+    type: BIGINT
+  - name: ppFaceoffsWon
+    type: BIGINT
+  - name: seasonId
+    type: BIGINT
+  - name: shFaceoffs
+    type: BIGINT
+  - name: shFaceoffsLost
+    type: BIGINT
+  - name: shFaceoffsWon
+    type: BIGINT
+  - name: teamFullName
+    type: VARCHAR
+  - name: teamId
+    type: BIGINT
+  - name: totalFaceoffs
+    type: BIGINT
+  - name: gameTypeId
+    type: BIGINT

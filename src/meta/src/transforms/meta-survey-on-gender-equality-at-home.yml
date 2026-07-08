@@ -1,0 +1,206 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: Year
+sort: [Year]
+columns:
+  - name: Year
+    type: BIGINT
+  - name: Region
+    type: VARCHAR
+  - name: Country
+    type: VARCHAR
+  - name: Internet_Penetration
+    type: VARCHAR
+  - name: Gender
+    type: VARCHAR
+  - name: a1_agree
+    type: BIGINT
+  - name: a1_neutral
+    type: BIGINT
+  - name: a1_disagree
+    type: BIGINT
+  - name: a2_opps_other
+    type: DOUBLE
+  - name: a3_yes
+    type: BIGINT
+  - name: a3_no
+    type: BIGINT
+  - name: a4
+    type: BIGINT
+  - name: a5_r
+    type: BIGINT
+  - name: a6_r_city
+    type: BIGINT
+  - name: a6_r_noncity
+    type: BIGINT
+  - name: b1_hours_work
+    type: DOUBLE
+  - name: b2_self
+    type: BIGINT
+  - name: b3_dependent
+    type: BIGINT
+  - name: b3_fullyindependent
+    type: BIGINT
+  - name: b4_agree
+    type: BIGINT
+  - name: b4_neutral
+    type: BIGINT
+  - name: b4_disagree
+    type: BIGINT
+  - name: b5_man_other
+    type: DOUBLE
+  - name: b6_wage
+    type: BIGINT
+  - name: b6_non_wage
+    type: BIGINT
+  - name: b7_full
+    type: BIGINT
+  - name: b7_limited
+    type: BIGINT
+  - name: b8
+    type: BIGINT
+  - name: b9
+    type: BIGINT
+  - name: b10_yes
+    type: BIGINT
+  - name: b10_no
+    type: BIGINT
+  - name: c1_care
+    type: BIGINT
+  - name: c1a_all
+    type: BIGINT
+  - name: c1a_occasionally
+    type: BIGINT
+  - name: c1b_spouse
+    type: BIGINT
+  - name: c1b_nonspouse
+    type: BIGINT
+  - name: c1c_hours_care
+    type: DOUBLE
+  - name: c1d_increase
+    type: BIGINT
+  - name: c1d_same
+    type: BIGINT
+  - name: c1d_decrease
+    type: BIGINT
+  - name: c2_animals
+    type: BIGINT
+  - name: c2_business
+    type: BIGINT
+  - name: c2_clean
+    type: BIGINT
+  - name: c2_cook
+    type: BIGINT
+  - name: c2_farm
+    type: BIGINT
+  - name: c2_hhmanage
+    type: BIGINT
+  - name: c2_none
+    type: BIGINT
+  - name: c2_other
+    type: BIGINT
+  - name: c2_shop
+    type: BIGINT
+  - name: c2_water_fuel
+    type: BIGINT
+  - name: c2a_no
+    type: BIGINT
+  - name: c2a_yes
+    type: BIGINT
+  - name: c2b_spouse
+    type: BIGINT
+  - name: c2c_hours_chores
+    type: DOUBLE
+  - name: c2d_increase
+    type: BIGINT
+  - name: c2d_same
+    type: BIGINT
+  - name: c2d_decrease
+    type: BIGINT
+  - name: c3_agree
+    type: BIGINT
+  - name: c3_neutral
+    type: BIGINT
+  - name: c3_disagree
+    type: BIGINT
+  - name: c4_housewife_other
+    type: DOUBLE
+  - name: d0
+    type: BIGINT
+  - name: d1
+    type: BIGINT
+  - name: d4_computer
+    type: BIGINT
+  - name: d4_home
+    type: BIGINT
+  - name: d4_land
+    type: BIGINT
+  - name: d4_none
+    type: BIGINT
+  - name: d4_phone
+    type: BIGINT
+  - name: d4_vehicle
+    type: BIGINT
+  - name: d5_agree
+    type: BIGINT
+  - name: d5_neutral
+    type: BIGINT
+  - name: d5_disagree
+    type: BIGINT
+  - name: d6_health
+    type: BIGINT
+  - name: d6_isolate
+    type: BIGINT
+  - name: d6_job
+    type: BIGINT
+  - name: d6_medical
+    type: BIGINT
+  - name: d6_migrate
+    type: BIGINT
+  - name: d6_none
+    type: BIGINT
+  - name: d6_other
+    type: BIGINT
+  - name: d6_personal
+    type: BIGINT
+  - name: d6_school
+    type: BIGINT
+  - name: d6_transport
+    type: BIGINT
+  - name: d6_wait
+    type: BIGINT
+  - name: d7_bored
+    type: BIGINT
+  - name: d7_food
+    type: BIGINT
+  - name: d7_health
+    type: BIGINT
+  - name: d7_info
+    type: BIGINT
+  - name: d7_loan
+    type: BIGINT
+  - name: d7_money
+    type: BIGINT
+  - name: d7_none
+    type: BIGINT
+  - name: d7_stuck
+    type: BIGINT
+  - name: d7_work
+    type: BIGINT
+  - name: _source_file
+    type: VARCHAR
+  - name: Variable
+    type: VARCHAR
+  - name: Variable Label
+    type: VARCHAR
+  - name: Response Category
+    type: VARCHAR
+  - name: Notes
+    type: VARCHAR
+  - name: Important information about this dataset
+    type: VARCHAR
+  - name: column1
+    type: VARCHAR
+  - name: "Important note: This datasets combines available country-level aggregate data from all waves of the Survey on Gender Equality at Home, specifically for the purpose of facilitating longitudinal comparisons. Individual datasets for each wave are also publicly available. Before using this dataset for any reason, review the individual wave datasets first for important information, context, limitations, and additional notes about each wave's survey, questionnaire, variables, and data. These files are available on the UN Humanitarian Data Exchange here: https://data.humdata.org/dataset/survey-on-gender-equality-at-home"
+    type: VARCHAR
+  - name: "Important note: This datasets combines available region-level aggregate data from all waves of the Survey on Gender Equality at Home, specifically for the purpose of facilitating longitudinal comparisons. Individual datasets for each wave are also publicly available. Before using this dataset for any reason, review the individual wave datasets first for important information, context, limitations, and additional notes about each wave's survey, questionnaire, variables, and data. These files are available on the UN Humanitarian Data Exchange here: https://data.humdata.org/dataset/survey-on-gender-equality-at-home"
+    type: VARCHAR

@@ -1,0 +1,46 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: indicator_id
+    type: BIGINT
+  - name: parent_id
+    type: BIGINT
+  - name: indicator_id_path
+    type: VARCHAR
+  - name: is_leaf
+    type: BOOLEAN
+  - name: global_order
+    type: VARCHAR
+  - name: name_en
+    type: VARCHAR
+  - name: name_pt
+    type: VARCHAR
+  - name: name_zh_mo
+    type: VARCHAR
+  - name: name_zh_cn
+    type: VARCHAR
+  - name: unit_en
+    type: VARCHAR
+  - name: unit_pt
+    type: VARCHAR
+  - name: unit_zh_mo
+    type: VARCHAR
+  - name: min_year
+    type: INTEGER
+  - name: max_year
+    type: INTEGER
+  - name: yearly_available
+    type: BOOLEAN
+  - name: quarterly_available
+    type: BOOLEAN
+  - name: monthly_available
+    type: BOOLEAN
+  - name: three_consec_months_available
+    type: BOOLEAN
+  - name: val_available
+    type: BOOLEAN
+  - name: spv_available
+    type: BOOLEAN
+  - name: ppv_available
+    type: BOOLEAN
+  - name: pot_available
+    type: BOOLEAN

@@ -1,0 +1,25 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [lei, activity_year]
+temporal: activity_year
+sort: [activity_year, lei]
+columns:
+  - name: activity_year
+    type: INTEGER
+  - name: calendar_quarter
+    type: INTEGER
+  - name: lei
+    type: VARCHAR
+  - name: tax_id
+    type: VARCHAR
+  - name: agency_code
+    type: INTEGER
+  - name: respondent_name
+    type: VARCHAR
+  - name: respondent_state
+    type: VARCHAR
+  - name: respondent_city
+    type: VARCHAR
+  - name: respondent_zip_code
+    type: VARCHAR
+  - name: lar_count
+    type: BIGINT

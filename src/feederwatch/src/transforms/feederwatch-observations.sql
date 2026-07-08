@@ -1,0 +1,27 @@
+SELECT
+    LOC_ID                              AS loc_id,
+    TRY_CAST(LATITUDE  AS DOUBLE)       AS latitude,
+    TRY_CAST(LONGITUDE AS DOUBLE)       AS longitude,
+    SUBNATIONAL1_CODE                   AS subnational1_code,
+    ENTRY_TECHNIQUE                     AS entry_technique,
+    SUB_ID                              AS sub_id,
+    OBS_ID                              AS obs_id,
+    TRY_CAST(Month AS INTEGER)          AS month,
+    TRY_CAST(Day   AS INTEGER)          AS day,
+    TRY_CAST(Year  AS INTEGER)          AS year,
+    PROJ_PERIOD_ID                      AS proj_period_id,
+    SPECIES_CODE                        AS species_code,
+    alt_full_spp_code                   AS alt_full_spp_code,
+    TRY_CAST(HOW_MANY AS INTEGER)       AS how_many,
+    PLUS_CODE                           AS plus_code,
+    TRY_CAST(VALID    AS INTEGER)       AS valid,
+    TRY_CAST(REVIEWED AS INTEGER)       AS reviewed,
+    TRY_CAST(DAY1_AM AS INTEGER)        AS day1_am,
+    TRY_CAST(DAY1_PM AS INTEGER)        AS day1_pm,
+    TRY_CAST(DAY2_AM AS INTEGER)        AS day2_am,
+    TRY_CAST(DAY2_PM AS INTEGER)        AS day2_pm,
+    TRY_CAST(EFFORT_HRS_ATLEAST AS DOUBLE) AS effort_hrs_atleast,
+    TRY_CAST(SNOW_DEP_ATLEAST   AS DOUBLE) AS snow_dep_atleast,
+    Data_Entry_Method                   AS data_entry_method
+FROM "feederwatch-observations"
+WHERE OBS_ID IS NOT NULL

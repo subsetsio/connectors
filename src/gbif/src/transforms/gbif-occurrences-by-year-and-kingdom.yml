@@ -1,0 +1,11 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [kingdom_key, year]
+temporal: year
+sort: [year, kingdom_key]
+columns:
+  - name: kingdom_key
+    type: INTEGER
+  - name: year
+    type: INTEGER
+  - name: occurrence_count
+    type: BIGINT

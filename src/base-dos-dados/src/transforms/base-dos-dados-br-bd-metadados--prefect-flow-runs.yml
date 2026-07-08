@@ -1,0 +1,34 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: id
+    type: VARCHAR
+  - name: flow_group_id
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: labels
+    type: VARCHAR
+  - name: flow_project_name
+    type: VARCHAR
+  - name: flow_name
+    type: VARCHAR
+  - name: flow_archived
+    type: BOOLEAN
+  - name: dataset_id
+    type: VARCHAR
+  - name: table_id
+    type: VARCHAR
+  - name: start_time
+    type: VARCHAR
+  - name: end_time
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: state_message
+    type: VARCHAR
+  - name: task_runs
+    type: VARCHAR
+  - name: skipped_upload_to_gcs
+    type: BOOLEAN
+  - name: error_logs
+    type: VARCHAR

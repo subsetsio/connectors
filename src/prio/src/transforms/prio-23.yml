@@ -1,0 +1,33 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [conflepid]
+temporal: ependdate
+sort: [ependdate, conflepid]
+columns:
+  - name: acdid
+    type: SMALLINT
+  - name: conflepid
+    type: VARCHAR
+  - name: epstartdate
+    type: TIMESTAMP
+  - name: ependdate
+    type: TIMESTAMP
+  - name: begin
+    type: SMALLINT
+  - name: end
+    type: SMALLINT
+  - name: location
+    type: VARCHAR
+  - name: ccode
+    type: DOUBLE
+  - name: sidea
+    type: VARCHAR
+  - name: sideb
+    type: VARCHAR
+  - name: res_confl
+    type: FLOAT
+  - name: aggrav
+    type: TINYINT
+  - name: finance
+    type: TINYINT
+  - name: distribution
+    type: TINYINT

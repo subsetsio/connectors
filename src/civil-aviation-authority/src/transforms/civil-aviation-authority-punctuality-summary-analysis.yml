@@ -1,0 +1,50 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: Run Date
+    type: VARCHAR
+  - name: Reporting Period
+    type: BIGINT
+  - name: Reporting Airport
+    type: VARCHAR
+  - name: Origin Destination
+    type: VARCHAR
+  - name: Number Flights Matched
+    type: BIGINT
+  - name: Actual Flights Unmatched
+    type: BIGINT
+  - name: Number Flights Cancelled
+    type: BIGINT
+  - name: Flights more than 15 minutes early percent
+    type: DOUBLE
+  - name: Flights 15 minutes early to 1 minute early percent
+    type: DOUBLE
+  - name: Flights 0 (zero) to 15 minutes late percent
+    type: DOUBLE
+  - name: Flights between 16 and 30 minutes late percent
+    type: DOUBLE
+  - name: Flights between 31 and 60 minutes late percent
+    type: DOUBLE
+  - name: Flights between 61 and 120 minutes late percent
+    type: DOUBLE
+  - name: Flights between 121 and 180 minutes late percent
+    type: DOUBLE
+  - name: Flights between 181 and 360 minutes late percent
+    type: DOUBLE
+  - name: Flights more than 360 minutes late percent
+    type: DOUBLE
+  - name: Flights Unmatched Percent
+    type: DOUBLE
+  - name: Flights Cancelled Percent
+    type: DOUBLE
+  - name: Average Delay Minutes
+    type: DOUBLE
+  - name: Previous Year Month Flights Matched
+    type: BIGINT
+  - name: Previous Year month early to 15 mins late percent
+    type: DOUBLE
+  - name: Previous Year Month Average Delay
+    type: DOUBLE
+  - name: release_period
+    type: BIGINT
+  - name: family
+    type: VARCHAR

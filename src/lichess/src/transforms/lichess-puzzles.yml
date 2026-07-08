@@ -1,0 +1,24 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [puzzle_id]
+sort: [puzzle_id]
+columns:
+  - name: puzzle_id
+    type: VARCHAR
+  - name: fen
+    type: VARCHAR
+  - name: moves
+    type: VARCHAR
+  - name: rating
+    type: INTEGER
+  - name: rating_deviation
+    type: INTEGER
+  - name: popularity
+    type: INTEGER
+  - name: nb_plays
+    type: BIGINT
+  - name: themes
+    type: VARCHAR
+  - name: game_url
+    type: VARCHAR
+  - name: opening_tags
+    type: VARCHAR

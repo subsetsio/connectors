@@ -1,0 +1,635 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [country, year]
+temporal: year
+sort: [year, country]
+columns:
+  - name: year
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: countryn
+    type: BIGINT
+  - name: iso
+    type: VARCHAR
+  - name: iso3n
+    type: BIGINT
+  - name: cpds1
+    type: BIGINT
+  - name: poco
+    type: DOUBLE
+  - name: eu
+    type: DOUBLE
+  - name: emu
+    type: DOUBLE
+  - name: gov_right1
+    type: DOUBLE
+  - name: gov_cent1
+    type: DOUBLE
+  - name: gov_left1
+    type: DOUBLE
+  - name: gov_party
+    type: DOUBLE
+  - name: gov_new
+    type: DOUBLE
+  - name: gov_gap
+    type: DOUBLE
+  - name: gov_chan
+    type: DOUBLE
+  - name: gov_right2
+    type: DOUBLE
+  - name: gov_cent2
+    type: DOUBLE
+  - name: gov_left2
+    type: DOUBLE
+  - name: gov_right3
+    type: DOUBLE
+  - name: gov_cent3
+    type: DOUBLE
+  - name: gov_left3
+    type: DOUBLE
+  - name: gov_sup
+    type: DOUBLE
+  - name: gov_type
+    type: DOUBLE
+  - name: elect
+    type: TIMESTAMP
+  - name: vturn
+    type: DOUBLE
+  - name: social1
+    type: DOUBLE
+  - name: social2
+    type: DOUBLE
+  - name: social3
+    type: DOUBLE
+  - name: social4
+    type: DOUBLE
+  - name: social5
+    type: DOUBLE
+  - name: social6
+    type: DOUBLE
+  - name: social7
+    type: DOUBLE
+  - name: social8
+    type: DOUBLE
+  - name: social9
+    type: DOUBLE
+  - name: leftsoc1
+    type: DOUBLE
+  - name: leftsoc2
+    type: DOUBLE
+  - name: leftsoc3
+    type: DOUBLE
+  - name: leftsoc4
+    type: DOUBLE
+  - name: leftsoc5
+    type: DOUBLE
+  - name: comm1
+    type: DOUBLE
+  - name: comm2
+    type: DOUBLE
+  - name: comm3
+    type: DOUBLE
+  - name: comm4
+    type: DOUBLE
+  - name: postcom1
+    type: DOUBLE
+  - name: postcom2
+    type: DOUBLE
+  - name: agrarian1
+    type: DOUBLE
+  - name: agrarian2
+    type: DOUBLE
+  - name: agrarian3
+    type: DOUBLE
+  - name: conserv1
+    type: DOUBLE
+  - name: conserv2
+    type: DOUBLE
+  - name: conserv3
+    type: DOUBLE
+  - name: conserv4
+    type: DOUBLE
+  - name: conserv5
+    type: DOUBLE
+  - name: conserv6
+    type: DOUBLE
+  - name: conserv7
+    type: DOUBLE
+  - name: conserv8
+    type: DOUBLE
+  - name: conserv9
+    type: DOUBLE
+  - name: conserv10
+    type: DOUBLE
+  - name: conserv11
+    type: DOUBLE
+  - name: conserv12
+    type: DOUBLE
+  - name: conserv13
+    type: DOUBLE
+  - name: relig1
+    type: DOUBLE
+  - name: relig2
+    type: DOUBLE
+  - name: relig3
+    type: DOUBLE
+  - name: relig4
+    type: DOUBLE
+  - name: relig5
+    type: DOUBLE
+  - name: relig6
+    type: DOUBLE
+  - name: relig7
+    type: DOUBLE
+  - name: liberal1
+    type: DOUBLE
+  - name: liberal2
+    type: DOUBLE
+  - name: liberal3
+    type: DOUBLE
+  - name: liberal4
+    type: DOUBLE
+  - name: liberal5
+    type: DOUBLE
+  - name: liberal6
+    type: DOUBLE
+  - name: liberal7
+    type: DOUBLE
+  - name: liberal8
+    type: DOUBLE
+  - name: liberal9
+    type: DOUBLE
+  - name: liberal10
+    type: DOUBLE
+  - name: liberal11
+    type: DOUBLE
+  - name: liberal12
+    type: DOUBLE
+  - name: protest1
+    type: DOUBLE
+  - name: protest2
+    type: DOUBLE
+  - name: protest3
+    type: DOUBLE
+  - name: protest4
+    type: DOUBLE
+  - name: protest5
+    type: DOUBLE
+  - name: green1
+    type: DOUBLE
+  - name: green2
+    type: DOUBLE
+  - name: green3
+    type: DOUBLE
+  - name: ethnic1
+    type: DOUBLE
+  - name: ethnic2
+    type: DOUBLE
+  - name: ethnic3
+    type: DOUBLE
+  - name: ethnic4
+    type: DOUBLE
+  - name: ethnic5
+    type: DOUBLE
+  - name: right1
+    type: DOUBLE
+  - name: right2
+    type: DOUBLE
+  - name: right3
+    type: DOUBLE
+  - name: right4
+    type: DOUBLE
+  - name: right5
+    type: DOUBLE
+  - name: right6
+    type: DOUBLE
+  - name: right7
+    type: DOUBLE
+  - name: regio1
+    type: DOUBLE
+  - name: femin1
+    type: DOUBLE
+  - name: monarch1
+    type: DOUBLE
+  - name: person1
+    type: DOUBLE
+  - name: pension1
+    type: DOUBLE
+  - name: pension2
+    type: DOUBLE
+  - name: nonlbl1
+    type: DOUBLE
+  - name: nonlbl2
+    type: DOUBLE
+  - name: allia1
+    type: DOUBLE
+  - name: allia2
+    type: DOUBLE
+  - name: allia3
+    type: DOUBLE
+  - name: others
+    type: DOUBLE
+  - name: ssocial1
+    type: DOUBLE
+  - name: ssocial2
+    type: DOUBLE
+  - name: ssocial3
+    type: DOUBLE
+  - name: ssocial4
+    type: DOUBLE
+  - name: ssocial5
+    type: DOUBLE
+  - name: ssocial6
+    type: DOUBLE
+  - name: ssocial7
+    type: DOUBLE
+  - name: ssocial8
+    type: DOUBLE
+  - name: ssocial9
+    type: DOUBLE
+  - name: sleftsoc1
+    type: DOUBLE
+  - name: sleftsoc2
+    type: DOUBLE
+  - name: sleftsoc3
+    type: DOUBLE
+  - name: sleftsoc4
+    type: DOUBLE
+  - name: sleftsoc5
+    type: DOUBLE
+  - name: scomm1
+    type: DOUBLE
+  - name: scomm2
+    type: DOUBLE
+  - name: scomm3
+    type: DOUBLE
+  - name: scomm4
+    type: DOUBLE
+  - name: spostcom1
+    type: DOUBLE
+  - name: spostcom2
+    type: DOUBLE
+  - name: sagrarian1
+    type: DOUBLE
+  - name: sagrarian2
+    type: DOUBLE
+  - name: sagrarian3
+    type: DOUBLE
+  - name: sconserv1
+    type: DOUBLE
+  - name: sconserv2
+    type: DOUBLE
+  - name: sconserv3
+    type: DOUBLE
+  - name: sconserv4
+    type: DOUBLE
+  - name: sconserv5
+    type: DOUBLE
+  - name: sconserv6
+    type: DOUBLE
+  - name: sconserv7
+    type: DOUBLE
+  - name: sconserv8
+    type: DOUBLE
+  - name: sconserv9
+    type: DOUBLE
+  - name: sconserv10
+    type: DOUBLE
+  - name: sconserv11
+    type: DOUBLE
+  - name: sconserv12
+    type: DOUBLE
+  - name: sconserv13
+    type: DOUBLE
+  - name: srelig1
+    type: DOUBLE
+  - name: srelig2
+    type: DOUBLE
+  - name: srelig3
+    type: DOUBLE
+  - name: srelig4
+    type: DOUBLE
+  - name: srelig5
+    type: DOUBLE
+  - name: srelig6
+    type: DOUBLE
+  - name: srelig7
+    type: DOUBLE
+  - name: sliberal1
+    type: DOUBLE
+  - name: sliberal2
+    type: DOUBLE
+  - name: sliberal3
+    type: DOUBLE
+  - name: sliberal4
+    type: DOUBLE
+  - name: sliberal5
+    type: DOUBLE
+  - name: sliberal6
+    type: DOUBLE
+  - name: sliberal7
+    type: DOUBLE
+  - name: sliberal8
+    type: DOUBLE
+  - name: sliberal9
+    type: DOUBLE
+  - name: sliberal10
+    type: DOUBLE
+  - name: sliberal11
+    type: DOUBLE
+  - name: sliberal12
+    type: DOUBLE
+  - name: sprotest1
+    type: DOUBLE
+  - name: sprotest2
+    type: DOUBLE
+  - name: sprotest3
+    type: DOUBLE
+  - name: sprotest4
+    type: DOUBLE
+  - name: sprotest5
+    type: DOUBLE
+  - name: sgreen1
+    type: DOUBLE
+  - name: sgreen2
+    type: DOUBLE
+  - name: sgreen3
+    type: DOUBLE
+  - name: sethnic1
+    type: DOUBLE
+  - name: sethnic2
+    type: DOUBLE
+  - name: sethnic3
+    type: DOUBLE
+  - name: sethnic4
+    type: DOUBLE
+  - name: sethnic5
+    type: DOUBLE
+  - name: sright1
+    type: DOUBLE
+  - name: sright2
+    type: DOUBLE
+  - name: sright3
+    type: DOUBLE
+  - name: sright4
+    type: DOUBLE
+  - name: sright5
+    type: DOUBLE
+  - name: sright6
+    type: DOUBLE
+  - name: sright7
+    type: DOUBLE
+  - name: sregio1
+    type: DOUBLE
+  - name: sfemin1
+    type: DOUBLE
+  - name: smonarch1
+    type: DOUBLE
+  - name: sperson1
+    type: DOUBLE
+  - name: spension1
+    type: DOUBLE
+  - name: spension2
+    type: DOUBLE
+  - name: snonlbl1
+    type: DOUBLE
+  - name: snonlbl2
+    type: DOUBLE
+  - name: sallia1
+    type: DOUBLE
+  - name: sallia2
+    type: DOUBLE
+  - name: sallia3
+    type: DOUBLE
+  - name: sothers
+    type: DOUBLE
+  - name: womenpar
+    type: DOUBLE
+  - name: rae_ele
+    type: DOUBLE
+  - name: rae_leg
+    type: DOUBLE
+  - name: effpar_ele
+    type: DOUBLE
+  - name: effpar_leg
+    type: DOUBLE
+  - name: dis_abso
+    type: DOUBLE
+  - name: dis_rel
+    type: DOUBLE
+  - name: dis_gall
+    type: DOUBLE
+  - name: lfirst
+    type: DOUBLE
+  - name: lsec
+    type: DOUBLE
+  - name: leff
+    type: DOUBLE
+  - name: lmin
+    type: DOUBLE
+  - name: lexe
+    type: DOUBLE
+  - name: ldis
+    type: DOUBLE
+  - name: lint
+    type: DOUBLE
+  - name: lfed
+    type: DOUBLE
+  - name: lbic
+    type: DOUBLE
+  - name: lrid
+    type: DOUBLE
+  - name: ljud
+    type: DOUBLE
+  - name: lbank
+    type: DOUBLE
+  - name: lfirstp
+    type: DOUBLE
+  - name: lfirstpi
+    type: DOUBLE
+  - name: lfirstpb
+    type: DOUBLE
+  - name: instcons
+    type: DOUBLE
+  - name: structur
+    type: DOUBLE
+  - name: fed
+    type: DOUBLE
+  - name: pres
+    type: DOUBLE
+  - name: prop
+    type: DOUBLE
+  - name: bic
+    type: DOUBLE
+  - name: referen
+    type: DOUBLE
+  - name: dir
+    type: DOUBLE
+  - name: judrev
+    type: DOUBLE
+  - name: kaopen
+    type: VARCHAR
+  - name: openc
+    type: DOUBLE
+  - name: outlays
+    type: DOUBLE
+  - name: receipts
+    type: DOUBLE
+  - name: realgdpgr
+    type: DOUBLE
+  - name: nomgdpgr
+    type: DOUBLE
+  - name: inflation
+    type: DOUBLE
+  - name: debt
+    type: DOUBLE
+  - name: debt_hist
+    type: DOUBLE
+  - name: deficit
+    type: DOUBLE
+  - name: pbal
+    type: DOUBLE
+  - name: capb
+    type: DOUBLE
+  - name: interest
+    type: DOUBLE
+  - name: curac
+    type: DOUBLE
+  - name: ttl_labf
+    type: DOUBLE
+  - name: civ_labf
+    type: DOUBLE
+  - name: emp_civ
+    type: DOUBLE
+  - name: labfopar
+    type: DOUBLE
+  - name: empratio
+    type: DOUBLE
+  - name: emp_ag
+    type: DOUBLE
+  - name: emp_ind
+    type: DOUBLE
+  - name: emp_serv
+    type: DOUBLE
+  - name: emp_un
+    type: DOUBLE
+  - name: unemp
+    type: DOUBLE
+  - name: nld
+    type: DOUBLE
+  - name: wi
+    type: DOUBLE
+  - name: wdlost
+    type: DOUBLE
+  - name: strike
+    type: DOUBLE
+  - name: grossu
+    type: DOUBLE
+  - name: netu
+    type: DOUBLE
+  - name: ud
+    type: DOUBLE
+  - name: adjcov
+    type: DOUBLE
+  - name: grossu_ipol
+    type: DOUBLE
+  - name: netu_ipol
+    type: DOUBLE
+  - name: ud_ipol
+    type: DOUBLE
+  - name: adjcov_ipol
+    type: DOUBLE
+  - name: sstran
+    type: DOUBLE
+  - name: socexp_t_pmp
+    type: DOUBLE
+  - name: socexp_c_pmp
+    type: DOUBLE
+  - name: socexp_k_pmp
+    type: DOUBLE
+  - name: oldage_pmp
+    type: DOUBLE
+  - name: survivor_pmp
+    type: DOUBLE
+  - name: incapben_pmp
+    type: DOUBLE
+  - name: health_pmp
+    type: DOUBLE
+  - name: family_pmp
+    type: DOUBLE
+  - name: almp_pmp
+    type: DOUBLE
+  - name: unemp_pmp
+    type: DOUBLE
+  - name: housing_pmp
+    type: DOUBLE
+  - name: othsocx_pmp
+    type: DOUBLE
+  - name: educexp_gov
+    type: DOUBLE
+  - name: educexp_gov_ipol
+    type: DOUBLE
+  - name: educexp_public
+    type: DOUBLE
+  - name: educexp_public_ipol
+    type: DOUBLE
+  - name: educexp_private
+    type: DOUBLE
+  - name: educexp_private_ipol
+    type: DOUBLE
+  - name: educatt_minimal
+    type: DOUBLE
+  - name: educatt_minimal_ipol
+    type: DOUBLE
+  - name: educatt_tertiary
+    type: DOUBLE
+  - name: educatt_tertiary_ipol
+    type: DOUBLE
+  - name: fallow_pmp
+    type: DOUBLE
+  - name: mpleave_pmp
+    type: DOUBLE
+  - name: othfam_c_pmp
+    type: DOUBLE
+  - name: childcare_pmp
+    type: DOUBLE
+  - name: homehelp_pmp
+    type: DOUBLE
+  - name: othfam_k_pmp
+    type: DOUBLE
+  - name: servadmi_pmp
+    type: DOUBLE
+  - name: training_pmp
+    type: DOUBLE
+  - name: jobrot_pmp
+    type: DOUBLE
+  - name: incent_pmp
+    type: DOUBLE
+  - name: disabled_pmp
+    type: DOUBLE
+  - name: jobcrea_pmp
+    type: DOUBLE
+  - name: startup_pmp
+    type: DOUBLE
+  - name: compen_pmp
+    type: DOUBLE
+  - name: earretir_pmp
+    type: DOUBLE
+  - name: emprot_reg
+    type: DOUBLE
+  - name: emprot_temp
+    type: DOUBLE
+  - name: prefisc_gini
+    type: DOUBLE
+  - name: pretran_gini
+    type: DOUBLE
+  - name: postfisc_gini
+    type: DOUBLE
+  - name: pop
+    type: DOUBLE
+  - name: pop15_64
+    type: DOUBLE
+  - name: pop65
+    type: DOUBLE
+  - name: elderly
+    type: DOUBLE

@@ -1,0 +1,32 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: vintage
+sort: [vintage]
+columns:
+  - name: date
+    type: VARCHAR
+  - name: tin
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: disc_or_mand
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: bureau
+    type: VARCHAR
+  - name: function_code
+    type: BIGINT
+  - name: subfunction_code
+    type: BIGINT
+  - name: off_budget
+    type: VARCHAR
+  - name: budget_authority
+    type: DOUBLE
+  - name: outlays
+    type: DOUBLE
+  - name: vintage
+    type: VARCHAR
+  - name: file_type
+    type: VARCHAR

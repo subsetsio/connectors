@@ -1,0 +1,28 @@
+SELECT
+    TRIM("N-NUMBER")                                      AS n_number,
+    TRIM("SERIAL NUMBER")                                 AS serial_number,
+    TRIM("MFR MDL CODE")                                  AS mfr_mdl_code,
+    TRIM("ENG MFR MDL")                                   AS eng_mfr_mdl_code,
+    TRY_CAST(NULLIF(TRIM("YEAR MFR"), '') AS INTEGER)     AS year_mfr,
+    TRIM("TYPE REGISTRANT")                               AS type_registrant,
+    TRIM("NAME")                                          AS registrant_name,
+    TRIM("CITY")                                          AS city,
+    TRIM("STATE")                                         AS state,
+    TRIM("ZIP CODE")                                      AS zip_code,
+    TRIM("COUNTY")                                        AS county,
+    TRIM("COUNTRY")                                       AS country,
+    TRY_STRPTIME(NULLIF(TRIM("LAST ACTION DATE"), ''), '%Y%m%d')::DATE AS last_action_date,
+    TRY_STRPTIME(NULLIF(TRIM("CERT ISSUE DATE"), ''), '%Y%m%d')::DATE  AS cert_issue_date,
+    TRIM("CERTIFICATION")                                 AS certification,
+    TRIM("TYPE AIRCRAFT")                                 AS type_aircraft,
+    TRIM("TYPE ENGINE")                                   AS type_engine,
+    TRIM("STATUS CODE")                                   AS status_code,
+    TRIM("MODE S CODE")                                   AS mode_s_code,
+    TRY_STRPTIME(NULLIF(TRIM("AIR WORTH DATE"), ''), '%Y%m%d')::DATE   AS air_worthiness_date,
+    TRY_STRPTIME(NULLIF(TRIM("EXPIRATION DATE"), ''), '%Y%m%d')::DATE  AS expiration_date,
+    TRIM("UNIQUE ID")                                     AS unique_id,
+    TRIM("KIT MFR")                                       AS kit_mfr,
+    TRIM("KIT MODEL")                                     AS kit_model,
+    TRIM("MODE S CODE HEX")                               AS mode_s_code_hex
+FROM "faa-master"
+WHERE TRIM("N-NUMBER") <> ''

@@ -1,0 +1,20 @@
+SELECT
+    "Area Type" AS area_type,
+    "Area Name" AS area_name,
+    "Period" AS period,
+    TRY_CAST("SOC Level" AS INTEGER) AS soc_level,
+    "Standard Occupational Classification (SOC)" AS soc_code,
+    "Occupational Title" AS occupational_title,
+    TRY_CAST(NULLIF(regexp_replace(CAST("Base Year Employment Estimate" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS base_year_employment,
+    TRY_CAST(NULLIF(regexp_replace(CAST("Projected Year Employment Estimate" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS projected_year_employment,
+    TRY_CAST(NULLIF(regexp_replace(CAST("Numeric Change" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS numeric_change,
+    TRY_CAST(NULLIF(regexp_replace(CAST("Percentage Change" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS percentage_change,
+    TRY_CAST(NULLIF(regexp_replace(CAST("Exits" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS exits,
+    TRY_CAST(NULLIF(regexp_replace(CAST("Transfers" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS transfers,
+    TRY_CAST(NULLIF(regexp_replace(CAST("Total Job Openings" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS total_job_openings,
+    TRY_CAST(NULLIF(regexp_replace(CAST("Median Hourly Wage" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS median_hourly_wage,
+    TRY_CAST(NULLIF(regexp_replace(CAST("Median Annual Wage" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS median_annual_wage,
+    "Entry Level Education" AS entry_level_education,
+    "Work Experience" AS work_experience,
+    "Job Training" AS job_training
+FROM "california-edd-715d1324-ac02-4b11-b922-86bafa6eb80f"

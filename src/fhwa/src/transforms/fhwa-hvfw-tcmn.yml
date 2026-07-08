@@ -1,0 +1,11 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, state]
+temporal: year
+sort: [year, state]
+columns:
+  - name: year
+    type: INTEGER
+  - name: state
+    type: VARCHAR
+  - name: gallons_taxed
+    type: BIGINT

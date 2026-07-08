@@ -1,0 +1,26 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: VARCHAR
+  - name: economy
+    type: VARCHAR
+  - name: economy_label
+    type: VARCHAR
+  - name: flow
+    type: VARCHAR
+  - name: flow_label
+    type: VARCHAR
+  - name: us_at_current_prices_in_millions
+    type: DOUBLE
+  - name: us_at_current_prices_in_millions_footnote
+    type: VARCHAR
+  - name: us_at_current_prices_in_millions_missing_value
+    type: VARCHAR
+  - name: percentage_of_gross_domestic_product
+    type: DOUBLE
+  - name: percentage_of_gross_domestic_product_footnote
+    type: VARCHAR
+  - name: percentage_of_gross_domestic_product_missing_value
+    type: VARCHAR

@@ -1,0 +1,34 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: data_id
+    type: BIGINT
+  - name: indicator_id
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: country_code
+    type: VARCHAR
+  - name: country_name
+    type: VARCHAR
+  - name: survey_year
+    type: INTEGER
+  - name: survey_id
+    type: VARCHAR
+  - name: survey_type
+    type: VARCHAR
+  - name: characteristic_category
+    type: VARCHAR
+  - name: characteristic_label
+    type: VARCHAR
+  - name: by_variable_label
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: is_preferred
+    type: BOOLEAN
+  - name: ci_low
+    type: DOUBLE
+  - name: ci_high
+    type: DOUBLE
+  - name: precision
+    type: INTEGER

@@ -1,0 +1,702 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: c_country
+    type: VARCHAR
+  - name: c_iso_numeric
+    type: BIGINT
+  - name: c_safe_va_sup
+    type: DOUBLE
+  - name: c_safe_va_pers
+    type: DOUBLE
+  - name: c_safe_va_hosp
+    type: BIGINT
+  - name: c_safe_de_sup
+    type: DOUBLE
+  - name: c_safe_de_pers
+    type: DOUBLE
+  - name: c_safe_de_hosp
+    type: BIGINT
+  - name: c_safe_mifemiso_ls12_sup
+    type: DOUBLE
+  - name: c_safe_mifemiso_ls12_pers
+    type: DOUBLE
+  - name: c_safe_mifemiso_ls12_hosp
+    type: BIGINT
+  - name: c_safe_mifemiso_12p_sup
+    type: DOUBLE
+  - name: c_safe_mifemiso_12p_pers
+    type: DOUBLE
+  - name: c_safe_mifemiso_12p_hosp
+    type: BIGINT
+  - name: c_safe_miso_ls12_sup
+    type: DOUBLE
+  - name: c_safe_miso_ls12_pers
+    type: DOUBLE
+  - name: c_safe_miso_ls12_hosp
+    type: BIGINT
+  - name: c_safe_miso_12p_sup
+    type: DOUBLE
+  - name: c_safe_miso_12p_pers
+    type: DOUBLE
+  - name: c_safe_miso_12p_hosp
+    type: BIGINT
+  - name: c_lesssafe_va_sup
+    type: DOUBLE
+  - name: c_lesssafe_va_pers
+    type: BIGINT
+  - name: c_lesssafe_va_hosp
+    type: BIGINT
+  - name: c_lesssafe_dc_sup
+    type: DOUBLE
+  - name: c_lesssafe_dc_pers
+    type: BIGINT
+  - name: c_lesssafe_dc_hosp
+    type: BIGINT
+  - name: c_lesssafe_mifemiso_ls12_sup
+    type: DOUBLE
+  - name: c_lesssafe_mifemiso_ls12_pers
+    type: BIGINT
+  - name: c_lesssafe_mifemiso_ls12_hosp
+    type: BIGINT
+  - name: c_lesssafe_mifemiso_12p_sup
+    type: DOUBLE
+  - name: c_lesssafe_mifemiso_12p_pers
+    type: BIGINT
+  - name: c_lesssafe_mifemiso_12p_hosp
+    type: BIGINT
+  - name: c_lesssafe_miso_ls12_sup
+    type: DOUBLE
+  - name: c_lesssafe_miso_ls12_pers
+    type: BIGINT
+  - name: c_lesssafe_miso_ls12_hosp
+    type: BIGINT
+  - name: c_lesssafe_miso_12p_sup
+    type: DOUBLE
+  - name: c_lesssafe_miso_12p_pers
+    type: BIGINT
+  - name: c_lesssafe_miso_12p_hosp
+    type: BIGINT
+  - name: c_pac_mva_sup
+    type: DOUBLE
+  - name: c_pac_mva_pers
+    type: DOUBLE
+  - name: c_pac_mva_hosp
+    type: BIGINT
+  - name: c_pac_miso_sup
+    type: DOUBLE
+  - name: c_pac_miso_pers
+    type: DOUBLE
+  - name: c_pac_miso_hosp
+    type: BIGINT
+  - name: c_pac_nonsevhem_sup
+    type: DOUBLE
+  - name: c_pac_nonsevhem_pers
+    type: DOUBLE
+  - name: c_pac_nonsevhem_hosp
+    type: BIGINT
+  - name: c_pac_cemoc_sho_sup
+    type: DOUBLE
+  - name: c_pac_cemoc_sho_pers
+    type: DOUBLE
+  - name: c_pac_cemoc_sho_hosp
+    type: DOUBLE
+  - name: c_pac_cemoc_sep_sup
+    type: DOUBLE
+  - name: c_pac_cemoc_sep_pers
+    type: DOUBLE
+  - name: c_pac_cemoc_sep_hosp
+    type: DOUBLE
+  - name: c_pac_cemoc_per_sup
+    type: DOUBLE
+  - name: c_pac_cemoc_per_pers
+    type: DOUBLE
+  - name: c_pac_cemoc_per_hosp
+    type: DOUBLE
+  - name: c_pac_cemoc_hem_sup
+    type: DOUBLE
+  - name: c_pac_cemoc_hem_pers
+    type: DOUBLE
+  - name: c_pac_cemoc_hem_hosp
+    type: DOUBLE
+  - name: c_pac_ref_sup
+    type: DOUBLE
+  - name: c_pac_ref_pers
+    type: DOUBLE
+  - name: c_pac_ref_hosp
+    type: BIGINT
+  - name: c_pac_miscar14to27_sup
+    type: DOUBLE
+  - name: c_pac_miscar14to27_pers
+    type: DOUBLE
+  - name: c_pac_miscar14to27_hosp
+    type: BIGINT
+  - name: c_pac_miscar6to13_sup
+    type: DOUBLE
+  - name: c_pac_miscar6to13_pers
+    type: DOUBLE
+  - name: c_pac_miscar6to13_hosp
+    type: BIGINT
+  - name: c_ectopic_eval_sup
+    type: DOUBLE
+  - name: c_ectopic_eval_pers
+    type: DOUBLE
+  - name: c_ectopic_eval_hosp
+    type: BIGINT
+  - name: c_ectopic_care_sup
+    type: DOUBLE
+  - name: c_ectopic_care_pers
+    type: DOUBLE
+  - name: c_ectopic_care_hosp
+    type: DOUBLE
+  - name: c_basicanc_full_sup
+    type: DOUBLE
+  - name: c_basicanc_full_pers
+    type: DOUBLE
+  - name: c_basicanc_full_hosp
+    type: BIGINT
+  - name: c_basicanc_first_sup
+    type: DOUBLE
+  - name: c_basicanc_first_pers
+    type: DOUBLE
+  - name: c_basicanc_first_hosp
+    type: BIGINT
+  - name: c_basicanc_pervisit_sup
+    type: DOUBLE
+  - name: c_basicanc_pervisit_pers
+    type: DOUBLE
+  - name: c_basicanc_pervisit_hosp
+    type: BIGINT
+  - name: c_bfcounsel_all_sup
+    type: BIGINT
+  - name: c_bfcounsel_all_pers
+    type: DOUBLE
+  - name: c_bfcounsel_all_hosp
+    type: BIGINT
+  - name: c_tetanus_sup
+    type: DOUBLE
+  - name: c_tetanus_pers
+    type: DOUBLE
+  - name: c_tetanus_hosp
+    type: BIGINT
+  - name: c_syphtest_sup
+    type: DOUBLE
+  - name: c_syphtest_pers
+    type: DOUBLE
+  - name: c_syphtest_hosp
+    type: BIGINT
+  - name: c_syphtrt_high_sup
+    type: DOUBLE
+  - name: c_syphtrt_high_pers
+    type: DOUBLE
+  - name: c_syphtrt_high_hosp
+    type: BIGINT
+  - name: c_syphtrt_low_sup
+    type: DOUBLE
+  - name: c_syphtrt_low_pers
+    type: DOUBLE
+  - name: c_syphtrt_low_hosp
+    type: BIGINT
+  - name: c_gontrt_preg_sup
+    type: DOUBLE
+  - name: c_gontrt_preg_pers
+    type: DOUBLE
+  - name: c_gontrt_preg_hosp
+    type: BIGINT
+  - name: c_chlmydtrt_preg_sup
+    type: DOUBLE
+  - name: c_chlmydtrt_preg_pers
+    type: DOUBLE
+  - name: c_chlmydtrt_preg_hosp
+    type: BIGINT
+  - name: c_calcsupp_1mo_sup
+    type: DOUBLE
+  - name: c_calcsupp_1mo_pers
+    type: BIGINT
+  - name: c_calcsupp_1mo_hosp
+    type: BIGINT
+  - name: c_highbp_sup
+    type: DOUBLE
+  - name: c_highbp_pers
+    type: DOUBLE
+  - name: c_highbp_hosp
+    type: BIGINT
+  - name: c_preclamp_ls37_sup
+    type: DOUBLE
+  - name: c_preclamp_ls37_pers
+    type: DOUBLE
+  - name: c_preclamp_ls37_hosp
+    type: BIGINT
+  - name: c_preclamp_37p_sup
+    type: DOUBLE
+  - name: c_preclamp_37p_pers
+    type: DOUBLE
+  - name: c_preclamp_37p_hosp
+    type: BIGINT
+  - name: c_preclamp_severe_sup
+    type: DOUBLE
+  - name: c_preclamp_severe_pers
+    type: DOUBLE
+  - name: c_preclamp_severe_hosp
+    type: DOUBLE
+  - name: c_deworm_sup
+    type: DOUBLE
+  - name: c_deworm_pers
+    type: DOUBLE
+  - name: c_deworm_hosp
+    type: BIGINT
+  - name: c_malaria_itn_sup
+    type: DOUBLE
+  - name: c_malaria_itn_pers
+    type: DOUBLE
+  - name: c_malaria_itn_hosp
+    type: BIGINT
+  - name: c_malaria_iptp_sup
+    type: DOUBLE
+  - name: c_malaria_iptp_pers
+    type: DOUBLE
+  - name: c_malaria_iptp_hosp
+    type: BIGINT
+  - name: c_malaria_diag_sup
+    type: DOUBLE
+  - name: c_malaria_diag_pers
+    type: DOUBLE
+  - name: c_malaria_diag_hosp
+    type: BIGINT
+  - name: c_malaria_nonsev1_sup
+    type: DOUBLE
+  - name: c_malaria_nonsev1_pers
+    type: DOUBLE
+  - name: c_malaria_nonsev1_hosp
+    type: BIGINT
+  - name: c_malaria_nonsev23_sup
+    type: DOUBLE
+  - name: c_malaria_nonsev23_pers
+    type: DOUBLE
+  - name: c_malaria_nonsev23_hosp
+    type: BIGINT
+  - name: c_malaria_severetrt_sup
+    type: DOUBLE
+  - name: c_malaria_severetrt_pers
+    type: DOUBLE
+  - name: c_malaria_severetrt_hosp
+    type: DOUBLE
+  - name: c_anemiascreen_sup
+    type: DOUBLE
+  - name: c_anemiascreen_pers
+    type: DOUBLE
+  - name: c_anemiascreen_hosp
+    type: BIGINT
+  - name: c_anemiaprev_sup
+    type: DOUBLE
+  - name: c_anemiaprev_pers
+    type: BIGINT
+  - name: c_anemiaprev_hosp
+    type: BIGINT
+  - name: c_anemiatrt_sup
+    type: DOUBLE
+  - name: c_anemiatrt_pers
+    type: BIGINT
+  - name: c_anemiatrt_hosp
+    type: BIGINT
+  - name: c_uti_sup
+    type: DOUBLE
+  - name: c_uti_pers
+    type: DOUBLE
+  - name: c_uti_hosp
+    type: BIGINT
+  - name: c_asb_sup
+    type: DOUBLE
+  - name: c_asb_pers
+    type: DOUBLE
+  - name: c_asb_hosp
+    type: BIGINT
+  - name: c_ultrasnd_sup
+    type: DOUBLE
+  - name: c_ultrasnd_pers
+    type: DOUBLE
+  - name: c_ultrasnd_hosp
+    type: BIGINT
+  - name: c_tbscreen_sup
+    type: DOUBLE
+  - name: c_tbscreen_pers
+    type: DOUBLE
+  - name: c_tbscreen_hosp
+    type: BIGINT
+  - name: c_tbtrt_sup
+    type: DOUBLE
+  - name: c_tbtrt_pers
+    type: DOUBLE
+  - name: c_tbtrt_hosp
+    type: BIGINT
+  - name: c_deinfib_sup
+    type: DOUBLE
+  - name: c_deinfib_pers
+    type: DOUBLE
+  - name: c_deinfib_hosp
+    type: DOUBLE
+  - name: c_pretermsteroids_sup
+    type: DOUBLE
+  - name: c_pretermsteroids_pers
+    type: DOUBLE
+  - name: c_pretermsteroids_hosp
+    type: DOUBLE
+  - name: c_abt_prom_sup
+    type: DOUBLE
+  - name: c_abt_prom_pers
+    type: DOUBLE
+  - name: c_abt_prom_hosp
+    type: DOUBLE
+  - name: c_induction_sup
+    type: DOUBLE
+  - name: c_induction_pers
+    type: DOUBLE
+  - name: c_induction_hosp
+    type: BIGINT
+  - name: c_mgso_preterm_sup
+    type: DOUBLE
+  - name: c_mgso_preterm_pers
+    type: DOUBLE
+  - name: c_mgso_preterm_hosp
+    type: BIGINT
+  - name: c_aphem_sup
+    type: DOUBLE
+  - name: c_aphem_pers
+    type: DOUBLE
+  - name: c_aphem_hosp
+    type: DOUBLE
+  - name: c_deworm_aphem_sup
+    type: DOUBLE
+  - name: c_deworm_aphem_pers
+    type: DOUBLE
+  - name: c_deworm_aphem_hosp
+    type: BIGINT
+  - name: c_prolong_sup
+    type: DOUBLE
+  - name: c_prolong_pers
+    type: DOUBLE
+  - name: c_prolong_hosp
+    type: DOUBLE
+  - name: c_avd_sup
+    type: DOUBLE
+  - name: c_avd_pers
+    type: DOUBLE
+  - name: c_avd_hosp
+    type: DOUBLE
+  - name: c_csection_sup
+    type: DOUBLE
+  - name: c_csection_pers
+    type: DOUBLE
+  - name: c_csection_hosp
+    type: DOUBLE
+  - name: c_eclamp_sup
+    type: DOUBLE
+  - name: c_eclamp_pers
+    type: DOUBLE
+  - name: c_eclamp_hosp
+    type: DOUBLE
+  - name: c_sepsis_sup
+    type: DOUBLE
+  - name: c_sepsis_pers
+    type: DOUBLE
+  - name: c_sepsis_hosp
+    type: DOUBLE
+  - name: c_pphem_sup
+    type: DOUBLE
+  - name: c_pphem_pers
+    type: DOUBLE
+  - name: c_pphem_hosp
+    type: DOUBLE
+  - name: c_pph_trt2_sup
+    type: DOUBLE
+  - name: c_pph_trt2_pers
+    type: DOUBLE
+  - name: c_pph_trt2_hosp
+    type: BIGINT
+  - name: c_deworm_pphem_sup
+    type: DOUBLE
+  - name: c_deworm_pphem_pers
+    type: DOUBLE
+  - name: c_deworm_pphem_hosp
+    type: BIGINT
+  - name: c_preref_mgmt_compl_sup
+    type: DOUBLE
+  - name: c_preref_mgmt_compl_pers
+    type: DOUBLE
+  - name: c_preref_mgmt_compl_hosp
+    type: BIGINT
+  - name: c_vagdev_sup
+    type: DOUBLE
+  - name: c_vagdev_pers
+    type: DOUBLE
+  - name: c_vagdev_hosp
+    type: DOUBLE
+  - name: c_amtsl_sup
+    type: DOUBLE
+  - name: c_amtsl_pers
+    type: DOUBLE
+  - name: c_amtsl_hosp
+    type: BIGINT
+  - name: c_postnatal_sup
+    type: DOUBLE
+  - name: c_postnatal_pers
+    type: DOUBLE
+  - name: c_postnatal_hosp
+    type: BIGINT
+  - name: c_mastitis_sup
+    type: DOUBLE
+  - name: c_mastitis_pers
+    type: DOUBLE
+  - name: c_mastitis_hosp
+    type: BIGINT
+  - name: c_obsfistula_sup
+    type: DOUBLE
+  - name: c_obsfistula_pers
+    type: DOUBLE
+  - name: c_obsfistula_hosp
+    type: DOUBLE
+  - name: c_breastcounsel_sup
+    type: BIGINT
+  - name: c_breastcounsel_pers
+    type: DOUBLE
+  - name: c_breastcounsel_hosp
+    type: BIGINT
+  - name: c_neo_care_sup
+    type: DOUBLE
+  - name: c_neo_care_pers
+    type: DOUBLE
+  - name: c_neo_care_hosp
+    type: BIGINT
+  - name: c_neo_resuc_sup
+    type: BIGINT
+  - name: c_neo_resuc_pers
+    type: DOUBLE
+  - name: c_neo_resuc_hosp
+    type: BIGINT
+  - name: c_neo_trtinfect_sup
+    type: DOUBLE
+  - name: c_neo_trtinfect_pers
+    type: DOUBLE
+  - name: c_neo_trtinfect_hosp
+    type: BIGINT
+  - name: c_kangaroo_sup
+    type: DOUBLE
+  - name: c_kangaroo_pers
+    type: DOUBLE
+  - name: c_kangaroo_hosp
+    type: BIGINT
+  - name: c_lowbirthwgt_trt_sup
+    type: DOUBLE
+  - name: c_lowbirthwgt_trt_pers
+    type: DOUBLE
+  - name: c_lowbirthwgt_trt_hosp
+    type: DOUBLE
+  - name: c_neo_sepsistrt_sup
+    type: DOUBLE
+  - name: c_neo_sepsistrt_pers
+    type: DOUBLE
+  - name: c_neo_sepsistrt_hosp
+    type: DOUBLE
+  - name: c_neo_sepsistrt_full_sup
+    type: DOUBLE
+  - name: c_neo_sepsistrt_full_pers
+    type: DOUBLE
+  - name: c_neo_sepsistrt_full_hosp
+    type: DOUBLE
+  - name: c_hepb_vaccine_sup
+    type: DOUBLE
+  - name: c_hepb_vaccine_pers
+    type: DOUBLE
+  - name: c_hepb_vaccine_hosp
+    type: BIGINT
+  - name: c_polio_vaccine_sup
+    type: DOUBLE
+  - name: c_polio_vaccine_pers
+    type: DOUBLE
+  - name: c_polio_vaccine_hosp
+    type: BIGINT
+  - name: c_bcg_vaccine_sup
+    type: DOUBLE
+  - name: c_bcg_vaccine_pers
+    type: DOUBLE
+  - name: c_bcg_vaccine_hosp
+    type: BIGINT
+  - name: c_neo_syphtrt_sup
+    type: DOUBLE
+  - name: c_neo_syphtrt_pers
+    type: DOUBLE
+  - name: c_neo_syphtrt_hosp
+    type: DOUBLE
+  - name: c_neo_gontrt_sup
+    type: DOUBLE
+  - name: c_neo_gontrt_pers
+    type: DOUBLE
+  - name: c_neo_gontrt_hosp
+    type: BIGINT
+  - name: c_neo_chlmydtrt_sup
+    type: DOUBLE
+  - name: c_neo_chlmydtrt_pers
+    type: DOUBLE
+  - name: c_neo_chlmydtrt_hosp
+    type: DOUBLE
+  - name: c_hiv_vct_sup
+    type: DOUBLE
+  - name: c_hiv_vct_pers
+    type: DOUBLE
+  - name: c_hiv_vct_hosp
+    type: BIGINT
+  - name: c_hiv_counsel_sup
+    type: DOUBLE
+  - name: c_hiv_counsel_pers
+    type: DOUBLE
+  - name: c_hiv_counsel_hosp
+    type: BIGINT
+  - name: c_hivpos_art_1wk_sup
+    type: DOUBLE
+  - name: c_hivpos_art_1wk_pers
+    type: DOUBLE
+  - name: c_hivpos_art_1wk_hosp
+    type: BIGINT
+  - name: c_hivpos_neoneg_sup
+    type: DOUBLE
+  - name: c_hivpos_neoneg_pers
+    type: DOUBLE
+  - name: c_hivpos_neoneg_hosp
+    type: BIGINT
+  - name: c_hivpos_neopos_sup
+    type: DOUBLE
+  - name: c_hivpos_neopos_pers
+    type: DOUBLE
+  - name: c_hivpos_neopos_hosp
+    type: BIGINT
+  - name: c_neo_art_sup
+    type: DOUBLE
+  - name: c_neo_art_pers
+    type: DOUBLE
+  - name: c_neo_art_hosp
+    type: BIGINT
+  - name: c_neo_art_breast_sup
+    type: DOUBLE
+  - name: c_neo_art_breast_pers
+    type: DOUBLE
+  - name: c_neo_art_breast_hosp
+    type: BIGINT
+  - name: c_chlmydtrt_sup
+    type: DOUBLE
+  - name: c_chlmydtrt_pers
+    type: DOUBLE
+  - name: c_chlmydtrt_hosp
+    type: BIGINT
+  - name: c_gontrt_sup
+    type: DOUBLE
+  - name: c_gontrt_pers
+    type: DOUBLE
+  - name: c_gontrt_hosp
+    type: BIGINT
+  - name: c_syphtrt_all_sup
+    type: DOUBLE
+  - name: c_syphtrt_all_pers
+    type: DOUBLE
+  - name: c_syphtrt_all_hosp
+    type: BIGINT
+  - name: c_trichtrt_sup
+    type: DOUBLE
+  - name: c_trichtrt_pers
+    type: DOUBLE
+  - name: c_trichtrt_hosp
+    type: BIGINT
+  - name: c_pidtrt_sup
+    type: DOUBLE
+  - name: c_pidtrt_pers
+    type: DOUBLE
+  - name: c_pidtrt_hosp
+    type: BIGINT
+  - name: c_manplacrem_sup
+    type: DOUBLE
+  - name: c_manplacrem_pers
+    type: DOUBLE
+  - name: c_manplacrem_hosp
+    type: BIGINT
+  - name: c_pill_comm
+    type: DOUBLE
+  - name: c_pill_sup
+    type: BIGINT
+  - name: c_pill_pers
+    type: DOUBLE
+  - name: c_patchring_comm
+    type: DOUBLE
+  - name: c_patchring_sup
+    type: BIGINT
+  - name: c_patchring_pers
+    type: DOUBLE
+  - name: c_inj_comm
+    type: DOUBLE
+  - name: c_inj_sup
+    type: DOUBLE
+  - name: c_inj_pers
+    type: DOUBLE
+  - name: c_condom_comm
+    type: DOUBLE
+  - name: c_condom_sup
+    type: BIGINT
+  - name: c_condom_pers
+    type: DOUBLE
+  - name: c_femcondom_comm
+    type: DOUBLE
+  - name: c_femcondom_sup
+    type: BIGINT
+  - name: c_femcondom_pers
+    type: DOUBLE
+  - name: c_iud_comm
+    type: DOUBLE
+  - name: c_iud_sup
+    type: DOUBLE
+  - name: c_iud_pers
+    type: DOUBLE
+  - name: c_implant_comm
+    type: DOUBLE
+  - name: c_implant_sup
+    type: DOUBLE
+  - name: c_implant_pers
+    type: DOUBLE
+  - name: c_naturalfp_comm
+    type: BIGINT
+  - name: c_naturalfp_sup
+    type: BIGINT
+  - name: c_naturalfp_pers
+    type: DOUBLE
+  - name: c_othersup_comm
+    type: DOUBLE
+  - name: c_othersup_sup
+    type: BIGINT
+  - name: c_othersup_pers
+    type: DOUBLE
+  - name: c_femster_comm
+    type: BIGINT
+  - name: c_femster_sup
+    type: DOUBLE
+  - name: c_femster_pers
+    type: DOUBLE
+  - name: c_malester_comm
+    type: BIGINT
+  - name: c_malester_sup
+    type: DOUBLE
+  - name: c_malester_pers
+    type: DOUBLE
+  - name: c_ecp_comm
+    type: DOUBLE
+  - name: c_ecp_sup
+    type: BIGINT
+  - name: c_ecp_pers
+    type: DOUBLE
+  - name: c_lam_comm
+    type: BIGINT
+  - name: c_lam_sup
+    type: BIGINT
+  - name: c_lam_pers
+    type: DOUBLE
+  - name: c_trad_comm
+    type: BIGINT
+  - name: c_trad_sup
+    type: BIGINT
+  - name: c_trad_pers
+    type: DOUBLE

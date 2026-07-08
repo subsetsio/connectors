@@ -1,0 +1,268 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: ano
+    type: BIGINT
+  - name: id_municipio
+    type: BIGINT
+  - name: sigla_uf
+    type: VARCHAR
+  - name: populacao_atendida_agua
+    type: DOUBLE
+  - name: populacao_atentida_esgoto
+    type: DOUBLE
+  - name: populacao_urbana
+    type: DOUBLE
+  - name: populacao_urbana_residente_agua
+    type: DOUBLE
+  - name: populacao_urbana_atendida_agua
+    type: DOUBLE
+  - name: populacao_urbana_atendida_agua_ibge
+    type: DOUBLE
+  - name: populacao_urbana_residente_esgoto
+    type: DOUBLE
+  - name: populacao_urbana_atendida_esgoto
+    type: DOUBLE
+  - name: populacao_urbana_residente_esgoto_ibge
+    type: DOUBLE
+  - name: extensao_rede_agua
+    type: DOUBLE
+  - name: extensao_rede_esgoto
+    type: DOUBLE
+  - name: quantidade_sede_municipal_agua
+    type: DOUBLE
+  - name: quantidade_sede_municipal_esgoto
+    type: DOUBLE
+  - name: quantidade_localidade_agua
+    type: DOUBLE
+  - name: quantidade_localidade_esgoto
+    type: DOUBLE
+  - name: quantidade_ligacao_ativa_agua
+    type: DOUBLE
+  - name: quantidade_ligacao_ativa_esgoto
+    type: DOUBLE
+  - name: quantidade_ligacao_total_agua
+    type: DOUBLE
+  - name: quantidade_ligacao_total_esgoto
+    type: DOUBLE
+  - name: quantidade_economia_ativa_agua
+    type: DOUBLE
+  - name: quantidade_economia_ativa_esgoto
+    type: DOUBLE
+  - name: quantidade_ligacao_micromedia_ativa_agua
+    type: DOUBLE
+  - name: quantidade_economia_residencial_ativa_agua
+    type: DOUBLE
+  - name: quantidade_economia_residencial_ativa_esgoto
+    type: DOUBLE
+  - name: quantidade_economia_micromedida_ativa_agua
+    type: DOUBLE
+  - name: quantidade_economia_residencial_micromedida_ativa_agua
+    type: DOUBLE
+  - name: volume_agua_produzido
+    type: DOUBLE
+  - name: volume_agua_tratada_eta
+    type: DOUBLE
+  - name: volume_agua_micromedido
+    type: DOUBLE
+  - name: volume_agua_consumido
+    type: DOUBLE
+  - name: volume_agua_faturado
+    type: DOUBLE
+  - name: volume_agua_macromedido
+    type: DOUBLE
+  - name: volume_agua_tratada_desinfeccao
+    type: DOUBLE
+  - name: volume_agua_bruta_exportado
+    type: DOUBLE
+  - name: volume_agua_tratada_importado
+    type: DOUBLE
+  - name: volume_agua_tratada_exportado
+    type: DOUBLE
+  - name: volume_agua_micromedido_economia_ativa
+    type: DOUBLE
+  - name: volume_servico_agua
+    type: DOUBLE
+  - name: volume_agua_fluoretada
+    type: DOUBLE
+  - name: consumo_eletrico_sistemas_agua
+    type: DOUBLE
+  - name: volume_esgoto_coletado
+    type: DOUBLE
+  - name: volume_esgoto_tratado
+    type: DOUBLE
+  - name: volume_esgoto_faturado
+    type: DOUBLE
+  - name: volume_esgoto_bruto_exportado
+    type: DOUBLE
+  - name: volume_esgoto_bruto_importado
+    type: DOUBLE
+  - name: volume_esgoto_importado
+    type: DOUBLE
+  - name: volume_esgoto_bruto_exportado_tratamento_importador
+    type: DOUBLE
+  - name: consumo_eletrico_sistemas_esgoto
+    type: DOUBLE
+  - name: indice_agua_ligacao
+    type: DOUBLE
+  - name: indice_hidrometracao
+    type: DOUBLE
+  - name: indice_macromedicao_volume_disponibilizado
+    type: DOUBLE
+  - name: indice_macromedicao
+    type: DOUBLE
+  - name: indice_perda_faturamento
+    type: DOUBLE
+  - name: indice_micromedido_economia
+    type: DOUBLE
+  - name: indice_coleta_esgoto
+    type: DOUBLE
+  - name: indice_tratamento_esgoto
+    type: DOUBLE
+  - name: indice_consumo_agua_faturado
+    type: DOUBLE
+  - name: indice_extensao_agua_ligacao
+    type: DOUBLE
+  - name: indice_extensao_esgoto_ligacao
+    type: DOUBLE
+  - name: indice_consumo_agua_per_capita
+    type: DOUBLE
+  - name: indice_atendimento_urbano_agua
+    type: DOUBLE
+  - name: indice_atendimento_agua_esgoto
+    type: DOUBLE
+  - name: indice_volume_agua_economia
+    type: DOUBLE
+  - name: indice_faturamento_agua
+    type: DOUBLE
+  - name: indice_participacao_economia_agua
+    type: DOUBLE
+  - name: indice_micromedicao_relativo_agua
+    type: DOUBLE
+  - name: indice_esgotamento_agua_consumida
+    type: DOUBLE
+  - name: indice_atendimento_esgoto_esgoto
+    type: DOUBLE
+  - name: indice_perda_distribuicao_agua
+    type: DOUBLE
+  - name: indice_perda_linear_agua
+    type: DOUBLE
+  - name: indice_perda_ligacao_agua
+    type: DOUBLE
+  - name: indice_consumo_agua
+    type: DOUBLE
+  - name: indice_consumo_medio_agua
+    type: DOUBLE
+  - name: indice_atendimento_total_agua
+    type: DOUBLE
+  - name: indice_atendimento_esgoto_agua
+    type: DOUBLE
+  - name: indice_fluoretacao_agua
+    type: DOUBLE
+  - name: indice_consumo_energia_agua
+    type: DOUBLE
+  - name: indice_consumo_energia_esgoto
+    type: DOUBLE
+  - name: receita_operacional_direta
+    type: DOUBLE
+  - name: receita_operacional_direta_agua
+    type: DOUBLE
+  - name: receita_operacional_direta_esgoto
+    type: DOUBLE
+  - name: receita_operacional_indireta
+    type: DOUBLE
+  - name: receita_operacional_direta_agua_exportada
+    type: DOUBLE
+  - name: receita_operacional
+    type: DOUBLE
+  - name: receita_operacional_direta_esgoto_importado
+    type: DOUBLE
+  - name: arrecadacao_total
+    type: DOUBLE
+  - name: credito_areceber
+    type: DOUBLE
+  - name: despesa_pessoal
+    type: DOUBLE
+  - name: quantidade_empregado
+    type: DOUBLE
+  - name: despesa_produto_quimico
+    type: DOUBLE
+  - name: despesa_energia
+    type: DOUBLE
+  - name: despesa_servico_terceiro
+    type: DOUBLE
+  - name: despesa_exploracao
+    type: DOUBLE
+  - name: despesas_juros_divida
+    type: DOUBLE
+  - name: despesa_total_servico
+    type: DOUBLE
+  - name: despesa_ativo
+    type: DOUBLE
+  - name: despesa_agua_importada
+    type: DOUBLE
+  - name: despesa_fiscal
+    type: DOUBLE
+  - name: despesa_fiscal_nao_computada
+    type: DOUBLE
+  - name: despesa_exploracao_outro
+    type: DOUBLE
+  - name: despesa_servico_outro
+    type: DOUBLE
+  - name: despesa_amortizacao_divida
+    type: DOUBLE
+  - name: despesas_juros_divida_excecao
+    type: DOUBLE
+  - name: despesa_divida_variacao
+    type: DOUBLE
+  - name: despesa_divida_total
+    type: DOUBLE
+  - name: despesa_esgoto_exportado
+    type: DOUBLE
+  - name: despesa_capitalizavel_municipio
+    type: DOUBLE
+  - name: despesa_capitalizavel_estado
+    type: DOUBLE
+  - name: despesa_capitalizavel_prestador
+    type: DOUBLE
+  - name: investimento_agua_prestador
+    type: DOUBLE
+  - name: investimento_esgoto_prestador
+    type: DOUBLE
+  - name: investimento_outro_prestador
+    type: DOUBLE
+  - name: investimento_recurso_proprio_prestador
+    type: DOUBLE
+  - name: investimento_recurso_oneroso_prestador
+    type: DOUBLE
+  - name: investimento_recurso_nao_oneroso_prestador
+    type: DOUBLE
+  - name: investimento_total_prestador
+    type: DOUBLE
+  - name: investimento_agua_municipio
+    type: DOUBLE
+  - name: investimento_esgoto_municipio
+    type: DOUBLE
+  - name: investimento_outro_municipio
+    type: DOUBLE
+  - name: investimento_recurso_proprio_municipio
+    type: DOUBLE
+  - name: investimento_recurso_oneroso_municipio
+    type: DOUBLE
+  - name: investimento_recurso_nao_oneroso_municipio
+    type: DOUBLE
+  - name: investimento_total_municipio
+    type: DOUBLE
+  - name: investimento_agua_estado
+    type: DOUBLE
+  - name: investimento_esgoto_estado
+    type: DOUBLE
+  - name: investimento_outro_estado
+    type: DOUBLE
+  - name: investimento_recurso_proprio_estado
+    type: DOUBLE
+  - name: investimento_recurso_oneroso_estado
+    type: DOUBLE
+  - name: investimento_recurso_nao_oneroso_estado
+    type: DOUBLE
+  - name: investimento_total_estado
+    type: DOUBLE

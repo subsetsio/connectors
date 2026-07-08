@@ -1,0 +1,46 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year_start
+sort: [year_start]
+columns:
+  - name: country
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: residence
+    type: VARCHAR
+  - name: ethnicity
+    type: VARCHAR
+  - name: socdem
+    type: VARCHAR
+  - name: version
+    type: INTEGER
+  - name: ref_id
+    type: VARCHAR
+  - name: year_start
+    type: INTEGER
+  - name: year_end
+    type: INTEGER
+  - name: life_table_type
+    type: INTEGER
+  - name: sex
+    type: INTEGER
+  - name: age
+    type: INTEGER
+  - name: age_interval
+    type: INTEGER
+  - name: death_rate_mx
+    type: DOUBLE
+  - name: death_probability_qx
+    type: DOUBLE
+  - name: survivors_lx
+    type: DOUBLE
+  - name: deaths_dx
+    type: DOUBLE
+  - name: person_years_Lx
+    type: DOUBLE
+  - name: total_years_Tx
+    type: DOUBLE
+  - name: life_expectancy_ex
+    type: DOUBLE
+  - name: life_expectancy_orig_ex
+    type: DOUBLE

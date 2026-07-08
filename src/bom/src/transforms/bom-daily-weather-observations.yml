@@ -1,0 +1,31 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [station_slug, date]
+temporal: date
+sort: [date, station_slug]
+columns:
+  - name: state
+    type: VARCHAR
+  - name: station_slug
+    type: VARCHAR
+  - name: station_name
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: evapotranspiration_mm
+    type: DOUBLE
+  - name: rainfall_mm
+    type: DOUBLE
+  - name: pan_evaporation_mm
+    type: DOUBLE
+  - name: max_temp_c
+    type: DOUBLE
+  - name: min_temp_c
+    type: DOUBLE
+  - name: max_relative_humidity_pct
+    type: DOUBLE
+  - name: min_relative_humidity_pct
+    type: DOUBLE
+  - name: wind_speed_ms
+    type: DOUBLE
+  - name: solar_radiation_mj_m2
+    type: DOUBLE

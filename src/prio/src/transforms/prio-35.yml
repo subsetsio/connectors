@@ -1,0 +1,280 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: isocode3
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: continent
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: gdlcode
+    type: VARCHAR
+  - name: level
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: infmort
+    type: DOUBLE
+  - name: u5mort
+    type: DOUBLE
+  - name: nnmort
+    type: DOUBLE
+  - name: pnnmort
+    type: DOUBLE
+  - name: chmort
+    type: DOUBLE
+  - name: stunting
+    type: DOUBLE
+  - name: stuntingmod
+    type: DOUBLE
+  - name: stuntingsev
+    type: DOUBLE
+  - name: haz
+    type: DOUBLE
+  - name: wasting
+    type: DOUBLE
+  - name: wastingmod
+    type: DOUBLE
+  - name: wastingsev
+    type: DOUBLE
+  - name: whz
+    type: DOUBLE
+  - name: underweight
+    type: DOUBLE
+  - name: underweightmod
+    type: DOUBLE
+  - name: underweightsev
+    type: DOUBLE
+  - name: waz
+    type: DOUBLE
+  - name: overweight
+    type: DOUBLE
+  - name: obesity
+    type: DOUBLE
+  - name: bmiz
+    type: DOUBLE
+  - name: depratio
+    type: DOUBLE
+  - name: youthdepr
+    type: DOUBLE
+  - name: olddepr
+    type: DOUBLE
+  - name: dwindowphase
+    type: DOUBLE
+  - name: popyoung
+    type: DOUBLE
+  - name: popworkage
+    type: DOUBLE
+  - name: popold
+    type: DOUBLE
+  - name: lprimary
+    type: DOUBLE
+  - name: uprimary
+    type: DOUBLE
+  - name: lsecondary
+    type: DOUBLE
+  - name: usecondary
+    type: DOUBLE
+  - name: ltertiary
+    type: DOUBLE
+  - name: utertiary
+    type: DOUBLE
+  - name: lprimaryg
+    type: DOUBLE
+  - name: uprimaryg
+    type: DOUBLE
+  - name: lsecondaryg
+    type: DOUBLE
+  - name: usecondaryg
+    type: DOUBLE
+  - name: ltertiaryg
+    type: DOUBLE
+  - name: utertiaryg
+    type: DOUBLE
+  - name: lprimaryb
+    type: DOUBLE
+  - name: uprimaryb
+    type: DOUBLE
+  - name: lsecondaryb
+    type: DOUBLE
+  - name: usecondaryb
+    type: DOUBLE
+  - name: ltertiaryb
+    type: DOUBLE
+  - name: utertiaryb
+    type: DOUBLE
+  - name: eye
+    type: DOUBLE
+  - name: eyef
+    type: DOUBLE
+  - name: eyem
+    type: DOUBLE
+  - name: tfr
+    type: DOUBLE
+  - name: asf1014
+    type: DOUBLE
+  - name: asf1519
+    type: DOUBLE
+  - name: asf2024
+    type: DOUBLE
+  - name: asf2529
+    type: DOUBLE
+  - name: asf3034
+    type: DOUBLE
+  - name: asf3539
+    type: DOUBLE
+  - name: asf4044
+    type: DOUBLE
+  - name: asf4549
+    type: DOUBLE
+  - name: agedifmar
+    type: DOUBLE
+  - name: agemarw20
+    type: DOUBLE
+  - name: age1chw20
+    type: DOUBLE
+  - name: womo50
+    type: DOUBLE
+  - name: patrilocal
+    type: DOUBLE
+  - name: ppatloc
+    type: DOUBLE
+  - name: pmatloc
+    type: DOUBLE
+  - name: gini
+    type: DOUBLE
+  - name: theilt
+    type: DOUBLE
+  - name: thtwithin
+    type: DOUBLE
+  - name: thtbetween
+    type: DOUBLE
+  - name: regpopm
+    type: DOUBLE
+  - name: popshare
+    type: DOUBLE
+  - name: age09
+    type: DOUBLE
+  - name: age1019
+    type: DOUBLE
+  - name: age2029
+    type: DOUBLE
+  - name: age3039
+    type: DOUBLE
+  - name: age4049
+    type: DOUBLE
+  - name: age5059
+    type: DOUBLE
+  - name: age6069
+    type: DOUBLE
+  - name: age7079
+    type: DOUBLE
+  - name: age8089
+    type: DOUBLE
+  - name: age90hi
+    type: DOUBLE
+  - name: hhsize
+    type: DOUBLE
+  - name: pipedwater
+    type: DOUBLE
+  - name: electr
+    type: DOUBLE
+  - name: flushtoilet
+    type: DOUBLE
+  - name: smallhouse
+    type: DOUBLE
+  - name: modsizehouse
+    type: DOUBLE
+  - name: largehouse
+    type: DOUBLE
+  - name: naturalfloor
+    type: DOUBLE
+  - name: cookwood
+    type: DOUBLE
+  - name: n
+    type: BIGINT
+  - name: nhh
+    type: BIGINT
+  - name: urban
+    type: DOUBLE
+  - name: bcgage1
+    type: DOUBLE
+  - name: dtp1age1
+    type: DOUBLE
+  - name: dtp2age1
+    type: DOUBLE
+  - name: dtp3age1
+    type: DOUBLE
+  - name: measlage1
+    type: DOUBLE
+  - name: iwi
+    type: DOUBLE
+  - name: iwipov70
+    type: DOUBLE
+  - name: iwipov50
+    type: DOUBLE
+  - name: iwipov35
+    type: DOUBLE
+  - name: tv
+    type: DOUBLE
+  - name: fridge
+    type: DOUBLE
+  - name: washmach
+    type: DOUBLE
+  - name: computer
+    type: DOUBLE
+  - name: internet
+    type: DOUBLE
+  - name: cellphone
+    type: DOUBLE
+  - name: phone
+    type: DOUBLE
+  - name: motor
+    type: DOUBLE
+  - name: workwom
+    type: DOUBLE
+  - name: wagri
+    type: DOUBLE
+  - name: wwrklow
+    type: DOUBLE
+  - name: wwrkhigh
+    type: DOUBLE
+  - name: hagri
+    type: DOUBLE
+  - name: hwrklow
+    type: DOUBLE
+  - name: hwrkhigh
+    type: DOUBLE
+  - name: edyr20
+    type: DOUBLE
+  - name: womedyr20
+    type: DOUBLE
+  - name: menedyr20
+    type: DOUBLE
+  - name: edyr25
+    type: DOUBLE
+  - name: womedyr25
+    type: DOUBLE
+  - name: menedyr25
+    type: DOUBLE
+  - name: edyr2039
+    type: DOUBLE
+  - name: womedyr2039
+    type: DOUBLE
+  - name: menedyr2039
+    type: DOUBLE
+  - name: edyr4059
+    type: DOUBLE
+  - name: womedyr4059
+    type: DOUBLE
+  - name: menedyr4059
+    type: DOUBLE
+  - name: edyr60
+    type: DOUBLE
+  - name: womedyr60
+    type: DOUBLE
+  - name: menedyr60
+    type: DOUBLE

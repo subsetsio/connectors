@@ -1,0 +1,51 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, sex, type, cancer_type]
+temporal: year
+sort: [year, sex, type, cancer_type]
+columns:
+  - name: year
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: cancer_type
+    type: VARCHAR
+  - name: age_0_to_4
+    type: DOUBLE
+  - name: age_5_to_9
+    type: DOUBLE
+  - name: age_10_to_14
+    type: DOUBLE
+  - name: age_15_to_19
+    type: DOUBLE
+  - name: age_20_to_24
+    type: DOUBLE
+  - name: age_25_to_29
+    type: DOUBLE
+  - name: age_30_to_34
+    type: DOUBLE
+  - name: age_35_to_39
+    type: DOUBLE
+  - name: age_40_to_44
+    type: DOUBLE
+  - name: age_45_to_49
+    type: DOUBLE
+  - name: age_50_to_54
+    type: DOUBLE
+  - name: age_55_to_59
+    type: DOUBLE
+  - name: age_60_to_64
+    type: DOUBLE
+  - name: age_65_to_69
+    type: DOUBLE
+  - name: age_70_to_74
+    type: DOUBLE
+  - name: age_75_to_79
+    type: DOUBLE
+  - name: age_80_to_84
+    type: DOUBLE
+  - name: age_85_plus
+    type: DOUBLE
+  - name: age_unknown
+    type: DOUBLE

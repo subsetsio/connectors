@@ -1,0 +1,25 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [edition_id, noc_code]
+temporal: year
+sort: [year, edition_id, noc_code]
+columns:
+  - name: edition_id
+    type: INTEGER
+  - name: year
+    type: INTEGER
+  - name: season
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: noc_code
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: gold
+    type: INTEGER
+  - name: silver
+    type: INTEGER
+  - name: bronze
+    type: INTEGER
+  - name: total
+    type: INTEGER

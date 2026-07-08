@@ -1,0 +1,81 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [id]
+temporal: date_modified
+sort: [date_modified, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: date_created
+    type: TIMESTAMP
+  - name: date_modified
+    type: TIMESTAMP
+  - name: position_type
+    type: VARCHAR
+  - name: job_title
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: organization_name
+    type: VARCHAR
+  - name: location_city
+    type: VARCHAR
+  - name: location_state
+    type: VARCHAR
+  - name: date_nominated
+    type: DATE
+  - name: date_elected
+    type: DATE
+  - name: date_recess_appointment
+    type: DATE
+  - name: date_referred_to_judicial_committee
+    type: DATE
+  - name: date_judicial_committee_action
+    type: DATE
+  - name: judicial_committee_action
+    type: VARCHAR
+  - name: date_hearing
+    type: DATE
+  - name: date_confirmation
+    type: DATE
+  - name: date_start
+    type: DATE
+  - name: date_granularity_start
+    type: VARCHAR
+  - name: date_termination
+    type: DATE
+  - name: termination_reason
+    type: VARCHAR
+  - name: date_granularity_termination
+    type: VARCHAR
+  - name: date_retirement
+    type: DATE
+  - name: nomination_process
+    type: VARCHAR
+  - name: vote_type
+    type: VARCHAR
+  - name: voice_vote
+    type: VARCHAR
+  - name: votes_yes
+    type: BIGINT
+  - name: votes_no
+    type: BIGINT
+  - name: votes_yes_percent
+    type: DOUBLE
+  - name: votes_no_percent
+    type: DOUBLE
+  - name: how_selected
+    type: VARCHAR
+  - name: has_inferred_values
+    type: VARCHAR
+  - name: appointer_id
+    type: BIGINT
+  - name: court_id
+    type: VARCHAR
+  - name: person_id
+    type: BIGINT
+  - name: predecessor_id
+    type: BIGINT
+  - name: school_id
+    type: BIGINT
+  - name: supervisor_id
+    type: BIGINT

@@ -1,0 +1,19 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, market]
+temporal: date
+sort: [date, market]
+columns:
+  - name: date
+    type: DATE
+  - name: market
+    type: VARCHAR
+  - name: index
+    type: DOUBLE
+  - name: sa_index
+    type: DOUBLE
+  - name: smoothed_index
+    type: DOUBLE
+  - name: smoothed_sa_index
+    type: DOUBLE
+  - name: sales_pair_count
+    type: BIGINT

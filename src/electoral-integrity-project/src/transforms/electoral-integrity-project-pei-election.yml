@@ -1,0 +1,542 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: election
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: ISO
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: date
+    type: DATE
+  - name: office
+    type: VARCHAR
+  - name: numresponses
+    type: DOUBLE
+  - name: COUNTRYDATA
+    type: DOUBLE
+  - name: PR
+    type: BIGINT
+  - name: CL
+    type: BIGINT
+  - name: fhcategory
+    type: BIGINT
+  - name: development
+    type: DOUBLE
+  - name: gdp_pc_ppp
+    type: DOUBLE
+  - name: region
+    type: DOUBLE
+  - name: region9
+    type: DOUBLE
+  - name: oecd
+    type: DOUBLE
+  - name: OVERALLINTEGRITY
+    type: DOUBLE
+  - name: PEI_add_original_m
+    type: DOUBLE
+  - name: PEI_add_original
+    type: DOUBLE
+  - name: PEI_add_new_m
+    type: DOUBLE
+  - name: PEI_add_new
+    type: DOUBLE
+  - name: PEI_concept_m
+    type: DOUBLE
+  - name: PEI_contestation_m
+    type: DOUBLE
+  - name: PEI_participation_m
+    type: DOUBLE
+  - name: PEI_deliberation_m
+    type: DOUBLE
+  - name: PEI_adjudication_m
+    type: DOUBLE
+  - name: PEI_concept
+    type: DOUBLE
+  - name: PEI_contestation
+    type: DOUBLE
+  - name: PEI_participation
+    type: DOUBLE
+  - name: PEI_deliberation
+    type: DOUBLE
+  - name: PEI_adjudication
+    type: DOUBLE
+  - name: rating
+    type: DOUBLE
+  - name: LAWS
+    type: DOUBLE
+  - name: lawsunfair
+    type: DOUBLE
+  - name: lawsunfair2
+    type: DOUBLE
+  - name: favoredincumbent
+    type: DOUBLE
+  - name: favoredincumbent2
+    type: DOUBLE
+  - name: citizens
+    type: DOUBLE
+  - name: citizens2
+    type: DOUBLE
+  - name: certainty
+    type: DOUBLE
+  - name: changes
+    type: DOUBLE
+  - name: equal
+    type: DOUBLE
+  - name: enfranchised
+    type: DOUBLE
+  - name: laws_1
+    type: DOUBLE
+  - name: laws_m
+    type: DOUBLE
+  - name: laws_new
+    type: DOUBLE
+  - name: laws_new_m
+    type: DOUBLE
+  - name: PROCEDURES
+    type: DOUBLE
+  - name: managed
+    type: DOUBLE
+  - name: votinginfo
+    type: DOUBLE
+  - name: fairofficials
+    type: DOUBLE
+  - name: legalelections
+    type: DOUBLE
+  - name: procedures_1
+    type: DOUBLE
+  - name: procedures_m
+    type: DOUBLE
+  - name: procedures_new
+    type: DOUBLE
+  - name: procedures_new_m
+    type: DOUBLE
+  - name: BOUNDARIES
+    type: DOUBLE
+  - name: bdiscrim
+    type: DOUBLE
+  - name: bdiscrim2
+    type: DOUBLE
+  - name: bfavored
+    type: DOUBLE
+  - name: bfavored2
+    type: DOUBLE
+  - name: bimpartial
+    type: DOUBLE
+  - name: boundaries_1
+    type: DOUBLE
+  - name: boundaries_m
+    type: DOUBLE
+  - name: boundaries_new
+    type: DOUBLE
+  - name: boundaries_new_m
+    type: DOUBLE
+  - name: VOTERREGISTRATION
+    type: DOUBLE
+  - name: reglisted
+    type: DOUBLE
+  - name: reglisted2
+    type: DOUBLE
+  - name: reginaccurate
+    type: DOUBLE
+  - name: reginaccurate2
+    type: DOUBLE
+  - name: ineligible
+    type: DOUBLE
+  - name: ineligible2
+    type: DOUBLE
+  - name: unlikelyreg
+    type: DOUBLE
+  - name: unlikelyreg2
+    type: DOUBLE
+  - name: votereg
+    type: DOUBLE
+  - name: votereg_m
+    type: DOUBLE
+  - name: voterreg_new
+    type: DOUBLE
+  - name: voterreg_new_m
+    type: DOUBLE
+  - name: PARTYREGISTRATION
+    type: DOUBLE
+  - name: oppprevent
+    type: DOUBLE
+  - name: oppprevent2
+    type: DOUBLE
+  - name: womenopp
+    type: DOUBLE
+  - name: minorityopp
+    type: DOUBLE
+  - name: leaderselect
+    type: DOUBLE
+  - name: leaderselect2
+    type: DOUBLE
+  - name: rallies
+    type: DOUBLE
+  - name: rallies2
+    type: DOUBLE
+  - name: equalopp
+    type: DOUBLE
+  - name: partytargeted
+    type: DOUBLE
+  - name: partytargeted2
+    type: DOUBLE
+  - name: partyreg
+    type: DOUBLE
+  - name: partyreg_m
+    type: DOUBLE
+  - name: partyreg_new
+    type: DOUBLE
+  - name: partyreg_new_m
+    type: DOUBLE
+  - name: MEDIACOVERAGE
+    type: DOUBLE
+  - name: balanced
+    type: DOUBLE
+  - name: tv
+    type: DOUBLE
+  - name: tv2
+    type: DOUBLE
+  - name: fairaccess
+    type: DOUBLE
+  - name: faircoverage
+    type: DOUBLE
+  - name: socialmedia
+    type: DOUBLE
+  - name: disinformation
+    type: DOUBLE
+  - name: disinformation2
+    type: DOUBLE
+  - name: informed
+    type: DOUBLE
+  - name: media
+    type: DOUBLE
+  - name: media_m
+    type: DOUBLE
+  - name: media_new
+    type: DOUBLE
+  - name: media_new_m
+    type: DOUBLE
+  - name: CAMPAIGNFINANCE
+    type: DOUBLE
+  - name: subsidies
+    type: DOUBLE
+  - name: donations
+    type: DOUBLE
+  - name: accounts
+    type: DOUBLE
+  - name: rich
+    type: DOUBLE
+  - name: rich2
+    type: DOUBLE
+  - name: resources
+    type: DOUBLE
+  - name: resources2
+    type: DOUBLE
+  - name: bribed
+    type: DOUBLE
+  - name: bribed2
+    type: DOUBLE
+  - name: finance
+    type: DOUBLE
+  - name: finance_m
+    type: DOUBLE
+  - name: finance_new
+    type: DOUBLE
+  - name: finance_new_m
+    type: DOUBLE
+  - name: VOTINGPROCESS
+    type: DOUBLE
+  - name: violence
+    type: DOUBLE
+  - name: violence2
+    type: DOUBLE
+  - name: fraudulent
+    type: DOUBLE
+  - name: fraudulent2
+    type: DOUBLE
+  - name: easy
+    type: DOUBLE
+  - name: choice
+    type: DOUBLE
+  - name: disabled
+    type: DOUBLE
+  - name: expats
+    type: DOUBLE
+  - name: internet
+    type: DOUBLE
+  - name: gaps
+    type: DOUBLE
+  - name: gaps2
+    type: DOUBLE
+  - name: encouraged
+    type: DOUBLE
+  - name: identification
+    type: DOUBLE
+  - name: identification2
+    type: DOUBLE
+  - name: voting
+    type: DOUBLE
+  - name: voting_m
+    type: DOUBLE
+  - name: voting_new
+    type: DOUBLE
+  - name: voting_new_m
+    type: DOUBLE
+  - name: VOTECOUNT
+    type: DOUBLE
+  - name: secure
+    type: DOUBLE
+  - name: delay
+    type: DOUBLE
+  - name: faircount
+    type: DOUBLE
+  - name: intlmonitors
+    type: DOUBLE
+  - name: intlmonitors2
+    type: DOUBLE
+  - name: domesticmonitors
+    type: DOUBLE
+  - name: domesticmonitors2
+    type: DOUBLE
+  - name: count
+    type: DOUBLE
+  - name: count_m
+    type: DOUBLE
+  - name: count_new
+    type: DOUBLE
+  - name: count_new_m
+    type: DOUBLE
+  - name: VOTINGRESULTS
+    type: DOUBLE
+  - name: challenged
+    type: DOUBLE
+  - name: challenged2
+    type: DOUBLE
+  - name: protestspeace
+    type: DOUBLE
+  - name: protestspeace2
+    type: DOUBLE
+  - name: protestsviolent
+    type: DOUBLE
+  - name: protestsviolent2
+    type: DOUBLE
+  - name: disputes
+    type: DOUBLE
+  - name: effective
+    type: DOUBLE
+  - name: results
+    type: DOUBLE
+  - name: results_m
+    type: DOUBLE
+  - name: results_new
+    type: DOUBLE
+  - name: results_new_m
+    type: DOUBLE
+  - name: ELECTIONAUTHORITIES
+    type: DOUBLE
+  - name: impartial
+    type: DOUBLE
+  - name: info
+    type: DOUBLE
+  - name: scrutiny
+    type: DOUBLE
+  - name: performance
+    type: DOUBLE
+  - name: targeted
+    type: DOUBLE
+  - name: targeted2
+    type: DOUBLE
+  - name: EMBs
+    type: DOUBLE
+  - name: EMBs_m
+    type: DOUBLE
+  - name: EMBs_new
+    type: DOUBLE
+  - name: EMBs_new_m
+    type: DOUBLE
+  - name: GENERALQUESTIONS
+    type: DOUBLE
+  - name: familiarity
+    type: DOUBLE
+  - name: important
+    type: DOUBLE
+  - name: ORGCONFIDENCE
+    type: DOUBLE
+  - name: courts
+    type: DOUBLE
+  - name: government
+    type: DOUBLE
+  - name: parliament
+    type: DOUBLE
+  - name: armedforces
+    type: DOUBLE
+  - name: electoralauth
+    type: DOUBLE
+  - name: BACKGROUND
+    type: DOUBLE
+  - name: expertdomestic
+    type: DOUBLE
+  - name: currentlylive
+    type: DOUBLE
+  - name: electionlive
+    type: DOUBLE
+  - name: employment
+    type: DOUBLE
+  - name: public
+    type: DOUBLE
+  - name: university
+    type: DOUBLE
+  - name: nonprofit
+    type: DOUBLE
+  - name: agency
+    type: DOUBLE
+  - name: private
+    type: DOUBLE
+  - name: occupation
+    type: DOUBLE
+  - name: agegroup
+    type: DOUBLE
+  - name: sex
+    type: DOUBLE
+  - name: education
+    type: DOUBLE
+  - name: born
+    type: DOUBLE
+  - name: lived
+    type: DOUBLE
+  - name: candidate
+    type: DOUBLE
+  - name: rep
+    type: DOUBLE
+  - name: activist
+    type: DOUBLE
+  - name: ngo
+    type: DOUBLE
+  - name: voted
+    type: DOUBLE
+  - name: norole
+    type: DOUBLE
+  - name: monitor
+    type: DOUBLE
+  - name: monitorint
+    type: DOUBLE
+  - name: official
+    type: DOUBLE
+  - name: citizen
+    type: DOUBLE
+  - name: leftrightscale
+    type: DOUBLE
+  - name: difficulty
+    type: DOUBLE
+  - name: VIGNETTES
+    type: DOUBLE
+  - name: vignettea
+    type: DOUBLE
+  - name: vignetteb
+    type: DOUBLE
+  - name: vignettec
+    type: DOUBLE
+  - name: vignetted
+    type: DOUBLE
+  - name: vignettee
+    type: DOUBLE
+  - name: vignettef
+    type: DOUBLE
+  - name: ROTATING
+    type: DOUBLE
+  - name: freetovote
+    type: DOUBLE
+  - name: fearviolence
+    type: DOUBLE
+  - name: fearviolence2
+    type: DOUBLE
+  - name: ballotconfidential
+    type: DOUBLE
+  - name: freefairelect
+    type: DOUBLE
+  - name: cashforvotes
+    type: DOUBLE
+  - name: cashforvotes2
+    type: DOUBLE
+  - name: patronage
+    type: DOUBLE
+  - name: patronage2
+    type: DOUBLE
+  - name: audit
+    type: DOUBLE
+  - name: hacking
+    type: DOUBLE
+  - name: campaignnews
+    type: DOUBLE
+  - name: govtnews
+    type: DOUBLE
+  - name: fakenews
+    type: DOUBLE
+  - name: fakenews2
+    type: DOUBLE
+  - name: hatespeech
+    type: DOUBLE
+  - name: hatespeech2
+    type: DOUBLE
+  - name: informedchoices
+    type: DOUBLE
+  - name: foreigninterference
+    type: DOUBLE
+  - name: foreigninterference2
+    type: DOUBLE
+  - name: mediamonitors
+    type: DOUBLE
+  - name: cyberattacks
+    type: DOUBLE
+  - name: cyberattacks2
+    type: DOUBLE
+  - name: diversenews
+    type: DOUBLE
+  - name: journalisticstandards
+    type: DOUBLE
+  - name: partisanjournalists
+    type: DOUBLE
+  - name: partisanjournalists2
+    type: DOUBLE
+  - name: fakesocial
+    type: DOUBLE
+  - name: fakesocial2
+    type: DOUBLE
+  - name: emergency
+    type: DOUBLE
+  - name: emergency2
+    type: DOUBLE
+  - name: safetyvoters
+    type: DOUBLE
+  - name: safetyworkers
+    type: DOUBLE
+  - name: safetyworkers2
+    type: DOUBLE
+  - name: opportunitycampaign
+    type: DOUBLE
+  - name: opportunitycampaign2
+    type: DOUBLE
+  - name: incumbentcampaign
+    type: DOUBLE
+  - name: incumbentcampaign2
+    type: DOUBLE
+  - name: postponed
+    type: DOUBLE
+  - name: postponed2
+    type: DOUBLE
+  - name: hesitant
+    type: DOUBLE
+  - name: hesitant2
+    type: DOUBLE
+  - name: support
+    type: DOUBLE
+  - name: shortage
+    type: DOUBLE
+  - name: shortage2
+    type: DOUBLE
+  - name: resourced
+    type: DOUBLE
+  - name: resourced2
+    type: DOUBLE

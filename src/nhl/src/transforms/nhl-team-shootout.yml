@@ -1,0 +1,53 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [seasonId, teamId, gameTypeId]
+temporal: seasonId
+sort: [seasonId, teamId, gameTypeId]
+columns:
+  - name: gamesPlayed
+    type: BIGINT
+  - name: losses
+    type: BIGINT
+  - name: otLosses
+    type: BIGINT
+  - name: pointPct
+    type: DOUBLE
+  - name: points
+    type: BIGINT
+  - name: seasonId
+    type: BIGINT
+  - name: shootoutGamesPlayed
+    type: BIGINT
+  - name: shootoutGoals
+    type: BIGINT
+  - name: shootoutGoalsAgainst
+    type: BIGINT
+  - name: shootoutLosses
+    type: BIGINT
+  - name: shootoutPoints
+    type: BIGINT
+  - name: shootoutSavePct
+    type: DOUBLE
+  - name: shootoutSaves
+    type: BIGINT
+  - name: shootoutShootingPct
+    type: DOUBLE
+  - name: shootoutShootingPlusSavePct
+    type: DOUBLE
+  - name: shootoutShots
+    type: BIGINT
+  - name: shootoutShotsAgainst
+    type: BIGINT
+  - name: shootoutWinPct
+    type: DOUBLE
+  - name: shootoutWins
+    type: BIGINT
+  - name: teamFullName
+    type: VARCHAR
+  - name: teamId
+    type: BIGINT
+  - name: ties
+    type: JSON
+  - name: wins
+    type: BIGINT
+  - name: gameTypeId
+    type: BIGINT

@@ -1,0 +1,63 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [seasonId, teamId, gameTypeId]
+temporal: seasonId
+sort: [seasonId, teamId, gameTypeId]
+columns:
+  - name: gamesPlayed
+    type: BIGINT
+  - name: goalsBackhand
+    type: BIGINT
+  - name: goalsDeflected
+    type: BIGINT
+  - name: goalsFor
+    type: BIGINT
+  - name: goalsSlap
+    type: BIGINT
+  - name: goalsSnap
+    type: BIGINT
+  - name: goalsTipIn
+    type: BIGINT
+  - name: goalsWrapAround
+    type: BIGINT
+  - name: goalsWrist
+    type: BIGINT
+  - name: seasonId
+    type: BIGINT
+  - name: shootingPct
+    type: DOUBLE
+  - name: shootingPctBackhand
+    type: DOUBLE
+  - name: shootingPctDeflected
+    type: DOUBLE
+  - name: shootingPctSlap
+    type: DOUBLE
+  - name: shootingPctSnap
+    type: DOUBLE
+  - name: shootingPctTipIn
+    type: DOUBLE
+  - name: shootingPctWrapAround
+    type: DOUBLE
+  - name: shootingPctWrist
+    type: DOUBLE
+  - name: shotsOnNet
+    type: BIGINT
+  - name: shotsOnNetBackhand
+    type: BIGINT
+  - name: shotsOnNetDeflected
+    type: BIGINT
+  - name: shotsOnNetSlap
+    type: BIGINT
+  - name: shotsOnNetSnap
+    type: BIGINT
+  - name: shotsOnNetTipIn
+    type: BIGINT
+  - name: shotsOnNetWrapAround
+    type: BIGINT
+  - name: shotsOnNetWrist
+    type: BIGINT
+  - name: teamFullName
+    type: VARCHAR
+  - name: teamId
+    type: BIGINT
+  - name: gameTypeId
+    type: BIGINT

@@ -1,0 +1,33 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: []
+temporal: acquired_date
+sort: [acquired_date]
+columns:
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: brightness_ti4
+    type: DOUBLE
+  - name: brightness_ti5
+    type: DOUBLE
+  - name: fire_radiative_power
+    type: DOUBLE
+  - name: scan
+    type: DOUBLE
+  - name: track
+    type: DOUBLE
+  - name: acquired_date
+    type: TIMESTAMP
+  - name: acquired_at_utc
+    type: TIMESTAMP
+  - name: satellite
+    type: VARCHAR
+  - name: confidence
+    type: VARCHAR
+  - name: day_night
+    type: VARCHAR
+  - name: version
+    type: VARCHAR
+  - name: hours_old
+    type: INTEGER

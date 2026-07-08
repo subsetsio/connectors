@@ -1,0 +1,22 @@
+SELECT
+    state_fips,
+    area                                                            AS area_code,
+    areaname                                                        AS area_name,
+    soc_code,
+    soc_title,
+    TRY_CAST(REPLACE(employment, ',', '') AS BIGINT)               AS employment,
+    TRY_CAST(REPLACE(meanhourlywage, ',', '') AS DOUBLE)          AS mean_hourly_wage,
+    TRY_CAST(REPLACE(meanannualwage, ',', '') AS DOUBLE)         AS mean_annual_wage,
+    TRY_CAST(REPLACE(entrylevelhourlywage, ',', '') AS DOUBLE)   AS entry_hourly_wage,
+    TRY_CAST(REPLACE(entrylevelannualwage, ',', '') AS DOUBLE)  AS entry_annual_wage,
+    TRY_CAST(REPLACE(experiencedlevelhourlywage, ',', '') AS DOUBLE)  AS experienced_hourly_wage,
+    TRY_CAST(REPLACE(experiencedlevelannualwage, ',', '') AS DOUBLE) AS experienced_annual_wage,
+    TRY_CAST(REPLACE(_10_hourlywage, ',', '') AS DOUBLE)         AS pct10_hourly_wage,
+    TRY_CAST(REPLACE(_10_annualwage, ',', '') AS DOUBLE)        AS pct10_annual_wage,
+    TRY_CAST(REPLACE(_25_hourlywage, ',', '') AS DOUBLE)         AS pct25_hourly_wage,
+    TRY_CAST(REPLACE(_25_annualwage, ',', '') AS DOUBLE)        AS pct25_annual_wage,
+    TRY_CAST(REPLACE(_75_hourlywage, ',', '') AS DOUBLE)         AS pct75_hourly_wage,
+    TRY_CAST(REPLACE(_75_annualwage, ',', '') AS DOUBLE)        AS pct75_annual_wage,
+    TRY_CAST(REPLACE(_90_hourlywage, ',', '') AS DOUBLE)         AS pct90_hourly_wage,
+    TRY_CAST(REPLACE(_90_annualwage, ',', '') AS DOUBLE)        AS pct90_annual_wage
+FROM "connecticut-department-of-labor-tids-7w95"

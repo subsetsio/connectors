@@ -1,0 +1,23 @@
+SELECT
+    TRY_CAST("id" AS BIGINT) AS "id",
+    TRY_CAST("date_created" AS TIMESTAMP) AS "date_created",
+    TRY_CAST("date_modified" AS TIMESTAMP) AS "date_modified",
+    "source",
+    "case_name_short",
+    "case_name",
+    "case_name_full",
+    "judges",
+    "sha1",
+    "download_url",
+    "local_path_mp3",
+    "local_path_original_file",
+    "filepath_ia",
+    TRY_CAST("ia_upload_failure_count" AS BIGINT) AS "ia_upload_failure_count",
+    TRY_CAST("duration" AS BIGINT) AS "duration",
+    "processing_complete",
+    TRY_CAST("date_blocked" AS DATE) AS "date_blocked",
+    "blocked",
+    "stt_status",
+    "stt_source",
+    TRY_CAST("docket_id" AS BIGINT) AS "docket_id"
+FROM "courtlistener-oral-arguments"

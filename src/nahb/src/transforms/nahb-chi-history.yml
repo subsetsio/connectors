@@ -1,0 +1,17 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, msa_fip, flag]
+temporal: date
+sort: [date, msa_fip, flag]
+columns:
+  - name: period
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: msa_fip
+    type: INTEGER
+  - name: flag
+    type: INTEGER
+  - name: name
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

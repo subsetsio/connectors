@@ -1,0 +1,197 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [id]
+temporal: year
+sort: [year, id]
+columns:
+  - name: id
+    type: SMALLINT
+  - name: active
+    type: TINYINT
+  - name: year
+    type: SMALLINT
+  - name: side_a_id
+    type: SMALLINT
+  - name: side_a
+    type: VARCHAR
+  - name: side_b_id
+    type: SMALLINT
+  - name: side_b
+    type: VARCHAR
+  - name: dyad_id
+    type: SMALLINT
+  - name: dyad_name
+    type: VARCHAR
+  - name: civil
+    type: TINYINT
+  - name: conflict_id
+    type: SMALLINT
+  - name: location
+    type: VARCHAR
+  - name: gwno_a
+    type: SMALLINT
+  - name: country_a
+    type: VARCHAR
+  - name: gwno_b
+    type: SMALLINT
+  - name: country_b
+    type: VARCHAR
+  - name: ext_id
+    type: VARCHAR
+  - name: ext_name
+    type: VARCHAR
+  - name: ext_nonstate
+    type: DOUBLE
+  - name: ext_coalition
+    type: DOUBLE
+  - name: ext_coalition_name
+    type: VARCHAR
+  - name: ext_elements
+    type: DOUBLE
+  - name: ext_bothsides
+    type: DOUBLE
+  - name: ext_sup
+    type: TINYINT
+  - name: ext_sup_s
+    type: TINYINT
+  - name: ext_sup_ns
+    type: TINYINT
+  - name: ext_count
+    type: TINYINT
+  - name: ext_count_s
+    type: TINYINT
+  - name: ext_count_ns
+    type: TINYINT
+  - name: ext_x
+    type: TINYINT
+  - name: ext_x_s
+    type: TINYINT
+  - name: ext_x_ns
+    type: TINYINT
+  - name: ext_x_count
+    type: TINYINT
+  - name: ext_x_count_s
+    type: TINYINT
+  - name: ext_x_count_ns
+    type: TINYINT
+  - name: ext_p
+    type: TINYINT
+  - name: ext_p_s
+    type: TINYINT
+  - name: ext_p_ns
+    type: TINYINT
+  - name: ext_p_count
+    type: TINYINT
+  - name: ext_p_count_s
+    type: TINYINT
+  - name: ext_p_count_ns
+    type: TINYINT
+  - name: ext_y
+    type: TINYINT
+  - name: ext_y_s
+    type: TINYINT
+  - name: ext_y_ns
+    type: TINYINT
+  - name: ext_y_count
+    type: TINYINT
+  - name: ext_y_count_s
+    type: TINYINT
+  - name: ext_y_count_ns
+    type: TINYINT
+  - name: ext_w
+    type: TINYINT
+  - name: ext_w_s
+    type: TINYINT
+  - name: ext_w_ns
+    type: TINYINT
+  - name: ext_w_count
+    type: TINYINT
+  - name: ext_w_count_s
+    type: TINYINT
+  - name: ext_w_count_ns
+    type: TINYINT
+  - name: ext_m
+    type: TINYINT
+  - name: ext_m_s
+    type: TINYINT
+  - name: ext_m_ns
+    type: TINYINT
+  - name: ext_m_count
+    type: TINYINT
+  - name: ext_m_count_s
+    type: TINYINT
+  - name: ext_m_count_ns
+    type: TINYINT
+  - name: ext_t
+    type: TINYINT
+  - name: ext_t_s
+    type: TINYINT
+  - name: ext_t_ns
+    type: TINYINT
+  - name: ext_t_count
+    type: TINYINT
+  - name: ext_t_count_s
+    type: TINYINT
+  - name: ext_t_count_ns
+    type: TINYINT
+  - name: ext_f
+    type: TINYINT
+  - name: ext_f_s
+    type: TINYINT
+  - name: ext_f_ns
+    type: TINYINT
+  - name: ext_f_count
+    type: TINYINT
+  - name: ext_f_count_s
+    type: TINYINT
+  - name: ext_f_count_ns
+    type: TINYINT
+  - name: ext_i
+    type: TINYINT
+  - name: ext_i_s
+    type: TINYINT
+  - name: ext_i_ns
+    type: TINYINT
+  - name: ext_i_count
+    type: TINYINT
+  - name: ext_i_count_s
+    type: TINYINT
+  - name: ext_i_count_ns
+    type: TINYINT
+  - name: ext_l
+    type: TINYINT
+  - name: ext_l_s
+    type: TINYINT
+  - name: ext_l_ns
+    type: TINYINT
+  - name: ext_l_count
+    type: TINYINT
+  - name: ext_l_count_s
+    type: TINYINT
+  - name: ext_l_count_ns
+    type: TINYINT
+  - name: ext_o
+    type: TINYINT
+  - name: ext_o_s
+    type: TINYINT
+  - name: ext_o_ns
+    type: TINYINT
+  - name: ext_o_count
+    type: TINYINT
+  - name: ext_o_count_s
+    type: TINYINT
+  - name: ext_o_count_ns
+    type: TINYINT
+  - name: ext_u
+    type: TINYINT
+  - name: ext_u_s
+    type: TINYINT
+  - name: ext_u_ns
+    type: TINYINT
+  - name: ext_u_count
+    type: TINYINT
+  - name: ext_u_count_s
+    type: TINYINT
+  - name: ext_u_count_ns
+    type: TINYINT
+  - name: ext_sum
+    type: FLOAT

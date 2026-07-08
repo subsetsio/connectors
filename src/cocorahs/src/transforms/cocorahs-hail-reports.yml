@@ -1,0 +1,40 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: observation_date
+sort: [observation_date]
+columns:
+  - name: station_number
+    type: VARCHAR
+  - name: station_name
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: observation_date
+    type: DATE
+  - name: observation_time
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: smallest_size_in
+    type: DOUBLE
+  - name: average_size_in
+    type: DOUBLE
+  - name: largest_size_in
+    type: DOUBLE
+  - name: duration_minutes
+    type: DOUBLE
+  - name: timing
+    type: VARCHAR
+  - name: stone_consistency
+    type: VARCHAR
+  - name: more_rain_than_hail
+    type: VARCHAR
+  - name: number_of_stones_on_pad
+    type: DOUBLE
+  - name: depth_on_ground_in
+    type: DOUBLE
+  - name: damage
+    type: VARCHAR
+  - name: updated_at
+    type: TIMESTAMP

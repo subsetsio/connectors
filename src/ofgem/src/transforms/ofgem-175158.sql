@@ -1,0 +1,6 @@
+SELECT
+    CAST(category AS VARCHAR) AS category,
+    CAST(series   AS VARCHAR) AS series,
+    CAST(value    AS DOUBLE)  AS value
+FROM "ofgem-175158"
+WHERE value IS NOT NULL

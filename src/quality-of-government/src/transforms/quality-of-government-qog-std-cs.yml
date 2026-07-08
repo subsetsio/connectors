@@ -1,0 +1,2976 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: ccode
+    type: DOUBLE
+  - name: ccode_qog
+    type: BIGINT
+  - name: ccodealp
+    type: VARCHAR
+  - name: ccodecow
+    type: DOUBLE
+  - name: cname
+    type: VARCHAR
+  - name: cname_qog
+    type: VARCHAR
+  - name: aepd_frame
+    type: DOUBLE
+  - name: aepd_legis
+    type: DOUBLE
+  - name: aepd_mix
+    type: DOUBLE
+  - name: aepd_monitor
+    type: DOUBLE
+  - name: aepd_pay
+    type: DOUBLE
+  - name: aepd_rd
+    type: DOUBLE
+  - name: aepd_reg
+    type: DOUBLE
+  - name: aepd_total
+    type: DOUBLE
+  - name: aii_acc
+    type: DOUBLE
+  - name: aii_aio
+    type: DOUBLE
+  - name: aii_cilser
+    type: DOUBLE
+  - name: aii_elec
+    type: DOUBLE
+  - name: aii_pubm
+    type: DOUBLE
+  - name: aii_q02
+    type: DOUBLE
+  - name: aii_q03
+    type: DOUBLE
+  - name: aii_q04
+    type: DOUBLE
+  - name: aii_q07
+    type: DOUBLE
+  - name: aii_q08
+    type: DOUBLE
+  - name: aii_q09
+    type: DOUBLE
+  - name: aii_q12
+    type: DOUBLE
+  - name: aii_q13
+    type: DOUBLE
+  - name: aii_q14
+    type: DOUBLE
+  - name: aii_q18
+    type: DOUBLE
+  - name: aii_q21
+    type: DOUBLE
+  - name: aii_q22
+    type: DOUBLE
+  - name: aii_q23
+    type: DOUBLE
+  - name: aii_q25
+    type: DOUBLE
+  - name: aii_q26
+    type: DOUBLE
+  - name: aii_q28
+    type: DOUBLE
+  - name: aii_q29
+    type: DOUBLE
+  - name: aii_q30
+    type: DOUBLE
+  - name: aii_q38
+    type: DOUBLE
+  - name: aii_q39
+    type: DOUBLE
+  - name: aii_q42
+    type: DOUBLE
+  - name: aii_q43
+    type: DOUBLE
+  - name: aii_q45
+    type: DOUBLE
+  - name: aii_q47
+    type: DOUBLE
+  - name: aii_q49
+    type: DOUBLE
+  - name: aii_q51
+    type: DOUBLE
+  - name: aii_q52
+    type: DOUBLE
+  - name: aii_q53
+    type: DOUBLE
+  - name: aii_q55
+    type: DOUBLE
+  - name: aii_q56
+    type: DOUBLE
+  - name: aii_rol
+    type: DOUBLE
+  - name: ajr_settmort
+    type: DOUBLE
+  - name: al_ethnic2000
+    type: DOUBLE
+  - name: al_language2000
+    type: DOUBLE
+  - name: al_religion2000
+    type: DOUBLE
+  - name: bci_bci
+    type: DOUBLE
+  - name: bci_bcistd
+    type: DOUBLE
+  - name: bgi_ccs
+    type: DOUBLE
+  - name: bgi_dai
+    type: DOUBLE
+  - name: bgi_dcs
+    type: DOUBLE
+  - name: bgi_eas
+    type: DOUBLE
+  - name: bgi_enpgs
+    type: DOUBLE
+  - name: bgi_epgs
+    type: DOUBLE
+  - name: bgi_fcs
+    type: DOUBLE
+  - name: bgi_ias
+    type: DOUBLE
+  - name: bgi_pgpi
+    type: DOUBLE
+  - name: bgi_sas
+    type: DOUBLE
+  - name: bgi_sci
+    type: DOUBLE
+  - name: bgi_spgs
+    type: DOUBLE
+  - name: bicc_gmi
+    type: DOUBLE
+  - name: bicc_hw
+    type: DOUBLE
+  - name: bicc_milexp
+    type: DOUBLE
+  - name: bicc_milper
+    type: DOUBLE
+  - name: bmr_dem
+    type: DOUBLE
+  - name: bmr_dembr
+    type: DOUBLE
+  - name: bmr_demdur
+    type: DOUBLE
+  - name: bmr_demfsuf
+    type: DOUBLE
+  - name: bmr_demmis
+    type: DOUBLE
+  - name: bmr_demtran
+    type: DOUBLE
+  - name: br_chpar
+    type: DOUBLE
+  - name: br_col
+    type: DOUBLE
+  - name: br_com
+    type: DOUBLE
+  - name: br_coup
+    type: DOUBLE
+  - name: br_cw
+    type: DOUBLE
+  - name: br_dem
+    type: DOUBLE
+  - name: br_elecpost
+    type: DOUBLE
+  - name: br_elect
+    type: BIGINT
+  - name: br_elecyear
+    type: DOUBLE
+  - name: br_fcoup
+    type: DOUBLE
+  - name: br_int
+    type: DOUBLE
+  - name: br_mon
+    type: DOUBLE
+  - name: br_monf
+    type: DOUBLE
+  - name: br_newconst
+    type: DOUBLE
+  - name: br_pres
+    type: DOUBLE
+  - name: br_presf
+    type: DOUBLE
+  - name: br_pvote
+    type: DOUBLE
+  - name: br_regch
+    type: DOUBLE
+  - name: br_scoup
+    type: DOUBLE
+  - name: br_suff
+    type: DOUBLE
+  - name: bti_aar
+    type: BIGINT
+  - name: bti_acp
+    type: BIGINT
+  - name: bti_aod
+    type: BIGINT
+  - name: bti_ba
+    type: BIGINT
+  - name: bti_cdi
+    type: BIGINT
+  - name: bti_ci
+    type: BIGINT
+  - name: bti_cps
+    type: DOUBLE
+  - name: bti_cr
+    type: BIGINT
+  - name: bti_csp
+    type: BIGINT
+  - name: bti_cst
+    type: BIGINT
+  - name: bti_ds
+    type: DOUBLE
+  - name: bti_eo
+    type: BIGINT
+  - name: bti_eos
+    type: BIGINT
+  - name: bti_ep
+    type: BIGINT
+  - name: bti_epg
+    type: BIGINT
+  - name: bti_ffe
+    type: BIGINT
+  - name: bti_foe
+    type: BIGINT
+  - name: bti_gi
+    type: DOUBLE
+  - name: bti_gp
+    type: DOUBLE
+  - name: bti_ic
+    type: DOUBLE
+  - name: bti_ig
+    type: BIGINT
+  - name: bti_ij
+    type: BIGINT
+  - name: bti_lod
+    type: DOUBLE
+  - name: bti_mes
+    type: DOUBLE
+  - name: bti_mo
+    type: DOUBLE
+  - name: bti_muf
+    type: BIGINT
+  - name: bti_nird
+    type: BIGINT
+  - name: bti_pdi
+    type: BIGINT
+  - name: bti_poa
+    type: BIGINT
+  - name: bti_pp
+    type: DOUBLE
+  - name: bti_prp
+    type: DOUBLE
+  - name: bti_ps
+    type: BIGINT
+  - name: bti_psi
+    type: DOUBLE
+  - name: bti_rol
+    type: DOUBLE
+  - name: bti_sc
+    type: BIGINT
+  - name: bti_sdi
+    type: DOUBLE
+  - name: bti_seb
+    type: BIGINT
+  - name: bti_sel
+    type: BIGINT
+  - name: bti_si
+    type: BIGINT
+  - name: bti_sop
+    type: BIGINT
+  - name: bti_ssn
+    type: BIGINT
+  - name: bti_st
+    type: DOUBLE
+  - name: bti_su
+    type: DOUBLE
+  - name: bti_wr
+    type: DOUBLE
+  - name: cbi_cbiu
+    type: DOUBLE
+  - name: cbi_cbiw
+    type: DOUBLE
+  - name: cbi_cceo
+    type: DOUBLE
+  - name: cbi_cll
+    type: DOUBLE
+  - name: cbi_cobj
+    type: DOUBLE
+  - name: cbi_cpol
+    type: DOUBLE
+  - name: cbi_create
+    type: DOUBLE
+  - name: cbi_dec
+    type: DOUBLE
+  - name: cbi_dir
+    type: DOUBLE
+  - name: cbi_inc
+    type: DOUBLE
+  - name: cbi_ref
+    type: DOUBLE
+  - name: cbi_reg
+    type: DOUBLE
+  - name: cbie_board
+    type: DOUBLE
+  - name: cbie_boardref
+    type: DOUBLE
+  - name: cbie_cbiconstitution
+    type: DOUBLE
+  - name: cbie_cwne
+    type: DOUBLE
+  - name: cbie_finances
+    type: DOUBLE
+  - name: cbie_financesref
+    type: DOUBLE
+  - name: cbie_gmt
+    type: DOUBLE
+  - name: cbie_index
+    type: DOUBLE
+  - name: cbie_indexref
+    type: DOUBLE
+  - name: cbie_lending
+    type: DOUBLE
+  - name: cbie_lendingref
+    type: DOUBLE
+  - name: cbie_lvau
+    type: DOUBLE
+  - name: cbie_obj
+    type: DOUBLE
+  - name: cbie_objref
+    type: DOUBLE
+  - name: cbie_policy
+    type: DOUBLE
+  - name: cbie_policyref
+    type: DOUBLE
+  - name: cbie_report
+    type: DOUBLE
+  - name: cbie_reportref
+    type: DOUBLE
+  - name: ccodealp_year
+    type: VARCHAR
+  - name: ccp_buildsoc
+    type: BIGINT
+  - name: ccp_cc
+    type: BIGINT
+  - name: ccp_childwrk
+    type: BIGINT
+  - name: ccp_civil
+    type: BIGINT
+  - name: ccp_democ
+    type: BIGINT
+  - name: ccp_equal
+    type: BIGINT
+  - name: ccp_freerel
+    type: BIGINT
+  - name: ccp_hr
+    type: BIGINT
+  - name: ccp_infoacc
+    type: BIGINT
+  - name: ccp_market
+    type: BIGINT
+  - name: ccp_marriage
+    type: BIGINT
+  - name: ccp_samesexm
+    type: BIGINT
+  - name: ccp_slave
+    type: BIGINT
+  - name: ccp_socialsm
+    type: BIGINT
+  - name: ccp_strike
+    type: BIGINT
+  - name: ccp_syst
+    type: DOUBLE
+  - name: ccp_systyear
+    type: BIGINT
+  - name: ccp_taxes
+    type: BIGINT
+  - name: ciri_assn
+    type: DOUBLE
+  - name: ciri_disap
+    type: DOUBLE
+  - name: ciri_dommov
+    type: DOUBLE
+  - name: ciri_elecsd
+    type: DOUBLE
+  - name: ciri_formov
+    type: DOUBLE
+  - name: ciri_injud
+    type: DOUBLE
+  - name: ciri_kill
+    type: DOUBLE
+  - name: ciri_physint
+    type: DOUBLE
+  - name: ciri_polpris
+    type: DOUBLE
+  - name: ciri_relfre
+    type: DOUBLE
+  - name: ciri_speech
+    type: DOUBLE
+  - name: ciri_tort
+    type: DOUBLE
+  - name: ciri_wecon
+    type: DOUBLE
+  - name: ciri_wopol
+    type: DOUBLE
+  - name: ciri_work_l_s
+    type: DOUBLE
+  - name: ciri_work_p_s
+    type: DOUBLE
+  - name: ciri_wosoc_l
+    type: DOUBLE
+  - name: ciri_wosoc_p
+    type: DOUBLE
+  - name: cname_year
+    type: VARCHAR
+  - name: cpds_chg
+    type: DOUBLE
+  - name: cpds_enps
+    type: DOUBLE
+  - name: cpds_enpv
+    type: DOUBLE
+  - name: cpds_frel
+    type: DOUBLE
+  - name: cpds_frleg
+    type: DOUBLE
+  - name: cpds_govlr
+    type: BIGINT
+  - name: cpds_govsup
+    type: DOUBLE
+  - name: cpds_la
+    type: DOUBLE
+  - name: cpds_lall
+    type: DOUBLE
+  - name: cpds_lcom
+    type: DOUBLE
+  - name: cpds_lcon
+    type: DOUBLE
+  - name: cpds_le
+    type: DOUBLE
+  - name: cpds_lfe
+    type: DOUBLE
+  - name: cpds_lg
+    type: DOUBLE
+  - name: cpds_ll
+    type: DOUBLE
+  - name: cpds_lls
+    type: DOUBLE
+  - name: cpds_lmo
+    type: DOUBLE
+  - name: cpds_lnl
+    type: DOUBLE
+  - name: cpds_lo
+    type: DOUBLE
+  - name: cpds_lp
+    type: DOUBLE
+  - name: cpds_lpc
+    type: DOUBLE
+  - name: cpds_lpen
+    type: DOUBLE
+  - name: cpds_lper
+    type: DOUBLE
+  - name: cpds_lr
+    type: DOUBLE
+  - name: cpds_lreg
+    type: DOUBLE
+  - name: cpds_lrel
+    type: DOUBLE
+  - name: cpds_ls
+    type: DOUBLE
+  - name: cpds_tg
+    type: BIGINT
+  - name: cpds_va
+    type: DOUBLE
+  - name: cpds_vall
+    type: DOUBLE
+  - name: cpds_vcom
+    type: DOUBLE
+  - name: cpds_vcon
+    type: DOUBLE
+  - name: cpds_ve
+    type: DOUBLE
+  - name: cpds_vfe
+    type: DOUBLE
+  - name: cpds_vg
+    type: DOUBLE
+  - name: cpds_vl
+    type: DOUBLE
+  - name: cpds_vls
+    type: DOUBLE
+  - name: cpds_vmo
+    type: DOUBLE
+  - name: cpds_vnl
+    type: DOUBLE
+  - name: cpds_vo
+    type: DOUBLE
+  - name: cpds_vp
+    type: DOUBLE
+  - name: cpds_vpcom
+    type: DOUBLE
+  - name: cpds_vpen
+    type: DOUBLE
+  - name: cpds_vper
+    type: DOUBLE
+  - name: cpds_vr
+    type: DOUBLE
+  - name: cpds_vreg
+    type: DOUBLE
+  - name: cpds_vrel
+    type: DOUBLE
+  - name: cpds_vs
+    type: DOUBLE
+  - name: cpds_vt
+    type: DOUBLE
+  - name: cri_contr
+    type: DOUBLE
+  - name: cri_cvalue
+    type: DOUBLE
+  - name: cri_foreign
+    type: DOUBLE
+  - name: cri_nocall
+    type: DOUBLE
+  - name: cri_nonopen
+    type: DOUBLE
+  - name: cri_singleb
+    type: DOUBLE
+  - name: cri_taxhav
+    type: DOUBLE
+  - name: cses_pc
+    type: DOUBLE
+  - name: cses_sd
+    type: DOUBLE
+  - name: dev_altv1
+    type: DOUBLE
+  - name: dev_othv1
+    type: DOUBLE
+  - name: dev_regv1
+    type: DOUBLE
+  - name: dev_tv1
+    type: DOUBLE
+  - name: dr_eg
+    type: DOUBLE
+  - name: dr_ig
+    type: DOUBLE
+  - name: dr_pg
+    type: DOUBLE
+  - name: dr_sg
+    type: DOUBLE
+  - name: ef_bul
+    type: DOUBLE
+  - name: ef_carb
+    type: DOUBLE
+  - name: ef_crop
+    type: DOUBLE
+  - name: ef_ef
+    type: DOUBLE
+  - name: ef_fg
+    type: DOUBLE
+  - name: ef_for
+    type: DOUBLE
+  - name: ef_gl
+    type: DOUBLE
+  - name: egov_egov
+    type: DOUBLE
+  - name: egov_epar
+    type: DOUBLE
+  - name: egov_hci
+    type: DOUBLE
+  - name: egov_osi
+    type: DOUBLE
+  - name: egov_tii
+    type: DOUBLE
+  - name: ens_brdep
+    type: DOUBLE
+  - name: ens_brinc
+    type: DOUBLE
+  - name: ens_con
+    type: DOUBLE
+  - name: ens_cor
+    type: DOUBLE
+  - name: ens_el
+    type: DOUBLE
+  - name: ens_gcon
+    type: DOUBLE
+  - name: ens_gme
+    type: DOUBLE
+  - name: ens_iml
+    type: DOUBLE
+  - name: ens_infir
+    type: DOUBLE
+  - name: ens_info
+    type: DOUBLE
+  - name: ens_inye
+    type: DOUBLE
+  - name: ens_opl
+    type: DOUBLE
+  - name: ens_oth
+    type: DOUBLE
+  - name: ens_reg
+    type: DOUBLE
+  - name: ens_wat
+    type: DOUBLE
+  - name: epi_agr
+    type: DOUBLE
+  - name: epi_air
+    type: DOUBLE
+  - name: epi_bdh
+    type: DOUBLE
+  - name: epi_cch
+    type: DOUBLE
+  - name: epi_eh
+    type: DOUBLE
+  - name: epi_epi
+    type: DOUBLE
+  - name: epi_ev
+    type: DOUBLE
+  - name: epi_for
+    type: DOUBLE
+  - name: epi_fsh
+    type: DOUBLE
+  - name: epi_h2o
+    type: DOUBLE
+  - name: epi_hmt
+    type: DOUBLE
+  - name: epi_wmg
+    type: DOUBLE
+  - name: epi_wrs
+    type: DOUBLE
+  - name: ess_happy
+    type: DOUBLE
+  - name: ess_health
+    type: DOUBLE
+  - name: ess_relig
+    type: DOUBLE
+  - name: ess_trlegal
+    type: DOUBLE
+  - name: ess_trparl
+    type: DOUBLE
+  - name: ess_trpart
+    type: DOUBLE
+  - name: ess_trpeople
+    type: DOUBLE
+  - name: ess_trpolice
+    type: DOUBLE
+  - name: ess_trpolit
+    type: DOUBLE
+  - name: eu_demcnmigratn
+    type: DOUBLE
+  - name: eu_demd2janf
+    type: DOUBLE
+  - name: eu_demd2janm
+    type: DOUBLE
+  - name: eu_demd2jant
+    type: DOUBLE
+  - name: eu_demd3dens
+    type: DOUBLE
+  - name: eu_demdeathdf
+    type: DOUBLE
+  - name: eu_demdeathdm
+    type: DOUBLE
+  - name: eu_demdeathdt
+    type: DOUBLE
+  - name: eu_demfrate2
+    type: DOUBLE
+  - name: eu_demgrownnat
+    type: DOUBLE
+  - name: eu_demgrowt
+    type: DOUBLE
+  - name: eu_demlbirthlf
+    type: DOUBLE
+  - name: eu_demlbirthlm
+    type: DOUBLE
+  - name: eu_demlbirthlt
+    type: DOUBLE
+  - name: eu_demmawc
+    type: DOUBLE
+  - name: eu_demmlifexpf
+    type: DOUBLE
+  - name: eu_demmlifexpm
+    type: DOUBLE
+  - name: eu_demmlifexpt
+    type: DOUBLE
+  - name: eu_eco2gdpeurhab
+    type: DOUBLE
+  - name: eu_eco2gdpmioeur
+    type: DOUBLE
+  - name: eu_edued256402f
+    type: DOUBLE
+  - name: eu_edued256402m
+    type: DOUBLE
+  - name: eu_edued256402t
+    type: DOUBLE
+  - name: eu_edued256434f
+    type: DOUBLE
+  - name: eu_edued256434m
+    type: DOUBLE
+  - name: eu_edued256434t
+    type: DOUBLE
+  - name: eu_edued256438f
+    type: DOUBLE
+  - name: eu_edued256438m
+    type: DOUBLE
+  - name: eu_edued256438t
+    type: DOUBLE
+  - name: eu_edued256458f
+    type: DOUBLE
+  - name: eu_edued256458m
+    type: DOUBLE
+  - name: eu_edued256458t
+    type: DOUBLE
+  - name: eu_edued303402f
+    type: DOUBLE
+  - name: eu_edued303402m
+    type: DOUBLE
+  - name: eu_edued303402t
+    type: DOUBLE
+  - name: eu_edued303434f
+    type: DOUBLE
+  - name: eu_edued303434m
+    type: DOUBLE
+  - name: eu_edued303434t
+    type: DOUBLE
+  - name: eu_edued303438f
+    type: DOUBLE
+  - name: eu_edued303438m
+    type: DOUBLE
+  - name: eu_edued303438t
+    type: DOUBLE
+  - name: eu_edued303458f
+    type: DOUBLE
+  - name: eu_edued303458m
+    type: DOUBLE
+  - name: eu_edued303458t
+    type: DOUBLE
+  - name: eu_edueleavf
+    type: DOUBLE
+  - name: eu_edueleavm
+    type: DOUBLE
+  - name: eu_edueleavt
+    type: DOUBLE
+  - name: eu_edupttr13
+    type: DOUBLE
+  - name: eu_edupttr58
+    type: DOUBLE
+  - name: eu_edupttrearly
+    type: DOUBLE
+  - name: eu_edurstterISCED02f
+    type: DOUBLE
+  - name: eu_edurstterISCED02m
+    type: DOUBLE
+  - name: eu_edurstterISCED02t
+    type: DOUBLE
+  - name: eu_edurstterISCED34f
+    type: DOUBLE
+  - name: eu_edurstterISCED34m
+    type: DOUBLE
+  - name: eu_edurstterISCED34t
+    type: DOUBLE
+  - name: eu_edurstterISCED58f
+    type: DOUBLE
+  - name: eu_edurstterISCED58m
+    type: DOUBLE
+  - name: eu_edurstterISCED58t
+    type: DOUBLE
+  - name: eu_empict
+    type: DOUBLE
+  - name: eu_empy1524f
+    type: DOUBLE
+  - name: eu_empy1524m
+    type: DOUBLE
+  - name: eu_empy1524t
+    type: DOUBLE
+  - name: eu_empy1564f
+    type: DOUBLE
+  - name: eu_empy1564m
+    type: DOUBLE
+  - name: eu_empy1564t
+    type: DOUBLE
+  - name: eu_empy2064f
+    type: DOUBLE
+  - name: eu_empy2064m
+    type: DOUBLE
+  - name: eu_empy2064t
+    type: DOUBLE
+  - name: eu_empy2554f
+    type: DOUBLE
+  - name: eu_empy2554m
+    type: DOUBLE
+  - name: eu_empy2554t
+    type: DOUBLE
+  - name: eu_empy5564f
+    type: DOUBLE
+  - name: eu_empy5564m
+    type: DOUBLE
+  - name: eu_empy5564t
+    type: DOUBLE
+  - name: eu_envnc
+    type: DOUBLE
+  - name: eu_heaalcday
+    type: DOUBLE
+  - name: eu_heaalcmon
+    type: DOUBLE
+  - name: eu_heaalcnv
+    type: DOUBLE
+  - name: eu_heaalcwk
+    type: DOUBLE
+  - name: eu_headenththab
+    type: DOUBLE
+  - name: eu_headentnr
+    type: DOUBLE
+  - name: eu_headentp
+    type: DOUBLE
+  - name: eu_heahbedcurhabp
+    type: DOUBLE
+  - name: eu_heahbedcurnr
+    type: DOUBLE
+  - name: eu_heahbedcurphthab
+    type: DOUBLE
+  - name: eu_heahbedhabp
+    type: DOUBLE
+  - name: eu_heahbedlthabp
+    type: DOUBLE
+  - name: eu_heahbedltnr
+    type: DOUBLE
+  - name: eu_heahbedltphthab
+    type: DOUBLE
+  - name: eu_heahbednr
+    type: DOUBLE
+  - name: eu_heahbedothnr
+    type: DOUBLE
+  - name: eu_heahbedothphthab
+    type: DOUBLE
+  - name: eu_heahbedphthab
+    type: DOUBLE
+  - name: eu_heahbedpsyhabp
+    type: DOUBLE
+  - name: eu_heahbedpsynr
+    type: DOUBLE
+  - name: eu_heahbedpsyphthab
+    type: DOUBLE
+  - name: eu_heamdochthab
+    type: DOUBLE
+  - name: eu_heamdocnr
+    type: DOUBLE
+  - name: eu_heamdocp
+    type: DOUBLE
+  - name: eu_heanurshthab
+    type: DOUBLE
+  - name: eu_heanursnr
+    type: DOUBLE
+  - name: eu_heanursp
+    type: DOUBLE
+  - name: eu_heapharmhthab
+    type: DOUBLE
+  - name: eu_heapharmnr
+    type: DOUBLE
+  - name: eu_heapharmp
+    type: DOUBLE
+  - name: eu_heasmok
+    type: DOUBLE
+  - name: eu_imm118f
+    type: DOUBLE
+  - name: eu_imm118m
+    type: DOUBLE
+  - name: eu_imm118t
+    type: DOUBLE
+  - name: eu_imm1824f
+    type: DOUBLE
+  - name: eu_imm1824m
+    type: DOUBLE
+  - name: eu_imm1824t
+    type: DOUBLE
+  - name: eu_imm2534f
+    type: DOUBLE
+  - name: eu_imm2534m
+    type: DOUBLE
+  - name: eu_imm2534t
+    type: DOUBLE
+  - name: eu_imm3564f
+    type: DOUBLE
+  - name: eu_imm3564m
+    type: DOUBLE
+  - name: eu_imm3564t
+    type: DOUBLE
+  - name: eu_imm65f
+    type: DOUBLE
+  - name: eu_imm65m
+    type: DOUBLE
+  - name: eu_imm65t
+    type: DOUBLE
+  - name: eu_isiubk
+    type: DOUBLE
+  - name: eu_isiucpp
+    type: DOUBLE
+  - name: eu_isiuhlt
+    type: DOUBLE
+  - name: eu_isiunet
+    type: DOUBLE
+  - name: eu_isiusell
+    type: DOUBLE
+  - name: eu_isiux
+    type: DOUBLE
+  - name: eu_ispchhiacc
+    type: DOUBLE
+  - name: eu_povmatdepr
+    type: DOUBLE
+  - name: eu_povmatdeprf
+    type: DOUBLE
+  - name: eu_povmatdeprm
+    type: DOUBLE
+  - name: eu_povpoplwoin
+    type: DOUBLE
+  - name: eu_resallf
+    type: DOUBLE
+  - name: eu_resallt
+    type: DOUBLE
+  - name: eu_resbusf
+    type: DOUBLE
+  - name: eu_resbust
+    type: DOUBLE
+  - name: eu_reseduf
+    type: DOUBLE
+  - name: eu_resedut
+    type: DOUBLE
+  - name: eu_resgovf
+    type: DOUBLE
+  - name: eu_resgovt
+    type: DOUBLE
+  - name: eu_resnonpf
+    type: DOUBLE
+  - name: eu_resnonpt
+    type: DOUBLE
+  - name: eu_sctabf
+    type: DOUBLE
+  - name: eu_sctabm
+    type: DOUBLE
+  - name: eu_sctabt
+    type: DOUBLE
+  - name: eu_sctcff
+    type: DOUBLE
+  - name: eu_sctcfm
+    type: DOUBLE
+  - name: eu_sctcft
+    type: DOUBLE
+  - name: eu_sctchtcf
+    type: DOUBLE
+  - name: eu_sctchtcm
+    type: DOUBLE
+  - name: eu_sctchtcmf
+    type: DOUBLE
+  - name: eu_sctchtcmhf
+    type: DOUBLE
+  - name: eu_sctchtcmhm
+    type: DOUBLE
+  - name: eu_sctchtcmht
+    type: DOUBLE
+  - name: eu_sctchtcmm
+    type: DOUBLE
+  - name: eu_sctchtcmt
+    type: DOUBLE
+  - name: eu_sctchtct
+    type: DOUBLE
+  - name: eu_sctcltcf
+    type: DOUBLE
+  - name: eu_sctcltclmf
+    type: DOUBLE
+  - name: eu_sctcltclmm
+    type: DOUBLE
+  - name: eu_sctcltclmt
+    type: DOUBLE
+  - name: eu_sctcltcm
+    type: DOUBLE
+  - name: eu_sctcltcmf
+    type: DOUBLE
+  - name: eu_sctcltcmm
+    type: DOUBLE
+  - name: eu_sctcltcmt
+    type: DOUBLE
+  - name: eu_sctcltct
+    type: DOUBLE
+  - name: eu_sctgitf
+    type: DOUBLE
+  - name: eu_sctgitm
+    type: DOUBLE
+  - name: eu_sctgitt
+    type: DOUBLE
+  - name: eu_scth52n79f
+    type: DOUBLE
+  - name: eu_scth52n79m
+    type: DOUBLE
+  - name: eu_scth52n79t
+    type: DOUBLE
+  - name: eu_scthtcf
+    type: DOUBLE
+  - name: eu_scthtcm
+    type: DOUBLE
+  - name: eu_scthtct
+    type: DOUBLE
+  - name: eu_sctjf
+    type: DOUBLE
+  - name: eu_sctjm
+    type: DOUBLE
+  - name: eu_sctjt
+    type: DOUBLE
+  - name: eu_sctkf
+    type: DOUBLE
+  - name: eu_sctkisf
+    type: DOUBLE
+  - name: eu_sctkishtcf
+    type: DOUBLE
+  - name: eu_sctkishtcm
+    type: DOUBLE
+  - name: eu_sctkishtct
+    type: DOUBLE
+  - name: eu_sctkism
+    type: DOUBLE
+  - name: eu_sctkismktothf
+    type: DOUBLE
+  - name: eu_sctkismktothm
+    type: DOUBLE
+  - name: eu_sctkismktotht
+    type: DOUBLE
+  - name: eu_sctkisothf
+    type: DOUBLE
+  - name: eu_sctkisothm
+    type: DOUBLE
+  - name: eu_sctkisotht
+    type: DOUBLE
+  - name: eu_sctkist
+    type: DOUBLE
+  - name: eu_sctkm
+    type: DOUBLE
+  - name: eu_sctkt
+    type: DOUBLE
+  - name: eu_sctlkisf
+    type: DOUBLE
+  - name: eu_sctlkism
+    type: DOUBLE
+  - name: eu_sctlkismktf
+    type: DOUBLE
+  - name: eu_sctlkismktm
+    type: DOUBLE
+  - name: eu_sctlkismktt
+    type: DOUBLE
+  - name: eu_sctlkisothf
+    type: DOUBLE
+  - name: eu_sctlkisothm
+    type: DOUBLE
+  - name: eu_sctlkisotht
+    type: DOUBLE
+  - name: eu_sctlkist
+    type: DOUBLE
+  - name: eu_sctmf
+    type: DOUBLE
+  - name: eu_sctmm
+    type: DOUBLE
+  - name: eu_sctmt
+    type: DOUBLE
+  - name: eu_sctnf
+    type: DOUBLE
+  - name: eu_sctnm
+    type: DOUBLE
+  - name: eu_sctnt
+    type: DOUBLE
+  - name: eu_sctpaf
+    type: DOUBLE
+  - name: eu_sctpam
+    type: DOUBLE
+  - name: eu_sctpat
+    type: DOUBLE
+  - name: eu_sctpf
+    type: DOUBLE
+  - name: eu_sctpm
+    type: DOUBLE
+  - name: eu_sctpt
+    type: DOUBLE
+  - name: eu_sctqf
+    type: DOUBLE
+  - name: eu_sctqm
+    type: DOUBLE
+  - name: eu_sctqt
+    type: DOUBLE
+  - name: eu_sctrf
+    type: DOUBLE
+  - name: eu_sctrm
+    type: DOUBLE
+  - name: eu_sctrt
+    type: DOUBLE
+  - name: eu_sctsf
+    type: DOUBLE
+  - name: eu_sctsm
+    type: DOUBLE
+  - name: eu_sctst
+    type: DOUBLE
+  - name: eu_sevsocmatdep
+    type: DOUBLE
+  - name: eu_trfrldnld
+    type: DOUBLE
+  - name: eu_trinlw
+    type: DOUBLE
+  - name: eu_trldnld
+    type: DOUBLE
+  - name: eu_unemppcunef
+    type: DOUBLE
+  - name: eu_unemppcunem
+    type: DOUBLE
+  - name: eu_unemppcunet
+    type: DOUBLE
+  - name: eu_unempy1524f
+    type: DOUBLE
+  - name: eu_unempy1524m
+    type: DOUBLE
+  - name: eu_unempy1524t
+    type: DOUBLE
+  - name: eu_unempy2574f
+    type: DOUBLE
+  - name: eu_unempy2574m
+    type: DOUBLE
+  - name: eu_unempy2574t
+    type: DOUBLE
+  - name: eu_unempytotf
+    type: DOUBLE
+  - name: eu_unempytotm
+    type: DOUBLE
+  - name: eu_unempytott
+    type: DOUBLE
+  - name: evep_altv
+    type: DOUBLE
+  - name: evep_classbloc
+    type: DOUBLE
+  - name: evep_dembloc
+    type: DOUBLE
+  - name: evep_othv
+    type: DOUBLE
+  - name: evep_regv
+    type: DOUBLE
+  - name: evep_tv
+    type: DOUBLE
+  - name: fao_luagr
+    type: DOUBLE
+  - name: fao_luagrara
+    type: DOUBLE
+  - name: fao_luagrcrop
+    type: DOUBLE
+  - name: fao_luagrirrac
+    type: DOUBLE
+  - name: fao_luagrirreqcrop
+    type: DOUBLE
+  - name: fao_luagrorg
+    type: DOUBLE
+  - name: fao_lucrop
+    type: DOUBLE
+  - name: fao_luforest
+    type: DOUBLE
+  - name: fao_luforplant
+    type: DOUBLE
+  - name: fao_luforreg
+    type: DOUBLE
+  - name: fe_cultdiv
+    type: DOUBLE
+  - name: fe_etfra
+    type: DOUBLE
+  - name: fe_lmin
+    type: DOUBLE
+  - name: fe_plural
+    type: DOUBLE
+  - name: fh_aor
+    type: DOUBLE
+  - name: fh_cl
+    type: DOUBLE
+  - name: fh_ep
+    type: DOUBLE
+  - name: fh_feb
+    type: DOUBLE
+  - name: fh_fog
+    type: DOUBLE
+  - name: fh_pair
+    type: DOUBLE
+  - name: fh_ppp
+    type: DOUBLE
+  - name: fh_pr
+    type: DOUBLE
+  - name: fh_rol
+    type: DOUBLE
+  - name: fh_status
+    type: DOUBLE
+  - name: fhn_fotnloc
+    type: DOUBLE
+  - name: fhn_fotnota
+    type: DOUBLE
+  - name: fhn_fotnsc
+    type: DOUBLE
+  - name: fhn_fotnst
+    type: BIGINT
+  - name: fhn_fotnvur
+    type: DOUBLE
+  - name: fi_ftradeint
+    type: DOUBLE
+  - name: fi_ftradeint_pd
+    type: DOUBLE
+  - name: fi_index
+    type: DOUBLE
+  - name: fi_index_pd
+    type: DOUBLE
+  - name: fi_legprop
+    type: DOUBLE
+  - name: fi_legprop_pd
+    type: DOUBLE
+  - name: fi_reg
+    type: DOUBLE
+  - name: fi_reg_pd
+    type: DOUBLE
+  - name: fi_sm
+    type: DOUBLE
+  - name: fi_sm_pd
+    type: DOUBLE
+  - name: fi_sog
+    type: DOUBLE
+  - name: fi_sog_pd
+    type: DOUBLE
+  - name: gain_cap
+    type: DOUBLE
+  - name: gain_econ
+    type: DOUBLE
+  - name: gain_ecos
+    type: DOUBLE
+  - name: gain_exp
+    type: DOUBLE
+  - name: gain_food
+    type: DOUBLE
+  - name: gain_gain
+    type: DOUBLE
+  - name: gain_gaingdp
+    type: DOUBLE
+  - name: gain_gov
+    type: DOUBLE
+  - name: gain_hab
+    type: DOUBLE
+  - name: gain_heal
+    type: DOUBLE
+  - name: gain_inf
+    type: DOUBLE
+  - name: gain_read
+    type: DOUBLE
+  - name: gain_readgdp
+    type: DOUBLE
+  - name: gain_sens
+    type: DOUBLE
+  - name: gain_soc
+    type: DOUBLE
+  - name: gain_vuln
+    type: DOUBLE
+  - name: gain_vulngdp
+    type: DOUBLE
+  - name: gain_wat
+    type: DOUBLE
+  - name: gcdf_droda
+    type: DOUBLE
+  - name: gcdf_groda
+    type: DOUBLE
+  - name: gcdf_groof
+    type: DOUBLE
+  - name: gcdf_lnode
+    type: DOUBLE
+  - name: gcdf_lnoof
+    type: DOUBLE
+  - name: gcdf_lnvof
+    type: DOUBLE
+  - name: gcdf_vgoda
+    type: DOUBLE
+  - name: gcdf_vgoof
+    type: DOUBLE
+  - name: gcdf_vgvof
+    type: DOUBLE
+  - name: gd_ptsa
+    type: DOUBLE
+  - name: gd_ptsh
+    type: DOUBLE
+  - name: gd_ptss
+    type: DOUBLE
+  - name: gdg_int
+    type: DOUBLE
+  - name: gdg_part
+    type: DOUBLE
+  - name: gdg_regul
+    type: DOUBLE
+  - name: gdg_resp
+    type: DOUBLE
+  - name: gdg_strat
+    type: DOUBLE
+  - name: gdg_struc
+    type: DOUBLE
+  - name: gdg_total
+    type: DOUBLE
+  - name: gendip_mar
+    type: DOUBLE
+  - name: gendip_mas
+    type: DOUBLE
+  - name: gendip_mfr
+    type: DOUBLE
+  - name: gendip_mfrp
+    type: DOUBLE
+  - name: gendip_mfs
+    type: DOUBLE
+  - name: gendip_mfsp
+    type: DOUBLE
+  - name: gfs_def
+    type: DOUBLE
+  - name: gfs_ecaf
+    type: DOUBLE
+  - name: gfs_educ
+    type: DOUBLE
+  - name: gfs_gps
+    type: DOUBLE
+  - name: gfs_hca
+    type: DOUBLE
+  - name: gfs_heal
+    type: DOUBLE
+  - name: gfs_pos
+    type: DOUBLE
+  - name: gfs_rcr
+    type: DOUBLE
+  - name: gfs_sp
+    type: DOUBLE
+  - name: gggi_eas
+    type: DOUBLE
+  - name: gggi_ggi
+    type: DOUBLE
+  - name: gggi_hss
+    type: DOUBLE
+  - name: gggi_pes
+    type: DOUBLE
+  - name: gggi_pos
+    type: DOUBLE
+  - name: gol_adm
+    type: DOUBLE
+  - name: gol_dist
+    type: DOUBLE
+  - name: gol_enep
+    type: DOUBLE
+  - name: gol_enep1
+    type: DOUBLE
+  - name: gol_enepo
+    type: DOUBLE
+  - name: gol_enpp
+    type: DOUBLE
+  - name: gol_enpp1
+    type: DOUBLE
+  - name: gol_enppo
+    type: DOUBLE
+  - name: gol_enpres
+    type: DOUBLE
+  - name: gol_est
+    type: BIGINT
+  - name: gol_est_spec
+    type: BIGINT
+  - name: gol_inst
+    type: BIGINT
+  - name: gol_mix
+    type: BIGINT
+  - name: gol_mt
+    type: DOUBLE
+  - name: gol_nos
+    type: DOUBLE
+  - name: gol_pest
+    type: BIGINT
+  - name: gol_pr
+    type: BIGINT
+  - name: gol_preel
+    type: BIGINT
+  - name: gol_upseat
+    type: DOUBLE
+  - name: gol_uptier
+    type: DOUBLE
+  - name: gpcr_eci
+    type: DOUBLE
+  - name: gpcr_growth
+    type: DOUBLE
+  - name: gpi_conf
+    type: DOUBLE
+  - name: gpi_gpi
+    type: DOUBLE
+  - name: gpi_mil
+    type: DOUBLE
+  - name: gpi_ss
+    type: DOUBLE
+  - name: gted_rfgdp
+    type: DOUBLE
+  - name: gted_rftax
+    type: DOUBLE
+  - name: gted_rfusd
+    type: DOUBLE
+  - name: gteti_gteti
+    type: DOUBLE
+  - name: gti_gti
+    type: DOUBLE
+  - name: h_alignl1
+    type: DOUBLE
+  - name: h_alignl1l2
+    type: DOUBLE
+  - name: h_alignl2
+    type: DOUBLE
+  - name: h_lflo
+    type: DOUBLE
+  - name: h_lfup
+    type: DOUBLE
+  - name: ht_colonial
+    type: BIGINT
+  - name: ht_region
+    type: BIGINT
+  - name: ibp_cat
+    type: BIGINT
+  - name: ibp_leg
+    type: DOUBLE
+  - name: ibp_obi
+    type: DOUBLE
+  - name: ibp_pub
+    type: DOUBLE
+  - name: icrg_qog
+    type: DOUBLE
+  - name: ictd_grants
+    type: DOUBLE
+  - name: ictd_nontax
+    type: DOUBLE
+  - name: ictd_revexsc
+    type: DOUBLE
+  - name: ictd_revinsc
+    type: DOUBLE
+  - name: ictd_revres
+    type: DOUBLE
+  - name: ictd_soccon
+    type: DOUBLE
+  - name: ictd_taxcorp
+    type: DOUBLE
+  - name: ictd_taxexsc
+    type: DOUBLE
+  - name: ictd_taxgs
+    type: DOUBLE
+  - name: ictd_taxinc
+    type: DOUBLE
+  - name: ictd_taxind
+    type: DOUBLE
+  - name: ictd_taxindirect
+    type: DOUBLE
+  - name: ictd_taxinsc
+    type: DOUBLE
+  - name: ictd_taxnresexsc
+    type: DOUBLE
+  - name: ictd_taxnresinsc
+    type: DOUBLE
+  - name: ictd_taxother
+    type: DOUBLE
+  - name: ictd_taxpaywf
+    type: DOUBLE
+  - name: ictd_taxprop
+    type: DOUBLE
+  - name: ictd_taxres
+    type: DOUBLE
+  - name: ictd_taxtrade
+    type: DOUBLE
+  - name: ideaesd_esf
+    type: BIGINT
+  - name: ideaesd_esnl
+    type: BIGINT
+  - name: ideaesd_esp
+    type: BIGINT
+  - name: ideaesd_lsde
+    type: DOUBLE
+  - name: ideaesd_lsvm
+    type: DOUBLE
+  - name: ideaesd_tiers
+    type: DOUBLE
+  - name: ideavt_eucv
+    type: DOUBLE
+  - name: ideavt_euvt
+    type: DOUBLE
+  - name: ideavt_legcv
+    type: DOUBLE
+  - name: ideavt_legvt
+    type: DOUBLE
+  - name: ideavt_prescv
+    type: DOUBLE
+  - name: ideavt_presvt
+    type: DOUBLE
+  - name: idf_death
+    type: DOUBLE
+  - name: idf_dia
+    type: DOUBLE
+  - name: idf_dia2050
+    type: DOUBLE
+  - name: idf_hepp
+    type: DOUBLE
+  - name: idf_hepp2050
+    type: DOUBLE
+  - name: idf_ifg
+    type: DOUBLE
+  - name: idf_ifg2050
+    type: DOUBLE
+  - name: idf_igt
+    type: DOUBLE
+  - name: idf_igt2050
+    type: DOUBLE
+  - name: idf_undia
+    type: DOUBLE
+  - name: ied_dge
+    type: DOUBLE
+  - name: ied_mimic
+    type: DOUBLE
+  - name: ihme_hle_0102t
+    type: DOUBLE
+  - name: ihme_hle_0204t
+    type: DOUBLE
+  - name: ihme_lifexp_0102t
+    type: DOUBLE
+  - name: ihme_lifexp_0204t
+    type: DOUBLE
+  - name: iiag_acc
+    type: DOUBLE
+  - name: iiag_be
+    type: DOUBLE
+  - name: iiag_corr
+    type: DOUBLE
+  - name: iiag_edu
+    type: DOUBLE
+  - name: iiag_feo
+    type: DOUBLE
+  - name: iiag_gen
+    type: DOUBLE
+  - name: iiag_gov
+    type: DOUBLE
+  - name: iiag_hd
+    type: DOUBLE
+  - name: iiag_he
+    type: DOUBLE
+  - name: iiag_ie
+    type: DOUBLE
+  - name: iiag_inf
+    type: DOUBLE
+  - name: iiag_pa
+    type: DOUBLE
+  - name: iiag_par
+    type: DOUBLE
+  - name: iiag_pri
+    type: DOUBLE
+  - name: iiag_rig
+    type: DOUBLE
+  - name: iiag_rolf
+    type: DOUBLE
+  - name: iiag_rs
+    type: DOUBLE
+  - name: iiag_se
+    type: DOUBLE
+  - name: iiag_sp
+    type: DOUBLE
+  - name: iiag_srol
+    type: DOUBLE
+  - name: iiag_ssaf
+    type: DOUBLE
+  - name: ipu_l_s
+    type: DOUBLE
+  - name: ipu_l_sw
+    type: DOUBLE
+  - name: ipu_l_w
+    type: DOUBLE
+  - name: ipu_u_s
+    type: DOUBLE
+  - name: ipu_u_sw
+    type: DOUBLE
+  - name: ipu_u_w
+    type: DOUBLE
+  - name: lis_atk05
+    type: DOUBLE
+  - name: lis_atk1
+    type: DOUBLE
+  - name: lis_clsmf
+    type: DOUBLE
+  - name: lis_cprsmf
+    type: DOUBLE
+  - name: lis_cprtpf
+    type: DOUBLE
+  - name: lis_dc150
+    type: DOUBLE
+  - name: lis_dc5075
+    type: DOUBLE
+  - name: lis_dc75150
+    type: DOUBLE
+  - name: lis_gini
+    type: DOUBLE
+  - name: lis_meaneqi
+    type: DOUBLE
+  - name: lis_medeqi
+    type: DOUBLE
+  - name: lis_pr8020
+    type: DOUBLE
+  - name: lis_pr9010
+    type: DOUBLE
+  - name: lis_pr9050
+    type: DOUBLE
+  - name: lis_rprc40
+    type: DOUBLE
+  - name: lis_rprc50
+    type: DOUBLE
+  - name: lis_rprc60
+    type: DOUBLE
+  - name: lis_rpre40
+    type: DOUBLE
+  - name: lis_rpre50
+    type: DOUBLE
+  - name: lis_rpre60
+    type: DOUBLE
+  - name: lis_rprt40
+    type: DOUBLE
+  - name: lis_rprt50
+    type: DOUBLE
+  - name: lis_rprt60
+    type: DOUBLE
+  - name: mad_gdppc
+    type: DOUBLE
+  - name: mad_gdppc1000
+    type: DOUBLE
+  - name: mad_gdppc1300
+    type: DOUBLE
+  - name: mad_gdppc1400
+    type: DOUBLE
+  - name: mad_gdppc1500
+    type: DOUBLE
+  - name: mad_gdppc1600
+    type: DOUBLE
+  - name: mad_gdppc1700
+    type: DOUBLE
+  - name: mad_gdppc1800
+    type: DOUBLE
+  - name: mad_gdppc1900
+    type: DOUBLE
+  - name: nelda_fme
+    type: DOUBLE
+  - name: nelda_mbbe
+    type: DOUBLE
+  - name: nelda_mtop
+    type: DOUBLE
+  - name: nelda_noe
+    type: DOUBLE
+  - name: nelda_noea
+    type: DOUBLE
+  - name: nelda_noee
+    type: DOUBLE
+  - name: nelda_noel
+    type: DOUBLE
+  - name: nelda_oa
+    type: DOUBLE
+  - name: nelda_rpae
+    type: DOUBLE
+  - name: nelda_vcdbe
+    type: DOUBLE
+  - name: ohi_ohi
+    type: DOUBLE
+  - name: opri_oaeece
+    type: DOUBLE
+  - name: opri_oaepe
+    type: DOUBLE
+  - name: opri_oeace
+    type: DOUBLE
+  - name: opri_oeals
+    type: DOUBLE
+  - name: opri_oeapsnt
+    type: DOUBLE
+  - name: opri_oeaus
+    type: DOUBLE
+  - name: opri_reprlsef
+    type: DOUBLE
+  - name: opri_reprlsem
+    type: DOUBLE
+  - name: opri_reprlset
+    type: DOUBLE
+  - name: opri_reprpef
+    type: DOUBLE
+  - name: opri_reprpem
+    type: DOUBLE
+  - name: opri_reprpet
+    type: DOUBLE
+  - name: opri_surg4pef
+    type: DOUBLE
+  - name: opri_surg4pem
+    type: DOUBLE
+  - name: opri_surg4pet
+    type: DOUBLE
+  - name: opri_surg5pef
+    type: DOUBLE
+  - name: opri_surg5pem
+    type: DOUBLE
+  - name: opri_surg5pet
+    type: DOUBLE
+  - name: opri_surlgpef
+    type: DOUBLE
+  - name: opri_surlgpem
+    type: DOUBLE
+  - name: opri_surlgpet
+    type: DOUBLE
+  - name: opri_tdurce
+    type: DOUBLE
+  - name: opri_tdurece
+    type: DOUBLE
+  - name: opri_tdurls
+    type: DOUBLE
+  - name: opri_tdurpsnt
+    type: DOUBLE
+  - name: opri_tdurused
+    type: DOUBLE
+  - name: opri_tilsef
+    type: DOUBLE
+  - name: opri_tilset
+    type: DOUBLE
+  - name: opri_tipef
+    type: DOUBLE
+  - name: opri_tipet
+    type: DOUBLE
+  - name: opri_tiprepef
+    type: DOUBLE
+  - name: opri_tiprepet
+    type: DOUBLE
+  - name: opri_tipsntf
+    type: DOUBLE
+  - name: opri_tipsntt
+    type: DOUBLE
+  - name: opri_tisef
+    type: DOUBLE
+  - name: opri_tiset
+    type: DOUBLE
+  - name: opri_tiusef
+    type: DOUBLE
+  - name: opri_tiuset
+    type: DOUBLE
+  - name: opri_yearschoolf
+    type: DOUBLE
+  - name: opri_yearschoolm
+    type: DOUBLE
+  - name: opri_yearschoolt
+    type: DOUBLE
+  - name: pei_eir_1
+    type: DOUBLE
+  - name: pei_eir_2
+    type: DOUBLE
+  - name: pei_peii_1
+    type: DOUBLE
+  - name: psi_cpsi1
+    type: DOUBLE
+  - name: psi_cpsi2
+    type: DOUBLE
+  - name: psi_edate1
+    type: DATE
+  - name: psi_edate2
+    type: DATE
+  - name: psi_psi1
+    type: DOUBLE
+  - name: psi_psi2
+    type: DOUBLE
+  - name: pwt_cs
+    type: DOUBLE
+  - name: pwt_csppp
+    type: DOUBLE
+  - name: pwt_gc
+    type: DOUBLE
+  - name: pwt_hci
+    type: DOUBLE
+  - name: pwt_me
+    type: DOUBLE
+  - name: pwt_mi
+    type: DOUBLE
+  - name: pwt_plcf
+    type: DOUBLE
+  - name: pwt_plcs
+    type: DOUBLE
+  - name: pwt_ple
+    type: DOUBLE
+  - name: pwt_plgc
+    type: DOUBLE
+  - name: pwt_plhc
+    type: DOUBLE
+  - name: pwt_pli
+    type: DOUBLE
+  - name: pwt_pop
+    type: DOUBLE
+  - name: pwt_rgdp
+    type: DOUBLE
+  - name: pwt_rt
+    type: DOUBLE
+  - name: pwt_sgcf
+    type: DOUBLE
+  - name: pwt_shhc
+    type: DOUBLE
+  - name: pwt_slcgdp
+    type: DOUBLE
+  - name: pwt_tfp
+    type: DOUBLE
+  - name: pwt_tfpppp
+    type: DOUBLE
+  - name: pwt_xr
+    type: DOUBLE
+  - name: qs20_close1
+    type: DOUBLE
+  - name: qs20_close2
+    type: DOUBLE
+  - name: qs20_close3
+    type: DOUBLE
+  - name: qs20_close_pca
+    type: DOUBLE
+  - name: qs20_impar1
+    type: DOUBLE
+  - name: qs20_impar1_lowci
+    type: DOUBLE
+  - name: qs20_impar1_upci
+    type: DOUBLE
+  - name: qs20_impar2
+    type: DOUBLE
+  - name: qs20_impar2_lowci
+    type: DOUBLE
+  - name: qs20_impar2_upci
+    type: DOUBLE
+  - name: qs20_proff1
+    type: DOUBLE
+  - name: qs20_proff1_lowci
+    type: DOUBLE
+  - name: qs20_proff1_upci
+    type: DOUBLE
+  - name: qs20_proff2
+    type: DOUBLE
+  - name: qs20_proff2_lowci
+    type: DOUBLE
+  - name: qs20_proff2_upci
+    type: DOUBLE
+  - name: qs20_proff3
+    type: DOUBLE
+  - name: qs20_proff3_lowci
+    type: DOUBLE
+  - name: qs20_proff3_upci
+    type: DOUBLE
+  - name: qs20_proff_pca
+    type: DOUBLE
+  - name: rd_inw
+    type: DOUBLE
+  - name: rd_inw_gdp
+    type: DOUBLE
+  - name: rd_outw
+    type: DOUBLE
+  - name: rsf_pfi
+    type: DOUBLE
+  - name: rsf_pfi1321
+    type: DOUBLE
+  - name: rsf_sci
+    type: DOUBLE
+  - name: rsf_si
+    type: DOUBLE
+  - name: sai_statehiste0
+    type: DOUBLE
+  - name: sai_statehiste01
+    type: DOUBLE
+  - name: sai_statehiste1
+    type: DOUBLE
+  - name: sai_statehisten0
+    type: DOUBLE
+  - name: sai_statehisten01
+    type: DOUBLE
+  - name: sai_statehisten1
+    type: DOUBLE
+  - name: sgi_cb24
+    type: DOUBLE
+  - name: sgi_co24
+    type: DOUBLE
+  - name: sgi_da24
+    type: DOUBLE
+  - name: sgi_dg24
+    type: DOUBLE
+  - name: sgi_ec
+    type: DOUBLE
+  - name: sgi_ecbg
+    type: DOUBLE
+  - name: sgi_ecec
+    type: DOUBLE
+  - name: sgi_ecgf
+    type: DOUBLE
+  - name: sgi_eclm
+    type: DOUBLE
+  - name: sgi_ecri
+    type: DOUBLE
+  - name: sgi_ectx
+    type: DOUBLE
+  - name: sgi_en
+    type: DOUBLE
+  - name: sgi_enen
+    type: DOUBLE
+  - name: sgi_enge
+    type: DOUBLE
+  - name: sgi_envs24
+    type: DOUBLE
+  - name: sgi_es24
+    type: DOUBLE
+  - name: sgi_go
+    type: DOUBLE
+  - name: sgi_goea
+    type: DOUBLE
+  - name: sgi_goec
+    type: DOUBLE
+  - name: sgi_gwf24
+    type: DOUBLE
+  - name: sgi_ha24
+    type: DOUBLE
+  - name: sgi_pp
+    type: DOUBLE
+  - name: sgi_qd
+    type: DOUBLE
+  - name: sgi_qdai
+    type: DOUBLE
+  - name: sgi_qdcr
+    type: DOUBLE
+  - name: sgi_qdep
+    type: DOUBLE
+  - name: sgi_qdrl
+    type: DOUBLE
+  - name: sgi_qdrlc
+    type: DOUBLE
+  - name: sgi_sm24
+    type: DOUBLE
+  - name: sgi_so
+    type: DOUBLE
+  - name: sgi_soed
+    type: DOUBLE
+  - name: sgi_sofa
+    type: DOUBLE
+  - name: sgi_sogi
+    type: DOUBLE
+  - name: sgi_sohe
+    type: DOUBLE
+  - name: sgi_soin
+    type: DOUBLE
+  - name: sgi_sope
+    type: DOUBLE
+  - name: sgi_sosi
+    type: DOUBLE
+  - name: sgi_sosl
+    type: DOUBLE
+  - name: sgi_sp24
+    type: DOUBLE
+  - name: sgi_ss24
+    type: DOUBLE
+  - name: sgi_va24
+    type: DOUBLE
+  - name: ti_cpi
+    type: DOUBLE
+  - name: ti_cpi_max
+    type: DOUBLE
+  - name: ti_cpi_min
+    type: DOUBLE
+  - name: ti_se
+    type: DOUBLE
+  - name: top_top10_income_share
+    type: DOUBLE
+  - name: top_top1_income_share
+    type: DOUBLE
+  - name: ucdp_type1
+    type: DOUBLE
+  - name: ucdp_type2
+    type: DOUBLE
+  - name: ucdp_type3
+    type: DOUBLE
+  - name: ucdp_type4
+    type: DOUBLE
+  - name: undp_hdi
+    type: DOUBLE
+  - name: une_girlglsf
+    type: DOUBLE
+  - name: une_girlglsm
+    type: DOUBLE
+  - name: une_girlglst
+    type: DOUBLE
+  - name: une_girlgpf
+    type: DOUBLE
+  - name: une_girlgpm
+    type: DOUBLE
+  - name: une_girlgpt
+    type: DOUBLE
+  - name: vdem_academ
+    type: DOUBLE
+  - name: vdem_corr
+    type: DOUBLE
+  - name: vdem_delibdem
+    type: DOUBLE
+  - name: vdem_dl_delib
+    type: DOUBLE
+  - name: vdem_edcomp_thick
+    type: DOUBLE
+  - name: vdem_egal
+    type: DOUBLE
+  - name: vdem_egaldem
+    type: DOUBLE
+  - name: vdem_elvotbuy
+    type: DOUBLE
+  - name: vdem_exbribe
+    type: DOUBLE
+  - name: vdem_excrptps
+    type: DOUBLE
+  - name: vdem_execorr
+    type: DOUBLE
+  - name: vdem_exembez
+    type: DOUBLE
+  - name: vdem_exthftps
+    type: DOUBLE
+  - name: vdem_gcrrpt
+    type: DOUBLE
+  - name: vdem_gender
+    type: DOUBLE
+  - name: vdem_jucorrdc
+    type: DOUBLE
+  - name: vdem_libdem
+    type: DOUBLE
+  - name: vdem_liberal
+    type: DOUBLE
+  - name: vdem_mecorrpt
+    type: DOUBLE
+  - name: vdem_partip
+    type: DOUBLE
+  - name: vdem_partipdem
+    type: DOUBLE
+  - name: vdem_polyarchy
+    type: DOUBLE
+  - name: vdem_pubcorr
+    type: DOUBLE
+  - name: vdem_regimeamb
+    type: BIGINT
+  - name: warc_acov
+    type: DOUBLE
+  - name: warc_agi35
+    type: DOUBLE
+  - name: warc_agi40
+    type: DOUBLE
+  - name: warc_agi4160
+    type: DOUBLE
+  - name: warc_agi61
+    type: DOUBLE
+  - name: warc_fem35
+    type: DOUBLE
+  - name: warc_fem40
+    type: DOUBLE
+  - name: warc_fem61
+    type: DOUBLE
+  - name: warc_leadage
+    type: DOUBLE
+  - name: warc_leadgen
+    type: DOUBLE
+  - name: warc_meanage
+    type: DOUBLE
+  - name: warc_medianage
+    type: DOUBLE
+  - name: warc_min35
+    type: DOUBLE
+  - name: warc_min40
+    type: DOUBLE
+  - name: warc_min4160
+    type: DOUBLE
+  - name: warc_min61
+    type: DOUBLE
+  - name: warc_wmin
+    type: DOUBLE
+  - name: wbgi_cce
+    type: DOUBLE
+  - name: wbgi_ccn
+    type: DOUBLE
+  - name: wbgi_ccs
+    type: DOUBLE
+  - name: wbgi_gee
+    type: DOUBLE
+  - name: wbgi_gen
+    type: DOUBLE
+  - name: wbgi_ges
+    type: DOUBLE
+  - name: wbgi_pve
+    type: DOUBLE
+  - name: wbgi_pvn
+    type: DOUBLE
+  - name: wbgi_pvs
+    type: DOUBLE
+  - name: wbgi_rle
+    type: DOUBLE
+  - name: wbgi_rln
+    type: DOUBLE
+  - name: wbgi_rls
+    type: DOUBLE
+  - name: wbgi_rqe
+    type: DOUBLE
+  - name: wbgi_rqn
+    type: DOUBLE
+  - name: wbgi_rqs
+    type: DOUBLE
+  - name: wbgi_vae
+    type: DOUBLE
+  - name: wbgi_van
+    type: DOUBLE
+  - name: wbgi_vas
+    type: DOUBLE
+  - name: wdi_acel
+    type: DOUBLE
+  - name: wdi_acelr
+    type: DOUBLE
+  - name: wdi_acelu
+    type: DOUBLE
+  - name: wdi_afp
+    type: DOUBLE
+  - name: wdi_afpt
+    type: DOUBLE
+  - name: wdi_agedr
+    type: DOUBLE
+  - name: wdi_agrland
+    type: DOUBLE
+  - name: wdi_ane
+    type: DOUBLE
+  - name: wdi_araland
+    type: DOUBLE
+  - name: wdi_area
+    type: DOUBLE
+  - name: wdi_armexp
+    type: DOUBLE
+  - name: wdi_armimp
+    type: DOUBLE
+  - name: wdi_belmedinc
+    type: DOUBLE
+  - name: wdi_bhr
+    type: DOUBLE
+  - name: wdi_bifirmpr
+    type: DOUBLE
+  - name: wdi_birth
+    type: DOUBLE
+  - name: wdi_birthreg
+    type: DOUBLE
+  - name: wdi_birthregr
+    type: DOUBLE
+  - name: wdi_birthregu
+    type: DOUBLE
+  - name: wdi_birthskill
+    type: DOUBLE
+  - name: wdi_brdeath
+    type: DOUBLE
+  - name: wdi_broadb
+    type: DOUBLE
+  - name: wdi_busden
+    type: DOUBLE
+  - name: wdi_chexppgdp
+    type: DOUBLE
+  - name: wdi_co2
+    type: DOUBLE
+  - name: wdi_death
+    type: DOUBLE
+  - name: wdi_debt
+    type: DOUBLE
+  - name: wdi_dgovhexp
+    type: DOUBLE
+  - name: wdi_dprivhexp
+    type: DOUBLE
+  - name: wdi_eduprp
+    type: DOUBLE
+  - name: wdi_eduprs
+    type: DOUBLE
+  - name: wdi_effrevmob
+    type: DOUBLE
+  - name: wdi_ehexpp
+    type: DOUBLE
+  - name: wdi_elerenew
+    type: DOUBLE
+  - name: wdi_elprodcoal
+    type: DOUBLE
+  - name: wdi_elprodgas
+    type: DOUBLE
+  - name: wdi_elprodhyd
+    type: DOUBLE
+  - name: wdi_elprodnuc
+    type: DOUBLE
+  - name: wdi_elprodoil
+    type: DOUBLE
+  - name: wdi_emp
+    type: DOUBLE
+  - name: wdi_empagr
+    type: DOUBLE
+  - name: wdi_empagrf
+    type: DOUBLE
+  - name: wdi_empagrm
+    type: DOUBLE
+  - name: wdi_empf
+    type: DOUBLE
+  - name: wdi_empind
+    type: DOUBLE
+  - name: wdi_empindf
+    type: DOUBLE
+  - name: wdi_empindm
+    type: DOUBLE
+  - name: wdi_empm
+    type: DOUBLE
+  - name: wdi_empprfilo
+    type: DOUBLE
+  - name: wdi_empprfne
+    type: DOUBLE
+  - name: wdi_empprilo
+    type: DOUBLE
+  - name: wdi_empprmilo
+    type: DOUBLE
+  - name: wdi_empprmne
+    type: DOUBLE
+  - name: wdi_empprne
+    type: DOUBLE
+  - name: wdi_emppryfilo
+    type: DOUBLE
+  - name: wdi_emppryfne
+    type: DOUBLE
+  - name: wdi_emppryilo
+    type: DOUBLE
+  - name: wdi_empprymilo
+    type: DOUBLE
+  - name: wdi_empprymne
+    type: DOUBLE
+  - name: wdi_emppryne
+    type: DOUBLE
+  - name: wdi_empser
+    type: DOUBLE
+  - name: wdi_empserf
+    type: DOUBLE
+  - name: wdi_empserm
+    type: DOUBLE
+  - name: wdi_eneimp
+    type: DOUBLE
+  - name: wdi_enerenew
+    type: DOUBLE
+  - name: wdi_eneuse
+    type: DOUBLE
+  - name: wdi_eqpubres
+    type: DOUBLE
+  - name: wdi_expedu
+    type: DOUBLE
+  - name: wdi_expeduge
+    type: DOUBLE
+  - name: wdi_expmil
+    type: DOUBLE
+  - name: wdi_expmilge
+    type: DOUBLE
+  - name: wdi_export
+    type: DOUBLE
+  - name: wdi_fdiin
+    type: DOUBLE
+  - name: wdi_fdiout
+    type: DOUBLE
+  - name: wdi_fertility
+    type: DOUBLE
+  - name: wdi_firfown
+    type: DOUBLE
+  - name: wdi_firftopm
+    type: DOUBLE
+  - name: wdi_firgifttax
+    type: DOUBLE
+  - name: wdi_foodins
+    type: DOUBLE
+  - name: wdi_forest
+    type: DOUBLE
+  - name: wdi_fossil
+    type: DOUBLE
+  - name: wdi_gdpagr
+    type: DOUBLE
+  - name: wdi_gdpcapcon2015
+    type: DOUBLE
+  - name: wdi_gdpcapcur
+    type: DOUBLE
+  - name: wdi_gdpcapgr
+    type: DOUBLE
+  - name: wdi_gdpcappppcon2021
+    type: DOUBLE
+  - name: wdi_gdpcappppcur
+    type: DOUBLE
+  - name: wdi_gdpgr
+    type: DOUBLE
+  - name: wdi_gdpind
+    type: DOUBLE
+  - name: wdi_gdppppcon2021
+    type: DOUBLE
+  - name: wdi_gdppppcur
+    type: DOUBLE
+  - name: wdi_gendeqr
+    type: DOUBLE
+  - name: wdi_gerp
+    type: DOUBLE
+  - name: wdi_gerpf
+    type: DOUBLE
+  - name: wdi_gerpm
+    type: DOUBLE
+  - name: wdi_gerpp
+    type: DOUBLE
+  - name: wdi_gerppf
+    type: DOUBLE
+  - name: wdi_gerppm
+    type: DOUBLE
+  - name: wdi_gers
+    type: DOUBLE
+  - name: wdi_gersf
+    type: DOUBLE
+  - name: wdi_gersm
+    type: DOUBLE
+  - name: wdi_gert
+    type: DOUBLE
+  - name: wdi_gertf
+    type: DOUBLE
+  - name: wdi_gertm
+    type: DOUBLE
+  - name: wdi_gini
+    type: DOUBLE
+  - name: wdi_gniatlcur
+    type: DOUBLE
+  - name: wdi_gnicapatlcur
+    type: DOUBLE
+  - name: wdi_gnicapcon2015
+    type: DOUBLE
+  - name: wdi_gnicapgr
+    type: DOUBLE
+  - name: wdi_gnicappppcon2021
+    type: DOUBLE
+  - name: wdi_gnicappppcur
+    type: DOUBLE
+  - name: wdi_gnicon2015
+    type: DOUBLE
+  - name: wdi_gnicur
+    type: DOUBLE
+  - name: wdi_gnigr
+    type: DOUBLE
+  - name: wdi_gnipppcon2021
+    type: DOUBLE
+  - name: wdi_gnipppcur
+    type: DOUBLE
+  - name: wdi_homicides
+    type: DOUBLE
+  - name: wdi_homicidesf
+    type: DOUBLE
+  - name: wdi_homicidesm
+    type: DOUBLE
+  - name: wdi_hwf
+    type: DOUBLE
+  - name: wdi_hwfr
+    type: DOUBLE
+  - name: wdi_hwfu
+    type: DOUBLE
+  - name: wdi_idpdis
+    type: DOUBLE
+  - name: wdi_idpvc
+    type: DOUBLE
+  - name: wdi_imig
+    type: DOUBLE
+  - name: wdi_import
+    type: DOUBLE
+  - name: wdi_incsh10h
+    type: DOUBLE
+  - name: wdi_incsh10l
+    type: DOUBLE
+  - name: wdi_incsh202
+    type: DOUBLE
+  - name: wdi_incsh203
+    type: DOUBLE
+  - name: wdi_incsh204
+    type: DOUBLE
+  - name: wdi_incsh20h
+    type: DOUBLE
+  - name: wdi_incsh20l
+    type: DOUBLE
+  - name: wdi_inflation
+    type: DOUBLE
+  - name: wdi_infpay
+    type: DOUBLE
+  - name: wdi_interexp
+    type: DOUBLE
+  - name: wdi_internet
+    type: DOUBLE
+  - name: wdi_interrev
+    type: DOUBLE
+  - name: wdi_intrate
+    type: DOUBLE
+  - name: wdi_lfpedua
+    type: DOUBLE
+  - name: wdi_lfpeduaf
+    type: DOUBLE
+  - name: wdi_lfpeduam
+    type: DOUBLE
+  - name: wdi_lfpedub
+    type: DOUBLE
+  - name: wdi_lfpedubf
+    type: DOUBLE
+  - name: wdi_lfpedubm
+    type: DOUBLE
+  - name: wdi_lfpedui
+    type: DOUBLE
+  - name: wdi_lfpeduif
+    type: DOUBLE
+  - name: wdi_lfpeduim
+    type: DOUBLE
+  - name: wdi_lfpf
+    type: DOUBLE
+  - name: wdi_lfpfilo15
+    type: DOUBLE
+  - name: wdi_lfpfne15
+    type: DOUBLE
+  - name: wdi_lfpilo15
+    type: DOUBLE
+  - name: wdi_lfpmilo15
+    type: DOUBLE
+  - name: wdi_lfpmne15
+    type: DOUBLE
+  - name: wdi_lfpne15
+    type: DOUBLE
+  - name: wdi_lfpr
+    type: DOUBLE
+  - name: wdi_lfprf
+    type: DOUBLE
+  - name: wdi_lfprm
+    type: DOUBLE
+  - name: wdi_lfpyfilo
+    type: DOUBLE
+  - name: wdi_lfpyfne
+    type: DOUBLE
+  - name: wdi_lfpyilo
+    type: DOUBLE
+  - name: wdi_lfpymilo
+    type: DOUBLE
+  - name: wdi_lfpymne
+    type: DOUBLE
+  - name: wdi_lfpyne
+    type: DOUBLE
+  - name: wdi_lifexp
+    type: DOUBLE
+  - name: wdi_lifexpf
+    type: DOUBLE
+  - name: wdi_lifexpm
+    type: DOUBLE
+  - name: wdi_litrad
+    type: DOUBLE
+  - name: wdi_litradf
+    type: DOUBLE
+  - name: wdi_litradm
+    type: DOUBLE
+  - name: wdi_litry
+    type: DOUBLE
+  - name: wdi_litryf
+    type: DOUBLE
+  - name: wdi_litrym
+    type: DOUBLE
+  - name: wdi_lrmd
+    type: DOUBLE
+  - name: wdi_migration
+    type: DOUBLE
+  - name: wdi_mobile
+    type: DOUBLE
+  - name: wdi_mortf
+    type: DOUBLE
+  - name: wdi_mortinf
+    type: DOUBLE
+  - name: wdi_mortinff
+    type: DOUBLE
+  - name: wdi_mortinfm
+    type: DOUBLE
+  - name: wdi_mortm
+    type: DOUBLE
+  - name: wdi_mortnn
+    type: DOUBLE
+  - name: wdi_mortu5
+    type: DOUBLE
+  - name: wdi_mortu5f
+    type: DOUBLE
+  - name: wdi_mortu5m
+    type: DOUBLE
+  - name: wdi_oilrent
+    type: DOUBLE
+  - name: wdi_ophexp
+    type: DOUBLE
+  - name: wdi_piesr
+    type: DOUBLE
+  - name: wdi_pop
+    type: DOUBLE
+  - name: wdi_pop14
+    type: DOUBLE
+  - name: wdi_pop1564
+    type: DOUBLE
+  - name: wdi_pop65
+    type: DOUBLE
+  - name: wdi_popden
+    type: DOUBLE
+  - name: wdi_popf
+    type: DOUBLE
+  - name: wdi_popgr
+    type: DOUBLE
+  - name: wdi_poprul
+    type: DOUBLE
+  - name: wdi_poprulgr
+    type: DOUBLE
+  - name: wdi_popurb
+    type: DOUBLE
+  - name: wdi_popurbagr
+    type: DOUBLE
+  - name: wdi_povgap300
+    type: DOUBLE
+  - name: wdi_povgap420
+    type: DOUBLE
+  - name: wdi_povgap830
+    type: DOUBLE
+  - name: wdi_powcon
+    type: DOUBLE
+  - name: wdi_precip
+    type: DOUBLE
+  - name: wdi_prrbgr
+    type: DOUBLE
+  - name: wdi_psm
+    type: DOUBLE
+  - name: wdi_pte
+    type: DOUBLE
+  - name: wdi_ptef
+    type: DOUBLE
+  - name: wdi_ptem
+    type: DOUBLE
+  - name: wdi_qpubadm
+    type: DOUBLE
+  - name: wdi_refhcras
+    type: DOUBLE
+  - name: wdi_refhcror
+    type: DOUBLE
+  - name: wdi_region
+    type: BIGINT
+  - name: wdi_semp
+    type: DOUBLE
+  - name: wdi_sempf
+    type: DOUBLE
+  - name: wdi_sempm
+    type: DOUBLE
+  - name: wdi_smokf
+    type: DOUBLE
+  - name: wdi_smokm
+    type: DOUBLE
+  - name: wdi_spr
+    type: DOUBLE
+  - name: wdi_statper
+    type: DOUBLE
+  - name: wdi_sva2015
+    type: DOUBLE
+  - name: wdi_svapg
+    type: DOUBLE
+  - name: wdi_svapgdp
+    type: DOUBLE
+  - name: wdi_tacpsr
+    type: DOUBLE
+  - name: wdi_taxrev
+    type: DOUBLE
+  - name: wdi_tele
+    type: DOUBLE
+  - name: wdi_trade
+    type: DOUBLE
+  - name: wdi_tradeserv
+    type: DOUBLE
+  - name: wdi_unempedua
+    type: DOUBLE
+  - name: wdi_unempeduaf
+    type: DOUBLE
+  - name: wdi_unempeduam
+    type: DOUBLE
+  - name: wdi_unempedub
+    type: DOUBLE
+  - name: wdi_unempedubf
+    type: DOUBLE
+  - name: wdi_unempedubm
+    type: DOUBLE
+  - name: wdi_unempedui
+    type: DOUBLE
+  - name: wdi_unempeduif
+    type: DOUBLE
+  - name: wdi_unempeduim
+    type: DOUBLE
+  - name: wdi_unempfilo
+    type: DOUBLE
+  - name: wdi_unempfne
+    type: DOUBLE
+  - name: wdi_unempilo
+    type: DOUBLE
+  - name: wdi_unempmilo
+    type: DOUBLE
+  - name: wdi_unempmne
+    type: DOUBLE
+  - name: wdi_unempne
+    type: DOUBLE
+  - name: wdi_unempyfilo
+    type: DOUBLE
+  - name: wdi_unempyfne
+    type: DOUBLE
+  - name: wdi_unempyilo
+    type: DOUBLE
+  - name: wdi_unempymilo
+    type: DOUBLE
+  - name: wdi_unempymne
+    type: DOUBLE
+  - name: wdi_unempyne
+    type: DOUBLE
+  - name: wdi_wip
+    type: DOUBLE
+  - name: wdi_wofm15
+    type: DOUBLE
+  - name: wdi_wombuslawi
+    type: DOUBLE
+  - name: wgov_leadexp
+    type: DOUBLE
+  - name: wgov_min
+    type: DOUBLE
+  - name: wgov_minage
+    type: DOUBLE
+  - name: wgov_minfem
+    type: DOUBLE
+  - name: wgov_minmil
+    type: DOUBLE
+  - name: wgov_minten
+    type: DOUBLE
+  - name: wgov_mret
+    type: DOUBLE
+  - name: wgov_tot
+    type: DOUBLE
+  - name: wgov_totage
+    type: DOUBLE
+  - name: wgov_totfem
+    type: DOUBLE
+  - name: wgov_totmil
+    type: DOUBLE
+  - name: wgov_totten
+    type: DOUBLE
+  - name: wgov_tret
+    type: DOUBLE
+  - name: who_alcohol10
+    type: DOUBLE
+  - name: who_anpreg
+    type: DOUBLE
+  - name: who_dwrur
+    type: DOUBLE
+  - name: who_dwtot
+    type: DOUBLE
+  - name: who_dwurb
+    type: DOUBLE
+  - name: who_halef
+    type: DOUBLE
+  - name: who_halem
+    type: DOUBLE
+  - name: who_halet
+    type: DOUBLE
+  - name: who_homf
+    type: DOUBLE
+  - name: who_homm
+    type: DOUBLE
+  - name: who_homt
+    type: DOUBLE
+  - name: who_infmortf
+    type: DOUBLE
+  - name: who_infmortm
+    type: DOUBLE
+  - name: who_infmortt
+    type: DOUBLE
+  - name: who_lef
+    type: DOUBLE
+  - name: who_lem
+    type: DOUBLE
+  - name: who_let
+    type: DOUBLE
+  - name: who_matmort
+    type: DOUBLE
+  - name: who_mrf
+    type: DOUBLE
+  - name: who_mrm
+    type: DOUBLE
+  - name: who_mrt
+    type: DOUBLE
+  - name: who_roadtrd
+    type: DOUBLE
+  - name: who_sanitrur
+    type: DOUBLE
+  - name: who_sanittot
+    type: DOUBLE
+  - name: who_saniturb
+    type: DOUBLE
+  - name: who_suif
+    type: DOUBLE
+  - name: who_suim
+    type: DOUBLE
+  - name: who_suit
+    type: DOUBLE
+  - name: wjp_abs_cor
+    type: DOUBLE
+  - name: wjp_adr
+    type: DOUBLE
+  - name: wjp_civ_just
+    type: DOUBLE
+  - name: wjp_cj_cor
+    type: DOUBLE
+  - name: wjp_cj_delay
+    type: DOUBLE
+  - name: wjp_cj_discr
+    type: DOUBLE
+  - name: wjp_cj_ef_enf
+    type: DOUBLE
+  - name: wjp_cj_fr_govin
+    type: DOUBLE
+  - name: wjp_crim_jus
+    type: DOUBLE
+  - name: wjp_crsys_cor
+    type: DOUBLE
+  - name: wjp_crsys_discr
+    type: DOUBLE
+  - name: wjp_crsys_govinfl
+    type: DOUBLE
+  - name: wjp_exec_br
+    type: DOUBLE
+  - name: wjp_fund_right
+    type: DOUBLE
+  - name: wjp_gov_of_mis
+    type: DOUBLE
+  - name: wjp_gov_pow
+    type: DOUBLE
+  - name: wjp_gov_pow_aud
+    type: DOUBLE
+  - name: wjp_gov_pow_jud
+    type: DOUBLE
+  - name: wjp_gov_pow_leg
+    type: DOUBLE
+  - name: wjp_gov_pow_ngov
+    type: DOUBLE
+  - name: wjp_jud_br
+    type: DOUBLE
+  - name: wjp_leg_br
+    type: DOUBLE
+  - name: wjp_op_gov
+    type: DOUBLE
+  - name: wjp_ord_secur
+    type: DOUBLE
+  - name: wjp_overall
+    type: DOUBLE
+  - name: wjp_pol_mil
+    type: DOUBLE
+  - name: wjp_ppl_civ_jus
+    type: DOUBLE
+  - name: wjp_regul_enforc
+    type: DOUBLE
+  - name: wjp_trans_pow
+    type: DOUBLE
+  - name: wpp_fertrate
+    type: DOUBLE
+  - name: wpp_fertrate_2030
+    type: DOUBLE
+  - name: wpp_fertrate_2050
+    type: DOUBLE
+  - name: wpp_medianage
+    type: DOUBLE
+  - name: wpp_medianage_2030
+    type: DOUBLE
+  - name: wpp_medianage_2050
+    type: DOUBLE
+  - name: wpp_netmig
+    type: DOUBLE
+  - name: wpp_netmig_2030
+    type: DOUBLE
+  - name: wpp_netmig_2050
+    type: DOUBLE
+  - name: wpp_pop
+    type: DOUBLE
+  - name: wpp_pop_2030
+    type: DOUBLE
+  - name: wpp_pop_2050
+    type: DOUBLE
+  - name: wpp_popden
+    type: DOUBLE
+  - name: wpp_popden_2030
+    type: DOUBLE
+  - name: wpp_popden_2050
+    type: DOUBLE
+  - name: wpp_sexratio
+    type: DOUBLE
+  - name: wpp_sexratio_2030
+    type: DOUBLE
+  - name: wpp_sexratio_2050
+    type: DOUBLE
+  - name: wui_wtui
+    type: DOUBLE
+  - name: wui_wui
+    type: DOUBLE
+  - name: wvs_auton
+    type: DOUBLE
+  - name: wvs_confaf
+    type: DOUBLE
+  - name: wvs_confch
+    type: DOUBLE
+  - name: wvs_confcs
+    type: DOUBLE
+  - name: wvs_confenv
+    type: DOUBLE
+  - name: wvs_confgov
+    type: DOUBLE
+  - name: wvs_confjs
+    type: DOUBLE
+  - name: wvs_conflu
+    type: DOUBLE
+  - name: wvs_confpar
+    type: DOUBLE
+  - name: wvs_confpol
+    type: DOUBLE
+  - name: wvs_confpp
+    type: DOUBLE
+  - name: wvs_confpr
+    type: DOUBLE
+  - name: wvs_conftv
+    type: DOUBLE
+  - name: wvs_confun
+    type: DOUBLE
+  - name: wvs_demimp
+    type: DOUBLE
+  - name: wvs_democ
+    type: DOUBLE
+  - name: wvs_fight
+    type: DOUBLE
+  - name: wvs_godbel
+    type: DOUBLE
+  - name: wvs_godimp
+    type: DOUBLE
+  - name: wvs_hap
+    type: DOUBLE
+  - name: wvs_imppol
+    type: DOUBLE
+  - name: wvs_imprel
+    type: DOUBLE
+  - name: wvs_jabribe
+    type: DOUBLE
+  - name: wvs_jacot
+    type: DOUBLE
+  - name: wvs_menpol
+    type: DOUBLE
+  - name: wvs_pmi12
+    type: DOUBLE
+  - name: wvs_pmi4
+    type: DOUBLE
+  - name: wvs_polint
+    type: DOUBLE
+  - name: wvs_psarmy
+    type: DOUBLE
+  - name: wvs_psdem
+    type: DOUBLE
+  - name: wvs_psexp
+    type: DOUBLE
+  - name: wvs_pssl
+    type: DOUBLE
+  - name: wvs_relacc
+    type: DOUBLE
+  - name: wvs_relsci
+    type: DOUBLE
+  - name: wvs_satfin
+    type: DOUBLE
+  - name: wvs_satlif
+    type: DOUBLE
+  - name: wvs_screl
+    type: DOUBLE
+  - name: wvs_subh
+    type: DOUBLE
+  - name: wvs_trust
+    type: DOUBLE
+  - name: wvs_wduty
+    type: DOUBLE
+  - name: wvs_wlazy
+    type: DOUBLE
+  - name: wwbi_fmwrprmean
+    type: DOUBLE
+  - name: wwbi_fmwrprmedian
+    type: DOUBLE
+  - name: wwbi_fmwrpumean
+    type: DOUBLE
+  - name: wwbi_fmwrpumedian
+    type: DOUBLE
+  - name: wwbi_fsprpemp
+    type: DOUBLE
+  - name: wwbi_fspuemp
+    type: DOUBLE
+  - name: wwbi_meanageprpe
+    type: DOUBLE
+  - name: wwbi_meanagepupe
+    type: DOUBLE
+  - name: wwbi_medianageprpe
+    type: DOUBLE
+  - name: wwbi_medianagepupe
+    type: DOUBLE
+  - name: wwbi_paycomppr
+    type: DOUBLE
+  - name: wwbi_paycomppu
+    type: DOUBLE
+  - name: wwbi_prpempss
+    type: DOUBLE
+  - name: wwbi_psefemp
+    type: DOUBLE
+  - name: wwbi_psemptot
+    type: DOUBLE
+  - name: wwbi_psemptotf
+    type: DOUBLE
+  - name: wwbi_psemptotm
+    type: DOUBLE
+  - name: wwbi_psemptotr
+    type: DOUBLE
+  - name: wwbi_psemptotu
+    type: DOUBLE
+  - name: wwbi_psepemp
+    type: DOUBLE
+  - name: wwbi_psepempf
+    type: DOUBLE
+  - name: wwbi_psepempm
+    type: DOUBLE
+  - name: wwbi_psepempr
+    type: DOUBLE
+  - name: wwbi_psepempu
+    type: DOUBLE
+  - name: wwbi_pupempss
+    type: DOUBLE
+  - name: wwbi_rrespripemp
+    type: DOUBLE
+  - name: wwbi_rrespubpemp
+    type: DOUBLE
+  - name: wwbi_sprpempn
+    type: DOUBLE
+  - name: wwbi_sprpempp
+    type: DOUBLE
+  - name: wwbi_sprpemps
+    type: DOUBLE
+  - name: wwbi_sprpempt
+    type: DOUBLE
+  - name: wwbi_spupempn
+    type: DOUBLE
+  - name: wwbi_spupempp
+    type: DOUBLE
+  - name: wwbi_spupemps
+    type: DOUBLE
+  - name: wwbi_spupempt
+    type: DOUBLE
+  - name: wwbi_tertiarypubsec
+    type: DOUBLE
+  - name: yri_agi30
+    type: DOUBLE
+  - name: yri_agi35
+    type: DOUBLE
+  - name: yri_agi40
+    type: DOUBLE
+  - name: yri_agi4160
+    type: DOUBLE
+  - name: yri_agi61
+    type: DOUBLE
+  - name: yri_fem30
+    type: DOUBLE
+  - name: yri_fem35
+    type: DOUBLE
+  - name: yri_fem40
+    type: DOUBLE
+  - name: yri_fem4160
+    type: DOUBLE
+  - name: yri_fem61
+    type: DOUBLE
+  - name: yri_meanage
+    type: DOUBLE
+  - name: yri_medianage
+    type: DOUBLE
+  - name: yri_mp30
+    type: DOUBLE
+  - name: yri_mp35
+    type: DOUBLE
+  - name: yri_mp40
+    type: DOUBLE
+  - name: yri_mp4160
+    type: DOUBLE
+  - name: yri_mp61
+    type: DOUBLE

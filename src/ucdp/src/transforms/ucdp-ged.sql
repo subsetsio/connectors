@@ -1,0 +1,1 @@
+SELECT * FROM "ucdp-ged"

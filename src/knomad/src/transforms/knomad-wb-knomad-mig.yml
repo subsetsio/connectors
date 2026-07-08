@@ -1,0 +1,23 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [country_code, counterpart_code, year]
+temporal: year
+sort: [year, country_code, counterpart_code]
+columns:
+  - name: country_code
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: counterpart_code
+    type: VARCHAR
+  - name: counterpart
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: migrant_stock
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR

@@ -1,0 +1,30 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: period
+sort: [period]
+columns:
+  - name: period
+    type: VARCHAR
+  - name: period_label
+    type: VARCHAR
+  - name: commodity
+    type: VARCHAR
+  - name: commodity_label
+    type: VARCHAR
+  - name: index_base_2015
+    type: DOUBLE
+  - name: index_base_2015_footnote
+    type: VARCHAR
+  - name: index_base_2015_missing_value
+    type: VARCHAR
+  - name: growth_rate_year_on_year
+    type: DOUBLE
+  - name: growth_rate_year_on_year_footnote
+    type: VARCHAR
+  - name: growth_rate_year_on_year_missing_value
+    type: VARCHAR
+  - name: growth_rate_over_previous_period
+    type: DOUBLE
+  - name: growth_rate_over_previous_period_footnote
+    type: VARCHAR
+  - name: growth_rate_over_previous_period_missing_value
+    type: VARCHAR

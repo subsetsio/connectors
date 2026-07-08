@@ -1,0 +1,30 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: analysisdate
+sort: [analysisdate]
+columns:
+  - name: week_ending_date
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: state_abbreviation
+    type: VARCHAR
+  - name: median_number
+    type: DOUBLE
+  - name: lower_bound
+    type: DOUBLE
+  - name: upper_bound
+    type: DOUBLE
+  - name: outcome
+    type: VARCHAR
+  - name: mmwr_year
+    type: BIGINT
+  - name: mmwr_week
+    type: BIGINT
+  - name: rolling_4_week_mean
+    type: DOUBLE
+  - name: rolling_4_week_lower
+    type: DOUBLE
+  - name: rolling_4_week_upper
+    type: DOUBLE
+  - name: analysisdate
+    type: DATE

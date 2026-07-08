@@ -1,0 +1,28 @@
+SELECT
+    lakecode,
+    lakename,
+    lakeorriver,
+    continent,
+    country,
+    NULLIF(state, '-') AS state,
+    latitude   AS latitude_dms,
+    longitude  AS longitude_dms,
+    TRY_CAST(lat_decimal AS DOUBLE) AS latitude,
+    TRY_CAST(lon_decimal AS DOUBLE) AS longitude,
+    TRY_CAST(NULLIF(NULLIF(elevation,    '-999'), '-') AS DOUBLE) AS elevation_m,
+    TRY_CAST(NULLIF(NULLIF(mean_depth,   '-999'), '-') AS DOUBLE) AS mean_depth_m,
+    TRY_CAST(NULLIF(NULLIF(median_depth, '-999'), '-') AS DOUBLE) AS median_depth_m,
+    TRY_CAST(NULLIF(NULLIF(max_depth,    '-999'), '-') AS DOUBLE) AS max_depth_m,
+    TRY_CAST(NULLIF(NULLIF(surface_area, '-999'), '-') AS DOUBLE) AS surface_area_km2,
+    TRY_CAST(NULLIF(NULLIF(shoreline,    '-999'), '-') AS DOUBLE) AS shoreline_km,
+    TRY_CAST(NULLIF(NULLIF(largest_city_population, '-999'), '-') AS DOUBLE) AS largest_city_population,
+    TRY_CAST(NULLIF(NULLIF(area_drained,    '-999'), '-') AS DOUBLE) AS area_drained_km2,
+    TRY_CAST(NULLIF(NULLIF(conductivity_us, '-999'), '-') AS DOUBLE) AS conductivity_us,
+    TRY_CAST(NULLIF(NULLIF(secchi_depth,    '-999'), '-') AS DOUBLE) AS secchi_depth_m,
+    NULLIF(NULLIF(power_plant_discharge, '-999'), '-') AS power_plant_discharge,
+    NULLIF(NULLIF(inlet_streams,         '-999'), '-') AS inlet_streams,
+    NULLIF(NULLIF(landuse_code, '-999'), '-') AS landuse_code,
+    NULLIF(contributor, '-') AS contributor,
+    NULLIF(comments, '') AS comments
+FROM "lake-river-ice-phenology-physical-characteristics"
+WHERE lakecode IS NOT NULL

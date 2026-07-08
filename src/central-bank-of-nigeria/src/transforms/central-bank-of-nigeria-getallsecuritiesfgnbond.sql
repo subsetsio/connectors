@@ -1,0 +1,20 @@
+SELECT
+            try_strptime(CAST("auctionDate" AS VARCHAR), '%B-%d-%Y')::DATE AS "date",
+            CASE WHEN try_strptime(CAST("maturityDate" AS VARCHAR), '%B-%d-%Y')::DATE BETWEEN try_strptime(CAST("auctionDate" AS VARCHAR), '%B-%d-%Y')::DATE AND (try_strptime(CAST("auctionDate" AS VARCHAR), '%B-%d-%Y')::DATE + INTERVAL 40 YEAR) THEN try_strptime(CAST("maturityDate" AS VARCHAR), '%B-%d-%Y')::DATE END AS "maturity_date",
+            NULLIF(CAST("securityType" AS VARCHAR), '') AS "securityType",
+            NULLIF(CAST("tenor" AS VARCHAR), '') AS "tenor",
+            NULLIF(CAST("auctionNo" AS VARCHAR), '') AS "auctionNo",
+            NULLIF(CAST("auction" AS VARCHAR), '') AS "auction",
+            NULLIF(CAST("week" AS VARCHAR), '') AS "week",
+            NULLIF(CAST("rangeBid" AS VARCHAR), '') AS "rangeBid",
+            NULLIF(CAST("successfulBidRates" AS VARCHAR), '') AS "successfulBidRates",
+            NULLIF(CAST("rateDescription" AS VARCHAR), '') AS "rateDescription",
+            NULLIF(CAST("netType" AS VARCHAR), '') AS "netType",
+            TRY_CAST(NULLIF(CAST("totalSubscription" AS VARCHAR), '') AS DOUBLE) AS "totalSubscription",
+            TRY_CAST(NULLIF(CAST("totalSuccessful" AS VARCHAR), '') AS DOUBLE) AS "totalSuccessful",
+            TRY_CAST(NULLIF(CAST("rate" AS VARCHAR), '') AS DOUBLE) AS "rate",
+            TRY_CAST(NULLIF(CAST("trueYield" AS VARCHAR), '') AS DOUBLE) AS "trueYield",
+            TRY_CAST(NULLIF(CAST("amtOffered" AS VARCHAR), '') AS DOUBLE) AS "amtOffered",
+            TRY_CAST(NULLIF(CAST("totalAmtRepaid" AS VARCHAR), '') AS DOUBLE) AS "totalAmtRepaid",
+            TRY_CAST(NULLIF(CAST("netValue" AS VARCHAR), '') AS DOUBLE) AS "netValue"
+        FROM "central-bank-of-nigeria-getallsecuritiesfgnbond"

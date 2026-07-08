@@ -1,0 +1,21 @@
+SELECT
+    logbook_id,
+    record_date,
+    year,
+    month,
+    day,
+    latitude,
+    longitude,
+    ship_name,
+    nationality,
+    ship_type,
+    company,
+    voyage_from,
+    voyage_to,
+    logbook_language,
+    wind_direction,
+    wind_force,
+    weather,
+    precipitation,
+    archive_institution
+FROM "cliwoc-observations"

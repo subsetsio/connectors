@@ -1,0 +1,63 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [ftn_play_id]
+temporal: season
+sort: [season, ftn_play_id]
+columns:
+  - name: ftn_game_id
+    type: INTEGER
+  - name: nflverse_game_id
+    type: VARCHAR
+  - name: season
+    type: INTEGER
+  - name: week
+    type: INTEGER
+  - name: ftn_play_id
+    type: INTEGER
+  - name: nflverse_play_id
+    type: INTEGER
+  - name: starting_hash
+    type: VARCHAR
+  - name: qb_location
+    type: VARCHAR
+  - name: n_offense_backfield
+    type: INTEGER
+  - name: n_defense_box
+    type: INTEGER
+  - name: is_no_huddle
+    type: BOOLEAN
+  - name: is_motion
+    type: BOOLEAN
+  - name: is_play_action
+    type: BOOLEAN
+  - name: is_screen_pass
+    type: BOOLEAN
+  - name: is_rpo
+    type: BOOLEAN
+  - name: is_trick_play
+    type: BOOLEAN
+  - name: is_qb_out_of_pocket
+    type: BOOLEAN
+  - name: is_interception_worthy
+    type: BOOLEAN
+  - name: is_throw_away
+    type: BOOLEAN
+  - name: read_thrown
+    type: VARCHAR
+  - name: is_catchable_ball
+    type: BOOLEAN
+  - name: is_contested_ball
+    type: BOOLEAN
+  - name: is_created_reception
+    type: BOOLEAN
+  - name: is_drop
+    type: BOOLEAN
+  - name: is_qb_sneak
+    type: BOOLEAN
+  - name: n_blitzers
+    type: INTEGER
+  - name: n_pass_rushers
+    type: INTEGER
+  - name: is_qb_fault_sack
+    type: BOOLEAN
+  - name: date_pulled
+    type: TIMESTAMPTZ

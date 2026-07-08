@@ -1,0 +1,1 @@
+SELECT CAST(year AS BIGINT) AS year, * EXCLUDE (year) FROM "mpa-singapore-d-0a76d48f3754aafd08f98629324a54c6" WHERE year IS NOT NULL

@@ -1,0 +1,24 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: federal_fiscal_year
+sort: [federal_fiscal_year]
+columns:
+  - name: location_code
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: federal_fiscal_year
+    type: INTEGER
+  - name: topic
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: submeasure
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR
+  - name: value_type
+    type: VARCHAR
+  - name: source
+    type: VARCHAR

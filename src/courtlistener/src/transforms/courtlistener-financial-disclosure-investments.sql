@@ -1,0 +1,20 @@
+SELECT
+    TRY_CAST("id" AS BIGINT) AS "id",
+    TRY_CAST("date_created" AS TIMESTAMP) AS "date_created",
+    TRY_CAST("date_modified" AS TIMESTAMP) AS "date_modified",
+    TRY_CAST("page_number" AS BIGINT) AS "page_number",
+    "description",
+    "redacted",
+    "income_during_reporting_period_code",
+    "income_during_reporting_period_type",
+    "gross_value_code",
+    "gross_value_method",
+    "transaction_during_reporting_period",
+    "transaction_date_raw",
+    TRY_CAST("transaction_date" AS DATE) AS "transaction_date",
+    "transaction_value_code",
+    "transaction_gain_code",
+    "transaction_partner",
+    "has_inferred_values",
+    TRY_CAST("financial_disclosure_id" AS BIGINT) AS "financial_disclosure_id"
+FROM "courtlistener-financial-disclosure-investments"

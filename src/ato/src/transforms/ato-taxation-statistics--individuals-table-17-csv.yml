@@ -1,0 +1,384 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: income_year
+sort: [income_year]
+columns:
+  - name: entity_size
+    type: VARCHAR
+  - name: broad_industry
+    type: VARCHAR
+  - name: number_of_individuals
+    type: VARCHAR
+  - name: taxable_income_or_loss_no
+    type: VARCHAR
+  - name: taxable_income_or_loss
+    type: VARCHAR
+  - name: gross_tax_no
+    type: VARCHAR
+  - name: gross_tax
+    type: VARCHAR
+  - name: medicare_levy_no
+    type: VARCHAR
+  - name: medicare_levy
+    type: VARCHAR
+  - name: low_income_tax_offset_no
+    type: VARCHAR
+  - name: low_income_tax_offset
+    type: VARCHAR
+  - name: net_tax_no
+    type: VARCHAR
+  - name: net_tax
+    type: VARCHAR
+  - name: estimated_business_net_tax_no
+    type: VARCHAR
+  - name: estimated_business_net_tax
+    type: VARCHAR
+  - name: salary_or_wages_no
+    type: VARCHAR
+  - name: salary_or_wages
+    type: VARCHAR
+  - name: gross_interest_no
+    type: VARCHAR
+  - name: gross_interest
+    type: VARCHAR
+  - name: dividends_unfranked_amount_no
+    type: VARCHAR
+  - name: dividends_unfranked_amount
+    type: VARCHAR
+  - name: dividends_franked_amount_no
+    type: VARCHAR
+  - name: dividends_franked_amount
+    type: VARCHAR
+  - name: dividends_franking_credit_no
+    type: VARCHAR
+  - name: dividends_franking_credit
+    type: VARCHAR
+  - name: total_income_or_loss_no
+    type: VARCHAR
+  - name: total_income_or_loss
+    type: VARCHAR
+  - name: gifts_or_donations_no
+    type: VARCHAR
+  - name: gifts_or_donations
+    type: VARCHAR
+  - name: cost_of_managing_tax_affairs_no
+    type: VARCHAR
+  - name: cost_of_managing_tax_affairs
+    type: VARCHAR
+  - name: total_deductions_no
+    type: VARCHAR
+  - name: total_deductions
+    type: VARCHAR
+  - name: net_rent_no
+    type: VARCHAR
+  - name: net_rent
+    type: VARCHAR
+  - name: personal_superannuation_contributions_no
+    type: VARCHAR
+  - name: personal_superannuation_contributions
+    type: VARCHAR
+  - name: total_gross_payments_where_australian_business_number_not_quoted_no
+    type: VARCHAR
+  - name: total_gross_payments_where_australian_business_number_not_quoted
+    type: VARCHAR
+  - name: total_gross_payments_voluntary_agreement_no
+    type: VARCHAR
+  - name: total_gross_payments_voluntary_agreement
+    type: VARCHAR
+  - name: total_gross_payments_labour_hire_or_other_specified_payments_no
+    type: VARCHAR
+  - name: total_gross_payments_labour_hire_or_other_specified_payments
+    type: VARCHAR
+  - name: total_assessable_government_industry_payments_no
+    type: VARCHAR
+  - name: total_assessable_government_industry_payments
+    type: VARCHAR
+  - name: total_other_business_income_no
+    type: VARCHAR
+  - name: total_other_business_income
+    type: VARCHAR
+  - name: total_business_income_no
+    type: VARCHAR
+  - name: total_business_income
+    type: VARCHAR
+  - name: opening_stock_no
+    type: VARCHAR
+  - name: opening_stock
+    type: VARCHAR
+  - name: purchases_and_other_costs_no
+    type: VARCHAR
+  - name: purchases_and_other_costs
+    type: VARCHAR
+  - name: closing_stock_no
+    type: VARCHAR
+  - name: closing_stock
+    type: VARCHAR
+  - name: cost_of_sales_no
+    type: VARCHAR
+  - name: cost_of_sales
+    type: VARCHAR
+  - name: contractor_subcontractor_and_commission_expenses_no
+    type: VARCHAR
+  - name: contractor_subcontractor_and_commission_expenses
+    type: VARCHAR
+  - name: superannuation_expenses_no
+    type: VARCHAR
+  - name: superannuation_expenses
+    type: VARCHAR
+  - name: bad_debts_no
+    type: VARCHAR
+  - name: bad_debts
+    type: VARCHAR
+  - name: lease_expenses_no
+    type: VARCHAR
+  - name: lease_expenses
+    type: VARCHAR
+  - name: rent_expenses_no
+    type: VARCHAR
+  - name: rent_expenses
+    type: VARCHAR
+  - name: interest_expenses_within_australia_no
+    type: VARCHAR
+  - name: interest_expenses_within_australia
+    type: VARCHAR
+  - name: interest_expenses_overseas_no
+    type: VARCHAR
+  - name: interest_expenses_overseas
+    type: VARCHAR
+  - name: depreciation_expenses_no
+    type: VARCHAR
+  - name: depreciation_expenses
+    type: VARCHAR
+  - name: motor_vehicle_expenses_no
+    type: VARCHAR
+  - name: motor_vehicle_expenses
+    type: VARCHAR
+  - name: repairs_and_maintenance_expenses_no
+    type: VARCHAR
+  - name: repairs_and_maintenance_expenses
+    type: VARCHAR
+  - name: all_other_expenses_no
+    type: VARCHAR
+  - name: all_other_expenses
+    type: VARCHAR
+  - name: total_business_expenses_no
+    type: VARCHAR
+  - name: total_business_expenses
+    type: VARCHAR
+  - name: total_net_income_or_loss_from_business_this_year_no
+    type: VARCHAR
+  - name: total_net_income_or_loss_from_business_this_year
+    type: VARCHAR
+  - name: total_deferred_non_commercial_business_losses_from_a_prior_year_no
+    type: VARCHAR
+  - name: total_deferred_non_commercial_business_losses_from_a_prior_year
+    type: VARCHAR
+  - name: net_income_or_loss_from_business_no
+    type: VARCHAR
+  - name: net_income_or_loss_from_business
+    type: VARCHAR
+  - name: people_with_private_health_insurance_no
+    type: VARCHAR
+  - name: income_year
+    type: VARCHAR
+  - name: taxable_income_or_loss_no_1
+    type: VARCHAR
+  - name: taxable_income_or_loss_1
+    type: VARCHAR
+  - name: tax_on_taxable_income_no
+    type: VARCHAR
+  - name: tax_on_taxable_income
+    type: VARCHAR
+  - name: medicare_levy_no_1
+    type: VARCHAR
+  - name: medicare_levy_1
+    type: VARCHAR
+  - name: medicare_levy_surcharge_no
+    type: VARCHAR
+  - name: medicare_levy_surcharge
+    type: VARCHAR
+  - name: total_medicare_levy_liability_no
+    type: VARCHAR
+  - name: total_medicare_levy_liability
+    type: VARCHAR
+  - name: low_income_tax_offset_no_1
+    type: VARCHAR
+  - name: low_income_tax_offset_1
+    type: VARCHAR
+  - name: net_tax_no_1
+    type: VARCHAR
+  - name: net_tax_1
+    type: VARCHAR
+  - name: estimated_business_net_tax_no_1
+    type: VARCHAR
+  - name: estimated_business_net_tax_1
+    type: VARCHAR
+  - name: salary_or_wages_no_1
+    type: VARCHAR
+  - name: salary_or_wages_1
+    type: VARCHAR
+  - name: gross_interest_no_1
+    type: VARCHAR
+  - name: gross_interest_1
+    type: VARCHAR
+  - name: dividends_unfranked_amount_no_1
+    type: VARCHAR
+  - name: dividends_unfranked_amount_1
+    type: VARCHAR
+  - name: dividends_franked_amount_no_1
+    type: VARCHAR
+  - name: dividends_franked_amount_1
+    type: VARCHAR
+  - name: dividends_franking_credit_no_1
+    type: VARCHAR
+  - name: dividends_franking_credit_1
+    type: VARCHAR
+  - name: total_income_or_loss_no_1
+    type: VARCHAR
+  - name: total_income_or_loss_1
+    type: VARCHAR
+  - name: total_work_related_expenses_no
+    type: VARCHAR
+  - name: total_work_related_expenses
+    type: VARCHAR
+  - name: gifts_or_donations_no_1
+    type: VARCHAR
+  - name: gifts_or_donations_1
+    type: VARCHAR
+  - name: cost_of_managing_tax_affairs_no_1
+    type: VARCHAR
+  - name: cost_of_managing_tax_affairs_1
+    type: VARCHAR
+  - name: total_deductions_no_1
+    type: VARCHAR
+  - name: total_deductions_1
+    type: VARCHAR
+  - name: net_rent_no_1
+    type: VARCHAR
+  - name: net_rent_1
+    type: VARCHAR
+  - name: personal_superannuation_contributions_no_1
+    type: VARCHAR
+  - name: personal_superannuation_contributions_1
+    type: VARCHAR
+  - name: total_gross_payments_where_australian_business_number_not_quoted_no_1
+    type: VARCHAR
+  - name: total_gross_payments_where_australian_business_number_not_quoted_1
+    type: VARCHAR
+  - name: total_gross_payments_voluntary_agreement_no_1
+    type: VARCHAR
+  - name: total_gross_payments_voluntary_agreement_1
+    type: VARCHAR
+  - name: total_gross_payments_labour_hire_or_other_specified_payments_no_1
+    type: VARCHAR
+  - name: total_gross_payments_labour_hire_or_other_specified_payments_1
+    type: VARCHAR
+  - name: total_assessable_government_industry_payments_no_1
+    type: VARCHAR
+  - name: total_assessable_government_industry_payments_1
+    type: VARCHAR
+  - name: total_other_business_income_no_1
+    type: VARCHAR
+  - name: total_other_business_income_1
+    type: VARCHAR
+  - name: total_business_income_no_1
+    type: VARCHAR
+  - name: total_business_income_1
+    type: VARCHAR
+  - name: opening_stock_no_1
+    type: VARCHAR
+  - name: opening_stock_1
+    type: VARCHAR
+  - name: purchases_and_other_costs_no_1
+    type: VARCHAR
+  - name: purchases_and_other_costs_1
+    type: VARCHAR
+  - name: closing_stock_no_1
+    type: VARCHAR
+  - name: closing_stock_1
+    type: VARCHAR
+  - name: cost_of_sales_no_1
+    type: VARCHAR
+  - name: cost_of_sales_1
+    type: VARCHAR
+  - name: contractor_subcontractor_and_commission_expenses_no_1
+    type: VARCHAR
+  - name: contractor_subcontractor_and_commission_expenses_1
+    type: VARCHAR
+  - name: superannuation_expenses_no_1
+    type: VARCHAR
+  - name: superannuation_expenses_1
+    type: VARCHAR
+  - name: bad_debts_no_1
+    type: VARCHAR
+  - name: bad_debts_1
+    type: VARCHAR
+  - name: lease_expenses_no_1
+    type: VARCHAR
+  - name: lease_expenses_1
+    type: VARCHAR
+  - name: rent_expenses_no_1
+    type: VARCHAR
+  - name: rent_expenses_1
+    type: VARCHAR
+  - name: interest_expenses_within_australia_no_1
+    type: VARCHAR
+  - name: interest_expenses_within_australia_1
+    type: VARCHAR
+  - name: interest_expenses_overseas_no_1
+    type: VARCHAR
+  - name: interest_expenses_overseas_1
+    type: VARCHAR
+  - name: depreciation_expenses_no_1
+    type: VARCHAR
+  - name: depreciation_expenses_1
+    type: VARCHAR
+  - name: motor_vehicle_expenses_no_1
+    type: VARCHAR
+  - name: motor_vehicle_expenses_1
+    type: VARCHAR
+  - name: repairs_and_maintenance_expenses_no_1
+    type: VARCHAR
+  - name: repairs_and_maintenance_expenses_1
+    type: VARCHAR
+  - name: all_other_expenses_no_1
+    type: VARCHAR
+  - name: all_other_expenses_1
+    type: VARCHAR
+  - name: total_business_expenses_no_1
+    type: VARCHAR
+  - name: total_business_expenses_1
+    type: VARCHAR
+  - name: total_net_income_or_loss_from_business_this_year_no_1
+    type: VARCHAR
+  - name: total_net_income_or_loss_from_business_this_year_1
+    type: VARCHAR
+  - name: total_deferred_non_commercial_business_losses_from_a_prior_year_no_1
+    type: VARCHAR
+  - name: total_deferred_non_commercial_business_losses_from_a_prior_year_1
+    type: VARCHAR
+  - name: net_income_or_loss_from_business_no_1
+    type: VARCHAR
+  - name: net_income_or_loss_from_business_1
+    type: VARCHAR
+  - name: people_with_private_health_insurance_no_1
+    type: VARCHAR
+  - name: small_business_income_tax_offset_no
+    type: VARCHAR
+  - name: small_business_income_tax_offset
+    type: VARCHAR
+  - name: partnership_share_of_net_small_business_income_less_deductions_attributable_to_that_share_no
+    type: VARCHAR
+  - name: partnership_share_of_net_small_business_income_less_deductions_attributable_to_that_share
+    type: VARCHAR
+  - name: trust_share_of_net_small_business_income_less_deductions_attributable_to_that_share_no
+    type: VARCHAR
+  - name: trust_share_of_net_small_business_income_less_deductions_attributable_to_that_share
+    type: VARCHAR
+  - name: net_small_business_income_no
+    type: VARCHAR
+  - name: net_small_business_income
+    type: VARCHAR
+  - name: total_small_business_income_no
+    type: VARCHAR
+  - name: total_small_business_income
+    type: VARCHAR

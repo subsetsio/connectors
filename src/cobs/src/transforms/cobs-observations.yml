@@ -1,0 +1,73 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: []
+temporal: obs_date
+sort: [obs_date]
+columns:
+  - name: obs_date
+    type: TIMESTAMP
+  - name: comet_id
+    type: BIGINT
+  - name: comet_name
+    type: VARCHAR
+  - name: comet_fullname
+    type: VARCHAR
+  - name: comet_mpc_name
+    type: VARCHAR
+  - name: comet_icq_name
+    type: VARCHAR
+  - name: obs_type
+    type: VARCHAR
+  - name: observer_icq_name
+    type: VARCHAR
+  - name: observer_first_name
+    type: VARCHAR
+  - name: observer_last_name
+    type: VARCHAR
+  - name: observer_association
+    type: VARCHAR
+  - name: observer_country
+    type: VARCHAR
+  - name: magnitude
+    type: DOUBLE
+  - name: magnitude_error
+    type: DOUBLE
+  - name: comet_visibility
+    type: VARCHAR
+  - name: obs_method_key
+    type: VARCHAR
+  - name: obs_method_name
+    type: VARCHAR
+  - name: ref_catalog_key
+    type: VARCHAR
+  - name: instrument_aperture
+    type: DOUBLE
+  - name: instrument_focal_ratio
+    type: DOUBLE
+  - name: instrument_power
+    type: DOUBLE
+  - name: instrument_type_key
+    type: VARCHAR
+  - name: coma_diameter
+    type: DOUBLE
+  - name: coma_dc
+    type: DOUBLE
+  - name: tail_length
+    type: DOUBLE
+  - name: tail_length_unit
+    type: VARCHAR
+  - name: tail_pa
+    type: DOUBLE
+  - name: camera_type_key
+    type: VARCHAR
+  - name: chip_type_key
+    type: VARCHAR
+  - name: software_type_key
+    type: VARCHAR
+  - name: icq_reference
+    type: VARCHAR
+  - name: extinction
+    type: VARCHAR
+  - name: integration_time
+    type: DOUBLE
+  - name: date_added
+    type: TIMESTAMP

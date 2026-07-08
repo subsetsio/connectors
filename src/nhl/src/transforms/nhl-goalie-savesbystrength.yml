@@ -1,0 +1,63 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [playerId, seasonId, gameTypeId]
+temporal: seasonId
+sort: [seasonId, playerId, gameTypeId]
+columns:
+  - name: evGoalsAgainst
+    type: BIGINT
+  - name: evSavePct
+    type: DOUBLE
+  - name: evSaves
+    type: BIGINT
+  - name: evShotsAgainst
+    type: BIGINT
+  - name: gamesPlayed
+    type: BIGINT
+  - name: gamesStarted
+    type: BIGINT
+  - name: goalieFullName
+    type: VARCHAR
+  - name: goalsAgainst
+    type: BIGINT
+  - name: lastName
+    type: VARCHAR
+  - name: losses
+    type: BIGINT
+  - name: otLosses
+    type: BIGINT
+  - name: playerId
+    type: BIGINT
+  - name: ppGoalsAgainst
+    type: BIGINT
+  - name: ppSavePct
+    type: DOUBLE
+  - name: ppSaves
+    type: BIGINT
+  - name: ppShotsAgainst
+    type: BIGINT
+  - name: savePct
+    type: DOUBLE
+  - name: saves
+    type: BIGINT
+  - name: seasonId
+    type: BIGINT
+  - name: shGoalsAgainst
+    type: BIGINT
+  - name: shSavePct
+    type: DOUBLE
+  - name: shSaves
+    type: BIGINT
+  - name: shShotsAgainst
+    type: BIGINT
+  - name: shootsCatches
+    type: VARCHAR
+  - name: shotsAgainst
+    type: BIGINT
+  - name: teamAbbrevs
+    type: VARCHAR
+  - name: ties
+    type: BIGINT
+  - name: wins
+    type: BIGINT
+  - name: gameTypeId
+    type: BIGINT

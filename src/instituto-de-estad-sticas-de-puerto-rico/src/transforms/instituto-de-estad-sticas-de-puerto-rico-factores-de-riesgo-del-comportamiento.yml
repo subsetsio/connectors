@@ -1,0 +1,816 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: source_resource
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: "@_STATE"
+    type: VARCHAR
+  - name: "@_GEOSTR"
+    type: VARCHAR
+  - name: "@_DENSTR2"
+    type: VARCHAR
+  - name: PRECALL
+    type: VARCHAR
+  - name: REPNUM
+    type: VARCHAR
+  - name: REPDEPTH
+    type: VARCHAR
+  - name: FMONTH
+    type: VARCHAR
+  - name: IDATE
+    type: VARCHAR
+  - name: IMONTH
+    type: VARCHAR
+  - name: IDAY
+    type: VARCHAR
+  - name: IYEAR
+    type: VARCHAR
+  - name: INTVID
+    type: VARCHAR
+  - name: DISPCODE
+    type: VARCHAR
+  - name: SEQNO
+    type: VARCHAR
+  - name: "@_PSU"
+    type: VARCHAR
+  - name: NATTMPTS
+    type: VARCHAR
+  - name: NRECSEL
+    type: VARCHAR
+  - name: NRECSTR
+    type: VARCHAR
+  - name: CTELENUM
+    type: VARCHAR
+  - name: CELLFON
+    type: VARCHAR
+  - name: PVTRESID
+    type: VARCHAR
+  - name: NUMADULT
+    type: VARCHAR
+  - name: NUMMEN
+    type: VARCHAR
+  - name: NUMWOMEN
+    type: VARCHAR
+  - name: GENHLTH
+    type: VARCHAR
+  - name: PHYSHLTH
+    type: VARCHAR
+  - name: MENTHLTH
+    type: VARCHAR
+  - name: POORHLTH
+    type: VARCHAR
+  - name: HLTHPLAN
+    type: VARCHAR
+  - name: PERSDOC2
+    type: VARCHAR
+  - name: MEDCOST
+    type: VARCHAR
+  - name: CHECKUP1
+    type: VARCHAR
+  - name: QLREST2
+    type: VARCHAR
+  - name: EXERANY2
+    type: VARCHAR
+  - name: DIABETE2
+    type: VARCHAR
+  - name: BPHIGH4
+    type: VARCHAR
+  - name: BPMEDS
+    type: VARCHAR
+  - name: BLOODCHO
+    type: VARCHAR
+  - name: CHOLCHK
+    type: VARCHAR
+  - name: TOLDHI2
+    type: VARCHAR
+  - name: CVDINFR4
+    type: VARCHAR
+  - name: CVDCRHD4
+    type: VARCHAR
+  - name: CVDSTRK3
+    type: VARCHAR
+  - name: ASTHMA2
+    type: VARCHAR
+  - name: ASTHNOW
+    type: VARCHAR
+  - name: SMOKE100
+    type: VARCHAR
+  - name: SMOKDAY2
+    type: VARCHAR
+  - name: STOPSMK2
+    type: VARCHAR
+  - name: LASTSMK1
+    type: VARCHAR
+  - name: USENOW3
+    type: VARCHAR
+  - name: AGE
+    type: VARCHAR
+  - name: HISPANC2
+    type: VARCHAR
+  - name: MRACE
+    type: VARCHAR
+  - name: ORACE2
+    type: VARCHAR
+  - name: VETERAN2
+    type: VARCHAR
+  - name: MARITAL
+    type: VARCHAR
+  - name: CHILDREN
+    type: VARCHAR
+  - name: EDUCA
+    type: VARCHAR
+  - name: EMPLOY
+    type: VARCHAR
+  - name: INCOME2
+    type: VARCHAR
+  - name: WEIGHT2
+    type: VARCHAR
+  - name: HEIGHT3
+    type: VARCHAR
+  - name: WTYRAGO
+    type: VARCHAR
+  - name: WTCHGINT
+    type: VARCHAR
+  - name: CTYCODE
+    type: VARCHAR
+  - name: NUMHHOL2
+    type: VARCHAR
+  - name: NUMPHON2
+    type: VARCHAR
+  - name: TELSERV2
+    type: VARCHAR
+  - name: SEX
+    type: VARCHAR
+  - name: PREGNANT
+    type: VARCHAR
+  - name: CAREGIVE
+    type: VARCHAR
+  - name: QLACTLM2
+    type: VARCHAR
+  - name: USEEQUIP
+    type: VARCHAR
+  - name: DRNKANY4
+    type: VARCHAR
+  - name: ALCDAY4
+    type: VARCHAR
+  - name: AVEDRNK2
+    type: VARCHAR
+  - name: DRNK3GE5
+    type: VARCHAR
+  - name: MAXDRNKS
+    type: VARCHAR
+  - name: FLUSHOT3
+    type: VARCHAR
+  - name: FLUSHTMY
+    type: VARCHAR
+  - name: FLUSPRY2
+    type: VARCHAR
+  - name: FLUSPRMY
+    type: VARCHAR
+  - name: PNEUVAC3
+    type: VARCHAR
+  - name: HAVARTH2
+    type: VARCHAR
+  - name: LMTJOIN2
+    type: VARCHAR
+  - name: ARTHDIS2
+    type: VARCHAR
+  - name: ARTHSOCL
+    type: VARCHAR
+  - name: JOINPAIN
+    type: VARCHAR
+  - name: FRUITJUI
+    type: VARCHAR
+  - name: FRUIT
+    type: VARCHAR
+  - name: GREENSAL
+    type: VARCHAR
+  - name: POTATOES
+    type: VARCHAR
+  - name: CARROTS
+    type: VARCHAR
+  - name: VEGETABL
+    type: VARCHAR
+  - name: JOBACTIV
+    type: VARCHAR
+  - name: MODPACT
+    type: VARCHAR
+  - name: MODPADAY
+    type: VARCHAR
+  - name: MODPATIM
+    type: VARCHAR
+  - name: VIGPACT
+    type: VARCHAR
+  - name: VIGPADAY
+    type: VARCHAR
+  - name: VIGPATIM
+    type: VARCHAR
+  - name: HIVTST5
+    type: VARCHAR
+  - name: HIVTSTD2
+    type: VARCHAR
+  - name: WHRTST8
+    type: VARCHAR
+  - name: HIVRDTST
+    type: VARCHAR
+  - name: HIVRISK2
+    type: VARCHAR
+  - name: EMTSUPRT
+    type: VARCHAR
+  - name: LSATISFY
+    type: VARCHAR
+  - name: CNCRHAVE
+    type: VARCHAR
+  - name: CNCRDIFF
+    type: VARCHAR
+  - name: CNCRAGE
+    type: VARCHAR
+  - name: CNCRTYPE
+    type: VARCHAR
+  - name: CPDEMO1
+    type: VARCHAR
+  - name: CPDEMO2
+    type: VARCHAR
+  - name: CPDEMO3
+    type: VARCHAR
+  - name: CPDEMO4
+    type: VARCHAR
+  - name: PDIABTST
+    type: VARCHAR
+  - name: PREDIAB1
+    type: VARCHAR
+  - name: DIABAGE2
+    type: VARCHAR
+  - name: INSULIN
+    type: VARCHAR
+  - name: BLDSUGAR
+    type: VARCHAR
+  - name: FEETCHK2
+    type: VARCHAR
+  - name: DOCTDIAB
+    type: VARCHAR
+  - name: CHKHEMO3
+    type: VARCHAR
+  - name: FEETCHK
+    type: VARCHAR
+  - name: EYEEXAM
+    type: VARCHAR
+  - name: DIABEYE
+    type: VARCHAR
+  - name: DIABEDU
+    type: VARCHAR
+  - name: PAINACT2
+    type: VARCHAR
+  - name: QLMENTL2
+    type: VARCHAR
+  - name: QLSTRES2
+    type: VARCHAR
+  - name: QLHLTH2
+    type: VARCHAR
+  - name: VIDFCLT2
+    type: VARCHAR
+  - name: VIREDIF2
+    type: VARCHAR
+  - name: VIPRFVS2
+    type: VARCHAR
+  - name: VINOCRE2
+    type: VARCHAR
+  - name: VIEYEXM2
+    type: VARCHAR
+  - name: VIINSUR2
+    type: VARCHAR
+  - name: VICTRCT2
+    type: VARCHAR
+  - name: VIGLUMA2
+    type: VARCHAR
+  - name: VIMACDG2
+    type: VARCHAR
+  - name: SLEPTIME
+    type: VARCHAR
+  - name: SLEPSNOR
+    type: VARCHAR
+  - name: SLEPDAY
+    type: VARCHAR
+  - name: SLEPDRIV
+    type: VARCHAR
+  - name: HAREHAB1
+    type: VARCHAR
+  - name: STREHAB1
+    type: VARCHAR
+  - name: CVDASPRN
+    type: VARCHAR
+  - name: ASPUNSAF
+    type: VARCHAR
+  - name: BPEATHBT
+    type: VARCHAR
+  - name: BPSALT
+    type: VARCHAR
+  - name: BPALCHOL
+    type: VARCHAR
+  - name: BPEXER
+    type: VARCHAR
+  - name: BPEATADV
+    type: VARCHAR
+  - name: BPSLTADV
+    type: VARCHAR
+  - name: BPALCADV
+    type: VARCHAR
+  - name: BPEXRADV
+    type: VARCHAR
+  - name: BPMEDADV
+    type: VARCHAR
+  - name: BPHI2MR
+    type: VARCHAR
+  - name: HASYMP1
+    type: VARCHAR
+  - name: HASYMP2
+    type: VARCHAR
+  - name: HASYMP3
+    type: VARCHAR
+  - name: HASYMP4
+    type: VARCHAR
+  - name: HASYMP5
+    type: VARCHAR
+  - name: HASYMP6
+    type: VARCHAR
+  - name: STRSYMP1
+    type: VARCHAR
+  - name: STRSYMP2
+    type: VARCHAR
+  - name: STRSYMP3
+    type: VARCHAR
+  - name: STRSYMP4
+    type: VARCHAR
+  - name: STRSYMP5
+    type: VARCHAR
+  - name: STRSYMP6
+    type: VARCHAR
+  - name: FIRSTAID
+    type: VARCHAR
+  - name: HADMAM
+    type: VARCHAR
+  - name: HOWLONG
+    type: VARCHAR
+  - name: PROFEXAM
+    type: VARCHAR
+  - name: LENGEXAM
+    type: VARCHAR
+  - name: HADPAP2
+    type: VARCHAR
+  - name: LASTPAP2
+    type: VARCHAR
+  - name: HADHYST2
+    type: VARCHAR
+  - name: PSATEST
+    type: VARCHAR
+  - name: PSATIME
+    type: VARCHAR
+  - name: DIGRECEX
+    type: VARCHAR
+  - name: DRETIME
+    type: VARCHAR
+  - name: PROSTATE
+    type: VARCHAR
+  - name: BLDSTOOL
+    type: VARCHAR
+  - name: LSTBLDS3
+    type: VARCHAR
+  - name: HADSIGM3
+    type: VARCHAR
+  - name: HADSGCO1
+    type: VARCHAR
+  - name: LASTSIG3
+    type: VARCHAR
+  - name: CSRVTRT
+    type: VARCHAR
+  - name: CSRVDOC
+    type: VARCHAR
+  - name: CSRVSUM
+    type: VARCHAR
+  - name: CSRVRTRN
+    type: VARCHAR
+  - name: CSRVINST
+    type: VARCHAR
+  - name: CSRVINSR
+    type: VARCHAR
+  - name: CSRVDEIN
+    type: VARCHAR
+  - name: CSRVCLIN
+    type: VARCHAR
+  - name: CSRVPAIN
+    type: VARCHAR
+  - name: CSRVCTRL
+    type: VARCHAR
+  - name: ASTHMAGE
+    type: VARCHAR
+  - name: ASATTACK
+    type: VARCHAR
+  - name: ASERVIST
+    type: VARCHAR
+  - name: ASDRVIST
+    type: VARCHAR
+  - name: ASRCHKUP
+    type: VARCHAR
+  - name: ASACTLIM
+    type: VARCHAR
+  - name: ASYMPTOM
+    type: VARCHAR
+  - name: ASNOSLEP
+    type: VARCHAR
+  - name: ASTHMED3
+    type: VARCHAR
+  - name: ASINHALR
+    type: VARCHAR
+  - name: ARTTODAY
+    type: VARCHAR
+  - name: ARTHWGT
+    type: VARCHAR
+  - name: ARTHEXER
+    type: VARCHAR
+  - name: ARTHEDU
+    type: VARCHAR
+  - name: TNSARCV
+    type: VARCHAR
+  - name: TNSARCNT
+    type: VARCHAR
+  - name: TNSASHOT
+    type: VARCHAR
+  - name: HPVADVC
+    type: VARCHAR
+  - name: HPVADSHT
+    type: VARCHAR
+  - name: SHINGLES
+    type: VARCHAR
+  - name: CRGVAGE
+    type: VARCHAR
+  - name: CRGVGNDR
+    type: VARCHAR
+  - name: CRGVRELT
+    type: VARCHAR
+  - name: CRGVLONG
+    type: VARCHAR
+  - name: CRGVPROB
+    type: VARCHAR
+  - name: CRGVMOST
+    type: VARCHAR
+  - name: CRGVHRS
+    type: VARCHAR
+  - name: CRGVDIFF
+    type: VARCHAR
+  - name: CRGVCHNG
+    type: VARCHAR
+  - name: GPWELPR3
+    type: VARCHAR
+  - name: GP3DYWTR
+    type: VARCHAR
+  - name: GP3DYFD1
+    type: VARCHAR
+  - name: GP3DYPRS
+    type: VARCHAR
+  - name: GPBATRAD
+    type: VARCHAR
+  - name: GPFLSLIT
+    type: VARCHAR
+  - name: GPEMRCM1
+    type: VARCHAR
+  - name: GPEMRIN1
+    type: VARCHAR
+  - name: GPVACPL1
+    type: VARCHAR
+  - name: GPMNDEVC
+    type: VARCHAR
+  - name: GPNOTEV1
+    type: VARCHAR
+  - name: RRCLASS2
+    type: VARCHAR
+  - name: RRCOGNT2
+    type: VARCHAR
+  - name: RRATWRK2
+    type: VARCHAR
+  - name: RRHCARE3
+    type: VARCHAR
+  - name: RRPHYSM2
+    type: VARCHAR
+  - name: RREMTSM2
+    type: VARCHAR
+  - name: MISNERVS
+    type: VARCHAR
+  - name: MISHOPLS
+    type: VARCHAR
+  - name: MISRSTLS
+    type: VARCHAR
+  - name: MISDEPRD
+    type: VARCHAR
+  - name: MISEFFRT
+    type: VARCHAR
+  - name: MISWTLES
+    type: VARCHAR
+  - name: MISNOWRK
+    type: VARCHAR
+  - name: MISTMNT
+    type: VARCHAR
+  - name: MISTRHLP
+    type: VARCHAR
+  - name: MISPHLPF
+    type: VARCHAR
+  - name: IAQCODT1
+    type: VARCHAR
+  - name: CMDGPPWR
+    type: VARCHAR
+  - name: CMDGPBAT
+    type: VARCHAR
+  - name: CMDGPGEN
+    type: VARCHAR
+  - name: CMDGPDSL
+    type: VARCHAR
+  - name: CMDGPLOC
+    type: VARCHAR
+  - name: CMDGPRUN
+    type: VARCHAR
+  - name: CMDGPOWN
+    type: VARCHAR
+  - name: RENTHOM1
+    type: VARCHAR
+  - name: SCNTMONY
+    type: VARCHAR
+  - name: SCNTMEAL
+    type: VARCHAR
+  - name: SCNTPAID
+    type: VARCHAR
+  - name: SCNTWORK
+    type: VARCHAR
+  - name: SCNTLPAD
+    type: VARCHAR
+  - name: SCNTLWRK
+    type: VARCHAR
+  - name: SCNTVOTE
+    type: VARCHAR
+  - name: ACEDEPRS
+    type: VARCHAR
+  - name: ACEDRINK
+    type: VARCHAR
+  - name: ACEDRUGS
+    type: VARCHAR
+  - name: ACEPRISN
+    type: VARCHAR
+  - name: ACEDIVRC
+    type: VARCHAR
+  - name: ACEPUNCH
+    type: VARCHAR
+  - name: ACEHURT
+    type: VARCHAR
+  - name: ACESWEAR
+    type: VARCHAR
+  - name: ACETOUCH
+    type: VARCHAR
+  - name: ACETTHEM
+    type: VARCHAR
+  - name: ACEHVSEX
+    type: VARCHAR
+  - name: RCSBIRTH
+    type: VARCHAR
+  - name: RCSGENDR
+    type: VARCHAR
+  - name: RCHISLAT
+    type: VARCHAR
+  - name: RCSRACE
+    type: VARCHAR
+  - name: RCSBRACE
+    type: VARCHAR
+  - name: RCSRLTN2
+    type: VARCHAR
+  - name: CASTHDX2
+    type: VARCHAR
+  - name: CASTHNO2
+    type: VARCHAR
+  - name: FLUSHCH1
+    type: VARCHAR
+  - name: RCVFVCH3
+    type: VARCHAR
+  - name: HPVCHVC
+    type: VARCHAR
+  - name: HPVCHSHT
+    type: VARCHAR
+  - name: TNSCRCV
+    type: VARCHAR
+  - name: TNSCRCNT
+    type: VARCHAR
+  - name: TNSCSHOT
+    type: VARCHAR
+  - name: CALLBACK
+    type: VARCHAR
+  - name: QSTVER
+    type: VARCHAR
+  - name: QSTLANG
+    type: VARCHAR
+  - name: "@_STSTR"
+    type: VARCHAR
+  - name: "@_STRWT"
+    type: VARCHAR
+  - name: "@_RAW"
+    type: VARCHAR
+  - name: "@_WT2"
+    type: VARCHAR
+  - name: "@_POSTSTR"
+    type: VARCHAR
+  - name: "@_FINALWT"
+    type: VARCHAR
+  - name: "@_REGION"
+    type: VARCHAR
+  - name: "@_AGEG"
+    type: VARCHAR
+  - name: "@_SEXG"
+    type: VARCHAR
+  - name: "@_RACEG3"
+    type: VARCHAR
+  - name: "@_IMPAGE"
+    type: VARCHAR
+  - name: "@_IMPNPH"
+    type: VARCHAR
+  - name: MSCODE
+    type: VARCHAR
+  - name: CHILDAGE
+    type: VARCHAR
+  - name: "@_CIMPAGE"
+    type: VARCHAR
+  - name: "@_RFHLTH"
+    type: VARCHAR
+  - name: "@_HCVU65"
+    type: VARCHAR
+  - name: "@_TOTINDA"
+    type: VARCHAR
+  - name: "@_RFHYPE5"
+    type: VARCHAR
+  - name: "@_CHOLCHK"
+    type: VARCHAR
+  - name: "@_RFCHOL"
+    type: VARCHAR
+  - name: "@_LTASTHM"
+    type: VARCHAR
+  - name: "@_CASTHMA"
+    type: VARCHAR
+  - name: "@_ASTHMST"
+    type: VARCHAR
+  - name: "@_SMOKER3"
+    type: VARCHAR
+  - name: "@_RFSMOK3"
+    type: VARCHAR
+  - name: MRACEORG
+    type: VARCHAR
+  - name: MRACEASC
+    type: VARCHAR
+  - name: "@_PRACE"
+    type: VARCHAR
+  - name: "@_MRACE"
+    type: VARCHAR
+  - name: RACE2
+    type: VARCHAR
+  - name: "@_RACEG2"
+    type: VARCHAR
+  - name: "@_RACEGR2"
+    type: VARCHAR
+  - name: "@_RACE_G"
+    type: VARCHAR
+  - name: "@_CNRACE"
+    type: VARCHAR
+  - name: "@_CNRACEC"
+    type: VARCHAR
+  - name: "@_AGEG5YR"
+    type: VARCHAR
+  - name: "@_AGE65YR"
+    type: VARCHAR
+  - name: "@_AGE_G"
+    type: VARCHAR
+  - name: HTIN3
+    type: VARCHAR
+  - name: HTM3
+    type: VARCHAR
+  - name: WTKG2
+    type: VARCHAR
+  - name: "@_BMI4"
+    type: VARCHAR
+  - name: "@_BMI4CAT"
+    type: VARCHAR
+  - name: "@_RFBMI4"
+    type: VARCHAR
+  - name: "@_CHLDCNT"
+    type: VARCHAR
+  - name: "@_EDUCAG"
+    type: VARCHAR
+  - name: "@_INCOMG"
+    type: VARCHAR
+  - name: DROCDY2_
+    type: VARCHAR
+  - name: "@_RFBING4"
+    type: VARCHAR
+  - name: "@_DRNKDY3"
+    type: VARCHAR
+  - name: "@_DRNKMO3"
+    type: VARCHAR
+  - name: "@_RFDRHV3"
+    type: VARCHAR
+  - name: "@_RFDRMN3"
+    type: VARCHAR
+  - name: "@_RFDRWM3"
+    type: VARCHAR
+  - name: "@_FLSHOT3"
+    type: VARCHAR
+  - name: "@_PNEUMO2"
+    type: VARCHAR
+  - name: "@_DRDXART"
+    type: VARCHAR
+  - name: FTJUDAY_
+    type: VARCHAR
+  - name: FRUTDAY_
+    type: VARCHAR
+  - name: GNSLDAY_
+    type: VARCHAR
+  - name: POTADAY_
+    type: VARCHAR
+  - name: CRTSDAY_
+    type: VARCHAR
+  - name: VEGEDAY_
+    type: VARCHAR
+  - name: "@_FRTSERV"
+    type: VARCHAR
+  - name: "@_FRTINDX"
+    type: VARCHAR
+  - name: "@_FV5SRV"
+    type: VARCHAR
+  - name: "@_MODPAMN"
+    type: VARCHAR
+  - name: "@_VIGPAMN"
+    type: VARCHAR
+  - name: MODCAT_
+    type: VARCHAR
+  - name: VIGCAT_
+    type: VARCHAR
+  - name: PACAT_
+    type: VARCHAR
+  - name: "@_RFPAMOD"
+    type: VARCHAR
+  - name: "@_RFPAVIG"
+    type: VARCHAR
+  - name: "@_RFPAREC"
+    type: VARCHAR
+  - name: "@_RFNOPA"
+    type: VARCHAR
+  - name: "@_MODMNWK"
+    type: VARCHAR
+  - name: "@_VIGMNWK"
+    type: VARCHAR
+  - name: "@_TOTMNWK"
+    type: VARCHAR
+  - name: "@_PA150RC"
+    type: VARCHAR
+  - name: "@_PA300RC"
+    type: VARCHAR
+  - name: "@_AIDTST2"
+    type: VARCHAR
+  - name: CPCOUNTY
+    type: VARCHAR
+  - name: "@_ITSCF1"
+    type: VARCHAR
+  - name: "@_ITSCF2"
+    type: VARCHAR
+  - name: "@_ITSPOST"
+    type: VARCHAR
+  - name: "@_ITSFINL"
+    type: VARCHAR
+  - name: CRACEORG
+    type: VARCHAR
+  - name: CRACEASC
+    type: VARCHAR
+  - name: "@_CRACE"
+    type: VARCHAR
+  - name: "@_CSEXG"
+    type: VARCHAR
+  - name: "@_CRACEG"
+    type: VARCHAR
+  - name: "@_CAGEG"
+    type: VARCHAR
+  - name: "@_RAWCH"
+    type: VARCHAR
+  - name: "@_WT2CH"
+    type: VARCHAR
+  - name: "@_POSTCH"
+    type: VARCHAR
+  - name: "@_CHILDWT"
+    type: VARCHAR
+  - name: "@_RAWHH"
+    type: VARCHAR
+  - name: "@_WT2HH"
+    type: VARCHAR
+  - name: "@_POSTHH"
+    type: VARCHAR
+  - name: "@_HOUSEWT"
+    type: VARCHAR
+  - name: POPSIZE
+    type: VARCHAR
+  - name: CT10000
+    type: VARCHAR
+  - name: KEEPCHIM
+    type: VARCHAR
+  - name: KEEPRCSM
+    type: VARCHAR

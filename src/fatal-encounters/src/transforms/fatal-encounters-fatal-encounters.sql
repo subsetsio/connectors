@@ -1,0 +1,30 @@
+SELECT
+    CAST(unique_id AS BIGINT)                       AS unique_id,
+    name,
+    age,
+    gender,
+    race,
+    race_with_imputations,
+    imputation_probability,
+    image_url,
+    try_strptime(date_of_death, '%m/%d/%Y')::DATE   AS date_of_death,
+    location_address,
+    city,
+    state,
+    zip_code,
+    county,
+    full_address,
+    TRY_CAST(latitude AS DOUBLE)                    AS latitude,
+    TRY_CAST(longitude AS DOUBLE)                   AS longitude,
+    agency,
+    highest_level_of_force,
+    armed_unarmed,
+    alleged_weapon,
+    aggressive_physical_movement,
+    fleeing,
+    brief_description,
+    intended_use_of_force,
+    supporting_document_link
+FROM "fatal-encounters-fatal-encounters"
+WHERE unique_id IS NOT NULL
+  AND TRY_CAST(unique_id AS BIGINT) IS NOT NULL

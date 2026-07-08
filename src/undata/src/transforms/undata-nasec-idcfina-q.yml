@@ -1,0 +1,102 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: TIME_PERIOD
+sort: [TIME_PERIOD]
+columns:
+  - name: DATAFLOW
+    type: VARCHAR
+  - name: FREQ
+    type: VARCHAR
+  - name: ADJUSTMENT
+    type: VARCHAR
+  - name: REF_AREA
+    type: VARCHAR
+  - name: COUNTERPART_AREA
+    type: VARCHAR
+  - name: REF_SECTOR
+    type: VARCHAR
+  - name: COUNTERPART_SECTOR
+    type: VARCHAR
+  - name: CONSOLIDATION
+    type: VARCHAR
+  - name: ACCOUNTING_ENTRY
+    type: VARCHAR
+  - name: STO
+    type: VARCHAR
+  - name: INSTR_ASSET
+    type: VARCHAR
+  - name: MATURITY
+    type: VARCHAR
+  - name: EXPENDITURE
+    type: VARCHAR
+  - name: UNIT_MEASURE
+    type: VARCHAR
+  - name: CURRENCY_DENOM
+    type: VARCHAR
+  - name: VALUATION
+    type: VARCHAR
+  - name: PRICES
+    type: VARCHAR
+  - name: TRANSFORMATION
+    type: VARCHAR
+  - name: CUST_BREAKDOWN
+    type: VARCHAR
+  - name: TIME_PERIOD
+    type: VARCHAR
+  - name: OBS_STATUS
+    type: VARCHAR
+  - name: CONF_STATUS
+    type: VARCHAR
+  - name: COMMENT_OBS
+    type: JSON
+  - name: EMBARGO_DATE
+    type: JSON
+  - name: REF_PERIOD_DETAIL
+    type: JSON
+  - name: REPYEARSTART
+    type: JSON
+  - name: REPYEAREND
+    type: JSON
+  - name: TIME_FORMAT
+    type: VARCHAR
+  - name: TIME_PER_COLLECT
+    type: JSON
+  - name: CUST_BREAKDOWN_LB
+    type: JSON
+  - name: REF_YEAR_PRICE
+    type: JSON
+  - name: DECIMALS
+    type: VARCHAR
+  - name: TABLE_IDENTIFIER
+    type: JSON
+  - name: TITLE
+    type: JSON
+  - name: TITLE_COMPL
+    type: JSON
+  - name: UNIT_MULT
+    type: VARCHAR
+  - name: LAST_UPDATE
+    type: JSON
+  - name: COMPILING_ORG
+    type: JSON
+  - name: COMMENT_DSET
+    type: JSON
+  - name: OBS_EDP_WBB
+    type: JSON
+  - name: COLL_PERIOD
+    type: JSON
+  - name: COMMENT_TS
+    type: JSON
+  - name: GFS_ECOFUNC
+    type: JSON
+  - name: GFS_TAXCAT
+    type: JSON
+  - name: PRE_BREAK_VALUE
+    type: JSON
+  - name: DATA_COMP
+    type: JSON
+  - name: CURRENCY
+    type: JSON
+  - name: DISS_ORG
+    type: JSON
+  - name: obs_value
+    type: DOUBLE

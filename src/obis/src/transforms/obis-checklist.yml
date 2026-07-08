@@ -1,0 +1,38 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [taxon_id]
+sort: [taxon_id]
+columns:
+  - name: taxon_id
+    type: BIGINT
+  - name: scientific_name
+    type: VARCHAR
+  - name: taxon_rank
+    type: VARCHAR
+  - name: taxonomic_status
+    type: VARCHAR
+  - name: accepted_name_usage
+    type: VARCHAR
+  - name: kingdom
+    type: VARCHAR
+  - name: phylum
+    type: VARCHAR
+  - name: class
+    type: VARCHAR
+  - name: order
+    type: VARCHAR
+  - name: family
+    type: VARCHAR
+  - name: genus
+    type: VARCHAR
+  - name: species
+    type: VARCHAR
+  - name: is_marine
+    type: BOOLEAN
+  - name: is_brackish
+    type: BOOLEAN
+  - name: is_freshwater
+    type: BOOLEAN
+  - name: is_terrestrial
+    type: BOOLEAN
+  - name: records
+    type: BIGINT

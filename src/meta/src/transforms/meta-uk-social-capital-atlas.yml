@@ -1,0 +1,56 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: ds
+sort: [ds]
+columns:
+  - name: column0
+    type: BIGINT
+  - name: zip_prediction
+    type: VARCHAR
+  - name: user_count
+    type: BIGINT
+  - name: average_support_ratio
+    type: DOUBLE
+  - name: ds
+    type: DATE
+  - name: _source_file
+    type: VARCHAR
+  - name: measurement_category
+    type: VARCHAR
+  - name: english_language_ratio
+    type: DOUBLE
+  - name: expected_english_language_ratio
+    type: DOUBLE
+  - name: average_bias
+    type: DOUBLE
+  - name: average_clustering
+    type: DOUBLE
+  - name: high_ses_ratio
+    type: DOUBLE
+  - name: expected_high_ses_ratio
+    type: DOUBLE
+  - name: num_users
+    type: BIGINT
+  - name: volunteering_fraction
+    type: DOUBLE
+  - name: activism_fraction
+    type: DOUBLE
+  - name: target_age_cohort_ratio
+    type: DOUBLE
+  - name: expected_target_age_cohort_ratio
+    type: DOUBLE
+  - name: num_volunteering_groups_1000_people_zip
+    type: DOUBLE
+  - name: num_activism_groups_1000_people_zip
+    type: DOUBLE
+  - name: zip_prediction_full
+    type: VARCHAR
+  - name: num_volunteering_groups_1000_people_zip_full
+    type: DOUBLE
+  - name: num_activism_groups_1000_people_zip_full
+    type: DOUBLE
+  - name: lad_code
+    type: VARCHAR
+  - name: num_volunteering_groups_1000_people_lad
+    type: DOUBLE
+  - name: num_activism_groups_1000_people_lad
+    type: DOUBLE

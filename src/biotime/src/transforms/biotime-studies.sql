@@ -1,0 +1,28 @@
+SELECT
+    TRY_CAST(study_id AS INTEGER)          AS study_id,
+    NULLIF(realm, 'NA')                    AS realm,
+    NULLIF(climate, 'NA')                  AS climate,
+    NULLIF(habitat, 'NA')                  AS habitat,
+    NULLIF(biome_map, 'NA')                AS biome_map,
+    NULLIF(taxa, 'NA')                     AS taxa,
+    NULLIF(organisms, 'NA')                AS organisms,
+    NULLIF(title, 'NA')                    AS title,
+    NULLIF(ab_bio, 'NA')                   AS ab_bio,
+    NULLIF(has_plot, 'NA')                 AS has_plot,
+    TRY_CAST(data_points AS INTEGER)       AS data_points,
+    TRY_CAST(start_year AS INTEGER)        AS start_year,
+    TRY_CAST(end_year AS INTEGER)          AS end_year,
+    TRY_CAST(cent_lat AS DOUBLE)           AS cent_lat,
+    TRY_CAST(cent_long AS DOUBLE)          AS cent_long,
+    TRY_CAST(number_of_species AS INTEGER) AS number_of_species,
+    TRY_CAST(number_of_samples AS INTEGER) AS number_of_samples,
+    TRY_CAST(total AS INTEGER)             AS total,
+    TRY_CAST(area_sq_km AS DOUBLE)         AS area_sq_km,
+    NULLIF(license, 'NA')                  AS license,
+    NULLIF(web_link, 'NA')                 AS web_link,
+    NULLIF(data_source, 'NA')              AS data_source,
+    NULLIF(abundance_type, 'NA')           AS abundance_type,
+    NULLIF(biomass_type, 'NA')             AS biomass_type,
+    NULLIF(date_study_added, 'NA')         AS date_study_added
+FROM "biotime-studies"
+WHERE TRY_CAST(study_id AS INTEGER) IS NOT NULL

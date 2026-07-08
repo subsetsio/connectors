@@ -1,0 +1,25 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [grantee_code]
+temporal: date_received
+sort: [date_received, grantee_code]
+columns:
+  - name: grantee_code
+    type: VARCHAR
+  - name: grantee_name
+    type: VARCHAR
+  - name: mailing_address
+    type: VARCHAR
+  - name: po_box
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: zip_code
+    type: VARCHAR
+  - name: contact_name
+    type: VARCHAR
+  - name: date_received
+    type: TIMESTAMP

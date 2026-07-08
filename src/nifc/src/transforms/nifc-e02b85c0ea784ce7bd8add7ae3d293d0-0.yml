@@ -1,0 +1,28 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: fire_year
+sort: [fire_year]
+columns:
+  - name: unique_fire_id
+    type: VARCHAR
+  - name: irwin_id
+    type: VARCHAR
+  - name: incident_name
+    type: VARCHAR
+  - name: fire_year
+    type: INTEGER
+  - name: gis_acres
+    type: DOUBLE
+  - name: unit_id
+    type: VARCHAR
+  - name: poo_responsible_unit
+    type: VARCHAR
+  - name: feature_category
+    type: VARCHAR
+  - name: map_method
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: date_current
+    type: VARCHAR

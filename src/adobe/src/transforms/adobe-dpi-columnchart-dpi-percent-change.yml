@@ -1,0 +1,11 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, category]
+temporal: date
+sort: [date, category]
+columns:
+  - name: date
+    type: DATE
+  - name: category
+    type: VARCHAR
+  - name: percent_change
+    type: DOUBLE

@@ -1,0 +1,4 @@
+SELECT
+      * EXCLUDE ("value"),
+      TRY_CAST("value" AS DOUBLE) AS "value"
+    FROM "mospi-nss80-getnss80records"

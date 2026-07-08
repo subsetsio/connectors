@@ -1,0 +1,35 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, slot]
+temporal: date
+sort: [date, slot]
+columns:
+  - name: date
+    type: DATE
+  - name: slot
+    type: INTEGER
+  - name: system_price
+    type: DOUBLE
+  - name: area_price_hokkaido
+    type: DOUBLE
+  - name: area_price_tohoku
+    type: DOUBLE
+  - name: area_price_tokyo
+    type: DOUBLE
+  - name: area_price_chubu
+    type: DOUBLE
+  - name: area_price_hokuriku
+    type: DOUBLE
+  - name: area_price_kansai
+    type: DOUBLE
+  - name: area_price_chugoku
+    type: DOUBLE
+  - name: area_price_shikoku
+    type: DOUBLE
+  - name: area_price_kyushu
+    type: DOUBLE
+  - name: sell_bid_volume_kwh
+    type: DOUBLE
+  - name: buy_bid_volume_kwh
+    type: DOUBLE
+  - name: contract_volume_kwh
+    type: DOUBLE

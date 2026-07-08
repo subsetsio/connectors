@@ -1,0 +1,380 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: STATE
+    type: VARCHAR
+  - name: COUNTY
+    type: VARCHAR
+  - name: MONTH
+    type: VARCHAR
+  - name: DAY
+    type: VARCHAR
+  - name: HOUR
+    type: VARCHAR
+  - name: MINUTE
+    type: VARCHAR
+  - name: VE_FORMS
+    type: VARCHAR
+  - name: ROAD_FNC
+    type: VARCHAR
+  - name: HARM_EV
+    type: VARCHAR
+  - name: MAN_COLL
+    type: VARCHAR
+  - name: SCH_BUS
+    type: VARCHAR
+  - name: VEH_NO
+    type: VARCHAR
+  - name: MAKE
+    type: VARCHAR
+  - name: BODY_TYP
+    type: VARCHAR
+  - name: MOD_YEAR
+    type: VARCHAR
+  - name: ROLLOVER
+    type: VARCHAR
+  - name: TOW_VEH
+    type: VARCHAR
+  - name: SPEC_USE
+    type: VARCHAR
+  - name: EMER_USE
+    type: VARCHAR
+  - name: IMPACT1
+    type: VARCHAR
+  - name: IMPACT2
+    type: VARCHAR
+  - name: IMPACTS
+    type: VARCHAR
+  - name: FIRE_EXP
+    type: VARCHAR
+  - name: WGTCD_TR
+    type: VARCHAR
+  - name: PER_NO
+    type: VARCHAR
+  - name: AGE
+    type: VARCHAR
+  - name: SEX
+    type: VARCHAR
+  - name: PER_TYP
+    type: VARCHAR
+  - name: SEAT_POS
+    type: VARCHAR
+  - name: MAN_REST
+    type: VARCHAR
+  - name: AUT_REST
+    type: VARCHAR
+  - name: LOCATION
+    type: VARCHAR
+  - name: EJECTION
+    type: VARCHAR
+  - name: EXTRICAT
+    type: VARCHAR
+  - name: DRINKING
+    type: VARCHAR
+  - name: TEST_RES
+    type: VARCHAR
+  - name: INJ_SEV
+    type: VARCHAR
+  - name: HOSPITAL
+    type: VARCHAR
+  - name: DEATH_MO
+    type: VARCHAR
+  - name: DEATH_DA
+    type: VARCHAR
+  - name: DEATH_YR
+    type: VARCHAR
+  - name: DEATH_HR
+    type: VARCHAR
+  - name: DEATH_MN
+    type: VARCHAR
+  - name: LAG_HRS
+    type: VARCHAR
+  - name: LAG_MINS
+    type: VARCHAR
+  - name: P_CF1
+    type: VARCHAR
+  - name: P_CF2
+    type: VARCHAR
+  - name: P_CF3
+    type: VARCHAR
+  - name: ST_CASE
+    type: VARCHAR
+  - name: MAK_MOD
+    type: VARCHAR
+  - name: VIN_WGT
+    type: VARCHAR
+  - name: WHLBS_SH
+    type: VARCHAR
+  - name: WHLBS_LG
+    type: VARCHAR
+  - name: MCYCL_DS
+    type: VARCHAR
+  - name: DEATH_TM
+    type: VARCHAR
+  - name: VINA_MOD
+    type: VARCHAR
+  - name: SER_TR
+    type: VARCHAR
+  - name: N_MOT_NO
+    type: VARCHAR
+  - name: VIN_BT
+    type: VARCHAR
+  - name: ALC_DET
+    type: VARCHAR
+  - name: TOXCLGY
+    type: VARCHAR
+  - name: WORK_INJ
+    type: VARCHAR
+  - name: CERT_NO
+    type: VARCHAR
+  - name: REST_USE
+    type: VARCHAR
+  - name: AIR_BAG
+    type: VARCHAR
+  - name: EJ_PATH
+    type: VARCHAR
+  - name: DRUGS
+    type: VARCHAR
+  - name: DRUG_DET
+    type: VARCHAR
+  - name: DRUGTEST
+    type: VARCHAR
+  - name: DRUG_RES
+    type: VARCHAR
+  - name: ALC_RES
+    type: VARCHAR
+  - name: DRUGTST1
+    type: VARCHAR
+  - name: DRUGRES1
+    type: VARCHAR
+  - name: DRUGTST2
+    type: VARCHAR
+  - name: DRUGRES2
+    type: VARCHAR
+  - name: DRUGTST3
+    type: VARCHAR
+  - name: DRUGRES3
+    type: VARCHAR
+  - name: ATST_TYP
+    type: VARCHAR
+  - name: RACE
+    type: VARCHAR
+  - name: HISPANIC
+    type: VARCHAR
+  - name: DOA
+    type: VARCHAR
+  - name: ALC_STATUS
+    type: VARCHAR
+  - name: DSTATUS
+    type: VARCHAR
+  - name: VINTYPE
+    type: VARCHAR
+  - name: VINMAKE
+    type: VARCHAR
+  - name: VINMODYR
+    type: VARCHAR
+  - name: VIN_LNGT
+    type: VARCHAR
+  - name: FUELCODE
+    type: VARCHAR
+  - name: REST_MIS
+    type: VARCHAR
+  - name: P_SF1
+    type: VARCHAR
+  - name: P_SF2
+    type: VARCHAR
+  - name: P_SF3
+    type: VARCHAR
+  - name: STR_VEH
+    type: VARCHAR
+  - name: CARBUR
+    type: VARCHAR
+  - name: CYLINDER
+    type: VARCHAR
+  - name: DISPLACE
+    type: VARCHAR
+  - name: MCYCL_CY
+    type: VARCHAR
+  - name: TIRE_SZE
+    type: VARCHAR
+  - name: TON_RAT
+    type: VARCHAR
+  - name: TRK_WT
+    type: VARCHAR
+  - name: TRKWTVAR
+    type: VARCHAR
+  - name: MCYCL_WT
+    type: VARCHAR
+  - name: VIN_REST
+    type: VARCHAR
+  - name: WHLDRWHL
+    type: VARCHAR
+  - name: STATENAME
+    type: VARCHAR
+  - name: DAYNAME
+    type: VARCHAR
+  - name: MONTHNAME
+    type: VARCHAR
+  - name: HOURNAME
+    type: VARCHAR
+  - name: MINUTENAME
+    type: VARCHAR
+  - name: RUR_URB
+    type: VARCHAR
+  - name: RUR_URBNAME
+    type: VARCHAR
+  - name: FUNC_SYS
+    type: VARCHAR
+  - name: FUNC_SYSNAME
+    type: VARCHAR
+  - name: HARM_EVNAME
+    type: VARCHAR
+  - name: MAN_COLLNAME
+    type: VARCHAR
+  - name: SCH_BUSNAME
+    type: VARCHAR
+  - name: MAKENAME
+    type: VARCHAR
+  - name: BODY_TYPNAME
+    type: VARCHAR
+  - name: MOD_YEARNAME
+    type: VARCHAR
+  - name: TOW_VEHNAME
+    type: VARCHAR
+  - name: SPEC_USENAME
+    type: VARCHAR
+  - name: EMER_USENAME
+    type: VARCHAR
+  - name: ROLLOVERNAME
+    type: VARCHAR
+  - name: IMPACT1NAME
+    type: VARCHAR
+  - name: FIRE_EXPNAME
+    type: VARCHAR
+  - name: AGENAME
+    type: VARCHAR
+  - name: SEXNAME
+    type: VARCHAR
+  - name: PER_TYPNAME
+    type: VARCHAR
+  - name: INJ_SEVNAME
+    type: VARCHAR
+  - name: SEAT_POSNAME
+    type: VARCHAR
+  - name: REST_USENAME
+    type: VARCHAR
+  - name: REST_MISNAME
+    type: VARCHAR
+  - name: AIR_BAGNAME
+    type: VARCHAR
+  - name: EJECTIONNAME
+    type: VARCHAR
+  - name: EJ_PATHNAME
+    type: VARCHAR
+  - name: EXTRICATNAME
+    type: VARCHAR
+  - name: DRINKINGNAME
+    type: VARCHAR
+  - name: ALC_DETNAME
+    type: VARCHAR
+  - name: ALC_STATUSNAME
+    type: VARCHAR
+  - name: ATST_TYPNAME
+    type: VARCHAR
+  - name: ALC_RESNAME
+    type: VARCHAR
+  - name: DRUGSNAME
+    type: VARCHAR
+  - name: DRUG_DETNAME
+    type: VARCHAR
+  - name: DSTATUSNAME
+    type: VARCHAR
+  - name: DRUGTST1NAME
+    type: VARCHAR
+  - name: DRUGTST2NAME
+    type: VARCHAR
+  - name: DRUGTST3NAME
+    type: VARCHAR
+  - name: DRUGRES1NAME
+    type: VARCHAR
+  - name: DRUGRES2NAME
+    type: VARCHAR
+  - name: DRUGRES3NAME
+    type: VARCHAR
+  - name: HOSPITALNAME
+    type: VARCHAR
+  - name: DOANAME
+    type: VARCHAR
+  - name: DEATH_DANAME
+    type: VARCHAR
+  - name: DEATH_MONAME
+    type: VARCHAR
+  - name: DEATH_YRNAME
+    type: VARCHAR
+  - name: DEATH_HRNAME
+    type: VARCHAR
+  - name: DEATH_MNNAME
+    type: VARCHAR
+  - name: DEATH_TMNAME
+    type: VARCHAR
+  - name: LAG_HRSNAME
+    type: VARCHAR
+  - name: LAG_MINSNAME
+    type: VARCHAR
+  - name: P_SF1NAME
+    type: VARCHAR
+  - name: P_SF2NAME
+    type: VARCHAR
+  - name: P_SF3NAME
+    type: VARCHAR
+  - name: WORK_INJNAME
+    type: VARCHAR
+  - name: HISPANICNAME
+    type: VARCHAR
+  - name: RACENAME
+    type: VARCHAR
+  - name: LOCATIONNAME
+    type: VARCHAR
+  - name: MAK_MODNAME
+    type: VARCHAR
+  - name: HELM_USE
+    type: VARCHAR
+  - name: HELM_USENAME
+    type: VARCHAR
+  - name: HELM_MIS
+    type: VARCHAR
+  - name: HELM_MISNAME
+    type: VARCHAR
+  - name: VPICMAKE
+    type: VARCHAR
+  - name: VPICMAKENAME
+    type: VARCHAR
+  - name: VPICMODEL
+    type: VARCHAR
+  - name: VPICMODELNAME
+    type: VARCHAR
+  - name: VPICBODYCLASS
+    type: VARCHAR
+  - name: VPICBODYCLASSNAME
+    type: VARCHAR
+  - name: ICFINALBODY
+    type: VARCHAR
+  - name: ICFINALBODYNAME
+    type: VARCHAR
+  - name: GVWR_FROM
+    type: VARCHAR
+  - name: GVWR_FROMNAME
+    type: VARCHAR
+  - name: GVWR_TO
+    type: VARCHAR
+  - name: GVWR_TONAME
+    type: VARCHAR
+  - name: DEVTYPENAME
+    type: VARCHAR
+  - name: DEVMOTORNAME
+    type: VARCHAR
+  - name: DEVTYPE
+    type: VARCHAR
+  - name: DEVMOTOR
+    type: VARCHAR
+  - name: case_year
+    type: INTEGER

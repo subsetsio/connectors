@@ -1,0 +1,234 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: ano
+    type: BIGINT
+  - name: sigla_uf
+    type: VARCHAR
+  - name: id_municipio
+    type: BIGINT
+  - name: area_total
+    type: DOUBLE
+  - name: area_proprietario
+    type: DOUBLE
+  - name: area_arrendatario
+    type: DOUBLE
+  - name: area_parceiro
+    type: DOUBLE
+  - name: area_ocupante
+    type: DOUBLE
+  - name: area_lavoura_permanente
+    type: DOUBLE
+  - name: area_lavoura_temporaria
+    type: DOUBLE
+  - name: area_pastagem_natural
+    type: DOUBLE
+  - name: area_pastagem_plantada
+    type: DOUBLE
+  - name: area_pastagem
+    type: DOUBLE
+  - name: area_mata_natural
+    type: DOUBLE
+  - name: area_mata_plantada
+    type: DOUBLE
+  - name: area_sistema_agroflorestal
+    type: DOUBLE
+  - name: area_mata
+    type: DOUBLE
+  - name: area_nao_utilizada
+    type: BIGINT
+  - name: quantidade_estabelecimentos
+    type: DOUBLE
+  - name: producao_cafe
+    type: DOUBLE
+  - name: area_cafe
+    type: DOUBLE
+  - name: quantidade_estabelecimentos_cafe
+    type: DOUBLE
+  - name: valor_total_producao_cafe
+    type: BIGINT
+  - name: quantidade_bovinos_total
+    type: BIGINT
+  - name: quantidade_bezerros
+    type: DOUBLE
+  - name: quantidade_bovinos_garrote
+    type: DOUBLE
+  - name: quantidade_bovinos_vaca
+    type: DOUBLE
+  - name: quantidade_bovinos_trabalho
+    type: DOUBLE
+  - name: quantidade_bovinos_touro
+    type: DOUBLE
+  - name: quantidade_estabelecimentos_energia_eletrica
+    type: DOUBLE
+  - name: despesa_total
+    type: DOUBLE
+  - name: despesa_adubos
+    type: DOUBLE
+  - name: despesa_sementes
+    type: DOUBLE
+  - name: despesa_arrendamentos
+    type: DOUBLE
+  - name: despesa_salarios
+    type: DOUBLE
+  - name: despesa_defensivos
+    type: DOUBLE
+  - name: despesa_cotas
+    type: DOUBLE
+  - name: areas_irrigacao
+    type: DOUBLE
+  - name: producao_leite
+    type: BIGINT
+  - name: numero_estabelecimentos_total
+    type: BIGINT
+  - name: numero_estabelecimentos_proprietario
+    type: BIGINT
+  - name: numero_estabelecimentos_arrendatario
+    type: BIGINT
+  - name: numero_estabelecimentos_parceiros
+    type: DOUBLE
+  - name: numero_estabelecimentos_ocupantes
+    type: DOUBLE
+  - name: numero_estabelecimentos_outros
+    type: DOUBLE
+  - name: numero_estabelecimentos_nenhuma
+    type: DOUBLE
+  - name: numero_estabelecimentos_cooperativas
+    type: DOUBLE
+  - name: numero_estabelecimentos_cooperativas_credito
+    type: DOUBLE
+  - name: numero_estabelecimentos_cooperativa_energia_eletrica
+    type: DOUBLE
+  - name: numero_estabelecimentos_cooperativa_energia_outras
+    type: DOUBLE
+  - name: quantidade_tratores
+    type: DOUBLE
+  - name: quantidade_maquina_colheita
+    type: DOUBLE
+  - name: quantidade_maquinas_plantio
+    type: DOUBLE
+  - name: quantidade_tratores_estabelecimentos_menor_10
+    type: DOUBLE
+  - name: quantidade_tratores_estabelecimentos_maior_10
+    type: DOUBLE
+  - name: pessoal_ocupado_total
+    type: DOUBLE
+  - name: pessoal_ocupado_parentesco_produtor
+    type: DOUBLE
+  - name: pessoal_14_mais_sem_parentesco
+    type: DOUBLE
+  - name: pessoal_14_mais_com_parentesco_produtor
+    type: DOUBLE
+  - name: pessoal_14_mais_empregadas
+    type: DOUBLE
+  - name: pessoal_14_mais_ocupado
+    type: DOUBLE
+  - name: valor_producao_total
+    type: DOUBLE
+  - name: valor_producao_total_animal
+    type: DOUBLE
+  - name: valor_total_producao_animal_grande
+    type: DOUBLE
+  - name: valor_total_producao_animal_medio
+    type: DOUBLE
+  - name: valor_total_producao_aves
+    type: DOUBLE
+  - name: valor_total_producao_vegetal
+    type: DOUBLE
+  - name: valor_total_producao_hortifruti
+    type: DOUBLE
+  - name: valor_total_producao_silvicultura
+    type: DOUBLE
+  - name: valor_total_producao_vegicultura
+    type: DOUBLE
+  - name: valor_total_producao_lavoura_temporaria
+    type: DOUBLE
+  - name: valor_total_producao_lavoura_permanente
+    type: DOUBLE
+  - name: producao_total_arroz
+    type: DOUBLE
+  - name: producao_total_feijao
+    type: DOUBLE
+  - name: producao_total_milho
+    type: DOUBLE
+  - name: producao_total_mandioca
+    type: DOUBLE
+  - name: producao_total_soja
+    type: DOUBLE
+  - name: producao_total_algodao
+    type: DOUBLE
+  - name: producao_total_cana
+    type: DOUBLE
+  - name: producao_total_trigo
+    type: DOUBLE
+  - name: area_arroz
+    type: DOUBLE
+  - name: area_feijao
+    type: DOUBLE
+  - name: area_milho
+    type: DOUBLE
+  - name: area_mandioca
+    type: DOUBLE
+  - name: area_soja
+    type: DOUBLE
+  - name: area_algodao
+    type: DOUBLE
+  - name: area_cana
+    type: DOUBLE
+  - name: area_trigo
+    type: DOUBLE
+  - name: numero_estabelecimentos_arroz
+    type: DOUBLE
+  - name: numero_estabelecimentos_feijao
+    type: DOUBLE
+  - name: numero_estabelecimentos_milho
+    type: DOUBLE
+  - name: numero_estabelecimentos_mandioca
+    type: DOUBLE
+  - name: numero_estabelecimentos_soja
+    type: DOUBLE
+  - name: numero_estabelecimentos_algodao
+    type: DOUBLE
+  - name: numero_estabelecimentos_cana
+    type: DOUBLE
+  - name: numero_estabelecimentos_trigo
+    type: DOUBLE
+  - name: valor_total_arroz
+    type: DOUBLE
+  - name: valor_total_feijao
+    type: DOUBLE
+  - name: valor_total_milho
+    type: DOUBLE
+  - name: valor_total_mandioca
+    type: DOUBLE
+  - name: valor_total_soja
+    type: DOUBLE
+  - name: valor_total_algodao
+    type: DOUBLE
+  - name: valor_total_cana
+    type: DOUBLE
+  - name: valor_total_trigo
+    type: DOUBLE
+  - name: valor_total
+    type: DOUBLE
+  - name: valor_total_terras
+    type: DOUBLE
+  - name: valor_total_cultura_permanente
+    type: DOUBLE
+  - name: valor_total_matas_plantadas
+    type: DOUBLE
+  - name: valor_total_predios_benfeitorias
+    type: DOUBLE
+  - name: valor_total_animais
+    type: DOUBLE
+  - name: valor_total_animais_transporte
+    type: DOUBLE
+  - name: valor_total_maquinas_transporte
+    type: DOUBLE
+  - name: proporcao_despesa_fertilizante
+    type: DOUBLE
+  - name: proporcao_despesa_defensivos
+    type: DOUBLE
+  - name: proporcao_despesa_sementes
+    type: DOUBLE
+  - name: proporcao_despesa_salarios
+    type: DOUBLE

@@ -1,0 +1,52 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: season
+sort: [season]
+columns:
+  - name: game_id
+    type: VARCHAR
+  - name: pfr_game_id
+    type: VARCHAR
+  - name: season
+    type: INTEGER
+  - name: week
+    type: INTEGER
+  - name: game_type
+    type: VARCHAR
+  - name: team
+    type: VARCHAR
+  - name: opponent
+    type: VARCHAR
+  - name: pfr_player_name
+    type: VARCHAR
+  - name: pfr_player_id
+    type: VARCHAR
+  - name: passing_drops
+    type: DOUBLE
+  - name: passing_drop_pct
+    type: DOUBLE
+  - name: receiving_drop
+    type: DOUBLE
+  - name: receiving_drop_pct
+    type: DOUBLE
+  - name: passing_bad_throws
+    type: DOUBLE
+  - name: passing_bad_throw_pct
+    type: DOUBLE
+  - name: times_sacked
+    type: DOUBLE
+  - name: times_blitzed
+    type: DOUBLE
+  - name: times_hurried
+    type: DOUBLE
+  - name: times_hit
+    type: DOUBLE
+  - name: times_pressured
+    type: DOUBLE
+  - name: times_pressured_pct
+    type: DOUBLE
+  - name: def_times_blitzed
+    type: DOUBLE
+  - name: def_times_hurried
+    type: DOUBLE
+  - name: def_times_hitqb
+    type: DOUBLE

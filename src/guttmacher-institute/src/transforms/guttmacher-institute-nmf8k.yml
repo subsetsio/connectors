@@ -1,0 +1,360 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: a_country
+    type: VARCHAR
+  - name: a_data_source_year
+    type: VARCHAR
+  - name: a_iso_numeric
+    type: BIGINT
+  - name: a_region
+    type: VARCHAR
+  - name: a_subregion
+    type: VARCHAR
+  - name: a_wra
+    type: DOUBLE
+  - name: a_pct_currentlymarried
+    type: DOUBLE
+  - name: a_pct_formerlymarried
+    type: DOUBLE
+  - name: a_pct_nevermarried
+    type: DOUBLE
+  - name: a_allpreg
+    type: DOUBLE
+  - name: a_allpreg_birth
+    type: DOUBLE
+  - name: a_allpreg_abortion
+    type: DOUBLE
+  - name: a_allpreg_miscar
+    type: DOUBLE
+  - name: a_allpreg_stillbirth
+    type: DOUBLE
+  - name: a_ipreg
+    type: DOUBLE
+  - name: a_ipreg_birth
+    type: DOUBLE
+  - name: a_ipreg_abortion
+    type: BIGINT
+  - name: a_ipreg_miscar
+    type: DOUBLE
+  - name: a_ipreg_stillbirth
+    type: DOUBLE
+  - name: a_upreg
+    type: DOUBLE
+  - name: a_upreg_birth
+    type: DOUBLE
+  - name: a_upreg_abortion
+    type: DOUBLE
+  - name: a_upreg_miscar
+    type: DOUBLE
+  - name: a_upreg_stillbirth
+    type: DOUBLE
+  - name: a_pct_upreg
+    type: DOUBLE
+  - name: a_pct_upreg_larcster
+    type: DOUBLE
+  - name: a_pct_upreg_sarc
+    type: DOUBLE
+  - name: a_pct_upreg_trad
+    type: DOUBLE
+  - name: a_pct_upreg_nouse
+    type: DOUBLE
+  - name: a_pct_matdeaths_abortions
+    type: DOUBLE
+  - name: a_pct_matdeaths_safeabs
+    type: DOUBLE
+  - name: a_pct_matdeaths_unsafeabs
+    type: DOUBLE
+  - name: a_pct_matdeaths_miscar
+    type: DOUBLE
+  - name: a_pct_matdeaths_ectopic
+    type: DOUBLE
+  - name: a_pct_matdeaths_hem
+    type: DOUBLE
+  - name: a_pct_matdeaths_hyptn
+    type: DOUBLE
+  - name: a_pct_matdeaths_inf
+    type: DOUBLE
+  - name: a_pct_matdeaths_other
+    type: DOUBLE
+  - name: a_pct_matdeaths_indirect
+    type: DOUBLE
+  - name: a_rate_matdeaths
+    type: DOUBLE
+  - name: a_rate_matdeaths_ipreg
+    type: DOUBLE
+  - name: a_rate_matdeaths_upreg
+    type: DOUBLE
+  - name: a_rate_matdeaths_nonabs
+    type: DOUBLE
+  - name: a_rate_matdeaths_upreg_nonabs
+    type: DOUBLE
+  - name: a_rate_matdeaths_abs
+    type: DOUBLE
+  - name: a_rate_matdeaths_safeabs
+    type: DOUBLE
+  - name: a_rate_matdeaths_unsafeabs
+    type: DOUBLE
+  - name: a_inneed
+    type: DOUBLE
+  - name: a_modmethods
+    type: DOUBLE
+  - name: a_femster
+    type: DOUBLE
+  - name: a_malester
+    type: DOUBLE
+  - name: a_iud
+    type: DOUBLE
+  - name: a_implant
+    type: DOUBLE
+  - name: a_inj
+    type: DOUBLE
+  - name: a_pill
+    type: DOUBLE
+  - name: a_condom
+    type: DOUBLE
+  - name: a_patchring
+    type: DOUBLE
+  - name: a_ecp
+    type: DOUBLE
+  - name: a_femcondom
+    type: DOUBLE
+  - name: a_lam
+    type: DOUBLE
+  - name: a_fabm
+    type: DOUBLE
+  - name: a_othersup
+    type: DOUBLE
+  - name: a_unmetneed
+    type: DOUBLE
+  - name: a_tradmethods
+    type: DOUBLE
+  - name: a_nomethod
+    type: DOUBLE
+  - name: a_noneed
+    type: DOUBLE
+  - name: a_dem_satisfied
+    type: DOUBLE
+  - name: a_pct_sev_preeclamp_need
+    type: DOUBLE
+  - name: a_pct_eclamp_need
+    type: DOUBLE
+  - name: a_pct_obstlabor_need
+    type: DOUBLE
+  - name: a_pct_sepsis_need
+    type: DOUBLE
+  - name: a_pct_aphem_need
+    type: DOUBLE
+  - name: a_pct_pphem_need
+    type: DOUBLE
+  - name: a_pct_sev_preeclamp_care
+    type: DOUBLE
+  - name: a_pct_eclamp_care
+    type: DOUBLE
+  - name: a_pct_obstlabor_care
+    type: DOUBLE
+  - name: a_pct_sepsis_care
+    type: DOUBLE
+  - name: a_pct_aphem_care
+    type: DOUBLE
+  - name: a_pct_pphem_care
+    type: DOUBLE
+  - name: a_pct_asphyxia_need
+    type: DOUBLE
+  - name: a_pct_lbw_need
+    type: DOUBLE
+  - name: a_pct_sepsisinf_need
+    type: DOUBLE
+  - name: a_pct_asphyxia_care
+    type: DOUBLE
+  - name: a_pct_lbw_care
+    type: DOUBLE
+  - name: a_pct_sepsisinf_care
+    type: DOUBLE
+  - name: a_hivpos_livebirth
+    type: DOUBLE
+  - name: a_hivpos_livebirth_art
+    type: BIGINT
+  - name: a_hiv_perinatal_current
+    type: DOUBLE
+  - name: a_hiv_perinatal_full
+    type: DOUBLE
+  - name: a_hiv_general_epidemic
+    type: BIGINT
+  - name: a_anc_less4
+    type: DOUBLE
+  - name: a_anc_4plus
+    type: DOUBLE
+  - name: a_facility_delivery_yes
+    type: DOUBLE
+  - name: a_facility_delivery_no
+    type: DOUBLE
+  - name: a_sba_delivery
+    type: DOUBLE
+  - name: a_csection
+    type: DOUBLE
+  - name: a_upreg_no_cp
+    type: DOUBLE
+  - name: a_upreg_birth_no_cp
+    type: DOUBLE
+  - name: a_upreg_abortion_no_cp
+    type: DOUBLE
+  - name: a_upreg_miscar_no_cp
+    type: DOUBLE
+  - name: a_upreg_stillbirth_no_cp
+    type: DOUBLE
+  - name: a_upreg_all_cp
+    type: DOUBLE
+  - name: a_upreg_births_all_cp
+    type: DOUBLE
+  - name: a_upreg_abortion_all_cp
+    type: DOUBLE
+  - name: a_upreg_miscar_all_cp
+    type: DOUBLE
+  - name: a_upreg_stillbirth_all_cp
+    type: DOUBLE
+  - name: a_maternaldeath_no_cp_no_prnc
+    type: DOUBLE
+  - name: a_maternaldeath
+    type: DOUBLE
+  - name: a_maternaldeath_all_cp_curr_prnc
+    type: DOUBLE
+  - name: a_maternaldeath_curr_cp_all_prnc
+    type: DOUBLE
+  - name: a_maternaldeath_all_cp_all_prnc
+    type: DOUBLE
+  - name: a_pac_curr
+    type: DOUBLE
+  - name: a_pac_all_cp_all_prnc
+    type: DOUBLE
+  - name: a_pac_all_cp_all_prnc_safeab
+    type: DOUBLE
+  - name: a_femster_failrate
+    type: DOUBLE
+  - name: a_malester_failrate
+    type: DOUBLE
+  - name: a_iud_failrate
+    type: DOUBLE
+  - name: a_implant_failrate
+    type: DOUBLE
+  - name: a_inj_failrate
+    type: DOUBLE
+  - name: a_pill_failrate
+    type: DOUBLE
+  - name: a_condom_failrate
+    type: DOUBLE
+  - name: a_otherhorm_failrate
+    type: DOUBLE
+  - name: a_femcondom_failrate
+    type: DOUBLE
+  - name: a_lam_failrate
+    type: DOUBLE
+  - name: a_fabm_failrate
+    type: DOUBLE
+  - name: a_othersup_failrate
+    type: DOUBLE
+  - name: a_perabs_failrate
+    type: DOUBLE
+  - name: a_withdraw_failrate
+    type: DOUBLE
+  - name: a_othertrad_failrate
+    type: DOUBLE
+  - name: a_nomethod_failrate
+    type: DOUBLE
+  - name: a_curr_costs
+    type: DOUBLE
+  - name: a_curr_costs_percap
+    type: DOUBLE
+  - name: a_curr_costs_direct
+    type: DOUBLE
+  - name: a_curr_costs_progsys
+    type: DOUBLE
+  - name: a_curr_cp_costs
+    type: DOUBLE
+  - name: a_curr_costs_cp_percap
+    type: DOUBLE
+  - name: a_curr_cp_costs_direct
+    type: DOUBLE
+  - name: a_curr_cp_costs_progsys
+    type: DOUBLE
+  - name: a_curr_prnc_costs
+    type: DOUBLE
+  - name: a_curr_costs_prnc_percap
+    type: DOUBLE
+  - name: a_curr_prnc_costs_direct
+    type: DOUBLE
+  - name: a_curr_prnc_costs_progsys
+    type: DOUBLE
+  - name: a_curr_prnc_costs_ipreg
+    type: DOUBLE
+  - name: a_curr_prnc_costs_upreg
+    type: DOUBLE
+  - name: a_curr_prnc_costs_anc
+    type: DOUBLE
+  - name: a_curr_prnc_costs_delpostnatal
+    type: DOUBLE
+  - name: a_curr_prnc_costs_newborn
+    type: DOUBLE
+  - name: a_curr_prnc_costs_pmtct
+    type: DOUBLE
+  - name: a_curr_abortion_pac_costs
+    type: DOUBLE
+  - name: a_curr_abortion_pac_costs_percap
+    type: DOUBLE
+  - name: a_curr_abortion_costs_direct
+    type: DOUBLE
+  - name: a_curr_abortion_costs_progsys
+    type: DOUBLE
+  - name: a_curr_abortion_costs_service
+    type: DOUBLE
+  - name: a_curr_pac_costs
+    type: DOUBLE
+  - name: a_all_costs
+    type: DOUBLE
+  - name: a_all_costs_percap
+    type: DOUBLE
+  - name: a_all_costs_direct
+    type: DOUBLE
+  - name: a_all_costs_progsys
+    type: DOUBLE
+  - name: a_all_inc_costs_percap_curr2all
+    type: DOUBLE
+  - name: a_all_costs_cp
+    type: DOUBLE
+  - name: a_all_costs_cp_percap
+    type: DOUBLE
+  - name: a_all_cp_costs_direct
+    type: DOUBLE
+  - name: a_all_cp_costs_progsys
+    type: DOUBLE
+  - name: a_all_prnc_costs
+    type: DOUBLE
+  - name: a_all_costs_prnc_percap
+    type: DOUBLE
+  - name: a_all_prnc_costs_direct
+    type: DOUBLE
+  - name: a_all_prnc_costs_progsys
+    type: DOUBLE
+  - name: a_all_prnc_costs_ipreg
+    type: DOUBLE
+  - name: a_all_prnc_costs_upreg
+    type: DOUBLE
+  - name: a_all_prnc_costs_anc
+    type: DOUBLE
+  - name: a_all_prnc_costs_delpostnatal
+    type: DOUBLE
+  - name: a_all_prnc_costs_newborn
+    type: DOUBLE
+  - name: a_all_prnc_costs_pmtct
+    type: DOUBLE
+  - name: a_all_abortion_pac_costs
+    type: DOUBLE
+  - name: a_all_abortion_pac_costs_percap
+    type: DOUBLE
+  - name: a_all_abortion_costs_direct
+    type: DOUBLE
+  - name: a_all_abortion_costs_progsys
+    type: DOUBLE
+  - name: a_all_abortion_costs_service
+    type: DOUBLE
+  - name: a_all_pac_costs
+    type: DOUBLE

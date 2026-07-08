@@ -1,0 +1,68 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: conflict_id
+    type: BIGINT
+  - name: dyad_id
+    type: BIGINT
+  - name: org
+    type: BIGINT
+  - name: side_a_name
+    type: VARCHAR
+  - name: side_a_name_fulltext
+    type: VARCHAR
+  - name: side_a_name_mothertongue
+    type: VARCHAR
+  - name: side_a_id
+    type: BIGINT
+  - name: side_a_components
+    type: VARCHAR
+  - name: side_a_2nd
+    type: VARCHAR
+  - name: gwno_a_2nd
+    type: BIGINT
+  - name: side_b_name
+    type: VARCHAR
+  - name: side_b_name_fulltext
+    type: VARCHAR
+  - name: side_b_name_mothertongue
+    type: VARCHAR
+  - name: side_b_id
+    type: BIGINT
+  - name: side_b_components
+    type: VARCHAR
+  - name: side_b_2nd
+    type: VARCHAR
+  - name: gwno_b_2nd
+    type: VARCHAR
+  - name: start_date
+    type: DATE
+  - name: start_prec
+    type: BIGINT
+  - name: start_date2
+    type: DATE
+  - name: start_prec2
+    type: BIGINT
+  - name: ep_end
+    type: BIGINT
+  - name: ep_end_date
+    type: DATE
+  - name: ep_end_prec
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: best_fatality_estimate
+    type: BIGINT
+  - name: low_fatality_estimate
+    type: BIGINT
+  - name: high_fatality_estimate
+    type: BIGINT
+  - name: location
+    type: VARCHAR
+  - name: gwno_location
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: version
+    type: DOUBLE

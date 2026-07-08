@@ -1,0 +1,13 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [series, year, country]
+temporal: year
+sort: [year, series, country]
+columns:
+  - name: series
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: country
+    type: VARCHAR
+  - name: index_2010_100
+    type: DOUBLE

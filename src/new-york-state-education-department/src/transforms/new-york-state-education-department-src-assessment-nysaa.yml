@@ -1,0 +1,58 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: report_year
+    type: BIGINT
+  - name: entity_cd
+    type: VARCHAR
+  - name: entity_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: subject
+    type: VARCHAR
+  - name: subgroup_name
+    type: VARCHAR
+  - name: tested
+    type: BIGINT
+  - name: not_tested
+    type: BIGINT
+  - name: level1_count
+    type: BIGINT
+  - name: level1_pertested
+    type: BIGINT
+  - name: level2_count
+    type: BIGINT
+  - name: level2_pertested
+    type: BIGINT
+  - name: level3_count
+    type: BIGINT
+  - name: level3_pertested
+    type: BIGINT
+  - name: level4_count
+    type: BIGINT
+  - name: level4_pertested
+    type: BIGINT
+  - name: institution_id
+    type: JSON
+  - name: total
+    type: JSON
+  - name: not_tested_per
+    type: JSON
+  - name: exempt
+    type: JSON
+  - name: exempt_per
+    type: JSON
+  - name: per_tested
+    type: JSON
+  - name: level1_per
+    type: JSON
+  - name: level2_per
+    type: JSON
+  - name: level3_per
+    type: JSON
+  - name: level4_per
+    type: JSON
+  - name: proficient_count
+    type: JSON
+  - name: proficient_per
+    type: JSON

@@ -1,0 +1,97 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [game_id]
+temporal: season
+sort: [season, game_id]
+columns:
+  - name: game_id
+    type: VARCHAR
+  - name: season
+    type: INTEGER
+  - name: game_type
+    type: VARCHAR
+  - name: week
+    type: INTEGER
+  - name: gameday
+    type: VARCHAR
+  - name: weekday
+    type: VARCHAR
+  - name: gametime
+    type: VARCHAR
+  - name: away_team
+    type: VARCHAR
+  - name: away_score
+    type: INTEGER
+  - name: home_team
+    type: VARCHAR
+  - name: home_score
+    type: INTEGER
+  - name: location
+    type: VARCHAR
+  - name: result
+    type: INTEGER
+  - name: total
+    type: INTEGER
+  - name: overtime
+    type: INTEGER
+  - name: old_game_id
+    type: VARCHAR
+  - name: gsis
+    type: INTEGER
+  - name: nfl_detail_id
+    type: VARCHAR
+  - name: pfr
+    type: VARCHAR
+  - name: pff
+    type: INTEGER
+  - name: espn
+    type: VARCHAR
+  - name: ftn
+    type: INTEGER
+  - name: away_rest
+    type: INTEGER
+  - name: home_rest
+    type: INTEGER
+  - name: away_moneyline
+    type: INTEGER
+  - name: home_moneyline
+    type: INTEGER
+  - name: spread_line
+    type: DOUBLE
+  - name: away_spread_odds
+    type: INTEGER
+  - name: home_spread_odds
+    type: INTEGER
+  - name: total_line
+    type: DOUBLE
+  - name: under_odds
+    type: INTEGER
+  - name: over_odds
+    type: INTEGER
+  - name: div_game
+    type: INTEGER
+  - name: roof
+    type: VARCHAR
+  - name: surface
+    type: VARCHAR
+  - name: temp
+    type: INTEGER
+  - name: wind
+    type: INTEGER
+  - name: away_qb_id
+    type: VARCHAR
+  - name: home_qb_id
+    type: VARCHAR
+  - name: away_qb_name
+    type: VARCHAR
+  - name: home_qb_name
+    type: VARCHAR
+  - name: away_coach
+    type: VARCHAR
+  - name: home_coach
+    type: VARCHAR
+  - name: referee
+    type: VARCHAR
+  - name: stadium_id
+    type: VARCHAR
+  - name: stadium
+    type: VARCHAR

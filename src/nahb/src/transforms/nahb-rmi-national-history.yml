@@ -1,0 +1,13 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, indicator]
+temporal: date
+sort: [date, indicator]
+columns:
+  - name: period
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: indicator
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

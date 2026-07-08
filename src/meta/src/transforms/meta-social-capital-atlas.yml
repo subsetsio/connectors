@@ -1,0 +1,174 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: county
+    type: BIGINT
+  - name: county_name
+    type: VARCHAR
+  - name: num_below_p50
+    type: DOUBLE
+  - name: pop2018
+    type: BIGINT
+  - name: ec_county
+    type: DOUBLE
+  - name: ec_se_county
+    type: DOUBLE
+  - name: child_ec_county
+    type: DOUBLE
+  - name: child_ec_se_county
+    type: DOUBLE
+  - name: ec_grp_mem_county
+    type: DOUBLE
+  - name: ec_high_county
+    type: DOUBLE
+  - name: ec_high_se_county
+    type: DOUBLE
+  - name: child_high_ec_county
+    type: DOUBLE
+  - name: child_high_ec_se_county
+    type: DOUBLE
+  - name: ec_grp_mem_high_county
+    type: DOUBLE
+  - name: exposure_grp_mem_county
+    type: DOUBLE
+  - name: exposure_grp_mem_high_county
+    type: DOUBLE
+  - name: child_exposure_county
+    type: DOUBLE
+  - name: child_high_exposure_county
+    type: DOUBLE
+  - name: bias_grp_mem_county
+    type: DOUBLE
+  - name: bias_grp_mem_high_county
+    type: DOUBLE
+  - name: child_bias_county
+    type: DOUBLE
+  - name: child_high_bias_county
+    type: DOUBLE
+  - name: clustering_county
+    type: DOUBLE
+  - name: support_ratio_county
+    type: DOUBLE
+  - name: volunteering_rate_county
+    type: DOUBLE
+  - name: civic_organizations_county
+    type: DOUBLE
+  - name: _source_file
+    type: VARCHAR
+  - name: zip
+    type: BIGINT
+  - name: ec_zip
+    type: DOUBLE
+  - name: ec_se_zip
+    type: DOUBLE
+  - name: nbhd_ec_zip
+    type: DOUBLE
+  - name: ec_grp_mem_zip
+    type: DOUBLE
+  - name: ec_high_zip
+    type: DOUBLE
+  - name: ec_high_se_zip
+    type: DOUBLE
+  - name: nbhd_ec_high_zip
+    type: DOUBLE
+  - name: ec_grp_mem_high_zip
+    type: DOUBLE
+  - name: exposure_grp_mem_zip
+    type: DOUBLE
+  - name: exposure_grp_mem_high_zip
+    type: DOUBLE
+  - name: nbhd_exposure_zip
+    type: DOUBLE
+  - name: bias_grp_mem_zip
+    type: DOUBLE
+  - name: bias_grp_mem_high_zip
+    type: DOUBLE
+  - name: nbhd_bias_zip
+    type: DOUBLE
+  - name: nbhd_bias_high_zip
+    type: DOUBLE
+  - name: clustering_zip
+    type: DOUBLE
+  - name: support_ratio_zip
+    type: DOUBLE
+  - name: volunteering_rate_zip
+    type: DOUBLE
+  - name: civic_organizations_zip
+    type: DOUBLE
+  - name: college
+    type: BIGINT
+  - name: college_name
+    type: VARCHAR
+  - name: mean_students_per_cohort
+    type: DOUBLE
+  - name: ec_own_ses_college
+    type: DOUBLE
+  - name: ec_own_ses_se_college
+    type: DOUBLE
+  - name: ec_parent_ses_college
+    type: DOUBLE
+  - name: ec_parent_ses_se_college
+    type: DOUBLE
+  - name: ec_high_own_ses_college
+    type: DOUBLE
+  - name: ec_high_own_ses_se_college
+    type: DOUBLE
+  - name: ec_high_parent_ses_college
+    type: DOUBLE
+  - name: ec_high_parent_ses_se_college
+    type: DOUBLE
+  - name: exposure_own_ses_college
+    type: DOUBLE
+  - name: exposure_parent_ses_college
+    type: DOUBLE
+  - name: bias_own_ses_college
+    type: DOUBLE
+  - name: bias_parent_ses_college
+    type: DOUBLE
+  - name: bias_high_own_ses_college
+    type: DOUBLE
+  - name: bias_high_parent_ses_college
+    type: DOUBLE
+  - name: clustering_college
+    type: DOUBLE
+  - name: support_ratio_college
+    type: DOUBLE
+  - name: volunteering_rate_college
+    type: DOUBLE
+  - name: high_school
+    type: VARCHAR
+  - name: high_school_name
+    type: VARCHAR
+  - name: students_9_to_12
+    type: BIGINT
+  - name: ec_own_ses_hs
+    type: DOUBLE
+  - name: ec_own_ses_se_hs
+    type: DOUBLE
+  - name: ec_parent_ses_hs
+    type: DOUBLE
+  - name: ec_parent_ses_se_hs
+    type: DOUBLE
+  - name: ec_high_own_ses_hs
+    type: DOUBLE
+  - name: ec_high_own_ses_se_hs
+    type: DOUBLE
+  - name: ec_high_parent_ses_hs
+    type: DOUBLE
+  - name: ec_high_parent_ses_se_hs
+    type: DOUBLE
+  - name: exposure_own_ses_hs
+    type: DOUBLE
+  - name: exposure_parent_ses_hs
+    type: DOUBLE
+  - name: bias_own_ses_hs
+    type: DOUBLE
+  - name: bias_parent_ses_hs
+    type: DOUBLE
+  - name: bias_high_own_ses_hs
+    type: DOUBLE
+  - name: bias_high_parent_ses_hs
+    type: DOUBLE
+  - name: clustering_hs
+    type: DOUBLE
+  - name: volunteering_rate_hs
+    type: DOUBLE

@@ -1,0 +1,41 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [event_id]
+temporal: start_time
+sort: [start_time, event_id]
+columns:
+  - name: event_id
+    type: BIGINT
+  - name: league_id
+    type: BIGINT
+  - name: league_name
+    type: VARCHAR
+  - name: format
+    type: VARCHAR
+  - name: match_class
+    type: VARCHAR
+  - name: start_time
+    type: TIMESTAMP
+  - name: match_date
+    type: DATE
+  - name: season
+    type: INTEGER
+  - name: venue
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: home_team
+    type: VARCHAR
+  - name: away_team
+    type: VARCHAR
+  - name: home_score
+    type: VARCHAR
+  - name: away_score
+    type: VARCHAR
+  - name: winner_team
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: description
+    type: VARCHAR

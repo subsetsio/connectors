@@ -1,0 +1,46 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [Pollster Rating ID]
+sort: [Pollster Rating ID]
+columns:
+  - name: Rank
+    type: BIGINT
+  - name: Pollster
+    type: VARCHAR
+  - name: Pollster Rating ID
+    type: BIGINT
+  - name: Polls Analyzed
+    type: BIGINT
+  - name: AAPOR/Roper
+    type: VARCHAR
+  - name: Banned by 538
+    type: VARCHAR
+  - name: Predictive Plus-Minus
+    type: DOUBLE
+  - name: 538 Grade
+    type: VARCHAR
+  - name: Mean-Reverted Bias
+    type: DOUBLE
+  - name: Races Called Correctly
+    type: DOUBLE
+  - name: Misses Outside MOE
+    type: DOUBLE
+  - name: Simple Average Error
+    type: DOUBLE
+  - name: Simple Expected Error
+    type: DOUBLE
+  - name: Simple Plus-Minus
+    type: DOUBLE
+  - name: Advanced Plus-Minus
+    type: DOUBLE
+  - name: Mean-Reverted Advanced Plus-Minus
+    type: DOUBLE
+  - name: "# of Polls for Bias Analysis"
+    type: BIGINT
+  - name: Bias
+    type: DOUBLE
+  - name: House Effect
+    type: DOUBLE
+  - name: Average Distance from Polling Average (ADPA)
+    type: DOUBLE
+  - name: Herding Penalty
+    type: DOUBLE

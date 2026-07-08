@@ -1,0 +1,15 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [areaid, year]
+temporal: year
+sort: [year, areaid]
+columns:
+  - name: areaid
+    type: VARCHAR
+  - name: area_name
+    type: VARCHAR
+  - name: area_type
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: records
+    type: BIGINT

@@ -1,0 +1,52 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: report_year
+    type: BIGINT
+  - name: entity_cd
+    type: VARCHAR
+  - name: entity_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: subject
+    type: VARCHAR
+  - name: subgroup_name
+    type: VARCHAR
+  - name: state_baseline
+    type: DOUBLE
+  - name: school_baseline
+    type: DOUBLE
+  - name: attend_days
+    type: BIGINT
+  - name: absent_count
+    type: BIGINT
+  - name: absent_rate
+    type: DOUBLE
+  - name: mip
+    type: DOUBLE
+  - name: state_mip
+    type: DOUBLE
+  - name: long_term_goal
+    type: DOUBLE
+  - name: exceed_lt_goal
+    type: DOUBLE
+  - name: end_goal
+    type: BIGINT
+  - name: level
+    type: BIGINT
+  - name: override
+    type: VARCHAR
+  - name: enrollment
+    type: JSON
+  - name: met_sh_target
+    type: JSON
+  - name: met_ag_target
+    type: JSON
+  - name: institution_id
+    type: JSON
+  - name: data_rep_flag
+    type: JSON
+  - name: partial_data_flag
+    type: JSON
+  - name: count_zero_non_display_flag
+    type: JSON

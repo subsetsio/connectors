@@ -1,0 +1,27 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [fbcz_id]
+temporal: cz_gen_ds
+sort: [cz_gen_ds, fbcz_id]
+columns:
+  - name: region
+    type: VARCHAR
+  - name: fbcz_id
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: fbcz_id_num
+    type: BIGINT
+  - name: cz_gen_ds
+    type: DATE
+  - name: win_population
+    type: DOUBLE
+  - name: win_roads_km
+    type: DOUBLE
+  - name: area
+    type: DOUBLE
+  - name: country
+    type: VARCHAR
+  - name: geography
+    type: VARCHAR
+  - name: _source_file
+    type: VARCHAR

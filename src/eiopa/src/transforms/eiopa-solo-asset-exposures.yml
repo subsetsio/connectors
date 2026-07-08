@@ -1,0 +1,28 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: reference_period
+sort: [reference_period]
+columns:
+  - name: reference_period
+    type: VARCHAR
+  - name: nca_iso_code
+    type: VARCHAR
+  - name: reporting_country
+    type: VARCHAR
+  - name: undertaking_type
+    type: VARCHAR
+  - name: cic_main_category
+    type: VARCHAR
+  - name: cic_sub_category
+    type: VARCHAR
+  - name: portfolio_type
+    type: VARCHAR
+  - name: location_of_investment
+    type: VARCHAR
+  - name: real_estate_exposure
+    type: VARCHAR
+  - name: type_of_real_estate_exposure
+    type: VARCHAR
+  - name: value_eur_millions
+    type: DOUBLE
+  - name: extraction_date
+    type: DATE

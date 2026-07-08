@@ -1,0 +1,28 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: trade_date
+    type: DATE
+  - name: settlement_date
+    type: DATE
+  - name: maturity_date
+    type: DATE
+  - name: operation_type
+    type: VARCHAR
+  - name: liquidity_impact
+    type: VARCHAR
+  - name: marginal_rate_pct
+    type: DOUBLE
+  - name: average_bid_rate_pct
+    type: DOUBLE
+  - name: average_alloted_rate_pct
+    type: DOUBLE
+  - name: total_bid_volume_czk_bln
+    type: DOUBLE
+  - name: total_alloted_volume_czk_bln
+    type: DOUBLE
+  - name: total_number_of_bids
+    type: INTEGER
+  - name: total_number_of_alloted_bids
+    type: INTEGER
+  - name: allotment_pct
+    type: DOUBLE

@@ -1,0 +1,60 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: rundate
+    type: VARCHAR
+  - name: this_period
+    type: BIGINT
+  - name: last_period
+    type: BIGINT
+  - name: airport_cluster
+    type: BIGINT
+  - name: rpt_apt_grp_cd
+    type: BIGINT
+  - name: rpt_apt_grp_name
+    type: VARCHAR
+  - name: rpt_apt_name
+    type: VARCHAR
+  - name: total_atms_tp
+    type: BIGINT
+  - name: atms_pa_tp
+    type: BIGINT
+  - name: atms_cg_tp
+    type: BIGINT
+  - name: total_atms_lp
+    type: BIGINT
+  - name: atms_pa_lp
+    type: BIGINT
+  - name: atms_cg_lp
+    type: BIGINT
+  - name: total_atms_pc
+    type: DOUBLE
+  - name: atms_pa_pc
+    type: DOUBLE
+  - name: atms_cg_pc
+    type: DOUBLE
+  - name: release_period
+    type: BIGINT
+  - name: family
+    type: VARCHAR
+  - name: reporting_airport_group_name
+    type: VARCHAR
+  - name: reporting_airport_name
+    type: VARCHAR
+  - name: total_atms_this_period
+    type: BIGINT
+  - name: atms_passenger_aircraft_this_period
+    type: BIGINT
+  - name: atms_cargo_aircraft_this_period
+    type: BIGINT
+  - name: total_atms_last_period
+    type: BIGINT
+  - name: atms_passenger_aircraft_last_period
+    type: BIGINT
+  - name: atms_cargo_aircraft_last_period
+    type: BIGINT
+  - name: total_atms_percent
+    type: VARCHAR
+  - name: atms_passenger_aircraft_percent
+    type: VARCHAR
+  - name: atms_cargo_aircraft_percent
+    type: VARCHAR

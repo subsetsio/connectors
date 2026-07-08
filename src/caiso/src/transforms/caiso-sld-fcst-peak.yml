@@ -1,0 +1,16 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: INTERVALENDTIME_GMT
+sort: [INTERVALENDTIME_GMT]
+columns:
+  - name: OPR_DT
+    type: DATE
+  - name: OPR_HR
+    type: BIGINT
+  - name: TAC_AREA_NAME
+    type: VARCHAR
+  - name: LOAD_MW
+    type: DOUBLE
+  - name: INTERVALSTARTTIME_GMT
+    type: TIMESTAMP
+  - name: INTERVALENDTIME_GMT
+    type: TIMESTAMP

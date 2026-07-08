@@ -1,0 +1,13 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [country, occupation, year]
+temporal: year
+sort: [year, country, occupation]
+columns:
+  - name: country
+    type: VARCHAR
+  - name: occupation
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: employment
+    type: BIGINT

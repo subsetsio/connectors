@@ -1,0 +1,23 @@
+SELECT
+    occurrenceID                              AS occurrence_id,
+    eventID                                   AS event_id,
+    catalogNumber                             AS catalog_number,
+    basisOfRecord                             AS basis_of_record,
+    TRY_CAST(year AS INTEGER)                 AS year,
+    TRY_CAST(month AS INTEGER)                AS month,
+    TRY_CAST(day AS INTEGER)                  AS day,
+    eventTime                                 AS event_time,
+    TRY_CAST(decimalLatitude AS DOUBLE)       AS decimal_latitude,
+    TRY_CAST(decimalLongitude AS DOUBLE)      AS decimal_longitude,
+    TRY_CAST(minimumDepthInMeters AS DOUBLE)  AS minimum_depth_m,
+    TRY_CAST(maximumDepthInMeters AS DOUBLE)  AS maximum_depth_m,
+    samplingProtocol                          AS sampling_protocol,
+    TRY_CAST(sampleSizeValue AS DOUBLE)       AS sample_size_value,
+    sampleSizeUnit                            AS sample_size_unit,
+    taxonID                                   AS taxon_id,
+    scientificNameID                          AS scientific_name_id,
+    scientificName                            AS scientific_name,
+    acceptedNameUsage                         AS accepted_name_usage,
+    TRY_CAST(modified AS TIMESTAMP)           AS modified
+FROM "continuous-plankton-recorder-sahfos-cpr-phyto"
+WHERE occurrenceID IS NOT NULL

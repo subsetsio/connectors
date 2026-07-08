@@ -1,0 +1,36 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: observed_at
+sort: [observed_at]
+columns:
+  - name: station_id
+    type: VARCHAR
+  - name: wx_id
+    type: VARCHAR
+  - name: station_name
+    type: VARCHAR
+  - name: ness_id
+    type: VARCHAR
+  - name: nws_id
+    type: VARCHAR
+  - name: elevation_ft
+    type: INTEGER
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: state
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: subunit
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: observed_at
+    type: TIMESTAMP

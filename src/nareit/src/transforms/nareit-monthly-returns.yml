@@ -1,0 +1,23 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, index]
+temporal: date
+sort: [date, index]
+columns:
+  - name: date
+    type: DATE
+  - name: index
+    type: VARCHAR
+  - name: group
+    type: VARCHAR
+  - name: total_return
+    type: DOUBLE
+  - name: total_index
+    type: DOUBLE
+  - name: price_return
+    type: DOUBLE
+  - name: price_index
+    type: DOUBLE
+  - name: income_return
+    type: DOUBLE
+  - name: dividend_yield
+    type: DOUBLE

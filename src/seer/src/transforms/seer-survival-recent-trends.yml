@@ -1,0 +1,31 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [relative_survival_interval, sex, race, age_range, stage, site, year]
+temporal: year
+sort: [year, relative_survival_interval, sex, race, age_range, stage, site]
+columns:
+  - name: relative_survival_interval
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: race
+    type: VARCHAR
+  - name: age_range
+    type: VARCHAR
+  - name: stage
+    type: VARCHAR
+  - name: site
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: rel_rate
+    type: DOUBLE
+  - name: rel_rate_se
+    type: DOUBLE
+  - name: rel_rate_lower_ci
+    type: DOUBLE
+  - name: rel_rate_upper_ci
+    type: DOUBLE
+  - name: modeled_rel_rate
+    type: DOUBLE
+  - name: count
+    type: BIGINT

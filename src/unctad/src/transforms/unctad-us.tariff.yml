@@ -1,0 +1,34 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: VARCHAR
+  - name: dutytype
+    type: VARCHAR
+  - name: dutytype_label
+    type: VARCHAR
+  - name: market
+    type: VARCHAR
+  - name: market_label
+    type: VARCHAR
+  - name: origin
+    type: VARCHAR
+  - name: origin_label
+    type: VARCHAR
+  - name: productcategory
+    type: VARCHAR
+  - name: productcategory_label
+    type: VARCHAR
+  - name: simple_average_of_rates
+    type: DOUBLE
+  - name: simple_average_of_rates_footnote
+    type: VARCHAR
+  - name: simple_average_of_rates_missing_value
+    type: VARCHAR
+  - name: weighted_average_of_rates
+    type: DOUBLE
+  - name: weighted_average_of_rates_footnote
+    type: VARCHAR
+  - name: weighted_average_of_rates_missing_value
+    type: VARCHAR

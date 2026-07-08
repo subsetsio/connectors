@@ -1,0 +1,13 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, state, revenue_source]
+temporal: year
+sort: [year, state, revenue_source]
+columns:
+  - name: year
+    type: INTEGER
+  - name: state
+    type: VARCHAR
+  - name: revenue_source
+    type: VARCHAR
+  - name: dollars
+    type: BIGINT

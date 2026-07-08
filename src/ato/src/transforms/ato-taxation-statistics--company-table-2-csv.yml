@@ -1,0 +1,798 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: income_year
+sort: [income_year]
+columns:
+  - name: company_type
+    type: VARCHAR
+  - name: net_tax_range
+    type: VARCHAR
+  - name: number_of_companies_no
+    type: VARCHAR
+  - name: other_sales_of_goods_and_services_no
+    type: VARCHAR
+  - name: other_sales_of_goods_and_services
+    type: VARCHAR
+  - name: gross_distribution_from_partnerships_no
+    type: VARCHAR
+  - name: gross_distribution_from_partnerships
+    type: VARCHAR
+  - name: gross_distribution_from_trusts_no
+    type: VARCHAR
+  - name: gross_distribution_from_trusts
+    type: VARCHAR
+  - name: gross_interest_no
+    type: VARCHAR
+  - name: gross_interest
+    type: VARCHAR
+  - name: gross_rent_and_other_leasing_and_hiring_income_no
+    type: VARCHAR
+  - name: gross_rent_and_other_leasing_and_hiring_income
+    type: VARCHAR
+  - name: total_dividends_no
+    type: VARCHAR
+  - name: total_dividends
+    type: VARCHAR
+  - name: fringe_benefit_employee_contributions_no
+    type: VARCHAR
+  - name: fringe_benefit_employee_contributions
+    type: VARCHAR
+  - name: assessable_government_industry_payments_no
+    type: VARCHAR
+  - name: assessable_government_industry_payments
+    type: VARCHAR
+  - name: unrealised_gains_on_revaluation_of_assets_to_fair_value_no
+    type: VARCHAR
+  - name: unrealised_gains_on_revaluation_of_assets_to_fair_value
+    type: VARCHAR
+  - name: other_gross_income_no
+    type: VARCHAR
+  - name: other_gross_income
+    type: VARCHAR
+  - name: total_income_no
+    type: VARCHAR
+  - name: total_income
+    type: VARCHAR
+  - name: cost_of_sales_no
+    type: VARCHAR
+  - name: cost_of_sales
+    type: VARCHAR
+  - name: contractor_sub_contractor_and_commission_expenses_no
+    type: VARCHAR
+  - name: contractor_sub_contractor_and_commission_expenses
+    type: VARCHAR
+  - name: superannuation_expenses_no
+    type: VARCHAR
+  - name: superannuation_expenses
+    type: VARCHAR
+  - name: bad_debts_no
+    type: VARCHAR
+  - name: bad_debts
+    type: VARCHAR
+  - name: lease_expenses_within_australia_no
+    type: VARCHAR
+  - name: lease_expenses_within_australia
+    type: VARCHAR
+  - name: lease_expenses_overseas_no
+    type: VARCHAR
+  - name: lease_expenses_overseas
+    type: VARCHAR
+  - name: rent_expenses_no
+    type: VARCHAR
+  - name: rent_expenses
+    type: VARCHAR
+  - name: interest_expenses_within_australia_no
+    type: VARCHAR
+  - name: interest_expenses_within_australia
+    type: VARCHAR
+  - name: interest_expenses_overseas_no
+    type: VARCHAR
+  - name: interest_expenses_overseas
+    type: VARCHAR
+  - name: depreciation_expenses_no
+    type: VARCHAR
+  - name: depreciation_expenses
+    type: VARCHAR
+  - name: motor_vehicle_expenses_no
+    type: VARCHAR
+  - name: motor_vehicle_expenses
+    type: VARCHAR
+  - name: repairs_and_maintenance_no
+    type: VARCHAR
+  - name: repairs_and_maintenance
+    type: VARCHAR
+  - name: unrealised_losses_on_revaluation_of_assets_to_fair_value_no
+    type: VARCHAR
+  - name: unrealised_losses_on_revaluation_of_assets_to_fair_value
+    type: VARCHAR
+  - name: expenses_from_financial_arrangements_tofa_no
+    type: VARCHAR
+  - name: expenses_from_financial_arrangements_tofa
+    type: VARCHAR
+  - name: all_other_expenses_no
+    type: VARCHAR
+  - name: all_other_expenses
+    type: VARCHAR
+  - name: total_expenses_no
+    type: VARCHAR
+  - name: total_expenses
+    type: VARCHAR
+  - name: total_profit_or_loss_no
+    type: VARCHAR
+  - name: total_profit_or_loss
+    type: VARCHAR
+  - name: net_capital_gain_no
+    type: VARCHAR
+  - name: net_capital_gain
+    type: VARCHAR
+  - name: franking_credits_no
+    type: VARCHAR
+  - name: franking_credits
+    type: VARCHAR
+  - name: australian_franking_credits_from_a_new_zealand_company_no
+    type: VARCHAR
+  - name: australian_franking_credits_from_a_new_zealand_company
+    type: VARCHAR
+  - name: other_assessable_income_no
+    type: VARCHAR
+  - name: other_assessable_income
+    type: VARCHAR
+  - name: non_deductible_expenses_no
+    type: VARCHAR
+  - name: non_deductible_expenses
+    type: VARCHAR
+  - name: accounting_expenditure_in_item_6_subject_to_r_d_tax_incentive_no
+    type: VARCHAR
+  - name: accounting_expenditure_in_item_6_subject_to_r_d_tax_incentive
+    type: VARCHAR
+  - name: subtotal_no
+    type: VARCHAR
+  - name: subtotal
+    type: VARCHAR
+  - name: deduction_for_decline_in_value_of_depreciating_assets_no
+    type: VARCHAR
+  - name: deduction_for_decline_in_value_of_depreciating_assets
+    type: VARCHAR
+  - name: capital_works_deductions_no
+    type: VARCHAR
+  - name: capital_works_deductions
+    type: VARCHAR
+  - name: section_40_880_deduction_no
+    type: VARCHAR
+  - name: section_40_880_deduction
+    type: VARCHAR
+  - name: exempt_income_no
+    type: VARCHAR
+  - name: exempt_income
+    type: VARCHAR
+  - name: other_income_not_included_in_assessable_income_no
+    type: VARCHAR
+  - name: other_income_not_included_in_assessable_income
+    type: VARCHAR
+  - name: other_deductible_expenses_no
+    type: VARCHAR
+  - name: other_deductible_expenses
+    type: VARCHAR
+  - name: tax_losses_deducted_no
+    type: VARCHAR
+  - name: tax_losses_deducted
+    type: VARCHAR
+  - name: subtraction_items_subtotal_no
+    type: VARCHAR
+  - name: subtraction_items_subtotal
+    type: VARCHAR
+  - name: taxable_income_or_loss_no
+    type: VARCHAR
+  - name: taxable_income_or_loss
+    type: VARCHAR
+  - name: opening_stock_no
+    type: VARCHAR
+  - name: opening_stock
+    type: VARCHAR
+  - name: purchases_and_other_costs_no
+    type: VARCHAR
+  - name: purchases_and_other_costs
+    type: VARCHAR
+  - name: closing_stock_no
+    type: VARCHAR
+  - name: closing_stock
+    type: VARCHAR
+  - name: trade_debtors_no
+    type: VARCHAR
+  - name: trade_debtors
+    type: VARCHAR
+  - name: all_current_assets_no
+    type: VARCHAR
+  - name: all_current_assets
+    type: VARCHAR
+  - name: total_assets_no
+    type: VARCHAR
+  - name: total_assets
+    type: VARCHAR
+  - name: trade_creditors_no
+    type: VARCHAR
+  - name: trade_creditors
+    type: VARCHAR
+  - name: all_current_liabilities_no
+    type: VARCHAR
+  - name: all_current_liabilities
+    type: VARCHAR
+  - name: total_liabilities_no
+    type: VARCHAR
+  - name: total_liabilities
+    type: VARCHAR
+  - name: total_debt_no
+    type: VARCHAR
+  - name: total_debt
+    type: VARCHAR
+  - name: franked_dividends_paid_no
+    type: VARCHAR
+  - name: franked_dividends_paid
+    type: VARCHAR
+  - name: unfranked_dividends_paid_no
+    type: VARCHAR
+  - name: unfranked_dividends_paid
+    type: VARCHAR
+  - name: franking_account_balance_no
+    type: VARCHAR
+  - name: franking_account_balance
+    type: VARCHAR
+  - name: loans_to_shareholders_and_their_associates_no
+    type: VARCHAR
+  - name: loans_to_shareholders_and_their_associates
+    type: VARCHAR
+  - name: total_salary_and_wage_expenses_no
+    type: VARCHAR
+  - name: total_salary_and_wage_expenses
+    type: VARCHAR
+  - name: payments_to_associated_persons_no
+    type: VARCHAR
+  - name: payments_to_associated_persons
+    type: VARCHAR
+  - name: gross_foreign_income_no
+    type: VARCHAR
+  - name: gross_foreign_income
+    type: VARCHAR
+  - name: net_foreign_income_no
+    type: VARCHAR
+  - name: net_foreign_income
+    type: VARCHAR
+  - name: total_tofa_gains_no
+    type: VARCHAR
+  - name: total_tofa_gains
+    type: VARCHAR
+  - name: total_tofa_losses_no
+    type: VARCHAR
+  - name: total_tofa_losses
+    type: VARCHAR
+  - name: intangible_depreciating_assets_first_deducted_no
+    type: VARCHAR
+  - name: intangible_depreciating_assets_first_deducted
+    type: VARCHAR
+  - name: other_depreciating_assets_first_deducted_no
+    type: VARCHAR
+  - name: other_depreciating_assets_first_deducted
+    type: VARCHAR
+  - name: total_adjustable_values_at_end_of_income_year_no
+    type: VARCHAR
+  - name: total_adjustable_values_at_end_of_income_year
+    type: VARCHAR
+  - name: termination_value_of_other_depreciating_assets_no
+    type: VARCHAR
+  - name: termination_value_of_other_depreciating_assets
+    type: VARCHAR
+  - name: deduction_for_certain_assets_costing_less_than_6_500_no
+    type: VARCHAR
+  - name: deduction_for_certain_assets_costing_less_than_6_500
+    type: VARCHAR
+  - name: deduction_for_general_small_business_pool_no
+    type: VARCHAR
+  - name: deduction_for_general_small_business_pool
+    type: VARCHAR
+  - name: tax_losses_carried_forward_to_later_income_years_no
+    type: VARCHAR
+  - name: tax_losses_carried_forward_to_later_income_years
+    type: VARCHAR
+  - name: net_capital_losses_carried_forward_to_later_income_years_no
+    type: VARCHAR
+  - name: net_capital_losses_carried_forward_to_later_income_years
+    type: VARCHAR
+  - name: total_amount_of_psi_included_at_item_6_income_labels_no
+    type: VARCHAR
+  - name: total_amount_of_psi_included_at_item_6_income_labels
+    type: VARCHAR
+  - name: total_amount_of_deductions_against_psi_included_at_item_6_expense_labels_no
+    type: VARCHAR
+  - name: total_amount_of_deductions_against_psi_included_at_item_6_expense_labels
+    type: VARCHAR
+  - name: foreign_income_tax_offset_no
+    type: VARCHAR
+  - name: foreign_income_tax_offset
+    type: VARCHAR
+  - name: non_refundable_r_d_tax_offset_no
+    type: VARCHAR
+  - name: non_refundable_r_d_tax_offset
+    type: VARCHAR
+  - name: non_refundable_r_d_tax_offset_carried_forward_from_previous_year_no
+    type: VARCHAR
+  - name: non_refundable_r_d_tax_offset_carried_forward_from_previous_year
+    type: VARCHAR
+  - name: non_refundable_r_d_tax_offset_to_be_utilised_in_current_year_no
+    type: VARCHAR
+  - name: non_refundable_r_d_tax_offset_to_be_utilised_in_current_year
+    type: VARCHAR
+  - name: refundable_r_d_tax_offset_no
+    type: VARCHAR
+  - name: refundable_r_d_tax_offset
+    type: VARCHAR
+  - name: tax_withheld_from_interest_or_investments_no
+    type: VARCHAR
+  - name: tax_withheld_from_interest_or_investments
+    type: VARCHAR
+  - name: other_credits_no
+    type: VARCHAR
+  - name: other_credits
+    type: VARCHAR
+  - name: taxable_or_net_income_no
+    type: VARCHAR
+  - name: taxable_or_net_income
+    type: VARCHAR
+  - name: tax_on_taxable_income_no
+    type: VARCHAR
+  - name: tax_on_taxable_income
+    type: VARCHAR
+  - name: gross_tax_no
+    type: VARCHAR
+  - name: gross_tax
+    type: VARCHAR
+  - name: non_refundable_non_carry_forward_tax_offsets_no
+    type: VARCHAR
+  - name: non_refundable_non_carry_forward_tax_offsets
+    type: VARCHAR
+  - name: subtotal_1_no
+    type: VARCHAR
+  - name: subtotal_1
+    type: VARCHAR
+  - name: non_refundable_carry_forward_tax_offsets_no
+    type: VARCHAR
+  - name: non_refundable_carry_forward_tax_offsets
+    type: VARCHAR
+  - name: subtotal_2_no
+    type: VARCHAR
+  - name: subtotal_2
+    type: VARCHAR
+  - name: refundable_tax_offsets_no
+    type: VARCHAR
+  - name: refundable_tax_offsets
+    type: VARCHAR
+  - name: subtotal_3_no
+    type: VARCHAR
+  - name: subtotal_3
+    type: VARCHAR
+  - name: franking_deficit_tax_offset_no
+    type: VARCHAR
+  - name: franking_deficit_tax_offset
+    type: VARCHAR
+  - name: tax_payable_no
+    type: VARCHAR
+  - name: tax_payable
+    type: VARCHAR
+  - name: eligible_credits_no
+    type: VARCHAR
+  - name: eligible_credits
+    type: VARCHAR
+  - name: remainder_of_refundable_tax_offsets_no
+    type: VARCHAR
+  - name: remainder_of_refundable_tax_offsets
+    type: VARCHAR
+  - name: payg_instalments_raised_no
+    type: VARCHAR
+  - name: payg_instalments_raised
+    type: VARCHAR
+  - name: amount_due_or_refundable_no
+    type: VARCHAR
+  - name: amount_due_or_refundable
+    type: VARCHAR
+  - name: net_tax_no
+    type: VARCHAR
+  - name: net_tax
+    type: VARCHAR
+  - name: income_year
+    type: VARCHAR
+  - name: number_of_companies_no_1
+    type: VARCHAR
+  - name: other_sales_of_goods_and_services_no_1
+    type: VARCHAR
+  - name: other_sales_of_goods_and_services_1
+    type: VARCHAR
+  - name: gross_distribution_from_partnerships_no_1
+    type: VARCHAR
+  - name: gross_distribution_from_partnerships_1
+    type: VARCHAR
+  - name: gross_distribution_from_trusts_no_1
+    type: VARCHAR
+  - name: gross_distribution_from_trusts_1
+    type: VARCHAR
+  - name: gross_interest_no_1
+    type: VARCHAR
+  - name: gross_interest_1
+    type: VARCHAR
+  - name: gross_rent_and_other_leasing_and_hiring_income_no_1
+    type: VARCHAR
+  - name: gross_rent_and_other_leasing_and_hiring_income_1
+    type: VARCHAR
+  - name: total_dividends_no_1
+    type: VARCHAR
+  - name: total_dividends_1
+    type: VARCHAR
+  - name: fringe_benefit_employee_contributions_no_1
+    type: VARCHAR
+  - name: fringe_benefit_employee_contributions_1
+    type: VARCHAR
+  - name: assessable_government_industry_payments_no_1
+    type: VARCHAR
+  - name: assessable_government_industry_payments_1
+    type: VARCHAR
+  - name: unrealised_gains_on_revaluation_of_assets_to_fair_value_no_1
+    type: VARCHAR
+  - name: unrealised_gains_on_revaluation_of_assets_to_fair_value_1
+    type: VARCHAR
+  - name: other_gross_income_no_1
+    type: VARCHAR
+  - name: other_gross_income_1
+    type: VARCHAR
+  - name: cost_of_sales_no_1
+    type: VARCHAR
+  - name: cost_of_sales_1
+    type: VARCHAR
+  - name: contractor_sub_contractor_and_commission_expenses_no_1
+    type: VARCHAR
+  - name: contractor_sub_contractor_and_commission_expenses_1
+    type: VARCHAR
+  - name: superannuation_expenses_no_1
+    type: VARCHAR
+  - name: superannuation_expenses_1
+    type: VARCHAR
+  - name: bad_debts_no_1
+    type: VARCHAR
+  - name: bad_debts_1
+    type: VARCHAR
+  - name: lease_expenses_within_australia_no_1
+    type: VARCHAR
+  - name: lease_expenses_within_australia_1
+    type: VARCHAR
+  - name: lease_expenses_overseas_no_1
+    type: VARCHAR
+  - name: lease_expenses_overseas_1
+    type: VARCHAR
+  - name: rent_expenses_no_1
+    type: VARCHAR
+  - name: rent_expenses_1
+    type: VARCHAR
+  - name: interest_expenses_within_australia_no_1
+    type: VARCHAR
+  - name: interest_expenses_within_australia_1
+    type: VARCHAR
+  - name: interest_expenses_overseas_no_1
+    type: VARCHAR
+  - name: interest_expenses_overseas_1
+    type: VARCHAR
+  - name: royalty_expenses_within_australia_no
+    type: VARCHAR
+  - name: royalty_expenses_within_australia
+    type: VARCHAR
+  - name: royalty_expenses_overseas_no
+    type: VARCHAR
+  - name: royalty_expenses_overseas
+    type: VARCHAR
+  - name: depreciation_expenses_no_1
+    type: VARCHAR
+  - name: depreciation_expenses_1
+    type: VARCHAR
+  - name: motor_vehicle_expenses_no_1
+    type: VARCHAR
+  - name: motor_vehicle_expenses_1
+    type: VARCHAR
+  - name: repairs_and_maintenance_no_1
+    type: VARCHAR
+  - name: repairs_and_maintenance_1
+    type: VARCHAR
+  - name: unrealised_losses_on_revaluation_of_assets_to_fair_value_no_1
+    type: VARCHAR
+  - name: unrealised_losses_on_revaluation_of_assets_to_fair_value_1
+    type: VARCHAR
+  - name: all_other_expenses_no_1
+    type: VARCHAR
+  - name: all_other_expenses_1
+    type: VARCHAR
+  - name: total_expenses_no_1
+    type: VARCHAR
+  - name: total_expenses_1
+    type: VARCHAR
+  - name: total_profit_or_loss_no_1
+    type: VARCHAR
+  - name: total_profit_or_loss_1
+    type: VARCHAR
+  - name: net_capital_gain_no_1
+    type: VARCHAR
+  - name: net_capital_gain_1
+    type: VARCHAR
+  - name: franking_credits_no_1
+    type: VARCHAR
+  - name: franking_credits_1
+    type: VARCHAR
+  - name: australian_franking_credits_from_a_new_zealand_company_no_1
+    type: VARCHAR
+  - name: australian_franking_credits_from_a_new_zealand_company_1
+    type: VARCHAR
+  - name: other_assessable_income_no_1
+    type: VARCHAR
+  - name: other_assessable_income_1
+    type: VARCHAR
+  - name: non_deductible_expenses_no_1
+    type: VARCHAR
+  - name: non_deductible_expenses_1
+    type: VARCHAR
+  - name: accounting_expenditure_in_item_6_subject_to_r_d_tax_incentive_no_1
+    type: VARCHAR
+  - name: accounting_expenditure_in_item_6_subject_to_r_d_tax_incentive_1
+    type: VARCHAR
+  - name: subtotal_no_1
+    type: VARCHAR
+  - name: subtotal_1_1
+    type: VARCHAR
+  - name: deduction_for_decline_in_value_of_depreciating_assets_no_1
+    type: VARCHAR
+  - name: deduction_for_decline_in_value_of_depreciating_assets_1
+    type: VARCHAR
+  - name: capital_works_deductions_no_1
+    type: VARCHAR
+  - name: capital_works_deductions_1
+    type: VARCHAR
+  - name: section_40_880_deduction_no_1
+    type: VARCHAR
+  - name: section_40_880_deduction_1
+    type: VARCHAR
+  - name: exempt_income_no_1
+    type: VARCHAR
+  - name: exempt_income_1
+    type: VARCHAR
+  - name: other_income_not_included_in_assessable_income_no_1
+    type: VARCHAR
+  - name: other_income_not_included_in_assessable_income_1
+    type: VARCHAR
+  - name: other_deductible_expenses_no_1
+    type: VARCHAR
+  - name: other_deductible_expenses_1
+    type: VARCHAR
+  - name: tax_losses_deducted_no_1
+    type: VARCHAR
+  - name: tax_losses_deducted_1
+    type: VARCHAR
+  - name: subtraction_items_subtotal_no_1
+    type: VARCHAR
+  - name: subtraction_items_subtotal_1
+    type: VARCHAR
+  - name: taxable_income_or_loss_no_1
+    type: VARCHAR
+  - name: taxable_income_or_loss_1
+    type: VARCHAR
+  - name: opening_stock_no_1
+    type: VARCHAR
+  - name: opening_stock_1
+    type: VARCHAR
+  - name: purchases_and_other_costs_no_1
+    type: VARCHAR
+  - name: purchases_and_other_costs_1
+    type: VARCHAR
+  - name: closing_stock_no_1
+    type: VARCHAR
+  - name: closing_stock_1
+    type: VARCHAR
+  - name: trade_debtors_no_1
+    type: VARCHAR
+  - name: trade_debtors_1
+    type: VARCHAR
+  - name: all_current_assets_no_1
+    type: VARCHAR
+  - name: all_current_assets_1
+    type: VARCHAR
+  - name: total_assets_no_1
+    type: VARCHAR
+  - name: total_assets_1
+    type: VARCHAR
+  - name: trade_creditors_no_1
+    type: VARCHAR
+  - name: trade_creditors_1
+    type: VARCHAR
+  - name: all_current_liabilities_no_1
+    type: VARCHAR
+  - name: all_current_liabilities_1
+    type: VARCHAR
+  - name: total_liabilities_no_1
+    type: VARCHAR
+  - name: total_liabilities_1
+    type: VARCHAR
+  - name: total_debt_no_1
+    type: VARCHAR
+  - name: total_debt_1
+    type: VARCHAR
+  - name: franked_dividends_paid_no_1
+    type: VARCHAR
+  - name: franked_dividends_paid_1
+    type: VARCHAR
+  - name: unfranked_dividends_paid_no_1
+    type: VARCHAR
+  - name: unfranked_dividends_paid_1
+    type: VARCHAR
+  - name: franking_account_balance_no_1
+    type: VARCHAR
+  - name: franking_account_balance_1
+    type: VARCHAR
+  - name: excess_franking_offsets_no
+    type: VARCHAR
+  - name: excess_franking_offsets
+    type: VARCHAR
+  - name: loans_to_shareholders_and_their_associates_no_1
+    type: VARCHAR
+  - name: loans_to_shareholders_and_their_associates_1
+    type: VARCHAR
+  - name: total_salary_and_wage_expenses_no_1
+    type: VARCHAR
+  - name: total_salary_and_wage_expenses_1
+    type: VARCHAR
+  - name: payments_to_associated_persons_no_1
+    type: VARCHAR
+  - name: payments_to_associated_persons_1
+    type: VARCHAR
+  - name: gross_foreign_income_no_1
+    type: VARCHAR
+  - name: gross_foreign_income_1
+    type: VARCHAR
+  - name: net_foreign_income_no_1
+    type: VARCHAR
+  - name: net_foreign_income_1
+    type: VARCHAR
+  - name: total_tofa_gains_no_1
+    type: VARCHAR
+  - name: total_tofa_gains_1
+    type: VARCHAR
+  - name: total_tofa_losses_no_1
+    type: VARCHAR
+  - name: total_tofa_losses_1
+    type: VARCHAR
+  - name: intangible_depreciating_assets_first_deducted_no_1
+    type: VARCHAR
+  - name: intangible_depreciating_assets_first_deducted_1
+    type: VARCHAR
+  - name: other_depreciating_assets_first_deducted_no_1
+    type: VARCHAR
+  - name: other_depreciating_assets_first_deducted_1
+    type: VARCHAR
+  - name: total_adjustable_values_at_end_of_income_year_no_1
+    type: VARCHAR
+  - name: total_adjustable_values_at_end_of_income_year_1
+    type: VARCHAR
+  - name: termination_value_of_other_depreciating_assets_no_1
+    type: VARCHAR
+  - name: termination_value_of_other_depreciating_assets_1
+    type: VARCHAR
+  - name: deduction_for_certain_assets_costing_less_than_6_500_no_1
+    type: VARCHAR
+  - name: deduction_for_certain_assets_costing_less_than_6_500_1
+    type: VARCHAR
+  - name: deduction_for_general_small_business_pool_no_1
+    type: VARCHAR
+  - name: deduction_for_general_small_business_pool_1
+    type: VARCHAR
+  - name: tax_losses_carried_forward_to_later_income_years_no_1
+    type: VARCHAR
+  - name: tax_losses_carried_forward_to_later_income_years_1
+    type: VARCHAR
+  - name: net_capital_losses_carried_forward_to_later_income_years_no_1
+    type: VARCHAR
+  - name: net_capital_losses_carried_forward_to_later_income_years_1
+    type: VARCHAR
+  - name: total_amount_of_psi_included_at_item_6_income_labels_no_1
+    type: VARCHAR
+  - name: total_amount_of_psi_included_at_item_6_income_labels_1
+    type: VARCHAR
+  - name: total_amount_of_deductions_against_psi_included_at_item_6_expense_labels_no_1
+    type: VARCHAR
+  - name: total_amount_of_deductions_against_psi_included_at_item_6_expense_labels_1
+    type: VARCHAR
+  - name: foreign_income_tax_offset_no_1
+    type: VARCHAR
+  - name: foreign_income_tax_offset_1
+    type: VARCHAR
+  - name: non_refundable_r_d_tax_offset_no_1
+    type: VARCHAR
+  - name: non_refundable_r_d_tax_offset_1
+    type: VARCHAR
+  - name: non_refundable_r_d_tax_offset_carried_forward_from_previous_year_no_1
+    type: VARCHAR
+  - name: non_refundable_r_d_tax_offset_carried_forward_from_previous_year_1
+    type: VARCHAR
+  - name: non_refundable_r_d_tax_offset_to_be_utilised_in_current_year_no_1
+    type: VARCHAR
+  - name: non_refundable_r_d_tax_offset_to_be_utilised_in_current_year_1
+    type: VARCHAR
+  - name: refundable_r_d_tax_offset_no_1
+    type: VARCHAR
+  - name: refundable_r_d_tax_offset_1
+    type: VARCHAR
+  - name: tax_withheld_from_interest_or_investments_no_1
+    type: VARCHAR
+  - name: tax_withheld_from_interest_or_investments_1
+    type: VARCHAR
+  - name: credit_for_tfn_amounts_withheld_from_payments_from_closely_held_trusts_no
+    type: VARCHAR
+  - name: credit_for_tfn_amounts_withheld_from_payments_from_closely_held_trusts
+    type: VARCHAR
+  - name: other_credits_no_1
+    type: VARCHAR
+  - name: other_credits_1
+    type: VARCHAR
+  - name: taxable_or_net_income_no_1
+    type: VARCHAR
+  - name: taxable_or_net_income_1
+    type: VARCHAR
+  - name: tax_on_taxable_income_no_1
+    type: VARCHAR
+  - name: tax_on_taxable_income_1
+    type: VARCHAR
+  - name: gross_tax_no_1
+    type: VARCHAR
+  - name: gross_tax_1
+    type: VARCHAR
+  - name: non_refundable_non_carry_forward_tax_offsets_no_1
+    type: VARCHAR
+  - name: non_refundable_non_carry_forward_tax_offsets_1
+    type: VARCHAR
+  - name: subtotal_1_no_1
+    type: VARCHAR
+  - name: subtotal_1_1_1
+    type: VARCHAR
+  - name: non_refundable_carry_forward_tax_offsets_no_1
+    type: VARCHAR
+  - name: non_refundable_carry_forward_tax_offsets_1
+    type: VARCHAR
+  - name: subtotal_2_no_1
+    type: VARCHAR
+  - name: subtotal_2_1
+    type: VARCHAR
+  - name: refundable_tax_offsets_no_1
+    type: VARCHAR
+  - name: refundable_tax_offsets_1
+    type: VARCHAR
+  - name: subtotal_3_no_1
+    type: VARCHAR
+  - name: subtotal_3_1
+    type: VARCHAR
+  - name: franking_deficit_tax_offset_no_1
+    type: VARCHAR
+  - name: franking_deficit_tax_offset_1
+    type: VARCHAR
+  - name: tax_payable_no_1
+    type: VARCHAR
+  - name: tax_payable_1
+    type: VARCHAR
+  - name: eligible_credits_no_1
+    type: VARCHAR
+  - name: eligible_credits_1
+    type: VARCHAR
+  - name: remainder_of_refundable_tax_offsets_no_1
+    type: VARCHAR
+  - name: remainder_of_refundable_tax_offsets_1
+    type: VARCHAR
+  - name: payg_instalments_raised_no_1
+    type: VARCHAR
+  - name: payg_instalments_raised_1
+    type: VARCHAR
+  - name: amount_due_or_refundable_no_1
+    type: VARCHAR
+  - name: amount_due_or_refundable_1
+    type: VARCHAR
+  - name: net_tax_no_1
+    type: VARCHAR
+  - name: net_tax_1
+    type: VARCHAR

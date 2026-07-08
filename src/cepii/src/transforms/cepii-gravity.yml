@@ -1,0 +1,179 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, country_id_o, country_id_d]
+temporal: year
+sort: [year, country_id_o, country_id_d]
+columns:
+  - name: year
+    type: BIGINT
+  - name: country_id_o
+    type: VARCHAR
+  - name: country_id_d
+    type: VARCHAR
+  - name: iso3_o
+    type: VARCHAR
+  - name: iso3_d
+    type: VARCHAR
+  - name: iso3num_o
+    type: BIGINT
+  - name: iso3num_d
+    type: BIGINT
+  - name: country_exists_o
+    type: BIGINT
+  - name: country_exists_d
+    type: BIGINT
+  - name: gmt_offset_2020_o
+    type: DOUBLE
+  - name: gmt_offset_2020_d
+    type: DOUBLE
+  - name: distw_harmonic
+    type: BIGINT
+  - name: distw_arithmetic
+    type: BIGINT
+  - name: distw_harmonic_jh
+    type: BIGINT
+  - name: distw_arithmetic_jh
+    type: BIGINT
+  - name: dist
+    type: BIGINT
+  - name: main_city_source_o
+    type: VARCHAR
+  - name: main_city_source_d
+    type: VARCHAR
+  - name: distcap
+    type: BIGINT
+  - name: contig
+    type: BIGINT
+  - name: diplo_disagreement
+    type: DOUBLE
+  - name: scaled_sci_2021
+    type: BIGINT
+  - name: comlang_off
+    type: BIGINT
+  - name: comlang_ethno
+    type: BIGINT
+  - name: comcol
+    type: BIGINT
+  - name: col45
+    type: BIGINT
+  - name: legal_old_o
+    type: BIGINT
+  - name: legal_old_d
+    type: BIGINT
+  - name: legal_new_o
+    type: BIGINT
+  - name: legal_new_d
+    type: BIGINT
+  - name: comleg_pretrans
+    type: BIGINT
+  - name: comleg_posttrans
+    type: BIGINT
+  - name: transition_legalchange
+    type: BIGINT
+  - name: comrelig
+    type: DOUBLE
+  - name: heg_o
+    type: BIGINT
+  - name: heg_d
+    type: BIGINT
+  - name: col_dep_ever
+    type: BIGINT
+  - name: col_dep
+    type: BIGINT
+  - name: col_dep_end_year
+    type: VARCHAR
+  - name: col_dep_end_conflict
+    type: VARCHAR
+  - name: empire
+    type: VARCHAR
+  - name: sibling_ever
+    type: BIGINT
+  - name: sibling
+    type: BIGINT
+  - name: sever_year
+    type: BIGINT
+  - name: sib_conflict
+    type: BIGINT
+  - name: pop_o
+    type: DOUBLE
+  - name: pop_d
+    type: DOUBLE
+  - name: gdp_o
+    type: DOUBLE
+  - name: gdp_d
+    type: DOUBLE
+  - name: gdpcap_o
+    type: DOUBLE
+  - name: gdpcap_d
+    type: DOUBLE
+  - name: pop_source_o
+    type: BIGINT
+  - name: pop_source_d
+    type: BIGINT
+  - name: gdp_source_o
+    type: BIGINT
+  - name: gdp_source_d
+    type: BIGINT
+  - name: gdp_ppp_o
+    type: DOUBLE
+  - name: gdp_ppp_d
+    type: DOUBLE
+  - name: gdpcap_ppp_o
+    type: DOUBLE
+  - name: gdpcap_ppp_d
+    type: DOUBLE
+  - name: pop_pwt_o
+    type: DOUBLE
+  - name: pop_pwt_d
+    type: DOUBLE
+  - name: gdp_ppp_pwt_o
+    type: DOUBLE
+  - name: gdp_ppp_pwt_d
+    type: DOUBLE
+  - name: gatt_o
+    type: BIGINT
+  - name: gatt_d
+    type: BIGINT
+  - name: wto_o
+    type: BIGINT
+  - name: wto_d
+    type: BIGINT
+  - name: eu_o
+    type: BIGINT
+  - name: eu_d
+    type: BIGINT
+  - name: fta_wto
+    type: BIGINT
+  - name: fta_wto_raw
+    type: BIGINT
+  - name: rta_coverage
+    type: VARCHAR
+  - name: rta_type
+    type: VARCHAR
+  - name: entry_cost_o
+    type: DOUBLE
+  - name: entry_cost_d
+    type: DOUBLE
+  - name: entry_proc_o
+    type: BIGINT
+  - name: entry_proc_d
+    type: BIGINT
+  - name: entry_time_o
+    type: DOUBLE
+  - name: entry_time_d
+    type: DOUBLE
+  - name: entry_tp_o
+    type: DOUBLE
+  - name: entry_tp_d
+    type: DOUBLE
+  - name: tradeflow_comtrade_o
+    type: DOUBLE
+  - name: tradeflow_comtrade_d
+    type: DOUBLE
+  - name: tradeflow_baci
+    type: DOUBLE
+  - name: manuf_tradeflow_baci
+    type: DOUBLE
+  - name: tradeflow_imf_o
+    type: DOUBLE
+  - name: tradeflow_imf_d
+    type: DOUBLE

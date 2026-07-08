@@ -1,0 +1,13 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [period_label, series]
+temporal: period_label
+sort: [period_label, series]
+columns:
+  - name: period_label
+    type: VARCHAR
+  - name: period_ts
+    type: TIMESTAMP
+  - name: series
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,282 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: time
+    type: TIMESTAMPTZ
+  - name: AL_pv_national_current
+    type: DOUBLE
+  - name: AT_pv_national_current
+    type: DOUBLE
+  - name: AT_wind_national_current
+    type: DOUBLE
+  - name: AT_wind_national_near-termfuture
+    type: DOUBLE
+  - name: BA_pv_national_current
+    type: DOUBLE
+  - name: BE_pv_national_current
+    type: DOUBLE
+  - name: BE_wind_national_current
+    type: DOUBLE
+  - name: BE_wind_offshore_current
+    type: DOUBLE
+  - name: BE_wind_onshore_current
+    type: DOUBLE
+  - name: BE_wind_national_long-termfuture
+    type: DOUBLE
+  - name: BE_wind_national_near-termfuture
+    type: DOUBLE
+  - name: BE_wind_offshore_near-termfuture
+    type: DOUBLE
+  - name: BE_wind_onshore_near-termfuture
+    type: DOUBLE
+  - name: BG_pv_national_current
+    type: DOUBLE
+  - name: BG_wind_national_current
+    type: DOUBLE
+  - name: CH_pv_national_current
+    type: DOUBLE
+  - name: CH_wind_national_current
+    type: DOUBLE
+  - name: CY_pv_national_current
+    type: DOUBLE
+  - name: CY_wind_national_current
+    type: DOUBLE
+  - name: CZ_pv_national_current
+    type: DOUBLE
+  - name: CZ_wind_national_current
+    type: DOUBLE
+  - name: DE_pv_national_current
+    type: DOUBLE
+  - name: DE_wind_national_current
+    type: DOUBLE
+  - name: DE_wind_offshore_current
+    type: DOUBLE
+  - name: DE_wind_onshore_current
+    type: DOUBLE
+  - name: DE_wind_national_long-termfuture
+    type: DOUBLE
+  - name: DE_wind_national_near-termfuture
+    type: DOUBLE
+  - name: DE_wind_offshore_near-termfuture
+    type: DOUBLE
+  - name: DE_wind_onshore_near-termfuture
+    type: DOUBLE
+  - name: DK_pv_national_current
+    type: DOUBLE
+  - name: DK_wind_national_current
+    type: DOUBLE
+  - name: DK_wind_offshore_current
+    type: DOUBLE
+  - name: DK_wind_onshore_current
+    type: DOUBLE
+  - name: DK_wind_national_long-termfuture
+    type: DOUBLE
+  - name: DK_wind_national_near-termfuture
+    type: DOUBLE
+  - name: EE_pv_national_current
+    type: DOUBLE
+  - name: EE_wind_national_current
+    type: DOUBLE
+  - name: EE_wind_national_long-termfuture
+    type: DOUBLE
+  - name: ES_pv_national_current
+    type: DOUBLE
+  - name: ES_wind_national_current
+    type: DOUBLE
+  - name: ES_wind_national_long-termfuture
+    type: DOUBLE
+  - name: ES_wind_national_near-termfuture
+    type: DOUBLE
+  - name: FI_pv_national_current
+    type: DOUBLE
+  - name: FI_wind_national_current
+    type: DOUBLE
+  - name: FI_wind_offshore_current
+    type: DOUBLE
+  - name: FI_wind_onshore_current
+    type: DOUBLE
+  - name: FI_wind_national_long-termfuture
+    type: DOUBLE
+  - name: FI_wind_national_near-termfuture
+    type: DOUBLE
+  - name: FI_wind_offshore_near-termfuture
+    type: DOUBLE
+  - name: FI_wind_onshore_near-termfuture
+    type: DOUBLE
+  - name: FR_pv_national_current
+    type: DOUBLE
+  - name: FR_wind_national_current
+    type: DOUBLE
+  - name: FR_wind_offshore_current
+    type: DOUBLE
+  - name: FR_wind_onshore_current
+    type: DOUBLE
+  - name: FR_wind_national_long-termfuture
+    type: DOUBLE
+  - name: FR_wind_national_near-termfuture
+    type: DOUBLE
+  - name: FR_wind_offshore_near-termfuture
+    type: DOUBLE
+  - name: FR_wind_onshore_near-termfuture
+    type: DOUBLE
+  - name: GB_pv_national_current
+    type: DOUBLE
+  - name: GB_wind_national_current
+    type: DOUBLE
+  - name: GB_wind_offshore_current
+    type: DOUBLE
+  - name: GB_wind_onshore_current
+    type: DOUBLE
+  - name: GB_wind_national_long-termfuture
+    type: DOUBLE
+  - name: GB_wind_national_near-termfuture
+    type: DOUBLE
+  - name: GB_wind_offshore_near-termfuture
+    type: DOUBLE
+  - name: GB_wind_onshore_near-termfuture
+    type: DOUBLE
+  - name: GR_pv_national_current
+    type: DOUBLE
+  - name: GR_wind_national_current
+    type: DOUBLE
+  - name: GR_wind_national_long-termfuture
+    type: DOUBLE
+  - name: HR_pv_national_current
+    type: DOUBLE
+  - name: HR_wind_national_current
+    type: DOUBLE
+  - name: HU_pv_national_current
+    type: DOUBLE
+  - name: HU_wind_national_current
+    type: DOUBLE
+  - name: IE_pv_national_current
+    type: DOUBLE
+  - name: IE_wind_national_current
+    type: DOUBLE
+  - name: IE_wind_offshore_current
+    type: DOUBLE
+  - name: IE_wind_onshore_current
+    type: DOUBLE
+  - name: IE_wind_national_long-termfuture
+    type: DOUBLE
+  - name: IE_wind_national_near-termfuture
+    type: DOUBLE
+  - name: IE_wind_offshore_near-termfuture
+    type: DOUBLE
+  - name: IE_wind_onshore_near-termfuture
+    type: DOUBLE
+  - name: IT_pv_national_current
+    type: DOUBLE
+  - name: IT_wind_national_current
+    type: DOUBLE
+  - name: IT_wind_national_long-termfuture
+    type: DOUBLE
+  - name: IT_wind_national_near-termfuture
+    type: DOUBLE
+  - name: IT_wind_offshore_near-termfuture
+    type: DOUBLE
+  - name: IT_wind_onshore_near-termfuture
+    type: DOUBLE
+  - name: LT_pv_national_current
+    type: DOUBLE
+  - name: LT_wind_national_current
+    type: DOUBLE
+  - name: LT_wind_national_long-termfuture
+    type: DOUBLE
+  - name: LU_pv_national_current
+    type: DOUBLE
+  - name: LU_wind_national_current
+    type: DOUBLE
+  - name: LU_wind_national_near-termfuture
+    type: DOUBLE
+  - name: LV_pv_national_current
+    type: DOUBLE
+  - name: LV_wind_national_current
+    type: DOUBLE
+  - name: MD_pv_national_current
+    type: DOUBLE
+  - name: ME_pv_national_current
+    type: DOUBLE
+  - name: MK_pv_national_current
+    type: DOUBLE
+  - name: MK_wind_national_current
+    type: DOUBLE
+  - name: MT_pv_national_current
+    type: DOUBLE
+  - name: NL_pv_national_current
+    type: DOUBLE
+  - name: NL_wind_national_current
+    type: DOUBLE
+  - name: NL_wind_offshore_current
+    type: DOUBLE
+  - name: NL_wind_onshore_current
+    type: DOUBLE
+  - name: NL_wind_national_long-termfuture
+    type: DOUBLE
+  - name: NL_wind_national_near-termfuture
+    type: DOUBLE
+  - name: NL_wind_offshore_near-termfuture
+    type: DOUBLE
+  - name: NL_wind_onshore_near-termfuture
+    type: DOUBLE
+  - name: NO_pv_national_current
+    type: DOUBLE
+  - name: NO_wind_national_current
+    type: DOUBLE
+  - name: NO_wind_offshore_current
+    type: DOUBLE
+  - name: NO_wind_onshore_current
+    type: DOUBLE
+  - name: NO_wind_national_long-termfuture
+    type: DOUBLE
+  - name: NO_wind_national_near-termfuture
+    type: DOUBLE
+  - name: NO_wind_offshore_near-termfuture
+    type: DOUBLE
+  - name: NO_wind_onshore_near-termfuture
+    type: DOUBLE
+  - name: PL_pv_national_current
+    type: DOUBLE
+  - name: PL_wind_national_current
+    type: DOUBLE
+  - name: PL_wind_national_long-termfuture
+    type: DOUBLE
+  - name: PL_wind_national_near-termfuture
+    type: DOUBLE
+  - name: PT_pv_national_current
+    type: DOUBLE
+  - name: PT_wind_national_current
+    type: DOUBLE
+  - name: PT_wind_national_long-termfuture
+    type: DOUBLE
+  - name: RO_pv_national_current
+    type: DOUBLE
+  - name: RO_wind_national_current
+    type: DOUBLE
+  - name: RO_wind_national_near-termfuture
+    type: DOUBLE
+  - name: RS_pv_national_current
+    type: DOUBLE
+  - name: SE_pv_national_current
+    type: DOUBLE
+  - name: SE_wind_national_current
+    type: DOUBLE
+  - name: SE_wind_offshore_current
+    type: DOUBLE
+  - name: SE_wind_onshore_current
+    type: DOUBLE
+  - name: SE_wind_national_long-termfuture
+    type: DOUBLE
+  - name: SE_wind_national_near-termfuture
+    type: DOUBLE
+  - name: SE_wind_offshore_near-termfuture
+    type: DOUBLE
+  - name: SE_wind_onshore_near-termfuture
+    type: DOUBLE
+  - name: SI_pv_national_current
+    type: DOUBLE
+  - name: SI_wind_national_current
+    type: DOUBLE
+  - name: SK_pv_national_current
+    type: DOUBLE
+  - name: SK_wind_national_current
+    type: DOUBLE

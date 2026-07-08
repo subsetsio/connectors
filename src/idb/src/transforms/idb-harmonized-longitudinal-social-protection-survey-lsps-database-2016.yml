@@ -1,0 +1,644 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: region_ch
+    type: VARCHAR
+  - name: pais_c
+    type: VARCHAR
+  - name: pais_anio_c
+    type: VARCHAR
+  - name: anio_c
+    type: VARCHAR
+  - name: ronda_c
+    type: VARCHAR
+  - name: idpanel
+    type: VARCHAR
+  - name: idh_ch
+    type: VARCHAR
+  - name: idp_ci
+    type: VARCHAR
+  - name: factor_ci
+    type: VARCHAR
+  - name: sexo_ci
+    type: VARCHAR
+  - name: edad_ci
+    type: VARCHAR
+  - name: edad_tramo_ci
+    type: VARCHAR
+  - name: indigena_ci
+    type: VARCHAR
+  - name: afrodescendiente_ci
+    type: VARCHAR
+  - name: relacion_ci
+    type: VARCHAR
+  - name: civil_ci
+    type: VARCHAR
+  - name: nhijos_ch
+    type: VARCHAR
+  - name: clasehog_ch
+    type: VARCHAR
+  - name: nmayores50_ch
+    type: VARCHAR
+  - name: nmayores65_ch
+    type: VARCHAR
+  - name: nmiembros_ch
+    type: VARCHAR
+  - name: nhijosvivos_ci
+    type: VARCHAR
+  - name: niveleducativo_ci
+    type: VARCHAR
+  - name: aedu_ci
+    type: VARCHAR
+  - name: analfabet_ci
+    type: VARCHAR
+  - name: tituladoeduniv_ci
+    type: VARCHAR
+  - name: finanuniver_1_ci
+    type: VARCHAR
+  - name: finanuniver_2_ci
+    type: VARCHAR
+  - name: finanuniver_3_ci
+    type: VARCHAR
+  - name: finanuniver_4_ci
+    type: VARCHAR
+  - name: estudia_ci
+    type: VARCHAR
+  - name: condocup_ci
+    type: VARCHAR
+  - name: pea_ci
+    type: VARCHAR
+  - name: categoinac_ci
+    type: VARCHAR
+  - name: inactiv_otros_ci
+    type: VARCHAR
+  - name: empleosadic_ci
+    type: VARCHAR
+  - name: antiguedad_mes_ci
+    type: VARCHAR
+  - name: antiguedad_anio_ci
+    type: VARCHAR
+  - name: durades_ci
+    type: VARCHAR
+  - name: anios_trab_ci
+    type: VARCHAR
+  - name: categopri_ci
+    type: VARCHAR
+  - name: categosec_ci
+    type: VARCHAR
+  - name: rama_ci
+    type: VARCHAR
+  - name: spublico_ci
+    type: VARCHAR
+  - name: tamemp_ci
+    type: VARCHAR
+  - name: tipotrabajo_ci
+    type: VARCHAR
+  - name: firmocontrato_ci
+    type: VARCHAR
+  - name: ocupa_ci
+    type: VARCHAR
+  - name: horaspri_ci
+    type: VARCHAR
+  - name: motivodejotrab_ci
+    type: VARCHAR
+  - name: edad_1ertrab_ci
+    type: VARCHAR
+  - name: indemnizacion_ci
+    type: VARCHAR
+  - name: condocup_1a_ci
+    type: VARCHAR
+  - name: condocup_2a_ci
+    type: VARCHAR
+  - name: categoinac_1a_ci
+    type: VARCHAR
+  - name: categoinac_2a_ci
+    type: VARCHAR
+  - name: antiguedad_mes_1a_ci
+    type: VARCHAR
+  - name: antiguedad_mes_2a_ci
+    type: VARCHAR
+  - name: categopri_1a_ci
+    type: VARCHAR
+  - name: categopri_2a_ci
+    type: VARCHAR
+  - name: rama_1a_ci
+    type: VARCHAR
+  - name: rama_2a_ci
+    type: VARCHAR
+  - name: spublico_1a_ci
+    type: VARCHAR
+  - name: spublico_2a_ci
+    type: VARCHAR
+  - name: tamemp_1a_ci
+    type: VARCHAR
+  - name: tamemp_2a_ci
+    type: VARCHAR
+  - name: ocupa_1a_ci
+    type: VARCHAR
+  - name: ocupa_2a_ci
+    type: VARCHAR
+  - name: horaspri_1a_ci
+    type: VARCHAR
+  - name: horaspri_2a_ci
+    type: VARCHAR
+  - name: cotiza_1a_ci
+    type: VARCHAR
+  - name: cotiza_2a_ci
+    type: VARCHAR
+  - name: capacita_ci
+    type: VARCHAR
+  - name: tematicacap_ci
+    type: VARCHAR
+  - name: duracap_ci
+    type: VARCHAR
+  - name: utilidadcap_ci
+    type: VARCHAR
+  - name: propcap_ci
+    type: VARCHAR
+  - name: financap_1_ci
+    type: VARCHAR
+  - name: financap_2_ci
+    type: VARCHAR
+  - name: financap_3_ci
+    type: VARCHAR
+  - name: financap_4_ci
+    type: VARCHAR
+  - name: financap_5_ci
+    type: VARCHAR
+  - name: financap_6_ci
+    type: VARCHAR
+  - name: jornadacap_ci
+    type: VARCHAR
+  - name: afiliado_ci
+    type: VARCHAR
+  - name: cotiza_ci
+    type: VARCHAR
+  - name: basecotizac_ci
+    type: VARCHAR
+  - name: cotizamenos_ci
+    type: VARCHAR
+  - name: tipopension_1_ci
+    type: VARCHAR
+  - name: tipopension_2_ci
+    type: VARCHAR
+  - name: tipopension_3_ci
+    type: VARCHAR
+  - name: tipopension_4_ci
+    type: VARCHAR
+  - name: edadlegaljub_ci
+    type: VARCHAR
+  - name: pension_ci
+    type: VARCHAR
+  - name: pension_ej_ci
+    type: VARCHAR
+  - name: pensionsub_ci
+    type: VARCHAR
+  - name: pensionsub_ej_ci
+    type: VARCHAR
+  - name: anioscot_ci
+    type: VARCHAR
+  - name: densidadcota_ci
+    type: VARCHAR
+  - name: pensitrab_ci
+    type: VARCHAR
+  - name: razontrab_1_ci
+    type: VARCHAR
+  - name: razontrab_2_ci
+    type: VARCHAR
+  - name: razontrab_3_ci
+    type: VARCHAR
+  - name: razontrab_4_ci
+    type: VARCHAR
+  - name: razontrab_5_ci
+    type: VARCHAR
+  - name: motivosnocot_ci
+    type: VARCHAR
+  - name: retiroexpec_ci
+    type: VARCHAR
+  - name: razonesjub_ci
+    type: VARCHAR
+  - name: financiarvejez_1_ci
+    type: VARCHAR
+  - name: financiarvejez_2_ci
+    type: VARCHAR
+  - name: financiarvejez_3_ci
+    type: VARCHAR
+  - name: financiarvejez_4_ci
+    type: VARCHAR
+  - name: financiarvejez_5_ci
+    type: VARCHAR
+  - name: financiarvejez_6_ci
+    type: VARCHAR
+  - name: financiarvejez_7_ci
+    type: VARCHAR
+  - name: financiarvejez_8_ci
+    type: VARCHAR
+  - name: mesjub_ci
+    type: VARCHAR
+  - name: aniodejub_ci
+    type: VARCHAR
+  - name: progsocial_ch
+    type: VARCHAR
+  - name: licenciaembarazo_ci
+    type: VARCHAR
+  - name: volviotrab_ci
+    type: VARCHAR
+  - name: maternidadtrab_ci
+    type: VARCHAR
+  - name: edadpensi_ci
+    type: VARCHAR
+  - name: edadpenmuj_ci
+    type: VARCHAR
+  - name: edadpenhom_ci
+    type: VARCHAR
+  - name: conoce_descpen_ci
+    type: VARCHAR
+  - name: conoce_calculopen_ci
+    type: VARCHAR
+  - name: cambiadoafp_ci
+    type: VARCHAR
+  - name: ncambiosafp_ci
+    type: VARCHAR
+  - name: motivocambioafp_ci
+    type: VARCHAR
+  - name: comisionafp_ci
+    type: VARCHAR
+  - name: pcomisionafp_ci
+    type: VARCHAR
+  - name: planahorro_ci
+    type: VARCHAR
+  - name: cobsegmed_ci
+    type: VARCHAR
+  - name: razonnosalud_ci
+    type: VARCHAR
+  - name: fuma_ci
+    type: VARCHAR
+  - name: cons_ciga_ci
+    type: VARCHAR
+  - name: difactiv_1_ci
+    type: VARCHAR
+  - name: difactiv_2_ci
+    type: VARCHAR
+  - name: difactiv_3_ci
+    type: VARCHAR
+  - name: difactiv_4_ci
+    type: VARCHAR
+  - name: difactiv_5_ci
+    type: VARCHAR
+  - name: difactiv_6_ci
+    type: VARCHAR
+  - name: difactiv_7_ci
+    type: VARCHAR
+  - name: promcsalud_ci
+    type: VARCHAR
+  - name: discap_ci
+    type: VARCHAR
+  - name: tipodiscap_1_ci
+    type: VARCHAR
+  - name: tipodiscap_2_ci
+    type: VARCHAR
+  - name: tipodiscap_3_ci
+    type: VARCHAR
+  - name: tipodiscap_4_ci
+    type: VARCHAR
+  - name: tipodiscap_5_ci
+    type: VARCHAR
+  - name: tipodiscap_6_ci
+    type: VARCHAR
+  - name: tipodiscap_7_ci
+    type: VARCHAR
+  - name: diagenferm_1_ci
+    type: VARCHAR
+  - name: diagenferm_2_ci
+    type: VARCHAR
+  - name: diagenferm_3_ci
+    type: VARCHAR
+  - name: diagenferm_4_ci
+    type: VARCHAR
+  - name: diagenferm_5_ci
+    type: VARCHAR
+  - name: diagenferm_6_ci
+    type: VARCHAR
+  - name: diagenferm_7_ci
+    type: VARCHAR
+  - name: diagenferm_8_ci
+    type: VARCHAR
+  - name: diagenferm_9_ci
+    type: VARCHAR
+  - name: diagenferm_10_ci
+    type: VARCHAR
+  - name: diagenferm_11_ci
+    type: VARCHAR
+  - name: diagenferm_12_ci
+    type: VARCHAR
+  - name: mujpapa_ci
+    type: VARCHAR
+  - name: mujmamo_ci
+    type: VARCHAR
+  - name: hompros_ci
+    type: VARCHAR
+  - name: estadoanimo_1_ci
+    type: VARCHAR
+  - name: estadoanimo_2_ci
+    type: VARCHAR
+  - name: estadoanimo_3_ci
+    type: VARCHAR
+  - name: estadoanimo_4_ci
+    type: VARCHAR
+  - name: estadoanimo_5_ci
+    type: VARCHAR
+  - name: estadoanimo_6_ci
+    type: VARCHAR
+  - name: estadoanimo_7_ci
+    type: VARCHAR
+  - name: estadoanimo_8_ci
+    type: VARCHAR
+  - name: estadoanimo_9_ci
+    type: VARCHAR
+  - name: califsalud_ci
+    type: VARCHAR
+  - name: casapropia_ch
+    type: VARCHAR
+  - name: credhip_ch
+    type: VARCHAR
+  - name: deudas_1_ch
+    type: VARCHAR
+  - name: deudas_2_ch
+    type: VARCHAR
+  - name: deudas_3_ch
+    type: VARCHAR
+  - name: deudas_4_ch
+    type: VARCHAR
+  - name: deudas_5_ch
+    type: VARCHAR
+  - name: deudas_6_ch
+    type: VARCHAR
+  - name: deudas_7_ch
+    type: VARCHAR
+  - name: deudas_8_ch
+    type: VARCHAR
+  - name: deudas_9_ch
+    type: VARCHAR
+  - name: deudas_10_ch
+    type: VARCHAR
+  - name: propveh_1_ch
+    type: VARCHAR
+  - name: propveh_2_ch
+    type: VARCHAR
+  - name: propveh_3_ch
+    type: VARCHAR
+  - name: propveh_4_ch
+    type: VARCHAR
+  - name: conseguirdinero_ci
+    type: VARCHAR
+  - name: pconsigue_ci
+    type: VARCHAR
+  - name: seguros_1_ci
+    type: VARCHAR
+  - name: seguros_2_ci
+    type: VARCHAR
+  - name: seguros_3_ci
+    type: VARCHAR
+  - name: seguros_4_ci
+    type: VARCHAR
+  - name: seguros_5_ci
+    type: VARCHAR
+  - name: seguros_6_ci
+    type: VARCHAR
+  - name: seguros_7_ci
+    type: VARCHAR
+  - name: ahorros_1_ci
+    type: VARCHAR
+  - name: ahorros_2_ci
+    type: VARCHAR
+  - name: ahorros_3_ci
+    type: VARCHAR
+  - name: ahorros_4_ci
+    type: VARCHAR
+  - name: ahorros_5_ci
+    type: VARCHAR
+  - name: ahorros_6_ci
+    type: VARCHAR
+  - name: ahorros_7_ci
+    type: VARCHAR
+  - name: electvivi_ci
+    type: VARCHAR
+  - name: alcant_ci
+    type: VARCHAR
+  - name: accesoagua_ci
+    type: VARCHAR
+  - name: probinfraviv_1_ch
+    type: VARCHAR
+  - name: probinfraviv_2_ch
+    type: VARCHAR
+  - name: probinfraviv_3_ch
+    type: VARCHAR
+  - name: probinfraviv_4_ch
+    type: VARCHAR
+  - name: probinfraviv_5_ch
+    type: VARCHAR
+  - name: probinfraviv_6_ch
+    type: VARCHAR
+  - name: probinfraviv_7_ch
+    type: VARCHAR
+  - name: probinfraviv_8_ch
+    type: VARCHAR
+  - name: probinfraviv_9_ch
+    type: VARCHAR
+  - name: probinfraviv_10_ch
+    type: VARCHAR
+  - name: probinfraviv_11_ch
+    type: VARCHAR
+  - name: probinfraviv_12_ch
+    type: VARCHAR
+  - name: probinfraviv_13_ch
+    type: VARCHAR
+  - name: piso_ch
+    type: VARCHAR
+  - name: techo_ch
+    type: VARCHAR
+  - name: paredes_ch
+    type: VARCHAR
+  - name: dorm_ch
+    type: VARCHAR
+  - name: pbienes_1_ch
+    type: VARCHAR
+  - name: pbienes_2_ch
+    type: VARCHAR
+  - name: pbienes_3_ch
+    type: VARCHAR
+  - name: pbienes_4_ch
+    type: VARCHAR
+  - name: pbienes_5_ch
+    type: VARCHAR
+  - name: pbienes_6_ch
+    type: VARCHAR
+  - name: pbienes_7_ch
+    type: VARCHAR
+  - name: pbienes_8_ch
+    type: VARCHAR
+  - name: pbienes_9_ch
+    type: VARCHAR
+  - name: pbienes_10_ch
+    type: VARCHAR
+  - name: pbienes_11_ch
+    type: VARCHAR
+  - name: pbienes_12_ch
+    type: VARCHAR
+  - name: pbienes_14_ch
+    type: VARCHAR
+  - name: pbienes_15_ch
+    type: VARCHAR
+  - name: pbienes_13_ch
+    type: VARCHAR
+  - name: pbienes_17_ch
+    type: VARCHAR
+  - name: pbienes_16_ch
+    type: VARCHAR
+  - name: viviprop_ch
+    type: VARCHAR
+  - name: ylmpri_qui_ci
+    type: VARCHAR
+  - name: ylmpri_qmean_cte_ci
+    type: VARCHAR
+  - name: ylmpri_qmean_ppa_ci
+    type: VARCHAR
+  - name: ylmpri_1a_qui_ci
+    type: VARCHAR
+  - name: ylmpri_1a_qmean_cte_ci
+    type: VARCHAR
+  - name: ylmpri_1a_qmean_ppa_ci
+    type: VARCHAR
+  - name: ylmpri_2a_qui_ci
+    type: VARCHAR
+  - name: ylmpri_2a_qmean_cte_ci
+    type: VARCHAR
+  - name: ylmpri_2a_qmean_ppa_ci
+    type: VARCHAR
+  - name: ylmsec_qui_ci
+    type: VARCHAR
+  - name: ylmsec_qmean_cte_ci
+    type: VARCHAR
+  - name: ylmsec_qmean_ppa_ci
+    type: VARCHAR
+  - name: ylmotros_qui_ci
+    type: VARCHAR
+  - name: ylmotros_qmean_cte_ci
+    type: VARCHAR
+  - name: ylmotros_qmean_ppa_ci
+    type: VARCHAR
+  - name: ylm_qui_ci
+    type: VARCHAR
+  - name: ylm_qmean_cte_ci
+    type: VARCHAR
+  - name: ylm_qmean_ppa_ci
+    type: VARCHAR
+  - name: ylm_qui_ch
+    type: VARCHAR
+  - name: ylm_qmean_cte_ch
+    type: VARCHAR
+  - name: ylm_qmean_ppa_ch
+    type: VARCHAR
+  - name: ypen_1_qui_ci
+    type: VARCHAR
+  - name: ypen_1_qmean_cte_ci
+    type: VARCHAR
+  - name: ypen_1_qmean_ppa_ci
+    type: VARCHAR
+  - name: ypen_2_qui_ci
+    type: VARCHAR
+  - name: ypen_2_qmean_cte_ci
+    type: VARCHAR
+  - name: ypen_2_qmean_ppa_ci
+    type: VARCHAR
+  - name: ypen_3_qui_ci
+    type: VARCHAR
+  - name: ypen_3_qmean_cte_ci
+    type: VARCHAR
+  - name: ypen_3_qmean_ppa_ci
+    type: VARCHAR
+  - name: ypencont_qui_ci
+    type: VARCHAR
+  - name: ypencont_qmean_cte_ci
+    type: VARCHAR
+  - name: ypencont_qmean_ppa_ci
+    type: VARCHAR
+  - name: ypensub_qui_ci
+    type: VARCHAR
+  - name: ypensub_qmean_cte_ci
+    type: VARCHAR
+  - name: ypensub_qmean_ppa_ci
+    type: VARCHAR
+  - name: ysubhog_1_qui_ch
+    type: VARCHAR
+  - name: ysubhog_1_qmean_cte_ch
+    type: VARCHAR
+  - name: ysubhog_1_qmean_ppa_ch
+    type: VARCHAR
+  - name: ysubhog_2_qui_ch
+    type: VARCHAR
+  - name: ysubhog_2_qmean_cte_ch
+    type: VARCHAR
+  - name: ysubhog_2_qmean_ppa_ch
+    type: VARCHAR
+  - name: ysubhog_3_qui_ch
+    type: VARCHAR
+  - name: ysubhog_3_qmean_cte_ch
+    type: VARCHAR
+  - name: ysubhog_3_qmean_ppa_ch
+    type: VARCHAR
+  - name: ysubhog_4_qui_ch
+    type: VARCHAR
+  - name: ysubhog_4_qmean_cte_ch
+    type: VARCHAR
+  - name: ysubhog_4_qmean_ppa_ch
+    type: VARCHAR
+  - name: gastohogar_1_qui_ch
+    type: VARCHAR
+  - name: gastohogar_1_qmean_cte_ch
+    type: VARCHAR
+  - name: gastohogar_1_qmean_ppa_ch
+    type: VARCHAR
+  - name: gastohogar_2_qui_ch
+    type: VARCHAR
+  - name: gastohogar_2_qmean_cte_ch
+    type: VARCHAR
+  - name: gastohogar_2_qmean_ppa_ch
+    type: VARCHAR
+  - name: gastohogar_3_qui_ch
+    type: VARCHAR
+  - name: gastohogar_3_qmean_cte_ch
+    type: VARCHAR
+  - name: gastohogar_3_qmean_ppa_ch
+    type: VARCHAR
+  - name: gastohogar_4_qui_ch
+    type: VARCHAR
+  - name: gastohogar_4_qmean_cte_ch
+    type: VARCHAR
+  - name: gastohogar_4_qmean_ppa_ch
+    type: VARCHAR
+  - name: gastohogar_5_qui_ch
+    type: VARCHAR
+  - name: gastohogar_5_qmean_cte_ch
+    type: VARCHAR
+  - name: gastohogar_5_qmean_ppa_ch
+    type: VARCHAR
+  - name: vivialq_qui_ch
+    type: VARCHAR
+  - name: vivialq_qmean_cte_ch
+    type: VARCHAR
+  - name: vivialq_qmean_ppa_ch
+    type: VARCHAR
+  - name: rentaimp_qui_ch
+    type: VARCHAR
+  - name: rentaimp_qmean_cte_ch
+    type: VARCHAR
+  - name: rentaimp_qmean_ppa_ch
+    type: VARCHAR
+  - name: montoindem_qui_ci
+    type: VARCHAR
+  - name: montoindem_qmean_cte_ci
+    type: VARCHAR
+  - name: montoindem_qmean_ppa_ci
+    type: VARCHAR
+  - name: source_resource
+    type: VARCHAR

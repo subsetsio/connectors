@@ -1,0 +1,69 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [playerId, seasonId, gameTypeId]
+temporal: seasonId
+sort: [seasonId, playerId, gameTypeId]
+columns:
+  - name: blockedShots
+    type: BIGINT
+  - name: blockedShotsPer60
+    type: DOUBLE
+  - name: emptyNetAssists
+    type: BIGINT
+  - name: emptyNetGoals
+    type: BIGINT
+  - name: emptyNetPoints
+    type: BIGINT
+  - name: firstGoals
+    type: BIGINT
+  - name: gamesPlayed
+    type: BIGINT
+  - name: giveaways
+    type: BIGINT
+  - name: giveawaysPer60
+    type: DOUBLE
+  - name: hits
+    type: BIGINT
+  - name: hitsPer60
+    type: DOUBLE
+  - name: lastName
+    type: VARCHAR
+  - name: missedShotCrossbar
+    type: BIGINT
+  - name: missedShotFailedBankAttempt
+    type: JSON
+  - name: missedShotGoalpost
+    type: BIGINT
+  - name: missedShotOverNet
+    type: BIGINT
+  - name: missedShotShort
+    type: BIGINT
+  - name: missedShotWideOfNet
+    type: BIGINT
+  - name: missedShots
+    type: BIGINT
+  - name: otGoals
+    type: BIGINT
+  - name: playerId
+    type: BIGINT
+  - name: positionCode
+    type: VARCHAR
+  - name: seasonId
+    type: BIGINT
+  - name: shootsCatches
+    type: VARCHAR
+  - name: shotAttemptsBlocked
+    type: BIGINT
+  - name: skaterFullName
+    type: VARCHAR
+  - name: takeaways
+    type: BIGINT
+  - name: takeawaysPer60
+    type: DOUBLE
+  - name: teamAbbrevs
+    type: VARCHAR
+  - name: timeOnIcePerGame
+    type: DOUBLE
+  - name: totalShotAttempts
+    type: BIGINT
+  - name: gameTypeId
+    type: BIGINT

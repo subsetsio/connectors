@@ -1,0 +1,42 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: bathingWaterIdentifier
+    type: VARCHAR
+  - name: countryCode
+    type: VARCHAR
+  - name: hasAbnormalSituationDuringInsufficientInterval
+    type: BOOLEAN
+  - name: hasAbnormalSituationDuringSeasonStart
+    type: BOOLEAN
+  - name: hasBeenContinuouslyMonitoredInLastAssessmentPeriod
+    type: BOOLEAN
+  - name: hasBeenInaccessibleInLastAssessmentPeriod
+    type: BIGINT
+  - name: hasBeenNewlyIdentifiedInLastAssessmentPeriod
+    type: BOOLEAN
+  - name: hasInaccessibilityDuringInsufficientInterval
+    type: BOOLEAN
+  - name: hasInaccessibilityDuringSeasonStart
+    type: BOOLEAN
+  - name: hasMetMaximumIntervalBetweenSamples
+    type: BOOLEAN
+  - name: hasMinimumNumberOfSamples
+    type: BOOLEAN
+  - name: hasMinimumNumberOfSamplesInLastAssessmentPeriod
+    type: BIGINT
+  - name: hasPreSeasonSample
+    type: BOOLEAN
+  - name: hasQualityChangesDuringInsufficientInterval
+    type: BOOLEAN
+  - name: hasQualityChangesDuringSeasonStart
+    type: BOOLEAN
+  - name: hasQualityChangesInLastAssessmentPeriod
+    type: BOOLEAN
+  - name: hasReportedData
+    type: BOOLEAN
+  - name: reasonForManualClassification
+    type: VARCHAR
+  - name: season
+    type: BIGINT
+  - name: UID
+    type: BIGINT

@@ -1,0 +1,54 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [pollno]
+sort: [pollno]
+columns:
+  - name: pollno
+    type: BIGINT
+  - name: race
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: location
+    type: VARCHAR
+  - name: type_simple
+    type: VARCHAR
+  - name: type_detail
+    type: VARCHAR
+  - name: pollster
+    type: VARCHAR
+  - name: pollster_rating_id
+    type: BIGINT
+  - name: polldate
+    type: VARCHAR
+  - name: samplesize
+    type: DOUBLE
+  - name: cand1_name
+    type: VARCHAR
+  - name: cand1_pct
+    type: DOUBLE
+  - name: cand2_name
+    type: VARCHAR
+  - name: cand2_pct
+    type: DOUBLE
+  - name: cand3_pct
+    type: DOUBLE
+  - name: margin_poll
+    type: DOUBLE
+  - name: electiondate
+    type: VARCHAR
+  - name: cand1_actual
+    type: DOUBLE
+  - name: cand2_actual
+    type: DOUBLE
+  - name: margin_actual
+    type: DOUBLE
+  - name: error
+    type: DOUBLE
+  - name: bias
+    type: DOUBLE
+  - name: rightcall
+    type: DOUBLE
+  - name: comment
+    type: VARCHAR
+  - name: partisan
+    type: VARCHAR

@@ -1,0 +1,39 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [quota_definition__sid]
+temporal: quota_definition__validity_start_date
+sort: [quota_definition__validity_start_date, quota_definition__sid]
+columns:
+  - name: quota_definition__sid
+    type: VARCHAR
+  - name: quota__order_number
+    type: VARCHAR
+  - name: quota__geographical_areas
+    type: VARCHAR
+  - name: quota__headings
+    type: VARCHAR
+  - name: quota__commodities
+    type: VARCHAR
+  - name: quota__measurement_unit
+    type: VARCHAR
+  - name: quota__monetary_unit
+    type: VARCHAR
+  - name: quota_definition__description
+    type: VARCHAR
+  - name: quota_definition__validity_start_date
+    type: DATE
+  - name: quota_definition__validity_end_date
+    type: DATE
+  - name: quota_definition__suspension_periods
+    type: VARCHAR
+  - name: quota_definition__blocking_periods
+    type: VARCHAR
+  - name: quota_definition__status
+    type: VARCHAR
+  - name: quota_definition__last_allocation_date
+    type: VARCHAR
+  - name: quota_definition__initial_volume
+    type: VARCHAR
+  - name: quota_definition__balance
+    type: VARCHAR
+  - name: quota_definition__fill_rate
+    type: VARCHAR

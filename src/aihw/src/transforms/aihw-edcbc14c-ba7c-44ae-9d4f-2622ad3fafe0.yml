@@ -1,0 +1,21 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [grim_code, year, sex, age_group]
+temporal: year
+sort: [year, grim_code, sex, age_group]
+columns:
+  - name: grim_code
+    type: VARCHAR
+  - name: cause_of_death
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: deaths
+    type: BIGINT
+  - name: crude_rate_per_100000
+    type: DOUBLE
+  - name: age_standardised_rate_per_100000
+    type: DOUBLE

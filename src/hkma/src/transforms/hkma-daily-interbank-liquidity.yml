@@ -1,0 +1,93 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [end_of_date]
+temporal: end_of_date
+sort: [end_of_date]
+columns:
+  - name: end_of_date
+    type: DATE
+  - name: cu_weakside
+    type: DOUBLE
+  - name: cu_strongside
+    type: DOUBLE
+  - name: disc_win_base_rate
+    type: DOUBLE
+  - name: hibor_overnight
+    type: DOUBLE
+  - name: hibor_fixing_1m
+    type: DOUBLE
+  - name: twi
+    type: DOUBLE
+  - name: opening_balance
+    type: BIGINT
+  - name: closing_balance
+    type: BIGINT
+  - name: market_activities
+    type: VARCHAR
+  - name: interest_payment
+    type: VARCHAR
+  - name: discount_window_reversal
+    type: VARCHAR
+  - name: discount_window_activities
+    type: VARCHAR
+  - name: intraday_movements_of_aggregate_balance_at_0930
+    type: BIGINT
+  - name: intraday_movements_of_aggregate_balance_at_1000
+    type: BIGINT
+  - name: intraday_movements_of_aggregate_balance_at_1100
+    type: BIGINT
+  - name: intraday_movements_of_aggregate_balance_at_1200
+    type: BIGINT
+  - name: intraday_movements_of_aggregate_balance_at_1500
+    type: BIGINT
+  - name: intraday_movements_of_aggregate_balance_at_1600
+    type: BIGINT
+  - name: forex_trans_t1
+    type: VARCHAR
+  - name: other_market_activities_t1
+    type: VARCHAR
+  - name: reversal_of_discount_window_t1
+    type: VARCHAR
+  - name: interest_payment_issuance_efbn_t1
+    type: VARCHAR
+  - name: forecast_aggregate_bal_t1
+    type: BIGINT
+  - name: forex_trans_t2
+    type: VARCHAR
+  - name: other_market_activities_t2
+    type: VARCHAR
+  - name: reversal_of_discount_window_t2
+    type: VARCHAR
+  - name: interest_payment_issuance_efbn_t2
+    type: VARCHAR
+  - name: forecast_aggregate_bal_t2
+    type: BIGINT
+  - name: forex_trans_t3
+    type: VARCHAR
+  - name: other_market_activities_t3
+    type: VARCHAR
+  - name: reversal_of_discount_window_t3
+    type: VARCHAR
+  - name: interest_payment_issuance_efbn_t3
+    type: VARCHAR
+  - name: forecast_aggregate_bal_t3
+    type: BIGINT
+  - name: forex_trans_t4
+    type: VARCHAR
+  - name: other_market_activities_t4
+    type: VARCHAR
+  - name: reversal_of_discount_window_t4
+    type: VARCHAR
+  - name: interest_payment_issuance_efbn_t4
+    type: VARCHAR
+  - name: forecast_aggregate_bal_t4
+    type: BIGINT
+  - name: forex_trans_u
+    type: VARCHAR
+  - name: other_market_activities_u
+    type: VARCHAR
+  - name: reversal_of_discount_window_u
+    type: VARCHAR
+  - name: interest_payment_issuance_efbn_u
+    type: VARCHAR
+  - name: forecast_aggregate_bal_u
+    type: BIGINT

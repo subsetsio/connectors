@@ -1,0 +1,83 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [id]
+temporal: date_modified
+sort: [date_modified, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: date_created
+    type: TIMESTAMP
+  - name: date_modified
+    type: TIMESTAMP
+  - name: dataset_source
+    type: VARCHAR
+  - name: office
+    type: VARCHAR
+  - name: docket_number
+    type: VARCHAR
+  - name: origin
+    type: VARCHAR
+  - name: date_filed
+    type: DATE
+  - name: jurisdiction
+    type: VARCHAR
+  - name: nature_of_suit
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: section
+    type: VARCHAR
+  - name: subsection
+    type: VARCHAR
+  - name: diversity_of_residence
+    type: VARCHAR
+  - name: class_action
+    type: VARCHAR
+  - name: monetary_demand
+    type: DOUBLE
+  - name: county_of_residence
+    type: VARCHAR
+  - name: arbitration_at_filing
+    type: VARCHAR
+  - name: arbitration_at_termination
+    type: VARCHAR
+  - name: multidistrict_litigation_docket_number
+    type: VARCHAR
+  - name: plaintiff
+    type: VARCHAR
+  - name: defendant
+    type: VARCHAR
+  - name: date_transfer
+    type: DATE
+  - name: transfer_office
+    type: VARCHAR
+  - name: transfer_docket_number
+    type: VARCHAR
+  - name: transfer_origin
+    type: VARCHAR
+  - name: date_terminated
+    type: DATE
+  - name: termination_class_action_status
+    type: VARCHAR
+  - name: procedural_progress
+    type: VARCHAR
+  - name: disposition
+    type: VARCHAR
+  - name: nature_of_judgement
+    type: VARCHAR
+  - name: amount_received
+    type: DOUBLE
+  - name: judgment
+    type: VARCHAR
+  - name: pro_se
+    type: VARCHAR
+  - name: year_of_tape
+    type: BIGINT
+  - name: nature_of_offense
+    type: VARCHAR
+  - name: version
+    type: VARCHAR
+  - name: circuit_id
+    type: VARCHAR
+  - name: district_id
+    type: VARCHAR

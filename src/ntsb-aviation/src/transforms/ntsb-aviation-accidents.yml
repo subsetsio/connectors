@@ -1,0 +1,60 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: case_mkey
+    type: BIGINT
+  - name: ntsb_number
+    type: VARCHAR
+  - name: event_timestamp
+    type: TIMESTAMP
+  - name: event_date
+    type: DATE
+  - name: event_type
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: airport_id
+    type: VARCHAR
+  - name: airport_name
+    type: VARCHAR
+  - name: site_condition
+    type: VARCHAR
+  - name: highest_injury
+    type: VARCHAR
+  - name: injury_onboard_count
+    type: BIGINT
+  - name: fatal_injury_count
+    type: BIGINT
+  - name: serious_injury_count
+    type: BIGINT
+  - name: minor_injury_count
+    type: BIGINT
+  - name: uninjured_count
+    type: BIGINT
+  - name: onboard_total
+    type: BIGINT
+  - name: hazmat_involved
+    type: BOOLEAN
+  - name: has_safety_rec
+    type: BOOLEAN
+  - name: agency
+    type: VARCHAR
+  - name: launch
+    type: VARCHAR
+  - name: is_closed
+    type: BOOLEAN
+  - name: completion_status
+    type: VARCHAR
+  - name: most_recent_report_type
+    type: VARCHAR
+  - name: recent_report_publish_date
+    type: TIMESTAMP
+  - name: original_published_date
+    type: TIMESTAMP

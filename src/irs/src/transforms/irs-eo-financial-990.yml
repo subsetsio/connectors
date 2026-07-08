@@ -1,0 +1,496 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: file_year
+    type: INTEGER
+  - name: efile
+    type: VARCHAR
+  - name: ein
+    type: VARCHAR
+  - name: tax_pd
+    type: DOUBLE
+  - name: subseccd
+    type: DOUBLE
+  - name: s501c3or4947a1cd
+    type: VARCHAR
+  - name: schdbind
+    type: VARCHAR
+  - name: politicalactvtscd
+    type: VARCHAR
+  - name: lbbyingactvtscd
+    type: VARCHAR
+  - name: subjto6033cd
+    type: VARCHAR
+  - name: dnradvisedfundscd
+    type: VARCHAR
+  - name: prptyintrcvdcd
+    type: VARCHAR
+  - name: maintwrkofartcd
+    type: VARCHAR
+  - name: crcounselingqstncd
+    type: VARCHAR
+  - name: hldassetsintermpermcd
+    type: VARCHAR
+  - name: rptlndbldgeqptcd
+    type: VARCHAR
+  - name: rptinvstothsecd
+    type: VARCHAR
+  - name: rptinvstprgrelcd
+    type: VARCHAR
+  - name: rptothasstcd
+    type: VARCHAR
+  - name: rptothliabcd
+    type: VARCHAR
+  - name: sepcnsldtfinstmtcd
+    type: VARCHAR
+  - name: sepindaudfinstmtcd
+    type: VARCHAR
+  - name: inclinfinstmtcd
+    type: VARCHAR
+  - name: operateschools170cd
+    type: VARCHAR
+  - name: frgnofficecd
+    type: VARCHAR
+  - name: frgnrevexpnscd
+    type: VARCHAR
+  - name: frgngrntscd
+    type: VARCHAR
+  - name: frgnaggragrntscd
+    type: VARCHAR
+  - name: rptprofndrsngfeescd
+    type: VARCHAR
+  - name: rptincfnndrsngcd
+    type: VARCHAR
+  - name: rptincgamingcd
+    type: VARCHAR
+  - name: operatehosptlcd
+    type: VARCHAR
+  - name: hospaudfinstmtcd
+    type: VARCHAR
+  - name: rptgrntstogovtcd
+    type: VARCHAR
+  - name: rptgrntstoindvcd
+    type: VARCHAR
+  - name: rptyestocompnstncd
+    type: VARCHAR
+  - name: txexmptbndcd
+    type: VARCHAR
+  - name: invstproceedscd
+    type: VARCHAR
+  - name: maintescrwaccntcd
+    type: VARCHAR
+  - name: actonbehalfcd
+    type: VARCHAR
+  - name: engageexcessbnftcd
+    type: VARCHAR
+  - name: awarexcessbnftcd
+    type: VARCHAR
+  - name: loantofficercd
+    type: VARCHAR
+  - name: grantoofficercd
+    type: VARCHAR
+  - name: dirbusnreltdcd
+    type: VARCHAR
+  - name: fmlybusnreltdcd
+    type: VARCHAR
+  - name: servasofficercd
+    type: VARCHAR
+  - name: recvnoncashcd
+    type: VARCHAR
+  - name: recvartcd
+    type: VARCHAR
+  - name: ceaseoperationscd
+    type: VARCHAR
+  - name: sellorexchcd
+    type: VARCHAR
+  - name: ownsepentcd
+    type: VARCHAR
+  - name: reltdorgcd
+    type: VARCHAR
+  - name: intincntrlcd
+    type: VARCHAR
+  - name: orgtrnsfrcd
+    type: VARCHAR
+  - name: conduct5percentcd
+    type: VARCHAR
+  - name: compltschocd
+    type: VARCHAR
+  - name: f1096cnt
+    type: DOUBLE
+  - name: fw2gcnt
+    type: DOUBLE
+  - name: wthldngrulescd
+    type: VARCHAR
+  - name: noemplyeesw3cnt
+    type: DOUBLE
+  - name: filerqrdrtnscd
+    type: VARCHAR
+  - name: unrelbusinccd
+    type: VARCHAR
+  - name: filedf990tcd
+    type: VARCHAR
+  - name: frgnacctcd
+    type: VARCHAR
+  - name: prohibtdtxshltrcd
+    type: VARCHAR
+  - name: prtynotifyorgcd
+    type: VARCHAR
+  - name: filedf8886tcd
+    type: VARCHAR
+  - name: solicitcntrbcd
+    type: VARCHAR
+  - name: exprstmntcd
+    type: VARCHAR
+  - name: providegoodscd
+    type: VARCHAR
+  - name: notfydnrvalcd
+    type: VARCHAR
+  - name: filedf8282cd
+    type: VARCHAR
+  - name: f8282cnt
+    type: DOUBLE
+  - name: fndsrcvdcd
+    type: VARCHAR
+  - name: premiumspaidcd
+    type: VARCHAR
+  - name: filedf8899cd
+    type: VARCHAR
+  - name: filedf1098ccd
+    type: VARCHAR
+  - name: excbushldngscd
+    type: VARCHAR
+  - name: s4966distribcd
+    type: VARCHAR
+  - name: distribtodonorcd
+    type: VARCHAR
+  - name: initiationfees
+    type: DOUBLE
+  - name: grsrcptspublicuse
+    type: DOUBLE
+  - name: grsincmembers
+    type: DOUBLE
+  - name: grsincother
+    type: DOUBLE
+  - name: filedlieuf1041cd
+    type: VARCHAR
+  - name: txexmptint
+    type: DOUBLE
+  - name: qualhlthplncd
+    type: VARCHAR
+  - name: qualhlthreqmntn
+    type: DOUBLE
+  - name: qualhlthonhnd
+    type: DOUBLE
+  - name: rcvdpdtngcd
+    type: VARCHAR
+  - name: filedf720cd
+    type: VARCHAR
+  - name: totreprtabled
+    type: DOUBLE
+  - name: totcomprelatede
+    type: DOUBLE
+  - name: totestcompf
+    type: DOUBLE
+  - name: noindiv100kcnt
+    type: DOUBLE
+  - name: nocontractor100kcnt
+    type: DOUBLE
+  - name: totcntrbgfts
+    type: DOUBLE
+  - name: prgmservcode2acd
+    type: DOUBLE
+  - name: totrev2acola
+    type: DOUBLE
+  - name: prgmservcode2bcd
+    type: DOUBLE
+  - name: totrev2bcola
+    type: DOUBLE
+  - name: prgmservcode2ccd
+    type: DOUBLE
+  - name: totrev2ccola
+    type: DOUBLE
+  - name: prgmservcode2dcd
+    type: DOUBLE
+  - name: totrev2dcola
+    type: DOUBLE
+  - name: prgmservcode2ecd
+    type: DOUBLE
+  - name: totrev2ecola
+    type: DOUBLE
+  - name: totrev2fcola
+    type: DOUBLE
+  - name: totprgmrevnue
+    type: DOUBLE
+  - name: invstmntinc
+    type: DOUBLE
+  - name: txexmptbndsproceeds
+    type: DOUBLE
+  - name: royaltsinc
+    type: DOUBLE
+  - name: grsrntsreal
+    type: DOUBLE
+  - name: grsrntsprsnl
+    type: DOUBLE
+  - name: rntlexpnsreal
+    type: DOUBLE
+  - name: rntlexpnsprsnl
+    type: DOUBLE
+  - name: rntlincreal
+    type: DOUBLE
+  - name: rntlincprsnl
+    type: DOUBLE
+  - name: netrntlinc
+    type: DOUBLE
+  - name: grsalesecur
+    type: DOUBLE
+  - name: grsalesothr
+    type: DOUBLE
+  - name: cstbasisecur
+    type: DOUBLE
+  - name: cstbasisothr
+    type: DOUBLE
+  - name: gnlsecur
+    type: DOUBLE
+  - name: gnlsothr
+    type: DOUBLE
+  - name: netgnls
+    type: DOUBLE
+  - name: grsincfndrsng
+    type: DOUBLE
+  - name: lessdirfndrsng
+    type: DOUBLE
+  - name: netincfndrsng
+    type: DOUBLE
+  - name: grsincgaming
+    type: DOUBLE
+  - name: lessdirgaming
+    type: DOUBLE
+  - name: netincgaming
+    type: DOUBLE
+  - name: grsalesinvent
+    type: DOUBLE
+  - name: lesscstofgoods
+    type: DOUBLE
+  - name: netincsales
+    type: DOUBLE
+  - name: miscrev11acd
+    type: DOUBLE
+  - name: miscrevtota
+    type: DOUBLE
+  - name: miscrev11bcd
+    type: DOUBLE
+  - name: miscrevtot11b
+    type: DOUBLE
+  - name: miscrev11ccd
+    type: DOUBLE
+  - name: miscrevtot11c
+    type: DOUBLE
+  - name: miscrevtot11d
+    type: DOUBLE
+  - name: miscrevtot11e
+    type: DOUBLE
+  - name: totrevenue
+    type: DOUBLE
+  - name: grntstogovt
+    type: DOUBLE
+  - name: grnsttoindiv
+    type: DOUBLE
+  - name: grntstofrgngovt
+    type: DOUBLE
+  - name: benifitsmembrs
+    type: DOUBLE
+  - name: compnsatncurrofcr
+    type: DOUBLE
+  - name: compnsatnandothr
+    type: DOUBLE
+  - name: othrsalwages
+    type: DOUBLE
+  - name: pensionplancontrb
+    type: DOUBLE
+  - name: othremplyeebenef
+    type: DOUBLE
+  - name: payrolltx
+    type: DOUBLE
+  - name: feesforsrvcmgmt
+    type: DOUBLE
+  - name: legalfees
+    type: DOUBLE
+  - name: accntingfees
+    type: DOUBLE
+  - name: feesforsrvclobby
+    type: DOUBLE
+  - name: profndraising
+    type: DOUBLE
+  - name: feesforsrvcinvstmgmt
+    type: DOUBLE
+  - name: feesforsrvcothr
+    type: DOUBLE
+  - name: advrtpromo
+    type: DOUBLE
+  - name: officexpns
+    type: DOUBLE
+  - name: infotech
+    type: DOUBLE
+  - name: royaltsexpns
+    type: DOUBLE
+  - name: occupancy
+    type: DOUBLE
+  - name: travel
+    type: DOUBLE
+  - name: travelofpublicoffcl
+    type: DOUBLE
+  - name: converconventmtng
+    type: DOUBLE
+  - name: interestamt
+    type: DOUBLE
+  - name: pymtoaffiliates
+    type: DOUBLE
+  - name: deprcatndepletn
+    type: DOUBLE
+  - name: insurance
+    type: DOUBLE
+  - name: othrexpnsa
+    type: DOUBLE
+  - name: othrexpnsb
+    type: DOUBLE
+  - name: othrexpnsc
+    type: DOUBLE
+  - name: othrexpnsd
+    type: DOUBLE
+  - name: othrexpnse
+    type: DOUBLE
+  - name: othrexpnsf
+    type: DOUBLE
+  - name: totfuncexpns
+    type: DOUBLE
+  - name: nonintcashend
+    type: DOUBLE
+  - name: svngstempinvend
+    type: DOUBLE
+  - name: pldgegrntrcvblend
+    type: DOUBLE
+  - name: accntsrcvblend
+    type: DOUBLE
+  - name: currfrmrcvblend
+    type: DOUBLE
+  - name: rcvbldisqualend
+    type: DOUBLE
+  - name: notesloansrcvblend
+    type: DOUBLE
+  - name: invntriesalesend
+    type: DOUBLE
+  - name: prepaidexpnsend
+    type: DOUBLE
+  - name: lndbldgsequipend
+    type: DOUBLE
+  - name: invstmntsend
+    type: DOUBLE
+  - name: invstmntsothrend
+    type: DOUBLE
+  - name: invstmntsprgmend
+    type: DOUBLE
+  - name: intangibleassetsend
+    type: DOUBLE
+  - name: othrassetsend
+    type: DOUBLE
+  - name: totassetsend
+    type: DOUBLE
+  - name: accntspayableend
+    type: DOUBLE
+  - name: grntspayableend
+    type: DOUBLE
+  - name: deferedrevnuend
+    type: DOUBLE
+  - name: txexmptbndsend
+    type: DOUBLE
+  - name: escrwaccntliabend
+    type: DOUBLE
+  - name: paybletoffcrsend
+    type: DOUBLE
+  - name: secrdmrtgsend
+    type: DOUBLE
+  - name: unsecurednotesend
+    type: DOUBLE
+  - name: othrliabend
+    type: DOUBLE
+  - name: totliabend
+    type: DOUBLE
+  - name: unrstrctnetasstsend
+    type: DOUBLE
+  - name: temprstrctnetasstsend
+    type: DOUBLE
+  - name: permrstrctnetasstsend
+    type: DOUBLE
+  - name: capitalstktrstend
+    type: DOUBLE
+  - name: paidinsurplusend
+    type: DOUBLE
+  - name: retainedearnend
+    type: DOUBLE
+  - name: totnetassetend
+    type: DOUBLE
+  - name: totnetliabastend
+    type: DOUBLE
+  - name: nonpfrea
+    type: DOUBLE
+  - name: totnooforgscnt
+    type: DOUBLE
+  - name: totsupport
+    type: DOUBLE
+  - name: gftgrntsrcvd170
+    type: DOUBLE
+  - name: txrevnuelevied170
+    type: DOUBLE
+  - name: srvcsval170
+    type: DOUBLE
+  - name: pubsuppsubtot170
+    type: DOUBLE
+  - name: exceeds2pct170
+    type: DOUBLE
+  - name: pubsupplesspct170
+    type: DOUBLE
+  - name: samepubsuppsubtot170
+    type: DOUBLE
+  - name: grsinc170
+    type: DOUBLE
+  - name: netincunreltd170
+    type: DOUBLE
+  - name: othrinc170
+    type: DOUBLE
+  - name: totsupp170
+    type: DOUBLE
+  - name: grsrcptsrelated170
+    type: DOUBLE
+  - name: totgftgrntrcvd509
+    type: DOUBLE
+  - name: grsrcptsadmissn509
+    type: DOUBLE
+  - name: grsrcptsactivities509
+    type: DOUBLE
+  - name: txrevnuelevied509
+    type: DOUBLE
+  - name: srvcsval509
+    type: DOUBLE
+  - name: pubsuppsubtot509
+    type: DOUBLE
+  - name: rcvdfrmdisqualsub509
+    type: DOUBLE
+  - name: exceeds1pct509
+    type: DOUBLE
+  - name: subtotpub509
+    type: DOUBLE
+  - name: pubsupplesub509
+    type: DOUBLE
+  - name: samepubsuppsubtot509
+    type: DOUBLE
+  - name: grsinc509
+    type: DOUBLE
+  - name: unreltxincls511tx509
+    type: DOUBLE
+  - name: subtotsuppinc509
+    type: DOUBLE
+  - name: netincunrelatd509
+    type: DOUBLE
+  - name: othrinc509
+    type: DOUBLE
+  - name: totsupp509
+    type: DOUBLE

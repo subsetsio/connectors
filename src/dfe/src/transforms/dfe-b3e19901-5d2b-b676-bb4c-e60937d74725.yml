@@ -1,0 +1,402 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: time_period
+    type: VARCHAR
+  - name: time_identifier
+    type: VARCHAR
+  - name: geographic_level
+    type: VARCHAR
+  - name: country_code
+    type: VARCHAR
+  - name: country_name
+    type: VARCHAR
+  - name: region_code
+    type: VARCHAR
+  - name: region_name
+    type: VARCHAR
+  - name: old_la_code
+    type: VARCHAR
+  - name: new_la_code
+    type: VARCHAR
+  - name: la_name
+    type: VARCHAR
+  - name: version
+    type: VARCHAR
+  - name: education_investment_area_flag
+    type: VARCHAR
+  - name: priority_area_flag
+    type: VARCHAR
+  - name: establishment_type_group
+    type: VARCHAR
+  - name: breakdown_topic
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: ethnicity_major
+    type: VARCHAR
+  - name: ethnicity_minor
+    type: VARCHAR
+  - name: fsm_status
+    type: VARCHAR
+  - name: sen_provision
+    type: VARCHAR
+  - name: sen_status
+    type: VARCHAR
+  - name: sen_primary_need
+    type: VARCHAR
+  - name: disadvantage_status
+    type: VARCHAR
+  - name: first_language
+    type: VARCHAR
+  - name: prior_attainment
+    type: VARCHAR
+  - name: ks2_scaled_score_group
+    type: VARCHAR
+  - name: mobility
+    type: VARCHAR
+  - name: young_carer
+    type: VARCHAR
+  - name: school_admission_type
+    type: VARCHAR
+  - name: school_religious_character
+    type: VARCHAR
+  - name: school_count
+    type: VARCHAR
+  - name: pupil_count
+    type: VARCHAR
+  - name: attainment8_sum
+    type: VARCHAR
+  - name: attainment8_average
+    type: VARCHAR
+  - name: engmath_entering_total
+    type: VARCHAR
+  - name: engmath_entering_percent
+    type: VARCHAR
+  - name: engmath_95_total
+    type: VARCHAR
+  - name: engmath_95_percent
+    type: VARCHAR
+  - name: engmath_94_total
+    type: VARCHAR
+  - name: engmath_94_percent
+    type: VARCHAR
+  - name: ebacc_entering_total
+    type: VARCHAR
+  - name: ebacc_entering_percent
+    type: VARCHAR
+  - name: ebacc_95_total
+    type: VARCHAR
+  - name: ebacc_95_percent
+    type: VARCHAR
+  - name: ebacc_94_total
+    type: VARCHAR
+  - name: ebacc_94_percent
+    type: VARCHAR
+  - name: ebacc_aps_sum
+    type: VARCHAR
+  - name: ebacc_aps_average
+    type: VARCHAR
+  - name: progress8_pupil_count
+    type: VARCHAR
+  - name: progress8_sum
+    type: VARCHAR
+  - name: progress8_average
+    type: VARCHAR
+  - name: progress8_lower_95_ci
+    type: VARCHAR
+  - name: progress8_upper_95_ci
+    type: VARCHAR
+  - name: progress8eng_sum
+    type: VARCHAR
+  - name: progress8eng_average
+    type: VARCHAR
+  - name: progress8eng_lower_95_ci
+    type: VARCHAR
+  - name: progress8eng_upper_95_ci
+    type: VARCHAR
+  - name: progress8mat_sum
+    type: VARCHAR
+  - name: progress8mat_average
+    type: VARCHAR
+  - name: progress8mat_lower_95_ci
+    type: VARCHAR
+  - name: progress8mat_upper_95_ci
+    type: VARCHAR
+  - name: progress8ebacc_sum
+    type: VARCHAR
+  - name: progress8ebacc_average
+    type: VARCHAR
+  - name: progress8ebacc_lower_95_ci
+    type: VARCHAR
+  - name: progress8ebacc_upper_95_ci
+    type: VARCHAR
+  - name: progress8open_sum
+    type: VARCHAR
+  - name: progress8open_average
+    type: VARCHAR
+  - name: progress8open_lower_95_ci
+    type: VARCHAR
+  - name: progress8open_upper_95_ci
+    type: VARCHAR
+  - name: gcse_entering_total
+    type: VARCHAR
+  - name: gcse_entering_percent
+    type: VARCHAR
+  - name: gcse_91_total
+    type: VARCHAR
+  - name: gcse_91_percent
+    type: VARCHAR
+  - name: ebacceng_entering_total
+    type: VARCHAR
+  - name: ebacceng_entering_percent
+    type: VARCHAR
+  - name: ebaccmat_entering_total
+    type: VARCHAR
+  - name: ebaccmat_entering_percent
+    type: VARCHAR
+  - name: ebaccsci_entering_total
+    type: VARCHAR
+  - name: ebaccsci_entering_percent
+    type: VARCHAR
+  - name: ebacchum_entering_total
+    type: VARCHAR
+  - name: ebacchum_entering_percent
+    type: VARCHAR
+  - name: ebacclan_entering_total
+    type: VARCHAR
+  - name: ebacclan_entering_percent
+    type: VARCHAR
+  - name: ebacceng_95_total
+    type: VARCHAR
+  - name: ebacceng_95_percent
+    type: VARCHAR
+  - name: ebaccmat_95_total
+    type: VARCHAR
+  - name: ebaccmat_95_percent
+    type: VARCHAR
+  - name: ebaccsci_95_total
+    type: VARCHAR
+  - name: ebaccsci_95_percent
+    type: VARCHAR
+  - name: ebacchum_95_total
+    type: VARCHAR
+  - name: ebacchum_95_percent
+    type: VARCHAR
+  - name: ebacclan_95_total
+    type: VARCHAR
+  - name: ebacclan_95_percent
+    type: VARCHAR
+  - name: ebacceng_94_total
+    type: VARCHAR
+  - name: ebacceng_94_percent
+    type: VARCHAR
+  - name: ebaccmat_94_total
+    type: VARCHAR
+  - name: ebaccmat_94_percent
+    type: VARCHAR
+  - name: ebaccsci_94_total
+    type: VARCHAR
+  - name: ebaccsci_94_percent
+    type: VARCHAR
+  - name: ebacchum_94_total
+    type: VARCHAR
+  - name: ebacchum_94_percent
+    type: VARCHAR
+  - name: ebacclan_94_total
+    type: VARCHAR
+  - name: ebacclan_94_percent
+    type: VARCHAR
+  - name: ebacceng_aps_sum
+    type: VARCHAR
+  - name: ebacceng_aps_average
+    type: VARCHAR
+  - name: ebaccmat_aps_sum
+    type: VARCHAR
+  - name: ebaccmat_aps_average
+    type: VARCHAR
+  - name: ebaccsci_aps_sum
+    type: VARCHAR
+  - name: ebaccsci_aps_average
+    type: VARCHAR
+  - name: ebacchum_aps_sum
+    type: VARCHAR
+  - name: ebacchum_aps_average
+    type: VARCHAR
+  - name: ebacclan_aps_sum
+    type: VARCHAR
+  - name: ebacclan_aps_average
+    type: VARCHAR
+  - name: attainment8eng_sum
+    type: VARCHAR
+  - name: attainment8eng_average
+    type: VARCHAR
+  - name: attainment8mat_sum
+    type: VARCHAR
+  - name: attainment8mat_average
+    type: VARCHAR
+  - name: attainment8ebacc_sum
+    type: VARCHAR
+  - name: attainment8ebacc_average
+    type: VARCHAR
+  - name: attainment8open_sum
+    type: VARCHAR
+  - name: attainment8open_average
+    type: VARCHAR
+  - name: attainment8open_gcse_sum
+    type: VARCHAR
+  - name: attainment8open_gcse_average
+    type: VARCHAR
+  - name: attainment8open_nongcse_sum
+    type: VARCHAR
+  - name: attainment8open_nongcse_average
+    type: VARCHAR
+  - name: attainment8ebacc_slotfill_total
+    type: VARCHAR
+  - name: attainment8ebacc_slotfill_average
+    type: VARCHAR
+  - name: attainment8open_slotfill_total
+    type: VARCHAR
+  - name: attainment8open_slotfill_average
+    type: VARCHAR
+  - name: ebacc_entering_0pillar_total
+    type: VARCHAR
+  - name: ebacc_entering_0pillar_percent
+    type: VARCHAR
+  - name: ebacc_entering_1pillar_total
+    type: VARCHAR
+  - name: ebacc_entering_1pillar_percent
+    type: VARCHAR
+  - name: ebacc_entering_2pillar_total
+    type: VARCHAR
+  - name: ebacc_entering_2pillar_percent
+    type: VARCHAR
+  - name: ebacc_entering_3pillar_total
+    type: VARCHAR
+  - name: ebacc_entering_3pillar_percent
+    type: VARCHAR
+  - name: ebacc_entering_4pillar_total
+    type: VARCHAR
+  - name: ebacc_entering_4pillar_percent
+    type: VARCHAR
+  - name: ebaccsci_combpath_entering_total
+    type: VARCHAR
+  - name: ebaccsci_combpath_entering_percent
+    type: VARCHAR
+  - name: ebaccsci_indpath_entering_total
+    type: VARCHAR
+  - name: ebaccsci_indpath_entering_percent
+    type: VARCHAR
+  - name: sci_triple_entering_total
+    type: VARCHAR
+  - name: sci_triple_entering_percent
+    type: VARCHAR
+  - name: geoghist_entering_total
+    type: VARCHAR
+  - name: geoghist_entering_percent
+    type: VARCHAR
+  - name: lan_multiple_entering_total
+    type: VARCHAR
+  - name: lan_multiple_entering_percent
+    type: VARCHAR
+  - name: art_subject_entering_total
+    type: VARCHAR
+  - name: art_subject_entering_percent
+    type: VARCHAR
+  - name: music_qual_entering_total
+    type: VARCHAR
+  - name: music_qual_entering_percent
+    type: VARCHAR
+  - name: art_qual_entering_total
+    type: VARCHAR
+  - name: art_qual_entering_percent
+    type: VARCHAR
+  - name: ebacceng_91_total
+    type: VARCHAR
+  - name: ebacceng_91_percent
+    type: VARCHAR
+  - name: ebaccmat_91_total
+    type: VARCHAR
+  - name: ebaccmat_91_percent
+    type: VARCHAR
+  - name: ebaccsci_91_total
+    type: VARCHAR
+  - name: ebaccsci_91_percent
+    type: VARCHAR
+  - name: ebacchum_91_total
+    type: VARCHAR
+  - name: ebacchum_91_percent
+    type: VARCHAR
+  - name: ebacclan_91_total
+    type: VARCHAR
+  - name: ebacclan_91_percent
+    type: VARCHAR
+  - name: ebacc_91_total
+    type: VARCHAR
+  - name: ebacc_91_percent
+    type: VARCHAR
+  - name: gcse_five_engmath_total
+    type: VARCHAR
+  - name: gcse_five_engmath_percent
+    type: VARCHAR
+  - name: progress8_pupil_percent
+    type: VARCHAR
+  - name: progress8_adjusted_total
+    type: VARCHAR
+  - name: progress8_adjusted_percent
+    type: VARCHAR
+  - name: progress8original_sum
+    type: VARCHAR
+  - name: progress8original_average
+    type: VARCHAR
+  - name: progress8original_lower_95_ci
+    type: VARCHAR
+  - name: progress8original_upper_95_ci
+    type: VARCHAR
+  - name: valueaddedsci_pupil_count
+    type: VARCHAR
+  - name: valueaddedsci_pupil_percent
+    type: VARCHAR
+  - name: valueaddedsci_sum
+    type: VARCHAR
+  - name: valueaddedsci_average
+    type: VARCHAR
+  - name: valueaddedsci_lower_95_ci
+    type: VARCHAR
+  - name: valueaddedsci_upper_95_ci
+    type: VARCHAR
+  - name: valueaddedhum_pupil_count
+    type: VARCHAR
+  - name: valueaddedhum_pupil_percent
+    type: VARCHAR
+  - name: valueaddedhum_sum
+    type: VARCHAR
+  - name: valueaddedhum_average
+    type: VARCHAR
+  - name: valueaddedhum_lower_95_ci
+    type: VARCHAR
+  - name: valueaddedhum_upper_95_ci
+    type: VARCHAR
+  - name: valueaddedlan_pupil_count
+    type: VARCHAR
+  - name: valueaddedlan_pupil_percent
+    type: VARCHAR
+  - name: valueaddedlan_sum
+    type: VARCHAR
+  - name: valueaddedlan_average
+    type: VARCHAR
+  - name: valueaddedlan_lower_95_ci
+    type: VARCHAR
+  - name: valueaddedlan_upper_95_ci
+    type: VARCHAR
+  - name: qual_entries_sum
+    type: VARCHAR
+  - name: qual_entries_average
+    type: VARCHAR
+  - name: gcse_entries_sum
+    type: VARCHAR
+  - name: gcse_entries_average
+    type: VARCHAR
+  - name: qual_entries_without_discounting_sum
+    type: VARCHAR
+  - name: qual_entries_without_discounting_average
+    type: VARCHAR

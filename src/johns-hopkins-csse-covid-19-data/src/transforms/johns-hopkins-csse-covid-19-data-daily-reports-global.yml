@@ -1,0 +1,30 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: date
+    type: DATE
+  - name: fips
+    type: VARCHAR
+  - name: admin2
+    type: VARCHAR
+  - name: province_state
+    type: VARCHAR
+  - name: country_region
+    type: VARCHAR
+  - name: combined_key
+    type: VARCHAR
+  - name: lat
+    type: DOUBLE
+  - name: long
+    type: DOUBLE
+  - name: confirmed
+    type: BIGINT
+  - name: deaths
+    type: BIGINT
+  - name: recovered
+    type: BIGINT
+  - name: active
+    type: BIGINT
+  - name: incident_rate
+    type: DOUBLE
+  - name: case_fatality_ratio
+    type: DOUBLE

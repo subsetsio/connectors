@@ -1,0 +1,5122 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: state
+    type: BIGINT
+  - name: county
+    type: BIGINT
+  - name: state_name
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: kfr_aian_female_p1_1978
+    type: DOUBLE
+  - name: kfr_aian_female_p1_1992
+    type: DOUBLE
+  - name: change_kfr_aian_female_p1
+    type: DOUBLE
+  - name: change_kfr_aian_female_p1_se
+    type: DOUBLE
+  - name: kfr_aian_female_p1_reliab
+    type: DOUBLE
+  - name: kfr_asian_female_p1_1978
+    type: DOUBLE
+  - name: kfr_asian_female_p1_1992
+    type: DOUBLE
+  - name: change_kfr_asian_female_p1
+    type: DOUBLE
+  - name: change_kfr_asian_female_p1_se
+    type: DOUBLE
+  - name: kfr_asian_female_p1_reliab
+    type: DOUBLE
+  - name: kfr_black_female_p1_1978
+    type: DOUBLE
+  - name: kfr_black_female_p1_1992
+    type: DOUBLE
+  - name: change_kfr_black_female_p1
+    type: DOUBLE
+  - name: change_kfr_black_female_p1_se
+    type: DOUBLE
+  - name: kfr_black_female_p1_reliab
+    type: DOUBLE
+  - name: kfr_hisp_female_p1_1978
+    type: DOUBLE
+  - name: kfr_hisp_female_p1_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_female_p1
+    type: DOUBLE
+  - name: change_kfr_hisp_female_p1_se
+    type: DOUBLE
+  - name: kfr_hisp_female_p1_reliab
+    type: DOUBLE
+  - name: kfr_pooled_female_p1_1978
+    type: DOUBLE
+  - name: kfr_pooled_female_p1_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_female_p1
+    type: DOUBLE
+  - name: change_kfr_pooled_female_p1_se
+    type: DOUBLE
+  - name: kfr_pooled_female_p1_reliab
+    type: DOUBLE
+  - name: kfr_white_female_p1_1978
+    type: DOUBLE
+  - name: kfr_white_female_p1_1992
+    type: DOUBLE
+  - name: change_kfr_white_female_p1
+    type: DOUBLE
+  - name: change_kfr_white_female_p1_se
+    type: DOUBLE
+  - name: kfr_white_female_p1_reliab
+    type: DOUBLE
+  - name: kfr_aian_male_p1_1978
+    type: DOUBLE
+  - name: kfr_aian_male_p1_1992
+    type: DOUBLE
+  - name: change_kfr_aian_male_p1
+    type: DOUBLE
+  - name: change_kfr_aian_male_p1_se
+    type: DOUBLE
+  - name: kfr_aian_male_p1_reliab
+    type: DOUBLE
+  - name: kfr_asian_male_p1_1978
+    type: DOUBLE
+  - name: kfr_asian_male_p1_1992
+    type: DOUBLE
+  - name: change_kfr_asian_male_p1
+    type: DOUBLE
+  - name: change_kfr_asian_male_p1_se
+    type: DOUBLE
+  - name: kfr_asian_male_p1_reliab
+    type: DOUBLE
+  - name: kfr_black_male_p1_1978
+    type: DOUBLE
+  - name: kfr_black_male_p1_1992
+    type: DOUBLE
+  - name: change_kfr_black_male_p1
+    type: DOUBLE
+  - name: change_kfr_black_male_p1_se
+    type: DOUBLE
+  - name: kfr_black_male_p1_reliab
+    type: DOUBLE
+  - name: kfr_hisp_male_p1_1978
+    type: DOUBLE
+  - name: kfr_hisp_male_p1_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_male_p1
+    type: DOUBLE
+  - name: change_kfr_hisp_male_p1_se
+    type: DOUBLE
+  - name: kfr_hisp_male_p1_reliab
+    type: DOUBLE
+  - name: kfr_pooled_male_p1_1978
+    type: DOUBLE
+  - name: kfr_pooled_male_p1_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_male_p1
+    type: DOUBLE
+  - name: change_kfr_pooled_male_p1_se
+    type: DOUBLE
+  - name: kfr_pooled_male_p1_reliab
+    type: DOUBLE
+  - name: kfr_white_male_p1_1978
+    type: DOUBLE
+  - name: kfr_white_male_p1_1992
+    type: DOUBLE
+  - name: change_kfr_white_male_p1
+    type: DOUBLE
+  - name: change_kfr_white_male_p1_se
+    type: DOUBLE
+  - name: kfr_white_male_p1_reliab
+    type: DOUBLE
+  - name: kfr_aian_pooled_p1_1978
+    type: DOUBLE
+  - name: kfr_aian_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kfr_aian_pooled_p1
+    type: DOUBLE
+  - name: change_kfr_aian_pooled_p1_se
+    type: DOUBLE
+  - name: kfr_aian_pooled_p1_reliab
+    type: DOUBLE
+  - name: kfr_asian_pooled_p1_1978
+    type: DOUBLE
+  - name: kfr_asian_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kfr_asian_pooled_p1
+    type: DOUBLE
+  - name: change_kfr_asian_pooled_p1_se
+    type: DOUBLE
+  - name: kfr_asian_pooled_p1_reliab
+    type: DOUBLE
+  - name: kfr_black_pooled_p1_1978
+    type: DOUBLE
+  - name: kfr_black_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kfr_black_pooled_p1
+    type: DOUBLE
+  - name: change_kfr_black_pooled_p1_se
+    type: DOUBLE
+  - name: kfr_black_pooled_p1_reliab
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p1_1978
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_pooled_p1
+    type: DOUBLE
+  - name: change_kfr_hisp_pooled_p1_se
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p1_reliab
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p1_1978
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_pooled_p1
+    type: DOUBLE
+  - name: change_kfr_pooled_pooled_p1_se
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p1_reliab
+    type: DOUBLE
+  - name: kfr_white_pooled_p1_1978
+    type: DOUBLE
+  - name: kfr_white_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kfr_white_pooled_p1
+    type: DOUBLE
+  - name: change_kfr_white_pooled_p1_se
+    type: DOUBLE
+  - name: kfr_white_pooled_p1_reliab
+    type: DOUBLE
+  - name: kfr_aian_female_p25_1978
+    type: DOUBLE
+  - name: kfr_aian_female_p25_1992
+    type: DOUBLE
+  - name: change_kfr_aian_female_p25
+    type: DOUBLE
+  - name: change_kfr_aian_female_p25_se
+    type: DOUBLE
+  - name: kfr_aian_female_p25_reliab
+    type: DOUBLE
+  - name: kfr_asian_female_p25_1978
+    type: DOUBLE
+  - name: kfr_asian_female_p25_1992
+    type: DOUBLE
+  - name: change_kfr_asian_female_p25
+    type: DOUBLE
+  - name: change_kfr_asian_female_p25_se
+    type: DOUBLE
+  - name: kfr_asian_female_p25_reliab
+    type: DOUBLE
+  - name: kfr_black_female_p25_1978
+    type: DOUBLE
+  - name: kfr_black_female_p25_1992
+    type: DOUBLE
+  - name: change_kfr_black_female_p25
+    type: DOUBLE
+  - name: change_kfr_black_female_p25_se
+    type: DOUBLE
+  - name: kfr_black_female_p25_reliab
+    type: DOUBLE
+  - name: kfr_hisp_female_p25_1978
+    type: DOUBLE
+  - name: kfr_hisp_female_p25_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_female_p25
+    type: DOUBLE
+  - name: change_kfr_hisp_female_p25_se
+    type: DOUBLE
+  - name: kfr_hisp_female_p25_reliab
+    type: DOUBLE
+  - name: kfr_pooled_female_p25_1978
+    type: DOUBLE
+  - name: kfr_pooled_female_p25_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_female_p25
+    type: DOUBLE
+  - name: change_kfr_pooled_female_p25_se
+    type: DOUBLE
+  - name: kfr_pooled_female_p25_reliab
+    type: DOUBLE
+  - name: kfr_white_female_p25_1978
+    type: DOUBLE
+  - name: kfr_white_female_p25_1992
+    type: DOUBLE
+  - name: change_kfr_white_female_p25
+    type: DOUBLE
+  - name: change_kfr_white_female_p25_se
+    type: DOUBLE
+  - name: kfr_white_female_p25_reliab
+    type: DOUBLE
+  - name: kfr_aian_male_p25_1978
+    type: DOUBLE
+  - name: kfr_aian_male_p25_1992
+    type: DOUBLE
+  - name: change_kfr_aian_male_p25
+    type: DOUBLE
+  - name: change_kfr_aian_male_p25_se
+    type: DOUBLE
+  - name: kfr_aian_male_p25_reliab
+    type: DOUBLE
+  - name: kfr_asian_male_p25_1978
+    type: DOUBLE
+  - name: kfr_asian_male_p25_1992
+    type: DOUBLE
+  - name: change_kfr_asian_male_p25
+    type: DOUBLE
+  - name: change_kfr_asian_male_p25_se
+    type: DOUBLE
+  - name: kfr_asian_male_p25_reliab
+    type: DOUBLE
+  - name: kfr_black_male_p25_1978
+    type: DOUBLE
+  - name: kfr_black_male_p25_1992
+    type: DOUBLE
+  - name: change_kfr_black_male_p25
+    type: DOUBLE
+  - name: change_kfr_black_male_p25_se
+    type: DOUBLE
+  - name: kfr_black_male_p25_reliab
+    type: DOUBLE
+  - name: kfr_hisp_male_p25_1978
+    type: DOUBLE
+  - name: kfr_hisp_male_p25_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_male_p25
+    type: DOUBLE
+  - name: change_kfr_hisp_male_p25_se
+    type: DOUBLE
+  - name: kfr_hisp_male_p25_reliab
+    type: DOUBLE
+  - name: kfr_pooled_male_p25_1978
+    type: DOUBLE
+  - name: kfr_pooled_male_p25_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_male_p25
+    type: DOUBLE
+  - name: change_kfr_pooled_male_p25_se
+    type: DOUBLE
+  - name: kfr_pooled_male_p25_reliab
+    type: DOUBLE
+  - name: kfr_white_male_p25_1978
+    type: DOUBLE
+  - name: kfr_white_male_p25_1992
+    type: DOUBLE
+  - name: change_kfr_white_male_p25
+    type: DOUBLE
+  - name: change_kfr_white_male_p25_se
+    type: DOUBLE
+  - name: kfr_white_male_p25_reliab
+    type: DOUBLE
+  - name: kfr_aian_pooled_p25_1978
+    type: DOUBLE
+  - name: kfr_aian_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kfr_aian_pooled_p25
+    type: DOUBLE
+  - name: change_kfr_aian_pooled_p25_se
+    type: DOUBLE
+  - name: kfr_aian_pooled_p25_reliab
+    type: DOUBLE
+  - name: kfr_asian_pooled_p25_1978
+    type: DOUBLE
+  - name: kfr_asian_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kfr_asian_pooled_p25
+    type: DOUBLE
+  - name: change_kfr_asian_pooled_p25_se
+    type: DOUBLE
+  - name: kfr_asian_pooled_p25_reliab
+    type: DOUBLE
+  - name: kfr_black_pooled_p25_1978
+    type: DOUBLE
+  - name: kfr_black_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kfr_black_pooled_p25
+    type: DOUBLE
+  - name: change_kfr_black_pooled_p25_se
+    type: DOUBLE
+  - name: kfr_black_pooled_p25_reliab
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p25_1978
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_pooled_p25
+    type: DOUBLE
+  - name: change_kfr_hisp_pooled_p25_se
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p25_reliab
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p25_1978
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_pooled_p25
+    type: DOUBLE
+  - name: change_kfr_pooled_pooled_p25_se
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p25_reliab
+    type: DOUBLE
+  - name: kfr_white_pooled_p25_1978
+    type: DOUBLE
+  - name: kfr_white_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kfr_white_pooled_p25
+    type: DOUBLE
+  - name: change_kfr_white_pooled_p25_se
+    type: DOUBLE
+  - name: kfr_white_pooled_p25_reliab
+    type: DOUBLE
+  - name: kfr_aian_female_p50_1978
+    type: DOUBLE
+  - name: kfr_aian_female_p50_1992
+    type: DOUBLE
+  - name: change_kfr_aian_female_p50
+    type: DOUBLE
+  - name: change_kfr_aian_female_p50_se
+    type: DOUBLE
+  - name: kfr_aian_female_p50_reliab
+    type: DOUBLE
+  - name: kfr_asian_female_p50_1978
+    type: DOUBLE
+  - name: kfr_asian_female_p50_1992
+    type: DOUBLE
+  - name: change_kfr_asian_female_p50
+    type: DOUBLE
+  - name: change_kfr_asian_female_p50_se
+    type: DOUBLE
+  - name: kfr_asian_female_p50_reliab
+    type: DOUBLE
+  - name: kfr_black_female_p50_1978
+    type: DOUBLE
+  - name: kfr_black_female_p50_1992
+    type: DOUBLE
+  - name: change_kfr_black_female_p50
+    type: DOUBLE
+  - name: change_kfr_black_female_p50_se
+    type: DOUBLE
+  - name: kfr_black_female_p50_reliab
+    type: DOUBLE
+  - name: kfr_hisp_female_p50_1978
+    type: DOUBLE
+  - name: kfr_hisp_female_p50_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_female_p50
+    type: DOUBLE
+  - name: change_kfr_hisp_female_p50_se
+    type: DOUBLE
+  - name: kfr_hisp_female_p50_reliab
+    type: DOUBLE
+  - name: kfr_pooled_female_p50_1978
+    type: DOUBLE
+  - name: kfr_pooled_female_p50_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_female_p50
+    type: DOUBLE
+  - name: change_kfr_pooled_female_p50_se
+    type: DOUBLE
+  - name: kfr_pooled_female_p50_reliab
+    type: DOUBLE
+  - name: kfr_white_female_p50_1978
+    type: DOUBLE
+  - name: kfr_white_female_p50_1992
+    type: DOUBLE
+  - name: change_kfr_white_female_p50
+    type: DOUBLE
+  - name: change_kfr_white_female_p50_se
+    type: DOUBLE
+  - name: kfr_white_female_p50_reliab
+    type: DOUBLE
+  - name: kfr_aian_male_p50_1978
+    type: DOUBLE
+  - name: kfr_aian_male_p50_1992
+    type: DOUBLE
+  - name: change_kfr_aian_male_p50
+    type: DOUBLE
+  - name: change_kfr_aian_male_p50_se
+    type: DOUBLE
+  - name: kfr_aian_male_p50_reliab
+    type: DOUBLE
+  - name: kfr_asian_male_p50_1978
+    type: DOUBLE
+  - name: kfr_asian_male_p50_1992
+    type: DOUBLE
+  - name: change_kfr_asian_male_p50
+    type: DOUBLE
+  - name: change_kfr_asian_male_p50_se
+    type: DOUBLE
+  - name: kfr_asian_male_p50_reliab
+    type: DOUBLE
+  - name: kfr_black_male_p50_1978
+    type: DOUBLE
+  - name: kfr_black_male_p50_1992
+    type: DOUBLE
+  - name: change_kfr_black_male_p50
+    type: DOUBLE
+  - name: change_kfr_black_male_p50_se
+    type: DOUBLE
+  - name: kfr_black_male_p50_reliab
+    type: DOUBLE
+  - name: kfr_hisp_male_p50_1978
+    type: DOUBLE
+  - name: kfr_hisp_male_p50_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_male_p50
+    type: DOUBLE
+  - name: change_kfr_hisp_male_p50_se
+    type: DOUBLE
+  - name: kfr_hisp_male_p50_reliab
+    type: DOUBLE
+  - name: kfr_pooled_male_p50_1978
+    type: DOUBLE
+  - name: kfr_pooled_male_p50_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_male_p50
+    type: DOUBLE
+  - name: change_kfr_pooled_male_p50_se
+    type: DOUBLE
+  - name: kfr_pooled_male_p50_reliab
+    type: DOUBLE
+  - name: kfr_white_male_p50_1978
+    type: DOUBLE
+  - name: kfr_white_male_p50_1992
+    type: DOUBLE
+  - name: change_kfr_white_male_p50
+    type: DOUBLE
+  - name: change_kfr_white_male_p50_se
+    type: DOUBLE
+  - name: kfr_white_male_p50_reliab
+    type: DOUBLE
+  - name: kfr_aian_pooled_p50_1978
+    type: DOUBLE
+  - name: kfr_aian_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kfr_aian_pooled_p50
+    type: DOUBLE
+  - name: change_kfr_aian_pooled_p50_se
+    type: DOUBLE
+  - name: kfr_aian_pooled_p50_reliab
+    type: DOUBLE
+  - name: kfr_asian_pooled_p50_1978
+    type: DOUBLE
+  - name: kfr_asian_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kfr_asian_pooled_p50
+    type: DOUBLE
+  - name: change_kfr_asian_pooled_p50_se
+    type: DOUBLE
+  - name: kfr_asian_pooled_p50_reliab
+    type: DOUBLE
+  - name: kfr_black_pooled_p50_1978
+    type: DOUBLE
+  - name: kfr_black_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kfr_black_pooled_p50
+    type: DOUBLE
+  - name: change_kfr_black_pooled_p50_se
+    type: DOUBLE
+  - name: kfr_black_pooled_p50_reliab
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p50_1978
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_pooled_p50
+    type: DOUBLE
+  - name: change_kfr_hisp_pooled_p50_se
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p50_reliab
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p50_1978
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_pooled_p50
+    type: DOUBLE
+  - name: change_kfr_pooled_pooled_p50_se
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p50_reliab
+    type: DOUBLE
+  - name: kfr_white_pooled_p50_1978
+    type: DOUBLE
+  - name: kfr_white_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kfr_white_pooled_p50
+    type: DOUBLE
+  - name: change_kfr_white_pooled_p50_se
+    type: DOUBLE
+  - name: kfr_white_pooled_p50_reliab
+    type: DOUBLE
+  - name: kfr_aian_female_p75_1978
+    type: DOUBLE
+  - name: kfr_aian_female_p75_1992
+    type: DOUBLE
+  - name: change_kfr_aian_female_p75
+    type: DOUBLE
+  - name: change_kfr_aian_female_p75_se
+    type: DOUBLE
+  - name: kfr_aian_female_p75_reliab
+    type: DOUBLE
+  - name: kfr_asian_female_p75_1978
+    type: DOUBLE
+  - name: kfr_asian_female_p75_1992
+    type: DOUBLE
+  - name: change_kfr_asian_female_p75
+    type: DOUBLE
+  - name: change_kfr_asian_female_p75_se
+    type: DOUBLE
+  - name: kfr_asian_female_p75_reliab
+    type: DOUBLE
+  - name: kfr_black_female_p75_1978
+    type: DOUBLE
+  - name: kfr_black_female_p75_1992
+    type: DOUBLE
+  - name: change_kfr_black_female_p75
+    type: DOUBLE
+  - name: change_kfr_black_female_p75_se
+    type: DOUBLE
+  - name: kfr_black_female_p75_reliab
+    type: DOUBLE
+  - name: kfr_hisp_female_p75_1978
+    type: DOUBLE
+  - name: kfr_hisp_female_p75_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_female_p75
+    type: DOUBLE
+  - name: change_kfr_hisp_female_p75_se
+    type: DOUBLE
+  - name: kfr_hisp_female_p75_reliab
+    type: DOUBLE
+  - name: kfr_pooled_female_p75_1978
+    type: DOUBLE
+  - name: kfr_pooled_female_p75_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_female_p75
+    type: DOUBLE
+  - name: change_kfr_pooled_female_p75_se
+    type: DOUBLE
+  - name: kfr_pooled_female_p75_reliab
+    type: DOUBLE
+  - name: kfr_white_female_p75_1978
+    type: DOUBLE
+  - name: kfr_white_female_p75_1992
+    type: DOUBLE
+  - name: change_kfr_white_female_p75
+    type: DOUBLE
+  - name: change_kfr_white_female_p75_se
+    type: DOUBLE
+  - name: kfr_white_female_p75_reliab
+    type: DOUBLE
+  - name: kfr_aian_male_p75_1978
+    type: DOUBLE
+  - name: kfr_aian_male_p75_1992
+    type: DOUBLE
+  - name: change_kfr_aian_male_p75
+    type: DOUBLE
+  - name: change_kfr_aian_male_p75_se
+    type: DOUBLE
+  - name: kfr_aian_male_p75_reliab
+    type: DOUBLE
+  - name: kfr_asian_male_p75_1978
+    type: DOUBLE
+  - name: kfr_asian_male_p75_1992
+    type: DOUBLE
+  - name: change_kfr_asian_male_p75
+    type: DOUBLE
+  - name: change_kfr_asian_male_p75_se
+    type: DOUBLE
+  - name: kfr_asian_male_p75_reliab
+    type: DOUBLE
+  - name: kfr_black_male_p75_1978
+    type: DOUBLE
+  - name: kfr_black_male_p75_1992
+    type: DOUBLE
+  - name: change_kfr_black_male_p75
+    type: DOUBLE
+  - name: change_kfr_black_male_p75_se
+    type: DOUBLE
+  - name: kfr_black_male_p75_reliab
+    type: DOUBLE
+  - name: kfr_hisp_male_p75_1978
+    type: DOUBLE
+  - name: kfr_hisp_male_p75_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_male_p75
+    type: DOUBLE
+  - name: change_kfr_hisp_male_p75_se
+    type: DOUBLE
+  - name: kfr_hisp_male_p75_reliab
+    type: DOUBLE
+  - name: kfr_pooled_male_p75_1978
+    type: DOUBLE
+  - name: kfr_pooled_male_p75_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_male_p75
+    type: DOUBLE
+  - name: change_kfr_pooled_male_p75_se
+    type: DOUBLE
+  - name: kfr_pooled_male_p75_reliab
+    type: DOUBLE
+  - name: kfr_white_male_p75_1978
+    type: DOUBLE
+  - name: kfr_white_male_p75_1992
+    type: DOUBLE
+  - name: change_kfr_white_male_p75
+    type: DOUBLE
+  - name: change_kfr_white_male_p75_se
+    type: DOUBLE
+  - name: kfr_white_male_p75_reliab
+    type: DOUBLE
+  - name: kfr_aian_pooled_p75_1978
+    type: DOUBLE
+  - name: kfr_aian_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kfr_aian_pooled_p75
+    type: DOUBLE
+  - name: change_kfr_aian_pooled_p75_se
+    type: DOUBLE
+  - name: kfr_aian_pooled_p75_reliab
+    type: DOUBLE
+  - name: kfr_asian_pooled_p75_1978
+    type: DOUBLE
+  - name: kfr_asian_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kfr_asian_pooled_p75
+    type: DOUBLE
+  - name: change_kfr_asian_pooled_p75_se
+    type: DOUBLE
+  - name: kfr_asian_pooled_p75_reliab
+    type: DOUBLE
+  - name: kfr_black_pooled_p75_1978
+    type: DOUBLE
+  - name: kfr_black_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kfr_black_pooled_p75
+    type: DOUBLE
+  - name: change_kfr_black_pooled_p75_se
+    type: DOUBLE
+  - name: kfr_black_pooled_p75_reliab
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p75_1978
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_pooled_p75
+    type: DOUBLE
+  - name: change_kfr_hisp_pooled_p75_se
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p75_reliab
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p75_1978
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_pooled_p75
+    type: DOUBLE
+  - name: change_kfr_pooled_pooled_p75_se
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p75_reliab
+    type: DOUBLE
+  - name: kfr_white_pooled_p75_1978
+    type: DOUBLE
+  - name: kfr_white_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kfr_white_pooled_p75
+    type: DOUBLE
+  - name: change_kfr_white_pooled_p75_se
+    type: DOUBLE
+  - name: kfr_white_pooled_p75_reliab
+    type: DOUBLE
+  - name: kfr_aian_female_p100_1978
+    type: DOUBLE
+  - name: kfr_aian_female_p100_1992
+    type: DOUBLE
+  - name: change_kfr_aian_female_p100
+    type: DOUBLE
+  - name: change_kfr_aian_female_p100_se
+    type: DOUBLE
+  - name: kfr_aian_female_p100_reliab
+    type: DOUBLE
+  - name: kfr_asian_female_p100_1978
+    type: DOUBLE
+  - name: kfr_asian_female_p100_1992
+    type: DOUBLE
+  - name: change_kfr_asian_female_p100
+    type: DOUBLE
+  - name: change_kfr_asian_female_p100_se
+    type: DOUBLE
+  - name: kfr_asian_female_p100_reliab
+    type: DOUBLE
+  - name: kfr_black_female_p100_1978
+    type: DOUBLE
+  - name: kfr_black_female_p100_1992
+    type: DOUBLE
+  - name: change_kfr_black_female_p100
+    type: DOUBLE
+  - name: change_kfr_black_female_p100_se
+    type: DOUBLE
+  - name: kfr_black_female_p100_reliab
+    type: DOUBLE
+  - name: kfr_hisp_female_p100_1978
+    type: DOUBLE
+  - name: kfr_hisp_female_p100_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_female_p100
+    type: DOUBLE
+  - name: change_kfr_hisp_female_p100_se
+    type: DOUBLE
+  - name: kfr_hisp_female_p100_reliab
+    type: DOUBLE
+  - name: kfr_pooled_female_p100_1978
+    type: DOUBLE
+  - name: kfr_pooled_female_p100_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_female_p100
+    type: DOUBLE
+  - name: change_kfr_pooled_female_p100_se
+    type: DOUBLE
+  - name: kfr_pooled_female_p100_reliab
+    type: DOUBLE
+  - name: kfr_white_female_p100_1978
+    type: DOUBLE
+  - name: kfr_white_female_p100_1992
+    type: DOUBLE
+  - name: change_kfr_white_female_p100
+    type: DOUBLE
+  - name: change_kfr_white_female_p100_se
+    type: DOUBLE
+  - name: kfr_white_female_p100_reliab
+    type: DOUBLE
+  - name: kfr_aian_male_p100_1978
+    type: DOUBLE
+  - name: kfr_aian_male_p100_1992
+    type: DOUBLE
+  - name: change_kfr_aian_male_p100
+    type: DOUBLE
+  - name: change_kfr_aian_male_p100_se
+    type: DOUBLE
+  - name: kfr_aian_male_p100_reliab
+    type: DOUBLE
+  - name: kfr_asian_male_p100_1978
+    type: DOUBLE
+  - name: kfr_asian_male_p100_1992
+    type: DOUBLE
+  - name: change_kfr_asian_male_p100
+    type: DOUBLE
+  - name: change_kfr_asian_male_p100_se
+    type: DOUBLE
+  - name: kfr_asian_male_p100_reliab
+    type: DOUBLE
+  - name: kfr_black_male_p100_1978
+    type: DOUBLE
+  - name: kfr_black_male_p100_1992
+    type: DOUBLE
+  - name: change_kfr_black_male_p100
+    type: DOUBLE
+  - name: change_kfr_black_male_p100_se
+    type: DOUBLE
+  - name: kfr_black_male_p100_reliab
+    type: DOUBLE
+  - name: kfr_hisp_male_p100_1978
+    type: DOUBLE
+  - name: kfr_hisp_male_p100_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_male_p100
+    type: DOUBLE
+  - name: change_kfr_hisp_male_p100_se
+    type: DOUBLE
+  - name: kfr_hisp_male_p100_reliab
+    type: DOUBLE
+  - name: kfr_pooled_male_p100_1978
+    type: DOUBLE
+  - name: kfr_pooled_male_p100_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_male_p100
+    type: DOUBLE
+  - name: change_kfr_pooled_male_p100_se
+    type: DOUBLE
+  - name: kfr_pooled_male_p100_reliab
+    type: DOUBLE
+  - name: kfr_white_male_p100_1978
+    type: DOUBLE
+  - name: kfr_white_male_p100_1992
+    type: DOUBLE
+  - name: change_kfr_white_male_p100
+    type: DOUBLE
+  - name: change_kfr_white_male_p100_se
+    type: DOUBLE
+  - name: kfr_white_male_p100_reliab
+    type: DOUBLE
+  - name: kfr_aian_pooled_p100_1978
+    type: DOUBLE
+  - name: kfr_aian_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kfr_aian_pooled_p100
+    type: DOUBLE
+  - name: change_kfr_aian_pooled_p100_se
+    type: DOUBLE
+  - name: kfr_aian_pooled_p100_reliab
+    type: DOUBLE
+  - name: kfr_asian_pooled_p100_1978
+    type: DOUBLE
+  - name: kfr_asian_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kfr_asian_pooled_p100
+    type: DOUBLE
+  - name: change_kfr_asian_pooled_p100_se
+    type: DOUBLE
+  - name: kfr_asian_pooled_p100_reliab
+    type: DOUBLE
+  - name: kfr_black_pooled_p100_1978
+    type: DOUBLE
+  - name: kfr_black_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kfr_black_pooled_p100
+    type: DOUBLE
+  - name: change_kfr_black_pooled_p100_se
+    type: DOUBLE
+  - name: kfr_black_pooled_p100_reliab
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p100_1978
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kfr_hisp_pooled_p100
+    type: DOUBLE
+  - name: change_kfr_hisp_pooled_p100_se
+    type: DOUBLE
+  - name: kfr_hisp_pooled_p100_reliab
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p100_1978
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kfr_pooled_pooled_p100
+    type: DOUBLE
+  - name: change_kfr_pooled_pooled_p100_se
+    type: DOUBLE
+  - name: kfr_pooled_pooled_p100_reliab
+    type: DOUBLE
+  - name: kfr_white_pooled_p100_1978
+    type: DOUBLE
+  - name: kfr_white_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kfr_white_pooled_p100
+    type: DOUBLE
+  - name: change_kfr_white_pooled_p100_se
+    type: DOUBLE
+  - name: kfr_white_pooled_p100_reliab
+    type: DOUBLE
+  - name: kir_aian_female_p1_1978
+    type: DOUBLE
+  - name: kir_aian_female_p1_1992
+    type: DOUBLE
+  - name: change_kir_aian_female_p1
+    type: DOUBLE
+  - name: change_kir_aian_female_p1_se
+    type: DOUBLE
+  - name: kir_aian_female_p1_reliab
+    type: DOUBLE
+  - name: kir_asian_female_p1_1978
+    type: DOUBLE
+  - name: kir_asian_female_p1_1992
+    type: DOUBLE
+  - name: change_kir_asian_female_p1
+    type: DOUBLE
+  - name: change_kir_asian_female_p1_se
+    type: DOUBLE
+  - name: kir_asian_female_p1_reliab
+    type: DOUBLE
+  - name: kir_black_female_p1_1978
+    type: DOUBLE
+  - name: kir_black_female_p1_1992
+    type: DOUBLE
+  - name: change_kir_black_female_p1
+    type: DOUBLE
+  - name: change_kir_black_female_p1_se
+    type: DOUBLE
+  - name: kir_black_female_p1_reliab
+    type: DOUBLE
+  - name: kir_hisp_female_p1_1978
+    type: DOUBLE
+  - name: kir_hisp_female_p1_1992
+    type: DOUBLE
+  - name: change_kir_hisp_female_p1
+    type: DOUBLE
+  - name: change_kir_hisp_female_p1_se
+    type: DOUBLE
+  - name: kir_hisp_female_p1_reliab
+    type: DOUBLE
+  - name: kir_pooled_female_p1_1978
+    type: DOUBLE
+  - name: kir_pooled_female_p1_1992
+    type: DOUBLE
+  - name: change_kir_pooled_female_p1
+    type: DOUBLE
+  - name: change_kir_pooled_female_p1_se
+    type: DOUBLE
+  - name: kir_pooled_female_p1_reliab
+    type: DOUBLE
+  - name: kir_white_female_p1_1978
+    type: DOUBLE
+  - name: kir_white_female_p1_1992
+    type: DOUBLE
+  - name: change_kir_white_female_p1
+    type: DOUBLE
+  - name: change_kir_white_female_p1_se
+    type: DOUBLE
+  - name: kir_white_female_p1_reliab
+    type: DOUBLE
+  - name: kir_aian_male_p1_1978
+    type: DOUBLE
+  - name: kir_aian_male_p1_1992
+    type: DOUBLE
+  - name: change_kir_aian_male_p1
+    type: DOUBLE
+  - name: change_kir_aian_male_p1_se
+    type: DOUBLE
+  - name: kir_aian_male_p1_reliab
+    type: DOUBLE
+  - name: kir_asian_male_p1_1978
+    type: DOUBLE
+  - name: kir_asian_male_p1_1992
+    type: DOUBLE
+  - name: change_kir_asian_male_p1
+    type: DOUBLE
+  - name: change_kir_asian_male_p1_se
+    type: DOUBLE
+  - name: kir_asian_male_p1_reliab
+    type: DOUBLE
+  - name: kir_black_male_p1_1978
+    type: DOUBLE
+  - name: kir_black_male_p1_1992
+    type: DOUBLE
+  - name: change_kir_black_male_p1
+    type: DOUBLE
+  - name: change_kir_black_male_p1_se
+    type: DOUBLE
+  - name: kir_black_male_p1_reliab
+    type: DOUBLE
+  - name: kir_hisp_male_p1_1978
+    type: DOUBLE
+  - name: kir_hisp_male_p1_1992
+    type: DOUBLE
+  - name: change_kir_hisp_male_p1
+    type: DOUBLE
+  - name: change_kir_hisp_male_p1_se
+    type: DOUBLE
+  - name: kir_hisp_male_p1_reliab
+    type: DOUBLE
+  - name: kir_pooled_male_p1_1978
+    type: DOUBLE
+  - name: kir_pooled_male_p1_1992
+    type: DOUBLE
+  - name: change_kir_pooled_male_p1
+    type: DOUBLE
+  - name: change_kir_pooled_male_p1_se
+    type: DOUBLE
+  - name: kir_pooled_male_p1_reliab
+    type: DOUBLE
+  - name: kir_white_male_p1_1978
+    type: DOUBLE
+  - name: kir_white_male_p1_1992
+    type: DOUBLE
+  - name: change_kir_white_male_p1
+    type: DOUBLE
+  - name: change_kir_white_male_p1_se
+    type: DOUBLE
+  - name: kir_white_male_p1_reliab
+    type: DOUBLE
+  - name: kir_aian_pooled_p1_1978
+    type: DOUBLE
+  - name: kir_aian_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kir_aian_pooled_p1
+    type: DOUBLE
+  - name: change_kir_aian_pooled_p1_se
+    type: DOUBLE
+  - name: kir_aian_pooled_p1_reliab
+    type: DOUBLE
+  - name: kir_asian_pooled_p1_1978
+    type: DOUBLE
+  - name: kir_asian_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kir_asian_pooled_p1
+    type: DOUBLE
+  - name: change_kir_asian_pooled_p1_se
+    type: DOUBLE
+  - name: kir_asian_pooled_p1_reliab
+    type: DOUBLE
+  - name: kir_black_pooled_p1_1978
+    type: DOUBLE
+  - name: kir_black_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kir_black_pooled_p1
+    type: DOUBLE
+  - name: change_kir_black_pooled_p1_se
+    type: DOUBLE
+  - name: kir_black_pooled_p1_reliab
+    type: DOUBLE
+  - name: kir_hisp_pooled_p1_1978
+    type: DOUBLE
+  - name: kir_hisp_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kir_hisp_pooled_p1
+    type: DOUBLE
+  - name: change_kir_hisp_pooled_p1_se
+    type: DOUBLE
+  - name: kir_hisp_pooled_p1_reliab
+    type: DOUBLE
+  - name: kir_pooled_pooled_p1_1978
+    type: DOUBLE
+  - name: kir_pooled_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kir_pooled_pooled_p1
+    type: DOUBLE
+  - name: change_kir_pooled_pooled_p1_se
+    type: DOUBLE
+  - name: kir_pooled_pooled_p1_reliab
+    type: DOUBLE
+  - name: kir_white_pooled_p1_1978
+    type: DOUBLE
+  - name: kir_white_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kir_white_pooled_p1
+    type: DOUBLE
+  - name: change_kir_white_pooled_p1_se
+    type: DOUBLE
+  - name: kir_white_pooled_p1_reliab
+    type: DOUBLE
+  - name: kir_aian_female_p25_1978
+    type: DOUBLE
+  - name: kir_aian_female_p25_1992
+    type: DOUBLE
+  - name: change_kir_aian_female_p25
+    type: DOUBLE
+  - name: change_kir_aian_female_p25_se
+    type: DOUBLE
+  - name: kir_aian_female_p25_reliab
+    type: DOUBLE
+  - name: kir_asian_female_p25_1978
+    type: DOUBLE
+  - name: kir_asian_female_p25_1992
+    type: DOUBLE
+  - name: change_kir_asian_female_p25
+    type: DOUBLE
+  - name: change_kir_asian_female_p25_se
+    type: DOUBLE
+  - name: kir_asian_female_p25_reliab
+    type: DOUBLE
+  - name: kir_black_female_p25_1978
+    type: DOUBLE
+  - name: kir_black_female_p25_1992
+    type: DOUBLE
+  - name: change_kir_black_female_p25
+    type: DOUBLE
+  - name: change_kir_black_female_p25_se
+    type: DOUBLE
+  - name: kir_black_female_p25_reliab
+    type: DOUBLE
+  - name: kir_hisp_female_p25_1978
+    type: DOUBLE
+  - name: kir_hisp_female_p25_1992
+    type: DOUBLE
+  - name: change_kir_hisp_female_p25
+    type: DOUBLE
+  - name: change_kir_hisp_female_p25_se
+    type: DOUBLE
+  - name: kir_hisp_female_p25_reliab
+    type: DOUBLE
+  - name: kir_pooled_female_p25_1978
+    type: DOUBLE
+  - name: kir_pooled_female_p25_1992
+    type: DOUBLE
+  - name: change_kir_pooled_female_p25
+    type: DOUBLE
+  - name: change_kir_pooled_female_p25_se
+    type: DOUBLE
+  - name: kir_pooled_female_p25_reliab
+    type: DOUBLE
+  - name: kir_white_female_p25_1978
+    type: DOUBLE
+  - name: kir_white_female_p25_1992
+    type: DOUBLE
+  - name: change_kir_white_female_p25
+    type: DOUBLE
+  - name: change_kir_white_female_p25_se
+    type: DOUBLE
+  - name: kir_white_female_p25_reliab
+    type: DOUBLE
+  - name: kir_aian_male_p25_1978
+    type: DOUBLE
+  - name: kir_aian_male_p25_1992
+    type: DOUBLE
+  - name: change_kir_aian_male_p25
+    type: DOUBLE
+  - name: change_kir_aian_male_p25_se
+    type: DOUBLE
+  - name: kir_aian_male_p25_reliab
+    type: DOUBLE
+  - name: kir_asian_male_p25_1978
+    type: DOUBLE
+  - name: kir_asian_male_p25_1992
+    type: DOUBLE
+  - name: change_kir_asian_male_p25
+    type: DOUBLE
+  - name: change_kir_asian_male_p25_se
+    type: DOUBLE
+  - name: kir_asian_male_p25_reliab
+    type: DOUBLE
+  - name: kir_black_male_p25_1978
+    type: DOUBLE
+  - name: kir_black_male_p25_1992
+    type: DOUBLE
+  - name: change_kir_black_male_p25
+    type: DOUBLE
+  - name: change_kir_black_male_p25_se
+    type: DOUBLE
+  - name: kir_black_male_p25_reliab
+    type: DOUBLE
+  - name: kir_hisp_male_p25_1978
+    type: DOUBLE
+  - name: kir_hisp_male_p25_1992
+    type: DOUBLE
+  - name: change_kir_hisp_male_p25
+    type: DOUBLE
+  - name: change_kir_hisp_male_p25_se
+    type: DOUBLE
+  - name: kir_hisp_male_p25_reliab
+    type: DOUBLE
+  - name: kir_pooled_male_p25_1978
+    type: DOUBLE
+  - name: kir_pooled_male_p25_1992
+    type: DOUBLE
+  - name: change_kir_pooled_male_p25
+    type: DOUBLE
+  - name: change_kir_pooled_male_p25_se
+    type: DOUBLE
+  - name: kir_pooled_male_p25_reliab
+    type: DOUBLE
+  - name: kir_white_male_p25_1978
+    type: DOUBLE
+  - name: kir_white_male_p25_1992
+    type: DOUBLE
+  - name: change_kir_white_male_p25
+    type: DOUBLE
+  - name: change_kir_white_male_p25_se
+    type: DOUBLE
+  - name: kir_white_male_p25_reliab
+    type: DOUBLE
+  - name: kir_aian_pooled_p25_1978
+    type: DOUBLE
+  - name: kir_aian_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kir_aian_pooled_p25
+    type: DOUBLE
+  - name: change_kir_aian_pooled_p25_se
+    type: DOUBLE
+  - name: kir_aian_pooled_p25_reliab
+    type: DOUBLE
+  - name: kir_asian_pooled_p25_1978
+    type: DOUBLE
+  - name: kir_asian_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kir_asian_pooled_p25
+    type: DOUBLE
+  - name: change_kir_asian_pooled_p25_se
+    type: DOUBLE
+  - name: kir_asian_pooled_p25_reliab
+    type: DOUBLE
+  - name: kir_black_pooled_p25_1978
+    type: DOUBLE
+  - name: kir_black_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kir_black_pooled_p25
+    type: DOUBLE
+  - name: change_kir_black_pooled_p25_se
+    type: DOUBLE
+  - name: kir_black_pooled_p25_reliab
+    type: DOUBLE
+  - name: kir_hisp_pooled_p25_1978
+    type: DOUBLE
+  - name: kir_hisp_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kir_hisp_pooled_p25
+    type: DOUBLE
+  - name: change_kir_hisp_pooled_p25_se
+    type: DOUBLE
+  - name: kir_hisp_pooled_p25_reliab
+    type: DOUBLE
+  - name: kir_pooled_pooled_p25_1978
+    type: DOUBLE
+  - name: kir_pooled_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kir_pooled_pooled_p25
+    type: DOUBLE
+  - name: change_kir_pooled_pooled_p25_se
+    type: DOUBLE
+  - name: kir_pooled_pooled_p25_reliab
+    type: DOUBLE
+  - name: kir_white_pooled_p25_1978
+    type: DOUBLE
+  - name: kir_white_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kir_white_pooled_p25
+    type: DOUBLE
+  - name: change_kir_white_pooled_p25_se
+    type: DOUBLE
+  - name: kir_white_pooled_p25_reliab
+    type: DOUBLE
+  - name: kir_aian_female_p50_1978
+    type: DOUBLE
+  - name: kir_aian_female_p50_1992
+    type: DOUBLE
+  - name: change_kir_aian_female_p50
+    type: DOUBLE
+  - name: change_kir_aian_female_p50_se
+    type: DOUBLE
+  - name: kir_aian_female_p50_reliab
+    type: DOUBLE
+  - name: kir_asian_female_p50_1978
+    type: DOUBLE
+  - name: kir_asian_female_p50_1992
+    type: DOUBLE
+  - name: change_kir_asian_female_p50
+    type: DOUBLE
+  - name: change_kir_asian_female_p50_se
+    type: DOUBLE
+  - name: kir_asian_female_p50_reliab
+    type: DOUBLE
+  - name: kir_black_female_p50_1978
+    type: DOUBLE
+  - name: kir_black_female_p50_1992
+    type: DOUBLE
+  - name: change_kir_black_female_p50
+    type: DOUBLE
+  - name: change_kir_black_female_p50_se
+    type: DOUBLE
+  - name: kir_black_female_p50_reliab
+    type: DOUBLE
+  - name: kir_hisp_female_p50_1978
+    type: DOUBLE
+  - name: kir_hisp_female_p50_1992
+    type: DOUBLE
+  - name: change_kir_hisp_female_p50
+    type: DOUBLE
+  - name: change_kir_hisp_female_p50_se
+    type: DOUBLE
+  - name: kir_hisp_female_p50_reliab
+    type: DOUBLE
+  - name: kir_pooled_female_p50_1978
+    type: DOUBLE
+  - name: kir_pooled_female_p50_1992
+    type: DOUBLE
+  - name: change_kir_pooled_female_p50
+    type: DOUBLE
+  - name: change_kir_pooled_female_p50_se
+    type: DOUBLE
+  - name: kir_pooled_female_p50_reliab
+    type: DOUBLE
+  - name: kir_white_female_p50_1978
+    type: DOUBLE
+  - name: kir_white_female_p50_1992
+    type: DOUBLE
+  - name: change_kir_white_female_p50
+    type: DOUBLE
+  - name: change_kir_white_female_p50_se
+    type: DOUBLE
+  - name: kir_white_female_p50_reliab
+    type: DOUBLE
+  - name: kir_aian_male_p50_1978
+    type: DOUBLE
+  - name: kir_aian_male_p50_1992
+    type: DOUBLE
+  - name: change_kir_aian_male_p50
+    type: DOUBLE
+  - name: change_kir_aian_male_p50_se
+    type: DOUBLE
+  - name: kir_aian_male_p50_reliab
+    type: DOUBLE
+  - name: kir_asian_male_p50_1978
+    type: DOUBLE
+  - name: kir_asian_male_p50_1992
+    type: DOUBLE
+  - name: change_kir_asian_male_p50
+    type: DOUBLE
+  - name: change_kir_asian_male_p50_se
+    type: DOUBLE
+  - name: kir_asian_male_p50_reliab
+    type: DOUBLE
+  - name: kir_black_male_p50_1978
+    type: DOUBLE
+  - name: kir_black_male_p50_1992
+    type: DOUBLE
+  - name: change_kir_black_male_p50
+    type: DOUBLE
+  - name: change_kir_black_male_p50_se
+    type: DOUBLE
+  - name: kir_black_male_p50_reliab
+    type: DOUBLE
+  - name: kir_hisp_male_p50_1978
+    type: DOUBLE
+  - name: kir_hisp_male_p50_1992
+    type: DOUBLE
+  - name: change_kir_hisp_male_p50
+    type: DOUBLE
+  - name: change_kir_hisp_male_p50_se
+    type: DOUBLE
+  - name: kir_hisp_male_p50_reliab
+    type: DOUBLE
+  - name: kir_pooled_male_p50_1978
+    type: DOUBLE
+  - name: kir_pooled_male_p50_1992
+    type: DOUBLE
+  - name: change_kir_pooled_male_p50
+    type: DOUBLE
+  - name: change_kir_pooled_male_p50_se
+    type: DOUBLE
+  - name: kir_pooled_male_p50_reliab
+    type: DOUBLE
+  - name: kir_white_male_p50_1978
+    type: DOUBLE
+  - name: kir_white_male_p50_1992
+    type: DOUBLE
+  - name: change_kir_white_male_p50
+    type: DOUBLE
+  - name: change_kir_white_male_p50_se
+    type: DOUBLE
+  - name: kir_white_male_p50_reliab
+    type: DOUBLE
+  - name: kir_aian_pooled_p50_1978
+    type: DOUBLE
+  - name: kir_aian_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kir_aian_pooled_p50
+    type: DOUBLE
+  - name: change_kir_aian_pooled_p50_se
+    type: DOUBLE
+  - name: kir_aian_pooled_p50_reliab
+    type: DOUBLE
+  - name: kir_asian_pooled_p50_1978
+    type: DOUBLE
+  - name: kir_asian_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kir_asian_pooled_p50
+    type: DOUBLE
+  - name: change_kir_asian_pooled_p50_se
+    type: DOUBLE
+  - name: kir_asian_pooled_p50_reliab
+    type: DOUBLE
+  - name: kir_black_pooled_p50_1978
+    type: DOUBLE
+  - name: kir_black_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kir_black_pooled_p50
+    type: DOUBLE
+  - name: change_kir_black_pooled_p50_se
+    type: DOUBLE
+  - name: kir_black_pooled_p50_reliab
+    type: DOUBLE
+  - name: kir_hisp_pooled_p50_1978
+    type: DOUBLE
+  - name: kir_hisp_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kir_hisp_pooled_p50
+    type: DOUBLE
+  - name: change_kir_hisp_pooled_p50_se
+    type: DOUBLE
+  - name: kir_hisp_pooled_p50_reliab
+    type: DOUBLE
+  - name: kir_pooled_pooled_p50_1978
+    type: DOUBLE
+  - name: kir_pooled_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kir_pooled_pooled_p50
+    type: DOUBLE
+  - name: change_kir_pooled_pooled_p50_se
+    type: DOUBLE
+  - name: kir_pooled_pooled_p50_reliab
+    type: DOUBLE
+  - name: kir_white_pooled_p50_1978
+    type: DOUBLE
+  - name: kir_white_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kir_white_pooled_p50
+    type: DOUBLE
+  - name: change_kir_white_pooled_p50_se
+    type: DOUBLE
+  - name: kir_white_pooled_p50_reliab
+    type: DOUBLE
+  - name: kir_aian_female_p75_1978
+    type: DOUBLE
+  - name: kir_aian_female_p75_1992
+    type: DOUBLE
+  - name: change_kir_aian_female_p75
+    type: DOUBLE
+  - name: change_kir_aian_female_p75_se
+    type: DOUBLE
+  - name: kir_aian_female_p75_reliab
+    type: DOUBLE
+  - name: kir_asian_female_p75_1978
+    type: DOUBLE
+  - name: kir_asian_female_p75_1992
+    type: DOUBLE
+  - name: change_kir_asian_female_p75
+    type: DOUBLE
+  - name: change_kir_asian_female_p75_se
+    type: DOUBLE
+  - name: kir_asian_female_p75_reliab
+    type: DOUBLE
+  - name: kir_black_female_p75_1978
+    type: DOUBLE
+  - name: kir_black_female_p75_1992
+    type: DOUBLE
+  - name: change_kir_black_female_p75
+    type: DOUBLE
+  - name: change_kir_black_female_p75_se
+    type: DOUBLE
+  - name: kir_black_female_p75_reliab
+    type: DOUBLE
+  - name: kir_hisp_female_p75_1978
+    type: DOUBLE
+  - name: kir_hisp_female_p75_1992
+    type: DOUBLE
+  - name: change_kir_hisp_female_p75
+    type: DOUBLE
+  - name: change_kir_hisp_female_p75_se
+    type: DOUBLE
+  - name: kir_hisp_female_p75_reliab
+    type: DOUBLE
+  - name: kir_pooled_female_p75_1978
+    type: DOUBLE
+  - name: kir_pooled_female_p75_1992
+    type: DOUBLE
+  - name: change_kir_pooled_female_p75
+    type: DOUBLE
+  - name: change_kir_pooled_female_p75_se
+    type: DOUBLE
+  - name: kir_pooled_female_p75_reliab
+    type: DOUBLE
+  - name: kir_white_female_p75_1978
+    type: DOUBLE
+  - name: kir_white_female_p75_1992
+    type: DOUBLE
+  - name: change_kir_white_female_p75
+    type: DOUBLE
+  - name: change_kir_white_female_p75_se
+    type: DOUBLE
+  - name: kir_white_female_p75_reliab
+    type: DOUBLE
+  - name: kir_aian_male_p75_1978
+    type: DOUBLE
+  - name: kir_aian_male_p75_1992
+    type: DOUBLE
+  - name: change_kir_aian_male_p75
+    type: DOUBLE
+  - name: change_kir_aian_male_p75_se
+    type: DOUBLE
+  - name: kir_aian_male_p75_reliab
+    type: DOUBLE
+  - name: kir_asian_male_p75_1978
+    type: DOUBLE
+  - name: kir_asian_male_p75_1992
+    type: DOUBLE
+  - name: change_kir_asian_male_p75
+    type: DOUBLE
+  - name: change_kir_asian_male_p75_se
+    type: DOUBLE
+  - name: kir_asian_male_p75_reliab
+    type: DOUBLE
+  - name: kir_black_male_p75_1978
+    type: DOUBLE
+  - name: kir_black_male_p75_1992
+    type: DOUBLE
+  - name: change_kir_black_male_p75
+    type: DOUBLE
+  - name: change_kir_black_male_p75_se
+    type: DOUBLE
+  - name: kir_black_male_p75_reliab
+    type: DOUBLE
+  - name: kir_hisp_male_p75_1978
+    type: DOUBLE
+  - name: kir_hisp_male_p75_1992
+    type: DOUBLE
+  - name: change_kir_hisp_male_p75
+    type: DOUBLE
+  - name: change_kir_hisp_male_p75_se
+    type: DOUBLE
+  - name: kir_hisp_male_p75_reliab
+    type: DOUBLE
+  - name: kir_pooled_male_p75_1978
+    type: DOUBLE
+  - name: kir_pooled_male_p75_1992
+    type: DOUBLE
+  - name: change_kir_pooled_male_p75
+    type: DOUBLE
+  - name: change_kir_pooled_male_p75_se
+    type: DOUBLE
+  - name: kir_pooled_male_p75_reliab
+    type: DOUBLE
+  - name: kir_white_male_p75_1978
+    type: DOUBLE
+  - name: kir_white_male_p75_1992
+    type: DOUBLE
+  - name: change_kir_white_male_p75
+    type: DOUBLE
+  - name: change_kir_white_male_p75_se
+    type: DOUBLE
+  - name: kir_white_male_p75_reliab
+    type: DOUBLE
+  - name: kir_aian_pooled_p75_1978
+    type: DOUBLE
+  - name: kir_aian_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kir_aian_pooled_p75
+    type: DOUBLE
+  - name: change_kir_aian_pooled_p75_se
+    type: DOUBLE
+  - name: kir_aian_pooled_p75_reliab
+    type: DOUBLE
+  - name: kir_asian_pooled_p75_1978
+    type: DOUBLE
+  - name: kir_asian_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kir_asian_pooled_p75
+    type: DOUBLE
+  - name: change_kir_asian_pooled_p75_se
+    type: DOUBLE
+  - name: kir_asian_pooled_p75_reliab
+    type: DOUBLE
+  - name: kir_black_pooled_p75_1978
+    type: DOUBLE
+  - name: kir_black_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kir_black_pooled_p75
+    type: DOUBLE
+  - name: change_kir_black_pooled_p75_se
+    type: DOUBLE
+  - name: kir_black_pooled_p75_reliab
+    type: DOUBLE
+  - name: kir_hisp_pooled_p75_1978
+    type: DOUBLE
+  - name: kir_hisp_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kir_hisp_pooled_p75
+    type: DOUBLE
+  - name: change_kir_hisp_pooled_p75_se
+    type: DOUBLE
+  - name: kir_hisp_pooled_p75_reliab
+    type: DOUBLE
+  - name: kir_pooled_pooled_p75_1978
+    type: DOUBLE
+  - name: kir_pooled_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kir_pooled_pooled_p75
+    type: DOUBLE
+  - name: change_kir_pooled_pooled_p75_se
+    type: DOUBLE
+  - name: kir_pooled_pooled_p75_reliab
+    type: DOUBLE
+  - name: kir_white_pooled_p75_1978
+    type: DOUBLE
+  - name: kir_white_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kir_white_pooled_p75
+    type: DOUBLE
+  - name: change_kir_white_pooled_p75_se
+    type: DOUBLE
+  - name: kir_white_pooled_p75_reliab
+    type: DOUBLE
+  - name: kir_aian_female_p100_1978
+    type: DOUBLE
+  - name: kir_aian_female_p100_1992
+    type: DOUBLE
+  - name: change_kir_aian_female_p100
+    type: DOUBLE
+  - name: change_kir_aian_female_p100_se
+    type: DOUBLE
+  - name: kir_aian_female_p100_reliab
+    type: DOUBLE
+  - name: kir_asian_female_p100_1978
+    type: DOUBLE
+  - name: kir_asian_female_p100_1992
+    type: DOUBLE
+  - name: change_kir_asian_female_p100
+    type: DOUBLE
+  - name: change_kir_asian_female_p100_se
+    type: DOUBLE
+  - name: kir_asian_female_p100_reliab
+    type: DOUBLE
+  - name: kir_black_female_p100_1978
+    type: DOUBLE
+  - name: kir_black_female_p100_1992
+    type: DOUBLE
+  - name: change_kir_black_female_p100
+    type: DOUBLE
+  - name: change_kir_black_female_p100_se
+    type: DOUBLE
+  - name: kir_black_female_p100_reliab
+    type: DOUBLE
+  - name: kir_hisp_female_p100_1978
+    type: DOUBLE
+  - name: kir_hisp_female_p100_1992
+    type: DOUBLE
+  - name: change_kir_hisp_female_p100
+    type: DOUBLE
+  - name: change_kir_hisp_female_p100_se
+    type: DOUBLE
+  - name: kir_hisp_female_p100_reliab
+    type: DOUBLE
+  - name: kir_pooled_female_p100_1978
+    type: DOUBLE
+  - name: kir_pooled_female_p100_1992
+    type: DOUBLE
+  - name: change_kir_pooled_female_p100
+    type: DOUBLE
+  - name: change_kir_pooled_female_p100_se
+    type: DOUBLE
+  - name: kir_pooled_female_p100_reliab
+    type: DOUBLE
+  - name: kir_white_female_p100_1978
+    type: DOUBLE
+  - name: kir_white_female_p100_1992
+    type: DOUBLE
+  - name: change_kir_white_female_p100
+    type: DOUBLE
+  - name: change_kir_white_female_p100_se
+    type: DOUBLE
+  - name: kir_white_female_p100_reliab
+    type: DOUBLE
+  - name: kir_aian_male_p100_1978
+    type: DOUBLE
+  - name: kir_aian_male_p100_1992
+    type: DOUBLE
+  - name: change_kir_aian_male_p100
+    type: DOUBLE
+  - name: change_kir_aian_male_p100_se
+    type: DOUBLE
+  - name: kir_aian_male_p100_reliab
+    type: DOUBLE
+  - name: kir_asian_male_p100_1978
+    type: DOUBLE
+  - name: kir_asian_male_p100_1992
+    type: DOUBLE
+  - name: change_kir_asian_male_p100
+    type: DOUBLE
+  - name: change_kir_asian_male_p100_se
+    type: DOUBLE
+  - name: kir_asian_male_p100_reliab
+    type: DOUBLE
+  - name: kir_black_male_p100_1978
+    type: DOUBLE
+  - name: kir_black_male_p100_1992
+    type: DOUBLE
+  - name: change_kir_black_male_p100
+    type: DOUBLE
+  - name: change_kir_black_male_p100_se
+    type: DOUBLE
+  - name: kir_black_male_p100_reliab
+    type: DOUBLE
+  - name: kir_hisp_male_p100_1978
+    type: DOUBLE
+  - name: kir_hisp_male_p100_1992
+    type: DOUBLE
+  - name: change_kir_hisp_male_p100
+    type: DOUBLE
+  - name: change_kir_hisp_male_p100_se
+    type: DOUBLE
+  - name: kir_hisp_male_p100_reliab
+    type: DOUBLE
+  - name: kir_pooled_male_p100_1978
+    type: DOUBLE
+  - name: kir_pooled_male_p100_1992
+    type: DOUBLE
+  - name: change_kir_pooled_male_p100
+    type: DOUBLE
+  - name: change_kir_pooled_male_p100_se
+    type: DOUBLE
+  - name: kir_pooled_male_p100_reliab
+    type: DOUBLE
+  - name: kir_white_male_p100_1978
+    type: DOUBLE
+  - name: kir_white_male_p100_1992
+    type: DOUBLE
+  - name: change_kir_white_male_p100
+    type: DOUBLE
+  - name: change_kir_white_male_p100_se
+    type: DOUBLE
+  - name: kir_white_male_p100_reliab
+    type: DOUBLE
+  - name: kir_aian_pooled_p100_1978
+    type: DOUBLE
+  - name: kir_aian_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kir_aian_pooled_p100
+    type: DOUBLE
+  - name: change_kir_aian_pooled_p100_se
+    type: DOUBLE
+  - name: kir_aian_pooled_p100_reliab
+    type: DOUBLE
+  - name: kir_asian_pooled_p100_1978
+    type: DOUBLE
+  - name: kir_asian_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kir_asian_pooled_p100
+    type: DOUBLE
+  - name: change_kir_asian_pooled_p100_se
+    type: DOUBLE
+  - name: kir_asian_pooled_p100_reliab
+    type: DOUBLE
+  - name: kir_black_pooled_p100_1978
+    type: DOUBLE
+  - name: kir_black_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kir_black_pooled_p100
+    type: DOUBLE
+  - name: change_kir_black_pooled_p100_se
+    type: DOUBLE
+  - name: kir_black_pooled_p100_reliab
+    type: DOUBLE
+  - name: kir_hisp_pooled_p100_1978
+    type: DOUBLE
+  - name: kir_hisp_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kir_hisp_pooled_p100
+    type: DOUBLE
+  - name: change_kir_hisp_pooled_p100_se
+    type: DOUBLE
+  - name: kir_hisp_pooled_p100_reliab
+    type: DOUBLE
+  - name: kir_pooled_pooled_p100_1978
+    type: DOUBLE
+  - name: kir_pooled_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kir_pooled_pooled_p100
+    type: DOUBLE
+  - name: change_kir_pooled_pooled_p100_se
+    type: DOUBLE
+  - name: kir_pooled_pooled_p100_reliab
+    type: DOUBLE
+  - name: kir_white_pooled_p100_1978
+    type: DOUBLE
+  - name: kir_white_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kir_white_pooled_p100
+    type: DOUBLE
+  - name: change_kir_white_pooled_p100_se
+    type: DOUBLE
+  - name: kir_white_pooled_p100_reliab
+    type: DOUBLE
+  - name: emp_aian_female_p1_1978
+    type: DOUBLE
+  - name: emp_aian_female_p1_1992
+    type: DOUBLE
+  - name: change_emp_aian_female_p1
+    type: DOUBLE
+  - name: change_emp_aian_female_p1_se
+    type: DOUBLE
+  - name: emp_aian_female_p1_reliab
+    type: DOUBLE
+  - name: emp_asian_female_p1_1978
+    type: DOUBLE
+  - name: emp_asian_female_p1_1992
+    type: DOUBLE
+  - name: change_emp_asian_female_p1
+    type: DOUBLE
+  - name: change_emp_asian_female_p1_se
+    type: DOUBLE
+  - name: emp_asian_female_p1_reliab
+    type: DOUBLE
+  - name: emp_black_female_p1_1978
+    type: DOUBLE
+  - name: emp_black_female_p1_1992
+    type: DOUBLE
+  - name: change_emp_black_female_p1
+    type: DOUBLE
+  - name: change_emp_black_female_p1_se
+    type: DOUBLE
+  - name: emp_black_female_p1_reliab
+    type: DOUBLE
+  - name: emp_hisp_female_p1_1978
+    type: DOUBLE
+  - name: emp_hisp_female_p1_1992
+    type: DOUBLE
+  - name: change_emp_hisp_female_p1
+    type: DOUBLE
+  - name: change_emp_hisp_female_p1_se
+    type: DOUBLE
+  - name: emp_hisp_female_p1_reliab
+    type: DOUBLE
+  - name: emp_pooled_female_p1_1978
+    type: DOUBLE
+  - name: emp_pooled_female_p1_1992
+    type: DOUBLE
+  - name: change_emp_pooled_female_p1
+    type: DOUBLE
+  - name: change_emp_pooled_female_p1_se
+    type: DOUBLE
+  - name: emp_pooled_female_p1_reliab
+    type: DOUBLE
+  - name: emp_white_female_p1_1978
+    type: DOUBLE
+  - name: emp_white_female_p1_1992
+    type: DOUBLE
+  - name: change_emp_white_female_p1
+    type: DOUBLE
+  - name: change_emp_white_female_p1_se
+    type: DOUBLE
+  - name: emp_white_female_p1_reliab
+    type: DOUBLE
+  - name: emp_aian_male_p1_1978
+    type: DOUBLE
+  - name: emp_aian_male_p1_1992
+    type: DOUBLE
+  - name: change_emp_aian_male_p1
+    type: DOUBLE
+  - name: change_emp_aian_male_p1_se
+    type: DOUBLE
+  - name: emp_aian_male_p1_reliab
+    type: DOUBLE
+  - name: emp_asian_male_p1_1978
+    type: DOUBLE
+  - name: emp_asian_male_p1_1992
+    type: DOUBLE
+  - name: change_emp_asian_male_p1
+    type: DOUBLE
+  - name: change_emp_asian_male_p1_se
+    type: DOUBLE
+  - name: emp_asian_male_p1_reliab
+    type: DOUBLE
+  - name: emp_black_male_p1_1978
+    type: DOUBLE
+  - name: emp_black_male_p1_1992
+    type: DOUBLE
+  - name: change_emp_black_male_p1
+    type: DOUBLE
+  - name: change_emp_black_male_p1_se
+    type: DOUBLE
+  - name: emp_black_male_p1_reliab
+    type: DOUBLE
+  - name: emp_hisp_male_p1_1978
+    type: DOUBLE
+  - name: emp_hisp_male_p1_1992
+    type: DOUBLE
+  - name: change_emp_hisp_male_p1
+    type: DOUBLE
+  - name: change_emp_hisp_male_p1_se
+    type: DOUBLE
+  - name: emp_hisp_male_p1_reliab
+    type: DOUBLE
+  - name: emp_pooled_male_p1_1978
+    type: DOUBLE
+  - name: emp_pooled_male_p1_1992
+    type: DOUBLE
+  - name: change_emp_pooled_male_p1
+    type: DOUBLE
+  - name: change_emp_pooled_male_p1_se
+    type: DOUBLE
+  - name: emp_pooled_male_p1_reliab
+    type: DOUBLE
+  - name: emp_white_male_p1_1978
+    type: DOUBLE
+  - name: emp_white_male_p1_1992
+    type: DOUBLE
+  - name: change_emp_white_male_p1
+    type: DOUBLE
+  - name: change_emp_white_male_p1_se
+    type: DOUBLE
+  - name: emp_white_male_p1_reliab
+    type: DOUBLE
+  - name: emp_aian_pooled_p1_1978
+    type: DOUBLE
+  - name: emp_aian_pooled_p1_1992
+    type: DOUBLE
+  - name: change_emp_aian_pooled_p1
+    type: DOUBLE
+  - name: change_emp_aian_pooled_p1_se
+    type: DOUBLE
+  - name: emp_aian_pooled_p1_reliab
+    type: DOUBLE
+  - name: emp_asian_pooled_p1_1978
+    type: DOUBLE
+  - name: emp_asian_pooled_p1_1992
+    type: DOUBLE
+  - name: change_emp_asian_pooled_p1
+    type: DOUBLE
+  - name: change_emp_asian_pooled_p1_se
+    type: DOUBLE
+  - name: emp_asian_pooled_p1_reliab
+    type: DOUBLE
+  - name: emp_black_pooled_p1_1978
+    type: DOUBLE
+  - name: emp_black_pooled_p1_1992
+    type: DOUBLE
+  - name: change_emp_black_pooled_p1
+    type: DOUBLE
+  - name: change_emp_black_pooled_p1_se
+    type: DOUBLE
+  - name: emp_black_pooled_p1_reliab
+    type: DOUBLE
+  - name: emp_hisp_pooled_p1_1978
+    type: DOUBLE
+  - name: emp_hisp_pooled_p1_1992
+    type: DOUBLE
+  - name: change_emp_hisp_pooled_p1
+    type: DOUBLE
+  - name: change_emp_hisp_pooled_p1_se
+    type: DOUBLE
+  - name: emp_hisp_pooled_p1_reliab
+    type: DOUBLE
+  - name: emp_pooled_pooled_p1_1978
+    type: DOUBLE
+  - name: emp_pooled_pooled_p1_1992
+    type: DOUBLE
+  - name: change_emp_pooled_pooled_p1
+    type: DOUBLE
+  - name: change_emp_pooled_pooled_p1_se
+    type: DOUBLE
+  - name: emp_pooled_pooled_p1_reliab
+    type: DOUBLE
+  - name: emp_white_pooled_p1_1978
+    type: DOUBLE
+  - name: emp_white_pooled_p1_1992
+    type: DOUBLE
+  - name: change_emp_white_pooled_p1
+    type: DOUBLE
+  - name: change_emp_white_pooled_p1_se
+    type: DOUBLE
+  - name: emp_white_pooled_p1_reliab
+    type: DOUBLE
+  - name: emp_aian_female_p25_1978
+    type: DOUBLE
+  - name: emp_aian_female_p25_1992
+    type: DOUBLE
+  - name: change_emp_aian_female_p25
+    type: DOUBLE
+  - name: change_emp_aian_female_p25_se
+    type: DOUBLE
+  - name: emp_aian_female_p25_reliab
+    type: DOUBLE
+  - name: emp_asian_female_p25_1978
+    type: DOUBLE
+  - name: emp_asian_female_p25_1992
+    type: DOUBLE
+  - name: change_emp_asian_female_p25
+    type: DOUBLE
+  - name: change_emp_asian_female_p25_se
+    type: DOUBLE
+  - name: emp_asian_female_p25_reliab
+    type: DOUBLE
+  - name: emp_black_female_p25_1978
+    type: DOUBLE
+  - name: emp_black_female_p25_1992
+    type: DOUBLE
+  - name: change_emp_black_female_p25
+    type: DOUBLE
+  - name: change_emp_black_female_p25_se
+    type: DOUBLE
+  - name: emp_black_female_p25_reliab
+    type: DOUBLE
+  - name: emp_hisp_female_p25_1978
+    type: DOUBLE
+  - name: emp_hisp_female_p25_1992
+    type: DOUBLE
+  - name: change_emp_hisp_female_p25
+    type: DOUBLE
+  - name: change_emp_hisp_female_p25_se
+    type: DOUBLE
+  - name: emp_hisp_female_p25_reliab
+    type: DOUBLE
+  - name: emp_pooled_female_p25_1978
+    type: DOUBLE
+  - name: emp_pooled_female_p25_1992
+    type: DOUBLE
+  - name: change_emp_pooled_female_p25
+    type: DOUBLE
+  - name: change_emp_pooled_female_p25_se
+    type: DOUBLE
+  - name: emp_pooled_female_p25_reliab
+    type: DOUBLE
+  - name: emp_white_female_p25_1978
+    type: DOUBLE
+  - name: emp_white_female_p25_1992
+    type: DOUBLE
+  - name: change_emp_white_female_p25
+    type: DOUBLE
+  - name: change_emp_white_female_p25_se
+    type: DOUBLE
+  - name: emp_white_female_p25_reliab
+    type: DOUBLE
+  - name: emp_aian_male_p25_1978
+    type: DOUBLE
+  - name: emp_aian_male_p25_1992
+    type: DOUBLE
+  - name: change_emp_aian_male_p25
+    type: DOUBLE
+  - name: change_emp_aian_male_p25_se
+    type: DOUBLE
+  - name: emp_aian_male_p25_reliab
+    type: DOUBLE
+  - name: emp_asian_male_p25_1978
+    type: DOUBLE
+  - name: emp_asian_male_p25_1992
+    type: DOUBLE
+  - name: change_emp_asian_male_p25
+    type: DOUBLE
+  - name: change_emp_asian_male_p25_se
+    type: DOUBLE
+  - name: emp_asian_male_p25_reliab
+    type: DOUBLE
+  - name: emp_black_male_p25_1978
+    type: DOUBLE
+  - name: emp_black_male_p25_1992
+    type: DOUBLE
+  - name: change_emp_black_male_p25
+    type: DOUBLE
+  - name: change_emp_black_male_p25_se
+    type: DOUBLE
+  - name: emp_black_male_p25_reliab
+    type: DOUBLE
+  - name: emp_hisp_male_p25_1978
+    type: DOUBLE
+  - name: emp_hisp_male_p25_1992
+    type: DOUBLE
+  - name: change_emp_hisp_male_p25
+    type: DOUBLE
+  - name: change_emp_hisp_male_p25_se
+    type: DOUBLE
+  - name: emp_hisp_male_p25_reliab
+    type: DOUBLE
+  - name: emp_pooled_male_p25_1978
+    type: DOUBLE
+  - name: emp_pooled_male_p25_1992
+    type: DOUBLE
+  - name: change_emp_pooled_male_p25
+    type: DOUBLE
+  - name: change_emp_pooled_male_p25_se
+    type: DOUBLE
+  - name: emp_pooled_male_p25_reliab
+    type: DOUBLE
+  - name: emp_white_male_p25_1978
+    type: DOUBLE
+  - name: emp_white_male_p25_1992
+    type: DOUBLE
+  - name: change_emp_white_male_p25
+    type: DOUBLE
+  - name: change_emp_white_male_p25_se
+    type: DOUBLE
+  - name: emp_white_male_p25_reliab
+    type: DOUBLE
+  - name: emp_aian_pooled_p25_1978
+    type: DOUBLE
+  - name: emp_aian_pooled_p25_1992
+    type: DOUBLE
+  - name: change_emp_aian_pooled_p25
+    type: DOUBLE
+  - name: change_emp_aian_pooled_p25_se
+    type: DOUBLE
+  - name: emp_aian_pooled_p25_reliab
+    type: DOUBLE
+  - name: emp_asian_pooled_p25_1978
+    type: DOUBLE
+  - name: emp_asian_pooled_p25_1992
+    type: DOUBLE
+  - name: change_emp_asian_pooled_p25
+    type: DOUBLE
+  - name: change_emp_asian_pooled_p25_se
+    type: DOUBLE
+  - name: emp_asian_pooled_p25_reliab
+    type: DOUBLE
+  - name: emp_black_pooled_p25_1978
+    type: DOUBLE
+  - name: emp_black_pooled_p25_1992
+    type: DOUBLE
+  - name: change_emp_black_pooled_p25
+    type: DOUBLE
+  - name: change_emp_black_pooled_p25_se
+    type: DOUBLE
+  - name: emp_black_pooled_p25_reliab
+    type: DOUBLE
+  - name: emp_hisp_pooled_p25_1978
+    type: DOUBLE
+  - name: emp_hisp_pooled_p25_1992
+    type: DOUBLE
+  - name: change_emp_hisp_pooled_p25
+    type: DOUBLE
+  - name: change_emp_hisp_pooled_p25_se
+    type: DOUBLE
+  - name: emp_hisp_pooled_p25_reliab
+    type: DOUBLE
+  - name: emp_pooled_pooled_p25_1978
+    type: DOUBLE
+  - name: emp_pooled_pooled_p25_1992
+    type: DOUBLE
+  - name: change_emp_pooled_pooled_p25
+    type: DOUBLE
+  - name: change_emp_pooled_pooled_p25_se
+    type: DOUBLE
+  - name: emp_pooled_pooled_p25_reliab
+    type: DOUBLE
+  - name: emp_white_pooled_p25_1978
+    type: DOUBLE
+  - name: emp_white_pooled_p25_1992
+    type: DOUBLE
+  - name: change_emp_white_pooled_p25
+    type: DOUBLE
+  - name: change_emp_white_pooled_p25_se
+    type: DOUBLE
+  - name: emp_white_pooled_p25_reliab
+    type: DOUBLE
+  - name: emp_aian_female_p50_1978
+    type: DOUBLE
+  - name: emp_aian_female_p50_1992
+    type: DOUBLE
+  - name: change_emp_aian_female_p50
+    type: DOUBLE
+  - name: change_emp_aian_female_p50_se
+    type: DOUBLE
+  - name: emp_aian_female_p50_reliab
+    type: DOUBLE
+  - name: emp_asian_female_p50_1978
+    type: DOUBLE
+  - name: emp_asian_female_p50_1992
+    type: DOUBLE
+  - name: change_emp_asian_female_p50
+    type: DOUBLE
+  - name: change_emp_asian_female_p50_se
+    type: DOUBLE
+  - name: emp_asian_female_p50_reliab
+    type: DOUBLE
+  - name: emp_black_female_p50_1978
+    type: DOUBLE
+  - name: emp_black_female_p50_1992
+    type: DOUBLE
+  - name: change_emp_black_female_p50
+    type: DOUBLE
+  - name: change_emp_black_female_p50_se
+    type: DOUBLE
+  - name: emp_black_female_p50_reliab
+    type: DOUBLE
+  - name: emp_hisp_female_p50_1978
+    type: DOUBLE
+  - name: emp_hisp_female_p50_1992
+    type: DOUBLE
+  - name: change_emp_hisp_female_p50
+    type: DOUBLE
+  - name: change_emp_hisp_female_p50_se
+    type: DOUBLE
+  - name: emp_hisp_female_p50_reliab
+    type: DOUBLE
+  - name: emp_pooled_female_p50_1978
+    type: DOUBLE
+  - name: emp_pooled_female_p50_1992
+    type: DOUBLE
+  - name: change_emp_pooled_female_p50
+    type: DOUBLE
+  - name: change_emp_pooled_female_p50_se
+    type: DOUBLE
+  - name: emp_pooled_female_p50_reliab
+    type: DOUBLE
+  - name: emp_white_female_p50_1978
+    type: DOUBLE
+  - name: emp_white_female_p50_1992
+    type: DOUBLE
+  - name: change_emp_white_female_p50
+    type: DOUBLE
+  - name: change_emp_white_female_p50_se
+    type: DOUBLE
+  - name: emp_white_female_p50_reliab
+    type: DOUBLE
+  - name: emp_aian_male_p50_1978
+    type: DOUBLE
+  - name: emp_aian_male_p50_1992
+    type: DOUBLE
+  - name: change_emp_aian_male_p50
+    type: DOUBLE
+  - name: change_emp_aian_male_p50_se
+    type: DOUBLE
+  - name: emp_aian_male_p50_reliab
+    type: DOUBLE
+  - name: emp_asian_male_p50_1978
+    type: DOUBLE
+  - name: emp_asian_male_p50_1992
+    type: DOUBLE
+  - name: change_emp_asian_male_p50
+    type: DOUBLE
+  - name: change_emp_asian_male_p50_se
+    type: DOUBLE
+  - name: emp_asian_male_p50_reliab
+    type: DOUBLE
+  - name: emp_black_male_p50_1978
+    type: DOUBLE
+  - name: emp_black_male_p50_1992
+    type: DOUBLE
+  - name: change_emp_black_male_p50
+    type: DOUBLE
+  - name: change_emp_black_male_p50_se
+    type: DOUBLE
+  - name: emp_black_male_p50_reliab
+    type: DOUBLE
+  - name: emp_hisp_male_p50_1978
+    type: DOUBLE
+  - name: emp_hisp_male_p50_1992
+    type: DOUBLE
+  - name: change_emp_hisp_male_p50
+    type: DOUBLE
+  - name: change_emp_hisp_male_p50_se
+    type: DOUBLE
+  - name: emp_hisp_male_p50_reliab
+    type: DOUBLE
+  - name: emp_pooled_male_p50_1978
+    type: DOUBLE
+  - name: emp_pooled_male_p50_1992
+    type: DOUBLE
+  - name: change_emp_pooled_male_p50
+    type: DOUBLE
+  - name: change_emp_pooled_male_p50_se
+    type: DOUBLE
+  - name: emp_pooled_male_p50_reliab
+    type: DOUBLE
+  - name: emp_white_male_p50_1978
+    type: DOUBLE
+  - name: emp_white_male_p50_1992
+    type: DOUBLE
+  - name: change_emp_white_male_p50
+    type: DOUBLE
+  - name: change_emp_white_male_p50_se
+    type: DOUBLE
+  - name: emp_white_male_p50_reliab
+    type: DOUBLE
+  - name: emp_aian_pooled_p50_1978
+    type: DOUBLE
+  - name: emp_aian_pooled_p50_1992
+    type: DOUBLE
+  - name: change_emp_aian_pooled_p50
+    type: DOUBLE
+  - name: change_emp_aian_pooled_p50_se
+    type: DOUBLE
+  - name: emp_aian_pooled_p50_reliab
+    type: DOUBLE
+  - name: emp_asian_pooled_p50_1978
+    type: DOUBLE
+  - name: emp_asian_pooled_p50_1992
+    type: DOUBLE
+  - name: change_emp_asian_pooled_p50
+    type: DOUBLE
+  - name: change_emp_asian_pooled_p50_se
+    type: DOUBLE
+  - name: emp_asian_pooled_p50_reliab
+    type: DOUBLE
+  - name: emp_black_pooled_p50_1978
+    type: DOUBLE
+  - name: emp_black_pooled_p50_1992
+    type: DOUBLE
+  - name: change_emp_black_pooled_p50
+    type: DOUBLE
+  - name: change_emp_black_pooled_p50_se
+    type: DOUBLE
+  - name: emp_black_pooled_p50_reliab
+    type: DOUBLE
+  - name: emp_hisp_pooled_p50_1978
+    type: DOUBLE
+  - name: emp_hisp_pooled_p50_1992
+    type: DOUBLE
+  - name: change_emp_hisp_pooled_p50
+    type: DOUBLE
+  - name: change_emp_hisp_pooled_p50_se
+    type: DOUBLE
+  - name: emp_hisp_pooled_p50_reliab
+    type: DOUBLE
+  - name: emp_pooled_pooled_p50_1978
+    type: DOUBLE
+  - name: emp_pooled_pooled_p50_1992
+    type: DOUBLE
+  - name: change_emp_pooled_pooled_p50
+    type: DOUBLE
+  - name: change_emp_pooled_pooled_p50_se
+    type: DOUBLE
+  - name: emp_pooled_pooled_p50_reliab
+    type: DOUBLE
+  - name: emp_white_pooled_p50_1978
+    type: DOUBLE
+  - name: emp_white_pooled_p50_1992
+    type: DOUBLE
+  - name: change_emp_white_pooled_p50
+    type: DOUBLE
+  - name: change_emp_white_pooled_p50_se
+    type: DOUBLE
+  - name: emp_white_pooled_p50_reliab
+    type: DOUBLE
+  - name: emp_aian_female_p75_1978
+    type: DOUBLE
+  - name: emp_aian_female_p75_1992
+    type: DOUBLE
+  - name: change_emp_aian_female_p75
+    type: DOUBLE
+  - name: change_emp_aian_female_p75_se
+    type: DOUBLE
+  - name: emp_aian_female_p75_reliab
+    type: DOUBLE
+  - name: emp_asian_female_p75_1978
+    type: DOUBLE
+  - name: emp_asian_female_p75_1992
+    type: DOUBLE
+  - name: change_emp_asian_female_p75
+    type: DOUBLE
+  - name: change_emp_asian_female_p75_se
+    type: DOUBLE
+  - name: emp_asian_female_p75_reliab
+    type: DOUBLE
+  - name: emp_black_female_p75_1978
+    type: DOUBLE
+  - name: emp_black_female_p75_1992
+    type: DOUBLE
+  - name: change_emp_black_female_p75
+    type: DOUBLE
+  - name: change_emp_black_female_p75_se
+    type: DOUBLE
+  - name: emp_black_female_p75_reliab
+    type: DOUBLE
+  - name: emp_hisp_female_p75_1978
+    type: DOUBLE
+  - name: emp_hisp_female_p75_1992
+    type: DOUBLE
+  - name: change_emp_hisp_female_p75
+    type: DOUBLE
+  - name: change_emp_hisp_female_p75_se
+    type: DOUBLE
+  - name: emp_hisp_female_p75_reliab
+    type: DOUBLE
+  - name: emp_pooled_female_p75_1978
+    type: DOUBLE
+  - name: emp_pooled_female_p75_1992
+    type: DOUBLE
+  - name: change_emp_pooled_female_p75
+    type: DOUBLE
+  - name: change_emp_pooled_female_p75_se
+    type: DOUBLE
+  - name: emp_pooled_female_p75_reliab
+    type: DOUBLE
+  - name: emp_white_female_p75_1978
+    type: DOUBLE
+  - name: emp_white_female_p75_1992
+    type: DOUBLE
+  - name: change_emp_white_female_p75
+    type: DOUBLE
+  - name: change_emp_white_female_p75_se
+    type: DOUBLE
+  - name: emp_white_female_p75_reliab
+    type: DOUBLE
+  - name: emp_aian_male_p75_1978
+    type: DOUBLE
+  - name: emp_aian_male_p75_1992
+    type: DOUBLE
+  - name: change_emp_aian_male_p75
+    type: DOUBLE
+  - name: change_emp_aian_male_p75_se
+    type: DOUBLE
+  - name: emp_aian_male_p75_reliab
+    type: DOUBLE
+  - name: emp_asian_male_p75_1978
+    type: DOUBLE
+  - name: emp_asian_male_p75_1992
+    type: DOUBLE
+  - name: change_emp_asian_male_p75
+    type: DOUBLE
+  - name: change_emp_asian_male_p75_se
+    type: DOUBLE
+  - name: emp_asian_male_p75_reliab
+    type: DOUBLE
+  - name: emp_black_male_p75_1978
+    type: DOUBLE
+  - name: emp_black_male_p75_1992
+    type: DOUBLE
+  - name: change_emp_black_male_p75
+    type: DOUBLE
+  - name: change_emp_black_male_p75_se
+    type: DOUBLE
+  - name: emp_black_male_p75_reliab
+    type: DOUBLE
+  - name: emp_hisp_male_p75_1978
+    type: DOUBLE
+  - name: emp_hisp_male_p75_1992
+    type: DOUBLE
+  - name: change_emp_hisp_male_p75
+    type: DOUBLE
+  - name: change_emp_hisp_male_p75_se
+    type: DOUBLE
+  - name: emp_hisp_male_p75_reliab
+    type: DOUBLE
+  - name: emp_pooled_male_p75_1978
+    type: DOUBLE
+  - name: emp_pooled_male_p75_1992
+    type: DOUBLE
+  - name: change_emp_pooled_male_p75
+    type: DOUBLE
+  - name: change_emp_pooled_male_p75_se
+    type: DOUBLE
+  - name: emp_pooled_male_p75_reliab
+    type: DOUBLE
+  - name: emp_white_male_p75_1978
+    type: DOUBLE
+  - name: emp_white_male_p75_1992
+    type: DOUBLE
+  - name: change_emp_white_male_p75
+    type: DOUBLE
+  - name: change_emp_white_male_p75_se
+    type: DOUBLE
+  - name: emp_white_male_p75_reliab
+    type: DOUBLE
+  - name: emp_aian_pooled_p75_1978
+    type: DOUBLE
+  - name: emp_aian_pooled_p75_1992
+    type: DOUBLE
+  - name: change_emp_aian_pooled_p75
+    type: DOUBLE
+  - name: change_emp_aian_pooled_p75_se
+    type: DOUBLE
+  - name: emp_aian_pooled_p75_reliab
+    type: DOUBLE
+  - name: emp_asian_pooled_p75_1978
+    type: DOUBLE
+  - name: emp_asian_pooled_p75_1992
+    type: DOUBLE
+  - name: change_emp_asian_pooled_p75
+    type: DOUBLE
+  - name: change_emp_asian_pooled_p75_se
+    type: DOUBLE
+  - name: emp_asian_pooled_p75_reliab
+    type: DOUBLE
+  - name: emp_black_pooled_p75_1978
+    type: DOUBLE
+  - name: emp_black_pooled_p75_1992
+    type: DOUBLE
+  - name: change_emp_black_pooled_p75
+    type: DOUBLE
+  - name: change_emp_black_pooled_p75_se
+    type: DOUBLE
+  - name: emp_black_pooled_p75_reliab
+    type: DOUBLE
+  - name: emp_hisp_pooled_p75_1978
+    type: DOUBLE
+  - name: emp_hisp_pooled_p75_1992
+    type: DOUBLE
+  - name: change_emp_hisp_pooled_p75
+    type: DOUBLE
+  - name: change_emp_hisp_pooled_p75_se
+    type: DOUBLE
+  - name: emp_hisp_pooled_p75_reliab
+    type: DOUBLE
+  - name: emp_pooled_pooled_p75_1978
+    type: DOUBLE
+  - name: emp_pooled_pooled_p75_1992
+    type: DOUBLE
+  - name: change_emp_pooled_pooled_p75
+    type: DOUBLE
+  - name: change_emp_pooled_pooled_p75_se
+    type: DOUBLE
+  - name: emp_pooled_pooled_p75_reliab
+    type: DOUBLE
+  - name: emp_white_pooled_p75_1978
+    type: DOUBLE
+  - name: emp_white_pooled_p75_1992
+    type: DOUBLE
+  - name: change_emp_white_pooled_p75
+    type: DOUBLE
+  - name: change_emp_white_pooled_p75_se
+    type: DOUBLE
+  - name: emp_white_pooled_p75_reliab
+    type: DOUBLE
+  - name: emp_aian_female_p100_1978
+    type: DOUBLE
+  - name: emp_aian_female_p100_1992
+    type: DOUBLE
+  - name: change_emp_aian_female_p100
+    type: DOUBLE
+  - name: change_emp_aian_female_p100_se
+    type: DOUBLE
+  - name: emp_aian_female_p100_reliab
+    type: DOUBLE
+  - name: emp_asian_female_p100_1978
+    type: DOUBLE
+  - name: emp_asian_female_p100_1992
+    type: DOUBLE
+  - name: change_emp_asian_female_p100
+    type: DOUBLE
+  - name: change_emp_asian_female_p100_se
+    type: DOUBLE
+  - name: emp_asian_female_p100_reliab
+    type: DOUBLE
+  - name: emp_black_female_p100_1978
+    type: DOUBLE
+  - name: emp_black_female_p100_1992
+    type: DOUBLE
+  - name: change_emp_black_female_p100
+    type: DOUBLE
+  - name: change_emp_black_female_p100_se
+    type: DOUBLE
+  - name: emp_black_female_p100_reliab
+    type: DOUBLE
+  - name: emp_hisp_female_p100_1978
+    type: DOUBLE
+  - name: emp_hisp_female_p100_1992
+    type: DOUBLE
+  - name: change_emp_hisp_female_p100
+    type: DOUBLE
+  - name: change_emp_hisp_female_p100_se
+    type: DOUBLE
+  - name: emp_hisp_female_p100_reliab
+    type: DOUBLE
+  - name: emp_pooled_female_p100_1978
+    type: DOUBLE
+  - name: emp_pooled_female_p100_1992
+    type: DOUBLE
+  - name: change_emp_pooled_female_p100
+    type: DOUBLE
+  - name: change_emp_pooled_female_p100_se
+    type: DOUBLE
+  - name: emp_pooled_female_p100_reliab
+    type: DOUBLE
+  - name: emp_white_female_p100_1978
+    type: DOUBLE
+  - name: emp_white_female_p100_1992
+    type: DOUBLE
+  - name: change_emp_white_female_p100
+    type: DOUBLE
+  - name: change_emp_white_female_p100_se
+    type: DOUBLE
+  - name: emp_white_female_p100_reliab
+    type: DOUBLE
+  - name: emp_aian_male_p100_1978
+    type: DOUBLE
+  - name: emp_aian_male_p100_1992
+    type: DOUBLE
+  - name: change_emp_aian_male_p100
+    type: DOUBLE
+  - name: change_emp_aian_male_p100_se
+    type: DOUBLE
+  - name: emp_aian_male_p100_reliab
+    type: DOUBLE
+  - name: emp_asian_male_p100_1978
+    type: DOUBLE
+  - name: emp_asian_male_p100_1992
+    type: DOUBLE
+  - name: change_emp_asian_male_p100
+    type: DOUBLE
+  - name: change_emp_asian_male_p100_se
+    type: DOUBLE
+  - name: emp_asian_male_p100_reliab
+    type: DOUBLE
+  - name: emp_black_male_p100_1978
+    type: DOUBLE
+  - name: emp_black_male_p100_1992
+    type: DOUBLE
+  - name: change_emp_black_male_p100
+    type: DOUBLE
+  - name: change_emp_black_male_p100_se
+    type: DOUBLE
+  - name: emp_black_male_p100_reliab
+    type: DOUBLE
+  - name: emp_hisp_male_p100_1978
+    type: DOUBLE
+  - name: emp_hisp_male_p100_1992
+    type: DOUBLE
+  - name: change_emp_hisp_male_p100
+    type: DOUBLE
+  - name: change_emp_hisp_male_p100_se
+    type: DOUBLE
+  - name: emp_hisp_male_p100_reliab
+    type: DOUBLE
+  - name: emp_pooled_male_p100_1978
+    type: DOUBLE
+  - name: emp_pooled_male_p100_1992
+    type: DOUBLE
+  - name: change_emp_pooled_male_p100
+    type: DOUBLE
+  - name: change_emp_pooled_male_p100_se
+    type: DOUBLE
+  - name: emp_pooled_male_p100_reliab
+    type: DOUBLE
+  - name: emp_white_male_p100_1978
+    type: DOUBLE
+  - name: emp_white_male_p100_1992
+    type: DOUBLE
+  - name: change_emp_white_male_p100
+    type: DOUBLE
+  - name: change_emp_white_male_p100_se
+    type: DOUBLE
+  - name: emp_white_male_p100_reliab
+    type: DOUBLE
+  - name: emp_aian_pooled_p100_1978
+    type: DOUBLE
+  - name: emp_aian_pooled_p100_1992
+    type: DOUBLE
+  - name: change_emp_aian_pooled_p100
+    type: DOUBLE
+  - name: change_emp_aian_pooled_p100_se
+    type: DOUBLE
+  - name: emp_aian_pooled_p100_reliab
+    type: DOUBLE
+  - name: emp_asian_pooled_p100_1978
+    type: DOUBLE
+  - name: emp_asian_pooled_p100_1992
+    type: DOUBLE
+  - name: change_emp_asian_pooled_p100
+    type: DOUBLE
+  - name: change_emp_asian_pooled_p100_se
+    type: DOUBLE
+  - name: emp_asian_pooled_p100_reliab
+    type: DOUBLE
+  - name: emp_black_pooled_p100_1978
+    type: DOUBLE
+  - name: emp_black_pooled_p100_1992
+    type: DOUBLE
+  - name: change_emp_black_pooled_p100
+    type: DOUBLE
+  - name: change_emp_black_pooled_p100_se
+    type: DOUBLE
+  - name: emp_black_pooled_p100_reliab
+    type: DOUBLE
+  - name: emp_hisp_pooled_p100_1978
+    type: DOUBLE
+  - name: emp_hisp_pooled_p100_1992
+    type: DOUBLE
+  - name: change_emp_hisp_pooled_p100
+    type: DOUBLE
+  - name: change_emp_hisp_pooled_p100_se
+    type: DOUBLE
+  - name: emp_hisp_pooled_p100_reliab
+    type: DOUBLE
+  - name: emp_pooled_pooled_p100_1978
+    type: DOUBLE
+  - name: emp_pooled_pooled_p100_1992
+    type: DOUBLE
+  - name: change_emp_pooled_pooled_p100
+    type: DOUBLE
+  - name: change_emp_pooled_pooled_p100_se
+    type: DOUBLE
+  - name: emp_pooled_pooled_p100_reliab
+    type: DOUBLE
+  - name: emp_white_pooled_p100_1978
+    type: DOUBLE
+  - name: emp_white_pooled_p100_1992
+    type: DOUBLE
+  - name: change_emp_white_pooled_p100
+    type: DOUBLE
+  - name: change_emp_white_pooled_p100_se
+    type: DOUBLE
+  - name: emp_white_pooled_p100_reliab
+    type: DOUBLE
+  - name: fpw_aian_female_p1_1978
+    type: DOUBLE
+  - name: fpw_aian_female_p1_1992
+    type: DOUBLE
+  - name: change_fpw_aian_female_p1
+    type: DOUBLE
+  - name: change_fpw_aian_female_p1_se
+    type: DOUBLE
+  - name: fpw_aian_female_p1_reliab
+    type: DOUBLE
+  - name: fpw_asian_female_p1_1978
+    type: DOUBLE
+  - name: fpw_asian_female_p1_1992
+    type: DOUBLE
+  - name: change_fpw_asian_female_p1
+    type: DOUBLE
+  - name: change_fpw_asian_female_p1_se
+    type: DOUBLE
+  - name: fpw_asian_female_p1_reliab
+    type: DOUBLE
+  - name: fpw_black_female_p1_1978
+    type: DOUBLE
+  - name: fpw_black_female_p1_1992
+    type: DOUBLE
+  - name: change_fpw_black_female_p1
+    type: DOUBLE
+  - name: change_fpw_black_female_p1_se
+    type: DOUBLE
+  - name: fpw_black_female_p1_reliab
+    type: DOUBLE
+  - name: fpw_hisp_female_p1_1978
+    type: DOUBLE
+  - name: fpw_hisp_female_p1_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_female_p1
+    type: DOUBLE
+  - name: change_fpw_hisp_female_p1_se
+    type: DOUBLE
+  - name: fpw_hisp_female_p1_reliab
+    type: DOUBLE
+  - name: fpw_pooled_female_p1_1978
+    type: DOUBLE
+  - name: fpw_pooled_female_p1_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_female_p1
+    type: DOUBLE
+  - name: change_fpw_pooled_female_p1_se
+    type: DOUBLE
+  - name: fpw_pooled_female_p1_reliab
+    type: DOUBLE
+  - name: fpw_white_female_p1_1978
+    type: DOUBLE
+  - name: fpw_white_female_p1_1992
+    type: DOUBLE
+  - name: change_fpw_white_female_p1
+    type: DOUBLE
+  - name: change_fpw_white_female_p1_se
+    type: DOUBLE
+  - name: fpw_white_female_p1_reliab
+    type: DOUBLE
+  - name: fpw_aian_male_p1_1978
+    type: DOUBLE
+  - name: fpw_aian_male_p1_1992
+    type: DOUBLE
+  - name: change_fpw_aian_male_p1
+    type: DOUBLE
+  - name: change_fpw_aian_male_p1_se
+    type: DOUBLE
+  - name: fpw_aian_male_p1_reliab
+    type: DOUBLE
+  - name: fpw_asian_male_p1_1978
+    type: DOUBLE
+  - name: fpw_asian_male_p1_1992
+    type: DOUBLE
+  - name: change_fpw_asian_male_p1
+    type: DOUBLE
+  - name: change_fpw_asian_male_p1_se
+    type: DOUBLE
+  - name: fpw_asian_male_p1_reliab
+    type: DOUBLE
+  - name: fpw_black_male_p1_1978
+    type: DOUBLE
+  - name: fpw_black_male_p1_1992
+    type: DOUBLE
+  - name: change_fpw_black_male_p1
+    type: DOUBLE
+  - name: change_fpw_black_male_p1_se
+    type: DOUBLE
+  - name: fpw_black_male_p1_reliab
+    type: DOUBLE
+  - name: fpw_hisp_male_p1_1978
+    type: DOUBLE
+  - name: fpw_hisp_male_p1_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_male_p1
+    type: DOUBLE
+  - name: change_fpw_hisp_male_p1_se
+    type: DOUBLE
+  - name: fpw_hisp_male_p1_reliab
+    type: DOUBLE
+  - name: fpw_pooled_male_p1_1978
+    type: DOUBLE
+  - name: fpw_pooled_male_p1_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_male_p1
+    type: DOUBLE
+  - name: change_fpw_pooled_male_p1_se
+    type: DOUBLE
+  - name: fpw_pooled_male_p1_reliab
+    type: DOUBLE
+  - name: fpw_white_male_p1_1978
+    type: DOUBLE
+  - name: fpw_white_male_p1_1992
+    type: DOUBLE
+  - name: change_fpw_white_male_p1
+    type: DOUBLE
+  - name: change_fpw_white_male_p1_se
+    type: DOUBLE
+  - name: fpw_white_male_p1_reliab
+    type: DOUBLE
+  - name: fpw_aian_pooled_p1_1978
+    type: DOUBLE
+  - name: fpw_aian_pooled_p1_1992
+    type: DOUBLE
+  - name: change_fpw_aian_pooled_p1
+    type: DOUBLE
+  - name: change_fpw_aian_pooled_p1_se
+    type: DOUBLE
+  - name: fpw_aian_pooled_p1_reliab
+    type: DOUBLE
+  - name: fpw_asian_pooled_p1_1978
+    type: DOUBLE
+  - name: fpw_asian_pooled_p1_1992
+    type: DOUBLE
+  - name: change_fpw_asian_pooled_p1
+    type: DOUBLE
+  - name: change_fpw_asian_pooled_p1_se
+    type: DOUBLE
+  - name: fpw_asian_pooled_p1_reliab
+    type: DOUBLE
+  - name: fpw_black_pooled_p1_1978
+    type: DOUBLE
+  - name: fpw_black_pooled_p1_1992
+    type: DOUBLE
+  - name: change_fpw_black_pooled_p1
+    type: DOUBLE
+  - name: change_fpw_black_pooled_p1_se
+    type: DOUBLE
+  - name: fpw_black_pooled_p1_reliab
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p1_1978
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p1_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_pooled_p1
+    type: DOUBLE
+  - name: change_fpw_hisp_pooled_p1_se
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p1_reliab
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p1_1978
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p1_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_pooled_p1
+    type: DOUBLE
+  - name: change_fpw_pooled_pooled_p1_se
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p1_reliab
+    type: DOUBLE
+  - name: fpw_white_pooled_p1_1978
+    type: DOUBLE
+  - name: fpw_white_pooled_p1_1992
+    type: DOUBLE
+  - name: change_fpw_white_pooled_p1
+    type: DOUBLE
+  - name: change_fpw_white_pooled_p1_se
+    type: DOUBLE
+  - name: fpw_white_pooled_p1_reliab
+    type: DOUBLE
+  - name: fpw_aian_female_p25_1978
+    type: DOUBLE
+  - name: fpw_aian_female_p25_1992
+    type: DOUBLE
+  - name: change_fpw_aian_female_p25
+    type: DOUBLE
+  - name: change_fpw_aian_female_p25_se
+    type: DOUBLE
+  - name: fpw_aian_female_p25_reliab
+    type: DOUBLE
+  - name: fpw_asian_female_p25_1978
+    type: DOUBLE
+  - name: fpw_asian_female_p25_1992
+    type: DOUBLE
+  - name: change_fpw_asian_female_p25
+    type: DOUBLE
+  - name: change_fpw_asian_female_p25_se
+    type: DOUBLE
+  - name: fpw_asian_female_p25_reliab
+    type: DOUBLE
+  - name: fpw_black_female_p25_1978
+    type: DOUBLE
+  - name: fpw_black_female_p25_1992
+    type: DOUBLE
+  - name: change_fpw_black_female_p25
+    type: DOUBLE
+  - name: change_fpw_black_female_p25_se
+    type: DOUBLE
+  - name: fpw_black_female_p25_reliab
+    type: DOUBLE
+  - name: fpw_hisp_female_p25_1978
+    type: DOUBLE
+  - name: fpw_hisp_female_p25_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_female_p25
+    type: DOUBLE
+  - name: change_fpw_hisp_female_p25_se
+    type: DOUBLE
+  - name: fpw_hisp_female_p25_reliab
+    type: DOUBLE
+  - name: fpw_pooled_female_p25_1978
+    type: DOUBLE
+  - name: fpw_pooled_female_p25_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_female_p25
+    type: DOUBLE
+  - name: change_fpw_pooled_female_p25_se
+    type: DOUBLE
+  - name: fpw_pooled_female_p25_reliab
+    type: DOUBLE
+  - name: fpw_white_female_p25_1978
+    type: DOUBLE
+  - name: fpw_white_female_p25_1992
+    type: DOUBLE
+  - name: change_fpw_white_female_p25
+    type: DOUBLE
+  - name: change_fpw_white_female_p25_se
+    type: DOUBLE
+  - name: fpw_white_female_p25_reliab
+    type: DOUBLE
+  - name: fpw_aian_male_p25_1978
+    type: DOUBLE
+  - name: fpw_aian_male_p25_1992
+    type: DOUBLE
+  - name: change_fpw_aian_male_p25
+    type: DOUBLE
+  - name: change_fpw_aian_male_p25_se
+    type: DOUBLE
+  - name: fpw_aian_male_p25_reliab
+    type: DOUBLE
+  - name: fpw_asian_male_p25_1978
+    type: DOUBLE
+  - name: fpw_asian_male_p25_1992
+    type: DOUBLE
+  - name: change_fpw_asian_male_p25
+    type: DOUBLE
+  - name: change_fpw_asian_male_p25_se
+    type: DOUBLE
+  - name: fpw_asian_male_p25_reliab
+    type: DOUBLE
+  - name: fpw_black_male_p25_1978
+    type: DOUBLE
+  - name: fpw_black_male_p25_1992
+    type: DOUBLE
+  - name: change_fpw_black_male_p25
+    type: DOUBLE
+  - name: change_fpw_black_male_p25_se
+    type: DOUBLE
+  - name: fpw_black_male_p25_reliab
+    type: DOUBLE
+  - name: fpw_hisp_male_p25_1978
+    type: DOUBLE
+  - name: fpw_hisp_male_p25_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_male_p25
+    type: DOUBLE
+  - name: change_fpw_hisp_male_p25_se
+    type: DOUBLE
+  - name: fpw_hisp_male_p25_reliab
+    type: DOUBLE
+  - name: fpw_pooled_male_p25_1978
+    type: DOUBLE
+  - name: fpw_pooled_male_p25_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_male_p25
+    type: DOUBLE
+  - name: change_fpw_pooled_male_p25_se
+    type: DOUBLE
+  - name: fpw_pooled_male_p25_reliab
+    type: DOUBLE
+  - name: fpw_white_male_p25_1978
+    type: DOUBLE
+  - name: fpw_white_male_p25_1992
+    type: DOUBLE
+  - name: change_fpw_white_male_p25
+    type: DOUBLE
+  - name: change_fpw_white_male_p25_se
+    type: DOUBLE
+  - name: fpw_white_male_p25_reliab
+    type: DOUBLE
+  - name: fpw_aian_pooled_p25_1978
+    type: DOUBLE
+  - name: fpw_aian_pooled_p25_1992
+    type: DOUBLE
+  - name: change_fpw_aian_pooled_p25
+    type: DOUBLE
+  - name: change_fpw_aian_pooled_p25_se
+    type: DOUBLE
+  - name: fpw_aian_pooled_p25_reliab
+    type: DOUBLE
+  - name: fpw_asian_pooled_p25_1978
+    type: DOUBLE
+  - name: fpw_asian_pooled_p25_1992
+    type: DOUBLE
+  - name: change_fpw_asian_pooled_p25
+    type: DOUBLE
+  - name: change_fpw_asian_pooled_p25_se
+    type: DOUBLE
+  - name: fpw_asian_pooled_p25_reliab
+    type: DOUBLE
+  - name: fpw_black_pooled_p25_1978
+    type: DOUBLE
+  - name: fpw_black_pooled_p25_1992
+    type: DOUBLE
+  - name: change_fpw_black_pooled_p25
+    type: DOUBLE
+  - name: change_fpw_black_pooled_p25_se
+    type: DOUBLE
+  - name: fpw_black_pooled_p25_reliab
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p25_1978
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p25_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_pooled_p25
+    type: DOUBLE
+  - name: change_fpw_hisp_pooled_p25_se
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p25_reliab
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p25_1978
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p25_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_pooled_p25
+    type: DOUBLE
+  - name: change_fpw_pooled_pooled_p25_se
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p25_reliab
+    type: DOUBLE
+  - name: fpw_white_pooled_p25_1978
+    type: DOUBLE
+  - name: fpw_white_pooled_p25_1992
+    type: DOUBLE
+  - name: change_fpw_white_pooled_p25
+    type: DOUBLE
+  - name: change_fpw_white_pooled_p25_se
+    type: DOUBLE
+  - name: fpw_white_pooled_p25_reliab
+    type: DOUBLE
+  - name: fpw_aian_female_p50_1978
+    type: DOUBLE
+  - name: fpw_aian_female_p50_1992
+    type: DOUBLE
+  - name: change_fpw_aian_female_p50
+    type: DOUBLE
+  - name: change_fpw_aian_female_p50_se
+    type: DOUBLE
+  - name: fpw_aian_female_p50_reliab
+    type: DOUBLE
+  - name: fpw_asian_female_p50_1978
+    type: DOUBLE
+  - name: fpw_asian_female_p50_1992
+    type: DOUBLE
+  - name: change_fpw_asian_female_p50
+    type: DOUBLE
+  - name: change_fpw_asian_female_p50_se
+    type: DOUBLE
+  - name: fpw_asian_female_p50_reliab
+    type: DOUBLE
+  - name: fpw_black_female_p50_1978
+    type: DOUBLE
+  - name: fpw_black_female_p50_1992
+    type: DOUBLE
+  - name: change_fpw_black_female_p50
+    type: DOUBLE
+  - name: change_fpw_black_female_p50_se
+    type: DOUBLE
+  - name: fpw_black_female_p50_reliab
+    type: DOUBLE
+  - name: fpw_hisp_female_p50_1978
+    type: DOUBLE
+  - name: fpw_hisp_female_p50_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_female_p50
+    type: DOUBLE
+  - name: change_fpw_hisp_female_p50_se
+    type: DOUBLE
+  - name: fpw_hisp_female_p50_reliab
+    type: DOUBLE
+  - name: fpw_pooled_female_p50_1978
+    type: DOUBLE
+  - name: fpw_pooled_female_p50_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_female_p50
+    type: DOUBLE
+  - name: change_fpw_pooled_female_p50_se
+    type: DOUBLE
+  - name: fpw_pooled_female_p50_reliab
+    type: DOUBLE
+  - name: fpw_white_female_p50_1978
+    type: DOUBLE
+  - name: fpw_white_female_p50_1992
+    type: DOUBLE
+  - name: change_fpw_white_female_p50
+    type: DOUBLE
+  - name: change_fpw_white_female_p50_se
+    type: DOUBLE
+  - name: fpw_white_female_p50_reliab
+    type: DOUBLE
+  - name: fpw_aian_male_p50_1978
+    type: DOUBLE
+  - name: fpw_aian_male_p50_1992
+    type: DOUBLE
+  - name: change_fpw_aian_male_p50
+    type: DOUBLE
+  - name: change_fpw_aian_male_p50_se
+    type: DOUBLE
+  - name: fpw_aian_male_p50_reliab
+    type: DOUBLE
+  - name: fpw_asian_male_p50_1978
+    type: DOUBLE
+  - name: fpw_asian_male_p50_1992
+    type: DOUBLE
+  - name: change_fpw_asian_male_p50
+    type: DOUBLE
+  - name: change_fpw_asian_male_p50_se
+    type: DOUBLE
+  - name: fpw_asian_male_p50_reliab
+    type: DOUBLE
+  - name: fpw_black_male_p50_1978
+    type: DOUBLE
+  - name: fpw_black_male_p50_1992
+    type: DOUBLE
+  - name: change_fpw_black_male_p50
+    type: DOUBLE
+  - name: change_fpw_black_male_p50_se
+    type: DOUBLE
+  - name: fpw_black_male_p50_reliab
+    type: DOUBLE
+  - name: fpw_hisp_male_p50_1978
+    type: DOUBLE
+  - name: fpw_hisp_male_p50_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_male_p50
+    type: DOUBLE
+  - name: change_fpw_hisp_male_p50_se
+    type: DOUBLE
+  - name: fpw_hisp_male_p50_reliab
+    type: DOUBLE
+  - name: fpw_pooled_male_p50_1978
+    type: DOUBLE
+  - name: fpw_pooled_male_p50_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_male_p50
+    type: DOUBLE
+  - name: change_fpw_pooled_male_p50_se
+    type: DOUBLE
+  - name: fpw_pooled_male_p50_reliab
+    type: DOUBLE
+  - name: fpw_white_male_p50_1978
+    type: DOUBLE
+  - name: fpw_white_male_p50_1992
+    type: DOUBLE
+  - name: change_fpw_white_male_p50
+    type: DOUBLE
+  - name: change_fpw_white_male_p50_se
+    type: DOUBLE
+  - name: fpw_white_male_p50_reliab
+    type: DOUBLE
+  - name: fpw_aian_pooled_p50_1978
+    type: DOUBLE
+  - name: fpw_aian_pooled_p50_1992
+    type: DOUBLE
+  - name: change_fpw_aian_pooled_p50
+    type: DOUBLE
+  - name: change_fpw_aian_pooled_p50_se
+    type: DOUBLE
+  - name: fpw_aian_pooled_p50_reliab
+    type: DOUBLE
+  - name: fpw_asian_pooled_p50_1978
+    type: DOUBLE
+  - name: fpw_asian_pooled_p50_1992
+    type: DOUBLE
+  - name: change_fpw_asian_pooled_p50
+    type: DOUBLE
+  - name: change_fpw_asian_pooled_p50_se
+    type: DOUBLE
+  - name: fpw_asian_pooled_p50_reliab
+    type: DOUBLE
+  - name: fpw_black_pooled_p50_1978
+    type: DOUBLE
+  - name: fpw_black_pooled_p50_1992
+    type: DOUBLE
+  - name: change_fpw_black_pooled_p50
+    type: DOUBLE
+  - name: change_fpw_black_pooled_p50_se
+    type: DOUBLE
+  - name: fpw_black_pooled_p50_reliab
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p50_1978
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p50_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_pooled_p50
+    type: DOUBLE
+  - name: change_fpw_hisp_pooled_p50_se
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p50_reliab
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p50_1978
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p50_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_pooled_p50
+    type: DOUBLE
+  - name: change_fpw_pooled_pooled_p50_se
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p50_reliab
+    type: DOUBLE
+  - name: fpw_white_pooled_p50_1978
+    type: DOUBLE
+  - name: fpw_white_pooled_p50_1992
+    type: DOUBLE
+  - name: change_fpw_white_pooled_p50
+    type: DOUBLE
+  - name: change_fpw_white_pooled_p50_se
+    type: DOUBLE
+  - name: fpw_white_pooled_p50_reliab
+    type: DOUBLE
+  - name: fpw_aian_female_p75_1978
+    type: DOUBLE
+  - name: fpw_aian_female_p75_1992
+    type: DOUBLE
+  - name: change_fpw_aian_female_p75
+    type: DOUBLE
+  - name: change_fpw_aian_female_p75_se
+    type: DOUBLE
+  - name: fpw_aian_female_p75_reliab
+    type: DOUBLE
+  - name: fpw_asian_female_p75_1978
+    type: DOUBLE
+  - name: fpw_asian_female_p75_1992
+    type: DOUBLE
+  - name: change_fpw_asian_female_p75
+    type: DOUBLE
+  - name: change_fpw_asian_female_p75_se
+    type: DOUBLE
+  - name: fpw_asian_female_p75_reliab
+    type: DOUBLE
+  - name: fpw_black_female_p75_1978
+    type: DOUBLE
+  - name: fpw_black_female_p75_1992
+    type: DOUBLE
+  - name: change_fpw_black_female_p75
+    type: DOUBLE
+  - name: change_fpw_black_female_p75_se
+    type: DOUBLE
+  - name: fpw_black_female_p75_reliab
+    type: DOUBLE
+  - name: fpw_hisp_female_p75_1978
+    type: DOUBLE
+  - name: fpw_hisp_female_p75_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_female_p75
+    type: DOUBLE
+  - name: change_fpw_hisp_female_p75_se
+    type: DOUBLE
+  - name: fpw_hisp_female_p75_reliab
+    type: DOUBLE
+  - name: fpw_pooled_female_p75_1978
+    type: DOUBLE
+  - name: fpw_pooled_female_p75_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_female_p75
+    type: DOUBLE
+  - name: change_fpw_pooled_female_p75_se
+    type: DOUBLE
+  - name: fpw_pooled_female_p75_reliab
+    type: DOUBLE
+  - name: fpw_white_female_p75_1978
+    type: DOUBLE
+  - name: fpw_white_female_p75_1992
+    type: DOUBLE
+  - name: change_fpw_white_female_p75
+    type: DOUBLE
+  - name: change_fpw_white_female_p75_se
+    type: DOUBLE
+  - name: fpw_white_female_p75_reliab
+    type: DOUBLE
+  - name: fpw_aian_male_p75_1978
+    type: DOUBLE
+  - name: fpw_aian_male_p75_1992
+    type: DOUBLE
+  - name: change_fpw_aian_male_p75
+    type: DOUBLE
+  - name: change_fpw_aian_male_p75_se
+    type: DOUBLE
+  - name: fpw_aian_male_p75_reliab
+    type: DOUBLE
+  - name: fpw_asian_male_p75_1978
+    type: DOUBLE
+  - name: fpw_asian_male_p75_1992
+    type: DOUBLE
+  - name: change_fpw_asian_male_p75
+    type: DOUBLE
+  - name: change_fpw_asian_male_p75_se
+    type: DOUBLE
+  - name: fpw_asian_male_p75_reliab
+    type: DOUBLE
+  - name: fpw_black_male_p75_1978
+    type: DOUBLE
+  - name: fpw_black_male_p75_1992
+    type: DOUBLE
+  - name: change_fpw_black_male_p75
+    type: DOUBLE
+  - name: change_fpw_black_male_p75_se
+    type: DOUBLE
+  - name: fpw_black_male_p75_reliab
+    type: DOUBLE
+  - name: fpw_hisp_male_p75_1978
+    type: DOUBLE
+  - name: fpw_hisp_male_p75_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_male_p75
+    type: DOUBLE
+  - name: change_fpw_hisp_male_p75_se
+    type: DOUBLE
+  - name: fpw_hisp_male_p75_reliab
+    type: DOUBLE
+  - name: fpw_pooled_male_p75_1978
+    type: DOUBLE
+  - name: fpw_pooled_male_p75_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_male_p75
+    type: DOUBLE
+  - name: change_fpw_pooled_male_p75_se
+    type: DOUBLE
+  - name: fpw_pooled_male_p75_reliab
+    type: DOUBLE
+  - name: fpw_white_male_p75_1978
+    type: DOUBLE
+  - name: fpw_white_male_p75_1992
+    type: DOUBLE
+  - name: change_fpw_white_male_p75
+    type: DOUBLE
+  - name: change_fpw_white_male_p75_se
+    type: DOUBLE
+  - name: fpw_white_male_p75_reliab
+    type: DOUBLE
+  - name: fpw_aian_pooled_p75_1978
+    type: DOUBLE
+  - name: fpw_aian_pooled_p75_1992
+    type: DOUBLE
+  - name: change_fpw_aian_pooled_p75
+    type: DOUBLE
+  - name: change_fpw_aian_pooled_p75_se
+    type: DOUBLE
+  - name: fpw_aian_pooled_p75_reliab
+    type: DOUBLE
+  - name: fpw_asian_pooled_p75_1978
+    type: DOUBLE
+  - name: fpw_asian_pooled_p75_1992
+    type: DOUBLE
+  - name: change_fpw_asian_pooled_p75
+    type: DOUBLE
+  - name: change_fpw_asian_pooled_p75_se
+    type: DOUBLE
+  - name: fpw_asian_pooled_p75_reliab
+    type: DOUBLE
+  - name: fpw_black_pooled_p75_1978
+    type: DOUBLE
+  - name: fpw_black_pooled_p75_1992
+    type: DOUBLE
+  - name: change_fpw_black_pooled_p75
+    type: DOUBLE
+  - name: change_fpw_black_pooled_p75_se
+    type: DOUBLE
+  - name: fpw_black_pooled_p75_reliab
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p75_1978
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p75_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_pooled_p75
+    type: DOUBLE
+  - name: change_fpw_hisp_pooled_p75_se
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p75_reliab
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p75_1978
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p75_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_pooled_p75
+    type: DOUBLE
+  - name: change_fpw_pooled_pooled_p75_se
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p75_reliab
+    type: DOUBLE
+  - name: fpw_white_pooled_p75_1978
+    type: DOUBLE
+  - name: fpw_white_pooled_p75_1992
+    type: DOUBLE
+  - name: change_fpw_white_pooled_p75
+    type: DOUBLE
+  - name: change_fpw_white_pooled_p75_se
+    type: DOUBLE
+  - name: fpw_white_pooled_p75_reliab
+    type: DOUBLE
+  - name: fpw_aian_female_p100_1978
+    type: DOUBLE
+  - name: fpw_aian_female_p100_1992
+    type: DOUBLE
+  - name: change_fpw_aian_female_p100
+    type: DOUBLE
+  - name: change_fpw_aian_female_p100_se
+    type: DOUBLE
+  - name: fpw_aian_female_p100_reliab
+    type: DOUBLE
+  - name: fpw_asian_female_p100_1978
+    type: DOUBLE
+  - name: fpw_asian_female_p100_1992
+    type: DOUBLE
+  - name: change_fpw_asian_female_p100
+    type: DOUBLE
+  - name: change_fpw_asian_female_p100_se
+    type: DOUBLE
+  - name: fpw_asian_female_p100_reliab
+    type: DOUBLE
+  - name: fpw_black_female_p100_1978
+    type: DOUBLE
+  - name: fpw_black_female_p100_1992
+    type: DOUBLE
+  - name: change_fpw_black_female_p100
+    type: DOUBLE
+  - name: change_fpw_black_female_p100_se
+    type: DOUBLE
+  - name: fpw_black_female_p100_reliab
+    type: DOUBLE
+  - name: fpw_hisp_female_p100_1978
+    type: DOUBLE
+  - name: fpw_hisp_female_p100_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_female_p100
+    type: DOUBLE
+  - name: change_fpw_hisp_female_p100_se
+    type: DOUBLE
+  - name: fpw_hisp_female_p100_reliab
+    type: DOUBLE
+  - name: fpw_pooled_female_p100_1978
+    type: DOUBLE
+  - name: fpw_pooled_female_p100_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_female_p100
+    type: DOUBLE
+  - name: change_fpw_pooled_female_p100_se
+    type: DOUBLE
+  - name: fpw_pooled_female_p100_reliab
+    type: DOUBLE
+  - name: fpw_white_female_p100_1978
+    type: DOUBLE
+  - name: fpw_white_female_p100_1992
+    type: DOUBLE
+  - name: change_fpw_white_female_p100
+    type: DOUBLE
+  - name: change_fpw_white_female_p100_se
+    type: DOUBLE
+  - name: fpw_white_female_p100_reliab
+    type: DOUBLE
+  - name: fpw_aian_male_p100_1978
+    type: DOUBLE
+  - name: fpw_aian_male_p100_1992
+    type: DOUBLE
+  - name: change_fpw_aian_male_p100
+    type: DOUBLE
+  - name: change_fpw_aian_male_p100_se
+    type: DOUBLE
+  - name: fpw_aian_male_p100_reliab
+    type: DOUBLE
+  - name: fpw_asian_male_p100_1978
+    type: DOUBLE
+  - name: fpw_asian_male_p100_1992
+    type: DOUBLE
+  - name: change_fpw_asian_male_p100
+    type: DOUBLE
+  - name: change_fpw_asian_male_p100_se
+    type: DOUBLE
+  - name: fpw_asian_male_p100_reliab
+    type: DOUBLE
+  - name: fpw_black_male_p100_1978
+    type: DOUBLE
+  - name: fpw_black_male_p100_1992
+    type: DOUBLE
+  - name: change_fpw_black_male_p100
+    type: DOUBLE
+  - name: change_fpw_black_male_p100_se
+    type: DOUBLE
+  - name: fpw_black_male_p100_reliab
+    type: DOUBLE
+  - name: fpw_hisp_male_p100_1978
+    type: DOUBLE
+  - name: fpw_hisp_male_p100_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_male_p100
+    type: DOUBLE
+  - name: change_fpw_hisp_male_p100_se
+    type: DOUBLE
+  - name: fpw_hisp_male_p100_reliab
+    type: DOUBLE
+  - name: fpw_pooled_male_p100_1978
+    type: DOUBLE
+  - name: fpw_pooled_male_p100_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_male_p100
+    type: DOUBLE
+  - name: change_fpw_pooled_male_p100_se
+    type: DOUBLE
+  - name: fpw_pooled_male_p100_reliab
+    type: DOUBLE
+  - name: fpw_white_male_p100_1978
+    type: DOUBLE
+  - name: fpw_white_male_p100_1992
+    type: DOUBLE
+  - name: change_fpw_white_male_p100
+    type: DOUBLE
+  - name: change_fpw_white_male_p100_se
+    type: DOUBLE
+  - name: fpw_white_male_p100_reliab
+    type: DOUBLE
+  - name: fpw_aian_pooled_p100_1978
+    type: DOUBLE
+  - name: fpw_aian_pooled_p100_1992
+    type: DOUBLE
+  - name: change_fpw_aian_pooled_p100
+    type: DOUBLE
+  - name: change_fpw_aian_pooled_p100_se
+    type: DOUBLE
+  - name: fpw_aian_pooled_p100_reliab
+    type: DOUBLE
+  - name: fpw_asian_pooled_p100_1978
+    type: DOUBLE
+  - name: fpw_asian_pooled_p100_1992
+    type: DOUBLE
+  - name: change_fpw_asian_pooled_p100
+    type: DOUBLE
+  - name: change_fpw_asian_pooled_p100_se
+    type: DOUBLE
+  - name: fpw_asian_pooled_p100_reliab
+    type: DOUBLE
+  - name: fpw_black_pooled_p100_1978
+    type: DOUBLE
+  - name: fpw_black_pooled_p100_1992
+    type: DOUBLE
+  - name: change_fpw_black_pooled_p100
+    type: DOUBLE
+  - name: change_fpw_black_pooled_p100_se
+    type: DOUBLE
+  - name: fpw_black_pooled_p100_reliab
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p100_1978
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p100_1992
+    type: DOUBLE
+  - name: change_fpw_hisp_pooled_p100
+    type: DOUBLE
+  - name: change_fpw_hisp_pooled_p100_se
+    type: DOUBLE
+  - name: fpw_hisp_pooled_p100_reliab
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p100_1978
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p100_1992
+    type: DOUBLE
+  - name: change_fpw_pooled_pooled_p100
+    type: DOUBLE
+  - name: change_fpw_pooled_pooled_p100_se
+    type: DOUBLE
+  - name: fpw_pooled_pooled_p100_reliab
+    type: DOUBLE
+  - name: fpw_white_pooled_p100_1978
+    type: DOUBLE
+  - name: fpw_white_pooled_p100_1992
+    type: DOUBLE
+  - name: change_fpw_white_pooled_p100
+    type: DOUBLE
+  - name: change_fpw_white_pooled_p100_se
+    type: DOUBLE
+  - name: fpw_white_pooled_p100_reliab
+    type: DOUBLE
+  - name: aian_female_blw_p50_count
+    type: BIGINT
+  - name: asian_female_blw_p50_count
+    type: BIGINT
+  - name: black_female_blw_p50_count
+    type: BIGINT
+  - name: hisp_female_blw_p50_count
+    type: BIGINT
+  - name: pooled_female_blw_p50_count
+    type: BIGINT
+  - name: white_female_blw_p50_count
+    type: BIGINT
+  - name: aian_male_blw_p50_count
+    type: BIGINT
+  - name: asian_male_blw_p50_count
+    type: BIGINT
+  - name: black_male_blw_p50_count
+    type: BIGINT
+  - name: hisp_male_blw_p50_count
+    type: BIGINT
+  - name: pooled_male_blw_p50_count
+    type: BIGINT
+  - name: white_male_blw_p50_count
+    type: BIGINT
+  - name: aian_pooled_blw_p50_count
+    type: BIGINT
+  - name: asian_pooled_blw_p50_count
+    type: BIGINT
+  - name: black_pooled_blw_p50_count
+    type: BIGINT
+  - name: hisp_pooled_blw_p50_count
+    type: BIGINT
+  - name: pooled_pooled_blw_p50_count
+    type: BIGINT
+  - name: white_pooled_blw_p50_count
+    type: BIGINT
+  - name: white_male_count
+    type: BIGINT
+  - name: white_female_count
+    type: BIGINT
+  - name: white_pooled_count
+    type: BIGINT
+  - name: black_male_count
+    type: BIGINT
+  - name: black_female_count
+    type: BIGINT
+  - name: black_pooled_count
+    type: BIGINT
+  - name: asian_male_count
+    type: BIGINT
+  - name: asian_female_count
+    type: BIGINT
+  - name: asian_pooled_count
+    type: BIGINT
+  - name: hisp_male_count
+    type: BIGINT
+  - name: hisp_female_count
+    type: BIGINT
+  - name: hisp_pooled_count
+    type: BIGINT
+  - name: aian_male_count
+    type: BIGINT
+  - name: aian_female_count
+    type: BIGINT
+  - name: aian_pooled_count
+    type: BIGINT
+  - name: pooled_male_count
+    type: BIGINT
+  - name: pooled_female_count
+    type: BIGINT
+  - name: pooled_pooled_count
+    type: BIGINT
+  - name: kfi_aian_female_p1_1978
+    type: DOUBLE
+  - name: kii_aian_female_p1_1978
+    type: DOUBLE
+  - name: kfi_aian_female_p1_1992
+    type: DOUBLE
+  - name: kii_aian_female_p1_1992
+    type: DOUBLE
+  - name: change_kfi_aian_female_p1
+    type: DOUBLE
+  - name: change_kii_aian_female_p1
+    type: DOUBLE
+  - name: change_kfi_aian_female_p1_se
+    type: DOUBLE
+  - name: change_kii_aian_female_p1_se
+    type: DOUBLE
+  - name: kfi_asian_female_p1_1978
+    type: DOUBLE
+  - name: kii_asian_female_p1_1978
+    type: DOUBLE
+  - name: kfi_asian_female_p1_1992
+    type: DOUBLE
+  - name: kii_asian_female_p1_1992
+    type: DOUBLE
+  - name: change_kfi_asian_female_p1
+    type: DOUBLE
+  - name: change_kii_asian_female_p1
+    type: DOUBLE
+  - name: change_kfi_asian_female_p1_se
+    type: DOUBLE
+  - name: change_kii_asian_female_p1_se
+    type: DOUBLE
+  - name: kfi_black_female_p1_1978
+    type: DOUBLE
+  - name: kii_black_female_p1_1978
+    type: DOUBLE
+  - name: kfi_black_female_p1_1992
+    type: DOUBLE
+  - name: kii_black_female_p1_1992
+    type: DOUBLE
+  - name: change_kfi_black_female_p1
+    type: DOUBLE
+  - name: change_kii_black_female_p1
+    type: DOUBLE
+  - name: change_kfi_black_female_p1_se
+    type: DOUBLE
+  - name: change_kii_black_female_p1_se
+    type: DOUBLE
+  - name: kfi_hisp_female_p1_1978
+    type: DOUBLE
+  - name: kii_hisp_female_p1_1978
+    type: DOUBLE
+  - name: kfi_hisp_female_p1_1992
+    type: DOUBLE
+  - name: kii_hisp_female_p1_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_female_p1
+    type: DOUBLE
+  - name: change_kii_hisp_female_p1
+    type: DOUBLE
+  - name: change_kfi_hisp_female_p1_se
+    type: DOUBLE
+  - name: change_kii_hisp_female_p1_se
+    type: DOUBLE
+  - name: kfi_pooled_female_p1_1978
+    type: DOUBLE
+  - name: kii_pooled_female_p1_1978
+    type: DOUBLE
+  - name: kfi_pooled_female_p1_1992
+    type: DOUBLE
+  - name: kii_pooled_female_p1_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_female_p1
+    type: DOUBLE
+  - name: change_kii_pooled_female_p1
+    type: DOUBLE
+  - name: change_kfi_pooled_female_p1_se
+    type: DOUBLE
+  - name: change_kii_pooled_female_p1_se
+    type: DOUBLE
+  - name: kfi_white_female_p1_1978
+    type: DOUBLE
+  - name: kii_white_female_p1_1978
+    type: DOUBLE
+  - name: kfi_white_female_p1_1992
+    type: DOUBLE
+  - name: kii_white_female_p1_1992
+    type: DOUBLE
+  - name: change_kfi_white_female_p1
+    type: DOUBLE
+  - name: change_kii_white_female_p1
+    type: DOUBLE
+  - name: change_kfi_white_female_p1_se
+    type: DOUBLE
+  - name: change_kii_white_female_p1_se
+    type: DOUBLE
+  - name: kfi_aian_male_p1_1978
+    type: DOUBLE
+  - name: kii_aian_male_p1_1978
+    type: DOUBLE
+  - name: kfi_aian_male_p1_1992
+    type: DOUBLE
+  - name: kii_aian_male_p1_1992
+    type: DOUBLE
+  - name: change_kfi_aian_male_p1
+    type: DOUBLE
+  - name: change_kii_aian_male_p1
+    type: DOUBLE
+  - name: change_kfi_aian_male_p1_se
+    type: DOUBLE
+  - name: change_kii_aian_male_p1_se
+    type: DOUBLE
+  - name: kfi_asian_male_p1_1978
+    type: DOUBLE
+  - name: kii_asian_male_p1_1978
+    type: DOUBLE
+  - name: kfi_asian_male_p1_1992
+    type: DOUBLE
+  - name: kii_asian_male_p1_1992
+    type: DOUBLE
+  - name: change_kfi_asian_male_p1
+    type: DOUBLE
+  - name: change_kii_asian_male_p1
+    type: DOUBLE
+  - name: change_kfi_asian_male_p1_se
+    type: DOUBLE
+  - name: change_kii_asian_male_p1_se
+    type: DOUBLE
+  - name: kfi_black_male_p1_1978
+    type: DOUBLE
+  - name: kii_black_male_p1_1978
+    type: DOUBLE
+  - name: kfi_black_male_p1_1992
+    type: DOUBLE
+  - name: kii_black_male_p1_1992
+    type: DOUBLE
+  - name: change_kfi_black_male_p1
+    type: DOUBLE
+  - name: change_kii_black_male_p1
+    type: DOUBLE
+  - name: change_kfi_black_male_p1_se
+    type: DOUBLE
+  - name: change_kii_black_male_p1_se
+    type: DOUBLE
+  - name: kfi_hisp_male_p1_1978
+    type: DOUBLE
+  - name: kii_hisp_male_p1_1978
+    type: DOUBLE
+  - name: kfi_hisp_male_p1_1992
+    type: DOUBLE
+  - name: kii_hisp_male_p1_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_male_p1
+    type: DOUBLE
+  - name: change_kii_hisp_male_p1
+    type: DOUBLE
+  - name: change_kfi_hisp_male_p1_se
+    type: DOUBLE
+  - name: change_kii_hisp_male_p1_se
+    type: DOUBLE
+  - name: kfi_pooled_male_p1_1978
+    type: DOUBLE
+  - name: kii_pooled_male_p1_1978
+    type: DOUBLE
+  - name: kfi_pooled_male_p1_1992
+    type: DOUBLE
+  - name: kii_pooled_male_p1_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_male_p1
+    type: DOUBLE
+  - name: change_kii_pooled_male_p1
+    type: DOUBLE
+  - name: change_kfi_pooled_male_p1_se
+    type: DOUBLE
+  - name: change_kii_pooled_male_p1_se
+    type: DOUBLE
+  - name: kfi_white_male_p1_1978
+    type: DOUBLE
+  - name: kii_white_male_p1_1978
+    type: DOUBLE
+  - name: kfi_white_male_p1_1992
+    type: DOUBLE
+  - name: kii_white_male_p1_1992
+    type: DOUBLE
+  - name: change_kfi_white_male_p1
+    type: DOUBLE
+  - name: change_kii_white_male_p1
+    type: DOUBLE
+  - name: change_kfi_white_male_p1_se
+    type: DOUBLE
+  - name: change_kii_white_male_p1_se
+    type: DOUBLE
+  - name: kfi_aian_pooled_p1_1978
+    type: DOUBLE
+  - name: kii_aian_pooled_p1_1978
+    type: DOUBLE
+  - name: kfi_aian_pooled_p1_1992
+    type: DOUBLE
+  - name: kii_aian_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kfi_aian_pooled_p1
+    type: DOUBLE
+  - name: change_kii_aian_pooled_p1
+    type: DOUBLE
+  - name: change_kfi_aian_pooled_p1_se
+    type: DOUBLE
+  - name: change_kii_aian_pooled_p1_se
+    type: DOUBLE
+  - name: kfi_asian_pooled_p1_1978
+    type: DOUBLE
+  - name: kii_asian_pooled_p1_1978
+    type: DOUBLE
+  - name: kfi_asian_pooled_p1_1992
+    type: DOUBLE
+  - name: kii_asian_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kfi_asian_pooled_p1
+    type: DOUBLE
+  - name: change_kii_asian_pooled_p1
+    type: DOUBLE
+  - name: change_kfi_asian_pooled_p1_se
+    type: DOUBLE
+  - name: change_kii_asian_pooled_p1_se
+    type: DOUBLE
+  - name: kfi_black_pooled_p1_1978
+    type: DOUBLE
+  - name: kii_black_pooled_p1_1978
+    type: DOUBLE
+  - name: kfi_black_pooled_p1_1992
+    type: DOUBLE
+  - name: kii_black_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kfi_black_pooled_p1
+    type: DOUBLE
+  - name: change_kii_black_pooled_p1
+    type: DOUBLE
+  - name: change_kfi_black_pooled_p1_se
+    type: DOUBLE
+  - name: change_kii_black_pooled_p1_se
+    type: DOUBLE
+  - name: kfi_hisp_pooled_p1_1978
+    type: DOUBLE
+  - name: kii_hisp_pooled_p1_1978
+    type: DOUBLE
+  - name: kfi_hisp_pooled_p1_1992
+    type: DOUBLE
+  - name: kii_hisp_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_pooled_p1
+    type: DOUBLE
+  - name: change_kii_hisp_pooled_p1
+    type: DOUBLE
+  - name: change_kfi_hisp_pooled_p1_se
+    type: DOUBLE
+  - name: change_kii_hisp_pooled_p1_se
+    type: DOUBLE
+  - name: kfi_pooled_pooled_p1_1978
+    type: DOUBLE
+  - name: kii_pooled_pooled_p1_1978
+    type: DOUBLE
+  - name: kfi_pooled_pooled_p1_1992
+    type: DOUBLE
+  - name: kii_pooled_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_pooled_p1
+    type: DOUBLE
+  - name: change_kii_pooled_pooled_p1
+    type: DOUBLE
+  - name: change_kfi_pooled_pooled_p1_se
+    type: DOUBLE
+  - name: change_kii_pooled_pooled_p1_se
+    type: DOUBLE
+  - name: kfi_white_pooled_p1_1978
+    type: DOUBLE
+  - name: kii_white_pooled_p1_1978
+    type: DOUBLE
+  - name: kfi_white_pooled_p1_1992
+    type: DOUBLE
+  - name: kii_white_pooled_p1_1992
+    type: DOUBLE
+  - name: change_kfi_white_pooled_p1
+    type: DOUBLE
+  - name: change_kii_white_pooled_p1
+    type: DOUBLE
+  - name: change_kfi_white_pooled_p1_se
+    type: DOUBLE
+  - name: change_kii_white_pooled_p1_se
+    type: DOUBLE
+  - name: kfi_aian_female_p25_1978
+    type: DOUBLE
+  - name: kii_aian_female_p25_1978
+    type: DOUBLE
+  - name: kfi_aian_female_p25_1992
+    type: DOUBLE
+  - name: kii_aian_female_p25_1992
+    type: DOUBLE
+  - name: change_kfi_aian_female_p25
+    type: DOUBLE
+  - name: change_kii_aian_female_p25
+    type: DOUBLE
+  - name: change_kfi_aian_female_p25_se
+    type: DOUBLE
+  - name: change_kii_aian_female_p25_se
+    type: DOUBLE
+  - name: kfi_asian_female_p25_1978
+    type: DOUBLE
+  - name: kii_asian_female_p25_1978
+    type: DOUBLE
+  - name: kfi_asian_female_p25_1992
+    type: DOUBLE
+  - name: kii_asian_female_p25_1992
+    type: DOUBLE
+  - name: change_kfi_asian_female_p25
+    type: DOUBLE
+  - name: change_kii_asian_female_p25
+    type: DOUBLE
+  - name: change_kfi_asian_female_p25_se
+    type: DOUBLE
+  - name: change_kii_asian_female_p25_se
+    type: DOUBLE
+  - name: kfi_black_female_p25_1978
+    type: DOUBLE
+  - name: kii_black_female_p25_1978
+    type: DOUBLE
+  - name: kfi_black_female_p25_1992
+    type: DOUBLE
+  - name: kii_black_female_p25_1992
+    type: DOUBLE
+  - name: change_kfi_black_female_p25
+    type: DOUBLE
+  - name: change_kii_black_female_p25
+    type: DOUBLE
+  - name: change_kfi_black_female_p25_se
+    type: DOUBLE
+  - name: change_kii_black_female_p25_se
+    type: DOUBLE
+  - name: kfi_hisp_female_p25_1978
+    type: DOUBLE
+  - name: kii_hisp_female_p25_1978
+    type: DOUBLE
+  - name: kfi_hisp_female_p25_1992
+    type: DOUBLE
+  - name: kii_hisp_female_p25_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_female_p25
+    type: DOUBLE
+  - name: change_kii_hisp_female_p25
+    type: DOUBLE
+  - name: change_kfi_hisp_female_p25_se
+    type: DOUBLE
+  - name: change_kii_hisp_female_p25_se
+    type: DOUBLE
+  - name: kfi_pooled_female_p25_1978
+    type: DOUBLE
+  - name: kii_pooled_female_p25_1978
+    type: DOUBLE
+  - name: kfi_pooled_female_p25_1992
+    type: DOUBLE
+  - name: kii_pooled_female_p25_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_female_p25
+    type: DOUBLE
+  - name: change_kii_pooled_female_p25
+    type: DOUBLE
+  - name: change_kfi_pooled_female_p25_se
+    type: DOUBLE
+  - name: change_kii_pooled_female_p25_se
+    type: DOUBLE
+  - name: kfi_white_female_p25_1978
+    type: DOUBLE
+  - name: kii_white_female_p25_1978
+    type: DOUBLE
+  - name: kfi_white_female_p25_1992
+    type: DOUBLE
+  - name: kii_white_female_p25_1992
+    type: DOUBLE
+  - name: change_kfi_white_female_p25
+    type: DOUBLE
+  - name: change_kii_white_female_p25
+    type: DOUBLE
+  - name: change_kfi_white_female_p25_se
+    type: DOUBLE
+  - name: change_kii_white_female_p25_se
+    type: DOUBLE
+  - name: kfi_aian_male_p25_1978
+    type: DOUBLE
+  - name: kii_aian_male_p25_1978
+    type: DOUBLE
+  - name: kfi_aian_male_p25_1992
+    type: DOUBLE
+  - name: kii_aian_male_p25_1992
+    type: DOUBLE
+  - name: change_kfi_aian_male_p25
+    type: DOUBLE
+  - name: change_kii_aian_male_p25
+    type: DOUBLE
+  - name: change_kfi_aian_male_p25_se
+    type: DOUBLE
+  - name: change_kii_aian_male_p25_se
+    type: DOUBLE
+  - name: kfi_asian_male_p25_1978
+    type: DOUBLE
+  - name: kii_asian_male_p25_1978
+    type: DOUBLE
+  - name: kfi_asian_male_p25_1992
+    type: DOUBLE
+  - name: kii_asian_male_p25_1992
+    type: DOUBLE
+  - name: change_kfi_asian_male_p25
+    type: DOUBLE
+  - name: change_kii_asian_male_p25
+    type: DOUBLE
+  - name: change_kfi_asian_male_p25_se
+    type: DOUBLE
+  - name: change_kii_asian_male_p25_se
+    type: DOUBLE
+  - name: kfi_black_male_p25_1978
+    type: DOUBLE
+  - name: kii_black_male_p25_1978
+    type: DOUBLE
+  - name: kfi_black_male_p25_1992
+    type: DOUBLE
+  - name: kii_black_male_p25_1992
+    type: DOUBLE
+  - name: change_kfi_black_male_p25
+    type: DOUBLE
+  - name: change_kii_black_male_p25
+    type: DOUBLE
+  - name: change_kfi_black_male_p25_se
+    type: DOUBLE
+  - name: change_kii_black_male_p25_se
+    type: DOUBLE
+  - name: kfi_hisp_male_p25_1978
+    type: DOUBLE
+  - name: kii_hisp_male_p25_1978
+    type: DOUBLE
+  - name: kfi_hisp_male_p25_1992
+    type: DOUBLE
+  - name: kii_hisp_male_p25_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_male_p25
+    type: DOUBLE
+  - name: change_kii_hisp_male_p25
+    type: DOUBLE
+  - name: change_kfi_hisp_male_p25_se
+    type: DOUBLE
+  - name: change_kii_hisp_male_p25_se
+    type: DOUBLE
+  - name: kfi_pooled_male_p25_1978
+    type: DOUBLE
+  - name: kii_pooled_male_p25_1978
+    type: DOUBLE
+  - name: kfi_pooled_male_p25_1992
+    type: DOUBLE
+  - name: kii_pooled_male_p25_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_male_p25
+    type: DOUBLE
+  - name: change_kii_pooled_male_p25
+    type: DOUBLE
+  - name: change_kfi_pooled_male_p25_se
+    type: DOUBLE
+  - name: change_kii_pooled_male_p25_se
+    type: DOUBLE
+  - name: kfi_white_male_p25_1978
+    type: DOUBLE
+  - name: kii_white_male_p25_1978
+    type: DOUBLE
+  - name: kfi_white_male_p25_1992
+    type: DOUBLE
+  - name: kii_white_male_p25_1992
+    type: DOUBLE
+  - name: change_kfi_white_male_p25
+    type: DOUBLE
+  - name: change_kii_white_male_p25
+    type: DOUBLE
+  - name: change_kfi_white_male_p25_se
+    type: DOUBLE
+  - name: change_kii_white_male_p25_se
+    type: DOUBLE
+  - name: kfi_aian_pooled_p25_1978
+    type: DOUBLE
+  - name: kii_aian_pooled_p25_1978
+    type: DOUBLE
+  - name: kfi_aian_pooled_p25_1992
+    type: DOUBLE
+  - name: kii_aian_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kfi_aian_pooled_p25
+    type: DOUBLE
+  - name: change_kii_aian_pooled_p25
+    type: DOUBLE
+  - name: change_kfi_aian_pooled_p25_se
+    type: DOUBLE
+  - name: change_kii_aian_pooled_p25_se
+    type: DOUBLE
+  - name: kfi_asian_pooled_p25_1978
+    type: DOUBLE
+  - name: kii_asian_pooled_p25_1978
+    type: DOUBLE
+  - name: kfi_asian_pooled_p25_1992
+    type: DOUBLE
+  - name: kii_asian_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kfi_asian_pooled_p25
+    type: DOUBLE
+  - name: change_kii_asian_pooled_p25
+    type: DOUBLE
+  - name: change_kfi_asian_pooled_p25_se
+    type: DOUBLE
+  - name: change_kii_asian_pooled_p25_se
+    type: DOUBLE
+  - name: kfi_black_pooled_p25_1978
+    type: DOUBLE
+  - name: kii_black_pooled_p25_1978
+    type: DOUBLE
+  - name: kfi_black_pooled_p25_1992
+    type: DOUBLE
+  - name: kii_black_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kfi_black_pooled_p25
+    type: DOUBLE
+  - name: change_kii_black_pooled_p25
+    type: DOUBLE
+  - name: change_kfi_black_pooled_p25_se
+    type: DOUBLE
+  - name: change_kii_black_pooled_p25_se
+    type: DOUBLE
+  - name: kfi_hisp_pooled_p25_1978
+    type: DOUBLE
+  - name: kii_hisp_pooled_p25_1978
+    type: DOUBLE
+  - name: kfi_hisp_pooled_p25_1992
+    type: DOUBLE
+  - name: kii_hisp_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_pooled_p25
+    type: DOUBLE
+  - name: change_kii_hisp_pooled_p25
+    type: DOUBLE
+  - name: change_kfi_hisp_pooled_p25_se
+    type: DOUBLE
+  - name: change_kii_hisp_pooled_p25_se
+    type: DOUBLE
+  - name: kfi_pooled_pooled_p25_1978
+    type: DOUBLE
+  - name: kii_pooled_pooled_p25_1978
+    type: DOUBLE
+  - name: kfi_pooled_pooled_p25_1992
+    type: DOUBLE
+  - name: kii_pooled_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_pooled_p25
+    type: DOUBLE
+  - name: change_kii_pooled_pooled_p25
+    type: DOUBLE
+  - name: change_kfi_pooled_pooled_p25_se
+    type: DOUBLE
+  - name: change_kii_pooled_pooled_p25_se
+    type: DOUBLE
+  - name: kfi_white_pooled_p25_1978
+    type: DOUBLE
+  - name: kii_white_pooled_p25_1978
+    type: DOUBLE
+  - name: kfi_white_pooled_p25_1992
+    type: DOUBLE
+  - name: kii_white_pooled_p25_1992
+    type: DOUBLE
+  - name: change_kfi_white_pooled_p25
+    type: DOUBLE
+  - name: change_kii_white_pooled_p25
+    type: DOUBLE
+  - name: change_kfi_white_pooled_p25_se
+    type: DOUBLE
+  - name: change_kii_white_pooled_p25_se
+    type: DOUBLE
+  - name: kfi_aian_female_p50_1978
+    type: DOUBLE
+  - name: kii_aian_female_p50_1978
+    type: DOUBLE
+  - name: kfi_aian_female_p50_1992
+    type: DOUBLE
+  - name: kii_aian_female_p50_1992
+    type: DOUBLE
+  - name: change_kfi_aian_female_p50
+    type: DOUBLE
+  - name: change_kii_aian_female_p50
+    type: DOUBLE
+  - name: change_kfi_aian_female_p50_se
+    type: DOUBLE
+  - name: change_kii_aian_female_p50_se
+    type: DOUBLE
+  - name: kfi_asian_female_p50_1978
+    type: DOUBLE
+  - name: kii_asian_female_p50_1978
+    type: DOUBLE
+  - name: kfi_asian_female_p50_1992
+    type: DOUBLE
+  - name: kii_asian_female_p50_1992
+    type: DOUBLE
+  - name: change_kfi_asian_female_p50
+    type: DOUBLE
+  - name: change_kii_asian_female_p50
+    type: DOUBLE
+  - name: change_kfi_asian_female_p50_se
+    type: DOUBLE
+  - name: change_kii_asian_female_p50_se
+    type: DOUBLE
+  - name: kfi_black_female_p50_1978
+    type: DOUBLE
+  - name: kii_black_female_p50_1978
+    type: DOUBLE
+  - name: kfi_black_female_p50_1992
+    type: DOUBLE
+  - name: kii_black_female_p50_1992
+    type: DOUBLE
+  - name: change_kfi_black_female_p50
+    type: DOUBLE
+  - name: change_kii_black_female_p50
+    type: DOUBLE
+  - name: change_kfi_black_female_p50_se
+    type: DOUBLE
+  - name: change_kii_black_female_p50_se
+    type: DOUBLE
+  - name: kfi_hisp_female_p50_1978
+    type: DOUBLE
+  - name: kii_hisp_female_p50_1978
+    type: DOUBLE
+  - name: kfi_hisp_female_p50_1992
+    type: DOUBLE
+  - name: kii_hisp_female_p50_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_female_p50
+    type: DOUBLE
+  - name: change_kii_hisp_female_p50
+    type: DOUBLE
+  - name: change_kfi_hisp_female_p50_se
+    type: DOUBLE
+  - name: change_kii_hisp_female_p50_se
+    type: DOUBLE
+  - name: kfi_pooled_female_p50_1978
+    type: DOUBLE
+  - name: kii_pooled_female_p50_1978
+    type: DOUBLE
+  - name: kfi_pooled_female_p50_1992
+    type: DOUBLE
+  - name: kii_pooled_female_p50_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_female_p50
+    type: DOUBLE
+  - name: change_kii_pooled_female_p50
+    type: DOUBLE
+  - name: change_kfi_pooled_female_p50_se
+    type: DOUBLE
+  - name: change_kii_pooled_female_p50_se
+    type: DOUBLE
+  - name: kfi_white_female_p50_1978
+    type: DOUBLE
+  - name: kii_white_female_p50_1978
+    type: DOUBLE
+  - name: kfi_white_female_p50_1992
+    type: DOUBLE
+  - name: kii_white_female_p50_1992
+    type: DOUBLE
+  - name: change_kfi_white_female_p50
+    type: DOUBLE
+  - name: change_kii_white_female_p50
+    type: DOUBLE
+  - name: change_kfi_white_female_p50_se
+    type: DOUBLE
+  - name: change_kii_white_female_p50_se
+    type: DOUBLE
+  - name: kfi_aian_male_p50_1978
+    type: DOUBLE
+  - name: kii_aian_male_p50_1978
+    type: DOUBLE
+  - name: kfi_aian_male_p50_1992
+    type: DOUBLE
+  - name: kii_aian_male_p50_1992
+    type: DOUBLE
+  - name: change_kfi_aian_male_p50
+    type: DOUBLE
+  - name: change_kii_aian_male_p50
+    type: DOUBLE
+  - name: change_kfi_aian_male_p50_se
+    type: DOUBLE
+  - name: change_kii_aian_male_p50_se
+    type: DOUBLE
+  - name: kfi_asian_male_p50_1978
+    type: DOUBLE
+  - name: kii_asian_male_p50_1978
+    type: DOUBLE
+  - name: kfi_asian_male_p50_1992
+    type: DOUBLE
+  - name: kii_asian_male_p50_1992
+    type: DOUBLE
+  - name: change_kfi_asian_male_p50
+    type: DOUBLE
+  - name: change_kii_asian_male_p50
+    type: DOUBLE
+  - name: change_kfi_asian_male_p50_se
+    type: DOUBLE
+  - name: change_kii_asian_male_p50_se
+    type: DOUBLE
+  - name: kfi_black_male_p50_1978
+    type: DOUBLE
+  - name: kii_black_male_p50_1978
+    type: DOUBLE
+  - name: kfi_black_male_p50_1992
+    type: DOUBLE
+  - name: kii_black_male_p50_1992
+    type: DOUBLE
+  - name: change_kfi_black_male_p50
+    type: DOUBLE
+  - name: change_kii_black_male_p50
+    type: DOUBLE
+  - name: change_kfi_black_male_p50_se
+    type: DOUBLE
+  - name: change_kii_black_male_p50_se
+    type: DOUBLE
+  - name: kfi_hisp_male_p50_1978
+    type: DOUBLE
+  - name: kii_hisp_male_p50_1978
+    type: DOUBLE
+  - name: kfi_hisp_male_p50_1992
+    type: DOUBLE
+  - name: kii_hisp_male_p50_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_male_p50
+    type: DOUBLE
+  - name: change_kii_hisp_male_p50
+    type: DOUBLE
+  - name: change_kfi_hisp_male_p50_se
+    type: DOUBLE
+  - name: change_kii_hisp_male_p50_se
+    type: DOUBLE
+  - name: kfi_pooled_male_p50_1978
+    type: DOUBLE
+  - name: kii_pooled_male_p50_1978
+    type: DOUBLE
+  - name: kfi_pooled_male_p50_1992
+    type: DOUBLE
+  - name: kii_pooled_male_p50_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_male_p50
+    type: DOUBLE
+  - name: change_kii_pooled_male_p50
+    type: DOUBLE
+  - name: change_kfi_pooled_male_p50_se
+    type: DOUBLE
+  - name: change_kii_pooled_male_p50_se
+    type: DOUBLE
+  - name: kfi_white_male_p50_1978
+    type: DOUBLE
+  - name: kii_white_male_p50_1978
+    type: DOUBLE
+  - name: kfi_white_male_p50_1992
+    type: DOUBLE
+  - name: kii_white_male_p50_1992
+    type: DOUBLE
+  - name: change_kfi_white_male_p50
+    type: DOUBLE
+  - name: change_kii_white_male_p50
+    type: DOUBLE
+  - name: change_kfi_white_male_p50_se
+    type: DOUBLE
+  - name: change_kii_white_male_p50_se
+    type: DOUBLE
+  - name: kfi_aian_pooled_p50_1978
+    type: DOUBLE
+  - name: kii_aian_pooled_p50_1978
+    type: DOUBLE
+  - name: kfi_aian_pooled_p50_1992
+    type: DOUBLE
+  - name: kii_aian_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kfi_aian_pooled_p50
+    type: DOUBLE
+  - name: change_kii_aian_pooled_p50
+    type: DOUBLE
+  - name: change_kfi_aian_pooled_p50_se
+    type: DOUBLE
+  - name: change_kii_aian_pooled_p50_se
+    type: DOUBLE
+  - name: kfi_asian_pooled_p50_1978
+    type: DOUBLE
+  - name: kii_asian_pooled_p50_1978
+    type: DOUBLE
+  - name: kfi_asian_pooled_p50_1992
+    type: DOUBLE
+  - name: kii_asian_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kfi_asian_pooled_p50
+    type: DOUBLE
+  - name: change_kii_asian_pooled_p50
+    type: DOUBLE
+  - name: change_kfi_asian_pooled_p50_se
+    type: DOUBLE
+  - name: change_kii_asian_pooled_p50_se
+    type: DOUBLE
+  - name: kfi_black_pooled_p50_1978
+    type: DOUBLE
+  - name: kii_black_pooled_p50_1978
+    type: DOUBLE
+  - name: kfi_black_pooled_p50_1992
+    type: DOUBLE
+  - name: kii_black_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kfi_black_pooled_p50
+    type: DOUBLE
+  - name: change_kii_black_pooled_p50
+    type: DOUBLE
+  - name: change_kfi_black_pooled_p50_se
+    type: DOUBLE
+  - name: change_kii_black_pooled_p50_se
+    type: DOUBLE
+  - name: kfi_hisp_pooled_p50_1978
+    type: DOUBLE
+  - name: kii_hisp_pooled_p50_1978
+    type: DOUBLE
+  - name: kfi_hisp_pooled_p50_1992
+    type: DOUBLE
+  - name: kii_hisp_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_pooled_p50
+    type: DOUBLE
+  - name: change_kii_hisp_pooled_p50
+    type: DOUBLE
+  - name: change_kfi_hisp_pooled_p50_se
+    type: DOUBLE
+  - name: change_kii_hisp_pooled_p50_se
+    type: DOUBLE
+  - name: kfi_pooled_pooled_p50_1978
+    type: DOUBLE
+  - name: kii_pooled_pooled_p50_1978
+    type: DOUBLE
+  - name: kfi_pooled_pooled_p50_1992
+    type: DOUBLE
+  - name: kii_pooled_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_pooled_p50
+    type: DOUBLE
+  - name: change_kii_pooled_pooled_p50
+    type: DOUBLE
+  - name: change_kfi_pooled_pooled_p50_se
+    type: DOUBLE
+  - name: change_kii_pooled_pooled_p50_se
+    type: DOUBLE
+  - name: kfi_white_pooled_p50_1978
+    type: DOUBLE
+  - name: kii_white_pooled_p50_1978
+    type: DOUBLE
+  - name: kfi_white_pooled_p50_1992
+    type: DOUBLE
+  - name: kii_white_pooled_p50_1992
+    type: DOUBLE
+  - name: change_kfi_white_pooled_p50
+    type: DOUBLE
+  - name: change_kii_white_pooled_p50
+    type: DOUBLE
+  - name: change_kfi_white_pooled_p50_se
+    type: DOUBLE
+  - name: change_kii_white_pooled_p50_se
+    type: DOUBLE
+  - name: kfi_aian_female_p75_1978
+    type: DOUBLE
+  - name: kii_aian_female_p75_1978
+    type: DOUBLE
+  - name: kfi_aian_female_p75_1992
+    type: DOUBLE
+  - name: kii_aian_female_p75_1992
+    type: DOUBLE
+  - name: change_kfi_aian_female_p75
+    type: DOUBLE
+  - name: change_kii_aian_female_p75
+    type: DOUBLE
+  - name: change_kfi_aian_female_p75_se
+    type: DOUBLE
+  - name: change_kii_aian_female_p75_se
+    type: DOUBLE
+  - name: kfi_asian_female_p75_1978
+    type: DOUBLE
+  - name: kii_asian_female_p75_1978
+    type: DOUBLE
+  - name: kfi_asian_female_p75_1992
+    type: DOUBLE
+  - name: kii_asian_female_p75_1992
+    type: DOUBLE
+  - name: change_kfi_asian_female_p75
+    type: DOUBLE
+  - name: change_kii_asian_female_p75
+    type: DOUBLE
+  - name: change_kfi_asian_female_p75_se
+    type: DOUBLE
+  - name: change_kii_asian_female_p75_se
+    type: DOUBLE
+  - name: kfi_black_female_p75_1978
+    type: DOUBLE
+  - name: kii_black_female_p75_1978
+    type: DOUBLE
+  - name: kfi_black_female_p75_1992
+    type: DOUBLE
+  - name: kii_black_female_p75_1992
+    type: DOUBLE
+  - name: change_kfi_black_female_p75
+    type: DOUBLE
+  - name: change_kii_black_female_p75
+    type: DOUBLE
+  - name: change_kfi_black_female_p75_se
+    type: DOUBLE
+  - name: change_kii_black_female_p75_se
+    type: DOUBLE
+  - name: kfi_hisp_female_p75_1978
+    type: DOUBLE
+  - name: kii_hisp_female_p75_1978
+    type: DOUBLE
+  - name: kfi_hisp_female_p75_1992
+    type: DOUBLE
+  - name: kii_hisp_female_p75_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_female_p75
+    type: DOUBLE
+  - name: change_kii_hisp_female_p75
+    type: DOUBLE
+  - name: change_kfi_hisp_female_p75_se
+    type: DOUBLE
+  - name: change_kii_hisp_female_p75_se
+    type: DOUBLE
+  - name: kfi_pooled_female_p75_1978
+    type: DOUBLE
+  - name: kii_pooled_female_p75_1978
+    type: DOUBLE
+  - name: kfi_pooled_female_p75_1992
+    type: DOUBLE
+  - name: kii_pooled_female_p75_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_female_p75
+    type: DOUBLE
+  - name: change_kii_pooled_female_p75
+    type: DOUBLE
+  - name: change_kfi_pooled_female_p75_se
+    type: DOUBLE
+  - name: change_kii_pooled_female_p75_se
+    type: DOUBLE
+  - name: kfi_white_female_p75_1978
+    type: DOUBLE
+  - name: kii_white_female_p75_1978
+    type: DOUBLE
+  - name: kfi_white_female_p75_1992
+    type: DOUBLE
+  - name: kii_white_female_p75_1992
+    type: DOUBLE
+  - name: change_kfi_white_female_p75
+    type: DOUBLE
+  - name: change_kii_white_female_p75
+    type: DOUBLE
+  - name: change_kfi_white_female_p75_se
+    type: DOUBLE
+  - name: change_kii_white_female_p75_se
+    type: DOUBLE
+  - name: kfi_aian_male_p75_1978
+    type: DOUBLE
+  - name: kii_aian_male_p75_1978
+    type: DOUBLE
+  - name: kfi_aian_male_p75_1992
+    type: DOUBLE
+  - name: kii_aian_male_p75_1992
+    type: DOUBLE
+  - name: change_kfi_aian_male_p75
+    type: DOUBLE
+  - name: change_kii_aian_male_p75
+    type: DOUBLE
+  - name: change_kfi_aian_male_p75_se
+    type: DOUBLE
+  - name: change_kii_aian_male_p75_se
+    type: DOUBLE
+  - name: kfi_asian_male_p75_1978
+    type: DOUBLE
+  - name: kii_asian_male_p75_1978
+    type: DOUBLE
+  - name: kfi_asian_male_p75_1992
+    type: DOUBLE
+  - name: kii_asian_male_p75_1992
+    type: DOUBLE
+  - name: change_kfi_asian_male_p75
+    type: DOUBLE
+  - name: change_kii_asian_male_p75
+    type: DOUBLE
+  - name: change_kfi_asian_male_p75_se
+    type: DOUBLE
+  - name: change_kii_asian_male_p75_se
+    type: DOUBLE
+  - name: kfi_black_male_p75_1978
+    type: DOUBLE
+  - name: kii_black_male_p75_1978
+    type: DOUBLE
+  - name: kfi_black_male_p75_1992
+    type: DOUBLE
+  - name: kii_black_male_p75_1992
+    type: DOUBLE
+  - name: change_kfi_black_male_p75
+    type: DOUBLE
+  - name: change_kii_black_male_p75
+    type: DOUBLE
+  - name: change_kfi_black_male_p75_se
+    type: DOUBLE
+  - name: change_kii_black_male_p75_se
+    type: DOUBLE
+  - name: kfi_hisp_male_p75_1978
+    type: DOUBLE
+  - name: kii_hisp_male_p75_1978
+    type: DOUBLE
+  - name: kfi_hisp_male_p75_1992
+    type: DOUBLE
+  - name: kii_hisp_male_p75_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_male_p75
+    type: DOUBLE
+  - name: change_kii_hisp_male_p75
+    type: DOUBLE
+  - name: change_kfi_hisp_male_p75_se
+    type: DOUBLE
+  - name: change_kii_hisp_male_p75_se
+    type: DOUBLE
+  - name: kfi_pooled_male_p75_1978
+    type: DOUBLE
+  - name: kii_pooled_male_p75_1978
+    type: DOUBLE
+  - name: kfi_pooled_male_p75_1992
+    type: DOUBLE
+  - name: kii_pooled_male_p75_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_male_p75
+    type: DOUBLE
+  - name: change_kii_pooled_male_p75
+    type: DOUBLE
+  - name: change_kfi_pooled_male_p75_se
+    type: DOUBLE
+  - name: change_kii_pooled_male_p75_se
+    type: DOUBLE
+  - name: kfi_white_male_p75_1978
+    type: DOUBLE
+  - name: kii_white_male_p75_1978
+    type: DOUBLE
+  - name: kfi_white_male_p75_1992
+    type: DOUBLE
+  - name: kii_white_male_p75_1992
+    type: DOUBLE
+  - name: change_kfi_white_male_p75
+    type: DOUBLE
+  - name: change_kii_white_male_p75
+    type: DOUBLE
+  - name: change_kfi_white_male_p75_se
+    type: DOUBLE
+  - name: change_kii_white_male_p75_se
+    type: DOUBLE
+  - name: kfi_aian_pooled_p75_1978
+    type: DOUBLE
+  - name: kii_aian_pooled_p75_1978
+    type: DOUBLE
+  - name: kfi_aian_pooled_p75_1992
+    type: DOUBLE
+  - name: kii_aian_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kfi_aian_pooled_p75
+    type: DOUBLE
+  - name: change_kii_aian_pooled_p75
+    type: DOUBLE
+  - name: change_kfi_aian_pooled_p75_se
+    type: DOUBLE
+  - name: change_kii_aian_pooled_p75_se
+    type: DOUBLE
+  - name: kfi_asian_pooled_p75_1978
+    type: DOUBLE
+  - name: kii_asian_pooled_p75_1978
+    type: DOUBLE
+  - name: kfi_asian_pooled_p75_1992
+    type: DOUBLE
+  - name: kii_asian_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kfi_asian_pooled_p75
+    type: DOUBLE
+  - name: change_kii_asian_pooled_p75
+    type: DOUBLE
+  - name: change_kfi_asian_pooled_p75_se
+    type: DOUBLE
+  - name: change_kii_asian_pooled_p75_se
+    type: DOUBLE
+  - name: kfi_black_pooled_p75_1978
+    type: DOUBLE
+  - name: kii_black_pooled_p75_1978
+    type: DOUBLE
+  - name: kfi_black_pooled_p75_1992
+    type: DOUBLE
+  - name: kii_black_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kfi_black_pooled_p75
+    type: DOUBLE
+  - name: change_kii_black_pooled_p75
+    type: DOUBLE
+  - name: change_kfi_black_pooled_p75_se
+    type: DOUBLE
+  - name: change_kii_black_pooled_p75_se
+    type: DOUBLE
+  - name: kfi_hisp_pooled_p75_1978
+    type: DOUBLE
+  - name: kii_hisp_pooled_p75_1978
+    type: DOUBLE
+  - name: kfi_hisp_pooled_p75_1992
+    type: DOUBLE
+  - name: kii_hisp_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_pooled_p75
+    type: DOUBLE
+  - name: change_kii_hisp_pooled_p75
+    type: DOUBLE
+  - name: change_kfi_hisp_pooled_p75_se
+    type: DOUBLE
+  - name: change_kii_hisp_pooled_p75_se
+    type: DOUBLE
+  - name: kfi_pooled_pooled_p75_1978
+    type: DOUBLE
+  - name: kii_pooled_pooled_p75_1978
+    type: DOUBLE
+  - name: kfi_pooled_pooled_p75_1992
+    type: DOUBLE
+  - name: kii_pooled_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_pooled_p75
+    type: DOUBLE
+  - name: change_kii_pooled_pooled_p75
+    type: DOUBLE
+  - name: change_kfi_pooled_pooled_p75_se
+    type: DOUBLE
+  - name: change_kii_pooled_pooled_p75_se
+    type: DOUBLE
+  - name: kfi_white_pooled_p75_1978
+    type: DOUBLE
+  - name: kii_white_pooled_p75_1978
+    type: DOUBLE
+  - name: kfi_white_pooled_p75_1992
+    type: DOUBLE
+  - name: kii_white_pooled_p75_1992
+    type: DOUBLE
+  - name: change_kfi_white_pooled_p75
+    type: DOUBLE
+  - name: change_kii_white_pooled_p75
+    type: DOUBLE
+  - name: change_kfi_white_pooled_p75_se
+    type: DOUBLE
+  - name: change_kii_white_pooled_p75_se
+    type: DOUBLE
+  - name: kfi_aian_female_p100_1978
+    type: DOUBLE
+  - name: kii_aian_female_p100_1978
+    type: DOUBLE
+  - name: kfi_aian_female_p100_1992
+    type: DOUBLE
+  - name: kii_aian_female_p100_1992
+    type: DOUBLE
+  - name: change_kfi_aian_female_p100
+    type: DOUBLE
+  - name: change_kii_aian_female_p100
+    type: DOUBLE
+  - name: change_kfi_aian_female_p100_se
+    type: DOUBLE
+  - name: change_kii_aian_female_p100_se
+    type: DOUBLE
+  - name: kfi_asian_female_p100_1978
+    type: DOUBLE
+  - name: kii_asian_female_p100_1978
+    type: DOUBLE
+  - name: kfi_asian_female_p100_1992
+    type: DOUBLE
+  - name: kii_asian_female_p100_1992
+    type: DOUBLE
+  - name: change_kfi_asian_female_p100
+    type: DOUBLE
+  - name: change_kii_asian_female_p100
+    type: DOUBLE
+  - name: change_kfi_asian_female_p100_se
+    type: DOUBLE
+  - name: change_kii_asian_female_p100_se
+    type: DOUBLE
+  - name: kfi_black_female_p100_1978
+    type: DOUBLE
+  - name: kii_black_female_p100_1978
+    type: DOUBLE
+  - name: kfi_black_female_p100_1992
+    type: DOUBLE
+  - name: kii_black_female_p100_1992
+    type: DOUBLE
+  - name: change_kfi_black_female_p100
+    type: DOUBLE
+  - name: change_kii_black_female_p100
+    type: DOUBLE
+  - name: change_kfi_black_female_p100_se
+    type: DOUBLE
+  - name: change_kii_black_female_p100_se
+    type: DOUBLE
+  - name: kfi_hisp_female_p100_1978
+    type: DOUBLE
+  - name: kii_hisp_female_p100_1978
+    type: DOUBLE
+  - name: kfi_hisp_female_p100_1992
+    type: DOUBLE
+  - name: kii_hisp_female_p100_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_female_p100
+    type: DOUBLE
+  - name: change_kii_hisp_female_p100
+    type: DOUBLE
+  - name: change_kfi_hisp_female_p100_se
+    type: DOUBLE
+  - name: change_kii_hisp_female_p100_se
+    type: DOUBLE
+  - name: kfi_pooled_female_p100_1978
+    type: DOUBLE
+  - name: kii_pooled_female_p100_1978
+    type: DOUBLE
+  - name: kfi_pooled_female_p100_1992
+    type: DOUBLE
+  - name: kii_pooled_female_p100_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_female_p100
+    type: DOUBLE
+  - name: change_kii_pooled_female_p100
+    type: DOUBLE
+  - name: change_kfi_pooled_female_p100_se
+    type: DOUBLE
+  - name: change_kii_pooled_female_p100_se
+    type: DOUBLE
+  - name: kfi_white_female_p100_1978
+    type: DOUBLE
+  - name: kii_white_female_p100_1978
+    type: DOUBLE
+  - name: kfi_white_female_p100_1992
+    type: DOUBLE
+  - name: kii_white_female_p100_1992
+    type: DOUBLE
+  - name: change_kfi_white_female_p100
+    type: DOUBLE
+  - name: change_kii_white_female_p100
+    type: DOUBLE
+  - name: change_kfi_white_female_p100_se
+    type: DOUBLE
+  - name: change_kii_white_female_p100_se
+    type: DOUBLE
+  - name: kfi_aian_male_p100_1978
+    type: DOUBLE
+  - name: kii_aian_male_p100_1978
+    type: DOUBLE
+  - name: kfi_aian_male_p100_1992
+    type: DOUBLE
+  - name: kii_aian_male_p100_1992
+    type: DOUBLE
+  - name: change_kfi_aian_male_p100
+    type: DOUBLE
+  - name: change_kii_aian_male_p100
+    type: DOUBLE
+  - name: change_kfi_aian_male_p100_se
+    type: DOUBLE
+  - name: change_kii_aian_male_p100_se
+    type: DOUBLE
+  - name: kfi_asian_male_p100_1978
+    type: DOUBLE
+  - name: kii_asian_male_p100_1978
+    type: DOUBLE
+  - name: kfi_asian_male_p100_1992
+    type: DOUBLE
+  - name: kii_asian_male_p100_1992
+    type: DOUBLE
+  - name: change_kfi_asian_male_p100
+    type: DOUBLE
+  - name: change_kii_asian_male_p100
+    type: DOUBLE
+  - name: change_kfi_asian_male_p100_se
+    type: DOUBLE
+  - name: change_kii_asian_male_p100_se
+    type: DOUBLE
+  - name: kfi_black_male_p100_1978
+    type: DOUBLE
+  - name: kii_black_male_p100_1978
+    type: DOUBLE
+  - name: kfi_black_male_p100_1992
+    type: DOUBLE
+  - name: kii_black_male_p100_1992
+    type: DOUBLE
+  - name: change_kfi_black_male_p100
+    type: DOUBLE
+  - name: change_kii_black_male_p100
+    type: DOUBLE
+  - name: change_kfi_black_male_p100_se
+    type: DOUBLE
+  - name: change_kii_black_male_p100_se
+    type: DOUBLE
+  - name: kfi_hisp_male_p100_1978
+    type: DOUBLE
+  - name: kii_hisp_male_p100_1978
+    type: DOUBLE
+  - name: kfi_hisp_male_p100_1992
+    type: DOUBLE
+  - name: kii_hisp_male_p100_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_male_p100
+    type: DOUBLE
+  - name: change_kii_hisp_male_p100
+    type: DOUBLE
+  - name: change_kfi_hisp_male_p100_se
+    type: DOUBLE
+  - name: change_kii_hisp_male_p100_se
+    type: DOUBLE
+  - name: kfi_pooled_male_p100_1978
+    type: DOUBLE
+  - name: kii_pooled_male_p100_1978
+    type: DOUBLE
+  - name: kfi_pooled_male_p100_1992
+    type: DOUBLE
+  - name: kii_pooled_male_p100_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_male_p100
+    type: DOUBLE
+  - name: change_kii_pooled_male_p100
+    type: DOUBLE
+  - name: change_kfi_pooled_male_p100_se
+    type: DOUBLE
+  - name: change_kii_pooled_male_p100_se
+    type: DOUBLE
+  - name: kfi_white_male_p100_1978
+    type: DOUBLE
+  - name: kii_white_male_p100_1978
+    type: DOUBLE
+  - name: kfi_white_male_p100_1992
+    type: DOUBLE
+  - name: kii_white_male_p100_1992
+    type: DOUBLE
+  - name: change_kfi_white_male_p100
+    type: DOUBLE
+  - name: change_kii_white_male_p100
+    type: DOUBLE
+  - name: change_kfi_white_male_p100_se
+    type: DOUBLE
+  - name: change_kii_white_male_p100_se
+    type: DOUBLE
+  - name: kfi_aian_pooled_p100_1978
+    type: DOUBLE
+  - name: kii_aian_pooled_p100_1978
+    type: DOUBLE
+  - name: kfi_aian_pooled_p100_1992
+    type: DOUBLE
+  - name: kii_aian_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kfi_aian_pooled_p100
+    type: DOUBLE
+  - name: change_kii_aian_pooled_p100
+    type: DOUBLE
+  - name: change_kfi_aian_pooled_p100_se
+    type: DOUBLE
+  - name: change_kii_aian_pooled_p100_se
+    type: DOUBLE
+  - name: kfi_asian_pooled_p100_1978
+    type: DOUBLE
+  - name: kii_asian_pooled_p100_1978
+    type: DOUBLE
+  - name: kfi_asian_pooled_p100_1992
+    type: DOUBLE
+  - name: kii_asian_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kfi_asian_pooled_p100
+    type: DOUBLE
+  - name: change_kii_asian_pooled_p100
+    type: DOUBLE
+  - name: change_kfi_asian_pooled_p100_se
+    type: DOUBLE
+  - name: change_kii_asian_pooled_p100_se
+    type: DOUBLE
+  - name: kfi_black_pooled_p100_1978
+    type: DOUBLE
+  - name: kii_black_pooled_p100_1978
+    type: DOUBLE
+  - name: kfi_black_pooled_p100_1992
+    type: DOUBLE
+  - name: kii_black_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kfi_black_pooled_p100
+    type: DOUBLE
+  - name: change_kii_black_pooled_p100
+    type: DOUBLE
+  - name: change_kfi_black_pooled_p100_se
+    type: DOUBLE
+  - name: change_kii_black_pooled_p100_se
+    type: DOUBLE
+  - name: kfi_hisp_pooled_p100_1978
+    type: DOUBLE
+  - name: kii_hisp_pooled_p100_1978
+    type: DOUBLE
+  - name: kfi_hisp_pooled_p100_1992
+    type: DOUBLE
+  - name: kii_hisp_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kfi_hisp_pooled_p100
+    type: DOUBLE
+  - name: change_kii_hisp_pooled_p100
+    type: DOUBLE
+  - name: change_kfi_hisp_pooled_p100_se
+    type: DOUBLE
+  - name: change_kii_hisp_pooled_p100_se
+    type: DOUBLE
+  - name: kfi_pooled_pooled_p100_1978
+    type: DOUBLE
+  - name: kii_pooled_pooled_p100_1978
+    type: DOUBLE
+  - name: kfi_pooled_pooled_p100_1992
+    type: DOUBLE
+  - name: kii_pooled_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kfi_pooled_pooled_p100
+    type: DOUBLE
+  - name: change_kii_pooled_pooled_p100
+    type: DOUBLE
+  - name: change_kfi_pooled_pooled_p100_se
+    type: DOUBLE
+  - name: change_kii_pooled_pooled_p100_se
+    type: DOUBLE
+  - name: kfi_white_pooled_p100_1978
+    type: DOUBLE
+  - name: kii_white_pooled_p100_1978
+    type: DOUBLE
+  - name: kfi_white_pooled_p100_1992
+    type: DOUBLE
+  - name: kii_white_pooled_p100_1992
+    type: DOUBLE
+  - name: change_kfi_white_pooled_p100
+    type: DOUBLE
+  - name: change_kii_white_pooled_p100
+    type: DOUBLE
+  - name: change_kfi_white_pooled_p100_se
+    type: DOUBLE
+  - name: change_kii_white_pooled_p100_se
+    type: DOUBLE

@@ -1,0 +1,36 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: appid
+    type: BIGINT
+  - name: name
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: is_free
+    type: BOOLEAN
+  - name: price_final_cents
+    type: BIGINT
+  - name: price_initial_cents
+    type: BIGINT
+  - name: price_currency
+    type: VARCHAR
+  - name: discount_percent
+    type: INTEGER
+  - name: genres
+    type: VARCHAR
+  - name: categories
+    type: VARCHAR
+  - name: on_windows
+    type: BOOLEAN
+  - name: on_mac
+    type: BOOLEAN
+  - name: on_linux
+    type: BOOLEAN
+  - name: release_date
+    type: VARCHAR
+  - name: coming_soon
+    type: BOOLEAN
+  - name: metacritic_score
+    type: INTEGER
+  - name: recommendations_total
+    type: BIGINT

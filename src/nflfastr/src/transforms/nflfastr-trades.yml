@@ -1,0 +1,26 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: season
+sort: [season]
+columns:
+  - name: trade_id
+    type: INTEGER
+  - name: season
+    type: INTEGER
+  - name: trade_date
+    type: DATE
+  - name: gave
+    type: VARCHAR
+  - name: received
+    type: VARCHAR
+  - name: pick_season
+    type: INTEGER
+  - name: pick_round
+    type: INTEGER
+  - name: pick_number
+    type: INTEGER
+  - name: conditional
+    type: INTEGER
+  - name: pfr_id
+    type: VARCHAR
+  - name: pfr_name
+    type: VARCHAR

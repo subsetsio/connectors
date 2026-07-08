@@ -1,0 +1,25 @@
+SELECT
+    reactor_id,
+    name,
+    alternate_name,
+    country,
+    country_code,
+    status,
+    reactor_type,
+    model,
+    reference_unit_power_mwe,
+    design_net_capacity_mwe,
+    gross_capacity_mwe,
+    thermal_capacity_mwt,
+    CAST(construction_start_date    AS DATE) AS construction_start_date,
+    CAST(first_criticality_date     AS DATE) AS first_criticality_date,
+    CAST(first_grid_connection_date AS DATE) AS first_grid_connection_date,
+    CAST(commercial_operation_date  AS DATE) AS commercial_operation_date,
+    CAST(long_term_shutdown_date    AS DATE) AS long_term_shutdown_date,
+    CAST(permanent_shutdown_date    AS DATE) AS permanent_shutdown_date,
+    lifetime_electricity_supplied_twh,
+    lifetime_operation_factor_pct,
+    lifetime_energy_availability_factor_pct,
+    lifetime_load_factor_pct
+FROM "iaea-pris-reactors"
+WHERE name IS NOT NULL

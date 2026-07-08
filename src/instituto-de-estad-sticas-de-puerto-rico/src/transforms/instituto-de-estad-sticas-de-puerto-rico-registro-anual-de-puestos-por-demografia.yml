@@ -1,0 +1,468 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: source_resource
+    type: VARCHAR
+  - name: source_file
+    type: VARCHAR
+  - name: NU_ENTIDAD
+    type: VARCHAR
+  - name: Clasificación
+    type: VARCHAR
+  - name: AnoFiscal
+    type: VARCHAR
+  - name: NB_ENTIDAD
+    type: VARCHAR
+  - name: FechaTran
+    type: VARCHAR
+  - name: FechaCierre
+    type: VARCHAR
+  - name: Estatus
+    type: VARCHAR
+  - name: CarreraParcialM
+    type: VARCHAR
+  - name: CarreraParcialF
+    type: VARCHAR
+  - name: CarreraCompletoM
+    type: VARCHAR
+  - name: CarreraCompletoF
+    type: VARCHAR
+  - name: CarreraNoGraduadoM
+    type: VARCHAR
+  - name: CarreraNoGraduadoF
+    type: VARCHAR
+  - name: CarreraGraduadoM
+    type: VARCHAR
+  - name: CarreraGraduadoF
+    type: VARCHAR
+  - name: CarreraPostSecundarioM
+    type: VARCHAR
+  - name: CarreraPostSecundarioF
+    type: VARCHAR
+  - name: CarreraAsociadoM
+    type: VARCHAR
+  - name: CarreraAsociadoF
+    type: VARCHAR
+  - name: CarreraBachM
+    type: VARCHAR
+  - name: CarreraBachF
+    type: VARCHAR
+  - name: CarreraGradosProM
+    type: VARCHAR
+  - name: CarreraGradosProF
+    type: VARCHAR
+  - name: CarreraMaestriaM
+    type: VARCHAR
+  - name: CarreraMaestriaF
+    type: VARCHAR
+  - name: CarreraDoctoradoM
+    type: VARCHAR
+  - name: CarreraDoctoradoF
+    type: VARCHAR
+  - name: ConfianzaReinstParcialM
+    type: VARCHAR
+  - name: ConfianzaReinstParcialF
+    type: VARCHAR
+  - name: ConfianzaReinstCompletoM
+    type: VARCHAR
+  - name: ConfianzaReinstCompletoF
+    type: VARCHAR
+  - name: ConfianzaReinstNoGraduadoM
+    type: VARCHAR
+  - name: ConfianzaReinstNoGraduadoF
+    type: VARCHAR
+  - name: ConfianzaReinstGraduadoM
+    type: VARCHAR
+  - name: ConfianzaReinstGraduadoF
+    type: VARCHAR
+  - name: ConfianzaReinstPostSecundarioM
+    type: VARCHAR
+  - name: ConfianzaReinstPostSecundarioF
+    type: VARCHAR
+  - name: ConfianzaReinstAsociadoM
+    type: VARCHAR
+  - name: ConfianzaReinstAsociadoF
+    type: VARCHAR
+  - name: ConfianzaReinstBachM
+    type: VARCHAR
+  - name: ConfianzaReinstBachF
+    type: VARCHAR
+  - name: ConfianzaReinstGradosProM
+    type: VARCHAR
+  - name: ConfianzaReinstGradosProF
+    type: VARCHAR
+  - name: ConfianzaReinstMaestriaM
+    type: VARCHAR
+  - name: ConfianzaReinstMaestriaF
+    type: VARCHAR
+  - name: ConfianzaReinstDoctoradoM
+    type: VARCHAR
+  - name: ConfianzaReinstDoctoradoF
+    type: VARCHAR
+  - name: ConfianzaNoReinstParcialM
+    type: VARCHAR
+  - name: ConfianzaNoReinstParcialF
+    type: VARCHAR
+  - name: ConfianzaNoReinstCompletoM
+    type: VARCHAR
+  - name: ConfianzaNoReinstCompletoF
+    type: VARCHAR
+  - name: ConfianzaNoReinstNoGraduadoM
+    type: VARCHAR
+  - name: ConfianzaNoReinstNoGraduadoF
+    type: VARCHAR
+  - name: ConfianzaNoReinstGraduadoM
+    type: VARCHAR
+  - name: ConfianzaNoReinstGraduadoF
+    type: VARCHAR
+  - name: ConfianzaNoReinstPostSecundarioM
+    type: VARCHAR
+  - name: ConfianzaNoReinstPostSecundarioF
+    type: VARCHAR
+  - name: ConfianzaNoReinstAsociadoM
+    type: VARCHAR
+  - name: ConfianzaNoReinstAsociadoF
+    type: VARCHAR
+  - name: ConfianzaNoReinstBachM
+    type: VARCHAR
+  - name: ConfianzaNoReinstBachF
+    type: VARCHAR
+  - name: ConfianzaNoReinstGradosProM
+    type: VARCHAR
+  - name: ConfianzaNoReinstGradosProF
+    type: VARCHAR
+  - name: ConfianzaNoReinstMaestriaM
+    type: VARCHAR
+  - name: ConfianzaNoReinstMaestriaF
+    type: VARCHAR
+  - name: ConfianzaNoReinstDoctoradoM
+    type: VARCHAR
+  - name: ConfianzaNoReinstDoctoradoF
+    type: VARCHAR
+  - name: TransitorioParcialM
+    type: VARCHAR
+  - name: TransitorioParcialF
+    type: VARCHAR
+  - name: TransitorioCompletoM
+    type: VARCHAR
+  - name: TransitorioCompletoF
+    type: VARCHAR
+  - name: TransitorioNoGraduadoM
+    type: VARCHAR
+  - name: TransitorioNoGraduadoF
+    type: VARCHAR
+  - name: TransitorioGraduadoM
+    type: VARCHAR
+  - name: TransitorioGraduadoF
+    type: VARCHAR
+  - name: TransitorioPostSecundarioM
+    type: VARCHAR
+  - name: TransitorioPostSecundarioF
+    type: VARCHAR
+  - name: TransitorioAsociadoM
+    type: VARCHAR
+  - name: TransitorioAsociadoF
+    type: VARCHAR
+  - name: TransitorioBachM
+    type: VARCHAR
+  - name: TransitorioBachF
+    type: VARCHAR
+  - name: TransitorioGradosProM
+    type: VARCHAR
+  - name: TransitorioGradosProF
+    type: VARCHAR
+  - name: TransitorioMaestriaM
+    type: VARCHAR
+  - name: TransitorioMaestriaF
+    type: VARCHAR
+  - name: TransitorioDoctoradoM
+    type: VARCHAR
+  - name: TransitorioDoctoradoF
+    type: VARCHAR
+  - name: IrregularParcialM
+    type: VARCHAR
+  - name: IrregularParcialF
+    type: VARCHAR
+  - name: IrregularCompletoM
+    type: VARCHAR
+  - name: IrregularCompletoF
+    type: VARCHAR
+  - name: IrregularNoGraduadoM
+    type: VARCHAR
+  - name: IrregularNoGraduadoF
+    type: VARCHAR
+  - name: IrregularGraduadoM
+    type: VARCHAR
+  - name: IrregularGraduadoF
+    type: VARCHAR
+  - name: IrregularPostSecundarioM
+    type: VARCHAR
+  - name: IrregularPostSecundarioF
+    type: VARCHAR
+  - name: IrregularAsociadoM
+    type: VARCHAR
+  - name: IrregularAsociadoF
+    type: VARCHAR
+  - name: IrregularBachM
+    type: VARCHAR
+  - name: IrregularBachF
+    type: VARCHAR
+  - name: IrregularGradosProM
+    type: VARCHAR
+  - name: IrregularGradosProF
+    type: VARCHAR
+  - name: IrregularMaestriaM
+    type: VARCHAR
+  - name: IrregularMaestriaF
+    type: VARCHAR
+  - name: IrregularDoctoradoM
+    type: VARCHAR
+  - name: IrregularDoctoradoF
+    type: VARCHAR
+  - name: OtrosParcialM
+    type: VARCHAR
+  - name: OtrosParcialF
+    type: VARCHAR
+  - name: OtrosCompletoM
+    type: VARCHAR
+  - name: OtrosCompletoF
+    type: VARCHAR
+  - name: OtrosNoGraduadoM
+    type: VARCHAR
+  - name: OtrosNoGraduadoF
+    type: VARCHAR
+  - name: OtrosGraduadoM
+    type: VARCHAR
+  - name: OtrosGraduadoF
+    type: VARCHAR
+  - name: OtrosPostSecundarioM
+    type: VARCHAR
+  - name: OtrosPostSecundarioF
+    type: VARCHAR
+  - name: OtrosAsociadoM
+    type: VARCHAR
+  - name: OtrosAsociadoF
+    type: VARCHAR
+  - name: OtrosBachM
+    type: VARCHAR
+  - name: OtrosBachF
+    type: VARCHAR
+  - name: OtrosGradosProM
+    type: VARCHAR
+  - name: OtrosGradosProF
+    type: VARCHAR
+  - name: OtrosMaestriaM
+    type: VARCHAR
+  - name: OtrosMaestriaF
+    type: VARCHAR
+  - name: OtrosDoctoradoM
+    type: VARCHAR
+  - name: OtrosDoctoradoF
+    type: VARCHAR
+  - name: NuevoM
+    type: VARCHAR
+  - name: NuevoF
+    type: VARCHAR
+  - name: ReingresadoM
+    type: VARCHAR
+  - name: ReingresadoF
+    type: VARCHAR
+  - name: AscendidoM
+    type: VARCHAR
+  - name: AscendidoF
+    type: VARCHAR
+  - name: TrasladadoM
+    type: VARCHAR
+  - name: TrasladadoF
+    type: VARCHAR
+  - name: ReinstaladoM
+    type: VARCHAR
+  - name: ReinstaladoF
+    type: VARCHAR
+  - name: HabilitadoM
+    type: VARCHAR
+  - name: HabilitadoF
+    type: VARCHAR
+  - name: RenuncianteM
+    type: VARCHAR
+  - name: RenuncianteF
+    type: VARCHAR
+  - name: CesanteadoM
+    type: VARCHAR
+  - name: CesanteadoF
+    type: VARCHAR
+  - name: TerminoContratoM
+    type: VARCHAR
+  - name: TerminoContratoF
+    type: VARCHAR
+  - name: DestituidoM
+    type: VARCHAR
+  - name: DestituidoF
+    type: VARCHAR
+  - name: RetiradoM
+    type: VARCHAR
+  - name: RetiradoF
+    type: VARCHAR
+  - name: ImpedimentoSinAcomodoM
+    type: VARCHAR
+  - name: ImpedimentoSinAcomodoF
+    type: VARCHAR
+  - name: ImpedimentoAcomodoM
+    type: VARCHAR
+  - name: ImpedimentoAcomodoF
+    type: VARCHAR
+  - name: PensionadoTransitorioM
+    type: VARCHAR
+  - name: PensionadoTransitorioF
+    type: VARCHAR
+  - name: PensionadoContratoM
+    type: VARCHAR
+  - name: PensionadoContratoF
+    type: VARCHAR
+  - name: DiscrimenEdadM
+    type: VARCHAR
+  - name: DiscrimenEdadF
+    type: VARCHAR
+  - name: DiscrimenImpedimentoM
+    type: VARCHAR
+  - name: DiscrimenImpedimentoF
+    type: VARCHAR
+  - name: DiscrimenPoliticoM
+    type: VARCHAR
+  - name: DiscrimenPoliticoF
+    type: VARCHAR
+  - name: DiscrimenReligiosoM
+    type: VARCHAR
+  - name: DiscrimenReligiosoF
+    type: VARCHAR
+  - name: DiscrimenSexoM
+    type: VARCHAR
+  - name: DiscrimenSexoF
+    type: VARCHAR
+  - name: DiscrimenNacionalidadM
+    type: VARCHAR
+  - name: DiscrimenNacionalidadF
+    type: VARCHAR
+  - name: DiscrimenOrientacionSexualM
+    type: VARCHAR
+  - name: DiscrimenOrientacionSexualF
+    type: VARCHAR
+  - name: DiscrimenOtroM
+    type: VARCHAR
+  - name: DiscrimenOtroF
+    type: VARCHAR
+  - name: RetribucionMRangoA
+    type: VARCHAR
+  - name: RetribucionFRangoA
+    type: VARCHAR
+  - name: RetribucionMRangoB
+    type: VARCHAR
+  - name: RetribucionFRangoB
+    type: VARCHAR
+  - name: RetribucionMRangoC
+    type: VARCHAR
+  - name: RetribucionFRangoC
+    type: VARCHAR
+  - name: RetribucionMRangoD
+    type: VARCHAR
+  - name: RetribucionFRangoD
+    type: VARCHAR
+  - name: RetribucionMRangoE
+    type: VARCHAR
+  - name: RetribucionFRangoE
+    type: VARCHAR
+  - name: RetribucionMRangoF
+    type: VARCHAR
+  - name: RetribucionFRangoF
+    type: VARCHAR
+  - name: RetribucionMRangoG
+    type: VARCHAR
+  - name: RetribucionFRangoG
+    type: VARCHAR
+  - name: RetribucionMRangoH
+    type: VARCHAR
+  - name: RetribucionFRangoH
+    type: VARCHAR
+  - name: RetribucionMRangoI
+    type: VARCHAR
+  - name: RetribucionFRangoI
+    type: VARCHAR
+  - name: RetribucionMRangoJ
+    type: VARCHAR
+  - name: RetribucionFRangoJ
+    type: VARCHAR
+  - name: RetribucionMRangoK
+    type: VARCHAR
+  - name: RetribucionFRangoK
+    type: VARCHAR
+  - name: AnosServicioMRangoA
+    type: VARCHAR
+  - name: AnosServicioFRangoA
+    type: VARCHAR
+  - name: AnosServicioMRangoB
+    type: VARCHAR
+  - name: AnosServicioFRangoB
+    type: VARCHAR
+  - name: AnosServicioMRangoC
+    type: VARCHAR
+  - name: AnosServicioFRangoC
+    type: VARCHAR
+  - name: AnosServicioMRangoD
+    type: VARCHAR
+  - name: AnosServicioFRangoD
+    type: VARCHAR
+  - name: AnosServicioMRangoE
+    type: VARCHAR
+  - name: AnosServicioFRangoE
+    type: VARCHAR
+  - name: AnosServicioMRangoF
+    type: VARCHAR
+  - name: AnosServicioFRangoF
+    type: VARCHAR
+  - name: AnosServicioMRangoG
+    type: VARCHAR
+  - name: AnosServicioFRangoG
+    type: VARCHAR
+  - name: AnosServicioMRangoH
+    type: VARCHAR
+  - name: AnosServicioFRangoH
+    type: VARCHAR
+  - name: AnosServicioMRangoI
+    type: VARCHAR
+  - name: AnosServicioFRangoI
+    type: VARCHAR
+  - name: EdadMRangoA
+    type: VARCHAR
+  - name: EdadFRangoA
+    type: VARCHAR
+  - name: EdadMRangoB
+    type: VARCHAR
+  - name: EdadFRangoB
+    type: VARCHAR
+  - name: EdadMRangoC
+    type: VARCHAR
+  - name: EdadFRangoC
+    type: VARCHAR
+  - name: EdadMRangoD
+    type: VARCHAR
+  - name: EdadFRangoD
+    type: VARCHAR
+  - name: EdadMRangoE
+    type: VARCHAR
+  - name: EdadFRangoE
+    type: VARCHAR
+  - name: EdadMRangoF
+    type: VARCHAR
+  - name: EdadFRangoF
+    type: VARCHAR
+  - name: EdadMRangoG
+    type: VARCHAR
+  - name: EdadFRangoG
+    type: VARCHAR
+  - name: EdadMRangoH
+    type: VARCHAR
+  - name: EdadFRangoH
+    type: VARCHAR
+  - name: PreparadoNombre
+    type: VARCHAR
+  - name: PreparadoPuesto
+    type: VARCHAR

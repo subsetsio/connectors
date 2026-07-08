@@ -1,0 +1,78 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: season
+sort: [season]
+columns:
+  - name: player
+    type: VARCHAR
+  - name: team
+    type: VARCHAR
+  - name: pass_attempts
+    type: DOUBLE
+  - name: throwaways
+    type: DOUBLE
+  - name: spikes
+    type: DOUBLE
+  - name: drops
+    type: DOUBLE
+  - name: drop_pct
+    type: DOUBLE
+  - name: bad_throws
+    type: DOUBLE
+  - name: bad_throw_pct
+    type: DOUBLE
+  - name: season
+    type: INTEGER
+  - name: pfr_id
+    type: VARCHAR
+  - name: pocket_time
+    type: DOUBLE
+  - name: times_blitzed
+    type: DOUBLE
+  - name: times_hurried
+    type: DOUBLE
+  - name: times_hit
+    type: DOUBLE
+  - name: times_pressured
+    type: DOUBLE
+  - name: pressure_pct
+    type: DOUBLE
+  - name: batted_balls
+    type: DOUBLE
+  - name: on_tgt_throws
+    type: DOUBLE
+  - name: on_tgt_pct
+    type: DOUBLE
+  - name: rpo_plays
+    type: DOUBLE
+  - name: rpo_yards
+    type: DOUBLE
+  - name: rpo_pass_att
+    type: DOUBLE
+  - name: rpo_pass_yards
+    type: DOUBLE
+  - name: rpo_rush_att
+    type: DOUBLE
+  - name: rpo_rush_yards
+    type: DOUBLE
+  - name: pa_pass_att
+    type: DOUBLE
+  - name: pa_pass_yards
+    type: DOUBLE
+  - name: intended_air_yards
+    type: DOUBLE
+  - name: intended_air_yards_per_pass_attempt
+    type: DOUBLE
+  - name: completed_air_yards
+    type: DOUBLE
+  - name: completed_air_yards_per_completion
+    type: DOUBLE
+  - name: completed_air_yards_per_pass_attempt
+    type: DOUBLE
+  - name: pass_yards_after_catch
+    type: DOUBLE
+  - name: pass_yards_after_catch_per_completion
+    type: DOUBLE
+  - name: scrambles
+    type: DOUBLE
+  - name: scramble_yards_per_attempt
+    type: DOUBLE

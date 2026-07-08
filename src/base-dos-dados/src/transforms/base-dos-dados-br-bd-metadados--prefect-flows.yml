@@ -1,0 +1,40 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: project_name
+    type: VARCHAR
+  - name: flow_group_id
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: created
+    type: VARCHAR
+  - name: latest_version
+    type: BIGINT
+  - name: last_update
+    type: VARCHAR
+  - name: schedule_type
+    type: VARCHAR
+  - name: schedule_cron
+    type: VARCHAR
+  - name: schedule_start_date
+    type: VARCHAR
+  - name: schedule_filters
+    type: VARCHAR
+  - name: schedule_adjustments
+    type: VARCHAR
+  - name: schedule_labels
+    type: VARCHAR
+  - name: schedule_all_parameters
+    type: VARCHAR
+  - name: schedule_parameters_dataset_id
+    type: VARCHAR
+  - name: schedule_parameters_table_id
+    type: VARCHAR
+  - name: schedule_parameters_dbt_alias
+    type: BOOLEAN
+  - name: schedule_parameters_materialization_mode
+    type: VARCHAR
+  - name: schedule_parameters_materialize_after_dump
+    type: BOOLEAN
+  - name: schedule_parameters_update_metadata
+    type: BOOLEAN

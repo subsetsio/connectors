@@ -1,0 +1,47 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [id]
+temporal: date_modified
+sort: [date_modified, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: date_created
+    type: TIMESTAMP
+  - name: date_modified
+    type: TIMESTAMP
+  - name: source
+    type: VARCHAR
+  - name: case_name_short
+    type: VARCHAR
+  - name: case_name
+    type: VARCHAR
+  - name: case_name_full
+    type: VARCHAR
+  - name: judges
+    type: VARCHAR
+  - name: sha1
+    type: VARCHAR
+  - name: download_url
+    type: VARCHAR
+  - name: local_path_mp3
+    type: VARCHAR
+  - name: local_path_original_file
+    type: VARCHAR
+  - name: filepath_ia
+    type: VARCHAR
+  - name: ia_upload_failure_count
+    type: BIGINT
+  - name: duration
+    type: BIGINT
+  - name: processing_complete
+    type: VARCHAR
+  - name: date_blocked
+    type: DATE
+  - name: blocked
+    type: VARCHAR
+  - name: stt_status
+    type: VARCHAR
+  - name: stt_source
+    type: VARCHAR
+  - name: docket_id
+    type: BIGINT

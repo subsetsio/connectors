@@ -1,0 +1,1254 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: region_code
+    type: VARCHAR
+  - name: region_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: nuts0
+    type: VARCHAR
+  - name: nuts1
+    type: VARCHAR
+  - name: cri_contr_nuts0
+    type: BIGINT
+  - name: cri_contr_nuts1
+    type: BIGINT
+  - name: cri_cvalue_nuts0
+    type: DOUBLE
+  - name: cri_cvalue_nuts1
+    type: DOUBLE
+  - name: cri_singleb_nuts0
+    type: DOUBLE
+  - name: cri_singleb_nuts1
+    type: DOUBLE
+  - name: cri_nocall_nuts0
+    type: DOUBLE
+  - name: cri_nocall_nuts1
+    type: DOUBLE
+  - name: cri_nonopen_nuts0
+    type: DOUBLE
+  - name: cri_nonopen_nuts1
+    type: DOUBLE
+  - name: cri_taxhav_nuts0
+    type: DOUBLE
+  - name: cri_taxhav_nuts1
+    type: DOUBLE
+  - name: eqi_score_nuts0
+    type: DOUBLE
+  - name: eqi_score_nuts1
+    type: DOUBLE
+  - name: eqi_zquality_nuts0
+    type: DOUBLE
+  - name: eqi_zquality_nuts1
+    type: DOUBLE
+  - name: eqi_zimpartiality_nuts0
+    type: DOUBLE
+  - name: eqi_zimpartiality_nuts1
+    type: DOUBLE
+  - name: eqi_zcorruption_nuts0
+    type: DOUBLE
+  - name: eqi_zcorruption_nuts1
+    type: DOUBLE
+  - name: eqi_zcorruptper_nuts1
+    type: DOUBLE
+  - name: eqi_zcorruptexp_nuts1
+    type: DOUBLE
+  - name: eqi_norm_eqi_nuts0
+    type: DOUBLE
+  - name: eqi_norm_eqi_nuts1
+    type: DOUBLE
+  - name: eqi_norm_qual_nuts0
+    type: DOUBLE
+  - name: eqi_norm_qual_nuts1
+    type: DOUBLE
+  - name: eqi_norm_impart_nuts0
+    type: DOUBLE
+  - name: eqi_norm_impart_nuts1
+    type: DOUBLE
+  - name: eqi_norm_corrupt_nuts0
+    type: DOUBLE
+  - name: eqi_norm_corrupt_nuts1
+    type: DOUBLE
+  - name: eqi_norm_corruptper_nuts1
+    type: DOUBLE
+  - name: eqi_norm_corruptexp_nuts1
+    type: DOUBLE
+  - name: eu_cri_bur_nuts0
+    type: BIGINT
+  - name: eu_cri_bur_nuts1
+    type: BIGINT
+  - name: eu_cri_inthom_nuts0
+    type: BIGINT
+  - name: eu_cri_inthom_nuts1
+    type: BIGINT
+  - name: eu_cri_rob_nuts0
+    type: BIGINT
+  - name: eu_cri_rob_nuts1
+    type: BIGINT
+  - name: eu_agemoth_nuts0
+    type: DOUBLE
+  - name: eu_agemoth1_nuts0
+    type: DOUBLE
+  - name: eu_nmarpct_nuts0
+    type: DOUBLE
+  - name: eu_totferrt_nuts0
+    type: DOUBLE
+  - name: eu_death_totalf_nuts0
+    type: BIGINT
+  - name: eu_death_totalm_nuts0
+    type: BIGINT
+  - name: eu_death_totalt_nuts0
+    type: BIGINT
+  - name: eu_death_y1f_nuts0
+    type: BIGINT
+  - name: eu_death_y1m_nuts0
+    type: BIGINT
+  - name: eu_death_y1t_nuts0
+    type: BIGINT
+  - name: eu_death_y20f_nuts0
+    type: BIGINT
+  - name: eu_death_y20m_nuts0
+    type: BIGINT
+  - name: eu_death_y20t_nuts0
+    type: BIGINT
+  - name: eu_death_y50f_nuts0
+    type: BIGINT
+  - name: eu_death_y50m_nuts0
+    type: BIGINT
+  - name: eu_death_y50t_nuts0
+    type: BIGINT
+  - name: eu_death_y70f_nuts0
+    type: BIGINT
+  - name: eu_death_y70m_nuts0
+    type: BIGINT
+  - name: eu_death_y70t_nuts0
+    type: BIGINT
+  - name: eu_d2jan_f_nuts0
+    type: BIGINT
+  - name: eu_d2jan_f_nuts1
+    type: BIGINT
+  - name: eu_d2jan_m_nuts0
+    type: BIGINT
+  - name: eu_d2jan_m_nuts1
+    type: BIGINT
+  - name: eu_d2jan_t_nuts0
+    type: BIGINT
+  - name: eu_d2jan_t_nuts1
+    type: BIGINT
+  - name: eu_d3area_lat_nuts0
+    type: DOUBLE
+  - name: eu_d3area_lat_nuts1
+    type: DOUBLE
+  - name: eu_d3area_t_nuts0
+    type: DOUBLE
+  - name: eu_d3area_t_nuts1
+    type: DOUBLE
+  - name: eu_per_km2_nuts0
+    type: DOUBLE
+  - name: eu_per_km2_nuts1
+    type: DOUBLE
+  - name: eu_frate_total_nuts0
+    type: DOUBLE
+  - name: eu_frate_total_nuts1
+    type: DOUBLE
+  - name: eu_frate_y15_nuts0
+    type: DOUBLE
+  - name: eu_frate_y15_nuts1
+    type: DOUBLE
+  - name: eu_frate_y30_nuts0
+    type: DOUBLE
+  - name: eu_frate_y30_nuts1
+    type: DOUBLE
+  - name: eu_frate_y35_nuts0
+    type: DOUBLE
+  - name: eu_frate_y35_nuts1
+    type: DOUBLE
+  - name: eu_mlifexp_f_nuts0
+    type: DOUBLE
+  - name: eu_mlifexp_f_nuts1
+    type: DOUBLE
+  - name: eu_mlifexp_m_nuts0
+    type: DOUBLE
+  - name: eu_mlifexp_m_nuts1
+    type: DOUBLE
+  - name: eu_mlifexp_t_nuts0
+    type: DOUBLE
+  - name: eu_mlifexp_t_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed02_y2564f_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed02_y2564f_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed02_y2564m_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed02_y2564m_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed02_y2564t_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed02_y2564t_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed34_y2564f_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed34_y2564f_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed34_y2564m_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed34_y2564m_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed34_y2564t_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed34_y2564t_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed58_y2564f_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed58_y2564f_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed58_y2564m_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed58_y2564m_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed58_y2564t_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed58_y2564t_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed02_y3034f_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed02_y3034f_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed02_y3034m_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed02_y3034m_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed02_y3034t_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed02_y3034t_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed34_y3034f_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed34_y3034f_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed34_y3034m_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed34_y3034m_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed34_y3034t_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed34_y3034t_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed58_y3034f_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed58_y3034f_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed58_y3034m_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed58_y3034m_nuts1
+    type: DOUBLE
+  - name: eu_edatt_ed58_y3034t_nuts0
+    type: DOUBLE
+  - name: eu_edatt_ed58_y3034t_nuts1
+    type: DOUBLE
+  - name: eu_eduleave_f_nuts0
+    type: DOUBLE
+  - name: eu_eduleave_f_nuts1
+    type: DOUBLE
+  - name: eu_eduleave_m_nuts0
+    type: DOUBLE
+  - name: eu_eduleave_m_nuts1
+    type: DOUBLE
+  - name: eu_eduleave_t_nuts0
+    type: DOUBLE
+  - name: eu_eduleave_t_nuts1
+    type: DOUBLE
+  - name: eu_neet_y1524f_nuts0
+    type: DOUBLE
+  - name: eu_neet_y1524f_nuts1
+    type: DOUBLE
+  - name: eu_neet_y1524m_nuts0
+    type: DOUBLE
+  - name: eu_neet_y1524m_nuts1
+    type: DOUBLE
+  - name: eu_neet_y1524t_nuts0
+    type: DOUBLE
+  - name: eu_neet_y1524t_nuts1
+    type: DOUBLE
+  - name: eu_empl_durtotal_nuts0
+    type: DOUBLE
+  - name: eu_empl_durtotal_nuts1
+    type: DOUBLE
+  - name: eu_empl_dury_gt3_nuts0
+    type: DOUBLE
+  - name: eu_empl_dury_gt3_nuts1
+    type: DOUBLE
+  - name: eu_empl_dury13_nuts0
+    type: DOUBLE
+  - name: eu_empl_dury13_nuts1
+    type: DOUBLE
+  - name: eu_empl_edled02_nuts0
+    type: DOUBLE
+  - name: eu_empl_edled02_nuts1
+    type: DOUBLE
+  - name: eu_empl_edled34_nuts0
+    type: DOUBLE
+  - name: eu_empl_edled34_nuts1
+    type: DOUBLE
+  - name: eu_empl_edled58_nuts0
+    type: DOUBLE
+  - name: eu_empl_edled58_nuts1
+    type: DOUBLE
+  - name: eu_empl_edltotal_nuts0
+    type: DOUBLE
+  - name: eu_empl_edltotal_nuts1
+    type: DOUBLE
+  - name: eu_epred12_nuts0
+    type: DOUBLE
+  - name: eu_epred12_nuts1
+    type: DOUBLE
+  - name: eu_epred58_nuts0
+    type: DOUBLE
+  - name: eu_epred58_nuts1
+    type: DOUBLE
+  - name: eu_env_wasdsp_i_nuts0
+    type: DOUBLE
+  - name: eu_env_wasdsp_i_nuts1
+    type: DOUBLE
+  - name: eu_env_wasgen_nuts0
+    type: DOUBLE
+  - name: eu_env_wasgen_nuts1
+    type: DOUBLE
+  - name: eu_env_wasrcv_e_nuts0
+    type: DOUBLE
+  - name: eu_env_wasrcv_e_nuts1
+    type: DOUBLE
+  - name: eu_env_wasrcy_c_d_nuts0
+    type: DOUBLE
+  - name: eu_env_wasrcy_c_d_nuts1
+    type: DOUBLE
+  - name: eu_hea_cs_f_nuts0
+    type: BIGINT
+  - name: eu_hea_cs_f_nuts1
+    type: BIGINT
+  - name: eu_hea_cs_m_nuts0
+    type: BIGINT
+  - name: eu_hea_cs_m_nuts1
+    type: BIGINT
+  - name: eu_hea_cs_t_nuts0
+    type: BIGINT
+  - name: eu_hea_cs_t_nuts1
+    type: BIGINT
+  - name: eu_hea_hiv_f_nuts0
+    type: BIGINT
+  - name: eu_hea_hiv_f_nuts1
+    type: BIGINT
+  - name: eu_hea_hiv_m_nuts0
+    type: BIGINT
+  - name: eu_hea_hiv_m_nuts1
+    type: BIGINT
+  - name: eu_hea_hiv_t_nuts0
+    type: BIGINT
+  - name: eu_hea_hiv_t_nuts1
+    type: BIGINT
+  - name: eu_hea_ipd_f_nuts0
+    type: BIGINT
+  - name: eu_hea_ipd_f_nuts1
+    type: BIGINT
+  - name: eu_hea_ipd_m_nuts0
+    type: BIGINT
+  - name: eu_hea_ipd_m_nuts1
+    type: BIGINT
+  - name: eu_hea_ipd_t_nuts0
+    type: BIGINT
+  - name: eu_hea_ipd_t_nuts1
+    type: BIGINT
+  - name: eu_hea_np_f_nuts0
+    type: BIGINT
+  - name: eu_hea_np_f_nuts1
+    type: BIGINT
+  - name: eu_hea_np_m_nuts0
+    type: BIGINT
+  - name: eu_hea_np_m_nuts1
+    type: BIGINT
+  - name: eu_hea_np_t_nuts0
+    type: BIGINT
+  - name: eu_hea_np_t_nuts1
+    type: BIGINT
+  - name: eu_hea_ns_f_nuts0
+    type: BIGINT
+  - name: eu_hea_ns_f_nuts1
+    type: BIGINT
+  - name: eu_hea_ns_m_nuts0
+    type: BIGINT
+  - name: eu_hea_ns_m_nuts1
+    type: BIGINT
+  - name: eu_hea_ns_t_nuts0
+    type: BIGINT
+  - name: eu_hea_ns_t_nuts1
+    type: BIGINT
+  - name: eu_hea_pr_f_nuts0
+    type: BIGINT
+  - name: eu_hea_pr_f_nuts1
+    type: BIGINT
+  - name: eu_hea_sh_f_nuts0
+    type: BIGINT
+  - name: eu_hea_sh_f_nuts1
+    type: BIGINT
+  - name: eu_hea_sh_m_nuts0
+    type: BIGINT
+  - name: eu_hea_sh_m_nuts1
+    type: BIGINT
+  - name: eu_hea_sh_t_nuts0
+    type: BIGINT
+  - name: eu_hea_sh_t_nuts1
+    type: BIGINT
+  - name: eu_hea_tox_f_nuts0
+    type: BIGINT
+  - name: eu_hea_tox_f_nuts1
+    type: BIGINT
+  - name: eu_hea_tox_m_nuts0
+    type: BIGINT
+  - name: eu_hea_tox_m_nuts1
+    type: BIGINT
+  - name: eu_hea_tox_t_nuts0
+    type: BIGINT
+  - name: eu_hea_tox_t_nuts1
+    type: BIGINT
+  - name: eu_hea_bed_nuts0
+    type: DOUBLE
+  - name: eu_hea_bed_nuts1
+    type: DOUBLE
+  - name: eu_hea_bedcur_nuts0
+    type: DOUBLE
+  - name: eu_hea_bedcur_nuts1
+    type: DOUBLE
+  - name: eu_hea_bedlt_nuts0
+    type: DOUBLE
+  - name: eu_hea_bedlt_nuts1
+    type: DOUBLE
+  - name: eu_hea_bedoth_nuts0
+    type: DOUBLE
+  - name: eu_hea_bedoth_nuts1
+    type: DOUBLE
+  - name: eu_hea_bedpsy_nuts0
+    type: DOUBLE
+  - name: eu_hea_bedpsy_nuts1
+    type: DOUBLE
+  - name: eu_hea_bedreh_nuts0
+    type: DOUBLE
+  - name: eu_hea_bedreh_nuts1
+    type: DOUBLE
+  - name: eu_hea_dent_nuts0
+    type: DOUBLE
+  - name: eu_hea_dent_nuts1
+    type: DOUBLE
+  - name: eu_hea_mdoc_nuts0
+    type: DOUBLE
+  - name: eu_hea_mdoc_nuts1
+    type: DOUBLE
+  - name: eu_hea_nurs_nuts0
+    type: DOUBLE
+  - name: eu_hea_nurs_nuts1
+    type: DOUBLE
+  - name: eu_hea_pharm_nuts0
+    type: DOUBLE
+  - name: eu_hea_pharm_nuts1
+    type: DOUBLE
+  - name: eu_hea_phys_nuts0
+    type: DOUBLE
+  - name: eu_hea_phys_nuts1
+    type: DOUBLE
+  - name: eu_emtk_ab_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_ab_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_ab_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_ab_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_ab_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_ab_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_c_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_c_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_c_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_c_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_c_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_c_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_chtc_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_chtc_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_chtc_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_chtc_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_chtc_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_chtc_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_df_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_df_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_df_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_df_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_df_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_df_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_gu_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_gu_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_gu_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_gu_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_gu_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_gu_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_htc_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_htc_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_htc_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_htc_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_htc_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_htc_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_j_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_j_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_j_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_j_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_j_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_j_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_k_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_k_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_k_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_k_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_k_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_k_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_kis_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_kis_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_kis_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_kis_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_kis_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_kis_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_kl_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_kl_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_kl_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_kl_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_kl_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_kl_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_m_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_m_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_m_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_m_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_m_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_m_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_n_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_n_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_n_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_n_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_n_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_n_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_ou_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_ou_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_ou_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_ou_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_ou_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_ou_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_p_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_p_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_p_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_p_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_p_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_p_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_q_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_q_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_q_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_q_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_q_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_q_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_r_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_r_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_r_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_r_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_r_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_r_t_nuts1
+    type: DOUBLE
+  - name: eu_emtk_s_f_nuts0
+    type: DOUBLE
+  - name: eu_emtk_s_f_nuts1
+    type: DOUBLE
+  - name: eu_emtk_s_m_nuts0
+    type: DOUBLE
+  - name: eu_emtk_s_m_nuts1
+    type: DOUBLE
+  - name: eu_emtk_s_t_nuts0
+    type: DOUBLE
+  - name: eu_emtk_s_t_nuts1
+    type: DOUBLE
+  - name: eu_povrisk_pc_nuts0
+    type: DOUBLE
+  - name: eu_povrisk_pc_nuts1
+    type: DOUBLE
+  - name: eu_lwoin_pc_nuts0
+    type: DOUBLE
+  - name: eu_lwoin_pc_y_lt60_nuts0
+    type: DOUBLE
+  - name: eu_lwoin_pc_y_lt60_nuts1
+    type: DOUBLE
+  - name: eu_matdep_pc_nuts0
+    type: DOUBLE
+  - name: eu_matdep_pc_nuts1
+    type: DOUBLE
+  - name: eu_povr_pc_nuts0
+    type: DOUBLE
+  - name: eu_povr_pc_nuts1
+    type: DOUBLE
+  - name: eu_igs_b3_12_nuts0
+    type: BIGINT
+  - name: eu_igs_b3_12_nuts1
+    type: BIGINT
+  - name: eu_igs_bfeu_nuts0
+    type: BIGINT
+  - name: eu_igs_bfeu_nuts1
+    type: BIGINT
+  - name: eu_igs_bhols_nuts0
+    type: BIGINT
+  - name: eu_igs_bhols_nuts1
+    type: BIGINT
+  - name: eu_igs_blt12_nuts0
+    type: BIGINT
+  - name: eu_igs_blt12_nuts1
+    type: BIGINT
+  - name: eu_igs_bumt12x_nuts0
+    type: BIGINT
+  - name: eu_igs_bumt12x_nuts1
+    type: BIGINT
+  - name: eu_igs_buy3_nuts0
+    type: BIGINT
+  - name: eu_igs_buy3_nuts1
+    type: BIGINT
+  - name: eu_is_bacc_nuts0
+    type: BIGINT
+  - name: eu_is_bacc_nuts1
+    type: BIGINT
+  - name: eu_iu_never_nuts0
+    type: BIGINT
+  - name: eu_iu_never_nuts1
+    type: BIGINT
+  - name: eu_iu_govform_nuts0
+    type: BIGINT
+  - name: eu_iu_govform_nuts1
+    type: BIGINT
+  - name: eu_iu_govint_nuts0
+    type: BIGINT
+  - name: eu_iu_govint_nuts1
+    type: BIGINT
+  - name: eu_is_iacc_nuts0
+    type: BIGINT
+  - name: eu_is_iacc_nuts1
+    type: BIGINT
+  - name: eu_iu_ohw_nuts0
+    type: BIGINT
+  - name: eu_iu_ohw_nuts1
+    type: BIGINT
+  - name: eu_iu_ohw3_nuts0
+    type: BIGINT
+  - name: eu_iu_ohw3_nuts1
+    type: BIGINT
+  - name: eu_iu_iday_nuts0
+    type: BIGINT
+  - name: eu_iu_iday_nuts1
+    type: BIGINT
+  - name: eu_iu_ilt12_nuts0
+    type: BIGINT
+  - name: eu_iu_ilt12_nuts1
+    type: BIGINT
+  - name: eu_iu_iu3_nuts0
+    type: BIGINT
+  - name: eu_iu_iu3_nuts1
+    type: BIGINT
+  - name: eu_iu_iubk_nuts0
+    type: BIGINT
+  - name: eu_iu_iubk_nuts1
+    type: BIGINT
+  - name: eu_iu_iucpp_nuts0
+    type: BIGINT
+  - name: eu_iu_iucpp_nuts1
+    type: BIGINT
+  - name: eu_iu_iuse_nuts0
+    type: BIGINT
+  - name: eu_iu_iuse_nuts1
+    type: BIGINT
+  - name: eu_iu_iusell_nuts0
+    type: BIGINT
+  - name: eu_iu_iusell_nuts1
+    type: BIGINT
+  - name: eu_iu_iusnet_nuts0
+    type: BIGINT
+  - name: eu_iu_iusnet_nuts1
+    type: BIGINT
+  - name: eu_iu_iux_nuts0
+    type: BIGINT
+  - name: eu_iu_iux_nuts1
+    type: BIGINT
+  - name: eu_emp_ft_f_nuts0
+    type: DOUBLE
+  - name: eu_emp_ft_f_nuts1
+    type: DOUBLE
+  - name: eu_emp_ft_m_nuts0
+    type: DOUBLE
+  - name: eu_emp_ft_m_nuts1
+    type: DOUBLE
+  - name: eu_emp_ft_t_nuts0
+    type: DOUBLE
+  - name: eu_emp_ft_t_nuts1
+    type: DOUBLE
+  - name: eu_emp_pt_f_nuts0
+    type: DOUBLE
+  - name: eu_emp_pt_f_nuts1
+    type: DOUBLE
+  - name: eu_emp_pt_m_nuts0
+    type: DOUBLE
+  - name: eu_emp_pt_m_nuts1
+    type: DOUBLE
+  - name: eu_emp_pt_t_nuts0
+    type: DOUBLE
+  - name: eu_emp_pt_t_nuts1
+    type: DOUBLE
+  - name: eu_emp_1524f_nuts0
+    type: DOUBLE
+  - name: eu_emp_1524f_nuts1
+    type: DOUBLE
+  - name: eu_emp_1524m_nuts0
+    type: DOUBLE
+  - name: eu_emp_1524m_nuts1
+    type: DOUBLE
+  - name: eu_emp_1524t_nuts0
+    type: DOUBLE
+  - name: eu_emp_1524t_nuts1
+    type: DOUBLE
+  - name: eu_emp_2064f_nuts0
+    type: DOUBLE
+  - name: eu_emp_2064f_nuts1
+    type: DOUBLE
+  - name: eu_emp_2064m_nuts0
+    type: DOUBLE
+  - name: eu_emp_2064m_nuts1
+    type: DOUBLE
+  - name: eu_emp_2064t_nuts0
+    type: DOUBLE
+  - name: eu_emp_2064t_nuts1
+    type: DOUBLE
+  - name: eu_emp_2534f_nuts0
+    type: DOUBLE
+  - name: eu_emp_2534f_nuts1
+    type: DOUBLE
+  - name: eu_emp_2534m_nuts0
+    type: DOUBLE
+  - name: eu_emp_2534m_nuts1
+    type: DOUBLE
+  - name: eu_emp_2534t_nuts0
+    type: DOUBLE
+  - name: eu_emp_2534t_nuts1
+    type: DOUBLE
+  - name: eu_emp_ge25f_nuts0
+    type: DOUBLE
+  - name: eu_emp_ge25f_nuts1
+    type: DOUBLE
+  - name: eu_emp_ge25m_nuts0
+    type: DOUBLE
+  - name: eu_emp_ge25m_nuts1
+    type: DOUBLE
+  - name: eu_emp_ge25t_nuts0
+    type: DOUBLE
+  - name: eu_emp_ge25t_nuts1
+    type: DOUBLE
+  - name: eu_emp_ge65f_nuts0
+    type: DOUBLE
+  - name: eu_emp_ge65f_nuts1
+    type: DOUBLE
+  - name: eu_emp_ge65m_nuts0
+    type: DOUBLE
+  - name: eu_emp_ge65m_nuts1
+    type: DOUBLE
+  - name: eu_emp_ge65t_nuts0
+    type: DOUBLE
+  - name: eu_emp_ge65t_nuts1
+    type: DOUBLE
+  - name: eu_emp_a_nuts0
+    type: DOUBLE
+  - name: eu_emp_a_nuts1
+    type: DOUBLE
+  - name: eu_emp_be_nuts0
+    type: DOUBLE
+  - name: eu_emp_be_nuts1
+    type: DOUBLE
+  - name: eu_emp_f_nuts0
+    type: DOUBLE
+  - name: eu_emp_f_nuts1
+    type: DOUBLE
+  - name: eu_emp_gi_nuts0
+    type: DOUBLE
+  - name: eu_emp_gi_nuts1
+    type: DOUBLE
+  - name: eu_emp_j_nuts0
+    type: DOUBLE
+  - name: eu_emp_j_nuts1
+    type: DOUBLE
+  - name: eu_emp_k_nuts0
+    type: DOUBLE
+  - name: eu_emp_k_nuts1
+    type: DOUBLE
+  - name: eu_emp_l_nuts0
+    type: DOUBLE
+  - name: eu_emp_l_nuts1
+    type: DOUBLE
+  - name: eu_emp_m_n_nuts0
+    type: DOUBLE
+  - name: eu_emp_m_n_nuts1
+    type: DOUBLE
+  - name: eu_emp_oq_nuts0
+    type: DOUBLE
+  - name: eu_emp_oq_nuts1
+    type: DOUBLE
+  - name: eu_emp_ru_nuts0
+    type: DOUBLE
+  - name: eu_emp_ru_nuts1
+    type: DOUBLE
+  - name: eu_emp_total_nuts0
+    type: DOUBLE
+  - name: eu_emp_total_nuts1
+    type: DOUBLE
+  - name: eu_ltu_pc_act_nuts0
+    type: DOUBLE
+  - name: eu_ltu_pc_act_nuts1
+    type: DOUBLE
+  - name: eu_ltu_pc_une_nuts0
+    type: DOUBLE
+  - name: eu_ltu_pc_une_nuts1
+    type: DOUBLE
+  - name: eu_ltu_ths_nuts0
+    type: DOUBLE
+  - name: eu_ltu_ths_nuts1
+    type: DOUBLE
+  - name: eu_unemp_1524f_nuts0
+    type: DOUBLE
+  - name: eu_unemp_1524f_nuts1
+    type: DOUBLE
+  - name: eu_unemp_1524m_nuts0
+    type: DOUBLE
+  - name: eu_unemp_1524m_nuts1
+    type: DOUBLE
+  - name: eu_unemp_1524t_nuts0
+    type: DOUBLE
+  - name: eu_unemp_1524t_nuts1
+    type: DOUBLE
+  - name: eu_unemp_1574f_nuts0
+    type: DOUBLE
+  - name: eu_unemp_1574f_nuts1
+    type: DOUBLE
+  - name: eu_unemp_1574m_nuts0
+    type: DOUBLE
+  - name: eu_unemp_1574m_nuts1
+    type: DOUBLE
+  - name: eu_unemp_1574t_nuts0
+    type: DOUBLE
+  - name: eu_unemp_1574t_nuts1
+    type: DOUBLE
+  - name: eu_unemp_2064f_nuts0
+    type: DOUBLE
+  - name: eu_unemp_2064f_nuts1
+    type: DOUBLE
+  - name: eu_unemp_2064m_nuts0
+    type: DOUBLE
+  - name: eu_unemp_2064m_nuts1
+    type: DOUBLE
+  - name: eu_unemp_2064t_nuts0
+    type: DOUBLE
+  - name: eu_unemp_2064t_nuts1
+    type: DOUBLE
+  - name: eu_unemp_ge15f_nuts0
+    type: DOUBLE
+  - name: eu_unemp_ge15f_nuts1
+    type: DOUBLE
+  - name: eu_unemp_ge15m_nuts0
+    type: DOUBLE
+  - name: eu_unemp_ge15m_nuts1
+    type: DOUBLE
+  - name: eu_unemp_ge15t_nuts0
+    type: DOUBLE
+  - name: eu_unemp_ge15t_nuts1
+    type: DOUBLE
+  - name: eu_unemp_ge25f_nuts0
+    type: DOUBLE
+  - name: eu_unemp_ge25f_nuts1
+    type: DOUBLE
+  - name: eu_unemp_ge25m_nuts0
+    type: DOUBLE
+  - name: eu_unemp_ge25m_nuts1
+    type: DOUBLE
+  - name: eu_unemp_ge25t_nuts0
+    type: DOUBLE
+  - name: eu_unemp_ge25t_nuts1
+    type: DOUBLE
+  - name: eu_b5n_eur_hab_nuts0
+    type: BIGINT
+  - name: eu_b5n_eur_hab_nuts1
+    type: BIGINT
+  - name: eu_b5n_mio_eur_nuts0
+    type: DOUBLE
+  - name: eu_b5n_mio_eur_nuts1
+    type: DOUBLE
+  - name: eu_b5n_mio_nac_nuts0
+    type: DOUBLE
+  - name: eu_b5n_mio_nac_nuts1
+    type: DOUBLE
+  - name: eu_b5n_mio_pps_nuts0
+    type: DOUBLE
+  - name: eu_b5n_mio_pps_nuts1
+    type: DOUBLE
+  - name: eu_b6n_eur_hab_nuts0
+    type: BIGINT
+  - name: eu_b6n_eur_hab_nuts1
+    type: BIGINT
+  - name: eu_b6n_mio_eur_nuts0
+    type: DOUBLE
+  - name: eu_b6n_mio_eur_nuts1
+    type: DOUBLE
+  - name: eu_b6n_mio_nac_nuts0
+    type: DOUBLE
+  - name: eu_b6n_mio_nac_nuts1
+    type: DOUBLE
+  - name: eu_b6n_mio_pps_nuts0
+    type: DOUBLE
+  - name: eu_b6n_mio_pps_nuts1
+    type: DOUBLE
+  - name: eu_b7n_mio_eur_nuts0
+    type: DOUBLE
+  - name: eu_b7n_mio_eur_nuts1
+    type: DOUBLE
+  - name: eu_b7n_mio_nac_nuts0
+    type: DOUBLE
+  - name: eu_b7n_mio_nac_nuts1
+    type: DOUBLE
+  - name: eu_eng_cdd_nuts0
+    type: DOUBLE
+  - name: eu_eng_cdd_nuts1
+    type: DOUBLE
+  - name: eu_eng_hdd_nuts0
+    type: DOUBLE
+  - name: eu_eng_hdd_nuts1
+    type: DOUBLE
+  - name: eu_rdexp_bes_nuts0
+    type: DOUBLE
+  - name: eu_rdexp_bes_nuts1
+    type: DOUBLE
+  - name: eu_rdexp_gov_nuts0
+    type: DOUBLE
+  - name: eu_rdexp_gov_nuts1
+    type: DOUBLE
+  - name: eu_rdexp_hes_nuts0
+    type: DOUBLE
+  - name: eu_rdexp_hes_nuts1
+    type: DOUBLE
+  - name: eu_rdexp_pnp_nuts0
+    type: DOUBLE
+  - name: eu_rdexp_pnp_nuts1
+    type: DOUBLE
+  - name: eu_rdexp_total_nuts0
+    type: DOUBLE
+  - name: eu_rdexp_total_nuts1
+    type: DOUBLE
+  - name: eu_prd_bes_f_nuts0
+    type: BIGINT
+  - name: eu_prd_bes_f_nuts1
+    type: BIGINT
+  - name: eu_prd_bes_t_nuts0
+    type: BIGINT
+  - name: eu_prd_bes_t_nuts1
+    type: BIGINT
+  - name: eu_prd_gov_f_nuts0
+    type: BIGINT
+  - name: eu_prd_gov_f_nuts1
+    type: BIGINT
+  - name: eu_prd_gov_t_nuts0
+    type: BIGINT
+  - name: eu_prd_gov_t_nuts1
+    type: BIGINT
+  - name: eu_prd_hes_f_nuts0
+    type: BIGINT
+  - name: eu_prd_hes_f_nuts1
+    type: BIGINT
+  - name: eu_prd_hes_t_nuts0
+    type: BIGINT
+  - name: eu_prd_hes_t_nuts1
+    type: BIGINT
+  - name: eu_prd_pnp_f_nuts0
+    type: BIGINT
+  - name: eu_prd_pnp_f_nuts1
+    type: BIGINT
+  - name: eu_prd_pnp_t_nuts0
+    type: BIGINT
+  - name: eu_prd_pnp_t_nuts1
+    type: BIGINT
+  - name: eu_prd_total_f_nuts0
+    type: BIGINT
+  - name: eu_prd_total_f_nuts1
+    type: BIGINT
+  - name: eu_prd_total_t_nuts0
+    type: BIGINT
+  - name: eu_prd_total_t_nuts1
+    type: BIGINT
+  - name: eu_mio_eur_nuts0
+    type: DOUBLE
+  - name: eu_mio_eur_nuts1
+    type: DOUBLE
+  - name: eu_dinc_pps_hab_nuts0
+    type: DOUBLE
+  - name: eu_dinc_pps_hab_nuts1
+    type: DOUBLE
+  - name: eu_cnmigratrt_nuts1
+    type: DOUBLE
+  - name: eu_growrt_nuts1
+    type: DOUBLE
+  - name: eu_natgrowrt_nuts1
+    type: DOUBLE
+  - name: eu_tour_nstour_bedpl_nuts0
+    type: BIGINT
+  - name: eu_tour_nstour_bedpl_nuts1
+    type: BIGINT
+  - name: eu_tour_nstour_estbl_nuts0
+    type: BIGINT
+  - name: eu_tour_nstour_estbl_nuts1
+    type: BIGINT
+  - name: eu_tour_bedpl_nuts0
+    type: DOUBLE
+  - name: eu_tour_bedpl_nuts1
+    type: DOUBLE
+  - name: eu_tour_bedrm_nuts0
+    type: DOUBLE
+  - name: eu_tour_bedrm_nuts1
+    type: DOUBLE
+  - name: eu_tour_nscamp_nuts0
+    type: BIGINT
+  - name: eu_tour_nscamp_nuts1
+    type: BIGINT
+  - name: eu_tour_nshotel_nuts0
+    type: BIGINT
+  - name: eu_tour_nshotel_nuts1
+    type: BIGINT
+  - name: eu_tour_nssa_nuts0
+    type: BIGINT
+  - name: eu_tour_nssa_nuts1
+    type: BIGINT
+  - name: eu_tour_nstour_nuts0
+    type: BIGINT
+  - name: eu_tour_nstour_nuts1
+    type: BIGINT
+  - name: eu_rac_inj_nuts0
+    type: BIGINT
+  - name: eu_rac_inj_nuts1
+    type: BIGINT
+  - name: eu_rac_kil_nuts0
+    type: BIGINT
+  - name: eu_rac_kil_nuts1
+    type: BIGINT
+  - name: eu_atf_frm_ld_nuts0
+    type: BIGINT
+  - name: eu_atf_frm_ld_nuts1
+    type: BIGINT
+  - name: eu_atf_frm_ld_nld_nuts0
+    type: BIGINT
+  - name: eu_atf_frm_ld_nld_nuts1
+    type: BIGINT
+  - name: eu_atf_frm_nld_nuts0
+    type: BIGINT
+  - name: eu_atf_frm_nld_nuts1
+    type: BIGINT
+  - name: eu_mtp_pas_crd_nuts0
+    type: BIGINT
+  - name: eu_mtp_pas_crd_nuts1
+    type: BIGINT
+  - name: eu_mtp_pas_crd_arr_nuts0
+    type: BIGINT
+  - name: eu_mtp_pas_crd_arr_nuts1
+    type: BIGINT
+  - name: eu_mtp_pas_crd_dep_nuts0
+    type: BIGINT
+  - name: eu_mtp_pas_crd_dep_nuts1
+    type: BIGINT
+  - name: eu_mtf_fr_ld_nuts0
+    type: BIGINT
+  - name: eu_mtf_fr_ld_nuts1
+    type: BIGINT
+  - name: eu_mtf_fr_ld_nld_nuts0
+    type: BIGINT
+  - name: eu_mtf_fr_ld_nld_nuts1
+    type: BIGINT
+  - name: eu_mtf_fr_nld_nuts0
+    type: BIGINT
+  - name: eu_mtf_fr_nld_nuts1
+    type: BIGINT
+  - name: eu_mtp_pas_nuts0
+    type: BIGINT
+  - name: eu_mtp_pas_nuts1
+    type: BIGINT
+  - name: eu_mtp_pas_demb_nuts0
+    type: BIGINT
+  - name: eu_mtp_pas_demb_nuts1
+    type: BIGINT
+  - name: eu_mtp_pas_emb_nuts0
+    type: BIGINT
+  - name: eu_mtp_pas_emb_nuts1
+    type: BIGINT
+  - name: eu_troad_cnl_nuts0
+    type: BIGINT
+  - name: eu_troad_cnl_nuts1
+    type: BIGINT
+  - name: eu_troad_mway_nuts0
+    type: BIGINT
+  - name: eu_troad_mway_nuts1
+    type: BIGINT
+  - name: eu_troad_rd_oth_nuts0
+    type: BIGINT
+  - name: eu_troad_rd_oth_nuts1
+    type: BIGINT
+  - name: eu_troad_riv_nuts0
+    type: BIGINT
+  - name: eu_troad_riv_nuts1
+    type: BIGINT
+  - name: eu_troad_rl_nuts0
+    type: BIGINT
+  - name: eu_troad_rl_nuts1
+    type: BIGINT
+  - name: eu_troad_rl_elc_nuts0
+    type: BIGINT
+  - name: eu_troad_rl_elc_nuts1
+    type: BIGINT
+  - name: eu_troad_rl_tge2_nuts0
+    type: BIGINT
+  - name: eu_troad_rl_tge2_nuts1
+    type: BIGINT
+  - name: eu_vs_bus_tot_nuts0
+    type: BIGINT
+  - name: eu_vs_bus_tot_nuts1
+    type: BIGINT
+  - name: eu_vs_car_nuts0
+    type: BIGINT
+  - name: eu_vs_car_nuts1
+    type: BIGINT
+  - name: eu_vs_lor_nuts0
+    type: BIGINT
+  - name: eu_vs_lor_nuts1
+    type: BIGINT
+  - name: eu_vs_moto_nuts0
+    type: BIGINT
+  - name: eu_vs_moto_nuts1
+    type: BIGINT
+  - name: eu_vs_spe_nuts0
+    type: BIGINT
+  - name: eu_vs_spe_nuts1
+    type: BIGINT
+  - name: eu_vs_tot_x_tm_nuts0
+    type: BIGINT
+  - name: eu_vs_tot_x_tm_nuts1
+    type: BIGINT
+  - name: eu_vs_trc_nuts0
+    type: BIGINT
+  - name: eu_vs_trc_nuts1
+    type: BIGINT
+  - name: eu_vs_trl_strl_nuts0
+    type: BIGINT
+  - name: eu_vs_trl_strl_nuts1
+    type: BIGINT
+  - name: eu_vs_utl_nuts0
+    type: BIGINT
+  - name: eu_vs_utl_nuts1
+    type: BIGINT
+  - name: eu_epry2564f_nuts0
+    type: DOUBLE
+  - name: eu_epry2564f_nuts1
+    type: DOUBLE
+  - name: eu_epry2564m_nuts0
+    type: DOUBLE
+  - name: eu_epry2564m_nuts1
+    type: DOUBLE
+  - name: eu_epry2564t_nuts0
+    type: DOUBLE
+  - name: eu_epry2564t_nuts1
+    type: DOUBLE

@@ -1,0 +1,12 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: TIMESTAMP_NS
+  - name: division
+    type: VARCHAR
+  - name: inflation_yoy
+    type: DOUBLE
+  - name: inflation_mom
+    type: DOUBLE

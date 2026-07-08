@@ -1,0 +1,31 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [goal_id]
+temporal: league_season
+sort: [league_season, goal_id]
+columns:
+  - name: goal_id
+    type: BIGINT
+  - name: match_id
+    type: BIGINT
+  - name: league_shortcut
+    type: VARCHAR
+  - name: league_season
+    type: INTEGER
+  - name: score_team1
+    type: INTEGER
+  - name: score_team2
+    type: INTEGER
+  - name: match_minute
+    type: INTEGER
+  - name: goal_getter_id
+    type: BIGINT
+  - name: goal_getter_name
+    type: VARCHAR
+  - name: is_penalty
+    type: BOOLEAN
+  - name: is_own_goal
+    type: BOOLEAN
+  - name: is_overtime
+    type: BOOLEAN
+  - name: comment
+    type: VARCHAR

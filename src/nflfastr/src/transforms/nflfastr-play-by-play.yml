@@ -1,0 +1,749 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [game_id, play_id]
+temporal: season
+sort: [season, game_id, play_id]
+columns:
+  - name: play_id
+    type: DOUBLE
+  - name: game_id
+    type: VARCHAR
+  - name: old_game_id
+    type: VARCHAR
+  - name: home_team
+    type: VARCHAR
+  - name: away_team
+    type: VARCHAR
+  - name: season_type
+    type: VARCHAR
+  - name: week
+    type: INTEGER
+  - name: posteam
+    type: VARCHAR
+  - name: posteam_type
+    type: VARCHAR
+  - name: defteam
+    type: VARCHAR
+  - name: side_of_field
+    type: VARCHAR
+  - name: yardline_100
+    type: DOUBLE
+  - name: game_date
+    type: VARCHAR
+  - name: quarter_seconds_remaining
+    type: DOUBLE
+  - name: half_seconds_remaining
+    type: DOUBLE
+  - name: game_seconds_remaining
+    type: DOUBLE
+  - name: game_half
+    type: VARCHAR
+  - name: quarter_end
+    type: DOUBLE
+  - name: drive
+    type: DOUBLE
+  - name: sp
+    type: DOUBLE
+  - name: qtr
+    type: DOUBLE
+  - name: down
+    type: DOUBLE
+  - name: goal_to_go
+    type: DOUBLE
+  - name: time
+    type: VARCHAR
+  - name: yrdln
+    type: VARCHAR
+  - name: ydstogo
+    type: DOUBLE
+  - name: ydsnet
+    type: DOUBLE
+  - name: desc
+    type: VARCHAR
+  - name: play_type
+    type: VARCHAR
+  - name: yards_gained
+    type: DOUBLE
+  - name: shotgun
+    type: DOUBLE
+  - name: no_huddle
+    type: DOUBLE
+  - name: qb_dropback
+    type: DOUBLE
+  - name: qb_kneel
+    type: DOUBLE
+  - name: qb_spike
+    type: DOUBLE
+  - name: qb_scramble
+    type: DOUBLE
+  - name: pass_length
+    type: VARCHAR
+  - name: pass_location
+    type: VARCHAR
+  - name: air_yards
+    type: DOUBLE
+  - name: yards_after_catch
+    type: DOUBLE
+  - name: run_location
+    type: VARCHAR
+  - name: run_gap
+    type: VARCHAR
+  - name: field_goal_result
+    type: VARCHAR
+  - name: kick_distance
+    type: DOUBLE
+  - name: extra_point_result
+    type: VARCHAR
+  - name: two_point_conv_result
+    type: VARCHAR
+  - name: home_timeouts_remaining
+    type: DOUBLE
+  - name: away_timeouts_remaining
+    type: DOUBLE
+  - name: timeout
+    type: DOUBLE
+  - name: timeout_team
+    type: VARCHAR
+  - name: td_team
+    type: VARCHAR
+  - name: td_player_name
+    type: VARCHAR
+  - name: td_player_id
+    type: VARCHAR
+  - name: posteam_timeouts_remaining
+    type: DOUBLE
+  - name: defteam_timeouts_remaining
+    type: DOUBLE
+  - name: total_home_score
+    type: DOUBLE
+  - name: total_away_score
+    type: DOUBLE
+  - name: posteam_score
+    type: DOUBLE
+  - name: defteam_score
+    type: DOUBLE
+  - name: score_differential
+    type: DOUBLE
+  - name: posteam_score_post
+    type: DOUBLE
+  - name: defteam_score_post
+    type: DOUBLE
+  - name: score_differential_post
+    type: DOUBLE
+  - name: no_score_prob
+    type: DOUBLE
+  - name: opp_fg_prob
+    type: DOUBLE
+  - name: opp_safety_prob
+    type: DOUBLE
+  - name: opp_td_prob
+    type: DOUBLE
+  - name: fg_prob
+    type: DOUBLE
+  - name: safety_prob
+    type: DOUBLE
+  - name: td_prob
+    type: DOUBLE
+  - name: extra_point_prob
+    type: DOUBLE
+  - name: two_point_conversion_prob
+    type: DOUBLE
+  - name: ep
+    type: DOUBLE
+  - name: epa
+    type: DOUBLE
+  - name: total_home_epa
+    type: DOUBLE
+  - name: total_away_epa
+    type: DOUBLE
+  - name: total_home_rush_epa
+    type: DOUBLE
+  - name: total_away_rush_epa
+    type: DOUBLE
+  - name: total_home_pass_epa
+    type: DOUBLE
+  - name: total_away_pass_epa
+    type: DOUBLE
+  - name: air_epa
+    type: DOUBLE
+  - name: yac_epa
+    type: DOUBLE
+  - name: comp_air_epa
+    type: DOUBLE
+  - name: comp_yac_epa
+    type: DOUBLE
+  - name: total_home_comp_air_epa
+    type: DOUBLE
+  - name: total_away_comp_air_epa
+    type: DOUBLE
+  - name: total_home_comp_yac_epa
+    type: DOUBLE
+  - name: total_away_comp_yac_epa
+    type: DOUBLE
+  - name: total_home_raw_air_epa
+    type: DOUBLE
+  - name: total_away_raw_air_epa
+    type: DOUBLE
+  - name: total_home_raw_yac_epa
+    type: DOUBLE
+  - name: total_away_raw_yac_epa
+    type: DOUBLE
+  - name: wp
+    type: DOUBLE
+  - name: def_wp
+    type: DOUBLE
+  - name: home_wp
+    type: DOUBLE
+  - name: away_wp
+    type: DOUBLE
+  - name: wpa
+    type: DOUBLE
+  - name: vegas_wpa
+    type: DOUBLE
+  - name: vegas_home_wpa
+    type: DOUBLE
+  - name: home_wp_post
+    type: DOUBLE
+  - name: away_wp_post
+    type: DOUBLE
+  - name: vegas_wp
+    type: DOUBLE
+  - name: vegas_home_wp
+    type: DOUBLE
+  - name: total_home_rush_wpa
+    type: DOUBLE
+  - name: total_away_rush_wpa
+    type: DOUBLE
+  - name: total_home_pass_wpa
+    type: DOUBLE
+  - name: total_away_pass_wpa
+    type: DOUBLE
+  - name: air_wpa
+    type: DOUBLE
+  - name: yac_wpa
+    type: DOUBLE
+  - name: comp_air_wpa
+    type: DOUBLE
+  - name: comp_yac_wpa
+    type: DOUBLE
+  - name: total_home_comp_air_wpa
+    type: DOUBLE
+  - name: total_away_comp_air_wpa
+    type: DOUBLE
+  - name: total_home_comp_yac_wpa
+    type: DOUBLE
+  - name: total_away_comp_yac_wpa
+    type: DOUBLE
+  - name: total_home_raw_air_wpa
+    type: DOUBLE
+  - name: total_away_raw_air_wpa
+    type: DOUBLE
+  - name: total_home_raw_yac_wpa
+    type: DOUBLE
+  - name: total_away_raw_yac_wpa
+    type: DOUBLE
+  - name: punt_blocked
+    type: DOUBLE
+  - name: first_down_rush
+    type: DOUBLE
+  - name: first_down_pass
+    type: DOUBLE
+  - name: first_down_penalty
+    type: DOUBLE
+  - name: third_down_converted
+    type: DOUBLE
+  - name: third_down_failed
+    type: DOUBLE
+  - name: fourth_down_converted
+    type: DOUBLE
+  - name: fourth_down_failed
+    type: DOUBLE
+  - name: incomplete_pass
+    type: DOUBLE
+  - name: touchback
+    type: DOUBLE
+  - name: interception
+    type: DOUBLE
+  - name: punt_inside_twenty
+    type: DOUBLE
+  - name: punt_in_endzone
+    type: DOUBLE
+  - name: punt_out_of_bounds
+    type: DOUBLE
+  - name: punt_downed
+    type: DOUBLE
+  - name: punt_fair_catch
+    type: DOUBLE
+  - name: kickoff_inside_twenty
+    type: DOUBLE
+  - name: kickoff_in_endzone
+    type: DOUBLE
+  - name: kickoff_out_of_bounds
+    type: DOUBLE
+  - name: kickoff_downed
+    type: DOUBLE
+  - name: kickoff_fair_catch
+    type: DOUBLE
+  - name: fumble_forced
+    type: DOUBLE
+  - name: fumble_not_forced
+    type: DOUBLE
+  - name: fumble_out_of_bounds
+    type: DOUBLE
+  - name: solo_tackle
+    type: DOUBLE
+  - name: safety
+    type: DOUBLE
+  - name: penalty
+    type: DOUBLE
+  - name: tackled_for_loss
+    type: DOUBLE
+  - name: fumble_lost
+    type: DOUBLE
+  - name: own_kickoff_recovery
+    type: DOUBLE
+  - name: own_kickoff_recovery_td
+    type: DOUBLE
+  - name: qb_hit
+    type: DOUBLE
+  - name: rush_attempt
+    type: DOUBLE
+  - name: pass_attempt
+    type: DOUBLE
+  - name: sack
+    type: DOUBLE
+  - name: touchdown
+    type: DOUBLE
+  - name: pass_touchdown
+    type: DOUBLE
+  - name: rush_touchdown
+    type: DOUBLE
+  - name: return_touchdown
+    type: DOUBLE
+  - name: extra_point_attempt
+    type: DOUBLE
+  - name: two_point_attempt
+    type: DOUBLE
+  - name: field_goal_attempt
+    type: DOUBLE
+  - name: kickoff_attempt
+    type: DOUBLE
+  - name: punt_attempt
+    type: DOUBLE
+  - name: fumble
+    type: DOUBLE
+  - name: complete_pass
+    type: DOUBLE
+  - name: assist_tackle
+    type: DOUBLE
+  - name: lateral_reception
+    type: DOUBLE
+  - name: lateral_rush
+    type: DOUBLE
+  - name: lateral_return
+    type: DOUBLE
+  - name: lateral_recovery
+    type: DOUBLE
+  - name: passer_player_id
+    type: VARCHAR
+  - name: passer_player_name
+    type: VARCHAR
+  - name: passing_yards
+    type: DOUBLE
+  - name: receiver_player_id
+    type: VARCHAR
+  - name: receiver_player_name
+    type: VARCHAR
+  - name: receiving_yards
+    type: DOUBLE
+  - name: rusher_player_id
+    type: VARCHAR
+  - name: rusher_player_name
+    type: VARCHAR
+  - name: rushing_yards
+    type: DOUBLE
+  - name: lateral_receiver_player_id
+    type: VARCHAR
+  - name: lateral_receiver_player_name
+    type: VARCHAR
+  - name: lateral_receiving_yards
+    type: DOUBLE
+  - name: lateral_rusher_player_id
+    type: VARCHAR
+  - name: lateral_rusher_player_name
+    type: VARCHAR
+  - name: lateral_rushing_yards
+    type: DOUBLE
+  - name: lateral_sack_player_id
+    type: VARCHAR
+  - name: lateral_sack_player_name
+    type: VARCHAR
+  - name: interception_player_id
+    type: VARCHAR
+  - name: interception_player_name
+    type: VARCHAR
+  - name: lateral_interception_player_id
+    type: VARCHAR
+  - name: lateral_interception_player_name
+    type: VARCHAR
+  - name: punt_returner_player_id
+    type: VARCHAR
+  - name: punt_returner_player_name
+    type: VARCHAR
+  - name: lateral_punt_returner_player_id
+    type: VARCHAR
+  - name: lateral_punt_returner_player_name
+    type: VARCHAR
+  - name: kickoff_returner_player_name
+    type: VARCHAR
+  - name: kickoff_returner_player_id
+    type: VARCHAR
+  - name: lateral_kickoff_returner_player_id
+    type: VARCHAR
+  - name: lateral_kickoff_returner_player_name
+    type: VARCHAR
+  - name: punter_player_id
+    type: VARCHAR
+  - name: punter_player_name
+    type: VARCHAR
+  - name: kicker_player_name
+    type: VARCHAR
+  - name: kicker_player_id
+    type: VARCHAR
+  - name: own_kickoff_recovery_player_id
+    type: VARCHAR
+  - name: own_kickoff_recovery_player_name
+    type: VARCHAR
+  - name: blocked_player_id
+    type: VARCHAR
+  - name: blocked_player_name
+    type: VARCHAR
+  - name: tackle_for_loss_1_player_id
+    type: VARCHAR
+  - name: tackle_for_loss_1_player_name
+    type: VARCHAR
+  - name: tackle_for_loss_2_player_id
+    type: VARCHAR
+  - name: tackle_for_loss_2_player_name
+    type: VARCHAR
+  - name: qb_hit_1_player_id
+    type: VARCHAR
+  - name: qb_hit_1_player_name
+    type: VARCHAR
+  - name: qb_hit_2_player_id
+    type: VARCHAR
+  - name: qb_hit_2_player_name
+    type: VARCHAR
+  - name: forced_fumble_player_1_team
+    type: VARCHAR
+  - name: forced_fumble_player_1_player_id
+    type: VARCHAR
+  - name: forced_fumble_player_1_player_name
+    type: VARCHAR
+  - name: forced_fumble_player_2_team
+    type: VARCHAR
+  - name: forced_fumble_player_2_player_id
+    type: VARCHAR
+  - name: forced_fumble_player_2_player_name
+    type: VARCHAR
+  - name: solo_tackle_1_team
+    type: VARCHAR
+  - name: solo_tackle_2_team
+    type: VARCHAR
+  - name: solo_tackle_1_player_id
+    type: VARCHAR
+  - name: solo_tackle_2_player_id
+    type: VARCHAR
+  - name: solo_tackle_1_player_name
+    type: VARCHAR
+  - name: solo_tackle_2_player_name
+    type: VARCHAR
+  - name: assist_tackle_1_player_id
+    type: VARCHAR
+  - name: assist_tackle_1_player_name
+    type: VARCHAR
+  - name: assist_tackle_1_team
+    type: VARCHAR
+  - name: assist_tackle_2_player_id
+    type: VARCHAR
+  - name: assist_tackle_2_player_name
+    type: VARCHAR
+  - name: assist_tackle_2_team
+    type: VARCHAR
+  - name: assist_tackle_3_player_id
+    type: VARCHAR
+  - name: assist_tackle_3_player_name
+    type: VARCHAR
+  - name: assist_tackle_3_team
+    type: VARCHAR
+  - name: assist_tackle_4_player_id
+    type: VARCHAR
+  - name: assist_tackle_4_player_name
+    type: VARCHAR
+  - name: assist_tackle_4_team
+    type: VARCHAR
+  - name: tackle_with_assist
+    type: DOUBLE
+  - name: tackle_with_assist_1_player_id
+    type: VARCHAR
+  - name: tackle_with_assist_1_player_name
+    type: VARCHAR
+  - name: tackle_with_assist_1_team
+    type: VARCHAR
+  - name: tackle_with_assist_2_player_id
+    type: VARCHAR
+  - name: tackle_with_assist_2_player_name
+    type: VARCHAR
+  - name: tackle_with_assist_2_team
+    type: VARCHAR
+  - name: pass_defense_1_player_id
+    type: VARCHAR
+  - name: pass_defense_1_player_name
+    type: VARCHAR
+  - name: pass_defense_2_player_id
+    type: VARCHAR
+  - name: pass_defense_2_player_name
+    type: VARCHAR
+  - name: fumbled_1_team
+    type: VARCHAR
+  - name: fumbled_1_player_id
+    type: VARCHAR
+  - name: fumbled_1_player_name
+    type: VARCHAR
+  - name: fumbled_2_player_id
+    type: VARCHAR
+  - name: fumbled_2_player_name
+    type: VARCHAR
+  - name: fumbled_2_team
+    type: VARCHAR
+  - name: fumble_recovery_1_team
+    type: VARCHAR
+  - name: fumble_recovery_1_yards
+    type: DOUBLE
+  - name: fumble_recovery_1_player_id
+    type: VARCHAR
+  - name: fumble_recovery_1_player_name
+    type: VARCHAR
+  - name: fumble_recovery_2_team
+    type: VARCHAR
+  - name: fumble_recovery_2_yards
+    type: DOUBLE
+  - name: fumble_recovery_2_player_id
+    type: VARCHAR
+  - name: fumble_recovery_2_player_name
+    type: VARCHAR
+  - name: sack_player_id
+    type: VARCHAR
+  - name: sack_player_name
+    type: VARCHAR
+  - name: half_sack_1_player_id
+    type: VARCHAR
+  - name: half_sack_1_player_name
+    type: VARCHAR
+  - name: half_sack_2_player_id
+    type: VARCHAR
+  - name: half_sack_2_player_name
+    type: VARCHAR
+  - name: return_team
+    type: VARCHAR
+  - name: return_yards
+    type: DOUBLE
+  - name: penalty_team
+    type: VARCHAR
+  - name: penalty_player_id
+    type: VARCHAR
+  - name: penalty_player_name
+    type: VARCHAR
+  - name: penalty_yards
+    type: DOUBLE
+  - name: replay_or_challenge
+    type: DOUBLE
+  - name: replay_or_challenge_result
+    type: VARCHAR
+  - name: penalty_type
+    type: VARCHAR
+  - name: defensive_two_point_attempt
+    type: DOUBLE
+  - name: defensive_two_point_conv
+    type: DOUBLE
+  - name: defensive_extra_point_attempt
+    type: DOUBLE
+  - name: defensive_extra_point_conv
+    type: DOUBLE
+  - name: safety_player_name
+    type: VARCHAR
+  - name: safety_player_id
+    type: VARCHAR
+  - name: season
+    type: INTEGER
+  - name: cp
+    type: DOUBLE
+  - name: cpoe
+    type: DOUBLE
+  - name: series
+    type: DOUBLE
+  - name: series_success
+    type: DOUBLE
+  - name: series_result
+    type: VARCHAR
+  - name: order_sequence
+    type: DOUBLE
+  - name: start_time
+    type: VARCHAR
+  - name: time_of_day
+    type: VARCHAR
+  - name: stadium
+    type: VARCHAR
+  - name: weather
+    type: VARCHAR
+  - name: nfl_api_id
+    type: VARCHAR
+  - name: play_clock
+    type: VARCHAR
+  - name: play_deleted
+    type: DOUBLE
+  - name: play_type_nfl
+    type: VARCHAR
+  - name: special_teams_play
+    type: DOUBLE
+  - name: st_play_type
+    type: VARCHAR
+  - name: end_clock_time
+    type: VARCHAR
+  - name: end_yard_line
+    type: VARCHAR
+  - name: fixed_drive
+    type: DOUBLE
+  - name: fixed_drive_result
+    type: VARCHAR
+  - name: drive_real_start_time
+    type: VARCHAR
+  - name: drive_play_count
+    type: DOUBLE
+  - name: drive_time_of_possession
+    type: VARCHAR
+  - name: drive_first_downs
+    type: DOUBLE
+  - name: drive_inside20
+    type: DOUBLE
+  - name: drive_ended_with_score
+    type: DOUBLE
+  - name: drive_quarter_start
+    type: DOUBLE
+  - name: drive_quarter_end
+    type: DOUBLE
+  - name: drive_yards_penalized
+    type: DOUBLE
+  - name: drive_start_transition
+    type: VARCHAR
+  - name: drive_end_transition
+    type: VARCHAR
+  - name: drive_game_clock_start
+    type: VARCHAR
+  - name: drive_game_clock_end
+    type: VARCHAR
+  - name: drive_start_yard_line
+    type: VARCHAR
+  - name: drive_end_yard_line
+    type: VARCHAR
+  - name: drive_play_id_started
+    type: DOUBLE
+  - name: drive_play_id_ended
+    type: DOUBLE
+  - name: away_score
+    type: INTEGER
+  - name: home_score
+    type: INTEGER
+  - name: location
+    type: VARCHAR
+  - name: result
+    type: INTEGER
+  - name: total
+    type: INTEGER
+  - name: spread_line
+    type: DOUBLE
+  - name: total_line
+    type: DOUBLE
+  - name: div_game
+    type: INTEGER
+  - name: roof
+    type: VARCHAR
+  - name: surface
+    type: VARCHAR
+  - name: temp
+    type: INTEGER
+  - name: wind
+    type: INTEGER
+  - name: home_coach
+    type: VARCHAR
+  - name: away_coach
+    type: VARCHAR
+  - name: stadium_id
+    type: VARCHAR
+  - name: game_stadium
+    type: VARCHAR
+  - name: aborted_play
+    type: DOUBLE
+  - name: success
+    type: DOUBLE
+  - name: passer
+    type: VARCHAR
+  - name: passer_jersey_number
+    type: INTEGER
+  - name: rusher
+    type: VARCHAR
+  - name: rusher_jersey_number
+    type: INTEGER
+  - name: receiver
+    type: VARCHAR
+  - name: receiver_jersey_number
+    type: INTEGER
+  - name: pass
+    type: DOUBLE
+  - name: rush
+    type: DOUBLE
+  - name: first_down
+    type: DOUBLE
+  - name: special
+    type: DOUBLE
+  - name: play
+    type: DOUBLE
+  - name: passer_id
+    type: VARCHAR
+  - name: rusher_id
+    type: VARCHAR
+  - name: receiver_id
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: jersey_number
+    type: INTEGER
+  - name: id
+    type: VARCHAR
+  - name: fantasy_player_name
+    type: VARCHAR
+  - name: fantasy_player_id
+    type: VARCHAR
+  - name: fantasy
+    type: VARCHAR
+  - name: fantasy_id
+    type: VARCHAR
+  - name: out_of_bounds
+    type: DOUBLE
+  - name: home_opening_kickoff
+    type: DOUBLE
+  - name: qb_epa
+    type: DOUBLE
+  - name: xyac_epa
+    type: DOUBLE
+  - name: xyac_mean_yardage
+    type: DOUBLE
+  - name: xyac_median_yardage
+    type: DOUBLE
+  - name: xyac_success
+    type: DOUBLE
+  - name: xyac_fd
+    type: DOUBLE
+  - name: xpass
+    type: DOUBLE
+  - name: pass_oe
+    type: DOUBLE

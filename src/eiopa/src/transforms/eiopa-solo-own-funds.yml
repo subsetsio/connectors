@@ -1,0 +1,23 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [reporting_entity, reference_period, frequency, undertaking_type, item_code]
+temporal: reference_period
+sort: [reference_period, reporting_entity, frequency, undertaking_type, item_code]
+columns:
+  - name: reporting_entity
+    type: VARCHAR
+  - name: reference_period
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: undertaking_type
+    type: VARCHAR
+  - name: item_code
+    type: VARCHAR
+  - name: item_name
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: n_submissions
+    type: BIGINT
+  - name: extraction_date
+    type: DATE

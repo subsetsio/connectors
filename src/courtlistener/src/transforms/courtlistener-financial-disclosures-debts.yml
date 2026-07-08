@@ -1,0 +1,21 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [id]
+temporal: date_modified
+sort: [date_modified, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: date_created
+    type: TIMESTAMP
+  - name: date_modified
+    type: TIMESTAMP
+  - name: creditor_name
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: value_code
+    type: VARCHAR
+  - name: redacted
+    type: VARCHAR
+  - name: financial_disclosure_id
+    type: BIGINT

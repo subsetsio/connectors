@@ -1,0 +1,11 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [basis_of_record, year]
+temporal: year
+sort: [year, basis_of_record]
+columns:
+  - name: basis_of_record
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: occurrence_count
+    type: BIGINT

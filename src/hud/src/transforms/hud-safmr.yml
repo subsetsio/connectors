@@ -1,0 +1,70 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: fiscal_year
+sort: [fiscal_year]
+columns:
+  - name: zip_code
+    type: VARCHAR
+  - name: hud_area_code
+    type: VARCHAR
+  - name: hud_metro_fair_market_rent_area_name
+    type: VARCHAR
+  - name: safmr_0br
+    type: DOUBLE
+  - name: safmr_0br_90_payment_standard
+    type: DOUBLE
+  - name: safmr_0br_110_payment_standard
+    type: DOUBLE
+  - name: safmr_1br
+    type: DOUBLE
+  - name: safmr_1br_90_payment_standard
+    type: DOUBLE
+  - name: safmr_1br_110_payment_standard
+    type: DOUBLE
+  - name: safmr_2br
+    type: DOUBLE
+  - name: safmr_2br_90_payment_standard
+    type: DOUBLE
+  - name: safmr_2br_110_payment_standard
+    type: DOUBLE
+  - name: safmr_3br
+    type: DOUBLE
+  - name: safmr_3br_90_payment_standard
+    type: DOUBLE
+  - name: safmr_3br_110_payment_standard
+    type: DOUBLE
+  - name: safmr_4br
+    type: DOUBLE
+  - name: safmr_4br_90_payment_standard
+    type: DOUBLE
+  - name: safmr_4br_110_payment_standard
+    type: DOUBLE
+  - name: zcta
+    type: JSON
+  - name: cbsasub20
+    type: JSON
+  - name: areaname20
+    type: JSON
+  - name: safmr_0br_90pct_pay_std
+    type: JSON
+  - name: safmr_0br_110pct_pay_std
+    type: JSON
+  - name: safmr_1br_90pct_pay_std
+    type: JSON
+  - name: safmr_1br_110pct_pay_std
+    type: JSON
+  - name: safmr_2br_90pct_pay_std
+    type: JSON
+  - name: safmr_2br_110pct_pay_std
+    type: JSON
+  - name: safmr_3br_90pct_pay_std
+    type: JSON
+  - name: safmr_3br_110pct_pay_std
+    type: JSON
+  - name: safmr_4br_90pct_pay_std
+    type: JSON
+  - name: safmr_4br_110pct_pay_std
+    type: JSON
+  - name: hud_fair_market_rent_area_name
+    type: JSON
+  - name: fiscal_year
+    type: BIGINT

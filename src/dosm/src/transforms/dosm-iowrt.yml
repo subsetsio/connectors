@@ -1,0 +1,14 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: date
+sort: [date]
+columns:
+  - name: series
+    type: VARCHAR
+  - name: date
+    type: TIMESTAMP_NS
+  - name: sales
+    type: DOUBLE
+  - name: volume
+    type: DOUBLE
+  - name: volume_sa
+    type: DOUBLE

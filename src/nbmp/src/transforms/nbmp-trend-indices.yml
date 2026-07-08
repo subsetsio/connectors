@@ -1,0 +1,23 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [geographical_scale, species, survey, year]
+temporal: year
+sort: [year, geographical_scale, species, survey]
+columns:
+  - name: geographical_scale
+    type: VARCHAR
+  - name: species
+    type: VARCHAR
+  - name: survey
+    type: VARCHAR
+  - name: official_statistic
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: smoothed_index
+    type: DOUBLE
+  - name: standard_error
+    type: DOUBLE
+  - name: lower_95_ci
+    type: DOUBLE
+  - name: upper_95_ci
+    type: DOUBLE

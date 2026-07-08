@@ -1,0 +1,13 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [state]
+temporal: as_of
+sort: [as_of, state]
+columns:
+  - name: state
+    type: VARCHAR
+  - name: as_of
+    type: DATE
+  - name: unit
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

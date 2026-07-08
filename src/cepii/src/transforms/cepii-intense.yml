@@ -1,0 +1,21 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [Date, Actor1CountryCode, Actor2CountryCode, Category]
+temporal: Date
+sort: [Date, Actor1CountryCode, Actor2CountryCode, Category]
+columns:
+  - name: Date
+    type: BIGINT
+  - name: Actor1CountryCode
+    type: VARCHAR
+  - name: Actor2CountryCode
+    type: VARCHAR
+  - name: Category
+    type: VARCHAR
+  - name: NumEvents
+    type: BIGINT
+  - name: NumArticles
+    type: BIGINT
+  - name: Shade
+    type: DOUBLE
+  - name: Intensity
+    type: DOUBLE

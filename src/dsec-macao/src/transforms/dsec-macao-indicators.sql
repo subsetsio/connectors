@@ -1,0 +1,25 @@
+SELECT
+    CAST(indicator_id AS BIGINT)          AS indicator_id,
+    CAST(parent_id AS BIGINT)             AS parent_id,
+    indicator_id_path,
+    CAST(is_leaf AS BOOLEAN)              AS is_leaf,
+    global_order,
+    name_en,
+    name_pt,
+    name_zh_mo,
+    name_zh_cn,
+    unit_en,
+    unit_pt,
+    unit_zh_mo,
+    CAST(min_year AS INTEGER)             AS min_year,
+    CAST(max_year AS INTEGER)             AS max_year,
+    yearly_available,
+    quarterly_available,
+    monthly_available,
+    three_consec_months_available,
+    val_available,
+    spv_available,
+    ppv_available,
+    pot_available
+FROM "dsec-macao-indicators"
+WHERE indicator_id IS NOT NULL

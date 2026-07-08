@@ -1,0 +1,27 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [id]
+temporal: election_date
+sort: [election_date, id]
+columns:
+  - name: id
+    type: INTEGER
+  - name: election_date
+    type: DATE
+  - name: early
+    type: BOOLEAN
+  - name: dissolution_date
+    type: DATE
+  - name: seats_total
+    type: INTEGER
+  - name: electorate
+    type: BIGINT
+  - name: votes_cast
+    type: BIGINT
+  - name: votes_valid
+    type: BIGINT
+  - name: country_id
+    type: INTEGER
+  - name: type_id
+    type: INTEGER
+  - name: wikipedia
+    type: VARCHAR

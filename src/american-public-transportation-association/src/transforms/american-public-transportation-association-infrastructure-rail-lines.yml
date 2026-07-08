@@ -1,0 +1,64 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: new_2018_data
+    type: VARCHAR
+  - name: last_data_reported_year
+    type: JSON
+  - name: organization_name
+    type: VARCHAR
+  - name: organization_short_name
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: member_id
+    type: BIGINT
+  - name: mode_name
+    type: VARCHAR
+  - name: connecting_modes
+    type: VARCHAR
+  - name: lines
+    type: BIGINT
+  - name: year_original_line_opened
+    type: BIGINT
+  - name: miles_elevated
+    type: DOUBLE
+  - name: miles_on_surface
+    type: DOUBLE
+  - name: miles_underground
+    type: DOUBLE
+  - name: miles_single_track
+    type: DOUBLE
+  - name: miles_double_track
+    type: DOUBLE
+  - name: miles_triple_track
+    type: DOUBLE
+  - name: miles_quadruple_track
+    type: DOUBLE
+  - name: miles_quintuple_track
+    type: DOUBLE
+  - name: miles_sextuple_track
+    type: DOUBLE
+  - name: miles_of_mainline_passenger_track
+    type: DOUBLE
+  - name: miles_of_yard_and_non_mainline_track
+    type: DOUBLE
+  - name: crossings_with_gates
+    type: BIGINT
+  - name: crossings_without_gates
+    type: BIGINT
+  - name: longest_platform_feet
+    type: BIGINT
+  - name: maximum_speed_m_p_h
+    type: BIGINT
+  - name: average_speed_mph
+    type: BIGINT
+  - name: shortest_headway_min_sec
+    type: VARCHAR
+  - name: start_of_operations_hours_minutes_military_time
+    type: VARCHAR
+  - name: end_of_operations_hours_minutes_military_time
+    type: VARCHAR

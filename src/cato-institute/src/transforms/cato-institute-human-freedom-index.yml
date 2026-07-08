@@ -1,0 +1,312 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: year
+    type: BIGINT
+  - name: iso
+    type: VARCHAR
+  - name: countries
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: hf_score
+    type: DOUBLE
+  - name: hf_rank
+    type: BIGINT
+  - name: hf_quartile
+    type: BIGINT
+  - name: pf_rol_procedural
+    type: DOUBLE
+  - name: pf_rol_civil
+    type: DOUBLE
+  - name: pf_rol_criminal
+    type: DOUBLE
+  - name: pf_rol_vdem
+    type: DOUBLE
+  - name: pf_rol
+    type: DOUBLE
+  - name: pf_ss_homicide
+    type: DOUBLE
+  - name: pf_ss_homicide_data
+    type: DOUBLE
+  - name: pf_ss_disappearances_disap
+    type: BIGINT
+  - name: pf_ss_disappearances_violent
+    type: DOUBLE
+  - name: pf_ss_disappearances_violent_data
+    type: BIGINT
+  - name: pf_ss_disappearances_organized
+    type: DOUBLE
+  - name: pf_ss_disappearances_fatalities
+    type: DOUBLE
+  - name: pf_ss_disappearances_fatalities_data
+    type: BIGINT
+  - name: pf_ss_disappearances_injuries
+    type: DOUBLE
+  - name: pf_ss_disappearances_injuries_data
+    type: BIGINT
+  - name: pf_ss_disappearances_torture
+    type: DOUBLE
+  - name: pf_ss_killings
+    type: DOUBLE
+  - name: pf_ss_disappearances
+    type: DOUBLE
+  - name: pf_ss
+    type: DOUBLE
+  - name: pf_movement_vdem_foreign
+    type: DOUBLE
+  - name: pf_movement_vdem_men
+    type: DOUBLE
+  - name: pf_movement_vdem_women
+    type: DOUBLE
+  - name: pf_movement_vdem
+    type: DOUBLE
+  - name: pf_movement_cld
+    type: DOUBLE
+  - name: pf_movement
+    type: DOUBLE
+  - name: pf_religion_freedom_vdem
+    type: DOUBLE
+  - name: pf_religion_freedom_cld
+    type: DOUBLE
+  - name: pf_religion_freedom
+    type: DOUBLE
+  - name: pf_religion_suppression
+    type: DOUBLE
+  - name: pf_religion
+    type: DOUBLE
+  - name: pf_assembly_entry
+    type: DOUBLE
+  - name: pf_assembly_freedom_house
+    type: DOUBLE
+  - name: pf_assembly_freedom_bti
+    type: DOUBLE
+  - name: pf_assembly_freedom_cld
+    type: DOUBLE
+  - name: pf_assembly_freedom
+    type: DOUBLE
+  - name: pf_assembly_parties_barriers
+    type: DOUBLE
+  - name: pf_assembly_parties_bans
+    type: DOUBLE
+  - name: pf_assembly_parties_auton
+    type: DOUBLE
+  - name: pf_assembly_parties
+    type: DOUBLE
+  - name: pf_assembly_civil
+    type: DOUBLE
+  - name: pf_assembly
+    type: DOUBLE
+  - name: pf_expression_direct_killed
+    type: DOUBLE
+  - name: pf_expression_direct_killed_data
+    type: BIGINT
+  - name: pf_expression_direct_jailed
+    type: DOUBLE
+  - name: pf_expression_direct_jailed_data
+    type: BIGINT
+  - name: pf_expression_direct
+    type: DOUBLE
+  - name: pf_expression_vdem_cultural
+    type: DOUBLE
+  - name: pf_expression_vdem_harass
+    type: DOUBLE
+  - name: pf_expression_vdem_gov
+    type: DOUBLE
+  - name: pf_expression_vdem_internet
+    type: DOUBLE
+  - name: pf_expression_vdem_selfcens
+    type: DOUBLE
+  - name: pf_expression_vdem
+    type: DOUBLE
+  - name: pf_expression_house
+    type: DOUBLE
+  - name: pf_expression_bti
+    type: DOUBLE
+  - name: pf_expression_cld
+    type: DOUBLE
+  - name: pf_expression
+    type: DOUBLE
+  - name: pf_identity_same_m
+    type: BIGINT
+  - name: pf_identity_same_f
+    type: BIGINT
+  - name: pf_identity_same
+    type: DOUBLE
+  - name: pf_identity_divorce
+    type: DOUBLE
+  - name: pf_identity_inheritance_widows
+    type: BIGINT
+  - name: pf_identity_inheritance_daughters
+    type: BIGINT
+  - name: pf_identity_inheritance
+    type: DOUBLE
+  - name: pf_identity_fgm
+    type: DOUBLE
+  - name: pf_identity
+    type: DOUBLE
+  - name: pf_score
+    type: DOUBLE
+  - name: pf_rank
+    type: BIGINT
+  - name: ef_government_consumption_nointerest
+    type: DOUBLE
+  - name: ef_government_consumption_nointerest_data
+    type: DOUBLE
+  - name: ef_government_consumption_withinterest
+    type: DOUBLE
+  - name: ef_government_consumption_withinterest_data
+    type: DOUBLE
+  - name: ef_government_consumption
+    type: DOUBLE
+  - name: ef_government_transfers
+    type: DOUBLE
+  - name: ef_government_transfers_data
+    type: DOUBLE
+  - name: ef_government_investment
+    type: DOUBLE
+  - name: ef_government_investment_data
+    type: DOUBLE
+  - name: ef_government_tax_income
+    type: BIGINT
+  - name: ef_government_tax_income_data
+    type: VARCHAR
+  - name: ef_government_tax_payroll
+    type: BIGINT
+  - name: ef_government_tax_payroll_data
+    type: VARCHAR
+  - name: ef_government_tax
+    type: DOUBLE
+  - name: ef_government_soa
+    type: DOUBLE
+  - name: ef_government
+    type: DOUBLE
+  - name: ef_government_rank
+    type: BIGINT
+  - name: ef_legal_judicial
+    type: DOUBLE
+  - name: ef_legal_courts
+    type: DOUBLE
+  - name: ef_legal_protection
+    type: DOUBLE
+  - name: ef_legal_military
+    type: DOUBLE
+  - name: ef_legal_integrity
+    type: DOUBLE
+  - name: ef_legal_contracts
+    type: DOUBLE
+  - name: ef_legal_realprop
+    type: DOUBLE
+  - name: ef_legal_police
+    type: DOUBLE
+  - name: ef_gender
+    type: DOUBLE
+  - name: ef_legal-nogender
+    type: DOUBLE
+  - name: ef_legal-gender
+    type: DOUBLE
+  - name: ef_legal_rank
+    type: BIGINT
+  - name: ef_money_growth
+    type: DOUBLE
+  - name: ef_money_growth_data
+    type: DOUBLE
+  - name: ef_money_sd
+    type: DOUBLE
+  - name: ef_money_sd_data
+    type: DOUBLE
+  - name: ef_money_inflation
+    type: DOUBLE
+  - name: ef_money_inflation_data
+    type: DOUBLE
+  - name: ef_money_currency
+    type: BIGINT
+  - name: ef_money
+    type: DOUBLE
+  - name: ef_money_rank
+    type: BIGINT
+  - name: ef_trade_tariffs_revenue
+    type: DOUBLE
+  - name: ef_trade_tariffs_revenue_data
+    type: DOUBLE
+  - name: ef_trade_tariffs_mean
+    type: DOUBLE
+  - name: ef_trade_tariffs_mean_data
+    type: DOUBLE
+  - name: ef_trade_tariffs_sd
+    type: DOUBLE
+  - name: ef_trade_tariffs_sd_data
+    type: DOUBLE
+  - name: ef_trade_tariffs
+    type: DOUBLE
+  - name: ef_trade_regulatory_nontariff
+    type: DOUBLE
+  - name: ef_trade_regulatory_costs
+    type: DOUBLE
+  - name: ef_trade_regulatory
+    type: DOUBLE
+  - name: ef_trade_black
+    type: DOUBLE
+  - name: ef_trade_movement_open
+    type: DOUBLE
+  - name: ef_trade_movement_capital
+    type: DOUBLE
+  - name: ef_trade_movement_visit
+    type: DOUBLE
+  - name: ef_trade_movement_assets
+    type: DOUBLE
+  - name: ef_trade_movement
+    type: DOUBLE
+  - name: ef_trade
+    type: DOUBLE
+  - name: ef_trade_rank
+    type: BIGINT
+  - name: ef_regulation_credit_ownership
+    type: BIGINT
+  - name: ef_regulation_credit_private
+    type: DOUBLE
+  - name: ef_regulation_credit_interest
+    type: BIGINT
+  - name: ef_regulation_credit
+    type: DOUBLE
+  - name: ef_regulation_labor_minwage
+    type: DOUBLE
+  - name: ef_regulation_labor_firing
+    type: DOUBLE
+  - name: ef_regulation_labor_flexible
+    type: DOUBLE
+  - name: ef_regulation_labor_hours
+    type: DOUBLE
+  - name: ef_regulation_labor_dismissal
+    type: DOUBLE
+  - name: ef_regulation_labor_conscription
+    type: BIGINT
+  - name: ef_regulation_labor_foreign
+    type: DOUBLE
+  - name: ef_regulation_labor
+    type: DOUBLE
+  - name: ef_regulation_business_burden
+    type: DOUBLE
+  - name: ef_regulation_business_costs
+    type: DOUBLE
+  - name: ef_regulation_business_impartial
+    type: DOUBLE
+  - name: ef_regulation_business_compliance
+    type: DOUBLE
+  - name: ef_regulation_business
+    type: DOUBLE
+  - name: ef_regulation_enter_openness
+    type: DOUBLE
+  - name: ef_regulation_enter_permits
+    type: DOUBLE
+  - name: ef_regulation_enter_distortion
+    type: DOUBLE
+  - name: ef_regulation_enter
+    type: DOUBLE
+  - name: ef_regulation
+    type: DOUBLE
+  - name: ef_regulation_rank
+    type: BIGINT
+  - name: ef_score
+    type: DOUBLE
+  - name: ef_rank
+    type: BIGINT

@@ -1,0 +1,54 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: conflict_id
+    type: BIGINT
+  - name: dyad_id
+    type: BIGINT
+  - name: location_inc
+    type: VARCHAR
+  - name: side_a
+    type: VARCHAR
+  - name: side_a_id
+    type: VARCHAR
+  - name: side_a_2nd
+    type: VARCHAR
+  - name: side_b
+    type: VARCHAR
+  - name: side_b_id
+    type: VARCHAR
+  - name: side_b_2nd
+    type: VARCHAR
+  - name: incompatibility
+    type: BIGINT
+  - name: territory_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: bd_best
+    type: BIGINT
+  - name: bd_low
+    type: BIGINT
+  - name: bd_high
+    type: BIGINT
+  - name: type_of_conflict
+    type: BIGINT
+  - name: battle_location
+    type: VARCHAR
+  - name: gwno_a
+    type: VARCHAR
+  - name: gwno_a_2nd
+    type: VARCHAR
+  - name: gwno_b
+    type: VARCHAR
+  - name: gwno_b_2nd
+    type: VARCHAR
+  - name: gwno_loc
+    type: VARCHAR
+  - name: gwno_battle
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: version
+    type: DOUBLE

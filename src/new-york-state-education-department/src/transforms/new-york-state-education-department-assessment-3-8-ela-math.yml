@@ -1,0 +1,58 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: report_year
+    type: BIGINT
+  - name: school_year
+    type: VARCHAR
+  - name: nrc_code
+    type: VARCHAR
+  - name: nrc_desc
+    type: VARCHAR
+  - name: county_code
+    type: VARCHAR
+  - name: county_desc
+    type: VARCHAR
+  - name: bedscode
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: item_subject_area
+    type: VARCHAR
+  - name: item_desc
+    type: VARCHAR
+  - name: subgroup_code
+    type: VARCHAR
+  - name: subgroup_name
+    type: VARCHAR
+  - name: total_tested
+    type: BIGINT
+  - name: l1_count
+    type: BIGINT
+  - name: l1_pct
+    type: VARCHAR
+  - name: l2_count
+    type: BIGINT
+  - name: l2_pct
+    type: VARCHAR
+  - name: l3_count
+    type: BIGINT
+  - name: l3_pct
+    type: VARCHAR
+  - name: l4_count
+    type: BIGINT
+  - name: l4_pct
+    type: VARCHAR
+  - name: l2_l4_pct
+    type: VARCHAR
+  - name: l3_l4_pct
+    type: VARCHAR
+  - name: mean_scale_score
+    type: BIGINT
+  - name: sum_of_scale_score
+    type: BIGINT
+  - name: sy_end_date
+    type: JSON
+  - name: total_enrolled
+    type: JSON
+  - name: total_not_tested
+    type: JSON

@@ -1,0 +1,26 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year_range
+sort: [year_range]
+columns:
+  - name: geo
+    type: VARCHAR
+  - name: year_range
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: taxonomic_group
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: value_raw
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: obs_status
+    type: JSON
+  - name: note
+    type: JSON
+  - name: source
+    type: VARCHAR

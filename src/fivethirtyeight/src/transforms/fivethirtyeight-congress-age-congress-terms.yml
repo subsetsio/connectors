@@ -1,0 +1,30 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: termstart
+sort: [termstart]
+columns:
+  - name: congress
+    type: BIGINT
+  - name: chamber
+    type: VARCHAR
+  - name: bioguide
+    type: VARCHAR
+  - name: firstname
+    type: VARCHAR
+  - name: middlename
+    type: VARCHAR
+  - name: lastname
+    type: VARCHAR
+  - name: suffix
+    type: VARCHAR
+  - name: birthday
+    type: DATE
+  - name: state
+    type: VARCHAR
+  - name: party
+    type: VARCHAR
+  - name: incumbent
+    type: VARCHAR
+  - name: termstart
+    type: DATE
+  - name: age
+    type: DOUBLE

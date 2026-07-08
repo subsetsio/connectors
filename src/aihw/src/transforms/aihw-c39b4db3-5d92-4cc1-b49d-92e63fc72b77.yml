@@ -1,0 +1,17 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, sex, cancer_type]
+temporal: year
+sort: [year, sex, cancer_type]
+columns:
+  - name: year
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: cancer_type
+    type: VARCHAR
+  - name: aust_mortality_to_incidence_ratio
+    type: DOUBLE
+  - name: segi_mortality_to_incidence_ratio
+    type: DOUBLE
+  - name: who_mortality_to_incidence_ratio
+    type: DOUBLE

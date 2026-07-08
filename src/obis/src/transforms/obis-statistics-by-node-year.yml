@@ -1,0 +1,15 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [nodeid, year]
+temporal: year
+sort: [year, nodeid]
+columns:
+  - name: nodeid
+    type: VARCHAR
+  - name: node_name
+    type: VARCHAR
+  - name: node_type
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: records
+    type: BIGINT

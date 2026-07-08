@@ -1,0 +1,83 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [gedid]
+temporal: date_start
+sort: [date_start, gedid]
+columns:
+  - name: gedid
+    type: BIGINT
+  - name: priogrid_gid
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: side_a_dset_id
+    type: BIGINT
+  - name: side_a_new_id
+    type: BIGINT
+  - name: side_a
+    type: VARCHAR
+  - name: side_b_dset_id
+    type: BIGINT
+  - name: side_b_new_id
+    type: BIGINT
+  - name: side_b
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: country
+    type: VARCHAR
+  - name: gwno
+    type: BIGINT
+  - name: date_start
+    type: VARCHAR
+  - name: date_end
+    type: VARCHAR
+  - name: best_est
+    type: BIGINT
+  - name: deaths_civilians
+    type: BIGINT
+  - name: sv_ai_prev
+    type: BIGINT
+  - name: sv_ai_prev_a
+    type: BIGINT
+  - name: sv_ai_prev_b
+    type: BIGINT
+  - name: sv_hrw_prev
+    type: BIGINT
+  - name: sv_hrw_prev_a
+    type: BIGINT
+  - name: sv_hrw_prev_b
+    type: BIGINT
+  - name: sv_state_prev
+    type: BIGINT
+  - name: sv_state_prev_a
+    type: BIGINT
+  - name: sv_state_prev_b
+    type: BIGINT
+  - name: sv_max_prev
+    type: BIGINT
+  - name: sv_max_prev_a
+    type: BIGINT
+  - name: sv_max_prev_b
+    type: BIGINT
+  - name: sv_selection
+    type: BIGINT
+  - name: sv_male
+    type: BIGINT
+  - name: sv_child
+    type: BIGINT
+  - name: sv_detainee
+    type: BIGINT
+  - name: sv_refugee
+    type: BIGINT
+  - name: sv_public
+    type: BIGINT
+  - name: sv_semipublic
+    type: BIGINT
+  - name: sv_private
+    type: BIGINT
+  - name: sv_gang
+    type: BIGINT
+  - name: sv_byproxy
+    type: BIGINT

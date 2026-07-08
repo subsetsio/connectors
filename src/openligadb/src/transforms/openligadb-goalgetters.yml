@@ -1,0 +1,15 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [league_shortcut, league_season, goal_getter_id]
+temporal: league_season
+sort: [league_season, league_shortcut, goal_getter_id]
+columns:
+  - name: league_shortcut
+    type: VARCHAR
+  - name: league_season
+    type: INTEGER
+  - name: goal_getter_id
+    type: BIGINT
+  - name: goal_getter_name
+    type: VARCHAR
+  - name: goal_count
+    type: INTEGER

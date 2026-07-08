@@ -1,0 +1,31 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [state]
+temporal: year
+sort: [year, state]
+columns:
+  - name: state
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: total
+    type: BIGINT
+  - name: retirement_workers
+    type: BIGINT
+  - name: retirement_spouses
+    type: BIGINT
+  - name: retirement_children
+    type: BIGINT
+  - name: survivors_widowers_parents
+    type: BIGINT
+  - name: survivors_children
+    type: BIGINT
+  - name: disability_workers
+    type: BIGINT
+  - name: disability_spouses
+    type: BIGINT
+  - name: disability_children
+    type: BIGINT
+  - name: men_65_older
+    type: BIGINT
+  - name: women_65_older
+    type: BIGINT

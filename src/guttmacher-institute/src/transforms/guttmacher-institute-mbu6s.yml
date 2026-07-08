@@ -1,0 +1,954 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: weight_as
+    type: VARCHAR
+  - name: weight_tn
+    type: DOUBLE
+  - name: weight_optin
+    type: VARCHAR
+  - name: psu_as
+    type: BIGINT
+  - name: strat_as
+    type: VARCHAR
+  - name: qual
+    type: VARCHAR
+  - name: sample_source
+    type: VARCHAR
+  - name: p_factor1
+    type: VARCHAR
+  - name: p_factor2
+    type: VARCHAR
+  - name: gender_birth
+    type: VARCHAR
+  - name: white
+    type: BOOLEAN
+  - name: black
+    type: BOOLEAN
+  - name: ai_an
+    type: BOOLEAN
+  - name: asian_indian
+    type: BOOLEAN
+  - name: chinese
+    type: BOOLEAN
+  - name: filipino
+    type: BOOLEAN
+  - name: japanese
+    type: BOOLEAN
+  - name: korean
+    type: BOOLEAN
+  - name: vietnamese
+    type: BOOLEAN
+  - name: other_asian
+    type: BOOLEAN
+  - name: native_hawaiian
+    type: BOOLEAN
+  - name: guam_chamorro
+    type: BOOLEAN
+  - name: samoan
+    type: BOOLEAN
+  - name: opi
+    type: BOOLEAN
+  - name: other_race
+    type: BOOLEAN
+  - name: hispan
+    type: VARCHAR
+  - name: relation_curr
+    type: VARCHAR
+  - name: agab
+    type: VARCHAR
+  - name: preg
+    type: VARCHAR
+  - name: trypreg
+    type: VARCHAR
+  - name: sexever
+    type: BOOLEAN
+  - name: studyelig
+    type: VARCHAR
+  - name: child_hh
+    type: VARCHAR
+  - name: woman
+    type: VARCHAR
+  - name: man
+    type: VARCHAR
+  - name: enby
+    type: VARCHAR
+  - name: trans
+    type: VARCHAR
+  - name: other_gender
+    type: VARCHAR
+  - name: gender_fillin
+    type: VARCHAR
+  - name: gender_dk
+    type: BOOLEAN
+  - name: gender_skp
+    type: BOOLEAN
+  - name: gender_ref
+    type: BOOLEAN
+  - name: hh1
+    type: VARCHAR
+  - name: hh2
+    type: VARCHAR
+  - name: faminc
+    type: VARCHAR
+  - name: lesbian
+    type: VARCHAR
+  - name: hetero
+    type: VARCHAR
+  - name: bipan
+    type: VARCHAR
+  - name: queer
+    type: VARCHAR
+  - name: other_orient
+    type: VARCHAR
+  - name: orient_fillin
+    type: VARCHAR
+  - name: orient_dk
+    type: BOOLEAN
+  - name: orient_skp
+    type: BOOLEAN
+  - name: orient_ref
+    type: BOOLEAN
+  - name: employment
+    type: VARCHAR
+  - name: ins_priv
+    type: VARCHAR
+  - name: ins_med
+    type: VARCHAR
+  - name: ins_oth
+    type: VARCHAR
+  - name: ins_fillin
+    type: VARCHAR
+  - name: ins_dk
+    type: BOOLEAN
+  - name: ins_none
+    type: BOOLEAN
+  - name: ins_skp
+    type: BOOLEAN
+  - name: ins_ref
+    type: BOOLEAN
+  - name: ins_parent
+    type: VARCHAR
+  - name: unins_time
+    type: VARCHAR
+  - name: internet_often
+    type: VARCHAR
+  - name: internet_access
+    type: VARCHAR
+  - name: pregavoid
+    type: VARCHAR
+  - name: futurechild
+    type: VARCHAR
+  - name: pregfeel
+    type: VARCHAR
+  - name: infert_likely
+    type: VARCHAR
+  - name: infert_provider
+    type: VARCHAR
+  - name: infert_sex
+    type: VARCHAR
+  - name: infert_other
+    type: VARCHAR
+  - name: infert_fillin
+    type: VARCHAR
+  - name: pregpvi_once
+    type: VARCHAR
+  - name: pregpvi_year
+    type: VARCHAR
+  - name: freqsex
+    type: VARCHAR
+  - name: newpartner_6mo
+    type: VARCHAR
+  - name: relation_happy
+    type: VARCHAR
+  - name: sex30
+    type: VARCHAR
+  - name: partner30
+    type: VARCHAR
+  - name: pill30_pvi
+    type: VARCHAR
+  - name: patch30_pvi
+    type: VARCHAR
+  - name: ring30_pvi
+    type: VARCHAR
+  - name: shot30_pvi
+    type: VARCHAR
+  - name: implant30_pvi
+    type: VARCHAR
+  - name: iud30_pvi
+    type: VARCHAR
+  - name: tubal30_pvi
+    type: VARCHAR
+  - name: none30_pvi
+    type: VARCHAR
+  - name: dk30_pvi
+    type: VARCHAR
+  - name: skp30_pvi
+    type: VARCHAR
+  - name: ref30_pvi
+    type: VARCHAR
+  - name: whycp_prevent_pvi
+    type: VARCHAR
+  - name: whycp_regulate_pvi
+    type: VARCHAR
+  - name: whycp_acne_pvi
+    type: VARCHAR
+  - name: whycp_chronic_pvi
+    type: VARCHAR
+  - name: whycp_other_pvi
+    type: VARCHAR
+  - name: whycp_fillin_pvi
+    type: VARCHAR
+  - name: whycp_dk_pvi
+    type: VARCHAR
+  - name: whycp_skp_pvi
+    type: VARCHAR
+  - name: whycp_ref_pvi
+    type: VARCHAR
+  - name: pill30_correct
+    type: VARCHAR
+  - name: patch30_correct
+    type: VARCHAR
+  - name: ring30_correct
+    type: VARCHAR
+  - name: shot30_correct
+    type: VARCHAR
+  - name: withdrawal30
+    type: VARCHAR
+  - name: condom30
+    type: VARCHAR
+  - name: fabm30
+    type: VARCHAR
+  - name: diaphragm30
+    type: VARCHAR
+  - name: ec30
+    type: VARCHAR
+  - name: vasectomy30
+    type: VARCHAR
+  - name: other30
+    type: VARCHAR
+  - name: coital30_fillin
+    type: VARCHAR
+  - name: none30_coital
+    type: VARCHAR
+  - name: dk30_coital
+    type: VARCHAR
+  - name: skp30_coital
+    type: VARCHAR
+  - name: ref30_coital
+    type: VARCHAR
+  - name: ec30_correct
+    type: VARCHAR
+  - name: condom30_correct
+    type: VARCHAR
+  - name: fabm30_correct
+    type: VARCHAR
+  - name: consistency_all
+    type: VARCHAR
+  - name: consistency_any
+    type: VARCHAR
+  - name: dual_use
+    type: VARCHAR
+  - name: whydual_switch
+    type: VARCHAR
+  - name: whydual_protect
+    type: VARCHAR
+  - name: whydual_sti
+    type: VARCHAR
+  - name: whydual_other
+    type: VARCHAR
+  - name: whydual_fillin
+    type: VARCHAR
+  - name: whydual_dk
+    type: VARCHAR
+  - name: whydual_skp
+    type: VARCHAR
+  - name: whydual_ref
+    type: VARCHAR
+  - name: satisfy
+    type: VARCHAR
+  - name: protect_feel
+    type: VARCHAR
+  - name: whynocp_forgot
+    type: VARCHAR
+  - name: whynocp_think
+    type: VARCHAR
+  - name: whynocp_mind
+    type: VARCHAR
+  - name: whynocp_nowant
+    type: VARCHAR
+  - name: whynocp_nosex
+    type: VARCHAR
+  - name: whynocp_effects
+    type: VARCHAR
+  - name: whynocp_other
+    type: VARCHAR
+  - name: whynocp_fillin
+    type: VARCHAR
+  - name: whynocp_dk
+    type: VARCHAR
+  - name: whynocp_skp
+    type: VARCHAR
+  - name: whynocp_ref
+    type: VARCHAR
+  - name: ideal_current
+    type: VARCHAR
+  - name: ideal_nomethod
+    type: VARCHAR
+  - name: ideal_withdrawal
+    type: VARCHAR
+  - name: ideal_condom
+    type: VARCHAR
+  - name: ideal_pill
+    type: VARCHAR
+  - name: ideal_patch
+    type: VARCHAR
+  - name: ideal_implant
+    type: VARCHAR
+  - name: ideal_fabm
+    type: VARCHAR
+  - name: ideal_tubal
+    type: VARCHAR
+  - name: ideal_vasectomy
+    type: VARCHAR
+  - name: ideal_ec
+    type: VARCHAR
+  - name: ideal_other
+    type: VARCHAR
+  - name: ideal_fillin
+    type: VARCHAR
+  - name: ideal_dk
+    type: VARCHAR
+  - name: ideal_skp
+    type: VARCHAR
+  - name: ideal_ref
+    type: VARCHAR
+  - name: notideal_afford
+    type: VARCHAR
+  - name: notideal_difficult
+    type: VARCHAR
+  - name: notideal_partner
+    type: VARCHAR
+  - name: notideal_provider
+    type: VARCHAR
+  - name: notideal_other
+    type: VARCHAR
+  - name: notideal_fillin
+    type: VARCHAR
+  - name: notideal_dk
+    type: VARCHAR
+  - name: notideal_skp
+    type: VARCHAR
+  - name: notideal_ref
+    type: VARCHAR
+  - name: pill30_npvi
+    type: VARCHAR
+  - name: patch30_npvi
+    type: VARCHAR
+  - name: ring30_npvi
+    type: VARCHAR
+  - name: shot30_npvi
+    type: VARCHAR
+  - name: implant30_npvi
+    type: VARCHAR
+  - name: iud30_npvi
+    type: VARCHAR
+  - name: tubal30_npvi
+    type: VARCHAR
+  - name: none30_npvi
+    type: VARCHAR
+  - name: dk30_npvi
+    type: VARCHAR
+  - name: skp30_npvi
+    type: VARCHAR
+  - name: ref30_npvi
+    type: VARCHAR
+  - name: whycp_prevent_npvi
+    type: VARCHAR
+  - name: whycp_pain_npvi
+    type: VARCHAR
+  - name: whycp_acne_npvi
+    type: VARCHAR
+  - name: whycp_regulate_npvi
+    type: VARCHAR
+  - name: whycp_chronic_npvi
+    type: VARCHAR
+  - name: whycp_other_npvi
+    type: VARCHAR
+  - name: whycp_fillin_npvi
+    type: VARCHAR
+  - name: whycp_dk_npvi
+    type: VARCHAR
+  - name: whycp_skp_npvi
+    type: VARCHAR
+  - name: whycp_ref_npvi
+    type: VARCHAR
+  - name: pill6mo
+    type: VARCHAR
+  - name: patch6mo
+    type: VARCHAR
+  - name: ring6mo
+    type: VARCHAR
+  - name: shot6mo
+    type: VARCHAR
+  - name: implant6mo
+    type: VARCHAR
+  - name: iud6mo
+    type: VARCHAR
+  - name: tubal6mo
+    type: VARCHAR
+  - name: none6mo
+    type: VARCHAR
+  - name: dk6mo
+    type: VARCHAR
+  - name: skp6mo
+    type: VARCHAR
+  - name: ref6mo
+    type: VARCHAR
+  - name: stopped_nopvi
+    type: VARCHAR
+  - name: stopped_afford
+    type: VARCHAR
+  - name: stopped_difficult
+    type: VARCHAR
+  - name: stopped_partner
+    type: VARCHAR
+  - name: stopped_effects
+    type: VARCHAR
+  - name: stopped_mind
+    type: VARCHAR
+  - name: stopped_other
+    type: VARCHAR
+  - name: stopped_fillin
+    type: VARCHAR
+  - name: stopped_dk
+    type: VARCHAR
+  - name: stopped_skp
+    type: VARCHAR
+  - name: stopped_ref
+    type: VARCHAR
+  - name: sex6mo
+    type: VARCHAR
+  - name: withdrawal6mo
+    type: VARCHAR
+  - name: condom6mo
+    type: VARCHAR
+  - name: fabm6mo
+    type: VARCHAR
+  - name: diaphragm6mo
+    type: VARCHAR
+  - name: ec6mo
+    type: VARCHAR
+  - name: vasectomy6mo
+    type: VARCHAR
+  - name: other6mo
+    type: VARCHAR
+  - name: coital6_fillin
+    type: VARCHAR
+  - name: none6mo_coital
+    type: VARCHAR
+  - name: dk6mo_coital
+    type: VARCHAR
+  - name: skp6mo_coital
+    type: VARCHAR
+  - name: ref6mo_coital
+    type: VARCHAR
+  - name: stopped_nopvi_coital
+    type: VARCHAR
+  - name: stopped_afford_coital
+    type: VARCHAR
+  - name: stopped_difficult_coital
+    type: VARCHAR
+  - name: stopped_partner_coital
+    type: VARCHAR
+  - name: stopped_effects_coital
+    type: VARCHAR
+  - name: stopped_mind_coital
+    type: VARCHAR
+  - name: stopped_other_coital
+    type: VARCHAR
+  - name: stopped_fillin_coital
+    type: VARCHAR
+  - name: stopped_dk_coital
+    type: VARCHAR
+  - name: stopped_skp_coital
+    type: VARCHAR
+  - name: stopped_ref_coital
+    type: VARCHAR
+  - name: everpreg_cp
+    type: VARCHAR
+  - name: pregfeel_cp
+    type: VARCHAR
+  - name: coerce_stopped
+    type: VARCHAR
+  - name: coerce_messed
+    type: VARCHAR
+  - name: coerce_use
+    type: VARCHAR
+  - name: coerce_would
+    type: VARCHAR
+  - name: coerce_pressure
+    type: VARCHAR
+  - name: coerce_knowledge
+    type: VARCHAR
+  - name: abuse_verbal
+    type: VARCHAR
+  - name: abuse_physical
+    type: VARCHAR
+  - name: abuse_sexual
+    type: VARCHAR
+  - name: f1a2a_live
+    type: VARCHAR
+  - name: f1a2a_misc
+    type: VARCHAR
+  - name: f1a2a_ab
+    type: VARCHAR
+  - name: f1a2a_ab5
+    type: VARCHAR
+  - name: f1a2b_live
+    type: VARCHAR
+  - name: f1a2b_ab
+    type: VARCHAR
+  - name: f1a2b_misc
+    type: VARCHAR
+  - name: f1a2b_ab5
+    type: VARCHAR
+  - name: f1a2c_live
+    type: VARCHAR
+  - name: f1a2c_misc
+    type: VARCHAR
+  - name: f1a2c_ab
+    type: VARCHAR
+  - name: f1a2c_ab5
+    type: VARCHAR
+  - name: f1a2d_live
+    type: VARCHAR
+  - name: f1a2d_misc
+    type: VARCHAR
+  - name: f1a2d_ab
+    type: VARCHAR
+  - name: f1a2d_ab5
+    type: VARCHAR
+  - name: f1a2e_pregtest
+    type: VARCHAR
+  - name: f1a2e_ab
+    type: VARCHAR
+  - name: f1a2e_iud
+    type: VARCHAR
+  - name: f1a2e_pap
+    type: VARCHAR
+  - name: f1a2e_breast
+    type: VARCHAR
+  - name: f1a2e_sti
+    type: VARCHAR
+  - name: f1a2e_ab5
+    type: VARCHAR
+  - name: f1a2e_live
+    type: VARCHAR
+  - name: f1a2e_misc
+    type: VARCHAR
+  - name: f1a2f_friendab
+    type: VARCHAR
+  - name: f1a2f_thought
+    type: VARCHAR
+  - name: f1a2f_online
+    type: VARCHAR
+  - name: f1a2f_appt
+    type: VARCHAR
+  - name: f1a2f_ab
+    type: VARCHAR
+  - name: f1a2f_ab5
+    type: VARCHAR
+  - name: f1a2f_live
+    type: VARCHAR
+  - name: f1a2f_misc
+    type: VARCHAR
+  - name: cpserv_cp
+    type: VARCHAR
+  - name: cpserv_cpc
+    type: VARCHAR
+  - name: cpserv_cpchk
+    type: VARCHAR
+  - name: cpserv_none
+    type: VARCHAR
+  - name: cpserv_dk
+    type: BOOLEAN
+  - name: cpserv_skp
+    type: BOOLEAN
+  - name: cpserv_ref
+    type: BOOLEAN
+  - name: cppay_self
+    type: VARCHAR
+  - name: cppay_insurance
+    type: VARCHAR
+  - name: cppay_free
+    type: VARCHAR
+  - name: cppay_dk
+    type: VARCHAR
+  - name: cppay_skp
+    type: VARCHAR
+  - name: cppay_ref
+    type: VARCHAR
+  - name: cpserv_how
+    type: VARCHAR
+  - name: cpserv_how_fillin
+    type: VARCHAR
+  - name: cpserv_provider
+    type: VARCHAR
+  - name: cpserv_otherprov
+    type: VARCHAR
+  - name: telehealth_method
+    type: VARCHAR
+  - name: telehealth_othermeth
+    type: VARCHAR
+  - name: whytele_easy
+    type: VARCHAR
+  - name: whytele_provider
+    type: VARCHAR
+  - name: whytele_privacy
+    type: VARCHAR
+  - name: whytele_money
+    type: VARCHAR
+  - name: whytele_covid
+    type: VARCHAR
+  - name: whytele_other
+    type: VARCHAR
+  - name: whytele_fillin
+    type: VARCHAR
+  - name: whytele_dk
+    type: VARCHAR
+  - name: whytele_skp
+    type: VARCHAR
+  - name: whytele_ref
+    type: VARCHAR
+  - name: whyapp_easy
+    type: VARCHAR
+  - name: whyapp_covid
+    type: VARCHAR
+  - name: whyapp_nodoc
+    type: VARCHAR
+  - name: whyapp_privacy
+    type: VARCHAR
+  - name: whyapp_money
+    type: VARCHAR
+  - name: whyapp_other
+    type: VARCHAR
+  - name: whyapp_fillin
+    type: VARCHAR
+  - name: whyapp_dk
+    type: VARCHAR
+  - name: whyapp_skp
+    type: VARCHAR
+  - name: whyapp_ref
+    type: VARCHAR
+  - name: telehealth_pre
+    type: VARCHAR
+  - name: cpapp_pre
+    type: VARCHAR
+  - name: ratecare
+    type: VARCHAR
+  - name: care_respect
+    type: VARCHAR
+  - name: care_matter
+    type: VARCHAR
+  - name: care_preference
+    type: VARCHAR
+  - name: care_info
+    type: VARCHAR
+  - name: whynoserv_covid
+    type: VARCHAR
+  - name: whynoserv_difficult
+    type: VARCHAR
+  - name: whynoserv_need
+    type: VARCHAR
+  - name: whynoserv_afford
+    type: VARCHAR
+  - name: whynoserv_arrange
+    type: VARCHAR
+  - name: whynoserv_where
+    type: VARCHAR
+  - name: whynoserv_partner
+    type: VARCHAR
+  - name: whynoserv_other
+    type: VARCHAR
+  - name: whynoserv_fillin
+    type: VARCHAR
+  - name: whynoserv_dk
+    type: VARCHAR
+  - name: whynoserv_skp
+    type: VARCHAR
+  - name: whynoserv_ref
+    type: VARCHAR
+  - name: cpdelay
+    type: VARCHAR
+  - name: whydelay_covid
+    type: VARCHAR
+  - name: whydelay_difficult
+    type: VARCHAR
+  - name: whydelay_afford
+    type: VARCHAR
+  - name: whydelay_arrange
+    type: VARCHAR
+  - name: whydelay_where
+    type: VARCHAR
+  - name: whydelay_partner
+    type: VARCHAR
+  - name: whydelay_other
+    type: VARCHAR
+  - name: whydelay_fillin
+    type: VARCHAR
+  - name: whydelay_dk
+    type: VARCHAR
+  - name: whydelay_skp
+    type: VARCHAR
+  - name: whydelay_ref
+    type: VARCHAR
+  - name: cpop_hassle
+    type: VARCHAR
+  - name: cpop_pleasure
+    type: VARCHAR
+  - name: cpop_sideeffects
+    type: VARCHAR
+  - name: cpop_matter
+    type: VARCHAR
+  - name: teleagree_acceptable
+    type: VARCHAR
+  - name: teleagree_privacy
+    type: VARCHAR
+  - name: teleagree_comfort
+    type: VARCHAR
+  - name: cpvisit_counseling
+    type: VARCHAR
+  - name: cpvisit_method
+    type: VARCHAR
+  - name: finsit
+    type: VARCHAR
+  - name: work
+    type: VARCHAR
+  - name: cancel
+    type: VARCHAR
+  - name: delay
+    type: VARCHAR
+  - name: nocoveffect
+    type: VARCHAR
+  - name: coveffect_dk
+    type: BOOLEAN
+  - name: coveffect_skp
+    type: BOOLEAN
+  - name: coveffect_ref
+    type: BOOLEAN
+  - name: afford
+    type: VARCHAR
+  - name: access
+    type: VARCHAR
+  - name: srh
+    type: VARCHAR
+  - name: kidcare
+    type: VARCHAR
+  - name: fert_time
+    type: VARCHAR
+  - name: fert_num
+    type: VARCHAR
+  - name: kidsfl_priority
+    type: VARCHAR
+  - name: kidsfl_money
+    type: VARCHAR
+  - name: kidsfl_work
+    type: VARCHAR
+  - name: kidsfl_care
+    type: VARCHAR
+  - name: kidsfl_time
+    type: VARCHAR
+  - name: kidsfl_scared
+    type: VARCHAR
+  - name: kidsfl_other
+    type: VARCHAR
+  - name: kidsfl_fillin
+    type: VARCHAR
+  - name: kidsfl_dk
+    type: VARCHAR
+  - name: kidsfl_skp
+    type: VARCHAR
+  - name: kidsfl_ref
+    type: VARCHAR
+  - name: kidsms_focus
+    type: VARCHAR
+  - name: kidsms_free
+    type: VARCHAR
+  - name: kidsms_money
+    type: VARCHAR
+  - name: kidsms_work
+    type: VARCHAR
+  - name: kidsms_time
+    type: VARCHAR
+  - name: kidsms_other
+    type: VARCHAR
+  - name: kidsms_fillin
+    type: VARCHAR
+  - name: kidsms_dk
+    type: VARCHAR
+  - name: kidsms_skp
+    type: VARCHAR
+  - name: kidsms_ref
+    type: VARCHAR
+  - name: ale_palcov
+    type: VARCHAR
+  - name: ale_friend
+    type: VARCHAR
+  - name: ale_rent
+    type: VARCHAR
+  - name: ale_child
+    type: VARCHAR
+  - name: ale_health
+    type: VARCHAR
+  - name: ale_friendhealth
+    type: VARCHAR
+  - name: ale_mhealth
+    type: VARCHAR
+  - name: ale_jail
+    type: VARCHAR
+  - name: ale_covid
+    type: VARCHAR
+  - name: ale_divorce
+    type: VARCHAR
+  - name: ale_money
+    type: VARCHAR
+  - name: ale_none
+    type: VARCHAR
+  - name: ale_dk
+    type: BOOLEAN
+  - name: ale_skp
+    type: BOOLEAN
+  - name: ale_ref
+    type: BOOLEAN
+  - name: vaccine
+    type: VARCHAR
+  - name: f1b2a_live
+    type: VARCHAR
+  - name: f1b2a_misc
+    type: VARCHAR
+  - name: f1b2a_ab
+    type: VARCHAR
+  - name: f1b2a_ab5
+    type: VARCHAR
+  - name: f1b2b_live
+    type: VARCHAR
+  - name: f1b2b_ab
+    type: VARCHAR
+  - name: f1b2b_misc
+    type: VARCHAR
+  - name: f1b2b_ab5
+    type: VARCHAR
+  - name: f1b2c_live
+    type: VARCHAR
+  - name: f1b2c_misc
+    type: VARCHAR
+  - name: f1b2c_ab
+    type: VARCHAR
+  - name: f1b2c_ab5
+    type: VARCHAR
+  - name: f1b2d_live
+    type: VARCHAR
+  - name: f1b2d_misc
+    type: VARCHAR
+  - name: f1b2d_ab
+    type: VARCHAR
+  - name: f1b2d_ab5
+    type: VARCHAR
+  - name: f1b2e_pregtest
+    type: VARCHAR
+  - name: f1b2e_ab
+    type: VARCHAR
+  - name: f1b2e_iud
+    type: VARCHAR
+  - name: f1b2e_pap
+    type: VARCHAR
+  - name: f1b2e_breast
+    type: VARCHAR
+  - name: f1b2e_sti
+    type: VARCHAR
+  - name: f1b2e_ab5
+    type: VARCHAR
+  - name: f1b2e_live
+    type: VARCHAR
+  - name: f1b2e_misc
+    type: VARCHAR
+  - name: f1b2f_friendab
+    type: VARCHAR
+  - name: f1b2f_thought
+    type: VARCHAR
+  - name: f1b2f_online
+    type: VARCHAR
+  - name: f1b2f_appt
+    type: VARCHAR
+  - name: f1b2f_ab
+    type: VARCHAR
+  - name: f1b2f_ab5
+    type: VARCHAR
+  - name: f1b2f_live
+    type: VARCHAR
+  - name: f1b2f_misc
+    type: VARCHAR
+  - name: startdate
+    type: VARCHAR
+  - name: enddate
+    type: VARCHAR
+  - name: duration
+    type: BIGINT
+  - name: surv_mode
+    type: VARCHAR
+  - name: surv_lang
+    type: VARCHAR
+  - name: device
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: age
+    type: BIGINT
+  - name: racethnicity
+    type: VARCHAR
+  - name: educ5
+    type: VARCHAR
+  - name: marital
+    type: VARCHAR
+  - name: employ
+    type: VARCHAR
+  - name: income
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: region4
+    type: VARCHAR
+  - name: region9
+    type: VARCHAR
+  - name: metro
+    type: VARCHAR
+  - name: internet
+    type: VARCHAR
+  - name: housing
+    type: VARCHAR
+  - name: home_type
+    type: VARCHAR
+  - name: phoneservice
+    type: VARCHAR
+  - name: hhsize
+    type: BIGINT
+  - name: hh01
+    type: BIGINT
+  - name: hh25
+    type: BIGINT
+  - name: hh612
+    type: BIGINT
+  - name: hh1317
+    type: BIGINT
+  - name: hh18ov
+    type: BIGINT
+  - name: case_id
+    type: BIGINT
+  - name: strat_optin
+    type: VARCHAR
+  - name: psu_optin
+    type: VARCHAR
+  - name: strata
+    type: VARCHAR
+  - name: psu
+    type: BIGINT

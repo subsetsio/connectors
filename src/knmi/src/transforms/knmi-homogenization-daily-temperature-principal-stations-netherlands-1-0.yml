@@ -1,0 +1,17 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [station, variable, date]
+temporal: date
+sort: [date, station, variable]
+columns:
+  - name: station
+    type: VARCHAR
+  - name: variable
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: original
+    type: DOUBLE
+  - name: version1
+    type: DOUBLE
+  - name: version2
+    type: DOUBLE

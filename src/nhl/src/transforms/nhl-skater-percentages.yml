@@ -1,0 +1,57 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [playerId, seasonId, gameTypeId]
+temporal: seasonId
+sort: [seasonId, playerId, gameTypeId]
+columns:
+  - name: gamesPlayed
+    type: BIGINT
+  - name: lastName
+    type: VARCHAR
+  - name: playerId
+    type: BIGINT
+  - name: positionCode
+    type: VARCHAR
+  - name: satPercentage
+    type: DOUBLE
+  - name: satPercentageAhead
+    type: DOUBLE
+  - name: satPercentageBehind
+    type: DOUBLE
+  - name: satPercentageClose
+    type: DOUBLE
+  - name: satPercentageTied
+    type: DOUBLE
+  - name: satRelative
+    type: DOUBLE
+  - name: seasonId
+    type: BIGINT
+  - name: shootingPct5v5
+    type: DOUBLE
+  - name: shootsCatches
+    type: VARCHAR
+  - name: skaterFullName
+    type: VARCHAR
+  - name: skaterSavePct5v5
+    type: DOUBLE
+  - name: skaterShootingPlusSavePct5v5
+    type: DOUBLE
+  - name: teamAbbrevs
+    type: VARCHAR
+  - name: timeOnIcePerGame5v5
+    type: DOUBLE
+  - name: usatPercentage
+    type: DOUBLE
+  - name: usatPercentageAhead
+    type: DOUBLE
+  - name: usatPercentageBehind
+    type: DOUBLE
+  - name: usatPercentageTied
+    type: DOUBLE
+  - name: usatPrecentageClose
+    type: DOUBLE
+  - name: usatRelative
+    type: DOUBLE
+  - name: zoneStartPct5v5
+    type: DOUBLE
+  - name: gameTypeId
+    type: BIGINT

@@ -1,0 +1,60 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: financialIndicatorId
+    type: UUID
+  - name: indicatorName
+    type: VARCHAR
+  - name: recordId
+    type: UUID
+  - name: activityAreaId
+    type: UUID
+  - name: financialCategoryId
+    type: UUID
+  - name: transactionDate
+    type: TIMESTAMP
+  - name: startDate
+    type: TIMESTAMP
+  - name: endDate
+    type: TIMESTAMP
+  - name: periodCovered
+    type: VARCHAR
+  - name: periodFrom
+    type: VARCHAR
+  - name: periodTo
+    type: VARCHAR
+  - name: isLatestReported
+    type: BOOLEAN
+  - name: isCumulative
+    type: BOOLEAN
+  - name: isAnnualized
+    type: BOOLEAN
+  - name: providerRecordId
+    type: UUID
+  - name: recieverRecordId
+    type: UUID
+  - name: valueDate
+    type: TIMESTAMP
+  - name: plannedAmountCurrency
+    type: VARCHAR
+  - name: plannedAmount
+    type: DOUBLE
+  - name: plannedAmountCumulative
+    type: DOUBLE
+  - name: actualAmountCurrency
+    type: VARCHAR
+  - name: actualAmount
+    type: DOUBLE
+  - name: actualAmountCumulative
+    type: DOUBLE
+  - name: performance
+    type: JSON
+  - name: performanceCode
+    type: JSON
+  - name: valueSource
+    type: JSON
+  - name: dateTimeCreated
+    type: VARCHAR
+  - name: dateTimeUpdated
+    type: TIMESTAMP
+  - name: financialDataSet
+    type: VARCHAR

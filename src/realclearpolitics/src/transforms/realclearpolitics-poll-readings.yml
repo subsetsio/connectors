@@ -1,0 +1,50 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: poll_end_date
+sort: [poll_end_date]
+columns:
+  - name: race_id
+    type: BIGINT
+  - name: race_title
+    type: VARCHAR
+  - name: office
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: state
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: reading_type
+    type: VARCHAR
+  - name: poll_id
+    type: VARCHAR
+  - name: pollster
+    type: VARCHAR
+  - name: date_label
+    type: VARCHAR
+  - name: poll_start_date
+    type: DATE
+  - name: poll_end_date
+    type: DATE
+  - name: sample_size
+    type: INTEGER
+  - name: sample_population
+    type: VARCHAR
+  - name: margin_error
+    type: DOUBLE
+  - name: partisan
+    type: VARCHAR
+  - name: candidate
+    type: VARCHAR
+  - name: affiliation
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: spread_candidate
+    type: VARCHAR
+  - name: spread_value
+    type: VARCHAR
+  - name: last_build_date
+    type: VARCHAR

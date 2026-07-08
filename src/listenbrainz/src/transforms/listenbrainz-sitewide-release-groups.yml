@@ -1,0 +1,29 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [range, rank]
+temporal: updated_at
+sort: [updated_at, range, rank]
+columns:
+  - name: range
+    type: VARCHAR
+  - name: rank
+    type: BIGINT
+  - name: release_group_mbid
+    type: UUID
+  - name: release_group_name
+    type: VARCHAR
+  - name: artist_name
+    type: VARCHAR
+  - name: artist_mbids
+    type: VARCHAR
+  - name: caa_id
+    type: BIGINT
+  - name: caa_release_mbid
+    type: UUID
+  - name: listen_count
+    type: BIGINT
+  - name: window_start
+    type: TIMESTAMP
+  - name: window_end
+    type: TIMESTAMP
+  - name: updated_at
+    type: TIMESTAMP

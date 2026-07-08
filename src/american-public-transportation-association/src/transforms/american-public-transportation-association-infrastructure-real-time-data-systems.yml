@@ -1,0 +1,86 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: new_2018_data
+    type: VARCHAR
+  - name: last_data_reported_year
+    type: JSON
+  - name: organization_name
+    type: VARCHAR
+  - name: organization_short_name
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: member_id
+    type: BIGINT
+  - name: avl_vendor_avail
+    type: BIGINT
+  - name: avl_vendor_trapeze
+    type: BIGINT
+  - name: avl_vendor_clever_devices
+    type: BIGINT
+  - name: avl_vendor_acs_xerox
+    type: BIGINT
+  - name: avl_vendor_mentor
+    type: BIGINT
+  - name: avl_vendor_init
+    type: BIGINT
+  - name: avl_vendor_routematch
+    type: BIGINT
+  - name: avl_nextbus
+    type: BIGINT
+  - name: avl_transloc
+    type: BIGINT
+  - name: avl_any
+    type: BIGINT
+  - name: avl_vendor_other
+    type: VARCHAR
+  - name: real_time_system_provided
+    type: VARCHAR
+  - name: real_time_vendor_transloc
+    type: BIGINT
+  - name: real_time_vendor_avail
+    type: BIGINT
+  - name: real_time_vendor_trapeze
+    type: BIGINT
+  - name: real_time_vendor_nextbus
+    type: BIGINT
+  - name: real_time_vendor_clever_devices
+    type: BIGINT
+  - name: real_time_vendor_xerox_smarttraveler
+    type: BIGINT
+  - name: real_time_vendor_transitapp
+    type: BIGINT
+  - name: real_time_any
+    type: BIGINT
+  - name: real_time_vendor_other
+    type: VARCHAR
+  - name: real_time_info_refresh_rate
+    type: BIGINT
+  - name: real_time_system_phone
+    type: BIGINT
+  - name: real_time_system_text_sms
+    type: BIGINT
+  - name: real_time_system_website
+    type: BIGINT
+  - name: real_time_system_smartphone_app
+    type: BIGINT
+  - name: api_nextbus
+    type: BIGINT
+  - name: api_gtfs_rt
+    type: BIGINT
+  - name: api_tcip
+    type: BIGINT
+  - name: api_in_house_developed
+    type: BIGINT
+  - name: api_other_proprietary_from_vendor
+    type: BIGINT
+  - name: api_any
+    type: BIGINT
+  - name: api_other
+    type: VARCHAR
+  - name: app_gallery_url
+    type: VARCHAR

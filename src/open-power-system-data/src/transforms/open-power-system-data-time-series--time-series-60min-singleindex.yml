@@ -1,0 +1,602 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: utc_timestamp
+    type: TIMESTAMPTZ
+  - name: cet_cest_timestamp
+    type: TIMESTAMPTZ
+  - name: AT_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: AT_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: AT_price_day_ahead
+    type: DOUBLE
+  - name: AT_solar_generation_actual
+    type: DOUBLE
+  - name: AT_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: BE_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: BE_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: BE_solar_generation_actual
+    type: DOUBLE
+  - name: BE_wind_generation_actual
+    type: DOUBLE
+  - name: BE_wind_offshore_generation_actual
+    type: DOUBLE
+  - name: BE_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: BG_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: BG_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: BG_solar_generation_actual
+    type: DOUBLE
+  - name: BG_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: CH_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: CH_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: CH_solar_capacity
+    type: DOUBLE
+  - name: CH_solar_generation_actual
+    type: DOUBLE
+  - name: CH_wind_onshore_capacity
+    type: DOUBLE
+  - name: CH_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: CY_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: CY_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: CY_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: CZ_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: CZ_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: CZ_solar_generation_actual
+    type: DOUBLE
+  - name: CZ_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: DE_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: DE_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: DE_solar_capacity
+    type: DOUBLE
+  - name: DE_solar_generation_actual
+    type: DOUBLE
+  - name: DE_solar_profile
+    type: DOUBLE
+  - name: DE_wind_capacity
+    type: DOUBLE
+  - name: DE_wind_generation_actual
+    type: DOUBLE
+  - name: DE_wind_profile
+    type: DOUBLE
+  - name: DE_wind_offshore_capacity
+    type: DOUBLE
+  - name: DE_wind_offshore_generation_actual
+    type: DOUBLE
+  - name: DE_wind_offshore_profile
+    type: DOUBLE
+  - name: DE_wind_onshore_capacity
+    type: DOUBLE
+  - name: DE_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: DE_wind_onshore_profile
+    type: DOUBLE
+  - name: DE_50hertz_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: DE_50hertz_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: DE_50hertz_solar_generation_actual
+    type: DOUBLE
+  - name: DE_50hertz_wind_generation_actual
+    type: DOUBLE
+  - name: DE_50hertz_wind_offshore_generation_actual
+    type: DOUBLE
+  - name: DE_50hertz_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: DE_LU_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: DE_LU_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: DE_LU_price_day_ahead
+    type: DOUBLE
+  - name: DE_LU_solar_generation_actual
+    type: DOUBLE
+  - name: DE_LU_wind_generation_actual
+    type: DOUBLE
+  - name: DE_LU_wind_offshore_generation_actual
+    type: DOUBLE
+  - name: DE_LU_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: DE_amprion_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: DE_amprion_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: DE_amprion_solar_generation_actual
+    type: DOUBLE
+  - name: DE_amprion_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: DE_tennet_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: DE_tennet_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: DE_tennet_solar_generation_actual
+    type: DOUBLE
+  - name: DE_tennet_wind_generation_actual
+    type: DOUBLE
+  - name: DE_tennet_wind_offshore_generation_actual
+    type: DOUBLE
+  - name: DE_tennet_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: DE_transnetbw_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: DE_transnetbw_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: DE_transnetbw_solar_generation_actual
+    type: DOUBLE
+  - name: DE_transnetbw_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: DK_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: DK_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: DK_solar_capacity
+    type: DOUBLE
+  - name: DK_solar_generation_actual
+    type: DOUBLE
+  - name: DK_wind_capacity
+    type: DOUBLE
+  - name: DK_wind_generation_actual
+    type: DOUBLE
+  - name: DK_wind_offshore_capacity
+    type: DOUBLE
+  - name: DK_wind_offshore_generation_actual
+    type: DOUBLE
+  - name: DK_wind_onshore_capacity
+    type: DOUBLE
+  - name: DK_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: DK_1_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: DK_1_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: DK_1_price_day_ahead
+    type: DOUBLE
+  - name: DK_1_solar_generation_actual
+    type: DOUBLE
+  - name: DK_1_wind_generation_actual
+    type: DOUBLE
+  - name: DK_1_wind_offshore_generation_actual
+    type: DOUBLE
+  - name: DK_1_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: DK_2_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: DK_2_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: DK_2_price_day_ahead
+    type: DOUBLE
+  - name: DK_2_solar_generation_actual
+    type: DOUBLE
+  - name: DK_2_wind_generation_actual
+    type: DOUBLE
+  - name: DK_2_wind_offshore_generation_actual
+    type: DOUBLE
+  - name: DK_2_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: EE_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: EE_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: EE_solar_generation_actual
+    type: DOUBLE
+  - name: EE_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: ES_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: ES_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: ES_solar_generation_actual
+    type: DOUBLE
+  - name: ES_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: FI_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: FI_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: FI_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: FR_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: FR_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: FR_solar_generation_actual
+    type: DOUBLE
+  - name: FR_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: GB_GBN_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: GB_GBN_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: GB_GBN_price_day_ahead
+    type: DOUBLE
+  - name: GB_GBN_solar_capacity
+    type: DOUBLE
+  - name: GB_GBN_solar_generation_actual
+    type: DOUBLE
+  - name: GB_GBN_solar_profile
+    type: DOUBLE
+  - name: GB_GBN_wind_capacity
+    type: DOUBLE
+  - name: GB_GBN_wind_generation_actual
+    type: DOUBLE
+  - name: GB_GBN_wind_profile
+    type: DOUBLE
+  - name: GB_GBN_wind_offshore_capacity
+    type: DOUBLE
+  - name: GB_GBN_wind_offshore_generation_actual
+    type: DOUBLE
+  - name: GB_GBN_wind_offshore_profile
+    type: DOUBLE
+  - name: GB_GBN_wind_onshore_capacity
+    type: DOUBLE
+  - name: GB_GBN_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: GB_GBN_wind_onshore_profile
+    type: DOUBLE
+  - name: GB_NIR_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: GB_NIR_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: GB_NIR_solar_capacity
+    type: DOUBLE
+  - name: GB_NIR_wind_onshore_capacity
+    type: DOUBLE
+  - name: GB_NIR_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: GB_UKM_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: GB_UKM_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: GB_UKM_solar_capacity
+    type: DOUBLE
+  - name: GB_UKM_solar_generation_actual
+    type: DOUBLE
+  - name: GB_UKM_wind_capacity
+    type: DOUBLE
+  - name: GB_UKM_wind_generation_actual
+    type: DOUBLE
+  - name: GB_UKM_wind_offshore_capacity
+    type: DOUBLE
+  - name: GB_UKM_wind_offshore_generation_actual
+    type: DOUBLE
+  - name: GB_UKM_wind_onshore_capacity
+    type: DOUBLE
+  - name: GB_UKM_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: GR_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: GR_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: GR_solar_generation_actual
+    type: DOUBLE
+  - name: GR_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: HR_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: HR_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: HR_solar_generation_actual
+    type: DOUBLE
+  - name: HR_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: HU_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: HU_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: HU_solar_generation_actual
+    type: DOUBLE
+  - name: HU_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: IE_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: IE_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: IE_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: IE_sem_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: IE_sem_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: IE_sem_price_day_ahead
+    type: DOUBLE
+  - name: IE_sem_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: IT_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: IT_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: IT_solar_generation_actual
+    type: DOUBLE
+  - name: IT_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: IT_BRNN_price_day_ahead
+    type: DOUBLE
+  - name: IT_BRNN_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: IT_CNOR_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: IT_CNOR_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: IT_CNOR_price_day_ahead
+    type: DOUBLE
+  - name: IT_CNOR_solar_generation_actual
+    type: DOUBLE
+  - name: IT_CNOR_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: IT_CSUD_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: IT_CSUD_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: IT_CSUD_price_day_ahead
+    type: DOUBLE
+  - name: IT_CSUD_solar_generation_actual
+    type: DOUBLE
+  - name: IT_CSUD_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: IT_FOGN_price_day_ahead
+    type: DOUBLE
+  - name: IT_FOGN_solar_generation_actual
+    type: DOUBLE
+  - name: IT_FOGN_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: IT_GR_price_day_ahead
+    type: DOUBLE
+  - name: IT_NORD_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: IT_NORD_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: IT_NORD_price_day_ahead
+    type: DOUBLE
+  - name: IT_NORD_solar_generation_actual
+    type: DOUBLE
+  - name: IT_NORD_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: IT_NORD_AT_price_day_ahead
+    type: DOUBLE
+  - name: IT_NORD_CH_price_day_ahead
+    type: DOUBLE
+  - name: IT_NORD_FR_price_day_ahead
+    type: DOUBLE
+  - name: IT_NORD_SI_price_day_ahead
+    type: DOUBLE
+  - name: IT_PRGP_price_day_ahead
+    type: DOUBLE
+  - name: IT_PRGP_solar_generation_actual
+    type: DOUBLE
+  - name: IT_PRGP_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: IT_ROSN_price_day_ahead
+    type: DOUBLE
+  - name: IT_ROSN_solar_generation_actual
+    type: DOUBLE
+  - name: IT_ROSN_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: IT_SACO_AC_price_day_ahead
+    type: DOUBLE
+  - name: IT_SACO_DC_price_day_ahead
+    type: DOUBLE
+  - name: IT_SARD_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: IT_SARD_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: IT_SARD_price_day_ahead
+    type: DOUBLE
+  - name: IT_SARD_solar_generation_actual
+    type: DOUBLE
+  - name: IT_SARD_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: IT_SICI_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: IT_SICI_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: IT_SICI_price_day_ahead
+    type: DOUBLE
+  - name: IT_SICI_solar_generation_actual
+    type: DOUBLE
+  - name: IT_SICI_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: IT_SUD_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: IT_SUD_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: IT_SUD_price_day_ahead
+    type: DOUBLE
+  - name: IT_SUD_solar_generation_actual
+    type: DOUBLE
+  - name: IT_SUD_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: LT_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: LT_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: LT_solar_generation_actual
+    type: DOUBLE
+  - name: LT_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: LU_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: LU_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: LV_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: LV_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: LV_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: ME_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: ME_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: ME_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: NL_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: NL_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: NL_solar_generation_actual
+    type: DOUBLE
+  - name: NL_wind_generation_actual
+    type: DOUBLE
+  - name: NL_wind_offshore_generation_actual
+    type: DOUBLE
+  - name: NL_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: NO_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: NO_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: NO_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: NO_1_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: NO_1_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: NO_1_price_day_ahead
+    type: DOUBLE
+  - name: NO_1_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: NO_2_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: NO_2_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: NO_2_price_day_ahead
+    type: DOUBLE
+  - name: NO_2_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: NO_3_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: NO_3_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: NO_3_price_day_ahead
+    type: DOUBLE
+  - name: NO_3_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: NO_4_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: NO_4_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: NO_4_price_day_ahead
+    type: DOUBLE
+  - name: NO_4_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: NO_5_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: NO_5_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: NO_5_price_day_ahead
+    type: DOUBLE
+  - name: NO_5_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: PL_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: PL_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: PL_solar_generation_actual
+    type: DOUBLE
+  - name: PL_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: PT_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: PT_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: PT_solar_generation_actual
+    type: DOUBLE
+  - name: PT_wind_generation_actual
+    type: DOUBLE
+  - name: PT_wind_offshore_generation_actual
+    type: DOUBLE
+  - name: PT_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: RO_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: RO_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: RO_solar_generation_actual
+    type: DOUBLE
+  - name: RO_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: RS_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: RS_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: SE_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: SE_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: SE_wind_capacity
+    type: DOUBLE
+  - name: SE_wind_offshore_capacity
+    type: DOUBLE
+  - name: SE_wind_onshore_capacity
+    type: DOUBLE
+  - name: SE_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: SE_1_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: SE_1_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: SE_1_price_day_ahead
+    type: DOUBLE
+  - name: SE_1_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: SE_2_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: SE_2_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: SE_2_price_day_ahead
+    type: DOUBLE
+  - name: SE_2_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: SE_3_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: SE_3_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: SE_3_price_day_ahead
+    type: DOUBLE
+  - name: SE_3_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: SE_4_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: SE_4_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: SE_4_price_day_ahead
+    type: DOUBLE
+  - name: SE_4_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: SI_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: SI_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: SI_solar_generation_actual
+    type: DOUBLE
+  - name: SI_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: SK_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: SK_load_forecast_entsoe_transparency
+    type: DOUBLE
+  - name: SK_solar_generation_actual
+    type: DOUBLE
+  - name: SK_wind_onshore_generation_actual
+    type: DOUBLE
+  - name: UA_load_actual_entsoe_transparency
+    type: DOUBLE
+  - name: UA_load_forecast_entsoe_transparency
+    type: DOUBLE

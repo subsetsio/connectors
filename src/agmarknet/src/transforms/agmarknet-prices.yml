@@ -1,0 +1,25 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [state, district, market, commodity, variety, grade, arrival_date]
+temporal: arrival_date
+sort: [arrival_date, state, district, market, commodity, variety, grade]
+columns:
+  - name: state
+    type: VARCHAR
+  - name: district
+    type: VARCHAR
+  - name: market
+    type: VARCHAR
+  - name: commodity
+    type: VARCHAR
+  - name: variety
+    type: VARCHAR
+  - name: grade
+    type: VARCHAR
+  - name: arrival_date
+    type: DATE
+  - name: min_price
+    type: DOUBLE
+  - name: max_price
+    type: DOUBLE
+  - name: modal_price
+    type: DOUBLE

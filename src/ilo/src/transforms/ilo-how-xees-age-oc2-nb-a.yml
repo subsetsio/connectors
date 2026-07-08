@@ -1,0 +1,19 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [ref_area, source, time_period, classif1, classif2]
+temporal: date
+sort: [date, ref_area, source, time_period, classif1, classif2]
+columns:
+  - name: date
+    type: DATE
+  - name: time_period
+    type: VARCHAR
+  - name: ref_area
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: classif1
+    type: VARCHAR
+  - name: classif2
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE

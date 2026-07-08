@@ -1,0 +1,57 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [playerId, seasonId, gameTypeId]
+temporal: seasonId
+sort: [seasonId, playerId, gameTypeId]
+columns:
+  - name: gamesPlayed
+    type: BIGINT
+  - name: lastName
+    type: VARCHAR
+  - name: playerId
+    type: BIGINT
+  - name: positionCode
+    type: VARCHAR
+  - name: ppGoalsAgainstPer60
+    type: DOUBLE
+  - name: seasonId
+    type: BIGINT
+  - name: shAssists
+    type: BIGINT
+  - name: shGoals
+    type: BIGINT
+  - name: shGoalsPer60
+    type: DOUBLE
+  - name: shIndividualSatFor
+    type: BIGINT
+  - name: shIndividualSatForPer60
+    type: DOUBLE
+  - name: shPoints
+    type: BIGINT
+  - name: shPointsPer60
+    type: DOUBLE
+  - name: shPrimaryAssists
+    type: BIGINT
+  - name: shPrimaryAssistsPer60
+    type: DOUBLE
+  - name: shSecondaryAssists
+    type: BIGINT
+  - name: shSecondaryAssistsPer60
+    type: DOUBLE
+  - name: shShootingPct
+    type: DOUBLE
+  - name: shShots
+    type: BIGINT
+  - name: shShotsPer60
+    type: DOUBLE
+  - name: shTimeOnIce
+    type: BIGINT
+  - name: shTimeOnIcePctPerGame
+    type: DOUBLE
+  - name: shTimeOnIcePerGame
+    type: DOUBLE
+  - name: skaterFullName
+    type: VARCHAR
+  - name: teamAbbrevs
+    type: VARCHAR
+  - name: gameTypeId
+    type: BIGINT

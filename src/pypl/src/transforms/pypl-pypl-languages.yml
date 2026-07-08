@@ -1,0 +1,13 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, country, language]
+temporal: date
+sort: [date, country, language]
+columns:
+  - name: date
+    type: DATE
+  - name: country
+    type: VARCHAR
+  - name: language
+    type: VARCHAR
+  - name: share
+    type: DOUBLE

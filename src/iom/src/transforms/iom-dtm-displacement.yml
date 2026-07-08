@@ -1,0 +1,44 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: reporting_date
+sort: [reporting_date]
+columns:
+  - name: operation
+    type: VARCHAR
+  - name: admin0_name
+    type: VARCHAR
+  - name: admin0_pcode
+    type: VARCHAR
+  - name: admin1_name
+    type: VARCHAR
+  - name: admin1_pcode
+    type: VARCHAR
+  - name: admin2_name
+    type: VARCHAR
+  - name: admin2_pcode
+    type: VARCHAR
+  - name: admin_level
+    type: INTEGER
+  - name: num_present_idp_ind
+    type: BIGINT
+  - name: reporting_date
+    type: DATE
+  - name: year_reporting_date
+    type: INTEGER
+  - name: month_reporting_date
+    type: INTEGER
+  - name: round_number
+    type: INTEGER
+  - name: displacement_reason
+    type: VARCHAR
+  - name: number_males
+    type: BIGINT
+  - name: number_females
+    type: BIGINT
+  - name: idp_origin_admin1_name
+    type: VARCHAR
+  - name: idp_origin_admin1_pcode
+    type: VARCHAR
+  - name: assessment_type
+    type: VARCHAR
+  - name: operation_status
+    type: VARCHAR

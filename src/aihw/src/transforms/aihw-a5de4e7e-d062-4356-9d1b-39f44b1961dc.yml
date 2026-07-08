@@ -1,0 +1,42 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: period
+sort: [period]
+columns:
+  - name: mort_code
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: geography
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: deaths
+    type: BIGINT
+  - name: population
+    type: BIGINT
+  - name: crude_rate_per_100000
+    type: DOUBLE
+  - name: age_standardised_rate_per_100000
+    type: DOUBLE
+  - name: rate_ratio
+    type: DOUBLE
+  - name: premature_deaths
+    type: BIGINT
+  - name: premature_deaths_percent
+    type: DOUBLE
+  - name: premature_deaths_asr_per_100000
+    type: DOUBLE
+  - name: potential_years_of_life_lost
+    type: BIGINT
+  - name: pyll_rate_per_1000
+    type: DOUBLE
+  - name: potentially_avoidable_deaths
+    type: BIGINT
+  - name: pad_percent
+    type: DOUBLE
+  - name: pad_asr_per_100000
+    type: DOUBLE
+  - name: median_age
+    type: DOUBLE

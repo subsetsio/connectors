@@ -1,0 +1,369 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [prvdr_num]
+temporal: processing_date
+sort: [processing_date, prvdr_num]
+columns:
+  - name: prvdr_num
+    type: VARCHAR
+  - name: fac_name
+    type: VARCHAR
+  - name: prvdr_sbtyp_id
+    type: VARCHAR
+  - name: mdcd_vndr_num
+    type: VARCHAR
+  - name: orgnl_prtcptn_dt
+    type: VARCHAR
+  - name: prvdr_type_id
+    type: VARCHAR
+  - name: st_adr
+    type: VARCHAR
+  - name: city_name
+    type: VARCHAR
+  - name: ssa_cnty_cd
+    type: VARCHAR
+  - name: zip_cd
+    type: VARCHAR
+  - name: phne_num
+    type: VARCHAR
+  - name: crtfctn_dt
+    type: VARCHAR
+  - name: trmntn_exprtn_dt
+    type: VARCHAR
+  - name: state_cd
+    type: VARCHAR
+  - name: ssa_state_cd
+    type: VARCHAR
+  - name: state_rgn_cd
+    type: VARCHAR
+  - name: rgn_cd
+    type: VARCHAR
+  - name: fips_state_cd
+    type: VARCHAR
+  - name: fips_cnty_cd
+    type: VARCHAR
+  - name: cbsa_cd
+    type: VARCHAR
+  - name: cbsa_urbn_rrl_ind
+    type: VARCHAR
+  - name: acrdtn_type_cd
+    type: VARCHAR
+  - name: intrmdry_carr_cd
+    type: VARCHAR
+  - name: acptbl_poc_sw
+    type: VARCHAR
+  - name: fy_end_mo_day_cd
+    type: VARCHAR
+  - name: cmplnc_stus_cd
+    type: VARCHAR
+  - name: crtfctn_actn_type_cd
+    type: VARCHAR
+  - name: chow_dt
+    type: VARCHAR
+  - name: phrmcy_srvc_cd
+    type: VARCHAR
+  - name: hh_aide_srvc_cd
+    type: VARCHAR
+  - name: lab_srvc_cd
+    type: VARCHAR
+  - name: lpn_lvn_cnt
+    type: VARCHAR
+  - name: mdcl_scl_srvc_cd
+    type: VARCHAR
+  - name: othr_srvc_cd
+    type: VARCHAR
+  - name: ot_srvc_cd
+    type: VARCHAR
+  - name: nrsng_srvc_cd
+    type: VARCHAR
+  - name: prsnel_othr_cnt
+    type: VARCHAR
+  - name: pt_srvc_cd
+    type: VARCHAR
+  - name: rn_cnt
+    type: VARCHAR
+  - name: asc_bgn_srvc_dt
+    type: VARCHAR
+  - name: dntl_srgry_sw
+    type: VARCHAR
+  - name: endscpy_srgry_sw
+    type: VARCHAR
+  - name: ft_srgry_sw
+    type: VARCHAR
+  - name: ob_gyn_srgry_sw
+    type: VARCHAR
+  - name: oprtg_room_cnt
+    type: VARCHAR
+  - name: procedure_room_cnt
+    type: VARCHAR
+  - name: opthmlgy_srgry_sw
+    type: VARCHAR
+  - name: orthpdc_srgry_sw
+    type: VARCHAR
+  - name: othr_srgry_sw
+    type: VARCHAR
+  - name: otlrynglgy_srgry_sw
+    type: VARCHAR
+  - name: pain_srgry_sw
+    type: VARCHAR
+  - name: plstc_srgry_sw
+    type: VARCHAR
+  - name: rdlgy_srvc_cd
+    type: VARCHAR
+  - name: aplnc_equip_srvc_cd
+    type: VARCHAR
+  - name: brnch_cnt
+    type: VARCHAR
+  - name: brnch_oprtn_sw
+    type: VARCHAR
+  - name: chow_sw
+    type: VARCHAR
+  - name: dietn_cnt
+    type: VARCHAR
+  - name: hh_aide_cnt
+    type: VARCHAR
+  - name: hh_aide_trng_pgm_cd
+    type: VARCHAR
+  - name: intrn_rsdnt_srvc_cd
+    type: VARCHAR
+  - name: mdcr_hospc_sw
+    type: VARCHAR
+  - name: medicare_hospice_provider_num
+    type: VARCHAR
+  - name: ntrtnl_gdnc_srvc_cd
+    type: VARCHAR
+  - name: ocptnl_thrpst_cnt
+    type: VARCHAR
+  - name: pgm_prtcptn_cd
+    type: VARCHAR
+  - name: phys_thrpst_stf_cnt
+    type: VARCHAR
+  - name: reg_phrmcst_cnt
+    type: VARCHAR
+  - name: sbunit_cnt
+    type: VARCHAR
+  - name: sbunit_oprtn_sw
+    type: VARCHAR
+  - name: sbunit_sw
+    type: VARCHAR
+  - name: scl_workr_cnt
+    type: VARCHAR
+  - name: spch_pthlgst_audlgst_cnt
+    type: VARCHAR
+  - name: spch_thrpy_srvc_cd
+    type: VARCHAR
+  - name: vctnl_gdnc_srvc_cd
+    type: VARCHAR
+  - name: hospice_type
+    type: VARCHAR
+  - name: acute_resp_care_cd
+    type: VARCHAR
+  - name: cnslng_srvc_cd
+    type: VARCHAR
+  - name: cnslr_emplee_cnt
+    type: VARCHAR
+  - name: cnslr_vlntr_cnt
+    type: VARCHAR
+  - name: emplee_cnt
+    type: VARCHAR
+  - name: hh_aide_emplee_cnt
+    type: VARCHAR
+  - name: hh_aide_vlntr_cnt
+    type: VARCHAR
+  - name: hmmkr_emplee_cnt
+    type: VARCHAR
+  - name: hmmkr_srvc_cd
+    type: VARCHAR
+  - name: hmmkr_vlntr_cnt
+    type: VARCHAR
+  - name: lpn_lvn_vlntr_cnt
+    type: VARCHAR
+  - name: mdcl_scl_workr_cnt
+    type: VARCHAR
+  - name: mdcl_scl_workr_vlntr_cnt
+    type: VARCHAR
+  - name: mdcl_suply_srvc_cd
+    type: VARCHAR
+  - name: physn_cnt
+    type: VARCHAR
+  - name: physn_srvc_cd
+    type: VARCHAR
+  - name: physn_vlntr_cnt
+    type: VARCHAR
+  - name: rn_vlntr_cnt
+    type: VARCHAR
+  - name: shrt_term_ip_srvc_cd
+    type: VARCHAR
+  - name: spch_pthlgy_srvc_cd
+    type: VARCHAR
+  - name: vlntr_cnt
+    type: VARCHAR
+  - name: vlntr_othr_cnt
+    type: VARCHAR
+  - name: fed_crtfctn_stus_id
+    type: VARCHAR
+  - name: fed_crtfctn_stus_name
+    type: VARCHAR
+  - name: pgm_trmntn_cd
+    type: VARCHAR
+  - name: control_type
+    type: VARCHAR
+  - name: gnrl_fac_type_cd
+    type: VARCHAR
+  - name: processing_date
+    type: DATE
+  - name: aids_bed_cnt
+    type: VARCHAR
+  - name: alzhmr_bed_cnt
+    type: VARCHAR
+  - name: bed_cnt
+    type: VARCHAR
+  - name: bed_per_room_wvr_sw
+    type: VARCHAR
+  - name: crtfd_bed_cnt
+    type: VARCHAR
+  - name: dlys_bed_cnt
+    type: VARCHAR
+  - name: dsbl_chldrn_bed_cnt
+    type: VARCHAR
+  - name: elgblty_sw
+    type: VARCHAR
+  - name: exprmt_rsrch_cndctd_sw
+    type: VARCHAR
+  - name: fax_phne_num
+    type: VARCHAR
+  - name: head_trma_bed_cnt
+    type: VARCHAR
+  - name: hntgtn_dease_bed_cnt
+    type: VARCHAR
+  - name: hosp_bsd_sw
+    type: VARCHAR
+  - name: hospc_bed_cnt
+    type: VARCHAR
+  - name: intrmdry_carr_prior_cd
+    type: VARCHAR
+  - name: isCCRC
+    type: VARCHAR
+  - name: lsc_wvr_sw
+    type: VARCHAR
+  - name: mdcr_mdcd_snf_bed_cnt
+    type: VARCHAR
+  - name: mdcr_snf_bed_cnt
+    type: VARCHAR
+  - name: mlt_fac_org_name
+    type: VARCHAR
+  - name: mlt_ownd_fac_org_sw
+    type: VARCHAR
+  - name: orgnz_fmly_mbr_grp_sw
+    type: VARCHAR
+  - name: orgnz_rsdnt_grp_sw
+    type: VARCHAR
+  - name: rehab_bed_cnt
+    type: VARCHAR
+  - name: room_size_wvr_sw
+    type: VARCHAR
+  - name: vntltr_bed_cnt
+    type: VARCHAR
+  - name: esrd_ntwrk_num
+    type: VARCHAR
+  - name: home_trng_sprt_only_srvc_sw
+    type: VARCHAR
+  - name: incntr_nctrnl_srvc_sw
+    type: VARCHAR
+  - name: sp_home_trng_sprt_hd_sw
+    type: VARCHAR
+  - name: hmdlys_srvc_sw
+    type: VARCHAR
+  - name: sp_home_trng_sprt_pd_sw
+    type: VARCHAR
+  - name: prtnl_dlys_srvc_sw
+    type: VARCHAR
+  - name: lpn_cnt
+    type: VARCHAR
+  - name: tchncl_stf_num
+    type: VARCHAR
+  - name: tchncn_cnt
+    type: VARCHAR
+  - name: dlys_stn_cnt
+    type: VARCHAR
+  - name: tchnlgst_2_yr_rdlgc_cnt
+    type: VARCHAR
+  - name: tchnlgst_asct_dgr_cnt
+    type: VARCHAR
+  - name: tchnlgst_bs_ba_dgr_cnt
+    type: VARCHAR
+  - name: mdcr_prtcptn_op_pt_spch_sw
+    type: VARCHAR
+  - name: nrsng_srvc_emplee_sw
+    type: VARCHAR
+  - name: nrsng_srvc_cntrctr_sw
+    type: VARCHAR
+  - name: nrsng_srvc_arngmt_sw
+    type: VARCHAR
+  - name: orthtc_prsthtc_emplee_sw
+    type: VARCHAR
+  - name: orthtc_prsthtc_cntrctr_sw
+    type: VARCHAR
+  - name: orthtc_prsthtc_arngmt_sw
+    type: VARCHAR
+  - name: ot_emplee_sw
+    type: VARCHAR
+  - name: ot_cntrctr_sw
+    type: VARCHAR
+  - name: ot_arngmt_sw
+    type: VARCHAR
+  - name: physn_emplee_sw
+    type: VARCHAR
+  - name: physn_cntrctr_sw
+    type: VARCHAR
+  - name: physn_arngmt_sw
+    type: VARCHAR
+  - name: psychlgcl_emplee_sw
+    type: VARCHAR
+  - name: psychlgcl_cntrctr_sw
+    type: VARCHAR
+  - name: psychlgcl_arngmt_sw
+    type: VARCHAR
+  - name: pt_emplee_sw
+    type: VARCHAR
+  - name: pt_cntrctr_sw
+    type: VARCHAR
+  - name: pt_arngmt_sw
+    type: VARCHAR
+  - name: rsprtry_care_emplee_sw
+    type: VARCHAR
+  - name: rsprtry_care_cntrctr_sw
+    type: VARCHAR
+  - name: rsprtry_care_arngmt_sw
+    type: VARCHAR
+  - name: scl_emplee_sw
+    type: VARCHAR
+  - name: scl_cntrctr_sw
+    type: VARCHAR
+  - name: scl_arngmt_sw
+    type: VARCHAR
+  - name: spch_pthlgy_emplee_sw
+    type: VARCHAR
+  - name: spch_pthlgy_cntrctr_sw
+    type: VARCHAR
+  - name: spch_pthlgy_arngmt_sw
+    type: VARCHAR
+  - name: ocptnl_thrpst_cntrct_cnt
+    type: VARCHAR
+  - name: ocptnl_thrpst_fltm_cnt
+    type: VARCHAR
+  - name: phys_thrpst_cnt
+    type: VARCHAR
+  - name: phys_thrpst_arngmt_cnt
+    type: VARCHAR
+  - name: spch_pthlgst_cnt
+    type: VARCHAR
+  - name: spch_pthlgst_arngmt_cnt
+    type: VARCHAR
+  - name: spch_pthlgst_fltm_cnt
+    type: VARCHAR
+  - name: icfiid_bed_cnt
+    type: VARCHAR
+  - name: prvdr_bsd_fac_sw
+    type: VARCHAR
+  - name: drct_care_prsnel_cnt
+    type: VARCHAR

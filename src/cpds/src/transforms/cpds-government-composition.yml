@@ -1,0 +1,110 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: country
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: investiture_date
+    type: JSON
+  - name: head_of_government
+    type: JSON
+  - name: days_in_year
+    type: DOUBLE
+  - name: termination_prev_gov
+    type: JSON
+  - name: number_of_cabinet_posts_right
+    type: BIGINT
+  - name: number_of_cabinet_posts_center
+    type: DOUBLE
+  - name: number_of_cabinet_posts_left
+    type: JSON
+  - name: number_of_cabinet_posts_total
+    type: DOUBLE
+  - name: pct_of_posts_in_government_right
+    type: JSON
+  - name: pct_of_posts_in_government_center
+    type: DOUBLE
+  - name: pct_of_posts_in_government_left
+    type: JSON
+  - name: pct_of_posts_in_government_total
+    type: DOUBLE
+  - name: pct_of_seats_in_parliament_right
+    type: DOUBLE
+  - name: pct_of_seats_in_parliament_center
+    type: DOUBLE
+  - name: pct_of_seats_in_parliament_left
+    type: DOUBLE
+  - name: pct_of_seats_in_parliament_total
+    type: DOUBLE
+  - name: government_type
+    type: DOUBLE
+  - name: parliament_election
+    type: JSON
+  - name: investiture_date_2
+    type: JSON
+  - name: governing_party_1_name
+    type: VARCHAR
+  - name: governing_party_1_family
+    type: JSON
+  - name: governing_party_1_ideology
+    type: VARCHAR
+  - name: governing_party_1_pct_seats
+    type: JSON
+  - name: governing_party_2_name
+    type: VARCHAR
+  - name: governing_party_2_family
+    type: VARCHAR
+  - name: governing_party_2_ideology
+    type: VARCHAR
+  - name: governing_party_2_pct_seats
+    type: DOUBLE
+  - name: governing_party_3_name
+    type: VARCHAR
+  - name: governing_party_3_family
+    type: VARCHAR
+  - name: governing_party_3_ideology
+    type: VARCHAR
+  - name: governing_party_3_pct_seats
+    type: JSON
+  - name: governing_party_4_name
+    type: VARCHAR
+  - name: governing_party_4_family
+    type: VARCHAR
+  - name: governing_party_4_ideology
+    type: VARCHAR
+  - name: governing_party_4_pct_seats
+    type: JSON
+  - name: governing_party_5_name
+    type: VARCHAR
+  - name: governing_party_5_family
+    type: VARCHAR
+  - name: governing_party_5_ideology
+    type: VARCHAR
+  - name: governing_party_5_pct_seats
+    type: DOUBLE
+  - name: governing_party_6_name
+    type: VARCHAR
+  - name: governing_party_6_family
+    type: VARCHAR
+  - name: governing_party_6_ideology
+    type: VARCHAR
+  - name: governing_party_6_pct_seats
+    type: DOUBLE
+  - name: governing_party_7_name
+    type: VARCHAR
+  - name: governing_party_7_family
+    type: VARCHAR
+  - name: governing_party_7_ideology
+    type: VARCHAR
+  - name: governing_party_7_pct_seats
+    type: DOUBLE
+  - name: governing_party_8_name
+    type: VARCHAR
+  - name: governing_party_8_family
+    type: VARCHAR
+  - name: governing_party_8_ideology
+    type: VARCHAR
+  - name: governing_party_8_pct_seats
+    type: BIGINT

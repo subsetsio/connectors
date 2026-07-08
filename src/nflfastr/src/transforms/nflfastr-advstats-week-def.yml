@@ -1,0 +1,62 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: season
+sort: [season]
+columns:
+  - name: game_id
+    type: VARCHAR
+  - name: pfr_game_id
+    type: VARCHAR
+  - name: season
+    type: INTEGER
+  - name: week
+    type: INTEGER
+  - name: game_type
+    type: VARCHAR
+  - name: team
+    type: VARCHAR
+  - name: opponent
+    type: VARCHAR
+  - name: pfr_player_name
+    type: VARCHAR
+  - name: pfr_player_id
+    type: VARCHAR
+  - name: def_ints
+    type: DOUBLE
+  - name: def_targets
+    type: DOUBLE
+  - name: def_completions_allowed
+    type: DOUBLE
+  - name: def_completion_pct
+    type: DOUBLE
+  - name: def_yards_allowed
+    type: DOUBLE
+  - name: def_yards_allowed_per_cmp
+    type: DOUBLE
+  - name: def_yards_allowed_per_tgt
+    type: DOUBLE
+  - name: def_receiving_td_allowed
+    type: DOUBLE
+  - name: def_passer_rating_allowed
+    type: DOUBLE
+  - name: def_adot
+    type: DOUBLE
+  - name: def_air_yards_completed
+    type: DOUBLE
+  - name: def_yards_after_catch
+    type: DOUBLE
+  - name: def_times_blitzed
+    type: DOUBLE
+  - name: def_times_hurried
+    type: DOUBLE
+  - name: def_times_hitqb
+    type: DOUBLE
+  - name: def_sacks
+    type: DOUBLE
+  - name: def_pressures
+    type: DOUBLE
+  - name: def_tackles_combined
+    type: DOUBLE
+  - name: def_missed_tackles
+    type: DOUBLE
+  - name: def_missed_tackle_pct
+    type: DOUBLE

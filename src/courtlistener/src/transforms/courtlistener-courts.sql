@@ -1,0 +1,22 @@
+SELECT
+    "id",
+    "pacer_court_id",
+    "pacer_has_rss_feed",
+    "pacer_rss_entry_types",
+    TRY_CAST("date_last_pacer_contact" AS TIMESTAMP) AS "date_last_pacer_contact",
+    "fjc_court_id",
+    TRY_CAST("date_modified" AS TIMESTAMP) AS "date_modified",
+    "in_use",
+    "has_opinion_scraper",
+    "has_oral_argument_scraper",
+    TRY_CAST("position" AS DOUBLE) AS "position",
+    "citation_string",
+    "short_name",
+    "full_name",
+    "url",
+    TRY_CAST("start_date" AS DATE) AS "start_date",
+    TRY_CAST("end_date" AS DATE) AS "end_date",
+    "jurisdiction",
+    "notes",
+    "parent_court_id"
+FROM "courtlistener-courts"

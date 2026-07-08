@@ -1,0 +1,1388 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: unitid
+    type: BIGINT
+  - name: year
+    type: INTEGER
+  - name: XSCUGRAD
+    type: VARCHAR
+  - name: SCUGRAD
+    type: VARCHAR
+  - name: XSCUGDGSK
+    type: VARCHAR
+  - name: SCUGDGSK
+    type: VARCHAR
+  - name: XSCUGNDGS
+    type: VARCHAR
+  - name: SCUGNDGS
+    type: VARCHAR
+  - name: XSCUGFFN
+    type: VARCHAR
+  - name: SCUGFFN
+    type: VARCHAR
+  - name: XSCUGFFP
+    type: VARCHAR
+  - name: SCUGFFP
+    type: VARCHAR
+  - name: XSCFA2
+    type: VARCHAR
+  - name: SCFA2
+    type: VARCHAR
+  - name: XSCFA2DG
+    type: VARCHAR
+  - name: SCFA2DG
+    type: VARCHAR
+  - name: XSCFA2ND
+    type: VARCHAR
+  - name: SCFA2ND
+    type: VARCHAR
+  - name: XSCFA1N
+    type: VARCHAR
+  - name: SCFA1N
+    type: VARCHAR
+  - name: XSCFA1P
+    type: VARCHAR
+  - name: SCFA1P
+    type: VARCHAR
+  - name: XSCFA11N
+    type: VARCHAR
+  - name: SCFA11N
+    type: VARCHAR
+  - name: XSCFA11P
+    type: VARCHAR
+  - name: SCFA11P
+    type: VARCHAR
+  - name: XSCFA12N
+    type: VARCHAR
+  - name: SCFA12N
+    type: VARCHAR
+  - name: XSCFA12P
+    type: VARCHAR
+  - name: SCFA12P
+    type: VARCHAR
+  - name: XSCFA13N
+    type: VARCHAR
+  - name: SCFA13N
+    type: VARCHAR
+  - name: XSCFA13P
+    type: VARCHAR
+  - name: SCFA13P
+    type: VARCHAR
+  - name: XSCFA14N
+    type: VARCHAR
+  - name: SCFA14N
+    type: VARCHAR
+  - name: XSCFA14P
+    type: VARCHAR
+  - name: SCFA14P
+    type: VARCHAR
+  - name: XSCFY2
+    type: VARCHAR
+  - name: SCFY2
+    type: VARCHAR
+  - name: XSCFY2DG
+    type: VARCHAR
+  - name: SCFY2DG
+    type: VARCHAR
+  - name: XSCFY2ND
+    type: VARCHAR
+  - name: SCFY2ND
+    type: VARCHAR
+  - name: XSCFY1N
+    type: VARCHAR
+  - name: SCFY1N
+    type: VARCHAR
+  - name: XSCFY1P
+    type: VARCHAR
+  - name: SCFY1P
+    type: VARCHAR
+  - name: XUAGRNTN
+    type: VARCHAR
+  - name: UAGRNTN
+    type: VARCHAR
+  - name: XUAGRNTP
+    type: VARCHAR
+  - name: UAGRNTP
+    type: VARCHAR
+  - name: XUAGRNTT
+    type: VARCHAR
+  - name: UAGRNTT
+    type: VARCHAR
+  - name: XUAGRNTA
+    type: VARCHAR
+  - name: UAGRNTA
+    type: VARCHAR
+  - name: XUDGAGRNTN
+    type: VARCHAR
+  - name: UDGAGRNTN
+    type: VARCHAR
+  - name: XUDGAGRNTP
+    type: VARCHAR
+  - name: UDGAGRNTP
+    type: VARCHAR
+  - name: XUDGAGRNTT
+    type: VARCHAR
+  - name: UDGAGRNTT
+    type: VARCHAR
+  - name: XUDGAGRNTA
+    type: VARCHAR
+  - name: UDGAGRNTA
+    type: VARCHAR
+  - name: XUNDAGRNTN
+    type: VARCHAR
+  - name: UNDAGRNTN
+    type: VARCHAR
+  - name: XUNDAGRNTP
+    type: VARCHAR
+  - name: UNDAGRNTP
+    type: VARCHAR
+  - name: XUNDAGRNTT
+    type: VARCHAR
+  - name: UNDAGRNTT
+    type: VARCHAR
+  - name: XUNDAGRNTA
+    type: VARCHAR
+  - name: UNDAGRNTA
+    type: VARCHAR
+  - name: XUPGRNTN
+    type: VARCHAR
+  - name: UPGRNTN
+    type: VARCHAR
+  - name: XUPGRNTP
+    type: VARCHAR
+  - name: UPGRNTP
+    type: VARCHAR
+  - name: XUPGRNTT
+    type: VARCHAR
+  - name: UPGRNTT
+    type: VARCHAR
+  - name: XUPGRNTA
+    type: VARCHAR
+  - name: UPGRNTA
+    type: VARCHAR
+  - name: XUDGPGRNTN
+    type: VARCHAR
+  - name: UDGPGRNTN
+    type: VARCHAR
+  - name: XUDGPGRNTP
+    type: VARCHAR
+  - name: UDGPGRNTP
+    type: VARCHAR
+  - name: XUDGPGRNTT
+    type: VARCHAR
+  - name: UDGPGRNTT
+    type: VARCHAR
+  - name: XUDGPGRNTA
+    type: VARCHAR
+  - name: UDGPGRNTA
+    type: VARCHAR
+  - name: XUNDPGRNTN
+    type: VARCHAR
+  - name: UNDPGRNTN
+    type: VARCHAR
+  - name: XUNDPGRNTP
+    type: VARCHAR
+  - name: UNDPGRNTP
+    type: VARCHAR
+  - name: XUNDPGRNTT
+    type: VARCHAR
+  - name: UNDPGRNTT
+    type: VARCHAR
+  - name: XUNDPGRNTA
+    type: VARCHAR
+  - name: UNDPGRNTA
+    type: VARCHAR
+  - name: XUFLOANN
+    type: VARCHAR
+  - name: UFLOANN
+    type: VARCHAR
+  - name: XUFLOANP
+    type: VARCHAR
+  - name: UFLOANP
+    type: VARCHAR
+  - name: XUFLOANT
+    type: VARCHAR
+  - name: UFLOANT
+    type: VARCHAR
+  - name: XUFLOANA
+    type: VARCHAR
+  - name: UFLOANA
+    type: VARCHAR
+  - name: XUDGFLOANN
+    type: VARCHAR
+  - name: UDGFLOANN
+    type: VARCHAR
+  - name: XUDGFLOANP
+    type: VARCHAR
+  - name: UDGFLOANP
+    type: VARCHAR
+  - name: XUDGFLOANT
+    type: VARCHAR
+  - name: UDGFLOANT
+    type: VARCHAR
+  - name: XUDGFLOANA
+    type: VARCHAR
+  - name: UDGFLOANA
+    type: VARCHAR
+  - name: XUNDFLOANN
+    type: VARCHAR
+  - name: UNDFLOANN
+    type: VARCHAR
+  - name: XUNDFLOANP
+    type: VARCHAR
+  - name: UNDFLOANP
+    type: VARCHAR
+  - name: XUNDFLOANT
+    type: VARCHAR
+  - name: UNDFLOANT
+    type: VARCHAR
+  - name: XUNDFLOANA
+    type: VARCHAR
+  - name: UNDFLOANA
+    type: VARCHAR
+  - name: XANYAIDN
+    type: VARCHAR
+  - name: ANYAIDN
+    type: VARCHAR
+  - name: XANYAIDP
+    type: VARCHAR
+  - name: ANYAIDP
+    type: VARCHAR
+  - name: XAIDFSIN
+    type: VARCHAR
+  - name: AIDFSIN
+    type: VARCHAR
+  - name: XAIDFSIP
+    type: VARCHAR
+  - name: AIDFSIP
+    type: VARCHAR
+  - name: XAGRNT_N
+    type: VARCHAR
+  - name: AGRNT_N
+    type: VARCHAR
+  - name: XAGRNT_P
+    type: VARCHAR
+  - name: AGRNT_P
+    type: VARCHAR
+  - name: XAGRNT_T
+    type: VARCHAR
+  - name: AGRNT_T
+    type: VARCHAR
+  - name: XAGRNT_A
+    type: VARCHAR
+  - name: AGRNT_A
+    type: VARCHAR
+  - name: XFGRNT_N
+    type: VARCHAR
+  - name: FGRNT_N
+    type: VARCHAR
+  - name: XFGRNT_P
+    type: VARCHAR
+  - name: FGRNT_P
+    type: VARCHAR
+  - name: XFGRNT_T
+    type: VARCHAR
+  - name: FGRNT_T
+    type: VARCHAR
+  - name: XFGRNT_A
+    type: VARCHAR
+  - name: FGRNT_A
+    type: VARCHAR
+  - name: XPGRNT_N
+    type: VARCHAR
+  - name: PGRNT_N
+    type: VARCHAR
+  - name: XPGRNT_P
+    type: VARCHAR
+  - name: PGRNT_P
+    type: VARCHAR
+  - name: XPGRNT_T
+    type: VARCHAR
+  - name: PGRNT_T
+    type: VARCHAR
+  - name: XPGRNT_A
+    type: VARCHAR
+  - name: PGRNT_A
+    type: VARCHAR
+  - name: XOFGRT_N
+    type: VARCHAR
+  - name: OFGRT_N
+    type: VARCHAR
+  - name: XOFGRT_P
+    type: VARCHAR
+  - name: OFGRT_P
+    type: VARCHAR
+  - name: XOFGRT_T
+    type: VARCHAR
+  - name: OFGRT_T
+    type: VARCHAR
+  - name: XOFGRT_A
+    type: VARCHAR
+  - name: OFGRT_A
+    type: VARCHAR
+  - name: XSGRNT_N
+    type: VARCHAR
+  - name: SGRNT_N
+    type: VARCHAR
+  - name: XSGRNT_P
+    type: VARCHAR
+  - name: SGRNT_P
+    type: VARCHAR
+  - name: XSGRNT_T
+    type: VARCHAR
+  - name: SGRNT_T
+    type: VARCHAR
+  - name: XSGRNT_A
+    type: VARCHAR
+  - name: SGRNT_A
+    type: VARCHAR
+  - name: XIGRNT_N
+    type: VARCHAR
+  - name: IGRNT_N
+    type: VARCHAR
+  - name: XIGRNT_P
+    type: VARCHAR
+  - name: IGRNT_P
+    type: VARCHAR
+  - name: XIGRNT_T
+    type: VARCHAR
+  - name: IGRNT_T
+    type: VARCHAR
+  - name: XIGRNT_A
+    type: VARCHAR
+  - name: IGRNT_A
+    type: VARCHAR
+  - name: XLOAN_N
+    type: VARCHAR
+  - name: LOAN_N
+    type: VARCHAR
+  - name: XLOAN_P
+    type: VARCHAR
+  - name: LOAN_P
+    type: VARCHAR
+  - name: XLOAN_T
+    type: VARCHAR
+  - name: LOAN_T
+    type: VARCHAR
+  - name: XLOAN_A
+    type: VARCHAR
+  - name: LOAN_A
+    type: VARCHAR
+  - name: XFLOAN_N
+    type: VARCHAR
+  - name: FLOAN_N
+    type: VARCHAR
+  - name: XFLOAN_P
+    type: VARCHAR
+  - name: FLOAN_P
+    type: VARCHAR
+  - name: XFLOAN_T
+    type: VARCHAR
+  - name: FLOAN_T
+    type: VARCHAR
+  - name: XFLOAN_A
+    type: VARCHAR
+  - name: FLOAN_A
+    type: VARCHAR
+  - name: XOLOAN_N
+    type: VARCHAR
+  - name: OLOAN_N
+    type: VARCHAR
+  - name: XOLOAN_P
+    type: VARCHAR
+  - name: OLOAN_P
+    type: VARCHAR
+  - name: XOLOAN_T
+    type: VARCHAR
+  - name: OLOAN_T
+    type: VARCHAR
+  - name: XOLOAN_A
+    type: VARCHAR
+  - name: OLOAN_A
+    type: VARCHAR
+  - name: XGISTN2
+    type: VARCHAR
+  - name: GISTN2
+    type: VARCHAR
+  - name: XGISTON2
+    type: VARCHAR
+  - name: GISTON2
+    type: VARCHAR
+  - name: XGISTWF2
+    type: VARCHAR
+  - name: GISTWF2
+    type: VARCHAR
+  - name: XGISTOF2
+    type: VARCHAR
+  - name: GISTOF2
+    type: VARCHAR
+  - name: XGISTUN2
+    type: VARCHAR
+  - name: GISTUN2
+    type: VARCHAR
+  - name: XGISTT2
+    type: VARCHAR
+  - name: GISTT2
+    type: VARCHAR
+  - name: XGISTA2
+    type: VARCHAR
+  - name: GISTA2
+    type: VARCHAR
+  - name: XGISTN1
+    type: VARCHAR
+  - name: GISTN1
+    type: VARCHAR
+  - name: XGISTON1
+    type: VARCHAR
+  - name: GISTON1
+    type: VARCHAR
+  - name: XGISTWF1
+    type: VARCHAR
+  - name: GISTWF1
+    type: VARCHAR
+  - name: XGISTOF1
+    type: VARCHAR
+  - name: GISTOF1
+    type: VARCHAR
+  - name: XGISTUN1
+    type: VARCHAR
+  - name: GISTUN1
+    type: VARCHAR
+  - name: XGISTT1
+    type: VARCHAR
+  - name: GISTT1
+    type: VARCHAR
+  - name: XGISTA1
+    type: VARCHAR
+  - name: GISTA1
+    type: VARCHAR
+  - name: XGISTN0
+    type: VARCHAR
+  - name: GISTN0
+    type: VARCHAR
+  - name: XGISTON0
+    type: VARCHAR
+  - name: GISTON0
+    type: VARCHAR
+  - name: XGISTWF0
+    type: VARCHAR
+  - name: GISTWF0
+    type: VARCHAR
+  - name: XGISTOF0
+    type: VARCHAR
+  - name: GISTOF0
+    type: VARCHAR
+  - name: XGISTUN0
+    type: VARCHAR
+  - name: GISTUN0
+    type: VARCHAR
+  - name: XGISTT0
+    type: VARCHAR
+  - name: GISTT0
+    type: VARCHAR
+  - name: XGISTA0
+    type: VARCHAR
+  - name: GISTA0
+    type: VARCHAR
+  - name: XGIS4N2
+    type: VARCHAR
+  - name: GIS4N2
+    type: VARCHAR
+  - name: XGIS4ON2
+    type: VARCHAR
+  - name: GIS4ON2
+    type: VARCHAR
+  - name: XGIS4WF2
+    type: VARCHAR
+  - name: GIS4WF2
+    type: VARCHAR
+  - name: XGIS4OF2
+    type: VARCHAR
+  - name: GIS4OF2
+    type: VARCHAR
+  - name: XGIS4UN2
+    type: VARCHAR
+  - name: GIS4UN2
+    type: VARCHAR
+  - name: XGIS4G2
+    type: VARCHAR
+  - name: GIS4G2
+    type: VARCHAR
+  - name: XGIS4T2
+    type: VARCHAR
+  - name: GIS4T2
+    type: VARCHAR
+  - name: XGIS4A2
+    type: VARCHAR
+  - name: GIS4A2
+    type: VARCHAR
+  - name: XGIS4N12
+    type: VARCHAR
+  - name: GIS4N12
+    type: VARCHAR
+  - name: XGIS4G12
+    type: VARCHAR
+  - name: GIS4G12
+    type: VARCHAR
+  - name: XGIS4T12
+    type: VARCHAR
+  - name: GIS4T12
+    type: VARCHAR
+  - name: XGIS4A12
+    type: VARCHAR
+  - name: GIS4A12
+    type: VARCHAR
+  - name: XGIS4N22
+    type: VARCHAR
+  - name: GIS4N22
+    type: VARCHAR
+  - name: XGIS4G22
+    type: VARCHAR
+  - name: GIS4G22
+    type: VARCHAR
+  - name: XGIS4T22
+    type: VARCHAR
+  - name: GIS4T22
+    type: VARCHAR
+  - name: XGIS4A22
+    type: VARCHAR
+  - name: GIS4A22
+    type: VARCHAR
+  - name: XGIS4N32
+    type: VARCHAR
+  - name: GIS4N32
+    type: VARCHAR
+  - name: XGIS4G32
+    type: VARCHAR
+  - name: GIS4G32
+    type: VARCHAR
+  - name: XGIS4T32
+    type: VARCHAR
+  - name: GIS4T32
+    type: VARCHAR
+  - name: XGIS4A32
+    type: VARCHAR
+  - name: GIS4A32
+    type: VARCHAR
+  - name: XGIS4N42
+    type: VARCHAR
+  - name: GIS4N42
+    type: VARCHAR
+  - name: XGIS4G42
+    type: VARCHAR
+  - name: GIS4G42
+    type: VARCHAR
+  - name: XGIS4T42
+    type: VARCHAR
+  - name: GIS4T42
+    type: VARCHAR
+  - name: XGIS4A42
+    type: VARCHAR
+  - name: GIS4A42
+    type: VARCHAR
+  - name: XGIS4N52
+    type: VARCHAR
+  - name: GIS4N52
+    type: VARCHAR
+  - name: XGIS4G52
+    type: VARCHAR
+  - name: GIS4G52
+    type: VARCHAR
+  - name: XGIS4T52
+    type: VARCHAR
+  - name: GIS4T52
+    type: VARCHAR
+  - name: XGIS4A52
+    type: VARCHAR
+  - name: GIS4A52
+    type: VARCHAR
+  - name: XGIS4N1
+    type: VARCHAR
+  - name: GIS4N1
+    type: VARCHAR
+  - name: XGIS4ON1
+    type: VARCHAR
+  - name: GIS4ON1
+    type: VARCHAR
+  - name: XGIS4WF1
+    type: VARCHAR
+  - name: GIS4WF1
+    type: VARCHAR
+  - name: XGIS4OF1
+    type: VARCHAR
+  - name: GIS4OF1
+    type: VARCHAR
+  - name: XGIS4UN1
+    type: VARCHAR
+  - name: GIS4UN1
+    type: VARCHAR
+  - name: XGIS4G1
+    type: VARCHAR
+  - name: GIS4G1
+    type: VARCHAR
+  - name: XGIS4T1
+    type: VARCHAR
+  - name: GIS4T1
+    type: VARCHAR
+  - name: XGIS4A1
+    type: VARCHAR
+  - name: GIS4A1
+    type: VARCHAR
+  - name: XGIS4N11
+    type: VARCHAR
+  - name: GIS4N11
+    type: VARCHAR
+  - name: XGIS4G11
+    type: VARCHAR
+  - name: GIS4G11
+    type: VARCHAR
+  - name: XGIS4T11
+    type: VARCHAR
+  - name: GIS4T11
+    type: VARCHAR
+  - name: XGIS4A11
+    type: VARCHAR
+  - name: GIS4A11
+    type: VARCHAR
+  - name: XGIS4N21
+    type: VARCHAR
+  - name: GIS4N21
+    type: VARCHAR
+  - name: XGIS4G21
+    type: VARCHAR
+  - name: GIS4G21
+    type: VARCHAR
+  - name: XGIS4T21
+    type: VARCHAR
+  - name: GIS4T21
+    type: VARCHAR
+  - name: XGIS4A21
+    type: VARCHAR
+  - name: GIS4A21
+    type: VARCHAR
+  - name: XGIS4N31
+    type: VARCHAR
+  - name: GIS4N31
+    type: VARCHAR
+  - name: XGIS4G31
+    type: VARCHAR
+  - name: GIS4G31
+    type: VARCHAR
+  - name: XGIS4T31
+    type: VARCHAR
+  - name: GIS4T31
+    type: VARCHAR
+  - name: XGIS4A31
+    type: VARCHAR
+  - name: GIS4A31
+    type: VARCHAR
+  - name: XGIS4N41
+    type: VARCHAR
+  - name: GIS4N41
+    type: VARCHAR
+  - name: XGIS4G41
+    type: VARCHAR
+  - name: GIS4G41
+    type: VARCHAR
+  - name: XGIS4T41
+    type: VARCHAR
+  - name: GIS4T41
+    type: VARCHAR
+  - name: XGIS4A41
+    type: VARCHAR
+  - name: GIS4A41
+    type: VARCHAR
+  - name: XGIS4N51
+    type: VARCHAR
+  - name: GIS4N51
+    type: VARCHAR
+  - name: XGIS4G51
+    type: VARCHAR
+  - name: GIS4G51
+    type: VARCHAR
+  - name: XGIS4T51
+    type: VARCHAR
+  - name: GIS4T51
+    type: VARCHAR
+  - name: XGIS4A51
+    type: VARCHAR
+  - name: GIS4A51
+    type: VARCHAR
+  - name: XGIS4N0
+    type: VARCHAR
+  - name: GIS4N0
+    type: VARCHAR
+  - name: XGIS4ON0
+    type: VARCHAR
+  - name: GIS4ON0
+    type: VARCHAR
+  - name: XGIS4WF0
+    type: VARCHAR
+  - name: GIS4WF0
+    type: VARCHAR
+  - name: XGIS4OF0
+    type: VARCHAR
+  - name: GIS4OF0
+    type: VARCHAR
+  - name: XGIS4UN0
+    type: VARCHAR
+  - name: GIS4UN0
+    type: VARCHAR
+  - name: XGIS4G0
+    type: VARCHAR
+  - name: GIS4G0
+    type: VARCHAR
+  - name: XGIS4T0
+    type: VARCHAR
+  - name: GIS4T0
+    type: VARCHAR
+  - name: XGIS4A0
+    type: VARCHAR
+  - name: GIS4A0
+    type: VARCHAR
+  - name: XGIS4N10
+    type: VARCHAR
+  - name: GIS4N10
+    type: VARCHAR
+  - name: XGIS4G10
+    type: VARCHAR
+  - name: GIS4G10
+    type: VARCHAR
+  - name: XGIS4T10
+    type: VARCHAR
+  - name: GIS4T10
+    type: VARCHAR
+  - name: XGIS4A10
+    type: VARCHAR
+  - name: GIS4A10
+    type: VARCHAR
+  - name: XGIS4N20
+    type: VARCHAR
+  - name: GIS4N20
+    type: VARCHAR
+  - name: XGIS4G20
+    type: VARCHAR
+  - name: GIS4G20
+    type: VARCHAR
+  - name: XGIS4T20
+    type: VARCHAR
+  - name: GIS4T20
+    type: VARCHAR
+  - name: XGIS4A20
+    type: VARCHAR
+  - name: GIS4A20
+    type: VARCHAR
+  - name: XGIS4N30
+    type: VARCHAR
+  - name: GIS4N30
+    type: VARCHAR
+  - name: XGIS4G30
+    type: VARCHAR
+  - name: GIS4G30
+    type: VARCHAR
+  - name: XGIS4T30
+    type: VARCHAR
+  - name: GIS4T30
+    type: VARCHAR
+  - name: XGIS4A30
+    type: VARCHAR
+  - name: GIS4A30
+    type: VARCHAR
+  - name: XGIS4N40
+    type: VARCHAR
+  - name: GIS4N40
+    type: VARCHAR
+  - name: XGIS4G40
+    type: VARCHAR
+  - name: GIS4G40
+    type: VARCHAR
+  - name: XGIS4T40
+    type: VARCHAR
+  - name: GIS4T40
+    type: VARCHAR
+  - name: XGIS4A40
+    type: VARCHAR
+  - name: GIS4A40
+    type: VARCHAR
+  - name: XGIS4N50
+    type: VARCHAR
+  - name: GIS4N50
+    type: VARCHAR
+  - name: XGIS4G50
+    type: VARCHAR
+  - name: GIS4G50
+    type: VARCHAR
+  - name: XGIS4T50
+    type: VARCHAR
+  - name: GIS4T50
+    type: VARCHAR
+  - name: XGIS4A50
+    type: VARCHAR
+  - name: GIS4A50
+    type: VARCHAR
+  - name: XNPIST2
+    type: VARCHAR
+  - name: NPIST2
+    type: VARCHAR
+  - name: XNPIST1
+    type: VARCHAR
+  - name: NPIST1
+    type: VARCHAR
+  - name: XNPIST0
+    type: VARCHAR
+  - name: NPIST0
+    type: VARCHAR
+  - name: XNPIS412
+    type: VARCHAR
+  - name: NPIS412
+    type: VARCHAR
+  - name: XNPIS422
+    type: VARCHAR
+  - name: NPIS422
+    type: VARCHAR
+  - name: XNPIS432
+    type: VARCHAR
+  - name: NPIS432
+    type: VARCHAR
+  - name: XNPIS442
+    type: VARCHAR
+  - name: NPIS442
+    type: VARCHAR
+  - name: XNPIS452
+    type: VARCHAR
+  - name: NPIS452
+    type: VARCHAR
+  - name: XNPIS411
+    type: VARCHAR
+  - name: NPIS411
+    type: VARCHAR
+  - name: XNPIS421
+    type: VARCHAR
+  - name: NPIS421
+    type: VARCHAR
+  - name: XNPIS431
+    type: VARCHAR
+  - name: NPIS431
+    type: VARCHAR
+  - name: XNPIS441
+    type: VARCHAR
+  - name: NPIS441
+    type: VARCHAR
+  - name: XNPIS451
+    type: VARCHAR
+  - name: NPIS451
+    type: VARCHAR
+  - name: XNPIS410
+    type: VARCHAR
+  - name: NPIS410
+    type: VARCHAR
+  - name: XNPIS420
+    type: VARCHAR
+  - name: NPIS420
+    type: VARCHAR
+  - name: XNPIS430
+    type: VARCHAR
+  - name: NPIS430
+    type: VARCHAR
+  - name: XNPIS440
+    type: VARCHAR
+  - name: NPIS440
+    type: VARCHAR
+  - name: XNPIS450
+    type: VARCHAR
+  - name: NPIS450
+    type: VARCHAR
+  - name: XGRNTN2
+    type: VARCHAR
+  - name: GRNTN2
+    type: VARCHAR
+  - name: XGRNTON2
+    type: VARCHAR
+  - name: GRNTON2
+    type: VARCHAR
+  - name: XGRNTWF2
+    type: VARCHAR
+  - name: GRNTWF2
+    type: VARCHAR
+  - name: XGRNTOF2
+    type: VARCHAR
+  - name: GRNTOF2
+    type: VARCHAR
+  - name: XGRNTUN2
+    type: VARCHAR
+  - name: GRNTUN2
+    type: VARCHAR
+  - name: XGRNTT2
+    type: VARCHAR
+  - name: GRNTT2
+    type: VARCHAR
+  - name: XGRNTA2
+    type: VARCHAR
+  - name: GRNTA2
+    type: VARCHAR
+  - name: XGRNTN1
+    type: VARCHAR
+  - name: GRNTN1
+    type: VARCHAR
+  - name: XGRNTON1
+    type: VARCHAR
+  - name: GRNTON1
+    type: VARCHAR
+  - name: XGRNTWF1
+    type: VARCHAR
+  - name: GRNTWF1
+    type: VARCHAR
+  - name: XGRNTOF1
+    type: VARCHAR
+  - name: GRNTOF1
+    type: VARCHAR
+  - name: XGRNTUN1
+    type: VARCHAR
+  - name: GRNTUN1
+    type: VARCHAR
+  - name: XGRNTT1
+    type: VARCHAR
+  - name: GRNTT1
+    type: VARCHAR
+  - name: XGRNTA1
+    type: VARCHAR
+  - name: GRNTA1
+    type: VARCHAR
+  - name: XGRNTN0
+    type: VARCHAR
+  - name: GRNTN0
+    type: VARCHAR
+  - name: XGRNTON0
+    type: VARCHAR
+  - name: GRNTON0
+    type: VARCHAR
+  - name: XGRNTWF0
+    type: VARCHAR
+  - name: GRNTWF0
+    type: VARCHAR
+  - name: XGRNTOF0
+    type: VARCHAR
+  - name: GRNTOF0
+    type: VARCHAR
+  - name: XGRNTUN0
+    type: VARCHAR
+  - name: GRNTUN0
+    type: VARCHAR
+  - name: XGRNTT0
+    type: VARCHAR
+  - name: GRNTT0
+    type: VARCHAR
+  - name: XGRNTA0
+    type: VARCHAR
+  - name: GRNTA0
+    type: VARCHAR
+  - name: XGRN4N2
+    type: VARCHAR
+  - name: GRN4N2
+    type: VARCHAR
+  - name: XGRN4ON2
+    type: VARCHAR
+  - name: GRN4ON2
+    type: VARCHAR
+  - name: XGRN4WF2
+    type: VARCHAR
+  - name: GRN4WF2
+    type: VARCHAR
+  - name: XGRN4OF2
+    type: VARCHAR
+  - name: GRN4OF2
+    type: VARCHAR
+  - name: XGRN4UN2
+    type: VARCHAR
+  - name: GRN4UN2
+    type: VARCHAR
+  - name: XGRN4G2
+    type: VARCHAR
+  - name: GRN4G2
+    type: VARCHAR
+  - name: XGRN4T2
+    type: VARCHAR
+  - name: GRN4T2
+    type: VARCHAR
+  - name: XGRN4A2
+    type: VARCHAR
+  - name: GRN4A2
+    type: VARCHAR
+  - name: XGRN4N12
+    type: VARCHAR
+  - name: GRN4N12
+    type: VARCHAR
+  - name: XGRN4G12
+    type: VARCHAR
+  - name: GRN4G12
+    type: VARCHAR
+  - name: XGRN4T12
+    type: VARCHAR
+  - name: GRN4T12
+    type: VARCHAR
+  - name: XGRN4A12
+    type: VARCHAR
+  - name: GRN4A12
+    type: VARCHAR
+  - name: XGRN4N22
+    type: VARCHAR
+  - name: GRN4N22
+    type: VARCHAR
+  - name: XGRN4G22
+    type: VARCHAR
+  - name: GRN4G22
+    type: VARCHAR
+  - name: XGRN4T22
+    type: VARCHAR
+  - name: GRN4T22
+    type: VARCHAR
+  - name: XGRN4A22
+    type: VARCHAR
+  - name: GRN4A22
+    type: VARCHAR
+  - name: XGRN4N32
+    type: VARCHAR
+  - name: GRN4N32
+    type: VARCHAR
+  - name: XGRN4G32
+    type: VARCHAR
+  - name: GRN4G32
+    type: VARCHAR
+  - name: XGRN4T32
+    type: VARCHAR
+  - name: GRN4T32
+    type: VARCHAR
+  - name: XGRN4A32
+    type: VARCHAR
+  - name: GRN4A32
+    type: VARCHAR
+  - name: XGRN4N42
+    type: VARCHAR
+  - name: GRN4N42
+    type: VARCHAR
+  - name: XGRN4G42
+    type: VARCHAR
+  - name: GRN4G42
+    type: VARCHAR
+  - name: XGRN4T42
+    type: VARCHAR
+  - name: GRN4T42
+    type: VARCHAR
+  - name: XGRN4A42
+    type: VARCHAR
+  - name: GRN4A42
+    type: VARCHAR
+  - name: XGRN4N52
+    type: VARCHAR
+  - name: GRN4N52
+    type: VARCHAR
+  - name: XGRN4G52
+    type: VARCHAR
+  - name: GRN4G52
+    type: VARCHAR
+  - name: XGRN4T52
+    type: VARCHAR
+  - name: GRN4T52
+    type: VARCHAR
+  - name: XGRN4A52
+    type: VARCHAR
+  - name: GRN4A52
+    type: VARCHAR
+  - name: XGRN4N1
+    type: VARCHAR
+  - name: GRN4N1
+    type: VARCHAR
+  - name: XGRN4ON1
+    type: VARCHAR
+  - name: GRN4ON1
+    type: VARCHAR
+  - name: XGRN4WF1
+    type: VARCHAR
+  - name: GRN4WF1
+    type: VARCHAR
+  - name: XGRN4OF1
+    type: VARCHAR
+  - name: GRN4OF1
+    type: VARCHAR
+  - name: XGRN4UN1
+    type: VARCHAR
+  - name: GRN4UN1
+    type: VARCHAR
+  - name: XGRN4G1
+    type: VARCHAR
+  - name: GRN4G1
+    type: VARCHAR
+  - name: XGRN4T1
+    type: VARCHAR
+  - name: GRN4T1
+    type: VARCHAR
+  - name: XGRN4A1
+    type: VARCHAR
+  - name: GRN4A1
+    type: VARCHAR
+  - name: XGRN4N11
+    type: VARCHAR
+  - name: GRN4N11
+    type: VARCHAR
+  - name: XGRN4G11
+    type: VARCHAR
+  - name: GRN4G11
+    type: VARCHAR
+  - name: XGRN4T11
+    type: VARCHAR
+  - name: GRN4T11
+    type: VARCHAR
+  - name: XGRN4A11
+    type: VARCHAR
+  - name: GRN4A11
+    type: VARCHAR
+  - name: XGRN4N21
+    type: VARCHAR
+  - name: GRN4N21
+    type: VARCHAR
+  - name: XGRN4G21
+    type: VARCHAR
+  - name: GRN4G21
+    type: VARCHAR
+  - name: XGRN4T21
+    type: VARCHAR
+  - name: GRN4T21
+    type: VARCHAR
+  - name: XGRN4A21
+    type: VARCHAR
+  - name: GRN4A21
+    type: VARCHAR
+  - name: XGRN4N31
+    type: VARCHAR
+  - name: GRN4N31
+    type: VARCHAR
+  - name: XGRN4G31
+    type: VARCHAR
+  - name: GRN4G31
+    type: VARCHAR
+  - name: XGRN4T31
+    type: VARCHAR
+  - name: GRN4T31
+    type: VARCHAR
+  - name: XGRN4A31
+    type: VARCHAR
+  - name: GRN4A31
+    type: VARCHAR
+  - name: XGRN4N41
+    type: VARCHAR
+  - name: GRN4N41
+    type: VARCHAR
+  - name: XGRN4G41
+    type: VARCHAR
+  - name: GRN4G41
+    type: VARCHAR
+  - name: XGRN4T41
+    type: VARCHAR
+  - name: GRN4T41
+    type: VARCHAR
+  - name: XGRN4A41
+    type: VARCHAR
+  - name: GRN4A41
+    type: VARCHAR
+  - name: XGRN4N51
+    type: VARCHAR
+  - name: GRN4N51
+    type: VARCHAR
+  - name: XGRN4G51
+    type: VARCHAR
+  - name: GRN4G51
+    type: VARCHAR
+  - name: XGRN4T51
+    type: VARCHAR
+  - name: GRN4T51
+    type: VARCHAR
+  - name: XGRN4A51
+    type: VARCHAR
+  - name: GRN4A51
+    type: VARCHAR
+  - name: XGRN4N0
+    type: VARCHAR
+  - name: GRN4N0
+    type: VARCHAR
+  - name: XGRN4ON0
+    type: VARCHAR
+  - name: GRN4ON0
+    type: VARCHAR
+  - name: XGRN4WF0
+    type: VARCHAR
+  - name: GRN4WF0
+    type: VARCHAR
+  - name: XGRN4OF0
+    type: VARCHAR
+  - name: GRN4OF0
+    type: VARCHAR
+  - name: XGRN4UN0
+    type: VARCHAR
+  - name: GRN4UN0
+    type: VARCHAR
+  - name: XGRN4G0
+    type: VARCHAR
+  - name: GRN4G0
+    type: VARCHAR
+  - name: XGRN4T0
+    type: VARCHAR
+  - name: GRN4T0
+    type: VARCHAR
+  - name: XGRN4A0
+    type: VARCHAR
+  - name: GRN4A0
+    type: VARCHAR
+  - name: XGRN4N10
+    type: VARCHAR
+  - name: GRN4N10
+    type: VARCHAR
+  - name: XGRN4G10
+    type: VARCHAR
+  - name: GRN4G10
+    type: VARCHAR
+  - name: XGRN4T10
+    type: VARCHAR
+  - name: GRN4T10
+    type: VARCHAR
+  - name: XGRN4A10
+    type: VARCHAR
+  - name: GRN4A10
+    type: VARCHAR
+  - name: XGRN4N20
+    type: VARCHAR
+  - name: GRN4N20
+    type: VARCHAR
+  - name: XGRN4G20
+    type: VARCHAR
+  - name: GRN4G20
+    type: VARCHAR
+  - name: XGRN4T20
+    type: VARCHAR
+  - name: GRN4T20
+    type: VARCHAR
+  - name: XGRN4A20
+    type: VARCHAR
+  - name: GRN4A20
+    type: VARCHAR
+  - name: XGRN4N30
+    type: VARCHAR
+  - name: GRN4N30
+    type: VARCHAR
+  - name: XGRN4G30
+    type: VARCHAR
+  - name: GRN4G30
+    type: VARCHAR
+  - name: XGRN4T30
+    type: VARCHAR
+  - name: GRN4T30
+    type: VARCHAR
+  - name: XGRN4A30
+    type: VARCHAR
+  - name: GRN4A30
+    type: VARCHAR
+  - name: XGRN4N40
+    type: VARCHAR
+  - name: GRN4N40
+    type: VARCHAR
+  - name: XGRN4G40
+    type: VARCHAR
+  - name: GRN4G40
+    type: VARCHAR
+  - name: XGRN4T40
+    type: VARCHAR
+  - name: GRN4T40
+    type: VARCHAR
+  - name: XGRN4A40
+    type: VARCHAR
+  - name: GRN4A40
+    type: VARCHAR
+  - name: XGRN4N50
+    type: VARCHAR
+  - name: GRN4N50
+    type: VARCHAR
+  - name: XGRN4G50
+    type: VARCHAR
+  - name: GRN4G50
+    type: VARCHAR
+  - name: XGRN4T50
+    type: VARCHAR
+  - name: GRN4T50
+    type: VARCHAR
+  - name: XGRN4A50
+    type: VARCHAR
+  - name: GRN4A50
+    type: VARCHAR
+  - name: XNPGRN2
+    type: VARCHAR
+  - name: NPGRN2
+    type: VARCHAR
+  - name: XNPGRN1
+    type: VARCHAR
+  - name: NPGRN1
+    type: VARCHAR
+  - name: XNPGRN0
+    type: VARCHAR
+  - name: NPGRN0
+    type: VARCHAR
+  - name: XNPT412
+    type: VARCHAR
+  - name: NPT412
+    type: VARCHAR
+  - name: XNPT422
+    type: VARCHAR
+  - name: NPT422
+    type: VARCHAR
+  - name: XNPT432
+    type: VARCHAR
+  - name: NPT432
+    type: VARCHAR
+  - name: XNPT442
+    type: VARCHAR
+  - name: NPT442
+    type: VARCHAR
+  - name: XNPT452
+    type: VARCHAR
+  - name: NPT452
+    type: VARCHAR
+  - name: XNPT411
+    type: VARCHAR
+  - name: NPT411
+    type: VARCHAR
+  - name: XNPT421
+    type: VARCHAR
+  - name: NPT421
+    type: VARCHAR
+  - name: XNPT431
+    type: VARCHAR
+  - name: NPT431
+    type: VARCHAR
+  - name: XNPT441
+    type: VARCHAR
+  - name: NPT441
+    type: VARCHAR
+  - name: XNPT451
+    type: VARCHAR
+  - name: NPT451
+    type: VARCHAR
+  - name: XNPT410
+    type: VARCHAR
+  - name: NPT410
+    type: VARCHAR
+  - name: XNPT420
+    type: VARCHAR
+  - name: NPT420
+    type: VARCHAR
+  - name: XNPT430
+    type: VARCHAR
+  - name: NPT430
+    type: VARCHAR
+  - name: XNPT440
+    type: VARCHAR
+  - name: NPT440
+    type: VARCHAR
+  - name: XNPT450
+    type: VARCHAR
+  - name: NPT450
+    type: VARCHAR

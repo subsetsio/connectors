@@ -1,0 +1,31 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date]
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: VARCHAR
+  - name: actual_mean_temp
+    type: BIGINT
+  - name: actual_min_temp
+    type: BIGINT
+  - name: actual_max_temp
+    type: BIGINT
+  - name: average_min_temp
+    type: BIGINT
+  - name: average_max_temp
+    type: BIGINT
+  - name: record_min_temp
+    type: BIGINT
+  - name: record_max_temp
+    type: BIGINT
+  - name: record_min_temp_year
+    type: BIGINT
+  - name: record_max_temp_year
+    type: BIGINT
+  - name: actual_precipitation
+    type: DOUBLE
+  - name: average_precipitation
+    type: DOUBLE
+  - name: record_precipitation
+    type: DOUBLE

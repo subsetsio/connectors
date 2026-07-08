@@ -1,0 +1,28 @@
+SELECT
+    id,
+    uuid,
+    country_code,
+    country_id,
+    data_provider_id,
+    operator_id,
+    usage_type_id,
+    status_type_id,
+    submission_status_type_id,
+    usage_cost,
+    number_of_points,
+    title,
+    address_line1,
+    town,
+    state_or_province,
+    postcode,
+    latitude,
+    longitude,
+    num_connections,
+    total_quantity,
+    max_power_kw,
+    connection_type_ids,
+    try_cast(date_created AS TIMESTAMP)            AS date_created,
+    try_cast(date_last_verified AS TIMESTAMP)      AS date_last_verified,
+    try_cast(date_last_status_update AS TIMESTAMP) AS date_last_status_update
+FROM "openchargemap-pois"
+WHERE id IS NOT NULL

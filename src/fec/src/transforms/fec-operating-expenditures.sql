@@ -1,0 +1,27 @@
+SELECT
+    cycle,
+    SUB_ID                                    AS sub_id,
+    CMTE_ID                                   AS cmte_id,
+    NAME                                      AS payee_name,
+    CITY                                      AS city,
+    STATE                                     AS state,
+    ZIP_CODE                                  AS zip_code,
+    TRY_STRPTIME(TRANSACTION_DT, '%m/%d/%Y')::DATE AS transaction_date,
+    TRY_CAST(TRANSACTION_AMT AS DOUBLE)       AS amount,
+    PURPOSE                                   AS purpose,
+    CATEGORY                                  AS category,
+    CATEGORY_DESC                             AS category_desc,
+    FORM_TP_CD                                AS form_type,
+    SCHED_TP_CD                               AS schedule_type,
+    LINE_NUM                                  AS line_num,
+    ENTITY_TP                                 AS entity_type,
+    TRAN_ID                                   AS tran_id,
+    TRY_CAST(FILE_NUM AS BIGINT)              AS file_num,
+    IMAGE_NUM                                 AS image_num,
+    MEMO_CD                                   AS memo_code,
+    MEMO_TEXT                                 AS memo_text,
+    AMNDT_IND                                 AS amendment_ind,
+    RPT_TP                                    AS report_type,
+    TRANSACTION_PGI                           AS transaction_pgi
+FROM "fec-operating-expenditures"
+WHERE SUB_ID IS NOT NULL AND SUB_ID <> ''

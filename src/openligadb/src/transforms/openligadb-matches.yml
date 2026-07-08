@@ -1,0 +1,45 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [match_id]
+temporal: match_datetime_utc
+sort: [match_datetime_utc, match_id]
+columns:
+  - name: match_id
+    type: BIGINT
+  - name: league_shortcut
+    type: VARCHAR
+  - name: league_season
+    type: INTEGER
+  - name: league_id
+    type: BIGINT
+  - name: league_name
+    type: VARCHAR
+  - name: matchday
+    type: INTEGER
+  - name: matchday_name
+    type: VARCHAR
+  - name: match_datetime_utc
+    type: TIMESTAMP
+  - name: match_is_finished
+    type: BOOLEAN
+  - name: team1_id
+    type: BIGINT
+  - name: team1_name
+    type: VARCHAR
+  - name: team2_id
+    type: BIGINT
+  - name: team2_name
+    type: VARCHAR
+  - name: halftime_team1
+    type: INTEGER
+  - name: halftime_team2
+    type: INTEGER
+  - name: final_team1
+    type: INTEGER
+  - name: final_team2
+    type: INTEGER
+  - name: location_city
+    type: VARCHAR
+  - name: location_stadium
+    type: VARCHAR
+  - name: number_of_viewers
+    type: BIGINT

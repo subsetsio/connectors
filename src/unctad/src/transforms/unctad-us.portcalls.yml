@@ -1,0 +1,62 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: VARCHAR
+  - name: economy
+    type: VARCHAR
+  - name: economy_label
+    type: VARCHAR
+  - name: commercialmarket
+    type: VARCHAR
+  - name: commercialmarket_label
+    type: VARCHAR
+  - name: median_time_in_port_days
+    type: DOUBLE
+  - name: median_time_in_port_days_footnote
+    type: VARCHAR
+  - name: median_time_in_port_days_missing_value
+    type: VARCHAR
+  - name: average_age_of_vessels_years
+    type: DOUBLE
+  - name: average_age_of_vessels_years_footnote
+    type: VARCHAR
+  - name: average_age_of_vessels_years_missing_value
+    type: VARCHAR
+  - name: average_size_gt_of_vessels
+    type: DOUBLE
+  - name: average_size_gt_of_vessels_footnote
+    type: VARCHAR
+  - name: average_size_gt_of_vessels_missing_value
+    type: VARCHAR
+  - name: average_cargo_carrying_capacity_dwt_per_vessel
+    type: DOUBLE
+  - name: average_cargo_carrying_capacity_dwt_per_vessel_footnote
+    type: VARCHAR
+  - name: average_cargo_carrying_capacity_dwt_per_vessel_missing_value
+    type: VARCHAR
+  - name: average_container_carrying_capacity_teu_per_container_ship
+    type: DOUBLE
+  - name: average_container_carrying_capacity_teu_per_container_ship_footnote
+    type: VARCHAR
+  - name: average_container_carrying_capacity_teu_per_container_ship_missing_value
+    type: VARCHAR
+  - name: maximum_size_gt_of_vessels
+    type: DOUBLE
+  - name: maximum_size_gt_of_vessels_footnote
+    type: VARCHAR
+  - name: maximum_size_gt_of_vessels_missing_value
+    type: VARCHAR
+  - name: maximum_cargo_carrying_capacity_dwt_of_vessels
+    type: DOUBLE
+  - name: maximum_cargo_carrying_capacity_dwt_of_vessels_footnote
+    type: VARCHAR
+  - name: maximum_cargo_carrying_capacity_dwt_of_vessels_missing_value
+    type: VARCHAR
+  - name: maximum_container_carrying_capacity_teu_of_container_ships
+    type: DOUBLE
+  - name: maximum_container_carrying_capacity_teu_of_container_ships_footnote
+    type: VARCHAR
+  - name: maximum_container_carrying_capacity_teu_of_container_ships_missing_value
+    type: VARCHAR

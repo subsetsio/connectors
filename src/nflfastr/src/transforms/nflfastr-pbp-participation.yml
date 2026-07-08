@@ -1,0 +1,56 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [nflverse_game_id, play_id]
+sort: [nflverse_game_id, play_id]
+columns:
+  - name: nflverse_game_id
+    type: VARCHAR
+  - name: old_game_id
+    type: VARCHAR
+  - name: play_id
+    type: DOUBLE
+  - name: possession_team
+    type: VARCHAR
+  - name: offense_formation
+    type: VARCHAR
+  - name: offense_personnel
+    type: VARCHAR
+  - name: defenders_in_box
+    type: INTEGER
+  - name: defense_personnel
+    type: VARCHAR
+  - name: number_of_pass_rushers
+    type: INTEGER
+  - name: players_on_play
+    type: VARCHAR
+  - name: offense_players
+    type: VARCHAR
+  - name: defense_players
+    type: VARCHAR
+  - name: n_offense
+    type: INTEGER
+  - name: n_defense
+    type: INTEGER
+  - name: ngs_air_yards
+    type: DOUBLE
+  - name: time_to_throw
+    type: DOUBLE
+  - name: was_pressure
+    type: BOOLEAN
+  - name: route
+    type: VARCHAR
+  - name: defense_man_zone_type
+    type: VARCHAR
+  - name: defense_coverage_type
+    type: VARCHAR
+  - name: offense_names
+    type: VARCHAR
+  - name: defense_names
+    type: VARCHAR
+  - name: offense_positions
+    type: VARCHAR
+  - name: defense_positions
+    type: VARCHAR
+  - name: offense_numbers
+    type: VARCHAR
+  - name: defense_numbers
+    type: VARCHAR

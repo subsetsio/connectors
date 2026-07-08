@@ -1,0 +1,50 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: report_date
+    type: DATE
+  - name: market
+    type: VARCHAR
+  - name: contract
+    type: VARCHAR
+  - name: cftc_code
+    type: VARCHAR
+  - name: exchange_code
+    type: VARCHAR
+  - name: commodity_name
+    type: VARCHAR
+  - name: commodity_group_name
+    type: VARCHAR
+  - name: commodity_subgroup_name
+    type: VARCHAR
+  - name: contract_units
+    type: VARCHAR
+  - name: open_interest
+    type: DOUBLE
+  - name: total_reportable_long
+    type: DOUBLE
+  - name: total_reportable_short
+    type: DOUBLE
+  - name: nonreportable_long
+    type: DOUBLE
+  - name: nonreportable_short
+    type: DOUBLE
+  - name: total_traders
+    type: DOUBLE
+  - name: report_type
+    type: VARCHAR
+  - name: change_in_open_interest
+    type: DOUBLE
+  - name: index_trader_long
+    type: DOUBLE
+  - name: index_trader_short
+    type: DOUBLE
+  - name: noncommercial_long_excl_cit
+    type: DOUBLE
+  - name: noncommercial_short_excl_cit
+    type: DOUBLE
+  - name: noncommercial_spread_excl_cit
+    type: DOUBLE
+  - name: commercial_long_excl_cit
+    type: DOUBLE
+  - name: commercial_short_excl_cit
+    type: DOUBLE

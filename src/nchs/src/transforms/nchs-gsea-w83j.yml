@@ -1,0 +1,34 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: group
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: subgroup
+    type: VARCHAR
+  - name: phase
+    type: DOUBLE
+  - name: time_period
+    type: BIGINT
+  - name: time_period_label
+    type: VARCHAR
+  - name: time_period_start_date
+    type: VARCHAR
+  - name: time_period_end_date
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: lowci
+    type: DOUBLE
+  - name: highci
+    type: DOUBLE
+  - name: confidence_interval
+    type: VARCHAR
+  - name: quartile_range
+    type: VARCHAR
+  - name: quartile_number
+    type: BIGINT
+  - name: suppression_flag
+    type: BIGINT

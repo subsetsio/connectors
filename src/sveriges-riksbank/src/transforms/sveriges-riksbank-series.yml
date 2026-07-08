@@ -1,0 +1,20 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: series_id
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: short_description
+    type: VARCHAR
+  - name: mid_description
+    type: VARCHAR
+  - name: long_description
+    type: VARCHAR
+  - name: group_id
+    type: BIGINT
+  - name: observation_min_date
+    type: DATE
+  - name: observation_max_date
+    type: DATE
+  - name: series_closed
+    type: BOOLEAN

@@ -1,0 +1,21 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [id]
+temporal: date_modified
+sort: [date_modified, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: volume
+    type: VARCHAR
+  - name: reporter
+    type: VARCHAR
+  - name: page
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: cluster_id
+    type: BIGINT
+  - name: date_created
+    type: TIMESTAMP
+  - name: date_modified
+    type: TIMESTAMP

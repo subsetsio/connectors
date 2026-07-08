@@ -1,0 +1,19 @@
+SELECT
+        "bathingWaterIdentifier",
+        "classification",
+        "countryCode",
+        "escherichiaColi90thPercentile",
+        "escherichiaColi95thPercentile",
+        "escherichiaColiAverageLog10",
+        "escherichiaColiClassification",
+        "escherichiaColiNumberOfSamples",
+        "escherichiaColiSampleStdDevLog10",
+        "intestinalEnterococci90thPercentile",
+        "intestinalEnterococci95thPercentile",
+        "intestinalEnterococciAverageLog10",
+        "intestinalEnterococciClassification",
+        "intestinalEnterococciNumberOfSamples",
+        "intestinalEnterococciSampleStdDevLog10",
+        "season",
+        "UID"
+    FROM "eea-bathing-water-assessment-bathingwaterquality"

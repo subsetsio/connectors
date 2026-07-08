@@ -1,0 +1,36 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: time_series_start_year
+sort: [time_series_start_year]
+columns:
+  - name: time_series_start_year
+    type: INTEGER
+  - name: indicator_name
+    type: VARCHAR
+  - name: full_table
+    type: VARCHAR
+  - name: estimate_type
+    type: VARCHAR
+  - name: estimate_geographic_location
+    type: VARCHAR
+  - name: estimate_domain_1
+    type: VARCHAR
+  - name: estimate
+    type: DOUBLE
+  - name: estimate_unweighted
+    type: DOUBLE
+  - name: estimate_standard_error
+    type: DOUBLE
+  - name: estimate_lower_bound
+    type: DOUBLE
+  - name: estimate_upper_bound
+    type: DOUBLE
+  - name: relative_standard_error
+    type: DOUBLE
+  - name: population_estimate
+    type: DOUBLE
+  - name: agency_counts
+    type: BIGINT
+  - name: estimates_version
+    type: VARCHAR
+  - name: suppression_flag_indicator
+    type: VARCHAR

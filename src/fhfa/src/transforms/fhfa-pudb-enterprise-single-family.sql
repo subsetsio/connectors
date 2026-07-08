@@ -1,0 +1,20 @@
+SELECT
+CAST(NULLIF(enterprise, '') AS BIGINT) AS enterprise,
+CAST(NULLIF(record_num_sf_nfb, '') AS BIGINT) AS record_num_sf_nfb,
+CAST(NULLIF(metro, '') AS BIGINT) AS metro,
+CAST(NULLIF(tract_minority_cat, '') AS BIGINT) AS tract_minority_cat,
+CAST(NULLIF(tract_income_cat, '') AS BIGINT) AS tract_income_cat,
+CAST(NULLIF(income_cat, '') AS BIGINT) AS income_cat,
+CAST(NULLIF(same_year_acq, '') AS BIGINT) AS same_year_acq,
+CAST(NULLIF(purpose_sf_nfb, '') AS BIGINT) AS purpose_sf_nfb,
+CAST(NULLIF(fed_guarantee_sf_nfb, '') AS BIGINT) AS fed_guarantee_sf_nfb,
+CAST(NULLIF(seller_type_sf_nfb, '') AS BIGINT) AS seller_type_sf_nfb,
+CAST(NULLIF(race_ethnicity_borr, '') AS BIGINT) AS race_ethnicity_borr,
+CAST(NULLIF(race_ethnicity_coborr, '') AS BIGINT) AS race_ethnicity_coborr,
+CAST(NULLIF(sex_borr, '') AS BIGINT) AS sex_borr,
+CAST(NULLIF(sex_coborr, '') AS BIGINT) AS sex_coborr,
+CAST(NULLIF(occupancy_sf_nfb, '') AS BIGINT) AS occupancy_sf_nfb,
+CAST(NULLIF(units_num, '') AS BIGINT) AS units_num,
+CAST(NULLIF(unit_own_occ, '') AS BIGINT) AS unit_own_occ,
+CAST(NULLIF(afford_sf, '') AS BIGINT) AS afford_sf
+FROM "fhfa-pudb-enterprise-single-family"

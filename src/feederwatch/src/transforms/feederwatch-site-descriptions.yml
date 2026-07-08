@@ -1,0 +1,136 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: create_dt
+sort: [create_dt]
+columns:
+  - name: loc_id
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: proj_period_id
+    type: VARCHAR
+  - name: yard_type_pavement
+    type: BIGINT
+  - name: yard_type_garden
+    type: BIGINT
+  - name: yard_type_landsca
+    type: BIGINT
+  - name: yard_type_woods
+    type: BIGINT
+  - name: yard_type_desert
+    type: BIGINT
+  - name: hab_dcid_woods
+    type: VARCHAR
+  - name: hab_evgr_woods
+    type: VARCHAR
+  - name: hab_mixed_woods
+    type: VARCHAR
+  - name: hab_orchard
+    type: VARCHAR
+  - name: hab_park
+    type: VARCHAR
+  - name: hab_water_fresh
+    type: VARCHAR
+  - name: hab_water_salt
+    type: VARCHAR
+  - name: hab_residential
+    type: VARCHAR
+  - name: hab_industrial
+    type: VARCHAR
+  - name: hab_agricultural
+    type: VARCHAR
+  - name: hab_desert_scrub
+    type: VARCHAR
+  - name: hab_young_woods
+    type: VARCHAR
+  - name: hab_swamp
+    type: VARCHAR
+  - name: hab_marsh
+    type: VARCHAR
+  - name: evgr_trees_atleast
+    type: BIGINT
+  - name: evgr_shrbs_atleast
+    type: BIGINT
+  - name: dcid_trees_atleast
+    type: BIGINT
+  - name: dcid_shrbs_atleast
+    type: BIGINT
+  - name: fru_trees_atleast
+    type: BIGINT
+  - name: cacti_atleast
+    type: BIGINT
+  - name: brsh_piles_atleast
+    type: BIGINT
+  - name: water_srcs_atleast
+    type: BIGINT
+  - name: bird_baths_atleast
+    type: BIGINT
+  - name: nearby_feeders
+    type: BIGINT
+  - name: squirrels
+    type: BIGINT
+  - name: cats
+    type: BIGINT
+  - name: dogs
+    type: BIGINT
+  - name: humans
+    type: BIGINT
+  - name: housing_density
+    type: BIGINT
+  - name: fed_yr_round
+    type: BIGINT
+  - name: fed_in_jan
+    type: BIGINT
+  - name: fed_in_feb
+    type: BIGINT
+  - name: fed_in_mar
+    type: BIGINT
+  - name: fed_in_apr
+    type: BIGINT
+  - name: fed_in_may
+    type: BIGINT
+  - name: fed_in_jun
+    type: BIGINT
+  - name: fed_in_jul
+    type: BIGINT
+  - name: fed_in_aug
+    type: BIGINT
+  - name: fed_in_sep
+    type: BIGINT
+  - name: fed_in_oct
+    type: BIGINT
+  - name: fed_in_nov
+    type: BIGINT
+  - name: fed_in_dec
+    type: BIGINT
+  - name: numfeeders_suet
+    type: BIGINT
+  - name: numfeeders_ground
+    type: BIGINT
+  - name: numfeeders_hanging
+    type: BIGINT
+  - name: numfeeders_platfrm
+    type: BIGINT
+  - name: numfeeders_humming
+    type: BIGINT
+  - name: numfeeders_water
+    type: BIGINT
+  - name: numfeeders_thistle
+    type: BIGINT
+  - name: numfeeders_fruit
+    type: BIGINT
+  - name: numfeeders_hopper
+    type: BIGINT
+  - name: numfeeders_tube
+    type: BIGINT
+  - name: numfeeders_other
+    type: BIGINT
+  - name: population_atleast
+    type: BIGINT
+  - name: count_area_size_sq_m_atleast
+    type: DOUBLE
+  - name: create_dt
+    type: TIMESTAMPTZ
+  - name: supp_food
+    type: BIGINT

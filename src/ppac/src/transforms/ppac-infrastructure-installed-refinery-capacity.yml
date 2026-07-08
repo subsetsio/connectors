@@ -1,0 +1,17 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [refinery]
+temporal: as_of
+sort: [as_of, refinery]
+columns:
+  - name: company
+    type: VARCHAR
+  - name: refinery
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: capacity_kt
+    type: DOUBLE
+  - name: as_of
+    type: DATE
+  - name: unit
+    type: VARCHAR

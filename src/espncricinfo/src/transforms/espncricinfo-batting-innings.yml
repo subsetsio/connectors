@@ -1,0 +1,32 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [event_id, innings, player_id]
+sort: [event_id, innings, player_id]
+columns:
+  - name: event_id
+    type: BIGINT
+  - name: league_id
+    type: BIGINT
+  - name: innings
+    type: INTEGER
+  - name: team
+    type: VARCHAR
+  - name: player_id
+    type: BIGINT
+  - name: player_name
+    type: VARCHAR
+  - name: runs
+    type: INTEGER
+  - name: balls
+    type: INTEGER
+  - name: fours
+    type: INTEGER
+  - name: sixes
+    type: INTEGER
+  - name: strike_rate
+    type: DOUBLE
+  - name: batting_position
+    type: INTEGER
+  - name: not_out
+    type: INTEGER
+  - name: dismissal
+    type: JSON

@@ -1,0 +1,32 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [match_class, team]
+sort: [match_class, team]
+columns:
+  - name: match_class
+    type: VARCHAR
+  - name: team
+    type: VARCHAR
+  - name: span
+    type: VARCHAR
+  - name: matches
+    type: INTEGER
+  - name: won
+    type: INTEGER
+  - name: lost
+    type: INTEGER
+  - name: tied
+    type: INTEGER
+  - name: drawn
+    type: INTEGER
+  - name: win_loss_ratio
+    type: DOUBLE
+  - name: average
+    type: DOUBLE
+  - name: runs_per_over
+    type: DOUBLE
+  - name: innings
+    type: INTEGER
+  - name: highest_score
+    type: VARCHAR
+  - name: lowest_score
+    type: VARCHAR

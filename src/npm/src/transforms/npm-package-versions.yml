@@ -1,0 +1,18 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: package
+    type: VARCHAR
+  - name: version
+    type: VARCHAR
+  - name: published_at
+    type: TIMESTAMP
+  - name: deprecated
+    type: BOOLEAN
+  - name: deprecation_message
+    type: VARCHAR
+  - name: dependencies_count
+    type: INTEGER
+  - name: dev_dependencies_count
+    type: INTEGER
+  - name: unpacked_size_bytes
+    type: BIGINT

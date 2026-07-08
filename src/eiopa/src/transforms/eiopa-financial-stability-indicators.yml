@@ -1,0 +1,21 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [item_name, reference_period]
+temporal: reference_period
+sort: [reference_period, item_name]
+columns:
+  - name: item_name
+    type: VARCHAR
+  - name: reference_period
+    type: VARCHAR
+  - name: p10
+    type: DOUBLE
+  - name: p25
+    type: DOUBLE
+  - name: median
+    type: DOUBLE
+  - name: p75
+    type: DOUBLE
+  - name: p90
+    type: DOUBLE
+  - name: n_observations
+    type: BIGINT

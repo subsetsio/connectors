@@ -1,0 +1,27 @@
+SELECT
+    goal,
+    target,
+    indicator,
+    series,
+    region,
+    subregion,
+    intermregion,
+    geo,
+    iso3_code,
+    CAST(TRY_CAST(year AS DOUBLE) AS INTEGER) AS year,
+    sex,
+    age,
+    drug,
+    crime,
+    dim_comp1,
+    value                                     AS value_raw,
+    TRY_CAST(REPLACE(value, ',', '') AS DOUBLE)       AS value,
+    TRY_CAST(REPLACE(lower_bound, ',', '') AS DOUBLE) AS lower_bound,
+    TRY_CAST(REPLACE(upper_bound, ',', '') AS DOUBLE) AS upper_bound,
+    obs_status,
+    note,
+    source,
+    time_period,
+    altseries
+FROM "unodc-sdg-dataset"
+WHERE value IS NOT NULL

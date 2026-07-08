@@ -1,0 +1,28 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: operation_date
+    type: DATE
+  - name: operation_id
+    type: VARCHAR
+  - name: settlement_date
+    type: DATE
+  - name: maturity_date
+    type: DATE
+  - name: cusip
+    type: VARCHAR
+  - name: security_description
+    type: VARCHAR
+  - name: par_amount_submitted
+    type: DOUBLE
+  - name: par_amount_accepted
+    type: DOUBLE
+  - name: weighted_average_rate
+    type: DOUBLE
+  - name: soma_holdings
+    type: DOUBLE
+  - name: theoretical_available
+    type: DOUBLE
+  - name: actual_available
+    type: DOUBLE
+  - name: outstanding_loans
+    type: DOUBLE

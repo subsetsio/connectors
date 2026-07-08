@@ -1,0 +1,23 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [age_group, indigenous_status, legal_status, sex, state, quarter, year]
+temporal: year
+sort: [year, age_group, indigenous_status, legal_status, sex, state, quarter]
+columns:
+  - name: age_group
+    type: VARCHAR
+  - name: indigenous_status
+    type: VARCHAR
+  - name: legal_status
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: quarter_short
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: avg_nightly_pop
+    type: DOUBLE

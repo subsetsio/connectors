@@ -1,0 +1,52 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: year_type
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: AgeGroup
+    type: VARCHAR
+  - name: weekly_status
+    type: VARCHAR
+  - name: religion
+    type: VARCHAR
+  - name: socialGroup
+    type: VARCHAR
+  - name: General_Education
+    type: VARCHAR
+  - name: quarter
+    type: JSON
+  - name: month
+    type: JSON
+  - name: employee_contract
+    type: JSON
+  - name: unit
+    type: VARCHAR
+  - name: broad_industry_work
+    type: JSON
+  - name: broad_status_employment
+    type: JSON
+  - name: enterprise_size
+    type: JSON
+  - name: enterprise_type
+    type: JSON
+  - name: industry_section
+    type: JSON
+  - name: nco_division
+    type: JSON
+  - name: nic_group
+    type: JSON
+  - name: value
+    type: DOUBLE

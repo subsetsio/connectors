@@ -1,0 +1,13 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [package_id, version]
+temporal: published
+sort: [published, package_id, version]
+columns:
+  - name: package_id
+    type: VARCHAR
+  - name: version
+    type: VARCHAR
+  - name: published
+    type: TIMESTAMP
+  - name: is_prerelease
+    type: BOOLEAN

@@ -1,0 +1,36 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: operation_date
+    type: DATE
+  - name: operation_id
+    type: VARCHAR
+  - name: operation_type
+    type: VARCHAR
+  - name: operation_method
+    type: VARCHAR
+  - name: settlement_date
+    type: DATE
+  - name: maturity_date
+    type: DATE
+  - name: term
+    type: VARCHAR
+  - name: term_calendar_days
+    type: INTEGER
+  - name: settlement_type
+    type: VARCHAR
+  - name: security_type
+    type: VARCHAR
+  - name: amount_submitted
+    type: DOUBLE
+  - name: amount_accepted
+    type: DOUBLE
+  - name: total_amount_submitted
+    type: DOUBLE
+  - name: total_amount_accepted
+    type: DOUBLE
+  - name: offering_rate
+    type: DOUBLE
+  - name: award_rate
+    type: DOUBLE
+  - name: weighted_average_rate
+    type: DOUBLE

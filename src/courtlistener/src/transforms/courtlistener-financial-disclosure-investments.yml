@@ -1,0 +1,41 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [id]
+temporal: date_modified
+sort: [date_modified, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: date_created
+    type: TIMESTAMP
+  - name: date_modified
+    type: TIMESTAMP
+  - name: page_number
+    type: BIGINT
+  - name: description
+    type: VARCHAR
+  - name: redacted
+    type: VARCHAR
+  - name: income_during_reporting_period_code
+    type: VARCHAR
+  - name: income_during_reporting_period_type
+    type: VARCHAR
+  - name: gross_value_code
+    type: VARCHAR
+  - name: gross_value_method
+    type: VARCHAR
+  - name: transaction_during_reporting_period
+    type: VARCHAR
+  - name: transaction_date_raw
+    type: VARCHAR
+  - name: transaction_date
+    type: DATE
+  - name: transaction_value_code
+    type: VARCHAR
+  - name: transaction_gain_code
+    type: VARCHAR
+  - name: transaction_partner
+    type: VARCHAR
+  - name: has_inferred_values
+    type: VARCHAR
+  - name: financial_disclosure_id
+    type: BIGINT

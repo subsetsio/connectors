@@ -1,0 +1,52 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: year
+sort: [year]
+columns:
+  - name: goal
+    type: VARCHAR
+  - name: target
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: subregion
+    type: VARCHAR
+  - name: intermregion
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: iso3_code
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: sex
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: drug
+    type: VARCHAR
+  - name: crime
+    type: VARCHAR
+  - name: dim_comp1
+    type: VARCHAR
+  - name: value_raw
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: lower_bound
+    type: DOUBLE
+  - name: upper_bound
+    type: DOUBLE
+  - name: obs_status
+    type: VARCHAR
+  - name: note
+    type: JSON
+  - name: source
+    type: VARCHAR
+  - name: time_period
+    type: JSON
+  - name: altseries
+    type: VARCHAR

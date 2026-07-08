@@ -1,0 +1,32 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: date
+sort: [date]
+columns:
+  - name: year
+    type: INTEGER
+  - name: month
+    type: INTEGER
+  - name: date
+    type: DATE
+  - name: apt_icao
+    type: VARCHAR
+  - name: apt_name
+    type: VARCHAR
+  - name: state_name
+    type: VARCHAR
+  - name: month_mon
+    type: VARCHAR
+  - name: comment
+    type: VARCHAR
+  - name: tf
+    type: DOUBLE
+  - name: valid_fl
+    type: DOUBLE
+  - name: no_ref
+    type: DOUBLE
+  - name: total_ref_nb_fl
+    type: DOUBLE
+  - name: total_ref_time_min
+    type: DOUBLE
+  - name: total_add_time_min
+    type: DOUBLE

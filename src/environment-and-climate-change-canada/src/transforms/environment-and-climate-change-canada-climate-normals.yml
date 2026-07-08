@@ -1,0 +1,62 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: STATION_NAME
+    type: VARCHAR
+  - name: CLIMATE_IDENTIFIER
+    type: VARCHAR
+  - name: ID
+    type: VARCHAR
+  - name: PERIOD
+    type: VARCHAR
+  - name: CURRENT_FLAG
+    type: VARCHAR
+  - name: NORMAL_CODE
+    type: VARCHAR
+  - name: NORMAL_ID
+    type: BIGINT
+  - name: PUBLICATION_CODE
+    type: BIGINT
+  - name: DATE_CALCULATED
+    type: TIMESTAMP
+  - name: FIRST_OCCURRENCE_DATE
+    type: TIMESTAMP
+  - name: PROVINCE_CODE
+    type: VARCHAR
+  - name: PERIOD_BEGIN
+    type: BIGINT
+  - name: PERIOD_END
+    type: BIGINT
+  - name: FIRST_YEAR
+    type: JSON
+  - name: FIRST_YEAR_NORMAL_PERIOD
+    type: BIGINT
+  - name: LAST_YEAR
+    type: JSON
+  - name: LAST_YEAR_NORMAL_PERIOD
+    type: BIGINT
+  - name: YEAR_COUNT_NORMAL_PERIOD
+    type: BIGINT
+  - name: TOTAL_OBS_COUNT
+    type: BIGINT
+  - name: OCCURRENCE_COUNT
+    type: JSON
+  - name: MAX_DURATION_MISSING_YEARS
+    type: BIGINT
+  - name: PERCENT_OF_POSSIBLE_OBS
+    type: DOUBLE
+  - name: E_NORMAL_ELEMENT_NAME
+    type: VARCHAR
+  - name: F_NORMAL_ELEMENT_NAME
+    type: VARCHAR
+  - name: MONTH
+    type: BIGINT
+  - name: VALUE
+    type: DOUBLE
+  - name: STN_ID
+    type: BIGINT
+  - name: feature_id
+    type: VARCHAR
+  - name: geom_lon
+    type: DOUBLE
+  - name: geom_lat
+    type: DOUBLE

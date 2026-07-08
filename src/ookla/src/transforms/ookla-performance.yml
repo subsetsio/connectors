@@ -1,0 +1,33 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [quadkey, connection_type, year, quarter]
+temporal: period_start
+sort: [period_start, quadkey, connection_type, year, quarter]
+columns:
+  - name: quadkey
+    type: VARCHAR
+  - name: connection_type
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: quarter
+    type: INTEGER
+  - name: period_start
+    type: DATE
+  - name: avg_download_kbps
+    type: BIGINT
+  - name: avg_upload_kbps
+    type: BIGINT
+  - name: avg_latency_ms
+    type: BIGINT
+  - name: avg_latency_download_ms
+    type: BIGINT
+  - name: avg_latency_upload_ms
+    type: BIGINT
+  - name: tests
+    type: BIGINT
+  - name: devices
+    type: BIGINT
+  - name: tile_x
+    type: DOUBLE
+  - name: tile_y
+    type: DOUBLE

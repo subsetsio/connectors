@@ -1,0 +1,364 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: file_year
+    type: INTEGER
+  - name: elf
+    type: VARCHAR
+  - name: ein
+    type: VARCHAR
+  - name: tax_prd
+    type: DOUBLE
+  - name: eostatus
+    type: DOUBLE
+  - name: tax_yr
+    type: DOUBLE
+  - name: operatingcd
+    type: VARCHAR
+  - name: subcd
+    type: DOUBLE
+  - name: fairmrktvalamt
+    type: DOUBLE
+  - name: grscontrgifts
+    type: DOUBLE
+  - name: schedbind
+    type: VARCHAR
+  - name: intrstrvnue
+    type: DOUBLE
+  - name: dividndsamt
+    type: DOUBLE
+  - name: grsrents
+    type: DOUBLE
+  - name: grsslspramt
+    type: DOUBLE
+  - name: costsold
+    type: DOUBLE
+  - name: grsprofitbus
+    type: DOUBLE
+  - name: otherincamt
+    type: DOUBLE
+  - name: totrcptperbks
+    type: DOUBLE
+  - name: compofficers
+    type: DOUBLE
+  - name: pensplemplbenf
+    type: DOUBLE
+  - name: legalfeesamt
+    type: DOUBLE
+  - name: accountingfees
+    type: DOUBLE
+  - name: interestamt
+    type: DOUBLE
+  - name: depreciationamt
+    type: DOUBLE
+  - name: occupancyamt
+    type: DOUBLE
+  - name: travlconfmtngs
+    type: DOUBLE
+  - name: printingpubl
+    type: DOUBLE
+  - name: topradmnexpnsa
+    type: DOUBLE
+  - name: contrpdpbks
+    type: DOUBLE
+  - name: totexpnspbks
+    type: DOUBLE
+  - name: excessrcpts
+    type: DOUBLE
+  - name: totrcptnetinc
+    type: DOUBLE
+  - name: topradmnexpnsb
+    type: DOUBLE
+  - name: totexpnsnetinc
+    type: DOUBLE
+  - name: netinvstinc
+    type: DOUBLE
+  - name: trcptadjnetinc
+    type: DOUBLE
+  - name: totexpnsadjnet
+    type: DOUBLE
+  - name: adjnetinc
+    type: DOUBLE
+  - name: topradmnexpnsd
+    type: DOUBLE
+  - name: totexpnsexempt
+    type: DOUBLE
+  - name: othrcashamt
+    type: DOUBLE
+  - name: invstgovtoblig
+    type: DOUBLE
+  - name: invstcorpstk
+    type: DOUBLE
+  - name: invstcorpbnd
+    type: DOUBLE
+  - name: totinvstsec
+    type: DOUBLE
+  - name: mrtgloans
+    type: DOUBLE
+  - name: othrinvstend
+    type: DOUBLE
+  - name: othrassetseoy
+    type: DOUBLE
+  - name: totassetsend
+    type: DOUBLE
+  - name: mrtgnotespay
+    type: DOUBLE
+  - name: othrliabltseoy
+    type: DOUBLE
+  - name: totliabend
+    type: DOUBLE
+  - name: tfundnworth
+    type: DOUBLE
+  - name: fairmrktvaleoy
+    type: DOUBLE
+  - name: totexcapgnls
+    type: DOUBLE
+  - name: totexcapgn
+    type: DOUBLE
+  - name: totexcapls
+    type: DOUBLE
+  - name: invstexcisetx
+    type: DOUBLE
+  - name: sec4940notxcd
+    type: VARCHAR
+  - name: sec4940redtxcd
+    type: VARCHAR
+  - name: sect511tx
+    type: DOUBLE
+  - name: subtitleatx
+    type: DOUBLE
+  - name: totaxpyr
+    type: DOUBLE
+  - name: esttaxcr
+    type: DOUBLE
+  - name: txwithldsrc
+    type: DOUBLE
+  - name: txpaidf2758
+    type: DOUBLE
+  - name: erronbkupwthld
+    type: DOUBLE
+  - name: estpnlty
+    type: DOUBLE
+  - name: taxdue
+    type: DOUBLE
+  - name: overpay
+    type: DOUBLE
+  - name: crelamt
+    type: DOUBLE
+  - name: infleg
+    type: VARCHAR
+  - name: actnotpr
+    type: VARCHAR
+  - name: chgnprvrptcd
+    type: VARCHAR
+  - name: filedf990tcd
+    type: VARCHAR
+  - name: contractncd
+    type: VARCHAR
+  - name: furnishcpycd
+    type: VARCHAR
+  - name: claimstatcd
+    type: VARCHAR
+  - name: cntrbtrstxyrcd
+    type: VARCHAR
+  - name: acqdrindrintcd
+    type: VARCHAR
+  - name: orgcmplypubcd
+    type: VARCHAR
+  - name: filedlf1041ind
+    type: VARCHAR
+  - name: propexchcd
+    type: VARCHAR
+  - name: brwlndmnycd
+    type: VARCHAR
+  - name: furngoodscd
+    type: VARCHAR
+  - name: paidcmpncd
+    type: VARCHAR
+  - name: transfercd
+    type: VARCHAR
+  - name: agremkpaycd
+    type: VARCHAR
+  - name: exceptactsind
+    type: VARCHAR
+  - name: prioractvcd
+    type: VARCHAR
+  - name: undistrinccd
+    type: VARCHAR
+  - name: applyprovind
+    type: VARCHAR
+  - name: dirindirintcd
+    type: VARCHAR
+  - name: excesshldcd
+    type: VARCHAR
+  - name: invstjexmptcd
+    type: VARCHAR
+  - name: prevjexmptcd
+    type: VARCHAR
+  - name: propgndacd
+    type: VARCHAR
+  - name: ipubelectcd
+    type: VARCHAR
+  - name: grntindivcd
+    type: VARCHAR
+  - name: nchrtygrntcd
+    type: VARCHAR
+  - name: nreligiouscd
+    type: VARCHAR
+  - name: excptransind
+    type: VARCHAR
+  - name: rfprsnlbnftind
+    type: VARCHAR
+  - name: pyprsnlbnftind
+    type: VARCHAR
+  - name: s4960_tx_pymt_cd
+    type: VARCHAR
+  - name: tfairmrktunuse
+    type: DOUBLE
+  - name: valncharitassets
+    type: DOUBLE
+  - name: cmpmininvstret
+    type: DOUBLE
+  - name: distribamt
+    type: DOUBLE
+  - name: undistribincyr
+    type: DOUBLE
+  - name: adjnetinccola
+    type: DOUBLE
+  - name: adjnetinccolb
+    type: DOUBLE
+  - name: adjnetinccolc
+    type: DOUBLE
+  - name: adjnetinccold
+    type: DOUBLE
+  - name: adjnetinctot
+    type: DOUBLE
+  - name: qlfydistriba
+    type: DOUBLE
+  - name: qlfydistribb
+    type: DOUBLE
+  - name: qlfydistribc
+    type: DOUBLE
+  - name: qlfydistribd
+    type: DOUBLE
+  - name: qlfydistribtot
+    type: DOUBLE
+  - name: valassetscola
+    type: DOUBLE
+  - name: valassetscolb
+    type: DOUBLE
+  - name: valassetscolc
+    type: DOUBLE
+  - name: valassetscold
+    type: DOUBLE
+  - name: valassetstot
+    type: DOUBLE
+  - name: qlfyasseta
+    type: DOUBLE
+  - name: qlfyassetb
+    type: DOUBLE
+  - name: qlfyassetc
+    type: DOUBLE
+  - name: qlfyassetd
+    type: DOUBLE
+  - name: qlfyassettot
+    type: DOUBLE
+  - name: endwmntscola
+    type: DOUBLE
+  - name: endwmntscolb
+    type: DOUBLE
+  - name: endwmntscolc
+    type: DOUBLE
+  - name: endwmntscold
+    type: DOUBLE
+  - name: endwmntstot
+    type: DOUBLE
+  - name: totsuprtcola
+    type: DOUBLE
+  - name: totsuprtcolb
+    type: DOUBLE
+  - name: totsuprtcolc
+    type: DOUBLE
+  - name: totsuprtcold
+    type: DOUBLE
+  - name: totsuprttot
+    type: DOUBLE
+  - name: pubsuprtcola
+    type: DOUBLE
+  - name: pubsuprtcolb
+    type: DOUBLE
+  - name: pubsuprtcolc
+    type: DOUBLE
+  - name: pubsuprtcold
+    type: DOUBLE
+  - name: pubsuprttot
+    type: DOUBLE
+  - name: grsinvstinca
+    type: DOUBLE
+  - name: grsinvstincb
+    type: DOUBLE
+  - name: grsinvstincc
+    type: DOUBLE
+  - name: grsinvstincd
+    type: DOUBLE
+  - name: grsinvstinctot
+    type: DOUBLE
+  - name: grntapprvfut
+    type: DOUBLE
+  - name: progsrvcacold
+    type: DOUBLE
+  - name: progsrvcacole
+    type: DOUBLE
+  - name: progsrvcbcold
+    type: DOUBLE
+  - name: progsrvcbcole
+    type: DOUBLE
+  - name: progsrvcccold
+    type: DOUBLE
+  - name: progsrvcccole
+    type: DOUBLE
+  - name: progsrvcdcold
+    type: DOUBLE
+  - name: progsrvcdcole
+    type: DOUBLE
+  - name: progsrvcecold
+    type: DOUBLE
+  - name: progsrvcecole
+    type: DOUBLE
+  - name: progsrvcfcold
+    type: DOUBLE
+  - name: progsrvcfcole
+    type: DOUBLE
+  - name: progsrvcgcold
+    type: DOUBLE
+  - name: progsrvcgcole
+    type: DOUBLE
+  - name: membershpduesd
+    type: DOUBLE
+  - name: membershpduese
+    type: DOUBLE
+  - name: intonsvngsd
+    type: DOUBLE
+  - name: intonsvngse
+    type: DOUBLE
+  - name: dvdndsintd
+    type: DOUBLE
+  - name: dvdndsinte
+    type: DOUBLE
+  - name: trnsfrcashcd
+    type: VARCHAR
+  - name: trnsothasstscd
+    type: VARCHAR
+  - name: salesasstscd
+    type: VARCHAR
+  - name: prchsasstscd
+    type: VARCHAR
+  - name: rentlsfacltscd
+    type: VARCHAR
+  - name: reimbrsmntscd
+    type: VARCHAR
+  - name: loansguarcd
+    type: VARCHAR
+  - name: perfservicescd
+    type: VARCHAR
+  - name: sharngasstscd
+    type: VARCHAR

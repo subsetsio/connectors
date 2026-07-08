@@ -1,0 +1,25 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [notation]
+temporal: date_opened
+sort: [date_opened, notation]
+columns:
+  - name: notation
+    type: VARCHAR
+  - name: label
+    type: VARCHAR
+  - name: river_name
+    type: VARCHAR
+  - name: lat
+    type: DOUBLE
+  - name: lon
+    type: DOUBLE
+  - name: easting
+    type: DOUBLE
+  - name: northing
+    type: DOUBLE
+  - name: date_opened
+    type: DATE
+  - name: station_guid
+    type: VARCHAR
+  - name: wiski_id
+    type: VARCHAR

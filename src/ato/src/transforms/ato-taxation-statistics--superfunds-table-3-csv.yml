@@ -1,0 +1,306 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: income_year
+sort: [income_year]
+columns:
+  - name: fund_type
+    type: VARCHAR
+  - name: taxable_income_ranges
+    type: VARCHAR
+  - name: number_of_funds_no
+    type: VARCHAR
+  - name: number_of_members_no
+    type: VARCHAR
+  - name: exempt_current_pension_income_amount_no
+    type: VARCHAR
+  - name: exempt_current_pension_income_amount
+    type: VARCHAR
+  - name: net_capital_gain_no
+    type: VARCHAR
+  - name: net_capital_gain
+    type: VARCHAR
+  - name: gross_rent_and_other_leasing_and_hiring_income_no
+    type: VARCHAR
+  - name: gross_rent_and_other_leasing_and_hiring_income
+    type: VARCHAR
+  - name: gross_interest_no
+    type: VARCHAR
+  - name: gross_interest
+    type: VARCHAR
+  - name: forestry_managed_investment_scheme_income_no
+    type: VARCHAR
+  - name: forestry_managed_investment_scheme_income
+    type: VARCHAR
+  - name: gross_foreign_income_no
+    type: VARCHAR
+  - name: gross_foreign_income
+    type: VARCHAR
+  - name: net_foreign_income_no
+    type: VARCHAR
+  - name: net_foreign_income
+    type: VARCHAR
+  - name: australian_franking_credits_from_a_new_zealand_company_no
+    type: VARCHAR
+  - name: australian_franking_credits_from_a_new_zealand_company
+    type: VARCHAR
+  - name: gross_payments_where_abn_not_quoted_no
+    type: VARCHAR
+  - name: gross_payments_where_abn_not_quoted
+    type: VARCHAR
+  - name: gross_distribution_from_partnerships_no
+    type: VARCHAR
+  - name: gross_distribution_from_partnerships
+    type: VARCHAR
+  - name: unfranked_dividend_amount_no
+    type: VARCHAR
+  - name: unfranked_dividend_amount
+    type: VARCHAR
+  - name: franked_dividend_amount_no
+    type: VARCHAR
+  - name: franked_dividend_amount
+    type: VARCHAR
+  - name: dividend_franking_credit_no
+    type: VARCHAR
+  - name: dividend_franking_credit
+    type: VARCHAR
+  - name: trust_distributions_unfranked_amount_no
+    type: VARCHAR
+  - name: trust_distributions_unfranked_amount
+    type: VARCHAR
+  - name: trust_distributions_franked_amount_no
+    type: VARCHAR
+  - name: trust_distributions_franked_amount
+    type: VARCHAR
+  - name: trust_distributions_franking_credit_no
+    type: VARCHAR
+  - name: trust_distributions_franking_credit
+    type: VARCHAR
+  - name: trust_distributions_other_amounts_no
+    type: VARCHAR
+  - name: trust_distributions_other_amounts
+    type: VARCHAR
+  - name: gross_trust_distributions_no
+    type: VARCHAR
+  - name: gross_trust_distributions
+    type: VARCHAR
+  - name: assessable_employer_contributions_no
+    type: VARCHAR
+  - name: assessable_employer_contributions
+    type: VARCHAR
+  - name: assessable_personal_contributions_no
+    type: VARCHAR
+  - name: assessable_personal_contributions
+    type: VARCHAR
+  - name: assessable_contributions_no
+    type: VARCHAR
+  - name: assessable_contributions
+    type: VARCHAR
+  - name: other_income_no
+    type: VARCHAR
+  - name: other_income
+    type: VARCHAR
+  - name: assessable_income_due_to_changed_tax_status_of_fund_no
+    type: VARCHAR
+  - name: assessable_income_due_to_changed_tax_status_of_fund
+    type: VARCHAR
+  - name: net_non_arm_s_length_income_subject_to_47_tax_rate_no
+    type: VARCHAR
+  - name: net_non_arm_s_length_income_subject_to_47_tax_rate
+    type: VARCHAR
+  - name: gross_income_no
+    type: VARCHAR
+  - name: gross_income
+    type: VARCHAR
+  - name: exempt_current_pension_income_no
+    type: VARCHAR
+  - name: exempt_current_pension_income
+    type: VARCHAR
+  - name: total_assessable_income_no
+    type: VARCHAR
+  - name: total_assessable_income
+    type: VARCHAR
+  - name: interest_expenses_within_australia_no
+    type: VARCHAR
+  - name: interest_expenses_within_australia
+    type: VARCHAR
+  - name: interest_expenses_overseas_no
+    type: VARCHAR
+  - name: interest_expenses_overseas
+    type: VARCHAR
+  - name: capital_works_expenditure_no
+    type: VARCHAR
+  - name: capital_works_expenditure
+    type: VARCHAR
+  - name: decline_in_value_of_depreciating_assets_no
+    type: VARCHAR
+  - name: decline_in_value_of_depreciating_assets
+    type: VARCHAR
+  - name: death_or_disability_premiums_no
+    type: VARCHAR
+  - name: death_or_disability_premiums
+    type: VARCHAR
+  - name: insurance_premiums_members_no
+    type: VARCHAR
+  - name: insurance_premiums_members
+    type: VARCHAR
+  - name: death_benefit_increase_no
+    type: VARCHAR
+  - name: death_benefit_increase
+    type: VARCHAR
+  - name: smsf_auditor_fee_no
+    type: VARCHAR
+  - name: smsf_auditor_fee
+    type: VARCHAR
+  - name: investment_expenses_no
+    type: VARCHAR
+  - name: investment_expenses
+    type: VARCHAR
+  - name: management_and_administration_expenses_no
+    type: VARCHAR
+  - name: management_and_administration_expenses
+    type: VARCHAR
+  - name: management_expenses_no
+    type: VARCHAR
+  - name: management_expenses
+    type: VARCHAR
+  - name: administration_expenses_no
+    type: VARCHAR
+  - name: administration_expenses
+    type: VARCHAR
+  - name: forestry_managed_investment_scheme_expense_no
+    type: VARCHAR
+  - name: forestry_managed_investment_scheme_expense
+    type: VARCHAR
+  - name: other_amounts_no
+    type: VARCHAR
+  - name: other_amounts
+    type: VARCHAR
+  - name: tax_losses_deducted_no
+    type: VARCHAR
+  - name: tax_losses_deducted
+    type: VARCHAR
+  - name: total_deductions_no
+    type: VARCHAR
+  - name: total_deductions
+    type: VARCHAR
+  - name: taxable_income_or_loss_no
+    type: VARCHAR
+  - name: taxable_income_or_loss
+    type: VARCHAR
+  - name: taxable_income_no
+    type: VARCHAR
+  - name: taxable_income
+    type: VARCHAR
+  - name: tax_on_taxable_income_no
+    type: VARCHAR
+  - name: tax_on_taxable_income
+    type: VARCHAR
+  - name: gross_tax_no
+    type: VARCHAR
+  - name: gross_tax
+    type: VARCHAR
+  - name: foreign_income_tax_offset_no
+    type: VARCHAR
+  - name: foreign_income_tax_offset
+    type: VARCHAR
+  - name: rebates_and_tax_offsets_no
+    type: VARCHAR
+  - name: rebates_and_tax_offsets
+    type: VARCHAR
+  - name: non_refundable_non_carry_forward_tax_offsets_no
+    type: VARCHAR
+  - name: non_refundable_non_carry_forward_tax_offsets
+    type: VARCHAR
+  - name: subtotal_no
+    type: VARCHAR
+  - name: subtotal
+    type: VARCHAR
+  - name: complying_fund_s_franking_credits_tax_offset_no
+    type: VARCHAR
+  - name: complying_fund_s_franking_credits_tax_offset
+    type: VARCHAR
+  - name: no_tfn_tax_offset_no
+    type: VARCHAR
+  - name: no_tfn_tax_offset
+    type: VARCHAR
+  - name: national_rental_affordability_scheme_tax_offset_no
+    type: VARCHAR
+  - name: national_rental_affordability_scheme_tax_offset
+    type: VARCHAR
+  - name: refundable_tax_offsets_no
+    type: VARCHAR
+  - name: refundable_tax_offsets
+    type: VARCHAR
+  - name: tax_payable_no
+    type: VARCHAR
+  - name: tax_payable
+    type: VARCHAR
+  - name: section_102aam_interest_charge_no
+    type: VARCHAR
+  - name: section_102aam_interest_charge
+    type: VARCHAR
+  - name: credit_for_interest_on_early_payments_amount_of_interest_no
+    type: VARCHAR
+  - name: credit_for_interest_on_early_payments_amount_of_interest
+    type: VARCHAR
+  - name: credit_for_tax_withheld_foreign_resident_withholding_no
+    type: VARCHAR
+  - name: credit_for_tax_withheld_foreign_resident_withholding
+    type: VARCHAR
+  - name: credit_for_tax_withheld_where_abn_or_tfn_not_quoted_non_individual_no
+    type: VARCHAR
+  - name: credit_for_tax_withheld_where_abn_or_tfn_not_quoted_non_individual
+    type: VARCHAR
+  - name: credit_for_tfn_amounts_withheld_from_payments_from_closely_held_trusts_no
+    type: VARCHAR
+  - name: credit_for_tfn_amounts_withheld_from_payments_from_closely_held_trusts
+    type: VARCHAR
+  - name: credit_for_interest_on_no_tfn_tax_offset_no
+    type: VARCHAR
+  - name: credit_for_interest_on_no_tfn_tax_offset
+    type: VARCHAR
+  - name: eligible_credits_no
+    type: VARCHAR
+  - name: eligible_credits
+    type: VARCHAR
+  - name: remainder_of_refundable_tax_offsets_no
+    type: VARCHAR
+  - name: remainder_of_refundable_tax_offsets
+    type: VARCHAR
+  - name: payg_instalments_raised_no
+    type: VARCHAR
+  - name: payg_instalments_raised
+    type: VARCHAR
+  - name: supervisory_levy_no
+    type: VARCHAR
+  - name: supervisory_levy
+    type: VARCHAR
+  - name: supervisory_levy_adjustment_for_wound_up_funds_no
+    type: VARCHAR
+  - name: supervisory_levy_adjustment_for_wound_up_funds
+    type: VARCHAR
+  - name: supervisory_levy_adjustment_for_new_funds_no
+    type: VARCHAR
+  - name: supervisory_levy_adjustment_for_new_funds
+    type: VARCHAR
+  - name: amount_due_or_refundable_no
+    type: VARCHAR
+  - name: amount_due_or_refundable
+    type: VARCHAR
+  - name: tax_losses_carried_forward_to_later_income_years_no
+    type: VARCHAR
+  - name: tax_losses_carried_forward_to_later_income_years
+    type: VARCHAR
+  - name: net_capital_losses_carried_forward_to_later_income_years_no
+    type: VARCHAR
+  - name: net_capital_losses_carried_forward_to_later_income_years
+    type: VARCHAR
+  - name: net_assets_available_to_pay_benefits_no
+    type: VARCHAR
+  - name: net_assets_available_to_pay_benefits
+    type: VARCHAR
+  - name: net_tax_no
+    type: VARCHAR
+  - name: net_tax
+    type: VARCHAR
+  - name: income_year
+    type: VARCHAR

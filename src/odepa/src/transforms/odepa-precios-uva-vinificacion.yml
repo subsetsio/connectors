@@ -1,0 +1,32 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: fecha_precio_vigente
+sort: [fecha_precio_vigente]
+columns:
+  - name: anio
+    type: INTEGER
+  - name: mes
+    type: INTEGER
+  - name: fecha_precio_vigente
+    type: DATE
+  - name: id_region
+    type: INTEGER
+  - name: region
+    type: VARCHAR
+  - name: comuna
+    type: VARCHAR
+  - name: poder_comprador
+    type: VARCHAR
+  - name: sucursal
+    type: VARCHAR
+  - name: variedad
+    type: VARCHAR
+  - name: precio
+    type: DOUBLE
+  - name: grado_brix
+    type: DOUBLE
+  - name: fecha_proximo_precio
+    type: DATE
+  - name: proximo_precio
+    type: DOUBLE
+  - name: observaciones
+    type: VARCHAR

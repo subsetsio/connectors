@@ -1,0 +1,462 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: ano
+    type: BIGINT
+  - name: sigla_uf
+    type: VARCHAR
+  - name: expectativa_vida
+    type: DOUBLE
+  - name: fecundidade_total
+    type: DOUBLE
+  - name: mortalidade_1
+    type: DOUBLE
+  - name: mortalidade_5
+    type: DOUBLE
+  - name: razao_dependencia
+    type: DOUBLE
+  - name: prob_sobrevivencia_40
+    type: DOUBLE
+  - name: prob_sobrevivencia_60
+    type: DOUBLE
+  - name: taxa_envelhecimento
+    type: DOUBLE
+  - name: expectativa_anos_estudo
+    type: DOUBLE
+  - name: taxa_analfabetismo_11_a_14
+    type: DOUBLE
+  - name: taxa_analfabetismo_15_a_17
+    type: DOUBLE
+  - name: taxa_analfabetismo_15_mais
+    type: DOUBLE
+  - name: taxa_analfabetismo_18_a_24
+    type: DOUBLE
+  - name: taxa_analfabetismo_18_mais
+    type: DOUBLE
+  - name: taxa_analfabetismo_25_a_29
+    type: DOUBLE
+  - name: taxa_analfabetismo_25_mais
+    type: DOUBLE
+  - name: taxa_atraso_0_basico
+    type: DOUBLE
+  - name: taxa_atraso_0_fundamental
+    type: DOUBLE
+  - name: taxa_atraso_0_medio
+    type: DOUBLE
+  - name: taxa_atraso_1_basico
+    type: DOUBLE
+  - name: taxa_atraso_1_fundamental
+    type: DOUBLE
+  - name: taxa_atraso_1_medio
+    type: DOUBLE
+  - name: taxa_atraso_2_basico
+    type: DOUBLE
+  - name: taxa_atraso_2_fundamental
+    type: DOUBLE
+  - name: taxa_atraso_2_medio
+    type: DOUBLE
+  - name: taxa_freq_bruta_basico
+    type: DOUBLE
+  - name: taxa_freq_bruta_fundamental
+    type: DOUBLE
+  - name: taxa_freq_bruta_medio
+    type: DOUBLE
+  - name: taxa_freq_bruta_pre
+    type: DOUBLE
+  - name: taxa_freq_bruta_superior
+    type: DOUBLE
+  - name: taxa_freq_liquida_basico
+    type: DOUBLE
+  - name: taxa_freq_liquida_fundamental
+    type: DOUBLE
+  - name: taxa_freq_liquida_medio
+    type: DOUBLE
+  - name: taxa_freq_liquida_pre
+    type: DOUBLE
+  - name: taxa_freq_liquida_superior
+    type: DOUBLE
+  - name: taxa_freq_0_3
+    type: DOUBLE
+  - name: taxa_freq_11_14
+    type: DOUBLE
+  - name: taxa_freq_15_17
+    type: DOUBLE
+  - name: taxa_freq_18_24
+    type: DOUBLE
+  - name: taxa_freq_25_29
+    type: DOUBLE
+  - name: taxa_freq_4_5
+    type: DOUBLE
+  - name: taxa_freq_4_6
+    type: DOUBLE
+  - name: taxa_freq_5_6
+    type: DOUBLE
+  - name: taxa_freq_6
+    type: DOUBLE
+  - name: taxa_freq_6_14
+    type: DOUBLE
+  - name: taxa_freq_6_17
+    type: DOUBLE
+  - name: taxa_freq_fundamental_15_17
+    type: DOUBLE
+  - name: taxa_freq_fundamental_18_24
+    type: DOUBLE
+  - name: taxa_freq_fundamental_4_5
+    type: DOUBLE
+  - name: taxa_freq_medio_18_24
+    type: DOUBLE
+  - name: taxa_freq_medio_6_14
+    type: DOUBLE
+  - name: taxa_freq_superior_15_17
+    type: DOUBLE
+  - name: taxa_fundamental_11_13
+    type: DOUBLE
+  - name: taxa_fundamental_12_14
+    type: DOUBLE
+  - name: taxa_fundamental_15_17
+    type: DOUBLE
+  - name: taxa_fundamental_16_18
+    type: DOUBLE
+  - name: taxa_fundamental_18_24
+    type: DOUBLE
+  - name: taxa_fundamental_18_mais
+    type: DOUBLE
+  - name: taxa_fundamental_25_mais
+    type: DOUBLE
+  - name: taxa_medio_18_20
+    type: DOUBLE
+  - name: taxa_medio_18_24
+    type: DOUBLE
+  - name: taxa_medio_18_mais
+    type: DOUBLE
+  - name: taxa_medio_19_21
+    type: DOUBLE
+  - name: taxa_medio_25_mais
+    type: DOUBLE
+  - name: taxa_superior_25_mais
+    type: DOUBLE
+  - name: renda_pc_max_quintil_1
+    type: DOUBLE
+  - name: renda_pc_max_quintil_2
+    type: DOUBLE
+  - name: renda_pc_max_quintil_3
+    type: DOUBLE
+  - name: renda_pc_max_quintil_4
+    type: DOUBLE
+  - name: renda_pc_max_decil_9
+    type: DOUBLE
+  - name: indice_gini
+    type: DOUBLE
+  - name: prop_pobreza_extrema
+    type: DOUBLE
+  - name: prop_pobreza_extrema_criancas
+    type: DOUBLE
+  - name: prop_pobreza
+    type: DOUBLE
+  - name: prop_pobreza_criancas
+    type: DOUBLE
+  - name: prop_vulner_pobreza
+    type: DOUBLE
+  - name: prop_vulner_pobreza_criancas
+    type: DOUBLE
+  - name: prop_renda_10_ricos
+    type: DOUBLE
+  - name: prop_renda_20_pobres
+    type: DOUBLE
+  - name: prop_renda_20_ricos
+    type: DOUBLE
+  - name: prop_renda_40_pobres
+    type: DOUBLE
+  - name: prop_renda_60_pobres
+    type: DOUBLE
+  - name: prop_renda_80_pobres
+    type: DOUBLE
+  - name: prop_renda_trabalho
+    type: DOUBLE
+  - name: razao_10_ricos_40_pobres
+    type: DOUBLE
+  - name: razao_20_ricos_40_pobres
+    type: DOUBLE
+  - name: renda_pc
+    type: DOUBLE
+  - name: renda_pc_quintil_1
+    type: DOUBLE
+  - name: renda_pc_decil_10
+    type: DOUBLE
+  - name: renda_pc_quintil_2
+    type: DOUBLE
+  - name: renda_pc_quintil_3
+    type: DOUBLE
+  - name: renda_pc_quintil_4
+    type: DOUBLE
+  - name: renda_pc_quintil_5
+    type: DOUBLE
+  - name: renda_pc_exc_renda_nula
+    type: DOUBLE
+  - name: renda_pc_pobreza_extrema
+    type: DOUBLE
+  - name: renda_pc_pobreza
+    type: DOUBLE
+  - name: renda_pc_vulner_pobreza
+    type: DOUBLE
+  - name: indice_theil
+    type: DOUBLE
+  - name: prop_trabalhadores_conta_proria
+    type: DOUBLE
+  - name: prop_empregadores
+    type: DOUBLE
+  - name: prop_ocupados_agropecuaria
+    type: DOUBLE
+  - name: prop_ocupados_comercio
+    type: DOUBLE
+  - name: prop_ocupados_construcao
+    type: DOUBLE
+  - name: prop_ocupados_extracao
+    type: DOUBLE
+  - name: prop_ocupados_formalizacao
+    type: DOUBLE
+  - name: prop_ocupados_fundamental
+    type: DOUBLE
+  - name: prop_ocupados_medio
+    type: DOUBLE
+  - name: prop_ocupados_servicos
+    type: DOUBLE
+  - name: prop_ocupados_siup
+    type: DOUBLE
+  - name: prop_ocupados_superior
+    type: DOUBLE
+  - name: prop_ocupados_transformacao
+    type: DOUBLE
+  - name: prop_ocupados_renda_0
+    type: DOUBLE
+  - name: prop_ocupados_renda_1_sm
+    type: DOUBLE
+  - name: prop_ocupados_renda_2_sm
+    type: DOUBLE
+  - name: prop_ocupados_renda_3_sm
+    type: DOUBLE
+  - name: prop_ocupados_renda_5_sm
+    type: DOUBLE
+  - name: renda_media_ocupados
+    type: DOUBLE
+  - name: taxa_atividade
+    type: DOUBLE
+  - name: taxa_atividade_10_14
+    type: DOUBLE
+  - name: taxa_atividade_15_17
+    type: DOUBLE
+  - name: taxa_atividade_18_24
+    type: DOUBLE
+  - name: taxa_atividade_18_mais
+    type: DOUBLE
+  - name: taxa_atividade_25_29
+    type: DOUBLE
+  - name: taxa_desocupacao
+    type: DOUBLE
+  - name: taxa_desocupacao_10_14
+    type: DOUBLE
+  - name: taxa_desocupacao_15_17
+    type: DOUBLE
+  - name: taxa_desocupacao_18_24
+    type: DOUBLE
+  - name: taxa_desocupacao_18_mais
+    type: DOUBLE
+  - name: taxa_desocupacao_25_29
+    type: DOUBLE
+  - name: indice_treil_trabalho
+    type: DOUBLE
+  - name: taxa_ocupados_carteira
+    type: DOUBLE
+  - name: taxa_ocupados_setor_publico
+    type: DOUBLE
+  - name: taxa_ocupados_sem_carteira
+    type: DOUBLE
+  - name: taxa_agua_encanada
+    type: DOUBLE
+  - name: taxa_banheiro_agua_encanada
+    type: DOUBLE
+  - name: taxa_densidade_2_mais
+    type: DOUBLE
+  - name: taxa_coleta_lixo
+    type: DOUBLE
+  - name: taxa_energia_eletrica
+    type: DOUBLE
+  - name: taxa_agua_esgoto_inadequados
+    type: DOUBLE
+  - name: taxa_paredes_inadequados
+    type: DOUBLE
+  - name: taxa_criancas_dom_sem_fund
+    type: DOUBLE
+  - name: taxa_criancas_fora_escola_4_5
+    type: DOUBLE
+  - name: taxa_criancas_fora_escola_6_14
+    type: DOUBLE
+  - name: taxa_dom_sem_fund
+    type: DOUBLE
+  - name: taxa_dom_vulner_sem_fund
+    type: DOUBLE
+  - name: taxa_sem_fund_informal
+    type: DOUBLE
+  - name: taxa_mulheres_com_filho_10_14
+    type: DOUBLE
+  - name: taxa_mulheres_com_filho_15_17
+    type: DOUBLE
+  - name: taxa_mulheres_chefe_filho_15m
+    type: DOUBLE
+  - name: taxa_nest_ntrab_vulner_15_24
+    type: DOUBLE
+  - name: taxa_vulner_desloc_1_hora
+    type: DOUBLE
+  - name: taxa_dom_vulner_dep_idoso
+    type: DOUBLE
+  - name: taxa_sem_energia_eletrica
+    type: DOUBLE
+  - name: populacao_homens_0_4
+    type: BIGINT
+  - name: populacao_homens_10_14
+    type: BIGINT
+  - name: populacao_homens_15_19
+    type: BIGINT
+  - name: populacao_homens_20_24
+    type: BIGINT
+  - name: populacao_homens_25_29
+    type: BIGINT
+  - name: populacao_homens_30_34
+    type: BIGINT
+  - name: populacao_homens_35_39
+    type: BIGINT
+  - name: populacao_homens_40_44
+    type: BIGINT
+  - name: populacao_homens_45_49
+    type: BIGINT
+  - name: populacao_homens_50_54
+    type: BIGINT
+  - name: populacao_homens_55_59
+    type: BIGINT
+  - name: populacao_homens_5_9
+    type: BIGINT
+  - name: populacao_homens_60_64
+    type: BIGINT
+  - name: populacao_homens_65_69
+    type: BIGINT
+  - name: populacao_homens_70_74
+    type: BIGINT
+  - name: populacao_homens_75_79
+    type: BIGINT
+  - name: populacao_homens
+    type: BIGINT
+  - name: populacao_homens_80_mais
+    type: BIGINT
+  - name: populacao_mulheres_0_4
+    type: BIGINT
+  - name: populacao_mulheres_10_14
+    type: BIGINT
+  - name: populacao_mulheres_15_19
+    type: BIGINT
+  - name: populacao_mulheres_20_24
+    type: BIGINT
+  - name: populacao_mulheres_25_29
+    type: BIGINT
+  - name: populacao_mulheres_30_34
+    type: BIGINT
+  - name: populacao_mulheres_35_39
+    type: BIGINT
+  - name: populacao_mulheres_40_44
+    type: BIGINT
+  - name: populacao_mulheres_45_49
+    type: BIGINT
+  - name: populacao_mulheres_50_54
+    type: BIGINT
+  - name: populacao_mulheres_55_59
+    type: BIGINT
+  - name: populacao_mulheres_5_9
+    type: BIGINT
+  - name: populacao_mulheres_60_64
+    type: BIGINT
+  - name: populacao_mulheres_65_69
+    type: BIGINT
+  - name: populacao_mulheres_70_74
+    type: BIGINT
+  - name: populacao_mulheres_75_79
+    type: BIGINT
+  - name: populacao_mulheres_80_mais
+    type: BIGINT
+  - name: populacao_mulheres
+    type: BIGINT
+  - name: populacao_1_menos
+    type: BIGINT
+  - name: populacao_11_14
+    type: BIGINT
+  - name: populacao_11_13
+    type: BIGINT
+  - name: populacao_12_14
+    type: BIGINT
+  - name: populacao_1_3
+    type: BIGINT
+  - name: populacao_15_mais
+    type: BIGINT
+  - name: populacao_15_17
+    type: BIGINT
+  - name: populacao_15_24
+    type: BIGINT
+  - name: populacao_16_18
+    type: BIGINT
+  - name: populacao_18_mais
+    type: BIGINT
+  - name: populacao_18_20
+    type: BIGINT
+  - name: populacao_18_24
+    type: BIGINT
+  - name: populacao_19_21
+    type: BIGINT
+  - name: populacao_25_mais
+    type: BIGINT
+  - name: populacao_4
+    type: BIGINT
+  - name: populacao_5
+    type: BIGINT
+  - name: populacao_6
+    type: BIGINT
+  - name: populacao_6_10
+    type: BIGINT
+  - name: populacao_6_17
+    type: BIGINT
+  - name: populacao_65_mais
+    type: BIGINT
+  - name: populacao
+    type: BIGINT
+  - name: populacao_urbana
+    type: BIGINT
+  - name: populacao_rural
+    type: BIGINT
+  - name: populacao_dom_pp
+    type: BIGINT
+  - name: populacao_dom_pp_exc_renda_nula
+    type: BIGINT
+  - name: pea
+    type: DOUBLE
+  - name: pea_10_14
+    type: DOUBLE
+  - name: pea_15_17
+    type: DOUBLE
+  - name: pea_18_mais
+    type: DOUBLE
+  - name: pia
+    type: DOUBLE
+  - name: pia_10_14
+    type: DOUBLE
+  - name: pia_15_17
+    type: DOUBLE
+  - name: pia_18_mais
+    type: DOUBLE
+  - name: indice_escolaridade
+    type: DOUBLE
+  - name: indice_frequencia_escolar
+    type: DOUBLE
+  - name: idhm
+    type: DOUBLE
+  - name: idhm_e
+    type: DOUBLE
+  - name: idhm_l
+    type: DOUBLE
+  - name: idhm_r
+    type: DOUBLE

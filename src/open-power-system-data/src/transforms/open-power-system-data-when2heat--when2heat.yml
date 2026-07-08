@@ -1,0 +1,1314 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: utc_timestamp
+    type: TIMESTAMPTZ
+  - name: cet_cest_timestamp
+    type: TIMESTAMPTZ
+  - name: AT_COP_ASHP_floor
+    type: DOUBLE
+  - name: AT_COP_ASHP_radiator
+    type: DOUBLE
+  - name: AT_COP_ASHP_water
+    type: DOUBLE
+  - name: AT_COP_GSHP_floor
+    type: DOUBLE
+  - name: AT_COP_GSHP_radiator
+    type: DOUBLE
+  - name: AT_COP_GSHP_water
+    type: DOUBLE
+  - name: AT_COP_WSHP_floor
+    type: DOUBLE
+  - name: AT_COP_WSHP_radiator
+    type: DOUBLE
+  - name: AT_COP_WSHP_water
+    type: DOUBLE
+  - name: AT_heat_demand_space
+    type: BIGINT
+  - name: AT_heat_demand_space_COM
+    type: BIGINT
+  - name: AT_heat_demand_space_MFH
+    type: BIGINT
+  - name: AT_heat_demand_space_SFH
+    type: BIGINT
+  - name: AT_heat_demand_total
+    type: BIGINT
+  - name: AT_heat_demand_water
+    type: BIGINT
+  - name: AT_heat_demand_water_COM
+    type: BIGINT
+  - name: AT_heat_demand_water_MFH
+    type: BIGINT
+  - name: AT_heat_demand_water_SFH
+    type: BIGINT
+  - name: AT_heat_profile_space_COM
+    type: BIGINT
+  - name: AT_heat_profile_space_MFH
+    type: BIGINT
+  - name: AT_heat_profile_space_SFH
+    type: BIGINT
+  - name: AT_heat_profile_water_COM
+    type: BIGINT
+  - name: AT_heat_profile_water_MFH
+    type: BIGINT
+  - name: AT_heat_profile_water_SFH
+    type: BIGINT
+  - name: BE_COP_ASHP_floor
+    type: DOUBLE
+  - name: BE_COP_ASHP_radiator
+    type: DOUBLE
+  - name: BE_COP_ASHP_water
+    type: DOUBLE
+  - name: BE_COP_GSHP_floor
+    type: DOUBLE
+  - name: BE_COP_GSHP_radiator
+    type: DOUBLE
+  - name: BE_COP_GSHP_water
+    type: DOUBLE
+  - name: BE_COP_WSHP_floor
+    type: DOUBLE
+  - name: BE_COP_WSHP_radiator
+    type: DOUBLE
+  - name: BE_COP_WSHP_water
+    type: DOUBLE
+  - name: BE_heat_demand_space
+    type: BIGINT
+  - name: BE_heat_demand_space_COM
+    type: BIGINT
+  - name: BE_heat_demand_space_MFH
+    type: BIGINT
+  - name: BE_heat_demand_space_SFH
+    type: BIGINT
+  - name: BE_heat_demand_total
+    type: BIGINT
+  - name: BE_heat_demand_water
+    type: BIGINT
+  - name: BE_heat_demand_water_COM
+    type: BIGINT
+  - name: BE_heat_demand_water_MFH
+    type: BIGINT
+  - name: BE_heat_demand_water_SFH
+    type: BIGINT
+  - name: BE_heat_profile_space_COM
+    type: BIGINT
+  - name: BE_heat_profile_space_MFH
+    type: BIGINT
+  - name: BE_heat_profile_space_SFH
+    type: BIGINT
+  - name: BE_heat_profile_water_COM
+    type: BIGINT
+  - name: BE_heat_profile_water_MFH
+    type: BIGINT
+  - name: BE_heat_profile_water_SFH
+    type: BIGINT
+  - name: BG_COP_ASHP_floor
+    type: DOUBLE
+  - name: BG_COP_ASHP_radiator
+    type: DOUBLE
+  - name: BG_COP_ASHP_water
+    type: DOUBLE
+  - name: BG_COP_GSHP_floor
+    type: DOUBLE
+  - name: BG_COP_GSHP_radiator
+    type: DOUBLE
+  - name: BG_COP_GSHP_water
+    type: DOUBLE
+  - name: BG_COP_WSHP_floor
+    type: DOUBLE
+  - name: BG_COP_WSHP_radiator
+    type: DOUBLE
+  - name: BG_COP_WSHP_water
+    type: DOUBLE
+  - name: BG_heat_demand_space
+    type: BIGINT
+  - name: BG_heat_demand_space_COM
+    type: BIGINT
+  - name: BG_heat_demand_space_MFH
+    type: BIGINT
+  - name: BG_heat_demand_space_SFH
+    type: BIGINT
+  - name: BG_heat_demand_total
+    type: BIGINT
+  - name: BG_heat_demand_water
+    type: BIGINT
+  - name: BG_heat_demand_water_COM
+    type: BIGINT
+  - name: BG_heat_demand_water_MFH
+    type: BIGINT
+  - name: BG_heat_demand_water_SFH
+    type: BIGINT
+  - name: BG_heat_profile_space_COM
+    type: BIGINT
+  - name: BG_heat_profile_space_MFH
+    type: BIGINT
+  - name: BG_heat_profile_space_SFH
+    type: BIGINT
+  - name: BG_heat_profile_water_COM
+    type: BIGINT
+  - name: BG_heat_profile_water_MFH
+    type: BIGINT
+  - name: BG_heat_profile_water_SFH
+    type: BIGINT
+  - name: CH_COP_ASHP_floor
+    type: DOUBLE
+  - name: CH_COP_ASHP_radiator
+    type: DOUBLE
+  - name: CH_COP_ASHP_water
+    type: DOUBLE
+  - name: CH_COP_GSHP_floor
+    type: DOUBLE
+  - name: CH_COP_GSHP_radiator
+    type: DOUBLE
+  - name: CH_COP_GSHP_water
+    type: DOUBLE
+  - name: CH_COP_WSHP_floor
+    type: DOUBLE
+  - name: CH_COP_WSHP_radiator
+    type: DOUBLE
+  - name: CH_COP_WSHP_water
+    type: DOUBLE
+  - name: CH_heat_profile_space_COM
+    type: BIGINT
+  - name: CH_heat_profile_space_MFH
+    type: BIGINT
+  - name: CH_heat_profile_space_SFH
+    type: BIGINT
+  - name: CH_heat_profile_water_COM
+    type: BIGINT
+  - name: CH_heat_profile_water_MFH
+    type: BIGINT
+  - name: CH_heat_profile_water_SFH
+    type: BIGINT
+  - name: CZ_COP_ASHP_floor
+    type: DOUBLE
+  - name: CZ_COP_ASHP_radiator
+    type: DOUBLE
+  - name: CZ_COP_ASHP_water
+    type: DOUBLE
+  - name: CZ_COP_GSHP_floor
+    type: DOUBLE
+  - name: CZ_COP_GSHP_radiator
+    type: DOUBLE
+  - name: CZ_COP_GSHP_water
+    type: DOUBLE
+  - name: CZ_COP_WSHP_floor
+    type: DOUBLE
+  - name: CZ_COP_WSHP_radiator
+    type: DOUBLE
+  - name: CZ_COP_WSHP_water
+    type: DOUBLE
+  - name: CZ_heat_demand_space
+    type: BIGINT
+  - name: CZ_heat_demand_space_COM
+    type: BIGINT
+  - name: CZ_heat_demand_space_MFH
+    type: BIGINT
+  - name: CZ_heat_demand_space_SFH
+    type: BIGINT
+  - name: CZ_heat_demand_total
+    type: BIGINT
+  - name: CZ_heat_demand_water
+    type: BIGINT
+  - name: CZ_heat_demand_water_COM
+    type: BIGINT
+  - name: CZ_heat_demand_water_MFH
+    type: BIGINT
+  - name: CZ_heat_demand_water_SFH
+    type: BIGINT
+  - name: CZ_heat_profile_space_COM
+    type: BIGINT
+  - name: CZ_heat_profile_space_MFH
+    type: BIGINT
+  - name: CZ_heat_profile_space_SFH
+    type: BIGINT
+  - name: CZ_heat_profile_water_COM
+    type: BIGINT
+  - name: CZ_heat_profile_water_MFH
+    type: BIGINT
+  - name: CZ_heat_profile_water_SFH
+    type: BIGINT
+  - name: DE_COP_ASHP_floor
+    type: DOUBLE
+  - name: DE_COP_ASHP_radiator
+    type: DOUBLE
+  - name: DE_COP_ASHP_water
+    type: DOUBLE
+  - name: DE_COP_GSHP_floor
+    type: DOUBLE
+  - name: DE_COP_GSHP_radiator
+    type: DOUBLE
+  - name: DE_COP_GSHP_water
+    type: DOUBLE
+  - name: DE_COP_WSHP_floor
+    type: DOUBLE
+  - name: DE_COP_WSHP_radiator
+    type: DOUBLE
+  - name: DE_COP_WSHP_water
+    type: DOUBLE
+  - name: DE_heat_demand_space
+    type: BIGINT
+  - name: DE_heat_demand_space_COM
+    type: BIGINT
+  - name: DE_heat_demand_space_MFH
+    type: BIGINT
+  - name: DE_heat_demand_space_SFH
+    type: BIGINT
+  - name: DE_heat_demand_total
+    type: BIGINT
+  - name: DE_heat_demand_water
+    type: BIGINT
+  - name: DE_heat_demand_water_COM
+    type: BIGINT
+  - name: DE_heat_demand_water_MFH
+    type: BIGINT
+  - name: DE_heat_demand_water_SFH
+    type: BIGINT
+  - name: DE_heat_profile_space_COM
+    type: BIGINT
+  - name: DE_heat_profile_space_MFH
+    type: BIGINT
+  - name: DE_heat_profile_space_SFH
+    type: BIGINT
+  - name: DE_heat_profile_water_COM
+    type: BIGINT
+  - name: DE_heat_profile_water_MFH
+    type: BIGINT
+  - name: DE_heat_profile_water_SFH
+    type: BIGINT
+  - name: DK_COP_ASHP_floor
+    type: DOUBLE
+  - name: DK_COP_ASHP_radiator
+    type: DOUBLE
+  - name: DK_COP_ASHP_water
+    type: DOUBLE
+  - name: DK_COP_GSHP_floor
+    type: DOUBLE
+  - name: DK_COP_GSHP_radiator
+    type: DOUBLE
+  - name: DK_COP_GSHP_water
+    type: DOUBLE
+  - name: DK_COP_WSHP_floor
+    type: DOUBLE
+  - name: DK_COP_WSHP_radiator
+    type: DOUBLE
+  - name: DK_COP_WSHP_water
+    type: DOUBLE
+  - name: DK_heat_demand_space
+    type: BIGINT
+  - name: DK_heat_demand_space_COM
+    type: BIGINT
+  - name: DK_heat_demand_space_MFH
+    type: BIGINT
+  - name: DK_heat_demand_space_SFH
+    type: BIGINT
+  - name: DK_heat_demand_total
+    type: BIGINT
+  - name: DK_heat_demand_water
+    type: BIGINT
+  - name: DK_heat_demand_water_COM
+    type: BIGINT
+  - name: DK_heat_demand_water_MFH
+    type: BIGINT
+  - name: DK_heat_demand_water_SFH
+    type: BIGINT
+  - name: DK_heat_profile_space_COM
+    type: BIGINT
+  - name: DK_heat_profile_space_MFH
+    type: BIGINT
+  - name: DK_heat_profile_space_SFH
+    type: BIGINT
+  - name: DK_heat_profile_water_COM
+    type: BIGINT
+  - name: DK_heat_profile_water_MFH
+    type: BIGINT
+  - name: DK_heat_profile_water_SFH
+    type: BIGINT
+  - name: EE_COP_ASHP_floor
+    type: DOUBLE
+  - name: EE_COP_ASHP_radiator
+    type: DOUBLE
+  - name: EE_COP_ASHP_water
+    type: DOUBLE
+  - name: EE_COP_GSHP_floor
+    type: DOUBLE
+  - name: EE_COP_GSHP_radiator
+    type: DOUBLE
+  - name: EE_COP_GSHP_water
+    type: DOUBLE
+  - name: EE_COP_WSHP_floor
+    type: DOUBLE
+  - name: EE_COP_WSHP_radiator
+    type: DOUBLE
+  - name: EE_COP_WSHP_water
+    type: DOUBLE
+  - name: EE_heat_demand_space
+    type: BIGINT
+  - name: EE_heat_demand_space_COM
+    type: BIGINT
+  - name: EE_heat_demand_space_MFH
+    type: BIGINT
+  - name: EE_heat_demand_space_SFH
+    type: BIGINT
+  - name: EE_heat_demand_total
+    type: BIGINT
+  - name: EE_heat_demand_water
+    type: BIGINT
+  - name: EE_heat_demand_water_COM
+    type: BIGINT
+  - name: EE_heat_demand_water_MFH
+    type: BIGINT
+  - name: EE_heat_demand_water_SFH
+    type: BIGINT
+  - name: EE_heat_profile_space_COM
+    type: BIGINT
+  - name: EE_heat_profile_space_MFH
+    type: BIGINT
+  - name: EE_heat_profile_space_SFH
+    type: BIGINT
+  - name: EE_heat_profile_water_COM
+    type: BIGINT
+  - name: EE_heat_profile_water_MFH
+    type: BIGINT
+  - name: EE_heat_profile_water_SFH
+    type: BIGINT
+  - name: ES_COP_ASHP_floor
+    type: DOUBLE
+  - name: ES_COP_ASHP_radiator
+    type: DOUBLE
+  - name: ES_COP_ASHP_water
+    type: DOUBLE
+  - name: ES_COP_GSHP_floor
+    type: DOUBLE
+  - name: ES_COP_GSHP_radiator
+    type: DOUBLE
+  - name: ES_COP_GSHP_water
+    type: DOUBLE
+  - name: ES_COP_WSHP_floor
+    type: DOUBLE
+  - name: ES_COP_WSHP_radiator
+    type: DOUBLE
+  - name: ES_COP_WSHP_water
+    type: DOUBLE
+  - name: ES_heat_demand_space
+    type: BIGINT
+  - name: ES_heat_demand_space_COM
+    type: BIGINT
+  - name: ES_heat_demand_space_MFH
+    type: BIGINT
+  - name: ES_heat_demand_space_SFH
+    type: BIGINT
+  - name: ES_heat_demand_total
+    type: BIGINT
+  - name: ES_heat_demand_water
+    type: BIGINT
+  - name: ES_heat_demand_water_COM
+    type: BIGINT
+  - name: ES_heat_demand_water_MFH
+    type: BIGINT
+  - name: ES_heat_demand_water_SFH
+    type: BIGINT
+  - name: ES_heat_profile_space_COM
+    type: BIGINT
+  - name: ES_heat_profile_space_MFH
+    type: BIGINT
+  - name: ES_heat_profile_space_SFH
+    type: BIGINT
+  - name: ES_heat_profile_water_COM
+    type: BIGINT
+  - name: ES_heat_profile_water_MFH
+    type: BIGINT
+  - name: ES_heat_profile_water_SFH
+    type: BIGINT
+  - name: FI_COP_ASHP_floor
+    type: DOUBLE
+  - name: FI_COP_ASHP_radiator
+    type: DOUBLE
+  - name: FI_COP_ASHP_water
+    type: DOUBLE
+  - name: FI_COP_GSHP_floor
+    type: DOUBLE
+  - name: FI_COP_GSHP_radiator
+    type: DOUBLE
+  - name: FI_COP_GSHP_water
+    type: DOUBLE
+  - name: FI_COP_WSHP_floor
+    type: DOUBLE
+  - name: FI_COP_WSHP_radiator
+    type: DOUBLE
+  - name: FI_COP_WSHP_water
+    type: DOUBLE
+  - name: FI_heat_demand_space
+    type: BIGINT
+  - name: FI_heat_demand_space_COM
+    type: BIGINT
+  - name: FI_heat_demand_space_MFH
+    type: BIGINT
+  - name: FI_heat_demand_space_SFH
+    type: BIGINT
+  - name: FI_heat_demand_total
+    type: BIGINT
+  - name: FI_heat_demand_water
+    type: BIGINT
+  - name: FI_heat_demand_water_COM
+    type: BIGINT
+  - name: FI_heat_demand_water_MFH
+    type: BIGINT
+  - name: FI_heat_demand_water_SFH
+    type: BIGINT
+  - name: FI_heat_profile_space_COM
+    type: BIGINT
+  - name: FI_heat_profile_space_MFH
+    type: BIGINT
+  - name: FI_heat_profile_space_SFH
+    type: BIGINT
+  - name: FI_heat_profile_water_COM
+    type: BIGINT
+  - name: FI_heat_profile_water_MFH
+    type: BIGINT
+  - name: FI_heat_profile_water_SFH
+    type: BIGINT
+  - name: FR_COP_ASHP_floor
+    type: DOUBLE
+  - name: FR_COP_ASHP_radiator
+    type: DOUBLE
+  - name: FR_COP_ASHP_water
+    type: DOUBLE
+  - name: FR_COP_GSHP_floor
+    type: DOUBLE
+  - name: FR_COP_GSHP_radiator
+    type: DOUBLE
+  - name: FR_COP_GSHP_water
+    type: DOUBLE
+  - name: FR_COP_WSHP_floor
+    type: DOUBLE
+  - name: FR_COP_WSHP_radiator
+    type: DOUBLE
+  - name: FR_COP_WSHP_water
+    type: DOUBLE
+  - name: FR_heat_demand_space
+    type: BIGINT
+  - name: FR_heat_demand_space_COM
+    type: BIGINT
+  - name: FR_heat_demand_space_MFH
+    type: BIGINT
+  - name: FR_heat_demand_space_SFH
+    type: BIGINT
+  - name: FR_heat_demand_total
+    type: BIGINT
+  - name: FR_heat_demand_water
+    type: BIGINT
+  - name: FR_heat_demand_water_COM
+    type: BIGINT
+  - name: FR_heat_demand_water_MFH
+    type: BIGINT
+  - name: FR_heat_demand_water_SFH
+    type: BIGINT
+  - name: FR_heat_profile_space_COM
+    type: BIGINT
+  - name: FR_heat_profile_space_MFH
+    type: BIGINT
+  - name: FR_heat_profile_space_SFH
+    type: BIGINT
+  - name: FR_heat_profile_water_COM
+    type: BIGINT
+  - name: FR_heat_profile_water_MFH
+    type: BIGINT
+  - name: FR_heat_profile_water_SFH
+    type: BIGINT
+  - name: GB_COP_ASHP_floor
+    type: DOUBLE
+  - name: GB_COP_ASHP_radiator
+    type: DOUBLE
+  - name: GB_COP_ASHP_water
+    type: DOUBLE
+  - name: GB_COP_GSHP_floor
+    type: DOUBLE
+  - name: GB_COP_GSHP_radiator
+    type: DOUBLE
+  - name: GB_COP_GSHP_water
+    type: DOUBLE
+  - name: GB_COP_WSHP_floor
+    type: DOUBLE
+  - name: GB_COP_WSHP_radiator
+    type: DOUBLE
+  - name: GB_COP_WSHP_water
+    type: DOUBLE
+  - name: GB_heat_demand_space
+    type: BIGINT
+  - name: GB_heat_demand_space_COM
+    type: BIGINT
+  - name: GB_heat_demand_space_MFH
+    type: BIGINT
+  - name: GB_heat_demand_space_SFH
+    type: BIGINT
+  - name: GB_heat_demand_total
+    type: BIGINT
+  - name: GB_heat_demand_water
+    type: BIGINT
+  - name: GB_heat_demand_water_COM
+    type: BIGINT
+  - name: GB_heat_demand_water_MFH
+    type: BIGINT
+  - name: GB_heat_demand_water_SFH
+    type: BIGINT
+  - name: GB_heat_profile_space_COM
+    type: BIGINT
+  - name: GB_heat_profile_space_MFH
+    type: BIGINT
+  - name: GB_heat_profile_space_SFH
+    type: BIGINT
+  - name: GB_heat_profile_water_COM
+    type: BIGINT
+  - name: GB_heat_profile_water_MFH
+    type: BIGINT
+  - name: GB_heat_profile_water_SFH
+    type: BIGINT
+  - name: GR_COP_ASHP_floor
+    type: DOUBLE
+  - name: GR_COP_ASHP_radiator
+    type: DOUBLE
+  - name: GR_COP_ASHP_water
+    type: DOUBLE
+  - name: GR_COP_GSHP_floor
+    type: DOUBLE
+  - name: GR_COP_GSHP_radiator
+    type: DOUBLE
+  - name: GR_COP_GSHP_water
+    type: DOUBLE
+  - name: GR_COP_WSHP_floor
+    type: DOUBLE
+  - name: GR_COP_WSHP_radiator
+    type: DOUBLE
+  - name: GR_COP_WSHP_water
+    type: DOUBLE
+  - name: GR_heat_demand_space
+    type: BIGINT
+  - name: GR_heat_demand_space_COM
+    type: BIGINT
+  - name: GR_heat_demand_space_MFH
+    type: BIGINT
+  - name: GR_heat_demand_space_SFH
+    type: BIGINT
+  - name: GR_heat_demand_total
+    type: BIGINT
+  - name: GR_heat_demand_water
+    type: BIGINT
+  - name: GR_heat_demand_water_COM
+    type: BIGINT
+  - name: GR_heat_demand_water_MFH
+    type: BIGINT
+  - name: GR_heat_demand_water_SFH
+    type: BIGINT
+  - name: GR_heat_profile_space_COM
+    type: BIGINT
+  - name: GR_heat_profile_space_MFH
+    type: BIGINT
+  - name: GR_heat_profile_space_SFH
+    type: BIGINT
+  - name: GR_heat_profile_water_COM
+    type: BIGINT
+  - name: GR_heat_profile_water_MFH
+    type: BIGINT
+  - name: GR_heat_profile_water_SFH
+    type: BIGINT
+  - name: HR_COP_ASHP_floor
+    type: DOUBLE
+  - name: HR_COP_ASHP_radiator
+    type: DOUBLE
+  - name: HR_COP_ASHP_water
+    type: DOUBLE
+  - name: HR_COP_GSHP_floor
+    type: DOUBLE
+  - name: HR_COP_GSHP_radiator
+    type: DOUBLE
+  - name: HR_COP_GSHP_water
+    type: DOUBLE
+  - name: HR_COP_WSHP_floor
+    type: DOUBLE
+  - name: HR_COP_WSHP_radiator
+    type: DOUBLE
+  - name: HR_COP_WSHP_water
+    type: DOUBLE
+  - name: HR_heat_demand_space
+    type: BIGINT
+  - name: HR_heat_demand_space_COM
+    type: BIGINT
+  - name: HR_heat_demand_space_MFH
+    type: BIGINT
+  - name: HR_heat_demand_space_SFH
+    type: BIGINT
+  - name: HR_heat_demand_total
+    type: BIGINT
+  - name: HR_heat_demand_water
+    type: BIGINT
+  - name: HR_heat_demand_water_COM
+    type: BIGINT
+  - name: HR_heat_demand_water_MFH
+    type: BIGINT
+  - name: HR_heat_demand_water_SFH
+    type: BIGINT
+  - name: HR_heat_profile_space_COM
+    type: BIGINT
+  - name: HR_heat_profile_space_MFH
+    type: BIGINT
+  - name: HR_heat_profile_space_SFH
+    type: BIGINT
+  - name: HR_heat_profile_water_COM
+    type: BIGINT
+  - name: HR_heat_profile_water_MFH
+    type: BIGINT
+  - name: HR_heat_profile_water_SFH
+    type: BIGINT
+  - name: HU_COP_ASHP_floor
+    type: DOUBLE
+  - name: HU_COP_ASHP_radiator
+    type: DOUBLE
+  - name: HU_COP_ASHP_water
+    type: DOUBLE
+  - name: HU_COP_GSHP_floor
+    type: DOUBLE
+  - name: HU_COP_GSHP_radiator
+    type: DOUBLE
+  - name: HU_COP_GSHP_water
+    type: DOUBLE
+  - name: HU_COP_WSHP_floor
+    type: DOUBLE
+  - name: HU_COP_WSHP_radiator
+    type: DOUBLE
+  - name: HU_COP_WSHP_water
+    type: DOUBLE
+  - name: HU_heat_demand_space
+    type: BIGINT
+  - name: HU_heat_demand_space_COM
+    type: BIGINT
+  - name: HU_heat_demand_space_MFH
+    type: BIGINT
+  - name: HU_heat_demand_space_SFH
+    type: BIGINT
+  - name: HU_heat_demand_total
+    type: BIGINT
+  - name: HU_heat_demand_water
+    type: BIGINT
+  - name: HU_heat_demand_water_COM
+    type: BIGINT
+  - name: HU_heat_demand_water_MFH
+    type: BIGINT
+  - name: HU_heat_demand_water_SFH
+    type: BIGINT
+  - name: HU_heat_profile_space_COM
+    type: BIGINT
+  - name: HU_heat_profile_space_MFH
+    type: BIGINT
+  - name: HU_heat_profile_space_SFH
+    type: BIGINT
+  - name: HU_heat_profile_water_COM
+    type: BIGINT
+  - name: HU_heat_profile_water_MFH
+    type: BIGINT
+  - name: HU_heat_profile_water_SFH
+    type: BIGINT
+  - name: IE_COP_ASHP_floor
+    type: DOUBLE
+  - name: IE_COP_ASHP_radiator
+    type: DOUBLE
+  - name: IE_COP_ASHP_water
+    type: DOUBLE
+  - name: IE_COP_GSHP_floor
+    type: DOUBLE
+  - name: IE_COP_GSHP_radiator
+    type: DOUBLE
+  - name: IE_COP_GSHP_water
+    type: DOUBLE
+  - name: IE_COP_WSHP_floor
+    type: DOUBLE
+  - name: IE_COP_WSHP_radiator
+    type: DOUBLE
+  - name: IE_COP_WSHP_water
+    type: DOUBLE
+  - name: IE_heat_demand_space
+    type: BIGINT
+  - name: IE_heat_demand_space_COM
+    type: BIGINT
+  - name: IE_heat_demand_space_MFH
+    type: BIGINT
+  - name: IE_heat_demand_space_SFH
+    type: BIGINT
+  - name: IE_heat_demand_total
+    type: BIGINT
+  - name: IE_heat_demand_water
+    type: BIGINT
+  - name: IE_heat_demand_water_COM
+    type: BIGINT
+  - name: IE_heat_demand_water_MFH
+    type: BIGINT
+  - name: IE_heat_demand_water_SFH
+    type: BIGINT
+  - name: IE_heat_profile_space_COM
+    type: BIGINT
+  - name: IE_heat_profile_space_MFH
+    type: BIGINT
+  - name: IE_heat_profile_space_SFH
+    type: BIGINT
+  - name: IE_heat_profile_water_COM
+    type: BIGINT
+  - name: IE_heat_profile_water_MFH
+    type: BIGINT
+  - name: IE_heat_profile_water_SFH
+    type: BIGINT
+  - name: IT_COP_ASHP_floor
+    type: DOUBLE
+  - name: IT_COP_ASHP_radiator
+    type: DOUBLE
+  - name: IT_COP_ASHP_water
+    type: DOUBLE
+  - name: IT_COP_GSHP_floor
+    type: DOUBLE
+  - name: IT_COP_GSHP_radiator
+    type: DOUBLE
+  - name: IT_COP_GSHP_water
+    type: DOUBLE
+  - name: IT_COP_WSHP_floor
+    type: DOUBLE
+  - name: IT_COP_WSHP_radiator
+    type: DOUBLE
+  - name: IT_COP_WSHP_water
+    type: DOUBLE
+  - name: IT_heat_demand_space
+    type: BIGINT
+  - name: IT_heat_demand_space_COM
+    type: BIGINT
+  - name: IT_heat_demand_space_MFH
+    type: BIGINT
+  - name: IT_heat_demand_space_SFH
+    type: BIGINT
+  - name: IT_heat_demand_total
+    type: BIGINT
+  - name: IT_heat_demand_water
+    type: BIGINT
+  - name: IT_heat_demand_water_COM
+    type: BIGINT
+  - name: IT_heat_demand_water_MFH
+    type: BIGINT
+  - name: IT_heat_demand_water_SFH
+    type: BIGINT
+  - name: IT_heat_profile_space_COM
+    type: BIGINT
+  - name: IT_heat_profile_space_MFH
+    type: BIGINT
+  - name: IT_heat_profile_space_SFH
+    type: BIGINT
+  - name: IT_heat_profile_water_COM
+    type: BIGINT
+  - name: IT_heat_profile_water_MFH
+    type: BIGINT
+  - name: IT_heat_profile_water_SFH
+    type: BIGINT
+  - name: LT_COP_ASHP_floor
+    type: DOUBLE
+  - name: LT_COP_ASHP_radiator
+    type: DOUBLE
+  - name: LT_COP_ASHP_water
+    type: DOUBLE
+  - name: LT_COP_GSHP_floor
+    type: DOUBLE
+  - name: LT_COP_GSHP_radiator
+    type: DOUBLE
+  - name: LT_COP_GSHP_water
+    type: DOUBLE
+  - name: LT_COP_WSHP_floor
+    type: DOUBLE
+  - name: LT_COP_WSHP_radiator
+    type: DOUBLE
+  - name: LT_COP_WSHP_water
+    type: DOUBLE
+  - name: LT_heat_demand_space
+    type: BIGINT
+  - name: LT_heat_demand_space_COM
+    type: BIGINT
+  - name: LT_heat_demand_space_MFH
+    type: BIGINT
+  - name: LT_heat_demand_space_SFH
+    type: BIGINT
+  - name: LT_heat_demand_total
+    type: BIGINT
+  - name: LT_heat_demand_water
+    type: BIGINT
+  - name: LT_heat_demand_water_COM
+    type: BIGINT
+  - name: LT_heat_demand_water_MFH
+    type: BIGINT
+  - name: LT_heat_demand_water_SFH
+    type: BIGINT
+  - name: LT_heat_profile_space_COM
+    type: BIGINT
+  - name: LT_heat_profile_space_MFH
+    type: BIGINT
+  - name: LT_heat_profile_space_SFH
+    type: BIGINT
+  - name: LT_heat_profile_water_COM
+    type: BIGINT
+  - name: LT_heat_profile_water_MFH
+    type: BIGINT
+  - name: LT_heat_profile_water_SFH
+    type: BIGINT
+  - name: LU_COP_ASHP_floor
+    type: DOUBLE
+  - name: LU_COP_ASHP_radiator
+    type: DOUBLE
+  - name: LU_COP_ASHP_water
+    type: DOUBLE
+  - name: LU_COP_GSHP_floor
+    type: DOUBLE
+  - name: LU_COP_GSHP_radiator
+    type: DOUBLE
+  - name: LU_COP_GSHP_water
+    type: DOUBLE
+  - name: LU_COP_WSHP_floor
+    type: DOUBLE
+  - name: LU_COP_WSHP_radiator
+    type: DOUBLE
+  - name: LU_COP_WSHP_water
+    type: DOUBLE
+  - name: LU_heat_demand_space
+    type: BIGINT
+  - name: LU_heat_demand_space_COM
+    type: BIGINT
+  - name: LU_heat_demand_space_MFH
+    type: BIGINT
+  - name: LU_heat_demand_space_SFH
+    type: BIGINT
+  - name: LU_heat_demand_total
+    type: BIGINT
+  - name: LU_heat_demand_water
+    type: BIGINT
+  - name: LU_heat_demand_water_COM
+    type: BIGINT
+  - name: LU_heat_demand_water_MFH
+    type: BIGINT
+  - name: LU_heat_demand_water_SFH
+    type: BIGINT
+  - name: LU_heat_profile_space_COM
+    type: BIGINT
+  - name: LU_heat_profile_space_MFH
+    type: BIGINT
+  - name: LU_heat_profile_space_SFH
+    type: BIGINT
+  - name: LU_heat_profile_water_COM
+    type: BIGINT
+  - name: LU_heat_profile_water_MFH
+    type: BIGINT
+  - name: LU_heat_profile_water_SFH
+    type: BIGINT
+  - name: LV_COP_ASHP_floor
+    type: DOUBLE
+  - name: LV_COP_ASHP_radiator
+    type: DOUBLE
+  - name: LV_COP_ASHP_water
+    type: DOUBLE
+  - name: LV_COP_GSHP_floor
+    type: DOUBLE
+  - name: LV_COP_GSHP_radiator
+    type: DOUBLE
+  - name: LV_COP_GSHP_water
+    type: DOUBLE
+  - name: LV_COP_WSHP_floor
+    type: DOUBLE
+  - name: LV_COP_WSHP_radiator
+    type: DOUBLE
+  - name: LV_COP_WSHP_water
+    type: DOUBLE
+  - name: LV_heat_demand_space
+    type: BIGINT
+  - name: LV_heat_demand_space_COM
+    type: BIGINT
+  - name: LV_heat_demand_space_MFH
+    type: BIGINT
+  - name: LV_heat_demand_space_SFH
+    type: BIGINT
+  - name: LV_heat_demand_total
+    type: BIGINT
+  - name: LV_heat_demand_water
+    type: BIGINT
+  - name: LV_heat_demand_water_COM
+    type: BIGINT
+  - name: LV_heat_demand_water_MFH
+    type: BIGINT
+  - name: LV_heat_demand_water_SFH
+    type: BIGINT
+  - name: LV_heat_profile_space_COM
+    type: BIGINT
+  - name: LV_heat_profile_space_MFH
+    type: BIGINT
+  - name: LV_heat_profile_space_SFH
+    type: BIGINT
+  - name: LV_heat_profile_water_COM
+    type: BIGINT
+  - name: LV_heat_profile_water_MFH
+    type: BIGINT
+  - name: LV_heat_profile_water_SFH
+    type: BIGINT
+  - name: NL_COP_ASHP_floor
+    type: DOUBLE
+  - name: NL_COP_ASHP_radiator
+    type: DOUBLE
+  - name: NL_COP_ASHP_water
+    type: DOUBLE
+  - name: NL_COP_GSHP_floor
+    type: DOUBLE
+  - name: NL_COP_GSHP_radiator
+    type: DOUBLE
+  - name: NL_COP_GSHP_water
+    type: DOUBLE
+  - name: NL_COP_WSHP_floor
+    type: DOUBLE
+  - name: NL_COP_WSHP_radiator
+    type: DOUBLE
+  - name: NL_COP_WSHP_water
+    type: DOUBLE
+  - name: NL_heat_demand_space
+    type: BIGINT
+  - name: NL_heat_demand_space_COM
+    type: BIGINT
+  - name: NL_heat_demand_space_MFH
+    type: BIGINT
+  - name: NL_heat_demand_space_SFH
+    type: BIGINT
+  - name: NL_heat_demand_total
+    type: BIGINT
+  - name: NL_heat_demand_water
+    type: BIGINT
+  - name: NL_heat_demand_water_COM
+    type: BIGINT
+  - name: NL_heat_demand_water_MFH
+    type: BIGINT
+  - name: NL_heat_demand_water_SFH
+    type: BIGINT
+  - name: NL_heat_profile_space_COM
+    type: BIGINT
+  - name: NL_heat_profile_space_MFH
+    type: BIGINT
+  - name: NL_heat_profile_space_SFH
+    type: BIGINT
+  - name: NL_heat_profile_water_COM
+    type: BIGINT
+  - name: NL_heat_profile_water_MFH
+    type: BIGINT
+  - name: NL_heat_profile_water_SFH
+    type: BIGINT
+  - name: NO_COP_ASHP_floor
+    type: DOUBLE
+  - name: NO_COP_ASHP_radiator
+    type: DOUBLE
+  - name: NO_COP_ASHP_water
+    type: DOUBLE
+  - name: NO_COP_GSHP_floor
+    type: DOUBLE
+  - name: NO_COP_GSHP_radiator
+    type: DOUBLE
+  - name: NO_COP_GSHP_water
+    type: DOUBLE
+  - name: NO_COP_WSHP_floor
+    type: DOUBLE
+  - name: NO_COP_WSHP_radiator
+    type: DOUBLE
+  - name: NO_COP_WSHP_water
+    type: DOUBLE
+  - name: NO_heat_profile_space_COM
+    type: BIGINT
+  - name: NO_heat_profile_space_MFH
+    type: BIGINT
+  - name: NO_heat_profile_space_SFH
+    type: BIGINT
+  - name: NO_heat_profile_water_COM
+    type: BIGINT
+  - name: NO_heat_profile_water_MFH
+    type: BIGINT
+  - name: NO_heat_profile_water_SFH
+    type: BIGINT
+  - name: PL_COP_ASHP_floor
+    type: DOUBLE
+  - name: PL_COP_ASHP_radiator
+    type: DOUBLE
+  - name: PL_COP_ASHP_water
+    type: DOUBLE
+  - name: PL_COP_GSHP_floor
+    type: DOUBLE
+  - name: PL_COP_GSHP_radiator
+    type: DOUBLE
+  - name: PL_COP_GSHP_water
+    type: DOUBLE
+  - name: PL_COP_WSHP_floor
+    type: DOUBLE
+  - name: PL_COP_WSHP_radiator
+    type: DOUBLE
+  - name: PL_COP_WSHP_water
+    type: DOUBLE
+  - name: PL_heat_demand_space
+    type: BIGINT
+  - name: PL_heat_demand_space_COM
+    type: BIGINT
+  - name: PL_heat_demand_space_MFH
+    type: BIGINT
+  - name: PL_heat_demand_space_SFH
+    type: BIGINT
+  - name: PL_heat_demand_total
+    type: BIGINT
+  - name: PL_heat_demand_water
+    type: BIGINT
+  - name: PL_heat_demand_water_COM
+    type: BIGINT
+  - name: PL_heat_demand_water_MFH
+    type: BIGINT
+  - name: PL_heat_demand_water_SFH
+    type: BIGINT
+  - name: PL_heat_profile_space_COM
+    type: BIGINT
+  - name: PL_heat_profile_space_MFH
+    type: BIGINT
+  - name: PL_heat_profile_space_SFH
+    type: BIGINT
+  - name: PL_heat_profile_water_COM
+    type: BIGINT
+  - name: PL_heat_profile_water_MFH
+    type: BIGINT
+  - name: PL_heat_profile_water_SFH
+    type: BIGINT
+  - name: PT_COP_ASHP_floor
+    type: DOUBLE
+  - name: PT_COP_ASHP_radiator
+    type: DOUBLE
+  - name: PT_COP_ASHP_water
+    type: DOUBLE
+  - name: PT_COP_GSHP_floor
+    type: DOUBLE
+  - name: PT_COP_GSHP_radiator
+    type: DOUBLE
+  - name: PT_COP_GSHP_water
+    type: DOUBLE
+  - name: PT_COP_WSHP_floor
+    type: DOUBLE
+  - name: PT_COP_WSHP_radiator
+    type: DOUBLE
+  - name: PT_COP_WSHP_water
+    type: DOUBLE
+  - name: PT_heat_demand_space
+    type: BIGINT
+  - name: PT_heat_demand_space_COM
+    type: BIGINT
+  - name: PT_heat_demand_space_MFH
+    type: BIGINT
+  - name: PT_heat_demand_space_SFH
+    type: BIGINT
+  - name: PT_heat_demand_total
+    type: BIGINT
+  - name: PT_heat_demand_water
+    type: BIGINT
+  - name: PT_heat_demand_water_COM
+    type: BIGINT
+  - name: PT_heat_demand_water_MFH
+    type: BIGINT
+  - name: PT_heat_demand_water_SFH
+    type: BIGINT
+  - name: PT_heat_profile_space_COM
+    type: BIGINT
+  - name: PT_heat_profile_space_MFH
+    type: BIGINT
+  - name: PT_heat_profile_space_SFH
+    type: BIGINT
+  - name: PT_heat_profile_water_COM
+    type: BIGINT
+  - name: PT_heat_profile_water_MFH
+    type: BIGINT
+  - name: PT_heat_profile_water_SFH
+    type: BIGINT
+  - name: RO_COP_ASHP_floor
+    type: DOUBLE
+  - name: RO_COP_ASHP_radiator
+    type: DOUBLE
+  - name: RO_COP_ASHP_water
+    type: DOUBLE
+  - name: RO_COP_GSHP_floor
+    type: DOUBLE
+  - name: RO_COP_GSHP_radiator
+    type: DOUBLE
+  - name: RO_COP_GSHP_water
+    type: DOUBLE
+  - name: RO_COP_WSHP_floor
+    type: DOUBLE
+  - name: RO_COP_WSHP_radiator
+    type: DOUBLE
+  - name: RO_COP_WSHP_water
+    type: DOUBLE
+  - name: RO_heat_demand_space
+    type: BIGINT
+  - name: RO_heat_demand_space_COM
+    type: BIGINT
+  - name: RO_heat_demand_space_MFH
+    type: BIGINT
+  - name: RO_heat_demand_space_SFH
+    type: BIGINT
+  - name: RO_heat_demand_total
+    type: BIGINT
+  - name: RO_heat_demand_water
+    type: BIGINT
+  - name: RO_heat_demand_water_COM
+    type: BIGINT
+  - name: RO_heat_demand_water_MFH
+    type: BIGINT
+  - name: RO_heat_demand_water_SFH
+    type: BIGINT
+  - name: RO_heat_profile_space_COM
+    type: BIGINT
+  - name: RO_heat_profile_space_MFH
+    type: BIGINT
+  - name: RO_heat_profile_space_SFH
+    type: BIGINT
+  - name: RO_heat_profile_water_COM
+    type: BIGINT
+  - name: RO_heat_profile_water_MFH
+    type: BIGINT
+  - name: RO_heat_profile_water_SFH
+    type: BIGINT
+  - name: SE_COP_ASHP_floor
+    type: DOUBLE
+  - name: SE_COP_ASHP_radiator
+    type: DOUBLE
+  - name: SE_COP_ASHP_water
+    type: DOUBLE
+  - name: SE_COP_GSHP_floor
+    type: DOUBLE
+  - name: SE_COP_GSHP_radiator
+    type: DOUBLE
+  - name: SE_COP_GSHP_water
+    type: DOUBLE
+  - name: SE_COP_WSHP_floor
+    type: DOUBLE
+  - name: SE_COP_WSHP_radiator
+    type: DOUBLE
+  - name: SE_COP_WSHP_water
+    type: DOUBLE
+  - name: SE_heat_demand_space
+    type: BIGINT
+  - name: SE_heat_demand_space_COM
+    type: BIGINT
+  - name: SE_heat_demand_space_MFH
+    type: BIGINT
+  - name: SE_heat_demand_space_SFH
+    type: BIGINT
+  - name: SE_heat_demand_total
+    type: BIGINT
+  - name: SE_heat_demand_water
+    type: BIGINT
+  - name: SE_heat_demand_water_COM
+    type: BIGINT
+  - name: SE_heat_demand_water_MFH
+    type: BIGINT
+  - name: SE_heat_demand_water_SFH
+    type: BIGINT
+  - name: SE_heat_profile_space_COM
+    type: BIGINT
+  - name: SE_heat_profile_space_MFH
+    type: BIGINT
+  - name: SE_heat_profile_space_SFH
+    type: BIGINT
+  - name: SE_heat_profile_water_COM
+    type: BIGINT
+  - name: SE_heat_profile_water_MFH
+    type: BIGINT
+  - name: SE_heat_profile_water_SFH
+    type: BIGINT
+  - name: SI_COP_ASHP_floor
+    type: DOUBLE
+  - name: SI_COP_ASHP_radiator
+    type: DOUBLE
+  - name: SI_COP_ASHP_water
+    type: DOUBLE
+  - name: SI_COP_GSHP_floor
+    type: DOUBLE
+  - name: SI_COP_GSHP_radiator
+    type: DOUBLE
+  - name: SI_COP_GSHP_water
+    type: DOUBLE
+  - name: SI_COP_WSHP_floor
+    type: DOUBLE
+  - name: SI_COP_WSHP_radiator
+    type: DOUBLE
+  - name: SI_COP_WSHP_water
+    type: DOUBLE
+  - name: SI_heat_demand_space
+    type: BIGINT
+  - name: SI_heat_demand_space_COM
+    type: BIGINT
+  - name: SI_heat_demand_space_MFH
+    type: BIGINT
+  - name: SI_heat_demand_space_SFH
+    type: BIGINT
+  - name: SI_heat_demand_total
+    type: BIGINT
+  - name: SI_heat_demand_water
+    type: BIGINT
+  - name: SI_heat_demand_water_COM
+    type: BIGINT
+  - name: SI_heat_demand_water_MFH
+    type: BIGINT
+  - name: SI_heat_demand_water_SFH
+    type: BIGINT
+  - name: SI_heat_profile_space_COM
+    type: BIGINT
+  - name: SI_heat_profile_space_MFH
+    type: BIGINT
+  - name: SI_heat_profile_space_SFH
+    type: BIGINT
+  - name: SI_heat_profile_water_COM
+    type: BIGINT
+  - name: SI_heat_profile_water_MFH
+    type: BIGINT
+  - name: SI_heat_profile_water_SFH
+    type: BIGINT
+  - name: SK_COP_ASHP_floor
+    type: DOUBLE
+  - name: SK_COP_ASHP_radiator
+    type: DOUBLE
+  - name: SK_COP_ASHP_water
+    type: DOUBLE
+  - name: SK_COP_GSHP_floor
+    type: DOUBLE
+  - name: SK_COP_GSHP_radiator
+    type: DOUBLE
+  - name: SK_COP_GSHP_water
+    type: DOUBLE
+  - name: SK_COP_WSHP_floor
+    type: DOUBLE
+  - name: SK_COP_WSHP_radiator
+    type: DOUBLE
+  - name: SK_COP_WSHP_water
+    type: DOUBLE
+  - name: SK_heat_demand_space
+    type: BIGINT
+  - name: SK_heat_demand_space_COM
+    type: BIGINT
+  - name: SK_heat_demand_space_MFH
+    type: BIGINT
+  - name: SK_heat_demand_space_SFH
+    type: BIGINT
+  - name: SK_heat_demand_total
+    type: BIGINT
+  - name: SK_heat_demand_water
+    type: BIGINT
+  - name: SK_heat_demand_water_COM
+    type: BIGINT
+  - name: SK_heat_demand_water_MFH
+    type: BIGINT
+  - name: SK_heat_demand_water_SFH
+    type: BIGINT
+  - name: SK_heat_profile_space_COM
+    type: BIGINT
+  - name: SK_heat_profile_space_MFH
+    type: BIGINT
+  - name: SK_heat_profile_space_SFH
+    type: BIGINT
+  - name: SK_heat_profile_water_COM
+    type: BIGINT
+  - name: SK_heat_profile_water_MFH
+    type: BIGINT
+  - name: SK_heat_profile_water_SFH
+    type: BIGINT

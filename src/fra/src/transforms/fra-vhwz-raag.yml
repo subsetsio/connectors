@@ -1,0 +1,520 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+temporal: annualaveragedailytrafficyear
+sort: [annualaveragedailytrafficyear]
+columns:
+  - name: revisiondate
+    type: VARCHAR
+  - name: railroadcode
+    type: VARCHAR
+  - name: reportingagencytypecode
+    type: VARCHAR
+  - name: reportingagencytype
+    type: VARCHAR
+  - name: reasoncode
+    type: VARCHAR
+  - name: reasondescription
+    type: VARCHAR
+  - name: crossingid
+    type: VARCHAR
+  - name: crossingidsuffix
+    type: VARCHAR
+  - name: reportingagencycode
+    type: VARCHAR
+  - name: reportingagencyname
+    type: VARCHAR
+  - name: statecode
+    type: VARCHAR
+  - name: statename
+    type: VARCHAR
+  - name: countycode
+    type: VARCHAR
+  - name: countyname
+    type: VARCHAR
+  - name: innearcode
+    type: VARCHAR
+  - name: innear
+    type: VARCHAR
+  - name: citycode
+    type: VARCHAR
+  - name: cityname
+    type: VARCHAR
+  - name: citydescription
+    type: VARCHAR
+  - name: street
+    type: VARCHAR
+  - name: blocknumber
+    type: VARCHAR
+  - name: highwayname
+    type: VARCHAR
+  - name: separatetrack
+    type: VARCHAR
+  - name: separatetrackrailroad1
+    type: VARCHAR
+  - name: separatetrackrailroad2
+    type: VARCHAR
+  - name: separatetrackrailroad3
+    type: VARCHAR
+  - name: separatetrackrailroad4
+    type: VARCHAR
+  - name: sametrack
+    type: VARCHAR
+  - name: sametrackrailroad1
+    type: VARCHAR
+  - name: sametrackrailroad2
+    type: VARCHAR
+  - name: sametrackrailroad3
+    type: VARCHAR
+  - name: sametrackrailroad4
+    type: VARCHAR
+  - name: railroaddivision
+    type: VARCHAR
+  - name: railroadsubdivision
+    type: VARCHAR
+  - name: branchname
+    type: VARCHAR
+  - name: railroadmilepostprefix
+    type: VARCHAR
+  - name: railroadmilepostnumber
+    type: VARCHAR
+  - name: railroadmilepostsuffix
+    type: VARCHAR
+  - name: linesegment
+    type: VARCHAR
+  - name: nearesttimetablestation
+    type: VARCHAR
+  - name: timetablestation
+    type: VARCHAR
+  - name: parentrailroadcode
+    type: VARCHAR
+  - name: crossingownercode
+    type: VARCHAR
+  - name: crossingtypecode
+    type: VARCHAR
+  - name: crossingtype
+    type: VARCHAR
+  - name: crossingpurposecode
+    type: VARCHAR
+  - name: crossingpurpose
+    type: VARCHAR
+  - name: crossingpositioncode
+    type: VARCHAR
+  - name: crossingposition
+    type: VARCHAR
+  - name: publicaccess
+    type: VARCHAR
+  - name: typeoftrainserviceids
+    type: VARCHAR
+  - name: typeoftrainserviceid1
+    type: VARCHAR
+  - name: typeoftrainservice1
+    type: VARCHAR
+  - name: typeoftrainserviceid2
+    type: VARCHAR
+  - name: typeoftrainservice2
+    type: VARCHAR
+  - name: typeoftrainserviceid3
+    type: VARCHAR
+  - name: typeoftrainservice3
+    type: VARCHAR
+  - name: typeoftrainserviceid4
+    type: VARCHAR
+  - name: typeoftrainservice4
+    type: VARCHAR
+  - name: typeoftrainserviceid5
+    type: VARCHAR
+  - name: typeoftrainservice5
+    type: VARCHAR
+  - name: typeoftrainserviceid6
+    type: VARCHAR
+  - name: typeoftrainservice6
+    type: VARCHAR
+  - name: ltpassengertrainperday
+    type: VARCHAR
+  - name: numberpassengertrainperday
+    type: VARCHAR
+  - name: developmenttypecode
+    type: VARCHAR
+  - name: developmenttype
+    type: VARCHAR
+  - name: adjacentcrossing
+    type: VARCHAR
+  - name: adjacentcrossingnumber
+    type: VARCHAR
+  - name: whistlebancode
+    type: VARCHAR
+  - name: whistleban
+    type: VARCHAR
+  - name: whistledate
+    type: VARCHAR
+  - name: hsrcorridoridsuffix
+    type: VARCHAR
+  - name: hsrcorridorid
+    type: VARCHAR
+  - name: latitude
+    type: VARCHAR
+  - name: longitude
+    type: VARCHAR
+  - name: latlongsourcecode
+    type: VARCHAR
+  - name: latlongsource
+    type: VARCHAR
+  - name: railroadnarrativebase
+    type: VARCHAR
+  - name: railroadnarrative
+    type: VARCHAR
+  - name: statenarrativebase
+    type: VARCHAR
+  - name: statenarrative
+    type: VARCHAR
+  - name: emergencytelephonenumber
+    type: VARCHAR
+  - name: railroadcontacttelephonenumber
+    type: VARCHAR
+  - name: statecontacttelephonenumber
+    type: VARCHAR
+  - name: totaldaylightthrutrains
+    type: VARCHAR
+  - name: totalnighttimethrutrains
+    type: VARCHAR
+  - name: totalswitchingtrains
+    type: VARCHAR
+  - name: totaltransittrains
+    type: VARCHAR
+  - name: movementsperdaycode
+    type: VARCHAR
+  - name: movementsperday
+    type: VARCHAR
+  - name: trainsperweek
+    type: VARCHAR
+  - name: trainsperyear
+    type: VARCHAR
+  - name: maximumtimetablespeed
+    type: VARCHAR
+  - name: minimumspeedrangeovercrossing
+    type: VARCHAR
+  - name: maximumspeedrangeovercrossing
+    type: VARCHAR
+  - name: numberofmaintracks
+    type: VARCHAR
+  - name: numberofsidingtracks
+    type: VARCHAR
+  - name: numberofyardtracks
+    type: VARCHAR
+  - name: numberoftransittracks
+    type: VARCHAR
+  - name: numberofindustrytracks
+    type: VARCHAR
+  - name: traindetectionids
+    type: VARCHAR
+  - name: traindetectionid1
+    type: VARCHAR
+  - name: traindetection1
+    type: VARCHAR
+  - name: traindetectionid2
+    type: VARCHAR
+  - name: traindetection2
+    type: VARCHAR
+  - name: traindetectionid3
+    type: VARCHAR
+  - name: traindetection3
+    type: VARCHAR
+  - name: tracksignaled
+    type: VARCHAR
+  - name: eventrecorder
+    type: VARCHAR
+  - name: remotehealthmonitoring
+    type: VARCHAR
+  - name: signsorsignals
+    type: VARCHAR
+  - name: numbercrossbuckassemblies
+    type: VARCHAR
+  - name: numberstopsigns
+    type: VARCHAR
+  - name: numberyieldsigns
+    type: VARCHAR
+  - name: advancewarnings
+    type: VARCHAR
+  - name: advancewarning1
+    type: VARCHAR
+  - name: advancewarningtext1
+    type: VARCHAR
+  - name: advancewarning2
+    type: VARCHAR
+  - name: advancewarningtext2
+    type: VARCHAR
+  - name: advancewarning3
+    type: VARCHAR
+  - name: advancewarningtext3
+    type: VARCHAR
+  - name: advancewarning4
+    type: VARCHAR
+  - name: advancewarningtext4
+    type: VARCHAR
+  - name: advancewarning5
+    type: VARCHAR
+  - name: advancewarningtext5
+    type: VARCHAR
+  - name: advancewarning6
+    type: VARCHAR
+  - name: advancewarningtext6
+    type: VARCHAR
+  - name: advancewarning7
+    type: VARCHAR
+  - name: advancewarningtext7
+    type: VARCHAR
+  - name: countadvw10_1
+    type: VARCHAR
+  - name: countadvw10_2
+    type: VARCHAR
+  - name: countadvw10_3
+    type: VARCHAR
+  - name: countadvw10_4
+    type: VARCHAR
+  - name: countadvw10_11
+    type: VARCHAR
+  - name: countadvw10_12
+    type: VARCHAR
+  - name: lowgroundclearancesigns
+    type: VARCHAR
+  - name: numberlowgroundclearancesigns
+    type: VARCHAR
+  - name: pavementmarkingids
+    type: VARCHAR
+  - name: pavementmarkingid1
+    type: VARCHAR
+  - name: pavementmarking1
+    type: VARCHAR
+  - name: pavementmarkingid2
+    type: VARCHAR
+  - name: pavementmarking2
+    type: VARCHAR
+  - name: pavementmarkingid3
+    type: VARCHAR
+  - name: pavementmarking3
+    type: VARCHAR
+  - name: pavementmarkingid4
+    type: VARCHAR
+  - name: pavementmarking4
+    type: VARCHAR
+  - name: channeldevicemediancode
+    type: VARCHAR
+  - name: channeldevicemedian
+    type: VARCHAR
+  - name: exemptsigns
+    type: VARCHAR
+  - name: enssigndisplayed
+    type: VARCHAR
+  - name: othermutcdsigns
+    type: VARCHAR
+  - name: numberothermutcdsigns1
+    type: VARCHAR
+  - name: othermutcdsignstype1
+    type: VARCHAR
+  - name: othermutcdsignstypetext1
+    type: VARCHAR
+  - name: numberothermutcdsigns2
+    type: VARCHAR
+  - name: othermutcdsignstype2
+    type: VARCHAR
+  - name: othermutcdsignstypetext2
+    type: VARCHAR
+  - name: numberothermutcdsigns3
+    type: VARCHAR
+  - name: othermutcdsignstype3
+    type: VARCHAR
+  - name: othermutcdsignstypetext3
+    type: VARCHAR
+  - name: privatecrossingsigns
+    type: VARCHAR
+  - name: ledenhancedsigns
+    type: VARCHAR
+  - name: countroadwaygatearms
+    type: VARCHAR
+  - name: countpedestriangatearms
+    type: VARCHAR
+  - name: gateconfigurationcode
+    type: VARCHAR
+  - name: gateconfiguration
+    type: VARCHAR
+  - name: gateconfigurationtypecode
+    type: VARCHAR
+  - name: gateconfigurationtype
+    type: VARCHAR
+  - name: countcantileveroverlane
+    type: VARCHAR
+  - name: countcantilevernolane
+    type: VARCHAR
+  - name: cantileveredtypestructurecode
+    type: VARCHAR
+  - name: cantileveredtypestructure
+    type: VARCHAR
+  - name: countmastmountedflashinglight
+    type: VARCHAR
+  - name: mastmountedflashinglightcode
+    type: VARCHAR
+  - name: mastmountedflashinglighttype
+    type: VARCHAR
+  - name: mastmountedflashingbacklight
+    type: VARCHAR
+  - name: mastmountedflashingsidelight
+    type: VARCHAR
+  - name: countflashinglightpair
+    type: VARCHAR
+  - name: installationdateactivewa
+    type: VARCHAR
+  - name: waysidehorn
+    type: VARCHAR
+  - name: installationdatewaysidehorn
+    type: VARCHAR
+  - name: highwaytrafficsignal
+    type: VARCHAR
+  - name: numberofbells
+    type: VARCHAR
+  - name: nontrainactivewarningcode
+    type: VARCHAR
+  - name: nontrainactivewarning
+    type: VARCHAR
+  - name: countotherflashinglights
+    type: VARCHAR
+  - name: otherflashinglightstype
+    type: VARCHAR
+  - name: nearbyhighwaytrafficsignals
+    type: VARCHAR
+  - name: hwytrafficsgnlinterconncode
+    type: VARCHAR
+  - name: hwytrafficsgnlinterconn
+    type: VARCHAR
+  - name: hwytrafficsgnlprecode
+    type: VARCHAR
+  - name: hwytrafficsgnlpre
+    type: VARCHAR
+  - name: highwaytrafficpresignals
+    type: VARCHAR
+  - name: stoplinedistance
+    type: VARCHAR
+  - name: storagedistance
+    type: VARCHAR
+  - name: highwaymonitoringdevicescode
+    type: VARCHAR
+  - name: highwaymonitoringdevices
+    type: VARCHAR
+  - name: trafficlane
+    type: VARCHAR
+  - name: trafficlanetypecode
+    type: VARCHAR
+  - name: trafficlanetypedescription
+    type: VARCHAR
+  - name: highwaypaved
+    type: VARCHAR
+  - name: trackrundownstreet
+    type: VARCHAR
+  - name: crossingilluminated
+    type: VARCHAR
+  - name: crossingsurfaceinstalldate
+    type: VARCHAR
+  - name: crossingsurfacewidth
+    type: VARCHAR
+  - name: crossingsurfacelength
+    type: VARCHAR
+  - name: crossingsurfaceids
+    type: VARCHAR
+  - name: crossingsurfaceid1
+    type: VARCHAR
+  - name: crossingsurfacedescription1
+    type: VARCHAR
+  - name: crossingsurfaceid2
+    type: VARCHAR
+  - name: crossingsurfacedescription2
+    type: VARCHAR
+  - name: crossingsurfaceid3
+    type: VARCHAR
+  - name: crossingsurfacedescription3
+    type: VARCHAR
+  - name: othercrossingsurface
+    type: VARCHAR
+  - name: highwaynear
+    type: VARCHAR
+  - name: intersectingroadwaydistance
+    type: VARCHAR
+  - name: smallestcrossinganglecode
+    type: VARCHAR
+  - name: smallestcrossingangle
+    type: VARCHAR
+  - name: compower
+    type: VARCHAR
+  - name: highwaysystemcode
+    type: VARCHAR
+  - name: highwaysystem
+    type: VARCHAR
+  - name: roadatcrossingcode
+    type: VARCHAR
+  - name: roadatcrossing
+    type: VARCHAR
+  - name: roadatcrossingtypecode
+    type: VARCHAR
+  - name: roadatcrossingtype
+    type: VARCHAR
+  - name: crossingonstatehighwaysystem
+    type: VARCHAR
+  - name: highwayspeedlimit
+    type: VARCHAR
+  - name: highwayspeedlimittypecode
+    type: VARCHAR
+  - name: highwayspeedlimittype
+    type: VARCHAR
+  - name: linearreferencingsystemrouteid
+    type: VARCHAR
+  - name: linearrefsystemmilepost
+    type: VARCHAR
+  - name: annualaveragedailytrafficcount
+    type: VARCHAR
+  - name: annualaveragedailytrafficyear
+    type: VARCHAR
+  - name: estimatedpercenttrucks
+    type: VARCHAR
+  - name: schoolbusroute
+    type: VARCHAR
+  - name: schoolbusaveragecount
+    type: VARCHAR
+  - name: emergencyservicesroute
+    type: VARCHAR
+  - name: ccmqzid
+    type: VARCHAR
+  - name: thrrequestno
+    type: VARCHAR
+  - name: reporttype
+    type: VARCHAR
+  - name: crossingclosed
+    type: VARCHAR
+  - name: reportstatus
+    type: VARCHAR
+  - name: agencyid
+    type: VARCHAR
+  - name: reporting_railroad_class
+    type: VARCHAR
+  - name: reporting_railroad_smt_grouping
+    type: VARCHAR
+  - name: reporting_parent_railroad_code
+    type: VARCHAR
+  - name: reporting_parent_railroad_name
+    type: VARCHAR
+  - name: reporting_railroad_holding_company
+    type: VARCHAR
+  - name: wdcode
+    type: VARCHAR
+  - name: multipleformsfiled
+    type: VARCHAR
+  - name: reporting_railroad_individual_class
+    type: VARCHAR
+  - name: reporting_railroad_passenger
+    type: VARCHAR
+  - name: reporting_railroad_commuter
+    type: VARCHAR
+  - name: reporting_railroad_switching_terminal
+    type: VARCHAR
+  - name: reporting_railroad_tourist
+    type: VARCHAR
+  - name: reporting_railroad_freight
+    type: VARCHAR
+  - name: reporting_railroad_short_line
+    type: VARCHAR

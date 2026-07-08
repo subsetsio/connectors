@@ -1,0 +1,23 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, geography, housing_type, frequency, seasonally_adjusted]
+temporal: date
+sort: [date, geography, housing_type, frequency, seasonally_adjusted]
+columns:
+  - name: date
+    type: DATE
+  - name: geography
+    type: VARCHAR
+  - name: geography_name
+    type: VARCHAR
+  - name: level
+    type: VARCHAR
+  - name: housing_type
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: seasonally_adjusted
+    type: BOOLEAN
+  - name: hpi_index
+    type: DOUBLE
+  - name: benchmark_price
+    type: DOUBLE

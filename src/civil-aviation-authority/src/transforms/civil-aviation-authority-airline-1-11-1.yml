@@ -1,0 +1,36 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+columns:
+  - name: rundate
+    type: VARCHAR
+  - name: report_period
+    type: BIGINT
+  - name: acf_name
+    type: VARCHAR
+  - name: release_period
+    type: BIGINT
+  - name: family
+    type: VARCHAR
+  - name: passenger_acf_km
+    type: BIGINT
+  - name: cargo_acf_km
+    type: BIGINT
+  - name: passenger_stage_flts
+    type: BIGINT
+  - name: cargo_stage_flts
+    type: BIGINT
+  - name: passenger_acf_hours
+    type: DOUBLE
+  - name: cargo_acf_hours
+    type: DOUBLE
+  - name: passengers_uplifted
+    type: BIGINT
+  - name: seat_km_used_x1000
+    type: BIGINT
+  - name: seat_km_available_x1000
+    type: BIGINT
+  - name: aircraft_in_service_at_year_end
+    type: BIGINT
+  - name: sum_of_hours_used
+    type: DOUBLE
+  - name: sum_of_hours_available
+    type: BIGINT

@@ -1,0 +1,11 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [indicador_id, year]
+temporal: year
+sort: [year, indicador_id]
+columns:
+  - name: indicador_id
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

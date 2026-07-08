@@ -1,0 +1,15 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [series_code, date, geo_level, territory_code]
+temporal: date
+sort: [date, series_code, geo_level, territory_code]
+columns:
+  - name: series_code
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: geo_level
+    type: VARCHAR
+  - name: territory_code
+    type: VARCHAR

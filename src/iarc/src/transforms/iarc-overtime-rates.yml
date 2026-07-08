@@ -1,0 +1,23 @@
+# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [country_code, cancer_code, sex, measure_type, year]
+temporal: year
+sort: [year, country_code, cancer_code, sex, measure_type]
+columns:
+  - name: country_code
+    type: BIGINT
+  - name: cancer_code
+    type: BIGINT
+  - name: sex
+    type: INTEGER
+  - name: measure_type
+    type: INTEGER
+  - name: measure
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: cases
+    type: BIGINT
+  - name: person_years
+    type: BIGINT
+  - name: crude_rate_per_100k
+    type: DOUBLE
