@@ -50,6 +50,7 @@ ENTITY_META = {
     'financial-market-statistics__statistics-of-interbank-pledged-repo': ('Financial Market Statistics', 'Statistics of Interbank Pledged Repo'),
     'financial-market-statistics__statistics-of-shibor': ('Financial Market Statistics', 'Statistics of Shibor'),
     'financial-market-statistics__statistics-of-stock-market': ('Financial Market Statistics', 'Statistics of Stock Market'),
+    'money-and-banking-statistics__advance-release-calendar-arc': ('Money and Banking Statistics', 'Advance Release Calendar(ARC)'),
     'money-and-banking-statistics__balance-sheet-of-monetary-authority': ('Money and Banking Statistics', 'Balance Sheet of Monetary Authority'),
     'money-and-banking-statistics__balance-sheet-of-other-depository-corporations': ('Money and Banking Statistics', 'Balance Sheet of Other Depository Corporations'),
     'money-and-banking-statistics__depository-corporations-survey': ('Money and Banking Statistics', 'Depository Corporations Survey'),

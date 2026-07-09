@@ -8,7 +8,7 @@ a tidy (region, year, gdppc, pop) long table.
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import load_workbook, to_float, to_int
 
 REGIONAL_SCHEMA = pa.schema([
@@ -62,8 +62,3 @@ def fetch_regional_aggregates(node_id: str) -> None:
     assert rows, "Regional data sheet produced no rows"
     table = pa.Table.from_pylist(rows, schema=REGIONAL_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="maddison-project-regional-aggregates", fn=fetch_regional_aggregates, kind="download"),
-]

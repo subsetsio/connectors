@@ -6,7 +6,7 @@ The 'Full data' sheet of mpd2023_web.xlsx: a long panel with one row per
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import load_workbook, to_float, to_int
 
 COUNTRY_SCHEMA = pa.schema([
@@ -46,8 +46,3 @@ def fetch_country_panel(node_id: str) -> None:
     assert rows, "Full data sheet produced no rows"
     table = pa.Table.from_pylist(rows, schema=COUNTRY_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="maddison-project-country-panel", fn=fetch_country_panel, kind="download"),
-]

@@ -1,0 +1,19 @@
+spec_id: reserve-bank-of-australia-a3.1-nswtc
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every accepted RBA statistical CSV should produce at least one long-format row
+    certainty: 85
+    points_outward: true
+  - not_null: obs_date
+    reason: observation rows are keyed by the date in the first CSV column
+    certainty: 95
+  - not_null: source_csv
+    reason: downloader stamps the source CSV slug on every raw row
+    certainty: 99
+  - enum: {col: record_type, values: [observation]}
+    reason: this spec is a regular statistical table observation asset
+    certainty: 95
+  - not_null: series_id
+    reason: RBA metadata rows publish a Series ID for each observation column
+    certainty: 95

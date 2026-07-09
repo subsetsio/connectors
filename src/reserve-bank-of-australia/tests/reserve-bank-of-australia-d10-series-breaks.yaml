@@ -1,0 +1,19 @@
+spec_id: reserve-bank-of-australia-d10-series-breaks
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every published RBA series-breaks CSV should contain at least one break row
+    certainty: 80
+    points_outward: true
+  - not_null: obs_date
+    reason: series-break rows are keyed by the date the break applies
+    certainty: 95
+  - not_null: source_csv
+    reason: downloader stamps the source CSV slug on every raw row
+    certainty: 99
+  - enum: {col: record_type, values: [series_break]}
+    reason: this spec is a series-break reference table, not an observation table
+    certainty: 99
+  - not_null: break_type
+    reason: RBA series-breaks tables classify each break with a break type code
+    certainty: 90

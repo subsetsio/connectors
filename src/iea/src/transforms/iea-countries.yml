@@ -1,0 +1,48 @@
+# IEA country and region dimension — IEA Energy Statistics Data Browser, /stats/countries
+# Regions are retained as a JSON string because the source returns a variable-length
+# list of aggregate memberships per country/region.
+key:
+- country
+columns:
+- name: country
+  type: VARCHAR
+  description: IEA country/region code used in indicator rows; ISO3 alpha-3 for individual countries and IEA aggregate codes for regions.
+- name: country_name
+  type: VARCHAR
+  description: IEA display name for the country or region.
+- name: country_full_name
+  type: VARCHAR
+  description: Full IEA country or region name.
+- name: iso2
+  type: VARCHAR
+  description: ISO 3166-1 alpha-2 country code when available; null for aggregate regions.
+- name: iso3
+  type: VARCHAR
+  description: ISO 3166-1 alpha-3 country code when available; null for aggregate regions.
+- name: is_region
+  type: BOOLEAN
+  description: True for aggregate region rows, false for individual countries.
+- name: is_member
+  type: BOOLEAN
+  description: True when the row is an IEA member country.
+- name: is_association
+  type: BOOLEAN
+  description: True when the row is an IEA association country.
+- name: is_accession
+  type: BOOLEAN
+  description: True when the row is an IEA accession country.
+- name: is_family
+  type: BOOLEAN
+  description: True when the row is part of the IEA family grouping.
+- name: is_oecd
+  type: BOOLEAN
+  description: True when the row is an OECD country or aggregate.
+- name: show_in_browser
+  type: BOOLEAN
+  description: Source flag indicating whether the country or region is shown in the browser UI.
+- name: regions_json
+  type: VARCHAR
+  description: JSON array of IEA aggregate region codes the country or region belongs to.
+- name: note
+  type: VARCHAR
+  description: Optional source note for the country or region.
