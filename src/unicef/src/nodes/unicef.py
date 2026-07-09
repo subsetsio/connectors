@@ -121,57 +121,69 @@ def _flush(writer, batch: list[dict]) -> None:
     writer.write_table(pa.Table.from_pylist(batch, schema=SCHEMA))
 
 
-def _decompressor(head: bytes):
-    """A decompressobj matching what `head` actually is, or None for plain bytes."""
-    if head[:2] == b"\x1f\x8b":
-        return zlib.decompressobj(16 + zlib.MAX_WBITS)  # gzip
-    if head[:1] == b"\x78":
-        return zlib.decompressobj()                     # zlib-wrapped deflate
-    return None
+def _compressed(head: bytes) -> bool:
+    """Whether the body is gzip- or zlib-framed, judged from its first bytes."""
+    return head[:2] == b"\x1f\x8b" or head[:1] == b"\x78"
 
 
-def _iter_lines(resp) -> "Iterator[str]":
-    """Decoded text lines from the raw response body.
+class _Inflater:
+    """Inflates a response body whose framing is sniffed, not declared.
 
     The warehouse's `Vary` omits `Accept-Encoding`, so its fronting cache can
-    return a `Content-Encoding: gzip` header on a body that was stored
-    uncompressed (and the reverse). Trusting the header there fails the largest
-    flows with a zlib "incorrect header check"; sniff the bytes instead. A
-    stream that ends mid-member raises, so a truncated pull retries rather than
-    silently writing a short table.
+    serve a `Content-Encoding: gzip` header over a body it stored uncompressed
+    (and the reverse). Trusting the header there fails the largest flows with a
+    zlib "incorrect header check" — which is not a transient error, so the spec
+    dies. The first chunk's magic bytes are the truth.
     """
-    decomp = _decompressor(b"")
-    sniffed = False
-    text = codecs.getincrementaldecoder("utf-8")("replace")
+
+    def __init__(self):
+        self._d = None
+        self._sniffed = False
+
+    def feed(self, chunk: bytes) -> bytes:
+        if not self._sniffed:
+            self._sniffed = True
+            # wbits=47: auto-detect gzip vs zlib framing.
+            self._d = zlib.decompressobj(47) if _compressed(chunk) else None
+        if self._d is None:
+            return chunk
+        out = b""
+        while chunk:
+            out += self._d.decompress(chunk)
+            chunk = self._d.unused_data  # non-empty only past a member's end
+            if chunk:
+                if not _compressed(chunk):
+                    raise ValueError("trailing garbage after compressed body")
+                self._d = zlib.decompressobj(47)  # concatenated member
+        return out
+
+    def truncated(self) -> bool:
+        return self._d is not None and not self._d.eof
+
+
+def _iter_lines(resp):
+    """Decoded text lines from the raw response body. A stream that ends
+    mid-member raises, so a truncated pull fails loudly instead of silently
+    writing a short table."""
+    inflate = _Inflater()
+    decode = codecs.getincrementaldecoder("utf-8")("replace")
     tail = ""
     for chunk in resp.iter_raw():
         if not chunk:
             continue
-        if not sniffed:
-            decomp, sniffed = _decompressor(chunk), True
-        while decomp is not None:
-            data = decomp.decompress(chunk)
-            rest = decomp.unused_data  # a concatenated multi-member gzip stream
-            chunk = data
-            if not rest:
-                break
-            decomp = _decompressor(rest)
-            if decomp is None:
-                chunk += rest
-                break
-            chunk += decomp.decompress(rest)
-            break
+        chunk = inflate.feed(chunk)
         if not chunk:
             continue
-        # Split on \n only: str.splitlines would also break on \x0b/ ,
-        # which SDMX labels are free to contain. Terminators are kept so
-        # csv.reader can rejoin quoted fields that span lines.
-        parts = (tail + text.decode(chunk)).split("\n")
+        # Split on the newline alone: str.splitlines would also break on the
+        # vertical tab and U+2028, which SDMX labels are free to contain.
+        # Terminators are kept so csv.reader can rejoin quoted fields that span
+        # lines.
+        parts = (tail + decode.decode(chunk)).split("\n")
         tail = parts.pop()
         yield from (p + "\n" for p in parts)
-    if decomp is not None and not decomp.eof:
+    if inflate.truncated():
         raise ValueError("compressed response ended mid-stream (truncated)")
-    tail += text.decode(b"", True)
+    tail += decode.decode(b"", True)
     if tail:
         yield tail
 

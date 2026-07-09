@@ -12,8 +12,11 @@ checks:
     col: country_code
   - kind: not_null
     col: year
+  # Hand-tuned: the compiler derived min=65572 from the RAW row count (131,144),
+  # but the transform drops the ~82% of grid cells carrying neither estimate, so
+  # only 23,280 rows are published. Floor set at half of the published count.
   - kind: row_floor
-    min: 65572
+    min: 11640
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1
