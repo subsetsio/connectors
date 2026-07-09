@@ -1,0 +1,5 @@
+{
+  "cadence_days": 30,
+  "paused": false,
+  "cadence_note": "ANAC publishes no refresh schedule. Observed via Last-Modified on the dadosabertos autoindex: the reference registries (aerodromes, RAB, drones/SISANT, licences) re-stamp daily-to-weekly, while the partitioned statistical series (VRA, airport movements, delay/cancellation percentages, airfare microdata) gain one new file per month. There is no incremental/since filter, so every refresh re-pulls the full ~40GB corpus; a monthly cadence is set to the slowest-moving series that actually adds data, because a weekly re-pull would cost 4x the bandwidth for the same monthly increment."
+}

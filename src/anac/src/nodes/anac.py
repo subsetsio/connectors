@@ -454,22 +454,35 @@ def _header_union(node_id: str, items: list[tuple[str, bool]], run_id: str) -> l
 # --------------------------------------------------------------------------- #
 # Fetch
 # --------------------------------------------------------------------------- #
-def _fragment_name(node_id: str, url: str) -> str:
-    """A stable, collision-free fragment id derived from the file's own path.
+def _entity_root(desc: dict) -> str:
+    """The URL prefix every one of this entity's files hangs off."""
+    if desc["kind"] == "airfares":
+        return f"{SAS_BASE}{desc['sub']}/"
+    return _dir_url(desc["path"])
 
-    Derived from the URL rather than its index in the listing, so a file that
+
+def _fragment_name(desc: dict, url: str) -> str:
+    """A stable, collision-free fragment id: the file's path *relative to the
+    entity root*, slugged.
+
+    Relative, because the raw object is named `<node_id>-<fragment>.ndjson.gz`
+    and node ids already carry the full entity path — repeating it in the
+    fragment pushes the longest names past the 255-byte filename limit.
+
+    Derived from the path rather than the file's index in the listing, so a file
     ANAC inserts mid-run cannot shift every later fragment's identity and
     resurrect already-committed work under a new name.
     """
-    tail = unquote(url).split("/dadosabertos/", 1)[-1].split("/sas/", 1)[-1]
+    tail = unquote(url).removeprefix(unquote(_entity_root(desc)))
     return _slug(tail[: -len(".csv")]) or "part"
 
 
-def _fetch_fragment(node_id: str, url: str, optional: bool, columns: list[str]) -> None:
+def _fetch_fragment(node_id: str, desc: dict, url: str, optional: bool,
+                    columns: list[str]) -> None:
     body = _fetch_body(url, optional=optional)
     if body is None:
         return  # optional file genuinely absent — nothing to commit
-    frag = _fragment_name(node_id, url)
+    frag = _fragment_name(desc, url)
     with raw_writer(node_id, RAW_EXT, mode="wt", compression="gzip", fragment=frag) as out:
         for rec in _iter_rows(body):
             row = {c: rec.get(c) for c in columns} if columns else rec
@@ -488,12 +501,19 @@ def fetch_one(node_id: str) -> None:
     desc = CATALOG[node_id[len("anac-"):]]
     items = _discover_items(desc)
 
+    frags = [_fragment_name(desc, url) for url, _ in items]
+    if len(set(frags)) != len(frags):
+        raise RuntimeError(
+            f"{node_id}: fragment name collision — two source files map to one "
+            "fragment, which would silently drop a file"
+        )
+
     run_id = os.environ.get("RUN_ID", "unknown")
     done = {
         frag for frag, meta in list_raw_fragments(node_id, RAW_EXT).items()
         if meta.get("run_id") == run_id
     }
-    pending = [it for it in items if _fragment_name(node_id, it[0]) not in done]
+    pending = [it for it, frag in zip(items, frags) if frag not in done]
     if not pending:
         return
 
@@ -503,7 +523,7 @@ def fetch_one(node_id: str) -> None:
 
     with ThreadPoolExecutor(max_workers=_CONCURRENCY) as ex:
         futures = [
-            ex.submit(_fetch_fragment, node_id, url, optional, columns)
+            ex.submit(_fetch_fragment, node_id, desc, url, optional, columns)
             for url, optional in pending
         ]
         for fut in futures:
