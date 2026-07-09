@@ -27,7 +27,6 @@ import openpyxl
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -43,9 +42,14 @@ UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
 # entity_id -> metadata. topic_slug matches the workbook filename key and the
 # entity-id prefix; sheet is the exact worksheet name inside that workbook.
 ENTITY_META = {
+    "lawful-permanent-residents-lprsupptable-1": {"topic_slug": "lawful-permanent-residents", "topic": "Lawful Permanent Residents", "sheet": "LPRSuppTable 1", "title": "Persons Obtaining Lawful Permanent Resident Status by State or Territory of Residence and Region and Country of Birth: Fiscal Year 2024"},
+    "lawful-permanent-residents-lprsupptable-2": {"topic_slug": "lawful-permanent-residents", "topic": "Lawful Permanent Residents", "sheet": "LPRSuppTable 2", "title": "Persons Obtaining Lawful Permanent Resident Status by Leading Core Based Statistical Areas (CBSA) of Residence and Region and Country of Birth: Fiscal Year 2024"},
+    "lawful-permanent-residents-lprsupptable-3": {"topic_slug": "lawful-permanent-residents", "topic": "Lawful Permanent Residents", "sheet": "LPRSuppTable 3", "title": "Persons Obtaining Lawful Permanent Resident Status by Region of Birth and Core Based Statistical Area (CBSA) of Residence: Fiscal Year 2024"},
+    "lawful-permanent-residents-lprsupptable-4": {"topic_slug": "lawful-permanent-residents", "topic": "Lawful Permanent Residents", "sheet": "LPRSuppTable 4", "title": "Immigrant Orphans Adopted by U.S. Citizens by Sex, Age, and State or Territory of Residence: Fiscal Year 2024"},
     "lawful-permanent-residents-table-1": {"topic_slug": "lawful-permanent-residents", "topic": "Lawful Permanent Residents", "sheet": "Table 1", "title": "Persons Obtaining Lawful Permanent Resident Status: Fiscal Years 1820 to 2024"},
     "lawful-permanent-residents-table-10": {"topic_slug": "lawful-permanent-residents", "topic": "Lawful Permanent Residents", "sheet": "Table 10", "title": "Persons Obtaining Lawful Permanent Resident Status by Broad Class of Admission and Region and Country of Birth: Fiscal Year 2024"},
     "lawful-permanent-residents-table-11": {"topic_slug": "lawful-permanent-residents", "topic": "Lawful Permanent Residents", "sheet": "Table 11", "title": "Persons Obtaining Lawful Permanent Resident Status by Broad Class of Admission and Region and Country of Last Residence: Fiscal Year 2024"},
+    "lawful-permanent-residents-table-12": {"topic_slug": "lawful-permanent-residents", "topic": "Lawful Permanent Residents", "sheet": "Table 12", "title": "Immigrant Orphans Adopted by U.S. Citizens by Sex, Age, and Region and Country of Birth: Fiscal Year 2024"},
     "lawful-permanent-residents-table-2": {"topic_slug": "lawful-permanent-residents", "topic": "Lawful Permanent Residents", "sheet": "Table 2", "title": "Persons Obtaining Lawful Permanent Resident Status by Region and Country of Last Residence: Fiscal Years 2015 to 2024"},
     "lawful-permanent-residents-table-3": {"topic_slug": "lawful-permanent-residents", "topic": "Lawful Permanent Residents", "sheet": "Table 3", "title": "Persons Obtaining Lawful Permanent Resident Status by Region and Country of Birth: Fiscal Years 2015 to 2024"},
     "lawful-permanent-residents-table-4": {"topic_slug": "lawful-permanent-residents", "topic": "Lawful Permanent Residents", "sheet": "Table 4", "title": "Persons Obtaining Lawful Permanent Resident Status by State or Territory of Residence: Fiscal Years 2015 to 2024"},
@@ -54,11 +58,17 @@ ENTITY_META = {
     "lawful-permanent-residents-table-7": {"topic_slug": "lawful-permanent-residents", "topic": "Lawful Permanent Residents", "sheet": "Table 7", "title": "Persons Obtaining Lawful Permanent Resident Status by Type and Detailed Class of Admission: Fiscal Year 2024"},
     "lawful-permanent-residents-table-8": {"topic_slug": "lawful-permanent-residents", "topic": "Lawful Permanent Residents", "sheet": "Table 8", "title": "Persons Obtaining Lawful Permanent Resident Status by Sex, Age, Marital Status, and Occupation: Fiscal Year 2024"},
     "lawful-permanent-residents-table-9": {"topic_slug": "lawful-permanent-residents", "topic": "Lawful Permanent Residents", "sheet": "Table 9", "title": "Persons Obtaining Lawful Permanent Resident Status by Broad Class of Admission and Selected Demographic Characteristics: Fiscal Year 2024"},
+    "naturalizations-natzsupptable1": {"topic_slug": "naturalizations", "topic": "Naturalizations", "sheet": "NATZSuppTable1", "title": "Persons Naturalized by State or Territory of Residence and Region and Country of Birth: Fiscal Year 2024"},
+    "naturalizations-natzsupptable2": {"topic_slug": "naturalizations", "topic": "Naturalizations", "sheet": "NATZSuppTable2", "title": "Persons Naturalized by Leading Core Based Statistical Areas (CBSA) of Residence and Region and Country of Birth: Fiscal Year 2024"},
+    "naturalizations-natzsupptable3": {"topic_slug": "naturalizations", "topic": "Naturalizations", "sheet": "NATZSuppTable3", "title": "Persons Naturalized by Region of Birth and Core Based Statistical Area (CBSA) of Residence: Fiscal Year 2024"},
     "naturalizations-table-21": {"topic_slug": "naturalizations", "topic": "Naturalizations", "sheet": "Table 21", "title": "Applications for Naturalization Filed, Persons Naturalized, and Applications for Naturalization Denied: Fiscal Years 1907 to 2024"},
     "naturalizations-table-22": {"topic_slug": "naturalizations", "topic": "Naturalizations", "sheet": "Table 22", "title": "Persons Naturalized by Region and Country of Birth: Fiscal Years 2015 to 2024"},
     "naturalizations-table-23": {"topic_slug": "naturalizations", "topic": "Naturalizations", "sheet": "Table 23", "title": "Persons Naturalized by State or Territory of Residence: Fiscal Years 2015 to 2024"},
     "naturalizations-table-24": {"topic_slug": "naturalizations", "topic": "Naturalizations", "sheet": "Table 24", "title": "Persons Naturalized by Core Based Statistical Area (CBSA) of Residence: Fiscal Years 2015 to 2024"},
     "naturalizations-table-25": {"topic_slug": "naturalizations", "topic": "Naturalizations", "sheet": "Table 25", "title": "Persons Naturalized by Sex, Age, Marital Status, and Occupation: Fiscal Year 2024"},
+    "nonimmigrants-nisupptable1": {"topic_slug": "nonimmigrants", "topic": "Nonimmigrant Admissions", "sheet": "NISuppTable1", "title": "I-94 Nonimmigrant Admissions by Class of Admission and Country of Citizenship: Fiscal Year 2024"},
+    "nonimmigrants-nisupptable2": {"topic_slug": "nonimmigrants", "topic": "Nonimmigrant Admissions", "sheet": "NISuppTable2", "title": "I-94 Nonimmigrant Admissions by Class of Admission and Country of Residence: Fiscal Year 2024"},
+    "nonimmigrants-nisupptable3": {"topic_slug": "nonimmigrants", "topic": "Nonimmigrant Admissions", "sheet": "NISuppTable3", "title": "I-94 Nonimmigrant Admissions by Class of Admission and State or Territory of Destination: Fiscal Year 2024"},
     "nonimmigrants-table-26": {"topic_slug": "nonimmigrants", "topic": "Nonimmigrant Admissions", "sheet": "Table 26", "title": "Nonimmigrant Admissions by Class of Admission: Fiscal Years 2015 to 2024"},
     "nonimmigrants-table-27": {"topic_slug": "nonimmigrants", "topic": "Nonimmigrant Admissions", "sheet": "Table 27", "title": "I-94 Nonimmigrant Admissions by Region and Country of Citizenship: Fiscal Years 2015 to 2024"},
     "nonimmigrants-table-28": {"topic_slug": "nonimmigrants", "topic": "Nonimmigrant Admissions", "sheet": "Table 28", "title": "I-94 Nonimmigrant Admissions by Region and Country of Residence: Fiscal Years 2015 to 2024"},
@@ -256,25 +266,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"dhs-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_META
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                topic,
-                table_label,
-                title,
-                section,
-                category,
-                breakdown,
-                CAST(value AS DOUBLE) AS value,
-                value_note
-            FROM "{s.id}"
-            WHERE category IS NOT NULL AND category <> ''
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

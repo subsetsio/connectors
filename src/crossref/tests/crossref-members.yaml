@@ -1,0 +1,17 @@
+spec_id: crossref-members
+status: active
+tests:
+  - row_count: {min: 25000}
+    reason: Crossref member registry has tens of thousands of registered organizations.
+    certainty: 90
+    points_outward: true
+  - not_null: member_id
+  - not_null: primary_name
+  - column_type: {col: member_id, type: integer}
+  - column_type: {col: primary_name, type: string}
+  - unique: member_id
+    reason: Crossref member id identifies one registered organization.
+    certainty: 95
+  - at_least: {col: total_dois, expr: 0}
+    reason: DOI counts are non-negative counters.
+    certainty: 95

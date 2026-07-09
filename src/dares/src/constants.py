@@ -27,6 +27,7 @@ ENTITY_IDS = [
     "dares_emploivacants_cvs_typevacance",
     "dares_jint_1975-2004",
     "dares_jint_depuis2005",
+    "dares_nomenclature_fap2021",
     "dares_offres_collectees_satisfaites_france_travail_brutes_mens",
     "dares_offres_collectees_satisfaites_france_travail_brutes_trim",
     "dares_offres_collectees_satisfaites_france_travail_cvs-cjo_mens",

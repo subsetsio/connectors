@@ -1,0 +1,14 @@
+spec_id: crossref-types
+status: active
+tests:
+  - row_count: {min: 25}
+    reason: Crossref exposes about 30 work types.
+    certainty: 90
+    points_outward: true
+  - not_null: type_id
+  - not_null: label
+  - column_type: {col: type_id, type: string}
+  - column_type: {col: label, type: string}
+  - unique: type_id
+    reason: Work type ids are controlled-vocabulary keys.
+    certainty: 95

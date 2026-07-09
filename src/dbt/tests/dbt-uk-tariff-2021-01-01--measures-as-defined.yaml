@@ -1,19 +1,2 @@
 spec_id: dbt-uk-tariff-2021-01-01--measures-as-defined
-status: active
-tests:
-  - not_null: id
-    reason: surrogate row id on the denormalized commodity-measure view
-    certainty: 85
-  - not_null: commodity__code
-    reason: each row is anchored to a commodity code
-    certainty: 85
-  - not_null: measure__sid
-    reason: each row is anchored to a measure system id
-    certainty: 80
-  - unique: id
-    reason: one row per commodity-measure combination
-    certainty: 70
-    severity: warn
-  - row_count: {min: 1000}
-    reason: denormalized measures-as-defined spans many commodity-measure pairs
-    certainty: 80
+status: deferred

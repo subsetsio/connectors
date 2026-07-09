@@ -25,7 +25,10 @@ raw_writer -- never accumulating the corpus in memory.
 import csv
 import io
 import json
+import re
 import zipfile
+
+import pandas as pd
 
 from subsets_utils import (
     NodeSpec,
@@ -67,6 +70,33 @@ def _s(v):
         return None
     v = str(v).strip()
     return None if v.lower() in _NA else v
+
+
+def _json_value(v):
+    if v is None or pd.isna(v):
+        return None
+    if hasattr(v, "isoformat"):
+        return v.isoformat()
+    if isinstance(v, (int, float, str, bool)):
+        return v
+    return str(v)
+
+
+def _clean_col(name) -> str:
+    value = str(name or "").strip().lower()
+    value = re.sub(r"[^a-z0-9]+", "_", value).strip("_")
+    return value or "unnamed"
+
+
+def _year_from_filename(filename: str) -> int | None:
+    match4 = re.search(r"(19|20)\d{2}", filename)
+    if match4:
+        return int(match4.group(0))
+    match2 = re.search(r"(?:^|[^0-9])(\d{2})(?:_|[^0-9])", filename)
+    if not match2:
+        return None
+    year = int(match2.group(1))
+    return 2000 + year if year < 80 else 1900 + year
 
 
 def _f(v):
@@ -199,6 +229,83 @@ def fetch_crosswalk(node_id: str) -> None:
         raise AssertionError(f"{node_id}: zero crosswalk rows")
 
 
+def fetch_hospital_research_data(node_id: str) -> None:
+    """Fetch hospital-level CSV bundles with drifty annual schemas."""
+    configure_http(headers={"User-Agent": _UA})
+    entity = _entity_of(node_id)
+    written = 0
+    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
+        for rel in FILES[entity]:
+            basename = rel.rsplit("/", 1)[-1]
+            vintage = _year_from_filename(basename)
+            for raw in _iter_csv_rows(BASE + rel):
+                row = {
+                    "source_file": basename,
+                    "vintage": vintage,
+                }
+                for key, value in raw.items():
+                    row[_clean_col(key)] = _s(value)
+                fh.write(json.dumps(row) + "\n")
+                written += 1
+    if not written:
+        raise AssertionError(f"{node_id}: zero hospital research rows")
+
+
+def fetch_capacity_xls(node_id: str) -> None:
+    """Fetch area-level hospital/physician capacity legacy XLS snapshots."""
+    configure_http(headers={"User-Agent": _UA})
+    entity = _entity_of(node_id)
+    written = 0
+    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
+        for rel in FILES[entity]:
+            basename = rel.rsplit("/", 1)[-1]
+            geo_level = "hrr" if "_hrr" in basename else "hsa" if "_hsa" in basename else None
+            vintage = _year_from_filename(basename)
+            df = pd.read_excel(io.BytesIO(_download(BASE + rel)), sheet_name=0)
+            df = df.dropna(how="all")
+            for raw in df.to_dict(orient="records"):
+                row = {
+                    "source_file": basename,
+                    "geo_level": geo_level,
+                    "vintage": vintage,
+                }
+                for key, value in raw.items():
+                    row[_clean_col(key)] = _json_value(value)
+                fh.write(json.dumps(row) + "\n")
+                written += 1
+    if not written:
+        raise AssertionError(f"{node_id}: zero capacity rows")
+
+
+def fetch_mortality_stata(node_id: str) -> None:
+    """Fetch mortality rates from direct Stata ZIPs; public CSV points to Dataverse."""
+    configure_http(headers={"User-Agent": _UA})
+    entity = _entity_of(node_id)
+    written = 0
+    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
+        for rel in FILES[entity]:
+            basename = rel.rsplit("/", 1)[-1]
+            geo_level = _geo_level(basename)
+            zf = zipfile.ZipFile(io.BytesIO(_download(BASE + rel)))
+            members = [n for n in zf.namelist() if n.lower().endswith(".dta")]
+            if not members:
+                raise AssertionError(f"no DTA member in {rel}: {zf.namelist()}")
+            with zf.open(members[0]) as member:
+                df = pd.read_stata(io.BytesIO(member.read()), convert_categoricals=False)
+            df = df.dropna(how="all")
+            for raw in df.to_dict(orient="records"):
+                row = {
+                    "source_file": basename,
+                    "geo_level": geo_level,
+                }
+                for key, value in raw.items():
+                    row[_clean_col(key)] = _json_value(value)
+                fh.write(json.dumps(row) + "\n")
+                written += 1
+    if not written:
+        raise AssertionError(f"{node_id}: zero mortality rows")
+
+
 def _spec_id(entity: str) -> str:
     return f"{SLUG}-{entity.lower().replace('_', '-')}"
 
@@ -207,6 +314,9 @@ DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(e), fn=fetch_topic, kind="download") for e in TOPIC_ENTITIES
 ] + [
     NodeSpec(id=_spec_id("geography-crosswalk"), fn=fetch_crosswalk, kind="download"),
+    NodeSpec(id=_spec_id("hospital-physician-capacity"), fn=fetch_capacity_xls, kind="download"),
+    NodeSpec(id=_spec_id("hospital-research-data"), fn=fetch_hospital_research_data, kind="download"),
+    NodeSpec(id=_spec_id("mortality"), fn=fetch_mortality_stata, kind="download"),
 ]
 
 

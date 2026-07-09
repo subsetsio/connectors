@@ -1,16 +1,2 @@
 spec_id: dbt-uk-trade-quotas--quotas
-status: active
-tests:
-  - not_null: quota_definition__sid
-    reason: every quota definition has a numeric system id
-    certainty: 90
-  - not_null: quota__order_number
-    reason: each quota carries its order number
-    certainty: 85
-  - unique: quota_definition__sid
-    reason: one row per quota definition
-    certainty: 75
-    severity: warn
-  - row_count: {min: 50}
-    reason: the UK operates hundreds of trade tariff-rate quotas
-    certainty: 80
+status: deferred

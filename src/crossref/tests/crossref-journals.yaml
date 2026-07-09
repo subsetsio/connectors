@@ -1,0 +1,14 @@
+spec_id: crossref-journals
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: Crossref journal registry contains well over 100k journal title records.
+    certainty: 90
+    points_outward: true
+  - not_null: title
+  - column_type: {col: title, type: string}
+  - column_type: {col: issn, type: string}
+  - column_type: {col: total_dois, type: integer}
+  - at_least: {col: total_dois, expr: 0}
+    reason: DOI counts are non-negative counters.
+    certainty: 95

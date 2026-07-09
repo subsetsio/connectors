@@ -27,7 +27,6 @@ import re
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -329,77 +328,4 @@ def _fn_for(eid: str):
 DOWNLOAD_SPECS = [
     NodeSpec(id=PREFIX + eid, fn=_fn_for(eid), kind="download")
     for eid in ENTITY_IDS
-]
-
-
-def _sql_for(eid: str, dep: str) -> str:
-    if eid.startswith("glance-"):
-        return f'''
-            SELECT CAST(date AS DATE) AS date,
-                   year,
-                   period,
-                   indicator_code,
-                   indicator_title,
-                   units,
-                   CAST(value AS DOUBLE) AS value
-            FROM "{dep}"
-            WHERE value IS NOT NULL
-        '''
-    if eid in ("ccpi", "ncpi"):
-        return f'''
-            SELECT CAST(date AS DATE) AS date,
-                   period,
-                   measure,
-                   category_code,
-                   category_title,
-                   weight,
-                   base_value,
-                   CAST(value AS DOUBLE) AS value
-            FROM "{dep}"
-            WHERE value IS NOT NULL
-        '''
-    if eid in ("ppi", "iip"):
-        return f'''
-            SELECT CAST(date AS DATE) AS date,
-                   period,
-                   category_code,
-                   category_title,
-                   CAST(value AS DOUBLE) AS value
-            FROM "{dep}"
-            WHERE value IS NOT NULL
-        '''
-    if eid == "gdp":
-        return f'''
-            SELECT CAST(date AS DATE) AS date,
-                   period,
-                   frequency,
-                   price_basis,
-                   measure,
-                   sector_code,
-                   sector_title,
-                   sector_group,
-                   CAST(value AS DOUBLE) AS value
-            FROM "{dep}"
-            WHERE value IS NOT NULL
-        '''
-    # weekly-retail-prices
-    return f'''
-        SELECT CAST(date AS DATE) AS date,
-               week_label,
-               product,
-               product_name,
-               category,
-               CAST(price_lkr AS DOUBLE) AS price_lkr
-        FROM "{dep}"
-        WHERE price_lkr IS NOT NULL
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{spec.id}-transform",
-        deps=[spec.id],
-        sql=_sql_for(_eid(spec.id), spec.id),
-    )
-    for spec in DOWNLOAD_SPECS
 ]

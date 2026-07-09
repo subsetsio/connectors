@@ -1,8 +1,12 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The sector domain includes both individual sectors and the Overall composite index; filter sector before aggregating across sectors.
 SELECT
-    sector,
-    base_year,
-    CAST(date AS DATE) AS date,
-    CAST(index_value AS DOUBLE) AS index_value,
-    CAST(growth_rate AS DOUBLE) AS growth_rate
+    "sector",
+    strptime("base_year", '%Y-%m')::DATE AS base_year,
+    "date",
+    "index_value",
+    "growth_rate"
 FROM "dpiit-core-industries"
-WHERE index_value IS NOT NULL

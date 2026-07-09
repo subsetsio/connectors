@@ -1,20 +1,34 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# caution: `last_data_update` is the indicator's upstream revision date, not an observation period — it says nothing about which years the indicator covers.
+# caution: The catalog lists every indicator UIS defines, including ones with no observations in the values table.
+# last_data_update parsed from the source's m/d/Y string; geo_unit_types member order normalised
+key: [indicator_code]
+temporal: last_data_update
+sort: [last_data_update, indicator_code]
 columns:
   - name: indicator_code
     type: VARCHAR
+    description: UIS indicator code (e.g. CR.1, XGDP.FSGOV). The identifier joined as indicator_id in the indicator values table.
   - name: name
     type: VARCHAR
+    description: English name of the indicator. Carries the unit of measurement in trailing parentheses (e.g. "(years)", "(%)") — UIS publishes no separate unit field.
   - name: theme
     type: VARCHAR
+    description: UIS subject area — one of EDUCATION, SCIENCE_TECHNOLOGY_INNOVATION, CULTURE, DEMOGRAPHIC_SOCIOECONOMIC.
   - name: last_data_update
-    type: VARCHAR
+    type: DATE
+    description: Date of the UIS data release that last revised this indicator, parsed from the source's m/d/Y string. A catalog revision date, not an observation period.
   - name: last_data_update_description
     type: VARCHAR
+    description: Human-readable name of that release (e.g. "February 2026 Data Release").
   - name: total_record_count
     type: BIGINT
+    description: Number of observations UIS reports holding for this indicator across all geographic units and years.
   - name: year_min
-    type: INTEGER
+    type: BIGINT
+    description: Earliest observation year available for this indicator.
   - name: year_max
-    type: INTEGER
+    type: BIGINT
+    description: Latest observation year available for this indicator.
   - name: geo_unit_types
     type: VARCHAR
+    description: Comma-separated, alphabetically sorted set of geographic unit types this indicator is reported for — NATIONAL, REGIONAL, or both.

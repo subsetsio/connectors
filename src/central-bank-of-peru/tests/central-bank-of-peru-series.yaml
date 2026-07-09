@@ -26,3 +26,8 @@ tests:
     reason: BCRP series codes are compact alphanumerics like PN00001MM; spaces or punctuation suggest a column-misalignment on the CSV
     certainty: 70
     severity: warn
+  - freshness: {col: fecha_actualizacion, reaches: today - 90d}
+    reason: the metadata file is regenerated periodically rather than daily — at the 20260709 fetch its newest fecha_actualizacion was 2026-06-11 (28d old), so 90d gives ~3x headroom; a max beyond that means BCRP stopped refreshing the catalog (wait/retry, not a code bug)
+    certainty: 70
+    points_outward: true
+    severity: warn

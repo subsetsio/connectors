@@ -1,0 +1,24 @@
+spec_id: croatian-national-bank-currencies
+status: active
+coverage:
+  frozen: true
+  reason: currency reference is derived from the closed legacy HRK range plus the current EUR range; it has no observation-date freshness target of its own
+tests:
+  - not_null: currency
+    reason: every reference row is keyed by an ISO alphabetic currency code
+    certainty: 99
+  - not_null: currency_numeric
+    reason: HNB publishes the ISO numeric currency code in both exchange-rate endpoints
+    certainty: 95
+  - unique: currency
+    reason: this is a one-row-per-currency reference table
+    certainty: 98
+  - matches: {col: currency, pattern: '^[A-Z]{3}$'}
+    reason: HNB uses ISO 4217 alphabetic currency codes
+    certainty: 95
+  - matches: {col: currency_numeric, pattern: '^[0-9]{3}$'}
+    reason: HNB uses three-digit ISO 4217 numeric currency codes
+    certainty: 95
+  - distinct_count: {col: currency, min: 15}
+    reason: the legacy kuna list includes about 15 currencies including EUR and XDR
+    certainty: 90

@@ -1,0 +1,40 @@
+spec_id: cpb-world-trade-monitor-values
+status: active
+tests:
+  - row_count:
+      min: 20000
+    reason: monthly observations should cover roughly 90 series from 2000 onward.
+    certainty: 90
+  - not_null: series_code
+  - not_null: period
+  - not_null: value
+  - column_type:
+      col: series_code
+      type: string
+  - column_type:
+      col: period
+      type: string
+  - column_type:
+      col: value
+      type: float
+  - unique:
+      - series_code
+      - period
+    reason: WTM is one monthly value per series per period.
+    certainty: 95
+  - matches:
+      col: period
+      pattern: "^\\d{4}-\\d{2}-01$"
+    reason: downloader normalizes CPB period headers such as 2026m03 to first-of-month ISO dates.
+    certainty: 95
+  - freshness:
+      col: period
+      reaches: today - 150d
+    reason: CPB publishes WTM monthly with a reporting lag; latest workbook should include a recent month.
+    certainty: 85
+    points_outward: true
+  - coverage:
+      col: series_code
+      expected: 80
+    reason: the single latest workbook should carry the full series universe, not a partial subset.
+    certainty: 85

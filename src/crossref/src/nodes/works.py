@@ -18,13 +18,7 @@ from datetime import date, datetime, timedelta, timezone
 
 import pyarrow as pa
 
-from subsets_utils import (
-    NodeSpec,
-    SqlNodeSpec,
-    load_state,
-    raw_parquet_writer,
-    save_state,
-)
+from subsets_utils import load_state, raw_parquet_writer, save_state
 from utils import _first, _iter_pages
 
 STATE_VERSION = 1
@@ -150,37 +144,4 @@ def fetch_works(node_id: str) -> None:
 
 # --- specs ------------------------------------------------------------------
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="crossref-works", fn=fetch_works, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="crossref-works-transform",
-        deps=["crossref-works"],
-        sql='''
-            SELECT
-                doi,
-                type,
-                title,
-                container_title,
-                publisher,
-                member_id,
-                CAST(issued_year AS BIGINT)             AS issued_year,
-                CAST(created_year AS BIGINT)            AS created_year,
-                volume,
-                issue,
-                page,
-                CAST(reference_count AS BIGINT)         AS reference_count,
-                CAST(references_count AS BIGINT)        AS references_count,
-                CAST(is_referenced_by_count AS BIGINT)  AS is_referenced_by_count,
-                language,
-                CAST(index_date AS DATE)                AS index_date
-            FROM "crossref-works"
-            WHERE doi IS NOT NULL
-            -- A re-indexed DOI can reappear under a newer index-date across
-            -- continuation runs; keep the most recently indexed row per DOI.
-            QUALIFY row_number() OVER (PARTITION BY doi ORDER BY index_date DESC) = 1
-        ''',
-    ),
-]
+DOWNLOAD_SPECS = []

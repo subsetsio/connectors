@@ -35,11 +35,9 @@ here. The transform re-types the value column to DOUBLE.
 """
 
 import json
-import math
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     get_client,
     transient_retry,
@@ -57,8 +55,12 @@ API = "https://api.statbank.dk/v1"
 TARGET_ROWS = 200_000
 # Safety ceiling on periods per slice, independent of the row estimate.
 MAX_PERIODS_PER_CHUNK = 2_000
+# Dense-product ceiling for an individual oversized-table request. The real
+# output is sparse, but keeping the Cartesian box bounded prevents pathological
+# single-period streams such as DNVPDKR2 from staying multi-hundred-MB wide.
+DENSE_PRODUCT_TARGET = 200_000
 # Max recursive bisections in the reactive splitter before giving up.
-MAX_SPLIT_DEPTH = 12
+MAX_SPLIT_DEPTH = 32
 
 
 def _table_id(node_id: str) -> str:
@@ -139,6 +141,40 @@ def _emit_box(table_id: str, var_specs: list, time_codes: set, emit, depth: int 
     emit(rows)
 
 
+def _dense_product(var_specs: list) -> int:
+    product = 1
+    for spec in var_specs:
+        product *= max(1, len(spec["values"]))
+    return product
+
+
+def _partition_specs(var_specs: list, target: int = DENSE_PRODUCT_TARGET) -> list:
+    """Split non-time dimensions into bounded Cartesian boxes.
+
+    The StatBank response is sparse, so this is not a row-count guarantee. It is
+    still a useful upper bound on request breadth for giant tables whose single
+    latest-period probe would otherwise stream for a long time before failing.
+    """
+    boxes = [[{"code": s["code"], "values": list(s["values"])} for s in var_specs]]
+    out = []
+    while boxes:
+        box = boxes.pop()
+        if _dense_product(box) <= target:
+            out.append(box)
+            continue
+        widest = max(range(len(box)), key=lambda i: len(box[i]["values"]))
+        vals = box[widest]["values"]
+        if len(vals) < 2:
+            out.append(box)
+            continue
+        mid = len(vals) // 2
+        for half in (vals[:mid], vals[mid:]):
+            sub = [dict(s) for s in box]
+            sub[widest] = {"code": box[widest]["code"], "values": half}
+            boxes.append(sub)
+    return out
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     table_id = _table_id(node_id)
@@ -186,17 +222,12 @@ def fetch_one(node_id: str) -> None:
                               time_codes, emit)
             else:
                 # A single period already exceeds the target: pull one period at a
-                # time, splitting the widest non-time dimension into batches so each
-                # request lands near TARGET_ROWS rows.
-                split_n = max(2, math.ceil(rows_recent / TARGET_ROWS))
-                big = max(range(len(nt_specs)), key=lambda i: len(nt_specs[i]["values"]))
-                big_vals = nt_specs[big]["values"]
-                bs = max(1, math.ceil(len(big_vals) / split_n))
-                batches = [big_vals[j:j + bs] for j in range(0, len(big_vals), bs)]
+                # time and pre-partition the non-time Cartesian box. This keeps
+                # wide sparse tables from spending an hour in one doomed stream.
+                boxes = _partition_specs(nt_specs)
                 for p in remaining:
-                    for bvals in batches:
-                        specs = [dict(s) for s in nt_specs]
-                        specs[big] = {"code": nt_specs[big]["code"], "values": bvals}
+                    for box in boxes:
+                        specs = [dict(s) for s in box]
                         specs.append({"code": time_code, "values": [p]})
                         _emit_box(table_id, specs, time_codes, emit)
 
@@ -212,24 +243,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# One published Delta table per subset. Generic parse-and-type pass: keep every
-# dimension column + time as-is (string), drop missing-value cells ('..') and any
-# non-numeric, and cast the value column to DOUBLE. All raw fields are JSON
-# strings, so the value column is reliably VARCHAR before the cast.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT * EXCLUDE (value),
-                   TRY_CAST(value AS DOUBLE) AS value
-            FROM "{s.id}"
-            WHERE value <> '..'
-              AND TRY_CAST(value AS DOUBLE) IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

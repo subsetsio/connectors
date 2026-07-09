@@ -1,32 +1,97 @@
-"""Fetch parameters for the DBT Data API connector.
+"""Accepted DBT Data API entities and fetch parameters."""
 
-Data, not logic: maps each download spec id (one per rank-accepted collect
-entity) to the (dataset, kind, source_id) triple needed to build its
-data-endpoint URL. The node module imports this and stays logic-only.
+ENTITY_IDS = [
+    "kings-award-for-enterprise-recipients__kae--businesses",
+    "kings-award-for-enterprise-recipients__kae--individuals",
+    "market-barriers__barriers",
+    "market-barriers__barriers--categories",
+    "market-barriers__barriers--country-or-territory.trading-bloc.overseas-regions--id",
+    "market-barriers__barriers--country.trading-bloc.overseas-regions--id",
+    "market-barriers__barriers--sectors",
+    "market-barriers__overseas-regions",
+    "orp-regulations__uk-regulatory-documents",
+    "retained-eu-law__reul--assimilated-laws",
+    "strategic-export-controls-reports-and-statistics__cases-country-control-entry-2022",
+    "strategic-export-controls-reports-and-statistics__report__cases-country-control-entry-2022",
+    "uk-business-regulations__uk-legislation-pdg",
+    "uk-legislation-and-orp__uk-legislation-pdg",
+    "uk-tariff-2021-01-01__additional-code-descriptions",
+    "uk-tariff-2021-01-01__additional-code-types",
+    "uk-tariff-2021-01-01__additional-codes",
+    "uk-tariff-2021-01-01__certificate-descriptions",
+    "uk-tariff-2021-01-01__certificate-types",
+    "uk-tariff-2021-01-01__certificates",
+    "uk-tariff-2021-01-01__commodities",
+    "uk-tariff-2021-01-01__commodities-report",
+    "uk-tariff-2021-01-01__commodity-descriptions",
+    "uk-tariff-2021-01-01__commodity-footnotes",
+    "uk-tariff-2021-01-01__commodity-indent-nodes",
+    "uk-tariff-2021-01-01__commodity-indents",
+    "uk-tariff-2021-01-01__commodity-origins",
+    "uk-tariff-2021-01-01__commodity-successors",
+    "uk-tariff-2021-01-01__common-tracked-models",
+    "uk-tariff-2021-01-01__common-transactions",
+    "uk-tariff-2021-01-01__common-version-groups",
+    "uk-tariff-2021-01-01__footnote-descriptions",
+    "uk-tariff-2021-01-01__footnote-types",
+    "uk-tariff-2021-01-01__footnotes",
+    "uk-tariff-2021-01-01__geo-area-descriptions",
+    "uk-tariff-2021-01-01__geo-area-memberships",
+    "uk-tariff-2021-01-01__geo-areas",
+    "uk-tariff-2021-01-01__measure-actions",
+    "uk-tariff-2021-01-01__measure-additional-code-types",
+    "uk-tariff-2021-01-01__measure-components",
+    "uk-tariff-2021-01-01__measure-condition-codes",
+    "uk-tariff-2021-01-01__measure-condition-components",
+    "uk-tariff-2021-01-01__measure-conditions",
+    "uk-tariff-2021-01-01__measure-duty-expressions",
+    "uk-tariff-2021-01-01__measure-excluded-geo-areas",
+    "uk-tariff-2021-01-01__measure-footnotes",
+    "uk-tariff-2021-01-01__measure-measurement-qualifiers",
+    "uk-tariff-2021-01-01__measure-measurements",
+    "uk-tariff-2021-01-01__measure-measurements-units",
+    "uk-tariff-2021-01-01__measure-monetary-units",
+    "uk-tariff-2021-01-01__measure-type-series",
+    "uk-tariff-2021-01-01__measure-types",
+    "uk-tariff-2021-01-01__measures",
+    "uk-tariff-2021-01-01__measures-as-defined",
+    "uk-tariff-2021-01-01__measures-on-declarable-commodities",
+    "uk-tariff-2021-01-01__quota-associations",
+    "uk-tariff-2021-01-01__quota-blockings",
+    "uk-tariff-2021-01-01__quota-definitions",
+    "uk-tariff-2021-01-01__quota-order-numbers",
+    "uk-tariff-2021-01-01__quota-origin-exclusions",
+    "uk-tariff-2021-01-01__quota-origins",
+    "uk-tariff-2021-01-01__quota-suspensions",
+    "uk-tariff-2021-01-01__regulation-amendments",
+    "uk-tariff-2021-01-01__regulation-groups",
+    "uk-tariff-2021-01-01__regulation-replacements",
+    "uk-tariff-2021-01-01__regulation-suspensions",
+    "uk-tariff-2021-01-01__regulations",
+    "uk-tariff-2021-01-01__report__measures-on-declarable-commodities",
+    "uk-trade-quotas__quota--commodities",
+    "uk-trade-quotas__quota--geographical-areas",
+    "uk-trade-quotas__quota--headings",
+    "uk-trade-quotas__quota-definition--blocking-periods",
+    "uk-trade-quotas__quota-definition--suspension-periods",
+    "uk-trade-quotas__quotas",
+    "uk-trade-quotas__report__quotas-including-current-volumes",
+    "ukraine-combined-contract-opportunites__ukraine-combined-contract-opportunities-pdg",
+    "ukraine-ebrd-contract-notices__ukraine-ebrd-contract-notices-pdg",
+    "ukraine-eib-projects__ukraine-eib-projects-pdg",
+    "ukraine-world-bank__ukraine-world-bank-pdg",
+]
 
-spec id == f"dbt-{entity_id.lower().replace('_', '-')}" for the entity union
-at data/sources/dbt/work/entity_union.json.
-"""
 
-# spec_id -> (dataset_id, kind, source_id)   kind in {"table", "report"}
-FETCH_PARAMS = {
-    "dbt-market-barriers--barriers": (
-        "market-barriers", "table", "barriers"),
-    "dbt-orp-regulations--uk-regulatory-documents": (
-        "orp-regulations", "table", "uk-regulatory-documents"),
-    "dbt-uk-tariff-2021-01-01--commodities": (
-        "uk-tariff-2021-01-01", "table", "commodities"),
-    "dbt-uk-tariff-2021-01-01--measures": (
-        "uk-tariff-2021-01-01", "table", "measures"),
-    "dbt-uk-tariff-2021-01-01--measures-as-defined": (
-        "uk-tariff-2021-01-01", "table", "measures-as-defined"),
-    "dbt-uk-tariff-2021-01-01--measures-on-declarable-commodities": (
-        "uk-tariff-2021-01-01", "table", "measures-on-declarable-commodities"),
-    # NOTE: the report `measures-on-declarable-commodities` was an exact
-    # duplicate of the table above (same schema, same ~1.1M rows) so it is not
-    # published — see rank rule "duplicate".
-    "dbt-uk-trade-quotas--quotas": (
-        "uk-trade-quotas", "table", "quotas"),
-    "dbt-uk-trade-quotas--report--quotas-including-current-volumes": (
-        "uk-trade-quotas", "report", "quotas-including-current-volumes"),
-}
+def _spec_id(entity_id: str) -> str:
+    return f"dbt-{entity_id.lower().replace('_', '-')}"
+
+
+def _fetch_params(entity_id: str) -> tuple[str, str, str]:
+    dataset_id, source_id = entity_id.split("__", 1)
+    if source_id.startswith("report__"):
+        return dataset_id, "report", source_id.removeprefix("report__")
+    return dataset_id, "table", source_id
+
+
+FETCH_PARAMS = {_spec_id(entity_id): _fetch_params(entity_id) for entity_id in ENTITY_IDS}

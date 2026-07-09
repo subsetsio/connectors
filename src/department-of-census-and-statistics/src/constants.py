@@ -23,6 +23,7 @@ ENTITY_IDS = [
     "glance-lfpr",
     "glance-mig",
     "glance-mrg",
+    "glance-nagsch",
     "glance-pcgni",
     "glance-perfolal",
     "glance-pip",

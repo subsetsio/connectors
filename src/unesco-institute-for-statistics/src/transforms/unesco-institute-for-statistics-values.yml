@@ -1,11 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `unesco-institute-for-statistics-values`. Regenerate after model-verify.
+# caution: `geo_unit` mixes countries with regional aggregates (see the geounits dimension, `type` = REGIONAL) — summing across geo_unit double-counts.
+# caution: Indicators are heterogeneous: values carry no unit column, so rows are only comparable within one `indicator_id`. Never aggregate `value` across indicators.
+# caution: `qualifier` and `magnitude` flag observations UIS annotates (e.g. estimated, national estimate) — a null qualifier does not certify an unflagged observation.
+key: [indicator_id, geo_unit, year]
+temporal: year
+sort: [year, indicator_id, geo_unit]
 columns:
   - name: indicator_id
     type: VARCHAR
   - name: geo_unit
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: value
     type: DOUBLE
   - name: magnitude

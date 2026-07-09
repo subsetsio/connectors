@@ -21,14 +21,13 @@ import datetime
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
-    transient_retry,
     save_raw_ndjson,
 )
 
 BASE = "https://api.cnb.cz/cnbapi/"
 FLOOR_YEAR = 1990  # safe lower bound; CNB API series do not predate this
+SKD_FLOOR_YEAR = 2000  # /skd/daily has no year endpoint; older probes return empty
 
 # entity_id -> (endpoint path template with {year}, response wrapper key, send lang=EN)
 YEAR_FAMILIES = {
@@ -43,7 +42,6 @@ YEAR_FAMILIES = {
 }
 
 
-@transient_retry()
 def _get_json(path: str, params: dict) -> dict:
     resp = get(BASE + path, params=params, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -75,6 +73,45 @@ def fetch_year_bulk(node_id: str) -> None:
         chunk = payload.get(wrapper) or []
         rows.extend(chunk)
 
+    save_raw_ndjson(rows, asset)
+
+
+def fetch_skd(node_id: str) -> None:
+    """SKD short-term bond settlements.
+
+    The OpenAPI spec exposes only /skd/daily?date=YYYY-MM-DD, not a year/range
+    endpoint. Weekend and holiday requests repeat the previous valid settlement
+    date, so we probe weekdays and deduplicate on the actual row identity.
+    """
+    asset = node_id
+    current = datetime.date.today()
+    day = datetime.date(SKD_FLOOR_YEAR, 1, 1)
+    rows_by_key: dict[tuple, dict] = {}
+
+    while day <= current:
+        if day.weekday() < 5:
+            payload = _get_json("skd/daily", {"date": day.isoformat()})
+            for row in payload.get("skds") or []:
+                key = (
+                    row.get("settlementDate"),
+                    row.get("isin"),
+                    row.get("issueCode"),
+                    row.get("nominalValueCZK"),
+                )
+                rows_by_key[key] = row
+        day += datetime.timedelta(days=1)
+
+    if not rows_by_key:
+        raise RuntimeError("skd/daily returned no rows")
+
+    rows = sorted(
+        rows_by_key.values(),
+        key=lambda r: (
+            r.get("settlementDate") or "",
+            r.get("isin") or "",
+            r.get("issueCode") or "",
+        ),
+    )
     save_raw_ndjson(rows, asset)
 
 
@@ -111,103 +148,5 @@ DOWNLOAD_SPECS = [
     for eid in YEAR_FAMILIES
 ] + [
     NodeSpec(id="czech-national-bank-forward-daily", fn=fetch_forward, kind="download"),
-]
-
-
-# --- Transforms: one published Delta table per subset. Thin parse/cast/dedup;
-# overlap-free here (stateless full pull) but DISTINCT guards accidental dupes. ---
-
-# exrates/daily-year returns a compact record (no country/currency labels);
-# fxrates/daily-year returns the full record with country + currency.
-_EXRATES_SQL = '''
-    SELECT DISTINCT
-        CAST(validFor AS DATE)        AS date,
-        currencyCode                  AS currency_code,
-        CAST(amount AS INTEGER)       AS amount,
-        CAST(rate AS DOUBLE)          AS rate
-    FROM "{dep}"
-    WHERE validFor IS NOT NULL AND rate IS NOT NULL
-'''
-
-_FXRATES_SQL = '''
-    SELECT DISTINCT
-        CAST(validFor AS DATE)        AS date,
-        currencyCode                  AS currency_code,
-        country,
-        currency,
-        CAST(amount AS INTEGER)       AS amount,
-        CAST(rate AS DOUBLE)          AS rate
-    FROM "{dep}"
-    WHERE validFor IS NOT NULL AND rate IS NOT NULL
-'''
-
-_AVG_SQL = '''
-    SELECT DISTINCT
-        CAST(year AS INTEGER)         AS year,
-        month                         AS period,
-        currencyCode                  AS currency_code,
-        CAST(amount AS INTEGER)       AS amount,
-        CAST(average AS DOUBLE)       AS average
-    FROM "{dep}"
-    WHERE year IS NOT NULL AND average IS NOT NULL
-'''
-
-_SQL_BY_ENTITY = {
-    "exrates-daily": _EXRATES_SQL,
-    "fxrates-daily": _FXRATES_SQL,
-    "exrates-monthly-averages": _AVG_SQL,
-    "exrates-monthly-cumulative-averages": _AVG_SQL,
-    "exrates-quarterly-averages": _AVG_SQL,
-    "pribor-daily": '''
-        SELECT DISTINCT
-            CAST(validFor AS DATE)    AS date,
-            period                    AS term,
-            CAST(pribor AS DOUBLE)    AS rate
-        FROM "{dep}"
-        WHERE validFor IS NOT NULL AND pribor IS NOT NULL
-    ''',
-    "czeonia-daily": '''
-        SELECT DISTINCT
-            CAST(validFor AS DATE)         AS date,
-            CAST(rate AS DOUBLE)           AS rate,
-            CAST(volumeInCZKmio AS DOUBLE) AS volume_czk_mio
-        FROM "{dep}"
-        WHERE validFor IS NOT NULL AND rate IS NOT NULL
-    ''',
-    "omo-daily": '''
-        SELECT DISTINCT
-            CAST(tradeDate AS DATE)                    AS trade_date,
-            CAST(settlementDate AS DATE)               AS settlement_date,
-            CAST(maturityDate AS DATE)                 AS maturity_date,
-            operationType                              AS operation_type,
-            liquidityImpact                            AS liquidity_impact,
-            CAST(marginalRateInPercent AS DOUBLE)      AS marginal_rate_pct,
-            CAST(averageBidRateInPercent AS DOUBLE)    AS average_bid_rate_pct,
-            CAST(averageAllotedRateInPercent AS DOUBLE) AS average_alloted_rate_pct,
-            CAST(totalBidVolumeInCZKbln AS DOUBLE)     AS total_bid_volume_czk_bln,
-            CAST(totalAllotedVolumeInCZKbln AS DOUBLE) AS total_alloted_volume_czk_bln,
-            CAST(totalNumberOfBids AS INTEGER)         AS total_number_of_bids,
-            CAST(totalNumberOfAllotedBids AS INTEGER)  AS total_number_of_alloted_bids,
-            CAST(allotmentPercentage AS DOUBLE)        AS allotment_pct
-        FROM "{dep}"
-        WHERE tradeDate IS NOT NULL
-    ''',
-    "forward-daily": '''
-        SELECT DISTINCT
-            CAST(validFor AS DATE)         AS date,
-            ccyPair                        AS currency_pair,
-            maturity,
-            CAST(forwardPoints AS DOUBLE)  AS forward_points
-        FROM "{dep}"
-        WHERE validFor IS NOT NULL AND forwardPoints IS NOT NULL
-    ''',
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_SQL_BY_ENTITY[_entity_of(s.id)].format(dep=s.id),
-    )
-    for s in DOWNLOAD_SPECS
+    NodeSpec(id="czech-national-bank-skd-daily", fn=fetch_skd, kind="download"),
 ]

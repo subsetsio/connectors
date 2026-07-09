@@ -22,9 +22,10 @@ the v6 definitions API (per research's download_handoff) rather than the cached,
 
 Each country zip is streamed to a temp file (bounded memory), opened, and only
 the CSV members we need are parsed:
-  - <subsector>_country_emissions_v*.csv  -> country_emissions
-  - <subsector>_emissions_sources_v*.csv  -> asset_emissions
-    (the _ownership_ and _confidence_ sibling files are skipped — different schemas)
+  - <subsector>_country_emissions_v*.csv             -> country_emissions
+  - <subsector>_emissions_sources_v*.csv             -> asset_emissions
+  - <subsector>_emissions_sources_confidence_v*.csv  -> asset_emissions_confidence
+    (the _ownership_ siblings are skipped — different schema)
 
 asset_emissions reduction: the source-level CSVs are published at MONTHLY grain
 (~114M rows globally). That is far too granular for a single published table and
@@ -162,6 +163,19 @@ CONFIDENCE_AGG = [
     ("emissions_factor", "min"), ("emissions_quantity", "min"),
 ]
 
+# Confidence cells are a 5-level ordinal, ascending. Aggregating them as strings
+# would order them alphabetically ("high" < "low"), so the ordinal columns are
+# encoded to their rank here, min-aggregated (the annual value is the LOWEST
+# monthly confidence — ~4% of source-years disagree across months), and decoded
+# back on the way out.
+CONFIDENCE_LEVELS = pa.array(
+    ["very low", "low", "medium", "high", "very high"], pa.string()
+)
+CONFIDENCE_ORDINAL_COLUMNS = [
+    "source_type", "capacity", "capacity_factor",
+    "activity", "emissions_factor", "emissions_quantity",
+]
+
 ASSET_CONFIDENCE_SCHEMA = pa.schema([
     ("source_id", pa.string()),
     ("source_name", pa.string()),
@@ -250,14 +264,20 @@ def _download_country_zip(iso3):
         raise
 
 
-def _members(zf, infix):
-    """Members of the wanted CSV family, excluding ownership/confidence siblings."""
+def _members(zf, infix, *, confidence=False):
+    """Members of the wanted CSV family.
+
+    `_emissions_sources_` is a prefix of `_emissions_sources_confidence_`, so the
+    two families have to be separated explicitly rather than by infix alone.
+    `_ownership_` siblings carry a different schema and are never wanted.
+    """
     out = []
     for n in zf.namelist():
-        if not n.endswith(".csv"):
+        if not n.endswith(".csv") or infix not in n or "_ownership_" in n:
             continue
-        if infix in n and "_ownership_" not in n and "_confidence_" not in n:
-            out.append(n)
+        if ("_confidence_" in n) != confidence:
+            continue
+        out.append(n)
     return out
 
 
@@ -307,10 +327,25 @@ def _aggregate_member_to_annual(table: pa.Table) -> pa.Table:
     return grouped.select(ASSET_EMISSIONS_SCHEMA.names).cast(ASSET_EMISSIONS_SCHEMA)
 
 
+def _encode_confidence(table: pa.Table) -> pa.Table:
+    """Replace each ordinal confidence column with its 0-based level rank."""
+    for col in CONFIDENCE_ORDINAL_COLUMNS:
+        values = table.column(col)
+        ranks = pc.index_in(values, value_set=CONFIDENCE_LEVELS)
+        unmapped = pc.sum(pc.and_(pc.is_valid(values), pc.is_null(ranks))).as_py()
+        if unmapped:
+            raise AssertionError(
+                f"{unmapped} {col} cell(s) outside the known confidence levels"
+            )
+        table = table.set_column(table.schema.get_field_index(col), col, ranks)
+    return table
+
+
 def _aggregate_confidence_to_annual(table: pa.Table) -> pa.Table:
     year = pc.cast(pc.utf8_slice_codeunits(table.column("start_time"), 0, 4),
                    pa.int32())
     table = table.drop_columns(["start_time"]).append_column("year", year)
+    table = _encode_confidence(table)
     grouped = table.group_by(["source_id", "year"]).aggregate(CONFIDENCE_AGG)
     rename = {
         "source_name_min": "source_name",
@@ -328,6 +363,11 @@ def _aggregate_confidence_to_annual(table: pa.Table) -> pa.Table:
     grouped = grouped.rename_columns(
         [rename.get(n, n) for n in grouped.column_names]
     )
+    for col in CONFIDENCE_ORDINAL_COLUMNS:
+        out = rename[f"{col}_min"]
+        idx = grouped.schema.get_field_index(out)
+        decoded = pc.take(CONFIDENCE_LEVELS, grouped.column(out))
+        grouped = grouped.set_column(idx, out, decoded)
     return grouped.select(ASSET_CONFIDENCE_SCHEMA.names).cast(ASSET_CONFIDENCE_SCHEMA)
 
 
@@ -377,7 +417,7 @@ def fetch_asset_confidence(node_id: str) -> None:
                 continue
             try:
                 with zipfile.ZipFile(path) as zf:
-                    for member in _members(zf, "_emissions_sources_confidence_"):
+                    for member in _members(zf, "_emissions_sources_", confidence=True):
                         with zf.open(member) as fh:
                             tbl = pacsv.read_csv(
                                 fh, read_options=ASSET_READ,

@@ -1,0 +1,16 @@
+spec_id: dares-dares-nomenclature-fap2021
+status: active
+tests:
+  - row_count: {min: 300}
+    reason: full one-shot ODS parquet export; source reports 341 FAP 2021 nomenclature rows, a large shortfall means a truncated download
+    certainty: 85
+  - not_null: code_fap_341
+    reason: code_fap_341 is the most detailed FAP 2021 code and should be present on every nomenclature row
+    certainty: 95
+  - unique: code_fap_341
+    reason: each detailed FAP 2021 code should appear once in the nomenclature
+    certainty: 95
+  - column_type: {col: code_fap_341, type: string}
+    certainty: 90
+  - column_type: {col: intitule_fap_341, type: string}
+    certainty: 90

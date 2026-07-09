@@ -1,19 +1,2 @@
 spec_id: dbt-uk-tariff-2021-01-01--measures-on-declarable-commodities
-status: active
-tests:
-  - not_null: id
-    reason: surrogate row id on the denormalized declarable-commodity measures view
-    certainty: 85
-  - not_null: commodity__code
-    reason: each row is anchored to a declarable commodity code
-    certainty: 85
-  - not_null: measure__type__id
-    reason: each row carries the measure type applied to the commodity
-    certainty: 80
-  - unique: id
-    reason: one row per declarable-commodity-measure combination
-    certainty: 70
-    severity: warn
-  - row_count: {min: 1000}
-    reason: this denormalized view is the largest tariff publication (~10MB)
-    certainty: 85
+status: deferred

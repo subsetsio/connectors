@@ -21,7 +21,7 @@ import re
 import datetime as dt
 
 import pyarrow as pa
-from subsets_utils import get, transient_retry, save_raw_parquet, NodeSpec, SqlNodeSpec
+from subsets_utils import get, transient_retry, save_raw_parquet, NodeSpec
 
 BASE = "https://eaindustry.nic.in/"
 DOWNLOAD_PAGE = BASE + "download_data_1112.asp"
@@ -251,54 +251,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="dpiit-wpi-series", fn=fetch_wpi_series, kind="download"),
     NodeSpec(id="dpiit-wpi-values", fn=fetch_wpi_values, kind="download"),
     NodeSpec(id="dpiit-core-industries", fn=fetch_core_industries, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="dpiit-wpi-series-transform",
-        deps=["dpiit-wpi-series"],
-        key=("item_code",),
-        sql='''
-            SELECT
-                item_code,
-                item_name,
-                CAST(weight AS DOUBLE) AS weight,
-                base_year
-            FROM "dpiit-wpi-series"
-            WHERE item_code IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="dpiit-wpi-values-transform",
-        deps=["dpiit-wpi-values"],
-        key=("item_code", "date"),
-        temporal="date",
-        sql='''
-            SELECT
-                item_code,
-                item_name,
-                CAST(weight AS DOUBLE) AS weight,
-                base_year,
-                CAST(date AS DATE) AS date,
-                CAST(index_value AS DOUBLE) AS index_value
-            FROM "dpiit-wpi-values"
-            WHERE index_value IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="dpiit-core-industries-transform",
-        deps=["dpiit-core-industries"],
-        key=("sector", "date"),
-        temporal="date",
-        sql='''
-            SELECT
-                sector,
-                base_year,
-                CAST(date AS DATE) AS date,
-                CAST(index_value AS DOUBLE) AS index_value,
-                CAST(growth_rate AS DOUBLE) AS growth_rate
-            FROM "dpiit-core-industries"
-            WHERE index_value IS NOT NULL
-        ''',
-    ),
 ]

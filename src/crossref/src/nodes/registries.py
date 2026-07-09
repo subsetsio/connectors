@@ -1,9 +1,9 @@
-"""Crossref reference registries — Open Funder Registry, journal-title registry,
-and registered-member registry, all from the public, no-auth Crossref REST API.
+"""Crossref reference registries from the public, no-auth Crossref REST API.
 
   - crossref-funders   Open Funder Registry (~45.7k rows)   — stateless full pull
   - crossref-journals  journal-title registry (~166.8k)     — stateless full pull
   - crossref-members   registered-org registry (~32.8k)     — stateless full pull
+  - crossref-types     work-type vocabulary (30 rows)        — stateless full pull
 
 The three registries are small reference catalogs: cursor-page each to completion
 every run and overwrite. They share one parametric fetcher (`fetch_registry`)
@@ -14,8 +14,8 @@ from __future__ import annotations
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
-from utils import _first, _iter_pages
+from subsets_utils import NodeSpec, save_raw_parquet
+from utils import _first, _get_json, _iter_pages
 
 # Safety ceiling — detects the source growing past expectations and RAISES; it
 # never silently truncates. 2000 * 1000 = 2M rows; registries are <200k.
@@ -58,6 +58,13 @@ def _flatten_member(it: dict) -> dict:
     }
 
 
+def _flatten_type(it: dict) -> dict:
+    return {
+        "type_id": it.get("id"),
+        "label": it.get("label"),
+    }
+
+
 # --- registry downloads (stateless full pull) -------------------------------
 
 _FUNDERS_SCHEMA = pa.schema([
@@ -85,6 +92,11 @@ _MEMBERS_SCHEMA = pa.schema([
     ("backfile_dois", pa.int64()),
 ])
 
+_TYPES_SCHEMA = pa.schema([
+    ("type_id", pa.string()),
+    ("label", pa.string()),
+])
+
 # node_id -> (endpoint path, flattener, arrow schema)
 _REGISTRIES = {
     "crossref-funders": ("funders", _flatten_funder, _FUNDERS_SCHEMA),
@@ -106,56 +118,23 @@ def fetch_registry(node_id: str) -> None:
     save_raw_parquet(table, node_id)
 
 
+def fetch_types(node_id: str) -> None:
+    """Fetch the Crossref work-type vocabulary.
+
+    Unlike the registry routes above, /types is a tiny list endpoint and rejects
+    cursor parameters, so it is fetched as a single JSON response.
+    """
+    page = _get_json("types", {})
+    rows = [_flatten_type(it) for it in (page.get("message", {}).get("items") or [])]
+    table = pa.Table.from_pylist(rows, schema=_TYPES_SCHEMA)
+    save_raw_parquet(table, node_id)
+
+
 # --- specs ------------------------------------------------------------------
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="crossref-funders", fn=fetch_registry, kind="download"),
     NodeSpec(id="crossref-journals", fn=fetch_registry, kind="download"),
     NodeSpec(id="crossref-members", fn=fetch_registry, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="crossref-funders-transform",
-        deps=["crossref-funders"],
-        sql='''
-            SELECT
-                CAST(funder_id AS VARCHAR) AS funder_id,
-                name,
-                location,
-                uri
-            FROM "crossref-funders"
-            WHERE funder_id IS NOT NULL AND name IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="crossref-journals-transform",
-        deps=["crossref-journals"],
-        sql='''
-            SELECT
-                title,
-                issn,
-                publisher,
-                CAST(total_dois AS BIGINT)    AS total_dois,
-                CAST(current_dois AS BIGINT)  AS current_dois,
-                CAST(backfile_dois AS BIGINT) AS backfile_dois
-            FROM "crossref-journals"
-            WHERE title IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="crossref-members-transform",
-        deps=["crossref-members"],
-        sql='''
-            SELECT
-                CAST(member_id AS BIGINT)     AS member_id,
-                primary_name,
-                location,
-                CAST(total_dois AS BIGINT)    AS total_dois,
-                CAST(current_dois AS BIGINT)  AS current_dois,
-                CAST(backfile_dois AS BIGINT) AS backfile_dois
-            FROM "crossref-members"
-            WHERE member_id IS NOT NULL
-        ''',
-    ),
+    NodeSpec(id="crossref-types", fn=fetch_types, kind="download"),
 ]

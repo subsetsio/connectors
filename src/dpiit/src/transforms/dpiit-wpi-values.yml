@@ -1,16 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [item_code, date]
-temporal: date
-sort: [date, item_code]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dpiit-wpi-values`. Regenerate after model-verify.
+# caution: WPI item_code is not unique by itself in the raw observations; use item_code together with item_name and date for row identity.
+key: [date, item_code, item_name]
+temporal: base_year
+sort: [base_year, date, item_code, item_name]
 columns:
   - name: item_code
-    type: VARCHAR
+    type: BIGINT
   - name: item_name
     type: VARCHAR
   - name: weight
     type: DOUBLE
   - name: base_year
-    type: VARCHAR
+    type: DATE
   - name: date
     type: DATE
   - name: index_value

@@ -1,0 +1,7 @@
+spec_id: czech-statistical-office-kz2020cz0712
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every accepted CZSO open-data dataset publishes at least one observation, code, or boundary row; 0 rows means the CSV download was empty, mis-decoded, or truncated.
+    certainty: 95
+    severity: block

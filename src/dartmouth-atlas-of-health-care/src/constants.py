@@ -66,9 +66,41 @@ FILES = {
         "downloads/geography/ZipHsaHrr18.csv.zip",
         "downloads/geography/ZipHsaHrr19.csv.zip",
     ],
+    "hospital-physician-capacity": [
+        "downloads/tables/1996_hosp_phys_hrr.xls",
+        "downloads/tables/1996_hosp_phys_hsa.xls",
+        "downloads/tables/2006_hosp_phys_hrr.xls",
+        "downloads/tables/2006_hosp_phys_hsa.xls",
+        "downloads/tables/2011_phys_hrr.xls",
+        "downloads/tables/2011_phys_hsa.xls",
+        "downloads/tables/2012_hosp_resource_hrr.xls",
+        "downloads/tables/2012_hosp_resource_hsa.xls",
+    ],
+    "hospital-research-data": [
+        "downloads/research_files/hospital_research_data/hosp10_4983f.csv.zip",
+        "downloads/research_files/hospital_research_data/hosp11_5231.csv.zip",
+        "downloads/research_files/hospital_research_data/hosp12_5218.csv.zip",
+        "downloads/research_files/hospital_research_data/hosp13_5186.csv.zip",
+        "downloads/research_files/hospital_research_data/hosp14_5173_atlas.csv.zip",
+        "downloads/research_files/hospital_research_data/hosp15_5130_atlas.csv.zip",
+        "downloads/research_files/hospital_research_data/hosp16_atlas.csv.zip",
+        "downloads/research_files/hospital_research_data/hosp17_atlas.csv.zip",
+        "downloads/research_files/hospital_research_data/hospinfo08_14.csv.zip",
+    ],
+    "mortality": [
+        "downloads/research_files/hrr_mortality_dead6599ffs.dta.zip",
+        "downloads/research_files/state_mortality_dead6599ffs.dta.zip",
+    ],
 }
 
 # Topic entities share the canonical long-format schema; the crosswalk does not.
-TOPIC_ENTITIES = [e for e in FILES if e != "geography-crosswalk"]
+TOPIC_ENTITIES = [
+    "reimbursements",
+    "end-of-life-inpatient-care",
+    "care-chronically-ill-last-2yrs",
+    "primary-care-access-quality",
+    "post-discharge-events",
+    "discharge-rates",
+]
 
 ENTITY_IDS = list(FILES.keys())

@@ -1,12 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [sector, date]
-temporal: date
-sort: [date, sector]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dpiit-core-industries`. Regenerate after model-verify.
+# caution: The sector domain includes both individual sectors and the Overall composite index; filter sector before aggregating across sectors.
+key: [date, sector]
+temporal: base_year
+sort: [base_year, date, sector]
 columns:
   - name: sector
     type: VARCHAR
   - name: base_year
-    type: VARCHAR
+    type: DATE
   - name: date
     type: DATE
   - name: index_value

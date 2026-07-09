@@ -27,7 +27,6 @@ import zipfile
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_file,
     transient_retry,
@@ -134,17 +133,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per dataset. Column sets differ per dataset, so the
-# transform is a generic passthrough: DuckDB reads each dataset's CSV view and
-# infers types. A 0-row result fails the node, guarding against empty/truncated
-# downloads.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

@@ -1,0 +1,14 @@
+spec_id: crossref-funders
+status: active
+tests:
+  - row_count: {min: 40000}
+    reason: Crossref Open Funder Registry has tens of thousands of funders.
+    certainty: 90
+    points_outward: true
+  - not_null: funder_id
+  - not_null: name
+  - column_type: {col: funder_id, type: string}
+  - column_type: {col: name, type: string}
+  - unique: funder_id
+    reason: Crossref funder ids identify one funder record.
+    certainty: 95
