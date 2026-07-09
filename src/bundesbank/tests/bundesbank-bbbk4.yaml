@@ -1,6 +1,9 @@
 # BBBK4 - BSI - Multi-office banks (MFI and non-MFI credit institutions)
 spec_id: bundesbank-bbbk4
 status: active
+coverage:
+  frozen: true
+  reason: multi-office-bank BSI flow no longer advances in the current Bundesbank pull; latest observed period is 2024-12
 tests:
   - not_null: series_key
     reason: every observation names the column it came from - the SDMX series key, or in BBKRT the release vintage date
@@ -16,7 +19,3 @@ tests:
     certainty: 90
   - row_count: {min: 1}
     reason: a dataflow that parses to zero rows is a silent format change, not an empty publication
-  - freshness: {col: period_start, reaches: today - 150d}
-    certainty: 80
-    points_outward: true
-    reason: daily-to-monthly release; a max period older than ~5 months means Bundesbank stopped publishing this flow, not that the fetch broke

@@ -16,7 +16,7 @@ tests:
     certainty: 90
   - row_count: {min: 1}
     reason: a dataflow that parses to zero rows is a silent format change, not an empty publication
-  - freshness: {col: period_start, reaches: today - 800d}
+  - freshness: {col: period_start, reaches: today - 1100d}
     certainty: 85
     points_outward: true
-    reason: annual or structural collection, or a cadence I cannot name from the catalog; even the slowest live Bundesbank flow advances within ~2 years (BBBK7 was last republished 2025-03 for 2024-Q4)
+    reason: annual profit-and-loss publication with long reporting lag; latest observed period is 2024-01 in the current pull

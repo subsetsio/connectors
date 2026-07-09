@@ -2,22 +2,21 @@ spec_id: bts-fje
 status: active
 tests:
   - row_count: {min: 1}
-    reason: every TranStats table publishes at least one period of records; an empty raw asset means the download surface broke or the table code is wrong
+    reason: every fetched period writes at least one record; an empty raw asset means the download surface broke or the table code is wrong
     certainty: 95
   - not_null: obs_year
-    reason: every raw row is stamped with the injected obs_year derived from the period coordinate being fetched, independent of the source CSV columns
+    reason: every raw row is stamped with the injected obs_year derived from the period being fetched, independent of the source CSV columns
+    certainty: 99
+  - not_null: obs_date
+    reason: every raw row is stamped with the injected obs_date (YYYY-MM-01) for the period being fetched
     certainty: 99
   - column_type: {col: obs_year, type: integer}
     reason: obs_year is injected as a Python int and serialized as a JSON number
     certainty: 95
-  - not_null: obs_date
-    reason: every raw row is stamped with the injected obs_date (YYYY-MM-DD) for the period being fetched
-    certainty: 99
-  - at_least: {col: obs_year, expr: 1900}
-    reason: TranStats history begins in the 20th century at the earliest; earlier years indicate a parsing error in the period discovery
-    certainty: 90
-  - at_most: {col: obs_year, expr: current_year()}
-    reason: obs_year derives from the period coordinate offered by the source; BTS statistical tables do not publish future-dated projections, so the max observed year should not exceed the current year
-    certainty: 85
+  - between: {col: obs_year, lo: 1990, hi: current_year()}
+    reason: the DL_SelectFields year selector for this table spans 1990..2026
+    certainty: 88
+  - freshness: {col: obs_date, reaches: today - 400d}
+    reason: monthly table; max(obs_date) older than the bound means a stale/stuck load rather than normal BTS publish lag
+    certainty: 70
     points_outward: true
-    severity: warn

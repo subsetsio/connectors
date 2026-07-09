@@ -1,6 +1,9 @@
 # BBAI3 - Deutsche Bundesbank, Statistics on Insurance Corporations and Pension Funds
 spec_id: bundesbank-bbai3
 status: active
+coverage:
+  frozen: true
+  reason: predecessor insurance/pension-fund flow; observations stop in 2016 and current publications are covered by BBASV/BBAPV
 tests:
   - not_null: series_key
     reason: every observation names the column it came from - the SDMX series key, or in BBKRT the release vintage date
@@ -16,7 +19,3 @@ tests:
     certainty: 90
   - row_count: {min: 1}
     reason: a dataflow that parses to zero rows is a silent format change, not an empty publication
-  - freshness: {col: period_start, reaches: today - 300d}
-    certainty: 80
-    points_outward: true
-    reason: quarterly aggregate; two quarters of slack absorbs the normal publication lag

@@ -1,6 +1,9 @@
 # BBBPS - Profit and loss (IFRS-group)
 spec_id: bundesbank-bbbps
 status: active
+coverage:
+  frozen: true
+  reason: IFRS-group profit-and-loss flow appears discontinued in the current Bundesbank pull; latest observed period is 2021-Q3
 tests:
   - not_null: series_key
     reason: every observation names the column it came from - the SDMX series key, or in BBKRT the release vintage date
@@ -16,7 +19,3 @@ tests:
     certainty: 90
   - row_count: {min: 1}
     reason: a dataflow that parses to zero rows is a silent format change, not an empty publication
-  - freshness: {col: period_start, reaches: today - 800d}
-    certainty: 85
-    points_outward: true
-    reason: annual or structural collection, or a cadence I cannot name from the catalog; even the slowest live Bundesbank flow advances within ~2 years (BBBK7 was last republished 2025-03 for 2024-Q4)

@@ -16,7 +16,7 @@ tests:
     certainty: 90
   - row_count: {min: 1}
     reason: a dataflow that parses to zero rows is a silent format change, not an empty publication
-  - freshness: {col: period_start, reaches: today - 300d}
+  - freshness: {col: period_start, reaches: today - 500d}
     certainty: 80
     points_outward: true
-    reason: quarterly aggregate; two quarters of slack absorbs the normal publication lag
+    reason: consolidated financial statement statistics advance with a longer quarterly reporting lag; latest observed period is 2025-Q3

@@ -1,6 +1,9 @@
 # BBIB1 - Bundesbank's interest rate statistics
 spec_id: bundesbank-bbib1
 status: active
+coverage:
+  frozen: true
+  reason: legacy Bundesbank interest-rate-statistics flow is historical in this pull; latest observed period is 2003-06
 tests:
   - not_null: series_key
     reason: every observation names the column it came from - the SDMX series key, or in BBKRT the release vintage date
@@ -16,7 +19,3 @@ tests:
     certainty: 90
   - row_count: {min: 1}
     reason: a dataflow that parses to zero rows is a silent format change, not an empty publication
-  - freshness: {col: period_start, reaches: today - 150d}
-    certainty: 80
-    points_outward: true
-    reason: daily-to-monthly release; a max period older than ~5 months means Bundesbank stopped publishing this flow, not that the fetch broke

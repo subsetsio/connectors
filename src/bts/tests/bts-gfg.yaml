@@ -1,4 +1,4 @@
-spec_id: bts-fkl
+spec_id: bts-gfg
 status: active
 tests:
   - row_count: {min: 1}
@@ -13,10 +13,10 @@ tests:
   - column_type: {col: obs_year, type: integer}
     reason: obs_year is injected as a Python int and serialized as a JSON number
     certainty: 95
-  - between: {col: obs_year, lo: 1990, hi: current_year()}
-    reason: the DL_SelectFields year selector for this table spans 1990..2026
+  - between: {col: obs_year, lo: 2011, hi: current_year()}
+    reason: the DL_SelectFields year selector for this table spans 2011..2025
     certainty: 88
   - freshness: {col: obs_date, reaches: today - 700d}
-    reason: quarterly table; max(obs_date) older than the bound means a stale/stuck load rather than normal BTS publish lag
+    reason: quarterly (reported at quarter-end months) table; max(obs_date) older than the bound means a stale/stuck load rather than normal BTS publish lag
     certainty: 70
     points_outward: true
