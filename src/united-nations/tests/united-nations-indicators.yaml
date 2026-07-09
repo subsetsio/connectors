@@ -1,0 +1,27 @@
+spec_id: united-nations-indicators
+status: active
+tests:
+  - not_null: indicator_code
+  - not_null: goal_code
+  - not_null: target_code
+  - not_null: description
+  - unique: indicator_code
+    reason: Indicator/List is the global indicator framework; one row per indicator code
+    certainty: 98
+  - row_count: {min: 200, max: 350}
+    reason: the global framework carries ~248-251 indicators after the 2025 comprehensive review
+    certainty: 92
+  - matches: {col: indicator_code, pattern: '^[0-9]{1,2}\.[0-9a-z]{1,2}\.[0-9]{1,2}$'}
+    reason: indicator codes are goal.target.indicator, with lettered targets like 1.a.1
+    certainty: 90
+  - enum: {col: tier, values: ["1", "2"]}
+    reason: Tier III was retired in 2020, so every live indicator is Tier I or II
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - at_least: {col: series_count, expr: 0}
+    reason: series_count is a derived count of the indicator's series codes; never negative
+    certainty: 99
+  - distinct_count: {col: goal_code, min: 17, max: 17}
+    reason: every one of the 17 goals carries at least one indicator
+    certainty: 95

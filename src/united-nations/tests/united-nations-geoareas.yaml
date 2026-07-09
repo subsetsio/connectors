@@ -1,0 +1,19 @@
+spec_id: united-nations-geoareas
+status: active
+tests:
+  - not_null: geo_area_code
+  - not_null: geo_area_name
+  - unique: geo_area_code
+    reason: GeoArea/List is a flat M49 reference list; one row per area code
+    certainty: 98
+  - unique: geo_area_name
+    reason: names should also be unique in a reference list; a dupe means two codes share a label
+    certainty: 80
+    severity: warn
+  - row_count: {min: 300, max: 900}
+    reason: ~460 areas — the ~250 M49 countries/territories plus regional, income and custom SDG aggregates
+    certainty: 90
+  - matches: {col: geo_area_code, pattern: '^[0-9]+$'}
+    reason: M49 codes are numeric strings
+    certainty: 90
+    severity: warn

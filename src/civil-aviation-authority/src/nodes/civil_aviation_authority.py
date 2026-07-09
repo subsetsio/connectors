@@ -37,7 +37,6 @@ import httpx
 from constants import ENTITY_IDS
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     configure_http,
     get,
     save_raw_ndjson,
@@ -277,16 +276,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per subset. Rows are already parsed and typed in the
-# fetch, so the transform is a thin pass-through that fails loudly (0 rows) if a
-# table's raw is empty/unreadable.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

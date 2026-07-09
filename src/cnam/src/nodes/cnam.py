@@ -19,13 +19,12 @@ import io
 
 import pyarrow.parquet as pq
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, raw_parquet_writer
+from subsets_utils import NodeSpec, get, raw_parquet_writer
 from constants import ENTITY_IDS
 
 BASE = "https://data.ameli.fr/api/explore/v2.1/catalog/datasets"
 
 
-@transient_retry()
 def _download_export(url: str) -> bytes:
     # ODS bulk export: the full dataset in one parquet payload, no pagination.
     resp = get(url, timeout=(10.0, 300.0))
@@ -56,22 +55,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per dataset. The export is already typed and flat,
-# so the transform is a thin verbatim republish (the correctness gate: a wrong
-# raw shape or an empty export fails the node here instead of publishing garbage).
-# Every dataset is an annual CNAM series keyed on `annee`, so temporal is declared
-# uniformly. Keys are left undeclared: these are aggregate statistical panels that
-# stack multiple aggregation perspectives (the `vision_*` flag columns) and levels
-# (national / region / departement) in one table, and the profile found no column
-# or composite observed unique — so no grain can be declared with confidence.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-        temporal="annee",
-    )
-    for s in DOWNLOAD_SPECS
 ]
