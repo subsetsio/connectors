@@ -5,7 +5,7 @@ tests:
   - not_null: series_key
     reason: every observation names the column it came from - the SDMX series key, or in BBKRT the release vintage date
   - not_null: value
-    reason: absent observations ('.') are dropped in the fetch fn, never materialised as nulls; a null here means the parser mis-read a sentinel
+    reason: absent observations ('.' and '...') are dropped in the fetch fn, never materialised as nulls; a null here means the parser mis-read a sentinel
   - column_type: {col: value, type: float}
   - column_type: {col: period_start, type: date}
   - matches: {col: dataflow, pattern: '^BBXP2$'}
