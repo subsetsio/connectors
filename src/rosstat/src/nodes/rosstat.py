@@ -276,7 +276,7 @@ def _open_archive_member(payload: bytes, url: str, depth: int = 0):
     """Yield (kind, binary file-like) for CSV/XML files and nested zips."""
     if depth > 4:
         raise AssertionError(f"{url}: archive nesting too deep")
-    if url.lower().endswith(".zip") or payload[:2] == b"PK":
+    if payload[:2] == b"PK":
         zf = zipfile.ZipFile(io.BytesIO(payload))
         try:
             names = zf.namelist()
@@ -313,10 +313,14 @@ def _local_name(tag: str) -> str:
 
 
 def _xml_records(fh):
-    """Flatten SDMX GenericData XML into one row per observation."""
+    """Flatten Rosstat XML into rows.
+
+    The portal mixes SDMX GenericData and simple documents/Reports/Report XML.
+    """
     series = {}
     in_series_key = False
     obs = None
+    report = None
     for event, elem in ET.iterparse(fh, events=("start", "end")):
         name = _local_name(elem.tag)
         if event == "start":
@@ -330,9 +334,18 @@ def _xml_records(fh):
                 concept = elem.attrib.get("concept")
                 if concept:
                     series[concept] = elem.attrib.get("value", "")
+            elif name == "Report":
+                report = {}
             continue
 
-        if name == "SeriesKey":
+        if report is not None and name != "Report":
+            text = (elem.text or "").strip()
+            if text or elem.attrib:
+                report[name] = text or json.dumps(elem.attrib, ensure_ascii=False)
+        if name == "Report" and report is not None:
+            yield report
+            report = None
+        elif name == "SeriesKey":
             in_series_key = False
         elif name == "Time" and obs is not None:
             obs["time"] = (elem.text or "").strip()

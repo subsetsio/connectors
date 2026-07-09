@@ -12,9 +12,12 @@ tests:
   - distinct_count: {col: REGION, min: 5}
     reason: RSI is regional, so the raw table should include all major regional buckets.
     certainty: 90
-  - between: {col: REGION_CODE, lo: 1, hi: 6}
-    reason: NOAA RSI region codes are a small fixed set.
-    certainty: 85
+  - between: {col: REGION_CODE, lo: 101, hi: 110}
+    reason: NOAA RSI region codes are a fixed set — 101-106 for the six climate regions, 110 for the national roll-up.
+    certainty: 90
+  - not_null: End
+    reason: a null End marks a row the upstream CSV emitted with a missing field; the fetch drops those, so none should survive.
+    certainty: 90
   - freshness: {col: End, reaches: today - 10y}
     reason: RSI updates depend on qualifying snowfall events and may legitimately have no very recent rows.
     points_outward: true

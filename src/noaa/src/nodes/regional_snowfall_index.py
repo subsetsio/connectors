@@ -24,8 +24,12 @@ def fetch_rsi(node_id: str) -> None:
     reader = csv.reader(io.StringIO(text))
     header = _normalize_header(next(reader))
     schema = pa.schema([(c, pa.string()) for c in header])
-    table = _string_table(header, reader, schema)
+    table, dropped = _string_table(header, reader, schema)
     if table.num_rows < 50:
         raise RuntimeError(f"rsi: only {table.num_rows} rows in {files[-1]}")
+    # A few upstream rows omit `End` entirely (22 of 23 fields); they are dropped
+    # rather than misaligned. More than a handful means the layout moved.
+    if dropped > 10:
+        raise RuntimeError(f"rsi: {dropped} malformed rows in {files[-1]}")
     save_raw_parquet(table, node_id)
 

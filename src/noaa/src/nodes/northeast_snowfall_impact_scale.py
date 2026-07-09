@@ -22,8 +22,10 @@ def fetch_nesis(node_id: str) -> None:
     reader = csv.reader(io.StringIO(text))
     header = _normalize_header(next(reader))
     schema = pa.schema([(c, pa.string()) for c in header])
-    table = _string_table(header, reader, schema)
+    table, dropped = _string_table(header, reader, schema)
     if table.num_rows < 10:
         raise RuntimeError(f"nesis: only {table.num_rows} rows in {files[-1]}")
+    if dropped:
+        raise RuntimeError(f"nesis: {dropped} malformed rows in {files[-1]}")
     save_raw_parquet(table, node_id)
 

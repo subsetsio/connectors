@@ -16,6 +16,13 @@ the same host/IP, requests are serialized to <=1 per _MIN_INTERVAL seconds
 Stateless full re-pull: no incremental filter is reliable on this endpoint, so
 every refresh re-fetches the full series and overwrites. (Maintain-step freshness
 gating is authored separately.)
+
+LARGE FLOWS -- the endpoint generates the whole response before sending a byte,
+and for the biggest dataflows (millions of observations) it gives up and closes
+the connection. There is no server-side paging, so the only lever is to shrink
+the result set: TIME_PERIOD is the one dimension every flow has, so a flow that
+fails whole is re-fetched as a union of time windows, bisected until each window
+is small enough to serve (_iter_rows).
 """
 import csv
 import io
@@ -23,6 +30,7 @@ import os
 import tempfile
 import time
 
+import httpx
 
 from subsets_utils import (
     NodeSpec,
@@ -32,6 +40,20 @@ from subsets_utils import (
 
 BASE = "https://esploradati.istat.it/SDMXWS/rest"
 CSV_ACCEPT = "application/vnd.sdmx.data+csv;version=1.0.0"
+
+# Earliest year any Istat historical series carries / latest year its population
+# projections reach. The bisection universe, not a claim about any one flow.
+_YEAR_MIN = 1861
+_YEAR_MAX = 2060
+
+# A flow that needs more windows than this is pathological -- fail loudly rather
+# than grind through the rate limiter for hours.
+_MAX_REQUESTS_PER_FLOW = 200
+
+# Exceptions that mean "the server could not generate this response" -- i.e. the
+# window is too big, so split it. Raised by get() only after its own transient
+# retries are exhausted.
+_TOO_BIG = (httpx.RemoteProtocolError, httpx.ReadTimeout, httpx.WriteTimeout)
 
 # Cross-process global rate limiter. 13s spacing => ~4.6 req/min, under the
 # hard 5/min IP cap. The lock is held during the sleep so concurrent spawn
@@ -65,18 +87,97 @@ def _throttle() -> None:
         os.close(fd)
 
 
-def _fetch_csv(flow_id: str) -> str:
-    """Fetch one dataflow as SDMX-CSV (full series). Throttled + retried."""
-    url = f"{BASE}/data/IT1,{flow_id},1.0/all/ALL/"
+class _DeadFlow(RuntimeError):
+    """The dataflow is listed in the structure registry but no data sits behind
+    it (no mapping set, or its DSD references a concept that doesn't resolve).
+    Permanent upstream defect -- waive the spec, don't retry it."""
+
+
+def _fetch_csv(flow_id: str, start: str = "", end: str = "", *, attempts: int = 0) -> str | None:
+    """Fetch one dataflow as SDMX-CSV, optionally restricted to a time window.
+    Returns None when the window holds no observations. Throttled + retried.
+
+    `attempts` overrides the shared client's transient-retry budget for this call
+    (0 = leave it alone). The full-flow probe passes 1: on a too-big flow all its
+    retries are doomed and each burns up to the read timeout, so retrying four
+    times before falling back to windows costs ~40 wasted minutes.
+    """
+    params = {"detail": "dataonly", "dimensionAtObservation": "TIME_PERIOD"}
+    if start:
+        params["startPeriod"] = start
+    if end:
+        params["endPeriod"] = end
+
+    prior = os.environ.get("HTTP_RETRY_ATTEMPTS")
+    if attempts:
+        os.environ["HTTP_RETRY_ATTEMPTS"] = str(attempts)
     _throttle()
-    resp = get(
-        url,
-        params={"detail": "dataonly", "dimensionAtObservation": "TIME_PERIOD"},
-        headers={"Accept": CSV_ACCEPT},
-        timeout=(10.0, 600.0),
-    )
+    try:
+        resp = get(
+            f"{BASE}/data/IT1,{flow_id},1.0/all/ALL/",
+            params=params,
+            headers={"Accept": CSV_ACCEPT},
+            timeout=(10.0, 600.0),
+        )
+    finally:
+        if attempts:
+            if prior is None:
+                os.environ.pop("HTTP_RETRY_ATTEMPTS", None)
+            else:
+                os.environ["HTTP_RETRY_ATTEMPTS"] = prior
+
+    # 404 is overloaded: an empty time window and a dataflow with no data behind
+    # it at all come back the same way, distinguished only by the body.
+    if resp.status_code == 404:
+        body = resp.text[:400]
+        if "NoRecordsFound" in body:
+            return None
+        raise _DeadFlow(f"{flow_id}: {body.strip()}")
+    if resp.status_code == 422:
+        raise _DeadFlow(f"{flow_id}: {resp.text[:400].strip()}")
     resp.raise_for_status()
     return resp.text
+
+
+def _iter_rows(flow_id: str):
+    """Yield every observation of `flow_id`, splitting into time windows if the
+    server can't serve the flow whole."""
+    budget = [_MAX_REQUESTS_PER_FLOW]
+
+    def window(start: str, end: str, *, probe: bool = False) -> str | None:
+        if budget[0] <= 0:
+            raise RuntimeError(f"{flow_id}: exceeded {_MAX_REQUESTS_PER_FLOW} requests")
+        budget[0] -= 1
+        return _fetch_csv(flow_id, start, end, attempts=1 if probe else 0)
+
+    def split_years(lo: int, hi: int):
+        try:
+            text = window(str(lo), str(hi))
+        except _TOO_BIG:
+            if lo < hi:
+                mid = (lo + hi) // 2
+                yield from split_years(lo, mid)
+                yield from split_years(mid + 1, hi)
+            else:
+                yield from split_months(lo)
+            return
+        if text is not None:
+            yield from _rows(text)
+
+    def split_months(year: int):
+        for month in range(1, 13):
+            text = window(f"{year}-{month:02d}", f"{year}-{month:02d}")
+            if text is not None:
+                yield from _rows(text)
+
+    try:
+        text = _fetch_csv(flow_id, attempts=1)
+    except _TOO_BIG:
+        print(f"[istat] {flow_id}: too large to serve whole — splitting by time window")
+        yield from split_years(_YEAR_MIN, _YEAR_MAX)
+        return
+    if text is not None:
+        yield from _rows(text)
 
 
 def _rows(text):

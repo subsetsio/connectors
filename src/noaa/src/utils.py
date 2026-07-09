@@ -48,17 +48,28 @@ def _clean(v):
     return v if v not in (None, "", " ") else None
 
 
-def _string_table(header: list[str], rows, schema: pa.Schema) -> pa.Table:
+def _string_table(header: list[str], rows, schema: pa.Schema) -> tuple[pa.Table, int]:
+    """Build the all-string table, DROPPING rows whose field count differs from
+    the header. Returns (table, dropped).
+
+    Never pad: a short row means a field vanished mid-line (the RSI export emits
+    a handful of 22-field rows with `End` missing), so right-padding shifts every
+    later value one column left — `End` silently receives RSI's number. Callers
+    bound `dropped`; a jump means the source layout moved.
+    """
     cols: dict[str, list] = {c: [] for c in header}
     n = len(header)
+    dropped = 0
     for row in rows:
         if len(row) != n:
-            row = (list(row) + [None] * n)[:n]
+            dropped += 1
+            continue
         for c, v in zip(header, row):
             cols[c].append(_clean(v))
-    return pa.table(
+    table = pa.table(
         {c: pa.array(cols[c], type=pa.string()) for c in header}, schema=schema
     )
+    return table, dropped
 
 
 def _normalize_header(header: list[str]) -> list[str]:
