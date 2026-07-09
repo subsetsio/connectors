@@ -1,54 +1,101 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# CFTC Commitments of Traders — Legacy report.
+#
+# CONSUMER CAUTIONS (from the settled model of the raw asset):
+#  * Every (report_date, cftc_code) appears TWICE — once as report_type='FutOnly'
+#    and once as 'Combined' (futures plus delta-adjusted options). Filter on
+#    report_type before aggregating, or open interest and every position column
+#    double-counts.
+#  * Non-commercial spreading is counted once in noncommercial_spread and is NOT
+#    included in noncommercial_long/short. Open interest reconciles as
+#    commercial + non-commercial long/short + spreading + nonreportable.
+#  * History reaches back to 1986, but the set of reporting contract markets
+#    changes over time — a contract market absent in early years is not a zero,
+#    it is simply not yet reported.
+#  * Rows are a weekly snapshot of positions outstanding on the Tuesday report
+#    date, not flows. Only change_in_open_interest is a week-over-week
+#    difference; never sum position columns across report dates.
+#
+# The raw carries _all / _old / _other crop-year variants of each position
+# column; this table publishes the _all totals only.
+key: [report_date, cftc_code, report_type]
+temporal: report_date
+sort: [report_date, cftc_code, report_type]
 columns:
   - name: report_date
     type: DATE
+    description: Tuesday as-of date the positions were outstanding (the report reflects the close of business that day and is published the following Friday).
   - name: market
     type: VARCHAR
+    description: Full CFTC market and exchange name, e.g. "WHEAT-SRW - CHICAGO BOARD OF TRADE".
   - name: contract
     type: VARCHAR
+    description: Contract market name without the exchange suffix, e.g. "WHEAT-SRW".
   - name: cftc_code
     type: VARCHAR
+    description: CFTC contract market code — the stable identifier for the contract market (renamed from cftc_contract_market_code).
   - name: exchange_code
     type: VARCHAR
+    description: CFTC market code for the reporting exchange, e.g. "CBT", "NYME" (renamed from cftc_market_code).
   - name: commodity_name
     type: VARCHAR
+    description: CFTC commodity name for the underlying, e.g. "WHEAT".
   - name: commodity_group_name
     type: VARCHAR
+    description: Top-level CFTC commodity group, e.g. "AGRICULTURE", "NATURAL RESOURCES".
   - name: commodity_subgroup_name
     type: VARCHAR
+    description: CFTC commodity subgroup within the group, e.g. "GRAINS".
   - name: contract_units
     type: VARCHAR
+    description: Free-text unit one contract represents, e.g. "5,000 BUSHELS". Position columns count contracts, not these units.
   - name: open_interest
     type: DOUBLE
+    description: Total open interest in contracts across all trader categories.
   - name: total_reportable_long
     type: DOUBLE
+    description: Long positions held by all reportable traders, in contracts.
   - name: total_reportable_short
     type: DOUBLE
+    description: Short positions held by all reportable traders, in contracts.
   - name: nonreportable_long
     type: DOUBLE
+    description: Long positions held by traders below the CFTC reporting threshold, in contracts (derived by the CFTC as open interest minus reportable longs).
   - name: nonreportable_short
     type: DOUBLE
+    description: Short positions held by traders below the CFTC reporting threshold, in contracts.
   - name: total_traders
     type: DOUBLE
+    description: Number of reportable traders holding a position in this contract market.
   - name: report_type
     type: VARCHAR
+    description: "'FutOnly' = futures contracts only; 'Combined' = futures plus delta-adjusted options. Part of the row key: both variants are published for every report_date and cftc_code."
   - name: change_in_open_interest
     type: DOUBLE
+    description: Change in open interest, in contracts, from the previous week's report date.
   - name: noncommercial_long
     type: DOUBLE
+    description: Long positions of non-commercial (speculative) reportable traders, in contracts. Excludes positions counted in noncommercial_spread.
   - name: noncommercial_short
     type: DOUBLE
+    description: Short positions of non-commercial (speculative) reportable traders, in contracts. Excludes positions counted in noncommercial_spread.
   - name: noncommercial_spread
     type: DOUBLE
+    description: Non-commercial positions offset long against short within the contract market, in contracts. Counted once here, not in the long/short columns.
   - name: commercial_long
     type: DOUBLE
+    description: Long positions of commercial traders — those using the market to hedge a physical business — in contracts.
   - name: commercial_short
     type: DOUBLE
+    description: Short positions of commercial traders, in contracts.
   - name: conc_net_4_long_pct
     type: DOUBLE
+    description: Percent of total open interest held net long by the four largest traders.
   - name: conc_net_4_short_pct
     type: DOUBLE
+    description: Percent of total open interest held net short by the four largest traders.
   - name: conc_net_8_long_pct
     type: DOUBLE
+    description: Percent of total open interest held net long by the eight largest traders.
   - name: conc_net_8_short_pct
     type: DOUBLE
+    description: Percent of total open interest held net short by the eight largest traders.

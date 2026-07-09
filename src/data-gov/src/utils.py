@@ -8,7 +8,7 @@ per page so peak memory stays at a single page. Shared by the datasets and
 resources download nodes (both crawl the same package payload).
 """
 
-from subsets_utils import get, save_raw_ndjson
+from subsets_utils import get, save_raw_ndjson, transient_retry
 
 BASE = "https://catalog-old.data.gov/api/3"
 PAGE_SIZE = 1000          # CKAN/Solr caps rows at 1000 (verified)
@@ -16,6 +16,7 @@ SORT = "metadata_created asc"  # stable-ish order for start/rows deep paging
 MAX_PAGES = 2000          # safety ceiling (~403 expected); raises if exceeded
 
 
+@transient_retry(attempts=8, min_wait=8, max_wait=180)
 def _action(action: str, **params) -> dict:
     resp = get(f"{BASE}/action/{action}", params=params, timeout=(10.0, 180.0))
     resp.raise_for_status()
