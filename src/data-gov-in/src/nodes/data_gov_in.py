@@ -22,7 +22,7 @@ heavy parallel load) but fine sequentially — the DAG runs downloads sequential
 
 import os
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_ndjson, transient_retry
 from constants import ENTITY_IDS
 
 SLUG = "data-gov-in"
@@ -91,16 +91,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per resource: thin pass-through over the raw NDJSON.
-# DuckDB infers column types from the records. 0 rows fails the node by design,
-# which is the empty-resource guard.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]
