@@ -1,0 +1,24 @@
+spec_id: unodc-data-wildlife-trafficking
+status: active
+tests:
+  - not_null: geo
+  - not_null: year
+  - not_null: indicator
+  - not_null: value
+  - unique: [geo, year, indicator, series, taxonomic_group, unit_measure]
+    reason: one seizure aggregate per region-period-series-taxon-unit
+    certainty: 85
+  - matches: {col: year, pattern: "[0-9]{4}(-[0-9]{4})?"}
+    reason: this table reports both single years and multi-year pooling windows ("2015-2021"), so the temporal column is a period string, not a year
+    certainty: 90
+  - column_type: {col: value, type: string}
+    reason: kept as text like every other UNODC workbook so the transform owns the cast
+  - freshness: {col: year, reaches: today - 6y}
+    points_outward: true
+    reason: wildlife seizure aggregates are refreshed only with each World Wildlife Crime Report (roughly every 4 years) and lag ~3 years, so the newest period should stay within 6 years of today
+    certainty: 70
+  - row_count: {min: 50, max: 5000}
+    reason: a small regional aggregate table, not a country-year panel
+    certainty: 80
+  - distinct_count: {col: geo, min: 5}
+  - distinct_count: {col: taxonomic_group, min: 2}

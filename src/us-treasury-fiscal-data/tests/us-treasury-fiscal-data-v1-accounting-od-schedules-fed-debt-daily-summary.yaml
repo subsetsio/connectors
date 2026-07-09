@@ -1,0 +1,15 @@
+spec_id: us-treasury-fiscal-data-v1-accounting-od-schedules-fed-debt-daily-summary
+status: active
+tests:
+  - row_count: {min: 1004}
+    reason: "the API reported meta.total-count=1116 for this table; a load that ships fewer than 90% of those rows means paging stopped early, not that the table shrank"
+    certainty: 90
+  - not_null: record_date
+    reason: "record_date is the observation-period key of every row in this Fiscal Data table; a null means a malformed record slipped through the fetch"
+    certainty: 95
+  - freshness: {col: record_date, reaches: today - 21d}
+    reason: "Schedules of Federal Debt by Day publishes on a daily cadence (median 1-day spacing between distinct record_date values); the newest record was 2 days old when this spec was authored. Slack = one publish period + that observed release lag, so a single skipped release still passes and a dead feed blocks."
+    points_outward: true
+  - matches: {col: record_date, pattern: '\d{4}-\d{2}-\d{2}'}
+    reason: "Fiscal Data serialises every date as an ISO YYYY-MM-DD string; a different shape means the column changed meaning upstream"
+    certainty: 90

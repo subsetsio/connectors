@@ -1,0 +1,33 @@
+spec_id: unodc-data-cts-intentional-homicide
+status: active
+tests:
+  - not_null: iso3_code
+  - not_null: year
+  - not_null: indicator
+  - not_null: value
+    reason: the CTS long format only publishes a row when a value exists (censored ones carry "<5", not a blank)
+    certainty: 90
+  - matches: {col: iso3_code, pattern: "[A-Z]{3}(_[A-Z]+)*"}
+    reason: ISO-3166 alpha-3, plus the UNODC subnational pseudo-codes for the UK constituent countries and Iraq (GBR_E_W, GBR_NI, GBR_S, GBR_E, IRQ_C, IRQ_KRI)
+    certainty: 90
+  - matches: {col: year, pattern: "[0-9]{4}"}
+    reason: xlsx stores Year as a number in some workbooks and as text in others; raw must land a clean 4-digit string either way
+  - column_type: {col: value, type: string}
+    reason: VALUE mixes numbers with censored entries ("<5"); a numeric raw column would mean the censored rows were silently dropped or nulled
+    certainty: 95
+  - between: {col: year, lo: 1990, hi: current_year()}
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: these are recorded observations, never projections
+    certainty: 95
+  - freshness: {col: year, reaches: today - 5y}
+    points_outward: true
+    reason: UNODC republishes these collections annually and countries report with a 2-3 year lag, so the newest year in a live file stays within 5 years of today; a stale max means the source has not released, not that retrieval broke
+  - unique: [iso3_code, indicator, dimension, category, sex, age, year, unit_of_measurement]
+    reason: one observation per country-indicator-breakdown-year-unit; dupes mean the workbook was parsed twice or a discriminating column was dropped
+    certainty: 90
+  - row_count: {min: 60000}
+    reason: the workbook is republished whole each release; a collapse to a fraction of this means the parse found the wrong header row or sheet
+  - distinct_count: {col: iso3_code, min: 150}
+    reason: reporting-country coverage; a sharp drop means a partial parse
+    certainty: 85

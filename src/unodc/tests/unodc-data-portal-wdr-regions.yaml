@@ -1,0 +1,18 @@
+spec_id: unodc-data-portal-wdr-regions
+status: active
+tests:
+  - not_null: iso_alpha3_code
+  - not_null: country_or_area
+  - not_null: region
+  - not_null: subregion
+  - unique: iso_alpha3_code
+    reason: a classification workbook - each country or area is included in exactly one region, as the workbook itself states
+    certainty: 95
+  - matches: {col: iso_alpha3_code, pattern: "[A-Z]{3}(_[A-Z]+)*"}
+    reason: ISO-3166 alpha-3 plus the UNODC subnational pseudo-codes (GBR_E_W, IRQ_KRI, ...)
+    certainty: 90
+  - row_count: {min: 180, max: 400}
+    reason: the ~250 UN M49 countries and areas; this is World Drug Report regional groupings
+    certainty: 90
+  - distinct_count: {col: region, min: 3, max: 12}
+  - distinct_count: {col: subregion, min: 5, max: 40}

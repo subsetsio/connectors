@@ -1,0 +1,15 @@
+spec_id: us-treasury-fiscal-data-v2-accounting-od-qualified-tax
+status: active
+coverage:
+  frozen: true
+  reason: "the Fiscal Data table description states these qualified tax credit bond rates were 'reported daily through January 30, 2018'; the corpus is a closed historical archive and its latest record_date has not advanced since"
+tests:
+  - row_count: {min: 1999}
+    reason: "the API reported meta.total-count=2222 for this table; a load that ships fewer than 90% of those rows means paging stopped early, not that the table shrank"
+    certainty: 90
+  - not_null: record_date
+    reason: "record_date is the observation-period key of every row in this Fiscal Data table; a null means a malformed record slipped through the fetch"
+    certainty: 95
+  - matches: {col: record_date, pattern: '\d{4}-\d{2}-\d{2}'}
+    reason: "Fiscal Data serialises every date as an ISO YYYY-MM-DD string; a different shape means the column changed meaning upstream"
+    certainty: 90

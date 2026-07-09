@@ -1,0 +1,12 @@
+spec_id: us-treasury-fiscal-data-v2-accounting-od-sb-value
+status: active
+tests:
+  - row_count: {min: 32342}
+    reason: "the API reported meta.total-count=35936 for this table; a load that ships fewer than 90% of those rows means paging stopped early, not that the table shrank"
+    certainty: 90
+  - not_null: redemption_year
+    reason: "redemption_year is the observation-period key of every row in this Fiscal Data table; a null means a malformed record slipped through the fetch"
+    certainty: 95
+  - freshness: {col: redemption_year, reaches: current_year()}
+    reason: "Savings Bonds Value Files publishes redemption values forward, so the newest redemption_year always reaches the current calendar year; a lower max means the file stopped being refreshed"
+    points_outward: true

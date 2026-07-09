@@ -20,6 +20,7 @@ completes the chain in certifi's bundle so verification stays enabled.
 """
 
 import io
+import re
 
 import pyarrow as pa
 import pyarrow.csv as pacsv
@@ -27,7 +28,6 @@ import pyarrow.csv as pacsv
 from subsets_utils import (
     NodeSpec,
     get,
-    transient_retry,
     raw_parquet_writer,
     save_raw_parquet,
 )
@@ -44,18 +44,60 @@ from utils import ensure_ca
 
 # --- helpers -----------------------------------------------------------------
 
-@transient_retry()
 def _fetch_bytes(url: str) -> bytes:
-    resp = get(url, timeout=(10.0, 600.0))
-    resp.raise_for_status()
-    return resp.content
+    try:
+        resp = get(url, timeout=(10.0, 600.0))
+        resp.raise_for_status()
+        return resp.content
+    except Exception:
+        return _fetch_bytes_by_range(url)
 
 
-@transient_retry()
 def _fetch_json(url: str):
     resp = get(url, timeout=(10.0, 60.0))
     resp.raise_for_status()
     return resp.json()
+
+
+def _fetch_bytes_by_range(url: str, chunk_size: int = 1_000_000) -> bytes:
+    parts: list[bytes] = []
+    pos = 0
+    total: int | None = None
+
+    while total is None or pos < total:
+        end = pos + chunk_size - 1
+        resp = get(
+            url,
+            headers={"Range": f"bytes={pos}-{end}"},
+            timeout=(10.0, 120.0),
+        )
+        resp.raise_for_status()
+
+        if resp.status_code == 200:
+            if pos == 0:
+                return resp.content
+            raise AssertionError(f"{url}: server ignored Range after partial fetch")
+
+        if resp.status_code != 206:
+            raise AssertionError(f"{url}: unexpected ranged status {resp.status_code}")
+
+        content_range = resp.headers.get("Content-Range", "")
+        match = re.match(r"bytes (\d+)-(\d+)/(\d+)", content_range)
+        if not match:
+            raise AssertionError(f"{url}: missing/invalid Content-Range {content_range!r}")
+
+        start, stop, total_s = (int(match.group(i)) for i in range(1, 4))
+        if start != pos:
+            raise AssertionError(f"{url}: ranged response started at {start}, expected {pos}")
+        body = resp.content
+        expected_len = stop - start + 1
+        if len(body) != expected_len:
+            raise AssertionError(f"{url}: ranged response length {len(body)} != {expected_len}")
+        parts.append(body)
+        total = total or total_s
+        pos = stop + 1
+
+    return b"".join(parts)
 
 
 def _read_csv_all_string(raw: bytes) -> pa.Table:
@@ -126,7 +168,7 @@ def fetch_reference(node_id: str) -> None:
     """Fetch a single auxiliary reference table (small enough to hold in memory)."""
     ensure_ca()
     stem = REFERENCE_FILES[node_id]
-    raw = _fetch_bytes(f"{BULK_BASE}/tabelas/{stem}.csv")
+    raw = _fetch_bytes_by_range(f"{BULK_BASE}/tabelas/{stem}.csv")
     table = _read_csv_all_string(raw)
     save_raw_parquet(table, node_id)
 

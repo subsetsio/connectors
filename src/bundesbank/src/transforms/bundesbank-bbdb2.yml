@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bundesbank-bbdb2`. Regenerate after model-verify.
+# caution: Long Bundesbank SDMX time-series dataflow: `series_key`/`label` identify source-defined series that can differ by unit, frequency, category, and other attributes; filter those dimensions before aggregating `value`.
+# caution: Use `period_start` for normalized chronological queries and keep `time_period` when the exact upstream period code matters.
+key: [period_start, series_key]
+temporal: period_start
+sort: [period_start, series_key]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: file_key
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: series_key
+    type: VARCHAR
+  - name: label
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: period_start
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: unit_en
+    type: VARCHAR
+  - name: magnitude
+    type: VARCHAR
+  - name: decimals
+    type: INTEGER
+  - name: category
+    type: VARCHAR
+  - name: last_update
+    type: VARCHAR
+  - name: attributes
+    type: VARCHAR

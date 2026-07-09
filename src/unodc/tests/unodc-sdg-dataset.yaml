@@ -1,0 +1,34 @@
+spec_id: unodc-sdg-dataset
+status: active
+tests:
+  - not_null: goal
+  - not_null: indicator
+  - not_null: series
+  - not_null: iso3_code
+  - not_null: year
+  - nullable: {col: value, max_null_frac: 0.25}
+    reason: SDG series carry the full country-year grid, so cells with no observation stay blank; a much higher null rate means the VALUE column shifted
+    certainty: 80
+  - enum: {col: goal, values: ["Goal 3", "Goal 11", "Goal 16"]}
+    reason: UNODC is custodian for indicators under Goal 16 (rule of law), 11.7.2 (harassment) and 3.5.1 (drug treatment) only
+    certainty: 85
+  - matches: {col: indicator, pattern: "[0-9]{1,2}\\.[0-9]+\\.[0-9]+"}
+    reason: SDG indicator codes are dotted triples (16.1.1)
+    certainty: 95
+  - matches: {col: iso3_code, pattern: "[A-Z]{3}(_[A-Z]+)*"}
+    reason: same ISO-3166 alpha-3 plus UNODC subnational pseudo-codes as the CTS files
+    certainty: 90
+  - matches: {col: year, pattern: "[0-9]{4}"}
+  - column_type: {col: value, type: string}
+    reason: text like every other UNODC workbook; the transform owns the cast
+  - between: {col: year, lo: 2000, hi: current_year()}
+    certainty: 90
+  - freshness: {col: year, reaches: today - 5y}
+    points_outward: true
+    reason: republished annually alongside the CTS release, with the same 2-3 year country reporting lag
+  - unique: [iso3_code, indicator, series, year, sex, age, drug, crime, dim_comp1]
+    reason: the SDG long format is one observation per country-series-year and the five disaggregation columns; dupes mean a dropped breakdown column
+    certainty: 85
+  - row_count: {min: 30000}
+  - distinct_count: {col: iso3_code, min: 180}
+  - distinct_count: {col: series, min: 10}
