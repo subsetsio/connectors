@@ -4,7 +4,8 @@ Mechanism (from research): anonymous bulk-download files. There is no catalog
 API (the flagship Timeseries API is auth-gated), so the dataset list is the
 fixed rank-accepted entity union. Each dataset is a single stable URL pointing
 at a ZIP that wraps one CSV; TISMOS is two ZIPs (imports + exports) that share a
-schema and publish as one table.
+schema and publish as one table. The TISMOS FATS addendum is served as a bare
+CSV rather than a ZIP.
 
 Fetch shape: stateless full re-pull (decision shape 1). These are static bulk
 files overwritten in place each release; there is no incremental/since filter,
@@ -16,6 +17,7 @@ faithful copy of the source — and all typing/casting happens in the SQL
 transform, which is the correctness gate.
 """
 
+import contextlib
 import csv
 import io
 import os
@@ -23,11 +25,9 @@ import tempfile
 import zipfile
 
 import pyarrow as pa
-import pyarrow.parquet as pq
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_parquet_writer,
     transient_retry,
@@ -44,6 +44,7 @@ _MERCH_INDICES = [f"{_STATS}/merchandise_indices_annual_dataset.zip"]
 _SERVICES = [f"{_STATS}/services_annual_dataset.zip"]
 _BATIS = [f"{_DAILY}/OECD-WTO_BATIS_data_BPM6-1.zip"]
 _TISMOS = [f"{_DAILY}/Tismos_imports.zip", f"{_DAILY}/Tismos_exports.zip"]
+_TISMOS_FATS = [f"{_DAILY}/Tismos_addendum_FATS.csv"]
 
 
 # --- transport ----------------------------------------------------------------
@@ -51,13 +52,13 @@ _TISMOS = [f"{_DAILY}/Tismos_imports.zip", f"{_DAILY}/Tismos_exports.zip"]
 
 @transient_retry()
 def _download_to_temp(url: str) -> str:
-    """Download a (possibly large) archive to a scratch tempfile; return its path.
+    """Download a (possibly large) file to a scratch tempfile; return its path.
 
-    The tempfile is intermediate scratch for unzipping — NOT a raw asset (raw is
-    written via subsets_utils.raw_parquet_writer downstream)."""
+    The tempfile is intermediate scratch for unzipping/parsing — NOT a raw asset
+    (raw is written via subsets_utils.raw_parquet_writer downstream)."""
     resp = get(url, timeout=(15.0, 600.0))
     resp.raise_for_status()
-    fd, path = tempfile.mkstemp(suffix=".zip", prefix="wto-")
+    fd, path = tempfile.mkstemp(prefix="wto-")
     try:
         with os.fdopen(fd, "wb") as fh:
             fh.write(resp.content)
@@ -67,14 +68,12 @@ def _download_to_temp(url: str) -> str:
     return path
 
 
-def _sniff_encoding(zf: zipfile.ZipFile, member: str) -> str:
-    """Detect a CSV member's text encoding from its first chunk.
+def _sniff_encoding(head: bytes) -> str:
+    """Detect a CSV's text encoding from its first chunk.
 
     WTO bulk files are inconsistent: the stats.wto.org tidy CSVs are Windows-1252
     (e.g. 'Türkiye'), while the OECD-WTO services CSVs carry a UTF-8 BOM. Pick the
     right codec per file rather than assuming one."""
-    with zf.open(member) as fh:
-        head = fh.read(65536)
     if head.startswith(b"\xef\xbb\xbf"):
         return "utf-8-sig"
     try:
@@ -84,7 +83,25 @@ def _sniff_encoding(zf: zipfile.ZipFile, member: str) -> str:
         return "cp1252"
 
 
-def _iter_zip_csv_rows(urls):
+@contextlib.contextmanager
+def _open_csv_binary(path: str, url: str):
+    """Open the CSV byte stream behind a downloaded file.
+
+    A .zip is opened through its single .csv member; anything else is read
+    directly (the TISMOS FATS addendum is served as a bare CSV)."""
+    if url.lower().endswith(".zip"):
+        zf = zipfile.ZipFile(path)
+        members = [n for n in zf.namelist() if n.lower().endswith(".csv")]
+        if not members:
+            raise AssertionError(f"{url}: no .csv member in zip ({zf.namelist()})")
+        with zf.open(members[0]) as fh:
+            yield fh
+    else:
+        with open(path, "rb") as fh:
+            yield fh
+
+
+def _iter_csv_rows(urls):
     """Yield CSV rows (list[str]) across all urls, validating a shared header.
 
     The first yielded item is ('header', header_list); every subsequent item is
@@ -94,12 +111,9 @@ def _iter_zip_csv_rows(urls):
     for url in urls:
         path = _download_to_temp(url)
         try:
-            zf = zipfile.ZipFile(path)
-            members = [n for n in zf.namelist() if n.lower().endswith(".csv")]
-            if not members:
-                raise AssertionError(f"{url}: no .csv member in zip ({zf.namelist()})")
-            enc = _sniff_encoding(zf, members[0])
-            with zf.open(members[0]) as raw:
+            with _open_csv_binary(path, url) as probe:
+                enc = _sniff_encoding(probe.read(65536))
+            with _open_csv_binary(path, url) as raw:
                 # errors='replace' so a single odd byte never aborts a production run.
                 text = io.TextIOWrapper(raw, encoding=enc, errors="replace", newline="")
                 reader = csv.reader(text)
@@ -119,7 +133,7 @@ def _iter_zip_csv_rows(urls):
 
 def _fetch_asset(asset: str, urls) -> None:
     """Stream the CSV(s) behind `urls` into one all-string parquet raw asset."""
-    rows = _iter_zip_csv_rows(urls)
+    rows = _iter_csv_rows(urls)
     kind, header = next(rows)
     assert kind == "header"
     n = len(header)
@@ -162,10 +176,15 @@ def fetch_tismos(node_id: str) -> None:
     _fetch_asset(node_id, _TISMOS)
 
 
+def fetch_tismos_fats(node_id: str) -> None:
+    _fetch_asset(node_id, _TISMOS_FATS)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(id="wto-merchandise-values-annual", fn=fetch_merchandise_values, kind="download"),
     NodeSpec(id="wto-merchandise-indices-annual", fn=fetch_merchandise_indices, kind="download"),
     NodeSpec(id="wto-services-annual", fn=fetch_services, kind="download"),
     NodeSpec(id="wto-batis-bpm6", fn=fetch_batis, kind="download"),
     NodeSpec(id="wto-tismos", fn=fetch_tismos, kind="download"),
+    NodeSpec(id="wto-tismos-fats", fn=fetch_tismos_fats, kind="download"),
 ]

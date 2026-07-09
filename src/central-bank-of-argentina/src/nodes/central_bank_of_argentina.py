@@ -118,6 +118,23 @@ def fetch_monetary_series(node_id: str) -> None:
     save_raw_parquet(table, asset)
 
 
+_CURRENCIES_SCHEMA = pa.schema([
+    ("codigo", pa.string()),
+    ("denominacion", pa.string()),
+])
+
+_CURRENCIES_COLS = [f.name for f in _CURRENCIES_SCHEMA]
+
+
+def fetch_fx_currencies(node_id: str) -> None:
+    """Currency master list (~44 rows: codigo, denominacion)."""
+    asset = node_id
+    currencies = _fetch_currencies()
+    rows = [{c: rec.get(c) for c in _CURRENCIES_COLS} for rec in currencies]
+    table = pa.Table.from_pylist(rows, schema=_CURRENCIES_SCHEMA)
+    save_raw_parquet(table, asset)
+
+
 _VALUES_SCHEMA = pa.schema([
     ("idVariable", pa.int64()),
     ("fecha", pa.string()),
@@ -206,6 +223,8 @@ def fetch_fx_quotations(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id="central-bank-of-argentina-fx-currencies",
+             fn=fetch_fx_currencies, kind="download"),
     NodeSpec(id="central-bank-of-argentina-monetary-series",
              fn=fetch_monetary_series, kind="download"),
     NodeSpec(id="central-bank-of-argentina-monetary-values",

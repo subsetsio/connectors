@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `central-bank-of-peru-series`. Regenerate after model-verify.
+# caution: One row per series (the series dimension/catalog), not an observation table — join to central-bank-of-peru-values on codigo_serie to attach labels, unit and frequency to the observations.
+key: [codigo_serie]
+temporal: fecha_actualizacion
+sort: [fecha_actualizacion, codigo_serie]
 columns:
   - name: codigo_serie
     type: VARCHAR
@@ -21,7 +26,7 @@ columns:
   - name: area_publica
     type: VARCHAR
   - name: fecha_actualizacion
-    type: VARCHAR
+    type: DATE
   - name: fecha_inicio
     type: VARCHAR
   - name: fecha_fin

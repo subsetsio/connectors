@@ -1,0 +1,19 @@
+spec_id: central-bank-of-argentina-fx-currencies
+status: active
+tests:
+  - not_null: codigo
+    reason: every currency in the Divisas master carries an ISO-style code
+    certainty: 95
+  - not_null: denominacion
+    reason: each currency has a human-readable name
+    certainty: 90
+  - unique: codigo
+    reason: the master is one row per currency code; dupes mean the list was re-pulled
+    certainty: 95
+  - row_count: {min: 30}
+    reason: probing saw ~44 currency codes; far fewer means the master fetch was truncated
+    certainty: 85
+  - distinct_count: {col: codigo, min: 30}
+    reason: one distinct code per currency; a collapse means codes stopped populating
+    certainty: 80
+    severity: warn

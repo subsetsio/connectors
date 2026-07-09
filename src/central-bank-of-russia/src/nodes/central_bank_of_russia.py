@@ -23,7 +23,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -142,24 +141,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT DISTINCT
-                CAST(date AS DATE)        AS date,
-                periodicity,
-                measure_name              AS measure,
-                element_name              AS series,
-                unit,
-                CAST(obs_val AS DOUBLE)   AS value
-            FROM "{s.id}"
-            WHERE obs_val IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

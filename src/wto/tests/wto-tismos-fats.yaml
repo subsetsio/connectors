@@ -1,0 +1,42 @@
+spec_id: wto-tismos-fats
+status: active
+coverage:
+  frozen: true
+  reason: The TISMOS FATS addendum is a fixed historical corpus covering 2005-2017 in the public WTO file; like the parent TISMOS release it is not expected to advance annually.
+tests:
+  - row_count: {min: 60000}
+    reason: The addendum is a 202-economy x 14-indicator x 13-year panel of mode-3 (FATS) services trade; observed at ~73k rows, a materially smaller file indicates truncation.
+    certainty: 85
+  - not_null: FLOW
+    reason: every row is an import (M) or export (X) leg.
+    certainty: 95
+  - not_null: REPORTER
+    reason: every row carries a reporter economy.
+    certainty: 95
+  - not_null: INDICATOR
+    reason: every row carries an EBOPS service category code.
+    certainty: 95
+  - not_null: YEAR
+    reason: every row carries an annual period.
+    certainty: 95
+  - column_type: {col: YEAR, type: string}
+    reason: the downloader preserves raw CSV fields as strings; transforms own numeric casting.
+    certainty: 95
+  - column_type: {col: VALUE, type: string}
+    reason: the downloader preserves raw CSV fields as strings; transforms own numeric casting.
+    certainty: 95
+  - matches: {col: YEAR, pattern: '^[0-9]{4}$'}
+    reason: YEAR is a four-digit annual period in the source CSV.
+    certainty: 95
+  - enum: {col: FLOW, values: [M, X]}
+    reason: the FATS addendum encodes the flow leg as single-letter M (imports) / X (exports), unlike the parent TISMOS files which spell the words out.
+    certainty: 90
+  - unique: [FLOW, REPORTER, PARTNER, INDICATOR, YEAR]
+    reason: one observation per flow leg, reporter, partner aggregate, service category and year - this is the natural grain and held exactly on the probed file.
+    certainty: 90
+  - distinct_count: {col: REPORTER, min: 150}
+    reason: the addendum covers ~200 economies; a much smaller count means a partial download.
+    certainty: 85
+  - distinct_count: {col: INDICATOR, min: 10}
+    reason: FATS is broken out across the EBOPS service categories; collapsing below ten signals a malformed file or parse.
+    certainty: 85

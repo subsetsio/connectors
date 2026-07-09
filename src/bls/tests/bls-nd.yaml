@@ -1,5 +1,19 @@
 spec_id: bls-nd
 status: active
+coverage:
+  frozen: true
+  reason: >-
+    ND is the PPI "Revision-Discontinued Series" archive (nd.txt section 1):
+    every series in it has already been terminated, and its end_year is when
+    BLS retired it. 87% of the 6,484 catalogued series ended before 2020 and
+    the newest observation anywhere in the corpus is 2025-06. The observation
+    frontier therefore does not advance on a release cadence - it moves only
+    when BLS discontinues another batch of PPI series and appends their
+    closed histories. Live PPI freshness is asserted on its successors,
+    bls-pc (current industry series) and bls-wp (commodity series). The
+    directory itself is still rewritten monthly, so MAINTAIN_SPECS keeps
+    re-fetching it on nd.series ETag change; that is republication of a
+    closed corpus, not new observations.
 tests:
   - not_null: series_id
   - not_null: period
@@ -23,6 +37,3 @@ tests:
     reason: BLS writes '-' for suppressed/unavailable observations, which we null; a large null share means the value column stopped parsing
     certainty: 75
     severity: warn
-  - freshness: {col: period_start_date, reaches: today - 400d}
-    reason: slack matched to this survey's release cadence and publication lag
-    points_outward: true

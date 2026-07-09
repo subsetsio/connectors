@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `central-bank-of-peru-values`. Regenerate after model-verify.
+# caution: Long-format observations spanning ~17,100 heterogeneous series (CPI, GDP, FX rates, interest rates, balance of payments, fiscal, expectations) in many different units — never aggregate value across codigo_serie; always filter to a single series (join central-bank-of-peru-series for its unit and label).
+# caution: frecuencia mixes Diaria/Mensual/Trimestral/Anual across rows, so the date column carries different granularities depending on the series — filter by frecuencia (or a single codigo_serie) before any time aggregation.
+key: [codigo_serie, date, frecuencia]
+temporal: date
+sort: [date, codigo_serie, frecuencia]
 columns:
   - name: codigo_serie
     type: VARCHAR

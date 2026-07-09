@@ -1,14 +1,32 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# NESIS — Northeast Snowfall Impact Scale: one row per qualifying historical
+# Northeast US snowstorm, ranked by index value.
+# renamed from the source's "End Dat" (upstream header typo) -> end_date
+# renamed from "Description" -> category_label: it labels `category`
+#   (1=Notable .. 5=Extreme), it is not free text
+# caution: `rank` is recomputed whenever a new storm qualifies — it identifies a
+#   row within one snapshot but is not stable across refreshes. Follow a storm
+#   by (start_date, end_date).
+# caution: only storms meeting the NESIS threshold appear; this is a ranked
+#   highlight list, not a complete inventory of Northeast snowstorms.
+key: ["rank"]
+temporal: start_date
+sort: [start_date, "rank"]
 columns:
   - name: rank
     type: INTEGER
+    description: Position of the storm in the NESIS ordering, 1 = highest index value. Recomputed as new storms qualify, so not stable across refreshes.
   - name: start_date
     type: DATE
+    description: First day of the snowstorm.
   - name: end_date
     type: DATE
+    description: Last day of the snowstorm.
   - name: nesis
     type: DOUBLE
+    description: Northeast Snowfall Impact Scale index — a dimensionless score combining the area and the population affected by each snowfall threshold. Higher is more impactful.
   - name: category
     type: INTEGER
-  - name: description
+    description: NESIS impact category derived from `nesis`, 1 (least impactful) to 5 (most).
+  - name: category_label
     type: VARCHAR
+    description: Name of `category` — 1 Notable, 2 Significant, 3 Major, 4 Crippling, 5 Extreme.

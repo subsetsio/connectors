@@ -1,48 +1,88 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# RSI — Regional Snowfall Index: one row per (storm, NOAA climate region),
+# scoring a US snowstorm's societal impact within that region.
+# caution: the source restates a few storms — those (storm_id, region) pairs
+#   appear twice with differing rsi and area/population values. No column set is
+#   unique, so the table is published keyless. Deduplicate on
+#   (storm_id, region) if you need one row per storm-region.
+# caution: region = 'National' (region_code 110) is a national roll-up published
+#   alongside the six regional rows for the same storm. Filter region before
+#   aggregating across regions, or the storm is counted twice.
+# caution: rsi is defined against a region's own climatological distribution, so
+#   it is NOT comparable across regions — rsi 3 in the Northeast and in the
+#   South describe different absolute snowfalls.
+# caution: area0..area4 / pop0..pop4 are cumulative, not disjoint: the area
+#   meeting a higher snowfall threshold is contained in the band below it.
+#   Summing the bands double-counts; difference adjacent bands for a ring.
+key: []
+temporal: start_date
+sort: [start_date, region]
 columns:
-  - name: region
-    type: VARCHAR
-  - name: start_date
-    type: DATE
-  - name: end_date
-    type: DATE
-  - name: rsi
-    type: DOUBLE
-  - name: category
-    type: INTEGER
-  - name: term1_pct
-    type: DOUBLE
-  - name: term2_pct
-    type: DOUBLE
-  - name: term3_pct
-    type: DOUBLE
-  - name: term4_pct
-    type: DOUBLE
-  - name: area0
-    type: BIGINT
-  - name: pop0
-    type: BIGINT
-  - name: area1
-    type: BIGINT
-  - name: pop1
-    type: BIGINT
-  - name: area2
-    type: BIGINT
-  - name: pop2
-    type: BIGINT
-  - name: area3
-    type: BIGINT
-  - name: pop3
-    type: BIGINT
-  - name: area4
-    type: BIGINT
-  - name: pop4
-    type: BIGINT
   - name: storm_id
     type: VARCHAR
+    description: Source storm identifier, formed as <start>_<end>_<sequence> (YYYYMMDD dates). Shared by every regional row of the same storm.
+  - name: region
+    type: VARCHAR
+    description: NOAA climate region scored — one of the six contiguous-US regions (Northeast, Upper Midwest, Ohio Valley, Southeast, Northern Rockies and Plains, South), or 'National' for the roll-up across them.
   - name: region_code
     type: INTEGER
+    description: Numeric code for `region` — 101 Northeast, 102 Upper Midwest, 103 Ohio Valley, 104 Southeast, 105 Northern Rockies and Plains, 106 South, 110 National.
+  - name: start_date
+    type: DATE
+    description: First day of the snowstorm.
+  - name: end_date
+    type: DATE
+    description: Last day of the snowstorm.
   - name: year
     type: INTEGER
+    description: Calendar year of the storm's start, as reported by the source.
   - name: month
     type: INTEGER
+    description: Calendar month (1-12) of the storm's start, as reported by the source.
+  - name: rsi
+    type: DOUBLE
+    description: Regional Snowfall Index — a dimensionless impact score combining snowfall area and the population it affected, normalised against the region's own climatology. Higher is more impactful. Not comparable across regions.
+  - name: category
+    type: INTEGER
+    description: RSI impact category derived from `rsi` — 0 (below the category-1 threshold) through 5 (extreme).
+  - name: term1_pct
+    type: DOUBLE
+    description: Fraction (0-1) of the storm's RSI contributed by the first (lowest) snowfall threshold band.
+  - name: term2_pct
+    type: DOUBLE
+    description: Fraction (0-1) of the storm's RSI contributed by the second snowfall threshold band.
+  - name: term3_pct
+    type: DOUBLE
+    description: Fraction (0-1) of the storm's RSI contributed by the third snowfall threshold band.
+  - name: term4_pct
+    type: DOUBLE
+    description: Fraction (0-1) of the storm's RSI contributed by the fourth (highest) snowfall threshold band.
+  - name: area0
+    type: BIGINT
+    description: Area (square miles) receiving at least the lowest RSI snowfall threshold. Cumulative — contains area1.
+  - name: area1
+    type: BIGINT
+    description: Area (square miles) receiving at least the second RSI snowfall threshold. Cumulative — contains area2.
+  - name: area2
+    type: BIGINT
+    description: Area (square miles) receiving at least the third RSI snowfall threshold. Cumulative — contains area3.
+  - name: area3
+    type: BIGINT
+    description: Area (square miles) receiving at least the fourth RSI snowfall threshold. Cumulative — contains area4.
+  - name: area4
+    type: BIGINT
+    description: Area (square miles) receiving at least the highest RSI snowfall threshold.
+  - name: pop0
+    type: BIGINT
+    description: Population living inside `area0`. Cumulative — contains pop1.
+  - name: pop1
+    type: BIGINT
+    description: Population living inside `area1`. Cumulative — contains pop2.
+  - name: pop2
+    type: BIGINT
+    description: Population living inside `area2`. Cumulative — contains pop3.
+  - name: pop3
+    type: BIGINT
+    description: Population living inside `area3`. Cumulative — contains pop4.
+  - name: pop4
+    type: BIGINT
+    description: Population living inside `area4`.
