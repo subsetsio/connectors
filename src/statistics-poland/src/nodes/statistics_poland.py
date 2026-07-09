@@ -28,9 +28,15 @@ out the rolling-window 429s when running anonymously.
 """
 
 import os
+import tempfile
+import time
+
+try:
+    import fcntl  # POSIX file lock shared by DAG child processes.
+except ImportError:  # pragma: no cover - CI is Linux; this keeps local imports portable.
+    fcntl = None
 
 import pyarrow as pa
-from ratelimit import limits, sleep_and_retry
 
 from subsets_utils import (
     NodeSpec,
@@ -45,6 +51,7 @@ PREFIX = f"{SLUG}-"
 POLAND = "000000000000"          # BDL territorial unit id for the national total
 PAGE_SIZE = 100                  # BDL max page size
 VAR_BATCH = 50                   # var-ids per /data/by-unit request
+THROTTLE_STATE = os.path.join(tempfile.gettempdir(), "statistics-poland-bdl-last-request.txt")
 
 SCHEMA = pa.schema([
     ("group_id", pa.string()),
@@ -64,15 +71,47 @@ SCHEMA = pa.schema([
 ])
 
 
+def _api_key():
+    return os.environ.get("BDL_API_KEY") or os.environ.get("BDL_CLIENT_ID")
+
+
 def _headers():
-    key = os.environ.get("BDL_API_KEY") or os.environ.get("BDL_CLIENT_ID")
+    key = _api_key()
     return {"X-ClientId": key} if key else {}
 
 
-@sleep_and_retry
-@limits(calls=4, period=1)        # ~80% of the anonymous 5 req/s ceiling
-def _throttle():
-    return None
+def _min_interval_seconds() -> float:
+    override = os.environ.get("BDL_MIN_INTERVAL_SECONDS")
+    if override:
+        return float(override)
+    # BDL has rolling-window limits shared by every spawned DAG process:
+    # anonymous: 100 requests / 15 min; keyed: 500 requests / 15 min.
+    # Space request starts just under those ceilings, leaving retry headroom.
+    return 1.9 if _api_key() else 9.5
+
+
+def _throttle() -> None:
+    os.makedirs(os.path.dirname(THROTTLE_STATE), exist_ok=True)
+    with open(THROTTLE_STATE, "a+") as fh:
+        if fcntl is not None:
+            fcntl.flock(fh, fcntl.LOCK_EX)
+        try:
+            fh.seek(0)
+            raw = fh.read().strip()
+            try:
+                last = float(raw) if raw else 0.0
+            except ValueError:
+                last = 0.0
+            wait = last + _min_interval_seconds() - time.time()
+            if wait > 0:
+                time.sleep(wait)
+            fh.seek(0)
+            fh.truncate()
+            fh.write(str(time.time()))
+            fh.flush()
+        finally:
+            if fcntl is not None:
+                fcntl.flock(fh, fcntl.LOCK_UN)
 
 
 def _api(path, params):
