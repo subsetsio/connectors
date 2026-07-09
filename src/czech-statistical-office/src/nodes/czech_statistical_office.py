@@ -31,7 +31,11 @@ from subsets_utils import (
     save_raw_file,
     transient_retry,
 )
-from constants import ENTITY_IDS
+
+try:
+    from constants import ENTITY_IDS
+except ModuleNotFoundError:  # package import path used by local tooling
+    from src.constants import ENTITY_IDS
 
 SLUG = "czech-statistical-office"
 CKAN_BASE = "https://vdb.czso.cz/pll/eweb"
