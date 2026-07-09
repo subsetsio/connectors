@@ -18,6 +18,7 @@ import io
 import os
 import re
 import shutil
+import struct
 import tempfile
 import zipfile
 
@@ -32,6 +33,7 @@ from constants import CONFIG, ENTITY_IDS
 
 CHUNK = 8 * 1024 * 1024
 _STREAM_TIMEOUT = 600.0
+_WK1_SIGNATURES = (b"\x00\x00\x02\x00\x04\x04", b"\x00\x00\x02\x00\x06\x04")
 
 
 # --- transport ---------------------------------------------------------------
@@ -211,7 +213,16 @@ def _fetch_xls_urls(cfg: dict, asset: str) -> None:
 
     frames = []
     for spec in cfg["urls"]:
-        xl = pd.ExcelFile(io.BytesIO(_get_bytes(spec["url"])))
+        body = _get_bytes(spec["url"])
+        if body.startswith(_WK1_SIGNATURES):
+            df = _parse_wk1(body)
+            if not df.empty:
+                df["source_file"] = spec["name"]
+                df["source_sheet"] = "wk1"
+                frames.append(df)
+            continue
+
+        xl = pd.ExcelFile(io.BytesIO(body))
         sheets = spec.get("sheets") or xl.sheet_names
         for sheet in sheets:
             df = xl.parse(sheet)
@@ -226,6 +237,53 @@ def _fetch_xls_urls(cfg: dict, asset: str) -> None:
     buf = io.StringIO()
     out.to_csv(buf, index=False)
     save_raw_file(buf.getvalue(), asset, extension="csv")
+
+
+def _parse_wk1(body: bytes):
+    """Read simple Lotus 1-2-3 WK1 worksheets used by CEPII legacy files."""
+    import pandas as pd
+
+    cells: dict[tuple[int, int], object] = {}
+    pos = 0
+    while pos + 4 <= len(body):
+        opcode, length = struct.unpack_from("<HH", body, pos)
+        pos += 4
+        payload = body[pos : pos + length]
+        pos += length
+
+        if opcode == 0x01:  # EOF
+            break
+        if opcode == 0x0F and length >= 6:  # LABEL
+            col = int.from_bytes(payload[1:3], "little")
+            row = int.from_bytes(payload[3:5], "little")
+            text = payload[5:].rstrip(b"\x00").decode("latin-1", errors="replace")
+            if text[:1] in {"'", '"', "^", "\\"}:
+                text = text[1:]
+            cells[(row, col)] = text
+        elif opcode == 0x0E and length >= 13:  # NUMBER
+            col = int.from_bytes(payload[1:3], "little")
+            row = int.from_bytes(payload[3:5], "little")
+            cells[(row, col)] = struct.unpack("<d", payload[5:13])[0]
+        elif opcode == 0x0D and length >= 7:  # INTEGER
+            col = int.from_bytes(payload[1:3], "little")
+            row = int.from_bytes(payload[3:5], "little")
+            cells[(row, col)] = int.from_bytes(payload[5:7], "little", signed=True)
+
+    if not cells:
+        return pd.DataFrame()
+
+    max_row = max(row for row, _ in cells)
+    max_col = max(col for _, col in cells)
+    grid = [
+        [cells.get((row, col)) for col in range(max_col + 1)]
+        for row in range(max_row + 1)
+    ]
+    header = grid[0]
+    columns = [
+        str(value).strip() if value not in (None, "") else f"col_{idx}"
+        for idx, value in enumerate(header)
+    ]
+    return pd.DataFrame(grid[1:], columns=columns).dropna(how="all")
 
 
 def _fetch_text_urls(cfg: dict, asset: str, ext: str) -> None:
