@@ -1,25 +1,29 @@
+# Flattened codebook for the HDR composite-index time series (HDR25_Composite_indices_metadata.xlsx).
+# caution: rows with `is_group` true are source section headings, not indicators, and carry no
+#   `short_name` — filter `is_group = false` for the joinable dictionary.
+# caution: `start_year`/`end_year` describe the source's stated coverage of each indicator, not
+#   an observation period; this is a reference table with no temporal axis.
 key: [full_name]
-temporal: end_year
-sort: [end_year, full_name]
+sort: [full_name]
 columns:
   - name: section
     type: VARCHAR
-    description: HDR composite-index family heading from the source codebook.
+    description: HDR composite-index family heading from the source codebook (e.g. the index the field belongs to).
   - name: full_name
     type: VARCHAR
     description: Human-readable field or indicator name from the HDR25 metadata workbook.
   - name: short_name
     type: VARCHAR
-    description: Source short code used in the composite-indices time-series CSV; null on section heading rows.
+    description: Source short code used in the composite-indices time-series CSV; joins to `undp-composite-indices.indicator`. Null on section heading rows.
   - name: time_series
     type: VARCHAR
-    description: Source-published time-series coverage note for the field or indicator.
+    description: Source-published time-series coverage note for the field or indicator, verbatim (e.g. "1990-2023").
   - name: start_year
     type: INTEGER
-    description: Earliest year parsed from the source time-series coverage note.
+    description: Earliest year parsed from `time_series`; null when the note states no range.
   - name: end_year
     type: INTEGER
-    description: Latest year parsed from the source time-series coverage note.
+    description: Latest year parsed from `time_series`; null when the note states no range.
   - name: is_group
     type: BOOLEAN
     description: True when the row is a source section heading rather than a joinable indicator code.

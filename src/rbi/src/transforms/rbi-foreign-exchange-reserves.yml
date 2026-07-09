@@ -1,16 +1,27 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# Foreign exchange reserves of India, as published by the Reserve Bank of
+# India (DBIE endpoint dbie_foreignExchangeReserves).
+# currency_code / unit / unit_description dropped — constant ('USD', 1,
+# 'ACTUALS'); folded into the `amount` description.
+# timedate_ms dropped — epoch-millis duplicate of observation_date.
+key: [observation_date, reserve_code, frequency]
+temporal: observation_date
+sort: [observation_date, reserve_code, frequency]
 columns:
-  - name: date
+  - name: observation_date
     type: DATE
-  - name: frequency
-    type: VARCHAR
+    description: Date the reserve position was observed. Weekly rows are the RBI's reporting Friday; monthly rows are the last reporting Friday of the month.
   - name: reserve_code
     type: VARCHAR
+    description: "RBI component code: FCA (foreign currency assets), GOLD, SDR (holdings of Special Drawing Rights), IMF (reserve position in the IMF), TR (total reserves = FCA + GOLD + SDR + IMF)."
   - name: reserve_name
     type: VARCHAR
-  - name: currency_code
+    description: English label for `reserve_code`, with the RBI's printed row numbering stripped (e.g. "Foreign Currency Assets" from "1.1 Foreign Currency Assets").
+  - name: frequency
     type: VARCHAR
+    description: 'Observation frequency of the row: "Weekly" or "Monthly". Both series share this table and overlap on month-end reporting Fridays.'
   - name: amount
     type: DOUBLE
+    description: Reserve position in actual US dollars (not USD millions — total reserves read ~6.7e11). Dates where a component was not yet reported are absent rather than zero.
   - name: fiscal_year
     type: VARCHAR
+    description: Indian fiscal year containing `observation_date`, as labelled by the RBI ("1990-91"; April through March).

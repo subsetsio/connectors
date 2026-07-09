@@ -1,0 +1,29 @@
+spec_id: wipo-trademark-statistics
+status: active
+tests:
+  - not_null: indicator_id
+  - not_null: year
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - unique: [office, origin, indicator_id, report_type, year, breakdown_index]
+    reason: one row per office x origin x indicator x report type x year x breakdown position; a dupe means a table-result page was written twice
+    certainty: 90
+  - between: {col: year, lo: 1980, hi: current_year()}
+    reason: ips-search exposes 1980 as the earliest filing year and never publishes beyond the current year
+    certainty: 90
+  - freshness: {col: year, reaches: 2023}
+    reason: annual statistics; the latest complete year lags publication by roughly one to two years
+    points_outward: true
+  - coverage: {col: indicator_id, expected: 23}
+    reason: formcontrols enumerates 23 trademark indicators and every one is fetched for all three report types; a shortfall is a silently dropped indicator
+  - distinct_count: {col: report_type, min: 3, max: 3}
+    reason: ipsRpTypeMap for trademark has exactly three report types
+    certainty: 90
+  - at_least: {col: value, expr: 0}
+    reason: trademark indicators are application/registration/in-force counts, never negative
+    certainty: 75
+    severity: warn
+  - row_count: {min: 50000}
+    reason: ~200 offices x 23 indicators x 3 report types x 45 years, sparsely populated
+    certainty: 70

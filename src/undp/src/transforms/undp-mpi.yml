@@ -1,32 +1,55 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# Pass-through of the Global Multidimensional Poverty Index workbook
+# (2025_gMPI_Table1and2.xlsx), one row per country.
+# caution: not an annual time series — each country appears once, for its most recent usable
+#   household survey (named in `survey`), so values are not a same-year cross-section.
+# caution: every *_pct column is on a 0-100 scale; `mpi_value` is a 0-1 index.
+# caution: countries are identified by name only — no ISO3 code — so joining to
+#   `undp-composite-indices` requires name matching.
+key: [country]
+sort: [country]
 columns:
   - name: country
     type: VARCHAR
+    description: Country name in English as published by UNDP; no ISO3 code is provided by the source.
   - name: survey
     type: VARCHAR
+    description: The household survey the estimates are computed from, with its year (e.g. "DHS 2019/2020", "MICS 2018").
   - name: mpi_value
     type: DOUBLE
+    description: Multidimensional Poverty Index, a 0-1 index equal to the headcount ratio times the intensity of deprivation.
   - name: headcount_pct
     type: DOUBLE
+    description: Share of the population that is multidimensionally poor (deprived in at least one third of weighted indicators), in percent.
   - name: pop_poor_survey_thousands
     type: DOUBLE
+    description: Number of people who are multidimensionally poor, in thousands, at the time of the survey.
   - name: pop_poor_2023_thousands
     type: DOUBLE
+    description: Number of people who are multidimensionally poor, in thousands, projected to 2023 population.
   - name: intensity_pct
     type: DOUBLE
+    description: Average share of weighted deprivations experienced by people who are multidimensionally poor, in percent.
   - name: inequality
     type: DOUBLE
+    description: Variance of deprivation scores among the multidimensionally poor — a measure of inequality in poverty intensity.
   - name: severe_poverty_pct
     type: DOUBLE
+    description: Share of the population in severe multidimensional poverty (deprived in at least half of weighted indicators), in percent.
   - name: vulnerable_pct
     type: DOUBLE
+    description: Share of the population vulnerable to multidimensional poverty (deprived in 20-33% of weighted indicators), in percent.
   - name: contrib_health_pct
     type: DOUBLE
+    description: Contribution of the health dimension (nutrition, child mortality) to the MPI value, in percent.
   - name: contrib_education_pct
     type: DOUBLE
+    description: Contribution of the education dimension (years of schooling, school attendance) to the MPI value, in percent.
   - name: contrib_living_standards_pct
     type: DOUBLE
+    description: Contribution of the living-standards dimension (cooking fuel, sanitation, water, electricity, housing, assets) to the MPI value, in percent.
   - name: national_poverty_pct
     type: DOUBLE
+    description: Share of the population below the national income poverty line, in percent, as reported alongside the MPI for comparison.
   - name: ppp300_poverty_pct
     type: DOUBLE
+    description: Share of the population below the international income poverty line of $3.00 a day (2021 PPP), in percent, reported alongside the MPI for comparison.

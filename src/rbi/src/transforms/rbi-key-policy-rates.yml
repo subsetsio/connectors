@@ -1,8 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# The RBI's headline policy rates, as shown on its home page
+# (DBIE endpoint dbie_getPublicationDataImpala).
+# A current-value snapshot, not a time series — overwritten each run.
+# currency_desc / time_month dropped — null for every retained row.
+# timedate_ms dropped — epoch-millis duplicate of as_of_date.
+key: [rate_name]
+temporal: as_of_date
+sort: [as_of_date, rate_name]
 columns:
   - name: rate_name
     type: VARCHAR
+    description: 'Name of the rate as the RBI publishes it: Policy Repo Rate, Reverse Repo Rate, Standing Deposit Facility (SDF) Rate, Cash Reserve Ratio, Statutory Liquidity Ratio, WACR.'
   - name: rate_percent
     type: DOUBLE
+    description: Current value of the rate, in percent per annum (5.25 means 5.25%). Reserve ratios (CRR, SLR) are percentages of net demand and time liabilities, not interest rates.
   - name: as_of_date
     type: DATE
+    description: Date this value took effect. Rates carry different effective dates — a rate unchanged for years keeps its old date.

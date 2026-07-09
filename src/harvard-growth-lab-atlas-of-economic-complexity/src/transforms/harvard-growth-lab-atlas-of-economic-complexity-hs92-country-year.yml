@@ -1,5 +1,6 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `harvard-growth-lab-atlas-of-economic-complexity-hs92-country-year`. Regenerate after model-verify.
+# caution: The country dimension is not a clean list of countries: `ANS` (`country_id` 999, "Undeclared Countries") is a residual bucket absorbing trade that could not be attributed to a reporter, and it carries the source's few negative trade values. Exclude it to aggregate over real countries; keep it for world totals.
 # caution: `growth_proj` is a forward-looking 10-year annualized GDP growth projection made as of that year, not an observed outcome, and it is only published for a subset of country-years.
 key: [country_id, year]
 temporal: year

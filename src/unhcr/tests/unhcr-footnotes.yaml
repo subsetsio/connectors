@@ -1,0 +1,27 @@
+spec_id: unhcr-footnotes
+status: active
+# No freshness assertion: `year` here is a free-text PERIOD EXPRESSION, not a
+# temporal axis. It is a bare year ("2015"), a range ("2019 - 2022"), or a
+# disjoint set of both ("2015 - 2018, 2020 - 2024"), so max(year) is not an
+# observation date and cannot be compared against a freshness bound. The
+# annotations attach to the data tables, whose own specs assert freshness.
+tests:
+  - row_count: {min: 300, max: 5000}
+    reason: footnotes accumulate as UNHCR annotates country-year cells; several hundred today, monotonically growing.
+  - not_null: footnote
+  - not_null: year
+  - column_type: {col: footnote, type: string}
+  - column_type: {col: year, type: string}
+    reason: a period expression, never a number - the fetch deliberately does not coerce it, so bare years and ranges stay one type.
+    certainty: 95
+  - column_type: {col: coo_id, type: integer}
+  - column_type: {col: coa_id, type: integer}
+  - matches: {col: year, pattern: '^[0-9]{4}'}
+    reason: every period expression opens with a 4-digit year, whatever follows it.
+    certainty: 85
+  - nullable: {col: coo_iso, max_null_frac: 0.95}
+    reason: most footnotes annotate a country of asylum, leaving origin blank; blanks are normalized to null in the fetch.
+    points_outward: true
+  - nullable: {col: population_type, max_null_frac: 0.5}
+    reason: some footnotes are general and pin no population type.
+    points_outward: true

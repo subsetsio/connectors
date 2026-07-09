@@ -1,5 +1,6 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `harvard-growth-lab-atlas-of-economic-complexity-services-unilateral-country-product-year`. Regenerate after model-verify.
+# caution: The country dimension is not a clean list of countries: `ANS` (`country_id` 999, "Undeclared Countries") is a residual bucket absorbing trade that could not be attributed to a reporter, and it carries the source's few negative trade values. Exclude it to aggregate over real countries; keep it for world totals.
 # caution: Service categories are stacked at several `product_level` depths in one table; filter `product_level` to a single depth before summing values.
 # caution: Unilateral (reporter-side) service trade — unlike the goods tables these values are not reconciled against partner reports.
 key: [country_id, product_id, year]

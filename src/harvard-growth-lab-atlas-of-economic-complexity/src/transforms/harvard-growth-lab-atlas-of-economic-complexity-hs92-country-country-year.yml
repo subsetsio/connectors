@@ -1,5 +1,6 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `harvard-growth-lab-atlas-of-economic-complexity-hs92-country-country-year`. Regenerate after model-verify.
+# caution: Both the `country_id` and `partner_country_id` dimensions is not a clean list of countries: `ANS` (`country_id` 999, "Undeclared Countries") is a residual bucket absorbing trade that could not be attributed to a reporter, and it carries the source's few negative trade values. Exclude it to aggregate over real countries; keep it for world totals.
 # caution: Each bilateral relationship is stored as two mirrored rows, (country, partner) and (partner, country): a flow appears once as the reporter's `export_value` and again as the partner row's `import_value`. Sum `export_value` alone (or `import_value` alone) for world totals — adding both across all rows double-counts every flow.
 key: [country_id, partner_country_id, year]
 temporal: year
