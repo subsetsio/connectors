@@ -22,6 +22,7 @@ _FX_SCHEMA = pa.schema(
         ("unit", pa.int64()),
         ("unit_description", pa.string()),
         ("timedate_ms", pa.int64()),
+        ("observation_date", pa.string()),
         ("fiscal_year", pa.string()),
     ]
 )
@@ -33,8 +34,15 @@ _RATES_SCHEMA = pa.schema(
         ("currency_desc", pa.string()),
         ("time_month", pa.string()),
         ("timedate_ms", pa.int64()),
+        ("as_of_date", pa.string()),
     ]
 )
+
+
+def _date_from_ms(value) -> str | None:
+    if value is None:
+        return None
+    return datetime.fromtimestamp(int(value) / 1000, tz=timezone.utc).date().isoformat()
 
 
 def fetch_foreign_exchange_reserves(node_id: str) -> None:
@@ -68,6 +76,7 @@ def fetch_foreign_exchange_reserves(node_id: str) -> None:
                         "unit": int(rec["unit"]) if rec.get("unit") is not None else None,
                         "unit_description": _clean(rec.get("unitDescription")),
                         "timedate_ms": int(ts) if ts is not None else None,
+                        "observation_date": _date_from_ms(ts),
                         "fiscal_year": _clean(rec.get("timeFisYear")),
                     }
                 )
@@ -92,6 +101,7 @@ def fetch_key_policy_rates(node_id: str) -> None:
                 "currency_desc": _clean(rec.get("currencyDesc")),
                 "time_month": _clean(rec.get("timeMonth")),
                 "timedate_ms": int(ts) if ts is not None else None,
+                "as_of_date": _date_from_ms(ts),
             }
         )
 

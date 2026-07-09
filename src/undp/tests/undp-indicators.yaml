@@ -1,0 +1,21 @@
+spec_id: undp-indicators
+status: active
+tests:
+  - row_count: {min: 45}
+    reason: the HDR25 metadata workbook should include the identity fields, grouped indicator sections, and codebook entries
+    certainty: 95
+  - not_null: full_name
+  - column_type: {col: section, type: string}
+  - column_type: {col: full_name, type: string}
+  - column_type: {col: short_name, type: string}
+  - column_type: {col: time_series, type: string}
+  - column_type: {col: start_year, type: integer}
+  - column_type: {col: end_year, type: integer}
+  - column_type: {col: is_group, type: boolean}
+  - distinct_count: {col: short_name, min: 40}
+    reason: the codebook should document the country identity fields plus the HDI, GDI, IHDI, GII, PHDI, and population indicators
+    certainty: 95
+  - freshness: {col: end_year, reaches: 2023}
+    reason: HDR25 metadata documents the current 2025 release, whose composite-indices series report through 2023
+    certainty: 90
+    points_outward: true

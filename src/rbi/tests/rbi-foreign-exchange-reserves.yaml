@@ -6,12 +6,16 @@ tests:
     certainty: 95
   - not_null: reserve_code
   - not_null: frequency
-  - not_null: amount
   - not_null: timedate_ms
+  - not_null: observation_date
   - column_type: {col: reserve_code, type: string}
   - column_type: {col: frequency, type: string}
   - column_type: {col: amount, type: float}
   - column_type: {col: timedate_ms, type: integer}
+  - column_type: {col: observation_date, type: string}
+  - nullable: {col: amount, max_null_frac: 0.05}
+    reason: RBI carries occasional historical component rows without an amount; the time/component row is still meaningful source coverage
+    certainty: 85
   - enum: {col: reserve_code, values: [FCA, GOLD, SDR, TR, IMF]}
     reason: RBI exposes exactly these five FX reserve component codes for this endpoint
     certainty: 95
@@ -21,11 +25,11 @@ tests:
   - unique: [reserve_code, frequency, timedate_ms]
     reason: one observation per component, frequency, and observation timestamp
     certainty: 95
-  - between: {col: amount, lo: 0, hi: 1000000}
-    reason: values are USD reserves in RBI-provided units; negatives or implausibly large values indicate a parsing/unit shift
+  - between: {col: amount, lo: 0, hi: 1000000000000}
+    reason: values are non-negative USD reserves in RBI-provided raw units; a trillion-unit ceiling catches parser shifts without rejecting current totals
     certainty: 75
     severity: warn
-  - freshness: {col: timedate_ms, reaches: today - 60d}
+  - freshness: {col: observation_date, reaches: today - 60d}
     reason: weekly FX reserve observations should reach the last two months
     points_outward: true
     certainty: 85

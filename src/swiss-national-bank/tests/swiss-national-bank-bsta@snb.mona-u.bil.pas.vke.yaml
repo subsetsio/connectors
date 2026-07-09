@@ -1,0 +1,30 @@
+spec_id: swiss-national-bank-bsta@snb.mona-u.bil.pas.vke
+status: active
+tests:
+  - not_null: cube_id
+    reason: every row is stamped with the accepted SNB cube id that produced the asset
+    certainty: 99
+  - enum: {col: cube_id, values: ["BSTA@SNB.MONA_U.BIL.PAS.VKE"]}
+    reason: each download node fetches exactly one accepted cube
+    certainty: 99
+  - not_null: series_key
+    reason: SNB JSON timeseries metadata carries a stable source key for every series
+    certainty: 95
+  - not_null: period
+    reason: every SNB observation is tied to a source period label
+    certainty: 95
+  - not_null: period_start
+    reason: the connector normalizes SNB annual, quarterly, monthly, and daily period labels for freshness checks
+    certainty: 90
+  - column_type: {col: period_start, type: date}
+    certainty: 95
+  - unique: [series_key, period]
+    reason: within a cube there should be one observation per source series and period
+    certainty: 90
+  - row_count: {min: 1}
+    reason: accepted cubes are published SNB data tables, not empty shells
+    certainty: 95
+  - freshness: {col: period_start, reaches: today - 5y}
+    reason: accepted cubes excluded explicitly closed series; active SNB tables should contain at least one observation in the last five years, allowing for low-frequency annual statistics
+    certainty: 75
+    points_outward: true

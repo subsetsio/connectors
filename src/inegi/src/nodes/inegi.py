@@ -1,17 +1,154 @@
-"""Canonical INEGI download node module."""
+"""INEGI BISE downloads: the CL_* reference code lists and the observation stream.
 
-from subsets_utils import NodeSpec
+Six CL_* code lists (indicators, topics, units, frequencies, sources, geo_areas),
+one request each, materialised as (code, description) parquets by a single
+parametric `fetch_catalog` driven from `_CL_BY_ASSET`.
 
-from nodes.catalog import fetch_catalog as _fetch_catalog
-from nodes.values import fetch_values as _fetch_values
+`fetch_values` streams the long-format observation table across all ~31,817 BISE
+indicators at national coverage (geo 00). Indicator ids are batched 10-per-request
+(the documented cap) and streamed to one parquet asset.
+
+Refresh model: stateless full re-pull. INEGI exposes no incremental/since filter
+and revises history in place, so every run re-fetches the whole corpus and
+overwrites. The values stream is bounded (~3.2k batched requests) and finishes in
+one run; it is streamed row-group-by-row-group so memory stays flat. Per-batch
+400/401 (ErrorCode 100/110 = "no national data for these ids") is handled by
+bisecting the batch and dropping the ids that genuinely have no national
+observation — it is NOT an auth failure and is not retried.
+
+Transforms live as file pairs in `src/transforms/`; this module declares downloads.
+"""
+
+import pyarrow as pa
+
+from subsets_utils import NodeSpec, raw_parquet_writer, save_raw_parquet
+from utils import _BASE, _catalog_codes, _get, _token
+
+# Maps a download spec id -> the CL_* code list it materialises.
+_CL_BY_ASSET = {
+    "inegi-indicators": "CL_INDICATOR",
+    "inegi-topics": "CL_TOPIC",
+    "inegi-units": "CL_UNIT",
+    "inegi-frequencies": "CL_FREQ",
+    "inegi-sources": "CL_SOURCE",
+    "inegi-geo-areas": "CL_GEO_AREA",
+}
+
+_CATALOG_SCHEMA = pa.schema([
+    ("code", pa.string()),
+    ("description", pa.string()),
+])
+
+_BATCH_SIZE = 10            # documented multi-indicator cap
+_FLUSH_ROWS = 50_000        # row-group flush threshold for the values stream
+
+_VALUES_SCHEMA = pa.schema([
+    ("indicator_id", pa.string()),
+    ("topic_id", pa.string()),
+    ("freq_id", pa.string()),
+    ("unit_id", pa.string()),
+    ("unit_mult", pa.string()),
+    ("source_id", pa.string()),
+    ("last_update", pa.string()),
+    ("time_period", pa.string()),
+    ("obs_value", pa.string()),
+    ("obs_status", pa.string()),
+    ("obs_exception", pa.string()),
+    ("obs_note", pa.string()),
+    ("cober_geo", pa.string()),
+])
 
 
 def fetch_catalog(node_id: str) -> None:
-    _fetch_catalog(node_id)
+    """Materialise one CL_* code list as a (code, description) parquet."""
+    cl_name = _CL_BY_ASSET[node_id]
+    codes = _catalog_codes(cl_name)
+    rows = [{"code": c.get("value"), "description": c.get("Description")} for c in codes]
+    table = pa.Table.from_pylist(rows, schema=_CATALOG_SCHEMA)
+    save_raw_parquet(table, node_id)
+
+
+def _chunked(seq, size):
+    for i in range(0, len(seq), size):
+        yield seq[i:i + size]
+
+
+def _fetch_series(ids: list) -> list:
+    """Fetch national-level series for a list of indicator ids.
+
+    A "good" response is HTTP 200 with an `application/json` body carrying a
+    `Series` array. Everything else is a data/shape failure for THIS id set:
+      * 400/401 (ErrorCode 100/110) — one or more ids have no national data;
+      * 200 text/html — the URL exceeded the server's length limit and it
+        returned the SPA "not found" shell instead of JSON;
+      * 200 JSON but an error array / no Series.
+    In every such case we bisect to isolate the offending ids and drop the
+    single ids that genuinely have no national observation. These are data
+    conditions, not transport errors, so they are never retried."""
+    url = f"{_BASE}/INDICATOR/{','.join(ids)}/es/00/false/BISE/2.0/{_token()}?type=json"
+    resp = _get(url)
+    ctype = resp.headers.get("content-type", "")
+    if resp.status_code == 200 and ctype.startswith("application/json"):
+        body = resp.json()
+        if isinstance(body, dict) and isinstance(body.get("Series"), list):
+            return body["Series"]
+        # JSON error array or unexpected shape -> treat as no-data, isolate.
+    elif resp.status_code not in (200, 400, 401):
+        # Genuinely unexpected status -> surface it.
+        resp.raise_for_status()
+        return []
+
+    # Data failure for this id set: bisect, or drop a lone no-data id.
+    if len(ids) == 1:
+        return []
+    mid = len(ids) // 2
+    return _fetch_series(ids[:mid]) + _fetch_series(ids[mid:])
+
+
+def _series_rows(series: list):
+    for s in series:
+        indicator_id = s.get("INDICADOR")
+        topic_id = s.get("TOPIC")
+        freq_id = s.get("FREQ")
+        unit_id = s.get("UNIT")
+        unit_mult = s.get("UNIT_MULT")
+        source_id = s.get("SOURCE")
+        last_update = s.get("LASTUPDATE")
+        for o in s.get("OBSERVATIONS", []) or []:
+            yield {
+                "indicator_id": indicator_id,
+                "topic_id": topic_id,
+                "freq_id": freq_id,
+                "unit_id": unit_id,
+                "unit_mult": unit_mult,
+                "source_id": source_id,
+                "last_update": last_update,
+                "time_period": o.get("TIME_PERIOD"),
+                "obs_value": o.get("OBS_VALUE"),
+                "obs_status": o.get("OBS_STATUS"),
+                "obs_exception": o.get("OBS_EXCEPTION"),
+                "obs_note": o.get("OBS_NOTE"),
+                "cober_geo": o.get("COBER_GEO"),
+            }
 
 
 def fetch_values(node_id: str) -> None:
-    _fetch_values(node_id)
+    """Stream the long-format observation table across every BISE indicator at
+    national coverage. Full re-pull, streamed in 50k-row groups to one parquet."""
+    ids = sorted(c["value"] for c in _catalog_codes("CL_INDICATOR"))
+    if not ids:
+        raise RuntimeError("CL_INDICATOR returned no indicator ids")
+
+    buf = []
+    with raw_parquet_writer(node_id, _VALUES_SCHEMA) as writer:
+        for chunk in _chunked(ids, _BATCH_SIZE):
+            series = _fetch_series(chunk)
+            buf.extend(_series_rows(series))
+            if len(buf) >= _FLUSH_ROWS:
+                writer.write_table(pa.Table.from_pylist(buf, schema=_VALUES_SCHEMA))
+                buf = []
+        if buf:
+            writer.write_table(pa.Table.from_pylist(buf, schema=_VALUES_SCHEMA))
 
 
 DOWNLOAD_SPECS = [

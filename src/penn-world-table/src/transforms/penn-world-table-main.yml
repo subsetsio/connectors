@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `penn-world-table-main`. Regenerate after model-verify.
+# caution: The table carries many constructed macroeconomic measures with different units and bases; do not aggregate across variables without using the source definitions.
+key: [countrycode, country, currency_unit, year]
+temporal: year
+sort: [year, countrycode, country, currency_unit]
 columns:
   - name: countrycode
     type: VARCHAR
@@ -7,7 +12,7 @@ columns:
   - name: currency_unit
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: SMALLINT
   - name: rgdpe
     type: FLOAT
   - name: rgdpo

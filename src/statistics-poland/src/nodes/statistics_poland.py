@@ -34,10 +34,8 @@ from ratelimit import limits, sleep_and_retry
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
-    transient_retry,
 )
 from constants import ENTITY_IDS
 
@@ -77,10 +75,8 @@ def _throttle():
     return None
 
 
-@transient_retry(attempts=15, min_wait=5, max_wait=300)
 def _api(path, params):
-    """One GET against the BDL API. Retries 429/5xx/network with backoff — the
-    long max_wait lets an anonymous run sit out a blown 15-minute window."""
+    """One GET against the BDL API. subsets_utils.get owns HTTP retries."""
     _throttle()
     p = {"format": "json", "lang": "en", **params}
     resp = get(f"{BASE}/{path}", params=p, headers=_headers(), timeout=(10.0, 120.0))
@@ -173,25 +169,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                CAST(year AS INTEGER)                  AS year,
-                make_date(CAST(year AS INTEGER), 1, 1) AS date,
-                variable_id,
-                variable_name,
-                n1, n2, n3, n4, n5,
-                measure_unit,
-                CAST(value AS DOUBLE)                  AS value,
-                attr_id
-            FROM "{s.id}"
-            WHERE value IS NOT NULL AND year IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

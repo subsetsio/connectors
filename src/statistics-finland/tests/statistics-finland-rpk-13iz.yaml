@@ -1,0 +1,9 @@
+spec_id: statistics-finland-rpk-13iz
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: StatFin PxWeb tables accepted by the catalog should return at least one non-null observation when all dimensions are selected; 0 rows means the query/format broke or every cell is suppressed
+    certainty: 85
+  - not_null: value
+    reason: fetch_one expands the json-stat2 hypercube and drops null cells, so every row carries a numeric observation; nulls mean the expansion changed
+    certainty: 95

@@ -1,7 +1,7 @@
 """UIS indicators catalog — one row per indicatorCode (reference subset)."""
 import pyarrow as pa
-from subsets_utils import NodeSpec, save_raw_parquet
-from utils import SLUG, fetch_indicators_list
+from subsets_utils import save_raw_parquet
+from utils import fetch_indicators_list
 
 _INDICATORS_SCHEMA = pa.schema([
     ("indicator_code", pa.string()),
@@ -38,7 +38,3 @@ def fetch_indicators(node_id: str) -> None:
     table = pa.Table.from_pylist(rows, schema=_INDICATORS_SCHEMA)
     save_raw_parquet(table, asset)
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id=f"{SLUG}-indicators", fn=fetch_indicators, kind="download"),
-]

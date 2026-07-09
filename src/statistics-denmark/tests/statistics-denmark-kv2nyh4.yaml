@@ -1,0 +1,10 @@
+spec_id: statistics-denmark-kv2nyh4
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every accepted active StatBank table should return at least one BULK data row
+    certainty: 95
+  - not_null: INDHOLD
+    reason: StatBank BULK semicolon-CSV carries the value column INDHOLD as text; unavailable cells are encoded as strings such as . or ..
+    certainty: 80
+    severity: warn

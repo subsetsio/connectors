@@ -1,0 +1,20 @@
+spec_id: statistics-canada-42100051
+status: active
+tests:
+  - not_null: REF_DATE
+    reason: every StatCan full-table CSV row carries a reference period; nulls mean a column-shift or parse break in the bulk CSV
+    certainty: 95
+  - not_null: VECTOR
+    reason: every series row in the WDS full-table CSV carries its vector id; a null VECTOR means the standard envelope columns did not parse
+    certainty: 95
+  - not_null: COORDINATE
+    reason: every observation carries its dotted dimension-member COORDINATE; nulls indicate a malformed or truncated download
+    certainty: 95
+  - matches: {col: VECTOR, pattern: '^v[0-9]+$'}
+    reason: StatCan vector ids are the literal v followed by digits; a mismatch means the VECTOR column is misaligned
+    certainty: 85
+    severity: warn
+  - row_count:
+      min: 1
+    reason: an accepted cube exposes at least one observation; zero rows means the bulk zip resolved but the inner CSV was empty or truncated
+    certainty: 85

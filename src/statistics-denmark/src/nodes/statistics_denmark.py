@@ -16,12 +16,11 @@ import pyarrow.csv as pacsv
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     post,
-    transient_retry,
     raw_parquet_writer,
     load_raw_parquet,
+    save_raw_parquet,
 )
 from constants import ENTITY_IDS
 
@@ -44,14 +43,12 @@ def _table_id(node_id: str) -> str:
     raise ValueError(f"no table id matches node {node_id!r}")
 
 
-@transient_retry()
 def _tableinfo(table_id: str) -> dict:
     r = get(f"{BASE}/tableinfo/{table_id}", params={"format": "JSON", "lang": "en"})
     r.raise_for_status()
     return r.json()
 
 
-@transient_retry()
 def _fetch_bulk(body: dict) -> pa.Table:
     """POST a bounded BULK request and parse the semicolon-CSV to an all-string
     table. Non-streaming buffered read — each chunk is intentionally small."""
@@ -81,12 +78,60 @@ def _already_complete(asset: str) -> bool:
         return False
 
 
+def _flatten_subjects(subjects: list[dict]) -> list[dict]:
+    rows = []
+
+    def walk(items: list[dict], parent_id: str | None, depth: int) -> None:
+        for item in items:
+            subject_id = str(item["id"])
+            rows.append(
+                {
+                    "id": subject_id,
+                    "parent_id": parent_id,
+                    "description": item.get("description"),
+                    "active": bool(item.get("active")),
+                    "has_subjects": bool(item.get("hasSubjects")),
+                    "depth": depth,
+                }
+            )
+            walk(item.get("subjects") or [], subject_id, depth + 1)
+
+    walk(subjects, None, 0)
+    return rows
+
+
+def _fetch_subjects(asset: str) -> None:
+    if _already_complete(asset):
+        return
+
+    r = get(f"{BASE}/subjects", params={"format": "JSON", "lang": "en", "recursive": "true"})
+    r.raise_for_status()
+    rows = _flatten_subjects(r.json())
+    if not rows:
+        raise ValueError("subjects endpoint returned no subject rows")
+    schema = pa.schema(
+        [
+            ("id", pa.string()),
+            ("parent_id", pa.string()),
+            ("description", pa.string()),
+            ("active", pa.bool_()),
+            ("has_subjects", pa.bool_()),
+            ("depth", pa.int64()),
+        ]
+    )
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=schema), asset)
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id
     if _already_complete(asset):
         return
 
     table_id = _table_id(node_id)
+    if table_id == "subjects":
+        _fetch_subjects(asset)
+        return
+
     info = _tableinfo(table_id)
     variables = info["variables"]
 
@@ -148,21 +193,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# Generic transform: publish every dimension column as-is and cast the StatBank
-# value column INDHOLD to DOUBLE ('..' / '.' = confidential/unavailable -> NULL).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                * EXCLUDE (INDHOLD),
-                TRY_CAST(NULLIF(NULLIF(TRIM(INDHOLD), '..'), '.') AS DOUBLE) AS value
-            FROM "{s.id}"
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

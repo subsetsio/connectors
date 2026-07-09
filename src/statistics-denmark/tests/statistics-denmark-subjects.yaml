@@ -1,0 +1,12 @@
+spec_id: statistics-denmark-subjects
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: the recursive StatBank subject taxonomy should contain at least the top-level subject rows
+    certainty: 99
+  - not_null: id
+    reason: every subject taxonomy row is identified by a StatBank subject id
+    certainty: 99
+  - not_null: description
+    reason: every subject taxonomy row carries its English subject label
+    certainty: 95

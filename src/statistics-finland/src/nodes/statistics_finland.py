@@ -28,7 +28,7 @@ import time
 import httpx
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, post, save_raw_ndjson, transient_retry
+from subsets_utils import NodeSpec, get, post, save_raw_ndjson, transient_retry
 from subsets_utils.retry import is_transient
 from constants import ENTITY_PATHS
 
@@ -214,13 +214,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_PATHS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}" WHERE value IS NOT NULL',
-    )
-    for s in DOWNLOAD_SPECS
 ]

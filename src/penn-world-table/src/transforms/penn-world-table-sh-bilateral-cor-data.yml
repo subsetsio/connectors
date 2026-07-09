@@ -1,10 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `penn-world-table-sh-bilateral-cor-data`. Regenerate after model-verify.
+# caution: Rows are directed country-pair observations, not country-year totals; avoid aggregating them as if each row were an independent national observation.
+key: [countrycode1, countrycode2, year]
+temporal: year
+sort: [year, countrycode1, countrycode2]
 columns:
   - name: countrycode1
     type: VARCHAR
   - name: countrycode2
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: cor_exp
     type: DOUBLE

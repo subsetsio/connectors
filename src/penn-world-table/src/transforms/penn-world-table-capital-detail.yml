@@ -1,70 +1,75 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `penn-world-table-capital-detail`. Regenerate after model-verify.
+# caution: Capital measures are split by asset type in separate columns; compare or aggregate only after selecting compatible variables and units.
+key: [countrycode, year]
+temporal: year
+sort: [year, countrycode]
 columns:
   - name: countrycode
     type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: Ic_Struc
+    type: SMALLINT
+  - name: ic_struc
     type: FLOAT
-  - name: Ic_Mach
+  - name: ic_mach
     type: FLOAT
-  - name: Ic_TraEq
+  - name: ic_traeq
     type: FLOAT
-  - name: Ic_Other
+  - name: ic_other
     type: FLOAT
-  - name: Ip_Struc
+  - name: ip_struc
     type: FLOAT
-  - name: Ip_Mach
+  - name: ip_mach
     type: FLOAT
-  - name: Ip_TraEq
+  - name: ip_traeq
     type: FLOAT
-  - name: Ip_Other
+  - name: ip_other
     type: FLOAT
-  - name: Nc_Struc
+  - name: nc_struc
     type: FLOAT
-  - name: Nc_Mach
+  - name: nc_mach
     type: FLOAT
-  - name: Nc_TraEq
+  - name: nc_traeq
     type: FLOAT
-  - name: Nc_Other
+  - name: nc_other
     type: FLOAT
-  - name: Np_Struc
+  - name: np_struc
     type: FLOAT
-  - name: Np_Mach
+  - name: np_mach
     type: FLOAT
-  - name: Np_TraEq
+  - name: np_traeq
     type: FLOAT
-  - name: Np_Other
+  - name: np_other
     type: FLOAT
-  - name: Dc_Struc
+  - name: dc_struc
     type: FLOAT
-  - name: Dc_Mach
+  - name: dc_mach
     type: FLOAT
-  - name: Dc_TraEq
+  - name: dc_traeq
     type: FLOAT
-  - name: Dc_Other
+  - name: dc_other
     type: FLOAT
-  - name: Kc_Struc
+  - name: kc_struc
     type: FLOAT
-  - name: Kc_Mach
+  - name: kc_mach
     type: FLOAT
-  - name: Kc_TraEq
+  - name: kc_traeq
     type: FLOAT
-  - name: Kc_Other
+  - name: kc_other
     type: FLOAT
-  - name: Kp_Struc
+  - name: kp_struc
     type: FLOAT
-  - name: Kp_Mach
+  - name: kp_mach
     type: FLOAT
-  - name: Kp_TraEq
+  - name: kp_traeq
     type: FLOAT
-  - name: Kp_Other
+  - name: kp_other
     type: FLOAT
-  - name: Ksh_Struc
+  - name: ksh_struc
     type: FLOAT
-  - name: Ksh_Mach
+  - name: ksh_mach
     type: FLOAT
-  - name: Ksh_TraEq
+  - name: ksh_traeq
     type: FLOAT
-  - name: Ksh_Other
+  - name: ksh_other
     type: FLOAT

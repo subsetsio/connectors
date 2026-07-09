@@ -1,7 +1,7 @@
 """UIS geographic units — countries + regional aggregates (taxonomy subset)."""
 import pyarrow as pa
-from subsets_utils import NodeSpec, save_raw_parquet
-from utils import SLUG, get_json
+from subsets_utils import save_raw_parquet
+from utils import get_json
 
 _GEOUNITS_SCHEMA = pa.schema([
     ("id", pa.string()),
@@ -25,7 +25,3 @@ def fetch_geounits(node_id: str) -> None:
     table = pa.Table.from_pylist(rows, schema=_GEOUNITS_SCHEMA)
     save_raw_parquet(table, asset)
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id=f"{SLUG}-geounits", fn=fetch_geounits, kind="download"),
-]

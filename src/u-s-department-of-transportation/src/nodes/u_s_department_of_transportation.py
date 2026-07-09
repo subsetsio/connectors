@@ -14,7 +14,7 @@ heterogeneous schema, so the connector publishes the source columns as-is
 
 import json
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, raw_writer, transient_retry
+from subsets_utils import NodeSpec, get, raw_writer
 from constants import ENTITY_IDS
 
 PREFIX = "u-s-department-of-transportation-"
@@ -22,7 +22,6 @@ BASE = "https://data.transportation.gov/resource"
 PAGE = 50000  # SODA per-request hard cap
 
 
-@transient_retry()
 def _fetch_page(ds_id: str, offset: int) -> list:
     # $order=:id pins a stable sort so offset paging never skips/dups rows.
     resp = get(
@@ -60,13 +59,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

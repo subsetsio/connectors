@@ -8,8 +8,8 @@ re-pull every run.
 """
 import pyarrow as pa
 import pyarrow.parquet as pq
-from subsets_utils import NodeSpec, raw_parquet_writer
-from utils import SLUG, get_json, fetch_indicators_list
+from subsets_utils import raw_parquet_writer
+from utils import get_json, fetch_indicators_list
 
 # Flush the values stream to a parquet row group every ~100k buffered rows so
 # memory stays bounded regardless of corpus size.
@@ -74,7 +74,3 @@ def fetch_values(node_id: str) -> None:
         _flush(writer, buffer)
     print(f"  -> {asset}: {total:,} observations across {len(codes):,} indicators")
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id=f"{SLUG}-values", fn=fetch_values, kind="download"),
-]

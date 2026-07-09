@@ -1,0 +1,25 @@
+spec_id: statistics-poland-g573
+status: active
+tests:
+  - not_null: variable_id
+    reason: every BDL national observation is keyed by a variable id
+    certainty: 97
+  - not_null: year
+    reason: BDL data values are annual observations in the Local Data Bank API
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: variable_id, type: integer}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 90
+  - unique: [variable_id, year]
+    reason: one national Poland value per variable per year; duplicates mean a variable was enumerated twice or a batch was duplicated
+    certainty: 88
+  - between: {col: year, lo: 1980, hi: 2060}
+    reason: BDL mostly contains post-1990 annual data, while population projections extend to 2060
+    certainty: 85
+    severity: warn
+  - row_count: {min: 1}
+    reason: an accepted BDL group should resolve to at least one national variable-year observation
+    certainty: 70

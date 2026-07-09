@@ -1,5 +1,58 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The table carries many constructed macroeconomic measures with different units and bases; do not aggregate across variables without using the source definitions.
 SELECT
-    * REPLACE (CAST(year AS INTEGER) AS year)
+    "countrycode",
+    "country",
+    "currency_unit",
+    "year",
+    "rgdpe",
+    "rgdpo",
+    "pop",
+    "emp",
+    "avh",
+    "hc",
+    "ccon",
+    "cda",
+    "cgdpe",
+    "cgdpo",
+    "cn",
+    "ck",
+    "ctfp",
+    "cwtfp",
+    "rgdpna",
+    "rconna",
+    "rdana",
+    "rnna",
+    "rkna",
+    "rtfpna",
+    "rwtfpna",
+    "labsh",
+    "irr",
+    "delta",
+    "xr",
+    "pl_con",
+    "pl_da",
+    "pl_gdpo",
+    "i_cig",
+    "i_xm",
+    "i_xr",
+    "i_outlier",
+    "i_irr",
+    "cor_exp",
+    "csh_c",
+    "csh_i",
+    "csh_g",
+    "csh_x",
+    "csh_m",
+    "csh_r",
+    "pl_c",
+    "pl_i",
+    "pl_g",
+    "pl_x",
+    "pl_m",
+    "pl_n",
+    "pl_k"
 FROM "penn-world-table-main"
-WHERE countrycode IS NOT NULL
-  AND year IS NOT NULL

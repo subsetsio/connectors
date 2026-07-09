@@ -1,0 +1,8 @@
+spec_id: u-s-department-of-transportation-ggca-ddee
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: accepted Socrata datasets are tabular assets; an empty pull means SODA pagination broke or the dataset was withdrawn upstream.
+    certainty: 75
+    points_outward: true
+    severity: warn

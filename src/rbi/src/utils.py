@@ -9,6 +9,7 @@ are HTML-entity-encoded JSON served as text/plain.
 
 import html
 import json
+import re
 
 from subsets_utils import get, post, transient_retry
 
@@ -24,10 +25,10 @@ _BASE_HEADERS = {
 
 
 def _clean(s):
-    """Strip the non-breaking spaces and trailing padding RBI pads strings with."""
+    """Collapse RBI's non-breaking-space padded labels to ordinary strings."""
     if s is None:
         return None
-    return s.replace(" ", " ").strip()
+    return re.sub(r"\s+", " ", str(s)).strip()
 
 
 @transient_retry()

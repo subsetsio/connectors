@@ -4,10 +4,10 @@
 SELECT
     name AS rate_name,
     CAST(rate AS DOUBLE) AS rate_percent,
-    CASE WHEN timedate_ms IS NOT NULL
-         THEN epoch_ms(timedate_ms)::DATE END AS as_of_date
+    CAST(as_of_date AS DATE) AS as_of_date
 FROM "rbi-key-policy-rates"
 WHERE name IS NOT NULL
+  AND as_of_date IS NOT NULL
   AND name NOT ILIKE '%Exchange Rate%'
   AND name NOT ILIKE '%CPI%'
   AND name NOT ILIKE '%Inflation%'
