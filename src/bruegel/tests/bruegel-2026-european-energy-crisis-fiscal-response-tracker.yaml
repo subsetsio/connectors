@@ -6,8 +6,11 @@ tests:
     reason: every fiscal measure is attributed to a country; only stray subtotal/footer rows could lack one
     certainty: 80
     severity: warn
-  - not_null: "Measure Name"
-    reason: each tracked measure carries a name
+  - nullable: {col: "Measure Name", max_null_frac: 0.2}
+    reason: >-
+      most measures carry a name, but the workbook genuinely ships some rows with
+      only amounts and classification filled in (2/52 as of 2026-07) — so bound the
+      null share rather than forbid nulls; an all-null column means a shifted parse
     certainty: 80
     severity: warn
   - row_count: {min: 20}

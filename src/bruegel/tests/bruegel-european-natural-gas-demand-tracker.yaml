@@ -13,8 +13,12 @@ tests:
   - column_type: {col: value, type: float}
     reason: demand deviation is a TWh float
     certainty: 80
-  - freshness: {col: date, reaches: today - 150d}
-    reason: the demand tracker updates roughly monthly; a stale max points at the source, not our code
+  - freshness: {col: date, reaches: today - 240d}
+    reason: >-
+      the tracker published monthly with a ~1-month lag, but upstream
+      (benmcwilliams/gas-demand) has been paused since 2026-02-19 and every data
+      file there still ends at 01/2026 — so the bound tolerates the observed stall
+      while still tripping if the feed stays dead. A stale max points at the source.
     certainty: 60
     points_outward: true
     severity: warn

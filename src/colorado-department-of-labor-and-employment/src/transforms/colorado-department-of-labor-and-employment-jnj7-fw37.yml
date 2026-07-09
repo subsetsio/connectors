@@ -1,0 +1,45 @@
+# Higher-education programs offered in Colorado. Explicitly keyless: the source
+# repeats each institution/program pair once per overlapping area geography, and
+# again with and without a program description.
+key: []
+sort: [institution_name, program_title, area_name]
+columns:
+  - name: institution_name
+    type: VARCHAR
+    description: Name of the higher-education institution offering the program.
+  - name: institution_ownership
+    type: VARCHAR
+    description: Ownership class of the institution ('Public Institution', 'Private for profit institution', and so on).
+  - name: institution_type
+    type: VARCHAR
+    description: Type of institution ('Four-year Colleges and Universities', 'Two-year Colleges', and so on).
+  - name: program_title
+    type: VARCHAR
+    description: Title of the degree or certificate program, in the source's CIP-style wording (e.g. 'Registered Nursing/Registered Nurse.').
+  - name: program_description
+    type: VARCHAR
+    description: Prose description of what the program covers. Absent on about half the rows — the source emits each program twice, once with this field and once without.
+  - name: address
+    type: VARCHAR
+    description: Street address of the institution's campus. Absent for a handful of institutions.
+  - name: city
+    type: VARCHAR
+    description: City the campus is in.
+  - name: zip
+    type: VARCHAR
+    description: Five-digit ZIP code of the campus, kept as text so leading zeros survive.
+  - name: url
+    type: VARCHAR
+    description: Institution's website. Some rows carry the placeholder 'http://' rather than a real address.
+  - name: area_name
+    type: VARCHAR
+    description: One of the Colorado geographies the campus falls inside — a county, a metropolitan consortium, a workforce consortium or a planning region. These OVERLAP, so a single campus appears under several area names and counting rows overcounts programs.
+  - name: area_description
+    type: VARCHAR
+    description: Prose description of the area named by `area_name`. Absent for the region-style areas.
+  - name: latitude
+    type: DOUBLE
+    description: Latitude of the campus in decimal degrees (WGS 84), taken from the source's GeoJSON point. Absent where the source supplies no usable coordinate.
+  - name: longitude
+    type: DOUBLE
+    description: Longitude of the campus in decimal degrees (WGS 84), taken from the source's GeoJSON point. Absent where the source supplies no usable coordinate.
