@@ -7,41 +7,69 @@ accepted collect entity is one `[program].[table]` target pulled in full.
 Access shape: stateless full re-pull (download prompt shape 1). Envirofacts
 exposes NO incremental query surface -- no since/modifiedAfter/cursor parameter
 on the dmapservice tables, and no count endpoint -- so every refresh re-pulls
-each table in full and overwrites. The cost of that is documented here rather
-than worked around with a watermark the API cannot support.
+each table in full. The cost of that is documented here rather than papered
+over with a watermark the API cannot support.
 
 Wire format vs raw format
 -------------------------
 Windows are requested as PARQUET and stored as gzip-NDJSON fragments.
 
 PARQUET on the wire because it is ~1000x cheaper than JSON: measured
-tri.tri_release_qty/1:200000 = 200k rows in 457KB, versus tens of MB of JSON.
-The API returns a whole [first:last] window in ONE request, so even the largest
-table in the catalog (~60M rows) is ~60 requests rather than thousands.
+tri.tri_release_qty/1:200000 = 200k rows in 457KB. The API serves a whole
+[first:last] window in ONE request, so a table is tens of requests, not
+thousands.
 
 NDJSON on disk because the API infers column types PER WINDOW: a column whose
 values are all NULL within a window comes back typed `null` (measured:
 tri.tri_chem_info.csc_ind, tri.tri_release_qty.non_prod_release). A column that
-is all-null in an early window and populated in a later one would therefore
-change parquet type mid-table, and the per-window parquet files would not
-glob-union at read time. NDJSON carries no schema contract; the transform
-re-types on read, and the 401 live tables span 13 program systems whose schemas
-we do not control.
+is all-null in an early window and populated in a later one therefore changes
+parquet type mid-table, and the per-window parquet files would not glob-union
+at read time. NDJSON carries no schema contract; the transform re-types on
+read, and the 401 live tables span 13 program systems whose schemas we do not
+control.
 
-Pagination and resume
----------------------
+Pagination is OFFSET-scan, and that is quadratic
+------------------------------------------------
 The row-window segment is 1-indexed and inclusive: `t/1:1000` returns rows
-1..1000. Windows past the end of a table return HTTP 200 with a valid but
-EMPTY parquet body (0 rows, 0 columns) -- that, and only that, terminates the
-loop. A short window is NOT treated as the end: the API fills windows, and
-trusting a short read would silently truncate a large table if the server ever
-returned a partial page.
+1..1000. There is no keyset alternative: of the documented column operators
+only `equals` parses (`>`, `<`, `greater_than` all return a parse error), and
+even an equality probe on the primary key of icis.icis_dmr_form_value took 88s
+-- the backend scans, it does not seek. So the server re-scans from row 1 on
+every request and the cost of the window at offset X grows with X. Draining a
+table of N rows with a window of W rows costs roughly `b*N^2/(2W)`, which is
+why W is large (1M) rather than the 10k the API docs suggest: total time falls
+linearly as W grows. icis.icis_dmr_form_value (100-200M rows) is the worst
+case at several hours on its own.
 
-Each window is committed as its own raw fragment, so a run that the supervisor
-interrupts near its CI budget resumes from the last committed window instead of
-restarting the table from row 1. Fragments carrying the CURRENT run_id are
-already-done work for this refresh; fragments from an older run_id are last
-refresh's data and are re-fetched (this is a full re-pull, not an append).
+Windows past the end of a table return HTTP 200 with a valid but EMPTY parquet
+body (0 rows, 0 columns) -- that, and only that, terminates the loop. A short
+window is NOT treated as the end: the API fills windows, and trusting a short
+read would silently truncate a large table if the server ever returned a
+partial page.
+
+Continuation, and why this fn returns True
+------------------------------------------
+The cloud DAG runs sequentially (DAG_PARALLELISM defaults to 1) under a 5.75h
+budget (DAG_TIME_BUDGET=20700). When that budget expires the supervisor kills
+the in-flight node and resets it to `pending` -- and a killed node's staged raw
+fragments are NEVER committed to the raw manifest, so every window it fetched
+that leg is discarded. Only a node that RETURNS commits.
+
+A table that needs more than one leg to drain would therefore restart from row
+1 forever. So a fetch fn that runs out of its slice of the budget commits what
+it has and returns True, which is the orchestrator's documented `pagination`
+handshake: the node is marked done, its fragments commit, the run finalizes as
+`needs_continuation`, and the next link is dispatched under the SAME run_id.
+On that link the already-committed windows are skipped and the table resumes
+where it left off. Progress is monotonic and every leg advances by at least one
+window per node.
+
+The slice is a fraction of DAG_TIME_BUDGET rather than the true remaining run
+time because a forked child cannot see when the RUN started, only when it
+itself started (see `hardened feedback epa --area subsets_utils`).
+
+Fragments committed under a PRIOR run_id are last refresh's data, not this
+one's: they are re-fetched, because this is a full re-pull and not an append.
 
 Dead and empty tables
 ---------------------
@@ -79,13 +107,13 @@ from subsets_utils import (
 BASE = "https://data.epa.gov/dmapservice/"
 
 # Raw asset extension for every table. Kept in one place: the fragment manifest
-# lookup and the writer must agree or resume silently re-fetches everything.
+# lookup and the writer must agree, or resume silently re-fetches everything.
 EXT = "ndjson.gz"
 
-# Rows per API request. The API serves a whole window in one request, and
-# deep offsets get slower (measured: 1M rows of icis.icis_dmr_form_value took
-# 33s at offset 1 and 134s at offset 40M), so the request count -- not the
-# window size -- is what we minimise. 1M rows lands at ~3-11MB of parquet.
+# Rows per API request. Total drain cost is ~b*N^2/(2W) under the server's
+# offset scan, so a bigger window is strictly cheaper -- bounded by peak RSS
+# (one window is held as an arrow table) and by the server's 15-minute
+# per-request completion window, which a too-deep, too-wide request would blow.
 PAGE_SIZE = 1_000_000
 
 # Rows converted from arrow to NDJSON at a time. Bounds peak RSS: a 1M-row
@@ -97,11 +125,29 @@ CHUNK_ROWS = 50_000
 # return a truncated table.
 MAX_PAGES = 5_000
 
-# State contract version. Bump when the skipped-marker shape changes.
+# State contract version. Bump when the resume/skip state shape changes.
 STATE_VERSION = 1
 
 # How long a permanent-404 table stays skipped before we probe it again.
 SKIP_TTL_SECONDS = 14 * 86_400
+
+# Fraction of the run's time budget one node may spend before it commits its
+# fragments and asks for a continuation link. Sized so a leg fits ~3 saturated
+# nodes: the node the deadline eventually kills loses at most this much work,
+# and every node is guaranteed a turn within a few legs.
+LEG_FRACTION = 0.30
+
+# Fallback when DAG_TIME_BUDGET is unset (local dev): the cloud value.
+DEFAULT_TIME_BUDGET_S = 20_700.0
+
+
+def _leg_seconds() -> float:
+    """Wall-clock this node may spend before committing and continuing."""
+    try:
+        budget = float(os.environ.get("DAG_TIME_BUDGET", "")) or DEFAULT_TIME_BUDGET_S
+    except ValueError:
+        budget = DEFAULT_TIME_BUDGET_S
+    return budget * LEG_FRACTION
 
 
 def _table_for(node_id: str) -> str:
@@ -114,13 +160,20 @@ def _table_for(node_id: str) -> str:
     return node_id[len("epa-") :].replace("-", "_")
 
 
+def _fragment_for(page: int) -> tuple[int, int, str]:
+    """The inclusive row-window and the fragment key for a zero-based page."""
+    first = page * PAGE_SIZE + 1
+    last = (page + 1) * PAGE_SIZE
+    return first, last, f"{first:010d}-{last:010d}"
+
+
 @transient_retry()
 def _fetch_window(table: str, first: int, last: int):
     """Fetch one inclusive row-window [first:last] as an arrow Table.
 
     Transient errors (429/5xx/network) are retried by the decorator. A 4xx is
     permanent and propagates as httpx.HTTPStatusError for the caller to
-    classify. The 15-minute server-side completion window sets the read timeout.
+    classify. The read timeout matches the server's 15-minute completion window.
     """
     url = f"{BASE}{table}/{first}:{last}/PARQUET"
     resp = get(url, timeout=(10.0, 900.0))
@@ -130,35 +183,35 @@ def _fetch_window(table: str, first: int, last: int):
     return pq.read_table(io.BytesIO(resp.content))
 
 
-def _write_fragment(asset: str, fragment: str, arrow_table) -> None:
+def _write_fragment(asset: str, fragment: str, window) -> None:
     """Commit one row-window as a gzip-NDJSON raw fragment of `asset`.
 
     `default=str` renders types the JSON encoder does not carry natively
-    (dates, decimals) rather than failing the whole window on one cell.
+    (dates, decimals) rather than failing a whole window on one cell.
     """
     with raw_writer(asset, EXT, mode="wt", compression="gzip", fragment=fragment) as fh:
-        for batch in arrow_table.to_batches(max_chunksize=CHUNK_ROWS):
+        for batch in window.to_batches(max_chunksize=CHUNK_ROWS):
             for row in batch.to_pylist():
                 fh.write(json.dumps(row, separators=(",", ":"), default=str))
                 fh.write("\n")
 
 
-def _mark_skipped(asset: str, table: str, reason: str) -> None:
-    save_state(
-        asset,
-        {
-            "schema_version": STATE_VERSION,
-            "skipped": {
-                "table": table,
-                "reason": reason,
-                "expires_at": int(time.time()) + SKIP_TTL_SECONDS,
-            },
-        },
-    )
+def _load_run_state(asset: str, run_id: str) -> dict:
+    """This asset's state, but only the parts written by the CURRENT run.
+
+    A prior run's state describes a prior refresh: its window count says nothing
+    about the pull now in progress, so it is ignored rather than trusted.
+    """
+    state = load_state(asset)
+    if state.get("schema_version") != STATE_VERSION:
+        return {}
+    if state.get("run_id") != run_id:
+        return {}
+    return state
 
 
-def _active_skip(asset: str) -> dict | None:
-    """The live skipped marker for this asset, or None (absent/expired/stale)."""
+def _skipped(asset: str) -> dict | None:
+    """A live (unexpired) skipped marker for this asset, else None."""
     state = load_state(asset)
     if state.get("schema_version") != STATE_VERSION:
         return None
@@ -168,8 +221,13 @@ def _active_skip(asset: str) -> dict | None:
     return None
 
 
-def fetch_one(node_id: str) -> None:
+def fetch_one(node_id: str) -> bool | None:
     """Pull one Envirofacts table in full, one committed fragment per window.
+
+    Returns True when the table is not yet drained and this leg's slice of the
+    time budget is spent -- the orchestrator reads that as `needs_continuation`,
+    commits this node's fragments, and dispatches the next link under the same
+    run_id. Returns None when the table is fully drained.
 
     The runtime passes the spec id, which is also the asset name. Freshness
     gating is the maintain step's job -- if this is invoked, we fetch.
@@ -177,49 +235,84 @@ def fetch_one(node_id: str) -> None:
     asset = node_id
     table = _table_for(node_id)
 
-    skip = _active_skip(asset)
+    skip = _skipped(asset)
     if skip is not None:
-        print(f"  -> {table}: skipped ({skip['reason']}); re-probed after TTL")
-        return
+        print(f"  -> {table}: skipped ({skip['reason']}); re-probed once the marker expires")
+        return None
 
     run_id = os.environ.get("RUN_ID", "unknown")
-    done = {
+    state = _load_run_state(asset, run_id)
+
+    # The raw manifest is the ONLY trustworthy done-set: an object it does not
+    # reference does not exist, and a killed leg's writes are unreferenced.
+    committed = {
         frag
         for frag, meta in list_raw_fragments(asset, EXT).items()
         if meta.get("run_id") == run_id
     }
+
+    # Fast path: this run already drained the table. `total_windows` is only
+    # trusted when the manifest still shows every one of those windows, so a
+    # discarded leg re-opens the pull instead of silently declaring it done.
+    total_windows = state.get("total_windows")
+    if isinstance(total_windows, int) and len(committed) >= total_windows > 0:
+        print(f"  -> {table}: already drained this run ({total_windows} windows)")
+        return None
+
+    deadline = time.monotonic() + _leg_seconds()
     fetched = 0
 
     for page in range(MAX_PAGES):
-        first = page * PAGE_SIZE + 1
-        last = (page + 1) * PAGE_SIZE
-        fragment = f"{first:010d}-{last:010d}"
+        first, last, fragment = _fragment_for(page)
 
-        if fragment in done:
+        if fragment in committed:
             continue
+
+        # Checked only before a window we would actually fetch, so a node always
+        # makes at least one window of progress per leg (page 0 cannot be late).
+        if time.monotonic() >= deadline:
+            print(
+                f"  -> {table}: leg budget spent at window {page} "
+                f"({fetched:,} rows this leg); committing and continuing next link"
+            )
+            return True
 
         try:
             window = _fetch_window(table, first, last)
         except httpx.HTTPStatusError as exc:
-            status = exc.response.status_code
-            if status == 404 and page == 0:
+            if exc.response.status_code == 404 and page == 0:
                 # The table is gone upstream, not a transport failure. Record it
                 # and return cleanly: one retired table must not fail the run.
                 print(f"  -> {table}: HTTP 404, table retired upstream - skipping")
-                _mark_skipped(asset, table, "upstream returns HTTP 404 (table not found)")
-                return
+                save_state(
+                    asset,
+                    {
+                        "schema_version": STATE_VERSION,
+                        "run_id": run_id,
+                        "skipped": {
+                            "table": table,
+                            "reason": "upstream returns HTTP 404 (table not found)",
+                            "expires_at": int(time.time()) + SKIP_TTL_SECONDS,
+                        },
+                    },
+                )
+                return None
             raise
 
         # A window past the end of the table is the ONLY end-of-table signal.
-        # On page 0 an empty window means the table itself is empty: still commit
-        # the fragment, so the asset exists as an honest 0-row snapshot.
         if window.num_rows == 0 and page > 0:
+            _finish(asset, run_id, page)
             break
 
+        # Raw first, state after: a crash between them re-fetches a window; the
+        # reverse would record a window that was never committed.
         _write_fragment(asset, fragment, window)
         fetched += window.num_rows
 
+        # An empty page 0 means the table itself is empty. The fragment above is
+        # its honest 0-row snapshot; the asset exists.
         if window.num_rows == 0:
+            _finish(asset, run_id, 1)
             break
     else:
         raise RuntimeError(
@@ -227,7 +320,25 @@ def fetch_one(node_id: str) -> None:
             "without reaching an empty window - investigate before raising the cap"
         )
 
-    print(f"  -> {table}: {fetched:,} rows fetched this leg ({len(done)} windows already done)")
+    print(f"  -> {table}: drained, {fetched:,} rows fetched this leg")
+    return None
+
+
+def _finish(asset: str, run_id: str, total_windows: int) -> None:
+    """Record how many windows constitute this table, for this run.
+
+    Not a completion flag: it is scoped to `run_id`, and the fast path that
+    reads it re-checks the manifest, so it can only ever skip work this run
+    genuinely committed.
+    """
+    save_state(
+        asset,
+        {
+            "schema_version": STATE_VERSION,
+            "run_id": run_id,
+            "total_windows": total_windows,
+        },
+    )
 
 
 DOWNLOAD_SPECS = [

@@ -10,10 +10,10 @@ re-crawled):
     accepted entity resolves to a set of leaf CSVs; see src/constants.py for the
     per-entity fetch descriptor and how overlapping datasets in one directory are
     told apart.
-  * airfares — commercialized fare microdata at
-    https://sas.anac.gov.br/sas/{tarifadomestica|tarifainternacional}/<yyyy>/<yyyymm>.csv .
-    That host serves no directory index, so the months are enumerated from
-    AIRFARES_START_YEAR to the current month and absent ones (404) are skipped.
+  * airfares — commercialized fare microdata under
+    https://sas.anac.gov.br/sas/{tarifadomestica,tarifainternacional}/ . That host
+    serves an IIS directory index (a different markup from the nginx autoindex
+    above), which is crawled the same way.
 
 Raw format. ANAC's CSVs are messy: a leading "Atualizado em: <date>" preamble
 before the header, semicolon delimiters, mixed latin-1/utf-8, decimal commas, and
@@ -51,7 +51,6 @@ import os
 import re
 import unicodedata
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime, timezone
 from urllib.parse import quote, unquote, urljoin
 
 import httpx
@@ -71,7 +70,6 @@ STATE_VERSION = 1
 
 DADOSABERTOS_BASE = "https://sistemas.anac.gov.br/dadosabertos/"
 SAS_BASE = "https://sas.anac.gov.br/sas/"
-AIRFARES_START_YEAR = 2002  # documented floor of the domestic fare series
 MAX_CRAWL_DEPTH = 8
 RAW_EXT = "ndjson.gz"
 
@@ -114,15 +112,13 @@ def _http_get(url: str) -> httpx.Response:
 
 
 @transient_retry()
-def _http_probe(url: str) -> httpx.Response | None:
-    """Probe an object for its size, tolerating legitimate absence (404 -> None).
+def _http_probe(url: str) -> httpx.Response:
+    """Probe an object for its size.
 
     subsets_utils exposes no head(); a 0-0 ranged GET is the cheap equivalent and
     additionally proves the server honours Range on this object.
     """
     r = get(url, headers={"Range": "bytes=0-0"}, timeout=HTTP_TIMEOUT)
-    if r.status_code == 404:
-        return None
     r.raise_for_status()
     return r
 
@@ -151,15 +147,9 @@ def _http_get_range(url: str, start: int, end: int) -> bytes:
     return r.content
 
 
-def _fetch_body(url: str, optional: bool = False) -> bytes | None:
-    """Fetch a whole object in ranged chunks. None when `optional` and absent."""
-    probe = _http_probe(url)
-    if probe is None:
-        if optional:
-            return None
-        raise RuntimeError(f"required object missing: {url}")
-
-    total = _content_total(probe)
+def _fetch_body(url: str) -> bytes:
+    """Fetch a whole object in ranged chunks."""
+    total = _content_total(_http_probe(url))
     if total is None:
         # No length advertised — one shot, nothing to length-check against.
         return _http_get(url).content
@@ -281,21 +271,47 @@ def _family_of(file_url: str, families: list[str]) -> str | None:
     return best
 
 
-def _airfare_items(sub: str) -> list[tuple[str, bool]]:
-    """Every <yyyy>/<yyyymm>.csv from the series floor to the current month.
-    All optional: months before a series starts, and the not-yet-published
-    current month, both 404."""
-    now = datetime.now(timezone.utc)
-    items: list[tuple[str, bool]] = []
-    for year in range(AIRFARES_START_YEAR, now.year + 1):
-        last_month = 12 if year < now.year else now.month
-        for month in range(1, last_month + 1):
-            items.append((f"{SAS_BASE}{sub}/{year}/{year}{month:02d}.csv", True))
-    return items
+def _list_sas_dir(dir_url: str) -> tuple[list[str], list[str]]:
+    """(subdir_urls, csv_urls) from an IIS directory index.
+
+    A different listing format from the dadosabertos nginx autoindex: IIS emits
+    absolute hrefs (`/sas/tarifadomestica/2024/`), including a "[To Parent
+    Directory]" link, so entries are kept only when they resolve strictly below
+    the directory being listed.
+    """
+    r = _http_get(dir_url)
+    subdirs, files = [], []
+    for href in _HREF_RE.findall(r.text):
+        full = urljoin(dir_url, href)
+        if not full.startswith(dir_url) or full == dir_url:
+            continue  # the parent link, or an off-tree link
+        if full.endswith("/"):
+            subdirs.append(full)
+        elif unquote(full).lower().endswith(".csv"):
+            files.append(full)
+    return subdirs, files
 
 
-def _discover_items(desc: dict) -> list[tuple[str, bool]]:
-    """(url, optional) for every source file of one entity, in a stable order."""
+def _airfare_items(sub: str) -> list[str]:
+    """Every fare-microdata CSV under this series, discovered by crawling.
+
+    The two series are named differently (`202401.csv` vs
+    `INTERNACIONAL_2024-01.csv`) and ANAC files some months under the wrong year
+    directory (`INTERNACIONAL_2023-04.csv` sits under `2024/`), so the month set
+    is read off the index rather than generated from a date range.
+    """
+    root = f"{SAS_BASE}{sub}/"
+    years, files = _list_sas_dir(root)
+    for year_url in years:
+        _, csvs = _list_sas_dir(year_url)
+        files.extend(csvs)
+    if not files:
+        raise RuntimeError(f"no fare CSVs discovered under {root}")
+    return sorted(files)
+
+
+def _discover_items(desc: dict) -> list[str]:
+    """Every source file URL of one entity, in a stable order."""
     kind = desc["kind"]
     if kind == "airfares":
         return _airfare_items(desc["sub"])
@@ -309,11 +325,11 @@ def _discover_items(desc: dict) -> list[tuple[str, bool]]:
                 f"family {desc['family']!r} matched no CSV in {desc['path']!r} — "
                 "the directory's file naming changed; re-run collect"
             )
-        return [(u, False) for u in sorted(keep)]
+        return sorted(keep)
 
     if kind == "dir":
         _, files = _list_dir(_dir_url(desc["path"]))
-        return [(u, False) for u in sorted(files)]
+        return sorted(files)
 
     if kind == "partitioned":
         subdirs, _ = _list_dir(_dir_url(desc["path"]))
@@ -326,7 +342,7 @@ def _discover_items(desc: dict) -> list[tuple[str, bool]]:
         ]
         if not years:
             raise RuntimeError(f"no year partitions under {desc['path']!r}")
-        return [(u, False) for u in sorted(_tree_csvs(years))]
+        return sorted(_tree_csvs(years))
 
     raise ValueError(f"unknown catalog kind {desc['kind']!r}")
 
@@ -411,16 +427,14 @@ def _iter_rows(content: bytes):
 
 
 @transient_retry()
-def _fetch_header(url: str, optional: bool) -> list[str]:
+def _fetch_header(url: str) -> list[str]:
     """Read just enough of a CSV to see its preamble and header."""
     r = get(url, headers={"Range": "bytes=0-65535"}, timeout=HTTP_TIMEOUT)
-    if optional and r.status_code == 404:
-        return []
     r.raise_for_status()
     return _header_of(r.content)
 
 
-def _header_union(node_id: str, items: list[tuple[str, bool]], run_id: str) -> list[str]:
+def _header_union(node_id: str, urls: list[str], run_id: str) -> list[str]:
     """Stable union of every file's header, in first-seen order.
 
     Cached in state for the duration of one run. The union has to be taken over
@@ -435,7 +449,7 @@ def _header_union(node_id: str, items: list[tuple[str, bool]], run_id: str) -> l
         return state["columns"]
 
     with ThreadPoolExecutor(max_workers=_CONCURRENCY) as ex:
-        per_file = list(ex.map(lambda it: _fetch_header(*it), items))
+        per_file = list(ex.map(_fetch_header, urls))
     columns: list[str] = []
     seen: set[str] = set()
     for cols in per_file:
@@ -477,11 +491,8 @@ def _fragment_name(desc: dict, url: str) -> str:
     return _slug(tail[: -len(".csv")]) or "part"
 
 
-def _fetch_fragment(node_id: str, desc: dict, url: str, optional: bool,
-                    columns: list[str]) -> None:
-    body = _fetch_body(url, optional=optional)
-    if body is None:
-        return  # optional file genuinely absent — nothing to commit
+def _fetch_fragment(node_id: str, desc: dict, url: str, columns: list[str]) -> None:
+    body = _fetch_body(url)
     frag = _fragment_name(desc, url)
     with raw_writer(node_id, RAW_EXT, mode="wt", compression="gzip", fragment=frag) as out:
         for rec in _iter_rows(body):
@@ -499,9 +510,9 @@ def fetch_one(node_id: str) -> None:
     revisions and late corrections are picked up.
     """
     desc = CATALOG[node_id[len("anac-"):]]
-    items = _discover_items(desc)
+    urls = _discover_items(desc)
 
-    frags = [_fragment_name(desc, url) for url, _ in items]
+    frags = [_fragment_name(desc, url) for url in urls]
     if len(set(frags)) != len(frags):
         raise RuntimeError(
             f"{node_id}: fragment name collision — two source files map to one "
@@ -513,18 +524,18 @@ def fetch_one(node_id: str) -> None:
         frag for frag, meta in list_raw_fragments(node_id, RAW_EXT).items()
         if meta.get("run_id") == run_id
     }
-    pending = [it for it, frag in zip(items, frags) if frag not in done]
+    pending = [url for url, frag in zip(urls, frags) if frag not in done]
     if not pending:
         return
 
     # Pad to the union of every file's header, not just the pending ones: the
     # asset's committed fragments must stay column-compatible across legs.
-    columns = _header_union(node_id, items, run_id) if len(items) > 1 else []
+    columns = _header_union(node_id, urls, run_id) if len(urls) > 1 else []
 
     with ThreadPoolExecutor(max_workers=_CONCURRENCY) as ex:
         futures = [
-            ex.submit(_fetch_fragment, node_id, desc, url, optional, columns)
-            for url, optional in pending
+            ex.submit(_fetch_fragment, node_id, desc, url, columns)
+            for url in pending
         ]
         for fut in futures:
             fut.result()  # propagate the first failure — the node fails, others retry next run

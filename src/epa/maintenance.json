@@ -1,5 +1,5 @@
 {
-  "cadence_days": 7,
+  "cadence_days": 90,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "Envirofacts program systems refresh on their own schedules (TRI annually after the ~July reporting deadline; ICIS/RCRA/SDWIS roughly weekly-to-monthly) per https://www.epa.gov/enviro/about-data. The API exposes no incremental filter and no count endpoint, so every refresh is a full re-pull of ~750M rows across 401 live tables, which takes multiple 5.75h CI legs. Quarterly is the honest trade: matching the fastest upstream cadence would keep the connector permanently mid-refresh. Inferred - EPA publishes no single corpus-wide cadence."
 }

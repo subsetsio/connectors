@@ -46,11 +46,14 @@ import csv
 import json as _json
 import zlib
 
+from datetime import datetime, timezone
+
 from subsets_utils import (
     MaintainSpec,
     NodeSpec,
     get_client,
     raw_asset_exists,
+    raw_manifest,
     raw_writer,
     transient_retry,
 )
@@ -76,6 +79,19 @@ _META_COLS = {
     "CONF_STATUS",
     "OBS_STATUS",
 }
+
+# The three keys we emit for every observation. A dataflow whose DSD names a
+# dimension after one of them (SBS_PART_WTSCT has a size-class dimension `value`)
+# would otherwise have that dimension silently overwritten by the observation —
+# the row dict is keyed by name. Colliding dimensions get a `_dim` suffix.
+_EMITTED_COLS = ("time_period", "value", "flag")
+
+# Raw fetched before the collision fix has the colliding dimension destroyed, and
+# is stale regardless of age. Only the dataflows in `_COLLIDING_ASSETS` were
+# affected (verified: of 5,782 landed assets, only this one's columns deviate
+# from `<dims...>, time_period, value, flag`), so only they are forced to re-pull.
+_COLLISION_FIX_AT = datetime(2026, 7, 9, tzinfo=timezone.utc)
+_COLLIDING_ASSETS = frozenset({"eurostat-sbs-part-wtsct"})
 
 
 def _byte_chunks(resp):
@@ -153,7 +169,7 @@ def _stream_to_ndjson(code: str, asset: str) -> str:
             return "empty"
 
         dim_idx = [
-            (i, h.strip().lower())
+            (i, n + "_dim" if (n := h.strip().lower()) in _EMITTED_COLS else n)
             for i, h in enumerate(header)
             if h.strip() not in _META_COLS
         ]
@@ -213,8 +229,16 @@ DOWNLOAD_SPECS = [
 
 
 def _is_fresh(asset_id: str) -> bool:
-    """Skip policy: raw already fetched and younger than the refresh window."""
-    return raw_asset_exists(asset_id, "ndjson.gz", max_age_days=MAINTAIN_MAX_AGE_DAYS)
+    """Skip policy: raw already fetched and younger than the refresh window —
+    and, for the dataflows whose dimensions collided with the emitted columns,
+    written since the fix."""
+    if not raw_asset_exists(asset_id, "ndjson.gz", max_age_days=MAINTAIN_MAX_AGE_DAYS):
+        return False
+    if asset_id in _COLLIDING_ASSETS:
+        entry = raw_manifest.asset_entry(asset_id, "ndjson.gz")
+        fetched = raw_manifest.newest_fetched_at(entry) if entry else None
+        return fetched is not None and fetched >= _COLLISION_FIX_AT
+    return True
 
 
 MAINTAIN_SPECS = [
