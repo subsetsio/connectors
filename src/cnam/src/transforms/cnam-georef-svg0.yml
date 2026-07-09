@@ -1,11 +1,16 @@
-sort: [id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-georef-svg0`. Regenerate after model-verify.
+# caution: Presentation asset: SVG path geometry and label anchors for rendering French département/région maps, in an unspecified local drawing space — not a georeferenced coordinate system, and not usable for spatial joins.
+# caution: `filename` splits the same territory across map panels (metropolitan France, Île-de-France inset, each overseas territory), so a territory `id` appears in more than one row.
+key: [data_anchor_y, data_fill_id, data_name, id, filename]
+sort: [data_anchor_y, data_fill_id, data_name, id, filename]
 columns:
   - name: d
     type: VARCHAR
   - name: data_anchor_x
-    type: VARCHAR
+    type: DOUBLE
   - name: data_anchor_y
-    type: VARCHAR
+    type: DOUBLE
   - name: data_fill_id
     type: VARCHAR
   - name: data_name

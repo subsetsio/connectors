@@ -1,6 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-comorbidites`. Regenerate after model-verify.
+# caution: One row per (year, index pathology `top`, comorbid pathology). `ntop` repeats the index pathology's patient count on every comorbidity row — summing `ncomorb` or `ntop` across rows double-counts patients.
+# caution: `top` and the comorbidity columns span several levels of the pathology hierarchy (patho_niv1/2/3); rows at different levels overlap, so never sum across levels.
+key: [annee, top, libelle_comorbidite]
 temporal: annee
-sort: [annee]
+sort: [annee, top, libelle_comorbidite]
 columns:
   - name: annee
     type: DATE

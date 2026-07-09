@@ -1,6 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-honoraires-detailles`. Regenerate after model-verify.
+# caution: Rows span three nested levels of the fee-type hierarchy; `honoraires_ordre_niv_2`/`_3` carry the sentinel 99 (and their `type_honoraires_niveau_2`/`_3` labels are null) on rows that stop at a shallower level. Summing `montant_honoraires` across levels double-counts.
+# caution: Aggregate members also exist in `profession_sante` and the territory columns; `montant_honoraires_moyens` is a per-practitioner mean and is never summable.
+key: [annee, profession_sante, region, departement, honoraires_ordre_niv_1, honoraires_ordre_niv_2, honoraires_ordre_niv_3]
 temporal: annee
-sort: [annee]
+sort: [annee, profession_sante, region, departement, honoraires_ordre_niv_1, honoraires_ordre_niv_2, honoraires_ordre_niv_3]
 columns:
   - name: annee
     type: DATE

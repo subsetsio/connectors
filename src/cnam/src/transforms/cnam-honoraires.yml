@@ -1,5 +1,10 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-honoraires`. Regenerate after model-verify.
+# caution: Every measure ships twice: a French-formatted VARCHAR and a parsed `*_integer` numeric of the same quantity.
+# caution: The `*_moyens` columns are per-practitioner means and the `taux_depassement*` columns are percentages — neither is summable. The territory columns mix département, région and national rows.
+key: [annee, profession_sante, region, departement]
 temporal: annee
-sort: [annee]
+sort: [annee, profession_sante, region, departement]
 columns:
   - name: annee
     type: DATE

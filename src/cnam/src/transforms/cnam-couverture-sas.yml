@@ -1,9 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: annee
-sort: [annee]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-couverture-sas`. Regenerate after model-verify.
+# caution: The territory columns mix levels: département rows, région rows and a national row coexist. Filter before aggregating; `taux_population_couverte` is a percentage and must never be summed.
+key: [annee, region, departement]
+sort: [annee, region, departement]
 columns:
   - name: annee
-    type: VARCHAR
+    type: BIGINT
   - name: region
     type: VARCHAR
   - name: libelle_region
@@ -13,7 +15,7 @@ columns:
   - name: libelle_departement
     type: VARCHAR
   - name: taux_population_couverte
-    type: VARCHAR
+    type: DOUBLE
   - name: couvert
     type: BIGINT
   - name: taux_population_couverte_integer

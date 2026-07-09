@@ -1,12 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-couverture-sas-infra-annuelle`. Regenerate after model-verify.
+# caution: A single in-progress-year snapshot (`annee` is constant, `date` is the end of the reference period), not a time series.
+# caution: The territory columns mix levels: département rows, région rows and a national row coexist.
+key: [libelle_departement, libelle_region, region]
 temporal: annee
-sort: [annee]
+sort: [annee, libelle_departement, libelle_region, region]
 columns:
   - name: annee
     type: DATE
   - name: date
     type: DATE
   - name: region
-    type: VARCHAR
+    type: BIGINT
   - name: libelle_region
     type: VARCHAR
   - name: departement

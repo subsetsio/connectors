@@ -1,9 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: annee
-sort: [annee]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-contrats-aide-assistantsmed-annuelle`. Regenerate after model-verify.
+# caution: The territory columns mix levels: département rows, région rows and a national row coexist. Filter on the territory level before summing `nombre_contrat_assmed`.
+key: [annee, region, departement]
+sort: [annee, region, departement]
 columns:
   - name: annee
-    type: VARCHAR
+    type: BIGINT
   - name: profession_sante_nbr_contrats
     type: VARCHAR
   - name: profession_sante_taux

@@ -1,9 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: annee
-sort: [annee]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-medecins-optam-annuelle`. Regenerate after model-verify.
+# caution: `taux_adhesion` (OPTAM adhesion share) and `taux_evolution_annuel` are percentages and must never be summed; only `effectif_medecin_optam` is a count.
+# caution: The territory columns mix département, région and national rows.
+key: [annee, profession_sante, region, departement]
+sort: [annee, profession_sante, region, departement]
 columns:
   - name: annee
-    type: VARCHAR
+    type: BIGINT
   - name: profession_sante
     type: VARCHAR
   - name: region

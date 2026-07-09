@@ -1,9 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: annee
-sort: [annee]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-medgen-zones-sous-dotees-annuelle`. Regenerate after model-verify.
+# caution: `profession_sante` is constant (general practitioners). The territory columns mix département, région and national rows; `taux_evolution_annuel` is a year-on-year percentage change and is never summable.
+key: [annee, profession_sante, region, departement]
+sort: [annee, profession_sante, region, departement]
 columns:
   - name: annee
-    type: VARCHAR
+    type: BIGINT
   - name: profession_sante
     type: VARCHAR
   - name: region

@@ -1,5 +1,10 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-patientele`. Regenerate after model-verify.
+# caution: `nombre_patients_uniques` and `nombre_patients_medecin_traitant` are means per practitioner (also shipped as parsed `*_integer` columns), not territory totals.
+# caution: The territory columns mix département, région and national rows.
+key: [annee, profession_sante, region, departement]
 temporal: annee
-sort: [annee]
+sort: [annee, profession_sante, region, departement]
 columns:
   - name: annee
     type: DATE

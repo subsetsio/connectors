@@ -1,9 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: annee
-sort: [annee]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-file-active-medgen-annuelle`. Regenerate after model-verify.
+# caution: `nombre_patients_uniques` is a mean patient panel per practitioner, not a total — it cannot be summed across territories or professions.
+# caution: The territory columns mix département, région and national rows.
+key: [annee, profession_sante, region, departement]
+sort: [annee, profession_sante, region, departement]
 columns:
   - name: annee
-    type: VARCHAR
+    type: BIGINT
   - name: profession_sante
     type: VARCHAR
   - name: region

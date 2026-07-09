@@ -1,6 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-depenses`. Regenerate after model-verify.
+# caution: Rows span several levels of the pathology hierarchy (patho_niv1/2/3 via `top`) and of the spending-post hierarchy (`dep_niv_1` → `dep_niv_2`); summing `montant` across levels double-counts.
+# caution: `ntop` (patients with the pathology) repeats on every spending-post row of that pathology.
+# caution: National-level only: this table has no territory dimension.
+key: [annee, top, dep_niv_2]
 temporal: annee
-sort: [annee]
+sort: [annee, top, dep_niv_2]
 columns:
   - name: annee
     type: DATE

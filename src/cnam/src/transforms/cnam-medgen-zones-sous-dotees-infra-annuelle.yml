@@ -1,5 +1,10 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-medgen-zones-sous-dotees-infra-annuelle`. Regenerate after model-verify.
+# caution: A single in-progress-year snapshot (`annee` is constant, `date` is the end of the reference period), not a time series.
+# caution: `profession_sante` is constant (general practitioners); the territory columns mix département, région and national rows.
+key: [profession_sante, region, departement]
 temporal: annee
-sort: [annee]
+sort: [annee, profession_sante, region, departement]
 columns:
   - name: annee
     type: DATE

@@ -1,5 +1,10 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-contrats-aide-assistantsmed-infra-annuelle`. Regenerate after model-verify.
+# caution: A single in-progress-year snapshot (`annee` is constant, `date` is the end of the reference period), not a time series.
+# caution: The territory columns mix levels: département rows, région rows and a national row coexist. Filter before summing.
+key: [region, departement]
 temporal: annee
-sort: [annee]
+sort: [annee, region, departement]
 columns:
   - name: annee
     type: DATE

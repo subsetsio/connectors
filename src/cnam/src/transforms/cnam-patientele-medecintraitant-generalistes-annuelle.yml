@@ -1,9 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: annee
-sort: [annee]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-patientele-medecintraitant-generalistes-annuelle`. Regenerate after model-verify.
+# caution: `nombre_patients_medecin_traitant` is a mean panel size per general practitioner, not a total. The territory columns mix département, région and national rows.
+key: [annee, profession_sante, region, departement]
+sort: [annee, profession_sante, region, departement]
 columns:
   - name: annee
-    type: VARCHAR
+    type: BIGINT
   - name: profession_sante
     type: VARCHAR
   - name: region

@@ -1,6 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-demographie-effectifs-et-les-densites`. Regenerate after model-verify.
+# caution: Every dimension carries its own aggregate member: an all-professions `profession_sante`, national/région rows in the territory columns, an all-ages `classe_age` and a both-sexes `libelle_sexe`. Summing `effectif` without filtering each dimension to its detail members multiply-counts practitioners.
+# caution: `densite` is practitioners per 100,000 inhabitants — a ratio, never summable.
+key: [annee, profession_sante, region, departement, classe_age, libelle_sexe]
 temporal: annee
-sort: [annee]
+sort: [annee, profession_sante, region, departement, classe_age, libelle_sexe]
 columns:
   - name: annee
     type: DATE

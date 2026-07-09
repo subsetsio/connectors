@@ -1,6 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-prescriptions`. Regenerate after model-verify.
+# caution: `poste_prescription` carries an all-posts aggregate alongside the individual prescription posts, and aggregate members also exist in `profession_sante` and the territory columns — filter each before summing `montant_total_prescription`.
+# caution: `montant_moyen_prescription` is a per-practitioner mean and is never summable.
+key: [annee, profession_sante, region, departement, poste_prescription]
 temporal: annee
-sort: [annee]
+sort: [annee, profession_sante, region, departement, poste_prescription]
 columns:
   - name: annee
     type: DATE

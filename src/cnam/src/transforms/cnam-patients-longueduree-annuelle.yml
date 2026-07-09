@@ -1,9 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: annee
-sort: [annee]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-patients-longueduree-annuelle`. Regenerate after model-verify.
+# caution: `taux_patients_ald_sans_mt` is the share of long-term-condition (ALD) patients without a declared attending physician — a percentage, never summable.
+# caution: The territory columns mix département, région and national rows.
+key: [annee, region, departement]
+sort: [annee, region, departement]
 columns:
   - name: annee
-    type: VARCHAR
+    type: BIGINT
   - name: region
     type: VARCHAR
   - name: libelle_region

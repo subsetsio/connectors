@@ -1,6 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cnam-effectifs`. Regenerate after model-verify.
+# caution: Every dimension carries an aggregate member: `cla_age_5`/`sexe` include all-ages and both-sexes codes, and `region`/`dept` include national and régional aggregates. Summing `ntop` or `npop` without filtering each dimension to its detail members multiply-counts patients.
+# caution: `top` spans several levels of the pathology hierarchy; a patient with several pathologies is counted under each, so pathology totals do not add up to the population.
+# caution: `prev` is a prevalence rate (share of `npop`) and must never be summed.
+key: [annee, top, cla_age_5, sexe, region, dept]
 temporal: annee
-sort: [annee]
+sort: [annee, top, cla_age_5, sexe, region, dept]
 columns:
   - name: annee
     type: DATE
@@ -15,7 +20,7 @@ columns:
   - name: cla_age_5
     type: VARCHAR
   - name: sexe
-    type: VARCHAR
+    type: BIGINT
   - name: region
     type: VARCHAR
   - name: dept
