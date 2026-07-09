@@ -49,16 +49,18 @@ import re
 from pathlib import Path
 
 import httpx
+import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
     get,
-    raw_writer,
+    raw_parquet_writer,
     transient_retry,
 )
 
 BASE = "https://api.mospi.gov.in"
 PAGE = 50000              # server honours large page sizes; minimises round-trips
+ROW_GROUP = 50000         # rows buffered per Parquet row group
 MAX_PAGES_ABS = 100000    # safety ceiling — raises (never silently truncates)
 
 # ---------------------------------------------------------------------------
@@ -369,20 +371,29 @@ def fetch_one(node_id: str) -> None:
     if not keys:
         raise RuntimeError(f"{node_id}: no columns discovered across {len(combos)} combos — dataset shape changed")
 
+    schema = pa.schema([(k, pa.string()) for k in keys])
     total = 0
-    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as f:
+    with raw_parquet_writer(node_id, schema) as w:
+        buf: list[dict] = []
+
+        def flush() -> None:
+            if buf:
+                w.write_batch(pa.RecordBatch.from_pylist(buf, schema=schema))
+                buf.clear()
+
         for combo in combos:
             try:
                 for row in _paginate(data_path, combo):
                     cr = _clean_row(row)
-                    norm = {k: cr.get(k) for k in keys}
-                    f.write(json.dumps(norm, ensure_ascii=False))
-                    f.write("\n")
+                    buf.append({k: cr.get(k) for k in keys})
                     total += 1
+                    if len(buf) >= ROW_GROUP:
+                        flush()
             except (httpx.HTTPStatusError, ValueError) as e:
                 # One dead combo (deterministic 5xx / HTML) — skip, keep the rest.
                 print(f"[mospi] skip combo {combo}: {type(e).__name__}: {str(e)[:120]}")
                 continue
+        flush()
 
     if total == 0:
         raise RuntimeError(f"{node_id}: 0 rows across {len(combos)} combos — dataset shape changed")
