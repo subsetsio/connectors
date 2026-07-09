@@ -1,0 +1,37 @@
+spec_id: harvard-growth-lab-atlas-of-economic-complexity-sitc-country-year
+status: active
+tests:
+  - row_count: {min: 8000}
+    reason: floor set well under observed size; catches a truncated stream
+  - not_null: country_id
+  - column_type: {col: country_id, type: integer}
+  - not_null: country_iso3_code
+  - matches: {col: country_iso3_code, pattern: '^[A-Z]{3}$'}
+    certainty: 90
+    reason: augmented ISO 3166-1 alpha-3; the Growth Lab's extra codes keep the shape
+  - unique: [country_id, year]
+    reason: one aggregate row per country-year; dupes mean a fragment was written twice
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1962, hi: current_year()}
+    certainty: 90
+    reason: this classification's published coverage starts in 1962
+  - freshness: {col: year, reaches: 2024}
+    points_outward: true
+    reason: >-
+      The Atlas republishes annually with an ~18-month reporting lag, so the
+      newest observation year should be at least 2024. A miss means the source
+      has not released, or we pulled a superseded dataset version.
+  - not_null: export_value
+  - not_null: import_value
+  - column_type: {col: export_value, type: integer}
+  - at_least: {col: export_value, expr: 0}
+    reason: trade values are whole US dollars; a negative is a parse or sign error
+  - at_least: {col: import_value, expr: 0}
+  - column_type: {col: eci, type: float}
+  - between: {col: eci, lo: -4.0, hi: 4.0}
+    certainty: 80
+    severity: warn
+    reason: ECI is a standardised index; |value| > 4 would mean a scaling change
+  - column_type: {col: diversity, type: integer}
+  - at_least: {col: diversity, expr: 0}

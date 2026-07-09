@@ -1,12 +1,15 @@
 """Health invariants for the BLS bulk flat-file download assets.
 
-Catches silent degradation that file-existence alone misses: empty/truncated
-payloads, the 403-on-bad-UA quirk silently yielding an HTML error body, and the
-stable 5-column observation schema drifting.
+These catch the silent degradations that file existence alone misses: a survey whose
+observation files vanished from the directory listing, a value column that stopped
+parsing (BLS pads every field with spaces — one missed `trim` turns every value into
+NULL), the 403-on-bad-UA quirk yielding an HTML error body, and a series-catalog join
+that dropped out and left a published table of bare ids.
 """
 from subsets_utils import load_raw_parquet
 
-_EXPECTED_COLS = {"series_id", "year", "period", "value", "footnote_codes"}
+# Every survey's asset carries these, whatever its own dimension columns are.
+_CORE_COLS = {"series_id", "year", "period", "period_start_date", "value", "footnote_codes"}
 
 
 def test_all_raw_assets_nonempty(spec_ids):
@@ -17,28 +20,38 @@ def test_all_raw_assets_nonempty(spec_ids):
         assert len(table) > 0, f"{sid}: raw parquet has 0 rows"
 
 
-def test_schema_stable(spec_ids):
-    """The tab-delimited observation schema is stable across every survey."""
+def test_core_columns_present(spec_ids):
+    """The 5-column observation schema plus our derived date is stable across surveys."""
     for sid in spec_ids:
         cols = set(load_raw_parquet(sid).column_names)
-        assert cols == _EXPECTED_COLS, f"{sid}: unexpected columns {cols}"
+        missing = _CORE_COLS - cols
+        assert not missing, f"{sid}: raw parquet missing core columns {sorted(missing)}"
 
 
-def test_values_mostly_numeric(spec_ids):
-    """Raw `value` is kept as string (for '-' sentinels), but the overwhelming
-    majority must parse as numbers — a wholesale failure signals a format shift
-    (e.g. wrong delimiter, shifted columns)."""
+def test_values_parsed(spec_ids):
+    """`value` is space-padded numeric text in the source; a failed cast nulls the column."""
+    for sid in spec_ids:
+        col = load_raw_parquet(sid).column("value")
+        assert col.null_count < len(col), f"{sid}: every `value` is null — the cast failed"
+
+
+def test_series_ids_trimmed(spec_ids):
+    """BLS pads series_id to a fixed width; untrimmed ids join to nothing downstream."""
+    for sid in spec_ids:
+        ids = load_raw_parquet(sid).column("series_id").to_pylist()[:1000]
+        bad = [s for s in ids if not s or s != s.strip()]
+        assert not bad, f"{sid}: {len(bad)} series_id values are empty or whitespace-padded"
+
+
+def test_series_catalog_joined(spec_ids):
+    """Each asset carries dimension columns from `<survey>.series`, and they matched.
+
+    A silently-failed catalog join leaves every row present but every dimension null —
+    the survey keeps its numbers and loses its meaning.
+    """
     for sid in spec_ids:
         table = load_raw_parquet(sid)
-        vals = table.column("value").to_pylist()
-        sample = vals[:5000]
-        numeric = 0
-        for v in sample:
-            try:
-                float(v)
-                numeric += 1
-            except (TypeError, ValueError):
-                pass
-        assert numeric >= 0.5 * len(sample), (
-            f"{sid}: only {numeric}/{len(sample)} sampled values numeric"
-        )
+        dims = [c for c in table.column_names if c not in _CORE_COLS]
+        assert dims, f"{sid}: no dimension columns — the series-catalog join produced nothing"
+        joined = any(table.column(c).null_count < len(table) for c in dims)
+        assert joined, f"{sid}: every dimension column is null — the catalog join matched no rows"

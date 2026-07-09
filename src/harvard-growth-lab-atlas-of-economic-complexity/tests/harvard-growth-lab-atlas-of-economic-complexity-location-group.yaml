@@ -1,0 +1,12 @@
+spec_id: harvard-growth-lab-atlas-of-economic-complexity-location-group
+status: active
+tests:
+  - row_count: {min: 800}
+  - not_null: country_id
+  - not_null: group_id
+  - not_null: group_type
+  - unique: [country_id, group_id]
+    reason: one membership row per country-group
+  - not_null: group_name
+  - nullable: {col: group_parent_id, max_null_frac: 1.0}
+    reason: top-level groups have no parent

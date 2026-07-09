@@ -1,0 +1,34 @@
+spec_id: harvard-growth-lab-atlas-of-economic-complexity-hs12-product-year
+status: active
+tests:
+  - row_count: {min: 50000}
+    reason: floor set well under observed size; catches a truncated stream
+  - not_null: product_id
+  - column_type: {col: product_id, type: integer}
+  - not_null: product_hs12_code
+  - column_type: {col: product_hs12_code, type: string}
+  - unique: [product_id, year]
+    reason: world totals per product-year across all depths
+  - not_null: product_level
+  - enum: {col: product_level, values: [1, 2, 4, 6]}
+    reason: >-
+      product_level is recovered from the source filename suffix; [1, 2, 4, 6] are the
+      depths this classification publishes. An unexpected value means a new file
+      landed in this entity and its digit depth was misread.
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2012, hi: current_year()}
+    certainty: 90
+    reason: this classification's published coverage starts in 2012
+  - freshness: {col: year, reaches: 2024}
+    points_outward: true
+    reason: >-
+      The Atlas republishes annually with an ~18-month reporting lag, so the
+      newest observation year should be at least 2024. A miss means the source
+      has not released, or we pulled a superseded dataset version.
+  - not_null: export_value
+  - not_null: import_value
+  - column_type: {col: export_value, type: integer}
+  - at_least: {col: export_value, expr: 0}
+    reason: trade values are whole US dollars; a negative is a parse or sign error
+  - at_least: {col: import_value, expr: 0}

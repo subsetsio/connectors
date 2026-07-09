@@ -1,0 +1,28 @@
+spec_id: bls-eb
+status: active
+coverage:
+  frozen: true
+  reason: Employee Benefits Survey ended; the database stops at the 1979-2006 series and BLS has not rewritten the directory since 2022-02
+tests:
+  - not_null: series_id
+  - not_null: period
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - unique: [series_id, year, period]
+    reason: one observation per series and period; the survey's data files overlap (a `.data.0.Current` subset, and for LAUS per-state files that restate the aggregate ones) so the fetch dedups the union - a duplicate here means two files disagreed on a value
+    certainty: 90
+  - row_count: {min: 570}
+    reason: floor derived from the survey's published flat-file size; a smaller load means data files went missing from the union
+    certainty: 80
+  - matches: {col: period, pattern: '^[AMQS][0-9]{2}$'}
+    reason: BLS period codes are M01-M13, Q01-Q05, S01-S03, A01
+    certainty: 95
+  - at_most: {col: year, expr: current_year()}
+    reason: observations are historical; a future year means a projection series leaked into an observation file
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - nullable: {col: value, max_null_frac: 0.05}
+    reason: BLS writes '-' for suppressed/unavailable observations, which we null; a large null share means the value column stopped parsing
+    certainty: 75
+    severity: warn

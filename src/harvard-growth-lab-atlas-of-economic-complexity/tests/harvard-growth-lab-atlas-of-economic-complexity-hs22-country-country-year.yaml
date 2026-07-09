@@ -1,0 +1,31 @@
+spec_id: harvard-growth-lab-atlas-of-economic-complexity-hs22-country-country-year
+status: active
+tests:
+  - row_count: {min: 20000}
+    reason: floor set well under observed size; catches a truncated stream
+  - not_null: country_id
+  - not_null: partner_country_id
+  - not_null: partner_iso3_code
+  - unique: [country_id, partner_country_id, year]
+    reason: one bilateral row per reporter-partner-year
+  - relationship: {left: country_id, op: '!=', right: partner_country_id}
+    certainty: 85
+    severity: warn
+    reason: a country trading with itself would be an aggregation leak
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2022, hi: current_year()}
+    certainty: 90
+    reason: this classification's published coverage starts in 2022
+  - freshness: {col: year, reaches: 2024}
+    points_outward: true
+    reason: >-
+      The Atlas republishes annually with an ~18-month reporting lag, so the
+      newest observation year should be at least 2024. A miss means the source
+      has not released, or we pulled a superseded dataset version.
+  - not_null: export_value
+  - not_null: import_value
+  - column_type: {col: export_value, type: integer}
+  - at_least: {col: export_value, expr: 0}
+    reason: trade values are whole US dollars; a negative is a parse or sign error
+  - at_least: {col: import_value, expr: 0}

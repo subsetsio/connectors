@@ -1,0 +1,50 @@
+spec_id: harvard-growth-lab-atlas-of-economic-complexity-sitc-country-product-year
+status: active
+tests:
+  - row_count: {min: 3000000}
+    reason: floor set well under observed size; catches a truncated stream
+  - not_null: country_id
+  - not_null: product_id
+  - not_null: product_sitc_code
+  - column_type: {col: product_sitc_code, type: string}
+    reason: >-
+      Classification codes must stay strings - HS '0101' is not the integer 101.
+      A numeric type here means leading zeros were destroyed at parse time.
+  - unique: [country_id, product_id, year]
+    reason: >-
+      product_id is unique across depths in the Atlas's own id space, so the union of
+      the per-depth files is still one row per country-product-year.
+  - column_type: {col: global_market_share, type: float}
+  - between: {col: global_market_share, lo: 0.0, hi: 1.0}
+    certainty: 90
+    reason: a share of world trade for the product; outside [0,1] means a unit change
+  - not_null: product_level
+  - enum: {col: product_level, values: [1, 2, 4]}
+    reason: >-
+      product_level is recovered from the source filename suffix; [1, 2, 4] are the
+      depths this classification publishes. An unexpected value means a new file
+      landed in this entity and its digit depth was misread.
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1962, hi: current_year()}
+    certainty: 90
+    reason: this classification's published coverage starts in 1962
+  - freshness: {col: year, reaches: 2024}
+    points_outward: true
+    reason: >-
+      The Atlas republishes annually with an ~18-month reporting lag, so the
+      newest observation year should be at least 2024. A miss means the source
+      has not released, or we pulled a superseded dataset version.
+  - not_null: export_value
+  - not_null: import_value
+  - column_type: {col: export_value, type: integer}
+  - at_least: {col: export_value, expr: 0}
+    reason: trade values are whole US dollars; a negative is a parse or sign error
+  - at_least: {col: import_value, expr: 0}
+  - column_type: {col: pci, type: float}
+  - nullable: {col: pci, max_null_frac: 0.95}
+    certainty: 70
+    severity: warn
+    reason: >-
+      Depth 6 omits pci/distance/cog/export_rca, so nulls dominate by row count.
+      An all-null column would instead mean the shallow files went missing.

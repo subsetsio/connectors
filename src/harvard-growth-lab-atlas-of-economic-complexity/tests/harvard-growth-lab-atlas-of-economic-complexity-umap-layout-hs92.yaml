@@ -1,0 +1,19 @@
+spec_id: harvard-growth-lab-atlas-of-economic-complexity-umap-layout-hs92
+status: active
+tests:
+  - row_count: {min: 500}
+  - not_null: product_hs92_code
+  - unique: product_hs92_code
+    reason: one 2-D position per 4-digit product
+  - column_type: {col: product_hs92_code, type: string}
+    reason: >-
+      Kept as a string although the source writes these codes WITHOUT leading zeros
+      ('101' for HS 0101). Preserving the published text is the raw layer's job;
+      zero-padding to join against product-hs92 belongs in the transform.
+  - not_null: product_space_x
+  - not_null: product_space_y
+  - between: {col: product_space_x, lo: -20.0, hi: 20.0}
+    certainty: 75
+    severity: warn
+    reason: UMAP coordinates are unitless but bounded in practice
+  - not_null: product_space_cluster_name

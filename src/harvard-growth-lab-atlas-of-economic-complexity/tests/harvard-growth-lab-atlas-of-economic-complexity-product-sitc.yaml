@@ -1,0 +1,16 @@
+spec_id: harvard-growth-lab-atlas-of-economic-complexity-product-sitc
+status: active
+tests:
+  - row_count: {min: 500}
+  - not_null: product_id
+  - unique: product_id
+    reason: the Atlas's own product id space, unique across depths
+  - not_null: product_sitc_code
+  - column_type: {col: product_sitc_code, type: string}
+    reason: HS/SITC codes keep their leading zeros only as strings
+  - not_null: product_level
+  - between: {col: product_level, lo: 1, hi: 6}
+  - not_null: product_name
+  - column_type: {col: show_feasibility, type: boolean}
+  - nullable: {col: product_parent_id, max_null_frac: 0.2}
+    reason: only the level-1 roots lack a parent

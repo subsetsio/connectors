@@ -242,7 +242,7 @@ def _conform(batch: pa.RecordBatch, schema: pa.Schema, level: int | None) -> pa.
 
 
 @transient_retry()
-def _stream_file(asset: str, fragment: str, file_id: int, filename: str,
+def _stream_file(asset: str, fragment: str | None, file_id: int, filename: str,
                  schema: pa.Schema, level: int | None) -> None:
     """Stream one source CSV into one parquet fragment of `asset`.
 
@@ -283,9 +283,12 @@ def _fetch_tabular(asset: str, entity: str) -> None:
         fields.append(("product_level", COLUMN_TYPES["product_level"]))
     schema = pa.schema(fields)
 
+    # One source file -> a plain `<asset>.parquet`; several -> one fragment each,
+    # named for the file it came from, which the dep view globs back together.
     for name, file_id in files:
         level = _product_level(name) if multi_depth else None
-        _stream_file(asset, _stem(name), file_id, name, schema, level)
+        fragment = _stem(name) if len(files) > 1 else None
+        _stream_file(asset, fragment, file_id, name, schema, level)
 
 
 # --- conversion tables ------------------------------------------------------

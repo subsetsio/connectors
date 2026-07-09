@@ -1,0 +1,11 @@
+spec_id: harvard-growth-lab-atlas-of-economic-complexity-top-edges-hs92
+status: active
+tests:
+  - row_count: {min: 2000}
+  - not_null: product_hs92_code_source
+  - not_null: product_hs92_code_target
+  - column_type: {col: product_hs92_code_source, type: string}
+  - unique: [product_hs92_code_source, product_hs92_code_target]
+    reason: one row per directed product-space edge
+  - relationship: {left: product_hs92_code_source, op: '!=', right: product_hs92_code_target}
+    reason: a self-edge is meaningless in the product space

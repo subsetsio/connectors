@@ -1,0 +1,27 @@
+spec_id: harvard-growth-lab-atlas-of-economic-complexity-weighted-classification-conversion-tables
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: >-
+      ~3.2M mapping rows across 17 usable tables. hs92_to_sitc3.csv is excluded by the
+      fetch fn: it ships as 'target_sitc3,weight' with no source column, so its rows
+      cannot be attributed. sitc3_to_hs92.csv covers that pair in reverse.
+  - not_null: source_classification
+  - not_null: source_code
+  - not_null: target_classification
+  - not_null: target_code
+  - not_null: weight
+  - column_type: {col: source_code, type: string}
+  - column_type: {col: target_code, type: string}
+  - between: {col: weight, lo: 0.0, hi: 1.0}
+    reason: each weight is a share of the source code's value assigned to the target
+  - enum:
+      col: source_classification
+      values: [hs92, hs96, hs02, hs07, hs12, hs17, hs22, sitc1, sitc2, sitc3]
+    reason: derived from the source column name of each mapping file
+  - unique: [source_classification, source_code, target_classification, target_code]
+    certainty: 70
+    severity: warn
+    reason: a mapping should name each (source, target) pair once per direction
+  - relationship: {left: source_classification, op: '!=', right: target_classification}
+    reason: a table never maps a classification to itself

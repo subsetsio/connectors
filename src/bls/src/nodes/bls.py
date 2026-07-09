@@ -50,6 +50,7 @@ from subsets_utils import (
     raw_asset_exists,
     raw_parquet_writer,
     record_source_signature,
+    source_unchanged,
     transient_retry,
 )
 
@@ -63,6 +64,10 @@ _USER_AGENT = "subsets.io data connector (contact: nathansnellaert@gmail.com)"
 # Series-catalog columns that describe the catalog row rather than the series: the
 # observation rows carry their own footnote_codes, and begin/end period is derivable.
 _SERIES_DROP = {"footnote_codes", "begin_year", "begin_period", "end_year", "end_period"}
+
+# `eb.series` ends its header row with a stray tab, so DuckDB invents a `column7` for
+# the unnamed trailing field. An unnamed source column is not a dimension.
+_UNNAMED = re.compile(r"^column\d+$")
 
 # The series catalog is the survey's series universe. Every survey we probed ships an
 # observation for every catalogued series; a large shortfall means we lost a data file,
@@ -118,7 +123,7 @@ def _label_column(header: list[str]) -> str | None:
     return None
 
 
-def _decodable_maps(con, survey, names, dest_dir, series_cols) -> dict[str, tuple[str, str, str]]:
+def _decodable_maps(con, survey, names, dest_dir, dims) -> dict[str, tuple[str, str, str]]:
     """Pick the code -> label maps we can join without changing the observation grain.
 
     Only single-column keys qualify: a map whose first column is the series column we
@@ -130,13 +135,13 @@ def _decodable_maps(con, survey, names, dest_dir, series_cols) -> dict[str, tupl
     """
     maps: dict[str, tuple[str, str, str]] = {}
     emitted: set[str] = set()
-    for col in series_cols:
+    for col in dims:
         stem = col[:-5] if col.endswith("_code") else col
         name = f"{survey}.{stem}"
         if name not in names:
             continue
         out = f"{stem}_name"
-        if out in series_cols or out in emitted:
+        if out in dims or out in emitted:
             continue
         path = _download(survey, name, dest_dir)
         header = _columns(con, path)
@@ -156,9 +161,14 @@ def _decodable_maps(con, survey, names, dest_dir, series_cols) -> dict[str, tupl
     return maps
 
 
+def _dimension_columns(series_cols: list[str]) -> list[str]:
+    return [c for c in series_cols
+            if c != "series_id" and c not in _SERIES_DROP and not _UNNAMED.match(c)]
+
+
 def _build_query(survey, data_paths, series_path, series_cols, maps) -> str:
     """Observations x their series x the decodable dimension labels, one row per obs."""
-    dims = [c for c in series_cols if c != "series_id" and c not in _SERIES_DROP]
+    dims = _dimension_columns(series_cols)
 
     selects = [
         "o.series_id",
@@ -237,7 +247,8 @@ def fetch_one(node_id: str) -> None:
         con.execute("SET preserve_insertion_order=false")
 
         series_cols = _columns(con, series_path)
-        maps = _decodable_maps(con, survey, names, scratch, series_cols)
+        dims = _dimension_columns(series_cols)
+        maps = _decodable_maps(con, survey, names, scratch, dims)
 
         catalogued, observed = con.execute(f"""
             SELECT
@@ -246,7 +257,7 @@ def fetch_one(node_id: str) -> None:
                  FROM read_csv({data_paths!r}, {_READ_CSV}, union_by_name=true))
         """).fetchone()
         print(f"  {survey}: {len(data_files)} data file(s), {catalogued} catalogued series, "
-              f"{observed} observed, {len(maps)}/{len(series_cols) - 1} dimensions decoded")
+              f"{observed} observed, {len(maps)}/{len(dims)} dimensions decoded")
         if catalogued and observed < catalogued * _MIN_SERIES_COVERAGE:
             raise AssertionError(
                 f"{survey}: observations cover only {observed} of {catalogued} catalogued series "
@@ -270,7 +281,6 @@ def _survey_unchanged(asset_id: str) -> bool:
     """
     _use_bls_user_agent()
     survey = asset_id[len("bls-"):]
-    from subsets_utils import source_unchanged
     return (source_unchanged(asset_id, f"{_BASE}/{survey}/{survey}.series")
             and raw_asset_exists(asset_id, "parquet"))
 

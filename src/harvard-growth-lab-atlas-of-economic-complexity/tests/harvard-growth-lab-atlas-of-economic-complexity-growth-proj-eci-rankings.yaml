@@ -1,0 +1,26 @@
+spec_id: harvard-growth-lab-atlas-of-economic-complexity-growth-proj-eci-rankings
+status: active
+tests:
+  - row_count: {min: 2000}
+  - not_null: country_id
+  - not_null: country_iso3_code
+  - unique: [country_id, year]
+    reason: one ranking row per country-year
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1962, hi: current_year()}
+    certainty: 85
+  - column_type: {col: in_rankings, type: boolean}
+  - column_type: {col: eci_sitc, type: float}
+  - at_least: {col: eci_rank_sitc, expr: 1}
+    reason: ranks are 1-based
+  - nullable: {col: eci_hs12, max_null_frac: 0.8}
+    certainty: 75
+    severity: warn
+    reason: HS12 complexity only exists from 2012, so early years are null
+  - freshness: {col: year, reaches: 2024}
+    points_outward: true
+    reason: >-
+      The Atlas republishes annually with an ~18-month reporting lag, so the
+      newest observation year should be at least 2024. A miss means the source
+      has not released, or we pulled a superseded dataset version.

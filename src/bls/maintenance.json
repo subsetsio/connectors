@@ -1,5 +1,5 @@
 {
   "cadence_days": 7,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "BLS release cadence is per-survey (CPI/CES/LAUS monthly, ECI/BED quarterly, CFOI/OEWS/ATUS annual); the full calendar is at https://www.bls.gov/schedule/news_release/. Rather than model 35 schedules, tick weekly: MAINTAIN_SPECS HEADs each survey's <survey>.series file and skips any survey whose ETag is unchanged since our last successful fetch, so a weekly tick costs 35 HEAD requests and re-pulls only the surveys that actually published."
 }

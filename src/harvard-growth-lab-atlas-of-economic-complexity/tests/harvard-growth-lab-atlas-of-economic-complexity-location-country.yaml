@@ -1,0 +1,13 @@
+spec_id: harvard-growth-lab-atlas-of-economic-complexity-location-country
+status: active
+tests:
+  - row_count: {min: 150}
+  - not_null: country_id
+  - unique: country_id
+  - not_null: country_iso3_code
+  - unique: country_iso3_code
+  - matches: {col: country_iso3_code, pattern: '^[A-Z]{3}$'}
+  - not_null: country_name
+  - column_type: {col: in_rankings, type: boolean}
+  - column_type: {col: former_country, type: boolean}
+    reason: dissolved states (SUN, YUG) are flagged rather than dropped

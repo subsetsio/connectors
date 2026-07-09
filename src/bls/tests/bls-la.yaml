@@ -1,38 +1,28 @@
 spec_id: bls-la
 status: active
 tests:
-  - freshness: {col: date, reaches: today - 1500d}
-    reason: BLS selected programs refresh on mixed monthly, quarterly, annual, and projection-vintage cadences; the latest accepted observation should remain within roughly four years unless the source stops updating.
-    certainty: 80
   - not_null: series_id
-    reason: every BLS flat-file observation row carries a series_id; a null means the tab split shifted/garbled.
-    certainty: 95
-  - not_null: year
-    reason: the parser drops any line whose year field is not all-digits, so every surviving row has a year.
-    certainty: 95
   - not_null: period
-    reason: every observation row carries a period code (Mxx / Qxx / Sxx / Axx).
-    certainty: 95
   - column_type: {col: year, type: integer}
-    reason: year is parsed to int32 by the declared parquet schema.
-    certainty: 95
-  - column_type: {col: series_id, type: string}
-    reason: series_id is the tab-delimited string key.
-    certainty: 95
-  - column_type: {col: value, type: string}
-    reason: value is kept raw as a string ('-' sentinels exist); the numeric cast happens in the transform.
-    certainty: 95
-  - matches: {col: period, pattern: '^[A-Z][0-9]{2}$'}
-    reason: BLS period codes are one uppercase letter plus two digits (M01-M13, Q01-Q05, S01-S03, A01).
+  - column_type: {col: value, type: float}
+  - unique: [series_id, year, period]
+    reason: one observation per series and period; the survey's data files overlap (a `.data.0.Current` subset, and for LAUS per-state files that restate the aggregate ones) so the fetch dedups the union - a duplicate here means two files disagreed on a value
     certainty: 90
-  - between: {col: year, lo: 1900, hi: current_year()}
-    reason: BLS series begin no earlier than the early 1900s (CPI ~1913 is the oldest) and never carry future years.
-    certainty: 85
+  - row_count: {min: 10000000}
+    reason: floor derived from the survey's published flat-file size; a smaller load means data files went missing from the union
+    certainty: 80
+  - matches: {col: period, pattern: '^[AMQS][0-9]{2}$'}
+    reason: BLS period codes are M01-M13, Q01-Q05, S01-S03, A01
+    certainty: 95
   - at_most: {col: year, expr: current_year()}
-    reason: BLS publishes historical/current observations, not projections; a future year signals a parse bug.
+    reason: observations are historical; a future year means a projection series leaked into an observation file
     certainty: 85
+    points_outward: true
     severity: warn
-    points_outward: false
-  - row_count: {min: 1}
-    reason: each active survey database ships at least one observation file with rows.
-    certainty: 90
+  - nullable: {col: value, max_null_frac: 0.05}
+    reason: BLS writes '-' for suppressed/unavailable observations, which we null; a large null share means the value column stopped parsing
+    certainty: 75
+    severity: warn
+  - freshness: {col: period_start_date, reaches: today - 400d}
+    reason: slack matched to this survey's release cadence and publication lag
+    points_outward: true
