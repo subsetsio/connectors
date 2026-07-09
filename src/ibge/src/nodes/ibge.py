@@ -1,4 +1,4 @@
-"""IBGE connector — agregados v3 time series + a municipality geography table.
+"""IBGE connector - agregados v3 time series + reference tables.
 
 Two fetch shapes share one host (servicodados.ibge.gov.br):
 
@@ -31,9 +31,9 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson
+from subsets_utils import NodeSpec, get, save_raw_ndjson
 
-from constants import ENTITY_IDS
+from constants import AGG_SPEC_IDS, MUNICIPIOS_SPEC_ID, SPEC_TO_ENTITY, SURVEY_SPEC_IDS
 
 
 # --- shared HTTP -----------------------------------------------------------
@@ -101,7 +101,7 @@ def _pick_level(administrativo) -> str:
 
 def fetch_aggregate(node_id: str) -> None:
     """Fetch one IBGE aggregate as a long-format headline time series."""
-    agg = node_id[len("ibge-"):]
+    agg = SPEC_TO_ENTITY[node_id]
     meta = get_json(f"{_AGG}/{agg}/metadados")
     var_ids = [v["id"] for v in meta.get("variaveis", [])]
     if not var_ids:
@@ -157,9 +157,29 @@ def _agg_sql(asset_id: str) -> str:
     )
 
 
-# --- municipios reference table -------------------------------------------
+# --- survey and municipio reference tables --------------------------------
 
 _MUNI = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios"
+
+
+def fetch_survey(node_id: str) -> None:
+    """Fetch one IBGE survey/research-program taxonomy entry."""
+    survey_id = SPEC_TO_ENTITY[node_id]
+    rows = []
+    for survey in get_json(_AGG):
+        if str(survey.get("id")) != survey_id:
+            continue
+        for aggregate in survey.get("agregados", []):
+            rows.append({
+                "survey_id": survey_id,
+                "survey_name": survey.get("nome"),
+                "aggregate_id": str(aggregate.get("id")),
+                "aggregate_name": aggregate.get("nome"),
+            })
+        break
+    if not rows:
+        raise ValueError(f"{node_id}: survey {survey_id} not found in aggregate root")
+    save_raw_ndjson(rows, node_id)
 
 
 def fetch_municipios(node_id: str) -> None:
@@ -188,48 +208,14 @@ def fetch_municipios(node_id: str) -> None:
     save_raw_ndjson(rows, node_id)
 
 
-_MUNI_SQL = (
-    "SELECT "
-    "municipio_id, municipio, "
-    "CAST(microrregiao_id AS BIGINT) AS microrregiao_id, microrregiao, "
-    "CAST(mesorregiao_id AS BIGINT) AS mesorregiao_id, mesorregiao, "
-    "CAST(uf_id AS BIGINT) AS uf_id, uf_sigla, uf, "
-    "CAST(regiao_id AS BIGINT) AS regiao_id, regiao_sigla, regiao "
-    'FROM "ibge-municipios"'
-)
-
-
 # --- DAG -------------------------------------------------------------------
-# ENTITY_IDS is the rank-accepted entity union (incl. "municipios"); the
-# numeric aggregate ids fan out over fetch_aggregate, municipios gets its own fn.
-
-_AGG_IDS = [eid for eid in ENTITY_IDS if eid != "municipios"]
 
 DOWNLOAD_SPECS = [
-    NodeSpec(id=f"ibge-{eid}", fn=fetch_aggregate, kind="download")
-    for eid in _AGG_IDS
+    NodeSpec(id=sid, fn=fetch_aggregate, kind="download")
+    for sid in AGG_SPEC_IDS
 ] + [
-    NodeSpec(id="ibge-municipios", fn=fetch_municipios, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"ibge-{eid}-transform",
-        fn=None,
-        kind="transform",
-        deps=(f"ibge-{eid}",),
-        sql=_agg_sql(f"ibge-{eid}"),
-        key=("variavel_id", "localidade_id", "periodo", "categoria"),
-        temporal="periodo",
-    )
-    for eid in _AGG_IDS
+    NodeSpec(id=sid, fn=fetch_survey, kind="download")
+    for sid in SURVEY_SPEC_IDS
 ] + [
-    SqlNodeSpec(
-        id="ibge-municipios-transform",
-        fn=None,
-        kind="transform",
-        deps=("ibge-municipios",),
-        sql=_MUNI_SQL,
-        key=("municipio_id",),
-    ),
+    NodeSpec(id=MUNICIPIOS_SPEC_ID, fn=fetch_municipios, kind="download"),
 ]

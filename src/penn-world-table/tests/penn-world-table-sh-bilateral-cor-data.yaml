@@ -1,0 +1,22 @@
+spec_id: penn-world-table-sh-bilateral-cor-data
+status: active
+coverage:
+  frozen: true
+  reason: PWT 11.0 is a fixed versioned release covering 1950-2023; future releases are new source versions.
+tests:
+  - row_count: {min: 200000}
+    reason: PWT 11.0 bilateral correlation data has about 394k country-pair-year rows.
+    certainty: 95
+  - not_null: countrycode1
+  - not_null: countrycode2
+  - not_null: year
+  - column_type: {col: countrycode1, type: string}
+  - column_type: {col: countrycode2, type: string}
+  - column_type: {col: year, type: integer}
+  - unique: [countrycode1, countrycode2, year]
+    reason: one row per country-pair-year in the bilateral table
+    certainty: 95
+  - between: {col: year, lo: 1950, hi: 2023}
+    reason: PWT 11.0 documented coverage is 1950-2023.
+    certainty: 95
+  - column_type: {col: cor_exp, type: float}

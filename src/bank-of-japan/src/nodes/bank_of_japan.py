@@ -92,7 +92,12 @@ def fetch_series(node_id: str) -> None:
 # values (observations)
 # ---------------------------------------------------------------------------
 
-STATE_VERSION = 1
+# v2 flattened bucket progress from a single `buckets` dict into one top-level
+# key per bucket. save_state diffs top-level keys and records the stringified
+# old AND new value of each changed one; a single nested dict meant every
+# per-chunk checkpoint appended two copies of the whole (growing) progress map,
+# which is quadratic and overran the orchestrator's 10 MiB result-pickle cap.
+STATE_VERSION = 2
 
 # getDataCode hard caps: 250 codes per request (page the 60000-data-point
 # overflow via NEXTPOSITION).
@@ -132,6 +137,16 @@ def _freq_slug(freq: str) -> str:
 def _bucket_signature(series: list[dict]) -> str:
     max_lu = max((_to_int(s["last_update"]) or 0) for s in series)
     return f"{max_lu}:{len(series)}"
+
+
+def _bucket_key(db: str, freq: str) -> str:
+    """Top-level state key for one (db, frequency) bucket.
+
+    One key per bucket, not one nested dict: save_state records the old and new
+    value of every changed top-level key, so a per-chunk checkpoint must touch a
+    small value. `_`-prefixed keys are reserved by the orchestrator.
+    """
+    return f"b:{db}|{freq}"
 
 
 def _fetch_chunk_rows(db: str, freq: str, codes: list[str]) -> list[dict]:
@@ -182,8 +197,7 @@ def fetch_values(node_id: str) -> None:
     if state.get("schema_version") != STATE_VERSION:
         if state:
             print(f"  state schema {state.get('schema_version')} != {STATE_VERSION}; resetting")
-        state = {"schema_version": STATE_VERSION, "buckets": {}}
-    buckets_done = state.setdefault("buckets", {})
+        state = {"schema_version": STATE_VERSION}
 
     # No self-imposed time budget: sweep every database/frequency/chunk. Bucket
     # state (sig + done_chunks + complete) is checkpointed after each chunk, so
@@ -204,9 +218,9 @@ def fetch_values(node_id: str) -> None:
             by_freq.setdefault(s["frequency"] or "NA", []).append(s)
 
         for freq, members in sorted(by_freq.items()):
-            bucket_key = f"{db}|{freq}"
+            bucket_key = _bucket_key(db, freq)
             signature = _bucket_signature(members)
-            prev = buckets_done.get(bucket_key, {})
+            prev = state.get(bucket_key, {})
             codes = sorted(m["series_code"] for m in members)
             freq_slug = _freq_slug(freq)
             chunks = [codes[i:i + CODES_PER_CALL]
@@ -234,17 +248,16 @@ def fetch_values(node_id: str) -> None:
                 asset = f"{node_id}-{db.lower()}-{freq_slug}-{ci:04d}"
                 table = pa.Table.from_pylist(rows, schema=VALUES_SCHEMA)
                 save_raw_parquet(table, asset)  # write raw before advancing state
-                buckets_done[bucket_key] = {
+                state[bucket_key] = {
                     "sig": signature, "done_chunks": ci + 1,
                     "n_chunks": len(chunks), "complete": False,
                 }
                 save_state(node_id, state)  # checkpoint after each chunk
 
-            buckets_done[bucket_key] = {
+            state[bucket_key] = {
                 "sig": signature, "done_chunks": len(chunks),
                 "n_chunks": len(chunks), "complete": True,
             }
-            state["last_success_at"] = signature
             save_state(node_id, state)  # mark bucket fully pulled
 
 

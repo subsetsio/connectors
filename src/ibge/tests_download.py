@@ -7,6 +7,8 @@ wholesale-empty payloads, a format/auth change that turns every table blank.
 
 from subsets_utils import load_raw_ndjson
 
+from constants import SURVEY_SPEC_IDS
+
 
 def test_municipios_populated():
     """The geography reference must hold every Brazilian municipality."""
@@ -18,7 +20,8 @@ def test_most_aggregates_nonempty(spec_ids):
     """The vast majority of aggregate tables must carry observations. A handful
     of empties (a discontinued table the API now blanks) is tolerable; a broad
     emptiness means the data endpoint changed shape or the level pick broke."""
-    agg_ids = [s for s in spec_ids if s != "ibge-municipios"]
+    survey_ids = set(SURVEY_SPEC_IDS)
+    agg_ids = [s for s in spec_ids if s != "ibge-municipios" and s not in survey_ids]
     if not agg_ids:
         return
     empty = 0
@@ -36,7 +39,7 @@ def test_most_aggregates_nonempty(spec_ids):
 def test_aggregate_rows_well_formed(spec_ids):
     """Spot-check a populated aggregate carries the expected long-format keys."""
     for sid in spec_ids:
-        if sid == "ibge-municipios":
+        if sid == "ibge-municipios" or sid in set(SURVEY_SPEC_IDS):
             continue
         try:
             rows = load_raw_ndjson(sid)
@@ -48,3 +51,14 @@ def test_aggregate_rows_well_formed(spec_ids):
         for key in ("aggregado", "variavel_id", "periodo", "valor", "localidade_id"):
             assert key in row, f"{sid}: row missing {key!r}"
         return
+
+
+def test_survey_assets_well_formed(spec_ids):
+    """Survey taxonomy assets list aggregate ids grouped under that survey."""
+    survey_ids = [sid for sid in spec_ids if sid in set(SURVEY_SPEC_IDS)]
+    for sid in survey_ids[:5]:
+        rows = load_raw_ndjson(sid)
+        assert rows, f"{sid}: survey taxonomy has no rows"
+        row = rows[0]
+        for key in ("survey_id", "survey_name", "aggregate_id", "aggregate_name"):
+            assert key in row, f"{sid}: row missing {key!r}"

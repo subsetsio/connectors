@@ -1,0 +1,20 @@
+spec_id: rbi-key-policy-rates
+status: active
+tests:
+  - row_count: {min: 5}
+    reason: RBI headline snapshot normally contains the core policy and reserve-ratio rates
+    certainty: 90
+  - not_null: name
+  - not_null: rate
+  - column_type: {col: name, type: string}
+  - column_type: {col: rate, type: float}
+  - unique: name
+    reason: the publication snapshot should expose one current value per named rate
+    certainty: 85
+  - between: {col: rate, lo: 0, hi: 100}
+    reason: policy and reserve-ratio values are bounded percentages; the endpoint may also include INR/USD and inflation rows but still remains below 100
+    certainty: 80
+  - freshness: {col: timedate_ms, reaches: today - 400d}
+    reason: current policy-rate snapshot should carry dates from the current policy cycle
+    points_outward: true
+    certainty: 75

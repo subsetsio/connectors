@@ -1,0 +1,21 @@
+spec_id: penn-world-table-capital-detail
+status: active
+coverage:
+  frozen: true
+  reason: PWT 11.0 is a fixed versioned release covering 1950-2023; future releases are new source versions.
+tests:
+  - row_count: {min: 9000}
+    reason: PWT 11.0 capital detail has about 13.3k country-year rows.
+    certainty: 95
+  - not_null: countrycode
+  - not_null: year
+  - column_type: {col: countrycode, type: string}
+  - column_type: {col: year, type: integer}
+  - unique: [countrycode, year]
+    reason: one row per country-year in the capital detail panel
+    certainty: 95
+  - between: {col: year, lo: 1950, hi: 2023}
+    reason: PWT 11.0 documented coverage is 1950-2023.
+    certainty: 95
+  - column_type: {col: Kc_Struc, type: float}
+  - column_type: {col: Kp_Mach, type: float}

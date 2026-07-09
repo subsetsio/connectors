@@ -1,0 +1,26 @@
+spec_id: maddison-project-regional-aggregates
+status: active
+coverage:
+  frozen: true
+  reason: Maddison Project Database 2023 regional aggregates are part of a fixed historical release.
+tests:
+  - not_null: region
+    certainty: 95
+  - not_null: year
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: gdppc, type: float}
+    certainty: 90
+  - column_type: {col: pop, type: float}
+    certainty: 90
+  - unique: [region, year]
+    reason: the regional sheet is unpivoted to one row per region-year
+    certainty: 95
+  - row_count: {min: 50}
+    certainty: 90
+  - distinct_count: {col: region, min: 9}
+    reason: the sheet covers eight world regions plus World
+    certainty: 95
+  - between: {col: year, lo: 1, hi: 2022}
+    certainty: 85

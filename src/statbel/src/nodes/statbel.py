@@ -12,7 +12,7 @@ Statbel exposes no incremental download filter, so every run re-reads the
 catalogue and re-fetches each dataset in full and overwrites.
 """
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
+from subsets_utils import NodeSpec, save_raw_ndjson
 
 from constants import ENTITY_IDS
 from utils import fetch_rows
@@ -37,13 +37,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(eid), fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

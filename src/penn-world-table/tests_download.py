@@ -21,8 +21,12 @@ _MIN_ROWS = {
 _BILATERAL = "penn-world-table-sh-bilateral-cor-data"
 
 
+def _download_ids(spec_ids):
+    return [sid for sid in spec_ids if not sid.endswith("-transform")]
+
+
 def test_all_raw_assets_present_and_nonempty(spec_ids):
-    for sid in spec_ids:
+    for sid in _download_ids(spec_ids):
         table = load_raw_parquet(sid)
         floor = _MIN_ROWS.get(sid, 1)
         assert len(table) >= floor, f"{sid}: {len(table)} rows < floor {floor}"
@@ -31,7 +35,7 @@ def test_all_raw_assets_present_and_nonempty(spec_ids):
 def test_key_columns_present(spec_ids):
     """Panels are keyed (countrycode, year); the bilateral table is keyed
     (countrycode1, countrycode2, year). If these vanish the parse broke."""
-    for sid in spec_ids:
+    for sid in _download_ids(spec_ids):
         cols = set(load_raw_parquet(sid).column_names)
         if sid == _BILATERAL:
             assert {"countrycode1", "countrycode2", "year"} <= cols, \
@@ -53,7 +57,7 @@ def test_main_has_headline_variables(spec_ids):
 def test_year_in_plausible_range(spec_ids):
     """PWT spans 1950-present; guard against a corrupt parse shifting the axis."""
     import pyarrow.compute as pc
-    for sid in spec_ids:
+    for sid in _download_ids(spec_ids):
         years = load_raw_parquet(sid)["year"]
         ymin = pc.min(years).as_py()
         ymax = pc.max(years).as_py()

@@ -1,0 +1,11 @@
+spec_id: inegi-frequencies
+status: active
+tests:
+  - column_type: {col: code, type: string}
+  - column_type: {col: description, type: string}
+  - not_null: code
+  - unique: code
+  - row_count: {min: 10}
+    reason: CL_FREQ held 13 frequency codes during collection; a much smaller table means the code-list fetch degraded
+    certainty: 90
+

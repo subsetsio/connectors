@@ -1,0 +1,31 @@
+spec_id: sec-facts
+status: active
+tests:
+  - not_null: cik
+  - not_null: taxonomy
+  - not_null: tag
+  - not_null: unit
+  - not_null: fiscal_year
+  - not_null: fiscal_period
+  - not_null: period_end
+  - not_null: value
+  - column_type: {col: cik, type: integer}
+  - column_type: {col: taxonomy, type: string}
+  - column_type: {col: tag, type: string}
+  - column_type: {col: unit, type: string}
+  - column_type: {col: fiscal_year, type: integer}
+  - column_type: {col: fiscal_period, type: string}
+  - column_type: {col: period_end, type: string}
+  - column_type: {col: value, type: float}
+  - row_count: {min: 100000}
+    reason: Frames API across the curated concept set should produce a substantial cross-company fact table
+    certainty: 85
+  - distinct_count: {col: tag, min: 15}
+    reason: most curated concepts should have at least one populated SEC Frames period
+    certainty: 85
+  - between: {col: fiscal_year, lo: 2009, hi: current_year()}
+    reason: SEC XBRL reporting starts in 2009 and period enumeration stops at the current year
+    certainty: 90
+  - freshness: {col: period_end, reaches: today - 550d}
+    reason: SEC Frames should include recent annual or quarterly filings; slack allows reporting lag and frame availability
+    points_outward: true

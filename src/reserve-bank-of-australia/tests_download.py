@@ -9,6 +9,7 @@ from subsets_utils import load_raw_parquet
 
 _REQUIRED_COLS = {
     "series_id", "obs_date", "value_text", "source_csv", "partition_key",
+    "record_type", "break_type", "details",
 }
 
 # Subsets that must carry more than one partition_key (collapsed multi-file).
@@ -37,9 +38,20 @@ def test_schema_and_series_ids(spec_ids):
         table = load_raw_parquet(sid)
         missing = _REQUIRED_COLS - set(table.column_names)
         assert not missing, f"{sid}: missing columns {missing}"
-        nonnull_ids = table.column("series_id").drop_null()
-        assert len(nonnull_ids) == len(table), f"{sid}: rows with null series_id"
-        assert len(set(nonnull_ids.to_pylist())) > 0, f"{sid}: no series ids"
+        record_types = set(table.column("record_type").to_pylist())
+        assert record_types, f"{sid}: no record types"
+        assert record_types <= {"observation", "series_break"}, (
+            f"{sid}: unexpected record_type values {record_types}"
+        )
+        if record_types == {"series_break"}:
+            breaks = table.column("break_type").drop_null()
+            details = table.column("details").drop_null()
+            assert len(breaks) > 0, f"{sid}: series-break rows have no break_type"
+            assert len(details) > 0, f"{sid}: series-break rows have no details"
+        else:
+            nonnull_ids = table.column("series_id").drop_null()
+            assert len(nonnull_ids) == len(table), f"{sid}: rows with null series_id"
+            assert len(set(nonnull_ids.to_pylist())) > 0, f"{sid}: no series ids"
 
 
 def test_multifile_subsets_have_partitions(spec_ids):

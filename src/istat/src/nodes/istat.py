@@ -4,9 +4,7 @@ Mechanism: per-dataflow SDMX-CSV download from the esploradati.istat.it endpoint
 (agency IT1). One DOWNLOAD_SPEC per rank-accepted dataflow; each fetches the full
 series in SDMX-CSV (detail=dataonly) and saves it as NDJSON (the dimension
 column set differs per dataflow, so a single shared parquet schema is impossible
--- NDJSON carries each flow's own columns). One SqlNodeSpec transform per flow
-publishes a tidy long-format Delta table (dimensions + TIME_PERIOD + numeric
-OBS_VALUE).
+-- NDJSON carries each flow's own columns).
 
 RATE LIMIT -- the dominant design constraint. Istat enforces ~5 requests/minute
 per IP and BLOCKS the IP for 1-2 days when exceeded. Every data fetch counts.
@@ -28,10 +26,8 @@ import time
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
-    transient_retry,
 )
 
 BASE = "https://esploradati.istat.it/SDMXWS/rest"
@@ -69,7 +65,6 @@ def _throttle() -> None:
         os.close(fd)
 
 
-@transient_retry(min_wait=15, max_wait=180)
 def _fetch_csv(flow_id: str) -> str:
     """Fetch one dataflow as SDMX-CSV (full series). Throttled + retried."""
     url = f"{BASE}/data/IT1,{flow_id},1.0/all/ALL/"
@@ -134,22 +129,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per dataflow: keep the dataflow's own dimension
-# columns + TIME_PERIOD, expose OBS_VALUE as a typed DOUBLE, drop non-numeric /
-# missing observations. Columns vary per flow, so the projection is generic.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=(
-            'SELECT * EXCLUDE (OBS_VALUE), '
-            'TRY_CAST(OBS_VALUE AS DOUBLE) AS OBS_VALUE '
-            f'FROM "{s.id}" '
-            'WHERE TRY_CAST(OBS_VALUE AS DOUBLE) IS NOT NULL'
-        ),
-        temporal="TIME_PERIOD",
-    )
-    for s in DOWNLOAD_SPECS
 ]

@@ -36,7 +36,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, raw_writer
+from subsets_utils import NodeSpec, get, raw_writer
 
 BASE_URL = "https://api.insee.fr/melodi"
 # Melodi serves pretty-printed JSON over chunked transfer with NO Content-Length,
@@ -153,17 +153,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per datacube: pass dimensions through as columns,
-# keep observations that carry a value. OBS_VALUE is written as a float so
-# read_json_auto types it DOUBLE; the WHERE both drops value-less rows and acts
-# as the 0-row correctness gate.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}" WHERE OBS_VALUE IS NOT NULL',
-    )
-    for s in DOWNLOAD_SPECS
 ]

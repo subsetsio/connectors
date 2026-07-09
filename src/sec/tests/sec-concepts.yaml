@@ -1,0 +1,18 @@
+spec_id: sec-concepts
+status: active
+tests:
+  - not_null: taxonomy
+  - not_null: tag
+  - not_null: unit
+  - not_null: concept_type
+  - column_type: {col: taxonomy, type: string}
+  - column_type: {col: tag, type: string}
+  - column_type: {col: unit, type: string}
+  - column_type: {col: concept_type, type: string}
+  - enum: {col: concept_type, values: ["duration", "instant"]}
+  - unique: [taxonomy, tag, unit]
+    reason: curated concept list should have one metadata row per XBRL concept/unit
+    certainty: 95
+  - row_count: {min: 20}
+    reason: connector publishes a curated set of common SEC XBRL concepts
+    certainty: 95

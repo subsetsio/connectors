@@ -1,0 +1,11 @@
+spec_id: inegi-indicators
+status: active
+tests:
+  - column_type: {col: code, type: string}
+  - column_type: {col: description, type: string}
+  - not_null: code
+  - unique: code
+  - row_count: {min: 25000}
+    reason: CL_INDICATOR enumerated about 31817 BISE indicators during research
+    certainty: 95
+

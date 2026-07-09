@@ -1,0 +1,11 @@
+spec_id: inegi-geo-areas
+status: active
+tests:
+  - column_type: {col: code, type: string}
+  - column_type: {col: description, type: string}
+  - not_null: code
+  - unique: code
+  - row_count: {min: 2500}
+    reason: CL_GEO_AREA held more than 2600 geography codes during collection
+    certainty: 90
+

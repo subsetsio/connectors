@@ -1,0 +1,27 @@
+spec_id: kenneth-french-data-library-emerging-markets-6-portfolios-me-op
+status: active
+tests:
+  - not_null: date
+    reason: every parsed observation is dated; a null date means a data row was misparsed
+    certainty: 95
+  - not_null: variable
+    reason: every value belongs to a named series/portfolio column
+    certainty: 95
+  - not_null: value
+    reason: sentinel -99.99/-999 rows are dropped in the parser, so every retained value is real
+    certainty: 90
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - column_type: {col: variable, type: string}
+    certainty: 95
+  - column_type: {col: date, type: string}
+    certainty: 90
+  - enum: {col: period, values: ['monthly', 'annual']}
+    reason: block frequency is inferred from date-index width (4=annual,6=monthly,8=daily) and the dataset name
+    certainty: 85
+  - row_count: {min: 20}
+    reason: even the shortest-history French dataset has dozens of dated long-format observations
+    certainty: 90
+  - unique: [block, variable, date]
+    reason: one value per (stacked-table block, series column, date); dupes mean block separation broke
+    certainty: 90

@@ -11,12 +11,9 @@ version of each dataflow (robust to version churn between collect and run).
 The collect entity id is "{agency}:{dataflow_id}"; both coordinates are
 recovered by splitting on the first ':'.
 
-Scope: rank accepts the flagship national-aggregate dataflows (GDP, prices,
-labour, population, health, education, tax/government finance, trade, FDI,
-productivity, social, environment, R&D). The huge downscaled / local-area /
-regional / micro-data families (e.g. CFE.EDS regional cubes, CRS/CBCR activity
-micro-data) are intentionally ranked below the publish threshold — they are tens
-of millions of rows each and not the headline statistical product.
+Scope: accept includes the full SDMX dataflow catalog collected by the harness.
+Some dataflows are very large or are external references; the fetch path is
+streaming and each dataflow remains isolated as its own raw asset.
 
 SDMX-CSV is tidy (one observation per row). The header is
 `DATAFLOW,<dim1>,...,<dimN>,TIME_PERIOD,OBS_VALUE,<attrs...>` where the
@@ -54,7 +51,6 @@ from tenacity import (
 from subsets_utils import (
     MaintainSpec,
     NodeSpec,
-    SqlNodeSpec,
     get_client,
     is_transient,
     raw_asset_exists,
@@ -223,19 +219,6 @@ MAINTAIN_SPECS = [
             "https://sdmx.oecd.org/public/rest/dataflow/all/all/latest)."
         ),
         check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=30),
-    )
-    for s in DOWNLOAD_SPECS
-]
-
-# One thin SQL transform per dataflow: pass the tidy long rows through, keeping
-# only real observations. Each dataflow publishes its own dimension columns
-# (distinct DSD), so a generic SELECT * is the correct uniform shape.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}" WHERE value IS NOT NULL',
-        temporal="time_period",
     )
     for s in DOWNLOAD_SPECS
 ]

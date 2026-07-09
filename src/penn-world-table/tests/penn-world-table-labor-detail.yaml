@@ -1,0 +1,21 @@
+spec_id: penn-world-table-labor-detail
+status: active
+coverage:
+  frozen: true
+  reason: PWT 11.0 is a fixed versioned release covering 1950-2023; future releases are new source versions.
+tests:
+  - row_count: {min: 9000}
+    reason: PWT 11.0 labor detail has about 13.1k country-year rows.
+    certainty: 95
+  - not_null: countrycode
+  - not_null: year
+  - column_type: {col: countrycode, type: string}
+  - column_type: {col: year, type: integer}
+  - unique: [countrycode, year]
+    reason: one row per country-year in the labor detail panel
+    certainty: 95
+  - between: {col: year, lo: 1950, hi: 2023}
+    reason: PWT 11.0 documented coverage is 1950-2023.
+    certainty: 95
+  - column_type: {col: emp, type: float}
+  - column_type: {col: avh, type: float}

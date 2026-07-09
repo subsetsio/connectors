@@ -18,17 +18,17 @@ portal exposes for the table's category, parse each file to long-format
 (item, period, value), and publish one Delta table per entity:
 period x item time series. Measure sub-labels are folded into `item`.
 
-This connector covers the 22 clean monthly/periodic time-series tables. PBOC's
-per-file cross-sectional matrix snapshots (Financial Accounts, the IMF reserves
-template, the quarterly Assets-and-Liabilities snapshot) are a different shape and
-were ranked below the publish threshold.
+This connector covers every accepted PBOC statistical table from the current
+catalog. Most are monthly/periodic time-series tables; a few newer financial
+accounts and reserves-template tables are sparser matrix-style releases, but they
+still land as the same long raw shape when period headers are present.
 """
 
 import io
 import re
 import time
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson
+from subsets_utils import NodeSpec, get, save_raw_ndjson
 
 SLUG = "people-s-bank-of-china"
 BASE = "https://www.pbc.gov.cn"
@@ -39,7 +39,11 @@ LANDING = "/en/3688247/3688975/index.html"
 ENTITY_META = {
     'aggregate-financing-to-the-real-economy__aggregate-financing-to-the-real-economy-flow': ('Aggregate Financing to the Real Economy', 'Aggregate Financing to the Real Economy (Flow)'),
     'aggregate-financing-to-the-real-economy__aggregate-financing-to-the-real-economy-stock': ('Aggregate Financing to the Real Economy', 'Aggregate Financing to the Real Economy (Stock)'),
+    'assets-and-liabilities-statistics-of-financial-institutions__assets-and-liabilities-statistics-of-financial-institutions': ('Assets and Liabilities Statistics of Financial Institutions', 'Assets and Liabilities Statistics of Financial Institutions'),
     'corporate-goods-price-indices__corporate-goods-price-indices-cgpi': ('Corporate Goods Price Indices', 'Corporate Goods Price Indices (CGPI)'),
+    'financial-accounts__financial-assets-and-liabilities-statement-financial-accounts': ('Financial Accounts', 'Financial Assets and Liabilities Statement(Financial Accounts)'),
+    'financial-accounts__flow-of-funds-statement-financial-accounts-the-first-half-year': ('Financial Accounts', 'Flow of Funds Statement(Financial Accounts)(the First Half Year)'),
+    'financial-accounts__flow-of-funds-statement-financial-accounts-year': ('Financial Accounts', 'Flow of Funds Statement(Financial Accounts)(Year)'),
     'financial-market-statistics__statistics-of-chinabond-government-securities-yield': ('Financial Market Statistics', 'Statistics of Chinabond Government Securities Yield'),
     'financial-market-statistics__statistics-of-domestic-debt-securities': ('Financial Market Statistics', 'Statistics of Domestic Debt Securities'),
     'financial-market-statistics__statistics-of-interbank-lending': ('Financial Market Statistics', 'Statistics of Interbank Lending'),
@@ -53,12 +57,16 @@ ENTITY_META = {
     'money-and-banking-statistics__exchange-rate': ('Money and Banking Statistics', 'Exchange Rate'),
     'money-and-banking-statistics__money-supply': ('Money and Banking Statistics', 'Money Supply'),
     'money-and-banking-statistics__official-reserve-assets': ('Money and Banking Statistics', 'Official reserve assets'),
+    'money-and-banking-statistics__template-on-international-reserves-and-foreign-currency-liquidity': ('Money and Banking Statistics', 'Template on International Reserves and Foreign Currency Liquidity'),
+    'sources-and-uses-of-credit-funds-of-financial-institutions__sources-uses-of-credit-funds-of-4-largest-state-owned-national-operating-commercial-banks-rmb': ('Sources and Uses of Credit Funds of Financial Institutions', 'Sources & Uses of Credit Funds of 4 Largest State-owned National-operating Commercial Banks(RMB)'),
     'sources-and-uses-of-credit-funds-of-financial-institutions__sources-uses-of-credit-funds-of-depository-financial-institutions-in-foreign-currency': ('Sources and Uses of Credit Funds of Financial Institutions', 'Sources & Uses of Credit Funds of Depository Financial Institutions (in Foreign Currency)'),
     'sources-and-uses-of-credit-funds-of-financial-institutions__sources-uses-of-credit-funds-of-depository-financial-institutions-in-rmb-and-foreign-currency': ('Sources and Uses of Credit Funds of Financial Institutions', 'Sources & Uses of Credit Funds of Depository Financial Institutions (in RMB and Foreign Currency)'),
     'sources-and-uses-of-credit-funds-of-financial-institutions__sources-uses-of-credit-funds-of-depository-financial-institutions-rmb': ('Sources and Uses of Credit Funds of Financial Institutions', 'Sources & Uses of Credit Funds of Depository Financial Institutions (RMB)'),
     'sources-and-uses-of-credit-funds-of-financial-institutions__sources-uses-of-credit-funds-of-financial-institutions-in-foreign-currency': ('Sources and Uses of Credit Funds of Financial Institutions', 'Sources & Uses of Credit Funds of Financial Institutions (in Foreign Currency)'),
     'sources-and-uses-of-credit-funds-of-financial-institutions__sources-uses-of-credit-funds-of-financial-institutions-in-rmb-and-foreign-currency': ('Sources and Uses of Credit Funds of Financial Institutions', 'Sources & Uses of Credit Funds of Financial Institutions (in RMB and Foreign Currency)'),
     'sources-and-uses-of-credit-funds-of-financial-institutions__sources-uses-of-credit-funds-of-financial-institutions-rmb': ('Sources and Uses of Credit Funds of Financial Institutions', 'Sources & Uses of Credit Funds of Financial Institutions (RMB)'),
+    'sources-and-uses-of-credit-funds-of-financial-institutions__sources-uses-of-credit-funds-of-large-sized-state-owned-national-operating-commercial-banks-rmb': ('Sources and Uses of Credit Funds of Financial Institutions', 'Sources & Uses of Credit Funds of Large-sized State-owned National-operating Commercial Banks(RMB)'),
+    'sources-and-uses-of-credit-funds-of-financial-institutions__sources-uses-of-credit-funds-of-medium-small-sized-state-owned-national-operating-commercial-banks-rmb': ('Sources and Uses of Credit Funds of Financial Institutions', 'Sources & Uses of Credit Funds of medium & small-sized State-owned National-operating Commercial Banks (RMB)'),
 }
 
 _DATA_TABLE = re.compile(r'<table[^>]*class="data_table"[^>]*>(.*?)</table>', re.S | re.I)
@@ -335,34 +343,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=sid, fn=fetch_one, kind="download")
     for sid in _BY_SPEC
-]
-
-
-def _transform_sql(download_id: str) -> str:
-    return f'''
-        SELECT
-            CAST(period || '-01' AS DATE) AS date,
-            period,
-            item,
-            value,
-            unit
-        FROM (
-            SELECT item, period, value, unit,
-                   row_number() OVER (PARTITION BY item, period ORDER BY source_year DESC) AS rn
-            FROM "{download_id}"
-        )
-        WHERE rn = 1
-        ORDER BY item, date
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{spec.id}-transform",
-        fn=None,
-        kind="transform",
-        deps=(spec.id,),
-        sql=_transform_sql(spec.id),
-    )
-    for spec in DOWNLOAD_SPECS
 ]

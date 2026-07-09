@@ -8,8 +8,8 @@ returns, equal-weighted returns, number of firms, average size, average BE/ME,
 each over the same N portfolio columns), with whitespace-padded numbers and
 ``-99.99`` / ``-999`` missing-value sentinels.
 
-To serve all ~200 heterogeneous datasets through one fetch fn and one thin SQL
-transform, each CSV is parsed into a uniform **long format**:
+To serve all ~300 heterogeneous datasets through one fetch fn, each CSV is
+parsed into a uniform **long format**:
 
     block (int)   sequential index of the stacked sub-table within the file
     statistic     the sub-table's caption (e.g. "Average Value Weighted Returns
@@ -34,9 +34,7 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
-    transient_retry,
     raw_parquet_writer,
 )
 from constants import ENTITY_IDS, SPEC_TO_ENTITY, spec_id
@@ -161,7 +159,6 @@ def _iter_blocks(text: str, weekly: bool):
             block_idx += 1
 
 
-@transient_retry()
 def _download_zip(url: str) -> bytes:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -203,23 +200,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=spec_id(eid), fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                CAST(date AS DATE) AS date,
-                period,
-                statistic,
-                variable,
-                block,
-                CAST(value AS DOUBLE) AS value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

@@ -1,0 +1,14 @@
+spec_id: inegi-values
+status: active
+tests:
+  - column_type: {col: indicator_id, type: string}
+  - column_type: {col: time_period, type: string}
+  - column_type: {col: obs_value, type: string}
+  - not_null: indicator_id
+  - not_null: time_period
+  - row_count: {min: 100000}
+    reason: the national BISE observation stream should greatly exceed a single 10-indicator batch
+    certainty: 90
+  - distinct_count: {col: indicator_id, min: 1000}
+    reason: broad corpus coverage should span many indicators; a small count indicates truncation
+    certainty: 90

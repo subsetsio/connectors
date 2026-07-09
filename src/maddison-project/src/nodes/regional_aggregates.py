@@ -8,7 +8,7 @@ a tidy (region, year, gdppc, pop) long table.
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 from utils import load_workbook, to_float, to_int
 
 REGIONAL_SCHEMA = pa.schema([
@@ -66,20 +66,4 @@ def fetch_regional_aggregates(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="maddison-project-regional-aggregates", fn=fetch_regional_aggregates, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="maddison-project-regional-aggregates-transform",
-        deps=["maddison-project-regional-aggregates"],
-        sql='''
-            SELECT
-                region,
-                CAST(year AS INTEGER) AS year,
-                CAST(gdppc AS DOUBLE) AS gdppc,
-                CAST(pop AS DOUBLE)   AS pop
-            FROM "maddison-project-regional-aggregates"
-            WHERE gdppc IS NOT NULL OR pop IS NOT NULL
-        ''',
-    ),
 ]

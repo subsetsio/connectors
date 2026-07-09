@@ -1,0 +1,29 @@
+spec_id: maddison-project-country-panel
+status: active
+coverage:
+  frozen: true
+  reason: Maddison Project Database 2023 is a fixed historical release covering years 1-2022.
+tests:
+  - not_null: countrycode
+    reason: countrycode is the natural country key in the Full data sheet
+    certainty: 95
+  - not_null: year
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: gdppc, type: float}
+    certainty: 90
+  - column_type: {col: pop, type: float}
+    certainty: 90
+  - unique: [countrycode, year]
+    reason: the Full data sheet is one row per country-year
+    certainty: 95
+  - row_count: {min: 20000}
+    reason: MPD 2023 has broad historical coverage; much less means the sheet parse was truncated
+    certainty: 90
+  - between: {col: year, lo: 1, hi: 2022}
+    reason: MPD 2023 covers 1 AD through 2022
+    certainty: 95
+  - distinct_count: {col: countrycode, min: 150}
+    reason: MPD 2023 covers 169 countries plus aggregate records
+    certainty: 90

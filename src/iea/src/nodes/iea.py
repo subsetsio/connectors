@@ -37,6 +37,12 @@ CANON_KEYS = (
     "product", "productLabel", "productOrder", "seriesLabel", "country",
 )
 
+COUNTRY_KEYS = (
+    "name", "fullName", "stats", "iso2", "iso3", "isMember",
+    "isAssociation", "isAccession", "isFamily", "isOECD", "regions", "show",
+    "note", "isRegion",
+)
+
 # Entity union — the 73 rank-active IEA indicators (case-sensitive source ids).
 from constants import ENTITY_IDS
 
@@ -78,7 +84,29 @@ def fetch_one(node_id: str) -> None:
     save_raw_ndjson(norm, asset)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id=_spec_id(eid), fn=fetch_one, kind="download")
-    for eid in ENTITY_IDS
+@transient_retry()
+def _fetch_countries() -> list:
+    resp = get(
+        f"{API}/stats/countries",
+        timeout=(10.0, 60.0),
+        headers={"Accept": "application/json"},
+    )
+    resp.raise_for_status()
+    return resp.json()
+
+
+def fetch_countries(node_id: str) -> None:
+    rows = _fetch_countries()
+    if not isinstance(rows, list) or not rows:
+        raise AssertionError(
+            f"{node_id}: expected a non-empty JSON array from /stats/countries, "
+            f"got {type(rows).__name__} of len "
+            f"{len(rows) if hasattr(rows, '__len__') else 'n/a'}"
+        )
+    norm = [{k: r.get(k) for k in COUNTRY_KEYS} for r in rows]
+    save_raw_ndjson(norm, node_id)
+
+
+DOWNLOAD_SPECS = [NodeSpec(id="iea-countries", fn=fetch_countries, kind="download")] + [
+    NodeSpec(id=_spec_id(eid), fn=fetch_one, kind="download") for eid in ENTITY_IDS
 ]

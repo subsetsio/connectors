@@ -1,0 +1,31 @@
+spec_id: rbi-foreign-exchange-reserves
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: full weekly and monthly FX reserves history across five components should produce thousands of rows
+    certainty: 95
+  - not_null: reserve_code
+  - not_null: frequency
+  - not_null: amount
+  - not_null: timedate_ms
+  - column_type: {col: reserve_code, type: string}
+  - column_type: {col: frequency, type: string}
+  - column_type: {col: amount, type: float}
+  - column_type: {col: timedate_ms, type: integer}
+  - enum: {col: reserve_code, values: [FCA, GOLD, SDR, TR, IMF]}
+    reason: RBI exposes exactly these five FX reserve component codes for this endpoint
+    certainty: 95
+  - enum: {col: frequency, values: [Weekly, Monthly]}
+    reason: connector intentionally pulls weekly and monthly histories for each component
+    certainty: 95
+  - unique: [reserve_code, frequency, timedate_ms]
+    reason: one observation per component, frequency, and observation timestamp
+    certainty: 95
+  - between: {col: amount, lo: 0, hi: 1000000}
+    reason: values are USD reserves in RBI-provided units; negatives or implausibly large values indicate a parsing/unit shift
+    certainty: 75
+    severity: warn
+  - freshness: {col: timedate_ms, reaches: today - 60d}
+    reason: weekly FX reserve observations should reach the last two months
+    points_outward: true
+    certainty: 85

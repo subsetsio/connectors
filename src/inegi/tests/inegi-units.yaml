@@ -1,0 +1,11 @@
+spec_id: inegi-units
+status: active
+tests:
+  - column_type: {col: code, type: string}
+  - column_type: {col: description, type: string}
+  - not_null: code
+  - unique: code
+  - row_count: {min: 1000}
+    reason: CL_UNIT held more than 1000 unit codes during collection
+    certainty: 85
+

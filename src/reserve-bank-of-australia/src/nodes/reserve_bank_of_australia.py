@@ -98,6 +98,9 @@ _RAW_SCHEMA = pa.schema([
     ("value_text", pa.string()),        # raw cell; transform TRY_CASTs to double
     ("source_csv", pa.string()),        # the CSV slug this row came from
     ("partition_key", pa.string()),     # region / forecast var for multi-file; else null
+    ("record_type", pa.string()),       # observation | series_break
+    ("break_type", pa.string()),        # series-break reference rows only
+    ("details", pa.string()),           # series-break reference rows only
 ])
 
 # Metadata-block row labels (column 0). Anything else before the first data row
@@ -213,7 +216,50 @@ def _parse_rba_csv(text: str, slug: str, partition_key: str | None) -> list[dict
                 "value_text": cell,
                 "source_csv": slug,
                 "partition_key": partition_key,
+                "record_type": "observation",
+                "break_type": None,
+                "details": None,
             })
+    return out
+
+
+def _parse_series_breaks_csv(text: str, slug: str) -> list[dict]:
+    """Parse RBA series-breaks CSVs, which are event/reference tables."""
+    rows = list(csv.reader(io.StringIO(text)))
+    header_idx = None
+    for i, row in enumerate(rows):
+        if len(row) >= 3 and row[0].strip().lower() == "date":
+            header_idx = i
+            break
+    if header_idx is None:
+        return []
+
+    out: list[dict] = []
+    for row in rows[header_idx + 1:]:
+        if len(row) < 3:
+            continue
+        iso = _parse_iso_date(row[0])
+        if iso is None:
+            continue
+        details = " ".join(cell.strip() for cell in row[3:] if cell.strip()) or None
+        out.append({
+            "series_id": None,
+            "series_title": row[2].strip() or None,
+            "description": details,
+            "frequency": None,
+            "series_type": None,
+            "units": None,
+            "source": "RBA",
+            "publication_date": None,
+            "obs_date": iso,
+            "dimension_date": None,
+            "value_text": details,
+            "source_csv": slug,
+            "partition_key": None,
+            "record_type": "series_break",
+            "break_type": row[1].strip() or None,
+            "details": details,
+        })
     return out
 
 
@@ -231,7 +277,10 @@ def fetch_one(node_id: str) -> None:
     all_rows: list[dict] = []
     for slug, partition_key in members.items():
         text = _fetch_csv_text(slug)
-        rows = _parse_rba_csv(text, slug, partition_key)
+        if slug.endswith("series-breaks"):
+            rows = _parse_series_breaks_csv(text, slug)
+        else:
+            rows = _parse_rba_csv(text, slug, partition_key)
         if not rows:
             raise ValueError(f"{asset}: parsed 0 long rows from {slug}.csv")
         all_rows.extend(rows)

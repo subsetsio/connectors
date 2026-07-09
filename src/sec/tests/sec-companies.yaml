@@ -1,0 +1,17 @@
+spec_id: sec-companies
+status: active
+tests:
+  - not_null: cik
+  - not_null: name
+  - column_type: {col: cik, type: integer}
+  - column_type: {col: name, type: string}
+  - column_type: {col: ticker, type: string}
+  - column_type: {col: exchange, type: string}
+  - unique: cik
+    reason: company_tickers_exchange.json has one reference row per CIK
+    certainty: 90
+  - row_count: {min: 5000}
+    reason: SEC ticker catalog normally contains over 10,000 companies; far fewer implies truncation or access rejection
+    certainty: 90
+  - at_least: {col: cik, expr: 1}
+    certainty: 95

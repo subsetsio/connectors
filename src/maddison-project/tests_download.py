@@ -32,3 +32,18 @@ def test_regional_aggregates_shape(spec_ids):
     assert len(regions) >= 9, f"{sid}: only {len(regions)} regions; expected >=9"
     nonnull = sum(1 for v in t.column("gdppc").to_pylist() if v is not None)
     assert nonnull > 50, f"{sid}: only {nonnull} non-null gdppc values"
+
+
+def test_source_reference_shapes(spec_ids):
+    """Both source-reference sheets should parse into country-keyed provenance rows."""
+    expected_columns = {"countrycode", "country", "period", "source", "source_order"}
+    for sid in ("maddison-project-sources", "maddison-project-original-sources"):
+        if sid not in spec_ids:
+            continue
+        t = load_raw_parquet(sid)
+        assert t.num_rows > 100, f"{sid}: only {t.num_rows} rows; expected broad source coverage"
+        assert set(t.column_names) == expected_columns, f"{sid}: unexpected columns {t.column_names}"
+        countries = {v for v in t.column("countrycode").to_pylist() if v is not None}
+        assert len(countries) >= 40, f"{sid}: only {len(countries)} country codes; expected >=40"
+        sources = [v for v in t.column("source").to_pylist() if v]
+        assert len(sources) == t.num_rows, f"{sid}: source text should be non-null on every row"

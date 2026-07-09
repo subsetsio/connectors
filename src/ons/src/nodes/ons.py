@@ -37,7 +37,6 @@ from tenacity import (
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     get_client,
     raw_parquet_writer,
@@ -246,16 +245,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per dataset. The CSV is already normalised in the
-# fetch (value typed, dimensions named) so the transform is a thin pass-through;
-# a 0-row result fails the node, catching a silently empty download.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

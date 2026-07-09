@@ -6,7 +6,7 @@ The 'Full data' sheet of mpd2023_web.xlsx: a long panel with one row per
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 from utils import load_workbook, to_float, to_int
 
 COUNTRY_SCHEMA = pa.schema([
@@ -50,22 +50,4 @@ def fetch_country_panel(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="maddison-project-country-panel", fn=fetch_country_panel, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="maddison-project-country-panel-transform",
-        deps=["maddison-project-country-panel"],
-        sql='''
-            SELECT
-                countrycode,
-                country,
-                region,
-                CAST(year AS INTEGER) AS year,
-                CAST(gdppc AS DOUBLE) AS gdppc,
-                CAST(pop AS DOUBLE)   AS pop
-            FROM "maddison-project-country-panel"
-            WHERE gdppc IS NOT NULL OR pop IS NOT NULL
-        ''',
-    ),
 ]

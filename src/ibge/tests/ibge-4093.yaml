@@ -1,24 +1,2 @@
 spec_id: ibge-4093
-status: active
-tests:
-  - enum: {col: aggregado, values: ["4093"]}
-    reason: "every row is stamped with the aggregate id it was fetched from"
-    certainty: 99
-  - not_null: variavel_id
-    reason: "each result block carries its variable id"
-    certainty: 95
-  - not_null: periodo
-    reason: "the serie object is a period-to-value map; the period key is always present"
-    certainty: 97
-  - column_type: {col: periodo, type: string}
-    reason: "periods are stored as raw string keys (YYYY or YYYYMM), not parsed to ints"
-    certainty: 90
-  - column_type: {col: variavel_id, type: string}
-    reason: "the agregados v3 data endpoint returns variable ids as JSON strings"
-    certainty: 88
-  - matches: {col: nivel, pattern: "^N[0-9]+$"}
-    reason: "territorial level codes look like N1/N2/N3/N6"
-    certainty: 85
-  - row_count: {min: 1}
-    reason: "accepted aggregates expose at least one variable-period-locality observation; 0 rows means an empty or broken pull"
-    certainty: 90
+status: deferred

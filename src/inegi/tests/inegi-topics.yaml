@@ -1,0 +1,11 @@
+spec_id: inegi-topics
+status: active
+tests:
+  - column_type: {col: code, type: string}
+  - column_type: {col: description, type: string}
+  - not_null: code
+  - unique: code
+  - row_count: {min: 250}
+    reason: CL_TOPIC held 272 topic codes during research
+    certainty: 90
+
