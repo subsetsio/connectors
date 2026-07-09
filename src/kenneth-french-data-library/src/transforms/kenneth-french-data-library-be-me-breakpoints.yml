@@ -1,19 +1,26 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `kenneth-french-data-library-be-me-breakpoints`. Regenerate after model-verify.
 # caution: Rows the source marked missing (-99.99 / -999 sentinels) are absent, not zero: a missing (date, variable) pair means the portfolio had no observation that period.
+# caution: The single `value` column mixes units, distinguished by `variable`: `n_firms` (and `n_firms_le_0` / `n_firms_gt_0`, the counts of firms with a non-positive vs positive ratio) are counts of NYSE firms; `p5`..`p100` are the 5th through 100th NYSE percentiles of the sort variable, in that variable's own units (ME in millions of USD, the ratio sorts as ratios, prior-return and OP/INV sorts in percent). Never aggregate `value` across `variable`.
 key: [date, variable]
 temporal: date
 sort: [date, variable]
 columns:
   - name: block
     type: INTEGER
+    description: "Ordinal of the stacked sub-table this row came from, in source-file order (0-based). Redundant with `statistic` except where the source repeats a caption."
   - name: statistic
     type: VARCHAR
+    description: "Verbatim caption of the source sub-table (e.g. 'Average Value Weighted Returns -- Monthly', 'Number of Firms in Portfolios', 'Average Firm Size'); empty when the CSV holds a single unnamed table. Determines the unit of `value`."
   - name: period
     type: VARCHAR
+    description: "Observation frequency of the row, derived from the width of the source's date index: annual, monthly, weekly or daily."
   - name: date
     type: DATE
+    description: "Start of the observation period: annual rows use 1 January, monthly rows the 1st of the month, weekly and daily rows the observation day itself."
   - name: variable
     type: VARCHAR
+    description: "The series within the breakpoint file: `n_firms` (or `n_firms_le_0` / `n_firms_gt_0`, firms with a non-positive vs positive ratio) for NYSE firm counts, and `p5`..`p100` for the 5th through 100th NYSE percentile of the sort variable."
   - name: value
     type: DOUBLE
+    description: "The observation, in the unit implied by `variable`: `n_firms*` are counts of NYSE firms; `p5`..`p100` are percentiles in the sort variable's own units (ME in millions of USD, the ratio sorts as ratios, prior-return / OP / INV sorts in percent). The source's -99.99 / -999 missing-value sentinels are dropped rather than encoded."

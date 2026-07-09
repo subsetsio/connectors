@@ -37,7 +37,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -268,42 +267,4 @@ def fetch_values(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="cpb-world-trade-monitor-series", fn=fetch_series, kind="download"),
     NodeSpec(id="cpb-world-trade-monitor-values", fn=fetch_values, kind="download"),
-]
-
-# ------------------------------- transforms ----------------------------------
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="cpb-world-trade-monitor-series-transform",
-        deps=["cpb-world-trade-monitor-series"],
-        sql='''
-            SELECT
-                series_code,
-                label,
-                sheet,
-                variable,
-                region,
-                measure,
-                weighting,
-                CAST(weight_2021 AS DOUBLE) AS weight_2021
-            FROM "cpb-world-trade-monitor-series"
-        ''',
-    ),
-    SqlNodeSpec(
-        id="cpb-world-trade-monitor-values-transform",
-        deps=["cpb-world-trade-monitor-values"],
-        sql='''
-            SELECT
-                CAST(period AS DATE)  AS date,
-                series_code,
-                variable,
-                region,
-                measure,
-                weighting,
-                label,
-                CAST(value AS DOUBLE) AS value
-            FROM "cpb-world-trade-monitor-values"
-            WHERE value IS NOT NULL
-        ''',
-    ),
 ]

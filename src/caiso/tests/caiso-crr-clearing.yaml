@@ -10,7 +10,7 @@ tests:
   - column_type: {col: START_DATE_GMT, type: timestamp}
     reason: each CRR term carries a GMT start-date stamp
     certainty: 80
-  - enum: {col: TIME_OF_USE, values: [ON, OFF, 24]}
+  - enum: {col: TIME_OF_USE, values: [ON, OFF, "24"]}
     reason: CRR clearing prices are split by on/off-peak (and 24h) time-of-use
     certainty: 65
     severity: warn

@@ -1,9 +1,19 @@
-SELECT DISTINCT
-    CAST(date AS DATE)        AS date,
-    periodicity,
-    measure_name              AS measure,
-    element_name              AS series,
-    unit,
-    CAST(obs_val AS DOUBLE)   AS value
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are source-provided long-format observations; measure and series labels are Bank of Russia header dimensions and differ by dataset. Filter the relevant measure, series, and unit before aggregating values.
+SELECT
+    "publication_id",
+    "dataset_id",
+    "date",
+    "period_label",
+    "periodicity",
+    "measure_id",
+    "measure_name",
+    "element_id",
+    "element_name",
+    "unit_id",
+    "unit",
+    "obs_val"
 FROM "central-bank-of-russia-pub-33-ds-128"
-WHERE obs_val IS NOT NULL

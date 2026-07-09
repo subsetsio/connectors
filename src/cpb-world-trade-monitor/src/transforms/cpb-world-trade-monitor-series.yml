@@ -1,18 +1,26 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [series_code]
 columns:
   - name: series_code
     type: VARCHAR
+    description: CPB World Trade Monitor series identifier.
   - name: label
     type: VARCHAR
+    description: Human-readable series label.
   - name: sheet
     type: VARCHAR
+    description: Source workbook sheet the series came from.
   - name: variable
     type: VARCHAR
+    description: Indicator family, such as merchandise imports, exports, total trade, industrial production, or commodity prices.
   - name: region
     type: VARCHAR
+    description: Country, economy group, or world aggregate covered by the series.
   - name: measure
     type: VARCHAR
+    description: Index measure for the series, typically volume index or unit-value price index with base 2021=100.
   - name: weighting
     type: VARCHAR
+    description: Seasonal adjustment and weighting basis used for the series.
   - name: weight_2021
     type: DOUBLE
+    description: Series weight for the 2021 base period where CPB publishes one.

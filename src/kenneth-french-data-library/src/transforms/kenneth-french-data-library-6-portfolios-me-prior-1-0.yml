@@ -9,13 +9,19 @@ sort: [date, statistic, variable, period]
 columns:
   - name: block
     type: INTEGER
+    description: "Ordinal of the stacked sub-table this row came from, in source-file order (0-based). Redundant with `statistic` except where the source repeats a caption."
   - name: statistic
     type: VARCHAR
+    description: "Verbatim caption of the source sub-table (e.g. 'Average Value Weighted Returns -- Monthly', 'Number of Firms in Portfolios', 'Average Firm Size'); empty when the CSV holds a single unnamed table. Determines the unit of `value`."
   - name: period
     type: VARCHAR
+    description: "Observation frequency of the row, derived from the width of the source's date index: annual, monthly, weekly or daily."
   - name: date
     type: DATE
+    description: "Start of the observation period: annual rows use 1 January, monthly rows the 1st of the month, weekly and daily rows the observation day itself."
   - name: variable
     type: VARCHAR
+    description: "Source column header naming the series: a portfolio name ('SMALL LoBM', 'Hlth', 'Lo 10') or a factor name ('Mkt-RF', 'SMB', 'HML', 'RF')."
   - name: value
     type: DOUBLE
+    description: "The observation, in the unit implied by `statistic`: returns and factor premia in percent, 'Number of Firms in Portfolios' as a count, 'Average Firm Size' in millions of USD, BE/ME statistics as ratios. The source's -99.99 / -999 missing-value sentinels are dropped rather than encoded, so an absent (date, variable) row means no observation."

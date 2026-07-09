@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cpb-world-trade-monitor-values`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, series_code, label, region, variable]
+temporal: date
+checks:
+  - kind: unique
+    columns: [date, series_code, label, region, variable]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: series_code
+  - kind: not_null
+    col: label
+  - kind: not_null
+    col: region
+  - kind: not_null
+    col: variable
+  - kind: row_floor
+    min: 13904
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

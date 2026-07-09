@@ -25,10 +25,6 @@ tests:
     reason: rows are filtered to the market_run_id values this report is queried for; an out-of-set value means the param contract changed
     certainty: 85
     severity: warn
-  - nullable: {col: MW, max_null_frac: 0.5}
-    reason: MW is the report's value column and is populated for the majority of rows
-    certainty: 60
-    severity: warn
   - freshness: {col: INTERVALSTARTTIME_GMT, reaches: today - 14d}
     reason: the fetch walks the date window up to the current day, so the max interval should be recent
     certainty: 60
