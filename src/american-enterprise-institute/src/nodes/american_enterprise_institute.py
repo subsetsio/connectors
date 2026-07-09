@@ -52,6 +52,19 @@ BROWSER_HEADERS = {
     "Referer": "https://www.aei.org/national-and-metro-housing-market-indicators/",
 }
 
+WORKBOOK_HEADERS = {
+    **BROWSER_HEADERS,
+    "Accept": (
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,"
+        "application/vnd.ms-excel,application/octet-stream,*/*;q=0.8"
+    ),
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "same-origin",
+    "Sec-Fetch-User": "?1",
+    "Upgrade-Insecure-Requests": "1",
+}
+
 
 def _curl_fetch(url: str, binary: bool):
     """curl_cffi impersonates Chrome's TLS (JA3) handshake. Clears Cloudflare
@@ -59,7 +72,8 @@ def _curl_fetch(url: str, binary: bool):
     blocks (so it helps the static asset, not the dynamic page from CI)."""
     from curl_cffi import requests as cr
 
-    r = cr.get(url, impersonate="chrome", headers=BROWSER_HEADERS,
+    headers = WORKBOOK_HEADERS if binary else BROWSER_HEADERS
+    r = cr.get(url, impersonate="chrome", headers=headers,
                timeout=180, allow_redirects=True)
     if r.status_code != 200:
         raise AssertionError(f"curl_cffi {url}: HTTP {r.status_code}")
@@ -77,7 +91,8 @@ def _system_curl_fetch(url: str, binary: bool):
         "--max-time",
         "180",
     ]
-    for key, value in BROWSER_HEADERS.items():
+    headers = WORKBOOK_HEADERS if binary else BROWSER_HEADERS
+    for key, value in headers.items():
         cmd.extend(["-H", f"{key}: {value}"])
     cmd.append(url)
     proc = subprocess.run(cmd, check=True, capture_output=True)
@@ -91,6 +106,13 @@ def _allorigins(url: str, binary: bool):
     resp = get(prox, headers=BROWSER_HEADERS, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.content if binary else resp.text
+
+
+def _without_query(url: str) -> str | None:
+    parts = urllib.parse.urlsplit(url)
+    if not parts.query:
+        return None
+    return urllib.parse.urlunsplit((parts.scheme, parts.netloc, parts.path, "", parts.fragment))
 
 
 def _require_xlsx(content: bytes, route: str, url: str) -> bytes:
@@ -218,24 +240,31 @@ def _fetch_bytes(url: str) -> bytes:
     directly; curl_cffi and the allorigins proxy are fallbacks if Cloudflare ever
     challenges the asset too."""
     errors = []
-    try:
-        resp = get(url, headers=BROWSER_HEADERS, timeout=(10.0, 180.0))
-        resp.raise_for_status()
-        return _require_xlsx(resp.content, "httpx", url)
-    except Exception as e:  # noqa: BLE001 - collect route diagnostics
-        if isinstance(e, httpx.HTTPStatusError) and e.response.status_code not in (403, 503):
-            raise
-        errors.append(f"httpx: {type(e).__name__}: {str(e)[:240]}")
-    for name, fallback in (
-        ("curl_cffi", lambda: _curl_fetch(url, binary=True)),
-        ("system_curl", lambda: _system_curl_fetch(url, binary=True)),
-        ("allorigins", lambda: _allorigins(url, binary=True)),
-    ):
+    candidates = [url]
+    no_query = _without_query(url)
+    if no_query:
+        candidates.append(no_query)
+
+    for candidate in candidates:
         try:
-            return _require_xlsx(fallback(), name, url)
-        except Exception as e:  # noqa: BLE001 - try the next fallback
-            errors.append(f"{name}: {type(e).__name__}: {str(e)[:240]}")
-            continue
+            resp = get(candidate, headers=WORKBOOK_HEADERS, timeout=(10.0, 180.0))
+            resp.raise_for_status()
+            return _require_xlsx(resp.content, f"httpx {candidate}", candidate)
+        except Exception as e:  # noqa: BLE001 - collect route diagnostics
+            if isinstance(e, httpx.HTTPStatusError) and e.response.status_code not in (403, 503):
+                raise
+            errors.append(f"httpx {candidate}: {type(e).__name__}: {str(e)[:240]}")
+
+        for name, fallback in (
+            ("curl_cffi", lambda candidate=candidate: _curl_fetch(candidate, binary=True)),
+            ("system_curl", lambda candidate=candidate: _system_curl_fetch(candidate, binary=True)),
+            ("allorigins", lambda candidate=candidate: _allorigins(candidate, binary=True)),
+        ):
+            try:
+                return _require_xlsx(fallback(), f"{name} {candidate}", candidate)
+            except Exception as e:  # noqa: BLE001 - try the next fallback
+                errors.append(f"{name} {candidate}: {type(e).__name__}: {str(e)[:240]}")
+                continue
     raise AssertionError(
         f"all download routes failed for {url}:\n  " + "\n  ".join(errors)
     )
