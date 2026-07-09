@@ -16,16 +16,14 @@ state, watermarks, or batching.
 import io
 import csv
 import re
+from urllib.parse import urlparse
 
-import httpx
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception
+import pandas as pd
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     configure_http,
-    is_transient,
     save_raw_ndjson,
 )
 from constants import ENTITY_IDS
@@ -51,31 +49,12 @@ def _is_tabular(fmt: str) -> bool:
     )
 
 
-def _retryable(exc: Exception) -> bool:
-    # Standard transient classification PLUS httpx transport errors: data.gov.au's
-    # edge intermittently resets/refuses connections (ReadError/ConnectError) under
-    # load, which is_transient does not cover on its own.
-    return is_transient(exc) or isinstance(exc, httpx.TransportError)
-
-
-@retry(
-    retry=retry_if_exception(_retryable),
-    stop=stop_after_attempt(6),
-    wait=wait_exponential(multiplier=2, min=2, max=60),
-    reraise=True,
-)
 def _get_json(url: str, params: dict) -> dict:
     resp = get(url, params=params, timeout=(15.0, 120.0))
     resp.raise_for_status()
     return resp.json()
 
 
-@retry(
-    retry=retry_if_exception(_retryable),
-    stop=stop_after_attempt(6),
-    wait=wait_exponential(multiplier=2, min=2, max=60),
-    reraise=True,
-)
 def _get_bytes(url: str) -> bytes:
     resp = get(url, timeout=(15.0, 180.0))
     resp.raise_for_status()
@@ -140,26 +119,53 @@ def _fetch_datastore(resource_id: str) -> list:
     return out
 
 
+def _download_url(package_id: str, resource: dict) -> str:
+    url = resource.get("url") or ""
+    if "data.gov.au/data/dataset" in url:
+        return url
+    filename = url.rsplit("/", 1)[-1].split("?", 1)[0] or "data"
+    return f"{DL}/{package_id}/resource/{resource['id']}/download/{filename}"
+
+
 def _fetch_csv(package_id: str, resource: dict) -> list:
-    """Download an upload-type CSV from data.gov.au's own storage and parse it."""
-    filename = resource["url"].rsplit("/", 1)[-1].split("?")[0] or "data.csv"
-    url = f"{DL}/{package_id}/resource/{resource['id']}/download/{filename}"
-    text = _get_bytes(url).decode("utf-8-sig", errors="replace")
+    """Download a CSV upload from data.gov.au storage and parse it."""
+    text = _get_bytes(_download_url(package_id, resource)).decode(
+        "utf-8-sig", errors="replace"
+    )
     reader = csv.DictReader(io.StringIO(text))
     return [dict(row) for row in reader]
 
 
+def _fetch_excel(package_id: str, resource: dict) -> list:
+    """Download an Excel upload and flatten non-empty worksheet rows."""
+    content = _get_bytes(_download_url(package_id, resource))
+    sheets = pd.read_excel(io.BytesIO(content), sheet_name=None, dtype=str)
+    rows = []
+    for sheet_name, frame in sheets.items():
+        frame = frame.dropna(axis=0, how="all").dropna(axis=1, how="all")
+        if frame.empty:
+            continue
+        frame = frame.where(pd.notna(frame), None)
+        for row_number, row in enumerate(frame.to_dict(orient="records"), start=2):
+            out = {"source_sheet": sheet_name, "source_row_number": row_number}
+            out.update(row)
+            rows.append(out)
+    return rows
+
+
 def _pick_resource(resources: list):
     """Choose the primary tabular resource: datastore-active first (typed rows,
-    served by data.gov.au), then an upload-type CSV (file on data.gov.au)."""
+    served by CKAN), then a CSV/Excel upload hosted on data.gov.au."""
     tabs = [r for r in resources if _is_tabular(r.get("format"))]
     for r in tabs:
         if r.get("datastore_active"):
             return "datastore", r
     for r in tabs:
-        if r.get("url_type") == "upload" and "csv" in (r.get("format") or "").lower():
-            return "csv", r
-    raise RuntimeError("no datastore-active or CSV-upload tabular resource found")
+        host = urlparse(r.get("url") or "").netloc
+        fmt = (r.get("format") or "").lower()
+        if "data.gov.au" in host and ("csv" in fmt or "xls" in fmt or "excel" in fmt):
+            return "file", r
+    raise RuntimeError("no datastore-active or data.gov.au-hosted tabular resource found")
 
 
 def fetch_one(node_id: str) -> None:
@@ -174,8 +180,10 @@ def fetch_one(node_id: str) -> None:
     mode, resource = _pick_resource(pkg["resources"])
     if mode == "datastore":
         records = _fetch_datastore(resource["id"])
-    else:
+    elif "csv" in (resource.get("format") or "").lower():
         records = _fetch_csv(pkg["id"], resource)
+    else:
+        records = _fetch_excel(pkg["id"], resource)
     records = _clean(records)
     if not records:
         raise RuntimeError(f"{node_id}: resource returned 0 rows")
@@ -189,16 +197,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per package. The raw ndjson already carries
-# Delta-safe column names, so the transform is a straight projection; a 0-row
-# result fails the node by design.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]
