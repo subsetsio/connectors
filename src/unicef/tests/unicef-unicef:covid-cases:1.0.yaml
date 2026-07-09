@@ -1,0 +1,15 @@
+spec_id: unicef-unicef:covid-cases:1.0
+status: active
+coverage:
+  frozen: true
+  reason: "COVID-19 age/sex-disaggregated case and death series ended with the 2022 data collection (MPIDR); the corpus does not advance"
+tests:
+  - not_null: time_period
+    reason: "every SDMX observation carries TIME_PERIOD; a null means the CSV header mapping missed the period column for this flow"
+    certainty: 95
+  - not_null: indicator
+    reason: "every observation is keyed by an indicator concept; a null means this flow names its indicator dimension something the alias table does not cover"
+    certainty: 90
+  - row_count: {min: 1}
+    reason: "an empty-key data query returns the whole dataflow; zero rows means the flow was retired or the pull was truncated"
+    certainty: 95

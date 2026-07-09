@@ -13,7 +13,7 @@ top-level-function check both require a real module-level function (not a
 closure or a re-exported ``fetch`` shared by every module) — and assembling the
 two spec lists from the per-dataset modules' constants.
 """
-from subsets_utils import NodeSpec, SqlNodeSpec
+from subsets_utils import NodeSpec
 from utils import run_download
 from datasets import (
     china, cleantech, divisia, energy_crisis, fms, gas_demand, gas_imports,
@@ -84,37 +84,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id=reer.DEP, fn=fetch_reer, kind="download"),
     NodeSpec(id=russian_trade.DEP, fn=fetch_russian_trade, kind="download"),
     NodeSpec(id=fms.DEP, fn=fetch_fms, kind="download"),
-]
-
-
-# Per-dataset grain declarations (purely declarative; keyed by dataset module).
-# Only the key=/temporal= kwargs are supplied — nothing else about the spec
-# changes. Datasets whose grain is not confidently unique are left key-less;
-# generic long extractions with no period column (china, cleantech) get neither.
-_GRAIN = {
-    energy_crisis: {"temporal": "date_announced"},
-    divisia: {"temporal": "date"},
-    labour_market: {"temporal": "year"},
-    renewables: {"temporal": "year"},
-    gas_demand: {"temporal": "date"},
-    gas_imports: {"temporal": "date"},
-    trade: {"temporal": "date"},
-    reer: {"temporal": "period"},
-    russian_trade: {"temporal": "date"},
-    fms: {"key": ("id",), "temporal": "year"},
-}
-
-
-def _transform(mod) -> SqlNodeSpec:
-    """Build the publishing leaf for a dataset module from its `_SQL` template."""
-    return SqlNodeSpec(id=f"{mod.DEP}-transform", deps=[mod.DEP],
-                       sql=mod._SQL.replace("{dep}", mod.DEP),
-                       **_GRAIN.get(mod, {}))
-
-
-TRANSFORM_SPECS = [
-    _transform(mod) for mod in (
-        energy_crisis, china, divisia, labour_market, renewables, cleantech,
-        gas_demand, gas_imports, trade, reer, russian_trade, fms,
-    )
 ]

@@ -22,9 +22,14 @@ ENDPOINTS = {
     "money-and-credit-statistics":  "GetAllMoneyAndCreditStats",
     "money-market-indicators":      "GetAllMoneyMarketIndicators",
     "nafem-nof-rates":              "GetAllNOF_Rates",
-    "nominal-gdp-annual":           "GetAllYearsNominalGDP",
+    # The dedicated GetAllYears{Nominal,Real}GDP endpoints are broken shells:
+    # 44 rows carrying only id+tyear, every measure NULL. The real annual series
+    # (1981-2024, complete) lives inside the quarterly endpoint as period='Annual'
+    # rows, alongside the Q1-Q4 rows (2010-2024). So the annual and quarterly
+    # entities both fetch the same endpoint; the model stage splits them by period.
+    "nominal-gdp-annual":           "GetAllNominalGDP",
     "nominal-gdp-quarterly":        "GetAllNominalGDP",
-    "real-gdp-annual":              "GetAllYearsRealGDP",
+    "real-gdp-annual":              "GetAllRealGDP",
     "real-gdp-quarterly":           "GetAllRealGDP",
     "securities-auctions":          "GetAllSecurities",
 }

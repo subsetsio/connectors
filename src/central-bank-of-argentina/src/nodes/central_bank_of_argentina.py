@@ -1,9 +1,10 @@
 """Central Bank of Argentina (BCRA) connector.
 
-Mechanism: public REST API at https://api.bcra.gob.ar (no auth). Three subsets,
+Mechanism: public REST API at https://api.bcra.gob.ar (no auth). Four subsets,
 each fetched stateless/full every run (the whole corpus re-pulls in a few
 minutes, so no watermark/cursor — revisions are picked up for free):
 
+- fx_currencies    : currency master list (~44 rows: codigo, denominacion).
 - monetary_series  : catalog of ~1581 monetary variables (one row per variable).
 - monetary_values  : long-format daily/monthly observations for every variable
                      (paginated per-variable; ~millions of rows -> streamed).
@@ -29,7 +30,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_parquet,
@@ -233,66 +233,3 @@ DOWNLOAD_SPECS = [
              fn=fetch_fx_quotations, kind="download"),
 ]
 
-
-# --------------------------------------------------------------------------- #
-# Transforms — one published Delta table per subset
-# --------------------------------------------------------------------------- #
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="central-bank-of-argentina-fx-currencies-transform",
-        deps=["central-bank-of-argentina-fx-currencies"],
-        sql='''
-            SELECT DISTINCT
-                codigo       AS currency_code,
-                denominacion AS currency_name
-            FROM "central-bank-of-argentina-fx-currencies"
-            WHERE codigo IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="central-bank-of-argentina-monetary-series-transform",
-        deps=["central-bank-of-argentina-monetary-series"],
-        sql='''
-            SELECT
-                CAST(idVariable AS BIGINT)               AS variable_id,
-                descripcion                              AS description,
-                categoria                                AS category,
-                tipoSerie                                AS series_type,
-                periodicidad                             AS frequency,
-                unidadExpresion                          AS unit,
-                moneda                                   AS currency,
-                TRY_CAST(primerFechaInformada AS DATE)   AS first_date,
-                TRY_CAST(ultFechaInformada AS DATE)      AS last_date,
-                CAST(ultValorInformado AS DOUBLE)        AS last_value
-            FROM "central-bank-of-argentina-monetary-series"
-            WHERE idVariable IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="central-bank-of-argentina-monetary-values-transform",
-        deps=["central-bank-of-argentina-monetary-values"],
-        sql='''
-            SELECT DISTINCT
-                CAST(idVariable AS BIGINT) AS variable_id,
-                CAST(fecha AS DATE)        AS date,
-                CAST(valor AS DOUBLE)      AS value
-            FROM "central-bank-of-argentina-monetary-values"
-            WHERE valor IS NOT NULL AND fecha IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="central-bank-of-argentina-fx-quotations-transform",
-        deps=["central-bank-of-argentina-fx-quotations"],
-        sql='''
-            SELECT DISTINCT
-                codigoMoneda             AS currency_code,
-                descripcion              AS currency_name,
-                CAST(fecha AS DATE)      AS date,
-                CAST(tipoPase AS DOUBLE) AS rate_vs_usd,
-                CAST(tipoCotizacion AS DOUBLE) AS rate_in_pesos
-            FROM "central-bank-of-argentina-fx-quotations"
-            WHERE fecha IS NOT NULL AND tipoCotizacion IS NOT NULL
-        ''',
-    ),
-]
