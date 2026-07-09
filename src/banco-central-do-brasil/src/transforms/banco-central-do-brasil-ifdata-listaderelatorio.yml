@@ -1,0 +1,8 @@
+# IFData report catalog: one row per report type exposed by the IFDATA service.
+columns:
+  - name: NomeRelatorio
+    type: VARCHAR
+    description: report name (Resumo, Ativo, Passivo, ...)
+  - name: NumeroRelatorio
+    type: VARCHAR
+    description: report number/id used to key IfDataValores queries

@@ -1,0 +1,11 @@
+# PTAX currency dictionary: one row per tradable currency symbol.
+columns:
+  - name: simbolo
+    type: VARCHAR
+    description: ISO-like currency symbol (USD, EUR, ...)
+  - name: nomeFormatado
+    type: VARCHAR
+    description: display name of the currency (Portuguese)
+  - name: tipoMoeda
+    type: VARCHAR
+    description: PTAX parity class, A or B

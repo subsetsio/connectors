@@ -1,0 +1,26 @@
+spec_id: caiso-atl-peak-on-off
+status: active
+tests:
+  - not_null: INTERVALSTARTTIME_GMT
+    reason: every OASIS report row is interval-stamped (GMT); a null means the CSV layout changed underneath us
+    certainty: 95
+  - column_type: {col: INTERVALSTARTTIME_GMT, type: timestamp}
+    reason: OASIS emits ISO-8601 strings with a -0000 offset
+    certainty: 90
+  - not_null: OPR_DT
+    reason: the operating-date column is populated on every calendar row
+    certainty: 90
+  - column_type: {col: OPR_HR, type: integer}
+    reason: OPR_HR is the integer CAISO trading hour
+    certainty: 85
+  - between: {col: OPR_HR, lo: 1, hi: 25}
+    reason: CAISO numbers hours 1..24 (25 on the fall-back DST day)
+    certainty: 85
+    severity: warn
+  - not_null: PEAK_FLAG
+    reason: the peak/off-peak flag is the report's payload and is set on every hour
+    certainty: 80
+  - freshness: {col: INTERVALSTARTTIME_GMT, reaches: today - 14d}
+    reason: the fetch walks the calendar window up to the current day, so the max interval should be recent
+    certainty: 65
+    points_outward: true

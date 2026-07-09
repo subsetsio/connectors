@@ -1,7 +1,7 @@
 """Banco Central do Brasil — the connector's single node module.
 
-Four BCB surfaces, one stateless-or-firehose fetch per subset, plus the thin
-SQL transforms that publish each as a Delta table:
+Four BCB surfaces, one stateless-or-firehose fetch per subset (transforms are
+authored separately as `src/transforms/<table>.sql|.yml` file pairs):
 
   - Expectativas (Focus survey)  — 12 Olinda OData plain entity sets; one GET
     returns the whole set (~tens of thousands of rows, no nextLink) → stateless
@@ -16,7 +16,7 @@ SQL transforms that publish each as a Delta table:
     pulled as a code-bucketed firehose (sgs-values).
 
 Shared HTTP/retry/OData plumbing lives in `src/utils.py`; this module owns the
-fetch logic, the DOWNLOAD_SPECS, and the TRANSFORM_SPECS.
+fetch logic and the DOWNLOAD_SPECS.
 """
 from datetime import date, datetime, timezone
 import os
@@ -26,7 +26,6 @@ import httpx
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     list_raw_fragments,
     save_raw_ndjson,
     save_state,
@@ -69,12 +68,6 @@ def fetch_expectativas(node_id: str) -> None:
     resource = EXPECTATIVAS_SETS[_entity(node_id)]
     rows = _odata_all("Expectativas", resource, {})
     save_raw_ndjson(rows, node_id)
-
-
-def _expectativas_sql(dep: str) -> str:
-    # Every Focus set carries a string `Data` observation date; retype it, pass
-    # the rest of the relational columns through untouched.
-    return f'SELECT * EXCLUDE (Data), TRY_CAST(Data AS DATE) AS Data FROM "{dep}"'
 
 
 # ---------------------------------------------------------------------------
@@ -226,11 +219,6 @@ def fetch_ptax_period(node_id: str) -> None:
                     r[ccy_key] = ccy
                 out.append(r)
     save_raw_ndjson(out, node_id)
-
-
-def _ptax_sql(dep: str) -> str:
-    # Every PTAX bulletin carries a `dataHoraCotacao` timestamp string.
-    return f'SELECT * EXCLUDE (dataHoraCotacao), TRY_CAST(dataHoraCotacao AS TIMESTAMP) AS dataHoraCotacao FROM "{dep}"'
 
 
 # ---------------------------------------------------------------------------
@@ -444,72 +432,6 @@ DOWNLOAD_SPECS = (
     ]
 )
 
-TRANSFORM_SPECS = (
-    [
-        SqlNodeSpec(
-            id=f"{SLUG}-{e}-transform",
-            deps=[f"{SLUG}-{e}"],
-            sql=_expectativas_sql(f"{SLUG}-{e}"),
-        )
-        for e in EXPECTATIVAS_SETS
-    ]
-    + [
-        SqlNodeSpec(
-            id=f"{SLUG}-ifdata-ifdatacadastro-transform",
-            deps=[f"{SLUG}-ifdata-ifdatacadastro"],
-            sql=f'SELECT * FROM "{SLUG}-ifdata-ifdatacadastro"',
-        ),
-        SqlNodeSpec(
-            id=f"{SLUG}-ifdata-ifdatavalores-transform",
-            deps=[f"{SLUG}-ifdata-ifdatavalores"],
-            sql=f'SELECT * FROM "{SLUG}-ifdata-ifdatavalores"',
-        ),
-    ]
-    + [
-        SqlNodeSpec(
-            id=f"{SLUG}-{e}-transform",
-            deps=[f"{SLUG}-{e}"],
-            sql=_ptax_sql(f"{SLUG}-{e}"),
-        )
-        for e in PTAX_PERIOD
-    ]
-    + [
-        SqlNodeSpec(
-            id=f"{SLUG}-expectativas-datasreferencia-transform",
-            deps=[f"{SLUG}-expectativas-datasreferencia"],
-            sql=f'SELECT * EXCLUDE (DataReferencia1, DataReferencia2), '
-                f'TRY_CAST(DataReferencia1 AS DATE) AS DataReferencia1, '
-                f'TRY_CAST(DataReferencia2 AS DATE) AS DataReferencia2 '
-                f'FROM "{SLUG}-expectativas-datasreferencia"',
-        ),
-        SqlNodeSpec(
-            id=f"{SLUG}-ptax-moedas-transform",
-            deps=[f"{SLUG}-ptax-moedas"],
-            sql=f'SELECT * FROM "{SLUG}-ptax-moedas"',
-        ),
-        SqlNodeSpec(
-            id=f"{SLUG}-ifdata-listaderelatorio-transform",
-            deps=[f"{SLUG}-ifdata-listaderelatorio"],
-            sql=f'SELECT * FROM "{SLUG}-ifdata-listaderelatorio"',
-        ),
-    ]
-    + [
-        SqlNodeSpec(
-            id=f"{SLUG}-sgs-series-transform",
-            deps=[f"{SLUG}-sgs-series"],
-            sql=f'SELECT * FROM "{SLUG}-sgs-series"',
-        ),
-        SqlNodeSpec(
-            id=f"{SLUG}-sgs-values-transform",
-            deps=[f"{SLUG}-sgs-values"],
-            sql=f'''
-                SELECT
-                    series_code,
-                    CAST(strptime(data, '%d/%m/%Y') AS DATE) AS date,
-                    TRY_CAST(valor AS DOUBLE)                AS value
-                FROM "{SLUG}-sgs-values"
-                WHERE valor IS NOT NULL AND valor <> ''
-                ''',
-        ),
-    ]
-)
+# Transforms are authored as file pairs under `src/transforms/<table>.sql|.yml`
+# (the retired module-level TRANSFORM_SPECS list is gone); the model stage
+# compiles/refines them from the profiled raw.

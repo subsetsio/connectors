@@ -1,0 +1,8 @@
+spec_id: caiso-cmmt-rmr
+status: deferred
+# RMR (Reliability Must-Run) commitment is a sparse operational report: live OASIS
+# queries across 2020, 2022, 2023 and 2024 windows all returned ERR_CODE=1000
+# "No data returned" — RMR dispatch is rare and the report is frequently empty.
+# Schema therefore could not be observed at authoring time; assertions are deferred
+# until a window with data lands. If the report stays empty in the run its
+# (0-row) publish is excused with `waive-spec caiso caiso-cmmt-rmr`.

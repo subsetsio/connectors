@@ -26,7 +26,6 @@ import pyarrow.csv as pacsv
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     raw_parquet_writer,
@@ -158,108 +157,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="comex-stat-uf-mun", fn=fetch_reference, kind="download"),
     NodeSpec(id="comex-stat-urf", fn=fetch_reference, kind="download"),
     NodeSpec(id="comex-stat-via", fn=fetch_reference, kind="download"),
-]
-
-
-# --- transform specs ---------------------------------------------------------
-
-_NCM_DETAIL_COLS = """
-            CAST(CO_ANO AS INTEGER)        AS year,
-            CAST(CO_MES AS INTEGER)        AS month,
-            CO_NCM                         AS ncm_code,
-            CO_UNID                        AS unit_code,
-            CO_PAIS                        AS country_code,
-            SG_UF_NCM                      AS state,
-            CO_VIA                         AS transport_mode_code,
-            CO_URF                         AS customs_code,
-            TRY_CAST(QT_ESTAT AS BIGINT)   AS statistical_quantity,
-            TRY_CAST(KG_LIQUIDO AS BIGINT) AS net_weight_kg,
-            TRY_CAST(VL_FOB AS BIGINT)     AS fob_value_usd"""
-
-_MUN_DETAIL_COLS = """
-            CAST(CO_ANO AS INTEGER)        AS year,
-            CAST(CO_MES AS INTEGER)        AS month,
-            SH4                            AS sh4_code,
-            CO_PAIS                        AS country_code,
-            SG_UF_MUN                      AS state,
-            CO_MUN                         AS municipality_code,
-            TRY_CAST(KG_LIQUIDO AS BIGINT) AS net_weight_kg,
-            TRY_CAST(VL_FOB AS BIGINT)     AS fob_value_usd"""
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="comex-stat-exports-ncm-transform",
-        deps=["comex-stat-exports-ncm"],
-        sql=f'SELECT{_NCM_DETAIL_COLS}\nFROM "comex-stat-exports-ncm"\nWHERE CO_ANO IS NOT NULL',
-    ),
-    SqlNodeSpec(
-        id="comex-stat-imports-ncm-transform",
-        deps=["comex-stat-imports-ncm"],
-        sql=f'''SELECT{_NCM_DETAIL_COLS},
-            TRY_CAST(VL_FRETE AS BIGINT)   AS freight_value_usd,
-            TRY_CAST(VL_SEGURO AS BIGINT)  AS insurance_value_usd
-FROM "comex-stat-imports-ncm"
-WHERE CO_ANO IS NOT NULL''',
-    ),
-    SqlNodeSpec(
-        id="comex-stat-exports-municipality-transform",
-        deps=["comex-stat-exports-municipality"],
-        sql=f'SELECT{_MUN_DETAIL_COLS}\nFROM "comex-stat-exports-municipality"\nWHERE CO_ANO IS NOT NULL',
-    ),
-    SqlNodeSpec(
-        id="comex-stat-imports-municipality-transform",
-        deps=["comex-stat-imports-municipality"],
-        sql=f'SELECT{_MUN_DETAIL_COLS}\nFROM "comex-stat-imports-municipality"\nWHERE CO_ANO IS NOT NULL',
-    ),
-    SqlNodeSpec(
-        id="comex-stat-ncm-transform",
-        deps=["comex-stat-ncm"],
-        sql='''
-            SELECT
-                CO_NCM         AS ncm_code,
-                CO_UNID        AS unit_code,
-                CO_SH6         AS sh6_code,
-                CO_PPE         AS ppe_code,
-                CO_PPI         AS ppi_code,
-                CO_FAT_AGREG   AS factor_aggregate_code,
-                CO_CUCI_ITEM   AS cuci_item_code,
-                CO_CGCE_N3     AS cgce_n3_code,
-                CO_SIIT        AS siit_code,
-                CO_ISIC_CLASSE AS isic_class_code,
-                CO_EXP_SUBSET  AS exp_subset_code,
-                NO_NCM_POR     AS name_pt,
-                NO_NCM_ESP     AS name_es,
-                NO_NCM_ING     AS name_en
-            FROM "comex-stat-ncm"
-            WHERE CO_NCM IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="comex-stat-pais-transform",
-        deps=["comex-stat-pais"],
-        sql='''
-            SELECT
-                CO_PAIS       AS country_code,
-                CO_PAIS_ISON3 AS iso_numeric_code,
-                CO_PAIS_ISOA3 AS iso_alpha3_code,
-                NO_PAIS       AS name_pt,
-                NO_PAIS_ING   AS name_en,
-                NO_PAIS_ESP   AS name_es
-            FROM "comex-stat-pais"
-            WHERE CO_PAIS IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="comex-stat-uf-mun-transform",
-        deps=["comex-stat-uf-mun"],
-        sql='''
-            SELECT
-                CO_MUN_GEO AS municipality_code,
-                NO_MUN     AS name,
-                NO_MUN_MIN AS name_normalized,
-                SG_UF      AS state
-            FROM "comex-stat-uf-mun"
-            WHERE CO_MUN_GEO IS NOT NULL
-        ''',
-    ),
 ]

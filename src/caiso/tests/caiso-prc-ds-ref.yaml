@@ -1,0 +1,19 @@
+spec_id: caiso-prc-ds-ref
+status: active
+tests:
+  - not_null: NODE_ID
+    reason: reference prices are keyed by node
+    certainty: 90
+  - column_type: {col: EFF_QTR_START_DT_GMT, type: timestamp}
+    reason: each row is stamped with the effective quarter start (GMT)
+    certainty: 85
+  - column_type: {col: SUPPLY_REF_PRICE, type: float}
+    reason: SUPPLY_REF_PRICE is the supply-side reference price ($)
+    certainty: 80
+  - column_type: {col: DEMAND_REF_PRICE, type: float}
+    reason: DEMAND_REF_PRICE is the demand-side reference price ($)
+    certainty: 80
+  - freshness: {col: EFF_QTR_START_DT_GMT, reaches: today - 150d}
+    reason: reference prices are quarterly; the latest effective quarter should be within ~1.5 quarters
+    certainty: 60
+    points_outward: true

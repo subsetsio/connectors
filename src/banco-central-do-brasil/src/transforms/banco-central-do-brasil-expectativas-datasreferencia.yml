@@ -1,0 +1,15 @@
+# Focus survey reference-date calendar: per (Indicador, periodo), the two
+# reference dates BCB uses to anchor the survey.
+columns:
+  - name: Indicador
+    type: VARCHAR
+    description: macroeconomic indicator (IPCA, Selic, Cambio, ...)
+  - name: periodo
+    type: VARCHAR
+    description: reference period the survey targets (e.g. "11/2001")
+  - name: DataReferencia1
+    type: DATE
+    description: first reference date for the indicator/period
+  - name: DataReferencia2
+    type: DATE
+    description: second reference date for the indicator/period

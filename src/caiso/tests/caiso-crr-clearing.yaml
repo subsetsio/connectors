@@ -1,0 +1,20 @@
+spec_id: caiso-crr-clearing
+status: active
+tests:
+  - not_null: APNODE_ID
+    reason: clearing prices are reported per source/sink APNode
+    certainty: 90
+  - not_null: MARKET_NAME
+    reason: MARKET_NAME identifies the CRR auction the price belongs to
+    certainty: 85
+  - column_type: {col: START_DATE_GMT, type: timestamp}
+    reason: each CRR term carries a GMT start-date stamp
+    certainty: 80
+  - enum: {col: TIME_OF_USE, values: [ON, OFF, 24]}
+    reason: CRR clearing prices are split by on/off-peak (and 24h) time-of-use
+    certainty: 65
+    severity: warn
+  - freshness: {col: START_DATE_GMT, reaches: today - 180d}
+    reason: CRR auctions clear roughly monthly and terms are forward-dated, so a recent auction should appear
+    certainty: 55
+    points_outward: true

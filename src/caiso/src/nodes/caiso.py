@@ -100,16 +100,20 @@ REQUEST_SPACING_S = 2.0
 # Report config keyed by OASIS queryname:
 #   window_days   — date-window size (kept under per-report query caps; smaller
 #                   for higher-frequency reports).
-#   market_runs   — market_run_id values to iterate, or [None] when the report
-#                   takes no market_run_id. Invalid values self-prune at runtime.
+#   market_runs   — the values to iterate over the `dim` param, or [None] when the
+#                   report takes no such param. Invalid values self-prune at runtime.
 #   params        — fixed report-specific query params (the documented "ALL" filters).
 #   node_bounded  — True -> restrict to BENCHMARK_NODES via the `node` param.
-def _r(window_days, market_runs, params=None, node_bounded=False):
+#   dim           — the query param the `market_runs` values fill. Almost always
+#                   `market_run_id` (DAM/RTM/...); CRR_INVENTORY instead partitions
+#                   by `market_name` (ANNUAL/MONTHLY/...), which is its required filter.
+def _r(window_days, market_runs, params=None, node_bounded=False, dim="market_run_id"):
     return {
         "window_days": window_days,
         "market_runs": market_runs,
         "params": params or {},
         "node_bounded": node_bounded,
+        "dim": dim,
     }
 
 
@@ -376,14 +380,11 @@ def fetch_report(node_id: str) -> None:
 
     while cur <= end:
         win_end = min(cur + window - timedelta(days=1), end)
-        start_s = _gmt(cur)
-        end_s = _gmt(win_end + timedelta(days=1))  # exclusive upper edge
         for mrid in cfg["market_runs"]:
             if mrid in dead:
                 continue
+            # win_end is inclusive; the query's upper edge is exclusive (+1 day).
             params = _base_params(qn, cur, win_end + timedelta(days=1))
-            params["startdatetime"] = start_s
-            params["enddatetime"] = end_s
             params.update(cfg["params"])
             if mrid is not None:
                 params["market_run_id"] = mrid
