@@ -1,0 +1,25 @@
+spec_id: wipo-country-profiles
+status: active
+tests:
+  - not_null: indicator_id
+  - not_null: year
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - unique: [office, origin, indicator_id, report_type, year, breakdown_index]
+    reason: one row per office x origin x indicator x report type x year x breakdown position
+    certainty: 90
+  - between: {col: year, lo: 1980, hi: current_year()}
+    reason: ips-search exposes 1980 as the earliest filing year and never publishes beyond the current year
+    certainty: 90
+  - freshness: {col: year, reaches: 2023}
+    reason: annual statistics; the latest complete year lags publication by roughly one to two years
+    points_outward: true
+  - coverage: {col: indicator_id, expected: 2}
+    reason: formcontrols enumerates exactly 2 country-profile indicators (country profiles, IP office profiles); losing either halves the subset
+  - distinct_count: {col: report_type, min: 3, max: 3}
+    reason: ipsRpTypeMap for country profiles has exactly three report types
+    certainty: 85
+  - row_count: {min: 500}
+    reason: two indicators across ~200 offices and ~45 years, sparsely populated
+    certainty: 70
