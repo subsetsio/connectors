@@ -27,7 +27,7 @@ API quirks learned by probing (2026-06-19):
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet, raw_parquet_writer
+from subsets_utils import NodeSpec, save_raw_parquet, raw_parquet_writer
 from utils import (
     _C_CODE, _C_CAT, _C_GRP, _C_NAME, _C_DESC,
     _C_GEO, _C_SOURCE, _C_FREQ,
@@ -301,44 +301,4 @@ def fetch_values(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="central-bank-of-peru-series", fn=fetch_series, kind="download"),
     NodeSpec(id="central-bank-of-peru-values", fn=fetch_values, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="central-bank-of-peru-series-transform",
-        deps=["central-bank-of-peru-series"],
-        sql='''
-            SELECT
-                codigo_serie,
-                NULLIF(categoria, '')          AS categoria,
-                NULLIF(grupo, '')              AS grupo,
-                NULLIF(nombre, '')             AS nombre,
-                NULLIF(descripcion, '')        AS descripcion,
-                NULLIF(geografia, '')          AS geografia,
-                NULLIF(fuente, '')             AS fuente,
-                NULLIF(frecuencia, '')         AS frecuencia,
-                NULLIF(grupo_publicacion, '')  AS grupo_publicacion,
-                NULLIF(area_publica, '')       AS area_publica,
-                NULLIF(fecha_actualizacion,'') AS fecha_actualizacion,
-                NULLIF(fecha_inicio, '')       AS fecha_inicio,
-                NULLIF(fecha_fin, '')          AS fecha_fin
-            FROM "central-bank-of-peru-series"
-            WHERE codigo_serie IS NOT NULL AND codigo_serie <> ''
-        ''',
-    ),
-    SqlNodeSpec(
-        id="central-bank-of-peru-values-transform",
-        deps=["central-bank-of-peru-values"],
-        sql='''
-            SELECT
-                codigo_serie,
-                frecuencia,
-                CAST(date AS DATE)    AS date,
-                CAST(value AS DOUBLE) AS value
-            FROM "central-bank-of-peru-values"
-            WHERE value IS NOT NULL
-              AND codigo_serie IS NOT NULL
-              AND date IS NOT NULL
-        ''',
-    ),
 ]

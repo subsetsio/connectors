@@ -1,0 +1,25 @@
+spec_id: cenace-nodosp-catalog
+status: active
+tests:
+  - not_null: sistema
+  - not_null: clave
+    reason: the NodoP CLAVE key is the catalog's primary identifier
+  - not_null: nombre
+  - unique: clave
+    reason: one row per NodoP; CLAVE is the reference key that pml.clv_nodo joins to
+    certainty: 85
+  - enum: {col: sistema, values: ["SIN", "BCA", "BCS"]}
+    reason: every node belongs to one of the three interconnected systems
+    certainty: 95
+  - matches: {col: clave, pattern: "^[0-9A-Za-z].*"}
+    reason: NodoP CLAVE keys are alphanumeric (e.g. 01PLO-115)
+    certainty: 70
+    severity: warn
+  - column_type: {col: nivel_tension_kv, type: float}
+  - between: {col: nivel_tension_kv, lo: 0, hi: 1000}
+    reason: transmission voltage levels in kV, from distribution feeders up to 400kV backbone
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1000}
+    reason: the SEN NodosP catalog carries ~2,486 nodes; a much smaller pull means a parse failure
+    certainty: 85

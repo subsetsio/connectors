@@ -98,11 +98,9 @@ _GRAIN = {
     renewables: {"temporal": "year"},
     gas_demand: {"temporal": "date"},
     gas_imports: {"temporal": "date"},
-    gini: {"temporal": "year"},
     trade: {"temporal": "date"},
     reer: {"temporal": "period"},
     russian_trade: {"temporal": "date"},
-    sovereign: {"temporal": "date"},
     fms: {"key": ("id",), "temporal": "year"},
 }
 
@@ -117,6 +115,6 @@ def _transform(mod) -> SqlNodeSpec:
 TRANSFORM_SPECS = [
     _transform(mod) for mod in (
         energy_crisis, china, divisia, labour_market, renewables, cleantech,
-        gas_demand, gas_imports, gini, trade, reer, russian_trade, sovereign, fms,
+        gas_demand, gas_imports, trade, reer, russian_trade, fms,
     )
 ]

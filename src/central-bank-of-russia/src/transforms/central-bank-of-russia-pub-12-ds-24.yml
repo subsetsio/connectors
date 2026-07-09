@@ -1,14 +1,14 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: date
-sort: [date]
 columns:
   - name: date
     type: DATE
-  - name: country
+  - name: periodicity
     type: VARCHAR
-  - name: holder_type
+  - name: measure
     type: VARCHAR
-  - name: frequency
+  - name: series
+    type: VARCHAR
+  - name: unit
     type: VARCHAR
   - name: value
     type: DOUBLE

@@ -37,7 +37,8 @@ tests:
       `ANS` ("areas not elsewhere specified") pseudo-country, and negative net
       service flows. The floor is set well below the largest observed negative
       (-3.7e9) so a genuine sign flip on a real flow, which would be orders of
-      magnitude larger, still trips it.  - at_least: {col: import_value, expr: -10000000000}
+      magnitude larger, still trips it.
+  - at_least: {col: import_value, expr: -10000000000}
     certainty: 90
     reason: >-
       Trade values are whole US dollars and are overwhelmingly non-negative, but
