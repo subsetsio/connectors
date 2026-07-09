@@ -1,39 +1,36 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cmhc-34100096`. Regenerate after model-verify.
+# cmhc-34100096 — Canada Mortgage and Housing Corporation, housing starts, under construction and completions in centres 10,000 and over, Canada, provinces, and selected census metropolitan areas, seasonally adjusted
+# Statistics Canada bulk CSV, monthly frequency. Dropped from the source columns: STATUS and SYMBOL
+# (no information once no-observation rows are removed), UOM/UOM_ID/DECIMALS and SCALAR_FACTOR
+# (constant per table — folded into the `value` description).
 # caution: the `geo` column mixes aggregation levels: national, provincial and roll-up rows (e.g. Canada, the provinces, 'Census metropolitan areas', 'All census agglomerations 50,000 and over') appear as ordinary rows alongside individual centres — filter `geo` before summing.
 # caution: `type_of_unit` mixes subtotals with their components — 'Total semi, row, apartment and other unit types', 'Total units' overlap the component categories ('All other types of units', 'Single-detached units'); summing across the column double-counts. Pick one level.
-# caution: `value` is expressed in thousands of units (the source's SCALAR_FACTOR)  not in single units — multiply by 1 000 for absolute figures.
+# caution: `value` is a seasonally adjusted model estimate, not a raw count of dwelling units — it is not comparable with the unadjusted counts published in the other tables of this source.
+# caution: `value` is expressed in thousands of units (the source's SCALAR_FACTOR), not in single units — multiply by 1 000 for absolute figures.
 key: [ref_date, vector]
 temporal: ref_date
 sort: [ref_date, vector]
 columns:
   - name: ref_date
     type: DATE
+    description: "First day of the reference month, parsed from Statistics Canada's YYYY-MM REF_DATE."
   - name: geo
     type: VARCHAR
+    description: "Statistics Canada geography name — a country, province, census metropolitan area, census agglomeration or urban centre. Roll-up rows sit alongside individual centres."
   - name: dguid
-    type: BIGINT
+    type: VARCHAR
+    description: "Statistics Canada Dissemination Geography Unique Identifier for `geo`, where the source supplies one; null for roll-up geographies."
   - name: type_of_unit
     type: VARCHAR
-  - name: uom
-    type: VARCHAR
-  - name: uom_id
-    type: BIGINT
-  - name: scalar_factor
-    type: VARCHAR
-  - name: scalar_id
-    type: BIGINT
-  - name: vector
-    type: VARCHAR
-  - name: coordinate
-    type: DOUBLE
+    description: "Dwelling unit type. Includes subtotals alongside their components; see the caution above."
   - name: value
     type: DOUBLE
-  - name: status
-    type: VARCHAR
-  - name: symbol
-    type: VARCHAR
+    description: "Seasonally adjusted housing estimate for the geography and unit type, in thousands of dwelling units. The archived cube exposes no measure dimension; see Statistics Canada table 34-10-0096."
   - name: terminated
+    type: BOOLEAN
+    description: "True when Statistics Canada has flagged this series (`vector`) as terminated and no longer updated."
+  - name: vector
     type: VARCHAR
-  - name: decimals
-    type: BIGINT
+    description: "Statistics Canada vector id — the stable identifier of the individual time series this row belongs to (e.g. 'v733334')."
+  - name: coordinate
+    type: VARCHAR
+    description: "Statistics Canada coordinate — the dot-separated position of the row's dimension members within the cube (e.g. '192.3.1'). Provenance only."

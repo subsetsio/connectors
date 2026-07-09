@@ -1,25 +1,17 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
+-- Statistics Canada table 34-10-0151 (CMHC).
+-- Faithful pass-through of the raw asset: renames, casts, and a filter that drops
+-- rows with no observation (StatCan suppresses them via STATUS, leaving VALUE null).
 -- caution: the `geo` column mixes aggregation levels: national, provincial and roll-up rows (e.g. Canada, the provinces, 'Census metropolitan areas', 'All census agglomerations 50,000 and over') appear as ordinary rows alongside individual centres — filter `geo` before summing.
 -- caution: `housing_estimates` stacks three distinct measures (housing starts, housing under construction, housing completions) in one value column — starts and completions are flows over the period while under construction is an end-of-period stock; never sum or average across this column.
 -- caution: `type_of_unit` mixes subtotals with their components — 'Total units' overlap the component categories ('Apartment and other units', 'Row units', 'Semi-detached units', 'Single-detached units'); summing across the column double-counts. Pick one level.
 SELECT
     strptime("REF_DATE", '%Y-%m')::DATE AS ref_date,
-    "GEO" AS geo,
-    "DGUID" AS dguid,
-    "Housing estimates" AS housing_estimates,
-    "Type of unit" AS type_of_unit,
-    "UOM" AS uom,
-    "UOM_ID" AS uom_id,
-    "SCALAR_FACTOR" AS scalar_factor,
-    "SCALAR_ID" AS scalar_id,
-    "VECTOR" AS vector,
-    "COORDINATE" AS coordinate,
-    "VALUE" AS value,
-    "STATUS" AS status,
-    "SYMBOL" AS symbol,
-    "TERMINATED" AS terminated,
-    "DECIMALS" AS decimals
+    CAST("GEO" AS VARCHAR) AS geo,
+    CAST("DGUID" AS VARCHAR) AS dguid,
+    CAST("Housing estimates" AS VARCHAR) AS housing_estimates,
+    CAST("Type of unit" AS VARCHAR) AS type_of_unit,
+    CAST("VALUE" AS DOUBLE) AS value,
+    CAST("VECTOR" AS VARCHAR) AS vector,
+    CAST("COORDINATE" AS VARCHAR) AS coordinate
 FROM "cmhc-34100151"
+WHERE "VALUE" IS NOT NULL

@@ -1,38 +1,28 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cmhc-34100099`. Regenerate after model-verify.
+# cmhc-34100099 — Canada Mortgage and Housing Corporation, mortgage loan approvals, existing properties
+# Statistics Canada bulk CSV, monthly frequency. Dropped from the source columns: STATUS and SYMBOL
+# (no information once no-observation rows are removed), UOM/UOM_ID/DECIMALS and SCALAR_FACTOR
+# (constant per table — folded into the `value` description).
 # caution: the `geo` column mixes aggregation levels: national, provincial and roll-up rows (e.g. Canada, the provinces, 'Census metropolitan areas', 'All census agglomerations 50,000 and over') appear as ordinary rows alongside individual centres — filter `geo` before summing.
-# caution: `value` is expressed in millions of dollars (the source's SCALAR_FACTOR)  not in single dollars — multiply by 1 000 000 for absolute figures.
+# caution: `value` is expressed in millions of dollars (the source's SCALAR_FACTOR), not in single dollars — multiply by 1 000 000 for absolute figures.
 key: [ref_date, vector]
 temporal: ref_date
 sort: [ref_date, vector]
 columns:
   - name: ref_date
     type: DATE
+    description: "First day of the reference month, parsed from Statistics Canada's YYYY-MM REF_DATE."
   - name: geo
     type: VARCHAR
-  - name: dguid
-    type: VARCHAR
+    description: "Statistics Canada geography name — a country, province, census metropolitan area, census agglomeration or urban centre. Roll-up rows sit alongside individual centres."
   - name: type_of_property
     type: VARCHAR
-  - name: uom
-    type: VARCHAR
-  - name: uom_id
-    type: BIGINT
-  - name: scalar_factor
-    type: VARCHAR
-  - name: scalar_id
-    type: BIGINT
+    description: "'Residential property' or 'Non-residential property'."
+  - name: value
+    type: DOUBLE
+    description: "Value of mortgage loan approvals on existing properties, in millions of Canadian dollars."
   - name: vector
     type: VARCHAR
+    description: "Statistics Canada vector id — the stable identifier of the individual time series this row belongs to (e.g. 'v733334')."
   - name: coordinate
-    type: DOUBLE
-  - name: value
-    type: BIGINT
-  - name: status
     type: VARCHAR
-  - name: symbol
-    type: VARCHAR
-  - name: terminated
-    type: VARCHAR
-  - name: decimals
-    type: BIGINT
+    description: "Statistics Canada coordinate — the dot-separated position of the row's dimension members within the cube (e.g. '192.3.1'). Provenance only."

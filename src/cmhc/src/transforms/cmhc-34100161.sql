@@ -1,23 +1,15 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
+-- Statistics Canada table 34-10-0161 (CMHC).
+-- Faithful pass-through of the raw asset: renames, casts, and a filter that drops
+-- rows with no observation (StatCan suppresses them via STATUS, leaving VALUE null).
 -- caution: the `geo` column mixes aggregation levels: national, provincial and roll-up rows (e.g. Canada, the provinces, 'Census metropolitan areas', 'All census agglomerations 50,000 and over') appear as ordinary rows alongside individual centres — filter `geo` before summing.
--- caution: `value` is a 6-month moving average of monthly housing starts, not the starts observed in the reference month — consecutive rows overlap and must not be summed to a period total.
--- caution: `value` is expressed in thousands of units (the source's SCALAR_FACTOR)  not in single units — multiply by 1 000 for absolute figures.
+-- caution: `value` is a 6-month moving average of monthly housing starts, not the starts observed in the reference month — consecutive rows overlap, so the column must not be summed to a period total.
+-- caution: `value` is expressed in thousands of units (the source's SCALAR_FACTOR), not in single units — multiply by 1 000 for absolute figures.
 SELECT
     strptime("REF_DATE", '%Y-%m')::DATE AS ref_date,
-    "GEO" AS geo,
-    "DGUID" AS dguid,
-    "UOM" AS uom,
-    "UOM_ID" AS uom_id,
-    "SCALAR_FACTOR" AS scalar_factor,
-    "SCALAR_ID" AS scalar_id,
-    "VECTOR" AS vector,
-    "COORDINATE" AS coordinate,
-    "VALUE" AS value,
-    "STATUS" AS status,
-    "SYMBOL" AS symbol,
-    "TERMINATED" AS terminated,
-    "DECIMALS" AS decimals
+    CAST("GEO" AS VARCHAR) AS geo,
+    CAST("DGUID" AS VARCHAR) AS dguid,
+    CAST("VALUE" AS DOUBLE) AS value,
+    CAST("VECTOR" AS VARCHAR) AS vector,
+    CAST("COORDINATE" AS VARCHAR) AS coordinate
 FROM "cmhc-34100161"
+WHERE "VALUE" IS NOT NULL
