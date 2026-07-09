@@ -24,7 +24,6 @@ import io
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     configure_http,
     transient_retry,
