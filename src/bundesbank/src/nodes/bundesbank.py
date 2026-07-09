@@ -344,7 +344,19 @@ def _parse_member(dataflow: str, filename: str, handle, writer, buffer: dict[str
             )
         period_start = _period_start(period)
         for column in columns:
-            value = _parse_value(_cell(row, column["value_idx"]))
+            cell = _cell(row, column["value_idx"])
+            try:
+                value = _parse_value(cell)
+            except ValueError as exc:
+                # An unrecognised sentinel. Name where it sits: bare `float()`
+                # says only which token failed, across 85 dataflows at once.
+                flag_idx = column["flag_idx"]
+                cell_flag = _cell(row, flag_idx) if flag_idx is not None else ""
+                raise ValueError(
+                    f"{dataflow}/{filename}: cannot read value {cell!r} at period {period} "
+                    f"of series {column['series_key']!r} (flag: {cell_flag or 'none'!r}) - "
+                    "an unknown sentinel? check its _FLAGS text before treating it as missing"
+                ) from exc
             if value is None:
                 continue  # sparse matrix: an absent observation, not a null one
             flag = _cell(row, column["flag_idx"]) if column["flag_idx"] is not None else ""
