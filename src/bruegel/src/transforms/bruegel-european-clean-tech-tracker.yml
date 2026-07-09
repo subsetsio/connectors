@@ -1,8 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bruegel-european-clean-tech-tracker`. Regenerate after model-verify.
+# caution: An aggregate cross-tab, not a project list: one row per destination country by project status, with investment already summed. It carries no time dimension, so it is a snapshot as of the last refresh and cannot be used for trends. Project statuses partition the projects, so summing across statuses gives the country total.
+key: [category, series]
+sort: [category, series]
 columns:
-  - name: destination_country
+  - name: category
     type: VARCHAR
-  - name: project_status
+  - name: series
     type: VARCHAR
-  - name: investment_eur
+  - name: value
     type: DOUBLE

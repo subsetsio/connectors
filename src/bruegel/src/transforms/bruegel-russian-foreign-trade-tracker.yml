@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bruegel-russian-foreign-trade-tracker`. Regenerate after model-verify.
+# caution: The table stacks separate workbook figures, and each figure is its own slice of the tracker. Rows are only comparable within one figure. Country holds aggregates beside individual partners, and sitc_category holds Total beside commodity breakdowns, so summing over either double counts. Sitc_code is null for figures that report no SITC breakdown, which is why it is not part of the row identity.
+key: [figure, date, direction_of_trade, country, sitc_category]
 temporal: date
-sort: [date]
+sort: [date, figure, direction_of_trade, country, sitc_category]
 columns:
   - name: figure
     type: VARCHAR

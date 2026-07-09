@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bruegel-2026-european-energy-crisis-fiscal-response-tracker`. Regenerate after model-verify.
+# caution: One row per announced national fiscal measure. There is no null-free row identity: Country + Date Announced + Measure Name separates every row, but the workbook ships measures with no name, so the table is published keyless. Amounts are pre-converted to euros; Measure in % of GDP is that measure's cost against its own country's GDP, so summing it across countries is misleading.
+key: []
 temporal: date_announced
 sort: [date_announced]
 columns:
@@ -14,6 +17,14 @@ columns:
     type: VARCHAR
   - name: details
     type: VARCHAR
+  - name: total_amount_in_millions_in_local_currency
+    type: DOUBLE
+  - name: currency_unit
+    type: VARCHAR
+  - name: total_amount_in_billion_euros
+    type: DOUBLE
+  - name: total_amount_in_million_euros
+    type: DOUBLE
   - name: broad_measure_type
     type: VARCHAR
   - name: specific_measure_type
@@ -22,9 +33,15 @@ columns:
     type: VARCHAR
   - name: target_group
     type: VARCHAR
-  - name: total_amount_billion_eur
+  - name: change_in_incentives_to_consume_fossil_fuels
+    type: VARCHAR
+  - name: government_source
+    type: VARCHAR
+  - name: english_source
+    type: VARCHAR
+  - name: gdp_in_billion_euros
     type: DOUBLE
-  - name: gdp_billion_eur
+  - name: gdp_in_million_euros
     type: DOUBLE
-  - name: measure_pct_gdp
+  - name: measure_in_of_gdp
     type: DOUBLE

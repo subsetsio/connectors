@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: period
-sort: [period]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bruegel-real-effective-exchange-rates-for-178-countries-a-new-database`. Regenerate after model-verify.
+# caution: Frequency mixes monthly and annual observations in one table, and period is a source period code rather than a date. Filter frequency first. Country_set is the size of the trade-partner basket the exchange-rate index was computed against; pick one basket and do not aggregate across them.
+key: [period, country_code, country_set, measure, frequency]
+sort: [period, country_code, country_set, measure, frequency]
 columns:
   - name: period
     type: VARCHAR
@@ -9,7 +11,7 @@ columns:
   - name: frequency
     type: VARCHAR
   - name: country_set
-    type: VARCHAR
+    type: BIGINT
   - name: country_code
     type: VARCHAR
   - name: value

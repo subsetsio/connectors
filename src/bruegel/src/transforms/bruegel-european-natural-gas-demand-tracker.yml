@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bruegel-european-natural-gas-demand-tracker`. Regenerate after model-verify.
+# caution: Value is a deviation in TWh against the 2019-2021 monthly-average baseline, not a demand level. Both dimensions carry aggregates alongside their components: country includes an EU row, and sector includes total and combined categories next to component sectors. Filter both before summing.
+key: [date, country, sector]
 temporal: date
-sort: [date]
+sort: [date, country, sector]
 columns:
   - name: date
     type: DATE
@@ -8,5 +11,5 @@ columns:
     type: VARCHAR
   - name: sector
     type: VARCHAR
-  - name: demand_twh_dev
+  - name: value
     type: DOUBLE

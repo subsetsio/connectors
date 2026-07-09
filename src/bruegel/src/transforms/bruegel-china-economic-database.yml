@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bruegel-china-economic-database`. Regenerate after model-verify.
+# caution: Scraped from the dashboard's Plotly figures, so unit is the figure's y-axis title and carries meaning: a page can host two figures under the same chart title plotting the same series in different units. Always filter or group by unit before comparing or aggregating value. The x observation label is not uniformly a date: most charts are ISO timestamps, some are calendar years, some are category labels, and a few charts carry long-range projections, so do not treat the table as having a single time axis.
+key: [page, chart, series, unit, x]
+sort: [page, chart, series, unit, x]
 columns:
   - name: page
     type: VARCHAR
@@ -6,7 +10,9 @@ columns:
     type: VARCHAR
   - name: series
     type: VARCHAR
-  - name: observation
+  - name: unit
+    type: VARCHAR
+  - name: x
     type: JSON
   - name: value
     type: DOUBLE

@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bruegel-global-trade-tracker`. Regenerate after model-verify.
+# caution: Commodity includes the total ALL alongside components, partner includes aggregates and inconsistent country labels from the source sheet headers, and unit includes spelling variants for the same unit. Values are only comparable within one unit and seasonal_adj combination.
+key: [date, commodity, unit, seasonal_adj, flow, partner]
 temporal: date
-sort: [date]
+sort: [date, commodity, unit, seasonal_adj, flow, partner]
 columns:
   - name: date
     type: DATE

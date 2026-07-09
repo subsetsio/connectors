@@ -1,6 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bank-indonesia-jisdor`. Regenerate after model-verify.
+# caution: JISDOR is a USD/IDR reference fixing, not a buy/sell quote; compare it to transaction-rate midpoints only with that methodological difference in mind.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE
-  - name: rate
+  - name: currency
+    type: VARCHAR
+  - name: unit
+    type: DOUBLE
+  - name: buy
+    type: DOUBLE
+  - name: sell
     type: DOUBLE

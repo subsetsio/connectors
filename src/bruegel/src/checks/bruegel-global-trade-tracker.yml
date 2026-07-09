@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `bruegel-global-trade-tracker`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, commodity, unit, seasonal_adj, flow, partner]
+temporal: date
+checks:
+  - kind: unique
+    columns: [date, commodity, unit, seasonal_adj, flow, partner]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: commodity
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: seasonal_adj
+  - kind: not_null
+    col: flow
+  - kind: not_null
+    col: partner
+  - kind: row_floor
+    min: 75402
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

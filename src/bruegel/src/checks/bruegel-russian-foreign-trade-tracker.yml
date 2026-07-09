@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `bruegel-russian-foreign-trade-tracker`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [figure, date, direction_of_trade, country, sitc_category]
+temporal: date
+checks:
+  - kind: unique
+    columns: [figure, date, direction_of_trade, country, sitc_category]
+  - kind: not_null
+    col: figure
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: direction_of_trade
+  - kind: not_null
+    col: country
+  - kind: not_null
+    col: sitc_category
+  - kind: row_floor
+    min: 10169
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

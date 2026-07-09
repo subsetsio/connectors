@@ -1,15 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bruegel-us-foreign-military-sales`. Regenerate after model-verify.
+# caution: One row per announced US foreign military sale, keyed by the source's own id. These are announcements, not deliveries or settled contracts: financial_value_bn_usd is the announced ceiling value, and a sale announced in one year may never be executed. Year and month date the announcement.
 key: [id]
 temporal: year
 sort: [year, id]
 columns:
   - name: id
-    type: INTEGER
+    type: BIGINT
   - name: country
     type: VARCHAR
-  - name: financial_value_bn_usd
+  - name: financial_value
     type: DOUBLE
   - name: main_equipment
+    type: VARCHAR
+  - name: additional_equipment
+    type: VARCHAR
+  - name: quantities
     type: VARCHAR
   - name: military_domain
     type: VARCHAR
@@ -20,6 +26,16 @@ columns:
   - name: contractors
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: month
-    type: INTEGER
+    type: BIGINT
+  - name: "2024_deflator_value"
+    type: DOUBLE
+  - name: financial_value_2024_prices
+    type: DOUBLE
+  - name: eu_non_eu
+    type: VARCHAR
+  - name: nato_non_nato
+    type: VARCHAR
+  - name: region
+    type: VARCHAR

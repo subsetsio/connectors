@@ -1,9 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bruegel-eu-labour-market-outlook-dashboard`. Regenerate after model-verify.
+# caution: Breakdown mixes the aggregate with its own disaggregations: Total sits alongside education levels, sexes, and education-by-sex combinations. Filter to one breakdown level before summing or averaging. Indicators are rates and shares, not counts, so they cannot be summed across countries without weighting.
+key: [country, year, indicator, breakdown]
 temporal: year
-sort: [year]
+sort: [year, country, indicator, breakdown]
 columns:
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: country
     type: VARCHAR
   - name: indicator

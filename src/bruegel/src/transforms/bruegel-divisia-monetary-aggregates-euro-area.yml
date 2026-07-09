@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bruegel-divisia-monetary-aggregates-euro-area`. Regenerate after model-verify.
+# caution: Category is the measurement basis, not a grouping label: Divisia index rows and simple-sum euro rows are not comparable. Subcategory selects the euro-area composition, so the same date and series_name appears several times.
+key: [date, series_name, subcategory, category]
 temporal: date
-sort: [date]
+sort: [date, series_name, subcategory, category]
 columns:
   - name: date
     type: DATE

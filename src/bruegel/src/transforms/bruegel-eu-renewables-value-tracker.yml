@@ -1,16 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bruegel-eu-renewables-value-tracker`. Regenerate after model-verify.
+# caution: Zone is a bidding-zone or country code and tech is the generation technology. Capacity factor, market value, and capture value are ratios or prices, not volumes; averaging them across zones without weighting by generation is misleading.
+key: [zone, year, tech]
 temporal: year
-sort: [year]
+sort: [year, zone, tech]
 columns:
   - name: zone
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: tech
     type: VARCHAR
-  - name: capacity_factor
+  - name: cf
     type: DOUBLE
-  - name: market_value
+  - name: mv
     type: DOUBLE
-  - name: capture_value
+  - name: cv
     type: DOUBLE
+  - name: composition
+    type: JSON

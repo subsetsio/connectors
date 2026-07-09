@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bank-indonesia-kurs-uka`. Regenerate after model-verify.
+# caution: Rates are for physical foreign banknotes and can differ from BI transaction rates because the product and spread are different.
+# caution: Rates are quoted against IDR with the source's unit field; consumers should account for unit before comparing currency levels.
+key: [date, currency]
+temporal: date
+sort: [date, currency]
 columns:
   - name: date
     type: DATE
@@ -6,7 +12,7 @@ columns:
     type: VARCHAR
   - name: unit
     type: DOUBLE
-  - name: buy_rate
+  - name: buy
     type: DOUBLE
-  - name: sell_rate
+  - name: sell
     type: DOUBLE
