@@ -28,14 +28,11 @@ each run overwrites. Freshness gating is the maintain step's job.
 import csv
 import io
 import re
-
-import pyarrow as pa
+import zipfile
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
-    transient_retry,
     save_raw_ndjson,
 )
 from constants import ENTITY_IDS
@@ -50,11 +47,22 @@ _INT_RE = re.compile(r"^-?\d+$")
 _DEC_RE = re.compile(r"^-?\d+[.,]\d+$")
 
 
-@transient_retry()  # 6 attempts, exponential backoff; reraises on exhaustion
 def _fetch_text(url: str) -> str:
     resp = get(url, timeout=(10.0, 120.0))
-    resp.raise_for_status()  # inside the retry: 5xx/429 -> retried, 4xx -> raise
+    resp.raise_for_status()
     return resp.content.decode("utf-8-sig", "replace")
+
+
+def _fetch_bytes(url: str) -> bytes:
+    resp = get(url, timeout=(10.0, 120.0))
+    resp.raise_for_status()
+    return resp.content
+
+
+def _fetch_json(url: str) -> dict:
+    resp = get(url, timeout=(10.0, 120.0))
+    resp.raise_for_status()
+    return resp.json()
 
 
 def _fetch_optional(url: str):
@@ -132,38 +140,105 @@ def _coerce_column(values):
     return [v if v != "" else None for v in values]
 
 
-def fetch_one(node_id: str) -> None:
-    asset = node_id  # the spec id IS the asset name
-    eid = _SUFFIX_TO_ID[node_id[len(SLUG) + 1:]]
+def _resource_map(metadata: dict) -> dict[str, str]:
+    resources = {}
+    for resource in metadata.get("resources") or []:
+        name = (resource.get("name") or "").strip()
+        url = (resource.get("url") or "").strip()
+        if name and url:
+            resources[name] = url
+    return resources
 
-    main = _fetch_text(f"{DATA_BASE}/{eid}.csv")  # missing main -> node fails
+
+def _rows_from_table(text: str, *, source_file: str, col_labels: dict | None = None) -> list[dict]:
+    header, data = _read_semicolon(text)
+    if not header or not data:
+        return []
+
+    used: set = {"source_file", "row_number"}
+    columns = []
+    for j, raw_col in enumerate(header):
+        raw_col = raw_col.strip()
+        vals = [(row[j].strip() if j < len(row) else "") for row in data]
+        clean = _sanitize((col_labels or {}).get(raw_col, raw_col), used)
+        columns.append((clean, _coerce_column(vals)))
+
+    rows = []
+    for i in range(len(data)):
+        row = {
+            "source_file": source_file,
+            "row_number": i + 1,
+        }
+        row.update({name: vals[i] for name, vals in columns})
+        rows.append(row)
+    return rows
+
+
+def _rows_from_standard_bundle(eid: str, resources: dict[str, str]) -> list[dict]:
+    main_url = resources.get(eid) or f"{DATA_BASE}/{eid}.csv"
+    main = _fetch_text(main_url)
     header, data = _read_semicolon(main)
     if not header or not data:
         raise ValueError(f"{eid}: main CSV has no data rows")
 
-    col_labels = _label_map(_fetch_optional(f"{DATA_BASE}/{eid}_HEADER.csv"))
+    header_url = resources.get(f"{eid}_HEADER", f"{DATA_BASE}/{eid}_HEADER.csv")
+    col_labels = _label_map(_fetch_optional(header_url))
 
-    used: set = set()
-    columns = []  # (clean_name, coerced_values)
+    used: set = {"source_file", "row_number"}
+    columns = []
     for j, raw_col in enumerate(header):
         raw_col = raw_col.strip()
         vals = [(row[j].strip() if j < len(row) else "") for row in data]
 
         is_dim = raw_col.startswith("C-")
         if is_dim:
-            # resolve coded values -> labels via the dimension's codelist
-            code_map = _label_map(_fetch_optional(f"{DATA_BASE}/{eid}_{raw_col}.csv"))
+            code_url = resources.get(f"{eid}_{raw_col}", f"{DATA_BASE}/{eid}_{raw_col}.csv")
+            code_map = _label_map(_fetch_optional(code_url))
             if code_map:
                 vals = [code_map.get(v, v) for v in vals]
-            vals = [v if v != "" else None for v in vals]  # keep as string labels
+            vals = [v if v != "" else None for v in vals]
         else:
             vals = _coerce_column(vals)
 
         clean = _sanitize(col_labels.get(raw_col, raw_col), used)
         columns.append((clean, vals))
 
-    n = len(data)
-    rows = [{name: vals[i] for name, vals in columns} for i in range(n)]
+    rows = []
+    for i in range(len(data)):
+        row = {
+            "source_file": f"{eid}.csv",
+            "row_number": i + 1,
+        }
+        row.update({name: vals[i] for name, vals in columns})
+        rows.append(row)
+    return rows
+
+
+def _rows_from_zip(eid: str, zip_url: str) -> list[dict]:
+    blob = _fetch_bytes(zip_url)
+    rows = []
+    with zipfile.ZipFile(io.BytesIO(blob)) as zf:
+        for info in sorted(zf.infolist(), key=lambda i: i.filename):
+            if info.is_dir() or not info.filename.lower().endswith(".csv"):
+                continue
+            text = zf.read(info).decode("utf-8-sig", "replace")
+            rows.extend(_rows_from_table(text, source_file=info.filename))
+    if not rows:
+        raise ValueError(f"{eid}: zip resource has no CSV data rows")
+    return rows
+
+
+def fetch_one(node_id: str) -> None:
+    asset = node_id  # the spec id IS the asset name
+    eid = _SUFFIX_TO_ID[node_id[len(SLUG) + 1:]]
+
+    metadata = _fetch_json(f"https://data.statistik.gv.at/ogd/json?dataset={eid}")
+    resources = _resource_map(metadata)
+    zip_url = resources.get(eid)
+    if zip_url and zip_url.lower().endswith(".zip"):
+        rows = _rows_from_zip(eid, zip_url)
+    else:
+        rows = _rows_from_standard_bundle(eid, resources)
     save_raw_ndjson(rows, asset)
 
 
@@ -174,17 +249,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per subset: a thin pass-through of the cleaned,
-# typed raw. The empty-result-fails-the-node rule is our correctness floor —
-# a dataset that parsed to nothing trips here instead of publishing an empty
-# table.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]
