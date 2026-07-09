@@ -1,24 +1,27 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `correlates-of-war-dca-agreements`. Regenerate after model-verify.
+key: [dcaid, cowname2, cowname1, category1, categoryconf]
+sort: [dcaid, cowname2, cowname1, category1, categoryconf]
 columns:
   - name: ccode1
     type: BIGINT
-  - name: cowName1
+  - name: cowname1
     type: VARCHAR
   - name: ccode2
     type: BIGINT
-  - name: cowName2
+  - name: cowname2
     type: VARCHAR
-  - name: signDay
+  - name: signday
     type: BIGINT
-  - name: signMonth
+  - name: signmonth
     type: BIGINT
-  - name: signYear
+  - name: signyear
     type: BIGINT
-  - name: EIFDay
+  - name: eifday
     type: BIGINT
-  - name: EIFMonth
+  - name: eifmonth
     type: BIGINT
-  - name: EIFYear
+  - name: eifyear
     type: BIGINT
   - name: type
     type: VARCHAR
@@ -30,33 +33,33 @@ columns:
     type: VARCHAR
   - name: span
     type: BIGINT
-  - name: renewType
+  - name: renewtype
     type: BIGINT
-  - name: renewYears
+  - name: renewyears
     type: BIGINT
   - name: terminated
     type: BIGINT
-  - name: durationActual
+  - name: durationactual
     type: BIGINT
-  - name: endYearEstimate
+  - name: endyearestimate
     type: BIGINT
   - name: asymmetry
     type: BIGINT
-  - name: categoryConf
+  - name: categoryconf
     type: VARCHAR
-  - name: UNTS
+  - name: unts
     type: BIGINT
-  - name: fullText
+  - name: fulltext
     type: VARCHAR
-  - name: sourceType
+  - name: sourcetype
     type: VARCHAR
   - name: source
     type: VARCHAR
-  - name: factivaConf
+  - name: factivaconf
     type: BIGINT
-  - name: factivaSign
+  - name: factivasign
     type: BIGINT
-  - name: factivaEIF
+  - name: factivaeif
     type: BIGINT
-  - name: DCAid
+  - name: dcaid
     type: VARCHAR

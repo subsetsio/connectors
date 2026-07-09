@@ -1,88 +1,91 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `correlates-of-war-intra-state-war`. Regenerate after model-verify.
+key: [sideb, warname, initiator, sidea, enddy1]
+sort: [sideb, warname, initiator, sidea, enddy1]
 columns:
-  - name: WarNum
+  - name: warnum
     type: DOUBLE
-  - name: WarName
+  - name: warname
     type: VARCHAR
-  - name: V5RegionNum
+  - name: v5regionnum
     type: BIGINT
-  - name: WarType
+  - name: wartype
     type: BIGINT
-  - name: CcodeA
+  - name: ccodea
     type: BIGINT
-  - name: SideA
+  - name: sidea
     type: VARCHAR
-  - name: SideB
+  - name: sideb
     type: VARCHAR
-  - name: Intnl
+  - name: intnl
     type: BIGINT
-  - name: StartMo1
+  - name: startmo1
     type: BIGINT
-  - name: StartDy1
+  - name: startdy1
     type: BIGINT
-  - name: StartYr1
+  - name: startyr1
     type: BIGINT
-  - name: EndMo1
+  - name: endmo1
     type: BIGINT
-  - name: EndDy1
+  - name: enddy1
     type: VARCHAR
-  - name: EndYr1
+  - name: endyr1
     type: BIGINT
-  - name: StartMo2
+  - name: startmo2
     type: BIGINT
-  - name: StartDy2
+  - name: startdy2
     type: BIGINT
-  - name: StartYr2
+  - name: startyr2
     type: BIGINT
-  - name: EndMo2
+  - name: endmo2
     type: BIGINT
-  - name: EndDy2
+  - name: enddy2
     type: BIGINT
-  - name: EndYr2
+  - name: endyr2
     type: BIGINT
-  - name: StartMo3
+  - name: startmo3
     type: BIGINT
-  - name: StartDy3
+  - name: startdy3
     type: BIGINT
-  - name: StartYr3
+  - name: startyr3
     type: BIGINT
-  - name: EndMo3
+  - name: endmo3
     type: BIGINT
-  - name: EndDy3
+  - name: enddy3
     type: BIGINT
-  - name: EndYr3
+  - name: endyr3
     type: BIGINT
-  - name: StartMo4
+  - name: startmo4
     type: BIGINT
-  - name: StartDy4
+  - name: startdy4
     type: BIGINT
-  - name: StartYr4
+  - name: startyr4
     type: BIGINT
-  - name: EndMo4
+  - name: endmo4
     type: BIGINT
-  - name: EndDy4
+  - name: enddy4
     type: BIGINT
-  - name: EndYr4
+  - name: endyr4
     type: BIGINT
-  - name: WDuratDays
+  - name: wduratdays
     type: BIGINT
-  - name: WDuratMo
+  - name: wduratmo
     type: DOUBLE
-  - name: TotNatMonWar
+  - name: totnatmonwar
     type: DOUBLE
-  - name: TransFrom
+  - name: transfrom
     type: BIGINT
-  - name: Initiator
+  - name: initiator
     type: VARCHAR
-  - name: Outcome
+  - name: outcome
     type: BIGINT
-  - name: TransTo
+  - name: transto
     type: DOUBLE
-  - name: DeathsSideA
+  - name: deathssidea
     type: BIGINT
-  - name: DeathsSideB
+  - name: deathssideb
     type: BIGINT
-  - name: TotalBDeaths
+  - name: totalbdeaths
     type: BIGINT
-  - name: Version
+  - name: version
     type: DOUBLE

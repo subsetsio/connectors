@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `correlates-of-war-arms-technology`. Regenerate after model-verify.
+key: [stateabb, year, statename, techname, techtype]
+temporal: year
+sort: [year, stateabb, statename, techname, techtype]
 columns:
   - name: ccode
     type: BIGINT

@@ -1,1 +1,15 @@
-SELECT * FROM "correlates-of-war-arms-technology"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "ccode",
+    "stateabb",
+    "statename",
+    "techname",
+    "techtype",
+    "year",
+    "use",
+    "total_use",
+    "version"
+FROM "correlates-of-war-arms-technology"

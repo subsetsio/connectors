@@ -1,8 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `correlates-of-war-country-codes`. Regenerate after model-verify.
+# caution: The raw source includes duplicate full country-code rows for some historical states, so this reference table is published without a declared key.
+key: []
 columns:
-  - name: StateAbb
+  - name: stateabb
     type: VARCHAR
-  - name: CCode
+  - name: ccode
     type: BIGINT
-  - name: StateNme
+  - name: statenme
     type: VARCHAR

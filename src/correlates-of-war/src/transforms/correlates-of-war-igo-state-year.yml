@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `correlates-of-war-igo-state-year`. Regenerate after model-verify.
+# caution: This is a wide state-year table with one membership-status column per intergovernmental organization.
+key: [state, country, year]
+temporal: year
+sort: [year, state, country]
 columns:
   - name: ccode
     type: BIGINT
@@ -8,1061 +13,1061 @@ columns:
     type: VARCHAR
   - name: year
     type: BIGINT
-  - name: AAAID
+  - name: aaaid
     type: BIGINT
-  - name: AAB
+  - name: aab
     type: BIGINT
-  - name: AACB
+  - name: aacb
     type: BIGINT
-  - name: AACarib
+  - name: aacarib
     type: BIGINT
-  - name: AALCO
+  - name: aalco
     type: BIGINT
-  - name: AARO
+  - name: aaro
     type: BIGINT
-  - name: AATA
+  - name: aata
     type: BIGINT
-  - name: AATPO
+  - name: aatpo
     type: BIGINT
-  - name: ABEDA
+  - name: abeda
     type: BIGINT
-  - name: ABEPSEAC
+  - name: abepseac
     type: BIGINT
-  - name: ACC
+  - name: acc
     type: BIGINT
-  - name: ACCT
+  - name: acct
     type: BIGINT
-  - name: ACDT
+  - name: acdt
     type: BIGINT
-  - name: ACI
+  - name: aci
     type: BIGINT
-  - name: ACML
+  - name: acml
     type: BIGINT
-  - name: ACP
+  - name: acp
     type: BIGINT
-  - name: ACPEU
+  - name: acpeu
     type: BIGINT
-  - name: ACS
+  - name: acs
     type: BIGINT
-  - name: ACSO
+  - name: acso
     type: BIGINT
-  - name: ACSSRB
+  - name: acssrb
     type: BIGINT
-  - name: ACU
+  - name: acu
     type: BIGINT
-  - name: ACWL
+  - name: acwl
     type: BIGINT
-  - name: AFESD
+  - name: afesd
     type: BIGINT
-  - name: AFEXIMB
+  - name: afeximb
     type: BIGINT
-  - name: AFGEC
+  - name: afgec
     type: BIGINT
-  - name: AFPU
+  - name: afpu
     type: BIGINT
-  - name: AFRAND
+  - name: afrand
     type: BIGINT
-  - name: AFSPC
+  - name: afspc
     type: BIGINT
-  - name: AFTE
+  - name: afte
     type: BIGINT
-  - name: AGC
+  - name: agc
     type: BIGINT
-  - name: AGPUNDO
+  - name: agpundo
     type: BIGINT
-  - name: AIC
+  - name: aic
     type: BIGINT
-  - name: AIDC
+  - name: aidc
     type: BIGINT
-  - name: AIDO
+  - name: aido
     type: BIGINT
-  - name: AIOEC
+  - name: aioec
     type: BIGINT
-  - name: AIPO
+  - name: aipo
     type: BIGINT
-  - name: AITIC
+  - name: aitic
     type: BIGINT
-  - name: ALO
+  - name: alo
     type: BIGINT
-  - name: AMCO
+  - name: amco
     type: BIGINT
-  - name: AMCOW
+  - name: amcow
     type: BIGINT
-  - name: AMF
+  - name: amf
     type: BIGINT
-  - name: AMIPO
+  - name: amipo
     type: BIGINT
-  - name: AMPTU
+  - name: amptu
     type: BIGINT
-  - name: AMSC
+  - name: amsc
     type: BIGINT
-  - name: AMU
+  - name: amu
     type: BIGINT
-  - name: ANZUS
+  - name: anzus
     type: BIGINT
-  - name: AOAD
+  - name: aoad
     type: BIGINT
-  - name: AOCRS
+  - name: aocrs
     type: BIGINT
-  - name: AOMR
+  - name: aomr
     type: BIGINT
-  - name: AOPU
+  - name: aopu
     type: BIGINT
-  - name: AP
+  - name: ap
     type: BIGINT
-  - name: APCC
+  - name: apcc
     type: BIGINT
-  - name: APEC
+  - name: apec
     type: BIGINT
-  - name: APFIC
+  - name: apfic
     type: BIGINT
-  - name: APIBD
+  - name: apibd
     type: BIGINT
-  - name: APO
+  - name: apo
     type: BIGINT
-  - name: APPA
+  - name: appa
     type: BIGINT
-  - name: APT
+  - name: apt
     type: BIGINT
-  - name: APTU
+  - name: aptu
     type: BIGINT
-  - name: ARC
+  - name: arc
     type: BIGINT
-  - name: ARCAL
+  - name: arcal
     type: BIGINT
-  - name: ARIPO
+  - name: aripo
     type: BIGINT
-  - name: ARPU
+  - name: arpu
     type: BIGINT
-  - name: ASATP
+  - name: asatp
     type: BIGINT
-  - name: ASBLAC
+  - name: asblac
     type: BIGINT
-  - name: ASCBC
+  - name: ascbc
     type: BIGINT
-  - name: ASCRubber
+  - name: ascrubber
     type: BIGINT
-  - name: ASEAN
+  - name: asean
     type: BIGINT
-  - name: ASECNA
+  - name: asecna
     type: BIGINT
-  - name: ASEF
+  - name: asef
     type: BIGINT
-  - name: ASPAC
+  - name: aspac
     type: BIGINT
-  - name: ATO
+  - name: ato
     type: BIGINT
-  - name: ATPC
+  - name: atpc
     type: BIGINT
-  - name: AU
+  - name: au
     type: BIGINT
-  - name: AVRDC
+  - name: avrdc
     type: BIGINT
-  - name: AfDB
+  - name: afdb
     type: BIGINT
-  - name: AfrOPDA
+  - name: afropda
     type: BIGINT
-  - name: Africare
+  - name: africare
     type: BIGINT
-  - name: AmCC
+  - name: amcc
     type: BIGINT
-  - name: Andean
+  - name: andean
     type: BIGINT
-  - name: AralSea
+  - name: aralsea
     type: BIGINT
-  - name: ArticC
+  - name: articc
     type: BIGINT
-  - name: AsDB
+  - name: asdb
     type: BIGINT
-  - name: BALTBAT
+  - name: baltbat
     type: BIGINT
-  - name: BC
+  - name: bc
     type: BIGINT
-  - name: BCSC
+  - name: bcsc
     type: BIGINT
-  - name: BEF
+  - name: bef
     type: BIGINT
-  - name: BEN
+  - name: ben
     type: BIGINT
-  - name: BENELUX
+  - name: benelux
     type: BIGINT
-  - name: BESCC
+  - name: bescc
     type: BIGINT
-  - name: BIISEF
+  - name: biisef
     type: BIGINT
-  - name: BIONET
+  - name: bionet
     type: BIGINT
-  - name: BIPM
+  - name: bipm
     type: BIGINT
-  - name: BIS
+  - name: bis
     type: BIGINT
-  - name: BNDP
+  - name: bndp
     type: BIGINT
-  - name: BOBP
+  - name: bobp
     type: BIGINT
-  - name: BONN
+  - name: bonn
     type: BIGINT
-  - name: BSEC
+  - name: bsec
     type: BIGINT
-  - name: CAAD
+  - name: caad
     type: BIGINT
-  - name: CAARC
+  - name: caarc
     type: BIGINT
-  - name: CAB
+  - name: cab
     type: BIGINT
-  - name: CABI
+  - name: cabi
     type: BIGINT
-  - name: CACB
+  - name: cacb
     type: BIGINT
-  - name: CACI
+  - name: caci
     type: BIGINT
-  - name: CAEC
+  - name: caec
     type: BIGINT
-  - name: CAECC
+  - name: caecc
     type: BIGINT
-  - name: CAIPA
+  - name: caipa
     type: BIGINT
-  - name: CAMES
+  - name: cames
     type: BIGINT
-  - name: CAMRSD
+  - name: camrsd
     type: BIGINT
-  - name: CAMSF
+  - name: camsf
     type: BIGINT
-  - name: CARICOM
+  - name: caricom
     type: BIGINT
-  - name: CARIFTA
+  - name: carifta
     type: BIGINT
-  - name: CARII
+  - name: carii
     type: BIGINT
-  - name: CATC
+  - name: catc
     type: BIGINT
-  - name: CBFP
+  - name: cbfp
     type: BIGINT
-  - name: CBI
+  - name: cbi
     type: BIGINT
-  - name: CBSS
+  - name: cbss
     type: BIGINT
-  - name: CCNR
+  - name: ccnr
     type: BIGINT
-  - name: CCOM
+  - name: ccom
     type: BIGINT
-  - name: CCPA
+  - name: ccpa
     type: BIGINT
-  - name: CComm
+  - name: ccomm
     type: BIGINT
-  - name: CDB
+  - name: cdb
     type: BIGINT
-  - name: CEAO
+  - name: ceao
     type: BIGINT
-  - name: CEC
+  - name: cec
     type: BIGINT
-  - name: CEEPN
+  - name: ceepn
     type: BIGINT
-  - name: CEFTA
+  - name: cefta
     type: BIGINT
-  - name: CEI
+  - name: cei
     type: BIGINT
-  - name: CELC
+  - name: celc
     type: BIGINT
-  - name: CEMAC
+  - name: cemac
     type: BIGINT
-  - name: CENTO
+  - name: cento
     type: BIGINT
-  - name: CEPGL
+  - name: cepgl
     type: BIGINT
-  - name: CERN
+  - name: cern
     type: BIGINT
-  - name: CFATF
+  - name: cfatf
     type: BIGINT
-  - name: CFC
+  - name: cfc
     type: BIGINT
-  - name: CHSTEA
+  - name: chstea
     type: BIGINT
-  - name: CICA
+  - name: cica
     type: BIGINT
-  - name: CIFC
+  - name: cifc
     type: BIGINT
-  - name: CIMA
+  - name: cima
     type: BIGINT
-  - name: CIS
+  - name: cis
     type: BIGINT
-  - name: CMAEC
+  - name: cmaec
     type: BIGINT
-  - name: CMAOC
+  - name: cmaoc
     type: BIGINT
-  - name: CMEA
+  - name: cmea
     type: BIGINT
-  - name: CMHASG
+  - name: cmhasg
     type: BIGINT
-  - name: COE
+  - name: coe
     type: BIGINT
-  - name: COLOMBO
+  - name: colombo
     type: BIGINT
-  - name: COMESA
+  - name: comesa
     type: BIGINT
-  - name: CONFEJES
+  - name: confejes
     type: BIGINT
-  - name: COPTAC
+  - name: coptac
     type: BIGINT
-  - name: COSAVE
+  - name: cosave
     type: BIGINT
-  - name: COrg
+  - name: corg
     type: BIGINT
-  - name: CP
+  - name: cp
     type: BIGINT
-  - name: CPAB
+  - name: cpab
     type: BIGINT
-  - name: CPSC
+  - name: cpsc
     type: BIGINT
-  - name: CPU
+  - name: cpu
     type: BIGINT
-  - name: CSLF
+  - name: cslf
     type: BIGINT
-  - name: CTCAf
+  - name: ctcaf
     type: BIGINT
-  - name: CTO
+  - name: cto
     type: BIGINT
-  - name: CWGC
+  - name: cwgc
     type: BIGINT
-  - name: CXC
+  - name: cxc
     type: BIGINT
-  - name: CfRN
+  - name: cfrn
     type: BIGINT
-  - name: ComAB
+  - name: comab
     type: BIGINT
-  - name: ComSec
+  - name: comsec
     type: BIGINT
-  - name: DBGLS
+  - name: dbgls
     type: BIGINT
-  - name: DLCOEA
+  - name: dlcoea
     type: BIGINT
-  - name: Danube
+  - name: danube
     type: BIGINT
-  - name: EACM
+  - name: eacm
     type: BIGINT
-  - name: EACS
+  - name: eacs
     type: BIGINT
-  - name: EACSO
+  - name: eacso
     type: BIGINT
-  - name: EADB
+  - name: eadb
     type: BIGINT
-  - name: EAPC
+  - name: eapc
     type: BIGINT
-  - name: EAPO
+  - name: eapo
     type: BIGINT
-  - name: EBRD
+  - name: ebrd
     type: BIGINT
-  - name: ECB
+  - name: ecb
     type: BIGINT
-  - name: ECCA
+  - name: ecca
     type: BIGINT
-  - name: ECCAS
+  - name: eccas
     type: BIGINT
-  - name: ECCB
+  - name: eccb
     type: BIGINT
-  - name: ECCD
+  - name: eccd
     type: BIGINT
-  - name: ECCM
+  - name: eccm
     type: BIGINT
-  - name: ECCPIF
+  - name: eccpif
     type: BIGINT
-  - name: ECO
+  - name: eco
     type: BIGINT
-  - name: ECOWAS
+  - name: ecowas
     type: BIGINT
-  - name: ECPTA
+  - name: ecpta
     type: BIGINT
-  - name: ECSC
+  - name: ecsc
     type: BIGINT
-  - name: EEC
+  - name: eec
     type: BIGINT
-  - name: EFCC
+  - name: efcc
     type: BIGINT
-  - name: EFILWC
+  - name: efilwc
     type: BIGINT
-  - name: EFTA
+  - name: efta
     type: BIGINT
-  - name: EIB
+  - name: eib
     type: BIGINT
-  - name: EIPA
+  - name: eipa
     type: BIGINT
-  - name: ELDO
+  - name: eldo
     type: BIGINT
-  - name: EMB
+  - name: emb
     type: BIGINT
-  - name: EMBC
+  - name: embc
     type: BIGINT
-  - name: EMBL
+  - name: embl
     type: BIGINT
-  - name: EMI
+  - name: emi
     type: BIGINT
-  - name: EMPPO
+  - name: emppo
     type: BIGINT
-  - name: EPA
+  - name: epa
     type: BIGINT
-  - name: EPFSC
+  - name: epfsc
     type: BIGINT
-  - name: EPO
+  - name: epo
     type: BIGINT
-  - name: EPU
+  - name: epu
     type: BIGINT
-  - name: ESA
+  - name: esa
     type: BIGINT
-  - name: ESO
+  - name: eso
     type: BIGINT
-  - name: ESRO
+  - name: esro
     type: BIGINT
-  - name: ETF
+  - name: etf
     type: BIGINT
-  - name: EU
+  - name: eu
     type: BIGINT
-  - name: EUFMD
+  - name: eufmd
     type: BIGINT
-  - name: EURATOM
+  - name: euratom
     type: BIGINT
-  - name: EUROCONTROL
+  - name: eurocontrol
     type: BIGINT
-  - name: EUROFIMA
+  - name: eurofima
     type: BIGINT
-  - name: EUROMET
+  - name: euromet
     type: BIGINT
-  - name: Entente
+  - name: entente
     type: BIGINT
-  - name: FAO
+  - name: fao
     type: BIGINT
-  - name: FAPED
+  - name: faped
     type: BIGINT
-  - name: FDIPLAC
+  - name: fdiplac
     type: BIGINT
-  - name: FEC
+  - name: fec
     type: BIGINT
-  - name: G15
+  - name: g15
     type: BIGINT
-  - name: G24
+  - name: g24
     type: BIGINT
-  - name: G3
+  - name: g3
     type: BIGINT
-  - name: GATT
+  - name: gatt
     type: BIGINT
-  - name: GBACT
+  - name: gbact
     type: BIGINT
-  - name: GCC
+  - name: gcc
     type: BIGINT
-  - name: GCRSNC
+  - name: gcrsnc
     type: BIGINT
-  - name: GEF
+  - name: gef
     type: BIGINT
-  - name: GEO
+  - name: geo
     type: BIGINT
-  - name: GHSI
+  - name: ghsi
     type: BIGINT
-  - name: GLACSEC
+  - name: glacsec
     type: BIGINT
-  - name: GOIC
+  - name: goic
     type: BIGINT
-  - name: GRBDO
+  - name: grbdo
     type: BIGINT
-  - name: HCPIL
+  - name: hcpil
     type: BIGINT
-  - name: IABE
+  - name: iabe
     type: BIGINT
-  - name: IABath
+  - name: iabath
     type: BIGINT
-  - name: IACB
+  - name: iacb
     type: BIGINT
-  - name: IACI
+  - name: iaci
     type: BIGINT
-  - name: IACS
+  - name: iacs
     type: BIGINT
-  - name: IACSS
+  - name: iacss
     type: BIGINT
-  - name: IACW
+  - name: iacw
     type: BIGINT
-  - name: IADB
+  - name: iadb
     type: BIGINT
-  - name: IADefB
+  - name: iadefb
     type: BIGINT
-  - name: IAEA
+  - name: iaea
     type: BIGINT
-  - name: IAFC
+  - name: iafc
     type: BIGINT
-  - name: IAHC
+  - name: iahc
     type: BIGINT
-  - name: IAIAS
+  - name: iaias
     type: BIGINT
-  - name: IAIC
+  - name: iaic
     type: BIGINT
-  - name: IAIGC
+  - name: iaigc
     type: BIGINT
-  - name: IAII
+  - name: iaii
     type: BIGINT
-  - name: IALong
+  - name: ialong
     type: BIGINT
-  - name: IAMLO
+  - name: iamlo
     type: BIGINT
-  - name: IAPhy
+  - name: iaphy
     type: BIGINT
-  - name: IARA
+  - name: iara
     type: BIGINT
-  - name: IARHC
+  - name: iarhc
     type: BIGINT
-  - name: IARadiO
+  - name: iaradio
     type: BIGINT
-  - name: IARuhr
+  - name: iaruhr
     type: BIGINT
-  - name: IAS
+  - name: ias
     type: BIGINT
-  - name: IASAJ
+  - name: iasaj
     type: BIGINT
-  - name: IATB
+  - name: iatb
     type: BIGINT
-  - name: IATSJ
+  - name: iatsj
     type: BIGINT
-  - name: IATTC
+  - name: iattc
     type: BIGINT
-  - name: IBA
+  - name: iba
     type: BIGINT
-  - name: IBCS
+  - name: ibcs
     type: BIGINT
-  - name: IBE
+  - name: ibe
     type: BIGINT
-  - name: IBEC
+  - name: ibec
     type: BIGINT
-  - name: IBI
+  - name: ibi
     type: BIGINT
-  - name: IBIER
+  - name: ibier
     type: BIGINT
-  - name: IBPMP
+  - name: ibpmp
     type: BIGINT
-  - name: IBRD
+  - name: ibrd
     type: BIGINT
-  - name: ICAC
+  - name: icac
     type: BIGINT
-  - name: ICAI
+  - name: icai
     type: BIGINT
-  - name: ICAO
+  - name: icao
     type: BIGINT
-  - name: ICAmO
+  - name: icamo
     type: BIGINT
-  - name: ICC
+  - name: icc
     type: BIGINT
-  - name: ICCEC
+  - name: iccec
     type: BIGINT
-  - name: ICCILMB
+  - name: iccilmb
     type: BIGINT
-  - name: ICCO
+  - name: icco
     type: BIGINT
-  - name: ICCROM
+  - name: iccrom
     type: BIGINT
-  - name: ICCS
+  - name: iccs
     type: BIGINT
-  - name: ICCSLT
+  - name: iccslt
     type: BIGINT
-  - name: ICDR
+  - name: icdr
     type: BIGINT
-  - name: ICES
+  - name: ices
     type: BIGINT
-  - name: ICFAM
+  - name: icfam
     type: BIGINT
-  - name: ICHRB
+  - name: ichrb
     type: BIGINT
-  - name: ICMMP
+  - name: icmmp
     type: BIGINT
-  - name: ICNC
+  - name: icnc
     type: BIGINT
-  - name: ICNWAF
+  - name: icnwaf
     type: BIGINT
-  - name: ICPRP
+  - name: icprp
     type: BIGINT
-  - name: ICPTU
+  - name: icptu
     type: BIGINT
-  - name: ICRI
+  - name: icri
     type: BIGINT
-  - name: ICRPBC
+  - name: icrpbc
     type: BIGINT
-  - name: ICSE
+  - name: icse
     type: BIGINT
-  - name: ICSEAF
+  - name: icseaf
     type: BIGINT
-  - name: ICSG
+  - name: icsg
     type: BIGINT
-  - name: ICTM
+  - name: ictm
     type: BIGINT
-  - name: ICWMD
+  - name: icwmd
     type: BIGINT
-  - name: ICfO
+  - name: icfo
     type: BIGINT
-  - name: IChemO
+  - name: ichemo
     type: BIGINT
-  - name: ICivDO
+  - name: icivdo
     type: BIGINT
-  - name: IComO
+  - name: icomo
     type: BIGINT
-  - name: IDC
+  - name: idc
     type: BIGINT
-  - name: IEA
+  - name: iea
     type: BIGINT
-  - name: IEC
+  - name: iec
     type: BIGINT
-  - name: IES
+  - name: ies
     type: BIGINT
-  - name: IEXB
+  - name: iexb
     type: BIGINT
-  - name: IFAD
+  - name: ifad
     type: BIGINT
-  - name: IFC
+  - name: ifc
     type: BIGINT
-  - name: IFCA
+  - name: ifca
     type: BIGINT
-  - name: IGAD
+  - name: igad
     type: BIGINT
-  - name: IGC
+  - name: igc
     type: BIGINT
-  - name: IGCC
+  - name: igcc
     type: BIGINT
-  - name: IHO
+  - name: iho
     type: BIGINT
-  - name: IIA
+  - name: iia
     type: BIGINT
-  - name: IICom
+  - name: iicom
     type: BIGINT
-  - name: IIE
+  - name: iie
     type: BIGINT
-  - name: IIF
+  - name: iif
     type: BIGINT
-  - name: IIWEE
+  - name: iiwee
     type: BIGINT
-  - name: IJO
+  - name: ijo
     type: BIGINT
-  - name: ILO
+  - name: ilo
     type: BIGINT
-  - name: ILZSG
+  - name: ilzsg
     type: BIGINT
-  - name: IMBSlav
+  - name: imbslav
     type: BIGINT
-  - name: IMC
+  - name: imc
     type: BIGINT
-  - name: IMF
+  - name: imf
     type: BIGINT
-  - name: IMI
+  - name: imi
     type: BIGINT
-  - name: IMO
+  - name: imo
     type: BIGINT
-  - name: IMSO
+  - name: imso
     type: BIGINT
-  - name: INCAP
+  - name: incap
     type: BIGINT
-  - name: INFOFISH
+  - name: infofish
     type: BIGINT
-  - name: INFSMK
+  - name: infsmk
     type: BIGINT
-  - name: INRO
+  - name: inro
     type: BIGINT
-  - name: INSG
+  - name: insg
     type: BIGINT
-  - name: INTELSAT
+  - name: intelsat
     type: BIGINT
-  - name: INTERPOL
+  - name: interpol
     type: BIGINT
-  - name: IOATHRE
+  - name: ioathre
     type: BIGINT
-  - name: IOCom
+  - name: iocom
     type: BIGINT
-  - name: IOEz
+  - name: ioez
     type: BIGINT
-  - name: IOLM
+  - name: iolm
     type: BIGINT
-  - name: IOMig
+  - name: iomig
     type: BIGINT
-  - name: IOOC
+  - name: iooc
     type: BIGINT
-  - name: IOPCF
+  - name: iopcf
     type: BIGINT
-  - name: IOPH
+  - name: ioph
     type: BIGINT
-  - name: IOcC
+  - name: iocc
     type: BIGINT
-  - name: IPC
+  - name: ipc
     type: BIGINT
-  - name: IPGRI
+  - name: ipgri
     type: BIGINT
-  - name: IPI
+  - name: ipi
     type: BIGINT
-  - name: IPedI
+  - name: ipedi
     type: BIGINT
-  - name: IPentC
+  - name: ipentc
     type: BIGINT
-  - name: IPhyL
+  - name: iphyl
     type: BIGINT
-  - name: IPrizeC
+  - name: iprizec
     type: BIGINT
-  - name: IRC
+  - name: irc
     type: BIGINT
-  - name: IRLCS
+  - name: irlcs
     type: BIGINT
-  - name: IRO
+  - name: iro
     type: BIGINT
-  - name: IRSG
+  - name: irsg
     type: BIGINT
-  - name: IRU
+  - name: iru
     type: BIGINT
-  - name: ISA
+  - name: isa
     type: BIGINT
-  - name: ISB
+  - name: isb
     type: BIGINT
-  - name: ISDB
+  - name: isdb
     type: BIGINT
-  - name: ISHREST
+  - name: ishrest
     type: BIGINT
-  - name: ISRBC
+  - name: isrbc
     type: BIGINT
-  - name: ISUPT
+  - name: isupt
     type: BIGINT
-  - name: ISuC
+  - name: isuc
     type: BIGINT
-  - name: ITC
+  - name: itc
     type: BIGINT
-  - name: ITCC
+  - name: itcc
     type: BIGINT
-  - name: ITCLE
+  - name: itcle
     type: BIGINT
-  - name: ITPA
+  - name: itpa
     type: BIGINT
-  - name: ITRO
+  - name: itro
     type: BIGINT
-  - name: ITTO
+  - name: itto
     type: BIGINT
-  - name: ITU
+  - name: itu
     type: BIGINT
-  - name: ITVRC
+  - name: itvrc
     type: BIGINT
-  - name: IUIC
+  - name: iuic
     type: BIGINT
-  - name: IUPCT
+  - name: iupct
     type: BIGINT
-  - name: IUPIP
+  - name: iupip
     type: BIGINT
-  - name: IUPLAW
+  - name: iuplaw
     type: BIGINT
-  - name: IUPNVP
+  - name: iupnvp
     type: BIGINT
-  - name: IUPR
+  - name: iupr
     type: BIGINT
-  - name: IVWO
+  - name: ivwo
     type: BIGINT
-  - name: IWSG
+  - name: iwsg
     type: BIGINT
-  - name: IWhale
+  - name: iwhale
     type: BIGINT
-  - name: Iocean
+  - name: iocean
     type: BIGINT
-  - name: JALAAO
+  - name: jalaao
     type: BIGINT
-  - name: JINR
+  - name: jinr
     type: BIGINT
-  - name: JNOLCRH
+  - name: jnolcrh
     type: BIGINT
-  - name: LACAC
+  - name: lacac
     type: BIGINT
-  - name: LACP
+  - name: lacp
     type: BIGINT
-  - name: LAEO
+  - name: laeo
     type: BIGINT
-  - name: LAFDO
+  - name: lafdo
     type: BIGINT
-  - name: LAFTA
+  - name: lafta
     type: BIGINT
-  - name: LAIA
+  - name: laia
     type: BIGINT
-  - name: LAIEC
+  - name: laiec
     type: BIGINT
-  - name: LATIN
+  - name: latin
     type: BIGINT
-  - name: LCBC
+  - name: lcbc
     type: BIGINT
-  - name: LGIDA
+  - name: lgida
     type: BIGINT
-  - name: LOAS
+  - name: loas
     type: BIGINT
-  - name: LoN
+  - name: lon
     type: BIGINT
-  - name: MARRI
+  - name: marri
     type: BIGINT
-  - name: MCPTTC
+  - name: mcpttc
     type: BIGINT
-  - name: MCWCASM
+  - name: mcwcasm
     type: BIGINT
-  - name: MEMTTA
+  - name: memtta
     type: BIGINT
-  - name: MFO
+  - name: mfo
     type: BIGINT
-  - name: MIGA
+  - name: miga
     type: BIGINT
-  - name: MOPAN
+  - name: mopan
     type: BIGINT
-  - name: MRU
+  - name: mru
     type: BIGINT
-  - name: MWN
+  - name: mwn
     type: BIGINT
-  - name: Mercosur
+  - name: mercosur
     type: BIGINT
-  - name: Montreal
+  - name: montreal
     type: BIGINT
-  - name: NACAP
+  - name: nacap
     type: BIGINT
-  - name: NAFO
+  - name: nafo
     type: BIGINT
-  - name: NAFTA
+  - name: nafta
     type: BIGINT
-  - name: NAM
+  - name: nam
     type: BIGINT
-  - name: NAPPO
+  - name: nappo
     type: BIGINT
-  - name: NASCO
+  - name: nasco
     type: BIGINT
-  - name: NATO
+  - name: nato
     type: BIGINT
-  - name: NCM
+  - name: ncm
     type: BIGINT
-  - name: NCRR
+  - name: ncrr
     type: BIGINT
-  - name: NCTR
+  - name: nctr
     type: BIGINT
-  - name: NDF
+  - name: ndf
     type: BIGINT
-  - name: NEAFC
+  - name: neafc
     type: BIGINT
-  - name: NERC
+  - name: nerc
     type: BIGINT
-  - name: NIB
+  - name: nib
     type: BIGINT
-  - name: NPAFC
+  - name: npafc
     type: BIGINT
-  - name: NPFSC
+  - name: npfsc
     type: BIGINT
-  - name: NRC
+  - name: nrc
     type: BIGINT
-  - name: NTSC
+  - name: ntsc
     type: BIGINT
-  - name: NWHF
+  - name: nwhf
     type: BIGINT
-  - name: NordC
+  - name: nordc
     type: BIGINT
-  - name: OAPEC
+  - name: oapec
     type: BIGINT
-  - name: OAS
+  - name: oas
     type: BIGINT
-  - name: OAU
+  - name: oau
     type: BIGINT
-  - name: OCAM
+  - name: ocam
     type: BIGINT
-  - name: OCAS
+  - name: ocas
     type: BIGINT
-  - name: OCCEDCA
+  - name: occedca
     type: BIGINT
-  - name: OCR
+  - name: ocr
     type: BIGINT
-  - name: OECD
+  - name: oecd
     type: BIGINT
-  - name: OECS
+  - name: oecs
     type: BIGINT
-  - name: OEEC
+  - name: oeec
     type: BIGINT
-  - name: OESAS
+  - name: oesas
     type: BIGINT
-  - name: OIC
+  - name: oic
     type: BIGINT
-  - name: OIV
+  - name: oiv
     type: BIGINT
-  - name: OMDKR
+  - name: omdkr
     type: BIGINT
-  - name: OPANAL
+  - name: opanal
     type: BIGINT
-  - name: OPEC
+  - name: opec
     type: BIGINT
-  - name: OSCE
+  - name: osce
     type: BIGINT
-  - name: OSLO
+  - name: oslo
     type: BIGINT
-  - name: OSPAR
+  - name: ospar
     type: BIGINT
-  - name: OTIF
+  - name: otif
     type: BIGINT
-  - name: PAHC
+  - name: pahc
     type: BIGINT
-  - name: PAHO
+  - name: paho
     type: BIGINT
-  - name: PAIGH
+  - name: paigh
     type: BIGINT
-  - name: PAP
+  - name: pap
     type: BIGINT
-  - name: PC
+  - name: pc
     type: BIGINT
-  - name: PCA
+  - name: pca
     type: BIGINT
-  - name: PCB
+  - name: pcb
     type: BIGINT
-  - name: PCSP
+  - name: pcsp
     type: BIGINT
-  - name: PED
+  - name: ped
     type: BIGINT
-  - name: PIARC
+  - name: piarc
     type: BIGINT
-  - name: PIBAC
+  - name: pibac
     type: BIGINT
-  - name: PICDCS
+  - name: picdcs
     type: BIGINT
-  - name: PICES
+  - name: pices
     type: BIGINT
-  - name: PICS
+  - name: pics
     type: BIGINT
-  - name: PIF
+  - name: pif
     type: BIGINT
-  - name: PIPD
+  - name: pipd
     type: BIGINT
-  - name: PMAESA
+  - name: pmaesa
     type: BIGINT
-  - name: PSI
+  - name: psi
     type: BIGINT
-  - name: PSNARCO
+  - name: psnarco
     type: BIGINT
-  - name: PTASEA
+  - name: ptasea
     type: BIGINT
-  - name: PUASP
+  - name: puasp
     type: BIGINT
-  - name: RASCOM
+  - name: rascom
     type: BIGINT
-  - name: RCAELA
+  - name: rcaela
     type: BIGINT
-  - name: RCC
+  - name: rcc
     type: BIGINT
-  - name: RECSA
+  - name: recsa
     type: BIGINT
-  - name: RIMMO
+  - name: rimmo
     type: BIGINT
-  - name: RIOPPAH
+  - name: rioppah
     type: BIGINT
-  - name: RIOgroup
+  - name: riogroup
     type: BIGINT
-  - name: RadioU
+  - name: radiou
     type: BIGINT
-  - name: RepCom
+  - name: repcom
     type: BIGINT
-  - name: SAAFA
+  - name: saafa
     type: BIGINT
-  - name: SAARC
+  - name: saarc
     type: BIGINT
-  - name: SACEP
+  - name: sacep
     type: BIGINT
-  - name: SACU
+  - name: sacu
     type: BIGINT
-  - name: SADC
+  - name: sadc
     type: BIGINT
-  - name: SADCC
+  - name: sadcc
     type: BIGINT
-  - name: SAMI
+  - name: sami
     type: BIGINT
-  - name: SARTC
+  - name: sartc
     type: BIGINT
-  - name: SCA
+  - name: sca
     type: BIGINT
-  - name: SCAf
+  - name: scaf
     type: BIGINT
-  - name: SCH
+  - name: sch
     type: BIGINT
-  - name: SCHENGEN
+  - name: schengen
     type: BIGINT
-  - name: SEAMEO
+  - name: seameo
     type: BIGINT
-  - name: SEATO
+  - name: seato
     type: BIGINT
-  - name: SEGIB
+  - name: segib
     type: BIGINT
-  - name: SELA
+  - name: sela
     type: BIGINT
-  - name: SICA
+  - name: sica
     type: BIGINT
-  - name: SIECA
+  - name: sieca
     type: BIGINT
-  - name: SITTDEC
+  - name: sittdec
     type: BIGINT
-  - name: SPC
+  - name: spc
     type: BIGINT
-  - name: SRDO
+  - name: srdo
     type: BIGINT
-  - name: SWAPU
+  - name: swapu
     type: BIGINT
-  - name: SWPD
+  - name: swpd
     type: BIGINT
-  - name: SugU
+  - name: sugu
     type: BIGINT
-  - name: TARHEC
+  - name: tarhec
     type: BIGINT
-  - name: TCRMG
+  - name: tcrmg
     type: BIGINT
-  - name: TIC
+  - name: tic
     type: BIGINT
-  - name: Turksoy
+  - name: turksoy
     type: BIGINT
-  - name: UASC
+  - name: uasc
     type: BIGINT
-  - name: UBEC
+  - name: ubec
     type: BIGINT
-  - name: UDEAC
+  - name: udeac
     type: BIGINT
-  - name: UEMOA
+  - name: uemoa
     type: BIGINT
-  - name: UIUCV
+  - name: uiucv
     type: BIGINT
-  - name: UKDWD
+  - name: ukdwd
     type: BIGINT
-  - name: UMAC
+  - name: umac
     type: BIGINT
-  - name: UMOA
+  - name: umoa
     type: BIGINT
-  - name: UN
+  - name: un
     type: BIGINT
-  - name: UNDROIT
+  - name: undroit
     type: BIGINT
-  - name: UNESCO
+  - name: unesco
     type: BIGINT
-  - name: UNIDO
+  - name: unido
     type: BIGINT
-  - name: UPU
+  - name: upu
     type: BIGINT
-  - name: USP
+  - name: usp
     type: BIGINT
-  - name: VALDIVIA
+  - name: valdivia
     type: BIGINT
-  - name: VASAB
+  - name: vasab
     type: BIGINT
-  - name: WAEC
+  - name: waec
     type: BIGINT
-  - name: WAHC
+  - name: wahc
     type: BIGINT
-  - name: WAHO
+  - name: waho
     type: BIGINT
-  - name: WARDA
+  - name: warda
     type: BIGINT
-  - name: WCDC
+  - name: wcdc
     type: BIGINT
-  - name: WCO
+  - name: wco
     type: BIGINT
-  - name: WEU
+  - name: weu
     type: BIGINT
-  - name: WHO
+  - name: who
     type: BIGINT
-  - name: WIPO
+  - name: wipo
     type: BIGINT
-  - name: WMO
+  - name: wmo
     type: BIGINT
-  - name: WNF
+  - name: wnf
     type: BIGINT
-  - name: WPact
+  - name: wpact
     type: BIGINT
-  - name: WTO
+  - name: wto
     type: BIGINT
-  - name: WTOURO
+  - name: wtouro
     type: BIGINT
-  - name: Wassen
+  - name: wassen
     type: BIGINT

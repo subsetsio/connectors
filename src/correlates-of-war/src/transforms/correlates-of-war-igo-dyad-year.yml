@@ -1,1068 +1,1072 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `correlates-of-war-igo-dyad-year`. Regenerate after model-verify.
+# caution: This is a wide dyad-year table with one membership/co-membership column per intergovernmental organization.
+key: [country1, country2, ccode1, ccode2, year]
+sort: [country1, country2, ccode1, ccode2, year]
 columns:
   - name: ccode1
-    type: VARCHAR
+    type: BIGINT
   - name: country1
     type: VARCHAR
   - name: ccode2
-    type: VARCHAR
+    type: BIGINT
   - name: country2
     type: VARCHAR
   - name: year
-    type: VARCHAR
-  - name: AAAID
-    type: VARCHAR
-  - name: AAB
-    type: VARCHAR
-  - name: AACB
-    type: VARCHAR
-  - name: AACarib
-    type: VARCHAR
-  - name: AALCO
-    type: VARCHAR
-  - name: AARO
-    type: VARCHAR
-  - name: AATA
-    type: VARCHAR
-  - name: AATPO
-    type: VARCHAR
-  - name: ABEDA
-    type: VARCHAR
-  - name: ABEPSEAC
-    type: VARCHAR
-  - name: ACC
-    type: VARCHAR
-  - name: ACCT
-    type: VARCHAR
-  - name: ACDT
-    type: VARCHAR
-  - name: ACI
-    type: VARCHAR
-  - name: ACML
-    type: VARCHAR
-  - name: ACP
-    type: VARCHAR
-  - name: ACPEU
-    type: VARCHAR
-  - name: ACS
-    type: VARCHAR
-  - name: ACSO
-    type: VARCHAR
-  - name: ACSSRB
-    type: VARCHAR
-  - name: ACU
-    type: VARCHAR
-  - name: ACWL
-    type: VARCHAR
-  - name: AFESD
-    type: VARCHAR
-  - name: AFEXIMB
-    type: VARCHAR
-  - name: AFGEC
-    type: VARCHAR
-  - name: AFPU
-    type: VARCHAR
-  - name: AFRAND
-    type: VARCHAR
-  - name: AFSPC
-    type: VARCHAR
-  - name: AFTE
-    type: VARCHAR
-  - name: AGC
-    type: VARCHAR
-  - name: AGPUNDO
-    type: VARCHAR
-  - name: AIC
-    type: VARCHAR
-  - name: AIDC
-    type: VARCHAR
-  - name: AIDO
-    type: VARCHAR
-  - name: AIOEC
-    type: VARCHAR
-  - name: AIPO
-    type: VARCHAR
-  - name: AITIC
-    type: VARCHAR
-  - name: ALO
-    type: VARCHAR
-  - name: AMCO
-    type: VARCHAR
-  - name: AMCOW
-    type: VARCHAR
-  - name: AMF
-    type: VARCHAR
-  - name: AMIPO
-    type: VARCHAR
-  - name: AMPTU
-    type: VARCHAR
-  - name: AMSC
-    type: VARCHAR
-  - name: AMU
-    type: VARCHAR
-  - name: ANZUS
-    type: VARCHAR
-  - name: AOAD
-    type: VARCHAR
-  - name: AOCRS
-    type: VARCHAR
-  - name: AOMR
-    type: VARCHAR
-  - name: AOPU
-    type: VARCHAR
-  - name: AP
-    type: VARCHAR
-  - name: APCC
-    type: VARCHAR
-  - name: APEC
-    type: VARCHAR
-  - name: APFIC
-    type: VARCHAR
-  - name: APIBD
-    type: VARCHAR
-  - name: APO
-    type: VARCHAR
-  - name: APPA
-    type: VARCHAR
-  - name: APT
-    type: VARCHAR
-  - name: APTU
-    type: VARCHAR
-  - name: ARC
-    type: VARCHAR
-  - name: ARCAL
-    type: VARCHAR
-  - name: ARIPO
-    type: VARCHAR
-  - name: ARPU
-    type: VARCHAR
-  - name: ASATP
-    type: VARCHAR
-  - name: ASBLAC
-    type: VARCHAR
-  - name: ASCBC
-    type: VARCHAR
-  - name: ASCRubber
-    type: VARCHAR
-  - name: ASEAN
-    type: VARCHAR
-  - name: ASECNA
-    type: VARCHAR
-  - name: ASEF
-    type: VARCHAR
-  - name: ASPAC
-    type: VARCHAR
-  - name: ATO
-    type: VARCHAR
-  - name: ATPC
-    type: VARCHAR
-  - name: AU
-    type: VARCHAR
-  - name: AVRDC
-    type: VARCHAR
-  - name: AfDB
-    type: VARCHAR
-  - name: AfrOPDA
-    type: VARCHAR
-  - name: Africare
-    type: VARCHAR
-  - name: AmCC
-    type: VARCHAR
-  - name: Andean
-    type: VARCHAR
-  - name: AralSea
-    type: VARCHAR
-  - name: ArticC
-    type: VARCHAR
-  - name: AsDB
-    type: VARCHAR
-  - name: BALTBAT
-    type: VARCHAR
-  - name: BC
-    type: VARCHAR
-  - name: BCSC
-    type: VARCHAR
-  - name: BEF
-    type: VARCHAR
-  - name: BEN
-    type: VARCHAR
-  - name: BENELUX
-    type: VARCHAR
-  - name: BESCC
-    type: VARCHAR
-  - name: BIISEF
-    type: VARCHAR
-  - name: BIONET
-    type: VARCHAR
-  - name: BIPM
-    type: VARCHAR
-  - name: BIS
-    type: VARCHAR
-  - name: BNDP
-    type: VARCHAR
-  - name: BOBP
-    type: VARCHAR
-  - name: BONN
-    type: VARCHAR
-  - name: BSEC
-    type: VARCHAR
-  - name: CAAD
-    type: VARCHAR
-  - name: CAARC
-    type: VARCHAR
-  - name: CAB
-    type: VARCHAR
-  - name: CABI
-    type: VARCHAR
-  - name: CACB
-    type: VARCHAR
-  - name: CACI
-    type: VARCHAR
-  - name: CAECC
-    type: VARCHAR
-  - name: CAIPA
-    type: VARCHAR
-  - name: CAMES
-    type: VARCHAR
-  - name: CAMRSD
-    type: VARCHAR
-  - name: CAMSF
-    type: VARCHAR
-  - name: CARICOM
-    type: VARCHAR
-  - name: CARIFTA
-    type: VARCHAR
-  - name: CARII
-    type: VARCHAR
-  - name: CATC
-    type: VARCHAR
-  - name: CBFP
-    type: VARCHAR
-  - name: CBI
-    type: VARCHAR
-  - name: CBSS
-    type: VARCHAR
-  - name: CCNR
-    type: VARCHAR
-  - name: CCOM
-    type: VARCHAR
-  - name: CCPA
-    type: VARCHAR
-  - name: CComm
-    type: VARCHAR
-  - name: CDB
-    type: VARCHAR
-  - name: CEAO
-    type: VARCHAR
-  - name: CEC
-    type: VARCHAR
-  - name: CEEPN
-    type: VARCHAR
-  - name: CEFTA
-    type: VARCHAR
-  - name: CEI
-    type: VARCHAR
-  - name: CELC
-    type: VARCHAR
-  - name: CEMAC
-    type: VARCHAR
-  - name: CENTO
-    type: VARCHAR
-  - name: CEPGL
-    type: VARCHAR
-  - name: CERN
-    type: VARCHAR
-  - name: CFATF
-    type: VARCHAR
-  - name: CFC
-    type: VARCHAR
-  - name: CHSTEA
-    type: VARCHAR
-  - name: CICA
-    type: VARCHAR
-  - name: CIFC
-    type: VARCHAR
-  - name: CIMA
-    type: VARCHAR
-  - name: CIS
-    type: VARCHAR
-  - name: CMAEC
-    type: VARCHAR
-  - name: CMAOC
-    type: VARCHAR
-  - name: CMEA
-    type: VARCHAR
-  - name: CMHASG
-    type: VARCHAR
-  - name: COE
-    type: VARCHAR
-  - name: COLOMBO
-    type: VARCHAR
-  - name: COMESA
-    type: VARCHAR
-  - name: CONFEJES
-    type: VARCHAR
-  - name: COPTAC
-    type: VARCHAR
-  - name: COSAVE
-    type: VARCHAR
-  - name: COrg
-    type: VARCHAR
-  - name: CP
-    type: VARCHAR
-  - name: CPAB
-    type: VARCHAR
-  - name: CPSC
-    type: VARCHAR
-  - name: CPU
-    type: VARCHAR
-  - name: CSLF
-    type: VARCHAR
-  - name: CTCAf
-    type: VARCHAR
-  - name: CTO
-    type: VARCHAR
-  - name: CWGC
-    type: VARCHAR
-  - name: CXC
-    type: VARCHAR
-  - name: CfRN
-    type: VARCHAR
-  - name: ComAB
-    type: VARCHAR
-  - name: ComSec
-    type: VARCHAR
-  - name: DBGLS
-    type: VARCHAR
-  - name: DLCOEA
-    type: VARCHAR
-  - name: Danube
-    type: VARCHAR
-  - name: EACM
-    type: VARCHAR
-  - name: EACS
-    type: VARCHAR
-  - name: EACSO
-    type: VARCHAR
-  - name: EADB
-    type: VARCHAR
-  - name: EAPC
-    type: VARCHAR
-  - name: EAPO
-    type: VARCHAR
-  - name: EBRD
-    type: VARCHAR
-  - name: ECB
-    type: VARCHAR
-  - name: ECCA
-    type: VARCHAR
-  - name: ECCAS
-    type: VARCHAR
-  - name: ECCB
-    type: VARCHAR
-  - name: ECCD
-    type: VARCHAR
-  - name: ECCM
-    type: VARCHAR
-  - name: ECCPIF
-    type: VARCHAR
-  - name: ECO
-    type: VARCHAR
-  - name: ECOWAS
-    type: VARCHAR
-  - name: ECPTA
-    type: VARCHAR
-  - name: ECSC
-    type: VARCHAR
-  - name: EEC
-    type: VARCHAR
-  - name: EFCC
-    type: VARCHAR
-  - name: EFILWC
-    type: VARCHAR
-  - name: EFTA
-    type: VARCHAR
-  - name: EIB
-    type: VARCHAR
-  - name: EIPA
-    type: VARCHAR
-  - name: ELDO
-    type: VARCHAR
-  - name: EMB
-    type: VARCHAR
-  - name: EMBC
-    type: VARCHAR
-  - name: EMBL
-    type: VARCHAR
-  - name: EMI
-    type: VARCHAR
-  - name: EMPPO
-    type: VARCHAR
-  - name: EPA
-    type: VARCHAR
-  - name: EPFSC
-    type: VARCHAR
-  - name: EPO
-    type: VARCHAR
-  - name: EPU
-    type: VARCHAR
-  - name: ESA
-    type: VARCHAR
-  - name: ESO
-    type: VARCHAR
-  - name: ESRO
-    type: VARCHAR
-  - name: ETF
-    type: VARCHAR
-  - name: EU
-    type: VARCHAR
-  - name: EUFMD
-    type: VARCHAR
-  - name: EURATOM
-    type: VARCHAR
-  - name: EUROCONTROL
-    type: VARCHAR
-  - name: EUROFIMA
-    type: VARCHAR
-  - name: EUROMET
-    type: VARCHAR
-  - name: Entente
-    type: VARCHAR
-  - name: FAO
-    type: VARCHAR
-  - name: FAPED
-    type: VARCHAR
-  - name: FDIPLAC
-    type: VARCHAR
-  - name: FEC
-    type: VARCHAR
-  - name: G15
-    type: VARCHAR
-  - name: G24
-    type: VARCHAR
-  - name: G3
-    type: VARCHAR
-  - name: GATT
-    type: VARCHAR
-  - name: GBACT
-    type: VARCHAR
-  - name: GCC
-    type: VARCHAR
-  - name: GCRSNC
-    type: VARCHAR
-  - name: GEF
-    type: VARCHAR
-  - name: GEO
-    type: VARCHAR
-  - name: GHSI
-    type: VARCHAR
-  - name: GLACSEC
-    type: VARCHAR
-  - name: GOIC
-    type: VARCHAR
-  - name: GRBDO
-    type: VARCHAR
-  - name: HCPIL
-    type: VARCHAR
-  - name: IABE
-    type: VARCHAR
-  - name: IABath
-    type: VARCHAR
-  - name: IACB
-    type: VARCHAR
-  - name: IACI
-    type: VARCHAR
-  - name: IACS
-    type: VARCHAR
-  - name: IACSS
-    type: VARCHAR
-  - name: IACW
-    type: VARCHAR
-  - name: IADB
-    type: VARCHAR
-  - name: IADefB
-    type: VARCHAR
-  - name: IAEA
-    type: VARCHAR
-  - name: IAFC
-    type: VARCHAR
-  - name: IAHC
-    type: VARCHAR
-  - name: IAIAS
-    type: VARCHAR
-  - name: IAIC
-    type: VARCHAR
-  - name: IAIGC
-    type: VARCHAR
-  - name: IAII
-    type: VARCHAR
-  - name: IALong
-    type: VARCHAR
-  - name: IAMLO
-    type: VARCHAR
-  - name: IAPhy
-    type: VARCHAR
-  - name: IARA
-    type: VARCHAR
-  - name: IARHC
-    type: VARCHAR
-  - name: IARadiO
-    type: VARCHAR
-  - name: IARuhr
-    type: VARCHAR
-  - name: IAS
-    type: VARCHAR
-  - name: IASAJ
-    type: VARCHAR
-  - name: IATB
-    type: VARCHAR
-  - name: IATSJ
-    type: VARCHAR
-  - name: IATTC
-    type: VARCHAR
-  - name: IBA
-    type: VARCHAR
-  - name: IBCS
-    type: VARCHAR
-  - name: IBE
-    type: VARCHAR
-  - name: IBEC
-    type: VARCHAR
-  - name: IBI
-    type: VARCHAR
-  - name: IBIER
-    type: VARCHAR
-  - name: IBPMP
-    type: VARCHAR
-  - name: IBRD
-    type: VARCHAR
-  - name: ICAC
-    type: VARCHAR
-  - name: ICAI
-    type: VARCHAR
-  - name: ICAO
-    type: VARCHAR
-  - name: ICAmO
-    type: VARCHAR
-  - name: ICC
-    type: VARCHAR
-  - name: ICCEC
-    type: VARCHAR
-  - name: ICCILMB
-    type: VARCHAR
-  - name: ICCO
-    type: VARCHAR
-  - name: ICCROM
-    type: VARCHAR
-  - name: ICCS
-    type: VARCHAR
-  - name: ICCSLT
-    type: VARCHAR
-  - name: ICDR
-    type: VARCHAR
-  - name: ICES
-    type: VARCHAR
-  - name: ICFAM
-    type: VARCHAR
-  - name: ICHRB
-    type: VARCHAR
-  - name: ICMMP
-    type: VARCHAR
-  - name: ICNC
-    type: VARCHAR
-  - name: ICNWAF
-    type: VARCHAR
-  - name: ICPRP
-    type: VARCHAR
-  - name: ICPTU
-    type: VARCHAR
-  - name: ICRI
-    type: VARCHAR
-  - name: ICRPBC
-    type: VARCHAR
-  - name: ICSE
-    type: VARCHAR
-  - name: ICSEAF
-    type: VARCHAR
-  - name: ICSG
-    type: VARCHAR
-  - name: ICTM
-    type: VARCHAR
-  - name: ICWMD
-    type: VARCHAR
-  - name: ICfO
-    type: VARCHAR
-  - name: IChemO
-    type: VARCHAR
-  - name: ICivDO
-    type: VARCHAR
-  - name: IComO
-    type: VARCHAR
-  - name: IDC
-    type: VARCHAR
-  - name: IEA
-    type: VARCHAR
-  - name: IEC
-    type: VARCHAR
-  - name: IES
-    type: VARCHAR
-  - name: IEXB
-    type: VARCHAR
-  - name: IFAD
-    type: VARCHAR
-  - name: IFC
-    type: VARCHAR
-  - name: IFCA
-    type: VARCHAR
-  - name: IGAD
-    type: VARCHAR
-  - name: IGC
-    type: VARCHAR
-  - name: IGCC
-    type: VARCHAR
-  - name: IHO
-    type: VARCHAR
-  - name: IIA
-    type: VARCHAR
-  - name: IICom
-    type: VARCHAR
-  - name: IIE
-    type: VARCHAR
-  - name: IIF
-    type: VARCHAR
-  - name: IIWEE
-    type: VARCHAR
-  - name: IJO
-    type: VARCHAR
-  - name: ILO
-    type: VARCHAR
-  - name: ILZSG
-    type: VARCHAR
-  - name: IMBSlav
-    type: VARCHAR
-  - name: IMC
-    type: VARCHAR
-  - name: IMF
-    type: VARCHAR
-  - name: IMI
-    type: VARCHAR
-  - name: IMO
-    type: VARCHAR
-  - name: IMSO
-    type: VARCHAR
-  - name: INCAP
-    type: VARCHAR
-  - name: INFOFISH
-    type: VARCHAR
-  - name: INFSMK
-    type: VARCHAR
-  - name: INRO
-    type: VARCHAR
-  - name: INSG
-    type: VARCHAR
-  - name: INTELSAT
-    type: VARCHAR
-  - name: INTERPOL
-    type: VARCHAR
-  - name: IOATHRE
-    type: VARCHAR
-  - name: IOCom
-    type: VARCHAR
-  - name: IOEz
-    type: VARCHAR
-  - name: IOLM
-    type: VARCHAR
-  - name: IOMig
-    type: VARCHAR
-  - name: IOOC
-    type: VARCHAR
-  - name: IOPCF
-    type: VARCHAR
-  - name: IOPH
-    type: VARCHAR
-  - name: IOcC
-    type: VARCHAR
-  - name: IPC
-    type: VARCHAR
-  - name: IPGRI
-    type: VARCHAR
-  - name: IPI
-    type: VARCHAR
-  - name: IPedI
-    type: VARCHAR
-  - name: IPentC
-    type: VARCHAR
-  - name: IPhyL
-    type: VARCHAR
-  - name: IPrizeC
-    type: VARCHAR
-  - name: IRC
-    type: VARCHAR
-  - name: IRLCS
-    type: VARCHAR
-  - name: IRO
-    type: VARCHAR
-  - name: IRSG
-    type: VARCHAR
-  - name: IRU
-    type: VARCHAR
-  - name: ISA
-    type: VARCHAR
-  - name: ISB
-    type: VARCHAR
-  - name: ISDB
-    type: VARCHAR
-  - name: ISHREST
-    type: VARCHAR
-  - name: ISRBC
-    type: VARCHAR
-  - name: ISUPT
-    type: VARCHAR
-  - name: ISuC
-    type: VARCHAR
-  - name: ITC
-    type: VARCHAR
-  - name: ITCC
-    type: VARCHAR
-  - name: ITCLE
-    type: VARCHAR
-  - name: ITPA
-    type: VARCHAR
-  - name: ITRO
-    type: VARCHAR
-  - name: ITTO
-    type: VARCHAR
-  - name: ITU
-    type: VARCHAR
-  - name: ITVRC
-    type: VARCHAR
-  - name: IUIC
-    type: VARCHAR
-  - name: IUPCT
-    type: VARCHAR
-  - name: IUPIP
-    type: VARCHAR
-  - name: IUPLAW
-    type: VARCHAR
-  - name: IUPNVP
-    type: VARCHAR
-  - name: IUPR
-    type: VARCHAR
-  - name: IVWO
-    type: VARCHAR
-  - name: IWSG
-    type: VARCHAR
-  - name: IWhale
-    type: VARCHAR
-  - name: Iocean
-    type: VARCHAR
-  - name: JALAAO
-    type: VARCHAR
-  - name: JINR
-    type: VARCHAR
-  - name: JNOLCRH
-    type: VARCHAR
-  - name: LACAC
-    type: VARCHAR
-  - name: LACP
-    type: VARCHAR
-  - name: LAEO
-    type: VARCHAR
-  - name: LAFDO
-    type: VARCHAR
-  - name: LAFTA
-    type: VARCHAR
-  - name: LAIA
-    type: VARCHAR
-  - name: LAIEC
-    type: VARCHAR
-  - name: LATIN
-    type: VARCHAR
-  - name: LCBC
-    type: VARCHAR
-  - name: LGIDA
-    type: VARCHAR
-  - name: LOAS
-    type: VARCHAR
-  - name: LoN
-    type: VARCHAR
-  - name: MARRI
-    type: VARCHAR
-  - name: MCPTTC
-    type: VARCHAR
-  - name: MCWCASM
-    type: VARCHAR
-  - name: MEMTTA
-    type: VARCHAR
-  - name: MFO
-    type: VARCHAR
-  - name: MIGA
-    type: VARCHAR
-  - name: MOPAN
-    type: VARCHAR
-  - name: MRU
-    type: VARCHAR
-  - name: MWN
-    type: VARCHAR
-  - name: Mercosur
-    type: VARCHAR
-  - name: Montreal
-    type: VARCHAR
-  - name: NACAP
-    type: VARCHAR
-  - name: NAFO
-    type: VARCHAR
-  - name: NAFTA
-    type: VARCHAR
-  - name: NAM
-    type: VARCHAR
-  - name: NAPPO
-    type: VARCHAR
-  - name: NASCO
-    type: VARCHAR
-  - name: NATO
-    type: VARCHAR
-  - name: NCM
-    type: VARCHAR
-  - name: NCRR
-    type: VARCHAR
-  - name: NCTR
-    type: VARCHAR
-  - name: NDF
-    type: VARCHAR
-  - name: NEAFC
-    type: VARCHAR
-  - name: NERC
-    type: VARCHAR
-  - name: NIB
-    type: VARCHAR
-  - name: NPAFC
-    type: VARCHAR
-  - name: NPFSC
-    type: VARCHAR
-  - name: NRC
-    type: VARCHAR
-  - name: NTSC
-    type: VARCHAR
-  - name: NWHF
-    type: VARCHAR
-  - name: NordC
-    type: VARCHAR
-  - name: OAPEC
-    type: VARCHAR
-  - name: OAS
-    type: VARCHAR
-  - name: OAU
-    type: VARCHAR
-  - name: OCAM
-    type: VARCHAR
-  - name: OCAS
-    type: VARCHAR
-  - name: OCCEDCA
-    type: VARCHAR
-  - name: OCR
-    type: VARCHAR
-  - name: OECD
-    type: VARCHAR
-  - name: OECS
-    type: VARCHAR
-  - name: OEEC
-    type: VARCHAR
-  - name: OESAS
-    type: VARCHAR
-  - name: OIC
-    type: VARCHAR
-  - name: OIV
-    type: VARCHAR
-  - name: OMDKR
-    type: VARCHAR
-  - name: OPANAL
-    type: VARCHAR
-  - name: OPEC
-    type: VARCHAR
-  - name: OSCE
-    type: VARCHAR
-  - name: OSLO
-    type: VARCHAR
-  - name: OSPAR
-    type: VARCHAR
-  - name: OTIF
-    type: VARCHAR
-  - name: PAHC
-    type: VARCHAR
-  - name: PAHO
-    type: VARCHAR
-  - name: PAIGH
-    type: VARCHAR
-  - name: PAP
-    type: VARCHAR
-  - name: PC
-    type: VARCHAR
-  - name: PCA
-    type: VARCHAR
-  - name: PCB
-    type: VARCHAR
-  - name: PCSP
-    type: VARCHAR
-  - name: PED
-    type: VARCHAR
-  - name: PIARC
-    type: VARCHAR
-  - name: PIBAC
-    type: VARCHAR
-  - name: PICDCS
-    type: VARCHAR
-  - name: PICES
-    type: VARCHAR
-  - name: PICS
-    type: VARCHAR
-  - name: PIF
-    type: VARCHAR
-  - name: PIPD
-    type: VARCHAR
-  - name: PMAESA
-    type: VARCHAR
-  - name: PSI
-    type: VARCHAR
-  - name: PSNARCO
-    type: VARCHAR
-  - name: PTASEA
-    type: VARCHAR
-  - name: PUASP
-    type: VARCHAR
-  - name: RASCOM
-    type: VARCHAR
-  - name: RCAELA
-    type: VARCHAR
-  - name: RCC
-    type: VARCHAR
-  - name: RECSA
-    type: VARCHAR
-  - name: RIMMO
-    type: VARCHAR
-  - name: RIOPPAH
-    type: VARCHAR
-  - name: RIOgroup
-    type: VARCHAR
-  - name: RadioU
-    type: VARCHAR
-  - name: RepCom
-    type: VARCHAR
-  - name: SAAFA
-    type: VARCHAR
-  - name: SAARC
-    type: VARCHAR
-  - name: SACEP
-    type: VARCHAR
-  - name: SACU
-    type: VARCHAR
-  - name: SADC
-    type: VARCHAR
-  - name: SADCC
-    type: VARCHAR
-  - name: SAMI
-    type: VARCHAR
-  - name: SARTC
-    type: VARCHAR
-  - name: SCA
-    type: VARCHAR
-  - name: SCAf
-    type: VARCHAR
-  - name: SCH
-    type: VARCHAR
-  - name: SCHENGEN
-    type: VARCHAR
-  - name: SEAMEO
-    type: VARCHAR
-  - name: SEATO
-    type: VARCHAR
-  - name: SEGIB
-    type: VARCHAR
-  - name: SELA
-    type: VARCHAR
-  - name: SICA
-    type: VARCHAR
-  - name: SIECA
-    type: VARCHAR
-  - name: SITTDEC
-    type: VARCHAR
-  - name: SPC
-    type: VARCHAR
-  - name: SRDO
-    type: VARCHAR
-  - name: SWAPU
-    type: VARCHAR
-  - name: SWPD
-    type: VARCHAR
-  - name: SugU
-    type: VARCHAR
-  - name: TARHEC
-    type: VARCHAR
-  - name: TCRMG
-    type: VARCHAR
-  - name: TIC
-    type: VARCHAR
-  - name: Turksoy
-    type: VARCHAR
-  - name: UASC
-    type: VARCHAR
-  - name: UBEC
-    type: VARCHAR
-  - name: UDEAC
-    type: VARCHAR
-  - name: UEMOA
-    type: VARCHAR
-  - name: UIUCV
-    type: VARCHAR
-  - name: UKDWD
-    type: VARCHAR
-  - name: UMAC
-    type: VARCHAR
-  - name: UMOA
-    type: VARCHAR
-  - name: UN
-    type: VARCHAR
-  - name: UNDROIT
-    type: VARCHAR
-  - name: UNESCO
-    type: VARCHAR
-  - name: UNIDO
-    type: VARCHAR
-  - name: UPU
-    type: VARCHAR
-  - name: USP
-    type: VARCHAR
-  - name: VALDIVIA
-    type: VARCHAR
-  - name: VASAB
-    type: VARCHAR
-  - name: WAEC
-    type: VARCHAR
-  - name: WAHC
-    type: VARCHAR
-  - name: WAHO
-    type: VARCHAR
-  - name: WARDA
-    type: VARCHAR
-  - name: WCDC
-    type: VARCHAR
-  - name: WCO
-    type: VARCHAR
-  - name: WEU
-    type: VARCHAR
-  - name: WHO
-    type: VARCHAR
-  - name: WIPO
-    type: VARCHAR
-  - name: WMO
-    type: VARCHAR
-  - name: WNF
-    type: VARCHAR
-  - name: WPact
-    type: VARCHAR
-  - name: WTO
-    type: VARCHAR
-  - name: WTOURO
-    type: VARCHAR
-  - name: Wassen
-    type: VARCHAR
+    type: BIGINT
+  - name: aaaid
+    type: BIGINT
+  - name: aab
+    type: BIGINT
+  - name: aacb
+    type: BIGINT
+  - name: aacarib
+    type: BIGINT
+  - name: aalco
+    type: BIGINT
+  - name: aaro
+    type: BIGINT
+  - name: aata
+    type: BIGINT
+  - name: aatpo
+    type: BIGINT
+  - name: abeda
+    type: BIGINT
+  - name: abepseac
+    type: BIGINT
+  - name: acc
+    type: BIGINT
+  - name: acct
+    type: BIGINT
+  - name: acdt
+    type: BIGINT
+  - name: aci
+    type: BIGINT
+  - name: acml
+    type: BIGINT
+  - name: acp
+    type: BIGINT
+  - name: acpeu
+    type: BIGINT
+  - name: acs
+    type: BIGINT
+  - name: acso
+    type: BIGINT
+  - name: acssrb
+    type: BIGINT
+  - name: acu
+    type: BIGINT
+  - name: acwl
+    type: BIGINT
+  - name: afesd
+    type: BIGINT
+  - name: afeximb
+    type: BIGINT
+  - name: afgec
+    type: BIGINT
+  - name: afpu
+    type: BIGINT
+  - name: afrand
+    type: BIGINT
+  - name: afspc
+    type: BIGINT
+  - name: afte
+    type: BIGINT
+  - name: agc
+    type: BIGINT
+  - name: agpundo
+    type: BIGINT
+  - name: aic
+    type: BIGINT
+  - name: aidc
+    type: BIGINT
+  - name: aido
+    type: BIGINT
+  - name: aioec
+    type: BIGINT
+  - name: aipo
+    type: BIGINT
+  - name: aitic
+    type: BIGINT
+  - name: alo
+    type: BIGINT
+  - name: amco
+    type: BIGINT
+  - name: amcow
+    type: BIGINT
+  - name: amf
+    type: BIGINT
+  - name: amipo
+    type: BIGINT
+  - name: amptu
+    type: BIGINT
+  - name: amsc
+    type: BIGINT
+  - name: amu
+    type: BIGINT
+  - name: anzus
+    type: BIGINT
+  - name: aoad
+    type: BIGINT
+  - name: aocrs
+    type: BIGINT
+  - name: aomr
+    type: BIGINT
+  - name: aopu
+    type: BIGINT
+  - name: ap
+    type: BIGINT
+  - name: apcc
+    type: BIGINT
+  - name: apec
+    type: BIGINT
+  - name: apfic
+    type: BIGINT
+  - name: apibd
+    type: BIGINT
+  - name: apo
+    type: BIGINT
+  - name: appa
+    type: BIGINT
+  - name: apt
+    type: BIGINT
+  - name: aptu
+    type: BIGINT
+  - name: arc
+    type: BIGINT
+  - name: arcal
+    type: BIGINT
+  - name: aripo
+    type: BIGINT
+  - name: arpu
+    type: BIGINT
+  - name: asatp
+    type: BIGINT
+  - name: asblac
+    type: BIGINT
+  - name: ascbc
+    type: BIGINT
+  - name: ascrubber
+    type: BIGINT
+  - name: asean
+    type: BIGINT
+  - name: asecna
+    type: BIGINT
+  - name: asef
+    type: BIGINT
+  - name: aspac
+    type: BIGINT
+  - name: ato
+    type: BIGINT
+  - name: atpc
+    type: BIGINT
+  - name: au
+    type: BIGINT
+  - name: avrdc
+    type: BIGINT
+  - name: afdb
+    type: BIGINT
+  - name: afropda
+    type: BIGINT
+  - name: africare
+    type: BIGINT
+  - name: amcc
+    type: BIGINT
+  - name: andean
+    type: BIGINT
+  - name: aralsea
+    type: BIGINT
+  - name: articc
+    type: BIGINT
+  - name: asdb
+    type: BIGINT
+  - name: baltbat
+    type: BIGINT
+  - name: bc
+    type: BIGINT
+  - name: bcsc
+    type: BIGINT
+  - name: bef
+    type: BIGINT
+  - name: ben
+    type: BIGINT
+  - name: benelux
+    type: BIGINT
+  - name: bescc
+    type: BIGINT
+  - name: biisef
+    type: BIGINT
+  - name: bionet
+    type: BIGINT
+  - name: bipm
+    type: BIGINT
+  - name: bis
+    type: BIGINT
+  - name: bndp
+    type: BIGINT
+  - name: bobp
+    type: BIGINT
+  - name: bonn
+    type: BIGINT
+  - name: bsec
+    type: BIGINT
+  - name: caad
+    type: BIGINT
+  - name: caarc
+    type: BIGINT
+  - name: cab
+    type: BIGINT
+  - name: cabi
+    type: BIGINT
+  - name: cacb
+    type: BIGINT
+  - name: caci
+    type: BIGINT
+  - name: caecc
+    type: BIGINT
+  - name: caipa
+    type: BIGINT
+  - name: cames
+    type: BIGINT
+  - name: camrsd
+    type: BIGINT
+  - name: camsf
+    type: BIGINT
+  - name: caricom
+    type: BIGINT
+  - name: carifta
+    type: BIGINT
+  - name: carii
+    type: BIGINT
+  - name: catc
+    type: BIGINT
+  - name: cbfp
+    type: BIGINT
+  - name: cbi
+    type: BIGINT
+  - name: cbss
+    type: BIGINT
+  - name: ccnr
+    type: BIGINT
+  - name: ccom
+    type: BIGINT
+  - name: ccpa
+    type: BIGINT
+  - name: ccomm
+    type: BIGINT
+  - name: cdb
+    type: BIGINT
+  - name: ceao
+    type: BIGINT
+  - name: cec
+    type: BIGINT
+  - name: ceepn
+    type: BIGINT
+  - name: cefta
+    type: BIGINT
+  - name: cei
+    type: BIGINT
+  - name: celc
+    type: BIGINT
+  - name: cemac
+    type: BIGINT
+  - name: cento
+    type: BIGINT
+  - name: cepgl
+    type: BIGINT
+  - name: cern
+    type: BIGINT
+  - name: cfatf
+    type: BIGINT
+  - name: cfc
+    type: BIGINT
+  - name: chstea
+    type: BIGINT
+  - name: cica
+    type: BIGINT
+  - name: cifc
+    type: BIGINT
+  - name: cima
+    type: BIGINT
+  - name: cis
+    type: BIGINT
+  - name: cmaec
+    type: BIGINT
+  - name: cmaoc
+    type: BIGINT
+  - name: cmea
+    type: BIGINT
+  - name: cmhasg
+    type: BIGINT
+  - name: coe
+    type: BIGINT
+  - name: colombo
+    type: BIGINT
+  - name: comesa
+    type: BIGINT
+  - name: confejes
+    type: BIGINT
+  - name: coptac
+    type: BIGINT
+  - name: cosave
+    type: BIGINT
+  - name: corg
+    type: BIGINT
+  - name: cp
+    type: BIGINT
+  - name: cpab
+    type: BIGINT
+  - name: cpsc
+    type: BIGINT
+  - name: cpu
+    type: BIGINT
+  - name: cslf
+    type: BIGINT
+  - name: ctcaf
+    type: BIGINT
+  - name: cto
+    type: BIGINT
+  - name: cwgc
+    type: BIGINT
+  - name: cxc
+    type: BIGINT
+  - name: cfrn
+    type: BIGINT
+  - name: comab
+    type: BIGINT
+  - name: comsec
+    type: BIGINT
+  - name: dbgls
+    type: BIGINT
+  - name: dlcoea
+    type: BIGINT
+  - name: danube
+    type: BIGINT
+  - name: eacm
+    type: BIGINT
+  - name: eacs
+    type: BIGINT
+  - name: eacso
+    type: BIGINT
+  - name: eadb
+    type: BIGINT
+  - name: eapc
+    type: BIGINT
+  - name: eapo
+    type: BIGINT
+  - name: ebrd
+    type: BIGINT
+  - name: ecb
+    type: BIGINT
+  - name: ecca
+    type: BIGINT
+  - name: eccas
+    type: BIGINT
+  - name: eccb
+    type: BIGINT
+  - name: eccd
+    type: BIGINT
+  - name: eccm
+    type: BIGINT
+  - name: eccpif
+    type: BIGINT
+  - name: eco
+    type: BIGINT
+  - name: ecowas
+    type: BIGINT
+  - name: ecpta
+    type: BIGINT
+  - name: ecsc
+    type: BIGINT
+  - name: eec
+    type: BIGINT
+  - name: efcc
+    type: BIGINT
+  - name: efilwc
+    type: BIGINT
+  - name: efta
+    type: BIGINT
+  - name: eib
+    type: BIGINT
+  - name: eipa
+    type: BIGINT
+  - name: eldo
+    type: BIGINT
+  - name: emb
+    type: BIGINT
+  - name: embc
+    type: BIGINT
+  - name: embl
+    type: BIGINT
+  - name: emi
+    type: BIGINT
+  - name: emppo
+    type: BIGINT
+  - name: epa
+    type: BIGINT
+  - name: epfsc
+    type: BIGINT
+  - name: epo
+    type: BIGINT
+  - name: epu
+    type: BIGINT
+  - name: esa
+    type: BIGINT
+  - name: eso
+    type: BIGINT
+  - name: esro
+    type: BIGINT
+  - name: etf
+    type: BIGINT
+  - name: eu
+    type: BIGINT
+  - name: eufmd
+    type: BIGINT
+  - name: euratom
+    type: BIGINT
+  - name: eurocontrol
+    type: BIGINT
+  - name: eurofima
+    type: BIGINT
+  - name: euromet
+    type: BIGINT
+  - name: entente
+    type: BIGINT
+  - name: fao
+    type: BIGINT
+  - name: faped
+    type: BIGINT
+  - name: fdiplac
+    type: BIGINT
+  - name: fec
+    type: BIGINT
+  - name: g15
+    type: BIGINT
+  - name: g24
+    type: BIGINT
+  - name: g3
+    type: BIGINT
+  - name: gatt
+    type: BIGINT
+  - name: gbact
+    type: BIGINT
+  - name: gcc
+    type: BIGINT
+  - name: gcrsnc
+    type: BIGINT
+  - name: gef
+    type: BIGINT
+  - name: geo
+    type: BIGINT
+  - name: ghsi
+    type: BIGINT
+  - name: glacsec
+    type: BIGINT
+  - name: goic
+    type: BIGINT
+  - name: grbdo
+    type: BIGINT
+  - name: hcpil
+    type: BIGINT
+  - name: iabe
+    type: BIGINT
+  - name: iabath
+    type: BIGINT
+  - name: iacb
+    type: BIGINT
+  - name: iaci
+    type: BIGINT
+  - name: iacs
+    type: BIGINT
+  - name: iacss
+    type: BIGINT
+  - name: iacw
+    type: BIGINT
+  - name: iadb
+    type: BIGINT
+  - name: iadefb
+    type: BIGINT
+  - name: iaea
+    type: BIGINT
+  - name: iafc
+    type: BIGINT
+  - name: iahc
+    type: BIGINT
+  - name: iaias
+    type: BIGINT
+  - name: iaic
+    type: BIGINT
+  - name: iaigc
+    type: BIGINT
+  - name: iaii
+    type: BIGINT
+  - name: ialong
+    type: BIGINT
+  - name: iamlo
+    type: BIGINT
+  - name: iaphy
+    type: BIGINT
+  - name: iara
+    type: BIGINT
+  - name: iarhc
+    type: BIGINT
+  - name: iaradio
+    type: BIGINT
+  - name: iaruhr
+    type: BIGINT
+  - name: ias
+    type: BIGINT
+  - name: iasaj
+    type: BIGINT
+  - name: iatb
+    type: BIGINT
+  - name: iatsj
+    type: BIGINT
+  - name: iattc
+    type: BIGINT
+  - name: iba
+    type: BIGINT
+  - name: ibcs
+    type: BIGINT
+  - name: ibe
+    type: BIGINT
+  - name: ibec
+    type: BIGINT
+  - name: ibi
+    type: BIGINT
+  - name: ibier
+    type: BIGINT
+  - name: ibpmp
+    type: BIGINT
+  - name: ibrd
+    type: BIGINT
+  - name: icac
+    type: BIGINT
+  - name: icai
+    type: BIGINT
+  - name: icao
+    type: BIGINT
+  - name: icamo
+    type: BIGINT
+  - name: icc
+    type: BIGINT
+  - name: iccec
+    type: BIGINT
+  - name: iccilmb
+    type: BIGINT
+  - name: icco
+    type: BIGINT
+  - name: iccrom
+    type: BIGINT
+  - name: iccs
+    type: BIGINT
+  - name: iccslt
+    type: BIGINT
+  - name: icdr
+    type: BIGINT
+  - name: ices
+    type: BIGINT
+  - name: icfam
+    type: BIGINT
+  - name: ichrb
+    type: BIGINT
+  - name: icmmp
+    type: BIGINT
+  - name: icnc
+    type: BIGINT
+  - name: icnwaf
+    type: BIGINT
+  - name: icprp
+    type: BIGINT
+  - name: icptu
+    type: BIGINT
+  - name: icri
+    type: BIGINT
+  - name: icrpbc
+    type: BIGINT
+  - name: icse
+    type: BIGINT
+  - name: icseaf
+    type: BIGINT
+  - name: icsg
+    type: BIGINT
+  - name: ictm
+    type: BIGINT
+  - name: icwmd
+    type: BIGINT
+  - name: icfo
+    type: BIGINT
+  - name: ichemo
+    type: BIGINT
+  - name: icivdo
+    type: BIGINT
+  - name: icomo
+    type: BIGINT
+  - name: idc
+    type: BIGINT
+  - name: iea
+    type: BIGINT
+  - name: iec
+    type: BIGINT
+  - name: ies
+    type: BIGINT
+  - name: iexb
+    type: BIGINT
+  - name: ifad
+    type: BIGINT
+  - name: ifc
+    type: BIGINT
+  - name: ifca
+    type: BIGINT
+  - name: igad
+    type: BIGINT
+  - name: igc
+    type: BIGINT
+  - name: igcc
+    type: BIGINT
+  - name: iho
+    type: BIGINT
+  - name: iia
+    type: BIGINT
+  - name: iicom
+    type: BIGINT
+  - name: iie
+    type: BIGINT
+  - name: iif
+    type: BIGINT
+  - name: iiwee
+    type: BIGINT
+  - name: ijo
+    type: BIGINT
+  - name: ilo
+    type: BIGINT
+  - name: ilzsg
+    type: BIGINT
+  - name: imbslav
+    type: BIGINT
+  - name: imc
+    type: BIGINT
+  - name: imf
+    type: BIGINT
+  - name: imi
+    type: BIGINT
+  - name: imo
+    type: BIGINT
+  - name: imso
+    type: BIGINT
+  - name: incap
+    type: BIGINT
+  - name: infofish
+    type: BIGINT
+  - name: infsmk
+    type: BIGINT
+  - name: inro
+    type: BIGINT
+  - name: insg
+    type: BIGINT
+  - name: intelsat
+    type: BIGINT
+  - name: interpol
+    type: BIGINT
+  - name: ioathre
+    type: BIGINT
+  - name: iocom
+    type: BIGINT
+  - name: ioez
+    type: BIGINT
+  - name: iolm
+    type: BIGINT
+  - name: iomig
+    type: BIGINT
+  - name: iooc
+    type: BIGINT
+  - name: iopcf
+    type: BIGINT
+  - name: ioph
+    type: BIGINT
+  - name: iocc
+    type: BIGINT
+  - name: ipc
+    type: BIGINT
+  - name: ipgri
+    type: BIGINT
+  - name: ipi
+    type: BIGINT
+  - name: ipedi
+    type: BIGINT
+  - name: ipentc
+    type: BIGINT
+  - name: iphyl
+    type: BIGINT
+  - name: iprizec
+    type: BIGINT
+  - name: irc
+    type: BIGINT
+  - name: irlcs
+    type: BIGINT
+  - name: iro
+    type: BIGINT
+  - name: irsg
+    type: BIGINT
+  - name: iru
+    type: BIGINT
+  - name: isa
+    type: BIGINT
+  - name: isb
+    type: BIGINT
+  - name: isdb
+    type: BIGINT
+  - name: ishrest
+    type: BIGINT
+  - name: isrbc
+    type: BIGINT
+  - name: isupt
+    type: BIGINT
+  - name: isuc
+    type: BIGINT
+  - name: itc
+    type: BIGINT
+  - name: itcc
+    type: BIGINT
+  - name: itcle
+    type: BIGINT
+  - name: itpa
+    type: BIGINT
+  - name: itro
+    type: BIGINT
+  - name: itto
+    type: BIGINT
+  - name: itu
+    type: BIGINT
+  - name: itvrc
+    type: BIGINT
+  - name: iuic
+    type: BIGINT
+  - name: iupct
+    type: BIGINT
+  - name: iupip
+    type: BIGINT
+  - name: iuplaw
+    type: BIGINT
+  - name: iupnvp
+    type: BIGINT
+  - name: iupr
+    type: BIGINT
+  - name: ivwo
+    type: BIGINT
+  - name: iwsg
+    type: BIGINT
+  - name: iwhale
+    type: BIGINT
+  - name: iocean
+    type: BIGINT
+  - name: jalaao
+    type: BIGINT
+  - name: jinr
+    type: BIGINT
+  - name: jnolcrh
+    type: BIGINT
+  - name: lacac
+    type: BIGINT
+  - name: lacp
+    type: BIGINT
+  - name: laeo
+    type: BIGINT
+  - name: lafdo
+    type: BIGINT
+  - name: lafta
+    type: BIGINT
+  - name: laia
+    type: BIGINT
+  - name: laiec
+    type: BIGINT
+  - name: latin
+    type: BIGINT
+  - name: lcbc
+    type: BIGINT
+  - name: lgida
+    type: BIGINT
+  - name: loas
+    type: BIGINT
+  - name: lon
+    type: BIGINT
+  - name: marri
+    type: BIGINT
+  - name: mcpttc
+    type: BIGINT
+  - name: mcwcasm
+    type: BIGINT
+  - name: memtta
+    type: BIGINT
+  - name: mfo
+    type: BIGINT
+  - name: miga
+    type: BIGINT
+  - name: mopan
+    type: BIGINT
+  - name: mru
+    type: BIGINT
+  - name: mwn
+    type: BIGINT
+  - name: mercosur
+    type: BIGINT
+  - name: montreal
+    type: BIGINT
+  - name: nacap
+    type: BIGINT
+  - name: nafo
+    type: BIGINT
+  - name: nafta
+    type: BIGINT
+  - name: nam
+    type: BIGINT
+  - name: nappo
+    type: BIGINT
+  - name: nasco
+    type: BIGINT
+  - name: nato
+    type: BIGINT
+  - name: ncm
+    type: BIGINT
+  - name: ncrr
+    type: BIGINT
+  - name: nctr
+    type: BIGINT
+  - name: ndf
+    type: BIGINT
+  - name: neafc
+    type: BIGINT
+  - name: nerc
+    type: BIGINT
+  - name: nib
+    type: BIGINT
+  - name: npafc
+    type: BIGINT
+  - name: npfsc
+    type: BIGINT
+  - name: nrc
+    type: BIGINT
+  - name: ntsc
+    type: BIGINT
+  - name: nwhf
+    type: BIGINT
+  - name: nordc
+    type: BIGINT
+  - name: oapec
+    type: BIGINT
+  - name: oas
+    type: BIGINT
+  - name: oau
+    type: BIGINT
+  - name: ocam
+    type: BIGINT
+  - name: ocas
+    type: BIGINT
+  - name: occedca
+    type: BIGINT
+  - name: ocr
+    type: BIGINT
+  - name: oecd
+    type: BIGINT
+  - name: oecs
+    type: BIGINT
+  - name: oeec
+    type: BIGINT
+  - name: oesas
+    type: BIGINT
+  - name: oic
+    type: BIGINT
+  - name: oiv
+    type: BIGINT
+  - name: omdkr
+    type: BIGINT
+  - name: opanal
+    type: BIGINT
+  - name: opec
+    type: BIGINT
+  - name: osce
+    type: BIGINT
+  - name: oslo
+    type: BIGINT
+  - name: ospar
+    type: BIGINT
+  - name: otif
+    type: BIGINT
+  - name: pahc
+    type: BIGINT
+  - name: paho
+    type: BIGINT
+  - name: paigh
+    type: BIGINT
+  - name: pap
+    type: BIGINT
+  - name: pc
+    type: BIGINT
+  - name: pca
+    type: BIGINT
+  - name: pcb
+    type: BIGINT
+  - name: pcsp
+    type: BIGINT
+  - name: ped
+    type: BIGINT
+  - name: piarc
+    type: BIGINT
+  - name: pibac
+    type: BIGINT
+  - name: picdcs
+    type: BIGINT
+  - name: pices
+    type: BIGINT
+  - name: pics
+    type: BIGINT
+  - name: pif
+    type: BIGINT
+  - name: pipd
+    type: BIGINT
+  - name: pmaesa
+    type: BIGINT
+  - name: psi
+    type: BIGINT
+  - name: psnarco
+    type: BIGINT
+  - name: ptasea
+    type: BIGINT
+  - name: puasp
+    type: BIGINT
+  - name: rascom
+    type: BIGINT
+  - name: rcaela
+    type: BIGINT
+  - name: rcc
+    type: BIGINT
+  - name: recsa
+    type: BIGINT
+  - name: rimmo
+    type: BIGINT
+  - name: rioppah
+    type: BIGINT
+  - name: riogroup
+    type: BIGINT
+  - name: radiou
+    type: BIGINT
+  - name: repcom
+    type: BIGINT
+  - name: saafa
+    type: BIGINT
+  - name: saarc
+    type: BIGINT
+  - name: sacep
+    type: BIGINT
+  - name: sacu
+    type: BIGINT
+  - name: sadc
+    type: BIGINT
+  - name: sadcc
+    type: BIGINT
+  - name: sami
+    type: BIGINT
+  - name: sartc
+    type: BIGINT
+  - name: sca
+    type: BIGINT
+  - name: scaf
+    type: BIGINT
+  - name: sch
+    type: BIGINT
+  - name: schengen
+    type: BIGINT
+  - name: seameo
+    type: BIGINT
+  - name: seato
+    type: BIGINT
+  - name: segib
+    type: BIGINT
+  - name: sela
+    type: BIGINT
+  - name: sica
+    type: BIGINT
+  - name: sieca
+    type: BIGINT
+  - name: sittdec
+    type: BIGINT
+  - name: spc
+    type: BIGINT
+  - name: srdo
+    type: BIGINT
+  - name: swapu
+    type: BIGINT
+  - name: swpd
+    type: BIGINT
+  - name: sugu
+    type: BIGINT
+  - name: tarhec
+    type: BIGINT
+  - name: tcrmg
+    type: BIGINT
+  - name: tic
+    type: BIGINT
+  - name: turksoy
+    type: BIGINT
+  - name: uasc
+    type: BIGINT
+  - name: ubec
+    type: BIGINT
+  - name: udeac
+    type: BIGINT
+  - name: uemoa
+    type: BIGINT
+  - name: uiucv
+    type: BIGINT
+  - name: ukdwd
+    type: BIGINT
+  - name: umac
+    type: BIGINT
+  - name: umoa
+    type: BIGINT
+  - name: un
+    type: BIGINT
+  - name: undroit
+    type: BIGINT
+  - name: unesco
+    type: BIGINT
+  - name: unido
+    type: BIGINT
+  - name: upu
+    type: BIGINT
+  - name: usp
+    type: BIGINT
+  - name: valdivia
+    type: BIGINT
+  - name: vasab
+    type: BIGINT
+  - name: waec
+    type: BIGINT
+  - name: wahc
+    type: BIGINT
+  - name: waho
+    type: BIGINT
+  - name: warda
+    type: BIGINT
+  - name: wcdc
+    type: BIGINT
+  - name: wco
+    type: BIGINT
+  - name: weu
+    type: BIGINT
+  - name: who
+    type: BIGINT
+  - name: wipo
+    type: BIGINT
+  - name: wmo
+    type: BIGINT
+  - name: wnf
+    type: BIGINT
+  - name: wpact
+    type: BIGINT
+  - name: wto
+    type: BIGINT
+  - name: wtouro
+    type: BIGINT
+  - name: wassen
+    type: BIGINT

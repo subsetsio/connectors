@@ -1,58 +1,61 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `correlates-of-war-extra-state-war`. Regenerate after model-verify.
+key: [warnum, ccode1, sidea, sideb]
+sort: [warnum, ccode1, sidea, sideb]
 columns:
-  - name: WarNum
+  - name: warnum
     type: BIGINT
-  - name: WarName
+  - name: warname
     type: VARCHAR
-  - name: WarType
+  - name: wartype
     type: BIGINT
   - name: ccode1
     type: BIGINT
-  - name: SideA
+  - name: sidea
     type: VARCHAR
   - name: ccode2
     type: BIGINT
-  - name: SideB
+  - name: sideb
     type: VARCHAR
-  - name: StartMonth1
+  - name: startmonth1
     type: BIGINT
-  - name: StartDay1
+  - name: startday1
     type: BIGINT
-  - name: StartYear1
+  - name: startyear1
     type: BIGINT
-  - name: EndMonth1
+  - name: endmonth1
     type: BIGINT
-  - name: EndDay1
+  - name: endday1
     type: BIGINT
-  - name: EndYear1
+  - name: endyear1
     type: BIGINT
-  - name: StartMonth2
+  - name: startmonth2
     type: BIGINT
-  - name: StartDay2
+  - name: startday2
     type: BIGINT
-  - name: StartYear2
+  - name: startyear2
     type: BIGINT
-  - name: EndMonth2
+  - name: endmonth2
     type: BIGINT
-  - name: EndDay2
+  - name: endday2
     type: BIGINT
-  - name: EndYear2
+  - name: endyear2
     type: BIGINT
-  - name: Initiator
+  - name: initiator
     type: BIGINT
-  - name: Interven
+  - name: interven
     type: BIGINT
-  - name: TransFrom
+  - name: transfrom
     type: BIGINT
-  - name: Outcome
+  - name: outcome
     type: BIGINT
-  - name: TransTo
+  - name: transto
     type: BIGINT
-  - name: WhereFought
+  - name: wherefought
     type: BIGINT
-  - name: BatDeath
+  - name: batdeath
     type: BIGINT
-  - name: NonStateDeaths
+  - name: nonstatedeaths
     type: BIGINT
-  - name: Version
+  - name: version
     type: BIGINT
