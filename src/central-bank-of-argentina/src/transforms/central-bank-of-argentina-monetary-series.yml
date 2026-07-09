@@ -1,22 +1,34 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [variable_id]
+temporal: last_date
+sort: [last_date, variable_id]
 columns:
   - name: variable_id
     type: BIGINT
+    description: BCRA monetary statistics variable identifier.
   - name: description
     type: VARCHAR
+    description: Spanish description of the monetary or financial series.
   - name: category
     type: VARCHAR
+    description: BCRA category grouping for the variable.
   - name: series_type
     type: VARCHAR
+    description: BCRA series type, such as stock, flow, rate, or index.
   - name: frequency
     type: VARCHAR
+    description: Reporting frequency code from the BCRA catalog.
   - name: unit
     type: VARCHAR
+    description: Unit of expression for the reported values.
   - name: currency
     type: VARCHAR
+    description: Currency grouping code used by the BCRA catalog.
   - name: first_date
     type: DATE
+    description: First date reported for the variable by the BCRA.
   - name: last_date
     type: DATE
+    description: Most recent date reported for the variable by the BCRA.
   - name: last_value
     type: DOUBLE
+    description: Most recent value reported for the variable by the BCRA.

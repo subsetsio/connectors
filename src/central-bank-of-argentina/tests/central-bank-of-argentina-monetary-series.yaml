@@ -14,6 +14,9 @@ tests:
   - not_null: categoria
     reason: categoria is the grouping field populated for every variable
     certainty: 85
+  - freshness: {col: ultFechaInformada, reaches: today - 14d}
+    reason: the BCRA monetary catalog carries the most recent reported date for active series
+    certainty: 80
   - row_count: {min: 1400}
     reason: catalog reported count 1581; far fewer means pagination broke after page 1
     certainty: 85

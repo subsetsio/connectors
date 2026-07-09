@@ -1,12 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [currency_code, date, rate_vs_usd, rate_in_pesos]
+temporal: date
+sort: [date, currency_code, rate_vs_usd, rate_in_pesos]
 columns:
   - name: currency_code
     type: VARCHAR
+    description: BCRA currency code quoted by the exchange-rate endpoint.
   - name: currency_name
     type: VARCHAR
+    description: Spanish currency name returned with the quotation.
   - name: date
     type: DATE
+    description: Quotation date.
   - name: rate_vs_usd
     type: DOUBLE
+    description: BCRA tipoPase value, the quoted rate against the US dollar.
   - name: rate_in_pesos
     type: DOUBLE
+    description: BCRA tipoCotizacion value, the rate in Argentine pesos per unit of the currency.

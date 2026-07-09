@@ -1,7 +1,10 @@
-# currency master list — one row per BCRA FX currency code
-key: [currency_code]
+# currency master list; BCRA codes are not unique, so preserve the source row identity.
+key: [currency_code, currency_name]
+sort: [currency_code, currency_name]
 columns:
   - name: currency_code
     type: VARCHAR
+    description: BCRA currency code used by the exchange-rate quotation endpoint.
   - name: currency_name
     type: VARCHAR
+    description: Spanish currency name from the BCRA currency master.

@@ -1,8 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [variable_id, date]
+temporal: date
+sort: [date, variable_id]
 columns:
   - name: variable_id
     type: BIGINT
+    description: BCRA monetary statistics variable identifier; join to the monetary-series table for metadata.
   - name: date
     type: DATE
+    description: Observation date.
   - name: value
     type: DOUBLE
+    description: Observed value in the unit and currency declared by the monetary-series table.

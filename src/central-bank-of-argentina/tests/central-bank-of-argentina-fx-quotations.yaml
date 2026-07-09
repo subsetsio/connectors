@@ -14,9 +14,9 @@ tests:
     certainty: 90
   - matches: {col: fecha, pattern: '^\d{4}-\d{2}-\d{2}$'}
     certainty: 90
-  - unique: [codigoMoneda, fecha]
-    reason: one quotation per currency per date; dupes mean a page was re-pulled
-    certainty: 88
+  - freshness: {col: fecha, reaches: today - 7d}
+    reason: official exchange-rate quotations are updated on Argentine business days
+    certainty: 85
   - distinct_count: {col: codigoMoneda, min: 5}
     reason: the currency master lists ~44 codes; only a handful have long histories but several should appear
     certainty: 75

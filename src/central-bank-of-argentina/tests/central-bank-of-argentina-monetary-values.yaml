@@ -15,6 +15,9 @@ tests:
   - matches: {col: fecha, pattern: '^\d{4}-\d{2}-\d{2}$'}
     reason: BCRA returns ISO dates per detalle point
     certainty: 90
+  - freshness: {col: fecha, reaches: today - 14d}
+    reason: active BCRA monetary series publish recent daily or monthly observations
+    certainty: 85
   - unique: [idVariable, fecha]
     reason: one observation per variable per date; dupes mean a page was re-pulled without overwrite
     certainty: 90
