@@ -3,6 +3,8 @@
 # caution: Each row is a complaint event; product, issue, company, geography, response, and submission channel are descriptive dimensions, not separate records.
 # caution: The raw extract contains repeated complaint_id values, so treat complaint_id as a source identifier, not a unique row key.
 key: []
+temporal: date_received
+sort: [date_received]
 columns:
   - name: date_received
     type: VARCHAR

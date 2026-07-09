@@ -1,4 +1,7 @@
 spec_id: caiso-atl-tiepoint
+coverage:
+  frozen: true
+  reason: Atlas tiepoint mappings are effective-dated reference data; EFF_START_DT_GMT is a validity bound, not a publication freshness axis.
 status: active
 tests:
   - not_null: TI_ID
