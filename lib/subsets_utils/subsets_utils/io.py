@@ -571,8 +571,8 @@ def raw_parquet_writer(asset_id: str, schema: pa.Schema, *, compression: str = "
 def list_raw_files(pattern: str) -> list[str]:
     """List raw files in the RUN-SCOPED raw dir matching a glob pattern.
 
-    For POST-DOWNLOAD ENUMERATION ONLY — health tests (tests_download.py)
-    globbing the batches their own run just wrote, dev smoke scripts. This is
+    For POST-DOWNLOAD ENUMERATION ONLY — dev smoke scripts globbing the
+    batches their own run just wrote. This is
     a physical directory listing, NOT the commit log: it can return objects
     the raw manifest discarded (a failed leg's writes). NEVER derive a fetch
     fn's skip/done-set from it — an uncommitted object skipped as "done"
