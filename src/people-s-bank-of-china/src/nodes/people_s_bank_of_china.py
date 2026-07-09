@@ -109,6 +109,14 @@ def _to_num(s: str):
         return None
 
 
+def _period_match(s: str):
+    m = _PERIOD.match(s)
+    if not m:
+        return None
+    month = int(m.group(2))
+    return m if 1 <= month <= 12 else None
+
+
 def _decode(raw: bytes) -> str:
     head = raw[:1000].lower()
     if b"charset=utf-8" in head or b'encoding="utf-8"' in head:
@@ -134,14 +142,26 @@ def _grid_from_htm(text: str):
 
 
 def _grid_from_xls(content: bytes):
+    grids = _grids_from_xls(content)
+    return max(
+        grids,
+        key=lambda g: (
+            sum(1 for row in g for cell in row if _to_num(cell) is not None),
+            len(g) * len(g[0]) if g else 0,
+        ),
+        default=[],
+    )
+
+
+def _grids_from_xls(content: bytes):
     import pandas as pd
     xls = pd.ExcelFile(io.BytesIO(content))
-    best = []
+    grids = []
     for sheet in xls.sheet_names:
         g = xls.parse(sheet, header=None).map(_clean).values.tolist()
-        if g and len(g) * len(g[0]) > (len(best) * len(best[0]) if best else 0):
-            best = g
-    return best
+        if g:
+            grids.append(g)
+    return grids
 
 
 # ---- the generic table parser ---------------------------------------------
@@ -166,14 +186,14 @@ def _parse_grid(grid):
 
     # orientation A: a header ROW carries >=2 period labels
     for ri, row in enumerate(grid):
-        pc = {ci: _PERIOD.match(c) for ci, c in enumerate(row) if _PERIOD.match(c)}
+        pc = {ci: _period_match(c) for ci, c in enumerate(row) if _period_match(c)}
         if len(pc) >= 2:
             pcol = {ci: (int(m.group(1)), int(m.group(2))) for ci, m in pc.items()}
             return _parse_rows(grid, ri, pcol, ncols)
 
     # orientation B (transposed): a COLUMN carries >=2 period labels
     for ci in range(ncols):
-        pr = {ri: _PERIOD.match(grid[ri][ci]) for ri in range(nrows) if _PERIOD.match(grid[ri][ci])}
+        pr = {ri: _period_match(grid[ri][ci]) for ri in range(nrows) if _period_match(grid[ri][ci])}
         if len(pr) >= 2:
             prow = {ri: (int(m.group(1)), int(m.group(2))) for ri, m in pr.items()}
             return _parse_cols(grid, ci, prow, nrows, ncols)
@@ -204,6 +224,9 @@ def _period_from_context(grid, source_year: int, link_label: str | None):
 
 
 def _header_label(grid, data_start: int, ci: int) -> str:
+    if any("serial no" in (grid[ri][ci] if ci < len(grid[ri]) else "").lower()
+           for ri in range(max(0, data_start - 8), data_start)):
+        return ""
     parts = []
     for ri in range(max(0, data_start - 8), data_start):
         cell = grid[ri][ci] if ci < len(grid[ri]) else ""
@@ -251,6 +274,8 @@ def _parse_matrix(grid, period):
             continue
         for ci in numeric_cols:
             col_label = _header_label(grid, data_start, ci)
+            if not col_label:
+                continue
             item = f"{label} | {col_label}" if col_label else label
             recs.append({
                 "item": item,
@@ -272,7 +297,7 @@ def _parse_rows(grid, hdr, pcol, ncols):
     data_start = hdr + 1
     for ri in range(hdr + 1, min(hdr + 4, len(grid))):
         row = grid[ri]
-        texty = [ci for ci in pcol if row[ci] and _to_num(row[ci]) is None and not _PERIOD.match(row[ci])]
+        texty = [ci for ci in pcol if row[ci] and _to_num(row[ci]) is None and not _period_match(row[ci])]
         if len(texty) >= max(2, len(pcol) // 2):
             for ci in pcol:
                 if row[ci]:
@@ -424,12 +449,15 @@ def fetch_one(node_id: str) -> None:
                 try:
                     raw = get(BASE + url, timeout=90).content
                     if url.lower().endswith(("htm", "html")):
-                        grid = _grid_from_htm(_decode(raw))
+                        grids = [_grid_from_htm(_decode(raw))]
                     else:
-                        grid = _grid_from_xls(raw)
-                    recs = _parse_grid(grid)
-                    if not recs:
-                        recs = _parse_matrix(grid, _period_from_context(grid, year, link_label))
+                        grids = _grids_from_xls(raw)
+                    recs = []
+                    for grid in grids:
+                        recs.extend(
+                            _parse_grid(grid)
+                            or _parse_matrix(grid, _period_from_context(grid, year, link_label))
+                        )
                 except Exception as exc:
                     print(f"[{node_id}] parse failed {url}: {type(exc).__name__}: {exc}")
                     continue

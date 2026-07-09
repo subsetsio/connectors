@@ -4,8 +4,11 @@ Three published subsets, one DOWNLOAD_SPEC each:
 
   - groups        reference catalog of ~2,400 named series groups (/lists/groups/json)
   - series        reference catalog of ~15,600 individual time series (/lists/series/json)
-  - observations  long-format values across every series, one row per (series_id, date),
-                  fetched per series via /observations/<series>/json
+  - observations  long-format values across every series, one row per
+                  (series_id, obs_index), fetched per series via
+                  /observations/<series>/json. obs_index is whatever the series
+                  is keyed by upstream — a date for ~81% of series, a survey
+                  category label or an entity id for the rest (see OBS_SCHEMA).
 
 Each is a stateless full re-pull. Observations re-walks all series each refresh
 (no all-corpus bulk dump exists) and is written as a sequence of parquet batches
@@ -228,12 +231,12 @@ TRANSFORM_SPECS = [
         sql='''
             SELECT DISTINCT
                 series_id,
-                TRY_CAST(obs_date AS DATE)  AS date,
+                TRY_CAST(obs_index AS DATE) AS date,
                 TRY_CAST(value AS DOUBLE) AS value
             FROM "bank-of-canada-observations"
             WHERE series_id IS NOT NULL
-              AND obs_date IS NOT NULL
-              AND TRY_CAST(obs_date AS DATE) IS NOT NULL
+              AND obs_index_key = 'd'
+              AND TRY_CAST(obs_index AS DATE) IS NOT NULL
               AND TRY_CAST(value AS DOUBLE) IS NOT NULL
         ''',
     ),

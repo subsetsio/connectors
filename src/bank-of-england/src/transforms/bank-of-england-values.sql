@@ -1,12 +1,10 @@
 SELECT
     series_code,
-    series_title,
     obs_date,
     value
 FROM (
     SELECT
         series_code,
-        series_title,
         obs_date,
         TRY_CAST(value AS DOUBLE) AS value,
         row_number() OVER (

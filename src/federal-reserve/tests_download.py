@@ -7,9 +7,9 @@ zero rows, or the fixed raw schema drifting.
 from subsets_utils import load_raw_parquet
 
 _EXPECTED_COLS = {
-    "release", "series_name", "freq_code", "frequency", "unit", "unit_mult",
-    "currency", "short_description", "long_description", "series_attributes",
-    "time_period", "obs_value", "obs_status",
+    "release", "dataset_id", "series_name", "freq_code", "frequency", "unit",
+    "unit_mult", "currency", "short_description", "long_description",
+    "series_attributes", "time_period", "obs_value", "obs_status",
 }
 
 
@@ -39,6 +39,20 @@ def test_time_periods_look_like_dates(spec_ids):
         sample = [t for t in tp[:2000] if t is not None]
         bad = [t for t in sample if not pat.match(t)]
         assert not bad, f"{sid}: unexpected time_period formats e.g. {bad[:5]}"
+
+
+def test_raw_grain_unique(spec_ids):
+    """A release repeats a headline series verbatim under every presentation
+    table (<DataSet>) it appears in, so only dataset_id + series + period
+    identifies a raw row. If a future dump makes even that non-unique the
+    repeats are no longer exact, and the transforms' dedup is unsafe."""
+    key = ["dataset_id", "series_name", "time_period"]
+    for sid in spec_ids:
+        table = load_raw_parquet(sid).select(key)
+        distinct = table.group_by(key).aggregate([]).num_rows
+        assert distinct == table.num_rows, (
+            f"{sid}: {table.num_rows - distinct} duplicate rows on {key}"
+        )
 
 
 def test_flagship_releases_substantial(spec_ids):

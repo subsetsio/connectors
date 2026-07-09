@@ -4,26 +4,47 @@ Mechanism (chosen by research): `iadb` — one parameterised HTTP GET against
 https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp
 returns the FULL history of the requested series as clean CSV. There is no
 incremental filter on the CSV endpoint, so each refresh re-fetches whole
-history (a full-snapshot pull); the transform overwrites the published table.
+history (a full-snapshot pull).
 
 There is NO machine-readable catalog of series codes. The only reliable
-enumeration is to walk the static "Combined A to Z" category index, which links
-to ~1.6k category-value pages (`FromShowColumns.asp?NewMeaningId=...`); each of
-those pages embeds the real ~7-char IADB series codes (`SeriesCodes=...`). The
-union of those codes across every category value is the full series universe.
-We harvest them, then pull observations in batches of <=250 codes/request
-(the documented CSV cap).
+enumeration is to walk the static browse hierarchy: three category index pages
+(INSTRUMENTS, COUNTRY, SECTOR) each link to category-value pages
+(`FromShowColumns.asp?NewMeaningId=...&CategId=...`), and every such page lists
+the series carrying that meaning, with codes and long titles. The union of
+codes across every category value is the full series universe.
 
-The single rank-accepted subset is `values`: long-format observations
-(series_code, obs_date, value) across every series. One download node
-(`bank-of-england-values`) does discovery + bulk fetch and streams parquet; one
-SQL transform types/dedups and publishes.
+Three accepted entities, three download nodes:
 
-Gotcha (flagged by research): invalid/unknown series codes and malformed
-requests return a full HTML page with HTTP 200, NOT an error status. We validate
-the response is CSV before parsing and, when a batch trips an HTML error, bisect
-it down to the offending code(s) and skip only those — so a single retired code
-can't sink the whole corpus.
+  categories — the taxonomy itself: one row per (category, category value).
+               Three HTTP requests.
+  series     — the series catalog: one row per (series code, category value)
+               with the series' long title. The grain is a membership bridge,
+               not a series dimension: a series carries an instrument meaning
+               AND a country meaning AND a sector meaning, so it appears once
+               per category value it belongs to. Folding that into a dimension
+               plus a bridge is the transform stage's call, not the fetch's.
+  values     — long-format observations (series_code, obs_date, value) across
+               every series. Titles are deliberately NOT repeated here; `series`
+               owns them.
+
+`series` and `values` each walk the browse hierarchy independently. Download
+nodes are independent by contract (no deps, no shared state), so the crawl runs
+twice rather than being threaded from one node to the other. Nodes run
+sequentially (DAG_PARALLELISM defaults to 1), so this costs wall-clock, not
+request rate.
+
+Two gotchas, both load-bearing:
+
+1. Invalid/unknown series codes and malformed requests return a full HTML page
+   with HTTP 200, NOT an error status. We validate the response is CSV before
+   parsing and, when a batch trips an HTML error, bisect it down to the
+   offending code(s) and skip only those — so a single retired code can't sink
+   the whole corpus.
+2. Category-value pages paginate at 150 results. The page-1 HTML carries the
+   source's own page map in the hidden `ActualResNumPerPage` field
+   (e.g. "151X301X" => further pages start at result 151 and 301); page N+1 is
+   fetched by replaying that form with `ShadowPage=N&Next.x=1`. Reading only
+   page 1 silently drops every series past the 150th of any popular meaning.
 """
 from __future__ import annotations
 
@@ -31,6 +52,7 @@ import csv
 import html
 import io as _io
 import re
+import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 
@@ -44,16 +66,24 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, raw_parquet_writer
+from subsets_utils import NodeSpec, get, raw_parquet_writer, save_raw_parquet
 
 # --- Endpoints --------------------------------------------------------------
 IADB_BASE = "https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp"
 DB_BASE = "https://www.bankofengland.co.uk/boeapps/database/"
-# "Combined A to Z" lists every category value once; its FromShowColumns links
-# carry the meaning ids we resolve to real series codes.
-AZ_INDEX = (
-    DB_BASE
-    + "CategoryIndex.asp?Travel=NIxAZx&CategId=allcats&CategName=Combined+A+to+Z"
+CATEGORY_INDEX = DB_BASE + "CategoryIndex.asp"
+CATEGORY_VALUE_PAGE = DB_BASE + "FromShowColumns.asp"
+
+# The browse hierarchy's own top-level categories. `CategName` is mandatory (the
+# page 302-redirects without it) and is the only place the source names a
+# category, so we carry the name from here rather than inventing one. Note
+# `sectorcats` is a single page holding TWO numeric category ids (4 and 5),
+# interleaved alphabetically and nowhere distinguished by name — so we keep the
+# numeric id its links carry and let both share the name the source gives them.
+CATEGORY_PAGES = (
+    ("6", "INSTRUMENTS"),
+    ("9", "COUNTRY"),
+    ("sectorcats", "SECTOR"),
 )
 
 # --- Fetch parameters -------------------------------------------------------
@@ -84,14 +114,23 @@ RATE_CALLS = 6
 RATE_PERIOD = 1
 
 # --- Safety guards (raise, never silently truncate) -------------------------
-# The A-Z index links thousands of category-value pages; a sharp drop means the
-# page layout changed and our scrape broke.
-MIN_MEANING_PAGES = 100
+# The three category indexes link ~1.6k category-value pages between them; a
+# sharp drop means the page layout changed and our scrape broke.
+MIN_CATEGORY_VALUES = 100
 # Union of real codes harvested; far fewer than the documented corpus means
 # discovery silently degraded.
 MIN_SERIES_CODES = 200
-# Runaway guard for the meaning-page crawl.
-MEANING_PAGE_CAP = 8000
+# Runaway guard for the category-value crawl.
+CATEGORY_VALUE_CAP = 8000
+# ~100 category-value pages carry special characters in their meaning id (gilt
+# maturity buckets like `GIS>25`) and deterministically 500. That is tolerable;
+# a large fraction failing means the crawl is broken.
+MAX_PAGE_FAIL_FRACTION = 0.15
+# Every page declares its own result count, and we parse every row of every page,
+# so a shortfall means pagination or the row parser is dropping series. Pages we
+# never read are already counted above and excluded from this check, so any
+# shortfall here is a parser bug, not a network failure.
+MAX_ROW_SHORTFALL_FRACTION = 0.02
 # A handful of genuinely retired codes that no longer resolve is normal and gets
 # skipped; but if a large slice of the corpus is unfetchable the endpoint is
 # degraded (a partial outage that bisection would otherwise paper over into a
@@ -120,7 +159,7 @@ def _looks_blocked(resp: httpx.Response) -> bool:
 
 # Two retry predicates over the same transport. `_AccessDenied`, timeouts and
 # transport errors are always worth a backoff. They differ on HTTP 5xx: the bulk
-# meaning-page crawl hits deterministic 500s (the server chokes on special-char
+# category-value crawl hits deterministic 500s (the server chokes on special-char
 # meaning ids like gilt buckets `GIS>25`) that will never succeed, so its policy
 # fails those fast; the data fetch treats 5xx as a genuine transient.
 def _retry_block(exc: BaseException) -> bool:
@@ -190,85 +229,275 @@ class _NotCsv(Exception):
 
 
 # ---------------------------------------------------------------------------
-# Series-code discovery — walk the A-Z category index, resolve meaning pages
+# The browse hierarchy — categories, then their category-value pages
 # ---------------------------------------------------------------------------
-def _meaning_page_codes(url: str) -> list[str] | None:
-    """Fetch one category-value page and extract its raw IADB series codes.
-    Returns None when the page genuinely fails (so the caller can count it),
-    never raising into the pool. Thread-safe: only reads, no shared state."""
-    try:
-        page = _http_get_light(url).text
-    except httpx.HTTPError as exc:
-        print(f"[discover] meaning page failed ({type(exc).__name__}): {url}")
-        return None
-    out: list[str] = []
-    for grp in re.findall(r"SeriesCodes=([A-Za-z0-9,]+)", page):
-        out.extend(c for c in grp.split(",") if c)
+_CAT_VALUE_LINK = re.compile(r'href="(FromShowColumns\.asp\?[^"]+)"', re.IGNORECASE)
+
+
+def _category_values() -> list[dict]:
+    """One row per (category, category value) across the three category indexes.
+
+    The link's own query string is the record: `CategId` is the numeric category,
+    `NewMeaningId` the category value's meaning id (sometimes a comma-joined
+    group), `HighlightCatValueDisplay` its display name. Deduplicated on
+    (category_id, meaning_id) — a value can be listed more than once per index."""
+    out: list[dict] = []
+    seen: set[tuple[str, str]] = set()
+    for categ_id, categ_name in CATEGORY_PAGES:
+        page = _http_get(
+            CATEGORY_INDEX,
+            params={"Travel": "NIxAZx", "CategId": categ_id, "CategName": categ_name},
+        ).text
+        found = 0
+        for href in _CAT_VALUE_LINK.findall(page):
+            qs = urllib.parse.parse_qs(urllib.parse.urlsplit(html.unescape(href)).query)
+            cid = (qs.get("CategId") or [""])[0]
+            meaning = (qs.get("NewMeaningId") or [""])[0]
+            display = (qs.get("HighlightCatValueDisplay") or [""])[0]
+            # A few links carry an empty CategId: nav chrome, not category values.
+            if not cid or not meaning or (cid, meaning) in seen:
+                continue
+            seen.add((cid, meaning))
+            out.append(
+                {
+                    "category_id": cid,
+                    "category_name": categ_name,
+                    "meaning_id": meaning,
+                    "category_value": display,
+                }
+            )
+            found += 1
+        print(f"[browse] {categ_name} (CategId={categ_id}): {found} category values")
+
+    if len(out) < MIN_CATEGORY_VALUES:
+        raise RuntimeError(
+            f"category indexes yielded only {len(out)} category values "
+            f"(expected >= {MIN_CATEGORY_VALUES}); page layout likely changed"
+        )
+    if len(out) > CATEGORY_VALUE_CAP:
+        raise RuntimeError(
+            f"category indexes yielded {len(out)} category values "
+            f"(> cap {CATEGORY_VALUE_CAP}); aborting runaway crawl"
+        )
     return out
 
 
-def _discover_series_codes() -> list[str]:
-    index_html = _http_get(AZ_INDEX).text
-    rels = re.findall(r'href="(FromShowColumns\.asp\?[^"]+)"', index_html, re.IGNORECASE)
-    meaning_urls = list(dict.fromkeys(DB_BASE + html.unescape(r) for r in rels))
-    if len(meaning_urls) < MIN_MEANING_PAGES:
-        raise RuntimeError(
-            f"A-Z index yielded only {len(meaning_urls)} meaning pages "
-            f"(expected >= {MIN_MEANING_PAGES}); page layout likely changed"
-        )
-    if len(meaning_urls) > MEANING_PAGE_CAP:
-        raise RuntimeError(
-            f"A-Z index yielded {len(meaning_urls)} meaning pages "
-            f"(> cap {MEANING_PAGE_CAP}); aborting runaway crawl"
-        )
-    print(f"[discover] resolving {len(meaning_urls)} category-value pages "
+# A series row on a category-value page is a checkbox (name="C") whose id ties it
+# to a second <label> holding the long title; the checkbox's own label carries the
+# code in <strong>. The element ids are opaque tokens ("KT3", "KW9", "LQ4",
+# "KUH"), so we pair on the id rather than pattern-matching its shape.
+_SERIES_CHECKBOX = re.compile(
+    r'name="C"\s+id="([^"]+)"\s+value="[^"]*"[^>]*>.{0,300}?<strong>([A-Za-z0-9]+)</strong>',
+    re.S,
+)
+_LABEL = re.compile(r'<label for="([^"]+)"[^>]*>(.*?)</label>', re.S)
+_TOTAL_RESULTS = re.compile(r'name="TotalNumResults"\s+VALUE="(\d+)"', re.IGNORECASE)
+# The source's own page map: further pages start at these result offsets.
+_PAGE_MAP = re.compile(r'name="ActualResNumPerPage"\s+VALUE="([^"]*)"', re.IGNORECASE)
+
+
+def _parse_series_rows(page: str) -> list[tuple[str, str | None]]:
+    """(series_code, series_title) for every series listed on one page."""
+    codes = dict(_SERIES_CHECKBOX.findall(page))  # element id -> series code
+    titles: dict[str, str] = {}
+    for elem_id, inner in _LABEL.findall(page):
+        # The checkbox's own label repeats the id; skip it, keep the title one.
+        if "<input" in inner or elem_id not in codes:
+            continue
+        text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", inner))).strip()
+        if text:
+            titles[elem_id] = text
+    return [(code, titles.get(elem_id)) for elem_id, code in codes.items()]
+
+
+def _page_offsets(page: str) -> list[str]:
+    """Extra-page start offsets from the hidden ActualResNumPerPage field.
+    "151X301X" -> ["151", "301"] (two pages beyond page 1); "" -> [] (single
+    page). Page N+1 is fetched with ShadowPage=N, so this list's length is
+    exactly the number of ShadowPage values to replay."""
+    m = _PAGE_MAP.search(page)
+    if not m or not m.group(1).strip():
+        return []
+    return [tok for tok in m.group(1).split("X") if tok.strip()]
+
+
+def _category_value_series(cv: dict) -> tuple[list[tuple[str, str | None]], int] | None:
+    """Every series listed under one category value, across all of its pages.
+
+    Returns (rows, declared_total) — `declared_total` is what the source says
+    the value holds, and is only reported when we read every page, so the
+    caller's shortfall check never charges a lost page as a parser bug. Returns
+    None when page 1 fails (so the caller can count it), never raising into the
+    pool. Thread-safe: reads only, no shared state."""
+    ident = {
+        "Travel": "NIxAZx",
+        "FromCategoryList": "Yes",
+        # NB the paging form's hidden field is `CategID` (capital D), unlike the
+        # `CategId` the index links carry. Replaying the form needs its spelling.
+        "CategID": cv["category_id"],
+        "NewMeaningId": cv["meaning_id"],
+        "HighlightCatValueDisplay": cv["category_value"],
+    }
+    try:
+        first = _http_get_light(CATEGORY_VALUE_PAGE, params=ident).text
+    except httpx.HTTPError as exc:
+        print(f"[discover] page failed ({type(exc).__name__}): "
+              f"CategId={cv['category_id']} NewMeaningId={cv['meaning_id']}")
+        return None
+
+    rows = _parse_series_rows(first)
+    total_m = _TOTAL_RESULTS.search(first)
+    declared = int(total_m.group(1)) if total_m else len(rows)
+    offsets = _page_offsets(first)
+    complete = True
+
+    # Page N+1 replays the same form with ShadowPage=N and the Next image button.
+    paging = {
+        **ident,
+        "ActualResNumPerPage": "X".join(offsets) + "X" if offsets else "",
+        "TotalNumResults": str(declared),
+        "Next.x": "1",
+        "Next.y": "1",
+    }
+    for shadow in range(1, len(offsets) + 1):
+        try:
+            page = _http_get_light(
+                CATEGORY_VALUE_PAGE, params={**paging, "ShadowPage": str(shadow)}
+            ).text
+        except httpx.HTTPError as exc:
+            print(f"[discover] page {shadow + 1} failed ({type(exc).__name__}): "
+                  f"NewMeaningId={cv['meaning_id']}")
+            complete = False
+            continue
+        rows.extend(_parse_series_rows(page))
+
+    return rows, (declared if complete else len(rows))
+
+
+def _crawl() -> tuple[list[list[tuple[str, str | None]] | None], list[dict]]:
+    """Walk every category value's page(s) and return its series rows, aligned
+    positionally with the category values. Shared by `series` (which keeps the
+    category linkage and the titles) and `values` (which needs only the union of
+    codes)."""
+    cvs = _category_values()
+    print(f"[discover] resolving {len(cvs)} category-value pages "
           f"({DISCOVER_WORKERS} workers)")
 
-    # Fan the per-page fetches across a pool; merge results single-threaded so
-    # the dedup set and ordered code list need no locking. The rate-limiter caps
-    # the aggregate request rate, so concurrency only soaks up round-trip waits.
-    codes: list[str] = []
-    seen: set[str] = set()
+    results: list[list[tuple[str, str | None]] | None] = [None] * len(cvs)
     failed = 0
+    declared_total = 0
+    parsed_total = 0
     done = 0
     with ThreadPoolExecutor(max_workers=DISCOVER_WORKERS) as ex:
-        futures = [ex.submit(_meaning_page_codes, url) for url in meaning_urls]
+        futures = {ex.submit(_category_value_series, cv): i for i, cv in enumerate(cvs)}
         for fut in as_completed(futures):
+            i = futures[fut]
             done += 1
-            page_codes = fut.result()
-            if page_codes is None:
+            got = fut.result()
+            if got is None:
                 failed += 1
             else:
-                for code in page_codes:
-                    if code not in seen:
-                        seen.add(code)
-                        codes.append(code)
+                rows, declared = got
+                results[i] = rows
+                parsed_total += len(rows)
+                declared_total += declared
             if done % 200 == 0:
-                print(f"[discover] {done}/{len(meaning_urls)} pages, {len(codes)} codes so far")
+                print(f"[discover] {done}/{len(cvs)} pages, {parsed_total} series rows so far")
 
-    print(f"[discover] {len(codes)} unique series codes ({failed} pages failed)")
+    print(f"[discover] {parsed_total} series rows across {len(cvs)} category values "
+          f"({failed} pages failed)")
+
+    if failed > MAX_PAGE_FAIL_FRACTION * len(cvs):
+        raise RuntimeError(
+            f"{failed}/{len(cvs)} category-value pages failed "
+            f"(> {MAX_PAGE_FAIL_FRACTION:.0%}); crawl degraded"
+        )
+    shortfall = declared_total - parsed_total
+    if shortfall > MAX_ROW_SHORTFALL_FRACTION * max(declared_total, 1):
+        raise RuntimeError(
+            f"parsed {parsed_total} series rows but fully-read pages declared "
+            f"{declared_total} ({shortfall} missing, > "
+            f"{MAX_ROW_SHORTFALL_FRACTION:.0%}); pagination or row parsing is "
+            f"dropping series"
+        )
+    return results, cvs
+
+
+# ---------------------------------------------------------------------------
+# categories — the taxonomy
+# ---------------------------------------------------------------------------
+CATEGORIES_SCHEMA = pa.schema(
+    [
+        ("category_id", pa.string()),
+        ("category_name", pa.string()),
+        ("meaning_id", pa.string()),
+        ("category_value", pa.string()),
+    ]
+)
+
+
+def fetch_categories(node_id: str) -> None:
+    """One row per (category, category value). Three HTTP requests."""
+    rows = _category_values()
+    print(f"[categories] {len(rows)} category values")
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=CATEGORIES_SCHEMA), node_id)
+
+
+# ---------------------------------------------------------------------------
+# series — the series catalog / category-membership bridge
+# ---------------------------------------------------------------------------
+SERIES_SCHEMA = pa.schema(
+    [
+        ("series_code", pa.string()),
+        ("series_title", pa.string()),
+        ("category_id", pa.string()),
+        ("category_name", pa.string()),
+        ("meaning_id", pa.string()),
+        ("category_value", pa.string()),
+    ]
+)
+
+
+def fetch_series(node_id: str) -> None:
+    """One row per (series code, category value), carrying the series' long
+    title. A series belongs to several category values, so its code repeats."""
+    per_value, cvs = _crawl()
+    rows: list[dict] = []
+    codes: set[str] = set()
+    for cv, series_rows in zip(cvs, per_value):
+        if not series_rows:
+            continue
+        for code, title in series_rows:
+            codes.add(code)
+            rows.append(
+                {
+                    "series_code": code,
+                    "series_title": title,
+                    "category_id": cv["category_id"],
+                    "category_name": cv["category_name"],
+                    "meaning_id": cv["meaning_id"],
+                    "category_value": cv["category_value"],
+                }
+            )
+
+    print(f"[series] {len(rows)} membership rows over {len(codes)} distinct series")
     if len(codes) < MIN_SERIES_CODES:
         raise RuntimeError(
             f"discovered only {len(codes)} series codes "
             f"(expected >= {MIN_SERIES_CODES}); discovery degraded"
         )
-    return codes
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=SERIES_SCHEMA), node_id)
 
 
 # ---------------------------------------------------------------------------
-# CSV parsing — IADB columnar-with-titles (CSVF=CT)
+# values — long-format observations
 # ---------------------------------------------------------------------------
-# Layout:
-#   SERIES,DESCRIPTION
-#   <code>,<title>
-#   ...
-#   <blank line>
+# IADB columnar CSV without titles (CSVF=CN):
 #   DATE,SERIES,VALUE
 #   <DD Mon YYYY>,<code>,<value>
-RAW_SCHEMA = pa.schema(
+VALUES_SCHEMA = pa.schema(
     [
         ("series_code", pa.string()),
-        ("series_title", pa.string()),
         ("obs_date", pa.date32()),
         ("value", pa.string()),
     ]
@@ -282,53 +511,23 @@ def _parse_date(text: str):
         return None
 
 
-def _parse_ct(text: str) -> pa.Table:
+def _parse_cn(text: str) -> pa.Table:
     reader = csv.reader(_io.StringIO(text))
-    titles: dict[str, str] = {}
-    in_data = False
     codes_col: list[str] = []
-    titles_col: list[str | None] = []
     dates_col: list = []
     values_col: list[str] = []
-
     for row in reader:
-        if not row or all(not c.strip() for c in row):
+        if len(row) < 3 or row[0].strip() == "DATE":  # short row or header
             continue
-        head = row[0].strip()
-        if head == "SERIES" and len(row) >= 2 and row[1].strip() == "DESCRIPTION":
-            in_data = False
+        obs_date = _parse_date(row[0])
+        if obs_date is None:
             continue
-        if (
-            head == "DATE"
-            and len(row) >= 3
-            and row[1].strip() == "SERIES"
-            and row[2].strip() == "VALUE"
-        ):
-            in_data = True
-            continue
-        if not in_data:
-            if head:
-                titles[head] = row[1].strip() if len(row) > 1 else None
-            continue
-        if len(row) < 3:
-            continue
-        d = _parse_date(row[0])
-        if d is None:
-            continue
-        code = row[1].strip()
-        codes_col.append(code)
-        titles_col.append(titles.get(code))
-        dates_col.append(d)
+        codes_col.append(row[1].strip())
+        dates_col.append(obs_date)
         values_col.append(row[2].strip())
-
     return pa.table(
-        {
-            "series_code": codes_col,
-            "series_title": titles_col,
-            "obs_date": dates_col,
-            "value": values_col,
-        },
-        schema=RAW_SCHEMA,
+        {"series_code": codes_col, "obs_date": dates_col, "value": values_col},
+        schema=VALUES_SCHEMA,
     )
 
 
@@ -339,7 +538,7 @@ def _fetch_group(codes: list[str]) -> pa.Table:
         "Datefrom": DATE_FROM,
         "Dateto": DATE_TO,
         "SeriesCodes": ",".join(codes),
-        "CSVF": "CT",
+        "CSVF": "CN",
         "UsingCodes": "Y",
         "VPD": "Y",
         "VFD": "N",
@@ -349,7 +548,7 @@ def _fetch_group(codes: list[str]) -> pa.Table:
     body = r.text
     if "csv" not in ctype and not body.lstrip().startswith(("SERIES", "DATE")):
         raise _NotCsv(f"non-CSV response (content-type={ctype!r})")
-    return _parse_ct(body)
+    return _parse_cn(body)
 
 
 def _collect_group(codes: list[str]) -> tuple[list[pa.Table], int]:
@@ -396,12 +595,19 @@ def fetch_values(node_id: str) -> None:
     thread-safe, so the pool only does network+parse and hands tables back. A
     small number of unfetchable codes is tolerated and logged; a large fraction
     aborts the run (see MAX_SKIP_FRACTION) rather than publishing a gutted corpus."""
-    codes = _discover_series_codes()
+    per_value, _ = _crawl()
+    codes = sorted({code for rows in per_value if rows for code, _ in rows})
+    if len(codes) < MIN_SERIES_CODES:
+        raise RuntimeError(
+            f"discovered only {len(codes)} series codes "
+            f"(expected >= {MIN_SERIES_CODES}); discovery degraded"
+        )
+
     batches = list(_chunks(codes, CODE_BATCH))
     print(f"[fetch] pulling {len(codes)} series in {len(batches)} batches "
           f"({FETCH_WORKERS} workers)")
     skipped = 0
-    with raw_parquet_writer(node_id, RAW_SCHEMA) as writer:
+    with raw_parquet_writer(node_id, VALUES_SCHEMA) as writer:
         with ThreadPoolExecutor(max_workers=FETCH_WORKERS) as ex:
             futures = [ex.submit(_collect_group, batch) for batch in batches]
             done = 0
@@ -425,35 +631,7 @@ def fetch_values(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id="bank-of-england-categories", fn=fetch_categories, kind="download"),
+    NodeSpec(id="bank-of-england-series", fn=fetch_series, kind="download"),
     NodeSpec(id="bank-of-england-values", fn=fetch_values, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="bank-of-england-values-transform",
-        deps=["bank-of-england-values"],
-        sql='''
-            SELECT
-                series_code,
-                series_title,
-                obs_date,
-                value
-            FROM (
-                SELECT
-                    series_code,
-                    series_title,
-                    obs_date,
-                    TRY_CAST(value AS DOUBLE) AS value,
-                    row_number() OVER (
-                        PARTITION BY series_code, obs_date
-                        ORDER BY value DESC
-                    ) AS _rn
-                FROM "bank-of-england-values"
-                WHERE series_code IS NOT NULL
-                  AND obs_date IS NOT NULL
-            )
-            WHERE _rn = 1
-              AND value IS NOT NULL
-        ''',
-    ),
 ]
