@@ -1,0 +1,29 @@
+spec_id: wipo-key-indicators
+status: active
+tests:
+  - not_null: indicator_id
+  - not_null: year
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - unique: [indicator_id, ip_right, office, origin, year]
+    reason: keysearch-json carries route/origin breakdowns as rows, not packed cells, so each (indicator, IP right, office, origin, year) is a single observation
+    certainty: 80
+  - between: {col: year, lo: 1980, hi: current_year()}
+    reason: the headline indicators are drawn from the same 1980-onwards corpus and never run ahead of the current year
+    certainty: 90
+  - freshness: {col: year, reaches: 2023}
+    reason: the headline indicators are recomputed with each annual release and lag it by roughly one to two years
+    points_outward: true
+  - coverage: {col: indicator_id, expected: 11}
+    reason: keyindicators-json lists exactly 11 headline indicators; each must contribute rows or a keysearch-json call came back empty and was skipped
+  - distinct_count: {col: breakdown_index, min: 1, max: 1}
+    reason: key-indicator cells are never comma-packed, so breakdown_index is always 0
+    certainty: 90
+  - at_least: {col: value, expr: 0}
+    reason: the headline indicators are application/grant/in-force counts, never negative
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1000}
+    reason: 11 indicators, each a small office x origin x year table
+    certainty: 70

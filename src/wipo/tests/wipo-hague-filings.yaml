@@ -1,0 +1,28 @@
+spec_id: wipo-hague-filings
+status: active
+tests:
+  - not_null: indicator_id
+  - not_null: year
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - unique: [office, origin, indicator_id, report_type, year, breakdown_index]
+    reason: only the yearly report type (4001) is fetched and pmh cells carry a single value, so office x origin x indicator x year is one observation
+    certainty: 90
+  - between: {col: year, lo: 1980, hi: current_year()}
+    reason: the Hague series in the data center starts in the mid-1990s; the bound is slack on the low side and hard on the high side
+    certainty: 90
+  - freshness: {col: year, reaches: 2023}
+    reason: Hague yearly statistics are refreshed monthly, so the latest complete year should be recent
+    points_outward: true
+  - coverage: {col: indicator_id, expected: 18}
+    reason: pmhIndicatorMap enumerates 18 Hague indicators; a shortfall means an indicator returned an empty envelope and was silently skipped
+  - distinct_count: {col: report_type, min: 1, max: 1}
+    reason: the monthly report type (4003) is deliberately not fetched, so only "Yearly statistics" appears
+  - at_least: {col: value, expr: 0}
+    reason: Hague indicators are application/registration/renewal counts, never negative
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1000}
+    reason: the Hague system is the smallest of the three - ~90 members, 18 indicators, ~30 years
+    certainty: 70
