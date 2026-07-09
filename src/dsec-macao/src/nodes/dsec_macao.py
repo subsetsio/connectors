@@ -29,7 +29,6 @@ from datetime import datetime, timezone
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     post,
     save_raw_parquet,
@@ -259,57 +258,4 @@ def fetch_values(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="dsec-macao-indicators", fn=fetch_indicators, kind="download"),
     NodeSpec(id="dsec-macao-values", fn=fetch_values, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="dsec-macao-indicators-transform",
-        deps=["dsec-macao-indicators"],
-        sql='''
-            SELECT
-                CAST(indicator_id AS BIGINT)          AS indicator_id,
-                CAST(parent_id AS BIGINT)             AS parent_id,
-                indicator_id_path,
-                CAST(is_leaf AS BOOLEAN)              AS is_leaf,
-                global_order,
-                name_en,
-                name_pt,
-                name_zh_mo,
-                name_zh_cn,
-                unit_en,
-                unit_pt,
-                unit_zh_mo,
-                CAST(min_year AS INTEGER)             AS min_year,
-                CAST(max_year AS INTEGER)             AS max_year,
-                yearly_available,
-                quarterly_available,
-                monthly_available,
-                three_consec_months_available,
-                val_available,
-                spv_available,
-                ppv_available,
-                pot_available
-            FROM "dsec-macao-indicators"
-            WHERE indicator_id IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="dsec-macao-values-transform",
-        deps=["dsec-macao-values"],
-        sql='''
-            SELECT DISTINCT
-                CAST(indicator_id AS BIGINT)   AS indicator_id,
-                data_period,
-                CAST(year AS INTEGER)          AS year,
-                CAST(period_id AS INTEGER)     AS period_id,
-                reference_period,
-                function_type,
-                CAST(value AS DOUBLE)          AS value,
-                unit,
-                CAST(last_update_date AS TIMESTAMP) AS last_update_date
-            FROM "dsec-macao-values"
-            WHERE value IS NOT NULL
-              AND year IS NOT NULL
-        ''',
-    ),
 ]

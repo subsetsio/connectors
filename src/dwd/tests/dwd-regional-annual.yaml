@@ -1,0 +1,24 @@
+spec_id: dwd-regional-annual
+status: active
+tests:
+  - not_null: variable
+  - not_null: region
+  - not_null: year
+  - not_null: period
+  - not_null: value
+  - column_type: {col: variable, type: string}
+  - column_type: {col: region, type: string}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: period, type: string}
+  - column_type: {col: value, type: float}
+  - row_count: {min: 1500}
+  - distinct_count: {col: variable, min: 8}
+  - distinct_count: {col: region, min: 15}
+  - between: {col: year, lo: 1881, hi: current_year()}
+  - freshness: {col: year, reaches: 2024}
+    reason: annual climate regional averages should include the latest complete years; allow release lag
+    certainty: 85
+    points_outward: true
+  - unique: [variable, region, year, period]
+    reason: one annual value per variable, region, year, and period
+    certainty: 95

@@ -6,7 +6,6 @@
 # caution: Values are REAL, at constant 2010 basic prices — despite the upstream column names (`gdPatCurrentBasicPrices`) saying "Current", which is a copy-paste artefact of the nominal endpoint.
 # caution: The activity columns are a nested hierarchy, not a flat list: `agriculture`, `industry` and `services` each sum their own sub-sectors, and `gdp_at_basic_prices` is the sum of the three. Summing every activity column multiply-counts the sub-sectors.
 # caution: `gdp_at_market_prices` = `gdp_at_basic_prices` + `net_taxes_on_products`; the two totals are alternative valuations of the same output, never additive.
-# caution: Because the deflator differs by activity, the real activity columns do not sum to the real total as exactly as the nominal ones do.
 key: [year, quarter]
 temporal: quarter_start
 sort: [quarter_start]

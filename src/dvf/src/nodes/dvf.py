@@ -10,9 +10,8 @@ Fetch shape: stateless full re-pull (the default). The whole corpus is ~450MB
 gzip across ~5 years x 97 departments and the `latest` tree is republished
 wholesale ~twice a year, so re-fetching everything each run is cheap (a few
 minutes) and picks up revisions/late corrections for free — no watermark, no
-cursor. We DO batch the writes (one parquet per year+department) so no single
-file is large enough to risk OOM and so files land small on R2; the batch files
-glob-union back into the `dvf-transactions` view for the transform.
+cursor. We stream department CSVs into one Parquet asset so the full refresh
+replaces any years that roll out of the upstream `latest` window.
 
 Raw is written close to source: measure columns typed (valeur_fonciere, areas,
 counts, lat/long), everything else (ids, codes, dates, labels) kept as string to
@@ -27,7 +26,7 @@ import re
 import pyarrow as pa
 import pyarrow.csv as pacsv
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, raw_parquet_writer
 
 BASE = "https://files.data.gouv.fr/geo-dvf/latest/csv/"
 
@@ -67,7 +66,6 @@ def _column_types() -> dict:
     return types
 
 
-@transient_retry()
 def _fetch_bytes(url: str) -> bytes:
     resp = get(url, timeout=(10.0, 180.0))
     resp.raise_for_status()
@@ -83,65 +81,26 @@ def _list_links(url: str, pattern: str) -> list:
 def fetch_transactions(node_id: str) -> None:
     asset = node_id  # "dvf-transactions"
     col_types = _column_types()
+    schema = pa.schema((column, col_types[column]) for column in COLUMNS)
     convert = pacsv.ConvertOptions(column_types=col_types, include_columns=COLUMNS)
 
     years = _list_links(BASE, r'href="[^"]*?/(\d{4})/"')
     if len(years) < 3:
         raise AssertionError(f"expected >=3 years in geo-dvf index, got {years}")
 
-    for year in years:
-        dept_url = f"{BASE}{year}/departements/"
-        depts = _list_links(dept_url, r'href="[^"]*?/([0-9AB]{2,3})\.csv\.gz"')
-        if not depts:
-            raise AssertionError(f"no department files found under {dept_url}")
-        for dept in depts:
-            raw = _fetch_bytes(f"{dept_url}{dept}.csv.gz")
-            csv_bytes = gzip.GzipFile(fileobj=io.BytesIO(raw)).read()
-            table = pacsv.read_csv(io.BytesIO(csv_bytes), convert_options=convert)
-            # batch_key is pure batch coordinate: <year>-<dept>
-            save_raw_parquet(table, f"{asset}-{year}-{dept}")
+    with raw_parquet_writer(asset, schema) as writer:
+        for year in years:
+            dept_url = f"{BASE}{year}/departements/"
+            depts = _list_links(dept_url, r'href="[^"]*?/([0-9AB]{2,3})\.csv\.gz"')
+            if not depts:
+                raise AssertionError(f"no department files found under {dept_url}")
+            for dept in depts:
+                raw = _fetch_bytes(f"{dept_url}{dept}.csv.gz")
+                csv_bytes = gzip.GzipFile(fileobj=io.BytesIO(raw)).read()
+                table = pacsv.read_csv(io.BytesIO(csv_bytes), convert_options=convert)
+                writer.write_table(table)
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="dvf-transactions", fn=fetch_transactions, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="dvf-transactions-transform",
-        deps=["dvf-transactions"],
-        temporal="date_mutation",
-        sql='''
-            SELECT
-                id_mutation,
-                CAST(date_mutation AS DATE)              AS date_mutation,
-                CAST(EXTRACT(year FROM CAST(date_mutation AS DATE)) AS INTEGER) AS year,
-                numero_disposition,
-                nature_mutation,
-                CAST(valeur_fonciere AS DOUBLE)          AS valeur_fonciere,
-                adresse_numero,
-                adresse_suffixe,
-                adresse_nom_voie,
-                code_postal,
-                code_commune,
-                nom_commune,
-                code_departement,
-                id_parcelle,
-                CAST(nombre_lots AS INTEGER)             AS nombre_lots,
-                CAST(lot1_surface_carrez AS DOUBLE)      AS lot1_surface_carrez,
-                code_type_local,
-                type_local,
-                CAST(surface_reelle_bati AS DOUBLE)      AS surface_reelle_bati,
-                CAST(nombre_pieces_principales AS INTEGER) AS nombre_pieces_principales,
-                code_nature_culture,
-                nature_culture,
-                CAST(surface_terrain AS DOUBLE)          AS surface_terrain,
-                CAST(longitude AS DOUBLE)                AS longitude,
-                CAST(latitude AS DOUBLE)                 AS latitude
-            FROM "dvf-transactions"
-            WHERE date_mutation IS NOT NULL
-              AND id_mutation IS NOT NULL
-        ''',
-    ),
 ]
