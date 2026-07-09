@@ -1,5 +1,6 @@
 spec_id: central-bank-of-russia-pub-29-ds-87
 status: active
+freshness: {col: date, reaches: today - 800d}
 # Raw is long-format CBR data-service observations for one indicator
 # (publicationId=29, datasetId=87): one row per (date, measure, series column),
 # obs_val a JSON number, ISO date. The fetch raises if the indicator returns no
