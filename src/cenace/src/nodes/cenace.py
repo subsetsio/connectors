@@ -53,7 +53,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_parquet,
@@ -345,7 +344,7 @@ def fetch_product(node_id: str) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Specs — one download + one thin publishing transform per product.
+# Specs — one download per product plus the NodosP reference catalog.
 # ---------------------------------------------------------------------------
 
 # Price products share the generic windowed re-pull; the NodosP catalog is a
@@ -360,54 +359,6 @@ _CATALOG_SPEC = NodeSpec(id=f"{SLUG}-nodosp-catalog", fn=fetch_catalog, kind="do
 
 DOWNLOAD_SPECS = _PRICE_SPECS + [_CATALOG_SPEC]
 
-# Each product's batches share one schema; DISTINCT is a cheap safety against any
-# accidental duplicate row. The dep view glob-unions every
-# `<id>-<system>-<market>-<window>` batch file automatically. fecha (text) is cast
-# to a real DATE; the published table is long-format (system x market x node/zone x
-# date x hour).
-_TRANSFORM_SQL = {
-    "pml": '''
-        SELECT DISTINCT
-            sistema, proceso, clv_nodo AS node,
-            CAST(fecha AS DATE) AS date, hora AS hour,
-            pml, pml_ene, pml_per, pml_cng
-        FROM "{dep}"
-        WHERE fecha IS NOT NULL AND hora IS NOT NULL
-    ''',
-    "pend": '''
-        SELECT DISTINCT
-            sistema, proceso, zona_carga AS load_zone,
-            CAST(fecha AS DATE) AS date, hora AS hour,
-            pz, pz_ene, pz_per, pz_cng
-        FROM "{dep}"
-        WHERE fecha IS NOT NULL AND hora IS NOT NULL
-    ''',
-    "psc": '''
-        SELECT DISTINCT
-            sistema, proceso, clv_zona_reserva AS reserve_zone,
-            tipo_res AS reserve_type,
-            CAST(fecha AS DATE) AS date, hora AS hour,
-            pres
-        FROM "{dep}"
-        WHERE fecha IS NOT NULL AND hora IS NOT NULL
-    ''',
-}
-
-# Per-product published grain (long-format one price per system x market x
-# node/zone x date x hour); date is the observation period for freshness.
-_TRANSFORM_KEY = {
-    "pml": ("sistema", "proceso", "node", "date", "hour"),
-    "pend": ("sistema", "proceso", "load_zone", "date", "hour"),
-    "psc": ("sistema", "proceso", "reserve_zone", "reserve_type", "date", "hour"),
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_TRANSFORM_SQL[s.id[len(SLUG) + 1:]].format(dep=s.id),
-        key=_TRANSFORM_KEY[s.id[len(SLUG) + 1:]],
-        temporal="date",
-    )
-    for s in _PRICE_SPECS
-]
+# Transforms are authored as file pairs under src/transforms/<table>.sql + .yml
+# (the paved road; load_nodes reads them at runtime). The module carries no
+# TRANSFORM_SPECS — that legacy form is retired.

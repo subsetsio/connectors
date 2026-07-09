@@ -1,0 +1,29 @@
+# Expectations for central-bank-of-nigeria-exchange-rates-daily (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+spec_id: central-bank-of-nigeria-exchange-rates-daily
+status: active
+tests:
+- not_null: id
+  certainty: 99
+- column_type: {col: id, type: integer}
+  certainty: 95
+- unique: id
+  certainty: 90
+- not_null: currency
+  certainty: 99
+  reason: each row is one currency's rate for one date
+- not_null: ratedate
+  certainty: 99
+- matches: {col: ratedate, pattern: '^\d{4}-\d{2}-\d{2}$'}
+  certainty: 95
+  reason: this endpoint serves ISO yyyy-mm-dd (unlike the Month-DD-YYYY endpoints)
+- unique: [currency, ratedate]
+  certainty: 85
+  reason: one official rate per currency per date is the natural grain
+- freshness: {col: ratedate, reaches: today - 21d}
+  points_outward: true
+  reason: daily FX feed; ISO dates sort lexically so max(ratedate) is a valid freshness probe. Slack covers weekends/holidays/publication lag
+- column_type: {col: centralrate, type: string}
+  certainty: 90
+- row_count: {min: 40000}
+  certainty: 85
+  reason: many currencies x daily since 2001 (~61k observed)

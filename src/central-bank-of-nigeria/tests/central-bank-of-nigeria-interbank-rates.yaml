@@ -1,0 +1,24 @@
+# Expectations for central-bank-of-nigeria-interbank-rates (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+spec_id: central-bank-of-nigeria-interbank-rates
+status: active
+tests:
+- not_null: id
+  certainty: 99
+- column_type: {col: id, type: integer}
+  certainty: 95
+- unique: id
+  certainty: 90
+- not_null: ratedate
+  certainty: 99
+- not_null: ratetype
+  certainty: 95
+  reason: each row is one rate type (OBB Rate, Call Rate, ...) for one date
+- column_type: {col: weightedaverage, type: string}
+  certainty: 90
+- median_between: {col: weightedaverage, lo: 1, hi: 60}
+  certainty: 55
+  severity: warn
+  reason: interbank money-market rate in percent
+- row_count: {min: 15000}
+  certainty: 85
+  reason: daily x several rate types since 2001 (~18k observed); requires ?format=json

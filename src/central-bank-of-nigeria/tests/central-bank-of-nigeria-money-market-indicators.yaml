@@ -1,0 +1,20 @@
+# Expectations for central-bank-of-nigeria-money-market-indicators (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+spec_id: central-bank-of-nigeria-money-market-indicators
+status: active
+tests:
+- not_null: id
+  certainty: 99
+- column_type: {col: id, type: integer}
+  certainty: 95
+- unique: id
+  certainty: 90
+- column_type: {col: tyear, type: integer}
+  certainty: 90
+- not_null: period
+  certainty: 95
+- column_type: {col: mpr, type: string}
+  certainty: 90
+  reason: monetary policy rate in percent, as string; some cells empty ""
+- row_count: {min: 200}
+  certainty: 85
+  reason: monthly since 2006 (~245 observed)

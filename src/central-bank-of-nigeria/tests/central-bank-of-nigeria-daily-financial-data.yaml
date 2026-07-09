@@ -1,0 +1,22 @@
+# Expectations for central-bank-of-nigeria-daily-financial-data (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+spec_id: central-bank-of-nigeria-daily-financial-data
+status: active
+tests:
+- not_null: id
+  certainty: 99
+- column_type: {col: id, type: integer}
+  certainty: 95
+- unique: id
+  certainty: 90
+- not_null: recDate
+  certainty: 99
+  reason: money-market operations date, the observation index
+- matches: {col: recDate, pattern: '^\d{2}/\d{2}/\d{4}$'}
+  certainty: 90
+  reason: dd/mm/yyyy string
+- column_type: {col: opeBal, type: string}
+  certainty: 90
+  reason: opening balance, a NGN-million figure returned as string
+- row_count: {min: 3000}
+  certainty: 85
+  reason: daily since 2009 (~3.6k observed)

@@ -1,0 +1,24 @@
+# Expectations for central-bank-of-nigeria-securities-auctions (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+spec_id: central-bank-of-nigeria-securities-auctions
+status: active
+tests:
+- not_null: id
+  certainty: 99
+- column_type: {col: id, type: integer}
+  certainty: 95
+- unique: id
+  certainty: 90
+- not_null: auctionDate
+  certainty: 99
+  reason: primary-market auction date, the observation index
+- not_null: securityType
+  certainty: 90
+  reason: NTB / FGN Bond / OMO / CBN bill etc.; present on every auction row
+- column_type: {col: rate, type: string}
+  certainty: 88
+  reason: stop/issue rate in percent, as string; empty "" on some historical rows
+- column_type: {col: tenor, type: string}
+  certainty: 88
+- row_count: {min: 4000}
+  certainty: 85
+  reason: per-auction since 2001 (~4.7k observed)

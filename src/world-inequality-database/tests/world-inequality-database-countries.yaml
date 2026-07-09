@@ -1,0 +1,38 @@
+spec_id: world-inequality-database-countries
+status: active
+tests:
+  - not_null: alpha2
+  - not_null: titlename
+  - not_null: shortname
+
+  - unique: alpha2
+    reason: WID_countries.csv is the area-code dictionary; alpha2 is its primary key
+    certainty: 95
+
+  - column_type: {col: alpha2, type: string}
+
+  - matches: {col: alpha2, pattern: '^[A-Z]{2}(-[A-Z]{2,3})?$'}
+    reason: >-
+      Area codes are a two-letter country code, optionally suffixed with a subregion or
+      variant code (CN-UR, DE-BY, OA-PPP). A code outside this shape means the dictionary
+      grew a new area kind worth modelling.
+    certainty: 85
+    points_outward: true
+
+  - row_count: {min: 300, max: 2000}
+    reason: >-
+      347 areas are documented today. The dictionary is a subset of the 423 areas that
+      carry data (aggregate/synthetic areas are undocumented), and it only grows slowly.
+    certainty: 80
+
+  - nullable: {col: region, max_null_frac: 0.6}
+    reason: >-
+      Region is blank for the supra-national and synthetic areas (~30% today); a much
+      higher null rate means the column shifted or the delimiter changed.
+    certainty: 75
+    severity: warn
+
+  - nullable: {col: region2, max_null_frac: 0.6}
+    reason: same sparsity as `region` — the sub-region refinement is absent for aggregate areas
+    certainty: 75
+    severity: warn

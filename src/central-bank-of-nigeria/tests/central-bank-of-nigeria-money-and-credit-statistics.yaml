@@ -1,0 +1,21 @@
+# Expectations for central-bank-of-nigeria-money-and-credit-statistics (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+spec_id: central-bank-of-nigeria-money-and-credit-statistics
+status: active
+tests:
+- not_null: id
+  certainty: 99
+- column_type: {col: id, type: integer}
+  certainty: 95
+- unique: id
+  certainty: 90
+- column_type: {col: tyear, type: integer}
+  certainty: 90
+- not_null: period
+  certainty: 90
+  reason: period label present on every row (early rows are annual, encoded as " YYYY")
+- column_type: {col: moneySupply_M2, type: string}
+  certainty: 90
+  reason: broad money (NGN million) as string; some early cells are empty ""
+- row_count: {min: 400}
+  certainty: 85
+  reason: monthly modern + annual history back to 1960 (~433 observed)

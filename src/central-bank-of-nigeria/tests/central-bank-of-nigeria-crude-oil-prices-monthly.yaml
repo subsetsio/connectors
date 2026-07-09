@@ -1,0 +1,26 @@
+# Expectations for central-bank-of-nigeria-crude-oil-prices-monthly (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+spec_id: central-bank-of-nigeria-crude-oil-prices-monthly
+status: active
+tests:
+- not_null: id
+  certainty: 99
+- column_type: {col: id, type: integer}
+  certainty: 95
+- unique: id
+  certainty: 90
+- column_type: {col: tyear, type: integer}
+  certainty: 90
+  reason: monthly endpoints return tyear as a JSON number
+- between: {col: tyear, lo: 2000, hi: 2100}
+  certainty: 90
+- not_null: period
+  certainty: 95
+  reason: human-readable "Month YYYY" label present on every row
+- column_type: {col: crudeOilPrice, type: string}
+  certainty: 90
+- median_between: {col: crudeOilPrice, lo: 20, hi: 200}
+  certainty: 55
+  severity: warn
+- row_count: {min: 200}
+  certainty: 85
+  reason: monthly since 2006 (~244 observed)

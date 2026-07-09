@@ -10,6 +10,7 @@ the SQL transforms do the typed parse-and-cast.
 """
 
 import re
+from datetime import datetime
 
 import pyarrow as pa
 
@@ -46,6 +47,31 @@ def _list_hrefs(url: str) -> list[str]:
 
 def _clean(v):
     return v if v not in (None, "", " ") else None
+
+
+def _iso_mdy(v: str | None) -> str | None:
+    """`m/d/Y` (padded or not) -> `YYYY-MM-DD`; None for blank/unparseable.
+
+    Canonicalising the date in raw is what makes a `freshness:` assertion mean
+    anything: the test engine takes `max(col)` over the string column, so the
+    m/d/Y form compares lexicographically ('4/7/1982' > '2016-07-09') and a dead
+    feed reads as fresh. Same information, sortable.
+    """
+    if not v:
+        return None
+    try:
+        return datetime.strptime(v, "%m/%d/%Y").date().isoformat()
+    except ValueError:
+        return None
+
+
+def _iso_date_columns(table: pa.Table, columns: list[str]) -> pa.Table:
+    """Rewrite the named m/d/Y string columns of `table` in ISO form."""
+    for name in columns:
+        i = table.schema.get_field_index(name)
+        values = [_iso_mdy(v) for v in table.column(i).to_pylist()]
+        table = table.set_column(i, name, pa.array(values, type=pa.string()))
+    return table
 
 
 def _string_table(header: list[str], rows, schema: pa.Schema) -> tuple[pa.Table, int]:

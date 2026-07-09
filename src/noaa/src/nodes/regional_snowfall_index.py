@@ -10,7 +10,14 @@ import pyarrow as pa
 
 from subsets_utils import save_raw_parquet
 
-from utils import NCEI, _get_text, _list_hrefs, _normalize_header, _string_table
+from utils import (
+    NCEI,
+    _get_text,
+    _iso_date_columns,
+    _list_hrefs,
+    _normalize_header,
+    _string_table,
+)
 
 RSI_DIR = f"{NCEI}/data/regional-snowfall-index/access/"
 _RSI_RE = re.compile(r"regional-snowfall-index_c\d+\.csv$")
@@ -31,5 +38,6 @@ def fetch_rsi(node_id: str) -> None:
     # rather than misaligned. More than a handful means the layout moved.
     if dropped > 10:
         raise RuntimeError(f"rsi: {dropped} malformed rows in {files[-1]}")
+    table = _iso_date_columns(table, ["Start", "End"])
     save_raw_parquet(table, node_id)
 

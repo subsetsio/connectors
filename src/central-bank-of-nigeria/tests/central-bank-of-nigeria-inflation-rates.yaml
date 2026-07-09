@@ -1,0 +1,26 @@
+# Expectations for central-bank-of-nigeria-inflation-rates (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+spec_id: central-bank-of-nigeria-inflation-rates
+status: active
+tests:
+- not_null: id
+  certainty: 99
+- column_type: {col: id, type: integer}
+  certainty: 95
+- unique: id
+  certainty: 90
+- column_type: {col: tyear, type: integer}
+  certainty: 90
+- between: {col: tyear, lo: 2000, hi: 2100}
+  certainty: 90
+- not_null: period
+  certainty: 95
+- column_type: {col: allItemsYearOn, type: string}
+  certainty: 90
+  reason: headline YoY inflation %, returned as string
+- median_between: {col: allItemsYearOn, lo: 2, hi: 40}
+  certainty: 55
+  severity: warn
+  reason: Nigerian YoY CPI inflation has ranged roughly single-digit to ~30%
+- row_count: {min: 250}
+  certainty: 85
+  reason: monthly since 2003 (~281 observed)

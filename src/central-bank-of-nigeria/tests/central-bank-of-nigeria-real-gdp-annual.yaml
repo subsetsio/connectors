@@ -1,0 +1,33 @@
+# Expectations for central-bank-of-nigeria-real-gdp-annual (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+spec_id: central-bank-of-nigeria-real-gdp-annual
+status: active
+tests:
+- not_null: id
+  certainty: 95
+  reason: source row id (note: distinct from the empty GetAllYears* endpoints)
+- column_type: {col: id, type: integer}
+  certainty: 90
+- not_null: tyear
+  certainty: 99
+- column_type: {col: tyear, type: string}
+  certainty: 90
+  reason: the GDP endpoints return tyear as a JSON string (unlike the monthly endpoints)
+- matches: {col: tyear, pattern: '^\d{4}$'}
+  certainty: 90
+- not_null: period
+  certainty: 95
+  reason: Q1..Q4 for recent years, "Annual" for the full 1981-2024 history
+- enum: {col: period, values: [Q1, Q2, Q3, Q4, Annual]}
+  certainty: 90
+- unique: [tyear, period]
+  certainty: 85
+  reason: one GDP record per year x period is the natural grain
+- column_type: {col: agriculture, type: string}
+  certainty: 85
+  reason: sector value at constant prices (NGN billion), as string
+- column_type: {col: gdPatCurrentMarketPrices, type: string}
+  certainty: 80
+  reason: total GDP aggregate column, as string
+- row_count: {min: 100}
+  certainty: 85
+  reason: 44 annual rows (1981-2024) + 60 quarterly rows (2010-2024), ~104 total

@@ -1,0 +1,21 @@
+# Expectations for central-bank-of-nigeria-nafem-nof-rates (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+spec_id: central-bank-of-nigeria-nafem-nof-rates
+status: active
+tests:
+- not_null: id
+  certainty: 99
+- column_type: {col: id, type: integer}
+  certainty: 95
+- unique: id
+  certainty: 90
+- not_null: ratedate
+  certainty: 99
+- column_type: {col: nofr, type: string}
+  certainty: 85
+  reason: Net Open Forex rate in percent, as string
+- median_between: {col: nofr, lo: 1, hi: 60}
+  certainty: 50
+  severity: warn
+- row_count: {min: 30}
+  certainty: 75
+  reason: new daily series started 2026 (~61 observed); short history

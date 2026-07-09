@@ -1,0 +1,55 @@
+spec_id: world-inequality-database-variables
+status: active
+tests:
+  - not_null: country
+  - not_null: variable
+  - not_null: age
+  - not_null: pop
+  - not_null: shortname
+    reason: every variable carries a human-readable short label; a null means the metadata member lost a column
+    certainty: 85
+
+  - column_type: {col: age, type: integer}
+  - column_type: {col: data_quality_score, type: float}
+    reason: >-
+      Absent from the aggregate-region metadata members and fractional where present;
+      the fetch fn pins it to float64 and null-fills.
+
+  - unique: [country, variable, age, pop]
+    reason: >-
+      One metadata row per area x variable code x age category x population type — the
+      natural key of WID_metadata_XX.csv. Duplicates mean a member was parsed twice.
+    certainty: 90
+
+  - coverage: {col: country, expected: 423}
+    reason: >-
+      One WID_metadata_XX.csv per area, 423 areas, each row stamped with its area code.
+      A shortfall means a member was skipped by the ranged read loop.
+
+  - row_count: {min: 100000}
+    reason: 423 areas x ~1k-2k documented variables each; well over 100k rows.
+    certainty: 85
+
+  - distinct_count: {col: variable, min: 1000}
+    reason: the metadata documents the same few-thousand-code indicator vocabulary the data uses
+    certainty: 85
+
+  - enum: {col: pop, values: [i, j, t, m, f, e]}
+    reason: same closed population-type vocabulary as the data corpus
+    certainty: 85
+    points_outward: true
+    severity: warn
+
+  - nullable: {col: unit, max_null_frac: 0.2}
+    reason: >-
+      `unit` is what makes a value interpretable (a currency code, a percentage, tCO2e).
+      Mostly populated; a high null rate means the column shifted position.
+    certainty: 70
+    severity: warn
+
+  - nullable: {col: simpledes, max_null_frac: 0.9}
+    reason: >-
+      The plain-language description is genuinely sparse upstream (blank for many
+      derived indicators), so this only guards against the column going wholly empty.
+    certainty: 60
+    severity: warn
