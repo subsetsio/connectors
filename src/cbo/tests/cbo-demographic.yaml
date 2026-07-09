@@ -1,30 +1,28 @@
 spec_id: cbo-demographic
 status: active
 tests:
-  - freshness: {col: vintage, reaches: today - 800d}
-    reason: CBO release vintages are irregular/annual; allow multi-year slack while catching a stale GitHub mirror
-    certainty: 80
-  - not_null: year
-    reason: every demographic distribution is keyed by year
-    certainty: 90
   - not_null: vintage
-    reason: fetch tags every row with the distribution vintage (str)
-    certainty: 95
   - not_null: file_type
-    reason: fetch tags every row with the distribution file_type (str)
+  - column_type: {col: vintage, type: string}
+  - matches: {col: vintage, pattern: '^[0-9]{4}-[0-9]{2}$'}
+    reason: a vintage is the release month CBO published the distribution in
     certainty: 95
-  - column_type: {col: year, type: integer}
-    reason: year is integer in every demographic distribution, so no drift-stringify
-    certainty: 88
-  - between: {col: year, lo: 2000, hi: 2100}
-    reason: CBO demographic series start ~2020 and project out to mid-century
-    certainty: 80
+  - not_null: vintage_date
+    reason: derived from vintage; a null means the vintage stopped being YYYY-MM
+  - freshness: {col: vintage_date, reaches: today - 400d}
+    reason: demographic projections are reissued with each baseline; the newest vintage should never be over a year old
     points_outward: true
-    severity: warn
+  - not_null: year
+    reason: every demographic sub-table is keyed by year
+    certainty: 90
+  - column_type: {col: year, type: string}
+    reason: raw keeps the CSV's own text; the transform casts to integer
   - enum: {col: file_type, values: [fertility, migration, mortality, population_bls, population_census, ss_area_population]}
-    reason: the six demographic sub-tables observed in the catalog
+    reason: the six demographic sub-tables the catalog enumerates
     certainty: 80
     severity: warn
-  - row_count: {min: 1000}
-    reason: union of six sub-tables across vintages is tens of thousands of rows
+  - distinct_count: {col: file_type, min: 6, max: 6}
+    reason: all six sub-tables must land; fewer means a distribution silently failed
+  - row_count: {min: 300000}
+    reason: six sub-tables x three vintages, each a full age x sex grid
     certainty: 85

@@ -2086,30 +2086,19 @@ def _transform_dims(entity_id: str) -> list[str]:
 
 def _transform_sql(dep_id: str, entity_id: str) -> str:
     dims = _transform_dims(entity_id)
-    dim_lines = "".join(f"            {dim},
-" for dim in dims)
+    dim_lines = "".join(f"            {dim},\n" for dim in dims)
     freq = entity_id.rsplit("_", 1)[-1]
     return (
-        "
-        SELECT
-"
-        f"            {_date_expr(freq)} AS date,
-"
-        "            time_period,
-"
-        "            ref_area,
-"
-        "            source,
-"
+        "\n        SELECT\n"
+        f"            {_date_expr(freq)} AS date,\n"
+        "            time_period,\n"
+        "            ref_area,\n"
+        "            source,\n"
         f"{dim_lines}"
-        "            obs_value
-"
-        f'        FROM "{dep_id}"
-'
-        "        WHERE obs_value IS NOT NULL
-"
-        "          AND time_period IS NOT NULL
-"
+        "            obs_value\n"
+        f'        FROM "{dep_id}"\n'
+        "        WHERE obs_value IS NOT NULL\n"
+        "          AND time_period IS NOT NULL\n"
     )
 
 
@@ -2130,4 +2119,3 @@ TRANSFORM_SPECS = [
     )
     for spec, entity_id in zip(DOWNLOAD_SPECS, ENTITY_IDS)
 ]
-

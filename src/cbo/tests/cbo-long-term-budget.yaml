@@ -1,31 +1,24 @@
 spec_id: cbo-long-term-budget
 status: active
 tests:
-  - freshness: {col: vintage, reaches: today - 800d}
-    reason: CBO release vintages are irregular/annual; allow multi-year slack while catching a stale GitHub mirror
-    certainty: 80
-  - not_null: date
-    reason: tidy long CSVs always carry a period label
-    certainty: 90
-  - not_null: variable
-    reason: every observation names its series
-    certainty: 90
   - not_null: vintage
-    reason: fetch tags every row with the distribution vintage (str)
-    certainty: 95
   - not_null: file_type
-    reason: fetch tags every row with the distribution file_type (str)
+  - column_type: {col: vintage, type: string}
+  - matches: {col: vintage, pattern: '^[0-9]{4}-[0-9]{2}$'}
+    reason: a vintage is the release month CBO published the distribution in
     certainty: 95
-  - column_type: {col: date, type: string}
-    reason: fiscal-year labels like "FY2025"
+  - not_null: vintage_date
+    reason: derived from vintage; a null means the vintage stopped being YYYY-MM
+  - freshness: {col: vintage_date, reaches: today - 400d}
+    reason: CBO refreshes this dataset with its baseline (Jan/Feb) and mid-year update; the newest vintage should never be over a year old
+    points_outward: true
+  - not_null: date
+  - not_null: variable
+  - column_type: {col: value, type: string}
+    reason: raw keeps the CSV's own text; the transform casts to double
+  - unique: [vintage, file_type, date, variable]
+    reason: one value per variable per period per release; dupes mean a distribution was appended twice
     certainty: 90
-  - matches: {col: date, pattern: '^FY[0-9]{4}$'}
-    reason: long-term budget projections are annual_fy, labelled FYyyyy
-    certainty: 85
-  - enum: {col: file_type, values: [annual_fy]}
-    reason: catalog lists only annual_fy for long_term_budget
-    certainty: 85
-    severity: warn
-  - row_count: {min: 200}
-    reason: ~1000 rows per vintage across 2 vintages
-    certainty: 85
+  - distinct_count: {col: file_type, min: 1, max: 1}
+  - row_count: {min: 1000}
+    reason: shortfall means a distribution silently failed to parse
