@@ -1,2 +1,7 @@
 spec_id: people-s-bank-of-china-money-and-banking-statistics--domestic-rmb-financial-assets-held-by-overseas-entities
-status: deferred
+status: active
+tests:
+  - freshness: {col: period, reaches: today - 400d}
+    reason: PBOC statistical tables are recurring monthly or periodic releases; the English archive should reach a recent reporting period even when it lags current releases.
+    certainty: 80
+    points_outward: true
