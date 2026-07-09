@@ -1,0 +1,1 @@
+SELECT * FROM "rosstat-7708234640-sport-2021"

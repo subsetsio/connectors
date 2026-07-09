@@ -13,44 +13,46 @@ to completion.
 Fetch shape — **stateless full re-pull** (implement-prompt shape 1). CBS tables
 are revised in place (provisional → revised → definite), so we never trust a
 stored row-level high-water mark: each refresh re-snapshots the whole table
-from ``$skip=0`` and overwrites the single raw asset. The TypedDataSet endpoint
-exposes no row-level ``since``/``modifiedAfter`` filter, so genuine incremental
-is not possible here; the only delta signal is table-level ``Modified`` on the
-catalog, which the (later) maintain step uses to decide whether a table needs
-re-fetching at all. A handful of tables are very large (tens of millions of
-rows → thousands of pages); the full crawl is therefore expensive, which is the
+from the first page and overwrites the single raw asset. The TypedDataSet
+endpoint exposes no row-level ``since``/``modifiedAfter`` filter, so genuine
+incremental is not possible here; the only delta signal is table-level
+``Modified`` on the catalog. The full crawl is therefore expensive, which is the
 documented cost of having no row-level delta filter. Memory stays bounded by
 streaming each row straight to a gzipped NDJSON file rather than buffering.
 
 Raw format — **NDJSON**. Every table has its own column set (each StatLine
 table is a distinct dimension/topic schema), so a single shared parquet schema
-is impossible; NDJSON re-types per table on read. One raw asset per table
-(exact-name view), so the transform is a thin pass-through publish.
+is impossible; NDJSON re-types per table on read. One raw asset per table.
+
+Rows are the source's own wide ``TypedDataSet`` records, with two normalisations
+applied in the fetch fn because raw is the contract and neither fact is
+recoverable downstream:
+
+* the serving-side row counter ``ID`` is dropped — it is not table content;
+* every dimension code is stripped of CBS's fixed-width right padding
+  (``"GM1680    "``) and paired with a ``<DimKey>_label`` column resolved from
+  that dimension's own code-list entity set. Without it a published table reads
+  ``WijkenEnBuurten = "GM1680"`` and nothing else.
 """
 
 import json
 import socket
 
-
-from subsets_utils import (
-    NodeSpec,
-    SqlNodeSpec,
-    get,
-    raw_writer,
-    transient_retry,
-)
+from constants import ENTITY_IDS
+from subsets_utils import NodeSpec, get, raw_writer, transient_retry
 
 # ---------------------------------------------------------------------------
 # Source surface
 # ---------------------------------------------------------------------------
 
 FEED_BASE = "https://opendata.cbs.nl/ODataFeed/odata"
-PAGE_SIZE = 10000          # server-driven page size observed on the Feed
 MAX_PAGES = 200_000        # safety ceiling (~2e9 rows); raises, never silent
 
-# The rank-accepted entity union — original-case StatLine table identifiers.
-# Inlined per the catalog-connector contract (no module-level I/O).
-from constants import ENTITY_IDS
+# DataProperties `Type` values that name a code-list entity set on the table.
+DIMENSION_TYPES = frozenset({"Dimension", "GeoDimension", "GeoDetail", "TimeDimension"})
+
+# The serving-side row counter on every TypedDataSet record.
+ROW_ID_COLUMN = "ID"
 
 
 def _node_id(entity_id: str) -> str:
@@ -91,9 +93,9 @@ def _force_ipv4() -> None:
 
 
 # A full-corpus crawl runs for hours and hammers one host; opendata.cbs.nl
-# answers deep `$skip` pages but intermittently throws a transient 503 under
-# sustained load (observed mid-crawl on a large table). The standard 6-attempt
-# policy exhausted inside one bad window and crashed the whole DAG, so widen the
+# answers deep pages but intermittently throws a transient 503 under sustained
+# load (observed mid-crawl on a large table). The standard 6-attempt policy
+# exhausted inside one bad window and crashed the whole DAG, so widen the
 # budget: 10 attempts with backoff to 300s rides out a multi-minute server
 # wobble without giving up. 429/5xx/network errors are all `is_transient`.
 @transient_retry(attempts=10, min_wait=4, max_wait=300)
@@ -101,6 +103,29 @@ def _fetch_page(url: str, params: dict | None = None) -> dict:
     resp = get(url, params=params, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.json()
+
+
+def _strip(value):
+    """CBS right-pads code values to a fixed width, in both code lists and data."""
+    return value.strip() if isinstance(value, str) else value
+
+
+def _dimension_labels(entity_id: str) -> dict[str, dict[str, str]]:
+    """Per dimension key: {stripped code -> title}, from the table's own code lists."""
+    properties = _fetch_page(
+        f"{FEED_BASE}/{entity_id}/DataProperties", {"$format": "json"}
+    )["value"]
+    dimensions = [p["Key"] for p in properties if p.get("Type") in DIMENSION_TYPES]
+    if not dimensions:
+        raise RuntimeError(f"{entity_id}: DataProperties declares no dimensions")
+
+    labels = {}
+    for key in dimensions:
+        rows = _fetch_page(f"{FEED_BASE}/{entity_id}/{key}", {"$format": "json"})["value"]
+        labels[key] = {
+            _strip(r["Key"]): r.get("Title") for r in rows if r.get("Key") is not None
+        }
+    return labels
 
 
 # ---------------------------------------------------------------------------
@@ -118,6 +143,8 @@ def fetch_one(node_id: str) -> None:
     asset = node_id
     entity_id = _EID_BY_NODE[node_id]
 
+    labels = _dimension_labels(entity_id)
+
     url = f"{FEED_BASE}/{entity_id}/TypedDataSet"
     params = {"$format": "json"}
 
@@ -133,11 +160,20 @@ def fetch_one(node_id: str) -> None:
             payload = _fetch_page(url, params)
             params = None  # nextLink already carries $skip/$format
             for row in payload.get("value", []):
-                fh.write(json.dumps(row, ensure_ascii=False))
+                record = {k: _strip(v) for k, v in row.items() if k != ROW_ID_COLUMN}
+                for key, lookup in labels.items():
+                    record[f"{key}_label"] = lookup.get(record.get(key))
+                fh.write(json.dumps(record, ensure_ascii=False))
                 fh.write("\n")
                 rows_written += 1
             pages += 1
             url = payload.get("odata.nextLink") or payload.get("@odata.nextLink")
+
+    if rows_written == 0:
+        raise RuntimeError(
+            f"{asset}: TypedDataSet served no rows — the catalog lists this table "
+            "as live, so an empty response is a source fault, not an empty table"
+        )
 
     print(f"  {asset}: wrote {rows_written} rows across {pages} page(s)")
 
@@ -145,23 +181,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_node_id(eid), fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-
-# ---------------------------------------------------------------------------
-# Transform — one published Delta table per StatLine table
-# ---------------------------------------------------------------------------
-# Each table has its own dimension/topic schema, so the transform is a thin
-# typed pass-through: drop the internal OData row index ``ID`` (a meaningless
-# sequential counter) and publish the rest as-is. DuckDB's read_json_auto
-# infers each table's per-column types from the NDJSON; a 0-row result fails
-# the node, which is the correctness gate on the raw fetch.
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * EXCLUDE (ID) FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

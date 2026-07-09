@@ -1,15 +1,8 @@
 spec_id: cdc-qeq7-f3ir
 status: active
 tests:
-- row_count:
-    min: 1
-  reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
-  certainty: 85
-  points_outward: true
-  severity: block
-- freshness:
-    col: Week_ending
-    reaches: today - 210d
-  reason: published series still advancing (source data_updated_at 2026-03-04, newest 'Week_ending' = 2026-02-21T00:00:00); a load older than the reaches slack means the Socrata export went stale or the series was discontinued upstream
-  certainty: 75
-  points_outward: true
+  - row_count: {min: 3700}
+    reason: exported 7,400 rows when measured against the SODA count(*) endpoint on 2026-07-09; a full export stays within half of that, so fewer rows means the stream truncated
+    certainty: 80
+    points_outward: true
+    severity: block

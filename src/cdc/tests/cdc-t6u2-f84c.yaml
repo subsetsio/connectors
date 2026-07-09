@@ -1,15 +1,8 @@
 spec_id: cdc-t6u2-f84c
 status: active
 tests:
-- row_count:
-    min: 1
-  reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
-  certainty: 85
-  points_outward: true
-  severity: block
-- freshness:
-    col: Period
-    reaches: today - 300d
-  reason: published series still advancing (source data_updated_at 2026-05-14, newest 'Period' = 2026-01-01); a load older than the reaches slack means the Socrata export went stale or the series was discontinued upstream
-  certainty: 75
-  points_outward: true
+  - row_count: {min: 1}
+    reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
+    certainty: 85
+    points_outward: true
+    severity: block

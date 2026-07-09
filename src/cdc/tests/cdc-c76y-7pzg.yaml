@@ -1,8 +1,8 @@
 spec_id: cdc-c76y-7pzg
 status: active
 tests:
-  - row_count: {min: 1}
-    reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
-    certainty: 85
+  - row_count: {min: 16204}
+    reason: exported 32,409 rows when measured against the SODA count(*) endpoint on 2026-07-09; a full export stays within half of that, so fewer rows means the stream truncated
+    certainty: 80
     points_outward: true
     severity: block

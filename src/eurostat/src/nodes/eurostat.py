@@ -230,18 +230,3 @@ MAINTAIN_SPECS = [
     )
     for s in DOWNLOAD_SPECS
 ]
-
-# One thin SQL transform per dataset: pass the tidy long rows through, keeping
-# only real observations. Each dataflow publishes its own dimension columns
-# (distinct DSD), so a generic SELECT * is the correct uniform shape. (Authored
-# here as a starting point; the transform stage refines contracts from profiled
-# raw.)
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        temporal="time_period",
-        sql=f'SELECT * FROM "{s.id}" WHERE value IS NOT NULL',
-    )
-    for s in DOWNLOAD_SPECS
-]

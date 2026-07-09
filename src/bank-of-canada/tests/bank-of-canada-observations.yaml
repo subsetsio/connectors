@@ -6,15 +6,41 @@ tests:
     certainty: 99
   - column_type: {col: series_id, type: string}
     certainty: 99
+  - distinct_count: {col: series_id, min: 14000}
+    reason: the crawl walks every series in /lists/series (~15,600); far fewer distinct ids means it aborted or skipped a swathe of series
+    certainty: 85
+
+  # Row identity. Valet indexes observations by a per-series key: a date for most
+  # series, a survey category label or an entity id for the rest. obs_index carries
+  # that key's VALUE and is what identifies a row within its series, so it must
+  # never be null — a null means the parse dropped the upstream index and the row
+  # can no longer be attributed to anything.
+  - not_null: obs_index
+    reason: obs_index is half the row's identity; a null means the observation's upstream index key was not recognised and the row is unrecoverable
+    certainty: 99
+  - not_null: obs_index_key
+    reason: names which upstream key obs_index came from; null means index-key detection fell through
+    certainty: 99
+  - column_type: {col: obs_index, type: string}
+    certainty: 99
+  - unique: [series_id, obs_index]
+    reason: one observation per series per index value; duplicates mean batches overlapped or a series was fetched twice
+    certainty: 90
+
+  # The temporal cohort. obs_date is the projection of obs_index for date-indexed
+  # series only, so it is null exactly for the non-temporal ones (survey cross-tabs,
+  # bond/t-bill auctions). Measured at ~31% of rows; the ceiling leaves headroom
+  # without letting a collapse of the date parse pass unnoticed.
   - column_type: {col: obs_date, type: string}
     reason: obs_date is kept as the raw ISO string the API returns; the transform TRY_CASTs it to DATE
     certainty: 99
-  - nullable: {col: obs_date, max_null_frac: 0.4}
-    reason: some Valet rows have blank or non-date period labels that the transform filters; a higher null fraction would suggest the observations shape changed
+  - nullable: {col: obs_date, max_null_frac: 0.45}
+    reason: null exactly for non-date-indexed series (~31% of rows); far above means date-indexed series stopped parsing, far below means the non-temporal series stopped being fetched
     certainty: 85
   - freshness: {col: obs_date, reaches: today - 7d}
     reason: the broad Valet corpus includes forward-dated projection/scenario series, but at least one observation date should reach the current publication window
     certainty: 80
+
   - row_count: {min: 100000}
     reason: full history across thousands of series yields well over 100k long-format rows; far below means the crawl aborted early
     certainty: 85

@@ -1,12 +1,8 @@
 spec_id: cdc-psx4-wq38
 status: active
-coverage:
-  frozen: true
-  reason: temporal column 'Period' carries a non-advancing label ('TTM') rather than a monotonic date, so no freshness bound can be asserted; treated as a fixed/rolling corpus (source data_updated_at 2026-05-14)
 tests:
-- row_count:
-    min: 1
-  reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
-  certainty: 85
-  points_outward: true
-  severity: block
+  - row_count: {min: 66000}
+    reason: exported 132,000 rows when measured against the SODA count(*) endpoint on 2026-07-09; a full export stays within half of that, so fewer rows means the stream truncated
+    certainty: 80
+    points_outward: true
+    severity: block
