@@ -25,7 +25,7 @@ a consumer can reconstruct any table from its cells.
 import io
 
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
 from constants import ENTITY_IDS
 
 SLUG = "banco-central-de-bolivia"
@@ -146,23 +146,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                table_code,
-                sheet,
-                CAST(row AS INTEGER) AS row,
-                CAST(col AS INTEGER) AS col,
-                value_num,
-                value_text
-            FROM "{s.id}"
-            WHERE value_num IS NOT NULL OR value_text IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]
