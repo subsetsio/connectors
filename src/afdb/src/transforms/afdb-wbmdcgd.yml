@@ -1,11 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `afdb-wbmdcgd`. Regenerate after model-verify.
+key: [date, pays_code, pays, ports_code, ports, indicateur_code, indicateur, frequency, unit]
 temporal: date
-sort: [date]
+sort: [date, pays_code, pays, ports_code, ports, indicateur_code, indicateur, frequency, unit]
 columns:
-  - name: date
-    type: DATE
-  - name: value
-    type: DOUBLE
   - name: pays
     type: VARCHAR
   - name: pays_code
@@ -22,3 +20,7 @@ columns:
     type: VARCHAR
   - name: frequency
     type: VARCHAR
+  - name: date
+    type: DATE
+  - name: value
+    type: DOUBLE

@@ -1,6 +1,16 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST(date AS DATE)    AS date,
-    CAST(value AS DOUBLE) AS value,
-    * EXCLUDE (date, value)
+    "country",
+    "country_code",
+    "classification",
+    "classification_code",
+    "series",
+    "series_code",
+    "unit",
+    "frequency",
+    "date",
+    "value"
 FROM "afdb-uqojosf"
-WHERE value IS NOT NULL

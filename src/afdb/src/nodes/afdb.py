@@ -47,7 +47,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, raw_writer
+from subsets_utils import NodeSpec, raw_writer
 from constants import ENTITY_IDS
 
 SLUG = "afdb"
@@ -247,24 +247,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-def _transform_sql(asset: str) -> str:
-    # Thin parse-and-type pass: cast date/value, keep unit/frequency/dimension
-    # columns as-is, drop the (already rare) null values. One published table
-    # per dataset; columns differ across datasets, hence SELECT * EXCLUDE.
-    return f'''
-        SELECT
-            CAST(date AS DATE)    AS date,
-            CAST(value AS DOUBLE) AS value,
-            * EXCLUDE (date, value)
-        FROM "{asset}"
-        WHERE value IS NOT NULL
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], temporal="date", sql=_transform_sql(s.id))
-    for s in DOWNLOAD_SPECS
 ]

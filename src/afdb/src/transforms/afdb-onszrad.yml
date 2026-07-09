@@ -1,11 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `afdb-onszrad`. Regenerate after model-verify.
+key: [date, country_code, country, commodity_code, commodity, indicator_code, indicator, frequency, unit]
 temporal: date
-sort: [date]
+sort: [date, country_code, country, commodity_code, commodity, indicator_code, indicator, frequency, unit]
 columns:
-  - name: date
-    type: DATE
-  - name: value
-    type: DOUBLE
   - name: country
     type: VARCHAR
   - name: country_code
@@ -17,8 +15,12 @@ columns:
   - name: indicator
     type: VARCHAR
   - name: indicator_code
-    type: VARCHAR
+    type: BIGINT
   - name: unit
     type: VARCHAR
   - name: frequency
     type: VARCHAR
+  - name: date
+    type: DATE
+  - name: value
+    type: DOUBLE
