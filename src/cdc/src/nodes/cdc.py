@@ -51,18 +51,24 @@ _CHUNK = 1 << 20  # 1 MiB
 _MAX_DOWNLOAD_SECONDS = 2700  # 45 min
 
 
+def _sql_str(value: str) -> str:
+    return "'" + value.replace("'", "''") + "'"
+
+
 def _csv_to_parquet(csv_path: str, parquet_path: str) -> None:
+    # Paths are inlined, not bound: DuckDB numbers `COPY … TO ?` as parameter 1,
+    # so a prepared statement silently swaps the source and target paths.
     con = duckdb.connect()
     try:
         con.execute(
-            """
+            f"""
             COPY (
                 SELECT *
-                FROM read_csv_auto(?, header=true, all_varchar=true, sample_size=-1)
+                FROM read_csv_auto({_sql_str(csv_path)}, header=true,
+                                   all_varchar=true, sample_size=-1)
             )
-            TO ? (FORMAT PARQUET, COMPRESSION ZSTD)
-            """,
-            [csv_path, parquet_path],
+            TO {_sql_str(parquet_path)} (FORMAT PARQUET, COMPRESSION ZSTD)
+            """
         )
     finally:
         con.close()

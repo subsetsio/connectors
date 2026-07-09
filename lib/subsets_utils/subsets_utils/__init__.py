@@ -12,8 +12,9 @@ from .io import (
 )
 from .delta import merge, overwrite, append, WriteResult
 from .orchestrator import DAG, load_nodes
-from .spec import NodeSpec, SqlNodeSpec, MaintainSpec, ColumnSpec
+from .spec import NodeSpec, SqlNodeSpec, MaintainSpec, ColumnSpec, CheckSpec, CheckNodeSpec, RegressionSpec
 from .transforms import load_transform_dir
+from .checks import load_checks_dir
 from . import duckdb
 from .config import validate_environment, get_data_dir, is_cloud, get_fs
 from .publish import publish
@@ -44,5 +45,6 @@ __all__ = [
     'validate_environment', 'get_data_dir', 'is_cloud', 'get_fs',
     # Other
     'run_health_tests', 'DAG', 'load_nodes', 'NodeSpec', 'SqlNodeSpec', 'MaintainSpec',
-    'ColumnSpec', 'load_transform_dir', 'duckdb',
+    'ColumnSpec', 'CheckSpec', 'CheckNodeSpec', 'RegressionSpec',
+    'load_transform_dir', 'load_checks_dir', 'duckdb',
 ]

@@ -39,6 +39,7 @@ from .config import (
     get_r2_prefix, get_r2_run_base,
 )
 from .storage import backend
+from . import chain_guard
 from . import platform_github
 
 
@@ -494,7 +495,15 @@ def main():
     # that still have an in-YAML retrigger step act as a fallback.
     continuation_dispatched = False
     if exit_code == 2 and is_cloud():
-        if platform_github.maybe_retrigger(run_id):
+        # Chain guard: end chains that stopped progressing (or hit the leg
+        # cap) instead of retriggering forever. Fails open — see chain_guard.
+        allow, stop_reason = chain_guard.check_and_update(log_dir)
+        if not allow:
+            print(f"[runner] chain guard ended the chain: {stop_reason}")
+            chain_guard.mark_run_stopped(log_dir, stop_reason)
+            run_status = _read_run_status(log_dir)
+            exit_code = 1
+        elif platform_github.maybe_retrigger(run_id):
             exit_code = 0
             continuation_dispatched = True
 

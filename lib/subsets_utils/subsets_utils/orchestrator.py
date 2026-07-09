@@ -55,7 +55,7 @@ from typing import Callable
 
 from . import raw_manifest, tracking
 from .io import record_completion
-from .spec import MaintainSpec, NodeSpec, SqlNodeSpec
+from .spec import CheckNodeSpec, MaintainSpec, NodeSpec, SqlNodeSpec
 from .tracking import (
     clear_tracking,
     get_asset_version,
@@ -298,9 +298,10 @@ class DAG:
                 "deps": list(spec.deps),
                 # Where the fetch/transform fn was def'd — for debugging.
                 # functools.wraps preserves this through decorators (@tenacity.retry etc).
-                # SQL nodes have no fn; the runtime executor is their source.
+                # SQL/check nodes have no fn; the runtime executor is their source.
                 "source_module": (
                     "subsets_utils.sql_transform" if isinstance(spec, SqlNodeSpec)
+                    else "subsets_utils.checks" if isinstance(spec, CheckNodeSpec)
                     else getattr(spec.fn, "__module__", None)
                 ),
                 "status": "pending",
@@ -430,6 +431,11 @@ class DAG:
             # fn=None) pickles cleanly, so spawn-context is satisfied.
             from .sql_transform import run_sql_node
             fn, args = run_sql_node, (spec,)
+        elif isinstance(spec, CheckNodeSpec):
+            # Check nodes audit the table their transform dep just published —
+            # same runtime-owned execution shape as SQL nodes.
+            from .checks import run_check_node
+            fn, args = run_check_node, (spec,)
         else:
             fn, args = spec.fn, (spec.id,)
         proc = _MP_CTX.Process(
@@ -1269,6 +1275,26 @@ def load_nodes(nodes_dir: Path | str | None = None) -> DAG:
             all_specs = [s for s in all_specs if s.id not in file_ids]
         all_specs.extend(file_specs)
         print(f"[transforms/] loaded {len(file_specs)} file-based transform(s)")
+
+    # Post-publish audits from the sibling `checks/` dir (see checks.py). Each
+    # depends on `<table>-transform`, so a checks file whose table has no
+    # transform node is a half-authored audit — loud error, never a skip.
+    from .checks import load_checks_dir
+    check_specs = load_checks_dir(nodes_dir.parent / "checks")
+    if check_specs:
+        known = {s.id for s in all_specs}
+        orphaned = [c.id for c in check_specs
+                    if any(d not in known for d in c.deps)]
+        if orphaned:
+            raise ValueError(
+                f"checks/: {len(orphaned)} check spec(s) reference a transform "
+                f"node that does not exist: {orphaned[:5]} — every checks/<table>.yml "
+                "needs a matching transform that publishes that table")
+        colliding = [c.id for c in check_specs if c.id in known]
+        if colliding:
+            raise ValueError(f"checks/: spec id(s) collide with existing nodes: {colliding[:5]}")
+        all_specs.extend(check_specs)
+        print(f"[checks/] loaded {len(check_specs)} table audit(s)")
 
     print(f"Loaded {len(all_specs)} nodes, {len(all_maintain)} maintain specs")
     return DAG(all_specs, all_maintain)

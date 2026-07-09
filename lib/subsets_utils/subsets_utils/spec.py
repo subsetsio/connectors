@@ -1,5 +1,6 @@
 """NodeSpec: the unit the runtime DAG executes.
 SqlNodeSpec: a transform node whose body is one DuckDB SQL query.
+CheckSpec/CheckNodeSpec: post-publish audit of one published Delta table.
 MaintainSpec: freshness policy consumed by the orchestrator pre-spawn."""
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -260,6 +261,156 @@ class SqlNodeSpec(NodeSpec):
         if self.id.endswith(_TRANSFORM_SUFFIX):
             return self.id[: -len(_TRANSFORM_SUFFIX)]
         return self.id
+
+
+_CHECK_KINDS = ("unique", "not_null", "enum", "row_floor")
+_CHECK_SEVERITIES = ("block", "warn")
+
+
+@dataclass(frozen=True)
+class CheckSpec:
+    """One invariant check on a published Delta table.
+
+    Evaluated by the check engine (checks.py) in a single aggregate scan of
+    the published table, strictly AFTER the transform node published it.
+    `severity: block` fails the check node on violation (the run concludes
+    `done_with_failures` under `dag_on_failure: continue`); `warn` records
+    the violation without failing — for facts observed in the data but never
+    positively authored (an observed-zero-null column may legitimately grow
+    nulls).
+
+      unique     — `columns` combination has no duplicate rows
+      not_null   — `col` has no NULLs
+      enum       — every non-NULL `col` value is in `values` (only compile
+                   closed domains the authored model confirmed — an observed
+                   domain grows: Kosovo appears, the run must not break)
+      row_floor  — table has at least `min` rows (catastrophic-shrink backstop;
+                   the run-over-run regression check is the tight guard)
+    """
+    kind: str
+    severity: str = "block"
+    columns: tuple[str, ...] = ()   # unique
+    col: str | None = None          # not_null | enum
+    values: tuple[str, ...] = ()    # enum
+    min: int | None = None          # row_floor
+
+    def __post_init__(self):
+        if self.kind not in _CHECK_KINDS:
+            raise ValueError(f"CheckSpec: unknown kind {self.kind!r} (allowed: {_CHECK_KINDS})")
+        if self.severity not in _CHECK_SEVERITIES:
+            raise ValueError(
+                f"CheckSpec ({self.kind}): severity must be one of {_CHECK_SEVERITIES} "
+                f"(got {self.severity!r})")
+        if not isinstance(self.columns, tuple):
+            object.__setattr__(self, "columns", tuple(self.columns))
+        if not isinstance(self.values, tuple):
+            object.__setattr__(self, "values", tuple(self.values))
+        if self.kind == "unique":
+            if not self.columns or any(not isinstance(c, str) or not c.strip() for c in self.columns):
+                raise ValueError("CheckSpec (unique): columns must be a non-empty list of column names")
+            if len(set(self.columns)) != len(self.columns):
+                raise ValueError(f"CheckSpec (unique): duplicate column in {self.columns!r}")
+        if self.kind in ("not_null", "enum") and (not isinstance(self.col, str) or not self.col.strip()):
+            raise ValueError(f"CheckSpec ({self.kind}): col must be a non-empty column name")
+        if self.kind == "enum":
+            if not self.values or any(not isinstance(v, str) for v in self.values):
+                raise ValueError("CheckSpec (enum): values must be a non-empty list of strings")
+        if self.kind == "row_floor":
+            if not isinstance(self.min, int) or isinstance(self.min, bool) or self.min < 1:
+                raise ValueError(f"CheckSpec (row_floor): min must be an int >= 1 (got {self.min!r})")
+
+
+@dataclass(frozen=True)
+class RegressionSpec:
+    """Run-over-run regression tolerances for one published table.
+
+    The check engine persists a per-table stats baseline (row count, exact
+    key cardinality, temporal max) to the node's state after every audit and
+    compares the current scan against the previous baseline BEFORE updating
+    it. All regression violations are `block`: a shrinking table, a
+    collapsing grain, or time moving backwards means the source or the
+    pipeline broke, not the data.
+
+    `row_shrink_tolerance` / `key_shrink_tolerance`: allowed fractional
+    shrink vs the previous run (0.10 = fail below 90% of the baseline;
+    0.0 = any shrink fails — right for merge/append tables, which never
+    legitimately lose rows). None disables that comparison.
+    `temporal_monotonic`: the temporal column's max must never move
+    backwards vs the baseline.
+    """
+    row_shrink_tolerance: float | None = None
+    key_shrink_tolerance: float | None = None
+    temporal_monotonic: bool = False
+
+    def __post_init__(self):
+        for name in ("row_shrink_tolerance", "key_shrink_tolerance"):
+            v = getattr(self, name)
+            if v is None:
+                continue
+            if isinstance(v, bool) or not isinstance(v, (int, float)) or not (0.0 <= v < 1.0):
+                raise ValueError(f"RegressionSpec: {name} must be a fraction in [0, 1) or None (got {v!r})")
+
+
+@dataclass(frozen=True)
+class CheckNodeSpec(NodeSpec):
+    """A post-publish audit node for one published Delta table.
+
+    Authored as `checks/<table>.yml` in the connector tree (compiled by
+    `hardened compile-checks` from the settled model + the transform
+    contract; hand-editable afterwards, same as transforms). The loader
+    synthesizes the node with id `<table>-checks` depending on
+    `<table>-transform`, so the audit runs strictly after the publish —
+    detection, never prevention: a block violation fails THIS node (and the
+    run degrades to `done_with_failures`), it does not roll back the write.
+
+    `key` is the audited grain (published column names) — it drives the
+    exact-cardinality stat the regression baseline records. `temporal` is
+    the audited time axis (drives the temporal-max stat). `fn` is inherited
+    but unused (the runtime executor owns execution); `kind` is pinned to
+    "check".
+    """
+    fn: Callable | None = None
+    kind: str = "check"
+    table: str = ""
+    key: tuple[str, ...] = ()
+    temporal: str | None = None
+    checks: tuple[CheckSpec, ...] = ()
+    regression: RegressionSpec | None = None
+
+    def __post_init__(self):
+        super().__post_init__()
+        if self.fn is not None:
+            raise TypeError(
+                f"CheckNodeSpec {self.id!r}: fn must not be set — the runtime "
+                "check engine owns execution")
+        if self.kind != "check":
+            raise ValueError(f"CheckNodeSpec {self.id!r}: kind must be 'check' (got {self.kind!r})")
+        if not isinstance(self.table, str) or not self.table.strip():
+            raise ValueError(f"CheckNodeSpec {self.id!r}: table must be a non-empty string")
+        if not self.deps:
+            raise ValueError(
+                f"CheckNodeSpec {self.id!r}: deps must name the transform node "
+                "that publishes the audited table")
+        if not isinstance(self.key, tuple):
+            object.__setattr__(self, "key", tuple(self.key))
+        bad = [c for c in self.key if not isinstance(c, str) or not c.strip()]
+        if bad:
+            raise ValueError(f"CheckNodeSpec {self.id!r}: key columns must be non-empty strings (got {bad!r})")
+        if len(set(self.key)) != len(self.key):
+            raise ValueError(f"CheckNodeSpec {self.id!r}: duplicate column in key {self.key!r}")
+        if self.temporal is not None and (not isinstance(self.temporal, str) or not self.temporal.strip()):
+            raise ValueError(f"CheckNodeSpec {self.id!r}: temporal must be a non-empty column name")
+        if not isinstance(self.checks, tuple):
+            object.__setattr__(self, "checks", tuple(self.checks))
+        bad = [c for c in self.checks if not isinstance(c, CheckSpec)]
+        if bad:
+            raise TypeError(f"CheckNodeSpec {self.id!r}: checks must be CheckSpec instances (got {bad[:3]!r})")
+        if not self.checks and self.regression is None:
+            raise ValueError(
+                f"CheckNodeSpec {self.id!r}: needs at least one check or a "
+                "regression block — an empty audit is meaningless")
+        if self.regression is not None and not isinstance(self.regression, RegressionSpec):
+            raise TypeError(f"CheckNodeSpec {self.id!r}: regression must be a RegressionSpec")
 
 
 @dataclass(frozen=True)
