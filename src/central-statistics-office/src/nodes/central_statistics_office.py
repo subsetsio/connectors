@@ -107,8 +107,10 @@ def parse_period(code: str, freq: str):
     """
     code = (code or "").strip()
 
+    # A bare 8-digit code is a date only if it reads as one; otherwise it is a
+    # season ('20112012'), handled further down.
     match = _DAY.match(code) or _YMD.match(code)
-    if match:
+    if match and 1 <= int(match[2]) <= 12 and 1 <= int(match[3]) <= 31:
         try:
             day = datetime.date(int(match[1]), int(match[2]), int(match[3]))
         except ValueError:
