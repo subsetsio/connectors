@@ -1,16 +1,30 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# Wide raw (one column per indicator/index) unpivoted to tidy long format.
+# Only V-Dem indicator columns (v2*/v3*/e_* prefixes) are kept; identifier and
+# coding-metadata columns are dropped, as are non-numeric and missing cells.
+# country_name is carried denormalized from the raw (country_id -> country_name
+# is a functional dependency that holds over all 202 polities).
+key: [country_id, date, variable]
+temporal: date
+sort: [date, country_id, variable]
 columns:
   - name: country_name
     type: VARCHAR
+    description: English name of the polity as coded by V-Dem. Historical polities carry their historical names, so this is not a present-day country name.
   - name: country_text_id
     type: VARCHAR
+    description: Country code, V-Dem's own three-letter alphabetic identifier (mostly ISO 3166-1 alpha-3). One-to-one with `country_id`.
   - name: country_id
     type: INTEGER
+    description: V-Dem numeric country identifier; stable across releases and the join key to V-Dem's country table.
   - name: year
     type: INTEGER
+    description: Calendar year the observation date falls in. A polity contributes a variable number of rows per year, so this column does not identify a row.
   - name: date
     type: DATE
+    description: Start date of the spell over which the coded values hold (V-Dem `historical_date`). V-Dem emits a new country-date row whenever any indicator changes within a polity's year, so dates are irregularly spaced.
   - name: variable
     type: VARCHAR
+    description: V-Dem variable code as published in the codebook (e.g. `v2x_polyarchy`). Codes suffixed `_codelow`/`_codehigh` bound the measurement model's credible interval for the base variable, `_sd` its posterior standard deviation, `_mean` its point estimate, `_nr` the number of coders, and `_ord` its ordinalised version - these are attributes of the base variable, not independent indicators.
   - name: value
     type: DOUBLE
+    description: Observed value on the variable's own scale. Scales differ per variable (bounded 0-1 indices, ordinal ratings, counts, monetary and population units) - read the V-Dem codebook before comparing across variables. Non-numeric and missing cells are dropped rather than published as nulls.
