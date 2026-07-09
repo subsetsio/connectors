@@ -31,6 +31,7 @@ import io
 import json
 import re
 import ssl
+import xml.etree.ElementTree as ET
 import zipfile
 
 import httpx
@@ -269,16 +270,67 @@ def _resolve_data_url(slug: str) -> str:
     raise AssertionError(f"{slug}: no 'data-' row in meta.csv")
 
 
-def _csv_text_from_data(url: str) -> str:
-    """Return the decoded CSV text, unwrapping a single-member .zip if needed."""
-    payload = _fetch_bytes(url)
+def _archive_member(payload: bytes, url: str, depth: int = 0) -> tuple[str, bytes]:
+    """Return the useful payload from CSV/XML files and nested Rosstat zips."""
+    if depth > 4:
+        raise AssertionError(f"{url}: archive nesting too deep")
     if url.lower().endswith(".zip") or payload[:2] == b"PK":
         zf = zipfile.ZipFile(io.BytesIO(payload))
-        members = [m for m in zf.namelist() if m.lower().endswith(".csv")]
-        if not members:
-            raise AssertionError(f"{url}: zip has no .csv member ({zf.namelist()})")
-        payload = zf.read(members[0])
+        names = zf.namelist()
+        for suffix in (".csv", ".xml", ".zip"):
+            members = [m for m in names if m.lower().endswith(suffix)]
+            if members:
+                member = members[0]
+                return _archive_member(
+                    zf.read(member), f"{url}!{member}", depth + 1
+                )
+        raise AssertionError(f"{url}: zip has no CSV/XML member ({names})")
+    lower = url.lower()
+    if lower.endswith(".xml") or payload.lstrip().startswith((b"<?xml", b"\xef\xbb\xbf<?xml")):
+        return "xml", payload
+    return "csv", payload
+
+
+def _csv_text_from_payload(payload: bytes) -> str:
     return _strip_bom(_smart_decode(payload))
+
+
+def _local_name(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1]
+
+
+def _xml_records(payload: bytes):
+    """Flatten SDMX GenericData XML into one row per observation."""
+    series = {}
+    in_series_key = False
+    obs = None
+    for event, elem in ET.iterparse(io.BytesIO(payload), events=("start", "end")):
+        name = _local_name(elem.tag)
+        if event == "start":
+            if name == "Series":
+                series = {}
+            elif name == "SeriesKey":
+                in_series_key = True
+            elif name == "Obs":
+                obs = {}
+            elif name == "Value" and in_series_key:
+                concept = elem.attrib.get("concept")
+                if concept:
+                    series[concept] = elem.attrib.get("value", "")
+            continue
+
+        if name == "SeriesKey":
+            in_series_key = False
+        elif name == "Time" and obs is not None:
+            obs["time"] = (elem.text or "").strip()
+        elif name == "ObsValue" and obs is not None:
+            obs["value"] = elem.attrib.get("value", "")
+        elif name == "Obs" and obs is not None:
+            rec = dict(series)
+            rec.update(obs)
+            yield rec
+            obs = None
+        elem.clear()
 
 
 def fetch_one(node_id: str) -> None:
@@ -290,7 +342,22 @@ def fetch_one(node_id: str) -> None:
     """
     _ensure_tls()
     slug = SLUG_BY_NODE_ID[node_id]
-    text = _csv_text_from_data(_resolve_data_url(slug))
+    data_url = _resolve_data_url(slug)
+    kind, payload = _archive_member(_fetch_bytes(data_url), data_url)
+
+    if kind == "xml":
+        with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip",
+                        encoding="utf-8") as fh:
+            n = 0
+            for rec in _xml_records(payload):
+                fh.write(json.dumps(rec, ensure_ascii=False))
+                fh.write("\n")
+                n += 1
+        if n == 0:
+            raise AssertionError(f"{slug}: produced 0 XML observations")
+        return
+
+    text = _csv_text_from_payload(payload)
 
     delim = _detect_delim(text)
 
