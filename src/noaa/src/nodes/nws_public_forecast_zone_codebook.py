@@ -7,7 +7,7 @@ county FIPS/name, office, time zone, feature area, and centroid coordinates.
 import csv
 import io
 import re
-from datetime import datetime
+from datetime import date
 
 import pyarrow as pa
 
@@ -20,7 +20,12 @@ from utils import _get_text, _string_table
 # to be resolved from the listing page rather than pinned.
 ZONE_COUNTY_INDEX = "https://www.weather.gov/gis/ZoneCounty"
 ZONE_COUNTY_BASE = "https://www.weather.gov"
-_DBX_HREF = re.compile(r'href="(/source/gis/Shapefiles/County/bp(\d{2})([a-z]{3})(\d{2})\.dbx)"')
+_DBX_HREF = re.compile(r'href="(/source/gis/Shapefiles/County/bp(\d{2})([a-z]{2})(\d{2})\.dbx)"')
+# NWS abbreviates the month to two letters (`bp16ap26` = 16 Apr 2026).
+_MONTHS = {
+    "ja": 1, "fe": 2, "mr": 3, "ap": 4, "my": 5, "jn": 6,
+    "jl": 7, "au": 8, "se": 9, "oc": 10, "no": 11, "de": 12,
+}
 
 HEADER = [
     "STATE",
@@ -44,8 +49,10 @@ def _latest_zone_county_url() -> str:
         raise RuntimeError(f"nws zone codebook: no .dbx link at {ZONE_COUNTY_INDEX}")
     dated = []
     for href, day, mon, year in matches:
+        if mon not in _MONTHS:
+            continue
         try:
-            stamp = datetime.strptime(f"{day}{mon}{year}", "%d%b%y").date()
+            stamp = date(2000 + int(year), _MONTHS[mon], int(day))
         except ValueError:
             continue
         dated.append((stamp, href))

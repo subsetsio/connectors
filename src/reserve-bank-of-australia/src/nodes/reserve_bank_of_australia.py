@@ -321,8 +321,17 @@ def _parse_matrix_csv(
     return out
 
 
-def _parse_series_breaks_csv(text: str, slug: str) -> list[dict]:
-    """Parse RBA series-breaks CSVs, which are event/reference tables."""
+def _is_event_csv(text: str) -> bool:
+    """True for RBA event/reference CSVs: a Date-headed table of annotations
+    with no per-column metadata block (series breaks, F1 expert judgement)."""
+    return not any(
+        row and (row[0] or "").strip().lower() in _META_LABELS
+        for row in csv.reader(io.StringIO(text))
+    )
+
+
+def _parse_event_csv(text: str, slug: str, record_type: str) -> list[dict]:
+    """Parse an RBA event/reference CSV: Date, event type, series title, details."""
     rows = list(csv.reader(io.StringIO(text)))
     header_idx = None
     for i, row in enumerate(rows):
@@ -354,7 +363,7 @@ def _parse_series_breaks_csv(text: str, slug: str) -> list[dict]:
             "value_text": details,
             "source_csv": slug,
             "partition_key": None,
-            "record_type": "series_break",
+            "record_type": record_type,
             "break_type": row[1].strip() or None,
             "details": details,
         })
@@ -376,7 +385,9 @@ def fetch_one(node_id: str) -> None:
     for slug, partition_key in members.items():
         text = _fetch_csv_text(slug)
         if slug.endswith("series-breaks"):
-            rows = _parse_series_breaks_csv(text, slug)
+            rows = _parse_event_csv(text, slug, "series_break")
+        elif _is_event_csv(text):
+            rows = _parse_event_csv(text, slug, "annotation")
         else:
             rows = _parse_rba_csv(text, slug, partition_key)
         if not rows:
