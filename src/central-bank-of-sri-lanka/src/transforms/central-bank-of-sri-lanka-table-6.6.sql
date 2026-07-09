@@ -1,11 +1,12 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are a faithful long-form melt of one CBSL workbook; row_label and col_label encode the workbook stub/header text and may mix totals, subcategories, geographies, units, or period labels depending on the source table.
 SELECT
-    CAST(row_label AS VARCHAR)   AS row_label,
-    CAST(col_label AS VARCHAR)   AS col_label,
-    TRY_CAST(period_year AS INTEGER) AS period_year,
-    TRY_CAST(value AS DOUBLE)    AS value,
-    CAST(value_text AS VARCHAR)  AS value_text
+    "row_label",
+    "col_label",
+    "period_year",
+    "value",
+    "value_text"
 FROM "central-bank-of-sri-lanka-table-6.6"
-WHERE value IS NOT NULL
-  AND TRY_CAST(value AS DOUBLE) IS NOT NULL
-  AND row_label IS NOT NULL
-  AND TRIM(row_label) <> ''

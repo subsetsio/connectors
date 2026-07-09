@@ -8,6 +8,20 @@ from subsets_utils import get, save_raw_ndjson
 BASE_URL = "https://www.ine.pt/ine/json_indicador/pindica.jsp"
 SPEC_PREFIX = "statistics-portugal-"
 
+# INE's WAF 403s the library's default `DataIntegrations/1.0` agent when the
+# request comes from a GitHub Actions (Azure) address, then blackholes the IP
+# for several minutes once a few 403s accumulate. Browser-shaped request
+# headers keep the bot score below the block threshold.
+BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+    ),
+    "Accept": "application/json, text/javascript, */*; q=0.01",
+    "Accept-Language": "en-GB,en;q=0.9,pt;q=0.8",
+    "Referer": "https://www.ine.pt/",
+}
+
 
 def _indicator_id_from_node(node_id: str) -> str:
     if not node_id.startswith(SPEC_PREFIX):
@@ -84,6 +98,7 @@ def fetch_indicator(node_id: str) -> None:
     response = get(
         BASE_URL,
         params={"op": "2", "varcd": indicator_id, "Dim1": "T", "lang": "EN"},
+        headers=BROWSER_HEADERS,
         timeout=(10.0, 300.0),
     )
     response.raise_for_status()

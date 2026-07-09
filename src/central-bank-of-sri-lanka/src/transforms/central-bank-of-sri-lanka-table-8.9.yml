@@ -1,12 +1,15 @@
-# provisional pass-through for normalized ESS raw; model compilation should settle key/temporal metadata after the full raw run lands
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `central-bank-of-sri-lanka-table-8.9`. Regenerate after model-verify.
+# caution: Rows are a faithful long-form melt of one CBSL workbook; row_label and col_label encode the workbook stub/header text and may mix totals, subcategories, geographies, units, or period labels depending on the source table.
+key: []
 columns:
   - name: row_label
     type: VARCHAR
   - name: col_label
     type: VARCHAR
   - name: period_year
-    type: INTEGER
+    type: JSON
   - name: value
     type: DOUBLE
   - name: value_text
-    type: VARCHAR
+    type: JSON

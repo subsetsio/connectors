@@ -291,7 +291,7 @@ def _parse_sheet(rows):
             else:
                 py = _year_of(col_label)
             out.append({
-                "row_label": (row_label or None),
+                "row_label": (row_label or "Unlabeled row"),
                 "col_label": col_label,
                 "period_year": py,
                 "value": val,
@@ -326,4 +326,3 @@ DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
 ]
-

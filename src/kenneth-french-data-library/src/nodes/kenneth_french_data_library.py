@@ -17,8 +17,10 @@ parsed into a uniform **long format**:
     period        annual | monthly | weekly | daily (from the date-index width
                   and the dataset name)
     date          ISO yyyy-mm-dd (annual -> Jan 1, monthly -> day 1)
-    variable      the column header (series / portfolio name); positional
-                  ``col_NN`` for the headerless breakpoint files
+    variable      the column header (series / portfolio name); for the
+                  ``*_Breakpoints`` files, whose CSVs name at most their leading
+                  count columns, the canonical ``n_firms*`` / ``p5``..``p100``
+                  names (see ``_breakpoint_names``)
     value         the observation (sentinel rows dropped)
 
 Stateless full re-pull: each file is small and the whole corpus re-downloads in
@@ -95,7 +97,45 @@ def _dedupe(names):
     return out
 
 
-def _iter_blocks(text: str, weekly: bool):
+def _breakpoint_names(ncols: int):
+    """Column names for a ``*_Breakpoints`` block.
+
+    Every breakpoint file is ``<leading firm counts> + 20 percentiles`` (the
+    preamble: "every 5th NYSE <X> percentile", i.e. the 5th through the 100th).
+    The CSV either omits the header entirely (ME, Prior_2-12) or names ONLY the
+    leading count columns (``Count``; ``<= 0``,``>0`` — firms with a
+    non-positive vs positive ratio), so the names are canonicalised here rather
+    than taken from the header.
+    """
+    lead = ncols - 20
+    if lead == 1:
+        names = ["n_firms"]
+    elif lead == 2:
+        names = ["n_firms_le_0", "n_firms_gt_0"]
+    else:
+        return None
+    return names + [f"p{5 * (i + 1)}" for i in range(20)]
+
+
+def _column_names(header_line, ncols: int, breakpoints: bool):
+    """Name the ``ncols`` data columns of one block.
+
+    The header, when present, may name FEWER columns than the rows carry
+    (French's breakpoint files name only the leading counts) — never let the
+    surplus columns fall off the end.
+    """
+    if breakpoints:
+        names = _breakpoint_names(ncols)
+        if names is not None:
+            return _dedupe(names)
+
+    names = [] if header_line is None else [c.strip() for c in header_line.split(",")][1:]
+    names = names[:ncols]
+    names += [f"col_{j + 1:02d}" for j in range(len(names), ncols)]
+    return _dedupe(names)
+
+
+def _iter_blocks(text: str, weekly: bool, breakpoints: bool = False):
     """Yield (block_index, statistic, period, dates, variables, values) for each
     stacked sub-table in a French CSV. Sentinel-valued cells are dropped."""
     lines = text.splitlines()
@@ -125,14 +165,14 @@ def _iter_blocks(text: str, weekly: bool):
         if first_data is None:
             continue  # preamble / pure-text block
 
+        ncols = len(block[first_data].split(",")) - 1
         if header_i is not None and header_i < first_data:
             cap_lines = block[:header_i]
-            colnames = [c.strip() for c in block[header_i].split(",")][1:]
+            header_line = block[header_i]
         else:
             cap_lines = block[:first_data]
-            ncols = len(block[first_data].split(",")) - 1
-            colnames = [f"col_{j + 1:02d}" for j in range(ncols)]
-        colnames = _dedupe(colnames)
+            header_line = None
+        colnames = _column_names(header_line, ncols, breakpoints)
 
         statistic = re.sub(r"\s+", " ", " ".join(c.strip() for c in cap_lines)).strip()
 
@@ -146,7 +186,12 @@ def _iter_blocks(text: str, weekly: bool):
             if per == "daily" and weekly:
                 per = "weekly"
             period = per
-            for name, raw in zip(colnames, fields[1:]):
+            cells = fields[1:]
+            if len(cells) > len(colnames):  # ragged row: never drop the surplus
+                raise AssertionError(
+                    f"row {fields[0]} carries {len(cells)} cells, block names {len(colnames)}"
+                )
+            for name, raw in zip(colnames, cells):
                 v = _value(raw)
                 if v is None:
                     continue
@@ -169,6 +214,7 @@ def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     entity = SPEC_TO_ENTITY[node_id]
     weekly = "weekly" in entity.lower()
+    breakpoints = entity.lower().endswith("_breakpoints")
 
     content = _download_zip(f"{BASE_URL}{entity}_CSV.zip")
     z = zipfile.ZipFile(io.BytesIO(content))
@@ -177,7 +223,9 @@ def fetch_one(node_id: str) -> None:
 
     wrote = False
     with raw_parquet_writer(asset, LONG_SCHEMA) as writer:
-        for block_idx, statistic, period, dates, variables, values in _iter_blocks(text, weekly):
+        for block_idx, statistic, period, dates, variables, values in _iter_blocks(
+            text, weekly, breakpoints
+        ):
             n = len(dates)
             table = pa.table(
                 {

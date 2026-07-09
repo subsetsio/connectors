@@ -1,5 +1,5 @@
 {
   "cadence_days": 7,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "StatFin has no corpus-wide schedule: each of the ~1535 tables carries its own release calendar (https://stat.fi/en/statistics-release-calendar), ranging from weekly to annual. A 7-day tick is the coarsest interval that still tracks the fastest-moving tables. PxWeb exposes no since/modifiedAfter parameter, so every due run is a full re-pull (~15h of paced HTTP, spanning ~3 continuation legs); MAINTAIN_MAX_AGE_DAYS in the node module mirrors cadence_days so later legs skip what earlier legs of the same run wrote."
 }

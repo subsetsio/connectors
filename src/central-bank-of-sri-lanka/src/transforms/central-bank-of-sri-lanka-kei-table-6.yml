@@ -1,11 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `central-bank-of-sri-lanka-kei-table-6`. Regenerate after model-verify.
+# caution: Rows are a faithful long-form melt of one CBSL workbook; row_label and col_label encode the workbook stub/header text and may mix totals, subcategories, geographies, units, or period labels depending on the source table.
+key: [row_label, period_year, col_label]
+sort: [row_label, period_year, col_label]
 columns:
   - name: row_label
     type: VARCHAR
   - name: col_label
     type: VARCHAR
   - name: period_year
-    type: INTEGER
+    type: BIGINT
   - name: value
     type: DOUBLE
   - name: value_text

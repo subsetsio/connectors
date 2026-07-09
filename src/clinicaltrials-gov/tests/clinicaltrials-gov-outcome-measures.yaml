@@ -4,8 +4,9 @@ tests:
   - not_null: nct_id
     certainty: 99
   - not_null: measure
-    reason: an outcome row exists only with a measure description
+    reason: ClinicalTrials.gov can emit sparse outcome objects without a measure; keep the row for source fidelity.
     certainty: 95
+    severity: warn
   - enum: {col: outcome_type, values: [primary, secondary]}
     reason: we tag each outcome by which array it came from
     certainty: 99

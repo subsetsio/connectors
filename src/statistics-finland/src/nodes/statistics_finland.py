@@ -20,6 +20,15 @@ Operational notes (learned from the source):
   * The documented 100k-cell cap is optimistic; some tables 400/403 well below
     it. We target a conservative chunk size and split any chunk the server still
     refuses, so we adapt to each table's real limit without guessing.
+  * A full pull of all ~1535 tables costs ~15h of paced HTTP — far more than one
+    GitHub job's ~5h45m budget, so a run ALWAYS spans several continuation legs.
+    The orchestrator does not carry node status across legs (every leg starts
+    every spec `pending`), so without a maintain check each leg re-downloads the
+    same leading prefix of tables and the chain never converges — exactly the
+    2026-07-02 runaway (31 legs, ~7.5 days of CI, 578/1535 done every leg).
+    ``MAINTAIN_SPECS`` below is what makes the backfill resumable: a table whose
+    raw was committed inside the refresh window is skipped before its subprocess
+    spawns, so each leg advances into new tables and the run terminates.
 """
 
 import re
@@ -28,7 +37,15 @@ import time
 import httpx
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
-from subsets_utils import NodeSpec, get, post, save_raw_ndjson, transient_retry
+from subsets_utils import (
+    MaintainSpec,
+    NodeSpec,
+    get,
+    post,
+    raw_asset_exists,
+    save_raw_ndjson,
+    transient_retry,
+)
 from subsets_utils.retry import is_transient
 from constants import ENTITY_PATHS
 
@@ -36,6 +53,13 @@ _BASE = "https://pxdata.stat.fi/PXWeb/api/v1/en"
 _PREFIX = "statistics-finland-"
 _CELL_TARGET = 40000   # conservative chunk size (server 400s above ~40-80k on some tables)
 _PACE_S = 1.3          # min seconds between HTTP calls — stay under ~40 req / 60s
+_RAW_EXT = "ndjson.zst"
+
+# Matches maintenance.json's cadence_days. PxWeb exposes no since/modifiedAfter
+# parameter, so a refresh is a full re-pull: on a due run every table is older
+# than the window and re-fetched, and each leg then skips what earlier legs of
+# the SAME run just wrote — the window doubles as the resume marker.
+MAINTAIN_MAX_AGE_DAYS = 7
 
 
 def _throttle():
@@ -214,4 +238,30 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_PATHS
+]
+
+
+def _is_fresh(asset_id):
+    """Skip a table whose raw was committed inside the refresh window.
+
+    Resolved against the raw manifest, so it sees fragments written by earlier
+    continuation legs of this same run — that is what lets the multi-leg
+    backfill make forward progress instead of restarting at table 1.
+    """
+    return raw_asset_exists(asset_id, _RAW_EXT, max_age_days=MAINTAIN_MAX_AGE_DAYS)
+
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            f"Full re-pull when raw is older than {MAINTAIN_MAX_AGE_DAYS}d. PxWeb has no "
+            "since/modifiedAfter parameter, so a refresh re-fetches the whole table; the "
+            "window doubles as the resume marker across continuation legs. Statistics "
+            "Finland publishes per-table release calendars at "
+            "https://stat.fi/en/statistics-release-calendar"
+        ),
+        check=_is_fresh,
+    )
+    for spec in DOWNLOAD_SPECS
 ]

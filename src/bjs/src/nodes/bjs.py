@@ -25,7 +25,6 @@ import json
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_writer,
     transient_retry,
@@ -187,75 +186,3 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-
-# ---------------------------------------------------------------------------
-# Transform — one published Delta table per subset
-# ---------------------------------------------------------------------------
-
-def _entity_of(spec_id: str) -> str:
-    return spec_id[len(_PREFIX):]
-
-
-def _nibrs_sql(view: str) -> str:
-    """Curated, typed projection of the shared NIBRS National Estimates schema.
-
-    Drops the internal derivation/permutation columns and keeps the published
-    estimate plus its uncertainty bounds. TRY_CAST tolerates the source's
-    string-typed sentinels (e.g. "-9") by mapping them to NULL.
-    """
-    return f'''
-        SELECT
-            TRY_CAST(time_series_start_year AS INTEGER) AS time_series_start_year,
-            indicator_name,
-            full_table,
-            estimate_type,
-            estimate_geographic_location,
-            estimate_domain_1,
-            TRY_CAST(estimate AS DOUBLE)                 AS estimate,
-            TRY_CAST(estimate_unweighted AS DOUBLE)      AS estimate_unweighted,
-            TRY_CAST(estimate_standard_error AS DOUBLE)  AS estimate_standard_error,
-            TRY_CAST(estimate_lower_bound AS DOUBLE)     AS estimate_lower_bound,
-            TRY_CAST(estimate_upper_bound AS DOUBLE)     AS estimate_upper_bound,
-            TRY_CAST(relative_standard_error AS DOUBLE)  AS relative_standard_error,
-            TRY_CAST(population_estimate AS DOUBLE)      AS population_estimate,
-            TRY_CAST(agency_counts AS BIGINT)            AS agency_counts,
-            estimates_version,
-            suppression_flag_indicator
-        FROM "{view}"
-    '''
-
-
-def _ncvs_sql(view: str, weight_cols: list[str]) -> str:
-    """Keep the full microdata row (categorical codes stay VARCHAR), typing
-    only the year and survey-weight columns. SELECT * REPLACE makes this a thin
-    pass without enumerating every per-file analysis variable."""
-    replaces = [
-        "TRY_CAST(year AS INTEGER) AS year",
-        "TRY_CAST(yearq AS DOUBLE) AS yearq",
-    ]
-    replaces += [f"TRY_CAST({w} AS DOUBLE) AS {w}" for w in weight_cols]
-    repl = ",\n            ".join(replaces)
-    return f'''
-        SELECT * REPLACE (
-            {repl}
-        )
-        FROM "{view}"
-    '''
-
-
-def _transform_sql(spec_id: str) -> str:
-    eid = _entity_of(spec_id)
-    if eid in _NIBRS_IDS:
-        return _nibrs_sql(spec_id)
-    return _ncvs_sql(spec_id, _NCVS_WEIGHTS[eid])
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id),
-        temporal="time_series_start_year" if _entity_of(s.id) in _NIBRS_IDS else "year",
-    )
-    for s in DOWNLOAD_SPECS
-]

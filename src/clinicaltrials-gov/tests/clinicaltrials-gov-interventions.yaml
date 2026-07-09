@@ -4,8 +4,9 @@ tests:
   - not_null: nct_id
     certainty: 99
   - not_null: intervention_name
-    reason: an intervention row exists only with a name
+    reason: ClinicalTrials.gov can emit sparse intervention objects without a name; keep the row for source fidelity.
     certainty: 95
+    severity: warn
   - matches: {col: nct_id, pattern: "^NCT[0-9]{8}$"}
     certainty: 95
   - row_count: {min: 200000}
