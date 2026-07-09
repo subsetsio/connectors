@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `civil-aviation-authority-airport-10-2`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [rpt_apt_name, rundate, rpt_apt_grp_name]
+checks:
+  - kind: unique
+    columns: [rpt_apt_name, rundate, rpt_apt_grp_name]
+  - kind: not_null
+    col: rpt_apt_name
+  - kind: not_null
+    col: rundate
+  - kind: not_null
+    col: rpt_apt_grp_name
+  - kind: row_floor
+    min: 282
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,8 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+write_mode: overwrite
+key: [indicator_code]
+sort: [indicator_code]
 columns:
   - name: indicator_code
     type: VARCHAR
+    description: WHO Global Health Observatory indicator code.
   - name: indicator_name
     type: VARCHAR
+    description: WHO Global Health Observatory indicator label.
   - name: language
     type: VARCHAR
+    description: Language code for the indicator label.

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `civil-aviation-authority-punctuality-summary-analysis`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [reporting_airport, run_date, origin_destination]
+checks:
+  - kind: unique
+    columns: [reporting_airport, run_date, origin_destination]
+  - kind: not_null
+    col: reporting_airport
+  - kind: not_null
+    col: run_date
+  - kind: not_null
+    col: origin_destination
+  - kind: row_floor
+    min: 305
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

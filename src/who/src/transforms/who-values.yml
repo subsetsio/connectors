@@ -1,46 +1,80 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+write_mode: overwrite
+key: [observation_id, updated_at, indicator_code, spatial_dim, time_dimension_value]
+temporal: time_dimension_begin
+sort: [time_dimension_begin, indicator_code, spatial_dim, observation_id, updated_at]
 columns:
   - name: observation_id
     type: BIGINT
+    description: WHO GHO observation identifier.
   - name: indicator_code
     type: VARCHAR
+    description: WHO Global Health Observatory indicator code.
   - name: spatial_dim_type
     type: VARCHAR
+    description: Type of geographic dimension, such as COUNTRY or REGION.
   - name: spatial_dim
     type: VARCHAR
+    description: Geographic member code for the observation.
   - name: parent_location_code
     type: VARCHAR
+    description: Parent WHO location or region code, when supplied.
   - name: parent_location
     type: VARCHAR
+    description: Parent WHO location or region label, when supplied.
   - name: time_dim_type
     type: VARCHAR
+    description: Type of time dimension used by the observation.
   - name: year
     type: INTEGER
+    description: Observation year parsed from the WHO TimeDim field when it is numeric.
   - name: time_dim
     type: VARCHAR
+    description: Original WHO time dimension value.
+  - name: time_dimension_value
+    type: VARCHAR
+    description: WHO time dimension member value used in the raw observation grain.
+  - name: time_dimension_begin
+    type: TIMESTAMP
+    description: Beginning timestamp for the observation time period.
+  - name: time_dimension_end
+    type: TIMESTAMP
+    description: Ending timestamp for the observation time period.
   - name: dim1_type
     type: VARCHAR
+    description: First non-geographic disaggregation dimension type, when supplied.
   - name: dim1
     type: VARCHAR
+    description: First non-geographic disaggregation member code, when supplied.
   - name: dim2_type
     type: VARCHAR
+    description: Second non-geographic disaggregation dimension type, when supplied.
   - name: dim2
     type: VARCHAR
+    description: Second non-geographic disaggregation member code, when supplied.
   - name: dim3_type
     type: VARCHAR
+    description: Third non-geographic disaggregation dimension type, when supplied.
   - name: dim3
     type: VARCHAR
+    description: Third non-geographic disaggregation member code, when supplied.
   - name: data_source
     type: VARCHAR
+    description: WHO data source member code for the observation, when supplied.
   - name: value_display
     type: VARCHAR
+    description: Source display value, which may include formatting or confidence interval text.
   - name: numeric_value
     type: DOUBLE
+    description: Numeric observation value.
   - name: low
     type: DOUBLE
+    description: Lower confidence or uncertainty bound, when supplied by WHO.
   - name: high
     type: DOUBLE
+    description: Upper confidence or uncertainty bound, when supplied by WHO.
   - name: comments
     type: VARCHAR
+    description: WHO source comments for the observation, when supplied.
   - name: updated_at
     type: TIMESTAMP
+    description: WHO update timestamp for the observation row.
