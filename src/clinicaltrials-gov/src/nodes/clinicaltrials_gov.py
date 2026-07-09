@@ -33,7 +33,6 @@ from ratelimit import limits, sleep_and_retry
 import subsets_utils.http_client as _hc
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_writer,
     transient_retry,
@@ -271,90 +270,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="clinicaltrials-gov-outcome-measures", fn=fetch_one, kind="download"),
     NodeSpec(id="clinicaltrials-gov-sponsors-collaborators", fn=fetch_one, kind="download"),
     NodeSpec(id="clinicaltrials-gov-locations", fn=fetch_one, kind="download"),
-]
-
-
-# ---- transforms: thin cast / dedup over the flat ndjson rows -------------------
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="clinicaltrials-gov-studies-transform",
-        deps=["clinicaltrials-gov-studies"],
-        sql='''
-            SELECT DISTINCT
-                nct_id,
-                brief_title,
-                official_title,
-                overall_status,
-                why_stopped,
-                start_date,
-                primary_completion_date,
-                completion_date,
-                study_first_post_date,
-                last_update_post_date,
-                study_type,
-                phase,
-                CAST(enrollment_count AS BIGINT) AS enrollment_count,
-                enrollment_type,
-                allocation,
-                intervention_model,
-                primary_purpose,
-                masking,
-                sex,
-                minimum_age,
-                maximum_age,
-                CAST(healthy_volunteers AS BOOLEAN) AS healthy_volunteers,
-                lead_sponsor_name,
-                lead_sponsor_class,
-                responsible_party_type
-            FROM "clinicaltrials-gov-studies"
-            WHERE nct_id IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="clinicaltrials-gov-conditions-transform",
-        deps=["clinicaltrials-gov-conditions"],
-        sql='''
-            SELECT DISTINCT nct_id, condition
-            FROM "clinicaltrials-gov-conditions"
-            WHERE nct_id IS NOT NULL AND condition IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="clinicaltrials-gov-interventions-transform",
-        deps=["clinicaltrials-gov-interventions"],
-        sql='''
-            SELECT DISTINCT nct_id, intervention_type, intervention_name
-            FROM "clinicaltrials-gov-interventions"
-            WHERE nct_id IS NOT NULL AND intervention_name IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="clinicaltrials-gov-outcome-measures-transform",
-        deps=["clinicaltrials-gov-outcome-measures"],
-        sql='''
-            SELECT nct_id, outcome_type, measure, time_frame
-            FROM "clinicaltrials-gov-outcome-measures"
-            WHERE nct_id IS NOT NULL AND measure IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="clinicaltrials-gov-sponsors-collaborators-transform",
-        deps=["clinicaltrials-gov-sponsors-collaborators"],
-        sql='''
-            SELECT DISTINCT nct_id, name, agency_class, role
-            FROM "clinicaltrials-gov-sponsors-collaborators"
-            WHERE nct_id IS NOT NULL AND name IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="clinicaltrials-gov-locations-transform",
-        deps=["clinicaltrials-gov-locations"],
-        sql='''
-            SELECT DISTINCT
-                nct_id, facility, city, state, zip, country, location_status
-            FROM "clinicaltrials-gov-locations"
-            WHERE nct_id IS NOT NULL
-        ''',
-    ),
 ]

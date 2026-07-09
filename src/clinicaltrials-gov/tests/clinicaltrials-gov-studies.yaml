@@ -15,6 +15,9 @@ tests:
   - row_count: {min: 400000}
     reason: registry holds ~590K studies (verified totalCount 2026-06); a low count = pagination broke
     certainty: 90
+  - freshness: {col: study_first_post_date, reaches: today - 30d}
+    reason: ClinicalTrials.gov adds newly posted studies continuously; latest first-posted studies should be recent
+    certainty: 90
   - enum: {col: study_type, values: [INTERVENTIONAL, OBSERVATIONAL, EXPANDED_ACCESS]}
     reason: v2 StudyType enum; null allowed for unposted records
     certainty: 75

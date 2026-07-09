@@ -59,7 +59,7 @@ def _fetch_json(url: str):
     return resp.json()
 
 
-def _fetch_bytes_by_range(url: str, chunk_size: int = 1_000_000) -> bytes:
+def _fetch_bytes_by_range(url: str, chunk_size: int = 16_000) -> bytes:
     parts: list[bytes] = []
     pos = 0
     total: int | None = None

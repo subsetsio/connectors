@@ -101,18 +101,22 @@ def fetch_one(node_id: str) -> None:
         con = duckdb.connect()
         con.execute("PRAGMA threads=4")
         con.execute(f"SET temp_directory='{tmpdir}'")
-        con.execute(
-            "CREATE VIEW wide AS SELECT * FROM read_csv(?, header=true, all_varchar=true)",
-            [csv_path],
-        )
-        cols = [r[0] for r in con.execute("DESCRIBE wide").fetchall()]
+        # read_csv's path stays a bound parameter — DuckDB can prepare a SELECT
+        # (but not a CREATE VIEW), so the header is read via a zero-row probe.
+        scan = "read_csv(?, header=true, all_varchar=true)"
+        cols = [
+            d[0]
+            for d in con.execute(f"SELECT * FROM {scan} LIMIT 0", [csv_path]).description
+        ]
         projection = ", ".join(
             f'CAST(NULLIF("{c}", \'\') AS {_ID_CASTS[c]}) AS "{c}"'
             if c in _ID_CASTS
             else f'"{c}"'
             for c in cols
         )
-        reader = con.execute(f"SELECT {projection} FROM wide").fetch_record_batch()
+        reader = con.execute(
+            f"SELECT {projection} FROM {scan}", [csv_path]
+        ).fetch_record_batch()
         with raw_parquet_writer(asset, reader.schema) as writer:
             for batch in reader:
                 writer.write_batch(batch)

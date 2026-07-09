@@ -1,33 +1,39 @@
 """BTS (Bureau of Transportation Statistics) — TranStats connector.
 
-One download spec per TranStats data table (the rank-accepted entity union).
-Each table is partitioned on the source by time period (monthly, quarterly, or
-annual). Two download surfaces are used, both documented in research:
+One download spec per TranStats data table (the accept-decided entity union).
+Every table is fetched from the TranStats "custom download" surface at
+``www.transtats.bts.gov/DL_SelectFields`` — an ASP.NET form. The table's shape
+is discovered at runtime from that page (never hardcoded), and the fetch adapts
+to one of three shapes:
 
-* **prezip** (preferred, used for the high-volume aviation tables that publish
-  pre-zipped full-table snapshots): one stable ``/PREZIP/<prefix>_<year>_<period>.zip``
-  per period. The ``<prefix>`` is discovered at runtime by issuing the site's
-  prezip postback and reading the redirect target — never hardcoded.
-* **custom download** (the generic fallback for every table without a prezip
-  surface): an ASP.NET form POST to ``DL_SelectFields.aspx`` with ``chkAllVars``
-  selected, which returns a zip containing one data CSV for that period.
+* **prezip time-series** (the high-volume aviation tables — On-Time Performance,
+  DB1B Market/Ticket/Coupon): the download button 302-redirects to a stable
+  ``/PREZIP/<prefix>_<year>_<period>.zip`` file. We discover the prefix once from
+  that redirect, then GET the pre-zipped period files directly (fast, static
+  host). One CSV per period.
+* **custom time-series** (every other periodic table): an ASP.NET form POST with
+  ``chkAllVars`` selected returns a zip containing one data CSV for the requested
+  year/period.
+* **static lookup** (reference tables whose year/period selectors offer only
+  "Not Applicable" — e.g. Master Coordinate): a single form POST with
+  ``cboYear=All`` yields one CSV; there is no time dimension.
 
-Both surfaces deliver one CSV per period. The fetch fn is a **firehose** over a
-table's periods: each period is written as its own NDJSON batch
-(``bts-<code>-<batch_key>``) and the per-table watermark (count of periods
-ingested) is saved after every batch, so a supervisor interrupt resumes cleanly.
-A small overlap re-fetches the most recent periods each run to absorb revisions.
+Time-series tables are a **firehose** over their periods: each period is written
+as its own NDJSON batch (``bts-<code>-<batch_key>``) and a per-table watermark
+(count of periods ingested) is saved after every batch, so a supervisor
+interrupt resumes cleanly. A small overlap re-fetches the most recent periods
+each run to absorb source revisions. Lookup tables write a single ``-all`` batch.
 
 Raw is written as **NDJSON with string cell values** — lossless (no code/type
 corruption) and drift-safe: column sets change across decades for some tables,
-and ``read_json_auto`` unions batch files by name. Each row is stamped with an
-injected ``obs_date`` / ``obs_year`` / ``obs_period`` derived from the period
-being fetched, giving every published subset a uniform typed time dimension
-regardless of which time columns the source CSV happens to carry.
+and ``read_json_auto`` unions batch files by name. Time-series rows are stamped
+with an injected ``obs_date`` / ``obs_year`` / ``obs_period`` derived from the
+period being fetched, giving every published subset a uniform typed time
+dimension regardless of which time columns the source CSV happens to carry.
 
 The full corpus is large (decades of monthly flight-level data); there is no
-``since``/cursor filter on the source, so partitioning *is* the incremental
-unit and the firehose drains forward across supervisor-bounded runs.
+``since``/cursor filter on the source, so partitioning *is* the incremental unit
+and the firehose drains forward across supervisor-bounded runs.
 """
 from __future__ import annotations
 
@@ -42,7 +48,7 @@ import httpx
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
+    configure_http,
     get,
     post,
     load_state,
@@ -51,27 +57,28 @@ from subsets_utils import (
     transient_retry,
 )
 
-STATE_VERSION = 1
+from constants import ENTITY_IDS
+
+# Bumped when the state/batch contract changes (v2: lookup handling + no
+# obs stamping for lookup tables).
+STATE_VERSION = 2
 
 # Re-fetch this many of the most recently ingested periods each run to absorb
 # source revisions (BTS revises recent months/quarters). Duplicates are dropped
 # downstream; this is the safety, not a bug.
 OVERLAP_PERIODS = 2
 
-# The rank-accepted entity union (TranStats obfuscated table codes).
-from constants import ENTITY_IDS
-
-# Tables that publish a working /PREZIP/ surface (probed). All others use the
-# generic custom-download surface. DB1B tables expose a prezip button but its
-# redirect currently points at non-existent On_Time_DB1B* filenames, so route
-# them through the custom form.
-PREZIP_TABLES = {"FGJ", "FGK"}
+# The TranStats IIS app serves a contentless page (no year selector) to the
+# default library User-Agent when hit from a datacenter IP. A browser UA gets
+# the real form. ASCII only (httpx/urllib3 reject non-ASCII header bytes).
+_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+       "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36")
 
 _GET_PAGE = "https://www.transtats.bts.gov/DL_SelectFields.asp?gnoyr_VQ={code}&QO_fu146_anzr=b0-gvzr"
 _POST_PAGE = "https://www.transtats.bts.gov/DL_SelectFields.aspx?gnoyr_VQ={code}&QO_fu146_anzr=b0-gvzr"
 _PREZIP = "https://transtats.bts.gov/PREZIP/{fname}"
 
-_TIMEOUT = (15.0, 300.0)  # (connect, read) — large zips take a while
+_TIMEOUT = (15.0, 600.0)  # (connect, read) — large zips take a while
 
 
 @transient_retry()
@@ -100,38 +107,80 @@ def _parse_viewstate(html: str) -> dict:
     return out
 
 
-def _page_meta(code: str) -> dict:
-    """GET the table's DL_SelectFields page and parse the period structure,
-    available years, geography presence and the ASP.NET postback tokens."""
+def _select_options(html: str, name: str) -> list[str]:
+    m = re.search(r'<select name="' + name + r'".*?</select>', html, re.S)
+    if not m:
+        return []
+    return re.findall(r'<option[^>]*value="([^"]*)"', m.group(0))
+
+
+def _probe_table(code: str) -> dict:
+    """GET the table's DL_SelectFields page and parse its shape: numeric years +
+    period structure (time-series) vs an "All"-only selector (static lookup),
+    plus geography presence and the ASP.NET postback tokens."""
     html = _get(_GET_PAGE.format(code=code)).text
 
-    year_block = re.search(r'<select name="cboYear".*?</select>', html, re.S)
-    years = sorted(int(y) for y in re.findall(r'<option value="(\d+)"', year_block.group(0))) if year_block else []
+    yopts = _select_options(html, "cboYear")
+    popts = _select_options(html, "cboPeriod")
+    if not yopts:
+        # No year selector at all: almost certainly a bot-block or maintenance
+        # page rather than a real table. Surface enough to triage a CI failure
+        # (the 2026-07 run failed here, opaquely, on every table).
+        title = re.search(r"<title>(.*?)</title>", html, re.S)
+        raise RuntimeError(
+            f"{code}: DL_SelectFields page had no cboYear selector "
+            f"(html_len={len(html)}, title={(title.group(1).strip()[:80] if title else 'n/a')!r}) "
+            f"— likely a bot-block / maintenance page, not a real empty table"
+        )
 
-    period_block = re.search(r'<select name="cboPeriod".*?</select>', html, re.S)
-    periods = re.findall(r'<option value="(\d+)"', period_block.group(0)) if period_block else []
-    periods = sorted(periods, key=int)
+    years = sorted(int(y) for y in yopts if y.isdigit())
+    period_num = sorted(int(p) for p in popts if p.isdigit())
+    lookup = not years  # cboYear offers only "All" -> a static reference table
 
-    period_values = {int(p) for p in periods}
-    if len(periods) == 12:
+    if len(period_num) == 12:
         period_type = "M"
-    elif period_values == {1, 2, 3, 4}:
+    elif period_num and set(period_num) <= {1, 2, 3, 4}:
         period_type = "Q"
-    elif period_values and all(1 <= p <= 12 for p in period_values):
-        # Some BTS tables publish only March/June/September/December selector
-        # values. They are month codes, not quarter numbers.
+    elif period_num:
+        # A month-subset selector (e.g. quarter-end months 3/6/9/12). These are
+        # month codes, not quarter numbers.
         period_type = "M"
     else:
         period_type = "A"  # annual: one file per year, no period selector
 
     return {
+        "code": code,
+        "lookup": lookup,
         "years": years,
-        "periods": periods,
         "period_type": period_type,
+        "periods": [str(p) for p in period_num],
         "has_geo": "cboGeography" in html,
+        "has_period_select": bool(popts) and bool(period_num),
         "vs": _parse_viewstate(html),
-        "has_period_select": period_block is not None,
     }
+
+
+def _detect_prezip_prefix(meta: dict) -> str | None:
+    """One postback to learn whether the table exposes a /PREZIP/ surface and,
+    if so, its stable filename prefix (e.g.
+    'On_Time_Reporting_Carrier_On_Time_Performance_1987_present'). Returns None
+    for tables that only serve the on-demand custom download."""
+    if meta["lookup"]:
+        return None
+    data = dict(meta["vs"])
+    data["cboYear"] = str(meta["years"][-1])
+    data["cboPeriod"] = meta["periods"][0] if meta["periods"] else "1"
+    data["chkDownloadZip"] = "on"
+    data["btnDownload"] = "Download"
+    if meta["has_geo"]:
+        data["cboGeography"] = "All"
+    resp = _post(_POST_PAGE.format(code=meta["code"]), data)
+    loc = resp.headers.get("location", "")
+    if resp.status_code in (301, 302) and "/PREZIP/" in loc:
+        fname = loc.rsplit("/", 1)[1]
+        prefix = re.sub(r"_\d+_\d+\.zip$", "", fname)
+        return prefix or None
+    return None
 
 
 def _ordered_periods(meta: dict) -> list[tuple[int, str | None]]:
@@ -139,7 +188,7 @@ def _ordered_periods(meta: dict) -> list[tuple[int, str | None]]:
     periods only append, so a count-based watermark stays valid across runs."""
     out: list[tuple[int, str | None]] = []
     for year in meta["years"]:
-        if meta["period_type"] == "A":
+        if not meta["has_period_select"]:
             out.append((year, None))
         else:
             for per in meta["periods"]:
@@ -149,48 +198,27 @@ def _ordered_periods(meta: dict) -> list[tuple[int, str | None]]:
 
 def _obs_fields(meta: dict, year: int, per: str | None) -> tuple[str, int, int | None]:
     """Derive a uniform observation date/year/period from the period coordinate."""
-    if meta["period_type"] == "M":
+    if per is not None and meta["period_type"] == "M":
         month = int(per)
         return f"{year}-{month:02d}-01", year, month
-    if meta["period_type"] == "Q":
+    if per is not None and meta["period_type"] == "Q":
         q = int(per)
         return f"{year}-{(q - 1) * 3 + 1:02d}-01", year, q
     return f"{year}-01-01", year, None
 
 
 def _batch_key(meta: dict, year: int, per: str | None) -> str:
-    if meta["period_type"] == "M":
+    if per is not None and meta["period_type"] == "M":
         return f"{year}-{int(per):02d}"
-    if meta["period_type"] == "Q":
+    if per is not None and meta["period_type"] == "Q":
         return f"{year}-Q{int(per)}"
     return f"{year}"
 
 
-def _discover_prezip_prefix(code: str, meta: dict) -> str:
-    """Issue the prezip postback and read the redirect target to learn the
-    table's stable /PREZIP/ filename prefix (e.g.
-    'On_Time_Reporting_Carrier_On_Time_Performance_1987_present')."""
-    data = dict(meta["vs"])
-    data["cboYear"] = str(meta["years"][0])
-    data["cboPeriod"] = meta["periods"][0] if meta["periods"] else "1"
-    data["chkDownloadZip"] = "on"
-    data["btnDownload"] = "Download"
-    if meta["has_geo"]:
-        data["cboGeography"] = "All"
-    resp = _post(_POST_PAGE.format(code=code), data)
-    loc = resp.headers.get("location", "")
-    if "/PREZIP/" not in loc:
-        raise RuntimeError(f"{code}: expected prezip redirect, got status={resp.status_code} loc={loc!r}")
-    fname = loc.rsplit("/", 1)[1]
-    prefix = re.sub(r"_\d+_\d+\.zip$", "", fname)
-    if not prefix:
-        raise RuntimeError(f"{code}: could not parse prezip prefix from {fname!r}")
-    return prefix
-
-
 def _download_prezip(prefix: str, year: int, per: str) -> bytes | None:
     """Direct GET of a constructed /PREZIP/ url. Returns None if the period file
-    does not exist yet (404) — trailing future periods are expected to be absent."""
+    does not exist yet (404) — trailing future periods are expected to be
+    absent, so the caller does not advance the watermark past them."""
     fname = f"{prefix}_{year}_{per}.zip"
     try:
         resp = _get(_PREZIP.format(fname=fname))
@@ -202,9 +230,11 @@ def _download_prezip(prefix: str, year: int, per: str) -> bytes | None:
     return resp.content
 
 
-def _download_custom(code: str, meta: dict, year: int, per: str | None) -> bytes | None:
-    """POST the custom-download form (all variables) for one period. Returns the
-    zip bytes, or None if the server reports no data / refuses the period."""
+def _download_custom(meta: dict, year, per: str | None) -> bytes | None:
+    """POST the custom-download form (all variables) for one period. `year` may
+    be the literal 'All' for a static lookup table. Returns the zip bytes, or
+    None if the server reports no data / refuses the period."""
+    code = meta["code"]
     for attempt in range(2):
         data = dict(meta["vs"])
         data["cboYear"] = str(year)
@@ -212,11 +242,13 @@ def _download_custom(code: str, meta: dict, year: int, per: str | None) -> bytes
         data["btnDownload"] = "Download"
         if meta["has_geo"]:
             data["cboGeography"] = "All"
-        if meta["has_period_select"] and per is not None:
-            data["cboPeriod"] = per
+        if meta["has_period_select"]:
+            data["cboPeriod"] = str(per) if per is not None else "All"
+        elif meta["lookup"]:
+            data["cboPeriod"] = "All"
         resp = _post(_POST_PAGE.format(code=code), data)
-        ctype = resp.headers.get("content-type", "")
-        if ctype.startswith("application/zip"):
+        ctype = resp.headers.get("content-type", "").lower()
+        if ctype.startswith("application/zip") or ctype.startswith("application/x-zip"):
             return resp.content
         # Not a zip: usually a stale viewstate ("not selected any variables")
         # or a no-data reload. Refresh tokens once, then give up on this period.
@@ -242,9 +274,15 @@ def _data_member(zf: zipfile.ZipFile) -> str | None:
     return max(candidates, key=lambda n: zf.getinfo(n).file_size)
 
 
-def _write_batch(asset: str, content: bytes, obs_date: str, obs_year: int, obs_period: int | None) -> int:
-    """Stream the data CSV out of the zip into an NDJSON batch, stamping each row
-    with the injected observation fields. Returns the row count written (0 means
+def _chain_rows(first, reader):
+    yield first
+    yield from reader
+
+
+def _write_batch(asset: str, content: bytes, obs_date, obs_year, obs_period, *, inject: bool) -> int:
+    """Stream the data CSV out of the zip into an NDJSON batch. Time-series
+    batches stamp each row with the injected observation fields; lookup batches
+    (inject=False) are written as-is. Returns the row count written (0 means
     nothing was written and no file was created)."""
     zf = zipfile.ZipFile(io.BytesIO(content))
     member = _data_member(zf)
@@ -263,36 +301,45 @@ def _write_batch(asset: str, content: bytes, obs_date: str, obs_year: int, obs_p
         with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as f:
             for rowvals in _chain_rows(first, reader):
                 row = dict(zip(header, rowvals))
-                row["obs_date"] = obs_date
-                row["obs_year"] = obs_year
-                row["obs_period"] = obs_period
+                if inject:
+                    row["obs_date"] = obs_date
+                    row["obs_year"] = obs_year
+                    row["obs_period"] = obs_period
                 f.write(json.dumps(row, separators=(",", ":")))
                 f.write("\n")
                 n += 1
     return n
 
 
-def _chain_rows(first, reader):
-    yield first
-    yield from reader
-
-
 def fetch_one(node_id: str) -> None:
-    """Firehose over one table's periods. Resumable via a per-table watermark."""
+    """Fetch one TranStats table. Shape is discovered at runtime; time-series
+    tables firehose over their periods (resumable via a per-table watermark),
+    lookup tables write a single batch."""
+    configure_http(headers={"User-Agent": _UA})
     code = node_id[len("bts-"):].upper().replace("-", "_")
+
+    meta = _probe_table(code)
+
+    if meta["lookup"]:
+        content = _download_custom(meta, "All", None)
+        if content is None:
+            raise RuntimeError(f"{code}: static lookup download returned no zip")
+        rows = _write_batch(f"{node_id}-all", content, None, None, None, inject=False)
+        if rows == 0:
+            raise RuntimeError(f"{code}: static lookup produced 0 rows")
+        print(f"  {code} lookup: {rows:,} rows -> {node_id}-all")
+        return
+
+    if not meta["years"]:
+        raise RuntimeError(f"{code}: no years parsed from DL_SelectFields page")
 
     state = load_state(node_id)
     if state.get("schema_version") != STATE_VERSION:
         state = {}
     n_done = state.get("n_done", 0)
 
-    meta = _page_meta(code)
-    if not meta["years"]:
-        raise RuntimeError(f"{code}: no years parsed from DL_SelectFields page")
-
-    prefix = None
-    if code in PREZIP_TABLES:
-        prefix = _discover_prezip_prefix(code, meta)
+    prefix = _detect_prezip_prefix(meta)
+    if prefix:
         print(f"  {code}: prezip prefix = {prefix}")
 
     ordered = _ordered_periods(meta)
@@ -305,17 +352,17 @@ def fetch_one(node_id: str) -> None:
         asset = f"{node_id}-{batch_key}"
         obs_date, obs_year, obs_period = _obs_fields(meta, year, per)
 
-        if prefix is not None:
+        if prefix is not None and per is not None:
             content = _download_prezip(prefix, year, per)
         else:
-            content = _download_custom(code, meta, year, per)
+            content = _download_custom(meta, year, per)
 
         if content is None:
             # Period genuinely unavailable (404 / no data). Do not advance the
             # watermark past it so it is retried on the next run once published.
             continue
 
-        rows = _write_batch(asset, content, obs_date, obs_year, obs_period)
+        rows = _write_batch(asset, content, obs_date, obs_year, obs_period, inject=True)
         if rows == 0:
             continue
 
