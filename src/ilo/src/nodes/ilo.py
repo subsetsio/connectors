@@ -1998,13 +1998,24 @@ def _to_float(value: str | None) -> float | None:
         return None
 
 
+def _fetch_csv_gz(entity_id: str):
+    """rplumber answers a perfectly valid indicator id with 400 when it is busy
+    — six of them did so in run 20260707-114522 and all six serve 200 on retry.
+    The shared client retries 429/5xx only, so absorb the spurious 400 here."""
+    for attempt in range(_BAD_REQUEST_ATTEMPTS):
+        resp = get(
+            DATA_URL,
+            params={"id": entity_id, "format": ".csv.gz"},
+            timeout=(10.0, 180.0),
+        )
+        if resp.status_code != 400 or attempt == _BAD_REQUEST_ATTEMPTS - 1:
+            return resp
+        time.sleep(_BAD_REQUEST_BACKOFF_S * 2 ** attempt)
+
+
 def fetch_one(node_id: str) -> None:
     entity_id = _entity_from_node(node_id)
-    resp = get(
-        DATA_URL,
-        params={"id": entity_id, "format": ".csv.gz"},
-        timeout=(10.0, 180.0),
-    )
+    resp = _fetch_csv_gz(entity_id)
     resp.raise_for_status()
     text = gzip.decompress(resp.content).decode("utf-8-sig")
     reader = csv.DictReader(io.StringIO(text))
