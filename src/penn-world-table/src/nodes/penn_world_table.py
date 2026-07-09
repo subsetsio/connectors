@@ -29,7 +29,6 @@ import re
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -123,49 +122,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# --- Transforms: one published Delta table per subset -----------------------
-# Thin parse-and-type pass. PWT's panels carry 'year' as a Stata float in
-# several files; cast it to INTEGER in place. Tables are published faithfully
-# (one row per country-year, or country-pair-year for the bilateral table).
-
-_PANEL_IDS = {
-    "penn-world-table-main",
-    "penn-world-table-na-data",
-    "penn-world-table-capital-detail",
-    "penn-world-table-labor-detail",
-    "penn-world-table-trade-detail",
-}
-
-_BILATERAL_ID = "penn-world-table-sh-bilateral-cor-data"
-
-
-def _transform_sql(download_id: str) -> str:
-    if download_id == _BILATERAL_ID:
-        return f'''
-            SELECT
-                * REPLACE (CAST(year AS INTEGER) AS year)
-            FROM "{download_id}"
-            WHERE countrycode1 IS NOT NULL
-              AND countrycode2 IS NOT NULL
-              AND year IS NOT NULL
-        '''
-    return f'''
-        SELECT
-            * REPLACE (CAST(year AS INTEGER) AS year)
-        FROM "{download_id}"
-        WHERE countrycode IS NOT NULL
-          AND year IS NOT NULL
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id),
-    )
-    for s in DOWNLOAD_SPECS
 ]

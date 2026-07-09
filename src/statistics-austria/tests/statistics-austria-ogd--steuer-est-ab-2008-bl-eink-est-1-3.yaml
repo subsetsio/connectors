@@ -1,5 +1,5 @@
 spec_id: statistics-austria-ogd--steuer-est-ab-2008-bl-eink-est-1-3
 status: deferred
-# Catalog connector: each OGD dataset has its own schema (dimension
-# columns vary per dataset), unknown until first pull. Expectations are
-# authored from the first materialized chunk once the shape is known.
+# Catalog connector: each OGD dataset has its own schema, and some
+# accepted KLASSDB entries are zip bundles. Assertions are authored
+# from the first materialized raw profile in the model stage.
