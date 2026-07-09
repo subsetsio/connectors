@@ -1,10 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, region]
+temporal: year
+sort: [year, region]
 columns:
   - name: region
     type: VARCHAR
+    description: Maddison Project region name, including the World aggregate where present.
   - name: year
     type: INTEGER
+    description: Observation year.
   - name: gdppc
     type: DOUBLE
+    description: Real GDP per capita in 2011 international dollars for the aggregate region.
   - name: pop
     type: DOUBLE
+    description: Population in thousands for the aggregate region.

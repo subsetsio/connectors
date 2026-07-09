@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-energy-market-operator-price-and-demand`. Regenerate after model-verify.
+# caution: The settlement interval cadence changes historically: older observations are 30-minute intervals and recent observations are 5-minute intervals, so interval counts should not be compared across eras without accounting for cadence.
+# caution: The region domain includes historical SNOWY1 alongside current NEM regions; filter or group regions deliberately when calculating current-market totals.
+key: [settlement_date, region]
+temporal: settlement_date
+sort: [settlement_date, region]
 columns:
   - name: region
     type: VARCHAR

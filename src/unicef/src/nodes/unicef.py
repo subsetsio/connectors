@@ -125,7 +125,11 @@ def _stream_csv_to_parquet(url: str, asset: str) -> int:
     client = get_client()
     written = 0
     with client.stream(
-        "GET", url, params={"format": "csv"}, timeout=(10.0, 600.0)
+        "GET",
+        url,
+        params={"format": "csv"},
+        headers={"Accept-Encoding": "identity"},
+        timeout=(10.0, 600.0),
     ) as resp:
         resp.raise_for_status()
         # iter_lines yields decoded text lines; csv.reader re-joins quoted
