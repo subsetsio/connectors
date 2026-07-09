@@ -36,7 +36,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, raw_writer
+from subsets_utils import NodeSpec, get, raw_writer
 
 BASE_URL = "https://api.insee.fr/melodi"
 # Melodi serves pretty-printed JSON over chunked transfer with NO Content-Length,
@@ -153,17 +153,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# Compatibility shim for the current runner: a stale persisted transform snapshot
-# makes the full DAG require one transform consumer per download before the
-# download run can even dispatch. The file-based transform stage should replace
-# this after model; for now it preserves the existing pass-through behavior.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}" WHERE OBS_VALUE IS NOT NULL',
-    )
-    for s in DOWNLOAD_SPECS
 ]

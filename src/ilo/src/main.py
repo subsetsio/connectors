@@ -13,11 +13,20 @@ Authoring order is download → maintain. Before maintain has run, there are
 no MaintainSpecs and every NodeSpec executes. That's the right default for
 the first crawl.
 """
+import os
 import sys
 from pathlib import Path
 
 # Put src/ on sys.path so spawn-context child processes can import nodes.<module>.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+# ILO is 3902 nodes (1951 indicator downloads + 1951 transforms). Run fully
+# sequentially the DAG does not finish: the 20260707-114522 run was killed at
+# wall-timeout having completed 1416 downloads and only 1064 of its transforms.
+# Each node runs in its own isolated child (own httpx client), and the gzipped
+# CSV downloads are bandwidth-bound and memory-light, so a modest fan-out is
+# safe. `setdefault` lets the cloud override it if ever needed.
+os.environ.setdefault("DAG_PARALLELISM", "4")
 
 from subsets_utils import load_nodes, validate_environment, run_health_tests
 

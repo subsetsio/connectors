@@ -33,6 +33,7 @@ import re
 import ssl
 import xml.etree.ElementTree as ET
 import zipfile
+from contextlib import contextmanager
 
 import httpx
 
@@ -270,25 +271,37 @@ def _resolve_data_url(slug: str) -> str:
     raise AssertionError(f"{slug}: no 'data-' row in meta.csv")
 
 
-def _archive_member(payload: bytes, url: str, depth: int = 0) -> tuple[str, bytes]:
-    """Return the useful payload from CSV/XML files and nested Rosstat zips."""
+@contextmanager
+def _open_archive_member(payload: bytes, url: str, depth: int = 0):
+    """Yield (kind, binary file-like) for CSV/XML files and nested zips."""
     if depth > 4:
         raise AssertionError(f"{url}: archive nesting too deep")
     if url.lower().endswith(".zip") or payload[:2] == b"PK":
         zf = zipfile.ZipFile(io.BytesIO(payload))
-        names = zf.namelist()
-        for suffix in (".csv", ".xml", ".zip"):
-            members = [m for m in names if m.lower().endswith(suffix)]
-            if members:
+        try:
+            names = zf.namelist()
+            for suffix in (".csv", ".xml", ".zip"):
+                members = [m for m in names if m.lower().endswith(suffix)]
+                if not members:
+                    continue
                 member = members[0]
-                return _archive_member(
-                    zf.read(member), f"{url}!{member}", depth + 1
-                )
-        raise AssertionError(f"{url}: zip has no CSV/XML member ({names})")
+                if suffix == ".zip":
+                    with _open_archive_member(
+                        zf.read(member), f"{url}!{member}", depth + 1
+                    ) as opened:
+                        yield opened
+                    return
+                with zf.open(member) as fh:
+                    yield suffix[1:], fh
+                return
+            raise AssertionError(f"{url}: zip has no CSV/XML member ({names})")
+        finally:
+            zf.close()
     lower = url.lower()
     if lower.endswith(".xml") or payload.lstrip().startswith((b"<?xml", b"\xef\xbb\xbf<?xml")):
-        return "xml", payload
-    return "csv", payload
+        yield "xml", io.BytesIO(payload)
+    else:
+        yield "csv", io.BytesIO(payload)
 
 
 def _csv_text_from_payload(payload: bytes) -> str:
@@ -299,12 +312,12 @@ def _local_name(tag: str) -> str:
     return tag.rsplit("}", 1)[-1]
 
 
-def _xml_records(payload: bytes):
+def _xml_records(fh):
     """Flatten SDMX GenericData XML into one row per observation."""
     series = {}
     in_series_key = False
     obs = None
-    for event, elem in ET.iterparse(io.BytesIO(payload), events=("start", "end")):
+    for event, elem in ET.iterparse(fh, events=("start", "end")):
         name = _local_name(elem.tag)
         if event == "start":
             if name == "Series":
@@ -343,21 +356,21 @@ def fetch_one(node_id: str) -> None:
     _ensure_tls()
     slug = SLUG_BY_NODE_ID[node_id]
     data_url = _resolve_data_url(slug)
-    kind, payload = _archive_member(_fetch_bytes(data_url), data_url)
+    payload = _fetch_bytes(data_url)
+    with _open_archive_member(payload, data_url) as (kind, data_fh):
+        if kind == "xml":
+            with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip",
+                            encoding="utf-8") as fh:
+                n = 0
+                for rec in _xml_records(data_fh):
+                    fh.write(json.dumps(rec, ensure_ascii=False))
+                    fh.write("\n")
+                    n += 1
+            if n == 0:
+                raise AssertionError(f"{slug}: produced 0 XML observations")
+            return
 
-    if kind == "xml":
-        with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip",
-                        encoding="utf-8") as fh:
-            n = 0
-            for rec in _xml_records(payload):
-                fh.write(json.dumps(rec, ensure_ascii=False))
-                fh.write("\n")
-                n += 1
-        if n == 0:
-            raise AssertionError(f"{slug}: produced 0 XML observations")
-        return
-
-    text = _csv_text_from_payload(payload)
+        text = _csv_text_from_payload(data_fh.read())
 
     delim = _detect_delim(text)
 
