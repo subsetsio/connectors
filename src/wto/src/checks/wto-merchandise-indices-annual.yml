@@ -1,0 +1,34 @@
+# compiled by `hardened compile-checks` — post-publish audit of `wto-merchandise-indices-annual`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [indicatorcategory, indicatorcode, reportercode, partnercode, productclassificationcode, productcode, frequencycode, unitcode, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [indicatorcategory, indicatorcode, reportercode, partnercode, productclassificationcode, productcode, frequencycode, unitcode, year]
+  - kind: not_null
+    col: indicatorcategory
+  - kind: not_null
+    col: indicatorcode
+  - kind: not_null
+    col: reportercode
+  - kind: not_null
+    col: partnercode
+  - kind: not_null
+    col: productclassificationcode
+  - kind: not_null
+    col: productcode
+  - kind: not_null
+    col: frequencycode
+  - kind: not_null
+    col: unitcode
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 27908
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
