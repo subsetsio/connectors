@@ -1,0 +1,38 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ons-tax-benefits-statistics`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [financial_and_calendar_years, time, uk_only, geography, quintile, quintile_1, averages_and_percentiles, averagesandpercentiles, income_type, income, value_deflation, deflation]
+checks:
+  - kind: unique
+    columns: [financial_and_calendar_years, time, uk_only, geography, quintile, quintile_1, averages_and_percentiles, averagesandpercentiles, income_type, income, value_deflation, deflation]
+  - kind: not_null
+    col: financial_and_calendar_years
+  - kind: not_null
+    col: time
+  - kind: not_null
+    col: uk_only
+  - kind: not_null
+    col: geography
+  - kind: not_null
+    col: quintile
+  - kind: not_null
+    col: quintile_1
+  - kind: not_null
+    col: averages_and_percentiles
+  - kind: not_null
+    col: averagesandpercentiles
+  - kind: not_null
+    col: income_type
+  - kind: not_null
+    col: income
+  - kind: not_null
+    col: value_deflation
+  - kind: not_null
+    col: deflation
+  - kind: row_floor
+    min: 2640
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

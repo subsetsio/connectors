@@ -10,6 +10,6 @@ SELECT
     "month",
     "item",
     CAST("index" AS DOUBLE) AS index,
-    "inflation",
+    CAST("inflation" AS DOUBLE) AS inflation,
     "status"
 FROM "mospi-cpi-getitemindex"

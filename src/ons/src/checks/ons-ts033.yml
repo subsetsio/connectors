@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ons-ts033`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [lower_tier_local_authorities_code, lower_tier_local_authorities, welsh_speaking_ability_3_categories_code, welsh_speaking_ability_3_categories]
+checks:
+  - kind: unique
+    columns: [lower_tier_local_authorities_code, lower_tier_local_authorities, welsh_speaking_ability_3_categories_code, welsh_speaking_ability_3_categories]
+  - kind: not_null
+    col: lower_tier_local_authorities_code
+  - kind: not_null
+    col: lower_tier_local_authorities
+  - kind: not_null
+    col: welsh_speaking_ability_3_categories_code
+  - kind: not_null
+    col: welsh_speaking_ability_3_categories
+  - kind: row_floor
+    min: 496
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

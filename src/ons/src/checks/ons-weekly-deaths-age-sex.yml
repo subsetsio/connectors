@@ -1,0 +1,38 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ons-weekly-deaths-age-sex`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [calendar_years, time, administrative_geography, geography, week_number, week, sex, sex_1, age_groups, agegroups, registration_or_occurrence, registrationoroccurrence]
+checks:
+  - kind: unique
+    columns: [calendar_years, time, administrative_geography, geography, week_number, week, sex, sex_1, age_groups, agegroups, registration_or_occurrence, registrationoroccurrence]
+  - kind: not_null
+    col: calendar_years
+  - kind: not_null
+    col: time
+  - kind: not_null
+    col: administrative_geography
+  - kind: not_null
+    col: geography
+  - kind: not_null
+    col: week_number
+  - kind: not_null
+    col: week
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: sex_1
+  - kind: not_null
+    col: age_groups
+  - kind: not_null
+    col: agegroups
+  - kind: not_null
+    col: registration_or_occurrence
+  - kind: not_null
+    col: registrationoroccurrence
+  - kind: row_floor
+    min: 18975
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

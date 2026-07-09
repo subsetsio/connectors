@@ -1,0 +1,34 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ons-ageing-population-projections`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [calendar_years, time, administrative_geography, geography, sex, sex_1, age_groups, agegroups, unit_of_measure, unitofmeasure]
+checks:
+  - kind: unique
+    columns: [calendar_years, time, administrative_geography, geography, sex, sex_1, age_groups, agegroups, unit_of_measure, unitofmeasure]
+  - kind: not_null
+    col: calendar_years
+  - kind: not_null
+    col: time
+  - kind: not_null
+    col: administrative_geography
+  - kind: not_null
+    col: geography
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: sex_1
+  - kind: not_null
+    col: age_groups
+  - kind: not_null
+    col: agegroups
+  - kind: not_null
+    col: unit_of_measure
+  - kind: not_null
+    col: unitofmeasure
+  - kind: row_floor
+    min: 245856
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

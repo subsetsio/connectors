@@ -25,7 +25,6 @@ SELECT
     "unit",
     "broad_industry_work",
     "broad_status_employment",
-    "enterprise_size",
     "enterprise_type",
     "industry_section",
     "nco_division",

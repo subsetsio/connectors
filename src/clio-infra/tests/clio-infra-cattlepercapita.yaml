@@ -1,5 +1,8 @@
 spec_id: clio-infra-cattlepercapita
 status: active
+coverage:
+  frozen: true
+  reason: Clio Infra compact indicator workbooks are historical reconstruction snapshots with no published update cadence; treat temporal coverage as frozen until the source republishes the files.
 tests:
   - not_null: year
   - not_null: value

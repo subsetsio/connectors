@@ -1,0 +1,38 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ons-weekly-deaths-health-board`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [calendar_years, time, local_health_board, geography, week_number, week, cause_of_death, causeofdeath, place_of_death, placeofdeath, registration_or_occurrence, registrationoroccurrence]
+checks:
+  - kind: unique
+    columns: [calendar_years, time, local_health_board, geography, week_number, week, cause_of_death, causeofdeath, place_of_death, placeofdeath, registration_or_occurrence, registrationoroccurrence]
+  - kind: not_null
+    col: calendar_years
+  - kind: not_null
+    col: time
+  - kind: not_null
+    col: local_health_board
+  - kind: not_null
+    col: geography
+  - kind: not_null
+    col: week_number
+  - kind: not_null
+    col: week
+  - kind: not_null
+    col: cause_of_death
+  - kind: not_null
+    col: causeofdeath
+  - kind: not_null
+    col: place_of_death
+  - kind: not_null
+    col: placeofdeath
+  - kind: not_null
+    col: registration_or_occurrence
+  - kind: not_null
+    col: registrationoroccurrence
+  - kind: row_floor
+    min: 4368
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

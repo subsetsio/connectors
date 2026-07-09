@@ -33,7 +33,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -162,26 +161,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(eid), fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per matrix: cast the normalized date, keep only
-# rows that carry an actual numeric value, and dedup on (period, series).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                period,
-                CAST(date AS DATE) AS date,
-                series,
-                value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY period, series ORDER BY value
-            ) = 1
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]
