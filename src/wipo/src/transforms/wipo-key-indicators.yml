@@ -1,0 +1,27 @@
+temporal: year
+sort: [year, indicator_id, office]
+columns:
+  - name: indicator_id
+    type: INTEGER
+    description: WIPO key-indicator id; joins to wipo-indicators.indicator_id.
+  - name: indicator
+    type: VARCHAR
+    description: Human-readable headline indicator label, in English.
+  - name: ip_right
+    type: VARCHAR
+    description: The IP right the row measures (patent, trademark, industrial design, ...).
+  - name: office
+    type: VARCHAR
+    description: IP office, region or world aggregate the observation is reported for.
+  - name: origin
+    type: VARCHAR
+    description: Applicant origin or filing-route breakdown carried as a row rather than a packed cell.
+  - name: year
+    type: INTEGER
+    description: Observation year.
+  - name: breakdown_index
+    type: INTEGER
+    description: Always 0: key-indicator cells are never comma-packed.
+  - name: value
+    type: DOUBLE
+    description: Observed count for the indicator, IP right, office, origin and year.
