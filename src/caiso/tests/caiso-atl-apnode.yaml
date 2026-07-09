@@ -1,0 +1,13 @@
+spec_id: caiso-atl-apnode
+status: active
+tests:
+  - not_null: APNODE_ID
+    reason: aggregated pricing-node (APNode) listing — APNODE_ID is the dimension key present on every row
+    certainty: 90
+  - column_type: {col: APNODE_ID, type: string}
+    reason: OASIS atlas ids are alphanumeric labels, not numerics
+    certainty: 85
+  - not_null: EFF_START_DT_GMT
+    reason: every atlas row carries an effective-start stamp bounding its validity period
+    certainty: 80
+    severity: warn

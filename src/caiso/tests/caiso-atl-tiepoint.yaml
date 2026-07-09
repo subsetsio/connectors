@@ -1,0 +1,13 @@
+spec_id: caiso-atl-tiepoint
+status: active
+tests:
+  - not_null: TI_ID
+    reason: transmission tie-point listing (frozen historical catalogue) — TI_ID is the dimension key present on every row
+    certainty: 90
+  - column_type: {col: TI_ID, type: string}
+    reason: OASIS atlas ids are alphanumeric labels, not numerics
+    certainty: 85
+  - not_null: EFF_START_DT_GMT
+    reason: every atlas row carries an effective-start stamp bounding its validity period
+    certainty: 80
+    severity: warn
