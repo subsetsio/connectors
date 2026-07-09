@@ -1,5 +1,4 @@
-"""CFTC Legacy COT — Futures-Only (6dca-aqww) + Combined (jun7-fc8e), back to 1986."""
-from subsets_utils import NodeSpec, SqlNodeSpec
+"""Legacy module kept for reference; active specs live in nodes/cftc.py and src/transforms."""
 
 from utils import COMMON_COLS, fetch_family
 
@@ -9,8 +8,6 @@ RESOURCES = ["6dca-aqww", "jun7-fc8e"]
 def fetch(node_id: str) -> None:
     fetch_family(node_id, RESOURCES)
 
-
-DOWNLOAD_SPECS = [NodeSpec(id="cftc-legacy", fn=fetch, kind="download")]
 
 _SQL = f'''
     SELECT
@@ -29,7 +26,3 @@ _SQL = f'''
     FROM "cftc-legacy"
     WHERE report_date_as_yyyy_mm_dd IS NOT NULL
 '''
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id="cftc-legacy-transform", deps=["cftc-legacy"], sql=_SQL)
-]

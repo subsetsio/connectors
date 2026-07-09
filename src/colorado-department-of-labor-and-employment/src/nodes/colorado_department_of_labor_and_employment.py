@@ -24,7 +24,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_parquet,
@@ -108,17 +107,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per dataset. SODA delivers every column as a string
-# and each of the nine resources has its own column list, so the transform is a
-# straight pass-through view — typing and reshaping happen in the downstream
-# platform. A SELECT * that returns 0 rows fails the node (the correctness gate).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

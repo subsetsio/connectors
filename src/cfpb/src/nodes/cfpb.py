@@ -2,7 +2,9 @@ import sys
 from pathlib import Path
 
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+_NODES_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(_NODES_DIR.parent))
+sys.path.insert(0, str(_NODES_DIR))
 
 from consumer_complaints import _DOWNLOAD_SPECS as _COMPLAINT_SPECS
 from credit_trends import _DOWNLOAD_SPECS as _CREDIT_TRENDS_SPECS

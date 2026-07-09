@@ -1,9 +1,8 @@
-"""CFTC Supplemental CIT COT — Combined only (4zgm-a668), back to 2006.
+"""Legacy module kept for reference; active specs live in nodes/cftc.py and src/transforms.
 
 CIT is combined-only (no futonly_or_combined column) and uses mixed-case names
 for the no-CIT commercial/non-commercial breakdown.
 """
-from subsets_utils import NodeSpec, SqlNodeSpec
 
 from utils import COMMON_COLS, fetch_family
 
@@ -13,8 +12,6 @@ RESOURCES = ["4zgm-a668"]
 def fetch(node_id: str) -> None:
     fetch_family(node_id, RESOURCES)
 
-
-DOWNLOAD_SPECS = [NodeSpec(id="cftc-supplemental-cit", fn=fetch, kind="download")]
 
 _SQL = f'''
     SELECT
@@ -31,7 +28,3 @@ _SQL = f'''
     FROM "cftc-supplemental-cit"
     WHERE report_date_as_yyyy_mm_dd IS NOT NULL
 '''
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id="cftc-supplemental-cit-transform", deps=["cftc-supplemental-cit"], sql=_SQL)
-]

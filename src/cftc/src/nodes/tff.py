@@ -1,5 +1,4 @@
-"""CFTC TFF (Traders in Financial Futures) COT — FutOnly (gpe5-46if) + Combined (yw9f-hn96), back to 2006."""
-from subsets_utils import NodeSpec, SqlNodeSpec
+"""Legacy module kept for reference; active specs live in nodes/cftc.py and src/transforms."""
 
 from utils import COMMON_COLS, fetch_family
 
@@ -9,8 +8,6 @@ RESOURCES = ["gpe5-46if", "yw9f-hn96"]
 def fetch(node_id: str) -> None:
     fetch_family(node_id, RESOURCES)
 
-
-DOWNLOAD_SPECS = [NodeSpec(id="cftc-tff", fn=fetch, kind="download")]
 
 _SQL = f'''
     SELECT
@@ -32,7 +29,3 @@ _SQL = f'''
     FROM "cftc-tff"
     WHERE report_date_as_yyyy_mm_dd IS NOT NULL
 '''
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id="cftc-tff-transform", deps=["cftc-tff"], sql=_SQL)
-]

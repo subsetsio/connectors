@@ -1,5 +1,4 @@
-"""CFTC Disaggregated COT — FutOnly (72hh-3qpy) + Combined (kh3c-gbw2), back to 2006."""
-from subsets_utils import NodeSpec, SqlNodeSpec
+"""Legacy module kept for reference; active specs live in nodes/cftc.py and src/transforms."""
 
 from utils import COMMON_COLS, fetch_family
 
@@ -9,8 +8,6 @@ RESOURCES = ["72hh-3qpy", "kh3c-gbw2"]
 def fetch(node_id: str) -> None:
     fetch_family(node_id, RESOURCES)
 
-
-DOWNLOAD_SPECS = [NodeSpec(id="cftc-disaggregated", fn=fetch, kind="download")]
 
 _SQL = f'''
     SELECT
@@ -31,7 +28,3 @@ _SQL = f'''
     FROM "cftc-disaggregated"
     WHERE report_date_as_yyyy_mm_dd IS NOT NULL
 '''
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id="cftc-disaggregated-transform", deps=["cftc-disaggregated"], sql=_SQL)
-]

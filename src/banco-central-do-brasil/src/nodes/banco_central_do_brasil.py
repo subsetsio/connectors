@@ -475,6 +475,26 @@ TRANSFORM_SPECS = (
     ]
     + [
         SqlNodeSpec(
+            id=f"{SLUG}-expectativas-datasreferencia-transform",
+            deps=[f"{SLUG}-expectativas-datasreferencia"],
+            sql=f'SELECT * EXCLUDE (DataReferencia1, DataReferencia2), '
+                f'TRY_CAST(DataReferencia1 AS DATE) AS DataReferencia1, '
+                f'TRY_CAST(DataReferencia2 AS DATE) AS DataReferencia2 '
+                f'FROM "{SLUG}-expectativas-datasreferencia"',
+        ),
+        SqlNodeSpec(
+            id=f"{SLUG}-ptax-moedas-transform",
+            deps=[f"{SLUG}-ptax-moedas"],
+            sql=f'SELECT * FROM "{SLUG}-ptax-moedas"',
+        ),
+        SqlNodeSpec(
+            id=f"{SLUG}-ifdata-listaderelatorio-transform",
+            deps=[f"{SLUG}-ifdata-listaderelatorio"],
+            sql=f'SELECT * FROM "{SLUG}-ifdata-listaderelatorio"',
+        ),
+    ]
+    + [
+        SqlNodeSpec(
             id=f"{SLUG}-sgs-series-transform",
             deps=[f"{SLUG}-sgs-series"],
             sql=f'SELECT * FROM "{SLUG}-sgs-series"',
