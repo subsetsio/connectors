@@ -14,7 +14,7 @@ publishes one Delta table per indicator.
 import io
 
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, save_raw_parquet
+from subsets_utils import NodeSpec, get, transient_retry, save_raw_parquet
 from constants import ENTITY_IDS
 
 # spec id (lowercased, '_'->'-') -> original indicator file stem (the URL needs
@@ -83,23 +83,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"clio-infra-{eid.lower().replace('_', '-')}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per indicator. Raw is already typed, so the transform
-# is a thin pass-through that drops any residual null observations.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                CAST(ccode AS INTEGER) AS ccode,
-                country,
-                CAST(year AS INTEGER)  AS year,
-                CAST(value AS DOUBLE)  AS value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL AND year IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

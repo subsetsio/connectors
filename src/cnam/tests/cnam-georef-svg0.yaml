@@ -1,0 +1,16 @@
+spec_id: cnam-georef-svg0
+status: active
+tests:
+  - not_null: id
+    reason: each SVG geography shape carries an identifier
+    certainty: 90
+  - not_null: d
+    reason: the SVG path body is the core payload of this visual geography reference table
+    certainty: 90
+  - row_count: {min: 104}
+    reason: ODS reported 123 records at authoring time; a full bulk export should return at least about 85% of that
+    certainty: 85
+  - column_type: {col: cle, type: string}
+    reason: geography lookup keys are textual codes in this reference table
+    certainty: 80
+    severity: warn

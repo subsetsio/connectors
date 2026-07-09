@@ -1,0 +1,16 @@
+spec_id: cnam-referentiel-pathologies
+status: active
+tests:
+  - not_null: top
+    reason: each pathology reference row should carry the pathology code used by the fact tables
+    certainty: 90
+  - not_null: patho_niv1
+    reason: each pathology reference row should carry a top-level pathology label
+    certainty: 90
+  - row_count: {min: 66}
+    reason: ODS reported 78 records at authoring time; a full bulk export should return at least about 85% of that
+    certainty: 85
+  - column_type: {col: niveau_de_l_arborescence, type: float}
+    reason: the hierarchy-level field is numeric in the ODS reference metadata
+    certainty: 75
+    severity: warn

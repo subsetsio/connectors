@@ -31,7 +31,7 @@ import re
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, raw_parquet_writer
+from subsets_utils import NodeSpec, get, transient_retry, raw_parquet_writer
 
 HOST = "https://www.countyhealthrankings.org"
 DOC_PAGES = [
@@ -355,52 +355,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="county-health-rankings-trends", fn=fetch_trends, kind="download"),
     NodeSpec(id="county-health-rankings-analytic", fn=fetch_analytic, kind="download"),
     NodeSpec(id="county-health-rankings-measures", fn=fetch_measures, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="county-health-rankings-trends-transform",
-        deps=["county-health-rankings-trends"],
-        sql='''
-            SELECT
-                yearspan,
-                measure_name,
-                measure_id,
-                state_fips,
-                county_fips,
-                fips,
-                county,
-                state,
-                numerator,
-                denominator,
-                raw_value,
-                ci_low,
-                ci_high,
-                release_year
-            FROM "county-health-rankings-trends"
-            WHERE raw_value IS NOT NULL OR numerator IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="county-health-rankings-analytic-transform",
-        deps=["county-health-rankings-analytic"],
-        sql='''
-            SELECT
-                release_year,
-                state_fips,
-                county_fips,
-                fips,
-                state,
-                county,
-                measure_id,
-                measure_name,
-                raw_value,
-                numerator,
-                denominator,
-                ci_low,
-                ci_high
-            FROM "county-health-rankings-analytic"
-            WHERE raw_value IS NOT NULL OR numerator IS NOT NULL
-        ''',
-    ),
 ]

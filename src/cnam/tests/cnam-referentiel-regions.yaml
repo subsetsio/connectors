@@ -1,0 +1,16 @@
+spec_id: cnam-referentiel-regions
+status: active
+tests:
+  - not_null: reg_code
+    reason: each region reference row should carry a region code
+    certainty: 95
+  - not_null: reg_name
+    reason: each region reference row should carry a region label
+    certainty: 95
+  - row_count: {min: 22}
+    reason: ODS reported 27 records at authoring time; a full bulk export should return at least about 85% of that
+    certainty: 85
+  - column_type: {col: tri, type: integer}
+    reason: the display sort field is numeric in the ODS reference metadata
+    certainty: 80
+    severity: warn

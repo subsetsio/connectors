@@ -1,0 +1,13 @@
+spec_id: cnam-referentiel-professions
+status: active
+tests:
+  - not_null: profession_sante
+    reason: each profession reference row should carry the profession label/code used by fact tables
+    certainty: 95
+  - row_count: {min: 32}
+    reason: ODS reported 38 records at authoring time; a full bulk export should return at least about 85% of that
+    certainty: 85
+  - column_type: {col: tri, type: string}
+    reason: the profession reference sort field is textual in the ODS export metadata
+    certainty: 75
+    severity: warn

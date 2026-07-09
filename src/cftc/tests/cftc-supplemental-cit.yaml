@@ -1,0 +1,16 @@
+spec_id: cftc-supplemental-cit
+status: active
+tests:
+  - not_null: report_date_as_yyyy_mm_dd
+    reason: every COT record is keyed to a weekly Tuesday report date
+    certainty: 99
+  - not_null: cftc_contract_market_code
+    reason: every row identifies the CFTC contract market
+    certainty: 95
+  - row_count: {min: 10000}
+    reason: supplemental CIT covers selected agricultural contracts weekly back to 2006
+    certainty: 90
+  - freshness: {col: report_date_as_yyyy_mm_dd, reaches: today - 21d}
+    reason: CFTC COT reports publish weekly, normally Friday for positions as of Tuesday
+    certainty: 90
+    points_outward: true
