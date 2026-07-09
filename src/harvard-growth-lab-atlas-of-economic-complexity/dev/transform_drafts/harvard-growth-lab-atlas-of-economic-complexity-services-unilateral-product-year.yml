@@ -1,16 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `harvard-growth-lab-atlas-of-economic-complexity-services-unilateral-product-year`. Regenerate after model-verify.
+# caution: Service categories are stacked at several `product_level` depths in one table; filter `product_level` to a single depth before summing values.
+key: [year, product_id, product_services_unilateral_code]
+temporal: year
+sort: [year, product_id, product_services_unilateral_code]
 columns:
   - name: product_id
     type: BIGINT
-  - name: product_code
+  - name: product_services_unilateral_code
     type: VARCHAR
-  - name: product_level
-    type: INTEGER
   - name: year
     type: INTEGER
   - name: export_value
-    type: DOUBLE
+    type: BIGINT
   - name: import_value
-    type: DOUBLE
+    type: BIGINT
   - name: pci
     type: DOUBLE
+  - name: product_level
+    type: INTEGER

@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `harvard-growth-lab-atlas-of-economic-complexity-hs92-country-product-year`. Regenerate after model-verify.
+# caution: Product rows at several hierarchy depths are stacked in one table (`product_level` 1/2/4/6 for HS, 1/2/4 for SITC): a level-6 row's value is already contained in its level-4, -2 and -1 ancestors. Filter `product_level` to a single depth before summing export_value/import_value or counting products.
+# caution: Complexity metrics are only defined at some depths: `export_rca` exists only at `product_level` 4, and `pci`/`distance`/`cog` are absent at level 6. Their nulls mean 'not defined at this depth', not 'missing observation'.
+key: [product_hs92_code, product_id, country_iso3_code, country_id, year]
+temporal: year
+sort: [year, product_hs92_code, product_id, country_iso3_code, country_id]
 columns:
   - name: country_id
     type: BIGINT
@@ -6,16 +12,14 @@ columns:
     type: VARCHAR
   - name: product_id
     type: BIGINT
-  - name: product_code
+  - name: product_hs92_code
     type: VARCHAR
-  - name: product_level
-    type: INTEGER
   - name: year
     type: INTEGER
   - name: export_value
-    type: DOUBLE
+    type: BIGINT
   - name: import_value
-    type: DOUBLE
+    type: BIGINT
   - name: global_market_share
     type: DOUBLE
   - name: distance
@@ -24,3 +28,7 @@ columns:
     type: DOUBLE
   - name: pci
     type: DOUBLE
+  - name: export_rca
+    type: DOUBLE
+  - name: product_level
+    type: INTEGER
