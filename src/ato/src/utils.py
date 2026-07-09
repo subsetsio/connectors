@@ -16,6 +16,10 @@ harness validates download-spec coverage against them.
 import csv
 import io
 import re
+import zipfile
+
+import openpyxl
+import pandas as pd
 
 from subsets_utils import get, transient_retry
 
@@ -120,6 +124,7 @@ def build_groups() -> dict:
             groups.setdefault(eid, []).append({
                 "income_year": year,
                 "resource_id": res["id"],
+                "name": rname,
                 "format": (fmt or "").upper(),
                 "url": res.get("url"),
                 "datastore_active": bool(res.get("datastore_active")),
@@ -163,3 +168,87 @@ def csv_rows(url: str, income_year):
         row = {k: _clean_value(v) for k, v in rec.items() if k is not None}
         row["income_year"] = income_year
         yield row
+
+
+def _cell_row(resource, sheet_name, row_number, column_number, value):
+    return {
+        "source_resource_id": resource["resource_id"],
+        "source_resource_name": resource.get("name"),
+        "source_format": resource.get("format"),
+        "source_url": resource.get("url"),
+        "income_year": resource.get("income_year"),
+        "sheet_name": sheet_name,
+        "row_number": row_number,
+        "column_number": column_number,
+        "value": None if value is None else str(value),
+    }
+
+
+def _xlsx_cell_rows(content: bytes, resource, *, name_prefix=""):
+    wb = openpyxl.load_workbook(io.BytesIO(content), read_only=True, data_only=True)
+    for ws in wb.worksheets:
+        sheet = f"{name_prefix}{ws.title}" if name_prefix else ws.title
+        for r_idx, row in enumerate(ws.iter_rows(values_only=True), start=1):
+            for c_idx, value in enumerate(row, start=1):
+                if value is None or value == "":
+                    continue
+                yield _cell_row(resource, sheet, r_idx, c_idx, value)
+
+
+def _xls_cell_rows(content: bytes, resource, *, name_prefix=""):
+    sheets = pd.read_excel(io.BytesIO(content), sheet_name=None, header=None, dtype=object)
+    for sheet_name, frame in sheets.items():
+        sheet = f"{name_prefix}{sheet_name}" if name_prefix else str(sheet_name)
+        for r_idx, row in enumerate(frame.itertuples(index=False, name=None), start=1):
+            for c_idx, value in enumerate(row, start=1):
+                if pd.isna(value) or value == "":
+                    continue
+                yield _cell_row(resource, sheet, r_idx, c_idx, value)
+
+
+def _csv_cell_rows(content: bytes, resource, *, name_prefix=""):
+    text = content.decode("utf-8-sig", errors="replace")
+    reader = csv.reader(io.StringIO(text))
+    sheet = name_prefix.rstrip(":") or "csv"
+    for r_idx, row in enumerate(reader, start=1):
+        for c_idx, value in enumerate(row, start=1):
+            if value is None or value == "":
+                continue
+            yield _cell_row(resource, sheet, r_idx, c_idx, _clean_value(value))
+
+
+def tabular_cell_rows(resource):
+    """Yield fixed-schema cell records for workbook/archive resources.
+
+    ATO's non-CSV resources are mostly human-oriented workbooks with banner
+    rows, merged headers, and sheet-specific layouts. A normalized cell table
+    is the stable raw contract for these assets; model/curate can then decide
+    whether a richer table-specific reshape is warranted.
+    """
+    content = _download(resource["url"])
+    fmt = (resource.get("format") or "").upper()
+    url = (resource.get("url") or "").lower()
+
+    if "ZIP" in fmt or url.endswith(".zip"):
+        with zipfile.ZipFile(io.BytesIO(content)) as zf:
+            for info in zf.infolist():
+                if info.is_dir():
+                    continue
+                name = info.filename
+                lower = name.lower()
+                data = zf.read(info)
+                prefix = f"{name}:"
+                if lower.endswith(".csv"):
+                    yield from _csv_cell_rows(data, resource, name_prefix=prefix)
+                elif lower.endswith(".xlsx"):
+                    yield from _xlsx_cell_rows(data, resource, name_prefix=prefix)
+                elif lower.endswith(".xls"):
+                    yield from _xls_cell_rows(data, resource, name_prefix=prefix)
+        return
+
+    if "CSV" in fmt or url.endswith(".csv"):
+        yield from _csv_cell_rows(content, resource)
+    elif "XLSX" in fmt or url.endswith(".xlsx"):
+        yield from _xlsx_cell_rows(content, resource)
+    elif "XLS" in fmt or url.endswith(".xls"):
+        yield from _xls_cell_rows(content, resource)

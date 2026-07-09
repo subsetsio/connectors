@@ -35,7 +35,6 @@ from ratelimit import limits, sleep_and_retry
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -163,43 +162,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="apple-books",       fn=fetch_media, kind="download"),
     NodeSpec(id="apple-music",       fn=fetch_media, kind="download"),
     NodeSpec(id="apple-podcasts",    fn=fetch_media, kind="download"),
-]
-
-
-def _transform_sql(view: str) -> str:
-    # Thin parse-and-type pass: the raw NDJSON keys are already snake_case, so we
-    # just cast, order the columns, and drop entries missing the natural key.
-    return f'''
-        SELECT
-            CAST(snapshot_date AS DATE)        AS snapshot_date,
-            CAST(feed_updated AS VARCHAR)      AS feed_updated,
-            CAST(storefront AS VARCHAR)        AS storefront,
-            CAST(media AS VARCHAR)             AS media,
-            CAST(feed_type AS VARCHAR)         AS feed_type,
-            CAST(rank AS INTEGER)              AS rank,
-            CAST(entity_id AS VARCHAR)         AS entity_id,
-            CAST(name AS VARCHAR)              AS name,
-            CAST(artist_name AS VARCHAR)       AS artist_name,
-            CAST(artist_id AS VARCHAR)         AS artist_id,
-            CAST(artist_url AS VARCHAR)        AS artist_url,
-            CAST(kind AS VARCHAR)              AS kind,
-            CAST(release_date AS VARCHAR)      AS release_date,
-            CAST(content_advisory_rating AS VARCHAR) AS content_advisory_rating,
-            genre_names,
-            CAST(artwork_url AS VARCHAR)       AS artwork_url,
-            CAST(url AS VARCHAR)               AS url
-        FROM "{view}"
-        WHERE entity_id IS NOT NULL
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id),
-        key=("snapshot_date", "storefront", "feed_type", "rank"),
-        temporal="snapshot_date",
-    )
-    for s in DOWNLOAD_SPECS
 ]

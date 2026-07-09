@@ -1,0 +1,31 @@
+spec_id: american-enterprise-institute-metro-counties
+status: active
+coverage:
+  frozen: true
+  reason: AEI publishes this as a static county crosswalk for the Top 100 metros, not as a recurring time series
+tests:
+  - not_null: metro
+    reason: each crosswalk row assigns a county to an AEI top-100 metro
+    certainty: 95
+  - not_null: county
+    certainty: 95
+  - not_null: state
+    certainty: 95
+  - column_type: {col: metro, type: string}
+    certainty: 95
+  - column_type: {col: county, type: string}
+    certainty: 95
+  - column_type: {col: state, type: string}
+    certainty: 95
+  - matches: {col: state, pattern: "^[A-Z]{2}$"}
+    reason: source uses USPS state abbreviations
+    certainty: 95
+  - distinct_count: {col: metro, min: 95, max: 105}
+    reason: crosswalk covers AEI's Top 100 metros, with one documented excluded metro
+    certainty: 85
+  - row_count: {min: 500, max: 700}
+    reason: county crosswalk has multiple counties per metro and is under 600 rows in the published workbook
+    certainty: 85
+  - unique: [metro, county, state]
+    reason: each county assignment should appear once per metro
+    certainty: 95

@@ -1,32 +1,49 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [metro, year_quarter, segment]
+temporal: year_quarter
+sort: [year_quarter, metro, segment]
 columns:
   - name: metro
     type: VARCHAR
+    description: National aggregate or metropolitan area name.
   - name: metro_group
     type: VARCHAR
+    description: AEI metro grouping label.
   - name: year_quarter
     type: VARCHAR
+    description: Observation quarter encoded by the source as YYYY:Qn.
   - name: year
     type: INTEGER
+    description: Observation year parsed from year_quarter.
   - name: quarter
     type: INTEGER
+    description: Observation quarter number parsed from year_quarter.
   - name: segment
     type: VARCHAR
+    description: "Housing-market segment: Overall, Entry-level, or Move-up."
   - name: segment_share_of_sales
     type: DOUBLE
+    description: Segment share of sales.
   - name: median_sale_price
     type: DOUBLE
+    description: Median sale price in dollars.
   - name: stressed_mortgage_default_rate
     type: DOUBLE
+    description: Stressed mortgage default rate.
   - name: months_supply
     type: DOUBLE
+    description: Months of housing supply.
   - name: new_construction_share_of_sales
     type: DOUBLE
+    description: New construction share of sales.
   - name: new_construction_contribution_existing_stock
     type: DOUBLE
+    description: New construction contribution to existing housing stock.
   - name: hpa_yoy
     type: DOUBLE
+    description: Year-over-year home price appreciation.
   - name: hpa_qoq
     type: DOUBLE
+    description: Quarter-over-quarter home price appreciation.
   - name: cumulative_hpa_since_2012
     type: DOUBLE
+    description: Cumulative home price appreciation since January 2012.

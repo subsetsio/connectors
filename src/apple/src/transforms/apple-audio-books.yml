@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `apple-audio-books`. Regenerate after model-verify.
+# caution: Rows are chart snapshots, not a catalog of all audiobooks; the same audiobook can appear in multiple storefronts and snapshots.
+key: [url]
+temporal: snapshot_date
+sort: [snapshot_date, url]
+columns:
+  - name: snapshot_date
+    type: DATE
+  - name: feed_updated
+    type: VARCHAR
+  - name: storefront
+    type: VARCHAR
+  - name: media
+    type: VARCHAR
+  - name: feed_type
+    type: VARCHAR
+  - name: rank
+    type: BIGINT
+  - name: entity_id
+    type: BIGINT
+  - name: name
+    type: VARCHAR
+  - name: artist_name
+    type: VARCHAR
+  - name: artist_id
+    type: BIGINT
+  - name: artist_url
+    type: VARCHAR
+  - name: kind
+    type: VARCHAR
+  - name: release_date
+    type: DATE
+  - name: content_advisory_rating
+    type: VARCHAR
+  - name: genre_names
+    type: "VARCHAR[]"
+  - name: artwork_url
+    type: VARCHAR
+  - name: url
+    type: VARCHAR

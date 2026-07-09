@@ -11,6 +11,10 @@ tests:
   - matches: {col: year_quarter, pattern: "^[0-9]{4}:Q[1-4]$"}
     reason: source encodes the period as 'YYYY:Qn'
     certainty: 90
+  - freshness: {col: year_quarter, reaches: "2025:Q4"}
+    reason: AEI publishes this quarterly; the May 2026 release covered 2025:Q4
+    certainty: 85
+    points_outward: true
   - enum: {col: segment, values: [Overall, Entry-level, Move-up]}
     reason: AEI splits each metro into three market segments
     certainty: 85

@@ -31,11 +31,12 @@ import httpx
 import openpyxl
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
 
 INDICATORS_PAGE = "https://www.aei.org/national-and-metro-housing-market-indicators/"
 JINA_READER = "https://r.jina.ai/"
 WAYBACK_AVAILABLE = "https://archive.org/wayback/available?url="
+METRO_COUNTIES_URL = "https://www.aei.org/wp-content/uploads/2022/10/Top-100-metros-and-their-counties.xlsx"
 
 BROWSER_HEADERS = {
     "User-Agent": (
@@ -104,6 +105,14 @@ SCHEMA = pa.schema([
     ("hpa_yoy", pa.float64()),
     ("hpa_qoq", pa.float64()),
     ("cumulative_hpa_since_2012", pa.float64()),
+])
+
+METRO_COUNTIES_COLUMNS = ["metro", "county", "state"]
+
+METRO_COUNTIES_SCHEMA = pa.schema([
+    ("metro", pa.string()),
+    ("county", pa.string()),
+    ("state", pa.string()),
 ])
 
 
@@ -227,40 +236,54 @@ def fetch_housing_market_indicators(node_id: str) -> None:
     save_raw_parquet(table, asset)
 
 
+def fetch_metro_counties(node_id: str) -> None:
+    content = _fetch_bytes(METRO_COUNTIES_URL)
+
+    wb = openpyxl.load_workbook(io.BytesIO(content), read_only=True, data_only=True)
+    ws = wb[wb.sheetnames[0]]
+    rows_iter = ws.iter_rows(values_only=True)
+
+    header = None
+    for raw in rows_iter:
+        values = tuple("" if c is None else str(c).strip() for c in raw[:3])
+        if values == ("Metro", "County", "State"):
+            header = values
+            break
+    if header is None:
+        raise AssertionError("metro counties workbook header not found")
+
+    rows = []
+    for raw in rows_iter:
+        if raw is None or all(c is None for c in raw):
+            continue
+        metro, county, state = (raw[i] if i < len(raw) else None for i in range(3))
+        if metro is None and county is None and state is None:
+            continue
+        record = {
+            "metro": str(metro).strip() if metro is not None else None,
+            "county": str(county).strip() if county is not None else None,
+            "state": str(state).strip() if state is not None else None,
+        }
+        if not record["metro"] or not record["county"] or not record["state"]:
+            raise AssertionError(f"incomplete metro county row: {record!r}")
+        rows.append(record)
+
+    if not rows:
+        raise AssertionError(f"{node_id}: parsed 0 rows from workbook {METRO_COUNTIES_URL}")
+
+    table = pa.Table.from_pylist(rows, schema=METRO_COUNTIES_SCHEMA)
+    save_raw_parquet(table, node_id)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(
         id="american-enterprise-institute-housing-market-indicators",
         fn=fetch_housing_market_indicators,
         kind="download",
     ),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="american-enterprise-institute-housing-market-indicators-transform",
-        deps=["american-enterprise-institute-housing-market-indicators"],
-        sql='''
-            SELECT
-                metro,
-                metro_group,
-                year_quarter,
-                CAST(split_part(year_quarter, ':', 1) AS INTEGER) AS year,
-                CAST(replace(split_part(year_quarter, ':', 2), 'Q', '') AS INTEGER) AS quarter,
-                segment,
-                segment_share_of_sales,
-                median_sale_price,
-                stressed_mortgage_default_rate,
-                months_supply,
-                new_construction_share_of_sales,
-                new_construction_contribution_existing_stock,
-                hpa_yoy,
-                hpa_qoq,
-                cumulative_hpa_since_2012
-            FROM "american-enterprise-institute-housing-market-indicators"
-            WHERE metro IS NOT NULL
-              AND year_quarter IS NOT NULL
-              AND regexp_matches(year_quarter, '^[0-9]{4}:Q[1-4]$')
-        ''',
+    NodeSpec(
+        id="american-enterprise-institute-metro-counties",
+        fn=fetch_metro_counties,
+        kind="download",
     ),
 ]
