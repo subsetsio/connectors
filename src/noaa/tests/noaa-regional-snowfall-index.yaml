@@ -18,6 +18,10 @@ tests:
   - not_null: End
     reason: a null End marks a row the upstream CSV emitted with a missing field; the fetch drops those, so none should survive.
     certainty: 90
-  - freshness: {col: End, reaches: today - 10y}
-    reason: RSI updates depend on qualifying snowfall events and may legitimately have no very recent rows.
-    points_outward: true
+  - freshness: {col: End, reaches: today - 2y}
+    reason: >-
+      End is stored ISO (YYYY-MM-DD) by the fetch, so max(End) really is the
+      latest storm. RSI only advances when a storm qualifies, and the record has
+      no two consecutive stormless years since 1928, so a 2-year bound detects a
+      dead feed without firing on a quiet winter.
+    certainty: 85

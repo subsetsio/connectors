@@ -4,7 +4,7 @@ status: active
 tests:
 - not_null: id
   certainty: 95
-  reason: source row id (note: distinct from the empty GetAllYears* endpoints)
+  reason: source row id; distinct from the empty GetAllYears* shell endpoints
 - column_type: {col: id, type: integer}
   certainty: 90
 - not_null: tyear

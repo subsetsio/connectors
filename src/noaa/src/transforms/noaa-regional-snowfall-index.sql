@@ -1,11 +1,11 @@
--- Dates are m/d/Y; the source mixes zero-padded and unpadded fields
--- ("02/28/2005" and "2/28/2005"), which %m/%d/%Y parses either way.
+-- Start/End arrive ISO (YYYY-MM-DD): the fetch canonicalises the source's mixed
+-- m/d/Y forms ("02/28/2005" and "2/28/2005") so raw sorts correctly.
 SELECT
     "Storm_ID"                              AS storm_id,
     "Region"                                AS region,
     CAST("Region_Code" AS INTEGER)          AS region_code,
-    strptime("Start", '%m/%d/%Y')::DATE     AS start_date,
-    strptime("End", '%m/%d/%Y')::DATE       AS end_date,
+    CAST("Start" AS DATE)                   AS start_date,
+    CAST("End" AS DATE)                     AS end_date,
     CAST("Year" AS INTEGER)                 AS year,
     CAST("Month" AS INTEGER)                AS month,
     CAST("RSI" AS DOUBLE)                   AS rsi,

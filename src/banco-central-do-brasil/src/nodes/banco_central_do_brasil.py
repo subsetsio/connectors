@@ -379,8 +379,46 @@ def fetch_sgs_values(node_id: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Reference / dimension tables — plain Olinda sets and no-arg FunctionImports
+# ---------------------------------------------------------------------------
+#
+# Small, un-parameterized surfaces: each is a single full pull. DatasReferencia
+# (the Focus survey's per-indicator reference-date calendar) and Moedas (PTAX's
+# currency dictionary) are plain entity sets; ListaDeRelatorio is a no-argument
+# IFDATA FunctionImport (also consumed internally by fetch_ifdata).
+
+REFERENCE_SETS = {
+    "expectativas-datasreferencia": ("Expectativas", "DatasReferencia"),
+    "ptax-moedas": ("PTAX", "Moedas"),
+}
+
+
+def fetch_reference_set(node_id: str) -> None:
+    """Stateless full pull of a plain Olinda reference/dimension entity set."""
+    service, resource = REFERENCE_SETS[_entity(node_id)]
+    save_raw_ndjson(_odata_all(service, resource, {}), node_id)
+
+
+def fetch_ifdata_relatorios(node_id: str) -> None:
+    """Full pull of the IFDATA report catalog (ListaDeRelatorio, no params)."""
+    rows = _fetch_json(f"{OLINDA}/IFDATA/versao/v1/odata/ListaDeRelatorio()",
+                       {"$format": "json"}).get("value", [])
+    save_raw_ndjson(rows, node_id)
+
+
+# ---------------------------------------------------------------------------
 # Specs — one download per entity-union member, one transform per subset
 # ---------------------------------------------------------------------------
+#
+# Not built — excused via `waive-spec` (permanently unbuildable upstreams):
+#   - ptax-cotacaomoedaperiodofechamento, ptax-cotacaomoedaaberturaouintermediario:
+#     the two `codigoMoeda`-keyed PTAX FunctionImports return HTTP 500 for every
+#     code (re-verified live 2026-07) — can only ever publish empty tables.
+#   - ptax-cotacaodolardia, ptax-cotacaomoedadia: the *Dia* (single-date)
+#     functions take no date range, so a full history is one HTTP call per
+#     calendar day since 1999 (× ~150 currencies for MoedaDia ≈ 1M calls/run) —
+#     disproportionate, and the closing-bulletin data duplicates the *Periodo*
+#     series we already publish.
 
 DOWNLOAD_SPECS = (
     [
@@ -390,10 +428,15 @@ DOWNLOAD_SPECS = (
     + [
         NodeSpec(id=f"{SLUG}-ifdata-ifdatacadastro", fn=fetch_ifdata, kind="download"),
         NodeSpec(id=f"{SLUG}-ifdata-ifdatavalores", fn=fetch_ifdata, kind="download"),
+        NodeSpec(id=f"{SLUG}-ifdata-listaderelatorio", fn=fetch_ifdata_relatorios, kind="download"),
     ]
     + [
         NodeSpec(id=f"{SLUG}-{e}", fn=fetch_ptax_period, kind="download")
         for e in PTAX_PERIOD
+    ]
+    + [
+        NodeSpec(id=f"{SLUG}-{e}", fn=fetch_reference_set, kind="download")
+        for e in REFERENCE_SETS
     ]
     + [
         NodeSpec(id=f"{SLUG}-sgs-series", fn=fetch_sgs_series, kind="download"),
