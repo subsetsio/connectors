@@ -1,9 +1,12 @@
 # RSI — Regional Snowfall Index: one row per (storm, NOAA climate region),
 # scoring a US snowstorm's societal impact within that region.
-# caution: the source restates a few storms — those (storm_id, region) pairs
-#   appear twice with differing rsi and area/population values. No column set is
-#   unique, so the table is published keyless. Deduplicate on
-#   (storm_id, region) if you need one row per storm-region.
+# caution: the source restates two storms, so the table is published keyless.
+#   20050228_20050302_1 appears twice per region with identical values (the
+#   copies differ only in date/number formatting), so no column set separates
+#   those 7 pairs. 20190303_20190304_1 appears twice per region with different
+#   start_date values (2015 vs 2019 — the 2015 date is an upstream typo).
+#   Deduplicate on (storm_id, region_code, start_date) for one row per
+#   storm-region-start; the 2019 storm still survives twice.
 # caution: region = 'National' (region_code 110) is a national roll-up published
 #   alongside the six regional rows for the same storm. Filter region before
 #   aggregating across regions, or the storm is counted twice.

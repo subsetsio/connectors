@@ -75,7 +75,10 @@ def _fetch_optional(url: str):
 
 
 def _read_semicolon(text: str):
-    rows = list(csv.reader(io.StringIO(text), delimiter=";"))
+    # newline="" lets csv own line-termination: some files carry stray CRs and
+    # NUL padding past the last row (e.g. OGDEXT_VORNAMEN_1_C-GESCHLECHT-0).
+    text = text.replace("\x00", "")
+    rows = list(csv.reader(io.StringIO(text, newline=""), delimiter=";"))
     rows = [r for r in rows if any(c.strip() for c in r)]  # drop blank lines
     if not rows:
         return [], []
@@ -89,7 +92,10 @@ def _label_map(text):
     HEADER (column labels) and per-dimension codelists (value labels)."""
     if not text:
         return {}
-    header, data = _read_semicolon(text)
+    try:
+        header, data = _read_semicolon(text)
+    except csv.Error:
+        return {}  # unparseable companion -> no labels, same as a missing one
     if not header:
         return {}
     idx = {name.strip().lower(): i for i, name in enumerate(header)}
