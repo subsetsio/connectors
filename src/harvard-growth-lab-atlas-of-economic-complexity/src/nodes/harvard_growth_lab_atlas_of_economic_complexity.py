@@ -224,14 +224,18 @@ class _HttpRaw(io.RawIOBase):
 
 def _conform(batch: pa.RecordBatch, schema: pa.Schema, level: int | None) -> pa.RecordBatch:
     """Widen one CSV's batch to the entity's union schema: absent columns become
-    nulls, and `product_level` is injected from the filename."""
+    nulls, and `product_level` is injected from the filename.
+
+    The classification tables publish a real `product_level` column, so a present
+    column always wins over the injected one.
+    """
     present = set(batch.schema.names)
     arrays = []
     for field in schema:
-        if field.name == "product_level":
-            arrays.append(pa.array([level] * batch.num_rows, type=field.type))
-        elif field.name in present:
+        if field.name in present:
             arrays.append(batch.column(field.name))
+        elif field.name == "product_level":
+            arrays.append(pa.array([level] * batch.num_rows, type=field.type))
         else:
             arrays.append(pa.nulls(batch.num_rows, field.type))
     return pa.RecordBatch.from_arrays(arrays, schema=schema)

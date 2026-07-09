@@ -11,8 +11,8 @@ so the import resolves at validation and at runtime.
 
 
 ENTITY_IDS = [
-    "ap", "bd", "ca", "ce", "ci", "cm", "cu", "cw", "cx", "ei",
-    "ep", "fa", "fm", "ip", "is", "jt", "kv", "la", "le", "ln",
-    "lu", "mp", "nb", "nd", "oe", "or", "pc", "pr", "sm", "su",
-    "tu", "wm", "wp", "ws",
+    "ap", "bd", "ce", "ci", "cm", "cu", "cw", "cx", "eb", "ei",
+    "ep", "fa", "fm", "fw", "ip", "is", "jt", "kv", "la", "le",
+    "ln", "lu", "mp", "nb", "nd", "oe", "or", "pc", "pr", "sm",
+    "su", "tu", "wm", "wp", "ws",
 ]
