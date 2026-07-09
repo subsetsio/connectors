@@ -1,0 +1,25 @@
+key: [full_name]
+temporal: end_year
+sort: [end_year, full_name]
+columns:
+  - name: section
+    type: VARCHAR
+    description: HDR composite-index family heading from the source codebook.
+  - name: full_name
+    type: VARCHAR
+    description: Human-readable field or indicator name from the HDR25 metadata workbook.
+  - name: short_name
+    type: VARCHAR
+    description: Source short code used in the composite-indices time-series CSV; null on section heading rows.
+  - name: time_series
+    type: VARCHAR
+    description: Source-published time-series coverage note for the field or indicator.
+  - name: start_year
+    type: INTEGER
+    description: Earliest year parsed from the source time-series coverage note.
+  - name: end_year
+    type: INTEGER
+    description: Latest year parsed from the source time-series coverage note.
+  - name: is_group
+    type: BOOLEAN
+    description: True when the row is a source section heading rather than a joinable indicator code.
