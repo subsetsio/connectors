@@ -17,8 +17,8 @@ tests:
     points_outward: true
   - coverage: {col: indicator_id, expected: 2}
     reason: formcontrols enumerates exactly 2 country-profile indicators (country profiles, IP office profiles); losing either halves the subset
-  - distinct_count: {col: report_type, min: 3, max: 3}
-    reason: ipsRpTypeMap for country profiles has exactly three report types
+  - distinct_count: {col: report_type, min: 2, max: 2}
+    reason: ipsRpTypeMap lists three report types, but the country-profile endpoint returns populated rows for the filing-office and applicant-origin views only
     certainty: 85
   - row_count: {min: 500}
     reason: two indicators across ~200 offices and ~45 years, sparsely populated

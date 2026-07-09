@@ -50,9 +50,11 @@ def _to_float(value: str | None) -> float | None:
 
 
 def _fetch_csv_gz(entity_id: str):
-    """rplumber answers a perfectly valid indicator id with 400 when it is busy
-    — six of them did so in run 20260707-114522 and all six serve 200 on retry.
-    The shared client retries 429/5xx only, so absorb the spurious 400 here."""
+    """rplumber answers 400 both for a transient busy state (six ids did so in run
+    20260707-114522 and all six served 200 on retry) and for an id it no longer
+    publishes. The shared client retries 429/5xx only, so absorb the spurious 400
+    here; a 400 that survives the retries means the id is gone from the table of
+    contents and ENTITY_IDS needs regenerating from the accepted catalog."""
     for attempt in range(_BAD_REQUEST_ATTEMPTS):
         resp = get(
             DATA_URL,

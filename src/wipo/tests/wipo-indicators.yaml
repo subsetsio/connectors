@@ -12,8 +12,8 @@ tests:
     reason: the data center exposes exactly these three modules
   - coverage: {col: indicator_id, expected: 152}
     reason: 69 ips indicators across 5 tabs + 72 pmh across 3 tabs + 11 key indicators; collect measured 152 and every value table joins back to this catalog
-  - distinct_count: {col: tab, min: 8, max: 8}
-    reason: five ips tabs plus three pmh tabs; keyindicator rows carry no tab
+  - distinct_count: {col: tab, min: 9, max: 9}
+    reason: five ips tabs plus three pmh tabs, with keyindicator null tabs counted as a separate profiled value by the test harness
     certainty: 85
   - nullable: {col: tab, max_null_frac: 0.15}
     reason: only the 11 keyindicator rows have a null tab (11/152 = 0.072)

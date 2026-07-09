@@ -14,3 +14,8 @@ tests:
     reason: the tracker spans recent history and near-term outlook years
     certainty: 60
     severity: warn
+  - freshness: {col: year, reaches: current_year() - 2}
+    reason: the renewables tracker is an annual dataset with recent history and near-term outlook years; a stale maximum year indicates the workbook stopped advancing
+    certainty: 60
+    points_outward: true
+    severity: warn

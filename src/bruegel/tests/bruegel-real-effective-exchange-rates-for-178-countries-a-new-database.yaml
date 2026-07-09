@@ -22,3 +22,8 @@ tests:
   - distinct_count: {col: country_code, min: 100}
     reason: the database covers effective exchange rates for 178 countries
     certainty: 70
+  - freshness: {col: period, reaches: "2024"}
+    reason: the REER workbook is maintained as a current database; period labels start with the observation year, so a max before 2024 means the source is stale
+    certainty: 55
+    points_outward: true
+    severity: warn

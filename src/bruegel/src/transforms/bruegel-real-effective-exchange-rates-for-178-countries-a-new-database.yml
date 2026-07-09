@@ -2,6 +2,7 @@
 # of raw asset `bruegel-real-effective-exchange-rates-for-178-countries-a-new-database`. Regenerate after model-verify.
 # caution: Frequency mixes monthly and annual observations in one table, and period is a source period code rather than a date. Filter frequency first. Country_set is the size of the trade-partner basket the exchange-rate index was computed against; pick one basket and do not aggregate across them.
 key: [period, country_code, country_set, measure, frequency]
+temporal: period
 sort: [period, country_code, country_set, measure, frequency]
 columns:
   - name: period

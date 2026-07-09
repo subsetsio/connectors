@@ -1,22 +1,26 @@
-key: [year, countrycode, country, region]
+# Renamed from the source sheet's headers: countrycode -> country_code,
+# gdppc -> gdp_per_capita, pop -> population.
+# Rows where both estimates are null are dropped in the SQL (the source sheet
+# is a dense country x year grid); a row here is an observation.
+key: [country_code, year]
 temporal: year
-sort: [year, countrycode, country, region]
+sort: [year, country_code]
 columns:
-  - name: countrycode
+  - name: country_code
     type: VARCHAR
-    description: ISO 3166-1 alpha-3 country code, with source-specific aggregate-region codes where the row is not a country.
+    description: ISO 3166-1 alpha-3 country code. Includes codes for states that have since dissolved (SUN Former USSR, YUG Former Yugoslavia, CSK Czechoslovakia), whose series overlap in time with their successor states.
   - name: country
     type: VARCHAR
-    description: Country or aggregate-region name used by the Maddison Project.
+    description: English country name as used by the Maddison Project. One name per country_code.
   - name: region
     type: VARCHAR
-    description: Maddison Project world-region grouping for the country or aggregate row.
+    description: Maddison Project world-region grouping the country belongs to (one of eight regions, e.g. "Western Europe", "Sub Saharan Africa").
   - name: year
     type: INTEGER
-    description: Observation year.
-  - name: gdppc
+    description: Year the estimate refers to, 1 AD through 2022. Coverage is sparse before 1500 and near-complete from 1950.
+  - name: gdp_per_capita
     type: DOUBLE
-    description: Real GDP per capita in 2011 international dollars.
-  - name: pop
+    description: Real GDP per capita in 2011 international dollars (multiple-benchmark series). Null where only population was estimated. A per-capita ratio - weight by population to aggregate across countries.
+  - name: population
     type: DOUBLE
-    description: Population in thousands.
+    description: Population in thousands of persons. Null where only GDP per capita was estimated.

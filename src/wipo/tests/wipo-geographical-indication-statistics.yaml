@@ -17,8 +17,8 @@ tests:
     points_outward: true
   - coverage: {col: indicator_id, expected: 2}
     reason: formcontrols enumerates exactly 2 geographical-indication indicators; losing either halves the subset
-  - distinct_count: {col: report_type, min: 3, max: 3}
-    reason: ipsRpTypeMap for geographical indications has exactly three report types
+  - distinct_count: {col: report_type, min: 1, max: 1}
+    reason: ipsRpTypeMap lists three report types, but the geographical-indication endpoint returns populated rows only for the filing-office view
     certainty: 85
   - at_least: {col: value, expr: 0}
     reason: GI indicators are registration/in-force counts, never negative
