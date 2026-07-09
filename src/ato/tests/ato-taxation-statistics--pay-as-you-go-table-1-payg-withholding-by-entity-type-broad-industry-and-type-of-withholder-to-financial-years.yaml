@@ -1,0 +1,7 @@
+spec_id: ato-taxation-statistics--pay-as-you-go-table-1-payg-withholding-by-entity-type-broad-industry-and-type-of-withholder-to-financial-years
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: accepted ATO tabular resource groups should produce at least one raw row or workbook cell; an empty pull means the source URL changed or the parser skipped the payload.
+    certainty: 85
+    severity: block

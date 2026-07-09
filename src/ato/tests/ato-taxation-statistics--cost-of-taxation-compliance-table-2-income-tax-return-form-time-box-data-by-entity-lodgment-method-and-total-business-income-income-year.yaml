@@ -1,0 +1,7 @@
+spec_id: ato-taxation-statistics--cost-of-taxation-compliance-table-2-income-tax-return-form-time-box-data-by-entity-lodgment-method-and-total-business-income-income-year
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: accepted ATO tabular resource groups should produce at least one raw row or workbook cell; an empty pull means the source URL changed or the parser skipped the payload.
+    certainty: 85
+    severity: block

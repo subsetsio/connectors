@@ -1,0 +1,7 @@
+spec_id: ato-taxation-statistics--company-table-5
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: accepted ATO tabular resource groups should produce at least one raw row or workbook cell; an empty pull means the source URL changed or the parser skipped the payload.
+    certainty: 85
+    severity: block

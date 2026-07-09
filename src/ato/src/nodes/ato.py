@@ -13,7 +13,7 @@ overwrites; late ATO revisions are picked up on the next scheduled run.
 """
 
 import pyarrow as pa
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 
 from constants import ENTITY_IDS
 from utils import build_groups, csv_rows, safe_columns, tabular_cell_rows
@@ -91,19 +91,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# Every row is tagged with its edition's `income_year` (see fetch_one), so it is
-# the uniform observation-period column across all of these heterogeneous
-# statistical tables. Grains differ per table and are not reliably keyable, so
-# only temporal is declared.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-        temporal="income_year",
-    )
-    for s in DOWNLOAD_SPECS
 ]
