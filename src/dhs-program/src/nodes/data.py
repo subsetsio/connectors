@@ -8,7 +8,7 @@ and unions them.
 """
 from __future__ import annotations
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
+from subsets_utils import NodeSpec, save_raw_ndjson
 
 from utils import BASE, clean, fetch_all
 
@@ -27,38 +27,9 @@ def fetch_data(node_id: str) -> None:
         records = fetch_all(DATA_URL, countryIds=cc)
         if not records:
             continue
-        save_raw_ndjson((clean(r) for r in records), f"dhs-program-data-{cc.lower()}")
+        save_raw_ndjson((clean(r) for r in records), node_id, fragment=cc.lower())
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="dhs-program-data", fn=fetch_data, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="dhs-program-data-transform",
-        deps=["dhs-program-data"],
-        sql='''
-            SELECT
-                CAST(DataId AS BIGINT)                                   AS data_id,
-                IndicatorId                                             AS indicator_id,
-                Indicator                                              AS indicator,
-                DHS_CountryCode                                        AS country_code,
-                CountryName                                            AS country_name,
-                CAST(SurveyYear AS INTEGER)                            AS survey_year,
-                SurveyId                                              AS survey_id,
-                NULLIF(CAST(SurveyType AS VARCHAR), '')               AS survey_type,
-                CharacteristicCategory                                AS characteristic_category,
-                CharacteristicLabel                                   AS characteristic_label,
-                NULLIF(CAST(ByVariableLabel AS VARCHAR), '')          AS by_variable_label,
-                CAST(Value AS DOUBLE)                                 AS value,
-                CAST(IsPreferred AS BOOLEAN)                          AS is_preferred,
-                TRY_CAST(NULLIF(CAST(CILow AS VARCHAR), '') AS DOUBLE)    AS ci_low,
-                TRY_CAST(NULLIF(CAST(CIHigh AS VARCHAR), '') AS DOUBLE)   AS ci_high,
-                TRY_CAST(NULLIF(CAST(Precision AS VARCHAR), '') AS INTEGER) AS precision
-            FROM "dhs-program-data"
-            WHERE Value IS NOT NULL
-        ''',
-    ),
 ]

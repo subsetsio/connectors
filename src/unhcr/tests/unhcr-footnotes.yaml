@@ -16,8 +16,8 @@ tests:
     certainty: 95
   - column_type: {col: coo_id, type: integer}
   - column_type: {col: coa_id, type: integer}
-  - matches: {col: year, pattern: '^[0-9]{4}'}
-    reason: every period expression opens with a 4-digit year, whatever follows it.
+  - matches: {col: year, pattern: '^[0-9]{4}.*'}
+    reason: every period expression opens with a 4-digit year, whatever follows it (the engine full-matches, so the trailing `.*` carries the ranges).
     certainty: 85
   - nullable: {col: coo_iso, max_null_frac: 0.95}
     reason: most footnotes annotate a country of asylum, leaving origin blank; blanks are normalized to null in the fetch.

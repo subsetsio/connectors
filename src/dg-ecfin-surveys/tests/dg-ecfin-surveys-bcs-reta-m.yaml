@@ -1,0 +1,19 @@
+spec_id: dg-ecfin-surveys-bcs-reta-m
+status: active
+tests:
+  - freshness: {col: TIME_PERIOD, reaches: 2025}
+    reason: DG ECFIN BCS is a current monthly/quarterly survey source; each active dataflow should include recent observations with conservative slack.
+    certainty: 90
+    points_outward: true
+  - row_count: {min: 1}
+    reason: an accepted SDMX dataflow full pull should never be empty.
+    certainty: 98
+  - not_null: DATAFLOW
+    certainty: 98
+  - not_null: TIME_PERIOD
+    certainty: 98
+  - not_null: OBS_VALUE
+    certainty: 90
+  - matches: {col: TIME_PERIOD, pattern: "^[0-9]{4}"}
+    reason: SDMX TIME_PERIOD values begin with an observation year.
+    certainty: 95

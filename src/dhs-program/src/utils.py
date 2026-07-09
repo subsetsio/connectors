@@ -7,18 +7,17 @@ that logic lives here once and the per-subset node files import it.
 """
 from __future__ import annotations
 
-from subsets_utils import get, transient_retry
+from subsets_utils import get
 
 BASE = "https://api.dhsprogram.com/rest/dhs"
 
-PERPAGE = 5000
-# Safety ceiling: the biggest country today is ~5 pages at perpage=5000. 100
-# pages (~500k records for one country) means the source grew far past
-# expectations — fail loudly rather than silently truncate.
+PERPAGE = 1000
+# Safety ceiling: the biggest country today is well below 100 pages at
+# perpage=1000. 100 pages (~100k records for one country) means the source grew
+# far past expectations - fail loudly rather than silently truncate.
 MAX_PAGES = 100
 
 
-@transient_retry()
 def _fetch_json(url: str, **params) -> dict:
     resp = get(url, params=params, timeout=(10.0, 120.0))
     resp.raise_for_status()
