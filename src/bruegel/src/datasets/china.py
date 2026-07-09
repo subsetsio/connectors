@@ -44,6 +44,10 @@ def _china_collect_graphs(node, out):
             _china_collect_graphs(v, out)
 
 
+def _title_text(t):
+    return t.get("text") if isinstance(t, dict) else t
+
+
 def parse(_links):
     import json
     home = _china_route("/")
@@ -53,16 +57,33 @@ def parse(_links):
         figs = []
         _china_collect_graphs(_china_route(p), figs)
         for fig in figs:
-            t = (fig.get("layout") or {}).get("title")
-            chart = t.get("text") if isinstance(t, dict) else t
+            layout = fig.get("layout") or {}
+            chart = _title_text(layout.get("title"))
+            # A page can carry two figures under the SAME title that plot the same
+            # series in different units (e.g. "Trade in Goods" as USD Billion and as
+            # YoY %). The y-axis title is the only thing separating them, so it is
+            # part of the row's identity — without it the two collapse and `value`
+            # silently mixes levels with growth rates.
+            unit = _title_text((layout.get("yaxis") or {}).get("title"))
             for tr in fig.get("data", []):
                 series = tr.get("name")
                 for xi, yi in zip(tr.get("x") or [], tr.get("y") or []):
-                    if yi is None:
+                    if yi is None or xi is None:  # a point with no observation label
                         continue
                     out.append({"page": p, "chart": chart, "series": series,
-                                "x": clean(xi), "value": clean(yi)})
-    return out
+                                "unit": unit, "x": clean(xi), "value": clean(yi)})
+    # A handful of traces plot the identical (x, y) point twice (e.g. the
+    # 2023-07-19 policy rates, the 2025-06-10 steel output). The repeat carries no
+    # observation, so drop exact duplicates — otherwise (page, chart, series, unit,
+    # x) is not a row identity even though the dashboard shows one value per date.
+    seen, deduped = set(), []
+    for r in out:
+        k = (r["page"], r["chart"], r["series"], r["unit"], str(r["x"]), r["value"])
+        if k in seen:
+            continue
+        seen.add(k)
+        deduped.append(r)
+    return deduped
 
 
 def fetch(node_id: str) -> None:

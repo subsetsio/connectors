@@ -1,15 +1,25 @@
 spec_id: bruegel-russian-foreign-trade-tracker
 # Raw is long across figure sheets: (figure, date, direction_of_trade, country, unit, sitc_code, sitc_category, value).
+# `figure` is the figure a row belongs to, not the sheet it sat on: sheet "Figure 8&9"
+# stacks two figures (mineral fuels / goods other than mineral fuels) under one header.
 tests:
   - not_null: figure
-    reason: each row records which figure sheet it came from
+    reason: each row records the figure it came from
     certainty: 90
   - not_null: date
     reason: observations are date-stamped from the header date columns
     certainty: 90
+  - not_null: sitc_category
+    reason: every figure labels its commodity breakdown, even where it is "Total"
+    certainty: 80
   - not_null: value
     reason: only numeric, non-NaN cells are emitted
     certainty: 95
+  - unique: [figure, date, direction_of_trade, country, sitc_category]
+    reason: >-
+      one observation per figure, month, trade direction, partner and commodity
+      breakdown; sitc_code is excluded because figures 8-10 carry no SITC code
+    certainty: 80
   - column_type: {col: value, type: float}
     reason: trade values are cast to float in the parser
     certainty: 85

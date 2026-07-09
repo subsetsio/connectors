@@ -235,9 +235,11 @@ def _wayback_html(page_url: str) -> str:
     return snap.text
 
 
-# Ordered by (liveness, then cost). The first three read the CURRENT page; only
-# the fourth can hand back a stale link, so it is last.
-_PAGE_RESOLVERS = (_jina_html, get_text, _spn_html, _wayback_html)
+# Ordered by (liveness, then cost). Jina and SPN both read the CURRENT page and
+# both fail fast; the Wayback snapshot can hand back a link to a superseded (and
+# therefore deleted) refresh; the direct www fetch is last because in CI it does
+# not fail, it hangs — the WAF blackholes the runner until every retry times out.
+_PAGE_RESOLVERS = (_jina_html, _spn_html, _wayback_html, get_text)
 
 
 def _resolve_link_sets(page_path: str):
