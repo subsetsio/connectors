@@ -242,9 +242,11 @@ def _download_custom(meta: dict, year, per: str | None) -> bytes | None:
         data["btnDownload"] = "Download"
         if meta["has_geo"]:
             data["cboGeography"] = "All"
-        if meta["has_period_select"]:
-            data["cboPeriod"] = str(per) if per is not None else "All"
-        elif meta["lookup"]:
+        # Periodic tables send the specific period; annual and lookup tables
+        # whose selector offers only "Not Applicable" send "All".
+        if meta["has_period_select"] and per is not None:
+            data["cboPeriod"] = str(per)
+        else:
             data["cboPeriod"] = "All"
         resp = _post(_POST_PAGE.format(code=code), data)
         ctype = resp.headers.get("content-type", "").lower()

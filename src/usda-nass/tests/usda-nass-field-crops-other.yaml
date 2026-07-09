@@ -1,0 +1,59 @@
+spec_id: usda-nass-field-crops-other
+status: active
+tests:
+  - not_null: commodity
+    reason: "the asset is one COMMODITY_DESC partition of the bulk dump; the partition key is present on every row"
+    certainty: 99
+  - not_null: year
+    reason: "YEAR keys every Quick Stats observation and is never blank; the loader raises rather than null it"
+    certainty: 99
+  - not_null: series
+    reason: "SHORT_DESC names the series on every row of the dump"
+    certainty: 98
+  - not_null: agg_level
+    reason: "AGG_LEVEL_DESC states the geography level of every observation"
+    certainty: 98
+  - not_null: location
+    reason: "LOCATION_DESC labels the geography of every observation"
+    certainty: 98
+  - column_type: {col: year, type: integer}
+    reason: "the fetch fn casts YEAR to INTEGER and raises on an unparseable value"
+    certainty: 99
+  - column_type: {col: value, type: float}
+    reason: "VALUE is parsed to DOUBLE in the fetch fn; suppression codes go to NULL and survive in value_flag"
+    certainty: 95
+  - column_type: {col: week_ending, type: date}
+    reason: "WEEK_ENDING is an ISO date, NULL for the non-weekly series that make up most of the corpus"
+    certainty: 90
+  - column_type: {col: load_time, type: timestamp}
+    reason: "LOAD_TIME is a 'YYYY-MM-DD HH:MM:SS' stamp on every row"
+    certainty: 90
+  - enum: {col: commodity, values: ["FIELD CROPS, OTHER"]}
+    reason: "this asset is the COMMODITY_DESC='FIELD CROPS, OTHER' slice; any other value means the partition filter leaked another commodity in"
+    certainty: 99
+  - enum: {col: source, values: ["CENSUS", "SURVEY"]}
+    reason: "NASS sources every observation to a SURVEY or the CENSUS; collect saw only these for this commodity"
+    certainty: 85
+  - enum: {col: sector, values: ["CROPS", "DEMOGRAPHICS", "ENVIRONMENTAL"]}
+    reason: "the sectors collect saw carrying this commodity; NASS can re-file a commodity under another sector, which is a source change, not a bug"
+    certainty: 75
+    points_outward: true
+    severity: warn
+  - at_least: {col: year, expr: 1840}
+    reason: "the earliest Quick Stats observation is 1850 (ag land); an earlier minimum means YEAR was mis-parsed"
+    certainty: 95
+  - at_most: {col: year, expr: current_year()}
+    reason: "REFERENCE_PERIOD_DESC carries FORECAST rows, but they are forecasts within the current marketing year, not future-dated YEARs"
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - freshness: {col: year, reaches: 2020}
+    reason: "fed by the Census of Agriculture, published every 5 years, so the accept policy calls this commodity stale once its latest YEAR falls more than 6 years behind 2026; a stale slice must be re-judged, not published"
+    certainty: 85
+    points_outward: true
+  - row_count: {min: 189952}
+    reason: "collect counted 211,058 observations for this commodity; the dump only grows, so a 10% shortfall means the loader dropped one of its sector slices"
+    certainty: 85
+  - coverage: {col: series, expected: 31, tolerance: 0.02}
+    reason: "collect enumerated 31 distinct SHORT_DESC series for this commodity across its sectors; a shortfall is silent partial loss, not success"
+    certainty: 90
