@@ -42,7 +42,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 SLUG = "banco-de-espana"
 _ZIP_BASE = "https://www.bde.es/webbe/es/estadisticas/compartido/datos/zip/"
@@ -822,18 +822,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_FILE
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=spec.id + "-transform",
-        deps=[spec.id],
-        sql=(
-            'SELECT series_code, alias, description, units, frequency, '
-            'period_label, CAST(date AS DATE) AS date, '
-            'CAST(value AS DOUBLE) AS value '
-            'FROM "' + spec.id + '" WHERE value IS NOT NULL'
-        ),
-    )
-    for spec in DOWNLOAD_SPECS
 ]
