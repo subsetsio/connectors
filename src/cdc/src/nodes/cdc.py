@@ -7,10 +7,10 @@ dataset returning the entire table in a single request (chosen mechanism:
 bulk_csv).
 
 Fetch shape: stateless full re-pull. The portal exposes no changed-since feed, so
-each dataset is re-fetched whole and its raw CSV overwritten; revisions and late
-corrections come along for free. Exports are streamed to disk gzip-compressed
-(they range from a few KB to ~28M rows), so a large table never materializes in
-memory.
+each dataset is re-fetched whole and its raw table overwritten; revisions and
+late corrections come along for free. Exports are staged as local CSV and
+converted to raw Parquet (they range from a few KB to ~28M rows), so downstream
+profiling does not repeatedly sniff hundreds of remote gzip CSVs.
 
 Withdrawn (404), login-gated (403), and >50M-row datasets are excluded by the
 accept policy, so every id in ENTITY_IDS is expected to export in full.
@@ -18,7 +18,12 @@ accept policy, so every id in ENTITY_IDS is expected to export in full.
 
 from __future__ import annotations
 
+import os
+import shutil
+import tempfile
 import time
+
+import duckdb
 
 from subsets_utils import (
     MaintainSpec,
@@ -46,28 +51,59 @@ _CHUNK = 1 << 20  # 1 MiB
 _MAX_DOWNLOAD_SECONDS = 2700  # 45 min
 
 
-@transient_retry()
-def _download_csv_gz(url: str, asset: str) -> None:
-    """Stream one dataset's full CSV export to a gzip-compressed raw asset.
+def _csv_to_parquet(csv_path: str, parquet_path: str) -> None:
+    con = duckdb.connect()
+    try:
+        con.execute(
+            """
+            COPY (
+                SELECT *
+                FROM read_csv_auto(?, header=true, all_varchar=true, sample_size=-1)
+            )
+            TO ? (FORMAT PARQUET, COMPRESSION ZSTD)
+            """,
+            [csv_path, parquet_path],
+        )
+    finally:
+        con.close()
 
-    Writing raw inside the retried fn is deliberate: a mid-stream transient
-    failure re-opens the writer on the next attempt, truncating the partial
-    bytes, so a retry can never concatenate two half-downloads.
+
+@transient_retry()
+def _download_parquet(url: str, asset: str) -> None:
+    """Fetch one dataset's full CSV export and store it as raw Parquet.
+
+    The source contract is still Socrata's bulk CSV endpoint. Parquet is the
+    raw storage format so model verification and transforms can use
+    `read_parquet` instead of remote CSV dialect inference. Writing raw inside
+    the retried fn is deliberate: a mid-stream transient failure rewrites the
+    full asset on retry, so partial bytes never become the manifest entry.
     """
     client = get_client()
     started = time.monotonic()
-    # (connect, read) — a generous read window for multi-MB exports.
-    with client.stream("GET", url, timeout=(10.0, 300.0)) as resp:
-        resp.raise_for_status()
-        with raw_writer(asset, "csv.gz", mode="wb", compression="gzip") as out:
-            for chunk in resp.iter_bytes(_CHUNK):
-                out.write(chunk)
-                if time.monotonic() - started > _MAX_DOWNLOAD_SECONDS:
-                    raise RuntimeError(
-                        f"{asset}: bulk CSV export still streaming after "
-                        f"{_MAX_DOWNLOAD_SECONDS}s — the table has outgrown the "
-                        "size accept sized it at; re-measure and re-decide it"
-                    )
+    tmpdir = tempfile.mkdtemp(prefix=f"{asset}-")
+    csv_path = os.path.join(tmpdir, "data.csv")
+    parquet_path = os.path.join(tmpdir, "data.parquet")
+    try:
+        # (connect, read) — a generous read window for multi-MB exports.
+        with client.stream("GET", url, timeout=(10.0, 300.0)) as resp:
+            resp.raise_for_status()
+            with open(csv_path, "wb") as out:
+                for chunk in resp.iter_bytes(_CHUNK):
+                    out.write(chunk)
+                    if time.monotonic() - started > _MAX_DOWNLOAD_SECONDS:
+                        raise RuntimeError(
+                            f"{asset}: bulk CSV export still streaming after "
+                            f"{_MAX_DOWNLOAD_SECONDS}s — the table has outgrown the "
+                            "size accept sized it at; re-measure and re-decide it"
+                        )
+
+        _csv_to_parquet(csv_path, parquet_path)
+        os.remove(csv_path)
+
+        with open(parquet_path, "rb") as src, raw_writer(asset, "parquet", mode="wb") as out:
+            shutil.copyfileobj(src, out, length=_CHUNK)
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
 
 
 def fetch_one(node_id: str) -> None:
@@ -75,7 +111,7 @@ def fetch_one(node_id: str) -> None:
     which is also the raw asset name; the dataset's 4x4 id is the id minus the
     "cdc-" prefix."""
     dataset_id = node_id[len("cdc-"):]
-    _download_csv_gz(_EXPORT_URL.format(dataset_id=dataset_id), node_id)
+    _download_parquet(_EXPORT_URL.format(dataset_id=dataset_id), node_id)
 
 
 DOWNLOAD_SPECS = [
@@ -111,7 +147,7 @@ MAINTAIN_SPECS = [
             "feed and no HEAD validator on the export); age-gated at 6 days, "
             "which also drives within-run continuation resume."
         ),
-        check=lambda aid: raw_asset_exists(aid, "csv.gz", max_age_days=_MAINTAIN_MAX_AGE_DAYS),
+        check=lambda aid: raw_asset_exists(aid, "parquet", max_age_days=_MAINTAIN_MAX_AGE_DAYS),
     )
     for s in DOWNLOAD_SPECS
 ]
