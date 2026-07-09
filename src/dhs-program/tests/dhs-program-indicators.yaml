@@ -1,0 +1,14 @@
+spec_id: dhs-program-indicators
+status: active
+tests:
+  - row_count: {min: 4000}
+    reason: the DHS indicators catalog has more than four thousand indicators
+    certainty: 95
+  - not_null: IndicatorId
+  - not_null: Label
+  - column_type: {col: IndicatorId, type: string}
+  - column_type: {col: Label, type: string}
+  - column_type: {col: IsQuickStat, type: integer}
+  - unique: IndicatorId
+    reason: IndicatorId is the stable DHS indicator identifier
+    certainty: 95

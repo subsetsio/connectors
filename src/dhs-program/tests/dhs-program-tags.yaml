@@ -1,0 +1,13 @@
+spec_id: dhs-program-tags
+status: active
+tests:
+  - row_count: {min: 40}
+    reason: the DHS tag taxonomy has about fifty topical tags
+    certainty: 95
+  - not_null: TagID
+  - not_null: TagName
+  - column_type: {col: TagID, type: integer}
+  - column_type: {col: TagName, type: string}
+  - unique: TagID
+    reason: TagID is the stable tag identifier referenced from indicators
+    certainty: 95

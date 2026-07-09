@@ -1,0 +1,21 @@
+spec_id: dhs-program-surveys
+status: active
+tests:
+  - row_count: {min: 300}
+    reason: the DHS surveys catalog covers hundreds of surveys
+    certainty: 95
+  - not_null: SurveyId
+  - not_null: DHS_CountryCode
+  - not_null: SurveyYear
+  - column_type: {col: SurveyId, type: string}
+  - column_type: {col: SurveyYear, type: integer}
+  - unique: SurveyId
+    reason: SurveyId identifies one DHS survey
+    certainty: 95
+  - between: {col: SurveyYear, lo: 1980, hi: current_year()}
+    certainty: 90
+    points_outward: true
+  - freshness: {col: SurveyYear, reaches: current_year() - 5y}
+    reason: DHS continues adding surveys, but publication can lag survey fieldwork
+    certainty: 80
+    points_outward: true
