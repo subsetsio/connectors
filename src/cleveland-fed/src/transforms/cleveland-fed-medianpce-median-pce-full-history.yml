@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-medianpce-median-pce-full-history`. Regenerate after model-verify.
+# caution: Monthly, dated to the first of the month. The two columns are different transforms of the same measure (one-month percent change and year-over-year percent change) and are not comparable to each other.
+# caution: The source writes the literal token `NaN` for months with no observation (the first month of the history, and the first eleven months for the year-over-year column).
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE

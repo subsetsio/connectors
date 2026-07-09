@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-crediteasing-longtermtreasuries`. Regenerate after model-verify.
+# caution: Weekly (Wednesday) balance levels in millions of US dollars, not flows. This is the single-column detail view of the same aggregate that appears in the Credit Easing summary table.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE

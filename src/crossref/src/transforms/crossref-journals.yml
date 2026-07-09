@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `crossref-journals`. Regenerate after model-verify.
+# caution: Journal records do not expose a stable single-record identifier in the flattened Crossref response; rows should be treated as source title records rather than deduplicated journals.
+key: []
+columns:
+  - name: title
+    type: VARCHAR
+  - name: issn
+    type: VARCHAR
+  - name: publisher
+    type: VARCHAR
+  - name: total_dois
+    type: BIGINT
+  - name: current_dois
+    type: BIGINT
+  - name: backfile_dois
+    type: BIGINT

@@ -30,6 +30,16 @@ CSVs and `data_quality_score` from the metadata CSVs, and `data_quality` is
 integral in some members and fractional in others (FR carries 0.0144). Both
 columns are therefore pinned to float64 and back-filled as null where absent,
 so every member conforms to one declared schema.
+
+Two upstream quirks worth knowing before touching the parse:
+
+  * Namibia's area code is the literal string `NA`, which every CSV reader on
+    earth wants to read as a null. See `_convert_opts`.
+  * 12 of the 423 areas ship header-only members (47 bytes) in BOTH the data
+    and metadata sets — `Al`, `ON`, `SW`, `XC`, `XE`, `XK`, `XQ` and the
+    `ON/OO/OP/OQ/XQ`-`MER` variants. They are placeholders upstream, so only
+    411 areas ever appear in the raw. The coverage waivers on the two
+    per-area specs record exactly that gap.
 """
 
 import io

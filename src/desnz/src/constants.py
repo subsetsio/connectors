@@ -1,26 +1,34 @@
-# uuid -> CKAN package name for the rank-accepted DESNZ data.gov.uk packages.
+# uuid -> CKAN package name for the accepted DESNZ data.gov.uk packages.
 # Copied from the collect catalog / entity union; this is data, not logic.
-# (3 packages de-listed at rank: gamma-radiation files are 410 Gone; properties-not-
-#  connected and postcode-estimates expose only gov.uk landing pages, no data file.)
+# Packages with no current tabular resource formats are deferred by accept.
 
 ENTITY_CKAN = {
     '065d267f-23bc-4d0e-9a56-52d388d5835c': 'desnz-heat-networks-planning-database',
+    '1a7347c5-8758-427b-825b-31e0ff417784': 'desnz-spending-over-f500-also-known-as-epcs-or-gpc',
     '1656fb7d-1ca3-462d-a11b-8078acc33275': 'household-energy-efficiency-statistics',
     '1715ab16-2a5a-49ac-8aef-0b9d0cf741b2': 'non-domestic-national-energy-efficiency-data-framework-nd-need',
     '2057327e-d1f2-4f63-894f-72fc75235188': 'great-british-insulation-scheme',
     '21db6396-3daf-4d90-8b3f-054995256018': 'petrol-and-diesel-prices',
+    '2673218b-0888-4617-a94e-9df90f75117f': 'ministerial-gifts-hospitality-travel-and-meetings-with-external-organisations',
     '26afb14b-be9a-4722-916e-10655d0edc38': 'energy_consumption_in_the_uk',
     '28d823ff-310b-4620-8ba2-58dbd1d0c7c5': 'renewable_heat_incentive_rhi_and_renewable_heat_premium_payments_rhpp_deployment_data',
     '44dea418-483e-43f1-80f8-4694b2edaa01': 'historical-coal-data-coal-production-availability-and-consumption',
     '473afefd-9028-48d1-a959-c865c1387a9d': 'national_energy_efficiency_data-framework_need',
     '480984d5-13d7-48b1-93c8-2a0871ef5543': 'electricity_consumption_at_local_authority_level',
+    '49aecf4e-a614-4de3-98a2-b76506b10686': 'desnz-non-consolidated-performance-related-pay',
     '4b7b7f64-0b97-4a6e-8e45-1218b9a81876': 'total_fuels_consumption_at_local_authority_level',
     '50474412-ef94-429c-8041-1265a5d0efe4': 'warm-homes-social-housing-fund',
+    '5370c0bb-d3bb-4a45-829a-1437018fe13d': 'desnz-special-advisers-gifts-hospitality-and-meetings',
+    '55efc916-edbb-4468-8c71-0786cb9463c1': 'desnz-organogram-of-staff-roles-salaries',
+    '5d790113-2ab8-4e05-9375-aa9a0f2b7601': 'desnz-spend-control-data',
+    '619c8203-d0e9-4967-946e-3f28b4484c4d': 'estimates-of-properties-not-connected-to-the-gas-network',
     '6e7e309e-d2b5-400d-92b7-dd520712aee7': 'sub-national_electricity_consumption_in_northern_ireland',
     '723c243d-2f1a-4d27-8b61-cdb93e5b10ff': 'local_authority_carbon_dioxide_emissions',
     '738a7bdb-a533-443d-bd02-69a8dd7fe68d': 'solar-pv-cost-data',
     '7390402c-e7ce-4e2f-bb08-d8d65f852f47': 'nationalenergyefficiencydataframeworkanonymiseddata',
     '7879ecc8-5276-4fa3-a445-593291032da3': 'renewables-obligation-certificates-and-generation',
+    '78f7250d-c8ae-4b41-93fe-762382b356e1': 'decc_public_attitudes_tracking_survey',
+    '82a5ec99-3790-431b-885c-5a02203cd50f': 'desnz-workforce-management-information',
     '86a4555e-6f38-4529-8647-542cc6223162': 'sub-national-gas-consumption-in-northern-ireland',
     '8f8e436d-816a-4c14-a4de-ad1e73774ec7': 'crude-oil-and-petroleum-production-imports-and-exports',
     '9003012e-4564-4a6b-b5f0-8765ccb23a03': 'average-road-fuel-sales',
@@ -33,10 +41,15 @@ ENTITY_CKAN = {
     'a77294d6-b676-4f95-b584-ceabc65f36bd': 'social-housing-decarbonisation-fund-statistics',
     'acd6dbb9-1958-4605-8a49-8b15f5022a7b': 'green-homes-grant-local-authority-delivery-statistics',
     'b264edb9-4a78-4977-a871-c9561a3ef8cc': 'heat-pump-deployment',
+    'b2f104db-9670-4076-8c4e-c6b39ef34193': 'desnz-departmental-spending-over-f25-000',
+    'b6a31316-c69b-44c6-babd-d0b76448b030': 'desnz-commercial-pipeline',
     'c647e722-b691-47e9-a765-a22e24f05a04': 'solar-photovoltaics-deployment',
     'cf609fce-0158-4b3d-901a-b81951f4eeeb': 'consumption_of_non-gas_non-electricity_and_non-road_transport_fuels',
     'd24e5973-dc24-4016-b9bd-da9409752498': 'boiler-upgrade-scheme-statistics',
+    'd6da4831-de12-4a2b-958b-c0c0bfe61e05': 'desnz-senior-officials-business-expenses-hospitality-and-meetings',
     'de45c29d-1abf-4357-b1ef-5fa87f5e2e73': 'historical-coke-and-breeze-data-coal-carbonized-and-coke-and-breeze-produced-at-coke-ovens',
+    'df7e7e32-7c31-4970-a1c4-900a8c2111e8': 'desnz-prompt-payment-data',
+    'e7d4c1cf-45a0-4070-878f-24ad9641f655': 'domestic-electricity-and-gas-estimates-by-postcode-in-great-britain',
     'eb8e6778-85de-47f8-ae5d-204bc5b4f2cd': 'gas_consumption_at_local_authority_level',
     'ed44b45d-6651-4767-9f73-92abd3f51e48': 'smart_meter_installations',
     'ed629618-7b69-465d-8e0a-0546b1809fc7': 'electricity_and_gas_consumption_at_middle_layer_super_output_area_mlsoa_and_intermediate_geography_z',

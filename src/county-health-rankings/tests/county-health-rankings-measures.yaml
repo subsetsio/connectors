@@ -26,3 +26,6 @@ tests:
   - between: {col: release_year, lo: 2010, hi: current_year()}
     reason: release year comes from the discovered analytic filename
     certainty: 90
+  - freshness: {col: release_year, reaches: 2025}
+    reason: the measure taxonomy is derived from the latest annual analytic release
+    certainty: 90

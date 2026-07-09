@@ -21,6 +21,9 @@ tests:
   - row_count: {min: 100000}
     reason: the cumulative trends file spans ~35 measures x ~3200 counties x ~20 yearspans
     certainty: 85
+  - freshness: {col: yearspan, reaches: "2023"}
+    reason: trend observations can lag the annual CHR release because yearspan windows are based on source measurement periods
+    certainty: 85
   - distinct_count: {col: measure_name, min: 15}
     reason: CHR publishes ~35 trendable measures; far fewer means the file was truncated
     certainty: 80

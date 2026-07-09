@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-yieldcurve-chart1-spread-vs-gdpgrowth-w-forecast`. Regenerate after model-verify.
+# caution: Quarterly rows dated to the first month of the quarter. The table mixes realized history with a model forecast extending years into the future: on forecast rows only `real_gdp_growth_forecast` is populated, on historical rows only `real_gdp_growth`. Never treat the two as one column without deciding which regime you want.
+# caution: The file also carries a quarter-average-spread annotation column whose NAME encodes the averaging window (e.g. `spread_qtavg_04012026_06192026`) and therefore changes every quarter.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE
@@ -8,5 +14,5 @@ columns:
     type: DOUBLE
   - name: real_gdp_growth_forecast
     type: DOUBLE
-  - name: spread_qtavg_04012026_05222026
+  - name: spread_qtavg_04012026_06192026
     type: DOUBLE

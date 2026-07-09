@@ -1,10 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-mediancpi-mediancpi-component-table`. Regenerate after model-verify.
+# caution: A cross-sectional snapshot of the LATEST month only, sorted by one-month annualized percent change; it has no time axis and is overwritten each month.
+# caution: `cumulative_relative_importance` is a running total down the source's sort order, so it is only meaningful in that order and must never be aggregated. `relative_importance_normalized` is the weight in percent and sums to ~100 across rows.
+key: [label]
+sort: [label]
 columns:
   - name: label
     type: VARCHAR
-  - name: 1_month_annualized_percent_change
+  - name: "1_month_annualized_percent_change"
     type: DOUBLE
   - name: relative_importance_normalized
     type: DOUBLE
   - name: cumulative_relative_importance
     type: DOUBLE
-

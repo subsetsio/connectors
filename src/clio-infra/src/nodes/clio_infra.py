@@ -35,8 +35,18 @@ SCHEMA = pa.schema([
 
 
 @transient_retry()  # 6 attempts, exponential backoff over transient net errors + 429/5xx
-def _fetch_xlsx(url: str) -> bytes:
-    resp = get(url, timeout=(10.0, 120.0))
+def _fetch_xlsx(url: str, referer: str) -> bytes:
+    # The host is plain nginx and serves these files to a bare request from a
+    # residential IP. It answered 403 to every request from the GitHub Actions
+    # runners (run 20260709-164551, first request, no rate limiting). A Referer
+    # covers the hotlink-protection case; if the deny is by IP the body below
+    # carries nginx's reason into the run log.
+    resp = get(url, timeout=(10.0, 120.0), headers={"Referer": referer})
+    if resp.status_code == 403:
+        raise AssertionError(
+            f"403 fetching {url} (referer={referer}); "
+            f"server={resp.headers.get('server')!r} body={resp.text[:300]!r}"
+        )
     resp.raise_for_status()
     return resp.content
 
@@ -51,7 +61,7 @@ def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     stem = _SPEC_TO_STEM[node_id]
     url = f"https://clio-infra.eu/data/{stem}_Compact.xlsx"
-    content = _fetch_xlsx(url)
+    content = _fetch_xlsx(url, referer=f"https://clio-infra.eu/Indicators/{stem}.html")
 
     wb = openpyxl.load_workbook(io.BytesIO(content), data_only=True)
     ws = next((wb[n] for n in wb.sheetnames if n.strip().lower() == _LONG_SHEET), None)

@@ -1,4 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-sorce-sorce-web-data`. Regenerate after model-verify.
+# caution: One row per SORCE collection date; the survey covers firms in the Fourth Federal Reserve District (Ohio and parts of Pennsylvania, West Virginia and Kentucky), not the US as a whole.
+# caution: Every column is a diffusion index (share reporting an increase minus share reporting a decrease, roughly -100 to 100), so values are not levels and must not be summed.
+# caution: The `manu_`, `oth_` and `total_` prefixes are industry cuts of the same question: `total_` is the all-firms index, NOT the sum of the manufacturing and other-industry indexes.
+# caution: Questions were added to the survey over time, so early collection dates have no observation for the later question blocks.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE

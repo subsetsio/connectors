@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-inflationexpectations-inflationexpectations-chart2`. Regenerate after model-verify.
+# caution: Both series are ten-year yields in percent per year: `tips_yield` is the observed market TIPS yield, `model_yield` the model-implied real yield. The horizon is not encoded in the data.
+# caution: The model series is re-estimated over the whole history when the model is refit, so past values can change between runs.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE

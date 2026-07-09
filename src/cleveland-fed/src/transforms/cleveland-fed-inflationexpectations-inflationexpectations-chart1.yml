@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-inflationexpectations-inflationexpectations-chart1`. Regenerate after model-verify.
+# caution: All three series are TEN-YEAR horizon values in percent per year, and are model estimates (Haubrich-Pennacchi-Ritchken term-structure model), not market observables. The horizon is not encoded in the data.
+# caution: Monthly observations dated to the first of the month; the whole history is re-estimated when the model is refit, so values for past dates can change between runs.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE

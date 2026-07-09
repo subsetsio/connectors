@@ -21,6 +21,9 @@ tests:
   - between: {col: release_year, lo: 2010, hi: current_year()}
     reason: analytic files run from the 2010 release to the current release
     certainty: 90
+  - freshness: {col: release_year, reaches: 2025}
+    reason: County Health Rankings publishes annual release files; the current or prior release year should be present.
+    certainty: 90
   - row_count: {min: 1000000}
     reason: ~16 release years x ~3200 counties x ~50-90 measures, unpivoted to long form
     certainty: 85

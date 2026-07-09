@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-medianpce-medianpce-chartdata`. Regenerate after model-verify.
+# caution: A short chart window (the most recent years only) of series that exist in full elsewhere in this source; do not treat it as a complete history.
+# caution: All three columns are year-over-year percent changes.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE

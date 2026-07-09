@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-systemicrisk-landing-systemicrisk`. Regenerate after model-verify.
+# caution: Daily observations on trading days only; gaps are weekends and holidays, not missing data.
+# caution: The three columns are related by construction: `sri` (the systemic risk indicator) equals `pdd` minus `add`. All are expressed in percentage points of asset value; a LOW `sri` signals elevated systemic stress.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE

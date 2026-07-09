@@ -1,14 +1,20 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-policyrules-chartdata`. Regenerate after model-verify.
+# caution: Every row is a FORECAST: quarterly projected federal funds rates, in percent per year, for quarters that have not happened yet. There is no realized history in this table.
+# caution: The columns are order statistics ACROSS seven simple monetary policy rules evaluated for that quarter, not five distinct rates: `maximum` and `minimum` are the envelope of the seven rule prescriptions. Each column traces different rules in different quarters, so a column is not a time series of one rule.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE
   - name: maximum
     type: DOUBLE
-  - name: 75th_percentile
+  - name: "75th_percentile"
     type: DOUBLE
   - name: median
     type: DOUBLE
-  - name: 25th_percentile
+  - name: "25th_percentile"
     type: DOUBLE
   - name: minimum
     type: DOUBLE

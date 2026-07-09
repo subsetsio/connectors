@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-survey-of-firms-survey-graph`. Regenerate after model-verify.
+# caution: Quarterly survey waves; the source dates each wave by month and year only (`4/2018`), which is normalized to the first day of that month.
+# caution: `mean` and `standard_deviation` summarize the cross-section of responding firms' one-year-ahead expected inflation (percent), for that wave only — the standard deviation is dispersion across firms, not a time-series or sampling error.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE

@@ -1,3 +1,11 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-consumersandcovid19-consumers-and-covid19`. Regenerate after model-verify.
+# caution: One row per survey collection date of the 2020 Consumers and COVID-19 special survey; the panel was discontinued, so this table is a closed historical extract, not an ongoing series.
+# caution: Columns mix incompatible measures on one row: `exp_impact_*` columns are expected percentage-point impacts on GDP/inflation (robust means and medians of respondent answers), while every other column is the share of respondents (percent, 0-100) giving that answer. Never average or sum across columns.
+# caution: The `coronavirus_duration_*` share columns are alternatives from one question and sum to roughly 100 within a row; `coronavirus_duration_months` is a separate expected-duration answer in months, not a share.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE
@@ -33,4 +41,3 @@ columns:
     type: DOUBLE
   - name: coronavirus_duration_gt3years
     type: DOUBLE
-

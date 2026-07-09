@@ -1,0 +1,10 @@
+spec_id: desnz-d6da4831-de12-4a2b-958b-c0c0bfe61e05
+status: active
+tests:
+  - not_null: resource
+  - not_null: series
+  - not_null: value_text
+  - column_type: {col: row_label, type: string}
+  - column_type: {col: value_text, type: string}
+  - row_count: {min: 1}
+  - distinct_count: {col: series, min: 1}

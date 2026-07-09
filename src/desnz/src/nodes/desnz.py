@@ -1,8 +1,9 @@
 """DESNZ (UK Dept for Energy Security & Net Zero) — data.gov.uk catalog connector.
 
 Mechanism (from research): CKAN action API as the enumeration spine, bulk file
-download for the data. The DESNZ publisher org exposes ~62 packages; the rank
-step accepted 44. Each package is one subset (one published Delta table).
+download for the data. The DESNZ publisher org exposes ~62 packages; the accept
+step keeps packages with current tabular resources. Each package is one subset
+(one published Delta table).
 
 There is no datastore behind these packages — every resource is a human-formatted
 Excel/ODS/CSV statistical workbook (cover/contents banner rows, multiple sheets,
@@ -12,7 +13,7 @@ heterogeneous catalog is a **tidy long melt**: for every tabular resource in a
 package we detect each sheet's data block (skip the banner rows, find the header
 row) and emit one row per (resource, sheet, row label, column header) cell, with
 the value kept both as text and as a parsed number. Every package therefore lands
-as the same six-column long table, which is what makes 44 bespoke workbooks
+as the same six-column long table, which is what makes the bespoke workbooks
 queryable through one stable schema.
 
 Fetch shape: **stateless full re-pull** (shape 1). The corpus is dozens of packages
@@ -21,10 +22,12 @@ cheap and picks up revisions/new periods for free. Resource URLs are hash-based
 /media/<hash>/ paths that rotate on republish, so we always resolve them fresh
 from CKAN at fetch time and never cache them. No watermark, no cursor.
 """
+import html
 import io
 import json
 import logging
-from urllib.parse import urlparse, parse_qs
+import re
+from urllib.parse import urljoin, urlparse, parse_qs
 
 import httpx
 from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, raw_writer
@@ -37,6 +40,7 @@ CKAN = "https://ckan.publishing.service.gov.uk/api/3/action"
 # Resource formats that carry tabular data. Everything else (pdf, webpage, html,
 # document, zip, ...) is a supplementary/landing resource and is dropped.
 TABULAR_FORMATS = {"csv", "xlsx", "xls", "ods"}
+TABULAR_EXT_RE = re.compile(r"""href=["']([^"']+\.(?:csv|xlsx|xls|ods)(?:\?[^"']*)?)["']""", re.I)
 
 # A detected sheet block must have at least this many populated data rows to be
 # emitted. Cuts the small cover/contents/highlights blocks while keeping every
@@ -126,6 +130,22 @@ def _read_sheets(content, fmt, url):
     return sheets
 
 
+def _is_html(content):
+    return content[:512].lstrip()[:14].lower().startswith((b"<!doctype", b"<html"))
+
+
+def _tabular_links_from_html(content, base_url):
+    text = content[:2_000_000].decode("utf-8", errors="replace")
+    links = []
+    seen = set()
+    for href in TABULAR_EXT_RE.findall(text):
+        url = html.unescape(urljoin(base_url, href))
+        if url not in seen:
+            seen.add(url)
+            links.append(url)
+    return links
+
+
 def _df_to_grid(df):
     import pandas as pd
 
@@ -205,9 +225,17 @@ def fetch_one(node_id: str) -> None:
             resource_name = (res.get("name") or res.get("id") or url).strip()
             try:
                 content = _download(url)
-                for row in _iter_resource_rows(content, fmt, url, resource_name):
-                    out.write(json.dumps(row, separators=(",", ":")) + "\n")
-                    n += 1
+                payloads = [(url, content)]
+                if _is_html(content):
+                    payloads = [
+                        (linked_url, _download(linked_url))
+                        for linked_url in _tabular_links_from_html(content, url)
+                    ]
+                for payload_url, payload in payloads:
+                    payload_fmt = payload_url.lower().split("?")[0].rsplit(".", 1)[-1]
+                    for row in _iter_resource_rows(payload, payload_fmt, payload_url, resource_name):
+                        out.write(json.dumps(row, separators=(",", ":")) + "\n")
+                        n += 1
             except httpx.HTTPStatusError as e:
                 # Permanent per-resource failure (e.g. 410 Gone when a file is
                 # withdrawn, 404). Skip this resource, keep the rest of the package.

@@ -1,10 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-yieldcurve-chart4-spread-vs-lagrealgdp`. Regenerate after model-verify.
+# caution: Quarterly rows dated to the first month of the quarter. Unlike its sibling chart3 table, `real_gdp` here is the LAGGED (year-ahead) real GDP growth aligned to the quarter in which the `spread` was observed, which is why the most recent quarters have a spread but no GDP value.
+# caution: `recession` is a chart-shading sentinel, not a value: 100 marks a quarter inside an NBER recession and -100 a quarter outside one.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE
-  - name: recession
-    type: INTEGER
   - name: real_gdp
     type: DOUBLE
   - name: spread
+    type: DOUBLE
+  - name: recession
     type: DOUBLE

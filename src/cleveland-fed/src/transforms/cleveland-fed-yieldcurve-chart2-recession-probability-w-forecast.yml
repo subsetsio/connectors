@@ -1,10 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-yieldcurve-chart2-recession-probability-w-forecast`. Regenerate after model-verify.
+# caution: Monthly rows dated to the first of the month, extending years into the future: `recession_probability` is the estimated probability (percent) over realized history and `recession_probability_forecast` over the forecast horizon; exactly one of the two is populated on any row.
+# caution: `recession` is a chart-shading sentinel, not a value: 1000 marks a month inside an NBER recession and 0 a month outside one.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE
-  - name: recession
-    type: INTEGER
   - name: recession_probability
     type: DOUBLE
   - name: recession_probability_forecast
+    type: DOUBLE
+  - name: recession
     type: DOUBLE

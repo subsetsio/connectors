@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cleveland-fed-inflationnowcasting-nowcast-year`. Regenerate after model-verify.
+# caution: `label` is the nowcast update stamp for the CURRENT nowcasting cycle only — either a month/day like `08/20` (no year) or a data-release marker like `PCE Jul`. The table is overwritten each cycle and keeps no history; the target month is not encoded in the file.
+# caution: Despite the `year` filename this is the MONTHLY year-over-year nowcast: values are year-over-year percent changes for the current month. The `actual_*` columns carry the realized release value and are populated only on release-marker rows.
+# caution: Series columns that are entirely unpopulated in a cycle are dropped from the file, so the column set varies between runs.
+key: [label]
+sort: [label]
 columns:
   - name: label
     type: VARCHAR

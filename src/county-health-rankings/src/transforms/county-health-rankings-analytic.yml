@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `county-health-rankings-analytic`. Regenerate after model-verify.
+# caution: Contains county, state, and national geography rows in one table; filter geography level before aggregating across `fips`.
+# caution: The analytic release files are annual cross-sections by release year, not a continuously revised time series for every measure.
+key: [release_year, state_fips, county_fips, measure_id]
+temporal: release_year
+sort: [release_year, state_fips, county_fips, measure_id]
 columns:
   - name: release_year
     type: BIGINT
