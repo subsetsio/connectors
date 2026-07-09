@@ -1,0 +1,63 @@
+# Short-term (two-year) Colorado employment projections, one row per area, projection
+# vintage, industry and occupation. No `temporal` column is declared: a row is not an
+# observation at a point in time but a base-year/horizon pair, named by projection_period.
+key: [area_type, area_code, projection_id, industry_code, occupation_code]
+sort: [area_type, area_code, projection_id, industry_code, occupation_code]
+columns:
+  - name: area_type
+    type: BIGINT
+    description: "CDLE geography-level code: 1 = State, 21 = Metropolitan Statistical Area, 75 = Balance of State. The levels are nested — filter before summing."
+  - name: area_type_name
+    type: VARCHAR
+    description: Human-readable name of `area_type` ('State', 'Metropolitan Statistical Area', 'Balance of State').
+  - name: area_code
+    type: BIGINT
+    description: CDLE numeric identifier of the geographic area within its `area_type`. Not a FIPS code.
+  - name: area_name
+    type: VARCHAR
+    description: Name of the geographic area.
+  - name: projection_id
+    type: BIGINT
+    description: Identifier of the projection vintage. A new vintage is published roughly yearly; a refresh adds rows under a new id rather than revising the old ones.
+  - name: projection_period
+    type: VARCHAR
+    description: Human-readable description of the projection vintage, giving the base year, horizon year and publication date (e.g. 'Colorado Short-Term Projections, 2024-2026, February 2025').
+  - name: industry_code
+    type: BIGINT
+    description: CDLE industry code. Hierarchical — 0 is 'Total All Industries' and the sector rollups sit above the detailed industries, so summing employment across all codes double-counts.
+  - name: industry_title
+    type: VARCHAR
+    description: Name of the industry identified by `industry_code`.
+  - name: occupation_code
+    type: BIGINT
+    description: SOC-derived occupation code. Hierarchical, including a total row and major-group rollups above the detailed occupations.
+  - name: occupation_title
+    type: VARCHAR
+    description: Name of the occupation identified by `occupation_code`.
+  - name: base_employment
+    type: BIGINT
+    description: Estimated employment in this industry/occupation cell in the projection's base year (the first year named in `projection_period`).
+  - name: projected_employment
+    type: BIGINT
+    description: Projected employment in the same cell in the horizon year (the second year named in `projection_period`), two years after the base year.
+  - name: employment_change
+    type: BIGINT
+    description: Projected change in employment over the horizon, equal to `projected_employment` minus `base_employment`. Negative for declining cells.
+  - name: percent_change
+    type: DOUBLE
+    description: Total percent change in employment over the whole two-year horizon (e.g. 2.69 means +2.69%). Not annualized — see `annual_growth_rate`.
+  - name: annual_growth_rate
+    type: DOUBLE
+    description: Compound annual growth rate of employment over the horizon, in percent per year (e.g. 1.34 means +1.34%/year).
+  - name: base_share_of_industry
+    type: DOUBLE
+    description: This occupation's share of its industry's employment in the base year, in percent. A share — never sum across rows.
+  - name: projected_share_of_industry
+    type: DOUBLE
+    description: This occupation's share of its industry's employment in the horizon year, in percent.
+  - name: base_share_of_occupation
+    type: DOUBLE
+    description: This industry's share of the occupation's total employment in the base year, in percent.
+  - name: projected_share_of_occupation
+    type: DOUBLE
+    description: This industry's share of the occupation's total employment in the horizon year, in percent.
