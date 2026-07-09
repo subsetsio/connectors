@@ -8,6 +8,7 @@ stage; this module intentionally exposes only DOWNLOAD_SPECS.
 import csv
 import gzip
 import io
+import time
 
 import pyarrow as pa
 
@@ -15,6 +16,9 @@ from constants import ENTITY_IDS
 from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet
 
 DATA_URL = "https://rplumber.ilo.org/data/indicator"
+
+_BAD_REQUEST_ATTEMPTS = 3
+_BAD_REQUEST_BACKOFF_S = 5.0
 
 RAW_SCHEMA = pa.schema([
     ("ref_area", pa.string()),
