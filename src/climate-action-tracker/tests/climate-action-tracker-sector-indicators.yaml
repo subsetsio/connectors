@@ -7,6 +7,7 @@ tests:
   - not_null: sector
   - not_null: indicator
   - not_null: year
+  - unique: id
   - column_type: {col: id, type: integer}
   - column_type: {col: year, type: integer}
   - column_type: {col: value, type: float}
@@ -18,13 +19,13 @@ tests:
   - distinct_count: {col: country, min: 30}
     reason: source covers about 35 country/EU codes for sector indicators.
     certainty: 90
-  - enum: {col: scenario, values: ["historic"]}
-    reason: sector indicator records currently represent historical benchmark observations rather than scenario projections.
-    certainty: 80
-  - between: {col: year, lo: 1990, hi: 2035}
-    reason: sector indicators include historical values and near-term benchmark years.
+  - enum: {col: scenario, values: ["historic", "benchmark", "benchmark_extended"]}
+    reason: every row is either an observed historical value or a 1.5C benchmark pathway point; a new scenario is a contract change consumers must be told about before they filter on it.
     certainty: 85
-  - freshness: {col: edition, reaches: current_year() - 2}
-    reason: CAT republishes updated data explorer editions; edition is the source update marker, while year is an observation or benchmark year.
+  - between: {col: year, lo: 1990, hi: 2050}
+    reason: historical observations start in 1990 and benchmark pathways run out to 2050.
+    certainty: 90
+  - freshness: {col: historic_year, reaches: current_year() - 3}
+    reason: historic_year is `year` restricted to the observed (scenario=historic) rows, so its max is the last year CAT has actual sector data for; the benchmark rows pin max(year) at 2050 and would mask any staleness. Sector statistics lag by about two years, so allow three. (edition is a republish counter, not a date.)
     certainty: 80
     points_outward: true

@@ -7,6 +7,8 @@ tests:
   - not_null: sector
   - not_null: indicator
   - not_null: year
+  - not_null: version_date
+  - unique: id
   - column_type: {col: id, type: integer}
   - column_type: {col: year, type: integer}
   - column_type: {col: value, type: float}
@@ -20,7 +22,10 @@ tests:
   - between: {col: year, lo: 1990, hi: 2050}
     reason: country emissions view covers historical values and projections through mid-century.
     certainty: 90
-  - freshness: {col: edition, reaches: current_year() - 2}
-    reason: CAT republishes updated country analysis editions; edition is the source update marker, while year includes future projections.
+  - enum: {col: sector, values: ["Economy-wide, excluding LULUCF", "LULUCF"]}
+    reason: emissions are split into exactly these two sector scopes; a new value would change what summing across sectors means.
     certainty: 80
+  - freshness: {col: version_date, reaches: today - 400d}
+    reason: version_date is the assessment date CAT stamps on each country's rows, so its max is the date of the most recently revised country assessment. CAT revises individual assessments continuously across ~41 countries; a max older than about a year means the feed stopped advancing. (edition is a republish counter, not a date, and cannot carry this assertion.)
+    certainty: 85
     points_outward: true
