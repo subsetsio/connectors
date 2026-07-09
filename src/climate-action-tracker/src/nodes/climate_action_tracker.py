@@ -15,11 +15,12 @@ for free. NOTE: `next` is returned with an http:// scheme and must be upgraded
 to https before following.
 """
 
+from datetime import datetime
+
 import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
