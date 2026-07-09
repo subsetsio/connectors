@@ -1,6 +1,9 @@
 spec_id: adb-glb-bp
 status: active
 tests:
+  - freshness: {col: TIME_PERIOD, reaches: current_year() - 2}
+    reason: KIDB annual SDMX data should include observations through at least the prior completed reporting year with one year of publication slack.
+    certainty: 90
   - row_count: {min: 1}
     reason: an A.. full-dataflow pull of a rank-active leaf dataflow always returns observations; an empty raw table means the dataflow id is wrong or the endpoint changed.
     certainty: 95
