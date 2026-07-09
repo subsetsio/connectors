@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `harvard-growth-lab-atlas-of-economic-complexity-growth-proj-eci-rankings`. Regenerate after model-verify.
+# caution: Covers only the ~145 countries in the Atlas ranking universe (those flagged `in_rankings` in location-country), not all 233 locations — it is not a complete country panel.
+# caution: `growth_proj` is a forward-looking 10-year annualized GDP growth projection made as of that year, not an observed outcome, and it is only published for a subset of country-years.
+# caution: The three ECI variants (`eci_hs92`, `eci_hs12`, `eci_sitc`) are computed on different classifications over different year ranges, so their ranks are not comparable across columns and are null where that classification does not cover the year.
+key: [country_id, year]
+temporal: year
+sort: [year, country_id]
+columns:
+  - name: country_id
+    type: BIGINT
+    description: "Growth Lab numeric country identifier; joins `location-country` on `country_id`."
+  - name: country_iso3_code
+    type: VARCHAR
+    description: "ISO 3166-1 alpha-3 code of the country."
+  - name: year
+    type: INTEGER
+    description: "Calendar year of the observation."
+  - name: growth_proj
+    type: DOUBLE
+    description: "Projected annualized real GDP growth over the following ten years, in percent per year. A forward-looking projection, not an observed outcome."
+  - name: eci_sitc
+    type: DOUBLE
+    description: "Economic Complexity Index computed on the SITC Revision 2 classification."
+  - name: eci_rank_sitc
+    type: INTEGER
+    description: "Rank of the country by `eci_sitc` in this year; 1 is the most complex economy."
+  - name: eci_hs92
+    type: DOUBLE
+    description: "Economic Complexity Index computed on the HS 1992 classification."
+  - name: eci_rank_hs92
+    type: INTEGER
+    description: "Rank of the country by `eci_hs92` in this year; 1 is the most complex economy."
+  - name: eci_hs12
+    type: DOUBLE
+    description: "Economic Complexity Index computed on the HS 2012 classification."
+  - name: eci_rank_hs12
+    type: INTEGER
+    description: "Rank of the country by `eci_hs12` in this year; 1 is the most complex economy."

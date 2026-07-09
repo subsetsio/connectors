@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `harvard-growth-lab-atlas-of-economic-complexity-location-group`. Regenerate after model-verify.
+# caution: A many-to-many membership table: every country appears in many groups across the ten `group_type` values, and the `world` group contains all of them. Filter `group_type` (and usually a single `group_id`) before aggregating, or every country is counted repeatedly. `group_type` also includes non-geographic, editorial groupings (`rock_song`).
+key: [country_id, group_id]
+sort: [country_id, group_id]
+columns:
+  - name: country_id
+    type: BIGINT
+    description: "Growth Lab numeric country identifier; joins `location-country` on `country_id`."
+  - name: country_iso3_code
+    type: VARCHAR
+    description: "ISO 3166-1 alpha-3 code of the country."
+  - name: group_id
+    type: BIGINT
+    description: "Growth Lab numeric identifier of the group."
+  - name: group_type
+    type: VARCHAR
+    description: "Kind of grouping: continent, region, subregion, world, wdi_income_level, wdi_region, political, trade, or the editorial rock_song groupings."
+  - name: group_name
+    type: VARCHAR
+    description: "English name of the group (e.g. \"Europe\", \"High income\")."
+  - name: group_parent_id
+    type: BIGINT
+    description: "`group_id` of the enclosing group, where the grouping nests; null at the top level."

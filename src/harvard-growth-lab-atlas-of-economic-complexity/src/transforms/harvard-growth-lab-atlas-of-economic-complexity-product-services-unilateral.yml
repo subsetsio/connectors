@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `harvard-growth-lab-atlas-of-economic-complexity-product-services-unilateral`. Regenerate after model-verify.
+# caution: A hierarchical codebook: rows at every `product_level` coexist and are linked by `product_parent_id`. Filter `product_level` to get a flat list of products at one depth.
+key: [product_id]
+sort: [product_id]
+columns:
+  - name: product_id
+    type: BIGINT
+    description: "Growth Lab numeric identifier of the service category."
+  - name: product_services_unilateral_code
+    type: VARCHAR
+    description: "Service category code (one of financial, ict, services, transport, travel, unspecified)."
+  - name: product_level
+    type: INTEGER
+    description: "Digit depth of the product code (1, 2, 4 or 6). Rows at several depths are stacked in this table."
+  - name: product_name
+    type: VARCHAR
+    description: "Full English name of the product or service category."
+  - name: product_name_short
+    type: VARCHAR
+    description: "Short English name of the product or service category."
+  - name: product_parent_id
+    type: BIGINT
+    description: "`product_id` of this product's parent one level up the classification hierarchy; null at the top level."
+  - name: product_id_hierarchy
+    type: VARCHAR
+    description: "Dot-separated path of `product_id` values from the classification root down to this product."
+  - name: show_feasibility
+    type: BOOLEAN
+    description: "True if the Atlas shows feasibility (diversification) analysis for this product."

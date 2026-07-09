@@ -9,16 +9,41 @@ full historical Data array — no pagination. We flatten that to long format
 Fetch shape: stateless full re-pull. Each table is a single small request that
 returns full history; revisions and late corrections are picked up for free by
 always re-fetching. No watermark / cursor / state.
-"""
 
-import pyarrow as pa
+Resumability lives in `MAINTAIN_SPECS`: a table whose raw is already committed
+and younger than the refresh window is skipped pre-spawn. That matters here
+because a DAG invocation never resumes another one's node states — a run that
+exhausts its time budget hands off to a continuation, and the continuation would
+re-fetch everything it already has without a maintain skip. The raw manifest
+spans runs, so `raw_asset_exists` is what makes the 5000-node backfill converge.
+
+Per-entity robustness: a single table must never fail the whole DAG. DATOS_TABLA
+answers with a JSON *dict* instead of the usual list in three cases:
+
+  - "Peticion en proceso ..."               — INE is materializing the response
+                                              server-side. TRANSIENT: re-ask.
+  - "No puede mostrarse por restricciones
+     de volumen"                            — the table has too many series for
+                                              the endpoint to serve. Permanent,
+                                              and unfixable from here: nult=,
+                                              date=, tv= and SERIES_TABLA are all
+                                              refused the same way.
+  - "No existen series para la tabla"       — the table is declared but empty.
+
+The permanent two are disqualified at the accept stage, so reaching one here is
+an upstream change, not routine: it is logged and skipped (raw left absent)
+rather than raised, so it can't abort a 5000-node run.
+"""
 
 import time
 
+import pyarrow as pa
+
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
-    SqlNodeSpec,
     get,
+    raw_asset_exists,
     save_raw_parquet,
     transient_retry,
 )
@@ -26,8 +51,20 @@ from constants import ENTITY_IDS
 
 BASE = "https://servicios.ine.es/wstempus/js/ES"
 
+# A fetched table is considered fresh (skipped) for this many days. INE publishes
+# a per-operation release calendar (https://www.ine.es/dyngs/INEbase/es/calendario.htm)
+# rather than one corpus-wide cadence, and the most frequent tables are monthly —
+# so this is an inferred window, sized under a month to catch monthly releases
+# while letting continuation legs of one backfill skip what earlier legs
+# committed.
+MAINTAIN_MAX_AGE_DAYS = 20
+
+# Dict-payload statuses, ASCII-folded (INE's own accents are inconsistent).
+_IN_PROCESS = "Peticion en proceso"
+_PERMANENT = ("restricciones de volumen", "No existen series")
+
 # Long-format raw schema. Declared once, reused for every table's write — the
-# explicit schema is the contract that makes parquet safe across all 4728 nodes.
+# explicit schema is the contract that makes parquet safe across all 5000+ nodes.
 SCHEMA = pa.schema([
     ("table_id", pa.string()),
     ("serie_cod", pa.string()),
@@ -43,49 +80,52 @@ SCHEMA = pa.schema([
 ])
 
 
+def _fold(text: str) -> str:
+    """Drop non-ASCII so status matching survives INE's inconsistent accents."""
+    return (text or "").encode("ascii", "ignore").decode()
+
+
 @transient_retry()  # 6 attempts, exponential backoff over transient errors + 429 + 5xx
 def _fetch_once(table_id: str):
     """One network fetch of a table's DATOS_TABLA payload (parsed JSON).
 
     The retry decorator only covers network-layer failures (connect/read
-    timeouts, 429, 5xx); the payload-shape handling lives in `_fetch_table`.
+    timeouts, 429, 5xx). INE intermittently answers a rapid sequence of requests
+    with an empty 200 body; that is transient too, so raise into the same retry.
     """
-    resp = get(f"{BASE}/DATOS_TABLA/{table_id}", timeout=(10.0, 180.0))
+    resp = get(f"{BASE}/DATOS_TABLA/{table_id}", timeout=(10.0, 300.0))
     resp.raise_for_status()
     if not resp.content or not resp.content.strip():
         raise ValueError(f"empty body for table {table_id}")
     return resp.json()
 
 
-def _fetch_table(table_id: str, *, shape_attempts: int = 4) -> list:
-    """Fetch one INE table whole, returning the list of series dicts.
+class _PermanentlyUnservable(Exception):
+    """DATOS_TABLA refuses this table for good (volume restriction / no series)."""
 
-    DATOS_TABLA normally returns a JSON *list* of series. It sometimes returns
-    a JSON *dict* instead — either a persistent status (`No puede mostrarse por
-    restricciones de volumen` for tables too large to serve whole, `No existen
-    series para la tabla` for empty tables) or an intermittent server blip on a
-    table that is otherwise fine. The non-servable tables are excluded upstream
-    at rank, so any dict we see here is treated as transient: re-fetch a few
-    times with backoff before giving up. A bare `ValueError` (not a network
-    transient) so the run surfaces a clear, non-retryable error for any table
-    that is genuinely dict-only and slipped through the rank exclusion.
+
+def _fetch_table(table_id: str, *, in_process_attempts: int = 5) -> list:
+    """Fetch one INE table whole, returning its list of series dicts.
+
+    A dict payload is either INE still computing the answer (retry, it resolves
+    within a minute or two) or a permanent refusal (raise `_PermanentlyUnservable`
+    for the caller to log and skip).
     """
-    last = None
-    for i in range(shape_attempts):
+    for attempt in range(in_process_attempts):
         data = _fetch_once(table_id)
         if isinstance(data, list):
             return data
-        last = data.get("status") if isinstance(data, dict) else type(data)
-        time.sleep(2 * (i + 1))
-    raise ValueError(f"non-list payload for table {table_id} after retries: {last!r}")
+        status = data.get("status", "") if isinstance(data, dict) else repr(data)
+        folded = _fold(status)
+        if any(p in folded for p in _PERMANENT):
+            raise _PermanentlyUnservable(status)
+        if not folded.startswith(_IN_PROCESS):
+            raise ValueError(f"unexpected payload for table {table_id}: {status!r}")
+        time.sleep(15 * (attempt + 1))
+    raise ValueError(f"table {table_id} still 'in process' after {in_process_attempts} attempts")
 
 
-def fetch_one(node_id: str) -> None:
-    asset = node_id  # the runtime passes the spec id; it IS the asset name
-    table_id = node_id[len("ine-"):]  # recover the entity from the id
-
-    series = _fetch_table(table_id)
-
+def _to_rows(table_id: str, series: list) -> list[dict]:
     rows = []
     for s in series:
         cod = s.get("COD")
@@ -107,9 +147,25 @@ def fetch_one(node_id: str) -> None:
                 "valor": float(valor) if valor is not None else None,
                 "secreto": pt.get("Secreto"),
             })
+    return rows
 
+
+def fetch_one(node_id: str) -> None:
+    asset = node_id  # the runtime passes the spec id; it IS the asset name
+    table_id = node_id[len("ine-"):]  # recover the entity from the id
+
+    try:
+        series = _fetch_table(table_id)
+    except _PermanentlyUnservable as exc:
+        # Disqualified at accept, so this is upstream drift. Leave raw absent
+        # rather than abort the run; the missing table surfaces downstream.
+        print(f"[ine] {table_id}: skipped, DATOS_TABLA refuses it: {exc}")
+        return
+
+    rows = _to_rows(table_id, series)
     table = pa.Table.from_pylist(rows, schema=SCHEMA)
     save_raw_parquet(table, asset)
+    print(f"[ine] {table_id}: {len(rows)} rows from {len(series)} series")
 
 
 DOWNLOAD_SPECS = [
@@ -122,30 +178,22 @@ DOWNLOAD_SPECS = [
 ]
 
 
-# One published Delta table per subset: parse fecha (epoch ms) to a real DATE,
-# type valor, keep the dimensional context (series + unit/scale codes). Rows
-# without a date are dropped; values may legitimately be null (suppressed cells).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                make_timestamp(fecha_ms * 1000)::DATE AS date,
-                anyo                                   AS year,
-                fk_periodo                             AS period_code,
-                serie_cod                              AS series_code,
-                serie_nombre                           AS series_name,
-                fk_unidad                              AS unit_code,
-                fk_escala                              AS scale_code,
-                fk_tipodato                            AS data_type_code,
-                CAST(valor AS DOUBLE)                  AS value,
-                secreto                                AS is_confidential
-            FROM "{s.id}"
-            WHERE fecha_ms IS NOT NULL
-        ''',
-        key=("series_code", "date"),
-        temporal="date",
+def _is_fresh(asset_id: str) -> bool:
+    """Skip policy: raw already committed and younger than the refresh window."""
+    return raw_asset_exists(asset_id, "parquet", max_age_days=MAINTAIN_MAX_AGE_DAYS)
+
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=s.id,
+        description=(
+            f"Full re-pull when raw is older than {MAINTAIN_MAX_AGE_DAYS}d "
+            "(inferred window — INE publishes a per-operation release calendar, "
+            "https://www.ine.es/dyngs/INEbase/es/calendario.htm, not one corpus "
+            "cadence; the shortest is monthly). Also makes the backfill resumable "
+            "across continuation legs."
+        ),
+        check=_is_fresh,
     )
     for s in DOWNLOAD_SPECS
 ]

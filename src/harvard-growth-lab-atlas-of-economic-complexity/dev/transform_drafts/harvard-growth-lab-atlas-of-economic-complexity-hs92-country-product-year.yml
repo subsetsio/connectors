@@ -2,9 +2,9 @@
 # of raw asset `harvard-growth-lab-atlas-of-economic-complexity-hs92-country-product-year`. Regenerate after model-verify.
 # caution: Product rows at several hierarchy depths are stacked in one table (`product_level` 1/2/4/6 for HS, 1/2/4 for SITC): a level-6 row's value is already contained in its level-4, -2 and -1 ancestors. Filter `product_level` to a single depth before summing export_value/import_value or counting products.
 # caution: Complexity metrics are only defined at some depths: `export_rca` exists only at `product_level` 4, and `pci`/`distance`/`cog` are absent at level 6. Their nulls mean 'not defined at this depth', not 'missing observation'.
-key: [product_hs92_code, product_id, country_iso3_code, country_id, year]
+key: [country_id, product_id, year]
 temporal: year
-sort: [year, product_hs92_code, product_id, country_iso3_code, country_id]
+sort: [year, country_id, product_id]
 columns:
   - name: country_id
     type: BIGINT

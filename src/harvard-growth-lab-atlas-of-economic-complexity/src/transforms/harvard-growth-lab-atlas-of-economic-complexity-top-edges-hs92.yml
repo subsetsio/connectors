@@ -1,0 +1,12 @@
+# Product Space network edges: the strongest proximity links between four-digit
+# HS92 products, i.e. the pairs of products that tend to be exported together.
+# caution: The Product Space network is undirected but every proximity link is stored twice, once in each direction — de-duplicate on the unordered pair before counting edges.
+key: [product_hs92_code_source, product_hs92_code_target]
+sort: [product_hs92_code_source, product_hs92_code_target]
+columns:
+  - name: product_hs92_code_source
+    type: VARCHAR
+    description: Four-digit HS92 code of one endpoint of the proximity link, left-padded to 4 characters (the source strips leading zeros).
+  - name: product_hs92_code_target
+    type: VARCHAR
+    description: Four-digit HS92 code of the other endpoint of the proximity link, left-padded to 4 characters (the source strips leading zeros).

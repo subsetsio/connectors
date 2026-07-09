@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `harvard-growth-lab-atlas-of-economic-complexity-services-unilateral-product-year`. Regenerate after model-verify.
 # caution: Service categories are stacked at several `product_level` depths in one table; filter `product_level` to a single depth before summing values.
-key: [year, product_id, product_services_unilateral_code]
+key: [product_id, year]
 temporal: year
-sort: [year, product_id, product_services_unilateral_code]
+sort: [year, product_id]
 columns:
   - name: product_id
     type: BIGINT

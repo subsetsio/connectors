@@ -1,13 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-regional-gdp-by-year`. Regenerate after model-verify.
+key: [calendar_years, time, nuts, geography, sic_unofficial, unofficialstandardindustrialclassification, type_of_prices, prices, quarterly_index_and_growth_rate]
+sort: [calendar_years, time, nuts, geography, sic_unofficial, unofficialstandardindustrialclassification, type_of_prices, prices, quarterly_index_and_growth_rate]
 columns:
   - name: value
     type: DOUBLE
   - name: data_marking
     type: VARCHAR
   - name: calendar_years
-    type: VARCHAR
+    type: BIGINT
   - name: time
-    type: VARCHAR
+    type: BIGINT
   - name: nuts
     type: VARCHAR
   - name: geography

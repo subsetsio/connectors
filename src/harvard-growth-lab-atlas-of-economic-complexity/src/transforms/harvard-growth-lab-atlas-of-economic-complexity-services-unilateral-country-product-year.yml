@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `harvard-growth-lab-atlas-of-economic-complexity-services-unilateral-country-product-year`. Regenerate after model-verify.
+# caution: Service categories are stacked at several `product_level` depths in one table; filter `product_level` to a single depth before summing values.
+# caution: Unilateral (reporter-side) service trade — unlike the goods tables these values are not reconciled against partner reports.
+key: [country_id, product_id, year]
+temporal: year
+sort: [year, country_id, product_id]
+columns:
+  - name: country_id
+    type: BIGINT
+    description: "Growth Lab numeric country identifier; joins `location-country` on `country_id`."
+  - name: country_iso3_code
+    type: VARCHAR
+    description: "ISO 3166-1 alpha-3 code of the country."
+  - name: product_id
+    type: BIGINT
+    description: "Growth Lab numeric identifier of the service category; joins `product-services-unilateral`."
+  - name: product_services_unilateral_code
+    type: VARCHAR
+    description: "Service category code (one of financial, ict, services, transport, travel, unspecified)."
+  - name: year
+    type: INTEGER
+    description: "Calendar year of the observation."
+  - name: export_value
+    type: BIGINT
+    description: "Service exports in current (nominal) US dollars."
+  - name: import_value
+    type: BIGINT
+    description: "Service imports in current (nominal) US dollars."
+  - name: global_market_share
+    type: DOUBLE
+    description: "The country's share of world exports of this product in this year, as a fraction between 0 and 1."
+  - name: product_level
+    type: INTEGER
+    description: "Depth of the service category in its hierarchy. Rows at several depths are stacked in this table."

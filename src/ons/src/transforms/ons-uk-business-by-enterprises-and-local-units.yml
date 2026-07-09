@@ -1,11 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-uk-business-by-enterprises-and-local-units`. Regenerate after model-verify.
+key: [administrative_geography, geography, sic_unofficial, unofficialstandardindustrialclassification, enterprises_and_local_units]
+sort: [administrative_geography, geography, sic_unofficial, unofficialstandardindustrialclassification, enterprises_and_local_units]
 columns:
   - name: value
     type: DOUBLE
   - name: calendar_years
-    type: VARCHAR
+    type: BIGINT
   - name: time
-    type: VARCHAR
+    type: BIGINT
   - name: administrative_geography
     type: VARCHAR
   - name: geography

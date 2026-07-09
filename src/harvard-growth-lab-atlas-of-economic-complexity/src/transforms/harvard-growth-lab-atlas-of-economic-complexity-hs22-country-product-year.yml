@@ -1,0 +1,47 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `harvard-growth-lab-atlas-of-economic-complexity-hs22-country-product-year`. Regenerate after model-verify.
+# caution: Product rows at several hierarchy depths are stacked in one table (`product_level` 1/2/4/6 for HS, 1/2/4 for SITC): a level-6 row's value is already contained in its level-4, -2 and -1 ancestors. Filter `product_level` to a single depth before summing export_value/import_value or counting products.
+# caution: Complexity metrics are only defined at some depths: `export_rca` exists only at `product_level` 4, and `pci`/`distance`/`cog` are absent at level 6. Their nulls mean 'not defined at this depth', not 'missing observation'.
+key: [country_id, product_id, year]
+temporal: year
+sort: [year, country_id, product_id]
+columns:
+  - name: country_id
+    type: BIGINT
+    description: "Growth Lab numeric country identifier; joins `location-country` on `country_id`."
+  - name: country_iso3_code
+    type: VARCHAR
+    description: "ISO 3166-1 alpha-3 code of the country."
+  - name: product_id
+    type: BIGINT
+    description: "Growth Lab numeric product identifier within this classification; joins the classification's product table on `product_id`."
+  - name: product_hs22_code
+    type: VARCHAR
+    description: "HS 2022 product code at the row's `product_level` depth, kept as a zero-padded string."
+  - name: year
+    type: INTEGER
+    description: "Calendar year of the observation."
+  - name: export_value
+    type: BIGINT
+    description: "Exports in current (nominal) US dollars."
+  - name: import_value
+    type: BIGINT
+    description: "Imports in current (nominal) US dollars."
+  - name: global_market_share
+    type: DOUBLE
+    description: "The country's share of world exports of this product in this year, as a fraction between 0 and 1."
+  - name: distance
+    type: DOUBLE
+    description: "Distance from the country's current export capabilities to this product in the Product Space, between 0 and 1; lower means the product is closer to what the country already makes."
+  - name: cog
+    type: DOUBLE
+    description: "Complexity Outlook Gain: how much the country's Complexity Outlook Index would rise if it began exporting this product competitively."
+  - name: pci
+    type: DOUBLE
+    description: "Product Complexity Index: how much productive knowledge the product embodies, standardised across products (mean 0, unit variance)."
+  - name: export_rca
+    type: DOUBLE
+    description: "Balassa revealed comparative advantage: the country's share of world exports of this product divided by its share of world exports overall. Above 1 means the country exports more of it than the world average."
+  - name: product_level
+    type: INTEGER
+    description: "Digit depth of the product code (1, 2, 4 or 6). Rows at several depths are stacked in this table."

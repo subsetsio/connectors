@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `harvard-growth-lab-atlas-of-economic-complexity-weighted-classification-conversion-tables`. Regenerate after model-verify.
+# caution: Seventeen directed classification pairs are stacked in one table; filter BOTH `source_classification` and `target_classification` before joining, or a code is converted through every revision at once.
+# caution: `weight` apportions a source code across its target codes and sums to 1 within a (source_classification, target_classification, source_code) group — multiply values by `weight` when converting, never sum the rows.
+key: [source_classification, target_classification, source_code, target_code]
+sort: [source_classification, target_classification, source_code, target_code]
+columns:
+  - name: source_classification
+    type: VARCHAR
+    description: "Classification the code is being converted FROM (hs92, hs96, hs02, hs07, hs12, hs17, hs22, sitc2 or sitc3)."
+  - name: source_code
+    type: VARCHAR
+    description: "Product code in `source_classification`, kept as a zero-padded string."
+  - name: target_classification
+    type: VARCHAR
+    description: "Classification the code is being converted TO."
+  - name: target_code
+    type: VARCHAR
+    description: "Product code in `target_classification`, kept as a zero-padded string."
+  - name: weight
+    type: DOUBLE
+    description: "Share of the source code's trade apportioned to this target code. Sums to 1 within a (source_classification, target_classification, source_code) group; multiply values by it when converting."

@@ -1,13 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-ageing-population-estimates`. Regenerate after model-verify.
+key: [calendar_years, time, administrative_geography, geography, sex, sex_1, age_groups, agegroups, unit_of_measure, unitofmeasure]
+sort: [calendar_years, time, administrative_geography, geography, sex, sex_1, age_groups, agegroups, unit_of_measure, unitofmeasure]
 columns:
   - name: value
     type: DOUBLE
   - name: data_marking
     type: VARCHAR
   - name: calendar_years
-    type: VARCHAR
+    type: BIGINT
   - name: time
-    type: VARCHAR
+    type: BIGINT
   - name: administrative_geography
     type: VARCHAR
   - name: geography

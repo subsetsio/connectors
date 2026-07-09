@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `harvard-growth-lab-atlas-of-economic-complexity-sitc-product-year`. Regenerate after model-verify.
 # caution: Product rows at several hierarchy depths are stacked in one table (`product_level` 1/2/4/6 for HS, 1/2/4 for SITC): a level-6 row's value is already contained in its level-4, -2 and -1 ancestors. Filter `product_level` to a single depth before summing export_value/import_value or counting products.
-key: [product_id, product_sitc_code, year]
+key: [product_id, year]
 temporal: year
-sort: [year, product_id, product_sitc_code]
+sort: [year, product_id]
 columns:
   - name: product_id
     type: BIGINT

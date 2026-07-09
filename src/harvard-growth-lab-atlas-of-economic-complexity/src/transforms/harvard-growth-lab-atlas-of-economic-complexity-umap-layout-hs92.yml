@@ -1,0 +1,18 @@
+# Product Space node layout: the 2-D UMAP coordinates and cluster each
+# four-digit HS92 product is drawn at in the Atlas Product Space.
+# caution: Covers only the 865 four-digit HS92 products drawn in the Product Space, not all 1,243 four-digit products in the HS92 codebook.
+key: [product_hs92_code]
+sort: [product_hs92_code]
+columns:
+  - name: product_hs92_code
+    type: VARCHAR
+    description: Four-digit HS92 product code, left-padded to 4 characters (the source strips leading zeros). Joins `product-hs92` on `product_hs92_code`.
+  - name: product_space_x
+    type: DOUBLE
+    description: Product Space x coordinate (UMAP embedding of product proximity); meaningful only relative to the other products, with no unit.
+  - name: product_space_y
+    type: DOUBLE
+    description: Product Space y coordinate (UMAP embedding of product proximity); meaningful only relative to the other products, with no unit.
+  - name: product_space_cluster_name
+    type: VARCHAR
+    description: Name of the product community this product is assigned to in the Product Space layout (e.g. "Textiles", "Electronics").

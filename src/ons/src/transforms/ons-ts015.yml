@@ -1,11 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-ts015`. Regenerate after model-verify.
+# caution: Census 2021 CMD tables include category totals alongside detailed categories; filter category dimensions before summing across rows.
+key: [lower_tier_local_authorities_code, lower_tier_local_authorities, year_of_arrival_in_the_uk_13_categories_code, year_of_arrival_in_the_uk_13_categories]
+sort: [lower_tier_local_authorities_code, lower_tier_local_authorities, year_of_arrival_in_the_uk_13_categories_code, year_of_arrival_in_the_uk_13_categories]
 columns:
   - name: lower_tier_local_authorities_code
     type: VARCHAR
   - name: lower_tier_local_authorities
     type: VARCHAR
   - name: year_of_arrival_in_the_uk_13_categories_code
-    type: VARCHAR
+    type: BIGINT
   - name: year_of_arrival_in_the_uk_13_categories
     type: VARCHAR
   - name: value

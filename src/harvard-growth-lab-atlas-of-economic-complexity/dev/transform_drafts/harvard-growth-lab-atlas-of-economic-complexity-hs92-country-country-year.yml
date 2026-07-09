@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `harvard-growth-lab-atlas-of-economic-complexity-hs92-country-country-year`. Regenerate after model-verify.
 # caution: Each bilateral relationship is stored as two mirrored rows, (country, partner) and (partner, country): a flow appears once as the reporter's `export_value` and again as the partner row's `import_value`. Sum `export_value` alone (or `import_value` alone) for world totals — adding both across all rows double-counts every flow.
-key: [country_iso3_code, partner_iso3_code, country_id, partner_country_id, year]
+key: [country_id, partner_country_id, year]
 temporal: year
-sort: [year, country_iso3_code, partner_iso3_code, country_id, partner_country_id]
+sort: [year, country_id, partner_country_id]
 columns:
   - name: country_id
     type: BIGINT

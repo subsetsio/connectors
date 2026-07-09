@@ -1,11 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ons-ts067`. Regenerate after model-verify.
+# caution: Census 2021 CMD tables include category totals alongside detailed categories; filter category dimensions before summing across rows.
+key: [lower_tier_local_authorities_code, lower_tier_local_authorities, highest_level_of_qualification_8_categories_code, highest_level_of_qualification_8_categories]
+sort: [lower_tier_local_authorities_code, lower_tier_local_authorities, highest_level_of_qualification_8_categories_code, highest_level_of_qualification_8_categories]
 columns:
   - name: lower_tier_local_authorities_code
     type: VARCHAR
   - name: lower_tier_local_authorities
     type: VARCHAR
   - name: highest_level_of_qualification_8_categories_code
-    type: VARCHAR
+    type: BIGINT
   - name: highest_level_of_qualification_8_categories
     type: VARCHAR
   - name: value

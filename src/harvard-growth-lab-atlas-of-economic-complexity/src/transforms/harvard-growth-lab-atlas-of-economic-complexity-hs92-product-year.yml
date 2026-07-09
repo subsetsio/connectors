@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `harvard-growth-lab-atlas-of-economic-complexity-hs92-product-year`. Regenerate after model-verify.
+# caution: Product rows at several hierarchy depths are stacked in one table (`product_level` 1/2/4/6 for HS, 1/2/4 for SITC): a level-6 row's value is already contained in its level-4, -2 and -1 ancestors. Filter `product_level` to a single depth before summing export_value/import_value or counting products.
+# caution: `pci` is absent at `product_level` 6 — the null means product complexity is not defined at that depth.
+key: [product_id, year]
+temporal: year
+sort: [year, product_id]
+columns:
+  - name: product_id
+    type: BIGINT
+    description: "Growth Lab numeric product identifier within this classification; joins the classification's product table on `product_id`."
+  - name: product_hs92_code
+    type: VARCHAR
+    description: "HS 1992 product code at the row's `product_level` depth, kept as a zero-padded string."
+  - name: year
+    type: INTEGER
+    description: "Calendar year of the observation."
+  - name: export_value
+    type: BIGINT
+    description: "World exports of this product in current (nominal) US dollars."
+  - name: import_value
+    type: BIGINT
+    description: "World imports of this product in current (nominal) US dollars."
+  - name: pci
+    type: DOUBLE
+    description: "Product Complexity Index: how much productive knowledge the product embodies, standardised across products (mean 0, unit variance)."
+  - name: product_level
+    type: INTEGER
+    description: "Digit depth of the product code (1, 2, 4 or 6). Rows at several depths are stacked in this table."

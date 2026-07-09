@@ -1,1 +1,19 @@
-SELECT * FROM "ons-weekly-deaths-age-sex"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "value",
+    CAST("calendar_years" AS BIGINT) AS calendar_years,
+    CAST("time" AS BIGINT) AS time,
+    "administrative_geography",
+    "geography",
+    "week_number",
+    "week",
+    "sex",
+    "sex_1",
+    "age_groups",
+    "agegroups",
+    "registration_or_occurrence",
+    "registrationoroccurrence"
+FROM "ons-weekly-deaths-age-sex"
