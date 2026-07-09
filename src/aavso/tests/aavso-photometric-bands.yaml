@@ -1,0 +1,23 @@
+spec_id: aavso-photometric-bands
+status: active
+tests:
+  - not_null: Code
+    reason: AAVSO band codes are the stable identifiers for the codebook.
+    certainty: 95
+  - not_null: Description
+    reason: every codebook row should describe the photometric passband.
+    certainty: 90
+  - column_type: {col: Code, type: integer}
+    certainty: 95
+  - column_type: {col: Description, type: string}
+    certainty: 95
+  - unique: Code
+    reason: one row per photometric band code.
+    certainty: 95
+  - row_count: {min: 30, max: 100}
+    reason: the AAVSO API currently exposes 41 photometric band codes; the codebook is small.
+    certainty: 85
+  - between: {col: Code, lo: 0, hi: 200}
+    reason: AAVSO passband codes are compact integer identifiers.
+    certainty: 80
+    severity: warn

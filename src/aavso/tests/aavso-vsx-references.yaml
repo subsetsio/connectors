@@ -1,0 +1,24 @@
+spec_id: aavso-vsx-references
+status: active
+tests:
+  - not_null: recno
+    reason: recno is the VizieR sequential row key we page on; never null.
+    certainty: 95
+  - not_null: OID
+    reason: references join back to VSX objects by OID.
+    certainty: 95
+  - not_null: Bibcode
+    reason: each reference row should carry an ADS-style bibliographic code.
+    certainty: 90
+  - column_type: {col: recno, type: integer}
+    certainty: 95
+  - column_type: {col: OID, type: integer}
+    certainty: 95
+  - column_type: {col: Bibcode, type: string}
+    certainty: 95
+  - unique: recno
+    reason: recno is the unique VizieR record number; dupes mean a page overlap.
+    certainty: 95
+  - row_count: {min: 500000}
+    reason: VizieR B/vsx/refs held about 830k rows when researched; a much smaller table means paging stopped early.
+    certainty: 85
