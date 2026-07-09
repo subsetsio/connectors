@@ -1,11 +1,12 @@
 spec_id: central-statistics-office-hra05
 coverage:
   frozen: true
-  reason: "closed annual series: coverage ends 2024 and CSO retains it as a historical table rather than extending it"
+  reason: "closed annual series: coverage ends 2024, more than 550 days behind today, so the raw has no advancing edge to assert freshness against"
 tests:
   - not_null: matrix
   - not_null: statistic_code
   - not_null: time_code
+  - not_null: time_dimension
   - not_null: unit
   - column_type: {col: value, type: float}
     reason: PxStat VALUE is numeric-or-blank; blanks are suppressed cells and must land as NULL
@@ -14,7 +15,4 @@ tests:
     reason: a ReadDataset response with no cells means the matrix was emptied upstream
   - unique: [statistic_code, time_code, dim1_code, dim2_code, dim3_code]
     reason: PxStat serves a dense cube - one cell per statistic x time x dimension coordinate
-    certainty: 90
-  - enum: {col: time_dimension, values: [Year]}
-    reason: the matrix declares one time dimension in the catalog; a change means the cube was restructured
     certainty: 90

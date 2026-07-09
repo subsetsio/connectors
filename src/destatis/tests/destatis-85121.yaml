@@ -1,0 +1,36 @@
+spec_id: destatis-85121
+tests:
+  - not_null: statistic_code
+  - not_null: table_code
+  - not_null: measure_code
+  - matches: {col: statistic_code, pattern: "85121"}
+    reason: every cell in this asset belongs to statistic 85121; a foreign code means the
+      spec id was mis-parsed and the wrong statistic was fetched into this asset
+    certainty: 99
+  - column_type: {col: value, type: float}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: dims, type: string}
+    reason: classifying dimensions are serialized to a JSON string, never fanned into
+      typed columns, because they drift across a statistic's tables
+    certainty: 95
+  - row_count: {min: 1}
+    reason: a statistic listed by /statistics with at least one table must yield cells;
+      zero rows means every one of its tables 404'd or the endpoint changed shape
+    certainty: 90
+  - between: {col: year, lo: 1900, hi: 2100}
+    reason: GENESIS periods span modern German official statistics; the upper bound is
+      loose on purpose because population and household projections run decades ahead
+    certainty: 95
+  - distinct_count: {col: table_code, max: 3}
+    reason: /statistics/85121/tables listed 3 table(s) on 2026-07; more distinct
+      table_codes than the catalogue advertises means cells leaked in from another asset
+    certainty: 85
+  - freshness: {col: year, reaches: 2015}
+    reason: a corpus-wide floor, not a per-statistic one. Neither /statistics nor
+      /statistics/{code} exposes any temporal-coverage metadata, so the last observation
+      year of an individual statistic is unknowable until it is downloaded. 2015 is the
+      weakest bound that still catches the failure freshness exists to catch here - the
+      anonymous endpoint changing shape and serving an ancient or empty payload. Tighten
+      per statistic once profiled raw exists.
+    certainty: 65
+    points_outward: true

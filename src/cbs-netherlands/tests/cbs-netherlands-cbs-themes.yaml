@@ -1,0 +1,6 @@
+spec_id: "cbs-netherlands-cbs-themes"
+status: active
+tests:
+  - row_count: {min: 20}
+    reason: the StatLine theme taxonomy carries ~50 themes; fewer than 20 means the catalog Themes entity set was truncated or moved.
+    certainty: 90

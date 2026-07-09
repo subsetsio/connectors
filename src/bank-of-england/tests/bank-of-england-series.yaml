@@ -1,0 +1,46 @@
+spec_id: bank-of-england-series
+status: active
+# Expectations for the raw series catalog parquet. The grain is a membership
+# bridge: one row per (series code x category value), so a code repeats once per
+# category value it belongs to. Authored from the browse hierarchy's structure
+# and the node's own guards, NOT from a fitted snapshot of observed data.
+coverage:
+  frozen: true
+  reason: the catalog has no observation date — it is the set of series the source lists today, re-scraped in full every run, so there is nothing for a freshness assertion to advance
+tests:
+  - not_null: series_code
+    reason: every row is anchored on a code parsed out of a <strong> tag next to its checkbox; a null means the row parser matched a checkbox without a code
+    certainty: 95
+  - not_null: category_id
+    reason: the category linkage is carried from the category value being crawled, never parsed per row, so a null means the schema drifted
+    certainty: 99
+  - not_null: meaning_id
+    reason: as category_id — supplied by the crawl, not parsed from the page
+    certainty: 99
+  - unique: [series_code, category_id, meaning_id]
+    reason: a series is listed once under any given category value; a duplicate means pagination re-read a page and double-counted its rows
+    certainty: 90
+  - column_type: {col: series_code, type: string}
+    reason: IADB series codes are short alphanumeric tokens (e.g. IUDSOIA), declared string in SERIES_SCHEMA
+    certainty: 95
+  - column_type: {col: series_title, type: string}
+    reason: the long human-readable description, declared string in SERIES_SCHEMA
+    certainty: 95
+  - column_type: {col: category_id, type: string}
+    reason: kept as the source's own token rather than coerced to int, matching the categories asset so the two join
+    certainty: 95
+  - matches: {col: series_code, pattern: '[A-Za-z0-9]+'}
+    reason: the code regex only admits alphanumerics, so a code carrying punctuation or whitespace means the <strong> capture swallowed neighbouring markup
+    certainty: 95
+  - nullable: {col: series_title, max_null_frac: 0.02}
+    reason: every series row on a category-value page pairs its checkbox with a second label holding the title; a title-less code means the id-pairing broke, and a couple of stragglers is the most drift worth tolerating
+    certainty: 85
+  - enum: {col: category_name, values: [INSTRUMENTS, COUNTRY, SECTOR]}
+    reason: written from the node's CATEGORY_PAGES constant, so any other value means the constant and this test drifted apart
+    certainty: 99
+  - distinct_count: {col: series_code, min: 200}
+    reason: the node aborts below MIN_SERIES_CODES=200 distinct codes; this pins the same floor on the persisted asset, so a degraded crawl cannot publish a stub catalog
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: ~1.6k category values, most listing tens of series, yield far more membership rows than codes; a count near the code count would mean the crawl only read one category
+    certainty: 80

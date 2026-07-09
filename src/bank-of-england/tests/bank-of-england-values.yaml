@@ -11,19 +11,19 @@ tests:
     reason: every observation is a (code, date, value) triple; the parser drops rows whose date fails to parse, so a surviving null date signals schema drift
     certainty: 95
   - column_type: {col: series_code, type: string}
-    reason: IADB series codes are short alphanumeric tokens (e.g. IUDSOIA), declared string in RAW_SCHEMA
+    reason: IADB series codes are short alphanumeric tokens (e.g. IUDSOIA), declared string in VALUES_SCHEMA
     certainty: 95
   - column_type: {col: obs_date, type: date}
-    reason: obs_date is parsed to a date32 in RAW_SCHEMA; a non-date type means the parquet schema changed
+    reason: obs_date is parsed to a date32 in VALUES_SCHEMA; a non-date type means the parquet schema changed
     certainty: 95
   - column_type: {col: value, type: string}
-    reason: raw value is kept as text (RAW_SCHEMA) and only TRY_CAST to double in the transform; footnotes/blanks must survive the raw layer untyped
+    reason: raw value is kept as text (VALUES_SCHEMA) and only TRY_CAST to double in the transform; footnotes/blanks must survive the raw layer untyped
     certainty: 90
   - between: {col: obs_date, lo: '1963-01-01', hi: today}
     reason: the IADB rejects any From date before 1963 (DATE_FROM floor) so no observation predates it, and no observation can be dated in the future
     certainty: 90
   - distinct_count: {col: series_code, min: 100}
-    reason: discovery harvests >=200 series codes (MIN_SERIES_CODES) from the A-Z index; even after tolerated skips the fetched corpus must span many distinct series, not a degenerate single-series pull
+    reason: discovery harvests >=200 series codes (MIN_SERIES_CODES) from the browse hierarchy; even after tolerated skips the fetched corpus must span many distinct series, not a degenerate single-series pull
     certainty: 80
   - row_count: {min: 100000}
     reason: hundreds of series, many daily/monthly since 1963, yield well over 100k observations; far fewer means discovery degraded or the bulk fetch was largely skipped

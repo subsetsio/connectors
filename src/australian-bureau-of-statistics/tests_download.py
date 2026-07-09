@@ -1,60 +1,58 @@
 """Health invariants for the ABS SDMX downloads.
 
-Each download writes one dataflow's full SDMX-CSV as NDJSON. These tests catch
-silent degradation that file-existence alone misses: empty payloads, a response
-that switched away from SDMX-CSV (losing the stable OBS_VALUE/TIME_PERIOD
-columns), or a dataflow that returned only non-numeric observations.
-"""
-from subsets_utils import load_raw_ndjson, list_raw_files
+Each download writes one dataflow's full SDMX-CSV as parquet. These tests catch
+silent degradation that file existence alone misses: empty payloads, a response
+that switched away from SDMX-CSV (losing the stable DATAFLOW/TIME_PERIOD/
+OBS_VALUE columns), or dimension codes coerced to integers (which would strip
+the leading zeros off postal areas and SA2 codes).
 
-# Columns SDMX-CSV always carries regardless of the dataflow's DSD.
+Assets are inspected through parquet metadata rather than `load_raw_parquet`:
+the largest dataflow is a 2.86 GB CSV, and materializing every asset as an
+Arrow table would OOM the runner these tests run on.
+"""
+
+import pyarrow as pa
+import pyarrow.parquet as pq
+
+from subsets_utils import raw_parquet_localpath
+
+# Columns SDMX-CSV carries regardless of the dataflow's DSD. Everything else —
+# including OBS_STATUS and UNIT_MEASURE — is flow-dependent (C21_G01_POA, for
+# instance, has neither).
 _STABLE_COLS = {"DATAFLOW", "TIME_PERIOD", "OBS_VALUE"}
 
 
-def test_every_asset_has_rows(spec_ids):
-    """Every download that produced a raw asset must hold at least one row.
-    An empty NDJSON usually means the endpoint switched format or the flow was
-    silently withdrawn."""
+def _assets(spec_ids):
+    """Yield (spec_id, parquet metadata, arrow schema) for every raw asset."""
     for sid in spec_ids:
-        if not list_raw_files(sid):
-            # Permanent 4xx (superseded dataflow) skips cleanly with no raw —
-            # that is an accepted per-entity outcome, not a degradation.
-            continue
-        rows = load_raw_ndjson(sid)
-        assert len(rows) > 0, f"{sid}: NDJSON has 0 rows"
+        with raw_parquet_localpath(sid) as path:
+            pf = pq.ParquetFile(path)
+            yield sid, pf.metadata, pf.schema_arrow
+
+
+def test_every_asset_has_rows(spec_ids):
+    """An empty asset means the endpoint switched format or the flow was
+    silently withdrawn — both look like success to the DAG."""
+    for sid, meta, _ in _assets(spec_ids):
+        assert meta.num_rows > 0, f"{sid}: raw parquet has 0 rows"
 
 
 def test_stable_sdmx_columns_present(spec_ids):
-    """The SDMX-CSV stable columns must be present on the first row of every
-    asset — their absence means the response was not the expected flat table."""
-    for sid in spec_ids:
-        if not list_raw_files(sid):
-            continue
-        rows = load_raw_ndjson(sid)
-        if not rows:
-            continue
-        cols = set(rows[0].keys())
-        missing = _STABLE_COLS - cols
+    """The stable SDMX-CSV columns must be present on every asset; their
+    absence means the response was not the expected flat observation table."""
+    for sid, _, schema in _assets(spec_ids):
+        missing = _STABLE_COLS - set(schema.names)
         assert not missing, f"{sid}: missing stable SDMX columns {missing}"
 
 
-def test_some_numeric_observations(spec_ids):
-    """At least one asset must carry a parseable numeric OBS_VALUE — guards
-    against a corpus-wide format break where everything becomes non-numeric."""
-    saw_numeric = False
-    for sid in spec_ids:
-        if not list_raw_files(sid):
-            continue
-        rows = load_raw_ndjson(sid)
-        for r in rows[:200]:
-            v = (r.get("OBS_VALUE") or "").strip()
-            if v:
-                try:
-                    float(v)
-                    saw_numeric = True
-                    break
-                except ValueError:
-                    continue
-        if saw_numeric:
-            break
-    assert saw_numeric, "no parseable numeric OBS_VALUE found across any asset"
+def test_dimension_codes_are_strings(spec_ids):
+    """Every column except OBS_VALUE must be a string. ABS dimension codes are
+    numeric-looking but not numbers: inferring int64 would turn postal area
+    '0800' into 800 and silently corrupt every join against a geography."""
+    for sid, _, schema in _assets(spec_ids):
+        for field in schema:
+            if field.name == "OBS_VALUE":
+                continue
+            assert field.type == pa.string(), (
+                f"{sid}: column {field.name} is {field.type}, expected string"
+            )

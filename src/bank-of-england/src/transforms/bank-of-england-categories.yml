@@ -1,0 +1,16 @@
+key: [category_id, meaning_id]
+write_mode: overwrite
+sort: [category_id, meaning_id]
+columns:
+  - name: category_id
+    type: VARCHAR
+    description: The source's own numeric category id (4 and 5 both sit under the SECTOR category, which the browse hierarchy never splits by name).
+  - name: category_name
+    type: VARCHAR
+    description: Top-level category as the browse hierarchy names it - INSTRUMENTS, COUNTRY or SECTOR.
+  - name: meaning_id
+    type: VARCHAR
+    description: The category value's meaning id, occasionally a comma-joined group of ids (e.g. "LACCEP,MACCS,AACCS"). Joins to series.meaning_id.
+  - name: category_value
+    type: VARCHAR
+    description: Human-readable name of the category value, e.g. "Acceptances - total".

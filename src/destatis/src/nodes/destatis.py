@@ -26,10 +26,16 @@ overwrites; revisions and late corrections are picked up for free. JSON-stat
 cells are streamed to disk per statistic (ndjson.gz) so memory stays bounded even
 for statistics with hundreds of large tables.
 
-Raw format: ndjson.gz — one row per data cell. Cells across a statistic's tables
-have heterogeneous dimension sets, so the classifying dimensions are serialized
-into a single JSON-string column (`dims`) rather than fanned into drifting typed
-columns. Everything else is a scalar.
+Raw format: zstd parquet — one row per data cell, written through a declared
+schema. Cells across a statistic's tables have heterogeneous dimension sets, so
+the classifying dimensions are serialized into a single JSON-string column
+(`dims`) rather than fanned into drifting typed columns. Everything else is a
+scalar.
+
+`time` keeps GENESIS's own period label verbatim (mixed shapes: "2024",
+"2024-12-31", "2020-05P1M"); `year` is the 4-digit calendar year parsed off the
+front of it, as a typed integer, so freshness and range assertions have an
+unambiguous column to bind to.
 """
 
 from __future__ import annotations
@@ -60,6 +66,7 @@ _SCHEMA = pa.schema([
     ("table_code", pa.string()),
     ("table_name", pa.string()),
     ("time", pa.string()),
+    ("year", pa.int32()),
     ("measure_code", pa.string()),
     ("dims", pa.string()),
     ("value", pa.float64()),
@@ -101,6 +108,17 @@ def _en(localized) -> str:
     if isinstance(localized, dict):
         return localized.get("en") or localized.get("de") or ""
     return localized or ""
+
+
+def _year(time_val) -> int | None:
+    """Calendar year off the front of a GENESIS period label.
+
+    Every code on the time axis matched `_TIME_RE`, so it is anchored on exactly
+    four leading digits; a cell with no time axis has none.
+    """
+    if not time_val:
+        return None
+    return int(time_val[:4])
 
 
 def _unroll(dataset: dict):
@@ -226,6 +244,7 @@ def fetch_one(node_id: str) -> None:
                     cols["table_code"].append(table_code)
                     cols["table_name"].append(table_name)
                     cols["time"].append(time_val)
+                    cols["year"].append(_year(time_val))
                     cols["measure_code"].append(content)
                     cols["dims"].append(
                         json.dumps(dims, sort_keys=True, ensure_ascii=False)
@@ -254,6 +273,10 @@ DOWNLOAD_SPECS = [
 ]
 
 
+# A generic passthrough transform per statistic. The graph requires every download
+# node to have a transform consumer, so this comprehension covers all 331; the
+# curated `src/transforms/<table>.sql` + `.yml` pairs override it per table (see
+# orchestrator.load_nodes), and the transform stage is what authors those.
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{s.id}-transform",

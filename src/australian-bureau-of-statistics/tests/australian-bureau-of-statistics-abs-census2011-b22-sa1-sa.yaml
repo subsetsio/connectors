@@ -1,0 +1,20 @@
+spec_id: australian-bureau-of-statistics-abs-census2011-b22-sa1-sa
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: /data/{flow}/all returns the dataflow's complete observation table; zero rows means the flow was withdrawn upstream or the stream broke mid-fetch.
+    certainty: 90
+    points_outward: true
+  - not_null: DATAFLOW
+    reason: SDMX-CSV stamps the agency:flow(version) key on every observation row; a null means our streaming CSV parse misaligned columns.
+    certainty: 95
+  - not_null: TIME_PERIOD
+    reason: every SDMX observation is indexed by a time period; a null means column misalignment, not a source quirk.
+    certainty: 95
+  - column_type: {col: TIME_PERIOD, type: string}
+    reason: TIME_PERIOD is a period string whose grain varies by flow (2021, 2026-Q1, 2021-06); it must never be inferred as a number, or annual flows lose their distinction from years-as-ints.
+    certainty: 95
+  - column_type: {col: OBS_VALUE, type: float}
+    reason: SDMX declares OBS_VALUE numeric. The fetch falls back to a string column for a flow carrying coded observations, so a failure here is a discovery about that flow, not a bug.
+    certainty: 85
+    severity: warn

@@ -1,0 +1,48 @@
+spec_id: bank-of-england-categories
+status: active
+# Expectations for the raw taxonomy parquet (one row per category x category
+# value), scraped from the three CategoryIndex.asp browse pages. Authored from
+# the browse hierarchy's structure and the node's own guards, NOT from a fitted
+# snapshot of observed data.
+coverage:
+  frozen: true
+  reason: the taxonomy has no observation date — it is the source's category tree as published today, re-scraped in full every run, so there is nothing for a freshness assertion to advance
+tests:
+  - not_null: category_id
+    reason: every row is harvested from a link carrying CategId; the node skips links without one, so a null means the query-string parse misaligned
+    certainty: 95
+  - not_null: category_name
+    reason: category_name is supplied by the node from CATEGORY_PAGES, never parsed, so it can only be null if the schema drifted
+    certainty: 99
+  - not_null: meaning_id
+    reason: rows without NewMeaningId are skipped as nav chrome; a surviving null means the link filter broke
+    certainty: 95
+  - unique: [category_id, meaning_id]
+    reason: the node dedups on exactly this pair while walking the three index pages, so a duplicate means the dedup key no longer identifies a category value
+    certainty: 95
+  - column_type: {col: category_id, type: string}
+    reason: kept as the source's own token ("4", "5", "6") rather than coerced to int, because the SECTOR page mixes two numeric ids under one name
+    certainty: 95
+  - column_type: {col: category_name, type: string}
+    reason: declared string in CATEGORIES_SCHEMA
+    certainty: 95
+  - column_type: {col: meaning_id, type: string}
+    reason: meaning ids are alphanumeric tokens, sometimes comma-joined groups (e.g. "LACCEP,MACCS,AACCS"), so never numeric
+    certainty: 95
+  - column_type: {col: category_value, type: string}
+    reason: the human-readable display name declared string in CATEGORIES_SCHEMA
+    certainty: 95
+  - enum: {col: category_name, values: [INSTRUMENTS, COUNTRY, SECTOR]}
+    reason: category_name is written from the node's CATEGORY_PAGES constant, so any other value means the constant and this test drifted apart
+    certainty: 99
+  - enum: {col: category_id, values: ['4', '5', '6', '9']}
+    reason: the browse hierarchy exposes exactly these four numeric categories today (4 and 5 both under SECTOR); a new one is a real change at the source worth noticing, not a bug in our code
+    certainty: 75
+    points_outward: true
+    severity: warn
+  - row_count: {min: 500}
+    reason: the three indexes link ~1.6k category values between them (998 instruments, 288 countries, 306 sectors); the node already aborts below 100, and a drop to a few hundred would mean an index page silently stopped listing
+    certainty: 85
+  - distinct_count: {col: category_id, min: 4}
+    reason: all four categories must survive the crawl — losing one means a whole index page failed while the others masked it
+    certainty: 90

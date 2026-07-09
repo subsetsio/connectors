@@ -30,7 +30,7 @@ def test_assets_nonempty(spec_ids):
 def test_row_shape(spec_ids):
     """Cells carry the expected columns, numeric values, and well-formed dims."""
     expected = {
-        "statistic_code", "table_code", "table_name", "time",
+        "statistic_code", "table_code", "table_name", "time", "year",
         "measure_code", "dims", "value", "status",
     }
     for sid in spec_ids:
@@ -46,6 +46,13 @@ def test_row_shape(spec_ids):
             assert v is None or isinstance(v, float), f"{sid}: non-float value {v!r}"
             parsed = json.loads(r["dims"])
             assert isinstance(parsed, dict), f"{sid}: dims not an object: {r['dims']!r}"
+            # `year` is parsed off `time`; the two must never disagree.
+            if r["time"]:
+                assert r["year"] == int(r["time"][:4]), (
+                    f"{sid}: year {r['year']} does not match time {r['time']!r}"
+                )
+            else:
+                assert r["year"] is None, f"{sid}: year set on a cell with no time axis"
         values = table.column("value").to_pylist()
         assert any(v is not None for v in values), f"{sid}: every cell value is null"
         return  # one populated statistic is enough to validate shape

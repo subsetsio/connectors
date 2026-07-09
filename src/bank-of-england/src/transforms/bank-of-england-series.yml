@@ -1,0 +1,25 @@
+# Grain is a membership bridge, not a series dimension: a series carries an
+# instrument meaning AND a country meaning AND a sector meaning, so its code and
+# title repeat once per category value it belongs to.
+key: [series_code, category_id, meaning_id]
+write_mode: overwrite
+sort: [series_code, category_id, meaning_id]
+columns:
+  - name: series_code
+    type: VARCHAR
+    description: IADB series code, a short alphanumeric token (e.g. IUDSOIA). Joins to values.series_code.
+  - name: series_title
+    type: VARCHAR
+    description: The series' long description, e.g. "Monthly amounts outstanding of UK resident monetary financial institutions' sterling holdings of own acceptances".
+  - name: category_id
+    type: VARCHAR
+    description: The source's own numeric category id. Joins to categories.category_id.
+  - name: category_name
+    type: VARCHAR
+    description: Top-level category as the browse hierarchy names it - INSTRUMENTS, COUNTRY or SECTOR.
+  - name: meaning_id
+    type: VARCHAR
+    description: Meaning id of the category value this series is listed under. Joins to categories.meaning_id.
+  - name: category_value
+    type: VARCHAR
+    description: Human-readable name of the category value this series is listed under.
