@@ -3,28 +3,31 @@
 Statbel publishes its whole open-data corpus through the official DCAT-BE
 catalogue (Turtle/RDF). We resolve each dataset's current download URL from a
 fresh read of that catalogue (filenames are point-in-time, so they must not be
-hardcoded), download the tabular distribution, and normalise it to rows of
-strings that the SQL transform can publish.
+hardcoded), download the best tabular distribution — delimited text, else
+.xlsx — and normalise it to rows of strings that the SQL transform can publish.
 """
 
 import csv
+import datetime as dt
 import gzip
 import io
 import re
 import zipfile
 from functools import lru_cache
 
+import openpyxl
+
 from subsets_utils import get, transient_retry
 
 DCAT_URL = "https://doc.statbel.be/publications/DCAT/DCAT_opendata_datasets.ttl"
 
-# Distribution extensions we never read (geospatial / binary DB mirrors).
-NON_TABULAR_EXT = (
-    ".shp.zip", ".geojson.zip", ".gml.zip", ".kml.zip",
-    ".sqlite.zip", ".sqlite.tar.gz", ".mdb.zip", ".tar.gz",
-)
-# Delimited-text distributions, in preference order (best first).
-DELIMITED_EXT = (".csv", ".txt.zip", ".csv.zip", ".zip", ".gz")
+# Tabular distributions, in preference order (best first). Delimited text
+# first — it is the widest and cheapest to parse; .xlsx is the last resort,
+# used only where a dataset ships no delimited mirror at all (or where the
+# delimited one is broken upstream). Anything not listed here — geospatial
+# (.shp/.geojson/.gml) and binary DB (.mdb/.sqlite) mirrors — is not tabular
+# and those datasets are deferred at the accept stage, not downloaded.
+TABULAR_EXT = (".csv", ".txt.zip", ".csv.zip", ".zip", ".gz", ".xlsx")
 
 
 @transient_retry()
@@ -91,8 +94,13 @@ def _catalog() -> dict:
     return out
 
 
-def resolve_download_url(entity_id: str) -> str:
-    """Pick the best delimited-text distribution URL for a dataset node."""
+def resolve_download_urls(entity_id: str) -> list[str]:
+    """The dataset node's tabular distribution URLs, best first.
+
+    More than one is returned so a distribution that is broken upstream (a
+    truncated .zip, say) can fall through to the next-best mirror instead of
+    killing the spec.
+    """
     urls = _catalog().get(entity_id)
     if not urls:
         raise RuntimeError(f"{entity_id}: not present in DCAT catalogue")
@@ -100,12 +108,12 @@ def resolve_download_url(entity_id: str) -> str:
     for u in urls:
         fn = u.rstrip("/").rsplit("/", 1)[-1]
         by_ext.setdefault(_ext_of(fn), u)
-    for ext in DELIMITED_EXT:
-        if ext in by_ext:
-            return by_ext[ext]
-    raise RuntimeError(
-        f"{entity_id}: no delimited distribution; have {sorted(by_ext)}"
-    )
+    candidates = [by_ext[ext] for ext in TABULAR_EXT if ext in by_ext]
+    if not candidates:
+        raise RuntimeError(
+            f"{entity_id}: no tabular distribution; have {sorted(by_ext)}"
+        )
+    return candidates
 
 
 def _decode(raw: bytes) -> str:
@@ -158,11 +166,55 @@ def _sanitize_columns(names):
     return out
 
 
-def fetch_rows(entity_id: str):
-    """Resolve, download and parse a Statbel dataset into a list of dict rows
-    (all values are strings — typing is left to consumers)."""
-    url = resolve_download_url(entity_id)
-    text = _extract_text(url, _fetch_bytes(url))
+def _cell_str(value) -> str:
+    """Render an .xlsx cell as the same string a delimited mirror would carry."""
+    if value is None:
+        return ""
+    if isinstance(value, bool):
+        return str(value)
+    if isinstance(value, float) and value.is_integer():
+        return str(int(value))
+    if isinstance(value, dt.datetime):
+        return (value.date().isoformat() if value.time() == dt.time()
+                else value.isoformat(sep=" "))
+    if isinstance(value, (dt.date, dt.time)):
+        return value.isoformat()
+    return str(value)
+
+
+def _rows_from_xlsx(url: str, raw: bytes) -> list[dict]:
+    """Parse the first worksheet of an .xlsx distribution.
+
+    Statbel's workbooks declare a sheet dimension far wider and longer than the
+    data (trailing formatted-but-empty cells), so the header's last non-empty
+    column defines the real width and all-empty rows are dropped.
+    """
+    wb = openpyxl.load_workbook(io.BytesIO(raw), read_only=True, data_only=True)
+    try:
+        # Sheet order is the source's own: the first is the dataset proper,
+        # any later sheet is a higher-level aggregate of it.
+        rows_iter = wb[wb.sheetnames[0]].iter_rows(values_only=True)
+        header = next(rows_iter, None)
+        if header is None:
+            raise RuntimeError(f"empty worksheet: {url}")
+        width = max((i + 1 for i, v in enumerate(header)
+                     if v not in (None, "")), default=0)
+        if not width:
+            raise RuntimeError(f"no header row: {url}")
+        cols = _sanitize_columns([_cell_str(v) for v in header[:width]])
+        rows = []
+        for rec in rows_iter:
+            vals = list(rec[:width]) + [None] * (width - len(rec[:width]))
+            if all(v in (None, "") for v in vals):
+                continue
+            rows.append({cols[i]: _cell_str(vals[i]) for i in range(width)})
+        return rows
+    finally:
+        wb.close()
+
+
+def _rows_from_delimited(url: str, raw: bytes) -> list[dict]:
+    text = _extract_text(url, raw)
     # Normalise newlines and drop a leading BOM if any survived.
     text = text.lstrip("﻿").replace("\r\n", "\n").replace("\r", "\n")
     first_nl = text.find("\n")
@@ -172,7 +224,7 @@ def fetch_rows(entity_id: str):
     try:
         header = next(reader)
     except StopIteration:
-        raise RuntimeError(f"{entity_id}: empty file at {url}")
+        raise RuntimeError(f"empty file at {url}")
     cols = _sanitize_columns(header)
     ncols = len(cols)
     rows = []
@@ -185,3 +237,29 @@ def fetch_rows(entity_id: str):
             rec = rec[:ncols]
         rows.append({cols[i]: rec[i] for i in range(ncols)})
     return rows
+
+
+def fetch_rows(entity_id: str):
+    """Resolve, download and parse a Statbel dataset into a list of dict rows
+    (all values are strings — typing is left to consumers).
+
+    Distributions are tried best-first; a mirror that fails to download or
+    parse falls through to the next one, so a single corrupt file upstream
+    costs a worse format rather than the whole dataset.
+    """
+    candidates = resolve_download_urls(entity_id)
+    failures = []
+    for url in candidates:
+        parse = _rows_from_xlsx if url.lower().endswith(".xlsx") else _rows_from_delimited
+        try:
+            rows = parse(url, _fetch_bytes(url))
+        except Exception as exc:
+            failures.append(f"{url.rsplit('/', 1)[-1]}: {type(exc).__name__}: {exc}")
+            continue
+        if failures:
+            print(f"  !! {entity_id}: fell back to {url.rsplit('/', 1)[-1]} "
+                  f"after {len(failures)} failed distribution(s): {failures[0]}")
+        return rows
+    raise RuntimeError(
+        f"{entity_id}: every tabular distribution failed; {'; '.join(failures)}"
+    )

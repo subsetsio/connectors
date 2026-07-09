@@ -1,11 +1,11 @@
 """Statbel (Statistics Belgium) — open-data corpus.
 
 One published Delta table per Statbel DCAT dataset node. Each download node
-resolves its dataset's current download URL from a fresh read of the DCAT-BE
-catalogue, fetches the delimited-text distribution (.zip of pipe-delimited
-TXT, .csv, .csv.zip or .gz), and parses it to NDJSON rows of strings. The
-per-dataset schemas are heterogeneous, so the transform is a thin passthrough
-that publishes the table as-is.
+resolves its dataset's current download URLs from a fresh read of the DCAT-BE
+catalogue, fetches the best tabular distribution (.zip of pipe-delimited TXT,
+.csv, .csv.zip or .gz; .xlsx where no delimited mirror exists), and parses it
+to NDJSON rows of strings. The per-dataset schemas are heterogeneous, so the
+transform is a thin passthrough that publishes the table as-is.
 
 Fetch shape: stateless full re-pull. Files are modest (~0.5-3MB each) and
 Statbel exposes no incremental download filter, so every run re-reads the

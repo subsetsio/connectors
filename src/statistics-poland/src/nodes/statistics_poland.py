@@ -91,6 +91,18 @@ def _headers():
     return {"X-ClientId": key} if key else {}
 
 
+def _require_api_key() -> None:
+    if _api_key() or os.environ.get("BDL_ALLOW_ANONYMOUS"):
+        return
+    raise RuntimeError(
+        "BDL_API_KEY is not set. The anonymous 1000/12h quota on /variables is a "
+        "pool shared across all anonymous callers and is perpetually exhausted, so "
+        "a keyless run cannot fetch anything (see module docstring). Register a key "
+        "at https://api.stat.gov.pl/ and set BDL_API_KEY, or set BDL_ALLOW_ANONYMOUS=1 "
+        "to try anyway."
+    )
+
+
 def _min_interval_seconds() -> float:
     override = os.environ.get("BDL_MIN_INTERVAL_SECONDS")
     if override:
@@ -164,6 +176,7 @@ def _batched(seq, size):
 
 
 def fetch_one(node_id: str) -> None:
+    _require_api_key()
     asset = node_id                                  # the spec id IS the asset name
     group_id = node_id[len(PREFIX):].upper()         # 'statistics-poland-g7' -> 'G7'
 
