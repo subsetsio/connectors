@@ -1,5 +1,5 @@
 {
-  "cadence_days": 7,
+  "cadence_days": 90,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "The Maddison Project Database is a versioned academic release, not a live feed: successive releases are roughly triennial (2013, 2018, 2020, 2023) and a released DataverseNL dataset is immutable for its lifetime, so the pinned datafile id 421302 (mpd2023_web.xlsx) returns byte-identical content between releases. A weekly re-fetch would only re-download the same 5MB workbook. Quarterly is enough to notice a new release within one quarter of publication; the next release will change the DOI's file ids, so refresh via the dataverse_api mechanism (GET /api/datasets/:persistentId/?persistentId=doi:10.34894/INZBF2) to pick up the new datafile id when the fetch starts returning stale data."
 }
