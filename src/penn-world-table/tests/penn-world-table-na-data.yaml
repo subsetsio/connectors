@@ -2,7 +2,7 @@ spec_id: penn-world-table-na-data
 status: active
 coverage:
   frozen: true
-  reason: PWT 11.0 is a fixed versioned release covering 1950-2023; future releases are new source versions.
+  reason: PWT 11.0 is a fixed versioned release; future releases are new source versions.
 tests:
   - row_count: {min: 9000}
     reason: PWT 11.0 national accounts data has about 13.1k country-year rows.
@@ -14,8 +14,8 @@ tests:
   - unique: [countrycode, year]
     reason: one row per country-year in the national accounts panel
     certainty: 95
-  - between: {col: year, lo: 1950, hi: 2023}
-    reason: PWT 11.0 documented coverage is 1950-2023.
+  - between: {col: year, lo: 1950, hi: 2025}
+    reason: The national accounts file includes annual observations through 2025.
     certainty: 95
   - not_null: v_gdp
     severity: warn

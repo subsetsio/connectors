@@ -1,24 +1,16 @@
 """Statistics Sweden PxWebApi v2 download nodes."""
 from __future__ import annotations
 
+import json
 from itertools import product
 
-from subsets_utils import NodeSpec, get, save_raw_ndjson
+from subsets_utils import NodeSpec, get, post, raw_writer
+
+from constants import ENTITY_IDS
 
 BASE_URL = "https://statistikdatabasen.scb.se/api/v2"
 PREFIX = "statistics-sweden-"
 MAX_CELLS_PER_REQUEST = 100_000
-
-ENTITY_IDS = (
-    "TAB2901",
-    "TAB3009",
-    "TAB443",
-    "TAB4516",
-    "TAB6473",
-    "TAB6590",
-    "TAB6596",
-    "TAB676",
-)
 
 
 def _table_id_from_asset(asset_id: str) -> str:
@@ -27,6 +19,12 @@ def _table_id_from_asset(asset_id: str) -> str:
 
 def _fetch_json(path: str, params: dict | None = None) -> dict:
     resp = get(f"{BASE_URL}{path}", params=params, timeout=(10.0, 180.0))
+    resp.raise_for_status()
+    return resp.json()
+
+
+def _post_json(path: str, body: dict, params: dict | None = None) -> dict:
+    resp = post(f"{BASE_URL}{path}", json=body, params=params, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.json()
 
@@ -87,7 +85,16 @@ def _value_at(values, offset: int):
     return None
 
 
-def _flatten_dataset(table_id: str, dataset: dict) -> list[dict]:
+def _selection_body(selection: dict[str, list[str]]) -> dict:
+    return {
+        "selection": [
+            {"variableCode": dim_name, "valueCodes": codes}
+            for dim_name, codes in selection.items()
+        ]
+    }
+
+
+def _flatten_dataset(table_id: str, dataset: dict):
     ids = dataset["id"]
     sizes = dataset["size"]
     dims = dataset["dimension"]
@@ -104,7 +111,6 @@ def _flatten_dataset(table_id: str, dataset: dict) -> list[dict]:
     time_dims = set((dataset.get("role") or {}).get("time") or [])
     metric_dims = set((dataset.get("role") or {}).get("metric") or [])
 
-    rows = []
     for positions in product(*[range(len(codes)) for codes in code_lists]):
         offset = sum(pos * stride for pos, stride in zip(positions, strides))
         row = {
@@ -130,8 +136,7 @@ def _flatten_dataset(table_id: str, dataset: dict) -> list[dict]:
             if unit:
                 row["unit"] = unit.get("base")
                 row["decimals"] = unit.get("decimals")
-        rows.append(row)
-    return rows
+        yield row
 
 
 def fetch_table(asset_id: str) -> None:
@@ -142,17 +147,21 @@ def fetch_table(asset_id: str) -> None:
         for dim_name in metadata["id"]
     }
 
-    rows = []
-    for chunk in _split_selection(selection, MAX_CELLS_PER_REQUEST):
-        params = {"lang": "en", "outputFormat": "json-stat2"}
-        for dim_name, codes in chunk.items():
-            params[f"valuecodes[{dim_name}]"] = ",".join(codes)
-        dataset = _fetch_json(f"/tables/{table_id}/data", params)
-        rows.extend(_flatten_dataset(table_id, dataset))
+    row_count = 0
+    chunks = _split_selection(selection, MAX_CELLS_PER_REQUEST)
+    with raw_writer(asset_id, "ndjson", compression="gzip", mode="wt") as out:
+        for chunk in chunks:
+            dataset = _post_json(
+                f"/tables/{table_id}/data",
+                _selection_body(chunk),
+                {"lang": "en", "outputFormat": "json-stat2"},
+            )
+            for row in _flatten_dataset(table_id, dataset):
+                out.write(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n")
+                row_count += 1
 
-    if not rows:
+    if row_count == 0:
         raise RuntimeError(f"{asset_id}: fetched zero rows")
-    save_raw_ndjson(rows, asset_id)
 
 
 DOWNLOAD_SPECS = [
