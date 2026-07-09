@@ -34,7 +34,7 @@ import zipfile
 
 import duckdb
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, raw_parquet_writer
+from subsets_utils import NodeSpec, get, transient_retry, raw_parquet_writer
 from constants import DOWNLOADS, BASE
 
 PREFIX = "correlates-of-war-"
@@ -181,13 +181,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{PREFIX}{eid}", fn=fetch_one, kind="download")
     for eid in DOWNLOADS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]
