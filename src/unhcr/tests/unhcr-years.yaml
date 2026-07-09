@@ -1,0 +1,19 @@
+spec_id: unhcr-years
+status: active
+tests:
+  - row_count: {min: 70, max: 120}
+    reason: the reference list runs from 1951 (the year of the Refugee Convention) to the current year - ~76 rows today, growing by one annually.
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - unique: year
+    certainty: 95
+  - between: {col: year, lo: 1951, hi: current_year()}
+    reason: UNHCR statistics begin in 1951; the reference table lists no future years.
+    certainty: 90
+    points_outward: true
+  - contiguous: {col: year}
+    reason: a gapless yearly run - a hole means a dropped page on our side.
+    certainty: 95
+  - freshness: {col: year, reaches: today - 2y}
+    points_outward: true
+    reason: the year list extends to the current year; two years of slack absorbs UNHCR's mid-year release lag.
