@@ -27,13 +27,16 @@ tests:
   - coverage: {col: country, expected: 423}
     reason: >-
       The bulk ZIP holds one WID_data_XX.csv per area and every row of a member carries
-      that area as `country`, so every one of the 423 area members must contribute at
-      least one row. A shortfall is a silently dropped member, not a smaller world.
+      that area as `country`, so every area member holding rows must contribute at least
+      one. 12 of the 423 are header-only placeholders upstream and are covered by a
+      waiver; a shortfall beyond those 12 is a silently dropped member, not a smaller
+      world. Watch this one: Namibia's area code is the literal `NA`, so a parser that
+      treats `NA` as a null token drops an area here and nulls `country` besides.
 
   - row_count: {min: 50000000}
     reason: >-
-      423 area members averaging a few hundred thousand rows; the corpus is ~100M+
-      observations. An order-of-magnitude shortfall means the member loop exited early.
+      411 non-empty area members averaging a few hundred thousand rows; the corpus is
+      ~100M+ observations. An order-of-magnitude shortfall means the member loop exited early.
     certainty: 80
 
   - between: {col: year, lo: 1800, hi: current_year()}

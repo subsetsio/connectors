@@ -24,10 +24,12 @@ tests:
   - coverage: {col: country, expected: 423}
     reason: >-
       One WID_metadata_XX.csv per area, 423 areas, each row stamped with its area code.
-      A shortfall means a member was skipped by the ranged read loop.
+      12 members are header-only placeholders upstream and are covered by a waiver; a
+      shortfall beyond those 12 means a member was skipped by the ranged read loop.
+      Namibia's area code is the literal `NA` — a parser that nulls that token loses it.
 
   - row_count: {min: 100000}
-    reason: 423 areas x ~1k-2k documented variables each; well over 100k rows.
+    reason: 411 non-empty areas x ~1k-2k documented variables each; well over 100k rows.
     certainty: 85
 
   - distinct_count: {col: variable, min: 1000}

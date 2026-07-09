@@ -36,6 +36,7 @@ rather than raised, so it can't abort a 5000-node run.
 """
 
 import time
+from datetime import date, datetime, timezone
 
 import pyarrow as pa
 
