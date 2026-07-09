@@ -1,2 +1,14 @@
 spec_id: eurostat-env-wat-ltaa
-status: deferred
+coverage:
+  frozen: true
+  reason: long-term annual average — the dataflow carries no advancing time
+    dimension, and Eurostat's dissemination inventory publishes no dataStart or
+    dataEnd for it, so there is no period for a freshness bound to reach.
+tests:
+  - row_count: {min: 1}
+    reason: the dataflow is disseminated and non-empty — a zero-row raw asset
+      means the SDMX-CSV stream was truncated or the dataflow was withdrawn
+    certainty: 95
+  - not_null: time_period
+    reason: SDMX-CSV always carries TIME_PERIOD on every observation row
+    certainty: 99

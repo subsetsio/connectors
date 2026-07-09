@@ -19,8 +19,15 @@ tests:
     certainty: 85
     points_outward: true
     severity: warn
-  - nullable: {col: value, max_null_frac: 0.05}
-    reason: BLS writes '-' for suppressed/unavailable observations, which we null; a large null share means the value column stopped parsing
+  - nullable: {col: value, max_null_frac: 0.65}
+    reason: >-
+      BLS writes '-' for suppressed/unavailable observations and the fetch
+      TRY_CASTs them to NULL, so the null share equals the source's '-' share.
+      That share is legitimately high here (51.4% of observations, verified
+      against the upstream flat files): ORS publishes a sparse occupational-requirements matrix: most (occupation x requirement x estimate) cells are not estimated. The threshold is therefore set
+      well above the survey's normal suppression rate - this guard exists to
+      catch the value column failing to parse at all (a near-1.0 null share),
+      not to police how much the source suppresses.
     certainty: 75
     severity: warn
   - freshness: {col: period_start_date, reaches: today - 3y}

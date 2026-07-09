@@ -1,0 +1,29 @@
+# NodosP reference catalog: one row per NodoP CLAVE. Non-temporal reference
+# data (overwrite the full catalog each run). `node` joins to cenace-pml.node;
+# `load_zone` joins to cenace-pend.load_zone.
+key: [node]
+write_mode: overwrite
+sort: [node]
+columns:
+  - name: sistema
+    type: VARCHAR
+  - name: centro_control_regional
+    type: VARCHAR
+  - name: load_zone
+    type: VARCHAR
+  - name: node
+    type: VARCHAR
+  - name: nombre
+    type: VARCHAR
+  - name: nivel_tension_kv
+    type: DOUBLE
+  - name: zona_operacion_transmision
+    type: VARCHAR
+  - name: zona_distribucion
+    type: VARCHAR
+  - name: entidad_federativa
+    type: VARCHAR
+  - name: municipio
+    type: VARCHAR
+  - name: region_transmision
+    type: VARCHAR

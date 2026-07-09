@@ -1,2 +1,17 @@
 spec_id: eurostat-hlth-silc-12
-status: deferred
+tests:
+  - row_count: {min: 1}
+    reason: the dataflow is disseminated and non-empty — a zero-row raw asset
+      means the SDMX-CSV stream was truncated or the dataflow was withdrawn
+    certainty: 95
+  - not_null: time_period
+    reason: SDMX-CSV always carries TIME_PERIOD on every observation row
+    certainty: 99
+  - freshness: {col: time_period, reaches: "2025"}
+    reason: Eurostat's dissemination inventory publishes this dataflow's last
+      observation period as 2025; a complete pull must reach it. The bound is
+      pinned to the inventory rather than to `today - Nd` because Eurostat has no
+      single cadence — reach ranges from discontinued 1990s series to 2100
+      population projections — so a wall-clock bound would be wrong for most of
+      the ~5.8k dataflows. Re-collect refreshes the inventory and re-arms it.
+    certainty: 95

@@ -1,0 +1,26 @@
+spec_id: wipo-indicators
+status: active
+tests:
+  - not_null: indicator_id
+  - not_null: module
+  - not_null: label
+  - column_type: {col: indicator_id, type: integer}
+  - unique: indicator_id
+    reason: indicator ids are allocated globally across the three modules (ips 10-99, key 201-299, pmh 1001-3040), so the id alone is the grain
+    certainty: 90
+  - enum: {col: module, values: ["ips-search", "pmh-search", "keyindicator"]}
+    reason: the data center exposes exactly these three modules
+  - coverage: {col: indicator_id, expected: 152}
+    reason: 69 ips indicators across 5 tabs + 72 pmh across 3 tabs + 11 key indicators; collect measured 152 and every value table joins back to this catalog
+  - distinct_count: {col: tab, min: 8, max: 8}
+    reason: five ips tabs plus three pmh tabs; keyindicator rows carry no tab
+    certainty: 85
+  - nullable: {col: tab, max_null_frac: 0.15}
+    reason: only the 11 keyindicator rows have a null tab (11/152 = 0.072)
+    certainty: 85
+  - nullable: {col: report_types, max_null_frac: 0.15}
+    reason: only the 11 keyindicator rows have no report types (they are pre-aggregated)
+    certainty: 85
+  - row_count: {min: 140, max: 400}
+    reason: 152 today; WIPO adds indicators occasionally but never in bulk
+    certainty: 80

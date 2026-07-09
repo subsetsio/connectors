@@ -22,6 +22,9 @@ tests:
   - nullable: {col: coo_iso, max_null_frac: 0.95}
     reason: most footnotes annotate a country of asylum, leaving origin blank; blanks are normalized to null in the fetch.
     points_outward: true
-  - nullable: {col: population_type, max_null_frac: 0.5}
-    reason: some footnotes are general and pin no population type.
-    points_outward: true
+  - not_null: population_type
+    reason: every footnote annotates a specific population type (REF, IDP, OIP, ...).
+    certainty: 85
+  - unique: [year, coo_id, coa_id, population_type, footnote]
+    reason: one annotation per period/origin/asylum/population-type cell; the footnote text disambiguates the ~34 cells carrying more than one note.
+    certainty: 90
