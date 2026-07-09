@@ -28,18 +28,27 @@ at read time. NDJSON carries no schema contract; the transform re-types on
 read, and the 401 live tables span 13 program systems whose schemas we do not
 control.
 
-Pagination is OFFSET-scan, and that is quadratic
-------------------------------------------------
+Pagination, and how slow it really is
+-------------------------------------
 The row-window segment is 1-indexed and inclusive: `t/1:1000` returns rows
 1..1000. There is no keyset alternative: of the documented column operators
 only `equals` parses (`>`, `<`, `greater_than` all return a parse error), and
 even an equality probe on the primary key of icis.icis_dmr_form_value took 88s
--- the backend scans, it does not seek. So the server re-scans from row 1 on
-every request and the cost of the window at offset X grows with X. Draining a
-table of N rows with a window of W rows costs roughly `b*N^2/(2W)`, which is
-why W is large (1M) rather than the 10k the API docs suggest: total time falls
-linearly as W grows. icis.icis_dmr_form_value (100-200M rows) is the worst
-case at several hours on its own.
+-- the backend scans, it does not seek.
+
+Throughput is bounded per ROW, not per offset. Measured on
+icis.icis_dmr_form_value, 1M-row PARQUET windows: 96s at offset 0, 91s at 25M,
+147s at 50M, 140s at 100M -- roughly 7-11k rows/s and flat in depth, so a deep
+window costs no more than a shallow one. PAGE_SIZE is therefore chosen for
+safety, not speed: 1M rows lands each request at ~90-150s (well inside the
+server's 15-minute completion window) and one window at a time in RSS. A wider
+window buys no throughput (a 4M window overran a 280s probe timeout, ~4x the
+1M cost) while risking both limits.
+
+The consequence is that this corpus is simply large: ~750M rows across 401
+live tables at ~8k rows/s is on the order of 25 hours of fetching, and
+icis.icis_dmr_form_value alone (100-200M rows) is ~5 hours. It cannot be
+pulled in one 5.75h leg -- hence the continuation contract below.
 
 Windows past the end of a table return HTTP 200 with a valid but EMPTY parquet
 body (0 rows, 0 columns) -- that, and only that, terminates the loop. A short
@@ -110,10 +119,10 @@ BASE = "https://data.epa.gov/dmapservice/"
 # lookup and the writer must agree, or resume silently re-fetches everything.
 EXT = "ndjson.gz"
 
-# Rows per API request. Total drain cost is ~b*N^2/(2W) under the server's
-# offset scan, so a bigger window is strictly cheaper -- bounded by peak RSS
-# (one window is held as an arrow table) and by the server's 15-minute
-# per-request completion window, which a too-deep, too-wide request would blow.
+# Rows per API request. Throughput is per-row and flat in offset (~7-11k
+# rows/s measured), so this trades nothing away on speed: 1M rows keeps each
+# request at ~90-150s, inside the server's 15-minute completion window, and
+# holds one window at a time as an arrow table.
 PAGE_SIZE = 1_000_000
 
 # Rows converted from arrow to NDJSON at a time. Bounds peak RSS: a 1M-row
