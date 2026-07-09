@@ -55,15 +55,31 @@ from subsets_utils import (
     NodeSpec,
     get,
     get_client,
+    load_state,
     raw_asset_exists,
     raw_parquet_writer,
     record_source_signature,
     save_raw_parquet,
+    save_state,
     source_unchanged,
     transient_retry,
 )
 
 BULK_URL = "https://wid.world/bulk_download/wid_all_data.zip"
+
+# Bump whenever a change here invalidates raw produced by the previous code.
+#
+# The maintain check asks "has the SOURCE changed since we last fetched?" — it
+# compares the ZIP's ETag against the signature recorded at the last successful
+# fetch. It cannot see that OUR parse changed, so on a stateless full-snapshot
+# source like this one a fetch bug is self-preserving: the ETag still matches,
+# every run skips the fetch, and the bad raw is never rewritten. Stamping the
+# revision into the asset state and requiring it to match closes that loop.
+#
+#   1  initial
+#   2  null_values no longer swallows Namibia's `NA` area code
+PARSE_REVISION = 2
+_REVISION_KEY = "parse_revision"
 
 # A sanity floor on the area count, not the true universe: WID ships 423 areas
 # today. A ZIP that suddenly holds a handful of members means the export broke
@@ -208,6 +224,28 @@ def _write_member(source, schema: pa.Schema, writer) -> None:
             writer.write_table(pa.Table.from_batches([batch], schema=schema))
 
 
+def _fetch_recorded(asset_id: str) -> None:
+    """Stamp a successful fetch: the source signature, then the parse revision.
+
+    Order matters — `record_source_signature` does its own load/save of the
+    asset state, so the revision write must read it back afterwards.
+    """
+    record_source_signature(asset_id, BULK_URL)
+    state = load_state(asset_id)
+    state[_REVISION_KEY] = PARSE_REVISION
+    save_state(asset_id, state)
+
+
+def _is_fresh(asset_id: str) -> bool:
+    """Skip the fetch only if the raw we already hold is BOTH current with the
+    source and produced by the current parse."""
+    return (
+        load_state(asset_id).get(_REVISION_KEY) == PARSE_REVISION
+        and source_unchanged(asset_id, BULK_URL)
+        and raw_asset_exists(asset_id, "parquet")
+    )
+
+
 @transient_retry()
 def _download_bulk_zip(dest_path: str) -> None:
     """Stream the full bulk ZIP to a local temp file (bounded memory)."""
@@ -236,7 +274,7 @@ def fetch_values(node_id: str) -> None:
     finally:
         os.unlink(tmp.name)
 
-    record_source_signature(asset, BULK_URL)
+    _fetch_recorded(asset)
 
 
 def fetch_variables(node_id: str) -> None:
@@ -249,7 +287,7 @@ def fetch_variables(node_id: str) -> None:
         for member in members:
             _write_member(pa.BufferReader(zf.read(member)), METADATA_SCHEMA, writer)
 
-    record_source_signature(asset, BULK_URL)
+    _fetch_recorded(asset)
 
 
 def fetch_countries(node_id: str) -> None:
@@ -265,7 +303,7 @@ def fetch_countries(node_id: str) -> None:
     )
     save_raw_parquet(table.cast(COUNTRY_SCHEMA), asset)
 
-    record_source_signature(asset, BULK_URL)
+    _fetch_recorded(asset)
 
 
 DOWNLOAD_SPECS = [
@@ -284,7 +322,7 @@ MAINTAIN_SPECS = [
             "Full bulk export refreshed roughly annually (~July); no published "
             f"release calendar. Freshness observed via ETag/Last-Modified on {BULK_URL}."
         ),
-        check=lambda aid: source_unchanged(aid, BULK_URL) and raw_asset_exists(aid, "parquet"),
+        check=_is_fresh,
     )
     for spec in DOWNLOAD_SPECS
 ]

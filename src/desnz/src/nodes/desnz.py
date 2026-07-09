@@ -30,7 +30,7 @@ import re
 from urllib.parse import urljoin, urlparse, parse_qs
 
 import httpx
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, raw_writer
+from subsets_utils import NodeSpec, get, transient_retry, raw_writer
 from constants import ENTITY_CKAN
 
 log = logging.getLogger("desnz")
@@ -263,25 +263,3 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_CKAN
 ]
 
-
-# One published Delta table per package. The SQL is a thin type-and-filter pass
-# over the long raw: keep populated cells, expose value_num as a real double.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                resource,
-                sheet,
-                row_label,
-                series,
-                value_text,
-                TRY_CAST(value_num AS DOUBLE) AS value_num
-            FROM "{s.id}"
-            WHERE value_text IS NOT NULL
-              AND length(value_text) > 0
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
-]
