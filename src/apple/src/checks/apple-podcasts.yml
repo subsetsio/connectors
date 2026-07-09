@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `apple-podcasts`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [snapshot_date, storefront, feed_type, rank]
+temporal: snapshot_date
+checks:
+  - kind: unique
+    columns: [snapshot_date, storefront, feed_type, rank]
+  - kind: not_null
+    col: snapshot_date
+  - kind: not_null
+    col: storefront
+  - kind: not_null
+    col: feed_type
+  - kind: not_null
+    col: rank
+  - kind: row_floor
+    min: 8250
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

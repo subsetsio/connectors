@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `apple-music`. Regenerate after model-verify.
 # caution: Rows are chart snapshots, not a catalog of all songs; the same song can appear in multiple storefronts and snapshots.
-key: [url, entity_id, name, artwork_url, artist_name]
+key: [snapshot_date, storefront, feed_type, rank]
 temporal: snapshot_date
-sort: [snapshot_date, url, entity_id, name, artwork_url, artist_name]
+sort: [snapshot_date, storefront, feed_type, rank]
 columns:
   - name: snapshot_date
     type: DATE

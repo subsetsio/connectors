@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `apple-audio-books`. Regenerate after model-verify.
 # caution: Rows are chart snapshots, not a catalog of all audiobooks; the same audiobook can appear in multiple storefronts and snapshots.
-key: [url]
+key: [snapshot_date, storefront, feed_type, rank]
 temporal: snapshot_date
-sort: [snapshot_date, url]
+sort: [snapshot_date, storefront, feed_type, rank]
 columns:
   - name: snapshot_date
     type: DATE

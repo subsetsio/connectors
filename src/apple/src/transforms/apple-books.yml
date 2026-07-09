@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `apple-books`. Regenerate after model-verify.
 # caution: Rows are chart snapshots, not a catalog of all books; the same book can appear in multiple storefronts, feed types, and snapshots.
-key: [release_date, url]
+key: [snapshot_date, storefront, feed_type, rank]
 temporal: snapshot_date
-sort: [snapshot_date, release_date, url]
+sort: [snapshot_date, storefront, feed_type, rank]
 columns:
   - name: snapshot_date
     type: DATE
