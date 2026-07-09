@@ -46,7 +46,12 @@ from subsets_utils import NodeSpec, get, raw_writer, transient_retry
 # ---------------------------------------------------------------------------
 
 FEED_BASE = "https://opendata.cbs.nl/ODataFeed/odata"
+CATALOG_BASE = "https://opendata.cbs.nl/ODataCatalog"
 MAX_PAGES = 200_000        # safety ceiling (~2e9 rows); raises, never silent
+
+# The theme taxonomy is a catalog-level entity set, not a StatLine table: it has
+# no Feed endpoint, no dimensions and no TypedDataSet. It gets its own fetch fn.
+THEMES_ENTITY_ID = "cbs-themes"
 
 # DataProperties `Type` values that name a code-list entity set on the table.
 DIMENSION_TYPES = frozenset({"Dimension", "GeoDimension", "GeoDetail", "TimeDimension"})
@@ -178,7 +183,40 @@ def fetch_one(node_id: str) -> None:
     print(f"  {asset}: wrote {rows_written} rows across {pages} page(s)")
 
 
+def fetch_themes(node_id: str) -> None:
+    """The StatLine subject taxonomy — joinable reference data for the tables.
+
+    Served whole by the catalog service; one row per theme, `ParentID` giving
+    the tree. Small enough that paging never engages, but the nextLink loop is
+    shared with the table path anyway.
+    """
+    _force_ipv4()
+
+    url = f"{CATALOG_BASE}/Themes"
+    params = {"$format": "json"}
+
+    rows_written = 0
+    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
+        while url is not None:
+            payload = _fetch_page(url, params)
+            params = None
+            for row in payload.get("value", []):
+                fh.write(json.dumps({k: _strip(v) for k, v in row.items()}, ensure_ascii=False))
+                fh.write("\n")
+                rows_written += 1
+            url = payload.get("odata.nextLink") or payload.get("@odata.nextLink")
+
+    if rows_written == 0:
+        raise RuntimeError(f"{node_id}: the Themes entity set served no rows")
+
+    print(f"  {node_id}: wrote {rows_written} themes")
+
+
 DOWNLOAD_SPECS = [
-    NodeSpec(id=_node_id(eid), fn=fetch_one, kind="download")
+    NodeSpec(
+        id=_node_id(eid),
+        fn=fetch_themes if eid == THEMES_ENTITY_ID else fetch_one,
+        kind="download",
+    )
     for eid in ENTITY_IDS
 ]

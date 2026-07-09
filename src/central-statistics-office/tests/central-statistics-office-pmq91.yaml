@@ -1,13 +1,20 @@
 spec_id: central-statistics-office-pmq91
-status: active
+coverage:
+  frozen: true
+  reason: "closed quarterly series: coverage ends 2025Q3 and CSO retains it as a historical table rather than extending it"
 tests:
+  - not_null: matrix
+  - not_null: statistic_code
+  - not_null: time_code
+  - not_null: unit
+  - column_type: {col: value, type: float}
+    reason: PxStat VALUE is numeric-or-blank; blanks are suppressed cells and must land as NULL
+    certainty: 95
   - row_count: {min: 1}
-    reason: every PxStat ReadDataset CSV returns at least one data cell
+    reason: a ReadDataset response with no cells means the matrix was emptied upstream
+  - unique: [statistic_code, time_code, dim1_code, dim2_code]
+    reason: PxStat serves a dense cube - one cell per statistic x time x dimension coordinate
     certainty: 90
-  - not_null: STATISTIC
-    reason: STATISTIC is the metric-dimension code, populated on every row of the PxStat CSV 1.0 format
-    certainty: 88
-  - not_null: UNIT
-    reason: each statistic carries a unit of measure in PxStat output
-    certainty: 70
-    severity: warn
+  - enum: {col: time_dimension, values: [Quarter]}
+    reason: the matrix declares one time dimension in the catalog; a change means the cube was restructured
+    certainty: 90
