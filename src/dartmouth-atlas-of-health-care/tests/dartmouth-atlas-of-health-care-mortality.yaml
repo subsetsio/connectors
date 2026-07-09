@@ -1,0 +1,11 @@
+spec_id: dartmouth-atlas-of-health-care-mortality
+status: active
+tests:
+  - not_null: source_file
+  - not_null: geo_level
+  - enum: {col: geo_level, values: [hrr, state]}
+    reason: the mortality page publishes longitudinal Stata files at HRR and state levels
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: HRR and state mortality files together should contain a multi-year area-measure panel
+    certainty: 80

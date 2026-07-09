@@ -28,7 +28,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -176,64 +175,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="croatian-national-bank-currencies", fn=fetch_currencies, kind="download"),
     NodeSpec(id="croatian-national-bank-exchange-rates-eur", fn=fetch_eur, kind="download"),
     NodeSpec(id="croatian-national-bank-exchange-rates-hrk", fn=fetch_hrk, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="croatian-national-bank-currencies-transform",
-        deps=["croatian-national-bank-currencies"],
-        key=("currency",),
-        sql='''
-            SELECT DISTINCT
-                currency,
-                currency_numeric,
-                country,
-                country_iso,
-                seen_in_eur,
-                seen_in_hrk
-            FROM "croatian-national-bank-currencies"
-            WHERE currency IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="croatian-national-bank-exchange-rates-eur-transform",
-        deps=["croatian-national-bank-exchange-rates-eur"],
-        key=("date", "currency"),
-        temporal="date",
-        sql='''
-            SELECT DISTINCT
-                CAST(datum_primjene AS DATE)                      AS date,
-                valuta                                            AS currency,
-                drzava                                            AS country,
-                drzava_iso                                        AS country_iso,
-                sifra_valute                                      AS currency_numeric,
-                CAST(REPLACE(kupovni_tecaj,  ',', '.') AS DOUBLE) AS buying_rate,
-                CAST(REPLACE(srednji_tecaj,  ',', '.') AS DOUBLE) AS middle_rate,
-                CAST(REPLACE(prodajni_tecaj, ',', '.') AS DOUBLE) AS selling_rate,
-                CAST(broj_tecajnice AS INTEGER)                   AS bulletin_number
-            FROM "croatian-national-bank-exchange-rates-eur"
-            WHERE valuta IS NOT NULL AND datum_primjene IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="croatian-national-bank-exchange-rates-hrk-transform",
-        deps=["croatian-national-bank-exchange-rates-hrk"],
-        key=("date", "currency"),
-        temporal="date",
-        sql='''
-            SELECT DISTINCT
-                CAST(datum AS DATE)                               AS date,
-                valuta                                            AS currency,
-                drzava                                            AS country,
-                jedinica                                          AS unit,
-                sifra_valute                                      AS currency_numeric,
-                CAST(REPLACE(kupovni_tecaj,  ',', '.') AS DOUBLE) AS buying_rate,
-                CAST(REPLACE(srednji_tecaj,  ',', '.') AS DOUBLE) AS middle_rate,
-                CAST(REPLACE(prodajni_tecaj, ',', '.') AS DOUBLE) AS selling_rate,
-                CAST(broj_tecajnice AS INTEGER)                   AS bulletin_number
-            FROM "croatian-national-bank-exchange-rates-hrk"
-            WHERE valuta IS NOT NULL AND datum IS NOT NULL
-        ''',
-    ),
 ]

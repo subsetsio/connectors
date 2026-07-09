@@ -1,12 +1,14 @@
-# Auto-generated from the rank-accepted entity union (score >= 50).
+# Auto-generated from the accepted entity union.
 # Maps each download NodeSpec id to its stable OpenDOSM parquet URL.
 # Data, not logic: which datasets we pull and where each full table lives.
-# NOTE: 'pricecatcher' is intentionally excluded — it is a >1M-rows/month
-# monthly-partitioned transactional firehose (templated URL), not a single
-# static table, so it does not fit this connector's uniform pull model.
+# NOTE: 'pricecatcher' is deferred in the accept policy. It is a
+# daily-partitioned transactional firehose (templated URL), not a single static
+# table, so it does not fit this connector's uniform pull model.
 
 ENTITY_URLS = {
     'dosm-air-pollution': 'https://storage.data.gov.my/environment/air_pollution.parquet',
+    'dosm-arc-dosm': 'https://storage.dosm.gov.my/meta/arc.parquet',
+    'dosm-bec': 'https://storage.dosm.gov.my/dictionaries/bec.parquet',
     'dosm-births-annual': 'https://storage.dosm.gov.my/demography/birth.parquet',
     'dosm-births-annual-sex-ethnic': 'https://storage.dosm.gov.my/demography/birth_sex_ethnic.parquet',
     'dosm-births-annual-sex-ethnic-state': 'https://storage.dosm.gov.my/demography/birth_sex_ethnic_state.parquet',
@@ -140,7 +142,9 @@ ENTITY_URLS = {
     'dosm-marriages-age': 'https://storage.dosm.gov.my/demography/marriages_age.parquet',
     'dosm-marriages-state': 'https://storage.dosm.gov.my/demography/marriages_state.parquet',
     'dosm-marriages-state-age': 'https://storage.dosm.gov.my/demography/marriages_state_age.parquet',
+    'dosm-mcoicop': 'https://storage.dosm.gov.my/dictionaries/mcoicop.parquet',
     'dosm-mineral-extraction': 'https://storage.data.gov.my/mining/mineral_extraction.parquet',
+    'dosm-msic': 'https://storage.dosm.gov.my/dictionaries/msic.parquet',
     'dosm-population-district': 'https://storage.dosm.gov.my/population/population_district.parquet',
     'dosm-population-dun': 'https://storage.dosm.gov.my/population/population_dun.parquet',
     'dosm-population-malaysia': 'https://storage.dosm.gov.my/population/population_malaysia.parquet',
@@ -164,6 +168,8 @@ ENTITY_URLS = {
     'dosm-sdg-10-c-1': 'https://storage.dosm.gov.my/sdg/sdg_10-c-1.parquet',
     'dosm-sdg-16-1-1': 'https://storage.dosm.gov.my/sdg/sdg_16-1-1.parquet',
     'dosm-sdg-16-2-2': 'https://storage.dosm.gov.my/sdg/sdg_16-2-2.parquet',
+    'dosm-sitc': 'https://storage.dosm.gov.my/dictionaries/sitc.parquet',
+    'dosm-sitc-sop': 'https://storage.dosm.gov.my/dictionaries/sitc_sop.parquet',
     'dosm-sppi': 'https://storage.dosm.gov.my/ppi/sppi.parquet',
     'dosm-sppi-1d': 'https://storage.dosm.gov.my/ppi/sppi_1d.parquet',
     'dosm-sppi-2d': 'https://storage.dosm.gov.my/ppi/sppi_2d.parquet',
@@ -175,6 +181,9 @@ ENTITY_URLS = {
     'dosm-trade-enduse-bec': 'https://storage.dosm.gov.my/trade/trade_enduse_bec.parquet',
     'dosm-trade-headline': 'https://storage.dosm.gov.my/trade/trade_headline.parquet',
     'dosm-trade-sitc-1d': 'https://storage.dosm.gov.my/trade/trade_sitc_1d.parquet',
+    'dosm-usage-metrics': 'https://storage.data.gov.my/metrics/metrics_agg.parquet',
+    'dosm-usage-metrics-openapi': 'https://storage.data.gov.my/metrics/metrics_openapi.parquet',
+    'dosm-usage-metrics-openapi-cumul': 'https://storage.data.gov.my/metrics/metrics_openapi_cumul.parquet',
     'dosm-water-access': 'https://storage.data.gov.my/water/water_access.parquet',
     'dosm-water-consumption': 'https://storage.data.gov.my/water/water_consumption.parquet',
     'dosm-water-pollution-basin': 'https://storage.data.gov.my/environment/water_pollution_basin.parquet',

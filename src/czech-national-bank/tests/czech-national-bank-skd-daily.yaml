@@ -1,0 +1,20 @@
+spec_id: czech-national-bank-skd-daily
+status: active
+tests:
+  - not_null: settlementDate
+  - not_null: isin
+  - not_null: issueCode
+  - not_null: averagePriceToValue
+  - column_type: {col: averagePriceToValue, type: float}
+  - unique: [settlementDate, isin, issueCode, nominalValueCZK]
+    reason: one SKD settlement row per date/security/nominal-value tuple
+    certainty: 85
+  - between: {col: averagePriceToValue, lo: 50, hi: 150}
+    reason: settlement price-to-value ratios should stay near par
+    certainty: 75
+    severity: warn
+  - freshness: {col: settlementDate, reaches: today - 14d}
+    reason: SKD daily endpoint returns the last valid short-term bond settlement data
+    certainty: 75
+    points_outward: true
+    severity: warn

@@ -1,8 +1,10 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [measure_id]
+key: [measure_uri]
 temporal: observed_at
-sort: [observed_at, measure_id]
+sort: [observed_at, measure_uri]
 columns:
+  - name: measure_uri
+    type: VARCHAR
   - name: measure_id
     type: VARCHAR
   - name: observed_at

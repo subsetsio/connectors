@@ -75,6 +75,8 @@ def _s(v):
 def _json_value(v):
     if v is None or pd.isna(v):
         return None
+    if hasattr(v, "item"):
+        return v.item()
     if hasattr(v, "isoformat"):
         return v.isoformat()
     if isinstance(v, (int, float, str, bool)):

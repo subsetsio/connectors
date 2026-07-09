@@ -1,0 +1,15 @@
+spec_id: dartmouth-atlas-of-health-care-hospital-research-data
+status: active
+tests:
+  - not_null: source_file
+  - row_count: {min: 10000}
+    reason: nine hospital-level CSV bundles should produce thousands of provider rows
+    certainty: 80
+  - at_least: {col: vintage, expr: 2008}
+    reason: hospital research CSV files cover 2010-2017 annual snapshots plus an 2008-2014 info panel
+    certainty: 75
+    severity: warn
+  - at_most: {col: vintage, expr: 2017}
+    reason: hospital research CSV files cover 2010-2017 annual snapshots plus an 2008-2014 info panel
+    certainty: 75
+    severity: warn

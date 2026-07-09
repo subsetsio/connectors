@@ -1,6 +1,7 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
 temporal: observed_at
-sort: [observed_at]
+key: [observed_at, measure_id, date, quality]
+sort: [observed_at, measure_id, date, quality]
 columns:
   - name: measure_id
     type: VARCHAR
