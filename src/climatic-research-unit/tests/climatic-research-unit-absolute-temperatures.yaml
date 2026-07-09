@@ -1,0 +1,33 @@
+spec_id: climatic-research-unit-absolute-temperatures
+status: active
+coverage:
+  frozen: true
+  reason: 1961-1990 monthly climatological seasonal cycle from Jones et al. (1999); this reference baseline is fixed rather than refreshed
+tests:
+  - not_null: region
+  - not_null: month
+  - not_null: absolute_temperature_c
+  - not_null: anomaly_from_annual_mean_c
+  - not_null: annual_absolute_temperature_c
+  - column_type: {col: month, type: integer}
+  - enum: {col: region, values: [gl, nh, sh]}
+    reason: source file publishes global, northern hemisphere, and southern hemisphere columns
+    certainty: 95
+  - distinct_count: {col: region, min: 3, max: 3}
+    certainty: 95
+  - row_count: {min: 36, max: 36}
+    reason: 12 months times 3 regions
+    certainty: 95
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - unique: [region, month]
+    reason: one climatological value per region-month
+    certainty: 95
+  - between: {col: absolute_temperature_c, lo: -20.0, hi: 40.0}
+    reason: monthly hemispheric/global climatological temperatures are physically bounded in this broad range
+    certainty: 85
+    severity: warn
+  - between: {col: anomaly_from_annual_mean_c, lo: -10.0, hi: 10.0}
+    reason: monthly departures from the annual mean should be single-digit degrees C
+    certainty: 85
+    severity: warn
