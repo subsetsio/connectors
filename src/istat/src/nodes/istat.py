@@ -144,11 +144,11 @@ def _iter_rows(flow_id: str):
     server can't serve the flow whole."""
     budget = [_MAX_REQUESTS_PER_FLOW]
 
-    def window(start: str, end: str, *, probe: bool = False) -> str | None:
+    def window(start: str, end: str) -> str | None:
         if budget[0] <= 0:
             raise RuntimeError(f"{flow_id}: exceeded {_MAX_REQUESTS_PER_FLOW} requests")
         budget[0] -= 1
-        return _fetch_csv(flow_id, start, end, attempts=1 if probe else 0)
+        return _fetch_csv(flow_id, start, end)
 
     def split_years(lo: int, hi: int):
         try:
@@ -165,10 +165,22 @@ def _iter_rows(flow_id: str):
             yield from _rows(text)
 
     def split_months(year: int):
+        # Only reached when a single YEAR was too big to serve, so the year holds
+        # plenty of observations. If monthly windows find none, the flow's
+        # TIME_PERIOD isn't month-addressable and we'd be silently dropping the
+        # year -- say so instead.
+        seen = 0
         for month in range(1, 13):
             text = window(f"{year}-{month:02d}", f"{year}-{month:02d}")
             if text is not None:
-                yield from _rows(text)
+                for row in _rows(text):
+                    seen += 1
+                    yield row
+        if seen == 0:
+            raise RuntimeError(
+                f"{flow_id}: {year} is too large to serve whole but no monthly "
+                f"window returned rows — cannot subdivide further"
+            )
 
     try:
         text = _fetch_csv(flow_id, attempts=1)
@@ -203,14 +215,13 @@ def _rows(text):
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name the runtime writes
     flow_id = ENTITY_BY_NODE[node_id]
-    text = _fetch_csv(flow_id)
 
     # Detect an empty payload loudly rather than publishing a 0-row table that
     # would fail the downstream transform with a more opaque error.
     n = [0]
 
     def counting():
-        for r in _rows(text):
+        for r in _iter_rows(flow_id):
             n[0] += 1
             yield r
 

@@ -34,6 +34,7 @@ import ssl
 import xml.etree.ElementTree as ET
 import zipfile
 from contextlib import contextmanager
+from html import unescape
 
 import httpx
 
@@ -185,6 +186,7 @@ def _strip_bom(text: str) -> str:
 
 
 _NUMISH = re.compile(r"^[\d][\d\s.,'\"/:°%–-]*$")
+_REPORT_FIELD = re.compile(r"<([A-Za-z_][\w.-]*)>(.*?)</\1>", re.DOTALL)
 
 
 def _detect_delim(text: str) -> str:
@@ -312,16 +314,60 @@ def _local_name(tag: str) -> str:
     return tag.rsplit("}", 1)[-1]
 
 
+class _PrefixReader:
+    def __init__(self, prefix: bytes, fh):
+        self._prefix = io.BytesIO(prefix)
+        self._fh = fh
+
+    def read(self, size: int = -1) -> bytes:
+        head = self._prefix.read(size)
+        if size >= 0 and len(head) >= size:
+            return head
+        tail_size = -1 if size < 0 else size - len(head)
+        return head + self._fh.read(tail_size)
+
+
+def _report_records(prefix: bytes, fh):
+    """Stream simple Rosstat <Report> records without strict XML validation."""
+    buf = prefix.decode("utf-8", "replace")
+    while True:
+        start = buf.find("<Report>")
+        end = buf.find("</Report>", start + 8 if start >= 0 else 0)
+        if start >= 0 and end >= 0:
+            body = buf[start + 8:end]
+            rec = {}
+            for key, value in _REPORT_FIELD.findall(body):
+                if key != "Report":
+                    rec[key] = unescape(value.strip())
+            if rec:
+                yield rec
+            buf = buf[end + 9:]
+            continue
+        chunk = fh.read(1024 * 1024)
+        if not chunk:
+            return
+        if start > 0:
+            buf = buf[start:]
+        elif start < 0 and len(buf) > 1024:
+            buf = buf[-1024:]
+        buf += chunk.decode("utf-8", "replace")
+
+
 def _xml_records(fh):
     """Flatten Rosstat XML into rows.
 
     The portal mixes SDMX GenericData and simple documents/Reports/Report XML.
     """
+    prefix = fh.read(65536)
+    if b"<Report>" in prefix:
+        yield from _report_records(prefix, fh)
+        return
+
     series = {}
     in_series_key = False
     obs = None
     report = None
-    for event, elem in ET.iterparse(fh, events=("start", "end")):
+    for event, elem in ET.iterparse(_PrefixReader(prefix, fh), events=("start", "end")):
         name = _local_name(elem.tag)
         if event == "start":
             if name == "Series":
