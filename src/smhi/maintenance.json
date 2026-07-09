@@ -1,5 +1,5 @@
 {
   "cadence_days": 7,
-  "paused": false,
-  "cadence_note": "SMHI Open Data observation catalogs expose rolling latest periods and corrected archives; refresh weekly to capture new recent observations and archive corrections."
+  "paused": true,
+  "cadence_note": "PAUSED 2026-07-09: metobs-observations streams one monolithic file that cannot finish inside a 6h GHA leg \u2014 the chain thrashed 9 legs committing nothing (killed mid-multipart every leg). Unpause after chunking the fetch into named fragments (per station/parameter slice) so legs resume instead of restarting."
 }
