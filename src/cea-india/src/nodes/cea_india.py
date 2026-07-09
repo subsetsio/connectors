@@ -12,7 +12,10 @@ brittle. Typing (parse the `Mon-YYYY` period to a DATE, TRY_CAST value columns
 to DOUBLE) is deferred to the model stage's compiled transforms.
 """
 
+import json
+
 import certifi
+import httpx
 
 from subsets_utils import (
     NodeSpec,
@@ -103,13 +106,31 @@ _SUFFIX_TO_ENDPOINT = {
 }
 
 
-@transient_retry()
+@transient_retry(attempts=8, min_wait=4, max_wait=120)
 def _fetch(url: str):
     # Content-Type is text/javascript but the body is valid JSON; httpx's
     # .json() parses the bytes regardless of the declared content type.
+    #
+    # Under load cea.nic.in intermittently answers HTTP 200 with an EMPTY (or
+    # truncated non-JSON) body instead of the table — a run where every
+    # endpoint did this failed the whole DAG 0/12 with "Expecting value: line 1
+    # column 1 (char 0)". An empty 200 is not one of is_transient()'s retryable
+    # cases, so a plain resp.json() would fail immediately; re-raise it as a
+    # RemoteProtocolError (which IS transient) so transient_retry backs off and
+    # re-fetches rather than failing the node on a momentary upstream glitch.
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
-    return resp.json()
+    body = resp.content
+    if not body or not body.strip():
+        raise httpx.RemoteProtocolError(
+            f"empty 200 body from {url}", request=resp.request
+        )
+    try:
+        return resp.json()
+    except json.JSONDecodeError as exc:
+        raise httpx.RemoteProtocolError(
+            f"non-JSON 200 body from {url}: {exc}", request=resp.request
+        ) from exc
 
 
 def _flatten(payload) -> list:

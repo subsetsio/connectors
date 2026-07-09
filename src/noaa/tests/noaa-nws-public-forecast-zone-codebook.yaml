@@ -1,0 +1,24 @@
+spec_id: noaa-nws-public-forecast-zone-codebook
+status: active
+tests:
+  - row_count: {min: 4000}
+    reason: The NWS zone-county correlation file contains one row per public forecast zone/county polygon and should cover thousands of polygons nationally.
+    certainty: 95
+  - not_null: STATE
+  - not_null: ZONE
+  - not_null: STATE_ZONE
+  - not_null: COUNTY
+  - not_null: FIPS
+  - column_type: {col: STATE, type: string}
+  - column_type: {col: ZONE, type: string}
+  - column_type: {col: STATE_ZONE, type: string}
+  - column_type: {col: FIPS, type: string}
+  - matches: {col: STATE_ZONE, pattern: "^[A-Z]{2}[0-9]{3}$"}
+    reason: STATE_ZONE is documented as state abbreviation plus three-character public forecast zone number.
+    certainty: 95
+  - matches: {col: FIPS, pattern: "^[0-9]{5}$"}
+    reason: FIPS is documented as the five-character state-county FIPS code.
+    certainty: 90
+  - distinct_count: {col: STATE_ZONE, min: 2500}
+    reason: Public forecast zones should cover the national zone universe, not a single office or state.
+    certainty: 90

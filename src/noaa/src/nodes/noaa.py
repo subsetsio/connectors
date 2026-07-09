@@ -11,6 +11,9 @@ from nodes.international_best_track_archive_for_climate_stewardship_ibtracs impo
     fetch_ibtracs,
 )
 from nodes.northeast_snowfall_impact_scale import fetch_nesis
+from nodes.nws_public_forecast_zone_codebook import (
+    fetch_nws_public_forecast_zone_codebook,
+)
 from nodes.regional_snowfall_index import fetch_rsi
 from nodes.storm_events import fetch_storm_events
 
@@ -24,6 +27,11 @@ DOWNLOAD_SPECS = [
     NodeSpec(
         id="noaa-northeast-snowfall-impact-scale",
         fn=fetch_nesis,
+        kind="download",
+    ),
+    NodeSpec(
+        id="noaa-nws-public-forecast-zone-codebook",
+        fn=fetch_nws_public_forecast_zone_codebook,
         kind="download",
     ),
     NodeSpec(

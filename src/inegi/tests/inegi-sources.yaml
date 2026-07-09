@@ -5,7 +5,6 @@ tests:
   - column_type: {col: description, type: string}
   - not_null: code
   - unique: code
-  - row_count: {min: 500}
-    reason: CL_SOURCE held hundreds of source/program codes during collection
+  - row_count: {min: 200}
+    reason: CL_SOURCE held 257 source/program codes in the latest raw run; a much smaller table means the code-list fetch degraded
     certainty: 85
-

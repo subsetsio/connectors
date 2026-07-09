@@ -245,7 +245,7 @@ _CATALOG_COLS = {
     12: "zona_distribucion",
     15: "entidad_federativa",
     17: "municipio",
-    19: "region_transmision",
+    18: "region_transmision",
 }
 
 _CATALOG_SCHEMA = pa.schema(
@@ -265,14 +265,13 @@ def fetch_catalog(node_id: str) -> None:
     rows_iter = ws.iter_rows(values_only=True)
     next(rows_iter, None)   # row 1: column grouping
     next(rows_iter, None)   # row 2: real header
-    max_idx = max(_CATALOG_COLS)
     out_rows: list[dict] = []
     for row in rows_iter:
-        if not row or len(row) <= max_idx or row[3] in (None, ""):
+        if not row or len(row) <= 3 or row[3] in (None, ""):
             continue
         rec = {}
         for idx, name in _CATALOG_COLS.items():
-            v = row[idx]
+            v = row[idx] if idx < len(row) else None
             if name == "nivel_tension_kv":
                 rec[name] = _to_float(v)
             else:
