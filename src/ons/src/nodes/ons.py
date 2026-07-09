@@ -37,6 +37,7 @@ from tenacity import (
 
 from subsets_utils import (
     NodeSpec,
+    SqlNodeSpec,
     get,
     get_client,
     raw_parquet_writer,
@@ -245,4 +246,16 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
+]
+
+# Temporary graph consumers for the full-DAG runner. Existing file-based
+# transforms override these where they have been curated; the rest are
+# pass-throughs so a download run can land raw for model profiling.
+TRANSFORM_SPECS = [
+    SqlNodeSpec(
+        id=f"{s.id}-transform",
+        deps=[s.id],
+        sql=f'SELECT * FROM "{s.id}"',
+    )
+    for s in DOWNLOAD_SPECS
 ]
