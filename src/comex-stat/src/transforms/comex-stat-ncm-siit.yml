@@ -1,6 +1,9 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+key: [siit_code]
+sort: [siit_code]
 columns:
-  - name: CO_SIIT
+  - name: siit_code
+    type: BIGINT
+    description: "Industrial-technology-intensity (SIIT) class code."
+  - name: name_pt
     type: VARCHAR
-  - name: NO_SIIT
-    type: VARCHAR
+    description: "SIIT class name in Portuguese (high, medium-high, medium-low, low technology, non-industrial)."

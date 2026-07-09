@@ -1,10 +1,16 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: municipality_code is the code the municipality transaction tables join on; municipality names are not unique across states, so always qualify by state_abbr.
+key: [municipality_code]
+sort: [municipality_code]
 columns:
-  - name: CO_MUN_GEO
+  - name: municipality_code
+    type: BIGINT
+    description: "IBGE 7-digit municipality code."
+  - name: name_pt
     type: VARCHAR
-  - name: NO_MUN
+    description: "Municipality name in Portuguese, as officially spelled."
+  - name: name_pt_lower
     type: VARCHAR
-  - name: NO_MUN_MIN
+    description: "Municipality name in Portuguese, lower-case/normalized spelling."
+  - name: state_abbr
     type: VARCHAR
-  - name: SG_UF
-    type: VARCHAR
+    description: "Two-letter abbreviation of the state the municipality belongs to."

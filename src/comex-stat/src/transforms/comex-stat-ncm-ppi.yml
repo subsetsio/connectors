@@ -1,10 +1,16 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: PPI is the import product list; it applies to import flows only.
+key: [ppi_code]
+sort: [ppi_code]
 columns:
-  - name: CO_PPI
+  - name: ppi_code
+    type: BIGINT
+    description: "Import product list (PPI) code."
+  - name: name_pt
     type: VARCHAR
-  - name: NO_PPI
+    description: "Product name in Portuguese."
+  - name: name_pt_short
     type: VARCHAR
-  - name: NO_PPI_MIN
+    description: "Abbreviated product name in Portuguese."
+  - name: name_en
     type: VARCHAR
-  - name: NO_PPI_ING
-    type: VARCHAR
+    description: "Product name in English."

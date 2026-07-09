@@ -1,18 +1,27 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+key: [export_subset_code]
+sort: [export_subset_code]
 columns:
-  - name: CO_EXP_SUBSET
+  - name: export_subset_code
     type: VARCHAR
-  - name: NO_EXP_SUBSET_POR
+    description: "Comex export product subgroup code."
+  - name: subset_name_pt
     type: VARCHAR
-  - name: NO_EXP_SUBSET_ESP
+    description: "Subgroup name in Portuguese."
+  - name: subset_name_es
     type: VARCHAR
-  - name: NO_EXP_SUBSET_ING
+    description: "Subgroup name in Spanish."
+  - name: subset_name_en
     type: VARCHAR
-  - name: CO_EXP_SET
+    description: "Subgroup name in English."
+  - name: export_set_code
     type: VARCHAR
-  - name: NO_EXP_SET
+    description: "Comex export product group code containing this subgroup."
+  - name: set_name_pt
     type: VARCHAR
-  - name: NO_EXP_SET_ESP
+    description: "Group name in Portuguese."
+  - name: set_name_es
     type: VARCHAR
-  - name: NO_EXP_SET_ING
+    description: "Group name in Spanish."
+  - name: set_name_en
     type: VARCHAR
+    description: "Group name in English."

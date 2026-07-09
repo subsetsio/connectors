@@ -1,6 +1,10 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: The reference list carries transport modes that never occur in the transaction tables, plus explicit codes for undeclared and unknown.
+key: [transport_mode_code]
+sort: [transport_mode_code]
 columns:
-  - name: CO_VIA
+  - name: transport_mode_code
     type: VARCHAR
-  - name: NO_VIA
+    description: "Transport mode code, as used by the transaction tables. Zero-padded; keep as text."
+  - name: name_pt
     type: VARCHAR
+    description: "Transport mode name in Portuguese (e.g. MARITIMA, AEREA, RODOVIARIA)."

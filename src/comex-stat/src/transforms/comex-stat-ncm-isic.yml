@@ -1,34 +1,52 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: A denormalized ISIC hierarchy: group, division and section attributes repeat across the class rows beneath them.
+key: [isic_class_code]
+sort: [isic_class_code]
 columns:
-  - name: CO_ISIC_CLASSE
+  - name: isic_class_code
     type: VARCHAR
-  - name: NO_ISIC_CLASSE
+    description: "ISIC class code \u2014 the most detailed level of the International Standard Industrial Classification."
+  - name: isic_class_name_pt
     type: VARCHAR
-  - name: NO_ISIC_CLASSE_ING
+    description: "Class name in Portuguese."
+  - name: isic_class_name_en
     type: VARCHAR
-  - name: NO_ISIC_CLASSE_ESP
+    description: "Class name in English."
+  - name: isic_class_name_es
     type: VARCHAR
-  - name: CO_ISIC_GRUPO
+    description: "Class name in Spanish."
+  - name: isic_group_code
     type: VARCHAR
-  - name: NO_ISIC_GRUPO
+    description: "ISIC group code containing this class."
+  - name: isic_group_name_pt
     type: VARCHAR
-  - name: NO_ISIC_GRUPO_ING
+    description: "Group name in Portuguese."
+  - name: isic_group_name_en
     type: VARCHAR
-  - name: NO_ISIC_GRUPO_ESP
+    description: "Group name in English."
+  - name: isic_group_name_es
     type: VARCHAR
-  - name: CO_ISIC_DIVISAO
+    description: "Group name in Spanish."
+  - name: isic_division_code
     type: VARCHAR
-  - name: NO_ISIC_DIVISAO
+    description: "ISIC division code containing this group."
+  - name: isic_division_name_pt
     type: VARCHAR
-  - name: NO_ISIC_DIVISAO_ING
+    description: "Division name in Portuguese."
+  - name: isic_division_name_en
     type: VARCHAR
-  - name: NO_ISIC_DIVISAO_ESP
+    description: "Division name in English."
+  - name: isic_division_name_es
     type: VARCHAR
-  - name: CO_ISIC_SECAO
+    description: "Division name in Spanish."
+  - name: isic_section_code
     type: VARCHAR
-  - name: NO_ISIC_SECAO
+    description: "ISIC one-letter section code \u2014 the top level of the classification."
+  - name: isic_section_name_pt
     type: VARCHAR
-  - name: NO_ISIC_SECAO_ING
+    description: "Section name in Portuguese."
+  - name: isic_section_name_en
     type: VARCHAR
-  - name: NO_ISIC_SECAO_ESP
+    description: "Section name in English."
+  - name: isic_section_name_es
     type: VARCHAR
+    description: "Section name in Spanish."

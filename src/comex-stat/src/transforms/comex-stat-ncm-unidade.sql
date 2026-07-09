@@ -1,5 +1,6 @@
+-- comex-stat-ncm-unidade: reference/codebook table — trimmed labels, typed codes
 SELECT
-    "CO_UNID",
-    "NO_UNID",
-    "SG_UNID"
+    CAST("CO_UNID" AS BIGINT) AS unit_code,
+    TRIM("NO_UNID")           AS name_pt,
+    TRIM("SG_UNID")           AS abbreviation
 FROM "comex-stat-ncm-unidade"

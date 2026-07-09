@@ -1,8 +1,13 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: These are the statistical units that qualify statistical_quantity in the detailed NCM transaction tables; quantities may only be summed within one unit.
+key: [unit_code]
+sort: [unit_code]
 columns:
-  - name: CO_UNID
+  - name: unit_code
+    type: BIGINT
+    description: "Statistical unit code."
+  - name: name_pt
     type: VARCHAR
-  - name: NO_UNID
+    description: "Unit name in Portuguese (e.g. QUILOGRAMA LIQUIDO, LITRO, PARES)."
+  - name: abbreviation
     type: VARCHAR
-  - name: SG_UNID
-    type: VARCHAR
+    description: "Short Portuguese abbreviation of the unit (e.g. KGL, M2, MKW/H)."

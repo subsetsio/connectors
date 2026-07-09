@@ -1,12 +1,19 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: A country belongs to several overlapping blocs at once, so there are multiple rows per country_code; joining this table to a transaction table multiplies rows and double-counts trade unless one bloc is selected first.
+key: [country_code, bloc_code]
+sort: [country_code, bloc_code]
 columns:
-  - name: CO_PAIS
+  - name: country_code
     type: VARCHAR
-  - name: CO_BLOCO
+    description: "Comex Stat country code; joins to comex-stat-pais."
+  - name: bloc_code
+    type: BIGINT
+    description: "Economic bloc code."
+  - name: bloc_name_pt
     type: VARCHAR
-  - name: NO_BLOCO
+    description: "Bloc name in Portuguese."
+  - name: bloc_name_en
     type: VARCHAR
-  - name: NO_BLOCO_ING
+    description: "Bloc name in English."
+  - name: bloc_name_es
     type: VARCHAR
-  - name: NO_BLOCO_ESP
-    type: VARCHAR
+    description: "Bloc name in Spanish."

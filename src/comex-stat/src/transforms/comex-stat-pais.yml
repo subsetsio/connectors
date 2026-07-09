@@ -1,14 +1,22 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: Alongside real countries the table carries special entries used by the transaction tables (ship and aircraft stores, undeclared origin/destination, central banks, international organisations) as well as extinct states and some dependent territories. All of these share the ISO sentinels 898 / ZZZ rather than a null, so neither ISO column can be used as a key or as a country filter.
+key: [country_code]
+sort: [country_code]
 columns:
-  - name: CO_PAIS
+  - name: country_code
     type: VARCHAR
-  - name: CO_PAIS_ISON3
+    description: "Comex Stat country code, as used by the transaction tables."
+  - name: iso_numeric
     type: VARCHAR
-  - name: CO_PAIS_ISOA3
+    description: "ISO 3166-1 numeric country code. Entries without an ISO code all carry the sentinel 898, so this column is not unique."
+  - name: iso_alpha3
     type: VARCHAR
-  - name: NO_PAIS
+    description: "ISO 3166-1 alpha-3 country code. Entries without an ISO code all carry the sentinel ZZZ, so this column is not unique."
+  - name: name_pt
     type: VARCHAR
-  - name: NO_PAIS_ING
+    description: "Country name in Portuguese."
+  - name: name_en
     type: VARCHAR
-  - name: NO_PAIS_ESP
+    description: "Country name in English."
+  - name: name_es
     type: VARCHAR
+    description: "Country name in Spanish."

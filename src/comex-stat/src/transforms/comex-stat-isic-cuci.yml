@@ -1,10 +1,16 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: This upstream file has no key: it ships one row per NCM code in NCM.csv order but omits the NCM column itself, so its rows collapse to only a few hundred distinct (ISIC section, CUCI group) pairs. Deduplicate before using it as a crosswalk, and do not join it positionally.
+# caution: The ISIC section here is the one-letter section, not the ISIC class carried by comex-stat-ncm-isic.
+key: []
 columns:
-  - name: CO_ISIC_SECAO
+  - name: isic_section_code
     type: VARCHAR
-  - name: NO_ISIC_SECAO
+    description: "ISIC one-letter section code."
+  - name: isic_section_name_pt
     type: VARCHAR
-  - name: CO_CUCI_GRUPO
+    description: "ISIC section name in Portuguese."
+  - name: cuci_group_code
     type: VARCHAR
-  - name: NO_CUCI_GRUPO
+    description: "CUCI/SITC group code."
+  - name: cuci_group_name_pt
     type: VARCHAR
+    description: "CUCI group name in Portuguese."

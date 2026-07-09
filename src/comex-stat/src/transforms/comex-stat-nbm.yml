@@ -1,6 +1,10 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: NBM is the nomenclature used before 1997 and does not appear in any of the published transaction tables; it is provided for historical correlation only.
+key: [nbm_code]
+sort: [nbm_code]
 columns:
-  - name: CO_NBM
+  - name: nbm_code
     type: VARCHAR
-  - name: NO_NBM
+    description: "NBM (Nomenclatura Brasileira de Mercadorias) product code used before 1997."
+  - name: name_pt
     type: VARCHAR
+    description: "Product description in Portuguese."

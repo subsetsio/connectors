@@ -1,10 +1,16 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: Alongside the 26 states and the Federal District the table carries administrative pseudo-states used by the transaction tables (e.g. undeclared / consolidated entries).
+key: [state_code]
+sort: [state_code]
 columns:
-  - name: CO_UF
+  - name: state_code
+    type: BIGINT
+    description: "IBGE code of the Brazilian federative unit."
+  - name: state_abbr
     type: VARCHAR
-  - name: SG_UF
+    description: "Two-letter state abbreviation, as it appears in the transaction tables."
+  - name: name_pt
     type: VARCHAR
-  - name: NO_UF
+    description: "State name in Portuguese."
+  - name: region_pt
     type: VARCHAR
-  - name: NO_REGIAO
-    type: VARCHAR
+    description: "Name of the macro-region the state belongs to, in Portuguese (Norte, Nordeste, Sudeste, Sul, Centro-Oeste)."

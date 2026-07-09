@@ -1,22 +1,34 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: A denormalized CUCI/SITC hierarchy: subgroup, group, division and section attributes repeat across the item rows beneath them.
+key: [cuci_item_code]
+sort: [cuci_item_code]
 columns:
-  - name: CO_CUCI_ITEM
+  - name: cuci_item_code
     type: VARCHAR
-  - name: NO_CUCI_ITEM
+    description: "CUCI/SITC item code \u2014 the most detailed level of the Standard International Trade Classification."
+  - name: cuci_item_name_pt
     type: VARCHAR
-  - name: CO_CUCI_SUB
+    description: "Item name in Portuguese."
+  - name: cuci_subgroup_code
     type: VARCHAR
-  - name: NO_CUCI_SUB
+    description: "CUCI subgroup code containing this item."
+  - name: cuci_subgroup_name_pt
     type: VARCHAR
-  - name: CO_CUCI_GRUPO
+    description: "Subgroup name in Portuguese."
+  - name: cuci_group_code
     type: VARCHAR
-  - name: NO_CUCI_GRUPO
+    description: "CUCI group code containing this subgroup."
+  - name: cuci_group_name_pt
     type: VARCHAR
-  - name: CO_CUCI_DIVISAO
+    description: "Group name in Portuguese."
+  - name: cuci_division_code
     type: VARCHAR
-  - name: NO_CUCI_DIVISAO
+    description: "CUCI division code containing this group."
+  - name: cuci_division_name_pt
     type: VARCHAR
-  - name: CO_CUCI_SEC
+    description: "Division name in Portuguese."
+  - name: cuci_section_code
+    type: BIGINT
+    description: "CUCI section code \u2014 the top level of the classification."
+  - name: cuci_section_name_pt
     type: VARCHAR
-  - name: NO_CUCI_SEC
-    type: VARCHAR
+    description: "Section name in Portuguese."

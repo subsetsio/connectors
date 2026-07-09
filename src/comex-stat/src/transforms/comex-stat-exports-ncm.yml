@@ -1,24 +1,64 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: statistical_quantity is expressed in the unit named by unit_name_pt and is NOT summable across rows with different unit_code; only net_weight_kg and fob_value_usd are additive across the whole table.
+# caution: fob_value_usd is nominal US dollars at the time of the transaction, never deflated or exchange-rate adjusted.
+# caution: country_code carries non-country destinations (ship/aircraft stores and bunkers, undeclared, other special codes) alongside real countries; summing over all country_code gives the national total, but treating every country_code as a country double-counts the world.
+# caution: state_abbr is the state declared on the customs document (the exporter's state), not where the goods were produced.
+# caution: The current calendar year is partial and is restated in place as new months publish; closed years are occasionally revised upward.
+deps: [comex-stat-exports-ncm, comex-stat-ncm, comex-stat-ncm-unidade, comex-stat-pais, comex-stat-via, comex-stat-urf]
+key: [year, month, ncm_code, unit_code, country_code, state_abbr, transport_mode_code, customs_unit_code]
+temporal: period
+sort: [period, ncm_code, country_code, state_abbr, unit_code, transport_mode_code, customs_unit_code]
 columns:
-  - name: CO_ANO
+  - name: period
+    type: DATE
+    description: "First day of the observation month (derived from CO_ANO and CO_MES); the observation covers the whole calendar month."
+  - name: year
+    type: BIGINT
+    description: "Calendar year of the observation (source column CO_ANO)."
+  - name: month
+    type: BIGINT
+    description: "Calendar month of the observation, 1-12 (source column CO_MES)."
+  - name: ncm_code
     type: VARCHAR
-  - name: CO_MES
+    description: "8-digit NCM (Mercosur Common Nomenclature) product code, the Brazilian extension of HS-8. Zero-padded; keep as text."
+  - name: ncm_description_en
     type: VARCHAR
-  - name: CO_NCM
+    description: "English description of the NCM product code, joined from the NCM reference table."
+  - name: unit_code
+    type: BIGINT
+    description: "Code of the statistical unit that `statistical_quantity` is expressed in (source column CO_UNID)."
+  - name: unit_name_pt
     type: VARCHAR
-  - name: CO_UNID
+    description: "Portuguese name of the statistical unit, joined from the NCM_UNIDADE reference table (e.g. QUILOGRAMA LIQUIDO, LITRO, PARES)."
+  - name: country_code
     type: VARCHAR
-  - name: CO_PAIS
+    description: "Comex Stat code of the partner country. Includes special non-country codes for ship/aircraft stores, undeclared and other administrative destinations."
+  - name: country_iso_alpha3
     type: VARCHAR
-  - name: SG_UF_NCM
+    description: "ISO 3166-1 alpha-3 code of the partner country, joined from the PAIS reference table. Never null: entries without an ISO code (special non-country destinations, extinct states, some dependent territories) all carry the sentinel ZZZ, so this column does not uniquely identify a partner."
+  - name: country_name_en
     type: VARCHAR
-  - name: CO_VIA
+    description: "English name of the partner country, joined from the PAIS reference table."
+  - name: state_abbr
     type: VARCHAR
-  - name: CO_URF
+    description: "Two-letter abbreviation of the Brazilian federative unit declared on the customs document (e.g. SP, MG). Also carries administrative pseudo-states such as undeclared."
+  - name: transport_mode_code
     type: VARCHAR
-  - name: QT_ESTAT
+    description: "Code of the transport mode by which the goods crossed the border (source column CO_VIA)."
+  - name: transport_mode_pt
     type: VARCHAR
-  - name: KG_LIQUIDO
+    description: "Portuguese name of the transport mode, joined from the VIA reference table (e.g. MARITIMA, AEREA, RODOVIARIA)."
+  - name: customs_unit_code
     type: VARCHAR
-  - name: VL_FOB
+    description: "Code of the Brazilian customs clearance unit (Unidade da Receita Federal) that cleared the goods."
+  - name: customs_unit_pt
     type: VARCHAR
+    description: "Portuguese name of the customs clearance unit, joined from the URF reference table."
+  - name: statistical_quantity
+    type: BIGINT
+    description: "Quantity in the statistical unit named by `unit_name_pt`. NOT summable across rows with different `unit_code`."
+  - name: net_weight_kg
+    type: BIGINT
+    description: "Net weight of the goods, in kilograms."
+  - name: fob_value_usd
+    type: BIGINT
+    description: "Free-on-board value of the exported goods, in nominal US dollars."

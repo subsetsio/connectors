@@ -1,34 +1,52 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: A denormalized hierarchy: the HS-4, HS-2 and HS-section attributes repeat across every HS-6 row beneath them — deduplicate before counting chapters or sections.
+key: [sh6_code]
+sort: [sh6_code]
 columns:
-  - name: CO_SH6
+  - name: sh6_code
     type: VARCHAR
-  - name: NO_SH6_POR
+    description: "6-digit Harmonized System subheading. Zero-padded; keep as text."
+  - name: sh6_name_pt
     type: VARCHAR
-  - name: NO_SH6_ESP
+    description: "HS-6 subheading description in Portuguese."
+  - name: sh6_name_es
     type: VARCHAR
-  - name: NO_SH6_ING
+    description: "HS-6 subheading description in Spanish."
+  - name: sh6_name_en
     type: VARCHAR
-  - name: CO_SH4
+    description: "HS-6 subheading description in English."
+  - name: sh4_code
     type: VARCHAR
-  - name: NO_SH4_POR
+    description: "4-digit Harmonized System heading containing this subheading."
+  - name: sh4_name_pt
     type: VARCHAR
-  - name: NO_SH4_ESP
+    description: "HS-4 heading description in Portuguese."
+  - name: sh4_name_es
     type: VARCHAR
-  - name: NO_SH4_ING
+    description: "HS-4 heading description in Spanish."
+  - name: sh4_name_en
     type: VARCHAR
-  - name: CO_SH2
+    description: "HS-4 heading description in English."
+  - name: sh2_code
     type: VARCHAR
-  - name: NO_SH2_POR
+    description: "2-digit Harmonized System chapter containing this heading."
+  - name: sh2_name_pt
     type: VARCHAR
-  - name: NO_SH2_ESP
+    description: "HS-2 chapter description in Portuguese."
+  - name: sh2_name_es
     type: VARCHAR
-  - name: NO_SH2_ING
+    description: "HS-2 chapter description in Spanish."
+  - name: sh2_name_en
     type: VARCHAR
-  - name: CO_NCM_SECROM
+    description: "HS-2 chapter description in English."
+  - name: section_code
     type: VARCHAR
-  - name: NO_SEC_POR
+    description: "Harmonized System section, in Roman numerals."
+  - name: section_name_pt
     type: VARCHAR
-  - name: NO_SEC_ESP
+    description: "HS section description in Portuguese."
+  - name: section_name_es
     type: VARCHAR
-  - name: NO_SEC_ING
+    description: "HS section description in Spanish."
+  - name: section_name_en
     type: VARCHAR
+    description: "HS section description in English."

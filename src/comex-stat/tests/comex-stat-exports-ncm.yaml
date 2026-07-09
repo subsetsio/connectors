@@ -23,3 +23,13 @@ tests:
     reason: across the whole corpus all twelve months appear exactly once each as codes
     certainty: 85
     severity: warn
+  - freshness: {col: CO_ANO, reaches: today - 500d}
+    reason: >-
+      raw carries no date column: the observation period is split across the
+      string columns CO_ANO and CO_MES, so freshness can only be asserted at
+      year granularity. Comex publishes monthly, but a calendar year's file
+      only appears once its first month is released (early February), so the
+      bound is slacked past that rollover; it still catches a corpus that has
+      stopped advancing for more than a year.
+    certainty: 90
+    points_outward: true

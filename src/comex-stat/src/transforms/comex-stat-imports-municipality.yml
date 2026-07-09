@@ -1,18 +1,48 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: Product detail is HS-4, not NCM-8: this table is a coarser, separately compiled view and its rows do not line up one-for-one with the by-NCM table for the same flow.
+# caution: The municipality is the importer's registered municipality (the firm's tax domicile), not where the goods were consumed — activity is systematically attributed to headquarters municipalities.
+# caution: country_code carries special non-country codes alongside real countries.
+# caution: The current calendar year is partial and is restated in place as new months publish.
+deps: [comex-stat-imports-municipality, comex-stat-ncm-sh, comex-stat-pais, comex-stat-uf-mun]
+key: [year, month, sh4_code, country_code, state_abbr, municipality_code]
+temporal: period
+sort: [period, sh4_code, country_code, state_abbr, municipality_code]
 columns:
-  - name: CO_ANO
+  - name: period
+    type: DATE
+    description: "First day of the observation month (derived from CO_ANO and CO_MES); the observation covers the whole calendar month."
+  - name: year
+    type: BIGINT
+    description: "Calendar year of the observation (source column CO_ANO)."
+  - name: month
+    type: BIGINT
+    description: "Calendar month of the observation, 1-12 (source column CO_MES)."
+  - name: sh4_code
     type: VARCHAR
-  - name: CO_MES
+    description: "4-digit Harmonized System heading of the goods. Coarser than the NCM-8 detail of the by-NCM tables. Zero-padded; keep as text."
+  - name: sh4_description_en
     type: VARCHAR
-  - name: SH4
+    description: "English description of the HS-4 heading, joined from the NCM_SH reference table."
+  - name: country_code
     type: VARCHAR
-  - name: CO_PAIS
+    description: "Comex Stat code of the partner country. Includes special non-country codes alongside real countries."
+  - name: country_iso_alpha3
     type: VARCHAR
-  - name: SG_UF_MUN
+    description: "ISO 3166-1 alpha-3 code of the partner country, joined from the PAIS reference table. Never null: entries without an ISO code (special non-country destinations, extinct states, some dependent territories) all carry the sentinel ZZZ, so this column does not uniquely identify a partner."
+  - name: country_name_en
     type: VARCHAR
-  - name: CO_MUN
+    description: "English name of the partner country, joined from the PAIS reference table."
+  - name: state_abbr
     type: VARCHAR
-  - name: KG_LIQUIDO
+    description: "Two-letter abbreviation of the Brazilian federative unit the municipality belongs to (e.g. SP, MG)."
+  - name: municipality_code
+    type: BIGINT
+    description: "IBGE 7-digit municipality code of the firm's registered municipality."
+  - name: municipality_name
     type: VARCHAR
-  - name: VL_FOB
-    type: VARCHAR
+    description: "Municipality name in Portuguese, joined from the UF_MUN reference table. Names repeat across states \u2014 always qualify by state_abbr."
+  - name: net_weight_kg
+    type: BIGINT
+    description: "Net weight of the goods, in kilograms."
+  - name: fob_value_usd
+    type: BIGINT
+    description: "Free-on-board value of the imported goods, in nominal US dollars. Excludes freight and insurance, which this table does not carry."

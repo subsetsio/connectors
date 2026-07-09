@@ -1,8 +1,12 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+key: [factor_aggregate_code]
+sort: [factor_aggregate_code]
 columns:
-  - name: CO_FAT_AGREG
+  - name: factor_aggregate_code
     type: VARCHAR
-  - name: NO_FAT_AGREG
+    description: "Factor-aggregate class code."
+  - name: name_pt
     type: VARCHAR
-  - name: NO_FAT_AGREG_GP
+    description: "Factor-aggregate class name in Portuguese (basic, semi-manufactured, manufactured, special operations)."
+  - name: group_name_pt
     type: VARCHAR
+    description: "Name of the coarser factor-aggregate group this class rolls up to, in Portuguese."

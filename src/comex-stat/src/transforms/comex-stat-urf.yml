@@ -1,6 +1,10 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: The reference list is broader than the set of customs units that actually appear in the transaction tables, and it includes closed units retained for historical rows.
+key: [customs_unit_code]
+sort: [customs_unit_code]
 columns:
-  - name: CO_URF
+  - name: customs_unit_code
     type: VARCHAR
-  - name: NO_URF
+    description: "Code of the Brazilian customs clearance unit (Unidade da Receita Federal)."
+  - name: name_pt
     type: VARCHAR
+    description: "Customs unit name in Portuguese, usually naming the port, airport or border post."

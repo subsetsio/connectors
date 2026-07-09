@@ -1,30 +1,47 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: One row per NCM code carrying every classification correlation at once; the correlated codes repeat across rows and must not be counted from this table.
+# caution: Includes NCM codes retired in earlier years, so the row count exceeds the set of codes valid today.
+key: [ncm_code]
+sort: [ncm_code]
 columns:
-  - name: CO_NCM
+  - name: ncm_code
     type: VARCHAR
-  - name: CO_UNID
+    description: "8-digit NCM product code. Zero-padded; keep as text."
+  - name: unit_code
+    type: BIGINT
+    description: "Statistical unit this product's quantities are reported in; joins to comex-stat-ncm-unidade."
+  - name: sh6_code
     type: VARCHAR
-  - name: CO_SH6
+    description: "6-digit Harmonized System subheading this NCM code falls under; joins to comex-stat-ncm-sh."
+  - name: ppe_code
+    type: BIGINT
+    description: "Export product list (PPE) code; joins to comex-stat-ncm-ppe."
+  - name: ppi_code
+    type: BIGINT
+    description: "Import product list (PPI) code; joins to comex-stat-ncm-ppi."
+  - name: factor_aggregate_code
     type: VARCHAR
-  - name: CO_PPE
+    description: "Factor-aggregate class (basic / semi-manufactured / manufactured); joins to comex-stat-ncm-fat-agreg."
+  - name: cuci_item_code
     type: VARCHAR
-  - name: CO_PPI
+    description: "CUCI/SITC item code; joins to comex-stat-ncm-cuci."
+  - name: cgce_n3_code
+    type: BIGINT
+    description: "CGCE broad-economic-category level-3 code; joins to comex-stat-ncm-cgce."
+  - name: siit_code
+    type: BIGINT
+    description: "Industrial-technology-intensity (SIIT) class; joins to comex-stat-ncm-siit."
+  - name: isic_class_code
     type: VARCHAR
-  - name: CO_FAT_AGREG
+    description: "ISIC industrial class; joins to comex-stat-ncm-isic."
+  - name: export_subset_code
     type: VARCHAR
-  - name: CO_CUCI_ITEM
+    description: "Comex export product subgroup; joins to comex-stat-ncm-grupo."
+  - name: name_pt
     type: VARCHAR
-  - name: CO_CGCE_N3
+    description: "Product description in Portuguese."
+  - name: name_es
     type: VARCHAR
-  - name: CO_SIIT
+    description: "Product description in Spanish."
+  - name: name_en
     type: VARCHAR
-  - name: CO_ISIC_CLASSE
-    type: VARCHAR
-  - name: CO_EXP_SUBSET
-    type: VARCHAR
-  - name: NO_NCM_POR
-    type: VARCHAR
-  - name: NO_NCM_ESP
-    type: VARCHAR
-  - name: NO_NCM_ING
-    type: VARCHAR
+    description: "Product description in English."

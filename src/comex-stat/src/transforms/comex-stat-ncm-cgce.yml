@@ -1,26 +1,40 @@
-# temporary pass-through; replace via compile-transforms after model reconcile
+# caution: A denormalized three-level hierarchy: the CGCE level-2 and level-1 names repeat across the level-3 rows beneath them.
+key: [cgce_n3_code]
+sort: [cgce_n3_code]
 columns:
-  - name: CO_CGCE_N3
+  - name: cgce_n3_code
+    type: BIGINT
+    description: "CGCE (broad economic categories) level-3 code \u2014 the most detailed level."
+  - name: cgce_n3_name_pt
     type: VARCHAR
-  - name: NO_CGCE_N3
+    description: "Level-3 category name in Portuguese."
+  - name: cgce_n3_name_en
     type: VARCHAR
-  - name: NO_CGCE_N3_ING
+    description: "Level-3 category name in English."
+  - name: cgce_n3_name_es
     type: VARCHAR
-  - name: NO_CGCE_N3_ESP
+    description: "Level-3 category name in Spanish."
+  - name: cgce_n2_code
+    type: BIGINT
+    description: "CGCE level-2 code containing this level-3 category."
+  - name: cgce_n2_name_pt
     type: VARCHAR
-  - name: CO_CGCE_N2
+    description: "Level-2 category name in Portuguese."
+  - name: cgce_n2_name_en
     type: VARCHAR
-  - name: NO_CGCE_N2
+    description: "Level-2 category name in English."
+  - name: cgce_n2_name_es
     type: VARCHAR
-  - name: NO_CGCE_N2_ING
+    description: "Level-2 category name in Spanish."
+  - name: cgce_n1_code
+    type: BIGINT
+    description: "CGCE level-1 code \u2014 capital goods, intermediate goods, consumer goods, fuels."
+  - name: cgce_n1_name_pt
     type: VARCHAR
-  - name: NO_CGCE_N2_ESP
+    description: "Level-1 category name in Portuguese."
+  - name: cgce_n1_name_en
     type: VARCHAR
-  - name: CO_CGCE_N1
+    description: "Level-1 category name in English."
+  - name: cgce_n1_name_es
     type: VARCHAR
-  - name: NO_CGCE_N1
-    type: VARCHAR
-  - name: NO_CGCE_N1_ING
-    type: VARCHAR
-  - name: NO_CGCE_N1_ESP
-    type: VARCHAR
+    description: "Level-1 category name in Spanish."
