@@ -25,6 +25,7 @@ download (fetch the file) need different handling:
 
 import io
 import re
+import subprocess
 import urllib.parse
 
 import httpx
@@ -48,6 +49,7 @@ BROWSER_HEADERS = {
         "image/avif,image/webp,*/*;q=0.8"
     ),
     "Accept-Language": "en-US,en;q=0.9",
+    "Referer": "https://www.aei.org/national-and-metro-housing-market-indicators/",
 }
 
 
@@ -64,6 +66,24 @@ def _curl_fetch(url: str, binary: bool):
     return r.content if binary else r.text
 
 
+def _system_curl_fetch(url: str, binary: bool):
+    cmd = [
+        "curl",
+        "--fail",
+        "--location",
+        "--silent",
+        "--show-error",
+        "--compressed",
+        "--max-time",
+        "180",
+    ]
+    for key, value in BROWSER_HEADERS.items():
+        cmd.extend(["-H", f"{key}: {value}"])
+    cmd.append(url)
+    proc = subprocess.run(cmd, check=True, capture_output=True)
+    return proc.stdout if binary else proc.stdout.decode("utf-8", errors="replace")
+
+
 def _allorigins(url: str, binary: bool):
     """Last-resort proxy: api.allorigins.win fetches the target server-side from
     its own (non-blocked) IP and streams the raw bytes back."""
@@ -71,6 +91,15 @@ def _allorigins(url: str, binary: bool):
     resp = get(prox, headers=BROWSER_HEADERS, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.content if binary else resp.text
+
+
+def _require_xlsx(content: bytes, route: str, url: str) -> bytes:
+    if not content.startswith(b"PK\x03\x04"):
+        preview = content[:120].decode("utf-8", errors="replace").replace("\n", " ")
+        raise AssertionError(
+            f"{route} returned non-XLSX body for {url}: {len(content)} bytes, {preview!r}"
+        )
+    return content
 
 
 # The 13 meaningful columns of the workbook's single "data" sheet (the sheet has
@@ -188,20 +217,28 @@ def _fetch_bytes(url: str) -> bytes:
     """Download the static workbook. It's edge-cached and normally served to CI
     directly; curl_cffi and the allorigins proxy are fallbacks if Cloudflare ever
     challenges the asset too."""
+    errors = []
     try:
         resp = get(url, headers=BROWSER_HEADERS, timeout=(10.0, 180.0))
         resp.raise_for_status()
-        return resp.content
-    except httpx.HTTPStatusError as e:
-        if e.response.status_code not in (403, 503):
+        return _require_xlsx(resp.content, "httpx", url)
+    except Exception as e:  # noqa: BLE001 - collect route diagnostics
+        if isinstance(e, httpx.HTTPStatusError) and e.response.status_code not in (403, 503):
             raise
-    for fallback in (lambda: _curl_fetch(url, binary=True),
-                     lambda: _allorigins(url, binary=True)):
+        errors.append(f"httpx: {type(e).__name__}: {str(e)[:240]}")
+    for name, fallback in (
+        ("curl_cffi", lambda: _curl_fetch(url, binary=True)),
+        ("system_curl", lambda: _system_curl_fetch(url, binary=True)),
+        ("allorigins", lambda: _allorigins(url, binary=True)),
+    ):
         try:
-            return fallback()
-        except Exception:  # noqa: BLE001 — try the next fallback
+            return _require_xlsx(fallback(), name, url)
+        except Exception as e:  # noqa: BLE001 - try the next fallback
+            errors.append(f"{name}: {type(e).__name__}: {str(e)[:240]}")
             continue
-    raise AssertionError(f"all download routes failed for {url}")
+    raise AssertionError(
+        f"all download routes failed for {url}:\n  " + "\n  ".join(errors)
+    )
 
 
 def fetch_housing_market_indicators(node_id: str) -> None:

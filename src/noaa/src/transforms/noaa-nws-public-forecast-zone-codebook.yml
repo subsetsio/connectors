@@ -1,0 +1,42 @@
+# NWS public forecast zone-county correlation file. One row represents a zone
+# polygon's relationship to a county; zones or county pairs may appear more than
+# once when the source has multiple polygons for the same relationship.
+# caution: this is only the public forecast zone/county correlation file. It
+#   decodes Storm Events rows with CZ_TYPE = 'Z'; marine-zone rows (CZ_TYPE =
+#   'M') use a separate NWS marine-zone code space.
+key: []
+sort: [state_zone, county_fips]
+columns:
+  - name: state
+    type: VARCHAR
+    description: Two-character state or territory abbreviation for the public forecast zone.
+  - name: zone
+    type: VARCHAR
+    description: Three-character NWS public forecast zone number.
+  - name: cwa
+    type: VARCHAR
+    description: Three-character NWS County Warning Area office identifier for the zone.
+  - name: zone_name
+    type: VARCHAR
+    description: Name of the NWS public forecast zone.
+  - name: state_zone
+    type: VARCHAR
+    description: Combined state abbreviation and three-character public forecast zone number.
+  - name: county_name
+    type: VARCHAR
+    description: County or county-equivalent name associated with this zone polygon.
+  - name: county_fips
+    type: VARCHAR
+    description: Five-character state-county FIPS code associated with this zone polygon.
+  - name: time_zone
+    type: VARCHAR
+    description: NWS single-letter time zone code for the polygon.
+  - name: feature_area
+    type: VARCHAR
+    description: NWS feature-area code describing the polygon's location within the state.
+  - name: latitude
+    type: DOUBLE
+    description: Latitude of the zone centroid published in the NWS correlation file.
+  - name: longitude
+    type: DOUBLE
+    description: Longitude of the zone centroid published in the NWS correlation file.
