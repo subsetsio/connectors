@@ -1,0 +1,9 @@
+spec_id: cleveland-fed-medianpce-median-pce-full-history
+status: active
+tests:
+  - not_null: date
+  - unique: date
+  - row_count: {min: 550}
+  - freshness: {col: date, reaches: today - 150d}
+    points_outward: true
+

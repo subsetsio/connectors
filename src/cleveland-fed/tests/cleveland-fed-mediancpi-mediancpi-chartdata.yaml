@@ -1,0 +1,9 @@
+spec_id: cleveland-fed-mediancpi-mediancpi-chartdata
+status: active
+tests:
+  - not_null: date
+  - unique: date
+  - row_count: {min: 100}
+  - freshness: {col: date, reaches: today - 120d}
+    points_outward: true
+

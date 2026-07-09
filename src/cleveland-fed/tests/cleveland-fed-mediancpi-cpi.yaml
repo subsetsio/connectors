@@ -1,0 +1,9 @@
+spec_id: cleveland-fed-mediancpi-cpi
+status: active
+tests:
+  - not_null: date
+  - unique: date
+  - row_count: {min: 650}
+  - freshness: {col: date, reaches: today - 120d}
+    points_outward: true
+

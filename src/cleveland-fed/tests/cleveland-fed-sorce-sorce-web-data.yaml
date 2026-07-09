@@ -1,0 +1,9 @@
+spec_id: cleveland-fed-sorce-sorce-web-data
+status: active
+tests:
+  - not_null: date
+  - unique: date
+  - row_count: {min: 80}
+  - freshness: {col: date, reaches: today - 400d}
+    points_outward: true
+

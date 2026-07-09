@@ -1,0 +1,10 @@
+spec_id: cleveland-fed-consumersandcovid19-consumers-and-covid19
+status: active
+coverage:
+  frozen: true
+  reason: Consumers and COVID-19 webchart is a closed 2020-2022 survey series, not a continuing release.
+tests:
+  - not_null: date
+  - unique: date
+  - row_count: {min: 700}
+

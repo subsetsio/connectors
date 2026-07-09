@@ -1,0 +1,9 @@
+spec_id: cleveland-fed-inflationexpectations-inflationexpectations-chart2
+status: active
+tests:
+  - not_null: date
+  - unique: date
+  - row_count: {min: 300}
+  - freshness: {col: date, reaches: today - 120d}
+    points_outward: true
+

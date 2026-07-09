@@ -1,0 +1,9 @@
+spec_id: cleveland-fed-yieldcurve-chart2-recession-probability-w-forecast
+status: active
+tests:
+  - not_null: date
+  - unique: date
+  - row_count: {min: 750}
+  - freshness: {col: date, reaches: today - 400d}
+    points_outward: true
+

@@ -1,4 +1,7 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [iso3_country, sector, subsector, gas, period_start, temporal_granularity]
+temporal: year
+sort: [year, iso3_country, sector, subsector, gas]
 columns:
   - name: iso3_country
     type: VARCHAR

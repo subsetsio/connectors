@@ -1,0 +1,9 @@
+spec_id: cleveland-fed-survey-of-firms-survey-graph
+status: active
+tests:
+  - not_null: date
+  - unique: date
+  - row_count: {min: 30}
+  - freshness: {col: date, reaches: today - 400d}
+    points_outward: true
+

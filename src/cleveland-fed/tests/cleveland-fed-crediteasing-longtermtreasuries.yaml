@@ -1,0 +1,9 @@
+spec_id: cleveland-fed-crediteasing-longtermtreasuries
+status: active
+tests:
+  - not_null: date
+  - unique: date
+  - row_count: {min: 900}
+  - freshness: {col: date, reaches: today - 60d}
+    points_outward: true
+

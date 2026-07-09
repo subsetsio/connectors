@@ -1,0 +1,9 @@
+spec_id: cleveland-fed-yieldcurve-chart1-spread-vs-gdpgrowth-w-forecast
+status: active
+tests:
+  - not_null: date
+  - unique: date
+  - row_count: {min: 90}
+  - freshness: {col: date, reaches: today - 400d}
+    points_outward: true
+

@@ -1,0 +1,7 @@
+spec_id: cleveland-fed-inflationnowcasting-nowcast-quarter
+status: active
+tests:
+  - not_null: label
+  - unique: label
+  - row_count: {min: 50}
+

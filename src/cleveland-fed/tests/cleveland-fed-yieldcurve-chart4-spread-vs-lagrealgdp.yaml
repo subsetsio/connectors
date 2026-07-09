@@ -1,0 +1,9 @@
+spec_id: cleveland-fed-yieldcurve-chart4-spread-vs-lagrealgdp
+status: active
+tests:
+  - not_null: date
+  - unique: date
+  - row_count: {min: 280}
+  - freshness: {col: date, reaches: today - 400d}
+    points_outward: true
+

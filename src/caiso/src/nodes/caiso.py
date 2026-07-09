@@ -6,28 +6,37 @@ single report file (CSV when `resultformat=6`). A request is scoped by a GMT
 datetime window plus report-specific parameters; there is no bulk dump, so the
 only way to obtain history is to walk the window forward in chunks.
 
-Shape: **date-windowed firehose** (one spec per report). Each report's fetch fn
-walks `HISTORY_START -> today` in report-appropriate windows, writes one raw
-ndjson batch per (window, market_run) and saves a date watermark after each, so a
-supervisor interrupt resumes cleanly across the 6h-capped run chain. Within a
-report, `market_run_id` (DAM/RTM/RTPD/HASP/...), node, AS region, fuel region,
-TAC area etc. are *column values*, not separate specs — a single PRC_LMP report
-covers the day-ahead and RUC markets across every requested node.
+Two fetch shapes, one per report family:
+
+* **Operational reports** (prices, load, ancillary services, energy accounting,
+  transmission usage, CRR auctions, ...) are **date-windowed firehoses**. Each
+  report's fetch fn walks `HISTORY_START -> today` in report-appropriate windows,
+  writes one raw ndjson batch per (window, market_run) and saves a date watermark
+  after each, so a supervisor interrupt resumes cleanly across the 6h-capped run
+  chain. Within a report, `market_run_id` (DAM/RTM/RTPD/HASP/...), node, AS region,
+  fuel region, TAC area etc. are *column values*, not separate specs — a single
+  PRC_LMP report covers the day-ahead and RUC markets across every requested node.
+
+* **Atlas reference reports** (`ATL_*`) are slowly-changing *dimension* tables —
+  the pricing-node / aggregation / resource / tie catalogues that the operational
+  reports join against. They are re-snapshotted in full each run from a single
+  recent window (the CSV carries `EFF_START_DT_GMT` / `EFF_END_DT_GMT` effective
+  dating for every row), so there is no windowed backfill and no per-run watermark.
 
 Volume control: the nodal LMP reports (PRC_LMP / PRC_HASP_LMP / PRC_INTVL_LMP /
 PRC_RTPD_LMP) carry ~2,400 nodes — full nodal history is billions of rows, so we
 bound them to the benchmark APNodes analysts actually price against (the three
 trading hubs and the four default LAPs). Every other report is system / region /
-interface level and is fetched in full. `HISTORY_START` is the connector's
-history horizon (a documented constant, like the incremental pattern's
-SOURCE_MIN); the upper bound is discovered dynamically so it never goes stale.
+interface level and is fetched in full. `INITIAL_BACKFILL_DAYS` is the connector's
+history horizon (a documented constant, like the incremental pattern's SOURCE_MIN);
+the upper bound is discovered dynamically so it never goes stale.
 
 OASIS returns *errors as a 200 ZIP* containing an XML report (not an HTTP error),
 so each response is classified: CSV -> rows; "invalid parameters" XML -> that
-market_run is dead for this report (skipped for the rest of the run); throttle /
-processing XML -> transient (retried with backoff); anything else / no data ->
-empty window. Values are coerced column-wise to int/float/str so the ndjson
-carries real types; the SQL transforms are thin parse-and-publish passes.
+market_run / param set is dead for this report (skipped for the rest of the run);
+throttle / processing XML -> transient (retried with backoff); "no data" /
+anything else -> empty window. Values are coerced column-wise to int/float/str so
+the ndjson carries real types; the SQL transforms are thin parse-and-publish passes.
 """
 
 from datetime import datetime, timezone, date, timedelta
@@ -47,7 +56,6 @@ from tenacity import (
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     load_state,
@@ -69,6 +77,7 @@ INITIAL_BACKFILL_DAYS = 90
 
 def _history_start() -> date:
     return datetime.now(timezone.utc).date() - timedelta(days=INITIAL_BACKFILL_DAYS)
+
 
 # Benchmark APNodes for the nodal price reports: the three CAISO trading hubs plus
 # the four default load-aggregation points. These are the headline prices; the
@@ -115,6 +124,12 @@ REPORTS = {
     "PRC_INTVL_AS":  _r(14, ["RTM"], {"anc_type": "ALL", "anc_region": "ALL"}),
     "PRC_CNSTR":     _r(14, ["DAM", "HASP", "RTM"], {"ti_id": "ALL"}),
     "PRC_FUEL":      _r(30, [None], {"fuel_region_id": "ALL"}),
+    # Prices — congestion / shadow prices (nomogram & flowgate constraints)
+    "PRC_NOMOGRAM":     _r(14, ["DAM", "HASP"], {"nomogram_id": "ALL"}),
+    "PRC_RTM_NOMOGRAM": _r(7,  ["RTM"], {"nomogram_id": "ALL"}),
+    "PRC_RTM_FLOWGATE": _r(7,  ["RTM"], {"ti_id": "ALL"}),
+    # Prices — convergence (virtual) bidding quarterly reference prices
+    "PRC_DS_REF":    _r(30, ["DAM"], {"grp_type": "ALL"}),
     # System demand & forecasts
     "SLD_FCST":      _r(30, ["DAM", "2DA", "7DA", "ACTUAL", "RTM"]),
     "SLD_REN_FCST":  _r(14, ["DAM", "RTD", "RTPD", "ACTUAL"]),
@@ -128,19 +143,47 @@ REPORTS = {
     "ENE_EA":        _r(30, [None], {"energy_type": "ALL", "opr_interval": "ALL"}),
     "ENE_LOSS":      _r(30, ["DAM", "HASP"]),
     "ENE_DISP":      _r(30, [None]),
+    "ENE_MPM":       _r(30, [None]),
     "CMMT_RA_MLC":   _r(30, ["DAM", "RTM"]),
+    "CMMT_RMR":      _r(30, [None]),
     # Convergence (virtual) bidding aggregates
     "ENE_CB_AWARDS":     _r(30, [None]),
     "ENE_CB_CLR_AWARDS": _r(30, [None]),
     "ENE_CB_MKT_SUM":    _r(30, [None]),
+    # Congestion Revenue Rights (CRR) — auction clearing & inventory
+    "CRR_CLEARING":  _r(30, [None], {"market_name": "ALL", "market_term": "ALL", "time_of_use": "ALL"}),
+    "CRR_INVENTORY": _r(30, [None], {"market_name": "ALL", "market_term": "ALL", "time_of_use": "ALL"}),
     # Transmission
-    "TRNS_USAGE":    _r(30, ["DAM", "HASP"], {"ti_id": "ALL", "ti_direction": "ALL"}),
-    "TRNS_ATC":      _r(30, ["DAM", "HASP"], {"ti_id": "ALL", "ti_direction": "ALL"}),
-    "TRNS_OUTAGE":   _r(30, [None], {"ti_id": "ALL", "ti_direction": "ALL"}),
+    "TRNS_USAGE":       _r(30, ["DAM", "HASP"], {"ti_id": "ALL", "ti_direction": "ALL"}),
+    "TRNS_ATC":         _r(30, ["DAM", "HASP"], {"ti_id": "ALL", "ti_direction": "ALL"}),
+    "TRNS_CURR_USAGE":  _r(7,  ["DAM", "HASP"], {"ti_id": "ALL", "ti_direction": "ALL"}),
+    "TRNS_OUTAGE":      _r(30, [None], {"ti_id": "ALL", "ti_direction": "ALL"}),
+    # Calendar — peak / off-peak hour flags (small deterministic time series)
+    "ATL_PEAK_ON_OFF":  _r(30, [None]),
 }
 
-# The entity union (rank-active subsets) — must equal REPORTS' keys exactly.
-ENTITY_IDS = list(REPORTS.keys())
+# Atlas reference (slowly-changing dimension) reports: full-listing snapshots.
+# `params` are the documented "ALL" filters each report requires; an empty dict
+# means the report enumerates its whole universe with no filter. These carry no
+# market_run and no windowed backfill — one recent window returns the full,
+# effective-dated catalogue.
+REFERENCE = {
+    "ATL_APNODE":       {"apnode_type": "ALL"},
+    "ATL_AS_REGION_MAP": {},
+    "ATL_HUB":          {},
+    "ATL_LAP":          {"apnode_type": "ALL"},
+    "ATL_LDF":          {},
+    "ATL_PNODE":        {"pnode_type": "ALL"},
+    "ATL_PNODE_MAP":    {},
+    "ATL_RESOURCE":     {},
+    "ATL_RUC_ZONE_MAP": {},
+    "ATL_TAC_AREA_MAP": {},
+    "ATL_TI":           {},
+    "ATL_TIEPOINT":     {},
+}
+
+# The entity union (accepted subsets) — must equal REPORTS + REFERENCE keys exactly.
+ENTITY_IDS = list(REPORTS.keys()) + list(REFERENCE.keys())
 
 
 # ---------------------------------------------------------------------------
@@ -194,7 +237,7 @@ def _fetch_window(params: dict) -> tuple[str, list[dict]]:
     """Fetch one SingleZip request. Returns (status, rows):
       ("ok", rows)   — CSV report parsed
       ("empty", [])  — valid request, no data for this window
-      ("dead", [])   — invalid parameters (this market_run is unusable here)
+      ("dead", [])   — invalid parameters (this market_run / param set is unusable)
     Raises _TransientReport / httpx errors for retryable failures. A throttled
     OASIS often hangs the read rather than 429-ing, so the read timeout is kept
     short enough to drop, back off, and retry (letting the throttle clear)."""
@@ -283,7 +326,7 @@ def _typed_rows(rows: list[dict]) -> list[dict]:
 
 
 # ---------------------------------------------------------------------------
-# Fetch — one generic date-windowed firehose for every report.
+# Shared helpers.
 # ---------------------------------------------------------------------------
 
 def _queryname(node_id: str) -> str:
@@ -294,6 +337,20 @@ def _gmt(d: date) -> str:
     # OASIS expects GMT; PST midnight (08:00Z) anchors the operating day window.
     return f"{d:%Y%m%d}T08:00-0000"
 
+
+def _base_params(qn: str, start: date, end: date) -> dict:
+    return {
+        "queryname": qn,
+        "version": "1",
+        "resultformat": "6",
+        "startdatetime": _gmt(start),
+        "enddatetime": _gmt(end),
+    }
+
+
+# ---------------------------------------------------------------------------
+# Fetch — date-windowed firehose for every operational report.
+# ---------------------------------------------------------------------------
 
 def fetch_report(node_id: str) -> None:
     qn = _queryname(node_id)
@@ -324,13 +381,9 @@ def fetch_report(node_id: str) -> None:
         for mrid in cfg["market_runs"]:
             if mrid in dead:
                 continue
-            params = {
-                "queryname": qn,
-                "version": "1",
-                "resultformat": "6",
-                "startdatetime": start_s,
-                "enddatetime": end_s,
-            }
+            params = _base_params(qn, cur, win_end + timedelta(days=1))
+            params["startdatetime"] = start_s
+            params["enddatetime"] = end_s
             params.update(cfg["params"])
             if mrid is not None:
                 params["market_run_id"] = mrid
@@ -350,7 +403,7 @@ def fetch_report(node_id: str) -> None:
             finally:
                 time.sleep(REQUEST_SPACING_S)
             if status == "dead":
-                # Invalid market_run for this report — stop requesting it.
+                # Invalid market_run / params for this report — stop requesting it.
                 print(f"[{SLUG}] {qn}: market_run_id={mrid} invalid; skipping")
                 dead.add(mrid)
                 continue
@@ -364,27 +417,38 @@ def fetch_report(node_id: str) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Specs — one download + one thin publishing transform per report.
+# Fetch — full-listing snapshot for every atlas reference (dimension) report.
+# ---------------------------------------------------------------------------
+
+def fetch_reference(node_id: str) -> None:
+    qn = _queryname(node_id)
+    cfg = REFERENCE[qn]
+
+    # A recent, settled window: reference reports return their whole effective-dated
+    # catalogue regardless of the exact window, so any valid recent range works.
+    today = datetime.now(timezone.utc).date()
+    params = _base_params(qn, today - timedelta(days=3), today - timedelta(days=1))
+    params.update(cfg)
+
+    status, rows = _fetch_window(params)
+    if status == "dead":
+        print(f"[{SLUG}] {qn}: reference query invalid params; nothing written")
+        return
+    if rows:
+        # One snapshot asset per report; overwrite in full each run.
+        save_raw_ndjson(_typed_rows(rows), node_id)
+    else:
+        print(f"[{SLUG}] {qn}: reference query returned no data; nothing written")
+
+
+# ---------------------------------------------------------------------------
+# Specs — one download node per accepted report / reference entity.
 # ---------------------------------------------------------------------------
 
 DOWNLOAD_SPECS = [
-    NodeSpec(
-        id=f"{SLUG}-{eid.lower().replace('_', '-')}",
-        fn=fetch_report,
-        kind="download",
-    )
-    for eid in ENTITY_IDS
-]
-
-# Each report's batches share the column set; DISTINCT collapses exact duplicates
-# produced by the trailing-window overlap re-fetch. The dep view glob-unions every
-# `<id>-<window>-<run>` batch file automatically.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT DISTINCT * FROM "{s.id}"',
-        temporal="INTERVALENDTIME_GMT",
-    )
-    for s in DOWNLOAD_SPECS
+    NodeSpec(id=f"{SLUG}-{qn.lower().replace('_', '-')}", fn=fetch_report, kind="download")
+    for qn in REPORTS
+] + [
+    NodeSpec(id=f"{SLUG}-{qn.lower().replace('_', '-')}", fn=fetch_reference, kind="download")
+    for qn in REFERENCE
 ]

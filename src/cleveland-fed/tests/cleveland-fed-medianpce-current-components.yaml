@@ -1,0 +1,7 @@
+spec_id: cleveland-fed-medianpce-current-components
+status: active
+tests:
+  - not_null: label
+  - unique: label
+  - row_count: {min: 150}
+
