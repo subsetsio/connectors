@@ -1,20 +1,33 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+write_mode: overwrite
+key: [date, currency]
+temporal: date
+sort: [date, currency]
 columns:
   - name: date
     type: DATE
+    description: HNB application date for the legacy kuna-era exchange-rate list.
   - name: currency
     type: VARCHAR
+    description: ISO 4217 alphabetic code for the quoted foreign currency.
   - name: country
     type: VARCHAR
+    description: Croatian country or monetary-area label associated with the currency.
   - name: unit
     type: BIGINT
+    description: Number of foreign-currency units used as the quotation base against Croatian kuna.
   - name: currency_numeric
     type: VARCHAR
+    description: ISO 4217 numeric currency code.
   - name: buying_rate
     type: DOUBLE
+    description: HNB buying rate, in Croatian kuna per `unit` foreign-currency units.
   - name: middle_rate
     type: DOUBLE
+    description: HNB middle rate, in Croatian kuna per `unit` foreign-currency units.
   - name: selling_rate
     type: DOUBLE
+    description: HNB selling rate, in Croatian kuna per `unit` foreign-currency units.
   - name: bulletin_number
     type: INTEGER
+    description: HNB exchange-rate bulletin number for the date.

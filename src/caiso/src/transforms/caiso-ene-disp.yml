@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-ene-disp`. Regenerate after model-verify.
+# caution: Exceptional-dispatch observations include price and energy measures by TAC area and instruction type; filter the measure and instruction dimensions before summing.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: tac_area_name
+    type: VARCHAR
+  - name: disp_type
+    type: VARCHAR
+  - name: xml_data_item
+    type: VARCHAR
+  - name: instruction_type
+    type: VARCHAR
+  - name: mw
+    type: DOUBLE
+  - name: group
+    type: BIGINT

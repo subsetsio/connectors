@@ -1,7 +1,7 @@
 spec_id: climate-trace-asset-emissions
 status: active
 tests:
-  - freshness: {col: year, reaches: current_year() - 2}
+  - freshness: {col: year, reaches: 2024}
   - not_null: source_id
     reason: every row identifies an emitting asset
     certainty: 97

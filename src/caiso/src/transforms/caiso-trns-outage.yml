@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-trns-outage`. Regenerate after model-verify.
+# caution: Transmission outage rows describe events with planned and actual timing; use outage start and end columns instead of treating every row as a uniform interval observation.
+key: []
+temporal: start_date
+sort: [start_date]
+columns:
+  - name: ti_id
+    type: VARCHAR
+  - name: ti_direction
+    type: VARCHAR
+  - name: equipment_outage
+    type: VARCHAR
+  - name: outage_notes
+    type: VARCHAR
+  - name: audit_type
+    type: VARCHAR
+  - name: start_date
+    type: DATE
+  - name: end_date
+    type: DATE
+  - name: start_hour
+    type: BIGINT
+  - name: end_hour
+    type: BIGINT
+  - name: curtailed_otc_mw
+    type: BIGINT
+  - name: upd_date
+    type: TIMESTAMP
+  - name: upd_date_gmt
+    type: TIMESTAMP
+  - name: upd_by
+    type: VARCHAR
+  - name: oasis_rec_stat
+    type: VARCHAR
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP

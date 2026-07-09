@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-as-req`. Regenerate after model-verify.
+# caution: Contains multiple ancillary-service types, regions, and market runs; filter those dimensions before aggregating MW requirements.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: pos
+    type: BIGINT
+  - name: market_run_id
+    type: VARCHAR
+  - name: anc_type
+    type: VARCHAR
+  - name: anc_region
+    type: VARCHAR
+  - name: label
+    type: VARCHAR
+  - name: xml_data_item
+    type: VARCHAR
+  - name: mw
+    type: DOUBLE
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: opr_interval
+    type: BIGINT
+  - name: group
+    type: BIGINT

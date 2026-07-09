@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-atl-apnode`. Regenerate after model-verify.
+key: [description]
+temporal: eff_start_dt_gmt
+sort: [eff_start_dt_gmt, description]
+columns:
+  - name: apnode_id
+    type: VARCHAR
+  - name: apnode_type
+    type: VARCHAR
+  - name: crr_source_sink
+    type: JSON
+  - name: description
+    type: VARCHAR
+  - name: comments
+    type: JSON
+  - name: cb_node_flag
+    type: VARCHAR
+  - name: max_cb_mw
+    type: DOUBLE
+  - name: max_cb_mw_eff_start_dt
+    type: TIMESTAMP
+  - name: max_cb_mw_eff_end_dt
+    type: TIMESTAMP
+  - name: max_cb_mw_eff_start_dt_gmt
+    type: TIMESTAMP
+  - name: max_cb_mw_eff_end_dt_gmt
+    type: TIMESTAMP
+  - name: eff_start_dt_gmt
+    type: TIMESTAMP
+  - name: eff_end_dt_gmt
+    type: TIMESTAMP
+  - name: eff_start_dt
+    type: TIMESTAMP
+  - name: eff_end_dt
+    type: TIMESTAMP

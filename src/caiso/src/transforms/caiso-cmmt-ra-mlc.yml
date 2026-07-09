@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-cmmt-ra-mlc`. Regenerate after model-verify.
+# caution: Contains commitment capacity, minimum-load MW, and cost observations by market run and operating interval; filter the commitment dimensions before summing.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: market_run_id
+    type: VARCHAR
+  - name: ra_mlc_type
+    type: VARCHAR
+  - name: uom
+    type: BIGINT
+  - name: xml_data_item
+    type: VARCHAR
+  - name: mw
+    type: DOUBLE
+  - name: group
+    type: BIGINT

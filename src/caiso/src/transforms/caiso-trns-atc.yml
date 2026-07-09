@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-trns-atc`. Regenerate after model-verify.
+# caution: Available transmission capacity varies by interface, direction, and market run; filter those dimensions before aggregating MW.
+key: []
+temporal: opr_dt
+sort: [opr_dt]
+columns:
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: market_run_id
+    type: VARCHAR
+  - name: ti_id
+    type: VARCHAR
+  - name: ti_direction
+    type: VARCHAR
+  - name: ti_constraint_id
+    type: VARCHAR
+  - name: xml_data_item
+    type: VARCHAR
+  - name: label
+    type: VARCHAR
+  - name: opr_interval
+    type: BIGINT
+  - name: mw
+    type: BIGINT
+  - name: group
+    type: BIGINT

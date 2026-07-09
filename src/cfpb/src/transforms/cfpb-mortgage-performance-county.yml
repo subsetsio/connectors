@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cfpb-mortgage-performance-county`. Regenerate after model-verify.
+# caution: County rows are separate from state and metro tables; do not combine geographic levels without selecting one level.
+key: [fips_code, region_name, period, bucket]
+temporal: period
+sort: [period, fips_code, region_name, bucket]
 columns:
   - name: region_type
     type: VARCHAR
@@ -9,6 +14,6 @@ columns:
   - name: bucket
     type: VARCHAR
   - name: period
-    type: VARCHAR
+    type: DATE
   - name: delinquency_rate
     type: DOUBLE

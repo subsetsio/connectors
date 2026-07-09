@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-atl-resource`. Regenerate after model-verify.
+key: [eff_start_dt, resource_id]
+temporal: eff_start_dt_gmt
+sort: [eff_start_dt_gmt, eff_start_dt, resource_id]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: generation_unit_id
+    type: VARCHAR
+  - name: node_id
+    type: VARCHAR
+  - name: agge_type
+    type: VARCHAR
+  - name: resource_type
+    type: VARCHAR
+  - name: comments
+    type: VARCHAR
+  - name: eff_start_dt_gmt
+    type: TIMESTAMP
+  - name: eff_end_dt_gmt
+    type: TIMESTAMP
+  - name: eff_start_dt
+    type: TIMESTAMP
+  - name: eff_end_dt
+    type: TIMESTAMP

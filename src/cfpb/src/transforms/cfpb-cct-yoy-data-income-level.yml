@@ -1,9 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cfpb-cct-yoy-data-income-level`. Regenerate after model-verify.
+# caution: Borrower income levels are stored as separate year-over-year measure columns, so do not sum those columns together.
+key: [month, date, market]
+temporal: date
+sort: [date, month, market]
 columns:
   - name: month
     type: BIGINT
   - name: date
-    type: VARCHAR
+    type: DATE
   - name: low_yoy
     type: DOUBLE
   - name: moderate_yoy

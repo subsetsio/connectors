@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-crr-clearing`. Regenerate after model-verify.
+# caution: CRR clearing prices vary by market name, term, time of use, segment, and source/sink APNode; filter those dimensions before comparing prices.
+key: []
+temporal: start_date
+sort: [start_date]
+columns:
+  - name: market_name
+    type: VARCHAR
+  - name: market_term
+    type: VARCHAR
+  - name: time_of_use
+    type: VARCHAR
+  - name: start_date
+    type: TIMESTAMP
+  - name: end_date
+    type: TIMESTAMP
+  - name: start_date_gmt
+    type: TIMESTAMP
+  - name: end_date_gmt
+    type: TIMESTAMP
+  - name: apnode_id
+    type: VARCHAR
+  - name: apnode_id_price
+    type: DOUBLE
+  - name: xml_data_item
+    type: VARCHAR

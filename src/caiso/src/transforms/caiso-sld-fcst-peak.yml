@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-sld-fcst-peak`. Regenerate after model-verify.
+# caution: Peak forecast rows mix CAISO total and TAC-area geography; filter the geography before aggregating load.
+key: []
+temporal: opr_dt
+sort: [opr_dt]
+columns:
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: tac_area_name
+    type: VARCHAR
+  - name: load_mw
+    type: DOUBLE
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP

@@ -1,0 +1,30 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cnam-honoraires-detailles`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, profession, region_code, department_code, fee_level_1_code, fee_level_2_code, fee_level_3_code]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, profession, region_code, department_code, fee_level_1_code, fee_level_2_code, fee_level_3_code]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: profession
+  - kind: not_null
+    col: region_code
+  - kind: not_null
+    col: department_code
+  - kind: not_null
+    col: fee_level_1_code
+  - kind: not_null
+    col: fee_level_2_code
+  - kind: not_null
+    col: fee_level_3_code
+  - kind: row_floor
+    min: 633600
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

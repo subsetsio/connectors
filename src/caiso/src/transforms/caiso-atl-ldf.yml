@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-atl-ldf`. Regenerate after model-verify.
+# caution: Load distribution factors are effective-dated mappings between APNodes and PNodes; join using the applicable effective period.
+key: []
+temporal: eff_start_dt_gmt
+sort: [eff_start_dt_gmt]
+columns:
+  - name: eff_start_dt_gmt
+    type: TIMESTAMP
+  - name: eff_end_dt_gmt
+    type: TIMESTAMP
+  - name: eff_start_dt
+    type: TIMESTAMP
+  - name: eff_end_dt
+    type: TIMESTAMP
+  - name: apnode_id
+    type: VARCHAR
+  - name: pnode_id
+    type: VARCHAR
+  - name: dist_factor
+    type: DOUBLE
+  - name: season
+    type: VARCHAR
+  - name: time_of_use
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: comments
+    type: JSON
+  - name: group
+    type: BIGINT

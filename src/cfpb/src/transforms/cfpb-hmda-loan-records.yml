@@ -1,11 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cfpb-hmda-loan-records`. Regenerate after model-verify.
+# caution: The public HMDA LAR is one row per reported loan or application but does not include a stable public record identifier in this raw extract.
+key: []
 columns:
   - name: activity_year
-    type: VARCHAR
+    type: BIGINT
   - name: lei
     type: VARCHAR
-  - name: derived_msa-md
-    type: VARCHAR
+  - name: derived_msa_md
+    type: BIGINT
   - name: state_code
     type: VARCHAR
   - name: county_code
@@ -25,25 +28,25 @@ columns:
   - name: derived_sex
     type: VARCHAR
   - name: action_taken
-    type: VARCHAR
+    type: BIGINT
   - name: purchaser_type
-    type: VARCHAR
+    type: BIGINT
   - name: preapproval
-    type: VARCHAR
+    type: BIGINT
   - name: loan_type
-    type: VARCHAR
+    type: BIGINT
   - name: loan_purpose
-    type: VARCHAR
+    type: BIGINT
   - name: lien_status
-    type: VARCHAR
+    type: BIGINT
   - name: reverse_mortgage
-    type: VARCHAR
-  - name: open-end_line_of_credit
-    type: VARCHAR
+    type: BIGINT
+  - name: open_end_line_of_credit
+    type: BIGINT
   - name: business_or_commercial_purpose
-    type: VARCHAR
+    type: BIGINT
   - name: loan_amount
-    type: VARCHAR
+    type: DOUBLE
   - name: loan_to_value_ratio
     type: VARCHAR
   - name: interest_rate
@@ -51,7 +54,7 @@ columns:
   - name: rate_spread
     type: VARCHAR
   - name: hoepa_status
-    type: VARCHAR
+    type: BIGINT
   - name: total_loan_costs
     type: VARCHAR
   - name: total_points_and_fees
@@ -69,23 +72,23 @@ columns:
   - name: intro_rate_period
     type: VARCHAR
   - name: negative_amortization
-    type: VARCHAR
+    type: BIGINT
   - name: interest_only_payment
-    type: VARCHAR
+    type: BIGINT
   - name: balloon_payment
-    type: VARCHAR
+    type: BIGINT
   - name: other_nonamortizing_features
-    type: VARCHAR
+    type: BIGINT
   - name: property_value
     type: VARCHAR
   - name: construction_method
-    type: VARCHAR
+    type: BIGINT
   - name: occupancy_type
-    type: VARCHAR
+    type: BIGINT
   - name: manufactured_home_secured_property_type
-    type: VARCHAR
+    type: BIGINT
   - name: manufactured_home_land_property_interest
-    type: VARCHAR
+    type: BIGINT
   - name: total_units
     type: VARCHAR
   - name: multifamily_affordable_units
@@ -95,106 +98,106 @@ columns:
   - name: debt_to_income_ratio
     type: VARCHAR
   - name: applicant_credit_score_type
-    type: VARCHAR
-  - name: co-applicant_credit_score_type
-    type: VARCHAR
-  - name: applicant_ethnicity-1
-    type: VARCHAR
-  - name: applicant_ethnicity-2
-    type: VARCHAR
-  - name: applicant_ethnicity-3
-    type: VARCHAR
-  - name: applicant_ethnicity-4
-    type: VARCHAR
-  - name: applicant_ethnicity-5
-    type: VARCHAR
-  - name: co-applicant_ethnicity-1
-    type: VARCHAR
-  - name: co-applicant_ethnicity-2
-    type: VARCHAR
-  - name: co-applicant_ethnicity-3
-    type: VARCHAR
-  - name: co-applicant_ethnicity-4
-    type: VARCHAR
-  - name: co-applicant_ethnicity-5
-    type: VARCHAR
+    type: BIGINT
+  - name: co_applicant_credit_score_type
+    type: BIGINT
+  - name: applicant_ethnicity_1
+    type: BIGINT
+  - name: applicant_ethnicity_2
+    type: BIGINT
+  - name: applicant_ethnicity_3
+    type: BIGINT
+  - name: applicant_ethnicity_4
+    type: BIGINT
+  - name: applicant_ethnicity_5
+    type: BIGINT
+  - name: co_applicant_ethnicity_1
+    type: BIGINT
+  - name: co_applicant_ethnicity_2
+    type: BIGINT
+  - name: co_applicant_ethnicity_3
+    type: BIGINT
+  - name: co_applicant_ethnicity_4
+    type: BIGINT
+  - name: co_applicant_ethnicity_5
+    type: BIGINT
   - name: applicant_ethnicity_observed
-    type: VARCHAR
-  - name: co-applicant_ethnicity_observed
-    type: VARCHAR
-  - name: applicant_race-1
-    type: VARCHAR
-  - name: applicant_race-2
-    type: VARCHAR
-  - name: applicant_race-3
-    type: VARCHAR
-  - name: applicant_race-4
-    type: VARCHAR
-  - name: applicant_race-5
-    type: VARCHAR
-  - name: co-applicant_race-1
-    type: VARCHAR
-  - name: co-applicant_race-2
-    type: VARCHAR
-  - name: co-applicant_race-3
-    type: VARCHAR
-  - name: co-applicant_race-4
-    type: VARCHAR
-  - name: co-applicant_race-5
-    type: VARCHAR
+    type: BIGINT
+  - name: co_applicant_ethnicity_observed
+    type: BIGINT
+  - name: applicant_race_1
+    type: BIGINT
+  - name: applicant_race_2
+    type: BIGINT
+  - name: applicant_race_3
+    type: BIGINT
+  - name: applicant_race_4
+    type: BIGINT
+  - name: applicant_race_5
+    type: BIGINT
+  - name: co_applicant_race_1
+    type: BIGINT
+  - name: co_applicant_race_2
+    type: BIGINT
+  - name: co_applicant_race_3
+    type: BIGINT
+  - name: co_applicant_race_4
+    type: BIGINT
+  - name: co_applicant_race_5
+    type: BIGINT
   - name: applicant_race_observed
-    type: VARCHAR
-  - name: co-applicant_race_observed
-    type: VARCHAR
+    type: BIGINT
+  - name: co_applicant_race_observed
+    type: BIGINT
   - name: applicant_sex
-    type: VARCHAR
-  - name: co-applicant_sex
-    type: VARCHAR
+    type: BIGINT
+  - name: co_applicant_sex
+    type: BIGINT
   - name: applicant_sex_observed
-    type: VARCHAR
-  - name: co-applicant_sex_observed
-    type: VARCHAR
+    type: BIGINT
+  - name: co_applicant_sex_observed
+    type: BIGINT
   - name: applicant_age
     type: VARCHAR
-  - name: co-applicant_age
+  - name: co_applicant_age
     type: VARCHAR
   - name: applicant_age_above_62
     type: VARCHAR
-  - name: co-applicant_age_above_62
+  - name: co_applicant_age_above_62
     type: VARCHAR
   - name: submission_of_application
-    type: VARCHAR
+    type: BIGINT
   - name: initially_payable_to_institution
-    type: VARCHAR
-  - name: aus-1
-    type: VARCHAR
-  - name: aus-2
-    type: VARCHAR
-  - name: aus-3
-    type: VARCHAR
-  - name: aus-4
-    type: VARCHAR
-  - name: aus-5
-    type: VARCHAR
-  - name: denial_reason-1
-    type: VARCHAR
-  - name: denial_reason-2
-    type: VARCHAR
-  - name: denial_reason-3
-    type: VARCHAR
-  - name: denial_reason-4
-    type: VARCHAR
+    type: BIGINT
+  - name: aus_1
+    type: BIGINT
+  - name: aus_2
+    type: BIGINT
+  - name: aus_3
+    type: BIGINT
+  - name: aus_4
+    type: BIGINT
+  - name: aus_5
+    type: BIGINT
+  - name: denial_reason_1
+    type: BIGINT
+  - name: denial_reason_2
+    type: BIGINT
+  - name: denial_reason_3
+    type: BIGINT
+  - name: denial_reason_4
+    type: BIGINT
   - name: tract_population
-    type: VARCHAR
+    type: BIGINT
   - name: tract_minority_population_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: ffiec_msa_md_median_family_income
-    type: VARCHAR
+    type: BIGINT
   - name: tract_to_msa_income_percentage
-    type: VARCHAR
+    type: BIGINT
   - name: tract_owner_occupied_units
-    type: VARCHAR
+    type: BIGINT
   - name: tract_one_to_four_family_homes
-    type: VARCHAR
+    type: BIGINT
   - name: tract_median_age_of_housing_units
-    type: VARCHAR
+    type: BIGINT

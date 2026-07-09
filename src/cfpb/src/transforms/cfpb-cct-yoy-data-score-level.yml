@@ -1,18 +1,23 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cfpb-cct-yoy-data-score-level`. Regenerate after model-verify.
+# caution: Borrower credit-score levels are stored as separate year-over-year measure columns, so do not sum those columns together.
+key: [date, month, market]
+temporal: date
+sort: [date, month, market]
 columns:
   - name: month
     type: BIGINT
   - name: date
-    type: VARCHAR
-  - name: deep-subprime_yoy
+    type: DATE
+  - name: deep_subprime_yoy
     type: DOUBLE
   - name: subprime_yoy
     type: DOUBLE
-  - name: near-prime_yoy
+  - name: near_prime_yoy
     type: DOUBLE
   - name: prime_yoy
     type: DOUBLE
-  - name: super-prime_yoy
+  - name: super_prime_yoy
     type: DOUBLE
   - name: market
     type: VARCHAR

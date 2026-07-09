@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-ene-cb-awards`. Regenerate after model-verify.
+# caution: Convergence bidding award rows include supply and demand sides; filter bid direction before aggregating MW.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: market_run_id
+    type: VARCHAR
+  - name: virtualbid_type
+    type: VARCHAR
+  - name: xml_data_item
+    type: VARCHAR
+  - name: mw
+    type: DOUBLE
+  - name: group
+    type: BIGINT

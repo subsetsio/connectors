@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-prc-rtm-flowgate`. Regenerate after model-verify.
+# caution: Real-time flowgate shadow prices vary by interface and direction; filter those dimensions before aggregating.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: opr_interval
+    type: BIGINT
+  - name: ti_id
+    type: VARCHAR
+  - name: ti_direction
+    type: VARCHAR
+  - name: market_run_id
+    type: VARCHAR
+  - name: constraint_cause
+    type: VARCHAR
+  - name: prc
+    type: DOUBLE
+  - name: group
+    type: BIGINT

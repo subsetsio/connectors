@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-atl-ti`. Regenerate after model-verify.
+key: [ti_id]
+temporal: eff_start_dt_gmt
+sort: [eff_start_dt_gmt, ti_id]
+columns:
+  - name: ti_id
+    type: VARCHAR
+  - name: ti_type
+    type: VARCHAR
+  - name: wecc_path
+    type: VARCHAR
+  - name: orientation
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: comments
+    type: JSON
+  - name: eff_start_dt_gmt
+    type: TIMESTAMP
+  - name: eff_end_dt_gmt
+    type: TIMESTAMP
+  - name: eff_start_dt
+    type: TIMESTAMP
+  - name: eff_end_dt
+    type: TIMESTAMP

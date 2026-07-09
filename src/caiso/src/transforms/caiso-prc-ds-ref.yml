@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-prc-ds-ref`. Regenerate after model-verify.
+# caution: Convergence-bidding reference prices are quarterly node-level values; do not join them to interval price series without aligning the quarter.
+key: []
+temporal: eff_qtr_start_dt_gmt
+sort: [eff_qtr_start_dt_gmt]
+columns:
+  - name: node_id
+    type: VARCHAR
+  - name: eff_qtr_start_dt_gmt
+    type: TIMESTAMP
+  - name: eff_qtr_end_dt_gmt
+    type: TIMESTAMP
+  - name: eff_qtr_start_dt
+    type: TIMESTAMP
+  - name: eff_qtr_end_dt
+    type: TIMESTAMP
+  - name: supply_ref_price
+    type: DOUBLE
+  - name: demand_ref_price
+    type: DOUBLE
+  - name: market_run_id
+    type: VARCHAR

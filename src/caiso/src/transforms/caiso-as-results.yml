@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-as-results`. Regenerate after model-verify.
+# caution: Contains multiple ancillary-service types, regions, and market runs; filter those dimensions before comparing procured, self-provided, total, and cost measures.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: opr_interval
+    type: BIGINT
+  - name: anc_type
+    type: VARCHAR
+  - name: anc_region
+    type: VARCHAR
+  - name: grp
+    type: VARCHAR
+  - name: market_run_id
+    type: VARCHAR
+  - name: result_type
+    type: VARCHAR
+  - name: uom
+    type: BIGINT
+  - name: pos
+    type: BIGINT
+  - name: xml_data_item
+    type: VARCHAR
+  - name: mw
+    type: DOUBLE
+  - name: group
+    type: BIGINT

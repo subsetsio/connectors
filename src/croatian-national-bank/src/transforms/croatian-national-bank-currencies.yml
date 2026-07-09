@@ -1,13 +1,22 @@
+write_mode: overwrite
+key: [currency]
+sort: [currency]
 columns:
   - name: currency
     type: VARCHAR
+    description: ISO 4217 alphabetic currency code quoted by HNB.
   - name: currency_numeric
     type: VARCHAR
+    description: ISO 4217 numeric currency code.
   - name: country
     type: VARCHAR
+    description: Croatian country or monetary-area label associated with the currency in HNB source data.
   - name: country_iso
     type: VARCHAR
+    description: ISO 3166-1 alpha-3 country code when supplied by the euro-era endpoint.
   - name: seen_in_eur
     type: BOOLEAN
+    description: True when the currency appears in the euro-era exchange-rate endpoint.
   - name: seen_in_hrk
     type: BOOLEAN
+    description: True when the currency appears in the legacy kuna-era exchange-rate endpoint.

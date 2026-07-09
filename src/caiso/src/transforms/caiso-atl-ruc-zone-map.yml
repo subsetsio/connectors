@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-atl-ruc-zone-map`. Regenerate after model-verify.
+key: [pnode_id]
+temporal: eff_start_dt_gmt
+sort: [eff_start_dt_gmt, pnode_id]
+columns:
+  - name: ruc_zone_id
+    type: VARCHAR
+  - name: pnode_id
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: comments
+    type: JSON
+  - name: eff_start_dt_gmt
+    type: TIMESTAMP
+  - name: eff_end_dt_gmt
+    type: TIMESTAMP
+  - name: eff_start_dt
+    type: TIMESTAMP
+  - name: eff_end_dt
+    type: TIMESTAMP

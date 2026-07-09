@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-ene-slrs`. Regenerate after model-verify.
+# caution: System load and resource schedules mix CAISO total, TAC areas, schedules, and market runs; filter geography, schedule, and market run before aggregating MW.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: slrs_type
+    type: VARCHAR
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: opr_interval
+    type: BIGINT
+  - name: market_run_id
+    type: VARCHAR
+  - name: tac_zone_name
+    type: VARCHAR
+  - name: schedule
+    type: VARCHAR
+  - name: xml_data_item
+    type: VARCHAR
+  - name: pos
+    type: BIGINT
+  - name: mw
+    type: DOUBLE
+  - name: group
+    type: BIGINT

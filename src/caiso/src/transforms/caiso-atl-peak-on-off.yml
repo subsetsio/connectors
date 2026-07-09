@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-atl-peak-on-off`. Regenerate after model-verify.
+key: [intervalstarttime_gmt]
+temporal: opr_dt
+sort: [opr_dt, intervalstarttime_gmt]
+columns:
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: peak_flag
+    type: VARCHAR
+  - name: group
+    type: BIGINT

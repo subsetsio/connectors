@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-prc-fuel`. Regenerate after model-verify.
+# caution: Fuel prices vary by fuel region; filter fuel region before comparing daily gas prices.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: fuel_region_id_xml
+    type: VARCHAR
+  - name: fuel_region_id
+    type: VARCHAR
+  - name: prc
+    type: DOUBLE
+  - name: group
+    type: BIGINT

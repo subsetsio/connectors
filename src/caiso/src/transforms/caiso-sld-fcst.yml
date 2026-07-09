@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-sld-fcst`. Regenerate after model-verify.
+# caution: Demand forecast rows mix forecast horizons, actuals, CAISO total, and TAC areas; filter market_run_id and geography before comparing MW.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: load_type
+    type: BIGINT
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: opr_interval
+    type: BIGINT
+  - name: market_run_id
+    type: VARCHAR
+  - name: tac_area_name
+    type: VARCHAR
+  - name: label
+    type: VARCHAR
+  - name: xml_data_item
+    type: VARCHAR
+  - name: pos
+    type: DOUBLE
+  - name: mw
+    type: DOUBLE
+  - name: execution_type
+    type: VARCHAR
+  - name: group
+    type: BIGINT
+  - name: load_mw
+    type: DOUBLE

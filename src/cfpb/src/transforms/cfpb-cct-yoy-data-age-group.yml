@@ -1,16 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cfpb-cct-yoy-data-age-group`. Regenerate after model-verify.
+# caution: Borrower age groups are stored as separate year-over-year measure columns, so do not sum those columns together.
+key: [date, month, market]
+temporal: date
+sort: [date, month, market]
 columns:
   - name: month
     type: BIGINT
   - name: date
-    type: VARCHAR
-  - name: younger-than-30_yoy
+    type: DATE
+  - name: younger_than_30_yoy
     type: DOUBLE
-  - name: 30-44_yoy
+  - name: "30_44_yoy"
     type: DOUBLE
-  - name: 45-64_yoy
+  - name: "45_64_yoy"
     type: DOUBLE
-  - name: 65-and-older_yoy
+  - name: "65_and_older_yoy"
     type: DOUBLE
   - name: market
     type: VARCHAR

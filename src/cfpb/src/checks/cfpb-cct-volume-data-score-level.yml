@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cfpb-cct-volume-data-score-level`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, month, credit_score_group, market]
+temporal: date
+checks:
+  - kind: unique
+    columns: [date, month, credit_score_group, market]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: month
+  - kind: not_null
+    col: credit_score_group
+  - kind: not_null
+    col: market
+  - kind: row_floor
+    min: 2260
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-atl-lap`. Regenerate after model-verify.
+key: [apnode_id]
+temporal: eff_start_dt_gmt
+sort: [eff_start_dt_gmt, apnode_id]
+columns:
+  - name: apnode_id
+    type: VARCHAR
+  - name: apnode_type
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: comments
+    type: JSON
+  - name: eff_start_dt_gmt
+    type: TIMESTAMP
+  - name: eff_end_dt_gmt
+    type: TIMESTAMP
+  - name: eff_start_dt
+    type: TIMESTAMP
+  - name: eff_end_dt
+    type: TIMESTAMP

@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-ene-ea`. Regenerate after model-verify.
+# caution: Expected-energy accounting contains multiple energy types in the same table; filter energy type before summing MWh.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: opr_interval
+    type: BIGINT
+  - name: energy_type
+    type: VARCHAR
+  - name: xml_data_item
+    type: VARCHAR
+  - name: pos
+    type: BIGINT
+  - name: mw
+    type: DOUBLE
+  - name: group
+    type: BIGINT

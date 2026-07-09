@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-atl-as-region-map`. Regenerate after model-verify.
+# caution: Effective-dated mapping table; use the effective start and end columns when joining to observations from a specific market date.
+key: []
+temporal: eff_start_dt_gmt
+sort: [eff_start_dt_gmt]
+columns:
+  - name: as_region_id
+    type: VARCHAR
+  - name: pnode_id
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: comments
+    type: JSON
+  - name: eff_start_dt_gmt
+    type: TIMESTAMP
+  - name: eff_end_dt_gmt
+    type: TIMESTAMP
+  - name: eff_start_dt
+    type: TIMESTAMP
+  - name: eff_end_dt
+    type: TIMESTAMP

@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-ene-cb-mkt-sum`. Regenerate after model-verify.
+# caution: Day-ahead market summary rows mix physical and virtual demand, supply, import, and export quantities; filter the category columns before aggregating totals.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_dt
+    type: DATE
+  - name: market_run_id
+    type: VARCHAR
+  - name: product_type
+    type: VARCHAR
+  - name: product_type_order
+    type: BIGINT
+  - name: summary_cat
+    type: VARCHAR
+  - name: summary_cat_order
+    type: BIGINT
+  - name: self_schedule
+    type: DOUBLE
+  - name: energy_bid
+    type: DOUBLE
+  - name: virtual_bid
+    type: DOUBLE
+  - name: total
+    type: DOUBLE
+  - name: group
+    type: BIGINT

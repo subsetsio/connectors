@@ -1,5 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cfpb-consumer-complaints`. Regenerate after model-verify.
+# caution: Each row is a complaint event; product, issue, company, geography, response, and submission channel are descriptive dimensions, not separate records.
+# caution: The raw extract contains repeated complaint_id values, so treat complaint_id as a source identifier, not a unique row key.
+key: []
 columns:
+  - name: date_received
+    type: VARCHAR
   - name: product
     type: VARCHAR
   - name: sub_product
@@ -22,13 +28,11 @@ columns:
     type: VARCHAR
   - name: submitted_via
     type: VARCHAR
+  - name: date_sent_to_company
+    type: VARCHAR
   - name: company_response_to_consumer
     type: VARCHAR
   - name: timely_response
     type: VARCHAR
-  - name: date_received
-    type: DATE
-  - name: date_sent_to_company
-    type: DATE
   - name: complaint_id
-    type: BIGINT
+    type: VARCHAR

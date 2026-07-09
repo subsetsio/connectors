@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-prc-nomogram`. Regenerate after model-verify.
+# caution: Nomogram and branch shadow prices vary by constraint and market run; filter those dimensions before aggregating.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: opr_interval
+    type: BIGINT
+  - name: opr_type
+    type: VARCHAR
+  - name: market_run_id
+    type: VARCHAR
+  - name: nomogram_id_xml
+    type: VARCHAR
+  - name: nomogram_id
+    type: VARCHAR
+  - name: constraint_cause
+    type: VARCHAR
+  - name: prc
+    type: DOUBLE
+  - name: group
+    type: BIGINT

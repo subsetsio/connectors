@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-ene-loss`. Regenerate after model-verify.
+# caution: Marginal-loss rows include multiple market runs and value types; filter those dimensions before comparing dollars and MWh.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: opr_interval
+    type: BIGINT
+  - name: market_run_id
+    type: VARCHAR
+  - name: loss_type
+    type: VARCHAR
+  - name: xml_data_item
+    type: VARCHAR
+  - name: uom
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: group
+    type: BIGINT

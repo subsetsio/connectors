@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-sld-ren-fcst`. Regenerate after model-verify.
+# caution: Renewable forecasts vary by market run, trading hub, and renewable type; filter those dimensions before summing MW.
+key: []
+temporal: opr_dt
+sort: [opr_dt]
+columns:
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: opr_interval
+    type: BIGINT
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: trading_hub
+    type: VARCHAR
+  - name: renewable_type
+    type: VARCHAR
+  - name: label
+    type: VARCHAR
+  - name: xml_data_item
+    type: VARCHAR
+  - name: market_run_id_pos
+    type: BIGINT
+  - name: renew_pos
+    type: BIGINT
+  - name: mw
+    type: DOUBLE
+  - name: market_run_id
+    type: VARCHAR
+  - name: group
+    type: BIGINT

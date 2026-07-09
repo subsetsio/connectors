@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-ene-cb-clr-awards`. Regenerate after model-verify.
+key: [intervalendtime_gmt, node_id, intervalstarttime_gmt, opr_dt]
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt, intervalendtime_gmt, node_id, opr_dt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: market_run_id
+    type: VARCHAR
+  - name: node_id
+    type: VARCHAR
+  - name: xml_data_item
+    type: VARCHAR
+  - name: mw
+    type: DOUBLE
+  - name: group
+    type: BIGINT

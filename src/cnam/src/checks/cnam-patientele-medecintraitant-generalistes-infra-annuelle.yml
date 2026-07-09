@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cnam-patientele-medecintraitant-generalistes-infra-annuelle`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [profession, region_code, department_code]
+temporal: period_end
+checks:
+  - kind: unique
+    columns: [profession, region_code, department_code]
+  - kind: not_null
+    col: profession
+  - kind: not_null
+    col: region_code
+  - kind: not_null
+    col: department_code
+  - kind: row_floor
+    min: 60
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,9 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cfpb-cct-volume-data-age-group`. Regenerate after model-verify.
+# caution: Rows are segmented by borrower age group and market; totals across age groups may duplicate all-market views published in other tables.
+key: [date, month, age_group, market]
+temporal: date
+sort: [date, month, age_group, market]
 columns:
   - name: month
     type: BIGINT
   - name: date
-    type: VARCHAR
+    type: DATE
   - name: vol
     type: DOUBLE
   - name: vol_unadj

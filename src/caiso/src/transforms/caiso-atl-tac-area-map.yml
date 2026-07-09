@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-atl-tac-area-map`. Regenerate after model-verify.
+# caution: Effective-dated mapping table; use the applicable effective period when joining PNodes to TAC areas.
+key: []
+temporal: eff_start_dt
+sort: [eff_start_dt]
+columns:
+  - name: tac_area_id
+    type: VARCHAR
+  - name: pnode_id
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: comments
+    type: JSON
+  - name: eff_start_dt
+    type: TIMESTAMP
+  - name: eff_end_dt
+    type: TIMESTAMP
+  - name: eff_start_dt_gmt
+    type: TIMESTAMP
+  - name: eff_end_dt_gmt
+    type: TIMESTAMP

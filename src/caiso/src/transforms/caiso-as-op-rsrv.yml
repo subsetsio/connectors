@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-as-op-rsrv`. Regenerate after model-verify.
+# caution: Operating reserve rows are report observations by operating interval; the raw report did not yield a compact scan-verified row key.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_date
+    type: DATE
+  - name: opr_interval
+    type: BIGINT
+  - name: opr_hr
+    type: BIGINT
+  - name: mw
+    type: DOUBLE

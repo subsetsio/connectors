@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-prc-intvl-as`. Regenerate after model-verify.
+# caution: Real-time ancillary-service prices vary by AS type and region; filter those dimensions before comparing prices.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: opr_type
+    type: VARCHAR
+  - name: anc_type
+    type: VARCHAR
+  - name: xml_data_item
+    type: VARCHAR
+  - name: market_run_id
+    type: VARCHAR
+  - name: mw
+    type: DOUBLE
+  - name: anc_region
+    type: VARCHAR
+  - name: opr_interval
+    type: BIGINT
+  - name: group
+    type: BIGINT

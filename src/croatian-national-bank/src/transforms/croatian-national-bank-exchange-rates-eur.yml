@@ -1,20 +1,33 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+write_mode: overwrite
+key: [date, currency]
+temporal: date
+sort: [date, currency]
 columns:
   - name: date
     type: DATE
+    description: HNB application date for the euro-era exchange-rate list.
   - name: currency
     type: VARCHAR
+    description: ISO 4217 alphabetic code for the quoted foreign currency.
   - name: country
     type: VARCHAR
+    description: Croatian country or monetary-area label associated with the currency.
   - name: country_iso
     type: VARCHAR
+    description: ISO 3166-1 alpha-3 country code supplied by the HNB euro endpoint.
   - name: currency_numeric
     type: VARCHAR
+    description: ISO 4217 numeric currency code.
   - name: buying_rate
     type: DOUBLE
+    description: HNB buying rate, in foreign-currency units per 1 EUR.
   - name: middle_rate
     type: DOUBLE
+    description: HNB middle rate, in foreign-currency units per 1 EUR.
   - name: selling_rate
     type: DOUBLE
+    description: HNB selling rate, in foreign-currency units per 1 EUR.
   - name: bulletin_number
     type: INTEGER
+    description: HNB exchange-rate bulletin number for the date.

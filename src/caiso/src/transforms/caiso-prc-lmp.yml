@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caiso-prc-lmp`. Regenerate after model-verify.
+# caution: Day-ahead and RUC LMP rows are limited to the benchmark nodes selected by the connector, not the full CAISO node universe.
+key: []
+temporal: intervalstarttime_gmt
+sort: [intervalstarttime_gmt]
+columns:
+  - name: intervalstarttime_gmt
+    type: TIMESTAMP
+  - name: intervalendtime_gmt
+    type: TIMESTAMP
+  - name: opr_dt
+    type: DATE
+  - name: opr_hr
+    type: BIGINT
+  - name: opr_interval
+    type: BIGINT
+  - name: node_id_xml
+    type: VARCHAR
+  - name: node_id
+    type: VARCHAR
+  - name: node
+    type: VARCHAR
+  - name: market_run_id
+    type: VARCHAR
+  - name: lmp_type
+    type: VARCHAR
+  - name: xml_data_item
+    type: VARCHAR
+  - name: pnode_resmrid
+    type: VARCHAR
+  - name: grp_type
+    type: VARCHAR
+  - name: pos
+    type: BIGINT
+  - name: mw
+    type: DOUBLE
+  - name: group
+    type: BIGINT
