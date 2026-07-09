@@ -20,7 +20,6 @@ import pyarrow.parquet as pq
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -52,28 +51,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=sid, fn=fetch_one, kind="download")
     for sid in ENTITY_URLS
-]
-
-# Static reference/lookup tables with no observation-period column; every other
-# OpenDOSM dataset carries a `date` column that IS its primary observation period.
-_NO_TEMPORAL = frozenset({
-    "dosm-gdp-lookup",
-    "dosm-lookup-item",
-    "dosm-lookup-premise",
-    "dosm-productivity-lookup",
-})
-
-# One published Delta table per subset. The source parquet is already clean,
-# typed statistical data, so the transform is a straight pass-through publish;
-# an empty raw payload makes the 0-row node fail by design (the correctness
-# gate). Heterogeneous per-dataset schemas mean column-specific casting is not
-# feasible across 174 tables — DuckDB preserves the source types here.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-        **({} if s.id in _NO_TEMPORAL else {"temporal": "date"}),
-    )
-    for s in DOWNLOAD_SPECS
 ]
