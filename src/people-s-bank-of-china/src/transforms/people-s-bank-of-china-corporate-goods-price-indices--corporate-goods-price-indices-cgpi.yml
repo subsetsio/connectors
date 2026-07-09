@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `people-s-bank-of-china-corporate-goods-price-indices--corporate-goods-price-indices-cgpi`. Regenerate after model-verify.
+# caution: Rows are long-form PBOC line items; filter or group by `item` before comparing values across periods.
+key: [period, month, source_year, year, item]
+temporal: period
+sort: [period, month, source_year, year, item]
+columns:
+  - name: item
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: unit
+    type: JSON
+  - name: source_year
+    type: BIGINT

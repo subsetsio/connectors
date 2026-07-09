@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `people-s-bank-of-china-aggregate-financing-to-the-real-economy--aggregate-financing-to-the-real-economy-flow`. Regenerate after model-verify.
+# caution: Rows are long-form PBOC line items; this source table has repeated line-item context in the raw columns, so do not assume one row per period and `item`.
+key: []
+temporal: period
+sort: [period]
+columns:
+  - name: item
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR
+  - name: source_year
+    type: BIGINT

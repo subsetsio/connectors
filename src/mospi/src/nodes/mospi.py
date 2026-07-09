@@ -24,10 +24,17 @@ scalar values on write, so each dataset's NDJSON has one clean, all-VARCHAR
 schema that `read_json_auto` ingests without type drift; the transform TRY_CASTs
 the measure column(s) back to DOUBLE.
 
-TLS: api.mospi.gov.in serves a valid eMudhra/Comodo certificate but presents a
-messy chain that Python's bundled `certifi` rejects ("self-signed certificate in
-certificate chain"). We verify against the OS trust store via `truststore`
-(which trusts the Comodo AAA root) instead of disabling verification.
+TLS: api.mospi.gov.in serves a valid eMudhra certificate but ships a messy chain
+— two distinct intermediates share the subject `EM DV TLS CA - G2A-1`, one
+cross-signed by the Comodo `AAA Certificate Services` root (which certifi and
+Ubuntu's CA store no longer carry) and one issued by `emSign Root TLS CA - G1`.
+OpenSSL's path builder matches the first intermediate by subject, picks the AAA
+one, and dead-ends on an untrusted self-signed root. We add both eMudhra
+intermediates (`mospi_ca_bundle.pem`) as extra anchors on top of certifi so the
+path builder can disambiguate; the chain still terminates at `emSign Root CA -
+G1`, which certifi trusts. Verification is never disabled and no distrusted root
+is trusted. If eMudhra rotates the intermediate this fails closed with a TLS
+error — refresh the bundle (instructions are in its header).
 
 Known limitation: CPI base_year 2024 (the newest rebasing, 2025+ data only) is
 served by an undocumented `getCPIData` endpoint that returns 400 for every
@@ -39,6 +46,7 @@ API) was scored below the publish threshold and is intentionally not built.
 
 import json
 import re
+from pathlib import Path
 
 import httpx
 

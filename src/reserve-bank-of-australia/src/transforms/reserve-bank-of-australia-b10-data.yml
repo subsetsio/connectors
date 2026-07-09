@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `reserve-bank-of-australia-b10-data`. Regenerate after model-verify.
+# caution: Rows are the source statistical table in long form; series metadata columns identify the measure and unit, and value_text preserves non-numeric source cells alongside the numeric transform value where parseable.
+key: [value_text, obs_date, series_id, series_title, description]
+temporal: obs_date
+sort: [obs_date, value_text, series_id, series_title, description]
+columns:
+  - name: series_id
+    type: VARCHAR
+  - name: series_title
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: series_type
+    type: VARCHAR
+  - name: units
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: publication_date
+    type: VARCHAR
+  - name: obs_date
+    type: DATE
+  - name: dimension_date
+    type: VARCHAR
+  - name: value_text
+    type: DOUBLE
+  - name: source_csv
+    type: VARCHAR
+  - name: partition_key
+    type: VARCHAR

@@ -99,13 +99,15 @@ FLAG_SUFFIX = "_FLAGS"
 # The German statistical legend, confirmed against the paired `_FLAGS` column:
 #   "."  -> flagged `Kein Wert vorhanden` / `Fehlender Wert (unterdrückt)`
 #           = unknown or suppressed. Genuinely missing.
+#   "..." -> flagged `Angaben fallen später an` = "figures follow later": the
+#           period exists but has not been published yet. Missing, not zero.
 #   ""   -> unflagged padding of a ragged matrix (BBKRT's vintage columns).
 #           Also missing.
 #   "-"  -> flagged `Nichts vorhanden` = "nothing present", i.e. EXACTLY ZERO.
 #           Never once flagged as a missing value anywhere in the corpus.
-# Conflating the last with the first two would silently delete ~1.65M real zeros
+# Conflating the last with the others would silently delete ~1.65M real zeros
 # from the banking statistics, where a zero balance is an observation.
-MISSING_VALUES = {"", "."}
+MISSING_VALUES = {"", ".", "..."}
 ZERO_VALUE = "-"
 
 # Attribute rows recurring across dataflows, promoted from `attributes` to
