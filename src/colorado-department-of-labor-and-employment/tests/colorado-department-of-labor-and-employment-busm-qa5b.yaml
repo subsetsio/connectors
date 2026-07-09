@@ -1,6 +1,9 @@
 spec_id: colorado-department-of-labor-and-employment-busm-qa5b
 status: active
 tests:
+  - freshness: {col: periodyear, reaches: '2023'}
+    reason: OES/OEWS wage estimates publish annually about a year in arrears; the current load reaches 2023
+    certainty: 90
   - not_null: periodyear
     certainty: 95
   - not_null: areaname

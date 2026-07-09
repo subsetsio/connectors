@@ -1,6 +1,9 @@
 spec_id: colorado-department-of-labor-and-employment-cjkq-q9ih
 status: active
 tests:
+  - freshness: {col: periodyear, reaches: '2024'}
+    reason: QCEW publishes quarterly about two quarters in arrears; the current load reaches 2024
+    certainty: 90
   - not_null: periodyear
     certainty: 95
   - not_null: areaname

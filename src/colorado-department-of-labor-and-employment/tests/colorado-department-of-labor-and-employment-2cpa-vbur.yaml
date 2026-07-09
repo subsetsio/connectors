@@ -1,6 +1,9 @@
 spec_id: colorado-department-of-labor-and-employment-2cpa-vbur
 status: active
 tests:
+  - freshness: {col: periodyear, reaches: '2022'}
+    reason: BEA/Census personal-income figures for Colorado areas lag two to three years; the current load reaches 2022 and a regression below it is a stale snapshot
+    certainty: 90
   - not_null: periodyear
     reason: every personal-income row is stamped with a period year
     certainty: 95

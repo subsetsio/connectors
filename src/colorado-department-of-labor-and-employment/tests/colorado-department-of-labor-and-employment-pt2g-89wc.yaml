@@ -1,6 +1,9 @@
 spec_id: colorado-department-of-labor-and-employment-pt2g-89wc
 status: active
 tests:
+  - freshness: {col: periodyear, reaches: '2025'}
+    reason: CES employment/hours/earnings publish monthly with a short lag; the load must reach at least the previous calendar year
+    certainty: 90
   - not_null: periodyear
     certainty: 95
   - not_null: areaname

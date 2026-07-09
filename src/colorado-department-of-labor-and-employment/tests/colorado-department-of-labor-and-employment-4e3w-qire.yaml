@@ -1,6 +1,9 @@
 spec_id: colorado-department-of-labor-and-employment-4e3w-qire
 status: active
 tests:
+  - freshness: {col: periodyear, reaches: '2025'}
+    reason: LAUS unemployment estimates publish monthly with a lag of weeks; the load must reach at least the previous calendar year
+    certainty: 90
   - not_null: periodyear
     reason: every unemployment estimate has a period year
     certainty: 95
