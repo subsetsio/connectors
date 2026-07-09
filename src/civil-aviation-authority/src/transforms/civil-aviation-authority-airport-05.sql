@@ -1,1 +1,45 @@
-SELECT * FROM "civil-aviation-authority-airport-05"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "rundate",
+    "report_period",
+    "airport_cluster",
+    "rpt_apt_grp_cd",
+    "rpt_apt_grp_name",
+    "rpt_apt_name",
+    "tot_e_atm",
+    "sall_e_atm",
+    "spax_e_atm",
+    "call_e_atm",
+    "cpax_e_atm",
+    "tot_i_atm",
+    "sall_i_atm",
+    "spax_i_atm",
+    "call_i_atm",
+    "cpax_i_atm",
+    "tot_d_atm",
+    "sall_d_atm",
+    "spax_d_atm",
+    "call_d_atm",
+    "cpax_d_atm",
+    "release_period",
+    "family",
+    "Reporting_Airport_Group_Name" AS reporting_airport_group_name,
+    "Total_EU_ATM" AS total_eu_atm,
+    "Scheduled_All_EU_International_ATM" AS scheduled_all_eu_international_atm,
+    "scheduled_passenger_EU_international_atm" AS scheduled_passenger_eu_international_atm,
+    "charter_all_EU_international_atm" AS charter_all_eu_international_atm,
+    "charter_EU_international_passenger_atm" AS charter_eu_international_passenger_atm,
+    "total_non_EU_international_atm" AS total_non_eu_international_atm,
+    "scheduled_all_non_EU_international_atm" AS scheduled_all_non_eu_international_atm,
+    "scheduled_passenger_non_EU_international_atm" AS scheduled_passenger_non_eu_international_atm,
+    "charter_all_non_EU_international_atm" AS charter_all_non_eu_international_atm,
+    "charter_passenger_non_EU_international_atm" AS charter_passenger_non_eu_international_atm,
+    "total_domestic_atm",
+    "scheduled_all_domestic_atm",
+    "scheduled_passenger_domestic_atm",
+    "charter_all_domestic_atm",
+    "charter_passenger_domestic_atm"
+FROM "civil-aviation-authority-airport-05"

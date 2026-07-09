@@ -1,0 +1,61 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `civil-aviation-authority-punctuality-full-analysis`. Regenerate after model-verify.
+# caution: Punctuality tables combine annual and monthly reporting periods; filter the period field before time-series aggregation.
+key: []
+columns:
+  - name: run_date
+    type: VARCHAR
+  - name: reporting_period
+    type: BIGINT
+  - name: reporting_airport
+    type: VARCHAR
+  - name: origin_destination_country
+    type: VARCHAR
+  - name: origin_destination
+    type: VARCHAR
+  - name: airline_name
+    type: VARCHAR
+  - name: arrival_departure
+    type: VARCHAR
+  - name: scheduled_charter
+    type: VARCHAR
+  - name: number_flights_matched
+    type: BIGINT
+  - name: actual_flights_unmatched
+    type: BIGINT
+  - name: number_flights_cancelled
+    type: BIGINT
+  - name: flights_more_than_15_minutes_early_percent
+    type: DOUBLE
+  - name: flights_15_minutes_early_to_1_minute_early_percent
+    type: DOUBLE
+  - name: flights_0_to_15_minutes_late_percent
+    type: DOUBLE
+  - name: flights_between_16_and_30_minutes_late_percent
+    type: DOUBLE
+  - name: flights_between_31_and_60_minutes_late_percent
+    type: DOUBLE
+  - name: flights_between_61_and_120_minutes_late_percent
+    type: DOUBLE
+  - name: flights_between_121_and_180_minutes_late_percent
+    type: DOUBLE
+  - name: flights_between_181_and_360_minutes_late_percent
+    type: DOUBLE
+  - name: flights_more_than_360_minutes_late_percent
+    type: DOUBLE
+  - name: flights_unmatched_percent
+    type: DOUBLE
+  - name: flights_cancelled_percent
+    type: DOUBLE
+  - name: average_delay_mins
+    type: DOUBLE
+  - name: previous_year_month_flights_matched
+    type: BIGINT
+  - name: previous_year_month_early_to_15_mins_late_percent
+    type: DOUBLE
+  - name: previous_year_month_average_delay
+    type: DOUBLE
+  - name: release_period
+    type: BIGINT
+  - name: family
+    type: VARCHAR

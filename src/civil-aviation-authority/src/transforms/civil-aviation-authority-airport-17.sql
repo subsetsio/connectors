@@ -1,1 +1,41 @@
-SELECT * FROM "civil-aviation-authority-airport-17"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "rundate",
+    "report_period",
+    "airport_cluster",
+    "rpt_apt_grp_cd",
+    "rpt_apt_grp_name",
+    "rpt_apt_name",
+    "mail_shd_pax_acf_fe",
+    "mail_shd_cgo_acf_fe",
+    "mail_cht_pax_acf_fe",
+    "mail_cht_cgo_acf_fe",
+    "mail_shd_pax_acf_fn",
+    "mail_shd_cgo_acf_fn",
+    "mail_cht_pax_acf_fn",
+    "mail_cht_cgo_acf_fn",
+    "mail_shd_pax_acf_uk",
+    "mail_shd_cgo_acf_uk",
+    "mail_cht_pax_acf_uk",
+    "mail_cht_cgo_acf_uk",
+    "release_period",
+    "family",
+    "reporting_period",
+    "reporting_airport_group_name",
+    "reporting_airport_name",
+    "mail_scheduled_passenger_aircraft_foreign_EU" AS mail_scheduled_passenger_aircraft_foreign_eu,
+    "mail_scheduled_cargo_aircraft_foreign_EU" AS mail_scheduled_cargo_aircraft_foreign_eu,
+    "mail_charter_passenger_aircraft_foreign_EU" AS mail_charter_passenger_aircraft_foreign_eu,
+    "mail_charter_cargo_aircraft_foreign_EU" AS mail_charter_cargo_aircraft_foreign_eu,
+    "mail_scheduled_passenger_aircraft_foreign_non_EU" AS mail_scheduled_passenger_aircraft_foreign_non_eu,
+    "mail_scheduled_cargo_aircraft_foreign_non_EU" AS mail_scheduled_cargo_aircraft_foreign_non_eu,
+    "mail_charter_passenger_aircraft_foreign_non_EU" AS mail_charter_passenger_aircraft_foreign_non_eu,
+    "mail_charter_cargo_aircraft_foreign_non_EU" AS mail_charter_cargo_aircraft_foreign_non_eu,
+    "mail_scheduled_passenger_aircraft_UK" AS mail_scheduled_passenger_aircraft_uk,
+    "mail_scheduled_cargo_aircraft_UK" AS mail_scheduled_cargo_aircraft_uk,
+    "mail_charter_passenger_aircraft_UK" AS mail_charter_passenger_aircraft_uk,
+    "mail_charter_cargo_aircraft_UK" AS mail_charter_cargo_aircraft_uk
+FROM "civil-aviation-authority-airport-17"

@@ -1,1 +1,41 @@
-SELECT * FROM "civil-aviation-authority-airport-14"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "rundate",
+    "report_period",
+    "airport_cluster",
+    "rpt_apt_grp_cd",
+    "rpt_apt_grp_name",
+    "rpt_apt_name",
+    "frt_shd_pax_acf_fe",
+    "frt_shd_cgo_acf_fe",
+    "frt_cht_pax_acf_fe",
+    "frt_cht_cgo_acf_fe",
+    "frt_shd_pax_acf_fn",
+    "frt_shd_cgo_acf_fn",
+    "frt_cht_pax_acf_fn",
+    "frt_cht_cgo_acf_fn",
+    "frt_shd_pax_acf_uk",
+    "frt_shd_cgo_acf_uk",
+    "frt_cht_pax_acf_uk",
+    "frt_cht_cgo_acf_uk",
+    "release_period",
+    "family",
+    "reporting_period",
+    "reporting_airport_group_name",
+    "reporting_airport_name",
+    "freight_scheduled_passenger_aircraft_foreign_EU" AS freight_scheduled_passenger_aircraft_foreign_eu,
+    "freight_scheduled_cargo_aircraft_foreign_EU" AS freight_scheduled_cargo_aircraft_foreign_eu,
+    "freight_charter_passenger_aircraft_foreign_EU" AS freight_charter_passenger_aircraft_foreign_eu,
+    "freight_charter_cargo_aircraft_foreign_EU" AS freight_charter_cargo_aircraft_foreign_eu,
+    "freight_scheduled_passenger_aircraft_foreign_non_EU" AS freight_scheduled_passenger_aircraft_foreign_non_eu,
+    "freight_scheduled_cargo_aircraft_foreign_non_EU" AS freight_scheduled_cargo_aircraft_foreign_non_eu,
+    "freight_charter_passenger_aircraft_foreign_non_EU" AS freight_charter_passenger_aircraft_foreign_non_eu,
+    "freight_charter_cargo_aircraft_foreign_non_EU" AS freight_charter_cargo_aircraft_foreign_non_eu,
+    "freight_schedueld_passenger_aircraft_UK" AS freight_schedueld_passenger_aircraft_uk,
+    "freight_scheduled_cargo_aircraft_UK" AS freight_scheduled_cargo_aircraft_uk,
+    "freight_charter_passenger_aircraft_UK" AS freight_charter_passenger_aircraft_uk,
+    "freight_charter_cargo_aircraft_UK" AS freight_charter_cargo_aircraft_uk
+FROM "civil-aviation-authority-airport-14"

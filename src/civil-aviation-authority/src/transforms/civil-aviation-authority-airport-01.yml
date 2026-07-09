@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `civil-aviation-authority-airport-01`. Regenerate after model-verify.
+key: [airport_name, rundate]
+sort: [airport_name, rundate]
 columns:
   - name: rundate
     type: VARCHAR
@@ -10,9 +13,9 @@ columns:
     type: BIGINT
   - name: this_year_total_pax
     type: BIGINT
-  - name: Five_years_prev_pax
+  - name: five_years_prev_pax
     type: BIGINT
-  - name: Five_years_prev_pax_total
+  - name: five_years_prev_pax_total
     type: BIGINT
   - name: release_period
     type: BIGINT

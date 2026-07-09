@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `civil-aviation-authority-airport-12-3`. Regenerate after model-verify.
+# caution: Route analysis tables contain directional airport-pair dimensions and should not be summed without choosing the intended route and reporting-airport level.
+key: [apt2_apt_name, apt1_apt_name, rundate, grp_cd, grp_name]
+sort: [apt2_apt_name, apt1_apt_name, rundate, grp_cd, grp_name]
 columns:
   - name: rundate
     type: VARCHAR

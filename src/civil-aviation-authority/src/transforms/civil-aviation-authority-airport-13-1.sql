@@ -1,1 +1,42 @@
-SELECT * FROM "civil-aviation-authority-airport-13-1"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "rundate",
+    "report_period",
+    "airport_cluster",
+    "rpt_apt_grp_cd",
+    "rpt_apt_grp_name",
+    "rpt_apt_name",
+    "total_freight",
+    "freight_sd_shd_uk",
+    "freight_pu_shd_uk",
+    "freight_sd_shd_fe",
+    "freight_pu_shd_fe",
+    "freight_sd_shd_fn",
+    "freight_pu_shd_fn",
+    "freight_sd_cht_uk",
+    "freight_pu_cht_uk",
+    "freight_sd_cht_fe",
+    "freight_pu_cht_fe",
+    "freight_sd_cht_fn",
+    "freight_pu_cht_fn",
+    "release_period",
+    "family",
+    "reporting_period",
+    "reporting_airport_group_name",
+    "reporting_airport_name",
+    "freight_set_down_scheduled_UK" AS freight_set_down_scheduled_uk,
+    "freight_picked_up_scheduled_UK" AS freight_picked_up_scheduled_uk,
+    "freight_set_down_scheduled_foreign_EU" AS freight_set_down_scheduled_foreign_eu,
+    "freight_picked_up_scheduled_foreign_EU" AS freight_picked_up_scheduled_foreign_eu,
+    "freight_set_down_scheduled_foreign_non_EU" AS freight_set_down_scheduled_foreign_non_eu,
+    "freight_picked_up_scheduled_foreign_non_EU" AS freight_picked_up_scheduled_foreign_non_eu,
+    "freight_set_down_charter_UK" AS freight_set_down_charter_uk,
+    "freight_picked_up_charter_UK" AS freight_picked_up_charter_uk,
+    "freight_set_down_charter_foreign_EU" AS freight_set_down_charter_foreign_eu,
+    "freight_picked_up_charter_foreign_EU" AS freight_picked_up_charter_foreign_eu,
+    "freight_set_down_charter_foreign_non_EU" AS freight_set_down_charter_foreign_non_eu,
+    "freight_picked_up_charter_foreign_non_EU" AS freight_picked_up_charter_foreign_non_eu
+FROM "civil-aviation-authority-airport-13-1"

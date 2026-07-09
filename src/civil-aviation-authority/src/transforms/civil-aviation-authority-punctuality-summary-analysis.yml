@@ -1,48 +1,52 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `civil-aviation-authority-punctuality-summary-analysis`. Regenerate after model-verify.
+# caution: Punctuality tables combine annual and monthly reporting periods; filter the period field before time-series aggregation.
+key: [reporting_airport, run_date, origin_destination]
+sort: [reporting_airport, run_date, origin_destination]
 columns:
-  - name: Run Date
+  - name: run_date
     type: VARCHAR
-  - name: Reporting Period
+  - name: reporting_period
     type: BIGINT
-  - name: Reporting Airport
+  - name: reporting_airport
     type: VARCHAR
-  - name: Origin Destination
+  - name: origin_destination
     type: VARCHAR
-  - name: Number Flights Matched
+  - name: number_flights_matched
     type: BIGINT
-  - name: Actual Flights Unmatched
+  - name: actual_flights_unmatched
     type: BIGINT
-  - name: Number Flights Cancelled
+  - name: number_flights_cancelled
     type: BIGINT
-  - name: Flights more than 15 minutes early percent
+  - name: flights_more_than_15_minutes_early_percent
     type: DOUBLE
-  - name: Flights 15 minutes early to 1 minute early percent
+  - name: flights_15_minutes_early_to_1_minute_early_percent
     type: DOUBLE
-  - name: Flights 0 (zero) to 15 minutes late percent
+  - name: flights_0_zero_to_15_minutes_late_percent
     type: DOUBLE
-  - name: Flights between 16 and 30 minutes late percent
+  - name: flights_between_16_and_30_minutes_late_percent
     type: DOUBLE
-  - name: Flights between 31 and 60 minutes late percent
+  - name: flights_between_31_and_60_minutes_late_percent
     type: DOUBLE
-  - name: Flights between 61 and 120 minutes late percent
+  - name: flights_between_61_and_120_minutes_late_percent
     type: DOUBLE
-  - name: Flights between 121 and 180 minutes late percent
+  - name: flights_between_121_and_180_minutes_late_percent
     type: DOUBLE
-  - name: Flights between 181 and 360 minutes late percent
+  - name: flights_between_181_and_360_minutes_late_percent
     type: DOUBLE
-  - name: Flights more than 360 minutes late percent
+  - name: flights_more_than_360_minutes_late_percent
     type: DOUBLE
-  - name: Flights Unmatched Percent
+  - name: flights_unmatched_percent
     type: DOUBLE
-  - name: Flights Cancelled Percent
+  - name: flights_cancelled_percent
     type: DOUBLE
-  - name: Average Delay Minutes
+  - name: average_delay_minutes
     type: DOUBLE
-  - name: Previous Year Month Flights Matched
+  - name: previous_year_month_flights_matched
     type: BIGINT
-  - name: Previous Year month early to 15 mins late percent
+  - name: previous_year_month_early_to_15_mins_late_percent
     type: DOUBLE
-  - name: Previous Year Month Average Delay
+  - name: previous_year_month_average_delay
     type: DOUBLE
   - name: release_period
     type: BIGINT

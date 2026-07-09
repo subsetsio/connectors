@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `civil-aviation-authority-airport-05`. Regenerate after model-verify.
+key: [rpt_apt_name, rundate]
+sort: [rpt_apt_name, rundate]
 columns:
   - name: rundate
     type: VARCHAR
@@ -46,27 +49,27 @@ columns:
     type: BIGINT
   - name: family
     type: VARCHAR
-  - name: Reporting_Airport_Group_Name
+  - name: reporting_airport_group_name
     type: VARCHAR
-  - name: Total_EU_ATM
+  - name: total_eu_atm
     type: BIGINT
-  - name: Scheduled_All_EU_International_ATM
+  - name: scheduled_all_eu_international_atm
     type: BIGINT
-  - name: scheduled_passenger_EU_international_atm
+  - name: scheduled_passenger_eu_international_atm
     type: BIGINT
-  - name: charter_all_EU_international_atm
+  - name: charter_all_eu_international_atm
     type: BIGINT
-  - name: charter_EU_international_passenger_atm
+  - name: charter_eu_international_passenger_atm
     type: BIGINT
-  - name: total_non_EU_international_atm
+  - name: total_non_eu_international_atm
     type: BIGINT
-  - name: scheduled_all_non_EU_international_atm
+  - name: scheduled_all_non_eu_international_atm
     type: BIGINT
-  - name: scheduled_passenger_non_EU_international_atm
+  - name: scheduled_passenger_non_eu_international_atm
     type: BIGINT
-  - name: charter_all_non_EU_international_atm
+  - name: charter_all_non_eu_international_atm
     type: BIGINT
-  - name: charter_passenger_non_EU_international_atm
+  - name: charter_passenger_non_eu_international_atm
     type: BIGINT
   - name: total_domestic_atm
     type: BIGINT
