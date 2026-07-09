@@ -1,14 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kenneth-french-data-library-asia-pacific-ex-japan-3-factors-daily`. Regenerate after model-verify.
+# caution: Rows the source marked missing (-99.99 / -999 sentinels) are absent, not zero: a missing (date, variable) pair means the portfolio had no observation that period.
+key: [date, variable]
+temporal: date
+sort: [date, variable]
 columns:
-  - name: date
-    type: DATE
-  - name: period
-    type: VARCHAR
-  - name: statistic
-    type: VARCHAR
-  - name: variable
-    type: VARCHAR
   - name: block
     type: INTEGER
+  - name: statistic
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: variable
+    type: VARCHAR
   - name: value
     type: DOUBLE

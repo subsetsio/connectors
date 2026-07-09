@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `climate-trace-country-emissions`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [iso3_country, sector, subsector, gas, period_start, temporal_granularity]
+temporal: year
+checks:
+  - kind: unique
+    columns: [iso3_country, sector, subsector, gas, period_start, temporal_granularity]
+  - kind: not_null
+    col: iso3_country
+  - kind: not_null
+    col: sector
+  - kind: not_null
+    col: subsector
+  - kind: not_null
+    col: gas
+  - kind: not_null
+    col: period_start
+  - kind: not_null
+    col: temporal_granularity
+  - kind: row_floor
+    min: 102408
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

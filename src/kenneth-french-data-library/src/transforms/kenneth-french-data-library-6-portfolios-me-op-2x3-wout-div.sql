@@ -1,9 +1,15 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows the source marked missing (-99.99 / -999 sentinels) are absent, not zero: a missing (date, variable) pair means the portfolio had no observation that period.
+-- caution: Mixes observation frequencies in one table: `period` distinguishes them (e.g. monthly and annual rows share the `date` column). Filter `period` before aggregating or the same year is counted twice.
+-- caution: Stacks several sub-tables with DIFFERENT units in the single `value` column, identified by `statistic`/`block` (e.g. returns in percent, number of firms as a count, average firm size in $millions, BE/ME as a ratio). Never aggregate `value` across `statistic` — always filter to one.
 SELECT
-    CAST(date AS DATE) AS date,
-    period,
-    statistic,
-    variable,
-    block,
-    CAST(value AS DOUBLE) AS value
+    "block",
+    "statistic",
+    "period",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
+    "variable",
+    "value"
 FROM "kenneth-french-data-library-6-portfolios-me-op-2x3-wout-div"
-WHERE value IS NOT NULL

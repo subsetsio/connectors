@@ -1,14 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kenneth-french-data-library-5-industry-portfolios`. Regenerate after model-verify.
+# caution: Rows the source marked missing (-99.99 / -999 sentinels) are absent, not zero: a missing (date, variable) pair means the portfolio had no observation that period.
+# caution: Mixes observation frequencies in one table: `period` distinguishes them (e.g. monthly and annual rows share the `date` column). Filter `period` before aggregating or the same year is counted twice.
+# caution: Stacks several sub-tables with DIFFERENT units in the single `value` column, identified by `statistic`/`block` (e.g. returns in percent, number of firms as a count, average firm size in $millions, BE/ME as a ratio). Never aggregate `value` across `statistic` — always filter to one.
+key: [date, statistic, variable, period]
+temporal: date
+sort: [date, statistic, variable, period]
 columns:
-  - name: date
-    type: DATE
-  - name: period
-    type: VARCHAR
-  - name: statistic
-    type: VARCHAR
-  - name: variable
-    type: VARCHAR
   - name: block
     type: INTEGER
+  - name: statistic
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: variable
+    type: VARCHAR
   - name: value
     type: DOUBLE

@@ -1,13 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kenneth-french-data-library-inv-breakpoints`. Regenerate after model-verify.
+# caution: Rows the source marked missing (-99.99 / -999 sentinels) are absent, not zero: a missing (date, variable) pair means the portfolio had no observation that period.
+key: [date]
+temporal: date
+sort: [date]
 columns:
-  - name: date
-    type: DATE
-  - name: period
-    type: VARCHAR
-  - name: statistic
-    type: VARCHAR
-  - name: variable
-    type: VARCHAR
   - name: block
     type: INTEGER
+  - name: statistic
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: variable
+    type: VARCHAR
   - name: value
     type: DOUBLE

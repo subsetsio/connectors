@@ -1,6 +1,7 @@
 spec_id: climate-trace-country-emissions
 status: active
 tests:
+  - freshness: {col: start_time, reaches: current_year() - 2}
   - not_null: iso3_country
     reason: every country-level emissions row is keyed by an ISO3 country code
     certainty: 98

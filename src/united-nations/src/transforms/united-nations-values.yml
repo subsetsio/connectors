@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `united-nations-values`. Regenerate after model-verify.
+# caution: Rows mix countries, territories, regions and aggregate geographic areas, so filter geo_area_code against the geoareas taxonomy before aggregating.
+# caution: The table mixes many SDG series, units and disaggregation definitions; filter by series_code and dimensions before comparing or summing values.
+# caution: The raw values export does not provide a scan-verified row key; duplicate source rows can exist across the apparent observation tuple.
+key: []
+temporal: time_period
+sort: [time_period, series_code, geo_area_code]
+columns:
+  - name: goal
+    type: BIGINT
+  - name: target
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: series_code
+    type: VARCHAR
+  - name: series_description
+    type: VARCHAR
+  - name: geo_area_code
+    type: BIGINT
+  - name: geo_area_name
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: VARCHAR
+  - name: time_detail
+    type: VARCHAR
+  - name: time_coverage
+    type: JSON
+  - name: upper_bound
+    type: VARCHAR
+  - name: lower_bound
+    type: VARCHAR
+  - name: base_period
+    type: JSON
+  - name: source
+    type: VARCHAR
+  - name: geo_info_url
+    type: JSON
+  - name: footnote
+    type: VARCHAR
+  - name: units
+    type: VARCHAR
+  - name: nature
+    type: VARCHAR
+  - name: dimensions
+    type: VARCHAR

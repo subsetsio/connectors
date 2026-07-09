@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `united-nations-series`. Regenerate after model-verify.
+# caution: Series descriptions are the verified row identity in this release; use series_code with the values table, but do not assume it is unique in the raw series catalog without checking the release.
+key: [description]
+sort: [description]
+columns:
+  - name: series_code
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: release
+    type: VARCHAR
+  - name: uri
+    type: VARCHAR
+  - name: goals
+    type: VARCHAR
+  - name: targets
+    type: VARCHAR
+  - name: indicators
+    type: VARCHAR

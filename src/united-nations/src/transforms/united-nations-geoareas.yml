@@ -1,0 +1,10 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `united-nations-geoareas`. Regenerate after model-verify.
+# caution: The geographic area taxonomy includes countries, territories, regions and aggregate areas; filter the desired area level before summing observations joined from values.
+key: [geo_area_code]
+sort: [geo_area_code]
+columns:
+  - name: geo_area_code
+    type: BIGINT
+  - name: geo_area_name
+    type: VARCHAR

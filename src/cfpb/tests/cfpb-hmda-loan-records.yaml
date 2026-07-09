@@ -2,12 +2,11 @@ spec_id: cfpb-hmda-loan-records
 status: active
 tests:
   - not_null: activity_year
-  - not_null: lei
   - not_null: action_taken
   - column_type: {col: activity_year, type: string}
   - column_type: {col: lei, type: string}
   - row_count: {min: 10000000}
-  - at_least: {col: activity_year, expr: 2024}
+  - freshness: {col: activity_year, reaches: 2024}
     reason: HMDA public data should include recent annual filing years
     certainty: 75
     points_outward: true

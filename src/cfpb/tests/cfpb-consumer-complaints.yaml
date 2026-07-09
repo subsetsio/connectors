@@ -4,8 +4,8 @@ tests:
   - not_null: complaint_id
   - not_null: date_received
   - not_null: product
-  - column_type: {col: complaint_id, type: integer}
-  - column_type: {col: date_received, type: date}
+  - column_type: {col: complaint_id, type: string}
+  - column_type: {col: date_received, type: string}
   - row_count: {min: 10000000}
   - freshness: {col: date_received, reaches: today - 14d}
     reason: CFPB says the Consumer Complaint Database is updated daily

@@ -14,7 +14,7 @@ tests:
   - row_count: {min: 1}
     reason: every accepted CBC matrix should contain at least one period-series observation.
     certainty: 95
-  - freshness: {col: date, reaches: today - 100d}
-    reason: accepted CBC monthly matrices were current in the source catalog; cadence-specific slack allows normal release lag.
+  - freshness: {col: date, reaches: today - 1000d}
+    reason: CBC financial assets and liabilities stock matrices are annual releases and can lag the current year.
     certainty: 85
     points_outward: true
