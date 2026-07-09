@@ -18,6 +18,13 @@ DSR has DEBT/TYPE, ...), so the raw schema keeps a fixed core of columns and
 stuffs the full per-series attribute set into a JSON `series_attributes` column.
 Each release publishes its own Delta table (its own series namespace), so the
 transforms share one uniform SQL template.
+
+A release's data XML groups its <Series> under one <DataSet> per presentation
+table (G.17 has 14: IP_MARKET_GROUPS, IP_SPECIAL_AGGREGATES, CAPUTL, ...). A
+headline series is repeated verbatim under every table it appears in, so
+`series_name` alone does not identify a raw row — `dataset_id` does, together
+with the series and period. The repeats carry identical observations; the
+transforms collapse them.
 """
 
 import io
@@ -72,6 +79,7 @@ _FREQ = {
 # Fixed raw schema: a uniform core + the full per-series attribute set as JSON.
 SCHEMA = pa.schema([
     ("release", pa.string()),
+    ("dataset_id", pa.string()),
     ("series_name", pa.string()),
     ("freq_code", pa.string()),
     ("frequency", pa.string()),
@@ -123,7 +131,7 @@ def _parse_obs_value(raw):
         return None
 
 
-def _series_rows(series_el, release: str):
+def _series_rows(series_el, release: str, dataset_id: str):
     """Yield one row dict per observation in a parsed <Series> element."""
     attrs = dict(series_el.attrib)
     series_name = attrs.get("SERIES_NAME", "")
@@ -153,6 +161,7 @@ def _series_rows(series_el, release: str):
         o = child.attrib
         yield {
             "release": release,
+            "dataset_id": dataset_id,
             "series_name": series_name,
             "freq_code": freq_code,
             "frequency": _FREQ.get(freq_code, freq_code),
@@ -185,38 +194,53 @@ def fetch_one(node_id: str) -> None:
     zip_bytes = _fetch_zip(rel)
 
     with zipfile.ZipFile(io.BytesIO(zip_bytes)) as zf:
-        data_members = [n for n in zf.namelist() if n.lower().endswith("_data.xml")]
+        data_members = sorted(
+            n for n in zf.namelist() if n.lower().endswith("_data.xml")
+        )
         if not data_members:
             raise RuntimeError(
                 f"rel={rel}: no *_data.xml in zip (members={zf.namelist()})"
             )
-        data_name = data_members[0]
 
         total = 0
         batch: list[dict] = []
         with raw_parquet_writer(asset, SCHEMA) as writer:
-            with zf.open(data_name) as fh:
-                # iterparse streams decompression — the 590MB Z.1 XML is never
-                # fully resident. Clear each <Series> after reading it so only
-                # the current batch of rows lives in memory.
-                for event, elem in ET.iterparse(fh, events=("end",)):
-                    if _localname(elem.tag) != "Series":
-                        continue
-                    for row in _series_rows(elem, rel):
-                        batch.append(row)
-                    elem.clear()
-                    if len(batch) >= _BATCH_ROWS:
-                        writer.write_table(
-                            pa.Table.from_pylist(batch, schema=SCHEMA)
-                        )
-                        total += len(batch)
-                        batch = []
+            for data_name in data_members:
+                with zf.open(data_name) as fh:
+                    # iterparse streams decompression — the 590MB Z.1 XML is
+                    # never fully resident. Clear each <Series> after reading it
+                    # so only the current batch of rows lives in memory.
+                    dataset_ids: list[str] = []
+                    for event, elem in ET.iterparse(fh, events=("start", "end")):
+                        name = _localname(elem.tag)
+                        if event == "start":
+                            if name == "DataSet":
+                                dataset_ids.append(elem.attrib.get("id", ""))
+                            continue
+                        if name == "DataSet":
+                            dataset_ids.pop()
+                            elem.clear()
+                            continue
+                        if name != "Series":
+                            continue
+                        dataset_id = dataset_ids[-1] if dataset_ids else ""
+                        for row in _series_rows(elem, rel, dataset_id):
+                            batch.append(row)
+                        elem.clear()
+                        if len(batch) >= _BATCH_ROWS:
+                            writer.write_table(
+                                pa.Table.from_pylist(batch, schema=SCHEMA)
+                            )
+                            total += len(batch)
+                            batch = []
             if batch:
                 writer.write_table(pa.Table.from_pylist(batch, schema=SCHEMA))
                 total += len(batch)
 
     if total == 0:
-        raise RuntimeError(f"rel={rel}: parsed 0 observations from {data_name}")
+        raise RuntimeError(
+            f"rel={rel}: parsed 0 observations from {', '.join(data_members)}"
+        )
     print(f"  rel={rel}: wrote {total} observations")
 
 

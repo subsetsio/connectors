@@ -44,7 +44,6 @@ import httpx
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_writer,
     transient_retry,
@@ -380,58 +379,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"mospi-{eid}", fn=fetch_one, kind="download")
     for eid in PLAN
-]
-
-# ---------------------------------------------------------------------------
-# Transforms — one published Delta table per dataset. Passthrough of the clean
-# (sanitized, all-VARCHAR) NDJSON, with the measure column(s) TRY_CAST to DOUBLE.
-# ---------------------------------------------------------------------------
-# entity_id -> numeric measure columns to cast. Default ["value"].
-_NUMCOLS = {
-    "cpi-getcpiindex":           ["index", "inflation"],
-    "cpi-getitemindex":          ["index", "inflation"],
-    "wpi-getwpirecords":         ["index_value"],
-    "iip-getiipdata":            ["index", "growth_rate"],
-    "cpialrl-getcpialrlrecords": ["index_al", "index_rl", "inflation_al", "inflation_rl"],
-    "nas-getnasdata":            ["current_price", "constant_price"],
-}
-
-
-def _transform_sql(asset_id: str, numcols: list[str]) -> str:
-    excl = ", ".join(f'"{c}"' for c in numcols)
-    casts = ",\n      ".join(f'TRY_CAST("{c}" AS DOUBLE) AS "{c}"' for c in numcols)
-    return (
-        f'SELECT\n      * EXCLUDE ({excl}),\n      {casts}\n'
-        f'    FROM "{asset_id}"'
-    )
-
-
-# Datasets whose long panel carries a `year` observation-period column (freshness
-# = max year). The single-round NSS/NFHS surveys (nfhs, nss76/77/78/80) have no
-# year column and are timeless here. Keys are left undeclared everywhere: these
-# are wide long panels with many nullable dimension columns and no verified
-# unique grain, so an asserted key would risk a false uniqueness anomaly.
-_TEMPORAL_YEAR = {
-    "aishe-getaisherecords", "asi-getasidata", "asuse-getasuserecords",
-    "cpi-getcpiindex", "cpi-getitemindex", "cpialrl-getcpialrlrecords",
-    "energy-getenergyrecords", "envstats-getenvstatsrecords",
-    "gender-getgenderrecords", "hces-gethcesrecords", "iip-getiipdata",
-    "mnre-getdatabyenergy", "nas-getnasdata", "plfs-getdata",
-    "rbi-getrbirecords", "tus-gettusrecords", "udise-getudiserecords",
-    "wpi-getwpirecords",
-}
-
-
-def _transform_temporal(eid: str) -> dict:
-    return {"temporal": "year"} if eid in _TEMPORAL_YEAR else {}
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id, _NUMCOLS.get(s.id[len("mospi-"):], ["value"])),
-        **_transform_temporal(s.id[len("mospi-"):]),
-    )
-    for s in DOWNLOAD_SPECS
 ]

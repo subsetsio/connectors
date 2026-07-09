@@ -86,13 +86,47 @@ def fetch_series(node_id: str) -> None:
 # keeps each file comfortably in RAM while avoiding thousands of tiny files.
 OBS_CHUNK = 200
 
-# value kept as the raw string the API returns ("1.3977", "", "..."); the
-# transform TRY_CASTs to DOUBLE and drops the non-numeric rows.
+# Valet observations are NOT all date-indexed. Each observation object carries
+# the series' own key plus exactly one INDEX key naming what the row is keyed
+# by. Measured over a 400-series sample of the catalog:
+#
+#   d        81%   a date          -> true time series (FX rates, yields, ...)
+#   k        16%   a category label -> survey cross-tabs (BOS/CES/CSCE), e.g.
+#                                      {"k": "Size of price changes", ...}
+#   <x>_id    3%   an entity id     -> bond_id, tbill_id, or_id, sr_id, tr_id,
+#                                      bapf_id, pmmp_id, sl_id, dom_dbt_id, ...
+#
+# So we record the index GENERICALLY: obs_index_key names the upstream key,
+# obs_index carries its value. Hardcoding "d" would null out the index for ~19%
+# of series and silently destroy their row identity. The set of *_id keys is
+# open-ended, so nothing here enumerates it.
+#
+# value kept as the raw string the API returns ("1.3977", "", "...", and for
+# some k-indexed series plain text like "eSwatini (Swaziland)"); transforms
+# TRY_CAST and drop the non-numeric rows.
 OBS_SCHEMA = pa.schema([
     ("series_id", pa.string()),
-    ("obs_date", pa.string()),
+    ("obs_index_key", pa.string()),
+    ("obs_index", pa.string()),
     ("value", pa.string()),
 ])
+
+# When an observation exposes more than one candidate index key, prefer the
+# temporal one, then the category one; otherwise take the lowest name so the
+# choice never depends on JSON key order.
+_INDEX_PREFERENCE = ("d", "k")
+
+
+def _observation_index(obs: dict, series_id: str) -> tuple[str, str] | None:
+    """The (key_name, value) this observation is indexed by, or None if the
+    payload carries no index at all (row identity would be unrecoverable)."""
+    candidates = [k for k in obs if k != series_id]
+    if not candidates:
+        return None
+    for preferred in _INDEX_PREFERENCE:
+        if preferred in candidates:
+            return preferred, obs[preferred]
+    return (key := min(candidates)), obs[key]
 
 
 def _list_series_ids() -> list[str]:
@@ -121,9 +155,17 @@ def _series_observations(series_id: str) -> list[dict]:
         value = cell.get("v")
         if value is None:
             continue
+        index = _observation_index(obs, series_id)
+        if index is None:
+            log.warning("skip unindexed observation for series %s: %s", series_id, obs)
+            continue
+        index_key, index_value = index
+        if index_value is None:
+            continue
         rows.append({
             "series_id": series_id,
-            "obs_date": obs.get("d"),
+            "obs_index_key": index_key,
+            "obs_index": str(index_value),
             "value": value,
         })
     return rows

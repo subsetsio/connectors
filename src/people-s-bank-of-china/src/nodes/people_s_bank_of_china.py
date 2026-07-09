@@ -50,7 +50,6 @@ ENTITY_META = {
     'financial-market-statistics__statistics-of-interbank-pledged-repo': ('Financial Market Statistics', 'Statistics of Interbank Pledged Repo'),
     'financial-market-statistics__statistics-of-shibor': ('Financial Market Statistics', 'Statistics of Shibor'),
     'financial-market-statistics__statistics-of-stock-market': ('Financial Market Statistics', 'Statistics of Stock Market'),
-    'money-and-banking-statistics__advance-release-calendar-arc': ('Money and Banking Statistics', 'Advance Release Calendar(ARC)'),
     'money-and-banking-statistics__balance-sheet-of-monetary-authority': ('Money and Banking Statistics', 'Balance Sheet of Monetary Authority'),
     'money-and-banking-statistics__balance-sheet-of-other-depository-corporations': ('Money and Banking Statistics', 'Balance Sheet of Other Depository Corporations'),
     'money-and-banking-statistics__depository-corporations-survey': ('Money and Banking Statistics', 'Depository Corporations Survey'),
@@ -77,6 +76,8 @@ _DATA_LINK = re.compile(
 _NAV_ANCHOR = re.compile(
     r"<a\s+href=['\"](/en/3688247/3688975/(\d+)(?:/(\d+))?/index\.html)['\"][^>]*>(.*?)</a>", re.S | re.I)
 _PERIOD = re.compile(r'^(\d{4})[.\-/年]\s*(\d{1,2})\s*月?$')
+_QUARTER = re.compile(r'(?i)\b(20\d{2})\s*Q([1-4])\b|(?:20\d{2})年\s*([1-4])季度')
+_YEAR_ONLY = re.compile(r'\b(20\d{2})\b')
 _NOTE = re.compile(r'^\s*(注\s*[:：]|注\d|note|备注|资料来源|source\s*[:：])', re.I)
 _UNIT = re.compile(r'unit\s*[:：]\s*(.+)', re.I)
 
@@ -177,6 +178,89 @@ def _parse_grid(grid):
             prow = {ri: (int(m.group(1)), int(m.group(2))) for ri, m in pr.items()}
             return _parse_cols(grid, ci, prow, nrows, ncols)
     return []
+
+
+def _period_from_context(grid, source_year: int, link_label: str | None):
+    label = _clean(link_label or "")
+    if re.fullmatch(r"\d{1,2}", label):
+        return source_year, int(label)
+    qm = re.fullmatch(r"(?i)Q([1-4])", label)
+    if qm:
+        return source_year, int(qm.group(1)) * 3
+
+    text = " ".join(" ".join(row[:12]) for row in grid[:8])
+    qm = _QUARTER.search(text)
+    if qm:
+        year = int(qm.group(1) or re.search(r"20\d{2}", qm.group(0)).group(0))
+        quarter = int(qm.group(2) or qm.group(3))
+        return year, quarter * 3
+    if "First Half Year" in text or "上半年" in text:
+        ym = _YEAR_ONLY.search(text)
+        return (int(ym.group(1)), 6) if ym else (source_year, 6)
+    ym = _YEAR_ONLY.search(text)
+    if ym:
+        return int(ym.group(1)), 12
+    return None
+
+
+def _header_label(grid, data_start: int, ci: int) -> str:
+    parts = []
+    for ri in range(max(0, data_start - 8), data_start):
+        cell = grid[ri][ci] if ci < len(grid[ri]) else ""
+        if not cell or _to_num(cell) is not None:
+            continue
+        low = cell.lower()
+        if "unit:" in low or "单位" in cell or "serial no" in low or cell in parts:
+            continue
+        parts.append(cell)
+    return " | ".join(parts)
+
+
+def _parse_matrix(grid, period):
+    """Fallback for one-period matrix tables whose period is in the title or
+    index label rather than in a header row."""
+    if not grid or not period:
+        return []
+    ncols = max(len(r) for r in grid)
+    grid = [r + [""] * (ncols - len(r)) for r in grid]
+    y, mo = period
+
+    data_start = None
+    for ri, row in enumerate(grid):
+        numeric_cols = [ci for ci, cell in enumerate(row) if _to_num(cell) is not None]
+        if numeric_cols and any(cell and _to_num(cell) is None for cell in row[:min(numeric_cols)]):
+            data_start = ri
+            break
+    if data_start is None:
+        return []
+
+    unit = _table_unit(grid, data_start)
+    recs = []
+    for row in grid[data_start:]:
+        joined = " ".join(c for c in row if c)
+        if not joined:
+            continue
+        if _NOTE.match(joined):
+            break
+        numeric_cols = [ci for ci, cell in enumerate(row) if _to_num(cell) is not None]
+        if not numeric_cols:
+            continue
+        first_num = min(numeric_cols)
+        label = " ".join(dict.fromkeys(c for c in row[:first_num] if c and _to_num(c) is None))
+        if not label:
+            continue
+        for ci in numeric_cols:
+            col_label = _header_label(grid, data_start, ci)
+            item = f"{label} | {col_label}" if col_label else label
+            recs.append({
+                "item": item,
+                "period": f"{y}-{mo:02d}",
+                "year": y,
+                "month": mo,
+                "value": _to_num(row[ci]),
+                "unit": unit,
+            })
+    return recs
 
 
 def _parse_rows(grid, hdr, pcol, ncols):
@@ -294,6 +378,24 @@ def _table_links(page_html: str, title_norm: str):
     return []
 
 
+def _table_links_with_labels(page_html: str, title_norm: str):
+    for tbl in _DATA_TABLE.findall(page_html):
+        tm = _TITLE_TD.search(tbl)
+        if not tm:
+            continue
+        if _norm(_strip_tags(tm.group(1))) != title_norm:
+            continue
+        pairs = []
+        for m in re.finditer(r"<a[^>]*href=['\"]([^'\"]+)['\"][^>]*>(.*?)</a>", tbl, re.S | re.I):
+            url, label = m.groups()
+            if not _DATA_LINK.search(url):
+                continue
+            pairs.append((url, _strip_tags(label)))
+        htm = [(u, l) for u, l in pairs if u.lower().endswith(("htm", "html"))]
+        return htm if htm else [(u, l) for u, l in pairs if u.lower().endswith(("xls", "xlsx"))]
+    return []
+
+
 # Spec id = slug + entity_id with the harness's id transform (_ -> -, lowercased).
 # That collapses the "__" category/title separator to "--", so we key the lookup
 # by the transformed id rather than recovering the original entity id.
@@ -318,7 +420,7 @@ def fetch_one(node_id: str) -> None:
             except Exception as exc:  # one bad index page must not sink the whole table
                 print(f"[{node_id}] index fetch failed {path}: {type(exc).__name__}: {exc}")
                 continue
-            for url in _table_links(page, title_norm):
+            for url, link_label in _table_links_with_labels(page, title_norm):
                 try:
                     raw = get(BASE + url, timeout=90).content
                     if url.lower().endswith(("htm", "html")):
@@ -326,6 +428,8 @@ def fetch_one(node_id: str) -> None:
                     else:
                         grid = _grid_from_xls(raw)
                     recs = _parse_grid(grid)
+                    if not recs:
+                        recs = _parse_matrix(grid, _period_from_context(grid, year, link_label))
                 except Exception as exc:
                     print(f"[{node_id}] parse failed {url}: {type(exc).__name__}: {exc}")
                     continue

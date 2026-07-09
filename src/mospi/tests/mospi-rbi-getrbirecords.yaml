@@ -1,0 +1,6 @@
+spec_id: mospi-rbi-getrbirecords
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: RBI endpoint should return at least one observation row.
+    certainty: 90

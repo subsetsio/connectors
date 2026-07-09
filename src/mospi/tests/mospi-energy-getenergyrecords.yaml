@@ -1,0 +1,6 @@
+spec_id: mospi-energy-getenergyrecords
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: Energy endpoint should return at least one observation row.
+    certainty: 90
