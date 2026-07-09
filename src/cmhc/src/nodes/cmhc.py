@@ -25,7 +25,6 @@ import pyarrow.csv as pacsv
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -96,79 +95,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-def _transform_sql(asset_id: str) -> str:
-    drop = ",".join(f'"{c}"' for c in _DROP_COLS)
-    return f'''
-        SELECT
-            CAST("REF_DATE" AS VARCHAR) AS ref_date,
-            "GEO"      AS geo,
-            * EXCLUDE ("REF_DATE", "GEO", "UOM", "STATUS", "VALUE", {drop}),
-            "UOM"      AS uom,
-            "STATUS"   AS status,
-            TRY_CAST("VALUE" AS DOUBLE) AS value
-        FROM "{asset_id}"
-        WHERE TRY_CAST("VALUE" AS DOUBLE) IS NOT NULL
-          -- -999 is a StatCan missing-value sentinel (e.g. vacancy "Rate" = -999,
-          -- which is impossible), not a real observation; drop it.
-          AND TRY_CAST("VALUE" AS DOUBLE) <> -999
-    '''
-
-
-# StatCan long-format grain: one observation per (REF_DATE, COORDINATE), and
-# COORDINATE = GEO + the table-specific dimension member columns. So the key is
-# ref_date + geo + that table's dimension columns (UOM is a unit attribute, not
-# a grain dimension). Dimension columns differ per table, hence a per-table
-# lookup keyed by download-spec id. ref_date is the observation period for every
-# table, so temporal is declared uniformly below. Tables not profiled here are
-# left key-undeclared (safe).
-_KEY = {
-    "cmhc-34100096": ("ref_date", "geo", "Type of unit"),
-    "cmhc-34100097": ("ref_date", "geo"),
-    "cmhc-34100098": ("ref_date", "geo", "Type of unit"),
-    "cmhc-34100099": ("ref_date", "geo", "Type of property"),
-    "cmhc-34100103": ("ref_date", "geo", "Housing estimates", "Type of unit"),
-    "cmhc-34100108": ("ref_date", "geo", "Type of unit"),
-    "cmhc-34100127": ("ref_date", "geo"),
-    "cmhc-34100128": ("ref_date", "geo"),
-    "cmhc-34100129": ("ref_date", "geo"),
-    "cmhc-34100130": ("ref_date", "geo"),
-    "cmhc-34100132": ("ref_date", "geo"),
-    "cmhc-34100133": ("ref_date", "geo", "Type of structure", "Type of unit"),
-    "cmhc-34100135": ("ref_date", "geo", "Housing estimates", "Type of unit", "Seasonal adjustment"),
-    "cmhc-34100136": ("ref_date", "geo", "Housing estimates", "Type of unit"),
-    "cmhc-34100137": ("ref_date", "geo", "Type of unit", "Type of market"),
-    "cmhc-34100138": ("ref_date", "geo", "Housing estimates", "Type of unit"),
-    "cmhc-34100139": ("ref_date", "geo"),
-    "cmhc-34100140": ("ref_date", "geo", "Type of unit"),
-    "cmhc-34100141": ("ref_date", "geo", "Type of unit"),
-    "cmhc-34100142": ("ref_date", "geo", "Type of unit"),
-    "cmhc-34100143": ("ref_date", "geo", "Housing estimates", "Type of unit"),
-    "cmhc-34100145": ("ref_date", "geo"),
-    "cmhc-34100147": ("ref_date", "geo"),
-    "cmhc-34100148": ("ref_date", "geo", "Type of dwelling unit", "Type of market"),
-    "cmhc-34100149": ("ref_date", "geo", "Completed dwelling units", "Type of dwelling unit"),
-    "cmhc-34100150": ("ref_date", "geo", "Completed dwelling units", "Type of dwelling unit"),
-    "cmhc-34100151": ("ref_date", "geo", "Housing estimates", "Type of unit"),
-    "cmhc-34100152": ("ref_date", "geo", "Type of unit", "Type of market"),
-    "cmhc-34100153": ("ref_date", "geo"),
-    "cmhc-34100154": ("ref_date", "geo", "Housing estimates", "Type of unit"),
-    "cmhc-34100155": ("ref_date", "geo", "Housing estimates", "Type of unit"),
-    "cmhc-34100157": ("ref_date", "geo", "Type of unit"),
-    "cmhc-34100159": ("ref_date", "geo"),
-    "cmhc-34100161": ("ref_date", "geo"),
-    "cmhc-34100162": ("ref_date", "geo", "Type of unit"),
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id),
-        key=_KEY.get(s.id),
-        temporal="ref_date",
-    )
-    for s in DOWNLOAD_SPECS
 ]

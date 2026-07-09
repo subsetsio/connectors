@@ -1,0 +1,43 @@
+spec_id: united-nations-values
+status: active
+tests:
+  - not_null: series_code
+  - not_null: geo_area_code
+  - not_null: time_period
+  - coverage: {col: series_code, expected: 713}
+    reason: |
+      Series/List enumerates the universe the crawl walks (713 series in release
+      2026.Q2.G.01) and every one is fetched by this single node. A shortfall is
+      silent partial loss, not success — reconcile it with a waiver naming the
+      excluded slice, never by widening the tolerance.
+    certainty: 85
+  - freshness: {col: time_period, reaches: 2024}
+    reason: |
+      Annual statistical corpus, quarterly releases. The 2026 releases carry
+      2024-2025 observations for most series and modelled projections beyond;
+      a max below 2024 means the crawl caught an old release or dropped batches.
+    points_outward: true
+  - between: {col: time_period, lo: 1950, hi: 2035}
+    reason: earliest MDG-era backseries is ~1960s; SDG targets and projections run to 2030
+    certainty: 88
+  - row_count: {min: 2000000}
+    reason: ~3.2M observations across 713 series x ~460 areas x ~25 years, sparsely populated
+    certainty: 90
+  - distinct_count: {col: geo_area_code, min: 200}
+    reason: the corpus covers essentially every M49 area plus aggregates
+    certainty: 92
+  - unique: [series_code, geo_area_code, time_period, dimensions]
+    reason: |
+      Hypothesised grain: one observation per series, area, period and
+      disaggregation tuple. If this fails the true grain carries another
+      dimension (source or nature) — that is a model-stage finding, not a bug.
+    certainty: 60
+    severity: warn
+  - nullable: {col: value, max_null_frac: 0.05}
+    reason: an observation row without a value is a footnote-only record; those should be rare
+    certainty: 75
+    severity: warn
+  - matches: {col: series_code, pattern: '^[A-Z]{2}_[A-Z0-9_]+$'}
+    reason: series codes echo the Series/List catalog
+    certainty: 85
+    severity: warn
