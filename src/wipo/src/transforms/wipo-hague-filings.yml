@@ -3,25 +3,25 @@ sort: [year, indicator_id, office]
 columns:
   - name: office
     type: VARCHAR
-    description: ISO-2 / WIPO code of the intellectual property office the observation is filed at (also carries regional and world aggregates).
+    description: "ISO-2 / WIPO code of the intellectual property office the observation is filed at; also carries regional and world aggregates."
   - name: origin
     type: VARCHAR
-    description: ISO-2 / WIPO code of the applicant's origin; null or a total marker on report types that do not break down by origin.
+    description: "ISO-2 / WIPO code of the applicant's origin; null or a total marker on report types that do not break down by origin."
   - name: indicator_id
     type: INTEGER
-    description: WIPO indicator id; joins to wipo-indicators.indicator_id.
+    description: "WIPO indicator id; joins to wipo-indicators.indicator_id."
   - name: indicator
     type: VARCHAR
-    description: Human-readable indicator label as published by WIPO, in English.
+    description: "Human-readable indicator label as published by WIPO, in English."
   - name: report_type
     type: VARCHAR
-    description: Which breakdown the row belongs to: by filing office, by applicant's origin, or by office and origin.
+    description: "Which breakdown the row belongs to - by filing office, by applicant's origin, or by office and applicant's origin."
   - name: year
     type: INTEGER
-    description: Observation year.
+    description: "Observation year."
   - name: breakdown_index
     type: INTEGER
-    description: Position within a comma-packed cell (0 for single-valued cells); WIPO packs resident/non-resident/total style breakdowns into one cell.
+    description: "Position within a comma-packed cell, 0 for single-valued cells; WIPO packs resident/non-resident/total style breakdowns into one cell."
   - name: value
     type: DOUBLE
-    description: Observed count for the indicator, office, origin and year.
+    description: "Observed count for the indicator, office, origin and year."

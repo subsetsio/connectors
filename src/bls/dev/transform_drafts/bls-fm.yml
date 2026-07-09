@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bls-fm`. Regenerate after model-verify.
+# caution: `value` is untyped across rows: what it measures is selected by `tdat_code` (the tabulated statistic) and `pcts_code`-style dimension codes. Never aggregate `value` without first pinning those dimensions to a single measure.
+# caution: Family/demographic dimension codes carry 'all'/'total' rows alongside their breakdowns; crossing them and summing double-counts the same families.
 key: [series_id, year, period]
-temporal: date
-sort: [date, series_id, year, period]
+temporal: period_start_date
+sort: [period_start_date, series_id, year, period]
 columns:
   - name: series_id
     type: VARCHAR
@@ -9,9 +12,111 @@ columns:
     type: INTEGER
   - name: period
     type: VARCHAR
-  - name: date
+  - name: period_start_date
     type: DATE
   - name: value
     type: DOUBLE
   - name: footnote_codes
+    type: BIGINT
+  - name: seasonal
+    type: VARCHAR
+  - name: seasonal_name
+    type: VARCHAR
+  - name: series_title
+    type: VARCHAR
+  - name: fchld_code
+    type: VARCHAR
+  - name: fchld_name
+    type: VARCHAR
+  - name: fdat_code
+    type: VARCHAR
+  - name: fdat_name
+    type: VARCHAR
+  - name: fhlf_code
+    type: VARCHAR
+  - name: fhlf_name
+    type: VARCHAR
+  - name: fnmatwk_code
+    type: VARCHAR
+  - name: fnmatwk_name
+    type: VARCHAR
+  - name: fnme_code
+    type: VARCHAR
+  - name: fnme_name
+    type: VARCHAR
+  - name: fnmlf_code
+    type: VARCHAR
+  - name: fnmlf_name
+    type: VARCHAR
+  - name: fnmu_code
+    type: VARCHAR
+  - name: fnmu_name
+    type: VARCHAR
+  - name: fnmws_code
+    type: VARCHAR
+  - name: fnmws_name
+    type: VARCHAR
+  - name: forig_code
+    type: VARCHAR
+  - name: forig_name
+    type: VARCHAR
+  - name: frace_code
+    type: VARCHAR
+  - name: frace_name
+    type: VARCHAR
+  - name: ftpt_code
+    type: VARCHAR
+  - name: ftpt_name
+    type: VARCHAR
+  - name: ftyp_code
+    type: VARCHAR
+  - name: ftyp_name
+    type: VARCHAR
+  - name: hhlf_code
+    type: VARCHAR
+  - name: hhlf_name
+    type: VARCHAR
+  - name: misclf_code
+    type: VARCHAR
+  - name: misclf_name
+    type: VARCHAR
+  - name: mwlf_code
+    type: VARCHAR
+  - name: mwlf_name
+    type: VARCHAR
+  - name: prlf_code
+    type: VARCHAR
+  - name: prlf_name
+    type: VARCHAR
+  - name: chld_code
+    type: VARCHAR
+  - name: chld_name
+    type: VARCHAR
+  - name: lfst_code
+    type: VARCHAR
+  - name: lfst_name
+    type: VARCHAR
+  - name: mari_code
+    type: VARCHAR
+  - name: mari_name
+    type: VARCHAR
+  - name: orig_code
+    type: VARCHAR
+  - name: orig_name
+    type: VARCHAR
+  - name: race_code
+    type: VARCHAR
+  - name: race_name
+    type: VARCHAR
+  - name: sexs_code
+    type: BIGINT
+  - name: sexs_name
+    type: VARCHAR
+  - name: tdat_code
+    type: VARCHAR
+  - name: tdat_name
+    type: VARCHAR
+  - name: wkst_code
+    type: VARCHAR
+  - name: wkst_name
     type: VARCHAR

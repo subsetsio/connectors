@@ -1,7 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bls-le`. Regenerate after model-verify.
+# caution: `period` mixes regular observations with BLS aggregate period codes — Q05 (annual average). `period_start_date` is derived as the first day of the observation period, so an aggregate row lands on the same date as the year's first regular row (M13/S01/S03/A01 and Q05 all stamp January 1). Filter on `period` — grouping or summing by `period_start_date` alone double-counts.
+# caution: A single table holds quarterly (Q01-Q04) and annual (A01) observations; `period` is the only column that tells them apart.
+# caution: Carries both seasonally adjusted (`seasonal` = 'S') and unadjusted ('U') versions of the same underlying series; filter `seasonal` or you will mix two measurements of the same quantity.
+# caution: `value` is untyped across rows: what it measures is selected by `tdata_code`, `earn_code` and `pcts_code` (levels vs earnings vs percentages). Never aggregate `value` without first pinning those dimensions to a single measure.
+# caution: Demographic dimension codes carry 'all'/'total' rows alongside their breakdowns; crossing them and summing double-counts the same people.
 key: [series_id, year, period]
-temporal: date
-sort: [date, series_id, year, period]
+temporal: period_start_date
+sort: [period_start_date, series_id, year, period]
 columns:
   - name: series_id
     type: VARCHAR
@@ -9,9 +15,79 @@ columns:
     type: INTEGER
   - name: period
     type: VARCHAR
-  - name: date
+  - name: period_start_date
     type: DATE
   - name: value
     type: DOUBLE
   - name: footnote_codes
+    type: VARCHAR
+  - name: lfst_code
+    type: BIGINT
+  - name: lfst_name
+    type: VARCHAR
+  - name: fips_code
+    type: VARCHAR
+  - name: fips_name
+    type: VARCHAR
+  - name: series_title
+    type: VARCHAR
+  - name: tdata_code
+    type: VARCHAR
+  - name: tdata_name
+    type: VARCHAR
+  - name: pcts_code
+    type: VARCHAR
+  - name: pcts_name
+    type: VARCHAR
+  - name: earn_code
+    type: VARCHAR
+  - name: earn_name
+    type: VARCHAR
+  - name: cert_code
+    type: VARCHAR
+  - name: cert_name
+    type: VARCHAR
+  - name: class_code
+    type: VARCHAR
+  - name: class_name
+    type: VARCHAR
+  - name: unin_code
+    type: BIGINT
+  - name: unin_name
+    type: VARCHAR
+  - name: indy_code
+    type: VARCHAR
+  - name: indy_name
+    type: VARCHAR
+  - name: occupation_code
+    type: VARCHAR
+  - name: occupation_name
+    type: VARCHAR
+  - name: education_code
+    type: VARCHAR
+  - name: education_name
+    type: VARCHAR
+  - name: ages_code
+    type: VARCHAR
+  - name: ages_name
+    type: VARCHAR
+  - name: race_code
+    type: VARCHAR
+  - name: race_name
+    type: VARCHAR
+  - name: orig_code
+    type: VARCHAR
+  - name: orig_name
+    type: VARCHAR
+  - name: sexs_code
+    type: BIGINT
+  - name: sexs_name
+    type: VARCHAR
+  - name: born_code
+    type: VARCHAR
+  - name: born_name
+    type: VARCHAR
+  - name: seasonal
+    type: VARCHAR
+  - name: seasonal_name
     type: VARCHAR

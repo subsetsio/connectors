@@ -1,7 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bls-tu`. Regenerate after model-verify.
+# caution: `period` mixes regular observations with BLS aggregate period codes — A01 (annual average). `period_start_date` is derived as the first day of the observation period, so an aggregate row lands on the same date as the year's first regular row (M13/S01/S03/A01 and Q05 all stamp January 1). Filter on `period` — grouping or summing by `period_start_date` alone double-counts.
+# caution: A single table holds quarterly (Q01-Q04) and annual (A01) observations; `period` is the only column that tells them apart.
+# caution: `value` is untyped across rows: what it measures is selected by `stattype_code` (average hours vs participation rate) and `datays_code`. Never aggregate `value` without first pinning those dimensions to a single measure.
+# caution: Demographic dimension codes carry 'all'/'total' rows alongside their breakdowns; crossing them and summing double-counts the same respondents.
 key: [series_id, year, period]
-temporal: date
-sort: [date, series_id, year, period]
+temporal: period_start_date
+sort: [period_start_date, series_id, year, period]
 columns:
   - name: series_id
     type: VARCHAR
@@ -9,9 +14,155 @@ columns:
     type: INTEGER
   - name: period
     type: VARCHAR
-  - name: date
+  - name: period_start_date
     type: DATE
   - name: value
     type: DOUBLE
   - name: footnote_codes
+    type: VARCHAR
+  - name: seasonal
+    type: VARCHAR
+  - name: seasonal_name
+    type: VARCHAR
+  - name: stattype_code
+    type: BIGINT
+  - name: stattype_name
+    type: VARCHAR
+  - name: datays_code
+    type: VARCHAR
+  - name: datays_name
+    type: VARCHAR
+  - name: sex_code
+    type: BIGINT
+  - name: sex_name
+    type: VARCHAR
+  - name: region_code
+    type: VARCHAR
+  - name: region_name
+    type: VARCHAR
+  - name: lfstat_code
+    type: VARCHAR
+  - name: lfstat_name
+    type: VARCHAR
+  - name: educ_code
+    type: VARCHAR
+  - name: educ_name
+    type: VARCHAR
+  - name: maritlstat_code
+    type: VARCHAR
+  - name: maritlstat_name
+    type: VARCHAR
+  - name: age_code
+    type: VARCHAR
+  - name: age_name
+    type: VARCHAR
+  - name: orig_code
+    type: VARCHAR
+  - name: orig_name
+    type: VARCHAR
+  - name: race_code
+    type: VARCHAR
+  - name: race_name
+    type: VARCHAR
+  - name: mjcow_code
+    type: VARCHAR
+  - name: mjcow_name
+    type: VARCHAR
+  - name: nmet_code
+    type: BIGINT
+  - name: nmet_name
+    type: VARCHAR
+  - name: where_code
+    type: VARCHAR
+  - name: where_name
+    type: VARCHAR
+  - name: sjmj_code
+    type: BIGINT
+  - name: sjmj_name
+    type: VARCHAR
+  - name: timeday_code
+    type: VARCHAR
+  - name: timeday_name
+    type: VARCHAR
+  - name: actcode_code
+    type: VARCHAR
+  - name: actcode_name
+    type: VARCHAR
+  - name: industry_code
+    type: VARCHAR
+  - name: industry_name
+    type: VARCHAR
+  - name: occ_code
+    type: VARCHAR
+  - name: occ_name
+    type: VARCHAR
+  - name: prhhchild_code
+    type: VARCHAR
+  - name: prhhchild_name
+    type: VARCHAR
+  - name: earn_code
+    type: VARCHAR
+  - name: earn_name
+    type: VARCHAR
+  - name: disability_code
+    type: VARCHAR
+  - name: disability_name
+    type: VARCHAR
+  - name: who_code
+    type: VARCHAR
+  - name: who_name
+    type: VARCHAR
+  - name: hhnscc03_code
+    type: VARCHAR
+  - name: hhnscc03_name
+    type: VARCHAR
+  - name: schenr_code
+    type: BIGINT
+  - name: schenr_name
+    type: VARCHAR
+  - name: prownhhchild_code
+    type: VARCHAR
+  - name: prownhhchild_name
+    type: VARCHAR
+  - name: work_code
+    type: BIGINT
+  - name: work_name
+    type: VARCHAR
+  - name: elnum_code
+    type: VARCHAR
+  - name: elnum_name
+    type: VARCHAR
+  - name: ecage_code
+    type: VARCHAR
+  - name: ecage_name
+    type: VARCHAR
+  - name: elfreq_code
+    type: BIGINT
+  - name: elfreq_name
+    type: VARCHAR
+  - name: eldur_code
+    type: VARCHAR
+  - name: eldur_name
+    type: VARCHAR
+  - name: elwho_code
+    type: VARCHAR
+  - name: elwho_name
+    type: VARCHAR
+  - name: ecytd_code
+    type: BIGINT
+  - name: ecytd_name
+    type: VARCHAR
+  - name: elder_code
+    type: BIGINT
+  - name: elder_name
+    type: VARCHAR
+  - name: lfstatw_code
+    type: VARCHAR
+  - name: lfstatw_name
+    type: VARCHAR
+  - name: pertype_code
+    type: VARCHAR
+  - name: pertype_name
+    type: VARCHAR
+  - name: series_title
     type: VARCHAR

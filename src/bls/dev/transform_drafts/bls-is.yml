@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bls-is`. Regenerate after model-verify.
+# caution: `value` is untyped across rows: what it measures is selected by `data_type_code` and `case_type_code` (case counts vs incidence rates). Never aggregate `value` without first pinning those dimensions to a single measure.
+# caution: `industry_code`/`supersector_code` form a NAICS hierarchy whose parent rows already contain their component industries.
 key: [series_id, year, period]
-temporal: date
-sort: [date, series_id, year, period]
+temporal: period_start_date
+sort: [period_start_date, series_id, year, period]
 columns:
   - name: series_id
     type: VARCHAR
@@ -9,9 +12,33 @@ columns:
     type: INTEGER
   - name: period
     type: VARCHAR
-  - name: date
+  - name: period_start_date
     type: DATE
   - name: value
     type: DOUBLE
   - name: footnote_codes
+    type: VARCHAR
+  - name: seasonal
+    type: VARCHAR
+  - name: seasonal_name
+    type: VARCHAR
+  - name: supersector_code
+    type: VARCHAR
+  - name: supersector_name
+    type: VARCHAR
+  - name: industry_code
+    type: VARCHAR
+  - name: data_type_code
+    type: VARCHAR
+  - name: data_type_name
+    type: VARCHAR
+  - name: case_type_code
+    type: VARCHAR
+  - name: case_type_name
+    type: VARCHAR
+  - name: area_code
+    type: VARCHAR
+  - name: area_name
+    type: VARCHAR
+  - name: series_title
     type: VARCHAR

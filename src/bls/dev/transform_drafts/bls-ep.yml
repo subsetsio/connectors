@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bls-ep`. Regenerate after model-verify.
+# caution: `value` is untyped across rows: what it measures is selected by `rank_code` and `disp_code` (employment level vs rank vs change). Never aggregate `value` without first pinning those dimensions to a single measure.
+# caution: `occ_code` and `ind_code` are SOC/NAICS hierarchies carrying 'Total, all occupations' and 'Total, all industries' rows alongside their components; `occ_type`/`ind_type` flag which level a row sits at.
 key: [series_id, year, period]
-temporal: date
-sort: [date, series_id, year, period]
+temporal: period_start_date
+sort: [period_start_date, series_id, year, period]
 columns:
   - name: series_id
     type: VARCHAR
@@ -9,9 +12,37 @@ columns:
     type: INTEGER
   - name: period
     type: VARCHAR
-  - name: date
+  - name: period_start_date
     type: DATE
   - name: value
     type: DOUBLE
   - name: footnote_codes
+    type: VARCHAR
+  - name: seasonal
+    type: VARCHAR
+  - name: seasonal_name
+    type: VARCHAR
+  - name: occ_type
+    type: VARCHAR
+  - name: ind_type
+    type: VARCHAR
+  - name: occ_code
+    type: VARCHAR
+  - name: ind_code
+    type: VARCHAR
+  - name: wkex_code
+    type: BIGINT
+  - name: wkex_name
+    type: VARCHAR
+  - name: rank_code
+    type: BIGINT
+  - name: otjt_code
+    type: BIGINT
+  - name: otjt_name
+    type: VARCHAR
+  - name: eductrn_code
+    type: BIGINT
+  - name: disp_code
+    type: BIGINT
+  - name: series_title
     type: VARCHAR

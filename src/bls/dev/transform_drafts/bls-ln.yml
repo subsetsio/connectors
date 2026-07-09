@@ -1,7 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bls-ln`. Regenerate after model-verify.
+# caution: `period` mixes regular observations with BLS aggregate period codes — A01 (annual average) and M13 (annual average). `period_start_date` is derived as the first day of the observation period, so an aggregate row lands on the same date as the year's first regular row (M13/S01/S03/A01 and Q05 all stamp January 1). Filter on `period` — grouping or summing by `period_start_date` alone double-counts.
+# caution: A single table holds monthly (M01-M12), quarterly (Q01-Q04) and annual (A01) observations; `period` is the only column that tells them apart.
+# caution: Carries both seasonally adjusted (`seasonal` = 'S') and unadjusted ('U') versions of the same underlying series; filter `seasonal` or you will mix two measurements of the same quantity.
+# caution: `value` is untyped across rows: what it measures is selected by `tdat_code`, `pcts_code` and `periodicity_code` (levels vs rates vs percentages). Never aggregate `value` without first pinning those dimensions to a single measure.
+# caution: Demographic dimension codes carry 'all'/'total' rows alongside their breakdowns (e.g. `sexs_code`, `race_code`, `ages_code`); crossing them and summing double-counts the same people.
 key: [series_id, year, period]
-temporal: date
-sort: [date, series_id, year, period]
+temporal: period_start_date
+sort: [period_start_date, series_id, year, period]
 columns:
   - name: series_id
     type: VARCHAR
@@ -9,9 +15,151 @@ columns:
     type: INTEGER
   - name: period
     type: VARCHAR
-  - name: date
+  - name: period_start_date
     type: DATE
   - name: value
     type: DOUBLE
   - name: footnote_codes
+    type: VARCHAR
+  - name: lfst_code
+    type: VARCHAR
+  - name: lfst_name
+    type: VARCHAR
+  - name: periodicity_code
+    type: VARCHAR
+  - name: periodicity_name
+    type: VARCHAR
+  - name: series_title
+    type: VARCHAR
+  - name: absn_code
+    type: BIGINT
+  - name: absn_name
+    type: VARCHAR
+  - name: activity_code
+    type: BIGINT
+  - name: activity_name
+    type: VARCHAR
+  - name: ages_code
+    type: VARCHAR
+  - name: ages_name
+    type: VARCHAR
+  - name: cert_code
+    type: VARCHAR
+  - name: cert_name
+    type: VARCHAR
+  - name: class_code
+    type: VARCHAR
+  - name: class_name
+    type: VARCHAR
+  - name: duration_code
+    type: VARCHAR
+  - name: duration_name
+    type: VARCHAR
+  - name: education_code
+    type: VARCHAR
+  - name: education_name
+    type: VARCHAR
+  - name: entr_code
+    type: BIGINT
+  - name: entr_name
+    type: VARCHAR
+  - name: expr_code
+    type: BIGINT
+  - name: expr_name
+    type: VARCHAR
+  - name: hheader_code
+    type: VARCHAR
+  - name: hheader_name
+    type: VARCHAR
+  - name: hour_code
+    type: VARCHAR
+  - name: hour_name
+    type: VARCHAR
+  - name: indy_code
+    type: VARCHAR
+  - name: indy_name
+    type: VARCHAR
+  - name: jdes_code
+    type: BIGINT
+  - name: jdes_name
+    type: VARCHAR
+  - name: look_code
+    type: VARCHAR
+  - name: look_name
+    type: VARCHAR
+  - name: mari_code
+    type: VARCHAR
+  - name: mari_name
+    type: VARCHAR
+  - name: mjhs_code
+    type: VARCHAR
+  - name: mjhs_name
+    type: VARCHAR
+  - name: occupation_code
+    type: VARCHAR
+  - name: occupation_name
+    type: VARCHAR
+  - name: orig_code
+    type: VARCHAR
+  - name: orig_name
+    type: VARCHAR
+  - name: pcts_code
+    type: VARCHAR
+  - name: pcts_name
+    type: VARCHAR
+  - name: race_code
+    type: VARCHAR
+  - name: race_name
+    type: VARCHAR
+  - name: rjnw_code
+    type: VARCHAR
+  - name: rjnw_name
+    type: VARCHAR
+  - name: rnlf_code
+    type: VARCHAR
+  - name: rnlf_name
+    type: VARCHAR
+  - name: rwns_code
+    type: VARCHAR
+  - name: rwns_name
+    type: VARCHAR
+  - name: seek_code
+    type: VARCHAR
+  - name: seek_name
+    type: VARCHAR
+  - name: sexs_code
+    type: BIGINT
+  - name: sexs_name
+    type: VARCHAR
+  - name: tdat_code
+    type: VARCHAR
+  - name: tdat_name
+    type: VARCHAR
+  - name: vets_code
+    type: VARCHAR
+  - name: vets_name
+    type: VARCHAR
+  - name: wkst_code
+    type: VARCHAR
+  - name: wkst_name
+    type: VARCHAR
+  - name: born_code
+    type: VARCHAR
+  - name: born_name
+    type: VARCHAR
+  - name: chld_code
+    type: VARCHAR
+  - name: chld_name
+    type: VARCHAR
+  - name: disa_code
+    type: VARCHAR
+  - name: disa_name
+    type: VARCHAR
+  - name: seasonal
+    type: VARCHAR
+  - name: seasonal_name
+    type: VARCHAR
+  - name: tlwk_code
+    type: VARCHAR
+  - name: tlwk_name
     type: VARCHAR

@@ -1,18 +1,65 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: `value` is untyped across rows: what it measures is selected by `tdat_code` (the tabulated statistic) and `pcts_code`-style dimension codes. Never aggregate `value` without first pinning those dimensions to a single measure.
+-- caution: Family/demographic dimension codes carry 'all'/'total' rows alongside their breakdowns; crossing them and summing double-counts the same families.
 SELECT
-    series_id,
-    year,
-    period,
-    CASE
-        WHEN period BETWEEN 'M01' AND 'M12'
-            THEN make_date(year, CAST(substr(period, 2, 2) AS INTEGER), 1)
-        WHEN period IN ('Q01', 'Q02', 'Q03', 'Q04')
-            THEN make_date(year, (CAST(substr(period, 2, 2) AS INTEGER) - 1) * 3 + 1, 1)
-        WHEN period = 'S01' THEN make_date(year, 1, 1)
-        WHEN period = 'S02' THEN make_date(year, 7, 1)
-        ELSE make_date(year, 1, 1)
-    END AS date,
-    TRY_CAST(value AS DOUBLE) AS value,
-    footnote_codes
+    "series_id",
+    "year",
+    "period",
+    "period_start_date",
+    "value",
+    CAST("footnote_codes" AS BIGINT) AS footnote_codes,
+    "seasonal",
+    "seasonal_name",
+    "series_title",
+    "fchld_code",
+    "fchld_name",
+    "fdat_code",
+    "fdat_name",
+    "fhlf_code",
+    "fhlf_name",
+    "fnmatwk_code",
+    "fnmatwk_name",
+    "fnme_code",
+    "fnme_name",
+    "fnmlf_code",
+    "fnmlf_name",
+    "fnmu_code",
+    "fnmu_name",
+    "fnmws_code",
+    "fnmws_name",
+    "forig_code",
+    "forig_name",
+    "frace_code",
+    "frace_name",
+    "ftpt_code",
+    "ftpt_name",
+    "ftyp_code",
+    "ftyp_name",
+    "hhlf_code",
+    "hhlf_name",
+    "misclf_code",
+    "misclf_name",
+    "mwlf_code",
+    "mwlf_name",
+    "prlf_code",
+    "prlf_name",
+    "chld_code",
+    "chld_name",
+    "lfst_code",
+    "lfst_name",
+    "mari_code",
+    "mari_name",
+    "orig_code",
+    "orig_name",
+    "race_code",
+    "race_name",
+    CAST("sexs_code" AS BIGINT) AS sexs_code,
+    "sexs_name",
+    "tdat_code",
+    "tdat_name",
+    "wkst_code",
+    "wkst_name"
 FROM "bls-fm"
-WHERE TRY_CAST(value AS DOUBLE) IS NOT NULL
-QUALIFY row_number() OVER (PARTITION BY series_id, year, period ORDER BY footnote_codes) = 1

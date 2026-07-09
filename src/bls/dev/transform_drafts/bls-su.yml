@@ -1,7 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bls-su`. Regenerate after model-verify.
+# caution: `period` mixes regular observations with BLS aggregate period codes — M13 (annual average). `period_start_date` is derived as the first day of the observation period, so an aggregate row lands on the same date as the year's first regular row (M13/S01/S03/A01 and Q05 all stamp January 1). Filter on `period` — grouping or summing by `period_start_date` alone double-counts.
+# caution: `value` is untyped across rows: what it measures is selected by `item_code`, `area_code` and `base_code`/`base_period` (the index reference base). Never aggregate `value` without first pinning those dimensions to a single measure.
+# caution: `item_code` is a hierarchy and `area_code` carries the 'U.S. city average' aggregate alongside sub-national areas; do not sum across either.
 key: [series_id, year, period]
-temporal: date
-sort: [date, series_id, year, period]
+temporal: period_start_date
+sort: [period_start_date, series_id, year, period]
 columns:
   - name: series_id
     type: VARCHAR
@@ -9,9 +13,33 @@ columns:
     type: INTEGER
   - name: period
     type: VARCHAR
-  - name: date
+  - name: period_start_date
     type: DATE
   - name: value
     type: DOUBLE
   - name: footnote_codes
+    type: VARCHAR
+  - name: area_code
+    type: VARCHAR
+  - name: area_name
+    type: VARCHAR
+  - name: item_code
+    type: VARCHAR
+  - name: item_name
+    type: VARCHAR
+  - name: seasonal
+    type: VARCHAR
+  - name: seasonal_name
+    type: VARCHAR
+  - name: periodicity_code
+    type: VARCHAR
+  - name: periodicity_name
+    type: VARCHAR
+  - name: base_code
+    type: VARCHAR
+  - name: base_name
+    type: VARCHAR
+  - name: base_period
+    type: VARCHAR
+  - name: series_title
     type: VARCHAR

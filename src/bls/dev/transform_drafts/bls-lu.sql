@@ -1,18 +1,45 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: `value` is untyped across rows: what it measures is selected by `tdata_code`, `earn_code` and `pcts_code` (levels vs earnings vs percentages). Never aggregate `value` without first pinning those dimensions to a single measure.
+-- caution: Demographic dimension codes carry 'all'/'total' rows alongside their breakdowns; crossing them and summing double-counts the same people.
 SELECT
-    series_id,
-    year,
-    period,
-    CASE
-        WHEN period BETWEEN 'M01' AND 'M12'
-            THEN make_date(year, CAST(substr(period, 2, 2) AS INTEGER), 1)
-        WHEN period IN ('Q01', 'Q02', 'Q03', 'Q04')
-            THEN make_date(year, (CAST(substr(period, 2, 2) AS INTEGER) - 1) * 3 + 1, 1)
-        WHEN period = 'S01' THEN make_date(year, 1, 1)
-        WHEN period = 'S02' THEN make_date(year, 7, 1)
-        ELSE make_date(year, 1, 1)
-    END AS date,
-    TRY_CAST(value AS DOUBLE) AS value,
-    footnote_codes
+    "series_id",
+    "year",
+    "period",
+    "period_start_date",
+    "value",
+    CAST("footnote_codes" AS BIGINT) AS footnote_codes,
+    CAST("lfst_code" AS BIGINT) AS lfst_code,
+    "lfst_name",
+    "fips_code",
+    "fips_name",
+    "series_title",
+    "tdata_code",
+    "tdata_name",
+    "pcts_code",
+    "pcts_name",
+    "earn_code",
+    "earn_name",
+    "class_code",
+    "class_name",
+    CAST("unin_code" AS BIGINT) AS unin_code,
+    "unin_name",
+    "indy_code",
+    "indy_name",
+    "occupation_code",
+    "occupation_name",
+    "education_code",
+    "education_name",
+    "ages_code",
+    "ages_name",
+    "race_code",
+    "race_name",
+    "orig_code",
+    "orig_name",
+    CAST("sexs_code" AS BIGINT) AS sexs_code,
+    "sexs_name",
+    "seasonal",
+    "seasonal_name"
 FROM "bls-lu"
-WHERE TRY_CAST(value AS DOUBLE) IS NOT NULL
-QUALIFY row_number() OVER (PARTITION BY series_id, year, period ORDER BY footnote_codes) = 1

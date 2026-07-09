@@ -1,18 +1,88 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: `period` mixes regular observations with BLS aggregate period codes — A01 (annual average) and M13 (annual average). `period_start_date` is derived as the first day of the observation period, so an aggregate row lands on the same date as the year's first regular row (M13/S01/S03/A01 and Q05 all stamp January 1). Filter on `period` — grouping or summing by `period_start_date` alone double-counts.
+-- caution: A single table holds monthly (M01-M12), quarterly (Q01-Q04) and annual (A01) observations; `period` is the only column that tells them apart.
+-- caution: Carries both seasonally adjusted (`seasonal` = 'S') and unadjusted ('U') versions of the same underlying series; filter `seasonal` or you will mix two measurements of the same quantity.
+-- caution: `value` is untyped across rows: what it measures is selected by `tdat_code`, `pcts_code` and `periodicity_code` (levels vs rates vs percentages). Never aggregate `value` without first pinning those dimensions to a single measure.
+-- caution: Demographic dimension codes carry 'all'/'total' rows alongside their breakdowns (e.g. `sexs_code`, `race_code`, `ages_code`); crossing them and summing double-counts the same people.
 SELECT
-    series_id,
-    year,
-    period,
-    CASE
-        WHEN period BETWEEN 'M01' AND 'M12'
-            THEN make_date(year, CAST(substr(period, 2, 2) AS INTEGER), 1)
-        WHEN period IN ('Q01', 'Q02', 'Q03', 'Q04')
-            THEN make_date(year, (CAST(substr(period, 2, 2) AS INTEGER) - 1) * 3 + 1, 1)
-        WHEN period = 'S01' THEN make_date(year, 1, 1)
-        WHEN period = 'S02' THEN make_date(year, 7, 1)
-        ELSE make_date(year, 1, 1)
-    END AS date,
-    TRY_CAST(value AS DOUBLE) AS value,
-    footnote_codes
+    "series_id",
+    "year",
+    "period",
+    "period_start_date",
+    "value",
+    "footnote_codes",
+    "lfst_code",
+    "lfst_name",
+    "periodicity_code",
+    "periodicity_name",
+    "series_title",
+    CAST("absn_code" AS BIGINT) AS absn_code,
+    "absn_name",
+    CAST("activity_code" AS BIGINT) AS activity_code,
+    "activity_name",
+    "ages_code",
+    "ages_name",
+    "cert_code",
+    "cert_name",
+    "class_code",
+    "class_name",
+    "duration_code",
+    "duration_name",
+    "education_code",
+    "education_name",
+    CAST("entr_code" AS BIGINT) AS entr_code,
+    "entr_name",
+    CAST("expr_code" AS BIGINT) AS expr_code,
+    "expr_name",
+    "hheader_code",
+    "hheader_name",
+    "hour_code",
+    "hour_name",
+    "indy_code",
+    "indy_name",
+    CAST("jdes_code" AS BIGINT) AS jdes_code,
+    "jdes_name",
+    "look_code",
+    "look_name",
+    "mari_code",
+    "mari_name",
+    "mjhs_code",
+    "mjhs_name",
+    "occupation_code",
+    "occupation_name",
+    "orig_code",
+    "orig_name",
+    "pcts_code",
+    "pcts_name",
+    "race_code",
+    "race_name",
+    "rjnw_code",
+    "rjnw_name",
+    "rnlf_code",
+    "rnlf_name",
+    "rwns_code",
+    "rwns_name",
+    "seek_code",
+    "seek_name",
+    CAST("sexs_code" AS BIGINT) AS sexs_code,
+    "sexs_name",
+    "tdat_code",
+    "tdat_name",
+    "vets_code",
+    "vets_name",
+    "wkst_code",
+    "wkst_name",
+    "born_code",
+    "born_name",
+    "chld_code",
+    "chld_name",
+    "disa_code",
+    "disa_name",
+    "seasonal",
+    "seasonal_name",
+    "tlwk_code",
+    "tlwk_name"
 FROM "bls-ln"
-WHERE TRY_CAST(value AS DOUBLE) IS NOT NULL
-QUALIFY row_number() OVER (PARTITION BY series_id, year, period ORDER BY footnote_codes) = 1
