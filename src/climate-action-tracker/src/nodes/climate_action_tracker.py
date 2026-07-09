@@ -15,7 +15,7 @@ for free. NOTE: `next` is returned with an http:// scheme and must be upgraded
 to https before following.
 """
 
-from datetime import datetime
+from datetime import date, datetime
 
 import pyarrow as pa
 
@@ -107,6 +107,35 @@ def _crawl(start_url: str) -> list[dict]:
     return rows
 
 
+def _parse_version_date(value: str | None) -> date | None:
+    """`version` is the country assessment date, formatted M/D/YYYY.
+
+    Day-of-month values above 12 pin the field order unambiguously (`3/16/2022`,
+    `8/26/2021`). A format the source has never emitted must raise, not coerce:
+    a silent None here would strand the asset's only recency signal.
+    """
+    if not value:
+        return None
+    return datetime.strptime(value, "%m/%d/%Y").date()
+
+
+def _derive(node_id: str, row: dict) -> dict:
+    """Normalize the recency axis each collection lacks natively.
+
+    `edition` is a per-collection republish counter (10, 18), not a date, so
+    neither asset can assert freshness on what the API hands back:
+
+    - country-emissions: `version` is a date string -> typed `version_date`.
+    - sector-indicators: carries no date at all. Its `year` spans historical
+      observations AND 2030/2050 benchmark targets, so max(year) never moves.
+      `historic_year` projects out just the observed rows, leaving a column
+      whose maximum advances only when CAT extends the historical series.
+    """
+    if node_id == "climate-action-tracker-country-emissions":
+        return {"version_date": _parse_version_date(row.get("version"))}
+    return {"historic_year": row["year"] if row.get("scenario") == "historic" else None}
+
+
 def fetch_records(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     schema = _SCHEMAS[node_id]
@@ -114,7 +143,7 @@ def fetch_records(node_id: str) -> None:
     # Project each row onto the declared schema field set so unexpected extra
     # keys don't break table construction; missing keys become null.
     cols = [f.name for f in schema]
-    projected = [{c: r.get(c) for c in cols} for r in rows]
+    projected = [{**{c: r.get(c) for c in cols}, **_derive(node_id, r)} for r in rows]
     table = pa.Table.from_pylist(projected, schema=schema)
     save_raw_parquet(table, asset)
 
@@ -122,50 +151,4 @@ def fetch_records(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="climate-action-tracker-country-emissions", fn=fetch_records, kind="download"),
     NodeSpec(id="climate-action-tracker-sector-indicators", fn=fetch_records, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="climate-action-tracker-country-emissions-transform",
-        deps=["climate-action-tracker-country-emissions"],
-        sql='''
-            SELECT
-                CAST(id AS BIGINT)            AS id,
-                region,
-                scenario,
-                sector,
-                indicator,
-                variable,
-                CAST(year AS INTEGER)         AS year,
-                CAST(value AS DOUBLE)         AS value,
-                unit,
-                per_capita,
-                version,
-                comments,
-                source,
-                CAST(edition AS INTEGER)      AS edition
-            FROM "climate-action-tracker-country-emissions"
-            WHERE value IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="climate-action-tracker-sector-indicators-transform",
-        deps=["climate-action-tracker-sector-indicators"],
-        sql='''
-            SELECT
-                CAST(id AS BIGINT)            AS id,
-                country,
-                scenario,
-                sector,
-                indicator,
-                variable,
-                CAST(year AS INTEGER)         AS year,
-                CAST(value AS DOUBLE)         AS value,
-                unit,
-                CAST(normalized_value AS DOUBLE) AS normalized_value,
-                CAST(edition AS INTEGER)      AS edition
-            FROM "climate-action-tracker-sector-indicators"
-            WHERE value IS NOT NULL
-        ''',
-    ),
 ]
