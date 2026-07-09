@@ -1,6 +1,9 @@
 spec_id: dsec-macao-values
 status: active
 tests:
+  - freshness: {col: last_update_date, reaches: today - 400d}
+    reason: DSEC is a live time-series database with monthly, quarterly, and annual updates; at least one source update should have landed within roughly the last year plus publication slack.
+    certainty: 85
   - not_null: indicator_id
     certainty: 99
   - not_null: value

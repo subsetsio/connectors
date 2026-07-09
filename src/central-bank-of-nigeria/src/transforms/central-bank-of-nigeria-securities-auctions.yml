@@ -1,4 +1,4 @@
-# the two bid-rate ranges stay VARCHAR: ~1 row in 7 does not split into two clean numbers
+# the two bid-rate ranges stay VARCHAR: 21% / 24% of values do not split into two clean numbers
 # caution: One row is one RESULT LINE, not one auction: a single auction appears once per `rate_description`, so counting rows overstates auctions and summing `total_subscription` double-counts.
 # caution: Normalise `security_type` and `net_type` before grouping — both domains carry casing variants and typos.
 # caution: `maturity_date` contains impossible years on a handful of rows.
@@ -38,10 +38,10 @@ columns:
     description: "Total amount allotted, in NGN million."
   - name: bid_rate_range
     type: VARCHAR
-    description: "Range of rates bid, as free text exactly as published. Deliberately not parsed: separators vary between hyphen, en-dash and nothing, and values carry typos (`4.7500 - 4 9500`)."
+    description: "Range of rates bid, as free text exactly as published. Deliberately not parsed: separators vary between hyphen, en-dash and nothing, values carry typos (`4.7500 - 4 9500`), and 21% of non-empty values do not split into two clean numbers."
   - name: successful_bid_rate_range
     type: VARCHAR
-    description: "Range of rates among successful bids, as free text. Same caveats as `bid_rate_range`."
+    description: "Range of rates among successful bids, as free text. Same caveats as `bid_rate_range`; here 24% of non-empty values do not split into two clean numbers."
   - name: rate_description
     type: VARCHAR
     description: "Which rate `rate` reports for this result row: `Issue`, `Maginal` [sic, marginal], `Stop` or `Slop` [sic]. One auction can appear once per description."

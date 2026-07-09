@@ -1,4 +1,4 @@
--- the two bid-rate ranges stay VARCHAR: ~1 row in 7 does not split into two clean numbers
+-- the two bid-rate ranges stay VARCHAR: 21% / 24% of values do not split into two clean numbers
 SELECT
     CAST("id" AS BIGINT) AS source_row_id,
     CAST("auctionDate_iso" AS DATE) AS auction_date,

@@ -7,7 +7,7 @@ dataset is fetched in full from its stable per-entity parquet export
 (/catalog/datasets/{dataset_id}/exports/parquet), which streams the entire table
 in one request — no auth, no pagination. Fetch shape is the default stateless
 full re-pull: every run overwrites each raw asset with a complete snapshot, so
-DREES's annual revisions are picked up for free. The corpus is ~47 datasets,
+DREES's annual revisions are picked up for free. The corpus is ~138 datasets,
 each a few rows to ~1.2M; the whole pull is minutes and cents.
 
 Each subset's transform is compiled later from the model stage. This module only
