@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `australian-bureau-of-statistics-c21-g61-sed`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [region, occp, hrsp, state, sexp]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [region, occp, hrsp, state, sexp]
+  - kind: not_null
+    col: region
+  - kind: not_null
+    col: occp
+  - kind: not_null
+    col: hrsp
+  - kind: not_null
+    col: state
+  - kind: not_null
+    col: sexp
+  - kind: row_floor
+    min: 67650
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

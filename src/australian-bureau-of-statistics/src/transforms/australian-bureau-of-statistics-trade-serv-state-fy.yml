@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-trade-serv-state-fy`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [ebops, time_period, state, exp_imp]
+temporal: time_period
+sort: [time_period, ebops, state, exp_imp]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: exp_imp
+    type: VARCHAR
+  - name: ebops
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: unit_mult
+    type: BIGINT
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR
+  - name: reporting_year_start_day
+    type: VARCHAR

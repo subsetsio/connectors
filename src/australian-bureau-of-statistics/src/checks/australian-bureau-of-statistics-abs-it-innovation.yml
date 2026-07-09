@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `australian-bureau-of-statistics-abs-it-innovation`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [measure, anzsic_2006, it_emp_size]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [measure, anzsic_2006, it_emp_size]
+  - kind: not_null
+    col: measure
+  - kind: not_null
+    col: anzsic_2006
+  - kind: not_null
+    col: it_emp_size
+  - kind: row_floor
+    min: 1710
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

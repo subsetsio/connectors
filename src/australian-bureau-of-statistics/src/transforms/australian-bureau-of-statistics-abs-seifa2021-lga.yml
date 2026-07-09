@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-abs-seifa2021-lga`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [lga_2021, seifa_measure, unit_measure, seifaindextype]
+temporal: time_period
+sort: [time_period, lga_2021, seifa_measure, unit_measure, seifaindextype]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: lga_2021
+    type: BIGINT
+  - name: seifaindextype
+    type: VARCHAR
+  - name: seifa_measure
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

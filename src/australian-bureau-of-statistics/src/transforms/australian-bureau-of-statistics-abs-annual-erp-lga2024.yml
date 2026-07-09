@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-abs-annual-erp-lga2024`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [lga_2024, time_period, age, sex_abs, region_type]
+temporal: time_period
+sort: [time_period, lga_2024, age, sex_abs, region_type]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: sex_abs
+    type: BIGINT
+  - name: age
+    type: VARCHAR
+  - name: lga_2024
+    type: VARCHAR
+  - name: region_type
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

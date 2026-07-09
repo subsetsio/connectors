@@ -1,6 +1,10 @@
 spec_id: australian-bureau-of-statistics-abs-census2011-b27-lga
 status: active
 tests:
+  - freshness: {col: TIME_PERIOD, reaches: today - 400d}
+    reason: ABS active SDMX dataflows are recurring statistical releases; the latest observation period should stay within roughly one annual release cycle.
+    certainty: 80
+    points_outward: true
   - row_count: {min: 1}
     reason: /data/{flow}/all returns the dataflow's complete observation table; zero rows means the flow was withdrawn upstream or the stream broke mid-fetch.
     certainty: 90

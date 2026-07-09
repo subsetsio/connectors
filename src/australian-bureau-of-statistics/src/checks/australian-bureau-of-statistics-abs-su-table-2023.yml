@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `australian-bureau-of-statistics-abs-su-table-2023`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [supg, supc, time_period, su_cat]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [supg, supc, time_period, su_cat]
+  - kind: not_null
+    col: supg
+  - kind: not_null
+    col: supc
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: su_cat
+  - kind: row_floor
+    min: 269772
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-test`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [measure, tsest, time_period, unit_measure]
+temporal: time_period
+sort: [time_period, measure, tsest, unit_measure]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: measure
+    type: BIGINT
+  - name: tsest
+    type: BIGINT
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

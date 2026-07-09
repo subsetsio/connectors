@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `australian-bureau-of-statistics-merch-imp`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [commodity_sitc, time_period, country_origin, state_dest]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [commodity_sitc, time_period, country_origin, state_dest]
+  - kind: not_null
+    col: commodity_sitc
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: country_origin
+  - kind: not_null
+    col: state_dest
+  - kind: row_floor
+    min: 8459277
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

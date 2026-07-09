@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-c21-g55-poa`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [region, indp, hrsp, state, sexp]
+temporal: time_period
+sort: [time_period, region, indp, hrsp, state, sexp]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: sexp
+    type: BIGINT
+  - name: indp
+    type: VARCHAR
+  - name: hrsp
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: region_type
+    type: VARCHAR
+  - name: state
+    type: BIGINT
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE

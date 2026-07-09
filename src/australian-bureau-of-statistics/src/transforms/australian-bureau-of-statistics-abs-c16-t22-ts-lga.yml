@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-abs-c16-t22-ts-lga`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [lga_2016, vehd_2016, state, time_period]
+temporal: time_period
+sort: [time_period, lga_2016, vehd_2016, state]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: vehd_2016
+    type: VARCHAR
+  - name: state
+    type: BIGINT
+  - name: regiontype
+    type: VARCHAR
+  - name: lga_2016
+    type: BIGINT
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

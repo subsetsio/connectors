@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-c21-g35-sed`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [region, state, nprd, hhcd]
+temporal: time_period
+sort: [time_period, region, state, nprd, hhcd]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: nprd
+    type: VARCHAR
+  - name: hhcd
+    type: VARCHAR
+  - name: region
+    type: BIGINT
+  - name: region_type
+    type: VARCHAR
+  - name: state
+    type: BIGINT
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE

@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-abs-aboriginal-popproj-indregion`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [indigenous_region, age, time_period, sex_abs, proj_series]
+temporal: time_period
+sort: [time_period, indigenous_region, age, sex_abs, proj_series]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: sex_abs
+    type: BIGINT
+  - name: age
+    type: VARCHAR
+  - name: indigenous_region
+    type: BIGINT
+  - name: proj_series
+    type: BIGINT
+  - name: frequency
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-abs-seifa-sa2`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [asgs_2011, measure, unit_measure, index_type]
+temporal: time_period
+sort: [time_period, asgs_2011, measure, unit_measure, index_type]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: asgs_2011
+    type: BIGINT
+  - name: index_type
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

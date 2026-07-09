@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `australian-bureau-of-statistics-aboriginal-id-pop-proj`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [age, time_period, asgs_2011, sex_abs]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [age, time_period, asgs_2011, sex_abs]
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: asgs_2011
+  - kind: not_null
+    col: sex_abs
+  - kind: row_floor
+    min: 2821
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

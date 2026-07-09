@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-abs-su-table-2023`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [supg, supc, time_period, su_cat]
+temporal: time_period
+sort: [time_period, supg, supc, su_cat]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: supg
+    type: VARCHAR
+  - name: supc
+    type: VARCHAR
+  - name: su_cat
+    type: BIGINT
+  - name: frequency
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: unit_mult
+    type: BIGINT
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

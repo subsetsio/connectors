@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-abs-it-innovation`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [measure, anzsic_2006, it_emp_size]
+temporal: time_period
+sort: [time_period, measure, anzsic_2006, it_emp_size]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: it_emp_size
+    type: VARCHAR
+  - name: anzsic_2006
+    type: VARCHAR
+  - name: asgs_2016
+    type: BIGINT
+  - name: frequency
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: unit_mult
+    type: BIGINT
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

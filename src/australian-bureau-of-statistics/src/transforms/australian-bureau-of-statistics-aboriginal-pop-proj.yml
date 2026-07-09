@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-aboriginal-pop-proj`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+# caution: The model verifier did not nominate a compact key for this wide cross-tabulation; treat rows as source observations unless a later model pass asserts the full dimension key.
+key: []
+temporal: time_period
+sort: [time_period]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: sex_abs
+    type: BIGINT
+  - name: age
+    type: VARCHAR
+  - name: asgs_2011
+    type: BIGINT
+  - name: fert_assump
+    type: BIGINT
+  - name: paternity_assump
+    type: BIGINT
+  - name: mort_assump
+    type: BIGINT
+  - name: frequency
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

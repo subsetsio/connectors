@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-lt-cm-16`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [region, lt_16, lt_11, state]
+temporal: time_period
+sort: [time_period, region, lt_16, lt_11, state]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: lt_11
+    type: BIGINT
+  - name: lt_16
+    type: BIGINT
+  - name: region
+    type: BIGINT
+  - name: state
+    type: BIGINT
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

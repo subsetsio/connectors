@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-abs-census2011-t29-lga`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [region, fmcf_lfsf, measure, state, time_period]
+temporal: time_period
+sort: [time_period, region, fmcf_lfsf, measure, state]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: fmcf_lfsf
+    type: VARCHAR
+  - name: state
+    type: BIGINT
+  - name: regiontype
+    type: VARCHAR
+  - name: region
+    type: BIGINT
+  - name: frequency
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

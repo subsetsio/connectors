@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-prov-mortality-cause-wk`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [week_occur, cause_death, time_period, measure, unit_measure]
+temporal: time_period
+sort: [time_period, week_occur, cause_death, measure, unit_measure]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: measure
+    type: BIGINT
+  - name: cause_death
+    type: BIGINT
+  - name: week_occur
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

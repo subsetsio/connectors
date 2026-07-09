@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `australian-bureau-of-statistics-abs-census2011-b24-lga`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [region, measure, tisp, state]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [region, measure, tisp, state]
+  - kind: not_null
+    col: region
+  - kind: not_null
+    col: measure
+  - kind: not_null
+    col: tisp
+  - kind: not_null
+    col: state
+  - kind: row_floor
+    min: 41544
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

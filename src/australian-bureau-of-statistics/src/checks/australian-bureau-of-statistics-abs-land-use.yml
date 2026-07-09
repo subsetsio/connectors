@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `australian-bureau-of-statistics-abs-land-use`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [lu_11nc, lu_11, nrm_2012, measure, unit_measure]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [lu_11nc, lu_11, nrm_2012, measure, unit_measure]
+  - kind: not_null
+    col: lu_11nc
+  - kind: not_null
+    col: lu_11
+  - kind: not_null
+    col: nrm_2012
+  - kind: not_null
+    col: measure
+  - kind: not_null
+    col: unit_measure
+  - kind: row_floor
+    min: 2430
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

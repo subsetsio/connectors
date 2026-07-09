@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-abs-land-use`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [lu_11nc, lu_11, nrm_2012, measure, unit_measure]
+temporal: time_period
+sort: [time_period, lu_11nc, lu_11, nrm_2012, measure, unit_measure]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: lu_11
+    type: VARCHAR
+  - name: lu_11nc
+    type: VARCHAR
+  - name: measure
+    type: BIGINT
+  - name: nrm_2012
+    type: BIGINT
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: unit_mult
+    type: BIGINT
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

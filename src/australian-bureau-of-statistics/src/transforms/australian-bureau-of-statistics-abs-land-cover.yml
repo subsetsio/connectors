@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-abs-land-cover`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [dlc_11nc, dlc_11, nrm_2012]
+temporal: time_period
+sort: [time_period, dlc_11nc, dlc_11, nrm_2012]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: dlc_11
+    type: BIGINT
+  - name: dlc_11nc
+    type: BIGINT
+  - name: nrm_2012
+    type: BIGINT
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-oad-reason`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [time_period, duration, jour_reason, cat_traveller]
+temporal: time_period
+sort: [time_period, duration, jour_reason, cat_traveller]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: cat_traveller
+    type: VARCHAR
+  - name: duration
+    type: VARCHAR
+  - name: jour_reason
+    type: VARCHAR
+  - name: tsest
+    type: BIGINT
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-rime-region`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [asgs_2011_state_gccsa_sa4_sa3_sa2, time_period, region_type, rim]
+temporal: time_period
+sort: [time_period, asgs_2011_state_gccsa_sa4_sa3_sa2, region_type, rim]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: rim
+    type: BIGINT
+  - name: region_type
+    type: VARCHAR
+  - name: asgs_2011_state_gccsa_sa4_sa3_sa2
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

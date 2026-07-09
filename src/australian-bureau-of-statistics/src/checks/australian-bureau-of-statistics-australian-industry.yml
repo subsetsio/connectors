@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `australian-bureau-of-statistics-australian-industry`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [industry, time_period, measure, region, basis]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [industry, time_period, measure, region, basis]
+  - kind: not_null
+    col: industry
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: measure
+  - kind: not_null
+    col: region
+  - kind: not_null
+    col: basis
+  - kind: row_floor
+    min: 17311
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

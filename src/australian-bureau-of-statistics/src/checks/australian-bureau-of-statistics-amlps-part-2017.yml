@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `australian-bureau-of-statistics-amlps-part-2017`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [aec_fed_2017, age, measure, region_type, sex_abs]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [aec_fed_2017, age, measure, region_type, sex_abs]
+  - kind: not_null
+    col: aec_fed_2017
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: measure
+  - kind: not_null
+    col: region_type
+  - kind: not_null
+    col: sex_abs
+  - kind: row_floor
+    min: 11686
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

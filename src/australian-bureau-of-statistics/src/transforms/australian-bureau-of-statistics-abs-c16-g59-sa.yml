@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-abs-c16-g59-sa`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [asgs_2016, mtwp_c16, state, regiontype, sex_abs]
+temporal: time_period
+sort: [time_period, asgs_2016, mtwp_c16, state, regiontype, sex_abs]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: sex_abs
+    type: BIGINT
+  - name: mtwp_c16
+    type: VARCHAR
+  - name: state
+    type: BIGINT
+  - name: regiontype
+    type: VARCHAR
+  - name: asgs_2016
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

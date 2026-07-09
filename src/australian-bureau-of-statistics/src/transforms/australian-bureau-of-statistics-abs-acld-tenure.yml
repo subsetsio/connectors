@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-abs-acld-tenure`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [asgs_2011, age, tenure_2006, tenure_2011, sex_abs]
+temporal: time_period
+sort: [time_period, asgs_2011, age, tenure_2006, tenure_2011, sex_abs]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: sex_abs
+    type: BIGINT
+  - name: age
+    type: VARCHAR
+  - name: asgs_2011
+    type: BIGINT
+  - name: tenure_2006
+    type: VARCHAR
+  - name: tenure_2011
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

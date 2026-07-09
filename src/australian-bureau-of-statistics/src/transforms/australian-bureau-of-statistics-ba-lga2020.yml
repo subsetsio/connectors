@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-ba-lga2020`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+# caution: The model verifier did not nominate a compact key for this wide cross-tabulation; treat rows as source observations unless a later model pass asserts the full dimension key.
+key: []
+temporal: time_period
+sort: [time_period]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: measure
+    type: BIGINT
+  - name: sector
+    type: BIGINT
+  - name: work_type
+    type: VARCHAR
+  - name: building_type
+    type: VARCHAR
+  - name: region_type
+    type: VARCHAR
+  - name: region
+    type: BIGINT
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: unit_mult
+    type: BIGINT
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-lc-cm-yr`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [region, lc_from, lc_to, state, time_period]
+temporal: time_period
+sort: [time_period, region, lc_from, lc_to, state]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: lc_from
+    type: BIGINT
+  - name: lc_to
+    type: BIGINT
+  - name: region
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR
+  - name: reporting_year_start_day
+    type: VARCHAR

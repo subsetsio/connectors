@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-lend-business`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [time_period, loan_purpose, region, business_size, tsest]
+temporal: time_period
+sort: [time_period, loan_purpose, region, business_size, tsest]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: data_item
+    type: VARCHAR
+  - name: loan_type
+    type: VARCHAR
+  - name: loan_purpose
+    type: VARCHAR
+  - name: lender_type
+    type: VARCHAR
+  - name: business_size
+    type: VARCHAR
+  - name: tsest
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: unit_mult
+    type: BIGINT
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR

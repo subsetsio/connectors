@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-itpi-imp`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [time_period, index, measure, unit_measure, decimals]
+temporal: time_period
+sort: [time_period, index, measure, unit_measure, decimals]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: measure
+    type: BIGINT
+  - name: index
+    type: BIGINT
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: base_period
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `australian-bureau-of-statistics-abs-hh-prov`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [asgs_2011_state_gccsa_sa4_sa3_sa2, time_period, hh_type, proj_series]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [asgs_2011_state_gccsa_sa4_sa3_sa2, time_period, hh_type, proj_series]
+  - kind: not_null
+    col: asgs_2011_state_gccsa_sa4_sa3_sa2
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: hh_type
+  - kind: not_null
+    col: proj_series
+  - kind: row_floor
+    min: 4056
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

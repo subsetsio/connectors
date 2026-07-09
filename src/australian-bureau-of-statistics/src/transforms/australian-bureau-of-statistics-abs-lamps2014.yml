@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `australian-bureau-of-statistics-abs-lamps2014`. Regenerate after model-verify.
+# caution: ABS SDMX dataflows may include totals and component categories in the same coded dimensions; filter dimensions deliberately before aggregating observations.
+key: [mgt_practice, region_acz, anzsic, unit_measure, measure]
+temporal: time_period
+sort: [time_period, mgt_practice, region_acz, anzsic, unit_measure, measure]
+columns:
+  - name: dataflow
+    type: VARCHAR
+  - name: measure
+    type: BIGINT
+  - name: mgt_practice
+    type: VARCHAR
+  - name: anzsic
+    type: VARCHAR
+  - name: region_acz
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_comment
+    type: VARCHAR
