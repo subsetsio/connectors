@@ -1,1 +1,1 @@
-SELECT * FROM "rosstat-7708234640-tularegion"
+SELECT to_json(t) AS json FROM "rosstat-7708234640-tularegion" AS t

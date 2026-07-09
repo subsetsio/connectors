@@ -36,7 +36,7 @@ re-pulling picks up revisions for free. Cross-run cost is bounded by
 refresh window is skipped pre-spawn, so the backfill is resumable across runs
 and scheduled refreshes only re-pull what has aged out.
 
-Per-entity robustness: this is a 5427-node DAG, and one raising node fails the
+Per-entity robustness: this is a 5785-node DAG, and one raising node fails the
 whole run. So a single dataflow that is missing (404 / permanent 4xx), empty, or
 malformed is logged and skipped cleanly — never raised — leaving its raw asset
 simply absent (its transform then fails in isolation downstream). Only genuine
@@ -49,7 +49,6 @@ import zlib
 from subsets_utils import (
     MaintainSpec,
     NodeSpec,
-    SqlNodeSpec,
     get_client,
     raw_asset_exists,
     raw_writer,

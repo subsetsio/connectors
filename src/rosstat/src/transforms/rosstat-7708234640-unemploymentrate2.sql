@@ -1,1 +1,1 @@
-SELECT * FROM "rosstat-7708234640-unemploymentrate2"
+SELECT to_json(t) AS json FROM "rosstat-7708234640-unemploymentrate2" AS t

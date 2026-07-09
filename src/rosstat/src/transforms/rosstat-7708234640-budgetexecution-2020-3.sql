@@ -1,1 +1,1 @@
-SELECT * FROM "rosstat-7708234640-budgetexecution-2020-3"
+SELECT to_json(t) AS json FROM "rosstat-7708234640-budgetexecution-2020-3" AS t
