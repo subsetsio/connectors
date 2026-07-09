@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `penn-world-table-labor-detail`. Regenerate after model-verify.
 # caution: This table stacks multiple labor and human-capital indicator series; filter by `seriescode` or `indicatorname` before interpreting values as one measure.
-key: [countrycode, countryname, year, indicatorname, seriescode]
+key: [countrycode, year]
 temporal: year
-sort: [year, countrycode, countryname, indicatorname, seriescode]
+sort: [year, countrycode]
 columns:
   - name: countrycode
     type: VARCHAR

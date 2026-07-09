@@ -1,9 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `penn-world-table-main`. Regenerate after model-verify.
 # caution: The table carries many constructed macroeconomic measures with different units and bases; do not aggregate across variables without using the source definitions.
-key: [countrycode, country, currency_unit, year]
+key: [countrycode, year]
 temporal: year
-sort: [year, countrycode, country, currency_unit]
+sort: [year, countrycode]
 columns:
   - name: countrycode
     type: VARCHAR
