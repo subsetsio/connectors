@@ -1,22 +1,35 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inegi-values`. Regenerate after model-verify.
+# caution: National coverage only: every row is cober_geo '00' (Estados Unidos Mexicanos). No state or municipal rows are present, so this table cannot be aggregated up from subnational parts.
+# caution: The upstream stream can repeat the same indicator_id/time_period, including exact duplicate rows and rows with different obs_status/value pairs, so this raw table is intentionally keyless.
+# caution: Observations are long-format across indicators of different frequencies and units — never sum or average obs_value across indicator_id without filtering to one indicator, and read unit_id/freq_id before comparing rows.
+# caution: time_period is the source's raw period string and its granularity depends on the series' freq_id (a bare year for annual series, year+period for quarterly/monthly ones); it is not a uniform date.
+# caution: obs_value is expressed in unit_id scaled by unit_mult (a power-of-ten multiplier); the raw number is not directly comparable across series until that scaling is applied.
+key: []
 columns:
   - name: indicator_id
-    type: VARCHAR
+    type: BIGINT
   - name: topic_id
     type: VARCHAR
   - name: freq_id
-    type: VARCHAR
+    type: BIGINT
   - name: unit_id
+    type: BIGINT
+  - name: unit_mult
     type: VARCHAR
   - name: source_id
     type: VARCHAR
-  - name: time_period
-    type: VARCHAR
-  - name: value
-    type: DOUBLE
-  - name: obs_status
-    type: VARCHAR
-  - name: coverage_geo
-    type: VARCHAR
   - name: last_update
     type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: obs_status
+    type: BIGINT
+  - name: obs_exception
+    type: VARCHAR
+  - name: obs_note
+    type: VARCHAR
+  - name: cober_geo
+    type: BIGINT

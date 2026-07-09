@@ -1,11 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-mnre-getdatabyenergy`. Regenerate after model-verify.
+# caution: `category` is NULL on the total rows that coexist with the per-category rows.
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: type_of_renewable_energy
     type: VARCHAR
   - name: year
-    type: VARCHAR
+    type: BIGINT
   - name: month
     type: VARCHAR
   - name: state

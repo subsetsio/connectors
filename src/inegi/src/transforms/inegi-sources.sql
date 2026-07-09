@@ -1,1 +1,8 @@
-SELECT code AS source_id, description AS source_name FROM "inegi-sources"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    CAST("code" AS BIGINT) AS code,
+    "description"
+FROM "inegi-sources"

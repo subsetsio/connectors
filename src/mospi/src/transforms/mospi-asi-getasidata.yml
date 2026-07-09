@@ -1,9 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-asi-getasidata`. Regenerate after model-verify.
+# caution: `state` and `nic_code` both carry all-India / all-industry aggregate members alongside the individual states and NIC classes — filter before summing.
+# caution: `year` is a fiscal-year label (e.g. '2019-20'), not a calendar year.
+# caution: `unit` varies by `indicator`; values are only comparable within one indicator.
+key: []
 columns:
   - name: nic_classification
-    type: VARCHAR
+    type: BIGINT
   - name: year
     type: VARCHAR
   - name: state
@@ -18,7 +21,7 @@ columns:
     type: VARCHAR
   - name: nic_type
     type: VARCHAR
+  - name: value
+    type: BIGINT
   - name: unit
     type: VARCHAR
-  - name: value
-    type: DOUBLE

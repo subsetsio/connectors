@@ -1,9 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-wpi-getwpirecords`. Regenerate after model-verify.
+# caution: Two base-year series coexist: the 2011-12 series uses `base_year`/`major_group`/`sub_group`/`sub_sub_group`, the older series uses `majorgroup`/`group`/`subgroup`/`sub_subgroup`. Exactly one set is populated per row.
+# caution: `item` is NULL on group-level rows — group totals and their items coexist.
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: year
-    type: VARCHAR
+    type: BIGINT
   - name: month
     type: VARCHAR
   - name: majorgroup
@@ -16,6 +19,8 @@ columns:
     type: VARCHAR
   - name: item
     type: VARCHAR
+  - name: index_value
+    type: DOUBLE
   - name: base_year
     type: JSON
   - name: major_group
@@ -24,5 +29,3 @@ columns:
     type: JSON
   - name: sub_sub_group
     type: JSON
-  - name: index_value
-    type: DOUBLE

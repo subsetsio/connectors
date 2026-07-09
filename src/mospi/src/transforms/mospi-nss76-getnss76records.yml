@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-nss76-getnss76records`. Regenerate after model-verify.
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: indicator
     type: VARCHAR
@@ -8,6 +11,8 @@ columns:
     type: VARCHAR
   - name: sector
     type: VARCHAR
+  - name: value
+    type: DOUBLE
   - name: arrangement_of_caregiver
     type: VARCHAR
   - name: status_of_receipt_of_aid_help
@@ -56,5 +61,3 @@ columns:
     type: JSON
   - name: types_of_latrine_uses
     type: JSON
-  - name: value
-    type: DOUBLE

@@ -1,10 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-gender-getgenderrecords`. Regenerate after model-verify.
+# caution: `year` mixes calendar years, fiscal-year labels and survey-round labels.
+# caution: `unit` varies by `indicator`; values are only comparable within one indicator.
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: year
     type: VARCHAR
-  - name: state_UT
+  - name: state_ut
     type: VARCHAR
   - name: indicator
     type: VARCHAR
@@ -12,13 +15,15 @@ columns:
     type: VARCHAR
   - name: gender
     type: VARCHAR
+  - name: value
+    type: VARCHAR
   - name: unit
     type: VARCHAR
   - name: age_group
     type: VARCHAR
   - name: education_level
     type: VARCHAR
-  - name: birth_order_age_wise_
+  - name: birth_order_age_wise
     type: VARCHAR
   - name: sub_indicator
     type: VARCHAR
@@ -34,7 +39,7 @@ columns:
     type: VARCHAR
   - name: quarter
     type: VARCHAR
-  - name: NCO_division
+  - name: nco_division
     type: VARCHAR
   - name: employment_category
     type: JSON
@@ -62,5 +67,3 @@ columns:
     type: JSON
   - name: crime_head
     type: JSON
-  - name: value
-    type: DOUBLE

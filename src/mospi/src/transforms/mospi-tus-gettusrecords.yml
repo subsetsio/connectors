@@ -1,9 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-tus-gettusrecords`. Regenerate after model-verify.
+# caution: `state` is a single all-India member; the table carries no state breakdown.
+# caution: `icatus_activity` totals coexist with individual ICATUS activities.
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: year
-    type: VARCHAR
+    type: BIGINT
   - name: state
     type: VARCHAR
   - name: indicator
@@ -17,6 +20,8 @@ columns:
   - name: icatus_activity
     type: VARCHAR
   - name: day_of_week
+    type: VARCHAR
+  - name: value
     type: VARCHAR
   - name: unit
     type: VARCHAR
@@ -40,5 +45,3 @@ columns:
     type: JSON
   - name: place_of_activity
     type: JSON
-  - name: value
-    type: DOUBLE

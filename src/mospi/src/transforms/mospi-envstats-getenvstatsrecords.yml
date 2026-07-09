@@ -1,12 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-envstats-getenvstatsrecords`. Regenerate after model-verify.
+# caution: A very wide sparse table: each `indicator` populates only its own handful of dimension columns; the rest are NULL by construction.
+# caution: `year` mixes calendar years, fiscal-year labels and multi-year ranges.
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: year
     type: VARCHAR
   - name: indicator
     type: VARCHAR
   - name: period
+    type: VARCHAR
+  - name: value
     type: VARCHAR
   - name: unit
     type: VARCHAR
@@ -98,7 +103,7 @@ columns:
     type: JSON
   - name: causes
     type: JSON
-  - name: NFHS_round
+  - name: nfhs_round
     type: JSON
   - name: source_drinking_water
     type: JSON
@@ -122,5 +127,3 @@ columns:
     type: JSON
   - name: major_discipline
     type: JSON
-  - name: value
-    type: DOUBLE

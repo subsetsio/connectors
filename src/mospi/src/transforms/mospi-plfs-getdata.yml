@@ -1,11 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-plfs-getdata`. Regenerate after model-verify.
+# caution: `frequency` mixes annual, quarterly and monthly observations in one table.
+# caution: Annual rows carry `year_type` ('July-June'); quarterly rows carry `quarter`.
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: year_type
     type: VARCHAR
   - name: year
-    type: VARCHAR
+    type: BIGINT
   - name: frequency
     type: VARCHAR
   - name: indicator
@@ -16,15 +19,15 @@ columns:
     type: VARCHAR
   - name: sector
     type: VARCHAR
-  - name: AgeGroup
+  - name: agegroup
     type: VARCHAR
   - name: weekly_status
     type: VARCHAR
   - name: religion
     type: VARCHAR
-  - name: socialGroup
+  - name: socialgroup
     type: VARCHAR
-  - name: General_Education
+  - name: general_education
     type: VARCHAR
   - name: quarter
     type: JSON
@@ -32,6 +35,8 @@ columns:
     type: JSON
   - name: employee_contract
     type: JSON
+  - name: value
+    type: VARCHAR
   - name: unit
     type: VARCHAR
   - name: broad_industry_work
@@ -48,5 +53,3 @@ columns:
     type: JSON
   - name: nic_group
     type: JSON
-  - name: value
-    type: DOUBLE

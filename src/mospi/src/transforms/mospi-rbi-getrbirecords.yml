@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-rbi-getrbirecords`. Regenerate after model-verify.
+# caution: `year` mixes calendar years, fiscal-year labels and month-level periods; `month` is populated only for monthly series.
+# caution: `unit` varies by `indicator`; values are only comparable within one indicator.
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: indicator
     type: VARCHAR
@@ -9,6 +12,8 @@ columns:
   - name: balance_of_payments
     type: VARCHAR
   - name: trade_category
+    type: VARCHAR
+  - name: value
     type: VARCHAR
   - name: unit
     type: VARCHAR
@@ -72,9 +77,9 @@ columns:
     type: JSON
   - name: currency_type
     type: JSON
-  - name: NRI_deposits_sub_indicator
+  - name: nri_deposits_sub_indicator
     type: JSON
-  - name: NRI_deposits_category
+  - name: nri_deposits_category
     type: JSON
   - name: transaction
     type: JSON
@@ -86,5 +91,3 @@ columns:
     type: JSON
   - name: trade_type
     type: JSON
-  - name: value
-    type: DOUBLE

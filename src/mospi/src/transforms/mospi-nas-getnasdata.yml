@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-nas-getnasdata`. Regenerate after model-verify.
+# caution: `frequency` mixes annual and quarterly observations; quarterly rows carry `quarter`, annual rows leave it NULL.
+# caution: `revision` distinguishes the estimate vintage (provisional / revised); a year can appear more than once.
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: base_year
     type: VARCHAR
@@ -22,9 +25,9 @@ columns:
     type: VARCHAR
   - name: quarter
     type: VARCHAR
-  - name: unit
-    type: VARCHAR
   - name: current_price
     type: DOUBLE
   - name: constant_price
-    type: DOUBLE
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR

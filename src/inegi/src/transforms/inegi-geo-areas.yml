@@ -1,6 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inegi-geo-areas`. Regenerate after model-verify.
+# caution: Mixes three administrative levels in one column: '0000' national, 2-digit state codes, 5-digit municipality codes (state prefix + municipality suffix). Filter by code length before counting areas.
+key: [code, description]
+sort: [code, description]
 columns:
-  - name: geo_id
+  - name: code
     type: VARCHAR
-  - name: geo_name
+  - name: description
     type: VARCHAR

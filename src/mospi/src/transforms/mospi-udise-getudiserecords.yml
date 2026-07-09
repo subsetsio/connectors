@@ -1,12 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-udise-getudiserecords`. Regenerate after model-verify.
+# caution: `year` is a fiscal school year (e.g. '2021-22').
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: indicator
     type: VARCHAR
   - name: year
     type: VARCHAR
   - name: state
+    type: VARCHAR
+  - name: value
     type: VARCHAR
   - name: level_of_education
     type: VARCHAR
@@ -32,5 +36,3 @@ columns:
     type: JSON
   - name: facility_of_labs
     type: JSON
-  - name: value
-    type: DOUBLE

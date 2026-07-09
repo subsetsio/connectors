@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-hces-gethcesrecords`. Regenerate after model-verify.
+# caution: `imputation_type` distinguishes two parallel estimates of the same observation — pin it before comparing across states or years.
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: year
     type: VARCHAR
@@ -11,6 +13,8 @@ columns:
   - name: sector
     type: VARCHAR
   - name: imputation_type
+    type: VARCHAR
+  - name: value
     type: VARCHAR
   - name: unit
     type: VARCHAR
@@ -24,5 +28,3 @@ columns:
     type: JSON
   - name: social_group
     type: JSON
-  - name: value
-    type: DOUBLE

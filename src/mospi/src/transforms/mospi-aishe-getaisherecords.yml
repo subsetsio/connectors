@@ -1,12 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-aishe-getaisherecords`. Regenerate after model-verify.
+# caution: `year` is a fiscal academic year (e.g. '2020-21').
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: indicator
     type: VARCHAR
   - name: year
     type: VARCHAR
   - name: state
+    type: VARCHAR
+  - name: value
     type: VARCHAR
   - name: gender
     type: VARCHAR
@@ -22,5 +26,3 @@ columns:
     type: VARCHAR
   - name: faculty_type
     type: VARCHAR
-  - name: value
-    type: DOUBLE

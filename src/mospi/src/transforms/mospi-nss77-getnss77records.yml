@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-nss77-getnss77records`. Regenerate after model-verify.
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: state
     type: VARCHAR
@@ -6,11 +9,13 @@ columns:
     type: VARCHAR
   - name: household_classification
     type: VARCHAR
-  - name: Land_Possessed_hectares_
+  - name: land_possessed_hectares
     type: VARCHAR
   - name: visit_name
     type: VARCHAR
-  - name: Social_Group
+  - name: value
+    type: VARCHAR
+  - name: social_group
     type: VARCHAR
   - name: household_employment
     type: VARCHAR
@@ -24,9 +29,9 @@ columns:
     type: JSON
   - name: major_disposal
     type: JSON
-  - name: Level_Of_Satisfaction
+  - name: level_of_satisfaction
     type: JSON
-  - name: Subsatisfactory_name
+  - name: subsatisfactory_name
     type: JSON
   - name: agency
     type: JSON
@@ -98,5 +103,3 @@ columns:
     type: JSON
   - name: crop_experienced
     type: JSON
-  - name: value
-    type: DOUBLE

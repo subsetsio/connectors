@@ -1,6 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inegi-frequencies`. Regenerate after model-verify.
+# caution: The code column is not unique across rows — join on the code expecting possible label variants.
+key: [description]
+sort: [description]
 columns:
-  - name: freq_id
-    type: VARCHAR
-  - name: frequency_name
+  - name: code
+    type: BIGINT
+  - name: description
     type: VARCHAR

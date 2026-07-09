@@ -1,11 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-cpi-getcpiindex`. Regenerate after model-verify.
+# caution: `state` includes the All-India aggregate alongside the states; `sector` includes 'Combined' alongside Rural and Urban; `group`/`subgroup` include 'General' / total rows. Filter before summing.
+# caution: Two base-year series (`baseyear`) coexist and their index levels are not comparable.
+# caution: `status` marks provisional vs final observations.
+key: []
 columns:
   - name: baseyear
-    type: VARCHAR
+    type: BIGINT
   - name: year
-    type: VARCHAR
+    type: BIGINT
   - name: month
     type: VARCHAR
   - name: state
@@ -16,9 +19,9 @@ columns:
     type: VARCHAR
   - name: subgroup
     type: VARCHAR
-  - name: status
-    type: VARCHAR
   - name: index
     type: DOUBLE
   - name: inflation
     type: DOUBLE
+  - name: status
+    type: VARCHAR

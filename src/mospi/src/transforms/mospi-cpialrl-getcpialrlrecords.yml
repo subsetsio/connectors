@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-cpialrl-getcpialrlrecords`. Regenerate after model-verify.
+# caution: Separate index columns for agricultural labourers (`index_al`) and rural labourers (`index_rl`); the inflation columns are populated only for the recent base-year series.
+# caution: `state` includes the All-India aggregate alongside the states.
+key: []
 columns:
   - name: indicator
     type: VARCHAR
@@ -12,8 +14,6 @@ columns:
     type: VARCHAR
   - name: state
     type: VARCHAR
-  - name: group
-    type: VARCHAR
   - name: index_al
     type: DOUBLE
   - name: index_rl
@@ -22,3 +22,5 @@ columns:
     type: DOUBLE
   - name: inflation_rl
     type: DOUBLE
+  - name: group
+    type: VARCHAR

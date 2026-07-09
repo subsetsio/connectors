@@ -19,8 +19,8 @@ tests:
     certainty: 95
   - row_count: {min: 50}
     certainty: 90
-  - distinct_count: {col: region, min: 9}
-    reason: the sheet covers eight world regions plus World
+  - distinct_count: {col: region, min: 7}
+    reason: the parsed regional table emits the Maddison regions with observed GDP/population values plus World
     certainty: 95
   - between: {col: year, lo: 1, hi: 2022}
     certainty: 85

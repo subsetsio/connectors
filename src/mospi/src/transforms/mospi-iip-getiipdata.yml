@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-iip-getiipdata`. Regenerate after model-verify.
+# caution: Rows with a NULL `month` are annual (fiscal-year) figures; rows with a month are monthly. Filter on `month IS NULL` to separate them.
+# caution: Four base-year series (`base_year`) coexist and their index levels are not comparable.
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: base_year
     type: VARCHAR
@@ -12,9 +15,9 @@ columns:
     type: VARCHAR
   - name: sub_category
     type: VARCHAR
-  - name: month
-    type: VARCHAR
   - name: index
     type: DOUBLE
   - name: growth_rate
     type: DOUBLE
+  - name: month
+    type: VARCHAR

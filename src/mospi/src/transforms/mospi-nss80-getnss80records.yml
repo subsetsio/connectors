@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mospi-nss80-getnss80records`. Regenerate after model-verify.
+# caution: Long-format indicator table: a dimension column is NULL when the row is not disaggregated along that dimension (the row is a total over it). Never aggregate `value` across rows without pinning every dimension column — totals and their components coexist.
+key: []
 columns:
   - name: indicator
     type: VARCHAR
@@ -7,6 +10,8 @@ columns:
   - name: type_of_goods
     type: VARCHAR
   - name: sector
+    type: VARCHAR
+  - name: value
     type: VARCHAR
   - name: mobile_household_assets
     type: VARCHAR
@@ -36,5 +41,3 @@ columns:
     type: JSON
   - name: sof
     type: JSON
-  - name: value
-    type: DOUBLE
