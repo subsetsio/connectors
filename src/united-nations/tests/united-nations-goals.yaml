@@ -1,0 +1,17 @@
+spec_id: united-nations-goals
+status: active
+tests:
+  - not_null: goal_code
+  - unique: goal_code
+    reason: Goal/List is the canonical 17-goal framework; one row per goal code
+    certainty: 99
+  - not_null: title
+  - row_count: {min: 17, max: 17}
+    reason: the 2030 Agenda fixes the framework at exactly 17 goals; a change means the API shape moved, not the world
+    certainty: 97
+  - matches: {col: goal_code, pattern: '^[0-9]{1,2}$'}
+    reason: goal codes are the bare integers 1-17 as strings
+    certainty: 95
+  - not_null: description
+    reason: every goal carries prose; a null means we read the wrong field
+    certainty: 90
