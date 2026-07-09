@@ -1,4 +1,7 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [indicator_id, reference_period, unit, year, data_period]
+temporal: last_update_date
+sort: [last_update_date, indicator_id, data_period, year, reference_period, unit]
 columns:
   - name: indicator_id
     type: BIGINT

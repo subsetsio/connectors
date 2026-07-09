@@ -1,7 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `climate-action-tracker-country-emissions`. Regenerate after model-verify.
+# caution: Rows include historical emissions, current-policy pathway bounds, NDC targets, fair-share and modelled-domestic-pathway boundaries, and warming-rating scenario lines; filter scenario, sector, indicator, and variable before aggregating.
+# caution: The sector column includes economy-wide values excluding LULUCF and separate LULUCF rows, so summing sectors can double-count unless the desired sector scope is selected first.
+key: [version_date, id]
+temporal: version_date
+sort: [version_date, id]
 columns:
   - name: id
     type: BIGINT
+  - name: variable
+    type: VARCHAR
+  - name: per_capita
+    type: BOOLEAN
   - name: region
     type: VARCHAR
   - name: scenario
@@ -10,21 +20,19 @@ columns:
     type: VARCHAR
   - name: indicator
     type: VARCHAR
-  - name: variable
-    type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: value
     type: DOUBLE
   - name: unit
     type: VARCHAR
-  - name: per_capita
-    type: BOOLEAN
   - name: version
     type: VARCHAR
+  - name: version_date
+    type: DATE
   - name: comments
     type: VARCHAR
   - name: source
     type: VARCHAR
   - name: edition
-    type: INTEGER
+    type: BIGINT

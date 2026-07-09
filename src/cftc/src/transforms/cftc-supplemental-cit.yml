@@ -1,50 +1,91 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# CFTC Commitments of Traders — Supplemental (Commodity Index Traders).
+#
+# Every row is COMBINED futures-and-options: this family publishes no
+# Futures-Only variant and the raw carries no futonly_or_combined column, so the
+# constant report_type column the sibling COT tables key on is omitted here and
+# the grain is one row per (report_date, cftc_code).
+#
+# CONSUMER CAUTIONS (from the settled model of the raw asset):
+#  * Covers only 13 select agricultural contract markets, not the full COT
+#    universe. A contract market missing from this table is not a zero.
+#  * The *_excl_cit columns EXCLUDE index traders: this report carves the Index
+#    Trader class out of the commercial and non-commercial classes that
+#    cftc-legacy reports. Do not compare these trader classes against
+#    cftc-legacy's for the same contract market and date, and do not compare
+#    position levels against the other families' Futures-Only rows.
+#  * Rows are a weekly snapshot of positions outstanding on the Tuesday report
+#    date, not flows. Only change_in_open_interest is a week-over-week
+#    difference; never sum position columns across report dates.
+key: [report_date, cftc_code]
+temporal: report_date
+sort: [report_date, cftc_code]
 columns:
   - name: report_date
     type: DATE
+    description: Tuesday as-of date the positions were outstanding (the report reflects the close of business that day and is published the following Friday).
   - name: market
     type: VARCHAR
+    description: Full CFTC market and exchange name, e.g. "WHEAT-SRW - CHICAGO BOARD OF TRADE".
   - name: contract
     type: VARCHAR
+    description: Contract market name without the exchange suffix, e.g. "WHEAT-SRW".
   - name: cftc_code
     type: VARCHAR
+    description: CFTC contract market code — the stable identifier for the contract market (renamed from cftc_contract_market_code).
   - name: exchange_code
     type: VARCHAR
+    description: CFTC market code for the reporting exchange, e.g. "CBT" (renamed from cftc_market_code).
   - name: commodity_name
     type: VARCHAR
+    description: CFTC commodity name for the underlying, e.g. "WHEAT".
   - name: commodity_group_name
     type: VARCHAR
+    description: Top-level CFTC commodity group — agriculture for every row of this table.
   - name: commodity_subgroup_name
     type: VARCHAR
+    description: CFTC commodity subgroup within the group, e.g. "GRAINS", "LIVESTOCK".
   - name: contract_units
     type: VARCHAR
+    description: Free-text unit one contract represents, e.g. "5,000 BUSHELS". Position columns count contracts, not these units.
   - name: open_interest
     type: DOUBLE
+    description: Total combined futures-and-options open interest in contracts across all trader categories.
   - name: total_reportable_long
     type: DOUBLE
+    description: Long positions held by all reportable traders, in contracts. Includes index traders.
   - name: total_reportable_short
     type: DOUBLE
+    description: Short positions held by all reportable traders, in contracts. Includes index traders.
   - name: nonreportable_long
     type: DOUBLE
+    description: Long positions held by traders below the CFTC reporting threshold, in contracts (derived by the CFTC as open interest minus reportable longs).
   - name: nonreportable_short
     type: DOUBLE
+    description: Short positions held by traders below the CFTC reporting threshold, in contracts.
   - name: total_traders
     type: DOUBLE
-  - name: report_type
-    type: VARCHAR
+    description: Number of reportable traders holding a position in this contract market.
   - name: change_in_open_interest
     type: DOUBLE
+    description: Change in combined open interest, in contracts, from the previous week's report date.
   - name: index_trader_long
     type: DOUBLE
+    description: Long positions of commodity index traders — entities whose futures positions replicate a passive long commodity index — in contracts.
   - name: index_trader_short
     type: DOUBLE
+    description: Short positions of commodity index traders, in contracts.
   - name: noncommercial_long_excl_cit
     type: DOUBLE
+    description: Long positions of non-commercial (speculative) reportable traders after index traders are removed, in contracts. Excludes positions counted in noncommercial_spread_excl_cit.
   - name: noncommercial_short_excl_cit
     type: DOUBLE
+    description: Short positions of non-commercial reportable traders after index traders are removed, in contracts. Excludes positions counted in noncommercial_spread_excl_cit.
   - name: noncommercial_spread_excl_cit
     type: DOUBLE
+    description: Non-commercial positions (index traders removed) offset long against short within the contract market, in contracts. Counted once here, not in the long/short columns.
   - name: commercial_long_excl_cit
     type: DOUBLE
+    description: Long positions of commercial traders — those hedging a physical business — after index traders are removed, in contracts.
   - name: commercial_short_excl_cit
     type: DOUBLE
+    description: Short positions of commercial traders after index traders are removed, in contracts.

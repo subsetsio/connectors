@@ -88,8 +88,6 @@ _REG_SQL = '''
     WHERE value IS NOT NULL
 '''
 
-DOWNLOAD_SPECS = [NodeSpec(id=sid, fn=fetch_regional, kind="download") for sid in _REGIONAL]
+DOWNLOAD_SPECS = []
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{sid}-transform", deps=[sid], sql=_REG_SQL.format(dep=sid)) for sid in _REGIONAL
-]
+TRANSFORM_SPECS = []

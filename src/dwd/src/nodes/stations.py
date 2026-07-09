@@ -68,8 +68,6 @@ _STATIONS_SQL = '''
     WHERE station_id IS NOT NULL
 '''
 
-DOWNLOAD_SPECS = [NodeSpec(id="dwd-stations", fn=fetch_stations, kind="download")]
+DOWNLOAD_SPECS = []
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id="dwd-stations-transform", deps=["dwd-stations"], sql=_STATIONS_SQL.format(dep="dwd-stations"))
-]
+TRANSFORM_SPECS = []

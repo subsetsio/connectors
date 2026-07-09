@@ -21,6 +21,6 @@ tests:
   - distinct_count: {col: indicator_id, min: 4000}
     reason: values fetch should cover most indicator codes, not just a small sample.
     certainty: 85
-  - matches: {col: geo_unit, pattern: "[A-Z0-9_]+"}
-    reason: UIS geounit identifiers are compact uppercase codes.
+  - matches: {col: geo_unit, pattern: ".+"}
+    reason: UIS geoUnit values include ISO-style country codes and named regional aggregate identifiers.
     certainty: 80
