@@ -36,7 +36,6 @@ from ratelimit import limits, sleep_and_retry
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -172,28 +171,4 @@ def fetch_prices(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="agmarknet-prices", fn=fetch_prices, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="agmarknet-prices-transform",
-        deps=["agmarknet-prices"],
-        key=("state", "district", "market", "commodity", "variety", "grade", "arrival_date"),
-        temporal="arrival_date",
-        sql='''
-            SELECT DISTINCT
-                state,
-                district,
-                market,
-                commodity,
-                variety,
-                grade,
-                try_strptime(arrival_date, '%d/%m/%Y')::DATE AS arrival_date,
-                TRY_CAST(min_price   AS DOUBLE) AS min_price,
-                TRY_CAST(max_price   AS DOUBLE) AS max_price,
-                TRY_CAST(modal_price AS DOUBLE) AS modal_price
-            FROM "agmarknet-prices"
-            WHERE try_strptime(arrival_date, '%d/%m/%Y') IS NOT NULL
-        ''',
-    ),
 ]
