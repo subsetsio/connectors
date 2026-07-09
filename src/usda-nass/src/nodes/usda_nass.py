@@ -125,7 +125,6 @@ def _read_tsv(path: str) -> str:
     )
 
 
-@transient_retry()
 def _discover_urls() -> dict[str, str]:
     """Scrape the directory listing for the current YYYYMMDD stamp and map each
     sector token to its bulk-file URL."""
@@ -150,7 +149,8 @@ def _discover_urls() -> dict[str, str]:
 @transient_retry()
 def _download(url: str, dest: str) -> None:
     """Stream one sector dump to local disk — crops alone is 1.1 GB compressed,
-    far past what an in-memory response can hold."""
+    far past what an in-memory response can hold. `get_client().stream` bypasses
+    the retry baked into `get`, so the policy is applied here."""
     with get_client().stream("GET", url, timeout=(30.0, 900.0)) as resp:
         resp.raise_for_status()
         with open(dest, "wb") as fh:

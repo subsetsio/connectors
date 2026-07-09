@@ -29,7 +29,7 @@ import xml.etree.ElementTree as ET
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, get_client, raw_parquet_writer, transient_retry
+from subsets_utils import NodeSpec, get, get_client, raw_parquet_writer, transient_retry
 from constants import ENTITY_IDS, TABLE_COLUMNS
 
 SLUG = "courtlistener"
@@ -181,89 +181,3 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-
-# --------------------------------------------------------------------------
-# Transform — thin typing pass over the all-string raw
-# --------------------------------------------------------------------------
-# Raw columns are all strings. We TRY_CAST keys, dates and timestamps to proper
-# types (TRY_CAST -> NULL on a bad value, never fails the node) and pass the
-# rest through. Court foreign keys are alphanumeric codes ('nc', 'ca5'), NOT
-# integers, so they stay string.
-
-_TS_COLS = {"date_created", "date_modified", "date_completed",
-            "date_last_pacer_contact", "date_last_index"}
-_STRING_ID_COLS = {"court_id", "parent_court_id", "appeal_from_id",
-                   "circuit_id", "district_id", "pacer_court_id", "fjc_court_id"}
-_INT_COLS = {"year", "year_of_tape", "depth", "citation_count", "page_count",
-             "page_number", "view_count", "ia_upload_failure_count", "duration",
-             "scdb_votes_majority", "scdb_votes_minority", "votes_yes", "votes_no"}
-_DOUBLE_COLS = {"position", "score", "votes_yes_percent", "votes_no_percent",
-                "monetary_demand", "amount_received"}
-# Per-table columns dropped from the PUBLISHED table (raw retains everything).
-# These are full-document free-text blobs (opinion bodies, transcripts, syllabi)
-# that (a) overflow DuckDB's 2GB regular Arrow string buffer when a batch's
-# string column exceeds 2GB and (b) are document text, not the statistical /
-# metadata content these subsets are published for. Per-table (not global) so a
-# short coded column like fjc's `disposition` is NOT dropped.
-_DROP_COLS = {
-    "oral-arguments": {"stt_transcript"},
-    "opinion-clusters": {
-        "syllabus", "headnotes", "summary", "procedural_history", "history",
-        "headmatter", "arguments", "posture", "attorneys", "disposition",
-        "cross_reference", "correction", "other_dates",
-    },
-}
-
-
-def _is_date_col(col: str) -> bool:
-    if col.endswith("_date"):  # start_date, end_date, transaction_date
-        return True
-    return (col.startswith("date_")
-            and not col.startswith("date_granularity")
-            and not col.endswith("_raw")
-            and not col.endswith("_is_approximate"))
-
-
-def _col_expr(table: str, col: str) -> str:
-    q = f'"{col}"'
-    if col in _STRING_ID_COLS:
-        return q
-    if col == "id":
-        return q if table == "courts" else f"TRY_CAST({q} AS BIGINT) AS {q}"
-    if col.endswith("_id"):
-        return f"TRY_CAST({q} AS BIGINT) AS {q}"
-    if col in _TS_COLS:
-        return f"TRY_CAST({q} AS TIMESTAMP) AS {q}"
-    if _is_date_col(col):
-        return f"TRY_CAST({q} AS DATE) AS {q}"
-    if col in _INT_COLS:
-        return f"TRY_CAST({q} AS BIGINT) AS {q}"
-    if col in _DOUBLE_COLS:
-        return f"TRY_CAST({q} AS DOUBLE) AS {q}"
-    return q
-
-
-def _build_sql(table: str, asset: str) -> str:
-    drop = _DROP_COLS.get(table, set())
-    cols = [c for c in TABLE_COLUMNS[table] if c not in drop]
-    exprs = ",\n    ".join(_col_expr(table, c) for c in cols)
-    return f'SELECT\n    {exprs}\nFROM "{asset}"'
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_build_sql(s.id[len(SLUG) + 1:], s.id),
-        # Every bulk table is a PostgreSQL dump keyed on its `id` primary key
-        # (always retained by the projection). `date_modified` is the record
-        # update timestamp and the freshness signal wherever the table carries it.
-        key=("id",),
-        temporal=(
-            "date_modified"
-            if "date_modified" in TABLE_COLUMNS[s.id[len(SLUG) + 1:]]
-            else None
-        ),
-    )
-    for s in DOWNLOAD_SPECS
-]
