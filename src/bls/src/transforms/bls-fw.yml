@@ -1,0 +1,54 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bls-fw`. Regenerate after model-verify.
+# caution: `value` is untyped across rows: what it measures is selected by `datatype_code` and `case_code` (fatality counts vs rates). Never aggregate `value` without first pinning those dimensions to a single measure.
+# caution: `industry_code`, `occupation_code`, `event_code` and `area_code` each carry 'all'/'total' aggregate rows alongside their components.
+key: [series_id, year, period]
+temporal: period_start_date
+sort: [period_start_date, series_id, year, period]
+columns:
+  - name: series_id
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: period
+    type: VARCHAR
+  - name: period_start_date
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: footnote_codes
+    type: VARCHAR
+  - name: seasonal
+    type: VARCHAR
+  - name: seasonal_name
+    type: VARCHAR
+  - name: category_code
+    type: VARCHAR
+  - name: datatype_code
+    type: BIGINT
+  - name: datatype_name
+    type: VARCHAR
+  - name: case_code
+    type: VARCHAR
+  - name: case_name
+    type: VARCHAR
+  - name: industry_code
+    type: VARCHAR
+  - name: industry_name
+    type: VARCHAR
+  - name: event_code
+    type: VARCHAR
+  - name: event_name
+    type: VARCHAR
+  - name: source_code
+    type: VARCHAR
+  - name: source_name
+    type: VARCHAR
+  - name: occupation_code
+    type: VARCHAR
+  - name: occupation_name
+    type: VARCHAR
+  - name: area_code
+    type: VARCHAR
+  - name: area_name
+    type: VARCHAR

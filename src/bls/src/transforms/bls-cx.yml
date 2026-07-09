@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bls-cx`. Regenerate after model-verify.
+# caution: `value` is untyped across rows: what it measures is selected by `category_code`, `subcategory_code` and `process_code`. Never aggregate `value` without first pinning those dimensions to a single measure.
+# caution: `category_code`/`subcategory_code` form an expenditure hierarchy whose parent rows already contain their components.
+key: [series_id, year, period]
+temporal: period_start_date
+sort: [period_start_date, series_id, year, period]
+columns:
+  - name: series_id
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: period
+    type: VARCHAR
+  - name: period_start_date
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: footnote_codes
+    type: BIGINT
+  - name: seasonal
+    type: VARCHAR
+  - name: category_code
+    type: VARCHAR
+  - name: category_name
+    type: VARCHAR
+  - name: subcategory_code
+    type: VARCHAR
+  - name: item_code
+    type: VARCHAR
+  - name: demographics_code
+    type: VARCHAR
+  - name: demographics_name
+    type: VARCHAR
+  - name: characteristics_code
+    type: VARCHAR
+  - name: process_code
+    type: VARCHAR
+  - name: process_name
+    type: VARCHAR
+  - name: series_title
+    type: VARCHAR

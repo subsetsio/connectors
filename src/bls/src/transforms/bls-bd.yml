@@ -1,0 +1,71 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bls-bd`. Regenerate after model-verify.
+# caution: Carries both seasonally adjusted (`seasonal` = 'S') and unadjusted ('U') versions of the same underlying series; filter `seasonal` or you will mix two measurements of the same quantity.
+# caution: `value` is untyped across rows: what it measures is selected by `dataelement_code`, `dataclass_code` and `ratelevel_code` (counts vs rates). Never aggregate `value` without first pinning those dimensions to a single measure.
+# caution: `industry_code`, `state_code`, `msa_code` and `county_code` all carry aggregate rows alongside their components; `ratelevel_code` separates counts from rates.
+key: [series_id, year, period]
+temporal: period_start_date
+sort: [period_start_date, series_id, year, period]
+columns:
+  - name: series_id
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: period
+    type: VARCHAR
+  - name: period_start_date
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: footnote_codes
+    type: BIGINT
+  - name: seasonal
+    type: VARCHAR
+  - name: seasonal_name
+    type: VARCHAR
+  - name: msa_code
+    type: VARCHAR
+  - name: msa_name
+    type: VARCHAR
+  - name: state_code
+    type: VARCHAR
+  - name: state_name
+    type: VARCHAR
+  - name: county_code
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: industry_code
+    type: VARCHAR
+  - name: industry_name
+    type: VARCHAR
+  - name: unitanalysis_code
+    type: BIGINT
+  - name: unitanalysis_name
+    type: VARCHAR
+  - name: dataelement_code
+    type: BIGINT
+  - name: dataelement_name
+    type: VARCHAR
+  - name: sizeclass_code
+    type: VARCHAR
+  - name: sizeclass_name
+    type: VARCHAR
+  - name: dataclass_code
+    type: VARCHAR
+  - name: dataclass_name
+    type: VARCHAR
+  - name: ratelevel_code
+    type: VARCHAR
+  - name: ratelevel_name
+    type: VARCHAR
+  - name: periodicity_code
+    type: VARCHAR
+  - name: periodicity_name
+    type: VARCHAR
+  - name: ownership_code
+    type: BIGINT
+  - name: ownership_name
+    type: VARCHAR
+  - name: series_title
+    type: VARCHAR

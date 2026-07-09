@@ -1,0 +1,73 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bls-kv`. Regenerate after model-verify.
+# caution: `value` is untyped across rows: what it measures is selected by `measure_type_code`, `measure_unit_code` and `measure_multiplier_code`. Never aggregate `value` without first pinning those dimensions to a single measure.
+# caution: Demographic dimension codes carry 'all'/'total' rows alongside their breakdowns.
+# caution: `value` must be scaled by `measure_multiplier_code` before it is comparable across series.
+key: [series_id, year, period]
+temporal: period_start_date
+sort: [period_start_date, series_id, year, period]
+columns:
+  - name: series_id
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: period
+    type: VARCHAR
+  - name: period_start_date
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: footnote_codes
+    type: BIGINT
+  - name: seasonal
+    type: VARCHAR
+  - name: measure_type_code
+    type: VARCHAR
+  - name: measure_unit_code
+    type: VARCHAR
+  - name: measure_multiplier_code
+    type: VARCHAR
+  - name: publication_flag
+    type: VARCHAR
+  - name: lfst_code
+    type: VARCHAR
+  - name: lfst_name
+    type: VARCHAR
+  - name: series_title
+    type: VARCHAR
+  - name: ages_code
+    type: VARCHAR
+  - name: ages_name
+    type: VARCHAR
+  - name: clas_code
+    type: VARCHAR
+  - name: clas_name
+    type: VARCHAR
+  - name: indy_code
+    type: VARCHAR
+  - name: indy_name
+    type: VARCHAR
+  - name: pcts_code
+    type: VARCHAR
+  - name: pcts_name
+    type: VARCHAR
+  - name: rsng_code
+    type: VARCHAR
+  - name: rsng_name
+    type: VARCHAR
+  - name: scdr_code
+    type: VARCHAR
+  - name: scdr_name
+    type: VARCHAR
+  - name: sexs_code
+    type: BIGINT
+  - name: sexs_name
+    type: VARCHAR
+  - name: tdat_code
+    type: VARCHAR
+  - name: tdat_name
+    type: VARCHAR
+  - name: vets_code
+    type: VARCHAR
+  - name: vets_name
+    type: VARCHAR

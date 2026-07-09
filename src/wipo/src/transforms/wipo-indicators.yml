@@ -1,0 +1,17 @@
+key: [indicator_id]
+columns:
+  - name: indicator_id
+    type: INTEGER
+    description: WIPO indicator id, allocated globally across the three modules; the join key every value table's indicator_id points at.
+  - name: module
+    type: VARCHAR
+    description: Which data-center module publishes the indicator - ips-search, pmh-search or keyindicator.
+  - name: tab
+    type: VARCHAR
+    description: The module tab the indicator belongs to (patent, trademark, industrial, geographical, countryprofiles, pct, madrid, hague); null for keyindicator, which has no tabs.
+  - name: label
+    type: VARCHAR
+    description: Human-readable indicator label as published by WIPO, in English.
+  - name: report_types
+    type: VARCHAR
+    description: The report-type labels available for the indicator's tab, pipe-separated; null for keyindicator, whose indicators are pre-aggregated.
