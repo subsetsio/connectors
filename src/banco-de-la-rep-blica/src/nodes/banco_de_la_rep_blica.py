@@ -25,9 +25,7 @@ import xml.etree.ElementTree as ET
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
-    transient_retry,
     save_raw_parquet,
 )
 from constants import ENTITY_IDS
@@ -78,7 +76,6 @@ def _entity_from_node_id(node_id: str) -> str:
     return stub.upper().replace("-", "_")
 
 
-@transient_retry()  # 6 attempts, exponential backoff, reraise on exhaustion
 def _fetch_dataflow(dataflow_id: str) -> bytes:
     resp = get(
         DATA_BASE + dataflow_id,
@@ -152,56 +149,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# One Delta table per dataflow. TIME_PERIOD parsing covers daily (YYYYMMDD),
-# monthly (YYYY-MM), quarterly (YYYY-Qn) and annual (YYYY) SDMX period forms.
-_TRANSFORM_SQL = '''
-    SELECT
-        CASE
-            WHEN regexp_full_match(time_period, '^[0-9]{{8}}$')
-                THEN make_date(
-                    CAST(substr(time_period, 1, 4) AS INT),
-                    CAST(substr(time_period, 5, 2) AS INT),
-                    CAST(substr(time_period, 7, 2) AS INT))
-            WHEN regexp_full_match(time_period, '^[0-9]{{4}}-[0-9]{{2}}$')
-                THEN make_date(
-                    CAST(substr(time_period, 1, 4) AS INT),
-                    CAST(substr(time_period, 6, 2) AS INT), 1)
-            WHEN regexp_full_match(time_period, '^[0-9]{{4}}-Q[1-4]$')
-                THEN make_date(
-                    CAST(substr(time_period, 1, 4) AS INT),
-                    (CAST(substr(time_period, 7, 1) AS INT) - 1) * 3 + 1, 1)
-            WHEN regexp_full_match(time_period, '^[0-9]{{4}}$')
-                THEN make_date(CAST(time_period AS INT), 1, 1)
-        END AS date,
-        subject,
-        reference_area,
-        unit_measure,
-        adjustment,
-        freq,
-        TRY_CAST(unit_mult AS INTEGER) AS unit_mult,
-        TRY_CAST(obs_value AS DOUBLE)  AS value,
-        obs_status
-    FROM "{dep}"
-    WHERE obs_value IS NOT NULL
-      AND TRY_CAST(obs_value AS DOUBLE) IS NOT NULL
-      AND time_period IS NOT NULL
-      AND CASE
-            WHEN regexp_full_match(time_period, '^[0-9]{{8}}$') THEN TRUE
-            WHEN regexp_full_match(time_period, '^[0-9]{{4}}-[0-9]{{2}}$') THEN TRUE
-            WHEN regexp_full_match(time_period, '^[0-9]{{4}}-Q[1-4]$') THEN TRUE
-            WHEN regexp_full_match(time_period, '^[0-9]{{4}}$') THEN TRUE
-            ELSE FALSE
-          END
-'''
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_TRANSFORM_SQL.format(dep=s.id),
-    )
-    for s in DOWNLOAD_SPECS
 ]

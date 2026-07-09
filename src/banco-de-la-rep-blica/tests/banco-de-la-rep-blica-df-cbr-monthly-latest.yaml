@@ -1,0 +1,24 @@
+spec_id: banco-de-la-rep-blica-df-cbr-monthly-latest
+status: active
+tests:
+  - not_null: subject
+    reason: every SDMX series carries a SUBJECT dimension; null means the SeriesKey parse broke
+    certainty: 95
+  - not_null: time_period
+    reason: every observation has a TIME_PERIOD; null means we picked the wrong element
+    certainty: 95
+  - freshness: {col: time_period, reaches: "2026-05"}
+    reason: latest monthly central-bank-rate data should reach the latest completed monthly window
+    certainty: 85
+  - not_null: obs_value
+    reason: rows without an observation value should not be emitted
+    certainty: 90
+  - enum: {col: reference_area, values: ["CO"]}
+    reason: Banco de la Republica publishes Colombian series only
+    certainty: 95
+  - row_count: {min: 1}
+    reason: latest slices are small but must contain at least one observation
+    certainty: 90
+  - distinct_count: {col: subject, min: 1}
+    reason: at least one series must be present
+    certainty: 90
