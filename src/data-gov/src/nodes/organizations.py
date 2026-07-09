@@ -4,7 +4,7 @@ Distinct fetch shape from the package corpus: organization_list?all_fields
 paged by offset (caps at 25 per page). Single ndjson batch.
 """
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
+from subsets_utils import NodeSpec, save_raw_ndjson
 from utils import _action
 
 ORG_PAGE = 25             # organization_list?all_fields caps at 25 per offset
@@ -42,30 +42,4 @@ def fetch_organizations(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="data-gov-organizations", fn=fetch_organizations, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="data-gov-organizations-transform",
-        deps=["data-gov-organizations"],
-        sql='''
-            SELECT
-                id,
-                name,
-                title,
-                display_name,
-                description,
-                TRY_CAST(package_count AS INTEGER) AS package_count,
-                organization_type,
-                type,
-                state,
-                TRY_CAST(created AS TIMESTAMP)      AS created,
-                TRY_CAST(num_followers AS INTEGER)  AS num_followers,
-                is_organization,
-                approval_status
-            FROM "data-gov-organizations"
-            WHERE name IS NOT NULL
-        ''',
-    ),
 ]

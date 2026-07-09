@@ -5,7 +5,7 @@
 -- caution: The sector domain includes both individual sectors and the Overall composite index; filter sector before aggregating across sectors.
 SELECT
     "sector",
-    strptime("base_year", '%Y-%m')::DATE AS base_year,
+    "base_year",
     "date",
     "index_value",
     "growth_rate"

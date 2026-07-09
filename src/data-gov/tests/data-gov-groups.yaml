@@ -1,0 +1,13 @@
+spec_id: data-gov-groups
+status: active
+tests:
+  - row_count: {min: 5}
+    reason: Data.gov exposes a small fixed set of topical groups.
+    certainty: 90
+  - not_null: id
+  - not_null: name
+  - unique: id
+    reason: CKAN group ids identify topical groups.
+    certainty: 95
+  - column_type: {col: package_count, type: integer}
+    certainty: 80

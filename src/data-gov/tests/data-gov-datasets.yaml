@@ -1,0 +1,16 @@
+spec_id: data-gov-datasets
+status: active
+tests:
+  - row_count: {min: 300000}
+    reason: Data.gov catalog has hundreds of thousands of dataset metadata records.
+    certainty: 95
+  - not_null: id
+  - not_null: name
+  - unique: id
+    reason: CKAN package ids identify dataset records; duplicates indicate paging overlap.
+    certainty: 95
+  - column_type: {col: metadata_modified, type: timestamp}
+  - freshness: {col: metadata_modified, reaches: today - 400d}
+    reason: Data.gov is continuously harvested; at least one catalog record should be modified within the last year.
+    certainty: 90
+    points_outward: true

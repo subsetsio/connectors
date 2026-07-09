@@ -2,17 +2,17 @@
 # of raw asset `dpiit-wpi-values`. Regenerate after model-verify.
 # caution: WPI item_code is not unique by itself in the raw observations; use item_code together with item_name and date for row identity.
 key: [date, item_code, item_name]
-temporal: base_year
-sort: [base_year, date, item_code, item_name]
+temporal: date
+sort: [date, item_code, item_name]
 columns:
   - name: item_code
-    type: BIGINT
+    type: VARCHAR
   - name: item_name
     type: VARCHAR
   - name: weight
     type: DOUBLE
   - name: base_year
-    type: DATE
+    type: VARCHAR
   - name: date
     type: DATE
   - name: index_value

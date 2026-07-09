@@ -2,13 +2,13 @@
 # of raw asset `dpiit-core-industries`. Regenerate after model-verify.
 # caution: The sector domain includes both individual sectors and the Overall composite index; filter sector before aggregating across sectors.
 key: [date, sector]
-temporal: base_year
-sort: [base_year, date, sector]
+temporal: date
+sort: [date, sector]
 columns:
   - name: sector
     type: VARCHAR
   - name: base_year
-    type: DATE
+    type: VARCHAR
   - name: date
     type: DATE
   - name: index_value

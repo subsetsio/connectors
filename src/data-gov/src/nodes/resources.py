@@ -6,7 +6,7 @@ Each package's resources[] are flattened to flat rows; duplicates are removed
 in the transform (row_number over id).
 """
 
-from subsets_utils import NodeSpec, SqlNodeSpec
+from subsets_utils import NodeSpec
 from utils import _crawl_packages
 
 
@@ -41,37 +41,4 @@ def fetch_resources(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="data-gov-resources", fn=fetch_resources, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="data-gov-resources-transform",
-        deps=["data-gov-resources"],
-        sql='''
-            SELECT
-                id,
-                package_id,
-                dataset_name,
-                organization,
-                name,
-                description,
-                format,
-                mimetype,
-                TRY_CAST(size AS BIGINT)            AS size_bytes,
-                TRY_CAST(created AS TIMESTAMP)       AS created,
-                TRY_CAST(last_modified AS TIMESTAMP) AS last_modified,
-                state,
-                resource_type,
-                url_type,
-                url
-            FROM (
-                SELECT *, row_number() OVER (
-                    PARTITION BY id ORDER BY created DESC
-                ) AS rn
-                FROM "data-gov-resources"
-            )
-            WHERE rn = 1 AND id IS NOT NULL
-        ''',
-    ),
 ]

@@ -1,0 +1,13 @@
+spec_id: data-gov-organizations
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: Data.gov lists federal and non-federal publishing organizations.
+    certainty: 95
+  - not_null: id
+  - not_null: name
+  - unique: id
+    reason: CKAN organization ids identify publishing organizations.
+    certainty: 95
+  - column_type: {col: package_count, type: integer}
+    certainty: 85

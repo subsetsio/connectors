@@ -2,14 +2,13 @@
 # of raw asset `dpiit-wpi-series`. Regenerate after model-verify.
 # caution: WPI item_code is not unique by itself in the raw catalog; use item_code together with item_name when joining to WPI observations.
 key: [item_code, item_name]
-temporal: base_year
-sort: [base_year, item_code, item_name]
+sort: [item_code, item_name]
 columns:
   - name: item_code
-    type: BIGINT
+    type: VARCHAR
   - name: item_name
     type: VARCHAR
   - name: weight
     type: DOUBLE
   - name: base_year
-    type: DATE
+    type: VARCHAR

@@ -1,0 +1,13 @@
+spec_id: data-gov-resources
+status: active
+tests:
+  - row_count: {min: 300000}
+    reason: The catalog resources table flattens distributions from hundreds of thousands of datasets.
+    certainty: 85
+  - not_null: id
+  - not_null: package_id
+  - unique: id
+    reason: CKAN resource ids identify distribution records; duplicates indicate paging overlap.
+    certainty: 90
+  - column_type: {col: created, type: timestamp}
+    certainty: 80
