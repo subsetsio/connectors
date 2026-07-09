@@ -16,13 +16,21 @@ whole corpus and overwrites. Volumes are low-millions of rows per dataset at
 most; we page at 50k/request and stream each page straight to gzipped NDJSON so
 no dataset is ever fully held in memory.
 
-Raw format: NDJSON. Within one dataset the API returns a stable key set (absent
-dimensions come back as explicit nulls), but across datasets the columns differ
-wildly, and a few datasets carry awkward column names (`state/UT`,
-`Land_Possessed(hectares)`). We sanitize keys to `[A-Za-z0-9_]` and stringify
-scalar values on write, so each dataset's NDJSON has one clean, all-VARCHAR
-schema that `read_json_auto` ingests without type drift; the transform TRY_CASTs
-the measure column(s) back to DOUBLE.
+Raw format: Parquet, written against an explicit all-string schema (the union of
+the sanitized keys across the dataset's combos). Across datasets the columns
+differ wildly, and a few carry awkward names (`state/UT`,
+`Land_Possessed(hectares)`), so keys are sanitized to `[A-Za-z0-9_]` and scalar
+values stringified on write; the transform casts the measure column(s) back to
+DOUBLE.
+
+The schema is declared rather than inferred because these are long-format
+indicator tables: a dimension column is null for every row of an indicator that
+isn't disaggregated along it. Under NDJSON, DuckDB's `read_json_auto` infers
+types from a 20480-row sample, so any dimension that happens to be null across
+that prefix — 181 columns over the 23 datasets, e.g. `hces.cereal`,
+`cpi-getitemindex.inflation` — was typed JSON and published as JSON, and the
+type flipped with row order between runs. Parquet carries the schema, so the
+column types are exact and stable.
 
 TLS: api.mospi.gov.in serves a valid eMudhra certificate but ships a messy chain
 — two distinct intermediates share the subject `EM DV TLS CA - G2A-1`, one
@@ -356,11 +364,10 @@ def fetch_one(node_id: str) -> None:
         raise RuntimeError(f"{node_id}: combo enumeration returned nothing — list endpoint changed")
 
     # Pre-pass: the union of column names across every combo. Different combos
-    # (base years, indicators, survey modules) return different key sets, and
-    # the runtime reads the NDJSON with read_json_auto WITHOUT union_by_name —
-    # so it infers the schema from a sample and then errors on any later line
-    # with an unseen key. We defeat that by writing every row against one fixed
-    # key set (missing keys -> explicit null), so the file has a single schema.
+    # (base years, indicators, survey modules) return different key sets; one
+    # limit=1 probe each yields the dataset's full column set, which becomes the
+    # Parquet schema. Every row is then written against it (missing keys ->
+    # explicit null), so the file has a single, declared schema.
     keys: list[str] = []
     seen: set[str] = set()
     for combo in combos:

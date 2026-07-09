@@ -25,8 +25,8 @@ tests:
   - matches: {col: Year, pattern: '^[0-9]{4}$'}
     reason: Year is a four-digit annual period in the source CSV.
     certainty: 95
-  - enum: {col: Flow, values: [Exports, Imports]}
-    reason: BaTiS BPM6 publishes bilateral services exports and imports.
+  - enum: {col: Flow, values: [M, X]}
+    reason: BaTiS BPM6 encodes bilateral services imports and exports as M and X.
     certainty: 90
   - distinct_count: {col: Reporter, min: 150}
     reason: BaTiS BPM6 covers most economies; a much smaller count means a partial download.

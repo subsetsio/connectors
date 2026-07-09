@@ -25,8 +25,8 @@ tests:
   - distinct_count: {col: ReporterCode, min: 150}
     reason: WTO annual merchandise values cover most WTO economies and aggregates; a much smaller count means a partial download.
     certainty: 85
-  - distinct_count: {col: IndicatorCode, min: 5}
-    reason: the bulk file contains several merchandise value indicators, not a single slice.
+  - distinct_count: {col: IndicatorCode, min: 2}
+    reason: the bulk file contains import and export merchandise value indicators, not a single slice.
     certainty: 80
   - freshness: {col: Year, reaches: "2024"}
     reason: stats.wto.org annual files were observed current through 2024; regression below 2024 means stale or broken raw.
