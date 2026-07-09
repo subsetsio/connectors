@@ -1,19 +1,38 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [ref_date, geo, Type of structure, Type of unit]
-temporal: ref_date
-sort: [ref_date, geo, Type of structure, Type of unit]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cmhc-34100133`. Regenerate after model-verify.
+# caution: `type_of_structure` categories are nested, not disjoint: 'Apartment structures of three units and over' contains 'Apartment structures of six units and over', and 'Row and apartment structures of three units and over' is the union of the row and apartment categories. Filter to one structure type; never sum across.
+key: [ref_date, vector]
+sort: [ref_date, vector]
 columns:
   - name: ref_date
-    type: VARCHAR
+    type: BIGINT
   - name: geo
     type: VARCHAR
-  - name: Type of structure
+  - name: dguid
     type: VARCHAR
-  - name: Type of unit
+  - name: type_of_structure
+    type: VARCHAR
+  - name: type_of_unit
     type: VARCHAR
   - name: uom
     type: VARCHAR
-  - name: status
+  - name: uom_id
+    type: BIGINT
+  - name: scalar_factor
+    type: VARCHAR
+  - name: scalar_id
+    type: BIGINT
+  - name: vector
+    type: VARCHAR
+  - name: coordinate
     type: VARCHAR
   - name: value
-    type: DOUBLE
+    type: BIGINT
+  - name: status
+    type: VARCHAR
+  - name: symbol
+    type: VARCHAR
+  - name: terminated
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT

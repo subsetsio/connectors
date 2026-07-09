@@ -1,17 +1,39 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [ref_date, geo, Type of unit]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cmhc-34100096`. Regenerate after model-verify.
+# caution: the `geo` column mixes aggregation levels: national, provincial and roll-up rows (e.g. Canada, the provinces, 'Census metropolitan areas', 'All census agglomerations 50,000 and over') appear as ordinary rows alongside individual centres — filter `geo` before summing.
+# caution: `type_of_unit` mixes subtotals with their components — 'Total semi, row, apartment and other unit types', 'Total units' overlap the component categories ('All other types of units', 'Single-detached units'); summing across the column double-counts. Pick one level.
+# caution: `value` is expressed in thousands of units (the source's SCALAR_FACTOR)  not in single units — multiply by 1 000 for absolute figures.
+key: [ref_date, vector]
 temporal: ref_date
-sort: [ref_date, geo, Type of unit]
+sort: [ref_date, vector]
 columns:
   - name: ref_date
-    type: VARCHAR
+    type: DATE
   - name: geo
     type: VARCHAR
-  - name: Type of unit
+  - name: dguid
+    type: BIGINT
+  - name: type_of_unit
     type: VARCHAR
   - name: uom
     type: VARCHAR
-  - name: status
+  - name: uom_id
+    type: BIGINT
+  - name: scalar_factor
     type: VARCHAR
+  - name: scalar_id
+    type: BIGINT
+  - name: vector
+    type: VARCHAR
+  - name: coordinate
+    type: DOUBLE
   - name: value
     type: DOUBLE
+  - name: status
+    type: VARCHAR
+  - name: symbol
+    type: VARCHAR
+  - name: terminated
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT

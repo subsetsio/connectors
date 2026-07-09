@@ -1,19 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [ref_date, geo, Housing estimates, Type of unit]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cmhc-34100154`. Regenerate after model-verify.
+# caution: the `geo` column mixes aggregation levels: national, provincial and roll-up rows (e.g. Canada, the provinces, 'Census metropolitan areas', 'All census agglomerations 50,000 and over') appear as ordinary rows alongside individual centres — filter `geo` before summing.
+# caution: `housing_estimates` stacks three distinct measures (housing starts, housing under construction, housing completions) in one value column — starts and completions are flows over the period while under construction is an end-of-period stock; never sum or average across this column.
+# caution: `type_of_unit` mixes subtotals with their components — 'Total units' overlap the component categories ('Apartment and other unit types', 'Row units', 'Semi-detached units', 'Single-detached units'); summing across the column double-counts. Pick one level.
+key: [ref_date, vector]
 temporal: ref_date
-sort: [ref_date, geo, Housing estimates, Type of unit]
+sort: [ref_date, vector]
 columns:
   - name: ref_date
-    type: VARCHAR
+    type: DATE
   - name: geo
     type: VARCHAR
-  - name: Housing estimates
+  - name: dguid
     type: VARCHAR
-  - name: Type of unit
+  - name: housing_estimates
+    type: VARCHAR
+  - name: type_of_unit
     type: VARCHAR
   - name: uom
     type: VARCHAR
-  - name: status
+  - name: uom_id
+    type: BIGINT
+  - name: scalar_factor
+    type: VARCHAR
+  - name: scalar_id
+    type: BIGINT
+  - name: vector
+    type: VARCHAR
+  - name: coordinate
     type: VARCHAR
   - name: value
-    type: DOUBLE
+    type: BIGINT
+  - name: status
+    type: VARCHAR
+  - name: symbol
+    type: VARCHAR
+  - name: terminated
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT

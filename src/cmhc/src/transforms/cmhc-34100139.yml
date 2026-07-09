@@ -1,15 +1,35 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [ref_date, geo]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cmhc-34100139`. Regenerate after model-verify.
+# caution: the `geo` column mixes aggregation levels: national, provincial and roll-up rows (e.g. Canada, the provinces, 'Census metropolitan areas', 'All census agglomerations 50,000 and over') appear as ordinary rows alongside individual centres — filter `geo` before summing.
+key: [ref_date, vector]
 temporal: ref_date
-sort: [ref_date, geo]
+sort: [ref_date, vector]
 columns:
   - name: ref_date
-    type: VARCHAR
+    type: DATE
   - name: geo
+    type: VARCHAR
+  - name: dguid
     type: VARCHAR
   - name: uom
     type: VARCHAR
+  - name: uom_id
+    type: BIGINT
+  - name: scalar_factor
+    type: VARCHAR
+  - name: scalar_id
+    type: BIGINT
+  - name: vector
+    type: VARCHAR
+  - name: coordinate
+    type: BIGINT
+  - name: value
+    type: BIGINT
   - name: status
     type: VARCHAR
-  - name: value
-    type: DOUBLE
+  - name: symbol
+    type: VARCHAR
+  - name: terminated
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
