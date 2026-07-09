@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# IAFQ has no row identity: (iso3_code, indicator, dimension, category, sex, age,
+# year, unit) recurs with conflicting values. Declared explicitly keyless.
+key: []
 temporal: year
-sort: [year]
+sort: [year, iso3_code, indicator, dimension, category, sex, age]
 columns:
   - name: iso3_code
     type: VARCHAR

@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# year_range is a multi-year observation period string, not a point in time.
+key: [geo, year_range, indicator, series, taxonomic_group, unit]
 temporal: year_range
-sort: [year_range]
+sort: [year_range, geo, indicator, series, taxonomic_group, unit]
 columns:
   - name: geo
     type: VARCHAR

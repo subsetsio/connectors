@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# Long-format CTS panel. Grain settled at the model stage and scan-verified on raw.
+key: [iso3_code, indicator, dimension, category, sex, age, year, unit]
 temporal: year
-sort: [year]
+sort: [year, iso3_code, indicator, dimension, category, sex, age, unit]
 columns:
   - name: iso3_code
     type: VARCHAR

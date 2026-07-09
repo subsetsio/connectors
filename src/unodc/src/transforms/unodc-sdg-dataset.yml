@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# SDG indicators under UNODC custodianship. Grain scan-verified on raw at the model stage.
+key: [indicator, series, geo, iso3_code, year, sex, age, drug, crime, dim_comp1, altseries]
 temporal: year
-sort: [year]
+sort: [year, indicator, series, geo, iso3_code, sex, age, drug, crime, dim_comp1, altseries]
 columns:
   - name: goal
     type: VARCHAR
