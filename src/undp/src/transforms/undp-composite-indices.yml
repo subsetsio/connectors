@@ -1,16 +1,33 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# Long-format pass-through of the HDR "Composite indices — complete time series" CSV,
+# unpivoted at download into one row per (iso3, indicator, year).
+# caution: iso3/country mix real countries with HDR aggregates (regional groupings, human-
+#   development groups, World) under synthetic ZZ* iso3 codes — filter before aggregating.
+# caution: `indicator` mixes indices with their raw components; `value` is not on a common
+#   scale — always filter to one indicator first.
+# caution: `hdicode`/`region` are the most recent HDR classification, constant across a
+#   country's whole time series, not the classification in the row's `year`.
+key: [iso3, indicator, year]
+temporal: year
+sort: [year, iso3, indicator]
 columns:
   - name: iso3
     type: VARCHAR
+    description: ISO 3166-1 alpha-3 country code. HDR aggregates (regions, human-development groups, World) use synthetic codes beginning with ZZ.
   - name: country
     type: VARCHAR
+    description: Country, territory or HDR aggregate name, in English, as published by the Human Development Report Office.
   - name: hdicode
     type: VARCHAR
+    description: The country's human-development group in the latest HDR — one of "Very High", "High", "Medium", "Low"; null for aggregates and unranked entities.
   - name: region
     type: VARCHAR
+    description: UNDP developing-region code in the latest HDR (e.g. SSA, LAC, EAP, SA, AS, ECA); null for developed countries and aggregates.
   - name: indicator
     type: VARCHAR
+    description: HDR indicator short code (e.g. hdi, le, eys, mys, gnipc, ihdi, gii, gdi, phdi, co2_prod, mmr, abr). Joins to `undp-indicators.short_name`.
   - name: year
     type: INTEGER
+    description: Observation year (the calendar year the value refers to).
   - name: value
     type: DOUBLE
+    description: Observed value of `indicator` for the country in `year`, in that indicator's own units (index 0-1, years, 2021 PPP $, tonnes, per 100k, percent — see `undp-indicators`). Rows with no observation are dropped.

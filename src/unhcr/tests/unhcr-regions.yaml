@@ -1,0 +1,15 @@
+spec_id: unhcr-regions
+status: active
+tests:
+  - row_count: {min: 5, max: 12}
+    reason: UNHCR reports through a small fixed set of operational bureaux (Asia and the Pacific, Europe, The Americas, MENA, and two Africa bureaux).
+    certainty: 90
+  - not_null: id
+  - not_null: name
+  - column_type: {col: id, type: integer}
+  - column_type: {col: name, type: string}
+  - unique: id
+    certainty: 95
+  - unique: name
+    reason: bureau names are distinct labels, not a hierarchy.
+    certainty: 90

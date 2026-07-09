@@ -1,0 +1,26 @@
+spec_id: unhcr-countries
+status: active
+tests:
+  - row_count: {min: 200, max: 400}
+    reason: UNHCR's country/territory reference list tracks UN M49 plus disputed and stateless territories - a couple hundred rows, and a collapse below 200 means a truncated pull.
+  - not_null: id
+  - not_null: code
+  - not_null: name
+  - column_type: {col: id, type: integer}
+  - column_type: {col: code, type: string}
+  - column_type: {col: name, type: string}
+  - unique: id
+    reason: id is the surrogate key the data endpoints' coo_id/coa_id join against.
+    certainty: 95
+  - unique: code
+    reason: code is the UNHCR 3-letter country code and is the natural key.
+    certainty: 90
+  - matches: {col: code, pattern: '^[A-Z]{3}$'}
+    reason: UNHCR country codes are 3 uppercase letters (AFG, ALB, ...).
+    certainty: 90
+  - nullable: {col: iso2, max_null_frac: 0.1}
+    reason: a handful of non-state territories carry no ISO 3166-1 alpha-2 code; blanks are normalized to null in the fetch.
+    points_outward: true
+  - nullable: {col: nameFormal, max_null_frac: 0.3}
+    reason: formal long-form names are absent for many territories.
+    points_outward: true
