@@ -3,22 +3,12 @@
 # SIEC_CODE maps each slug to the exact, case-sensitive file code used to
 # build the static download URL (the BCN file server is case-sensitive).
 ENTITY_IDS = [
-    '1-1',
-    '1-10',
-    '1-2',
     '1-20-1-1',
     '1-20-1-3',
     '1-20-2-1',
     '1-20-2-3',
     '1-23-1',
     '1-23-2',
-    '1-3',
-    '1-4',
-    '1-5',
-    '1-6',
-    '1-7',
-    '1-8',
-    '1-9',
     '1a-10',
     '1a-15-1',
     '1a-17-1',
@@ -31,13 +21,6 @@ ENTITY_IDS = [
     '1a-3-1',
     '1a-3-3-02',
     '1a-sdep',
-    '2-1',
-    '2-2',
-    '2-3',
-    '2-4',
-    '2-5',
-    '2-6',
-    '2-7',
     '3-13-4-1-3',
     '3-13-4-2-3',
     '3-55-1-4',
@@ -141,7 +124,6 @@ ENTITY_IDS = [
     'mon-3-9-9',
     'mon-3-9-a',
 ]
-
 SIEC_CODE = {
     '1-1': '1.1',
     '1-10': '1.10',

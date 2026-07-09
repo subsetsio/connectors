@@ -31,7 +31,6 @@ from bs4 import BeautifulSoup
 from constants import ENTITY_IDS, SIEC_CODE
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     load_state,
     save_state,
@@ -155,7 +154,14 @@ def _parse(content: bytes) -> list[dict]:
                 "period_label": label,
                 "value": v,
             })
-    return rows
+
+    # Some SIEC files include an early partial historical block and then restart
+    # the same period series with revised/current values. Keep the later source
+    # row so each published table remains one observation per period cell.
+    deduped: dict[tuple[int, int | None, str, int], dict] = {}
+    for row in rows:
+        deduped[(row["year"], row["month"], row["period_label"], row["col_index"])] = row
+    return list(deduped.values())
 
 
 @transient_retry()  # 6 attempts, exp backoff; retries 429/5xx/transient network
@@ -210,24 +216,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                CAST(date AS DATE) AS date,
-                CAST(year AS INTEGER) AS year,
-                CAST(month AS INTEGER) AS month,
-                period_label,
-                CAST(col_index AS INTEGER) AS col_index,
-                CAST(value AS DOUBLE) AS value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL
-            ORDER BY date, col_index
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

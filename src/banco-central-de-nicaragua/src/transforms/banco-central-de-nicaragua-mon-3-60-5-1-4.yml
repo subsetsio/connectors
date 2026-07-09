@@ -1,14 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `banco-central-de-nicaragua-mon-3-60-5-1-4`. Regenerate after model-verify.
+# caution: Each table is a single source-defined measure; use the catalog title and column descriptions for the statistic and unit before comparing values across tables.
+key: [date, year, month, period_label]
+temporal: date
+sort: [date, year, month, period_label]
 columns:
+  - name: year
+    type: BIGINT
+  - name: col_index
+    type: BIGINT
+  - name: month
+    type: BIGINT
   - name: date
     type: DATE
-  - name: year
-    type: INTEGER
-  - name: month
-    type: INTEGER
   - name: period_label
     type: VARCHAR
-  - name: col_index
-    type: INTEGER
   - name: value
     type: DOUBLE
