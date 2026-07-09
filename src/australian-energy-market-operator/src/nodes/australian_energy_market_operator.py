@@ -25,7 +25,6 @@ from datetime import datetime, timezone
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     raw_parquet_writer,
@@ -146,28 +145,5 @@ DOWNLOAD_SPECS = [
         id="australian-energy-market-operator-price-and-demand",
         fn=fetch_price_and_demand,
         kind="download",
-    ),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="australian-energy-market-operator-price-and-demand-transform",
-        deps=["australian-energy-market-operator-price-and-demand"],
-        sql='''
-            SELECT
-                region,
-                settlement_date,
-                total_demand,
-                rrp,
-                period_type
-            FROM "australian-energy-market-operator-price-and-demand"
-            WHERE region IS NOT NULL
-              AND settlement_date IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY region, settlement_date
-                ORDER BY total_demand DESC NULLS LAST
-            ) = 1
-        ''',
     ),
 ]
