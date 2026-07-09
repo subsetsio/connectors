@@ -1,28 +1,18 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: Rows span three nested levels of the fee-type hierarchy; `honoraires_ordre_niv_2`/`_3` carry the sentinel 99 (and their `type_honoraires_niveau_2`/`_3` labels are null) on rows that stop at a shallower level. Summing `montant_honoraires` across levels double-counts.
--- caution: Aggregate members also exist in `profession_sante` and the territory columns; `montant_honoraires_moyens` is a per-practitioner mean and is never summable.
+-- Published pass-through of raw asset `cnam-honoraires-detailles`.
+-- the `vision_*` portal display flags are dropped.
 SELECT
-    "annee",
-    "profession_sante",
-    "region",
-    "libelle_region",
-    "departement",
-    "libelle_departement",
-    "honoraires_ordre_niv_1",
-    "type_honoraires_niveau_1",
-    "honoraires_ordre_niv_2",
-    "type_honoraires_niveau_2",
-    "honoraires_ordre_niv_3",
-    "type_honoraires_niveau_3",
-    "montant_honoraires",
-    "montant_honoraires_moyens",
-    "vision_generale_all",
-    "vision_profession_territoire",
-    "vision_honoraires_actes_niveau_2",
-    "vision_honoraires_remunerations_niveau_2",
-    "vision_honoraires_actescliniques_niveau_3",
-    "vision_honoraires_actestechniques_niveau_3"
+    CAST(EXTRACT(YEAR FROM "annee") AS BIGINT) AS year,
+    "profession_sante" AS profession,
+    "region" AS region_code,
+    "libelle_region" AS region_name,
+    "departement" AS department_code,
+    "libelle_departement" AS department_name,
+    "honoraires_ordre_niv_1" AS fee_level_1_code,
+    "type_honoraires_niveau_1" AS fee_level_1,
+    "honoraires_ordre_niv_2" AS fee_level_2_code,
+    "type_honoraires_niveau_2" AS fee_level_2,
+    "honoraires_ordre_niv_3" AS fee_level_3_code,
+    "type_honoraires_niveau_3" AS fee_level_3,
+    "montant_honoraires" AS fees_eur,
+    "montant_honoraires_moyens" AS mean_fees_eur
 FROM "cnam-honoraires-detailles"

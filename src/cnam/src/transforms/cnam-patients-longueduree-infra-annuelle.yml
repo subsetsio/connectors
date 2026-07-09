@@ -1,22 +1,25 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-patients-longueduree-infra-annuelle`. Regenerate after model-verify.
-# caution: A single in-progress-year snapshot (`annee` is constant, `date` is the end of the reference period), not a time series.
-# caution: `taux_patients_ald_sans_mt` is a percentage; the territory columns mix département, région and national rows.
-key: [region, departement]
-temporal: annee
-sort: [annee, region, departement]
+key: [region_code, department_code]
+temporal: period_end
+sort: [period_end, region_code, department_code]
 columns:
-  - name: annee
+  - name: year
+    type: BIGINT
+    description: "Observation year. The source stamps it as a January 1 date; only the year is meaningful."
+  - name: period_end
     type: DATE
-  - name: date
-    type: DATE
-  - name: region
+    description: "Last day of the reference period this snapshot covers."
+  - name: region_code
     type: VARCHAR
-  - name: libelle_region
+    description: "CNAM region code, zero-padded (e.g. `11` Île-de-France); `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
     type: VARCHAR
-  - name: departement
+    description: "Region name, in French."
+  - name: department_code
     type: VARCHAR
-  - name: libelle_departement
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica; `999` is the all-departments aggregate row. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: department_name
     type: VARCHAR
-  - name: taux_patients_ald_sans_mt
+    description: "Department name, in French; `Tout département` marks the aggregate row."
+  - name: ald_patients_without_attending_physician_pct
     type: DOUBLE
+    description: "Share of patients in a long-term condition scheme (affection de longue durée) who have no declared attending physician, in percent (0-100)."

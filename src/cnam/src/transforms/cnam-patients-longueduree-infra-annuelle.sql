@@ -1,15 +1,10 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: A single in-progress-year snapshot (`annee` is constant, `date` is the end of the reference period), not a time series.
--- caution: `taux_patients_ald_sans_mt` is a percentage; the territory columns mix département, région and national rows.
+-- Published pass-through of raw asset `cnam-patients-longueduree-infra-annuelle`.
 SELECT
-    "annee",
-    "date",
-    "region",
-    "libelle_region",
-    "departement",
-    "libelle_departement",
-    "taux_patients_ald_sans_mt"
+    CAST(EXTRACT(YEAR FROM "annee") AS BIGINT) AS year,
+    "date" AS period_end,
+    "region" AS region_code,
+    "libelle_region" AS region_name,
+    "departement" AS department_code,
+    "libelle_departement" AS department_name,
+    "taux_patients_ald_sans_mt" AS ald_patients_without_attending_physician_pct
 FROM "cnam-patients-longueduree-infra-annuelle"

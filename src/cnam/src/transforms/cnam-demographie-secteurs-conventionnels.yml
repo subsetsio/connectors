@@ -1,31 +1,31 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-demographie-secteurs-conventionnels`. Regenerate after model-verify.
-# caution: Aggregate members coexist with detail members in `profession_sante`, the territory columns and `secteur_conventionnel`. Filter each dimension before summing `effectif`.
-key: [annee, profession_sante, region, departement, secteur_conventionnel]
-temporal: annee
-sort: [annee, profession_sante, region, departement, secteur_conventionnel]
+key: [year, profession, region_code, department_code, sector_code]
+temporal: year
+sort: [year, profession, region_code, department_code, sector_code]
 columns:
-  - name: annee
-    type: DATE
-  - name: profession_sante
-    type: VARCHAR
-  - name: region
-    type: VARCHAR
-  - name: libelle_region
-    type: VARCHAR
-  - name: departement
-    type: VARCHAR
-  - name: libelle_departement
-    type: VARCHAR
-  - name: secteur_conventionnel
+  - name: year
     type: BIGINT
-  - name: libelle_secteur_conventionnel
+    description: "Observation year. The source stamps it as a January 1 date; only the year is meaningful."
+  - name: profession
     type: VARCHAR
-  - name: effectif
+    description: "Healthcare profession or medical specialty, in French. Labels beginning `Ensemble des` are aggregates over several professions."
+  - name: region_code
+    type: VARCHAR
+    description: "CNAM region code, zero-padded (e.g. `11` Île-de-France); `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
+    type: VARCHAR
+    description: "Region name, in French."
+  - name: department_code
+    type: VARCHAR
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica; `999` is the all-departments aggregate row. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: department_name
+    type: VARCHAR
+    description: "Department name, in French; `Tout département` marks the aggregate row."
+  - name: sector_code
+    type: VARCHAR
+    description: "Fee-agreement (secteur conventionnel) code, `1` to `5`."
+  - name: sector
+    type: VARCHAR
+    description: "Fee agreement, in French (`conventionnés de secteur 1`, `secteur 2`, `non conventionnés`, ...). Sector 1 practitioners charge the regulated tariff; sector 2 may bill above it."
+  - name: headcount
     type: BIGINT
-  - name: vision_generale_all
-    type: VARCHAR
-  - name: vision_generale_prescriptions
-    type: VARCHAR
-  - name: vision_profession_territoire
-    type: VARCHAR
+    description: "Number of practitioners under this fee agreement."

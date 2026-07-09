@@ -1,28 +1,31 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-file-active-medgen-infra-annuelle`. Regenerate after model-verify.
-# caution: A single in-progress-year snapshot (`annee` is constant, `date` is the end of the reference period), not a time series.
-# caution: `nombre_patients_uniques` is a mean per practitioner, not a total; the territory columns mix département, région and national rows.
-key: [profession_sante, region, departement]
-temporal: annee
-sort: [annee, profession_sante, region, departement]
+key: [profession, region_code, department_code]
+temporal: period_end
+sort: [period_end, profession, region_code, department_code]
 columns:
-  - name: annee
+  - name: year
+    type: BIGINT
+    description: "Observation year. The source stamps it as a January 1 date; only the year is meaningful."
+  - name: period_end
     type: DATE
-  - name: date
-    type: DATE
-  - name: profession_sante
+    description: "Last day of the reference period this snapshot covers."
+  - name: profession
     type: VARCHAR
-  - name: region
+    description: "Healthcare profession or medical specialty, in French. Labels beginning `Ensemble des` are aggregates over several professions."
+  - name: region_code
     type: VARCHAR
-  - name: libelle_region
+    description: "CNAM region code, zero-padded (e.g. `11` Île-de-France); `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
     type: VARCHAR
-  - name: departement
+    description: "Region name, in French."
+  - name: department_code
     type: VARCHAR
-  - name: libelle_departement
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica; `999` is the all-departments aggregate row. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: department_name
     type: VARCHAR
-  - name: nombre_patients_uniques
-    type: VARCHAR
-  - name: taux_evolution_annuel
-    type: VARCHAR
-  - name: taux_evolution_annuel_integer
+    description: "Department name, in French; `Tout département` marks the aggregate row."
+  - name: mean_unique_patients
+    type: BIGINT
+    description: "Mean number of distinct patients seen per practitioner over the reference period (the \"file active\"). A per-practitioner mean, not a territory total. The source suppresses small or unreliable cells (NS 'non significatif', NC 'non communiqué'); those rows carry no value here."
+  - name: annual_change_pct
     type: DOUBLE
+    description: "Year-on-year change of the headline measure, in percent (a value of 5.2 means +5.2%). The source suppresses small or unreliable cells (NS 'non significatif', NC 'non communiqué'); those rows carry no value here."

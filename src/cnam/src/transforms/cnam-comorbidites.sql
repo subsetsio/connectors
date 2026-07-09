@@ -1,24 +1,18 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: One row per (year, index pathology `top`, comorbid pathology). `ntop` repeats the index pathology's patient count on every comorbidity row — summing `ncomorb` or `ntop` across rows double-counts patients.
--- caution: `top` and the comorbidity columns span several levels of the pathology hierarchy (patho_niv1/2/3); rows at different levels overlap, so never sum across levels.
+-- Published pass-through of raw asset `cnam-comorbidites`.
+-- `region` (99) and `dept` (999) are constant national codes in this export and are dropped.
 SELECT
-    "annee",
-    "patho_niv1",
-    "patho_niv2",
-    "patho_niv3",
-    "top",
-    "comorbidite",
-    "libelle_comorbidite",
-    "region",
-    "dept",
-    "ncomorb",
-    "ntop",
-    "proportion_comorb",
-    "patho_niv1_comorb",
-    "patho_niv2_comorb",
-    "patho_niv3_comorb",
-    "niveau_prioritaire"
+    CAST(EXTRACT(YEAR FROM "annee") AS BIGINT) AS year,
+    "patho_niv1" AS pathology_level_1,
+    "patho_niv2" AS pathology_level_2,
+    "patho_niv3" AS pathology_level_3,
+    "top" AS pathology_code,
+    "comorbidite" AS comorbidity_code,
+    "libelle_comorbidite" AS comorbidity,
+    "patho_niv1_comorb" AS comorbidity_level_1,
+    "patho_niv2_comorb" AS comorbidity_level_2,
+    "patho_niv3_comorb" AS comorbidity_level_3,
+    "ntop" AS patients_with_pathology,
+    "ncomorb" AS patients_with_comorbidity,
+    "proportion_comorb" AS comorbidity_share,
+    "niveau_prioritaire" AS priority_levels
 FROM "cnam-comorbidites"

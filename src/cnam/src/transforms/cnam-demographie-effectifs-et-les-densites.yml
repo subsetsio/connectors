@@ -1,36 +1,37 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-demographie-effectifs-et-les-densites`. Regenerate after model-verify.
-# caution: Every dimension carries its own aggregate member: an all-professions `profession_sante`, national/région rows in the territory columns, an all-ages `classe_age` and a both-sexes `libelle_sexe`. Summing `effectif` without filtering each dimension to its detail members multiply-counts practitioners.
-# caution: `densite` is practitioners per 100,000 inhabitants — a ratio, never summable.
-key: [annee, profession_sante, region, departement, classe_age, libelle_sexe]
-temporal: annee
-sort: [annee, profession_sante, region, departement, classe_age, libelle_sexe]
+key: [year, profession, region_code, department_code, age_class_code, sex]
+temporal: year
+sort: [year, profession, region_code, department_code, age_class_code, sex]
 columns:
-  - name: annee
-    type: DATE
-  - name: profession_sante
-    type: VARCHAR
-  - name: region
-    type: VARCHAR
-  - name: libelle_region
-    type: VARCHAR
-  - name: departement
-    type: VARCHAR
-  - name: libelle_departement
-    type: VARCHAR
-  - name: classe_age
-    type: VARCHAR
-  - name: libelle_classe_age
-    type: VARCHAR
-  - name: libelle_sexe
-    type: VARCHAR
-  - name: effectif
+  - name: year
     type: BIGINT
-  - name: densite
+    description: "Observation year. The source stamps it as a January 1 date; only the year is meaningful."
+  - name: profession
+    type: VARCHAR
+    description: "Healthcare profession or medical specialty, in French. Labels beginning `Ensemble des` are aggregates over several professions."
+  - name: region_code
+    type: VARCHAR
+    description: "CNAM region code, zero-padded (e.g. `11` Île-de-France); `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
+    type: VARCHAR
+    description: "Region name, in French."
+  - name: department_code
+    type: VARCHAR
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica; `999` is the all-departments aggregate row. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: department_name
+    type: VARCHAR
+    description: "Department name, in French; `Tout département` marks the aggregate row."
+  - name: age_class_code
+    type: VARCHAR
+    description: "Age-band code (`00-24`, `35-39`, `70 et +`, `inconnu` = unknown, and an all-ages aggregate)."
+  - name: age_class
+    type: VARCHAR
+    description: "Age band, in French."
+  - name: sex
+    type: VARCHAR
+    description: "Sex: `femmes`, `hommes`, `sexe inconnu` (unknown), or the `tout sexe` aggregate."
+  - name: headcount
+    type: BIGINT
+    description: "Number of self-employed (libéral) practitioners."
+  - name: density
     type: DOUBLE
-  - name: vision_generale_all
-    type: VARCHAR
-  - name: vision_generale_prescriptions
-    type: VARCHAR
-  - name: vision_profession_territoire
-    type: VARCHAR
+    description: "Practitioners per 100,000 inhabitants of the territory."

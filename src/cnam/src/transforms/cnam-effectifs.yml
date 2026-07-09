@@ -1,41 +1,49 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-effectifs`. Regenerate after model-verify.
-# caution: Every dimension carries an aggregate member: `cla_age_5`/`sexe` include all-ages and both-sexes codes, and `region`/`dept` include national and régional aggregates. Summing `ntop` or `npop` without filtering each dimension to its detail members multiply-counts patients.
-# caution: `top` spans several levels of the pathology hierarchy; a patient with several pathologies is counted under each, so pathology totals do not add up to the population.
-# caution: `prev` is a prevalence rate (share of `npop`) and must never be summed.
-key: [annee, top, cla_age_5, sexe, region, dept]
-temporal: annee
-sort: [annee, top, cla_age_5, sexe, region, dept]
+key: [year, pathology_code, age_class_code, sex_code, region_code, department_code]
+temporal: year
+sort: [year, pathology_code, age_class_code, sex_code, region_code, department_code]
 columns:
-  - name: annee
-    type: DATE
-  - name: patho_niv1
-    type: VARCHAR
-  - name: patho_niv2
-    type: VARCHAR
-  - name: patho_niv3
-    type: VARCHAR
-  - name: top
-    type: VARCHAR
-  - name: cla_age_5
-    type: VARCHAR
-  - name: sexe
+  - name: year
     type: BIGINT
-  - name: region
+    description: "Observation year. The source stamps it as a January 1 date; only the year is meaningful."
+  - name: pathology_level_1
     type: VARCHAR
-  - name: dept
+    description: "Top level of the CNAM pathology hierarchy (e.g. `Cancers`), in French."
+  - name: pathology_level_2
     type: VARCHAR
-  - name: ntop
+    description: "Second level of the pathology hierarchy, in French."
+  - name: pathology_level_3
+    type: VARCHAR
+    description: "Third (finest) level of the pathology hierarchy, in French."
+  - name: pathology_code
+    type: VARCHAR
+    description: "Pathology code (`top`) of the CNAM cartographie, e.g. `CAN_BPU_ACT`. Joins `cnam-referentiel-pathologies`.`pathology_code`."
+  - name: age_class_code
+    type: VARCHAR
+    description: "Five-year age-band code (`00-04` ... `95et+`); `tsage` is the all-ages aggregate."
+  - name: age_class
+    type: VARCHAR
+    description: "Age band, in French; `tous âges` is the all-ages aggregate."
+  - name: sex_code
     type: BIGINT
-  - name: npop
+    description: "Sex code: `1` men, `2` women, `9` both sexes (aggregate)."
+  - name: sex
+    type: VARCHAR
+    description: "Sex, in French (`hommes`, `femmes`, `tous sexes`)."
+  - name: region_code
+    type: VARCHAR
+    description: "CNAM region code, zero-padded; `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: department_code
+    type: VARCHAR
+    description: "Department code, zero-padded; `999` is the all-departments aggregate. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: patients
     type: BIGINT
-  - name: prev
+    description: "Patients with the pathology in this cell, rounded by the source to the nearest ten."
+  - name: reference_population
+    type: BIGINT
+    description: "Insured reference population of the cell — the denominator of `prevalence_pct`."
+  - name: prevalence_pct
     type: DOUBLE
-  - name: niveau_prioritaire
+    description: "patients / reference_population, in percent (0-100)."
+  - name: priority_levels
     type: VARCHAR
-  - name: libelle_classe_age
-    type: VARCHAR
-  - name: libelle_sexe
-    type: VARCHAR
-  - name: tri
-    type: DOUBLE
+    description: "Comma-separated CNAM priority levels the pathology belongs to (`1`, `2`, `3`, or combinations such as `2,3`)."

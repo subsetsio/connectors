@@ -173,7 +173,15 @@ def post_json(url: str, body: dict):
     return resp.json()
 
 
+# Wayback replays through /web/<14-digit-ts><modifier>/ rewrite every href to point
+# back into the archive. Strip that prefix (absolute or root-relative) so the link
+# regex sees the original bruegel.org URL.
+_WB_PREFIX_RE = re.compile(
+    r'(?:https?://web\.archive\.org)?/web/\d{14}[a-z]{0,3}_?/', re.I)
+
+
 def _links_from_html(html: str) -> list[str]:
+    html = _WB_PREFIX_RE.sub("", html)
     out: list[str] = []
     for m in _FILE_RE.finditer(html):
         u = m.group(1)
@@ -196,10 +204,22 @@ def _jina_html(page_url: str) -> str:
 
 
 @transient_retry()
+def _spn_html(page_url: str) -> str:
+    """Live page resolver for CI: Save-Page-Now captures the page from
+    archive.org's (non-blocked) egress and replays it inline, so the HTML carries
+    the CURRENT date-versioned file link — unlike an existing snapshot, which can
+    be months stale. Slow (~100s), so it sits behind Jina in the chain."""
+    resp = get(_WB_SAVE + page_url, timeout=(10.0, 240.0), headers=_BROWSER_HEADERS)
+    resp.raise_for_status()
+    return resp.text
+
+
+@transient_retry()
 def _wayback_html(page_url: str) -> str:
-    """Fallback page resolver: the latest Wayback snapshot (archive.org is also
-    CI-reachable). May lag a refresh or two, but apex keeps the older dated files
-    live, so a slightly stale link still downloads fine."""
+    """Last-resort page resolver: the latest existing Wayback snapshot. It can lag
+    the source by months, and Bruegel DELETES the superseded dated file on each
+    refresh, so a stale link 404s everywhere — hence last, and hence run_download
+    falls through to the next resolver when a link fails to download."""
     cdx = get("https://web.archive.org/cdx/search/cdx",
               params={"url": page_url, "output": "json", "limit": "-5",
                       "filter": "statuscode:200", "fl": "timestamp"},
@@ -215,22 +235,33 @@ def _wayback_html(page_url: str) -> str:
     return snap.text
 
 
-def resolve_links(page_path: str) -> list[str]:
-    """Resolve a dataset's download link(s) to apex-host URLs. The page itself is
-    only reachable off-www, so try Jina (live, current) then Wayback (archived),
-    then a direct www attempt as a last resort. Links are rewritten to apex."""
+# Ordered by (liveness, then cost). The first three read the CURRENT page; only
+# the fourth can hand back a stale link, so it is last.
+_PAGE_RESOLVERS = (_jina_html, get_text, _spn_html, _wayback_html)
+
+
+def _resolve_link_sets(page_path: str):
+    """Yield one apex-rewritten link list per resolver that produced any links.
+    Callers try each set in turn: a resolver can succeed at reading a page yet
+    hand back a dead link (Wayback's snapshot of a superseded refresh), and the
+    only way to tell is to attempt the download."""
     page_url = BASE + page_path
-    out: list[str] = []
-    for resolver in (_jina_html, _wayback_html, get_text):
+    seen: list[list[str]] = []
+    for resolver in _PAGE_RESOLVERS:
         try:
-            out = _links_from_html(resolver(page_url))
+            links = [_to_apex(u) for u in _links_from_html(resolver(page_url))]
         except Exception:
-            out = []
-        if out:
-            break
-    if not out:
+            continue
+        if links and links not in seen:
+            seen.append(links)
+            yield links
+    if not seen:
         raise AssertionError(f"no download link found for {page_path}")
-    return [_to_apex(u) for u in out]
+
+
+def resolve_links(page_path: str) -> list[str]:
+    """The first resolver's link list — the current page's links in the normal case."""
+    return next(_resolve_link_sets(page_path))
 
 
 # ---------------------------------------------------------------------------
@@ -278,12 +309,21 @@ def run_download(node_id: str, page_path: str | None, parser,
     a host the runner can't resolve from its page (the /system/files/ ones, which
     apex 302s back to the blocked www) pass an explicit ``direct_links`` URL."""
     if direct_links is not None:
-        links = direct_links
+        link_sets = iter([direct_links])
     elif page_path:
-        links = resolve_links(page_path)
+        link_sets = _resolve_link_sets(page_path)
     else:
-        links = []
-    rows = parser(links)
+        link_sets = iter([[]])
+
+    rows, last_exc = None, None
+    for links in link_sets:
+        try:
+            rows = parser(links)
+            break
+        except Exception as exc:  # a resolver's link may be dead — try the next one
+            last_exc = exc
+    if rows is None:
+        raise last_exc
     if not rows:
         raise AssertionError(f"{node_id}: parser produced 0 rows")
     save_raw_ndjson(rows, node_id)

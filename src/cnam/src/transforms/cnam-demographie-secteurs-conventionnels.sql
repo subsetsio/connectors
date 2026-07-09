@@ -1,19 +1,13 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: Aggregate members coexist with detail members in `profession_sante`, the territory columns and `secteur_conventionnel`. Filter each dimension before summing `effectif`.
+-- Published pass-through of raw asset `cnam-demographie-secteurs-conventionnels`.
+-- the `vision_*` portal display flags are dropped.
 SELECT
-    "annee",
-    "profession_sante",
-    "region",
-    "libelle_region",
-    "departement",
-    "libelle_departement",
-    CAST("secteur_conventionnel" AS BIGINT) AS secteur_conventionnel,
-    "libelle_secteur_conventionnel",
-    "effectif",
-    "vision_generale_all",
-    "vision_generale_prescriptions",
-    "vision_profession_territoire"
+    CAST(EXTRACT(YEAR FROM "annee") AS BIGINT) AS year,
+    "profession_sante" AS profession,
+    "region" AS region_code,
+    "libelle_region" AS region_name,
+    "departement" AS department_code,
+    "libelle_departement" AS department_name,
+    "secteur_conventionnel" AS sector_code,
+    "libelle_secteur_conventionnel" AS sector,
+    "effectif" AS headcount
 FROM "cnam-demographie-secteurs-conventionnels"

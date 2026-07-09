@@ -10,7 +10,6 @@ SELECT
     "origin_destination_country",
     "origin_destination",
     "airline_name",
-    "arrival_departure",
     "scheduled_charter",
     "number_flights_matched",
     "actual_flights_unmatched",

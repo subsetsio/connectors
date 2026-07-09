@@ -1,48 +1,46 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-honoraires-detailles`. Regenerate after model-verify.
-# caution: Rows span three nested levels of the fee-type hierarchy; `honoraires_ordre_niv_2`/`_3` carry the sentinel 99 (and their `type_honoraires_niveau_2`/`_3` labels are null) on rows that stop at a shallower level. Summing `montant_honoraires` across levels double-counts.
-# caution: Aggregate members also exist in `profession_sante` and the territory columns; `montant_honoraires_moyens` is a per-practitioner mean and is never summable.
-key: [annee, profession_sante, region, departement, honoraires_ordre_niv_1, honoraires_ordre_niv_2, honoraires_ordre_niv_3]
-temporal: annee
-sort: [annee, profession_sante, region, departement, honoraires_ordre_niv_1, honoraires_ordre_niv_2, honoraires_ordre_niv_3]
+key: [year, profession, region_code, department_code, fee_level_1_code, fee_level_2_code, fee_level_3_code]
+temporal: year
+sort: [year, profession, region_code, department_code, fee_level_1_code, fee_level_2_code, fee_level_3_code]
 columns:
-  - name: annee
-    type: DATE
-  - name: profession_sante
-    type: VARCHAR
-  - name: region
-    type: VARCHAR
-  - name: libelle_region
-    type: VARCHAR
-  - name: departement
-    type: VARCHAR
-  - name: libelle_departement
-    type: VARCHAR
-  - name: honoraires_ordre_niv_1
+  - name: year
     type: BIGINT
-  - name: type_honoraires_niveau_1
+    description: "Observation year. The source stamps it as a January 1 date; only the year is meaningful."
+  - name: profession
     type: VARCHAR
-  - name: honoraires_ordre_niv_2
+    description: "Healthcare profession or medical specialty, in French. Labels beginning `Ensemble des` are aggregates over several professions."
+  - name: region_code
+    type: VARCHAR
+    description: "CNAM region code, zero-padded (e.g. `11` Île-de-France); `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
+    type: VARCHAR
+    description: "Region name, in French."
+  - name: department_code
+    type: VARCHAR
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica; `999` is the all-departments aggregate row. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: department_name
+    type: VARCHAR
+    description: "Department name, in French; `Tout département` marks the aggregate row."
+  - name: fee_level_1_code
     type: BIGINT
-  - name: type_honoraires_niveau_2
+    description: "Code of the top fee-type level, `1` to `6`."
+  - name: fee_level_1
     type: VARCHAR
-  - name: honoraires_ordre_niv_3
+    description: "Top fee-type level, in French (`Actes`, `Dépassements`, `Rémunérations forfaitaires`, ...)."
+  - name: fee_level_2_code
     type: BIGINT
-  - name: type_honoraires_niveau_3
+    description: "Code of the second fee-type level; `99` on rows that stop at level 1."
+  - name: fee_level_2
     type: VARCHAR
-  - name: montant_honoraires
+    description: "Second fee-type level, in French (`Actes cliniques`, `Actes techniques`, `ROSP`, ...); null on rows that stop at level 1."
+  - name: fee_level_3_code
+    type: BIGINT
+    description: "Code of the third fee-type level; `99` on rows that stop at level 1 or 2."
+  - name: fee_level_3
+    type: VARCHAR
+    description: "Third fee-type level, in French (`Consultations`, `Visites`, `Actes techniques médicaux`, ...); null on rows that stop at level 1 or 2."
+  - name: fees_eur
     type: DOUBLE
-  - name: montant_honoraires_moyens
+    description: "Total fees billed for this fee type by the practitioners of the cell, in euros."
+  - name: mean_fees_eur
     type: DOUBLE
-  - name: vision_generale_all
-    type: VARCHAR
-  - name: vision_profession_territoire
-    type: VARCHAR
-  - name: vision_honoraires_actes_niveau_2
-    type: VARCHAR
-  - name: vision_honoraires_remunerations_niveau_2
-    type: VARCHAR
-  - name: vision_honoraires_actescliniques_niveau_3
-    type: VARCHAR
-  - name: vision_honoraires_actestechniques_niveau_3
-    type: VARCHAR
+    description: "Mean fees for this fee type per practitioner, in euros."

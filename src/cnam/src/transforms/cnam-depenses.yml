@@ -1,37 +1,43 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-depenses`. Regenerate after model-verify.
-# caution: Rows span several levels of the pathology hierarchy (patho_niv1/2/3 via `top`) and of the spending-post hierarchy (`dep_niv_1` → `dep_niv_2`); summing `montant` across levels double-counts.
-# caution: `ntop` (patients with the pathology) repeats on every spending-post row of that pathology.
-# caution: National-level only: this table has no territory dimension.
-key: [annee, top, dep_niv_2]
-temporal: annee
-sort: [annee, top, dep_niv_2]
+key: [year, pathology_code, spending_post]
+temporal: year
+sort: [year, pathology_code, spending_post]
 columns:
-  - name: annee
-    type: DATE
-  - name: patho_niv1
-    type: VARCHAR
-  - name: patho_niv2
-    type: VARCHAR
-  - name: patho_niv3
-    type: VARCHAR
-  - name: top
-    type: VARCHAR
-  - name: dep_niv_1
-    type: VARCHAR
-  - name: dep_niv_2
-    type: VARCHAR
-  - name: montant
+  - name: year
     type: BIGINT
-  - name: ntop
+    description: "Observation year. The source stamps it as a January 1 date; only the year is meaningful."
+  - name: pathology_level_1
+    type: VARCHAR
+    description: "Top level of the CNAM pathology hierarchy (e.g. `Cancers`), in French."
+  - name: pathology_level_2
+    type: VARCHAR
+    description: "Second level of the pathology hierarchy, in French."
+  - name: pathology_level_3
+    type: VARCHAR
+    description: "Third (finest) level of the pathology hierarchy, in French."
+  - name: pathology_code
+    type: VARCHAR
+    description: "Pathology code (`top`) of the CNAM cartographie, e.g. `CAN_BPU_ACT`. Joins `cnam-referentiel-pathologies`.`pathology_code`."
+  - name: spending_category
+    type: VARCHAR
+    description: "Top level of the spending hierarchy, in French (`Soins de ville`, `Hospitalisations (tous secteurs)`, `Prestations en espèces`, ...)."
+  - name: spending_post
+    type: VARCHAR
+    description: "Spending post within the category, in French; `Total des dépenses remboursées` is the all-posts aggregate."
+  - name: amount_type
+    type: VARCHAR
+    description: "`Total` if the amount is a full total for the post, `Partiel` if it covers part of it."
+  - name: amount_eur
     type: BIGINT
-  - name: n_recourant_au_poste
-    type: BIGINT
-  - name: montant_moy
+    description: "Reimbursed spending attributed to the pathology for this post, in euros."
+  - name: mean_amount_eur
     type: DOUBLE
-  - name: niveau_prioritaire
+    description: "Mean reimbursed spending per patient using the post, in euros."
+  - name: patients_with_pathology
+    type: BIGINT
+    description: "Patients with the pathology nationally. Repeated identically on every spending-post row of that pathology."
+  - name: patients_using_post
+    type: BIGINT
+    description: "Patients with the pathology who used this spending post."
+  - name: priority_levels
     type: VARCHAR
-  - name: tri
-    type: DOUBLE
-  - name: type_somme
-    type: VARCHAR
+    description: "Comma-separated CNAM priority levels the pathology belongs to (`1`, `2`, `3`, or combinations such as `2,3`)."

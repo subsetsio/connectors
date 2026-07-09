@@ -1,21 +1,22 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-patients-longueduree-annuelle`. Regenerate after model-verify.
-# caution: `taux_patients_ald_sans_mt` is the share of long-term-condition (ALD) patients without a declared attending physician — a percentage, never summable.
-# caution: The territory columns mix département, région and national rows.
-key: [annee, region, departement]
-sort: [annee, region, departement]
+key: [year, region_code, department_code]
+temporal: year
+sort: [year, region_code, department_code]
 columns:
-  - name: annee
+  - name: year
     type: BIGINT
-  - name: region
+    description: "Observation year."
+  - name: region_code
     type: VARCHAR
-  - name: libelle_region
+    description: "CNAM region code, zero-padded (e.g. `11` Île-de-France); `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
     type: VARCHAR
-  - name: departement
+    description: "Region name, in French."
+  - name: department_code
     type: VARCHAR
-  - name: libelle_departement
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica; `999` is the all-departments aggregate row. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: department_name
     type: VARCHAR
-  - name: taux_patients_ald_sans_mt
-    type: VARCHAR
-  - name: taux_patients_ald_sans_mt_integer
+    description: "Department name, in French; `Tout département` marks the aggregate row."
+  - name: ald_patients_without_attending_physician_pct
     type: DOUBLE
+    description: "Share of patients in a long-term condition scheme (affection de longue durée) who have no declared attending physician, in percent (0-100). The source suppresses small or unreliable cells (NS 'non significatif', NC 'non communiqué'); those rows carry no value here."

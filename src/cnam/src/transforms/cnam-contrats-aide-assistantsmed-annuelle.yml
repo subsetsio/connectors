@@ -1,26 +1,25 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-contrats-aide-assistantsmed-annuelle`. Regenerate after model-verify.
-# caution: The territory columns mix levels: département rows, région rows and a national row coexist. Filter on the territory level before summing `nombre_contrat_assmed`.
-key: [annee, region, departement]
-sort: [annee, region, departement]
+key: [year, region_code, department_code]
+temporal: year
+sort: [year, region_code, department_code]
 columns:
-  - name: annee
+  - name: year
     type: BIGINT
-  - name: profession_sante_nbr_contrats
+    description: "Observation year."
+  - name: region_code
     type: VARCHAR
-  - name: profession_sante_taux
+    description: "CNAM region code, zero-padded (e.g. `11` Île-de-France); `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
     type: VARCHAR
-  - name: region
+    description: "Region name, in French."
+  - name: department_code
     type: VARCHAR
-  - name: libelle_region
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica; `999` is the all-departments aggregate row. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: department_name
     type: VARCHAR
-  - name: departement
-    type: VARCHAR
-  - name: libelle_departement
-    type: VARCHAR
-  - name: nombre_contrat_assmed
+    description: "Department name, in French; `Tout département` marks the aggregate row."
+  - name: medical_assistant_contracts
     type: BIGINT
-  - name: taux_adhesions
-    type: VARCHAR
-  - name: taux_adhesions_integer
+    description: "Physicians who signed a contract for financial help employing a medical assistant (assistant médical), cumulative at year end."
+  - name: adhesion_rate_pct
     type: DOUBLE
+    description: "Share of eligible physicians who signed such a contract, in percent (0-100). The source suppresses small or unreliable cells (NS 'non significatif', NC 'non communiqué'); those rows carry no value here."

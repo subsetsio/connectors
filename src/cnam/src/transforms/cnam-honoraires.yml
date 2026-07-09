@@ -1,60 +1,49 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-honoraires`. Regenerate after model-verify.
-# caution: Every measure ships twice: a French-formatted VARCHAR and a parsed `*_integer` numeric of the same quantity.
-# caution: The `*_moyens` columns are per-practitioner means and the `taux_depassement*` columns are percentages — neither is summable. The territory columns mix département, région and national rows.
-key: [annee, profession_sante, region, departement]
-temporal: annee
-sort: [annee, profession_sante, region, departement]
+key: [year, profession, region_code, department_code]
+temporal: year
+sort: [year, profession, region_code, department_code]
 columns:
-  - name: annee
-    type: DATE
-  - name: profession_sante
-    type: VARCHAR
-  - name: region
-    type: VARCHAR
-  - name: libelle_region
-    type: VARCHAR
-  - name: departement
-    type: VARCHAR
-  - name: libelle_departement
-    type: VARCHAR
-  - name: hono_sans_depassement_totaux
-    type: VARCHAR
-  - name: depassements_totaux
-    type: VARCHAR
-  - name: hono_sans_depassement_moyens
-    type: VARCHAR
-  - name: depassements_moyens
-    type: VARCHAR
-  - name: taux_depassement_s2
-    type: VARCHAR
-  - name: taux_depassement_s2_non_optam
-    type: VARCHAR
-  - name: taux_depassement_s2_optam
-    type: VARCHAR
-  - name: vision_generale_all
-    type: VARCHAR
-  - name: vision_generale_prescriptions
-    type: VARCHAR
-  - name: vision_profession_territoire
-    type: VARCHAR
-  - name: taux_depassement
-    type: VARCHAR
-  - name: hono_sans_depassement_totaux_integer
+  - name: year
     type: BIGINT
-  - name: depassements_totaux_integer
+    description: "Observation year. The source stamps it as a January 1 date; only the year is meaningful."
+  - name: profession
+    type: VARCHAR
+    description: "Healthcare profession or medical specialty, in French. Labels beginning `Ensemble des` are aggregates over several professions."
+  - name: region_code
+    type: VARCHAR
+    description: "CNAM region code, zero-padded (e.g. `11` Île-de-France); `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
+    type: VARCHAR
+    description: "Region name, in French."
+  - name: department_code
+    type: VARCHAR
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica; `999` is the all-departments aggregate row. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: department_name
+    type: VARCHAR
+    description: "Department name, in French; `Tout département` marks the aggregate row."
+  - name: fees_total_eur
     type: BIGINT
-  - name: hono_sans_depassement_moyens_integer
+    description: "Total fees billed by the practitioners of this cell, extra billing included, in euros."
+  - name: fees_mean_eur
     type: BIGINT
-  - name: depassements_moyens_integer
+    description: "Mean total fees per practitioner, extra billing included, in euros."
+  - name: fees_excl_extra_billing_total_eur
     type: BIGINT
-  - name: taux_depassement_s2_integer
+    description: "Total fees billed at the regulated tariff, excluding extra billing (dépassements), in euros."
+  - name: fees_excl_extra_billing_mean_eur
+    type: BIGINT
+    description: "Mean fees per practitioner at the regulated tariff, excluding extra billing, in euros."
+  - name: extra_billing_total_eur
+    type: BIGINT
+    description: "Total extra billing (dépassements d'honoraires) charged above the regulated tariff, in euros."
+  - name: extra_billing_mean_eur
+    type: BIGINT
+    description: "Mean extra billing per practitioner, in euros."
+  - name: extra_billing_rate_sector_2_pct
     type: DOUBLE
-  - name: taux_depassement_s2_non_optam_integer
+    description: "Extra billing as a percentage of regulated-tariff fees, for sector-2 practitioners (0-100). The source suppresses small or unreliable cells (NS 'non significatif', NC 'non communiqué'); those rows carry no value here."
+  - name: extra_billing_rate_sector_2_optam_pct
     type: DOUBLE
-  - name: taux_depassement_s2_optam_integer
+    description: "Same rate, restricted to sector-2 practitioners who joined the OPTAM fee-moderation agreement (0-100). The source suppresses small or unreliable cells (NS 'non significatif', NC 'non communiqué'); those rows carry no value here."
+  - name: extra_billing_rate_sector_2_non_optam_pct
     type: DOUBLE
-  - name: totaux_integer
-    type: BIGINT
-  - name: moyens_integer
-    type: BIGINT
+    description: "Same rate, restricted to sector-2 practitioners outside OPTAM (0-100). The source suppresses small or unreliable cells (NS 'non significatif', NC 'non communiqué'); those rows carry no value here."

@@ -1,14 +1,9 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: Includes the overseas départements and the aggregate pseudo-départements used by the indicator tables, so a plain row count is not the number of real départements.
+-- Published pass-through of raw asset `cnam-referentiel-departements`.
+-- `dep_name_upper` (uppercase duplicate of the name) and `tri` (portal sort order) are dropped.
 SELECT
-    "reg_code",
-    "reg_name",
-    "dep_code",
-    "dep_name",
-    "dep_name_upper",
-    "dep_type",
-    "tri"
+    "dep_code" AS department_code,
+    "dep_name" AS department_name,
+    "dep_type" AS department_type,
+    "reg_code" AS region_code,
+    "reg_name" AS region_name
 FROM "cnam-referentiel-departements"

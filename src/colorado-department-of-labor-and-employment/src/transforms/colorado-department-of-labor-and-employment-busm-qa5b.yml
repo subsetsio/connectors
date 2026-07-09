@@ -1,82 +1,80 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# OES/OEWS employment and wage estimates by occupation for Colorado areas.
+# One row per area, year, occupation and rate type (hourly vs annual).
+# occupation_code stays VARCHAR: SOC codes are fixed-width strings whose structure
+# (major group = trailing '0000') is lost by a numeric cast.
+key: [area_type, area_code, period_year, occupation_code, rate_type]
+temporal: period_year
+sort: [period_year, area_type, area_code, occupation_code, rate_type]
 columns:
-  - name: stateabbrv
+  - name: area_type
+    type: BIGINT
+    description: "CDLE geography-level code: 1 = State, 4 = County, 17 = Workforce Development Region, 21 = Metropolitan Statistical Area, 30 = Balance of State (pre-2015 definition), 75 = Balance of State. The levels overlap — filter before aggregating, and do not compare the two balance-of-state definitions across the 2015 break."
+  - name: area_type_name
     type: VARCHAR
-  - name: statename
+    description: Human-readable name of `area_type`.
+  - name: area_code
+    type: BIGINT
+    description: CDLE numeric identifier of the geographic area within its `area_type`. Not a FIPS code.
+  - name: area_name
     type: VARCHAR
-  - name: stfips
+    description: Name of the geographic area (e.g. 'Denver-Aurora-Lakewood MSA', 'Colorado').
+  - name: period_year
+    type: BIGINT
+    description: Reference year of the wage estimate. Every row is an annual estimate.
+  - name: occupation_code
     type: VARCHAR
-  - name: areaname
+    description: Standard Occupational Classification code, zero-padded to six digits. Hierarchical — codes ending in '0000' are SOC major groups that aggregate the detailed occupations beneath them, so summing `employment` across all codes double-counts.
+  - name: occupation_title
     type: VARCHAR
-  - name: areatype
+    description: Name of the occupation identified by `occupation_code`.
+  - name: occupation_code_system
+    type: BIGINT
+    description: "Which SOC revision `occupation_code` is drawn from: 8 = SOC 2000, 14 = SOC 2010, 19 = SOC 2018. Codes are not always comparable across revisions."
+  - name: occupation_code_system_name
     type: VARCHAR
-  - name: areatyname
+    description: Human-readable name of `occupation_code_system` ('SOC 2000', 'SOC 2010', 'SOC 2018').
+  - name: rate_type
+    type: BIGINT
+    description: "Units of every wage column on this row: 1 = Hourly wage, 4 = Annual wage or salary. The same occupation appears under both — filter this column or the hourly and annual figures will be mixed."
+  - name: rate_type_name
     type: VARCHAR
-  - name: area
-    type: VARCHAR
-  - name: periodyear
-    type: VARCHAR
-  - name: periodtype
-    type: VARCHAR
-  - name: pertypdesc
-    type: VARCHAR
-  - name: period
-    type: VARCHAR
-  - name: indcodty
-    type: VARCHAR
-  - name: indcode
-    type: VARCHAR
-  - name: indcodetitle
-    type: VARCHAR
-  - name: occodetype
-    type: VARCHAR
-  - name: occodetydesc
-    type: VARCHAR
-  - name: occcode
-    type: VARCHAR
-  - name: codetitle
-    type: VARCHAR
-  - name: wagesource
-    type: VARCHAR
-  - name: wagesrdesc
-    type: VARCHAR
-  - name: ratetype
-    type: VARCHAR
-  - name: ratetydesc
-    type: VARCHAR
-  - name: empcount
-    type: VARCHAR
-  - name: response
-    type: VARCHAR
-  - name: mean
-    type: VARCHAR
-  - name: entrywg
-    type: VARCHAR
-  - name: experience
-    type: VARCHAR
-  - name: pct10
-    type: VARCHAR
-  - name: pct25
-    type: VARCHAR
-  - name: median
-    type: VARCHAR
-  - name: pct75
-    type: VARCHAR
-  - name: pct90
-    type: VARCHAR
-  - name: wpctrelerr
-    type: VARCHAR
-  - name: epctrelerr
-    type: VARCHAR
-  - name: udpct
-    type: VARCHAR
-  - name: udrnglopct
-    type: VARCHAR
-  - name: udrnghipct
-    type: VARCHAR
-  - name: panelcode
-    type: VARCHAR
-  - name: udpctwage
-    type: VARCHAR
-  - name: udrngmean
-    type: VARCHAR
+    description: Human-readable name of `rate_type` ('Hourly wage' or 'Annual wage or salary').
+  - name: employment
+    type: BIGINT
+    description: Estimated number of people employed in this occupation and area, rounded by the source.
+  - name: response_rate
+    type: BIGINT
+    description: Survey response rate for this cell, in percent.
+  - name: entry_wage
+    type: DOUBLE
+    description: Entry-level wage for this occupation, in the units given by `rate_type` (US dollars per hour or per year).
+  - name: experienced_wage
+    type: DOUBLE
+    description: Experienced-worker wage for this occupation, in the units given by `rate_type`.
+  - name: mean_wage
+    type: DOUBLE
+    description: Mean wage across workers in this occupation and area, in the units given by `rate_type`. An average — never sum it across rows.
+  - name: wage_pct10
+    type: DOUBLE
+    description: 10th percentile of the wage distribution, in the units given by `rate_type`.
+  - name: wage_pct25
+    type: DOUBLE
+    description: 25th percentile of the wage distribution, in the units given by `rate_type`.
+  - name: median_wage
+    type: DOUBLE
+    description: Median (50th percentile) wage, in the units given by `rate_type`.
+  - name: wage_pct75
+    type: DOUBLE
+    description: 75th percentile of the wage distribution, in the units given by `rate_type`.
+  - name: wage_pct90
+    type: DOUBLE
+    description: 90th percentile of the wage distribution, in the units given by `rate_type`.
+  - name: wage_relative_standard_error
+    type: DOUBLE
+    description: Relative standard error of the wage estimate, in percent. A precision measure, not additive.
+  - name: employment_relative_standard_error
+    type: DOUBLE
+    description: Relative standard error of the `employment` estimate, in percent.
+  - name: panel_code
+    type: BIGINT
+    description: Identifier of the survey panel the estimate was drawn from. Absent on roughly 8% of rows, which is why it is not part of the key.

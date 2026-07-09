@@ -1,22 +1,25 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-couverture-sas`. Regenerate after model-verify.
-# caution: The territory columns mix levels: département rows, région rows and a national row coexist. Filter before aggregating; `taux_population_couverte` is a percentage and must never be summed.
-key: [annee, region, departement]
-sort: [annee, region, departement]
+key: [year, region_code, department_code]
+temporal: year
+sort: [year, region_code, department_code]
 columns:
-  - name: annee
+  - name: year
     type: BIGINT
-  - name: region
+    description: "Observation year."
+  - name: region_code
     type: VARCHAR
-  - name: libelle_region
+    description: "CNAM region code, zero-padded (e.g. `11` Île-de-France); `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
     type: VARCHAR
-  - name: departement
+    description: "Region name, in French."
+  - name: department_code
     type: VARCHAR
-  - name: libelle_departement
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica; `999` is the all-departments aggregate row. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: department_name
     type: VARCHAR
-  - name: taux_population_couverte
-    type: DOUBLE
-  - name: couvert
+    description: "Department name, in French; `Tout département` marks the aggregate row."
+  - name: covered
     type: BIGINT
-  - name: taux_population_couverte_integer
+    description: "1 if the territory is served by a service d'accès aux soins (SAS), 0 otherwise."
+  - name: population_covered_pct
     type: DOUBLE
+    description: "Share of the territory's population covered by an SAS, in percent (0-100)."

@@ -1,40 +1,55 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# Personal income in Colorado. One row per area, year, income measure and source.
+# Renamed from the source's abbreviated column names (inctype -> income_type, etc.).
+# period/periodtype/pertypdesc dropped: constant (all rows annual).
+key: [area_type, area_code, period_year, income_type, income_source]
+temporal: period_year
+sort: [period_year, area_type, area_code, income_type, income_source]
 columns:
-  - name: stateabbrv
+  - name: state_abbrev
     type: VARCHAR
-  - name: statename
+    description: Two-letter postal abbreviation of the state the area belongs to ('CO'; 'US' on the national rows).
+  - name: state_name
     type: VARCHAR
-  - name: stfips
+    description: Name of the state the area belongs to ('Colorado'; 'United States' on the national rows).
+  - name: state_fips
+    type: BIGINT
+    description: FIPS state code (8 for Colorado, 0 for the United States rows).
+  - name: area_type
+    type: BIGINT
+    description: "CDLE geography-level code: 0 = United States, 1 = State, 4 = County, 21 = Metropolitan Statistical Area. Filter this before aggregating — the levels are nested."
+  - name: area_type_name
     type: VARCHAR
-  - name: areatyname
+    description: Human-readable name of `area_type` (United States, State, County, Metropolitan Statistical Area).
+  - name: area_code
+    type: BIGINT
+    description: CDLE numeric identifier of the geographic area within its `area_type`. Not a FIPS code.
+  - name: area_name
     type: VARCHAR
-  - name: areaname
+    description: Name of the geographic area (e.g. 'Denver County', 'Colorado').
+  - name: period_year
+    type: BIGINT
+    description: Calendar year of the observation. Every row is an annual figure.
+  - name: income_type
+    type: BIGINT
+    description: "Code for the income measure carried in `income`: 1 = Total Personal Income, 2 = Per Capita Personal Income, 3 = Median Household Income, 5 = Dividends, Interest and Rent Income, 6 = Transfer Payments. Rows of different types are different measures and must never be summed together."
+  - name: income_type_name
     type: VARCHAR
-  - name: areatype
+    description: Human-readable name of `income_type`, including the originating federal agency (Bureau of Economic Analysis or United States Census).
+  - name: income_source
+    type: BIGINT
+    description: "Code for the statistical agency that produced the figure: 1 = Census, 3 = Bureau of Economic Analysis."
+  - name: income_source_name
     type: VARCHAR
-  - name: area
-    type: VARCHAR
-  - name: periodyear
-    type: VARCHAR
-  - name: periodtype
-    type: VARCHAR
-  - name: pertypdesc
-    type: VARCHAR
-  - name: period
-    type: VARCHAR
-  - name: inctype
-    type: VARCHAR
-  - name: incdesc
-    type: VARCHAR
-  - name: incsource
-    type: VARCHAR
-  - name: incsrcdesc
-    type: VARCHAR
+    description: Human-readable name of `income_source`.
   - name: income
-    type: VARCHAR
-  - name: incrank
-    type: VARCHAR
+    type: BIGINT
+    description: The income figure, in current US dollars. Its meaning and scale depend on `income_type` — the per-capita and median-household measures are dollars per person/household, while the aggregate measures (total personal income, dividends/interest/rent, transfer payments) are reported by the source in thousands of dollars.
+  - name: income_rank
+    type: BIGINT
+    description: Rank of this area among its peers of the same `area_type` for this `income_type` and year, 1 being highest. An ordinal — never aggregate it.
   - name: population
-    type: VARCHAR
-  - name: releasedate
-    type: VARCHAR
+    type: BIGINT
+    description: Population of the area in `period_year`, as used by the source to derive the per-capita measures.
+  - name: release_date
+    type: DATE
+    description: Date the source released this figure, parsed from the raw YYYYMMDD string. A publication date, not an observation date.

@@ -1,16 +1,12 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: `profession_sante` is constant (general practitioners). The territory columns mix département, région and national rows; `taux_evolution_annuel` is a year-on-year percentage change and is never summable.
+-- Published pass-through of raw asset `cnam-medgen-zones-sous-dotees-annuelle`.
+-- the French-formatted rate string is dropped for its parsed numeric twin.
 SELECT
-    CAST("annee" AS BIGINT) AS annee,
-    "profession_sante",
-    "region",
-    "libelle_region",
-    "departement",
-    "libelle_departement",
-    "effectif_medecin_install_zsd",
-    "taux_evolution_annuel",
-    "taux_evolution_annuel_integer"
+    CAST("annee" AS BIGINT) AS year,
+    "profession_sante" AS profession,
+    "region" AS region_code,
+    "libelle_region" AS region_name,
+    "departement" AS department_code,
+    "libelle_departement" AS department_name,
+    "effectif_medecin_install_zsd" AS physicians_installed_in_underserved_zones,
+    "taux_evolution_annuel_integer" AS annual_change_pct
 FROM "cnam-medgen-zones-sous-dotees-annuelle"

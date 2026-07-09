@@ -1,29 +1,31 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-medecins-optam-annuelle`. Regenerate after model-verify.
-# caution: `taux_adhesion` (OPTAM adhesion share) and `taux_evolution_annuel` are percentages and must never be summed; only `effectif_medecin_optam` is a count.
-# caution: The territory columns mix département, région and national rows.
-key: [annee, profession_sante, region, departement]
-sort: [annee, profession_sante, region, departement]
+key: [year, profession, region_code, department_code]
+temporal: year
+sort: [year, profession, region_code, department_code]
 columns:
-  - name: annee
+  - name: year
     type: BIGINT
-  - name: profession_sante
+    description: "Observation year."
+  - name: profession
     type: VARCHAR
-  - name: region
+    description: "Healthcare profession or medical specialty, in French. Labels beginning `Ensemble des` are aggregates over several professions."
+  - name: region_code
     type: VARCHAR
-  - name: libelle_region
+    description: "CNAM region code, zero-padded (e.g. `11` Île-de-France); `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
     type: VARCHAR
-  - name: departement
+    description: "Region name, in French."
+  - name: department_code
     type: VARCHAR
-  - name: libelle_departement
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica; `999` is the all-departments aggregate row. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: department_name
     type: VARCHAR
-  - name: effectif_medecin_optam
+    description: "Department name, in French; `Tout département` marks the aggregate row."
+  - name: optam_physicians
     type: BIGINT
-  - name: taux_evolution_annuel
-    type: VARCHAR
-  - name: taux_adhesion
-    type: VARCHAR
-  - name: taux_evolution_annuel_integer
+    description: "Physicians who joined the OPTAM or OPTAM-ACO fee-moderation agreement."
+  - name: optam_adhesion_rate_pct
     type: DOUBLE
-  - name: taux_adhesion_integer
+    description: "Share of eligible physicians who joined OPTAM/OPTAM-ACO, in percent (0-100). The source suppresses small or unreliable cells (NS 'non significatif', NC 'non communiqué'); those rows carry no value here."
+  - name: annual_change_pct
     type: DOUBLE
+    description: "Year-on-year change of the headline measure, in percent (a value of 5.2 means +5.2%). The source suppresses small or unreliable cells (NS 'non significatif', NC 'non communiqué'); those rows carry no value here."

@@ -1,16 +1,11 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: A single in-progress-year snapshot (`annee` is constant, `date` is the end of the reference period), not a time series.
--- caution: The territory columns mix levels: département rows, région rows and a national row coexist.
+-- Published pass-through of raw asset `cnam-couverture-sas-infra-annuelle`.
 SELECT
-    "annee",
-    "date",
-    CAST("region" AS BIGINT) AS region,
-    "libelle_region",
-    "departement",
-    "libelle_departement",
-    "taux_population_couverte",
-    "couvert"
+    CAST(EXTRACT(YEAR FROM "annee") AS BIGINT) AS year,
+    "date" AS period_end,
+    "region" AS region_code,
+    "libelle_region" AS region_name,
+    "departement" AS department_code,
+    "libelle_departement" AS department_name,
+    "couvert" AS covered,
+    "taux_population_couverte" AS population_covered_pct
 FROM "cnam-couverture-sas-infra-annuelle"

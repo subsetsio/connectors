@@ -1,15 +1,11 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: The territory columns mix levels: département rows, région rows and a national row coexist. Filter before aggregating; `taux_population_couverte` is a percentage and must never be summed.
+-- Published pass-through of raw asset `cnam-couverture-sas`.
+-- the French-formatted rate string is dropped for its parsed numeric twin.
 SELECT
-    CAST("annee" AS BIGINT) AS annee,
-    "region",
-    "libelle_region",
-    "departement",
-    "libelle_departement",
-    CAST("taux_population_couverte" AS DOUBLE) AS taux_population_couverte,
-    "couvert",
-    "taux_population_couverte_integer"
+    CAST("annee" AS BIGINT) AS year,
+    "region" AS region_code,
+    "libelle_region" AS region_name,
+    "departement" AS department_code,
+    "libelle_departement" AS department_name,
+    "couvert" AS covered,
+    "taux_population_couverte_integer" AS population_covered_pct
 FROM "cnam-couverture-sas"

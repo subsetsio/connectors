@@ -1,38 +1,34 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-prescriptions`. Regenerate after model-verify.
-# caution: `poste_prescription` carries an all-posts aggregate alongside the individual prescription posts, and aggregate members also exist in `profession_sante` and the territory columns — filter each before summing `montant_total_prescription`.
-# caution: `montant_moyen_prescription` is a per-practitioner mean and is never summable.
-key: [annee, profession_sante, region, departement, poste_prescription]
-temporal: annee
-sort: [annee, profession_sante, region, departement, poste_prescription]
+key: [year, profession, region_code, department_code, prescription_post_code]
+temporal: year
+sort: [year, profession, region_code, department_code, prescription_post_code]
 columns:
-  - name: annee
-    type: DATE
-  - name: profession_sante
-    type: VARCHAR
-  - name: region
-    type: VARCHAR
-  - name: libelle_region
-    type: VARCHAR
-  - name: departement
-    type: VARCHAR
-  - name: libelle_departement
-    type: VARCHAR
-  - name: poste_prescription
-    type: VARCHAR
-  - name: libelle_poste_prescription
-    type: VARCHAR
-  - name: montant_total_prescription
-    type: VARCHAR
-  - name: montant_moyen_prescription
-    type: VARCHAR
-  - name: vision_generale_all
-    type: VARCHAR
-  - name: vision_generale_prescriptions
-    type: VARCHAR
-  - name: vision_profession_territoire
-    type: VARCHAR
-  - name: montant_total_prescription_integer
+  - name: year
     type: BIGINT
-  - name: montant_moyen_prescription_integer
+    description: "Observation year. The source stamps it as a January 1 date; only the year is meaningful."
+  - name: profession
+    type: VARCHAR
+    description: "Healthcare profession or medical specialty, in French. Labels beginning `Ensemble des` are aggregates over several professions."
+  - name: region_code
+    type: VARCHAR
+    description: "CNAM region code, zero-padded (e.g. `11` Île-de-France); `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
+    type: VARCHAR
+    description: "Region name, in French."
+  - name: department_code
+    type: VARCHAR
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica; `999` is the all-departments aggregate row. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: department_name
+    type: VARCHAR
+    description: "Department name, in French; `Tout département` marks the aggregate row."
+  - name: prescription_post_code
+    type: VARCHAR
+    description: "Prescription-post code `1` to `8`; `total` is the all-posts aggregate row."
+  - name: prescription_post
+    type: VARCHAR
+    description: "Prescription post, in French (`kinésithérapie`, `dispositifs médicaux inscrits à la liste des produits et prestations`, `autres`, ...)."
+  - name: total_prescription_amount_eur
     type: BIGINT
+    description: "Total amount prescribed by the practitioners of this cell for this post, in euros. The source suppresses small or unreliable cells (NS 'non significatif', NC 'non communiqué'); those rows carry no value here."
+  - name: mean_prescription_amount_eur
+    type: BIGINT
+    description: "Mean amount prescribed per practitioner for this post, in euros. The source suppresses small or unreliable cells (NS 'non significatif', NC 'non communiqué'); those rows carry no value here."

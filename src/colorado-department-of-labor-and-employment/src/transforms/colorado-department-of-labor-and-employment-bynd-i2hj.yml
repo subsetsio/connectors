@@ -1,36 +1,50 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# Consumer Price Index, Denver CPI region and the United States, as published in
+# the 2014 vintage of this resource. One row per area, period and index series.
+# `period_type` is part of the key because semi-annual rows reuse the month codes
+# 6 and 12 that the monthly rows also use.
+key: [area_type, area_code, period_year, period_type, period, series_type]
+temporal: period_year
+sort: [period_year, period, area_type, area_code, series_type]
 columns:
-  - name: statefips
+  - name: state_fips
+    type: BIGINT
+    description: FIPS state code (8 for the Colorado/Denver region rows, 0 for the United States rows).
+  - name: area_type
+    type: BIGINT
+    description: "Geography-level code: 0 = United States, 24 = CPI pricing region."
+  - name: area_code
+    type: BIGINT
+    description: Identifier of the pricing area. This is a CPI region code space, NOT the CDLE area code used by the other tables in this source — the same number means something different here.
+  - name: area_name
     type: VARCHAR
-  - name: area
+    description: Name of the pricing area ('Denver/Boulder/Greeley' or 'United States').
+  - name: data_region
     type: VARCHAR
-  - name: areatype
+    description: Short region label ('CO' for the Denver pricing region, 'US' for the national series).
+  - name: period_year
+    type: BIGINT
+    description: Calendar year of the observation. This 2014-vintage table carries a back-series from 1913 and does not extend past 2014.
+  - name: period_type
+    type: BIGINT
+    description: "Observation frequency: 1 = Annual, 3 = Monthly, 7 = Semi-Annual. Required to interpret `period` — filter it before aggregating over time."
+  - name: period_type_name
     type: VARCHAR
+    description: Human-readable name of `period_type` ('Annual', 'Monthly', 'Semi-Annual').
   - name: period
+    type: BIGINT
+    description: Within-year period index. 0 for annual rows; the month number 1-12 for monthly rows; the end month of the half-year (6 for the first half, 12 for the second) for semi-annual rows.
+  - name: series_type
+    type: BIGINT
+    description: "Code identifying the index series: 1 = CPI-U all items not seasonally adjusted, 2 = CPI-U all items seasonally adjusted, 3 = CPI-W all items not seasonally adjusted, 4 = CPI-W all items seasonally adjusted, and 51-59 = CPI-U expenditure categories (Food and beverages, Housing, and so on). Different series are different measurements — never aggregate across this column."
+  - name: series_title
     type: VARCHAR
-  - name: periodyear
-    type: VARCHAR
-  - name: periodtype
-    type: VARCHAR
-  - name: periodtypedescription
-    type: VARCHAR
+    description: Human-readable name of `series_type`, including the index base period ('1982-84=100') for the all-items series.
   - name: cpi
-    type: VARCHAR
-  - name: title
-    type: VARCHAR
-  - name: type
-    type: VARCHAR
-  - name: source
-    type: VARCHAR
-  - name: cpisourcedescription
-    type: VARCHAR
-  - name: percentchangeyear
-    type: VARCHAR
-  - name: percentchangemonth
-    type: VARCHAR
-  - name: dataregion
-    type: VARCHAR
-  - name: areaname
-    type: VARCHAR
-  - name: areadescription
-    type: VARCHAR
+    type: DOUBLE
+    description: The price index level for this series and period. An index, not a currency amount, and not additive across rows.
+  - name: percent_change_year
+    type: DOUBLE
+    description: Percent change in `cpi` from the same period one year earlier (e.g. 2.1 means 2.1%).
+  - name: percent_change_month
+    type: DOUBLE
+    description: Percent change in `cpi` from the previous period (e.g. 0.3 means 0.3%). Absent on annual rows and on the first period of a series.

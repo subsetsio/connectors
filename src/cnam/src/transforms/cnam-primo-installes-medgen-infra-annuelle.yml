@@ -1,26 +1,31 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-primo-installes-medgen-infra-annuelle`. Regenerate after model-verify.
-# caution: A single in-progress-year snapshot (`annee` is constant, `date` is the end of the reference period), not a time series.
-# caution: `profession_sante` is constant (general practitioners); the territory columns mix département, région and national rows.
-key: [profession_sante, region, departement]
-temporal: annee
-sort: [annee, profession_sante, region, departement]
+key: [profession, region_code, department_code]
+temporal: period_end
+sort: [period_end, profession, region_code, department_code]
 columns:
-  - name: annee
-    type: DATE
-  - name: date
-    type: DATE
-  - name: profession_sante
-    type: VARCHAR
-  - name: region
-    type: VARCHAR
-  - name: libelle_region
-    type: VARCHAR
-  - name: departement
-    type: VARCHAR
-  - name: libelle_departement
-    type: VARCHAR
-  - name: effectif_primo_installe
+  - name: year
     type: BIGINT
-  - name: taux_evolution_annuel
+    description: "Observation year. The source stamps it as a January 1 date; only the year is meaningful."
+  - name: period_end
+    type: DATE
+    description: "Last day of the reference period this snapshot covers."
+  - name: profession
+    type: VARCHAR
+    description: "Healthcare profession or medical specialty, in French. Labels beginning `Ensemble des` are aggregates over several professions."
+  - name: region_code
+    type: VARCHAR
+    description: "CNAM region code, zero-padded (e.g. `11` Île-de-France); `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
+    type: VARCHAR
+    description: "Region name, in French."
+  - name: department_code
+    type: VARCHAR
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica; `999` is the all-departments aggregate row. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: department_name
+    type: VARCHAR
+    description: "Department name, in French; `Tout département` marks the aggregate row."
+  - name: first_time_installations
+    type: BIGINT
+    description: "General practitioners setting up their first self-employed practice in the territory during the reference period."
+  - name: annual_change_pct
     type: DOUBLE
+    description: "Year-on-year change of the headline measure, in percent (a value of 5.2 means +5.2%)."

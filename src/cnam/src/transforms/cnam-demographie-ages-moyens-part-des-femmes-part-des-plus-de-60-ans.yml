@@ -1,33 +1,31 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-demographie-ages-moyens-part-des-femmes-part-des-plus-de-60-ans`. Regenerate after model-verify.
-# caution: National-level only (no territory dimension). `profession_sante` includes an all-professions aggregate alongside individual professions.
-# caution: All measures are shares or mean ages — averaging or summing them across professions without weighting by headcount is invalid.
-# caution: `vision_*` flags are display flags of the profession, not data dimensions.
-key: [annee, profession_sante]
-temporal: annee
-sort: [annee, profession_sante]
+key: [year, profession]
+temporal: year
+sort: [year, profession]
 columns:
-  - name: annee
-    type: DATE
-  - name: profession_sante
-    type: VARCHAR
-  - name: part_femmes
-    type: DOUBLE
-  - name: part_hommes
-    type: DOUBLE
-  - name: part_des_60_ans_et_plus
-    type: DOUBLE
-  - name: part_des_moins_de_60_ans
-    type: DOUBLE
-  - name: age_moyen_global
+  - name: year
     type: BIGINT
-  - name: age_moyen_femmes
+    description: "Observation year. The source stamps it as a January 1 date; only the year is meaningful."
+  - name: profession
+    type: VARCHAR
+    description: "Healthcare profession or medical specialty, in French. Labels beginning `Ensemble des` are aggregates over several professions."
+  - name: share_women
+    type: DOUBLE
+    description: "Share of the profession who are women, as a fraction between 0 and 1."
+  - name: share_men
+    type: DOUBLE
+    description: "Share of the profession who are men, as a fraction between 0 and 1."
+  - name: share_aged_60_and_over
+    type: DOUBLE
+    description: "Share of the profession aged 60 or over, as a fraction between 0 and 1."
+  - name: share_aged_under_60
+    type: DOUBLE
+    description: "Share of the profession aged under 60, as a fraction between 0 and 1."
+  - name: mean_age
     type: BIGINT
-  - name: age_moyen_hommes
+    description: "Mean age of the profession, in whole years."
+  - name: mean_age_women
     type: BIGINT
-  - name: vision_generale_all
-    type: VARCHAR
-  - name: vision_generale_prescriptions
-    type: VARCHAR
-  - name: vision_profession_territoire
-    type: VARCHAR
+    description: "Mean age of the women in the profession, in whole years."
+  - name: mean_age_men
+    type: BIGINT
+    description: "Mean age of the men in the profession, in whole years."

@@ -1,19 +1,13 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: `taux_adhesion` (OPTAM adhesion share) and `taux_evolution_annuel` are percentages and must never be summed; only `effectif_medecin_optam` is a count.
--- caution: The territory columns mix département, région and national rows.
+-- Published pass-through of raw asset `cnam-medecins-optam-annuelle`.
+-- French-formatted measure strings are dropped for their parsed numeric twins.
 SELECT
-    CAST("annee" AS BIGINT) AS annee,
-    "profession_sante",
-    "region",
-    "libelle_region",
-    "departement",
-    "libelle_departement",
-    "effectif_medecin_optam",
-    "taux_evolution_annuel",
-    "taux_adhesion",
-    "taux_evolution_annuel_integer",
-    "taux_adhesion_integer"
+    CAST("annee" AS BIGINT) AS year,
+    "profession_sante" AS profession,
+    "region" AS region_code,
+    "libelle_region" AS region_name,
+    "departement" AS department_code,
+    "libelle_departement" AS department_name,
+    "effectif_medecin_optam" AS optam_physicians,
+    "taux_adhesion_integer" AS optam_adhesion_rate_pct,
+    "taux_evolution_annuel_integer" AS annual_change_pct
 FROM "cnam-medecins-optam-annuelle"

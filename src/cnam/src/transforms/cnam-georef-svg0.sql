@@ -1,17 +1,13 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: Presentation asset: SVG path geometry and label anchors for rendering French département/région maps, in an unspecified local drawing space — not a georeferenced coordinate system, and not usable for spatial joins.
--- caution: `filename` splits the same territory across map panels (metropolitan France, Île-de-France inset, each overseas territory), so a territory `id` appears in more than one row.
+-- Published pass-through of raw asset `cnam-georef-svg0`.
+-- anchor coordinates stay VARCHAR: they are drawing-space numbers the source ships as strings, and two of them carry the row identity.
 SELECT
-    "d",
-    CAST("data_anchor_x" AS DOUBLE) AS data_anchor_x,
-    CAST("data_anchor_y" AS DOUBLE) AS data_anchor_y,
-    "data_fill_id",
-    "data_name",
-    "id",
-    "filename",
-    "niveau",
-    "cle"
+    "filename" AS map_panel,
+    "niveau" AS level,
+    "cle" AS map_key,
+    "id" AS territory_code,
+    "data_fill_id" AS fill_id,
+    "data_name" AS territory_name,
+    "d" AS svg_path,
+    "data_anchor_x" AS label_anchor_x,
+    "data_anchor_y" AS label_anchor_y
 FROM "cnam-georef-svg0"

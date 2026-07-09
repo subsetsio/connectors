@@ -1,34 +1,19 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: Every measure ships twice: a French-formatted VARCHAR and a parsed `*_integer` numeric of the same quantity.
--- caution: The `*_moyens` columns are per-practitioner means and the `taux_depassement*` columns are percentages — neither is summable. The territory columns mix département, région and national rows.
+-- Published pass-through of raw asset `cnam-honoraires`.
+-- French-formatted measure strings are dropped for their parsed numeric twins; `taux_depassement` (constant `non`) and the `vision_*` portal flags are dropped.
 SELECT
-    "annee",
-    "profession_sante",
-    "region",
-    "libelle_region",
-    "departement",
-    "libelle_departement",
-    "hono_sans_depassement_totaux",
-    "depassements_totaux",
-    "hono_sans_depassement_moyens",
-    "depassements_moyens",
-    "taux_depassement_s2",
-    "taux_depassement_s2_non_optam",
-    "taux_depassement_s2_optam",
-    "vision_generale_all",
-    "vision_generale_prescriptions",
-    "vision_profession_territoire",
-    "taux_depassement",
-    "hono_sans_depassement_totaux_integer",
-    "depassements_totaux_integer",
-    "hono_sans_depassement_moyens_integer",
-    "depassements_moyens_integer",
-    "taux_depassement_s2_integer",
-    "taux_depassement_s2_non_optam_integer",
-    "taux_depassement_s2_optam_integer",
-    "totaux_integer",
-    "moyens_integer"
+    CAST(EXTRACT(YEAR FROM "annee") AS BIGINT) AS year,
+    "profession_sante" AS profession,
+    "region" AS region_code,
+    "libelle_region" AS region_name,
+    "departement" AS department_code,
+    "libelle_departement" AS department_name,
+    "totaux_integer" AS fees_total_eur,
+    "moyens_integer" AS fees_mean_eur,
+    "hono_sans_depassement_totaux_integer" AS fees_excl_extra_billing_total_eur,
+    "hono_sans_depassement_moyens_integer" AS fees_excl_extra_billing_mean_eur,
+    "depassements_totaux_integer" AS extra_billing_total_eur,
+    "depassements_moyens_integer" AS extra_billing_mean_eur,
+    "taux_depassement_s2_integer" AS extra_billing_rate_sector_2_pct,
+    "taux_depassement_s2_optam_integer" AS extra_billing_rate_sector_2_optam_pct,
+    "taux_depassement_s2_non_optam_integer" AS extra_billing_rate_sector_2_non_optam_pct
 FROM "cnam-honoraires"

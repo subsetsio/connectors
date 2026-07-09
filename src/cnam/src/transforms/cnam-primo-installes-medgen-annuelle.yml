@@ -1,24 +1,28 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-primo-installes-medgen-annuelle`. Regenerate after model-verify.
-# caution: `profession_sante` is constant (general practitioners). The territory columns mix département, région and national rows; `taux_evolution_annuel` is a percentage change.
-key: [annee, profession_sante, region, departement]
-sort: [annee, profession_sante, region, departement]
+key: [year, profession, region_code, department_code]
+temporal: year
+sort: [year, profession, region_code, department_code]
 columns:
-  - name: annee
+  - name: year
     type: BIGINT
-  - name: profession_sante
+    description: "Observation year."
+  - name: profession
     type: VARCHAR
-  - name: region
+    description: "Healthcare profession or medical specialty, in French. Labels beginning `Ensemble des` are aggregates over several professions."
+  - name: region_code
     type: VARCHAR
-  - name: libelle_region
+    description: "CNAM region code, zero-padded (e.g. `11` Île-de-France); `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
     type: VARCHAR
-  - name: departement
+    description: "Region name, in French."
+  - name: department_code
     type: VARCHAR
-  - name: libelle_departement
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica; `999` is the all-departments aggregate row. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: department_name
     type: VARCHAR
-  - name: effectif_primo_installe
+    description: "Department name, in French; `Tout département` marks the aggregate row."
+  - name: first_time_installations
     type: BIGINT
-  - name: taux_evolution_annuel
-    type: VARCHAR
-  - name: taux_evolution_annuel_integer
+    description: "General practitioners setting up their first self-employed practice in the territory during the year."
+  - name: annual_change_pct
     type: DOUBLE
+    description: "Year-on-year change of the headline measure, in percent (a value of 5.2 means +5.2%). The source suppresses small or unreliable cells (NS 'non significatif', NC 'non communiqué'); those rows carry no value here."

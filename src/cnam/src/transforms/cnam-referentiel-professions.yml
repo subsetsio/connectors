@@ -1,30 +1,30 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-referentiel-professions`. Regenerate after model-verify.
-# caution: The `vision_*` and `menu` columns are display flags controlling where a profession appears on the CNAM portal, not properties of the profession itself.
-key: [profession_sante]
-sort: [profession_sante]
+key: [profession]
+sort: [profession]
 columns:
-  - name: profession_sante
+  - name: profession
     type: VARCHAR
-  - name: tri
+    description: "Healthcare profession or medical specialty, in French. Labels beginning `Ensemble des` are aggregates over several professions."
+  - name: portal_menu
     type: VARCHAR
-  - name: vision_generale_all
+    description: "Portal menu the profession is listed under: `médecins` or `autres`."
+  - name: in_general_view
     type: VARCHAR
-  - name: vision_generale_prescriptions
+    description: "`oui`/`non`: the profession appears in the portal's general view."
+  - name: in_prescriptions_view
     type: VARCHAR
-  - name: vision_profession_territoire
+    description: "`oui`/`non`: the profession appears in the prescriptions view."
+  - name: in_profession_territory_view
     type: VARCHAR
-  - name: menu
+    description: "`oui`/`non`: the profession appears in the profession-by-territory view."
+  - name: in_fees_acts_level_2_view
     type: VARCHAR
-  - name: taux_depassement
+    description: "`oui`/`non`: the profession appears in the level-2 fees breakdown for medical acts."
+  - name: in_fees_payments_level_2_view
     type: VARCHAR
-  - name: vision_honoraires_actes_niveau_2
+    description: "`oui`/`non`: the profession appears in the level-2 fees breakdown for flat-rate payments."
+  - name: in_fees_clinical_acts_level_3_view
     type: VARCHAR
-  - name: vision_honoraires_remunerations_niveau_2
+    description: "`oui`/`non`: the profession appears in the level-3 fees breakdown for clinical acts."
+  - name: in_fees_technical_acts_level_3_view
     type: VARCHAR
-  - name: vision_honoraires_actescliniques_niveau_3
-    type: VARCHAR
-  - name: vision_honoraires_actestechniques_niveau_3
-    type: VARCHAR
-  - name: column_11
-    type: VARCHAR
+    description: "`oui`/`non`: the profession appears in the level-3 fees breakdown for technical acts."

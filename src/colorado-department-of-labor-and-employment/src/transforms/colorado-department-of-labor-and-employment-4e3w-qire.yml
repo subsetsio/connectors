@@ -1,38 +1,48 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# Unemployment estimates (LAUS) for Colorado areas. One row per area, period and
+# seasonal-adjustment flag. stateabbrv/statename/stfips/benchmark dropped: constant.
+key: [area_type, area_code, period_year, period_type, period, seasonally_adjusted]
+temporal: period_year
+sort: [period_year, period, area_type, area_code, seasonally_adjusted]
 columns:
-  - name: stateabbrv
+  - name: area_type
+    type: BIGINT
+    description: "CDLE geography-level code: 1 = State, 4 = County, 21 = Metropolitan Statistical Area. The levels are nested — filter before summing."
+  - name: area_type_name
     type: VARCHAR
-  - name: statename
+    description: Human-readable name of `area_type`.
+  - name: area_code
+    type: BIGINT
+    description: CDLE numeric identifier of the geographic area within its `area_type`. Not a FIPS code.
+  - name: area_name
     type: VARCHAR
-  - name: stfips
+    description: Name of the geographic area (e.g. 'Boulder County', 'Colorado').
+  - name: period_year
+    type: BIGINT
+    description: Calendar year of the observation.
+  - name: period_type
+    type: BIGINT
+    description: "Observation frequency: 1 = Annual (with `period` = 0), 3 = Monthly (with `period` = 1..12). Annual rows are averages of the monthly rows — filter this column before aggregating over time."
+  - name: period_type_name
     type: VARCHAR
-  - name: areaname
-    type: VARCHAR
-  - name: areatype
-    type: VARCHAR
-  - name: areatyname
-    type: VARCHAR
-  - name: area
-    type: VARCHAR
-  - name: periodyear
-    type: VARCHAR
-  - name: periodtype
-    type: VARCHAR
-  - name: pertypdesc
-    type: VARCHAR
+    description: Human-readable name of `period_type` ('Annual' or 'Monthly').
   - name: period
-    type: VARCHAR
-  - name: adjusted
-    type: VARCHAR
-  - name: prelim
-    type: VARCHAR
-  - name: benchmark
-    type: VARCHAR
-  - name: laborforce
-    type: VARCHAR
-  - name: emplab
-    type: VARCHAR
-  - name: unemp
-    type: VARCHAR
-  - name: unemprate
-    type: VARCHAR
+    type: BIGINT
+    description: Month number 1-12 for monthly rows; 0 for annual rows.
+  - name: seasonally_adjusted
+    type: BOOLEAN
+    description: Whether the estimate is seasonally adjusted. Both the adjusted and unadjusted series are present for the same area and period — filter this column or every period appears twice.
+  - name: preliminary
+    type: BOOLEAN
+    description: Whether the estimate is still preliminary and subject to revision in a later release.
+  - name: labor_force
+    type: BIGINT
+    description: Number of people in the civilian labor force (employed plus unemployed) resident in the area.
+  - name: employed
+    type: BIGINT
+    description: Number of employed people resident in the area.
+  - name: unemployed
+    type: BIGINT
+    description: Number of unemployed people resident in the area.
+  - name: unemployment_rate
+    type: DOUBLE
+    description: Unemployed as a percentage of the labor force (e.g. 3.4 means 3.4%). A rate — aggregate it as a mean weighted by `labor_force`, never a sum.

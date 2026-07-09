@@ -1,30 +1,33 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-referentiel-pathologies`. Regenerate after model-verify.
-# caution: Rows sit at three levels of the pathology hierarchy (`niveau_de_l_arborescence` = 1, 2 or 3); a level-1 row is the parent of the level-2/3 rows below it, so the table is a tree, not a flat list.
-key: [top]
-sort: [top]
+key: [pathology_code]
+sort: [pathology_code]
 columns:
-  - name: patho_niv1
+  - name: pathology_level_1
     type: VARCHAR
-  - name: patho_niv2
+    description: "Top level of the CNAM pathology hierarchy (e.g. `Cancers`), in French."
+  - name: pathology_level_2
     type: VARCHAR
-  - name: patho_niv3
+    description: "Second level of the pathology hierarchy, in French."
+  - name: pathology_level_3
     type: VARCHAR
-  - name: top
+    description: "Third (finest) level of the pathology hierarchy, in French."
+  - name: pathology_code
     type: VARCHAR
-  - name: top_facet
+    description: "Pathology code (`top`) of the CNAM cartographie, e.g. `CAN_BPU_ACT`. Joins `cnam-referentiel-pathologies`.`pathology_code`."
+  - name: pathology_facet_code
     type: VARCHAR
-  - name: niveau_prioritaire
+    description: "Pathology code as used in the portal's facet filters; equal to `pathology_code` in this export."
+  - name: hierarchy_level
+    type: BIGINT
+    description: "Depth of the row in the pathology tree: `1`, `2` or `3`. A level-1 row is the parent of the level-2 and level-3 rows beneath it."
+  - name: comorbidity_level_1
     type: VARCHAR
-  - name: niveau_de_l_arborescence
-    type: DOUBLE
-  - name: tri
-    type: DOUBLE
-  - name: patho_niv1_comorb
+    description: "Top level of the hierarchy under which this pathology appears when it is used as a comorbidity."
+  - name: comorbidity_level_2
     type: VARCHAR
-  - name: patho_niv2_comorb
+    description: "Second level of the hierarchy for the comorbidity view."
+  - name: comorbidity_level_3
     type: VARCHAR
-  - name: patho_niv3_comorb
+    description: "Third level of the hierarchy for the comorbidity view."
+  - name: priority_levels
     type: VARCHAR
-  - name: texte_d_avertissement
-    type: VARCHAR
+    description: "Comma-separated CNAM priority levels the pathology belongs to (`1`, `2`, `3`, or combinations such as `2,3`)."

@@ -1,20 +1,18 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-referentiel-departements`. Regenerate after model-verify.
-# caution: Includes the overseas départements and the aggregate pseudo-départements used by the indicator tables, so a plain row count is not the number of real départements.
-key: [dep_code]
-sort: [dep_code]
+key: [department_code]
+sort: [department_code]
 columns:
-  - name: reg_code
+  - name: department_code
     type: VARCHAR
-  - name: reg_name
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica. The code the indicator tables join on."
+  - name: department_name
     type: VARCHAR
-  - name: dep_code
+    description: "Department name, in French."
+  - name: department_type
     type: VARCHAR
-  - name: dep_name
+    description: "`département` or `collectivité d'outre-mer` (overseas collectivity)."
+  - name: region_code
     type: VARCHAR
-  - name: dep_name_upper
+    description: "Code of the region the department belongs to. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
     type: VARCHAR
-  - name: dep_type
-    type: VARCHAR
-  - name: tri
-    type: BIGINT
+    description: "Name of the region the department belongs to, in French."

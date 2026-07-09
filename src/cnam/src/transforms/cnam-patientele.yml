@@ -1,34 +1,28 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-patientele`. Regenerate after model-verify.
-# caution: `nombre_patients_uniques` and `nombre_patients_medecin_traitant` are means per practitioner (also shipped as parsed `*_integer` columns), not territory totals.
-# caution: The territory columns mix département, région and national rows.
-key: [annee, profession_sante, region, departement]
-temporal: annee
-sort: [annee, profession_sante, region, departement]
+key: [year, profession, region_code, department_code]
+temporal: year
+sort: [year, profession, region_code, department_code]
 columns:
-  - name: annee
-    type: DATE
-  - name: profession_sante
-    type: VARCHAR
-  - name: region
-    type: VARCHAR
-  - name: libelle_region
-    type: VARCHAR
-  - name: departement
-    type: VARCHAR
-  - name: libelle_departement
-    type: VARCHAR
-  - name: nombre_patients_uniques
-    type: VARCHAR
-  - name: nombre_patients_medecin_traitant
-    type: VARCHAR
-  - name: vision_generale_all
-    type: VARCHAR
-  - name: vision_generale_prescriptions
-    type: VARCHAR
-  - name: vision_profession_territoire
-    type: VARCHAR
-  - name: patients_medecin_traitant_integer
+  - name: year
     type: BIGINT
-  - name: patients_uniques_integer
+    description: "Observation year. The source stamps it as a January 1 date; only the year is meaningful."
+  - name: profession
+    type: VARCHAR
+    description: "Healthcare profession or medical specialty, in French. Labels beginning `Ensemble des` are aggregates over several professions."
+  - name: region_code
+    type: VARCHAR
+    description: "CNAM region code, zero-padded (e.g. `11` Île-de-France); `99` is the national aggregate. Joins `cnam-referentiel-regions`.`region_code`."
+  - name: region_name
+    type: VARCHAR
+    description: "Region name, in French."
+  - name: department_code
+    type: VARCHAR
+    description: "Department code, zero-padded, `2A`/`2B` for Corsica; `999` is the all-departments aggregate row. Joins `cnam-referentiel-departements`.`department_code`."
+  - name: department_name
+    type: VARCHAR
+    description: "Department name, in French; `Tout département` marks the aggregate row."
+  - name: mean_unique_patients
     type: BIGINT
+    description: "Mean number of distinct patients seen per practitioner over the year. A per-practitioner mean, not a territory total. The source suppresses small or unreliable cells (NS 'non significatif', NC 'non communiqué'); those rows carry no value here."
+  - name: mean_attending_physician_patients
+    type: BIGINT
+    description: "Mean number of patients who declared this practitioner as their attending physician (médecin traitant). The source suppresses small or unreliable cells (NS 'non significatif', NC 'non communiqué'); those rows carry no value here."

@@ -1,17 +1,12 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: A single in-progress-year snapshot (`annee` is constant, `date` is the end of the reference period), not a time series.
--- caution: `profession_sante` is constant (general practitioners); the territory columns mix département, région and national rows.
+-- Published pass-through of raw asset `cnam-primo-installes-medgen-infra-annuelle`.
 SELECT
-    "annee",
-    "date",
-    "profession_sante",
-    "region",
-    "libelle_region",
-    "departement",
-    "libelle_departement",
-    "effectif_primo_installe",
-    "taux_evolution_annuel"
+    CAST(EXTRACT(YEAR FROM "annee") AS BIGINT) AS year,
+    "date" AS period_end,
+    "profession_sante" AS profession,
+    "region" AS region_code,
+    "libelle_region" AS region_name,
+    "departement" AS department_code,
+    "libelle_departement" AS department_name,
+    "effectif_primo_installe" AS first_time_installations,
+    "taux_evolution_annuel" AS annual_change_pct
 FROM "cnam-primo-installes-medgen-infra-annuelle"

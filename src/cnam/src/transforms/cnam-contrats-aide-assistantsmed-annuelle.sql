@@ -1,17 +1,11 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: The territory columns mix levels: département rows, région rows and a national row coexist. Filter on the territory level before summing `nombre_contrat_assmed`.
+-- Published pass-through of raw asset `cnam-contrats-aide-assistantsmed-annuelle`.
+-- `profession_sante_nbr_contrats` / `profession_sante_taux` are constant (médecins) and are dropped; the French-formatted rate string is dropped for its parsed numeric twin.
 SELECT
-    CAST("annee" AS BIGINT) AS annee,
-    "profession_sante_nbr_contrats",
-    "profession_sante_taux",
-    "region",
-    "libelle_region",
-    "departement",
-    "libelle_departement",
-    "nombre_contrat_assmed",
-    "taux_adhesions",
-    "taux_adhesions_integer"
+    CAST("annee" AS BIGINT) AS year,
+    "region" AS region_code,
+    "libelle_region" AS region_name,
+    "departement" AS department_code,
+    "libelle_departement" AS department_name,
+    "nombre_contrat_assmed" AS medical_assistant_contracts,
+    "taux_adhesions_integer" AS adhesion_rate_pct
 FROM "cnam-contrats-aide-assistantsmed-annuelle"

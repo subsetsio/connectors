@@ -1,18 +1,13 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: A single in-progress-year snapshot (`annee` is constant, `date` is the end of the reference period), not a time series.
--- caution: `nombre_patients_uniques` is a mean per practitioner, not a total; the territory columns mix département, région and national rows.
+-- Published pass-through of raw asset `cnam-file-active-medgen-infra-annuelle`.
+-- `nombre_patients_uniques` has no parsed twin in this export; it is TRY_CAST, so the source's NS/NC sentinels become nulls.
 SELECT
-    "annee",
-    "date",
-    "profession_sante",
-    "region",
-    "libelle_region",
-    "departement",
-    "libelle_departement",
-    "nombre_patients_uniques",
-    "taux_evolution_annuel",
-    "taux_evolution_annuel_integer"
+    CAST(EXTRACT(YEAR FROM "annee") AS BIGINT) AS year,
+    "date" AS period_end,
+    "profession_sante" AS profession,
+    "region" AS region_code,
+    "libelle_region" AS region_name,
+    "departement" AS department_code,
+    "libelle_departement" AS department_name,
+    TRY_CAST("nombre_patients_uniques" AS BIGINT) AS mean_unique_patients,
+    "taux_evolution_annuel_integer" AS annual_change_pct
 FROM "cnam-file-active-medgen-infra-annuelle"

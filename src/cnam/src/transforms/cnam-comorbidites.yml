@@ -1,40 +1,46 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-comorbidites`. Regenerate after model-verify.
-# caution: One row per (year, index pathology `top`, comorbid pathology). `ntop` repeats the index pathology's patient count on every comorbidity row — summing `ncomorb` or `ntop` across rows double-counts patients.
-# caution: `top` and the comorbidity columns span several levels of the pathology hierarchy (patho_niv1/2/3); rows at different levels overlap, so never sum across levels.
-key: [annee, top, libelle_comorbidite]
-temporal: annee
-sort: [annee, top, libelle_comorbidite]
+key: [year, pathology_code, comorbidity]
+temporal: year
+sort: [year, pathology_code, comorbidity]
 columns:
-  - name: annee
-    type: DATE
-  - name: patho_niv1
-    type: VARCHAR
-  - name: patho_niv2
-    type: VARCHAR
-  - name: patho_niv3
-    type: VARCHAR
-  - name: top
-    type: VARCHAR
-  - name: comorbidite
-    type: VARCHAR
-  - name: libelle_comorbidite
-    type: VARCHAR
-  - name: region
+  - name: year
     type: BIGINT
-  - name: dept
+    description: "Observation year. The source stamps it as a January 1 date; only the year is meaningful."
+  - name: pathology_level_1
+    type: VARCHAR
+    description: "Top level of the CNAM pathology hierarchy (e.g. `Cancers`), in French."
+  - name: pathology_level_2
+    type: VARCHAR
+    description: "Second level of the pathology hierarchy, in French."
+  - name: pathology_level_3
+    type: VARCHAR
+    description: "Third (finest) level of the pathology hierarchy, in French."
+  - name: pathology_code
+    type: VARCHAR
+    description: "Pathology code (`top`) of the CNAM cartographie, e.g. `CAN_BPU_ACT`. Joins `cnam-referentiel-pathologies`.`pathology_code`."
+  - name: comorbidity_code
+    type: VARCHAR
+    description: "Pathology code of the associated comorbidity, drawn from the same `top` coding system."
+  - name: comorbidity
+    type: VARCHAR
+    description: "Name of the associated comorbidity, in French."
+  - name: comorbidity_level_1
+    type: VARCHAR
+    description: "Top level of the pathology hierarchy for the comorbidity."
+  - name: comorbidity_level_2
+    type: VARCHAR
+    description: "Second level of the pathology hierarchy for the comorbidity."
+  - name: comorbidity_level_3
+    type: VARCHAR
+    description: "Third level of the pathology hierarchy for the comorbidity."
+  - name: patients_with_pathology
     type: BIGINT
-  - name: ncomorb
+    description: "Patients with the index pathology nationally. Repeated identically on every comorbidity row of that pathology."
+  - name: patients_with_comorbidity
     type: BIGINT
-  - name: ntop
-    type: BIGINT
-  - name: proportion_comorb
+    description: "Patients with the index pathology who also have the comorbidity."
+  - name: comorbidity_share
     type: DOUBLE
-  - name: patho_niv1_comorb
+    description: "patients_with_comorbidity / patients_with_pathology, as a fraction between 0 and 1."
+  - name: priority_levels
     type: VARCHAR
-  - name: patho_niv2_comorb
-    type: VARCHAR
-  - name: patho_niv3_comorb
-    type: VARCHAR
-  - name: niveau_prioritaire
-    type: VARCHAR
+    description: "Comma-separated CNAM priority levels the pathology belongs to (`1`, `2`, `3`, or combinations such as `2,3`)."

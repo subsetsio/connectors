@@ -1,0 +1,36 @@
+spec_id: ine-35179
+status: active
+tests:
+  - freshness: {col: fecha, reaches: today - 60d}
+    reason: INE declares this table Semanal and has not closed it (no Anyo_Periodo_fin), so a live series must have published an observation within one period plus its publication lag. A failure means INE stopped publishing without marking the series closed - reclassify it to a frozen declaration citing the last observed date, do not widen the bound
+    certainty: 70
+    points_outward: true
+  - row_count: {min: 1}
+    reason: a valid INE table returns at least one series-observation from DATOS_TABLA; empty raw means the table id no longer resolves
+    certainty: 88
+  - not_null: table_id
+    reason: table_id is stamped on every row from the node id
+    certainty: 99
+  - enum: {col: table_id, values: ["35179"]}
+    reason: every row in this asset is for this one INE table; another id means cross-node contamination
+    certainty: 99
+  - not_null: fecha
+    reason: every Data point carries a Fecha; a null means the parse dropped the date key
+    certainty: 95
+  - column_type: {col: fecha, type: date}
+    reason: Fecha (epoch ms, period end) is normalized to a UTC date in the fetch fn
+    certainty: 95
+  - column_type: {col: fecha_ms, type: integer}
+    reason: the untouched source value, epoch milliseconds as int64
+    certainty: 95
+  - column_type: {col: valor, type: float}
+    reason: Valor is the numeric observation, stored as float64 (nullable for suppressed cells)
+    certainty: 95
+  - not_null: serie_cod
+    reason: every series in a table has a COD identifier
+    certainty: 90
+    severity: warn
+  - distinct_count: {col: serie_cod, min: 1}
+    reason: a table contains at least one distinct series
+    certainty: 90
+    severity: warn

@@ -1,25 +1,30 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cnam-georef-svg0`. Regenerate after model-verify.
-# caution: Presentation asset: SVG path geometry and label anchors for rendering French département/région maps, in an unspecified local drawing space — not a georeferenced coordinate system, and not usable for spatial joins.
-# caution: `filename` splits the same territory across map panels (metropolitan France, Île-de-France inset, each overseas territory), so a territory `id` appears in more than one row.
-key: [data_anchor_y, data_fill_id, data_name, id, filename]
-sort: [data_anchor_y, data_fill_id, data_name, id, filename]
+key: [map_panel, territory_code, territory_name, fill_id, label_anchor_y]
+sort: [map_panel, territory_code, territory_name, fill_id, label_anchor_y]
 columns:
-  - name: d
+  - name: map_panel
     type: VARCHAR
-  - name: data_anchor_x
-    type: DOUBLE
-  - name: data_anchor_y
-    type: DOUBLE
-  - name: data_fill_id
+    description: "Map panel the shape belongs to (`dep_fxx_text` metropolitan departments, `reg_guf_text` Guyane regions, ...). The same territory appears once per panel it is drawn on."
+  - name: level
     type: VARCHAR
-  - name: data_name
+    description: "Territory level of the shape: `dep` (department) or `reg` (region)."
+  - name: map_key
     type: VARCHAR
-  - name: id
+    description: "Geographic grouping of the panel (`fxx` metropolitan France, `idf` Île-de-France inset, `reu`, `guf`, `myt`, `glp`, `mtq`)."
+  - name: territory_code
     type: VARCHAR
-  - name: filename
+    description: "Department or region code of the shape, matching the `region_code` / `department_code` used by the indicator tables."
+  - name: fill_id
     type: VARCHAR
-  - name: niveau
+    description: "Identifier the portal uses to colour the shape; equal to `territory_code` in this export."
+  - name: territory_name
     type: VARCHAR
-  - name: cle
+    description: "Territory name, in French."
+  - name: svg_path
     type: VARCHAR
+    description: "SVG path `d` attribute drawing the territory outline, in the panel's local drawing space."
+  - name: label_anchor_x
+    type: VARCHAR
+    description: "X coordinate for the territory label, in the panel's local drawing space (not a projected coordinate)."
+  - name: label_anchor_y
+    type: VARCHAR
+    description: "Y coordinate for the territory label, in the panel's local drawing space (not a projected coordinate)."
