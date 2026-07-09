@@ -1,8 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# One row per series x observation date. Every run re-fetches whole history (the
+# CSV endpoint has no incremental filter), so the snapshot is always complete and
+# overwrite is correct; revisions land for free.
+key: [series_code, obs_date]
+temporal: obs_date
+write_mode: overwrite
+sort: [obs_date, series_code]
 columns:
   - name: series_code
     type: VARCHAR
+    description: IADB series code, a short alphanumeric token (e.g. IUDSOIA). Joins to series.series_code.
   - name: obs_date
     type: DATE
+    description: Observation date. The IADB rejects any query starting before 1963, so no observation predates it.
   - name: value
     type: DOUBLE
+    description: The observation. Rows whose raw text does not parse as a number are dropped.

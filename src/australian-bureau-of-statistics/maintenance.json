@@ -1,5 +1,5 @@
 {
   "cadence_days": 7,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "ABS publishes to a rolling release calendar (https://www.abs.gov.au/release-calendar); the fastest dataflows here are monthly (Labour Force, Building Approvals, Overseas Arrivals). A weekly tick keeps worst-case staleness under a week without depending on per-flow release dates. The 766 Census 2021/2016 dataflows are exempt in-connector via MAINTAIN_SPECS (fixed vintage, refetched at most yearly), so a weekly tick re-pulls only the ~449 recurring flows."
 }
