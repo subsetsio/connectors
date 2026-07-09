@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `central-bank-of-nigeria-securities-auctions`. Regenerate after model-verify.
+# caution: One row is one RESULT LINE of an auction, not one auction: a single auction can appear as several rows with different `rateDescription` values (`Issue`, `Maginal` [sic], `Stop`, `Slop` [sic]), so counting rows overstates the number of auctions and summing `totalSubscription` over them double-counts.
+# caution: The `securityType` domain is dirty: `FGN Bonds`, `FGN BOND`, `FGN BONDS`, `FGN Bond`, `Bonds` and `NT Bonds` all denote FGN bonds, and `OMOM` is a typo for `OMO`. Normalise before grouping by security type; the same applies to `netType` (`Purchases` vs `Purchase`).
+# caution: `maturityDate` contains data-entry typos: a handful of rows carry impossible maturity years (2098, 2189) against auction dates in 2001-2026. Sanity-check any computed tenor rather than trusting the maturity date.
+# caution: `tenor` is a free-text label whose convention changes over the series (`91DAY` in recent rows, bare `180` in the earliest ones) — it is a string, not a number of days.
+# caution: `rangeBid` and `successfulBidRates` are free-text low-high rate pairs (e.g. `15.5000 - 18.0000`), not numbers.
+# caution: Naira amounts (`totalSubscription`, `totalSuccessful`, `amtOffered`, `netValue`, `totalAmtRepaid`) are in millions; `rate` and `trueYield` are percent per annum. A `trueYield` of `0.0000` generally means not-reported rather than a zero yield.
+key: [id]
+sort: [id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: auctiondate
+    type: VARCHAR
+  - name: securitytype
+    type: VARCHAR
+  - name: tenor
+    type: VARCHAR
+  - name: auctionno
+    type: VARCHAR
+  - name: auction
+    type: VARCHAR
+  - name: week
+    type: VARCHAR
+  - name: maturitydate
+    type: VARCHAR
+  - name: totalsubscription
+    type: DOUBLE
+  - name: totalsuccessful
+    type: VARCHAR
+  - name: rangebid
+    type: VARCHAR
+  - name: successfulbidrates
+    type: VARCHAR
+  - name: ratedescription
+    type: VARCHAR
+  - name: rate
+    type: DOUBLE
+  - name: trueyield
+    type: VARCHAR
+  - name: amtoffered
+    type: VARCHAR
+  - name: totalamtrepaid
+    type: VARCHAR
+  - name: nettype
+    type: VARCHAR
+  - name: netvalue
+    type: VARCHAR

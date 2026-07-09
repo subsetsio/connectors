@@ -6,7 +6,6 @@ to one SQL-friendly row; duplicates from concurrent edits during the crawl are
 removed in the transform (row_number over id).
 """
 
-from subsets_utils import NodeSpec
 from utils import _crawl_packages
 
 
@@ -38,8 +37,3 @@ def _dataset_row(pkg: dict) -> dict:
 
 def fetch_datasets(node_id: str) -> None:
     _crawl_packages(node_id, lambda pkg: [_dataset_row(pkg)])
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="data-gov-datasets", fn=fetch_datasets, kind="download"),
-]

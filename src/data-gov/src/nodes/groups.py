@@ -1,6 +1,6 @@
 """Data.gov groups - small topical taxonomy."""
 
-from subsets_utils import NodeSpec, save_raw_ndjson
+from subsets_utils import save_raw_ndjson
 from utils import _action
 
 
@@ -22,8 +22,3 @@ def fetch_groups(node_id: str) -> None:
             "approval_status": g.get("approval_status"),
         })
     save_raw_ndjson(rows, node_id)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="data-gov-groups", fn=fetch_groups, kind="download"),
-]

@@ -1,0 +1,46 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `central-bank-of-nigeria-daily-financial-data`. Regenerate after model-verify.
+# caution: `recDate` is NOT unique: 50 dates carry more than one row. About half of those are exact duplicates of the same observation and the rest are divergent restatements, so summing or averaging by date without deduplicating overstates the day.
+# caution: Every monetary column is a naira amount in millions, and `crr` (cash reserve requirement) is a balance rather than a flow — the columns describe different money-market operations and must not be summed into a total.
+key: [id]
+temporal: recdate
+sort: [recdate, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: recdate
+    type: DATE
+  - name: opebal
+    type: DOUBLE
+  - name: rediscbills
+    type: DOUBLE
+  - name: slfacility
+    type: DOUBLE
+  - name: sdfacility
+    type: DOUBLE
+  - name: repo
+    type: DOUBLE
+  - name: revrepo
+    type: DOUBLE
+  - name: omosales
+    type: DOUBLE
+  - name: omorepay
+    type: DOUBLE
+  - name: pmsales
+    type: DOUBLE
+  - name: pmrepay
+    type: DOUBLE
+  - name: crr
+    type: DOUBLE
+  - name: netwdas
+    type: DOUBLE
+  - name: statalloc
+    type: DOUBLE
+  - name: jvcash
+    type: DOUBLE
+  - name: netclr
+    type: DOUBLE
+  - name: ndicprem
+    type: DOUBLE
+  - name: omajor
+    type: DOUBLE

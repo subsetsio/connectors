@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `central-bank-of-nigeria-crude-oil-price-daily`. Regenerate after model-verify.
+# caution: `postDate` is NOT unique: the API returns more than one row for a few trading days, each carrying a different price (a restatement published alongside the original). Aggregating by date without picking one row per date double-counts those days.
+# caution: Trading days only — the series has gaps at weekends and Nigerian public holidays, so a plain row count is not a day count.
+key: [id]
+temporal: postdate
+sort: [postdate, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: postdate
+    type: DATE
+  - name: crudeoilprice
+    type: DOUBLE

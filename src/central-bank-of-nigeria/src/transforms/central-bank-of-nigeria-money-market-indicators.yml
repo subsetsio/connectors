@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `central-bank-of-nigeria-money-market-indicators`. Regenerate after model-verify.
+# caution: Every column is a percent-per-annum rate but they are not one series: policy rates (`mpr`, `mrr`), market rates (`interBankCallRate`, `treasuryBill`) and bank deposit/lending rates coexist in a row and must not be averaged together.
+# caution: `mrr` (the old minimum rediscount rate) was retired in favour of `mpr` and is present for only ~4% of rows; an `mpr` of `0.00` in the early rows means not-yet-adopted rather than a zero policy rate.
+key: [id]
+sort: [id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: tyear
+    type: BIGINT
+  - name: tmonth
+    type: BIGINT
+  - name: period
+    type: VARCHAR
+  - name: interbankcallrate
+    type: VARCHAR
+  - name: mrr
+    type: VARCHAR
+  - name: mpr
+    type: DOUBLE
+  - name: treasurybill
+    type: DOUBLE
+  - name: savingsdeposit
+    type: DOUBLE
+  - name: onemonthdeposit
+    type: DOUBLE
+  - name: threemonthsdeposit
+    type: DOUBLE
+  - name: sixmonthsdeposit
+    type: DOUBLE
+  - name: twelvemonthsdeposit
+    type: DOUBLE
+  - name: primelending
+    type: DOUBLE
+  - name: maxlending
+    type: DOUBLE

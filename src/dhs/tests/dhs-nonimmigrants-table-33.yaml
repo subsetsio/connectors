@@ -1,0 +1,11 @@
+spec_id: dhs-nonimmigrants-table-33
+status: active
+tests:
+  - row_count: {min: 1}
+  - not_null: topic
+  - not_null: table_label
+  - not_null: title
+  - not_null: category
+  - not_null: breakdown
+  - column_type: {col: value, type: float}
+

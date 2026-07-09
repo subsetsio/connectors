@@ -6,7 +6,6 @@ Each package's resources[] are flattened to flat rows; duplicates are removed
 in the transform (row_number over id).
 """
 
-from subsets_utils import NodeSpec
 from utils import _crawl_packages
 
 
@@ -37,8 +36,3 @@ def _resource_rows(pkg: dict) -> list[dict]:
 
 def fetch_resources(node_id: str) -> None:
     _crawl_packages(node_id, _resource_rows)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="data-gov-resources", fn=fetch_resources, kind="download"),
-]

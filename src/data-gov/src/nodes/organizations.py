@@ -4,7 +4,7 @@ Distinct fetch shape from the package corpus: organization_list?all_fields
 paged by offset (caps at 25 per page). Single ndjson batch.
 """
 
-from subsets_utils import NodeSpec, save_raw_ndjson
+from subsets_utils import save_raw_ndjson
 from utils import _action
 
 ORG_PAGE = 25             # organization_list?all_fields caps at 25 per offset
@@ -38,8 +38,3 @@ def fetch_organizations(node_id: str) -> None:
         if len(page) < ORG_PAGE:
             break
     save_raw_ndjson(rows, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="data-gov-organizations", fn=fetch_organizations, kind="download"),
-]

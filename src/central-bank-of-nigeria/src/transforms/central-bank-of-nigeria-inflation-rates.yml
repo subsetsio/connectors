@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `central-bank-of-nigeria-inflation-rates`. Regenerate after model-verify.
+# caution: Every column is a percentage rate, not an index level, and the `...YearOn` and `...Average` variants answer different questions (year-on-year change for the month vs the 12-month moving average). Never mix the two in one series.
+# caution: The CPI basket was rebased in 2025 (base year moved to 2024), so rates before and after that break are not computed on the same basket.
+key: [id]
+sort: [id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: tyear
+    type: BIGINT
+  - name: tmonth
+    type: BIGINT
+  - name: period
+    type: VARCHAR
+  - name: allitemsyearon
+    type: DOUBLE
+  - name: allitemsaverage
+    type: DOUBLE
+  - name: foodyearon
+    type: DOUBLE
+  - name: foodaverage
+    type: DOUBLE
+  - name: allitemslessfrmprodyearon
+    type: DOUBLE
+  - name: allitemslessfrmprodaverage
+    type: DOUBLE
+  - name: allitemslessfrmprodandenergyyearon
+    type: DOUBLE
+  - name: allitemslessfrmprodandenergyavg
+    type: DOUBLE

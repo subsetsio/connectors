@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `central-bank-of-nigeria-nafem-nof-rates`. Regenerate after model-verify.
+# caution: A short window only — the series starts in 2026 and covers a couple of months of NAFEM/NOF trading days, so it is not a historical FX series.
+# caution: `ratedate` is not unique: two dates carry a duplicated row.
+# caution: `dailyVolume` is a traded amount (thousands of US dollars) while `minimumRate`, `maximumRate`, `dailyVariationRange` and `nofr` are naira-per-dollar rates — different units in one row.
+key: [id, dailyvariationrange, maximumrate, minimumrate, nofr]
+sort: [id, dailyvariationrange, maximumrate, minimumrate, nofr]
+columns:
+  - name: id
+    type: BIGINT
+  - name: ratedate
+    type: VARCHAR
+  - name: dailyvolume
+    type: DOUBLE
+  - name: minimumrate
+    type: DOUBLE
+  - name: maximumrate
+    type: DOUBLE
+  - name: dailyvariationrange
+    type: DOUBLE
+  - name: nofr
+    type: DOUBLE

@@ -1,0 +1,55 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `central-bank-of-nigeria-money-and-credit-statistics`. Regenerate after model-verify.
+# caution: This table mixes two observation frequencies. 33 early rows (1960-1992) are ANNUAL observations encoded with `tmonth` set equal to `tyear` and a `period` label of just the year (e.g. ` 1960`); the rest are true monthly observations with `tmonth` in 1..12. Filter on `tmonth <= 12` before treating the table as a monthly series, or annual and monthly levels will be interleaved.
+# caution: The aggregates are nested, not additive: `moneySupply_M3` contains `moneySupply_M2`, which in turn contains `narrowMoney` and `quasiMoney`. Summing the columns of a row is always wrong.
+# caution: All amounts are naira balances in millions, measured at end of period (a stock, not a flow) — differencing consecutive rows gives the flow.
+# caution: The M3-era columns (`moneySupply_M3`, `cbnBills`, `creditToGovernmentFed`, `mirrorAccounts`, `specialInterventionReserves`) only exist for the later part of the series; their absence in early rows is a definitional change, not a zero.
+key: [id]
+sort: [id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: tyear
+    type: BIGINT
+  - name: tmonth
+    type: BIGINT
+  - name: period
+    type: VARCHAR
+  - name: moneysupply_m3
+    type: VARCHAR
+  - name: cbnbills
+    type: VARCHAR
+  - name: moneysupply_m2
+    type: DOUBLE
+  - name: quasimoney
+    type: DOUBLE
+  - name: narrowmoney
+    type: DOUBLE
+  - name: currencyoutsidebanks
+    type: DOUBLE
+  - name: demanddeposits
+    type: DOUBLE
+  - name: netforeignassets
+    type: DOUBLE
+  - name: netdomesticassets
+    type: DOUBLE
+  - name: netdomesticcredit
+    type: DOUBLE
+  - name: credittogovernment
+    type: DOUBLE
+  - name: credittogovernmentfed
+    type: VARCHAR
+  - name: mirroraccounts
+    type: VARCHAR
+  - name: credittoprivatesector
+    type: DOUBLE
+  - name: otherassetsnet
+    type: DOUBLE
+  - name: basemoney
+    type: DOUBLE
+  - name: currencyincirculation
+    type: DOUBLE
+  - name: bankreserves
+    type: DOUBLE
+  - name: specialinterventionreserves
+    type: VARCHAR

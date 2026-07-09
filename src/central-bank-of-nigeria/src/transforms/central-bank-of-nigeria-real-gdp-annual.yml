@@ -1,0 +1,129 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `central-bank-of-nigeria-real-gdp-annual`. Regenerate after model-verify.
+# caution: The raw payload mixes frequencies: 44 rows carry `period = 'Annual'` (1981-2024) and 60 rows carry `period` in Q1..Q4 (2010-2024). Only the Annual rows belong to this table; the published transform filters on them.
+# caution: Values are REAL (constant 2010 basic prices) naira in billions, even though the upstream column names say `gdPatCurrentBasicPrices` / `gdPatCurrentMarketPrices` — the `Current` in those upstream names is a copy-paste artefact of the nominal endpoint and does not describe this table.
+# caution: The activity columns are a nested hierarchy, not a flat list: `agriculture`, `industry` and `services` each sum their own sub-sectors, and the basic-prices total is the sum of the three. Summing every activity column in a row multiply-counts the sub-sectors.
+# caution: Because the deflator differs by activity, real activity columns do not sum to the real total as exactly as the nominal ones do.
+key: [id]
+sort: [id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: tyear
+    type: BIGINT
+  - name: period
+    type: VARCHAR
+  - name: agriculture
+    type: DOUBLE
+  - name: cropproduction
+    type: DOUBLE
+  - name: livestock
+    type: DOUBLE
+  - name: forestry
+    type: DOUBLE
+  - name: fishing
+    type: DOUBLE
+  - name: industry
+    type: DOUBLE
+  - name: miningandquarrying
+    type: DOUBLE
+  - name: crudepetroleumandnaturalgas
+    type: DOUBLE
+  - name: coalmining
+    type: DOUBLE
+  - name: metalores
+    type: DOUBLE
+  - name: quarryingandotherminerals
+    type: DOUBLE
+  - name: manufacturing
+    type: DOUBLE
+  - name: oilrefining
+    type: DOUBLE
+  - name: cement
+    type: DOUBLE
+  - name: foodbeverageandtobacco
+    type: DOUBLE
+  - name: textileapparelandfootwear
+    type: DOUBLE
+  - name: woodandwoodproducts
+    type: DOUBLE
+  - name: pulppaperandpaperproducts
+    type: DOUBLE
+  - name: chemicalandpharmaceuticalproducts
+    type: DOUBLE
+  - name: nonmetallicproducts
+    type: DOUBLE
+  - name: plasticandrubberproducts
+    type: DOUBLE
+  - name: electricalandelectronics
+    type: DOUBLE
+  - name: basicmetalironandsteel
+    type: DOUBLE
+  - name: motorvehiclesandassembly
+    type: DOUBLE
+  - name: othermanufacturing
+    type: DOUBLE
+  - name: electricitygassteamandaircon
+    type: DOUBLE
+  - name: watersupplysewagewaste
+    type: DOUBLE
+  - name: construction
+    type: DOUBLE
+  - name: services
+    type: DOUBLE
+  - name: trade
+    type: DOUBLE
+  - name: accommodationandfoodservices
+    type: DOUBLE
+  - name: transportationandstorage
+    type: DOUBLE
+  - name: roadtransport
+    type: DOUBLE
+  - name: railtransportandpipelines
+    type: DOUBLE
+  - name: watertransport
+    type: DOUBLE
+  - name: airtransport
+    type: DOUBLE
+  - name: transportservices
+    type: DOUBLE
+  - name: postandcourierservices
+    type: DOUBLE
+  - name: informationandcommunication
+    type: DOUBLE
+  - name: telecommunicationsandinformationservices
+    type: DOUBLE
+  - name: publishing
+    type: DOUBLE
+  - name: motionpicturessoundrecordingandmusicproduction
+    type: DOUBLE
+  - name: broadcasting
+    type: DOUBLE
+  - name: artsentertainmentandrecreation
+    type: DOUBLE
+  - name: financeandinsurance
+    type: DOUBLE
+  - name: financialinstitutions
+    type: DOUBLE
+  - name: insurance
+    type: DOUBLE
+  - name: realestate
+    type: DOUBLE
+  - name: professionalscientificandtechnicalservices
+    type: DOUBLE
+  - name: administrativeandsupportservicesbusinessservices
+    type: DOUBLE
+  - name: publicadministration
+    type: DOUBLE
+  - name: education
+    type: DOUBLE
+  - name: humanhealthandsocialservices
+    type: DOUBLE
+  - name: otherservices
+    type: DOUBLE
+  - name: gdpatcurrentbasicprices
+    type: DOUBLE
+  - name: nettaxesonproducts
+    type: DOUBLE
+  - name: gdpatcurrentmarketprices
+    type: DOUBLE

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `central-bank-of-nigeria-crude-oil-prices-monthly`. Regenerate after model-verify.
+# caution: `crudeOilPrice` here is a monthly average price in USD per barrel, while `domProd` and `crudeOilExp` are volumes in million barrels per day — three different units in one row, so the columns are not comparable or summable with each other.
+key: [id]
+sort: [id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: tyear
+    type: BIGINT
+  - name: tmonth
+    type: BIGINT
+  - name: period
+    type: VARCHAR
+  - name: crudeoilprice
+    type: DOUBLE
+  - name: domprod
+    type: DOUBLE
+  - name: crudeoilexp
+    type: DOUBLE
