@@ -7,6 +7,9 @@
 spec_id: bjs-gkck-euys
 status: active
 tests:
+  - freshness: {col: year, reaches: 2023}
+    reason: NCVS Select is an annually refreshed historical extract; current data should reach at least the 2023 survey year
+    certainty: 80
   - not_null: idhh
     reason: the respondent/household identifier is present on every microdata row
     certainty: 92

@@ -1,17 +1,21 @@
-# compiled by `hardened compile-checks` — post-publish audit of `clinicaltrials-gov-studies`.
+# compiled by `hardened compile-checks` — post-publish audit of `county-health-rankings-trends`.
 # Grain/temporal from the transform contract, row floor from the measured
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [nct_id]
-temporal: study_first_post_date
+key: [yearspan, fips, measure_id]
+temporal: yearspan
 checks:
   - kind: unique
-    columns: [nct_id]
+    columns: [yearspan, fips, measure_id]
   - kind: not_null
-    col: nct_id
+    col: yearspan
+  - kind: not_null
+    col: fips
+  - kind: not_null
+    col: measure_id
   - kind: row_floor
-    min: 296563
+    min: 372544
 regression:
   row_shrink_tolerance: 0.1
   key_shrink_tolerance: 0.1

@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `clinicaltrials-gov-conditions`. Regenerate after model-verify.
+# caution: Long table of study-condition associations; count distinct nct_id when counting studies by condition.
+key: [nct_id, condition]
+sort: [nct_id, condition]
 columns:
   - name: nct_id
     type: VARCHAR

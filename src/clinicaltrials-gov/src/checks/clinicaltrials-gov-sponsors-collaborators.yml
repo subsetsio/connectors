@@ -3,8 +3,18 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
+key: [nct_id, name, role]
 checks:
+  - kind: unique
+    columns: [nct_id, name, role]
+  - kind: not_null
+    col: nct_id
+  - kind: not_null
+    col: name
+  - kind: not_null
+    col: role
   - kind: row_floor
     min: 473256
 regression:
   row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

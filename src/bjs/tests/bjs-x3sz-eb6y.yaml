@@ -6,6 +6,9 @@
 spec_id: bjs-x3sz-eb6y
 status: active
 tests:
+  - freshness: {col: time_series_start_year, reaches: 2023}
+    reason: NIBRS National Estimates are annual statistical estimates; current data should reach at least the 2023 data year
+    certainty: 80
   - not_null: time_series_start_year
     reason: the data year anchors every estimate row; a null means a dropped/garbled record
     certainty: 95
