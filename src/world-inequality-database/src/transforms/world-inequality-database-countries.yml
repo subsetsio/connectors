@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `world-inequality-database-countries`. Regenerate after model-verify.
+# caution: Area codes include countries, subnational regions, supranational regions, and synthetic aggregate areas; filter the code or region fields before treating rows as countries.
+key: [alpha2]
+sort: [alpha2]
+columns:
+  - name: alpha2
+    type: VARCHAR
+  - name: titlename
+    type: VARCHAR
+  - name: shortname
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: region2
+    type: VARCHAR

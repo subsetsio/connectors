@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wto-tismos`. Regenerate after model-verify.
+# caution: Imports and exports are combined in one table; filter the flow column before directional analysis.
+# caution: The mode-of-supply dimension carries distinct measures for the same reporter, partner, indicator, and year.
+key: [flow, reporter, partner, indicator, year, mode]
+temporal: year
+sort: [year, flow, reporter, partner, indicator, mode]
 columns:
   - name: flow
     type: VARCHAR
@@ -9,10 +15,10 @@ columns:
   - name: indicator
     type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: mode_of_supply
+    type: BIGINT
+  - name: mode
     type: VARCHAR
   - name: value
     type: DOUBLE
-  - name: method
+  - name: meth
     type: VARCHAR

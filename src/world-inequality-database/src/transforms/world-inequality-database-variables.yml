@@ -1,0 +1,46 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `world-inequality-database-variables`. Regenerate after model-verify.
+# caution: Variable metadata is area-specific; the same variable code can have different source or methodology notes by country or aggregate area.
+key: [country, variable, age, pop]
+sort: [country, variable, age, pop]
+columns:
+  - name: country
+    type: VARCHAR
+  - name: variable
+    type: VARCHAR
+  - name: age
+    type: INTEGER
+  - name: pop
+    type: VARCHAR
+  - name: countryname
+    type: VARCHAR
+  - name: shortname
+    type: VARCHAR
+  - name: simpledes
+    type: VARCHAR
+  - name: technicaldes
+    type: VARCHAR
+  - name: shorttype
+    type: VARCHAR
+  - name: longtype
+    type: VARCHAR
+  - name: shortpop
+    type: VARCHAR
+  - name: longpop
+    type: VARCHAR
+  - name: shortage
+    type: VARCHAR
+  - name: longage
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: method
+    type: VARCHAR
+  - name: extrapolation
+    type: VARCHAR
+  - name: data_points
+    type: VARCHAR
+  - name: data_quality_score
+    type: DOUBLE

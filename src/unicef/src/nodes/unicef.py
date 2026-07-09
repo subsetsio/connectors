@@ -17,6 +17,7 @@ import json
 import re
 import zlib
 
+import httpx
 import pyarrow as pa
 
 from constants import ENTITY_IDS
@@ -163,8 +164,8 @@ class _Inflater:
 
 def _iter_lines(resp):
     """Decoded text lines from the raw response body. A stream that ends
-    mid-member raises, so a truncated pull fails loudly instead of silently
-    writing a short table."""
+    mid-member is a truncated body, raised as the protocol error it is so
+    `transient_retry` re-pulls rather than silently writing a short table."""
     inflate = _Inflater()
     decode = codecs.getincrementaldecoder("utf-8")("replace")
     tail = ""
@@ -182,7 +183,7 @@ def _iter_lines(resp):
         tail = parts.pop()
         yield from (p + "\n" for p in parts)
     if inflate.truncated():
-        raise ValueError("compressed response ended mid-stream (truncated)")
+        raise httpx.RemoteProtocolError("compressed response ended mid-stream")
     tail += decode.decode(b"", True)
     if tail:
         yield tail

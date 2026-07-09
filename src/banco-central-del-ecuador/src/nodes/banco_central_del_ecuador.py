@@ -84,9 +84,18 @@ def _clean(v) -> str:
     return " ".join(str(v).split())[:_MAXTEXT]
 
 
-def _iter_sheets(content: bytes, ext: str):
+def _workbook_format(content: bytes, url: str) -> str:
+    """Return the Excel container format from bytes, falling back to the URL."""
+    if content[:4] == b"PK\x03\x04":
+        return "xlsx"
+    if content[:4] == b"\xd0\xcf\x11\xe0":
+        return "xls"
+    return "xls" if url.lower().endswith(".xls") else "xlsx"
+
+
+def _iter_sheets(content: bytes, fmt: str):
     """Yield (sheet_name, grid) where grid is a list of equal-length cell rows."""
-    if ext == "xls":
+    if fmt == "xls":
         import xlrd
         book = xlrd.open_workbook(file_contents=content)
         for sh in book.sheets():
@@ -196,7 +205,6 @@ def fetch_one(node_id: str) -> None:
     _ensure_http()
     entity_id = node_id[len(PREFIX):]
     url = _repair_mojibake(FILE_URLS[entity_id])
-    ext = "xls" if url.lower().endswith(".xls") else "xlsx"
 
     content = _download(url)
     # Guard: a stale/removed path returns an HTML error page, not a workbook.
@@ -206,7 +214,7 @@ def fetch_one(node_id: str) -> None:
             f"{asset}: expected an Excel workbook at {url}, got non-Excel bytes "
             f"(first bytes {head!r}) — the file may have moved")
 
-    columns = _parse_workbook(content, ext)
+    columns = _parse_workbook(content, _workbook_format(content, url))
     if not columns["sheet"]:
         raise AssertionError(f"{asset}: workbook at {url} parsed to 0 rows")
 

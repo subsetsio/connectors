@@ -1,25 +1,31 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: This table combines many commercial-services indicators and EBOPS categories; filter indicator and product fields before aggregating.
+-- caution: Reporter and partner fields include aggregate groupings alongside economies.
 SELECT
-    IndicatorCategory            AS indicator_category,
-    IndicatorCode                AS indicator_code,
-    Indicator                    AS indicator,
-    ReporterCode                 AS reporter_code,
-    ReporterISO3A                AS reporter_iso3,
-    Reporter                     AS reporter,
-    PartnerCode                  AS partner_code,
-    PartnerISO3A                 AS partner_iso3,
-    Partner                      AS partner,
-    ProductClassificationCode    AS product_classification_code,
-    ProductClassification        AS product_classification,
-    ProductCode                  AS product_code,
-    Product                      AS product,
-    FrequencyCode                AS frequency_code,
-    Frequency                    AS frequency,
-    UnitCode                     AS unit_code,
-    Unit                         AS unit,
-    TRY_CAST(Year AS INTEGER)    AS year,
-    ValueFlagCode                AS value_flag_code,
-    ValueFlag                    AS value_flag,
-    TRY_CAST(Value AS DOUBLE)    AS value
+    "IndicatorCategory" AS indicatorcategory,
+    "IndicatorCode" AS indicatorcode,
+    "Indicator" AS indicator,
+    "ReporterCode" AS reportercode,
+    "ReporterISO3A" AS reporteriso3a,
+    "Reporter" AS reporter,
+    "PartnerCode" AS partnercode,
+    "PartnerISO3A" AS partneriso3a,
+    "Partner" AS partner,
+    "ProductClassificationCode" AS productclassificationcode,
+    "ProductClassification" AS productclassification,
+    "ProductCode" AS productcode,
+    "Product" AS product,
+    "PeriodCode" AS periodcode,
+    "Period" AS period,
+    "FrequencyCode" AS frequencycode,
+    "Frequency" AS frequency,
+    "UnitCode" AS unitcode,
+    "Unit" AS unit,
+    CAST("Year" AS BIGINT) AS year,
+    "ValueFlagCode" AS valueflagcode,
+    "ValueFlag" AS valueflag,
+    CAST("Value" AS DOUBLE) AS value
 FROM "wto-services-annual"
-WHERE TRY_CAST(Year AS INTEGER) IS NOT NULL
-  AND TRY_CAST(Value AS DOUBLE) IS NOT NULL

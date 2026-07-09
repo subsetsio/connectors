@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `world-inequality-database-values`. Regenerate after model-verify.
+# caution: The country column includes national, subnational, supranational, and synthetic aggregate areas, so summing across countries or regions can double count.
+# caution: Variable codes encode measure, population, and age concepts; join to the variables table on country and variable to attach labels, units, sources, and methodology before interpreting values.
+key: [country, variable, percentile, year]
+temporal: year
+sort: [year, country, variable, percentile]
+columns:
+  - name: country
+    type: VARCHAR
+  - name: variable
+    type: VARCHAR
+  - name: percentile
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: value
+    type: DOUBLE
+  - name: age
+    type: INTEGER
+  - name: pop
+    type: VARCHAR
+  - name: data_quality
+    type: DOUBLE

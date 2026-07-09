@@ -1,44 +1,54 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wto-merchandise-indices-annual`. Regenerate after model-verify.
+# caution: This table contains multiple merchandise index and price indicators; filter indicator and unit fields before comparing values.
+# caution: Reporter, partner, and product fields include aggregate groupings alongside economies and product categories.
+key: [indicatorcategory, indicatorcode, reportercode, partnercode, productclassificationcode, productcode, frequencycode, unitcode, year]
+temporal: year
+sort: [year, indicatorcategory, indicatorcode, reportercode, partnercode, productclassificationcode, productcode, frequencycode, unitcode]
 columns:
-  - name: indicator_category
+  - name: indicatorcategory
     type: VARCHAR
-  - name: indicator_code
+  - name: indicatorcode
     type: VARCHAR
   - name: indicator
     type: VARCHAR
-  - name: reporter_code
+  - name: reportercode
     type: VARCHAR
-  - name: reporter_iso3
+  - name: reporteriso3a
     type: VARCHAR
   - name: reporter
     type: VARCHAR
-  - name: partner_code
+  - name: partnercode
     type: VARCHAR
-  - name: partner_iso3
+  - name: partneriso3a
     type: VARCHAR
   - name: partner
     type: VARCHAR
-  - name: product_classification_code
+  - name: productclassificationcode
     type: VARCHAR
-  - name: product_classification
+  - name: productclassification
     type: VARCHAR
-  - name: product_code
+  - name: productcode
     type: VARCHAR
   - name: product
     type: VARCHAR
-  - name: frequency_code
+  - name: periodcode
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: frequencycode
     type: VARCHAR
   - name: frequency
     type: VARCHAR
-  - name: unit_code
+  - name: unitcode
     type: VARCHAR
   - name: unit
     type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: value_flag_code
+    type: BIGINT
+  - name: valueflagcode
     type: VARCHAR
-  - name: value_flag
+  - name: valueflag
     type: VARCHAR
   - name: value
     type: DOUBLE

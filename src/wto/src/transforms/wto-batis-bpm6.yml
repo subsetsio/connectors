@@ -1,21 +1,27 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `wto-batis-bpm6`. Regenerate after model-verify.
+# caution: Contains reported, final, and balanced values for bilateral services flows; choose the appropriate value column before aggregating.
+# caution: Reporter and partner include economies and aggregate groupings, so filter entity type columns when country-only totals are required.
+key: [reporter, type_reporter, partner, type_partner, flow, item_code, type_item, year]
+temporal: year
+sort: [year, reporter, type_reporter, partner, type_partner, flow, item_code, type_item]
 columns:
   - name: reporter
     type: VARCHAR
-  - name: reporter_type
+  - name: type_reporter
     type: VARCHAR
   - name: partner
     type: VARCHAR
-  - name: partner_type
+  - name: type_partner
     type: VARCHAR
   - name: flow
     type: VARCHAR
   - name: item_code
     type: VARCHAR
-  - name: item_type
+  - name: type_item
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: reported_value
     type: DOUBLE
   - name: final_value
