@@ -10,6 +10,7 @@ ENTITY_IDS = [
     "bynd-i2hj",  # Consumer Price Index
     "cjkq-q9ih",  # Employee Counts by Industry in Colorado
     "gyeb-jc69",  # Long-Term Employment Projections in Colorado
+    "jnj7-fw37",  # Higher Education Programs in Colorado
     "pt2g-89wc",  # Hours Worked by Employees in Colorado
     "u2t6-bfhr",  # Short-Term Employment Projections in Colorado
 ]

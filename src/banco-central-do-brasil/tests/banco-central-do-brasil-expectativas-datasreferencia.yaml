@@ -1,0 +1,17 @@
+spec_id: banco-central-do-brasil-expectativas-datasreferencia
+status: active
+tests:
+  - not_null: Indicador
+  - not_null: periodo
+  - not_null: DataReferencia1
+  - row_count: {min: 500}
+    reason: the Focus reference-date calendar spans ~15 indicators x ~20 years of periods
+    certainty: 85
+  - distinct_count: {col: Indicador, min: 5, max: 40}
+    reason: the Focus survey tracks a dozen-ish macro indicators
+    certainty: 80
+  - freshness: {col: DataReferencia1, reaches: today - 370d}
+    reason: the calendar is extended with new future reference dates each year
+    certainty: 60
+    points_outward: true
+    severity: warn

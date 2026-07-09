@@ -1,0 +1,20 @@
+spec_id: colorado-department-of-labor-and-employment-jnj7-fw37
+status: active
+coverage:
+  frozen: true
+  reason: Socrata metadata marks this resource's expected update frequency as Never; the education-programs corpus is a fixed reference table.
+tests:
+  - not_null: statename
+    certainty: 95
+  - not_null: areaname
+    reason: each program record is tied to a Colorado county or area
+    certainty: 90
+  - not_null: instname1
+    reason: institution name identifies the provider offering the program
+    certainty: 90
+  - not_null: progtitle
+    reason: program title is the core measure of this reference table
+    certainty: 90
+  - row_count: {min: 9000}
+    reason: source metadata reports 9946 records at initial publish and the current API count is about 10k
+    certainty: 85

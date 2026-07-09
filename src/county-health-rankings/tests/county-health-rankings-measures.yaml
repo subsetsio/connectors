@@ -1,0 +1,28 @@
+spec_id: county-health-rankings-measures
+status: active
+tests:
+  - not_null: release_year
+    reason: the taxonomy is derived from the latest analytic release header
+    certainty: 95
+  - not_null: measure_id
+    reason: measures are keyed by stable v### variable codes in the analytic file
+    certainty: 95
+  - not_null: measure_name
+    reason: every current measure has a human-readable raw value column label
+    certainty: 90
+  - column_type: {col: release_year, type: integer}
+    certainty: 95
+  - column_type: {col: measure_id, type: integer}
+    certainty: 95
+  - unique: measure_id
+    reason: one taxonomy row per current CHR measure variable code
+    certainty: 95
+  - row_count: {min: 50}
+    reason: the current release publishes roughly 90 measures; far fewer means the header parse failed
+    certainty: 85
+  - distinct_count: {col: measure_name, min: 50}
+    reason: measure names should be populated for the same current measure set
+    certainty: 85
+  - between: {col: release_year, lo: 2010, hi: current_year()}
+    reason: release year comes from the discovered analytic filename
+    certainty: 90

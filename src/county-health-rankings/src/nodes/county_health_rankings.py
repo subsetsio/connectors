@@ -74,6 +74,18 @@ ANALYTIC_SCHEMA = pa.schema([
     ("ci_high", pa.float64()),
 ])
 
+MEASURES_SCHEMA = pa.schema([
+    ("release_year", pa.int64()),
+    ("measure_id", pa.int64()),
+    ("measure_name", pa.string()),
+    ("source_variable", pa.string()),
+    ("has_raw_value", pa.bool_()),
+    ("has_numerator", pa.bool_()),
+    ("has_denominator", pa.bool_()),
+    ("has_ci_low", pa.bool_()),
+    ("has_ci_high", pa.bool_()),
+])
+
 _NULLISH = {"", ".", "na", "n/a", "*", "null", "none"}
 
 
@@ -289,12 +301,60 @@ def fetch_analytic(node_id: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# measures
+# ---------------------------------------------------------------------------
+
+def fetch_measures(node_id: str) -> None:
+    asset = node_id
+    files = _discover(r"analytic_data(\d{4})")
+    if not files:
+        raise RuntimeError("no analytic_data link discovered on documentation pages")
+
+    release_year = max(files)
+    text = _fetch_text(files[release_year])
+    reader = csv.reader(io.StringIO(text))
+    names = next(reader)
+    codes = [c.strip().lower() for c in next(reader)]
+
+    measures = {}
+    for i, code in enumerate(codes):
+        m = _STAT_RE.match(code)
+        if not m:
+            continue
+        vid = int(m.group(1))
+        stat = m.group(2)
+        rec = measures.setdefault(vid, {
+            "release_year": release_year,
+            "measure_id": vid,
+            "measure_name": None,
+            "source_variable": f"v{vid:03d}",
+            "has_raw_value": False,
+            "has_numerator": False,
+            "has_denominator": False,
+            "has_ci_low": False,
+            "has_ci_high": False,
+        })
+        rec[f"has_{stat}"] = True
+        if stat == "rawvalue":
+            hn = names[i].strip()
+            rec["measure_name"] = hn[: -len(" raw value")].strip() if hn.lower().endswith(" raw value") else hn
+
+    rows = [measures[k] for k in sorted(measures)]
+    if len(rows) < 50:
+        raise RuntimeError(f"discovered only {len(rows)} measures in latest analytic file")
+    with raw_parquet_writer(asset, MEASURES_SCHEMA) as writer:
+        writer.write_table(pa.table({f.name: [r.get(f.name) for r in rows] for f in MEASURES_SCHEMA}, schema=MEASURES_SCHEMA))
+    print(f"  measures: wrote {len(rows)} rows from analytic {release_year}")
+
+
+# ---------------------------------------------------------------------------
 # specs
 # ---------------------------------------------------------------------------
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="county-health-rankings-trends", fn=fetch_trends, kind="download"),
     NodeSpec(id="county-health-rankings-analytic", fn=fetch_analytic, kind="download"),
+    NodeSpec(id="county-health-rankings-measures", fn=fetch_measures, kind="download"),
 ]
 
 TRANSFORM_SPECS = [

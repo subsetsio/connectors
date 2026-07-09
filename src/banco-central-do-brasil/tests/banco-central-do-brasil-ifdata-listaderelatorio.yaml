@@ -1,0 +1,11 @@
+spec_id: banco-central-do-brasil-ifdata-listaderelatorio
+status: active
+tests:
+  - not_null: NomeRelatorio
+  - not_null: NumeroRelatorio
+  - row_count: {min: 5}
+    reason: IFData exposes on the order of a dozen-plus report types
+    certainty: 85
+  - distinct_count: {col: NumeroRelatorio, min: 5, max: 200}
+    reason: each IFData report type carries a distinct report number
+    certainty: 80

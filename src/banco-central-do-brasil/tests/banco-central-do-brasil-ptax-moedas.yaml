@@ -1,0 +1,15 @@
+spec_id: banco-central-do-brasil-ptax-moedas
+status: active
+tests:
+  - not_null: simbolo
+  - not_null: nomeFormatado
+  - distinct_count: {col: simbolo, min: 5, max: 500}
+    reason: PTAX quotes a small dictionary of tradable currency symbols
+    certainty: 85
+  - row_count: {min: 5}
+    reason: at least a handful of currencies are always quoted
+    certainty: 90
+  - enum: {col: tipoMoeda, values: [A, B]}
+    reason: PTAX classes each currency as type A or B (parity direction)
+    certainty: 75
+    severity: warn

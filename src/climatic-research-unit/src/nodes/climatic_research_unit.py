@@ -28,9 +28,7 @@ from datetime import date
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
-    transient_retry,
     save_raw_parquet,
     raw_parquet_writer,
 )
@@ -67,6 +65,7 @@ VAR_UNITS = {
 
 TEMP_MISSING = -9.999
 CY_MISSING = -999.0
+ABSOLUTE_URL = TEMP_BASE + "abs_glnhsh.txt"
 
 # `date` (first-of-month) is carried on the RAW so the download-test freshness
 # assertion has a real date column to read (year/month alone can't express a
@@ -91,8 +90,14 @@ CY_SCHEMA = pa.schema([
     ("value", pa.float64()),
 ])
 
+ABSOLUTE_SCHEMA = pa.schema([
+    ("region", pa.string()),
+    ("month", pa.int32()),
+    ("absolute_temperature_c", pa.float64()),
+    ("anomaly_from_annual_mean_c", pa.float64()),
+    ("annual_absolute_temperature_c", pa.float64()),
+])
 
-@transient_retry()
 def _get_text(url: str) -> str:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -240,6 +245,41 @@ def fetch_country(node_id: str) -> None:
             writer.write_table(batch)
 
 
+def fetch_absolute(node_id: str) -> None:
+    text = _get_text(ABSOLUTE_URL)
+    annual = {}
+    rows = []
+    for line in text.splitlines():
+        toks = line.split()
+        if len(toks) == 4 and toks[0] == "Annual":
+            annual = {
+                "gl": float(toks[1]),
+                "nh": float(toks[2]),
+                "sh": float(toks[3]),
+            }
+            continue
+        if len(toks) == 8 and toks[0].isdigit():
+            month = int(toks[0])
+            rows.extend([
+                ("gl", month, float(toks[2]), float(toks[3])),
+                ("nh", month, float(toks[4]), float(toks[5])),
+                ("sh", month, float(toks[6]), float(toks[7])),
+            ])
+    if len(rows) != 36 or set(annual) != set(REGIONS):
+        raise AssertionError(f"{node_id}: expected 36 monthly rows and 3 annual values")
+    table = pa.table(
+        {
+            "region": [r[0] for r in rows],
+            "month": [r[1] for r in rows],
+            "absolute_temperature_c": [r[2] for r in rows],
+            "anomaly_from_annual_mean_c": [r[3] for r in rows],
+            "annual_absolute_temperature_c": [annual[r[0]] for r in rows],
+        },
+        schema=ABSOLUTE_SCHEMA,
+    )
+    save_raw_parquet(table, node_id)
+
+
 # --- Specs -----------------------------------------------------------------
 
 DOWNLOAD_SPECS = [
@@ -247,43 +287,5 @@ DOWNLOAD_SPECS = [
     for sid in TEMP_FILES
 ] + [
     NodeSpec(id=f"{SLUG}-cru-cy-country", fn=fetch_country, kind="download"),
+    NodeSpec(id=f"{SLUG}-absolute-temperatures", fn=fetch_absolute, kind="download"),
 ]
-
-
-_TEMP_TRANSFORMS = [
-    SqlNodeSpec(
-        id=f"{sid}-transform",
-        deps=[sid],
-        sql=f'''
-            SELECT
-                region,
-                make_date(year, month, 1) AS date,
-                year,
-                month,
-                CAST(value AS DOUBLE)         AS value,
-                CAST(station_count AS BIGINT) AS station_count
-            FROM "{sid}"
-            WHERE value IS NOT NULL
-        ''',
-    )
-    for sid in TEMP_FILES
-]
-
-_COUNTRY_TRANSFORM = SqlNodeSpec(
-    id=f"{SLUG}-cru-cy-country-transform",
-    deps=[f"{SLUG}-cru-cy-country"],
-    sql=f'''
-        SELECT
-            country,
-            variable,
-            unit,
-            make_date(year, month, 1) AS date,
-            year,
-            month,
-            CAST(value AS DOUBLE) AS value
-        FROM "{SLUG}-cru-cy-country"
-        WHERE value IS NOT NULL
-    ''',
-)
-
-TRANSFORM_SPECS = _TEMP_TRANSFORMS + [_COUNTRY_TRANSFORM]
