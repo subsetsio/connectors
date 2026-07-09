@@ -22,7 +22,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     configure_http,
     transient_retry,
@@ -425,80 +424,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="dallas-fed-pce", fn=fetch_pce, kind="download"),
     NodeSpec(id="dallas-fed-wei", fn=fetch_wei, kind="download"),
     NodeSpec(id="dallas-fed-houseprice", fn=fetch_houseprice, kind="download"),
-]
-
-
-# ===========================================================================
-# TRANSFORM_SPECS — thin cast-and-clean pass, one published table per subset
-# ===========================================================================
-_DIFFUSION_IDS = ["dallas-fed-tmos", "dallas-fed-tssos", "dallas-fed-tros", "dallas-fed-bcs", "dallas-fed-des"]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{sid}-transform",
-        deps=[sid],
-        sql=f'''
-            SELECT DISTINCT
-                CAST(date AS DATE)        AS date,
-                CAST(segment AS VARCHAR)  AS segment,
-                CAST(basis AS VARCHAR)    AS basis,
-                CAST(series_code AS VARCHAR) AS series_code,
-                CAST(component AS VARCHAR) AS component,
-                CAST(value AS DOUBLE)     AS value
-            FROM "{sid}"
-            WHERE date IS NOT NULL AND value IS NOT NULL
-        ''',
-    )
-    for sid in _DIFFUSION_IDS
-] + [
-    SqlNodeSpec(
-        id="dallas-fed-agsurvey-transform",
-        deps=["dallas-fed-agsurvey"],
-        sql='''
-            SELECT DISTINCT
-                CAST(date AS DATE)     AS date,
-                CAST(topic AS VARCHAR) AS topic,
-                CAST(sheet AS VARCHAR) AS sheet,
-                CAST(series AS VARCHAR) AS series,
-                CAST(value AS DOUBLE)  AS value
-            FROM "dallas-fed-agsurvey"
-            WHERE date IS NOT NULL AND value IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="dallas-fed-pce-transform",
-        deps=["dallas-fed-pce"],
-        sql='''
-            SELECT DISTINCT
-                CAST(date AS DATE)       AS date,
-                CAST(horizon AS VARCHAR) AS horizon,
-                CAST(value AS DOUBLE)    AS value
-            FROM "dallas-fed-pce"
-            WHERE date IS NOT NULL AND value IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="dallas-fed-wei-transform",
-        deps=["dallas-fed-wei"],
-        sql='''
-            SELECT DISTINCT
-                CAST(date AS DATE)  AS date,
-                CAST(wei AS DOUBLE) AS wei
-            FROM "dallas-fed-wei"
-            WHERE date IS NOT NULL AND wei IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="dallas-fed-houseprice-transform",
-        deps=["dallas-fed-houseprice"],
-        sql='''
-            SELECT DISTINCT
-                CAST(date AS DATE)      AS date,
-                CAST(metric AS VARCHAR) AS metric,
-                CAST(country AS VARCHAR) AS country,
-                CAST(value AS DOUBLE)   AS value
-            FROM "dallas-fed-houseprice"
-            WHERE date IS NOT NULL AND value IS NOT NULL
-        ''',
-    ),
 ]
