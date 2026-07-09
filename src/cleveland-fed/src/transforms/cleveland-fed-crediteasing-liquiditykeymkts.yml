@@ -1,33 +1,43 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-crediteasing-liquiditykeymkts`. Regenerate after model-verify.
-# caution: Weekly (Wednesday) balance levels in millions of US dollars, not flows.
-# caution: `liquidity_to_key_credit_markets` is the total of the facility columns beside it — summing all columns double-counts.
-# caution: Facilities that did not exist in a given week carry 0, not null; a zero is 'programme inactive', not 'no observation'.
+# Credit Easing Policy Tools: weekly (Wednesday) levels outstanding, in millions of US dollars — stocks, not flows.
+# A facility that did not exist in a given week carries 0, not null: a zero means 'programme inactive', not 'no observation'.
+# `liquidity_to_key_credit_markets` is the total of the facility columns beside it — summing every column double-counts.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation date, ISO calendar date."
   - name: asset_backed_commercial_paper
     type: DOUBLE
+    description: "Asset-Backed Commercial Paper Money Market Mutual Fund Liquidity Facility. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: term_asset_backed_securities
     type: DOUBLE
+    description: "Term Asset-Backed Securities Loan Facility (TALF). Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: net_portfolio_commercial_paper
     type: DOUBLE
+    description: "Net portfolio holdings of the Commercial Paper Funding Facility. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: maiden_lane_1
     type: DOUBLE
+    description: "Net portfolio holdings of Maiden Lane LLC (Bear Stearns assets). Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: maiden_lane_2
     type: DOUBLE
+    description: "Net portfolio holdings of Maiden Lane II LLC (AIG residential mortgage-backed securities). Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: maiden_lane_3
     type: DOUBLE
+    description: "Net portfolio holdings of Maiden Lane III LLC (AIG collateralized debt obligations). Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: money_market_mutual_funds
     type: DOUBLE
+    description: "Money Market Mutual Fund Liquidity Facility. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: corporate_credit_facility
     type: DOUBLE
+    description: "Primary and Secondary Market Corporate Credit Facilities. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: municipal_liquidity_facility
     type: DOUBLE
+    description: "Municipal Liquidity Facility. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: main_street_lending_facility
     type: DOUBLE
+    description: "Main Street Lending Program facilities. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: liquidity_to_key_credit_markets
     type: DOUBLE
+    description: "Total liquidity to key credit markets: the sum of the facility columns in this table. Level outstanding on the reporting Wednesday, in millions of US dollars."

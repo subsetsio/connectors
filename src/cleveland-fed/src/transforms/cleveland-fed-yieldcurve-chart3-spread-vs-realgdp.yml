@@ -1,16 +1,20 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-yieldcurve-chart3-spread-vs-realgdp`. Regenerate after model-verify.
-# caution: Quarterly rows dated to the first month of the quarter. `spread` is the 10-year minus 3-month Treasury yield spread in percentage points and `real_gdp` the contemporaneous real GDP growth rate; the earliest quarters have no spread observation.
-# caution: `recession` is a chart-shading sentinel, not a value: 100 marks a quarter inside an NBER recession and -100 a quarter outside one.
+# Yield curve spread against real GDP growth. Quarterly, dated to the first month of the quarter.
+# `real_gdp` is CONTEMPORANEOUS with the spread in the same row.
+# `nber_recession` is decoded from the source's chart-shading sentinel (100 inside an NBER recession, -100 outside it) into a boolean.
+# The earliest quarters have no spread observation.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
-  - name: real_gdp
-    type: DOUBLE
+    description: "Observation quarter, dated to the first month of the quarter."
   - name: spread
     type: DOUBLE
-  - name: recession
+    description: "Yield curve spread: the ten-year Treasury yield minus the three-month Treasury yield, in percentage points."
+  - name: real_gdp
     type: DOUBLE
+    description: "Year-over-year growth of US real GDP in this quarter, in percent — contemporaneous with the observed `spread`."
+  - name: nber_recession
+    type: BOOLEAN
+    description: "True when the NBER dates this quarter as inside a recession."

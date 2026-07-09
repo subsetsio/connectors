@@ -1,15 +1,15 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-inflationexpectations-inflationexpectations-chart3`. Regenerate after model-verify.
-# caution: This is a term structure, not a time series: `label` is the forecast horizon in years (1-30), and each remaining column is one model VINTAGE — the expected-inflation curve estimated in that month. It has no time axis of its own.
-# caution: The vintage column NAMES change every month (they encode the vintage month, e.g. `jun_26`), so consumers must not depend on a fixed set of series columns.
-key: [label]
-sort: [label]
+# Cleveland Fed 'Expected Inflation Term Structure': a snapshot of the expected-inflation curve, NOT a time series — there is no observation-date axis.
+# The source ships one wide column per model vintage, and those column names change every month (they encode the vintage, e.g. `jun_26`). This transform unpivots them into the `vintage` column so the published schema is stable across runs.
+# Rows with no value for a vintage are dropped by the unpivot.
+key: [horizon_years, vintage]
+sort: [horizon_years, vintage]
 columns:
-  - name: label
+  - name: horizon_years
     type: BIGINT
-  - name: jun_26
+    description: "Forecast horizon in years ahead of the vintage month, 1 through 30."
+  - name: vintage
+    type: VARCHAR
+    description: "The month in which this expected-inflation curve was estimated, as the source's abbreviated month-year code (e.g. `jun_26` = June 2026). The file carries the current month, the prior month and the same month a year earlier."
+  - name: expected_inflation
     type: DOUBLE
-  - name: may_26
-    type: DOUBLE
-  - name: jun_25
-    type: DOUBLE
+    description: "Model-implied average annual inflation expected over `horizon_years` years from the vintage month, in percent per year."

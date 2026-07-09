@@ -1,43 +1,58 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-consumersandcovid19-consumers-and-covid19`. Regenerate after model-verify.
-# caution: One row per survey collection date of the 2020 Consumers and COVID-19 special survey; the panel was discontinued, so this table is a closed historical extract, not an ongoing series.
-# caution: Columns mix incompatible measures on one row: `exp_impact_*` columns are expected percentage-point impacts on GDP/inflation (robust means and medians of respondent answers), while every other column is the share of respondents (percent, 0-100) giving that answer. Never average or sum across columns.
-# caution: The `coronavirus_duration_*` share columns are alternatives from one question and sum to roughly 100 within a row; `coronavirus_duration_months` is a separate expected-duration answer in months, not a share.
+# Cleveland Fed 'Consumers and COVID-19' special survey, one row per collection date in 2020. The panel was discontinued: this is a closed historical extract, not an ongoing series.
+# Columns mix incompatible measures on one row: the four `exp_impact_*` columns are expected percentage-point impacts on GDP growth and inflation, every other column is a share of respondents in percent. Never average or sum across columns.
+# The five `coronavirus_duration_*` columns are the buckets of one question and sum to about 100 within a row.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation date, ISO calendar date."
   - name: exp_impact_gdp_12mo_robust_mean
     type: DOUBLE
+    description: "Expected impact of the coronavirus on US GDP growth over the next 12 months, in percentage points: robust (outlier-trimmed) mean across respondents."
   - name: exp_impact_infl_12mo_robust_mean
     type: DOUBLE
+    description: "Expected impact of the coronavirus on US inflation over the next 12 months, in percentage points: robust (outlier-trimmed) mean across respondents."
   - name: exp_impact_gdp_12mo_median
     type: DOUBLE
+    description: "Expected impact of the coronavirus on US GDP growth over the next 12 months, in percentage points: median across respondents."
   - name: exp_impact_inflation_12mo_median
     type: DOUBLE
+    description: "Expected impact of the coronavirus on US inflation over the next 12 months, in percentage points: median across respondents."
   - name: increased_personal_savings
     type: DOUBLE
+    description: "Share of respondents, in percent (0-100), who report increasing their personal savings in response to the coronavirus."
   - name: changed_financial_planning
     type: DOUBLE
+    description: "Share of respondents, in percent (0-100), who report changing their financial planning in response to the coronavirus."
   - name: refrain_planned_large_purchases
     type: DOUBLE
+    description: "Share of respondents, in percent (0-100), who report refraining from a planned large purchase."
   - name: fear_of_job_loss
     type: DOUBLE
+    description: "Share of respondents, in percent (0-100), who report fearing the loss of their job."
   - name: store_more_food_supplies
     type: DOUBLE
+    description: "Share of respondents, in percent (0-100), who report storing more food supplies."
   - name: store_more_medical_supplies
     type: DOUBLE
+    description: "Share of respondents, in percent (0-100), who report storing more medical supplies."
   - name: increased_cash_holdings
     type: DOUBLE
+    description: "Share of respondents, in percent (0-100), who report increasing their cash holdings. This question was added after the survey launched, so early collection dates have no observation."
   - name: coronavirus_duration_months
     type: DOUBLE
+    description: "Share of respondents, in percent (0-100), expecting the outbreak to last a few MONTHS — less than a year. This is a response bucket, not a duration in months."
   - name: coronavirus_duration_1year
     type: DOUBLE
+    description: "Share of respondents, in percent (0-100), expecting the outbreak to last about one year."
   - name: coronavirus_duration_2years
     type: DOUBLE
+    description: "Share of respondents, in percent (0-100), expecting the outbreak to last about two years."
   - name: coronavirus_duration_3years
     type: DOUBLE
+    description: "Share of respondents, in percent (0-100), expecting the outbreak to last about three years."
   - name: coronavirus_duration_gt3years
     type: DOUBLE
+    description: "Share of respondents, in percent (0-100), expecting the outbreak to last more than three years."

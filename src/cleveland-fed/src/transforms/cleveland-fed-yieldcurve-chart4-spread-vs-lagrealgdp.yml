@@ -1,16 +1,20 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-yieldcurve-chart4-spread-vs-lagrealgdp`. Regenerate after model-verify.
-# caution: Quarterly rows dated to the first month of the quarter. Unlike its sibling chart3 table, `real_gdp` here is the LAGGED (year-ahead) real GDP growth aligned to the quarter in which the `spread` was observed, which is why the most recent quarters have a spread but no GDP value.
-# caution: `recession` is a chart-shading sentinel, not a value: 100 marks a quarter inside an NBER recession and -100 a quarter outside one.
+# Yield curve spread against real GDP growth. Quarterly, dated to the first month of the quarter.
+# `real_gdp` is the year-AHEAD growth aligned to the quarter of the spread — which is why the most recent quarters carry a spread but no GDP value. This is the only difference from its sibling chart3 table.
+# `nber_recession` is decoded from the source's chart-shading sentinel (100 inside an NBER recession, -100 outside it) into a boolean.
+# The earliest quarters have no spread observation.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
-  - name: real_gdp
-    type: DOUBLE
+    description: "Observation quarter, dated to the first month of the quarter."
   - name: spread
     type: DOUBLE
-  - name: recession
+    description: "Yield curve spread: the ten-year Treasury yield minus the three-month Treasury yield, in percentage points."
+  - name: real_gdp
     type: DOUBLE
+    description: "Year-over-year growth of US real GDP one year AFTER this quarter, in percent, aligned to the quarter in which the `spread` was observed. Absent for the most recent quarters, whose year-ahead GDP is not yet observed."
+  - name: nber_recession
+    type: BOOLEAN
+    description: "True when the NBER dates this quarter as inside a recession."

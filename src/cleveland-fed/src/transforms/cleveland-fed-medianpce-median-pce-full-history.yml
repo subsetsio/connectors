@@ -1,14 +1,16 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-medianpce-median-pce-full-history`. Regenerate after model-verify.
-# caution: Monthly, dated to the first of the month. The two columns are different transforms of the same measure (one-month percent change and year-over-year percent change) and are not comparable to each other.
-# caution: The source writes the literal token `NaN` for months with no observation (the first month of the history, and the first eleven months for the year-over-year column).
+# Median PCE inflation, full monthly history, dated to the first of the month.
+# The source writes the literal token `NaN` where it has no observation; this transform maps those to NULL and drops the leading month that has no observation at all. The year-over-year column is therefore absent for the first eleven months of the history.
+# The two columns are different transforms of the same measure and are not comparable to each other.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
-  - name: median_pce_inflation_monthly_percent_change
+    description: "Observation month, dated to the first of the month."
+  - name: monthly_percent_change
     type: DOUBLE
-  - name: median_pce_inflation_year_over_year_percent_change
+    description: "Median PCE inflation as a one-month percent change (not annualized)."
+  - name: year_over_year_percent_change
     type: DOUBLE
+    description: "Median PCE inflation as a year-over-year percent change."

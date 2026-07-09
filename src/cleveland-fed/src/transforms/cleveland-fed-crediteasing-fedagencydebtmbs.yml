@@ -1,16 +1,19 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-crediteasing-fedagencydebtmbs`. Regenerate after model-verify.
-# caution: Weekly (Wednesday) balance levels in millions of US dollars, not flows.
-# caution: `federal_agency_debt_and_mortgage_backed_securities_purchases` is the total of the two component columns beside it — summing all three columns double-counts.
+# Credit Easing Policy Tools: weekly (Wednesday) levels outstanding, in millions of US dollars — stocks, not flows.
+# A facility that did not exist in a given week carries 0, not null: a zero means 'programme inactive', not 'no observation'.
+# The third column is the total of the two component columns beside it — summing all three double-counts.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation date, ISO calendar date."
   - name: mortgage_backed_securities
     type: DOUBLE
+    description: "Holdings of agency mortgage-backed securities. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: federal_agency_debt_securities
     type: DOUBLE
+    description: "Holdings of federal agency debt securities. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: federal_agency_debt_and_mortgage_backed_securities_purchases
     type: DOUBLE
+    description: "Total of the two component columns in this table. Level outstanding on the reporting Wednesday, in millions of US dollars."

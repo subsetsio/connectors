@@ -22,7 +22,7 @@ Fetch shape: stateless full re-pull. The export exposes no incremental/delta
 filter — it is one full snapshot refreshed roughly annually (~July), so each
 run re-reads and overwrites. Revisions and the shifting reference year come
 along for free. MAINTAIN_SPECS gates whether a run refetches at all, off the
-ZIP's ETag/Last-Modified.
+ZIP's ETag/Last-Modified and `PARSE_REVISION`.
 
 Schema drift, measured and normalized here rather than left to the transform:
 the aggregate-region members (QE, WO, ...) omit `data_quality` from the data

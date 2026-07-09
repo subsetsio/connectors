@@ -1,16 +1,19 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-inflationexpectations-inflationexpectations-chart1`. Regenerate after model-verify.
-# caution: All three series are TEN-YEAR horizon values in percent per year, and are model estimates (Haubrich-Pennacchi-Ritchken term-structure model), not market observables. The horizon is not encoded in the data.
-# caution: Monthly observations dated to the first of the month; the whole history is re-estimated when the model is refit, so values for past dates can change between runs.
+# Cleveland Fed 'Ten-Year Expected Inflation and Real and Inflation Risk Premia'. Monthly, dated to the first of the month.
+# All three series are TEN-YEAR horizon estimates from the Haubrich-Pennacchi-Ritchken term-structure model, not market observables; the horizon is not encoded in the data.
+# The whole history is re-estimated when the model is refit, so values for past dates can change between runs.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation date, ISO calendar date."
   - name: expected_inflation
     type: DOUBLE
+    description: "Model-implied expected inflation over the next TEN YEARS, in percent per year."
   - name: real_risk_premium
     type: DOUBLE
+    description: "Real risk premium embedded in the ten-year nominal Treasury yield, in percentage points."
   - name: inflation_risk_premium
     type: DOUBLE
+    description: "Inflation risk premium embedded in the ten-year nominal Treasury yield, in percentage points."

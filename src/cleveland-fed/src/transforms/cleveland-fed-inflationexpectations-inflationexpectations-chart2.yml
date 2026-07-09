@@ -1,14 +1,15 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-inflationexpectations-inflationexpectations-chart2`. Regenerate after model-verify.
-# caution: Both series are ten-year yields in percent per year: `tips_yield` is the observed market TIPS yield, `model_yield` the model-implied real yield. The horizon is not encoded in the data.
-# caution: The model series is re-estimated over the whole history when the model is refit, so past values can change between runs.
+# Cleveland Fed 'Ten-Year TIPS Yields versus Real Yields'. Monthly, dated to the first of the month.
+# Both series are ten-year yields; the horizon is not encoded in the data. `model_yield` is re-estimated over the whole history when the model is refit, so past values can change between runs.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation date, ISO calendar date."
   - name: tips_yield
     type: DOUBLE
+    description: "Observed market yield on ten-year Treasury Inflation-Protected Securities, in percent per year."
   - name: model_yield
     type: DOUBLE
+    description: "Ten-year real yield implied by the Cleveland Fed inflation-expectations model, in percent per year."

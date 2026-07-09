@@ -1,13 +1,14 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-mediancpi-core`. Regenerate after model-verify.
-# caution: Monthly, dated to the first of the month. `core_index` is a price index level (1982-84 = 100 CPI convention) while `ann_monthly_chg` is the annualized one-month percent change derived from it — the two columns are on different scales and the first month has no change value.
+# Monthly, dated to the first of the month. The two columns are on different scales: an index level and an annualized percent change derived from it.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation date, ISO calendar date."
   - name: core_index
     type: DOUBLE
+    description: "Core CPI (all items less food and energy) price index level, 1982-84 = 100."
   - name: ann_monthly_chg
     type: DOUBLE
+    description: "Annualized one-month percent change in `core_index`. Absent for the first month of the history."

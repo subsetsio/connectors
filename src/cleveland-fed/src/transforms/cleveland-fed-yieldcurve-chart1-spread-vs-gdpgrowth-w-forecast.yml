@@ -1,18 +1,19 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-yieldcurve-chart1-spread-vs-gdpgrowth-w-forecast`. Regenerate after model-verify.
-# caution: Quarterly rows dated to the first month of the quarter. The table mixes realized history with a model forecast extending years into the future: on forecast rows only `real_gdp_growth_forecast` is populated, on historical rows only `real_gdp_growth`. Never treat the two as one column without deciding which regime you want.
-# caution: The file also carries a quarter-average-spread annotation column whose NAME encodes the averaging window (e.g. `spread_qtavg_04012026_06192026`) and therefore changes every quarter.
+# Yield curve spread against realized and predicted GDP growth. Quarterly, dated to the first month of the quarter.
+# The table spans realized history AND a model forecast running years into the future: `real_gdp_growth` is populated only on historical rows and `real_gdp_growth_forecast` only on forecast rows. Decide which regime you want before combining them.
+# The source file also carries a quarter-average-spread annotation column whose NAME encodes the averaging window (e.g. `spread_qtavg_04012026_06192026`) and so changes every quarter. It is a chart annotation derived from `spread`, and is dropped here to keep the published schema stable.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation quarter, dated to the first month of the quarter."
   - name: spread
     type: DOUBLE
+    description: "Yield curve spread: the ten-year Treasury yield minus the three-month Treasury yield, in percentage points."
   - name: real_gdp_growth
     type: DOUBLE
+    description: "Realized year-over-year growth of US real GDP, in percent. Absent on forecast rows."
   - name: real_gdp_growth_forecast
     type: DOUBLE
-  - name: spread_qtavg_04012026_06192026
-    type: DOUBLE
+    description: "Year-over-year real GDP growth predicted from the yield curve spread, in percent. Absent on historical rows."

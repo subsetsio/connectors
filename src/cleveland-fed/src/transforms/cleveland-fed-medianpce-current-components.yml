@@ -1,15 +1,18 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-medianpce-current-components`. Regenerate after model-verify.
-# caution: A cross-sectional snapshot of the LATEST month only, sorted by monthly percent change; it has no time axis and is overwritten each month.
-# caution: `cumulative_relative_importance` is a running total down the source's sort order, so it is only meaningful in that order and must never be aggregated. `relative_importance` is the weight in percent and sums to ~100 across rows.
-key: [label]
-sort: [label]
+# A cross-sectional snapshot of the LATEST month only, overwritten each month: it has no time axis, and nothing in the table says which month it describes.
+# `cumulative_relative_importance` is a running total down the source's own sort order (ascending monthly percent change) — it is meaningful only in that order and must never be aggregated.
+# Renamed from the source's `Component` header.
+key: [component]
+sort: [monthly_percent_change, component]
 columns:
-  - name: label
+  - name: component
     type: VARCHAR
+    description: "Name of the PCE expenditure component, as the source labels it (e.g. 'Motor vehicle rental')."
   - name: monthly_percent_change
     type: DOUBLE
+    description: "One-month percent change in this component's price index for the snapshot month (not annualized)."
   - name: relative_importance
     type: DOUBLE
+    description: "This component's weight in the PCE consumption basket, in percent, summing to about 100 across components."
   - name: cumulative_relative_importance
     type: DOUBLE
+    description: "Running total of `relative_importance` accumulated down the source's ascending price-change ordering; the component whose cumulative weight crosses 50 is the median component."

@@ -1,20 +1,25 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-crediteasing-summaryview`. Regenerate after model-verify.
-# caution: Weekly (Wednesday) balance levels in millions of US dollars, not flows.
-# caution: The five programme columns are mutually exclusive components of the Federal Reserve's credit-easing balance sheet and each is the total of one of this source's detail tables; the row sum is total credit easing.
+# Credit Easing Policy Tools: weekly (Wednesday) levels outstanding, in millions of US dollars — stocks, not flows.
+# A facility that did not exist in a given week carries 0, not null: a zero means 'programme inactive', not 'no observation'.
+# The five programme columns are mutually exclusive components of the credit-easing balance sheet, each the total of one of this source's detail tables; the row sum is total credit easing.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation date, ISO calendar date."
   - name: lending_to_financial_institutions
     type: DOUBLE
+    description: "Total lending to financial institutions (discount window, term auction credit, swaps and related facilities). Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: liquidity_to_key_credit_markets
     type: DOUBLE
+    description: "Total liquidity provided directly to key credit markets (commercial paper, ABS, money market and Main Street facilities). Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: traditional_security_holdings
     type: DOUBLE
+    description: "Traditional open-market security holdings, i.e. the pre-crisis Treasury portfolio. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: federal_agency_debt_and_mortgage_backed_securities_purchases
     type: DOUBLE
+    description: "Total holdings of federal agency debt and agency mortgage-backed securities. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: long_term_treasury_purchases
     type: DOUBLE
+    description: "Holdings acquired through long-term Treasury purchase programmes. Level outstanding on the reporting Wednesday, in millions of US dollars."

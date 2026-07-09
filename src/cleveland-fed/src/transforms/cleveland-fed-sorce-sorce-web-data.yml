@@ -1,66 +1,93 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-sorce-sorce-web-data`. Regenerate after model-verify.
-# caution: One row per SORCE collection date; the survey covers firms in the Fourth Federal Reserve District (Ohio and parts of Pennsylvania, West Virginia and Kentucky), not the US as a whole.
-# caution: Every column is a diffusion index (share reporting an increase minus share reporting a decrease, roughly -100 to 100), so values are not levels and must not be summed.
-# caution: The `manu_`, `oth_` and `total_` prefixes are industry cuts of the same question: `total_` is the all-firms index, NOT the sum of the manufacturing and other-industry indexes.
-# caution: Questions were added to the survey over time, so early collection dates have no observation for the later question blocks.
+# Survey of Regional Conditions and Expectations (SORCE). One row per survey collection date; respondents are firms in the Fourth Federal Reserve District (Ohio and parts of Pennsylvania, West Virginia and Kentucky) — NOT the United States as a whole.
+# Every column is a diffusion index, not a level: values must not be summed, and 0 means increases and decreases balance.
+# The `manu_`, `other_` and `total_` prefixes are industry cuts of the same question. `total_` is the all-firms index, NOT the sum of the other two.
+# Question blocks were added to the survey over time, so early collection dates have no observation for the later blocks.
+# `date` is renamed from the source's `collndate` (collection date); the `oth_` prefix is spelled out as `other_`.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation date, ISO calendar date."
   - name: manu_cap_ex_di
     type: DOUBLE
-  - name: oth_cap_ex_di
+    description: "Diffusion index for capital expenditures among manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
+  - name: other_cap_ex_di
     type: DOUBLE
+    description: "Diffusion index for capital expenditures among non-manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: total_cap_ex_di
     type: DOUBLE
+    description: "Diffusion index for capital expenditures among all responding firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: manu_conditions_di
     type: DOUBLE
-  - name: oth_conditions_di
+    description: "Diffusion index for general business conditions among manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
+  - name: other_conditions_di
     type: DOUBLE
+    description: "Diffusion index for general business conditions among non-manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: total_conditions_di
     type: DOUBLE
+    description: "Diffusion index for general business conditions among all responding firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: manu_employment_di
     type: DOUBLE
-  - name: oth_employment_di
+    description: "Diffusion index for employment levels among manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
+  - name: other_employment_di
     type: DOUBLE
+    description: "Diffusion index for employment levels among non-manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: total_employment_di
     type: DOUBLE
+    description: "Diffusion index for employment levels among all responding firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: manu_expect_cond_di
     type: DOUBLE
-  - name: oth_expect_cond_di
+    description: "Diffusion index for expected general business conditions over the next year among manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
+  - name: other_expect_cond_di
     type: DOUBLE
+    description: "Diffusion index for expected general business conditions over the next year among non-manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: total_expect_cond_di
     type: DOUBLE
+    description: "Diffusion index for expected general business conditions over the next year among all responding firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: manu_expect_costs_di
     type: DOUBLE
-  - name: oth_expect_costs_di
+    description: "Diffusion index for expected non-labor input costs over the next year among manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
+  - name: other_expect_costs_di
     type: DOUBLE
+    description: "Diffusion index for expected non-labor input costs over the next year among non-manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: total_expect_costs_di
     type: DOUBLE
+    description: "Diffusion index for expected non-labor input costs over the next year among all responding firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: manu_expect_employment_di
     type: DOUBLE
-  - name: oth_expect_employment_di
+    description: "Diffusion index for expected employment levels over the next year among manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
+  - name: other_expect_employment_di
     type: DOUBLE
+    description: "Diffusion index for expected employment levels over the next year among non-manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: total_expect_employment_di
     type: DOUBLE
+    description: "Diffusion index for expected employment levels over the next year among all responding firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: manu_nonlabor_costs_di
     type: DOUBLE
-  - name: oth_nonlabor_costs_di
+    description: "Diffusion index for non-labor input costs among manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
+  - name: other_nonlabor_costs_di
     type: DOUBLE
+    description: "Diffusion index for non-labor input costs among non-manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: total_nonlabor_costs_di
     type: DOUBLE
+    description: "Diffusion index for non-labor input costs among all responding firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: manu_prices_di
     type: DOUBLE
-  - name: oth_prices_di
+    description: "Diffusion index for prices charged to customers among manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
+  - name: other_prices_di
     type: DOUBLE
+    description: "Diffusion index for prices charged to customers among non-manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: total_prices_di
     type: DOUBLE
+    description: "Diffusion index for prices charged to customers among all responding firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: manu_wages_di
     type: DOUBLE
-  - name: oth_wages_di
+    description: "Diffusion index for wages and benefits among manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
+  - name: other_wages_di
     type: DOUBLE
+    description: "Diffusion index for wages and benefits among non-manufacturing firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."
   - name: total_wages_di
     type: DOUBLE
+    description: "Diffusion index for wages and benefits among all responding firms: the share reporting an increase minus the share reporting a decrease, in percentage points (roughly -100 to 100)."

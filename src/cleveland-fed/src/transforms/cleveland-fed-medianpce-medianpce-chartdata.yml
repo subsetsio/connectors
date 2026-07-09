@@ -1,16 +1,18 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-medianpce-medianpce-chartdata`. Regenerate after model-verify.
-# caution: A short chart window (the most recent years only) of series that exist in full elsewhere in this source; do not treat it as a complete history.
-# caution: All three columns are year-over-year percent changes.
+# A short chart window (the most recent years only) of series that exist in full elsewhere in this source; do not treat it as a complete history.
+# All three columns are year-over-year percent changes, monthly, dated to the first of the month.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation date, ISO calendar date."
   - name: median_pce
     type: DOUBLE
+    description: "Median PCE inflation, year-over-year percent change."
   - name: pce
     type: DOUBLE
+    description: "Headline PCE price index inflation, year-over-year percent change."
   - name: core_pce
     type: DOUBLE
+    description: "Core PCE (excluding food and energy) inflation, year-over-year percent change."

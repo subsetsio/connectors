@@ -1,11 +1,13 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-crediteasing-longtermtreasuries`. Regenerate after model-verify.
-# caution: Weekly (Wednesday) balance levels in millions of US dollars, not flows. This is the single-column detail view of the same aggregate that appears in the Credit Easing summary table.
+# Credit Easing Policy Tools: weekly (Wednesday) levels outstanding, in millions of US dollars — stocks, not flows.
+# A facility that did not exist in a given week carries 0, not null: a zero means 'programme inactive', not 'no observation'.
+# Single-column detail view of the aggregate that also appears in the Credit Easing summary table.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation date, ISO calendar date."
   - name: long_term_treasury_purchases
     type: DOUBLE
+    description: "Holdings acquired through the Federal Reserve's long-term Treasury purchase programmes. Level outstanding on the reporting Wednesday, in millions of US dollars."

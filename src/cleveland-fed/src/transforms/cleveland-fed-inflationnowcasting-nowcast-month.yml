@@ -1,18 +1,16 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-inflationnowcasting-nowcast-month`. Regenerate after model-verify.
-# caution: `label` is the nowcast update stamp for the CURRENT nowcasting cycle only — either a month/day like `08/20` (no year) or a data-release marker like `PCE Jul`. The table is overwritten each cycle and keeps no history; the target period being nowcast is not encoded in the file.
-# caution: Values are month-over-month percent changes (not annualized). The `actual_*` columns carry the realized release value and are populated only on the release-marker rows; the un-prefixed columns carry the nowcast.
-# caution: Series columns that are entirely unpopulated in a cycle are dropped from the file, so the column set varies between runs.
-key: [label]
-sort: [label]
+# Cleveland Fed 'Inflation Nowcasting Monthly Month-Over-Month'.
+# The file covers the CURRENT nowcasting cycle only and is overwritten each cycle: it keeps no history, and the target period being nowcast is not encoded anywhere in the data.
+# The source ships one wide column per series and silently drops series it leaves empty for a cycle, so the wide column set is unstable across runs. This transform unpivots to long (`series`, `percent_change`) so the published schema is stable; unpopulated cells become absent rows.
+# The source file's row order is the chronological order of updates within the cycle. That order is NOT recoverable from `update_label` alone (it carries no year and mixes update dates with release markers).
+key: [update_label, series]
+sort: [update_label, series]
 columns:
-  - name: label
+  - name: update_label
     type: VARCHAR
-  - name: pce_inflation
+    description: "When the nowcast was updated, as the source stamps it: either a month/day within the current cycle (e.g. `08/20`, no year) or a data-release marker (e.g. `PCE Jul`, `CPI Aug`) marking the day the official statistic for that reference month was published."
+  - name: series
+    type: VARCHAR
+    description: "Which measure this row reports: `cpi_inflation`, `core_cpi_inflation`, `pce_inflation` or `core_pce_inflation` for the model's nowcast, and the same names prefixed `actual_` for the realized official statistic, which is populated only on release-marker rows."
+  - name: percent_change
     type: DOUBLE
-  - name: core_pce_inflation
-    type: DOUBLE
-  - name: actual_pce_inflation
-    type: DOUBLE
-  - name: actual_core_pce_inflation
-    type: DOUBLE
+    description: "The nowcast (or, for `actual_*` series, the realized value) expressed as month-over-month percent change (not annualized) for the month being nowcast."

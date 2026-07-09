@@ -1,14 +1,15 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-mediancpi-trim-revised`. Regenerate after model-verify.
-# caution: Monthly, dated to the first of the month. `trim_monthly_chg` is a raw one-month FRACTIONAL change (0.0037 = 0.37%) while `trim_ann_monthly_chg` is the same change annualized and expressed in percent — the two columns are on different scales.
-# caution: 'Revised' means the 16% trimmed-mean CPI is recomputed as the BLS revises seasonal factors, so past values can change between runs.
+# 16 percent trimmed-mean CPI, monthly, dated to the first of the month. The two columns are the same change on different scales — a raw fraction and an annualized percent.
+# 'Revised' means the series is recomputed as the BLS revises seasonal factors, so past values can change between runs.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation date, ISO calendar date."
   - name: trim_monthly_chg
     type: DOUBLE
+    description: "One-month change in the 16 percent trimmed-mean CPI as a FRACTION (0.0037 = 0.37 percent), not annualized."
   - name: trim_ann_monthly_chg
     type: DOUBLE
+    description: "The same one-month change, annualized and expressed in percent per year."

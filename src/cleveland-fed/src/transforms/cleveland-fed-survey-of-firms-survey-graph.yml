@@ -1,14 +1,15 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-survey-of-firms-survey-graph`. Regenerate after model-verify.
-# caution: Quarterly survey waves; the source dates each wave by month and year only (`4/2018`), which is normalized to the first day of that month.
-# caution: `mean` and `standard_deviation` summarize the cross-section of responding firms' one-year-ahead expected inflation (percent), for that wave only — the standard deviation is dispersion across firms, not a time-series or sampling error.
+# Survey of Firms' Inflation Expectations (SoFIE), one row per quarterly survey wave.
+# The source dates each wave by month and year only (e.g. `4/2018`); that is normalized here to the first day of that month.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation date, ISO calendar date."
   - name: mean
     type: DOUBLE
+    description: "Mean across responding firms of their expected rate of inflation over the next 12 months, in percent."
   - name: standard_deviation
     type: DOUBLE
+    description: "Standard deviation ACROSS responding firms of that expectation, in percentage points — a measure of disagreement between firms in this wave, not a sampling error or a time-series volatility."

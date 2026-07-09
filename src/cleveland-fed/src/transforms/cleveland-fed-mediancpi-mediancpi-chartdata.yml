@@ -1,18 +1,21 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-mediancpi-mediancpi-chartdata`. Regenerate after model-verify.
-# caution: A short chart window (the most recent years only) of series that exist in full elsewhere in this source; do not treat it as a complete history.
-# caution: All four columns are year-over-year percent changes.
+# A short chart window (the most recent years only) of series that exist in full elsewhere in this source; do not treat it as a complete history.
+# All four columns are year-over-year percent changes, monthly, dated to the first of the month.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
-  - name: mediancpi
+    description: "Observation date, ISO calendar date."
+  - name: median_cpi
     type: DOUBLE
-  - name: trimmedmeancpi
+    description: "Median CPI, year-over-year percent change."
+  - name: trimmed_mean_cpi
     type: DOUBLE
+    description: "16 percent trimmed-mean CPI, year-over-year percent change."
   - name: cpi
     type: DOUBLE
-  - name: corecpi
+    description: "All-items CPI, year-over-year percent change."
+  - name: core_cpi
     type: DOUBLE
+    description: "Core CPI (all items less food and energy), year-over-year percent change."

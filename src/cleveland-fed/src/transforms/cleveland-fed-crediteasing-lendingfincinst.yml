@@ -1,39 +1,52 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-crediteasing-lendingfincinst`. Regenerate after model-verify.
-# caution: Weekly (Wednesday) balance levels in millions of US dollars, not flows.
-# caution: `lending_to_financial_institutions` is the total of the facility columns beside it — summing all columns double-counts.
-# caution: Facilities that did not exist in a given week carry 0, not null; a zero is 'programme inactive', not 'no observation'.
+# Credit Easing Policy Tools: weekly (Wednesday) levels outstanding, in millions of US dollars — stocks, not flows.
+# A facility that did not exist in a given week carries 0, not null: a zero means 'programme inactive', not 'no observation'.
+# `lending_to_financial_institutions` is the total of the facility columns beside it — summing every column double-counts.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation date, ISO calendar date."
   - name: repurchase_agreements
     type: DOUBLE
+    description: "Repurchase agreements with primary dealers. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: term_auction_credit
     type: DOUBLE
+    description: "Term Auction Facility credit. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: other_fed_assets
     type: DOUBLE
+    description: "Other Federal Reserve assets classified under lending to financial institutions. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: securities_lent_to_dealers
     type: DOUBLE
+    description: "Securities lent to primary dealers. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: currency_swaps
     type: DOUBLE
+    description: "Central bank liquidity (currency) swap lines with foreign central banks. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: primary_credit
     type: DOUBLE
+    description: "Discount window primary credit. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: secondary_credit
     type: DOUBLE
+    description: "Discount window secondary credit. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: seasonal_credit
     type: DOUBLE
+    description: "Discount window seasonal credit. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: primary_other_broker_dealer
     type: DOUBLE
+    description: "Primary Dealer Credit Facility and other broker-dealer lending. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: credit_to_aig
     type: DOUBLE
+    description: "Credit extended to American International Group. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: bank_term_funding_program
     type: DOUBLE
+    description: "Bank Term Funding Program advances (established March 2023). Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: other_credit
     type: DOUBLE
+    description: "Other credit extensions to financial institutions. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: ppp_liquidity_facility
     type: DOUBLE
+    description: "Paycheck Protection Program Liquidity Facility. Level outstanding on the reporting Wednesday, in millions of US dollars."
   - name: lending_to_financial_institutions
     type: DOUBLE
+    description: "Total lending to financial institutions: the sum of the facility columns in this table. Level outstanding on the reporting Wednesday, in millions of US dollars."

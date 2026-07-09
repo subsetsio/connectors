@@ -1,9 +1,3 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: Quarterly survey waves; the source dates each wave by month and year only (`4/2018`), which is normalized to the first day of that month.
--- caution: `mean` and `standard_deviation` summarize the cross-section of responding firms' one-year-ahead expected inflation (percent), for that wave only — the standard deviation is dispersion across firms, not a time-series or sampling error.
 SELECT
     strptime("date", '%Y-%m-%d')::DATE AS date,
     "mean",

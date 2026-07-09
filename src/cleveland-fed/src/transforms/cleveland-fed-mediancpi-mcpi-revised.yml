@@ -1,14 +1,15 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `cleveland-fed-mediancpi-mcpi-revised`. Regenerate after model-verify.
-# caution: Monthly, dated to the first of the month. `mcpi_monthly_chg` is a raw one-month FRACTIONAL change (0.0041 = 0.41%) while `mcpi_ann_monthly_chg` is the same change annualized and expressed in percent — the two columns are on different scales.
-# caution: 'Revised' means the median CPI is recomputed as the BLS revises seasonal factors, so past values can change between runs.
+# Median CPI, monthly, dated to the first of the month. The two columns are the same change on different scales — a raw fraction and an annualized percent.
+# 'Revised' means the series is recomputed as the BLS revises seasonal factors, so past values can change between runs.
 key: [date]
 temporal: date
 sort: [date]
 columns:
   - name: date
     type: DATE
+    description: "Observation date, ISO calendar date."
   - name: mcpi_monthly_chg
     type: DOUBLE
+    description: "One-month change in the median CPI as a FRACTION (0.0041 = 0.41 percent), not annualized."
   - name: mcpi_ann_monthly_chg
     type: DOUBLE
+    description: "The same one-month change, annualized and expressed in percent per year."
