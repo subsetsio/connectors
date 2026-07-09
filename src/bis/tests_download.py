@@ -20,17 +20,15 @@ import pyarrow.parquet as pq
 
 from subsets_utils import raw_parquet_localpath
 
+# Every topic carries its own SDMX dimension columns, so only the identity /
+# observation spine is common across all 27.
 EXPECTED_COLUMNS = {
     "dataflow",
     "series_key",
     "freq",
     "time_period",
+    "period_start",
     "obs_value",
-    "unit_measure",
-    "unit_mult",
-    "title",
-    "obs_status",
-    "dimensions",
 }
 
 

@@ -1,5 +1,5 @@
 {
   "cadence_days": 7,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "BIS topics refresh on their own schedules (policy rates and exchange rates daily; banking, debt securities and credit statistics quarterly; the CPMI Red Book annually) per https://www.bis.org/statistics/relcal.htm. A weekly tick covers the fastest topics; MAINTAIN_SPECS then skips any topic whose bulk zip ETag/Last-Modified is unchanged, so an off-cycle run costs 27 HEAD requests."
 }

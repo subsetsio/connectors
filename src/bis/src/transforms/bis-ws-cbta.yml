@@ -1,13 +1,33 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
 key: [series_key, time_period]
 temporal: period_start
-sort: [period_start, series_key, time_period]
+sort: [period_start, series_key]
+write_mode: overwrite
 columns:
-  - name: dataflow
-    type: VARCHAR
   - name: series_key
     type: VARCHAR
   - name: freq
+    type: VARCHAR
+  - name: freq_label
+    type: VARCHAR
+  - name: ref_area
+    type: VARCHAR
+  - name: ref_area_label
+    type: VARCHAR
+  - name: comp_method
+    type: VARCHAR
+  - name: comp_method_label
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: unit_measure_label
+    type: VARCHAR
+  - name: currency
+    type: VARCHAR
+  - name: currency_label
+    type: VARCHAR
+  - name: transformation
+    type: VARCHAR
+  - name: transformation_label
     type: VARCHAR
   - name: time_period
     type: VARCHAR
@@ -15,13 +35,39 @@ columns:
     type: DATE
   - name: obs_value
     type: DOUBLE
-  - name: unit_measure
+  - name: comment_dset
+    type: VARCHAR
+  - name: data_comp
+    type: VARCHAR
+  - name: method_ref
+    type: VARCHAR
+  - name: collection_detail
+    type: VARCHAR
+  - name: comment_ts
+    type: VARCHAR
+  - name: decimals
     type: VARCHAR
   - name: unit_mult
     type: VARCHAR
+  - name: breaks
+    type: VARCHAR
+  - name: supp_info_breaks
+    type: VARCHAR
+  - name: compiling_org
+    type: VARCHAR
+  - name: diss_org
+    type: VARCHAR
   - name: title
+    type: VARCHAR
+  - name: time_format
+    type: VARCHAR
+  - name: collection
+    type: VARCHAR
+  - name: fiscal_year
+    type: VARCHAR
+  - name: conf_status
     type: VARCHAR
   - name: obs_status
     type: VARCHAR
-  - name: dimensions
+  - name: obs_pre_break
     type: VARCHAR

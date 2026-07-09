@@ -1,13 +1,37 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
 key: [series_key, time_period]
 temporal: period_start
-sort: [period_start, series_key, time_period]
+sort: [period_start, series_key]
+write_mode: overwrite
 columns:
-  - name: dataflow
-    type: VARCHAR
   - name: series_key
     type: VARCHAR
   - name: freq
+    type: VARCHAR
+  - name: freq_label
+    type: VARCHAR
+  - name: rep_cty
+    type: VARCHAR
+  - name: rep_cty_label
+    type: VARCHAR
+  - name: device_type
+    type: VARCHAR
+  - name: device_type_label
+    type: VARCHAR
+  - name: function
+    type: VARCHAR
+  - name: function_label
+    type: VARCHAR
+  - name: sub_function
+    type: VARCHAR
+  - name: sub_function_label
+    type: VARCHAR
+  - name: technology
+    type: VARCHAR
+  - name: technology_label
+    type: VARCHAR
+  - name: issuer
+    type: VARCHAR
+  - name: issuer_label
     type: VARCHAR
   - name: time_period
     type: VARCHAR
@@ -15,13 +39,31 @@ columns:
     type: DATE
   - name: obs_value
     type: DOUBLE
-  - name: unit_measure
-    type: VARCHAR
   - name: unit_mult
+    type: VARCHAR
+  - name: unit_measure
     type: VARCHAR
   - name: title
     type: VARCHAR
+  - name: decimals
+    type: VARCHAR
+  - name: collection
+    type: VARCHAR
+  - name: availability
+    type: VARCHAR
+  - name: table
+    type: VARCHAR
+  - name: comment_ts
+    type: VARCHAR
+  - name: time_format
+    type: VARCHAR
+  - name: old_table
+    type: VARCHAR
   - name: obs_status
     type: VARCHAR
-  - name: dimensions
+  - name: obs_pre_break
+    type: VARCHAR
+  - name: obs_conf
+    type: VARCHAR
+  - name: comment_obs
     type: VARCHAR

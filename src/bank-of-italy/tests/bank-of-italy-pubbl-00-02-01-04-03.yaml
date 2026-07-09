@@ -1,17 +1,18 @@
 spec_id: bank-of-italy-pubbl-00-02-01-04-03
 status: active
 tests:
+  - not_null: series_id
+  - not_null: date
   - row_count: {min: 1}
-    reason: a PROSPETTODATI pull of this measure-named (rate-decision registry) table always returns observations.
+  - coverage: {col: series_id, expected: 2}
+    reason: collect enumerated this table's member series; every one must land - a shortfall is silent partial loss, not a successful run
     certainty: 95
-  - not_null: MEASURES
-    reason: each row of a measure-named (wide) table names the measure whose value it carries; the value lives in the column of that name rather than in VALORE.
+  - freshness: {col: date, reaches: '2026-04-30'}
+    reason: the BDS catalog advertises this table's coverage as ending on this date; fetching less means we truncated it
     certainty: 90
-  - not_null: DATA_PROV
-    reason: each provision carries its publication/provision date.
-    certainty: 80
+  - not_null: MEASURES
+    reason: every row on a registry table names the column carrying its value
+  - nullable: {col: value, max_null_frac: 0.85}
+    reason: date-valued measures (DATA_DECOR) and unset rate fields cast to null; only the numeric rate rows carry a value
+    certainty: 70
     severity: warn
-  - freshness: {col: DATA_DECOR, reaches: "1900-01-01"}
-    reason: this special rate-decision table uses DATA_DECOR as its effective observation date instead of DATA_OSS.
-    certainty: 80
-    points_outward: true

@@ -1,349 +1,403 @@
-"""Bundesbank connector — German central bank macro/financial time series.
+"""Bundesbank SDMX 2.1 statistics — one raw asset per dataflow.
 
-Source: Deutsche Bundesbank SDMX 2.1 REST API
-(https://api.statistiken.bundesbank.de/rest). The corpus is ~85 *dataflows*
-(BBDA1 external trade, BBBK1 banks BSI, BBNZ1 national accounts, ...), each a
-collection of many individual time series sharing a DSD.
+Fetch shape: stateless full re-pull. Each accepted dataflow is a single bulk
+request; the API exposes no change feed, so re-fetching in full every run picks up
+Bundesbank's frequent back-revisions for free, with no watermark to go stale.
 
-Fetch strategy — stateless full re-pull (shape 1). One GET per dataflow with
-`Accept: application/vnd.sdmx.data+csv` returns the *entire* dataflow as long
-SDMX-CSV: one row per observation, with the series key (BBK_ID), human title
-(BBK_TITLE), TIME_PERIOD, OBS_VALUE, unit and frequency columns that are present
-in every dataflow. There is no source-side change feed, so each refresh re-pulls
-each dataflow in full and overwrites — revisions and late corrections are picked
-up for free. The dimension columns differ per dataflow; we keep only the common
-cross-dataflow columns so one generic transform publishes every dataflow.
+## Wire format — why csv-zip
 
-Memory: a few dataflows are large (BBBK1 ~2.3GB / 5.6M obs, BBSIS ~720MB), so the
-CSV is streamed line-by-line and written to parquet in bounded row-group batches
-via `raw_parquet_writer` — never buffered whole in RAM.
+`GET /rest/data/{flowRef}` with `Accept: application/vnd.bbk.data+csv-zip` returns
+a ZIP of Bundesbank's own wide SDMX-CSV. Two other surfaces exist and neither can
+serve this corpus:
 
-Two dataflows are too large to materialize in a single whole-flow request:
+- `?format=csv` (single wide CSV) rejects dataflows with mixed frequencies (400),
+  with real-time vintages (406), and with more than 200 series (406) -- each time
+  naming this csv-zip media type as the remedy.
+- `Accept: application/vnd.sdmx.data+csv` (standard long SDMX-CSV) repeats the
+  title, unit and every dimension on each observation, which explodes the payload
+  ~100-160x: BBSSY is 1.5MB as csv-zip and 202MB long; BBBK1 is 13.8MB against
+  2.24GB. Past a few hundred MB the server switches to asynchronous preparation
+  and answers 413 "being prepared, retry later" (BBBK7: 3 min, BBKRT: 20 min).
 
-- BBKRT (the real-time/vintage database, 11 dimensions including release
-  year/month/day) is fetched one vintage *release year* at a time — each year
-  written as its own batch file `bundesbank-bbkrt-<year>.parquet`.
-- BBBK7 (and any other flow the server refuses whole) is fetched one *frequency*
-  at a time — the first DSD dimension of every standard flow is BBK_STD_FREQ, so
-  a `{flow}/{freq}.` key slices the flow into per-frequency batch files
-  `bundesbank-<flow>-<freq>.parquet`. Frequencies with no series return 404 and
-  are skipped.
+csv-zip returned 200 promptly for every dataflow probed, including the three that
+defeat the other two surfaces, so it is the single code path here. 413 is still
+classified as retryable below: it is the server's "preparing, come back" signal,
+not a size cap, and a dataflow that grows could start tripping it.
 
-In both cases the transform's dep view globs `bundesbank-<flow>-*` and unions
-every batch, so the published table is identical in shape to every other
-dataflow's.
+## Wide-matrix layout
 
-Async preparation: the Bundesbank API assembles large datasets server-side. A
-request for a dataset still being prepared returns HTTP 413 with a
-"being prepared, please retry later" body (not a hard size cap); the same request
-returns 200 once preparation completes, and the result is cached server-side. So
-413 is a retry-until-ready signal. The whole-flow request for an oversized flow
-estimates a prohibitively long prep (e.g. BBBK7 ~140 min), so on a whole-flow 413
-we do NOT wait — we fall back to per-frequency slicing, whose smaller slices
-prepare in minutes; a 413 on a slice IS retried until the slice is ready.
+Each CSV inside the ZIP holds one (dataflow, frequency, <=200-series chunk).
+It is semicolon-delimited, with a header block of *variable* length:
+
+    row 0    ""                     <series key>   <series key>_FLAGS  ...
+    row 1    ""                     <German label>  ""                 ...
+    rows 2+  <German attribute>     <per-series attribute value>       ...
+    rows N+  <time period>          <value>        <flag>              ...
+
+The attribute rows differ per dataflow -- BBDA1 carries `Quelle` and
+`Umrechnungsart`, BBKRT carries `Basisjahr` and `Originalkennung` -- so the block
+is delimited by content, not by a fixed row count: data begins at the first row
+whose first cell parses as a time period. Attributes that recur across the corpus
+are promoted to columns; the rest are preserved verbatim as JSON in `attributes`,
+so nothing the source published is dropped.
+
+## Two column shapes
+
+In most dataflows a column is a time series and its row-0 header is the SDMX
+series key. In BBKRT (real-time data) a column is instead a release *vintage* and
+the header is that vintage's date (`28.04.2005`); the series identity lives in the
+filename, and there are no `_FLAGS` columns at all. `file_key` therefore carries
+the filename stem in both shapes and `series_key` the row-0 header, so a transform
+can address either without a per-dataflow branch here.
+
+## Values
+
+German-formatted: `,` is the decimal separator and no thousands separator is used.
+Two sentinels share the value column and mean opposite things -- `.` is a missing
+or suppressed observation, while `-` is "Nichts vorhanden", exactly zero (both
+readings are confirmed by the paired `_FLAGS` text; see MISSING_VALUES).
+
+Missing observations are dropped rather than materialised as nulls: these are
+sparse matrices whose series start decades apart, and a null row per absent cell
+would multiply the corpus severalfold to say nothing. Zeros are kept, because a
+zero balance is an observation.
+
+## Freshness
+
+No `MAINTAIN_SPECS`. The data endpoint returns neither `ETag` nor `Last-Modified`
+(only `cache-control: max-age`), so `source_unchanged` could never return True,
+and the per-dataflow release cadence runs from daily (BBSSY) to annual, which no
+single age window fits. Production refresh cadence lives in `maintenance.json`.
 """
+
 import csv
-import xml.etree.ElementTree as ET
+import io
+import json
+import re
+import zipfile
+from datetime import date
+from itertools import chain
 
 import httpx
 import pyarrow as pa
-from tenacity import (
-    retry,
-    retry_if_exception,
-    stop_after_attempt,
-    wait_exponential,
-)
-
-from subsets_utils import (
-    NodeSpec,
-    SqlNodeSpec,
-    get,
-    get_client,
-    is_transient,
-    raw_parquet_writer,
-    transient_retry,
-)
-
-API = "https://api.statistiken.bundesbank.de/rest/data"
-CODELIST = "https://api.statistiken.bundesbank.de/rest/metadata/codelist/BBK"
-# Long SDMX-CSV (one row per observation). The default ?format=csv is the wide
-# Bundesbank matrix; the SDMX media type yields the tidy long shape we want.
-SDMX_CSV = "application/vnd.sdmx.data+csv;version=1.0.0"
-_SDMX_NS = {"s": "http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure"}
-
-# The entity union — one dataflow id per published subset. Copied from
-# data/sources/bundesbank/work/entity_union.json (85 dataflows).
 from constants import ENTITY_IDS
+from subsets_utils import NodeSpec, get, is_transient, raw_parquet_writer
+from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
-# Columns kept from the long SDMX-CSV — present in every dataflow. Dimension
-# columns vary per dataflow and are intentionally dropped; BBK_ID already encodes
-# the full dotted dimension key and BBK_TITLE gives the human label.
-SCHEMA = pa.schema([
-    ("dataflow", pa.string()),
-    ("series_id", pa.string()),
-    ("title", pa.string()),
-    ("time_period", pa.string()),
-    ("time_format", pa.string()),
-    ("unit", pa.string()),
-    ("unit_mult", pa.string()),
-    ("decimals", pa.string()),
-    ("value", pa.float64()),
-])
+BASE_URL = "https://api.statistiken.bundesbank.de/rest/data"
+CSV_ZIP_MEDIA_TYPE = "application/vnd.bbk.data+csv-zip;version=1.0.0"
 
-# source CSV column -> SCHEMA field
-_KEEP = {
-    "DATAFLOW": "dataflow",
-    "BBK_ID": "series_id",
-    "BBK_TITLE": "title",
-    "TIME_PERIOD": "time_period",
-    "TIME_FORMAT": "time_format",
-    "BBK_UNIT": "unit",
-    "BBK_UNIT_MULT": "unit_mult",
-    "BBK_DECIMALS": "decimals",
-    "OBS_VALUE": "value",
+# Time periods as this CSV renders them: 2026, 2026-05, 2026-07-08, 2026-Q1,
+# 2026-S2 (half-years; the file is named .H but the period reads S), 2026-W03.
+PERIOD_RE = re.compile(r"^\d{4}(?:-(?:\d{2}(?:-\d{2})?|Q[1-4]|[SH][12]|W\d{2}))?$")
+
+# `BBSAP.M(02).csv` -- the `(02)` is the >200-series chunk counter, not identity.
+CHUNK_SUFFIX_RE = re.compile(r"\(\d+\)$")
+
+FLAG_SUFFIX = "_FLAGS"
+
+# The German statistical legend, confirmed against the paired `_FLAGS` column:
+#   "."  -> flagged `Kein Wert vorhanden` / `Fehlender Wert (unterdrückt)`
+#           = unknown or suppressed. Genuinely missing.
+#   ""   -> unflagged padding of a ragged matrix (BBKRT's vintage columns).
+#           Also missing.
+#   "-"  -> flagged `Nichts vorhanden` = "nothing present", i.e. EXACTLY ZERO.
+#           Never once flagged as a missing value anywhere in the corpus.
+# Conflating the last with the first two would silently delete ~1.65M real zeros
+# from the banking statistics, where a zero balance is an observation.
+MISSING_VALUES = {"", "."}
+ZERO_VALUE = "-"
+
+# Attribute rows recurring across dataflows, promoted from `attributes` to
+# first-class columns. Every attribute row is kept in `attributes` regardless.
+PROMOTED_ATTRS = {
+    "unit": "Einheit",
+    "unit_en": "BBK_UNIT_ENG",
+    "magnitude": "Dimension",  # Eins / Millionen / Milliarden
+    "category": "Kategorie",
+    "last_update": "Stand vom",
 }
+DECIMALS_ATTR = "Dezimalstellen"
 
+QUARTER_START_MONTH = {"Q1": 1, "Q2": 4, "Q3": 7, "Q4": 10}
+HALF_START_MONTH = {"S1": 1, "S2": 7, "H1": 1, "H2": 7}
+
+# Bound the row buffer: one CSV can expand to millions of long-format rows
+# (BBSSY carries 200 daily series over 30 years), and spawn-context RSS is the
+# hard ceiling for a spec.
 BATCH_ROWS = 250_000
 
-# Frequency codes of CL_BBK_STD_FREQ — the first dimension of every standard
-# dataflow. Used to slice a flow the server won't prepare whole; absent
-# frequencies simply 404 and are skipped.
-FREQ_CODES = ("A", "D", "H", "M", "Q", "W")
+# Every string column here is constant across a whole series (or a whole file),
+# so a long-format row repeats it once per observation. Dictionary-encoding them
+# keeps that free: identical on disk, but ~9x smaller once a reader materialises
+# the table -- and BBKRT's 21.6M rows carry a ~200-byte `attributes` JSON that
+# would otherwise decode to several GB. DuckDB reads the encoding transparently.
+DICT = pa.dictionary(pa.int32(), pa.string())
 
-# BBKRT (real-time/vintage DB) is fetched one release year at a time. Its DSD has
-# 11 dimensions with the release year at position 9 (1-based); a key that pins
-# only that dimension is 8 empty fields, the year, then 2 empty fields.
-_BBKRT = "BBKRT"
-_BBKRT_NDIMS = 11
-_BBKRT_YEAR_POS = 9  # 1-based dimension position of BBK_RTD_REL_YEAR
-_BBKRT_YEAR_CODELIST = "CL_BBK_RTD_REL_YEAR"
-
-
-def _status(exc: BaseException) -> int | None:
-    return exc.response.status_code if isinstance(exc, httpx.HTTPStatusError) else None
+SCHEMA = pa.schema(
+    [
+        pa.field("dataflow", DICT, nullable=False),
+        pa.field("file_key", DICT, nullable=False),
+        pa.field("frequency", DICT, nullable=False),
+        pa.field("series_key", DICT, nullable=False),
+        pa.field("label", DICT),
+        pa.field("time_period", DICT, nullable=False),
+        pa.field("period_start", pa.date32(), nullable=False),
+        pa.field("value", pa.float64(), nullable=False),
+        pa.field("flag", DICT),
+        pa.field("unit", DICT),
+        pa.field("unit_en", DICT),
+        pa.field("magnitude", DICT),
+        pa.field("decimals", pa.int32()),
+        pa.field("category", DICT),
+        pa.field("last_update", DICT),
+        pa.field("attributes", DICT),
+    ]
+)
 
 
 def _preparing_or_transient(exc: BaseException) -> bool:
-    """Retry on the standard transient set PLUS HTTP 413, which on this API means
-    'dataset still being prepared server-side, retry later' — not a hard size cap.
-    The identical request returns 200 once prep completes."""
-    return is_transient(exc) or _status(exc) == 413
+    """The standard transient set, plus HTTP 413.
+
+    On this API 413 does not mean "too large" -- it means "this dataset is being
+    assembled server-side, retry later" (the body carries an ETA). The identical
+    request returns 200 once preparation completes, and the result is cached.
+    """
+    if isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code == 413:
+        return True
+    return is_transient(exc)
 
 
-# Longer budget than the default transient policy: a slice can be 'preparing' for
-# a few minutes before it flips to 200.
-_prep_retry = retry(
+@retry(
     retry=retry_if_exception(_preparing_or_transient),
-    stop=stop_after_attempt(12),
+    stop=stop_after_attempt(10),
     wait=wait_exponential(min=8, max=120),
     reraise=True,
 )
+def _fetch_zip(dataflow: str) -> bytes:
+    resp = get(
+        f"{BASE_URL}/{dataflow}",
+        headers={"Accept": CSV_ZIP_MEDIA_TYPE},
+        timeout=(10.0, 300.0),
+    )
+    resp.raise_for_status()
+    return resp.content
 
 
-def _to_float(raw):
-    if raw is None or raw == "":
+def _period_start(period: str) -> date:
+    """First calendar day of an SDMX time period."""
+    year = int(period[:4])
+    if len(period) == 4:
+        return date(year, 1, 1)
+    rest = period[5:]
+    if len(rest) == 2 and rest.isdigit():
+        return date(year, int(rest), 1)
+    if len(rest) == 5 and rest[2] == "-":
+        return date(year, int(rest[:2]), int(rest[3:]))
+    if rest in QUARTER_START_MONTH:
+        return date(year, QUARTER_START_MONTH[rest], 1)
+    if rest in HALF_START_MONTH:
+        return date(year, HALF_START_MONTH[rest], 1)
+    if rest.startswith("W"):
+        return date.fromisocalendar(year, int(rest[1:]), 1)
+    raise ValueError(f"unrecognised time period: {period!r}")
+
+
+def _parse_value(raw: str) -> float | None:
+    token = raw.strip()
+    if token in MISSING_VALUES:
         return None
-    try:
-        return float(raw)
-    except (ValueError, TypeError):
-        return None
+    if token == ZERO_VALUE:
+        return 0.0
+    # German formatting: `,` is the decimal separator. No thousands separator is
+    # emitted today, but strip `.` when both appear so a future change cannot
+    # silently read 1.234,5 as 1.234.
+    if "," in token:
+        token = token.replace(".", "").replace(",", ".")
+    return float(token)
 
 
-def _batch(rows):
-    """Turn a list of {source_col: value} dicts into a RecordBatch under SCHEMA."""
-    cols = {name: [] for name in SCHEMA.names}
-    for r in rows:
-        cols["dataflow"].append(r.get("DATAFLOW"))
-        cols["series_id"].append(r.get("BBK_ID"))
-        cols["title"].append(r.get("BBK_TITLE"))
-        cols["time_period"].append(r.get("TIME_PERIOD"))
-        cols["time_format"].append(r.get("TIME_FORMAT"))
-        cols["unit"].append(r.get("BBK_UNIT"))
-        cols["unit_mult"].append(r.get("BBK_UNIT_MULT"))
-        cols["decimals"].append(r.get("BBK_DECIMALS"))
-        cols["value"].append(_to_float(r.get("OBS_VALUE")))
-    return pa.record_batch(
-        [pa.array(cols[name], type=SCHEMA.field(name).type) for name in SCHEMA.names],
-        schema=SCHEMA,
+def _cell(row: list[str], idx: int) -> str:
+    return row[idx].strip() if idx < len(row) else ""
+
+
+def _column_layout(
+    header: list[str], dataflow: str, filename: str
+) -> list[tuple[int, str, int | None]]:
+    """Pair each value column with its optional `_FLAGS` column.
+
+    Returns (value_idx, series_key, flag_idx | None). BBKRT emits no flag columns
+    at all, so the pairing is positional and optional rather than assumed.
+    """
+    layout: list[tuple[int, str, int | None]] = []
+    idx = 1  # column 0 is the period / attribute-name gutter
+    while idx < len(header):
+        key = header[idx].strip()
+        if not key:
+            idx += 1
+            continue
+        if key.endswith(FLAG_SUFFIX):
+            raise ValueError(
+                f"{dataflow}/{filename}: flags column {key!r} has no preceding value column"
+            )
+        flag_idx = None
+        if idx + 1 < len(header) and header[idx + 1].strip() == key + FLAG_SUFFIX:
+            flag_idx = idx + 1
+        layout.append((idx, key, flag_idx))
+        idx += 2 if flag_idx is not None else 1
+    if not layout:
+        raise ValueError(f"{dataflow}/{filename}: header row declares no series columns")
+    return layout
+
+
+def _new_buffer() -> dict[str, list]:
+    return {field.name: [] for field in SCHEMA}
+
+
+def _flush(writer, buffer: dict[str, list]) -> int:
+    rows = len(buffer["series_key"])
+    if rows:
+        writer.write_table(pa.Table.from_pydict(buffer, schema=SCHEMA))
+        for column in buffer.values():
+            column.clear()
+    return rows
+
+
+def _describe_columns(
+    header: list[str], labels: list[str], attribute_rows: dict[str, list[str]],
+    dataflow: str, filename: str,
+) -> list[dict]:
+    """Per-column constants, resolved once rather than per observation."""
+    columns = []
+    for value_idx, series_key, flag_idx in _column_layout(header, dataflow, filename):
+        attributes = {
+            name: _cell(row, value_idx)
+            for name, row in attribute_rows.items()
+            if _cell(row, value_idx)
+        }
+        decimals = attributes.get(DECIMALS_ATTR, "")
+        columns.append(
+            {
+                "value_idx": value_idx,
+                "flag_idx": flag_idx,
+                "series_key": series_key,
+                "label": _cell(labels, value_idx) or None,
+                "decimals": int(decimals) if decimals.isdigit() else None,
+                "promoted": {
+                    column: attributes.get(attr) for column, attr in PROMOTED_ATTRS.items()
+                },
+                "attributes": json.dumps(attributes, ensure_ascii=False, sort_keys=True),
+            }
+        )
+    return columns
+
+
+def _parse_member(dataflow: str, filename: str, handle, writer, buffer: dict[str, list]) -> int:
+    """Stream one member CSV into `writer` as long-format rows. Returns rows written."""
+    reader = csv.reader(io.TextIOWrapper(handle, encoding="utf-8-sig", newline=""), delimiter=";")
+
+    # The header block runs until the first row whose gutter cell is a time
+    # period. Its length varies per dataflow, so it cannot be skipped by count.
+    header_rows: list[list[str]] = []
+    first_data_row = None
+    for row in reader:
+        if row and PERIOD_RE.match(row[0].strip()):
+            first_data_row = row
+            break
+        header_rows.append(row)
+
+    if first_data_row is None:
+        raise ValueError(
+            f"{dataflow}/{filename}: no row begins with a time period - "
+            "the header block or the period format changed"
+        )
+    if len(header_rows) < 2:
+        raise ValueError(f"{dataflow}/{filename}: header block is missing its key or label row")
+
+    file_key = CHUNK_SUFFIX_RE.sub("", filename.rsplit("/", 1)[-1].removesuffix(".csv"))
+    key_parts = file_key.split(".")
+    if len(key_parts) < 2 or not key_parts[1]:
+        raise ValueError(f"{dataflow}/{filename}: cannot read a frequency from {file_key!r}")
+    frequency = key_parts[1]
+
+    columns = _describe_columns(
+        header_rows[0],
+        header_rows[1],
+        {row[0].strip(): row for row in header_rows[2:] if row and row[0].strip()},
+        dataflow,
+        filename,
     )
 
+    written = 0
+    # The first data row was consumed while locating the end of the header block.
+    for row in chain([first_data_row], reader):
+        if not row or not row[0].strip():
+            continue  # trailing blank line
+        period = row[0].strip()
+        if not PERIOD_RE.match(period):
+            raise ValueError(
+                f"{dataflow}/{filename}: unexpected row {period!r} below the data block"
+            )
+        period_start = _period_start(period)
+        for column in columns:
+            value = _parse_value(_cell(row, column["value_idx"]))
+            if value is None:
+                continue  # sparse matrix: an absent observation, not a null one
+            flag = _cell(row, column["flag_idx"]) if column["flag_idx"] is not None else ""
+            buffer["dataflow"].append(dataflow)
+            buffer["file_key"].append(file_key)
+            buffer["frequency"].append(frequency)
+            buffer["series_key"].append(column["series_key"])
+            buffer["label"].append(column["label"])
+            buffer["time_period"].append(period)
+            buffer["period_start"].append(period_start)
+            buffer["value"].append(value)
+            buffer["flag"].append(flag or None)
+            for name, attr_value in column["promoted"].items():
+                buffer[name].append(attr_value)
+            buffer["decimals"].append(column["decimals"])
+            buffer["attributes"].append(column["attributes"])
+        if len(buffer["series_key"]) >= BATCH_ROWS:
+            written += _flush(writer, buffer)
 
-def _stream_to_parquet(url: str, asset: str) -> int:
-    """GET one long-SDMX-CSV request and stream it into `<asset>.parquet` in
-    row-group batches. Returns the number of observation rows written.
-
-    The parquet writer is opened only AFTER the response is confirmed 200, so a
-    failed request (an async-prep 413, a 404 for an absent slice, any 4xx/5xx)
-    raises before any file is created — it never leaves an empty asset behind.
-    A transient mid-stream failure is retried by the caller, which re-opens (and
-    truncates) the asset and re-streams, so no partial/duplicate rows survive.
-    """
-    client = get_client()
-    # (connect, read) — read timeout is per-chunk, generous for big dataflows.
-    with client.stream("GET", url, headers={"Accept": SDMX_CSV},
-                       timeout=(15.0, 300.0)) as resp:
-        resp.raise_for_status()  # 4xx/5xx (incl. prep-413, absent-slice-404) raise here
-        reader = csv.reader(resp.iter_lines(), delimiter=";")
-        try:
-            header = next(reader)
-        except StopIteration:
-            return 0
-        if header and header[0].startswith("﻿"):
-            header[0] = header[0].lstrip("﻿")
-        keep_idx = {src: i for i, src in enumerate(header) if src in _KEEP}
-
-        written = 0
-        with raw_parquet_writer(asset, SCHEMA) as writer:
-            rows = []
-            for fields in reader:
-                if not fields:
-                    continue
-                rows.append({src: (fields[i] if i < len(fields) else None)
-                             for src, i in keep_idx.items()})
-                if len(rows) >= BATCH_ROWS:
-                    rb = _batch(rows)
-                    writer.write_batch(rb)
-                    written += rb.num_rows
-                    rows = []
-            if rows:
-                rb = _batch(rows)
-                writer.write_batch(rb)
-                written += rb.num_rows
     return written
 
 
-@transient_retry()
-def _fetch_dataflow(asset: str, flow: str) -> int:
-    """Fetch a whole dataflow into a single parquet asset. Retries transient
-    network/5xx/429 failures but NOT 413: a whole-flow 413 means the server's
-    full-flow preparation is prohibitively long, so the caller falls back to
-    per-frequency slicing instead of waiting it out."""
-    return _stream_to_parquet(f"{API}/{flow}", asset)
-
-
-@_prep_retry
-def _fetch_freq(asset_freq: str, flow: str, freq: str) -> int:
-    """Fetch one frequency slice of a flow into its own batch asset. Retries the
-    async-prep 413 until the slice is ready. A 404 (no series at this frequency)
-    is not retried — it propagates so the caller can skip the frequency."""
-    return _stream_to_parquet(f"{API}/{flow}/{freq}.", asset_freq)
-
-
-def _fetch_by_frequency(asset: str, flow: str) -> None:
-    """Fallback for a flow the server won't prepare whole: pull it one frequency
-    at a time. Each populated frequency lands in `<asset>-<freq>.parquet`; the
-    transform globs `<asset>-*` and unions them. Absent frequencies 404 and are
-    skipped."""
-    wrote = 0
-    for freq in FREQ_CODES:
-        try:
-            wrote += _fetch_freq(f"{asset}-{freq}", flow, freq)
-        except httpx.HTTPStatusError as exc:
-            if _status(exc) == 404:
-                continue  # this frequency carries no series
-            raise
-    if wrote == 0:
-        raise AssertionError(f"{flow}: per-frequency fetch produced no rows")
-
-
-@_prep_retry
-def _fetch_bbkrt_year(asset_year: str, flow: str, year: str) -> int:
-    """Fetch one BBKRT release year into its own batch asset. Same reopen-on-retry
-    atomicity as a whole dataflow, scoped to the year so a blip re-pulls only that
-    year. Retries the async-prep 413 too. The transform globs all year files."""
-    parts = [""] * _BBKRT_NDIMS
-    parts[_BBKRT_YEAR_POS - 1] = year
-    key = ".".join(parts)
-    return _stream_to_parquet(f"{API}/{flow}/{key}", asset_year)
-
-
-@transient_retry()
-def _discover_years(codelist_id: str) -> list[str]:
-    resp = get(f"{CODELIST}/{codelist_id}", headers={"Accept": "application/xml"},
-               timeout=(15.0, 120.0))
-    resp.raise_for_status()
-    root = ET.fromstring(resp.content)
-    years = [c.get("id") for c in root.iterfind(".//s:Code", _SDMX_NS) if c.get("id")]
-    if not years:
-        raise AssertionError(f"{codelist_id}: no codes discovered")
-    return years
-
-
 def fetch_one(node_id: str) -> None:
-    asset = node_id  # the runtime passes the spec id; it IS the asset name
-    flow = node_id[len("bundesbank-"):].upper()
-    if flow == _BBKRT:
-        for year in _discover_years(_BBKRT_YEAR_CODELIST):
-            _fetch_bbkrt_year(f"{asset}-{year}", flow, year)  # one batch per year
-        return
-    try:
-        _fetch_dataflow(asset, flow)
-    except httpx.HTTPStatusError as exc:
-        if _status(exc) != 413:
-            raise
-        # The server won't prepare this flow whole (prep too long) — slice it by
-        # frequency, whose smaller slices prepare in minutes.
-        _fetch_by_frequency(asset, flow)
+    asset = node_id  # the runtime hands us the spec id; it IS the asset name
+    dataflow = node_id.removeprefix("bundesbank-").upper()
+
+    payload = _fetch_zip(dataflow)
+    if not payload:
+        # Observed live: this API answers 200 with a zero-byte body for some query
+        # shapes. Treat that as a failure, never as an empty dataflow.
+        raise RuntimeError(f"{dataflow}: API returned an empty body for {BASE_URL}/{dataflow}")
+
+    archive = zipfile.ZipFile(io.BytesIO(payload))
+    members = sorted(n for n in archive.namelist() if n.lower().endswith(".csv"))
+    if not members:
+        raise RuntimeError(f"{dataflow}: csv-zip archive holds no CSV members")
+
+    written = 0
+    with raw_parquet_writer(asset, SCHEMA) as writer:
+        buffer = _new_buffer()
+        for member in members:
+            with archive.open(member) as handle:
+                written += _parse_member(dataflow, member, handle, writer, buffer)
+        written += _flush(writer, buffer)
+
+    if not written:
+        raise RuntimeError(
+            f"{dataflow}: parsed {len(members)} CSV member(s) but produced no observations"
+        )
+    print(f"  {dataflow}: {written} observations from {len(members)} CSV member(s)")
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(
-        id=f"bundesbank-{eid.lower().replace('_', '-')}",
+        id=f"bundesbank-{entity_id.lower().replace('_', '-')}",
         fn=fetch_one,
         kind="download",
     )
-    for eid in ENTITY_IDS
-]
-
-
-# One published Delta table per dataflow: a long time-series table keyed by
-# (series_id, date). The period parser maps every SDMX TIME_PERIOD shape — annual
-# YYYY, monthly YYYY-MM, quarterly YYYY-Qn, semiannual YYYY-Sn, weekly YYYY-Wnn,
-# daily YYYY-MM-DD — to the period-start DATE. Rows with a null value are dropped.
-def _transform_sql(download_id: str) -> str:
-    return f'''
-        SELECT
-            CASE
-                WHEN regexp_matches(time_period, '^\\d{{4}}$')
-                    THEN make_date(CAST(time_period AS INT), 1, 1)
-                WHEN regexp_matches(time_period, '^\\d{{4}}-\\d{{2}}$')
-                    THEN make_date(
-                        CAST(time_period[1:4] AS INT),
-                        CAST(time_period[6:7] AS INT), 1)
-                WHEN regexp_matches(time_period, '^\\d{{4}}-\\d{{2}}-\\d{{2}}$')
-                    THEN CAST(time_period AS DATE)
-                WHEN regexp_matches(time_period, '^\\d{{4}}-Q[1-4]$')
-                    THEN make_date(
-                        CAST(time_period[1:4] AS INT),
-                        (CAST(time_period[7:7] AS INT) - 1) * 3 + 1, 1)
-                WHEN regexp_matches(time_period, '^\\d{{4}}-S[1-2]$')
-                    THEN make_date(
-                        CAST(time_period[1:4] AS INT),
-                        (CAST(time_period[7:7] AS INT) - 1) * 6 + 1, 1)
-                WHEN regexp_matches(time_period, '^\\d{{4}}-W\\d{{2}}$')
-                    THEN make_date(CAST(time_period[1:4] AS INT), 1, 1)
-                        + ((CAST(time_period[7:8] AS INT) - 1) * 7)
-                ELSE NULL
-            END AS date,
-            time_period,
-            time_format AS frequency,
-            series_id,
-            title,
-            unit,
-            value
-        FROM "{download_id}"
-        WHERE value IS NOT NULL
-          AND time_period IS NOT NULL
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id),
-        key=("series_id", "time_period"),
-        temporal="date",
-    )
-    for s in DOWNLOAD_SPECS
+    for entity_id in ENTITY_IDS
 ]

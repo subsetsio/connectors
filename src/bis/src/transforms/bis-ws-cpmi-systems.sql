@@ -1,0 +1,40 @@
+-- WS_CPMI_SYSTEMS: one row per (series_key, time_period) observation.
+-- Raw already carries typed obs_value / period_start and split code+label
+-- dimension columns, so this is a projection plus the missing-observation gate.
+SELECT
+    "series_key",
+    "freq",
+    "freq_label",
+    "rep_cty",
+    "rep_cty_label",
+    "measure",
+    "measure_label",
+    "system_type",
+    "system_type_label",
+    "system",
+    "system_label",
+    "instrument_type",
+    "instrument_type_label",
+    "other_ps_trans",
+    "other_ps_trans_label",
+    "type_of_info",
+    "type_of_info_label",
+    "time_period",
+    "period_start",
+    "obs_value",
+    "title",
+    "table",
+    "comment_ts",
+    "collection",
+    "availability",
+    "unit_mult",
+    "unit_measure",
+    "time_format",
+    "decimals",
+    "old_table",
+    "comment_obs",
+    "obs_status",
+    "obs_conf",
+    "obs_pre_break"
+FROM "bis-ws-cpmi-systems"
+WHERE obs_value IS NOT NULL

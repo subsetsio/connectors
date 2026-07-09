@@ -1,63 +1,73 @@
 """Health invariants for the Bank of Italy raw assets.
 
-Each raw asset is the ndjson of one Bollettino table's PROSPETTODATI
-observations. Most tables are long-format records of {CUBEID, DATA_OSS, VALORE,
-+SDMX dimensions}; a few use a measure-named wide layout where the value lives
-in the column named by the row's MEASURES field and the date is in
-DATA_DECOR/DATA_PROV (no DATA_OSS/VALORE). The invariants below accept both
-shapes — they catch empty payloads and total format drift (the PROSPETTODATI
-JSON shape changing under us), not a specific column set. Sampled to stay fast
-over ~400 assets.
+Each raw asset is the gzipped ndjson of one BDS table's PROSPETTODATI
+observations, stamped with the canonical `table_id` / `series_id` / `date` /
+`value` columns on top of the table's native shape.
+
+The per-node YAML specs assert content (coverage, freshness, uniqueness) in
+DuckDB. These catch what lives above the data: a node that "succeeded" without
+writing, and the ragged-schema failure that made an earlier version of this
+connector unreadable — DuckDB infers an NDJSON schema from a leading sample, so
+a column appearing only in later rows never binds in the transform.
 """
 
-import random
+import gzip
+import json
 
-from subsets_utils import load_raw_ndjson
+from subsets_utils import list_raw_files
 
-# Any of these naming a date column is enough to anchor an observation in time.
-_DATE_FIELDS = ("DATA_OSS", "DATA_DECOR", "DATA_PROV")
-
-
-def _sample(spec_ids, n):
-    ids = list(spec_ids)
-    return ids if len(ids) <= n else random.sample(ids, n)
+_CANONICAL = {"table_id", "series_id", "date", "value"}
 
 
-def _numeric(x):
-    try:
-        float(x)
-        return True
-    except (TypeError, ValueError):
-        return False
+def _raw_path(spec_id):
+    matches = list_raw_files("%s.ndjson.gz" % spec_id)
+    assert matches, "%s: no raw file written" % spec_id
+    return matches[0]
 
 
-def test_sample_assets_have_observations(spec_ids):
-    """Every sampled table must hold observation records anchored in time.
-    Empty payloads or a missing date field mean the fetch chain silently broke
-    or the JSON shape drifted."""
-    for sid in _sample(spec_ids, 25):
-        rows = load_raw_ndjson(sid)
-        assert len(rows) > 0, "%s: raw ndjson has 0 observations" % sid
-        first = rows[0]
-        assert any(k in first for k in _DATE_FIELDS), (
-            "%s: record carries no date field %s — keys=%s"
-            % (sid, _DATE_FIELDS, sorted(first.keys()))
-        )
+def test_every_spec_wrote_raw(spec_ids):
+    """A download node that returns without writing is a silent hole."""
+    for sid in spec_ids:
+        _raw_path(sid)
+
+
+def test_first_row_carries_full_schema(spec_ids):
+    """Row 1 must name every column the file uses.
+
+    The fetch fn fills each row out to the table's column union, so row 1 is the
+    schema. If a later row introduces a key row 1 lacks, inference from the
+    leading sample would drop that column and the transform's binding would fail.
+    """
+    for sid in spec_ids:
+        with gzip.open(_raw_path(sid), "rt") as fh:
+            first = fh.readline()
+            assert first, "%s: raw file is empty" % sid
+            keys = set(json.loads(first))
+            missing = _CANONICAL - keys
+            assert not missing, "%s: missing canonical columns %s" % (sid, sorted(missing))
+            for _ in range(200):
+                line = fh.readline()
+                if not line:
+                    break
+                extra = set(json.loads(line)) - keys
+                assert not extra, "%s: row adds columns absent from row 1: %s" % (sid, sorted(extra))
 
 
 def test_values_are_numeric(spec_ids):
-    """Each sampled table must yield at least one numeric value across the first
-    rows — either a numeric VALORE (long format) or a numeric measure-named
-    column (wide format). None numeric means the payload returned only status
-    codes / dates, i.e. a format break."""
-    for sid in _sample(spec_ids, 15):
-        rows = load_raw_ndjson(sid)
-        numeric = 0
-        for r in rows[:200]:
-            if _numeric(r.get("VALORE")):
-                numeric += 1
-                continue
-            measure = r.get("MEASURES")
-            if measure is not None and _numeric(r.get(measure)):
-                numeric += 1
-        assert numeric > 0, "%s: no numeric value in first 200 rows" % sid
+    """Some row must carry a numeric `value`.
+
+    A table whose every value is null means the payload came back as status
+    codes or dates only — the format break that a null-fraction threshold on any
+    single table would not localise.
+    """
+    for sid in spec_ids:
+        found = False
+        with gzip.open(_raw_path(sid), "rt") as fh:
+            for _ in range(500):
+                line = fh.readline()
+                if not line:
+                    break
+                if json.loads(line).get("value") is not None:
+                    found = True
+                    break
+        assert found, "%s: no numeric value in first 500 rows" % sid

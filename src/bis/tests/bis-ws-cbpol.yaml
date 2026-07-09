@@ -12,27 +12,33 @@ tests:
     reason: a single-topic snapshot carries exactly one dataflow id
   - not_null: series_key
     certainty: 90
-    reason: series_key is folded from the SDMX dimension columns and is present on every observation
+    reason: series_key is the dot-joined SDMX dimension codes, present on every observation
   - not_null: time_period
     certainty: 95
-    reason: the SDMX flat CSV carries TIME_PERIOD on every observation row
+    reason: observation rows always carry TIME_PERIOD; metadata-only rows are dropped at fetch
   - column_type: {col: time_period, type: string}
     certainty: 95
-    reason: time_period is kept as the canonical SDMX period string (mixed D/M/Q/A granularity)
+    reason: time_period keeps the canonical SDMX period string (mixed D/M/Q/S/A granularity)
+  - not_null: period_start
+    certainty: 95
+    reason: period_start is derived from TIME_PERIOD at fetch; an unparsable period raises instead of nulling
+  - column_type: {col: period_start, type: date}
+    certainty: 95
+    reason: period_start is written as date32 - the first calendar day of the observation period
   - column_type: {col: obs_value, type: float}
     certainty: 95
-    reason: OBS_VALUE is parsed to float64 at fetch; non-numeric cells become null
-  - row_count: {min: 1}
-    certainty: 95
-    reason: the WS_CBPOL bulk file (central bank policy rates) is a populated BIS topic
+    reason: OBS_VALUE is parsed to float64 at fetch; non-numeric and NaN cells become null
+  - row_count: {min: 300000}
+    certainty: 80
+    reason: WS_CBPOL held roughly 600,000 observation rows when probed; half that means a truncated download
   - unique: [series_key, time_period]
     certainty: 80
     reason: one observation per series per period in a full snapshot; duplicates mean the bulk file was double-counted on our side
-  - enum: {col: freq, values: ["A", "S", "Q", "M", "W", "B", "D", "H"]}
+  - enum: {col: freq, values: ['A', 'S', 'H', 'Q', 'M', 'W', 'B', 'D']}
     certainty: 75
     severity: warn
     reason: SDMX CL_FREQ codes; an unexpected value means a new frequency we should map
-  - freshness: {col: time_period, reaches: today - 60d}
+  - freshness: {col: period_start, reaches: today - 30d}
     certainty: 75
     points_outward: true
-    reason: policy rates carry daily/monthly series updated within days of central bank decisions
+    reason: daily policy-rate series

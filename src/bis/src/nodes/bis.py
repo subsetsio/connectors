@@ -4,24 +4,27 @@ Mechanism: bulk_csv. BIS publishes one persistent zipped flat CSV per
 statistical topic (SDMX dataflow) at
 ``https://data.bis.org/static/bulk/<DATAFLOW_ID>_csv_flat.zip``. Each topic is a
 single full-table snapshot — no pagination, no auth. We re-fetch the whole
-corpus every run (stateless full re-pull): the per-topic files are small-to-
-moderate (a few hundred KB to ~350 MB zipped) and BIS revises history in place,
-so a stored watermark would silently skip corrected observations. The largest
-topics (locational/consolidated banking, debt securities) are streamed row by
-row into row-group-batched Parquet so memory stays bounded.
+corpus every run (stateless full re-pull): BIS revises history in place, so a
+stored watermark would silently skip corrected observations. ``MAINTAIN_SPECS``
+skips a topic whose ETag/Last-Modified is unchanged since the last success.
 
 The flat SDMX CSV layout is uniform across dataflows: ``STRUCTURE``,
-``STRUCTURE_ID``, ``ACTION``, then the dataflow's *dimension* columns (which
-differ per topic), then ``TIME_PERIOD``, ``OBS_VALUE``, then attribute columns.
-We normalise every topic to one fixed long schema — dimensions are folded into a
-``series_key`` (the colon-coded dimension values) plus a JSON ``dimensions`` map
-— so a single uniform transform publishes each topic.
+``STRUCTURE_ID``, ``ACTION``, then the dataflow's *dimension* columns, then
+``TIME_PERIOD``, ``OBS_VALUE``, then attribute columns. The dimension set
+differs per topic, so each topic's raw carries its own dimension columns
+verbatim (code + label) rather than a shared opaque blob — the published table
+for `WS_CBS_PUB` gets real `l_cp_country` / `l_rep_cty` columns, and the
+profiler sees their cardinalities.
+
+The largest topics (locational banking ~37M rows, debt securities ~19M) stream
+row-group-batched into Parquet so memory stays bounded.
 """
 import csv
+import datetime
 import io
-import json
 import math
 import os
+import re
 import tempfile
 import time
 import zipfile
@@ -30,48 +33,45 @@ import httpx
 import pyarrow as pa
 
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
-    SqlNodeSpec,
     get_client,
     is_transient,
+    raw_asset_exists,
     raw_parquet_writer,
+    record_source_signature,
+    source_unchanged,
 )
 
-# The rank-accepted entity union — one BIS dataflow per id. Copied from
-# data/sources/bis/work/entity_union.json. WS_NA_SEC_C3 is intentionally absent:
-# the dataflow exists structurally but publishes no data (bulk file 404s and the
-# SDMX /data endpoint returns "No data for data query"), so rank dropped it.
+# The accepted entity union — one BIS dataflow per id. WS_NA_SEC_C3 is
+# intentionally absent: the dataflow is registered structurally but publishes no
+# observations (bulk file 404s, SDMX /data returns "No data for data query"), so
+# the accept stage deferred it.
 from constants import ENTITY_IDS
 
 BULK_URL = "https://data.bis.org/static/bulk/{flow}_csv_flat.zip"
 
-# Row-group batch size for streaming the (occasionally multi-GB uncompressed)
-# flat CSV into Parquet without building the whole table in memory.
+# Row-group batch size for streaming the (multi-GB uncompressed) flat CSV into
+# Parquet without building the whole table in memory.
 BATCH_ROWS = 100_000
 
-# One fixed long schema for every topic. Per-topic dimension columns are folded
-# into series_key + the dimensions JSON map, keeping the raw schema stable so the
-# transform is uniform and parquet batches glob-union cleanly.
-SCHEMA = pa.schema(
-    [
-        ("dataflow", pa.string()),
-        ("series_key", pa.string()),
-        ("freq", pa.string()),
-        ("time_period", pa.string()),
-        ("obs_value", pa.float64()),
-        ("unit_measure", pa.string()),
-        ("unit_mult", pa.string()),
-        ("title", pa.string()),
-        ("obs_status", pa.string()),
-        ("dimensions", pa.string()),
-    ]
-)
-
-
-# (connect, read) seconds. Read is generous: the largest topics are ~350 MB.
+# (connect, read) seconds. Read is generous: the largest topic is ~350 MB.
 _TIMEOUT = (15.0, 600.0)
 _DOWNLOAD_ATTEMPTS = 8
 _CHUNK = 1 << 20  # 1 MiB
+
+# Columns the SDMX flat layout always carries around the dimension block. Used
+# to locate the dimension slice; never emitted as dimensions themselves.
+_STRUCTURAL = ("STRUCTURE", "STRUCTURE_ID", "ACTION")
+
+# SDMX period formats observed across all 27 BIS topics (freq codes A/Q/M/D/H).
+_PERIOD_PATTERNS = (
+    (re.compile(r"^(\d{4})-(\d{2})-(\d{2})$"), lambda m: (int(m[1]), int(m[2]), int(m[3]))),
+    (re.compile(r"^(\d{4})-(\d{2})$"), lambda m: (int(m[1]), int(m[2]), 1)),
+    (re.compile(r"^(\d{4})-Q([1-4])$"), lambda m: (int(m[1]), (int(m[2]) - 1) * 3 + 1, 1)),
+    (re.compile(r"^(\d{4})-S([12])$"), lambda m: (int(m[1]), (int(m[2]) - 1) * 6 + 1, 1)),
+    (re.compile(r"^(\d{4})$"), lambda m: (int(m[1]), 1, 1)),
+)
 
 
 def _download_zip_to(url: str, dest_path: str) -> None:
@@ -140,11 +140,14 @@ def _flow_from_node(node_id: str) -> str:
     return node_id[len("bis-"):].upper().replace("-", "_")
 
 
-def _code(value: str) -> str:
-    # SDMX coded values look like "KW: Kuwait"; keep the code part ("KW").
+def _split_coded(value: str) -> tuple[str, str | None]:
+    """SDMX coded cells look like ``"KW: Kuwait"`` -> ``("KW", "Kuwait")``."""
     if not value:
-        return ""
-    return value.split(":", 1)[0].strip()
+        return "", None
+    code, sep, label = value.partition(": ")
+    if not sep:
+        return value.strip(), None
+    return code.strip(), label.strip() or None
 
 
 def _to_float(value: str):
@@ -165,6 +168,61 @@ def _to_float(value: str):
     return f
 
 
+def _period_start(period: str, flow: str):
+    """Map an SDMX TIME_PERIOD to the first calendar day of the period.
+
+    Raises on an unrecognised format: a new frequency is source drift we must
+    map deliberately, not silently null out. Every period in all 27 topics
+    matches one of `_PERIOD_PATTERNS`.
+    """
+    for pattern, to_ymd in _PERIOD_PATTERNS:
+        m = pattern.match(period)
+        if m:
+            return datetime.date(*to_ymd(m))
+    raise ValueError(f"{flow}: unrecognised TIME_PERIOD format {period!r}")
+
+
+def _repair_header(header: list[str]) -> list[str]:
+    """Re-join header cells the CSV reader split on a comma inside a label.
+
+    BIS does not quote the header's ``CODE:Description`` labels, so a label
+    containing a comma (``STO:Stocks, Transactions, Other Flows``,
+    ``EXPENDITURE:Expenditure (COFOG, COICOP, COPP or COPNI)``) is split into
+    spurious extra cells, shifting every column after it — TIME_PERIOD and
+    OBS_VALUE then resolve to the wrong index and read empty. The real
+    inter-column separator is a bare comma while a comma inside a label is
+    always followed by a space, so any fragment beginning with whitespace
+    continues the previous cell. Data rows are properly quoted; only the header
+    needs repair.
+    """
+    merged: list[str] = []
+    for cell in header:
+        if merged and cell[:1].isspace():
+            merged[-1] = merged[-1] + "," + cell
+        else:
+            merged.append(cell)
+    return merged
+
+
+def _build_schema(codes: list[str], dim_idx: list[int], attr_idx: list[int]) -> pa.Schema:
+    """The topic's raw schema: identity, its own dimensions, observation, attributes."""
+    fields = [
+        ("dataflow", pa.string()),
+        ("series_key", pa.string()),
+    ]
+    for i in dim_idx:
+        name = codes[i].lower()
+        fields.append((name, pa.string()))
+        fields.append((f"{name}_label", pa.string()))
+    fields += [
+        ("time_period", pa.string()),
+        ("period_start", pa.date32()),
+        ("obs_value", pa.float64()),
+    ]
+    fields += [(codes[i].lower(), pa.string()) for i in attr_idx]
+    return pa.schema(fields)
+
+
 def fetch_one(node_id: str) -> None:
     """Download one BIS topic's flat-CSV bulk zip and write normalised Parquet.
 
@@ -173,91 +231,91 @@ def fetch_one(node_id: str) -> None:
     """
     asset = node_id
     flow = _flow_from_node(node_id)
+    url = BULK_URL.format(flow=flow)
 
     fd, tmp_path = tempfile.mkstemp(prefix=f"{asset}-", suffix=".zip")
     os.close(fd)
     try:
-        _download_zip_to(BULK_URL.format(flow=flow), tmp_path)
+        _download_zip_to(url, tmp_path)
         with zipfile.ZipFile(tmp_path) as zf:
             _ingest_member(zf, zf.namelist()[0], asset, flow)
     finally:
         os.remove(tmp_path)
 
+    record_source_signature(asset, url)
+
 
 def _ingest_member(zf: zipfile.ZipFile, member: str, asset: str, flow: str) -> None:
     """Stream one flat-CSV member of a BIS bulk zip into normalised Parquet."""
-    empty_batch = lambda: {name: [] for name in SCHEMA.names}
-    batch = empty_batch()
-    pending = 0
-
-    with zf.open(member) as fh, raw_parquet_writer(asset, SCHEMA) as writer:
+    with zf.open(member) as fh:
         text = io.TextIOWrapper(fh, encoding="utf-8-sig", newline="")
         reader = csv.reader(text)
-        header = next(reader)
-
-        # BIS does not quote the header's description labels, so a label that
-        # contains commas (e.g. "STO:Stocks, Transactions, Other Flows" or
-        # "EXPENDITURE:Expenditure (COFOG, COICOP, COPP or COPNI)") is split by
-        # the CSV reader into spurious extra header cells, shifting every column
-        # after it — TIME_PERIOD/OBS_VALUE then resolve to the wrong index and
-        # obs_value reads empty. The real inter-column separator is a bare comma
-        # while a comma inside a label is always followed by a space, so any
-        # fragment beginning with whitespace is a continuation of the previous
-        # cell. Data rows are properly quoted, so only the header needs repair.
-        merged: list[str] = []
-        for cell in header:
-            if merged and cell[:1].isspace():
-                merged[-1] = merged[-1] + "," + cell
-            else:
-                merged.append(cell)
-        header = merged
+        header = _repair_header(next(reader))
         codes = [h.split(":", 1)[0].strip() for h in header]
 
+        if len(set(codes)) != len(codes):
+            raise ValueError(f"{flow}: duplicate column codes in header {codes}")
+
         # SDMX flat layout: STRUCTURE, STRUCTURE_ID, ACTION, <dimensions...>,
-        # TIME_PERIOD, OBS_VALUE, <attributes...>. Dimensions are the columns
-        # between ACTION (index 2) and TIME_PERIOD; attributes follow OBS_VALUE.
+        # TIME_PERIOD, OBS_VALUE, <attributes...>.
         ti = codes.index("TIME_PERIOD")
         vi = codes.index("OBS_VALUE")
-        dim_idx = list(range(3, ti))
-        attr_idx = {codes[j]: j for j in range(vi + 1, len(codes))}
-        freq_idx = codes.index("FREQ") if "FREQ" in codes else None
-        title_idx = attr_idx.get("TITLE", attr_idx.get("TITLE_TS"))
-        unit_idx = attr_idx.get("UNIT_MEASURE")
-        mult_idx = attr_idx.get("UNIT_MULT")
-        status_idx = attr_idx.get("OBS_STATUS")
+        if codes[:3] != list(_STRUCTURAL) or vi != ti + 1:
+            raise ValueError(f"{flow}: unexpected SDMX flat layout {codes}")
+
+        dim_idx = list(range(len(_STRUCTURAL), ti))
+        attr_idx = list(range(vi + 1, len(codes)))
+        schema = _build_schema(codes, dim_idx, attr_idx)
         ncols = len(header)
 
-        for row in reader:
-            if len(row) < ncols:
-                row = row + [""] * (ncols - len(row))
+        empty = lambda: {name: [] for name in schema.names}
+        batch = empty()
+        pending = 0
 
-            # The bulk file interleaves series-metadata rows (no TIME_PERIOD,
-            # no OBS_VALUE, attribute-only) with observation rows. They aren't
-            # observations — keeping them pollutes the raw with empty-period
-            # rows that collide on (series_key, time_period).
-            if not row[ti].strip():
-                continue
+        with raw_parquet_writer(asset, schema) as writer:
+            for row in reader:
+                if len(row) < ncols:
+                    row = row + [""] * (ncols - len(row))
 
-            dims = {codes[i]: row[i] for i in dim_idx}
-            batch["dataflow"].append(flow)
-            batch["series_key"].append(".".join(_code(row[i]) for i in dim_idx))
-            batch["freq"].append(_code(row[freq_idx]) if freq_idx is not None else "")
-            batch["time_period"].append(row[ti].strip())
-            batch["obs_value"].append(_to_float(row[vi]))
-            batch["unit_measure"].append(row[unit_idx] if unit_idx is not None else "")
-            batch["unit_mult"].append(row[mult_idx] if mult_idx is not None else "")
-            batch["title"].append(row[title_idx] if title_idx is not None else "")
-            batch["obs_status"].append(row[status_idx] if status_idx is not None else "")
-            batch["dimensions"].append(json.dumps(dims, ensure_ascii=False))
-            pending += 1
+                # The bulk file interleaves series-metadata rows (no TIME_PERIOD,
+                # no OBS_VALUE, attribute-only) with observation rows. They aren't
+                # observations — keeping them pollutes the raw with empty-period
+                # rows that collide on (series_key, time_period).
+                period = row[ti].strip()
+                if not period:
+                    continue
 
-            if pending >= BATCH_ROWS:
-                writer.write_table(pa.table(batch, schema=SCHEMA))
-                batch = empty_batch()
-                pending = 0
+                key_parts = []
+                for i in dim_idx:
+                    name = codes[i].lower()
+                    code, label = _split_coded(row[i])
+                    batch[name].append(code)
+                    batch[f"{name}_label"].append(label)
+                    key_parts.append(code)
 
-        if pending:
-            writer.write_table(pa.table(batch, schema=SCHEMA))
+                batch["dataflow"].append(flow)
+                batch["series_key"].append(".".join(key_parts))
+                batch["time_period"].append(period)
+                batch["period_start"].append(_period_start(period, flow))
+                batch["obs_value"].append(_to_float(row[vi]))
+                for i in attr_idx:
+                    batch[codes[i].lower()].append(row[i] or None)
+                pending += 1
+
+                if pending >= BATCH_ROWS:
+                    writer.write_table(pa.table(batch, schema=schema))
+                    batch = empty()
+                    pending = 0
+
+            if pending:
+                writer.write_table(pa.table(batch, schema=schema))
+
+
+def _is_fresh(asset_id: str) -> bool:
+    flow = _flow_from_node(asset_id)
+    return source_unchanged(asset_id, BULK_URL.format(flow=flow)) and raw_asset_exists(
+        asset_id, "parquet"
+    )
 
 
 DOWNLOAD_SPECS = [
@@ -270,48 +328,19 @@ DOWNLOAD_SPECS = [
 ]
 
 
-# One uniform transform per topic. Thin parse-and-type pass: keep the canonical
-# SDMX time_period string, drop missing observations, and derive a best-effort
-# period_start DATE per frequency (NULL for frequencies we don't map). Every
-# raw column is already typed at fetch time, so the transform only projects.
-_TRANSFORM_SQL = '''
-    SELECT
-        dataflow,
-        series_key,
-        freq,
-        time_period,
-        CASE
-            WHEN freq = 'D' THEN TRY_CAST(time_period AS DATE)
-            WHEN freq = 'M' THEN TRY_STRPTIME(time_period || '-01', '%Y-%m-%d')::DATE
-            WHEN freq = 'A' THEN TRY_STRPTIME(time_period || '-01-01', '%Y-%m-%d')::DATE
-            WHEN freq = 'Q' THEN MAKE_DATE(
-                TRY_CAST(SPLIT_PART(time_period, '-Q', 1) AS INTEGER),
-                (TRY_CAST(SPLIT_PART(time_period, '-Q', 2) AS INTEGER) - 1) * 3 + 1,
-                1)
-            WHEN freq = 'H' THEN MAKE_DATE(
-                TRY_CAST(SPLIT_PART(time_period, '-S', 1) AS INTEGER),
-                (TRY_CAST(SPLIT_PART(time_period, '-S', 2) AS INTEGER) - 1) * 6 + 1,
-                1)
-            ELSE NULL
-        END AS period_start,
-        obs_value,
-        unit_measure,
-        unit_mult,
-        title,
-        obs_status,
-        dimensions
-    FROM "{dep}"
-    WHERE obs_value IS NOT NULL AND isfinite(obs_value)
-'''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{spec.id}-transform",
-        deps=[spec.id],
-        sql=_TRANSFORM_SQL.format(dep=spec.id),
-        key=("series_key", "time_period"),
-        temporal="period_start",
+# BIS publishes each topic on its own schedule (daily policy rates through
+# annual CPMI surveys) per https://www.bis.org/statistics/relcal.htm. Rather
+# than encode 27 cadences, we let the bulk file's own ETag/Last-Modified decide:
+# every zip under /static/bulk/ serves both validators.
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "Re-fetched whenever the topic's bulk zip changes (ETag/Last-Modified "
+            "on https://data.bis.org/static/bulk/); per-topic release schedule at "
+            "https://www.bis.org/statistics/relcal.htm"
+        ),
+        check=_is_fresh,
     )
     for spec in DOWNLOAD_SPECS
 ]

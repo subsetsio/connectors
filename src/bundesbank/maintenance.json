@@ -1,5 +1,5 @@
 {
   "cadence_days": 7,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "Each dataflow keeps its own release schedule, from daily (BBSSY yields by ISIN, BBEX3 ECB reference rates) through monthly (BBBK1 banking statistics, BBDA1 external trade) to annual (BBZVS* payments statistics). Bundesbank publishes per-statistic release calendars under https://www.bundesbank.de/en/statistics, but the SDMX API exposes no change feed and returns no ETag/Last-Modified on /rest/data, so a refresh cannot be narrowed to what moved: every run re-fetches all 85 dataflows in full. Weekly keeps the daily flows within a week of the source at a bounded cost."
 }

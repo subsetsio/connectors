@@ -1,54 +1,88 @@
-"""Health-invariant tests for the Bundesbank download assets.
+"""Health invariants for the Bundesbank raw assets.
 
-Each dataflow is fetched as long SDMX-CSV and written to parquet with the SCHEMA
-declared in src/nodes/bundesbank.py. These tests catch silent degradation the
-file-existence check misses: empty payloads, a format switch that drops the value
-column, or observations with no parseable series key.
-
-Most dataflows write one asset file (`bundesbank-<id>.parquet`); BBKRT writes one
-file per vintage year (`bundesbank-bbkrt-<year>.parquet`). `_asset_tables` loads
-whichever layout is present so every spec is checked the same way.
+These run post-DAG, in-connector, against the parquet the fetch fns wrote. They
+target the silent degradations that file existence alone misses: a dataflow that
+parsed to nothing, a header-block change that shifted every column, and above all
+a regression in how the two German missing-value sentinels are read.
 """
-from subsets_utils import list_raw_files, load_raw_parquet
 
-EXPECTED_COLS = {
-    "dataflow", "series_id", "title", "time_period",
-    "time_format", "unit", "unit_mult", "decimals", "value",
+import pyarrow as pa
+import pyarrow.compute as pc
+from subsets_utils import load_raw_parquet
+
+EXPECTED_COLUMNS = {
+    "dataflow", "file_key", "frequency", "series_key", "label", "time_period",
+    "period_start", "value", "flag", "unit", "unit_en", "magnitude", "decimals",
+    "category", "last_update", "attributes",
 }
 
-
-def _asset_tables(sid):
-    """All parquet tables behind a spec id — the single `<sid>.parquet` file, or
-    the `<sid>-*.parquet` batch files (BBKRT's per-year layout)."""
-    rels = list_raw_files(f"{sid}.parquet") or list_raw_files(f"{sid}-*.parquet")
-    return [load_raw_parquet(rel[:-len(".parquet")]) for rel in rels]
+# The source's own flag text for "nothing present" (an exact zero) and for the two
+# ways a value can be absent. See MISSING_VALUES in the node module.
+FLAG_EXACT_ZERO = "Nichts vorhanden"
+FLAGS_MEANING_ABSENT = ("Kein Wert vorhanden", "Fehlender Wert (unterdrückt)")
 
 
-def test_all_assets_nonempty(spec_ids):
-    """Every spec must produce at least one file with rows. An empty payload
-    usually means the SDMX media type stopped being honoured or a flowRef 404'd."""
-    for sid in spec_ids:
-        tables = _asset_tables(sid)
-        assert tables, f"{sid}: no raw parquet files written"
-        assert sum(len(t) for t in tables) > 0, f"{sid}: raw parquet has 0 rows"
+def _strings(table: pa.Table, column: str) -> pa.ChunkedArray:
+    """Decode a dictionary-encoded column to plain strings for comparison."""
+    return table.column(column).cast(pa.string())
 
 
-def test_schema_columns(spec_ids):
-    """The kept-column contract must survive — a format switch that renamed or
-    dropped BBK_ID / OBS_VALUE would surface here, not as published garbage."""
-    for sid in spec_ids:
-        for table in _asset_tables(sid):
-            cols = set(table.column_names)
-            assert EXPECTED_COLS <= cols, f"{sid}: missing columns {EXPECTED_COLS - cols}"
+def test_raw_assets_are_wellformed(spec_ids):
+    """Each dataflow parsed to a non-empty table with the declared columns, and
+    every row carries the identity a transform keys off."""
+    for spec_id in spec_ids:
+        table = load_raw_parquet(spec_id)
+        try:
+            assert table.num_rows > 0, f"{spec_id}: raw parquet has 0 rows"
+
+            missing = EXPECTED_COLUMNS - set(table.column_names)
+            assert not missing, f"{spec_id}: raw parquet is missing columns {sorted(missing)}"
+
+            for column in ("series_key", "value", "time_period", "period_start", "dataflow"):
+                nulls = table.column(column).null_count
+                assert nulls == 0, f"{spec_id}: {nulls} null values in {column!r}"
+
+            # The asset must hold exactly the dataflow its spec id names; a mismatch
+            # means a flowRef was fetched into the wrong asset.
+            expected_flow = spec_id.removeprefix("bundesbank-").upper()
+            flows = set(_strings(table, "dataflow").unique().to_pylist())
+            assert flows == {expected_flow}, (
+                f"{spec_id}: expected dataflow {expected_flow!r}, found {sorted(flows)}"
+            )
+        finally:
+            del table
 
 
-def test_series_and_values_present(spec_ids):
-    """A real time series has non-null series ids and at least some numeric
-    values; all-null on either column means the parse silently broke."""
-    for sid in spec_ids:
-        tables = _asset_tables(sid)
-        total = sum(len(t) for t in tables)
-        series_nulls = sum(t.column("series_id").null_count for t in tables)
-        value_nulls = sum(t.column("value").null_count for t in tables)
-        assert series_nulls < total, f"{sid}: all series_id are null"
-        assert value_nulls < total, f"{sid}: all values are null"
+def test_zero_and_missing_sentinels_stay_distinct(spec_ids):
+    """`-` is "Nichts vorhanden" (exactly zero); `.` is a missing or suppressed
+    observation. Conflating them would either delete real zeros or invent them.
+
+    Two invariants pin the distinction from opposite sides: every row the source
+    flagged as an exact zero must hold 0.0, and no row flagged as *absent* may
+    survive at all -- those cells are dropped in the fetch fn.
+    """
+    for spec_id in spec_ids:
+        table = load_raw_parquet(spec_id)
+        try:
+            flag = _strings(table, "flag")
+            value = table.column("value")
+
+            zero_flagged = pc.fill_null(pc.equal(flag, FLAG_EXACT_ZERO), False)
+            nonzero = pc.fill_null(pc.not_equal(value, 0.0), True)
+            leaked = pc.sum(pc.and_(zero_flagged, nonzero)).as_py() or 0
+            assert leaked == 0, (
+                f"{spec_id}: {leaked} rows flagged {FLAG_EXACT_ZERO!r} carry a non-zero value "
+                "- the '-' sentinel is no longer being read as an exact zero"
+            )
+
+            for absent_flag in FLAGS_MEANING_ABSENT:
+                present = pc.sum(pc.fill_null(pc.equal(flag, absent_flag), False)).as_py() or 0
+                assert present == 0, (
+                    f"{spec_id}: {present} rows flagged {absent_flag!r} were materialised "
+                    "- a missing observation was read as a real value"
+                )
+
+            nans = pc.sum(pc.is_nan(value)).as_py() or 0
+            assert nans == 0, f"{spec_id}: {nans} NaN values in the observations"
+        finally:
+            del table

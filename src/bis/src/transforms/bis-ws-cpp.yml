@@ -1,13 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
 key: [series_key, time_period]
 temporal: period_start
-sort: [period_start, series_key, time_period]
+sort: [period_start, series_key]
+write_mode: overwrite
 columns:
-  - name: dataflow
-    type: VARCHAR
   - name: series_key
     type: VARCHAR
   - name: freq
+    type: VARCHAR
+  - name: freq_label
+    type: VARCHAR
+  - name: ref_area
+    type: VARCHAR
+  - name: ref_area_label
+    type: VARCHAR
+  - name: covered_area
+    type: VARCHAR
+  - name: covered_area_label
+    type: VARCHAR
+  - name: re_type
+    type: VARCHAR
+  - name: re_type_label
+    type: VARCHAR
+  - name: re_vintage
+    type: VARCHAR
+  - name: re_vintage_label
+    type: VARCHAR
+  - name: compiling_org
+    type: VARCHAR
+  - name: compiling_org_label
+    type: VARCHAR
+  - name: priced_unit
+    type: VARCHAR
+  - name: priced_unit_label
+    type: VARCHAR
+  - name: adjust_coded
+    type: VARCHAR
+  - name: adjust_coded_label
     type: VARCHAR
   - name: time_period
     type: VARCHAR
@@ -15,13 +43,43 @@ columns:
     type: DATE
   - name: obs_value
     type: DOUBLE
+  - name: collection
+    type: VARCHAR
+  - name: time_format
+    type: VARCHAR
+  - name: availability
+    type: VARCHAR
+  - name: breaks
+    type: VARCHAR
+  - name: collection_detail
+    type: VARCHAR
+  - name: coverage
+    type: VARCHAR
+  - name: data_comp
+    type: VARCHAR
+  - name: decimals
+    type: VARCHAR
+  - name: doc_method
+    type: VARCHAR
+  - name: measure_detail
+    type: VARCHAR
+  - name: meta_update
+    type: VARCHAR
+  - name: publications
+    type: VARCHAR
+  - name: title_grp
+    type: VARCHAR
+  - name: title_grp_compl
+    type: VARCHAR
+  - name: title_grp_nat
+    type: VARCHAR
   - name: unit_measure
     type: VARCHAR
   - name: unit_mult
     type: VARCHAR
-  - name: title
+  - name: obs_conf
+    type: VARCHAR
+  - name: obs_pre_break
     type: VARCHAR
   - name: obs_status
-    type: VARCHAR
-  - name: dimensions
     type: VARCHAR

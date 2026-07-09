@@ -113,8 +113,11 @@ def _stream_flow_to_parquet(asset: str, flow: str) -> int:
     url = f"{BASE}/{flow}"
     client = get_client()
     written = 0
+    # The server materialises a flow before it sends its first byte: CSEC (~739k
+    # series) took 285s to first byte on a 2026-07 probe, then streamed at ~7MB/s.
+    # The read budget has to cover that stall, not just the inter-chunk gaps.
     with client.stream(
-        "GET", url, params={"format": "csvdata"}, timeout=httpx.Timeout(10.0, read=300.0)
+        "GET", url, params={"format": "csvdata"}, timeout=httpx.Timeout(10.0, read=900.0)
     ) as resp:
         resp.raise_for_status()
         # Decode the byte stream to text lines for csv.reader. csv.reader pulls

@@ -1,13 +1,53 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
 key: [series_key, time_period]
 temporal: period_start
-sort: [period_start, series_key, time_period]
+sort: [period_start, series_key]
+write_mode: overwrite
 columns:
-  - name: dataflow
-    type: VARCHAR
   - name: series_key
     type: VARCHAR
   - name: freq
+    type: VARCHAR
+  - name: freq_label
+    type: VARCHAR
+  - name: l_measure
+    type: VARCHAR
+  - name: l_measure_label
+    type: VARCHAR
+  - name: l_rep_cty
+    type: VARCHAR
+  - name: l_rep_cty_label
+    type: VARCHAR
+  - name: cbs_bank_type
+    type: VARCHAR
+  - name: cbs_bank_type_label
+    type: VARCHAR
+  - name: cbs_basis
+    type: VARCHAR
+  - name: cbs_basis_label
+    type: VARCHAR
+  - name: l_position
+    type: VARCHAR
+  - name: l_position_label
+    type: VARCHAR
+  - name: l_instr
+    type: VARCHAR
+  - name: l_instr_label
+    type: VARCHAR
+  - name: rem_maturity
+    type: VARCHAR
+  - name: rem_maturity_label
+    type: VARCHAR
+  - name: curr_type_book
+    type: VARCHAR
+  - name: curr_type_book_label
+    type: VARCHAR
+  - name: l_cp_sector
+    type: VARCHAR
+  - name: l_cp_sector_label
+    type: VARCHAR
+  - name: l_cp_country
+    type: VARCHAR
+  - name: l_cp_country_label
     type: VARCHAR
   - name: time_period
     type: VARCHAR
@@ -15,13 +55,25 @@ columns:
     type: DATE
   - name: obs_value
     type: DOUBLE
+  - name: decimals
+    type: VARCHAR
   - name: unit_measure
     type: VARCHAR
   - name: unit_mult
     type: VARCHAR
-  - name: title
+  - name: time_format
+    type: VARCHAR
+  - name: collection
+    type: VARCHAR
+  - name: org_visibility
+    type: VARCHAR
+  - name: availability
+    type: VARCHAR
+  - name: title_grp
     type: VARCHAR
   - name: obs_status
     type: VARCHAR
-  - name: dimensions
+  - name: obs_conf
+    type: VARCHAR
+  - name: obs_pre_break
     type: VARCHAR

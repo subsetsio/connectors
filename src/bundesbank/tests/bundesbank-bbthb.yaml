@@ -1,0 +1,22 @@
+# BBTHB - Bargeld Zeitreihen für Grafiker
+spec_id: bundesbank-bbthb
+status: active
+tests:
+  - not_null: series_key
+    reason: every observation names the column it came from - the SDMX series key, or in BBKRT the release vintage date
+  - not_null: value
+    reason: absent observations ('.') are dropped in the fetch fn, never materialised as nulls; a null here means the parser mis-read a sentinel
+  - column_type: {col: value, type: float}
+  - column_type: {col: period_start, type: date}
+  - matches: {col: dataflow, pattern: '^BBTHB$'}
+    reason: one dataflow per asset; a foreign id means the wrong flowRef was fetched into this spec
+    certainty: 95
+  - unique: [file_key, series_key, time_period]
+    reason: one observation per (csv member, column, period). BBKRT repeats a vintage date across members, so file_key is part of the grain - dupes mean a member was parsed twice
+    certainty: 90
+  - row_count: {min: 1}
+    reason: a dataflow that parses to zero rows is a silent format change, not an empty publication
+  - freshness: {col: period_start, reaches: today - 150d}
+    certainty: 80
+    points_outward: true
+    reason: daily-to-monthly release; a max period older than ~5 months means Bundesbank stopped publishing this flow, not that the fetch broke

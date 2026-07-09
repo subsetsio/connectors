@@ -1,27 +1,48 @@
+-- WS_DEBT_SEC2_PUB: one row per (series_key, time_period) observation.
+-- Raw already carries typed obs_value / period_start and split code+label
+-- dimension columns, so this is a projection plus the missing-observation gate.
 SELECT
-    dataflow,
-    series_key,
-    freq,
-    time_period,
-    CASE
-        WHEN freq = 'D' THEN TRY_CAST(time_period AS DATE)
-        WHEN freq = 'M' THEN TRY_STRPTIME(time_period || '-01', '%Y-%m-%d')::DATE
-        WHEN freq = 'A' THEN TRY_STRPTIME(time_period || '-01-01', '%Y-%m-%d')::DATE
-        WHEN freq = 'Q' THEN MAKE_DATE(
-            TRY_CAST(SPLIT_PART(time_period, '-Q', 1) AS INTEGER),
-            (TRY_CAST(SPLIT_PART(time_period, '-Q', 2) AS INTEGER) - 1) * 3 + 1,
-            1)
-        WHEN freq = 'H' THEN MAKE_DATE(
-            TRY_CAST(SPLIT_PART(time_period, '-S', 1) AS INTEGER),
-            (TRY_CAST(SPLIT_PART(time_period, '-S', 2) AS INTEGER) - 1) * 6 + 1,
-            1)
-        ELSE NULL
-    END AS period_start,
-    obs_value,
-    unit_measure,
-    unit_mult,
-    title,
-    obs_status,
-    dimensions
+    "series_key",
+    "freq",
+    "freq_label",
+    "issuer_res",
+    "issuer_res_label",
+    "issuer_nat",
+    "issuer_nat_label",
+    "issuer_bus_imm",
+    "issuer_bus_imm_label",
+    "issuer_bus_ult",
+    "issuer_bus_ult_label",
+    "market",
+    "market_label",
+    "issue_type",
+    "issue_type_label",
+    "issue_cur_group",
+    "issue_cur_group_label",
+    "issue_cur",
+    "issue_cur_label",
+    "issue_or_mat",
+    "issue_or_mat_label",
+    "issue_re_mat",
+    "issue_re_mat_label",
+    "issue_rate",
+    "issue_rate_label",
+    "issue_risk",
+    "issue_risk_label",
+    "issue_col",
+    "issue_col_label",
+    "measure",
+    "measure_label",
+    "time_period",
+    "period_start",
+    "obs_value",
+    "decimals",
+    "unit_measure",
+    "unit_mult",
+    "collection",
+    "time_format",
+    "obs_status",
+    "obs_pre_break",
+    "obs_conf"
 FROM "bis-ws-debt-sec2-pub"
-WHERE obs_value IS NOT NULL AND isfinite(obs_value)
+WHERE obs_value IS NOT NULL

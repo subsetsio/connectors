@@ -1,0 +1,20 @@
+spec_id: bank-of-italy-tams0200
+status: active
+tests:
+  - not_null: series_id
+  - not_null: date
+  - row_count: {min: 1}
+  - coverage: {col: series_id, expected: 5}
+    reason: collect enumerated this table's member series; every one must land - a shortfall is silent partial loss, not a successful run
+    certainty: 95
+  - freshness: {col: date, reaches: today - 400d}
+    reason: no coverage end advertised for this table; bound is the observed worst-case publication lag for M-frequency BDS tables
+    certainty: 70
+    points_outward: true
+  - unique: [series_id, date]
+    reason: one observation per series per period; dupes mean a series was pulled in two chunks
+    certainty: 90
+  - nullable: {col: value, max_null_frac: 0.05}
+    reason: VALORE is populated on essentially every observation; a spike of nulls means the value column moved
+    certainty: 80
+    severity: warn

@@ -1,13 +1,81 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
 key: [series_key, time_period]
 temporal: period_start
-sort: [period_start, series_key, time_period]
+sort: [period_start, series_key]
+write_mode: overwrite
 columns:
-  - name: dataflow
-    type: VARCHAR
   - name: series_key
     type: VARCHAR
   - name: freq
+    type: VARCHAR
+  - name: freq_label
+    type: VARCHAR
+  - name: adjustment
+    type: VARCHAR
+  - name: adjustment_label
+    type: VARCHAR
+  - name: ref_area
+    type: VARCHAR
+  - name: ref_area_label
+    type: VARCHAR
+  - name: counterpart_area
+    type: VARCHAR
+  - name: counterpart_area_label
+    type: VARCHAR
+  - name: ref_sector
+    type: VARCHAR
+  - name: ref_sector_label
+    type: VARCHAR
+  - name: counterpart_sector
+    type: VARCHAR
+  - name: counterpart_sector_label
+    type: VARCHAR
+  - name: consolidation
+    type: VARCHAR
+  - name: consolidation_label
+    type: VARCHAR
+  - name: accounting_entry
+    type: VARCHAR
+  - name: accounting_entry_label
+    type: VARCHAR
+  - name: sto
+    type: VARCHAR
+  - name: sto_label
+    type: VARCHAR
+  - name: instr_asset
+    type: VARCHAR
+  - name: instr_asset_label
+    type: VARCHAR
+  - name: maturity
+    type: VARCHAR
+  - name: maturity_label
+    type: VARCHAR
+  - name: expenditure
+    type: VARCHAR
+  - name: expenditure_label
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: unit_measure_label
+    type: VARCHAR
+  - name: currency_denom
+    type: VARCHAR
+  - name: currency_denom_label
+    type: VARCHAR
+  - name: valuation
+    type: VARCHAR
+  - name: valuation_label
+    type: VARCHAR
+  - name: prices
+    type: VARCHAR
+  - name: prices_label
+    type: VARCHAR
+  - name: transformation
+    type: VARCHAR
+  - name: transformation_label
+    type: VARCHAR
+  - name: cust_breakdown
+    type: VARCHAR
+  - name: cust_breakdown_label
     type: VARCHAR
   - name: time_period
     type: VARCHAR
@@ -15,13 +83,59 @@ columns:
     type: DATE
   - name: obs_value
     type: DOUBLE
-  - name: unit_measure
+  - name: comment_dset
     type: VARCHAR
-  - name: unit_mult
+  - name: ref_period_detail
+    type: VARCHAR
+  - name: repyearstart
+    type: VARCHAR
+  - name: repyearend
+    type: VARCHAR
+  - name: time_format
+    type: VARCHAR
+  - name: time_per_collect
+    type: VARCHAR
+  - name: cust_breakdown_lb
+    type: VARCHAR
+  - name: ref_year_price
+    type: VARCHAR
+  - name: decimals
+    type: VARCHAR
+  - name: table_identifier
     type: VARCHAR
   - name: title
     type: VARCHAR
+  - name: title_compl
+    type: VARCHAR
+  - name: unit_mult
+    type: VARCHAR
+  - name: last_update
+    type: VARCHAR
+  - name: compiling_org
+    type: VARCHAR
+  - name: coll_period
+    type: VARCHAR
+  - name: comment_ts
+    type: VARCHAR
+  - name: gfs_ecofunc
+    type: VARCHAR
+  - name: gfs_taxcat
+    type: VARCHAR
+  - name: data_comp
+    type: VARCHAR
+  - name: currency
+    type: VARCHAR
+  - name: diss_org
+    type: VARCHAR
+  - name: obs_pre_break
+    type: VARCHAR
   - name: obs_status
     type: VARCHAR
-  - name: dimensions
+  - name: conf_status
+    type: VARCHAR
+  - name: comment_obs
+    type: VARCHAR
+  - name: embargo_date
+    type: VARCHAR
+  - name: obs_edp_wbb
     type: VARCHAR

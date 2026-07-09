@@ -1,27 +1,48 @@
+-- WS_OTC_DERIV2: one row per (series_key, time_period) observation.
+-- Raw already carries typed obs_value / period_start and split code+label
+-- dimension columns, so this is a projection plus the missing-observation gate.
 SELECT
-    dataflow,
-    series_key,
-    freq,
-    time_period,
-    CASE
-        WHEN freq = 'D' THEN TRY_CAST(time_period AS DATE)
-        WHEN freq = 'M' THEN TRY_STRPTIME(time_period || '-01', '%Y-%m-%d')::DATE
-        WHEN freq = 'A' THEN TRY_STRPTIME(time_period || '-01-01', '%Y-%m-%d')::DATE
-        WHEN freq = 'Q' THEN MAKE_DATE(
-            TRY_CAST(SPLIT_PART(time_period, '-Q', 1) AS INTEGER),
-            (TRY_CAST(SPLIT_PART(time_period, '-Q', 2) AS INTEGER) - 1) * 3 + 1,
-            1)
-        WHEN freq = 'H' THEN MAKE_DATE(
-            TRY_CAST(SPLIT_PART(time_period, '-S', 1) AS INTEGER),
-            (TRY_CAST(SPLIT_PART(time_period, '-S', 2) AS INTEGER) - 1) * 6 + 1,
-            1)
-        ELSE NULL
-    END AS period_start,
-    obs_value,
-    unit_measure,
-    unit_mult,
-    title,
-    obs_status,
-    dimensions
+    "series_key",
+    "freq",
+    "freq_label",
+    "der_type",
+    "der_type_label",
+    "der_instr",
+    "der_instr_label",
+    "der_risk",
+    "der_risk_label",
+    "der_rep_cty",
+    "der_rep_cty_label",
+    "der_sector_cpy",
+    "der_sector_cpy_label",
+    "der_cpc",
+    "der_cpc_label",
+    "der_sector_udl",
+    "der_sector_udl_label",
+    "der_curr_leg1",
+    "der_curr_leg1_label",
+    "der_curr_leg2",
+    "der_curr_leg2_label",
+    "der_issue_mat",
+    "der_issue_mat_label",
+    "der_rating",
+    "der_rating_label",
+    "der_ex_method",
+    "der_ex_method_label",
+    "der_basis",
+    "der_basis_label",
+    "time_period",
+    "period_start",
+    "obs_value",
+    "decimals",
+    "unit_measure",
+    "unit_mult",
+    "time_format",
+    "availability",
+    "collection",
+    "title_ts",
+    "obs_status",
+    "obs_conf",
+    "obs_pre_break"
 FROM "bis-ws-otc-deriv2"
-WHERE obs_value IS NOT NULL AND isfinite(obs_value)
+WHERE obs_value IS NOT NULL

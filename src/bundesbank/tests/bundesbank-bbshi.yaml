@@ -1,35 +1,22 @@
+# BBSHI - Securities Issues Statistics (Shares)
 spec_id: bundesbank-bbshi
 status: active
 tests:
-  - freshness: {col: time_period, reaches: today - 1100d}
-    reason: Bundesbank SDMX raw data carries SDMX TIME_PERIOD values with mixed daily, monthly, quarterly, semiannual, annual, and revision-only cadences; three-year slack covers slow official statistical releases while still catching stale pulls
-    certainty: 80
-  - row_count: {min: 1}
-    reason: a whole-dataflow SDMX-CSV pull always returns at least one observation; zero rows means the flowRef 404'd or the media type stopped being honoured
-    certainty: 95
-  - not_null: series_id
-    reason: every SDMX observation row carries its BBK_ID series key
-    certainty: 95
-  - not_null: time_period
-    reason: every observation is stamped with a TIME_PERIOD
-    certainty: 95
-  - not_null: dataflow
-    reason: the DATAFLOW column is emitted on every row of the long SDMX-CSV
-    certainty: 90
+  - not_null: series_key
+    reason: every observation names the column it came from - the SDMX series key, or in BBKRT the release vintage date
+  - not_null: value
+    reason: absent observations ('.') are dropped in the fetch fn, never materialised as nulls; a null here means the parser mis-read a sentinel
   - column_type: {col: value, type: float}
-    reason: OBS_VALUE is parsed to float64 by the fetch fn
+  - column_type: {col: period_start, type: date}
+  - matches: {col: dataflow, pattern: '^BBSHI$'}
+    reason: one dataflow per asset; a foreign id means the wrong flowRef was fetched into this spec
     certainty: 95
-  - column_type: {col: series_id, type: string}
-    reason: BBK_ID is a dotted string key
-    certainty: 95
-  - column_type: {col: time_period, type: string}
-    reason: TIME_PERIOD is kept as the raw SDMX period string (YYYY, YYYY-MM, YYYY-Qn, ...)
+  - unique: [file_key, series_key, time_period]
+    reason: one observation per (csv member, column, period). BBKRT repeats a vintage date across members, so file_key is part of the grain - dupes mean a member was parsed twice
     certainty: 90
-  - matches: {col: series_id, pattern: 'BBSHI\..*'}
-    reason: the BBK_ID series key for dataflow BBSHI is dotted and prefixed with the dataflow code
+  - row_count: {min: 1}
+    reason: a dataflow that parses to zero rows is a silent format change, not an empty publication
+  - freshness: {col: period_start, reaches: today - 150d}
     certainty: 80
-    severity: warn
-  - unique: [series_id, time_period]
-    reason: one observation per series per period; a full re-pull overwrites, so duplicates would mean the SDMX response itself carried repeats
-    certainty: 80
-    severity: warn
+    points_outward: true
+    reason: daily-to-monthly release; a max period older than ~5 months means Bundesbank stopped publishing this flow, not that the fetch broke

@@ -1,0 +1,73 @@
+key: [series_key, time_period]
+temporal: period_start
+sort: [period_start, series_key]
+write_mode: overwrite
+columns:
+  - name: series_key
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: freq_label
+    type: VARCHAR
+  - name: rep_cty
+    type: VARCHAR
+  - name: rep_cty_label
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: measure_label
+    type: VARCHAR
+  - name: system_type
+    type: VARCHAR
+  - name: system_type_label
+    type: VARCHAR
+  - name: system
+    type: VARCHAR
+  - name: system_label
+    type: VARCHAR
+  - name: instrument_type
+    type: VARCHAR
+  - name: instrument_type_label
+    type: VARCHAR
+  - name: other_ps_trans
+    type: VARCHAR
+  - name: other_ps_trans_label
+    type: VARCHAR
+  - name: type_of_info
+    type: VARCHAR
+  - name: type_of_info_label
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: period_start
+    type: DATE
+  - name: obs_value
+    type: DOUBLE
+  - name: title
+    type: VARCHAR
+  - name: table
+    type: VARCHAR
+  - name: comment_ts
+    type: VARCHAR
+  - name: collection
+    type: VARCHAR
+  - name: availability
+    type: VARCHAR
+  - name: unit_mult
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: time_format
+    type: VARCHAR
+  - name: decimals
+    type: VARCHAR
+  - name: old_table
+    type: VARCHAR
+  - name: comment_obs
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: obs_conf
+    type: VARCHAR
+  - name: obs_pre_break
+    type: VARCHAR
