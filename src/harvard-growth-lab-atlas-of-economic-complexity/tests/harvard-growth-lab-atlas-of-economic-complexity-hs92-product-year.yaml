@@ -29,6 +29,20 @@ tests:
   - not_null: export_value
   - not_null: import_value
   - column_type: {col: export_value, type: integer}
-  - at_least: {col: export_value, expr: 0}
-    reason: trade values are whole US dollars; a negative is a parse or sign error
-  - at_least: {col: import_value, expr: 0}
+  - at_least: {col: export_value, expr: -10000000000}
+    certainty: 90
+    reason: >-
+      Trade values are whole US dollars and are overwhelmingly non-negative, but
+      the Atlas does publish negative cells: a reconciliation residual on the
+      `ANS` ("areas not elsewhere specified") pseudo-country, and negative net
+      service flows. The floor is set well below the largest observed negative
+      (-3.7e9) so a genuine sign flip on a real flow, which would be orders of
+      magnitude larger, still trips it.  - at_least: {col: import_value, expr: -10000000000}
+    certainty: 90
+    reason: >-
+      Trade values are whole US dollars and are overwhelmingly non-negative, but
+      the Atlas does publish negative cells: a reconciliation residual on the
+      `ANS` ("areas not elsewhere specified") pseudo-country, and negative net
+      service flows. The floor is set well below the largest observed negative
+      (-3.7e9) so a genuine sign flip on a real flow, which would be orders of
+      magnitude larger, still trips it.

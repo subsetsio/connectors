@@ -27,9 +27,13 @@ import zipfile
 import pyarrow as pa
 
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
     get,
+    raw_asset_exists,
     raw_parquet_writer,
+    record_source_signature,
+    source_unchanged,
     transient_retry,
 )
 
@@ -153,6 +157,12 @@ def _fetch_asset(asset: str, urls) -> None:
         if pending:
             writer.write_table(pa.table({header[i]: cols[i] for i in range(n)}, schema=schema))
 
+    # Advance the freshness signature only after the whole asset landed, so a
+    # failed fetch can never cause a later false skip. Only single-URL assets
+    # have a MaintainSpec — one asset carries one signature.
+    if len(urls) == 1:
+        record_source_signature(asset, urls[0])
+
 
 # --- one fetch fn per asset (runtime calls fn(spec_id); spec_id IS the asset) -
 
@@ -187,4 +197,41 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="wto-batis-bpm6", fn=fetch_batis, kind="download"),
     NodeSpec(id="wto-tismos", fn=fetch_tismos, kind="download"),
     NodeSpec(id="wto-tismos-fats", fn=fetch_tismos_fats, kind="download"),
+]
+
+
+def _fresh(asset: str, url: str) -> bool:
+    return source_unchanged(asset, url) and raw_asset_exists(asset, "parquet")
+
+
+# Every file is overwritten in place at a stable URL and serves Last-Modified, so
+# the signature is the freshness signal. `wto-tismos` is absent deliberately: it
+# spans two URLs and one asset carries only one signature, and at ~6.5MB the
+# unconditional refetch is cheap.
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id="wto-merchandise-values-annual",
+        description="Annual release, revised in-year; observed via Last-Modified on https://stats.wto.org/assets/UserGuide/merchandise_values_annual_dataset.zip (cadence per https://www.wto.org/english/res_e/statis_e/trade_datasets_e.htm)",
+        check=lambda aid: _fresh(aid, _MERCH_VALUES[0]),
+    ),
+    MaintainSpec(
+        asset_id="wto-merchandise-indices-annual",
+        description="Annual release, revised in-year; observed via Last-Modified on https://stats.wto.org/assets/UserGuide/merchandise_indices_annual_dataset.zip (cadence per https://www.wto.org/english/res_e/statis_e/trade_datasets_e.htm)",
+        check=lambda aid: _fresh(aid, _MERCH_INDICES[0]),
+    ),
+    MaintainSpec(
+        asset_id="wto-services-annual",
+        description="Annual release, revised in-year; observed via Last-Modified on https://stats.wto.org/assets/UserGuide/services_annual_dataset.zip (cadence per https://www.wto.org/english/res_e/statis_e/trade_datasets_e.htm)",
+        check=lambda aid: _fresh(aid, _SERVICES[0]),
+    ),
+    MaintainSpec(
+        asset_id="wto-batis-bpm6",
+        description="OECD-WTO BaTiS BPM6, annual vintage (last published 2025-12); observed via Last-Modified on the daily_update_e zip. Skipping an unchanged vintage avoids a ~509MB refetch.",
+        check=lambda aid: _fresh(aid, _BATIS[0]),
+    ),
+    MaintainSpec(
+        asset_id="wto-tismos-fats",
+        description="TISMOS FATS addendum, a frozen 2005-2017 historical corpus (inferred - no published cadence); observed via Last-Modified on the daily_update_e CSV.",
+        check=lambda aid: _fresh(aid, _TISMOS_FATS[0]),
+    ),
 ]

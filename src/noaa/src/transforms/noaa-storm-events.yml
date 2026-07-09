@@ -1,0 +1,170 @@
+# NWS Storm Events Database — one row per severe-weather event recorded by a
+# National Weather Service forecast office, 1950 to present.
+# folded BEGIN_YEARMONTH/BEGIN_DAY/BEGIN_TIME (and the END_* trio) into
+#   begin_date_time / end_date_time; dropped the source's BEGIN_DATE_TIME and
+#   END_DATE_TIME strings, whose 2-digit year is ambiguous over 1950-2049
+# dropped MONTH_NAME (redundant with begin_date_time)
+# renamed SOURCE -> report_source (who reported the event) to separate it from
+#   DATA_SOURCE -> data_source (which NCEI archive the record came from)
+# renamed CATEGORY -> hurricane_category (it is only populated for hurricanes)
+# renamed CZ_TIMEZONE -> time_zone
+# damage_property/damage_crops kept as the raw coded string (*_code) beside the
+#   decoded dollar amount (*_usd)
+# caution: cz_fips is interpreted by cz_type — a county/parish FIPS when
+#   cz_type='C', an NWS public forecast-zone code when 'Z', a marine-zone code
+#   when 'M'. The three code spaces overlap numerically, so never join on
+#   cz_fips (or count areas by it) without also filtering cz_type.
+# caution: begin_date_time/end_date_time are LOCAL clock times in `time_zone`,
+#   not UTC, and time_zone is free text whose spelling varies (CST, CST-6, CSt).
+#   Comparing timestamps across states without resolving the zone mixes offsets.
+# caution: damage_*_usd are nominal dollars of the event year, NOT
+#   inflation-adjusted — a sum across decades is not a constant-dollar total.
+# caution: many rows share an episode_id (one weather system, many events).
+#   Summing damages or deaths over events is correct; a per-episode aggregate
+#   must group by episode_id first.
+# caution: coverage is not uniform over time. Only tornadoes are recorded from
+#   1950, tornado/thunderstorm-wind/hail from 1955, and the full event-type
+#   vocabulary only from 1996. Event counts per year are not comparable across
+#   those boundaries.
+key: [event_id]
+temporal: begin_date_time
+sort: [begin_date_time, event_id]
+columns:
+  - name: event_id
+    type: BIGINT
+    description: NCEI identifier for this event record, unique across the whole archive.
+  - name: episode_id
+    type: BIGINT
+    description: Identifier of the parent weather system (episode) that produced this event. Many events share one episode_id. Null for older records that predate episode grouping.
+  - name: begin_date_time
+    type: TIMESTAMP
+    description: Local clock time the event began, in the zone named by `time_zone` (not UTC). Rebuilt from the source's year-month, day and HHMM components.
+  - name: end_date_time
+    type: TIMESTAMP
+    description: Local clock time the event ended, in the zone named by `time_zone` (not UTC).
+  - name: time_zone
+    type: VARCHAR
+    description: Time zone the begin/end timestamps are expressed in, as free text from the source (e.g. CST, CST-6, EST-5, UNK). Spelling and offset suffixes are inconsistent.
+  - name: year
+    type: INTEGER
+    description: Calendar year of the event as reported by the source. Normally the year of begin_date_time.
+  - name: event_type
+    type: VARCHAR
+    description: Event category, e.g. Tornado, Hail, Flash Flood, Winter Storm. The vocabulary grew over time — see the coverage caution.
+  - name: state
+    type: VARCHAR
+    description: US state or territory name, upper case.
+  - name: state_fips
+    type: INTEGER
+    description: FIPS state code for `state`.
+  - name: cz_type
+    type: VARCHAR
+    description: What geography `cz_fips`/`cz_name` refer to — C county or parish, Z NWS public forecast zone, M marine zone.
+  - name: cz_fips
+    type: INTEGER
+    description: Code of the county, forecast zone or marine zone the event was recorded against. Its meaning depends on `cz_type`; the three code spaces overlap numerically.
+  - name: cz_name
+    type: VARCHAR
+    description: Name of the county, forecast zone or marine zone.
+  - name: wfo
+    type: VARCHAR
+    description: Three-letter identifier of the NWS Weather Forecast Office that recorded the event.
+  - name: injuries_direct
+    type: INTEGER
+    description: Injuries caused directly by the event.
+  - name: injuries_indirect
+    type: INTEGER
+    description: Injuries caused indirectly by the event (e.g. traffic accidents during a storm).
+  - name: deaths_direct
+    type: INTEGER
+    description: Deaths caused directly by the event.
+  - name: deaths_indirect
+    type: INTEGER
+    description: Deaths caused indirectly by the event.
+  - name: damage_property_code
+    type: VARCHAR
+    description: Property damage exactly as coded by the source, with a magnitude suffix — '250K' = 250 thousand dollars, '2.5M' = 2.5 million. Kept for provenance.
+  - name: damage_property_usd
+    type: DOUBLE
+    description: Property damage in nominal US dollars of the event year, decoded from damage_property_code. Null where the source used an unrecognised suffix.
+  - name: damage_crops_code
+    type: VARCHAR
+    description: Crop damage exactly as coded by the source, with a magnitude suffix. Kept for provenance.
+  - name: damage_crops_usd
+    type: DOUBLE
+    description: Crop damage in nominal US dollars of the event year, decoded from damage_crops_code. Null where the source used an unrecognised suffix.
+  - name: magnitude
+    type: DOUBLE
+    description: Event magnitude — wind speed in knots for wind events, hail diameter in inches for hail. Null for event types that carry no magnitude.
+  - name: magnitude_type
+    type: VARCHAR
+    description: How `magnitude` was obtained for wind events — EG estimated gust, ES estimated sustained, MG measured gust, MS measured sustained, E estimated, M measured.
+  - name: flood_cause
+    type: VARCHAR
+    description: Reported cause of a flood event, e.g. Heavy Rain, Dam / Levee Break. Null for non-flood events.
+  - name: hurricane_category
+    type: INTEGER
+    description: Saffir-Simpson hurricane category (1-5). Only populated for hurricane events.
+  - name: tor_f_scale
+    type: VARCHAR
+    description: Tornado intensity on the Fujita (F0-F5, before Feb 2007) or Enhanced Fujita (EF0-EF5) scale; EFU where unrated. The two scales are not identical — do not treat F3 and EF3 as the same rating.
+  - name: tor_length_miles
+    type: DOUBLE
+    description: Length of the tornado's path on the ground, in miles.
+  - name: tor_width_yards
+    type: DOUBLE
+    description: Maximum width of the tornado's path, in yards.
+  - name: tor_other_wfo
+    type: VARCHAR
+    description: For a tornado that crossed into another forecast office's area, that office's identifier.
+  - name: tor_other_cz_state
+    type: VARCHAR
+    description: For a tornado that crossed a state line, the state it continued into.
+  - name: tor_other_cz_fips
+    type: INTEGER
+    description: County FIPS code the tornado continued into.
+  - name: tor_other_cz_name
+    type: VARCHAR
+    description: County name the tornado continued into.
+  - name: begin_range_miles
+    type: DOUBLE
+    description: Distance in miles from the centre of `begin_location` to where the event began.
+  - name: begin_azimuth
+    type: VARCHAR
+    description: Compass direction (e.g. NNE) from `begin_location` to where the event began.
+  - name: begin_location
+    type: VARCHAR
+    description: Named landmark or town the event's start point is referenced against.
+  - name: end_range_miles
+    type: DOUBLE
+    description: Distance in miles from the centre of `end_location` to where the event ended.
+  - name: end_azimuth
+    type: VARCHAR
+    description: Compass direction from `end_location` to where the event ended.
+  - name: end_location
+    type: VARCHAR
+    description: Named landmark or town the event's end point is referenced against.
+  - name: begin_lat
+    type: DOUBLE
+    description: Latitude in degrees north where the event began.
+  - name: begin_lon
+    type: DOUBLE
+    description: Longitude in degrees east (negative west) where the event began.
+  - name: end_lat
+    type: DOUBLE
+    description: Latitude in degrees north where the event ended.
+  - name: end_lon
+    type: DOUBLE
+    description: Longitude in degrees east (negative west) where the event ended.
+  - name: report_source
+    type: VARCHAR
+    description: Who reported the event to the NWS, e.g. Trained Spotter, Public, Law Enforcement, Emergency Manager.
+  - name: data_source
+    type: VARCHAR
+    description: Which NCEI archive the record was loaded from — CSV, PDS, PDC or PUB. A processing-provenance flag, not a characteristic of the weather.
+  - name: episode_narrative
+    type: VARCHAR
+    description: Free-text description of the parent weather system, repeated on every event of the episode.
+  - name: event_narrative
+    type: VARCHAR
+    description: Free-text description of this specific event.

@@ -19,6 +19,18 @@ _INDICATOR_SCHEMA = pa.schema(
     ]
 )
 
+_DIMENSION_SCHEMA = pa.schema(
+    [
+        ("DimensionCode", pa.string()),
+        ("DimensionTitle", pa.string()),
+        ("Code", pa.string()),
+        ("Title", pa.string()),
+        ("ParentDimension", pa.string()),
+        ("ParentCode", pa.string()),
+        ("ParentTitle", pa.string()),
+    ]
+)
+
 _VALUES_SCHEMA = pa.schema(
     [
         ("Id", pa.int64()),
@@ -76,6 +88,59 @@ def _normalize_value_row(r: dict) -> dict:
     return out
 
 
+def _is_permanent_client_error(e: httpx.HTTPStatusError) -> bool:
+    code = e.response.status_code
+    return 400 <= code < 500 and code != 429
+
+
+def fetch_dimensions(node_id: str) -> None:
+    dims = fetch_odata(f"{BASE}/Dimension")
+    if not dims:
+        raise RuntimeError("WHO /Dimension returned no rows")
+    log.info("who-dimensions: resolving values for %d dimensions", len(dims))
+
+    rows: list[dict] = []
+    skipped: list[str] = []
+    for d in dims:
+        code = d.get("Code")
+        if not code:
+            continue
+        try:
+            values = fetch_odata(f"{BASE}/DIMENSION/{code}/DimensionValues")
+        except httpx.HTTPStatusError as e:
+            # A handful of dimension codes are listed but expose no value endpoint.
+            if _is_permanent_client_error(e):
+                log.warning(
+                    "who-dimensions: skipping %s (HTTP %s)", code, e.response.status_code
+                )
+                skipped.append(code)
+                continue
+            raise
+        for v in values:
+            rows.append(
+                {
+                    "DimensionCode": code,
+                    "DimensionTitle": _to_str(d.get("Title")),
+                    "Code": _to_str(v.get("Code")),
+                    "Title": _to_str(v.get("Title")),
+                    "ParentDimension": _to_str(v.get("ParentDimension")),
+                    "ParentCode": _to_str(v.get("ParentCode")),
+                    "ParentTitle": _to_str(v.get("ParentTitle")),
+                }
+            )
+
+    if not rows:
+        raise RuntimeError("who-dimensions: crawl produced zero dimension values")
+    table = pa.Table.from_pylist(rows, schema=_DIMENSION_SCHEMA)
+    save_raw_parquet(table, node_id)
+    log.info(
+        "who-dimensions: wrote %d values across %d dimensions (%d skipped)",
+        table.num_rows,
+        len(dims) - len(skipped),
+        len(skipped),
+    )
+
+
 def fetch_indicators(node_id: str) -> None:
     rows = fetch_odata(f"{BASE}/Indicator")
     if not rows:
@@ -109,10 +174,7 @@ def fetch_values(node_id: str) -> None:
                 rows = fetch_odata(f"{BASE}/{code}")
             except httpx.HTTPStatusError as e:
                 # Permanent client errors can occur for withdrawn indicator codes.
-                if e.response.status_code == 404 or (
-                    400 <= e.response.status_code < 500
-                    and e.response.status_code != 429
-                ):
+                if _is_permanent_client_error(e):
                     log.warning("who-values: skipping %s (HTTP %s)", code, e.response.status_code)
                     skipped.append(code)
                     continue
@@ -138,6 +200,7 @@ def fetch_values(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id="who-dimensions", fn=fetch_dimensions, kind="download"),
     NodeSpec(id="who-indicators", fn=fetch_indicators, kind="download"),
     NodeSpec(id="who-values", fn=fetch_values, kind="download"),
 ]

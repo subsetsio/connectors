@@ -1,16 +1,20 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
+# compiled by `hardened compile-transforms`, then curated (renames + descriptions)
 # of raw asset `central-bank-of-peru-values`. Regenerate after model-verify.
-# caution: Long-format observations spanning ~17,100 heterogeneous series (CPI, GDP, FX rates, interest rates, balance of payments, fiscal, expectations) in many different units — never aggregate value across codigo_serie; always filter to a single series (join central-bank-of-peru-series for its unit and label).
-# caution: frecuencia mixes Diaria/Mensual/Trimestral/Anual across rows, so the date column carries different granularities depending on the series — filter by frecuencia (or a single codigo_serie) before any time aggregation.
-key: [codigo_serie, date, frecuencia]
+# caution: Long-format observations spanning ~17,100 heterogeneous series (CPI, GDP, FX rates, interest rates, balance of payments, fiscal, expectations) in many different units — never aggregate value across series_code; always filter to a single series (join central-bank-of-peru-series for its unit and label).
+# caution: frequency mixes Diaria/Mensual/Trimestral/Anual across rows, so the date column carries different granularities depending on the series — filter by frequency (or a single series_code) before any time aggregation.
+key: [series_code, date, frequency]
 temporal: date
-sort: [date, codigo_serie, frecuencia]
+sort: [date, series_code, frequency]
 columns:
-  - name: codigo_serie
+  - name: series_code
     type: VARCHAR
-  - name: frecuencia
+    description: BCRPData series identifier (codigo_serie); join to central-bank-of-peru-series for the series name, category, unit and frequency label.
+  - name: frequency
     type: VARCHAR
+    description: Observation frequency of this row (frecuencia) — Diaria (daily), Mensual (monthly), Trimestral (quarterly) or Anual (annual). Determines the granularity of `date`.
   - name: date
     type: DATE
+    description: Observation date. For sub-annual series it is the exact period date; for monthly/quarterly/annual series BCRP reports a representative date within the period.
   - name: value
     type: DOUBLE
+    description: Observed value of the series at `date`, in the unit described by the series' name/category in central-bank-of-peru-series. Units vary by series — never aggregate across series_code.

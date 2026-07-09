@@ -226,6 +226,65 @@ def _catalog_nodes_by_system() -> dict[str, list[str]]:
     return out
 
 
+# ---------------------------------------------------------------------------
+# NodosP catalog (reference table) — the full XLSX, flattened to the stable
+# reference columns. The header is two rows (row 1 groups, row 2 names); data
+# starts at row 3. `clave` joins to pml.clv_nodo; `zona_carga` to pend.zona_carga.
+# ---------------------------------------------------------------------------
+
+# (positional index in the sheet -> output column). Positions are stable across
+# the yearly XLSX revisions; a text value or None is written as-is (voltage is
+# coerced to float). Grouped/duplicate header cells are skipped by index.
+_CATALOG_COLS = {
+    0: "sistema",
+    1: "centro_control_regional",
+    2: "zona_carga",
+    3: "clave",
+    4: "nombre",
+    5: "nivel_tension_kv",
+    10: "zona_operacion_transmision",
+    12: "zona_distribucion",
+    15: "entidad_federativa",
+    17: "municipio",
+    19: "region_transmision",
+}
+
+_CATALOG_SCHEMA = pa.schema(
+    [(name, pa.float64() if name == "nivel_tension_kv" else pa.string())
+     for name in _CATALOG_COLS.values()]
+)
+
+
+def fetch_catalog(node_id: str) -> None:
+    """Materialize the latest NodosP reference catalog as one raw batch."""
+    import openpyxl
+    url = _latest_catalog_url()
+    _log(f"nodosp_catalog: reading {url}")
+    content = get(url, timeout=(10.0, 180.0)).content
+    wb = openpyxl.load_workbook(io.BytesIO(content), read_only=True, data_only=True)
+    ws = wb[wb.sheetnames[0]]
+    rows_iter = ws.iter_rows(values_only=True)
+    next(rows_iter, None)   # row 1: column grouping
+    next(rows_iter, None)   # row 2: real header
+    max_idx = max(_CATALOG_COLS)
+    out_rows: list[dict] = []
+    for row in rows_iter:
+        if not row or len(row) <= max_idx or row[3] in (None, ""):
+            continue
+        rec = {}
+        for idx, name in _CATALOG_COLS.items():
+            v = row[idx]
+            if name == "nivel_tension_kv":
+                rec[name] = _to_float(v)
+            else:
+                rec[name] = str(v).strip() if v not in (None, "") else None
+        out_rows.append(rec)
+    if len(out_rows) < 1000:
+        raise AssertionError(f"NodosP catalog parsed only {len(out_rows)} rows; expected ~2,486")
+    save_raw_parquet(pa.Table.from_pylist(out_rows, schema=_CATALOG_SCHEMA), node_id)
+    _log(f"nodosp_catalog: complete, {len(out_rows)} rows written")
+
+
 def _chunks(seq, n):
     for i in range(0, len(seq), n):
         yield seq[i:i + n]
@@ -289,10 +348,17 @@ def fetch_product(node_id: str) -> None:
 # Specs — one download + one thin publishing transform per product.
 # ---------------------------------------------------------------------------
 
-DOWNLOAD_SPECS = [
+# Price products share the generic windowed re-pull; the NodosP catalog is a
+# single-shot reference fetch. Only the price specs carry compiled transforms
+# (below); the catalog's transform is compiled by the model stage.
+_PRICE_SPECS = [
     NodeSpec(id=f"{SLUG}-{eid}", fn=fetch_product, kind="download")
     for eid in ENTITIES
 ]
+
+_CATALOG_SPEC = NodeSpec(id=f"{SLUG}-nodosp-catalog", fn=fetch_catalog, kind="download")
+
+DOWNLOAD_SPECS = _PRICE_SPECS + [_CATALOG_SPEC]
 
 # Each product's batches share one schema; DISTINCT is a cheap safety against any
 # accidental duplicate row. The dep view glob-unions every
@@ -343,5 +409,5 @@ TRANSFORM_SPECS = [
         key=_TRANSFORM_KEY[s.id[len(SLUG) + 1:]],
         temporal="date",
     )
-    for s in DOWNLOAD_SPECS
+    for s in _PRICE_SPECS
 ]

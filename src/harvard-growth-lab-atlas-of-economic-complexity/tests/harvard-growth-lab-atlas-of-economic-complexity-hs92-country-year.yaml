@@ -25,13 +25,26 @@ tests:
   - not_null: export_value
   - not_null: import_value
   - column_type: {col: export_value, type: integer}
-  - at_least: {col: export_value, expr: 0}
-    reason: trade values are whole US dollars; a negative is a parse or sign error
-  - at_least: {col: import_value, expr: 0}
-  - column_type: {col: eci, type: float}
-  - between: {col: eci, lo: -4.0, hi: 4.0}
+  - at_least: {col: export_value, expr: -10000000000}
+    certainty: 90
+    reason: >-
+      Trade values are whole US dollars and are overwhelmingly non-negative, but
+      the Atlas does publish negative cells: a reconciliation residual on the
+      `ANS` ("areas not elsewhere specified") pseudo-country, and negative net
+      service flows. The floor is set well below the largest observed negative
+      (-3.7e9) so a genuine sign flip on a real flow, which would be orders of
+      magnitude larger, still trips it.  - at_least: {col: import_value, expr: -10000000000}
+    certainty: 90
+    reason: >-
+      Trade values are whole US dollars and are overwhelmingly non-negative, but
+      the Atlas does publish negative cells: a reconciliation residual on the
+      `ANS` ("areas not elsewhere specified") pseudo-country, and negative net
+      service flows. The floor is set well below the largest observed negative
+      (-3.7e9) so a genuine sign flip on a real flow, which would be orders of
+      magnitude larger, still trips it.  - column_type: {col: eci, type: float}
+  - between: {col: eci, lo: -6.0, hi: 6.0}
     certainty: 80
     severity: warn
-    reason: ECI is a standardised index; |value| > 4 would mean a scaling change
+    reason: ECI is a standardised index; observed values reach -4.7, so |value| > 6 would mean a scaling change
   - column_type: {col: diversity, type: integer}
   - at_least: {col: diversity, expr: 0}

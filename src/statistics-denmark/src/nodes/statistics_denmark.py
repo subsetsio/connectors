@@ -10,6 +10,7 @@ the table as-is, casting the value column (INDHOLD) to DOUBLE.
 """
 
 import io
+import os
 
 import pyarrow as pa
 import pyarrow.csv as pacsv
@@ -17,9 +18,9 @@ import pyarrow.csv as pacsv
 from subsets_utils import (
     NodeSpec,
     get,
+    list_raw_fragments,
     post,
     raw_parquet_writer,
-    load_raw_parquet,
     save_raw_parquet,
 )
 from constants import ENTITY_IDS
@@ -69,13 +70,17 @@ def _fetch_bulk(body: dict) -> pa.Table:
 
 
 def _already_complete(asset: str) -> bool:
-    """Safe self-resume: skip only a fully-readable, non-empty Parquet. A node
-    killed mid-write leaves a footer-less file that fails this read, so it is
-    re-fetched rather than trusted."""
-    try:
-        return load_raw_parquet(asset).num_rows > 0
-    except Exception:
-        return False
+    """Continuation-leg resume, scoped to THIS run.
+
+    A 6h GHA cap retriggers the job under the same RUN_ID, so an asset the
+    manifest already carries for this run is done. A prior run's object must
+    NOT count: raw is addressable across runs, so trusting it would freeze
+    every table at its first-ever fetch and make scheduled refreshes no-ops.
+    An object written but never committed (node killed mid-write) has no
+    manifest entry, so it is refetched rather than trusted.
+    """
+    frag = list_raw_fragments(asset, "parquet").get("full")
+    return bool(frag) and frag.get("run_id") == os.environ.get("RUN_ID", "unknown")
 
 
 def _flatten_subjects(subjects: list[dict]) -> list[dict]:

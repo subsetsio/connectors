@@ -1,0 +1,30 @@
+spec_id: who-dimensions
+status: active
+tests:
+  - not_null: DimensionCode
+    reason: every row is a value belonging to one dimension from the /api/Dimension listing
+    certainty: 98
+  - not_null: Code
+    reason: a dimension value without its own code cannot resolve a Dim/SpatialDim reference in who-values
+    certainty: 95
+  - not_null: Title
+    reason: the codebook exists to supply human-readable labels; a value with no title defeats its purpose
+    certainty: 90
+  - column_type: {col: DimensionCode, type: string}
+    certainty: 98
+  - column_type: {col: Code, type: string}
+    certainty: 98
+  - column_type: {col: Title, type: string}
+    certainty: 95
+  - unique: [DimensionCode, Code]
+    reason: a dimension's value codes are its primary key; the pair is the codebook grain
+    certainty: 95
+  - distinct_count: {col: DimensionCode, min: 150}
+    reason: GHO lists ~195 dimensions and nearly all expose a DimensionValues collection; a much smaller number means the per-dimension crawl stopped early
+    certainty: 85
+  - row_count: {min: 5000}
+    reason: the ~195 dimensions resolve to tens of thousands of values (COUNTRY alone has ~234); far fewer means the crawl broke
+    certainty: 85
+coverage:
+  frozen: true
+  reason: the dimension codebook is a reference vocabulary with no observation-time field; it changes only when WHO adds a dimension. Freshness is validated on who-values Date instead.

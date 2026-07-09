@@ -1,33 +1,46 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
+# compiled by `hardened compile-transforms`, then curated (renames + descriptions)
 # of raw asset `central-bank-of-peru-series`. Regenerate after model-verify.
-# caution: One row per series (the series dimension/catalog), not an observation table — join to central-bank-of-peru-values on codigo_serie to attach labels, unit and frequency to the observations.
-key: [codigo_serie]
-temporal: fecha_actualizacion
-sort: [fecha_actualizacion, codigo_serie]
+# caution: One row per series (the series dimension/catalog), not an observation table — join to central-bank-of-peru-values on series_code to attach labels, unit and frequency to the observations.
+key: [series_code]
+temporal: last_updated
+sort: [last_updated, series_code]
 columns:
-  - name: codigo_serie
+  - name: series_code
     type: VARCHAR
-  - name: categoria
+    description: BCRPData series identifier (codigo_serie); the code used to fetch and join observations in central-bank-of-peru-values.
+  - name: category
     type: VARCHAR
-  - name: grupo
+    description: Top-level BCRPData category the series belongs to (categoria), e.g. monetary accounts, prices, GDP. Spanish labels.
+  - name: series_group
     type: VARCHAR
-  - name: nombre
+    description: BCRPData publication group within the category (grupo). Spanish labels.
+  - name: name
     type: VARCHAR
-  - name: descripcion
+    description: Full descriptive name of the series (nombre), including the measured concept and often its unit. Spanish.
+  - name: description
     type: VARCHAR
-  - name: geografia
+    description: Longer free-text description of the series when provided by BCRP (descripcion). Spanish.
+  - name: geography
     type: VARCHAR
-  - name: fuente
+    description: Geographic scope of the series (geografia), typically Peru or a region. Spanish.
+  - name: source
     type: VARCHAR
-  - name: frecuencia
+    description: Originating data source or compiling institution reported by BCRP (fuente). Spanish.
+  - name: frequency
     type: VARCHAR
-  - name: grupo_publicacion
+    description: Observation frequency (frecuencia) — one of Diaria (daily), Mensual (monthly), Trimestral (quarterly), Anual (annual).
+  - name: publication_group
     type: VARCHAR
-  - name: area_publica
+    description: BCRPData publication grouping used on the portal (grupo_publicacion). Spanish.
+  - name: public_area
     type: VARCHAR
-  - name: fecha_actualizacion
+    description: Public area/section of the BCRP portal the series is published under (area_publica). Spanish.
+  - name: last_updated
     type: DATE
-  - name: fecha_inicio
+    description: Date the series was last updated in BCRPData (fecha_actualizacion), parsed to a DATE.
+  - name: start_period
     type: VARCHAR
-  - name: fecha_fin
+    description: First observation period label of the series (fecha_inicio), a source period string (not necessarily ISO), e.g. Ene1950.
+  - name: end_period
     type: VARCHAR
+    description: Most recent observation period label of the series (fecha_fin), a source period string (not necessarily ISO).

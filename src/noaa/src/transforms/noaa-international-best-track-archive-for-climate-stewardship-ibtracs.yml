@@ -1,0 +1,68 @@
+# IBTrACS v04r01 "ALL" — the global best-track archive: one row per tropical
+# cyclone per best-track timestamp, merged across every reporting agency.
+# renamed from the source's "NUMBER" -> storm_number (NUMBER is a SQL keyword
+#   and the bare name reads as a row count)
+# caution: `lon` is not wrapped to [-180, 180] — tracks crossing the antimeridian
+#   keep running past 180 instead of jumping negative. Normalise before any
+#   spatial join or distance calculation.
+# caution: the observation interval is not uniform. 3-hourly synoptic times are
+#   interleaved with extra rows at landfall and peak intensity, so averaging
+#   over rows over-weights the storms that carry those extra rows.
+# caution: the wmo_* and usa_* families are not interchangeable — they come from
+#   different agencies and use different wind averaging periods (usa_wind is
+#   1-minute sustained; the WMO period varies by basin).
+key: [sid, iso_time]
+temporal: iso_time
+sort: [iso_time, sid]
+columns:
+  - name: sid
+    type: VARCHAR
+    description: IBTrACS storm identifier, unique across all basins and seasons (e.g. 1842298N11080). Stable across archive revisions.
+  - name: season
+    type: INTEGER
+    description: Cyclone season the storm belongs to. In the southern hemisphere a season spans a calendar-year boundary, so this can differ from the year of `iso_time`.
+  - name: storm_number
+    type: INTEGER
+    description: The storm's sequence number within its season.
+  - name: basin
+    type: VARCHAR
+    description: Ocean basin of the observation — NA North Atlantic, EP Eastern North Pacific, WP Western North Pacific, NI North Indian, SI South Indian, SP South Pacific, SA South Atlantic. Can change along a track that crosses basins.
+  - name: subbasin
+    type: VARCHAR
+    description: Sub-basin — CS Caribbean Sea, GM Gulf of Mexico, CP Central Pacific, BB Bay of Bengal, AS Arabian Sea, WA Western Australia, EA Eastern Australia, NA North Atlantic, MM missing/not applicable.
+  - name: name
+    type: VARCHAR
+    description: Name assigned by the responsible agency, or UNNAMED.
+  - name: iso_time
+    type: TIMESTAMP
+    description: Observation time in UTC. Mostly the 3-hourly synoptic times, plus extra rows at landfall and peak intensity.
+  - name: nature
+    type: VARCHAR
+    description: Storm nature at this time — TS tropical, SS subtropical, ET extratropical, DS disturbance, MX mixed (agencies disagree), NR not reported.
+  - name: lat
+    type: DOUBLE
+    description: Centre latitude in degrees north (negative south).
+  - name: lon
+    type: DOUBLE
+    description: Centre longitude in degrees east (negative west). NOT wrapped to [-180, 180] — tracks crossing the antimeridian continue past 180.
+  - name: wmo_wind
+    type: INTEGER
+    description: Maximum sustained wind in knots reported by the WMO agency responsible for the basin. The averaging period varies by agency, so values are not directly comparable with usa_wind. Null before the agency began reporting.
+  - name: wmo_pres
+    type: INTEGER
+    description: Minimum central pressure in millibars reported by the WMO agency responsible for the basin. Null before the agency began reporting.
+  - name: usa_wind
+    type: INTEGER
+    description: Maximum 1-minute sustained wind in knots per the US agency (NHC/JTWC). Only populated where a US agency tracked the storm.
+  - name: usa_pres
+    type: INTEGER
+    description: Minimum central pressure in millibars per the US agency. Only populated where a US agency tracked the storm.
+  - name: usa_sshs
+    type: INTEGER
+    description: Saffir-Simpson stage code, not a wind speed — 1 to 5 are hurricane categories, 0 is tropical storm, -1 tropical depression, and -2 to -5 encode subtropical, extratropical, disturbance and unknown stages. Filter to >= 1 for hurricane-strength rows.
+  - name: dist2land
+    type: INTEGER
+    description: Distance in kilometres from the storm centre to the nearest land, 0 when over land.
+  - name: landfall
+    type: INTEGER
+    description: Distance in kilometres to the next landfall within the following 6 hours, 0 when the storm is making landfall now.

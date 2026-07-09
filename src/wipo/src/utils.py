@@ -10,7 +10,7 @@ This module holds only the cross-subset machinery: the JSON client, the
 office x origin x year table parser shared by the ips-search and pmh-search
 subsets, the long-format schema they share, and the column helpers used by all
 three sub-modules. The per-subset fetch bodies, the key-indicator schema/parser,
-and every NodeSpec live in the ``nodes/`` files.
+and every NodeSpec live in ``nodes/wipo.py``.
 """
 
 import pyarrow as pa
@@ -31,21 +31,6 @@ IPS_SCHEMA = pa.schema([
     ("breakdown_index", pa.int32()),
     ("value", pa.float64()),
 ])
-
-# Transform SQL shared by the office x origin x year (ips/pmh) subsets.
-OFFICE_SQL = '''
-    SELECT
-        office,
-        origin,
-        indicator_id,
-        indicator,
-        report_type,
-        CAST(year AS INTEGER)          AS year,
-        breakdown_index,
-        CAST(value AS DOUBLE)          AS value
-    FROM "{dep}"
-    WHERE value IS NOT NULL
-'''
 
 
 # --------------------------------------------------------------------------- #

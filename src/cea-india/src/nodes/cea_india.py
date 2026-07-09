@@ -8,15 +8,14 @@ full each run (stateless full re-pull; total corpus ~4-5 MB) and overwrite.
 Raw is saved as NDJSON: numeric fields arrive as quoted strings (some empty,
 some null), `id` is sometimes int / sometimes string, and column sets differ
 per endpoint — heterogeneous enough that a fixed parquet schema would be
-brittle. The per-endpoint TRANSFORM_SPECS do the typing: parse the `Mon-YYYY`
-period to a DATE and TRY_CAST the value columns to DOUBLE.
+brittle. Typing (parse the `Mon-YYYY` period to a DATE, TRY_CAST value columns
+to DOUBLE) is deferred to the model stage's compiled transforms.
 """
 
 import certifi
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     configure_http,
     get,
     save_raw_ndjson,
@@ -86,6 +85,7 @@ ENDPOINTS = {
     "installed_capacity_allindia": "installed_capacity_allindia",
     "installed_capacity_statewise": "installed_capacity_statewise",
     "instcap_allindia_res": "instcap_allindia_res",
+    "installed_capacity_composition": "installed_capacity_composition",
     "percapitalConsumtion": "percapitalConsumtion",
     "power_generation": "power_generation",
     "psp_energy": "psp_energy",
@@ -151,22 +151,7 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-# Shared fuel-capacity column projection (installed-capacity family is wide:
-# one MW column per fuel). All values are quoted strings -> TRY_CAST to DOUBLE.
-_FUEL_COLS = """
-        TRY_CAST(coal AS DOUBLE)          AS coal_mw,
-        TRY_CAST(gas AS DOUBLE)           AS gas_mw,
-        TRY_CAST(diesel AS DOUBLE)        AS diesel_mw,
-        TRY_CAST(thermal_total AS DOUBLE) AS thermal_total_mw,
-        TRY_CAST(nuclear AS DOUBLE)       AS nuclear_mw,
-        TRY_CAST(hydro AS DOUBLE)         AS hydro_mw,
-        TRY_CAST(res AS DOUBLE)           AS res_mw
-"""
-
-# Per-download SQL. The dep id is registered as a view of the same name; raw
-# columns are referenced case-insensitively (unquoted). `try_strptime` parses
-# the 'Mon-YYYY' period and yields NULL (not an error) on any odd format.
-_SQL = {
+_RETIRED_SQL = {
     "cea-india-installed-capacity-allindia": f'''
         SELECT
             try_strptime(month, '%b-%Y')::DATE AS month,

@@ -240,6 +240,17 @@ DOWNLOAD_SPECS = [
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(
+        id="central-bank-of-argentina-fx-currencies-transform",
+        deps=["central-bank-of-argentina-fx-currencies"],
+        sql='''
+            SELECT DISTINCT
+                codigo       AS currency_code,
+                denominacion AS currency_name
+            FROM "central-bank-of-argentina-fx-currencies"
+            WHERE codigo IS NOT NULL
+        ''',
+    ),
+    SqlNodeSpec(
         id="central-bank-of-argentina-monetary-series-transform",
         deps=["central-bank-of-argentina-monetary-series"],
         sql='''

@@ -17,7 +17,7 @@ from subsets_utils import NodeSpec, SqlNodeSpec
 from utils import run_download
 from datasets import (
     china, cleantech, divisia, energy_crisis, fms, gas_demand, gas_imports,
-    gini, labour_market, reer, renewables, russian_trade, sovereign, trade,
+    labour_market, reer, renewables, russian_trade, trade,
 )
 
 
@@ -42,10 +42,6 @@ def fetch_gas_imports(node_id: str) -> None:
     run_download(node_id, gas_imports.PAGE_PATH, gas_imports.parse)
 
 
-def fetch_gini(node_id: str) -> None:
-    run_download(node_id, None, gini.parse, direct_links=[gini.FILE_URL])
-
-
 def fetch_trade(node_id: str) -> None:
     run_download(node_id, trade.PAGE_PATH, trade.parse)
 
@@ -56,11 +52,6 @@ def fetch_reer(node_id: str) -> None:
 
 def fetch_russian_trade(node_id: str) -> None:
     run_download(node_id, russian_trade.PAGE_PATH, russian_trade.parse)
-
-
-def fetch_sovereign(node_id: str) -> None:
-    run_download(node_id, None, sovereign.parse,
-                 direct_links=[sovereign.FILE_URL])
 
 
 def fetch_fms(node_id: str) -> None:
@@ -89,11 +80,9 @@ DOWNLOAD_SPECS = [
     NodeSpec(id=cleantech.DEP, fn=fetch_cleantech, kind="download"),
     NodeSpec(id=gas_demand.DEP, fn=fetch_gas_demand, kind="download"),
     NodeSpec(id=gas_imports.DEP, fn=fetch_gas_imports, kind="download"),
-    NodeSpec(id=gini.DEP, fn=fetch_gini, kind="download"),
     NodeSpec(id=trade.DEP, fn=fetch_trade, kind="download"),
     NodeSpec(id=reer.DEP, fn=fetch_reer, kind="download"),
     NodeSpec(id=russian_trade.DEP, fn=fetch_russian_trade, kind="download"),
-    NodeSpec(id=sovereign.DEP, fn=fetch_sovereign, kind="download"),
     NodeSpec(id=fms.DEP, fn=fetch_fms, kind="download"),
 ]
 

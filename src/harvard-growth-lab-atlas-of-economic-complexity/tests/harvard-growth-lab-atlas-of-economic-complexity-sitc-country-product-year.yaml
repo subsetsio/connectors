@@ -15,9 +15,12 @@ tests:
       product_id is unique across depths in the Atlas's own id space, so the union of
       the per-depth files is still one row per country-product-year.
   - column_type: {col: global_market_share, type: float}
-  - between: {col: global_market_share, lo: 0.0, hi: 1.0}
+  - between: {col: global_market_share, lo: -1.0, hi: 1.0}
     certainty: 90
-    reason: a share of world trade for the product; outside [0,1] means a unit change
+    reason: >-
+      A share of world exports of the product. It goes slightly negative where the
+      underlying export value is a negative net service flow; magnitude above 1
+      would mean a unit change.
   - not_null: product_level
   - enum: {col: product_level, values: [1, 2, 4]}
     reason: >-
@@ -38,10 +41,23 @@ tests:
   - not_null: export_value
   - not_null: import_value
   - column_type: {col: export_value, type: integer}
-  - at_least: {col: export_value, expr: 0}
-    reason: trade values are whole US dollars; a negative is a parse or sign error
-  - at_least: {col: import_value, expr: 0}
-  - column_type: {col: pci, type: float}
+  - at_least: {col: export_value, expr: -10000000000}
+    certainty: 90
+    reason: >-
+      Trade values are whole US dollars and are overwhelmingly non-negative, but
+      the Atlas does publish negative cells: a reconciliation residual on the
+      `ANS` ("areas not elsewhere specified") pseudo-country, and negative net
+      service flows. The floor is set well below the largest observed negative
+      (-3.7e9) so a genuine sign flip on a real flow, which would be orders of
+      magnitude larger, still trips it.  - at_least: {col: import_value, expr: -10000000000}
+    certainty: 90
+    reason: >-
+      Trade values are whole US dollars and are overwhelmingly non-negative, but
+      the Atlas does publish negative cells: a reconciliation residual on the
+      `ANS` ("areas not elsewhere specified") pseudo-country, and negative net
+      service flows. The floor is set well below the largest observed negative
+      (-3.7e9) so a genuine sign flip on a real flow, which would be orders of
+      magnitude larger, still trips it.  - column_type: {col: pci, type: float}
   - nullable: {col: pci, max_null_frac: 0.95}
     certainty: 70
     severity: warn
