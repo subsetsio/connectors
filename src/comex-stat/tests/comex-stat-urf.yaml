@@ -1,0 +1,11 @@
+spec_id: comex-stat-urf
+status: active
+tests:
+  - not_null: CO_URF
+  - not_null: NO_URF
+  - unique: CO_URF
+    reason: URF is a customs-unit code dimension
+    certainty: 85
+  - row_count: {min: 100}
+    reason: customs-unit table should contain many Receita Federal units
+    certainty: 80

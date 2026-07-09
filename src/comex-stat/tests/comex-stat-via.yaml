@@ -1,0 +1,11 @@
+spec_id: comex-stat-via
+status: active
+tests:
+  - not_null: CO_VIA
+  - not_null: NO_VIA
+  - unique: CO_VIA
+    reason: transport mode table is a code dimension
+    certainty: 90
+  - row_count: {min: 5}
+    reason: transport-mode table should contain multiple modes
+    certainty: 85

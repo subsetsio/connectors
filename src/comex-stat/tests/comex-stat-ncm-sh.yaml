@@ -1,0 +1,14 @@
+spec_id: comex-stat-ncm-sh
+status: active
+tests:
+  - not_null: CO_SH6
+  - not_null: NO_SH6_POR
+  - unique: CO_SH6
+    reason: SH6 is the leaf Harmonized System code in this reference table
+    certainty: 85
+  - matches: {col: CO_SH6, pattern: "^[0-9]{6}$"}
+    reason: SH6 codes are six digits
+    certainty: 90
+  - row_count: {min: 100}
+    reason: HS6 has thousands of product headings
+    certainty: 80

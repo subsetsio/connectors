@@ -1,0 +1,11 @@
+spec_id: comex-stat-uf
+status: active
+tests:
+  - not_null: CO_UF
+  - not_null: SG_UF
+  - unique: SG_UF
+    reason: Brazilian UF table has one row per state/federal-district abbreviation
+    certainty: 90
+  - row_count: {min: 20}
+    reason: Brazil has 27 federative units
+    certainty: 90

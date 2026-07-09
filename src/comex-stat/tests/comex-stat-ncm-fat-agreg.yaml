@@ -1,0 +1,11 @@
+spec_id: comex-stat-ncm-fat-agreg
+status: active
+tests:
+  - not_null: CO_FAT_AGREG
+  - not_null: NO_FAT_AGREG
+  - unique: CO_FAT_AGREG
+    reason: aggregate factor is a small code dimension
+    certainty: 90
+  - row_count: {min: 3}
+    reason: aggregate-factor table should contain multiple categories
+    certainty: 80

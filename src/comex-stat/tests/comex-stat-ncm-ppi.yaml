@@ -1,0 +1,11 @@
+spec_id: comex-stat-ncm-ppi
+status: active
+tests:
+  - not_null: CO_PPI
+  - not_null: NO_PPI
+  - unique: CO_PPI
+    reason: PPI is a product-list code dimension
+    certainty: 85
+  - row_count: {min: 10}
+    reason: PPI table should contain multiple product-list groups
+    certainty: 80

@@ -25,7 +25,23 @@ TRANSACTION_FILES = {
 
 # Reference tables: spec_id -> filename stem under {BULK_BASE}/tabelas/<stem>.csv
 REFERENCE_FILES = {
+    "comex-stat-isic-cuci": "ISIC_CUCI",
+    "comex-stat-nbm": "NBM",
     "comex-stat-ncm": "NCM",
+    "comex-stat-ncm-cgce": "NCM_CGCE",
+    "comex-stat-ncm-cuci": "NCM_CUCI",
+    "comex-stat-ncm-fat-agreg": "NCM_FAT_AGREG",
+    "comex-stat-ncm-grupo": "NCM_GRUPO",
+    "comex-stat-ncm-isic": "NCM_ISIC",
+    "comex-stat-ncm-ppe": "NCM_PPE",
+    "comex-stat-ncm-ppi": "NCM_PPI",
+    "comex-stat-ncm-sh": "NCM_SH",
+    "comex-stat-ncm-siit": "NCM_SIIT",
+    "comex-stat-ncm-unidade": "NCM_UNIDADE",
     "comex-stat-pais": "PAIS",
+    "comex-stat-pais-bloco": "PAIS_BLOCO",
+    "comex-stat-uf": "UF",
     "comex-stat-uf-mun": "UF_MUN",
+    "comex-stat-urf": "URF",
+    "comex-stat-via": "VIA",
 }

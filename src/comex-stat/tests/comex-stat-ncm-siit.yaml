@@ -1,0 +1,11 @@
+spec_id: comex-stat-ncm-siit
+status: active
+tests:
+  - not_null: CO_SIIT
+  - not_null: NO_SIIT
+  - unique: CO_SIIT
+    reason: SIIT is a small code dimension
+    certainty: 90
+  - row_count: {min: 1}
+    reason: SIIT table should not be empty
+    certainty: 90

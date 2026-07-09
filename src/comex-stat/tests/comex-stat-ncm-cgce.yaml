@@ -1,0 +1,11 @@
+spec_id: comex-stat-ncm-cgce
+status: active
+tests:
+  - not_null: CO_CGCE_N3
+  - not_null: NO_CGCE_N3
+  - unique: CO_CGCE_N3
+    reason: CGCE level 3 is a classification dimension
+    certainty: 85
+  - row_count: {min: 10}
+    reason: CGCE has multiple category levels
+    certainty: 80

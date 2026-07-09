@@ -1,0 +1,11 @@
+spec_id: comex-stat-nbm
+status: active
+tests:
+  - not_null: CO_NBM
+  - not_null: NO_NBM
+  - unique: CO_NBM
+    reason: NBM is a code dimension with one row per historical merchandise code
+    certainty: 85
+  - row_count: {min: 100}
+    reason: the historical NBM nomenclature contains many product codes
+    certainty: 80

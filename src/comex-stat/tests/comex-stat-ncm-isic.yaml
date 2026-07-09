@@ -1,0 +1,11 @@
+spec_id: comex-stat-ncm-isic
+status: active
+tests:
+  - not_null: CO_ISIC_CLASSE
+  - not_null: NO_ISIC_CLASSE
+  - unique: CO_ISIC_CLASSE
+    reason: ISIC class is the leaf classification code in this dimension
+    certainty: 85
+  - row_count: {min: 100}
+    reason: ISIC contains many activity classes
+    certainty: 80

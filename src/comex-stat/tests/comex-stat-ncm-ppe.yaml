@@ -1,0 +1,11 @@
+spec_id: comex-stat-ncm-ppe
+status: active
+tests:
+  - not_null: CO_PPE
+  - not_null: NO_PPE
+  - unique: CO_PPE
+    reason: PPE is a product-list code dimension
+    certainty: 85
+  - row_count: {min: 10}
+    reason: PPE table should contain multiple product-list groups
+    certainty: 80

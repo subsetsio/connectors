@@ -1,0 +1,8 @@
+spec_id: comex-stat-pais-bloco
+status: active
+tests:
+  - not_null: CO_PAIS
+  - not_null: CO_BLOCO
+  - row_count: {min: 50}
+    reason: country-bloc table maps many countries into regional/economic blocs
+    certainty: 80

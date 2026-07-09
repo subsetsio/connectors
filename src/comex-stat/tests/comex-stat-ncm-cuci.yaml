@@ -1,0 +1,11 @@
+spec_id: comex-stat-ncm-cuci
+status: active
+tests:
+  - not_null: CO_CUCI_ITEM
+  - not_null: NO_CUCI_ITEM
+  - unique: CO_CUCI_ITEM
+    reason: CUCI item is the leaf classification code in this dimension
+    certainty: 85
+  - row_count: {min: 100}
+    reason: CUCI contains hundreds of trade product categories
+    certainty: 80

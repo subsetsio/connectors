@@ -1,0 +1,11 @@
+spec_id: comex-stat-ncm-grupo
+status: active
+tests:
+  - not_null: CO_EXP_SUBSET
+  - not_null: NO_EXP_SUBSET_POR
+  - unique: CO_EXP_SUBSET
+    reason: export subset is the leaf code for this grouping table
+    certainty: 85
+  - row_count: {min: 10}
+    reason: export grouping table should contain multiple subsets
+    certainty: 80

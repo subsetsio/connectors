@@ -1,0 +1,11 @@
+spec_id: comex-stat-isic-cuci
+status: active
+tests:
+  - not_null: CO_ISIC_SECAO
+  - not_null: CO_CUCI_GRUPO
+  - column_type: {col: CO_ISIC_SECAO, type: string}
+    reason: raw reference tables are parsed all-string so classification codes are preserved
+    certainty: 95
+  - row_count: {min: 100}
+    reason: ISIC-CUCI correspondence spans many classification groups
+    certainty: 80

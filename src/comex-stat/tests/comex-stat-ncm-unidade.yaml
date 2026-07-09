@@ -1,0 +1,11 @@
+spec_id: comex-stat-ncm-unidade
+status: active
+tests:
+  - not_null: CO_UNID
+  - not_null: NO_UNID
+  - unique: CO_UNID
+    reason: statistical unit table is a code dimension
+    certainty: 90
+  - row_count: {min: 1}
+    reason: unit table should not be empty
+    certainty: 90
