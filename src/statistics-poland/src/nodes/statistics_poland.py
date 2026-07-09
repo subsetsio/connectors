@@ -23,8 +23,19 @@ a group is small and re-fetched every run; no watermark/cursor.
 
 Rate limits (BDL): anonymous 5 req/s, 100/15min, 1000/12h, 10000/7days; with a
 registered key (sent as the ``X-ClientId`` header, read from env ``BDL_API_KEY``)
-500/15min, 5000/12h. We pace to ~4 req/s and lean on ``transient_retry`` to ride
-out the rolling-window 429s when running anonymously.
+10 req/s, 500/15min, 5000/12h, 50000/7days.
+
+**A registered key is mandatory, not an optimisation.** The anonymous 1000/12h
+bucket on ``/variables`` is a pool SHARED across all anonymous callers, not a
+per-IP allowance: a caller whose own ``X-Rate-Limit-Remaining`` reads 9993/10000
+on the 7-day per-caller counter still gets ``429 API calls quota exceeded!
+Maximum admitted 1000 per 12 h`` on every ``/variables`` request, while
+``/subjects`` (a different bucket) returns 200 at the same instant. Observed
+2026-07-09 from both a cold GitHub Actions runner and an unrelated residential
+IP. Client-side pacing cannot fix a pool other callers drain, so this connector
+does not attempt to: run it with ``BDL_API_KEY`` set. ``Retry-After`` on these
+429s asks for ~1500s, far beyond the shared client's 60s retry cap, so retries
+are guaranteed-futile burn without a key.
 """
 
 import os
