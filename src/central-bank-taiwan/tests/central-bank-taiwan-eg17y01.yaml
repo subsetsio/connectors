@@ -1,0 +1,20 @@
+spec_id: central-bank-taiwan-eg17y01
+status: active
+tests:
+  - not_null: period
+    reason: CBC DataAPI dataSets rows always carry the source period label in the first cell.
+    certainty: 95
+  - not_null: series
+    reason: the connector melts each PC-Axis matrix over its declared dimension members into a long series label.
+    certainty: 95
+  - column_type: {col: period, type: string}
+  - column_type: {col: date, type: string}
+  - column_type: {col: series, type: string}
+  - column_type: {col: value, type: float}
+  - row_count: {min: 1}
+    reason: every accepted CBC matrix should contain at least one period-series observation.
+    certainty: 95
+  - freshness: {col: date, reaches: today - 650d}
+    reason: accepted CBC annual matrices were current in the source catalog; cadence-specific slack allows normal release lag.
+    certainty: 85
+    points_outward: true

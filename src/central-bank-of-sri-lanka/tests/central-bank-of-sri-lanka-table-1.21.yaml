@@ -1,0 +1,22 @@
+spec_id: central-bank-of-sri-lanka-table-1.21
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: each accepted ESS workbook should parse to at least one normalized raw row
+    certainty: 90
+  - not_null: row_label
+    reason: the download parser emits a row label for each retained measurement row
+    certainty: 85
+  - not_null: col_label
+    reason: the download parser emits a flattened column label for each retained measurement cell
+    certainty: 85
+  - column_type: {col: row_label, type: string}
+  - column_type: {col: col_label, type: string}
+  - column_type: {col: period_year, type: integer}
+    severity: warn
+    reason: most ESS tables carry a year dimension, but some cross-tabs may leave period_year blank
+    certainty: 70
+  - column_type: {col: value, type: float}
+    severity: warn
+    reason: parsed numeric cells are represented as doubles when present
+    certainty: 80

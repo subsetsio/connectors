@@ -1,21 +1,22 @@
 """UNODC data portal connector.
 
-Each of the 9 published subsets is one UNODC statistical collection, exposed as a
-single bulk .xlsx behind the ~65 https://data.unodc.org/datareport/<slug> pages.
-The dated file URL is point-in-time (path embeds a YYYY-MM release directory) and
-the HTML links are frequently stale/broken (a referenced .xlsx 404s while a
-sibling `_0.xlsx` revision in the same directory is the live file). So we do NOT
-hardcode the URL: each run scrapes the entity's datareport pages, collects every
-`YYYY-MM` release directory mentioned anywhere on them, and probes `<basename>.xlsx`
-and `<basename>_0.xlsx` in each — picking the newest directory that holds a valid
+Each entity is one UNODC workbook — 9 statistical collections plus the 3 region
+classification workbooks — exposed as a single bulk .xlsx behind the ~65
+https://data.unodc.org/datareport/<slug> pages. The dated file URL is
+point-in-time (path embeds a YYYY-MM release directory) and the HTML links are
+frequently stale/broken (a referenced .xlsx 404s while a sibling `_0.xlsx`
+revision in the same directory is the live file). So we do NOT hardcode the URL:
+each run scrapes the entity's datareport pages, collects every `YYYY-MM` release
+directory mentioned anywhere on them, and probes `<basename>.xlsx` and
+`<basename>_0.xlsx` in each — picking the newest directory that holds a valid
 workbook (preferring the `_0` revision on a tie).
 
 The corpus is small (a handful of .xlsx, low-GB total) and re-published wholesale
 on each (roughly annual) release, with no incremental delta filter, so this is a
 stateless full re-pull every run (TOOLS shape 1). Each workbook is parsed to
 all-string NDJSON rows (VALUE columns carry censored entries like "<5", and the
-three schema families — standard CTS, wildlife, SDG — differ), and the per-subset
-SQL transform casts/cleans into the published table.
+four schema families — standard CTS, wildlife, SDG, region reference — differ);
+casting is left to the compiled transform.
 """
 
 import io
@@ -26,7 +27,6 @@ import openpyxl
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -73,10 +73,27 @@ CONFIG = {
         ["sdg-16-1-1", "sdg-11-7-2", "sdg-15-7-1"],
         "sdg_dataset",
     ),
+    # Region classification workbooks. Each is linked from the datareports of the
+    # thematic area it applies to, so the pages that carry its release directory
+    # are that area's — the drug datareports for WDR, the SDG ones for SDG.
+    "data-portal-m49-regions": (
+        ["hom-victim", "prison-held", "tip-victims"],
+        "data_portal_m49_regions",
+    ),
+    "data-portal-sdg-regions": (
+        ["sdg-16-1-1", "sdg-11-7-2", "sdg-15-7-1"],
+        "data_portal_sdg_regions",
+    ),
+    "data-portal-wdr-regions": (
+        ["drug-price", "drug-seizure", "druguse-prevalence"],
+        "data_portal_wdr_regions",
+    ),
 }
 
-# Anchor tokens identifying the real header row (a couple of title rows sit above it).
-_HEADER_ANCHORS = ("iso3_code", "goal")
+# Anchor tokens identifying the real header row (a few title rows sit above it):
+# `iso3_code` for the CTS family, `goal` for SDG, `iso_alpha3_code` for the region
+# workbooks. Wildlife has neither and is matched on its own column pair below.
+_HEADER_ANCHORS = ("iso3_code", "goal", "iso_alpha3_code")
 
 
 @transient_retry(max_wait=60)
@@ -204,121 +221,3 @@ DOWNLOAD_SPECS = [
     NodeSpec(id=f"unodc-{eid}", fn=fetch_one, kind="download")
     for eid in CONFIG
 ]
-
-# ---------------------------------------------------------------------------
-# Transforms — one published Delta table per subset.
-# ---------------------------------------------------------------------------
-
-# Standard CTS-family long table (justice, corruption, homicide, prisons,
-# violent, glotip, iafq). value_raw preserves censored entries ("<5"); value is
-# the numeric cast (NULL where censored).
-_CTS_ENTITIES = [
-    "data-cts-access-and-functioning-of-justice",
-    "data-cts-corruption-and-economic-crime",
-    "data-cts-intentional-homicide",
-    "data-cts-prisons-and-prisoners",
-    "data-cts-violent-and-sexual-crime",
-    "data-glotip",
-    "data-iafq-firearms-trafficking",
-]
-
-
-def _cts_sql(dep: str) -> str:
-    return f'''
-        SELECT
-            iso3_code,
-            country,
-            region,
-            subregion,
-            indicator,
-            dimension,
-            category,
-            sex,
-            age,
-            CAST(TRY_CAST(year AS DOUBLE) AS INTEGER) AS year,
-            unit_of_measurement                       AS unit,
-            value                                     AS value_raw,
-            -- VALUE carries English-formatted numbers (period decimal, comma
-            -- thousands sep) and censored entries like "<5"; strip the grouping
-            -- commas so real magnitudes parse, leaving censored strings NULL.
-            TRY_CAST(REPLACE(value, ',', '') AS DOUBLE) AS value,
-            source
-        FROM "{dep}"
-        WHERE value IS NOT NULL
-    '''
-
-
-_WILDLIFE_SQL = '''
-    SELECT
-        geo,
-        year                          AS year_range,
-        indicator,
-        series,
-        taxonomic_group,
-        unit_measure                  AS unit,
-        value                         AS value_raw,
-        TRY_CAST(REPLACE(value, ',', '') AS DOUBLE) AS value,
-        obs_status,
-        note,
-        source
-    FROM "unodc-data-wildlife-trafficking"
-    WHERE value IS NOT NULL
-'''
-
-
-_SDG_SQL = '''
-    SELECT
-        goal,
-        target,
-        indicator,
-        series,
-        region,
-        subregion,
-        intermregion,
-        geo,
-        iso3_code,
-        CAST(TRY_CAST(year AS DOUBLE) AS INTEGER) AS year,
-        sex,
-        age,
-        drug,
-        crime,
-        dim_comp1,
-        value                                     AS value_raw,
-        TRY_CAST(REPLACE(value, ',', '') AS DOUBLE)       AS value,
-        TRY_CAST(REPLACE(lower_bound, ',', '') AS DOUBLE) AS lower_bound,
-        TRY_CAST(REPLACE(upper_bound, ',', '') AS DOUBLE) AS upper_bound,
-        obs_status,
-        note,
-        source,
-        time_period,
-        altseries
-    FROM "unodc-sdg-dataset"
-    WHERE value IS NOT NULL
-'''
-
-
-TRANSFORM_SPECS = (
-    [
-        SqlNodeSpec(
-            id=f"unodc-{eid}-transform",
-            deps=[f"unodc-{eid}"],
-            sql=_cts_sql(f"unodc-{eid}"),
-            temporal="year",
-        )
-        for eid in _CTS_ENTITIES
-    ]
-    + [
-        SqlNodeSpec(
-            id="unodc-data-wildlife-trafficking-transform",
-            deps=["unodc-data-wildlife-trafficking"],
-            sql=_WILDLIFE_SQL,
-            temporal="year_range",
-        ),
-        SqlNodeSpec(
-            id="unodc-sdg-dataset-transform",
-            deps=["unodc-sdg-dataset"],
-            sql=_SDG_SQL,
-            temporal="year",
-        ),
-    ]
-)

@@ -25,7 +25,7 @@ mixes parsed floats with footnote-bearing text.
 Fetch shape: stateless full re-pull. Each workbook is small (KBs-to-MB) and the
 source revises figures in place across releases, so every run re-fetches the full
 workbook and overwrites raw — no watermark/cursor would safely capture in-place
-revisions. Coverage is the rank-accepted entity union (157 tables).
+revisions. Coverage is the rank-accepted entity union (182 tables).
 """
 
 import io
@@ -36,7 +36,6 @@ from openpyxl import load_workbook
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -46,7 +45,7 @@ SLUG = "central-bank-of-sri-lanka"
 BASE = "https://www.cbsl.gov.lk"
 ESS = f"{BASE}/en/statistics/economic-and-social-statistics"
 
-# Rank-accepted entity union (157 tables). Each id maps 1:1 to one ESS workbook.
+# Rank-accepted entity union (182 tables). Each id maps 1:1 to one ESS workbook.
 from constants import ENTITY_IDS
 
 # ---------------------------------------------------------------------------
@@ -328,26 +327,3 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-# ---------------------------------------------------------------------------
-# TRANSFORM_SPECS — one published Delta table per subset
-# ---------------------------------------------------------------------------
-def _publish_sql(dep_id: str) -> str:
-    return f'''
-        SELECT
-            CAST(row_label AS VARCHAR)   AS row_label,
-            CAST(col_label AS VARCHAR)   AS col_label,
-            TRY_CAST(period_year AS INTEGER) AS period_year,
-            TRY_CAST(value AS DOUBLE)    AS value,
-            CAST(value_text AS VARCHAR)  AS value_text
-        FROM "{dep_id}"
-        WHERE value IS NOT NULL
-          AND TRY_CAST(value AS DOUBLE) IS NOT NULL
-          AND row_label IS NOT NULL
-          AND TRIM(row_label) <> ''
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_publish_sql(s.id))
-    for s in DOWNLOAD_SPECS
-]
