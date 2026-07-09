@@ -3,8 +3,14 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
+key: [indicator_code]
 checks:
+  - kind: unique
+    columns: [indicator_code]
+  - kind: not_null
+    col: indicator_code
   - kind: row_floor
     min: 1535
 regression:
   row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
