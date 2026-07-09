@@ -1,0 +1,35 @@
+spec_id: ecb-nec
+status: active
+tests:
+  - not_null: series_key
+    certainty: 95
+    reason: every SDMX-CSV observation row carries the dot-separated series KEY; a null means the CSV header mapping broke
+  - not_null: time_period
+    certainty: 95
+    reason: TIME_PERIOD is a mandatory SDMX dimension on every observation row
+  - column_type: {col: series_key, type: string}
+    certainty: 95
+    reason: raw schema keeps all CSV columns as strings; the parquet contract is declared in the node module
+  - column_type: {col: time_period, type: string}
+    certainty: 95
+    reason: mixed D/W/M/Q/S/A period formats within one flow force a string column; casting is the transform's job
+  - column_type: {col: obs_value, type: string}
+    certainty: 95
+    reason: OBS_VALUE is stored faithfully as text in raw; numeric casting happens in the transform
+  - unique: [series_key, time_period]
+    certainty: 80
+    reason: a full-flow SDMX-CSV snapshot without includeHistory has exactly one observation per series per period; duplicates mean a double-write on our side
+  - nullable: {col: obs_value, max_null_frac: 0.5}
+    certainty: 60
+    severity: warn
+    reason: missing observations appear as empty OBS_VALUE cells; more than half missing suggests a malformed pull or a format change
+  - enum: {col: freq, values: [A, B, D, E, H, M, N, Q, S, W]}
+    certainty: 75
+    severity: warn
+    reason: SDMX CL_FREQ codes; an unexpected value means a new frequency code we should map
+  - row_count: {min: 11}
+    certainty: 85
+    reason: the NEC flow served 12 series each carrying at least one observation when probed on 2026-07-09; a full-history pull holds many observations per series, so this floor catches a truncated download rather than describing the expected size
+  - freshness: {col: time_period, reaches: today - 400d}
+    points_outward: true
+    reason: monthly flow whose latest observed period was 2026-06 at authoring time; the window is that publication lag plus revision slack (string-ordered SDMX periods compare correctly at this slack)

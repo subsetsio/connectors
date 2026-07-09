@@ -37,7 +37,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get_client,
     load_state,
     save_state,
@@ -209,29 +208,7 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-
-# One published Delta table per flow: a thin parse-and-type pass over the raw
-# CSV columns. TIME_PERIOD is kept as text because frequencies are mixed within
-# a flow (daily / monthly / quarterly / annual), so a single DATE cast is unsafe.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                series_key,
-                freq,
-                time_period,
-                CAST(obs_value AS DOUBLE)  AS value,
-                obs_status,
-                title,
-                unit
-            FROM "{s.id}"
-            WHERE obs_value IS NOT NULL
-              AND TRY_CAST(obs_value AS DOUBLE) IS NOT NULL
-        ''',
-        key=("series_key", "time_period"),
-        temporal="time_period",
-    )
-    for s in DOWNLOAD_SPECS
-]
+# The published tables are one `src/transforms/{spec}.sql` + `.yml` pair per flow
+# (a thin parse-and-type pass over the raw CSV columns, with each flow's constant
+# dimension columns dropped). TIME_PERIOD stays text because frequencies are mixed
+# within a flow, so a single DATE cast is unsafe.

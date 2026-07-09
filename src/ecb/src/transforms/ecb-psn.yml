@@ -1,0 +1,30 @@
+# PSN — PSN (ECB Data Portal SDMX dataflow PSN)
+# decimals: display metadata — dropped
+# obs_status/unit/unit_mult kept: not yet profiled against raw for this flow (added 2026-07-09, before its first download); revisit once profile-raw can see it
+key: [series_key, time_period]
+temporal: time_period
+columns:
+  - name: series_key
+    type: VARCHAR
+    description: "full dot-separated SDMX series key identifying one series of the ECB PSN dataflow"
+  - name: freq
+    type: VARCHAR
+    description: "SDMX frequency code of the series (A annual, H half-yearly, S semi-annual, Q quarterly, M monthly, W weekly, B business-daily, D daily, E event)"
+  - name: time_period
+    type: VARCHAR
+    description: "SDMX observation period; format follows the series frequency (YYYY, YYYY-Qn, YYYY-Sn/Hn, YYYY-MM, YYYY-Wnn or YYYY-MM-DD)"
+  - name: value
+    type: DOUBLE
+    description: "numeric observation value"
+  - name: obs_status
+    type: VARCHAR
+    description: "SDMX observation status code (A normal, B break, E estimated, P provisional, U low reliability)"
+  - name: title
+    type: VARCHAR
+    description: "human-readable English series title from the ECB catalog (name plus unit/compilation notes)"
+  - name: unit
+    type: VARCHAR
+    description: "ECB unit code of the observation (e.g. EUR, PC for percent, IX for index, PURE_NUMB)"
+  - name: unit_mult
+    type: BIGINT
+    description: "power-of-ten scaling exponent the observation value is expressed in (0 = unscaled, 3 = thousands, 6 = millions)"
