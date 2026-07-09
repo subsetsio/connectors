@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import _first, _get_json, _iter_pages
 
 # Safety ceiling — detects the source growing past expectations and RAISES; it
@@ -128,13 +128,3 @@ def fetch_types(node_id: str) -> None:
     rows = [_flatten_type(it) for it in (page.get("message", {}).get("items") or [])]
     table = pa.Table.from_pylist(rows, schema=_TYPES_SCHEMA)
     save_raw_parquet(table, node_id)
-
-
-# --- specs ------------------------------------------------------------------
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="crossref-funders", fn=fetch_registry, kind="download"),
-    NodeSpec(id="crossref-journals", fn=fetch_registry, kind="download"),
-    NodeSpec(id="crossref-members", fn=fetch_registry, kind="download"),
-    NodeSpec(id="crossref-types", fn=fetch_types, kind="download"),
-]
