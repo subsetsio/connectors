@@ -1,161 +1,275 @@
 """World Inequality Database (WID.world) connector.
 
-Single subset: `values` — the long-format observation corpus of the entire
-database. Access is the official bulk export, one persistent ZIP holding the
-whole database (https://wid.world/bulk_download/wid_all_data.zip, ~850MB),
-containing one `WID_data_XX.csv` per area (423 areas) with a uniform schema:
-country;variable;percentile;year;value;age;pop (semicolon-separated).
+Three subsets, all carved out of ONE artifact: the official bulk export at
+https://wid.world/bulk_download/wid_all_data.zip (~883MB), a persistent ZIP
+holding the entire database. Its 848 members are `WID_countries.csv`,
+`README.md`, and a `WID_data_XX.csv` + `WID_metadata_XX.csv` pair for each of
+423 areas. Every CSV is semicolon-separated.
 
-Fetch shape: stateless full re-pull. The bulk export has no incremental/delta
-filter — it is a single full snapshot refreshed roughly annually (~July), so we
-re-download and overwrite the whole corpus each run. Revisions and the shifting
-reference year are picked up for free. The download streams to a temp file and
-the ZIP members are parsed in bounded-memory batches into one streamed parquet,
-so the ~850MB payload never lands in RAM whole.
+  values     the long-format observation corpus (all 423 `WID_data_*.csv`)
+  variables  per-area/variable metadata (all 423 `WID_metadata_*.csv`)
+  countries  the area-code dictionary (`WID_countries.csv`)
+
+Download nodes are independent, so they cannot share one fetch. Rather than
+pull 883MB three times, only `values` streams the whole ZIP (it needs ~all of
+it: the data members are 859MB of the 883MB). `variables` and `countries` read
+just their own members over HTTP range requests against the ZIP's central
+directory — 24MB and 4KB respectively. The server advertises `Accept-Ranges:
+bytes`; if that ever stops holding, those two nodes fail loudly rather than
+silently degrading.
+
+Fetch shape: stateless full re-pull. The export exposes no incremental/delta
+filter — it is one full snapshot refreshed roughly annually (~July), so each
+run re-reads and overwrites. Revisions and the shifting reference year come
+along for free. MAINTAIN_SPECS gates whether a run refetches at all, off the
+ZIP's ETag/Last-Modified.
+
+Schema drift, measured and normalized here rather than left to the transform:
+the aggregate-region members (QE, WO, ...) omit `data_quality` from the data
+CSVs and `data_quality_score` from the metadata CSVs, and `data_quality` is
+integral in some members and fractional in others (FR carries 0.0144). Both
+columns are therefore pinned to float64 and back-filled as null where absent,
+so every member conforms to one declared schema.
 """
 
+import io
 import os
 import tempfile
 import zipfile
 
 import pyarrow as pa
 import pyarrow.csv as pacsv
-import pyarrow.parquet as pq  # noqa: F401  (ParquetWriter used via raw_parquet_writer)
 
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
-    SqlNodeSpec,
+    get,
     get_client,
+    raw_asset_exists,
     raw_parquet_writer,
+    record_source_signature,
+    save_raw_parquet,
+    source_unchanged,
     transient_retry,
 )
 
 BULK_URL = "https://wid.world/bulk_download/wid_all_data.zip"
 
-# Uniform schema of every WID_data_XX.csv member.
-EXPECTED_HEADER = ["country", "variable", "percentile", "year", "value", "age", "pop"]
+# A sanity floor on the area count, not the true universe: WID ships 423 areas
+# today. A ZIP that suddenly holds a handful of members means the export broke
+# or moved, and we must fail rather than publish a truncated corpus.
+MIN_AREA_MEMBERS = 300
 
-SCHEMA = pa.schema([
+DATA_COLUMNS = ["country", "variable", "percentile", "year", "value", "age", "pop", "data_quality"]
+DATA_SCHEMA = pa.schema([
     ("country", pa.string()),
     ("variable", pa.string()),
     ("percentile", pa.string()),
     ("year", pa.int32()),
     ("value", pa.float64()),
-    ("age", pa.string()),
+    ("age", pa.int32()),
     ("pop", pa.string()),
+    ("data_quality", pa.float64()),
 ])
 
-# pyarrow CSV options: force the WID schema (so type inference can't drift
-# member-to-member), treat empty / "NA" as null in the numeric columns only,
-# and skip the occasional malformed row instead of aborting the whole pull.
-# Parsing in pyarrow's C++ reader is ~an order of magnitude faster than a
-# Python csv.reader row loop over the corpus's tens of millions of rows.
-def _skip_invalid_row(_row) -> str:
-    return "skip"
-
-
-_READ_OPTS = pacsv.ReadOptions(block_size=1 << 24)
-_PARSE_OPTS = pacsv.ParseOptions(delimiter=";", invalid_row_handler=_skip_invalid_row)
-_CONVERT_OPTS = pacsv.ConvertOptions(
-    column_types={
-        "country": pa.string(),
-        "variable": pa.string(),
-        "percentile": pa.string(),
-        "year": pa.int32(),
-        "value": pa.float64(),
-        "age": pa.string(),
-        "pop": pa.string(),
-    },
-    null_values=["", "NA"],
-    strings_can_be_null=False,
+METADATA_COLUMNS = [
+    "country", "variable", "age", "pop", "countryname", "shortname", "simpledes",
+    "technicaldes", "shorttype", "longtype", "shortpop", "longpop", "shortage",
+    "longage", "unit", "source", "method", "extrapolation", "data_points",
+    "data_quality_score",
+]
+METADATA_SCHEMA = pa.schema(
+    [(c, pa.int32() if c == "age" else pa.float64() if c == "data_quality_score" else pa.string())
+     for c in METADATA_COLUMNS]
 )
+
+COUNTRY_COLUMNS = ["alpha2", "titlename", "shortname", "region", "region2"]
+COUNTRY_SCHEMA = pa.schema([(c, pa.string()) for c in COUNTRY_COLUMNS])
+
+_PARSE_OPTS = pacsv.ParseOptions(delimiter=";")
+_READ_OPTS = pacsv.ReadOptions(block_size=1 << 24)
+
+
+def _convert_opts(schema: pa.Schema) -> pacsv.ConvertOptions:
+    """Force the declared schema onto a member.
+
+    `include_columns` pins the output column order; `include_missing_columns`
+    null-fills the quality columns the aggregate-region members omit. Together
+    they make per-member type inference impossible, which is the point — the
+    schema is the contract, and a member that cannot be coerced into it raises.
+    """
+    return pacsv.ConvertOptions(
+        column_types={f.name: f.type for f in schema},
+        include_columns=list(schema.names),
+        include_missing_columns=True,
+        null_values=["", "NA"],
+        strings_can_be_null=True,
+    )
+
+
+class _RangeReader(io.RawIOBase):
+    """A seekable read-only file over an HTTP resource, backed by range GETs.
+
+    Lets `zipfile` parse the central directory and inflate individual members
+    of the 883MB export without downloading it. Every request goes through
+    `subsets_utils.get`, so transient failures are already retried.
+    """
+
+    def __init__(self, url: str):
+        self.url = url
+        self.pos = 0
+        resp = get_client().head(url, timeout=(10.0, 60.0))
+        resp.raise_for_status()
+        if resp.headers.get("Accept-Ranges") != "bytes":
+            raise RuntimeError(
+                f"{url} no longer advertises 'Accept-Ranges: bytes' — the ranged "
+                "member reads this node depends on are unavailable"
+            )
+        self.size = int(resp.headers["Content-Length"])
+
+    def readable(self) -> bool:
+        return True
+
+    def seekable(self) -> bool:
+        return True
+
+    def tell(self) -> int:
+        return self.pos
+
+    def seek(self, offset: int, whence: int = os.SEEK_SET) -> int:
+        if whence == os.SEEK_SET:
+            self.pos = offset
+        elif whence == os.SEEK_CUR:
+            self.pos += offset
+        else:
+            self.pos = self.size + offset
+        return self.pos
+
+    def read(self, size: int = -1) -> bytes:
+        if size is None or size < 0:
+            size = self.size - self.pos
+        if size == 0 or self.pos >= self.size:
+            return b""
+        last = min(self.pos + size, self.size) - 1
+        resp = get(self.url, headers={"Range": f"bytes={self.pos}-{last}"}, timeout=(10.0, 120.0))
+        resp.raise_for_status()
+        chunk = resp.content
+        self.pos += len(chunk)
+        return chunk
+
+    def readinto(self, buf) -> int:
+        chunk = self.read(len(buf))
+        buf[: len(chunk)] = chunk
+        return len(chunk)
+
+
+def _open_remote_zip() -> zipfile.ZipFile:
+    return zipfile.ZipFile(io.BufferedReader(_RangeReader(BULK_URL), buffer_size=1 << 20))
+
+
+def _area_members(zf: zipfile.ZipFile, prefix: str) -> list[str]:
+    members = sorted(
+        n for n in zf.namelist()
+        if os.path.basename(n).startswith(prefix) and n.endswith(".csv")
+    )
+    if len(members) < MIN_AREA_MEMBERS:
+        raise RuntimeError(
+            f"bulk ZIP holds only {len(members)} {prefix}*.csv members "
+            f"(expected >= {MIN_AREA_MEMBERS}) — the export layout changed"
+        )
+    return members
+
+
+def _write_member(source, schema: pa.Schema, writer) -> None:
+    """Parse one CSV member into the streamed parquet, in record batches."""
+    reader = pacsv.open_csv(
+        source,
+        read_options=_READ_OPTS,
+        parse_options=_PARSE_OPTS,
+        convert_options=_convert_opts(schema),
+    )
+    for batch in reader:
+        if batch.num_rows:
+            writer.write_table(pa.Table.from_batches([batch], schema=schema))
 
 
 @transient_retry()
 def _download_bulk_zip(dest_path: str) -> None:
-    """Stream the full WID bulk ZIP to a local temp file (bounded memory)."""
+    """Stream the full bulk ZIP to a local temp file (bounded memory)."""
     client = get_client()
     with client.stream("GET", BULK_URL, timeout=(30.0, 300.0)) as resp:
         resp.raise_for_status()
-        with open(dest_path, "wb") as f:
+        with open(dest_path, "wb") as fh:
             for chunk in resp.iter_bytes(1 << 20):
-                f.write(chunk)
-
-
-def _parse_member(zf: zipfile.ZipFile, member: str, writer) -> None:
-    """Parse one WID_data_XX.csv member into the streamed raw parquet.
-
-    The member is read into a buffer (each is a small slice of the ~850MB
-    corpus) and parsed by pyarrow's streaming CSV reader, so peak memory is one
-    member plus one record batch. The header is validated against the uniform
-    WID layout; a format change fails loudly rather than writing garbage.
-    """
-    reader = pacsv.open_csv(
-        pa.BufferReader(zf.read(member)),
-        read_options=_READ_OPTS,
-        parse_options=_PARSE_OPTS,
-        convert_options=_CONVERT_OPTS,
-    )
-    assert reader.schema.names == EXPECTED_HEADER, (
-        f"{member}: unexpected header {reader.schema.names!r}, "
-        f"expected {EXPECTED_HEADER!r}"
-    )
-    for batch in reader:
-        if batch.num_rows:
-            # cast is a positional no-op here (types are forced above) — it just
-            # guarantees the writer always sees the exact SCHEMA.
-            writer.write_table(pa.Table.from_batches([batch]).cast(SCHEMA))
+                fh.write(chunk)
 
 
 def fetch_values(node_id: str) -> None:
+    """The observation corpus — needs ~every byte of the ZIP, so download it."""
     asset = node_id  # the runtime passes the spec id; it IS the asset name
 
     tmp = tempfile.NamedTemporaryFile(suffix=".zip", delete=False)
     tmp.close()
     try:
         _download_bulk_zip(tmp.name)
-
         with zipfile.ZipFile(tmp.name) as zf:
-            members = sorted(
-                n for n in zf.namelist()
-                if os.path.basename(n).startswith("WID_data_") and n.endswith(".csv")
-            )
-            assert members, "no WID_data_*.csv members found in bulk ZIP — format changed"
-
-            with raw_parquet_writer(asset, SCHEMA) as writer:
+            members = _area_members(zf, "WID_data_")
+            with raw_parquet_writer(asset, DATA_SCHEMA) as writer:
                 for member in members:
-                    _parse_member(zf, member, writer)
+                    with zf.open(member) as fh:
+                        _write_member(fh, DATA_SCHEMA, writer)
     finally:
         os.unlink(tmp.name)
 
+    record_source_signature(asset, BULK_URL)
 
-ENTITY_IDS = ["values"]
+
+def fetch_variables(node_id: str) -> None:
+    """Per-area variable metadata — 24MB of the ZIP, pulled by range reads."""
+    asset = node_id
+
+    zf = _open_remote_zip()
+    members = _area_members(zf, "WID_metadata_")
+    with raw_parquet_writer(asset, METADATA_SCHEMA) as writer:
+        for member in members:
+            _write_member(pa.BufferReader(zf.read(member)), METADATA_SCHEMA, writer)
+
+    record_source_signature(asset, BULK_URL)
+
+
+def fetch_countries(node_id: str) -> None:
+    """The area-code dictionary — one 4KB member, pulled by range reads."""
+    asset = node_id
+
+    zf = _open_remote_zip()
+    table = pacsv.read_csv(
+        pa.BufferReader(zf.read("WID_countries.csv")),
+        read_options=_READ_OPTS,
+        parse_options=_PARSE_OPTS,
+        convert_options=_convert_opts(COUNTRY_SCHEMA),
+    )
+    save_raw_parquet(table.cast(COUNTRY_SCHEMA), asset)
+
+    record_source_signature(asset, BULK_URL)
+
 
 DOWNLOAD_SPECS = [
-    NodeSpec(
-        id=f"world-inequality-database-{eid.lower().replace('_', '-')}",
-        fn=fetch_values,
-        kind="download",
-    )
-    for eid in ENTITY_IDS
+    NodeSpec(id="world-inequality-database-values", fn=fetch_values, kind="download"),
+    NodeSpec(id="world-inequality-database-variables", fn=fetch_variables, kind="download"),
+    NodeSpec(id="world-inequality-database-countries", fn=fetch_countries, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                country,
-                variable,
-                percentile,
-                CAST(year AS INTEGER)  AS year,
-                CAST(value AS DOUBLE)  AS value,
-                age,
-                pop
-            FROM "{s.id}"
-            WHERE value IS NOT NULL
-        ''',
+# One artifact behind all three nodes, so one freshness signal: the ZIP's
+# ETag/Last-Modified. WID publishes no release calendar; the observed cadence is
+# roughly annual (~July), and the export is served with both validators.
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "Full bulk export refreshed roughly annually (~July); no published "
+            f"release calendar. Freshness observed via ETag/Last-Modified on {BULK_URL}."
+        ),
+        check=lambda aid: source_unchanged(aid, BULK_URL) and raw_asset_exists(aid, "parquet"),
     )
-    for s in DOWNLOAD_SPECS
+    for spec in DOWNLOAD_SPECS
 ]

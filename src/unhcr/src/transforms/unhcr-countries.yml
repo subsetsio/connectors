@@ -1,0 +1,48 @@
+key: [country_id]
+sort: [country_id]
+columns:
+  - name: country_id
+    type: BIGINT
+    description: UNHCR numeric country or territory identifier. Joined against coo_id / coa_id on the data tables.
+  - name: country_code
+    type: VARCHAR
+    description: UNHCR three-letter country or territory code.
+  - name: iso3
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 code, where the territory has one. Null for a few non-state territories.
+  - name: iso2
+    type: VARCHAR
+    description: ISO 3166-1 alpha-2 code, where the territory has one.
+  - name: name
+    type: VARCHAR
+    description: Country or territory name as used across the UNHCR data tables.
+  - name: name_origin
+    type: VARCHAR
+    description: Name used when the territory appears as a country of origin.
+  - name: name_long
+    type: VARCHAR
+    description: Long-form country or territory name.
+  - name: name_short
+    type: VARCHAR
+    description: Short-form country or territory name.
+  - name: name_formal
+    type: VARCHAR
+    description: Formal name of the state, where one exists.
+  - name: nationality
+    type: VARCHAR
+    description: Demonym for people originating from this country or territory.
+  - name: major_area
+    type: VARCHAR
+    description: UN M49 major geographic area (Africa, Asia, Europe, ...). Not a UNHCR operational bureau - see the regions table for those.
+  - name: region
+    type: VARCHAR
+    description: UN M49 geographic sub-region (Southern Asia, Southern Europe, ...). Distinct from the UNHCR bureaux in the regions table, which share the word 'region' but not the concept.
+  - name: name_fr
+    type: VARCHAR
+    description: French country or territory name.
+  - name: major_area_fr
+    type: VARCHAR
+    description: French major geographic area name.
+  - name: region_fr
+    type: VARCHAR
+    description: French geographic sub-region name.

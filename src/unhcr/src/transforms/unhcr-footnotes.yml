@@ -1,0 +1,30 @@
+key: [period, origin_id, asylum_country_id, population_type, footnote]
+sort: [period, origin_id, asylum_country_id]
+columns:
+  - name: footnote
+    type: VARCHAR
+    description: The annotation UNHCR attaches to the referenced cells, explaining a definitional caveat or a known data limitation.
+  - name: period
+    type: VARCHAR
+    description: The period the footnote applies to, as a free-text expression - a bare year ('2015'), a range ('2019 - 2022'), or a disjoint set ('2015 - 2018, 2020 - 2024'). Not a year number; parse before joining on year.
+  - name: origin_id
+    type: BIGINT
+    description: UNHCR numeric identifier of the country of origin the footnote applies to.
+  - name: origin_name
+    type: VARCHAR
+    description: Country of origin name, blank when the footnote is not origin-specific.
+  - name: origin_iso3
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 code of the country of origin, where the footnote names one.
+  - name: asylum_country_id
+    type: BIGINT
+    description: UNHCR numeric identifier of the country of asylum the footnote applies to.
+  - name: asylum_country_name
+    type: VARCHAR
+    description: Country of asylum name, blank when the footnote is not asylum-specific.
+  - name: asylum_country_iso3
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 code of the country of asylum, where the footnote names one.
+  - name: population_type
+    type: VARCHAR
+    description: The population type the footnote qualifies (REF, IDP, OIP, ...).

@@ -1,0 +1,12 @@
+key: [region_id]
+sort: [region_id]
+columns:
+  - name: region_id
+    type: BIGINT
+    description: UNHCR numeric bureau identifier.
+  - name: name
+    type: VARCHAR
+    description: UNHCR operational bureau (Europe, The Americas, West and Central Africa, ...). These are UNHCR's own reporting bureaux, not the UN M49 geographic regions carried on the countries table.
+  - name: name_fr
+    type: VARCHAR
+    description: French bureau name.

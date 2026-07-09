@@ -3,8 +3,7 @@
 One download per in-scope dataflow: the full SDMX-CSV table is streamed from
 the public warehouse and normalized to a uniform tidy long schema (universal
 observation fields + a `dimensions` JSON blob preserving every other
-disaggregation the dataflow carries). One SQL transform per dataflow publishes
-that tidy table as a Delta table.
+disaggregation the dataflow carries).
 
 Access: https://sdmx.data.unicef.org/ws/public/sdmxapi/rest/data/{agency},{flow},{version}/?format=csv
 No auth. Full-corpus re-pull each refresh (stateless) — SDMX supports
@@ -18,9 +17,9 @@ import re
 
 import pyarrow as pa
 
+from constants import ENTITY_IDS
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get_client,
     raw_parquet_writer,
     transient_retry,
@@ -43,47 +42,54 @@ _FIELDS = [
 ]
 SCHEMA = pa.schema([(f, pa.string()) for f in _FIELDS])
 
-# The entity union — every rank-active dataflow, "AGENCY:FLOW:VERSION".
-from constants import ENTITY_IDS
-
 
 def _spec_id(entity_id: str) -> str:
     return "unicef-" + entity_id.lower().replace("_", "-")
 
 
-# Header-name aliases for the universal tidy columns. SDMX-CSV emits a code
-# column (UPPER_CASE) immediately followed by a human-label column; we pull a
-# small set of universal fields by name and preserve everything else as JSON.
-_REF_AREA_CODE = ("REF_AREA",)
-_REF_AREA_NAME = ("Geographic area", "Reference area", "Country")
-_INDICATOR_CODE = ("INDICATOR", "SERIES")
-_INDICATOR_NAME = ("Indicator", "SDG Series", "Series Name")
-_SEX = ("SEX",)
-_AGE = ("AGE", "AGE_GROUP", "CURRENT_AGE")
-_TIME = ("TIME_PERIOD",)
-_OBS = ("OBS_VALUE",)
-_UNIT = ("UNIT_MEASURE",)
-_STATUS = ("OBS_STATUS",)
-_SOURCE = ("DATA_SOURCE",)
-_LOWER = ("LOWER_BOUND",)
-_UPPER = ("UPPER_BOUND",)
-
-# Code columns already surfaced as their own tidy field — excluded from the
-# `dimensions` JSON blob to avoid duplication.
-_PROMOTED_CODES = {
-    "REF_AREA", "INDICATOR", "SERIES", "SEX", "AGE", "TIME_PERIOD",
-    "OBS_VALUE", "UNIT_MEASURE", "OBS_STATUS", "DATA_SOURCE",
-    "LOWER_BOUND", "UPPER_BOUND",
+# Header-name aliases for the universal tidy columns, in priority order. SDMX-CSV
+# emits a code column (UPPER_CASE) immediately followed by a human-label column.
+# UNICEF-agency flows use the standard SDMX names; the partner and country-office
+# agencies each name their concepts differently (CD2030 prefixes everything `CD`,
+# CAP2030 uses COUNTRY/UNITS/SOURCE, EMOPS/COVID use a bespoke indicator
+# dimension), so every alias below is a concept the tidy schema promotes.
+_ALIASES = {
+    "ref_area": ("REF_AREA", "COUNTRY", "CDAREAS", "SUBREGION"),
+    "ref_area_name": ("Geographic area", "Reference area", "Reference Areas",
+                      "Country", "Areas", "Subregion"),
+    "indicator": ("INDICATOR", "SERIES", "UNICEF_INDICATOR", "SITREP_INDICATOR",
+                  "CDCOVERAGEINDICATORS", "CDDDEMINDICS", "CDDRIVERINDICATORS",
+                  "CDT2INDICS"),
+    "indicator_name": ("Indicator", "SDG Series", "Series Name",
+                       "Situation Report Indicator", "Coverage indicators",
+                       "Demographic indicators", "Driver indicators",
+                       "Tier 2 indicators"),
+    "sex": ("SEX", "CDGENDER"),
+    "age": ("AGE", "AGE_GROUP", "CURRENT_AGE", "CDAGE"),
+    "time_period": ("TIME_PERIOD",),
+    "obs_value": ("OBS_VALUE",),
+    "unit_measure": ("UNIT_MEASURE", "UNITS", "CDUNIT"),
+    "obs_status": ("OBS_STATUS",),
+    "data_source": ("DATA_SOURCE", "CDDATASOURCE", "SOURCE"),
+    "lower_bound": ("LOWER_BOUND",),
+    "upper_bound": ("UPPER_BOUND",),
 }
+
+# A code column is UPPER_SNAKE; label columns are human-cased. Any code column not
+# consumed by a tidy field above is preserved in the `dimensions` JSON blob —
+# which ones those are depends on the flow, so the exclusion set is computed per
+# row rather than hardcoded (SUBREGION is the geography in PARAGUAY but an extra
+# stratifier in CD2030:CD2030, and must survive in the blob there).
 _CODE_COL = re.compile(r"^[A-Z][A-Z0-9_]*$")
 
 
-def _first(row_by_header: dict, names) -> str | None:
+def _first(row_by_header: dict, names) -> tuple[str | None, str | None]:
+    """The first present alias as (header, value); (None, None) if none match."""
     for n in names:
         v = row_by_header.get(n)
         if v not in (None, ""):
-            return v
-    return None
+            return (n, v)
+    return (None, None)
 
 
 def _normalize(header: list[str], values: list[str]) -> dict:
@@ -92,28 +98,21 @@ def _normalize(header: list[str], values: list[str]) -> dict:
     for h, v in zip(header, values):
         if h not in d:  # keep first occurrence of a header
             d[h] = v
+    rec = {}
+    used = set()
+    for field, names in _ALIASES.items():
+        h, v = _first(d, names)
+        rec[field] = v
+        if h is not None:
+            used.add(h)
     # Preserve every remaining code dimension/attribute as a JSON blob.
     dims = {
         h: v
         for h, v in d.items()
-        if v not in (None, "") and _CODE_COL.match(h) and h not in _PROMOTED_CODES
+        if v not in (None, "") and _CODE_COL.match(h) and h not in used
     }
-    return {
-        "ref_area": _first(d, _REF_AREA_CODE),
-        "ref_area_name": _first(d, _REF_AREA_NAME),
-        "indicator": _first(d, _INDICATOR_CODE),
-        "indicator_name": _first(d, _INDICATOR_NAME),
-        "sex": _first(d, _SEX),
-        "age": _first(d, _AGE),
-        "time_period": _first(d, _TIME),
-        "obs_value": _first(d, _OBS),
-        "unit_measure": _first(d, _UNIT),
-        "obs_status": _first(d, _STATUS),
-        "data_source": _first(d, _SOURCE),
-        "lower_bound": _first(d, _LOWER),
-        "upper_bound": _first(d, _UPPER),
-        "dimensions": json.dumps(dims, ensure_ascii=False) if dims else None,
-    }
+    rec["dimensions"] = json.dumps(dims, ensure_ascii=False) if dims else None
+    return rec
 
 
 def _flush(writer, batch: list[dict]) -> None:
@@ -166,37 +165,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(eid), fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-
-# One tidy Delta table per dataflow. The schema is uniform across every flow:
-# universal observation fields plus the preserved `dimensions` JSON.
-_TRANSFORM_SQL = '''
-    SELECT
-        ref_area,
-        ref_area_name,
-        indicator,
-        indicator_name,
-        sex,
-        age,
-        time_period,
-        TRY_CAST(obs_value AS DOUBLE)  AS obs_value,
-        obs_value                       AS obs_value_raw,
-        unit_measure,
-        obs_status,
-        data_source,
-        TRY_CAST(lower_bound AS DOUBLE) AS lower_bound,
-        TRY_CAST(upper_bound AS DOUBLE) AS upper_bound,
-        dimensions
-    FROM "{dep}"
-    WHERE obs_value IS NOT NULL AND obs_value <> ''
-'''
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_TRANSFORM_SQL.format(dep=s.id),
-    )
-    for s in DOWNLOAD_SPECS
 ]
