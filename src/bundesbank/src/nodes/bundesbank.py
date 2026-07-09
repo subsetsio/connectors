@@ -53,9 +53,11 @@ can address either without a per-dataflow branch here.
 ## Values
 
 German-formatted: `,` is the decimal separator and no thousands separator is used.
-Two sentinels share the value column and mean opposite things -- `.` is a missing
-or suppressed observation, while `-` is "Nichts vorhanden", exactly zero (both
-readings are confirmed by the paired `_FLAGS` text; see MISSING_VALUES).
+Three sentinels share the value column and two of them mean opposite things --
+`.` (unknown/suppressed) and `...` ("Angaben fallen später an", not published
+yet) are missing observations, while `-` is "Nichts vorhanden", exactly zero
+(all three readings are confirmed by the paired `_FLAGS` text; see
+MISSING_VALUES).
 
 Missing observations are dropped rather than materialised as nulls: these are
 sparse matrices whose series start decades apart, and a null row per absent cell

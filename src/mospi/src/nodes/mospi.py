@@ -62,9 +62,14 @@ PAGE = 50000              # server honours large page sizes; minimises round-tri
 MAX_PAGES_ABS = 100000    # safety ceiling — raises (never silently truncates)
 
 # ---------------------------------------------------------------------------
-# Transport: route through subsets_utils.get, but back its client with the OS
-# trust store so the MoSPI certificate chain verifies (see module docstring).
+# Transport: route through subsets_utils.get, but back its client with an SSL
+# context that can verify the MoSPI chain (see module docstring). subsets_utils
+# exposes no supported hook for the client's SSL context, so we swap the private
+# module-level client — requests still flow through subsets_utils.get, keeping
+# its retry and http_requests.csv tracking.
 # ---------------------------------------------------------------------------
+CA_BUNDLE = Path(__file__).with_name("mospi_ca_bundle.pem")
+
 _CLIENT_READY = False
 
 
@@ -73,10 +78,13 @@ def _ensure_client() -> None:
     if _CLIENT_READY:
         return
     import ssl
-    import truststore
+
+    import certifi
+
     from subsets_utils import http_client
 
-    ctx = truststore.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    ctx = ssl.create_default_context(cafile=certifi.where())
+    ctx.load_verify_locations(cafile=str(CA_BUNDLE))
     client = httpx.Client(
         timeout=httpx.Timeout(180.0, connect=15.0),
         headers={"User-Agent": "subsets.io-data-connector/1.0 (mospi)"},
