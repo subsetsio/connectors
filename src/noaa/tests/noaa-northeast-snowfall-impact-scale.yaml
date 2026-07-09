@@ -1,5 +1,13 @@
 spec_id: noaa-northeast-snowfall-impact-scale
 status: active
+coverage:
+  frozen: true
+  reason: >-
+    NCEI publishes NESIS as a single file, ne-snow-impact-scale_c20130529.csv,
+    and has not regenerated it since 2013-05-29; the latest storm in it ends
+    2013-03-04. The corpus does not advance, so this spec carries no freshness
+    assertion. Replace this declaration with one the day NCEI ships a newer
+    dated file.
 tests:
   - row_count: {min: 20}
     reason: NESIS is a compact historical ranked-event table, but it should contain many named storms.
@@ -15,6 +23,5 @@ tests:
   - distinct_count: {col: Rank, min: 20}
     reason: rank values should cover the event list, not collapse to one malformed row.
     certainty: 85
-  - freshness: {col: "End Dat", reaches: today - 10y}
-    reason: NESIS only advances when qualifying Northeast snowstorms occur; a multi-year gap can be valid.
-    points_outward: true
+  - not_null: "Start Date"
+  - not_null: "End Dat"

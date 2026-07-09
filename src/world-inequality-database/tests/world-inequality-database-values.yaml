@@ -1,0 +1,69 @@
+spec_id: world-inequality-database-values
+status: active
+tests:
+  - not_null: country
+  - not_null: variable
+  - not_null: percentile
+  - not_null: year
+  - not_null: age
+  - not_null: pop
+
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - column_type: {col: age, type: integer}
+  - column_type: {col: data_quality, type: float}
+    reason: >-
+      data_quality is integral in most area members but fractional in some (FR ships
+      0.0144), and absent entirely from the aggregate-region members; the fetch fn pins
+      it to float64 and null-fills. An integer type here means that pinning regressed.
+
+  - unique: [country, variable, percentile, year]
+    reason: >-
+      One observation per area x indicator x percentile x year. The age and pop columns
+      are decoded from the last four characters of the variable code, so they add no
+      grain. Duplicates mean a member was parsed twice into the streamed parquet.
+    certainty: 90
+
+  - coverage: {col: country, expected: 423}
+    reason: >-
+      The bulk ZIP holds one WID_data_XX.csv per area and every row of a member carries
+      that area as `country`, so every one of the 423 area members must contribute at
+      least one row. A shortfall is a silently dropped member, not a smaller world.
+
+  - row_count: {min: 50000000}
+    reason: >-
+      423 area members averaging a few hundred thousand rows; the corpus is ~100M+
+      observations. An order-of-magnitude shortfall means the member loop exited early.
+    certainty: 80
+
+  - between: {col: year, lo: 1800, hi: current_year()}
+    reason: WID's historical series begin in 1800; nothing should be observed beyond the current year.
+    certainty: 85
+
+  - freshness: {col: year, reaches: 2025}
+    reason: >-
+      The export is refreshed roughly annually (~July) and its latest observation year
+      trails the release year by one, so a current load reaches at least 2025. Pinned as
+      an integer because `year` is an integer column: the date tokens (`today - 400d`)
+      resolve to an ISO date that the engine compares against an int as a string.
+    points_outward: true
+
+  - distinct_count: {col: variable, min: 1000}
+    reason: WID publishes a few thousand distinct indicator codes across the income/wealth/CO2 sets.
+    certainty: 85
+
+  - enum: {col: pop, values: [i, j, t, m, f, e]}
+    reason: >-
+      Population type is a closed single-character vocabulary per the codes dictionary
+      (individuals/equal-split/tax-unit/male/female/employed). A new code is a source
+      vocabulary extension to model, not a retrieval bug.
+    certainty: 85
+    points_outward: true
+    severity: warn
+
+  - nullable: {col: value, max_null_frac: 0.2}
+    reason: >-
+      `value` is the observation itself and should almost always be present; empty cells
+      are read as null. A large null fraction suggests the delimiter or quoting changed.
+    certainty: 60
+    severity: warn
