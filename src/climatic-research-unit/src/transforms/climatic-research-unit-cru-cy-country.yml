@@ -1,4 +1,8 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [country, variable, date]
+temporal: date
+write_mode: overwrite
+sort: [date, country, variable]
 columns:
   - name: country
     type: VARCHAR

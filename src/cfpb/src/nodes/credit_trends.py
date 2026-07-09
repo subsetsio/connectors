@@ -102,7 +102,7 @@ def fetch_credit_trend(node_id: str) -> None:
     save_raw_ndjson(rows, node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="cfpb-cct-crt-data", fn=fetch_credit_trend, kind="download"),
     NodeSpec(id="cfpb-cct-inq-data", fn=fetch_credit_trend, kind="download"),
     NodeSpec(id="cfpb-cct-map-data", fn=fetch_credit_trend, kind="download"),
@@ -117,11 +117,11 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="cfpb-cct-yoy-data-score-level", fn=fetch_credit_trend, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{spec.id}-transform",
         deps=(spec.id,),
         sql=f'SELECT * FROM "{spec.id}"',
     )
-    for spec in DOWNLOAD_SPECS
+    for spec in _DOWNLOAD_SPECS
 ]

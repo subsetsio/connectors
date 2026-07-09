@@ -107,17 +107,17 @@ def fetch_mortgage_performance(node_id: str) -> None:
     save_raw_ndjson(rows, node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="cfpb-mortgage-performance-county", fn=fetch_mortgage_performance, kind="download"),
     NodeSpec(id="cfpb-mortgage-performance-metro-area", fn=fetch_mortgage_performance, kind="download"),
     NodeSpec(id="cfpb-mortgage-performance-state", fn=fetch_mortgage_performance, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{spec.id}-transform",
         deps=(spec.id,),
         sql=f'SELECT * FROM "{spec.id}"',
     )
-    for spec in DOWNLOAD_SPECS
+    for spec in _DOWNLOAD_SPECS
 ]

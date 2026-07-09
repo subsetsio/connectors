@@ -171,16 +171,16 @@ def fetch_hmda_loan_records(node_id: str) -> None:
     print(f"  {node_id}: {total:,} loan records total across {len(years)} years")
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="cfpb-hmda-filers", fn=fetch_hmda_filers, kind="download"),
     NodeSpec(id="cfpb-hmda-loan-records", fn=fetch_hmda_loan_records, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id=f"{spec.id}-transform",
         deps=(spec.id,),
         sql=f'SELECT * FROM "{spec.id}"',
     )
-    for spec in DOWNLOAD_SPECS
+    for spec in _DOWNLOAD_SPECS
 ]

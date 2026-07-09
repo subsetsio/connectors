@@ -115,11 +115,11 @@ _COMPLAINTS_SQL = '''
     FROM "cfpb-consumer-complaints"
 '''
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="cfpb-consumer-complaints", fn=fetch_complaints, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="cfpb-consumer-complaints-transform",
         deps=("cfpb-consumer-complaints",),

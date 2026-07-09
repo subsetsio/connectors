@@ -1,0 +1,43 @@
+key: [source_id, year]
+temporal: year
+sort: [year, source_id]
+columns:
+  - name: source_id
+    type: VARCHAR
+    description: Climate TRACE emitting source identifier.
+  - name: source_name
+    type: VARCHAR
+    description: Source name reported by Climate TRACE.
+  - name: iso3_country
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 country or territory code.
+  - name: sector
+    type: VARCHAR
+    description: Climate TRACE top-level sector slug.
+  - name: subsector
+    type: VARCHAR
+    description: Climate TRACE subsector slug.
+  - name: gas
+    type: VARCHAR
+    description: Gas package used for this table; currently co2e_100yr.
+  - name: year
+    type: INTEGER
+    description: Observation year after annual aggregation from monthly confidence records.
+  - name: source_type_confidence
+    type: VARCHAR
+    description: Confidence category for the source type classification.
+  - name: capacity_confidence
+    type: VARCHAR
+    description: Confidence category for reported capacity.
+  - name: capacity_factor_confidence
+    type: VARCHAR
+    description: Confidence category for capacity factor.
+  - name: activity_confidence
+    type: VARCHAR
+    description: Confidence category for activity.
+  - name: emissions_factor_confidence
+    type: VARCHAR
+    description: Confidence category for emissions factor.
+  - name: emissions_quantity_confidence
+    type: VARCHAR
+    description: Confidence category for emissions quantity.
