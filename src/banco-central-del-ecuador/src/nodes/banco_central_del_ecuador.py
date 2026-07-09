@@ -224,23 +224,6 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-# One published Delta table per workbook: a thin typed pass over the long melt.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                sheet,
-                CAST(row_index AS INTEGER) AS row_index,
-                CAST(col_index AS INTEGER) AS col_index,
-                row_label,
-                col_header,
-                CAST(value AS DOUBLE)      AS value,
-                value_text
-            FROM "{s.id}"
-            WHERE value IS NOT NULL OR value_text IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
-]
+# Transforms are authored as file pairs under src/transforms/ (one per workbook:
+# a thin typed pass over the generic long melt) — the module-level
+# TRANSFORM_SPECS list is retired.
