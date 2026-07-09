@@ -1,4 +1,7 @@
-# Expectations for central-bank-of-nigeria-crude-oil-price-daily (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+# Expectations for central-bank-of-nigeria-crude-oil-price-daily (CBN GetAll* raw, NDJSON; every source value is a JSON string
+# except integer id/tmonth/tyear-on-monthly-endpoints). `*_iso` / `period_start_iso` are the
+# sortable ISO-8601 temporal columns the download node derives beside the source's own
+# date encoding — the source's encodings do not sort, so they cannot carry a freshness probe.
 spec_id: central-bank-of-nigeria-crude-oil-price-daily
 status: active
 tests:
@@ -16,6 +19,14 @@ tests:
 - matches: {col: postDate, pattern: '^\d{2}/\d{2}/\d{4}$'}
   certainty: 90
   reason: source serves the date as dd/mm/yyyy strings
+- not_null: postDate_iso
+  certainty: 95
+  reason: every postDate must parse as dd/mm/yyyy; a null means the source changed encoding
+- column_type: {col: postDate_iso, type: date}
+  certainty: 90
+- freshness: {col: postDate_iso, reaches: today - 30d}
+  points_outward: true
+  reason: price is posted each trading day but the feed has run up to ~1wk behind; 30d absorbs holidays and publication lag
 - column_type: {col: crudeOilPrice, type: string}
   certainty: 95
   reason: CBN returns all numeric values as JSON strings

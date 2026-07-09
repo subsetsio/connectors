@@ -1,4 +1,7 @@
-# Expectations for central-bank-of-nigeria-crude-oil-prices-monthly (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+# Expectations for central-bank-of-nigeria-crude-oil-prices-monthly (CBN GetAll* raw, NDJSON; every source value is a JSON string
+# except integer id/tmonth/tyear-on-monthly-endpoints). `*_iso` / `period_start_iso` are the
+# sortable ISO-8601 temporal columns the download node derives beside the source's own
+# date encoding — the source's encodings do not sort, so they cannot carry a freshness probe.
 spec_id: central-bank-of-nigeria-crude-oil-prices-monthly
 status: active
 tests:
@@ -13,9 +16,22 @@ tests:
   reason: monthly endpoints return tyear as a JSON number
 - between: {col: tyear, lo: 2000, hi: 2100}
   certainty: 90
+- between: {col: tmonth, lo: 1, hi: 12}
+  certainty: 90
+  reason: this endpoint carries no annual-encoded rows (unlike money-and-credit)
+- unique: [tyear, tmonth]
+  certainty: 90
+  reason: one observation per calendar month is the natural grain
 - not_null: period
   certainty: 95
   reason: human-readable "Month YYYY" label present on every row
+- not_null: period_start_iso
+  certainty: 95
+- column_type: {col: period_start_iso, type: date}
+  certainty: 90
+- freshness: {col: period_start_iso, reaches: today - 120d}
+  points_outward: true
+  reason: monthly release with a ~2-month lag; 120d flags a genuinely stalled feed
 - column_type: {col: crudeOilPrice, type: string}
   certainty: 90
 - median_between: {col: crudeOilPrice, lo: 20, hi: 200}

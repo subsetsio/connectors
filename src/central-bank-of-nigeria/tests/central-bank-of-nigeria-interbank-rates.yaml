@@ -1,4 +1,7 @@
-# Expectations for central-bank-of-nigeria-interbank-rates (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+# Expectations for central-bank-of-nigeria-interbank-rates (CBN GetAll* raw, NDJSON; every source value is a JSON string
+# except integer id/tmonth/tyear-on-monthly-endpoints). `*_iso` / `period_start_iso` are the
+# sortable ISO-8601 temporal columns the download node derives beside the source's own
+# date encoding — the source's encodings do not sort, so they cannot carry a freshness probe.
 spec_id: central-bank-of-nigeria-interbank-rates
 status: active
 tests:
@@ -8,8 +11,17 @@ tests:
   certainty: 95
 - unique: id
   certainty: 90
+  reason: the only unique column — the source republishes divergent restatements of the same (ratedate, ratetype)
 - not_null: ratedate
   certainty: 99
+- not_null: ratedate_iso
+  certainty: 95
+  reason: every ratedate must parse as Month-DD-YYYY
+- column_type: {col: ratedate_iso, type: date}
+  certainty: 90
+- freshness: {col: ratedate_iso, reaches: today - 21d}
+  points_outward: true
+  reason: quoted each business day; 21d absorbs holidays and publication lag
 - not_null: ratetype
   certainty: 95
   reason: each row is one rate type (OBB Rate, Call Rate, ...) for one date

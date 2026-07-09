@@ -1,0 +1,73 @@
+# CES employment, hours and earnings by industry series, Colorado statewide and by
+# metropolitan statistical area. One row per area, period, series, seasonal-adjustment
+# flag and benchmark vintage.
+key: [area_code, period_year, period_type, period, series_code, seasonally_adjusted, benchmark_year]
+temporal: period_year
+sort: [period_year, period, area_code, series_code, seasonally_adjusted, benchmark_year]
+columns:
+  - name: area_type_name
+    type: VARCHAR
+    description: Geography level of the row ('State' or 'Metropolitan Statistical Area'). There are no county rows in this table.
+  - name: area_code
+    type: BIGINT
+    description: CDLE numeric identifier of the geographic area. Not a FIPS code.
+  - name: area_name
+    type: VARCHAR
+    description: Name of the geographic area (e.g. 'Colorado', 'Fort Collins MSA').
+  - name: period_year
+    type: BIGINT
+    description: Calendar year of the observation.
+  - name: period_type
+    type: BIGINT
+    description: "Observation frequency: 1 = Annual (with `period` = 0), 3 = Monthly (with `period` = 1..12). Annual rows summarize the monthly rows — filter this column before aggregating over time."
+  - name: period_type_name
+    type: VARCHAR
+    description: Human-readable name of `period_type` ('Annual' or 'Monthly').
+  - name: period
+    type: BIGINT
+    description: Month number 1-12 for monthly rows; 0 for annual rows.
+  - name: series_code
+    type: BIGINT
+    description: CDLE industry-series identifier. Hierarchical — Total Private and the supersectors sit above the individual industries, so summing `employment` across all series double-counts.
+  - name: series_title
+    type: VARCHAR
+    description: Name of the industry series identified by `series_code` (e.g. 'Total Private', 'Telecommunications').
+  - name: naics_code
+    type: VARCHAR
+    description: NAICS code the series corresponds to, as a string of two to four digits (e.g. '51', '513'). Absent on the broadest aggregate series, which have no single NAICS equivalent.
+  - name: seasonally_adjusted
+    type: BOOLEAN
+    description: Whether the series is seasonally adjusted. Adjusted and unadjusted series coexist for the same area and period — filter this column.
+  - name: benchmark_year
+    type: BIGINT
+    description: Benchmark revision vintage the estimate was produced under (2017, 2021 or 2024). Estimates from different vintages for the same period coexist and are not comparable — filter to one vintage.
+  - name: preliminary
+    type: BOOLEAN
+    description: Whether the estimate is still preliminary and subject to revision.
+  - name: employment
+    type: BIGINT
+    description: Number of nonfarm payroll jobs in the series, counted at the workplace (not the worker's residence).
+  - name: production_worker_weekly_hours
+    type: DOUBLE
+    description: Average weekly hours of production and nonsupervisory workers. Absent when `production_worker_hours_earnings_suppressed` is true. A per-worker average, not a total.
+  - name: production_worker_weekly_earnings
+    type: DOUBLE
+    description: Average weekly earnings of production and nonsupervisory workers, in current US dollars. A per-worker average.
+  - name: production_worker_hourly_earnings
+    type: DOUBLE
+    description: Average hourly earnings of production and nonsupervisory workers, in current US dollars.
+  - name: all_worker_weekly_hours
+    type: DOUBLE
+    description: Average weekly hours of all employees. Absent when `all_worker_hours_earnings_suppressed` is true.
+  - name: all_worker_weekly_earnings
+    type: DOUBLE
+    description: Average weekly earnings of all employees, in current US dollars.
+  - name: all_worker_hourly_earnings
+    type: DOUBLE
+    description: Average hourly earnings of all employees, in current US dollars.
+  - name: production_worker_hours_earnings_suppressed
+    type: BOOLEAN
+    description: True when the source withheld the production-worker hours and earnings for this cell. The three production_worker_* measures are always absent on such rows — they are missing, not zero.
+  - name: all_worker_hours_earnings_suppressed
+    type: BOOLEAN
+    description: True when the source withheld the all-employee hours and earnings for this cell. The three all_worker_* measures are always absent on such rows.

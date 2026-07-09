@@ -1,4 +1,7 @@
-# Expectations for central-bank-of-nigeria-daily-financial-data (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+# Expectations for central-bank-of-nigeria-daily-financial-data (CBN GetAll* raw, NDJSON; every source value is a JSON string
+# except integer id/tmonth/tyear-on-monthly-endpoints). `*_iso` / `period_start_iso` are the
+# sortable ISO-8601 temporal columns the download node derives beside the source's own
+# date encoding — the source's encodings do not sort, so they cannot carry a freshness probe.
 spec_id: central-bank-of-nigeria-daily-financial-data
 status: active
 tests:
@@ -14,6 +17,13 @@ tests:
 - matches: {col: recDate, pattern: '^\d{2}/\d{2}/\d{4}$'}
   certainty: 90
   reason: dd/mm/yyyy string
+- not_null: recDate_iso
+  certainty: 95
+- column_type: {col: recDate_iso, type: date}
+  certainty: 90
+- freshness: {col: recDate_iso, reaches: today - 21d}
+  points_outward: true
+  reason: published each business day; 21d absorbs holidays and publication lag
 - column_type: {col: opeBal, type: string}
   certainty: 90
   reason: opening balance, a NGN-million figure returned as string

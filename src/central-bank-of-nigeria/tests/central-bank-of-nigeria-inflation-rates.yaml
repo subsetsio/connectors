@@ -1,4 +1,7 @@
-# Expectations for central-bank-of-nigeria-inflation-rates (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+# Expectations for central-bank-of-nigeria-inflation-rates (CBN GetAll* raw, NDJSON; every source value is a JSON string
+# except integer id/tmonth/tyear-on-monthly-endpoints). `*_iso` / `period_start_iso` are the
+# sortable ISO-8601 temporal columns the download node derives beside the source's own
+# date encoding — the source's encodings do not sort, so they cannot carry a freshness probe.
 spec_id: central-bank-of-nigeria-inflation-rates
 status: active
 tests:
@@ -12,8 +15,20 @@ tests:
   certainty: 90
 - between: {col: tyear, lo: 2000, hi: 2100}
   certainty: 90
+- between: {col: tmonth, lo: 1, hi: 12}
+  certainty: 90
+- unique: [tyear, tmonth]
+  certainty: 90
+  reason: one CPI observation per calendar month is the natural grain
 - not_null: period
   certainty: 95
+- not_null: period_start_iso
+  certainty: 95
+- column_type: {col: period_start_iso, type: date}
+  certainty: 90
+- freshness: {col: period_start_iso, reaches: today - 120d}
+  points_outward: true
+  reason: NBS publishes CPI monthly and CBN mirrors it with a ~2-month lag
 - column_type: {col: allItemsYearOn, type: string}
   certainty: 90
   reason: headline YoY inflation %, returned as string

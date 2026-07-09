@@ -1,4 +1,7 @@
-# Expectations for central-bank-of-nigeria-exchange-rates-daily (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+# Expectations for central-bank-of-nigeria-exchange-rates-daily (CBN GetAll* raw, NDJSON; every source value is a JSON string
+# except integer id/tmonth/tyear-on-monthly-endpoints). `*_iso` / `period_start_iso` are the
+# sortable ISO-8601 temporal columns the download node derives beside the source's own
+# date encoding — the source's encodings do not sort, so they cannot carry a freshness probe.
 spec_id: central-bank-of-nigeria-exchange-rates-daily
 status: active
 tests:
@@ -8,20 +11,21 @@ tests:
   certainty: 95
 - unique: id
   certainty: 90
+  reason: the ONLY unique column — (currency, ratedate) is not, see below
 - not_null: currency
   certainty: 99
   reason: each row is one currency's rate for one date
 - not_null: ratedate
   certainty: 99
-- matches: {col: ratedate, pattern: '^\d{4}-\d{2}-\d{2}$'}
-  certainty: 95
-  reason: this endpoint serves ISO yyyy-mm-dd (unlike the Month-DD-YYYY endpoints)
-- unique: [currency, ratedate]
-  certainty: 85
-  reason: one official rate per currency per date is the natural grain
+- column_type: {col: ratedate, type: date}
+  certainty: 90
+  reason: this endpoint serves ISO yyyy-mm-dd, so DuckDB types it as DATE (unlike the Month-DD-YYYY endpoints)
 - freshness: {col: ratedate, reaches: today - 21d}
   points_outward: true
-  reason: daily FX feed; ISO dates sort lexically so max(ratedate) is a valid freshness probe. Slack covers weekends/holidays/publication lag
+  reason: daily FX feed; ISO dates sort, so max(ratedate) is a valid freshness probe. Slack covers weekends/holidays/publication lag
+- distinct_count: {col: currency, min: 20, max: 40}
+  certainty: 80
+  reason: ~28 currency labels, inflated above the true ~20 currencies by whitespace and naming variants (YEN vs JAPANESE YEN)
 - column_type: {col: centralrate, type: string}
   certainty: 90
 - row_count: {min: 40000}

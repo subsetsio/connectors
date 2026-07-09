@@ -1,4 +1,7 @@
-# Expectations for central-bank-of-nigeria-money-and-credit-statistics (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+# Expectations for central-bank-of-nigeria-money-and-credit-statistics (CBN GetAll* raw, NDJSON; every source value is a JSON string
+# except integer id/tmonth/tyear-on-monthly-endpoints). `*_iso` / `period_start_iso` are the
+# sortable ISO-8601 temporal columns the download node derives beside the source's own
+# date encoding — the source's encodings do not sort, so they cannot carry a freshness probe.
 spec_id: central-bank-of-nigeria-money-and-credit-statistics
 status: active
 tests:
@@ -10,9 +13,20 @@ tests:
   certainty: 90
 - column_type: {col: tyear, type: integer}
   certainty: 90
+- unique: [tyear, tmonth]
+  certainty: 90
+  reason: one observation per period; the annual rows encode tmonth = tyear, so the pair stays unique across both frequencies
 - not_null: period
   certainty: 90
   reason: period label present on every row (early rows are annual, encoded as " YYYY")
+- not_null: period_start_iso
+  certainty: 95
+  reason: derived from tyear, anchoring annual rows at January
+- column_type: {col: period_start_iso, type: date}
+  certainty: 90
+- freshness: {col: period_start_iso, reaches: today - 120d}
+  points_outward: true
+  reason: monthly monetary survey with a ~2-month lag
 - column_type: {col: moneySupply_M2, type: string}
   certainty: 90
   reason: broad money (NGN million) as string; some early cells are empty ""

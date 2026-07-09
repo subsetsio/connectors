@@ -1,4 +1,7 @@
-# Expectations for central-bank-of-nigeria-nominal-gdp-quarterly (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+# Expectations for central-bank-of-nigeria-nominal-gdp-quarterly (CBN GetAll* raw, NDJSON; every source value is a JSON string
+# except integer id/tmonth/tyear-on-monthly-endpoints). `*_iso` / `period_start_iso` are the
+# sortable ISO-8601 temporal columns the download node derives beside the source's own
+# date encoding — the source's encodings do not sort, so they cannot carry a freshness probe.
 spec_id: central-bank-of-nigeria-nominal-gdp-quarterly
 status: active
 tests:
@@ -22,6 +25,14 @@ tests:
 - unique: [tyear, period]
   certainty: 85
   reason: one GDP record per year x period is the natural grain
+- not_null: period_start_iso
+  certainty: 95
+  reason: derived from (tyear, period); a null means an unrecognised period label
+- column_type: {col: period_start_iso, type: date}
+  certainty: 90
+- freshness: {col: period_start_iso, reaches: today - 900d}
+  points_outward: true
+  reason: NBS national accounts run ~18 months behind (Q4-2024 is the latest as of mid-2026); 900d flags a series that has stopped advancing altogether
 - column_type: {col: agriculture, type: string}
   certainty: 85
   reason: sector value at current basic prices (NGN billion), as string

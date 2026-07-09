@@ -1,4 +1,7 @@
-# Expectations for central-bank-of-nigeria-securities-auctions (CBN GetAll* raw, NDJSON; all values are JSON strings except integer id/tyear).
+# Expectations for central-bank-of-nigeria-securities-auctions (CBN GetAll* raw, NDJSON; every source value is a JSON string
+# except integer id/tmonth/tyear-on-monthly-endpoints). `*_iso` / `period_start_iso` are the
+# sortable ISO-8601 temporal columns the download node derives beside the source's own
+# date encoding — the source's encodings do not sort, so they cannot carry a freshness probe.
 spec_id: central-bank-of-nigeria-securities-auctions
 status: active
 tests:
@@ -11,6 +14,16 @@ tests:
 - not_null: auctionDate
   certainty: 99
   reason: primary-market auction date, the observation index
+- not_null: auctionDate_iso
+  certainty: 95
+- column_type: {col: auctionDate_iso, type: date}
+  certainty: 90
+- freshness: {col: auctionDate_iso, reaches: today - 45d}
+  points_outward: true
+  reason: NTB auctions run roughly fortnightly, OMO irregularly; 45d covers a quiet stretch without hiding a stalled feed
+- column_type: {col: maturityDate_iso, type: date}
+  certainty: 85
+  reason: parses, but a handful of rows carry typo'd years (2098, 2189) — the value is bad, the encoding is not
 - not_null: securityType
   certainty: 90
   reason: NTB / FGN Bond / OMO / CBN bill etc.; present on every auction row
