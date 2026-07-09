@@ -12,7 +12,7 @@ import io
 import pyarrow as pa
 
 from constants import ENTITY_IDS
-from subsets_utils import NodeSpec, get, save_raw_parquet
+from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet
 
 DATA_URL = "https://rplumber.ilo.org/data/indicator"
 
@@ -2056,3 +2056,78 @@ DOWNLOAD_SPECS = [
     )
     for entity_id in ENTITY_IDS
 ]
+
+
+def _date_expr(freq: str) -> str:
+    if freq == "Q":
+        return (
+            "make_date(TRY_CAST(substr(time_period, 1, 4) AS INTEGER), "
+            "(TRY_CAST(substr(time_period, 6, 1) AS INTEGER) - 1) * 3 + 1, 1)"
+        )
+    if freq == "M":
+        return (
+            "make_date(TRY_CAST(substr(time_period, 1, 4) AS INTEGER), "
+            "TRY_CAST(substr(time_period, 6, 2) AS INTEGER), 1)"
+        )
+    return "make_date(TRY_CAST(substr(time_period, 1, 4) AS INTEGER), 1, 1)"
+
+
+def _transform_dims(entity_id: str) -> list[str]:
+    has_sex, n_classif = ENTITY_META.get(entity_id, (1, 2))
+    dims = []
+    if has_sex:
+        dims.append("sex")
+    if n_classif >= 1:
+        dims.append("classif1")
+    if n_classif >= 2:
+        dims.append("classif2")
+    return dims
+
+
+def _transform_sql(dep_id: str, entity_id: str) -> str:
+    dims = _transform_dims(entity_id)
+    dim_lines = "".join(f"            {dim},
+" for dim in dims)
+    freq = entity_id.rsplit("_", 1)[-1]
+    return (
+        "
+        SELECT
+"
+        f"            {_date_expr(freq)} AS date,
+"
+        "            time_period,
+"
+        "            ref_area,
+"
+        "            source,
+"
+        f"{dim_lines}"
+        "            obs_value
+"
+        f'        FROM "{dep_id}"
+'
+        "        WHERE obs_value IS NOT NULL
+"
+        "          AND time_period IS NOT NULL
+"
+    )
+
+
+def _transform_key(entity_id: str) -> tuple[str, ...]:
+    return ("ref_area", "source", "time_period", *_transform_dims(entity_id))
+
+
+# Compatibility for the current runner: full-DAG dispatch still requires every
+# download leaf to have a transform consumer before the model stage can be
+# reached for this previously migrated connector.
+TRANSFORM_SPECS = [
+    SqlNodeSpec(
+        id=f"{spec.id}-transform",
+        deps=[spec.id],
+        sql=_transform_sql(spec.id, entity_id),
+        key=_transform_key(entity_id),
+        temporal="date",
+    )
+    for spec, entity_id in zip(DOWNLOAD_SPECS, ENTITY_IDS)
+]
+

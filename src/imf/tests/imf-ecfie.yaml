@@ -1,0 +1,11 @@
+spec_id: imf-ecfie
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: a full-dataflow SDMX-CSV pull ('~/*' = latest version, all series) of a rank-active IMF dataflow always returns observations; an empty raw table means the dataflow id is wrong or the endpoint changed.
+    certainty: 95
+    points_outward: false
+  - freshness: {col: TIME_PERIOD, reaches: today - 5y}
+    reason: IMF statistical dataflows are actively maintained; the latest TIME_PERIOD stays within ~5 years of the present.
+    certainty: 80
+    points_outward: true

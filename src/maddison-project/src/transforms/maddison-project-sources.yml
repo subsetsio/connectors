@@ -1,0 +1,14 @@
+columns:
+  - name: countrycode
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: source_order
+    type: INTEGER
+write_mode: overwrite
+key: [source_order]
+sort: [countrycode, source_order]
