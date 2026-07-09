@@ -12,12 +12,9 @@ written as a single NDJSON asset because records are nested (location struct,
 observer struct) and several fields drift between null / scalar / list.
 """
 
-import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
-    transient_retry,
     save_raw_ndjson,
 )
 
@@ -26,7 +23,6 @@ PAGE_SIZE = 200            # server silently caps any larger request at 200
 MAX_PAGES = 2000           # safety ceiling (~400k records); raises if exceeded
 
 
-@transient_retry()         # 6 attempts, exponential backoff over transient/429/5xx
 def _fetch_page(page: int) -> dict:
     resp = get(
         BASE_URL,
@@ -65,35 +61,5 @@ DOWNLOAD_SPECS = [
         id="aurorasaurus-web-observations",
         fn=fetch_web_observations,
         kind="download",
-    ),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="aurorasaurus-web-observations-transform",
-        deps=["aurorasaurus-web-observations"],
-        sql='''
-            SELECT
-                TRY_CAST(id AS BIGINT)                  AS report_id,
-                CAST(timestamp AS TIMESTAMP)            AS observed_at,
-                TRY_CAST(location.latitude  AS DOUBLE)  AS latitude,
-                TRY_CAST(location.longitude AS DOUBLE)  AS longitude,
-                address_country                         AS country,
-                address_state                           AS state,
-                CAST(see_aurora AS BOOLEAN)             AS saw_aurora,
-                sky                                     AS sky,
-                array_to_string(colors, ',')            AS colors,
-                array_to_string(types, ',')             AS types,
-                activities                              AS activities,
-                height                                  AS height,
-                comment                                 AS comment,
-                TRY_CAST(time_start AS TIMESTAMP)       AS report_time_start,
-                TRY_CAST(time_end   AS TIMESTAMP)       AS report_time_end
-            FROM "aurorasaurus-web-observations"
-            WHERE id IS NOT NULL
-        ''',
-        key=("report_id",),
-        temporal="observed_at",
     ),
 ]

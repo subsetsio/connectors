@@ -1,35 +1,82 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [report_id]
+# Curated projection from the measured model. Observer account and image fields
+# are intentionally omitted because the source carries personal-data concerns.
+# caution: Rows include both positive and negative sighting reports; filter `saw_aurora`
+# before treating rows as observed aurora events.
+# caution: `report_time_start` and `report_time_end` are observer-supplied sighting
+# windows, while `observed_at` is the submission timestamp.
+key: [report_time_start, report_id]
 temporal: observed_at
-sort: [observed_at, report_id]
+sort: [observed_at, report_time_start, report_id]
 columns:
   - name: report_id
     type: BIGINT
+    description: Aurorasaurus server-assigned observation report identifier.
   - name: observed_at
     type: TIMESTAMP
-  - name: latitude
-    type: DOUBLE
-  - name: longitude
-    type: DOUBLE
-  - name: country
-    type: VARCHAR
-  - name: state
-    type: VARCHAR
-  - name: saw_aurora
-    type: BOOLEAN
-  - name: sky
-    type: VARCHAR
-  - name: colors
-    type: VARCHAR
-  - name: types
-    type: VARCHAR
-  - name: activities
-    type: VARCHAR
-  - name: height
-    type: VARCHAR
-  - name: comment
-    type: VARCHAR
+    description: Server-side submission timestamp for the report.
   - name: report_time_start
     type: TIMESTAMP
+    description: Observer-supplied start of the aurora sighting or observation window.
   - name: report_time_end
     type: TIMESTAMP
+    description: Observer-supplied end of the aurora sighting or observation window, when provided.
+  - name: latitude
+    type: DOUBLE
+    description: Reported observation latitude in decimal degrees.
+  - name: longitude
+    type: DOUBLE
+    description: Reported observation longitude in decimal degrees.
+  - name: country
+    type: VARCHAR
+    description: Reported observation country or country code from the submitted location.
+  - name: state
+    type: VARCHAR
+    description: Reported state, province, or region from the submitted location.
+  - name: saw_aurora
+    type: BOOLEAN
+    description: Whether the observer reported seeing an aurora.
+  - name: sky
+    type: VARCHAR
+    description: Submitted sky condition category.
+  - name: sky_other
+    type: VARCHAR
+    description: Free-text sky condition when the category is other.
+  - name: colors
+    type: VARCHAR
+    description: Comma-separated aurora color categories reported by the observer.
+  - name: colors_other
+    type: VARCHAR
+    description: Free-text aurora color description when the category is other.
+  - name: types
+    type: VARCHAR
+    description: Comma-separated aurora form or type categories reported by the observer.
+  - name: types_other
+    type: VARCHAR
+    description: Free-text aurora type description when the category is other.
+  - name: activities
+    type: VARCHAR
+    description: Submitted aurora activity category.
+  - name: activities_other
+    type: VARCHAR
+    description: Free-text aurora activity description when the category is other.
+  - name: height
+    type: VARCHAR
+    description: Submitted apparent aurora height category.
+  - name: height_other
+    type: VARCHAR
+    description: Free-text aurora height description when the category is other.
+  - name: ongoing
+    type: BOOLEAN
+    description: Whether the observer marked the sighting or observation as ongoing.
+  - name: valid
+    type: BOOLEAN
+    description: Source validity flag for the report.
+  - name: verified
+    type: JSON
+    description: Source verification payload for the report.
+  - name: verified_type
+    type: JSON
+    description: Source verification type payload for the report.
+  - name: comment
+    type: VARCHAR
+    description: Observer-submitted public comment about the sighting or observation.
