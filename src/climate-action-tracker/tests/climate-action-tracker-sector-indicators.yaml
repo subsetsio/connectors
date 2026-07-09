@@ -1,0 +1,30 @@
+spec_id: climate-action-tracker-sector-indicators
+status: active
+tests:
+  - not_null: id
+  - not_null: country
+  - not_null: scenario
+  - not_null: sector
+  - not_null: indicator
+  - not_null: year
+  - column_type: {col: id, type: integer}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - column_type: {col: normalized_value, type: float}
+  - column_type: {col: edition, type: integer}
+  - row_count: {min: 6000}
+    reason: CAT Data Explorer sector-indicators endpoint has about 6.7k records; a much smaller table indicates pagination loss.
+    certainty: 90
+  - distinct_count: {col: country, min: 30}
+    reason: source covers about 35 country/EU codes for sector indicators.
+    certainty: 90
+  - enum: {col: scenario, values: ["historic"]}
+    reason: sector indicator records currently represent historical benchmark observations rather than scenario projections.
+    certainty: 80
+  - between: {col: year, lo: 1990, hi: 2035}
+    reason: sector indicators include historical values and near-term benchmark years.
+    certainty: 85
+  - freshness: {col: edition, reaches: current_year() - 2}
+    reason: CAT republishes updated data explorer editions; edition is the source update marker, while year is an observation or benchmark year.
+    certainty: 80
+    points_outward: true

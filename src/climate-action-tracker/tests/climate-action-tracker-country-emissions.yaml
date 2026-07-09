@@ -1,0 +1,26 @@
+spec_id: climate-action-tracker-country-emissions
+status: active
+tests:
+  - not_null: id
+  - not_null: region
+  - not_null: scenario
+  - not_null: sector
+  - not_null: indicator
+  - not_null: year
+  - column_type: {col: id, type: integer}
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - column_type: {col: edition, type: integer}
+  - row_count: {min: 7000}
+    reason: CAT Data Explorer country-emissions endpoint has about 8k records; a much smaller table indicates pagination loss.
+    certainty: 90
+  - distinct_count: {col: region, min: 35}
+    reason: source covers about 40 countries plus the EU.
+    certainty: 90
+  - between: {col: year, lo: 1990, hi: 2050}
+    reason: country emissions view covers historical values and projections through mid-century.
+    certainty: 90
+  - freshness: {col: edition, reaches: current_year() - 2}
+    reason: CAT republishes updated country analysis editions; edition is the source update marker, while year includes future projections.
+    certainty: 80
+    points_outward: true
