@@ -14,3 +14,6 @@ tests:
     reason: the numeric measure column montant_total_prescription_integer should remain numeric; a string type means the ODS export changed its field typing
     certainty: 70
     severity: warn
+  - freshness: {col: annee, reaches: today - 4y}
+    reason: annual series stamped at the observation year's Jan 1; CNAM publishes a year roughly 18 months after it closes, so one missed release cycle (4y of slack) is the point at which the export has gone stale
+    certainty: 85

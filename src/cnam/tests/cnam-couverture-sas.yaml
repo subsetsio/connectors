@@ -14,3 +14,6 @@ tests:
     reason: the numeric measure column couvert should remain numeric; a string type means the ODS export changed its field typing
     certainty: 70
     severity: warn
+  - freshness: {col: annee, reaches: today - 3y}
+    reason: annual series whose annee is a 4-digit year string; a new year appears each release, so 3y of slack blocks only after a whole publication cycle is missed
+    certainty: 85

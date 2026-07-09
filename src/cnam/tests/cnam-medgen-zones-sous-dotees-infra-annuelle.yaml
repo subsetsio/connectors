@@ -14,3 +14,6 @@ tests:
     reason: installed physician counts should remain numeric in the ODS export
     certainty: 80
     severity: warn
+  - freshness: {col: date, reaches: today - 2y}
+    reason: current-year snapshot refreshed in place; date carries the end of the reference period, so it should advance every year and 2y of slack marks a dead refresh
+    certainty: 85
