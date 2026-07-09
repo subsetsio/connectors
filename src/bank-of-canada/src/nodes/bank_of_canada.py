@@ -107,10 +107,16 @@ OBS_CHUNK = 200
 # value kept as the raw string the API returns ("1.3977", "", "...", and for
 # some k-indexed series plain text like "eSwatini (Swaziland)"); transforms
 # TRY_CAST and drop the non-numeric rows.
+# obs_date is a pure projection of obs_index (the value when obs_index_key='d',
+# else NULL). Redundant by construction, but it gives the ~81% temporal cohort a
+# single date-shaped column to assert freshness on and to carry the table's
+# temporal axis; obs_index alone mixes dates with category text, so max() over it
+# is meaningless. Identity lives in obs_index, never in obs_date.
 OBS_SCHEMA = pa.schema([
     ("series_id", pa.string()),
     ("obs_index_key", pa.string()),
     ("obs_index", pa.string()),
+    ("obs_date", pa.string()),
     ("value", pa.string()),
 ])
 
@@ -165,10 +171,12 @@ def _series_observations(series_id: str) -> list[dict]:
         index_key, index_value = index
         if index_value is None:
             continue
+        index_value = str(index_value)
         rows.append({
             "series_id": series_id,
             "obs_index_key": index_key,
-            "obs_index": str(index_value),
+            "obs_index": index_value,
+            "obs_date": index_value if index_key == "d" else None,
             "value": value,
         })
     return rows
@@ -231,12 +239,12 @@ TRANSFORM_SPECS = [
         sql='''
             SELECT DISTINCT
                 series_id,
-                TRY_CAST(obs_index AS DATE) AS date,
+                TRY_CAST(obs_date AS DATE) AS date,
                 TRY_CAST(value AS DOUBLE) AS value
             FROM "bank-of-canada-observations"
             WHERE series_id IS NOT NULL
               AND obs_index_key = 'd'
-              AND TRY_CAST(obs_index AS DATE) IS NOT NULL
+              AND TRY_CAST(obs_date AS DATE) IS NOT NULL
               AND TRY_CAST(value AS DOUBLE) IS NOT NULL
         ''',
     ),
