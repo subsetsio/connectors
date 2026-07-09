@@ -5,13 +5,13 @@ tests:
   - not_null: date
   - row_count: {min: 1}
   - coverage: {col: series_id, expected: 36}
-    reason: collect enumerated this table's member series; every one must land - a shortfall is silent partial loss, not a successful run
+    reason: collect enumerated this table's member cubes; every one must land - a shortfall is silent partial loss, not a successful run
     certainty: 95
   - freshness: {col: date, reaches: '2024-12-31'}
     reason: the BDS catalog advertises this table's coverage as ending on this date; fetching less means we truncated it
     certainty: 90
   - unique: [series_id, date]
-    reason: one observation per series per period; dupes mean a series was pulled in two chunks
+    reason: a UP_TIMESERIES table is one observation per series per period; dupes mean a series was pulled in two chunks
     certainty: 90
   - nullable: {col: value, max_null_frac: 0.05}
     reason: VALORE is populated on essentially every observation; a spike of nulls means the value column moved

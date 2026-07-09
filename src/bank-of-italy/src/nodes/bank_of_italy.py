@@ -23,9 +23,21 @@ JSON (mislabelled `text/html`, sometimes BOM-prefixed):
      than frozen into a baked-in id list.
   4. `PROSPETTODATI {CUBEIDS: <;-joined localIds>, VIEW_MODE: table}` returns,
      under `GRAPHDATA.observations`, the complete history of every requested
-     series as flat fully-keyed records. The `table` pivot in the same payload is
+     series as flat records. The `table` pivot in the same payload is
      server-paginated; the observations are not. `DOMAINELEMENTS` carries the
      id -> label map per dimension, denormalized onto the rows as `<DIM>_label`.
+  5. The observations are only *fully keyed* when every dimension sits on the
+     pivot's row or column axis. 128 of the 453 tables are multidimensional
+     cubes (`cubeStatType: UP_TSCUBE`) whose default layout parks dimensions on
+     `AXIS_OUT`: TDB10224 then returns 124752 cells carrying only DATA_OSS,
+     FENEC and VALORE — its region, sector and economic-activity coordinates are
+     simply gone, and the rows are unattributable. `_rekey` detects this
+     (AXIS_OUT minus the row/column axes is non-empty) and re-requests with those
+     dimensions moved onto AXIS_ROWS and `keepTableRequest=true`, without which
+     the server silently recomputes its default layout. The re-request answers
+     with a composite column — key `"DATA_OSS|ATECO_CTP|CUBEID|..."`, value
+     `"2010-06-30 00:00:00|F|TDB10224_52000139|..."` — which `_split_composite`
+     unpacks back into one column per dimension.
 
 EXPORTDATA/CSVONLINE is the app's other data path, but it needs a `dataSelector`
 built from a prior in-session response and is capped at 10 cubes / 6500 rows per
@@ -130,15 +142,69 @@ def _member_series(node: dict) -> list[str]:
     return [k["localId"] for k in (kids or []) if k.get("nodeType") == "CUBE"]
 
 
-def _prospetto(cube_ids: list[str]) -> dict:
-    payload = _service(
-        "PROSPETTODATI",
-        {"CUBEIDS": ";".join(cube_ids), "VIEW_MODE": "table", "GRAPH_MODE": "false"},
-    )
-    graph = (payload or {}).get("GRAPHDATA")
-    if graph is None:
+# The pivot layout echoed back as TABLEREQUEST: the response minus the fields
+# the app itself strips before re-sending it.
+_NOT_A_LAYOUT = {"result", "graphResponse", "descriptions"}
+
+
+def _post_prospetto(cube_ids: list[str], extra: dict | None = None) -> dict:
+    body = {"CUBEIDS": ";".join(cube_ids), "VIEW_MODE": "table", "GRAPH_MODE": "false"}
+    body.update(extra or {})
+    payload = _service("PROSPETTODATI", body)
+    if (payload or {}).get("GRAPHDATA") is None:
         raise RuntimeError(f"PROSPETTODATI returned no GRAPHDATA for {len(cube_ids)} series")
     return payload
+
+
+def _dropped_dims(payload: dict) -> list[str]:
+    """Dimensions the pivot aggregated away, so the observations cannot name them."""
+    axis = payload["table"]["axis"]
+    placed = set(axis.get("AXIS_ROWS") or []) | set(axis.get("AXIS_COLUMNS") or [])
+    return sorted(set(axis.get("AXIS_OUT") or []) - placed)
+
+
+def _rekey(cube_ids: list[str], payload: dict) -> dict:
+    """Re-request with the dropped dimensions pinned onto the row axis."""
+    dropped = _dropped_dims(payload)
+    if not dropped:
+        return payload
+
+    layout = {k: v for k, v in payload.items() if k not in _NOT_A_LAYOUT}
+    axis = layout["table"]["axis"]
+    axis["AXIS_ROWS"] = list(axis.get("AXIS_ROWS") or []) + dropped
+    axis["AXIS_OUT"] = []
+    axis["AXIS_FILTERS"] = []
+    rekeyed = _post_prospetto(
+        cube_ids, {"TABLEREQUEST": json.dumps(layout), "keepTableRequest": "true"}
+    )
+    still_dropped = _dropped_dims(rekeyed)
+    if still_dropped:
+        raise RuntimeError(
+            f"PROSPETTODATI kept {still_dropped} off the pivot axes after a rekey — "
+            "its observations would be unattributable"
+        )
+    return rekeyed
+
+
+def _prospetto(cube_ids: list[str]) -> dict:
+    return _rekey(cube_ids, _post_prospetto(cube_ids))
+
+
+def _split_composite(values: dict) -> dict:
+    """Unpack the pivot's composite row key: {"A|B": "1|2"} -> {"A": "1", "B": "2"}."""
+    if not any("|" in k for k in values):
+        return values
+    out = {}
+    for key, value in values.items():
+        if "|" not in key:
+            out[key] = value
+            continue
+        names = key.split("|")
+        parts = (value or "").split("|")
+        if len(names) != len(parts):
+            raise RuntimeError(f"composite key {key!r} does not match value {value!r}")
+        out.update(zip(names, parts))
+    return out
 
 
 def _chunk_size(table_id: str, cube_ids: list[str]) -> tuple[int, dict]:
@@ -191,7 +257,7 @@ def _rows(table_id: str, payload: dict, schema: list[str], label_dims: list[str]
     labels = _labels(payload)
     series_names = labels.get(_CUBEID, {})
     for obs in payload["GRAPHDATA"].get("observations", []):
-        values = {k: _clean(v) for k, v in obs["values"].items()}
+        values = {k: _clean(v) for k, v in _split_composite(obs["values"]).items()}
 
         # `MEASURES` names the column holding this row's value on the registry
         # tables; standard tables put it in VALORE.
@@ -228,7 +294,7 @@ def _schema(payload: dict, label_dims: list[str]) -> list[str]:
     keys = {"table_id", "series_id", "series_name", "date", "value"}
     keys |= {f"{d}_label" for d in label_dims}
     for obs in payload["GRAPHDATA"].get("observations", []):
-        keys |= obs["values"].keys()
+        keys |= _split_composite(obs["values"]).keys()
     return sorted(keys)
 
 

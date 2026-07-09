@@ -5,13 +5,13 @@ tests:
   - not_null: date
   - row_count: {min: 1}
   - coverage: {col: series_id, expected: 2}
-    reason: collect enumerated this table's member series; every one must land - a shortfall is silent partial loss, not a successful run
+    reason: collect enumerated this table's member cubes; every one must land - a shortfall is silent partial loss, not a successful run
     certainty: 95
   - freshness: {col: date, reaches: '2026-04-30'}
     reason: the BDS catalog advertises this table's coverage as ending on this date; fetching less means we truncated it
     certainty: 90
   - not_null: MEASURES
-    reason: every row on a registry table names the column carrying its value
+    reason: every row of a rate-decision registry names the column carrying its value
   - nullable: {col: value, max_null_frac: 0.85}
     reason: date-valued measures (DATA_DECOR) and unset rate fields cast to null; only the numeric rate rows carry a value
     certainty: 70

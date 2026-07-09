@@ -1,5 +1,5 @@
 {
-  "cadence_days": 7,
+  "cadence_days": 30,
   "paused": false,
-  "cadence_note": null
+  "cadence_note": "Monthly. The BDS tables are the data behind the Bollettino Statistico, released on a monthly calendar (https://www.bancaditalia.it/statistiche/calendario/); each member series carries a NEXT_PUB attribute, and the observed gap between LAST_UPD stamps on live tables is one month. A full re-pull is ~453 tables / ~13.2k series with no delta query, so a shorter cadence buys nothing."
 }
