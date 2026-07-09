@@ -336,21 +336,3 @@ DOWNLOAD_SPECS = [
     )
     for eid in ENTITY_IDS
 ]
-
-
-# One published Delta table per table-subset. Thin parse pass: surface the
-# uniform injected observation date as a typed `date`, keep every source column
-# (string-valued, lossless) plus the typed obs_year / obs_period.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=(
-            f'SELECT CAST(obs_date AS DATE) AS date, * EXCLUDE (obs_date) '
-            f'FROM "{s.id}" '
-            f'WHERE obs_date IS NOT NULL'
-        ),
-        temporal="date",
-    )
-    for s in DOWNLOAD_SPECS
-]

@@ -147,6 +147,7 @@ _KEY = {
     "cmhc-34100142": ("ref_date", "geo", "Type of unit"),
     "cmhc-34100143": ("ref_date", "geo", "Housing estimates", "Type of unit"),
     "cmhc-34100145": ("ref_date", "geo"),
+    "cmhc-34100147": ("ref_date", "geo"),
     "cmhc-34100148": ("ref_date", "geo", "Type of dwelling unit", "Type of market"),
     "cmhc-34100149": ("ref_date", "geo", "Completed dwelling units", "Type of dwelling unit"),
     "cmhc-34100150": ("ref_date", "geo", "Completed dwelling units", "Type of dwelling unit"),

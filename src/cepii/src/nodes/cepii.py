@@ -23,7 +23,6 @@ import zipfile
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get_client,
     transient_retry,
     raw_writer,
@@ -281,90 +280,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"cepii-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-
-# --- transforms: one published table per database ----------------------------
-# Most are a thin passthrough (DuckDB auto-types the CSV). A couple restore
-# zero-padded codes that CSV type inference would strip.
-
-_CUSTOM_SQL = {
-    # EQCHANGE raw is already long (series, year, country, value); cast & clean.
-    "cepii-eqchange": '''
-        SELECT
-            series,
-            CAST(year AS INTEGER)    AS year,
-            country,
-            TRY_CAST(value AS DOUBLE) AS index_2010_100
-        FROM "cepii-eqchange"
-        WHERE TRY_CAST(value AS DOUBLE) IS NOT NULL
-    ''',
-    "cepii-baci": '''
-        SELECT
-            CAST(t AS INTEGER)                        AS year,
-            CAST(i AS INTEGER)                        AS exporter_iso,
-            CAST(j AS INTEGER)                        AS importer_iso,
-            LPAD(CAST(k AS VARCHAR), 6, '0')          AS product_hs92,
-            TRY_CAST(v AS DOUBLE)                     AS value_kusd,
-            TRY_CAST(q AS DOUBLE)                     AS quantity_t
-        FROM "cepii-baci"
-        WHERE t IS NOT NULL
-    ''',
-    "cepii-macmap-hs6": '''
-        SELECT
-            LPAD(CAST(reporter AS VARCHAR), 3, '0')   AS reporter_iso,
-            LPAD(CAST(partner AS VARCHAR), 3, '0')    AS partner_iso,
-            LPAD(CAST(hs2 AS VARCHAR), 2, '0')        AS hs2,
-            TRY_CAST(adv AS DOUBLE)                   AS applied_ave,
-            TRY_CAST(w_rg AS DOUBLE)                  AS reference_group_weight
-        FROM "cepii-macmap-hs6"
-    ''',
-}
-
-# Per-database published grain and observation period. Omitted entries are left
-# undeclared: macmap-hs6 aggregates HS6 raw down to HS2 without dedup, so
-# (reporter, partner, hs2) is not unique. Wide/static tables (chelem, geodist,
-# language) have a grain but no single period column.
-_KEY = {
-    "cepii-baci": ("year", "exporter_iso", "importer_iso", "product_hs92"),
-    "cepii-chelem": ("exporter", "importer", "secgroup", "product"),
-    "cepii-econmap": ("code_wb", "year"),
-    "cepii-eqchange": ("series", "year", "country"),
-    "cepii-geodep": ("iso_d", "hs6", "year"),
-    "cepii-geodist": ("iso_o", "iso_d"),
-    "cepii-gravity": ("year", "country_id_o", "country_id_d"),
-    "cepii-intense": ("Date", "Actor1CountryCode", "Actor2CountryCode", "Category"),
-    "cepii-language": ("iso_o", "iso_d"),
-    "cepii-product-level-trade-elasticities": ("HS6",),
-    "cepii-rprod": ("measure", "Country", "Year", "indicator"),
-    "cepii-trade-unit-values": ("t", "r", "p", "k"),
-    "cepii-trade-volume": ("aggregation_level", "year", "production_stage"),
-    "cepii-tradeprod": ("year", "iso3_tp_o", "iso3_tp_d", "industry"),
-    "cepii-tradhist": ("iso_o", "iso_d", "year"),
-    "cepii-world-trade-flows-characterization": ("t", "i", "j", "k"),
-}
-_TEMPORAL = {
-    "cepii-baci": "year",
-    "cepii-econmap": "year",
-    "cepii-eqchange": "year",
-    "cepii-geodep": "year",
-    "cepii-gravity": "year",
-    "cepii-intense": "Date",
-    "cepii-rprod": "Year",
-    "cepii-trade-unit-values": "t",
-    "cepii-trade-volume": "year",
-    "cepii-tradeprod": "year",
-    "cepii-tradhist": "year",
-    "cepii-world-trade-flows-characterization": "t",
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_CUSTOM_SQL.get(s.id, f'SELECT * FROM "{s.id}"'),
-        key=_KEY.get(s.id),
-        temporal=_TEMPORAL.get(s.id),
-    )
-    for s in DOWNLOAD_SPECS
 ]
