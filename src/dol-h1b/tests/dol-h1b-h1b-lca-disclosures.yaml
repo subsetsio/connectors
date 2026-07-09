@@ -1,0 +1,30 @@
+spec_id: dol-h1b-h1b-lca-disclosures
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: annual and quarterly OFLC LCA disclosure files form a multi-million-row corpus; a smaller result means most periods were skipped
+    certainty: 90
+  - not_null: fiscal_year
+    reason: fetch code derives fiscal_year from each source file period and every parsed row must carry it
+    certainty: 98
+  - column_type: {col: fiscal_year, type: integer}
+    certainty: 98
+  - between: {col: fiscal_year, lo: 2008, hi: 2035}
+    reason: the connector enumerates historical annual files from FY2008 and generated quarterly files for current/future fiscal years
+    certainty: 95
+  - distinct_count: {col: fiscal_year, min: 15}
+    reason: expected coverage spans FY2008 onward; fewer years means the historical or quarterly file set did not materialize
+    certainty: 90
+  - column_type: {col: quarter, type: string}
+    certainty: 95
+  - column_type: {col: employer_name, type: string}
+    certainty: 95
+  - column_type: {col: case_status, type: string}
+    certainty: 95
+  - nullable: {col: employer_name, max_null_frac: 0.25}
+    reason: most LCA disclosure rows identify an employer; excessive nulls indicate header alias drift or parse failure
+    certainty: 80
+  - freshness: {col: fiscal_year, reaches: current_year()}
+    reason: OFLC publishes current fiscal-year quarterly LCA disclosure files, so the loaded corpus should reach the current calendar year
+    certainty: 85
+    points_outward: true

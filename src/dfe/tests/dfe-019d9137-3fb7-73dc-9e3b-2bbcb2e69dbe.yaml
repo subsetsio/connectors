@@ -4,3 +4,7 @@ tests:
   - row_count: {min: 1}
     reason: EES bulk CSV data sets should contain at least one data row when published.
     certainty: 95
+  - freshness: {col: time_period, reaches: "2020"}
+    reason: Active DfE statistical releases should include recent observation periods; 2020 is a conservative floor across annual and academic-year series.
+    certainty: 80
+    points_outward: true

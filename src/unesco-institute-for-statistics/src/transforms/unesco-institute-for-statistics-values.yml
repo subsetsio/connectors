@@ -1,21 +1,43 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `unesco-institute-for-statistics-values`. Regenerate after model-verify.
 # caution: `geo_unit` mixes countries with regional aggregates (see the geounits dimension, `type` = REGIONAL) — summing across geo_unit double-counts.
 # caution: Indicators are heterogeneous: values carry no unit column, so rows are only comparable within one `indicator_id`. Never aggregate `value` across indicators.
 # caution: `qualifier` and `magnitude` flag observations UIS annotates (e.g. estimated, national estimate) — a null qualifier does not certify an unflagged observation.
+# indicator_name/theme and geo_unit_name/geo_unit_type are decoded from this source's own
+# codebooks (the indicators and geounits deps) so a row is readable without them.
+deps:
+  - unesco-institute-for-statistics-values
+  - unesco-institute-for-statistics-indicators
+  - unesco-institute-for-statistics-geounits
 key: [indicator_id, geo_unit, year]
 temporal: year
 sort: [year, indicator_id, geo_unit]
 columns:
   - name: indicator_id
     type: VARCHAR
+    description: UIS indicator code identifying what was measured (e.g. CR.1, XGDP.FSGOV). Joins to indicator_code in the indicators catalog.
+  - name: indicator_name
+    type: VARCHAR
+    description: English name of the indicator, decoded from the indicators catalog. Carries the unit of measurement in trailing parentheses (e.g. "(years)", "(%)") — UIS publishes no separate unit field.
+  - name: theme
+    type: VARCHAR
+    description: UIS subject area of the indicator — one of EDUCATION, SCIENCE_TECHNOLOGY_INNOVATION, CULTURE, DEMOGRAPHIC_SOCIOECONOMIC.
   - name: geo_unit
     type: VARCHAR
+    description: UIS geographic unit code — ISO 3166-1 alpha-3 for countries, an aggregate code for regions. Joins to id in the geographic units table.
+  - name: geo_unit_name
+    type: VARCHAR
+    description: English name of the geographic unit, decoded from the geographic units table.
+  - name: geo_unit_type
+    type: VARCHAR
+    description: NATIONAL for a country or territory, REGIONAL for an aggregate spanning many countries. Filter to NATIONAL before summing across geographic units.
   - name: year
     type: BIGINT
+    description: Observation year (the reference period of the measurement).
   - name: value
     type: DOUBLE
+    description: Observed value, in the unit named at the end of indicator_name. Comparable only within a single indicator_id.
   - name: magnitude
     type: VARCHAR
+    description: UIS magnitude annotation on the observation; NIL where UIS marks the quantity as nil. Null where unannotated.
   - name: qualifier
     type: VARCHAR
+    description: UIS qualifier annotation on the observation — UIS_EST for a UIS estimate, NAT_EST for a national estimate. Null where unannotated.
