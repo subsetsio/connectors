@@ -1,11 +1,13 @@
 spec_id: central-bank-of-russia-pub-21-ds-46
 status: active
-freshness: {col: date, reaches: today - 800d}
 # Raw is long-format CBR data-service observations for one indicator
 # (publicationId=21, datasetId=46): one row per (date, measure, series column),
 # obs_val a JSON number, ISO date. The fetch raises if the indicator returns no
 # observations, so a materialized raw always carries at least one row.
 tests:
+  - freshness: {col: date, reaches: today - 800d}
+    reason: Bank of Russia statistical series update on mixed monthly, quarterly, and annual cadences; max(date) older than this indicates a stale pull
+    certainty: 90
   - row_count: {min: 1}
     reason: the fetch fn raises AssertionError on an empty RawData[], so a persisted raw must hold observations; 0 rows means the data endpoint or measure iteration changed shape
     certainty: 95
