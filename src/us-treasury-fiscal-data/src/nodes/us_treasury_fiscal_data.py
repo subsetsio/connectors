@@ -1,247 +1,121 @@
 """U.S. Treasury Fiscal Data connector.
 
-Source: a single public, unauthenticated REST API
-(https://api.fiscaldata.treasury.gov/services/api/fiscal_service/) exposing one
-table endpoint per database table. Each of the 135 published subsets maps 1:1 to
-one such endpoint.
+Source: one public, unauthenticated REST API
+(https://api.fiscaldata.treasury.gov/services/api/fiscal_service/) exposing a
+single endpoint per database table. Each accepted collect entity maps 1:1 to one
+such endpoint; `constants.ENDPOINTS` carries the path (the v1/v2 prefix is part
+of the stable path and must be preserved).
 
-Fetch shape: stateless full re-pull. Every table fits comfortably in memory (the
-largest in scope is ~140k rows), so each refresh pages the full table at the
-10000-row max page size and overwrites the raw NDJSON. The API exposes a
-record_date filter for incremental queries, but our pattern is whole-table
-snapshots, so we never carry a watermark; revisions are picked up for free.
+Fetch shape: stateless full re-pull. The API does expose an incremental filter
+(`filter=record_date:gte:YYYY-MM-DD`), but the whole accepted corpus is ~18M rows
+across 171 tables, every table is republished in full, and Treasury restates
+history routinely (the Financial Report tables and the MTS are revised for months
+after first release). Re-pulling each table whole means revisions land for free
+and no watermark can silently skip a restated row.
 
-Raw format: NDJSON. The 135 endpoints have 135 distinct, heterogeneous schemas
-and every value comes back as a string (including the literal string "null" for
-missing values), so a per-table parquet schema buys nothing — NDJSON stores the
-records faithfully and the transform re-types on read.
+Pacing: the API documents no rate limit but enforces an undocumented IP-level
+block — probing at 8-way concurrency (~3 req/s) made the server accept the TLS
+handshake and then close every connection with no HTTP response, for all
+endpoints at once, for well over ten minutes. Two defences: the DAG runs nodes
+sequentially and each page carries a short courtesy delay, keeping us near
+0.1 req/s; and an empty reply arrives as httpx.RemoteProtocolError, which
+`transient_retry` classifies as transient, so a block is waited out rather than
+mistaken for a dead endpoint. The backoff here is widened (8 attempts, up to
+300s apart) to span a block that outlives the default policy.
 
-Transform: a generic thin pass per endpoint — nullif(COLUMNS(*), 'null')
-normalises the literal "null" string to SQL NULL across every column while
-preserving names. Values stay as typed strings (faithful to the source); heavier
-per-column typing is out of scope for a 135-table catalog.
+Raw format: NDJSON. The 171 endpoints have 171 distinct schemas and the API
+returns every value as a string, including the literal string "null" for missing
+values, so a per-table parquet schema buys nothing here. NDJSON stores the
+records faithfully and the model stage types them from the profiled raw.
 """
 
-import json
+import time
 
+from subsets_utils import NodeSpec, get, save_raw_ndjson, transient_retry
 
-from subsets_utils import (
-    NodeSpec,
-    SqlNodeSpec,
-    get,
-    save_raw_ndjson,
-    transient_retry,
-)
+from constants import ENDPOINTS, ENTITY_IDS
 
 BASE_URL = "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/"
-PAGE_SIZE = 10000
-MAX_PAGES = 1000  # safety cap: 1000 * 10000 = 10M rows, far above any table
+SLUG_PREFIX = "us-treasury-fiscal-data-"
+
+PAGE_SIZE = 10000  # the API's documented maximum
+PAGE_DELAY_S = 0.5
+# Safety ceiling, not a budget: the largest accepted table is ~3.5M rows (347
+# pages). 800 pages = 8M rows, so this fires only if a table grows past twice
+# anything Treasury publishes today.
+MAX_PAGES = 800
+
+# A crawl that returns less than this fraction of the row count the API itself
+# advertised on page 1 has lost data to a truncated page walk. Silent partial
+# loads are worse than a failed node, so it raises.
+MIN_COMPLETENESS = 0.9
 
 
-@transient_retry()
+@transient_retry(attempts=8, min_wait=5, max_wait=300)
 def _fetch_page(endpoint: str, page: int) -> dict:
-    url = BASE_URL + endpoint
     resp = get(
-        url,
+        BASE_URL + endpoint,
         params={"page[number]": page, "page[size]": PAGE_SIZE},
-        timeout=(10.0, 180.0),
+        timeout=(10.0, 300.0),
     )
     resp.raise_for_status()
     return resp.json()
 
 
-def fetch_one(node_id: str) -> None:
-    """Page one Treasury Fiscal Data table in full and overwrite its raw NDJSON.
+def _iter_table(endpoint: str, stats: dict):
+    """Yield every row of one table, paging until the server says we are done.
 
-    The runtime passes the spec id, which is also the asset name. Recover the
-    collect entity id by stripping the connector prefix, then look up the API
-    endpoint path.
+    `stats` is filled in as we go so the caller can reconcile what we shipped
+    against the total-count the API advertised on the first page.
     """
-    asset = node_id
-    entity_id = node_id[len("us-treasury-fiscal-data-"):]
-    endpoint = ENDPOINTS[entity_id]
-
-    rows = []
     page = 1
     while True:
         if page > MAX_PAGES:
             raise RuntimeError(
-                f"{asset}: exceeded MAX_PAGES={MAX_PAGES} paging {endpoint} - "
-                "table grew unexpectedly large; raise the cap deliberately."
+                f"{endpoint}: exceeded MAX_PAGES={MAX_PAGES} at page[size]={PAGE_SIZE} - "
+                "the table grew past twice its expected size; raise the cap deliberately."
             )
         payload = _fetch_page(endpoint, page)
-        batch = payload.get("data", [])
-        rows.extend(batch)
-        meta = payload.get("meta", {})
+        meta = payload.get("meta") or {}
+        batch = payload.get("data") or []
+        if page == 1:
+            stats["total_count"] = meta.get("total-count")
+
+        stats["rows"] += len(batch)
+        yield from batch
+
         total_pages = meta.get("total-pages")
         if total_pages is not None:
             if page >= total_pages:
-                break
+                return
         elif len(batch) < PAGE_SIZE:
-            break
+            return
         page += 1
+        time.sleep(PAGE_DELAY_S)
 
-    save_raw_ndjson(rows, asset)
 
+def fetch_one(node_id: str) -> None:
+    """Page one Fiscal Data table in full and overwrite its raw NDJSON.
 
-ENDPOINTS = {
-    'v1-accounting-dts-adjustment-public-debt-transactions-cash-basis': 'v1/accounting/dts/adjustment_public_debt_transactions_cash_basis',
-    'v1-accounting-dts-debt-subject-to-limit': 'v1/accounting/dts/debt_subject_to_limit',
-    'v1-accounting-dts-deposits-withdrawals-operating-cash': 'v1/accounting/dts/deposits_withdrawals_operating_cash',
-    'v1-accounting-dts-federal-tax-deposits': 'v1/accounting/dts/federal_tax_deposits',
-    'v1-accounting-dts-income-tax-refunds-issued': 'v1/accounting/dts/income_tax_refunds_issued',
-    'v1-accounting-dts-inter-agency-tax-transfers': 'v1/accounting/dts/inter_agency_tax_transfers',
-    'v1-accounting-dts-operating-cash-balance': 'v1/accounting/dts/operating_cash_balance',
-    'v1-accounting-dts-public-debt-transactions': 'v1/accounting/dts/public_debt_transactions',
-    'v1-accounting-dts-short-term-cash-investments': 'v1/accounting/dts/short_term_cash_investments',
-    'v1-accounting-mts-mts-distributed-offsetting-receipts': 'v1/accounting/mts/mts_distributed_offsetting_receipts',
-    'v1-accounting-mts-mts-receipts-outlays-deficit-surplus': 'v1/accounting/mts/mts_receipts_outlays_deficit_surplus',
-    'v1-accounting-mts-mts-table-1': 'v1/accounting/mts/mts_table_1',
-    'v1-accounting-mts-mts-table-2': 'v1/accounting/mts/mts_table_2',
-    'v1-accounting-mts-mts-table-3': 'v1/accounting/mts/mts_table_3',
-    'v1-accounting-mts-mts-table-4': 'v1/accounting/mts/mts_table_4',
-    'v1-accounting-mts-mts-table-5': 'v1/accounting/mts/mts_table_5',
-    'v1-accounting-mts-mts-table-5m': 'v1/accounting/mts/mts_table_5m',
-    'v1-accounting-mts-mts-table-6': 'v1/accounting/mts/mts_table_6',
-    'v1-accounting-mts-mts-table-6a': 'v1/accounting/mts/mts_table_6a',
-    'v1-accounting-mts-mts-table-6b': 'v1/accounting/mts/mts_table_6b',
-    'v1-accounting-mts-mts-table-6c': 'v1/accounting/mts/mts_table_6c',
-    'v1-accounting-mts-mts-table-6d': 'v1/accounting/mts/mts_table_6d',
-    'v1-accounting-mts-mts-table-6e': 'v1/accounting/mts/mts_table_6e',
-    'v1-accounting-mts-mts-table-7': 'v1/accounting/mts/mts_table_7',
-    'v1-accounting-mts-mts-table-8': 'v1/accounting/mts/mts_table_8',
-    'v1-accounting-mts-mts-table-9': 'v1/accounting/mts/mts_table_9',
-    'v1-accounting-mts-mts-table-9-outlays-functions-subfunctions': 'v1/accounting/mts/mts_table_9_outlays_functions_subfunctions',
-    'v1-accounting-od-agriculture-disaster-relief-trust-fund-expected': 'v1/accounting/od/agriculture_disaster_relief_trust_fund_expected',
-    'v1-accounting-od-agriculture-disaster-relief-trust-fund-results': 'v1/accounting/od/agriculture_disaster_relief_trust_fund_results',
-    'v1-accounting-od-airport-airway-trust-fund-expected': 'v1/accounting/od/airport_airway_trust_fund_expected',
-    'v1-accounting-od-airport-airway-trust-fund-results': 'v1/accounting/od/airport_airway_trust_fund_results',
-    'v1-accounting-od-auctions-query': 'v1/accounting/od/auctions_query',
-    'v1-accounting-od-black-lung-disability-trust-fund-expected': 'v1/accounting/od/black_lung_disability_trust_fund_expected',
-    'v1-accounting-od-black-lung-disability-trust-fund-results': 'v1/accounting/od/black_lung_disability_trust_fund_results',
-    'v1-accounting-od-buybacks-operations': 'v1/accounting/od/buybacks_operations',
-    'v1-accounting-od-buybacks-security-details': 'v1/accounting/od/buybacks_security_details',
-    'v1-accounting-od-cash-balance': 'v1/accounting/od/cash_balance',
-    'v1-accounting-od-federal-maturity-rates': 'v1/accounting/od/federal_maturity_rates',
-    'v1-accounting-od-frn-daily-indexes': 'v1/accounting/od/frn_daily_indexes',
-    'v1-accounting-od-gas-daily-activity-totals': 'v1/accounting/od/gas_daily_activity_totals',
-    'v1-accounting-od-gas-held-by-public-daily-activity': 'v1/accounting/od/gas_held_by_public_daily_activity',
-    'v1-accounting-od-gas-intragov-holdings-daily-activity': 'v1/accounting/od/gas_intragov_holdings_daily_activity',
-    'v1-accounting-od-harbor-maintenance-trust-fund-expected': 'v1/accounting/od/harbor_maintenance_trust_fund_expected',
-    'v1-accounting-od-harbor-maintenance-trust-fund-results': 'v1/accounting/od/harbor_maintenance_trust_fund_results',
-    'v1-accounting-od-hazardous-substance-superfund-expected': 'v1/accounting/od/hazardous_substance_superfund_expected',
-    'v1-accounting-od-hazardous-substance-superfund-results': 'v1/accounting/od/hazardous_substance_superfund_results',
-    'v1-accounting-od-highway-trust-fund': 'v1/accounting/od/highway_trust_fund',
-    'v1-accounting-od-highway-trust-fund-expected': 'v1/accounting/od/highway_trust_fund_expected',
-    'v1-accounting-od-highway-trust-fund-results': 'v1/accounting/od/highway_trust_fund_results',
-    'v1-accounting-od-i-bonds-interest-rates': 'v1/accounting/od/i_bonds_interest_rates',
-    'v1-accounting-od-inland-waterways-trust-fund-expected': 'v1/accounting/od/inland_waterways_trust_fund_expected',
-    'v1-accounting-od-inland-waterways-trust-fund-results': 'v1/accounting/od/inland_waterways_trust_fund_results',
-    'v1-accounting-od-insurance-amounts': 'v1/accounting/od/insurance_amounts',
-    'v1-accounting-od-leaking-underground-storage-tank-trust-fund-expected': 'v1/accounting/od/leaking_underground_storage_tank_trust_fund_expected',
-    'v1-accounting-od-leaking-underground-storage-tank-trust-fund-results': 'v1/accounting/od/leaking_underground_storage_tank_trust_fund_results',
-    'v1-accounting-od-long-term-projections': 'v1/accounting/od/long_term_projections',
-    'v1-accounting-od-net-position': 'v1/accounting/od/net_position',
-    'v1-accounting-od-nuclear-waste-fund-results': 'v1/accounting/od/nuclear_waste_fund_results',
-    'v1-accounting-od-oil-spill-liability-trust-fund-expected': 'v1/accounting/od/oil_spill_liability_trust_fund_expected',
-    'v1-accounting-od-oil-spill-liability-trust-fund-results': 'v1/accounting/od/oil_spill_liability_trust_fund_results',
-    'v1-accounting-od-patient-centered-outcomes-research-trust-fund-expected': 'v1/accounting/od/patient_centered_outcomes_research_trust_fund_expected',
-    'v1-accounting-od-patient-centered-outcomes-research-trust-fund-results': 'v1/accounting/od/patient_centered_outcomes_research_trust_fund_results',
-    'v1-accounting-od-rates-of-exchange': 'v1/accounting/od/rates_of_exchange',
-    'v1-accounting-od-receipts-by-department': 'v1/accounting/od/receipts_by_department',
-    'v1-accounting-od-reconciliations': 'v1/accounting/od/reconciliations',
-    'v1-accounting-od-reforestation-trust-fund-expected': 'v1/accounting/od/reforestation_trust_fund_expected',
-    'v1-accounting-od-reforestation-trust-fund-results': 'v1/accounting/od/reforestation_trust_fund_results',
-    'v1-accounting-od-savings-bonds-mud': 'v1/accounting/od/savings_bonds_mud',
-    'v1-accounting-od-savings-bonds-pcs': 'v1/accounting/od/savings_bonds_pcs',
-    'v1-accounting-od-savings-bonds-report': 'v1/accounting/od/savings_bonds_report',
-    'v1-accounting-od-schedules-fed-debt': 'v1/accounting/od/schedules_fed_debt',
-    'v1-accounting-od-schedules-fed-debt-daily-activity': 'v1/accounting/od/schedules_fed_debt_daily_activity',
-    'v1-accounting-od-schedules-fed-debt-daily-summary': 'v1/accounting/od/schedules_fed_debt_daily_summary',
-    'v1-accounting-od-schedules-fed-debt-fytd': 'v1/accounting/od/schedules_fed_debt_fytd',
-    'v1-accounting-od-securities-accounts': 'v1/accounting/od/securities_accounts',
-    'v1-accounting-od-securities-c-of-i': 'v1/accounting/od/securities_c_of_i',
-    'v1-accounting-od-securities-conversions': 'v1/accounting/od/securities_conversions',
-    'v1-accounting-od-securities-outstanding': 'v1/accounting/od/securities_outstanding',
-    'v1-accounting-od-securities-redemptions': 'v1/accounting/od/securities_redemptions',
-    'v1-accounting-od-securities-sales': 'v1/accounting/od/securities_sales',
-    'v1-accounting-od-securities-sales-term': 'v1/accounting/od/securities_sales_term',
-    'v1-accounting-od-securities-transfers': 'v1/accounting/od/securities_transfers',
-    'v1-accounting-od-slgs-demand-deposit-rates': 'v1/accounting/od/slgs_demand_deposit_rates',
-    'v1-accounting-od-slgs-time-deposit-rates': 'v1/accounting/od/slgs_time_deposit_rates',
-    'v1-accounting-od-social-insurance': 'v1/accounting/od/social_insurance',
-    'v1-accounting-od-sport-fish-restoration-boating-trust-fund-expected': 'v1/accounting/od/sport_fish_restoration_boating_trust_fund_expected',
-    'v1-accounting-od-sport-fish-restoration-boating-trust-fund-results': 'v1/accounting/od/sport_fish_restoration_boating_trust_fund_results',
-    'v1-accounting-od-tips-cpi-data-detail': 'v1/accounting/od/tips_cpi_data_detail',
-    'v1-accounting-od-tips-cpi-data-summary': 'v1/accounting/od/tips_cpi_data_summary',
-    'v1-accounting-od-uranium-enrichment-decontamination-decommissioning-fund-expected': 'v1/accounting/od/uranium_enrichment_decontamination_decommissioning_fund_expected',
-    'v1-accounting-od-uranium-enrichment-decontamination-decommissioning-fund-results': 'v1/accounting/od/uranium_enrichment_decontamination_decommissioning_fund_results',
-    'v1-accounting-od-us-victims-state-sponsored-terrorism-fund-expected': 'v1/accounting/od/us_victims_state_sponsored_terrorism_fund_expected',
-    'v1-accounting-od-us-victims-state-sponsored-terrorism-fund-results': 'v1/accounting/od/us_victims_state_sponsored_terrorism_fund_results',
-    'v1-accounting-od-utf-account-balances': 'v1/accounting/od/utf_account_balances',
-    'v1-accounting-od-utf-account-statement': 'v1/accounting/od/utf_account_statement',
-    'v1-accounting-od-utf-federal-activity-statement': 'v1/accounting/od/utf_federal_activity_statement',
-    'v1-accounting-od-utf-transaction-statement': 'v1/accounting/od/utf_transaction_statement',
-    'v1-accounting-od-utf-transaction-subtotals': 'v1/accounting/od/utf_transaction_subtotals',
-    'v1-accounting-od-vaccine-injury-compensation-trust-fund-expected': 'v1/accounting/od/vaccine_injury_compensation_trust_fund_expected',
-    'v1-accounting-od-vaccine-injury-compensation-trust-fund-results': 'v1/accounting/od/vaccine_injury_compensation_trust_fund_results',
-    'v1-accounting-od-wool-research-development-promotion-trust-fund-expected': 'v1/accounting/od/wool_research_development_promotion_trust_fund_expected',
-    'v1-accounting-od-wool-research-development-promotion-trust-fund-results': 'v1/accounting/od/wool_research_development_promotion_trust_fund_results',
-    'v1-accounting-tb-esf1-balances': 'v1/accounting/tb/esf1_balances',
-    'v1-accounting-tb-esf2-statement-net-cost': 'v1/accounting/tb/esf2_statement_net_cost',
-    'v1-accounting-tb-fcp1-weekly-report-major-market-participants': 'v1/accounting/tb/fcp1_weekly_report_major_market_participants',
-    'v1-accounting-tb-fcp2-monthly-report-major-market-participants': 'v1/accounting/tb/fcp2_monthly_report_major_market_participants',
-    'v1-accounting-tb-fcp3-quarterly-report-large-market-participants': 'v1/accounting/tb/fcp3_quarterly_report_large_market_participants',
-    'v1-accounting-tb-ffo5-internal-revenue-by-state': 'v1/accounting/tb/ffo5_internal_revenue_by_state',
-    'v1-accounting-tb-ffo6-customs-border-protection-collections': 'v1/accounting/tb/ffo6_customs_border_protection_collections',
-    'v1-accounting-tb-ofs1-distribution-federal-securities-class-investors-type-issues': 'v1/accounting/tb/ofs1_distribution_federal_securities_class_investors_type_issues',
-    'v1-accounting-tb-ofs2-estimated-ownership-treasury-securities': 'v1/accounting/tb/ofs2_estimated_ownership_treasury_securities',
-    'v1-accounting-tb-pdo1-offerings-regular-weekly-treasury-bills': 'v1/accounting/tb/pdo1_offerings_regular_weekly_treasury_bills',
-    'v1-accounting-tb-pdo2-offerings-marketable-securities-other-regular-weekly-treasury-bills': 'v1/accounting/tb/pdo2_offerings_marketable_securities_other_regular_weekly_treasury_bills',
-    'v1-accounting-tb-uscc1-amounts-outstanding-circulation': 'v1/accounting/tb/uscc1_amounts_outstanding_circulation',
-    'v1-accounting-tb-uscc2-amounts-outstanding-circulation': 'v1/accounting/tb/uscc2_amounts_outstanding_circulation',
-    'v1-debt-mspd-mspd-table-1': 'v1/debt/mspd/mspd_table_1',
-    'v1-debt-mspd-mspd-table-2': 'v1/debt/mspd/mspd_table_2',
-    'v1-debt-mspd-mspd-table-3': 'v1/debt/mspd/mspd_table_3',
-    'v1-debt-mspd-mspd-table-3-market': 'v1/debt/mspd/mspd_table_3_market',
-    'v1-debt-mspd-mspd-table-3-nonmarket': 'v1/debt/mspd/mspd_table_3_nonmarket',
-    'v1-debt-mspd-mspd-table-4': 'v1/debt/mspd/mspd_table_4',
-    'v1-debt-mspd-mspd-table-5': 'v1/debt/mspd/mspd_table_5',
-    'v1-debt-treasury-offset-program': 'v1/debt/treasury_offset_program',
-    'v2-accounting-od-avg-interest-rates': 'v2/accounting/od/avg_interest_rates',
-    'v2-accounting-od-balance-sheets': 'v2/accounting/od/balance_sheets',
-    'v2-accounting-od-debt-outstanding': 'v2/accounting/od/debt_outstanding',
-    'v2-accounting-od-debt-to-penny': 'v2/accounting/od/debt_to_penny',
-    'v2-accounting-od-gold-reserve': 'v2/accounting/od/gold_reserve',
-    'v2-accounting-od-interest-expense': 'v2/accounting/od/interest_expense',
-    'v2-accounting-od-record-setting-auction': 'v2/accounting/od/record_setting_auction',
-    'v2-accounting-od-sb-value': 'v2/accounting/od/sb_value',
-    'v2-accounting-od-statement-net-cost': 'v2/accounting/od/statement_net_cost',
-    'v2-accounting-od-utf-qtr-yields': 'v2/accounting/od/utf_qtr_yields',
-    'v2-debt-tror': 'v2/debt/tror',
-    'v2-revenue-rcm': 'v2/revenue/rcm',
-}
+    The runtime passes the spec id, which is also the asset name; the collect
+    entity is recovered from it by stripping the connector prefix.
+    """
+    asset = node_id
+    entity_id = node_id.removeprefix(SLUG_PREFIX)
+    endpoint = ENDPOINTS[entity_id]
+
+    stats = {"rows": 0, "total_count": None}
+    save_raw_ndjson(_iter_table(endpoint, stats), asset)
+
+    expected = stats["total_count"]
+    if expected and stats["rows"] < expected * MIN_COMPLETENESS:
+        raise RuntimeError(
+            f"{asset}: shipped {stats['rows']} of the {expected} rows the API advertised "
+            f"for {endpoint} (< {MIN_COMPLETENESS:.0%}) - the page walk truncated."
+        )
 
 
 DOWNLOAD_SPECS = [
-    NodeSpec(
-        id=f"us-treasury-fiscal-data-{eid}",
-        fn=fetch_one,
-        kind="download",
-    )
-    for eid in ENDPOINTS
-]
-
-# One thin generic transform per table: cast every column to VARCHAR (the API
-# returns all values as strings; the cast also neutralises DuckDB's per-column
-# JSON type inference, which would otherwise infer DATE/numeric for some columns
-# and make the nullif below fail) and normalise the literal "null" string to SQL
-# NULL across every column (names preserved), then publish.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{spec.id}-transform",
-        deps=[spec.id],
-        sql=f'SELECT nullif(CAST(COLUMNS(*) AS VARCHAR), \'null\') FROM "{spec.id}"',
-    )
-    for spec in DOWNLOAD_SPECS
+    NodeSpec(id=f"{SLUG_PREFIX}{eid}", fn=fetch_one, kind="download")
+    for eid in ENTITY_IDS
 ]

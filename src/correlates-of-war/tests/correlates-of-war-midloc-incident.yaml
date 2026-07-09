@@ -1,5 +1,8 @@
 spec_id: correlates-of-war-midloc-incident
 status: active
+coverage:
+  frozen: true
+  reason: Correlates of War publishes this as a fixed historical release; refreshes replace the full versioned file rather than extending a live rolling feed.
 tests:
   - not_null: dispnum
     reason: dispnum is a primary identifier column present on every COW row for this table; a null means the CSV header misaligned or columns shifted on parse.
