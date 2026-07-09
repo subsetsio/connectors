@@ -1,0 +1,10 @@
+spec_id: caiso-crr-inventory
+status: deferred
+# CRR inventory is a sparse, snapshot-dated report. Its required filter is a single
+# `market_name` (ANNUAL/MONTHLY/SEASONAL) — the ALL/market_term/time_of_use combos
+# return ERR_CODE=1001 (invalid). Every well-formed live query across 2022-2024
+# January windows returned ERR_CODE=1000 "No data returned": inventory is posted only
+# on auction-result dates, which a rolling backfill window may not intersect. Schema
+# could not be observed at authoring time, so assertions are deferred until a window
+# with data lands. If the report stays empty in the run its (0-row) publish is excused
+# with `waive-spec caiso caiso-crr-inventory`.

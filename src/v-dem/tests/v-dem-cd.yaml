@@ -1,0 +1,47 @@
+spec_id: v-dem-cd
+status: active
+tests:
+  - not_null: country_name
+    reason: every V-Dem row is a coded polity; a null name means the wide CSV header/body misaligned on read
+    certainty: 95
+
+  - not_null: country_text_id
+    certainty: 95
+
+  - column_type: {col: country_id, type: integer}
+    reason: fetch fn casts the identifier columns; the rest of the wide CSV stays VARCHAR
+    certainty: 95
+
+  - column_type: {col: year, type: integer}
+    certainty: 95
+
+  - column_type: {col: historical_date, type: date}
+    reason: CD's observation unit IS the date — it must parse
+    certainty: 95
+
+  - not_null: historical_date
+    reason: the country-date product keys on the date; a null one is unusable
+    certainty: 90
+
+  - unique: [country_id, historical_date]
+    reason: CD emits a new row whenever any indicator changes within a country's year — one row per country-date
+    certainty: 90
+
+  - between: {col: year, lo: 1789, hi: current_year()}
+    reason: V-Dem's coding window opens in 1789; nothing is coded into the future
+    certainty: 90
+
+  - freshness: {col: historical_date, reaches: today - 500d}
+    reason: >-
+      annual release each mid-March carries data through the previous 31 Dec, so the
+      max date lags "now" by up to ~15 months just before the next release
+    points_outward: true
+    certainty: 85
+
+  - distinct_count: {col: country_text_id, min: 170, max: 250}
+    reason: V-Dem v16 codes ~202 polities; a big shortfall means we truncated the CSV
+    certainty: 85
+
+  - row_count: {min: 27000}
+    reason: country-date has at least one row per country-year and usually several, so it strictly exceeds the CY row count
+    certainty: 90

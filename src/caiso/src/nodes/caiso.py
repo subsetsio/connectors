@@ -154,9 +154,11 @@ REPORTS = {
     "ENE_CB_AWARDS":     _r(30, [None]),
     "ENE_CB_CLR_AWARDS": _r(30, [None]),
     "ENE_CB_MKT_SUM":    _r(30, [None]),
-    # Congestion Revenue Rights (CRR) — auction clearing & inventory
+    # Congestion Revenue Rights (CRR) — auction clearing & inventory.
+    # CRR_CLEARING takes the ALL filters; CRR_INVENTORY rejects them (1001) and
+    # instead requires a single `market_name` value, so it partitions by that.
     "CRR_CLEARING":  _r(30, [None], {"market_name": "ALL", "market_term": "ALL", "time_of_use": "ALL"}),
-    "CRR_INVENTORY": _r(30, [None], {"market_name": "ALL", "market_term": "ALL", "time_of_use": "ALL"}),
+    "CRR_INVENTORY": _r(30, ["ANNUAL", "MONTHLY", "SEASONAL"], dim="market_name"),
     # Transmission
     "TRNS_USAGE":       _r(30, ["DAM", "HASP"], {"ti_id": "ALL", "ti_direction": "ALL"}),
     "TRNS_ATC":         _r(30, ["DAM", "HASP"], {"ti_id": "ALL", "ti_direction": "ALL"}),
@@ -387,7 +389,7 @@ def fetch_report(node_id: str) -> None:
             params = _base_params(qn, cur, win_end + timedelta(days=1))
             params.update(cfg["params"])
             if mrid is not None:
-                params["market_run_id"] = mrid
+                params[cfg["dim"]] = mrid
             if cfg["node_bounded"]:
                 params["node"] = ",".join(BENCHMARK_NODES)
 

@@ -73,7 +73,8 @@ RAW_EXT = "ndjson.gz"
 
 _HREF_RE = re.compile(r'href="([^"?#]+)"', re.IGNORECASE)
 _YEAR_RE = re.compile(r"^(19|20)\d{2}$")
-_DATE_TOKEN_RE = re.compile(r"^(19|20)\d{2}([-_]?\d{2})?$")
+# A vintage token: 2024, 202412, or 122025 (ANAC writes SISANT_<mm><yyyy>.csv).
+_DATE_TOKEN_RE = re.compile(r"^((19|20)\d{2}(\d{2})?|\d{2}(19|20)\d{2})$")
 _TRAILING_YEAR_RE = re.compile(r"^(.*?[a-z])((19|20)\d{2})$")
 
 # The host streams slowly but continuously, so a generous read gap tolerates the
@@ -251,6 +252,8 @@ def _strip_date_tokens(fslug: str) -> str:
         toks.pop(0)
     while toks and _DATE_TOKEN_RE.match(toks[-1]):
         toks.pop()
+    if toks and all(t.isdigit() for t in toks):
+        return ""  # the whole stem was a date, e.g. Historico_RAB/2026-06.csv
     if toks:
         m = _TRAILING_YEAR_RE.match(toks[-1])
         if m:

@@ -1,0 +1,25 @@
+# Wide raw (one column per coded indicator) unpivoted to tidy long format.
+# Only V-Dem indicator columns (v2*/v3*/e_* prefixes) are kept; identifier and
+# coding-metadata columns are dropped, as are non-numeric and missing cells.
+key: [country_id, date, coder_id, variable]
+temporal: date
+sort: [date, country_id, coder_id, variable]
+columns:
+  - name: country_text_id
+    type: VARCHAR
+    description: Country code, V-Dem's own three-letter alphabetic identifier (mostly ISO 3166-1 alpha-3).
+  - name: country_id
+    type: INTEGER
+    description: V-Dem numeric country identifier; stable across releases and the join key to V-Dem's country table.
+  - name: date
+    type: DATE
+    description: Observation date the coding applies to (V-Dem `historical_date`). Coder-Level has no year column; the date is the only temporal key.
+  - name: coder_id
+    type: INTEGER
+    description: Anonymous identifier of the individual Country Expert who supplied the rating. Not stable across V-Dem releases.
+  - name: variable
+    type: VARCHAR
+    description: V-Dem variable code as published in the codebook (e.g. `v2caassemb`). Codes suffixed `_conf` are that coder's self-reported confidence in their own rating of the base variable.
+  - name: value
+    type: DOUBLE
+    description: The expert's raw ordinal rating on the variable's codebook scale, before the measurement model aggregates coders. Scales differ per variable - read the V-Dem codebook.

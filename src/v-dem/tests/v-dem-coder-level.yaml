@@ -1,0 +1,51 @@
+spec_id: v-dem-coder-level
+status: active
+tests:
+  - not_null: country_text_id
+    certainty: 95
+
+  - column_type: {col: country_id, type: integer}
+    reason: fetch fn casts the identifier columns; the rest of the wide CSV stays VARCHAR
+    certainty: 95
+
+  - column_type: {col: coder_id, type: integer}
+    reason: coders are anonymous integer ids, never names — a string here means the anonymisation broke
+    certainty: 90
+
+  - column_type: {col: historical_date, type: date}
+    certainty: 90
+
+  - not_null: coder_id
+    reason: this product's whole point is attributing a rating to an individual expert coder
+    certainty: 95
+
+  - not_null: historical_date
+    reason: Coder-Level has no `year` column — the date is the only temporal key
+    certainty: 90
+
+  - unique: [country_id, historical_date, coder_id]
+    reason: >-
+      wide format, one row per country-date-coder with the 273 coded indicators as columns;
+      if this fails the grain is finer than believed (e.g. split by question batch)
+    certainty: 75
+    severity: warn
+
+  - at_most: {col: historical_date, expr: today}
+    reason: expert codings describe the past; nothing is coded into the future
+    certainty: 95
+
+  - freshness: {col: historical_date, reaches: today - 500d}
+    reason: >-
+      annual release each mid-March carries data through the previous 31 Dec, so the
+      max date lags "now" by up to ~15 months just before the next release
+    points_outward: true
+    certainty: 85
+
+  - distinct_count: {col: coder_id, min: 1000}
+    reason: V-Dem reports ~4000 country experts; far fewer would mean a truncated read
+    certainty: 75
+    severity: warn
+
+  - row_count: {min: 50000}
+    reason: multiple experts per country-date across ~202 polities — far more rows than the country-year products
+    certainty: 80
