@@ -97,12 +97,17 @@ def _convert_opts(schema: pa.Schema) -> pacsv.ConvertOptions:
     null-fills the quality columns the aggregate-region members omit. Together
     they make per-member type inference impossible, which is the point — the
     schema is the contract, and a member that cannot be coerced into it raises.
+
+    `null_values` must stay exactly `[""]`. It overrides pyarrow's default
+    token list, which includes "NA" — and "NA" is Namibia's area code, the sole
+    place that token occurs anywhere in the export. Adding it back nulls the
+    `country` column of all 1.15M Namibian rows.
     """
     return pacsv.ConvertOptions(
         column_types={f.name: f.type for f in schema},
         include_columns=list(schema.names),
         include_missing_columns=True,
-        null_values=["", "NA"],
+        null_values=[""],
         strings_can_be_null=True,
     )
 
