@@ -11,9 +11,11 @@ No auth. Full-corpus re-pull each refresh (stateless) — SDMX supports
 warehouse is small enough (largest flows ~hundreds of MB) to re-pull. Rows are
 streamed to disk so memory stays bounded regardless of flow size.
 """
+import codecs
 import csv
 import json
 import re
+import zlib
 
 import pyarrow as pa
 
@@ -119,6 +121,61 @@ def _flush(writer, batch: list[dict]) -> None:
     writer.write_table(pa.Table.from_pylist(batch, schema=SCHEMA))
 
 
+def _decompressor(head: bytes):
+    """A decompressobj matching what `head` actually is, or None for plain bytes."""
+    if head[:2] == b"\x1f\x8b":
+        return zlib.decompressobj(16 + zlib.MAX_WBITS)  # gzip
+    if head[:1] == b"\x78":
+        return zlib.decompressobj()                     # zlib-wrapped deflate
+    return None
+
+
+def _iter_lines(resp) -> "Iterator[str]":
+    """Decoded text lines from the raw response body.
+
+    The warehouse's `Vary` omits `Accept-Encoding`, so its fronting cache can
+    return a `Content-Encoding: gzip` header on a body that was stored
+    uncompressed (and the reverse). Trusting the header there fails the largest
+    flows with a zlib "incorrect header check"; sniff the bytes instead. A
+    stream that ends mid-member raises, so a truncated pull retries rather than
+    silently writing a short table.
+    """
+    decomp = _decompressor(b"")
+    sniffed = False
+    text = codecs.getincrementaldecoder("utf-8")("replace")
+    tail = ""
+    for chunk in resp.iter_raw():
+        if not chunk:
+            continue
+        if not sniffed:
+            decomp, sniffed = _decompressor(chunk), True
+        while decomp is not None:
+            data = decomp.decompress(chunk)
+            rest = decomp.unused_data  # a concatenated multi-member gzip stream
+            chunk = data
+            if not rest:
+                break
+            decomp = _decompressor(rest)
+            if decomp is None:
+                chunk += rest
+                break
+            chunk += decomp.decompress(rest)
+            break
+        if not chunk:
+            continue
+        # Split on \n only: str.splitlines would also break on \x0b/ ,
+        # which SDMX labels are free to contain. Terminators are kept so
+        # csv.reader can rejoin quoted fields that span lines.
+        parts = (tail + text.decode(chunk)).split("\n")
+        tail = parts.pop()
+        yield from (p + "\n" for p in parts)
+    if decomp is not None and not decomp.eof:
+        raise ValueError("compressed response ended mid-stream (truncated)")
+    tail += text.decode(b"", True)
+    if tail:
+        yield tail
+
+
 @transient_retry()
 def _stream_csv_to_parquet(url: str, asset: str) -> int:
     """Stream the dataflow CSV and write normalized parquet. Returns row count."""
@@ -128,13 +185,11 @@ def _stream_csv_to_parquet(url: str, asset: str) -> int:
         "GET",
         url,
         params={"format": "csv"},
-        headers={"Accept-Encoding": "identity"},
+        headers={"Accept-Encoding": "gzip"},
         timeout=(10.0, 600.0),
     ) as resp:
         resp.raise_for_status()
-        # iter_lines yields decoded text lines; csv.reader re-joins quoted
-        # fields that span lines (SDMX labels can contain embedded newlines).
-        reader = csv.reader(resp.iter_lines())
+        reader = csv.reader(_iter_lines(resp))
         header = next(reader, None)
         if not header:
             return 0

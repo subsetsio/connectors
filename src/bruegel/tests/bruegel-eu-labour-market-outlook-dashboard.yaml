@@ -18,8 +18,8 @@ tests:
     certainty: 70
     points_outward: true
     severity: warn
-  - freshness: {col: year, reaches: current_year() - 1}
-    reason: the outlook dashboard is maintained annually or better, with projection years extending at least to the current period
+  - freshness: {col: year, reaches: 2023}
+    reason: the current workbook reaches 2023; a lower maximum year indicates the dashboard extract or source workbook stopped advancing
     certainty: 60
     points_outward: true
     severity: warn

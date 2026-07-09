@@ -3,19 +3,15 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [year, countrycode, country, region]
+key: [country_code, year]
 temporal: year
 checks:
   - kind: unique
-    columns: [year, countrycode, country, region]
+    columns: [country_code, year]
+  - kind: not_null
+    col: country_code
   - kind: not_null
     col: year
-  - kind: not_null
-    col: countrycode
-  - kind: not_null
-    col: country
-  - kind: not_null
-    col: region
   - kind: row_floor
     min: 65572
 regression:

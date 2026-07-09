@@ -1,16 +1,18 @@
-key: [year, region]
+# Renamed from the source sheet's headers: gdppc -> gdp_per_capita,
+# pop -> population.
+key: [region, year]
 temporal: year
 sort: [year, region]
 columns:
   - name: region
     type: VARCHAR
-    description: Maddison Project region name, including the World aggregate where present.
+    description: One of the eight Maddison world regions (e.g. "Western Europe", "East Asia"), or "World" for the global total. Filter out "World" before aggregating across regions.
   - name: year
     type: INTEGER
-    description: Observation year.
-  - name: gdppc
+    description: Benchmark year the estimate refers to. Decadal from 1820 to 2010, then annual from 2015 to 2022 - not a continuous annual series.
+  - name: gdp_per_capita
     type: DOUBLE
-    description: Real GDP per capita in 2011 international dollars for the aggregate region.
-  - name: pop
+    description: Real GDP per capita in 2011 international dollars, population-weighted across the region's countries. A ratio, not an additive quantity.
+  - name: population
     type: DOUBLE
-    description: Population in thousands for the aggregate region.
+    description: Regional population in thousands of persons.

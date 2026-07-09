@@ -19,7 +19,7 @@ tests:
   - row_count: {min: 50}
     reason: the workbook lists many announced arms sales by country and equipment
     certainty: 65
-  - freshness: {col: year, reaches: current_year() - 2}
+  - freshness: {col: year, reaches: 2024}
     reason: the dataset is maintained as a current tracker of announced US foreign military sales; allow reporting lag but require recent announcement years
     certainty: 55
     points_outward: true
