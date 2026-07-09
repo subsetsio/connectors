@@ -9,9 +9,10 @@ Three published exchange-rate products, each a stateless full re-pull:
   - kurs-uka          : foreign banknote (UKA) buy/sell  (Asing  family)
   - jisdor            : official USD/IDR spot reference   (Jisdor family)
 
-The fourth family the service exposes (NonUSD_IDR) is permanently disabled
-upstream (every call 500s with "Sorry you cannot access this feature") and is
-therefore not built — it was ranked below the publish threshold.
+The fourth family the service exposes (NonUSD_IDR) is not built: Bank
+Indonesia's service returns "Sorry you cannot access this feature" / connection
+resets for the NonUSD_IDR method family, so the accept stage defers it until the
+upstream endpoint becomes usable.
 
 Method variants (pinned from the WSDL):
   - variant2(tgl)                   -> all currencies for one date; used to
@@ -32,7 +33,7 @@ import httpx
 import pyarrow as pa
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 BASE = "https://www.bi.go.id/biwebservice/wskursbi.asmx"
 SOURCE_MIN = "2000-01-01"   # earliest startdate; service returns from when data begins
@@ -165,48 +166,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="bank-indonesia-kurs-transaksi-bi", fn=fetch_kurs_transaksi_bi, kind="download"),
     NodeSpec(id="bank-indonesia-kurs-uka", fn=fetch_kurs_uka, kind="download"),
     NodeSpec(id="bank-indonesia-jisdor", fn=fetch_jisdor, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="bank-indonesia-kurs-transaksi-bi-transform",
-        deps=["bank-indonesia-kurs-transaksi-bi"],
-        sql='''
-            SELECT DISTINCT
-                CAST(date AS DATE) AS date,
-                currency,
-                unit,
-                buy  AS buy_rate,
-                sell AS sell_rate
-            FROM "bank-indonesia-kurs-transaksi-bi"
-            WHERE date IS NOT NULL AND currency IS NOT NULL
-              AND buy > 0 AND sell > 0
-        ''',
-    ),
-    SqlNodeSpec(
-        id="bank-indonesia-kurs-uka-transform",
-        deps=["bank-indonesia-kurs-uka"],
-        sql='''
-            SELECT DISTINCT
-                CAST(date AS DATE) AS date,
-                currency,
-                unit,
-                buy  AS buy_rate,
-                sell AS sell_rate
-            FROM "bank-indonesia-kurs-uka"
-            WHERE date IS NOT NULL AND currency IS NOT NULL
-              AND buy > 0 AND sell > 0
-        ''',
-    ),
-    SqlNodeSpec(
-        id="bank-indonesia-jisdor-transform",
-        deps=["bank-indonesia-jisdor"],
-        sql='''
-            SELECT DISTINCT
-                CAST(date AS DATE) AS date,
-                buy AS rate
-            FROM "bank-indonesia-jisdor"
-            WHERE date IS NOT NULL AND buy IS NOT NULL
-        ''',
-    ),
 ]
