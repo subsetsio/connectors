@@ -1,0 +1,49 @@
+key: [survey_id]
+temporal: survey_year
+sort: [survey_year, survey_id]
+columns:
+  - name: survey_id
+    type: VARCHAR
+    description: DHS survey identifier.
+  - name: country_code
+    type: VARCHAR
+    description: DHS country code.
+  - name: country_name
+    type: VARCHAR
+    description: Country name.
+  - name: survey_year
+    type: INTEGER
+    description: Survey year.
+  - name: survey_type
+    type: VARCHAR
+    description: DHS survey type.
+  - name: region_name
+    type: VARCHAR
+    description: DHS region name.
+  - name: subregion_name
+    type: VARCHAR
+    description: DHS subregion name.
+  - name: implementing_org
+    type: VARCHAR
+    description: Organization implementing the survey.
+  - name: publication_date
+    type: DATE
+    description: Publication date where DHS provides one.
+  - name: release_date
+    type: DATE
+    description: Release date where DHS provides one.
+  - name: fieldwork_start
+    type: DATE
+    description: Fieldwork start date where DHS provides one.
+  - name: fieldwork_end
+    type: DATE
+    description: Fieldwork end date where DHS provides one.
+  - name: number_of_women
+    type: BIGINT
+    description: Number of women in the survey sample where published.
+  - name: number_of_men
+    type: BIGINT
+    description: Number of men in the survey sample where published.
+  - name: number_of_households
+    type: BIGINT
+    description: Number of households in the survey sample where published.

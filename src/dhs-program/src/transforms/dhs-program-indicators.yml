@@ -1,0 +1,40 @@
+# caution: tag_ids is a source-delimited list of DHS tag identifiers; use the tags table to decode individual tags.
+key: [indicator_id]
+sort: [indicator_id]
+columns:
+  - name: indicator_id
+    type: VARCHAR
+    description: DHS indicator code.
+  - name: label
+    type: VARCHAR
+    description: DHS indicator label.
+  - name: definition
+    type: VARCHAR
+    description: DHS definition of the indicator.
+  - name: level1
+    type: VARCHAR
+    description: Top-level DHS indicator topic.
+  - name: level2
+    type: VARCHAR
+    description: Second-level DHS indicator topic.
+  - name: level3
+    type: VARCHAR
+    description: Third-level DHS indicator topic.
+  - name: measurement_type
+    type: VARCHAR
+    description: DHS measurement type.
+  - name: indicator_type
+    type: VARCHAR
+    description: DHS indicator type code.
+  - name: denominator
+    type: VARCHAR
+    description: DHS denominator or population base for the indicator.
+  - name: short_name
+    type: VARCHAR
+    description: DHS short name for the indicator.
+  - name: tag_ids
+    type: VARCHAR
+    description: Source-delimited DHS tag identifiers associated with the indicator.
+  - name: is_quick_stat
+    type: BOOLEAN
+    description: Whether DHS marks this indicator as a Quick Stat.

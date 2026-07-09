@@ -44,13 +44,23 @@ from subsets_utils import (
     MaintainSpec,
     NodeSpec,
     get,
+    load_state,
     raw_asset_exists,
     save_raw_parquet,
+    save_state,
     transient_retry,
 )
 from constants import ENTITY_IDS
 
 BASE = "https://servicios.ine.es/wstempus/js/ES"
+
+STATE_VERSION = 1
+
+# Bumped whenever SCHEMA changes shape. Raw written under an older version is
+# not what the transforms and download tests read, so the maintain skip below
+# must not treat it as usable — a bump forces a re-fetch of the whole corpus
+# even where the raw is young. (v2 added the `fecha` date column.)
+RAW_SCHEMA_VERSION = 2
 
 # A fetched table is considered fresh (skipped) for this many days. INE publishes
 # a per-operation release calendar (https://www.ine.es/dyngs/INEbase/es/calendario.htm)
@@ -66,6 +76,16 @@ _PERMANENT = ("restricciones de volumen", "No existen series")
 
 # Long-format raw schema. Declared once, reused for every table's write — the
 # explicit schema is the contract that makes parquet safe across all 5000+ nodes.
+#
+# `fecha` is `fecha_ms` rendered as a UTC date, and it is the observation's
+# period END: INE stamps Fecha at the period boundary in Europe/Madrid (annual
+# 2024 -> 2025-01-01 00:00 CET), which read back as a UTC instant lands on the
+# last day of the period it belongs to (2024-12-31). Downstream reads a date,
+# not epoch ms; `fecha_ms` is kept as the untouched source value.
+#
+# `anyo` follows the same boundary convention and is therefore NOT the reference
+# year — the annual 2024 observation carries Anyo=2025. Use `fecha`, not `anyo`,
+# as the temporal axis.
 SCHEMA = pa.schema([
     ("table_id", pa.string()),
     ("serie_cod", pa.string()),
@@ -73,12 +93,19 @@ SCHEMA = pa.schema([
     ("fk_unidad", pa.int64()),
     ("fk_escala", pa.int64()),
     ("fecha_ms", pa.int64()),
+    ("fecha", pa.date32()),
     ("anyo", pa.int64()),
     ("fk_periodo", pa.int64()),
     ("fk_tipodato", pa.int64()),
     ("valor", pa.float64()),
     ("secreto", pa.bool_()),
 ])
+
+
+def _to_date(fecha_ms) -> date | None:
+    if fecha_ms is None:
+        return None
+    return datetime.fromtimestamp(fecha_ms / 1000, tz=timezone.utc).date()
 
 
 def _fold(text: str) -> str:
@@ -135,13 +162,15 @@ def _to_rows(table_id: str, series: list) -> list[dict]:
         fk_escala = s.get("FK_Escala")
         for pt in s.get("Data") or []:
             valor = pt.get("Valor")
+            fecha_ms = pt.get("Fecha")
             rows.append({
                 "table_id": table_id,
                 "serie_cod": cod,
                 "serie_nombre": nombre,
                 "fk_unidad": fk_unidad,
                 "fk_escala": fk_escala,
-                "fecha_ms": pt.get("Fecha"),
+                "fecha_ms": fecha_ms,
+                "fecha": _to_date(fecha_ms),
                 "anyo": pt.get("Anyo"),
                 "fk_periodo": pt.get("FK_Periodo"),
                 "fk_tipodato": pt.get("FK_TipoDato"),
@@ -166,6 +195,12 @@ def fetch_one(node_id: str) -> None:
     rows = _to_rows(table_id, series)
     table = pa.Table.from_pylist(rows, schema=SCHEMA)
     save_raw_parquet(table, asset)
+    # Raw first, then state: a crash between them costs one refetch, the other
+    # order would record a snapshot that isn't on disk.
+    save_state(asset, {
+        "schema_version": STATE_VERSION,
+        "raw_schema_version": RAW_SCHEMA_VERSION,
+    })
     print(f"[ine] {table_id}: {len(rows)} rows from {len(series)} series")
 
 
@@ -180,7 +215,10 @@ DOWNLOAD_SPECS = [
 
 
 def _is_fresh(asset_id: str) -> bool:
-    """Skip policy: raw already committed and younger than the refresh window."""
+    """Skip policy: raw already committed under the CURRENT schema, and younger
+    than the refresh window. Runs in the parent orchestrator, pre-spawn."""
+    if load_state(asset_id).get("raw_schema_version") != RAW_SCHEMA_VERSION:
+        return False
     return raw_asset_exists(asset_id, "parquet", max_age_days=MAINTAIN_MAX_AGE_DAYS)
 
 

@@ -1,0 +1,39 @@
+key: [country_code]
+sort: [country_code]
+columns:
+  - name: country_code
+    type: VARCHAR
+    description: DHS country code used by the DHS Program API.
+  - name: country_name
+    type: VARCHAR
+    description: Country name published by DHS.
+  - name: iso2_country_code
+    type: VARCHAR
+    description: ISO 3166-1 alpha-2 country code where DHS provides one.
+  - name: iso3_country_code
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 country code where DHS provides one.
+  - name: fips_country_code
+    type: VARCHAR
+    description: FIPS country code where DHS provides one.
+  - name: unstat_country_code
+    type: VARCHAR
+    description: UN Statistics Division country code where DHS provides one.
+  - name: who_country_code
+    type: VARCHAR
+    description: World Health Organization country code where DHS provides one.
+  - name: unaids_country_code
+    type: VARCHAR
+    description: UNAIDS country code where DHS provides one.
+  - name: unicef_country_code
+    type: VARCHAR
+    description: UNICEF country code where DHS provides one.
+  - name: region_name
+    type: VARCHAR
+    description: DHS region name.
+  - name: region_order
+    type: INTEGER
+    description: DHS display order for the region.
+  - name: subregion_name
+    type: VARCHAR
+    description: DHS subregion name.

@@ -1,0 +1,57 @@
+# caution: Indicators are heterogeneous measures with different definitions, units and denominators. Compare or aggregate values only within a coherent indicator_id and characteristic slice.
+# caution: Rows mix national totals and breakdown rows; filter characteristic_category/characteristic_label and is_total before aggregating.
+key: [data_id]
+temporal: survey_year
+sort: [survey_year, data_id]
+columns:
+  - name: data_id
+    type: BIGINT
+    description: DHS API DataId identifying one indicator observation cell.
+  - name: indicator_id
+    type: VARCHAR
+    description: DHS indicator code for what was measured.
+  - name: indicator
+    type: VARCHAR
+    description: DHS indicator label.
+  - name: country_code
+    type: VARCHAR
+    description: DHS country code.
+  - name: country_name
+    type: VARCHAR
+    description: Country name published with the observation.
+  - name: survey_year
+    type: INTEGER
+    description: DHS survey year for the observation.
+  - name: survey_id
+    type: VARCHAR
+    description: DHS survey identifier.
+  - name: survey_type
+    type: VARCHAR
+    description: DHS survey type where supplied.
+  - name: characteristic_category
+    type: VARCHAR
+    description: Breakdown category for the observation, such as Total or residence.
+  - name: characteristic_label
+    type: VARCHAR
+    description: Breakdown label within the characteristic category.
+  - name: by_variable_label
+    type: VARCHAR
+    description: Additional by-variable label where DHS supplies one.
+  - name: value
+    type: DOUBLE
+    description: Numeric indicator value in the indicator's published unit or scale.
+  - name: is_total
+    type: BOOLEAN
+    description: Whether DHS marks the row as a total.
+  - name: is_preferred
+    type: BOOLEAN
+    description: Whether DHS marks this row as the preferred estimate for the slice.
+  - name: ci_low
+    type: DOUBLE
+    description: Lower confidence interval bound where published.
+  - name: ci_high
+    type: DOUBLE
+    description: Upper confidence interval bound where published.
+  - name: precision
+    type: INTEGER
+    description: Number of decimal places DHS reports for the value.
