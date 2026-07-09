@@ -1,0 +1,15 @@
+spec_id: cea-india-installed-capacity-composition
+status: active
+tests:
+  - not_null: year
+    reason: the all-India installed-capacity composition series is keyed by year on every row
+    certainty: 90
+  - column_type: {col: coal, type: string}
+    reason: CEA quotes fuel-capacity numerics as strings; transform TRY_CASTs to DOUBLE
+    certainty: 90
+  - column_type: {col: gtotal, type: string}
+    reason: grand-total capacity arrives as a quoted string
+    certainty: 90
+  - row_count: {min: 100}
+    reason: yearly all-India fuel-composition rows (~495 observed at collect); far fewer means a truncated pull
+    certainty: 90

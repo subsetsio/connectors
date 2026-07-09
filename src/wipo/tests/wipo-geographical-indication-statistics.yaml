@@ -1,0 +1,29 @@
+spec_id: wipo-geographical-indication-statistics
+status: active
+tests:
+  - not_null: indicator_id
+  - not_null: year
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - unique: [office, origin, indicator_id, report_type, year, breakdown_index]
+    reason: one row per office x origin x indicator x report type x year x breakdown position
+    certainty: 90
+  - between: {col: year, lo: 1980, hi: current_year()}
+    reason: ips-search never publishes beyond the current year; GI collection began much later than 1980 so the lower bound is slack
+    certainty: 90
+  - freshness: {col: year, reaches: 2022}
+    reason: GI statistics are the thinnest ips series and lag the patent/trademark releases; slacker than the other tabs by a year
+    points_outward: true
+  - coverage: {col: indicator_id, expected: 2}
+    reason: formcontrols enumerates exactly 2 geographical-indication indicators; losing either halves the subset
+  - distinct_count: {col: report_type, min: 3, max: 3}
+    reason: ipsRpTypeMap for geographical indications has exactly three report types
+    certainty: 85
+  - at_least: {col: value, expr: 0}
+    reason: GI indicators are registration/in-force counts, never negative
+    certainty: 80
+    severity: warn
+  - row_count: {min: 500}
+    reason: only a few dozen offices report GI statistics, over a short year range
+    certainty: 70
