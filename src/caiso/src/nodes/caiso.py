@@ -424,21 +424,33 @@ def fetch_reference(node_id: str) -> None:
     qn = _queryname(node_id)
     cfg = REFERENCE[qn]
 
-    # A recent, settled window: reference reports return their whole effective-dated
-    # catalogue regardless of the exact window, so any valid recent range works.
+    # A reference report returns the rows whose effective period overlaps the query
+    # window. A live dimension (APNode, PNode, resource, ...) yields its full current
+    # catalogue from any recent window; a dimension CAISO stopped publishing recent
+    # effective dates for (ATL_TI / ATL_TIEPOINT — the interface & tie catalogues,
+    # frozen ~2018) is empty in a recent window but still yields its full historical
+    # catalogue from an older one. So we walk a newest-first ladder of anchor windows
+    # and keep the first that returns data — no hardcoded absolute dates.
     today = datetime.now(timezone.utc).date()
-    params = _base_params(qn, today - timedelta(days=3), today - timedelta(days=1))
-    params.update(cfg)
-
-    status, rows = _fetch_window(params)
-    if status == "dead":
-        print(f"[{SLUG}] {qn}: reference query invalid params; nothing written")
-        return
-    if rows:
-        # One snapshot asset per report; overwrite in full each run.
-        save_raw_ndjson(_typed_rows(rows), node_id)
-    else:
-        print(f"[{SLUG}] {qn}: reference query returned no data; nothing written")
+    anchors = [
+        today - timedelta(days=3),
+        today - timedelta(days=400),
+        today - timedelta(days=4 * 365),
+        today - timedelta(days=10 * 365),
+    ]
+    for anchor in anchors:
+        params = _base_params(qn, anchor, anchor + timedelta(days=2))
+        params.update(cfg)
+        status, rows = _fetch_window(params)
+        if status == "dead":
+            print(f"[{SLUG}] {qn}: reference query invalid params; nothing written")
+            return
+        if rows:
+            # One snapshot asset per report; overwrite in full each run.
+            save_raw_ndjson(_typed_rows(rows), node_id)
+            return
+        time.sleep(REQUEST_SPACING_S)
+    print(f"[{SLUG}] {qn}: reference query returned no data in any window; nothing written")
 
 
 # ---------------------------------------------------------------------------
