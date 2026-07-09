@@ -61,9 +61,13 @@ from subsets_utils import (
     NodeSpec,
     get,
     list_raw_fragments,
+    load_state,
     raw_writer,
+    save_state,
     transient_retry,
 )
+
+STATE_VERSION = 1
 
 DADOSABERTOS_BASE = "https://sistemas.anac.gov.br/dadosabertos/"
 SAS_BASE = "https://sas.anac.gov.br/sas/"
@@ -416,8 +420,20 @@ def _fetch_header(url: str, optional: bool) -> list[str]:
     return _header_of(r.content)
 
 
-def _header_union(items: list[tuple[str, bool]]) -> list[str]:
-    """Stable union of every file's header, in first-seen order."""
+def _header_union(node_id: str, items: list[tuple[str, bool]], run_id: str) -> list[str]:
+    """Stable union of every file's header, in first-seen order.
+
+    Cached in state for the duration of one run. The union has to be taken over
+    *all* files, not just the pending ones — fragments committed by an earlier
+    leg were padded to it — so an uncached continuation leg would re-probe every
+    file (1800+ ranged GETs on the largest node). The cache keys on run_id, so a
+    fresh run re-probes and picks up newly published columns; it is a per-run
+    discovery cache, not a watermark.
+    """
+    state = load_state(node_id)
+    if state.get("schema_version") == STATE_VERSION and state.get("run_id") == run_id:
+        return state["columns"]
+
     with ThreadPoolExecutor(max_workers=_CONCURRENCY) as ex:
         per_file = list(ex.map(lambda it: _fetch_header(*it), items))
     columns: list[str] = []
@@ -427,6 +443,11 @@ def _header_union(items: list[tuple[str, bool]]) -> list[str]:
             if col not in seen:
                 seen.add(col)
                 columns.append(col)
+    save_state(node_id, {
+        "schema_version": STATE_VERSION,
+        "run_id": run_id,
+        "columns": columns,
+    })
     return columns
 
 
@@ -478,7 +499,7 @@ def fetch_one(node_id: str) -> None:
 
     # Pad to the union of every file's header, not just the pending ones: the
     # asset's committed fragments must stay column-compatible across legs.
-    columns = _header_union(items) if len(items) > 1 else []
+    columns = _header_union(node_id, items, run_id) if len(items) > 1 else []
 
     with ThreadPoolExecutor(max_workers=_CONCURRENCY) as ex:
         futures = [
