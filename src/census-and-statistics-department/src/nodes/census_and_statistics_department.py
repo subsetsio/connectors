@@ -28,7 +28,7 @@ overwrites. Revisions are picked up for free.
 import csv
 import io
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_ndjson, transient_retry
 from constants import ENTITY_IDS
 
 SLUG = "census-and-statistics-department"
@@ -128,18 +128,6 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-# One published Delta table per web table: pass the long-format rows through,
-# guaranteeing obs_value is DOUBLE and dropping rows with no observation.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT * EXCLUDE (obs_value),
-                   CAST(obs_value AS DOUBLE) AS obs_value
-            FROM "{s.id}"
-            WHERE obs_value IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
-]
+# Transforms live as src/transforms/<table>.sql + .yml file pairs (one faithful
+# pass-through per web table: obs_value cast to DOUBLE, null observations
+# dropped). The retired module-level TRANSFORM_SPECS list has been removed.
