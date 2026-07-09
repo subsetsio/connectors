@@ -1,37 +1,48 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `central-bank-of-nigeria-money-market-indicators`. Regenerate after model-verify.
-# caution: Every column is a percent-per-annum rate but they are not one series: policy rates (`mpr`, `mrr`), market rates (`interBankCallRate`, `treasuryBill`) and bank deposit/lending rates coexist in a row and must not be averaged together.
-# caution: `mrr` (the old minimum rediscount rate) was retired in favour of `mpr` and is present for only ~4% of rows; an `mpr` of `0.00` in the early rows means not-yet-adopted rather than a zero policy rate.
-key: [id]
-sort: [id]
+# `id` and the `period` label are dropped: (year, month) is the source's real grain
+# caution: Every column is a percent-per-annum rate, but they are not one series: policy rates, market rates and bank deposit/lending rates coexist in a row and must not be averaged together.
+key: [year, month]
+temporal: month_start
+sort: [month_start]
 columns:
-  - name: id
+  - name: month_start
+    type: DATE
+    description: "First day of the observation month."
+  - name: year
     type: BIGINT
-  - name: tyear
+    description: "Calendar year of the observation."
+  - name: month
     type: BIGINT
-  - name: tmonth
-    type: BIGINT
-  - name: period
-    type: VARCHAR
-  - name: interbankcallrate
-    type: VARCHAR
+    description: "Calendar month of the observation, 1-12."
+  - name: interbank_call_rate
+    type: DOUBLE
+    description: "Interbank call rate, in percent per annum."
   - name: mrr
-    type: VARCHAR
+    type: DOUBLE
+    description: "Minimum rediscount rate — the pre-2006 policy rate, retired in favour of the MPR and present on only ~4% of rows, in percent per annum."
   - name: mpr
     type: DOUBLE
-  - name: treasurybill
+    description: "Monetary policy rate — the CBN's policy rate. A `0.00` in the earliest rows means not-yet-adopted, not a zero policy rate, in percent per annum."
+  - name: treasury_bill_rate
     type: DOUBLE
-  - name: savingsdeposit
+    description: "Treasury bill rate, in percent per annum."
+  - name: savings_deposit_rate
     type: DOUBLE
-  - name: onemonthdeposit
+    description: "Average savings deposit rate offered by banks, in percent per annum."
+  - name: one_month_deposit_rate
     type: DOUBLE
-  - name: threemonthsdeposit
+    description: "Average 1-month term deposit rate, in percent per annum."
+  - name: three_month_deposit_rate
     type: DOUBLE
-  - name: sixmonthsdeposit
+    description: "Average 3-month term deposit rate, in percent per annum."
+  - name: six_month_deposit_rate
     type: DOUBLE
-  - name: twelvemonthsdeposit
+    description: "Average 6-month term deposit rate, in percent per annum."
+  - name: twelve_month_deposit_rate
     type: DOUBLE
-  - name: primelending
+    description: "Average 12-month term deposit rate, in percent per annum."
+  - name: prime_lending_rate
     type: DOUBLE
-  - name: maxlending
+    description: "Average prime lending rate charged by banks, in percent per annum."
+  - name: max_lending_rate
     type: DOUBLE
+    description: "Average maximum lending rate charged by banks, in percent per annum."

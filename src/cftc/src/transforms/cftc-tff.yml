@@ -1,60 +1,110 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# CFTC Commitments of Traders — Traders in Financial Futures (TFF).
+#
+# CONSUMER CAUTIONS (from the settled model of the raw asset):
+#  * Every (report_date, cftc_code) appears TWICE — once as report_type='FutOnly'
+#    and once as 'Combined' (futures plus delta-adjusted options). Filter on
+#    report_type before aggregating, or open interest and every position column
+#    double-counts.
+#  * Spread columns hold positions offset long against short within the contract
+#    market; they are counted once in the spread column, not in that category's
+#    long/short columns.
+#  * The Dealer/Intermediary class is the sell side and is NOT the same thing as
+#    the Commercial class of cftc-legacy — do not equate them for a given
+#    contract market and date.
+#  * Rows are a weekly snapshot of positions outstanding on the Tuesday report
+#    date, not flows. Only change_in_open_interest is a week-over-week
+#    difference; never sum position columns across report dates.
+#
+# Covers financial markets (currencies, rates, equity indices, VIX) from 2006.
+# Physical commodities are in cftc-disaggregated.
+key: [report_date, cftc_code, report_type]
+temporal: report_date
+sort: [report_date, cftc_code, report_type]
 columns:
   - name: report_date
     type: DATE
+    description: Tuesday as-of date the positions were outstanding (the report reflects the close of business that day and is published the following Friday).
   - name: market
     type: VARCHAR
+    description: Full CFTC market and exchange name, e.g. "EURO FX - CHICAGO MERCANTILE EXCHANGE".
   - name: contract
     type: VARCHAR
+    description: Contract market name without the exchange suffix, e.g. "EURO FX".
   - name: cftc_code
     type: VARCHAR
+    description: CFTC contract market code — the stable identifier for the contract market (renamed from cftc_contract_market_code).
   - name: exchange_code
     type: VARCHAR
+    description: CFTC market code for the reporting exchange, e.g. "CME", "ICUS" (renamed from cftc_market_code).
   - name: commodity_name
     type: VARCHAR
+    description: CFTC commodity name for the underlying instrument, e.g. "EURO FX", "VIX".
   - name: commodity_group_name
     type: VARCHAR
+    description: Top-level CFTC commodity group — for this table, financial instruments.
   - name: commodity_subgroup_name
     type: VARCHAR
+    description: CFTC commodity subgroup within the group, e.g. "CURRENCY", "STOCK INDICES", "INTEREST RATES".
   - name: contract_units
     type: VARCHAR
+    description: Free-text unit one contract represents, e.g. "EURO 125,000". Position columns count contracts, not these units.
   - name: open_interest
     type: DOUBLE
+    description: Total open interest in contracts across all trader categories.
   - name: total_reportable_long
     type: DOUBLE
+    description: Long positions held by all reportable traders, in contracts.
   - name: total_reportable_short
     type: DOUBLE
+    description: Short positions held by all reportable traders, in contracts.
   - name: nonreportable_long
     type: DOUBLE
+    description: Long positions held by traders below the CFTC reporting threshold, in contracts (derived by the CFTC as open interest minus reportable longs).
   - name: nonreportable_short
     type: DOUBLE
+    description: Short positions held by traders below the CFTC reporting threshold, in contracts.
   - name: total_traders
     type: DOUBLE
+    description: Number of reportable traders holding a position in this contract market.
   - name: report_type
     type: VARCHAR
+    description: "'FutOnly' = futures contracts only; 'Combined' = futures plus delta-adjusted options. Part of the row key: both variants are published for every report_date and cftc_code."
   - name: change_in_open_interest
     type: DOUBLE
+    description: Change in open interest, in contracts, from the previous week's report date.
   - name: dealer_long
     type: DOUBLE
+    description: Long positions of dealers and intermediaries — the sell side, hedging the exposure they take on serving clients — in contracts. Excludes positions counted in dealer_spread.
   - name: dealer_short
     type: DOUBLE
+    description: Short positions of dealers and intermediaries, in contracts. Excludes positions counted in dealer_spread.
   - name: dealer_spread
     type: DOUBLE
+    description: Dealer positions offset long against short within the contract market, in contracts. Counted once here, not in dealer_long/short.
   - name: asset_manager_long
     type: DOUBLE
+    description: Long positions of asset managers and institutional investors — pension funds, endowments, insurers, mutual funds — in contracts. Excludes positions counted in asset_manager_spread.
   - name: asset_manager_short
     type: DOUBLE
+    description: Short positions of asset managers and institutional investors, in contracts. Excludes positions counted in asset_manager_spread.
   - name: asset_manager_spread
     type: DOUBLE
+    description: Asset manager positions offset long against short within the contract market, in contracts. Counted once here, not in asset_manager_long/short.
   - name: leveraged_funds_long
     type: DOUBLE
+    description: Long positions of leveraged funds — hedge funds and registered CTAs/CPOs trading for speculative return — in contracts. Excludes positions counted in leveraged_funds_spread.
   - name: leveraged_funds_short
     type: DOUBLE
+    description: Short positions of leveraged funds, in contracts. Excludes positions counted in leveraged_funds_spread.
   - name: leveraged_funds_spread
     type: DOUBLE
+    description: Leveraged fund positions offset long against short within the contract market, in contracts. Counted once here, not in leveraged_funds_long/short.
   - name: other_reportable_long
     type: DOUBLE
+    description: Long positions of reportable traders not classified into the other three categories, in contracts. Excludes positions counted in other_reportable_spread.
   - name: other_reportable_short
     type: DOUBLE
+    description: Short positions of other reportable traders, in contracts. Excludes positions counted in other_reportable_spread.
   - name: other_reportable_spread
     type: DOUBLE
+    description: Other reportable positions offset long against short within the contract market, in contracts. Counted once here, not in other_reportable_long/short.

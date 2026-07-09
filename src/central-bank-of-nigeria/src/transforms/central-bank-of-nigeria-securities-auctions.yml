@@ -1,49 +1,65 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `central-bank-of-nigeria-securities-auctions`. Regenerate after model-verify.
-# caution: One row is one RESULT LINE of an auction, not one auction: a single auction can appear as several rows with different `rateDescription` values (`Issue`, `Maginal` [sic], `Stop`, `Slop` [sic]), so counting rows overstates the number of auctions and summing `totalSubscription` over them double-counts.
-# caution: The `securityType` domain is dirty: `FGN Bonds`, `FGN BOND`, `FGN BONDS`, `FGN Bond`, `Bonds` and `NT Bonds` all denote FGN bonds, and `OMOM` is a typo for `OMO`. Normalise before grouping by security type; the same applies to `netType` (`Purchases` vs `Purchase`).
-# caution: `maturityDate` contains data-entry typos: a handful of rows carry impossible maturity years (2098, 2189) against auction dates in 2001-2026. Sanity-check any computed tenor rather than trusting the maturity date.
-# caution: `tenor` is a free-text label whose convention changes over the series (`91DAY` in recent rows, bare `180` in the earliest ones) — it is a string, not a number of days.
-# caution: `rangeBid` and `successfulBidRates` are free-text low-high rate pairs (e.g. `15.5000 - 18.0000`), not numbers.
-# caution: Naira amounts (`totalSubscription`, `totalSuccessful`, `amtOffered`, `netValue`, `totalAmtRepaid`) are in millions; `rate` and `trueYield` are percent per annum. A `trueYield` of `0.0000` generally means not-reported rather than a zero yield.
-key: [id]
-sort: [id]
+# the two bid-rate ranges stay VARCHAR: ~1 row in 7 does not split into two clean numbers
+# caution: One row is one RESULT LINE, not one auction: a single auction appears once per `rate_description`, so counting rows overstates auctions and summing `total_subscription` double-counts.
+# caution: Normalise `security_type` and `net_type` before grouping — both domains carry casing variants and typos.
+# caution: `maturity_date` contains impossible years on a handful of rows.
+key: [source_row_id]
+temporal: auction_date
+sort: [auction_date, source_row_id]
 columns:
-  - name: id
+  - name: source_row_id
     type: BIGINT
-  - name: auctiondate
+    description: "The source's own row id. It is the only unique column, so it is the key."
+  - name: auction_date
+    type: DATE
+    description: "Date of the auction, parsed from the source's `July-08-2026` encoding."
+  - name: security_type
     type: VARCHAR
-  - name: securitytype
-    type: VARCHAR
+    description: "Instrument auctioned, as published. The domain is dirty: `FGN Bonds`, `FGN BOND`, `FGN BONDS`, `FGN Bond`, `Bonds` and `NT Bonds` all mean FGN bonds, and `OMOM` is a typo for `OMO`."
   - name: tenor
     type: VARCHAR
-  - name: auctionno
+    description: "Tenor label as published. The convention changes over the series — `91DAY` on recent rows, a bare `180` on the earliest — so it is text, not a number of days."
+  - name: auction_no
     type: VARCHAR
-  - name: auction
+    description: "The source's auction identifier. It is not unique: one auction yields several result rows."
+  - name: auction_window
     type: VARCHAR
-  - name: week
+    description: "`Primary Market` or `OMO` — the window the auction was held in."
+  - name: week_of_month
     type: VARCHAR
-  - name: maturitydate
-    type: VARCHAR
-  - name: totalsubscription
+    description: "Ordinal week of the month the auction fell in, as published (`1st Week` ... `5th Week`)."
+  - name: maturity_date
+    type: DATE
+    description: "Maturity date of the security. A handful of rows carry data-entry typos — maturity years of 2098 and 2189 against auction dates in 2001-2026 — so sanity-check any tenor computed from this."
+  - name: total_subscription
     type: DOUBLE
-  - name: totalsuccessful
+    description: "Total amount bid at the auction, in NGN million."
+  - name: total_successful
+    type: DOUBLE
+    description: "Total amount allotted, in NGN million."
+  - name: bid_rate_range
     type: VARCHAR
-  - name: rangebid
+    description: "Range of rates bid, as free text exactly as published. Deliberately not parsed: separators vary between hyphen, en-dash and nothing, and values carry typos (`4.7500 - 4 9500`)."
+  - name: successful_bid_rate_range
     type: VARCHAR
-  - name: successfulbidrates
+    description: "Range of rates among successful bids, as free text. Same caveats as `bid_rate_range`."
+  - name: rate_description
     type: VARCHAR
-  - name: ratedescription
-    type: VARCHAR
+    description: "Which rate `rate` reports for this result row: `Issue`, `Maginal` [sic, marginal], `Stop` or `Slop` [sic]. One auction can appear once per description."
   - name: rate
     type: DOUBLE
-  - name: trueyield
+    description: "The rate named by `rate_description`, in percent per annum."
+  - name: true_yield
+    type: DOUBLE
+    description: "True yield of the security, in percent per annum. A `0.0000` generally means not reported rather than a zero yield."
+  - name: amount_offered
+    type: DOUBLE
+    description: "Amount offered by the issuer, in NGN million."
+  - name: total_amount_repaid
+    type: DOUBLE
+    description: "Total amount repaid, in NGN million."
+  - name: net_type
     type: VARCHAR
-  - name: amtoffered
-    type: VARCHAR
-  - name: totalamtrepaid
-    type: VARCHAR
-  - name: nettype
-    type: VARCHAR
-  - name: netvalue
-    type: VARCHAR
+    description: "Direction of the net operation: `Sales` or `Purchases` (the source also spells the latter `Purchase`)."
+  - name: net_value
+    type: DOUBLE
+    description: "Net value of the operation, in NGN million."

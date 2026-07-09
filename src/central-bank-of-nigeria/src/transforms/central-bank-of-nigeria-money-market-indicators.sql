@@ -1,23 +1,17 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: Every column is a percent-per-annum rate but they are not one series: policy rates (`mpr`, `mrr`), market rates (`interBankCallRate`, `treasuryBill`) and bank deposit/lending rates coexist in a row and must not be averaged together.
--- caution: `mrr` (the old minimum rediscount rate) was retired in favour of `mpr` and is present for only ~4% of rows; an `mpr` of `0.00` in the early rows means not-yet-adopted rather than a zero policy rate.
+-- `id` and the `period` label are dropped: (year, month) is the source's real grain
 SELECT
-    "id",
-    "tyear",
-    "tmonth",
-    "period",
-    "interBankCallRate" AS interbankcallrate,
-    "mrr",
-    CAST("mpr" AS DOUBLE) AS mpr,
-    CAST("treasuryBill" AS DOUBLE) AS treasurybill,
-    CAST("savingsDeposit" AS DOUBLE) AS savingsdeposit,
-    CAST("oneMonthDeposit" AS DOUBLE) AS onemonthdeposit,
-    CAST("threeMonthsDeposit" AS DOUBLE) AS threemonthsdeposit,
-    CAST("sixMonthsDeposit" AS DOUBLE) AS sixmonthsdeposit,
-    CAST("twelveMonthsDeposit" AS DOUBLE) AS twelvemonthsdeposit,
-    CAST("primeLending" AS DOUBLE) AS primelending,
-    CAST("maxLending" AS DOUBLE) AS maxlending
+    CAST("period_start_iso" AS DATE) AS month_start,
+    CAST("tyear" AS BIGINT) AS year,
+    CAST("tmonth" AS BIGINT) AS month,
+    TRY_CAST(NULLIF(TRIM("interBankCallRate"), '') AS DOUBLE) AS interbank_call_rate,
+    TRY_CAST(NULLIF(TRIM("mrr"), '') AS DOUBLE) AS mrr,
+    TRY_CAST(NULLIF(TRIM("mpr"), '') AS DOUBLE) AS mpr,
+    TRY_CAST(NULLIF(TRIM("treasuryBill"), '') AS DOUBLE) AS treasury_bill_rate,
+    TRY_CAST(NULLIF(TRIM("savingsDeposit"), '') AS DOUBLE) AS savings_deposit_rate,
+    TRY_CAST(NULLIF(TRIM("oneMonthDeposit"), '') AS DOUBLE) AS one_month_deposit_rate,
+    TRY_CAST(NULLIF(TRIM("threeMonthsDeposit"), '') AS DOUBLE) AS three_month_deposit_rate,
+    TRY_CAST(NULLIF(TRIM("sixMonthsDeposit"), '') AS DOUBLE) AS six_month_deposit_rate,
+    TRY_CAST(NULLIF(TRIM("twelveMonthsDeposit"), '') AS DOUBLE) AS twelve_month_deposit_rate,
+    TRY_CAST(NULLIF(TRIM("primeLending"), '') AS DOUBLE) AS prime_lending_rate,
+    TRY_CAST(NULLIF(TRIM("maxLending"), '') AS DOUBLE) AS max_lending_rate
 FROM "central-bank-of-nigeria-money-market-indicators"

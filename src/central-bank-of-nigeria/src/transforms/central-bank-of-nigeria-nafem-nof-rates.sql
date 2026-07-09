@@ -1,16 +1,10 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: A short window only — the series starts in 2026 and covers a couple of months of NAFEM/NOF trading days, so it is not a historical FX series.
--- caution: `ratedate` is not unique: two dates carry a duplicated row.
--- caution: `dailyVolume` is a traded amount (thousands of US dollars) while `minimumRate`, `maximumRate`, `dailyVariationRange` and `nofr` are naira-per-dollar rates — different units in one row.
+-- `nofr` renamed `nof_rate`; the rate columns are percentages, NOT naira-per-dollar exchange rates
 SELECT
-    "id",
-    "ratedate",
-    CAST("dailyVolume" AS DOUBLE) AS dailyvolume,
-    CAST("minimumRate" AS DOUBLE) AS minimumrate,
-    CAST("maximumRate" AS DOUBLE) AS maximumrate,
-    CAST("dailyVariationRange" AS DOUBLE) AS dailyvariationrange,
-    CAST("nofr" AS DOUBLE) AS nofr
+    CAST("id" AS BIGINT) AS source_row_id,
+    CAST("ratedate_iso" AS DATE) AS rate_date,
+    TRY_CAST(NULLIF(TRIM("dailyVolume"), '') AS DOUBLE) AS daily_volume,
+    TRY_CAST(NULLIF(TRIM("minimumRate"), '') AS DOUBLE) AS minimum_rate,
+    TRY_CAST(NULLIF(TRIM("maximumRate"), '') AS DOUBLE) AS maximum_rate,
+    TRY_CAST(NULLIF(TRIM("dailyVariationRange"), '') AS DOUBLE) AS daily_variation_range,
+    TRY_CAST(NULLIF(TRIM("nofr"), '') AS DOUBLE) AS nof_rate
 FROM "central-bank-of-nigeria-nafem-nof-rates"

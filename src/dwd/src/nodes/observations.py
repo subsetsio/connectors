@@ -164,8 +164,6 @@ def _obs_transform_sql(node_id: str) -> str:
     '''
 
 
-DOWNLOAD_SPECS = [NodeSpec(id=sid, fn=fetch_obs, kind="download") for sid in _OBS_BY_ID]
+DOWNLOAD_SPECS = []
 
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{sid}-transform", deps=[sid], sql=_obs_transform_sql(sid)) for sid in _OBS_BY_ID
-]
+TRANSFORM_SPECS = []

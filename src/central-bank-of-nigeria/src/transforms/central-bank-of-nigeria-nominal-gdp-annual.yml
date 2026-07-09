@@ -1,129 +1,185 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `central-bank-of-nigeria-nominal-gdp-annual`. Regenerate after model-verify.
-# caution: The raw payload mixes frequencies: 44 rows carry `period = 'Annual'` (1981-2024) and 60 rows carry `period` in Q1..Q4 (2010-2024). Only the Annual rows belong to this table; the published transform filters on them.
-# caution: The activity columns are a nested hierarchy, not a flat list: `agriculture`, `industry` and `services` each sum their own sub-sectors, and `gdPatCurrentBasicPrices` is the total of the three. Summing every activity column in a row multiply-counts the sub-sectors.
-# caution: `gdPatCurrentMarketPrices` = `gdPatCurrentBasicPrices` + `netTaxesOnProducts`; the two GDP totals are alternative valuations of the same output, never additive.
-# caution: Values are nominal (current-price) naira in billions.
-key: [id]
-sort: [id]
+# the annual slice of the shared GetAllNominalGDP payload (1981-2024); the dedicated GetAllYears* endpoints are empty shells
+# `id` is dropped: it numbers rows across both frequencies and means nothing after the split
+# `gdPatCurrent{Basic,Market}Prices` renamed `gdp_at_{basic,market}_prices`
+# caution: The upstream payload also carries quarterly rows; this table is the `period = 'Annual'` slice of it.
+# caution: Values are NOMINAL, at current prices.
+# caution: The activity columns are a nested hierarchy, not a flat list: `agriculture`, `industry` and `services` each sum their own sub-sectors, and `gdp_at_basic_prices` is the sum of the three. Summing every activity column multiply-counts the sub-sectors.
+# caution: `gdp_at_market_prices` = `gdp_at_basic_prices` + `net_taxes_on_products`; the two totals are alternative valuations of the same output, never additive.
+key: [year]
+temporal: year
+sort: [year]
 columns:
-  - name: id
+  - name: year
     type: BIGINT
-  - name: tyear
-    type: BIGINT
-  - name: period
-    type: VARCHAR
+    description: "Calendar year of the observation."
   - name: agriculture
     type: DOUBLE
-  - name: cropproduction
+    description: "Agriculture — the sum of crop production, livestock, forestry and fishing, in NGN billion at current basic prices."
+  - name: crop_production
     type: DOUBLE
+    description: "Crop production, in NGN billion at current basic prices."
   - name: livestock
     type: DOUBLE
+    description: "Livestock, in NGN billion at current basic prices."
   - name: forestry
     type: DOUBLE
+    description: "Forestry, in NGN billion at current basic prices."
   - name: fishing
     type: DOUBLE
+    description: "Fishing, in NGN billion at current basic prices."
   - name: industry
     type: DOUBLE
-  - name: miningandquarrying
+    description: "Industry — the sum of mining and quarrying, manufacturing, electricity, water supply and construction, in NGN billion at current basic prices."
+  - name: mining_and_quarrying
     type: DOUBLE
-  - name: crudepetroleumandnaturalgas
+    description: "Mining and quarrying — the sum of the four extractive activities that follow, in NGN billion at current basic prices."
+  - name: crude_petroleum_and_natural_gas
     type: DOUBLE
-  - name: coalmining
+    description: "Crude petroleum and natural gas, in NGN billion at current basic prices."
+  - name: coal_mining
     type: DOUBLE
-  - name: metalores
+    description: "Coal mining, in NGN billion at current basic prices."
+  - name: metal_ores
     type: DOUBLE
-  - name: quarryingandotherminerals
+    description: "Metal ores, in NGN billion at current basic prices."
+  - name: quarrying_and_other_minerals
     type: DOUBLE
+    description: "Quarrying and other minerals, in NGN billion at current basic prices."
   - name: manufacturing
     type: DOUBLE
-  - name: oilrefining
+    description: "Manufacturing — the sum of the thirteen manufacturing sub-sectors that follow, in NGN billion at current basic prices."
+  - name: oil_refining
     type: DOUBLE
+    description: "Oil refining, in NGN billion at current basic prices."
   - name: cement
     type: DOUBLE
-  - name: foodbeverageandtobacco
+    description: "Cement, in NGN billion at current basic prices."
+  - name: food_beverage_and_tobacco
     type: DOUBLE
-  - name: textileapparelandfootwear
+    description: "Food, beverage and tobacco, in NGN billion at current basic prices."
+  - name: textile_apparel_and_footwear
     type: DOUBLE
-  - name: woodandwoodproducts
+    description: "Textile, apparel and footwear, in NGN billion at current basic prices."
+  - name: wood_and_wood_products
     type: DOUBLE
-  - name: pulppaperandpaperproducts
+    description: "Wood and wood products, in NGN billion at current basic prices."
+  - name: pulp_paper_and_paper_products
     type: DOUBLE
-  - name: chemicalandpharmaceuticalproducts
+    description: "Pulp, paper and paper products, in NGN billion at current basic prices."
+  - name: chemical_and_pharmaceutical_products
     type: DOUBLE
-  - name: nonmetallicproducts
+    description: "Chemical and pharmaceutical products, in NGN billion at current basic prices."
+  - name: non_metallic_products
     type: DOUBLE
-  - name: plasticandrubberproducts
+    description: "Non-metallic products, in NGN billion at current basic prices."
+  - name: plastic_and_rubber_products
     type: DOUBLE
-  - name: electricalandelectronics
+    description: "Plastic and rubber products, in NGN billion at current basic prices."
+  - name: electrical_and_electronics
     type: DOUBLE
-  - name: basicmetalironandsteel
+    description: "Electrical and electronics, in NGN billion at current basic prices."
+  - name: basic_metal_iron_and_steel
     type: DOUBLE
-  - name: motorvehiclesandassembly
+    description: "Basic metal, iron and steel, in NGN billion at current basic prices."
+  - name: motor_vehicles_and_assembly
     type: DOUBLE
-  - name: othermanufacturing
+    description: "Motor vehicles and assembly, in NGN billion at current basic prices."
+  - name: other_manufacturing
     type: DOUBLE
-  - name: electricitygassteamandaircon
+    description: "Other manufacturing, in NGN billion at current basic prices."
+  - name: electricity_gas_steam_and_air_conditioning
     type: DOUBLE
-  - name: watersupplysewagewaste
+    description: "Electricity, gas, steam and air conditioning supply, in NGN billion at current basic prices."
+  - name: water_supply_sewerage_and_waste
     type: DOUBLE
+    description: "Water supply, sewerage and waste management, in NGN billion at current basic prices."
   - name: construction
     type: DOUBLE
+    description: "Construction, in NGN billion at current basic prices."
   - name: services
     type: DOUBLE
+    description: "Services — the sum of the thirteen service sub-sectors that follow (trade through other services), in NGN billion at current basic prices."
   - name: trade
     type: DOUBLE
-  - name: accommodationandfoodservices
+    description: "Trade, in NGN billion at current basic prices."
+  - name: accommodation_and_food_services
     type: DOUBLE
-  - name: transportationandstorage
+    description: "Accommodation and food services, in NGN billion at current basic prices."
+  - name: transportation_and_storage
     type: DOUBLE
-  - name: roadtransport
+    description: "Transportation and storage — the sum of the six transport activities that follow, in NGN billion at current basic prices."
+  - name: road_transport
     type: DOUBLE
-  - name: railtransportandpipelines
+    description: "Road transport, in NGN billion at current basic prices."
+  - name: rail_transport_and_pipelines
     type: DOUBLE
-  - name: watertransport
+    description: "Rail transport and pipelines, in NGN billion at current basic prices."
+  - name: water_transport
     type: DOUBLE
-  - name: airtransport
+    description: "Water transport, in NGN billion at current basic prices."
+  - name: air_transport
     type: DOUBLE
-  - name: transportservices
+    description: "Air transport, in NGN billion at current basic prices."
+  - name: transport_services
     type: DOUBLE
-  - name: postandcourierservices
+    description: "Transport services, in NGN billion at current basic prices."
+  - name: post_and_courier_services
     type: DOUBLE
-  - name: informationandcommunication
+    description: "Post and courier services, in NGN billion at current basic prices."
+  - name: information_and_communication
     type: DOUBLE
-  - name: telecommunicationsandinformationservices
+    description: "Information and communication — the sum of the four activities that follow, in NGN billion at current basic prices."
+  - name: telecommunications_and_information_services
     type: DOUBLE
+    description: "Telecommunications and information services, in NGN billion at current basic prices."
   - name: publishing
     type: DOUBLE
-  - name: motionpicturessoundrecordingandmusicproduction
+    description: "Publishing, in NGN billion at current basic prices."
+  - name: motion_pictures_sound_recording_and_music_production
     type: DOUBLE
+    description: "Motion pictures, sound recording and music production, in NGN billion at current basic prices."
   - name: broadcasting
     type: DOUBLE
-  - name: artsentertainmentandrecreation
+    description: "Broadcasting, in NGN billion at current basic prices."
+  - name: arts_entertainment_and_recreation
     type: DOUBLE
-  - name: financeandinsurance
+    description: "Arts, entertainment and recreation, in NGN billion at current basic prices."
+  - name: finance_and_insurance
     type: DOUBLE
-  - name: financialinstitutions
+    description: "Finance and insurance — the sum of financial institutions and insurance, in NGN billion at current basic prices."
+  - name: financial_institutions
     type: DOUBLE
+    description: "Financial institutions, in NGN billion at current basic prices."
   - name: insurance
     type: DOUBLE
-  - name: realestate
+    description: "Insurance, in NGN billion at current basic prices."
+  - name: real_estate
     type: DOUBLE
-  - name: professionalscientificandtechnicalservices
+    description: "Real estate, in NGN billion at current basic prices."
+  - name: professional_scientific_and_technical_services
     type: DOUBLE
-  - name: administrativeandsupportservicesbusinessservices
+    description: "Professional, scientific and technical services, in NGN billion at current basic prices."
+  - name: administrative_and_support_services
     type: DOUBLE
-  - name: publicadministration
+    description: "Administrative and support (business) services, in NGN billion at current basic prices."
+  - name: public_administration
     type: DOUBLE
+    description: "Public administration, in NGN billion at current basic prices."
   - name: education
     type: DOUBLE
-  - name: humanhealthandsocialservices
+    description: "Education, in NGN billion at current basic prices."
+  - name: human_health_and_social_services
     type: DOUBLE
-  - name: otherservices
+    description: "Human health and social services, in NGN billion at current basic prices."
+  - name: other_services
     type: DOUBLE
-  - name: gdpatcurrentbasicprices
+    description: "Other services, in NGN billion at current basic prices."
+  - name: gdp_at_basic_prices
     type: DOUBLE
-  - name: nettaxesonproducts
+    description: "Total GDP at basic prices — the sum of agriculture, industry and services, in NGN billion at current basic prices."
+  - name: net_taxes_on_products
     type: DOUBLE
-  - name: gdpatcurrentmarketprices
+    description: "Net taxes on products (taxes less subsidies), in NGN billion at current basic prices."
+  - name: gdp_at_market_prices
     type: DOUBLE
+    description: "Total GDP at market prices — GDP at basic prices plus net taxes on products, in NGN billion at current basic prices."

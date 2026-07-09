@@ -1,20 +1,25 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `central-bank-of-nigeria-crude-oil-prices-monthly`. Regenerate after model-verify.
-# caution: `crudeOilPrice` here is a monthly average price in USD per barrel, while `domProd` and `crudeOilExp` are volumes in million barrels per day — three different units in one row, so the columns are not comparable or summable with each other.
-key: [id]
-sort: [id]
+# the source's `period` label ("May 2026") is dropped: it restates year+month
+# `id` is dropped: (year, month) is the source's real grain and is unique
+# caution: Three different units share a row: `crude_oil_price` is USD per barrel, the two volume columns are million barrels per day. They are not comparable or summable.
+key: [year, month]
+temporal: month_start
+sort: [month_start]
 columns:
-  - name: id
+  - name: month_start
+    type: DATE
+    description: "First day of the observation month."
+  - name: year
     type: BIGINT
-  - name: tyear
+    description: "Calendar year of the observation."
+  - name: month
     type: BIGINT
-  - name: tmonth
-    type: BIGINT
-  - name: period
-    type: VARCHAR
-  - name: crudeoilprice
+    description: "Calendar month of the observation, 1-12."
+  - name: crude_oil_price
     type: DOUBLE
-  - name: domprod
+    description: "Monthly average posted price of Nigerian crude oil, in US dollars per barrel. Equals the mean of that month's daily postings."
+  - name: domestic_production
     type: DOUBLE
-  - name: crudeoilexp
+    description: "Domestic crude oil production, in million barrels per day."
+  - name: crude_oil_exports
     type: DOUBLE
+    description: "Crude oil exports, in million barrels per day."

@@ -1,14 +1,10 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: `crudeOilPrice` here is a monthly average price in USD per barrel, while `domProd` and `crudeOilExp` are volumes in million barrels per day — three different units in one row, so the columns are not comparable or summable with each other.
+-- the source's `period` label ("May 2026") is dropped: it restates year+month
+-- `id` is dropped: (year, month) is the source's real grain and is unique
 SELECT
-    "id",
-    "tyear",
-    "tmonth",
-    "period",
-    CAST("crudeOilPrice" AS DOUBLE) AS crudeoilprice,
-    CAST("domProd" AS DOUBLE) AS domprod,
-    CAST("crudeOilExp" AS DOUBLE) AS crudeoilexp
+    CAST("period_start_iso" AS DATE) AS month_start,
+    CAST("tyear" AS BIGINT) AS year,
+    CAST("tmonth" AS BIGINT) AS month,
+    TRY_CAST(NULLIF(TRIM("crudeOilPrice"), '') AS DOUBLE) AS crude_oil_price,
+    TRY_CAST(NULLIF(TRIM("domProd"), '') AS DOUBLE) AS domestic_production,
+    TRY_CAST(NULLIF(TRIM("crudeOilExp"), '') AS DOUBLE) AS crude_oil_exports
 FROM "central-bank-of-nigeria-crude-oil-prices-monthly"

@@ -1,19 +1,23 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `central-bank-of-nigeria-interbank-rates`. Regenerate after model-verify.
-# caution: (`ratedate`, `ratetype`) is NOT unique: 46 date/rate-type pairs carry more than one row, most of them divergent restatements. Deduplicate before building a per-rate-type daily series.
-# caution: The `ratetype` domain is not clean: `OBB` appears once alongside the 4,375 rows labelled `OBB Rate`, and the tenor labels mix two conventions (`7-Day`/`30-Day`/`360-Day` against the one-off `4-7 Days` and `8-35 Days` buckets). Group on a normalised rate type, not the raw string.
-# caution: `range` is a free-text low-high pair (e.g. `22.0000-24.0000`), sometimes padded with spaces — it is a string, not two numbers.
-# caution: Rates are percent per annum and the rate types are different instruments (overnight open-buy-back, call, and term placements), so rows from different `ratetype` values must not be averaged together.
-key: [id, ratedate, range, weightedaverage, ratetype]
-sort: [id, ratedate, range, weightedaverage, ratetype]
+# `weightedaverage` is space-padded in the source; TRIMmed before the cast
+# caution: (`rate_date`, `rate_type`) is NOT unique: 46 pairs carry more than one row, most divergent restatements.
+# caution: Rows of different `rate_type` are different instruments and must never be averaged together.
+# caution: Group on a normalised rate type, not the raw string — `OBB` and `OBB Rate` are the same instrument.
+key: [source_row_id]
+temporal: rate_date
+sort: [rate_date, rate_type, source_row_id]
 columns:
-  - name: id
+  - name: source_row_id
     type: BIGINT
-  - name: ratedate
+    description: "The source's own row id. It is the only unique column, so it is the key: 46 (date, rate type) pairs carry more than one row."
+  - name: rate_date
+    type: DATE
+    description: "Date the rate was quoted, parsed from the source's `September-30-2024` encoding."
+  - name: rate_type
     type: VARCHAR
-  - name: ratetype
+    description: "Instrument the rate belongs to, as published: `OBB Rate` (overnight open buy-back), `Call Rate`, or a term placement (`7-Day` ... `360-Day`). The domain is not clean — a single row says `OBB` rather than `OBB Rate`, and two one-off buckets (`4-7 Days`, `8-35 Days`) use a different convention."
+  - name: rate_range
     type: VARCHAR
-  - name: range
-    type: VARCHAR
-  - name: weightedaverage
-    type: VARCHAR
+    description: "The day's low-high range as free text, exactly as published. It is deliberately NOT parsed into numbers: roughly half the rows do not split cleanly on a hyphen and many carry typos (`26.50 26.50`, `2.00 - 10 00`, `12,00 - 14.00`)."
+  - name: weighted_average_rate
+    type: DOUBLE
+    description: "Volume-weighted average rate for the day and instrument, in percent per annum."

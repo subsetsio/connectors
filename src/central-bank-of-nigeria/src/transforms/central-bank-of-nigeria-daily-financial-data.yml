@@ -1,46 +1,64 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `central-bank-of-nigeria-daily-financial-data`. Regenerate after model-verify.
-# caution: `recDate` is NOT unique: 50 dates carry more than one row. About half of those are exact duplicates of the same observation and the rest are divergent restatements, so summing or averaging by date without deduplicating overstates the day.
-# caution: Every monetary column is a naira amount in millions, and `crr` (cash reserve requirement) is a balance rather than a flow — the columns describe different money-market operations and must not be summed into a total.
-key: [id]
-temporal: recdate
-sort: [recdate, id]
+# one column per money-market operation; all amounts NGN million
+# caution: `record_date` is NOT unique: 50 dates carry more than one row — about half exact duplicates, the rest divergent restatements. Deduplicate before aggregating by date.
+# caution: The columns are distinct operations, not components of a total: summing a row is meaningless. `cash_reserve_requirement` is a balance, the rest are daily flows.
+key: [source_row_id]
+temporal: record_date
+sort: [record_date, source_row_id]
 columns:
-  - name: id
+  - name: source_row_id
     type: BIGINT
-  - name: recdate
+    description: "The source's own row id. It is the only unique column, so it is the key: 50 dates carry more than one row."
+  - name: record_date
     type: DATE
-  - name: opebal
+    description: "Date of the money-market operations, parsed from the source's dd/mm/yyyy `recDate`."
+  - name: opening_balance
     type: DOUBLE
-  - name: rediscbills
+    description: "Opening balance of banks' current accounts with the CBN, in NGN million."
+  - name: rediscounted_bills
     type: DOUBLE
-  - name: slfacility
+    description: "Bills rediscounted at the CBN, in NGN million."
+  - name: standing_lending_facility
     type: DOUBLE
-  - name: sdfacility
+    description: "Standing lending facility drawn by banks, in NGN million."
+  - name: standing_deposit_facility
     type: DOUBLE
+    description: "Standing deposit facility placed by banks with the CBN, in NGN million."
   - name: repo
     type: DOUBLE
-  - name: revrepo
+    description: "Repurchase agreements, in NGN million."
+  - name: reverse_repo
     type: DOUBLE
-  - name: omosales
+    description: "Reverse repurchase agreements, in NGN million."
+  - name: omo_sales
     type: DOUBLE
-  - name: omorepay
+    description: "Open market operation sales, in NGN million."
+  - name: omo_repayments
     type: DOUBLE
-  - name: pmsales
+    description: "Open market operation repayments, in NGN million."
+  - name: primary_market_sales
     type: DOUBLE
-  - name: pmrepay
+    description: "Primary market sales, in NGN million."
+  - name: primary_market_repayments
     type: DOUBLE
-  - name: crr
+    description: "Primary market repayments, in NGN million."
+  - name: cash_reserve_requirement
     type: DOUBLE
-  - name: netwdas
+    description: "Cash reserve requirement — a balance held at the CBN, not a flow like the columns around it, in NGN million."
+  - name: net_wdas
     type: DOUBLE
-  - name: statalloc
+    description: "Net Wholesale Dutch Auction System foreign-exchange settlement, in NGN million."
+  - name: statutory_allocation
     type: DOUBLE
-  - name: jvcash
+    description: "Statutory allocation disbursed to the tiers of government, in NGN million."
+  - name: jv_cash_call
     type: DOUBLE
-  - name: netclr
+    description: "Joint-venture cash call payments to oil operators, in NGN million."
+  - name: net_clearing
     type: DOUBLE
-  - name: ndicprem
+    description: "Net inter-bank clearing settlement, in NGN million."
+  - name: ndic_premium
     type: DOUBLE
-  - name: omajor
+    description: "Deposit-insurance premium paid to the NDIC, in NGN million."
+  - name: other_major
     type: DOUBLE
+    description: "Other major money-market flows not itemised above, in NGN million."

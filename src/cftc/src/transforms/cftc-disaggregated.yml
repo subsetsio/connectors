@@ -1,58 +1,105 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# CFTC Commitments of Traders — Disaggregated report (physical commodities).
+#
+# CONSUMER CAUTIONS (from the settled model of the raw asset):
+#  * Every (report_date, cftc_code) appears TWICE — once as report_type='FutOnly'
+#    and once as 'Combined' (futures plus delta-adjusted options). Filter on
+#    report_type before aggregating, or open interest and every position column
+#    double-counts.
+#  * Spread columns hold positions offset long against short within the contract
+#    market; they are counted once in the spread column, not in that category's
+#    long/short columns.
+#  * Rows are a weekly snapshot of positions outstanding on the Tuesday report
+#    date, not flows. Only change_in_open_interest is a week-over-week
+#    difference; never sum position columns across report dates.
+#
+# Covers physical-commodity markets (agriculture, energy, metals) from 2006.
+# Financial markets are in cftc-tff. The raw carries _all / _old / _other
+# crop-year variants of each position column; this table publishes _all totals.
+key: [report_date, cftc_code, report_type]
+temporal: report_date
+sort: [report_date, cftc_code, report_type]
 columns:
   - name: report_date
     type: DATE
+    description: Tuesday as-of date the positions were outstanding (the report reflects the close of business that day and is published the following Friday).
   - name: market
     type: VARCHAR
+    description: Full CFTC market and exchange name, e.g. "WHEAT-SRW - CHICAGO BOARD OF TRADE".
   - name: contract
     type: VARCHAR
+    description: Contract market name without the exchange suffix, e.g. "WHEAT-SRW".
   - name: cftc_code
     type: VARCHAR
+    description: CFTC contract market code — the stable identifier for the contract market (renamed from cftc_contract_market_code).
   - name: exchange_code
     type: VARCHAR
+    description: CFTC market code for the reporting exchange, e.g. "CBT", "NYME" (renamed from cftc_market_code).
   - name: commodity_name
     type: VARCHAR
+    description: CFTC commodity name for the underlying, e.g. "WHEAT".
   - name: commodity_group_name
     type: VARCHAR
+    description: Top-level CFTC commodity group, e.g. "AGRICULTURE", "NATURAL RESOURCES".
   - name: commodity_subgroup_name
     type: VARCHAR
+    description: CFTC commodity subgroup within the group, e.g. "GRAINS", "PETROLEUM AND PRODUCTS".
   - name: contract_units
     type: VARCHAR
+    description: Free-text unit one contract represents, e.g. "5,000 BUSHELS". Position columns count contracts, not these units.
   - name: open_interest
     type: DOUBLE
+    description: Total open interest in contracts across all trader categories.
   - name: total_reportable_long
     type: DOUBLE
+    description: Long positions held by all reportable traders, in contracts.
   - name: total_reportable_short
     type: DOUBLE
+    description: Short positions held by all reportable traders, in contracts.
   - name: nonreportable_long
     type: DOUBLE
+    description: Long positions held by traders below the CFTC reporting threshold, in contracts (derived by the CFTC as open interest minus reportable longs).
   - name: nonreportable_short
     type: DOUBLE
+    description: Short positions held by traders below the CFTC reporting threshold, in contracts.
   - name: total_traders
     type: DOUBLE
+    description: Number of reportable traders holding a position in this contract market.
   - name: report_type
     type: VARCHAR
+    description: "'FutOnly' = futures contracts only; 'Combined' = futures plus delta-adjusted options. Part of the row key: both variants are published for every report_date and cftc_code."
   - name: change_in_open_interest
     type: DOUBLE
+    description: Change in open interest, in contracts, from the previous week's report date.
   - name: producer_merchant_long
     type: DOUBLE
+    description: Long positions of producers, merchants, processors and users — entities that handle the physical commodity and hedge it — in contracts.
   - name: producer_merchant_short
     type: DOUBLE
+    description: Short positions of producers, merchants, processors and users, in contracts.
   - name: swap_dealer_long
     type: DOUBLE
+    description: Long positions of swap dealers, who hedge over-the-counter swap exposure in the futures market, in contracts. Excludes positions counted in swap_dealer_spread.
   - name: swap_dealer_short
     type: DOUBLE
+    description: Short positions of swap dealers, in contracts. Excludes positions counted in swap_dealer_spread.
   - name: swap_dealer_spread
     type: DOUBLE
+    description: Swap dealer positions offset long against short within the contract market, in contracts. Counted once here, not in swap_dealer_long/short.
   - name: managed_money_long
     type: DOUBLE
+    description: Long positions of managed money — CTAs, CPOs and hedge funds trading on behalf of clients — in contracts. Excludes positions counted in managed_money_spread.
   - name: managed_money_short
     type: DOUBLE
+    description: Short positions of managed money, in contracts. Excludes positions counted in managed_money_spread.
   - name: managed_money_spread
     type: DOUBLE
+    description: Managed money positions offset long against short within the contract market, in contracts. Counted once here, not in managed_money_long/short.
   - name: other_reportable_long
     type: DOUBLE
+    description: Long positions of reportable traders not classified into the other three categories, in contracts. Excludes positions counted in other_reportable_spread.
   - name: other_reportable_short
     type: DOUBLE
+    description: Short positions of other reportable traders, in contracts. Excludes positions counted in other_reportable_spread.
   - name: other_reportable_spread
     type: DOUBLE
+    description: Other reportable positions offset long against short within the contract market, in contracts. Counted once here, not in other_reportable_long/short.

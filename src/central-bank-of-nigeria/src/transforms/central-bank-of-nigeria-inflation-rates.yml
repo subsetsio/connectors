@@ -1,31 +1,41 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `central-bank-of-nigeria-inflation-rates`. Regenerate after model-verify.
-# caution: Every column is a percentage rate, not an index level, and the `...YearOn` and `...Average` variants answer different questions (year-on-year change for the month vs the 12-month moving average). Never mix the two in one series.
-# caution: The CPI basket was rebased in 2025 (base year moved to 2024), so rates before and after that break are not computed on the same basket.
-key: [id]
-sort: [id]
+# `allItemsLessFrmProd*` renamed to the standard `core_*`: CBN's "all items less farm produce" IS the core index
+# `id` and the `period` label are dropped: (year, month) is the source's real grain
+# caution: Every column is a rate, never an index level. The `_yoy` and `_12m_average` variants answer different questions and must not be mixed in one series.
+# caution: The CPI basket was rebased in 2025 (base year 2024); rates either side of that break are not computed on the same basket.
+key: [year, month]
+temporal: month_start
+sort: [month_start]
 columns:
-  - name: id
+  - name: month_start
+    type: DATE
+    description: "First day of the observation month."
+  - name: year
     type: BIGINT
-  - name: tyear
+    description: "Calendar year of the observation."
+  - name: month
     type: BIGINT
-  - name: tmonth
-    type: BIGINT
-  - name: period
-    type: VARCHAR
-  - name: allitemsyearon
+    description: "Calendar month of the observation, 1-12."
+  - name: all_items_yoy
     type: DOUBLE
-  - name: allitemsaverage
+    description: "Headline (all items) inflation, year-on-year, in percent."
+  - name: all_items_12m_average
     type: DOUBLE
-  - name: foodyearon
+    description: "Headline (all items) inflation, 12-month moving average, in percent."
+  - name: food_yoy
     type: DOUBLE
-  - name: foodaverage
+    description: "Food inflation, year-on-year, in percent."
+  - name: food_12m_average
     type: DOUBLE
-  - name: allitemslessfrmprodyearon
+    description: "Food inflation, 12-month moving average, in percent."
+  - name: core_yoy
     type: DOUBLE
-  - name: allitemslessfrmprodaverage
+    description: "Core inflation (all items less farm produce), year-on-year, in percent."
+  - name: core_12m_average
     type: DOUBLE
-  - name: allitemslessfrmprodandenergyyearon
+    description: "Core inflation (all items less farm produce), 12-month moving average, in percent."
+  - name: core_less_energy_yoy
     type: DOUBLE
-  - name: allitemslessfrmprodandenergyavg
+    description: "Core inflation excluding energy (all items less farm produce and energy), year-on-year, in percent."
+  - name: core_less_energy_12m_average
     type: DOUBLE
+    description: "Core inflation excluding energy (all items less farm produce and energy), 12-month moving average, in percent."

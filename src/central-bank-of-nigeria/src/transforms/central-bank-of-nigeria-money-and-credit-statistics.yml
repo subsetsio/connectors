@@ -1,55 +1,82 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `central-bank-of-nigeria-money-and-credit-statistics`. Regenerate after model-verify.
-# caution: This table mixes two observation frequencies. 33 early rows (1960-1992) are ANNUAL observations encoded with `tmonth` set equal to `tyear` and a `period` label of just the year (e.g. ` 1960`); the rest are true monthly observations with `tmonth` in 1..12. Filter on `tmonth <= 12` before treating the table as a monthly series, or annual and monthly levels will be interleaved.
-# caution: The aggregates are nested, not additive: `moneySupply_M3` contains `moneySupply_M2`, which in turn contains `narrowMoney` and `quasiMoney`. Summing the columns of a row is always wrong.
-# caution: All amounts are naira balances in millions, measured at end of period (a stock, not a flow) — differencing consecutive rows gives the flow.
-# caution: The M3-era columns (`moneySupply_M3`, `cbnBills`, `creditToGovernmentFed`, `mirrorAccounts`, `specialInterventionReserves`) only exist for the later part of the series; their absence in early rows is a definitional change, not a zero.
-key: [id]
-sort: [id]
+# `frequency` is derived from the source's tmonth-holds-the-year encoding for the 33 pre-1993 annual rows
+# `month` is nulled on those rows rather than left holding a year
+# caution: Two frequencies share this table: 33 annual rows (1960-1992) and monthly rows thereafter. Filter `frequency` first, or annual and monthly levels interleave.
+# caution: The aggregates are nested, not additive: M3 contains M2, which contains narrow and quasi money. Summing a row's columns is always wrong.
+# caution: All amounts are end-of-period balances (stocks). Difference consecutive rows to get a flow.
+# caution: The M3-era columns are absent from the early rows because they did not exist then — that is a definitional change, not a zero.
+key: [source_row_id]
+temporal: period_start
+sort: [period_start, source_row_id]
 columns:
-  - name: id
+  - name: source_row_id
     type: BIGINT
-  - name: tyear
+    description: "The source's own row id, used as the key because this table interleaves two observation frequencies."
+  - name: period_start
+    type: DATE
+    description: "First day of the observation period — the month for monthly rows, 1 January for the early annual rows."
+  - name: frequency
+    type: VARCHAR
+    description: "`monthly` or `annual`. The source encodes an annual row by setting its month field to the year; this column makes that explicit. ALWAYS filter on it before treating the table as one series."
+  - name: year
     type: BIGINT
-  - name: tmonth
+    description: "Calendar year of the observation."
+  - name: month
     type: BIGINT
-  - name: period
-    type: VARCHAR
-  - name: moneysupply_m3
-    type: VARCHAR
-  - name: cbnbills
-    type: VARCHAR
-  - name: moneysupply_m2
+    description: "Calendar month of the observation, 1-12; null on the annual rows."
+  - name: money_supply_m3
     type: DOUBLE
-  - name: quasimoney
+    description: "Broad money M3 — contains M2, in NGN million at end of period."
+  - name: cbn_bills
     type: DOUBLE
-  - name: narrowmoney
+    description: "CBN bills held outside the CBN, in NGN million at end of period."
+  - name: money_supply_m2
     type: DOUBLE
-  - name: currencyoutsidebanks
+    description: "Broad money M2 — contains narrow money and quasi money, in NGN million at end of period."
+  - name: quasi_money
     type: DOUBLE
-  - name: demanddeposits
+    description: "Quasi money (savings and time deposits), in NGN million at end of period."
+  - name: narrow_money
     type: DOUBLE
-  - name: netforeignassets
+    description: "Narrow money M1 — currency outside banks plus demand deposits, in NGN million at end of period."
+  - name: currency_outside_banks
     type: DOUBLE
-  - name: netdomesticassets
+    description: "Currency held outside the banking system, in NGN million at end of period."
+  - name: demand_deposits
     type: DOUBLE
-  - name: netdomesticcredit
+    description: "Demand deposits, in NGN million at end of period."
+  - name: net_foreign_assets
     type: DOUBLE
-  - name: credittogovernment
+    description: "Net foreign assets of the banking system, in NGN million at end of period."
+  - name: net_domestic_assets
     type: DOUBLE
-  - name: credittogovernmentfed
-    type: VARCHAR
-  - name: mirroraccounts
-    type: VARCHAR
-  - name: credittoprivatesector
+    description: "Net domestic assets of the banking system, in NGN million at end of period."
+  - name: net_domestic_credit
     type: DOUBLE
-  - name: otherassetsnet
+    description: "Net domestic credit, in NGN million at end of period."
+  - name: credit_to_government
     type: DOUBLE
-  - name: basemoney
+    description: "Net credit to government, in NGN million at end of period."
+  - name: credit_to_government_federal
     type: DOUBLE
-  - name: currencyincirculation
+    description: "Net credit to the federal government, in NGN million at end of period."
+  - name: mirror_accounts
     type: DOUBLE
-  - name: bankreserves
+    description: "Mirror accounts, in NGN million at end of period."
+  - name: credit_to_private_sector
     type: DOUBLE
-  - name: specialinterventionreserves
-    type: VARCHAR
+    description: "Credit to the private sector, in NGN million at end of period."
+  - name: other_assets_net
+    type: DOUBLE
+    description: "Other assets, net, in NGN million at end of period."
+  - name: base_money
+    type: DOUBLE
+    description: "Base money (currency in circulation plus bank reserves), in NGN million at end of period."
+  - name: currency_in_circulation
+    type: DOUBLE
+    description: "Currency in circulation, in NGN million at end of period."
+  - name: bank_reserves
+    type: DOUBLE
+    description: "Bank reserves held at the CBN, in NGN million at end of period."
+  - name: special_intervention_reserves
+    type: DOUBLE
+    description: "Special intervention reserves, in NGN million at end of period."

@@ -1,22 +1,26 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `central-bank-of-nigeria-exchange-rates-daily`. Regenerate after model-verify.
-# caution: (`currency`, `ratedate`) is NOT unique: 116 currency-days carry more than one quote, most of them divergent (e.g. two different EURO rates for 2026-05-25). Pick one row per currency-day before charting or joining.
-# caution: The `currency` domain is dirty in two ways: values carry trailing spaces and tabs, and the same currency appears under several names over time (`YEN` vs `JAPANESE YEN`, `POUND STERLING` vs `POUNDS STERLING`, `DANISH KRONA` vs `DANISH KRONER`). Trim and alias before grouping by currency, or one currency splits into several series.
-# caution: The domain also contains `NAIRA` (the quote currency itself) and `POESO`, which are not ordinary foreign-currency quotes.
-# caution: Rates are naira per one unit of the foreign currency, so they are not comparable in magnitude across currencies.
-key: [ratedate, id]
-temporal: ratedate
-sort: [ratedate, id]
+# `currency` is TRIMmed only — the trailing tabs and spaces are transport noise; the naming variants are NOT merged, which would be an editorial judgement about the source
+# caution: (`currency`, `rate_date`) is NOT unique: 116 currency-days carry more than one quote, most of them divergent. Pick one row per currency-day.
+# caution: One currency can split into several series because the source spells it more than one way — alias `currency` before grouping.
+# caution: Rates are naira per unit of foreign currency, so magnitudes are not comparable across currencies.
+key: [source_row_id]
+temporal: rate_date
+sort: [rate_date, currency, source_row_id]
 columns:
-  - name: id
+  - name: source_row_id
     type: BIGINT
+    description: "The source's own row id. It is the only unique column, so it is the key: 116 currency-days carry more than one quote."
+  - name: rate_date
+    type: DATE
+    description: "Date the rate was quoted. This endpoint already serves ISO dates."
   - name: currency
     type: VARCHAR
-  - name: ratedate
-    type: DATE
-  - name: buyingrate
+    description: "Currency label as published, with surrounding whitespace and tabs stripped. The same currency appears under several labels over time (`YEN` and `JAPANESE YEN`; `POUND STERLING` and `POUNDS STERLING`; `DANISH KRONA` and `DANISH KRONER`), and the domain also contains `NAIRA` and `POESO`."
+  - name: buying_rate
     type: DOUBLE
-  - name: centralrate
+    description: "CBN official buying rate, in naira per one unit of `currency`."
+  - name: central_rate
     type: DOUBLE
-  - name: sellingrate
+    description: "CBN official central rate, in naira per one unit of `currency`."
+  - name: selling_rate
     type: DOUBLE
+    description: "CBN official selling rate, in naira per one unit of `currency`."

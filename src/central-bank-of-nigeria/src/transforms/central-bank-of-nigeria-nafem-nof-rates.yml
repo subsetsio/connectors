@@ -1,22 +1,28 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `central-bank-of-nigeria-nafem-nof-rates`. Regenerate after model-verify.
-# caution: A short window only — the series starts in 2026 and covers a couple of months of NAFEM/NOF trading days, so it is not a historical FX series.
-# caution: `ratedate` is not unique: two dates carry a duplicated row.
-# caution: `dailyVolume` is a traded amount (thousands of US dollars) while `minimumRate`, `maximumRate`, `dailyVariationRange` and `nofr` are naira-per-dollar rates — different units in one row.
-key: [id, dailyvariationrange, maximumrate, minimumrate, nofr]
-sort: [id, dailyvariationrange, maximumrate, minimumrate, nofr]
+# `nofr` renamed `nof_rate`; the rate columns are percentages, NOT naira-per-dollar exchange rates
+# caution: A short window only: the series begins in April 2026 and covers a couple of months of trading days. It is not a historical FX series.
+# caution: `rate_date` is not unique — two dates carry a duplicated row.
+key: [source_row_id]
+temporal: rate_date
+sort: [rate_date, source_row_id]
 columns:
-  - name: id
+  - name: source_row_id
     type: BIGINT
-  - name: ratedate
-    type: VARCHAR
-  - name: dailyvolume
+    description: "The source's own row id. It is the only unique column, so it is the key: two dates carry a duplicated row."
+  - name: rate_date
+    type: DATE
+    description: "Trading date, parsed from the source's `July-08-2026` encoding."
+  - name: daily_volume
     type: DOUBLE
-  - name: minimumrate
+    description: "Reported daily FX market turnover. The source does not state the unit, and the magnitude (3-7 million) matches neither plain US dollars nor thousands of them — do not attach a currency unit without checking a CBN release."
+  - name: minimum_rate
     type: DOUBLE
-  - name: maximumrate
+    description: "Lowest rate quoted on the day, in percent per annum."
+  - name: maximum_rate
     type: DOUBLE
-  - name: dailyvariationrange
+    description: "Highest rate quoted on the day, in percent per annum."
+  - name: daily_variation_range
     type: DOUBLE
-  - name: nofr
+    description: "The day's spread, in percentage points. It is simply `maximum_rate - minimum_rate` (this holds on 60 of the 61 rows), so it carries no information beyond them."
+  - name: nof_rate
     type: DOUBLE
+    description: "The Net Open Forex (NOF) rate, in percent per annum. It sits at 22.00-22.04 across the whole series and tracks the same day's OBB interbank rate."

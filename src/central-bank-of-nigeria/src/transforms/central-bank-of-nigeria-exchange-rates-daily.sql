@@ -1,16 +1,9 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: (`currency`, `ratedate`) is NOT unique: 116 currency-days carry more than one quote, most of them divergent (e.g. two different EURO rates for 2026-05-25). Pick one row per currency-day before charting or joining.
--- caution: The `currency` domain is dirty in two ways: values carry trailing spaces and tabs, and the same currency appears under several names over time (`YEN` vs `JAPANESE YEN`, `POUND STERLING` vs `POUNDS STERLING`, `DANISH KRONA` vs `DANISH KRONER`). Trim and alias before grouping by currency, or one currency splits into several series.
--- caution: The domain also contains `NAIRA` (the quote currency itself) and `POESO`, which are not ordinary foreign-currency quotes.
--- caution: Rates are naira per one unit of the foreign currency, so they are not comparable in magnitude across currencies.
+-- `currency` is TRIMmed only — the trailing tabs and spaces are transport noise; the naming variants are NOT merged, which would be an editorial judgement about the source
 SELECT
-    "id",
-    "currency",
-    "ratedate",
-    CAST("buyingrate" AS DOUBLE) AS buyingrate,
-    CAST("centralrate" AS DOUBLE) AS centralrate,
-    CAST("sellingrate" AS DOUBLE) AS sellingrate
+    CAST("id" AS BIGINT) AS source_row_id,
+    CAST("ratedate" AS DATE) AS rate_date,
+    NULLIF(TRIM("currency"), '') AS currency,
+    TRY_CAST(NULLIF(TRIM("buyingrate"), '') AS DOUBLE) AS buying_rate,
+    TRY_CAST(NULLIF(TRIM("centralrate"), '') AS DOUBLE) AS central_rate,
+    TRY_CAST(NULLIF(TRIM("sellingrate"), '') AS DOUBLE) AS selling_rate
 FROM "central-bank-of-nigeria-exchange-rates-daily"

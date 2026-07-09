@@ -1,33 +1,28 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: This table mixes two observation frequencies. 33 early rows (1960-1992) are ANNUAL observations encoded with `tmonth` set equal to `tyear` and a `period` label of just the year (e.g. ` 1960`); the rest are true monthly observations with `tmonth` in 1..12. Filter on `tmonth <= 12` before treating the table as a monthly series, or annual and monthly levels will be interleaved.
--- caution: The aggregates are nested, not additive: `moneySupply_M3` contains `moneySupply_M2`, which in turn contains `narrowMoney` and `quasiMoney`. Summing the columns of a row is always wrong.
--- caution: All amounts are naira balances in millions, measured at end of period (a stock, not a flow) — differencing consecutive rows gives the flow.
--- caution: The M3-era columns (`moneySupply_M3`, `cbnBills`, `creditToGovernmentFed`, `mirrorAccounts`, `specialInterventionReserves`) only exist for the later part of the series; their absence in early rows is a definitional change, not a zero.
+-- `frequency` is derived from the source's tmonth-holds-the-year encoding for the 33 pre-1993 annual rows
+-- `month` is nulled on those rows rather than left holding a year
 SELECT
-    "id",
-    "tyear",
-    "tmonth",
-    "period",
-    "moneySupply_M3" AS moneysupply_m3,
-    "cbnBills" AS cbnbills,
-    CAST("moneySupply_M2" AS DOUBLE) AS moneysupply_m2,
-    CAST("quasiMoney" AS DOUBLE) AS quasimoney,
-    CAST("narrowMoney" AS DOUBLE) AS narrowmoney,
-    CAST("currencyOutsideBanks" AS DOUBLE) AS currencyoutsidebanks,
-    CAST("demandDeposits" AS DOUBLE) AS demanddeposits,
-    CAST("netForeignAssets" AS DOUBLE) AS netforeignassets,
-    CAST("netDomesticAssets" AS DOUBLE) AS netdomesticassets,
-    CAST("netDomesticCredit" AS DOUBLE) AS netdomesticcredit,
-    CAST("creditToGovernment" AS DOUBLE) AS credittogovernment,
-    "creditToGovernmentFed" AS credittogovernmentfed,
-    "mirrorAccounts" AS mirroraccounts,
-    CAST("creditToPrivateSector" AS DOUBLE) AS credittoprivatesector,
-    CAST("otherAssetsNet" AS DOUBLE) AS otherassetsnet,
-    CAST("baseMoney" AS DOUBLE) AS basemoney,
-    CAST("currencyInCirculation" AS DOUBLE) AS currencyincirculation,
-    CAST("bankReserves" AS DOUBLE) AS bankreserves,
-    "specialInterventionReserves" AS specialinterventionreserves
+    CAST("id" AS BIGINT) AS source_row_id,
+    CAST("period_start_iso" AS DATE) AS period_start,
+    CASE WHEN "tmonth" BETWEEN 1 AND 12 THEN 'monthly' ELSE 'annual' END AS frequency,
+    CAST("tyear" AS BIGINT) AS year,
+    CASE WHEN "tmonth" BETWEEN 1 AND 12 THEN CAST("tmonth" AS BIGINT) END AS month,
+    TRY_CAST(NULLIF(TRIM("moneySupply_M3"), '') AS DOUBLE) AS money_supply_m3,
+    TRY_CAST(NULLIF(TRIM("cbnBills"), '') AS DOUBLE) AS cbn_bills,
+    TRY_CAST(NULLIF(TRIM("moneySupply_M2"), '') AS DOUBLE) AS money_supply_m2,
+    TRY_CAST(NULLIF(TRIM("quasiMoney"), '') AS DOUBLE) AS quasi_money,
+    TRY_CAST(NULLIF(TRIM("narrowMoney"), '') AS DOUBLE) AS narrow_money,
+    TRY_CAST(NULLIF(TRIM("currencyOutsideBanks"), '') AS DOUBLE) AS currency_outside_banks,
+    TRY_CAST(NULLIF(TRIM("demandDeposits"), '') AS DOUBLE) AS demand_deposits,
+    TRY_CAST(NULLIF(TRIM("netForeignAssets"), '') AS DOUBLE) AS net_foreign_assets,
+    TRY_CAST(NULLIF(TRIM("netDomesticAssets"), '') AS DOUBLE) AS net_domestic_assets,
+    TRY_CAST(NULLIF(TRIM("netDomesticCredit"), '') AS DOUBLE) AS net_domestic_credit,
+    TRY_CAST(NULLIF(TRIM("creditToGovernment"), '') AS DOUBLE) AS credit_to_government,
+    TRY_CAST(NULLIF(TRIM("creditToGovernmentFed"), '') AS DOUBLE) AS credit_to_government_federal,
+    TRY_CAST(NULLIF(TRIM("mirrorAccounts"), '') AS DOUBLE) AS mirror_accounts,
+    TRY_CAST(NULLIF(TRIM("creditToPrivateSector"), '') AS DOUBLE) AS credit_to_private_sector,
+    TRY_CAST(NULLIF(TRIM("otherAssetsNet"), '') AS DOUBLE) AS other_assets_net,
+    TRY_CAST(NULLIF(TRIM("baseMoney"), '') AS DOUBLE) AS base_money,
+    TRY_CAST(NULLIF(TRIM("currencyInCirculation"), '') AS DOUBLE) AS currency_in_circulation,
+    TRY_CAST(NULLIF(TRIM("bankReserves"), '') AS DOUBLE) AS bank_reserves,
+    TRY_CAST(NULLIF(TRIM("specialInterventionReserves"), '') AS DOUBLE) AS special_intervention_reserves
 FROM "central-bank-of-nigeria-money-and-credit-statistics"

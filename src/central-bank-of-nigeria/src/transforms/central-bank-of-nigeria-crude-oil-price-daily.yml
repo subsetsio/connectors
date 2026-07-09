@@ -1,14 +1,16 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `central-bank-of-nigeria-crude-oil-price-daily`. Regenerate after model-verify.
-# caution: `postDate` is NOT unique: the API returns more than one row for a few trading days, each carrying a different price (a restatement published alongside the original). Aggregating by date without picking one row per date double-counts those days.
-# caution: Trading days only — the series has gaps at weekends and Nigerian public holidays, so a plain row count is not a day count.
-key: [id]
-temporal: postdate
-sort: [postdate, id]
+# renamed from the source's camelCase; `postDate` parsed to a DATE via the download node's ISO twin
+# caution: `post_date` is NOT unique — a few trading days carry two different posted prices. Pick one row per date before charting.
+# caution: Trading days only: weekends and Nigerian public holidays are absent, so a row count is not a day count.
+key: [source_row_id]
+temporal: post_date
+sort: [post_date, source_row_id]
 columns:
-  - name: id
+  - name: source_row_id
     type: BIGINT
-  - name: postdate
+    description: "The source's own row id. It is the only unique column, so it is the key: CBN republishes divergent restatements of the same posting date rather than correcting them in place."
+  - name: post_date
     type: DATE
-  - name: crudeoilprice
+    description: "Date the price was posted, parsed from the source's dd/mm/yyyy `postDate`."
+  - name: crude_oil_price
     type: DOUBLE
+    description: "Posted price of Nigerian crude oil, in US dollars per barrel."

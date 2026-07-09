@@ -1,11 +1,6 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: `postDate` is NOT unique: the API returns more than one row for a few trading days, each carrying a different price (a restatement published alongside the original). Aggregating by date without picking one row per date double-counts those days.
--- caution: Trading days only — the series has gaps at weekends and Nigerian public holidays, so a plain row count is not a day count.
+-- renamed from the source's camelCase; `postDate` parsed to a DATE via the download node's ISO twin
 SELECT
-    "id",
-    strptime("postDate", '%d/%m/%Y')::DATE AS postdate,
-    CAST("crudeOilPrice" AS DOUBLE) AS crudeoilprice
+    CAST("id" AS BIGINT) AS source_row_id,
+    CAST("postDate_iso" AS DATE) AS post_date,
+    TRY_CAST(NULLIF(TRIM("crudeOilPrice"), '') AS DOUBLE) AS crude_oil_price
 FROM "central-bank-of-nigeria-crude-oil-price-daily"
