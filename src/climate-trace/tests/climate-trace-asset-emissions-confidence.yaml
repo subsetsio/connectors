@@ -1,0 +1,35 @@
+spec_id: climate-trace-asset-emissions-confidence
+status: active
+tests:
+  - not_null: source_id
+    reason: every confidence row identifies an emitting asset
+    certainty: 97
+  - not_null: iso3_country
+    certainty: 97
+  - not_null: gas
+    certainty: 98
+  - not_null: year
+    reason: confidence rows are aggregated to annual grain, keyed by year
+    certainty: 97
+  - enum: {col: gas, values: [co2e_100yr]}
+    reason: this subset is scoped to the co2e_100yr country packages only
+    certainty: 97
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - unique: [source_id, year]
+    reason: fetch aggregates monthly confidence rows to one row per source per year
+    certainty: 90
+  - enum: {col: emissions_quantity_confidence, values: [very low, low, medium, high, very high]}
+    reason: Climate TRACE confidence scores are categorical levels
+    certainty: 85
+  - between: {col: year, lo: 2015, hi: 2027}
+    reason: source-level data spans roughly 2021 onward, with current-year YTD/projection
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: iso3_country, min: 100}
+    reason: emitting assets span most countries; a short list means packages were dropped
+    certainty: 80
+  - row_count: {min: 1000000}
+    reason: millions of source-year rows after annual aggregation
+    certainty: 75

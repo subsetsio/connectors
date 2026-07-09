@@ -126,6 +126,15 @@ def _to_int(v):
         return None
 
 
+def _to_iso_date(v):
+    if v is None or v == "":
+        return None
+    try:
+        return datetime.strptime(v, "%d/%m/%Y").date().isoformat()
+    except (TypeError, ValueError):
+        return None
+
+
 def _now():
     return datetime.now(tz=timezone.utc)
 
@@ -144,9 +153,11 @@ def fetch_exchange_rates(node_id: str) -> None:
             [("fechainit", f"01/01/{year}"), ("fechafin", f"{fin}/{year}")],
         )
         for var in _iter_named(root, "Var"):
+            fecha = _child_text(var, "fecha")
             rows.append({
                 "moneda": _to_int(_child_text(var, "moneda")),
-                "fecha": _child_text(var, "fecha"),
+                "fecha": fecha,
+                "fecha_iso": _to_iso_date(fecha),
                 "venta": _to_float(_child_text(var, "venta")),
                 "compra": _to_float(_child_text(var, "compra")),
             })

@@ -72,6 +72,58 @@ _NCVS_WEIGHTS = {
     "ya4e-n9zp": ["wgthhcy"],              # Household Population
 }
 
+# The NIBRS National Estimates datasets all share this fixed 40-field schema
+# (verified identical across every profiled NIBRS asset). Socrata OMITS keys
+# whose value is null, so the raw rows are otherwise sparse — and a key that
+# is null across the first ~millions of rows (e.g. `estimate_copula`) then
+# appears late, which breaks any schema-inference reader (DuckDB read_json's
+# auto-detect sample window in particular). We densify every NIBRS row to the
+# full canonical key set (absent keys -> explicit null) so the raw NDJSON has
+# one stable, self-describing schema. NCVS microdata is already dense and is
+# left untouched.
+_NIBRS_FIELDS = (
+    "indicator_name",
+    "estimate",
+    "estimate_unweighted",
+    "estimate_geographic_location",
+    "estimate_type",
+    "estimate_type_num",
+    "estimate_domain_1",
+    "estimate_domain_2",
+    "estimate_standard_error",
+    "estimate_upper_bound",
+    "estimate_lower_bound",
+    "relative_standard_error",
+    "analysis_weight_name",
+    "estimate_prb",
+    "estimate_bias",
+    "estimate_rmse",
+    "relative_rmse",
+    "estimate_copula",
+    "estimate_type_detail",
+    "estimate_type_detail_rate",
+    "suppression_flag_indicator",
+    "der_elig_suppression",
+    "der_perm_group_suppression",
+    "der_perm_group_unsuppression",
+    "der_rrmse_30",
+    "der_rrmse_gt_30_se_estimate",
+    "der_rrmse_gt_30_se_estimate_1",
+    "der_variable_name",
+    "pop_cov",
+    "agency_counts",
+    "population_estimate",
+    "poptotal_orig_univ_elig_perm",
+    "poptotal_orig_elig_perm_agency",
+    "prop_elig_oris_nonzero_count",
+    "permutation_number",
+    "prb_actual",
+    "correlation_with_prior_year",
+    "time_series_start_year",
+    "full_table",
+    "estimates_version",
+)
+
 
 # ---------------------------------------------------------------------------
 # Fetch
@@ -99,6 +151,9 @@ def fetch_one(node_id: str) -> None:
     asset = node_id
     resource_id = node_id[len(_PREFIX):]
     url = f"{BASE_URL}{resource_id}.json"
+    # NIBRS rows are densified to the fixed schema so the raw NDJSON stays
+    # schema-stable regardless of which optional fields the source omits.
+    densify = resource_id in _NIBRS_IDS
 
     total = 0
     pages = 0
@@ -106,6 +161,8 @@ def fetch_one(node_id: str) -> None:
         for page_idx in range(MAX_PAGES):
             rows = _fetch_page(url, page_idx * PAGE_SIZE)
             for row in rows:
+                if densify:
+                    row = {k: row.get(k) for k in _NIBRS_FIELDS}
                 f.write(json.dumps(row, separators=(",", ":")))
                 f.write("\n")
             total += len(rows)

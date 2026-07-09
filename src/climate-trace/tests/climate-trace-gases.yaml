@@ -1,0 +1,11 @@
+spec_id: climate-trace-gases
+status: active
+tests:
+  - not_null: gas
+    certainty: 98
+  - unique: gas
+    reason: gas slugs are a reference enumeration
+    certainty: 98
+  - row_count: {min: 50}
+    reason: definitions API currently lists greenhouse gases and air pollutants
+    certainty: 85

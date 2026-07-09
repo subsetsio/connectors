@@ -1,0 +1,11 @@
+spec_id: climate-trace-subsectors
+status: active
+tests:
+  - not_null: subsector
+    certainty: 98
+  - unique: subsector
+    reason: subsectors are a reference enumeration
+    certainty: 98
+  - row_count: {min: 60}
+    reason: Climate TRACE publishes about 69 subsectors
+    certainty: 90

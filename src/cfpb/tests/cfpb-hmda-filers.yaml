@@ -1,0 +1,12 @@
+spec_id: cfpb-hmda-filers
+status: active
+tests:
+  - not_null: lei
+  - not_null: period
+  - column_type: {col: lei, type: string}
+  - column_type: {col: count, type: integer}
+  - row_count: {min: 10000}
+  - at_least: {col: period, expr: 2024}
+    reason: HMDA public data should include recent annual filing years
+    certainty: 75
+    points_outward: true

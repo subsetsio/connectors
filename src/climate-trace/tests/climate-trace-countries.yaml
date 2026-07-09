@@ -1,0 +1,15 @@
+spec_id: climate-trace-countries
+status: active
+tests:
+  - not_null: alpha3
+    certainty: 98
+  - not_null: name
+    certainty: 98
+  - unique: alpha3
+    reason: alpha3 is the country code used in package URLs
+    certainty: 98
+  - matches: {col: alpha3, pattern: '^[A-Z]{3}$'}
+    certainty: 95
+  - row_count: {min: 200}
+    reason: Climate TRACE covers roughly 250 countries and territories
+    certainty: 90

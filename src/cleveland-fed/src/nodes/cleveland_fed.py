@@ -27,10 +27,8 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
-    transient_retry,
 )
 
 BASE = "https://www.clevelandfed.org/-/media/files/webcharts"
@@ -43,6 +41,7 @@ BROWSER_UA = (
 # entity_id -> (webcharts subdir, filename, format). The exact accepted union
 # (rank >= threshold); ids match the collect catalog keys verbatim.
 CONFIG = {
+    "consumersandcovid19-consumers-and-covid19": ("consumersandcovid19", "consumers-and-covid19.csv", "csv"),
     "crediteasing-fedagencydebtmbs": ("crediteasing", "fedagencydebtmbs.csv", "csv"),
     "crediteasing-lendingfincinst": ("crediteasing", "lendingfincinst.csv", "csv"),
     "crediteasing-liquiditykeymkts": ("crediteasing", "liquiditykeymkts.csv", "csv"),
@@ -51,6 +50,7 @@ CONFIG = {
     "crediteasing-tradsechold": ("crediteasing", "tradsechold.csv", "csv"),
     "inflationexpectations-inflationexpectations-chart1": ("inflationexpectations", "inflationexpectations_chart1.csv", "csv"),
     "inflationexpectations-inflationexpectations-chart2": ("inflationexpectations", "inflationexpectations_chart2.csv", "csv"),
+    "inflationexpectations-inflationexpectations-chart3": ("inflationexpectations", "inflationexpectations_chart3.csv", "csv"),
     "inflationnowcasting-nowcast-month": ("inflationnowcasting", "nowcast_month.json", "json"),
     "inflationnowcasting-nowcast-quarter": ("inflationnowcasting", "nowcast_quarter.json", "json"),
     "inflationnowcasting-nowcast-year": ("inflationnowcasting", "nowcast_year.json", "json"),
@@ -58,7 +58,9 @@ CONFIG = {
     "mediancpi-cpi": ("mediancpi", "cpi.csv", "csv"),
     "mediancpi-mcpi-revised": ("mediancpi", "mcpi_revised.csv", "csv"),
     "mediancpi-mediancpi-chartdata": ("mediancpi", "mediancpi_chartdata.csv", "csv"),
+    "mediancpi-mediancpi-component-table": ("mediancpi", "mediancpi_component_table.csv", "csv"),
     "mediancpi-trim-revised": ("mediancpi", "trim_revised.csv", "csv"),
+    "medianpce-current-components": ("medianpce", "current-components.csv", "csv"),
     "medianpce-median-pce-full-history": ("medianpce", "median-pce-full-history.csv", "csv"),
     "medianpce-medianpce-chartdata": ("medianpce", "medianpce_chartdata.csv", "csv"),
     "policyrules-chartdata": ("policyrules", "chartdata.csv", "csv"),
@@ -72,7 +74,6 @@ CONFIG = {
 }
 
 
-@transient_retry()
 def _fetch(url: str) -> bytes:
     resp = get(url, headers={"User-Agent": BROWSER_UA}, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -161,12 +162,19 @@ def _fetch_csv(asset: str, url: str) -> None:
     header = rows[0]
     used = set()
     value_cols = [_clean_col(h, used) for h in header[1:]]
-    keys, value_rows = [], []
+    raw_keys, parsed_keys, value_rows = [], [], []
     for r in rows[1:]:
-        keys.append(_parse_date(r[0]) or r[0].strip())
+        raw_key = r[0].strip()
+        raw_keys.append(raw_key)
+        parsed_keys.append(_parse_date(raw_key))
         cells = r[1:] + [None] * (len(value_cols) - len(r[1:]))
         value_rows.append({c: _to_float(cells[i]) for i, c in enumerate(value_cols)})
-    _save_wide(asset, "date", pa.string(), keys, value_cols, value_rows)
+    parsed_count = sum(k is not None for k in parsed_keys)
+    if parsed_count >= max(1, int(0.8 * len(parsed_keys))):
+        keys = [k or raw_keys[i] for i, k in enumerate(parsed_keys)]
+        _save_wide(asset, "date", pa.string(), keys, value_cols, value_rows)
+    else:
+        _save_wide(asset, "label", pa.string(), raw_keys, value_cols, value_rows)
 
 
 def _fetch_nowcast_json(asset: str, url: str) -> None:
@@ -202,40 +210,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"cleveland-fed-{eid}", fn=fetch_one, kind="download")
     for eid in CONFIG
-]
-
-
-# Yield-curve files carry a `recession` column that is NOT a 0/1 flag — it holds
-# chart y-axis band sentinels (e.g. -100 / +100 / 1000) used to shade recession
-# bars on the source chart. A positive value marks a recession month; normalize
-# to a clean 0/1 indicator so the published column means what its name says.
-_RECESSION_BAND = {
-    "yieldcurve-chart2-recession-probability-w-forecast",
-    "yieldcurve-chart3-spread-vs-realgdp",
-    "yieldcurve-chart4-spread-vs-lagrealgdp",
-}
-
-
-def _transform_sql(entity_id: str, download_id: str, fmt: str) -> str:
-    if fmt == "json":
-        # label-keyed nowcast: publish as-is (label + per-series values).
-        return f'SELECT * FROM "{download_id}"'
-    if entity_id in _RECESSION_BAND:
-        # cast date, remap the recession band sentinel to 0/1, keep the rest.
-        return (
-            f'SELECT TRY_CAST(date AS DATE) AS date, '
-            f'CASE WHEN recession > 0 THEN 1 ELSE 0 END AS recession, '
-            f'* EXCLUDE (date, recession) FROM "{download_id}"'
-        )
-    # date-keyed time series: cast the leading date column, keep the rest.
-    return f'SELECT TRY_CAST(date AS DATE) AS date, * EXCLUDE (date) FROM "{download_id}"'
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"cleveland-fed-{eid}-transform",
-        deps=[f"cleveland-fed-{eid}"],
-        sql=_transform_sql(eid, f"cleveland-fed-{eid}", fmt),
-    )
-    for eid, (_subdir, _fname, fmt) in CONFIG.items()
 ]

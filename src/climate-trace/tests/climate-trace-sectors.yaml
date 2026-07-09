@@ -1,0 +1,11 @@
+spec_id: climate-trace-sectors
+status: active
+tests:
+  - not_null: sector
+    certainty: 98
+  - unique: sector
+    reason: sectors are a reference enumeration
+    certainty: 98
+  - row_count: {min: 10, max: 20}
+    reason: Climate TRACE publishes 10 top-level sectors
+    certainty: 90

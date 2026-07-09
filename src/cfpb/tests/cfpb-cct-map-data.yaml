@@ -1,0 +1,12 @@
+spec_id: cfpb-cct-map-data
+status: active
+tests:
+  - not_null: fips_code
+  - not_null: state_abbr
+  - not_null: market
+  - column_type: {col: fips_code, type: string}
+  - column_type: {col: value, type: float}
+  - row_count: {min: 100}
+  - distinct_count: {col: state_abbr, min: 50}
+    reason: the map files should cover US states plus DC across multiple markets
+    certainty: 85

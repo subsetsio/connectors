@@ -1,0 +1,13 @@
+spec_id: cfpb-cct-inq-data
+status: active
+tests:
+  - not_null: month
+  - not_null: date
+  - not_null: market
+  - column_type: {col: month, type: integer}
+  - column_type: {col: inquiry_index, type: float}
+  - row_count: {min: 400}
+  - freshness: {col: date, reaches: today - 400d}
+    reason: CFPB Consumer Credit Trends are monthly and current releases may lag by several months
+    certainty: 80
+    points_outward: true

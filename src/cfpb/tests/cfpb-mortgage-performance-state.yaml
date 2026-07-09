@@ -1,0 +1,13 @@
+spec_id: cfpb-mortgage-performance-state
+status: active
+tests:
+  - not_null: region_name
+  - not_null: fips_code
+  - not_null: bucket
+  - not_null: period
+  - column_type: {col: delinquency_rate, type: float}
+  - row_count: {min: 10000}
+  - freshness: {col: period, reaches: today - 400d}
+    reason: CFPB Mortgage Performance Trends are monthly but release files can lag
+    certainty: 75
+    points_outward: true

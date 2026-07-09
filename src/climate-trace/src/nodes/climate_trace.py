@@ -47,7 +47,6 @@ import pyarrow.compute as pc
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     get_client,
     save_raw_parquet,
@@ -57,6 +56,7 @@ from subsets_utils import (
 
 GAS = "co2e_100yr"
 COUNTRIES_URL = "https://api.climatetrace.org/v6/definitions/countries"
+DEFINITIONS_URL = "https://api.climatetrace.org/v6/definitions/{name}"
 PKG_URL = "https://downloads.climatetrace.org/latest/country_packages/{gas}/{iso3}.zip"
 
 # Source-level CSVs hold millions of rows across all countries, so they are
@@ -134,6 +134,69 @@ ASSET_EMISSIONS_SCHEMA = pa.schema([
     ("capacity_units", pa.string()),
 ])
 
+CONFIDENCE_COLUMN_TYPES = {
+    "source_id": pa.string(),
+    "source_name": pa.string(),
+    "iso3_country": pa.string(),
+    "sector": pa.string(),
+    "subsector": pa.string(),
+    "gas": pa.string(),
+    "start_time": pa.string(),
+    "source_type": pa.string(),
+    "capacity": pa.string(),
+    "capacity_factor": pa.string(),
+    "activity": pa.string(),
+    "emissions_factor": pa.string(),
+    "emissions_quantity": pa.string(),
+}
+CONFIDENCE_CONVERT = pacsv.ConvertOptions(
+    include_columns=list(CONFIDENCE_COLUMN_TYPES.keys()),
+    include_missing_columns=True,
+    column_types=CONFIDENCE_COLUMN_TYPES,
+    strings_can_be_null=True,
+)
+CONFIDENCE_AGG = [
+    ("source_name", "min"), ("iso3_country", "min"), ("sector", "min"),
+    ("subsector", "min"), ("gas", "min"), ("source_type", "min"),
+    ("capacity", "min"), ("capacity_factor", "min"), ("activity", "min"),
+    ("emissions_factor", "min"), ("emissions_quantity", "min"),
+]
+
+ASSET_CONFIDENCE_SCHEMA = pa.schema([
+    ("source_id", pa.string()),
+    ("source_name", pa.string()),
+    ("iso3_country", pa.string()),
+    ("sector", pa.string()),
+    ("subsector", pa.string()),
+    ("gas", pa.string()),
+    ("year", pa.int32()),
+    ("source_type_confidence", pa.string()),
+    ("capacity_confidence", pa.string()),
+    ("capacity_factor_confidence", pa.string()),
+    ("activity_confidence", pa.string()),
+    ("emissions_factor_confidence", pa.string()),
+    ("emissions_quantity_confidence", pa.string()),
+])
+
+CONTINENTS_SCHEMA = pa.schema([
+    ("continent", pa.string()),
+])
+COUNTRIES_SCHEMA = pa.schema([
+    ("alpha3", pa.string()),
+    ("alpha2", pa.string()),
+    ("name", pa.string()),
+    ("continent", pa.string()),
+])
+GASES_SCHEMA = pa.schema([
+    ("gas", pa.string()),
+])
+SECTORS_SCHEMA = pa.schema([
+    ("sector", pa.string()),
+])
+SUBSECTORS_SCHEMA = pa.schema([
+    ("subsector", pa.string()),
+])
+
 
 def _f(x):
     """Parse a CSV cell to float, tolerating blanks / non-numeric."""
@@ -153,6 +216,13 @@ def _list_countries():
     resp = get(COUNTRIES_URL, timeout=(10.0, 60.0))
     resp.raise_for_status()
     return [c["alpha3"] for c in resp.json() if c.get("alpha3")]
+
+
+@transient_retry()
+def _get_definition(name):
+    resp = get(DEFINITIONS_URL.format(name=name), timeout=(10.0, 60.0))
+    resp.raise_for_status()
+    return resp.json()
 
 
 @transient_retry()
@@ -237,6 +307,30 @@ def _aggregate_member_to_annual(table: pa.Table) -> pa.Table:
     return grouped.select(ASSET_EMISSIONS_SCHEMA.names).cast(ASSET_EMISSIONS_SCHEMA)
 
 
+def _aggregate_confidence_to_annual(table: pa.Table) -> pa.Table:
+    year = pc.cast(pc.utf8_slice_codeunits(table.column("start_time"), 0, 4),
+                   pa.int32())
+    table = table.drop_columns(["start_time"]).append_column("year", year)
+    grouped = table.group_by(["source_id", "year"]).aggregate(CONFIDENCE_AGG)
+    rename = {
+        "source_name_min": "source_name",
+        "iso3_country_min": "iso3_country",
+        "sector_min": "sector",
+        "subsector_min": "subsector",
+        "gas_min": "gas",
+        "source_type_min": "source_type_confidence",
+        "capacity_min": "capacity_confidence",
+        "capacity_factor_min": "capacity_factor_confidence",
+        "activity_min": "activity_confidence",
+        "emissions_factor_min": "emissions_factor_confidence",
+        "emissions_quantity_min": "emissions_quantity_confidence",
+    }
+    grouped = grouped.rename_columns(
+        [rename.get(n, n) for n in grouped.column_names]
+    )
+    return grouped.select(ASSET_CONFIDENCE_SCHEMA.names).cast(ASSET_CONFIDENCE_SCHEMA)
+
+
 def fetch_asset_emissions(node_id: str) -> None:
     asset = node_id
     countries = _list_countries()
@@ -269,59 +363,70 @@ def fetch_asset_emissions(node_id: str) -> None:
     print(f"  {asset}: {total} annual source-level rows")
 
 
+def fetch_asset_confidence(node_id: str) -> None:
+    asset = node_id
+    countries = _list_countries()
+    if not countries:
+        raise AssertionError("country definitions API returned no countries")
+
+    total = 0
+    with raw_parquet_writer(asset, ASSET_CONFIDENCE_SCHEMA) as writer:
+        for iso3 in countries:
+            path = _download_country_zip(iso3)
+            if path is None:
+                continue
+            try:
+                with zipfile.ZipFile(path) as zf:
+                    for member in _members(zf, "_emissions_sources_confidence_"):
+                        with zf.open(member) as fh:
+                            tbl = pacsv.read_csv(
+                                fh, read_options=ASSET_READ,
+                                convert_options=CONFIDENCE_CONVERT,
+                            )
+                        if tbl.num_rows == 0:
+                            continue
+                        annual = _aggregate_confidence_to_annual(tbl)
+                        writer.write_table(annual)
+                        total += annual.num_rows
+            finally:
+                os.unlink(path)
+    if total == 0:
+        raise AssertionError("no confidence rows parsed from any package")
+    print(f"  {asset}: {total} annual confidence rows")
+
+
+def fetch_continents(node_id: str) -> None:
+    rows = [{"continent": v} for v in _get_definition("continents")]
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=CONTINENTS_SCHEMA), node_id)
+
+
+def fetch_countries(node_id: str) -> None:
+    rows = _get_definition("countries")
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=COUNTRIES_SCHEMA), node_id)
+
+
+def fetch_gases(node_id: str) -> None:
+    rows = [{"gas": v} for v in _get_definition("gases")]
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=GASES_SCHEMA), node_id)
+
+
+def fetch_sectors(node_id: str) -> None:
+    rows = [{"sector": v} for v in _get_definition("sectors")]
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=SECTORS_SCHEMA), node_id)
+
+
+def fetch_subsectors(node_id: str) -> None:
+    rows = [{"subsector": v} for v in _get_definition("subsectors")]
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=SUBSECTORS_SCHEMA), node_id)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(id="climate-trace-country-emissions", fn=fetch_country_emissions, kind="download"),
     NodeSpec(id="climate-trace-asset-emissions", fn=fetch_asset_emissions, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="climate-trace-country-emissions-transform",
-        deps=["climate-trace-country-emissions"],
-        sql='''
-            SELECT
-                iso3_country,
-                sector,
-                subsector,
-                gas,
-                CAST(start_time AS TIMESTAMP)        AS period_start,
-                CAST(end_time   AS TIMESTAMP)        AS period_end,
-                CAST(substr(start_time, 1, 4) AS INTEGER) AS year,
-                temporal_granularity,
-                CAST(emissions_quantity AS DOUBLE)   AS emissions_quantity,
-                emissions_quantity_units             AS units
-            FROM "climate-trace-country-emissions"
-            WHERE emissions_quantity IS NOT NULL
-              AND iso3_country IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY iso3_country, subsector, gas, start_time, temporal_granularity
-                ORDER BY modified_date DESC
-            ) = 1
-        ''',
-    ),
-    SqlNodeSpec(
-        id="climate-trace-asset-emissions-transform",
-        deps=["climate-trace-asset-emissions"],
-        sql='''
-            SELECT
-                source_id,
-                source_name,
-                source_type,
-                iso3_country,
-                sector,
-                subsector,
-                gas,
-                year,
-                lat,
-                lon,
-                emissions_quantity,
-                activity,
-                activity_units,
-                capacity,
-                capacity_units
-            FROM "climate-trace-asset-emissions"
-            WHERE source_id IS NOT NULL
-              AND year IS NOT NULL
-        ''',
-    ),
+    NodeSpec(id="climate-trace-asset-emissions-confidence", fn=fetch_asset_confidence, kind="download"),
+    NodeSpec(id="climate-trace-continents", fn=fetch_continents, kind="download"),
+    NodeSpec(id="climate-trace-countries", fn=fetch_countries, kind="download"),
+    NodeSpec(id="climate-trace-gases", fn=fetch_gases, kind="download"),
+    NodeSpec(id="climate-trace-sectors", fn=fetch_sectors, kind="download"),
+    NodeSpec(id="climate-trace-subsectors", fn=fetch_subsectors, kind="download"),
 ]

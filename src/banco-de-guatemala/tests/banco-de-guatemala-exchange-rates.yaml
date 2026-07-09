@@ -4,6 +4,15 @@ tests:
   - not_null: fecha
     reason: every TipoCambioRango Var carries the rate date
     certainty: 95
+  - not_null: fecha_iso
+    reason: the connector canonicalizes the TipoCambioRango date for freshness checks
+    certainty: 95
+  - column_type: {col: fecha_iso, type: date}
+    reason: fecha_iso is emitted as an ISO date string so DuckDB can infer a DATE
+    certainty: 90
+  - freshness: {col: fecha_iso, reaches: today - 14d}
+    reason: TipoCambioRango is a daily reference-rate service; allow two weeks for weekends, holidays, and publication delays
+    certainty: 85
   - not_null: moneda
     reason: each rate row carries a currency id
     certainty: 85

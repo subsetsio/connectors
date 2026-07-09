@@ -126,6 +126,28 @@ def _fetch_dta(url: str, asset: str) -> None:
         os.unlink(tmp.name)
 
 
+def _fetch_dta_urls(cfg: dict, asset: str) -> None:
+    import pandas as pd
+
+    frames = []
+    for spec in cfg["urls"]:
+        tmp = tempfile.NamedTemporaryFile(suffix=".dta", delete=False)
+        tmp.close()
+        try:
+            _stream_to_file(spec["url"], tmp.name)
+            df = pd.read_stata(tmp.name, convert_categoricals=False)
+            df["source_file"] = spec["name"]
+            frames.append(df)
+        finally:
+            os.unlink(tmp.name)
+    if not frames:
+        raise AssertionError(f"{asset}: no Stata files configured")
+    out = pd.concat(frames, ignore_index=True, sort=False)
+    buf = io.StringIO()
+    out.to_csv(buf, index=False)
+    save_raw_file(buf.getvalue(), asset, extension="csv")
+
+
 def _fetch_eqchange(cfg: dict, asset: str) -> None:
     """EQCHANGE EER index .xls files are wide (Year + one column per country).
     Melt each to long and union REER + NEER with a `series` column."""
@@ -185,6 +207,45 @@ def _fetch_xls_zip(url: str, member: str, asset: str) -> None:
     save_raw_file(buf.getvalue(), asset, extension="csv")
 
 
+def _fetch_xls_urls(cfg: dict, asset: str) -> None:
+    import pandas as pd
+
+    frames = []
+    for spec in cfg["urls"]:
+        xl = pd.ExcelFile(io.BytesIO(_get_bytes(spec["url"])))
+        sheets = spec.get("sheets") or xl.sheet_names
+        for sheet in sheets:
+            df = xl.parse(sheet)
+            if df.empty:
+                continue
+            df["source_file"] = spec["name"]
+            df["source_sheet"] = sheet
+            frames.append(df)
+    if not frames:
+        raise AssertionError(f"{asset}: no non-empty Excel sheets found")
+    out = pd.concat(frames, ignore_index=True, sort=False)
+    buf = io.StringIO()
+    out.to_csv(buf, index=False)
+    save_raw_file(buf.getvalue(), asset, extension="csv")
+
+
+def _fetch_text_urls(cfg: dict, asset: str, ext: str) -> None:
+    with raw_writer(asset, ext, mode="wb", compression="gzip") as out:
+        first = True
+        for spec in cfg["urls"]:
+            body = _get_bytes(spec["url"])
+            lines = body.splitlines(keepends=True)
+            if not lines:
+                continue
+            if first:
+                out.write(b"source_file" + cfg["delimiter"].encode("ascii") + lines[0])
+                first = False
+            for line in lines[1:]:
+                out.write(spec["name"].encode("utf-8") + cfg["delimiter"].encode("ascii") + line)
+    if first:
+        raise AssertionError(f"{asset}: no text rows fetched")
+
+
 # --- the single generic fetch fn --------------------------------------------
 
 def fetch_one(node_id: str) -> None:
@@ -199,12 +260,20 @@ def fetch_one(node_id: str) -> None:
         _stream_url_to_gz(cfg["url"], node_id)
     elif kind == "dta_url":
         _fetch_dta(cfg["url"], node_id)
+    elif kind == "dta_urls":
+        _fetch_dta_urls(cfg, node_id)
     elif kind == "eqchange":
         _fetch_eqchange(cfg, node_id)
     elif kind == "rprod":
         _fetch_rprod(cfg, node_id)
     elif kind == "xls_zip":
         _fetch_xls_zip(cfg["url"], cfg["members"][0], node_id)
+    elif kind == "xls_urls":
+        _fetch_xls_urls(cfg, node_id)
+    elif kind == "tsv_urls":
+        _fetch_text_urls(cfg, node_id, "tsv.gz")
+    elif kind == "csv_semicolon_url":
+        _stream_url_to_gz(cfg["url"], node_id)
     else:
         raise ValueError(f"{node_id}: unknown kind {kind!r}")
 

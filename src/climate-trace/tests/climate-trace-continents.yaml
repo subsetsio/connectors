@@ -1,0 +1,11 @@
+spec_id: climate-trace-continents
+status: active
+tests:
+  - not_null: continent
+    certainty: 98
+  - unique: continent
+    reason: continent names are a reference enumeration
+    certainty: 98
+  - row_count: {min: 7, max: 10}
+    reason: Climate TRACE includes major continents plus Unknown
+    certainty: 90
