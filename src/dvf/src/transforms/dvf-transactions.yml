@@ -9,81 +9,121 @@ sort: [date_mutation]
 columns:
   - name: id_mutation
     type: VARCHAR
+    description: Etalab identifier for the mutation (one economic transaction). Repeated across every parcel-line row belonging to the same sale.
   - name: date_mutation
     type: DATE
+    description: Date the mutation was recorded, parsed from ISO YYYY-MM-DD.
   - name: numero_disposition
     type: VARCHAR
+    description: DGFiP disposition number within the mutation (a mutation can carry several dispositions).
   - name: nature_mutation
     type: VARCHAR
+    description: Type of mutation in French, e.g. "Vente", "Vente en l'état futur d'achèvement", "Adjudication", "Echange", "Expropriation".
   - name: valeur_fonciere
     type: DOUBLE
+    description: Total declared value of the whole mutation in euros. REPEATED on every parcel-line row of the mutation - do not sum across rows of the same id_mutation.
   - name: adresse_numero
     type: VARCHAR
+    description: Street number of the property address.
   - name: adresse_suffixe
     type: VARCHAR
+    description: Street-number suffix (e.g. "bis", "ter").
   - name: adresse_nom_voie
     type: VARCHAR
+    description: Street name of the property address.
   - name: adresse_code_voie
     type: VARCHAR
+    description: FANTOIR street code (DGFiP street-segment code).
   - name: code_postal
     type: VARCHAR
+    description: Postal code, zero-padded 5-digit string.
   - name: code_commune
     type: VARCHAR
+    description: INSEE commune code (5-character string, zero-padded; letters for Corsica 2A/2B).
   - name: nom_commune
     type: VARCHAR
+    description: Commune name.
   - name: code_departement
     type: VARCHAR
+    description: Department code (2-3 characters; 2A/2B for Corsica, 971-976 overseas). Alsace-Moselle (57/67/68) and Mayotte (976) are excluded from DVF by law.
   - name: ancien_code_commune
     type: VARCHAR
+    description: Former INSEE commune code where the commune was merged/renamed (blank otherwise).
   - name: ancien_nom_commune
     type: VARCHAR
+    description: Former commune name where applicable (blank otherwise).
   - name: id_parcelle
     type: VARCHAR
+    description: Cadastral parcel identifier (14-character code = commune + section + parcel number).
   - name: ancien_id_parcelle
     type: VARCHAR
+    description: Former cadastral parcel identifier where the parcel was renumbered (blank otherwise).
   - name: numero_volume
     type: VARCHAR
+    description: Volume number for stratified (volumetric) ownership divisions.
   - name: lot1_numero
     type: VARCHAR
+    description: Co-ownership lot 1 number (condominium lot reference).
   - name: lot1_surface_carrez
     type: DOUBLE
+    description: Loi Carrez surface area of lot 1 in square metres.
   - name: lot2_numero
     type: VARCHAR
+    description: Co-ownership lot 2 number.
   - name: lot2_surface_carrez
     type: DOUBLE
+    description: Loi Carrez surface area of lot 2 in square metres.
   - name: lot3_numero
     type: VARCHAR
+    description: Co-ownership lot 3 number.
   - name: lot3_surface_carrez
     type: DOUBLE
+    description: Loi Carrez surface area of lot 3 in square metres.
   - name: lot4_numero
     type: VARCHAR
+    description: Co-ownership lot 4 number.
   - name: lot4_surface_carrez
     type: DOUBLE
+    description: Loi Carrez surface area of lot 4 in square metres.
   - name: lot5_numero
     type: VARCHAR
+    description: Co-ownership lot 5 number.
   - name: lot5_surface_carrez
     type: DOUBLE
+    description: Loi Carrez surface area of lot 5 in square metres.
   - name: nombre_lots
     type: BIGINT
+    description: Total number of co-ownership lots in the mutation.
   - name: code_type_local
     type: VARCHAR
+    description: Numeric code for the property type (1=house, 2=apartment, 3=outbuilding, 4=commercial/industrial premises).
   - name: type_local
     type: VARCHAR
+    description: Property type label in French ("Maison", "Appartement", "Dépendance", "Local industriel. commercial ou assimilé").
   - name: surface_reelle_bati
     type: DOUBLE
+    description: Actual built floor area in square metres.
   - name: nombre_pieces_principales
     type: BIGINT
+    description: Number of principal rooms (habitable rooms excluding kitchen/bathroom).
   - name: code_nature_culture
     type: VARCHAR
+    description: Land-use (culture) category code for non-built land.
   - name: nature_culture
     type: VARCHAR
+    description: Land-use (culture) category label in French.
   - name: code_nature_culture_speciale
     type: VARCHAR
+    description: Special land-use category code where applicable.
   - name: nature_culture_speciale
     type: VARCHAR
+    description: Special land-use category label in French where applicable.
   - name: surface_terrain
     type: DOUBLE
+    description: Land (terrain) area in square metres.
   - name: longitude
     type: DOUBLE
+    description: Geocoded parcel longitude (WGS84 decimal degrees), added by Etalab.
   - name: latitude
     type: DOUBLE
+    description: Geocoded parcel latitude (WGS84 decimal degrees), added by Etalab.
