@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-social-insurance`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `account_desc` ('Closed group - Total present value of future expenditures in excess of future revenue Future participants:', 'Open group - Total present value of future expenditures in excess of future revenue', 'Total present value of future expenditures in excess of future revenue', …); `program_desc` ('Total present value of future expenditures in excess of future revenue'). Summing an amount column without excluding them double-counts.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: program_desc
+    type: VARCHAR
+  - name: account_desc
+    type: VARCHAR
+  - name: participant_grp_desc
+    type: VARCHAR
+  - name: projection_tril_amt
+    type: DOUBLE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

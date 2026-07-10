@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-tips-cpi-data-detail`. Regenerate after model-verify.
+key: [index_date, cusip]
+temporal: original_issue_date
+sort: [original_issue_date, index_date, cusip]
+columns:
+  - name: cusip
+    type: VARCHAR
+  - name: original_issue_date
+    type: DATE
+  - name: index_date
+    type: DATE
+  - name: ref_cpi
+    type: DOUBLE
+  - name: index_ratio
+    type: DOUBLE
+  - name: pdf_link
+    type: VARCHAR
+  - name: xml_link
+    type: VARCHAR

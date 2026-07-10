@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-vaccine-injury-compensation-trust-fund-expected`. Regenerate after model-verify.
+# caution: One `record_date` carries many `fiscal_year` rows — `fiscal_year` is part of the row identity, because each publication restates a whole block of years. Filter or group by `fiscal_year` before aggregating.
+key: [record_date, fiscal_year, src_line_nbr]
+temporal: record_date
+sort: [record_date, fiscal_year, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: fiscal_year
+    type: BIGINT
+  - name: table_nbr
+    type: VARCHAR
+  - name: table_nm
+    type: VARCHAR
+  - name: account_desc
+    type: VARCHAR
+  - name: component_desc
+    type: VARCHAR
+  - name: fiscal_year_expected_thous_amt
+    type: BIGINT
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

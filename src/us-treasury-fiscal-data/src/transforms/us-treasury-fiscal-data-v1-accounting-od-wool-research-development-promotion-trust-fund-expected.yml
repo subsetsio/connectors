@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-wool-research-development-promotion-trust-fund-expected`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `component_desc` ('Total Expenses', 'Total Receipts', 'Total expenses', …). Summing an amount column without excluding them double-counts.
+key: [record_date, component_desc]
+temporal: record_date
+sort: [record_date, component_desc]
+columns:
+  - name: record_date
+    type: DATE
+  - name: fiscal_year
+    type: BIGINT
+  - name: table_nbr
+    type: VARCHAR
+  - name: table_nm
+    type: VARCHAR
+  - name: account_desc
+    type: VARCHAR
+  - name: component_desc
+    type: VARCHAR
+  - name: fiscal_year_expected_thous_amt
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

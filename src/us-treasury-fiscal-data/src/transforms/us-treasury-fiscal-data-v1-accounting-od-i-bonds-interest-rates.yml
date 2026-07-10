@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-i-bonds-interest-rates`. Regenerate after model-verify.
+key: [earning_period_start, issue_year_month, earning_period, earning_period_end]
+temporal: earning_period
+sort: [earning_period, earning_period_start, issue_year_month, earning_period_end]
+columns:
+  - name: earning_period
+    type: DATE
+  - name: earning_period_start
+    type: DATE
+  - name: earning_period_end
+    type: DATE
+  - name: issue_year_month
+    type: DATE
+  - name: fixed_rate
+    type: DOUBLE
+  - name: semi_annual_inflation_rate
+    type: DOUBLE
+  - name: combined_rate
+    type: DOUBLE

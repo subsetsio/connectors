@@ -1,0 +1,48 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-tb-fcp3-quarterly-report-large-market-participants`. Regenerate after model-verify.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: foreign_currency_desc
+    type: VARCHAR
+  - name: foreign_currency_denom
+    type: VARCHAR
+  - name: report_date
+    type: DATE
+  - name: spot_fwd_future_purch_amt
+    type: VARCHAR
+  - name: spot_fwd_future_sold_amt
+    type: VARCHAR
+  - name: assets_amt
+    type: VARCHAR
+  - name: liabilities_amt
+    type: VARCHAR
+  - name: call_options_bought_amt
+    type: VARCHAR
+  - name: call_options_written_amt
+    type: VARCHAR
+  - name: put_options_bought_amt
+    type: VARCHAR
+  - name: put_options_written_amt
+    type: VARCHAR
+  - name: options_net_delta_amt
+    type: VARCHAR
+  - name: exchange_rate
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v2-accounting-od-interest-uninvested`. Regenerate after model-verify.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: department_id
+    type: VARCHAR
+  - name: fund_id
+    type: VARCHAR
+  - name: interest_payable_amt
+    type: DOUBLE
+  - name: interest_expense_amt
+    type: VARCHAR
+  - name: agency_nm
+    type: VARCHAR
+  - name: tas_desc
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

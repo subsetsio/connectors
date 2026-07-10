@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-buybacks-security-details`. Regenerate after model-verify.
+key: [operation_date, operation_start_time_est, cusip_nbr]
+temporal: operation_date
+sort: [operation_date, operation_start_time_est, cusip_nbr]
+columns:
+  - name: operation_date
+    type: DATE
+  - name: operation_start_time_est
+    type: VARCHAR
+  - name: cusip_nbr
+    type: VARCHAR
+  - name: coupon_rate_pct
+    type: DOUBLE
+  - name: maturity_date
+    type: DATE
+  - name: par_amt_accepted
+    type: VARCHAR
+  - name: weighted_avg_accepted_price
+    type: VARCHAR

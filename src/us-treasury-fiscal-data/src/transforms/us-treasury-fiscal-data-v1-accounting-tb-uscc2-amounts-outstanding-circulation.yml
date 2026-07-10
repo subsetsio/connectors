@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-tb-uscc2-amounts-outstanding-circulation`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `currency_denom` ('Total Currency'). Summing an amount column without excluding them double-counts.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: currency_as_of_date
+    type: DATE
+  - name: currency_denom
+    type: VARCHAR
+  - name: total_currency_amt
+    type: BIGINT
+  - name: federal_reserve_notes_amt
+    type: BIGINT
+  - name: us_notes_amt
+    type: BIGINT
+  - name: currency_no_longer_issued_amt
+    type: BIGINT
+  - name: per_capita_amt
+    type: BIGINT
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

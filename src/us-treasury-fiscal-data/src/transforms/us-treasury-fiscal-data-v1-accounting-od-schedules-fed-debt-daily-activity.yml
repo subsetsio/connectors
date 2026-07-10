@@ -1,0 +1,47 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-schedules-fed-debt-daily-activity`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `type` ('Total'). Summing an amount column without excluding them double-counts.
+key: [record_date, type]
+temporal: record_date
+sort: [record_date, type]
+columns:
+  - name: record_date
+    type: DATE
+  - name: type
+    type: VARCHAR
+  - name: public_prin_borrowings_amt
+    type: DOUBLE
+  - name: public_prin_repayments_amt
+    type: DOUBLE
+  - name: public_interest_accrued_amt
+    type: DOUBLE
+  - name: public_interest_paid_amt
+    type: DOUBLE
+  - name: public_net_unamortized_amt
+    type: DOUBLE
+  - name: public_net_amortization_amt
+    type: DOUBLE
+  - name: intragov_prin_net_increase_amt
+    type: DOUBLE
+  - name: intragov_interest_accrued_amt
+    type: DOUBLE
+  - name: intragov_interest_paid_amt
+    type: DOUBLE
+  - name: intragov_net_unamortized_amt
+    type: DOUBLE
+  - name: intragov_net_amortization_amt
+    type: DOUBLE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-fip-statement-of-account-table2`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `line_item_nm` ('Grand Total', 'Total Inflation Compensation', 'Totals'). Summing an amount column without excluding them double-counts.
+key: [record_date, account_number_tas, src_line_nbr]
+temporal: record_date
+sort: [record_date, account_number_tas, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: account_number_tas
+    type: VARCHAR
+  - name: account_name
+    type: VARCHAR
+  - name: date_range
+    type: VARCHAR
+  - name: sub_category
+    type: VARCHAR
+  - name: line_item_nm
+    type: VARCHAR
+  - name: beginning_balance
+    type: DOUBLE
+  - name: net_change
+    type: DOUBLE
+  - name: ending_balance
+    type: DOUBLE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

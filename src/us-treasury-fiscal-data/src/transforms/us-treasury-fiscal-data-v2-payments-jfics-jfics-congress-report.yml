@@ -1,0 +1,50 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v2-payments-jfics-jfics-congress-report`. Regenerate after model-verify.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: judgment_type_cd
+    type: VARCHAR
+  - name: defendant_agency_nm
+    type: VARCHAR
+  - name: submitting_agency_nm
+    type: VARCHAR
+  - name: control_nbr
+    type: BIGINT
+  - name: plaintiffs_counsel_nm
+    type: VARCHAR
+  - name: payment_id
+    type: VARCHAR
+  - name: payment_sent_dt
+    type: VARCHAR
+  - name: confirmed_payment_amt
+    type: VARCHAR
+  - name: principal_amt
+    type: VARCHAR
+  - name: principal_citation_cd
+    type: VARCHAR
+  - name: principal_citation_desc
+    type: VARCHAR
+  - name: attorneys_fee_amt
+    type: VARCHAR
+  - name: attorneys_fee_citation_cd
+    type: VARCHAR
+  - name: attorneys_fee_citation_desc
+    type: VARCHAR
+  - name: cost_amt
+    type: VARCHAR
+  - name: cost_citation_cd
+    type: VARCHAR
+  - name: cost_citation_desc
+    type: VARCHAR
+  - name: interest_amt
+    type: VARCHAR
+  - name: interest_citation_cd
+    type: VARCHAR
+  - name: interest_citation_desc
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT

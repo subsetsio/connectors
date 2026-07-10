@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-schedules-fed-debt-fytd`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `security_class2_desc` ('Total Decreases', 'Total Increases'). Summing an amount column without excluding them double-counts.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: debt_holder_type
+    type: VARCHAR
+  - name: security_class1_desc
+    type: VARCHAR
+  - name: security_class2_desc
+    type: VARCHAR
+  - name: principal_mil_amt
+    type: VARCHAR
+  - name: accrued_int_payable_mil_amt
+    type: VARCHAR
+  - name: net_unamortized_mil_amt
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

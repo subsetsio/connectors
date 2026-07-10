@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-tb-pdo2-offerings-marketable-securities-other-regular-weekly-treasury-bills`. Regenerate after model-verify.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: auction_date
+    type: DATE
+  - name: issue_date
+    type: DATE
+  - name: securities_desc
+    type: VARCHAR
+  - name: period_to_final_maturity
+    type: VARCHAR
+  - name: tendered_mil_amt
+    type: BIGINT
+  - name: acc_mil_amt
+    type: BIGINT
+  - name: acc_yield_discount_margin
+    type: VARCHAR
+  - name: eq_price_for_notes_bonds
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

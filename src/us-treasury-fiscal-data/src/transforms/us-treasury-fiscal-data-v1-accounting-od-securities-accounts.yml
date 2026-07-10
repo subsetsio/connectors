@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-securities-accounts`. Regenerate after model-verify.
+key: [record_date, trans_month]
+temporal: record_date
+sort: [record_date, trans_month]
+columns:
+  - name: record_date
+    type: DATE
+  - name: unrestrict_primary_accts_cnt
+    type: BIGINT
+  - name: funded_accts_cnt
+    type: VARCHAR
+  - name: trans_month
+    type: BIGINT
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

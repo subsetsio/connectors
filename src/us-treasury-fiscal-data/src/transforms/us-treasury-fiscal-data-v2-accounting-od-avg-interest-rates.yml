@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v2-accounting-od-avg-interest-rates`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `security_desc` ('Total Interest-bearing Debt', 'Total Marketable', 'Total Non-marketable'). Summing an amount column without excluding them double-counts.
+key: [record_date, security_desc]
+temporal: record_date
+sort: [record_date, security_desc]
+columns:
+  - name: record_date
+    type: DATE
+  - name: security_type_desc
+    type: VARCHAR
+  - name: security_desc
+    type: VARCHAR
+  - name: avg_interest_rate_amt
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

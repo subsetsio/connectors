@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-tb-esf1-balances`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `classification_desc` ('Total Cumulative Results of Operations', 'Total Intra-Governmental', 'Total Liabilities', …). Summing an amount column without excluding them double-counts.
+key: [report_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, report_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: report_date
+    type: DATE
+  - name: classification_desc
+    type: VARCHAR
+  - name: activity_thous_amt
+    type: VARCHAR
+  - name: balance_thous_amt
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

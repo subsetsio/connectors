@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-debt-mspd-mspd-table-3-nonmarket`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `security_class1_desc` ('Total Depositary Securities', 'Total Domestic Series', 'Total Foreign Series', …); `security_class2_desc` ('Total Matured State and Local Goverment Series', 'Total Matured State and Local Government Series', 'Total Other Debt', …); `security_class3_desc` ('Total Government Account Series', 'Total Government Account Series - Held By The Public', 'Total Government Account Series - Held By the Public', …). Summing an amount column without excluding them double-counts.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: security_type_desc
+    type: VARCHAR
+  - name: security_class1_desc
+    type: VARCHAR
+  - name: security_class2_desc
+    type: VARCHAR
+  - name: security_class3_desc
+    type: VARCHAR
+  - name: prior_month_outstanding_amt
+    type: VARCHAR
+  - name: current_month_issued_amt
+    type: VARCHAR
+  - name: current_month_redeemed_amt
+    type: VARCHAR
+  - name: current_month_outstanding_amt
+    type: VARCHAR
+  - name: maturity_date
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

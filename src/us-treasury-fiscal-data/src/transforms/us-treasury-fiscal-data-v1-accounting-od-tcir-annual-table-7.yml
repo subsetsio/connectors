@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-tcir-annual-table-7`. Regenerate after model-verify.
+# caution: One `record_date` carries many `calendar_year` rows — `calendar_year` is part of the row identity, because each publication restates a whole block of years. Filter or group by `calendar_year` before aggregating.
+key: [calendar_year]
+temporal: record_date
+sort: [record_date, calendar_year]
+columns:
+  - name: record_date
+    type: DATE
+  - name: table_nm
+    type: VARCHAR
+  - name: legislation
+    type: VARCHAR
+  - name: calendar_year
+    type: BIGINT
+  - name: calendar_year_rate
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT

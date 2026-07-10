@@ -1,0 +1,456 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v2-debt-tror`. Regenerate after model-verify.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: agency_name
+    type: VARCHAR
+  - name: agency_code
+    type: VARCHAR
+  - name: receivable_type_description
+    type: VARCHAR
+  - name: receivable_type_id
+    type: VARCHAR
+  - name: funding_type_description
+    type: VARCHAR
+  - name: funding_type_id
+    type: VARCHAR
+  - name: beginning_fiscal_year_amt
+    type: BIGINT
+  - name: beginning_fiscal_year_cnt
+    type: BIGINT
+  - name: new_receivables_amt
+    type: BIGINT
+  - name: new_receivables_cnt
+    type: BIGINT
+  - name: accruals_amt
+    type: BIGINT
+  - name: collections_total_amt
+    type: BIGINT
+  - name: collections_agency_amt
+    type: BIGINT
+  - name: collections_third_amt
+    type: BIGINT
+  - name: collections_asset_amt
+    type: BIGINT
+  - name: collections_top_cs_amt
+    type: BIGINT
+  - name: collections_sale_foreclose_amt
+    type: BIGINT
+  - name: collections_doj_amt
+    type: BIGINT
+  - name: collections_other_amt
+    type: BIGINT
+  - name: adjustments_total_amt
+    type: BIGINT
+  - name: adjustments_total_cnt
+    type: BIGINT
+  - name: adjustments_reclassified_amt
+    type: BIGINT
+  - name: adjustments_asset_sales_amt
+    type: BIGINT
+  - name: adjustments_consolidations_amt
+    type: BIGINT
+  - name: adjustments_foreclosure_amt
+    type: BIGINT
+  - name: adjustments_resinstated_amt
+    type: BIGINT
+  - name: written_off_total_amt
+    type: BIGINT
+  - name: written_off_total_cnt
+    type: BIGINT
+  - name: currently_not_collectible_amt
+    type: BIGINT
+  - name: currently_not_collectible_cnt
+    type: BIGINT
+  - name: written_off_closed_out_amt
+    type: BIGINT
+  - name: written_off_closed_out_cnt
+    type: BIGINT
+  - name: end_bal_amt
+    type: BIGINT
+  - name: end_bal_cnt
+    type: BIGINT
+  - name: end_foreign_sovereign_amt
+    type: BIGINT
+  - name: end_foreign_sovereign_cnt
+    type: BIGINT
+  - name: end_state_local_amt
+    type: BIGINT
+  - name: end_state_local_cnt
+    type: BIGINT
+  - name: end_rescheduled_ddebt_amt
+    type: BIGINT
+  - name: end_rescheduled_ddebt_cnt
+    type: BIGINT
+  - name: end_rescheduled_non_ddebt_amt
+    type: BIGINT
+  - name: end_rescheduled_non_ddebt_cnt
+    type: BIGINT
+  - name: end_interest_late_charge_amt
+    type: BIGINT
+  - name: end_a129_exclusions_amt
+    type: BIGINT
+  - name: end_a129_exclusions_cnt
+    type: BIGINT
+  - name: ddebt_1_to_30_days_amt
+    type: BIGINT
+  - name: ddebt_1_to_30_days_cnt
+    type: BIGINT
+  - name: ddebt_31_to_60_days_amt
+    type: BIGINT
+  - name: ddebt_31_to_60_days_cnt
+    type: BIGINT
+  - name: ddebt_61_to_90_days_amt
+    type: BIGINT
+  - name: ddebt_61_to_90_days_cnt
+    type: BIGINT
+  - name: ddebt_91_to_120_days_amt
+    type: BIGINT
+  - name: ddebt_91_to_120_days_cnt
+    type: BIGINT
+  - name: ddebt_121_to_150_days_amt
+    type: BIGINT
+  - name: ddebt_121_to_150_days_cnt
+    type: BIGINT
+  - name: ddebt_151_to_180_days_amt
+    type: BIGINT
+  - name: ddebt_151_to_180_days_cnt
+    type: BIGINT
+  - name: ddebt_181_to_365_days_amt
+    type: BIGINT
+  - name: ddebt_181_to_365_days_cnt
+    type: BIGINT
+  - name: ddebt_1_to_2_yrs_amt
+    type: BIGINT
+  - name: ddebt_1_to_2_yrs_cnt
+    type: BIGINT
+  - name: ddebt_2_to_6_yrs_amt
+    type: BIGINT
+  - name: ddebt_2_to_6_yrs_cnt
+    type: BIGINT
+  - name: ddebt_6_to_10_yrs_amt
+    type: BIGINT
+  - name: ddebt_6_to_10_yrs_cnt
+    type: BIGINT
+  - name: ddebt_over_10_yrs_amt
+    type: BIGINT
+  - name: ddebt_over_10_yrs_cnt
+    type: BIGINT
+  - name: ddebt_by_age_total_amt
+    type: BIGINT
+  - name: ddebt_by_age_total_cnt
+    type: BIGINT
+  - name: ddebt_commercial_amt
+    type: BIGINT
+  - name: ddebt_commercial_cnt
+    type: BIGINT
+  - name: ddebt_consumer_amt
+    type: BIGINT
+  - name: ddebt_consumer_cnt
+    type: BIGINT
+  - name: ddebt_foreign_sovereign_amt
+    type: BIGINT
+  - name: ddebt_foreign_sovereign_cnt
+    type: BIGINT
+  - name: ddebt_state_local_amt
+    type: BIGINT
+  - name: ddebt_state_local_cnt
+    type: BIGINT
+  - name: ddebt_by_category_total_amt
+    type: BIGINT
+  - name: ddebt_by_category_total_cnt
+    type: BIGINT
+  - name: credit_bureau_commercial_amt
+    type: BIGINT
+  - name: credit_bureau_commercial_cnt
+    type: BIGINT
+  - name: credit_bureau_consumer_amt
+    type: BIGINT
+  - name: credit_bureau_consumer_cnt
+    type: BIGINT
+  - name: credit_bureau_total_amt
+    type: BIGINT
+  - name: credit_bureau_total_cnt
+    type: BIGINT
+  - name: ddebt_1_120_bankruptcy_amt
+    type: BIGINT
+  - name: ddebt_1_120_bankruptcy_cnt
+    type: BIGINT
+  - name: ddebt_1_120_forbear_appeal_amt
+    type: BIGINT
+  - name: ddebt_1_120_forbear_appeal_cnt
+    type: BIGINT
+  - name: ddebt_1_120_foreclosure_amt
+    type: BIGINT
+  - name: ddebt_1_120_foreclosure_cnt
+    type: BIGINT
+  - name: ddebt_1_120_prv_cltn_agcy_amt
+    type: BIGINT
+  - name: ddebt_1_120_prv_cltn_agcy_cnt
+    type: BIGINT
+  - name: ddebt_1_120_litigation_amt
+    type: BIGINT
+  - name: ddebt_1_120_litigation_cnt
+    type: BIGINT
+  - name: ddebt_1_120_intern_offset_amt
+    type: BIGINT
+  - name: ddebt_1_120_intern_offset_cnt
+    type: BIGINT
+  - name: ddebt_1_120_wage_garnish_amt
+    type: BIGINT
+  - name: ddebt_1_120_wage_garnish_cnt
+    type: BIGINT
+  - name: ddebt_1_120_treas_cs_amt
+    type: BIGINT
+  - name: ddebt_1_120_treas_cs_cnt
+    type: BIGINT
+  - name: ddebt_1_120_treas_offset_amt
+    type: BIGINT
+  - name: ddebt_1_120_treas_offset_cnt
+    type: BIGINT
+  - name: ddebt_1_120_agency_amt
+    type: BIGINT
+  - name: ddebt_1_120_agency_cnt
+    type: BIGINT
+  - name: ddebt_1_120_other_amt
+    type: BIGINT
+  - name: ddebt_1_120_other_cnt
+    type: BIGINT
+  - name: ddebt_1_120_total_amt
+    type: BIGINT
+  - name: ddebt_1_120_total_cnt
+    type: BIGINT
+  - name: top_elig_ddebt_over_120_amt
+    type: BIGINT
+  - name: top_elig_ddebt_over_120_cnt
+    type: BIGINT
+  - name: top_elig_cnc_amt
+    type: BIGINT
+  - name: top_elig_cnc_cnt
+    type: BIGINT
+  - name: top_elig_120_cnc_total_amt
+    type: BIGINT
+  - name: top_elig_120_cnc_total_cnt
+    type: BIGINT
+  - name: top_inelig_bankruptcy_amt
+    type: BIGINT
+  - name: top_inelig_bankruptcy_cnt
+    type: BIGINT
+  - name: top_inelig_forbear_appeal_amt
+    type: BIGINT
+  - name: top_inelig_forbear_appeal_cnt
+    type: BIGINT
+  - name: top_inelig_foreclosure_amt
+    type: BIGINT
+  - name: top_inelig_foreclosure_cnt
+    type: BIGINT
+  - name: top_inelig_other_amt
+    type: BIGINT
+  - name: top_inelig_other_cnt
+    type: BIGINT
+  - name: top_elig_total_amt
+    type: BIGINT
+  - name: top_elig_total_cnt
+    type: BIGINT
+  - name: top_expt_foreign_sovereign_amt
+    type: BIGINT
+  - name: top_expt_foreign_sovereign_cnt
+    type: BIGINT
+  - name: top_expt_state_local_amt
+    type: BIGINT
+  - name: top_expt_state_local_cnt
+    type: BIGINT
+  - name: top_expt_other_amt
+    type: BIGINT
+  - name: top_expt_other_cnt
+    type: BIGINT
+  - name: top_expt_agency_req_ref_amt
+    type: BIGINT
+  - name: top_expt_agency_req_ref_cnt
+    type: BIGINT
+  - name: top_expt_agency_direct_ref_amt
+    type: BIGINT
+  - name: top_expt_agency_direct_ref_cnt
+    type: BIGINT
+  - name: top_expt_cs_ref_amt
+    type: BIGINT
+  - name: top_expt_cs_ref_cnt
+    type: BIGINT
+  - name: top_referred_total_amt
+    type: BIGINT
+  - name: top_referred_total_cnt
+    type: BIGINT
+  - name: cs_elig_ddebt_over_180_amt
+    type: BIGINT
+  - name: cs_elig_ddebt_over_180_cnt
+    type: BIGINT
+  - name: cs_elig_cnc_amt
+    type: BIGINT
+  - name: cs_elig_cnc_cnt
+    type: BIGINT
+  - name: cs_elig_180_cnc_total_amt
+    type: BIGINT
+  - name: cs_elig_180_cnc_total_cnt
+    type: BIGINT
+  - name: cs_inelig_bankruptcy_amt
+    type: BIGINT
+  - name: cs_inelig_bankruptcy_cnt
+    type: BIGINT
+  - name: cs_inelig_forbear_appeal_amt
+    type: BIGINT
+  - name: cs_inelig_forbear_appeal_cnt
+    type: BIGINT
+  - name: cs_inelig_foreclosure_amt
+    type: BIGINT
+  - name: cs_inelig_foreclosure_cnt
+    type: BIGINT
+  - name: cs_inelig_other_amt
+    type: BIGINT
+  - name: cs_inelig_other_cnt
+    type: BIGINT
+  - name: cs_elig_total_amt
+    type: BIGINT
+  - name: cs_elig_total_cnt
+    type: BIGINT
+  - name: cs_expt_foreign_sovereign_amt
+    type: BIGINT
+  - name: cs_expt_foreign_sovereign_cnt
+    type: BIGINT
+  - name: cs_expt_litigation_amt
+    type: BIGINT
+  - name: cs_expt_litigation_cnt
+    type: BIGINT
+  - name: cs_expt_prv_cltn_agcy_amt
+    type: BIGINT
+  - name: cs_expt_prv_cltn_agcy_cnt
+    type: BIGINT
+  - name: cs_expt_internal_offset_amt
+    type: BIGINT
+  - name: cs_expt_internal_offset_cnt
+    type: BIGINT
+  - name: cs_expt_exempt_treasury_amt
+    type: BIGINT
+  - name: cs_expt_exempt_treasury_cnt
+    type: BIGINT
+  - name: cs_expt_returned_amt
+    type: BIGINT
+  - name: cs_expt_returned_cnt
+    type: BIGINT
+  - name: cs_expt_other_amt
+    type: BIGINT
+  - name: cs_expt_other_cnt
+    type: BIGINT
+  - name: cs_expt_req_ref_amt
+    type: BIGINT
+  - name: cs_expt_req_ref_cnt
+    type: BIGINT
+  - name: cs_expt_ref_amt
+    type: BIGINT
+  - name: cs_expt_ref_cnt
+    type: BIGINT
+  - name: cs_referred_total_amt
+    type: BIGINT
+  - name: cs_referred_total_cnt
+    type: BIGINT
+  - name: collected_ddebt_pca_amt
+    type: BIGINT
+  - name: collected_ddebt_pca_cnt
+    type: BIGINT
+  - name: collected_ddebt_litigation_amt
+    type: BIGINT
+  - name: collected_ddebt_litigation_cnt
+    type: BIGINT
+  - name: collected_ddebt_internal_amt
+    type: BIGINT
+  - name: collected_ddebt_internal_cnt
+    type: BIGINT
+  - name: collected_ddebt_third_amt
+    type: BIGINT
+  - name: collected_ddebt_third_cnt
+    type: BIGINT
+  - name: collected_ddebt_asset_amt
+    type: BIGINT
+  - name: collected_ddebt_asset_cnt
+    type: BIGINT
+  - name: collected_ddebt_wage_amt
+    type: BIGINT
+  - name: collected_ddebt_wage_cnt
+    type: BIGINT
+  - name: collected_ddebt_cs_amt
+    type: BIGINT
+  - name: collected_ddebt_cs_cnt
+    type: BIGINT
+  - name: collected_ddebt_top_amt
+    type: BIGINT
+  - name: collected_ddebt_top_cnt
+    type: BIGINT
+  - name: collected_ddebt_agency_amt
+    type: BIGINT
+  - name: collected_ddebt_agency_cnt
+    type: BIGINT
+  - name: collected_ddebt_other_amt
+    type: BIGINT
+  - name: collected_ddebt_other_cnt
+    type: BIGINT
+  - name: collected_ddebt_total_amt
+    type: BIGINT
+  - name: collected_ddebt_total_cnt
+    type: BIGINT
+  - name: cnc_prv_cltn_agcy_amt
+    type: BIGINT
+  - name: cnc_prv_cltn_agcy_cnt
+    type: BIGINT
+  - name: cnc_treas_cs_amt
+    type: BIGINT
+  - name: cnc_treas_cs_cnt
+    type: BIGINT
+  - name: cnc_treas_top_amt
+    type: BIGINT
+  - name: cnc_treas_top_cnt
+    type: BIGINT
+  - name: cnc_other_amt
+    type: BIGINT
+  - name: cnc_other_cnt
+    type: BIGINT
+  - name: cnc_total_amt
+    type: BIGINT
+  - name: cnc_total_cnt
+    type: BIGINT
+  - name: cnc_closed_out_current_fy_amt
+    type: BIGINT
+  - name: cnc_closed_out_current_fy_cnt
+    type: BIGINT
+  - name: closed_out_previous_cal_yr_amt
+    type: BIGINT
+  - name: closed_out_previous_cal_yr_cnt
+    type: BIGINT
+  - name: reported_irs_1099c_amt
+    type: BIGINT
+  - name: reported_irs_1099c_cnt
+    type: BIGINT
+  - name: not_required_irs_1099c_amt
+    type: BIGINT
+  - name: not_required_irs_1099c_cnt
+    type: BIGINT
+  - name: not_reported_irs_1099c_amt
+    type: BIGINT
+  - name: not_reported_irs_1099c_cnt
+    type: BIGINT
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

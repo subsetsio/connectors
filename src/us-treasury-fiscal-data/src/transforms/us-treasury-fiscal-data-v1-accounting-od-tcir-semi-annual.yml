@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-tcir-semi-annual`. Regenerate after model-verify.
+key: [effective_start_date, effective_date_range, record_date, legislation, src_line_nbr]
+temporal: record_date
+sort: [record_date, effective_start_date, effective_date_range, legislation, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: legislation
+    type: VARCHAR
+  - name: effective_start_date
+    type: DATE
+  - name: effective_date_range
+    type: VARCHAR
+  - name: calendar_year_rate
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT

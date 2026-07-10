@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-utf-transaction-subtotals`. Regenerate after model-verify.
+key: [eff_date, trans_desc_cd, acct_nbr]
+temporal: eff_date
+sort: [eff_date, trans_desc_cd, acct_nbr]
+columns:
+  - name: trans_statement
+    type: VARCHAR
+  - name: eff_date
+    type: DATE
+  - name: trans_desc_cd
+    type: VARCHAR
+  - name: shares_per_par
+    type: DOUBLE
+  - name: acct_nbr
+    type: VARCHAR
+  - name: acct_desc
+    type: VARCHAR
+  - name: report_type
+    type: VARCHAR
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

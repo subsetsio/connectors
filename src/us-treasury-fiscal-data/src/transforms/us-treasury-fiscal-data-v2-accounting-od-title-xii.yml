@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v2-accounting-od-title-xii`. Regenerate after model-verify.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: state_nm
+    type: VARCHAR
+  - name: interest_rate_pct
+    type: DOUBLE
+  - name: outstanding_advance_bal
+    type: DOUBLE
+  - name: advance_auth_month_amt
+    type: DOUBLE
+  - name: gross_advance_draws_month_amt
+    type: DOUBLE
+  - name: interest_accrued_fytd_amt
+    type: DOUBLE
+  - name: interest_paid_amt
+    type: DOUBLE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

@@ -1,0 +1,48 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-buybacks-operations`. Regenerate after model-verify.
+key: [operation_date, operation_start_time_est]
+temporal: operation_date
+sort: [operation_date, operation_start_time_est]
+columns:
+  - name: operation_date
+    type: DATE
+  - name: operation_start_time_est
+    type: VARCHAR
+  - name: operation_close_time_est
+    type: VARCHAR
+  - name: settlement_date
+    type: DATE
+  - name: preliminary_ann_pdf
+    type: VARCHAR
+  - name: preliminary_ann_xml
+    type: VARCHAR
+  - name: final_ann_pdf
+    type: VARCHAR
+  - name: final_ann_xml
+    type: VARCHAR
+  - name: results_pdf
+    type: VARCHAR
+  - name: results_xml
+    type: VARCHAR
+  - name: special_ann_pdf
+    type: VARCHAR
+  - name: operation_type
+    type: VARCHAR
+  - name: security_type
+    type: VARCHAR
+  - name: maturity_bucket
+    type: VARCHAR
+  - name: nbr_issues_accepted
+    type: VARCHAR
+  - name: total_par_amt_offered
+    type: DOUBLE
+  - name: par_amt_per_offer
+    type: DOUBLE
+  - name: max_par_amt_redeemed
+    type: VARCHAR
+  - name: max_nbr_offers
+    type: VARCHAR
+  - name: nbr_issues_eligible
+    type: BIGINT
+  - name: total_par_amt_accepted
+    type: VARCHAR

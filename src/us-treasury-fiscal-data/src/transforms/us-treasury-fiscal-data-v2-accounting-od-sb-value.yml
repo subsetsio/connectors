@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v2-accounting-od-sb-value`. Regenerate after model-verify.
+key: [redemp_period, src_line_nbr]
+temporal: redemp_period
+sort: [redemp_period, src_line_nbr]
+columns:
+  - name: redemp_period
+    type: DATE
+  - name: redemption_year
+    type: BIGINT
+  - name: redemption_month
+    type: BIGINT
+  - name: series_cd
+    type: VARCHAR
+  - name: issue_year
+    type: BIGINT
+  - name: issue_jan_amt
+    type: VARCHAR
+  - name: issue_feb_amt
+    type: VARCHAR
+  - name: issue_mar_amt
+    type: VARCHAR
+  - name: issue_apr_amt
+    type: VARCHAR
+  - name: issue_may_amt
+    type: VARCHAR
+  - name: issue_jun_amt
+    type: VARCHAR
+  - name: issue_jul_amt
+    type: VARCHAR
+  - name: issue_aug_amt
+    type: VARCHAR
+  - name: issue_sep_amt
+    type: VARCHAR
+  - name: issue_oct_amt
+    type: VARCHAR
+  - name: issue_nov_amt
+    type: VARCHAR
+  - name: issue_dec_amt
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT

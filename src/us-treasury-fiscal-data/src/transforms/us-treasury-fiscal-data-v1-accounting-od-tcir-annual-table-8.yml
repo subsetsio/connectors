@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-tcir-annual-table-8`. Regenerate after model-verify.
+# caution: One `record_date` carries many `fiscal_year` rows — `fiscal_year` is part of the row identity, because each publication restates a whole block of years. Filter or group by `fiscal_year` before aggregating.
+key: [record_date, fiscal_year, legislation, src_line_nbr]
+temporal: record_date
+sort: [record_date, fiscal_year, legislation, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: table_nm
+    type: VARCHAR
+  - name: legislation
+    type: VARCHAR
+  - name: fiscal_year
+    type: BIGINT
+  - name: fiscal_year_rate
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-tcir-monthly-table-3`. Regenerate after model-verify.
+key: [record_date, table_nm, legislation, src_line_nbr]
+temporal: record_date
+sort: [record_date, table_nm, legislation, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: table_nm
+    type: VARCHAR
+  - name: legislation
+    type: VARCHAR
+  - name: monthly_rate
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT

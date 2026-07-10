@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-reconciliations`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `line_item_desc` ('Subtotal - components of net operating cost not part of budget deficit', 'Subtotal - components of the budget deficit that are not part of net operating cost', 'Subtotal - excess of accrual-basis expenses over budget outlays', …). Summing an amount column without excluding them double-counts.
+# caution: One `record_date` carries many `stmt_fiscal_year` rows — `stmt_fiscal_year` is part of the row identity, because each publication restates a whole block of years. Filter or group by `stmt_fiscal_year` before aggregating.
+key: [record_date, stmt_fiscal_year, src_line_nbr]
+temporal: record_date
+sort: [record_date, stmt_fiscal_year, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: stmt_fiscal_year
+    type: BIGINT
+  - name: restmt_flag
+    type: VARCHAR
+  - name: account_desc
+    type: VARCHAR
+  - name: component_desc
+    type: VARCHAR
+  - name: line_item_desc
+    type: VARCHAR
+  - name: position_bil_amt
+    type: DOUBLE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

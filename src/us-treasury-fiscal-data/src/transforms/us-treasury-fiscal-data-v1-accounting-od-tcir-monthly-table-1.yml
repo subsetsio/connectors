@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-tcir-monthly-table-1`. Regenerate after model-verify.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: table_nm
+    type: VARCHAR
+  - name: maturity
+    type: VARCHAR
+  - name: previous_month_year
+    type: VARCHAR
+  - name: rate_used_for_prev_month_year
+    type: VARCHAR
+  - name: current_month_year
+    type: VARCHAR
+  - name: rate_ind_for_curr_month_year
+    type: VARCHAR
+  - name: rate_change
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT

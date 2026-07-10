@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `us-treasury-fiscal-data-v1-accounting-od-tcir-semi-annual`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [effective_start_date, effective_date_range, record_date, legislation, src_line_nbr]
+temporal: record_date
+checks:
+  - kind: unique
+    columns: [effective_start_date, effective_date_range, record_date, legislation, src_line_nbr]
+  - kind: not_null
+    col: effective_start_date
+  - kind: not_null
+    col: effective_date_range
+  - kind: not_null
+    col: record_date
+  - kind: not_null
+    col: legislation
+  - kind: not_null
+    col: src_line_nbr
+  - kind: row_floor
+    min: 60
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `us-treasury-fiscal-data-v1-accounting-dts-operating-cash-balance`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [record_date, src_line_nbr]
+temporal: record_date
+checks:
+  - kind: unique
+    columns: [record_date, src_line_nbr]
+  - kind: not_null
+    col: record_date
+  - kind: not_null
+    col: src_line_nbr
+  - kind: row_floor
+    min: 8211
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

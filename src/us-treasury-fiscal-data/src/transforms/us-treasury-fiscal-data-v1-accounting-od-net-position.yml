@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-net-position`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `line_item_desc` ('Total net cost', 'Total revenue'). Summing an amount column without excluding them double-counts.
+# caution: One `record_date` carries many `stmt_fiscal_year` rows — `stmt_fiscal_year` is part of the row identity, because each publication restates a whole block of years. Filter or group by `stmt_fiscal_year` before aggregating.
+key: [record_date, stmt_fiscal_year, src_line_nbr]
+temporal: record_date
+sort: [record_date, stmt_fiscal_year, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: stmt_fiscal_year
+    type: BIGINT
+  - name: restmt_flag
+    type: VARCHAR
+  - name: account_desc
+    type: VARCHAR
+  - name: line_item_desc
+    type: VARCHAR
+  - name: non_dedicated_funds_bil_amt
+    type: VARCHAR
+  - name: dedicated_funds_bil_amt
+    type: VARCHAR
+  - name: eliminations_bil_amt
+    type: VARCHAR
+  - name: consolidated_bil_amt
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-tcir-quarterly-table-1`. Regenerate after model-verify.
+# caution: One `record_date` carries many `year` rows — `year` is part of the row identity, because each publication restates a whole block of years. Filter or group by `year` before aggregating.
+key: [record_date, year, src_line_nbr]
+temporal: record_date
+sort: [record_date, year, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: table_nm
+    type: VARCHAR
+  - name: month
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: dollar_amt_sold
+    type: DOUBLE
+  - name: avg_yield_to_maturity
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT

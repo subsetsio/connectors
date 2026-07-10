@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-securities-transfers`. Regenerate after model-verify.
+key: [record_date]
+temporal: record_date
+sort: [record_date]
+columns:
+  - name: record_date
+    type: DATE
+  - name: from_legacy_system_cnt
+    type: VARCHAR
+  - name: from_legacy_system_amt
+    type: VARCHAR
+  - name: from_commercial_book_entry_cnt
+    type: VARCHAR
+  - name: from_commercial_book_entry_amt
+    type: VARCHAR
+  - name: total_incoming_transfers_cnt
+    type: BIGINT
+  - name: total_incoming_transfers_amt
+    type: DOUBLE
+  - name: trans_month
+    type: BIGINT
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

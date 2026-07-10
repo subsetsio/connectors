@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-dts-adjustment-public-debt-transactions-cash-basis`. Regenerate after model-verify.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: transaction_type
+    type: VARCHAR
+  - name: adj_type
+    type: VARCHAR
+  - name: adj_type_desc
+    type: VARCHAR
+  - name: adj_today_amt
+    type: BIGINT
+  - name: adj_mtd_amt
+    type: BIGINT
+  - name: adj_fytd_amt
+    type: BIGINT
+  - name: table_nbr
+    type: VARCHAR
+  - name: table_nm
+    type: VARCHAR
+  - name: sub_table_name
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

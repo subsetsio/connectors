@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v2-debt-tror-data-act-compliance`. Regenerate after model-verify.
+key: [record_date, agency_nm, bureau_nm]
+temporal: record_date
+sort: [record_date, agency_nm, bureau_nm]
+columns:
+  - name: record_date
+    type: DATE
+  - name: agency_bureau_indicator
+    type: VARCHAR
+  - name: agency_nm
+    type: VARCHAR
+  - name: bureau_nm
+    type: VARCHAR
+  - name: total_eligible_debt_amt
+    type: VARCHAR
+  - name: total_eligible_debt_cnt
+    type: VARCHAR
+  - name: eligible_debt_referred_amt
+    type: VARCHAR
+  - name: eligible_debt_referred_cnt
+    type: VARCHAR
+  - name: eligible_debt_not_referred_amt
+    type: VARCHAR
+  - name: eligible_debt_not_referred_cnt
+    type: VARCHAR
+  - name: compliance_rate_amt
+    type: VARCHAR
+  - name: compliance_rate_cnt
+    type: VARCHAR
+  - name: cfo_agency_indicator
+    type: VARCHAR
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

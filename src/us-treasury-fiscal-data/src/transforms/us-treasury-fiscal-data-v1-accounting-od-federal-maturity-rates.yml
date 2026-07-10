@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-federal-maturity-rates`. Regenerate after model-verify.
+key: [record_date]
+temporal: record_date
+sort: [record_date]
+columns:
+  - name: record_date
+    type: DATE
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: one_year_or_less
+    type: DOUBLE
+  - name: between_1_and_5_years
+    type: DOUBLE
+  - name: between_5_and_10_years
+    type: DOUBLE
+  - name: between_10_and_20_years
+    type: DOUBLE
+  - name: twenty_years_or_greater
+    type: DOUBLE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

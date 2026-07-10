@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-dts-operating-cash-balance`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `account_type` ('Total TGA Deposits (Table II)', 'Total TGA Withdrawals (Table II) (-)'). Summing an amount column without excluding them double-counts.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: account_type
+    type: VARCHAR
+  - name: close_today_bal
+    type: VARCHAR
+  - name: open_today_bal
+    type: BIGINT
+  - name: open_month_bal
+    type: BIGINT
+  - name: open_fiscal_year_bal
+    type: BIGINT
+  - name: table_nbr
+    type: VARCHAR
+  - name: table_nm
+    type: VARCHAR
+  - name: sub_table_name
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

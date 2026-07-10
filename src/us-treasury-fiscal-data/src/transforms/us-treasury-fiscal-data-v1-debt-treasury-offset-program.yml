@@ -1,0 +1,90 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-debt-treasury-offset-program`. Regenerate after model-verify.
+key: [record_date, row_index_nbr]
+temporal: record_date
+sort: [record_date, row_index_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: row_index_nbr
+    type: BIGINT
+  - name: net_offset_cnt
+    type: BIGINT
+  - name: net_offset_amt
+    type: DOUBLE
+  - name: mixed_stream
+    type: VARCHAR
+  - name: state_or_agency
+    type: VARCHAR
+  - name: month_nm
+    type: VARCHAR
+  - name: agency_full_cd_nm
+    type: VARCHAR
+  - name: net_dms_fee_amt
+    type: DOUBLE
+  - name: cycle_nbr
+    type: BIGINT
+  - name: cycle
+    type: BIGINT
+  - name: cycle_end_dt
+    type: DATE
+  - name: cycle_start_dt
+    type: DATE
+  - name: agency_nm
+    type: VARCHAR
+  - name: agency_id
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: agency_site
+    type: VARCHAR
+  - name: agency_site_cd
+    type: VARCHAR
+  - name: agency_site_id
+    type: VARCHAR
+  - name: payment_category
+    type: VARCHAR
+  - name: payment_type_cd
+    type: VARCHAR
+  - name: payment_agency_nm
+    type: VARCHAR
+  - name: payment_type
+    type: VARCHAR
+  - name: payment_source
+    type: VARCHAR
+  - name: debt_category
+    type: VARCHAR
+  - name: payment_agency_id
+    type: VARCHAR
+  - name: sent_to_acct_dt
+    type: DATE
+  - name: fiscal_year
+    type: BIGINT
+  - name: fiscal_month
+    type: VARCHAR
+  - name: offset_cnt
+    type: BIGINT
+  - name: offset_amt
+    type: DOUBLE
+  - name: reversal_cnt
+    type: BIGINT
+  - name: reversal_amt
+    type: DOUBLE
+  - name: state_cd
+    type: VARCHAR
+  - name: reversal_requestor
+    type: VARCHAR
+  - name: payment_source_cd
+    type: VARCHAR
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

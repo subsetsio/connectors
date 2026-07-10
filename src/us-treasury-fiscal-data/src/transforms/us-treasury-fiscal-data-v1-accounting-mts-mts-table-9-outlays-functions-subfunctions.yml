@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-mts-mts-table-9-outlays-functions-subfunctions`. Regenerate after model-verify.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: function_desc
+    type: VARCHAR
+  - name: sub_function_desc
+    type: VARCHAR
+  - name: current_month_outly_amt
+    type: DOUBLE
+  - name: current_fytd_outly_amt
+    type: DOUBLE
+  - name: prior_fytd_outly_amt
+    type: DOUBLE
+  - name: table_nbr
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: print_order_nbr
+    type: BIGINT
+  - name: line_code_nbr
+    type: BIGINT
+  - name: sequence_number_cd
+    type: DOUBLE
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

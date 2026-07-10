@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-upcoming-auctions`. Regenerate after model-verify.
+key: [auction_date, security_term]
+temporal: record_date
+sort: [record_date, auction_date, security_term]
+columns:
+  - name: record_date
+    type: DATE
+  - name: security_type
+    type: VARCHAR
+  - name: security_term
+    type: VARCHAR
+  - name: reopening
+    type: VARCHAR
+  - name: cusip
+    type: VARCHAR
+  - name: offering_amt
+    type: VARCHAR
+  - name: announcemt_date
+    type: DATE
+  - name: auction_date
+    type: DATE
+  - name: issue_date
+    type: DATE

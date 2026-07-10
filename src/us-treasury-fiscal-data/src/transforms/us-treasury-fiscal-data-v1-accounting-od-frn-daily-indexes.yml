@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-frn-daily-indexes`. Regenerate after model-verify.
+key: [record_date, cusip, start_of_accrual_period]
+temporal: record_date
+sort: [record_date, cusip, start_of_accrual_period]
+columns:
+  - name: record_date
+    type: DATE
+  - name: frn
+    type: VARCHAR
+  - name: cusip
+    type: VARCHAR
+  - name: original_dated_date
+    type: DATE
+  - name: original_issue_date
+    type: DATE
+  - name: maturity_date
+    type: DATE
+  - name: spread
+    type: DOUBLE
+  - name: start_of_accrual_period
+    type: DATE
+  - name: end_of_accrual_period
+    type: DATE
+  - name: daily_index
+    type: DOUBLE
+  - name: daily_int_accrual_rate
+    type: DOUBLE
+  - name: daily_accrued_int_per100
+    type: DOUBLE
+  - name: accr_int_per100_pmt_period
+    type: DOUBLE

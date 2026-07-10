@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v2-accounting-od-record-setting-auction`. Regenerate after model-verify.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: security_type
+    type: VARCHAR
+  - name: security_term
+    type: VARCHAR
+  - name: first_auc_date_single_price
+    type: DATE
+  - name: low_rate_pct
+    type: DOUBLE
+  - name: first_auc_date_low_rate
+    type: DATE
+  - name: high_rate_pct
+    type: DOUBLE
+  - name: first_auc_date_high_rate
+    type: DATE
+  - name: high_offer_amt
+    type: BIGINT
+  - name: first_auc_date_high_offer
+    type: DATE
+  - name: high_bid_cover_ratio
+    type: DOUBLE
+  - name: first_auc_date_high_bid_cover
+    type: DATE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-debt-mspd-mspd-table-5`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `security_class1_desc` ('Grand Total'); `security_class2_desc` ('Total Inflation-Indexed Bonds', 'Total Inflation-Indexed Notes', 'Total Treasury Bonds', …). Summing an amount column without excluding them double-counts.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: cusip
+    type: VARCHAR
+  - name: security_class1_desc
+    type: VARCHAR
+  - name: security_class2_desc
+    type: VARCHAR
+  - name: interest_rate_pct
+    type: VARCHAR
+  - name: maturity_date
+    type: VARCHAR
+  - name: outstanding_amt
+    type: DOUBLE
+  - name: portion_unstripped_amt
+    type: DOUBLE
+  - name: portion_stripped_amt
+    type: BIGINT
+  - name: reconstituted_amt
+    type: BIGINT
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

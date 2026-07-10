@@ -1,0 +1,55 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-debt-mspd-mspd-table-3-market`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `security_class1_desc` ('Total Marketable'); `security_class2_desc` ('Total Matured Treasury Bills', 'Total Matured Treasury Bonds', 'Total Matured Treasury Floating Rate Notes', …). Summing an amount column without excluding them double-counts.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: security_type_desc
+    type: VARCHAR
+  - name: security_class1_desc
+    type: VARCHAR
+  - name: security_class2_desc
+    type: VARCHAR
+  - name: series_cd
+    type: VARCHAR
+  - name: interest_rate_pct
+    type: VARCHAR
+  - name: yield_pct
+    type: VARCHAR
+  - name: issue_date
+    type: VARCHAR
+  - name: maturity_date
+    type: VARCHAR
+  - name: interest_pay_date_1
+    type: VARCHAR
+  - name: interest_pay_date_2
+    type: VARCHAR
+  - name: interest_pay_date_3
+    type: VARCHAR
+  - name: interest_pay_date_4
+    type: VARCHAR
+  - name: issued_amt
+    type: VARCHAR
+  - name: inflation_adj_amt
+    type: VARCHAR
+  - name: redeemed_amt
+    type: VARCHAR
+  - name: outstanding_amt
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

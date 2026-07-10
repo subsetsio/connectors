@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-fbp-balances`. Regenerate after model-verify.
+key: [record_date, account_nbr, security_nbr]
+temporal: record_date
+sort: [record_date, account_nbr, security_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: account_nbr
+    type: VARCHAR
+  - name: account_desc
+    type: VARCHAR
+  - name: security_nbr
+    type: VARCHAR
+  - name: segment_desc
+    type: VARCHAR
+  - name: loans_receivable_amt
+    type: DOUBLE
+  - name: interest_receivable_amt
+    type: DOUBLE
+  - name: capitalized_int_receivable_amt
+    type: DOUBLE
+  - name: amortization_amt
+    type: DOUBLE
+  - name: maturity_date
+    type: VARCHAR
+  - name: interest_rate_pct
+    type: DOUBLE
+  - name: sort_order_primary
+    type: BIGINT
+  - name: sort_order_secondary
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-schedules-fed-debt-daily-summary`. Regenerate after model-verify.
+key: [record_date]
+temporal: record_date
+sort: [record_date]
+columns:
+  - name: record_date
+    type: DATE
+  - name: public_principal_mil_amt
+    type: DOUBLE
+  - name: public_accr_int_pay_mil_amt
+    type: DOUBLE
+  - name: public_net_unamortized_mil_amt
+    type: DOUBLE
+  - name: intragov_principal_mil_amt
+    type: DOUBLE
+  - name: intragov_accr_int_pay_mil_amt
+    type: DOUBLE
+  - name: intragov_net_unamort_mil_amt
+    type: DOUBLE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

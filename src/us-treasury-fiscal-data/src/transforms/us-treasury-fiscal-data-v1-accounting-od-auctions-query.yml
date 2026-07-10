@@ -1,0 +1,234 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-auctions-query`. Regenerate after model-verify.
+key: [record_date, cusip]
+temporal: record_date
+sort: [record_date, cusip]
+columns:
+  - name: record_date
+    type: DATE
+  - name: cusip
+    type: VARCHAR
+  - name: security_type
+    type: VARCHAR
+  - name: security_term
+    type: VARCHAR
+  - name: auction_date
+    type: DATE
+  - name: issue_date
+    type: DATE
+  - name: maturity_date
+    type: DATE
+  - name: price_per100
+    type: VARCHAR
+  - name: accrued_int_per100
+    type: VARCHAR
+  - name: accrued_int_per1000
+    type: VARCHAR
+  - name: adj_accrued_int_per1000
+    type: VARCHAR
+  - name: adj_price
+    type: VARCHAR
+  - name: allocation_pctage
+    type: VARCHAR
+  - name: allocation_pctage_decimals
+    type: VARCHAR
+  - name: announcemtd_cusip
+    type: VARCHAR
+  - name: announcemt_date
+    type: DATE
+  - name: auction_format
+    type: VARCHAR
+  - name: avg_med_discnt_rate
+    type: VARCHAR
+  - name: avg_med_investment_rate
+    type: VARCHAR
+  - name: avg_med_price
+    type: VARCHAR
+  - name: avg_med_discnt_margin
+    type: VARCHAR
+  - name: avg_med_yield
+    type: VARCHAR
+  - name: back_dated
+    type: VARCHAR
+  - name: back_dated_date
+    type: VARCHAR
+  - name: bid_to_cover_ratio
+    type: VARCHAR
+  - name: callable
+    type: VARCHAR
+  - name: call_date
+    type: VARCHAR
+  - name: called_date
+    type: VARCHAR
+  - name: cash_management_bill_cmb
+    type: VARCHAR
+  - name: closing_time_comp
+    type: VARCHAR
+  - name: closing_time_noncomp
+    type: VARCHAR
+  - name: comp_accepted
+    type: VARCHAR
+  - name: comp_bid_decimals
+    type: VARCHAR
+  - name: comp_tendered
+    type: VARCHAR
+  - name: comp_tenders_accepted
+    type: VARCHAR
+  - name: corpus_cusip
+    type: VARCHAR
+  - name: cpi_base_reference_period
+    type: VARCHAR
+  - name: currently_outstanding
+    type: VARCHAR
+  - name: dated_date
+    type: VARCHAR
+  - name: direct_bidder_accepted
+    type: VARCHAR
+  - name: direct_bidder_tendered
+    type: VARCHAR
+  - name: est_pub_held_mat_by_type_amt
+    type: VARCHAR
+  - name: fima_included
+    type: VARCHAR
+  - name: fima_noncomp_accepted
+    type: VARCHAR
+  - name: fima_noncomp_tendered
+    type: VARCHAR
+  - name: first_int_period
+    type: VARCHAR
+  - name: first_int_payment_date
+    type: VARCHAR
+  - name: floating_rate
+    type: VARCHAR
+  - name: frn_index_determination_date
+    type: VARCHAR
+  - name: frn_index_determination_rate
+    type: VARCHAR
+  - name: high_discnt_rate
+    type: VARCHAR
+  - name: high_investment_rate
+    type: VARCHAR
+  - name: high_price
+    type: VARCHAR
+  - name: high_discnt_margin
+    type: VARCHAR
+  - name: high_yield
+    type: VARCHAR
+  - name: index_ratio_on_issue_date
+    type: VARCHAR
+  - name: indirect_bidder_accepted
+    type: VARCHAR
+  - name: indirect_bidder_tendered
+    type: VARCHAR
+  - name: int_payment_frequency
+    type: VARCHAR
+  - name: int_rate
+    type: VARCHAR
+  - name: low_discnt_rate
+    type: VARCHAR
+  - name: low_investment_rate
+    type: VARCHAR
+  - name: low_price
+    type: VARCHAR
+  - name: low_discnt_margin
+    type: VARCHAR
+  - name: low_yield
+    type: VARCHAR
+  - name: mat_date
+    type: VARCHAR
+  - name: max_comp_award
+    type: VARCHAR
+  - name: max_noncomp_award
+    type: VARCHAR
+  - name: max_single_bid
+    type: VARCHAR
+  - name: min_bid_amt
+    type: VARCHAR
+  - name: min_strip_amt
+    type: VARCHAR
+  - name: min_to_issue
+    type: VARCHAR
+  - name: multiples_to_bid
+    type: VARCHAR
+  - name: multiples_to_issue
+    type: VARCHAR
+  - name: nlp_exclusion_amt
+    type: VARCHAR
+  - name: nlp_reporting_threshold
+    type: VARCHAR
+  - name: noncomp_accepted
+    type: VARCHAR
+  - name: noncomp_tenders_accepted
+    type: VARCHAR
+  - name: offering_amt
+    type: BIGINT
+  - name: original_cusip
+    type: VARCHAR
+  - name: original_dated_date
+    type: VARCHAR
+  - name: original_issue_date
+    type: VARCHAR
+  - name: original_security_term
+    type: VARCHAR
+  - name: pdf_filenm_announcemt
+    type: VARCHAR
+  - name: pdf_filenm_comp_results
+    type: VARCHAR
+  - name: pdf_filenm_noncomp_results
+    type: VARCHAR
+  - name: primary_dealer_accepted
+    type: VARCHAR
+  - name: primary_dealer_tendered
+    type: VARCHAR
+  - name: ref_cpi_on_dated_date
+    type: VARCHAR
+  - name: ref_cpi_on_issue_date
+    type: VARCHAR
+  - name: reopening
+    type: VARCHAR
+  - name: security_term_day_month
+    type: VARCHAR
+  - name: security_term_week_year
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: soma_accepted
+    type: VARCHAR
+  - name: soma_holdings
+    type: VARCHAR
+  - name: soma_included
+    type: VARCHAR
+  - name: soma_tendered
+    type: VARCHAR
+  - name: spread
+    type: VARCHAR
+  - name: std_int_payment_per1000
+    type: VARCHAR
+  - name: strippable
+    type: VARCHAR
+  - name: tiin_conversion_factor_per1000
+    type: VARCHAR
+  - name: total_accepted
+    type: VARCHAR
+  - name: total_tendered
+    type: VARCHAR
+  - name: treas_retail_accepted
+    type: VARCHAR
+  - name: treas_retail_tenders_accepted
+    type: VARCHAR
+  - name: unadj_accrued_int_per1000
+    type: VARCHAR
+  - name: unadj_price
+    type: VARCHAR
+  - name: xml_filenm_announcemt
+    type: VARCHAR
+  - name: xml_filenm_comp_results
+    type: VARCHAR
+  - name: inflation_index_security
+    type: VARCHAR
+  - name: tint_cusip_1
+    type: VARCHAR
+  - name: tint_cusip_2
+    type: VARCHAR
+  - name: pdf_filenm_spec_announcemt
+    type: VARCHAR

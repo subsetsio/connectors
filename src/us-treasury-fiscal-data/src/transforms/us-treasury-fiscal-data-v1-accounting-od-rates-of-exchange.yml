@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-rates-of-exchange`. Regenerate after model-verify.
+# caution: `record_date` is the publication date; `effective_date` is when the value applies. They differ — use `effective_date` for as-of analysis.
+key: [effective_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, effective_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: country
+    type: VARCHAR
+  - name: currency
+    type: VARCHAR
+  - name: country_currency_desc
+    type: VARCHAR
+  - name: exchange_rate
+    type: DOUBLE
+  - name: effective_date
+    type: DATE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

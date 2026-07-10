@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-tma-unclaimed-money`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `agency_location_cd` ('Total'); `agency_nm` ('Grand Total'). Summing an amount column without excluding them double-counts.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: agency_nm
+    type: VARCHAR
+  - name: agency_location_cd
+    type: VARCHAR
+  - name: prev_fy_end_account_bal_amt
+    type: DOUBLE
+  - name: fytd_account_activity_amt
+    type: DOUBLE
+  - name: account_bal_amt
+    type: DOUBLE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

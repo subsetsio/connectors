@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-tb-ffo6-customs-border-protection-collections`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `port_cd` ('Total'); `port_nm` ('Total'). Summing an amount column without excluding them double-counts.
+# caution: One `record_date` carries many `collection_fiscal_year` rows — `collection_fiscal_year` is part of the row identity, because each publication restates a whole block of years. Filter or group by `collection_fiscal_year` before aggregating.
+key: [collection_fiscal_year, src_line_nbr]
+temporal: record_date
+sort: [record_date, collection_fiscal_year, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: collection_fiscal_year
+    type: DATE
+  - name: district_nm
+    type: VARCHAR
+  - name: port_nm
+    type: VARCHAR
+  - name: port_cd
+    type: VARCHAR
+  - name: collection_amt
+    type: DOUBLE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: BIGINT
+  - name: record_calendar_day
+    type: VARCHAR

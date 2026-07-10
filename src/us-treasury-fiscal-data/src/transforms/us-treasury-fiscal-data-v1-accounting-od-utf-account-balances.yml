@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-utf-account-balances`. Regenerate after model-verify.
+key: [eff_date, acct_statement]
+temporal: eff_date
+sort: [eff_date, acct_statement]
+columns:
+  - name: acct_statement
+    type: VARCHAR
+  - name: eff_date
+    type: DATE
+  - name: shares_per_par
+    type: DOUBLE
+  - name: balance_type
+    type: VARCHAR
+  - name: acct_nbr
+    type: VARCHAR
+  - name: acct_desc
+    type: VARCHAR
+  - name: report_type
+    type: VARCHAR
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

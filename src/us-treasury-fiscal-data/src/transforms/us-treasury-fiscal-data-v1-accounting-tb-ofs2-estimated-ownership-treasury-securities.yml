@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-tb-ofs2-estimated-ownership-treasury-securities`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `securities_owner` ('Total Privately Held', 'Total Public Debt'). Summing an amount column without excluding them double-counts.
+key: [end_of_month, securities_owner]
+temporal: record_date
+sort: [record_date, end_of_month, securities_owner]
+columns:
+  - name: record_date
+    type: DATE
+  - name: end_of_month
+    type: DATE
+  - name: securities_owner
+    type: VARCHAR
+  - name: securities_bil_amt
+    type: VARCHAR
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

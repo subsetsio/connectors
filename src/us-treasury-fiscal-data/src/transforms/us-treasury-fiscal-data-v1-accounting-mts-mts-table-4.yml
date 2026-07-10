@@ -1,0 +1,61 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-mts-mts-table-4`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `classification_desc` ('Total -- Employment and General Retirement', 'Total -- Excise Taxes', 'Total -- Federal Disability Insurance Trust Fund', …). Summing an amount column without excluding them double-counts.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: parent_id
+    type: VARCHAR
+  - name: classification_id
+    type: BIGINT
+  - name: classification_desc
+    type: VARCHAR
+  - name: current_month_gross_rcpt_amt
+    type: VARCHAR
+  - name: current_month_refund_amt
+    type: VARCHAR
+  - name: current_month_net_rcpt_amt
+    type: VARCHAR
+  - name: current_fytd_gross_rcpt_amt
+    type: VARCHAR
+  - name: current_fytd_refund_amt
+    type: VARCHAR
+  - name: current_fytd_net_rcpt_amt
+    type: VARCHAR
+  - name: prior_fytd_gross_rcpt_amt
+    type: VARCHAR
+  - name: prior_fytd_refund_amt
+    type: VARCHAR
+  - name: prior_fytd_net_rcpt_amt
+    type: VARCHAR
+  - name: table_nbr
+    type: BIGINT
+  - name: src_line_nbr
+    type: BIGINT
+  - name: print_order_nbr
+    type: BIGINT
+  - name: line_code_nbr
+    type: BIGINT
+  - name: data_type_cd
+    type: VARCHAR
+  - name: record_type_cd
+    type: VARCHAR
+  - name: sequence_level_nbr
+    type: BIGINT
+  - name: sequence_number_cd
+    type: VARCHAR
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

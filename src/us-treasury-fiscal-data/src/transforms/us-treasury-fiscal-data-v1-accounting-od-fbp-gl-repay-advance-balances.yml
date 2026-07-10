@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-fbp-gl-repay-advance-balances`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `account_cd` ('Grand Total'). Summing an amount column without excluding them double-counts.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: account_cd
+    type: VARCHAR
+  - name: dept_cd
+    type: VARCHAR
+  - name: loans_receivable_amt
+    type: DOUBLE
+  - name: capitalized_int_receivable_amt
+    type: DOUBLE
+  - name: interest_receivable_amt
+    type: DOUBLE
+  - name: interest_revenue_amt
+    type: DOUBLE
+  - name: gain_amt
+    type: DOUBLE
+  - name: loss_amt
+    type: DOUBLE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

@@ -1,0 +1,55 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-mts-mts-table-6`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `classification_desc` ('Total Asset Accounts', 'Total Borrowing from the Public', 'Total Budget and Off-Budget Federal Entities (Financing of Deficit (+) or Disposition of Surplus (-))', …). Summing an amount column without excluding them double-counts.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: parent_id
+    type: VARCHAR
+  - name: classification_id
+    type: BIGINT
+  - name: classification_desc
+    type: VARCHAR
+  - name: current_month_net_txn_amt
+    type: VARCHAR
+  - name: fytd_net_txn_amt
+    type: VARCHAR
+  - name: prior_fytd_net_txn_amt
+    type: VARCHAR
+  - name: begin_year_acct_bal_amt
+    type: VARCHAR
+  - name: begin_month_acct_bal_amt
+    type: VARCHAR
+  - name: close_month_acct_bal_amt
+    type: VARCHAR
+  - name: table_nbr
+    type: BIGINT
+  - name: src_line_nbr
+    type: BIGINT
+  - name: print_order_nbr
+    type: BIGINT
+  - name: line_code_nbr
+    type: BIGINT
+  - name: data_type_cd
+    type: VARCHAR
+  - name: record_type_cd
+    type: VARCHAR
+  - name: sequence_level_nbr
+    type: BIGINT
+  - name: sequence_number_cd
+    type: VARCHAR
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

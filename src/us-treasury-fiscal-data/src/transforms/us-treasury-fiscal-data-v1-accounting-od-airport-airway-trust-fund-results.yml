@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-airport-airway-trust-fund-results`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `component_desc` ('Total expenses', 'Total receipts'); `line_item_desc` ('Total expenses', 'Total receipts', 'Total refunds of taxes'). Summing an amount column without excluding them double-counts.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: fiscal_year
+    type: BIGINT
+  - name: table_nbr
+    type: VARCHAR
+  - name: table_nm
+    type: VARCHAR
+  - name: account_desc
+    type: VARCHAR
+  - name: component_desc
+    type: VARCHAR
+  - name: line_item_desc
+    type: VARCHAR
+  - name: irc_section_cd
+    type: VARCHAR
+  - name: fiscal_year_amt
+    type: BIGINT
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

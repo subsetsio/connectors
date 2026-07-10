@@ -1,0 +1,86 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-slgs-securities`. Regenerate after model-verify.
+key: [record_date]
+temporal: record_date
+sort: [record_date]
+columns:
+  - name: record_date
+    type: DATE
+  - name: new_subscriptions_cnt
+    type: BIGINT
+  - name: new_subscriptions_amt
+    type: DOUBLE
+  - name: cancelled_subscriptions_cnt
+    type: BIGINT
+  - name: cancelled_subscriptions_amt
+    type: DOUBLE
+  - name: issues_0_3_mos_cnt
+    type: BIGINT
+  - name: issues_0_3_mos_amt
+    type: DOUBLE
+  - name: issues_3_6_mos_cnt
+    type: BIGINT
+  - name: issues_3_6_mos_amt
+    type: DOUBLE
+  - name: issues_6_mos_to_2_yrs_cnt
+    type: BIGINT
+  - name: issues_6_mos_to_2_yrs_amt
+    type: DOUBLE
+  - name: issues_2_5_yrs_cnt
+    type: BIGINT
+  - name: issues_2_5_yrs_amt
+    type: DOUBLE
+  - name: issues_5_10_yrs_cnt
+    type: BIGINT
+  - name: issues_5_10_yrs_amt
+    type: DOUBLE
+  - name: issues_over_10_yrs_cnt
+    type: BIGINT
+  - name: issues_over_10_yrs_amt
+    type: DOUBLE
+  - name: outstanding_0_3_mos_cnt
+    type: BIGINT
+  - name: outstanding_0_3_mos_amt
+    type: DOUBLE
+  - name: outstanding_3_6_mos_cnt
+    type: BIGINT
+  - name: outstanding_3_6_mos_amt
+    type: DOUBLE
+  - name: outstanding_6_mos_to_2_yrs_cnt
+    type: BIGINT
+  - name: outstanding_6_mos_to_2_yrs_amt
+    type: DOUBLE
+  - name: outstanding_2_5_yrs_cnt
+    type: BIGINT
+  - name: outstanding_2_5_yrs_amt
+    type: DOUBLE
+  - name: outstanding_5_10_yrs_cnt
+    type: BIGINT
+  - name: outstanding_5_10_yrs_amt
+    type: DOUBLE
+  - name: outstanding_over_10_yrs_cnt
+    type: BIGINT
+  - name: outstanding_over_10_yrs_amt
+    type: DOUBLE
+  - name: demand_deposit_redemptions_cnt
+    type: BIGINT
+  - name: demand_deposit_redemptions_amt
+    type: DOUBLE
+  - name: time_deposit_redemptions_cnt
+    type: BIGINT
+  - name: time_deposit_redemptions_amt
+    type: DOUBLE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-securities-sales-term`. Regenerate after model-verify.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: security_type_desc
+    type: VARCHAR
+  - name: security_class_desc
+    type: VARCHAR
+  - name: security_term_nbr
+    type: VARCHAR
+  - name: securities_sold_cnt
+    type: BIGINT
+  - name: securities_sold_amt
+    type: DOUBLE
+  - name: from_cert_of_indebt_ind
+    type: VARCHAR
+  - name: trans_month
+    type: BIGINT
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

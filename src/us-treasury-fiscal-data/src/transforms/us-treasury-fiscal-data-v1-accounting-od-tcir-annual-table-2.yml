@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-tcir-annual-table-2`. Regenerate after model-verify.
+key: [record_date]
+temporal: record_date
+sort: [record_date]
+columns:
+  - name: record_date
+    type: DATE
+  - name: table_nm
+    type: VARCHAR
+  - name: rate_desc
+    type: VARCHAR
+  - name: fiscal_year
+    type: BIGINT
+  - name: fiscal_year_rate
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT

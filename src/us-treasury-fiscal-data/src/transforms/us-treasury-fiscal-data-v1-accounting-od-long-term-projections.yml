@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-long-term-projections`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `line_item_desc` ('Total Non-interest Spending', 'Total Receipts', 'Total non-interest spending', …). Summing an amount column without excluding them double-counts.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: account_desc
+    type: VARCHAR
+  - name: line_item_desc
+    type: VARCHAR
+  - name: current_year_proj_tril_amt
+    type: VARCHAR
+  - name: previous_year_proj_tril_amt
+    type: VARCHAR
+  - name: proj_tril_amt_change
+    type: VARCHAR
+  - name: current_year_percent_of_gdp
+    type: DOUBLE
+  - name: previous_year_percent_of_gdp
+    type: VARCHAR
+  - name: percent_of_gdp_change
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

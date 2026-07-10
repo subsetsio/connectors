@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-debt-mspd-mspd-table-2`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `debt_limit_class1_desc` ('Total Debt Subject to Limit', 'Total Public Debt Outstanding', 'Total Public Debt Subject to Limit', …). Summing an amount column without excluding them double-counts.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: debt_limit_desc
+    type: VARCHAR
+  - name: debt_limit_class1_desc
+    type: VARCHAR
+  - name: debt_limit_class2_desc
+    type: VARCHAR
+  - name: debt_held_public_mil_amt
+    type: VARCHAR
+  - name: intragov_hold_mil_amt
+    type: VARCHAR
+  - name: total_mil_amt
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

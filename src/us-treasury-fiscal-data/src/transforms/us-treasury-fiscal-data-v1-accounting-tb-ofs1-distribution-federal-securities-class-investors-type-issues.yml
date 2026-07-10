@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-tb-ofs1-distribution-federal-securities-class-investors-type-issues`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `investors_classification` ('Total Federal securities outstanding', 'Total outstanding'); `issues_type` ('Total', 'Total Federal securities outstanding', 'Total outstanding'); `securities_classification` ('Total Federal securities outstanding'). Summing an amount column without excluding them double-counts.
+key: [record_date, securities_classification, investors_classification, issues_type, src_line_nbr]
+temporal: record_date
+sort: [record_date, securities_classification, investors_classification, issues_type, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: end_fiscal_year_or_month
+    type: DATE
+  - name: securities_classification
+    type: VARCHAR
+  - name: investors_classification
+    type: VARCHAR
+  - name: issues_type
+    type: VARCHAR
+  - name: securities_mil_amt
+    type: VARCHAR
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: BIGINT

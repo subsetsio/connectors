@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-od-fip-statement-of-account-table3`. Regenerate after model-verify.
+# caution: Aggregate rows sit alongside the components they sum: `sub_category` ('GRAND TOTALS', 'TRANSACTION DETAIL TOTALS'). Summing an amount column without excluding them double-counts.
+key: [record_date, account_number_tas, src_line_nbr]
+temporal: record_date
+sort: [record_date, account_number_tas, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: account_number_tas
+    type: VARCHAR
+  - name: account_name
+    type: VARCHAR
+  - name: date_range
+    type: VARCHAR
+  - name: trans_date
+    type: VARCHAR
+  - name: memo_no
+    type: VARCHAR
+  - name: sub_category
+    type: VARCHAR
+  - name: principal_inflation_comp
+    type: DOUBLE
+  - name: unrealized_discount
+    type: DOUBLE
+  - name: premium_discount_recognized
+    type: DOUBLE
+  - name: interest_inflation_earnings
+    type: DOUBLE
+  - name: total_investments
+    type: DOUBLE
+  - name: total_redemptions
+    type: DOUBLE
+  - name: total_inflation_purchased_sold
+    type: DOUBLE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR

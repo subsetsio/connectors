@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `us-treasury-fiscal-data-v1-accounting-tb-pdo1-offerings-regular-weekly-treasury-bills`. Regenerate after model-verify.
+key: [record_date, src_line_nbr]
+temporal: record_date
+sort: [record_date, src_line_nbr]
+columns:
+  - name: record_date
+    type: DATE
+  - name: issue_date
+    type: DATE
+  - name: maturity_date
+    type: DATE
+  - name: days_to_maturity
+    type: BIGINT
+  - name: bids_tendered_mil_amt
+    type: DOUBLE
+  - name: bids_acc_total_mil_amt
+    type: DOUBLE
+  - name: bids_acc_comp_basis_mil_amt
+    type: DOUBLE
+  - name: bids_acc_noncomp_basis_mil_amt
+    type: DOUBLE
+  - name: high_price_per_hundred
+    type: DOUBLE
+  - name: high_discount_rate
+    type: DOUBLE
+  - name: high_investment_rate
+    type: DOUBLE
+  - name: src_line_nbr
+    type: BIGINT
+  - name: record_fiscal_year
+    type: BIGINT
+  - name: record_fiscal_quarter
+    type: BIGINT
+  - name: record_calendar_year
+    type: BIGINT
+  - name: record_calendar_quarter
+    type: BIGINT
+  - name: record_calendar_month
+    type: VARCHAR
+  - name: record_calendar_day
+    type: VARCHAR
