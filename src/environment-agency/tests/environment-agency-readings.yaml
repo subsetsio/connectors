@@ -13,13 +13,18 @@ tests:
     certainty: 95
 
   - not_null: date
-    reason: the observation date is the temporal key
+    reason: every reading carries an observation date used for freshness and range checks
     certainty: 95
 
-  - unique: [measure_id, date]
+  - not_null: date_time
+    reason: the API may return more than one daily-period reading within a date; dateTime is the exact observation timestamp
+    certainty: 95
+
+  - unique: [measure_id, date_time]
     reason: >-
-      period=86400 selects the daily statistic, so a measure reports at most one
-      value per day. Dupes mean overlapping date chunks were written twice.
+      the hydrology API can emit multiple dateTime rows within the same date
+      for one daily-period measure; a measure timestamp should still identify
+      at most one observation.
     certainty: 90
 
   - column_type: {col: value, type: float}

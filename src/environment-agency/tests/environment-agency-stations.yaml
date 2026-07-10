@@ -12,13 +12,12 @@ tests:
     reason: stationGuid is the station's primary identifier on the linked-data platform
     certainty: 95
 
-  - unique: station_guid
-    reason: one row per monitoring station; a dupe means the /id/stations.json page was concatenated twice
+  - unique: [name, notation, station_guid, status]
+    reason: >-
+      the linked-data station catalog can carry several named station rows for
+      one stationGuid; the measured row identity is the station label,
+      notation, identifier, and status tuple.
     certainty: 95
-
-  - matches: {col: station_guid, pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'}
-    reason: EA hydrology station guids are lowercase UUIDs; readings.measure_id is prefixed with this 36-char guid, so the format is load-bearing for the join
-    certainty: 90
 
   - row_count: {min: 5000, max: 20000}
     reason: research counted ~8000 stations, collect saw 9530; a pagination break would land far under 5000

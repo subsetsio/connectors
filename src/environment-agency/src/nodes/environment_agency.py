@@ -8,7 +8,7 @@ Three assets:
 - ``stations``  reference catalog, one row per monitoring station (~9.5k).
 - ``measures``  series catalog, one row per measure = station x parameter x
                 period x statistic (~32k).
-- ``readings``  long-format observations, one row per (measure, date).
+- ``readings``  long-format observations, one row per (measure, date_time).
 
 Readings scope. The corpus is ~32k measures at periods from 15-minute to
 daily with decades of history — far too large to re-pull in full every run.
@@ -19,7 +19,7 @@ chunks (~105 requests) rather than per-measure (~9.6k requests).
 
 Because each run brings a rolling window rather than the complete dataset,
 the published readings table is written with ``write_mode: merge`` on
-(measure_id, date) — history accumulates across runs instead of being
+(measure_id, date_time) — history accumulates across runs instead of being
 truncated to the window. Measured: a 7-day chunk is ~51k rows / ~23 s, so a
 730-day window is ~5M rows in ~1 h.
 """
@@ -216,6 +216,7 @@ _READINGS_SCHEMA = pa.schema([
     ("measure_id", pa.string()),
     ("station_guid", pa.string()),
     ("date", pa.string()),
+    ("date_time", pa.string()),
     ("value", pa.float64()),
     ("completeness", pa.string()),
     ("quality", pa.string()),
@@ -240,6 +241,7 @@ def _parse_readings_csv(text: str) -> list[dict]:
             "measure_id": mid,
             "station_guid": mid[:_GUID_LEN] if mid and len(mid) > _GUID_LEN else None,
             "date": r.get("date") or None,
+            "date_time": r.get("dateTime") or None,
             "value": _to_float(r.get("value")),
             "completeness": r.get("completeness") or None,
             "quality": r.get("quality") or None,

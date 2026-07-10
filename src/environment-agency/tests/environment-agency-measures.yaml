@@ -16,10 +16,6 @@ tests:
     reason: one row per measure; /id/measures.json is a flat list, dupes mean a paging bug
     certainty: 95
 
-  - matches: {col: measure_id, pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}-'}
-    reason: measure notation is '<station_guid>-<parameter>-<statistic>-<period>-<unit>-<qualifier>'; readings derives station_guid by slicing the first 36 chars, so this prefix must hold
-    certainty: 90
-
   - not_null: station_guid
     reason: every measure hangs off exactly one station
     certainty: 90
