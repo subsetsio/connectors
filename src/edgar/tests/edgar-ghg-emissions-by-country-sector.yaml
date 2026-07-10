@@ -1,0 +1,32 @@
+spec_id: edgar-ghg-emissions-by-country-sector
+tests:
+  # Identifier columns that define the grain must always be present.
+  - not_null: country_code
+  - not_null: ipcc_sector_code
+  - not_null: gas
+  - not_null: year
+  - not_null: emissions_kt
+
+  # Types the unpivot must produce.
+  - column_type: {col: year, type: integer}
+  - column_type: {col: emissions_kt, type: float}
+
+  # EDGAR GHG series start in 1970; year never exceeds the current calendar year.
+  - between: {col: year, lo: 1970, hi: current_year()}
+
+  # Annual release with a ~1-2y data lag; we pin the EDGAR_2024_GHG release
+  # (data through 2023). Trips once the pinned release falls too far behind and
+  # the BASE_URL should be bumped to a newer EDGAR annual release.
+  - freshness: {col: year, reaches: current_year() - 3}
+    points_outward: true
+    certainty: 90
+    reason: >-
+      EDGAR publishes annually; failure means the pinned release path is stale
+      and BASE_URL must be advanced to the newest EDGAR GHG release.
+
+  # Four CC-BY substance packages, with F-gases expanding into many species,
+  # give a large long-form table across ~200+ countries x IPCC sectors x years.
+  - row_count: {min: 50000}
+
+  # CH4, N2O, CO2bio plus multiple F-gas species (HFC/PFC/SF6/NF3, ...).
+  - distinct_count: {col: gas, min: 4}

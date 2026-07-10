@@ -1,0 +1,36 @@
+spec_id: economic-policy-uncertainty-croatia-epu
+status: active
+tests:
+  - not_null: date
+  - not_null: series
+  - not_null: value
+    reason: normalizer drops rows with a null value; a null here means the parse produced a phantom row
+    certainty: 90
+  - column_type: {col: date, type: date}
+    certainty: 95
+  - column_type: {col: series, type: string}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - column_type: {col: frequency, type: string}
+    certainty: 95
+  - enum: {col: frequency, values: [daily, monthly, quarterly, annual]}
+    reason: normalizer emits exactly one of these four cadences per row
+    certainty: 90
+  - unique: [date, series]
+    reason: one row per date x series; a duplicate means a sheet/series was double-parsed
+    certainty: 85
+  - at_least: {col: value, expr: 0}
+    reason: policy-uncertainty indices and their components are non-negative
+    certainty: 75
+    severity: warn
+  - between: {col: date, lo: '1880-01-01', hi: today}
+    reason: earliest historical series start ~1889 (financial-stress); no future-dated observations
+    certainty: 85
+  - row_count: {min: 20}
+    reason: every index carries at least a couple dozen observations; a near-empty pull is a parse failure
+    certainty: 80
+  - freshness: {col: date, reaches: today - 600d}
+    reason: policyuncertainty.com updates each index on an irregular, often annual academic cadence; bound set to the slowest still-live series so a real failure means the index has genuinely gone dormant
+    certainty: 60
+    points_outward: true

@@ -1,0 +1,17 @@
+spec_id: eea-bathing-water-mapping-lov
+status: active
+tests:
+  - not_null: id
+    certainty: 90
+  - not_null: label
+    certainty: 90
+  - not_null: notation
+    certainty: 90
+  - not_null: tableName
+    reason: "each code belongs to a named list-of-values vocabulary"
+    certainty: 90
+  - column_type: {"col": "statusDate", "type": "date"}
+    certainty: 85
+  - row_count: {"min": 100}
+    reason: "~286 code/label vocabulary entries"
+    certainty: 80
