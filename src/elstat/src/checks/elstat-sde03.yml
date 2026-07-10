@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `elstat-sde03`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [source_file, sheet, row_idx, col_idx]
+checks:
+  - kind: unique
+    columns: [source_file, sheet, row_idx, col_idx]
+  - kind: not_null
+    col: source_file
+  - kind: not_null
+    col: sheet
+  - kind: not_null
+    col: row_idx
+  - kind: not_null
+    col: col_idx
+  - kind: row_floor
+    min: 2330
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
