@@ -1,6 +1,10 @@
-# thin pass-through contract generated from ArcGIS layer metadata for California County Boundaries - Urban Map
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-0f2f9e220e3b4ebc890e2a178560e574`. Regenerate after model-verify.
+# caution: Boundary reference table carries ArcGIS geometry-derived area and length fields; use the identifier columns for joins rather than treating geometry measures as statistical observations.
+key: [objectid]
+sort: [objectid]
 columns:
-  - name: OBJECTID
+  - name: objectid
     type: BIGINT
   - name: geoid
     type: BIGINT
@@ -10,11 +14,11 @@ columns:
     type: VARCHAR
   - name: juris_name
     type: VARCHAR
-  - name: CountyFP
+  - name: countyfp
     type: BIGINT
-  - name: CountySort
+  - name: countysort
     type: BIGINT
-  - name: CitySort
+  - name: citysort
     type: BIGINT
-  - name: CityShort
+  - name: cityshort
     type: VARCHAR

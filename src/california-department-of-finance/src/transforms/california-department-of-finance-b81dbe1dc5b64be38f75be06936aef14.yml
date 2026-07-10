@@ -1,50 +1,54 @@
-# thin pass-through contract generated from ArcGIS layer metadata for Decade Wildfire Percent County HU Stock Loss April25
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-b81dbe1dc5b64be38f75be06936aef14`. Regenerate after model-verify.
+# caution: Rows mix fire incident, county, year, and housing structure type fields; filter to a consistent incident/year/type slice before aggregating loss measures.
+key: [objectid]
+sort: [objectid]
 columns:
-  - name: F2014
+  - name: f2014
     type: DOUBLE
-  - name: F2015
+  - name: f2015
     type: DOUBLE
-  - name: F2016
+  - name: f2016
     type: DOUBLE
-  - name: F2017
+  - name: f2017
     type: DOUBLE
-  - name: F2018
+  - name: f2018
     type: DOUBLE
-  - name: F2019
+  - name: f2019
     type: DOUBLE
-  - name: F2020
+  - name: f2020
     type: DOUBLE
-  - name: F2021
+  - name: f2021
     type: DOUBLE
-  - name: F2022
+  - name: f2022
     type: DOUBLE
-  - name: F2023
+  - name: f2023
     type: DOUBLE
-  - name: F2024
+  - name: f2024
     type: DOUBLE
-  - name: County_Name
+  - name: county_name
     type: VARCHAR
-  - name: Year
+  - name: year
+    type: BIGINT
+  - name: incident_start_date
     type: VARCHAR
-  - name: Incident_Start_Date
+  - name: housing_structure_type
     type: VARCHAR
-  - name: Housing_Structure_Type
-    type: VARCHAR
-  - name: Total_Decade_of_County_Housing_
+  - name: total_decade_of_county_housing
     type: BIGINT
-  - name: Total_Single_Family_Unit_Loss
+  - name: total_single_family_unit_loss
     type: BIGINT
-  - name: Total_Mobile_Home_Unit_Loss
+  - name: total_mobile_home_unit_loss
     type: BIGINT
-  - name: Total_Multi_Family_Structures_L
+  - name: total_multi_family_structures_l
     type: BIGINT
-  - name: SelectedYR_SF
+  - name: selectedyr_sf
     type: BIGINT
-  - name: SelectedYR_MHU
+  - name: selectedyr_mhu
     type: BIGINT
-  - name: SelectedYR_MF
+  - name: selectedyr_mf
     type: BIGINT
-  - name: ObjectId
+  - name: objectid
     type: BIGINT
-  - name: County_Sort
+  - name: county_sort
     type: VARCHAR

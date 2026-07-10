@@ -1,22 +1,25 @@
-# thin pass-through contract generated from ArcGIS layer metadata for Top 10 Most Destructive California Wildfires from 2014 to 2024
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-d4e959fd082a417295f594b61d577744`. Regenerate after model-verify.
+key: [fire_name, year]
+sort: [fire_name, year]
 columns:
-  - name: Fire_Name
+  - name: fire_name
     type: VARCHAR
-  - name: Year
-    type: VARCHAR
-  - name: Single_Family_Housing_Unit_Loss
+  - name: year
     type: BIGINT
-  - name: Mobile_Home_Unit_Loss
+  - name: single_family_housing_unit_loss
     type: BIGINT
-  - name: Multi_Family_Structure_Loss
+  - name: mobile_home_unit_loss
     type: BIGINT
-  - name: Grand_Total
+  - name: multi_family_structure_loss
     type: BIGINT
-  - name: Percentage_of_Single_Family_Hou
+  - name: grand_total
+    type: BIGINT
+  - name: percentage_of_single_family_hou
     type: DOUBLE
-  - name: Percentage_of_Mobile_Home_Unit_
+  - name: percentage_of_mobile_home_unit
     type: DOUBLE
-  - name: Percentage_of_Multi_Family_Stru
+  - name: percentage_of_multi_family_stru
     type: DOUBLE
-  - name: ObjectId
+  - name: objectid
     type: BIGINT

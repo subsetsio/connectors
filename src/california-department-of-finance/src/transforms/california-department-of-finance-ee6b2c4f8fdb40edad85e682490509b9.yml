@@ -1,8 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-ee6b2c4f8fdb40edad85e682490509b9`. Regenerate after model-verify.
+# caution: Wide housing stock table has separate columns for each year and housing-unit type; reshape mentally before year-over-year aggregation.
+key: [fips_code]
+sort: [fips_code]
 columns:
-  - name: COUNTY
+  - name: county
     type: VARCHAR
-  - name: F__CITY
+  - name: f_city
     type: VARCHAR
   - name: juris_name
     type: VARCHAR
@@ -10,129 +14,129 @@ columns:
     type: BIGINT
   - name: fips_code
     type: BIGINT
-  - name: CountySort
+  - name: countysort
     type: BIGINT
-  - name: CitySort
+  - name: citysort
     type: BIGINT
-  - name: CountyFP
+  - name: countyfp
     type: BIGINT
-  - name: F2014_Sub_County_HU_Stock
+  - name: f2014_sub_county_hu_stock
     type: BIGINT
-  - name: F2015_Sub_County_HU_Stock
+  - name: f2015_sub_county_hu_stock
     type: BIGINT
-  - name: F2016_Sub_County_HU_Stock
+  - name: f2016_sub_county_hu_stock
     type: BIGINT
-  - name: F2017_Sub_County_HU_Stock
+  - name: f2017_sub_county_hu_stock
     type: BIGINT
-  - name: F2018_Sub_County_HU_Stock
+  - name: f2018_sub_county_hu_stock
     type: BIGINT
-  - name: F2019_Sub_County_HU_Stock
+  - name: f2019_sub_county_hu_stock
     type: BIGINT
-  - name: F2020_Sub_County_HU_Stock
+  - name: f2020_sub_county_hu_stock
     type: BIGINT
-  - name: F2021_Sub_County_HU_Stock
+  - name: f2021_sub_county_hu_stock
     type: BIGINT
-  - name: F2022_Sub_County_HU_Stock
+  - name: f2022_sub_county_hu_stock
     type: BIGINT
-  - name: F2023_Sub_County_HU_Stock
+  - name: f2023_sub_county_hu_stock
     type: BIGINT
-  - name: F2024_Sub_County_HU_Stock
+  - name: f2024_sub_county_hu_stock
     type: BIGINT
-  - name: F2014_County_HU_Stock
+  - name: f2014_county_hu_stock
     type: BIGINT
-  - name: F2015_County_HU_Stock_
+  - name: f2015_county_hu_stock
     type: BIGINT
-  - name: F2016_County_HU_Stock
+  - name: f2016_county_hu_stock
     type: BIGINT
-  - name: F2017_County_HU_Stock
+  - name: f2017_county_hu_stock
     type: BIGINT
-  - name: F2018_County_HU_Stock
+  - name: f2018_county_hu_stock
     type: BIGINT
-  - name: F2019_County_HU_Stock
+  - name: f2019_county_hu_stock
     type: BIGINT
-  - name: F2020_County_HU_Stock
+  - name: f2020_county_hu_stock
     type: BIGINT
-  - name: F2021_County_HU_Stock
+  - name: f2021_county_hu_stock
     type: BIGINT
-  - name: F2022_County_HU_Stock
+  - name: f2022_county_hu_stock
     type: BIGINT
-  - name: F2023_County_HU_Stock
+  - name: f2023_county_hu_stock
     type: BIGINT
-  - name: F2024_County_HU_Stock
+  - name: f2024_county_hu_stock
     type: BIGINT
-  - name: Grand_Total_Structure
+  - name: grand_total_structure
     type: BIGINT
-  - name: Total_Single_Family_Structure
+  - name: total_single_family_structure
     type: BIGINT
-  - name: Total_Mobile_Home_Structure
+  - name: total_mobile_home_structure
     type: BIGINT
-  - name: Total_Multi_Family_Structures
+  - name: total_multi_family_structures
     type: BIGINT
-  - name: F2014_Total_Structure_Loss
+  - name: f2014_total_structure_loss
     type: BIGINT
-  - name: F2015_Total_Structure_Loss
+  - name: f2015_total_structure_loss
     type: BIGINT
-  - name: F2016_Total_Structure_Loss
+  - name: f2016_total_structure_loss
     type: BIGINT
-  - name: F2017_Total_Structure_Loss
+  - name: f2017_total_structure_loss
     type: BIGINT
-  - name: F2018_Total_Structure_Loss
+  - name: f2018_total_structure_loss
     type: BIGINT
-  - name: F2019_Total_Structure_Loss
+  - name: f2019_total_structure_loss
     type: BIGINT
-  - name: F2020_Total_Structure_Loss
+  - name: f2020_total_structure_loss
     type: BIGINT
-  - name: F2021_Total_Structure_Loss
+  - name: f2021_total_structure_loss
     type: BIGINT
-  - name: F2022_Total_Structure_Loss
+  - name: f2022_total_structure_loss
     type: BIGINT
-  - name: F2023_Total_Structure_Loss
+  - name: f2023_total_structure_loss
     type: BIGINT
-  - name: F2024_Total_Structure_Loss
+  - name: f2024_total_structure_loss
     type: BIGINT
-  - name: F2014_Percent_Loss_of_Total_Cou
+  - name: f2014_percent_loss_of_total_cou
     type: DOUBLE
-  - name: F2015_Percent_Loss_of_Total_Cou
+  - name: f2015_percent_loss_of_total_cou
     type: DOUBLE
-  - name: F2016_Percent_Loss_of_Total_Cou
+  - name: f2016_percent_loss_of_total_cou
     type: DOUBLE
-  - name: F2017_Percent_Loss_of_Total_Cou
+  - name: f2017_percent_loss_of_total_cou
     type: DOUBLE
-  - name: F2018_Percent_Loss_of_Total_Cou
+  - name: f2018_percent_loss_of_total_cou
     type: DOUBLE
-  - name: F2019_Percent_Loss_of_Total_Cou
+  - name: f2019_percent_loss_of_total_cou
     type: DOUBLE
-  - name: F2020_Percent_Loss_of_Total_Cou
+  - name: f2020_percent_loss_of_total_cou
     type: DOUBLE
-  - name: F2021_Percent_Loss_of_Total_Cou
+  - name: f2021_percent_loss_of_total_cou
     type: DOUBLE
-  - name: F2022_Percent_Loss_of_Total_Cou
+  - name: f2022_percent_loss_of_total_cou
     type: DOUBLE
-  - name: F2023_Percent_Loss_of_Total_Cou
+  - name: f2023_percent_loss_of_total_cou
     type: DOUBLE
-  - name: F2024_Percent_Loss_of_Total_Cou
+  - name: f2024_percent_loss_of_total_cou
     type: DOUBLE
-  - name: F2014_Percent_Loss_of_Total_Sub
+  - name: f2014_percent_loss_of_total_sub
     type: DOUBLE
-  - name: F2015_Percent_Loss_of_Total_Sub
+  - name: f2015_percent_loss_of_total_sub
     type: DOUBLE
-  - name: F2016_Percent_Loss_of_Total_Sub
+  - name: f2016_percent_loss_of_total_sub
     type: DOUBLE
-  - name: F2017_Percent_Loss_of_Total_Sub
+  - name: f2017_percent_loss_of_total_sub
     type: DOUBLE
-  - name: F2018_Percent_Loss_of_Total_Sub
+  - name: f2018_percent_loss_of_total_sub
     type: DOUBLE
-  - name: F2019_Percent_Loss_of_Total_Sub
+  - name: f2019_percent_loss_of_total_sub
     type: DOUBLE
-  - name: F2020_Percent_Loss_of_Total_Sub
+  - name: f2020_percent_loss_of_total_sub
     type: DOUBLE
-  - name: F2021_Percent_Loss_of_Total_Sub
+  - name: f2021_percent_loss_of_total_sub
     type: DOUBLE
-  - name: F2022_Percent_Loss_of_Total_Sub
+  - name: f2022_percent_loss_of_total_sub
     type: DOUBLE
-  - name: F2023_Percent_Loss_of_Total_Sub
+  - name: f2023_percent_loss_of_total_sub
     type: DOUBLE
-  - name: F2024_Percent_Loss_of_Total_Sub
+  - name: f2024_percent_loss_of_total_sub
     type: DOUBLE
-  - name: FID
+  - name: fid
     type: BIGINT

@@ -1,22 +1,25 @@
-# thin pass-through contract generated from ArcGIS layer metadata for ADU Annaul Changes from 2020 to 2024
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-cf9ee3a2956f4958b5eca26805717ce1`. Regenerate after model-verify.
+key: [city_county, city, county, year]
+sort: [city_county, city, county, year]
 columns:
-  - name: City
+  - name: city
     type: VARCHAR
-  - name: County
+  - name: county
     type: VARCHAR
-  - name: City__County
+  - name: city_county
     type: VARCHAR
-  - name: CountyFP
+  - name: countyfp
     type: BIGINT
-  - name: Year
+  - name: year
     type: VARCHAR
-  - name: Date
+  - name: date
     type: BIGINT
-  - name: Total_ADUs_Annual_Change
+  - name: total_adus_annual_change
+    type: HUGEINT
+  - name: fips
     type: BIGINT
-  - name: FIPS
+  - name: filter_county
     type: BIGINT
-  - name: Filter_County
-    type: BIGINT
-  - name: ObjectId
+  - name: objectid
     type: BIGINT

@@ -1,44 +1,48 @@
-# thin pass-through contract generated from ArcGIS layer metadata for California Fire Perimeters (2014-2023)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-f3e56cb333394a9aba52f7f911197212`. Regenerate after model-verify.
+# caution: Fire perimeter rows include incident identifiers and ArcGIS geometry measures; one incident can have related records in other wildfire-loss tables.
+key: [objectid]
+sort: [objectid]
 columns:
-  - name: OBJECTID
+  - name: objectid
     type: BIGINT
-  - name: YEAR_
+  - name: year
     type: BIGINT
-  - name: STATE
+  - name: state
     type: VARCHAR
-  - name: AGENCY
+  - name: agency
     type: VARCHAR
-  - name: UNIT_ID
+  - name: unit_id
     type: VARCHAR
-  - name: FIRE_NAME
+  - name: fire_name
     type: VARCHAR
-  - name: INC_NUM
+  - name: inc_num
     type: VARCHAR
-  - name: ALARM_DATE
+  - name: alarm_date
+    type: HUGEINT
+  - name: cont_date
+    type: HUGEINT
+  - name: cause
     type: BIGINT
-  - name: CONT_DATE
+  - name: c_method
     type: BIGINT
-  - name: CAUSE
+  - name: objective
     type: BIGINT
-  - name: C_METHOD
-    type: BIGINT
-  - name: OBJECTIVE
-    type: BIGINT
-  - name: GIS_ACRES
+  - name: gis_acres
     type: DOUBLE
-  - name: COMMENTS
+  - name: comments
     type: VARCHAR
-  - name: COMPLEX_NAME
+  - name: complex_name
     type: VARCHAR
-  - name: IRWINID
+  - name: irwinid
     type: VARCHAR
-  - name: FIRE_NUM
+  - name: fire_num
     type: VARCHAR
-  - name: COMPLEX_ID
+  - name: complex_id
     type: VARCHAR
-  - name: DECADES
+  - name: decades
     type: VARCHAR
-  - name: Shape__Area
+  - name: shape_area
     type: DOUBLE
-  - name: Shape__Length
+  - name: shape_length
     type: DOUBLE

@@ -1,22 +1,26 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-0a50d4048b27441a84e8ff98e71d023e`. Regenerate after model-verify.
+key: [jurisdiction, city, county, year]
+temporal: year
+sort: [year, jurisdiction, city, county]
 columns:
-  - name: County
+  - name: county
     type: VARCHAR
-  - name: Jurisdiction
+  - name: jurisdiction
     type: VARCHAR
-  - name: City
+  - name: city
     type: VARCHAR
-  - name: COUNTYFP
+  - name: countyfp
     type: BIGINT
-  - name: Year
+  - name: year
     type: BIGINT
-  - name: Household_Population
+  - name: household_population
     type: DOUBLE
-  - name: Group_Quarters_Population
+  - name: group_quarters_population
     type: DOUBLE
-  - name: FIPS
+  - name: fips
     type: BIGINT
-  - name: FilterCounty
+  - name: filtercounty
     type: BIGINT
-  - name: FID
+  - name: fid
     type: BIGINT

@@ -1,30 +1,34 @@
-# thin pass-through contract generated from ArcGIS layer metadata for Census Block Centroids 2025 x
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-4cda2d48228c4eea9571b69c493d8008`. Regenerate after model-verify.
+# caution: Block-to-place crosswalk includes both block and E-5 place codes; use the full grain when joining to avoid duplicating block populations across places.
+key: [b_geoid, c_tract, c_block, e5_place25, e5_place]
+sort: [b_geoid, c_tract, c_block, e5_place25, e5_place]
 columns:
-  - name: OBJECTID
+  - name: objectid
     type: BIGINT
-  - name: B_GEOID
+  - name: b_geoid
     type: VARCHAR
-  - name: COUNTY
+  - name: county
     type: VARCHAR
-  - name: E5_PLACE
+  - name: e5_place
     type: VARCHAR
-  - name: E5_PLACE25
+  - name: e5_place25
     type: VARCHAR
-  - name: HU_TU_20
+  - name: hu_tu_20
     type: DOUBLE
-  - name: HU_TU_25
+  - name: hu_tu_25
     type: DOUBLE
-  - name: Change_N
+  - name: change_n
     type: DOUBLE
-  - name: Change_P
+  - name: change_p
     type: DOUBLE
-  - name: C_Block
+  - name: c_block
     type: VARCHAR
-  - name: C_BlockGro
+  - name: c_blockgro
+    type: BIGINT
+  - name: c_tract
     type: VARCHAR
-  - name: C_Tract
+  - name: county_n
     type: VARCHAR
-  - name: COUNTY_N
-    type: VARCHAR
-  - name: E5PLACE25
+  - name: e5place25
     type: VARCHAR

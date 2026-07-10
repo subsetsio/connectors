@@ -1,28 +1,31 @@
-# thin pass-through contract generated from ArcGIS layer metadata for 2020_pumas_v2
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-4159d767e6894cb3ab7a991240ac3c18`. Regenerate after model-verify.
+key: [puma5ce]
+sort: [puma5ce]
 columns:
-  - name: OBJECTID_12
+  - name: objectid_12
     type: BIGINT
-  - name: STATEFP
+  - name: statefp
     type: VARCHAR
-  - name: PUMA5CE
+  - name: puma5ce
     type: VARCHAR
-  - name: NAME
+  - name: name
     type: VARCHAR
-  - name: JUSTIFY
+  - name: justify
     type: VARCHAR
-  - name: POP20
+  - name: pop20
     type: BIGINT
-  - name: Area
+  - name: area
     type: DOUBLE
-  - name: Year
-    type: VARCHAR
+  - name: year
+    type: BIGINT
   - name: region
     type: VARCHAR
   - name: county
     type: VARCHAR
-  - name: ObjectID
+  - name: objectid
     type: BIGINT
-  - name: PUMA20
+  - name: puma20
     type: VARCHAR
   - name: puma10_1
     type: VARCHAR
@@ -39,12 +42,12 @@ columns:
   - name: puma10_4
     type: VARCHAR
   - name: pct10_4
-    type: VARCHAR
-  - name: count_
     type: DOUBLE
-  - name: ObjectID_1
+  - name: count
     type: BIGINT
-  - name: Shape__Area
+  - name: objectid_1
+    type: JSON
+  - name: shape_area
     type: DOUBLE
-  - name: Shape__Length
+  - name: shape_length
     type: DOUBLE

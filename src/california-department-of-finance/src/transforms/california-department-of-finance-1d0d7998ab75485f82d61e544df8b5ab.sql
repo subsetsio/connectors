@@ -1,1 +1,46 @@
-SELECT * FROM "california-department-of-finance-1d0d7998ab75485f82d61e544df8b5ab"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Block-level diagnostic table includes multiple geographic code systems in each row; choose the geography code matching the intended join level before aggregating.
+SELECT
+    "E5_PLACE" AS e5_place,
+    "B_GEOID" AS b_geoid,
+    "AU_1_21" AS au_1_21,
+    "AU_2_21" AS au_2_21,
+    "AU_3_21" AS au_3_21,
+    "AU_4_21" AS au_4_21,
+    "AU_5_21" AS au_5_21,
+    "AU_6_21" AS au_6_21,
+    "AU_X_21" AS au_x_21,
+    "RU_1_21" AS ru_1_21,
+    "AU_1_22" AS au_1_22,
+    "AU_2_22" AS au_2_22,
+    "AU_3_22" AS au_3_22,
+    "AU_4_22" AS au_4_22,
+    "AU_5_22" AS au_5_22,
+    "AU_6_22" AS au_6_22,
+    "RU_1_22" AS ru_1_22,
+    "AU_1_23" AS au_1_23,
+    "AU_2_23" AS au_2_23,
+    "AU_3_23" AS au_3_23,
+    "AU_4_23" AS au_4_23,
+    "AU_5_23" AS au_5_23,
+    "AU_6_23" AS au_6_23,
+    "RU_1_23" AS ru_1_23,
+    "AU_1_24" AS au_1_24,
+    "AU_2_24" AS au_2_24,
+    "AU_3_24" AS au_3_24,
+    "AU_4_24" AS au_4_24,
+    "AU_5_24" AS au_5_24,
+    "AU_6_24" AS au_6_24,
+    "AU_1_25" AS au_1_25,
+    "AU_2_25" AS au_2_25,
+    "AU_3_25" AS au_3_25,
+    "AU_4_25" AS au_4_25,
+    "AU_5_25" AS au_5_25,
+    "AU_6_25" AS au_6_25,
+    "RU_1_25" AS ru_1_25,
+    "ObjectId" AS objectid,
+    "RU_1_24" AS ru_1_24
+FROM "california-department-of-finance-1d0d7998ab75485f82d61e544df8b5ab"

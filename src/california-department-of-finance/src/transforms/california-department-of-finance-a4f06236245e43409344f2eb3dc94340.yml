@@ -1,14 +1,17 @@
-# thin pass-through contract generated from ArcGIS layer metadata for County Housing Fire Demo April242025 
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-a4f06236245e43409344f2eb3dc94340`. Regenerate after model-verify.
+key: [county_sort, county, year, housing_type]
+sort: [county_sort, county, year, housing_type]
 columns:
-  - name: Year
-    type: VARCHAR
-  - name: County
-    type: VARCHAR
-  - name: COUNTY_SORT
-    type: VARCHAR
-  - name: Housing_Type
-    type: VARCHAR
-  - name: Total_Fire_Loss
+  - name: year
     type: BIGINT
-  - name: ObjectId
+  - name: county
+    type: VARCHAR
+  - name: county_sort
+    type: BIGINT
+  - name: housing_type
+    type: VARCHAR
+  - name: total_fire_loss
+    type: BIGINT
+  - name: objectid
     type: BIGINT

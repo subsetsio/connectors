@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `california-department-of-finance-4633459306884884ac7f9036404cc0d1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [subcounty, sub, jurisdiction, textjurisdiction, name]
+checks:
+  - kind: unique
+    columns: [subcounty, sub, jurisdiction, textjurisdiction, name]
+  - kind: not_null
+    col: subcounty
+  - kind: not_null
+    col: sub
+  - kind: not_null
+    col: jurisdiction
+  - kind: not_null
+    col: textjurisdiction
+  - kind: not_null
+    col: name
+  - kind: row_floor
+    min: 325
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

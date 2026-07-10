@@ -1,1 +1,52 @@
-SELECT * FROM "california-department-of-finance-045273ed28ce4589be48edc75c611116"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Wide table with one row per county and separate columns for yearly housing stock and fire loss measures; do not sum across year-specific columns as if they were separate rows.
+SELECT
+    "Sort" AS sort,
+    "County" AS county,
+    "State" AS state,
+    "StateFIPS" AS statefips,
+    "CO_FIPS" AS co_fips,
+    "FIPS" AS fips,
+    "CountyStock_4_1_2020" AS countystock_4_1_2020,
+    "CountyStock_1_1_2021" AS countystock_1_1_2021,
+    "CountyStock_1_1_2022" AS countystock_1_1_2022,
+    "CountyStock_1_1_2023" AS countystock_1_1_2023,
+    "CountyStock_1_1_2024" AS countystock_1_1_2024,
+    "F2014_Single_Family_Housing_Uni" AS f2014_single_family_housing_uni,
+    "F2014_Mobile_Home_Unit_Loss" AS f2014_mobile_home_unit_loss,
+    "F2014_Multi_Family_Structure_Lo" AS f2014_multi_family_structure_lo,
+    "F2015_Single_Family_Housing_Uni" AS f2015_single_family_housing_uni,
+    "F2015_Mobile_Home_Unit_Loss" AS f2015_mobile_home_unit_loss,
+    "F2015_Multi_Family_Structure_Lo" AS f2015_multi_family_structure_lo,
+    "F2016_Single_Family_Housing_Uni" AS f2016_single_family_housing_uni,
+    "F2016_Mobile_Home_Unit_Loss" AS f2016_mobile_home_unit_loss,
+    "F2016_Multi_Family_Structure_Lo" AS f2016_multi_family_structure_lo,
+    "F2017_Single_Family_Housing_Uni" AS f2017_single_family_housing_uni,
+    "F2017_Mobile_Home_Unit_Loss" AS f2017_mobile_home_unit_loss,
+    "F2017_Multi_Family_Structure_Lo" AS f2017_multi_family_structure_lo,
+    "F2018_Single_Family_Housing_Uni" AS f2018_single_family_housing_uni,
+    "F2018_Mobile_Home_Unit_Loss" AS f2018_mobile_home_unit_loss,
+    "F2018_Multi_Family_Structure_Lo" AS f2018_multi_family_structure_lo,
+    "F2019_Single_Family_Housing_Uni" AS f2019_single_family_housing_uni,
+    "F2019_Mobile_Home_Unit_Loss" AS f2019_mobile_home_unit_loss,
+    "F2019_Multi_Family_Structure_Lo" AS f2019_multi_family_structure_lo,
+    "F2020_Single_Family_Housing_Uni" AS f2020_single_family_housing_uni,
+    "F2020_Mobile_Home_Unit_Loss" AS f2020_mobile_home_unit_loss,
+    "F2020_Multi_Family_Structure_Lo" AS f2020_multi_family_structure_lo,
+    "F21_Single_Family_Housing_Unit_" AS f21_single_family_housing_unit,
+    "F21_Mobile_Home_Unit_Loss" AS f21_mobile_home_unit_loss,
+    "F21_Multi_Family_Structure_Loss" AS f21_multi_family_structure_loss,
+    "F2022_Single_Family_Housing_Uni" AS f2022_single_family_housing_uni,
+    "F2022_Mobile_Home_Unit_Loss" AS f2022_mobile_home_unit_loss,
+    "F2022_Multi_Family_Structure_Lo" AS f2022_multi_family_structure_lo,
+    "F2023_Single_Family_Housing_Uni" AS f2023_single_family_housing_uni,
+    "F2023_Mobile_Home_Unit_Loss" AS f2023_mobile_home_unit_loss,
+    "F2023_Multi_Family_Structure_Lo" AS f2023_multi_family_structure_lo,
+    "F2024_Single_Family_Housing_Uni" AS f2024_single_family_housing_uni,
+    "F2024_Mobile_Home_Unit_Loss" AS f2024_mobile_home_unit_loss,
+    "F2024_Multi_Family_Structure_Lo" AS f2024_multi_family_structure_lo,
+    "ObjectId" AS objectid
+FROM "california-department-of-finance-045273ed28ce4589be48edc75c611116"

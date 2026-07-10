@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `california-department-of-finance-5f96af5d88634040a5018eedde7873f7`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [b_geoid, c_tract, c_block, e5_place25, e5_place]
+checks:
+  - kind: unique
+    columns: [b_geoid, c_tract, c_block, e5_place25, e5_place]
+  - kind: not_null
+    col: b_geoid
+  - kind: not_null
+    col: c_tract
+  - kind: not_null
+    col: c_block
+  - kind: not_null
+    col: e5_place25
+  - kind: not_null
+    col: e5_place
+  - kind: row_floor
+    min: 259865
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

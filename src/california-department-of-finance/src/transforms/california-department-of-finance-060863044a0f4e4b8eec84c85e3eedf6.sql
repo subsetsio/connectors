@@ -1,1 +1,43 @@
-SELECT * FROM "california-department-of-finance-060863044a0f4e4b8eec84c85e3eedf6"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "Jurisdiction" AS jurisdiction,
+    "County" AS county,
+    "CountyFIPS" AS countyfips,
+    "FIPS" AS fips,
+    "Year" AS year,
+    "Total_Population" AS total_population,
+    "Household_Population" AS household_population,
+    "Group_Quarters_Population" AS group_quarters_population,
+    "Total_Housing_Units" AS total_housing_units,
+    "Single_Attached_Units" AS single_attached_units,
+    "Single_Detached_Units" AS single_detached_units,
+    "Multi_Family_2_4" AS multi_family_2_4,
+    "Multi_Family_5_" AS multi_family_5,
+    "Mobile_Home_Units" AS mobile_home_units,
+    "Occupied_Housing_Units" AS occupied_housing_units,
+    "Vacancy_Rate" AS vacancy_rate,
+    "Persons_per_Household" AS persons_per_household,
+    "Change_Single_Attached_Units" AS change_single_attached_units,
+    "Change_Single_Detached_Units" AS change_single_detached_units,
+    "Change_Multi_Family_2_4" AS change_multi_family_2_4,
+    "Change_Multi_Family_5_" AS change_multi_family_5,
+    "Change_Mobile_Home_Units" AS change_mobile_home_units,
+    "Change_Total_HU" AS change_total_hu,
+    "Change_Affordable_Units" AS change_affordable_units,
+    "Change_ADU" AS change_adu,
+    "Change_Total_Population" AS change_total_population,
+    "Change_Household_Population" AS change_household_population,
+    "Change_Group_Quarters_Populatio" AS change_group_quarters_populatio,
+    "Percent_Change_Total_Population" AS percent_change_total_population,
+    "Percent_Change_Household_Popula" AS percent_change_household_popula,
+    "Percent_Change_Group_Quarters_P" AS percent_change_group_quarters_p,
+    "Percent_Change_Total_HU" AS percent_change_total_hu,
+    "FID" AS fid,
+    "Sort" AS sort,
+    "VR" AS vr,
+    "textname",
+    CAST("YearText" AS BIGINT) AS yeartext
+FROM "california-department-of-finance-060863044a0f4e4b8eec84c85e3eedf6"

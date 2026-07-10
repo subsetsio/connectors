@@ -1,34 +1,38 @@
-# thin pass-through contract generated from ArcGIS layer metadata for 2025 E5 Changes by State_County_City
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-11fd91ff08f04c618b2f87bec2a1a420`. Regenerate after model-verify.
+# caution: This table is a current-year change snapshot rather than a full annual history; `Date` is the source's release/period code.
+key: [placecode, date]
+sort: [placecode, date]
 columns:
-  - name: Placecode
+  - name: placecode
     type: VARCHAR
-  - name: FIPS
+  - name: fips
     type: VARCHAR
-  - name: COUNTY
+  - name: county
     type: VARCHAR
-  - name: F__CITY
+  - name: f_city
     type: VARCHAR
-  - name: City2
+  - name: city2
     type: VARCHAR
-  - name: Date
+  - name: date
     type: BIGINT
-  - name: Total_Population
-    type: BIGINT
-  - name: Household_Population
-    type: BIGINT
-  - name: Group_Quarters_Population
-    type: BIGINT
-  - name: Total_Housing_Units
-    type: BIGINT
-  - name: PercentChangeTotal_Population
+  - name: total_population
+    type: HUGEINT
+  - name: household_population
+    type: HUGEINT
+  - name: group_quarters_population
+    type: HUGEINT
+  - name: total_housing_units
+    type: HUGEINT
+  - name: percentchangetotal_population
     type: DOUBLE
-  - name: PercentChangeHousehold_Populati
+  - name: percentchangehousehold_populati
     type: DOUBLE
-  - name: PercentChangeGroup_Quarters_Pop
+  - name: percentchangegroup_quarters_pop
     type: DOUBLE
-  - name: PercentChangeTotal_Housing_Unit
+  - name: percentchangetotal_housing_unit
     type: DOUBLE
-  - name: FID
+  - name: fid
     type: BIGINT
   - name: sort
     type: BIGINT

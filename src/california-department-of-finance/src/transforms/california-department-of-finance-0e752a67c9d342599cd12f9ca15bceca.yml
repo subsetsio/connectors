@@ -1,42 +1,46 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-0e752a67c9d342599cd12f9ca15bceca`. Regenerate after model-verify.
+key: [jurisdiction, county, year]
+temporal: year
+sort: [year, jurisdiction, county]
 columns:
-  - name: County
+  - name: county
     type: VARCHAR
-  - name: Jurisdiction
+  - name: jurisdiction
     type: VARCHAR
-  - name: COUNTYFP
+  - name: countyfp
     type: BIGINT
-  - name: Year
+  - name: year
     type: BIGINT
-  - name: Date
+  - name: date
     type: BIGINT
-  - name: Total_Population
+  - name: total_population
     type: BIGINT
-  - name: Household_Population
+  - name: household_population
     type: BIGINT
-  - name: Group_Quarters_Population
+  - name: group_quarters_population
     type: BIGINT
-  - name: Total_Housing_Units
+  - name: total_housing_units
     type: BIGINT
-  - name: Single_Family_Detached
+  - name: single_family_detached
     type: BIGINT
-  - name: Single_Family_Attached_
+  - name: single_family_attached
     type: BIGINT
-  - name: Multi_Family_2_4
+  - name: multi_family_2_4
     type: BIGINT
-  - name: Multi_Family_5_
+  - name: multi_family_5
     type: BIGINT
-  - name: Mobile_Home_
+  - name: mobile_home
     type: BIGINT
-  - name: Occupied_Housing_Units
+  - name: occupied_housing_units
     type: BIGINT
-  - name: Vacancy_Rate
+  - name: vacancy_rate
     type: DOUBLE
-  - name: Persons_Per_Household
+  - name: persons_per_household
     type: DOUBLE
-  - name: FIPS
+  - name: fips
     type: BIGINT
-  - name: FilterCounty
+  - name: filtercounty
     type: BIGINT
-  - name: FID
+  - name: fid
     type: BIGINT

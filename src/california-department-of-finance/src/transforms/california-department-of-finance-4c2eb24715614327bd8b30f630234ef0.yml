@@ -1,24 +1,28 @@
-# thin pass-through contract generated from ArcGIS layer metadata for E5AnnualPercentPopChange2
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-4c2eb24715614327bd8b30f630234ef0`. Regenerate after model-verify.
+key: [jurisdiction, city, county, year]
+temporal: year
+sort: [year, jurisdiction, city, county]
 columns:
-  - name: County
+  - name: county
     type: VARCHAR
-  - name: Jurisdiction
+  - name: jurisdiction
     type: VARCHAR
-  - name: City
+  - name: city
     type: VARCHAR
-  - name: COUNTYFP
+  - name: countyfp
     type: BIGINT
-  - name: Year
+  - name: year
     type: BIGINT
-  - name: Total_Population
+  - name: total_population
     type: DOUBLE
-  - name: Household_Population
+  - name: household_population
     type: DOUBLE
-  - name: Group_Quarters_Population
+  - name: group_quarters_population
     type: DOUBLE
-  - name: FIPS
+  - name: fips
     type: BIGINT
-  - name: FilterCounty
+  - name: filtercounty
     type: BIGINT
-  - name: FID
+  - name: fid
     type: BIGINT

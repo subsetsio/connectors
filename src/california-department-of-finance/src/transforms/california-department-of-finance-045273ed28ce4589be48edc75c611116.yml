@@ -1,92 +1,96 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-045273ed28ce4589be48edc75c611116`. Regenerate after model-verify.
+# caution: Wide table with one row per county and separate columns for yearly housing stock and fire loss measures; do not sum across year-specific columns as if they were separate rows.
+key: [co_fips]
+sort: [co_fips]
 columns:
-  - name: Sort
+  - name: sort
     type: BIGINT
-  - name: County
+  - name: county
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: StateFIPS
+  - name: statefips
     type: VARCHAR
-  - name: CO_FIPS
+  - name: co_fips
     type: VARCHAR
-  - name: FIPS
+  - name: fips
     type: VARCHAR
-  - name: CountyStock_4_1_2020
+  - name: countystock_4_1_2020
     type: BIGINT
-  - name: CountyStock_1_1_2021
+  - name: countystock_1_1_2021
     type: BIGINT
-  - name: CountyStock_1_1_2022
+  - name: countystock_1_1_2022
     type: BIGINT
-  - name: CountyStock_1_1_2023
+  - name: countystock_1_1_2023
     type: BIGINT
-  - name: CountyStock_1_1_2024
+  - name: countystock_1_1_2024
     type: BIGINT
-  - name: F2014_Single_Family_Housing_Uni
+  - name: f2014_single_family_housing_uni
     type: BIGINT
-  - name: F2014_Mobile_Home_Unit_Loss
+  - name: f2014_mobile_home_unit_loss
     type: BIGINT
-  - name: F2014_Multi_Family_Structure_Lo
+  - name: f2014_multi_family_structure_lo
     type: BIGINT
-  - name: F2015_Single_Family_Housing_Uni
+  - name: f2015_single_family_housing_uni
     type: BIGINT
-  - name: F2015_Mobile_Home_Unit_Loss
+  - name: f2015_mobile_home_unit_loss
     type: BIGINT
-  - name: F2015_Multi_Family_Structure_Lo
+  - name: f2015_multi_family_structure_lo
     type: BIGINT
-  - name: F2016_Single_Family_Housing_Uni
+  - name: f2016_single_family_housing_uni
     type: BIGINT
-  - name: F2016_Mobile_Home_Unit_Loss
+  - name: f2016_mobile_home_unit_loss
     type: BIGINT
-  - name: F2016_Multi_Family_Structure_Lo
+  - name: f2016_multi_family_structure_lo
     type: BIGINT
-  - name: F2017_Single_Family_Housing_Uni
+  - name: f2017_single_family_housing_uni
     type: BIGINT
-  - name: F2017_Mobile_Home_Unit_Loss
+  - name: f2017_mobile_home_unit_loss
     type: BIGINT
-  - name: F2017_Multi_Family_Structure_Lo
+  - name: f2017_multi_family_structure_lo
     type: BIGINT
-  - name: F2018_Single_Family_Housing_Uni
+  - name: f2018_single_family_housing_uni
     type: BIGINT
-  - name: F2018_Mobile_Home_Unit_Loss
+  - name: f2018_mobile_home_unit_loss
     type: BIGINT
-  - name: F2018_Multi_Family_Structure_Lo
+  - name: f2018_multi_family_structure_lo
     type: BIGINT
-  - name: F2019_Single_Family_Housing_Uni
+  - name: f2019_single_family_housing_uni
     type: BIGINT
-  - name: F2019_Mobile_Home_Unit_Loss
+  - name: f2019_mobile_home_unit_loss
     type: BIGINT
-  - name: F2019_Multi_Family_Structure_Lo
+  - name: f2019_multi_family_structure_lo
     type: BIGINT
-  - name: F2020_Single_Family_Housing_Uni
+  - name: f2020_single_family_housing_uni
     type: BIGINT
-  - name: F2020_Mobile_Home_Unit_Loss
+  - name: f2020_mobile_home_unit_loss
     type: BIGINT
-  - name: F2020_Multi_Family_Structure_Lo
+  - name: f2020_multi_family_structure_lo
     type: BIGINT
-  - name: F21_Single_Family_Housing_Unit_
+  - name: f21_single_family_housing_unit
     type: BIGINT
-  - name: F21_Mobile_Home_Unit_Loss
+  - name: f21_mobile_home_unit_loss
     type: BIGINT
-  - name: F21_Multi_Family_Structure_Loss
+  - name: f21_multi_family_structure_loss
     type: BIGINT
-  - name: F2022_Single_Family_Housing_Uni
+  - name: f2022_single_family_housing_uni
     type: BIGINT
-  - name: F2022_Mobile_Home_Unit_Loss
+  - name: f2022_mobile_home_unit_loss
     type: BIGINT
-  - name: F2022_Multi_Family_Structure_Lo
+  - name: f2022_multi_family_structure_lo
     type: BIGINT
-  - name: F2023_Single_Family_Housing_Uni
+  - name: f2023_single_family_housing_uni
     type: BIGINT
-  - name: F2023_Mobile_Home_Unit_Loss
+  - name: f2023_mobile_home_unit_loss
     type: BIGINT
-  - name: F2023_Multi_Family_Structure_Lo
+  - name: f2023_multi_family_structure_lo
     type: BIGINT
-  - name: F2024_Single_Family_Housing_Uni
+  - name: f2024_single_family_housing_uni
     type: BIGINT
-  - name: F2024_Mobile_Home_Unit_Loss
+  - name: f2024_mobile_home_unit_loss
     type: BIGINT
-  - name: F2024_Multi_Family_Structure_Lo
+  - name: f2024_multi_family_structure_lo
     type: BIGINT
-  - name: ObjectId
+  - name: objectid
     type: BIGINT

@@ -1,76 +1,80 @@
-# thin pass-through contract generated from ArcGIS layer metadata for E5 Population and Housing TBData2025
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-060863044a0f4e4b8eec84c85e3eedf6`. Regenerate after model-verify.
+key: [jurisdiction, county, year]
+temporal: year
+sort: [year, jurisdiction, county]
 columns:
-  - name: Jurisdiction
+  - name: jurisdiction
     type: VARCHAR
-  - name: County
+  - name: county
     type: VARCHAR
-  - name: CountyFIPS
+  - name: countyfips
     type: VARCHAR
-  - name: FIPS
+  - name: fips
     type: VARCHAR
-  - name: Year
+  - name: year
     type: BIGINT
-  - name: Total_Population
+  - name: total_population
     type: BIGINT
-  - name: Household_Population
+  - name: household_population
     type: BIGINT
-  - name: Group_Quarters_Population
+  - name: group_quarters_population
     type: BIGINT
-  - name: Total_Housing_Units
+  - name: total_housing_units
     type: BIGINT
-  - name: Single_Attached_Units
+  - name: single_attached_units
     type: BIGINT
-  - name: Single_Detached_Units
+  - name: single_detached_units
     type: BIGINT
-  - name: Multi_Family_2_4
+  - name: multi_family_2_4
     type: BIGINT
-  - name: Multi_Family_5_
+  - name: multi_family_5
     type: BIGINT
-  - name: Mobile_Home_Units
+  - name: mobile_home_units
     type: BIGINT
-  - name: Occupied_Housing_Units
+  - name: occupied_housing_units
     type: BIGINT
-  - name: Vacancy_Rate
+  - name: vacancy_rate
     type: DOUBLE
-  - name: Persons_per_Household
+  - name: persons_per_household
     type: DOUBLE
-  - name: Change_Single_Attached_Units
-    type: BIGINT
-  - name: Change_Single_Detached_Units
-    type: BIGINT
-  - name: Change_Multi_Family_2_4
-    type: BIGINT
-  - name: Change_Multi_Family_5_
-    type: BIGINT
-  - name: Change_Mobile_Home_Units
-    type: BIGINT
-  - name: Change_Total_HU
-    type: BIGINT
-  - name: Change_Affordable_Units
-    type: BIGINT
-  - name: Change_ADU
-    type: BIGINT
-  - name: Change_Total_Population
-    type: BIGINT
-  - name: Change_Household_Population
-    type: BIGINT
-  - name: Change_Group_Quarters_Populatio
-    type: BIGINT
-  - name: Percent_Change_Total_Population
+  - name: change_single_attached_units
+    type: HUGEINT
+  - name: change_single_detached_units
+    type: HUGEINT
+  - name: change_multi_family_2_4
+    type: HUGEINT
+  - name: change_multi_family_5
+    type: HUGEINT
+  - name: change_mobile_home_units
+    type: HUGEINT
+  - name: change_total_hu
+    type: HUGEINT
+  - name: change_affordable_units
+    type: HUGEINT
+  - name: change_adu
+    type: HUGEINT
+  - name: change_total_population
+    type: HUGEINT
+  - name: change_household_population
+    type: HUGEINT
+  - name: change_group_quarters_populatio
+    type: HUGEINT
+  - name: percent_change_total_population
     type: DOUBLE
-  - name: Percent_Change_Household_Popula
+  - name: percent_change_household_popula
     type: DOUBLE
-  - name: Percent_Change_Group_Quarters_P
+  - name: percent_change_group_quarters_p
     type: DOUBLE
-  - name: Percent_Change_Total_HU
+  - name: percent_change_total_hu
     type: DOUBLE
-  - name: FID
+  - name: fid
     type: BIGINT
-  - name: Sort
-    type: BIGINT
-  - name: VR
+  - name: sort
+    type: HUGEINT
+  - name: vr
     type: VARCHAR
   - name: textname
     type: VARCHAR
-  - name: YearText
-    type: VARCHAR
+  - name: yeartext
+    type: BIGINT

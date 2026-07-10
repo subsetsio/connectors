@@ -1,22 +1,25 @@
-# thin pass-through contract generated from ArcGIS layer metadata for Fire HU Loss by Year April2025Update
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-e27cb8246ca14b5d830083689b7c6f46`. Regenerate after model-verify.
+key: [placecode, county, fips, co_fips, year]
+sort: [placecode, county, fips, co_fips, year]
 columns:
-  - name: Year
-    type: VARCHAR
-  - name: County
-    type: VARCHAR
-  - name: CO_FIPS
-    type: VARCHAR
-  - name: FIPS
-    type: VARCHAR
-  - name: Placecode
-    type: VARCHAR
-  - name: Mobile_Home_Unit
+  - name: year
     type: BIGINT
-  - name: Multi_Family_Structure
+  - name: county
+    type: VARCHAR
+  - name: co_fips
+    type: VARCHAR
+  - name: fips
+    type: VARCHAR
+  - name: placecode
+    type: VARCHAR
+  - name: mobile_home_unit
     type: BIGINT
-  - name: Single_Family_Housing_Unit
+  - name: multi_family_structure
     type: BIGINT
-  - name: Grand_Total
+  - name: single_family_housing_unit
     type: BIGINT
-  - name: ObjectId
+  - name: grand_total
+    type: BIGINT
+  - name: objectid
     type: BIGINT

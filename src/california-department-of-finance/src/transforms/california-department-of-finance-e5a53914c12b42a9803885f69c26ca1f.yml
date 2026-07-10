@@ -1,26 +1,30 @@
-# thin pass-through contract generated from ArcGIS layer metadata for California Counties Urban Data
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-department-of-finance-e5a53914c12b42a9803885f69c26ca1f`. Regenerate after model-verify.
+# caution: County-level urban classification table stores decade and post-threshold change measures as separate columns.
+key: [county_name]
+sort: [county_name]
 columns:
-  - name: County_Name
+  - name: county_name
     type: VARCHAR
-  - name: CountyFP
+  - name: countyfp
     type: BIGINT
-  - name: F2010_Census_Total_Population
+  - name: f2010_census_total_population
     type: BIGINT
-  - name: F2010_Census_Urban_Population
+  - name: f2010_census_urban_population
     type: BIGINT
-  - name: F2010_Census_Percent_of_Total_P
+  - name: f2010_census_percent_of_total_p
     type: DOUBLE
-  - name: F2020_Census_Total_Population
+  - name: f2020_census_total_population
     type: BIGINT
-  - name: Change__2010_to_2020
+  - name: change_2010_to_2020
+    type: HUGEINT
+  - name: f2020_census_urban_population
     type: BIGINT
-  - name: F2020_Census_Urban_Population
-    type: BIGINT
-  - name: F2020_Census_Percent_of_Total_P
+  - name: f2020_census_percent_of_total_p
     type: DOUBLE
-  - name: Change_in_Urban_Population
-    type: BIGINT
-  - name: Percent_Change_in_Urban_Populat
+  - name: change_in_urban_population
+    type: HUGEINT
+  - name: percent_change_in_urban_populat
     type: DOUBLE
-  - name: ObjectId
+  - name: objectid
     type: BIGINT
