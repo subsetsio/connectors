@@ -1,0 +1,13 @@
+spec_id: fra-jm8x-ccxs
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: This is the rolling 6-year Form 54 view; a drop below this floor means the Socrata export truncated or the view query changed.
+    certainty: 85
+  - not_null: reportingrailroadcode
+    reason: Column reportingrailroadcode identifies the reporting railroad on Form 54 accident records.
+    certainty: 90
+  - freshness: {col: date, reaches: today - 90d}
+    reason: FRA states accident data is reported monthly; the rolling view should have recent accident dates.
+    certainty: 80
+    points_outward: true

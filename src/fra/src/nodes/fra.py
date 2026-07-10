@@ -33,7 +33,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get_client,
     raw_parquet_writer,
     transient_retry,
@@ -131,38 +130,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# Per-dataset published grain (key) and primary observation-period column
-# (temporal). Declarative metadata only, keyed by download spec id. Keys are
-# profiler-confirmed unique report identifiers; the event/accident logs carry no
-# single unique identifier and are left keyless (undeclared). Entries default to
-# (None, None).
-GRAIN: dict[str, tuple[tuple[str, ...] | None, str | None]] = {
-    "fra-7wn6-i5b9": (None, "date"),
-    "fra-85tf-25kj": (None, "date"),
-    "fra-8uv2-y4is": (("reportbaseid",), "aadtyear"),
-    "fra-aqxq-n5hy": (None, "year4"),
-    "fra-byy5-w977": (("incidentkey",), "date"),
-    "fra-icqf-xf4w": (None, "year4"),
-    "fra-kuvg-3uwp": (None, "year4"),
-    "fra-m2f8-22s6": (None, "annualaveragedailytrafficyear"),
-    "fra-m8i6-zdsy": (None, "year"),
-    "fra-rash-pd2d": (("reportkey",), "date"),
-    "fra-unww-uhxd": (None, "year4"),
-    "fra-vhwz-raag": (None, "annualaveragedailytrafficyear"),
-    "fra-xp92-5xme": (("reportbaseid",), "aadtyear"),
-}
-
-# One published Delta table per dataset — a faithful all-column passthrough of the
-# raw export. Casting/reshaping of individual coded columns is out of scope here.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{spec.id}-transform",
-        deps=[spec.id],
-        sql=f'SELECT * FROM "{spec.id}"',
-        key=GRAIN.get(spec.id, (None, None))[0],
-        temporal=GRAIN.get(spec.id, (None, None))[1],
-    )
-    for spec in DOWNLOAD_SPECS
 ]

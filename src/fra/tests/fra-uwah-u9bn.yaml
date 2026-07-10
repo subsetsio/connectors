@@ -1,0 +1,13 @@
+spec_id: fra-uwah-u9bn
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: This is the rolling 6-year Form 57 crossing incident view; a drop below this floor means the Socrata export truncated or the view query changed.
+    certainty: 85
+  - not_null: railroadcode
+    reason: Column railroadcode identifies the reporting railroad on Form 57 incident records.
+    certainty: 90
+  - freshness: {col: date, reaches: today - 90d}
+    reason: FRA states crossing incident data is reported monthly; the rolling view should have recent incident dates.
+    certainty: 80
+    points_outward: true

@@ -1,0 +1,13 @@
+spec_id: fra-bx7m-yn3v
+status: active
+tests:
+  - row_count: {min: 35000}
+    reason: This is the rolling 6-year casualty view; a drop below this floor means the Socrata export truncated or the view query changed.
+    certainty: 85
+  - not_null: railroadcode
+    reason: Column railroadcode identifies the reporting railroad on every Form 55a casualty record.
+    certainty: 90
+  - freshness: {col: date, reaches: today - 90d}
+    reason: FRA states casualty data is reported monthly; the rolling view should have recent incident dates.
+    certainty: 80
+    points_outward: true

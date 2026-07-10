@@ -1,0 +1,13 @@
+spec_id: fra-8wvp-gjhh
+status: active
+tests:
+  - row_count: {min: 50000}
+    reason: This is the rolling 6-year operational view; a drop below this floor means the Socrata export truncated or the view query changed.
+    certainty: 85
+  - not_null: railroadcode
+    reason: Column railroadcode identifies the reporting railroad on every Form 55 operational record.
+    certainty: 90
+  - freshness: {col: year, reaches: current_year()}
+    reason: FRA states railroads report Form 55 operational data monthly and this rolling view should include the current reporting year.
+    certainty: 80
+    points_outward: true

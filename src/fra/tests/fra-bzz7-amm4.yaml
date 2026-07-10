@@ -1,0 +1,13 @@
+spec_id: fra-bzz7-amm4
+status: active
+tests:
+  - row_count: {min: 4000000}
+    reason: Historical crossing inventory contains millions of records; a drop below this floor means the full-corpus Socrata export truncated.
+    certainty: 90
+  - not_null: crossingid
+    reason: Column crossingid is the FRA crossing identifier and should be present on inventory records.
+    certainty: 90
+  - freshness: {col: aadtyear, reaches: current_year() - 1}
+    reason: Historical Form 71 inventory receives ongoing updates and should include the latest AADT year with normal release lag.
+    certainty: 80
+    points_outward: true
