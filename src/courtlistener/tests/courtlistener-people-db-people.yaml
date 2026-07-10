@@ -1,6 +1,9 @@
 spec_id: courtlistener-people-db-people
 status: active
 tests:
+  - freshness: {col: date_modified, reaches: today - 500d}
+    reason: CourtListener publishes quarterly full database snapshots; accepted mutable tables should contain recently modified rows.
+    certainty: 80
   - not_null: id
     reason: id is the table's PostgreSQL primary key; never null in a COPY dump.
     certainty: 98

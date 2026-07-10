@@ -1,5 +1,8 @@
 spec_id: courtlistener-financial-disclosures-gifts
 status: active
+coverage:
+  frozen: true
+  reason: current CourtListener bulk snapshot contains no recently modified rows in this financial disclosure detail table; retain row/key tests without treating content recency as a freshness signal.
 tests:
   - not_null: id
     reason: id is the table's PostgreSQL primary key; never null in a COPY dump.

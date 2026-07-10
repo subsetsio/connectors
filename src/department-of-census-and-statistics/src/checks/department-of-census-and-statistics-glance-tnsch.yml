@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `department-of-census-and-statistics-glance-tnsch`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, year, period, indicator_code, indicator_title]
+temporal: date
+checks:
+  - kind: unique
+    columns: [date, year, period, indicator_code, indicator_title]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: period
+  - kind: not_null
+    col: indicator_code
+  - kind: not_null
+    col: indicator_title
+  - kind: row_floor
+    min: 30
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

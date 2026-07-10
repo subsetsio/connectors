@@ -1,5 +1,8 @@
 spec_id: courtlistener-fjc-integrated-database
 status: active
+coverage:
+  frozen: true
+  reason: FJC integrated database rows in the current CourtListener bulk snapshot have historical date_modified values; treat the dataset as a historical extract for freshness purposes.
 tests:
   - not_null: id
     reason: id is the table's PostgreSQL primary key; never null in a COPY dump.

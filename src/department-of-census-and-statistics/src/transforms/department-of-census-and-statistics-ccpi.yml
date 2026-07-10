@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `department-of-census-and-statistics-ccpi`. Regenerate after model-verify.
+# caution: Contains index levels and inflation measures; filter `measure` before comparing or aggregating values.
+key: [date, period, category_code, category_title, measure]
+temporal: date
+sort: [date, period, category_code, category_title, measure]
 columns:
   - name: date
     type: DATE

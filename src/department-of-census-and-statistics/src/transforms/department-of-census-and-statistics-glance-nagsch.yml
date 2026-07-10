@@ -1,16 +1,20 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `department-of-census-and-statistics-glance-nagsch`. Regenerate after model-verify.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE
   - name: year
     type: BIGINT
   - name: period
-    type: VARCHAR
+    type: BIGINT
   - name: indicator_code
     type: VARCHAR
   - name: indicator_title
     type: VARCHAR
   - name: units
-    type: VARCHAR
+    type: JSON
   - name: value
     type: DOUBLE

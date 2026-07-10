@@ -1,7 +1,11 @@
-SELECT CAST(date AS DATE) AS date,
-       period,
-       category_code,
-       category_title,
-       CAST(value AS DOUBLE) AS value
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "date",
+    "period",
+    "category_code",
+    "category_title",
+    "value"
 FROM "department-of-census-and-statistics-ppi"
-WHERE value IS NOT NULL

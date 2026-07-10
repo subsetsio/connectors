@@ -1,5 +1,8 @@
 spec_id: courtlistener-people-db-political-affiliations
 status: active
+coverage:
+  frozen: true
+  reason: current CourtListener people political-affiliation rows have historical date_modified values; retain row/key tests without treating content recency as a freshness signal.
 tests:
   - not_null: id
     reason: id is the table's PostgreSQL primary key; never null in a COPY dump.

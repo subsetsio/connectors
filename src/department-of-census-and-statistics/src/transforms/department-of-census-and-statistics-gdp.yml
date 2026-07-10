@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `department-of-census-and-statistics-gdp`. Regenerate after model-verify.
+# caution: Contains annual and quarterly series, current and constant price bases, and value/share/growth measures; filter `frequency`, `price_basis`, and `measure` before comparing or aggregating values.
+key: [date, period, frequency, price_basis, measure, sector_code]
+temporal: date
+sort: [date, period, frequency, price_basis, measure, sector_code]
 columns:
   - name: date
     type: DATE

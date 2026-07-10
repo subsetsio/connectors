@@ -1,5 +1,8 @@
 spec_id: cmhc-34100097
 status: active
+coverage:
+  frozen: true
+  reason: StatCan table 34-10-0097 is a closed historical CMHC series ending at 2009-12.
 tests:
   - row_count: {min: 1}
   - not_null: REF_DATE
@@ -7,7 +10,3 @@ tests:
   - column_type: {col: REF_DATE, type: string}
   - column_type: {col: GEO, type: string}
   - nullable: {col: VALUE, max_null_frac: 0.95}
-  - freshness: {col: REF_DATE, reaches: today - 5y}
-    reason: active StatCan CMHC table; cadence varies across monthly/quarterly/as-needed housing releases
-    certainty: 80
-    points_outward: true
