@@ -33,6 +33,7 @@ import re
 import html
 import json
 
+import httpx
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
@@ -55,6 +56,20 @@ def _spec_id(entity_id: str) -> str:
 
 
 _BY_SPEC = {_spec_id(e["id"]): e for e in ENTITIES}
+
+ANNUAL_MASK_FALLBACKS = {
+    # A small set of annual LS reports intermittently returns HTTP 500 from
+    # queryRptTimeFreqMask while neighboring reports still publish normally.
+    # The data/template calls use these same single annual masks.
+    "LS-12-07-1": ["2012"],
+    "LS-12-07-2": ["2019"],
+    "LS-12-08": ["2011"],
+    "LS-17-06": ["2011"],
+    "LS-18-26": ["2011"],
+    "LS-5-02": ["2011"],
+    "LS-5-05": ["2011"],
+    "LS-7-13": ["2011"],
+}
 
 
 @transient_retry()
@@ -136,14 +151,23 @@ def _parse_template(tpl_html: str):
 
 
 def _freq_masks(report: str, sort: str, usage_type: str) -> tuple[list[str], str | None]:
-    resp = _post(
-        "queryRptTimeFreqMask",
-        {
-            "reportDataKeyDTO.reportNumber": report,
-            "reportDataKeyDTO.usageType": usage_type,
-            "reportDataKeyDTO.dataSortTypeCode": sort,
-        },
-    )
+    try:
+        resp = _post(
+            "queryRptTimeFreqMask",
+            {
+                "reportDataKeyDTO.reportNumber": report,
+                "reportDataKeyDTO.usageType": usage_type,
+                "reportDataKeyDTO.dataSortTypeCode": sort,
+            },
+        )
+    except httpx.HTTPStatusError as exc:
+        if (
+            sort == "01"
+            and exc.response.status_code >= 500
+            and report in ANNUAL_MASK_FALLBACKS
+        ):
+            return ANNUAL_MASK_FALLBACKS[report], None
+        raise
     blocks = resp.json() or []
     masks = []
     dept = None
