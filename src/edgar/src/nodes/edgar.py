@@ -48,10 +48,10 @@ BASE_URL = (
 # CC BY 4.0 substance packages only. (gas-group label, zip filename) — the
 # real per-row gas/species comes from the workbook's Substance column.
 GAS_PACKAGES = [
-    ("ch4", "EDGAR_CH4_1970_2024.zip"),
-    ("n2o", "EDGAR_N2O_1970_2024.zip"),
-    ("f-gases", "EDGAR_F-gases_1990_2024.zip"),
-    ("co2bio", "EDGAR_CO2bio_1970_2024.zip"),
+    ("ch4", "EDGAR_CH4_m_1970_2024.zip"),
+    ("n2o", "EDGAR_N2O_m_1970_2024.zip"),
+    ("f-gases", "EDGAR_F-gases_m_1990_2024.zip"),
+    ("co2bio", "EDGAR_CO2bio_m_1970_2024.zip"),
 ]
 
 SHEET = "IPCC 2006"
