@@ -21,6 +21,8 @@ revisions for free.
 import io
 import math
 import re
+from html.parser import HTMLParser
+from urllib.parse import urljoin
 
 import pandas as pd
 
@@ -95,6 +97,89 @@ def _xlsx_urls(pkg: dict, *, contains: str | None = None) -> list[str]:
             if contains is None or contains in url.lower():
                 urls.append(url)
     return urls
+
+
+class _LinkParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.links = []
+        self._href = None
+        self._text = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag.lower() == "a":
+            self._href = dict(attrs).get("href")
+            self._text = []
+
+    def handle_data(self, data):
+        if self._href is not None:
+            self._text.append(data)
+
+    def handle_endtag(self, tag):
+        if tag.lower() == "a" and self._href is not None:
+            text = " ".join("".join(self._text).split())
+            self.links.append((text, self._href))
+            self._href = None
+            self._text = []
+
+
+class _TextParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.parts = []
+        self._skip = 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag.lower() in {"script", "style", "noscript", "svg"}:
+            self._skip += 1
+
+    def handle_endtag(self, tag):
+        if tag.lower() in {"script", "style", "noscript", "svg"} and self._skip:
+            self._skip -= 1
+
+    def handle_data(self, data):
+        if not self._skip:
+            text = " ".join(data.split())
+            if text:
+                self.parts.append(text)
+
+
+def _html_data_links(page_url: str, html: str) -> list[dict]:
+    parser = _LinkParser()
+    parser.feed(html)
+    resources = []
+    seen = set()
+    for text, href in parser.links:
+        url = urljoin(page_url, href)
+        clean = url.lower().split("?", 1)[0]
+        if not clean.endswith((".xlsx", ".xls", ".csv")) or url in seen:
+            continue
+        seen.add(url)
+        if clean.endswith(".csv"):
+            fmt = "CSV"
+        elif clean.endswith(".xls"):
+            fmt = "XLS"
+        else:
+            fmt = "XLSX"
+        resources.append({
+            "url": url,
+            "format": fmt,
+            "name": text or url.rsplit("/", 1)[-1],
+        })
+    return resources
+
+
+def _html_text_rows(html: str) -> pd.DataFrame:
+    parser = _TextParser()
+    parser.feed(html)
+    rows = []
+    prev = None
+    for part in parser.parts:
+        if part == prev or len(part) < 2:
+            continue
+        rows.append([part])
+        prev = part
+    return pd.DataFrame(rows)
 
 
 @transient_retry()
@@ -285,9 +370,12 @@ def _resource_rows(pkg: dict) -> list[dict]:
     for res in pkg.get("resources", []):
         url = res.get("url") or ""
         fmt = (res.get("format") or "").upper().lstrip(".")
-        if fmt not in {"XLSX", "XLS", "CSV"}:
+        clean_url = url.lower().split("?", 1)[0]
+        if fmt == "HTML" or clean_url.endswith((".html", "/data/" + clean_url.rsplit("/data/", 1)[-1])):
+            fmt = "HTML"
+        if fmt not in {"XLSX", "XLS", "CSV", "HTML"}:
             continue
-        if not url.lower().split("?")[0].endswith((".xlsx", ".xls", ".csv")):
+        if fmt != "HTML" and not clean_url.endswith((".xlsx", ".xls", ".csv")):
             continue
         rows.append({
             "url": url,
@@ -309,6 +397,15 @@ def _emit_cell_rows(pkg: dict, resource: dict, content: bytes) -> list[dict]:
     rows = []
     if resource["format"] == "CSV":
         frames = [("csv", pd.read_csv(io.BytesIO(content), header=None, dtype=object))]
+    elif resource["format"] == "HTML":
+        html = content.decode("utf-8", errors="replace")
+        try:
+            tables = pd.read_html(io.StringIO(html), header=None, flavor="lxml")
+        except ValueError:
+            tables = []
+        frames = [(f"html_table_{i + 1}", table) for i, table in enumerate(tables)]
+        if not frames:
+            frames = [("html_text", _html_text_rows(html))]
     else:
         xl = pd.ExcelFile(io.BytesIO(content))
         frames = [(sheet, xl.parse(sheet, header=None, dtype=object)) for sheet in xl.sheet_names]
@@ -339,6 +436,11 @@ def fetch_generic_workbooks(node_id: str) -> None:
         for resource in resources:
             content = _get_xlsx(resource["url"])
             rows.extend(_emit_cell_rows(pkg, resource, content))
+            if resource["format"] == "HTML":
+                html = content.decode("utf-8", errors="replace")
+                for linked in _html_data_links(resource["url"], html):
+                    linked_content = _get_xlsx(linked["url"])
+                    rows.extend(_emit_cell_rows(pkg, linked, linked_content))
     if not rows:
         raise RuntimeError(f"no tabular workbook/CSV cells fetched for family {family!r}")
     save_raw_ndjson(rows, node_id)
