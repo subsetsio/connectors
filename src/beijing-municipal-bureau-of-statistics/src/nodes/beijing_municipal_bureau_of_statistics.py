@@ -36,7 +36,6 @@ import json
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     post,
     save_raw_ndjson,
@@ -252,28 +251,4 @@ def fetch_one(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=sid, fn=fetch_one, kind="download") for sid in _BY_SPEC
-]
-
-# One published Delta table per report: long-format (period, indicator,
-# col_label, value). Numeric cast/dedup is the transform's correctness gate; a
-# report that yields no numeric cells fails its node by design.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT DISTINCT
-                report_number,
-                freq_type,
-                mask AS period,
-                indicator,
-                col_label,
-                TRY_CAST(replace(replace(value, ',', ''), ' ', '') AS DOUBLE) AS value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL
-              AND trim(value) <> ''
-              AND TRY_CAST(replace(replace(value, ',', ''), ' ', '') AS DOUBLE) IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

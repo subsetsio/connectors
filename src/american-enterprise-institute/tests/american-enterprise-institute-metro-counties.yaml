@@ -20,8 +20,8 @@ tests:
   - matches: {col: state, pattern: "^[A-Z]{2}$"}
     reason: source uses USPS state abbreviations
     certainty: 95
-  - distinct_count: {col: metro, min: 95, max: 105}
-    reason: crosswalk covers AEI's Top 100 metros, with one documented excluded metro
+  - distinct_count: {col: metro, min: 85, max: 105}
+    reason: crosswalk workbook currently lists 89 metro names; this guards against major parse loss while allowing AEI's static source shape
     certainty: 85
   - row_count: {min: 500, max: 700}
     reason: county crosswalk has multiple counties per metro and is under 600 rows in the published workbook

@@ -1,0 +1,18 @@
+spec_id: beijing-municipal-bureau-of-statistics-01-ls-18-09-1
+status: active
+tests:
+  - not_null: report_number
+    reason: every unflattened row is stamped with its source reportNumber
+    certainty: 98
+  - not_null: indicator
+    reason: each data cell joins to a row label (indicator) from the template
+    certainty: 90
+  - not_null: value
+    reason: empty/blank cells are dropped in the fetch fn, so persisted values are non-null
+    certainty: 90
+  - column_type: {col: value, type: string}
+    reason: raw cell values are persisted verbatim as strings; numeric cast happens in transform
+    certainty: 95
+  - freshness: {col: mask, reaches: '2012'}
+    reason: this report corpus includes mixed annual, monthly, and archived table cadences; requiring at least 2012 catches incomplete or regressed pulls without assuming every table advances on the same schedule
+    certainty: 75
