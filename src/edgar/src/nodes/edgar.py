@@ -1,7 +1,7 @@
 """EDGAR Community GHG inventory (European Commission JRC).
 
-Source: https://edgar.jrc.ec.europa.eu/dataset_ghg2024
-Release: EDGAR_2024_GHG (EDGAR v8 / 2024).
+Source: https://edgar.jrc.ec.europa.eu/dataset_ghg2025
+Release: EDGAR_2025_GHG (2025 release).
 
 Publishes one long table — emissions by country x IPCC-2006 sector x gas x
 year — built by unpivoting the per-substance XLSX workbooks served as ZIPs
@@ -16,7 +16,7 @@ Each workbook's "IPCC 2006" sheet is a wide table: a 9-row metadata
 preamble, then a header row (index 9) of 8 identifier columns
 (IPCC_annex, C_group_IM24_sh, Country_code_A3, Name,
 ipcc_code_2006_for_standard_report, ...name, Substance, fossil_bio) followed
-by Y_1970..Y_2023 year columns (F-gases start Y_1990). Values are in Gg
+by Y_1970..Y_2024 year columns (F-gases start Y_1990). Values are in Gg
 (gigagrams = kilotonnes) of the named substance. The F-gases workbook
 resolves into ~25 individual species (HFC-125, SF6, NF3, ...) via the
 Substance column, which we carry through verbatim as `gas`.
@@ -39,16 +39,16 @@ from subsets_utils import (
 )
 
 BASE_URL = (
-    "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/EDGAR/datasets/EDGAR_2024_GHG"
+    "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/EDGAR/datasets/EDGAR_2025_GHG"
 )
 
 # CC BY 4.0 substance packages only. (gas-group label, zip filename) — the
 # real per-row gas/species comes from the workbook's Substance column.
 GAS_PACKAGES = [
-    "EDGAR_CH4_1970_2023.zip",
-    "EDGAR_N2O_1970_2023.zip",
-    "EDGAR_F-gases_1990_2023.zip",
-    "EDGAR_CO2bio_1970_2023.zip",
+    "EDGAR_CH4_1970_2024.zip",
+    "EDGAR_N2O_1970_2024.zip",
+    "EDGAR_F-gases_1990_2024.zip",
+    "EDGAR_CO2bio_1970_2024.zip",
 ]
 
 SHEET = "IPCC 2006"

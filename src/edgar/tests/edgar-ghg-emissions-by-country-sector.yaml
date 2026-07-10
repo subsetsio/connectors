@@ -14,8 +14,8 @@ tests:
   # EDGAR GHG series start in 1970; year never exceeds the current calendar year.
   - between: {col: year, lo: 1970, hi: current_year()}
 
-  # Annual release with a ~1-2y data lag; we pin the EDGAR_2024_GHG release
-  # (data through 2023). Trips once the pinned release falls too far behind and
+  # Annual release with a ~1-2y data lag; we pin the EDGAR_2025_GHG release
+  # (data through 2024). Trips once the pinned release falls too far behind and
   # the BASE_URL should be bumped to a newer EDGAR annual release.
   - freshness: {col: year, reaches: current_year() - 3}
     points_outward: true

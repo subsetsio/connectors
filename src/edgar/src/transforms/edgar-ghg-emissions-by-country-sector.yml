@@ -1,25 +1,38 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `edgar-ghg-emissions-by-country-sector`. Regenerate after model-verify.
+# caution: Rows include sector-level emissions and EDGAR country or regional aggregates; filter the geography and IPCC sector level deliberately before summing.
+# caution: The `gas` column mixes CH4, N2O, CO2bio, and individual fluorinated-gas species, all reported in kilotonnes of the named substance rather than CO2-equivalent.
 key: [country_code, ipcc_sector_code, gas, fossil_bio, year]
 temporal: year
 sort: [year, country_code, ipcc_sector_code, gas, fossil_bio]
 columns:
   - name: country_code
     type: VARCHAR
+    description: EDGAR country or regional aggregate code, generally ISO 3166-1 alpha-3 for countries.
   - name: country_name
     type: VARCHAR
+    description: Country or EDGAR regional aggregate name.
   - name: ipcc_annex
     type: VARCHAR
+    description: UNFCCC/IPCC annex grouping supplied by EDGAR for the country or aggregate.
   - name: c_group
     type: VARCHAR
+    description: EDGAR country grouping used in the source workbook.
   - name: ipcc_sector_code
     type: VARCHAR
+    description: IPCC 2006 sector code for standard emissions reporting.
   - name: ipcc_sector_name
     type: VARCHAR
+    description: IPCC 2006 sector label for the sector code.
   - name: gas
     type: VARCHAR
+    description: Emitted gas or gas species reported by the source workbook, such as CH4, N2O, CO2bio, SF6, or HFC species.
   - name: fossil_bio
     type: VARCHAR
+    description: Source fossil or biogenic classification from EDGAR.
   - name: year
     type: INTEGER
+    description: Observation year.
   - name: emissions_kt
     type: DOUBLE
+    description: Annual emissions in kilotonnes (Gg) of the named gas or gas species.
