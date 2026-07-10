@@ -1,5 +1,8 @@
 spec_id: defra-flood-monitoring-measures
 status: active
+coverage:
+  frozen: true
+  reason: The temporal-looking period column is the measurement interval length in seconds, not a corpus freshness timestamp.
 tests:
   - not_null: notation
   - unique: notation

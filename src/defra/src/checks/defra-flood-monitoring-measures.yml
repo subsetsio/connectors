@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `defra-flood-monitoring-measures`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [notation, label, station_reference, qualifier, unit_name]
+checks:
+  - kind: unique
+    columns: [notation, label, station_reference, qualifier, unit_name]
+  - kind: not_null
+    col: notation
+  - kind: not_null
+    col: label
+  - kind: not_null
+    col: station_reference
+  - kind: not_null
+    col: qualifier
+  - kind: not_null
+    col: unit_name
+  - kind: row_floor
+    min: 3620
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

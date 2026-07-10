@@ -8,3 +8,6 @@ tests:
   - not_null: date_time
     reason: every latest reading carries a timestamp
     certainty: 90
+  - freshness: {col: date_time, reaches: today - 2d}
+    reason: the latest-reading snapshot should include current or near-current telemetry
+    certainty: 85

@@ -1,6 +1,9 @@
 spec_id: department-of-census-and-statistics-ppi
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 4y}
+    reason: "DCS statistical series are published with substantial annual or periodic lag; the latest observation should remain within four years."
+    certainty: 80
   - not_null: date
   - not_null: category_code
   - not_null: value

@@ -1,5 +1,8 @@
 spec_id: defra-flood-monitoring-stations
 status: active
+coverage:
+  frozen: true
+  reason: Station date_opened values are historical opening dates, not a feed freshness timestamp.
 tests:
   - not_null: notation
   - unique: notation

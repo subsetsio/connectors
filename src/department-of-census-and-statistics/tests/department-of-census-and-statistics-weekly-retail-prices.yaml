@@ -1,6 +1,9 @@
 spec_id: department-of-census-and-statistics-weekly-retail-prices
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 120d}
+    reason: "weekly retail prices should include observations from the last four months."
+    certainty: 85
   - not_null: week_label
   - not_null: product
   - not_null: price_lkr

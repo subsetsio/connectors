@@ -1,5 +1,8 @@
 spec_id: department-of-census-and-statistics-glance-qoe
 status: active
+coverage:
+  frozen: true
+  reason: Sri Lanka at a Glance tables are historical snapshot series from the DCS glance page; the source does not advance these accepted extracts on the regular CPI, GDP, index, or weekly-price cadence.
 tests:
   - not_null: date
   - not_null: indicator_code

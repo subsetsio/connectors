@@ -26,3 +26,6 @@ tests:
     reason: Mexican local marginal prices are $/MWh, typically a few hundred to a few thousand pesos
     certainty: 55
     severity: warn
+  - freshness: {col: fecha, reaches: today - 7d}
+    reason: CENACE publishes MDA/MTR node marginal prices daily and the trailing re-pull reaches through today+1 (MDA), so a max fecha older than a week means a stale load
+    certainty: 90
