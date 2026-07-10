@@ -1,0 +1,11 @@
+spec_id: hkma-efbn-tender-results-efn
+status: active
+tests:
+- freshness:
+    col: issue_date
+    reaches: today - 266d
+  reason: issue_date advances on the source cadence; the latest observed period is 2026-05-26. reaches slack = observed lag + cadence margin.
+  certainty: 80
+  points_outward: true
+- row_count:
+    min: 1

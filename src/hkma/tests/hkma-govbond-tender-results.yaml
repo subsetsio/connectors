@@ -1,0 +1,9 @@
+spec_id: hkma-govbond-tender-results
+status: active
+coverage:
+  frozen: true
+  reason: HK Government Bond Programme (IBIP) institutional tenders are intermittent; the most recent tender on record is 2024-01-18 and no new tender has been issued since.
+tests:
+- not_null: issue_date
+- row_count:
+    min: 1

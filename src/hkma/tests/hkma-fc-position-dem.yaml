@@ -1,0 +1,9 @@
+spec_id: hkma-fc-position-dem
+status: active
+coverage:
+  frozen: true
+  reason: 'Deutsche Mark foreign-currency position: DEM was replaced by the euro in 2002; this legacy series ends 1998-12 and does not advance.'
+tests:
+- not_null: end_of_month
+- row_count:
+    min: 1

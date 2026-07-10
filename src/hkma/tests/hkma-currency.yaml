@@ -1,0 +1,12 @@
+spec_id: hkma-currency
+status: active
+tests:
+- freshness:
+    col: end_of_month
+    reaches: today - 121d
+  reason: end_of_month advances on the source cadence; the latest observed period is 2026-05. reaches slack = observed lag + cadence margin.
+  certainty: 80
+  points_outward: true
+- not_null: end_of_month
+- row_count:
+    min: 1

@@ -1,0 +1,11 @@
+spec_id: hkma-govbond-price-yield-endperiod
+status: active
+tests:
+- freshness:
+    col: end_of_month
+    reaches: today - 91d
+  reason: end_of_month advances on the source cadence; the latest observed period is 2026-06. reaches slack = observed lag + cadence margin.
+  certainty: 80
+  points_outward: true
+- row_count:
+    min: 1

@@ -1,0 +1,19 @@
+spec_id: hud-htf-rent-limits
+status: active
+tests:
+  - not_null: fiscal_year
+    reason: every ingested row is stamped with its source workbook's fiscal year on parse.
+    certainty: 95
+  - column_type: {col: fiscal_year, type: integer}
+    reason: fiscal_year is written as an integer by the fetch fn.
+    certainty: 95
+  - distinct_count: {col: fiscal_year, min: 2}
+    reason: the connector ingests the multi-year file family (one workbook per fiscal year), not a single year.
+    certainty: 90
+  - at_least: {col: fiscal_year, expr: 1983}
+    reason: HUD PD&R program workbooks begin no earlier than FY1983 (Fair Market Rents).
+    certainty: 90
+    severity: warn
+  - row_count: {min: 100}
+    reason: Housing Trust Fund rent limits by area — a national table spanning multiple years; under 100 rows means a truncated or failed parse.
+    certainty: 90

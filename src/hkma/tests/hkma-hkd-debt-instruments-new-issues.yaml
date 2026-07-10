@@ -1,0 +1,12 @@
+spec_id: hkma-hkd-debt-instruments-new-issues
+status: active
+tests:
+- freshness:
+    col: end_of_quarter
+    reaches: today - 262d
+  reason: end_of_quarter advances on the source cadence; the latest observed period is 2026-Q1. reaches slack = observed lag + cadence margin.
+  certainty: 80
+  points_outward: true
+- not_null: end_of_quarter
+- row_count:
+    min: 1

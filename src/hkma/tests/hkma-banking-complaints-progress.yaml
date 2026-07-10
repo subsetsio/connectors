@@ -1,0 +1,11 @@
+spec_id: hkma-banking-complaints-progress
+status: active
+tests:
+- freshness:
+    col: end_of_half_year
+    reaches: today - 472d
+  reason: end_of_half_year advances on the source cadence; the latest observed period is 2025-H2. reaches slack = observed lag + cadence margin.
+  certainty: 80
+  points_outward: true
+- row_count:
+    min: 1

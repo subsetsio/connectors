@@ -1,0 +1,12 @@
+spec_id: hkma-rmb-liquidity-facility-usage
+status: active
+tests:
+- freshness:
+    col: end_of_date
+    reaches: today - 46d
+  reason: end_of_date advances on the source cadence; the latest observed period is 2026-07-10. reaches slack = observed lag + cadence margin.
+  certainty: 80
+  points_outward: true
+- not_null: end_of_date
+- row_count:
+    min: 1

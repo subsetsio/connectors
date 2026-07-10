@@ -1,0 +1,12 @@
+spec_id: hkma-hkd-interest-rates-effective
+status: active
+tests:
+- freshness:
+    col: effect_date
+    reaches: today - 473d
+  reason: effect_date advances on the source cadence; the latest observed period is 2025-10-31. reaches slack = observed lag + cadence margin.
+  certainty: 80
+  points_outward: true
+- not_null: effect_date
+- row_count:
+    min: 1

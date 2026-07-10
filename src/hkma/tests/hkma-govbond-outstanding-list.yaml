@@ -1,0 +1,6 @@
+spec_id: hkma-govbond-outstanding-list
+status: active
+tests:
+- not_null: isin_code
+- row_count:
+    min: 1

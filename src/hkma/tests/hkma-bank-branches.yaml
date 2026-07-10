@@ -1,0 +1,6 @@
+spec_id: hkma-bank-branches
+status: active
+tests:
+- not_null: bank_name
+- row_count:
+    min: 1
