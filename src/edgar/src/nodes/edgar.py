@@ -1,7 +1,7 @@
 """EDGAR Community GHG inventory (European Commission JRC).
 
 Source: https://edgar.jrc.ec.europa.eu/dataset_ghg2025
-Release: EDGAR_2024_GHG (2024 release).
+Release: EDGAR_2025_GHG (2025 release).
 
 Publishes one long table — emissions by country x IPCC-2006 sector x gas x
 year — built by unpivoting the per-substance XLSX workbooks served as ZIPs
@@ -42,16 +42,16 @@ from subsets_utils import (
 )
 
 BASE_URL = (
-    "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/EDGAR/datasets/EDGAR_2024_GHG"
+    "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/EDGAR/datasets/EDGAR_2025_GHG"
 )
 
 # CC BY 4.0 substance packages only. (gas-group label, zip filename) — the
 # real per-row gas/species comes from the workbook's Substance column.
 GAS_PACKAGES = [
-    ("ch4", "EDGAR_CH4_1970_2023.zip"),
-    ("n2o", "EDGAR_N2O_1970_2023.zip"),
-    ("f-gases", "EDGAR_F-gases_1990_2023.zip"),
-    ("co2bio", "EDGAR_CO2bio_1970_2023.zip"),
+    ("ch4", "EDGAR_CH4_1970_2024.zip"),
+    ("n2o", "EDGAR_N2O_1970_2024.zip"),
+    ("f-gases", "EDGAR_F-gases_1990_2024.zip"),
+    ("co2bio", "EDGAR_CO2bio_1970_2024.zip"),
 ]
 
 SHEET = "IPCC 2006"
@@ -233,7 +233,7 @@ MAINTAIN_SPECS = [
         asset_id="edgar-ghg-emissions-by-country-sector",
         description=(
             "EDGAR GHG is an annual versioned release; the pinned "
-            "EDGAR_2024_GHG package set is fresh when all four CC-BY "
+            "EDGAR_2025_GHG package set is fresh when all four CC-BY "
             "substance fragments are already committed. FORCE_REFRESH=1 "
             "forces a re-pull."
         ),
