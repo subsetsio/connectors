@@ -541,10 +541,37 @@ def fetch_supervisory_measures_penalties(node_id: str) -> None:
 
 
 # --------------------------------------------------------------------------- #
-# EU-wide Stress Test — bank-by-bank results  (PENDING: filled in below)
+# EU-wide Stress Test — bank-by-bank results
 # --------------------------------------------------------------------------- #
+# The headline results (capital, P&L, REA, summary — TRA_OTH.csv) are a tidy
+# long fact table keyed by bank (LEI) × Period × Item × Scenario. Each exercise
+# has its own landing page /eu-wide-stress-test-<year>, linked from the main
+# stress-testing page; the file lives under /assets/st<yy>/full_database/<id>/,
+# both segments rotating per release, so we re-discover from HTML each time. The
+# deeper per-exposure credit-risk breakdowns (TRA_CRE_IRB/STA, ~1.1M rows, a
+# different grain) are not a separate accepted entity and are not fetched here.
+def _latest_stress_test_tra_oth_url() -> str:
+    main = _fetch_text(STRESS_TEST_PAGE)
+    landings = {}
+    for href in re.findall(r'href="([^"]*eu-wide-stress-test-(\d{4})[^"]*)"', main):
+        landings[int(href[1])] = href[0]
+    if not landings:
+        raise AssertionError("no eu-wide-stress-test-<year> landing page linked from the ST page")
+    page = _fetch_text(_abs(landings[max(landings)]))
+    csvs = re.findall(
+        r'href=["\']([^"\']*?/assets/st\d+/full_database/[^"\']+/TRA_OTH\.csv)["\']', page
+    )
+    if not csvs:
+        raise AssertionError("stress-test landing page exposed no TRA_OTH.csv full-database link")
+    return _abs(csvs[0])
+
+
 def fetch_stress_test_results(node_id: str) -> None:
-    raise NotImplementedError("stress-test results fetch pending discovery")
+    asset = node_id
+    table = _read_te_csv(_fetch_bytes(_latest_stress_test_tra_oth_url()))
+    if table.num_rows == 0:
+        raise AssertionError("TRA_OTH.csv parsed to 0 rows")
+    save_raw_parquet(table, asset)
 
 
 DOWNLOAD_SPECS = [
