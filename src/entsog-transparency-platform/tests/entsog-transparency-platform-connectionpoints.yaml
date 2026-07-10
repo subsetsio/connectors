@@ -1,0 +1,16 @@
+spec_id: entsog-transparency-platform-connectionpoints
+status: active
+tests:
+  - not_null: id
+    certainty: 95
+  - not_null: pointKey
+    reason: pointKey is the network-point join key used by operationaldata and interruptions
+    certainty: 95
+  - not_null: pointLabel
+    certainty: 90
+  - unique: pointKey
+    reason: reference catalog — one row per physical/virtual network point
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: ENTSOG publishes thousands of connection points across the EU network; a short pull means pagination stopped early
+    certainty: 90

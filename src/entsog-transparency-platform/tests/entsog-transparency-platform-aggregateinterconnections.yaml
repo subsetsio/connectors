@@ -1,0 +1,19 @@
+spec_id: entsog-transparency-platform-aggregateinterconnections
+status: active
+tests:
+  - not_null: id
+    certainty: 95
+  - not_null: operatorKey
+    certainty: 90
+  - not_null: directionKey
+    reason: each aggregate interconnection row is an entry or exit aggregate
+    certainty: 90
+  - enum: {col: directionKey, values: ["entry", "exit"]}
+    reason: ENTSOG models flow direction as exactly entry/exit
+    certainty: 85
+  - unique: id
+    reason: reference catalog — one row per aggregated interconnection record
+    certainty: 85
+  - row_count: {min: 200}
+    reason: ~460 aggregate (macro) interconnection rows observed while probing; well under that means a truncated pull
+    certainty: 85

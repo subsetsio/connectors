@@ -10,15 +10,24 @@ tests:
   - not_null: periodFrom
     reason: each observation is stamped with its period start
     certainty: 90
+  - not_null: operatorKey
+    reason: every observation is attributed to a reporting TSO
+    certainty: 90
   - column_type: {col: periodFrom, type: timestamp}
-    reason: periodFrom is an ISO8601 instant; read_json_auto infers TIMESTAMP
+    reason: periodFrom is an ISO8601 instant; read_json_auto infers TIMESTAMP even from the stringified value
     certainty: 75
     severity: warn
-  - row_count: {min: 100000}
-    reason: the monthly backfill from 2021-02 spans dozens of months at ~100-180k rows each
-    certainty: 90
-  - freshness: {col: periodFrom, reaches: today - 60d}
-    reason: daily flow rows should extend to within ~2 months of now if the feed is live
+  - distinct_count: {col: indicator, min: 20}
+    reason: ENTSOG publishes ~31 operational indicators (flows, nominations, GCV, Wobbe, firm/interruptible capacity, interruption series); far fewer means an indicator filter leaked into the query
+    certainty: 85
+  - enum: {col: periodType, values: ["day", "hour"]}
+    reason: operationaldata is served at day or hour granularity only
     certainty: 80
-    points_outward: true
     severity: warn
+  - row_count: {min: 5000000}
+    reason: the monthly crawl from 2021-01 spans 60+ months at ~250k rows each, so a healthy full corpus is well into the millions
+    certainty: 90
+  - freshness: {col: periodFrom, reaches: today - 10d}
+    reason: TSOs publish each gas day's flows the same day; provisional values arrive within hours, so the raw corpus must reach the last week or two
+    certainty: 85
+    points_outward: true

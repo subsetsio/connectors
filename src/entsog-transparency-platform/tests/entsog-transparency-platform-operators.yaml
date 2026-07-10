@@ -1,0 +1,20 @@
+spec_id: entsog-transparency-platform-operators
+status: active
+tests:
+  - not_null: id
+    certainty: 95
+  - not_null: operatorKey
+    reason: operatorKey is the join key operationaldata and interconnections reference
+    certainty: 95
+  - not_null: operatorLabel
+    certainty: 90
+  - unique: id
+    reason: reference catalog — one row per operator record, pulled in full each run
+    certainty: 90
+  - row_count: {min: 200}
+    reason: ENTSOG lists ~40 gas TSOs plus SSO/LSO/DSO and historic operators; a full pull is several hundred rows
+    certainty: 85
+  - not_null: operatorCountryKey
+    reason: every operator is registered against a country
+    certainty: 80
+    severity: warn

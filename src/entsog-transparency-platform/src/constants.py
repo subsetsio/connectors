@@ -8,18 +8,26 @@ suffix loses the original camelCase — this table recovers it.
 
 # slug-stripped, lowercased spec suffix -> real ENTSOG endpoint path
 ENTITIES = {
-    "operationaldata": "operationaldata",
-    "operatorpointdirections": "operatorpointdirections",
-    "interruptions": "interruptions",
+    "aggregateinterconnections": "aggregateInterconnections",
+    "balancingzones": "balancingzones",
     "cmpunavailables": "cmpUnavailables",
     "cmpunsuccessfulrequests": "cmpUnsuccessfulRequests",
+    "connectionpoints": "connectionpoints",
+    "interconnections": "interconnections",
+    "interruptions": "interruptions",
+    "operationaldata": "operationaldata",
+    "operatorpointdirections": "operatorpointdirections",
+    "operators": "operators",
     "tariffssimulations": "tariffssimulations",
     "urgentmarketmessages": "urgentmarketmessages",
 }
 
-# The date-filtered operationaldata endpoint only serves rows from ~2021-02
-# (Jan 2021 and earlier return HTTP 404 "no result"). We start the monthly
-# crawl a month early; empty/404 months are skipped, so this floor is resilient
-# to the source extending its history backwards without a code change.
+# Endpoints the API serves in full without a date filter: a single offset-paged
+# sweep returns the whole (finite) corpus.
+CATALOG_SUFFIXES = [s for s in ENTITIES if s != "operationaldata"]
+
+# operationaldata is the one endpoint that must be windowed by date. Unfiltered
+# and wide-window queries make the gateway time out (502/504); one calendar
+# month per window keeps every request inside the server's 60s execution cap.
 SOURCE_MIN_YEAR = 2021
 SOURCE_MIN_MONTH = 1

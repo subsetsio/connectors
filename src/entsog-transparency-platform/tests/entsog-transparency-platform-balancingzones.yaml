@@ -1,0 +1,16 @@
+spec_id: entsog-transparency-platform-balancingzones
+status: active
+tests:
+  - not_null: id
+    certainty: 95
+  - not_null: bzKey
+    reason: bzKey is the balancing-zone join key used across the point catalogs
+    certainty: 95
+  - not_null: bzLabel
+    certainty: 90
+  - unique: bzKey
+    reason: a balancing zone appears once in this reference catalog
+    certainty: 90
+  - row_count: {min: 30, max: 500}
+    reason: the EU gas market has a few dozen balancing zones; a jump past a few hundred means the endpoint changed shape
+    certainty: 85

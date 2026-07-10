@@ -2,56 +2,84 @@
 
 Source: the single public REST API at https://transparency.entsog.eu/api/v1
 (no auth, offset pagination via limit/offset). Every endpoint returns the
-envelope ``{"meta": {...}, "<endpoint>": [ {row}, ... ]}``.
+envelope ``{"meta": {...}, "<endpoint>": [ {row}, ... ]}``; an empty result is
+either HTTP 404 or a 200 carrying ``{"message": "No result found"}``.
 
-Fetch strategy (see the per-fn docstrings):
+Fetch strategy:
 
-* The six reference / event catalogs (operatorpointdirections, interruptions,
-  cmpUnavailables, cmpUnsuccessfulRequests, tariffssimulations,
-  urgentmarketmessages) are small finite corpora (hundreds to ~85k rows) that
-  the API serves in full WITHOUT any date filter. They use a stateless full
-  re-pull every run (shape 1 — revisions picked up for free).
+* The eleven reference / event catalogs (operators, connectionpoints,
+  operatorpointdirections, balancingzones, interconnections,
+  aggregateInterconnections, interruptions, cmpUnavailables,
+  cmpUnsuccessfulRequests, tariffssimulations, urgentmarketmessages) are finite
+  corpora the API serves in full WITHOUT a date filter. Stateless full re-pull
+  every run (shape 1) — revisions are picked up for free.
 
-* operationaldata is the large long-format time-series. The date-filtered query
-  returns ~100-180k rows/month, so re-pulling the whole corpus each run is still
-  only ~25 min, but it cannot live in one in-memory file. It is therefore
-  written as one NDJSON batch per calendar month (date-bucketed firehose layout,
-  shape 3) and re-pulled in full every run — stateless, so revisions and late
-  corrections are never missed. Long-validity capacity records recur across
-  monthly windows; the transform de-duplicates on the stable composite ``id``.
+* operationaldata is the large long-format time-series and is the one endpoint
+  that must be windowed: unfiltered and multi-week windows make the gateway time
+  out (502/504). It is crawled one calendar month per window and written as one
+  NDJSON fragment per month. Re-pulling all of it every run would move ~30GB
+  from a source whose terms forbid "usage that reduces the performance of the
+  ENTSOG TP", so the crawl is incremental: a watermark records the last month
+  completed and each run re-fetches a 45-day trailing window (OVERLAP_DAYS) so
+  that provisional-to-confirmed revisions are never missed. Writing a fragment
+  replaces only that month, leaving the other fragments intact.
+
+Two properties of this API drove the code and are easy to get wrong:
+
+* **A short page does NOT mean the last page.** `limit=20000` on a one-week
+  window returns `count=986` while `offset=986` on the same query returns a
+  further 668 rows. Paging therefore stops only on an *empty* page, never on
+  `len(batch) < limit`.
+
+* **`from`/`to` select records whose validity period OVERLAPS the window**, and
+  `periodize=false` returns each record with its original period. A one-week
+  query thus returns that week's daily flow rows plus long-validity capacity
+  rows whose `periodFrom` may be years earlier. Those recur in every window they
+  overlap; the composite `id` is stable, so the transform de-duplicates on it.
 
 All values are stringified before the NDJSON write so every column reads back as
-VARCHAR (read_json_auto unions columns across the monthly batch files); the SQL
-transforms then TRY_CAST the handful of columns each subset actually publishes.
+VARCHAR (read_json_auto unions columns across the fragment files); the compiled
+transforms then cast the columns each subset actually publishes. Empty strings
+become NULL: read_json_auto infers a temporal/numeric type from JSON *string*
+values and then raises ConversionException if the column also holds "".
 """
 import calendar
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
-    transient_retry,
+    load_state,
+    save_state,
     save_raw_ndjson,
+    transient_retry,
 )
-from constants import ENTITIES, SOURCE_MIN_YEAR, SOURCE_MIN_MONTH
+from constants import ENTITIES, CATALOG_SUFFIXES, SOURCE_MIN_YEAR, SOURCE_MIN_MONTH
 
 BASE = "https://transparency.entsog.eu/api/v1"
 PREFIX = "entsog-transparency-platform-"
 PAGE = 10000
-# Safety ceiling: a single month/endpoint window never approaches this many
-# rows. If it does, the source has grown past expectations — raise loudly rather
-# than silently truncate.
+STATE_VERSION = 1
+
+# One publish period (daily gas day) plus ENTSOG's provisional->confirmed
+# revision lag, rounded up generously: re-crawl the trailing 45 days each run.
+OVERLAP_DAYS = 45
+
+# Safety ceiling. No single endpoint/window approaches this many rows; if one
+# does, the source has grown past expectations or paging is looping — raise
+# loudly rather than silently truncate.
 MAX_OFFSET = 5_000_000
 
 
-@transient_retry()
+@transient_retry(attempts=8, min_wait=4, max_wait=120)
 def _get_page(endpoint: str, params: dict):
-    """Fetch one page. Returns the parsed JSON envelope, or None when the server
-    answers 404 — ENTSOG uses 404 for an empty date window (e.g. months with no
-    data), which is a normal "nothing here", not an error to retry or raise on.
-    transient_retry handles 429/5xx/network; a non-404 4xx raises (permanent)."""
-    resp = get(f"{BASE}/{endpoint}", params=params, timeout=(10.0, 120.0))
+    """Fetch one page, returning the parsed envelope or None for an empty window.
+
+    ENTSOG answers an empty window with 404, which is a normal "nothing here",
+    not an error to retry or raise on. transient_retry covers 429/5xx/network;
+    any other 4xx raises as permanent.
+    """
+    resp = get(f"{BASE}/{endpoint}", params=params, timeout=(10.0, 170.0))
     if resp.status_code == 404:
         return None
     resp.raise_for_status()
@@ -59,19 +87,21 @@ def _get_page(endpoint: str, params: dict):
 
 
 def _fetch_all(endpoint: str, base_params: dict) -> list[dict]:
-    """Page through one endpoint+window via limit/offset until a short page."""
+    """Page through one endpoint+window until the server returns an empty page.
+
+    Stopping on a short page would silently truncate — see the module docstring.
+    """
     rows: list[dict] = []
     offset = 0
     while True:
-        params = dict(base_params, limit=PAGE, offset=offset)
-        payload = _get_page(endpoint, params)
-        if payload is None:  # 404 → empty window
+        payload = _get_page(endpoint, dict(base_params, limit=PAGE, offset=offset))
+        if payload is None:
             break
-        batch = payload.get(endpoint, [])
+        batch = payload.get(endpoint) or []
+        if not batch:
+            break
         rows.extend(batch)
-        if len(batch) < PAGE:
-            break
-        offset += PAGE
+        offset += len(batch)
         if offset > MAX_OFFSET:
             raise RuntimeError(
                 f"{endpoint} {base_params}: exceeded MAX_OFFSET={MAX_OFFSET} "
@@ -81,283 +111,67 @@ def _fetch_all(endpoint: str, base_params: dict) -> list[dict]:
 
 
 def _stringify(row: dict) -> dict:
-    """Coerce every value to a string, mapping null AND empty-string to None.
-
-    DuckDB's read_json_auto (used by the runtime to register the raw view)
-    auto-detects temporal/numeric columns even from JSON *string* values, then
-    raises a ConversionException if such a column also contains an empty string
-    "". Emitting None instead of "" keeps those rows as clean NULLs so the
-    column infers and reads without error; genuinely mixed columns (e.g. CMP
-    auction fields full of "N/A") stay VARCHAR and the transforms TRY_CAST them."""
-    return {
-        k: (None if v is None or v == "" else str(v))
-        for k, v in row.items()
-    }
+    """Coerce every value to a string, mapping null AND empty-string to None."""
+    return {k: (None if v is None or v == "" else str(v)) for k, v in row.items()}
 
 
 def _months(sy: int, sm: int, ey: int, em: int):
-    """Yield (year, month) from (sy,sm) through (ey,em) inclusive."""
+    """Yield (year, month) from (sy, sm) through (ey, em) inclusive."""
     y, m = sy, sm
     while (y, m) <= (ey, em):
         yield y, m
         m += 1
         if m > 12:
-            m = 1
-            y += 1
+            m, y = 1, y + 1
 
 
-def fetch_simple(node_id: str) -> None:
-    """Stateless full re-pull of one reference/event catalog. The endpoint is
-    recovered from the spec id (the maintain step, authored later, decides
-    whether this runs; if invoked, we fetch)."""
+def fetch_catalog(node_id: str) -> None:
+    """Stateless full re-pull of one un-windowed catalog endpoint."""
     endpoint = ENTITIES[node_id[len(PREFIX):]]
     rows = [_stringify(r) for r in _fetch_all(endpoint, {})]
+    if not rows:
+        raise RuntimeError(f"{endpoint}: returned no rows — refusing to publish an empty catalog")
     save_raw_ndjson(rows, node_id)
 
 
 def fetch_operationaldata(node_id: str) -> None:
-    """Stateless monthly-batched full re-pull of the operationaldata time-series.
-    Loops month-by-month from the documented floor to the live edge (current
-    month); empty/404 months are skipped. Each non-empty month is written as its
-    own NDJSON batch (`<node_id>-YYYY-MM`) so memory stays bounded; the transform
-    glob-unions and de-duplicates them on `id`."""
-    now = datetime.now(timezone.utc)
-    for y, m in _months(SOURCE_MIN_YEAR, SOURCE_MIN_MONTH, now.year, now.month):
+    """Crawl operationaldata month by month, one raw fragment per month.
+
+    Resumes from the persisted watermark (the last month written), rewound by
+    OVERLAP_DAYS so revised months are re-fetched. Raw is written before the
+    watermark advances, so an interrupted run resumes without a hole.
+    """
+    state = load_state(node_id)
+    if state.get("schema_version") != STATE_VERSION:
+        state = {}
+
+    start = date(SOURCE_MIN_YEAR, SOURCE_MIN_MONTH, 1)
+    watermark = state.get("watermark")
+    if watermark:
+        rewound = date.fromisoformat(watermark) - timedelta(days=OVERLAP_DAYS)
+        start = max(start, rewound.replace(day=1))
+
+    today = datetime.now(timezone.utc).date()
+    for y, m in _months(start.year, start.month, today.year, today.month):
         last = calendar.monthrange(y, m)[1]
-        window = {"from": f"{y}-{m:02d}-01", "to": f"{y}-{m:02d}-{last:02d}"}
-        rows = _fetch_all("operationaldata", window)
-        if not rows:
-            continue
-        rows = [_stringify(r) for r in rows]
-        save_raw_ndjson(rows, f"{node_id}-{y}-{m:02d}")
+        rows = _fetch_all(
+            "operationaldata",
+            {"from": f"{y}-{m:02d}-01", "to": f"{y}-{m:02d}-{last:02d}"},
+        )
+        if rows:
+            save_raw_ndjson(
+                [_stringify(r) for r in rows], node_id, fragment=f"{y}-{m:02d}"
+            )
+        save_state(node_id, {
+            "schema_version": STATE_VERSION,
+            "watermark": f"{y}-{m:02d}-01",
+            "last_success_at": datetime.now(timezone.utc).isoformat(),
+        })
 
 
 DOWNLOAD_SPECS = [
-    NodeSpec(id="entsog-transparency-platform-operationaldata",
-             fn=fetch_operationaldata, kind="download"),
-    NodeSpec(id="entsog-transparency-platform-operatorpointdirections",
-             fn=fetch_simple, kind="download"),
-    NodeSpec(id="entsog-transparency-platform-interruptions",
-             fn=fetch_simple, kind="download"),
-    NodeSpec(id="entsog-transparency-platform-cmpunavailables",
-             fn=fetch_simple, kind="download"),
-    NodeSpec(id="entsog-transparency-platform-cmpunsuccessfulrequests",
-             fn=fetch_simple, kind="download"),
-    NodeSpec(id="entsog-transparency-platform-tariffssimulations",
-             fn=fetch_simple, kind="download"),
-    NodeSpec(id="entsog-transparency-platform-urgentmarketmessages",
-             fn=fetch_simple, kind="download"),
-]
-
-
-# ---------------------------------------------------------------------------
-# Transforms — one published Delta table per subset. Each is a thin de-dup +
-# cast pass over its raw NDJSON view. Identifiers are matched case-insensitively
-# by DuckDB, so the source camelCase column names resolve unquoted.
-# ---------------------------------------------------------------------------
-
-_OPERATIONALDATA_SQL = '''
-WITH ranked AS (
-    SELECT *, row_number() OVER (
-        PARTITION BY id
-        ORDER BY TRY_CAST(lastUpdateDateTime AS TIMESTAMP) DESC NULLS LAST
-    ) AS rn
-    FROM "entsog-transparency-platform-operationaldata"
-)
-SELECT
-    id,
-    indicator,
-    periodType                                  AS period_type,
-    TRY_CAST(periodFrom AS TIMESTAMP)           AS period_from,
-    TRY_CAST(periodTo AS TIMESTAMP)             AS period_to,
-    operatorKey                                 AS operator_key,
-    operatorLabel                               AS operator_label,
-    pointKey                                    AS point_key,
-    pointLabel                                  AS point_label,
-    directionKey                                AS direction_key,
-    unit,
-    TRY_CAST(NULLIF(value, '') AS DOUBLE)       AS value,
-    TRY_CAST(lastUpdateDateTime AS TIMESTAMP)   AS last_update
-FROM ranked
-WHERE rn = 1 AND TRY_CAST(NULLIF(value, '') AS DOUBLE) IS NOT NULL
-'''
-
-_OPERATORPOINTDIRECTIONS_SQL = '''
-WITH ranked AS (
-    SELECT *, row_number() OVER (
-        PARTITION BY id
-        ORDER BY TRY_CAST(lastUpdateDateTime AS TIMESTAMP) DESC NULLS LAST
-    ) AS rn
-    FROM "entsog-transparency-platform-operatorpointdirections"
-)
-SELECT
-    id,
-    pointKey                            AS point_key,
-    pointLabel                          AS point_label,
-    operatorKey                         AS operator_key,
-    operatorLabel                       AS operator_label,
-    directionKey                        AS direction_key,
-    TRY_CAST(tpTsoValidFrom AS TIMESTAMP) AS valid_from,
-    TRY_CAST(tpTsoValidTo AS TIMESTAMP)   AS valid_to,
-    tSOCountry                          AS tso_country,
-    tSOBalancingZone                    AS tso_balancing_zone,
-    crossBorderPointType               AS cross_border_point_type,
-    pointType                           AS point_type,
-    TRY_CAST(lastUpdateDateTime AS TIMESTAMP) AS last_update
-FROM ranked
-WHERE rn = 1
-'''
-
-_INTERRUPTIONS_SQL = '''
-WITH ranked AS (
-    SELECT *, row_number() OVER (
-        PARTITION BY id
-        ORDER BY TRY_CAST(lastUpdateDateTime AS TIMESTAMP) DESC NULLS LAST
-    ) AS rn
-    FROM "entsog-transparency-platform-interruptions"
-)
-SELECT
-    id,
-    TRY_CAST(periodFrom AS TIMESTAMP)       AS period_from,
-    TRY_CAST(periodTo AS TIMESTAMP)         AS period_to,
-    operatorKey                             AS operator_key,
-    operatorLabel                           AS operator_label,
-    pointKey                                AS point_key,
-    pointLabel                              AS point_label,
-    directionKey                            AS direction_key,
-    interruptionType                        AS interruption_type,
-    capacityType                            AS capacity_type,
-    unit,
-    TRY_CAST(NULLIF(value, '') AS DOUBLE)   AS value,
-    TRY_CAST(lastUpdateDateTime AS TIMESTAMP) AS last_update
-FROM ranked
-WHERE rn = 1 AND TRY_CAST(NULLIF(value, '') AS DOUBLE) IS NOT NULL
-'''
-
-# CMP unavailable-capacity records are sparse by nature (mostly "no congestion"
-# placeholders); the `value`/measure fields are structurally empty, so we publish
-# the populated dimension + remark columns and the partially-populated period.
-_CMPUNAVAILABLES_SQL = '''
-WITH ranked AS (
-    SELECT *, row_number() OVER (
-        PARTITION BY id
-        ORDER BY TRY_CAST(lastUpdateDateTime AS TIMESTAMP) DESC NULLS LAST
-    ) AS rn
-    FROM "entsog-transparency-platform-cmpunavailables"
-)
-SELECT
-    id,
-    operatorKey                             AS operator_key,
-    operatorLabel                           AS operator_label,
-    pointKey                                AS point_key,
-    pointLabel                              AS point_label,
-    directionKey                            AS direction_key,
-    allocationProcess                       AS allocation_process,
-    TRY_CAST(periodFrom AS TIMESTAMP)       AS period_from,
-    TRY_CAST(periodTo AS TIMESTAMP)         AS period_to,
-    NULLIF(generalRemarks, '')              AS general_remarks,
-    TRY_CAST(lastUpdateDateTime AS TIMESTAMP) AS last_update
-FROM ranked
-WHERE rn = 1
-'''
-
-# CMP unsuccessful-request records are likewise sparse (mostly "no unfulfilled
-# requests" placeholders); the period columns are structurally empty here (dates
-# live in the auction/capacity fields, themselves usually "N/A"), so we keep the
-# populated dims, the (sparse but meaningful) volume measures, and the remark.
-_CMPUNSUCCESSFULREQUESTS_SQL = '''
-WITH ranked AS (
-    SELECT *, row_number() OVER (
-        PARTITION BY id
-        ORDER BY TRY_CAST(lastUpdateDateTime AS TIMESTAMP) DESC NULLS LAST
-    ) AS rn
-    FROM "entsog-transparency-platform-cmpunsuccessfulrequests"
-)
-SELECT
-    id,
-    operatorKey                                     AS operator_key,
-    operatorLabel                                   AS operator_label,
-    pointKey                                        AS point_key,
-    pointLabel                                      AS point_label,
-    directionKey                                    AS direction_key,
-    TRY_CAST(NULLIF(requestedVolume, '') AS DOUBLE)   AS requested_volume,
-    TRY_CAST(NULLIF(allocatedVolume, '') AS DOUBLE)   AS allocated_volume,
-    TRY_CAST(NULLIF(unallocatedVolume, '') AS DOUBLE) AS unallocated_volume,
-    TRY_CAST(NULLIF(occurenceCount, '') AS BIGINT)    AS occurence_count,
-    NULLIF(generalRemarks, '')                      AS general_remarks,
-    TRY_CAST(lastUpdateDateTime AS TIMESTAMP)         AS last_update
-FROM ranked
-WHERE rn = 1
-'''
-
-_TARIFFSSIMULATIONS_SQL = '''
-WITH ranked AS (
-    SELECT *, row_number() OVER (
-        PARTITION BY id
-        ORDER BY TRY_CAST(lastUpdateDateTime AS TIMESTAMP) DESC NULLS LAST
-    ) AS rn
-    FROM "entsog-transparency-platform-tariffssimulations"
-)
-SELECT
-    id,
-    operatorKey                                                AS operator_key,
-    operator                                                   AS operator_label,
-    pointKey                                                   AS point_key,
-    pointLabel                                                 AS point_label,
-    directionKey                                               AS direction_key,
-    countryCode                                                AS country_code,
-    fromBZ                                                     AS from_bz,
-    toBZ                                                       AS to_bz,
-    productType                                                AS product_type,
-    tariffCapacityType                                         AS tariff_capacity_type,
-    operatorCurrency                                           AS operator_currency,
-    TRY_CAST(NULLIF(productSimulationCostInLocalCurrency, '') AS DOUBLE) AS cost_local,
-    TRY_CAST(NULLIF(productSimulationCostInEURO, '') AS DOUBLE)          AS cost_eur,
-    TRY_CAST(periodFrom AS TIMESTAMP)                          AS period_from,
-    TRY_CAST(periodTo AS TIMESTAMP)                            AS period_to,
-    TRY_CAST(lastUpdateDateTime AS TIMESTAMP)                  AS last_update
-FROM ranked
-WHERE rn = 1
-'''
-
-_URGENTMARKETMESSAGES_SQL = '''
-WITH ranked AS (
-    SELECT *, row_number() OVER (
-        PARTITION BY id
-        ORDER BY TRY_CAST(lastUpdateDateTime AS TIMESTAMP) DESC NULLS LAST
-    ) AS rn
-    FROM "entsog-transparency-platform-urgentmarketmessages"
-)
-SELECT
-    id,
-    messageId                                          AS message_id,
-    marketParticipantName                              AS market_participant_name,
-    messageType                                        AS message_type,
-    eventType                                          AS event_type,
-    eventStatus                                        AS event_status,
-    TRY_CAST(publicationDateTime AS TIMESTAMP)         AS publication_date,
-    TRY_CAST(eventStart AS TIMESTAMP)                  AS event_start,
-    TRY_CAST(eventStop AS TIMESTAMP)                   AS event_stop,
-    balancingZoneName                                  AS balancing_zone_name,
-    TRY_CAST(NULLIF(unavailableCapacity, '') AS DOUBLE) AS unavailable_capacity,
-    TRY_CAST(NULLIF(availableCapacity, '') AS DOUBLE)   AS available_capacity,
-    TRY_CAST(NULLIF(technicalCapacity, '') AS DOUBLE)   AS technical_capacity,
-    TRY_CAST(lastUpdateDateTime AS TIMESTAMP)          AS last_update
-FROM ranked
-WHERE rn = 1
-'''
-
-_SQL = {
-    "entsog-transparency-platform-operationaldata": _OPERATIONALDATA_SQL,
-    "entsog-transparency-platform-operatorpointdirections": _OPERATORPOINTDIRECTIONS_SQL,
-    "entsog-transparency-platform-interruptions": _INTERRUPTIONS_SQL,
-    "entsog-transparency-platform-cmpunavailables": _CMPUNAVAILABLES_SQL,
-    "entsog-transparency-platform-cmpunsuccessfulrequests": _CMPUNSUCCESSFULREQUESTS_SQL,
-    "entsog-transparency-platform-tariffssimulations": _TARIFFSSIMULATIONS_SQL,
-    "entsog-transparency-platform-urgentmarketmessages": _URGENTMARKETMESSAGES_SQL,
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_SQL[s.id])
-    for s in DOWNLOAD_SPECS
+    NodeSpec(id=f"{PREFIX}operationaldata", fn=fetch_operationaldata, kind="download"),
+] + [
+    NodeSpec(id=f"{PREFIX}{suffix}", fn=fetch_catalog, kind="download")
+    for suffix in CATALOG_SUFFIXES
 ]
