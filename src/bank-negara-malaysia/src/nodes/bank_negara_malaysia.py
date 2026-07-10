@@ -31,7 +31,7 @@ Shared transport (versioned Accept header, retrying JSON fetch, bounded
 thread-pool fan-out, start-year discovery, month grid, tenor normalizer) lives
 in `src/utils.py`.
 """
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
+from subsets_utils import NodeSpec, save_raw_ndjson
 
 from utils import (
     PREFIX,
@@ -78,6 +78,17 @@ def fetch_snapshot(node_id: str) -> None:
     if not rows:
         raise RuntimeError(f"{resource}: collected 0 rows")
     save_raw_ndjson(rows, node_id)
+
+
+# ============================================================= consumer alert
+# A current full reference list. BNM does not expose year/month history variants.
+
+def fetch_consumer_alert(node_id: str) -> None:
+    resource = node_id[len(PREFIX):]
+    payload = _fetch(resource)
+    if not _has_rows(payload):
+        raise RuntimeError(f"{resource}: collected 0 rows")
+    save_raw_ndjson(payload.get("data") or [], node_id)
 
 
 # ============================================================== exchange-rate
@@ -253,6 +264,7 @@ def fetch_opr(node_id: str) -> None:
 # =================================================================== download
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{PREFIX}base-rate", fn=fetch_snapshot, kind="download"),
+    NodeSpec(id=f"{PREFIX}consumer-alert", fn=fetch_consumer_alert, kind="download"),
     NodeSpec(id=f"{PREFIX}renminbi-fx-forward-price", fn=fetch_snapshot, kind="download"),
     NodeSpec(id=f"{PREFIX}exchange-rate", fn=fetch_exchange_rate, kind="download"),
     NodeSpec(id=f"{PREFIX}interest-rate", fn=fetch_interest, kind="download"),
@@ -264,143 +276,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id=f"{PREFIX}islamic-interbank-rate", fn=fetch_monthly, kind="download"),
     NodeSpec(id=f"{PREFIX}interbank-swap", fn=fetch_monthly, kind="download"),
     NodeSpec(id=f"{PREFIX}opr", fn=fetch_opr, kind="download"),
-]
-
-
-# ================================================================== transform
-# One published Delta table per subset. Each is a thin parse-and-type pass with a
-# QUALIFY dedup (the overlap/iteration safety net). The per-currency historical
-# exchange feed never populates middle_rate, and the Islamic interbank feed never
-# reports the 1-year tenor, so those dead columns are dropped rather than published.
-_TRANSFORM_SQL = {
-    "base-rate": f'''
-        SELECT bank_code, bank_name,
-               CAST(base_rate AS DOUBLE)                   AS base_rate,
-               CAST(base_lending_rate AS DOUBLE)           AS base_lending_rate,
-               CAST(indicative_eff_lending_rate AS DOUBLE) AS indicative_eff_lending_rate,
-               CAST(effective_date AS DATE)                AS effective_date
-        FROM "{PREFIX}base-rate"
-        WHERE bank_code IS NOT NULL
-    ''',
-    "renminbi-fx-forward-price": f'''
-        SELECT CAST(date AS DATE) AS date, * EXCLUDE (date)
-        FROM "{PREFIX}renminbi-fx-forward-price"
-        WHERE date IS NOT NULL
-    ''',
-    "exchange-rate": f'''
-        SELECT currency_code,
-               CAST(unit AS INTEGER)        AS unit,
-               CAST(date AS DATE)           AS date,
-               CAST(buying_rate AS DOUBLE)  AS buying_rate,
-               CAST(selling_rate AS DOUBLE) AS selling_rate
-        FROM "{PREFIX}exchange-rate"
-        WHERE date IS NOT NULL AND currency_code IS NOT NULL
-        QUALIFY row_number() OVER (PARTITION BY currency_code, date ORDER BY date) = 1
-    ''',
-    "interest-rate": f'''
-        SELECT product,
-               CAST(date AS DATE)        AS date,
-               CAST(overnight AS DOUBLE) AS overnight,
-               CAST(week_1 AS DOUBLE)    AS week_1,
-               CAST(month_1 AS DOUBLE)   AS month_1,
-               CAST(month_3 AS DOUBLE)   AS month_3,
-               CAST(month_6 AS DOUBLE)   AS month_6,
-               CAST(year_1 AS DOUBLE)    AS year_1
-        FROM "{PREFIX}interest-rate"
-        WHERE date IS NOT NULL AND product IS NOT NULL
-        QUALIFY row_number() OVER (PARTITION BY product, date ORDER BY date) = 1
-    ''',
-    "interest-volume": f'''
-        SELECT product,
-               CAST(date AS DATE)        AS date,
-               CAST(overnight AS DOUBLE) AS overnight,
-               CAST(week_1 AS DOUBLE)    AS week_1,
-               CAST(month_1 AS DOUBLE)   AS month_1,
-               CAST(month_3 AS DOUBLE)   AS month_3,
-               CAST(month_6 AS DOUBLE)   AS month_6,
-               CAST(year_1 AS DOUBLE)    AS year_1,
-               CAST(other AS DOUBLE)     AS other
-        FROM "{PREFIX}interest-volume"
-        WHERE date IS NOT NULL AND product IS NOT NULL
-        QUALIFY row_number() OVER (PARTITION BY product, date ORDER BY date) = 1
-    ''',
-    "kl-usd-reference-rate": f'''
-        SELECT CAST(date AS DATE)   AS date,
-               CAST(rate AS DOUBLE) AS rate
-        FROM "{PREFIX}kl-usd-reference-rate"
-        WHERE date IS NOT NULL
-        QUALIFY row_number() OVER (PARTITION BY date ORDER BY date) = 1
-    ''',
-    "usd-interbank-intraday-rate": f'''
-        SELECT CAST(date AS DATE)           AS date,
-               CAST(highest_rate AS DOUBLE) AS highest_rate,
-               CAST(lowest_rate AS DOUBLE)  AS lowest_rate
-        FROM "{PREFIX}usd-interbank-intraday-rate"
-        WHERE date IS NOT NULL
-        QUALIFY row_number() OVER (PARTITION BY date ORDER BY date) = 1
-    ''',
-    "fx-turn-over": f'''
-        SELECT CAST(date AS DATE)        AS date,
-               CAST(total_sum AS DOUBLE) AS total_sum
-        FROM "{PREFIX}fx-turn-over"
-        WHERE date IS NOT NULL
-        QUALIFY row_number() OVER (PARTITION BY date ORDER BY date) = 1
-    ''',
-    "kijang-emas": f'''
-        SELECT CAST(date AS DATE)                 AS date,
-               CAST(one_oz_buying AS DOUBLE)      AS one_oz_buying,
-               CAST(one_oz_selling AS DOUBLE)     AS one_oz_selling,
-               CAST(half_oz_buying AS DOUBLE)     AS half_oz_buying,
-               CAST(half_oz_selling AS DOUBLE)    AS half_oz_selling,
-               CAST(quarter_oz_buying AS DOUBLE)  AS quarter_oz_buying,
-               CAST(quarter_oz_selling AS DOUBLE) AS quarter_oz_selling
-        FROM "{PREFIX}kijang-emas"
-        WHERE date IS NOT NULL
-        QUALIFY row_number() OVER (PARTITION BY date ORDER BY date) = 1
-    ''',
-    "islamic-interbank-rate": f'''
-        SELECT CAST(date AS DATE)        AS date,
-               CAST(overnight AS DOUBLE) AS overnight,
-               CAST(week_1 AS DOUBLE)    AS week_1,
-               CAST(month_1 AS DOUBLE)   AS month_1,
-               CAST(month_3 AS DOUBLE)   AS month_3,
-               CAST(month_6 AS DOUBLE)   AS month_6
-        FROM "{PREFIX}islamic-interbank-rate"
-        WHERE date IS NOT NULL
-        QUALIFY row_number() OVER (PARTITION BY date ORDER BY date) = 1
-    ''',
-    "interbank-swap": f'''
-        SELECT CAST(date AS DATE)          AS date,
-               CAST(overnight AS DOUBLE)   AS overnight,
-               CAST(week_1 AS DOUBLE)      AS week_1,
-               CAST(week_2 AS DOUBLE)      AS week_2,
-               CAST(month_1 AS DOUBLE)     AS month_1,
-               CAST(month_2 AS DOUBLE)     AS month_2,
-               CAST(month_3 AS DOUBLE)     AS month_3,
-               CAST(month_6 AS DOUBLE)     AS month_6,
-               CAST(month_9 AS DOUBLE)     AS month_9,
-               CAST(month_12 AS DOUBLE)    AS month_12,
-               CAST(more_1_year AS DOUBLE) AS more_1_year
-        FROM "{PREFIX}interbank-swap"
-        WHERE date IS NOT NULL
-        QUALIFY row_number() OVER (PARTITION BY date ORDER BY date) = 1
-    ''',
-    "opr": f'''
-        SELECT CAST(date AS DATE)            AS date,
-               CAST(year AS INTEGER)         AS year,
-               CAST(change_in_opr AS DOUBLE) AS change_in_opr,
-               CAST(new_opr_level AS DOUBLE) AS new_opr_level
-        FROM "{PREFIX}opr"
-        WHERE date IS NOT NULL
-        QUALIFY row_number() OVER (PARTITION BY date ORDER BY date) = 1
-    ''',
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_TRANSFORM_SQL[s.id[len(PREFIX):]],
-    )
-    for s in DOWNLOAD_SPECS
 ]

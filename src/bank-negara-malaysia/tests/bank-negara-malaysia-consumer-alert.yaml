@@ -1,0 +1,22 @@
+spec_id: bank-negara-malaysia-consumer-alert
+status: active
+coverage:
+  frozen: true
+  reason: BNM exposes consumer-alert as a current full reference list, not a dated historical series.
+tests:
+  - not_null: name
+    reason: every alert entry is identified by the listed entity name
+    certainty: 95
+  - not_null: added_date
+    reason: each alert carries the date it was added to BNM's list
+    certainty: 85
+  - column_type: {col: added_date, type: date}
+    reason: added_date is published as YYYY-MM-DD
+    certainty: 85
+  - row_count: {min: 100}
+    reason: BNM's consumer alert list contains hundreds of entities
+    certainty: 80
+  - unique: name
+    reason: the list should contain one current entry per named entity
+    certainty: 70
+    severity: warn
