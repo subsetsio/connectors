@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eca-d-blend-rr`. Regenerate after model-verify.
+# caution: `source_id` is part of row identity: a station and date can have multiple underlying source series, so do not aggregate by station/date without deciding how to handle source series.
+key: [date, source_id, station_id]
+temporal: date
+sort: [date, source_id, station_id]
+columns:
+  - name: station_id
+    type: INTEGER
+    description: ECA&D station identifier (STAID).
+  - name: source_id
+    type: INTEGER
+    description: ECA&D source series identifier (SOUID) contributing this blended observation.
+  - name: date
+    type: DATE
+    description: Observation date.
+  - name: value
+    type: DOUBLE
+    description: Daily precipitation amount in millimetres.
+  - name: quality
+    type: TINYINT
+    description: ECA&D quality flag; 0 is valid and 1 is suspect.

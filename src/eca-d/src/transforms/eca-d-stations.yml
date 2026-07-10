@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eca-d-stations`. Regenerate after model-verify.
+key: [station_id, country]
+sort: [station_id, country]
+columns:
+  - name: station_id
+    type: INTEGER
+    description: ECA&D station identifier (STAID).
+  - name: station_name
+    type: VARCHAR
+    description: Station name from the ECA&D station index.
+  - name: country
+    type: VARCHAR
+    description: ECA&D two-letter country code.
+  - name: latitude
+    type: DOUBLE
+    description: Station latitude in decimal degrees.
+  - name: longitude
+    type: DOUBLE
+    description: Station longitude in decimal degrees.
+  - name: elevation_m
+    type: INTEGER
+    description: Station elevation in metres above mean sea level.
