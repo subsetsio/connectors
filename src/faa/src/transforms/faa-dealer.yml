@@ -1,16 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `faa-dealer`. Regenerate after model-verify.
+key: [certificate_number]
+sort: [certificate_number]
 columns:
   - name: certificate_number
     type: VARCHAR
   - name: ownership
-    type: VARCHAR
+    type: BIGINT
   - name: certificate_date
-    type: DATE
+    type: VARCHAR
   - name: expiration_date
-    type: DATE
+    type: VARCHAR
   - name: expiration_flag
     type: VARCHAR
   - name: certificate_issue_count
-    type: INTEGER
+    type: VARCHAR
   - name: name
     type: VARCHAR
   - name: street
@@ -19,12 +23,12 @@ columns:
     type: VARCHAR
   - name: city
     type: VARCHAR
-  - name: state
+  - name: state_abbrev
     type: VARCHAR
   - name: zip_code
     type: VARCHAR
   - name: other_names_count
-    type: INTEGER
+    type: VARCHAR
   - name: other_names_1
     type: VARCHAR
   - name: other_names_2

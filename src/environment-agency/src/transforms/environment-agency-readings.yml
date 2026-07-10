@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `environment-agency-readings`. Regenerate after model-verify.
+# caution: The value column mixes units and observed properties across measures; join to measures before comparing, aggregating, or labeling values.
+write_mode: merge
+key: [measure_id, date_time]
+temporal: date
+sort: [date, measure_id, date_time]
+columns:
+  - name: measure_id
+    type: VARCHAR
+  - name: station_guid
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: date_time
+    type: TIMESTAMP
+  - name: value
+    type: DOUBLE
+  - name: completeness
+    type: VARCHAR
+  - name: quality
+    type: VARCHAR

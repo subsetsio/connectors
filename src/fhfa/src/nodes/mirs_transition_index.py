@@ -31,9 +31,7 @@ def fetch_mirs_transition_index(node_id: str) -> None:
     _df_to_string_parquet(df, node_id)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fhfa-mirs-transition-index", fn=fetch_mirs_transition_index, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

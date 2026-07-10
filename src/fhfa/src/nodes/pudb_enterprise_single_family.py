@@ -21,9 +21,7 @@ def fetch_pudb_enterprise_single_family(node_id: str) -> None:
     _pudb_zip_to_parquet(_latest_year_zip(PUDB_SF_URL), PUDB_SF_COLS, node_id)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fhfa-pudb-enterprise-single-family", fn=fetch_pudb_enterprise_single_family, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

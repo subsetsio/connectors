@@ -1,0 +1,11 @@
+spec_id: fhfa-mirs-transition-index
+status: active
+tests:
+  - row_count: {min: 70}
+    reason: monthly MIRS Transition Index starts in 2019 and should have 70+ rows
+    certainty: 90
+  - not_null: release_date
+  - not_null: index_value
+  - column_type: {col: release_date, type: string}
+  - column_type: {col: index_value, type: string}
+

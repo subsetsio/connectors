@@ -1,0 +1,13 @@
+spec_id: fhfa-conforming-loan-limits
+status: active
+tests:
+  - row_count: {min: 8000}
+    reason: annual county-level limits since 2014 should be thousands of rows
+    certainty: 90
+  - not_null: year
+  - not_null: fips_state_code
+  - not_null: fips_county_code
+  - freshness: {col: year, reaches: 2026}
+    reason: FHFA publishes annual conforming loan limits ahead of the effective year
+    points_outward: true
+

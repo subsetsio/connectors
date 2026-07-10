@@ -1,44 +1,47 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `faa-digital-obstacle-file`. Regenerate after model-verify.
+key: [oas_number, long_dms, long_dd, lat_dms, lat_dd]
+sort: [oas_number, long_dms, long_dd, lat_dms, lat_dd]
 columns:
-  - name: OBJECTID
+  - name: objectid
     type: BIGINT
-  - name: OAS_Number
+  - name: oas_number
     type: VARCHAR
-  - name: Verified
+  - name: verified
     type: VARCHAR
-  - name: Country
+  - name: country
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: City
+  - name: city
     type: VARCHAR
-  - name: Lat_DMS
+  - name: lat_dms
     type: VARCHAR
-  - name: Long_DMS
+  - name: long_dms
     type: VARCHAR
-  - name: Lat_DD
+  - name: lat_dd
+    type: DOUBLE
+  - name: long_dd
+    type: DOUBLE
+  - name: type_code
     type: VARCHAR
-  - name: Long_DD
-    type: VARCHAR
-  - name: Type_Code
-    type: VARCHAR
-  - name: Quantity
-    type: VARCHAR
-  - name: AGL
+  - name: quantity
     type: BIGINT
-  - name: AMSL
+  - name: agl
     type: BIGINT
-  - name: Lighting
+  - name: amsl
+    type: BIGINT
+  - name: lighting
     type: VARCHAR
-  - name: Horizontal
+  - name: horizontal
     type: VARCHAR
-  - name: Vertical
+  - name: vertical
     type: VARCHAR
-  - name: Marking
+  - name: marking
     type: VARCHAR
-  - name: Study
+  - name: study
     type: VARCHAR
-  - name: Action
+  - name: action
     type: VARCHAR
-  - name: Date
-    type: VARCHAR
+  - name: date
+    type: BIGINT

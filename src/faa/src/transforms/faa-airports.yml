@@ -1,54 +1,57 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `faa-airports`. Regenerate after model-verify.
+key: [global_id, name, country, type_code, operstatus]
+sort: [global_id, name, country, type_code, operstatus]
 columns:
-  - name: OBJECTID
+  - name: objectid
     type: BIGINT
-  - name: GLOBAL_ID
+  - name: global_id
     type: UUID
-  - name: IDENT
+  - name: ident
     type: VARCHAR
-  - name: NAME
+  - name: name
     type: VARCHAR
-  - name: LATITUDE
+  - name: latitude
     type: VARCHAR
-  - name: LONGITUDE
+  - name: longitude
     type: VARCHAR
-  - name: ELEVATION
+  - name: elevation
     type: DOUBLE
-  - name: ICAO_ID
+  - name: icao_id
     type: VARCHAR
-  - name: TYPE_CODE
+  - name: type_code
     type: VARCHAR
-  - name: SERVCITY
+  - name: servcity
     type: VARCHAR
-  - name: STATE
+  - name: state
     type: VARCHAR
-  - name: COUNTRY
+  - name: country
     type: VARCHAR
-  - name: OPERSTATUS
+  - name: operstatus
     type: VARCHAR
-  - name: PRIVATEUSE
+  - name: privateuse
     type: BIGINT
-  - name: IAPEXISTS
+  - name: iapexists
     type: BIGINT
-  - name: DODHIFLIP
+  - name: dodhiflip
     type: BIGINT
-  - name: FAR91
+  - name: far91
     type: BIGINT
-  - name: FAR93
+  - name: far93
     type: BIGINT
-  - name: MIL_CODE
+  - name: mil_code
     type: VARCHAR
-  - name: AIRANAL
+  - name: airanal
     type: VARCHAR
-  - name: US_HIGH
+  - name: us_high
     type: BIGINT
-  - name: US_LOW
+  - name: us_low
     type: BIGINT
-  - name: AK_HIGH
+  - name: ak_high
     type: BIGINT
-  - name: AK_LOW
+  - name: ak_low
     type: BIGINT
-  - name: US_AREA
+  - name: us_area
     type: BIGINT
-  - name: PACIFIC
+  - name: pacific
     type: BIGINT

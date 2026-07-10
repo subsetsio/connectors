@@ -19,9 +19,7 @@ def fetch_hpi(node_id: str) -> None:
     save_raw_parquet(table, node_id)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fhfa-hpi", fn=fetch_hpi, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

@@ -1,56 +1,59 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `faa-navaid-component`. Regenerate after model-verify.
+key: [global_id, longitude, ident, navsys_id, name]
+sort: [global_id, longitude, ident, navsys_id, name]
 columns:
-  - name: OBJECTID
+  - name: objectid
     type: BIGINT
-  - name: GLOBAL_ID
+  - name: global_id
     type: UUID
-  - name: IDENT
+  - name: ident
     type: VARCHAR
-  - name: NAME
+  - name: name
     type: VARCHAR
-  - name: LATITUDE
+  - name: latitude
     type: VARCHAR
-  - name: LONGITUDE
+  - name: longitude
     type: VARCHAR
-  - name: WKHR_CODE
+  - name: wkhr_code
     type: VARCHAR
-  - name: WKHR_RMK
+  - name: wkhr_rmk
     type: VARCHAR
-  - name: ELEVATION
+  - name: elevation
     type: DOUBLE
-  - name: FREQUENCY
+  - name: frequency
     type: DOUBLE
-  - name: MAGVAR
+  - name: magvar
     type: DOUBLE
-  - name: MAGVAR_DAT
-    type: VARCHAR
-  - name: NAV_TYPE
+  - name: magvar_dat
     type: BIGINT
-  - name: TYPE_CODE
+  - name: nav_type
+    type: BIGINT
+  - name: type_code
     type: VARCHAR
-  - name: NAVSYS_ID
+  - name: navsys_id
     type: UUID
-  - name: AWYSTRUC
+  - name: awystruc
     type: BIGINT
-  - name: CHANNEL
+  - name: channel
     type: VARCHAR
-  - name: STATUS
+  - name: status
     type: BIGINT
-  - name: VOICE
+  - name: voice
     type: BIGINT
-  - name: SLAVEVAR
+  - name: slavevar
     type: DOUBLE
-  - name: PRIVATE
-    type: VARCHAR
-  - name: AK_LOW
+  - name: private
     type: BIGINT
-  - name: AK_HIGH
+  - name: ak_low
     type: BIGINT
-  - name: US_LOW
+  - name: ak_high
     type: BIGINT
-  - name: US_HIGH
+  - name: us_low
     type: BIGINT
-  - name: US_AREA
+  - name: us_high
     type: BIGINT
-  - name: PACIFIC
+  - name: us_area
+    type: BIGINT
+  - name: pacific
     type: BIGINT

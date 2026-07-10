@@ -1,0 +1,12 @@
+spec_id: fhfa-underserved-areas-data
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: annual underserved-area tract files from 2009 onward should exceed one million rows combined
+    certainty: 90
+  - not_null: release_year
+  - not_null: source_file
+  - not_null: state
+  - freshness: {col: release_year, reaches: 2026}
+    reason: FHFA currently publishes 2026 underserved-area data
+    points_outward: true

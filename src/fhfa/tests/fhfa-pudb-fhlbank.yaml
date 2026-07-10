@@ -1,0 +1,12 @@
+spec_id: fhfa-pudb-fhlbank
+status: active
+tests:
+  - row_count: {min: 30000}
+    reason: latest FHLBank PUDB release should have tens of thousands of acquired-member-asset loan rows
+    certainty: 85
+  - not_null: Year
+  - not_null: LoanCharacteristicsID
+  - freshness: {col: Year, reaches: 2024}
+    reason: latest public FHLBank PUDB release is annual and currently reaches 2024
+    points_outward: true
+

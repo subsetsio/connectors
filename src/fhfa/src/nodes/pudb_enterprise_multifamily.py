@@ -19,9 +19,7 @@ def fetch_pudb_enterprise_multifamily(node_id: str) -> None:
     _pudb_zip_to_parquet(_latest_year_zip(PUDB_MF_URL), PUDB_MF_COLS, node_id)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fhfa-pudb-enterprise-multifamily", fn=fetch_pudb_enterprise_multifamily, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `faa-dereg`. Regenerate after model-verify.
+# caution: An N-number can appear multiple times across historical deregistration records; use the full grain when counting deregistration rows.
+key: [n_number, serial_number, mfr_mdl_code, cancel_date]
+sort: [n_number, serial_number, mfr_mdl_code, cancel_date]
 columns:
   - name: n_number
     type: VARCHAR
@@ -8,31 +12,71 @@ columns:
     type: VARCHAR
   - name: status_code
     type: VARCHAR
-  - name: registrant_name
+  - name: name
     type: VARCHAR
-  - name: city
+  - name: street_mail
     type: VARCHAR
-  - name: state
+  - name: street2_mail
     type: VARCHAR
-  - name: zip_code
+  - name: city_mail
     type: VARCHAR
-  - name: country
+  - name: state_abbrev_mail
     type: VARCHAR
-  - name: eng_mfr_mdl_code
+  - name: zip_code_mail
+    type: VARCHAR
+  - name: eng_mfr_mdl
     type: VARCHAR
   - name: year_mfr
-    type: INTEGER
+    type: VARCHAR
   - name: certification
     type: VARCHAR
-  - name: air_worthiness_date
-    type: DATE
+  - name: region
+    type: VARCHAR
+  - name: county_mail
+    type: VARCHAR
+  - name: country_mail
+    type: VARCHAR
+  - name: air_worth_date
+    type: VARCHAR
   - name: cancel_date
-    type: DATE
-  - name: last_action_date
-    type: DATE
-  - name: cert_issue_date
-    type: DATE
+    type: VARCHAR
   - name: mode_s_code
+    type: BIGINT
+  - name: indicator_group
+    type: VARCHAR
+  - name: exp_country
+    type: VARCHAR
+  - name: last_act_date
+    type: VARCHAR
+  - name: cert_issue_date
+    type: VARCHAR
+  - name: street_physical
+    type: VARCHAR
+  - name: street2_physical
+    type: VARCHAR
+  - name: city_physical
+    type: VARCHAR
+  - name: state_abbrev_physical
+    type: VARCHAR
+  - name: zip_code_physical
+    type: VARCHAR
+  - name: county_physical
+    type: VARCHAR
+  - name: country_physical
+    type: VARCHAR
+  - name: other_names_1
+    type: VARCHAR
+  - name: other_names_2
+    type: VARCHAR
+  - name: other_names_3
+    type: VARCHAR
+  - name: other_names_4
+    type: VARCHAR
+  - name: other_names_5
+    type: VARCHAR
+  - name: kit_mfr
+    type: VARCHAR
+  - name: kit_model
     type: VARCHAR
   - name: mode_s_code_hex
     type: VARCHAR

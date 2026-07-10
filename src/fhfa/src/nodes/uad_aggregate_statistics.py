@@ -41,9 +41,7 @@ def fetch_uad_aggregate_statistics(node_id: str) -> None:
     save_raw_parquet(table, node_id)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fhfa-uad-aggregate-statistics", fn=fetch_uad_aggregate_statistics, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

@@ -1,2 +1,6 @@
 spec_id: faa-docindex
-status: deferred
+status: active
+tests:
+  - freshness: {col: DRDATE, reaches: today - 14d}
+    reason: FAA registry extracts are refreshed frequently; recent document registration dates should be present in a healthy snapshot.
+    certainty: 85

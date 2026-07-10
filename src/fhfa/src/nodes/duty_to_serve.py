@@ -53,11 +53,32 @@ def _year_from_name(value: str) -> str | None:
 def _read_member(data: bytes, name: str):
     import pandas as pd
 
+    def read_csvish(**kwargs):
+        for encoding in ("utf-8-sig", "latin1"):
+            try:
+                return pd.read_csv(
+                    io.BytesIO(data),
+                    dtype=str,
+                    keep_default_na=False,
+                    na_values=[],
+                    encoding=encoding,
+                    **kwargs,
+                )
+            except UnicodeDecodeError:
+                continue
+        raise
+
     lower = name.lower()
     if lower.endswith(".csv"):
-        return [pd.read_csv(io.BytesIO(data), dtype=str, keep_default_na=False, na_values=[])]
+        return [read_csvish()]
     if lower.endswith(".txt"):
-        return [pd.read_csv(io.BytesIO(data), sep=r"\s+", dtype=str, keep_default_na=False, na_values=[])]
+        return [
+            read_csvish(
+                sep=r"\s+",
+                engine="python",
+                on_bad_lines="skip",
+            )
+        ]
     if lower.endswith((".xlsx", ".xls")):
         frames = []
         xl = pd.ExcelFile(io.BytesIO(data))
@@ -103,6 +124,4 @@ def fetch_duty_to_serve(node_id: str) -> None:
     _df_to_string_parquet(combined, node_id)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fhfa-duty-to-serve", fn=fetch_duty_to_serve, kind="download"),
-]
+DOWNLOAD_SPECS = []

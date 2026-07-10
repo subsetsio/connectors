@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `environment-agency-stations`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [name, notation, station_guid, status]
+temporal: date_opened
+checks:
+  - kind: unique
+    columns: [name, notation, station_guid, status]
+  - kind: not_null
+    col: name
+  - kind: not_null
+    col: notation
+  - kind: not_null
+    col: station_guid
+  - kind: not_null
+    col: status
+  - kind: row_floor
+    min: 4768
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

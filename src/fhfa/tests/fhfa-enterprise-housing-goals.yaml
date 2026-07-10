@@ -1,0 +1,13 @@
+spec_id: fhfa-enterprise-housing-goals
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: state-by-metric annual files should produce thousands of long rows
+    certainty: 85
+  - not_null: state
+  - not_null: year
+  - not_null: metric
+  - freshness: {col: year, reaches: 2024}
+    reason: FHFA has recent Enterprise Housing Goals releases through at least 2024
+    points_outward: true
+

@@ -67,9 +67,7 @@ def fetch_conforming_loan_limits(node_id: str) -> None:
     _df_to_string_parquet(combined, node_id)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fhfa-conforming-loan-limits", fn=fetch_conforming_loan_limits, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

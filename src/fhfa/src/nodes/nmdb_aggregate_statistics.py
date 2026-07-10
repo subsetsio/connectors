@@ -21,9 +21,7 @@ def fetch_nmdb_aggregate_statistics(node_id: str) -> None:
     save_raw_parquet(table, node_id)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fhfa-nmdb-aggregate-statistics", fn=fetch_nmdb_aggregate_statistics, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

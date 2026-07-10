@@ -1,3 +1,8 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `faa-reserved`. Regenerate after model-verify.
+key: [n_number]
+temporal: rsv_date
+sort: [rsv_date, n_number]
 columns:
   - name: n_number
     type: VARCHAR
@@ -13,13 +18,13 @@ columns:
     type: VARCHAR
   - name: zip_code
     type: VARCHAR
-  - name: reserved_date
+  - name: rsv_date
     type: DATE
   - name: tr
     type: VARCHAR
-  - name: expiration_date
-    type: DATE
-  - name: n_number_changed
+  - name: exp_date
+    type: VARCHAR
+  - name: n_num_chg
     type: VARCHAR
   - name: purge_date
-    type: DATE
+    type: VARCHAR

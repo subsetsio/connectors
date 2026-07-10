@@ -1,0 +1,14 @@
+spec_id: fhfa-pudb-enterprise-multifamily
+status: active
+coverage:
+  frozen: true
+  reason: fetch intentionally pulls the latest annual PUDB release only; temporal year is encoded by the source release file, not a raw column
+tests:
+  - row_count: {min: 3000}
+    reason: latest Enterprise multifamily PUDB national property file should contain thousands of rows
+    certainty: 85
+  - not_null: enterprise
+  - not_null: record_num_mf_nf
+  - distinct_count: {col: enterprise, min: 2}
+    reason: release ZIP contains both Fannie Mae and Freddie Mac files
+    certainty: 90

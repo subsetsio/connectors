@@ -1,0 +1,13 @@
+spec_id: fhfa-uad-aggregate-statistics
+status: active
+tests:
+  - row_count: {min: 5000000}
+    reason: UAD county aggregate file is a multi-million-row appraisal aggregate table
+    certainty: 90
+  - not_null: seriesid
+  - not_null: year
+  - not_null: geolevel
+  - freshness: {col: year, reaches: 2023}
+    reason: current UAD aggregate county file covers releases through at least 2023
+    points_outward: true
+

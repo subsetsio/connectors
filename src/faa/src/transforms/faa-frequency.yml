@@ -1,34 +1,37 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `faa-frequency`. Regenerate after model-verify.
+key: [global_id]
+sort: [global_id]
 columns:
-  - name: OBJECTID
+  - name: objectid
     type: BIGINT
-  - name: GLOBAL_ID
+  - name: global_id
     type: UUID
-  - name: REMARKS
+  - name: remarks
     type: VARCHAR
-  - name: FREQ_TRANS
+  - name: freq_trans
     type: DOUBLE
-  - name: FREQ_REC
+  - name: freq_rec
     type: DOUBLE
-  - name: FREQ_UOM
+  - name: freq_uom
     type: JSON
-  - name: TYPE_CODE
+  - name: type_code
     type: VARCHAR
-  - name: SERVICE_ID
+  - name: service_id
     type: UUID
-  - name: FREQ_ALT
+  - name: freq_alt
+    type: BIGINT
+  - name: freq_usage
     type: VARCHAR
-  - name: FREQ_USAGE
-    type: VARCHAR
-  - name: AK_LOW
+  - name: ak_low
     type: BIGINT
-  - name: AK_HIGH
+  - name: ak_high
     type: BIGINT
-  - name: US_LOW
+  - name: us_low
     type: BIGINT
-  - name: US_HIGH
+  - name: us_high
     type: BIGINT
-  - name: US_AREA
+  - name: us_area
     type: BIGINT
-  - name: PACIFIC
+  - name: pacific
     type: BIGINT

@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `faa-engine`. Regenerate after model-verify.
+key: [code]
+sort: [code]
 columns:
   - name: code
     type: VARCHAR
@@ -9,6 +12,6 @@ columns:
   - name: type
     type: VARCHAR
   - name: horsepower
-    type: INTEGER
-  - name: thrust_lbs
-    type: INTEGER
+    type: VARCHAR
+  - name: thrust
+    type: VARCHAR

@@ -1,16 +1,19 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    TRIM("CODE")                                          AS code,
-    TRIM("MFR")                                           AS mfr,
-    TRIM("MODEL")                                         AS model,
-    TRIM("TYPE-ACFT")                                     AS type_aircraft,
-    TRIM("TYPE-ENG")                                      AS type_engine,
-    TRIM("AC-CAT")                                        AS aircraft_category,
-    TRIM("BUILD-CERT-IND")                                AS build_cert_ind,
-    TRY_CAST(NULLIF(TRIM("NO-ENG"), '') AS INTEGER)       AS num_engines,
-    TRY_CAST(NULLIF(TRIM("NO-SEATS"), '') AS INTEGER)     AS num_seats,
-    TRIM("AC-WEIGHT")                                     AS weight_class,
-    TRY_CAST(NULLIF(TRIM("SPEED"), '') AS INTEGER)        AS cruising_speed,
-    TRIM("TC-DATA-SHEET")                                 AS tc_data_sheet,
-    TRIM("TC-DATA-HOLDER")                                AS tc_data_holder
+    "CODE" AS code,
+    "MFR" AS mfr,
+    "MODEL" AS model,
+    "TYPE-ACFT" AS type_acft,
+    "TYPE-ENG" AS type_eng,
+    CAST("AC-CAT" AS BIGINT) AS ac_cat,
+    CAST("BUILD-CERT-IND" AS BIGINT) AS build_cert_ind,
+    "NO-ENG" AS no_eng,
+    "NO-SEATS" AS no_seats,
+    "AC-WEIGHT" AS ac_weight,
+    "SPEED" AS speed,
+    "TC-DATA-SHEET" AS tc_data_sheet,
+    "TC-DATA-HOLDER" AS tc_data_holder
 FROM "faa-acftref"
-WHERE TRIM("CODE") <> ''

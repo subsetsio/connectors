@@ -1,0 +1,13 @@
+spec_id: fhfa-fhlbank-member-data
+status: active
+tests:
+  - row_count: {min: 5000}
+    reason: latest FHLBank membership workbook should list thousands of member institutions
+    certainty: 90
+  - not_null: fhfa_id
+  - not_null: district
+  - not_null: member_name
+  - freshness: {col: release_period, reaches: "2026Q1"}
+    reason: FHFA currently publishes quarterly FHLB membership workbooks through 2026Q1
+    points_outward: true
+

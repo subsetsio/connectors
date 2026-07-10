@@ -1,18 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `faa-docindex`. Regenerate after model-verify.
+# caution: The document index does not expose a stable unique row identifier; duplicate document rows can occur and should not be collapsed without a query-specific rule.
+key: []
+temporal: drdate
+sort: [drdate]
 columns:
   - name: type_collateral
-    type: VARCHAR
+    type: BIGINT
   - name: collateral
     type: VARCHAR
   - name: party
     type: VARCHAR
   - name: doc_id
     type: VARCHAR
-  - name: dr_date
+  - name: drdate
     type: DATE
   - name: processing_date
     type: DATE
   - name: corr_date
-    type: DATE
+    type: VARCHAR
   - name: corr_id
     type: VARCHAR
   - name: serial_id

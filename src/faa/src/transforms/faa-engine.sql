@@ -1,9 +1,12 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    TRIM("CODE")                                          AS code,
-    TRIM("MFR")                                           AS mfr,
-    TRIM("MODEL")                                         AS model,
-    TRIM("TYPE")                                          AS type,
-    TRY_CAST(NULLIF(TRIM("HORSEPOWER"), '') AS INTEGER)   AS horsepower,
-    TRY_CAST(NULLIF(TRIM("THRUST"), '') AS INTEGER)       AS thrust_lbs
+    "CODE" AS code,
+    "MFR" AS mfr,
+    "MODEL" AS model,
+    "TYPE" AS type,
+    "HORSEPOWER" AS horsepower,
+    "THRUST" AS thrust
 FROM "faa-engine"
-WHERE TRIM("CODE") <> ''

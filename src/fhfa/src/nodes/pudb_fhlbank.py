@@ -63,9 +63,7 @@ _FHLB_REPLACE = ",\n                ".join(
 )
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fhfa-pudb-fhlbank", fn=fetch_pudb_fhlbank, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

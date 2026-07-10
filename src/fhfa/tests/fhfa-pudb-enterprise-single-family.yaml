@@ -1,0 +1,14 @@
+spec_id: fhfa-pudb-enterprise-single-family
+status: active
+coverage:
+  frozen: true
+  reason: fetch intentionally pulls the latest annual PUDB release only; temporal year is encoded by the source release file, not a raw column
+tests:
+  - row_count: {min: 1000000}
+    reason: latest Enterprise single-family PUDB national file should exceed one million rows
+    certainty: 90
+  - not_null: enterprise
+  - not_null: record_num_sf_nfb
+  - distinct_count: {col: enterprise, min: 2}
+    reason: release ZIP contains both Fannie Mae and Freddie Mac files
+    certainty: 90

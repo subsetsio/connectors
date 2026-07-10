@@ -55,9 +55,7 @@ def fetch_enterprise_housing_goals(node_id: str) -> None:
     _df_to_string_parquet(combined, node_id)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fhfa-enterprise-housing-goals", fn=fetch_enterprise_housing_goals, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

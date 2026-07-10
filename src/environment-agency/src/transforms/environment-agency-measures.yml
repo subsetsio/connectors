@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `environment-agency-measures`. Regenerate after model-verify.
+# caution: Each measure identifies one station-parameter-period-statistic stream; observed values and units are interpreted through the measure metadata.
+key: [measure_id]
+temporal: period
+sort: [period, measure_id]
+columns:
+  - name: measure_id
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: parameter
+    type: VARCHAR
+  - name: parameter_name
+    type: VARCHAR
+  - name: period
+    type: BIGINT
+  - name: period_name
+    type: VARCHAR
+  - name: value_type
+    type: VARCHAR
+  - name: value_statistic
+    type: VARCHAR
+  - name: observation_type
+    type: VARCHAR
+  - name: observed_property
+    type: VARCHAR
+  - name: observed_property_label
+    type: VARCHAR
+  - name: station_guid
+    type: VARCHAR
+  - name: station_label
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: unit_name
+    type: VARCHAR

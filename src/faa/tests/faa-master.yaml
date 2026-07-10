@@ -1,2 +1,6 @@
 spec_id: faa-master
-status: deferred
+status: active
+tests:
+  - freshness: {col: LAST ACTION DATE, reaches: today - 14d}
+    reason: The aircraft registry master extract is a current operational snapshot; last action dates should reach the recent registry update window.
+    certainty: 85

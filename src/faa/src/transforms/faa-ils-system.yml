@@ -1,40 +1,43 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `faa-ils-system`. Regenerate after model-verify.
+key: [objectid]
+sort: [objectid]
 columns:
-  - name: OBJECTID
+  - name: objectid
     type: BIGINT
-  - name: GLOBAL_ID
+  - name: global_id
     type: UUID
-  - name: REMARKS
+  - name: remarks
     type: JSON
-  - name: ILS_TYPE
+  - name: ils_type
     type: BIGINT
-  - name: IDENT
+  - name: ident
     type: VARCHAR
-  - name: CAT_CODE
+  - name: cat_code
     type: JSON
-  - name: CHANNEL
+  - name: channel
     type: JSON
-  - name: NAS_USE
+  - name: nas_use
     type: JSON
-  - name: CLASS
+  - name: class
     type: JSON
-  - name: NAME
+  - name: name
     type: JSON
-  - name: CITY
+  - name: city
     type: VARCHAR
-  - name: STATE
+  - name: state
     type: VARCHAR
-  - name: COUNTRY
+  - name: country
     type: VARCHAR
-  - name: AK_LOW
+  - name: ak_low
     type: BIGINT
-  - name: AK_HIGH
+  - name: ak_high
     type: BIGINT
-  - name: US_LOW
+  - name: us_low
     type: BIGINT
-  - name: US_HIGH
+  - name: us_high
     type: BIGINT
-  - name: US_AREA
+  - name: us_area
     type: BIGINT
-  - name: PACIFIC
+  - name: pacific
     type: BIGINT

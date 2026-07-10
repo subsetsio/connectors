@@ -1,0 +1,14 @@
+spec_id: fhfa-hpi
+status: active
+tests:
+  - row_count: {min: 150000}
+    reason: HPI master is a long-format all-geography file with well over 150k rows
+    certainty: 95
+  - not_null: hpi_type
+  - not_null: frequency
+  - not_null: level
+  - not_null: yr
+  - freshness: {col: yr, reaches: 2026}
+    reason: FHFA HPI is updated monthly/quarterly and should include the current release year
+    points_outward: true
+

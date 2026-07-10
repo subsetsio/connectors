@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `faa-acftref`. Regenerate after model-verify.
+key: [code, mfr, model, speed, tc_data_sheet]
+sort: [code, mfr, model, speed, tc_data_sheet]
 columns:
   - name: code
     type: VARCHAR
@@ -6,22 +9,22 @@ columns:
     type: VARCHAR
   - name: model
     type: VARCHAR
-  - name: type_aircraft
+  - name: type_acft
     type: VARCHAR
-  - name: type_engine
+  - name: type_eng
     type: VARCHAR
-  - name: aircraft_category
-    type: VARCHAR
+  - name: ac_cat
+    type: BIGINT
   - name: build_cert_ind
+    type: BIGINT
+  - name: no_eng
     type: VARCHAR
-  - name: num_engines
-    type: INTEGER
-  - name: num_seats
-    type: INTEGER
-  - name: weight_class
+  - name: no_seats
     type: VARCHAR
-  - name: cruising_speed
-    type: INTEGER
+  - name: ac_weight
+    type: VARCHAR
+  - name: speed
+    type: VARCHAR
   - name: tc_data_sheet
     type: VARCHAR
   - name: tc_data_holder

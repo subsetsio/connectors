@@ -1,2 +1,6 @@
 spec_id: faa-reserved
-status: deferred
+status: active
+tests:
+  - freshness: {col: RSV DATE, reaches: today - 14d}
+    reason: Reserved N-number records are a current registry snapshot; reservation dates should reach the recent registry update window.
+    certainty: 85

@@ -1,0 +1,15 @@
+spec_id: fhfa-duty-to-serve
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: eligibility tract files plus performance dashboard files should exceed one million rows
+    certainty: 85
+  - not_null: dataset_part
+  - not_null: source_file
+  - distinct_count: {col: dataset_part, min: 2}
+    reason: raw product should include both eligibility and performance components
+    certainty: 90
+  - freshness: {col: release_year, reaches: 2025}
+    reason: Duty to Serve pages currently publish 2025 eligibility/performance files
+    points_outward: true
+

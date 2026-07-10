@@ -1,0 +1,13 @@
+spec_id: fhfa-nmdb-aggregate-statistics
+status: active
+tests:
+  - row_count: {min: 400000}
+    reason: NMDB aggregate quarterly all-geography file should contain hundreds of thousands of rows
+    certainty: 90
+  - not_null: seriesid
+  - not_null: year
+  - not_null: period
+  - freshness: {col: year, reaches: 2025}
+    reason: NMDB aggregate statistics have current quarterly releases
+    points_outward: true
+

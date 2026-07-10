@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `environment-agency-stations`. Regenerate after model-verify.
+# caution: Station reference rows describe monitoring locations and should be joined to measures or readings before interpreting observed values.
+key: [name, notation, station_guid, status]
+temporal: date_opened
+sort: [date_opened, name, notation, station_guid, status]
+columns:
+  - name: station_guid
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: notation
+    type: VARCHAR
+  - name: wiski_id
+    type: VARCHAR
+  - name: river_name
+    type: VARCHAR
+  - name: easting
+    type: BIGINT
+  - name: northing
+    type: BIGINT
+  - name: lat
+    type: DOUBLE
+  - name: long
+    type: DOUBLE
+  - name: date_opened
+    type: DATE
+  - name: status
+    type: VARCHAR
+  - name: observed_properties
+    type: VARCHAR
+  - name: n_measures
+    type: BIGINT
