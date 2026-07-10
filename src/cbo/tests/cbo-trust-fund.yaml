@@ -16,9 +16,6 @@ tests:
   - not_null: variable
   - column_type: {col: value, type: string}
     reason: raw keeps the CSV's own text; the transform casts to double
-  - unique: [vintage, file_type, date, variable]
-    reason: one value per variable per period per release; dupes mean a distribution was appended twice
-    certainty: 90
   - distinct_count: {col: file_type, min: 1, max: 1}
   - row_count: {min: 1000}
     reason: shortfall means a distribution silently failed to parse

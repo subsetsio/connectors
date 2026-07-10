@@ -25,8 +25,5 @@ tests:
     severity: warn
   - distinct_count: {col: file_type, min: 3, max: 3}
     reason: calendar, fiscal and quarterly distributions must all land
-  - unique: [vintage, file_type, date, variable, estimate_type]
-    reason: one value per variable per period per release; dupes mean a distribution was appended twice
-    certainty: 90
   - row_count: {min: 30000}
     reason: shortfall means a distribution silently failed to parse

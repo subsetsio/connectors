@@ -1,28 +1,30 @@
-"""UN Statistics Division connector — fetches + transforms.
+"""UN Statistics Division connector downloads.
 
 Two access surfaces, one node module:
 
 1. SDG Global Database (flagship) via the SDG REST API. Stateless full re-pull:
    one observations table built by walking every series in Series/List and
-   paging Series/Data. Raw -> streamed parquet. The API exposes no
-   modified-since filter, and a stored watermark would silently skip the SDG
-   database's frequent back-revisions, so every refresh re-pulls the full corpus.
+   paging Series/Data, plus four small reference taxonomies from the SDG list
+   endpoints. Raw -> parquet. The API exposes no modified-since filter, and a
+   stored watermark would silently skip the SDG database's frequent
+   back-revisions, so every refresh re-pulls the full corpus.
 
-2. Four UNSD SDMX 2.1 dataflows on data.un.org. One parametric fetcher: each
+2. Three UNSD SDMX 2.1 dataflows on data.un.org. One parametric fetcher: each
    dataflow is fetched whole as SDMX-CSV (Accept: application/vnd.sdmx.data+csv)
-   and saved verbatim as a csv read directly by the transform. The two energy
-   flows are ~84-136MB; downloaded in one shot. No modified-since delta filter
-   exists, so every refresh re-pulls the full flow.
+   and saved verbatim as a csv. The two energy flows are large; downloaded in
+   one shot. No modified-since delta filter exists, so every refresh re-pulls
+   the full flow.
 """
+import json
+
 import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_parquet_writer,
     save_raw_file,
-    transient_retry,
+    save_raw_parquet,
 )
 
 # --------------------------------------------------------------------------- #
@@ -44,8 +46,43 @@ SDG_SCHEMA = pa.schema([
     ("source", pa.string()),
 ])
 
+SDG_GOALS_SCHEMA = pa.schema([
+    ("code", pa.string()),
+    ("title", pa.string()),
+    ("description", pa.string()),
+    ("uri", pa.string()),
+])
 
-@transient_retry()
+SDG_TARGETS_SCHEMA = pa.schema([
+    ("goal", pa.string()),
+    ("code", pa.string()),
+    ("title", pa.string()),
+    ("description", pa.string()),
+    ("uri", pa.string()),
+    ("indicators", pa.string()),
+])
+
+SDG_INDICATORS_SCHEMA = pa.schema([
+    ("goal", pa.string()),
+    ("target", pa.string()),
+    ("code", pa.string()),
+    ("description", pa.string()),
+    ("tier", pa.string()),
+    ("uri", pa.string()),
+    ("series", pa.string()),
+])
+
+SDG_SERIES_SCHEMA = pa.schema([
+    ("goal", pa.string()),
+    ("target", pa.string()),
+    ("indicator", pa.string()),
+    ("release", pa.string()),
+    ("code", pa.string()),
+    ("description", pa.string()),
+    ("uri", pa.string()),
+])
+
+
 def _get_json(url, params=None):
     resp = get(url, params=params, headers={"Accept": "application/json"}, timeout=(10.0, 180.0))
     resp.raise_for_status()
@@ -84,6 +121,16 @@ def _rows_to_table(rows):
     }, schema=SDG_SCHEMA)
 
 
+def _json_or_none(value):
+    if value is None:
+        return None
+    return json.dumps(value, sort_keys=True, separators=(",", ":"))
+
+
+def _taxonomy_table(rows, schema, columns):
+    return pa.table({col: [row.get(col) for row in rows] for col in columns}, schema=schema)
+
+
 def fetch_sdg(node_id: str) -> None:
     """Walk every SDG series and stream all observations to one parquet asset."""
     asset = node_id
@@ -112,6 +159,62 @@ def fetch_sdg(node_id: str) -> None:
         raise AssertionError(f"{asset}: fetched 0 SDG observations across {len(codes)} series")
 
 
+def fetch_sdg_goals(node_id: str) -> None:
+    rows = _get_json(f"{SDG_BASE}/Goal/List")
+    if len(rows) < 17:
+        raise AssertionError(f"{node_id}: expected at least 17 SDG goals, got {len(rows)}")
+    save_raw_parquet(_taxonomy_table(rows, SDG_GOALS_SCHEMA, ("code", "title", "description", "uri")), node_id)
+
+
+def fetch_sdg_targets(node_id: str) -> None:
+    rows = _get_json(f"{SDG_BASE}/Target/List")
+    if len(rows) < 169:
+        raise AssertionError(f"{node_id}: expected at least 169 SDG targets, got {len(rows)}")
+    prepared = [{**row, "indicators": _json_or_none(row.get("indicators"))} for row in rows]
+    save_raw_parquet(
+        _taxonomy_table(prepared, SDG_TARGETS_SCHEMA, ("goal", "code", "title", "description", "uri", "indicators")),
+        node_id,
+    )
+
+
+def fetch_sdg_indicators(node_id: str) -> None:
+    rows = _get_json(f"{SDG_BASE}/Indicator/List")
+    if len(rows) < 200:
+        raise AssertionError(f"{node_id}: expected hundreds of SDG indicators, got {len(rows)}")
+    prepared = [{**row, "series": _json_or_none(row.get("series"))} for row in rows]
+    save_raw_parquet(
+        _taxonomy_table(
+            prepared,
+            SDG_INDICATORS_SCHEMA,
+            ("goal", "target", "code", "description", "tier", "uri", "series"),
+        ),
+        node_id,
+    )
+
+
+def fetch_sdg_series(node_id: str) -> None:
+    rows = _get_json(f"{SDG_BASE}/Series/List")
+    if len(rows) < 500:
+        raise AssertionError(f"{node_id}: expected hundreds of SDG series, got {len(rows)}")
+    prepared = [
+        {
+            **row,
+            "goal": _first(row.get("goal")),
+            "target": _first(row.get("target")),
+            "indicator": _first(row.get("indicator")),
+        }
+        for row in rows
+    ]
+    save_raw_parquet(
+        _taxonomy_table(
+            prepared,
+            SDG_SERIES_SCHEMA,
+            ("goal", "target", "indicator", "release", "code", "description", "uri"),
+        ),
+        node_id,
+    )
+
+
 # --------------------------------------------------------------------------- #
 # UNSD SDMX 2.1 dataflows
 # --------------------------------------------------------------------------- #
@@ -124,11 +227,9 @@ SDMX_FLOWS = {
     "df-undata-countrydata": "DF_UNDATA_COUNTRYDATA",
     "df-undata-energy": "DF_UNDATA_ENERGY",
     "df-undata-energybalance": "DF_UNData_EnergyBalance",
-    "df-undata-unfcc": "DF_UNData_UNFCC",
 }
 
 
-@transient_retry()
 def _get_text(url, headers=None):
     resp = get(url, headers=headers, timeout=(10.0, 600.0))
     resp.raise_for_status()
@@ -153,52 +254,11 @@ def fetch_sdmx(node_id: str) -> None:
 # --------------------------------------------------------------------------- #
 DOWNLOAD_SPECS = [
     NodeSpec(id="un-statistics-division-sdg-data", fn=fetch_sdg, kind="download"),
+    NodeSpec(id="un-statistics-division-sdg-goals", fn=fetch_sdg_goals, kind="download"),
+    NodeSpec(id="un-statistics-division-sdg-targets", fn=fetch_sdg_targets, kind="download"),
+    NodeSpec(id="un-statistics-division-sdg-indicators", fn=fetch_sdg_indicators, kind="download"),
+    NodeSpec(id="un-statistics-division-sdg-series", fn=fetch_sdg_series, kind="download"),
     NodeSpec(id="un-statistics-division-df-undata-countrydata", fn=fetch_sdmx, kind="download"),
     NodeSpec(id="un-statistics-division-df-undata-energy", fn=fetch_sdmx, kind="download"),
     NodeSpec(id="un-statistics-division-df-undata-energybalance", fn=fetch_sdmx, kind="download"),
-    NodeSpec(id="un-statistics-division-df-undata-unfcc", fn=fetch_sdmx, kind="download"),
-]
-
-
-# SDMX flows share the same generic shape: keep every dimension column, type the
-# observation value, drop rows with no numeric value. DATAFLOW is redundant.
-def _sdmx_transform(download_id: str) -> SqlNodeSpec:
-    return SqlNodeSpec(
-        id=f"{download_id}-transform",
-        deps=[download_id],
-        sql=f'''
-            SELECT * EXCLUDE (OBS_VALUE, DATAFLOW),
-                   TRY_CAST(OBS_VALUE AS DOUBLE) AS obs_value
-            FROM "{download_id}"
-            WHERE TRY_CAST(OBS_VALUE AS DOUBLE) IS NOT NULL
-        ''',
-    )
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="un-statistics-division-sdg-data-transform",
-        deps=["un-statistics-division-sdg-data"],
-        sql='''
-            SELECT
-                series,
-                series_description,
-                goal,
-                target,
-                indicator,
-                geo_area_code,
-                geo_area_name,
-                time_period AS year,
-                TRY_CAST(value AS DOUBLE) AS value,
-                value_type,
-                source
-            FROM "un-statistics-division-sdg-data"
-            WHERE TRY_CAST(value AS DOUBLE) IS NOT NULL
-              AND time_period IS NOT NULL
-        ''',
-    ),
-    _sdmx_transform("un-statistics-division-df-undata-countrydata"),
-    _sdmx_transform("un-statistics-division-df-undata-energy"),
-    _sdmx_transform("un-statistics-division-df-undata-energybalance"),
-    _sdmx_transform("un-statistics-division-df-undata-unfcc"),
 ]
