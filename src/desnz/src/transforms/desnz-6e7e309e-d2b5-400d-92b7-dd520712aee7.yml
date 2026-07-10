@@ -1,9 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `desnz-6e7e309e-d2b5-400d-92b7-dd520712aee7`. Regenerate after model-verify.
+# caution: Northern Ireland electricity consumption rows are extracted cells; keep sheet, row_label, and series context when comparing geography or sector values.
+key: [value_text, row_label, series, sheet]
+sort: [value_text, row_label, series, sheet]
 columns:
   - name: resource
     type: VARCHAR
   - name: sheet
-    type: VARCHAR
+    type: BIGINT
   - name: row_label
     type: VARCHAR
   - name: series

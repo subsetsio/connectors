@@ -1,10 +1,13 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Spend-control rows come from periodic transparency files; keep resource and sheet context when comparing controls or dates.
 SELECT
-    resource,
-    sheet,
-    row_label,
-    series,
-    value_text,
-    TRY_CAST(value_num AS DOUBLE) AS value_num
+    "resource",
+    "sheet",
+    "row_label",
+    "series",
+    "value_text",
+    "value_num"
 FROM "desnz-5d790113-2ab8-4e05-9375-aa9a0f2b7601"
-WHERE value_text IS NOT NULL
-  AND length(value_text) > 0

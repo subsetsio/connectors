@@ -1,3 +1,8 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `desnz-49aecf4e-a614-4de3-98a2-b76506b10686`. Regenerate after model-verify.
+# caution: Performance-related pay rows represent aggregated staff-payment summaries; retain grade and period context in row_label and series.
+key: [value_text, row_label, resource, sheet, series]
+sort: [value_text, row_label, resource, sheet, series]
 columns:
   - name: resource
     type: VARCHAR
@@ -10,4 +15,4 @@ columns:
   - name: value_text
     type: VARCHAR
   - name: value_num
-    type: DOUBLE
+    type: JSON

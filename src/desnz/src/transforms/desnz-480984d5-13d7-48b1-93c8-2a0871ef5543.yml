@@ -1,9 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `desnz-480984d5-13d7-48b1-93c8-2a0871ef5543`. Regenerate after model-verify.
+# caution: Sub-national electricity tables mix geographies and consumer groups; use resource, sheet, row_label, and series together before aggregating.
+key: [value_text, row_label, series, sheet, resource]
+sort: [value_text, row_label, series, sheet, resource]
 columns:
   - name: resource
     type: VARCHAR
   - name: sheet
-    type: VARCHAR
+    type: BIGINT
   - name: row_label
     type: VARCHAR
   - name: series

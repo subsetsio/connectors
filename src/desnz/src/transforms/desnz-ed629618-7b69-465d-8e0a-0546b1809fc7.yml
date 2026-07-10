@@ -1,9 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `desnz-ed629618-7b69-465d-8e0a-0546b1809fc7`. Regenerate after model-verify.
+# caution: LSOA, MSOA, and IGZ estimates contain mixed geography levels and electricity/gas measures; filter geography level and fuel before aggregation.
+key: []
 columns:
   - name: resource
     type: VARCHAR
   - name: sheet
-    type: VARCHAR
+    type: BIGINT
   - name: row_label
     type: VARCHAR
   - name: series

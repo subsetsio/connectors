@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `desnz-480984d5-13d7-48b1-93c8-2a0871ef5543`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value_text, row_label, series, sheet, resource]
+checks:
+  - kind: unique
+    columns: [value_text, row_label, series, sheet, resource]
+  - kind: not_null
+    col: value_text
+  - kind: not_null
+    col: row_label
+  - kind: not_null
+    col: series
+  - kind: not_null
+    col: sheet
+  - kind: not_null
+    col: resource
+  - kind: row_floor
+    min: 77835
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
