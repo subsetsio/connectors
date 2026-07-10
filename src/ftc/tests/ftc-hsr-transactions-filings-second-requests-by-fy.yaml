@@ -1,0 +1,16 @@
+spec_id: ftc-hsr-transactions-filings-second-requests-by-fy
+tests:
+  - row_count: {min: 30}
+    reason: HSR annual filing summary spans fiscal years since the late 1970s
+    certainty: 95
+  - not_null: FY
+  - not_null: TransactionsReported
+  - not_null: FilingsReceived
+  - column_type: {col: FY, type: string}
+  - unique: FY
+    reason: one HSR filing summary row per fiscal year
+    certainty: 95
+  - freshness: {col: FY, reaches: 2024}
+    reason: annual HSR filing summary should include recent fiscal years
+    certainty: 80
+    points_outward: true

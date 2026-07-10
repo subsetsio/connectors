@@ -1,0 +1,18 @@
+spec_id: ftc-hsr-merger-transactions-by-month
+tests:
+  - row_count: {min: 300}
+    reason: HSR monthly transaction table begins in FY1990 and should have one row per month
+    certainty: 95
+  - not_null: FYTransaction
+  - not_null: MonthTransaction
+  - not_null: TransactionReceived
+  - column_type: {col: FYTransaction, type: string}
+  - column_type: {col: MonthTransaction, type: string}
+  - column_type: {col: TransactionReceived, type: string}
+  - unique: [FYTransaction, MonthTransaction]
+    reason: one HSR transaction count per fiscal year-month
+    certainty: 95
+  - freshness: {col: FYTransaction, reaches: 2024}
+    reason: monthly HSR transactions should include recent fiscal years
+    certainty: 80
+    points_outward: true

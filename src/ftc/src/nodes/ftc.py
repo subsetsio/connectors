@@ -1,11 +1,8 @@
-"""FTC bulk CSV datasets — the parametric flat single-table CSV family.
+"""FTC bulk CSV datasets.
 
-Stateless full re-pull each refresh. Every dataset is a single small CSV
-(KB to low-MB) fetched whole; there is no incremental filter on the static
-files, so we re-fetch the full corpus every run and overwrite. File slugs are
-stable but carry an incrementing numeric suffix on revision (e.g. _2, _3), so we
-resolve the current filename from the data-sets landing page at fetch time
-rather than hardcoding it.
+Every accepted dataset is a small, flat CSV linked from the FTC data-sets page.
+The FTC appends revision suffixes to filenames, so fetches resolve the current
+URL from the landing page at run time.
 """
 
 import re
@@ -16,8 +13,6 @@ from utils import BASE, _full_url, _get_bytes, _parse_csv
 
 DATASETS_PAGE = BASE + "/policy-notices/open-government/data-sets"
 
-# entity_id -> stable filename slug prefix on the data-sets page
-# (without the version suffix or .csv extension).
 DATASET_SLUGS = {
     "ftc_civil_penalty_actions": "ftc_civil_penalty_actions",
     "ftc_merger_enforcement_actions": "ftc_merger_enforcement_actions",
@@ -31,25 +26,21 @@ def _find_dataset_url(slug_prefix: str) -> str:
     html = _get_bytes(DATASETS_PAGE).decode("utf-8", "replace")
     hrefs = re.findall(r'href="([^"]*attachments/data-sets/[^"]+\.csv)"', html)
     pat = re.compile(rf"/{re.escape(slug_prefix)}(?:_\d+)?\.csv$")
-    for h in hrefs:
-        if "dictionary" in h:
+    for href in hrefs:
+        if "dictionary" in href:
             continue
-        if pat.search(h):
-            return _full_url(h)
+        if pat.search(href):
+            return _full_url(href)
     raise RuntimeError(f"no data-sets CSV link matching slug {slug_prefix!r}")
 
 
 def fetch_dataset(node_id: str) -> None:
-    """Fetch one flat single-table CSV dataset, resolving the current versioned
-    filename from the landing page."""
-    asset = node_id
-    entity_id = node_id[len("ftc-"):].replace("-", "_")
-    slug_prefix = DATASET_SLUGS[entity_id]
-    url = _find_dataset_url(slug_prefix)
+    entity_id = node_id[len("ftc-") :].replace("-", "_")
+    url = _find_dataset_url(DATASET_SLUGS[entity_id])
     rows = _parse_csv(_get_bytes(url))
     if not rows:
-        raise RuntimeError(f"{asset}: parsed 0 rows from {url}")
-    save_raw_ndjson(rows, asset)
+        raise RuntimeError(f"{node_id}: parsed 0 rows from {url}")
+    save_raw_ndjson(rows, node_id)
 
 
 DOWNLOAD_SPECS = [

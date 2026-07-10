@@ -1,0 +1,17 @@
+spec_id: ftc-ftc-merger-enforcement-actions
+tests:
+  - row_count: {min: 300}
+    reason: merger enforcement actions are a long-running FTC table
+    certainty: 90
+  - not_null: MatterName
+  - not_null: MatterNumber
+  - not_null: MatterEnforcementFY
+  - column_type: {col: MatterName, type: string}
+  - column_type: {col: MatterNumber, type: string}
+  - unique: MatterNumber
+    reason: FTC matter number identifies an enforcement matter in this file
+    certainty: 85
+  - freshness: {col: MatterEnforcementFY, reaches: 2023}
+    reason: merger enforcement action table should include recent fiscal years when FTC publishes new actions
+    certainty: 75
+    points_outward: true
