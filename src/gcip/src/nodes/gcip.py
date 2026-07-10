@@ -17,7 +17,7 @@ import io
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, save_raw_parquet
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
 CSV_URL = "https://raw.githubusercontent.com/jackblun/Globalinc/master/GCIPrawdata.csv"
 
@@ -46,7 +46,6 @@ SCHEMA = pa.schema([
 ])
 
 
-@transient_retry()
 def _fetch_csv(url: str) -> str:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -95,33 +94,4 @@ def fetch_income_deciles(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="gcip-gcip-income-deciles", fn=fetch_income_deciles, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="gcip-gcip-income-deciles-transform",
-        deps=["gcip-gcip-income-deciles"],
-        sql='''
-            SELECT
-                country,
-                CAST(year AS INTEGER)             AS year,
-                CAST(decile_1_income  AS DOUBLE)  AS decile_1_income,
-                CAST(decile_2_income  AS DOUBLE)  AS decile_2_income,
-                CAST(decile_3_income  AS DOUBLE)  AS decile_3_income,
-                CAST(decile_4_income  AS DOUBLE)  AS decile_4_income,
-                CAST(decile_5_income  AS DOUBLE)  AS decile_5_income,
-                CAST(decile_6_income  AS DOUBLE)  AS decile_6_income,
-                CAST(decile_7_income  AS DOUBLE)  AS decile_7_income,
-                CAST(decile_8_income  AS DOUBLE)  AS decile_8_income,
-                CAST(decile_9_income  AS DOUBLE)  AS decile_9_income,
-                CAST(decile_10_income AS DOUBLE)  AS decile_10_income,
-                CAST(mean_income      AS DOUBLE)  AS mean_income,
-                CAST(population       AS BIGINT)  AS population
-            FROM "gcip-gcip-income-deciles"
-            WHERE country IS NOT NULL AND year IS NOT NULL
-        ''',
-        key=("country", "year"),
-        temporal="year",
-    ),
 ]

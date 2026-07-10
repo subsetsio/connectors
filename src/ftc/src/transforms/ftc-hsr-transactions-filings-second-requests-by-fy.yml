@@ -1,29 +1,41 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `ftc-hsr-transactions-filings-second-requests-by-fy`. Regenerate after model-verify.
 # caution: Annual HSR measures mix transaction counts, filing counts, second requests, and early termination outcomes; the upstream CSV includes blank separator rows that are not observations, and percentage columns should not be summed.
-key: []
+key: [fiscal_year]
+temporal: fiscal_year
+sort: [fiscal_year]
 columns:
-  - name: fy
-    type: VARCHAR
-  - name: transactionsreported
-    type: VARCHAR
-  - name: filingsreceived
-    type: VARCHAR
-  - name: adjustedtransactions
-    type: VARCHAR
-  - name: secondrequesttotal
-    type: VARCHAR
-  - name: secondrequestftc
-    type: VARCHAR
-  - name: secondrequestpercentftc
-    type: VARCHAR
-  - name: secondrequestdoj
-    type: VARCHAR
-  - name: secondrequestpercentdoj
-    type: VARCHAR
-  - name: earlyterminationtransactions
-    type: VARCHAR
-  - name: earlyterminationtransactionsgranted
-    type: VARCHAR
-  - name: earlyterminationtransactionsnotgranted
-    type: VARCHAR
+  - name: fiscal_year
+    type: BIGINT
+    description: FTC fiscal year.
+  - name: transactions_reported
+    type: BIGINT
+    description: HSR transactions reported.
+  - name: filings_received
+    type: BIGINT
+    description: HSR filings received.
+  - name: adjusted_transactions
+    type: BIGINT
+    description: Adjusted HSR transactions.
+  - name: second_request_total
+    type: BIGINT
+    description: Total second requests issued.
+  - name: second_request_ftc
+    type: BIGINT
+    description: Second requests issued by the FTC.
+  - name: second_request_percent_ftc
+    type: DOUBLE
+    description: Percent of adjusted transactions receiving an FTC second request.
+  - name: second_request_doj
+    type: BIGINT
+    description: Second requests issued by the DOJ.
+  - name: second_request_percent_doj
+    type: DOUBLE
+    description: Percent of adjusted transactions receiving a DOJ second request.
+  - name: early_termination_transactions
+    type: BIGINT
+    description: Transactions involving early termination requests.
+  - name: early_termination_transactions_granted
+    type: BIGINT
+    description: Early termination requests granted.
+  - name: early_termination_transactions_not_granted
+    type: BIGINT
+    description: Early termination requests not granted.

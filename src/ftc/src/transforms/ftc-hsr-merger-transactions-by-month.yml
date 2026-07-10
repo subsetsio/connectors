@@ -1,12 +1,14 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `ftc-hsr-merger-transactions-by-month`. Regenerate after model-verify.
 # caution: Fiscal year-month rows use FTC fiscal-year numbering; month values are source-reported fiscal-period months, not derived calendar dates.
-key: [fytransaction, monthtransaction]
-sort: [fytransaction, monthtransaction]
+key: [fiscal_year, fiscal_month]
+temporal: fiscal_year
+sort: [fiscal_year, fiscal_month]
 columns:
-  - name: fytransaction
+  - name: fiscal_year
     type: BIGINT
-  - name: monthtransaction
+    description: FTC fiscal year for the HSR transaction count.
+  - name: fiscal_month
     type: BIGINT
-  - name: transactionreceived
+    description: Source-reported month number within the fiscal year.
+  - name: transactions_received
     type: BIGINT
+    description: Number of HSR merger transactions received.

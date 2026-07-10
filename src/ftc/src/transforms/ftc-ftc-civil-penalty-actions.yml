@@ -1,20 +1,26 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `ftc-ftc-civil-penalty-actions`. Regenerate after model-verify.
 # caution: Historical civil penalty actions file is frozen; use the fiscal year and enforcement date columns as source-reported enforcement timing.
-key: [matternumber, matterenforcementdate]
-sort: [matternumber, matterenforcementdate]
+key: [matter_number, enforcement_date]
+temporal: enforcement_date
+sort: [enforcement_date, matter_number]
 columns:
-  - name: matterenforcementfy
+  - name: enforcement_fy
     type: BIGINT
-  - name: matterenforcementdate
+    description: FTC fiscal year of the enforcement action.
+  - name: enforcement_date
+    type: DATE
+    description: Source-reported enforcement action date.
+  - name: matter_name
     type: VARCHAR
-  - name: mattername
+    description: FTC matter name.
+  - name: matter_number
     type: VARCHAR
-  - name: matternumber
-    type: BIGINT
-  - name: matterenforcementtype
+    description: FTC matter number, preserved as an identifier.
+  - name: enforcement_type
     type: VARCHAR
-  - name: matterhyperlink
+    description: Source category for the enforcement action.
+  - name: url
     type: VARCHAR
-  - name: mattertype
+    description: FTC matter URL when provided.
+  - name: matter_type
     type: VARCHAR
+    description: Source matter type, such as merger or nonmerger.

@@ -1,20 +1,26 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `ftc-ftc-merger-enforcement-actions`. Regenerate after model-verify.
 # caution: Rows are FTC merger enforcement matters; enforcement type and industry are source categories, not mutually exclusive broader market classifications.
-key: [matternumber, matterenforcementdate]
-sort: [matternumber, matterenforcementdate]
+key: [matter_number, enforcement_date]
+temporal: enforcement_date
+sort: [enforcement_date, matter_number]
 columns:
-  - name: matterenforcementfy
+  - name: enforcement_fy
     type: BIGINT
-  - name: matterenforcementdate
+    description: FTC fiscal year of the enforcement action.
+  - name: enforcement_date
+    type: DATE
+    description: Source-reported enforcement action date.
+  - name: matter_number
     type: VARCHAR
-  - name: matternumber
-    type: BIGINT
-  - name: mattername
+    description: FTC matter number, preserved as an identifier.
+  - name: matter_name
     type: VARCHAR
-  - name: matterindustry
+    description: FTC matter name.
+  - name: matter_industry
     type: VARCHAR
-  - name: matterhyperlink
+    description: Source industry category.
+  - name: url
     type: VARCHAR
-  - name: matter_enforcement_type
+    description: FTC matter URL when provided.
+  - name: enforcement_type
     type: VARCHAR
+    description: Source category for the merger enforcement action.

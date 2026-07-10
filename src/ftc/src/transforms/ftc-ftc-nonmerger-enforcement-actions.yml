@@ -1,19 +1,26 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `ftc-ftc-nonmerger-enforcement-actions`. Regenerate after model-verify.
 # caution: Rows are FTC nonmerger enforcement matters; the upstream CSV contains at least one exact duplicate row, and industry is a source category rather than a complete industry taxonomy.
-key: []
+key: [enforcement_fy, enforcement_date, matter_number, matter_name, enforcement_type, matter_industry, url]
+temporal: enforcement_date
+sort: [enforcement_date, matter_number, enforcement_type]
 columns:
-  - name: matterenforcementfy
+  - name: enforcement_fy
     type: BIGINT
-  - name: matterenforcementdate
+    description: FTC fiscal year of the enforcement action.
+  - name: enforcement_date
+    type: DATE
+    description: Source-reported enforcement action date.
+  - name: matter_number
     type: VARCHAR
-  - name: matternumber
-    type: BIGINT
-  - name: mattername
+    description: FTC matter number, preserved as an identifier.
+  - name: matter_name
     type: VARCHAR
-  - name: matterenforcementtype
+    description: FTC matter name.
+  - name: enforcement_type
     type: VARCHAR
-  - name: matterindustry
+    description: Source category for the nonmerger enforcement action.
+  - name: matter_industry
     type: VARCHAR
-  - name: matterhyperlink
+    description: Source industry category.
+  - name: url
     type: VARCHAR
+    description: FTC matter URL when provided.

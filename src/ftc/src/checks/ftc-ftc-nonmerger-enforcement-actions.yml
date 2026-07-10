@@ -1,0 +1,30 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ftc-ftc-nonmerger-enforcement-actions`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [enforcement_fy, enforcement_date, matter_number, matter_name, enforcement_type, matter_industry, url]
+temporal: enforcement_date
+checks:
+  - kind: unique
+    columns: [enforcement_fy, enforcement_date, matter_number, matter_name, enforcement_type, matter_industry, url]
+  - kind: not_null
+    col: enforcement_fy
+  - kind: not_null
+    col: enforcement_date
+  - kind: not_null
+    col: matter_number
+  - kind: not_null
+    col: matter_name
+  - kind: not_null
+    col: enforcement_type
+  - kind: not_null
+    col: matter_industry
+  - kind: not_null
+    col: url
+  - kind: row_floor
+    min: 83
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
