@@ -8,8 +8,8 @@ tests:
   - column_type: {col: station_id, type: integer}
   - column_type: {col: date, type: date}
   - column_type: {col: value, type: integer}
-  - enum: {col: quality, values: [0, 1]}
-    reason: "-9999 (q=9) missing rows are dropped in the fetch, so only valid (0) and suspect (1) flags remain"
+  - enum: {col: quality, values: [0, 1, 9]}
+    reason: "ECA&D quality flags are 0=valid, 1=suspect, and 9=missing/flagged; rows with missing value -9999 are dropped, but q=9 can remain when a numeric value is present"
     certainty: 85
   - unique: [station_id, date]
     reason: the blended series carries one value per station per day; duplicates mean a chunk was written twice

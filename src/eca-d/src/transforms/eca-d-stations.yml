@@ -17,7 +17,7 @@ columns:
     description: Station latitude in decimal degrees.
   - name: longitude
     type: DOUBLE
-    description: Station longitude in decimal degrees.
+    description: Station longitude in decimal degrees; some ECA&D records use 0-360 east-positive values rather than normalizing to [-180, 180].
   - name: elevation_m
     type: INTEGER
     description: Station elevation in metres above mean sea level.

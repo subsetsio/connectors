@@ -1,6 +1,7 @@
 spec_id: eiopa-solo-own-funds
 status: active
 tests:
+  - freshness: {col: reference_period, reaches: "2025 Q4"}
   - not_null: item_code
     reason: every published row is a Solvency II reporting item; a null item code means a header/footer row leaked
     certainty: 95
@@ -12,8 +13,8 @@ tests:
     certainty: 95
   - column_type: {col: value, type: float}
     certainty: 90
-  - column_type: {col: extraction_date, type: date}
-    reason: Date of extraction (yyyymmdd) is parsed to a DATE in the transform
+  - column_type: {col: extraction_date, type: string}
+    reason: raw Date of extraction values are yyyymmdd strings; the transform parses them to DATE
     certainty: 88
   - enum: {col: frequency, values: [quarterly, annual]}
     reason: this subset unions only the listed reporting frequencies

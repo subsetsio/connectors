@@ -14,8 +14,8 @@ tests:
     certainty: 95
   - between: {col: latitude, lo: -90, hi: 90}
     reason: decimal degrees latitude
-  - between: {col: longitude, lo: -180, hi: 180}
-    reason: decimal degrees longitude
+  - between: {col: longitude, lo: -180, hi: 360}
+    reason: decimal degrees longitude; ECA&D includes some longitudes in a 0-360 east-positive convention rather than normalizing to [-180, 180]
   - row_count: {min: 10000}
     reason: ECA&D indexes ~25,000 stations; a small count means stations.txt parsing broke
     certainty: 85

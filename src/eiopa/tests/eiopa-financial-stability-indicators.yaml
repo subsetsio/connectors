@@ -1,6 +1,7 @@
 spec_id: eiopa-financial-stability-indicators
 status: active
 tests:
+  - freshness: {col: reference_period, reaches: "2025 Q4"}
   - not_null: item_name
     reason: every row is an indicator; the indicator name is forward-filled across its period block
     certainty: 92
