@@ -15,11 +15,12 @@ host, so the region slugs come from `constants.py`.
 """
 from __future__ import annotations
 
-import httpx
-import pyarrow as pa
-import pyarrow.parquet as pq
+from datetime import UTC, datetime
+from email.utils import parsedate_to_datetime
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, raw_parquet_writer
+import pyarrow as pa
+
+from subsets_utils import NodeSpec, get, raw_parquet_writer, save_raw_parquet
 from constants import (
     GLOBAL_PRODUCTS,
     CONTINENT_SLUGS,
@@ -30,6 +31,73 @@ from constants import (
 S3_GLOBAL = "https://berkeley-earth-temperature.s3.us-west-1.amazonaws.com/Global/"
 AUTO_REGIONAL = "https://data.berkeleyearth.org/auto/Regional/{var}/Text/{slug}-{var}-Trend.txt"
 VARIABLES = ("TAVG", "TMAX", "TMIN")
+
+GRIDDED_PRODUCTS = [
+    {
+        "product_id": "land-and-ocean-equalarea",
+        "file": "Land_and_Ocean_EqualArea.nc",
+        "variable": "TAVG",
+        "domain": "land_and_ocean",
+        "grid": "equal_area",
+        "description": "Monthly global land-and-ocean temperature anomalies on Berkeley Earth's equal-area grid.",
+    },
+    {
+        "product_id": "complete-tavg-equalarea",
+        "file": "Complete_TAVG_EqualArea.nc",
+        "variable": "TAVG",
+        "domain": "land",
+        "grid": "equal_area",
+        "description": "Monthly global land-surface average-temperature anomalies on Berkeley Earth's equal-area grid.",
+    },
+    {
+        "product_id": "complete-tmax-equalarea",
+        "file": "Complete_TMAX_EqualArea.nc",
+        "variable": "TMAX",
+        "domain": "land",
+        "grid": "equal_area",
+        "description": "Monthly global land-surface maximum-temperature anomalies on Berkeley Earth's equal-area grid.",
+    },
+    {
+        "product_id": "complete-tmin-equalarea",
+        "file": "Complete_TMIN_EqualArea.nc",
+        "variable": "TMIN",
+        "domain": "land",
+        "grid": "equal_area",
+        "description": "Monthly global land-surface minimum-temperature anomalies on Berkeley Earth's equal-area grid.",
+    },
+    {
+        "product_id": "land-and-ocean-latlong1",
+        "file": "Land_and_Ocean_LatLong1.nc",
+        "variable": "TAVG",
+        "domain": "land_and_ocean",
+        "grid": "latlong_1deg",
+        "description": "Monthly global land-and-ocean temperature anomalies on a one-degree latitude-longitude grid.",
+    },
+    {
+        "product_id": "complete-tavg-latlong1",
+        "file": "Complete_TAVG_LatLong1.nc",
+        "variable": "TAVG",
+        "domain": "land",
+        "grid": "latlong_1deg",
+        "description": "Monthly global land-surface average-temperature anomalies on a one-degree latitude-longitude grid.",
+    },
+    {
+        "product_id": "complete-tmax-latlong1",
+        "file": "Complete_TMAX_LatLong1.nc",
+        "variable": "TMAX",
+        "domain": "land",
+        "grid": "latlong_1deg",
+        "description": "Monthly global land-surface maximum-temperature anomalies on a one-degree latitude-longitude grid.",
+    },
+    {
+        "product_id": "complete-tmin-latlong1",
+        "file": "Complete_TMIN_LatLong1.nc",
+        "variable": "TMIN",
+        "domain": "land",
+        "grid": "latlong_1deg",
+        "description": "Monthly global land-surface minimum-temperature anomalies on a one-degree latitude-longitude grid.",
+    },
+]
 
 # Explicit schema — the contract for every per-region batch written to the one
 # raw asset. The 9 value columns mirror the source's fixed-column layout:
@@ -55,9 +123,31 @@ SCHEMA = pa.schema([
     ("twenty_year_unc", pa.float64()),
 ])
 
+REGIONS_SCHEMA = pa.schema([
+    ("region_slug", pa.string()),
+    ("region_name", pa.string()),
+    ("level", pa.string()),
+    ("source_path_template", pa.string()),
+])
 
-@transient_retry()
-def _get(url: str) -> httpx.Response:
+GRIDDED_SCHEMA = pa.schema([
+    ("product_id", pa.string()),
+    ("file_name", pa.string()),
+    ("url", pa.string()),
+    ("variable", pa.string()),
+    ("domain", pa.string()),
+    ("grid", pa.string()),
+    ("description", pa.string()),
+    ("format", pa.string()),
+    ("http_status", pa.int64()),
+    ("content_length_bytes", pa.int64()),
+    ("last_modified", pa.timestamp("us", tz="UTC")),
+    ("etag", pa.string()),
+    ("checked_at", pa.timestamp("us", tz="UTC")),
+])
+
+
+def _get(url: str, **kwargs):
     resp = get(url, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp
@@ -118,6 +208,86 @@ def _parse(text: str, *, region_slug: str, region_name: str, level: str,
     return rows
 
 
+def _title_region(slug: str) -> str:
+    return slug.replace("-(state)", "").replace("-", " ").title()
+
+
+def fetch_regions(node_id: str) -> None:
+    rows = []
+    for slug in CONTINENT_SLUGS:
+        rows.append({
+            "region_slug": slug,
+            "region_name": _title_region(slug),
+            "level": "continent",
+            "source_path_template": AUTO_REGIONAL,
+        })
+    for slug in COUNTRY_SLUGS:
+        rows.append({
+            "region_slug": slug,
+            "region_name": _title_region(slug),
+            "level": "country",
+            "source_path_template": AUTO_REGIONAL,
+        })
+    for slug in US_STATE_SLUGS:
+        rows.append({
+            "region_slug": slug,
+            "region_name": _title_region(slug),
+            "level": "us-state",
+            "source_path_template": AUTO_REGIONAL,
+        })
+
+    table = pa.Table.from_pylist(rows, schema=REGIONS_SCHEMA)
+    save_raw_parquet(table, node_id)
+    print(f"  {node_id}: {table.num_rows} rows")
+
+
+def _parse_http_datetime(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    parsed = parsedate_to_datetime(value)
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=UTC)
+    return parsed.astimezone(UTC)
+
+
+def _content_length(resp) -> int | None:
+    content_range = resp.headers.get("content-range")
+    if content_range and "/" in content_range:
+        total = content_range.rsplit("/", 1)[-1]
+        if total.isdigit():
+            return int(total)
+    value = resp.headers.get("content-length")
+    return int(value) if value and value.isdigit() else None
+
+
+def fetch_gridded_temperature(node_id: str) -> None:
+    rows = []
+    checked_at = datetime.now(UTC)
+    for product in GRIDDED_PRODUCTS:
+        url = S3_GLOBAL + "Gridded/" + product["file"]
+        resp = get(url, headers={"Range": "bytes=0-0"}, timeout=(10.0, 120.0))
+        resp.raise_for_status()
+        rows.append({
+            "product_id": product["product_id"],
+            "file_name": product["file"],
+            "url": url,
+            "variable": product["variable"],
+            "domain": product["domain"],
+            "grid": product["grid"],
+            "description": product["description"],
+            "format": "netcdf",
+            "http_status": resp.status_code,
+            "content_length_bytes": _content_length(resp),
+            "last_modified": _parse_http_datetime(resp.headers.get("last-modified")),
+            "etag": resp.headers.get("etag"),
+            "checked_at": checked_at,
+        })
+
+    table = pa.Table.from_pylist(rows, schema=GRIDDED_SCHEMA)
+    save_raw_parquet(table, node_id)
+    print(f"  {node_id}: {table.num_rows} rows")
+
+
 def fetch_timeseries(node_id: str) -> None:
     """Re-pull every global + regional series and stream them into one parquet.
 
@@ -167,40 +337,7 @@ def fetch_timeseries(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id="berkeley-earth-gridded-temperature", fn=fetch_gridded_temperature, kind="download"),
+    NodeSpec(id="berkeley-earth-regions", fn=fetch_regions, kind="download"),
     NodeSpec(id="berkeley-earth-temperature-timeseries", fn=fetch_timeseries, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="berkeley-earth-temperature-timeseries-transform",
-        deps=["berkeley-earth-temperature-timeseries"],
-        sql='''
-            SELECT
-                make_date(CAST(year AS INTEGER), CAST(month AS INTEGER), 1) AS date,
-                region_slug,
-                region_name,
-                level,
-                variable,
-                domain,
-                CAST(year AS INTEGER)  AS year,
-                CAST(month AS INTEGER) AS month,
-                monthly_anomaly,
-                monthly_unc,
-                annual_anomaly,
-                annual_unc,
-                five_year_anomaly,
-                five_year_unc,
-                ten_year_anomaly,
-                ten_year_unc,
-                twenty_year_anomaly,
-                twenty_year_unc
-            FROM "berkeley-earth-temperature-timeseries"
-            WHERE monthly_anomaly IS NOT NULL
-              AND month BETWEEN 1 AND 12
-            QUALIFY row_number() OVER (
-                PARTITION BY region_slug, level, variable, domain, year, month
-                ORDER BY monthly_anomaly
-            ) = 1
-        ''',
-    ),
 ]
