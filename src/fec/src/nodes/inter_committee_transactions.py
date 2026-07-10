@@ -19,9 +19,7 @@ def fetch_inter_committee(node_id: str) -> None:
     _fetch_stream(node_id, "oth", OTH_COLS)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fec-inter-committee-transactions", fn=fetch_inter_committee, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

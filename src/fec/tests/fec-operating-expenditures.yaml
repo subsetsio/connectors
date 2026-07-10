@@ -1,0 +1,12 @@
+spec_id: fec-operating-expenditures
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: operating expenditures are an active transaction feed and should contain many rows for the current cycle.
+    certainty: 90
+  - not_null: SUB_ID
+  - column_type: {col: cycle, type: string}
+  - freshness: {col: cycle, reaches: current_year()}
+    reason: the active election-cycle operating-expenditure file should be present.
+    certainty: 90
+    points_outward: true

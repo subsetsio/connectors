@@ -30,9 +30,7 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
-    transient_retry,
     save_raw_parquet,
     raw_parquet_writer,
 )
@@ -66,7 +64,6 @@ CPI_PAGES = [
 # --------------------------------------------------------------------------- #
 # HTTP helpers
 # --------------------------------------------------------------------------- #
-@transient_retry()
 def _download_bytes(url: str) -> bytes:
     # 300s read budget — the largest IDDA module CSV is ~210 MB.
     resp = get(url, timeout=(15.0, 300.0))
@@ -74,7 +71,6 @@ def _download_bytes(url: str) -> bytes:
     return resp.content
 
 
-@transient_retry()
 def _download_text(url: str) -> str:
     resp = get(url, timeout=(15.0, 120.0))
     resp.raise_for_status()
@@ -175,61 +171,3 @@ DOWNLOAD_SPECS = [
 ] + [
     NodeSpec(id=f"{PREFIX}cpi-historical", fn=fetch_cpi, kind="download"),
 ]
-
-
-# --------------------------------------------------------------------------- #
-# TRANSFORM_SPECS — one published Delta table per subset
-# --------------------------------------------------------------------------- #
-# IDDA modules keyed by calendar year (single observation year).
-_YEAR_MODULES = ["pctl-of-inc", "inc-share", "prop-share"]
-# IDDA modules keyed by a (base year, end year) pair instead of a single year.
-_PAIR_MODULES = ["inc-change-distributions", "transition-matrix"]
-
-_idda_year_transforms = [
-    SqlNodeSpec(
-        id=f"{PREFIX}{slug}-transform",
-        deps=[f"{PREFIX}{slug}"],
-        sql=f'''
-            SELECT CAST(year AS INTEGER) AS year, * EXCLUDE (year)
-            FROM "{PREFIX}{slug}"
-            WHERE year IS NOT NULL
-        ''',
-    )
-    for slug in _YEAR_MODULES
-]
-
-_idda_pair_transforms = [
-    SqlNodeSpec(
-        id=f"{PREFIX}{slug}-transform",
-        deps=[f"{PREFIX}{slug}"],
-        sql=f'''
-            SELECT
-                CAST(y0 AS INTEGER) AS y0,
-                CAST(y1 AS INTEGER) AS y1,
-                * EXCLUDE (y0, y1)
-            FROM "{PREFIX}{slug}"
-            WHERE y0 IS NOT NULL AND y1 IS NOT NULL
-        ''',
-    )
-    for slug in _PAIR_MODULES
-]
-
-_cpi_transform = SqlNodeSpec(
-    id=f"{PREFIX}cpi-historical-transform",
-    deps=[f"{PREFIX}cpi-historical"],
-    sql=f'''
-        SELECT
-            series,
-            CAST(regexp_replace(year, '[^0-9]', '', 'g') AS INTEGER) AS year,
-            (year LIKE '%*%') AS preliminary,
-            CAST(annual_average_index AS DOUBLE) AS annual_average_index,
-            TRY_CAST(replace(annual_percent_change, '%', '') AS DOUBLE)
-                AS annual_percent_change
-        FROM "{PREFIX}cpi-historical"
-        WHERE year IS NOT NULL
-          AND regexp_replace(year, '[^0-9]', '', 'g') <> ''
-          AND annual_average_index IS NOT NULL
-    ''',
-)
-
-TRANSFORM_SPECS = _idda_year_transforms + _idda_pair_transforms + [_cpi_transform]

@@ -1,0 +1,12 @@
+spec_id: fec-independent-expenditures
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: independent-expenditure notices are active transaction data and should not collapse to an empty or tiny parse.
+    certainty: 90
+  - not_null: spe_id
+  - column_type: {col: cycle, type: string}
+  - freshness: {col: cycle, reaches: current_year()}
+    reason: the active election-cycle independent-expenditure CSV should be present.
+    certainty: 90
+    points_outward: true

@@ -1,0 +1,12 @@
+spec_id: fec-house-senate-current-campaigns
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: the House/Senate current-campaign file should contain many active-cycle candidate summaries.
+    certainty: 90
+  - not_null: CAND_ID
+  - column_type: {col: cycle, type: string}
+  - freshness: {col: cycle, reaches: current_year()}
+    reason: the active election-cycle House/Senate file should be present.
+    certainty: 90
+    points_outward: true

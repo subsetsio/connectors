@@ -57,9 +57,7 @@ def fetch_independent_expenditures(node_id: str) -> None:
     save_raw_parquet(pa.concat_tables(parts), node_id)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fec-independent-expenditures", fn=fetch_independent_expenditures, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

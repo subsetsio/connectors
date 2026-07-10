@@ -1,0 +1,12 @@
+spec_id: fec-inter-committee-transactions
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: inter-committee transactions are a large Schedule A transaction feed; a smaller count indicates an incomplete stream.
+    certainty: 90
+  - not_null: SUB_ID
+  - column_type: {col: cycle, type: string}
+  - freshness: {col: cycle, reaches: current_year()}
+    reason: the active election-cycle inter-committee transaction file should be present.
+    certainty: 90
+    points_outward: true

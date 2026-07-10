@@ -83,9 +83,7 @@ def fetch_candidates(node_id: str) -> None:
     save_raw_parquet(pa.concat_tables(parts), node_id)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fec-candidates", fn=fetch_candidates, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

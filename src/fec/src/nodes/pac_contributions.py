@@ -19,9 +19,7 @@ def fetch_pac_contributions(node_id: str) -> None:
     _fetch_stream(node_id, "pas2", PAS2_COLS)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fec-pac-contributions", fn=fetch_pac_contributions, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

@@ -19,9 +19,7 @@ def fetch_individual_contributions(node_id: str) -> None:
     _fetch_stream(node_id, "indiv", INDIV_COLS)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fec-individual-contributions", fn=fetch_individual_contributions, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

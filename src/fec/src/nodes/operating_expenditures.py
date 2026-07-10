@@ -20,9 +20,7 @@ def fetch_operating_expenditures(node_id: str) -> None:
     _fetch_stream(node_id, "oppexp", OPPEXP_COLS)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fec-operating-expenditures", fn=fetch_operating_expenditures, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

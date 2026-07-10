@@ -16,9 +16,7 @@ def fetch_linkages(node_id: str) -> None:
     _save_simple(node_id, "ccl", CCL_COLS)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fec-candidate-committee-linkages", fn=fetch_linkages, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

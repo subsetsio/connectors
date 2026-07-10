@@ -1,0 +1,12 @@
+spec_id: fec-individual-contributions
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: itemized individual contributions are the largest FEC bulk file; a lower count means streaming stopped early.
+    certainty: 95
+  - not_null: SUB_ID
+  - column_type: {col: cycle, type: string}
+  - freshness: {col: cycle, reaches: current_year()}
+    reason: the active election-cycle individual-contribution bulk file should be present.
+    certainty: 90
+    points_outward: true

@@ -1,0 +1,12 @@
+spec_id: fec-pac-contributions
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: PAC contributions to candidates should contain at least thousands of current-cycle records.
+    certainty: 90
+  - not_null: SUB_ID
+  - column_type: {col: cycle, type: string}
+  - freshness: {col: cycle, reaches: current_year()}
+    reason: the active election-cycle PAC-contribution file should be present.
+    certainty: 90
+    points_outward: true

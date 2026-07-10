@@ -28,9 +28,7 @@ def fetch_house_senate(node_id: str) -> None:
     _save_simple(node_id, "webl", WEBL_COLS)
 
 
-DOWNLOAD_SPECS = [
-    NodeSpec(id="fec-house-senate-current-campaigns", fn=fetch_house_senate, kind="download"),
-]
+DOWNLOAD_SPECS = []
 
 TRANSFORM_SPECS = [
     SqlNodeSpec(

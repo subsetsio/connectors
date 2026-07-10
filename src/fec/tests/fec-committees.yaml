@@ -1,0 +1,12 @@
+spec_id: fec-committees
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: FEC committee financial summaries across four cycles should contain thousands of rows.
+    certainty: 95
+  - not_null: CMTE_ID
+  - column_type: {col: cycle, type: string}
+  - freshness: {col: cycle, reaches: current_year()}
+    reason: the active election-cycle committee summary should be present.
+    certainty: 90
+    points_outward: true
