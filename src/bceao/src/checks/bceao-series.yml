@@ -3,14 +3,20 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [series_code, frequency]
+key: [label, series_code, localities, unit, subsector]
 checks:
   - kind: unique
-    columns: [series_code, frequency]
+    columns: [label, series_code, localities, unit, subsector]
+  - kind: not_null
+    col: label
   - kind: not_null
     col: series_code
   - kind: not_null
-    col: frequency
+    col: localities
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: subsector
   - kind: row_floor
     min: 1318
 regression:
