@@ -49,7 +49,7 @@ NULL_TOKENS = {"-", "", ":", "n.a.", "na", "n/a", "*", "nan", "none"}
 SUBTOTAL_RE = re.compile(r"^total\s*['\"‘’]", re.I)
 CODE_RE = re.compile(r"^[A-Z][A-Z0-9\-\+/]{0,11}$")
 MAX_BANNER_LEN = 24
-SURVEY_ID_RE = re.compile(r"^s(\d+)_", re.I)
+SURVEY_ID_RE = re.compile(r"^s(\d+)[-_]", re.I)   # s2098_84_3_... and s2230-94-1-...
 
 
 # --------------------------------------------------------------------------
@@ -100,14 +100,17 @@ def resource_title(res):
     return ((res.get("translation") or {}).get("en") or {}).get("title") or ""
 
 
-def volume_code(res):
-    """The Volume letter this resource carries ('A', 'AA', 'C', ...) or None."""
-    title = resource_title(res)
+def _volume_code_of(text):
     for rx in (_VOL_RE, _LEGACY_RE):
-        m = rx.search(title)
+        m = rx.search(text or "")
         if m:
             return m.group(1).upper()
     return None
+
+
+def volume_code(res):
+    """The Volume letter this resource carries ('A', 'AA', 'C', ...) or None."""
+    return _volume_code_of(resource_title(res))
 
 
 def resource_url(res):
@@ -153,10 +156,16 @@ def fetch_survey_metadata(survey_id):
     index; ``get/one`` is the only surface that returns clean survey metadata.
     """
     resp = get(SURVEY_ONE, params={"id": survey_id}, timeout=(10.0, 60.0))
-    if resp.status_code == 404:
+    if resp.status_code != 200:
+        # Retired survey ids answer 404, and a handful answer a non-standard 622
+        # with an error envelope. Either way the survey has no portal record;
+        # transient 429/5xx were already retried inside `get`. A systemic outage
+        # shows up as a mass miss, which the caller turns into a hard failure.
         return None
-    resp.raise_for_status()
-    body = resp.json()
+    try:
+        body = resp.json()
+    except ValueError:
+        return None
     return body if isinstance(body, dict) and body.get("id") else None
 
 
@@ -182,7 +191,12 @@ def workbook_members(payload):
     books = [n for n in names
              if n.lower().endswith((".xls", ".xlsx")) and not n.startswith("__MACOSX")]
     if books:
-        for name in sorted(books):
+        # Some "Volume A" zips also ship the sibling AA/AP workbooks, whose
+        # sheets carry the same question names. Parsing those would fold the
+        # weighting volume into the results table, so prefer the members whose
+        # own filename says Volume A and only fall back when none does.
+        exact = [n for n in books if _volume_code_of(n) == "A"]
+        for name in sorted(exact or books):
             yield name, zf.read(name)
     elif "[Content_Types].xml" in names:
         yield "__xlsx__", payload          # the payload IS an xlsx
@@ -275,6 +289,12 @@ def _banner_token(v):
     lines = [x.strip() for x in raw.split("\n") if x.strip()]
     if not lines:
         return None
+    if len(lines) == 1:
+        # the FR/EN aggregate labels are sometimes space-separated ('UE6 EU6')
+        parts = lines[0].split()
+        if (len(parts) == 2 and parts[0].upper().startswith("UE")
+                and parts[1].upper().startswith("EU")):
+            lines = parts
     tok = lines[-1] if CODE_RE.match(lines[-1]) else " ".join(lines)
     tok = re.sub(r"\s+", " ", tok).strip(" .:")
     if not tok or len(tok) > MAX_BANNER_LEN:
@@ -294,8 +314,13 @@ def banner_columns(rows, base_idx, data_start, floor=0):
         row = rows[i]
         if len(row) <= data_start or not any(_s(row[c]) for c in range(data_start, len(row))):
             continue
-        out = {c: _banner_token(row[c]) for c in range(data_start, len(row))}
-        return ({c: t for c, t in out.items() if t}, i)
+        out, seen = {}, set()
+        for c in range(data_start, len(row)):
+            tok = _banner_token(row[c])
+            if tok and tok not in seen:   # a repeated label would collide on the grain
+                seen.add(tok)
+                out[c] = tok
+        return out, i
     return {}, base_idx
 
 
@@ -414,7 +439,7 @@ def _parse_block(rows, base_idx, lab_col, mode, end, block_start):
 
 
 def parse_sheet(rows):
-    """A sheet -> [(question_code_hint, question_title, rows), ...], one per block."""
+    """A sheet -> [(block_index, question_code_hint, question_title, rows), ...]."""
     bases = find_bases(rows)
     if not bases:
         return []
@@ -424,7 +449,7 @@ def parse_sheet(rows):
         block_start = 0 if k == 0 else bases[k - 1][0] + 1
         parsed, title = _parse_block(rows, base_idx, lab_col, mode, end, block_start)
         if parsed:
-            blocks.append((_code_from_title(title), title, parsed))
+            blocks.append((k, _code_from_title(title), title, parsed))
     return blocks
 
 
@@ -488,11 +513,17 @@ def parse_volume_a(payload, source_file_hint):
                 continue
             blocks = parse_sheet(sheet_rows)
             single = len(blocks) == 1
-            for code_hint, title, parsed in blocks:
+            for block_index, code_hint, title, parsed in blocks:
                 question_en, question_fr = wording.get(sheet_name, (None, None))
                 code = sheet_name.strip() if single else (code_hint or sheet_name.strip())
                 for row in parsed:
-                    row["sheet_name"] = sheet_name.strip()
+                    # the RAW sheet name: Excel guarantees it unique, and some
+                    # workbooks ship both "QB5" and "QB5 " as distinct sheets
+                    row["sheet_name"] = sheet_name
+                    # the block's ordinal within the sheet: the only question
+                    # coordinate guaranteed unique (titles repeat, and a stacked
+                    # sheet's codes are recovered from prose)
+                    row["block_index"] = block_index
                     row["question_code"] = code
                     # en/fr come only from the TOC, where the two languages are
                     # positionally identified. question_title is the wording as

@@ -2,28 +2,93 @@ spec_id: eurobarometer-responses
 status: active
 tests:
   - not_null: survey_id
-    reason: every response row is tagged with the survey dataset it came from
+    reason: every response row carries the catalog dataset it was parsed from
+    certainty: 98
+
+  - not_null: sheet_name
+    reason: the workbook sheet a block came from; always present
+    certainty: 98
+
+  - not_null: banner
+    reason: each data column of a banner cross-tab is labelled, and unlabelled columns are dropped at parse time
     certainty: 95
-  - not_null: question_code
-    reason: the sheet name (question code) identifies the question; never empty
-    certainty: 95
-  - not_null: country
-    reason: each banner column is a country / EU-aggregate code
-    certainty: 95
+
   - not_null: answer
-    reason: each row is one answer category (English label, or the only label on old .xls)
+    reason: an answer row without a label is not emitted
+    certainty: 95
+
+  - unique: [survey_id, source_file, sheet_name, block_index, banner, answer_index]
+    reason: >-
+      the grain. A workbook may ship several Volume-A files (EU27/EU28 restatements),
+      a sheet may stack several question blocks, and a workbook may carry two sheets
+      whose names differ only by trailing whitespace - so the full tuple is needed.
+      Duplicates mean the parser folded two blocks together or read a sibling volume.
     certainty: 90
-  - column_type: {col: share, type: float}
+
+  - column_type: {col: block_index, type: integer}
+  - column_type: {col: answer_index, type: integer}
   - column_type: {col: weighted_n, type: float}
+  - column_type: {col: share, type: float}
+  - column_type: {col: base_n, type: float}
+
   - between: {col: share, lo: 0, hi: 1}
-    reason: share is a within-(country×question) response proportion, so a fraction
-    certainty: 90
+    reason: share is a response proportion within (question x banner column), so a fraction. Percent-scaled workbooks are rescaled at parse time against the count/base ratio; a value above 1 means that rescaling misfired.
+    certainty: 95
+
   - at_least: {col: weighted_n, expr: 0}
     reason: weighted respondent counts are non-negative
+    certainty: 95
+
+  - at_least: {col: base_n, expr: 0}
+    reason: the question's weighted base is non-negative
+    certainty: 95
+
+  - relationship: {left: weighted_n, op: "<=", right: base_n}
+    reason: an answer's weighted count cannot exceed the base it is drawn from. Multi-response questions let SHARES sum past 1 across answers, but no single answer beats the base.
+    certainty: 80
+    severity: warn
+
+  - nullable: {col: share, max_null_frac: 0.30}
+    reason: the source prints '-' where a share rounds below 0.5%, which we keep as NULL rather than invent a zero. Roughly one row in seven.
+    certainty: 80
+
+  - nullable: {col: country, max_null_frac: 0.10}
+    reason: banner columns are country / EU-aggregate codes on almost every wave; a few break results out by fieldwork day or country group instead, and those carry a NULL country
+    certainty: 85
+
+  - nullable: {col: question_en, max_null_frac: 0.25}
+    reason: English question wording comes from the workbook's table-of-contents sheet; the older waves that ship no TOC leave it null
+    certainty: 75
+
+  - not_null: question_title
+    reason: the wording printed above each cross-tab; a block without one means the title scan lost its anchor
+    certainty: 85
+    severity: warn
+
+  - row_count: {min: 7000000}
+    reason: ~600 parseable Volume-A workbooks x tens of questions x ~35 banner columns x several answers
+    certainty: 85
+
+  - distinct_count: {col: survey_id, min: 600}
+    reason: >-
+      the regression floor on the parser. 815 catalog datasets ship a Volume A and
+      about three quarters of them are banner cross-tabs we can read; a drop below
+      600 means a layout family stopped parsing, not that the source shrank.
+    certainty: 85
+
+  - distinct_count: {col: country, min: 30}
+    reason: Eurobarometer fields in every EU member state plus candidate countries and EU-level aggregates
     certainty: 90
-  - row_count: {min: 1000}
-    reason: many surveys × ~200 questions × ~30 countries × several answers each
-    certainty: 85
-  - distinct_count: {col: country, min: 10}
-    reason: Eurobarometer covers all EU member states plus EU aggregates
-    certainty: 85
+
+  - distinct_count: {col: question_code, min: 2000}
+    reason: three decades of waves, each with dozens of distinct question codes
+    certainty: 75
+
+  - coverage: {col: survey_id, expected: 815}
+    reason: >-
+      815 of the 973 DG-Communication datasets expose a Volume-A resource; each one
+      that parses contributes at least one row. The shortfall is the set of legacy
+      Volume-A artefacts that are not banner cross-tabs at all - see the recorded
+      coverage waiver. Without this assertion a parser that quietly stopped reading
+      half the corpus would still look like a successful run.
+    certainty: 90

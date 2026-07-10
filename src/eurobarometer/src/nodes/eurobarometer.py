@@ -29,6 +29,7 @@ instead of restarting the crawl.
 """
 from __future__ import annotations
 
+import datetime as dt
 import os
 
 import pyarrow as pa
@@ -51,6 +52,7 @@ RESPONSES_SCHEMA = pa.schema([
     ("survey_id", pa.string()),
     ("source_file", pa.string()),
     ("sheet_name", pa.string()),
+    ("block_index", pa.int32()),
     ("question_code", pa.string()),
     ("question_en", pa.string()),
     ("question_fr", pa.string()),
@@ -78,11 +80,11 @@ SURVEYS_SCHEMA = pa.schema([
     ("instrument", pa.string()),
     ("method", pa.string()),
     ("directorate_general", pa.string()),
-    ("fieldwork_start_date", pa.string()),
-    ("fieldwork_end_date", pa.string()),
-    ("publication_date", pa.string()),
-    ("catalog_created", pa.string()),
-    ("catalog_modified", pa.string()),
+    ("fieldwork_start_date", pa.date32()),
+    ("fieldwork_end_date", pa.date32()),
+    ("publication_date", pa.date32()),
+    ("catalog_created", pa.date32()),
+    ("catalog_modified", pa.date32()),
     ("license_id", pa.string()),
     ("num_resources", pa.int32()),
     ("volume_codes", pa.string()),
@@ -95,8 +97,10 @@ SURVEYS_SCHEMA = pa.schema([
 MAX_ENRICHMENT_MISS_FRACTION = 0.35
 
 # A Volume-A workbook that parses to nothing is a layout we do not understand.
-# A handful is expected; a quarter of the corpus means the parser has gone blind.
-MAX_EMPTY_FRACTION = 0.25
+# Around 23% of them are: legacy .txt/.pdf/.doc tables and respondent-level
+# microdata dressed as Volume A. This is the catastrophe guard, not the coverage
+# check — the tests/ spec pins the real floor at 600 distinct surveys.
+MAX_EMPTY_FRACTION = 0.40
 
 
 def _survey_type(reference, title):
@@ -120,7 +124,12 @@ def _dictish(value):
 
 def _date(value):
     """The portal mixes bare ISO dates with full timestamps; keep the day."""
-    return str(value)[:10] if value else None
+    if not value:
+        return None
+    try:
+        return dt.date.fromisoformat(str(value)[:10])
+    except ValueError:
+        return None
 
 
 def fetch_surveys(node_id: str) -> None:

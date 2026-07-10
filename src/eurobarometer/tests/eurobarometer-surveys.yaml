@@ -2,18 +2,68 @@ spec_id: eurobarometer-surveys
 status: active
 tests:
   - not_null: survey_id
-    reason: the DCAT dataset id, present on every catalog record
+    reason: the catalog dataset id, present on every record
     certainty: 98
+
   - unique: survey_id
-    reason: one row per Eurobarometer survey dataset
-    certainty: 95
-  - nullable: {col: title, max_null_frac: 0.1}
-    reason: nearly all COMMU datasets carry an English title; a few may not
-    certainty: 80
-  - column_type: {col: num_distributions, type: integer}
-  - at_least: {col: num_distributions, expr: 1}
-    reason: a published dataset has at least one distribution
+    reason: one row per Eurobarometer dataset; a duplicate means pagination re-read a page
+    certainty: 98
+
+  - not_null: title
+    reason: every DG-Communication dataset carries an English title in the catalog
+    certainty: 90
+
+  - column_type: {col: eb_survey_id, type: integer}
+  - column_type: {col: num_resources, type: integer}
+  - column_type: {col: fieldwork_end_date, type: date}
+
+  - at_least: {col: num_resources, expr: 1}
+    reason: a published dataset exposes at least one distribution
+    certainty: 90
+
+  - enum: {col: license_id, values: [CC_BY_4_0, COM_REUSE]}
+    reason: >-
+      Commission datasets are published under CC BY 4.0 or the Commission reuse
+      decision 2011/833/EU. A third value means the licensing assessment this
+      connector rests on no longer holds and must be re-made before publishing.
+    certainty: 90
+
+  - enum: {col: survey_type, values: [Standard, Special, Flash]}
+    reason: the three Eurobarometer instruments; derived from the survey reference prefix (STD / EBS+SP / FL)
     certainty: 85
-  - row_count: {min: 100}
-    reason: roughly 900-1000 DG-Communication Eurobarometer datasets in the catalog
+
+  - nullable: {col: survey_type, max_null_frac: 0.10}
+    reason: a handful of datasets have no portal record to read the reference from
     certainty: 80
+
+  - nullable: {col: eb_survey_id, max_null_frac: 0.05}
+    reason: the survey id is the dataset id's leading s<digits> token; a couple of records use a different id scheme
+    certainty: 85
+
+  - nullable: {col: fieldwork_end_date, max_null_frac: 0.10}
+    reason: fieldwork dates come from the EC survey portal; the few datasets it has no record for leave them null
+    certainty: 85
+
+  - relationship: {left: fieldwork_start_date, op: "<=", right: fieldwork_end_date}
+    reason: fieldwork cannot end before it begins
+    certainty: 95
+
+  - between: {col: fieldwork_end_date, lo: "1970-01-01", hi: "2100-01-01"}
+    reason: guards against a date parsed out of a wrong column; Eurobarometer fieldwork starts in 1973
+    certainty: 90
+
+  - row_count: {min: 900}
+    reason: ~973 DG-Communication Eurobarometer datasets in the catalog today, and the corpus only grows
+    certainty: 90
+
+  - distinct_count: {col: survey_type, min: 3}
+    reason: Standard, Special and Flash waves are all represented
+    certainty: 90
+
+  - freshness: {col: fieldwork_end_date, reaches: today - 400d}
+    reason: >-
+      Standard Eurobarometer fields twice a year and Flash waves run continuously, so
+      the newest fieldwork window is never more than a year old. A stale max means the
+      catalog stopped being enumerated, or the portal stopped publishing.
+    certainty: 85
+    points_outward: true
