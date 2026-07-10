@@ -1,4 +1,7 @@
 spec_id: canadian-centre-for-energy-information-ca1:df-skwells-summary
+coverage:
+  frozen: true
+  reason: legacy Saskatchewan wells summary dataflow is superseded by df-skwells-summary-v2; latest observed period remains 2023-07 while v2 is current.
 status: active
 tests:
   - not_null: TIME_PERIOD
