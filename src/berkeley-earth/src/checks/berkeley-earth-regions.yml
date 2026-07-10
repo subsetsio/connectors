@@ -3,12 +3,14 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [region_slug]
+key: [region_slug, level]
 checks:
   - kind: unique
-    columns: [region_slug]
+    columns: [region_slug, level]
   - kind: not_null
     col: region_slug
+  - kind: not_null
+    col: level
   - kind: row_floor
     min: 80
 regression:
