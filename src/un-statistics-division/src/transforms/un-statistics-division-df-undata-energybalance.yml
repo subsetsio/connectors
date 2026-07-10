@@ -2,7 +2,8 @@
 # of raw asset `un-statistics-division-df-undata-energybalance`. Regenerate after model-verify.
 # caution: Contains energy balance observations by commodity, transaction, unit, reference area, and year; avoid summing across unit or transaction categories.
 key: [ref_area, commodity, transaction, unit, time_period]
-sort: [ref_area, commodity, transaction, unit, time_period]
+temporal: time_period
+sort: [time_period, ref_area, commodity, transaction, unit]
 columns:
   - name: dataflow
     type: VARCHAR

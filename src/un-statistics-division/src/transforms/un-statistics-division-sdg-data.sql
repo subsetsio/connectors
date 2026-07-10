@@ -6,13 +6,14 @@
 SELECT
     "series",
     "series_description",
-    CAST("goal" AS BIGINT) AS goal,
+    "goal",
     "target",
     "indicator",
-    CAST("geo_area_code" AS BIGINT) AS geo_area_code,
+    "geo_area_code",
     "geo_area_name",
     "time_period",
-    "value",
+    TRY_CAST("value" AS DOUBLE) AS value,
     "value_type",
     "source"
 FROM "un-statistics-division-sdg-data"
+WHERE TRY_CAST("value" AS DOUBLE) IS NOT NULL

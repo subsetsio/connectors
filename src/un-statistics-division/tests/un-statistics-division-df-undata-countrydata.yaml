@@ -1,5 +1,8 @@
 spec_id: un-statistics-division-df-undata-countrydata
 status: active
+coverage:
+  frozen: true
+  reason: The current UNSD CountryData SDMX flow is a historical country-indicator extract whose latest observed TIME_PERIOD is 2015; refreshes re-pull it in full, but the observation period is not expected to advance.
 # UNSD CountryData SDMX flow, saved verbatim as SDMX-CSV. Columns:
 # DATAFLOW, FREQ, SERIES, UNIT, LOCATION, AGE_GROUP, SEX, REF_AREA, SOURCE_TYPE,
 # TIME_PERIOD, OBS_VALUE, UNIT_MULT, TIME_DETAIL, NATURE, SOURCE_DETAIL, FOOTNOTES.

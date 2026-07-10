@@ -5,6 +5,9 @@ status: active
 # TRY_CAST to DOUBLE in the transform, so the raw assertions here cover the
 # dimension columns and the integer year, not the (string) value's numeric range.
 tests:
+  - freshness: {col: time_period, reaches: current_year()}
+    reason: The SDG Global Database carries current milestone-year observations in the latest pull; a current-year bound catches a stale flagship observation feed.
+    certainty: 85
   - not_null: series
     reason: every SDG observation belongs to a statistical series (Series/List parentage)
     certainty: 95

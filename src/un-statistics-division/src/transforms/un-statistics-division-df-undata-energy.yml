@@ -2,7 +2,8 @@
 # of raw asset `un-statistics-division-df-undata-energy`. Regenerate after model-verify.
 # caution: Contains multiple commodities, energy transactions, units, and reference areas; filter unit and transaction dimensions before aggregating values.
 key: [freq, ref_area, commodity, transaction, time_period, unit_measure]
-sort: [freq, ref_area, commodity, transaction, time_period, unit_measure]
+temporal: time_period
+sort: [time_period, freq, ref_area, commodity, transaction, unit_measure]
 columns:
   - name: dataflow
     type: VARCHAR

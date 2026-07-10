@@ -4,6 +4,9 @@ status: active
 # DATAFLOW, REF_AREA, COMMODITY, TRANSACTION, UNIT, TIME_PERIOD, OBS_VALUE,
 # ESTIMATE, FOOTNOTES, UNIT_MULT.
 tests:
+  - freshness: {col: TIME_PERIOD, reaches: 2022}
+    reason: UNSD Energy Balance is annual and currently lags the main energy flow; the latest pulled flow reaches 2023, so a four-year bound matches the observed publisher cadence.
+    certainty: 85
   - not_null: REF_AREA
     reason: every energy-balance observation is keyed to a reference area
     certainty: 95

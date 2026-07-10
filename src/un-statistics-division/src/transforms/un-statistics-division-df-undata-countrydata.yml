@@ -2,7 +2,8 @@
 # of raw asset `un-statistics-division-df-undata-countrydata`. Regenerate after model-verify.
 # caution: Contains multiple UNdata series, units, age groups, sexes, source types, and reference areas; filter to a coherent slice before comparing or aggregating observations.
 key: [freq, series, unit, location, age_group, sex, ref_area, source_type, time_period]
-sort: [freq, series, unit, location, age_group, sex, ref_area, source_type, time_period]
+temporal: time_period
+sort: [time_period, freq, series, unit, location, age_group, sex, ref_area, source_type]
 columns:
   - name: dataflow
     type: VARCHAR

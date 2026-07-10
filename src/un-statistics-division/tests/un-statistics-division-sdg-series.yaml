@@ -16,6 +16,6 @@ tests:
   - unique: code
     reason: one row per SDG series code
     certainty: 100
-  - matches: {col: code, pattern: "^[A-Z0-9_]+$"}
-    reason: SDG series identifiers are uppercase code strings
+  - matches: {col: code, pattern: "^[A-Za-z0-9_]+$"}
+    reason: SDG series identifiers are alphanumeric code strings with underscores; the current source includes mixed-case codes such as IT_USE_ii99
     certainty: 90

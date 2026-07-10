@@ -4,6 +4,9 @@ status: active
 # DATAFLOW, FREQ, REF_AREA, COMMODITY, TRANSACTION, TIME_PERIOD, OBS_VALUE,
 # UNIT_MULT, UNIT_MEASURE, OBS_STATUS, CONVERSION_FACTOR.
 tests:
+  - freshness: {col: TIME_PERIOD, reaches: 2023}
+    reason: UNSD Energy Statistics are annual; the latest pulled flow reaches 2024, so a three-year bound allows normal publication delay without accepting a materially stale feed.
+    certainty: 85
   - not_null: REF_AREA
     reason: every energy observation is keyed to a reference area
     certainty: 95
