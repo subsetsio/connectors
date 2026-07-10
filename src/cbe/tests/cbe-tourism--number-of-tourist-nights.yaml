@@ -1,5 +1,8 @@
 spec_id: cbe-tourism--number-of-tourist-nights
 status: active
+coverage:
+  frozen: true
+  reason: CBE publishes this tourism dataset as a fixed historical workbook ending in 2016, not as a current rolling time series.
 tests:
   - not_null: value
     reason: every melted cell is a numeric observation; a null value means a non-data cell leaked into the value column
@@ -24,7 +27,3 @@ tests:
     certainty: 70
     points_outward: true
     severity: warn
-  - freshness: {col: date, reaches: today - 400d}
-    reason: tourism is accepted as a live consolidated time series and should reach within roughly one year
-    certainty: 70
-    points_outward: true
