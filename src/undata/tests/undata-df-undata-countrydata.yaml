@@ -1,5 +1,8 @@
 spec_id: undata-df-undata-countrydata
 status: active
+coverage:
+  frozen: true
+  reason: UNdata CountryData currently publishes a historical SDMX-CountryData slice whose TIME_PERIOD max remains 2015 in current UNdata exports.
 tests:
   - row_count: {min: 1}
     reason: each UNdata SDMX dataflow selected by rank returned observations during research and prior runs
@@ -17,7 +20,3 @@ tests:
   - column_type: {col: TIME_PERIOD, type: string}
     reason: TIME_PERIOD is preserved from SDMX-CSV for transform-stage parsing
     certainty: 90
-  - freshness: {col: TIME_PERIOD, reaches: today - 10y}
-    reason: UNdata redistributes actively maintained statistical dataflows, with some annual series lagging several years
-    certainty: 70
-    points_outward: true
