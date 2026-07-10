@@ -1,30 +1,34 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-volcanism-program-smithsonian-votw-pleistocene-volcanoes`. Regenerate after model-verify.
+# caution: This table covers Pleistocene volcanoes and is not a historical continuation of the Holocene volcano table; analyze it as a separate reference population.
+key: [fid]
+sort: [fid]
 columns:
-  - name: FID
+  - name: fid
     type: VARCHAR
-  - name: Volcano_Name
-    type: VARCHAR
-  - name: Volcanic_Landform
-    type: VARCHAR
-  - name: Primary_Volcano_Type
-    type: VARCHAR
-  - name: Country
-    type: VARCHAR
-  - name: Region
-    type: VARCHAR
-  - name: Subregion
-    type: VARCHAR
-  - name: Geological_Summary
-    type: VARCHAR
-  - name: Geologic_Epoch
-    type: VARCHAR
-  - name: GeoLocation
-    type: VARCHAR
-  - name: Volcano_Number
+  - name: volcano_number
     type: BIGINT
-  - name: Latitude
+  - name: volcano_name
+    type: VARCHAR
+  - name: volcanic_landform
+    type: VARCHAR
+  - name: primary_volcano_type
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: subregion
+    type: VARCHAR
+  - name: geological_summary
+    type: VARCHAR
+  - name: latitude
     type: DOUBLE
-  - name: Longitude
+  - name: longitude
     type: DOUBLE
-  - name: Elevation
-    type: DOUBLE
+  - name: elevation
+    type: BIGINT
+  - name: geologic_epoch
+    type: VARCHAR
+  - name: geolocation
+    type: VARCHAR

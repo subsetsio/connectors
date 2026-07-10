@@ -1,10 +1,41 @@
-# Placeholder — recompiled by the model stage after the raw schema is profiled.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-volcanism-program-e3webapp-eruptions1960`. Regenerate after model-verify.
+# caution: This E3 web-app layer is a recent-era eruption view and overlaps the broader Holocene eruptions catalog; do not combine the two eruption tables without deduplicating by source identifiers and date fields.
+key: [fid]
+temporal: startdate
+sort: [startdate, fid]
 columns:
-  - name: FID
+  - name: fid
     type: VARCHAR
-  - name: VolcanoName
+  - name: volcanonumber
+    type: BIGINT
+  - name: volcanoname
     type: VARCHAR
-  - name: VolcanoNumber
+  - name: explosivityindexmax
+    type: BIGINT
+  - name: startdate
+    type: DATE
+  - name: startdateyear
+    type: BIGINT
+  - name: startdatemonth
+    type: BIGINT
+  - name: startdateday
+    type: BIGINT
+  - name: enddate
+    type: DATE
+  - name: enddateyear
+    type: BIGINT
+  - name: enddatemonth
+    type: BIGINT
+  - name: enddateday
+    type: BIGINT
+  - name: continuingeruption
+    type: BOOLEAN
+  - name: latitudedecimal
+    type: DOUBLE
+  - name: longitudedecimal
+    type: DOUBLE
+  - name: geolocation
     type: VARCHAR
-  - name: GeoLocation
-    type: VARCHAR
+  - name: activity_id
+    type: BIGINT

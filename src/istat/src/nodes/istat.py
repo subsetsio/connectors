@@ -50,6 +50,13 @@ _YEAR_MAX = 2060
 # than grind through the rate limiter for hours.
 _MAX_REQUESTS_PER_FLOW = 200
 
+# Full-flow probes exist only to learn whether a dataflow can be served in one
+# response. Oversized Istat flows often hold the socket open until our read
+# timeout, so keep that probe short and let the existing time-window bisection
+# do the real download work.
+_FULL_PROBE_TIMEOUT = (10.0, 45.0)
+_WINDOW_TIMEOUT = (10.0, 600.0)
+
 # Exceptions that mean "the server could not generate this response" -- i.e. the
 # window is too big, so split it. Raised by get() only after its own transient
 # retries are exhausted.
@@ -93,7 +100,14 @@ class _DeadFlow(RuntimeError):
     Permanent upstream defect -- waive the spec, don't retry it."""
 
 
-def _fetch_csv(flow_id: str, start: str = "", end: str = "", *, attempts: int = 0) -> str | None:
+def _fetch_csv(
+    flow_id: str,
+    start: str = "",
+    end: str = "",
+    *,
+    attempts: int = 0,
+    timeout: tuple[float, float] = _WINDOW_TIMEOUT,
+) -> str | None:
     """Fetch one dataflow as SDMX-CSV, optionally restricted to a time window.
     Returns None when the window holds no observations. Throttled + retried.
 
@@ -117,7 +131,7 @@ def _fetch_csv(flow_id: str, start: str = "", end: str = "", *, attempts: int = 
             f"{BASE}/data/IT1,{flow_id},1.0/all/ALL/",
             params=params,
             headers={"Accept": CSV_ACCEPT},
-            timeout=(10.0, 600.0),
+            timeout=timeout,
         )
     finally:
         if attempts:
@@ -183,7 +197,7 @@ def _iter_rows(flow_id: str):
             )
 
     try:
-        text = _fetch_csv(flow_id, attempts=1)
+        text = _fetch_csv(flow_id, attempts=1, timeout=_FULL_PROBE_TIMEOUT)
     except _TOO_BIG:
         print(f"[istat] {flow_id}: too large to serve whole — splitting by time window")
         yield from split_years(_YEAR_MIN, _YEAR_MAX)

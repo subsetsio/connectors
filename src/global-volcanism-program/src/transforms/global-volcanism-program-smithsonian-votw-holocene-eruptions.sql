@@ -1,21 +1,32 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Date precision varies by eruption: year, month, day, and uncertainty fields are separate source columns, so filter on the precision fields before doing day- or month-level time analysis.
 SELECT
-    * EXCLUDE (
-        Volcano_Number, Eruption_Number, ExplosivityIndexMax,
-        StartDateYear, StartDateYearUncertainty, StartDateMonth, StartDateDay,
-        StartDateDayUncertainty, EndDateYear, EndDateYearUncertainty,
-        EndDateMonth, EndDateDay, EndDateDayUncertainty
-    ),
-    TRY_CAST(Volcano_Number AS BIGINT)            AS Volcano_Number,
-    TRY_CAST(Eruption_Number AS BIGINT)           AS Eruption_Number,
-    TRY_CAST(ExplosivityIndexMax AS INTEGER)      AS ExplosivityIndexMax,
-    TRY_CAST(StartDateYear AS INTEGER)            AS StartDateYear,
-    TRY_CAST(StartDateYearUncertainty AS INTEGER) AS StartDateYearUncertainty,
-    TRY_CAST(StartDateMonth AS INTEGER)           AS StartDateMonth,
-    TRY_CAST(StartDateDay AS INTEGER)             AS StartDateDay,
-    TRY_CAST(StartDateDayUncertainty AS INTEGER)  AS StartDateDayUncertainty,
-    TRY_CAST(EndDateYear AS INTEGER)              AS EndDateYear,
-    TRY_CAST(EndDateYearUncertainty AS INTEGER)   AS EndDateYearUncertainty,
-    TRY_CAST(EndDateMonth AS INTEGER)             AS EndDateMonth,
-    TRY_CAST(EndDateDay AS INTEGER)               AS EndDateDay,
-    TRY_CAST(EndDateDayUncertainty AS INTEGER)    AS EndDateDayUncertainty
+    "FID" AS fid,
+    CAST("Volcano_Number" AS BIGINT) AS volcano_number,
+    "Volcano_Name" AS volcano_name,
+    CAST("Eruption_Number" AS BIGINT) AS eruption_number,
+    "Activity_Type" AS activity_type,
+    CAST("ExplosivityIndexMax" AS BIGINT) AS explosivityindexmax,
+    "ExplosivityIndexModifier" AS explosivityindexmodifier,
+    "ActivityArea" AS activityarea,
+    "ActivityUnit" AS activityunit,
+    "StartEvidenceMethod" AS startevidencemethod,
+    "StartDateYearModifier" AS startdateyearmodifier,
+    CAST("StartDateYear" AS BIGINT) AS startdateyear,
+    CAST("StartDateYearUncertainty" AS BIGINT) AS startdateyearuncertainty,
+    "StartDateDayModifier" AS startdatedaymodifier,
+    CAST("StartDateMonth" AS BIGINT) AS startdatemonth,
+    CAST("StartDateDay" AS BIGINT) AS startdateday,
+    CAST("StartDateDayUncertainty" AS BIGINT) AS startdatedayuncertainty,
+    "EndDateYearModifier" AS enddateyearmodifier,
+    CAST("EndDateYear" AS BIGINT) AS enddateyear,
+    CAST("EndDateYearUncertainty" AS BIGINT) AS enddateyearuncertainty,
+    "EndDateDayModifier" AS enddatedaymodifier,
+    CAST("EndDateMonth" AS BIGINT) AS enddatemonth,
+    CAST("EndDateDay" AS BIGINT) AS enddateday,
+    CAST("EndDateDayUncertainty" AS BIGINT) AS enddatedayuncertainty,
+    "GeoLocation" AS geolocation
 FROM "global-volcanism-program-smithsonian-votw-holocene-eruptions"

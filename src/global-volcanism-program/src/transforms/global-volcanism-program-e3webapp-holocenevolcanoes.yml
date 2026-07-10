@@ -1,10 +1,44 @@
-# Placeholder — recompiled by the model stage after the raw schema is profiled.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-volcanism-program-e3webapp-holocenevolcanoes`. Regenerate after model-verify.
+# caution: This E3 web-app volcano layer overlaps the canonical Holocene volcanoes catalog and uses a leaner app-facing schema; prefer the Smithsonian_VOTW_Holocene_Volcanoes table for the canonical volcano reference.
+key: [fid]
+sort: [fid]
 columns:
-  - name: FID
+  - name: fid
     type: VARCHAR
-  - name: VolcanoName
+  - name: volcanonumber
+    type: BIGINT
+  - name: volcanoname
     type: VARCHAR
-  - name: VolcanoNumber
+  - name: country
     type: VARCHAR
-  - name: GeoLocation
+  - name: remarks
+    type: VARCHAR
+  - name: volcanotype
+    type: VARCHAR
+  - name: lasteruption
+    type: BIGINT
+  - name: elevation
+    type: BIGINT
+  - name: tectonicsetting
+    type: VARCHAR
+  - name: within_5km
+    type: BIGINT
+  - name: within_10km
+    type: BIGINT
+  - name: within_30km
+    type: BIGINT
+  - name: within_100km
+    type: BIGINT
+  - name: vpimagefilename
+    type: VARCHAR
+  - name: vpimagecaption
+    type: VARCHAR
+  - name: vpimagecredit
+    type: VARCHAR
+  - name: latitudedecimal
+    type: DOUBLE
+  - name: longitudedecimal
+    type: DOUBLE
+  - name: geolocation
     type: VARCHAR

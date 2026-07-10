@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `global-volcanism-program-smithsonian-votw-holocene-volcanoes`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [geological_summary, fid, geolocation, volcano_number, volcano_name]
+checks:
+  - kind: unique
+    columns: [geological_summary, fid, geolocation, volcano_number, volcano_name]
+  - kind: not_null
+    col: geological_summary
+  - kind: not_null
+    col: fid
+  - kind: not_null
+    col: geolocation
+  - kind: not_null
+    col: volcano_number
+  - kind: not_null
+    col: volcano_name
+  - kind: row_floor
+    min: 598
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

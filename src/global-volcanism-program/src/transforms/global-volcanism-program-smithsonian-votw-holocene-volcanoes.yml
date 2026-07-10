@@ -1,44 +1,48 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-volcanism-program-smithsonian-votw-holocene-volcanoes`. Regenerate after model-verify.
+# caution: This is the canonical Holocene volcano reference; `Last_Eruption_Year` is a source attribute about the volcano record, not a row observation period.
+key: [geological_summary, fid, geolocation, volcano_number, volcano_name]
+sort: [geological_summary, fid, geolocation, volcano_number, volcano_name]
 columns:
-  - name: FID
+  - name: fid
     type: VARCHAR
-  - name: Volcano_Name
-    type: VARCHAR
-  - name: Volcanic_Landform
-    type: VARCHAR
-  - name: Primary_Volcano_Type
-    type: VARCHAR
-  - name: Country
-    type: VARCHAR
-  - name: Region
-    type: VARCHAR
-  - name: Subregion
-    type: VARCHAR
-  - name: Geological_Summary
-    type: VARCHAR
-  - name: Tectonic_Setting
-    type: VARCHAR
-  - name: Geologic_Epoch
-    type: VARCHAR
-  - name: Evidence_Category
-    type: VARCHAR
-  - name: Primary_Photo_Link
-    type: VARCHAR
-  - name: Primary_Photo_Caption
-    type: VARCHAR
-  - name: Primary_Photo_Credit
-    type: VARCHAR
-  - name: Major_Rock_Type
-    type: VARCHAR
-  - name: GeoLocation
-    type: VARCHAR
-  - name: Volcano_Number
+  - name: volcano_number
     type: BIGINT
-  - name: Last_Eruption_Year
+  - name: volcano_name
+    type: VARCHAR
+  - name: volcanic_landform
+    type: VARCHAR
+  - name: primary_volcano_type
+    type: VARCHAR
+  - name: last_eruption_year
     type: BIGINT
-  - name: Latitude
+  - name: country
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: subregion
+    type: VARCHAR
+  - name: geological_summary
+    type: VARCHAR
+  - name: latitude
     type: DOUBLE
-  - name: Longitude
+  - name: longitude
     type: DOUBLE
-  - name: Elevation
-    type: DOUBLE
+  - name: elevation
+    type: BIGINT
+  - name: tectonic_setting
+    type: VARCHAR
+  - name: geologic_epoch
+    type: VARCHAR
+  - name: evidence_category
+    type: VARCHAR
+  - name: primary_photo_link
+    type: VARCHAR
+  - name: primary_photo_caption
+    type: VARCHAR
+  - name: primary_photo_credit
+    type: VARCHAR
+  - name: major_rock_type
+    type: VARCHAR
+  - name: geolocation
+    type: VARCHAR
