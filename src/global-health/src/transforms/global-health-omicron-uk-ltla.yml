@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-health-omicron-uk-ltla`. Regenerate after model-verify.
+# caution: Rows are date by lower-tier local authority observations; national or regional totals require grouping by the intended geography level.
+key: [date, areaname]
+temporal: date
+sort: [date, areaname]
+columns:
+  - name: date
+    type: DATE
+  - name: areaname
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: confirmed_omicron_cases
+    type: BIGINT
+  - name: sgtf_cases
+    type: BIGINT
+  - name: total
+    type: BIGINT
+  - name: newcasesbyspecimendate
+    type: DOUBLE
+  - name: long
+    type: DOUBLE
+  - name: lat
+    type: DOUBLE

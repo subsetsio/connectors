@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-health-omicron-denmark`. Regenerate after model-verify.
+# caution: This daily table mixes total positive PCR counts with Omicron-specific confirmed and percentage fields; choose the measure column explicitly before aggregating.
+key: [date]
+temporal: date
+sort: [date]
+columns:
+  - name: date
+    type: DATE
+  - name: total_positive_pcr
+    type: BIGINT
+  - name: positive_pcr
+    type: BIGINT
+  - name: other_variants
+    type: BIGINT
+  - name: inconclusive
+    type: BIGINT
+  - name: confirmed_omicron
+    type: BIGINT
+  - name: omicron_percent
+    type: DOUBLE

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-health-omicron-austria`. Regenerate after model-verify.
+# caution: This wide weekly table has one row per ISO week and variant counts in separate columns; do not sum across variant columns as if they were independent observations.
+key: [year_week]
+sort: [year_week]
+columns:
+  - name: year_week
+    type: VARCHAR
+  - name: alpha
+    type: BIGINT
+  - name: beta
+    type: BIGINT
+  - name: gamma
+    type: BIGINT
+  - name: delta
+    type: BIGINT
+  - name: omicron
+    type: BIGINT
+  - name: total
+    type: BIGINT

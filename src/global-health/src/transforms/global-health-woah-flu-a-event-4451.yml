@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-health-woah-flu-a-event-4451`. Regenerate after model-verify.
+# caution: Rows describe epidemiological units within a single WOAH event; animal counts such as susceptible, cases, deaths, killed, slaughtered, and vaccinated are separate measures.
+key: [report_date, species]
+temporal: report_date
+sort: [report_date, species]
+columns:
+  - name: event_id
+    type: BIGINT
+  - name: report_id
+    type: BIGINT
+  - name: report_date
+    type: DATE
+  - name: wild_or_domestic
+    type: VARCHAR
+  - name: species
+    type: VARCHAR
+  - name: susceptible
+    type: BIGINT
+  - name: cases
+    type: BIGINT
+  - name: deaths
+    type: BIGINT
+  - name: killed_and_disposed_of
+    type: BIGINT
+  - name: slaughtered_killed_for_commercial_use
+    type: BIGINT
+  - name: vaccinated
+    type: BIGINT

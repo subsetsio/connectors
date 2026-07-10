@@ -1,0 +1,51 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-health-marburg-equatorial-guinea-2023`. Regenerate after model-verify.
+# caution: This is an anonymized case line list for a concluded outbreak; dates describe case lifecycle and record entry events rather than a uniform observation period.
+key: [id]
+temporal: date_entry
+sort: [date_entry, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: pathogen
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: country_iso3
+    type: VARCHAR
+  - name: case_status
+    type: VARCHAR
+  - name: confirmation_method
+    type: VARCHAR
+  - name: healthcare_worker
+    type: VARCHAR
+  - name: occupation
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: date_onset
+    type: VARCHAR
+  - name: date_onset_estimated
+    type: DATE
+  - name: outcome
+    type: VARCHAR
+  - name: date_of_first_consult
+    type: VARCHAR
+  - name: date_death
+    type: VARCHAR
+  - name: date_recovered
+    type: DATE
+  - name: location_province
+    type: VARCHAR
+  - name: location_district
+    type: VARCHAR
+  - name: contact_with_case
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: date_entry
+    type: DATE
+  - name: data_up_to
+    type: DATE

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `global-health-omicron-europe`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [country_code, year_week, source, variant]
+checks:
+  - kind: unique
+    columns: [country_code, year_week, source, variant]
+  - kind: not_null
+    col: country_code
+  - kind: not_null
+    col: year_week
+  - kind: not_null
+    col: source
+  - kind: not_null
+    col: variant
+  - kind: row_floor
+    min: 26739
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

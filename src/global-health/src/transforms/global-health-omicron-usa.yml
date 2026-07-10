@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-health-omicron-usa`. Regenerate after model-verify.
+# caution: Rows are variant-share estimates by week and HHS region or national geography; shares and confidence intervals are not additive counts.
+key: [share, "95ci", day_of_week_ending, usa_or_hhsregion, variant]
+sort: [share, "95ci", day_of_week_ending, usa_or_hhsregion, variant]
+columns:
+  - name: day_of_week_ending
+    type: VARCHAR
+  - name: lineage_bin
+    type: VARCHAR
+  - name: modeltype
+    type: VARCHAR
+  - name: usa_or_hhsregion
+    type: VARCHAR
+  - name: variant
+    type: VARCHAR
+  - name: "95ci"
+    type: VARCHAR
+  - name: share
+    type: DOUBLE

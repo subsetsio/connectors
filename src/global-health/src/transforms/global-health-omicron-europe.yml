@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-health-omicron-europe`. Regenerate after model-verify.
+# caution: Rows are country-week-source-variant observations; total case and sequencing denominators repeat across variants within the same country-week-source.
+key: [country_code, year_week, source, variant]
+sort: [country_code, year_week, source, variant]
+columns:
+  - name: country
+    type: VARCHAR
+  - name: country_code
+    type: VARCHAR
+  - name: year_week
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: new_cases
+    type: BIGINT
+  - name: number_sequenced
+    type: BIGINT
+  - name: percent_cases_sequenced
+    type: DOUBLE
+  - name: valid_denominator
+    type: VARCHAR
+  - name: variant
+    type: VARCHAR
+  - name: number_detections_variant
+    type: BIGINT
+  - name: number_sequenced_known_variant
+    type: BIGINT
+  - name: percent_variant
+    type: DOUBLE
