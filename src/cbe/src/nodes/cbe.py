@@ -212,7 +212,7 @@ def _period(tokens, file_y0, file_y1, freq_tag):
     dimension = " | ".join(dim_toks) or None
     year = date = None
     if mon is not None:
-        year = mon_year or (years[0] if years else None)
+        year = mon_year or (years[0] if years else file_y0)
         if year:
             date = datetime.date(year, mon, 1)
     elif quarter is not None:
@@ -419,7 +419,8 @@ def fetch_one(node_id):
     if not rows:
         raise RuntimeError(f"{node_id}: parsed 0 rows from {len(files)} workbook(s)")
 
-    table = pa.Table.from_pylist(rows, schema=RAW_SCHEMA)
+    deduped = [dict(t) for t in dict.fromkeys(tuple(r.items()) for r in rows)]
+    table = pa.Table.from_pylist(deduped, schema=RAW_SCHEMA)
     save_raw_parquet(table, node_id)
 
 
