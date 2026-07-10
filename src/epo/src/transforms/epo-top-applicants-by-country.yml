@@ -1,10 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `epo-top-applicants-by-country`. Regenerate after model-verify.
+# caution: This is a latest-edition ranking snapshot, not a historical time series.
+# caution: Includes an all-countries ranking alongside country rankings; filter `country_code` before comparing ranks.
+key: [country_code, edition_year, rank]
+temporal: edition_year
+sort: [edition_year, country_code, rank]
 columns:
   - name: country_code
     type: VARCHAR
   - name: edition_year
-    type: INTEGER
+    type: BIGINT
   - name: rank
-    type: INTEGER
+    type: BIGINT
   - name: applicant_name
     type: VARCHAR
   - name: number_of_applications

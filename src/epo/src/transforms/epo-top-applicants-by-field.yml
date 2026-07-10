@@ -1,10 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `epo-top-applicants-by-field`. Regenerate after model-verify.
+# caution: This is a latest-edition ranking snapshot, not a historical time series.
+key: [field_id, edition_year, rank]
+temporal: edition_year
+sort: [edition_year, field_id, rank]
 columns:
   - name: field_id
-    type: INTEGER
+    type: BIGINT
   - name: edition_year
-    type: INTEGER
+    type: BIGINT
   - name: rank
-    type: INTEGER
+    type: BIGINT
   - name: applicant_name
     type: VARCHAR
   - name: number_of_applications

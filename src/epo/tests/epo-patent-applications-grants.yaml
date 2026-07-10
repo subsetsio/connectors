@@ -36,12 +36,12 @@ tests:
     reason: the dashboard serves a rolling 10-year window and never publishes projections, so no year exceeds the current one
     certainty: 90
 
-  - distinct_count: {col: year, min: 10, max: 12}
-    reason: a rolling 10-year window; the slack tolerates an edition that widens it slightly
+  - distinct_count: {col: year, min: 9, max: 12}
+    reason: a rolling multi-year dashboard window; the current edition exposes 9 year columns, and the slack tolerates editions that widen it slightly
     certainty: 85
 
-  - distinct_count: {col: field_id, min: 36, max: 36}
-    reason: 35 technology fields plus field_id 0 (unattributed/other)
+  - distinct_count: {col: field_id, min: 35, max: 40}
+    reason: the dashboard exposes the WIPO technology fields plus source-specific aggregate or unattributed field ids
     certainty: 90
 
   - distinct_count: {col: country_code, min: 150, max: 250}

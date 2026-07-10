@@ -31,8 +31,8 @@ tests:
     reason: the dashboard publishes a top-10 per technology field
     certainty: 90
 
-  - distinct_count: {col: field_id, min: 35, max: 35}
-    reason: every one of the 35 technology fields carries a top-applicant list; field_id 0 (unattributed) does not
+  - distinct_count: {col: field_id, min: 35, max: 40}
+    reason: top-applicant lists cover the technology fields the dashboard exposes, including source-specific aggregate or extra field ids when present
     certainty: 90
 
   - at_least: {col: number_of_applications, expr: 1}

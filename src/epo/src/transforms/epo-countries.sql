@@ -1,9 +1,14 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Includes aggregate origin groupings such as all states alongside individual countries; filter these out before country-level totals.
 SELECT
-    CAST(county_id AS INTEGER)           AS country_id,
-    country_code,
-    country_name,
-    CAST(country_ip5 AS INTEGER)         AS is_ip5,
-    CAST(country_ue AS INTEGER)          AS is_eu,
-    CAST(country_epo_member AS INTEGER)  AS is_epo_member,
-    CAST(country_population AS BIGINT)   AS population
+    CAST("county_id" AS BIGINT) AS county_id,
+    "country_code",
+    "country_name",
+    "country_ip5",
+    "country_ue",
+    "country_epo_member",
+    "country_population"
 FROM "epo-countries"

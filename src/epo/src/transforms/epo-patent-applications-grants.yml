@@ -1,12 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `epo-patent-applications-grants`. Regenerate after model-verify.
+# caution: Contains both applications and grants in `metric`; filter the metric before aggregating counts.
+# caution: Includes aggregate origin groupings such as all countries alongside individual countries; filter aggregates before summing across origins.
+key: [country_code, metric, field_id, year]
+temporal: year
+sort: [year, country_code, metric, field_id]
 columns:
   - name: country_code
     type: VARCHAR
   - name: metric
     type: VARCHAR
   - name: field_id
-    type: INTEGER
+    type: BIGINT
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: value
     type: BIGINT
