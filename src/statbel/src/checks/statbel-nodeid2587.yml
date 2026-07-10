@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statbel-nodeid2587`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [wallonie, provincie_west_vlaanderen, provincie_antwerpen, vlaanderen, provincie_vlaams_brabant]
+checks:
+  - kind: unique
+    columns: [wallonie, provincie_west_vlaanderen, provincie_antwerpen, vlaanderen, provincie_vlaams_brabant]
+  - kind: not_null
+    col: wallonie
+  - kind: not_null
+    col: provincie_west_vlaanderen
+  - kind: not_null
+    col: provincie_antwerpen
+  - kind: not_null
+    col: vlaanderen
+  - kind: not_null
+    col: provincie_vlaams_brabant
+  - kind: row_floor
+    min: 183
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

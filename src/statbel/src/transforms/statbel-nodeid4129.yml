@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statbel-nodeid4129`. Regenerate after model-verify.
+# caution: The raw file has no scan-verified non-null row key; treat rows as source observations and avoid assuming row identity beyond the full record.
+# caution: Geographic and demographic dimensions may include aggregate categories alongside detailed categories; filter dimensions before summing.
+key: []
+columns:
+  - name: cd_year
+    type: BIGINT
+  - name: cd_refnis
+    type: VARCHAR
+  - name: tx_refnis_nl
+    type: VARCHAR
+  - name: tx_refnis_fr
+    type: VARCHAR
+  - name: cd_refnis_lvl
+    type: BIGINT
+  - name: cd_stat_type
+    type: VARCHAR
+  - name: tx_stat_type_nl
+    type: VARCHAR
+  - name: tx_stat_type_fr
+    type: VARCHAR
+  - name: cd_building_type
+    type: VARCHAR
+  - name: tx_building_type_nl
+    type: VARCHAR
+  - name: tx_building_type_fr
+    type: VARCHAR
+  - name: ms_value
+    type: VARCHAR

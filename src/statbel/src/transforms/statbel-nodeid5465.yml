@@ -1,0 +1,66 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statbel-nodeid5465`. Regenerate after model-verify.
+# caution: Geographic and demographic dimensions may include aggregate categories alongside detailed categories; filter dimensions before summing.
+key: [ms_nbr_eligible, ms_median, ms_q1, ms_int_quart_diff, ms_nbr_not_eligible]
+sort: [ms_nbr_eligible, ms_median, ms_q1, ms_int_quart_diff, ms_nbr_not_eligible]
+columns:
+  - name: cd_year
+    type: BIGINT
+  - name: cd_munty_refnis
+    type: BIGINT
+  - name: ms_nbr_eligible
+    type: BIGINT
+  - name: ms_nbr_not_eligible
+    type: BIGINT
+  - name: ms_perc_not_eligible
+    type: DOUBLE
+  - name: ms_perc_ioe_hh
+    type: DOUBLE
+  - name: ms_q1
+    type: VARCHAR
+  - name: ms_median
+    type: VARCHAR
+  - name: ms_q3
+    type: VARCHAR
+  - name: ms_int_quart_diff
+    type: VARCHAR
+  - name: ms_admin_arop
+    type: VARCHAR
+  - name: tx_munty_descr_nl
+    type: VARCHAR
+  - name: tx_munty_descr_fr
+    type: VARCHAR
+  - name: tx_munty_descr_en
+    type: VARCHAR
+  - name: tx_munty_descr_de
+    type: VARCHAR
+  - name: cd_dstr_refnis
+    type: BIGINT
+  - name: tx_dstr_descr_nl
+    type: VARCHAR
+  - name: tx_dstr_descr_fr
+    type: VARCHAR
+  - name: tx_dstr_descr_en
+    type: VARCHAR
+  - name: tx_dstr_descr_de
+    type: VARCHAR
+  - name: cd_prov_refnis
+    type: BIGINT
+  - name: tx_prov_descr_nl
+    type: VARCHAR
+  - name: tx_prov_descr_fr
+    type: VARCHAR
+  - name: tx_prov_descr_en
+    type: VARCHAR
+  - name: tx_prov_descr_de
+    type: VARCHAR
+  - name: cd_rgn_refnis
+    type: VARCHAR
+  - name: tx_rgn_descr_nl
+    type: VARCHAR
+  - name: tx_rgn_descr_fr
+    type: VARCHAR
+  - name: tx_rgn_descr_en
+    type: VARCHAR
+  - name: tx_rgn_descr_de
+    type: VARCHAR

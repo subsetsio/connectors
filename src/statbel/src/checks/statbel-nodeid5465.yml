@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statbel-nodeid5465`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ms_nbr_eligible, ms_median, ms_q1, ms_int_quart_diff, ms_nbr_not_eligible]
+checks:
+  - kind: unique
+    columns: [ms_nbr_eligible, ms_median, ms_q1, ms_int_quart_diff, ms_nbr_not_eligible]
+  - kind: not_null
+    col: ms_nbr_eligible
+  - kind: not_null
+    col: ms_median
+  - kind: not_null
+    col: ms_q1
+  - kind: not_null
+    col: ms_int_quart_diff
+  - kind: not_null
+    col: ms_nbr_not_eligible
+  - kind: row_floor
+    min: 2610
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

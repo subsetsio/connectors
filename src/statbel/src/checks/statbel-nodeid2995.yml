@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statbel-nodeid2995`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dt_vldt_strt, tx_descr_nl]
+temporal: dt_vldt_strt
+checks:
+  - kind: unique
+    columns: [dt_vldt_strt, tx_descr_nl]
+  - kind: not_null
+    col: dt_vldt_strt
+  - kind: not_null
+    col: tx_descr_nl
+  - kind: row_floor
+    min: 372
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

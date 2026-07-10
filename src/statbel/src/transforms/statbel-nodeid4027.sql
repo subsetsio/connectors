@@ -1,0 +1,48 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The raw file has no scan-verified non-null row key; treat rows as source observations and avoid assuming row identity beyond the full record.
+SELECT
+    CAST("MS_COUNTOF_BANKRUPTCIES" AS BIGINT) AS ms_countof_bankruptcies,
+    CAST("MS_COUNTOF_FULL_TIME_WORKERS" AS BIGINT) AS ms_countof_full_time_workers,
+    CAST("MS_COUNTOF_PART_TIME_WORKERS" AS BIGINT) AS ms_countof_part_time_workers,
+    CAST("MS_COUNTOF_SELF_EMPLOYED_WORKERS" AS BIGINT) AS ms_countof_self_employed_workers,
+    CAST("MS_COUNTOF_WORKERS" AS BIGINT) AS ms_countof_workers,
+    CAST("CD_YEAR" AS BIGINT) AS cd_year,
+    CAST("CD_MONTH" AS BIGINT) AS cd_month,
+    CAST("CD_EMPLOYMENT_CLASS" AS BIGINT) AS cd_employment_class,
+    "TX_EMPLOYMENT_CLASS_DESCR_FR" AS tx_employment_class_descr_fr,
+    "TX_EMPLOYMENT_CLASS_DESCR_NL" AS tx_employment_class_descr_nl,
+    CAST("CD_LEGAL_FORM" AS BIGINT) AS cd_legal_form,
+    "TX_LEGAL_FORM_DESCR_FR" AS tx_legal_form_descr_fr,
+    "TX_LEGAL_FORM_DESCR_NL" AS tx_legal_form_descr_nl,
+    CAST("CD_MUNTY_REFNIS" AS BIGINT) AS cd_munty_refnis,
+    "TX_MUNTY_DESCR_FR" AS tx_munty_descr_fr,
+    "TX_MUNTY_DESCR_NL" AS tx_munty_descr_nl,
+    CAST("CD_DSTR_REFNIS" AS BIGINT) AS cd_dstr_refnis,
+    "TX_ADM_DSTR_DESCR_FR" AS tx_adm_dstr_descr_fr,
+    "TX_ADM_DSTR_DESCR_NL" AS tx_adm_dstr_descr_nl,
+    "CD_PROV_REFNIS" AS cd_prov_refnis,
+    "TX_PROV_DESCR_FR" AS tx_prov_descr_fr,
+    "TX_PROV_DESCR_NL" AS tx_prov_descr_nl,
+    "CD_RGN_REFNIS" AS cd_rgn_refnis,
+    "TX_RGN_DESCR_FR" AS tx_rgn_descr_fr,
+    "TX_RGN_DESCR_NL" AS tx_rgn_descr_nl,
+    "CD_NACE_REV2_CLASS" AS cd_nace_rev2_class,
+    "TX_NACE_REV2_CLASS" AS tx_nace_rev2_class,
+    "TX_NACE_REV2_CLASS_FR" AS tx_nace_rev2_class_fr,
+    "TX_NACE_REV2_CLASS_NL" AS tx_nace_rev2_class_nl,
+    "TX_NACE_REV2_GROUP" AS tx_nace_rev2_group,
+    "TX_NACE_REV2_GROUP_FR" AS tx_nace_rev2_group_fr,
+    "TX_NACE_REV2_GROUP_NL" AS tx_nace_rev2_group_nl,
+    "TX_NACE_REV2_DIVISION" AS tx_nace_rev2_division,
+    "TX_NACE_REV2_DIVISION_FR" AS tx_nace_rev2_division_fr,
+    "TX_NACE_REV2_DIVISION_NL" AS tx_nace_rev2_division_nl,
+    "TX_NACE_REV2_SECTION" AS tx_nace_rev2_section,
+    "TX_NACE_REV2_SECTION_FR" AS tx_nace_rev2_section_fr,
+    "TX_NACE_REV2_SECTION_NL" AS tx_nace_rev2_section_nl,
+    CAST("CD_COMPANY_DURATION" AS BIGINT) AS cd_company_duration,
+    "TX_COMPANY_DURATION_FR" AS tx_company_duration_fr,
+    "TX_COMPANY_DURATION_NL" AS tx_company_duration_nl
+FROM "statbel-nodeid4027"

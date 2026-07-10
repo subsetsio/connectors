@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statbel-nodeid4811`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ms_idx_hicp, ms_infl_hicp, ms_wt_hicp, nm_mth, nm_yr]
+checks:
+  - kind: unique
+    columns: [ms_idx_hicp, ms_infl_hicp, ms_wt_hicp, nm_mth, nm_yr]
+  - kind: not_null
+    col: ms_idx_hicp
+  - kind: not_null
+    col: ms_infl_hicp
+  - kind: not_null
+    col: ms_wt_hicp
+  - kind: not_null
+    col: nm_mth
+  - kind: not_null
+    col: nm_yr
+  - kind: row_floor
+    min: 449
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

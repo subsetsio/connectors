@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statbel-nodeid672`. Regenerate after model-verify.
+# caution: The raw file has no scan-verified non-null row key; treat rows as source observations and avoid assuming row identity beyond the full record.
+# caution: Geographic and demographic dimensions may include aggregate categories alongside detailed categories; filter dimensions before summing.
+key: []
+columns:
+  - name: cd_year
+    type: BIGINT
+  - name: cd_type_nl
+    type: VARCHAR
+  - name: cd_type_fr
+    type: VARCHAR
+  - name: cd_refnis
+    type: VARCHAR
+  - name: cd_refnis_nl
+    type: VARCHAR
+  - name: cd_refnis_fr
+    type: VARCHAR
+  - name: cd_period
+    type: VARCHAR
+  - name: cd_class_surface
+    type: VARCHAR
+  - name: ms_total_transactions
+    type: BIGINT
+  - name: ms_total_price
+    type: DOUBLE
+  - name: ms_total_surface
+    type: VARCHAR
+  - name: ms_mean_price
+    type: DOUBLE
+  - name: ms_p10
+    type: BIGINT
+  - name: ms_p25
+    type: BIGINT
+  - name: ms_p50
+    type: BIGINT
+  - name: ms_p75
+    type: BIGINT
+  - name: ms_p90
+    type: BIGINT

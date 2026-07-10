@@ -1,0 +1,53 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The raw file has no scan-verified non-null row key; treat rows as source observations and avoid assuming row identity beyond the full record.
+-- caution: Geographic and demographic dimensions may include aggregate categories alongside detailed categories; filter dimensions before summing.
+SELECT
+    "CD_GEO_LVL_0" AS cd_geo_lvl_0,
+    "CD_GEO_LVL_1" AS cd_geo_lvl_1,
+    "TX_GEO_DESCR_FR_LVL_1" AS tx_geo_descr_fr_lvl_1,
+    "TX_GEO_DESCR_NL_LVL_1" AS tx_geo_descr_nl_lvl_1,
+    "CD_GEO_LVL_2" AS cd_geo_lvl_2,
+    "TX_GEO_DESCR_FR_LVL_2" AS tx_geo_descr_fr_lvl_2,
+    "TX_GEO_DESCR_NL_LVL_2" AS tx_geo_descr_nl_lvl_2,
+    "CD_OWS_LVL_0" AS cd_ows_lvl_0,
+    "CD_OWS_LVL_1" AS cd_ows_lvl_1,
+    "TX_OWS_DESCR_FR_LVL_1" AS tx_ows_descr_fr_lvl_1,
+    "TX_OWS_DESCR_NL_LVL_1" AS tx_ows_descr_nl_lvl_1,
+    "CD_NOC_LVL_0" AS cd_noc_lvl_0,
+    "CD_NOC_LVL_1" AS cd_noc_lvl_1,
+    "TX_NOC_DESCR_FR_LVL_1" AS tx_noc_descr_fr_lvl_1,
+    "TX_NOC_DESCR_NL_LVL_1" AS tx_noc_descr_nl_lvl_1,
+    "CD_NOC_LVL_2" AS cd_noc_lvl_2,
+    "TX_NOC_DESCR_FR_LVL_2" AS tx_noc_descr_fr_lvl_2,
+    "TX_NOC_DESCR_NL_LVL_2" AS tx_noc_descr_nl_lvl_2,
+    "CD_NOC_LVL_3" AS cd_noc_lvl_3,
+    "TX_NOC_DESCR_FR_LVL_3" AS tx_noc_descr_fr_lvl_3,
+    "TX_NOC_DESCR_NL_LVL_3" AS tx_noc_descr_nl_lvl_3,
+    "CD_TOB_LVL_0" AS cd_tob_lvl_0,
+    "CD_TOB_LVL_1" AS cd_tob_lvl_1,
+    "TX_TOB_DESCR_FR_LVL_1" AS tx_tob_descr_fr_lvl_1,
+    "TX_TOB_DESCR_NL_LVL_1" AS tx_tob_descr_nl_lvl_1,
+    "CD_TOB_LVL_2" AS cd_tob_lvl_2,
+    "TX_TOB_DESCR_FR_LVL_2" AS tx_tob_descr_fr_lvl_2,
+    "TX_TOB_DESCR_NL_LVL_2" AS tx_tob_descr_nl_lvl_2,
+    "CD_NOR_LVL_0" AS cd_nor_lvl_0,
+    "CD_NOR_LVL_1" AS cd_nor_lvl_1,
+    "TX_NOR_DESCR_FR_LVL_1" AS tx_nor_descr_fr_lvl_1,
+    "TX_NOR_DESCR_NL_LVL_1" AS tx_nor_descr_nl_lvl_1,
+    "CD_DRM_LVL_0" AS cd_drm_lvl_0,
+    "CD_DRM_LVL_1" AS cd_drm_lvl_1,
+    "TX_DRM_DESCR_FR_LVL_1" AS tx_drm_descr_fr_lvl_1,
+    "TX_DRM_DESCR_NL_LVL_1" AS tx_drm_descr_nl_lvl_1,
+    "CD_BAT_LVL_0" AS cd_bat_lvl_0,
+    "CD_BAT_LVL_1" AS cd_bat_lvl_1,
+    "TX_BAT_DESCR_FR_LVL_1" AS tx_bat_descr_fr_lvl_1,
+    "TX_BAT_DESCR_NL_LVL_1" AS tx_bat_descr_nl_lvl_1,
+    "CD_TOH_LVL_0" AS cd_toh_lvl_0,
+    "CD_TOH_LVL_1" AS cd_toh_lvl_1,
+    "TX_TOH_DESCR_FR_LVL_1" AS tx_toh_descr_fr_lvl_1,
+    "TX_TOH_DESCR_NL_LVL_1" AS tx_toh_descr_nl_lvl_1,
+    CAST("OBS_VALUE" AS BIGINT) AS obs_value
+FROM "statbel-nodeid644"
