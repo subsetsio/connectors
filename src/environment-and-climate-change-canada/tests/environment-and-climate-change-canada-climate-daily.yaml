@@ -1,0 +1,26 @@
+spec_id: environment-and-climate-change-canada-climate-daily
+status: active
+tests:
+  - not_null: climate_id
+  - not_null: date
+  - unique: [climate_id, date]
+    reason: one observation row per station per calendar day; a duplicate means a station-year CSV was ingested twice
+    certainty: 95
+  - row_count: {min: 60000000}
+    reason: numberMatched on the OGC API's climate-daily collection reported 63.6M rows while authoring
+    certainty: 85
+  - distinct_count: {col: climate_id, min: 6000}
+    reason: the Datamart daily tree carries station-year files for ~8.5k climate stations
+    certainty: 80
+  - between: {col: year, lo: 1840, hi: 2100}
+    reason: the Ontario listing alone spans 1840..present
+  - at_most: {col: year, expr: current_year()}
+    certainty: 90
+  - between: {col: month, lo: 1, hi: 12}
+  - between: {col: day, lo: 1, hi: 31}
+  - enum: {col: province_code, values: [AB, BC, MB, NB, NL, NS, NT, NU, ON, PE, QC, SK, YT]}
+    reason: the Datamart partitions daily/csv/ by the 13 province and territory codes
+    certainty: 90
+  - freshness: {col: date, reaches: today - 30d}
+    reason: the /today/ mirror is rebuilt daily and the current year's station-year files are present; a month of slack covers reporting lag
+    points_outward: true

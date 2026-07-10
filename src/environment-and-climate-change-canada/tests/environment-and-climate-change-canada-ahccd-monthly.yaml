@@ -1,0 +1,18 @@
+spec_id: environment-and-climate-change-canada-ahccd-monthly
+status: active
+tests:
+  - not_null: feature_id
+  - unique: feature_id
+    reason: feature_id is the OGC feature id; duplicates mean a station partition was written twice
+    certainty: 95
+  - row_count: {min: 1200000}
+    reason: floor set well under the count observed while authoring; a drop means partial loss
+    certainty: 90
+  - unique: [station_id__id_station, date]
+    reason: one row per station per calendar month
+    certainty: 95
+  - matches: {col: date, pattern: '^[0-9]{4}-[0-9]{2}$'}
+    certainty: 90
+  - freshness: {col: date, reaches: '2020-12'}
+    reason: AHCCD release extends to 2020; see ahccd-annual
+    points_outward: true

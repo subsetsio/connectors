@@ -1,0 +1,19 @@
+spec_id: environment-and-climate-change-canada-hydrometric-monthly-mean
+status: active
+tests:
+  - not_null: feature_id
+  - unique: feature_id
+    reason: feature_id is the OGC feature id; duplicates mean a station partition was written twice
+    certainty: 95
+  - row_count: {min: 2000000}
+    reason: floor set well under the count observed while authoring; a drop means partial loss
+    certainty: 90
+  - not_null: STATION_NUMBER
+  - unique: [STATION_NUMBER, DATE]
+    reason: one row per hydrometric station per calendar month
+    certainty: 95
+  - matches: {col: DATE, pattern: '^[0-9]{4}-[0-9]{2}$'}
+    certainty: 90
+  - freshness: {col: DATE, reaches: '2025-01'}
+    reason: HYDAT monthly means lag ~1y behind the water year; only 13 rows exist for 2026 so far
+    points_outward: true

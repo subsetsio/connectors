@@ -1,0 +1,14 @@
+spec_id: environment-and-climate-change-canada-swob-partner-stations
+status: active
+tests:
+  - not_null: feature_id
+  - unique: feature_id
+    reason: feature_id is the OGC feature id; duplicates mean a station partition was written twice
+    certainty: 95
+  - row_count: {min: 1800}
+    reason: floor set well under the count observed while authoring; a drop means partial loss
+    certainty: 90
+  - not_null: msc_id
+  - unique: msc_id
+    reason: station registry; one row per registered station. A shrink means the registry fetch truncated.
+    certainty: 90

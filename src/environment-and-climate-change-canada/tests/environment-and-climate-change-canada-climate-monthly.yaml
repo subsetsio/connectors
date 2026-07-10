@@ -1,0 +1,21 @@
+spec_id: environment-and-climate-change-canada-climate-monthly
+status: active
+tests:
+  - not_null: feature_id
+  - unique: feature_id
+    reason: feature_id is the OGC feature id; duplicates mean a station partition was written twice
+    certainty: 95
+  - row_count: {min: 1800000}
+    reason: floor set well under the count observed while authoring; a drop means partial loss
+    certainty: 90
+  - not_null: CLIMATE_IDENTIFIER
+  - unique: [CLIMATE_IDENTIFIER, LOCAL_YEAR, LOCAL_MONTH]
+    reason: one monthly summary per station per month
+    certainty: 95
+  - between: {col: LOCAL_MONTH, lo: 1, hi: 12}
+  - column_type: {col: LOCAL_YEAR, type: integer}
+  - at_most: {col: LOCAL_YEAR, expr: current_year()}
+    certainty: 90
+  - freshness: {col: LOCAL_YEAR, reaches: current_year()}
+    reason: monthly summaries publish within weeks; the archive should always carry the current year
+    points_outward: true

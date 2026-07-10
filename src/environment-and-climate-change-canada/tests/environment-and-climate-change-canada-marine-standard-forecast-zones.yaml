@@ -1,0 +1,16 @@
+spec_id: environment-and-climate-change-canada-marine-standard-forecast-zones
+status: active
+tests:
+  - not_null: feature_id
+  - unique: feature_id
+    reason: feature_id is the OGC feature id; duplicates mean a station partition was written twice
+    certainty: 95
+  - row_count: {min: 190}
+    reason: floor set well under the count observed while authoring; a drop means partial loss
+    certainty: 90
+  - not_null: NAME
+  - unique: OBJECTID
+    certainty: 90
+  - enum: {col: geometry_type, values: [Polygon, MultiPolygon]}
+    reason: forecast zones are areal
+    certainty: 85
