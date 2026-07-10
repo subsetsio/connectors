@@ -1,4 +1,7 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [cik, taxonomy, tag, unit, fiscal_period, period_end, accession, loc]
+temporal: period_end
+sort: [period_end, cik, taxonomy, tag, unit, fiscal_period, accession, loc]
 columns:
   - name: cik
     type: BIGINT
