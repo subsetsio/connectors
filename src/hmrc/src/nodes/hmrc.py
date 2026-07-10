@@ -1,38 +1,40 @@
 """HMRC connector — UK Trade Info OData v4 API (https://api.uktradeinfo.com).
 
-Source surface (no auth, OData v4):
-  - OTS  : Overseas Trade Statistics — monthly goods trade by commodity,
-           country, port, flow. ~120M rows.
-  - RTS  : Regional Trade Statistics — by UK government region. ~5M rows.
-  - Trade / Import / Export : trader-level monthly disclosure tables (which
-           trader traded which commodity in which month). ~54M / 36M / 18M rows.
-  - YearlyTrade : trader-level yearly disclosure (with the import/export month
-           lists per trader-commodity-year). ~18M rows.
-  - Commodity : CN8/HS/SITC classification reference (~16k rows).
+One download node per accepted OData entity set (16 total). No auth.
 
-Scale & shape decision
-----------------------
-The fact tables are far too large to re-pull into one in-memory file each run,
-so the large tables use the **batched-firehose** pattern: each is partitioned by
-its natural period (MonthId for the monthly tables, Year for YearlyTrade), one
-resumable parquet batch file per period. A module-level watermark records the
-last completed period; each run resumes from there and re-fetches a small
-trailing OVERLAP of recent periods to pick up revisions (re-fetching a period
-overwrites its single batch file, so there are no cross-batch duplicates). The
-loop drains every outstanding period — it never self-imposes a run budget; the
-supervisor caps wall-clock by interrupting the node, and the per-period
-write-raw-then-state ordering makes that interrupt safe to resume.
+Two fetch shapes
+----------------
+1. **Full stateless pull** — the reference/dimension tables and the trader
+   register, all small enough to re-fetch whole every run (largest is Trader at
+   ~620k rows / ~21 pages). One parquet file per asset, overwritten each run.
 
-Commodity is small and fetched as a single stateless full pull.
+2. **Period-partitioned firehose** — the large fact tables (OTS ~120M, Trade
+   ~54M, Import ~36M, Export/YearlyTrade ~18M, RTS ~5M). Each is fetched one
+   period at a time (MonthId for the monthly tables, Year for YearlyTrade) and
+   written as a manifest *fragment* keyed by the period. Periods are crawled
+   **newest-first** so the most recent data lands on the first pass (freshness
+   is satisfied immediately, before the full historical backfill completes over
+   subsequent continuation runs). The raw manifest is the resume state:
+   `list_raw_fragments` tells us which periods are already committed, so a run
+   skips finished periods and only backfills the gaps — plus it always
+   re-fetches the newest `REFRESH_PERIODS` periods to pick up HMRC's routine
+   revisions to recent months. No self-imposed run budget: the loop drains
+   every outstanding period; the supervisor caps wall-clock by interrupting the
+   node, and each period is written atomically (accumulate pages, then one
+   `save_raw_parquet(..., fragment=)`), so an interrupt never leaves a partial
+   fragment that would masquerade as done.
 
-API quirks (verified live):
-  - Server page size is 30,000 rows; pages chain via an absolute `@odata.nextLink`
-    ($skip-based) URL that preserves the $filter. Filtering by period keeps the
-    $skip offsets shallow (each period is <~700k rows), avoiding deep-offset cost.
-  - `$orderby` is NOT an allowed operation (returns 403); `$select` / `$filter`
-    are fine. Period lists are discovered from the small `Date` reference table.
-  - Rate limit is 60 req/min, returned as **403** (not 429) when exceeded — so we
-    treat 403 as transient here and cap throughput at ~48 req/min (80%).
+WAF quirk (verified live, 2026-07)
+----------------------------------
+The service sits behind Azure Front Door, which *intermittently* answers a
+normal paginated request with `403 "Ip Forbidden"` (an HTML error page) — about
+a third of requests, independent of rate (it fires at 4 req/min just as at 50),
+and it clears on retry. So 403 is treated as **transient** here and retried
+generously (20 attempts): across the ~8k pages a full crawl needs, a thinner
+retry budget guarantees the tail eventually exhausts on one page and kills the
+node (this is exactly how the first CI run failed). `$orderby` is rejected
+(pagination is $skip-based via `@odata.nextLink`); filtering each fetch to one
+period keeps the $skip offsets shallow.
 """
 import httpx
 import pyarrow as pa
@@ -41,19 +43,17 @@ from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponen
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
-    raw_parquet_writer,
-    load_state,
-    save_state,
+    save_raw_parquet,
+    list_raw_fragments,
 )
 
 BASE = "https://api.uktradeinfo.com"
-STATE_VERSION = 1
-OVERLAP = 2  # re-fetch this many trailing periods each run to capture revisions
+REFRESH_PERIODS = 6  # always re-fetch the newest N periods each run (revisions)
 
 # ---------------------------------------------------------------------------
-# HTTP: rate-limited GET wrapped in transient-only retry with backoff.
+# HTTP: rate-limited GET wrapped in a transient-only retry with backoff.
+# The WAF signals with 403, so 403 is transient here (see module docstring).
 # ---------------------------------------------------------------------------
 _TRANSIENT = (
     httpx.ConnectError, httpx.ConnectTimeout, httpx.ReadTimeout,
@@ -66,13 +66,12 @@ def _is_transient(exc: BaseException) -> bool:
         return True
     if isinstance(exc, httpx.HTTPStatusError):
         code = exc.response.status_code
-        # This API signals rate-limiting with 403, so 403 is transient here.
         return code in (403, 429) or 500 <= code < 600
     return False
 
 
 @sleep_and_retry
-@limits(calls=48, period=60)  # ~80% of the documented 60 req/min
+@limits(calls=50, period=60)  # ~83% of the documented 60 req/min (politeness only)
 def _rate_limited_get(url: str, params: dict | None):
     resp = get(url, params=params or {}, timeout=(10.0, 180.0))
     resp.raise_for_status()
@@ -81,8 +80,8 @@ def _rate_limited_get(url: str, params: dict | None):
 
 @retry(
     retry=retry_if_exception(_is_transient),
-    stop=stop_after_attempt(8),
-    wait=wait_exponential(min=4, max=120),
+    stop=stop_after_attempt(20),
+    wait=wait_exponential(min=2, max=60),
     reraise=True,
 )
 def _fetch(url: str, params: dict | None = None) -> dict:
@@ -90,8 +89,21 @@ def _fetch(url: str, params: dict | None = None) -> dict:
     return _rate_limited_get(url, params)
 
 
+def _fetch_all_pages(entity: str, params: dict) -> list[dict]:
+    """Follow the @odata.nextLink chain, returning every row for the query."""
+    rows: list[dict] = []
+    data = _fetch(f"{BASE}/{entity}", params)
+    rows.extend(data.get("value", []))
+    nxt = data.get("@odata.nextLink")
+    while nxt:
+        page = _fetch(nxt)
+        rows.extend(page.get("value", []))
+        nxt = page.get("@odata.nextLink")
+    return rows
+
+
 # ---------------------------------------------------------------------------
-# Schemas — exact Edm types from the service $metadata. All nullable.
+# Schemas — exact Edm types from the service $metadata. All columns nullable.
 # ---------------------------------------------------------------------------
 SCHEMAS = {
     "OTS": pa.schema([
@@ -131,9 +143,70 @@ SCHEMAS = {
         ("Hs4Description", pa.string()), ("Hs6Description", pa.string()),
         ("SitcCommodityCode", pa.string()), ("Cn8LongDescription", pa.string()),
     ]),
+    "CommoditySearch": pa.schema([
+        ("CommoditySearchId", pa.string()), ("Description", pa.string()),
+        ("Hs2Code", pa.string()), ("Hs4Code", pa.string()), ("Hs6Code", pa.string()),
+        ("Hs2Description", pa.string()), ("Hs4Description", pa.string()),
+        ("Hs6Description", pa.string()),
+    ]),
+    "Country": pa.schema([
+        ("CountryId", pa.int32()), ("CountryCodeNumeric", pa.string()),
+        ("RegionId", pa.string()), ("CountryName", pa.string()),
+        ("CountryCodeAlpha", pa.string()),
+        ("Area1", pa.string()), ("Area2", pa.string()), ("Area3", pa.string()),
+        ("Area4", pa.string()), ("Area5", pa.string()),
+        ("Area1a", pa.string()), ("Area2a", pa.string()), ("Area3a", pa.string()),
+        ("Area4a", pa.string()), ("Area5a", pa.string()),
+    ]),
+    "Date": pa.schema([
+        ("MonthId", pa.int32()), ("Year", pa.int32()),
+        ("MonthNumeric", pa.int32()), ("QuarterNumeric", pa.int32()),
+        ("MonthName", pa.string()),
+    ]),
+    "FlowType": pa.schema([
+        ("FlowTypeId", pa.int16()), ("FlowTypeDescription", pa.string()),
+    ]),
+    "Port": pa.schema([
+        ("PortId", pa.int32()), ("PortCodeNumeric", pa.string()),
+        ("PortCodeAlpha", pa.string()), ("PortName", pa.string()),
+    ]),
+    "Region": pa.schema([
+        ("RegionId", pa.int32()), ("RegionCodeNumeric", pa.string()),
+        ("RegionGroupCodeAlpha", pa.string()), ("RegionName", pa.string()),
+        ("RegionGroupName", pa.string()),
+    ]),
+    "SITC": pa.schema([
+        ("CommoditySitcId", pa.int32()), ("SitcCode", pa.string()),
+        ("Sitc1Code", pa.string()), ("Sitc2Code", pa.string()),
+        ("Sitc3Code", pa.string()), ("Sitc4Code", pa.string()),
+        ("Sitc1Desc", pa.string()), ("Sitc2Desc", pa.string()),
+        ("Sitc3Desc", pa.string()), ("Sitc4Desc", pa.string()),
+        ("SitcDesc", pa.string()),
+    ]),
+    "TradeType": pa.schema([
+        ("TradeTypeId", pa.int16()), ("TradeTypeDescription", pa.string()),
+    ]),
+    "Trader": pa.schema([
+        ("TraderId", pa.int64()), ("CompanyName", pa.string()),
+        ("Address1", pa.string()), ("Address2", pa.string()),
+        ("Address3", pa.string()), ("Address4", pa.string()),
+        ("Address5", pa.string()), ("PostCode", pa.string()),
+    ]),
 }
 
-# node_id -> OData entity set name
+# node_id -> OData entity set name (case matters — the API is case-sensitive).
+FULL = {
+    "hmrc-commodity": "Commodity",
+    "hmrc-commoditysearch": "CommoditySearch",
+    "hmrc-country": "Country",
+    "hmrc-date": "Date",
+    "hmrc-flowtype": "FlowType",
+    "hmrc-port": "Port",
+    "hmrc-region": "Region",
+    "hmrc-sitc": "SITC",
+    "hmrc-tradetype": "TradeType",
+    "hmrc-trader": "Trader",
+}
 MONTHLY = {
     "hmrc-ots": "OTS",
     "hmrc-rts": "RTS",
@@ -154,60 +227,35 @@ def _date_values(field: str) -> list[int]:
     return vals
 
 
-def _to_table(rows: list[dict], schema: pa.Schema) -> pa.Table:
-    return pa.Table.from_pylist(rows, schema=schema)
-
-
-def _crawl_period(entity: str, field: str, period: int) -> int:
-    """Fetch every row for one period, streaming pages into ONE batch parquet
-    file (overwritten on re-fetch). Returns the row count; 0 means the period
-    has no data and no file is written."""
-    schema = SCHEMAS[entity]
-    first = _fetch(f"{BASE}/{entity}", {"$filter": f"{field} eq {period}"})
-    rows = first.get("value", [])
-    if not rows:
-        return 0  # skip empty period — write nothing
-
-    asset = f"hmrc-{entity.lower()}-{period}"
-    total = 0
-    with raw_parquet_writer(asset, schema) as w:
-        w.write_table(_to_table(rows, schema))
-        total += len(rows)
-        nxt = first.get("@odata.nextLink")
-        while nxt:
-            page = _fetch(nxt)
-            prows = page.get("value", [])
-            if prows:
-                w.write_table(_to_table(prows, schema))
-                total += len(prows)
-            nxt = page.get("@odata.nextLink")
-    return total
-
-
 def _run_partitioned(node_id: str, entity: str, field: str, periods: list[int]) -> None:
-    state = load_state(node_id)
-    if state.get("schema_version") != STATE_VERSION:
-        state = {}
-    watermark = state.get("watermark")
+    """Fetch each period into its own manifest fragment, newest-first. Skip
+    periods already committed to the manifest (resume), except the newest
+    REFRESH_PERIODS which are always re-fetched to capture revisions."""
+    periods = sorted(int(p) for p in periods)
+    done = set(list_raw_fragments(node_id, "parquet").keys())
+    refresh = set(periods[-REFRESH_PERIODS:])
+    schema = SCHEMAS[entity]
 
-    periods = sorted(periods)
-    if watermark is None:
-        start = 0
-    else:
-        try:
-            idx = periods.index(watermark)
-        except ValueError:
-            idx = len(periods) - 1
-        start = max(0, idx - (OVERLAP - 1))  # re-fetch trailing OVERLAP periods
-
-    for period in periods[start:]:
-        _crawl_period(entity, field, period)  # write raw FIRST
-        save_state(node_id, {"schema_version": STATE_VERSION, "watermark": period})
+    for period in reversed(periods):  # newest-first
+        if period not in refresh and str(period) in done:
+            continue
+        rows = _fetch_all_pages(entity, {"$filter": f"{field} eq {period}"})
+        if not rows:
+            continue  # period defined in the calendar but not yet published
+        table = pa.Table.from_pylist(rows, schema=schema)
+        save_raw_parquet(table, node_id, fragment=str(period))  # atomic per period
 
 
 # ---------------------------------------------------------------------------
 # Fetch entry points (each takes exactly the spec id; runtime calls fn(id)).
 # ---------------------------------------------------------------------------
+def fetch_full(node_id: str) -> None:
+    entity = FULL[node_id]
+    rows = _fetch_all_pages(entity, {"$top": 30000})
+    table = pa.Table.from_pylist(rows, schema=SCHEMAS[entity])
+    save_raw_parquet(table, node_id)
+
+
 def fetch_monthly(node_id: str) -> None:
     entity = MONTHLY[node_id]
     _run_partitioned(node_id, entity, "MonthId", _date_values("MonthId"))
@@ -217,23 +265,6 @@ def fetch_yearly(node_id: str) -> None:
     _run_partitioned(node_id, "YearlyTrade", "Year", _date_values("Year"))
 
 
-def fetch_commodity(node_id: str) -> None:
-    entity = "Commodity"
-    schema = SCHEMAS[entity]
-    with raw_parquet_writer(node_id, schema) as w:
-        data = _fetch(f"{BASE}/{entity}", {})
-        rows = data.get("value", [])
-        if rows:
-            w.write_table(_to_table(rows, schema))
-        nxt = data.get("@odata.nextLink")
-        while nxt:
-            page = _fetch(nxt)
-            prows = page.get("value", [])
-            if prows:
-                w.write_table(_to_table(prows, schema))
-            nxt = page.get("@odata.nextLink")
-
-
 DOWNLOAD_SPECS = [
     NodeSpec(id="hmrc-ots", fn=fetch_monthly, kind="download"),
     NodeSpec(id="hmrc-rts", fn=fetch_monthly, kind="download"),
@@ -241,113 +272,14 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="hmrc-import", fn=fetch_monthly, kind="download"),
     NodeSpec(id="hmrc-export", fn=fetch_monthly, kind="download"),
     NodeSpec(id="hmrc-yearlytrade", fn=fetch_yearly, kind="download"),
-    NodeSpec(id="hmrc-commodity", fn=fetch_commodity, kind="download"),
-]
-
-
-# ---------------------------------------------------------------------------
-# Transforms — one published Delta table per subset. Thin cast/rename passes;
-# `month` is derived from the YYYYMM MonthId. No dedup needed: one immutable
-# file per period, overwritten on re-fetch.
-# ---------------------------------------------------------------------------
-_MONTH_EXPR = "make_date((MonthId // 100)::INTEGER, (MonthId % 100)::INTEGER, 1)"
-
-_SQL = {
-    "hmrc-ots": f'''
-        SELECT
-            CAST(MonthId AS INTEGER)          AS month_id,
-            {_MONTH_EXPR}                     AS month,
-            CAST(FlowTypeId AS SMALLINT)      AS flow_type_id,
-            CAST(SuppressionIndex AS SMALLINT) AS suppression_index,
-            CAST(CommodityId AS BIGINT)       AS commodity_id,
-            CAST(CommoditySitcId AS INTEGER)  AS commodity_sitc_id,
-            CAST(CountryId AS INTEGER)        AS country_id,
-            CAST(PortId AS INTEGER)           AS port_id,
-            CAST(Value AS DOUBLE)             AS value,
-            CAST(NetMass AS DOUBLE)           AS net_mass,
-            CAST(SuppUnit AS DOUBLE)          AS supp_unit
-        FROM "hmrc-ots"
-    ''',
-    "hmrc-rts": f'''
-        SELECT
-            CAST(MonthId AS INTEGER)           AS month_id,
-            {_MONTH_EXPR}                      AS month,
-            CAST(FlowTypeId AS SMALLINT)       AS flow_type_id,
-            CAST(GovRegionId AS INTEGER)       AS gov_region_id,
-            CAST(CountryId AS INTEGER)         AS country_id,
-            CAST(CommoditySitc2Id AS INTEGER)  AS commodity_sitc2_id,
-            CAST(Value AS DOUBLE)              AS value,
-            CAST(NetMass AS DOUBLE)            AS net_mass
-        FROM "hmrc-rts"
-    ''',
-    "hmrc-trade": f'''
-        SELECT
-            CAST(TraderId AS BIGINT)      AS trader_id,
-            CAST(CommodityId AS BIGINT)   AS commodity_id,
-            CAST(MonthId AS INTEGER)      AS month_id,
-            {_MONTH_EXPR}                 AS month,
-            CAST(TradeTypeId AS SMALLINT) AS trade_type_id
-        FROM "hmrc-trade"
-    ''',
-    "hmrc-import": f'''
-        SELECT
-            CAST(TraderId AS BIGINT)    AS trader_id,
-            CAST(CommodityId AS BIGINT) AS commodity_id,
-            CAST(MonthId AS INTEGER)    AS month_id,
-            {_MONTH_EXPR}               AS month
-        FROM "hmrc-import"
-    ''',
-    "hmrc-export": f'''
-        SELECT
-            CAST(TraderId AS BIGINT)    AS trader_id,
-            CAST(CommodityId AS BIGINT) AS commodity_id,
-            CAST(MonthId AS INTEGER)    AS month_id,
-            {_MONTH_EXPR}               AS month
-        FROM "hmrc-export"
-    ''',
-    "hmrc-yearlytrade": '''
-        SELECT
-            CAST(TraderId AS BIGINT)      AS trader_id,
-            CAST(CommodityId AS BIGINT)   AS commodity_id,
-            CAST(Year AS INTEGER)         AS year,
-            CAST(TradeTypeId AS SMALLINT) AS trade_type_id,
-            CAST(ImportMonths AS VARCHAR) AS import_months,
-            CAST(ExportMonths AS VARCHAR) AS export_months
-        FROM "hmrc-yearlytrade"
-    ''',
-    "hmrc-commodity": '''
-        SELECT
-            CAST(CommodityId AS BIGINT)        AS commodity_id,
-            CAST(Cn8Code AS VARCHAR)           AS cn8_code,
-            CAST(Hs2Code AS VARCHAR)           AS hs2_code,
-            CAST(Hs4Code AS VARCHAR)           AS hs4_code,
-            CAST(Hs6Code AS VARCHAR)           AS hs6_code,
-            CAST(Hs2Description AS VARCHAR)    AS hs2_description,
-            CAST(Hs4Description AS VARCHAR)    AS hs4_description,
-            CAST(Hs6Description AS VARCHAR)    AS hs6_description,
-            CAST(SitcCommodityCode AS VARCHAR) AS sitc_commodity_code,
-            CAST(Cn8LongDescription AS VARCHAR) AS cn8_long_description
-        FROM "hmrc-commodity"
-    ''',
-}
-
-# Per-subset grain declarations (purely declarative, keyed by download-spec id).
-# The trader-disclosure tables are existence facts — one row per trader ×
-# commodity × period (× trade type) — so the full dimension tuple is the grain.
-# Commodity is the CN8/HS/SITC classification reference keyed by its id. OTS/RTS
-# are aggregate value facts whose complete dimension grain isn't verifiable here,
-# so they carry only a temporal (their monthly period) and no key.
-_GRAIN = {
-    "hmrc-ots": {"temporal": "month"},
-    "hmrc-rts": {"temporal": "month"},
-    "hmrc-trade": {"key": ("trader_id", "commodity_id", "month_id", "trade_type_id"), "temporal": "month"},
-    "hmrc-import": {"key": ("trader_id", "commodity_id", "month_id"), "temporal": "month"},
-    "hmrc-export": {"key": ("trader_id", "commodity_id", "month_id"), "temporal": "month"},
-    "hmrc-yearlytrade": {"key": ("trader_id", "commodity_id", "year", "trade_type_id"), "temporal": "year"},
-    "hmrc-commodity": {"key": ("commodity_id",)},
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_SQL[s.id], **_GRAIN.get(s.id, {}))
-    for s in DOWNLOAD_SPECS
+    NodeSpec(id="hmrc-commodity", fn=fetch_full, kind="download"),
+    NodeSpec(id="hmrc-commoditysearch", fn=fetch_full, kind="download"),
+    NodeSpec(id="hmrc-country", fn=fetch_full, kind="download"),
+    NodeSpec(id="hmrc-date", fn=fetch_full, kind="download"),
+    NodeSpec(id="hmrc-flowtype", fn=fetch_full, kind="download"),
+    NodeSpec(id="hmrc-port", fn=fetch_full, kind="download"),
+    NodeSpec(id="hmrc-region", fn=fetch_full, kind="download"),
+    NodeSpec(id="hmrc-sitc", fn=fetch_full, kind="download"),
+    NodeSpec(id="hmrc-tradetype", fn=fetch_full, kind="download"),
+    NodeSpec(id="hmrc-trader", fn=fetch_full, kind="download"),
 ]
