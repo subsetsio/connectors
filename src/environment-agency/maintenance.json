@@ -1,0 +1,5 @@
+{
+  "cadence_days": 7,
+  "paused": false,
+  "cadence_note": "The EA Hydrology API publishes new readings continuously; the daily (period=86400) statistic for a given day settles within ~24h and is subsequently revised as records are quality-checked (quality moves Unchecked -> Good/Estimated). See https://environment.data.gov.uk/hydrology/doc/reference. We refresh weekly rather than daily: each run re-pulls a rolling 730-day window and merges on (measure_id, date), so a weekly cadence both picks up the ~7 new days and re-absorbs quality revisions across the whole two-year window. The stations and measures reference catalogs change only when the EA commissions or retires a station, far slower than weekly."
+}

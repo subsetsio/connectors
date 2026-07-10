@@ -6,10 +6,12 @@ tests:
   - matches: {col: euvd_id, pattern: '^EUVD-'}
     reason: foreign key back to the vulnerabilities corpus; same EUVD-YYYY-NNNNN format
     certainty: 95
-  - row_count: {min: 200000}
-    reason: most of ~359k vulnerabilities list at least one affected product, exploded one row per (vuln, product)
+  - row_count: {min: 300000}
+    reason: >-
+      an 800-record sample across the corpus showed 1.88 product rows per vulnerability,
+      projecting ~684k rows; a count far below that means the crawl truncated
     certainty: 80
-  - distinct_count: {col: euvd_id, min: 100000}
-    reason: a large fraction of distinct vulnerabilities carry product mappings
+  - distinct_count: {col: euvd_id, min: 150000}
+    reason: 87% of sampled vulnerabilities carry at least one product mapping (~317k projected)
     certainty: 70
     severity: warn

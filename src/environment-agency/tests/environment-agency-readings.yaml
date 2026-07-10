@@ -1,0 +1,74 @@
+spec_id: environment-agency-readings
+status: active
+tests:
+  - freshness: {col: date, reaches: today - 7d}
+    reason: >-
+      The EA publishes hydrology readings daily; the bulk endpoint's window runs
+      to today. A max(date) more than a week old means the platform stopped
+      publishing or our window arithmetic drifted.
+    points_outward: true
+
+  - not_null: measure_id
+    reason: every reading names the measure it belongs to; a null means the CSV `measure` URI failed to parse
+    certainty: 95
+
+  - not_null: date
+    reason: the observation date is the temporal key
+    certainty: 95
+
+  - unique: [measure_id, date]
+    reason: >-
+      period=86400 selects the daily statistic, so a measure reports at most one
+      value per day. Dupes mean overlapping date chunks were written twice.
+    certainty: 90
+
+  - column_type: {col: value, type: float}
+    reason: readings are numeric measurements (flow m3/s, level m, rainfall mm)
+    certainty: 95
+
+  - matches: {col: station_guid, pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'}
+    reason: station_guid is sliced from the first 36 chars of measure_id; a mismatch means the notation format changed and the slice is silently wrong
+    certainty: 90
+
+  - not_null: station_guid
+    reason: every measure notation carries its station guid as a prefix
+    certainty: 85
+
+  - between: {col: date, lo: today - 740d, hi: today}
+    reason: >-
+      the fetch requests a rolling READINGS_WINDOW_DAYS=730 window ending today
+      (10d slack for chunk-boundary rounding); a reading outside it means the
+      date params were ignored by the server
+    certainty: 90
+
+  - row_count: {min: 2000000, max: 20000000}
+    reason: >-
+      probed at ~7.3k daily readings/day across all measures; 730 days is ~5M
+      rows. Under 2M means the window or the period filter silently truncated.
+    certainty: 80
+
+  - distinct_count: {col: measure_id, min: 5000, max: 15000}
+    reason: >-
+      the measures catalog holds 9628 daily-period (86400s) measures; a 2-year
+      window should touch most of them. Far under 5000 means the period filter
+      or the chunk loop dropped measures.
+    certainty: 80
+
+  - enum: {col: quality, values: [Good, Unchecked, Estimated, Suspect, Missing, Poor]}
+    reason: quality is an EA controlled vocabulary; an unseen value means they extended it
+    certainty: 65
+    points_outward: true
+    severity: warn
+
+  - enum: {col: completeness, values: [Complete, Incomplete, Estimated, Missing]}
+    reason: completeness is an EA controlled vocabulary observed as Complete during probing
+    certainty: 60
+    points_outward: true
+    severity: warn
+
+  - median_between: {col: value, lo: -100.0, hi: 1000.0}
+    reason: >-
+      mixed units (m3/s flow, m level, mm rainfall) but all small-magnitude; a
+      median outside this range means a unit or scaling error
+    certainty: 70
+    severity: warn

@@ -15,6 +15,7 @@ time. Single-file databases write one `<id>.csv.gz`.
 from __future__ import annotations
 
 import io
+import csv
 import os
 import re
 import shutil
@@ -64,6 +65,16 @@ def _copy_member_gz(zf: zipfile.ZipFile, member: str, asset: str, ext: str) -> N
             shutil.copyfileobj(src, out, CHUNK)
 
 
+def _copy_tsv_member_as_csv(zf: zipfile.ZipFile, member: str, asset: str) -> None:
+    """Stream a tab-delimited zip member into gzip CSV raw."""
+    with raw_writer(asset, "csv.gz", mode="wt", compression="gzip") as out:
+        writer = csv.writer(out)
+        with zf.open(member) as src:
+            text = io.TextIOWrapper(src, encoding="utf-8-sig", errors="replace", newline="")
+            reader = csv.reader(text, delimiter="\t")
+            writer.writerows(reader)
+
+
 @transient_retry()
 def _stream_url_to_gz(url: str, asset: str) -> None:
     """Stream a CSV URL straight into a gzip raw asset."""
@@ -81,7 +92,7 @@ def _resolve_member(names: list[str], wanted: str) -> str:
     raise AssertionError(f"member {wanted!r} not found among {names[:8]}")
 
 
-def _fetch_zip(cfg: dict, asset: str, ext: str) -> None:
+def _fetch_zip(cfg: dict, asset: str, ext: str, *, tsv_as_csv: bool = False) -> None:
     """Download a ZIP to a temp file, then copy selected member(s) to gz raw(s)."""
     tmp = tempfile.NamedTemporaryFile(suffix=".zip", delete=False)
     tmp.close()
@@ -99,10 +110,17 @@ def _fetch_zip(cfg: dict, asset: str, ext: str) -> None:
                 for n in selected:
                     stem = os.path.splitext(os.path.basename(n))[0]
                     tag = re.sub(r"[^A-Za-z0-9]+", "-", stem).strip("-")
-                    _copy_member_gz(zf, n, f"{asset}-{tag}", ext)
+                    if tsv_as_csv:
+                        _copy_tsv_member_as_csv(zf, n, f"{asset}-{tag}")
+                    else:
+                        _copy_member_gz(zf, n, f"{asset}-{tag}", ext)
             else:
                 for wanted in cfg["members"]:
-                    _copy_member_gz(zf, _resolve_member(names, wanted), asset, ext)
+                    member = _resolve_member(names, wanted)
+                    if tsv_as_csv:
+                        _copy_tsv_member_as_csv(zf, member, asset)
+                    else:
+                        _copy_member_gz(zf, member, asset, ext)
     finally:
         os.unlink(tmp.name)
 
@@ -286,19 +304,21 @@ def _parse_wk1(body: bytes):
     return pd.DataFrame(grid[1:], columns=columns).dropna(how="all")
 
 
-def _fetch_text_urls(cfg: dict, asset: str, ext: str) -> None:
-    with raw_writer(asset, ext, mode="wb", compression="gzip") as out:
+def _fetch_text_urls(cfg: dict, asset: str) -> None:
+    with raw_writer(asset, "csv.gz", mode="wt", compression="gzip") as out:
+        writer = csv.writer(out)
         first = True
         for spec in cfg["urls"]:
             body = _get_bytes(spec["url"])
-            lines = body.splitlines(keepends=True)
-            if not lines:
+            text = body.decode("utf-8-sig", errors="replace").splitlines()
+            rows = list(csv.reader(text, delimiter=cfg["delimiter"]))
+            if not rows:
                 continue
             if first:
-                out.write(b"source_file" + cfg["delimiter"].encode("ascii") + lines[0])
+                writer.writerow(["source_file", *rows[0]])
                 first = False
-            for line in lines[1:]:
-                out.write(spec["name"].encode("utf-8") + cfg["delimiter"].encode("ascii") + line)
+            for row in rows[1:]:
+                writer.writerow([spec["name"], *row])
     if first:
         raise AssertionError(f"{asset}: no text rows fetched")
 
@@ -312,7 +332,7 @@ def fetch_one(node_id: str) -> None:
     if kind == "csv_zip":
         _fetch_zip(cfg, node_id, "csv.gz")
     elif kind == "tsv_zip":
-        _fetch_zip(cfg, node_id, "tsv.gz")
+        _fetch_zip(cfg, node_id, "csv.gz", tsv_as_csv=True)
     elif kind == "csv_url":
         _stream_url_to_gz(cfg["url"], node_id)
     elif kind == "dta_url":
@@ -328,7 +348,7 @@ def fetch_one(node_id: str) -> None:
     elif kind == "xls_urls":
         _fetch_xls_urls(cfg, node_id)
     elif kind == "tsv_urls":
-        _fetch_text_urls(cfg, node_id, "tsv.gz")
+        _fetch_text_urls(cfg, node_id)
     elif kind == "csv_semicolon_url":
         _stream_url_to_gz(cfg["url"], node_id)
     else:

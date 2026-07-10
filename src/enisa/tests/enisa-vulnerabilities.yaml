@@ -6,19 +6,24 @@ tests:
     reason: every EUVD record id is formatted EUVD-YYYY-NNNNN
     certainty: 95
   - unique: id
-    reason: one row per EUVD identifier after dedup-by-most-recent in the transform
-    certainty: 90
+    reason: >-
+      one row per EUVD identifier. Raw may carry a few duplicates: the crawl walks a
+      live newest-first feed, so records inserted mid-crawl shift into pages not yet
+      read and can be seen twice. The transform dedups on id; a large duplicate count
+      here would instead mean pagination is repeating pages.
+    certainty: 60
+    severity: warn
   - row_count: {min: 200000}
-    reason: the full corpus was ~359k records mid-2026 and only grows; a small count means the crawl truncated
+    reason: the corpus was 364k records in July 2026 and only grows; a small count means the crawl truncated
     certainty: 85
   - column_type: {col: base_score, type: float}
     certainty: 80
   - between: {col: base_score, lo: 0, hi: 10}
-    reason: CVSS base scores are bounded 0-10 across all versions
+    reason: CVSS base scores are bounded 0-10 across all versions (null for ~50% of records, which this does not assert against)
     certainty: 90
-  - between: {col: n_products, lo: 0, hi: 100000}
-    reason: count of affected products per vuln; non-negative, never absurdly large
-    certainty: 80
+  - between: {col: epss, lo: 0, hi: 100}
+    reason: EPSS is an exploit-prediction probability the API reports on a 0-100 scale
+    certainty: 75
     severity: warn
   - freshness: {col: date_published, reaches: today - 30d}
     reason: ENISA publishes new vulnerabilities continuously; a stale max means the source paused or our crawl missed the front pages
