@@ -1,7 +1,7 @@
 """EDGAR Community GHG inventory (European Commission JRC).
 
 Source: https://edgar.jrc.ec.europa.eu/dataset_ghg2025
-Release: EDGAR_2025_GHG (2025 release).
+Release: EDGAR_2024_GHG (2024 release).
 
 Publishes one long table — emissions by country x IPCC-2006 sector x gas x
 year — built by unpivoting the per-substance XLSX workbooks served as ZIPs
@@ -33,6 +33,7 @@ import openpyxl
 import pyarrow as pa
 
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
     get_client,
     list_raw_fragments,
@@ -41,16 +42,16 @@ from subsets_utils import (
 )
 
 BASE_URL = (
-    "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/EDGAR/datasets/EDGAR_2025_GHG"
+    "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/EDGAR/datasets/EDGAR_2024_GHG"
 )
 
 # CC BY 4.0 substance packages only. (gas-group label, zip filename) — the
 # real per-row gas/species comes from the workbook's Substance column.
 GAS_PACKAGES = [
-    ("ch4", "EDGAR_CH4_1970_2024.zip"),
-    ("n2o", "EDGAR_N2O_1970_2024.zip"),
-    ("f-gases", "EDGAR_F-gases_1990_2024.zip"),
-    ("co2bio", "EDGAR_CO2bio_1970_2024.zip"),
+    ("ch4", "EDGAR_CH4_1970_2023.zip"),
+    ("n2o", "EDGAR_N2O_1970_2023.zip"),
+    ("f-gases", "EDGAR_F-gases_1990_2023.zip"),
+    ("co2bio", "EDGAR_CO2bio_1970_2023.zip"),
 ]
 
 SHEET = "IPCC 2006"
@@ -174,11 +175,11 @@ def _parse_workbook(zip_bytes: bytes) -> list[dict]:
 def fetch_emissions(node_id: str) -> None:
     asset = node_id
     run_id = os.environ.get("RUN_ID", "unknown")
-    done = {
-        frag
-        for frag, meta in list_raw_fragments(asset, "parquet").items()
-        if meta.get("run_id") == run_id
-    }
+    fragments = list_raw_fragments(asset, "parquet")
+    if os.environ.get("FORCE_REFRESH") == "1":
+        done = {frag for frag, meta in fragments.items() if meta.get("run_id") == run_id}
+    else:
+        done = set(fragments)
     total_rows = 0
 
     for fragment, fname in GAS_PACKAGES:
@@ -213,10 +214,29 @@ def fetch_emissions(node_id: str) -> None:
     print(f"  total new rows this leg: {total_rows:,}")
 
 
+def _has_complete_release(asset_id: str) -> bool:
+    return {fragment for fragment, _ in GAS_PACKAGES}.issubset(
+        set(list_raw_fragments(asset_id, "parquet"))
+    )
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(
         id="edgar-ghg-emissions-by-country-sector",
         fn=fetch_emissions,
         kind="download",
+    ),
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id="edgar-ghg-emissions-by-country-sector",
+        description=(
+            "EDGAR GHG is an annual versioned release; the pinned "
+            "EDGAR_2024_GHG package set is fresh when all four CC-BY "
+            "substance fragments are already committed. FORCE_REFRESH=1 "
+            "forces a re-pull."
+        ),
+        check=_has_complete_release,
     ),
 ]

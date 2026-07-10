@@ -63,6 +63,10 @@ def _numeric_count(row):
     return sum(1 for c in row[1:] if _num(c) is not None)
 
 
+def _nonempty_tail_count(row):
+    return sum(1 for c in row[1:] if _txt(c))
+
+
 def _extract_sheet(sheet_name, rows):
     """Melt one worksheet into long records. Returns [] for sheets with no
     detectable data block (note/methodology/blank sheets)."""
@@ -74,6 +78,16 @@ def _extract_sheet(sheet_name, rows):
         if len(row) and _txt(row[0]) and _numeric_count(row) >= 1:
             first_data = i
             break
+    if first_data is None:
+        # Some EDR reference workbooks are entirely textual/date-valued (for
+        # example county formation dates). Treat the first tabular row as a
+        # header and begin at the following similarly-shaped row.
+        tabular_rows = [
+            i for i, row in enumerate(rows)
+            if len(row) and _txt(row[0]) and _nonempty_tail_count(row) >= 1
+        ]
+        if len(tabular_rows) >= 2:
+            first_data = tabular_rows[1]
     if first_data is None:
         return []
 

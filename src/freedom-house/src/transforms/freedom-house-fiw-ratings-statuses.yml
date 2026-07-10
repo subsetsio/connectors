@@ -1,4 +1,7 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [country, year, status, entity_kind]
+temporal: year
+sort: [year, country, status, entity_kind]
 columns:
   - name: entity_kind
     type: VARCHAR

@@ -1,4 +1,7 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [country_territory, year, region, status, ct]
+temporal: year
+sort: [year, country_territory, region, status, ct]
 columns:
   - name: country_territory
     type: VARCHAR
