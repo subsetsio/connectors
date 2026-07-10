@@ -24,10 +24,10 @@ import re
 
 import pyarrow as pa
 import openpyxl
+import requests
 
 from subsets_utils import (
     NodeSpec,
-    get,
     save_raw_parquet,
     transient_retry,
 )
@@ -38,6 +38,13 @@ BASE = "https://ohss.dhs.gov"
 # default library UA.
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/120.0 Safari/537.36")
+REQ_HEADERS = {
+    "User-Agent": UA,
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Connection": "keep-alive",
+}
+_SESSION = requests.Session()
 
 # entity_id -> metadata. topic_slug matches the workbook filename key and the
 # entity-id prefix; sheet is the exact worksheet name inside that workbook.
@@ -104,7 +111,10 @@ _NULL_MARKERS = {"", "-", "--", "X", "(X)", "D", "(D)", "NA", "N/A", "*", "Z", "
 
 @transient_retry()
 def _fetch(url: str) -> bytes:
-    resp = get(url, headers={"User-Agent": UA}, timeout=(10.0, 120.0))
+    # DHS/Akamai currently rejects httpx HTTP/1.1 requests with 403 even when
+    # browser headers are supplied. requests/urllib3 is accepted by the same
+    # endpoint and still keeps the connector dependency-light.
+    resp = _SESSION.get(url, headers=REQ_HEADERS, timeout=(10.0, 120.0))
     resp.raise_for_status()
     return resp.content
 
