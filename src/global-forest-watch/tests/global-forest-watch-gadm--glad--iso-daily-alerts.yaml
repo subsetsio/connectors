@@ -1,0 +1,15 @@
+spec_id: global-forest-watch-gadm--glad--iso-daily-alerts
+status: active
+tests:
+  - not_null: iso
+  - not_null: alert_month
+  - column_type: {col: alert_month, type: date}
+  - not_null: confidence
+  - unique: [iso, alert_month, confidence]
+    reason: aggregated to one row per country, alert month and confidence class
+  - column_type: {col: alert_count, type: integer}
+  - at_least: {col: alert_count, expr: 0}
+  - freshness: {col: alert_month, reaches: today - 75d}
+    reason: GLAD-Landsat deforestation alerts update ~daily; aggregated to month, latest bucket is the current month
+    certainty: 85
+    points_outward: true

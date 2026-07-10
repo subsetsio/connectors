@@ -1,0 +1,14 @@
+spec_id: global-forest-watch-gadm--modis--iso-weekly-alerts
+status: active
+tests:
+  - not_null: iso
+  - not_null: alert_week_start
+  - column_type: {col: alert_week_start, type: date}
+  - not_null: confidence
+  - unique: [iso, alert_week_start, confidence]
+    reason: aggregated to one row per country, ISO-week start and confidence class
+  - column_type: {col: alert_count, type: integer}
+  - freshness: {col: alert_week_start, reaches: today - 45d}
+    reason: MODIS fire alerts update weekly; latest ISO-week is near-current (max observed 2026-W28)
+    certainty: 80
+    points_outward: true

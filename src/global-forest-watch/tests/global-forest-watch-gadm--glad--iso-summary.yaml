@@ -1,0 +1,9 @@
+spec_id: global-forest-watch-gadm--glad--iso-summary
+status: active
+tests:
+  - not_null: iso
+  - column_type: {col: iso, type: string}
+  - unique: iso
+    reason: aggregated to one cumulative alert-area row per country
+  - column_type: {col: alert_area_ha, type: float}
+  - distinct_count: {col: iso, min: 100, max: 300}

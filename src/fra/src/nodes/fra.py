@@ -32,8 +32,10 @@ import io
 import pyarrow as pa
 
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
     get_client,
+    raw_asset_exists,
     raw_parquet_writer,
     transient_retry,
 )
@@ -130,4 +132,17 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=(
+            "FRA Office of Safety data is refreshed from the Socrata portal; "
+            "reuse raw parquet for up to 7 days (inferred weekly factory cadence, "
+            "source portal https://data.transportation.gov/browse?attribution=FRA+Safe+Team)."
+        ),
+        check=lambda aid: raw_asset_exists(aid, "parquet", max_age_days=7),
+    )
+    for spec in DOWNLOAD_SPECS
 ]

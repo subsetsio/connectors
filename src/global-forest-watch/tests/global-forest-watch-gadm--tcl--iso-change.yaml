@@ -1,0 +1,14 @@
+spec_id: global-forest-watch-gadm--tcl--iso-change
+status: active
+tests:
+  - not_null: iso
+  - not_null: loss_year
+  - column_type: {col: loss_year, type: integer}
+  - between: {col: loss_year, lo: 2001, hi: 2035}
+  - unique: [iso, loss_year, canopy_density_threshold]
+    reason: aggregated to one row per country, loss year and canopy-density threshold
+  - column_type: {col: tree_cover_loss_ha, type: float}
+  - freshness: {col: loss_year, reaches: 2022}
+    reason: annual UMD tree-cover-loss series; latest complete year lags ~1-2y (max observed 2025)
+    certainty: 85
+    points_outward: true

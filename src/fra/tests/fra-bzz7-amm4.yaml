@@ -7,7 +7,7 @@ tests:
   - not_null: crossingid
     reason: Column crossingid is the FRA crossing identifier and should be present on inventory records.
     certainty: 90
-  - freshness: {col: aadtyear, reaches: current_year() - 1}
-    reason: Historical Form 71 inventory receives ongoing updates and should include the latest AADT year with normal release lag.
+  - freshness: {col: lastupdated, reaches: today - 400d}
+    reason: Historical Form 71 inventory receives ongoing source revisions; lastupdated is the row update timestamp, while aadtyear is a traffic-count attribute with non-year sentinel values.
     certainty: 80
     points_outward: true

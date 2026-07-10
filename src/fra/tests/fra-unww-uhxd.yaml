@@ -4,6 +4,6 @@ tests:
   - row_count: {min: 320000}
     reason: FRA safety tables accumulate over time; a drop below this floor means the full-corpus Socrata export truncated on our side.
     certainty: 90
-  - not_null: railroad
-    reason: Column railroad is a primary identifier present on every submitted record; nulls indicate a parse or column-shift bug.
+  - nullable: {col: railroad, max_null_frac: 0.001}
+    reason: Source data has a tiny number of legacy operational source rows without railroad; a larger null share would indicate truncation or column shift.
     certainty: 90

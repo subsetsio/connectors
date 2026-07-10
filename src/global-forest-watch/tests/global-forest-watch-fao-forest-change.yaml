@@ -1,0 +1,14 @@
+spec_id: global-forest-watch-fao-forest-change
+status: active
+coverage:
+  frozen: true
+  reason: FAO FRA 2020 forest-change dataset; reporting periods are fixed range strings ("2000-2010", "2010-2015", "2015-2020") and do not advance until GFW ingests the next FRA
+tests:
+  - not_null: iso
+  - column_type: {col: iso, type: string}
+  - not_null: period
+  - column_type: {col: period, type: string}
+  - unique: [iso, period, desk_study]
+    certainty: 75
+    severity: warn
+  - row_count: {min: 400}

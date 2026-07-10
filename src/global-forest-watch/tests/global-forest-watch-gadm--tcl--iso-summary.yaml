@@ -1,0 +1,13 @@
+spec_id: global-forest-watch-gadm--tcl--iso-summary
+status: active
+tests:
+  - not_null: iso
+  - column_type: {col: iso, type: string}
+  - not_null: canopy_density_threshold
+  - column_type: {col: canopy_density_threshold, type: integer}
+  - between: {col: canopy_density_threshold, lo: 0, hi: 100}
+  - unique: [iso, canopy_density_threshold]
+    reason: aggregated to one row per country and canopy-density threshold (GROUP BY grain)
+  - column_type: {col: tree_cover_loss_ha, type: float}
+  - distinct_count: {col: iso, min: 100, max: 300}
+  - row_count: {min: 500}

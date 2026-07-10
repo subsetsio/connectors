@@ -4,6 +4,6 @@ tests:
   - row_count: {min: 900000}
     reason: FRA safety tables accumulate over time; a drop below this floor means the full-corpus Socrata export truncated on our side.
     certainty: 90
-  - not_null: iyr
-    reason: Column iyr is a primary identifier present on every submitted record; nulls indicate a parse or column-shift bug.
+  - nullable: {col: iyr, max_null_frac: 0.001}
+    reason: Source data has a tiny number of legacy casualty rows without the two-digit incident year; a larger null share would indicate truncation or column shift.
     certainty: 90

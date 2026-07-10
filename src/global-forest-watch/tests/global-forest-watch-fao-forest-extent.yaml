@@ -1,0 +1,16 @@
+spec_id: global-forest-watch-fao-forest-extent
+status: active
+coverage:
+  frozen: true
+  reason: FAO FRA assessment (dataset version v2020); reporting years are fixed at the FRA reference points and do not advance until GFW ingests the next 5-yearly FRA release
+tests:
+  - not_null: iso
+  - column_type: {col: iso, type: string}
+  - distinct_count: {col: iso, min: 100, max: 300}
+    reason: FAO reports ~230 countries/territories
+  - not_null: year
+  - unique: [iso, year, desk_study]
+    reason: one row per country and FRA reference year (desk_study distinguishes FRA desk-study vs country-reported rows)
+    certainty: 75
+    severity: warn
+  - row_count: {min: 400}

@@ -1,0 +1,12 @@
+spec_id: global-forest-watch-gadm--burned-areas--iso-weekly-alerts
+status: active
+coverage:
+  frozen: true
+  reason: burned-area weekly alerts last published v20221104 (data ends 2022-W52); the corpus does not advance
+tests:
+  - not_null: iso
+  - not_null: alert_week_start
+  - column_type: {col: alert_week_start, type: date}
+  - unique: [iso, alert_week_start]
+    reason: aggregated to one burned-area row per country and ISO-week start
+  - column_type: {col: burned_area_ha, type: float}

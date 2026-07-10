@@ -1,0 +1,13 @@
+spec_id: global-forest-watch-gadm--glad--iso-weekly-alerts
+status: active
+coverage:
+  frozen: true
+  reason: GLAD-Landsat weekly alerts superseded by the daily GLAD/integrated-alerts products; this dataset stopped at v20211129 (data ends 2021-W53), the corpus does not advance
+tests:
+  - not_null: iso
+  - not_null: alert_week_start
+  - column_type: {col: alert_week_start, type: date}
+  - not_null: is_confirmed_alert
+  - unique: [iso, alert_week_start, is_confirmed_alert]
+    reason: aggregated to one row per country, ISO-week start and confirmed/unconfirmed flag
+  - column_type: {col: alert_count, type: integer}
