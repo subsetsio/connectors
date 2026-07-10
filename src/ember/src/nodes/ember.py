@@ -69,7 +69,9 @@ def _column_types(is_us: bool, is_monthly: bool) -> dict:
     state-level US files.
     """
     period_col = "Date" if is_monthly else "Year"
-    period_type = pa.string() if is_monthly else pa.int64()
+    # Monthly periods are ISO first-of-month dates; parse them as real dates so
+    # the raw carries the temporal type rather than a string that sorts by luck.
+    period_type = pa.date32() if is_monthly else pa.int64()
 
     if is_us:
         geo = {

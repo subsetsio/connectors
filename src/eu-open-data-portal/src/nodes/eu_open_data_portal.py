@@ -1,255 +1,367 @@
-"""EU Open Data Portal (data.europa.eu) — EU-institution slice.
+"""EU Open Data Portal (data.europa.eu) — DCAT-AP catalog metadata.
 
-Mechanism: piveau hub-search REST API (https://data.europa.eu/api/hub/search).
-The connector is scoped to the EU institutions' own open data — the genuine
-"EU Open Data Portal" — via the dataset index `country=eu` facet (~48k datasets
-across ~113 catalogs: Eurostat, ECB, JRC, EU agencies). The ~1.69M national
-datasets mirrored from member-state portals are out of scope.
+data.europa.eu is a metadata *redistributor*: the piveau hub-search REST API
+harmonises DCAT-AP dataset descriptions from ~210 federated catalogs into one
+schema. The full federation holds ~1.8M datasets, but the overwhelming majority
+is national data mirrored from member-state portals. This connector is scoped to
+the `country=eu` slice — the EU institutions' own open data (Eurostat, JRC, EEA,
+Zenodo, the DGs; ~48k datasets across ~112 catalogs), which is what "EU Open Data
+Portal" names.
 
-We redistribute harmonised DCAT-AP *metadata*, not the underlying data files
-(those live in heterogeneous, externally-hosted distributions). Two publishable
-tables:
+We redistribute the harmonised *metadata*, not the underlying tables: each
+dataset's data lives in externally-hosted distributions of heterogeneous format.
+The EU has waived copyright on portal metadata via CC0 1.0.
 
-  - eu-open-data-portal-datasets : one row per EU-institution dataset (corpus).
-  - eu-open-data-portal-catalogs : the EU-institution source-catalog taxonomy.
+Three assets, one per accepted collect entity:
 
-Fetch shape: stateless full re-pull every run (corpus is small and the source
-publishes revisions in place — no watermark to trust). Pagination strategy:
-the search index uses page+limit, but Elasticsearch caps the page window at
-~10k results and the public gateway WAF-blocks the scroll cursor. So we
-partition the corpus by catalog (each EU catalog facet is a bounded window) and
-page within it. Only one catalog (zenodo, ~27k) exceeds the 10k window; it is
-capped at 10k with a logged warning. Every other catalog paginates to
-completion.
+  datasets    one row per EU-institution dataset (the corpus)
+  catalogs    the source-provider taxonomy (joins datasets.catalog_id)
+  categories  the DCAT-AP data-theme taxonomy (joins datasets.categories)
 
-No incremental query, no documented/observed rate limit, no whole-corpus bulk
-dump (the per-catalog paged stream is the bulk path). No auth.
+Two properties of the API drive the code below.
+
+1. Deep paging silently truncates. `/search?page=N&limit=1000` returns HTTP 200
+   with an EMPTY `results` list once the offset passes 10,000 (Elasticsearch's
+   `max_result_window`), while still reporting `count: 47699`. A page loop that
+   stops on a short page would ship 10k of 48k rows and report success. We use
+   the scroll API instead (`scroll=true` -> `/search/scroll?scrollId=...`), which
+   is snapshot-consistent, and assert the drained id count against the `count`
+   the first response declared.
+
+2. Records are enormous and mostly translation. Every label is carried in up to
+   27 languages, so the mean raw record is ~30KB and the untouched corpus is
+   ~1.4GB, of which the English content is a few percent. We normalise in the
+   fetch fn: scalars promoted to typed columns, labels resolved to English
+   (falling back to whatever language exists), nested code lists reduced to their
+   authority ids. Upstream fields are sparse — only ~62% of datasets carry a
+   `title` at all — so nearly every column is nullable by design.
+
+No incremental query: the API exposes no `since`/`modifiedAfter` filter, so every
+run re-scrolls the full EU slice. That is ~50 requests and a couple of minutes.
 """
 
-import json
-import logging
-import urllib.parse
+from __future__ import annotations
+
+from datetime import datetime, timezone
 
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
-    save_raw_ndjson,
+    raw_parquet_writer,
     save_raw_parquet,
     transient_retry,
 )
 
-log = logging.getLogger(__name__)
-
 BASE = "https://data.europa.eu/api/hub/search"
-PAGE_SIZE = 1000
-MAX_PAGES_PER_CATALOG = 10  # Elasticsearch from+size window cap (~10k results)
 
-CATALOGS_SCHEMA = pa.schema([
+# The EU-institution slice. `country` here is the portal's own provenance facet
+# ("EU institutions"), not a geography of what the data describes.
+EU_FACETS = '{"country":["eu"]}'
+
+PAGE_SIZE = 1000  # the server rejects limit>1000 with HTTP 400
+# Safety ceiling: ~48 pages are expected. This trips only if the corpus grows 4x
+# or the scroll cursor stops advancing. It raises; it never returns quietly.
+MAX_SCROLL_PAGES = 200
+
+DATASET_SCHEMA = pa.schema([
+    ("id", pa.string()),
+    ("resource", pa.string()),
+    ("title", pa.string()),
+    ("title_language", pa.string()),
+    ("description", pa.string()),
+    ("catalog_id", pa.string()),
+    ("catalog_title", pa.string()),
+    ("catalog_source_type", pa.string()),
+    ("country_id", pa.string()),
+    ("publisher_name", pa.string()),
+    ("publisher_resource", pa.string()),
+    ("issued", pa.timestamp("s")),
+    ("modified", pa.timestamp("s")),
+    ("catalog_record_issued", pa.timestamp("s")),
+    ("catalog_record_modified", pa.timestamp("s")),
+    ("temporal_start", pa.timestamp("s")),
+    ("temporal_end", pa.timestamp("s")),
+    ("categories", pa.list_(pa.string())),
+    ("keywords", pa.list_(pa.string())),
+    ("languages", pa.list_(pa.string())),
+    ("access_right", pa.string()),
+    ("accrual_periodicity", pa.string()),
+    ("version_info", pa.string()),
+    ("landing_page", pa.string()),
+    ("is_hvd", pa.bool_()),
+    ("quality_score", pa.int32()),
+    ("distribution_count", pa.int32()),
+    ("distribution_formats", pa.list_(pa.string())),
+    ("distribution_licenses", pa.list_(pa.string())),
+    ("distribution_byte_size", pa.int64()),
+])
+
+CATALOG_SCHEMA = pa.schema([
     ("id", pa.string()),
     ("title", pa.string()),
-    ("publisher", pa.string()),
-    ("country", pa.string()),
-    ("source_type", pa.string()),
-    ("issued", pa.string()),
-    ("modified", pa.string()),
-    ("dataset_count", pa.int64()),
     ("description", pa.string()),
+    ("source_type", pa.string()),
+    ("country_id", pa.string()),
+    ("publisher_name", pa.string()),
+    ("publisher_resource", pa.string()),
+    ("issued", pa.timestamp("s")),
+    ("modified", pa.timestamp("s")),
+    ("dataset_count", pa.int32()),
+])
+
+CATEGORY_SCHEMA = pa.schema([
+    ("id", pa.string()),
+    ("resource", pa.string()),
+    ("label", pa.string()),
+    ("in_scheme", pa.string()),
 ])
 
 
-@transient_retry()
-def _search(params: dict) -> dict:
-    resp = get(f"{BASE}/search", params=params, timeout=(10.0, 120.0))
-    resp.raise_for_status()
-    return resp.json()["result"]
+# --- normalisation ---------------------------------------------------------
+
+def _label(value, prefer: str = "en") -> tuple[str | None, str | None]:
+    """Resolve a multilingual label dict to (text, language).
+
+    Upstream carries the same string in up to 27 languages. Prefer English;
+    otherwise take the first non-empty language, so a record published only in
+    its native language still gets a title rather than a null.
+    """
+    if not isinstance(value, dict) or not value:
+        return None, None
+    text = value.get(prefer)
+    if text:
+        return text, prefer
+    for lang, text in value.items():
+        if text:
+            return text, lang
+    return None, None
 
 
-@transient_retry()
-def _catalogue(cid: str) -> dict:
-    resp = get(f"{BASE}/catalogues/{urllib.parse.quote(cid)}", timeout=(10.0, 120.0))
-    resp.raise_for_status()
-    body = resp.json()
-    return body.get("result", body) if isinstance(body, dict) else {}
+def _text(value, prefer: str = "en") -> str | None:
+    """English text out of either a multilingual dict or an already-plain string."""
+    if isinstance(value, str):
+        return value or None
+    return _label(value, prefer)[0]
 
 
-def _en(value, default=None):
-    """Pick an English (or any) value from a multilingual dict / scalar."""
-    if isinstance(value, dict):
-        return value.get("en") or next(iter(value.values()), default)
-    return value if value not in (None, "") else default
+def _ts(value) -> datetime | None:
+    """Parse an ISO-8601 instant to naive UTC; None when unusable.
+
+    Dates are self-reported by 200-odd publishers and are not validated
+    upstream, so a malformed one must not sink the whole scroll page.
+    """
+    if not isinstance(value, str) or not value:
+        return None
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if parsed.tzinfo is not None:
+        parsed = parsed.astimezone(timezone.utc).replace(tzinfo=None)
+    return parsed
 
 
-def _eu_catalog_counts() -> dict:
-    """Map of EU-institution catalog id -> dataset count, from the catalog
-    sub-facet under the country=eu dataset filter (one request)."""
-    # Pass raw JSON — httpx url-encodes params once. Do NOT pre-quote (double
-    # encoding makes the server silently ignore the facet and return the whole
-    # ~1.7M-row federation instead of the ~48k EU-institution slice).
-    facets = json.dumps({"country": ["eu"]})
-    res = _search({"filter": "dataset", "facets": facets, "limit": 0})
-    items = next((f["items"] for f in res.get("facets", []) if f.get("id") == "catalog"), [])
-    counts = {it["id"]: it.get("count", 0) for it in items if it.get("id")}
-    if not counts:
-        raise RuntimeError("country=eu catalog facet returned no catalogs — API shape changed")
-    return counts
+def _ids(items) -> list[str]:
+    """Authority ids from a list of code records, order preserved, deduped."""
+    if not isinstance(items, list):
+        return []
+    out: list[str] = []
+    for item in items:
+        code = item.get("id") if isinstance(item, dict) else None
+        if code and code not in out:
+            out.append(code)
+    return out
 
 
-def _iter_catalog_datasets(cid: str):
-    """Yield raw dataset records for one EU-institution catalog, paging within
-    the bounded country=eu + catalog facet window."""
-    facets = json.dumps({"country": ["eu"], "catalog": [cid]})
-    for page in range(MAX_PAGES_PER_CATALOG):
-        res = _search({"filter": "dataset", "facets": facets,
-                       "limit": PAGE_SIZE, "page": page})
-        rows = res.get("results", [])
-        if not rows:
-            return
-        yield from rows
-        if len(rows) < PAGE_SIZE:
-            return
-    log.warning(
-        "catalog %s exceeded %d pages (%d total datasets reported) — capped at %d records",
-        cid, MAX_PAGES_PER_CATALOG, res.get("count"), MAX_PAGES_PER_CATALOG * PAGE_SIZE,
-    )
+def _first_resource(items) -> str | None:
+    if not isinstance(items, list):
+        return None
+    for item in items:
+        if isinstance(item, dict) and item.get("resource"):
+            return item["resource"]
+    return None
 
 
-def _normalize_dataset(d: dict) -> dict:
-    pub = d.get("publisher") or {}
-    dists = d.get("distributions") or []
-    fmts = []
-    for di in dists:
-        f = di.get("format")
-        fid = f.get("id") if isinstance(f, dict) else f
-        if fid and fid not in fmts:
-            fmts.append(fid)
-    cats = [c.get("id") for c in (d.get("categories") or []) if isinstance(c, dict) and c.get("id")]
-    kws = []
-    for k in (d.get("keywords") or []):
-        kid = k.get("id") if isinstance(k, dict) else k
-        if kid and kid not in kws:
-            kws.append(kid)
-    lp = d.get("landing_page")
-    if isinstance(lp, list):
-        lp = (lp[0].get("resource") if lp and isinstance(lp[0], dict) else None)
-    elif isinstance(lp, dict):
-        lp = lp.get("resource")
-    rec = d.get("catalog_record") or {}
+def _normalize_dataset(rec: dict) -> dict:
+    title, title_language = _label(rec.get("title"))
+    catalog = rec.get("catalog") or {}
+    publisher = rec.get("publisher") or {}
+    # quality_meas is explicitly null on ~3% of records, not merely absent.
+    quality = rec.get("quality_meas") or {}
+    temporal = (rec.get("temporal") or [{}])[0]
+    dists = rec.get("distributions") or []
+
+    formats: list[str] = []
+    licenses: list[str] = []
+    for dist in dists:
+        for key, sink in (("format", formats), ("license", licenses)):
+            value = dist.get(key)
+            code = value.get("id") if isinstance(value, dict) else None
+            if code and code not in sink:
+                sink.append(code)
+    sizes = [d["byte_size"] for d in dists if isinstance(d.get("byte_size"), int)]
+
     return {
-        "id": d.get("id"),
-        "title": _en(d.get("title")),
-        "description": _en(d.get("description")),
-        "catalog": (d.get("catalog") or {}).get("id") if isinstance(d.get("catalog"), dict) else d.get("catalog"),
-        "country": (d.get("country") or {}).get("id") if isinstance(d.get("country"), dict) else d.get("country"),
-        "publisher": pub.get("name") if isinstance(pub, dict) else pub,
-        "categories": ",".join(cats),
-        "keywords": ",".join(kws),
-        "modified": _en(d.get("modified")),
-        "issued": rec.get("issued") if isinstance(rec, dict) else None,
-        "landing_page": lp,
-        "num_distributions": len(dists),
-        "distribution_formats": ",".join(fmts),
-        "is_hvd": bool(d.get("is_hvd")),
+        "id": rec["id"],
+        "resource": rec.get("resource"),
+        "title": title,
+        "title_language": title_language,
+        "description": _text(rec.get("description")),
+        "catalog_id": catalog.get("id"),
+        "catalog_title": _text(catalog.get("title")),
+        "catalog_source_type": catalog.get("source_type"),
+        "country_id": (rec.get("country") or {}).get("id"),
+        "publisher_name": publisher.get("name"),
+        "publisher_resource": publisher.get("resource"),
+        "issued": _ts(rec.get("issued")),
+        "modified": _ts(rec.get("modified")),
+        "catalog_record_issued": _ts((rec.get("catalog_record") or {}).get("issued")),
+        "catalog_record_modified": _ts((rec.get("catalog_record") or {}).get("modified")),
+        "temporal_start": _ts(temporal.get("gte")),
+        "temporal_end": _ts(temporal.get("lte")),
+        "categories": _ids(rec.get("categories")),
+        "keywords": _ids(rec.get("keywords")),
+        "languages": _ids(rec.get("language")),
+        "access_right": _text((rec.get("access_right") or {}).get("label")),
+        "accrual_periodicity": _text((rec.get("accrual_periodicity") or {}).get("label")),
+        "version_info": rec.get("version_info"),
+        "landing_page": _first_resource(rec.get("landing_page")),
+        "is_hvd": rec.get("is_hvd"),
+        "quality_score": quality.get("scoring"),
+        "distribution_count": len(dists),
+        "distribution_formats": formats,
+        "distribution_licenses": licenses,
+        "distribution_byte_size": sum(sizes) if sizes else None,
     }
 
 
+@transient_retry()
+def _get_json(url: str, **params) -> dict:
+    resp = get(url, params=params, timeout=(10.0, 180.0))
+    resp.raise_for_status()
+    return resp.json()
+
+
+# --- fetch fns -------------------------------------------------------------
+
 def fetch_datasets(node_id: str) -> None:
+    """Scroll the whole EU slice, normalising each page into one parquet file.
+
+    Deliberately not page+limit: past offset 10,000 the paged endpoint returns
+    200 with an empty result list rather than an error, which is indistinguishable
+    from a completed crawl.
+    """
     asset = node_id
-    counts = _eu_catalog_counts()
-    log.info("EU-institution catalogs: %d, datasets reported: %d",
-             len(counts), sum(counts.values()))
-    rows = []
-    seen = set()
-    for cid in sorted(counts):
-        n = 0
-        for d in _iter_catalog_datasets(cid):
-            did = d.get("id")
-            if not did or did in seen:
-                continue
-            seen.add(did)
-            rows.append(_normalize_dataset(d))
-            n += 1
-        log.info("catalog %s: %d datasets (reported %d)", cid, n, counts[cid])
-    if not rows:
-        raise RuntimeError("no EU-institution datasets fetched")
-    log.info("total EU-institution datasets fetched: %d", len(rows))
-    save_raw_ndjson(rows, asset)
+
+    first = _get_json(
+        f"{BASE}/search",
+        filter="dataset", facets=EU_FACETS, limit=PAGE_SIZE, scroll="true",
+    )["result"]
+    expected = first["count"]
+    scroll_id = first["scrollId"]
+    print(f"  scroll opened: {expected} datasets declared")
+
+    seen: set[str] = set()
+    page = first["results"]
+    with raw_parquet_writer(asset, DATASET_SCHEMA) as writer:
+        for page_no in range(MAX_SCROLL_PAGES):
+            if not page:
+                break
+            rows = [_normalize_dataset(r) for r in page if r.get("id") not in seen]
+            seen.update(row["id"] for row in rows)
+            if rows:
+                writer.write_table(pa.Table.from_pylist(rows, schema=DATASET_SCHEMA))
+            print(f"  page {page_no}: +{len(rows)} rows ({len(seen)}/{expected})")
+
+            nxt = _get_json(f"{BASE}/scroll", scrollId=scroll_id)["result"]
+            scroll_id = nxt.get("scrollId", scroll_id)
+            page = nxt.get("results") or []
+
+    if page:
+        raise RuntimeError(
+            f"{asset}: scroll did not drain within {MAX_SCROLL_PAGES} pages "
+            f"({len(seen)}/{expected} fetched) - corpus grew or cursor stalled"
+        )
+
+    # "The run succeeded" and "we got everything" are different claims. The scroll
+    # is snapshot-consistent, so anything short of `count` is silent partial loss.
+    if len(seen) < expected:
+        raise RuntimeError(
+            f"{asset}: scroll drained {len(seen)} of {expected} declared datasets"
+        )
+    print(f"  drained {len(seen)} datasets")
+
+
+def _eu_catalog_ids() -> list[str]:
+    """Catalog ids holding EU-institution datasets, from the live search facet.
+
+    /catalogues lists all ~210 federated catalogs including purely national ones;
+    the facet on an EU-filtered search names exactly the catalogs `datasets`
+    joins against.
+    """
+    facets = _get_json(
+        f"{BASE}/search", filter="dataset", facets=EU_FACETS, limit=0,
+    )["result"]["facets"]
+    return [
+        item["id"]
+        for facet in facets if facet.get("id") == "catalog"
+        for item in facet.get("items", []) if item.get("id")
+    ]
 
 
 def fetch_catalogs(node_id: str) -> None:
+    """The EU-institution source catalogs, one detail request each."""
     asset = node_id
-    counts = _eu_catalog_counts()
+
+    catalog_ids = _eu_catalog_ids()
+    if not catalog_ids:
+        raise RuntimeError(f"{asset}: catalog facet is empty - the EU filter changed shape")
+    print(f"  {len(catalog_ids)} EU-institution catalogs")
+
     rows = []
-    for cid in sorted(counts):
-        rec = _catalogue(cid)
-        title = _en(rec.get("title"), cid)
-        country = rec.get("country") or {}
-        pub = rec.get("publisher") or {}
+    for cid in catalog_ids:
+        body = _get_json(f"{BASE}/catalogues/{cid}")
+        rec = body.get("result", body)
+        publisher = rec.get("publisher") or {}
         rows.append({
             "id": rec.get("id") or cid,
-            "title": title,
-            "publisher": pub.get("name") if isinstance(pub, dict) else pub,
-            "country": country.get("label") if isinstance(country, dict) else country,
+            "title": _text(rec.get("title")),
+            "description": _text(rec.get("description")),
             "source_type": rec.get("source_type"),
-            "issued": _en(rec.get("issued")),
-            "modified": _en(rec.get("modified")),
-            "dataset_count": int(counts[cid]),
-            "description": _en(rec.get("description")),
+            "country_id": (rec.get("country") or {}).get("id"),
+            "publisher_name": publisher.get("name"),
+            "publisher_resource": publisher.get("resource"),
+            "issued": _ts(rec.get("issued")),
+            "modified": _ts(rec.get("modified")),
+            "dataset_count": rec.get("count"),
         })
+
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=CATALOG_SCHEMA), asset)
+
+
+def fetch_categories(node_id: str) -> None:
+    """The 14-term DCAT-AP data-theme vocabulary that `datasets.categories` cites."""
+    asset = node_id
+
+    items = _get_json(f"{BASE}/vocabularies/data-theme")["result"]["results"]
+    rows = [
+        {
+            "id": item["id"],
+            "resource": item.get("resource"),
+            "label": _text(item.get("pref_label")),
+            "in_scheme": item.get("in_scheme"),
+        }
+        for item in items
+    ]
     if not rows:
-        raise RuntimeError("no EU-institution catalogs fetched")
-    table = pa.Table.from_pylist(rows, schema=CATALOGS_SCHEMA)
-    save_raw_parquet(table, asset)
+        raise RuntimeError(f"{asset}: data-theme vocabulary returned no terms")
+
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=CATEGORY_SCHEMA), asset)
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="eu-open-data-portal-datasets", fn=fetch_datasets, kind="download"),
     NodeSpec(id="eu-open-data-portal-catalogs", fn=fetch_catalogs, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="eu-open-data-portal-datasets-transform",
-        deps=["eu-open-data-portal-datasets"],
-        sql='''
-            SELECT
-                CAST(id AS VARCHAR)                  AS dataset_id,
-                CAST(title AS VARCHAR)               AS title,
-                CAST(description AS VARCHAR)         AS description,
-                CAST(catalog AS VARCHAR)             AS catalog,
-                CAST(country AS VARCHAR)             AS country,
-                CAST(publisher AS VARCHAR)           AS publisher,
-                CAST(categories AS VARCHAR)          AS categories,
-                CAST(keywords AS VARCHAR)            AS keywords,
-                TRY_CAST(modified AS DATE)           AS modified,
-                TRY_CAST(issued AS DATE)             AS issued,
-                CAST(landing_page AS VARCHAR)        AS landing_page,
-                CAST(num_distributions AS INTEGER)   AS num_distributions,
-                CAST(distribution_formats AS VARCHAR) AS distribution_formats,
-                CAST(is_hvd AS BOOLEAN)              AS is_hvd
-            FROM "eu-open-data-portal-datasets"
-            WHERE id IS NOT NULL
-            QUALIFY row_number() OVER (PARTITION BY id ORDER BY modified DESC NULLS LAST) = 1
-        ''',
-    ),
-    SqlNodeSpec(
-        id="eu-open-data-portal-catalogs-transform",
-        deps=["eu-open-data-portal-catalogs"],
-        sql='''
-            SELECT
-                CAST(id AS VARCHAR)            AS catalog_id,
-                CAST(title AS VARCHAR)         AS title,
-                CAST(publisher AS VARCHAR)     AS publisher,
-                CAST(country AS VARCHAR)       AS country,
-                CAST(source_type AS VARCHAR)   AS source_type,
-                TRY_CAST(issued AS DATE)       AS issued,
-                TRY_CAST(modified AS DATE)     AS modified,
-                CAST(dataset_count AS BIGINT)  AS dataset_count,
-                CAST(description AS VARCHAR)   AS description
-            FROM "eu-open-data-portal-catalogs"
-            WHERE id IS NOT NULL
-            QUALIFY row_number() OVER (PARTITION BY id ORDER BY modified DESC NULLS LAST) = 1
-        ''',
-    ),
+    NodeSpec(id="eu-open-data-portal-categories", fn=fetch_categories, kind="download"),
 ]

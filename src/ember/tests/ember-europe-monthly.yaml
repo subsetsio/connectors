@@ -1,0 +1,36 @@
+spec_id: ember-europe-monthly
+status: active
+tests:
+  - column_type: {col: Date, type: date}
+  - not_null: Area
+  - not_null: Date
+  - not_null: Category
+  - not_null: Variable
+  - not_null: Unit
+
+  - unique: [Area, Date, Category, Subcategory, Variable, Unit]
+    reason: One observation per area-month-metric-unit; Unit is part of the grain.
+    certainty: 95
+
+  - between: {col: Date, lo: "2010-01-01", hi: today}
+    reason: The European monthly series reach back to 2010, earlier than the global monthly file.
+    certainty: 90
+
+  - freshness: {col: Date, reaches: today - 75d}
+    reason: Refreshed on the same twice-monthly cycle as the global monthly release, with a ~one-month reporting lag.
+    points_outward: true
+
+  - distinct_count: {col: Area, min: 30, max: 55}
+    reason: European countries plus the EU aggregate (~39 areas).
+    certainty: 85
+
+  - enum: {col: Unit, values: [TWh, MtCO2e, "%", "gCO2e per kWh"]}
+    reason: CO2-equivalent units, as in the Europe yearly release. No capacity (GW) series in the monthly European file.
+    certainty: 80
+    severity: warn
+
+  - nullable: {col: Value, max_null_frac: 0.05}
+    certainty: 80
+
+  - row_count: {min: 150000}
+    reason: ~235k rows observed; a collapse means a truncated download.

@@ -1,0 +1,42 @@
+spec_id: ember-europe-yearly
+status: active
+tests:
+  - column_type: {col: Year, type: integer}
+  - not_null: Area
+  - not_null: Year
+  - not_null: Category
+  - not_null: Variable
+  - not_null: Unit
+
+  - unique: [Area, Year, Category, Subcategory, Variable, Unit]
+    reason: One observation per area-year-metric-unit; Unit is part of the grain (TWh vs % of mix).
+    certainty: 95
+
+  - between: {col: Year, lo: 1990, hi: current_year()}
+    reason: >-
+      The European release carries a decade more history than the global one
+      (from 1990 rather than 2000) — that extra history is the reason this file
+      is published as its own table.
+    certainty: 90
+
+  - freshness: {col: Year, reaches: 2025}
+    reason: Covers through the previous calendar year, shipped with the European Electricity Review each spring. Literal floor — no `current_year() - 1` token exists.
+    points_outward: true
+
+  - distinct_count: {col: Area, min: 30, max: 55}
+    reason: European countries plus the EU aggregate (~38 areas).
+    certainty: 85
+
+  - enum: {col: Unit, values: [TWh, MtCO2e, "%", MWh, "gCO2e per kWh"]}
+    reason: >-
+      The Europe release labels emissions in CO2-equivalent (MtCO2e,
+      gCO2e per kWh) where the global release uses mtCO2 / gCO2/kWh — the unit
+      vocabularies genuinely differ between the two products.
+    certainty: 80
+    severity: warn
+
+  - nullable: {col: Value, max_null_frac: 0.05}
+    certainty: 80
+
+  - row_count: {min: 45000}
+    reason: ~69k rows observed; a collapse means a truncated download.

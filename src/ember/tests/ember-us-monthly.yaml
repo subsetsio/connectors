@@ -1,0 +1,43 @@
+spec_id: ember-us-monthly
+status: active
+tests:
+  - column_type: {col: Date, type: date}
+  - not_null: State
+  - not_null: Date
+  - not_null: Category
+  - not_null: Variable
+  - not_null: Unit
+
+  - unique: [State, Date, Category, Subcategory, Variable, Unit]
+    reason: One observation per state-month-metric-unit; Unit is part of the grain.
+    certainty: 95
+
+  - between: {col: Date, lo: "2001-01-01", hi: today}
+    reason: US state-level monthly series start in 2001, matching the yearly file's first year.
+    certainty: 90
+
+  - freshness: {col: Date, reaches: today - 400d}
+    reason: >-
+      Unlike the global and European monthly releases, the US file is not on the
+      twice-monthly cycle: it is rebuilt from EIA data roughly once a year (the
+      file observed in July 2026 was last modified in March 2026 and ended at
+      December 2025). A 400-day bound tolerates that annual rebuild while still
+      catching a file that has been abandoned.
+    points_outward: true
+    certainty: 80
+
+  - distinct_count: {col: State, min: 45, max: 56}
+    reason: >-
+      Fewer states report monthly than yearly (~47 vs ~53), so the floor is
+      lower than the yearly spec's.
+    certainty: 80
+
+  - enum: {col: Unit, values: ["%", GWh, ktCO2, "gCO2/kWh"]}
+    reason: State-level units, as in the US yearly release.
+    certainty: 85
+
+  - nullable: {col: Value, max_null_frac: 0.05}
+    certainty: 80
+
+  - row_count: {min: 600000}
+    reason: ~879k rows observed; a collapse means a truncated download.

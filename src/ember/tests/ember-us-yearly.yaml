@@ -1,0 +1,43 @@
+spec_id: ember-us-yearly
+status: active
+tests:
+  - column_type: {col: Year, type: integer}
+  - not_null: State
+  - not_null: Year
+  - not_null: Category
+  - not_null: Variable
+  - not_null: Unit
+
+  - unique: [State, Year, Category, Subcategory, Variable, Unit]
+    reason: >-
+      One observation per state-year-metric-unit. The US files are state-level,
+      so State (not Area) carries the geography; Unit is part of the grain as in
+      every other Ember long-format file.
+    certainty: 95
+
+  - between: {col: Year, lo: 2001, hi: current_year()}
+    reason: The US state-level series start in 2001 (EIA-derived) and carry no projections.
+    certainty: 90
+
+  - freshness: {col: Year, reaches: 2025}
+    reason: >-
+      The US release is rebuilt annually from EIA data and covers through the
+      previous calendar year. Literal floor — no `current_year() - 1` token.
+    points_outward: true
+
+  - distinct_count: {col: State, min: 50, max: 56}
+    reason: 50 states plus DC and a US total row (~53 values).
+    certainty: 85
+
+  - enum: {col: Unit, values: ["%", GWh, ktCO2, "gCO2/kWh"]}
+    reason: >-
+      The US release reports generation in GWh and emissions in ktCO2 — smaller
+      units than the global file's TWh / mtCO2, because the grain is a state
+      rather than a country. A TWh here would mean the wrong file was fetched.
+    certainty: 85
+
+  - nullable: {col: Value, max_null_frac: 0.05}
+    certainty: 80
+
+  - row_count: {min: 50000}
+    reason: ~73k rows observed; a collapse means a truncated download.

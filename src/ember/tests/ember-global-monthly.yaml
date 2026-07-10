@@ -1,0 +1,40 @@
+spec_id: ember-global-monthly
+status: active
+tests:
+  - column_type: {col: Date, type: date}
+  - not_null: Area
+  - not_null: Date
+  - not_null: Category
+  - not_null: Variable
+  - not_null: Unit
+
+  - unique: [Area, Date, Category, Subcategory, Variable, Unit]
+    reason: >-
+      One observation per area-month-metric-unit. Unit belongs to the grain —
+      the same variable ships as both an absolute (TWh) and a share (%).
+    certainty: 95
+
+  - between: {col: Date, lo: "1999-01-01", hi: today}
+    reason: Monthly series reach back to 1999 for the longest-running geographies; no forward projections.
+    certainty: 90
+
+  - freshness: {col: Date, reaches: today - 75d}
+    reason: >-
+      Ember refreshes the monthly release twice a month, with roughly a
+      one-month reporting lag; 75 days tolerates a skipped cycle without
+      accepting a stalled feed.
+    points_outward: true
+
+  - distinct_count: {col: Area, min: 80, max: 130}
+    reason: ~88 geographies with sufficient monthly coverage, plus aggregate regions.
+    certainty: 85
+
+  - enum: {col: Unit, values: [TWh, mtCO2, "%", GW, MWh, "gCO2/kWh"]}
+    certainty: 80
+    severity: warn
+
+  - nullable: {col: Value, max_null_frac: 0.05}
+    certainty: 80
+
+  - row_count: {min: 350000}
+    reason: ~515k rows observed; a collapse means a truncated download.

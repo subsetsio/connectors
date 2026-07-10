@@ -1,0 +1,47 @@
+spec_id: ember-global-yearly
+status: active
+tests:
+  - column_type: {col: Year, type: integer}
+  - not_null: Area
+  - not_null: Year
+  - not_null: Category
+  - not_null: Variable
+  - not_null: Unit
+
+  - unique: [Area, Year, Category, Subcategory, Variable, Unit]
+    reason: >-
+      One observation per area-year-metric-unit. Unit is part of the grain, not a
+      label on it: Ember publishes the same variable in several units (generation
+      as TWh and as % of the mix), so a key without Unit collides on every
+      percentage row. Dupes here mean the file was concatenated twice or the
+      grain changed upstream.
+    certainty: 95
+
+  - between: {col: Year, lo: 2000, hi: current_year()}
+    reason: Ember's global yearly release starts at 2000 and never publishes projections.
+    certainty: 90
+
+  - freshness: {col: Year, reaches: 2025}
+    reason: >-
+      The yearly full release covers through the previous calendar year and ships
+      each spring. Pinned to a literal because the token grammar has no
+      `current_year() - 1`; it is a floor, so bump it as releases land.
+    points_outward: true
+
+  - distinct_count: {col: Area, min: 200, max: 260}
+    reason: ~215 countries/regions plus Ember aggregate regions (world, continents, EU/OECD/G20/G7/ASEAN).
+    certainty: 85
+
+  - enum: {col: Unit, values: [TWh, mtCO2, "%", GW, MWh, "gCO2/kWh"]}
+    reason: The five metric families Ember publishes globally, each in a fixed unit. A new unit means a new metric family we are not modelling.
+    certainty: 80
+    severity: warn
+
+  - nullable: {col: Value, max_null_frac: 0.05}
+    reason: >-
+      A minority of area-year-metric cells have no observation and ship with an
+      empty Value. A large jump means the source degraded, not that the schema changed.
+    certainty: 80
+
+  - row_count: {min: 250000}
+    reason: ~370k rows observed; a collapse means a truncated download.
