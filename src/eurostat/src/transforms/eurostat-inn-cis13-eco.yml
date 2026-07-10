@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-inn-cis13-eco`. Regenerate after model-verify.
+key: [freq, yn_sgn, unit, env_ben, sizeclas, nace_r2, geo, time_period]
+sort: [freq, yn_sgn, unit, env_ben, sizeclas, nace_r2, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: yn_sgn
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: env_ben
+    type: VARCHAR
+  - name: sizeclas
+    type: VARCHAR
+  - name: nace_r2
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

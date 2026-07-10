@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-org-coptyp`. Regenerate after model-verify.
+key: [freq, unit, operator, procstat, geo, time_period]
+sort: [freq, unit, operator, procstat, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: operator
+    type: VARCHAR
+  - name: procstat
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

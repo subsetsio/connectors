@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-mips-sa`. Regenerate after model-verify.
+key: [freq, indic_ip, release, indic, geo, time_period]
+sort: [freq, indic_ip, release, indic, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: indic_ip
+    type: VARCHAR
+  - name: release
+    type: VARCHAR
+  - name: indic
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

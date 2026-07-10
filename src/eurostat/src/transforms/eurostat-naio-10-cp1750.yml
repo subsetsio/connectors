@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-naio-10-cp1750`. Regenerate after model-verify.
+key: [freq, unit, ind_ava, ind_use, stk_flow, geo, time_period]
+sort: [freq, unit, ind_ava, ind_use, stk_flow, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: ind_ava
+    type: VARCHAR
+  - name: ind_use
+    type: VARCHAR
+  - name: stk_flow
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

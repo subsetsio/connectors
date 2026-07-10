@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-apro-mk-fatprot`. Regenerate after model-verify.
+key: [freq, prodmilk, milkitem, geo, time_period]
+sort: [freq, prodmilk, milkitem, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: prodmilk
+    type: VARCHAR
+  - name: milkitem
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

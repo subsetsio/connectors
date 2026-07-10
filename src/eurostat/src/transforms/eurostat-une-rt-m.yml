@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-une-rt-m`. Regenerate after model-verify.
+key: [freq, s_adj, age, unit, sex, geo, time_period]
+temporal: time_period
+sort: [time_period, freq, s_adj, age, unit, sex, geo]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: s_adj
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

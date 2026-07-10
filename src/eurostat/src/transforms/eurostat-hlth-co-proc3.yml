@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-hlth-co-proc3`. Regenerate after model-verify.
+key: [freq, icha_hc, geo, unit, icd9cm, time_period]
+sort: [freq, icha_hc, geo, unit, icd9cm, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: icha_hc
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: icd9cm
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

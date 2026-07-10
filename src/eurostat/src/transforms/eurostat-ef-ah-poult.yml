@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-ef-ah-poult`. Regenerate after model-verify.
+key: [freq, statinfo, farmtype, lsu, yn_acs, animals, hous_ani, unit, geo, time_period]
+sort: [freq, statinfo, farmtype, lsu, yn_acs, animals, hous_ani, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: statinfo
+    type: VARCHAR
+  - name: farmtype
+    type: VARCHAR
+  - name: lsu
+    type: VARCHAR
+  - name: yn_acs
+    type: VARCHAR
+  - name: animals
+    type: VARCHAR
+  - name: hous_ani
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

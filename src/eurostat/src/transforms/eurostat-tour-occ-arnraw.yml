@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-tour-occ-arnraw`. Regenerate after model-verify.
+key: [freq, unit, c_resid, nace_r2, geo, time_period]
+sort: [freq, unit, c_resid, nace_r2, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: c_resid
+    type: VARCHAR
+  - name: nace_r2
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

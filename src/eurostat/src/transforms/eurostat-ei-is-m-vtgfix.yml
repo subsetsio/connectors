@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-ei-is-m-vtgfix`. Regenerate after model-verify.
+key: [freq, revdate, s_adj, nace_r2, unit, geo, time_period]
+temporal: revdate
+sort: [revdate, freq, s_adj, nace_r2, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: revdate
+    type: DATE
+  - name: s_adj
+    type: VARCHAR
+  - name: nace_r2
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

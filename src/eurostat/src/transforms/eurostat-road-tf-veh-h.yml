@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-road-tf-veh-h`. Regenerate after model-verify.
+key: [freq, mot_nrg, regisveh, unit, vehicle, geo, time_period]
+sort: [freq, mot_nrg, regisveh, unit, vehicle, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: mot_nrg
+    type: VARCHAR
+  - name: regisveh
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: vehicle
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

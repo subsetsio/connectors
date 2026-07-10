@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-fish-aq4b`. Regenerate after model-verify.
+key: [freq, dest_use, species, unit, geo, time_period]
+sort: [freq, dest_use, species, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: dest_use
+    type: VARCHAR
+  - name: species
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

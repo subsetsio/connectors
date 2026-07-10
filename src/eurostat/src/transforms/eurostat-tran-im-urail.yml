@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-tran-im-urail`. Regenerate after model-verify.
+key: [freq, cargo, unit, geo, time_period]
+sort: [freq, cargo, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: cargo
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-nrg-ind-hpind`. Regenerate after model-verify.
+key: [freq, hp_tech, nrg_bal, plant_tec, unit, geo, time_period]
+sort: [freq, hp_tech, nrg_bal, plant_tec, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: hp_tech
+    type: VARCHAR
+  - name: nrg_bal
+    type: VARCHAR
+  - name: plant_tec
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

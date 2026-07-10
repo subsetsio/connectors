@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-for-basic`. Regenerate after model-verify.
+key: [freq, prod_wd, treespec, stk_flow, unit, geo, time_period]
+sort: [freq, prod_wd, treespec, stk_flow, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: prod_wd
+    type: VARCHAR
+  - name: treespec
+    type: VARCHAR
+  - name: stk_flow
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

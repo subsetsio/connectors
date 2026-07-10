@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-ilc-scp28`. Regenerate after model-verify.
+key: [freq, n_book, rskpovth, deg_urb, hhcomp, unit, geo, time_period]
+sort: [freq, n_book, rskpovth, deg_urb, hhcomp, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: n_book
+    type: VARCHAR
+  - name: rskpovth
+    type: VARCHAR
+  - name: deg_urb
+    type: VARCHAR
+  - name: hhcomp
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

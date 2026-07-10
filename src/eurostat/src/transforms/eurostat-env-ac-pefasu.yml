@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-env-ac-pefasu`. Regenerate after model-verify.
+key: [freq, stk_flow, nace_r2, prod_nrg, unit, geo, time_period]
+sort: [freq, stk_flow, nace_r2, prod_nrg, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: stk_flow
+    type: VARCHAR
+  - name: nace_r2
+    type: VARCHAR
+  - name: prod_nrg
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

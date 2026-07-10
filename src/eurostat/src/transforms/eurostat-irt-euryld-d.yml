@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-irt-euryld-d`. Regenerate after model-verify.
+key: [freq, yld_curv, maturity, bonds, geo, time_period]
+temporal: time_period
+sort: [time_period, freq, yld_curv, maturity, bonds, geo]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: yld_curv
+    type: VARCHAR
+  - name: maturity
+    type: VARCHAR
+  - name: bonds
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-avia-paodis`. Regenerate after model-verify.
+key: [freq, tra_cov, tra_meas, aircraft, distance, unit, geo, time_period]
+sort: [freq, tra_cov, tra_meas, aircraft, distance, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: tra_cov
+    type: VARCHAR
+  - name: tra_meas
+    type: VARCHAR
+  - name: aircraft
+    type: VARCHAR
+  - name: distance
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

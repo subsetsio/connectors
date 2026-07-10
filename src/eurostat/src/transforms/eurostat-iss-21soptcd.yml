@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-iss-21soptcd`. Regenerate after model-verify.
+key: [freq, indic_sb, bus_func, bus_part, sizeclas, nace_r2, unit, geo, time_period]
+sort: [freq, indic_sb, bus_func, bus_part, sizeclas, nace_r2, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: indic_sb
+    type: VARCHAR
+  - name: bus_func
+    type: VARCHAR
+  - name: bus_part
+    type: VARCHAR
+  - name: sizeclas
+    type: VARCHAR
+  - name: nace_r2
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

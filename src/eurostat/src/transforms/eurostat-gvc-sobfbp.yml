@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-gvc-sobfbp`. Regenerate after model-verify.
+key: [freq, bus_func, bus_part, indic_sbs, geo, time_period]
+sort: [freq, bus_func, bus_part, indic_sbs, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: bus_func
+    type: VARCHAR
+  - name: bus_part
+    type: VARCHAR
+  - name: indic_sbs
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

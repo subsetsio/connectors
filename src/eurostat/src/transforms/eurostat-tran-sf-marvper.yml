@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-tran-sf-marvper`. Regenerate after model-verify.
+key: [freq, unit, pers_cat, victim, seabasin, c_regis, time_period]
+sort: [freq, unit, pers_cat, victim, seabasin, c_regis, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: pers_cat
+    type: VARCHAR
+  - name: victim
+    type: VARCHAR
+  - name: seabasin
+    type: VARCHAR
+  - name: c_regis
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

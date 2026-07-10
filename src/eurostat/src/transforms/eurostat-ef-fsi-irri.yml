@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-ef-fsi-irri`. Regenerate after model-verify.
+key: [freq, irr_area, unit, geo, time_period]
+sort: [freq, irr_area, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: irr_area
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

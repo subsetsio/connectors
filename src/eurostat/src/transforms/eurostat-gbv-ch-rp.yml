@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-gbv-ch-rp`. Regenerate after model-verify.
+key: [freq, pers_serv, unit, geo, time_period]
+sort: [freq, pers_serv, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: pers_serv
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

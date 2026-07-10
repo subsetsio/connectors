@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-tour-dem-tninc`. Regenerate after model-verify.
+key: [freq, purpose, c_dest, quant_inc, duration, unit, geo, time_period]
+sort: [freq, purpose, c_dest, quant_inc, duration, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: purpose
+    type: VARCHAR
+  - name: c_dest
+    type: VARCHAR
+  - name: quant_inc
+    type: VARCHAR
+  - name: duration
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

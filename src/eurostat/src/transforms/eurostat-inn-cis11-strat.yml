@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-inn-cis11-strat`. Regenerate after model-verify.
+key: [freq, bsn_strat, lev_impt, enterpr, sizeclas, nace_r2, unit, geo, time_period]
+sort: [freq, bsn_strat, lev_impt, enterpr, sizeclas, nace_r2, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: bsn_strat
+    type: VARCHAR
+  - name: lev_impt
+    type: VARCHAR
+  - name: enterpr
+    type: VARCHAR
+  - name: sizeclas
+    type: VARCHAR
+  - name: nace_r2
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

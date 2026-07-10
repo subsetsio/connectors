@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-ef-lf-leg`. Regenerate after model-verify.
+key: [freq, statinfo, wstatus, leg_form, so_eur, sex, unit, geo, time_period]
+sort: [freq, statinfo, wstatus, leg_form, so_eur, sex, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: statinfo
+    type: VARCHAR
+  - name: wstatus
+    type: VARCHAR
+  - name: leg_form
+    type: VARCHAR
+  - name: so_eur
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

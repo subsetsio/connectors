@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-gov-10a-ggfa`. Regenerate after model-verify.
+key: [freq, na_item, sector2, finpos, stk_flow, sector, co_nco, unit, geo, time_period]
+sort: [freq, na_item, sector2, finpos, stk_flow, sector, co_nco, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: na_item
+    type: VARCHAR
+  - name: sector2
+    type: VARCHAR
+  - name: finpos
+    type: VARCHAR
+  - name: stk_flow
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: co_nco
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

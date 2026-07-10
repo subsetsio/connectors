@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-apro-mt-pwgtm`. Regenerate after model-verify.
+key: [freq, meatitem, meat, unit, geo, time_period]
+temporal: time_period
+sort: [time_period, freq, meatitem, meat, unit, geo]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: meatitem
+    type: VARCHAR
+  - name: meat
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-lfsa-e2gps`. Regenerate after model-verify.
+key: [freq, age, unit, sex, wstatus2, wstatus, geo, time_period]
+sort: [freq, age, unit, sex, wstatus2, wstatus, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: wstatus2
+    type: VARCHAR
+  - name: wstatus
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

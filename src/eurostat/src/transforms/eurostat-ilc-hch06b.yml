@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-ilc-hch06b`. Regenerate after model-verify.
+key: [freq, physact, quant_inc, deg_urb, unit, geo, time_period]
+sort: [freq, physact, quant_inc, deg_urb, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: physact
+    type: VARCHAR
+  - name: quant_inc
+    type: VARCHAR
+  - name: deg_urb
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

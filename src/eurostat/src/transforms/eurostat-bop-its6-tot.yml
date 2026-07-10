@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-bop-its6-tot`. Regenerate after model-verify.
+key: [freq, currency, bop_item, stk_flow, partner, geo, time_period]
+sort: [freq, currency, bop_item, stk_flow, partner, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: currency
+    type: VARCHAR
+  - name: bop_item
+    type: VARCHAR
+  - name: stk_flow
+    type: VARCHAR
+  - name: partner
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-sts-inpi-a`. Regenerate after model-verify.
+key: [freq, indic_bt, cpa2_1, s_adj, unit, geo, time_period]
+sort: [freq, indic_bt, cpa2_1, s_adj, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: indic_bt
+    type: VARCHAR
+  - name: cpa2_1
+    type: VARCHAR
+  - name: s_adj
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

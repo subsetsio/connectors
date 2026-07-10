@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-ef-lf-fam`. Regenerate after model-verify.
+key: [freq, fam_farm, statinfo, leg_form, age, sex, farmtype, unit, geo, time_period]
+sort: [freq, fam_farm, statinfo, leg_form, age, sex, farmtype, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: fam_farm
+    type: VARCHAR
+  - name: statinfo
+    type: VARCHAR
+  - name: leg_form
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: farmtype
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

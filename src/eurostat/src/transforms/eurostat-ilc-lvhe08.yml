@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-ilc-lvhe08`. Regenerate after model-verify.
+key: [freq, yes_no, age, yn_arope, sex, unit, geo, time_period]
+sort: [freq, yes_no, age, yn_arope, sex, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: yes_no
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: yn_arope
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

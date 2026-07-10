@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-lfsi-siz-m`. Regenerate after model-verify.
+key: [freq, unit, geo, time_period]
+temporal: time_period
+sort: [time_period, freq, unit, geo]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-ert-bil-eur-d`. Regenerate after model-verify.
+key: [freq, statinfo, unit, currency, time_period]
+temporal: time_period
+sort: [time_period, freq, statinfo, unit, currency]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: statinfo
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: currency
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

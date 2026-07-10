@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-apro-ec-poulm`. Regenerate after model-verify.
+key: [freq, hatchitm, animals, unit, geo, time_period]
+temporal: time_period
+sort: [time_period, freq, hatchitm, animals, unit, geo]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: hatchitm
+    type: VARCHAR
+  - name: animals
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

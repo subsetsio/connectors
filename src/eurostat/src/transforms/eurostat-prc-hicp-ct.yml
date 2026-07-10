@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-prc-hicp-ct`. Regenerate after model-verify.
+key: [freq, unit, coicop18, geo, time_period]
+temporal: time_period
+sort: [time_period, freq, unit, coicop18, geo]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: coicop18
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

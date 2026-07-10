@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-tran-r-rago`. Regenerate after model-verify.
+key: [freq, unit, c_unload, c_load, geo, time_period]
+sort: [freq, unit, c_unload, c_load, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: c_unload
+    type: VARCHAR
+  - name: c_load
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

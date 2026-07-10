@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-gvc-mso`. Regenerate after model-verify.
+key: [freq, reason, lev_impt, indic_sbs, geo, time_period]
+sort: [freq, reason, lev_impt, indic_sbs, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: reason
+    type: VARCHAR
+  - name: lev_impt
+    type: VARCHAR
+  - name: indic_sbs
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

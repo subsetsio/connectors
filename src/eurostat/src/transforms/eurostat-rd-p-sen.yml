@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-rd-p-sen`. Regenerate after model-verify.
+key: [freq, prof_pos, sex, snr_cat, unit, geo, time_period]
+sort: [freq, prof_pos, sex, snr_cat, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: prof_pos
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: snr_cat
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

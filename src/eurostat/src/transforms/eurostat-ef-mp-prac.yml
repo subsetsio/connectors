@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-ef-mp-prac`. Regenerate after model-verify.
+key: [freq, farmtype, arable, crop_rot, tillage, statinfo, unit, geo, time_period]
+sort: [freq, farmtype, arable, crop_rot, tillage, statinfo, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: farmtype
+    type: VARCHAR
+  - name: arable
+    type: VARCHAR
+  - name: crop_rot
+    type: VARCHAR
+  - name: tillage
+    type: VARCHAR
+  - name: statinfo
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

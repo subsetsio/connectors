@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-env-epea-cint`. Regenerate after model-verify.
+key: [freq, env_pa, nace_r2, sector, unit, geo, time_period]
+sort: [freq, env_pa, nace_r2, sector, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: env_pa
+    type: VARCHAR
+  - name: nace_r2
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

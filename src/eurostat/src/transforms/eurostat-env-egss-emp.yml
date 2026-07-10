@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-env-egss-emp`. Regenerate after model-verify.
+key: [freq, nace_r2, env_pa, na_item, ty, unit, geo, time_period]
+sort: [freq, nace_r2, env_pa, na_item, ty, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: nace_r2
+    type: VARCHAR
+  - name: env_pa
+    type: VARCHAR
+  - name: na_item
+    type: VARCHAR
+  - name: ty
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

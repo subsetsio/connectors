@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-hlth-ehis-am7th`. Regenerate after model-verify.
+key: [freq, unit, age, hhcomp, lev_diff, geo, time_period]
+sort: [freq, unit, age, hhcomp, lev_diff, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: hhcomp
+    type: VARCHAR
+  - name: lev_diff
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

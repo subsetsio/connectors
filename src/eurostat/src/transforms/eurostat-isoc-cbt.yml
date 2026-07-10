@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-isoc-cbt`. Regenerate after model-verify.
+key: [freq, unit, inet_tec, terrtypo, geo, time_period]
+sort: [freq, unit, inet_tec, terrtypo, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: inet_tec
+    type: VARCHAR
+  - name: terrtypo
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

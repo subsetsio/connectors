@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-tet00028`. Regenerate after model-verify.
+key: [freq, partner, indic_et, sitc06, geo, time_period]
+sort: [freq, partner, indic_et, sitc06, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: partner
+    type: VARCHAR
+  - name: indic_et
+    type: VARCHAR
+  - name: sitc06
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

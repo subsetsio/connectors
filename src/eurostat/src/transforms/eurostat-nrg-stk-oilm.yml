@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-nrg-stk-oilm`. Regenerate after model-verify.
+key: [freq, stk_flow, siec, unit, geo, time_period]
+temporal: time_period
+sort: [time_period, freq, stk_flow, siec, unit, geo]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: stk_flow
+    type: VARCHAR
+  - name: siec
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

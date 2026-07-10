@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-lfso-17csur`. Regenerate after model-verify.
+key: [freq, wstatus, isced11, deg_urb, sex, unit, geo, time_period]
+sort: [freq, wstatus, isced11, deg_urb, sex, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: wstatus
+    type: VARCHAR
+  - name: isced11
+    type: VARCHAR
+  - name: deg_urb
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

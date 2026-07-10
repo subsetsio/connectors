@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-urt-d3area`. Regenerate after model-verify.
+key: [freq, unit, landuse, terrtypo, geo, time_period]
+sort: [freq, unit, landuse, terrtypo, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: landuse
+    type: VARCHAR
+  - name: terrtypo
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

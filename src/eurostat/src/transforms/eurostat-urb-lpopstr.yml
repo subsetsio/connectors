@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-urb-lpopstr`. Regenerate after model-verify.
+key: [freq, indic_ur, cities, time_period]
+sort: [freq, indic_ur, cities, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: indic_ur
+    type: VARCHAR
+  - name: cities
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

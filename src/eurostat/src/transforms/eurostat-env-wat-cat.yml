@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-env-wat-cat`. Regenerate after model-verify.
+key: [freq, wat_proc, nace_r2, unit, geo, time_period]
+sort: [freq, wat_proc, nace_r2, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: wat_proc
+    type: VARCHAR
+  - name: nace_r2
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

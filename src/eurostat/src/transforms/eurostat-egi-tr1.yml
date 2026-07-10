@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-egi-tr1`. Regenerate after model-verify.
+key: [freq, indic_et, geo, time_period]
+sort: [freq, indic_et, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: indic_et
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

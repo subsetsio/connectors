@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-hlth-dh010`. Regenerate after model-verify.
+key: [freq, unit, levels, lev_limit, age, sex, geo, time_period]
+sort: [freq, unit, levels, lev_limit, age, sex, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: levels
+    type: VARCHAR
+  - name: lev_limit
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

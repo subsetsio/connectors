@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-tipsbp22`. Regenerate after model-verify.
+key: [freq, currency, partner, sector10, sectpart, stk_flow, bop_item, geo, time_period]
+sort: [freq, currency, partner, sector10, sectpart, stk_flow, bop_item, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: currency
+    type: VARCHAR
+  - name: partner
+    type: VARCHAR
+  - name: sector10
+    type: VARCHAR
+  - name: sectpart
+    type: VARCHAR
+  - name: stk_flow
+    type: VARCHAR
+  - name: bop_item
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

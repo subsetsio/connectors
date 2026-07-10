@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-iww-if-hordim`. Regenerate after model-verify.
+key: [freq, iww_hd, unit, geo, time_period]
+sort: [freq, iww_hd, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: iww_hd
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

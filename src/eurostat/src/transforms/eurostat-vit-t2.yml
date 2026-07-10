@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-vit-t2`. Regenerate after model-verify.
+key: [freq, vinetype, agrarea, unit, geo, time_period]
+sort: [freq, vinetype, agrarea, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: vinetype
+    type: VARCHAR
+  - name: agrarea
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

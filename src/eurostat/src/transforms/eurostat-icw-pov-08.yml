@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-icw-pov-08`. Regenerate after model-verify.
+key: [freq, hhtype, lev_expn, deg_urb, unit, geo, time_period]
+sort: [freq, hhtype, lev_expn, deg_urb, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: hhtype
+    type: VARCHAR
+  - name: lev_expn
+    type: VARCHAR
+  - name: deg_urb
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

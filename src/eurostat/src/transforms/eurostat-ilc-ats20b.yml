@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-ilc-ats20b`. Regenerate after model-verify.
+key: [freq, reason, deg_urb, sex, unit, geo, time_period]
+sort: [freq, reason, deg_urb, sex, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: reason
+    type: VARCHAR
+  - name: deg_urb
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

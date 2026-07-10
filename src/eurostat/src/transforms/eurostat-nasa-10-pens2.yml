@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-nasa-10-pens2`. Regenerate after model-verify.
+key: [freq, unit, penscheme, sector, na_item, geo, time_period]
+sort: [freq, unit, penscheme, sector, na_item, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: penscheme
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: na_item
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

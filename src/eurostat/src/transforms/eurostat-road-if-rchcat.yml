@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-road-if-rchcat`. Regenerate after model-verify.
+key: [freq, power, unit, geo, time_period]
+sort: [freq, power, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: power
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

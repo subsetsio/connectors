@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-road-go-cta-gtt`. Regenerate after model-verify.
+key: [freq, tra_type, c_load, c_unload, nst07, unit, geo, time_period]
+sort: [freq, tra_type, c_load, c_unload, nst07, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: tra_type
+    type: VARCHAR
+  - name: c_load
+    type: VARCHAR
+  - name: c_unload
+    type: VARCHAR
+  - name: nst07
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

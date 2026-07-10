@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-env-watuse-rb`. Regenerate after model-verify.
+key: [freq, unit, wat_proc, nace_r2, rbd, time_period]
+sort: [freq, unit, wat_proc, nace_r2, rbd, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: wat_proc
+    type: VARCHAR
+  - name: nace_r2
+    type: VARCHAR
+  - name: rbd
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

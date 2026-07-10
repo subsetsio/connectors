@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-isoc-it-ict-ss`. Regenerate after model-verify.
+key: [freq, bop_item, partner, stk_flow, unit, geo, time_period]
+sort: [freq, bop_item, partner, stk_flow, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: bop_item
+    type: VARCHAR
+  - name: partner
+    type: VARCHAR
+  - name: stk_flow
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

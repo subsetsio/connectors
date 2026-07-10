@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-dsb-sprex01`. Regenerate after model-verify.
+key: [freq, spscheme, spdep, spdepm, unit, geo, time_period]
+sort: [freq, spscheme, spdep, spdepm, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: spscheme
+    type: VARCHAR
+  - name: spdep
+    type: VARCHAR
+  - name: spdepm
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

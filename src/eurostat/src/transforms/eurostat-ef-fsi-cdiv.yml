@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-ef-fsi-cdiv`. Regenerate after model-verify.
+key: [freq, croparea, n_crop, unit, geo, time_period]
+sort: [freq, croparea, n_crop, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: croparea
+    type: VARCHAR
+  - name: n_crop
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

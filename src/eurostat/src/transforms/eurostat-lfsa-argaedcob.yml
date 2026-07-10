@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-lfsa-argaedcob`. Regenerate after model-verify.
+key: [freq, c_birth, isced11, sex, age, unit, geo, time_period]
+sort: [freq, c_birth, isced11, sex, age, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: c_birth
+    type: VARCHAR
+  - name: isced11
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

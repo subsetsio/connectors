@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-apri-pi15-inq`. Regenerate after model-verify.
+key: [freq, p_adj, unit, product, geo, time_period]
+sort: [freq, p_adj, unit, product, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: p_adj
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: product
+    type: BIGINT
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

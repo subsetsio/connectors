@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-ilc-scp37`. Regenerate after model-verify.
+key: [freq, acl00, frequenc, lev_limit, sex, age, unit, geo, time_period]
+sort: [freq, acl00, frequenc, lev_limit, sex, age, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: acl00
+    type: VARCHAR
+  - name: frequenc
+    type: VARCHAR
+  - name: lev_limit
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

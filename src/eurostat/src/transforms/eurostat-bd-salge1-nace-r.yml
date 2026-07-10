@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-bd-salge1-nace-r`. Regenerate after model-verify.
+key: [freq, indic_sbs, nace_r2, geo, time_period]
+sort: [freq, indic_sbs, nace_r2, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: indic_sbs
+    type: VARCHAR
+  - name: nace_r2
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

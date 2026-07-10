@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-hrst-st-nfieage`. Regenerate after model-verify.
+key: [freq, field, age, unit, geo, time_period]
+sort: [freq, field, age, unit, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: field
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurostat-gvc-ss`. Regenerate after model-verify.
+key: [freq, gd_serv, nace_r2, partner, indic_sbs, geo, time_period]
+sort: [freq, gd_serv, nace_r2, partner, indic_sbs, geo, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: gd_serv
+    type: VARCHAR
+  - name: nace_r2
+    type: VARCHAR
+  - name: partner
+    type: VARCHAR
+  - name: indic_sbs
+    type: VARCHAR
+  - name: geo
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR
