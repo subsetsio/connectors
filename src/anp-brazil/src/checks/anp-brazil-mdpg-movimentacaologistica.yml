@@ -1,0 +1,32 @@
+# compiled by `hardened compile-checks` — post-publish audit of `anp-brazil-mdpg-movimentacaologistica`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, uf_origem, uf_destino, produto, classificacao, sub_classificacao, operacao, modal]
+temporal: date
+checks:
+  - kind: unique
+    columns: [date, uf_origem, uf_destino, produto, classificacao, sub_classificacao, operacao, modal]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: uf_origem
+  - kind: not_null
+    col: uf_destino
+  - kind: not_null
+    col: produto
+  - kind: not_null
+    col: classificacao
+  - kind: not_null
+    col: sub_classificacao
+  - kind: not_null
+    col: operacao
+  - kind: not_null
+    col: modal
+  - kind: row_floor
+    min: 105966
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

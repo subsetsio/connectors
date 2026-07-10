@@ -1,0 +1,36 @@
+# compiled by `hardened compile-checks` — post-publish audit of `anp-brazil-mdpg-fornecedores-vendas-diretas`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, codigo_operacao, nome_operacao, codigo_do_produto, nome_do_produto, codigo_agente_regulado, agente_regulado, regiao_origem, regiao_destinatario, mercado_destinatario]
+temporal: date
+checks:
+  - kind: unique
+    columns: [date, codigo_operacao, nome_operacao, codigo_do_produto, nome_do_produto, codigo_agente_regulado, agente_regulado, regiao_origem, regiao_destinatario, mercado_destinatario]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: codigo_operacao
+  - kind: not_null
+    col: nome_operacao
+  - kind: not_null
+    col: codigo_do_produto
+  - kind: not_null
+    col: nome_do_produto
+  - kind: not_null
+    col: codigo_agente_regulado
+  - kind: not_null
+    col: agente_regulado
+  - kind: not_null
+    col: regiao_origem
+  - kind: not_null
+    col: regiao_destinatario
+  - kind: not_null
+    col: mercado_destinatario
+  - kind: row_floor
+    min: 1111
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

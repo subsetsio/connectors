@@ -1,10 +1,14 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are extracted cells from formatted multi-sheet BCE Excel workbooks; sheet, row, and column context must be used before aggregating numeric values because workbooks can include headers, totals, subtotals, notes, and mixed table layouts.
 SELECT
-    sheet,
-    CAST(row_index AS INTEGER) AS row_index,
-    CAST(col_index AS INTEGER) AS col_index,
-    row_label,
-    col_header,
-    CAST(value AS DOUBLE)      AS value,
-    value_text
+    "sheet",
+    "row_index",
+    "col_index",
+    "row_label",
+    "col_header",
+    "value",
+    "value_text"
 FROM "banco-central-del-ecuador-documentos-publicacionesnotas-catalogo-cuentasnacionales-anuales-dolares-matricescipb10"
-WHERE value IS NOT NULL OR value_text IS NOT NULL

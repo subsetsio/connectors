@@ -1,5 +1,8 @@
 spec_id: banco-central-del-ecuador-documentos-publicacionesnotas-catalogo-encuestas-eoe-iee-nueva-metodologia
 status: active
+coverage:
+  frozen: true
+  reason: the detected temporal axis is a workbook row label from a formatted BCE spreadsheet extract, not a durable publication/freshness column
 # Generic melt: each BCE workbook is parsed into one tidy row per populated
 # cell (sheet, row_index, col_index, row_label, col_header, value, value_text).
 # These invariants are schema-level health checks shared by every workbook —

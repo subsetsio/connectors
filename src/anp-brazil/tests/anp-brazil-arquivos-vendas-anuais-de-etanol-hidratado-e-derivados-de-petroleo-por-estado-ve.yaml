@@ -1,5 +1,8 @@
 spec_id: anp-brazil-arquivos-vendas-anuais-de-etanol-hidratado-e-derivados-de-petroleo-por-estado-ve
 status: active
+coverage:
+  frozen: true
+  reason: Historical state-level sales archive; the accepted ANP files in this spec end at 1989 and do not advance as a current annual series.
 tests:
   - row_count: {min: 200}
     reason: ANP publishes the full history for this series; a tiny table means a download/parse break or a renamed file path.
@@ -10,6 +13,3 @@ tests:
   - matches: {col: ano, pattern: '^[0-9]{4}$'}
     reason: raw period column must match the source's documented format (^[0-9]{4}$); a mismatch flags an encoding/delimiter regression.
     certainty: 85
-  - freshness: {col: ano, reaches: 2024}
-    reason: ANP updates this annual table as new yearly observations are published; stale max year means the source file or parser stopped advancing.
-    points_outward: true
