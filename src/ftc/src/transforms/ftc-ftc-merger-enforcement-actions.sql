@@ -1,10 +1,14 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are FTC merger enforcement matters; enforcement type and industry are source categories, not mutually exclusive broader market classifications.
 SELECT
-    TRY_CAST(MatterEnforcementFY AS INTEGER)              AS enforcement_fy,
-    TRY_STRPTIME(MatterEnforcementDate, '%m/%d/%Y %H:%M')::DATE AS enforcement_date,
-    MatterNumber                                         AS matter_number,
-    MatterName                                           AS matter_name,
-    MatterIndustry                                       AS matter_industry,
-    "Matter Enforcement Type"                            AS enforcement_type,
-    NULLIF(trim(Matterhyperlink, '#'), '')               AS url
+    CAST("MatterEnforcementFY" AS BIGINT) AS matterenforcementfy,
+    "MatterEnforcementDate" AS matterenforcementdate,
+    CAST("MatterNumber" AS BIGINT) AS matternumber,
+    "MatterName" AS mattername,
+    "MatterIndustry" AS matterindustry,
+    "Matterhyperlink" AS matterhyperlink,
+    "Matter Enforcement Type" AS matter_enforcement_type
 FROM "ftc-ftc-merger-enforcement-actions"
-WHERE MatterName IS NOT NULL AND MatterName <> ''

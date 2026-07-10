@@ -1,17 +1,19 @@
-SELECT * FROM (
-    SELECT
-        TRY_CAST(FY AS INTEGER)                              AS fiscal_year,
-        TRY_CAST(TransactionsReported AS INTEGER)            AS transactions_reported,
-        TRY_CAST(FilingsReceived AS INTEGER)                 AS filings_received,
-        TRY_CAST(AdjustedTransactions AS INTEGER)            AS adjusted_transactions,
-        TRY_CAST(SecondRequestTotal AS INTEGER)              AS second_request_total,
-        TRY_CAST(SecondRequestFTC AS INTEGER)                AS second_request_ftc,
-        TRY_CAST(SecondRequestPercentFTC AS DOUBLE)          AS second_request_percent_ftc,
-        TRY_CAST(SecondRequestDOJ AS INTEGER)                AS second_request_doj,
-        TRY_CAST(SecondRequestPercentDOJ AS DOUBLE)          AS second_request_percent_doj,
-        TRY_CAST(EarlyTerminationTransactions AS INTEGER)    AS early_termination_transactions,
-        TRY_CAST(EarlyTerminationTransactionsGranted AS INTEGER)    AS early_termination_granted,
-        TRY_CAST(EarlyTerminationTransactionsNotGranted AS INTEGER) AS early_termination_not_granted
-    FROM "ftc-hsr-transactions-filings-second-requests-by-fy"
-)
-WHERE fiscal_year IS NOT NULL
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Annual HSR measures mix transaction counts, filing counts, second requests, and early termination outcomes; the upstream CSV includes blank separator rows that are not observations, and percentage columns should not be summed.
+SELECT
+    "FY" AS fy,
+    "TransactionsReported" AS transactionsreported,
+    "FilingsReceived" AS filingsreceived,
+    "AdjustedTransactions" AS adjustedtransactions,
+    "SecondRequestTotal" AS secondrequesttotal,
+    "SecondRequestFTC" AS secondrequestftc,
+    "SecondRequestPercentFTC" AS secondrequestpercentftc,
+    "SecondRequestDOJ" AS secondrequestdoj,
+    "SecondRequestPercentDOJ" AS secondrequestpercentdoj,
+    "EarlyTerminationTransactions" AS earlyterminationtransactions,
+    "EarlyTerminationTransactionsGranted" AS earlyterminationtransactionsgranted,
+    "EarlyTerminationTransactionsNotGranted" AS earlyterminationtransactionsnotgranted
+FROM "ftc-hsr-transactions-filings-second-requests-by-fy"

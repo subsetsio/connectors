@@ -1,16 +1,20 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ftc-ftc-merger-enforcement-actions`. Regenerate after model-verify.
+# caution: Rows are FTC merger enforcement matters; enforcement type and industry are source categories, not mutually exclusive broader market classifications.
+key: [matternumber, matterenforcementdate]
+sort: [matternumber, matterenforcementdate]
 columns:
-  - name: enforcement_fy
-    type: INTEGER
-  - name: enforcement_date
-    type: DATE
-  - name: matter_number
+  - name: matterenforcementfy
+    type: BIGINT
+  - name: matterenforcementdate
     type: VARCHAR
-  - name: matter_name
+  - name: matternumber
+    type: BIGINT
+  - name: mattername
     type: VARCHAR
-  - name: matter_industry
+  - name: matterindustry
     type: VARCHAR
-  - name: enforcement_type
+  - name: matterhyperlink
     type: VARCHAR
-  - name: url
+  - name: matter_enforcement_type
     type: VARCHAR
