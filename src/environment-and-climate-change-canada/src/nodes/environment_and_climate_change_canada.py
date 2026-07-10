@@ -2,8 +2,8 @@
 
 Two fetch surfaces, chosen per collection by cost:
 
-1. **The OGC API** (`https://api.weather.gc.ca/collections/<id>/items`) for 34 of
-   the 35 accepted collections. Responses are GeoJSON FeatureCollections; each
+1. **The OGC API** (`https://api.weather.gc.ca/collections/<id>/items`) for most
+   accepted collections. Responses are GeoJSON FeatureCollections; each
    feature is flattened to one NDJSON row (feature id + properties + geometry)
    and streamed to `<spec_id>.ndjson.gz`.
 
@@ -14,10 +14,12 @@ Two fetch surfaces, chosen per collection by cost:
    station** instead — property equality filters (`CLIMATE_IDENTIFIER=`,
    `STATION_NUMBER=`, ...) are exact and fast (a full single-station crawl of
    climate-monthly returns 169 rows in 0.6s), and each partition's own offset
-   stays shallow. Measured end-to-end: 16-way parallel, climate-monthly's 8570
-   stations crawl in ~9 minutes. The station universe for each family comes from
-   that family's own `*-stations` collection. `sortby` is rejected by the server
-   ("bad sort property"), so keyset pagination is not an option.
+   stays shallow. `climate-monthly` is partitioned by `LOCAL_YEAR` instead of
+   station because ECCC serves a small number of monthly observations whose
+   stations are absent from `climate-stations`. The station universe for the
+   other large families comes from that family's own `*-stations` collection.
+   `sortby` is rejected by the server ("bad sort property"), so keyset
+   pagination is not an option.
 
    Every partitioned fetch reconciles its row count against the collection's
    unfiltered `numberMatched` and raises on a shortfall — an observation whose
@@ -39,6 +41,7 @@ quality-control revisions for free.
 
 import concurrent.futures as cf
 import csv
+import datetime as dt
 import io
 import json
 import os
@@ -85,7 +88,6 @@ _PARTITIONED = {
     "ahccd-monthly": ("station_id__id_station", "ahccd-stations", "station_id__id_station"),
     "ahccd-seasonal": ("station_id__id_station", "ahccd-stations", "station_id__id_station"),
     "ahccd-trends": ("station_id__id_station", "ahccd-stations", "station_id__id_station"),
-    "climate-monthly": ("CLIMATE_IDENTIFIER", "climate-stations", "CLIMATE_IDENTIFIER"),
     "climate-normals": ("CLIMATE_IDENTIFIER", "climate-stations", "CLIMATE_IDENTIFIER"),
     "hydrometric-annual-peaks": ("STATION_NUMBER", "hydrometric-stations", "STATION_NUMBER"),
     "hydrometric-annual-statistics": ("STATION_NUMBER", "hydrometric-stations", "STATION_NUMBER"),
@@ -99,6 +101,7 @@ _PARTITIONED = {
 # whose station is absent from the registry cannot be reached by a
 # station-partitioned crawl. Refuse to ship a hole larger than this fraction.
 COVERAGE_TOLERANCE = 0.001
+CLIMATE_MONTHLY_FIRST_YEAR = 1840
 
 
 # --------------------------------------------------------------------------
@@ -168,25 +171,34 @@ def _station_ids(station_collection: str, prop: str) -> list[str]:
     return sorted(ids)
 
 
+def _partition_values(collection: str) -> tuple[str, list[str]]:
+    if collection == "climate-monthly":
+        current_year = dt.date.today().year
+        years = [str(y) for y in range(CLIMATE_MONTHLY_FIRST_YEAR, current_year + 1)]
+        return "LOCAL_YEAR", years
+
+    filter_prop, station_collection, station_prop = _PARTITIONED[collection]
+    return filter_prop, _station_ids(station_collection, station_prop)
+
+
 def fetch_collection(node_id: str) -> None:
     """Fetch one OGC API Features collection into `<node_id>.ndjson.gz`."""
     collection = _COLLECTION_BY_SPEC[node_id.removeprefix(f"{SLUG}-")]
 
-    if collection not in _PARTITIONED:
+    if collection != "climate-monthly" and collection not in _PARTITIONED:
         with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
             for row in _crawl(collection, {}):
                 fh.write(json.dumps(row, default=str) + "\n")
         return
 
-    filter_prop, station_collection, station_prop = _PARTITIONED[collection]
-    stations = _station_ids(station_collection, station_prop)
+    filter_prop, partitions = _partition_values(collection)
     expected = _number_matched(collection)
 
     written = 0
     with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
         with cf.ThreadPoolExecutor(FETCH_WORKERS) as pool:
             futures = [
-                pool.submit(_crawl, collection, {filter_prop: sid}) for sid in stations
+                pool.submit(_crawl, collection, {filter_prop: value}) for value in partitions
             ]
             for fut in cf.as_completed(futures):
                 for row in fut.result():
@@ -196,8 +208,8 @@ def fetch_collection(node_id: str) -> None:
     if expected and written < expected * (1 - COVERAGE_TOLERANCE):
         raise RuntimeError(
             f"{collection}: station-partitioned crawl shipped {written} of {expected} "
-            f"rows reported by numberMatched. Observations exist for stations absent "
-            f"from {station_collection}; the partition key no longer covers the collection."
+            f"rows reported by numberMatched. The partition key no longer covers "
+            f"the collection."
         )
 
 
