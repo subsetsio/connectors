@@ -18,7 +18,7 @@ from collections import Counter
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 from utils import faa_get
 
 _REGISTRY_URL = "https://registry.faa.gov/database/ReleasableAircraft.zip"
@@ -192,15 +192,3 @@ _SQL_ENGINE = '''
     FROM "faa-engine"
     WHERE TRIM("CODE") <> ''
 '''
-
-_REGISTRY_SQL = {
-    "faa-master": _SQL_MASTER,
-    "faa-dereg": _SQL_DEREG,
-    "faa-acftref": _SQL_ACFTREF,
-    "faa-engine": _SQL_ENGINE,
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{sid}-transform", deps=[sid], sql=sql)
-    for sid, sql in _REGISTRY_SQL.items()
-]
