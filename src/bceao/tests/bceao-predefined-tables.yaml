@@ -1,0 +1,21 @@
+spec_id: bceao-predefined-tables
+status: active
+coverage:
+  frozen: true
+  reason: EDEN's predefined table menu is a static catalog definition list, not a time-series observation corpus
+tests:
+  - not_null: table_id
+  - not_null: frequency
+  - not_null: label
+  - unique: [table_id, frequency]
+    reason: each predefined table form target is identified by the pair idTab and frequency
+    certainty: 95
+  - enum: {col: frequency, values: ["A", "M"]}
+    reason: the predefined table menu currently offers annual and monthly curated tables
+    certainty: 90
+  - matches: {col: table_id, pattern: "^[0-9]+$"}
+    reason: EDEN posts idTab as a numeric identifier
+    certainty: 95
+  - row_count: {min: 35}
+    reason: EDEN exposes about forty predefined tables in the menu; a lower count indicates a scrape or page-shape problem
+    certainty: 85

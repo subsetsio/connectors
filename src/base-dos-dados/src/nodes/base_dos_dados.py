@@ -38,10 +38,8 @@ import tempfile
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
-    transient_retry,
 )
 
 from constants import GCS_OBJECTS
@@ -49,7 +47,6 @@ from constants import GCS_OBJECTS
 BUCKET_BASE = "https://storage.googleapis.com/basedosdados-public/"
 
 
-@transient_retry()  # 6 attempts, exp backoff over transient net errors + 429/5xx
 def _download(url: str) -> bytes:
     resp = get(url, timeout=(10.0, 300.0))
     resp.raise_for_status()
@@ -101,16 +98,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS: list[NodeSpec] = [
     NodeSpec(id=spec_id, fn=fetch_one, kind="download")
     for spec_id in GCS_OBJECTS
-]
-
-# One published Delta table per table. Schemas are heterogeneous and curated
-# upstream, so each transform is a straight typed passthrough; the transform
-# still acts as the correctness gate (0 rows / unreadable parquet fails the node).
-TRANSFORM_SPECS: list[SqlNodeSpec] = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

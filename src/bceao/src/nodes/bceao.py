@@ -17,6 +17,7 @@ UNITE/MAGNITUDE/SOURCE/TYPE/METHODE metadata columns.
 We publish two tables:
   - bceao-values : long-format observations (one row per series x locality x period)
   - bceao-series : the indicator catalog (reference: code, label, sector, unit, ...)
+  - bceao-predefined-tables : EDEN's curated predefined-table catalog
 
 Strategy: stateless full re-pull each run (no incremental filter exists; the whole
 corpus is a few thousand series and re-pulls in minutes). Period windows are
@@ -34,6 +35,7 @@ the chain fails default verification. We trust it properly (NOT verify=False) by
 adding the public DigiCert intermediate to the CA bundle via SSL_CERT_FILE.
 """
 
+import html
 import os
 import re
 import tempfile
@@ -131,7 +133,14 @@ _SERIES_SCHEMA = pa.schema([
     ("locality_count", pa.int64()),
 ])
 
+_PREDEFINED_TABLE_SCHEMA = pa.schema([
+    ("table_id", pa.string()),
+    ("frequency", pa.string()),
+    ("label", pa.string()),
+])
+
 _OPTION_RE = re.compile(r"<option value='([A-Z0-9]+)'>\[[^\]]*\]\s*\[([^\]]*)\]\s*(?:\[([^\]]*)\])?")
+_PREDEFINED_TABLE_RE = re.compile(r"soumettreTab\('([A-Z])','([0-9]+)','((?:\\'|[^'])*)'\)")
 _SUBSECTOR_RE = re.compile(r"value='([A-Z]{2}[0-9]+)'[^>]*name='groupe_soussecteurs'")
 _IDANNEE_RE = re.compile(r"case '([A-Z])'\s*:\s*idAnnee\s*=\s*'([^']*)'")
 
@@ -186,6 +195,22 @@ def _tokens(subsector: str, country: str, freq: str) -> list:
     rows = []
     for token, label, unit in _OPTION_RE.findall(html):
         rows.append((token, re.sub(r"\s+", " ", label).strip(), (unit or "").strip()))
+    return rows
+
+
+def _predefined_tables() -> list:
+    """Scrape EDEN's curated predefined-table definitions from the index page."""
+    html_text = _dao("index.php", {})
+    rows = []
+    seen = set()
+    for freq, table_id, raw_label in _PREDEFINED_TABLE_RE.findall(html_text):
+        label = html.unescape(raw_label.replace("\\'", "'"))
+        label = re.sub(r"\s+", " ", label).strip()
+        key = (table_id, freq)
+        if key in seen:
+            continue
+        seen.add(key)
+        rows.append({"table_id": table_id, "frequency": freq, "label": label})
     return rows
 
 
@@ -416,12 +441,35 @@ def fetch_series(node_id: str) -> None:
     print(f"  bceao-series: wrote {len(rows)} (series, frequency) rows")
 
 
+def fetch_predefined_tables(node_id: str) -> None:
+    _ensure_tls()
+    rows = _predefined_tables()
+    if not rows:
+        raise AssertionError("bceao-predefined-tables produced 0 rows - table scrape changed?")
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=_PREDEFINED_TABLE_SCHEMA), node_id)
+    print(f"  bceao-predefined-tables: wrote {len(rows)} predefined table rows")
+
+
 DOWNLOAD_SPECS = [
+    NodeSpec(id="bceao-predefined-tables", fn=fetch_predefined_tables, kind="download"),
     NodeSpec(id="bceao-series", fn=fetch_series, kind="download"),
     NodeSpec(id="bceao-values", fn=fetch_values, kind="download"),
 ]
 
 TRANSFORM_SPECS = [
+    SqlNodeSpec(
+        id="bceao-predefined-tables-transform",
+        deps=["bceao-predefined-tables"],
+        key=("table_id", "frequency"),
+        sql='''
+            SELECT
+                table_id,
+                frequency,
+                label
+            FROM "bceao-predefined-tables"
+            WHERE table_id IS NOT NULL
+        ''',
+    ),
     SqlNodeSpec(
         id="bceao-series-transform",
         deps=["bceao-series"],
