@@ -107,6 +107,25 @@ def _iter_csv_rows(url: str):
         }
 
 
+def _csv_headers(text: str) -> list[str]:
+    reader = csv.reader(io.StringIO(text))
+    try:
+        return [h.lstrip("﻿").strip() for h in next(reader)]
+    except StopIteration:
+        return []
+
+
+def _iter_csv_rows_from_text(text: str, headers: list[str]):
+    reader = csv.DictReader(io.StringIO(text))
+    for row in reader:
+        cleaned = {
+            k.lstrip("﻿").strip(): (v if v not in ("", None) else None)
+            for k, v in row.items()
+            if k is not None
+        }
+        yield {h: cleaned.get(h) for h in headers}
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     pkg_id = node_id[len(PREFIX):]
@@ -114,10 +133,19 @@ def fetch_one(node_id: str) -> None:
     if not urls:
         raise RuntimeError(f"{node_id}: package {pkg_id} exposes no CSV resources")
 
+    resource_texts = [_fetch_text(url).lstrip("﻿") for url in urls]
+    headers: list[str] = []
+    seen = set()
+    for text in resource_texts:
+        for h in _csv_headers(text):
+            if h and h not in seen:
+                seen.add(h)
+                headers.append(h)
+
     total = 0
     with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as out:
-        for url in urls:
-            for row in _iter_csv_rows(url):
+        for text in resource_texts:
+            for row in _iter_csv_rows_from_text(text, headers):
                 out.write(json.dumps(row, separators=(",", ":")))
                 out.write("\n")
                 total += 1
@@ -398,4 +426,3 @@ _COLUMN_SPECS: dict[str, list[tuple[str, str, str]]] = {
         ("num", "Final Payments", "final_payments"),
     ],
 }
-

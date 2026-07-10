@@ -1,5 +1,8 @@
 spec_id: california-edd-f9d2aa1a-5f94-468d-b5ef-26b3b9418694
 status: active
+coverage:
+  frozen: true
+  reason: the CKAN monthly UI claims package is a historical series ending in 2022, not the current monthly release feed
 # Unemployment Insurance Program Monthly Claims Data for California.
 tests:
   - row_count: {min: 1}

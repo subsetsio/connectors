@@ -1,0 +1,10 @@
+# compiled by `hardened compile-checks` — post-publish audit of `california-edd-2a5f872d-f7fe-49f2-9581-8f1b17ce5b90`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+checks:
+  - kind: row_floor
+    min: 849883
+regression:
+  row_shrink_tolerance: 0.1

@@ -2,7 +2,7 @@ SELECT
     "Area Type" AS area_type,
     "Area Name" AS area_name,
     TRY_CAST("Year" AS INTEGER) AS year,
-    "Quarter" AS quarter,
+    COALESCE("Quarter", "Time Period") AS quarter,
     "Ownership" AS ownership,
     "NAICS Level" AS naics_level,
     "NAICS Code" AS naics_code,

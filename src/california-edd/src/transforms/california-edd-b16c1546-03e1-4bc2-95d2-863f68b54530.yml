@@ -1,5 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-edd-b16c1546-03e1-4bc2-95d2-863f68b54530`. Regenerate after model-verify.
+# caution: Age-group unemployment rates are published as separate age columns for the same monthly California observation; do not sum age-rate columns.
+key: [date]
+sort: [date]
 columns:
+  - name: id
+    type: BIGINT
   - name: area_type
     type: VARCHAR
   - name: area_name
@@ -7,7 +13,7 @@ columns:
   - name: date
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: month
     type: VARCHAR
   - name: age_16_19
@@ -22,5 +28,5 @@ columns:
     type: DOUBLE
   - name: age_55_64
     type: DOUBLE
-  - name: age_65_plus
+  - name: age_65
     type: DOUBLE

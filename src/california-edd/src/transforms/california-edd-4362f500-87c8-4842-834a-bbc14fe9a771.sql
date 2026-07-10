@@ -1,14 +1,20 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Age-group labor force participation rates are published as separate age columns for the same monthly California observation; do not sum age-rate columns.
 SELECT
+    CAST("_id" AS BIGINT) AS id,
     "Area Type" AS area_type,
     "Area Name" AS area_name,
     "Date" AS date,
-    TRY_CAST("Year" AS INTEGER) AS year,
+    CAST("Year" AS BIGINT) AS year,
     "Month" AS month,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Age 16-19" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS age_16_19,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Age 20-24" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS age_20_24,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Age 25-34" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS age_25_34,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Age 35-44" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS age_35_44,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Age 45-54" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS age_45_54,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Age 55-64" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS age_55_64,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Age 65+" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS age_65_plus
+    CAST("Age 16-19" AS DOUBLE) AS age_16_19,
+    CAST("Age 20-24" AS DOUBLE) AS age_20_24,
+    CAST("Age 25-34" AS DOUBLE) AS age_25_34,
+    CAST("Age 35-44" AS DOUBLE) AS age_35_44,
+    CAST("Age 45-54" AS DOUBLE) AS age_45_54,
+    CAST("Age 55-64" AS DOUBLE) AS age_55_64,
+    CAST("Age 65+" AS DOUBLE) AS age_65
 FROM "california-edd-4362f500-87c8-4842-834a-bbc14fe9a771"

@@ -1,22 +1,28 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-edd-2a5f872d-f7fe-49f2-9581-8f1b17ce5b90`. Regenerate after model-verify.
+# caution: Current employment is reported across multiple area, industry, series, and seasonal-adjustment dimensions; filter those dimensions before aggregating.
+key: [id, current_employment, date, series_code, industry_title]
+sort: [id, current_employment, date, series_code, industry_title]
 columns:
+  - name: id
+    type: BIGINT
   - name: area_type
     type: VARCHAR
   - name: area_name
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: month
     type: VARCHAR
   - name: date
-    type: DATE
+    type: VARCHAR
   - name: series_code
     type: VARCHAR
   - name: industry_title
     type: VARCHAR
-  - name: seasonally_adjusted
+  - name: seasonally_adjusted_y_n
     type: VARCHAR
   - name: current_employment
-    type: DOUBLE
+    type: BIGINT
   - name: benchmark
-    type: INTEGER
+    type: BIGINT

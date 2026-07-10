@@ -1,15 +1,21 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Paid Family Leave measures are statewide monthly program totals and should not be combined with disability or unemployment insurance program tables as if they shared the same population.
 SELECT
+    CAST("_id" AS BIGINT) AS id,
     "Date" AS date,
     "Month" AS month,
-    TRY_CAST("Year" AS INTEGER) AS year,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Total PFL First Claims Filed" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS total_first_claims_filed,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Bonding Claims Filed" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS bonding_claims_filed,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Care Claims Filed" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS care_claims_filed,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Total PFL First Claims Paid" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS total_first_claims_paid,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Bonding Claims Paid" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS bonding_claims_paid,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Care Claims Paid" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS care_claims_paid,
-    TRY_CAST(NULLIF(regexp_replace(CAST("PFL Average Weekly Benefit Amount (AWBA)" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS avg_weekly_benefit_amount,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Weeks Compensated" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS weeks_compensated,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Average Duration" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS average_duration,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Total Benefits Authorized" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS total_benefits_authorized
+    CAST("Year" AS BIGINT) AS year,
+    "Total PFL First Claims Filed" AS total_pfl_first_claims_filed,
+    "Bonding Claims Filed" AS bonding_claims_filed,
+    "Care Claims Filed" AS care_claims_filed,
+    "Total PFL First Claims Paid" AS total_pfl_first_claims_paid,
+    "Bonding Claims Paid" AS bonding_claims_paid,
+    "Care Claims Paid" AS care_claims_paid,
+    "PFL Average Weekly Benefit Amount (AWBA)" AS pfl_average_weekly_benefit_amount_awba,
+    "Weeks Compensated" AS weeks_compensated,
+    "Average Duration" AS average_duration,
+    "Total Benefits Authorized" AS total_benefits_authorized
 FROM "california-edd-3f530a9c-782f-4f34-bf51-9edaa448e0db"

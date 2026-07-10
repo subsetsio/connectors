@@ -1,12 +1,18 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Monthly unemployment insurance rows are program-level claim and payment measures by area and month; claim counts, weeks, benefit amounts, and payments are different measures.
 SELECT
+    CAST("_id" AS BIGINT) AS id,
     "Area Type" AS area_type,
     "Area Name" AS area_name,
-    "Date" AS date,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Initial Claims" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS initial_claims,
-    TRY_CAST(NULLIF(regexp_replace(CAST("First Payments" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS first_payments,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Weeks Claimed" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS weeks_claimed,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Weeks Compensated" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS weeks_compensated,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Average Weekly Benefit*" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS average_weekly_benefit,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Benefits Paid" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS benefits_paid,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Final Payments" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS final_payments
+    strptime("Date", '%m/%d/%Y')::DATE AS date,
+    CAST("Initial Claims" AS BIGINT) AS initial_claims,
+    CAST("First Payments" AS BIGINT) AS first_payments,
+    CAST("Weeks Claimed" AS BIGINT) AS weeks_claimed,
+    CAST("Weeks Compensated" AS BIGINT) AS weeks_compensated,
+    CAST("Average Weekly Benefit*" AS DOUBLE) AS average_weekly_benefit,
+    CAST("Benefits Paid" AS DOUBLE) AS benefits_paid,
+    CAST("Final Payments" AS BIGINT) AS final_payments
 FROM "california-edd-f9d2aa1a-5f94-468d-b5ef-26b3b9418694"

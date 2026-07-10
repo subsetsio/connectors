@@ -1,9 +1,15 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows include both California and United States unemployment-rate observations, with separate seasonally adjusted and not-seasonally adjusted rate columns.
 SELECT
+    CAST("_id" AS BIGINT) AS id,
     "Area Type" AS area_type,
     "Area Name" AS area_name,
-    TRY_CAST("Date" AS TIMESTAMP)::DATE AS date,
-    TRY_CAST("Year" AS INTEGER) AS year,
+    "Date" AS date,
+    CAST("Year" AS BIGINT) AS year,
     "Month" AS month,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Seasonally Adjusted" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS seasonally_adjusted,
-    TRY_CAST(NULLIF(regexp_replace(CAST("Not Seasonally Adjusted" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS not_seasonally_adjusted
+    CAST("Seasonally Adjusted" AS DOUBLE) AS seasonally_adjusted,
+    CAST("Not Seasonally Adjusted" AS DOUBLE) AS not_seasonally_adjusted
 FROM "california-edd-4275ba49-3a31-4200-852d-faf5b857bb4c"

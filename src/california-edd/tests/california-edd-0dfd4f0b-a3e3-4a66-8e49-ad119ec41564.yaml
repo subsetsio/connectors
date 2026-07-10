@@ -1,5 +1,8 @@
 spec_id: california-edd-0dfd4f0b-a3e3-4a66-8e49-ad119ec41564
 status: active
+coverage:
+  frozen: true
+  reason: the CKAN weekly UI claims package is a historical series ending in 2022, not the current weekly release feed
 # Unemployment Insurance Weekly Claims Data for California.
 tests:
   - row_count: {min: 1}

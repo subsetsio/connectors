@@ -1,18 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-edd-0dfd4f0b-a3e3-4a66-8e49-ad119ec41564`. Regenerate after model-verify.
+# caution: Weekly unemployment insurance rows include both filed-week and reflecting-week dates; use the appropriate week for the measure being analyzed.
+key: [id]
+temporal: filed_week_ended
+sort: [filed_week_ended, id]
 columns:
+  - name: id
+    type: BIGINT
   - name: area_type
     type: VARCHAR
   - name: area_name
     type: VARCHAR
   - name: filed_week_ended
-    type: VARCHAR
+    type: DATE
   - name: initial_claims
-    type: DOUBLE
+    type: BIGINT
   - name: reflecting_week_ended
-    type: VARCHAR
+    type: DATE
   - name: continued_claims
-    type: DOUBLE
+    type: BIGINT
   - name: covered_employment
-    type: DOUBLE
+    type: BIGINT
   - name: insured_unemployment_rate
     type: DOUBLE

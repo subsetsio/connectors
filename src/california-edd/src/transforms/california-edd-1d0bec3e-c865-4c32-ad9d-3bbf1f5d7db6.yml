@@ -1,12 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-edd-1d0bec3e-c865-4c32-ad9d-3bbf1f5d7db6`. Regenerate after model-verify.
+# caution: Each row carries both California and United States labor force participation rates, so do not sum the rate columns across geography.
+key: [id, date, california_labor_force_participation_rate, us_labor_force_participation_rate, year]
+sort: [id, date, california_labor_force_participation_rate, us_labor_force_participation_rate, year]
 columns:
+  - name: id
+    type: BIGINT
   - name: date
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: month
     type: VARCHAR
-  - name: ca_lfpr
+  - name: california_labor_force_participation_rate
     type: DOUBLE
-  - name: us_lfpr
+  - name: us_labor_force_participation_rate
     type: DOUBLE

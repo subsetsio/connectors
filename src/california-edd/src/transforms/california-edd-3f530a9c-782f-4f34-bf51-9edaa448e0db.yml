@@ -1,28 +1,34 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-edd-3f530a9c-782f-4f34-bf51-9edaa448e0db`. Regenerate after model-verify.
+# caution: Paid Family Leave measures are statewide monthly program totals and should not be combined with disability or unemployment insurance program tables as if they shared the same population.
+key: [bonding_claims_filed]
+sort: [bonding_claims_filed]
 columns:
+  - name: id
+    type: BIGINT
   - name: date
     type: VARCHAR
   - name: month
     type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: total_first_claims_filed
-    type: DOUBLE
+    type: BIGINT
+  - name: total_pfl_first_claims_filed
+    type: VARCHAR
   - name: bonding_claims_filed
-    type: DOUBLE
+    type: VARCHAR
   - name: care_claims_filed
-    type: DOUBLE
-  - name: total_first_claims_paid
-    type: DOUBLE
+    type: VARCHAR
+  - name: total_pfl_first_claims_paid
+    type: VARCHAR
   - name: bonding_claims_paid
-    type: DOUBLE
+    type: VARCHAR
   - name: care_claims_paid
-    type: DOUBLE
-  - name: avg_weekly_benefit_amount
-    type: DOUBLE
+    type: VARCHAR
+  - name: pfl_average_weekly_benefit_amount_awba
+    type: VARCHAR
   - name: weeks_compensated
-    type: DOUBLE
+    type: VARCHAR
   - name: average_duration
-    type: DOUBLE
+    type: VARCHAR
   - name: total_benefits_authorized
-    type: DOUBLE
+    type: VARCHAR

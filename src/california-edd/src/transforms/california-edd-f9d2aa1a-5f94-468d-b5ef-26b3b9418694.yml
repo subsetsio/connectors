@@ -1,22 +1,29 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `california-edd-f9d2aa1a-5f94-468d-b5ef-26b3b9418694`. Regenerate after model-verify.
+# caution: Monthly unemployment insurance rows are program-level claim and payment measures by area and month; claim counts, weeks, benefit amounts, and payments are different measures.
+key: [id]
+temporal: date
+sort: [date, id]
 columns:
+  - name: id
+    type: BIGINT
   - name: area_type
     type: VARCHAR
   - name: area_name
     type: VARCHAR
   - name: date
-    type: VARCHAR
+    type: DATE
   - name: initial_claims
-    type: DOUBLE
+    type: BIGINT
   - name: first_payments
-    type: DOUBLE
+    type: BIGINT
   - name: weeks_claimed
-    type: DOUBLE
+    type: BIGINT
   - name: weeks_compensated
-    type: DOUBLE
+    type: BIGINT
   - name: average_weekly_benefit
     type: DOUBLE
   - name: benefits_paid
     type: DOUBLE
   - name: final_payments
-    type: DOUBLE
+    type: BIGINT
