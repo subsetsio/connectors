@@ -1,0 +1,35 @@
+spec_id: gem-entrepreneurship-indicators
+status: active
+coverage:
+  frozen: true
+  reason: reference table is derived from public national-level SPSS variable labels rather than a separately advancing time-series corpus
+tests:
+  - not_null: survey
+    reason: every indicator comes from APS or NES national-level files
+    certainty: 99
+  - not_null: indicator
+    reason: the canonical indicator key is derived from the source variable name
+    certainty: 99
+  - not_null: variable
+    reason: each row preserves the source SPSS variable name
+    certainty: 99
+  - not_null: label
+    reason: SPSS variable labels provide the public data dictionary
+    certainty: 90
+  - column_type: {col: first_year, type: integer}
+    certainty: 95
+  - column_type: {col: last_year, type: integer}
+    certainty: 95
+  - enum: {col: survey, values: ["aps", "nes"]}
+    certainty: 99
+  - unique: [survey, variable]
+    reason: a source SPSS variable name is unique within each survey reference list
+    certainty: 95
+  - relationship: {left: first_year, op: <=, right: last_year}
+    certainty: 99
+  - distinct_count: {col: indicator, min: 30}
+    reason: APS and NES national files expose dozens of recurring measures
+    certainty: 85
+  - row_count: {min: 100}
+    reason: one row per survey-specific SPSS indicator variable across all public national-level files
+    certainty: 80

@@ -1,18 +1,28 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [year, economy_code, variable]
+temporal: year
+sort: [year, economy_code, variable]
 columns:
   - name: year
     type: INTEGER
+    description: GEM Adult Population Survey year.
   - name: economy_code
     type: BIGINT
+    description: GEM numeric economy code from the source SPSS file.
   - name: economy_name
     type: VARCHAR
+    description: Economy name from the source file or SPSS value labels.
   - name: economy_iso
     type: VARCHAR
+    description: Economy ISO-style code where supplied by GEM.
   - name: indicator
     type: VARCHAR
+    description: Canonical lower-case GEM APS indicator code with survey-year suffix removed where present.
   - name: variable
     type: VARCHAR
+    description: Original SPSS variable name from the source file.
   - name: label
     type: VARCHAR
+    description: SPSS variable label describing the indicator.
   - name: value
     type: DOUBLE
+    description: Observed national-level APS indicator value.

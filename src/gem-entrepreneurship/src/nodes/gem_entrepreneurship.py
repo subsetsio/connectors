@@ -35,12 +35,7 @@ import pyarrow as pa
 import pyreadstat
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
-from subsets_utils import (
-    NodeSpec,
-    SqlNodeSpec,
-    get,
-    save_raw_parquet,
-)
+from subsets_utils import NodeSpec, get, save_raw_parquet
 from subsets_utils import is_transient, TRANSIENT_EXC
 
 BASE = "https://www.gemconsortium.org"
@@ -77,6 +72,15 @@ RAW_SCHEMA = pa.schema([
     ("variable", pa.string()),
     ("label", pa.string()),
     ("value", pa.float64()),
+])
+
+INDICATOR_SCHEMA = pa.schema([
+    ("survey", pa.string()),
+    ("indicator", pa.string()),
+    ("variable", pa.string()),
+    ("label", pa.string()),
+    ("first_year", pa.int32()),
+    ("last_year", pa.int32()),
 ])
 
 
@@ -359,29 +363,57 @@ def fetch_one(node_id: str) -> None:
     save_raw_parquet(table, node_id)
 
 
+def fetch_indicators(node_id: str) -> None:
+    """Build an indicator reference table from the variable labels embedded in
+    every public national-level SPSS file."""
+    records: dict[tuple[str, str, str], dict] = {}
+    for survey in ("aps", "nes"):
+        for year, file_id in _select_files(survey):
+            df, meta = _read_sav(_fetch_file(file_id))
+            labels = meta.column_names_to_labels
+            code_col = _pick_code_col(df, labels)
+            value_cols = [
+                c for c in df.columns
+                if pd.api.types.is_numeric_dtype(df[c])
+                and c != code_col
+                and not _is_id_col(c)
+                and not _is_junk_col(c)
+            ]
+            yy = f"{year % 100:02d}"
+            for variable in value_cols:
+                indicator = variable
+                if survey == "aps" and len(variable) > 2 and variable.lower().endswith(yy):
+                    indicator = variable[:-2]
+                indicator = indicator.lower()
+                key = (survey, indicator, variable)
+                rec = records.setdefault(
+                    key,
+                    {
+                        "survey": survey,
+                        "indicator": indicator,
+                        "variable": variable,
+                        "label": labels.get(variable) or variable,
+                        "first_year": year,
+                        "last_year": year,
+                    },
+                )
+                rec["first_year"] = min(rec["first_year"], year)
+                rec["last_year"] = max(rec["last_year"], year)
+
+    out = pd.DataFrame.from_records(records.values())
+    if out.empty:
+        raise AssertionError("no GEM indicators discovered")
+    out = out.sort_values(["survey", "indicator", "variable"]).reset_index(drop=True)
+    for col in ("survey", "indicator", "variable", "label"):
+        out[col] = out[col].astype("string")
+    out["first_year"] = pd.to_numeric(out["first_year"]).astype("int32")
+    out["last_year"] = pd.to_numeric(out["last_year"]).astype("int32")
+    table = pa.Table.from_pandas(out, schema=INDICATOR_SCHEMA, preserve_index=False)
+    save_raw_parquet(table, node_id)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(id="gem-entrepreneurship-aps-national", fn=fetch_one, kind="download"),
+    NodeSpec(id="gem-entrepreneurship-indicators", fn=fetch_indicators, kind="download"),
     NodeSpec(id="gem-entrepreneurship-nes-national", fn=fetch_one, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{spec.id}-transform",
-        deps=[spec.id],
-        sql=f'''
-            SELECT
-                CAST(year AS INTEGER)      AS year,
-                economy_code,
-                economy_name,
-                economy_iso,
-                indicator,
-                variable,
-                label,
-                CAST(value AS DOUBLE)      AS value
-            FROM "{spec.id}"
-            WHERE value IS NOT NULL
-              AND indicator IS NOT NULL
-        ''',
-    )
-    for spec in DOWNLOAD_SPECS
 ]

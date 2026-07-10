@@ -1,0 +1,21 @@
+key: [survey, variable]
+sort: [survey, indicator, variable]
+columns:
+  - name: survey
+    type: VARCHAR
+    description: GEM survey instrument, either aps or nes.
+  - name: indicator
+    type: VARCHAR
+    description: Canonical lower-case indicator code used by the national-level fact tables.
+  - name: variable
+    type: VARCHAR
+    description: Original SPSS variable name from the source file.
+  - name: label
+    type: VARCHAR
+    description: SPSS variable label describing the indicator.
+  - name: first_year
+    type: INTEGER
+    description: First public national-level file year in which this survey variable appears.
+  - name: last_year
+    type: INTEGER
+    description: Latest public national-level file year in which this survey variable appears.
