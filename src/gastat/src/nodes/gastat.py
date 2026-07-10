@@ -16,7 +16,7 @@ Each transform publishes one Delta table straight from its table's raw asset.
 import csv
 import io
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_ndjson, transient_retry
 
 from constants import ENTITY_IDS
 
@@ -84,14 +84,5 @@ def fetch_one(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(code), fn=fetch_one, kind="download")
-    for code in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{_spec_id(code)}-transform",
-        sql=f'SELECT * FROM "{_spec_id(code)}"',
-        deps=(_spec_id(code),),
-    )
     for code in ENTITY_IDS
 ]
