@@ -1,0 +1,19 @@
+spec_id: eba-stress-test-results
+status: active
+tests:
+  - not_null: LEI_Code
+  - not_null: Period
+  - not_null: Item
+  - not_null: Scenario
+  - matches: {col: Period, pattern: '^[0-9]{6}$'}
+    reason: Period is a YYYYMM reference/projection date stored as text in TRA_OTH.csv
+    certainty: 90
+  - distinct_count: {col: LEI_Code, min: 40}
+    reason: ~64 largest EU/EEA banks in the exercise
+    certainty: 80
+  - distinct_count: {col: Scenario, min: 3}
+    reason: scenarios include Actual, Baseline, Adverse (and Restated)
+    certainty: 85
+  - row_count: {min: 20000}
+    reason: ~64 banks x many items x several periods x scenarios in the headline template
+    certainty: 85

@@ -1,0 +1,18 @@
+spec_id: eba-supervisory-measures-penalties
+status: active
+tests:
+  - not_null: framework
+  - not_null: competent_authority
+  - not_null: item_code
+  - not_null: item_label
+  - column_type: {col: count, type: integer}
+  - column_type: {col: reporting_year, type: integer}
+  - distinct_count: {col: framework, min: 2}
+    reason: both CRD (annex 4 part 5) and IFD (annex 4 part 3) frameworks are combined
+    certainty: 90
+  - distinct_count: {col: competent_authority, min: 20}
+    reason: one sheet per EU/EEA competent authority (~26-31) plus SSM
+    certainty: 80
+  - row_count: {min: 500}
+    reason: two frameworks x ~30 authorities x ~27 measure/penalty line items
+    certainty: 80

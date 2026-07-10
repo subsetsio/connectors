@@ -1,0 +1,25 @@
+spec_id: eba-risk-dashboard-credit-parameters
+status: active
+tests:
+  - not_null: period
+  - not_null: country
+  - not_null: segment
+  - not_null: metric
+  - not_null: statistic
+  - column_type: {col: period, type: integer}
+  - column_type: {col: value, type: float}
+  - between: {col: period, lo: 20200, hi: 20999}
+    reason: Period is YYYY*10+quarter; the Credit Risk parameters annex begins ~2020-Q4
+    certainty: 90
+  - distinct_count: {col: metric, min: 3}
+    reason: probing showed 4 metrics (Default rate, Loss rate, PD - adjusted, LGD)
+    certainty: 85
+  - distinct_count: {col: statistic, min: 4}
+    reason: 5 statistics per metric (N, 25th, 50th, 75th, W.A)
+    certainty: 85
+  - distinct_count: {col: country, min: 25}
+    reason: ~39 EU and main non-EU countries in the annex
+    certainty: 80
+  - row_count: {min: 5000}
+    reason: several quarters x ~39 countries x ~12 segments x 4 metrics x 5 stats
+    certainty: 85

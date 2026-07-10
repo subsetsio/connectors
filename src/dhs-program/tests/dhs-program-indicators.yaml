@@ -9,6 +9,10 @@ tests:
   - column_type: {col: IndicatorId, type: string}
   - column_type: {col: Label, type: string}
   - column_type: {col: IsQuickStat, type: integer}
-  - unique: IndicatorId
-    reason: IndicatorId is the stable DHS indicator identifier
+  - unique: [IndicatorId, IndicatorOrder, Label]
+    reason: >-
+      IndicatorId alone is NOT unique — 31 IndicatorIds carry two definitional
+      variants ('(of ANC)' vs '(of all)') that share IndicatorId/SDRID/IndicatorOrder
+      but differ in Label/Definition/Denominator. Row identity is (IndicatorId,
+      IndicatorOrder, Label).
     certainty: 95

@@ -1,5 +1,13 @@
 spec_id: dpiit-wpi-series
 status: active
+coverage:
+  frozen: true
+  reason: >-
+    The item catalog is the commodity vocabulary of one WPI base year, and its only
+    temporal column (base_year) is the constant "2011-12". The basket is fixed for
+    the life of a base — items are not added between monthly releases — so the raw
+    corpus does not advance. A rebase publishes a new catalog under a new base_year
+    rather than extending this one.
 tests:
   - not_null: item_code
     reason: every WPI commodity row carries a COMM_CODE; a null means the header/columns shifted

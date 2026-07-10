@@ -1,0 +1,17 @@
+spec_id: eba-risk-dashboard-raq
+status: active
+tests:
+  - not_null: period
+  - not_null: question
+  - not_null: answer
+  - column_type: {col: period, type: integer}
+  - column_type: {col: share, type: float}
+  - between: {col: share, lo: 0, hi: 1.0001}
+    reason: share is the fraction of respondents choosing an answer option (0..1)
+    certainty: 90
+  - distinct_count: {col: question, min: 20}
+    reason: probing showed ~82 distinct question/sub-question headers per annex
+    certainty: 80
+  - row_count: {min: 500}
+    reason: ~82 questions x several answer options x ~8 historical survey periods
+    certainty: 80

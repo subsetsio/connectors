@@ -1,30 +1,52 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# One row per LCA case decision (H-1B / H-1B1 / E-3), from the DOL OFLC
+# disclosure corpus. Keyless append/event log: the retained columns do not
+# include a case number, so rows are not uniquely identifiable and identical
+# rows can legitimately recur. `case_status` and `wage_unit` are upper-cased
+# to unify casing that varies across source vintages. `worksite_state` mixes
+# USPS abbreviations with full spelled-out state names.
+key: []
+temporal: fiscal_year
+sort: [fiscal_year, quarter]
 columns:
   - name: fiscal_year
     type: INTEGER
+    description: Government fiscal year the case belongs to, derived from the source file period (FY2008 onward). Temporal axis of the table.
   - name: quarter
     type: VARCHAR
+    description: "'FY' for fiscal years assembled from a single annual file (FY2008-FY2019) or 'Q1'-'Q4' for fiscal years assembled from quarterly files (FY2020 onward). Not a uniform quarterly axis."
   - name: case_status
     type: VARCHAR
+    description: Final disposition of the LCA case, upper-cased (e.g. CERTIFIED, CERTIFIED-WITHDRAWN, DENIED, WITHDRAWN, INVALIDATED, REJECTED).
   - name: employer_name
     type: VARCHAR
+    description: Legal name of the petitioning employer.
   - name: employer_state
     type: VARCHAR
+    description: Two-letter USPS state/territory code of the employer's address.
   - name: employer_city
     type: VARCHAR
+    description: City of the employer's address (source casing preserved).
   - name: job_title
     type: VARCHAR
+    description: Free-text job title of the offered position (source casing preserved).
   - name: soc_code
     type: VARCHAR
+    description: Standard Occupational Classification (SOC/O*NET) code of the position (e.g. 15-1132.00). Coding vintage varies across years.
   - name: soc_title
     type: VARCHAR
+    description: Standard Occupational Classification title corresponding to soc_code.
   - name: wage_rate
     type: VARCHAR
+    description: Wage rate as recorded in the source, expressed in the units given by wage_unit. Kept as text because historical formats include ranges (e.g. "18.49 -"); see wage_rate_numeric for a parsed value.
   - name: wage_unit
     type: VARCHAR
+    description: Pay period the wage_rate is expressed in, upper-cased (HOUR, WEEK, BI-WEEKLY, MONTH, YEAR).
   - name: worksite_state
     type: VARCHAR
+    description: State/territory of the worksite. Mixes two-letter USPS codes with full spelled-out state names across vintages (e.g. both 'AK' and 'ALABAMA').
   - name: worksite_city
     type: VARCHAR
+    description: City of the worksite (source casing preserved).
   - name: wage_rate_numeric
     type: DOUBLE
+    description: Leading numeric token parsed from wage_rate (commas and '$' stripped), in the units of wage_unit. NULL where no numeric value could be extracted. Do not aggregate across rows without normalizing wage_unit to a common period.

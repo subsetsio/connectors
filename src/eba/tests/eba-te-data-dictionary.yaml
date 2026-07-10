@@ -1,0 +1,13 @@
+spec_id: eba-te-data-dictionary
+status: active
+tests:
+  - not_null: item
+  - distinct_count: {col: template, min: 8}
+    reason: SDD maps ~17 templates (Capital, Leverage, Credit Risk, Market Risk, Sovereign, ...)
+    certainty: 80
+  - distinct_count: {col: csv_file, min: 3}
+    reason: items span tr_cre / tr_mrk / tr_oth / tr_sov
+    certainty: 85
+  - row_count: {min: 100}
+    reason: probing showed ~345 item/dimension code rows
+    certainty: 85

@@ -1,0 +1,15 @@
+spec_id: eba-te-capital-own-funds
+status: active
+tests:
+  - not_null: LEI_Code
+  - not_null: Period
+  - not_null: Item
+  - matches: {col: Period, pattern: '^[0-9]{6}$'}
+    reason: Period is a YYYYMM reference date stored as text in the tr_oth.csv full database
+    certainty: 90
+  - distinct_count: {col: NSA, min: 18}
+    reason: ~26 EU/EEA national supervisory authorities report; allow headroom
+    certainty: 80
+  - row_count: {min: 5000}
+    reason: Capital + Leverage template rows, bank-by-bank across several reference dates
+    certainty: 85
