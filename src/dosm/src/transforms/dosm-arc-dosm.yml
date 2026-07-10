@@ -1,10 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dosm-arc-dosm`. Regenerate after model-verify.
+key: [publication_id]
 temporal: release_date
-sort: [release_date]
+sort: [release_date, publication_id]
 columns:
   - name: publication_id
     type: VARCHAR
   - name: release_date
-    type: TIMESTAMP
+    type: TIMESTAMP_NS
   - name: title_en
     type: VARCHAR
   - name: title_bm

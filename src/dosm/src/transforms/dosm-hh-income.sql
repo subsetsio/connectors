@@ -1,1 +1,9 @@
-SELECT * FROM "dosm-hh-income"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "date",
+    "income_mean",
+    "income_median"
+FROM "dosm-hh-income"

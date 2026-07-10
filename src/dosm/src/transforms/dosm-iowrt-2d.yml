@@ -1,13 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dosm-iowrt-2d`. Regenerate after model-verify.
+key: [date, series, division]
 temporal: date
-sort: [date]
+sort: [date, series, division]
 columns:
   - name: series
     type: VARCHAR
   - name: date
     type: TIMESTAMP_NS
   - name: division
-    type: VARCHAR
+    type: BIGINT
   - name: sales
     type: DOUBLE
   - name: volume

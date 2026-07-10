@@ -1,1 +1,11 @@
-SELECT * FROM "dosm-productivity-annual-priority"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "series",
+    "date",
+    "subsector",
+    "output_employment",
+    "output_hour"
+FROM "dosm-productivity-annual-priority"

@@ -1,1 +1,10 @@
-SELECT * FROM "dosm-fertility-state"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "state",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
+    "age_group",
+    "fertility_rate"
+FROM "dosm-fertility-state"

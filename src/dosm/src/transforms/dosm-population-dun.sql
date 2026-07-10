@@ -1,1 +1,14 @@
-SELECT * FROM "dosm-population-dun"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "date",
+    "state",
+    "parlimen",
+    "dun",
+    "sex",
+    "age",
+    "ethnicity",
+    "population"
+FROM "dosm-population-dun"

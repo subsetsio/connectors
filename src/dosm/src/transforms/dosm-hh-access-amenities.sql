@@ -1,1 +1,12 @@
-SELECT * FROM "dosm-hh-access-amenities"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "date",
+    "state",
+    "district",
+    "piped_water",
+    "sanitation",
+    "electricity"
+FROM "dosm-hh-access-amenities"

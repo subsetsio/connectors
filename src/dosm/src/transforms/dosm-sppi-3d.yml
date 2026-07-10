@@ -1,12 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dosm-sppi-3d`. Regenerate after model-verify.
+key: [date, group, series]
 temporal: date
-sort: [date]
+sort: [date, group, series]
 columns:
   - name: series
     type: VARCHAR
   - name: date
     type: TIMESTAMP_NS
   - name: group
-    type: VARCHAR
+    type: BIGINT
   - name: index
     type: DOUBLE

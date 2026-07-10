@@ -1,1 +1,15 @@
-SELECT * FROM "dosm-trade-headline"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "series",
+    "date",
+    "exports",
+    "exports_domestic",
+    "re_exports",
+    "imports",
+    "imports_retained",
+    "total",
+    "balance"
+FROM "dosm-trade-headline"

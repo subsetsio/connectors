@@ -1,1 +1,11 @@
-SELECT * FROM "dosm-sdg-16-2-2"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "date",
+    "type",
+    "sex",
+    "age",
+    "value"
+FROM "dosm-sdg-16-2-2"

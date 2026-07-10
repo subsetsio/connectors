@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dosm-air-pollution`. Regenerate after model-verify.
+key: [date, pollutant]
 temporal: date
-sort: [date]
+sort: [date, pollutant]
 columns:
   - name: date
     type: DATE

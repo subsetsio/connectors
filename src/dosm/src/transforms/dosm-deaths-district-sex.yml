@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dosm-deaths-district-sex`. Regenerate after model-verify.
+key: [district, state, date, sex]
 temporal: date
-sort: [date]
+sort: [date, district, state, sex]
 columns:
   - name: date
     type: DATE
@@ -11,6 +13,6 @@ columns:
   - name: sex
     type: VARCHAR
   - name: abs
-    type: BIGINT
+    type: DOUBLE
   - name: rate
     type: DOUBLE
