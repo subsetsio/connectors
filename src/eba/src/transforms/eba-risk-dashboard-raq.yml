@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eba-risk-dashboard-raq`. Regenerate after model-verify.
+# caution: The period is an integer half-year survey code, with Spring encoded as YYYY1 and Autumn encoded as YYYY2.
+# caution: Shares are response distributions by question and answer option; do not sum shares across unrelated questions.
+key: [answer, question, period_label, period]
+temporal: period
+sort: [period, answer, question, period_label]
+columns:
+  - name: period
+    type: INTEGER
+  - name: period_label
+    type: VARCHAR
+  - name: question
+    type: VARCHAR
+  - name: answer
+    type: VARCHAR
+  - name: share
+    type: DOUBLE

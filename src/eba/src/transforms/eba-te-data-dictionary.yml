@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eba-te-data-dictionary`. Regenerate after model-verify.
+# caution: This is the source codebook for Transparency Exercise items and dimensions; it is a lookup table rather than a measured statistical series.
+key: [label, item, template, category, csv_file]
+sort: [label, item, template, category, csv_file]
+columns:
+  - name: csv_file
+    type: VARCHAR
+  - name: template
+    type: VARCHAR
+  - name: item
+    type: BIGINT
+  - name: category
+    type: VARCHAR
+  - name: label
+    type: VARCHAR

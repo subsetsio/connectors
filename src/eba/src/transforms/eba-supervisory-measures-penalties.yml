@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eba-supervisory-measures-penalties`. Regenerate after model-verify.
+# caution: CRD and IFD frameworks have different measure and penalty universes; compare or aggregate within a framework unless intentionally combining them.
+key: [item_code, item_label, competent_authority, category, framework]
+temporal: reporting_year
+sort: [reporting_year, item_code, item_label, competent_authority, category, framework]
+columns:
+  - name: framework
+    type: VARCHAR
+  - name: reporting_year
+    type: INTEGER
+  - name: competent_authority
+    type: VARCHAR
+  - name: item_code
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: item_label
+    type: VARCHAR
+  - name: count
+    type: BIGINT

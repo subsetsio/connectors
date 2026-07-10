@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eba-risk-dashboard-credit-parameters`. Regenerate after model-verify.
+# caution: The period is an integer quarter code in YYYYQ form, not a calendar date.
+# caution: Rows mix country values with aggregate geographies; filter `country` before summing or comparing peer groups.
+key: [country, segment, period, statistic, metric]
+temporal: period
+sort: [period, country, segment, statistic, metric]
+columns:
+  - name: period
+    type: INTEGER
+  - name: country
+    type: VARCHAR
+  - name: segment
+    type: VARCHAR
+  - name: metric
+    type: VARCHAR
+  - name: statistic
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eba-te-sovereign-exposures`. Regenerate after model-verify.
+# caution: Period is a YYYYMM reference-period code stored by the source, not a date column.
+# caution: Rows are broken down by sovereign counterparty country, accounting portfolio, and maturity bucket; aggregate only across compatible dimensions.
+key: [lei_code, nsa, period, item, country, accounting_portfolio, maturity]
+temporal: period
+sort: [period, lei_code, nsa, item, country, accounting_portfolio, maturity]
+columns:
+  - name: lei_code
+    type: VARCHAR
+  - name: nsa
+    type: VARCHAR
+  - name: period
+    type: BIGINT
+  - name: item
+    type: BIGINT
+  - name: label
+    type: VARCHAR
+  - name: country
+    type: BIGINT
+  - name: accounting_portfolio
+    type: BIGINT
+  - name: maturity
+    type: BIGINT
+  - name: amount
+    type: DOUBLE
+  - name: footnote
+    type: VARCHAR
+  - name: row
+    type: BIGINT
+  - name: column
+    type: BIGINT
+  - name: sheet
+    type: VARCHAR

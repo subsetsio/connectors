@@ -1,6 +1,7 @@
 spec_id: eba-stress-test-results
 status: active
 tests:
+  - freshness: {col: Period, reaches: 202712}
   - not_null: LEI_Code
   - not_null: Period
   - not_null: Item

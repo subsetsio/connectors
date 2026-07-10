@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eba-risk-dashboard-kri`. Regenerate after model-verify.
+# caution: The period is an integer YYYYMM reference-period code, not a calendar date.
+# caution: Rows mix country values with EU/EEA aggregate geographies; filter `country` before summing or comparing peer groups.
+key: [period, country, indicator_name, indicator_code]
+temporal: period
+sort: [period, country, indicator_name, indicator_code]
+columns:
+  - name: period
+    type: INTEGER
+  - name: country
+    type: VARCHAR
+  - name: indicator_code
+    type: VARCHAR
+  - name: indicator_name
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

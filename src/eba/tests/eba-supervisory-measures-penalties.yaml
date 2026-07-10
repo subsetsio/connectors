@@ -1,6 +1,7 @@
 spec_id: eba-supervisory-measures-penalties
 status: active
 tests:
+  - freshness: {col: reporting_year, reaches: 2024}
   - not_null: framework
   - not_null: competent_authority
   - not_null: item_code

@@ -1,0 +1,30 @@
+# compiled by `hardened compile-checks` — post-publish audit of `eba-te-market-risk`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [lei_code, nsa, period, item, portfolio, mkt_modprod, mkt_risk]
+temporal: period
+checks:
+  - kind: unique
+    columns: [lei_code, nsa, period, item, portfolio, mkt_modprod, mkt_risk]
+  - kind: not_null
+    col: lei_code
+  - kind: not_null
+    col: nsa
+  - kind: not_null
+    col: period
+  - kind: not_null
+    col: item
+  - kind: not_null
+    col: portfolio
+  - kind: not_null
+    col: mkt_modprod
+  - kind: not_null
+    col: mkt_risk
+  - kind: row_floor
+    min: 12291
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,6 +1,7 @@
 spec_id: eba-risk-dashboard-credit-parameters
 status: active
 tests:
+  - freshness: {col: period, reaches: 20261}
   - not_null: period
   - not_null: country
   - not_null: segment

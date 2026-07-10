@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eba-te-credit-risk`. Regenerate after model-verify.
+# caution: Period is a YYYYMM reference-period code stored by the source, not a date column.
+# caution: Rows are broken down by multiple credit-risk dimensions; aggregate only after selecting compatible portfolio, geography, exposure, performance-status, and NACE-code levels.
+key: [lei_code, nsa, period, item, portfolio, country, country_rank, exposure, status, perf_status, nace_codes]
+temporal: period
+sort: [period, lei_code, nsa, item, portfolio, country, country_rank, exposure, status, perf_status, nace_codes]
+columns:
+  - name: lei_code
+    type: VARCHAR
+  - name: nsa
+    type: VARCHAR
+  - name: period
+    type: BIGINT
+  - name: item
+    type: BIGINT
+  - name: label
+    type: VARCHAR
+  - name: portfolio
+    type: BIGINT
+  - name: country
+    type: BIGINT
+  - name: country_rank
+    type: BIGINT
+  - name: exposure
+    type: BIGINT
+  - name: status
+    type: BIGINT
+  - name: perf_status
+    type: BIGINT
+  - name: nace_codes
+    type: BIGINT
+  - name: amount
+    type: DOUBLE
+  - name: footnote
+    type: VARCHAR
+  - name: row
+    type: BIGINT
+  - name: column
+    type: BIGINT
+  - name: sheet
+    type: VARCHAR

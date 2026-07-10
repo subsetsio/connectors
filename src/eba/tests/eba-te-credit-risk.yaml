@@ -1,6 +1,7 @@
 spec_id: eba-te-credit-risk
 status: active
 tests:
+  - freshness: {col: Period, reaches: 202406}
   - not_null: LEI_Code
   - not_null: Period
   - not_null: Item

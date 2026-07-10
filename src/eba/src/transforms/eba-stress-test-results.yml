@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eba-stress-test-results`. Regenerate after model-verify.
+# caution: Period is a YYYYMM scenario/reference code stored by the source, not a date column.
+# caution: Scenario is source-coded; use the source scenario definitions before comparing baseline, adverse, actual, and restated rows.
+key: [lei_code, period, item, scenario]
+temporal: period
+sort: [period, lei_code, item, scenario]
+columns:
+  - name: country_code
+    type: VARCHAR
+  - name: lei_code
+    type: VARCHAR
+  - name: bank_name
+    type: VARCHAR
+  - name: period
+    type: BIGINT
+  - name: item
+    type: BIGINT
+  - name: scenario
+    type: BIGINT
+  - name: fact_char
+    type: VARCHAR
+  - name: amount
+    type: DOUBLE

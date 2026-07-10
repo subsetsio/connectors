@@ -1,6 +1,7 @@
 spec_id: eba-risk-dashboard-kri
 status: active
 tests:
+  - freshness: {col: period, reaches: 202603}
   - not_null: period
   - not_null: country
   - not_null: indicator_code

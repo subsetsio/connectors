@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eba-te-other-exposures`. Regenerate after model-verify.
+# caution: Period is a YYYYMM reference-period code stored by the source, not a date column.
+# caution: This table combines several non-credit/non-market/non-sovereign Transparency Exercise templates; filter the template or item family before aggregation.
+key: [lei_code, nsa, period, item, assets_fv, assets_stages, exposure, financial_instruments, fin_end_year, n_quarters]
+temporal: period
+sort: [period, lei_code, nsa, item, assets_fv, assets_stages, exposure, financial_instruments, fin_end_year, n_quarters]
+columns:
+  - name: lei_code
+    type: VARCHAR
+  - name: nsa
+    type: VARCHAR
+  - name: period
+    type: BIGINT
+  - name: item
+    type: BIGINT
+  - name: label
+    type: VARCHAR
+  - name: assets_fv
+    type: BIGINT
+  - name: assets_stages
+    type: BIGINT
+  - name: exposure
+    type: BIGINT
+  - name: financial_instruments
+    type: BIGINT
+  - name: amount
+    type: DOUBLE
+  - name: fin_end_year
+    type: BIGINT
+  - name: n_quarters
+    type: BIGINT
+  - name: footnote
+    type: VARCHAR
+  - name: row
+    type: BIGINT
+  - name: column
+    type: BIGINT
+  - name: sheet
+    type: VARCHAR
