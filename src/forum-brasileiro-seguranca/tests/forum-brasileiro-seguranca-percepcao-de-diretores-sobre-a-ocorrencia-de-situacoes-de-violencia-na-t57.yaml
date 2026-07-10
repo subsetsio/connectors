@@ -1,0 +1,27 @@
+spec_id: forum-brasileiro-seguranca-percepcao-de-diretores-sobre-a-ocorrencia-de-situacoes-de-violencia-na-t57
+status: active
+tests:
+  - not_null: geography
+    reason: every row is anchored to a Brazilian geography (Brasil/region/UF)
+    certainty: 95
+  - not_null: year
+    certainty: 95
+  - column_type: {col: year, type: integer}
+    certainty: 95
+  - column_type: {col: value, type: float}
+    certainty: 90
+  - between: {col: year, lo: 1995, hi: current_year()}
+    reason: Anuario tables report annual series within the modern data era
+    certainty: 85
+    points_outward: true
+    severity: warn
+  - at_most: {col: year, expr: current_year()}
+    certainty: 80
+    points_outward: true
+    severity: warn
+  - distinct_count: {col: geography, min: 5}
+    reason: a geography-by-year cross-tab covers multiple places; <5 geographies means the parser stopped early
+    certainty: 75
+  - row_count: {min: 10}
+    reason: geography x years x measures should produce multiple long rows per table
+    certainty: 75

@@ -17,7 +17,7 @@ the latest edition and overwrites. The transform is a thin cast/projection.
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 
 from constants import ENTITY_IDS
 from utils import fetch_workbook, index_slug_to_code, parse_table
@@ -56,22 +56,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                geography,
-                geo_level,
-                CAST(year AS INTEGER) AS year,
-                measure,
-                CAST(value AS DOUBLE) AS value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL AND geography IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]
