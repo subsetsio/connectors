@@ -1,28 +1,46 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caic-avalanche-accidents-us-avalanche-fatalities`. Regenerate after model-verify.
+# caution: Comprehensive national fatality workbook with historical coverage that is sparse before the modern CAIC era; some legacy rows have no stable source identifier and may repeat the same date, location, and description.
+key: []
+temporal: accident_date
+sort: [accident_date]
 columns:
   - name: avalanche_year
     type: INTEGER
+    description: CAIC avalanche year assigned to the accident.
   - name: accident_date
     type: DATE
+    description: Date of the fatal avalanche accident.
   - name: year
     type: INTEGER
+    description: Calendar year extracted from the accident date.
   - name: month
     type: INTEGER
+    description: Calendar month extracted from the accident date.
   - name: location
     type: VARCHAR
+    description: Location text from the CAIC fatalities workbook.
   - name: setting
     type: VARCHAR
+    description: CAIC setting code for the accident, such as backcountry or ski area.
   - name: state
     type: VARCHAR
+    description: US state or territory abbreviation for the accident location.
   - name: latitude
     type: DOUBLE
+    description: Latitude of the accident location when provided; workbook zero coordinates are published as null.
   - name: longitude
     type: DOUBLE
+    description: Longitude of the accident location when provided; workbook zero coordinates are published as null.
   - name: primary_activity
     type: VARCHAR
+    description: Primary activity category for the involved party.
   - name: travel_mode
     type: VARCHAR
+    description: Travel mode category reported for the accident.
   - name: killed
     type: INTEGER
+    description: Number of fatalities in the accident row.
   - name: description
     type: VARCHAR
+    description: Free-text accident summary from the CAIC fatalities workbook.

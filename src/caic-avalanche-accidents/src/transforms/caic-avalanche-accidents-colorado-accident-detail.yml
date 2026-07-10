@@ -1,44 +1,70 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `caic-avalanche-accidents-colorado-accident-detail`. Regenerate after model-verify.
+# caution: Colorado-only recent-window accident feed; it overlaps the national fatalities workbook but has richer incident details and is not a complete national history.
+key: [accident_date, report_url]
+temporal: accident_date
+sort: [accident_date, report_url]
 columns:
   - name: acc_id
     type: VARCHAR
+    description: CAIC accident identifier from the Accident Explorer feed.
   - name: accident_date
     type: DATE
+    description: Date of the reported avalanche accident.
   - name: year
     type: INTEGER
+    description: Calendar year extracted from the accident date.
   - name: activity
     type: VARCHAR
+    description: Reported activity of the involved party.
   - name: travel_mode
     type: VARCHAR
+    description: Travel mode reported for the accident.
   - name: location
     type: VARCHAR
+    description: CAIC location text for the accident.
   - name: latitude
     type: DOUBLE
+    description: Latitude of the accident location when provided.
   - name: longitude
     type: DOUBLE
+    description: Longitude of the accident location when provided.
   - name: number_caught
     type: INTEGER
+    description: Number of people reported caught in the avalanche.
   - name: number_buried
     type: INTEGER
+    description: Number of people reported buried in the avalanche.
   - name: number_killed
     type: INTEGER
+    description: Number of people killed in the accident.
   - name: avalanche_type
     type: VARCHAR
+    description: Avalanche type reported by CAIC.
   - name: aspect
     type: VARCHAR
+    description: Slope aspect reported for the accident.
   - name: elevation_ft
     type: DOUBLE
+    description: Elevation in feet when provided.
   - name: slope_angle
     type: DOUBLE
+    description: Slope angle in degrees when provided.
   - name: relative_size
     type: DOUBLE
+    description: Relative avalanche size on the CAIC R scale.
   - name: destructive_size
     type: DOUBLE
+    description: Destructive avalanche size on the CAIC D scale.
   - name: trigger
     type: VARCHAR
+    description: Trigger category reported for the accident.
   - name: trigger_description
     type: VARCHAR
+    description: Free-text trigger description from CAIC.
   - name: bed_surface
     type: VARCHAR
+    description: Bed surface or weak layer description when provided.
   - name: report_url
     type: VARCHAR
+    description: URL for the CAIC accident report.
