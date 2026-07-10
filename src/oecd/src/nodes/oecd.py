@@ -15,12 +15,14 @@ Scope: accept includes the full SDMX dataflow catalog collected by the harness.
 Some dataflows are very large or are external references; the fetch path is
 streaming and each dataflow remains isolated as its own raw asset.
 
-SDMX-CSV is tidy (one observation per row). The header is
+SDMX-CSV is tidy (one observation per row). The usual header is
 `DATAFLOW,<dim1>,...,<dimN>,TIME_PERIOD,OBS_VALUE,<attrs...>` where the
-dimension/attribute columns differ per dataflow (each has its own DSD). We drop
-only the fixed `DATAFLOW` envelope column, rename TIME_PERIOD/OBS_VALUE to
-time_period/value, coerce value to float, and pass every remaining column
-through verbatim (lower-cased) — a uniform-per-dataset long row.
+dimension/attribute columns differ per dataflow (each has its own DSD). A few
+questionnaire/reference dataflows are not temporal and omit TIME_PERIOD. We
+drop only the fixed `DATAFLOW` envelope column, rename TIME_PERIOD/OBS_VALUE to
+time_period/value when present, coerce numeric values to float while preserving
+qualitative values as strings, and pass every remaining column through verbatim
+(lower-cased) — a uniform-per-dataset long row.
 
 Fetch shape: stateless full re-pull (shape 1). The response is **streamed**
 line-by-line straight into a gzipped NDJSON writer so even multi-million-row
@@ -132,7 +134,7 @@ def _to_value(raw: str):
     try:
         return float(raw)
     except ValueError:
-        return None
+        return raw
 
 
 # Sentinel: dataflow not available (permanent skip), distinct from "wrote 0".
@@ -147,6 +149,13 @@ def _stream_to_ndjson(agency: str, dataflow: str, asset: str):
     with client.stream("GET", url, timeout=(10.0, 600.0)) as resp:
         if resp.status_code == 404:
             return _SKIP_404  # permanent: not available for this data request
+        if resp.status_code == 500:
+            body = resp.read().decode("utf-8", errors="replace")
+            if (
+                "Incomplete mapping set" in body
+                or "Object reference not set to an instance of an object" in body
+            ):
+                return _SKIP_404  # permanent source-side SDMX mapping failure
         resp.raise_for_status()  # 5xx/429 -> transient retry; other 4xx -> raise
 
         reader = csv.reader(resp.iter_lines())
@@ -158,9 +167,9 @@ def _stream_to_ndjson(agency: str, dataflow: str, asset: str):
         col = {c: i for i, c in enumerate(cols)}
         tp_i = col.get("TIME_PERIOD")
         val_i = col.get("OBS_VALUE")
-        if tp_i is None or val_i is None:
+        if val_i is None:
             raise AssertionError(
-                f"{agency}:{dataflow}: SDMX-CSV missing TIME_PERIOD/OBS_VALUE; "
+                f"{agency}:{dataflow}: SDMX-CSV missing OBS_VALUE; "
                 f"header={cols}"
             )
         keep_idx = [(i, c.lower()) for i, c in enumerate(cols)
@@ -169,10 +178,12 @@ def _stream_to_ndjson(agency: str, dataflow: str, asset: str):
         n = 0
         with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as fh:
             for parts in reader:
-                if not parts or len(parts) <= max(tp_i, val_i):
+                required = [val_i] if tp_i is None else [tp_i, val_i]
+                if not parts or len(parts) <= max(required):
                     continue
                 row = {name: parts[i] for i, name in keep_idx if i < len(parts)}
-                row["time_period"] = parts[tp_i]
+                if tp_i is not None:
+                    row["time_period"] = parts[tp_i]
                 row["value"] = _to_value(parts[val_i])
                 fh.write(_json.dumps(row, ensure_ascii=False))
                 fh.write("\n")
