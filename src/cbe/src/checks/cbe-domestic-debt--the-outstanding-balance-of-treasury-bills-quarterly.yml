@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cbe-domestic-debt--the-outstanding-balance-of-treasury-bills-quarterly`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, period_label, indicator_en, source_file, year]
+temporal: date
+checks:
+  - kind: unique
+    columns: [date, period_label, indicator_en, source_file, year]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: period_label
+  - kind: not_null
+    col: indicator_en
+  - kind: not_null
+    col: source_file
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 912
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

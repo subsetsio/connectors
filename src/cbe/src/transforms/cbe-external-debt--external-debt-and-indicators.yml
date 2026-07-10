@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cbe-external-debt--external-debt-and-indicators`. Regenerate after model-verify.
+# caution: Rows combine annual and quarterly observations; use `frequency` to avoid mixing time granularities.
+# caution: The source workbook can repeat observations without a stable non-null row identifier; treat rows as source observations rather than keyed facts.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: indicator_en
+    type: VARCHAR
+  - name: indicator_ar
+    type: VARCHAR
+  - name: dimension
+    type: VARCHAR
+  - name: period_label
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: source_file
+    type: VARCHAR

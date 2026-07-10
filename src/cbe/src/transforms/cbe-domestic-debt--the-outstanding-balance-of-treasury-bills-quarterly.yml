@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cbe-domestic-debt--the-outstanding-balance-of-treasury-bills-quarterly`. Regenerate after model-verify.
+# caution: This table is quarterly; `period_label` preserves the workbook's fiscal-year period wording.
+key: [date, period_label, indicator_en, source_file, year]
+temporal: date
+sort: [date, period_label, indicator_en, source_file, year]
+columns:
+  - name: indicator_en
+    type: VARCHAR
+  - name: indicator_ar
+    type: VARCHAR
+  - name: dimension
+    type: VARCHAR
+  - name: period_label
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: source_file
+    type: VARCHAR

@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cbe-inflation--cpi`. Regenerate after model-verify.
+# caution: This table contains multiple CPI indicators and classification levels; select `indicator_en` before aggregating values.
+key: [date, period_label, frequency, indicator_en, source_file, year, value]
+temporal: date
+sort: [date, period_label, frequency, indicator_en, source_file, year, value]
+columns:
+  - name: indicator_en
+    type: VARCHAR
+  - name: indicator_ar
+    type: VARCHAR
+  - name: dimension
+    type: VARCHAR
+  - name: period_label
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: source_file
+    type: VARCHAR
