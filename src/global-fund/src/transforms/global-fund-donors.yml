@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-fund-donors`. Regenerate after model-verify.
+key: [name]
+temporal: datetimecreated
+sort: [datetimecreated, name]
+columns:
+  - name: id
+    type: UUID
+  - name: name
+    type: VARCHAR
+  - name: typeid
+    type: UUID
+  - name: geographyid
+    type: UUID
+  - name: iati_organization_identifier
+    type: JSON
+  - name: datetimecreated
+    type: TIMESTAMP
+  - name: datetimeupdated
+    type: JSON

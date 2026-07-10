@@ -1,0 +1,65 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-fund-allfinancialindicators`. Regenerate after model-verify.
+# caution: Rows are long-format financial observations across different indicator families and financial data sets; filter the relevant indicator and data set before aggregating values.
+key: [financialindicatorid, recordid, datetimecreated, indicatorname, financialdataset]
+temporal: datetimecreated
+sort: [datetimecreated, financialindicatorid, recordid, indicatorname, financialdataset]
+columns:
+  - name: financialindicatorid
+    type: UUID
+  - name: indicatorname
+    type: VARCHAR
+  - name: recordid
+    type: UUID
+  - name: activityareaid
+    type: UUID
+  - name: financialcategoryid
+    type: UUID
+  - name: transactiondate
+    type: TIMESTAMP
+  - name: startdate
+    type: TIMESTAMP
+  - name: enddate
+    type: TIMESTAMP
+  - name: periodcovered
+    type: VARCHAR
+  - name: periodfrom
+    type: BIGINT
+  - name: periodto
+    type: BIGINT
+  - name: islatestreported
+    type: BOOLEAN
+  - name: iscumulative
+    type: BOOLEAN
+  - name: isannualized
+    type: BOOLEAN
+  - name: providerrecordid
+    type: UUID
+  - name: recieverrecordid
+    type: UUID
+  - name: valuedate
+    type: TIMESTAMP
+  - name: plannedamountcurrency
+    type: VARCHAR
+  - name: plannedamount
+    type: DOUBLE
+  - name: plannedamountcumulative
+    type: DOUBLE
+  - name: actualamountcurrency
+    type: VARCHAR
+  - name: actualamount
+    type: DOUBLE
+  - name: actualamountcumulative
+    type: DOUBLE
+  - name: performance
+    type: JSON
+  - name: performancecode
+    type: JSON
+  - name: valuesource
+    type: JSON
+  - name: datetimecreated
+    type: TIMESTAMP
+  - name: datetimeupdated
+    type: TIMESTAMP
+  - name: financialdataset
+    type: VARCHAR

@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-fund-statuses`. Regenerate after model-verify.
+key: [datetimecreated, statusid, statusname]
+temporal: datetimecreated
+sort: [datetimecreated, statusid, statusname]
+columns:
+  - name: statusid
+    type: UUID
+  - name: statusname
+    type: VARCHAR
+  - name: datetimecreated
+    type: TIMESTAMP
+  - name: datetimeupdated
+    type: JSON

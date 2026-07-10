@@ -1,0 +1,81 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-fund-allprogrammaticindicators`. Regenerate after model-verify.
+# caution: Rows mix baseline, target, result, disaggregation, and source fields across programmatic datasets; filter to the intended dataset, indicator, and period before comparing or summing values.
+key: [programmaticindicatorid]
+temporal: datetimecreated
+sort: [datetimecreated, programmaticindicatorid]
+columns:
+  - name: programmaticindicatorid
+    type: UUID
+  - name: indicatorname
+    type: VARCHAR
+  - name: recordid
+    type: UUID
+  - name: activityareaid
+    type: UUID
+  - name: startdate
+    type: TIMESTAMP
+  - name: geographiccoverage
+    type: VARCHAR
+  - name: isreversed
+    type: BOOLEAN
+  - name: aggregationtype
+    type: VARCHAR
+  - name: enddate
+    type: TIMESTAMP
+  - name: periodcovered
+    type: JSON
+  - name: periodfrom
+    type: BIGINT
+  - name: periodto
+    type: BIGINT
+  - name: grouping_level1
+    type: VARCHAR
+  - name: grouping_level2
+    type: VARCHAR
+  - name: valuetype
+    type: VARCHAR
+  - name: baselinevalueyear
+    type: BIGINT
+  - name: baselinevaluenumerator
+    type: DOUBLE
+  - name: baselinevaluedenominator
+    type: DOUBLE
+  - name: baselinevaluepercentage
+    type: DOUBLE
+  - name: baselinevaluetext
+    type: VARCHAR
+  - name: targetvalueyear
+    type: BIGINT
+  - name: targetvaluenumerator
+    type: DOUBLE
+  - name: targetvaluedenominator
+    type: DOUBLE
+  - name: targetvaluepercentage
+    type: DOUBLE
+  - name: targetvaluetext
+    type: VARCHAR
+  - name: resultvalueyear
+    type: BIGINT
+  - name: resultvaluenumerator
+    type: DOUBLE
+  - name: resultvaluedenominator
+    type: DOUBLE
+  - name: resultvaluepercentage
+    type: DOUBLE
+  - name: resultvaluetext
+    type: VARCHAR
+  - name: ismilestonetarget
+    type: BOOLEAN
+  - name: performance
+    type: DOUBLE
+  - name: performancecode
+    type: JSON
+  - name: valuesource
+    type: VARCHAR
+  - name: datetimecreated
+    type: TIMESTAMP
+  - name: datetimeupdated
+    type: JSON
+  - name: programmaticdataset
+    type: VARCHAR

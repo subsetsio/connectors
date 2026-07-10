@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-fund-datasetinformation`. Regenerate after model-verify.
+key: [dataset]
+temporal: lastupdated
+sort: [lastupdated, dataset]
+columns:
+  - name: dataset
+    type: VARCHAR
+  - name: copyright
+    type: VARCHAR
+  - name: description
+    type: JSON
+  - name: lastupdated
+    type: TIMESTAMP
+  - name: daterequested
+    type: TIMESTAMP
+  - name: termsofuse
+    type: VARCHAR
+  - name: license
+    type: VARCHAR
+  - name: contact
+    type: VARCHAR

@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-fund-coordinatingmechanisms`. Regenerate after model-verify.
+# caution: The source includes exact duplicate coordinating mechanism rows and duplicated ids; deduplicate by the full row or by the intended geography/name fields before counting mechanisms.
+key: []
+temporal: datetimecreated
+sort: [datetimecreated]
+columns:
+  - name: id
+    type: UUID
+  - name: name
+    type: VARCHAR
+  - name: website
+    type: VARCHAR
+  - name: geographyid
+    type: UUID
+  - name: datetimecreated
+    type: TIMESTAMP
+  - name: datetimeupdated
+    type: TIMESTAMP

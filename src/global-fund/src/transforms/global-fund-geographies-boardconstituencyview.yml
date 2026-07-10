@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-fund-geographies-boardconstituencyview`. Regenerate after model-verify.
+# caution: This is a board-constituency geography hierarchy view, not a pure country list; filter level before using it as a country dimension.
+key: [id]
+temporal: datetimecreated
+sort: [datetimecreated, id]
+columns:
+  - name: id
+    type: UUID
+  - name: code
+    type: VARCHAR
+  - name: iso2
+    type: VARCHAR
+  - name: level
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: legalname
+    type: VARCHAR
+  - name: datetimecreated
+    type: TIMESTAMP
+  - name: datetimeupdated
+    type: TIMESTAMP
+  - name: parentid
+    type: UUID
+  - name: isdonor
+    type: BOOLEAN
+  - name: isrecipient
+    type: BOOLEAN

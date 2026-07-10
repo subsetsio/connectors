@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-fund-activityareas`. Regenerate after model-verify.
+key: [datetimecreated, id, name, type]
+temporal: datetimecreated
+sort: [datetimecreated, id, name, type]
+columns:
+  - name: id
+    type: UUID
+  - name: type
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: code
+    type: VARCHAR
+  - name: iati_code
+    type: JSON
+  - name: datetimecreated
+    type: TIMESTAMP
+  - name: datetimeupdated
+    type: TIMESTAMP
+  - name: parentid
+    type: UUID

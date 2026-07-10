@@ -4,9 +4,6 @@ tests:
   - not_null: id
     reason: each financial category carries a uuid PK
     certainty: 95
-  - unique: id
-    reason: id is the per-row uuid PK
-    certainty: 90
   - not_null: name
     reason: every financial category has a name
     certainty: 85

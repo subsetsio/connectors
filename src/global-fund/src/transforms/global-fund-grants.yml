@@ -1,0 +1,55 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-fund-grants`. Regenerate after model-verify.
+# caution: Grant rows include period and financial amount fields for signed grant agreements; avoid summing across statuses, periods, or recipient roles without filtering.
+key: [id]
+temporal: periodstartdate
+sort: [periodstartdate, id]
+columns:
+  - name: geographyid
+    type: UUID
+  - name: activityareaid
+    type: UUID
+  - name: principalrecipientid
+    type: UUID
+  - name: leadimplementerid
+    type: UUID
+  - name: differentiationcategory
+    type: VARCHAR
+  - name: fundportfoliomanagerid
+    type: UUID
+  - name: currency_referencerate
+    type: VARCHAR
+  - name: totalboardapprovedamount_referencerate
+    type: DOUBLE
+  - name: totalsignedamount_referencerate
+    type: DOUBLE
+  - name: totalcommitmentamount_referencerate
+    type: DOUBLE
+  - name: totaldisbursedamount_referencerate
+    type: DOUBLE
+  - name: id
+    type: UUID
+  - name: code
+    type: VARCHAR
+  - name: name
+    type: JSON
+  - name: title
+    type: JSON
+  - name: description
+    type: JSON
+  - name: statusid
+    type: UUID
+  - name: periodstartdate
+    type: TIMESTAMP
+  - name: periodenddate
+    type: TIMESTAMP
+  - name: periodfrom
+    type: JSON
+  - name: periodto
+    type: JSON
+  - name: iati_activityidentifier
+    type: VARCHAR
+  - name: datetimecreated
+    type: TIMESTAMP
+  - name: datetimeupdated
+    type: TIMESTAMP

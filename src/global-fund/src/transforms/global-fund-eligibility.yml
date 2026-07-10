@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-fund-eligibility`. Regenerate after model-verify.
+# caution: Eligibility rows are country/component/year observations; filter component and allocation period before counting eligible countries.
+key: [datetimecreated, eligibilityid]
+temporal: datetimecreated
+sort: [datetimecreated, eligibilityid]
+columns:
+  - name: eligibilityid
+    type: UUID
+  - name: geographyid
+    type: UUID
+  - name: incomelevel
+    type: VARCHAR
+  - name: activityareaid
+    type: UUID
+  - name: diseaseburden
+    type: VARCHAR
+  - name: iseligible
+    type: BOOLEAN
+  - name: eligibilityyear
+    type: BIGINT
+  - name: fundingstream
+    type: VARCHAR
+  - name: policyreference
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR
+  - name: datetimecreated
+    type: TIMESTAMP
+  - name: datetimeupdated
+    type: JSON

@@ -4,9 +4,6 @@ tests:
   - not_null: id
     reason: each coordinating mechanism carries a uuid PK
     certainty: 95
-  - unique: id
-    reason: id is the per-row uuid PK
-    certainty: 90
   - not_null: name
     reason: every coordinating mechanism has a name
     certainty: 85

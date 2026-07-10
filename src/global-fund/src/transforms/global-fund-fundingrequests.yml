@@ -1,0 +1,47 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-fund-fundingrequests`. Regenerate after model-verify.
+# caution: Rows describe funding requests by component, allocation period, and status; compare requests within the same component and period.
+key: [code]
+temporal: datetimecreated
+sort: [datetimecreated, code]
+columns:
+  - name: submissiondate
+    type: TIMESTAMP
+  - name: window
+    type: VARCHAR
+  - name: reviewapproach
+    type: VARCHAR
+  - name: reviewdate
+    type: TIMESTAMP
+  - name: reviewoutcome
+    type: VARCHAR
+  - name: differentiationcategory
+    type: VARCHAR
+  - name: geographyid
+    type: UUID
+  - name: id
+    type: UUID
+  - name: code
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: title
+    type: JSON
+  - name: description
+    type: JSON
+  - name: statusid
+    type: JSON
+  - name: periodstartdate
+    type: JSON
+  - name: periodenddate
+    type: JSON
+  - name: periodfrom
+    type: BIGINT
+  - name: periodto
+    type: BIGINT
+  - name: iati_activityidentifier
+    type: JSON
+  - name: datetimecreated
+    type: TIMESTAMP
+  - name: datetimeupdated
+    type: TIMESTAMP
