@@ -3,9 +3,12 @@ status: active
 tests:
   - not_null: year
   - column_type: {col: year, type: integer}
-  - at_least: {col: year, expr: 2000}
-    reason: IDDA income statistics begin in the mid-2000s
+  - at_least: {col: year, expr: 1998}
+    reason: IDDA income statistics in the public files begin in 1998
     certainty: 80
+  - freshness: {col: year, reaches: 2019}
+    reason: IDDA public files lag current calendar time because they are built from administrative tax data
+    points_outward: true
   - at_most: {col: year, expr: current_year()}
     reason: observation year cannot exceed the current calendar year
     certainty: 85

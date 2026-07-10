@@ -4,8 +4,11 @@ tests:
   - not_null: year
   - column_type: {col: year, type: integer}
   - column_type: {col: proportion, type: float}
-  - at_least: {col: year, expr: 2000}
+  - at_least: {col: year, expr: 1998}
     certainty: 80
+  - freshness: {col: year, reaches: 2019}
+    reason: IDDA public files lag current calendar time because they are built from administrative tax data
+    points_outward: true
   - at_most: {col: year, expr: current_year()}
     certainty: 85
     points_outward: true

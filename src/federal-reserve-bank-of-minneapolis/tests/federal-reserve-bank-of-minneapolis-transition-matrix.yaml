@@ -13,6 +13,9 @@ tests:
     reason: transition-matrix cells are probabilities in [0,1]
     certainty: 85
     severity: warn
+  - freshness: {col: y1, reaches: 2019}
+    reason: IDDA public files lag current calendar time because they are built from administrative tax data
+    points_outward: true
   - enum: {col: geo_var, values: [usst, state, native_areas]}
     certainty: 85
   - row_count: {min: 1000000}

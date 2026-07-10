@@ -8,8 +8,11 @@ tests:
   - relationship: {left: y0, op: <=, right: y1}
     reason: base year precedes (or equals) the end year of the income-change horizon
     certainty: 90
-  - at_least: {col: y0, expr: 2000}
+  - at_least: {col: y0, expr: 1998}
     certainty: 80
+  - freshness: {col: y1, reaches: 2019}
+    reason: IDDA public files lag current calendar time because they are built from administrative tax data
+    points_outward: true
   - enum: {col: geo_var, values: [usst, state, native_areas]}
     certainty: 85
   - row_count: {min: 1000000}

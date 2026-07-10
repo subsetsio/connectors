@@ -3,10 +3,11 @@
 Source: the HMDA Snapshot National Loan-Level Dataset, published by the CFPB on
 behalf of the FFIEC as frozen annual releases at
 ``https://files.ffiec.cfpb.gov/static-data/snapshot/{year}/{year}_public_{ds}_csv.zip``
-(``ds`` in {lar, ts}). No auth, one stable zip per (year, dataset).
+(``ds`` in {lar, ts, msamd}). No auth, one stable zip per (year, dataset).
 
-Two published subsets (the rank-accepted entity union):
+Three published subsets (the rank-accepted entity union):
   - ``lar``               loan/application register, ~10-20M rows/year, ~99 cols
+  - ``msamd``             MSA/MD reference codes, one row per area/year
   - ``transmittal_sheet`` one row per filing institution per year, 10 cols
 
 Scope: only the **modern post-2018-redesign** HMDA schema is servable as one
@@ -76,13 +77,19 @@ _REDESIGN_FIRST_YEAR = 2018
 # entity spec id (slug-prefixed) -> the dataset code used in the snapshot URL.
 _DATASET_CODE = {
     "ffiec-lar": "lar",
+    "ffiec-msamd": "msamd",
     "ffiec-transmittal-sheet": "ts",
 }
 
-# The header sentinel that marks a modern (post-redesign) snapshot file. Both
-# the LAR and TS modern files begin with this column; the old pre-2018 format
-# has no header row at all.
+# The header sentinel that marks a modern (post-redesign) snapshot file. LAR and
+# TS carry activity_year in the file; MSAMD is a year-specific reference table
+# whose year is implicit in the snapshot path and synthesized while writing raw.
 _MODERN_FIRST_COL = "activity_year"
+_EXPECTED_FIRST_COL = {
+    "lar": _MODERN_FIRST_COL,
+    "msamd": "msa_md",
+    "ts": _MODERN_FIRST_COL,
+}
 
 # Rows per Arrow batch streamed from DuckDB into the parquet writer. Bounds
 # peak memory on the multi-million-row LAR files.
@@ -204,10 +211,15 @@ def _write_year(asset: str, year: int, ds: str, header: list[str], union: list[s
     try:
         con = duckdb.connect()
         present = set(header)
-        proj = ", ".join(
-            f'"{c}"' if c in present else f'CAST(NULL AS VARCHAR) AS "{c}"'
-            for c in union
-        )
+        pieces = []
+        for col in union:
+            if col in present:
+                pieces.append(f'"{col}"')
+            elif col == _MODERN_FIRST_COL:
+                pieces.append(f"'{year}' AS \"{col}\"")
+            else:
+                pieces.append(f'CAST(NULL AS VARCHAR) AS "{col}"')
+        proj = ", ".join(pieces)
         esc = tmp.replace("'", "''")
         rel = con.sql(
             f"SELECT {proj} FROM read_csv('{esc}', all_varchar=true, header=true)"
@@ -235,7 +247,8 @@ def _fetch_dataset(node_id: str, ds: str) -> None:
     headers: dict[int, list[str]] = {}
     for year in years:
         cols = _read_header(_zip_url(year, ds))
-        if not cols or cols[0] != _MODERN_FIRST_COL:
+        expected_first_col = _EXPECTED_FIRST_COL[ds]
+        if not cols or cols[0] != expected_first_col:
             print(f"[ffiec] skip {ds} {year}: not the modern header layout (first col {cols[:1]})")
             continue
         headers[year] = cols
@@ -244,6 +257,9 @@ def _fetch_dataset(node_id: str, ds: str) -> None:
 
     union: list[str] = []
     seen: set[str] = set()
+    if any(_MODERN_FIRST_COL not in cols for cols in headers.values()):
+        seen.add(_MODERN_FIRST_COL)
+        union.append(_MODERN_FIRST_COL)
     for year in sorted(headers):
         for col in headers[year]:
             if col not in seen:
@@ -260,12 +276,17 @@ def fetch_lar(node_id: str) -> None:
     _fetch_dataset(node_id, _DATASET_CODE[node_id])
 
 
+def fetch_msamd(node_id: str) -> None:
+    _fetch_dataset(node_id, _DATASET_CODE[node_id])
+
+
 def fetch_transmittal_sheet(node_id: str) -> None:
     _fetch_dataset(node_id, _DATASET_CODE[node_id])
 
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="ffiec-lar", fn=fetch_lar, kind="download"),
+    NodeSpec(id="ffiec-msamd", fn=fetch_msamd, kind="download"),
     NodeSpec(id="ffiec-transmittal-sheet", fn=fetch_transmittal_sheet, kind="download"),
 ]
 
@@ -346,6 +367,22 @@ _TS_SQL = '''
     ) = 1
 '''
 
+_MSAMD_SQL = '''
+    SELECT
+        TRY_CAST(activity_year AS INTEGER) AS activity_year,
+        msa_md,
+        NULLIF(msa_md_name, '') AS msa_md_name,
+        NULLIF(state, '') AS state
+    FROM "ffiec-msamd"
+    WHERE activity_year IS NOT NULL
+      AND msa_md IS NOT NULL
+    -- one reference row per MSA/MD code per annual snapshot
+    QUALIFY row_number() OVER (
+        PARTITION BY activity_year, msa_md
+        ORDER BY state NULLS LAST, msa_md_name NULLS LAST
+    ) = 1
+'''
+
 TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="ffiec-lar-transform",
@@ -359,6 +396,13 @@ TRANSFORM_SPECS = [
         deps=["ffiec-transmittal-sheet"],
         sql=_TS_SQL,
         key=("lei", "activity_year"),
+        temporal="activity_year",
+    ),
+    SqlNodeSpec(
+        id="ffiec-msamd-transform",
+        deps=["ffiec-msamd"],
+        sql=_MSAMD_SQL,
+        key=("activity_year", "msa_md"),
         temporal="activity_year",
     ),
 ]

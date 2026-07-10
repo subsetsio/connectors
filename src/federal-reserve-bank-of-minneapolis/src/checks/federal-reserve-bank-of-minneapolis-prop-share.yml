@@ -1,0 +1,36 @@
+# compiled by `hardened compile-checks` — post-publish audit of `federal-reserve-bank-of-minneapolis-prop-share`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, level, samp, inc_var, geo_var, geo_var_val, geo_abb, group_var, group_var_val, percentile]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, level, samp, inc_var, geo_var, geo_var_val, geo_abb, group_var, group_var_val, percentile]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: level
+  - kind: not_null
+    col: samp
+  - kind: not_null
+    col: inc_var
+  - kind: not_null
+    col: geo_var
+  - kind: not_null
+    col: geo_var_val
+  - kind: not_null
+    col: geo_abb
+  - kind: not_null
+    col: group_var
+  - kind: not_null
+    col: group_var_val
+  - kind: not_null
+    col: percentile
+  - kind: row_floor
+    min: 188021
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

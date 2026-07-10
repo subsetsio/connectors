@@ -1,9 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-reserve-bank-of-minneapolis-inc-share`. Regenerate after model-verify.
+# caution: Rows mix within-group and across-group share definitions in `grp_type` along with multiple geography, demographic, sample, and income dimensions; filter those fields before comparing shares.
+key: [year, level, samp, inc_var, geo_var, geo_var_val, geo_abb, group_var, group_var_val, grp_type, percentile]
+temporal: year
+sort: [year, level, samp, inc_var, geo_var, geo_var_val, geo_abb, group_var, group_var_val, grp_type, percentile]
 columns:
-  - name: year
-    type: INTEGER
   - name: level
     type: VARCHAR
+  - name: year
+    type: BIGINT
   - name: samp
     type: VARCHAR
   - name: inc_var

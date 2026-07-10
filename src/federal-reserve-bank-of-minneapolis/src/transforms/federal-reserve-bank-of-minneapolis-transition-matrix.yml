@@ -1,12 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-reserve-bank-of-minneapolis-transition-matrix`. Regenerate after model-verify.
+# caution: Rows mix geography types, demographic group variables, samples, income concepts, base/end percentile bins, and one-year versus five-year horizons; filter these dimensions before comparing probabilities.
+key: [y0, y1, level, lag, samp, inc_var, geo_var, geo_var_val, geo_abb, group_var, group_var_val, pctl_y0, pctl_y1]
+temporal: y1
+sort: [y1, y0, level, lag, samp, inc_var, geo_var, geo_var_val, geo_abb, group_var, group_var_val, pctl_y0, pctl_y1]
 columns:
-  - name: y0
-    type: INTEGER
-  - name: y1
-    type: INTEGER
   - name: level
     type: VARCHAR
   - name: lag
+    type: BIGINT
+  - name: y0
+    type: BIGINT
+  - name: y1
     type: BIGINT
   - name: samp
     type: VARCHAR

@@ -1,0 +1,30 @@
+spec_id: ffiec-msamd
+status: active
+# Expectations on the RAW HMDA MSA/MD reference-code asset. The source file is
+# year-specific but lacks an activity_year column, so the downloader synthesizes
+# activity_year from the snapshot path before writing all-VARCHAR parquet.
+tests:
+  - not_null: activity_year
+    reason: every reference row is tied to the snapshot year it came from
+    certainty: 95
+  - matches: {col: activity_year, pattern: '^20[0-9]{2}$'}
+    reason: modern snapshot years are 4-digit 20xx
+    certainty: 95
+  - not_null: msa_md
+    reason: each row carries the MSA/MD code
+    certainty: 95
+  - matches: {col: msa_md, pattern: '^[0-9]{5}$'}
+    reason: HMDA MSA/MD codes are five-digit numeric codes, including 99999 for NA
+    certainty: 85
+  - nullable: {col: msa_md_name, max_null_frac: 0.01}
+    reason: nearly every code has a name; the 99999 non-metro bucket may be blank
+    certainty: 80
+    severity: warn
+  - row_count: {min: 1000}
+    reason: hundreds of MSA/MD rows are published per year across multiple modern snapshot years
+    certainty: 85
+  - distinct_count: {col: activity_year, min: 5}
+    reason: modern snapshot spans 2018 through the latest released year
+    certainty: 80
+    points_outward: true
+    severity: warn
