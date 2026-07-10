@@ -54,6 +54,14 @@ SLUG = "usda-nass"
 INDEX_URL = "https://www.nass.usda.gov/datasets/"
 SECTOR_TOKENS = ("animals_products", "crops", "demographics", "economics", "environmental")
 BULK_FILE_RE = re.compile(r"qs\.[a-z_]+_\d{8}\.txt\.gz")
+HTTP_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/126.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+}
 
 # The entity whose spec owns the bulk fetch. Arbitrary but fixed: every other
 # spec depends on it, so it must not drift when the catalog is re-collected.
@@ -128,7 +136,7 @@ def _read_tsv(path: str) -> str:
 def _discover_urls() -> dict[str, str]:
     """Scrape the directory listing for the current YYYYMMDD stamp and map each
     sector token to its bulk-file URL."""
-    resp = get(INDEX_URL, timeout=(10.0, 120.0))
+    resp = get(INDEX_URL, headers=HTTP_HEADERS, timeout=(10.0, 120.0))
     resp.raise_for_status()
     names = sorted(set(BULK_FILE_RE.findall(resp.text)))
     urls = {
@@ -151,7 +159,7 @@ def _download(url: str, dest: str) -> None:
     """Stream one sector dump to local disk — crops alone is 1.1 GB compressed,
     far past what an in-memory response can hold. `get_client().stream` bypasses
     the retry baked into `get`, so the policy is applied here."""
-    with get_client().stream("GET", url, timeout=(30.0, 900.0)) as resp:
+    with get_client().stream("GET", url, headers=HTTP_HEADERS, timeout=(30.0, 900.0)) as resp:
         resp.raise_for_status()
         with open(dest, "wb") as fh:
             for chunk in resp.iter_bytes(chunk_size=8 * 1024 * 1024):
