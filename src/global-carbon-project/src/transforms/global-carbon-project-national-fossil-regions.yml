@@ -1,8 +1,10 @@
-key: [region, country]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-carbon-project-national-fossil-regions`. Regenerate after model-verify.
+# caution: Rows are region memberships, so a country or reporting area can appear in multiple regions.
+key: [country, region]
+sort: [country, region]
 columns:
   - name: region
     type: VARCHAR
-    description: GCB aggregation region (OECD, EU27, continents, Kyoto Annex B, ...)
   - name: country
     type: VARCHAR
-    description: member country/territory belonging to the region

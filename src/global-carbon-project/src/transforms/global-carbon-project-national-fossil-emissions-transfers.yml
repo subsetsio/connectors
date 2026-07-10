@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-carbon-project-national-fossil-emissions-transfers`. Regenerate after model-verify.
+# caution: The country column follows the source's reporting-area vocabulary and can include aggregate regions or special areas alongside sovereign countries.
+key: [country, year]
+temporal: year
+sort: [year, country]
 columns:
   - name: country
     type: VARCHAR

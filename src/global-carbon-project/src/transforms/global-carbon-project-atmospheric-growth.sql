@@ -1,5 +1,9 @@
-SELECT CAST(year AS INTEGER) AS year,
-       series,
-       CAST(value AS DOUBLE) AS value
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "year",
+    "series",
+    "value"
 FROM "global-carbon-project-atmospheric-growth"
-WHERE value IS NOT NULL

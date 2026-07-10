@@ -1,6 +1,11 @@
-SELECT model,
-       country,
-       CAST(year AS INTEGER) AS year,
-       CAST(value AS DOUBLE) AS value
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The country column follows the source's reporting-area vocabulary and can include aggregate regions or special areas alongside sovereign countries; filter model before comparing a single estimate series.
+SELECT
+    "model",
+    "country",
+    "year",
+    "value"
 FROM "global-carbon-project-national-land-use-change-emissions"
-WHERE value IS NOT NULL
