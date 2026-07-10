@@ -3,7 +3,7 @@ with the source's own label/description (read off the Frames API, which has no
 standalone concept-metadata endpoint)."""
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, configure_http, save_raw_parquet
+from subsets_utils import configure_http, save_raw_parquet
 from utils import CONCEPTS, USER_AGENT, periods_for, try_frame
 
 CONCEPTS_SCHEMA = pa.schema([
@@ -43,26 +43,3 @@ def fetch_concepts(node_id: str) -> None:
         })
     table = pa.Table.from_pylist(rows, schema=CONCEPTS_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="sec-concepts", fn=fetch_concepts, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="sec-concepts-transform",
-        deps=["sec-concepts"],
-        sql='''
-            SELECT
-                taxonomy,
-                tag,
-                unit,
-                concept_type,
-                label,
-                description
-            FROM "sec-concepts"
-        ''',
-    ),
-]

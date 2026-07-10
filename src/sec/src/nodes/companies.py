@@ -2,7 +2,7 @@
 from www.sec.gov/files/company_tickers_exchange.json."""
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, configure_http, save_raw_parquet
+from subsets_utils import configure_http, save_raw_parquet
 from utils import USER_AGENT, fetch_json
 
 COMPANIES_SCHEMA = pa.schema([
@@ -29,25 +29,3 @@ def fetch_companies(node_id: str) -> None:
     ]
     table = pa.Table.from_pylist(rows, schema=COMPANIES_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="sec-companies", fn=fetch_companies, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="sec-companies-transform",
-        deps=["sec-companies"],
-        sql='''
-            SELECT
-                CAST(cik AS BIGINT) AS cik,
-                name,
-                ticker,
-                exchange
-            FROM "sec-companies"
-            WHERE cik IS NOT NULL
-        ''',
-    ),
-]

@@ -8,7 +8,7 @@ transform's "sec-facts" view glob-unions all batches. Periods with no data
 """
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, configure_http, save_raw_parquet
+from subsets_utils import configure_http, save_raw_parquet
 from utils import CONCEPTS, USER_AGENT, periods_for, try_frame
 
 FACTS_SCHEMA = pa.schema([
@@ -57,35 +57,3 @@ def fetch_facts(node_id: str) -> None:
         table = pa.Table.from_pylist(rows, schema=FACTS_SCHEMA)
         batch_key = f"{tag.lower()}-{unit.lower()}"
         save_raw_parquet(table, f"sec-facts-{batch_key}")
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="sec-facts", fn=fetch_facts, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="sec-facts-transform",
-        deps=["sec-facts"],
-        sql='''
-            SELECT
-                CAST(cik AS BIGINT)        AS cik,
-                entity_name,
-                taxonomy,
-                tag,
-                unit,
-                CAST(fiscal_year AS INTEGER) AS fiscal_year,
-                fiscal_period,
-                TRY_CAST(period_start AS DATE) AS period_start,
-                CAST(period_end AS DATE)       AS period_end,
-                CAST(value AS DOUBLE)          AS value,
-                accession,
-                loc
-            FROM "sec-facts"
-            WHERE value IS NOT NULL
-              AND cik IS NOT NULL
-              AND period_end IS NOT NULL
-        ''',
-    ),
-]
