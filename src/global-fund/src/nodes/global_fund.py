@@ -20,7 +20,7 @@ OData quirks (verified during research + probing):
 - No CSV/XML output — JSON only.
 """
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_ndjson, transient_retry
 
 from constants import ENTITY_IDS
 
@@ -101,17 +101,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per entity set. OData properties are type-consistent
-# across rows (the source enforces a CSDL schema), so a straight pass-through is
-# safe; DuckDB's read_json_auto types each column. The transform is still the
-# correctness gate — a 0-row result fails the node.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

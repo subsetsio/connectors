@@ -1,0 +1,15 @@
+spec_id: global-fund-documents
+status: active
+tests:
+  - not_null: id
+    reason: each document carries a uuid PK
+    certainty: 95
+  - unique: id
+    reason: id is the per-row uuid PK; dupes mean a page was re-pulled into the snapshot
+    certainty: 90
+  - not_null: title
+    reason: every published document has a title
+    certainty: 80
+  - row_count: {min: 1000}
+    reason: ~2283 rows observed; a large drop signals truncated pagination
+    certainty: 80

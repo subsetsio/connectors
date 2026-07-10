@@ -4,12 +4,13 @@ Hong Kong Monetary Authority Open API (https://api.hkma.gov.hk/public, no auth).
 Each entity is one statistical endpoint returning a flat JSON table of records
 behind a `{header:{success,err_code,err_msg}, result:{datasize, records:[...]}}`
 envelope with offset pagination (100 records/page). One download spec per
-entity; one passthrough SQL transform publishes each as a Delta table.
+accepted entity (120 total); the model stage compiles a passthrough transform
+per endpoint into src/transforms/.
 
 Strategy: stateless full re-pull. Each endpoint always returns its complete
 history in a handful of pages (most series < 50 pages), so we re-fetch the whole
 table every run and overwrite — no watermark, no incremental filter (the API
-exposes none). Raw is written as NDJSON because schemas vary across the 95
+exposes none). Raw is written as NDJSON because schemas vary across the ~120
 endpoints and some endpoints are fetched across several `segment` values whose
 record shapes differ; NDJSON absorbs that drift and the transform re-types on read.
 
@@ -26,7 +27,6 @@ import time
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -136,6 +136,39 @@ META = {
     "hkma-residential-mortgage-negative-equity": {"path": "market-data-and-statistics/monthly-statistical-bulletin/banking/residential-mortgage-loans-neg-equity"},
     "hkma-residential-mortgage-survey": {"path": "market-data-and-statistics/monthly-statistical-bulletin/banking/residential-mortgage-survey"},
     "hkma-rmb-liquidity-facility-usage": {"path": "market-data-and-statistics/daily-monetary-statistics/usage-rmb-liquidity-fac"},
+    # --- Bank & SVF Information locators / registers (require lang=en) ---
+    "hkma-bank-atms": {"path": "bank-svf-info/banks-atm-locator", "lang": True},
+    "hkma-bank-branches": {"path": "bank-svf-info/banks-branch-locator", "lang": True},
+    "hkma-bank-ssm": {"path": "bank-svf-info/banks-ssm-locator", "lang": True},
+    # Complaint-progress splits into two disjoint sub-series by `segment`:
+    # `new` (half-yearly, from 2H2020) and `old` (monthly, legacy). Both are
+    # fetched and tagged with a `segment` column.
+    "hkma-banking-complaints-progress": {"path": "bank-svf-info/bank-complaint-progress", "lang": True, "segments": ["new", "old"]},
+    # --- CMU outstanding / turnover, per-currency (remaining tenor) ---
+    "hkma-cmu-outstanding-hkd": {"path": "market-data-and-statistics/monthly-statistical-bulletin/efbn/cmu-outstanding-remain-tenor-hkd"},
+    "hkma-cmu-outstanding-other-fc": {"path": "market-data-and-statistics/monthly-statistical-bulletin/efbn/cmu-outstanding-remain-tenor-other-fc"},
+    "hkma-cmu-outstanding-rmb": {"path": "market-data-and-statistics/monthly-statistical-bulletin/efbn/cmu-outstanding-remain-tenor-rmb"},
+    "hkma-cmu-outstanding-usd": {"path": "market-data-and-statistics/monthly-statistical-bulletin/efbn/cmu-outstanding-remain-tenor-usd"},
+    "hkma-cmu-turnover-hkd": {"path": "market-data-and-statistics/monthly-statistical-bulletin/efbn/cmu-turnover-sec-mkt-remain-tenor-hkd"},
+    "hkma-cmu-turnover-other-fc": {"path": "market-data-and-statistics/monthly-statistical-bulletin/efbn/cmu-turnover-sec-mkt-remain-tenor-other-fc"},
+    "hkma-cmu-turnover-rmb": {"path": "market-data-and-statistics/monthly-statistical-bulletin/efbn/cmu-turnover-sec-mkt-remain-tenor-rmb"},
+    "hkma-cmu-turnover-usd": {"path": "market-data-and-statistics/monthly-statistical-bulletin/efbn/cmu-turnover-sec-mkt-remain-tenor-usd"},
+    # --- External loans & claims (ELC) end-period + per-country positions ---
+    "hkma-elc-endperiod": {"path": "market-data-and-statistics/monthly-statistical-bulletin/banking/elc-endperiod"},
+    "hkma-elc-position-japan": {"path": "market-data-and-statistics/monthly-statistical-bulletin/banking/elc-pos-v-jp"},
+    "hkma-elc-position-singapore": {"path": "market-data-and-statistics/monthly-statistical-bulletin/banking/elc-pos-v-sin"},
+    "hkma-elc-position-uk": {"path": "market-data-and-statistics/monthly-statistical-bulletin/banking/elc-pos-v-uk"},
+    "hkma-elc-position-us": {"path": "market-data-and-statistics/monthly-statistical-bulletin/banking/elc-pos-v-us"},
+    # --- Foreign-currency positions, per currency ---
+    "hkma-fc-position-cad": {"path": "market-data-and-statistics/monthly-statistical-bulletin/banking/fc-position-cad"},
+    "hkma-fc-position-chf": {"path": "market-data-and-statistics/monthly-statistical-bulletin/banking/fc-position-chf"},
+    "hkma-fc-position-dem": {"path": "market-data-and-statistics/monthly-statistical-bulletin/banking/fc-position-dem"},
+    "hkma-fc-position-eur": {"path": "market-data-and-statistics/monthly-statistical-bulletin/banking/fc-position-eur"},
+    "hkma-fc-position-gbp": {"path": "market-data-and-statistics/monthly-statistical-bulletin/banking/fc-position-gbp"},
+    "hkma-fc-position-jpy": {"path": "market-data-and-statistics/monthly-statistical-bulletin/banking/fc-position-jpy"},
+    "hkma-fc-position-other": {"path": "market-data-and-statistics/monthly-statistical-bulletin/banking/fc-position-other"},
+    # --- Government bonds: list of outstanding issues ---
+    "hkma-govbond-outstanding-list": {"path": "market-data-and-statistics/monthly-statistical-bulletin/gov-bond/list-outstanding-govbonds"},
 }
 
 
@@ -209,120 +242,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=node_id, fn=fetch_one, kind="download")
     for node_id in META
-]
-
-# Per-endpoint grain declarations (key = published-table grain, temporal =
-# primary observation-period column). Purely declarative lookup keyed by
-# download-spec id. Most endpoints are one-observation-per-period series keyed by
-# their period column (end_of_month/quarter/date/day). Segment endpoints whose
-# grain also spans the segment/instrument dimension are left keyless but keep
-# their period column as temporal; the two registers are keyed by identity.
-_GRAIN = {
-    "hkma-asset-quality-ais": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-asset-quality-retail-banks": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-balance-sheet-ais": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-balance-sheet-dtc": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-balance-sheet-lb": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-balance-sheet-rlb": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-banking-ais-lros": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-capital-adequacy": {"key": ("end_of_quarter",), "temporal": "end_of_quarter"},
-    "hkma-cmu-outstanding-all-currencies": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-cmu-service": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-cmu-turnover-all-currencies": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-composite-interest-rate": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-credit-card-lending-survey": {"key": ("end_of_quarter",), "temporal": "end_of_quarter"},
-    "hkma-currency": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-daily-interbank-liquidity": {"key": ("end_of_date",), "temporal": "end_of_date"},
-    "hkma-daily-monetary-base": {"key": ("end_of_date",), "temporal": "end_of_date"},
-    "hkma-deposits-by-currency": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-deposits-by-type-cny": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-deposits-by-type-hkd-fc": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-discount-window-rates-daily": {"key": ("end_of_day",), "temporal": "end_of_day"},
-    "hkma-discount-window-rates-endperiod": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-discount-window-rates-periodaverage": {"temporal": "end_of_month"},
-    "hkma-efbn-closing": {"temporal": "end_of_date"},
-    "hkma-efbn-indicative-price": {"temporal": "end_of_date"},
-    "hkma-efbn-outstanding-original-maturity": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-efbn-outstanding-remaining-tenor": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-efbn-tender-results-efb": {"temporal": "issue_date"},
-    "hkma-efbn-tender-results-efn": {"temporal": "issue_date"},
-    "hkma-efbn-turnover-original-maturity": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-efbn-turnover-remaining-tenor": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-efbn-yield-daily": {"key": ("end_of_day",), "temporal": "end_of_day"},
-    "hkma-efbn-yield-endperiod": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-efbn-yield-periodaverage": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-elc-position-all": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-elc-position-mainland-china": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-exchange-fund-position": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-exchange-rates-daily": {"key": ("end_of_day",), "temporal": "end_of_day"},
-    "hkma-exchange-rates-endperiod": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-exchange-rates-periodaverage": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-fc-position-all": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-fc-position-usd": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-foreign-currency-reserve-assets": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-govbond-new-issuance": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-govbond-outstanding-original-maturity": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-govbond-outstanding-remaining-tenor": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-govbond-price-yield-daily": {"temporal": "end_of_day"},
-    "hkma-govbond-price-yield-endperiod": {"temporal": "end_of_month"},
-    "hkma-govbond-price-yield-periodaverage": {"temporal": "end_of_month"},
-    "hkma-govbond-tender-results": {"key": ("issue_date",), "temporal": "issue_date"},
-    "hkma-govbond-turnover-original-maturity": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-govbond-turnover-remaining-tenor": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-hkd-debt-instruments-new-issues": {"key": ("end_of_quarter",), "temporal": "end_of_quarter"},
-    "hkma-hkd-debt-instruments-outstanding": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-hkd-forward-rates-daily": {"key": ("end_of_day",), "temporal": "end_of_day"},
-    "hkma-hkd-forward-rates-endperiod": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-hkd-forward-rates-periodaverage": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-hkd-interbank-transactions": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-hkd-interest-rates-effective": {"key": ("effect_date",), "temporal": "effect_date"},
-    "hkma-hkd-interest-rates-periodaverage": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-interbank-rates-daily": {"key": ("end_of_day",), "temporal": "end_of_day"},
-    "hkma-interbank-rates-endperiod": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-interbank-rates-periodaverage": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-liabilities-to-other-ais": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-liquidity": {"key": ("end_of_quarter",), "temporal": "end_of_quarter"},
-    "hkma-loans-by-sector-ais": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-loans-by-sector-dtc": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-loans-by-sector-lb": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-loans-by-sector-rlb": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-loans-by-type-ais": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-loans-by-type-dtc": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-loans-by-type-lb": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-loans-by-type-rlb": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-mainland-lending-ais": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-mainland-lending-borrowers-type": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-mainland-lending": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-market-operation-daily": {"key": ("end_of_day",), "temporal": "end_of_day"},
-    "hkma-market-operation-periodaverage": {"temporal": "end_of_month"},
-    "hkma-monetary-base-daily": {"key": ("end_of_day",), "temporal": "end_of_day"},
-    "hkma-monetary-base-endperiod": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-money-components-seasonally-adjusted-hkd": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-money-supply-adjusted": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-money-supply-components-all": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-money-supply-components-fc": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-money-supply-components-hkd": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-money-supply-unadjusted-fc": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-ncds-issued-in-hk": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-ncds-turnover-secondary-market": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-register-ais-lros": {"key": ("name",)},
-    "hkma-register-svf-licensees": {"key": ("licence_no",), "temporal": "effective_date"},
-    "hkma-renminbi-deposit-rates": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-residential-mortgage-negative-equity": {"key": ("end_of_quarter",), "temporal": "end_of_quarter"},
-    "hkma-residential-mortgage-survey": {"key": ("end_of_month",), "temporal": "end_of_month"},
-    "hkma-rmb-liquidity-facility-usage": {"key": ("end_of_date",), "temporal": "end_of_date"},
-}
-
-# One passthrough transform per endpoint: the raw NDJSON is already a clean flat
-# table, so the transform just republishes it (and acts as the >0-row gate). The
-# runtime registers each dep as a view over read_json_auto, which unions the
-# record keys — so heterogeneous segment rows surface as columns with nulls.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{spec.id}-transform",
-        deps=[spec.id],
-        sql=f'SELECT * FROM "{spec.id}"',
-        **_GRAIN.get(spec.id, {}),
-    )
-    for spec in DOWNLOAD_SPECS
 ]

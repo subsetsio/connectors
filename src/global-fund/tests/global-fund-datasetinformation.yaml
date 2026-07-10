@@ -1,0 +1,15 @@
+spec_id: global-fund-datasetinformation
+status: active
+tests:
+  - not_null: dataset
+    reason: each row describes one logical dataset, keyed by its name
+    certainty: 90
+  - unique: dataset
+    reason: one provenance row per logical dataset; dupes mean a page was re-pulled
+    certainty: 85
+  - not_null: lastUpdated
+    reason: every dataset carries a lastUpdated freshness stamp
+    certainty: 80
+  - row_count: {min: 10}
+    reason: ~21 logical datasets observed; a large drop signals truncated pagination
+    certainty: 80

@@ -19,8 +19,9 @@ read parquet/ndjson/csv, never xlsx):
   - global aggregate sheets  -> (year, series, value)
   - national country x year  -> (country, year, value)
   - national LUC (3 models)   -> (model, country, year, value)
-The TRANSFORM_SPECS are then thin cast/drop-null passes that publish one Delta
-table per subset.
+  - regions membership        -> (region, country)
+Transforms are NOT authored here: the model stage compiles one Delta table per
+subset from the settled raw (thin cast/drop-null passes) as transforms/*.sql.
 """
 import io
 import re
@@ -30,7 +31,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -43,6 +43,7 @@ SLUG = "global-carbon-project"
 GLOBAL = "global"            # (year, series, value)
 NATIONAL = "national"        # (country, year, value)
 NATIONAL_MODEL = "national_model"  # (model, country, year, value)
+REGIONS = "regions"          # (region, country) — reference membership table
 
 SUBSETS = {
     "global-carbon-budget":         ("gcb", "Global Carbon Budget", GLOBAL),
@@ -55,6 +56,7 @@ SUBSETS = {
     "national-fossil-territorial-emissions": ("national_fossil", "Territorial Emissions", NATIONAL),
     "national-fossil-consumption-emissions": ("national_fossil", "Consumption Emissions", NATIONAL),
     "national-fossil-emissions-transfers":   ("national_fossil", "Emissions Transfers", NATIONAL),
+    "national-fossil-regions":               ("national_fossil", "Regions", REGIONS),
     "national-land-use-change-emissions":    ("national_luc", ["BLUE", "OSCAR", "LUCE"], NATIONAL_MODEL),
 }
 
@@ -75,6 +77,10 @@ SCHEMA_NATIONAL_MODEL = pa.schema([
     ("country", pa.string()),
     ("year", pa.int32()),
     ("value", pa.float64()),
+])
+SCHEMA_REGIONS = pa.schema([
+    ("region", pa.string()),
+    ("country", pa.string()),
 ])
 
 _DOWNLOAD_RE = re.compile(
@@ -268,6 +274,29 @@ def _parse_national(ws, model: str | None = None) -> list[dict]:
     return out
 
 
+def _parse_regions(ws) -> list[dict]:
+    """Regions sheet: one row per region, col 0 = region name, col 1 = a
+    comma-separated list of member country names. Explode into a tidy
+    (region, country) membership table — reference data joinable to the
+    national emissions subsets via country.
+    """
+    out: list[dict] = []
+    for row in _sheet_matrix(ws):
+        if not row or len(row) < 2:
+            continue
+        region, members = row[0], row[1]
+        if region is None or members is None:
+            continue
+        region = str(region).strip()
+        if not region:
+            continue
+        for member in str(members).split(","):
+            country = member.strip()
+            if country:
+                out.append({"region": region, "country": country})
+    return out
+
+
 # ---------------------------------------------------------------------------
 # Fetch — one fn, dispatches on the subset id
 # ---------------------------------------------------------------------------
@@ -290,6 +319,9 @@ def fetch_one(node_id: str) -> None:
         for sheet in sheet_spec:  # one sheet per bookkeeping model
             rows.extend(_parse_national(wb[sheet], model=sheet))
         schema = SCHEMA_NATIONAL_MODEL
+    elif mode == REGIONS:
+        rows = _parse_regions(wb[sheet_spec])
+        schema = SCHEMA_REGIONS
     else:  # pragma: no cover - guarded by SUBSETS
         raise RuntimeError(f"unknown parse mode {mode!r}")
 
@@ -307,43 +339,5 @@ ENTITY_IDS = list(SUBSETS.keys())
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{eid}", fn=fetch_one, kind="download")
-    for eid in ENTITY_IDS
-]
-
-
-def _transform_sql(download_id: str, mode: str) -> str:
-    if mode == GLOBAL:
-        return f'''
-            SELECT CAST(year AS INTEGER) AS year,
-                   series,
-                   CAST(value AS DOUBLE) AS value
-            FROM "{download_id}"
-            WHERE value IS NOT NULL
-        '''
-    if mode == NATIONAL:
-        return f'''
-            SELECT country,
-                   CAST(year AS INTEGER) AS year,
-                   CAST(value AS DOUBLE) AS value
-            FROM "{download_id}"
-            WHERE value IS NOT NULL
-        '''
-    # NATIONAL_MODEL
-    return f'''
-        SELECT model,
-               country,
-               CAST(year AS INTEGER) AS year,
-               CAST(value AS DOUBLE) AS value
-        FROM "{download_id}"
-        WHERE value IS NOT NULL
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{SLUG}-{eid}-transform",
-        deps=[f"{SLUG}-{eid}"],
-        sql=_transform_sql(f"{SLUG}-{eid}", SUBSETS[eid][2]),
-    )
     for eid in ENTITY_IDS
 ]

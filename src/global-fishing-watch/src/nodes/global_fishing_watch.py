@@ -3,10 +3,12 @@
 Mechanism: bulk_zenodo (research-chosen). The dataset is published as a single
 versioned Zenodo record (DOI 10.5281/zenodo.14982712) of ZIP-of-CSV files, no auth.
 
-Three published products, each its own raw parquet + SQL transform:
+Two published products, each its own raw parquet + SQL transform:
   - fleet-monthly-10 : apparent fishing effort by flag x geartype, 0.1deg grid, monthly
-  - mmsi-daily-10    : apparent fishing effort per vessel (MMSI), 0.1deg grid, daily
   - fishing-vessels  : per-vessel-year characteristics table
+
+The heavier daily products (mmsi-daily-10, fleet-daily-100) were deferred at the
+accept stage on pull-cost grounds and are intentionally not built here.
 
 Fetch shape: stateless full re-pull. The record is a static versioned snapshot with
 no incremental/delta query, so every refresh re-fetches the whole corpus and overwrites.
@@ -50,15 +52,6 @@ FLEET_MONTHLY_SCHEMA = pa.schema([
     ("mmsi_present", pa.int32()),
 ])
 
-MMSI_DAILY_SCHEMA = pa.schema([
-    ("date", pa.date32()),
-    ("cell_ll_lat", pa.float64()),
-    ("cell_ll_lon", pa.float64()),
-    ("mmsi", pa.string()),
-    ("hours", pa.float64()),
-    ("fishing_hours", pa.float64()),
-])
-
 FISHING_VESSELS_SCHEMA = pa.schema([
     ("mmsi", pa.string()),
     ("year", pa.int32()),
@@ -91,11 +84,6 @@ PRODUCTS = {
     "fleet-monthly-10": {
         "file_prefix": "fleet-monthly-csvs-10-v3-",
         "schema": FLEET_MONTHLY_SCHEMA,
-        "partitioned": True,
-    },
-    "mmsi-daily-10": {
-        "file_prefix": "mmsi-daily-csvs-10-v3-",
-        "schema": MMSI_DAILY_SCHEMA,
         "partitioned": True,
     },
     "fishing-vessels": {
@@ -213,7 +201,6 @@ DOWNLOAD_SPECS = [
 #     raw is already cleanly typed parquet, so these just project and drop null keys. ---
 
 _FM = f"{SLUG}-fleet-monthly-10"
-_MD = f"{SLUG}-mmsi-daily-10"
 _FV = f"{SLUG}-fishing-vessels"
 
 TRANSFORM_SPECS = [
@@ -225,15 +212,6 @@ TRANSFORM_SPECS = [
                    flag, geartype, hours, fishing_hours, mmsi_present
             FROM "{_FM}"
             WHERE hours IS NOT NULL AND flag IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{_MD}-transform",
-        deps=[_MD],
-        sql=f'''
-            SELECT date, cell_ll_lat, cell_ll_lon, mmsi, hours, fishing_hours
-            FROM "{_MD}"
-            WHERE mmsi IS NOT NULL AND hours IS NOT NULL
         ''',
     ),
     SqlNodeSpec(

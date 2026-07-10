@@ -1,0 +1,15 @@
+spec_id: global-fund-statuses
+status: active
+tests:
+  - not_null: statusId
+    reason: each status carries a uuid PK
+    certainty: 95
+  - unique: statusId
+    reason: statusId is the per-row uuid PK
+    certainty: 90
+  - not_null: statusName
+    reason: every status has a human-readable name
+    certainty: 85
+  - row_count: {min: 3}
+    reason: ~7 rows observed; a large drop signals a broken fetch
+    certainty: 80

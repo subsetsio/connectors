@@ -30,7 +30,7 @@ typed long-format table (the cast doubles as the correctness gate).
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
 
 # Entity union (rank-active leaf category ids). Inlined per the no-module-IO rule.
 from constants import ENTITY_IDS
@@ -123,40 +123,5 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-
-# One published Delta table per category: cast the faithful string raw into a
-# typed long-format observations table. Drop rows whose value is not numerically
-# castable (no real observation); the strict CAST of the survivors stays as a
-# correctness gate for any genuinely unexpected value.
-def _transform_sql(download_id: str) -> str:
-    return f'''
-        SELECT
-            CAST(series_id AS BIGINT)                       AS series_id,
-            series_name,
-            title,
-            TRY_CAST(NULLIF(measurement_id, '') AS BIGINT)  AS measurement_id,
-            NULLIF(measurement_name, '')                    AS measurement_name,
-            NULLIF(frequency, '')                           AS frequency,
-            NULLIF(units_label, '')                         AS units_label,
-            NULLIF(seasonal_adjustment, '')                 AS seasonal_adjustment,
-            NULLIF(geo_fips, '')                            AS geo_fips,
-            NULLIF(geo_name, '')                            AS geo_name,
-            NULLIF(geo_handle, '')                          AS geo_handle,
-            NULLIF(source_description, '')                  AS source_description,
-            CAST(date AS DATE)                              AS date,
-            CAST(value AS DOUBLE)                           AS value
-        FROM "{download_id}"
-        WHERE value IS NOT NULL
-          AND value <> ''
-          AND TRY_CAST(value AS DOUBLE) IS NOT NULL
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id),
-    )
-    for s in DOWNLOAD_SPECS
-]
+# Transforms are the compiled file pairs in src/transforms/ (one per category),
+# not module-level specs — the retired TRANSFORM_SPECS form was migrated out.

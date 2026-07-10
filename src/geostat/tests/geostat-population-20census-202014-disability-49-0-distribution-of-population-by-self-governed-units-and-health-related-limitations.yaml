@@ -1,0 +1,8 @@
+spec_id: geostat-population-20census-202014-disability-49-0-distribution-of-population-by-self-governed-units-and-health-related-limitations
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every PxWeb .px table returns at least one observation cell; an empty raw asset means the json-stat fetch or cell-split logic broke (or the table was withdrawn upstream).
+    certainty: 80
+    points_outward: true
+    severity: warn

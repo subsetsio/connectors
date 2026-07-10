@@ -64,9 +64,39 @@ DATASETS = {
         "parser": "year_wide",
         "params": {"sheet": "DATA", "id_vars": ["Country", "Variable", "Description", "Code"]},
     },
-    # --- EU KLEMS July 2018 Release: output module CSV, already long ---
+    # --- EU KLEMS release family: '*_output.csv' growth-accounts module, already
+    #     long (iso3, var, isic3|isic4, year, value). One release per Dataverse
+    #     dataset; the euklems parser normalises the isic3/isic4 industry column. ---
     "10.34894-6gdd7q": {
         "doi": "10.34894/6GDD7Q", "file": "18II_output.csv", "parser": "euklems",
+        "params": {},
+    },
+    "10.34894-cfvddy": {  # March 2007 Release
+        "doi": "10.34894/CFVDDY", "file": "07I_output.csv", "parser": "euklems",
+        "params": {},
+    },
+    "10.34894-ybt7dm": {  # November 2007 Release
+        "doi": "10.34894/YBT7DM", "file": "07II_output.csv", "parser": "euklems",
+        "params": {},
+    },
+    "10.34894-mgsb4h": {  # March 2008 Release
+        "doi": "10.34894/MGSB4H", "file": "08I_output.csv", "parser": "euklems",
+        "params": {},
+    },
+    "10.34894-8awc3r": {  # November 2009 Release
+        "doi": "10.34894/8AWC3R", "file": "09I_output.csv", "parser": "euklems",
+        "params": {},
+    },
+    "10.34894-cslwpd": {  # March 2011 Update
+        "doi": "10.34894/CSLWPD", "file": "09II_output.csv", "parser": "euklems",
+        "params": {},
+    },
+    "10.34894-fzrmhu": {  # October 2012 Release
+        "doi": "10.34894/FZRMHU", "file": "12I_output.csv", "parser": "euklems",
+        "params": {},
+    },
+    "10.34894-8zjb7d": {  # December 2016 Release
+        "doi": "10.34894/8ZJB7D", "file": "16II_output.csv", "parser": "euklems",
         "params": {},
     },
 }

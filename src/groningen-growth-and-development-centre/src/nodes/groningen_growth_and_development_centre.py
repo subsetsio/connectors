@@ -4,13 +4,14 @@ Mechanism: the DataverseNL native API (https://dataverse.nl) hosting GGDC's
 official database collection. Each rank-accepted entity is one Dataverse
 dataset (a GGDC database release). We resolve the dataset's file listing by
 DOI, download the one tabular file we publish, and reshape it into a tidy long
-table with a numeric ``value`` column. The SQL transform then publishes one
-Delta table per dataset.
+table with a numeric ``value`` column. The model stage compiles one Delta-table
+transform per dataset from the profiled raw.
 
 Heterogeneous Excel/CSV layouts (PWT wide panels, Maddison long, ETD/ASUT/WIOD
-matrices, EU KLEMS long CSV) are normalised in Python here, because the
-transform layer is SQL-only and cannot read xlsx/zip. The full corpus is small
-(≤ a few hundred MB across 11 files) and the Dataverse datasets are immutable
+matrices, the EU KLEMS release family of long CSVs) are normalised in Python
+here, because the transform layer is SQL-only and cannot read xlsx/zip. The full
+corpus is small (a few hundred MB across the accepted datasets) and the
+Dataverse datasets are immutable
 per published version, so each fetch is a stateless full re-pull (no watermark,
 no incremental query — none is offered).
 """
@@ -21,7 +22,7 @@ import openpyxl
 import pandas as pd
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
 from constants import DATASETS
 
 SLUG = "groningen-growth-and-development-centre"
@@ -178,9 +179,22 @@ def _parse_asut(content, params, asset):
 
 
 def _parse_euklems(content, params, asset):
+    """EU KLEMS growth-accounts output module: already long.
+
+    Column set drifts across releases: the industry classification is `isic3`
+    in the 2007-2011 releases and `isic4` from 2012 on; releases also carry one
+    or two ordering helpers (`sort_id`, `alt_sort_id`) that are not data. Keep
+    iso3 / var / <industry> / year / value and normalise the industry column to
+    `isic` so the release family publishes a uniform schema.
+    """
     df = pd.read_csv(io.BytesIO(content))
-    keep = ["iso3", "var", "isic4", "year", "value"]
+    isic = "isic4" if "isic4" in df.columns else ("isic3" if "isic3" in df.columns else None)
+    keep = ["iso3", "var", "year", "value"]
+    if isic:
+        keep.insert(2, isic)
     df = df[[c for c in keep if c in df.columns]]
+    if isic:
+        df = df.rename(columns={isic: "isic"})
     df["year"] = _coerce_year(df["year"])
     _finish(df, asset)
 
@@ -215,15 +229,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in DATASETS
-]
-
-# One thin SQL transform per dataset: publish the tidy long table, gating on a
-# non-null value (also fails the node loudly if a parse produced no rows).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}" WHERE value IS NOT NULL',
-    )
-    for s in DOWNLOAD_SPECS
 ]

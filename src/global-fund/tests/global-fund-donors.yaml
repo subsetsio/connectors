@@ -1,0 +1,15 @@
+spec_id: global-fund-donors
+status: active
+tests:
+  - not_null: id
+    reason: each donor carries a uuid PK
+    certainty: 95
+  - unique: id
+    reason: id is the per-row uuid PK
+    certainty: 90
+  - not_null: name
+    reason: every donor has a name
+    certainty: 85
+  - row_count: {min: 80}
+    reason: ~159 rows observed; a large drop signals truncated pagination
+    certainty: 80

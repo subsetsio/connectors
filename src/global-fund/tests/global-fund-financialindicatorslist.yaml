@@ -1,0 +1,12 @@
+spec_id: global-fund-financialindicatorslist
+status: active
+tests:
+  - not_null: indicatorName
+    reason: each row names one financial indicator (the codebook for AllFinancialIndicators)
+    certainty: 90
+  - not_null: dataSetName
+    reason: each indicator is grouped under a dataset name
+    certainty: 85
+  - row_count: {min: 15}
+    reason: ~31 rows observed; a large drop signals truncated pagination
+    certainty: 80

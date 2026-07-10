@@ -24,7 +24,6 @@ import certifi
 import httpx
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     post,
     save_raw_ndjson,
@@ -238,19 +237,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"geostat-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per table: thin parse pass — drop missing cells and
-# type the measure. Dimension columns pass through as the source's value labels.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT * EXCLUDE (value), CAST(value AS DOUBLE) AS value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]
