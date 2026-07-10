@@ -16,6 +16,9 @@ tests:
   - between: {"col": "lon", "lo": -180, "hi": 180}
     reason: "valid WGS84 longitude"
     certainty: 90
+  - freshness: {"col": "cYear", "reaches": 2024}
+    reason: "Protected-area spatial records carry the BWD reporting year and should reach the current WISE_BWD latest bathing season"
+    points_outward: true
   - row_count: {"min": 1000}
     reason: "~31k protected-area records"
     certainty: 80

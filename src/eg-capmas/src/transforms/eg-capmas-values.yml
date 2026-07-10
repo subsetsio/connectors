@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eg-capmas-values`. Regenerate after model-verify.
+# caution: The table mixes annual, quarterly, and monthly observations; use the period columns or derived frequency before comparing or aggregating across time.
+# caution: The source API repeats some identical observations, so published transforms deduplicate by indicator, category, and period.
+key: [indicator_id, category_id, period_key]
+temporal: year
+sort: [year, indicator_id, category_id, period_key]
+columns:
+  - name: main_subject_id
+    type: BIGINT
+  - name: sub_subject_id
+    type: BIGINT
+  - name: indicator_id
+    type: BIGINT
+  - name: indicator_name_en
+    type: VARCHAR
+  - name: category_id
+    type: BIGINT
+  - name: category_en
+    type: VARCHAR
+  - name: category_ar
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: frequency
+    type: VARCHAR
+    description: observation frequency derived from the populated period column
+  - name: period_key
+    type: VARCHAR
+    description: non-null observation period key such as 2024-A, 2024-Q1, or 2024-M05
+  - name: value
+    type: DOUBLE

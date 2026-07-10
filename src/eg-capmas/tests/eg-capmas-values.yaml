@@ -33,3 +33,7 @@ tests:
     reason: month is 1-12 when present
     certainty: 85
     severity: warn
+  - freshness: {col: year, reaches: current_year()}
+    reason: CAPMAS indicator observations include current-year releases.
+    certainty: 70
+    points_outward: true

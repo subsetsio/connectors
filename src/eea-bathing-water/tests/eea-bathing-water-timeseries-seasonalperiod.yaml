@@ -11,6 +11,9 @@ tests:
     severity: "warn"
   - between: {"col": "season", "lo": 1990, "hi": "current_year()"}
     certainty: 90
+  - freshness: {"col": "season", "reaches": 2024}
+    reason: "Seasonal-period time series are annual and should reach the current WISE_BWD latest bathing season"
+    points_outward: true
   - row_count: {"min": 10000}
     reason: "~389k seasonal-period rows"
     certainty: 85

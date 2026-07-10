@@ -1,36 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eea-bathing-water-timeseries-characterisation`. Regenerate after model-verify.
+# caution: Characterisation rows are versioned reported observations; metadata lifecycle fields identify revisions and should be considered when selecting current versus historical records.
+key: [uid]
+temporal: metadata_beginlifespanversion
+sort: [metadata_beginlifespanversion, uid]
 columns:
-  - name: bathingWaterIdentifier
+  - name: bathingwateridentifier
     type: VARCHAR
-  - name: geographicalConstraint
+  - name: geographicalconstraint
     type: BOOLEAN
-  - name: groupIdentifier
+  - name: groupidentifier
     type: VARCHAR
   - name: link
     type: VARCHAR
-  - name: metadata_beginLifeSpanVersion
+  - name: metadata_beginlifespanversion
     type: TIMESTAMP
-  - name: metadata_endLifeSpanVersion
-    type: TIMESTAMP
-  - name: metadata_observationStatus
+  - name: metadata_endlifespanversion
     type: VARCHAR
-  - name: metadata_replacedBy
+  - name: metadata_observationstatus
+    type: VARCHAR
+  - name: metadata_replacedby
     type: VARCHAR
   - name: metadata_replaces
     type: VARCHAR
   - name: metadata_statements
     type: VARCHAR
-  - name: metadata_statusCode
+  - name: metadata_statuscode
     type: VARCHAR
-  - name: metadata_statusDate
+  - name: metadata_statusdate
     type: TIMESTAMP
-  - name: metadata_versionId
+  - name: metadata_versionid
     type: VARCHAR
-  - name: qualityClass
+  - name: qualityclass
     type: BIGINT
   - name: remarks
     type: VARCHAR
   - name: season
     type: BIGINT
-  - name: UID
+  - name: uid
     type: BIGINT

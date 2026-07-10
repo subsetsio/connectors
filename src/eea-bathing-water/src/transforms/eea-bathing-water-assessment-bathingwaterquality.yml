@@ -1,36 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eea-bathing-water-assessment-bathingwaterquality`. Regenerate after model-verify.
+# caution: Quality classifications and microbiological percentiles are annual assessment results; compare within a season or bathing water before summarising across years.
+key: [uid]
+temporal: season
+sort: [season, uid]
 columns:
-  - name: bathingWaterIdentifier
+  - name: bathingwateridentifier
     type: VARCHAR
   - name: classification
     type: BIGINT
-  - name: countryCode
+  - name: countrycode
     type: VARCHAR
-  - name: escherichiaColi90thPercentile
+  - name: escherichiacoli90thpercentile
     type: DOUBLE
-  - name: escherichiaColi95thPercentile
+  - name: escherichiacoli95thpercentile
     type: DOUBLE
-  - name: escherichiaColiAverageLog10
+  - name: escherichiacoliaveragelog10
     type: DOUBLE
-  - name: escherichiaColiClassification
+  - name: escherichiacoliclassification
     type: BIGINT
-  - name: escherichiaColiNumberOfSamples
+  - name: escherichiacolinumberofsamples
     type: BIGINT
-  - name: escherichiaColiSampleStdDevLog10
+  - name: escherichiacolisamplestddevlog10
     type: DOUBLE
-  - name: intestinalEnterococci90thPercentile
+  - name: intestinalenterococci90thpercentile
     type: DOUBLE
-  - name: intestinalEnterococci95thPercentile
+  - name: intestinalenterococci95thpercentile
     type: DOUBLE
-  - name: intestinalEnterococciAverageLog10
+  - name: intestinalenterococciaveragelog10
     type: DOUBLE
-  - name: intestinalEnterococciClassification
+  - name: intestinalenterococciclassification
     type: BIGINT
-  - name: intestinalEnterococciNumberOfSamples
+  - name: intestinalenterococcinumberofsamples
     type: BIGINT
-  - name: intestinalEnterococciSampleStdDevLog10
+  - name: intestinalenterococcisamplestddevlog10
     type: DOUBLE
   - name: season
     type: BIGINT
-  - name: UID
+  - name: uid
     type: BIGINT

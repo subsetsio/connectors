@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eea-bathing-water-assessment-bathingwaterstatus`. Regenerate after model-verify.
+# caution: This table records annual status classifications by bathing water and zone type; quality, management, and monitoring-calendar columns are categorical statuses, not numeric measures.
+key: [bathingwateridentifier, season, specialisedzonetype]
+temporal: season
+sort: [season, bathingwateridentifier, specialisedzonetype]
+columns:
+  - name: bathingwateridentifier
+    type: VARCHAR
+  - name: countrycode
+    type: VARCHAR
+  - name: management
+    type: VARCHAR
+  - name: monitoringcalendar
+    type: VARCHAR
+  - name: quality
+    type: VARCHAR
+  - name: qualityoriginalclassification
+    type: VARCHAR
+  - name: reportedspecialisedzonetype
+    type: VARCHAR
+  - name: season
+    type: BIGINT
+  - name: specialisedzonetype
+    type: VARCHAR
+  - name: uid
+    type: BIGINT

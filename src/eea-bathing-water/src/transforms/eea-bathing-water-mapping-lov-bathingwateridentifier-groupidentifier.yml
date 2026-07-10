@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eea-bathing-water-mapping-lov-bathingwateridentifier-groupidentifier`. Regenerate after model-verify.
+# caution: Group identifiers are valid over season ranges; constrain joins by the reporting season to avoid assigning stale or future groups.
+key: [bathingwateridentifier, fromseason, toseason]
+temporal: fromseason
+sort: [fromseason, bathingwateridentifier, toseason]
+columns:
+  - name: bathingwateridentifier
+    type: VARCHAR
+  - name: countrycode
+    type: VARCHAR
+  - name: fromseason
+    type: BIGINT
+  - name: groupidentifier
+    type: VARCHAR
+  - name: toseason
+    type: BIGINT

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `eea-bathing-water-spatial-protectedarea`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [thematicididentifier, inspireidlocalid, nametext, nametextinternational, designationperiodbegin]
+temporal: beginlifespanversion
+checks:
+  - kind: unique
+    columns: [thematicididentifier, inspireidlocalid, nametext, nametextinternational, designationperiodbegin]
+  - kind: not_null
+    col: thematicididentifier
+  - kind: not_null
+    col: inspireidlocalid
+  - kind: not_null
+    col: nametext
+  - kind: not_null
+    col: nametextinternational
+  - kind: not_null
+    col: designationperiodbegin
+  - kind: row_floor
+    min: 15809
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

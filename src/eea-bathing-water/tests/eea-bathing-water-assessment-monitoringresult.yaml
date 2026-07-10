@@ -13,6 +13,9 @@ tests:
     certainty: 85
   - between: {"col": "season", "lo": 1990, "hi": "current_year()"}
     certainty: 90
+  - freshness: {"col": "sampleDate", "reaches": "today - 2y"}
+    reason: "Assessed monitoring results trail the annual bathing-water release; a two-year slack covers the latest annual publication cycle"
+    points_outward: true
   - row_count: {"min": 10000}
     reason: "~680k assessment samples"
     certainty: 85

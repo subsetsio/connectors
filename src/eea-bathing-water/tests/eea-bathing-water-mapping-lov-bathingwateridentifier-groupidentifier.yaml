@@ -16,6 +16,9 @@ tests:
     certainty: 85
   - between: {"col": "toSeason", "lo": 1990, "hi": "current_year()"}
     certainty: 85
+  - freshness: {"col": "fromSeason", "reaches": 2024}
+    reason: "The bathing-water/group crosswalk is season-ranged and should reach the current WISE_BWD latest bathing season"
+    points_outward: true
   - row_count: {"min": 1000}
     reason: "~29k bathing-water to group-identifier mappings"
     certainty: 80

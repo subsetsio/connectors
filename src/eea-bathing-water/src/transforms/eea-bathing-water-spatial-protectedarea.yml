@@ -1,70 +1,75 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eea-bathing-water-spatial-protectedarea`. Regenerate after model-verify.
+# caution: Spatial rows describe protected-area designations and can include multiple designations or lifecycle versions for related bathing-water zones.
+key: [thematicididentifier, inspireidlocalid, nametext, nametextinternational, designationperiodbegin]
+temporal: beginlifespanversion
+sort: [beginlifespanversion, thematicididentifier, inspireidlocalid, nametext, nametextinternational, designationperiodbegin]
 columns:
-  - name: beginLifespanVersion
+  - name: beginlifespanversion
+    type: DATE
+  - name: countrycode
     type: VARCHAR
-  - name: countryCode
-    type: VARCHAR
-  - name: cYear
+  - name: cyear
     type: BIGINT
-  - name: designationPeriodBegin
+  - name: designationperiodbegin
+    type: DATE
+  - name: designationperiodend
+    type: DATE
+  - name: endlifespanversion
+    type: DATE
+  - name: inspireidlocalid
     type: VARCHAR
-  - name: designationPeriodEnd
+  - name: inspireidnamespace
     type: VARCHAR
-  - name: endLifespanVersion
-    type: VARCHAR
-  - name: inspireIdLocalId
-    type: VARCHAR
-  - name: inspireIdNamespace
-    type: VARCHAR
-  - name: inspireIdVersionId
+  - name: inspireidversionid
     type: VARCHAR
   - name: lat
     type: DOUBLE
-  - name: legalBasisLevel
+  - name: legalbasislevel
     type: VARCHAR
-  - name: legalBasisLink
+  - name: legalbasislink
     type: VARCHAR
-  - name: legalBasisName
+  - name: legalbasisname
     type: VARCHAR
   - name: link
     type: VARCHAR
   - name: lon
     type: DOUBLE
-  - name: nameLanguage
+  - name: namelanguage
     type: VARCHAR
-  - name: nameText
+  - name: nametext
     type: VARCHAR
-  - name: nameTextInternational
+  - name: nametextinternational
     type: VARCHAR
-  - name: predecessorsIdentifier
+  - name: predecessorsidentifier
     type: VARCHAR
-  - name: predecessorsIdentifierScheme
+  - name: predecessorsidentifierscheme
     type: VARCHAR
-  - name: relatedZoneIdentifier
+  - name: relatedzoneidentifier
     type: VARCHAR
-  - name: relatedZoneIdentifierScheme
+  - name: relatedzoneidentifierscheme
     type: VARCHAR
-  - name: sizeUom
+  - name: sizeuom
     type: VARCHAR
-  - name: sizeValue
+  - name: sizevalue
     type: DOUBLE
-  - name: specialisedZoneType
+  - name: specialisedzonetype
     type: VARCHAR
-  - name: statusCode
+  - name: statuscode
     type: VARCHAR
-  - name: statusDate
+  - name: statusdate
+    type: DATE
+  - name: statusremarks
     type: VARCHAR
-  - name: statusRemarks
+  - name: successorsidentifier
     type: VARCHAR
-  - name: successorsIdentifier
+  - name: successorsidentifierscheme
     type: VARCHAR
-  - name: successorsIdentifierScheme
+  - name: thematicididentifier
     type: VARCHAR
-  - name: thematicIdIdentifier
+  - name: thematicididentifierscheme
     type: VARCHAR
-  - name: thematicIdIdentifierScheme
+  - name: wiseevolutiontype
     type: VARCHAR
-  - name: wiseEvolutionType
-    type: VARCHAR
-  - name: zoneType
+  - name: zonetype
     type: VARCHAR

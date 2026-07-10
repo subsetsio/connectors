@@ -1,42 +1,47 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eea-bathing-water-assessment-bathingwater`. Regenerate after model-verify.
+# caution: Annual assessment rows describe a bathing water in a reporting season; do not aggregate boolean assessment flags across seasons as independent sites.
+key: [uid]
+temporal: season
+sort: [season, uid]
 columns:
-  - name: bathingWaterIdentifier
+  - name: bathingwateridentifier
     type: VARCHAR
-  - name: countryCode
+  - name: countrycode
     type: VARCHAR
-  - name: hasAbnormalSituationDuringInsufficientInterval
+  - name: hasabnormalsituationduringinsufficientinterval
     type: BOOLEAN
-  - name: hasAbnormalSituationDuringSeasonStart
+  - name: hasabnormalsituationduringseasonstart
     type: BOOLEAN
-  - name: hasBeenContinuouslyMonitoredInLastAssessmentPeriod
+  - name: hasbeencontinuouslymonitoredinlastassessmentperiod
     type: BOOLEAN
-  - name: hasBeenInaccessibleInLastAssessmentPeriod
+  - name: hasbeeninaccessibleinlastassessmentperiod
     type: BIGINT
-  - name: hasBeenNewlyIdentifiedInLastAssessmentPeriod
+  - name: hasbeennewlyidentifiedinlastassessmentperiod
     type: BOOLEAN
-  - name: hasInaccessibilityDuringInsufficientInterval
+  - name: hasinaccessibilityduringinsufficientinterval
     type: BOOLEAN
-  - name: hasInaccessibilityDuringSeasonStart
+  - name: hasinaccessibilityduringseasonstart
     type: BOOLEAN
-  - name: hasMetMaximumIntervalBetweenSamples
+  - name: hasmetmaximumintervalbetweensamples
     type: BOOLEAN
-  - name: hasMinimumNumberOfSamples
+  - name: hasminimumnumberofsamples
     type: BOOLEAN
-  - name: hasMinimumNumberOfSamplesInLastAssessmentPeriod
+  - name: hasminimumnumberofsamplesinlastassessmentperiod
     type: BIGINT
-  - name: hasPreSeasonSample
+  - name: haspreseasonsample
     type: BOOLEAN
-  - name: hasQualityChangesDuringInsufficientInterval
+  - name: hasqualitychangesduringinsufficientinterval
     type: BOOLEAN
-  - name: hasQualityChangesDuringSeasonStart
+  - name: hasqualitychangesduringseasonstart
     type: BOOLEAN
-  - name: hasQualityChangesInLastAssessmentPeriod
+  - name: hasqualitychangesinlastassessmentperiod
     type: BOOLEAN
-  - name: hasReportedData
+  - name: hasreporteddata
     type: BOOLEAN
-  - name: reasonForManualClassification
+  - name: reasonformanualclassification
     type: VARCHAR
   - name: season
     type: BIGINT
-  - name: UID
+  - name: uid
     type: BIGINT

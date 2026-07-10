@@ -14,6 +14,9 @@ tests:
     severity: "warn"
   - between: {"col": "season", "lo": 1990, "hi": "current_year()"}
     certainty: 90
+  - freshness: {"col": "season", "reaches": 2024}
+    reason: "EEA Bathing Water quality assessments are annual; the current WISE_BWD latest release reaches the 2024 bathing season"
+    points_outward: true
   - matches: {"col": "countryCode", "pattern": "^[A-Z]{2}$"}
     certainty: 85
   - row_count: {"min": 1000}

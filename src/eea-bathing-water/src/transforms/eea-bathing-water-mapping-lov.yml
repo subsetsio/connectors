@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eea-bathing-water-mapping-lov`. Regenerate after model-verify.
+# caution: Vocabulary rows cover multiple coded fields; filter by tableName or notation before joining labels to a fact table.
+key: [uri]
+temporal: statusdate
+sort: [statusdate, uri]
+columns:
+  - name: altlabel
+    type: VARCHAR
+  - name: broader
+    type: VARCHAR
+  - name: broadmatch
+    type: VARCHAR
+  - name: definition
+    type: VARCHAR
+  - name: id
+    type: VARCHAR
+  - name: label
+    type: VARCHAR
+  - name: notation
+    type: VARCHAR
+  - name: sameas
+    type: VARCHAR
+  - name: statuscode
+    type: VARCHAR
+  - name: statusdate
+    type: DATE
+  - name: statusremarks
+    type: VARCHAR
+  - name: tablename
+    type: VARCHAR
+  - name: uri
+    type: VARCHAR
