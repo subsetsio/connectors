@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-austria-ogd-krankenbewegungen-ex-entlassungen-vsekt-20212`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [row_number, diagnosis_ishmt_shortlist_of_diagnoses, year_of_discharge, location_of_the_hospital_federal_provinces, inpatient_care_sector]
+checks:
+  - kind: unique
+    columns: [row_number, diagnosis_ishmt_shortlist_of_diagnoses, year_of_discharge, location_of_the_hospital_federal_provinces, inpatient_care_sector]
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: diagnosis_ishmt_shortlist_of_diagnoses
+  - kind: not_null
+    col: year_of_discharge
+  - kind: not_null
+    col: location_of_the_hospital_federal_provinces
+  - kind: not_null
+    col: inpatient_care_sector
+  - kind: row_floor
+    min: 26179
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

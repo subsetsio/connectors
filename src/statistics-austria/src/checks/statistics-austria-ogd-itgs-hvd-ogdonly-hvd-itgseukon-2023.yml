@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-austria-ogd-itgs-hvd-ogdonly-hvd-itgseukon-2023`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [row_number, cn8_digit, partnercountries_according_to_eu_concept]
+checks:
+  - kind: unique
+    columns: [row_number, cn8_digit, partnercountries_according_to_eu_concept]
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: cn8_digit
+  - kind: not_null
+    col: partnercountries_according_to_eu_concept
+  - kind: row_floor
+    min: 151700
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

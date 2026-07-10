@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-austria-ogd-krebs-ext-krebs-1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [row_number, tumore_icd_10_3_steller, reporting_year, province_of_residence, sex]
+checks:
+  - kind: unique
+    columns: [row_number, tumore_icd_10_3_steller, reporting_year, province_of_residence, sex]
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: tumore_icd_10_3_steller
+  - kind: not_null
+    col: reporting_year
+  - kind: not_null
+    col: province_of_residence
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 25898
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

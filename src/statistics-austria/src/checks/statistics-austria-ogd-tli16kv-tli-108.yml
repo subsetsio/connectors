@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-austria-ogd-tli16kv-tli-108`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [row_number, zeitreihe, kollektivvertrag, soziale_stellung]
+checks:
+  - kind: unique
+    columns: [row_number, zeitreihe, kollektivvertrag, soziale_stellung]
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: zeitreihe
+  - kind: not_null
+    col: kollektivvertrag
+  - kind: not_null
+    col: soziale_stellung
+  - kind: row_floor
+    min: 5978
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
