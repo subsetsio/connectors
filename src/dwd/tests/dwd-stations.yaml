@@ -3,11 +3,12 @@ status: active
 tests:
   - not_null: station_id
   - not_null: name
+  - not_null: bundesland
   - not_null: latitude
   - not_null: longitude
   - column_type: {col: station_id, type: integer}
-  - column_type: {col: from_date, type: string}
-  - column_type: {col: to_date, type: string}
+  - column_type: {col: from_date, type: date}
+  - column_type: {col: to_date, type: date}
   - column_type: {col: height_m, type: float}
   - column_type: {col: latitude, type: float}
   - column_type: {col: longitude, type: float}
@@ -17,9 +18,16 @@ tests:
   - unique: station_id
     reason: station metadata should have one row per station id in the master list
     certainty: 95
+  - distinct_count: {col: bundesland, min: 16, max: 16}
+    reason: Germany has exactly 16 federal states; more means the fixed-layout name/Bundesland split has drifted again
+    certainty: 95
   - between: {col: latitude, lo: 47, hi: 55.5}
     reason: German DWD climate stations should fall within the broad German latitude range
     certainty: 90
   - between: {col: longitude, lo: 5, hi: 16}
     reason: German DWD climate stations should fall within the broad German longitude range
     certainty: 90
+  - freshness: {col: to_date, reaches: today - 14d}
+    reason: active stations report daily, so the latest bis_datum in the master list tracks the current day; 14d absorbs release lag
+    certainty: 85
+    points_outward: true

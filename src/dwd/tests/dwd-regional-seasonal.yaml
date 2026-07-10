@@ -12,7 +12,9 @@ tests:
   - column_type: {col: period, type: string}
   - column_type: {col: value, type: float}
   - row_count: {min: 5000}
-  - distinct_count: {col: variable, min: 8}
+  - distinct_count: {col: variable, min: 3}
+    reason: DWD publishes only air_temperature_mean, precipitation and sunshine_duration at seasonal resolution (annual carries 10)
+    certainty: 90
   - distinct_count: {col: region, min: 15}
   - between: {col: year, lo: 1881, hi: current_year()}
   - freshness: {col: year, reaches: 2024}

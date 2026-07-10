@@ -8,6 +8,7 @@ exposes no since/cursor delta.
 """
 
 import re
+from datetime import datetime
 
 import pyarrow as pa
 
@@ -17,14 +18,20 @@ from utils import OBS, _get_text
 _STATIONS_URL = f"{OBS}/daily/kl/historical/KL_Tageswerte_Beschreibung_Stationen.txt"
 _STATIONS_SCHEMA = pa.schema([
     ("station_id", pa.int32()),
-    ("from_date", pa.string()),
-    ("to_date", pa.string()),
+    ("from_date", pa.date32()),
+    ("to_date", pa.date32()),
     ("height_m", pa.float64()),
     ("latitude", pa.float64()),
     ("longitude", pa.float64()),
     ("name", pa.string()),
     ("bundesland", pa.string()),
 ])
+
+
+# The six leading numeric fields, whitespace-separated and never empty.
+_PREFIX = re.compile(
+    r"^\s*(\d+)\s+(\d{8})\s+(\d{8})\s+(-?\d+(?:\.\d+)?)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s"
+)
 
 
 def fetch_stations(node_id: str) -> None:
@@ -35,25 +42,30 @@ def fetch_stations(node_id: str) -> None:
     for ln in lines[2:]:
         if not ln.strip():
             continue
-        tok = ln.split()
-        # leading 6 numeric tokens; trailing 2 = Bundesland, Abgabe; middle = name
-        if len(tok) < 8:
+        m = _PREFIX.match(ln)
+        if not m:
             continue
-        try:
-            sid = int(tok[0])
-        except ValueError:
+        # The dashes separator understates the real column widths, and the
+        # trailing Abgabe field is empty on ~5% of rows, so neither fixed
+        # offsets nor token counting from the right survive. The name/
+        # Bundesland/Abgabe fields are space-padded, and no station name
+        # contains a run of two spaces, so 2+ spaces is the field separator.
+        tail = [p for p in re.split(r"\s{2,}", ln[m.end():].strip()) if p]
+        if len(tail) < 2:
             continue
-        name = " ".join(tok[6:-2]) if len(tok) > 8 else tok[6]
-        out["station_id"].append(sid)
-        out["from_date"].append(tok[1])
-        out["to_date"].append(tok[2])
-        out["height_m"].append(_f(tok[3]))
-        out["latitude"].append(_f(tok[4]))
-        out["longitude"].append(_f(tok[5]))
-        out["name"].append(name)
-        out["bundesland"].append(tok[-2])
+        out["station_id"].append(int(m.group(1)))
+        out["from_date"].append(_d(m.group(2)))
+        out["to_date"].append(_d(m.group(3)))
+        out["height_m"].append(_f(m.group(4)))
+        out["latitude"].append(_f(m.group(5)))
+        out["longitude"].append(_f(m.group(6)))
+        out["name"].append(tail[0])
+        out["bundesland"].append(tail[1])
     if len(out["station_id"]) < 100:
         raise RuntimeError(f"stations: only {len(out['station_id'])} parsed; layout likely changed")
+    n_bl = len(set(out["bundesland"]))
+    if n_bl > 16:
+        raise RuntimeError(f"stations: {n_bl} distinct Bundesland values; layout likely changed")
     save_raw_parquet(pa.table(out, schema=_STATIONS_SCHEMA), node_id)
 
 
@@ -64,11 +76,11 @@ def _f(s: str):
         return None
 
 
-_STATIONS_SQL = '''
-    SELECT station_id, from_date, to_date, height_m, latitude, longitude, name, bundesland
-    FROM "{dep}"
-    WHERE station_id IS NOT NULL
-'''
+def _d(s: str):
+    try:
+        return datetime.strptime(s, "%Y%m%d").date()
+    except ValueError:
+        return None
 
 DOWNLOAD_SPECS = []
 

@@ -1,35 +1,43 @@
-# Entity union — the rank-active collect entities (subsets to publish).
-# Copied from data/sources/environment-and-climate-change-canada/work/entity_union.json.
-# Each id is an MSC GeoMet OGC API Features collection id.
-#
-# Deferred at rank below the publish threshold (not built here):
-#   - Five firehose-scale collections (climate-daily 63M, climate-hourly 299M,
-#     hydrometric-daily-mean 69M, hydrometric-realtime 19M, swob-realtime 14M).
-#   - Three >1M-row monthly collections (ahccd-monthly 1.37M, climate-monthly
-#     1.9M, hydrometric-monthly-mean 2.26M): the GeoMet backend's offset
-#     pagination is O(offset) — a deep page on a >1M-row collection takes
-#     1-3 minutes (climate-monthly offset=1.9M measured at 161s), so a full
-#     crawl is impractical, and per-station filtering triggers slow server-side
-#     full scans on these collections. They need a province/year-partitioned or
-#     bulk-datamart path a curator can add later.
-#
-# The 16 below all paginate to completion in well under ten minutes each via
-# plain offset pagination (max offset ~593k for climate-normals).
+"""Data, not logic: the accepted collect entities for this connector.
+
+Each id is an OGC API Features collection on https://api.weather.gc.ca.
+Copied from data/sources/environment-and-climate-change-canada/work/entity_union.json.
+"""
+
 ENTITY_IDS = [
     "ahccd-annual",
+    "ahccd-monthly",
     "ahccd-seasonal",
     "ahccd-stations",
     "ahccd-trends",
+    "aqhi-forecasts-realtime",
     "aqhi-observations-realtime",
     "aqhi-stations",
+    "citypageweather-realtime",
+    "climate-daily",
+    "climate-monthly",
     "climate-normals",
     "climate-stations",
+    "datasets-footprints",
+    "hurricanes-cyclone-realtime",
+    "hurricanes-error_cone-realtime",
+    "hurricanes-track-realtime",
+    "hurricanes-wind_radii-realtime",
     "hydrometric-annual-peaks",
     "hydrometric-annual-statistics",
+    "hydrometric-monthly-mean",
     "hydrometric-stations",
     "ltce-precipitation",
     "ltce-snowfall",
     "ltce-stations",
     "ltce-temperature",
+    "marine-standard-forecast-zones",
+    "marineweather-realtime",
+    "metnotes",
+    "public-standard-forecast-zones",
+    "swob-marine-stations",
+    "swob-partner-stations",
     "swob-stations",
+    "thunderstorm_outlook",
+    "weather-alerts",
 ]
