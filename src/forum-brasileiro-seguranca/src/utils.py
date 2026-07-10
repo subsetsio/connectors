@@ -36,6 +36,11 @@ _REGIONS = {
     "sudeste", "sul", "centro-oeste", "centro oeste",
 }
 _GEO = _UF | _REGIONS | {"brasil"}
+_UF_ABBR = {
+    "ac", "al", "am", "ap", "ba", "ce", "df", "es", "go", "ma", "mg", "ms",
+    "mt", "pa", "pb", "pe", "pi", "pr", "rj", "rn", "ro", "rr", "rs", "sc",
+    "se", "sp", "to",
+}
 _NULLISH = {"", "-", "--", "..", "...", "n/d", "nd", "s/i", "s/d", "x"}
 
 
@@ -53,10 +58,16 @@ def _norm(v) -> str:
 
 
 def _as_year(v):
-    try:
-        n = int(float(v))
-    except (TypeError, ValueError):
-        return None
+    if isinstance(v, str):
+        m = re.match(r"^\s*((?:19|20)\d{2})(?:\D|$)", v)
+        if not m:
+            return None
+        n = int(m.group(1))
+    else:
+        try:
+            n = int(float(v))
+        except (TypeError, ValueError):
+            return None
     return n if 1995 <= n <= 2026 else None
 
 
@@ -87,6 +98,13 @@ def _geo_level(norm_label: str) -> str:
     if norm_label in _REGIONS:
         return "regiao"
     return "uf"
+
+
+def _clean_label(v) -> str | None:
+    if v in (None, ""):
+        return None
+    s = re.sub(r"\s+", " ", str(v)).strip()
+    return s or None
 
 
 @transient_retry()
@@ -196,12 +214,15 @@ def index_slug_to_code(xlsx: bytes) -> dict:
     return out
 
 
-def _measure_for(grid, year_row, ci, top):
+def _measure_for(grid, year_row, ci, top, data_start, row_label=None):
     """Best label describing the metric of column `ci`, searched in the header
-    band [top, year_row): nearest non-empty, non-year cell at the column, then
-    leftward along each header row."""
+    band: nearest non-empty, non-year cell at the column, then leftward along
+    each header row. Grouped tables also place sub-measures below the year row,
+    so include those rows until the first data row."""
     parts = []
-    for r in range(year_row - 1, top - 1, -1):
+    header_rows = list(range(data_start - 1, year_row, -1))
+    header_rows.extend(range(year_row - 1, top - 1, -1))
+    for r in header_rows:
         row = grid[r]
         val = row[ci] if ci < len(row) else None
         if val in (None, "") or _as_year(val) is not None:
@@ -218,15 +239,178 @@ def _measure_for(grid, year_row, ci, top):
                 parts.append(t)
         if len(parts) >= 2:
             break
+    if row_label:
+        label = _clean_label(row_label)
+        if label and label not in parts:
+            parts.insert(0, label)
     return " / ".join(reversed(parts)) if parts else None
 
 
+def _expanded_year_columns(row):
+    markers = []
+    for ci, v in enumerate(row):
+        y = _as_year(v)
+        if y is not None:
+            markers.append((ci, y))
+    if len(markers) < 2:
+        return {}
+
+    colyear = {}
+    row_width = len(row)
+    for i, (ci, year) in enumerate(markers):
+        next_ci = markers[i + 1][0] if i + 1 < len(markers) else ci + 1
+        if next_ci == ci + 1:
+            cols = [ci]
+        else:
+            cols = range(ci, next_ci)
+        for c in cols:
+            if c < row_width:
+                colyear[c] = year
+    return colyear
+
+
+def _sheet_years(grid):
+    years = []
+    for row in grid[:4]:
+        for v in row:
+            if isinstance(v, str):
+                for m in re.finditer(r"(?:19|20)\d{2}", v):
+                    y = int(m.group(0))
+                    if 1995 <= y <= 2026:
+                        years.append(y)
+    return years
+
+
+def _row_labels(row, first_value_col):
+    return [
+        _clean_label(v)
+        for v in row[:first_value_col]
+        if _clean_label(v) is not None and _as_year(v) is None
+    ]
+
+
+def _row_geography(labels):
+    if not labels:
+        return None, None, None
+    first_norm = _norm(labels[0])
+    if first_norm in _GEO:
+        return labels[0], _geo_level(first_norm), None
+    if first_norm in _UF_ABBR and len(labels) > 1 and _norm(labels[1]) not in _NULLISH:
+        return labels[1], "capital", labels[0]
+    return labels[0], "categoria", " / ".join(labels)
+
+
+def _looks_like_data(row, colyear):
+    if not colyear:
+        return False
+    first_col = min(colyear)
+    if not _row_labels(row, first_col):
+        return False
+    return any(
+        _as_float(row[ci] if ci < len(row) else None) is not None
+        for ci in colyear
+    )
+
+
+def _header_label(grid, ci, top, bottom, row_label=None):
+    parts = []
+    for r in range(bottom - 1, top - 1, -1):
+        row = grid[r]
+        val = row[ci] if ci < len(row) else None
+        if val in (None, "") or _as_year(val) is not None:
+            val = None
+            for cc in range(min(ci, len(row) - 1), -1, -1):
+                cand = row[cc]
+                if cand not in (None, "") and _as_year(cand) is None:
+                    val = cand
+                    break
+        label = _clean_label(val)
+        if label and label not in parts:
+            parts.append(label)
+        if len(parts) >= 2:
+            break
+    if row_label:
+        label = _clean_label(row_label)
+        if label and label not in parts:
+            parts.insert(0, label)
+    return " / ".join(reversed(parts)) if parts else _clean_label(row_label)
+
+
+def _parse_rowwise_year_table(grid):
+    out = []
+    for data_start, row in enumerate(grid):
+        year = _as_year(row[0] if row else None)
+        if year is None:
+            continue
+        value_cols = [
+            ci for ci in range(1, len(row))
+            if _as_float(row[ci] if ci < len(row) else None) is not None
+        ]
+        if not value_cols:
+            continue
+        for r in range(data_start, len(grid)):
+            row = grid[r]
+            year = _as_year(row[0] if row else None)
+            if year is None:
+                continue
+            for ci in value_cols:
+                val = _as_float(row[ci] if ci < len(row) else None)
+                if val is None:
+                    continue
+                out.append({
+                    "geography": "Brasil",
+                    "geo_level": "brasil",
+                    "year": int(year),
+                    "measure": _header_label(grid, ci, 0, data_start),
+                    "value": float(val),
+                })
+        return out
+    return out
+
+
+def _parse_single_year_wide_table(grid, year):
+    out = []
+    for data_start, row in enumerate(grid):
+        value_cols = [
+            ci for ci in range(1, len(row))
+            if _as_float(row[ci] if ci < len(row) else None) is not None
+        ]
+        if not value_cols:
+            continue
+        first_value_col = min(value_cols)
+        labels = _row_labels(row, first_value_col)
+        geography, geo_level, row_measure = _row_geography(labels)
+        if geography is None:
+            continue
+        for r in range(data_start, len(grid)):
+            row = grid[r]
+            labels = _row_labels(row, first_value_col)
+            geography, geo_level, row_measure = _row_geography(labels)
+            if geography is None:
+                continue
+            for ci in value_cols:
+                val = _as_float(row[ci] if ci < len(row) else None)
+                if val is None:
+                    continue
+                out.append({
+                    "geography": geography,
+                    "geo_level": geo_level,
+                    "year": int(year),
+                    "measure": _header_label(grid, ci, 0, data_start, row_measure),
+                    "value": float(val),
+                })
+        return out
+    return out
+
+
 def parse_table(xlsx: bytes, sheet_code: str) -> list[dict]:
-    """Parse one UF-by-year cross-tab sheet into long rows.
+    """Parse one Anuário table sheet into long rows.
 
     Output rows: geography, geo_level, year, measure, value. Handles multiple
     stacked metric blocks (each its own year-header row) and side-by-side
-    metric blocks (absolutos / taxas) within one header row.
+    metric blocks (absolutos / taxas) within one header row. Non-geographic
+    Brazil-only tables use their row category as geography with geo_level
+    "categoria" so the raw shape remains stable for the compiled transforms.
     """
     wb = load_workbook(io.BytesIO(xlsx), read_only=True, data_only=True)
     if sheet_code not in wb.sheetnames:
@@ -237,36 +421,42 @@ def parse_table(xlsx: bytes, sheet_code: str) -> list[dict]:
 
     blocks = []  # (year_row_index, {col: year})
     for ri, row in enumerate(grid):
-        colyear = {}
-        for ci, v in enumerate(row):
-            y = _as_year(v)
-            if y is not None:
-                colyear[ci] = y
-        if len(colyear) >= 3:
+        colyear = _expanded_year_columns(row)
+        if len(set(colyear.values())) >= 2:
             blocks.append((ri, colyear))
     if not blocks:
+        out = _parse_rowwise_year_table(grid)
+        if out:
+            return out
+        years = _sheet_years(grid)
+        if years:
+            return _parse_single_year_wide_table(grid, max(years))
         return []
 
     out = []
     for bi, (ri, colyear) in enumerate(blocks):
         top = blocks[bi - 1][0] + 1 if bi > 0 else 0
         next_ri = blocks[bi + 1][0] if bi + 1 < len(blocks) else len(grid)
-        measures = {ci: _measure_for(grid, ri, ci, top) for ci in colyear}
+        data_start = next(
+            (r for r in range(ri + 1, next_ri) if _looks_like_data(grid[r], colyear)),
+            ri + 1,
+        )
         for r in range(ri + 1, next_ri):
             row = grid[r]
-            label = next((v for v in row if v not in (None, "")), None)
-            nl = _norm(label)
-            if nl not in _GEO:
+            labels = _row_labels(row, min(colyear))
+            geography, geo_level, row_measure = _row_geography(labels)
+            if geography is None:
                 continue
             for ci, year in colyear.items():
                 val = _as_float(row[ci] if ci < len(row) else None)
                 if val is None:
                     continue
+                measure = _measure_for(grid, ri, ci, top, data_start, row_measure)
                 out.append({
-                    "geography": re.sub(r"\s+", " ", str(label)).strip(),
-                    "geo_level": _geo_level(nl),
+                    "geography": geography,
+                    "geo_level": geo_level,
                     "year": int(year),
-                    "measure": measures.get(ci),
+                    "measure": measure,
                     "value": float(val),
                 })
     return out
