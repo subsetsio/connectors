@@ -1,12 +1,22 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bundesagentur-f-r-arbeit-bb-timeseries`. Regenerate after model-verify.
+key: [period_label, year, date, metric]
+temporal: date
+sort: [date, period_label, year, metric]
 columns:
-  - name: date
-    type: DATE
+  - name: metric
+    type: VARCHAR
+  - name: period_label
+    type: VARCHAR
   - name: year
     type: INTEGER
   - name: month
     type: INTEGER
-  - name: metric
+  - name: date
+    type: DATE
+  - name: group_code
+    type: VARCHAR
+  - name: group_name
     type: VARCHAR
   - name: value
     type: DOUBLE
