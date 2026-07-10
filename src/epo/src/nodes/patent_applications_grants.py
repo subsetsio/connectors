@@ -1,7 +1,18 @@
 """EPO patent applications & grants (countries.json) — long-format counts."""
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
+import re
+
+from subsets_utils import NodeSpec, save_raw_ndjson
 from utils import fetch_json
+
+# '<country>_<metric>_tng', where country is a 2-letter code or the literal
+# 'all_countries' aggregate.
+KEY_RE = re.compile(r"^(?P<country>.+)_(?P<metric>applications|grants)_tng$")
+
+# The source's whole-world aggregate, normalised to the same sentinel the
+# top-applicants tables use. Not an ISO 3166-1 code, so it can never collide
+# with a real country_code.
+AGGREGATE = "ALL"
 
 
 def fetch_patent_applications_grants(node_id: str) -> None:
@@ -11,9 +22,12 @@ def fetch_patent_applications_grants(node_id: str) -> None:
     data = fetch_json("countries.json")
     rows = []
     for key, series in data.items():
-        stem = key[:-4] if key.endswith("_tng") else key  # drop trailing _tng
-        country, _, metric = stem.rpartition("_")
-        cc = country.upper()  # e.g. 'US'; aggregate -> 'ALL_COUNTRIES'
+        m = KEY_RE.match(key)
+        if m is None:
+            raise ValueError(f"unrecognised countries.json key: {key!r}")
+        country = m.group("country")
+        cc = AGGREGATE if country == "all_countries" else country.upper()
+        metric = m.group("metric")
         for rec in series:
             field_id = rec.get("field_id")
             for col, val in rec.items():
@@ -35,22 +49,5 @@ DOWNLOAD_SPECS = [
         id="epo-patent-applications-grants",
         fn=fetch_patent_applications_grants,
         kind="download",
-    ),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="epo-patent-applications-grants-transform",
-        deps=["epo-patent-applications-grants"],
-        sql='''
-            SELECT
-                country_code,
-                metric,
-                CAST(field_id AS INTEGER) AS field_id,
-                CAST(year AS INTEGER)     AS year,
-                CAST(value AS BIGINT)     AS value
-            FROM "epo-patent-applications-grants"
-            WHERE value IS NOT NULL AND value <> ''
-        ''',
     ),
 ]

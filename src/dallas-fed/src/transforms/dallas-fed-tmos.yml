@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dallas-fed-tmos`. Regenerate after model-verify.
+# caution: Rows include multiple components and seasonal-adjustment bases for each survey question; filter component and basis before comparing values.
+key: [date, series_code, component, basis]
+temporal: date
+sort: [date, series_code, component, basis]
 columns:
   - name: date
     type: DATE

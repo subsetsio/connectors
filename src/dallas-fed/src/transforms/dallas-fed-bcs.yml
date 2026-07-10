@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dallas-fed-bcs`. Regenerate after model-verify.
+# caution: Rows include multiple reported components for each survey question; filter component before comparing values.
+key: [date, series_code, component]
+temporal: date
+sort: [date, series_code, component]
 columns:
   - name: date
     type: DATE

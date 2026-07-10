@@ -1,0 +1,16 @@
+ENTITY_IDS = [
+    "airport_traffic",
+    "all_pre_departure_delays",
+    "apt_dly",
+    "asma_additional_time",
+    "atc_pre_departure_delays",
+    "atfm_slot_adherence",
+    "co2_emmissions_by_state",
+    "ert_dly_ansp",
+    "ert_dly_fir",
+    "hfe",
+    "horizontal_flight_efficiency",
+    "taxi_in_additional_time",
+    "taxi_out_additional_time",
+    "vertical_flight_efficiency",
+]
