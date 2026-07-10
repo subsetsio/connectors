@@ -1,0 +1,12 @@
+key: [group_id, series_id]
+sort: [group_id, series_id]
+columns:
+  - name: group_id
+    type: VARCHAR
+    description: Bank of Canada Valet group identifier.
+  - name: series_id
+    type: VARCHAR
+    description: Bank of Canada Valet series identifier that belongs to the group.
+  - name: series_label
+    type: VARCHAR
+    description: Bank of Canada label for the member series as exposed in the group detail payload.

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `bank-of-canada-series-group-membership`.
+# Hand-seeded before the first membership run; regenerate after model-verify
+# profiles the new raw table.
+key: [group_id, series_id]
+checks:
+  - kind: unique
+    columns: [group_id, series_id]
+  - kind: not_null
+    col: group_id
+  - kind: not_null
+    col: series_id
+  - kind: row_floor
+    min: 1000
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
