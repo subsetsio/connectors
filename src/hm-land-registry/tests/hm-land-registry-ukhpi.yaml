@@ -1,0 +1,28 @@
+spec_id: hm-land-registry-ukhpi
+status: active
+tests:
+  - not_null: region_slug
+    reason: every UKHPI observation is attributed to a region
+    certainty: 95
+  - not_null: ref_month
+    reason: every UKHPI observation is a monthly datapoint
+    certainty: 95
+  - freshness: {col: ref_date, reaches: today - 120d}
+    reason: >
+      UKHPI updates the full monthly series around the 3rd week of each month,
+      covering data ~2 months prior; the latest month-start date always reaches
+      within ~4 months of today. ref_date is the full-ISO month-start so the
+      lexicographic comparison is chronological.
+    certainty: 80
+    points_outward: true
+  - coverage: {col: region_slug, expected: 405, tolerance: 0.05}
+    reason: >
+      collect discovered 405 UKHPI regions; the single bulk node must fetch a
+      series for every one. A shortfall beyond ~5% (LA boundary changes) is
+      silent partial loss, not success.
+    certainty: 85
+  - row_count: {min: 60000}
+    reason: >
+      405 regions x hundreds of months each (England from 1995, others later)
+      is well over 60k rows; far fewer means most regions or months were dropped.
+    certainty: 75

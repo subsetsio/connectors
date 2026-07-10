@@ -27,7 +27,6 @@ from pyarrow import csv as pacsv
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_parquet,
@@ -196,38 +195,6 @@ DOWNLOAD_SPECS = [
     for entity in PRODUCTS
 ]
 
-
-# --- Transforms: one published Delta table per product. Thin parse-and-type pass;
-#     raw is already cleanly typed parquet, so these just project and drop null keys. ---
-
-_FM = f"{SLUG}-fleet-monthly-10"
-_FV = f"{SLUG}-fishing-vessels"
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{_FM}-transform",
-        deps=[_FM],
-        sql=f'''
-            SELECT date, year, month, cell_ll_lat, cell_ll_lon,
-                   flag, geartype, hours, fishing_hours, mmsi_present
-            FROM "{_FM}"
-            WHERE hours IS NOT NULL AND flag IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id=f"{_FV}-transform",
-        deps=[_FV],
-        sql=f'''
-            SELECT mmsi, year, flag_ais, flag_registry, flag_gfw,
-                   vessel_class_inferred, vessel_class_inferred_score,
-                   vessel_class_registry, vessel_class_gfw,
-                   self_reported_fishing_vessel,
-                   length_m_inferred, length_m_registry, length_m_gfw,
-                   engine_power_kw_inferred, engine_power_kw_registry, engine_power_kw_gfw,
-                   tonnage_gt_inferred, tonnage_gt_registry, tonnage_gt_gfw,
-                   registries_listed, active_hours, fishing_hours
-            FROM "{_FV}"
-            WHERE mmsi IS NOT NULL
-        ''',
-    ),
-]
+# Transforms are NOT authored here — they are compiled from the settled model in
+# the model stage (`compile-transforms --write` -> src/transforms/<table>.sql|.yml).
+# Module-level TRANSFORM_SPECS is retired.

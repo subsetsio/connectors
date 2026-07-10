@@ -1,0 +1,39 @@
+spec_id: hm-land-registry-ppd
+status: active
+tests:
+  - not_null: transaction_id
+    reason: every Price Paid record carries a transaction unique identifier (a GUID)
+    certainty: 95
+  - not_null: price
+    reason: price paid is the core measure; a null price means a malformed row
+    certainty: 95
+  - not_null: date_of_transfer
+    reason: date of transfer is present on every completed sale record
+    certainty: 95
+  - unique: transaction_id
+    reason: >
+      the per-year (and complete) files are category-A snapshots; each
+      transaction id appears once. Change/delete restatements (record_status
+      C/D) only occur in the monthly-update file, which we do not fetch.
+    certainty: 85
+  - enum: {col: property_type, values: [D, S, T, F, O]}
+    reason: documented PPD property_type domain — Detached/Semi/Terraced/Flat/Other
+    certainty: 90
+  - enum: {col: old_new, values: [Y, N]}
+    reason: documented old_new domain — Y (new build) / N (established)
+    certainty: 90
+  - enum: {col: ppd_category_type, values: [A, B]}
+    reason: documented ppd_category_type domain — A (standard) / B (additional)
+    certainty: 88
+  - freshness: {col: date_of_transfer, reaches: today - 120d}
+    reason: >
+      PPD republishes monthly; the latest transfers lag by registration delay
+      but the current-year file always reaches within ~4 months of today. A
+      stale max means the bulk host stopped updating.
+    certainty: 80
+    points_outward: true
+  - row_count: {min: 15000000}
+    reason: >
+      the full 1995-present corpus is ~28M rows; a count far below this means
+      per-year fetch dropped most years.
+    certainty: 85
