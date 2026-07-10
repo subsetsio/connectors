@@ -1,0 +1,27 @@
+spec_id: bank-of-canada-series-group-membership
+status: active
+tests:
+  - not_null: group_id
+    reason: group_id is the group catalog key used to fetch /groups/<group_id>/json
+    certainty: 99
+  - not_null: series_id
+    reason: groupSeries is keyed by member series id; null means the bridge row lost its target
+    certainty: 99
+  - unique: [group_id, series_id]
+    reason: a group membership bridge should contain each member series once per group
+    certainty: 95
+  - column_type: {col: group_id, type: string}
+    certainty: 99
+  - column_type: {col: series_id, type: string}
+    certainty: 99
+  - column_type: {col: series_label, type: string}
+    certainty: 90
+  - row_count: {min: 1000}
+    reason: the Bank of Canada publishes thousands of group-to-series links; far fewer means the group-detail crawl changed shape or failed early
+    certainty: 85
+  - distinct_count: {col: group_id, min: 100}
+    reason: membership should cover many group ids, even if some catalog groups have no detail endpoint
+    certainty: 85
+  - distinct_count: {col: series_id, min: 1000}
+    reason: the group taxonomy spans many of the ~15,600 series; far fewer member ids indicates a partial crawl
+    certainty: 80

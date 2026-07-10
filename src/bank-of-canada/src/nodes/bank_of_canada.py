@@ -1,8 +1,10 @@
 """Bank of Canada — Valet REST connector (https://www.bankofcanada.ca/valet).
 
-Three published subsets, one DOWNLOAD_SPEC each:
+Four published subsets, one DOWNLOAD_SPEC each:
 
   - groups        reference catalog of ~2,400 named series groups (/lists/groups/json)
+  - series_group_membership
+                  bridge table from group id to member series id (/groups/<group>/json)
   - series        reference catalog of ~15,600 individual time series (/lists/series/json)
   - observations  long-format values across every series, one row per
                   (series_id, obs_index), fetched per series via
@@ -52,6 +54,46 @@ def fetch_groups(node_id: str) -> None:
     assert rows, "groups list returned no entries"
     table = pa.Table.from_pylist(rows, schema=GROUPS_SCHEMA)
     save_raw_parquet(table, asset)
+
+
+# --------------------------------------------------------------------------- #
+# series-group membership
+# --------------------------------------------------------------------------- #
+MEMBERSHIP_SCHEMA = pa.schema([
+    ("group_id", pa.string()),
+    ("series_id", pa.string()),
+    ("series_label", pa.string()),
+])
+
+
+def fetch_series_group_membership(node_id: str) -> None:
+    groups_payload = _fetch_json(f"{BASE}/lists/groups/json")
+    group_ids = sorted(groups_payload["groups"].keys())
+    rows: list[dict] = []
+    missing = 0
+    for group_id in group_ids:
+        url = f"{BASE}/groups/{group_id}/json"
+        try:
+            payload = _fetch_json(url)
+        except httpx.HTTPStatusError as exc:
+            if _is_permanent_client_error(exc):
+                missing += 1
+                log.warning("skip group %s: %s %s", group_id, exc.response.status_code, url)
+                continue
+            raise
+        details = payload.get("groupDetails") or {}
+        group_series = details.get("groupSeries") or {}
+        for series_id, meta in group_series.items():
+            rows.append({
+                "group_id": group_id,
+                "series_id": series_id,
+                "series_label": (meta.get("label") or "").strip() or None,
+            })
+    assert rows, "group membership endpoints returned no series"
+    if missing:
+        log.warning("skipped %s groups with permanent client errors", missing)
+    table = pa.Table.from_pylist(rows, schema=MEMBERSHIP_SCHEMA)
+    save_raw_parquet(table, node_id)
 
 
 # --------------------------------------------------------------------------- #
@@ -204,6 +246,11 @@ def fetch_observations(node_id: str) -> None:
 # --------------------------------------------------------------------------- #
 DOWNLOAD_SPECS = [
     NodeSpec(id="bank-of-canada-groups", fn=fetch_groups, kind="download"),
+    NodeSpec(
+        id="bank-of-canada-series-group-membership",
+        fn=fetch_series_group_membership,
+        kind="download",
+    ),
     NodeSpec(id="bank-of-canada-series", fn=fetch_series, kind="download"),
     NodeSpec(id="bank-of-canada-observations", fn=fetch_observations, kind="download"),
 ]

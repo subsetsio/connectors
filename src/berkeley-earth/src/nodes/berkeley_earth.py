@@ -18,6 +18,7 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from email.utils import parsedate_to_datetime
 
+import httpx
 import pyarrow as pa
 
 from subsets_utils import NodeSpec, get, raw_parquet_writer, save_raw_parquet

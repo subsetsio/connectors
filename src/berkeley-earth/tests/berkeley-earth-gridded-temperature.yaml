@@ -28,7 +28,7 @@ tests:
   - at_least: {col: content_length_bytes, expr: 1000000}
     reason: gridded NetCDF products are multi-megabyte files; smaller responses indicate an error page or truncated probe
     certainty: 95
-  - freshness: {col: last_modified, reaches: today - 90d}
-    reason: Berkeley Earth overwrites the public NetCDF products on an approximately monthly release cadence; 90 days allows release lag while catching stale production runs
+  - freshness: {col: checked_at, reaches: today - 30d}
+    reason: the gridded NetCDF inventory is a live availability probe over mostly static S3 objects, so freshness is based on when the connector checked the objects rather than their Last-Modified timestamps
     certainty: 75
     points_outward: true

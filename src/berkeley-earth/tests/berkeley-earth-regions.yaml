@@ -6,8 +6,8 @@ tests:
   - not_null: level
   - column_type: {col: region_slug, type: string}
   - column_type: {col: region_name, type: string}
-  - unique: region_slug
-    reason: the regional archive URL template is keyed by the Berkeley Earth slug
+  - unique: [region_slug, level]
+    reason: Berkeley Earth slugs can recur across geographic levels, so the reference taxonomy is keyed by slug plus level
     certainty: 95
   - enum: {col: level, values: [continent, country, us-state]}
     certainty: 99
