@@ -26,6 +26,7 @@ BASE = "https://data.api.trade.gov.uk"
 # positional CSV parsing corrupts rows. The whole-dataset JSON is clean for
 # that entity, so it is fetched and flattened from JSON instead.
 BARRIERS_SPEC = "dbt-market-barriers--barriers"
+QUOTA_DEFINITIONS_SPEC = "dbt-uk-tariff-2021-01-01--quota-definitions"
 
 
 def _fetch_csv_text(url: str) -> str:
@@ -49,6 +50,14 @@ def _csv_rows(text: str):
     yield from csv.DictReader(io.StringIO(text))
 
 
+def _quota_definition_rows(text: str):
+    for row in _csv_rows(text):
+        for col in ("validity_start", "validity_end"):
+            if row.get(col) == "#NA":
+                row[col] = None
+        yield row
+
+
 def fetch_one(node_id: str) -> None:
     """Flat tabular tables/reports: per-table CSV → NDJSON."""
     asset = node_id  # the runtime passes the spec id; it IS the asset name
@@ -56,9 +65,14 @@ def fetch_one(node_id: str) -> None:
     segment = "tables" if kind == "table" else "reports"
     url = f"{BASE}/v1/datasets/{dataset}/versions/latest/{segment}/{source_id}/data"
     text = _fetch_csv_text(url)
+    rows = (
+        _quota_definition_rows(text)
+        if node_id == QUOTA_DEFINITIONS_SPEC
+        else _csv_rows(text)
+    )
     # Stream rows into NDJSON (gzip) — one dict alive at a time, so the
     # multi-million-row tables never materialize as a full list/arrow table.
-    save_raw_ndjson(_csv_rows(text), asset, compression="gzip")
+    save_raw_ndjson(rows, asset, compression="gzip")
 
 
 def _flatten_barrier(b: dict) -> dict:
