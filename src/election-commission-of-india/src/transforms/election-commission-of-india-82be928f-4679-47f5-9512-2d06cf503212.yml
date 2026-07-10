@@ -1,10 +1,11 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `election-commission-of-india-82be928f-4679-47f5-9512-2d06cf503212`. Regenerate after model-verify.
 key: [party_type]
-write_mode: overwrite
 sort: [party_type]
 columns:
+  - name: sl_no
+    type: BIGINT
   - name: party_type
     type: VARCHAR
-    description: ECI party recognition class (national, state, or registered-unrecognised)
-  - name: parties_participated
+  - name: no_of_parties_participated
     type: BIGINT
-    description: Number of parties of this class that contested the 2024 Lok Sabha general election

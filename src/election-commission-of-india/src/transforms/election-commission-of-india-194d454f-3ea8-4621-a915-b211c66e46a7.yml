@@ -1,10 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `election-commission-of-india-194d454f-3ea8-4621-a915-b211c66e46a7`. Regenerate after model-verify.
+# caution: One row represents a successful candidate for a parliamentary constituency; aggregate vote counts only after accounting for constituency-level rows.
+key: [sl_no]
+sort: [sl_no]
 columns:
   - name: sl_no
     type: BIGINT
   - name: state
     type: VARCHAR
-  - name: constituency_no
+  - name: const_no
     type: BIGINT
   - name: constituency
     type: VARCHAR
@@ -14,19 +18,19 @@ columns:
     type: BIGINT
   - name: winner_name
     type: VARCHAR
-  - name: winner_social_category
+  - name: social_category
     type: VARCHAR
-  - name: winner_gender
+  - name: gender
     type: VARCHAR
-  - name: winner_party
+  - name: party
     type: VARCHAR
-  - name: winner_party_symbol
+  - name: party_symbol
     type: VARCHAR
-  - name: winner_vote_secured
+  - name: vote_secured
     type: BIGINT
   - name: runner_up_name
     type: VARCHAR
   - name: margin
     type: BIGINT
-  - name: margin_pct
+  - name: margin_2
     type: DOUBLE

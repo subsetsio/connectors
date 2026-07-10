@@ -1,34 +1,40 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `election-commission-of-india-1a0a8469-9e7e-4cc7-9f20-5f16ab973cbd`. Regenerate after model-verify.
+# caution: Includes State/UT rows and may include an all-India total row; filter to the desired geography level before summing elector counts.
+key: [sl_no]
+sort: [sl_no]
 columns:
+  - name: sl_no
+    type: VARCHAR
   - name: state_ut
     type: VARCHAR
-  - name: electors_general_male
+  - name: general_including_nris_m
     type: BIGINT
-  - name: electors_general_female
+  - name: general_including_nris_f
     type: BIGINT
-  - name: electors_general_third_gender
+  - name: general_including_nris_tg
     type: BIGINT
-  - name: electors_general_total
+  - name: general_including_nris_total
     type: BIGINT
-  - name: electors_service_male
+  - name: service_m
     type: BIGINT
-  - name: electors_service_female
+  - name: service_f
     type: BIGINT
-  - name: electors_service_total
+  - name: service_total
     type: BIGINT
-  - name: electors_grand_male
+  - name: grand_m
     type: BIGINT
-  - name: electors_grand_female
+  - name: grand_f
     type: BIGINT
-  - name: electors_grand_third_gender
+  - name: grand_tg
     type: BIGINT
-  - name: electors_grand_total
+  - name: grand_total
     type: BIGINT
-  - name: electors_nri_male
+  - name: nris_m
     type: BIGINT
-  - name: electors_nri_female
+  - name: nris_f
     type: BIGINT
-  - name: electors_nri_third_gender
+  - name: nris_tg
     type: BIGINT
-  - name: electors_nri_total
+  - name: nris_total
     type: BIGINT

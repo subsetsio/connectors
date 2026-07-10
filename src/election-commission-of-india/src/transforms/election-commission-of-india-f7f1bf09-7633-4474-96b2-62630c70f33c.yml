@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `election-commission-of-india-f7f1bf09-7633-4474-96b2-62630c70f33c`. Regenerate after model-verify.
+# caution: Rows are split by State/UT and constituency type; filter or group constituency_type deliberately before summing turnout measures.
+key: [state_name, constituency_type]
+sort: [state_name, constituency_type]
 columns:
   - name: state_name
     type: VARCHAR
@@ -30,7 +34,7 @@ columns:
     type: BIGINT
   - name: voters_nris
     type: BIGINT
-  - name: voter_turnout_pct
+  - name: voters_poll
     type: DOUBLE
   - name: rejected_votes_postal
     type: BIGINT

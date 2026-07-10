@@ -20,7 +20,7 @@ import json
 
 import openpyxl
 
-from subsets_utils import get, transient_retry, raw_writer
+from subsets_utils import get, raw_writer
 from constants import (
     BASE_URL,
     CSV_FILES,
@@ -31,14 +31,12 @@ from constants import (
 
 # ---------------------------------------------------------------- HTTP helpers
 
-@transient_retry()
 def _download_text(name: str) -> str:
     resp = get(f"{BASE_URL}/{name}.csv", timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.text
 
 
-@transient_retry()
 def _download_bytes(name: str) -> bytes:
     resp = get(f"{BASE_URL}/{name}.xlsx", timeout=(10.0, 300.0))
     resp.raise_for_status()
@@ -250,7 +248,7 @@ def fetch_fs_indicators(node_id: str) -> None:
 
 # ----------------------------------------------------------------- DOWNLOAD_SPECS
 
-from subsets_utils import NodeSpec, SqlNodeSpec  # noqa: E402
+from subsets_utils import NodeSpec  # noqa: E402
 
 DOWNLOAD_SPECS = (
     [
@@ -266,109 +264,4 @@ DOWNLOAD_SPECS = (
 # Prefix every id with the slug, per contract: f"eiopa-{entity_id}".
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"eiopa-{s.id}", fn=s.fn, kind="download") for s in DOWNLOAD_SPECS
-]
-
-
-# ----------------------------------------------------------------- TRANSFORM_SPECS
-
-def _generic_long_sql(dep: str, entity: str) -> str:
-    """Build the long-format transform, selecting only the columns the source
-    template actually populates (so no all-null columns are published):
-      - undertaking_type: solo balance-sheet / own-funds only (group files and
-        the premiums template don't carry it).
-      - item_name: every block except premiums (premiums labels via `Item`/
-        `Business type`, mapped to metric/business_type — there is no Item name).
-      - metric / business_type: premiums only.
-    """
-    is_group = entity.startswith("group-")
-    is_premiums = "premiums" in entity
-    cols = ["reporting_entity", "reference_period", "frequency"]
-    if not is_group and not is_premiums:
-        cols.append("undertaking_type")
-    if is_premiums:
-        cols += ["metric", "business_type"]
-    cols.append("item_code")
-    if not is_premiums:
-        cols.append("item_name")
-    select = ",\n            ".join(cols)
-    return f'''
-        SELECT DISTINCT
-            {select},
-            CAST(value AS DOUBLE) AS value,
-            TRY_CAST(n_submissions AS BIGINT) AS n_submissions,
-            CAST(try_strptime(extraction_date, '%Y%m%d') AS DATE) AS extraction_date
-        FROM "{dep}"
-        WHERE value IS NOT NULL
-    '''
-
-
-def _generic_long_key(entity: str) -> tuple:
-    """Dimensional grain of a generic long block: the identifier columns that
-    the SELECT emits, excluding item_name (a label determined by item_code)."""
-    is_group = entity.startswith("group-")
-    is_premiums = "premiums" in entity
-    key = ["reporting_entity", "reference_period", "frequency"]
-    if not is_group and not is_premiums:
-        key.append("undertaking_type")
-    if is_premiums:
-        key += ["metric", "business_type"]
-    key.append("item_code")
-    return tuple(key)
-
-
-_EXPOSURE_SQL = '''
-    SELECT DISTINCT
-        reference_period,
-        nca_iso_code,
-        reporting_country,
-        undertaking_type,
-        cic_main_category,
-        cic_sub_category,
-        portfolio_type,
-        location_of_investment,
-        real_estate_exposure,
-        type_of_real_estate_exposure,
-        CAST(value_eur_millions AS DOUBLE) AS value_eur_millions,
-        CAST(try_strptime(extraction_date, '%Y%m%d') AS DATE) AS extraction_date
-    FROM "eiopa-solo-asset-exposures"
-    WHERE value_eur_millions IS NOT NULL
-'''
-
-_FS_SQL = '''
-    SELECT
-        item_name,
-        reference_period,
-        CAST(p10 AS DOUBLE)    AS p10,
-        CAST(p25 AS DOUBLE)    AS p25,
-        CAST(median AS DOUBLE) AS median,
-        CAST(p75 AS DOUBLE)    AS p75,
-        CAST(p90 AS DOUBLE)    AS p90,
-        TRY_CAST(n_observations AS BIGINT) AS n_observations
-    FROM "eiopa-financial-stability-indicators"
-    WHERE median IS NOT NULL
-'''
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"eiopa-{eid}-transform",
-        deps=[f"eiopa-{eid}"],
-        sql=_generic_long_sql(f"eiopa-{eid}", eid),
-        key=_generic_long_key(eid),
-        temporal="reference_period",
-    )
-    for eid in CSV_FILES
-] + [
-    SqlNodeSpec(
-        id="eiopa-solo-asset-exposures-transform",
-        deps=["eiopa-solo-asset-exposures"],
-        sql=_EXPOSURE_SQL,
-        temporal="reference_period",
-    ),
-    SqlNodeSpec(
-        id="eiopa-financial-stability-indicators-transform",
-        deps=["eiopa-financial-stability-indicators"],
-        sql=_FS_SQL,
-        key=("item_name", "reference_period"),
-        temporal="reference_period",
-    ),
 ]

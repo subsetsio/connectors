@@ -1,24 +1,28 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `election-commission-of-india-0bd877c0-031d-49da-a743-d102dec6e7b7`. Regenerate after model-verify.
+# caution: Includes State/UT rows and may include an all-India total row; filter to the desired geography level before summing.
+key: [state_ut]
+sort: [state_ut]
 columns:
   - name: state_ut
     type: VARCHAR
   - name: no_of_seats
     type: BIGINT
-  - name: constituencies_candidates_1_15
+  - name: constituencies_with_candidates_numbering_1_15
     type: BIGINT
-  - name: constituencies_candidates_15_31
+  - name: constituencies_with_candidates_numbering_15_31
     type: BIGINT
-  - name: constituencies_candidates_31_47
+  - name: constituencies_with_candidates_numbering_31_47
     type: BIGINT
-  - name: constituencies_candidates_47_63
+  - name: constituencies_with_candidates_numbering_47_63
     type: BIGINT
-  - name: constituencies_candidates_63_plus
+  - name: constituencies_with_candidates_numbering_63
     type: BIGINT
-  - name: total_candidates
+  - name: constituencies_with_candidates_numbering_total_candidates
     type: BIGINT
-  - name: candidates_min
+  - name: candidates_in_a_constituency_min
     type: BIGINT
-  - name: candidates_max
+  - name: candidates_in_a_constituency_max
     type: BIGINT
-  - name: candidates_avg
-    type: DOUBLE
+  - name: candidates_in_a_constituency_avg
+    type: BIGINT

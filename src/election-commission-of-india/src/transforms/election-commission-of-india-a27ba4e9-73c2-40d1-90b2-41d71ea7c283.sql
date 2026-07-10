@@ -1,11 +1,15 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows describe highlight categories rather than the full constituency universe; do not treat this as one row per parliamentary constituency.
 SELECT
-    CAST(state_ut___code AS VARCHAR)          AS state_ut_code,
-    CAST(constituency_name___code AS VARCHAR) AS constituency_name_code,
-    TRY_CAST(const__no_ AS BIGINT)            AS constituency_no,
-    CAST(candidates_ AS VARCHAR)              AS candidates_category,
-    TRY_CAST(male AS BIGINT)                  AS male,
-    TRY_CAST(female AS BIGINT)                AS female,
-    TRY_CAST("_tg_" AS BIGINT)                AS third_gender,
-    TRY_CAST("_total" AS BIGINT)              AS total
+    "state_ut___code" AS state_ut_code,
+    "constituency_name___code" AS constituency_name_code,
+    CAST("const__no_" AS BIGINT) AS const_no,
+    "candidates_" AS candidates,
+    "male",
+    "female",
+    "_tg_" AS tg,
+    "_total" AS total
 FROM "election-commission-of-india-a27ba4e9-73c2-40d1-90b2-41d71ea7c283"
-WHERE constituency_name___code IS NOT NULL
