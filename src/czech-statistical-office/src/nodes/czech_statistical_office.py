@@ -91,22 +91,7 @@ def _download_csv(url: str) -> bytes:
     return resp.content
 
 
-def _to_utf8_csv(content: bytes, url: str, resource_format: str) -> bytes:
-    """Return clean UTF-8 CSV bytes from a downloaded resource.
-
-    Unpacks a ZIP wrapper (a few datasets ship the CSV zipped), then decodes the
-    CSV with the right charset — CZSO mixes UTF-8 and CP1250 — and re-encodes as
-    UTF-8 so DuckDB's sniffer (which hard-fails on non-UTF-8) reads it cleanly.
-    """
-    fmt = (resource_format or "").lower()
-    is_zip = "zip" in fmt or url.lower().split("?")[0].endswith(".zip")
-    if is_zip or content[:2] == b"PK":
-        with zipfile.ZipFile(io.BytesIO(content)) as zf:
-            members = [n for n in zf.namelist() if n.lower().endswith(".csv")]
-            if not members:
-                raise RuntimeError(f"zip has no .csv member: {zf.namelist()[:5]}")
-            content = zf.read(members[0])
-
+def _decode_csv(content: bytes) -> bytes:
     if content[:3] == b"\xef\xbb\xbf":  # strip UTF-8 BOM
         content = content[3:]
     for enc in ("utf-8", "cp1250", "latin-1"):
@@ -120,18 +105,108 @@ def _to_utf8_csv(content: bytes, url: str, resource_format: str) -> bytes:
     return text.encode("utf-8")
 
 
-def _csv_to_table(content: bytes) -> pa.Table:
+def _zip_csv_members(content: bytes) -> list[tuple[str, bytes]]:
+    with zipfile.ZipFile(io.BytesIO(content)) as zf:
+        members = [
+            n for n in zf.namelist()
+            if not n.endswith("/")
+            and n.lower().split("?")[0].endswith(".csv")
+        ]
+        if not members:
+            raise RuntimeError(f"zip has no .csv member: {zf.namelist()[:5]}")
+        return [(name, _decode_csv(zf.read(name))) for name in members]
+
+
+def _to_utf8_csv_members(
+    content: bytes,
+    url: str,
+    resource_format: str,
+) -> list[tuple[str | None, bytes]]:
+    """Return clean UTF-8 CSV member bytes from a downloaded resource.
+
+    Unpacks a ZIP wrapper (a few datasets ship the CSV zipped), then decodes the
+    CSV with the right charset — CZSO mixes UTF-8 and CP1250 — and re-encodes as
+    UTF-8 so DuckDB's sniffer (which hard-fails on non-UTF-8) reads it cleanly.
+    Multi-CSV ZIPs are unioned later with a source_member column.
+    """
+    fmt = (resource_format or "").lower()
+    is_zip = "zip" in fmt or url.lower().split("?")[0].endswith(".zip")
+    if is_zip or content[:2] == b"PK":
+        return _zip_csv_members(content)
+    return [(None, _decode_csv(content))]
+
+
+def _detect_delimiter(header_line: str) -> str:
+    semicolons = header_line.count(";")
+    commas = header_line.count(",")
+    tabs = header_line.count("\t")
+    if semicolons > commas and semicolons >= tabs:
+        return ";"
+    if tabs > commas:
+        return "\t"
+    return ","
+
+
+def _empty_table(schema: pa.Schema) -> pa.Table:
+    return pa.table({field.name: pa.array([], type=pa.string()) for field in schema})
+
+
+def _csv_to_table(content: bytes, source_member: str | None = None) -> pa.Table:
     """Parse normalized CSV bytes to a parquet-ready Arrow table."""
-    header = next(csv.reader([content.decode("utf-8").splitlines()[0]]))
+    text = content.decode("utf-8")
+    stripped = text.lstrip()
+    if not stripped:
+        raise RuntimeError("CSV resource is empty")
+    if stripped.startswith("<"):
+        raise RuntimeError("resource payload is XML/HTML, not CSV")
+
+    lines = text.splitlines()
+    delimiter = _detect_delimiter(lines[0])
+    header = next(csv.reader([lines[0]], delimiter=delimiter))
+    if source_member is not None:
+        header = ["source_member", *header]
     schema = pa.schema([pa.field(name, pa.string()) for name in header])
-    return pacsv.read_csv(
+    if len(lines) == 1:
+        return _empty_table(schema)
+
+    table = pacsv.read_csv(
         pa.BufferReader(content),
         read_options=pacsv.ReadOptions(autogenerate_column_names=False),
+        parse_options=pacsv.ParseOptions(delimiter=delimiter),
         convert_options=pacsv.ConvertOptions(
-            column_types={field.name: pa.string() for field in schema},
+            column_types={
+                field.name: pa.string()
+                for field in schema
+                if field.name != "source_member"
+            },
             strings_can_be_null=True,
         ),
-    ).cast(schema)
+    )
+    if source_member is not None:
+        table = table.append_column(
+            "source_member",
+            pa.array([source_member] * table.num_rows, type=pa.string()),
+        )
+        table = table.select(header)
+    return table.cast(schema)
+
+
+def _union_tables(tables: list[pa.Table]) -> pa.Table:
+    names = []
+    for table in tables:
+        for name in table.column_names:
+            if name not in names:
+                names.append(name)
+    aligned = []
+    for table in tables:
+        columns = {}
+        for name in names:
+            if name in table.column_names:
+                columns[name] = table[name].cast(pa.string())
+            else:
+                columns[name] = pa.array([None] * table.num_rows, type=pa.string())
+        aligned.append(pa.table(columns).select(names))
+    return pa.concat_tables(aligned)
 
 
 def _pick_csv_resource(resources: list) -> dict:
@@ -167,8 +242,12 @@ def fetch_one(node_id: str) -> None:
     if not url.startswith("http"):
         raise RuntimeError(f"{entity_id}: resource has no usable URL: {url!r}")
     content = _download_csv(url)
-    content = _to_utf8_csv(content, url, res.get("format", ""))
-    save_raw_parquet(_csv_to_table(content), asset)
+    members = _to_utf8_csv_members(content, url, res.get("format", ""))
+    tables = [
+        _csv_to_table(member_content, source_member=member_name)
+        for member_name, member_content in members
+    ]
+    save_raw_parquet(_union_tables(tables), asset)
 
 
 DOWNLOAD_SPECS = [

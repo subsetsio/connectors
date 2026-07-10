@@ -8,8 +8,8 @@ SELECT
     "constituency_name___code" AS constituency_name_code,
     CAST("const__no_" AS BIGINT) AS constituency_no,
     "candidates_" AS candidates_category,
-    CAST("male" AS BIGINT) AS male,
-    CAST("female" AS BIGINT) AS female,
-    CAST("_tg_" AS BIGINT) AS third_gender,
-    CAST("_total" AS BIGINT) AS total
+    CAST(NULLIF("male", 'NA') AS BIGINT) AS male,
+    CAST(NULLIF("female", 'NA') AS BIGINT) AS female,
+    CAST(NULLIF("_tg_", 'NA') AS BIGINT) AS third_gender,
+    CAST(NULLIF("_total", 'NA') AS BIGINT) AS total
 FROM "election-commission-of-india-a27ba4e9-73c2-40d1-90b2-41d71ea7c283"

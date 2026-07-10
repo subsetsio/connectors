@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 -- caution: Includes State/UT rows and may include an all-India total row; filter to the desired geography level before summing elector counts.
 SELECT
-    CAST("sl__no_" AS BIGINT) AS sl_no,
+    "sl__no_" AS sl_no,
     "state_ut",
     CAST("general_including_nris____m" AS BIGINT) AS electors_general_male,
     CAST("general_including_nris____f" AS BIGINT) AS electors_general_female,
