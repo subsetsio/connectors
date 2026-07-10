@@ -11,7 +11,7 @@ import io
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, raw_parquet_writer
+from subsets_utils import raw_parquet_writer
 from utils import REPOS, get_json, get_text
 
 # DDF geo-like dimension names that identify a single-entity-by-time datapoints
@@ -84,27 +84,3 @@ def fetch_values(node_id: str) -> None:
                     schema=VALUES_SCHEMA,
                 )
                 writer.write_table(batch)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="gapminder-values", fn=fetch_values, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="gapminder-values-transform",
-        deps=["gapminder-values"],
-        sql='''
-            SELECT
-                indicator,
-                geo,
-                geo_dim,
-                TRY_CAST(time AS INTEGER)  AS year,
-                TRY_CAST(value AS DOUBLE)  AS value,
-                repo
-            FROM "gapminder-values"
-            WHERE TRY_CAST(value AS DOUBLE) IS NOT NULL
-              AND TRY_CAST(time AS INTEGER) IS NOT NULL
-        ''',
-    ),
-]

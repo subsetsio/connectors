@@ -2,7 +2,7 @@
 import csv
 import io
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
+from subsets_utils import save_raw_ndjson
 from utils import REPOS, get_text
 
 # Concept columns kept for the catalog subset (union across both repos; any column
@@ -23,31 +23,3 @@ def fetch_concepts(node_id: str) -> None:
             out["repo"] = repo
             rows.append(out)
     save_raw_ndjson(rows, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="gapminder-concepts", fn=fetch_concepts, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="gapminder-concepts-transform",
-        deps=["gapminder-concepts"],
-        sql='''
-            SELECT
-                concept,
-                concept_type,
-                name,
-                name_short,
-                description,
-                unit,
-                tags,
-                scales,
-                domain,
-                source_url,
-                repo
-            FROM "gapminder-concepts"
-            WHERE concept IS NOT NULL
-        ''',
-    ),
-]
