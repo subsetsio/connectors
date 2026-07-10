@@ -29,7 +29,6 @@ import json
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_writer,
     transient_retry,
@@ -400,39 +399,3 @@ _COLUMN_SPECS: dict[str, list[tuple[str, str, str]]] = {
     ],
 }
 
-
-def _column_expr(kind: str, col: str, alias: str) -> str:
-    if kind == "txt":
-        return f'"{col}" AS {alias}'
-    if kind == "int":
-        return f'TRY_CAST("{col}" AS INTEGER) AS {alias}'
-    if kind == "num":
-        # Strip currency symbols, thousands separators, %, and stray whitespace
-        # (e.g. DI fund balance arrives as '$2,751,911,155.83 '); keep digits,
-        # decimal point and sign, then cast.
-        return (
-            f"TRY_CAST(NULLIF(regexp_replace(CAST(\"{col}\" AS VARCHAR), "
-            f"'[^0-9.-]', '', 'g'), '') AS DOUBLE) AS {alias}"
-        )
-    if kind == "date_ts":
-        return f'TRY_CAST("{col}" AS TIMESTAMP)::DATE AS {alias}'
-    if kind == "date_mdy":
-        return f"try_strptime(\"{col}\", '%m/%d/%Y')::DATE AS {alias}"
-    raise ValueError(f"unknown column kind {kind!r}")
-
-
-def _build_sql(spec_id: str) -> str:
-    eid = spec_id[len(PREFIX):]
-    cols = _COLUMN_SPECS[eid]
-    select = ",\n    ".join(_column_expr(kind, col, alias) for kind, col, alias in cols)
-    return f'SELECT\n    {select}\nFROM "{spec_id}"'
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_build_sql(s.id),
-    )
-    for s in DOWNLOAD_SPECS
-]
