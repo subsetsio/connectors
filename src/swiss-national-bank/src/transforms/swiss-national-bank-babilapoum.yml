@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `swiss-national-bank-babilapoum`. Regenerate after model-verify.
+# caution: SNB publishes this as a multidimensional statistical time series; use series_key, series_label, and dimensions_json to select comparable series before aggregating values.
+key: [period_start, series_key, dimensions_json, series_label, period]
+temporal: period
+sort: [period, period_start, series_key, dimensions_json, series_label]
+columns:
+  - name: cube_id
+    type: VARCHAR
+  - name: series_key
+    type: VARCHAR
+  - name: series_label
+    type: VARCHAR
+  - name: dimensions_json
+    type: VARCHAR
+  - name: frequency
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: scale
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: period_start
+    type: DATE
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `swiss-national-bank-bsta@snb.jahr-u.efr.erz.bez.zeg.zdk`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [period_start, period, series_label, series_key, dimensions_json]
+temporal: period_start
+checks:
+  - kind: unique
+    columns: [period_start, period, series_label, series_key, dimensions_json]
+  - kind: not_null
+    col: period_start
+  - kind: not_null
+    col: period
+  - kind: not_null
+    col: series_label
+  - kind: not_null
+    col: series_key
+  - kind: not_null
+    col: dimensions_json
+  - kind: row_floor
+    min: 220
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
