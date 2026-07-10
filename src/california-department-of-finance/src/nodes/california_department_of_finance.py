@@ -24,8 +24,7 @@ to the per-layer cap. orderByFields pins the object-id field so offset paging is
 stable across requests.
 """
 
-import pyarrow as pa  # noqa: F401  (kept for parity; NDJSON path needs no schema)
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, save_raw_ndjson
+from subsets_utils import NodeSpec, get, save_raw_ndjson
 from constants import ENTITY_IDS
 
 SLUG = "california-department-of-finance"
@@ -34,7 +33,6 @@ PAGE_SIZE = 1000          # <= every observed layer maxRecordCount
 MAX_RECORDS = 2_000_000   # safety ceiling; raises rather than looping forever
 
 
-@transient_retry()  # 6 attempts, exp backoff on 429/5xx/network
 def _get_json(url, params):
     resp = get(url, params=params, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -110,16 +108,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per entity. Each layer has its own column list, so
-# the transform is a thin passthrough that surfaces every attribute; DuckDB
-# infers column types from the NDJSON. A 0-row result fails the node by design.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

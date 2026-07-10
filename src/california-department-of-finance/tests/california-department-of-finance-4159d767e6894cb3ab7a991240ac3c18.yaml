@@ -1,0 +1,10 @@
+spec_id: california-department-of-finance-4159d767e6894cb3ab7a991240ac3c18
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: Accepted ArcGIS FeatureServer item should expose at least one attribute row; zero rows means the item was unshared, moved, or the wrong layer was selected.
+    certainty: 80
+    points_outward: true
+  - not_null: OBJECTID_12
+    reason: ArcGIS hosted feature layers include an object id field for every feature.
+    certainty: 80
