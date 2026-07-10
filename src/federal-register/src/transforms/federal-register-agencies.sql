@@ -1,12 +1,14 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST(id AS BIGINT)         AS id,
-    name,
-    short_name,
-    slug,
-    description,
-    CAST(parent_id AS BIGINT)  AS parent_id,
-    agency_url,
-    child_count
+    "id",
+    "name",
+    "short_name",
+    "slug",
+    "description",
+    "parent_id",
+    "agency_url",
+    "child_count"
 FROM "federal-register-agencies"
-WHERE id IS NOT NULL
-QUALIFY row_number() OVER (PARTITION BY id ORDER BY slug) = 1

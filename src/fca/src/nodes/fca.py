@@ -88,6 +88,20 @@ def _family_packages(family: str) -> list[dict]:
     return members
 
 
+def _quarter_release_key(pkg: dict) -> tuple[int, int, str]:
+    text = " ".join(str(pkg.get(k) or "") for k in ("title", "name")).lower()
+    match = re.search(r"\bq([1-4])[-\s]+((?:19|20)\d{2})\b", text)
+    if match:
+        return (int(match.group(2)), int(match.group(1)), pkg.get("metadata_modified") or "")
+    return (0, 0, pkg.get("metadata_modified") or "")
+
+
+def _latest_quarter_package(family: str) -> dict:
+    members = _family_packages(family)
+    members.sort(key=_quarter_release_key)
+    return members[-1]
+
+
 def _xlsx_urls(pkg: dict, *, contains: str | None = None) -> list[str]:
     urls = []
     for res in pkg.get("resources", []):
@@ -97,6 +111,34 @@ def _xlsx_urls(pkg: dict, *, contains: str | None = None) -> list[str]:
             if contains is None or contains in url.lower():
                 urls.append(url)
     return urls
+
+
+def _workbook_resources(pkg: dict, *, contains: str | None = None) -> list[dict]:
+    resources = []
+    seen = set()
+    for res in pkg.get("resources", []):
+        url = res.get("url") or ""
+        clean = url.lower().split("?", 1)[0]
+        fmt = (res.get("format") or "").upper().lstrip(".")
+        name = res.get("name") or res.get("description") or url.rsplit("/", 1)[-1]
+        if fmt in {"XLSX", "XLS"} and clean.endswith((".xlsx", ".xls")):
+            if contains is None or contains in url.lower():
+                if url not in seen:
+                    seen.add(url)
+                    resources.append({"url": url, "format": fmt, "name": name})
+            continue
+        if fmt == "HTML" or "/data/" in clean:
+            html = _get_xlsx(url).decode("utf-8", errors="replace")
+            for linked in _html_data_links(url, html):
+                if linked["format"] not in {"XLSX", "XLS"}:
+                    continue
+                if contains is not None and contains not in linked["url"].lower():
+                    continue
+                if linked["url"] in seen:
+                    continue
+                seen.add(linked["url"])
+                resources.append(linked)
+    return resources
 
 
 class _LinkParser(HTMLParser):
@@ -549,13 +591,15 @@ def fetch_general_insurance_value_measures(node_id: str) -> None:
 def fetch_mortgage_lending_statistics(node_id: str) -> None:
     """MLAR — the cumulative long-run summary and detailed workbooks, melted
     from their quarterly wide layout into long (metric, year, quarter, value)."""
-    pkg = _latest_package("mortgage-lending-statistics")
-    urls = _xlsx_urls(pkg)
-    if not urls:
+    pkg = _latest_quarter_package("mortgage-lending-statistics")
+    resources = _workbook_resources(pkg)
+    if not resources:
         raise RuntimeError(f"no XLSX in package {pkg['name']!r}")
     rows = []
-    for url in urls:
-        book = "detailed" if "detailed" in url.lower() else "summary"
+    for resource in resources:
+        url = resource["url"]
+        label = f"{resource.get('name') or ''} {url}".lower()
+        book = "detailed" if "detailed" in label else "summary"
         xl = pd.ExcelFile(io.BytesIO(_get_xlsx(url)))
         for sheet in xl.sheet_names:
             if sheet.strip().lower() in ("notes", "summary contents", "contents"):

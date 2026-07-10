@@ -27,7 +27,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_parquet,
@@ -201,56 +200,4 @@ def fetch_agencies(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="federal-register-documents", fn=fetch_documents, kind="download"),
     NodeSpec(id="federal-register-agencies", fn=fetch_agencies, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="federal-register-documents-transform",
-        deps=["federal-register-documents"],
-        sql='''
-            SELECT
-                document_number,
-                type,
-                subtype,
-                title,
-                abstract,
-                CAST(publication_date AS DATE)  AS publication_date,
-                TRY_CAST(signing_date AS DATE)  AS signing_date,
-                citation,
-                start_page,
-                end_page,
-                page_length,
-                president_name,
-                president_id,
-                primary_agency_id,
-                primary_agency_name,
-                agency_ids,
-                agency_names,
-                html_url,
-                pdf_url
-            FROM "federal-register-documents"
-            WHERE document_number IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY document_number ORDER BY publication_date
-            ) = 1
-        ''',
-    ),
-    SqlNodeSpec(
-        id="federal-register-agencies-transform",
-        deps=["federal-register-agencies"],
-        sql='''
-            SELECT
-                CAST(id AS BIGINT)         AS id,
-                name,
-                short_name,
-                slug,
-                description,
-                CAST(parent_id AS BIGINT)  AS parent_id,
-                agency_url,
-                child_count
-            FROM "federal-register-agencies"
-            WHERE id IS NOT NULL
-            QUALIFY row_number() OVER (PARTITION BY id ORDER BY slug) = 1
-        ''',
-    ),
 ]

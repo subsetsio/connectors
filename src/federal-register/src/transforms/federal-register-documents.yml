@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `federal-register-documents`. Regenerate after model-verify.
+key: [html_url]
+temporal: publication_date
+sort: [publication_date, html_url]
+columns:
+  - name: document_number
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: subtype
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: abstract
+    type: VARCHAR
+  - name: publication_date
+    type: DATE
+  - name: signing_date
+    type: DATE
+  - name: citation
+    type: VARCHAR
+  - name: start_page
+    type: BIGINT
+  - name: end_page
+    type: BIGINT
+  - name: page_length
+    type: BIGINT
+  - name: president_name
+    type: VARCHAR
+  - name: president_id
+    type: VARCHAR
+  - name: primary_agency_id
+    type: BIGINT
+  - name: primary_agency_name
+    type: VARCHAR
+  - name: agency_ids
+    type: "BIGINT[]"
+  - name: agency_names
+    type: "VARCHAR[]"
+  - name: html_url
+    type: VARCHAR
+  - name: pdf_url
+    type: VARCHAR
