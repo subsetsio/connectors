@@ -20,10 +20,8 @@ pass that casts OBS_VALUE and drops the constant DATAFLOW column.
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_file,
-    transient_retry,
 )
 from constants import ENTITY_IDS
 
@@ -37,7 +35,6 @@ SPEC_TO_ENTITY = {
 }
 
 
-@transient_retry()  # 6 attempts, exponential backoff on 429/5xx/transport errors
 def _fetch_csv(url: str) -> bytes:
     resp = get(url, headers={"Accept": "text/csv"}, timeout=(10.0, 300.0))
     resp.raise_for_status()
@@ -61,22 +58,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# Generic thin transform: drop the constant DATAFLOW column, coerce OBS_VALUE to
-# a real number, drop rows with no observation. Every other column (FREQ,
-# TIME_PERIOD, the flow's dimension codes, SDMX attributes) passes through as-is.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT * EXCLUDE (DATAFLOW)
-                   REPLACE (TRY_CAST(OBS_VALUE AS DOUBLE) AS OBS_VALUE)
-            FROM "{s.id}"
-            WHERE OBS_VALUE IS NOT NULL
-              AND TRY_CAST(OBS_VALUE AS DOUBLE) IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

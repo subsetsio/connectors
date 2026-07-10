@@ -10,18 +10,7 @@ CAT_SLUG_TO_GUID maps each category slug to the GUID of the Time-Series
 """
 
 ENTITY_IDS = [
-    "banking-survey__deposits-in-local-and-foreign-currency",
-    "banking-survey__domestic-credit",
-    "banking-survey__domestic-liquidity-and-counterpart-assets",
-    "banking-survey__foreign-assets-and-liabilities",
-    "banking-survey__net-balancing-item",
     "bop__egypts-balance-of-payments",
-    "cbe__central-bank-of-egypt-clearing-house-activities",
-    "cbe__currency-in-circulation-outside-cbe-by-denomination",
-    "cbe__note-issued-including-cash-in-cbe-vault-by-denomination",
-    "cbe__reserve-money-and-counterpart-assets",
-    "domestic-debt__domestic-debt-of-government-and-economic-authorities-debt",
-    "domestic-debt__national-investment-bank",
     "domestic-debt__the-outstanding-balance-of-treasury-bills-quarterly",
     "external-debt__external-debt-and-indicators",
     "external-debt__external-debt-by-debtor",
@@ -30,20 +19,14 @@ ENTITY_IDS = [
     "foreign-trade__main-merchandise-balances",
     "foreign-trade__payments-for-merchandise-imports-by-degree-of-use",
     "foreign-trade__proceeds-of-merchandise-exports-by-degree-of-processing",
-    "gdp__gdp-at-factor-cost-constant",
-    "gdp__gdp-at-factor-cost-current",
-    "gdp__gdp-by-expenditure-constant",
-    "gdp__gdp-by-expenditure-current",
     "inflation__cpi",
     "inflation__wpi-and-ppi",
-    "interest-rates__domestic-interest-rates-on-3-months-deposits-of-major-currencies",
-    "interest-rates__the-discount-rate-and-interest-rates-on-deposits-and-loans-in-egyptian-pounds",
-    "investments__investments-by-economic-sectors",
     "state-budget__deficit-and-sources-of-financing",
     "state-budget__expenditures",
     "state-budget__revenues",
-    "stock__stock-market-main-indicators",
     "time-series__net-foreign-direct-investment",
+    "tourism__number-of-tourist-nights",
+    "tourism__number-of-tourists",
 ]
 
 # category slug -> Time-Series download-list page GUID (the page that lists the
@@ -62,4 +45,5 @@ CAT_SLUG_TO_GUID = {
     "bop": "232131B16F15454BB1E1933B2BFEB041",
     "inflation": "706A9057F8454F7284BE8143070D88C4",
     "state-budget": "97805EA8534C4134B65BDE9621E187AF",
+    "tourism": "B928771A1D1A4550A1B08F9386DDC0FA",
 }

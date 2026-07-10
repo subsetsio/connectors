@@ -1,0 +1,30 @@
+spec_id: cbe-tourism--number-of-tourists
+status: active
+tests:
+  - not_null: value
+    reason: every melted cell is a numeric observation; a null value means a non-data cell leaked into the value column
+    certainty: 95
+  - not_null: indicator_en
+    reason: each long row carries the English indicator/row label it was melted from
+    certainty: 85
+  - column_type: {col: value, type: float}
+    certainty: 95
+  - column_type: {col: date, type: date}
+    reason: period header parsed to a calendar date
+    certainty: 75
+  - row_count: {min: 5}
+    reason: the consolidated tourism workbook should contain at least several observations
+    certainty: 80
+  - enum: {col: frequency, values: [monthly, quarterly, annual]}
+    reason: frequency is derived from the workbook filename tag or header cadence
+    certainty: 70
+    severity: warn
+  - between: {col: year, lo: 1995, hi: current_year()}
+    reason: CBE tourism time series are historical observations, not projections
+    certainty: 70
+    points_outward: true
+    severity: warn
+  - freshness: {col: date, reaches: today - 400d}
+    reason: tourism is accepted as a live consolidated time series and should reach within roughly one year
+    certainty: 70
+    points_outward: true

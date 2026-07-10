@@ -41,7 +41,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     configure_http,
     get,
     save_raw_parquet,
@@ -427,37 +426,4 @@ def fetch_one(node_id):
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(eid), fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-
-# --------------------------------------------------------------------------- #
-# Transform — one published Delta table per dataset
-# --------------------------------------------------------------------------- #
-# Thin parse-and-dedup pass: drop null values, and where overlapping fiscal-year
-# files (or a re-uploaded revision) repeat the same observation, keep the row
-# from the lexicographically-latest source_file. The natural key keeps distinct
-# series apart: indicator x dimension (Public/Private/Total) x frequency x period.
-def _transform_sql(download_id):
-    return f'''
-        SELECT indicator_en, indicator_ar, dimension, frequency,
-               year, date, period_label, value
-        FROM (
-            SELECT *,
-                   row_number() OVER (
-                       PARTITION BY indicator_en, COALESCE(dimension, ''),
-                                    frequency,
-                                    COALESCE(CAST(date AS VARCHAR), period_label)
-                       ORDER BY source_file DESC
-                   ) AS _rn
-            FROM "{download_id}"
-            WHERE value IS NOT NULL AND indicator_en IS NOT NULL
-        )
-        WHERE _rn = 1
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_transform_sql(s.id),
-                temporal="date")
-    for s in DOWNLOAD_SPECS
 ]
