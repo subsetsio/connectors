@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eu-klems-statistical-growth-accounts`. Regenerate after model-verify.
+# caution: The country column includes multi-country aggregates such as EU and euro-area totals alongside individual countries; filter it before summing across economies.
+# caution: Rows combine multiple industries and measure variables; aggregate only after filtering or grouping by the relevant industry and variable dimensions.
+key: [country, db, var, sort_id, indnr, code, year]
+temporal: year
+sort: [year, country, db, var, sort_id, indnr, code]
 columns:
   - name: country
     type: VARCHAR
@@ -6,8 +12,8 @@ columns:
     type: VARCHAR
   - name: var
     type: VARCHAR
-  - name: Sort_ID
-    type: VARCHAR
+  - name: sort_id
+    type: BIGINT
   - name: indnr
     type: VARCHAR
   - name: code

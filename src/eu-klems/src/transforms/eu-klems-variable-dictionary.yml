@@ -1,16 +1,20 @@
-key: [File, Variable]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eu-klems-variable-dictionary`. Regenerate after model-verify.
+# caution: Variable codes are scoped by the File column; join on both the module/file context and the variable code where available.
+key: [file, variable]
+sort: [file, variable]
 columns:
-  - name: File
+  - name: file
     type: VARCHAR
-  - name: Sort_Cat
+  - name: sort_cat
     type: INTEGER
-  - name: Category
+  - name: category
     type: VARCHAR
-  - name: Sort_ID
+  - name: sort_id
     type: INTEGER
-  - name: Variable
+  - name: variable
     type: VARCHAR
-  - name: Tool
+  - name: tool
     type: VARCHAR
-  - name: Excel
+  - name: excel
     type: VARCHAR

@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eu-klems-statistical-labour`. Regenerate after model-verify.
+# caution: The country column includes multi-country aggregates such as EU and euro-area totals alongside individual countries; filter it before summing across economies.
+# caution: Rows combine multiple industries and labour demographic breakdowns; aggregate only after filtering or grouping by the relevant industry, gender, age, education, and variable dimensions.
+key: [country, var, code, sort_id, indnr, gender, age, edu, year]
+temporal: year
+sort: [year, country, var, code, sort_id, indnr, gender, age, edu]
 columns:
   - name: country
     type: VARCHAR
@@ -6,16 +12,16 @@ columns:
     type: VARCHAR
   - name: code
     type: VARCHAR
-  - name: Sort_ID
-    type: VARCHAR
+  - name: sort_id
+    type: BIGINT
   - name: indnr
     type: VARCHAR
   - name: gender
-    type: VARCHAR
+    type: BIGINT
   - name: age
-    type: VARCHAR
+    type: BIGINT
   - name: edu
-    type: VARCHAR
+    type: BIGINT
   - name: year
     type: INTEGER
   - name: value
