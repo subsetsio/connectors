@@ -17,7 +17,7 @@ year/month/ISO-date so the SQL transform stays a thin cast.
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, save_raw_parquet
+from subsets_utils import NodeSpec, get, transient_retry, save_raw_parquet
 from constants import ENTITY_IDS, TABLE_CODES
 
 SLUG = "bundesagentur-f-r-arbeit"
@@ -105,24 +105,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                CAST(date AS DATE) AS date,
-                year,
-                month,
-                metric,
-                value
-            FROM "{s.id}"
-            WHERE date IS NOT NULL
-              AND metric IS NOT NULL
-              AND value IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

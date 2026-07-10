@@ -21,7 +21,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -170,78 +169,4 @@ DOWNLOAD_SPECS = [
              fn=fetch_generation_forecast, kind="download"),
     NodeSpec(id="bundesnetzagentur-prices-dayahead",
              fn=fetch_prices_dayahead, kind="download"),
-]
-
-# --------------------------------------------------------------------------
-# Transforms — one published Delta table per subset.
-# date_ms is Berlin-local midnight expressed as a UTC epoch; adding 12h before
-# casting to DATE lands squarely on the correct local calendar day regardless
-# of the CET/CEST offset (no timezone extension needed).
-
-_DAY_MS = 43_200_000  # +12h
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="bundesnetzagentur-generation-actual-transform",
-        deps=["bundesnetzagentur-generation-actual"],
-        sql=f'''
-            SELECT
-                CAST(epoch_ms(date_ms + {_DAY_MS}) AS DATE) AS date,
-                region,
-                series_label AS source,
-                value        AS generation_mwh
-            FROM "bundesnetzagentur-generation-actual"
-            WHERE value IS NOT NULL
-            ORDER BY date, region, source
-        ''',
-        key=("date", "region", "source"),
-        temporal="date",
-    ),
-    SqlNodeSpec(
-        id="bundesnetzagentur-consumption-transform",
-        deps=["bundesnetzagentur-consumption"],
-        sql=f'''
-            SELECT
-                CAST(epoch_ms(date_ms + {_DAY_MS}) AS DATE) AS date,
-                region,
-                series_label AS measure,
-                value        AS load_mwh
-            FROM "bundesnetzagentur-consumption"
-            WHERE value IS NOT NULL
-            ORDER BY date, region, measure
-        ''',
-        key=("date", "region", "measure"),
-        temporal="date",
-    ),
-    SqlNodeSpec(
-        id="bundesnetzagentur-generation-forecast-transform",
-        deps=["bundesnetzagentur-generation-forecast"],
-        sql=f'''
-            SELECT
-                CAST(epoch_ms(date_ms + {_DAY_MS}) AS DATE) AS date,
-                region,
-                series_label AS source,
-                value        AS forecast_mwh
-            FROM "bundesnetzagentur-generation-forecast"
-            WHERE value IS NOT NULL
-            ORDER BY date, region, source
-        ''',
-        key=("date", "region", "source"),
-        temporal="date",
-    ),
-    SqlNodeSpec(
-        id="bundesnetzagentur-prices-dayahead-transform",
-        deps=["bundesnetzagentur-prices-dayahead"],
-        sql=f'''
-            SELECT
-                CAST(epoch_ms(date_ms + {_DAY_MS}) AS DATE) AS date,
-                series_label AS bidding_zone,
-                value        AS price_eur_mwh
-            FROM "bundesnetzagentur-prices-dayahead"
-            WHERE value IS NOT NULL
-            ORDER BY date, bidding_zone
-        ''',
-        key=("date", "bidding_zone"),
-        temporal="date",
-    ),
 ]
