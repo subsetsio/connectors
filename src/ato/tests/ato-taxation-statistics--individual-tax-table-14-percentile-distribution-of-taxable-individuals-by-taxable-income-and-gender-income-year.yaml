@@ -1,5 +1,8 @@
 spec_id: ato-taxation-statistics--individual-tax-table-14-percentile-distribution-of-taxable-individuals-by-taxable-income-and-gender-income-year
 status: active
+coverage:
+  frozen: true
+  reason: ATO publishes this temporal resource as a fixed catalog edition; newer periods are represented by separate resources or editions, so this file is not expected to advance in place.
 tests:
   - row_count: {min: 1}
     reason: accepted ATO tabular resource groups should produce at least one raw row or workbook cell; an empty pull means the source URL changed or the parser skipped the payload.

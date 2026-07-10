@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ato-taxation-statistics--individuals-table-13`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [source_resource_id, sheet_name, row_number, column_number]
+checks:
+  - kind: unique
+    columns: [source_resource_id, sheet_name, row_number, column_number]
+  - kind: not_null
+    col: source_resource_id
+  - kind: not_null
+    col: sheet_name
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: column_number
+  - kind: row_floor
+    min: 581885
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

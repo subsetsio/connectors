@@ -1,5 +1,8 @@
 spec_id: ato-taxation-statistics--individuals-table-13-csv
 status: active
+coverage:
+  frozen: true
+  reason: ATO publishes this temporal resource as a fixed catalog edition; newer periods are represented by separate resources or editions, so this file is not expected to advance in place.
 tests:
   - row_count: {min: 1}
     reason: every accepted entity has at least one flat CSV edition that returned rows during probing; an empty pull means the resource download URL changed or the CSV was truncated.
