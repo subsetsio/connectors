@@ -1,20 +1,31 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `banco-de-la-rep-blica-df-uvr-daily-latest`. Regenerate after model-verify.
+# caution: This latest-data table is a point-in-time slice; use the corresponding historical dataflow for complete time-series analysis.
+key: [reference_area, subject, freq, unit_measure, adjustment, time_period]
+temporal: time_period
+sort: [time_period, reference_area, subject, freq, unit_measure, adjustment]
 columns:
-  - name: date
-    type: DATE
-  - name: subject
-    type: VARCHAR
   - name: reference_area
     type: VARCHAR
-  - name: unit_measure
+  - name: subject
+    type: VARCHAR
+  - name: expenditure
+    type: VARCHAR
+  - name: activity
     type: VARCHAR
   - name: adjustment
     type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
   - name: freq
     type: VARCHAR
+  - name: domain
+    type: VARCHAR
   - name: unit_mult
-    type: INTEGER
-  - name: value
+    type: BIGINT
+  - name: time_period
+    type: DATE
+  - name: obs_value
     type: DOUBLE
   - name: obs_status
     type: VARCHAR

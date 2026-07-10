@@ -1,8 +1,9 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `banco-central-de-nicaragua-4-v-5-3-1`. Regenerate after model-verify.
 # caution: Each table is a single source-defined measure; use the catalog title and column descriptions for the statistic and unit before comparing values across tables.
+key: [date, year, month, period_label, col_index]
 temporal: date
-sort: [date]
+sort: [date, year, month, period_label, col_index]
 columns:
   - name: year
     type: BIGINT
