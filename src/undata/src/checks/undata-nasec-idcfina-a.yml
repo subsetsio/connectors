@@ -1,0 +1,54 @@
+# compiled by `hardened compile-checks` — post-publish audit of `undata-nasec-idcfina-a`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [freq, adjustment, ref_area, counterpart_area, ref_sector, counterpart_sector, consolidation, accounting_entry, sto, instr_asset, maturity, expenditure, unit_measure, currency_denom, valuation, prices, transformation, cust_breakdown, time_period]
+temporal: last_update
+checks:
+  - kind: unique
+    columns: [freq, adjustment, ref_area, counterpart_area, ref_sector, counterpart_sector, consolidation, accounting_entry, sto, instr_asset, maturity, expenditure, unit_measure, currency_denom, valuation, prices, transformation, cust_breakdown, time_period]
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: adjustment
+  - kind: not_null
+    col: ref_area
+  - kind: not_null
+    col: counterpart_area
+  - kind: not_null
+    col: ref_sector
+  - kind: not_null
+    col: counterpart_sector
+  - kind: not_null
+    col: consolidation
+  - kind: not_null
+    col: accounting_entry
+  - kind: not_null
+    col: sto
+  - kind: not_null
+    col: instr_asset
+  - kind: not_null
+    col: maturity
+  - kind: not_null
+    col: expenditure
+  - kind: not_null
+    col: unit_measure
+  - kind: not_null
+    col: currency_denom
+  - kind: not_null
+    col: valuation
+  - kind: not_null
+    col: prices
+  - kind: not_null
+    col: transformation
+  - kind: not_null
+    col: cust_breakdown
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 5561080
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

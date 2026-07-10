@@ -1,26 +1,29 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: TIME_PERIOD
-sort: [TIME_PERIOD]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `undata-df-undata-energy`. Regenerate after model-verify.
+# caution: Energy statistics include multiple commodities, transactions, countries, and units; filter commodity, transaction, and unit before aggregating.
+key: [freq, ref_area, commodity, transaction, time_period, unit_measure]
+temporal: time_period
+sort: [time_period, freq, ref_area, commodity, transaction, unit_measure]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: REF_AREA
+  - name: ref_area
     type: VARCHAR
-  - name: COMMODITY
+  - name: commodity
     type: VARCHAR
-  - name: TRANSACTION
+  - name: transaction
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: UNIT_MEASURE
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: CONVERSION_FACTOR
-    type: VARCHAR
+  - name: time_period
+    type: BIGINT
   - name: obs_value
+    type: BIGINT
+  - name: unit_mult
+    type: BIGINT
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: conversion_factor
     type: DOUBLE

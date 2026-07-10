@@ -1,8 +1,56 @@
-WITH casted AS (
-    SELECT
-        * EXCLUDE (OBS_VALUE),
-        TRY_CAST(OBS_VALUE AS DOUBLE) AS obs_value
-    FROM "undata-nasec-idcfina-q"
-)
-SELECT * FROM casted
-WHERE obs_value IS NOT NULL AND isfinite(obs_value)
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Quarterly financial accounts include sector, counterpart, consolidation, instrument, maturity, currency, valuation, price, transformation, and custom-breakdown dimensions; filter those dimensions before aggregating.
+SELECT
+    "DATAFLOW" AS dataflow,
+    "FREQ" AS freq,
+    "ADJUSTMENT" AS adjustment,
+    "REF_AREA" AS ref_area,
+    "COUNTERPART_AREA" AS counterpart_area,
+    "REF_SECTOR" AS ref_sector,
+    "COUNTERPART_SECTOR" AS counterpart_sector,
+    "CONSOLIDATION" AS consolidation,
+    "ACCOUNTING_ENTRY" AS accounting_entry,
+    "STO" AS sto,
+    "INSTR_ASSET" AS instr_asset,
+    "MATURITY" AS maturity,
+    "EXPENDITURE" AS expenditure,
+    "UNIT_MEASURE" AS unit_measure,
+    "CURRENCY_DENOM" AS currency_denom,
+    "VALUATION" AS valuation,
+    "PRICES" AS prices,
+    "TRANSFORMATION" AS transformation,
+    "CUST_BREAKDOWN" AS cust_breakdown,
+    "TIME_PERIOD" AS time_period,
+    CAST("OBS_VALUE" AS BIGINT) AS obs_value,
+    "OBS_STATUS" AS obs_status,
+    "CONF_STATUS" AS conf_status,
+    "COMMENT_OBS" AS comment_obs,
+    "EMBARGO_DATE" AS embargo_date,
+    "REF_PERIOD_DETAIL" AS ref_period_detail,
+    "REPYEARSTART" AS repyearstart,
+    "REPYEAREND" AS repyearend,
+    "TIME_FORMAT" AS time_format,
+    "TIME_PER_COLLECT" AS time_per_collect,
+    "CUST_BREAKDOWN_LB" AS cust_breakdown_lb,
+    "REF_YEAR_PRICE" AS ref_year_price,
+    CAST("DECIMALS" AS BIGINT) AS decimals,
+    "TABLE_IDENTIFIER" AS table_identifier,
+    "TITLE" AS title,
+    "TITLE_COMPL" AS title_compl,
+    CAST("UNIT_MULT" AS BIGINT) AS unit_mult,
+    "LAST_UPDATE" AS last_update,
+    "COMPILING_ORG" AS compiling_org,
+    "COMMENT_DSET" AS comment_dset,
+    "OBS_EDP_WBB" AS obs_edp_wbb,
+    "COLL_PERIOD" AS coll_period,
+    "COMMENT_TS" AS comment_ts,
+    "GFS_ECOFUNC" AS gfs_ecofunc,
+    "GFS_TAXCAT" AS gfs_taxcat,
+    "PRE_BREAK_VALUE" AS pre_break_value,
+    "DATA_COMP" AS data_comp,
+    "CURRENCY" AS currency,
+    "DISS_ORG" AS diss_org
+FROM "undata-nasec-idcfina-q"

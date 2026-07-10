@@ -1,36 +1,39 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: TIME_PERIOD
-sort: [TIME_PERIOD]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `undata-df-undata-countrydata`. Regenerate after model-verify.
+# caution: CountryData mixes countries, series, units, demographic breakdowns, and source types in one long table; filter the relevant dimensions before comparison or aggregation.
+key: [freq, series, unit, location, age_group, sex, ref_area, source_type, time_period]
+temporal: time_period
+sort: [time_period, freq, series, unit, location, age_group, sex, ref_area, source_type]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: SERIES
+  - name: series
     type: VARCHAR
-  - name: UNIT
+  - name: unit
     type: VARCHAR
-  - name: LOCATION
+  - name: location
     type: VARCHAR
-  - name: AGE_GROUP
+  - name: age_group
     type: VARCHAR
-  - name: SEX
+  - name: sex
     type: VARCHAR
-  - name: REF_AREA
+  - name: ref_area
     type: VARCHAR
-  - name: SOURCE_TYPE
+  - name: source_type
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: TIME_DETAIL
-    type: VARCHAR
-  - name: NATURE
-    type: VARCHAR
-  - name: SOURCE_DETAIL
-    type: VARCHAR
-  - name: FOOTNOTES
-    type: VARCHAR
+  - name: time_period
+    type: BIGINT
   - name: obs_value
     type: DOUBLE
+  - name: unit_mult
+    type: BIGINT
+  - name: time_detail
+    type: BIGINT
+  - name: nature
+    type: VARCHAR
+  - name: source_detail
+    type: VARCHAR
+  - name: footnotes
+    type: VARCHAR

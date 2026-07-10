@@ -32,7 +32,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get_client, raw_writer
+from subsets_utils import NodeSpec, get_client, raw_writer
 
 BASE = "https://data.un.org/ws/rest"
 ACCEPT_CSV = "application/vnd.sdmx.data+csv"
@@ -116,28 +116,4 @@ def fetch_one(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(eid), fn=fetch_one, kind="download") for eid in ENTITY_IDS
-]
-
-
-# One published Delta table per dataflow. Thin parse-and-type pass: keep every
-# SDMX dimension/attribute column (stored as text), cast OBS_VALUE to DOUBLE,
-# and drop observations with no numeric value (blank OBS_VALUE is common on the
-# national-accounts flows). TRY_CAST tolerates any stray non-numeric cell.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        temporal="TIME_PERIOD",
-        sql=f'''
-            WITH casted AS (
-                SELECT
-                    * EXCLUDE (OBS_VALUE),
-                    TRY_CAST(OBS_VALUE AS DOUBLE) AS obs_value
-                FROM "{s.id}"
-            )
-            SELECT * FROM casted
-            WHERE obs_value IS NOT NULL AND isfinite(obs_value)
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

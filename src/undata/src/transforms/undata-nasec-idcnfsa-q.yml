@@ -1,102 +1,105 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: TIME_PERIOD
-sort: [TIME_PERIOD]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `undata-nasec-idcnfsa-q`. Regenerate after model-verify.
+# caution: Quarterly non-financial accounts include sector, counterpart, consolidation, account, instrument, maturity, currency, valuation, price, transformation, and custom-breakdown dimensions; filter those dimensions before aggregating.
+key: [freq, adjustment, ref_area, counterpart_area, ref_sector, counterpart_sector, consolidation, accounting_entry, sto, instr_asset, maturity, expenditure, unit_measure, currency_denom, valuation, prices, transformation, cust_breakdown, time_period]
+temporal: last_update
+sort: [last_update, freq, adjustment, ref_area, counterpart_area, ref_sector, counterpart_sector, consolidation, accounting_entry, sto, instr_asset, maturity, expenditure, unit_measure, currency_denom, valuation, prices, transformation, cust_breakdown, time_period]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: ADJUSTMENT
+  - name: adjustment
     type: VARCHAR
-  - name: REF_AREA
+  - name: ref_area
     type: VARCHAR
-  - name: COUNTERPART_AREA
+  - name: counterpart_area
     type: VARCHAR
-  - name: REF_SECTOR
+  - name: ref_sector
     type: VARCHAR
-  - name: COUNTERPART_SECTOR
+  - name: counterpart_sector
     type: VARCHAR
-  - name: CONSOLIDATION
+  - name: consolidation
     type: VARCHAR
-  - name: ACCOUNTING_ENTRY
+  - name: accounting_entry
     type: VARCHAR
-  - name: STO
+  - name: sto
     type: VARCHAR
-  - name: INSTR_ASSET
+  - name: instr_asset
     type: VARCHAR
-  - name: MATURITY
+  - name: maturity
     type: VARCHAR
-  - name: EXPENDITURE
+  - name: expenditure
     type: VARCHAR
-  - name: UNIT_MEASURE
+  - name: unit_measure
     type: VARCHAR
-  - name: CURRENCY_DENOM
+  - name: currency_denom
     type: VARCHAR
-  - name: VALUATION
+  - name: valuation
     type: VARCHAR
-  - name: PRICES
+  - name: prices
     type: VARCHAR
-  - name: TRANSFORMATION
+  - name: transformation
     type: VARCHAR
-  - name: CUST_BREAKDOWN
+  - name: cust_breakdown
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: CONF_STATUS
-    type: VARCHAR
-  - name: COMMENT_OBS
-    type: JSON
-  - name: EMBARGO_DATE
-    type: JSON
-  - name: REF_PERIOD_DETAIL
-    type: VARCHAR
-  - name: REPYEARSTART
-    type: JSON
-  - name: REPYEAREND
-    type: JSON
-  - name: TIME_FORMAT
-    type: VARCHAR
-  - name: TIME_PER_COLLECT
-    type: JSON
-  - name: CUST_BREAKDOWN_LB
-    type: JSON
-  - name: REF_YEAR_PRICE
-    type: JSON
-  - name: DECIMALS
-    type: VARCHAR
-  - name: TABLE_IDENTIFIER
-    type: VARCHAR
-  - name: TITLE
-    type: JSON
-  - name: TITLE_COMPL
-    type: JSON
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: LAST_UPDATE
-    type: TIMESTAMP
-  - name: COMPILING_ORG
-    type: JSON
-  - name: COMMENT_DSET
-    type: VARCHAR
-  - name: OBS_EDP_WBB
-    type: JSON
-  - name: COLL_PERIOD
-    type: JSON
-  - name: COMMENT_TS
-    type: JSON
-  - name: GFS_ECOFUNC
-    type: JSON
-  - name: GFS_TAXCAT
-    type: JSON
-  - name: PRE_BREAK_VALUE
-    type: JSON
-  - name: DATA_COMP
-    type: JSON
-  - name: CURRENCY
-    type: JSON
-  - name: DISS_ORG
+  - name: time_period
     type: VARCHAR
   - name: obs_value
     type: DOUBLE
+  - name: obs_status
+    type: VARCHAR
+  - name: conf_status
+    type: VARCHAR
+  - name: comment_obs
+    type: JSON
+  - name: embargo_date
+    type: JSON
+  - name: ref_period_detail
+    type: VARCHAR
+  - name: repyearstart
+    type: JSON
+  - name: repyearend
+    type: JSON
+  - name: time_format
+    type: VARCHAR
+  - name: time_per_collect
+    type: JSON
+  - name: cust_breakdown_lb
+    type: JSON
+  - name: ref_year_price
+    type: JSON
+  - name: decimals
+    type: BIGINT
+  - name: table_identifier
+    type: VARCHAR
+  - name: title
+    type: JSON
+  - name: title_compl
+    type: JSON
+  - name: unit_mult
+    type: BIGINT
+  - name: last_update
+    type: TIMESTAMP
+  - name: compiling_org
+    type: JSON
+  - name: comment_dset
+    type: VARCHAR
+  - name: obs_edp_wbb
+    type: JSON
+  - name: coll_period
+    type: JSON
+  - name: comment_ts
+    type: JSON
+  - name: gfs_ecofunc
+    type: JSON
+  - name: gfs_taxcat
+    type: JSON
+  - name: pre_break_value
+    type: JSON
+  - name: data_comp
+    type: JSON
+  - name: currency
+    type: JSON
+  - name: diss_org
+    type: VARCHAR

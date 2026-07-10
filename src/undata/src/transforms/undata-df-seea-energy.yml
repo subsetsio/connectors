@@ -1,68 +1,71 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: TIME_PERIOD
-sort: [TIME_PERIOD]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `undata-df-seea-energy`. Regenerate after model-verify.
+# caution: Physical energy flow accounts contain multiple flow, sector, product, and counterpart dimensions; filter those dimensions before summing observations.
+key: [freq, ref_area, demand_prod, accounting_entry, counterpart_area, interactors, bridge_items, energy_flows, sto, unit_measure, product, sector, time_period]
+temporal: time_period
+sort: [time_period, freq, ref_area, demand_prod, accounting_entry, counterpart_area, interactors, bridge_items, energy_flows, sto, unit_measure, product, sector]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: REF_AREA
+  - name: ref_area
     type: VARCHAR
-  - name: DEMAND_PROD
+  - name: demand_prod
     type: VARCHAR
-  - name: ACCOUNTING_ENTRY
+  - name: accounting_entry
     type: VARCHAR
-  - name: COUNTERPART_AREA
+  - name: counterpart_area
     type: VARCHAR
-  - name: INTERACTORS
+  - name: interactors
     type: VARCHAR
-  - name: BRIDGE_ITEMS
+  - name: bridge_items
     type: VARCHAR
-  - name: ENERGY_FLOWS
+  - name: energy_flows
     type: VARCHAR
-  - name: STO
+  - name: sto
     type: VARCHAR
-  - name: UNIT_MEASURE
+  - name: unit_measure
     type: VARCHAR
-  - name: PRODUCT
+  - name: product
     type: VARCHAR
-  - name: SECTOR
+  - name: sector
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: DISS_ORG
-    type: JSON
-  - name: PRE_BREAK_VALUE
-    type: JSON
-  - name: COMPILING_ORG
-    type: JSON
-  - name: LAST_UPDATE
-    type: JSON
-  - name: TITLE_COMPL
-    type: JSON
-  - name: TITLE
-    type: JSON
-  - name: DECIMALS
-    type: VARCHAR
-  - name: EMBARGO_TIME
-    type: JSON
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: COMMENT_TS
-    type: JSON
-  - name: COMMENT_OBS
-    type: JSON
-  - name: COMMENT_DSET
-    type: JSON
-  - name: OBS_STATUS_4
-    type: JSON
-  - name: OBS_STATUS_3
-    type: JSON
-  - name: OBS_STATUS_2
-    type: JSON
-  - name: OBS_STATUS_1
-    type: VARCHAR
-  - name: CONF_STATUS
-    type: VARCHAR
+  - name: time_period
+    type: BIGINT
   - name: obs_value
-    type: DOUBLE
+    type: VARCHAR
+  - name: diss_org
+    type: JSON
+  - name: pre_break_value
+    type: JSON
+  - name: compiling_org
+    type: JSON
+  - name: last_update
+    type: JSON
+  - name: title_compl
+    type: JSON
+  - name: title
+    type: JSON
+  - name: decimals
+    type: BIGINT
+  - name: embargo_time
+    type: JSON
+  - name: unit_mult
+    type: BIGINT
+  - name: comment_ts
+    type: JSON
+  - name: comment_obs
+    type: JSON
+  - name: comment_dset
+    type: JSON
+  - name: obs_status_4
+    type: JSON
+  - name: obs_status_3
+    type: JSON
+  - name: obs_status_2
+    type: JSON
+  - name: obs_status_1
+    type: VARCHAR
+  - name: conf_status
+    type: VARCHAR

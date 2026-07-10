@@ -1,0 +1,48 @@
+# compiled by `hardened compile-checks` — post-publish audit of `undata-df-sdg-glh`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [freq, reporting_type, series, ref_area, sex, age, urbanisation, income_wealth_quantile, education_lev, occupation, cust_breakdown, composite_breakdown, disability_status, activity, product, time_period]
+temporal: data_last_update
+checks:
+  - kind: unique
+    columns: [freq, reporting_type, series, ref_area, sex, age, urbanisation, income_wealth_quantile, education_lev, occupation, cust_breakdown, composite_breakdown, disability_status, activity, product, time_period]
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: reporting_type
+  - kind: not_null
+    col: series
+  - kind: not_null
+    col: ref_area
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: urbanisation
+  - kind: not_null
+    col: income_wealth_quantile
+  - kind: not_null
+    col: education_lev
+  - kind: not_null
+    col: occupation
+  - kind: not_null
+    col: cust_breakdown
+  - kind: not_null
+    col: composite_breakdown
+  - kind: not_null
+    col: disability_status
+  - kind: not_null
+    col: activity
+  - kind: not_null
+    col: product
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 1460627
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

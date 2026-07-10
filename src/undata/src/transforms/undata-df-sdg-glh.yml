@@ -1,72 +1,75 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: TIME_PERIOD
-sort: [TIME_PERIOD]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `undata-df-sdg-glh`. Regenerate after model-verify.
+# caution: Includes country, regional, and global SDG observations plus multiple demographic and custom breakdown dimensions; filter the relevant geography and breakdown columns before aggregating.
+key: [freq, reporting_type, series, ref_area, sex, age, urbanisation, income_wealth_quantile, education_lev, occupation, cust_breakdown, composite_breakdown, disability_status, activity, product, time_period]
+temporal: data_last_update
+sort: [data_last_update, freq, reporting_type, series, ref_area, sex, age, urbanisation, income_wealth_quantile, education_lev, occupation, cust_breakdown, composite_breakdown, disability_status, activity, product, time_period]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: REPORTING_TYPE
+  - name: reporting_type
     type: VARCHAR
-  - name: SERIES
+  - name: series
     type: VARCHAR
-  - name: REF_AREA
+  - name: ref_area
+    type: BIGINT
+  - name: sex
     type: VARCHAR
-  - name: SEX
+  - name: age
     type: VARCHAR
-  - name: AGE
+  - name: urbanisation
     type: VARCHAR
-  - name: URBANISATION
+  - name: income_wealth_quantile
     type: VARCHAR
-  - name: INCOME_WEALTH_QUANTILE
+  - name: education_lev
     type: VARCHAR
-  - name: EDUCATION_LEV
+  - name: occupation
     type: VARCHAR
-  - name: OCCUPATION
+  - name: cust_breakdown
     type: VARCHAR
-  - name: CUST_BREAKDOWN
+  - name: composite_breakdown
     type: VARCHAR
-  - name: COMPOSITE_BREAKDOWN
+  - name: disability_status
     type: VARCHAR
-  - name: DISABILITY_STATUS
+  - name: activity
     type: VARCHAR
-  - name: ACTIVITY
+  - name: product
     type: VARCHAR
-  - name: PRODUCT
-    type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: UNIT_MEASURE
-    type: VARCHAR
-  - name: BASE_PER
-    type: JSON
-  - name: NATURE
-    type: VARCHAR
-  - name: TIME_DETAIL
-    type: VARCHAR
-  - name: COMMENT_OBS
-    type: VARCHAR
-  - name: TIME_COVERAGE
-    type: JSON
-  - name: UPPER_BOUND
-    type: JSON
-  - name: LOWER_BOUND
-    type: JSON
-  - name: SOURCE_DETAIL
-    type: VARCHAR
-  - name: COMMENT_TS
-    type: JSON
-  - name: GEO_INFO_URL
-    type: JSON
-  - name: GEO_INFO_TYPE
-    type: JSON
-  - name: CUST_BREAKDOWN_LB
-    type: JSON
-  - name: DATA_LAST_UPDATE
-    type: TIMESTAMP
+  - name: time_period
+    type: BIGINT
   - name: obs_value
-    type: DOUBLE
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: unit_mult
+    type: BIGINT
+  - name: unit_measure
+    type: VARCHAR
+  - name: base_per
+    type: JSON
+  - name: nature
+    type: VARCHAR
+  - name: time_detail
+    type: VARCHAR
+  - name: comment_obs
+    type: VARCHAR
+  - name: time_coverage
+    type: JSON
+  - name: upper_bound
+    type: JSON
+  - name: lower_bound
+    type: JSON
+  - name: source_detail
+    type: VARCHAR
+  - name: comment_ts
+    type: JSON
+  - name: geo_info_url
+    type: JSON
+  - name: geo_info_type
+    type: JSON
+  - name: cust_breakdown_lb
+    type: JSON
+  - name: data_last_update
+    type: TIMESTAMP
