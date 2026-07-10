@@ -44,7 +44,7 @@ from datetime import date
 import certifi
 import pyarrow as pa
 from subsets_utils import (
-    NodeSpec, SqlNodeSpec, post, configure_http, transient_retry,
+    NodeSpec, post, configure_http, transient_retry,
     raw_parquet_writer, save_raw_parquet,
 )
 
@@ -454,64 +454,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="bceao-predefined-tables", fn=fetch_predefined_tables, kind="download"),
     NodeSpec(id="bceao-series", fn=fetch_series, kind="download"),
     NodeSpec(id="bceao-values", fn=fetch_values, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="bceao-predefined-tables-transform",
-        deps=["bceao-predefined-tables"],
-        key=("table_id", "frequency"),
-        sql='''
-            SELECT
-                table_id,
-                frequency,
-                label
-            FROM "bceao-predefined-tables"
-            WHERE table_id IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="bceao-series-transform",
-        deps=["bceao-series"],
-        key=("series_code", "frequency"),
-        sql='''
-            SELECT
-                series_code,
-                frequency,
-                label,
-                sector,
-                subsector,
-                NULLIF(unit, '')      AS unit,
-                valuation,
-                localities,
-                locality_count
-            FROM "bceao-series"
-            WHERE series_code IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="bceao-values-transform",
-        deps=["bceao-values"],
-        temporal="date",
-        sql='''
-            SELECT
-                series_code,
-                locality,
-                country,
-                frequency,
-                CAST(date AS DATE)    AS date,
-                CAST(value AS DOUBLE) AS value,
-                label,
-                sector,
-                subsector,
-                NULLIF(unit, '')                  AS unit,
-                NULLIF(magnitude, '')             AS magnitude,
-                NULLIF(source, '')                AS source,
-                NULLIF(series_type, '')           AS series_type,
-                NULLIF(method, '')                AS method,
-                period
-            FROM "bceao-values"
-            WHERE value IS NOT NULL AND date IS NOT NULL
-        ''',
-    ),
 ]
