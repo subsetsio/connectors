@@ -1,4 +1,7 @@
 spec_id: ftc-ftc-merger-enforcement-actions
+coverage:
+  frozen: true
+  reason: FTC static merger enforcement CSV currently covers historical enforcement actions through FY2021
 tests:
   - row_count: {min: 300}
     reason: merger enforcement actions are a long-running FTC table
@@ -8,10 +11,6 @@ tests:
   - not_null: MatterEnforcementFY
   - column_type: {col: MatterName, type: string}
   - column_type: {col: MatterNumber, type: string}
-  - unique: MatterNumber
-    reason: FTC matter number identifies an enforcement matter in this file
+  - unique: [MatterNumber, MatterEnforcementDate]
+    reason: FTC matter number plus enforcement date identifies a merger enforcement action row in this file
     certainty: 85
-  - freshness: {col: MatterEnforcementFY, reaches: 2023}
-    reason: merger enforcement action table should include recent fiscal years when FTC publishes new actions
-    certainty: 75
-    points_outward: true

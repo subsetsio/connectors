@@ -59,11 +59,9 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     list_raw_fragments,
-    transient_retry,
 )
 
 # GDELT 2.0 begins 2015-02-18; v1 (1979-2015) uses an incompatible schema/cadence
@@ -72,6 +70,7 @@ SOURCE_MIN_DATE = datetime(2015, 2, 18).date()
 _SOURCE_MIN_DAY8 = "20150218"  # same bound as YYYYMMDD for lexical event-day filtering
 
 _MASTER_FILE_LIST_URL = "http://data.gdeltproject.org/gdeltv2/masterfilelist.txt"
+_CAMEO_EVENTCODES_URL = "https://www.gdeltproject.org/data/lookups/CAMEO.eventcodes.txt"
 
 # Column indices in the fixed 61-field GDELT 2.0 Event layout (tab-delimited, no
 # header). Only the handful we aggregate on are named here.
@@ -147,15 +146,18 @@ _BATCH_SCHEMA = pa.schema([
     ("sum_tone", pa.float64()),
 ])
 
+_CAMEO_EVENTCODES_SCHEMA = pa.schema([
+    ("event_code", pa.string()),
+    ("event_description", pa.string()),
+])
 
-@transient_retry()
+
 def _fetch_master_list() -> str:
     resp = get(_MASTER_FILE_LIST_URL, timeout=(10.0, 300.0))
     resp.raise_for_status()
     return resp.text
 
 
-@transient_retry()
 def _fetch_zip(url: str) -> bytes | None:
     """Return the raw zip bytes for one 15-minute export file, or None on 404.
 
@@ -345,77 +347,37 @@ def fetch_events(node_id: str) -> None:
             print(f"  {date_iso}: no events (all files missing) — empty batch")
 
 
+def fetch_cameo_eventcodes(node_id: str) -> None:
+    """Fetch the small CAMEO event-code taxonomy as normalized parquet."""
+    resp = get(_CAMEO_EVENTCODES_URL, timeout=(10.0, 60.0))
+    resp.raise_for_status()
+    rows = {"event_code": [], "event_description": []}
+    for i, line in enumerate(resp.text.splitlines()):
+        if not line.strip():
+            continue
+        if i == 0 and line.lower().startswith("cameoeventcode"):
+            continue
+        parts = line.split("\t", 1)
+        if len(parts) != 2:
+            continue
+        code = parts[0].strip()
+        description = parts[1].strip()
+        if not code or not description:
+            continue
+        rows["event_code"].append(code)
+        rows["event_description"].append(description)
+    save_raw_parquet(pa.table(rows, schema=_CAMEO_EVENTCODES_SCHEMA), node_id)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(
         id="gdelt-events",
         fn=fetch_events,
         kind="download",
     ),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="gdelt-events-transform",
-        deps=["gdelt-events"],
-        sql='''
-            WITH rolled AS (
-                SELECT
-                    CAST(date AS DATE)                  AS date,
-                    action_geo_country_iso2,
-                    event_root_code,
-                    CAST(quad_class AS TINYINT)         AS quad_class,
-                    SUM(CAST(num_events AS BIGINT))     AS num_events,
-                    SUM(CAST(sum_mentions AS BIGINT))   AS sum_mentions,
-                    SUM(CAST(sum_articles AS BIGINT))   AS sum_articles,
-                    SUM(CAST(sum_goldstein AS DOUBLE))  AS tot_goldstein,
-                    SUM(CAST(sum_tone AS DOUBLE))       AS tot_tone
-                FROM "gdelt-events"
-                GROUP BY 1, 2, 3, 4
-            )
-            SELECT
-                date,
-                action_geo_country_iso2,
-                event_root_code,
-                CASE event_root_code
-                    WHEN '01' THEN 'Make Public Statement'
-                    WHEN '02' THEN 'Appeal'
-                    WHEN '03' THEN 'Express Intent to Cooperate'
-                    WHEN '04' THEN 'Consult'
-                    WHEN '05' THEN 'Engage in Diplomatic Cooperation'
-                    WHEN '06' THEN 'Engage in Material Cooperation'
-                    WHEN '07' THEN 'Provide Aid'
-                    WHEN '08' THEN 'Yield'
-                    WHEN '09' THEN 'Investigate'
-                    WHEN '10' THEN 'Demand'
-                    WHEN '11' THEN 'Disapprove'
-                    WHEN '12' THEN 'Reject'
-                    WHEN '13' THEN 'Threaten'
-                    WHEN '14' THEN 'Protest'
-                    WHEN '15' THEN 'Exhibit Force Posture'
-                    WHEN '16' THEN 'Reduce Relations'
-                    WHEN '17' THEN 'Coerce'
-                    WHEN '18' THEN 'Assault'
-                    WHEN '19' THEN 'Fight'
-                    WHEN '20' THEN 'Engage in Unconventional Mass Violence'
-                    ELSE NULL
-                END                                     AS event_root_label,
-                quad_class,
-                CASE quad_class
-                    WHEN 1 THEN 'Verbal Cooperation'
-                    WHEN 2 THEN 'Material Cooperation'
-                    WHEN 3 THEN 'Verbal Conflict'
-                    WHEN 4 THEN 'Material Conflict'
-                END                                     AS quad_class_label,
-                num_events,
-                sum_mentions,
-                sum_articles,
-                tot_goldstein / num_events              AS avg_goldstein,
-                tot_tone / num_events                   AS avg_tone
-            FROM rolled
-            WHERE num_events > 0
-        ''',
-        key=("date", "action_geo_country_iso2", "event_root_code", "quad_class"),
-        temporal="date",
+    NodeSpec(
+        id="gdelt-cameo-eventcodes",
+        fn=fetch_cameo_eventcodes,
+        kind="download",
     ),
 ]

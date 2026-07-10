@@ -1,4 +1,7 @@
 spec_id: ftc-hsr-merger-transactions-by-month
+coverage:
+  frozen: true
+  reason: FTC static HSR monthly transaction CSV currently covers FY1990 through FY2020
 tests:
   - row_count: {min: 300}
     reason: HSR monthly transaction table begins in FY1990 and should have one row per month
@@ -12,7 +15,3 @@ tests:
   - unique: [FYTransaction, MonthTransaction]
     reason: one HSR transaction count per fiscal year-month
     certainty: 95
-  - freshness: {col: FYTransaction, reaches: 2024}
-    reason: monthly HSR transactions should include recent fiscal years
-    certainty: 80
-    points_outward: true

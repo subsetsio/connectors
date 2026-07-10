@@ -1,0 +1,27 @@
+spec_id: gdelt-cameo-eventcodes
+status: active
+coverage:
+  frozen: true
+  reason: CAMEO event-code taxonomy is a small reference code list, not a time-advancing observation feed
+tests:
+  - not_null: event_code
+    reason: every taxonomy row is keyed by a CAMEO event code
+    certainty: 98
+  - not_null: event_description
+    reason: every CAMEO event code has a human-readable description
+    certainty: 98
+  - column_type: {col: event_code, type: string}
+    reason: event codes are zero-padded hierarchical text codes
+    certainty: 95
+  - column_type: {col: event_description, type: string}
+    reason: descriptions are text labels from the source lookup file
+    certainty: 95
+  - unique: event_code
+    reason: the lookup is one row per CAMEO event code
+    certainty: 98
+  - matches: {col: event_code, pattern: '^\d{2,4}$'}
+    reason: CAMEO event codes are numeric hierarchical strings such as 01, 010, and 0101
+    certainty: 95
+  - row_count: {min: 100, max: 1000}
+    reason: the public CAMEO event-code list has hundreds of rows, not a tiny broken fetch or a massive event feed
+    certainty: 90

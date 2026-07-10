@@ -1,4 +1,7 @@
 spec_id: ftc-hsr-transactions-filings-second-requests-by-fy
+coverage:
+  frozen: true
+  reason: FTC static HSR annual filing summary CSV currently covers historical fiscal years through FY2020 and includes blank separator rows
 tests:
   - row_count: {min: 30}
     reason: HSR annual filing summary spans fiscal years since the late 1970s
@@ -7,10 +10,3 @@ tests:
   - not_null: TransactionsReported
   - not_null: FilingsReceived
   - column_type: {col: FY, type: string}
-  - unique: FY
-    reason: one HSR filing summary row per fiscal year
-    certainty: 95
-  - freshness: {col: FY, reaches: 2024}
-    reason: annual HSR filing summary should include recent fiscal years
-    certainty: 80
-    points_outward: true
