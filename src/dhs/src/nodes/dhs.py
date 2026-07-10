@@ -18,9 +18,24 @@ Strategy (stateless full re-pull each run; corpus is tens of MB):
     footnotes) into a uniform tidy long table: one row per (category, breakdown)
     cell with its numeric value. The transform SQL is then a thin typed
     projection.
+
+Three details of the yearbook's human formatting carry meaning that a naive melt
+would destroy, so the parser reads them explicitly:
+  * Column A encodes a row hierarchy as cell INDENTATION, not as distinct labels.
+    Table 30 repeats the same age labels under a 'Female' and a 'Male' leader
+    row, so indentation is the only thing separating them; `parent_category`
+    carries that leader. Elsewhere (Tables 7/8/9/25/26) the same mechanism marks
+    subtotal-vs-component rows.
+  * The NISuppTable sheets put a 'Description' column between the row label and
+    the first data column. It is an attribute of the row, not an observation.
+  * Footnote markers are superscript runs inside the shared string ('Australia'
+    + superscript '1'), so they can be dropped exactly rather than guessed at by
+    stripping trailing digits — which would destroy class codes like 'H2A'.
 """
 import io
 import re
+import zipfile
+import xml.etree.ElementTree as ET
 
 import pyarrow as pa
 import openpyxl
@@ -94,7 +109,9 @@ SCHEMA = pa.schema([
     ("table_label", pa.string()),
     ("title", pa.string()),
     ("section", pa.string()),
+    ("parent_category", pa.string()),
     ("category", pa.string()),
+    ("description", pa.string()),
     ("breakdown", pa.string()),
     ("value", pa.float64()),
     ("value_note", pa.string()),
@@ -138,6 +155,56 @@ def _discover_workbooks() -> dict:
 # ---------------------------------------------------------------------------
 # Sheet parsing
 # ---------------------------------------------------------------------------
+_NS = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+
+
+def _footnote_map(content: bytes) -> dict:
+    """{concatenated_text: text_without_superscript_runs} for every shared string
+    whose footnote marker is a superscript run. openpyxl hands back the
+    concatenation, so this maps it back to the clean label."""
+    with zipfile.ZipFile(io.BytesIO(content)) as z:
+        if "xl/sharedStrings.xml" not in z.namelist():
+            return {}
+        root = ET.fromstring(z.read("xl/sharedStrings.xml"))
+    out = {}
+    for si in root.findall(f"{_NS}si"):
+        runs = si.findall(f"{_NS}r")
+        if not runs:
+            continue
+        full, clean = [], []
+        for r in runs:
+            t = r.find(f"{_NS}t")
+            text = t.text or "" if t is not None else ""
+            full.append(text)
+            props = r.find(f"{_NS}rPr")
+            sup = props is not None and props.find(f"{_NS}vertAlign") is not None and \
+                props.find(f"{_NS}vertAlign").get("val") == "superscript"
+            if not sup:
+                clean.append(text)
+        f, c = "".join(full), "".join(clean)
+        if c.strip() and c != f:
+            out[f] = c
+    return out
+
+
+def _indent(row) -> float:
+    """Indent level of a row's column-A cell. Blank cells carry no alignment."""
+    if not row:
+        return 0.0
+    align = getattr(row[0], "alignment", None)
+    return (align.indent or 0.0) if align is not None else 0.0
+
+
+def _clean(value, footnotes: dict) -> str:
+    """Cell value → display text: drop the superscript footnote marker, collapse
+    the embedded newlines the yearbook uses to wrap long headers."""
+    if value is None:
+        return ""
+    s = str(value)
+    s = footnotes.get(s, s)
+    return re.sub(r"\s+", " ", s).strip()
+
+
 def _num_nonempty(row) -> int:
     return sum(1 for c in row if str(c if c is not None else "").strip() != "")
 
@@ -167,24 +234,40 @@ def _dedupe(headers):
     return out
 
 
-def _parse_sheet(rows):
-    """Melt a yearbook sheet (list of cell-value rows) into tidy long records:
-    (section, category, breakdown, value, value_note)."""
-    rows = [[("" if c is None else c) for c in r] for r in rows]
+def _parse_sheet(rows, indents):
+    """Melt a yearbook sheet into tidy long records:
+    (section, parent_category, category, description, breakdown, value, note).
+
+    `rows` are cleaned cell texts; `indents[i]` is the column-A indent level of
+    row i, which is how the sheet encodes its row hierarchy."""
     # Header = first row with >= 2 non-empty cells (skips the 'Return to TOC'
     # link, the 'Table N.' marker, and the ALL-CAPS title which each occupy one
     # cell).
     header_idx = next((i for i, r in enumerate(rows) if _num_nonempty(r) >= 2), None)
     if header_idx is None:
         return []
-    header = [str(c).strip() for c in rows[header_idx]]
+    header = list(rows[header_idx])
     while header and header[-1] == "":
         header.pop()
     if not header:
         return []
 
+    # The NISuppTables carry a 'Description' column between the row label and the
+    # first observation: an attribute of the row, not a breakdown of it.
+    has_desc = len(header) > 1 and header[1].lower() == "description"
+
+    def split(cells):
+        """row cells -> (label + observation cells, description)"""
+        if not has_desc:
+            return cells, ""
+        desc = cells[1] if len(cells) > 1 else ""
+        return [cells[0]] + list(cells[2:]), desc
+
+    header, _ = split(header)
+
     # Repeated-block layout (e.g. 'Year','Number','Year','Number', ...): the
-    # first header label reappears, marking the block width.
+    # first header label reappears, marking the block width. These sheets are
+    # flat year series — they carry no row hierarchy.
     period = None
     for j in range(1, len(header)):
         if header[j] == header[0] and header[0] != "":
@@ -192,40 +275,56 @@ def _parse_sheet(rows):
             break
 
     records = []
-    section = [None]  # mutable cell for the closure
+    data = range(header_idx + 1, len(rows))
 
-    def emit(cells, base_headers):
-        label = str(cells[0]).strip() if cells else ""
-        if not label:
-            return
-        vals = cells[1:len(base_headers)]
-        if not any(str(v).strip() != "" for v in vals):
-            # Row with a label but no values: a section sub-header (REGION, AGE)
-            # or a trailing footnote. Track it as the current section.
-            section[0] = label
-            return
-        for k, colname in enumerate(base_headers[1:]):
-            if k >= len(vals):
-                break
-            raw = str(vals[k]).strip()
-            if raw == "":
-                continue
-            value, note = _parse_num(raw)
-            records.append((section[0], label, colname, value, note))
-
-    data = rows[header_idx + 1:]
     if period:
         base = _dedupe(header[:period])
-        for r in data:
+        for i in data:
+            r = rows[i]
             for c0 in range(0, len(r), period):
                 chunk = r[c0:c0 + period]
                 if _num_nonempty(chunk) == 0:
                     continue
-                emit(chunk, base)
-    else:
-        base = _dedupe(header)
-        for r in data:
-            emit(r, base)
+                label = chunk[0]
+                vals = chunk[1:len(base)]
+                if not label or not any(v != "" for v in vals):
+                    continue
+                for k, colname in enumerate(base[1:]):
+                    if k >= len(vals) or vals[k] == "":
+                        continue
+                    value, note = _parse_num(vals[k])
+                    records.append((None, "", label, "", colname, value, note))
+        return records
+
+    base = _dedupe(header)
+    section = None
+    stack = []  # (indent, label) — the chain of ancestors of the current row
+    for i in data:
+        cells, desc = split(rows[i])
+        label = cells[0]
+        vals = cells[1:len(base)]
+        has_vals = any(v != "" for v in vals)
+        if not label and desc and has_vals:
+            # The NISuppTables' grand-total row leaves the class code blank and
+            # names itself in the Description column.
+            label, desc = desc, ""
+        if not label:
+            continue
+        if not has_vals:
+            # A label with no values: a section header (REGION, AGE) or a
+            # trailing footnote. Either way it opens a new hierarchy.
+            section, stack = label, []
+            continue
+        indent = indents[i]
+        while stack and stack[-1][0] >= indent:
+            stack.pop()
+        parent = stack[-1][1] if stack else ""
+        stack.append((indent, label))
+        for k, colname in enumerate(base[1:]):
+            if k >= len(vals) or vals[k] == "":
+                continue
+            value, note = _parse_num(vals[k])
+            records.append((section, parent, label, desc, colname, value, note))
     return records
 
 
@@ -243,16 +342,20 @@ def fetch_one(node_id: str) -> None:
         )
 
     content = _fetch(url)
+    footnotes = _footnote_map(content)
     wb = openpyxl.load_workbook(io.BytesIO(content), read_only=True, data_only=True)
     if meta["sheet"] not in wb.sheetnames:
         raise RuntimeError(
             f"sheet '{meta['sheet']}' not in workbook {url} (sheets: {wb.sheetnames})"
         )
     ws = wb[meta["sheet"]]
-    grid = [list(r) for r in ws.iter_rows(values_only=True)]
+    grid, indents = [], []
+    for row in ws.iter_rows():
+        grid.append([_clean(c.value, footnotes) for c in row])
+        indents.append(_indent(row))
     wb.close()
 
-    records = _parse_sheet(grid)
+    records = _parse_sheet(grid, indents)
     if not records:
         raise RuntimeError(f"no data rows parsed from sheet '{meta['sheet']}' of {url}")
 
@@ -263,10 +366,12 @@ def fetch_one(node_id: str) -> None:
             "table_label": [meta["sheet"]] * n,
             "title": [meta["title"]] * n,
             "section": [r[0] for r in records],
-            "category": [r[1] for r in records],
-            "breakdown": [r[2] for r in records],
-            "value": [r[3] for r in records],
-            "value_note": [r[4] for r in records],
+            "parent_category": [r[1] for r in records],
+            "category": [r[2] for r in records],
+            "description": [r[3] for r in records],
+            "breakdown": [r[4] for r in records],
+            "value": [r[5] for r in records],
+            "value_note": [r[6] for r in records],
         },
         schema=SCHEMA,
     )

@@ -46,10 +46,14 @@ from subsets_utils import (
     raw_parquet_writer,
 )
 
-# Bumped to 3: period files now write as named fragments of the declared
-# download asset id. Earlier runs wrote sibling asset ids that the harness did
-# not count as output for the download spec.
-STATE_VERSION = 3
+# Bumped to 4: the parser now (a) maps the FY2008 legacy header layout
+# (NAME/CITY/STATE/JOB_CODE/RATE_PER_1/CITY_1/STATE_1) and (b) drops the
+# all-blank padding rows openpyxl emits for some quarterly files. Every period
+# must be re-parsed under the corrected logic, so the completed-period state is
+# invalidated to force a full re-fetch.
+# (Was 3: period files write as named fragments of the declared download asset
+# id — earlier runs wrote sibling asset ids the harness did not count as output.)
+STATE_VERSION = 4
 BASE = "https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs"
 
 # Browser profile for TLS impersonation — the thing that actually defeats Akamai.
@@ -99,13 +103,20 @@ SCHEMA = pa.schema([
 # Target column -> accepted upstream header variants (UPPER_SNAKE). Header layout
 # drifts across years (modern WORKSITE_STATE_1 vs legacy LCA_CASE_WORKLOC1_STATE),
 # so each target matches the first present variant.
+#
+# The FY2008 file (H-1B_Case_Data_FY2008.xlsx) uses a distinct legacy layout
+# with generic, un-prefixed headers (NAME/CITY/STATE for the employer,
+# CITY_1/STATE_1 for the first worksite, JOB_CODE for the occupation, RATE_PER_1
+# for the wage unit). Those generic names are kept LAST in each list so they can
+# only match when no modern/iCert variant is present — i.e. only in FY2008-style
+# files — and never shadow a same-named column meaning something else elsewhere.
 COLUMN_ALIASES = {
     "case_status": ["CASE_STATUS", "STATUS", "APPROVAL_STATUS"],
-    "employer_name": ["EMPLOYER_NAME", "LCA_CASE_EMPLOYER_NAME"],
-    "employer_state": ["EMPLOYER_STATE", "LCA_CASE_EMPLOYER_STATE", "EMPLOYER_PROVINCE"],
-    "employer_city": ["EMPLOYER_CITY", "LCA_CASE_EMPLOYER_CITY"],
+    "employer_name": ["EMPLOYER_NAME", "LCA_CASE_EMPLOYER_NAME", "NAME"],
+    "employer_state": ["EMPLOYER_STATE", "LCA_CASE_EMPLOYER_STATE", "EMPLOYER_PROVINCE", "STATE"],
+    "employer_city": ["EMPLOYER_CITY", "LCA_CASE_EMPLOYER_CITY", "CITY"],
     "job_title": ["JOB_TITLE", "LCA_CASE_JOB_TITLE"],
-    "soc_code": ["SOC_CODE", "LCA_CASE_SOC_CODE", "OCCUPATIONAL_CODE"],
+    "soc_code": ["SOC_CODE", "LCA_CASE_SOC_CODE", "OCCUPATIONAL_CODE", "JOB_CODE"],
     "soc_title": ["SOC_TITLE", "SOC_NAME", "LCA_CASE_SOC_NAME", "OCCUPATIONAL_TITLE"],
     "wage_rate": [
         "WAGE_RATE_OF_PAY_FROM_1", "WAGE_RATE_OF_PAY_FROM", "WAGE_RATE_OF_PAY",
@@ -113,13 +124,15 @@ COLUMN_ALIASES = {
     ],
     "wage_unit": [
         "WAGE_UNIT_OF_PAY_1", "WAGE_UNIT_OF_PAY", "PW_UNIT_1",
-        "LCA_CASE_WAGE_RATE_UNIT",
+        "LCA_CASE_WAGE_RATE_UNIT", "RATE_PER_1",
     ],
     "worksite_state": [
         "WORKSITE_STATE_1", "WORKSITE_STATE", "LCA_CASE_WORKLOC1_STATE", "WORK_LOCATION_STATE1",
+        "STATE_1",
     ],
     "worksite_city": [
         "WORKSITE_CITY_1", "WORKSITE_CITY", "LCA_CASE_WORKLOC1_CITY", "WORK_LOCATION_CITY1",
+        "CITY_1",
     ],
 }
 
@@ -244,12 +257,24 @@ def _stream_period(
             for row in row_iter:
                 if row is None:
                     continue
-                buf["fiscal_year"].append(fiscal_year)
-                buf["quarter"].append(quarter)
+                vals = []
                 for c in TEXT_COLS:
                     idx = col_idx.get(c)
                     val = row[idx] if idx is not None and idx < len(row) else None
-                    buf[c].append(None if val is None else str(val).strip())
+                    # Blank cells collapse to None so a whitespace-only row is
+                    # detected as empty below.
+                    vals.append(None if val is None else (str(val).strip() or None))
+                # Skip entirely-blank rows: openpyxl's read_only iterator yields
+                # all-None tuples for padding rows inside the sheet's declared
+                # dimension, and some newer quarterly files carry hundreds of
+                # thousands of them (e.g. FY2023 Q2 ~800k). A real LCA row always
+                # carries at least one populated field.
+                if all(v is None for v in vals):
+                    continue
+                buf["fiscal_year"].append(fiscal_year)
+                buf["quarter"].append(quarter)
+                for c, v in zip(TEXT_COLS, vals):
+                    buf[c].append(v)
                 if len(buf["fiscal_year"]) >= BATCH_ROWS:
                     _flush(writer)
             _flush(writer)

@@ -1,0 +1,43 @@
+spec_id: epo-countries
+status: active
+# Not temporal: a country dimension table with no time column, so no freshness
+# assertion applies (see epo-patent-applications-grants for the temporal asset).
+tests:
+  - row_count: {min: 150, max: 400}
+    reason: the source ships ~181 country records (179 territories + the 'ALL' and 'ROW' pseudo-countries); a collapse to a handful means the JSON shape changed
+    certainty: 90
+
+  - not_null: country_code
+  - not_null: country_name
+
+  - unique: country_code
+    reason: country_code is the join key the applications/grants and top-applicant tables reference; a dupe silently fans out every downstream join
+    certainty: 95
+
+  - unique: county_id
+    reason: the source's own surrogate id (note the upstream spelling 'county_id')
+    certainty: 90
+
+  - matches: {col: country_code, pattern: "[A-Z]{2,3}"}
+    reason: ISO 3166-1 alpha-2 codes, plus the source's own 3-letter aggregates 'ALL' (All states) and 'ROW' (rest of world)
+    certainty: 90
+
+  - enum: {col: country_epo_member, values: [0, 1]}
+  - enum: {col: country_ue, values: [0, 1]}
+  - enum: {col: country_ip5, values: [0, 1]}
+
+  - column_type: {col: country_population, type: integer}
+
+  - at_least: {col: country_population, expr: 0}
+    reason: a population count is never negative
+    certainty: 95
+
+  - at_most: {col: country_population, expr: 1600000000}
+    reason: >-
+      no single country exceeds ~1.5bn people. This currently FAILS: the source
+      gives Burundi a population of 12,624,845,000 (~1000x too high, evidently a
+      unit slip upstream). Kept as a warn so the bad cell stays visible without
+      blocking promotion — the value is the source's, not ours to silently fix.
+    certainty: 95
+    points_outward: true
+    severity: warn

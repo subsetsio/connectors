@@ -1,0 +1,47 @@
+spec_id: environment-agency-stations
+status: active
+coverage:
+  frozen: true
+  reason: >-
+    Reference catalog of monitoring stations. It has a dateOpened column but no
+    observation period — the corpus does not advance on a schedule, it only
+    grows as the EA commissions new stations. Freshness is asserted on the
+    readings asset, which is where the temporal advance actually lives.
+tests:
+  - not_null: station_guid
+    reason: stationGuid is the station's primary identifier on the linked-data platform
+    certainty: 95
+
+  - unique: station_guid
+    reason: one row per monitoring station; a dupe means the /id/stations.json page was concatenated twice
+    certainty: 95
+
+  - matches: {col: station_guid, pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'}
+    reason: EA hydrology station guids are lowercase UUIDs; readings.measure_id is prefixed with this 36-char guid, so the format is load-bearing for the join
+    certainty: 90
+
+  - row_count: {min: 5000, max: 20000}
+    reason: research counted ~8000 stations, collect saw 9530; a pagination break would land far under 5000
+    certainty: 85
+
+  - not_null: name
+    reason: every station carries a rdfs:label
+    certainty: 80
+
+  - between: {col: lat, lo: 49.5, hi: 56.0}
+    reason: England-only network; latitudes outside the GB bounding box mean easting/northing were mapped to the wrong columns
+    certainty: 90
+
+  - between: {col: long, lo: -7.0, hi: 2.5}
+    reason: England-only network; see lat
+    certainty: 90
+
+  - at_most: {col: date_opened, expr: today}
+    reason: a station cannot open in the future
+    certainty: 85
+    points_outward: true
+    severity: warn
+
+  - at_least: {col: n_measures, expr: 0}
+    reason: measures[] may legitimately be empty for a decommissioned station, but never negative
+    certainty: 95

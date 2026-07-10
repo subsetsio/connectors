@@ -1,0 +1,32 @@
+spec_id: epo-fields
+status: active
+# Not temporal: a technology-field dimension table with no time column.
+tests:
+  - row_count: {min: 30, max: 60}
+    reason: the WIPO/Schmoch technology-field taxonomy the EPO dashboard uses has 35 fields; it is a stable standard, so a large drift means the file changed shape
+    certainty: 90
+
+  - not_null: field_id
+  - not_null: field_name
+
+  - unique: field_id
+    reason: field_id is the join key epo-patent-applications-grants and epo-top-applicants-by-field reference
+    certainty: 95
+
+  - unique: field_rank
+    reason: field_rank is a total ordering 1..35 over the fields, so it is as unique as field_id
+    certainty: 85
+
+  - matches: {col: field_id, pattern: "[0-9]{1,2}"}
+    reason: the source serves field_id as a numeric string; the transform casts it to INTEGER
+    certainty: 90
+
+  - between: {col: field_rank, lo: 1, hi: 40}
+    reason: rank is a dense 1..35 ordering; the upper slack allows the taxonomy to grow a little
+    certainty: 85
+
+  - enum:
+      col: field_sector_id
+      values: [chemistry, electrical_engineering, instruments, mechanical_engineering, other_field]
+    reason: the five WIPO technology sectors the 35 fields roll up into
+    certainty: 90

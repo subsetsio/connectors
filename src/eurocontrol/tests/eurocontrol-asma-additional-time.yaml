@@ -1,0 +1,28 @@
+spec_id: eurocontrol-asma-additional-time
+status: active
+tests:
+  - matches: {col: OBS_DATE, pattern: '\d{4}-\d{2}-\d{2}'}
+    reason: OBS_DATE is synthesized by the fetch fn for every row; a blank means the source date column was missing or renamed
+    certainty: 95
+
+  - freshness: {col: OBS_DATE, reaches: today - 100d}
+    reason: the current-year file is appended monthly, so the newest observation should trail today by about a month plus publication lag
+    points_outward: true
+
+  - between: {col: YEAR, lo: 2018, hi: current_year()}
+    reason: the source publishes one file per calendar year from 2018 to the current year; a YEAR outside that means a stray file or a parse slip
+    certainty: 90
+
+  - unique: [OBS_DATE, APT_ICAO]
+    reason: monthly ASMA additional time per airport — one row per OBS_DATE x APT_ICAO; dupes mean a year batch was written twice
+    certainty: 90
+
+  - row_count: {min: 5000}
+    reason: conservative floor for 9 calendar years at the per-year volume observed while probing; a shortfall means year batches went missing
+    certainty: 85
+
+  - distinct_count: {col: APT_ICAO, min: 50}
+    reason: the reporting universe is EUROCONTROL-wide; far fewer APT_ICAO values means a truncated fetch
+    certainty: 85
+
+  - not_null: YEAR

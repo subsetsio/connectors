@@ -1,0 +1,53 @@
+spec_id: environment-agency-measures
+status: active
+coverage:
+  frozen: true
+  reason: >-
+    Reference catalog of time-series definitions (station x parameter x period x
+    statistic). It carries no observation-period column of its own — the temporal
+    dimension lives on readings, which asserts freshness. This catalog only grows
+    as measures are commissioned.
+tests:
+  - not_null: measure_id
+    reason: the measure notation is the series' primary key and the join key onto readings
+    certainty: 95
+
+  - unique: measure_id
+    reason: one row per measure; /id/measures.json is a flat list, dupes mean a paging bug
+    certainty: 95
+
+  - matches: {col: measure_id, pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}-'}
+    reason: measure notation is '<station_guid>-<parameter>-<statistic>-<period>-<unit>-<qualifier>'; readings derives station_guid by slicing the first 36 chars, so this prefix must hold
+    certainty: 90
+
+  - not_null: station_guid
+    reason: every measure hangs off exactly one station
+    certainty: 90
+
+  - row_count: {min: 20000, max: 60000}
+    reason: collect counted 32407 measures; research estimated ~20000. A pagination break lands far under 20000
+    certainty: 85
+
+  - enum: {col: period_name, values: [daily, sub-daily, 15min, hourly, monthly, annual]}
+    reason: periodName is drawn from a small controlled vocabulary; collect observed daily/sub-daily/15min
+    certainty: 70
+    points_outward: true
+    severity: warn
+
+  - enum: {col: value_statistic, values: [mean, minimum, maximum, min, max, total, instantaneous]}
+    reason: valueStatistic is a controlled vocabulary; an unseen value means the EA added a statistic
+    certainty: 65
+    points_outward: true
+    severity: warn
+
+  - not_null: parameter
+    reason: every measure observes exactly one parameter (flow, level, rainfall, ...)
+    certainty: 90
+
+  - distinct_count: {col: parameter, min: 3, max: 40}
+    reason: research listed waterLevel, waterFlow, rainfall, groundwaterLevel, temperature, ph, dissolved-oxygen and more; collapsing to <3 means the field was mis-flattened
+    certainty: 80
+
+  - at_least: {col: period, expr: 60}
+    reason: period is a duration in seconds; the finest EA hydrology series is 15-minute (900s), so anything under a minute is a parse error
+    certainty: 85

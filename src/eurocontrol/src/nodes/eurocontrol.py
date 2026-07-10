@@ -17,8 +17,15 @@ used — it is bot-protected and 403s from datacenter IPs.
 
 For each present year the file is downloaded, decompressed if needed, every row
 normalized to the group's fixed canonical column set (missing cells -> ""), and
-written as one NDJSON batch raw asset `<node_id>-<year>`. The SQL transform globs
+written as one NDJSON batch raw asset `<node_id>-<year>`. The transform globs
 `<node_id>-*` and unions all year batches into one table.
+
+Every row also carries a synthesized `OBS_DATE` (ISO `YYYY-MM-DD`): the source's
+own date column truncated to 10 chars for the daily groups, or the first of the
+observation month for the monthly ones. The source's date rendering is not
+uniform (some years render `FLT_DATE` as `2014-01-01T00:00:00Z`, others as
+`2014-01-01`), and the monthly groups carry no date column at all — only
+YEAR/MONTH. `OBS_DATE` gives every group one comparable temporal column.
 
 No auth, no documented rate limit. Full corpus per refresh; only the current-year
 file changes month to month, picked up for free by the full re-pull.
@@ -30,14 +37,9 @@ from datetime import datetime, timezone
 
 import httpx
 from ratelimit import limits, sleep_and_retry
-from tenacity import (
-    retry,
-    retry_if_exception,
-    stop_after_attempt,
-    wait_random_exponential,
-)
 
-from subsets_utils import NodeSpec, SqlNodeSpec, configure_http, get, is_transient, save_raw_ndjson
+from constants import ENTITY_IDS
+from subsets_utils import NodeSpec, configure_http, get, save_raw_ndjson
 
 DOWNLOAD_BASE = "https://www.eurocontrol.int/performance/data/download/csv"
 # Generous floor below any real data (earliest observed file is 2008); the
@@ -50,30 +52,15 @@ BROWSER_UA = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 )
-
-# Entity union (rank-active subsets). Each is a dataset-group = its own table.
-ENTITY_IDS = [
-    "airport_traffic",
-    "all_pre_departure_delays",
-    "apt_dly",
-    "asma_additional_time",
-    "atc_pre_departure_delays",
-    "atfm_slot_adherence",
-    "co2_emmissions_by_state",
-    "ert_dly_ansp",
-    "ert_dly_fir",
-    "horizontal_flight_efficiency",
-    "taxi_in_additional_time",
-    "taxi_out_additional_time",
-    "vertical_flight_efficiency",
-]
+# Synthesized ISO observation date, present on every group's rows.
+OBS_DATE = "OBS_DATE"
 
 # Per-group config. `cols` is the canonical (latest-year, superset) header used
 # to normalize every row to a uniform key set so all year batches share one
-# schema. `date` selects the date strategy: ("flt"|"entry", <col>) for a daily
-# date column, or ("monthly", <month_col>) to synthesize a month-start date.
+# schema. `date` selects the date strategy: ("daily", <col>) for a source date
+# column, or ("monthly", <month_col>) to synthesize a month-start date.
 # `dims` are string dimensions, `text` are free-text columns, `nums` are numeric
-# measures (TRY_CAST to DOUBLE in the transform).
+# measures.
 _ERT = [
     "FLT_ERT_1", "DLY_ERT_1", "DLY_ERT_A_1", "DLY_ERT_C_1", "DLY_ERT_D_1",
     "DLY_ERT_E_1", "DLY_ERT_G_1", "DLY_ERT_I_1", "DLY_ERT_M_1", "DLY_ERT_N_1",
@@ -103,6 +90,7 @@ _VERT_NUMS = [
     "MEDIAN_CCO_ALT", "NBR_CCO_FLIGHTS", "NBR_CCO_FLIGHTS_BELOW_10000",
     "TOT_DELTA_CO2_KG_CLIMB", "TOT_DELTA_CO2_KG_CLIMB_BLW_100",
 ]
+_HFE_NUMS = ["DIST_FLOWN_KM", "DIST_DIRECT_KM", "DIST_ACHIEVED_KM"]
 
 
 def _cfg(date, dims, nums, text=(), ext="csv"):
@@ -117,6 +105,7 @@ def _cfg(date, dims, nums, text=(), ext="csv"):
         if c not in seen:
             cols.append(c)
             seen.add(c)
+    cols.append(OBS_DATE)
     return {"cols": cols, "date": date, "dims": list(dims), "nums": list(nums),
             "text": list(text), "ext": ext}
 
@@ -126,29 +115,32 @@ _ENT_DIMS = ["ENTITY_NAME", "ENTITY_TYPE"]
 
 GROUPS = {
     "airport_traffic": _cfg(
-        ("flt", "FLT_DATE"), _APT_DIMS,
+        ("daily", "FLT_DATE"), _APT_DIMS,
         ["FLT_DEP_1", "FLT_ARR_1", "FLT_TOT_1", "FLT_DEP_IFR_2", "FLT_ARR_IFR_2", "FLT_TOT_IFR_2"],
     ),
     "all_pre_departure_delays": _cfg(
-        ("flt", "FLT_DATE"), _APT_DIMS,
+        ("daily", "FLT_DATE"), _APT_DIMS,
         ["FLT_DEP_1", "FLT_DEP_IFR_2", "DLY_ALL_PRE_2"],
     ),
     "atc_pre_departure_delays": _cfg(
-        ("flt", "FLT_DATE"), _APT_DIMS,
+        ("daily", "FLT_DATE"), _APT_DIMS,
         ["FLT_DEP_1", "FLT_DEP_IFR_2", "DLY_ATC_PRE_2", "FLT_DEP_3", "DLY_ATC_PRE_3"],
     ),
     "atfm_slot_adherence": _cfg(
-        ("flt", "FLT_DATE"), _APT_DIMS,
+        ("daily", "FLT_DATE"), _APT_DIMS,
         ["FLT_DEP_1", "FLT_DEP_REG_1", "FLT_DEP_OUT_EARLY_1", "FLT_DEP_IN_1", "FLT_DEP_OUT_LATE_1"],
     ),
     "apt_dly": _cfg(
-        ("flt", "FLT_DATE"), _APT_DIMS, _APT_ARR, text=["ATFM_VERSION"], ext="csv.bz2",
+        ("daily", "FLT_DATE"), _APT_DIMS, _APT_ARR, text=["ATFM_VERSION"], ext="csv.bz2",
     ),
-    "ert_dly_ansp": _cfg(("flt", "FLT_DATE"), _ENT_DIMS, _ERT, ext="csv.bz2"),
-    "ert_dly_fir": _cfg(("flt", "FLT_DATE"), _ENT_DIMS, _ERT, ext="csv.bz2"),
+    "ert_dly_ansp": _cfg(("daily", "FLT_DATE"), _ENT_DIMS, _ERT, ext="csv.bz2"),
+    "ert_dly_fir": _cfg(("daily", "FLT_DATE"), _ENT_DIMS, _ERT, ext="csv.bz2"),
+    # `hfe` is the legacy bz2 publication of horizontal flight efficiency:
+    # identical header to `horizontal_flight_efficiency`, still refreshed, but
+    # served under the old name and compression.
+    "hfe": _cfg(("daily", "ENTRY_DATE"), _ENT_DIMS, _HFE_NUMS, text=["TYPE_MODEL"], ext="csv.bz2"),
     "horizontal_flight_efficiency": _cfg(
-        ("entry", "ENTRY_DATE"), _ENT_DIMS,
-        ["DIST_FLOWN_KM", "DIST_DIRECT_KM", "DIST_ACHIEVED_KM"], text=["TYPE_MODEL"],
+        ("daily", "ENTRY_DATE"), _ENT_DIMS, _HFE_NUMS, text=["TYPE_MODEL"],
     ),
     "asma_additional_time": _cfg(("monthly", "MONTH_NUM"), _APT_DIMS, _ADD_TIME_NUMS, text=["MONTH_MON", "COMMENT"]),
     "taxi_in_additional_time": _cfg(("monthly", "MONTH_NUM"), _APT_DIMS, _ADD_TIME_NUMS, text=["MONTH_MON", "COMMENT"]),
@@ -161,25 +153,16 @@ GROUPS = {
     ),
 }
 
+
 # Politeness: eurocontrol.int 429s under sustained load, so cap to ~2 req/s per
 # process. The DAG runs specs sequentially by default; this keeps the aggregate
 # request rate against the shared host well under its (undocumented) limit.
+# subsets_utils.get already retries transients (429/5xx, connection errors) with
+# backoff, so no retry decorator belongs on top of this.
 @sleep_and_retry
 @limits(calls=2, period=1)
 def _rate_limited_get(url: str) -> httpx.Response:
     return get(url, timeout=(10.0, 180.0))
-
-
-@retry(
-    retry=retry_if_exception(is_transient),
-    stop=stop_after_attempt(8),
-    wait=wait_random_exponential(multiplier=2, max=180),
-    reraise=True,
-)
-def _fetch(url: str) -> httpx.Response:
-    resp = _rate_limited_get(url)
-    resp.raise_for_status()
-    return resp
 
 
 def _group_of(node_id: str) -> str:
@@ -187,22 +170,34 @@ def _group_of(node_id: str) -> str:
 
 
 def _try_fetch(url: str) -> httpx.Response | None:
-    """Fetch a candidate file URL; return the response, or None on a 404
-    (file for that year doesn't exist). Transient errors (incl. 429) are retried
-    in _fetch with backoff; other 4xx propagate."""
-    try:
-        return _fetch(url)
-    except httpx.HTTPStatusError as e:
-        if e.response.status_code == 404:
-            return None
-        raise
+    """Fetch a candidate file URL; return the response, or None on a 404 (that
+    year isn't published). Any other error status raises."""
+    resp = _rate_limited_get(url)
+    if resp.status_code == 404:
+        return None
+    resp.raise_for_status()
+    return resp
+
+
+def _obs_date(row: dict, date: tuple[str, str]) -> str:
+    """The row's ISO observation date. Daily groups carry a source date column
+    whose rendering drifts between years ('2014-01-01T00:00:00Z' vs
+    '2014-01-01'), so take its first 10 chars; monthly groups have no date
+    column, so anchor them to the first of the observation month."""
+    if date[0] == "daily":
+        return (row.get(date[1]) or "").strip()[:10]
+    year = (row.get("YEAR") or "").strip()
+    month = (row.get(date[1]) or "").strip()
+    if not (year.isdigit() and month.isdigit()):
+        return ""
+    return f"{int(year):04d}-{int(month):02d}-01"
 
 
 def fetch_one(node_id: str) -> None:
     configure_http(headers={"User-Agent": BROWSER_UA})
     group = _group_of(node_id)
     cfg = GROUPS[group]
-    cols, ext = cfg["cols"], cfg["ext"]
+    cols, ext, date = cfg["cols"], cfg["ext"], cfg["date"]
     is_bz2 = ext.endswith(".bz2")
     # Probe DOWNWARD from a dynamic ceiling (current year +1 for early-January
     # releases) to the floor. The annual series is contiguous, so: 404s at the
@@ -224,7 +219,9 @@ def fetch_one(node_id: str) -> None:
         for r in reader:
             # normalize to the canonical key set; missing -> "" so every batch
             # file shares one (all-string) schema for clean NDJSON union.
-            rows.append({c: (r.get(c) or "").strip() for c in cols})
+            out = {c: (r.get(c) or "").strip() for c in cols}
+            out[OBS_DATE] = _obs_date(r, date)
+            rows.append(out)
         save_raw_ndjson(rows, f"{node_id}-{year}")
         found += 1
     if found == 0:
@@ -237,41 +234,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"eurocontrol-{eid.replace('_', '-')}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-
-def _build_sql(dep: str, cfg: dict) -> str:
-    date = cfg["date"]
-    proj = ['TRY_CAST("YEAR" AS INTEGER) AS year']
-    if date[0] == "monthly":
-        mc = date[1]
-        proj.append(f'TRY_CAST("{mc}" AS INTEGER) AS month')
-        proj.append(
-            f'make_date(TRY_CAST("YEAR" AS INTEGER), TRY_CAST("{mc}" AS INTEGER), 1) AS date'
-        )
-    else:
-        proj.append('TRY_CAST("MONTH_NUM" AS INTEGER) AS month')
-        # CAST to VARCHAR first: DuckDB may infer the raw column as DATE/TIMESTAMP
-        # (plain "2024-01-01") or VARCHAR ("2024-01-01T00:00:00Z"); take the first
-        # 10 chars of the text form either way.
-        proj.append(f'TRY_CAST(left(CAST("{date[1]}" AS VARCHAR), 10) AS DATE) AS date')
-    for d in cfg["dims"]:
-        proj.append(f'NULLIF("{d}", \'\') AS {d.lower()}')
-    for t in cfg["text"]:
-        proj.append(f'NULLIF("{t}", \'\') AS {t.lower()}')
-    for n in cfg["nums"]:
-        proj.append(f'TRY_CAST("{n}" AS DOUBLE) AS {n.lower()}')
-    inner = f'SELECT {", ".join(proj)} FROM "{dep}"'
-    # outer filter drops footer/blank rows whose date won't parse
-    return f"SELECT * FROM ({inner}) WHERE date IS NOT NULL"
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        temporal="date",
-        sql=_build_sql(s.id, GROUPS[_group_of(s.id)]),
-    )
-    for s in DOWNLOAD_SPECS
 ]

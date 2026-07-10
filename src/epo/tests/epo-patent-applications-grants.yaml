@@ -1,0 +1,57 @@
+spec_id: epo-patent-applications-grants
+status: active
+tests:
+  # The EPO publishes the Patent Index for year N in ~March of N+1, so the
+  # newest complete year trails the calendar by one. `current_year()` would
+  # therefore fail for the ~3 months before each release; the literal floor is
+  # the honest bound. Bump it as editions land (a fetch that silently served a
+  # stale cached file still trips this).
+  - freshness: {col: year, reaches: 2025}
+    reason: the current edition covers 2016-2025; a max(year) below 2025 means we loaded an older edition than the one published
+    certainty: 90
+    points_outward: true
+
+  - row_count: {min: 100000, max: 200000}
+    reason: 180 country_codes x 36 field_ids x 10 years x 2 metrics = 129 600 rows; a large shortfall means the unpivot dropped series
+    certainty: 90
+
+  - unique: [country_code, metric, field_id, year]
+    reason: one count per country x metric x field x year; a dupe means a source key was parsed into the wrong (country, metric) split
+    certainty: 95
+
+  - not_null: country_code
+  - not_null: metric
+  - not_null: field_id
+  - not_null: year
+
+  - not_null: value
+    reason: the source pads every cell, using "0" rather than a null, for country/field/year combinations with no filings
+    certainty: 85
+
+  - enum: {col: metric, values: [applications, grants]}
+    reason: countries.json exposes exactly the two '<cc>_applications_tng' / '<cc>_grants_tng' key families
+    certainty: 95
+
+  - between: {col: year, lo: 2016, hi: current_year()}
+    reason: the dashboard serves a rolling 10-year window and never publishes projections, so no year exceeds the current one
+    certainty: 90
+
+  - distinct_count: {col: year, min: 10, max: 12}
+    reason: a rolling 10-year window; the slack tolerates an edition that widens it slightly
+    certainty: 85
+
+  - distinct_count: {col: field_id, min: 36, max: 36}
+    reason: 35 technology fields plus field_id 0 (unattributed/other)
+    certainty: 90
+
+  - distinct_count: {col: country_code, min: 150, max: 250}
+    reason: ~179 origin countries plus the 'ALL' aggregate; well below the 181 rows of the country dimension
+    certainty: 85
+
+  - at_least: {col: value, expr: 0}
+    reason: filing and grant counts are non-negative
+    certainty: 95
+
+  - matches: {col: year, pattern: "[0-9]{4}"}
+    reason: year arrives as the source's JSON column name, i.e. a 4-digit string; the transform casts it to INTEGER
+    certainty: 95

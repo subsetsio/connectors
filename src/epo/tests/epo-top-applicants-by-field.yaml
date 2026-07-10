@@ -1,0 +1,47 @@
+spec_id: epo-top-applicants-by-field
+status: active
+tests:
+  # Single-edition snapshot: the source key carries the edition year
+  # ('<field_id>_field_top_applicants_2025_tng') and it moves forward with each
+  # annual release, so this asset is temporal via edition_year rather than frozen.
+  - freshness: {col: edition_year, reaches: 2025}
+    reason: the current edition is stamped 2025; an older edition_year means we loaded a stale file
+    certainty: 90
+    points_outward: true
+
+  - row_count: {min: 250, max: 500}
+    reason: 35 technology fields x a top-10 list = 350 rows
+    certainty: 90
+
+  - unique: [field_id, edition_year, rank]
+    reason: rank is dense within each field's list for a given edition
+    certainty: 95
+
+  - unique: [field_id, edition_year, applicant_name]
+    reason: an applicant appears at most once in a field's top-N for one edition
+    certainty: 90
+
+  - not_null: field_id
+  - not_null: applicant_name
+  - not_null: number_of_applications
+
+  - column_type: {col: rank, type: integer}
+
+  - between: {col: rank, lo: 1, hi: 10}
+    reason: the dashboard publishes a top-10 per technology field
+    certainty: 90
+
+  - distinct_count: {col: field_id, min: 35, max: 35}
+    reason: every one of the 35 technology fields carries a top-applicant list; field_id 0 (unattributed) does not
+    certainty: 90
+
+  - at_least: {col: number_of_applications, expr: 1}
+    reason: an applicant with zero filings would not make a top-10 list
+    certainty: 90
+
+  - matches: {col: field_id, pattern: "[0-9]{1,2}"}
+    reason: joins to epo-fields.field_id; served as a numeric string, cast to INTEGER in the transform
+    certainty: 95
+
+  - matches: {col: edition_year, pattern: "[0-9]{4}"}
+    certainty: 95
