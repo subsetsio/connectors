@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `dhs-nonimmigrants-nisupptable1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [breakdown, description, category]
+checks:
+  - kind: unique
+    columns: [breakdown, description, category]
+  - kind: not_null
+    col: breakdown
+  - kind: not_null
+    col: description
+  - kind: not_null
+    col: category
+  - kind: row_floor
+    min: 5655
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
