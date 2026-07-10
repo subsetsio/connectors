@@ -2,7 +2,7 @@
 -- profiles (model/tables + columns). Faithful pass-through: verified
 -- pure casts only, no data fixes. Regenerate after model-verify;
 -- durable edits belong in the model stage, not here.
--- caution: Rows are the source statistical table in long form; series metadata columns identify the measure and unit, and value_text preserves non-numeric source cells alongside the numeric transform value where parseable.
+-- caution: Rows are normalized from RBA CSV files into long form; series metadata columns identify the measure and unit, and value_text preserves non-numeric source cells alongside the numeric transform value where parseable.
 SELECT
     "series_id",
     "series_title",
@@ -16,5 +16,8 @@ SELECT
     "dimension_date",
     CAST("value_text" AS DOUBLE) AS value_text,
     "source_csv",
-    "partition_key"
+    "partition_key",
+    "record_type",
+    "break_type",
+    "details"
 FROM "reserve-bank-of-australia-b2-data"

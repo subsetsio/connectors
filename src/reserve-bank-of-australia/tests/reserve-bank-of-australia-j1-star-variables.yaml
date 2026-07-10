@@ -1,5 +1,8 @@
 spec_id: reserve-bank-of-australia-j1-star-variables
 status: active
+coverage:
+  frozen: true
+  reason: RBA publishes each accepted CSV as a complete backfile or reference file; the connector re-downloads the full file and validates shape/content, while table-level recency varies across live, historical, discontinued, and event assets.
 tests:
   - row_count: {min: 1}
     reason: every accepted RBA statistical CSV should produce at least one long-format row

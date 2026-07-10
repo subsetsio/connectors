@@ -1,9 +1,9 @@
-# provisional transform for accepted RBA asset without a measured raw profile yet
-# Regenerate with `hardened compile-transforms` after model-verify profiles this raw asset.
-# caution: Documents discontinuities and classification changes in related RBA statistical series; use as reference context rather than as measured observations.
-key: [record_type, source_csv, obs_date, break_type, series_title, details]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `reserve-bank-of-australia-f5-series-breaks`. Regenerate after model-verify.
+# caution: Rows are source reference/event annotations for related RBA statistical series rather than primary observations; use them to interpret breaks, judgement notes, or other table-specific metadata.
+key: [obs_date, series_title, break_type]
 temporal: obs_date
-sort: [record_type, source_csv, obs_date, break_type, series_title, details]
+sort: [obs_date, series_title, break_type]
 columns:
   - name: series_id
     type: VARCHAR

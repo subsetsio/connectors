@@ -1,10 +1,12 @@
--- provisional transform for accepted RBA asset without a measured raw profile yet
--- Generated from the connector parser schema to unblock the full DAG run; regenerate with compile-transforms after raw lands.
--- caution: Rows are the source statistical table in long form; series metadata columns identify the measure and unit, and value_text preserves non-numeric source cells.
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are normalized from RBA CSV files into long form; series metadata columns identify the measure and unit, and value_text preserves non-numeric source cells alongside the numeric transform value where parseable.
 SELECT
     "series_id",
-    COALESCE("series_title", '') AS series_title,
-    COALESCE("description", '') AS description,
+    "series_title",
+    "description",
     "frequency",
     "series_type",
     "units",
@@ -12,10 +14,10 @@ SELECT
     "publication_date",
     strptime("obs_date", '%Y-%m-%d')::DATE AS obs_date,
     "dimension_date",
-    COALESCE("value_text", '') AS value_text,
+    CAST("value_text" AS BIGINT) AS value_text,
     "source_csv",
     "partition_key",
     "record_type",
-    COALESCE("break_type", '') AS break_type,
-    COALESCE("details", '') AS details
+    "break_type",
+    "details"
 FROM "reserve-bank-of-australia-a3.1-qtc"

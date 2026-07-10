@@ -1,9 +1,9 @@
-# provisional transform for accepted RBA asset without a measured raw profile yet
-# Regenerate with `hardened compile-transforms` after model-verify profiles this raw asset.
-# caution: Rows are the source statistical table in long form; series metadata columns identify the measure and unit, and value_text preserves non-numeric source cells.
-key: [record_type, source_csv, obs_date, series_id, value_text]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `reserve-bank-of-australia-f1-use-of-expert-judgement`. Regenerate after model-verify.
+# caution: Rows are source reference/event annotations for related RBA statistical series rather than primary observations; use them to interpret breaks, judgement notes, or other table-specific metadata.
+key: [obs_date]
 temporal: obs_date
-sort: [record_type, source_csv, obs_date, series_id, value_text]
+sort: [obs_date]
 columns:
   - name: series_id
     type: VARCHAR

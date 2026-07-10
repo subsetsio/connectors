@@ -1,9 +1,9 @@
-# provisional transform for accepted RBA asset without a measured raw profile yet
-# Regenerate with `hardened compile-transforms` after model-verify profiles this raw asset.
-# caution: Rows are the source statistical table in long form; series metadata columns identify the measure and unit, and value_text preserves non-numeric source cells.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `reserve-bank-of-australia-a3.1-watc`. Regenerate after model-verify.
+# caution: Rows are normalized from RBA CSV files into long form; series metadata columns identify the measure and unit, and value_text preserves non-numeric source cells alongside the numeric transform value where parseable.
 key: [record_type, source_csv, obs_date, series_id, value_text]
 temporal: obs_date
-sort: [record_type, source_csv, obs_date, series_id, value_text]
+sort: [obs_date, record_type, source_csv, series_id, value_text]
 columns:
   - name: series_id
     type: VARCHAR
@@ -26,7 +26,7 @@ columns:
   - name: dimension_date
     type: VARCHAR
   - name: value_text
-    type: VARCHAR
+    type: BIGINT
   - name: source_csv
     type: VARCHAR
   - name: partition_key

@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `reserve-bank-of-australia-c7-data`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [record_type, source_csv, obs_date, series_id, value_text]
+temporal: obs_date
+checks:
+  - kind: unique
+    columns: [record_type, source_csv, obs_date, series_id, value_text]
+  - kind: not_null
+    col: record_type
+  - kind: not_null
+    col: source_csv
+  - kind: not_null
+    col: obs_date
+  - kind: not_null
+    col: series_id
+  - kind: not_null
+    col: value_text
+  - kind: row_floor
+    min: 2670
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

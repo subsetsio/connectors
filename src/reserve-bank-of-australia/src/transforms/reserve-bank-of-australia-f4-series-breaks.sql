@@ -1,10 +1,12 @@
--- provisional transform for accepted RBA asset without a measured raw profile yet
--- Generated from the connector parser schema to unblock the full DAG run; regenerate with compile-transforms after raw lands.
--- caution: Documents discontinuities and classification changes in related RBA statistical series; use as reference context rather than as measured observations.
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are source reference/event annotations for related RBA statistical series rather than primary observations; use them to interpret breaks, judgement notes, or other table-specific metadata.
 SELECT
     "series_id",
-    COALESCE("series_title", '') AS series_title,
-    COALESCE("description", '') AS description,
+    "series_title",
+    "description",
     "frequency",
     "series_type",
     "units",
@@ -12,10 +14,10 @@ SELECT
     "publication_date",
     strptime("obs_date", '%Y-%m-%d')::DATE AS obs_date,
     "dimension_date",
-    COALESCE("value_text", '') AS value_text,
+    "value_text",
     "source_csv",
     "partition_key",
     "record_type",
-    COALESCE("break_type", '') AS break_type,
-    COALESCE("details", '') AS details
+    "break_type",
+    "details"
 FROM "reserve-bank-of-australia-f4-series-breaks"

@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `reserve-bank-of-australia-c2.2-series-breaks`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [record_type, source_csv, obs_date, break_type, series_title, details]
+temporal: obs_date
+checks:
+  - kind: unique
+    columns: [record_type, source_csv, obs_date, break_type, series_title, details]
+  - kind: not_null
+    col: record_type
+  - kind: not_null
+    col: source_csv
+  - kind: not_null
+    col: obs_date
+  - kind: not_null
+    col: break_type
+  - kind: not_null
+    col: series_title
+  - kind: not_null
+    col: details
+  - kind: row_floor
+    min: 1
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,5 +1,8 @@
 spec_id: reserve-bank-of-australia-c4-series-breaks
 status: active
+coverage:
+  frozen: true
+  reason: RBA publishes each accepted CSV as a complete backfile or reference file; the connector re-downloads the full file and validates shape/content, while table-level recency varies across live, historical, discontinued, and event assets.
 tests:
   - row_count: {min: 1}
     reason: every published RBA series-breaks CSV should contain at least one break row
