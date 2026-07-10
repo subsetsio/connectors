@@ -1,1 +1,9 @@
-SELECT * FROM "cbo-revenue-detail"
+SELECT
+  CAST("date" AS VARCHAR) AS "date",
+  CAST("variable" AS VARCHAR) AS "variable",
+  TRY_CAST(NULLIF(REPLACE(CAST("value" AS VARCHAR), ',', ''), '') AS DOUBLE) AS "value",
+  CAST("estimate_type" AS VARCHAR) AS "estimate_type",
+  CAST("vintage" AS VARCHAR) AS "vintage",
+  CAST("file_type" AS VARCHAR) AS "file_type",
+  CAST("section" AS VARCHAR) AS "section"
+FROM "cbo-revenue-detail"
