@@ -35,5 +35,5 @@ def _dataset_row(pkg: dict) -> dict:
     }
 
 
-def fetch_datasets(node_id: str) -> None:
-    _crawl_packages(node_id, lambda pkg: [_dataset_row(pkg)])
+def fetch_datasets(node_id: str) -> bool | None:
+    return _crawl_packages(node_id, lambda pkg: [_dataset_row(pkg)])

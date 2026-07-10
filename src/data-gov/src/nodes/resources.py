@@ -34,5 +34,5 @@ def _resource_rows(pkg: dict) -> list[dict]:
     return rows
 
 
-def fetch_resources(node_id: str) -> None:
-    _crawl_packages(node_id, _resource_rows)
+def fetch_resources(node_id: str) -> bool | None:
+    return _crawl_packages(node_id, _resource_rows)
