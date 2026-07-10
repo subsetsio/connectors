@@ -2,3 +2,10 @@ spec_id: dosm-arc-dosm
 # Catalog connector: OpenDOSM dataset; the column list is materialized
 # from the first pull. Freshness/coverage authored from the observed shape.
 status: deferred
+coverage:
+  frozen: true
+  reason: >-
+    Publication archive metadata is a catalog/reference snapshot rather than
+    a scheduled statistical series. Re-collection will surface new catalog
+    entries if DOSM changes the archive; no freshness gate applies to the raw
+    corpus.

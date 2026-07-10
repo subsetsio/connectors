@@ -1,5 +1,8 @@
 spec_id: central-bank-taiwan-eg28d01
 status: active
+coverage:
+  frozen: true
+  reason: Central-bank rate observations are event-effective dates; the CBC API reissued this matrix on 2026-06-29, but max(date) advances only when policy rates change.
 tests:
   - not_null: period
     reason: CBC DataAPI dataSets rows always carry the source period label in the first cell.
@@ -14,7 +17,3 @@ tests:
   - row_count: {min: 1}
     reason: every accepted CBC matrix should contain at least one period-series observation.
     certainty: 95
-  - freshness: {col: date, reaches: today - 45d}
-    reason: accepted CBC daily matrices were current in the source catalog; cadence-specific slack allows normal release lag.
-    certainty: 85
-    points_outward: true
