@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gem-global-energy-monitor-iron-steel-iron-unit`. Regenerate after model-verify.
+key: [gem_unit_id, gem_plant_id, current_capacity_ttpa, gem_wiki_page, unit_name]
+sort: [gem_unit_id, gem_plant_id, current_capacity_ttpa, gem_wiki_page, unit_name]
 columns:
   - name: gem_plant_id
     type: VARCHAR
@@ -17,8 +20,8 @@ columns:
   - name: construction_date
     type: VARCHAR
   - name: start_date
-    type: VARCHAR
-  - name: unit_age
+    type: BIGINT
+  - name: unit_age_years
     type: DOUBLE
   - name: pre_retirement_announcement_date
     type: VARCHAR

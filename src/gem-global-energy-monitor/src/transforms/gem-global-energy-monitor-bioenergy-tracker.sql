@@ -1,1 +1,42 @@
-SELECT * FROM "gem-global-energy-monitor-bioenergy-tracker"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "date_last_researched",
+    "country_area",
+    "project_name",
+    "unit_name",
+    "project_name_in_local_language_script",
+    "other_name_s",
+    "capacity_mw",
+    "fuel",
+    "status",
+    "conversion_replacement",
+    "unit_conversion_year",
+    "start_year",
+    "retired_year",
+    "hydrogen_capable",
+    "operator_s",
+    "operator_name_s_in_local_language_script",
+    "operator_s_gem_entity_id",
+    "owner_s",
+    "owner_name_s_in_local_language_script",
+    "owner_s_gem_entity_id",
+    "parent_s",
+    "parent_s_gem_entity_id",
+    "latitude",
+    "longitude",
+    "location_accuracy",
+    "city",
+    "local_area_taluk_county",
+    "major_area_prefecture_district",
+    "state_province",
+    "subregion",
+    "region",
+    "gem_location_id",
+    "gem_phase_id",
+    "other_ids_location",
+    "wiki_url",
+    "col_35"
+FROM "gem-global-energy-monitor-bioenergy-tracker"

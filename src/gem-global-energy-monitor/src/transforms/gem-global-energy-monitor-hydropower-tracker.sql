@@ -1,1 +1,45 @@
-SELECT * FROM "gem-global-energy-monitor-hydropower-tracker"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "date_last_researched",
+    "country_area_1",
+    "country_area_2",
+    "project_name",
+    "project_name_local_lang_script",
+    "other_name_s",
+    "capacity_mw",
+    "binational",
+    "country_area_1_capacity_mw",
+    "country_area_2_capacity_mw",
+    "turbines",
+    "status",
+    "complex",
+    "start_year",
+    "retired_year",
+    "owner",
+    "owner_name_local_lang_script",
+    "operator",
+    "operator_name_local_lang_script",
+    "technology_type",
+    "river_watercourse",
+    "latitude",
+    "longitude",
+    "location_accuracy",
+    "city_1",
+    "local_area_1",
+    "major_area_1",
+    "state_province_1",
+    "subregion_1",
+    "region_1",
+    "city_2",
+    "local_area_2",
+    "major_area_2",
+    "state_province_2",
+    "subregion_2",
+    "region_2",
+    "gem_location_id",
+    "gem_unit_id",
+    "wiki_url"
+FROM "gem-global-energy-monitor-hydropower-tracker"

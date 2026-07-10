@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gem-global-energy-monitor-energy-ownership-tracker`. Regenerate after model-verify.
+key: [entity_id]
+sort: [entity_id]
 columns:
   - name: entity_id
     type: VARCHAR
@@ -17,7 +20,7 @@ columns:
   - name: legal_entity_type
     type: VARCHAR
   - name: publiclylisted
-    type: VARCHAR
+    type: BOOLEAN
   - name: home_page
     type: VARCHAR
   - name: registration_country

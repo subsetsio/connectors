@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `gem-global-energy-monitor-wind-power-tracker`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [gem_phase_id, project_name, wiki_url, gem_location_id, date_last_researched]
+temporal: date_last_researched
+checks:
+  - kind: unique
+    columns: [gem_phase_id, project_name, wiki_url, gem_location_id, date_last_researched]
+  - kind: not_null
+    col: gem_phase_id
+  - kind: not_null
+    col: project_name
+  - kind: not_null
+    col: wiki_url
+  - kind: not_null
+    col: gem_location_id
+  - kind: not_null
+    col: date_last_researched
+  - kind: row_floor
+    min: 16624
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,1 +1,41 @@
-SELECT * FROM "gem-global-energy-monitor-geothermal-tracker"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "date_last_researched",
+    "country_area",
+    "project_name",
+    "unit_name",
+    "project_name_in_local_language_script",
+    "other_name_s",
+    "unit_capacity_mw",
+    "technology",
+    "status",
+    "start_year",
+    "retired_year",
+    "operator",
+    "operator_name_in_local_language_script",
+    "operator_gem_entity_id",
+    "owner",
+    "owner_name_in_local_language_script",
+    "owner_gem_entity_id",
+    "parent_gem_entity_id",
+    "green_hydrogen_producing",
+    "data_center_ppa",
+    "latitude",
+    "longitude",
+    "location_accuracy",
+    "city",
+    "local_area_taluk_county",
+    "major_area_prefecture_district",
+    "state_province",
+    "subregion",
+    "region",
+    "gem_location_id",
+    "gem_unit_id",
+    "other_ids_location",
+    "other_ids_unit_phase",
+    "wiki_url",
+    "col_34"
+FROM "gem-global-energy-monitor-geothermal-tracker"

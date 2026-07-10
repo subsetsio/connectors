@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gem-global-energy-monitor-lng-terminal-tracker`. Regenerate after model-verify.
+key: [lastupdated, unitid]
+temporal: lastupdated
+sort: [lastupdated, unitid]
 columns:
   - name: projectid
     type: VARCHAR
@@ -85,7 +89,7 @@ columns:
   - name: tempfacility
     type: VARCHAR
   - name: importexportonly
-    type: VARCHAR
+    type: BOOLEAN
   - name: location
     type: VARCHAR
   - name: region
@@ -121,9 +125,9 @@ columns:
   - name: financing
     type: VARCHAR
   - name: offshore
-    type: VARCHAR
+    type: BOOLEAN
   - name: floating
-    type: VARCHAR
+    type: BOOLEAN
   - name: floatingvesselname
     type: VARCHAR
   - name: vesselowner
@@ -131,18 +135,18 @@ columns:
   - name: vesseloperator
     type: VARCHAR
   - name: lh2
-    type: VARCHAR
+    type: BOOLEAN
   - name: nh3
-    type: VARCHAR
+    type: BOOLEAN
   - name: syntheticlng
-    type: VARCHAR
+    type: BOOLEAN
   - name: retrofitproposed
-    type: VARCHAR
+    type: BOOLEAN
   - name: altfuelprelimagreement
-    type: VARCHAR
+    type: BOOLEAN
   - name: altfuelcallmarketinterest
-    type: VARCHAR
+    type: BOOLEAN
   - name: ccs
-    type: VARCHAR
+    type: BOOLEAN
   - name: lastupdated
     type: TIMESTAMP

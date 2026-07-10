@@ -1,1 +1,44 @@
-SELECT * FROM "gem-global-energy-monitor-nuclear-power-tracker"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "date_last_researched",
+    "country_area",
+    "project_name",
+    "unit_name",
+    "project_name_in_local_language_script",
+    "other_name_s",
+    "capacity_mw",
+    "status",
+    "reactor_type",
+    "model",
+    "start_year",
+    "retirement_year",
+    "planned_retirement",
+    "cancellation_year",
+    "construction_start_date",
+    "first_criticality_date",
+    "first_grid_connection",
+    "commercial_operation_date",
+    "retirement_date",
+    "owner",
+    "owner_name_in_local_language_script",
+    "operator",
+    "operator_name_in_local_language_script",
+    "reference_net_capacity_mw",
+    "design_net_capacity_mw",
+    "thermal_capacity_mwt",
+    "latitude",
+    "longitude",
+    "location_accuracy",
+    "city",
+    "local_area_taluk_county",
+    "major_area_prefecture_district",
+    "state_province",
+    "subregion",
+    "region",
+    "gem_location_id",
+    "gem_unit_id",
+    "wiki_url"
+FROM "gem-global-energy-monitor-nuclear-power-tracker"

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `gem-global-energy-monitor-iron-ore-mines-tracker`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [gem_wiki_page_url]
+checks:
+  - kind: unique
+    columns: [gem_wiki_page_url]
+  - kind: not_null
+    col: gem_wiki_page_url
+  - kind: row_floor
+    min: 474
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
