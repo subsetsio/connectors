@@ -25,8 +25,8 @@ tests:
       previous calendar year. Literal floor — no `current_year() - 1` token.
     points_outward: true
 
-  - distinct_count: {col: State, min: 50, max: 56}
-    reason: 50 states plus DC and a US total row (~53 values).
+  - distinct_count: {col: State, min: 50, max: 65}
+    reason: 50 states plus DC, US total, and additional aggregate or balancing-authority style rows.
     certainty: 85
 
   - enum: {col: Unit, values: ["%", GWh, ktCO2, "gCO2/kWh"]}

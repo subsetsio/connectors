@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `elstat-sjo47`. Regenerate after model-verify.
+# caution: Each row is one numeric workbook cell. Periods, classifications, units, geography, and other dimensions are preserved in row_label and col_label as source text, so filter and aggregate only after interpreting those labels for the specific publication.
+key: [source_file, sheet, row_idx, col_idx]
+sort: [source_file, sheet, row_idx, col_idx]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: row_label
+    type: VARCHAR
+  - name: col_label
+    type: VARCHAR
+  - name: row_idx
+    type: BIGINT
+  - name: col_idx
+    type: BIGINT
+  - name: value
+    type: DOUBLE

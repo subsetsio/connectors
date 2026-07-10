@@ -26,10 +26,11 @@ tests:
     points_outward: true
     certainty: 80
 
-  - distinct_count: {col: State, min: 45, max: 56}
+  - distinct_count: {col: State, min: 45, max: 65}
     reason: >-
-      Fewer states report monthly than yearly (~47 vs ~53), so the floor is
-      lower than the yearly spec's.
+      The US state files include states plus aggregate and balancing-authority
+      style rows; keep a lower floor for monthly coverage while allowing the
+      current broader 59-value geography domain.
     certainty: 80
 
   - enum: {col: Unit, values: ["%", GWh, ktCO2, "gCO2/kWh"]}

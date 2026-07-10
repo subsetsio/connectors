@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ember-us-yearly`. Regenerate after model-verify.
+# caution: Contains state rows and United States aggregate rows in the same table; filter State Type before summing across states.
+# caution: Metric type, fuel or technology, and unit are encoded as row values rather than separate tables, so filter Category, Variable, Subcategory, and Unit before comparing or aggregating Value.
+key: [state, year, category, subcategory, variable, unit]
+temporal: year
+sort: [year, state, category, subcategory, variable, unit]
+columns:
+  - name: country
+    type: VARCHAR
+  - name: country_code
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: state_code
+    type: VARCHAR
+  - name: state_type
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: category
+    type: VARCHAR
+  - name: subcategory
+    type: VARCHAR
+  - name: variable
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: yoy_absolute_change
+    type: DOUBLE
+  - name: yoy_change
+    type: DOUBLE

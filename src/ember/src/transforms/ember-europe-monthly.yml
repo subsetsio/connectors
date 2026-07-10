@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ember-europe-monthly`. Regenerate after model-verify.
+# caution: Contains country rows and European aggregate rows in the same table; filter geography fields before summing across areas.
+# caution: Metric type, fuel or technology, and unit are encoded as row values rather than separate tables, so filter Category, Variable, Subcategory, and Unit before comparing or aggregating Value.
+key: [area, date, category, subcategory, variable, unit]
+temporal: date
+sort: [date, area, category, subcategory, variable, unit]
+columns:
+  - name: area
+    type: VARCHAR
+  - name: iso_3_code
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: area_type
+    type: VARCHAR
+  - name: continent
+    type: VARCHAR
+  - name: ember_region
+    type: VARCHAR
+  - name: eu
+    type: DOUBLE
+  - name: oecd
+    type: DOUBLE
+  - name: g20
+    type: DOUBLE
+  - name: g7
+    type: DOUBLE
+  - name: asean
+    type: DOUBLE
+  - name: category
+    type: VARCHAR
+  - name: subcategory
+    type: VARCHAR
+  - name: variable
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: yoy_absolute_change
+    type: DOUBLE
+  - name: yoy_change
+    type: DOUBLE
