@@ -1,42 +1,45 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [UNINUM]
-sort: [UNINUM]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fdic-locations`. Regenerate after model-verify.
+# caution: Includes branches and offices tied to institutions; use service-type and status fields before treating every row as a currently operating branch.
+key: [uninum]
+temporal: estymd
+sort: [estymd, uninum]
 columns:
-  - name: CERT
+  - name: cert
+    type: BIGINT
+  - name: name
     type: VARCHAR
-  - name: NAME
+  - name: uninum
+    type: BIGINT
+  - name: offname
     type: VARCHAR
-  - name: UNINUM
-    type: VARCHAR
-  - name: OFFNAME
-    type: VARCHAR
-  - name: OFFNUM
+  - name: offnum
     type: DOUBLE
-  - name: MAINOFF
+  - name: mainoff
     type: DOUBLE
-  - name: ADDRESS
+  - name: address
     type: VARCHAR
-  - name: CITY
+  - name: city
     type: VARCHAR
-  - name: STALP
+  - name: stalp
     type: VARCHAR
-  - name: STNAME
+  - name: stname
     type: VARCHAR
-  - name: ZIP
+  - name: zip
     type: VARCHAR
-  - name: COUNTY
+  - name: county
     type: VARCHAR
-  - name: SERVTYPE
+  - name: servtype
     type: DOUBLE
-  - name: SERVTYPE_DESC
+  - name: servtype_desc
     type: VARCHAR
-  - name: ESTYMD
+  - name: estymd
+    type: DATE
+  - name: acqdate
+    type: DATE
+  - name: cbsa_metro_name
     type: VARCHAR
-  - name: ACQDATE
-    type: VARCHAR
-  - name: CBSA_METRO_NAME
-    type: VARCHAR
-  - name: LATITUDE
+  - name: latitude
     type: DOUBLE
-  - name: LONGITUDE
+  - name: longitude
     type: DOUBLE

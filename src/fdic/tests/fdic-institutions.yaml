@@ -1,4 +1,7 @@
 spec_id: fdic-institutions
+coverage:
+  frozen: true
+  reason: ESTYMD is an institution establishment date, not the source publication cadence; the table is a current directory plus historical institution records.
 status: active
 tests:
   - row_count: {min: 25000}

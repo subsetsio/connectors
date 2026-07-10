@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fdic-financials`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [name, cert, city, repdte, risdate]
+temporal: risdate
+checks:
+  - kind: unique
+    columns: [name, cert, city, repdte, risdate]
+  - kind: not_null
+    col: name
+  - kind: not_null
+    col: cert
+  - kind: not_null
+    col: city
+  - kind: not_null
+    col: repdte
+  - kind: not_null
+    col: risdate
+  - kind: row_floor
+    min: 839151
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

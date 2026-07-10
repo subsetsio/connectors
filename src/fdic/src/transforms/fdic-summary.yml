@@ -1,37 +1,37 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [YEAR, STALP]
-temporal: YEAR
-sort: [YEAR, STALP]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fdic-summary`. Regenerate after model-verify.
+# caution: Rows are annual aggregate rollups by state or FDIC geography; some state-year combinations appear more than once without a category discriminator in the raw endpoint, so preserve rows rather than assuming YEAR plus STALP is unique.
+key: []
 columns:
-  - name: YEAR
+  - name: year
+    type: BIGINT
+  - name: stalp
     type: VARCHAR
-  - name: STALP
+  - name: stname
     type: VARCHAR
-  - name: STNAME
-    type: VARCHAR
-  - name: BANKS
+  - name: banks
     type: DOUBLE
-  - name: OFFICES
+  - name: offices
     type: DOUBLE
-  - name: BRANCHES
+  - name: branches
     type: DOUBLE
-  - name: ASSET
+  - name: asset
     type: DOUBLE
-  - name: DEP
+  - name: dep
     type: DOUBLE
-  - name: DEPDOM
+  - name: depdom
     type: DOUBLE
-  - name: LIAB
+  - name: liab
     type: DOUBLE
-  - name: EQ
+  - name: eq
     type: DOUBLE
-  - name: NETINC
+  - name: netinc
     type: DOUBLE
-  - name: LNLS
+  - name: lnls
     type: DOUBLE
-  - name: LNLSNET
+  - name: lnlsnet
     type: DOUBLE
-  - name: NUMEMP
+  - name: numemp
     type: DOUBLE
-  - name: TOTAL
+  - name: total
     type: DOUBLE

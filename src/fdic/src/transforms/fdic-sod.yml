@@ -1,43 +1,44 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [ID]
-temporal: YEAR
-sort: [YEAR, ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fdic-sod`. Regenerate after model-verify.
+# caution: Summary of Deposits rows are annual branch-level observations; filter YEAR before aggregating deposits across branches or institutions.
+key: [id]
+sort: [id]
 columns:
-  - name: ID
+  - name: id
     type: VARCHAR
-  - name: CERT
+  - name: cert
+    type: BIGINT
+  - name: namefull
     type: VARCHAR
-  - name: NAMEFULL
+  - name: namebr
     type: VARCHAR
-  - name: NAMEBR
+  - name: year
+    type: BIGINT
+  - name: stalpbr
     type: VARCHAR
-  - name: YEAR
+  - name: citybr
     type: VARCHAR
-  - name: STALPBR
+  - name: cntynamb
     type: VARCHAR
-  - name: CITYBR
+  - name: zipbr
     type: VARCHAR
-  - name: CNTYNAMB
-    type: VARCHAR
-  - name: ZIPBR
-    type: VARCHAR
-  - name: DEPSUMBR
+  - name: depsumbr
     type: DOUBLE
-  - name: DEPSUM
+  - name: depsum
     type: DOUBLE
-  - name: DEPDOM
+  - name: depdom
     type: DOUBLE
-  - name: ASSET
+  - name: asset
     type: DOUBLE
-  - name: BKCLASS
+  - name: bkclass
     type: VARCHAR
-  - name: BRSERTYP
+  - name: brsertyp
     type: DOUBLE
-  - name: BRNUM
+  - name: brnum
     type: DOUBLE
-  - name: ADDRESBR
+  - name: addresbr
     type: VARCHAR
-  - name: SIMS_LATITUDE
+  - name: sims_latitude
     type: DOUBLE
-  - name: SIMS_LONGITUDE
+  - name: sims_longitude
     type: DOUBLE

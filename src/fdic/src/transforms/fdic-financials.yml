@@ -1,51 +1,53 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [CERT, REPDTE]
-temporal: REPDTE
-sort: [REPDTE, CERT]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fdic-financials`. Regenerate after model-verify.
+# caution: Rows are institution-period financial observations; aggregate only after choosing a reporting period to avoid summing across quarters.
+key: [name, cert, city, repdte, risdate]
+temporal: risdate
+sort: [risdate, name, cert, city, repdte]
 columns:
-  - name: CERT
+  - name: cert
+    type: BIGINT
+  - name: name
     type: VARCHAR
-  - name: NAME
+  - name: repdte
+    type: BIGINT
+  - name: risdate
+    type: DATE
+  - name: stalp
     type: VARCHAR
-  - name: REPDTE
+  - name: city
     type: VARCHAR
-  - name: RISDATE
+  - name: bkclass
     type: VARCHAR
-  - name: STALP
-    type: VARCHAR
-  - name: CITY
-    type: VARCHAR
-  - name: BKCLASS
-    type: VARCHAR
-  - name: ASSET
+  - name: asset
     type: DOUBLE
-  - name: DEP
+  - name: dep
     type: DOUBLE
-  - name: DEPDOM
+  - name: depdom
     type: DOUBLE
-  - name: DEPINS
+  - name: depins
     type: DOUBLE
-  - name: DEPUNINS
+  - name: depunins
     type: DOUBLE
-  - name: LIAB
+  - name: liab
     type: DOUBLE
-  - name: EQ
+  - name: eq
     type: DOUBLE
-  - name: EQTOT
+  - name: eqtot
     type: DOUBLE
-  - name: NETINC
+  - name: netinc
     type: DOUBLE
-  - name: ROA
+  - name: roa
     type: DOUBLE
-  - name: ROE
+  - name: roe
     type: DOUBLE
-  - name: NIM
+  - name: nim
     type: DOUBLE
-  - name: NUMEMP
+  - name: numemp
     type: DOUBLE
-  - name: LNLSNET
+  - name: lnlsnet
     type: DOUBLE
-  - name: INTINC
+  - name: intinc
     type: DOUBLE
-  - name: INTEXPY
+  - name: intexpy
     type: DOUBLE

@@ -1,54 +1,57 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [CERT]
-sort: [CERT]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fdic-institutions`. Regenerate after model-verify.
+# caution: Includes active and inactive institutions; filter status and closing-date fields when analyzing the current institution universe.
+key: [cert]
+temporal: estymd
+sort: [estymd, cert]
 columns:
-  - name: CERT
+  - name: cert
+    type: BIGINT
+  - name: name
     type: VARCHAR
-  - name: NAME
+  - name: city
     type: VARCHAR
-  - name: CITY
+  - name: stalp
     type: VARCHAR
-  - name: STALP
+  - name: stname
     type: VARCHAR
-  - name: STNAME
+  - name: zip
     type: VARCHAR
-  - name: ZIP
+  - name: county
     type: VARCHAR
-  - name: COUNTY
+  - name: address
     type: VARCHAR
-  - name: ADDRESS
+  - name: bkclass
     type: VARCHAR
-  - name: BKCLASS
+  - name: charter
+    type: BIGINT
+  - name: chrtagnt
     type: VARCHAR
-  - name: CHARTER
+  - name: regagnt
     type: VARCHAR
-  - name: CHRTAGNT
-    type: VARCHAR
-  - name: REGAGNT
-    type: VARCHAR
-  - name: FED_RSSD
-    type: VARCHAR
-  - name: UNINUM
-    type: VARCHAR
-  - name: ACTIVE
+  - name: fed_rssd
+    type: BIGINT
+  - name: uninum
+    type: BIGINT
+  - name: active
     type: DOUBLE
-  - name: ESTYMD
+  - name: estymd
+    type: DATE
+  - name: endefymd
+    type: DATE
+  - name: insdate
+    type: DATE
+  - name: webaddr
     type: VARCHAR
-  - name: ENDEFYMD
+  - name: mdi_status_desc
     type: VARCHAR
-  - name: INSDATE
+  - name: cbsa_metro_name
     type: VARCHAR
-  - name: WEBADDR
+  - name: csa
     type: VARCHAR
-  - name: MDI_STATUS_DESC
-    type: VARCHAR
-  - name: CBSA_METRO_NAME
-    type: VARCHAR
-  - name: CSA
-    type: VARCHAR
-  - name: RISDATE
-    type: VARCHAR
-  - name: LATITUDE
+  - name: risdate
+    type: DATE
+  - name: latitude
     type: DOUBLE
-  - name: LONGITUDE
+  - name: longitude
     type: DOUBLE

@@ -1,35 +1,37 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [ID]
-temporal: PROCDATE
-sort: [PROCDATE, ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fdic-history`. Regenerate after model-verify.
+# caution: Rows are structure-change events, so one institution can appear many times as its charter, location, ownership, or status changes.
+key: [id]
+temporal: effdate
+sort: [effdate, id]
 columns:
-  - name: ID
+  - name: id
     type: VARCHAR
-  - name: CERT
+  - name: cert
+    type: BIGINT
+  - name: instname
     type: VARCHAR
-  - name: INSTNAME
+  - name: changecode
+    type: BIGINT
+  - name: changecode_desc
     type: VARCHAR
-  - name: CHANGECODE
+  - name: effdate
+    type: TIMESTAMP
+  - name: effyear
+    type: BIGINT
+  - name: procdate
+    type: TIMESTAMP
+  - name: class
     type: VARCHAR
-  - name: CHANGECODE_DESC
+  - name: class_type_desc
     type: VARCHAR
-  - name: EFFDATE
+  - name: pcity
     type: VARCHAR
-  - name: EFFYEAR
+  - name: pstalp
     type: VARCHAR
-  - name: PROCDATE
+  - name: transnum
+    type: BIGINT
+  - name: fdicregion_desc
     type: VARCHAR
-  - name: CLASS
-    type: VARCHAR
-  - name: CLASS_TYPE_DESC
-    type: VARCHAR
-  - name: PCITY
-    type: VARCHAR
-  - name: PSTALP
-    type: VARCHAR
-  - name: TRANSNUM
-    type: VARCHAR
-  - name: FDICREGION_DESC
-    type: VARCHAR
-  - name: ORGTYPE
+  - name: orgtype
     type: VARCHAR

@@ -1,39 +1,40 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [ID]
-temporal: FAILYR
-sort: [FAILYR, ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fdic-failures`. Regenerate after model-verify.
+# caution: Rows describe failed or assisted institutions and may include assistance transactions as well as conventional failures.
+key: [id]
+sort: [id]
 columns:
-  - name: ID
+  - name: id
+    type: BIGINT
+  - name: cert
+    type: BIGINT
+  - name: name
     type: VARCHAR
-  - name: CERT
+  - name: city
     type: VARCHAR
-  - name: NAME
+  - name: pstalp
     type: VARCHAR
-  - name: CITY
+  - name: cityst
     type: VARCHAR
-  - name: PSTALP
+  - name: faildate
     type: VARCHAR
-  - name: CITYST
+  - name: failyr
+    type: BIGINT
+  - name: restype
     type: VARCHAR
-  - name: FAILDATE
+  - name: restype1
     type: VARCHAR
-  - name: FAILYR
-    type: VARCHAR
-  - name: RESTYPE
-    type: VARCHAR
-  - name: RESTYPE1
-    type: VARCHAR
-  - name: QBFASSET
+  - name: qbfasset
     type: DOUBLE
-  - name: QBFDEP
+  - name: qbfdep
     type: DOUBLE
-  - name: COST
+  - name: cost
     type: DOUBLE
-  - name: SAVR
+  - name: savr
     type: VARCHAR
-  - name: CHCLASS1
+  - name: chclass1
     type: VARCHAR
-  - name: BIDNAME
+  - name: bidname
     type: VARCHAR
-  - name: FUND
-    type: VARCHAR
+  - name: fund
+    type: BIGINT

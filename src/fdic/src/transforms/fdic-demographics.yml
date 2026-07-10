@@ -1,49 +1,50 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [ID]
-temporal: REPDTE
-sort: [REPDTE, ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fdic-demographics`. Regenerate after model-verify.
+# caution: Rows describe demographic and office attributes for institution reporting periods; filter by reporting date fields before comparing institutions over time.
+key: [id, cert, cntynum, mnrtydte, callym]
+sort: [id, cert, cntynum, mnrtydte, callym]
 columns:
-  - name: ID
+  - name: id
     type: VARCHAR
-  - name: CERT
+  - name: cert
+    type: BIGINT
+  - name: repdte
+    type: BIGINT
+  - name: callym
+    type: BIGINT
+  - name: qtrno
+    type: DOUBLE
+  - name: cbsaname
     type: VARCHAR
-  - name: REPDTE
+  - name: cntryalp
     type: VARCHAR
-  - name: CALLYM
+  - name: cntynum
+    type: BIGINT
+  - name: mnrtycde
+    type: BIGINT
+  - name: mnrtydte
+    type: BIGINT
+  - name: branch
+    type: DOUBLE
+  - name: offtot
+    type: DOUBLE
+  - name: offndom
+    type: DOUBLE
+  - name: offoth
+    type: DOUBLE
+  - name: offstate
+    type: DOUBLE
+  - name: metro
+    type: DOUBLE
+  - name: micro
+    type: DOUBLE
+  - name: division
+    type: DOUBLE
+  - name: fdicterr
     type: VARCHAR
-  - name: QTRNO
+  - name: fdicarea
     type: DOUBLE
-  - name: CBSANAME
-    type: VARCHAR
-  - name: CNTRYALP
-    type: VARCHAR
-  - name: CNTYNUM
-    type: VARCHAR
-  - name: MNRTYCDE
-    type: VARCHAR
-  - name: MNRTYDTE
-    type: VARCHAR
-  - name: BRANCH
+  - name: sims_lat
     type: DOUBLE
-  - name: OFFTOT
-    type: DOUBLE
-  - name: OFFNDOM
-    type: DOUBLE
-  - name: OFFOTH
-    type: DOUBLE
-  - name: OFFSTATE
-    type: DOUBLE
-  - name: METRO
-    type: DOUBLE
-  - name: MICRO
-    type: DOUBLE
-  - name: DIVISION
-    type: DOUBLE
-  - name: FDICTERR
-    type: VARCHAR
-  - name: FDICAREA
-    type: DOUBLE
-  - name: SIMS_LAT
-    type: DOUBLE
-  - name: SIMS_LONG
+  - name: sims_long
     type: DOUBLE
