@@ -1,0 +1,51 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-fishing-watch-fishing-vessels`. Regenerate after model-verify.
+# caution: This is a per-vessel-year table, not a static vessel master; vessel attributes and activity measures can vary by year and by the Global Fishing Watch flag and vessel class assignments.
+key: [mmsi, flag_gfw, vessel_class_gfw, year]
+temporal: year
+sort: [year, mmsi, flag_gfw, vessel_class_gfw]
+columns:
+  - name: mmsi
+    type: BIGINT
+  - name: year
+    type: INTEGER
+  - name: flag_ais
+    type: VARCHAR
+  - name: flag_registry
+    type: VARCHAR
+  - name: flag_gfw
+    type: VARCHAR
+  - name: vessel_class_inferred
+    type: VARCHAR
+  - name: vessel_class_inferred_score
+    type: DOUBLE
+  - name: vessel_class_registry
+    type: VARCHAR
+  - name: vessel_class_gfw
+    type: VARCHAR
+  - name: self_reported_fishing_vessel
+    type: BOOLEAN
+  - name: length_m_inferred
+    type: DOUBLE
+  - name: length_m_registry
+    type: DOUBLE
+  - name: length_m_gfw
+    type: DOUBLE
+  - name: engine_power_kw_inferred
+    type: DOUBLE
+  - name: engine_power_kw_registry
+    type: DOUBLE
+  - name: engine_power_kw_gfw
+    type: DOUBLE
+  - name: tonnage_gt_inferred
+    type: DOUBLE
+  - name: tonnage_gt_registry
+    type: DOUBLE
+  - name: tonnage_gt_gfw
+    type: DOUBLE
+  - name: registries_listed
+    type: VARCHAR
+  - name: active_hours
+    type: DOUBLE
+  - name: fishing_hours
+    type: DOUBLE

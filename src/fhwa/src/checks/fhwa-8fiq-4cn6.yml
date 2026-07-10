@@ -3,7 +3,7 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [hpms_toll_id]
+key: [state, hpms_toll_id, name_of_toll_facility]
 checks:
   - kind: unique
     columns: [hpms_toll_id]

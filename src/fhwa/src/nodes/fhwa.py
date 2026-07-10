@@ -8,9 +8,14 @@ $limit/$offset paging ($order=:id for stable pages). No auth required.
 Fetch shape: stateless full re-pull. Small tables are fetched through the
 Socrata JSON API and written as NDJSON because values arrive as strings and
 null fields are omitted per row. The six HPMS roadway-section snapshots are
-12M-29M rows each, so they stream Socrata's CSV export directly to csv.gz
-instead of accumulating JSON pages in memory.
+12M-29M rows each, so they stream Socrata's CSV export through a bounded
+CSV-to-NDJSON conversion instead of accumulating JSON pages in memory. NDJSON
+keeps the raw SQL-readable without relying on DuckDB CSV sampling to discover
+late quoted comma fields.
 """
+
+import csv
+import json
 
 from subsets_utils import (
     NodeSpec,
@@ -72,10 +77,11 @@ def fetch_one(node_id: str) -> None:
         url = f"{_VIEWS}/{fxf}/rows.csv?accessType=DOWNLOAD"
         with get_client().stream("GET", url, timeout=(10.0, 300.0)) as resp:
             resp.raise_for_status()
-            with raw_writer(asset, "csv.gz", mode="wb", compression="gzip") as out:
-                for chunk in resp.iter_bytes(_STREAM_CHUNK):
-                    if chunk:
-                        out.write(chunk)
+            reader = csv.DictReader(resp.iter_lines())
+            with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as out:
+                for row in reader:
+                    out.write(json.dumps(row, separators=(",", ":")))
+                    out.write("\n")
         return
 
     rows: list[dict] = []

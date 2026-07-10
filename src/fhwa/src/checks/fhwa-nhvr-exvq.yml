@@ -3,7 +3,7 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [preferred_physical_name]
+key: [data_element_name, preferred_physical_name, data_asset_abbreviation, system_number]
 checks:
   - kind: unique
     columns: [preferred_physical_name]
