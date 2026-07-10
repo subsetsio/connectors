@@ -231,25 +231,40 @@ def fetch_crosswalk(node_id: str) -> None:
 
 
 def fetch_hospital_research_data(node_id: str) -> None:
-    """Fetch hospital-level CSV bundles with drifty annual schemas."""
+    """Fetch hospital-level CSV bundles with drifty annual schemas.
+
+    Each annual file carries year-specific columns (e.g. `status14` only in the
+    hosp14 file), so the rows do NOT share one key set. A DuckDB SQL transform
+    reads the raw via `read_json_auto`, which infers the schema from a bounded
+    sample and errors on any key it did not see in that sample. To keep the raw
+    self-consistent, we buffer the (hospital-scale, ~tens of thousands of) rows,
+    take the union of every column seen, and emit each row against that full key
+    set (missing -> null). This is the only entity whose upstream files have
+    genuinely disjoint columns; the corpus is small enough to hold in memory."""
     configure_http(headers={"User-Agent": _UA})
     entity = _entity_of(node_id)
-    written = 0
-    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
-        for rel in FILES[entity]:
-            basename = rel.rsplit("/", 1)[-1]
-            vintage = _year_from_filename(basename)
-            for raw in _iter_csv_rows(BASE + rel):
-                row = {
-                    "source_file": basename,
-                    "vintage": vintage,
-                }
-                for key, value in raw.items():
-                    row[_clean_col(key)] = _s(value)
-                fh.write(json.dumps(row) + "\n")
-                written += 1
-    if not written:
+    rows: list[dict] = []
+    columns: list[str] = ["source_file", "vintage"]
+    seen = set(columns)
+    for rel in FILES[entity]:
+        basename = rel.rsplit("/", 1)[-1]
+        vintage = _year_from_filename(basename)
+        for raw in _iter_csv_rows(BASE + rel):
+            row = {"source_file": basename, "vintage": vintage}
+            for key, value in raw.items():
+                col = _clean_col(key)
+                if col not in seen:
+                    seen.add(col)
+                    columns.append(col)
+                row[col] = _s(value)
+            rows.append(row)
+    if not rows:
         raise AssertionError(f"{node_id}: zero hospital research rows")
+    # Emit every row against the full column union so read_json_auto sees one
+    # stable schema regardless of which file a row came from.
+    with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
+        for row in rows:
+            fh.write(json.dumps({col: row.get(col) for col in columns}) + "\n")
 
 
 def fetch_capacity_xls(node_id: str) -> None:

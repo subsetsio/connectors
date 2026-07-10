@@ -8,7 +8,7 @@ SELECT
     "Project" AS project,
     "Geographic Reach" AS geographic_reach,
     "Funding Amount" AS funding_amount,
-    "3 year savings" AS 3_year_savings,
+    "3 year savings" AS "3_year_savings",
     "Summary" AS summary,
     "Category" AS category,
     "Stage" AS stage,

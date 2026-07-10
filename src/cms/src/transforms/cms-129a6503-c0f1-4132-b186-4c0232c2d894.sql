@@ -31,9 +31,9 @@ SELECT
     "Organized Family Member Group" AS organized_family_member_group,
     "Facility Conducts Experimental Research" AS facility_conducts_experimental_research,
     "Continuing Care Retirement Community (CCRC)" AS continuing_care_retirement_community_ccrc,
-    "7 Day RN Waiver Date" AS 7_day_rn_waiver_date,
-    CAST("7 Day RN Hrs Waived Per Week" AS BIGINT) AS 7_day_rn_hrs_waived_per_week,
-    "24 Hr Licensed Nursing Waiver Date" AS 24_hr_licensed_nursing_waiver_date,
-    CAST("24 Hr Licensed Nursing Hrs Waived Per Week" AS BIGINT) AS 24_hr_licensed_nursing_hrs_waived_per_week,
+    "7 Day RN Waiver Date" AS "7_day_rn_waiver_date",
+    CAST("7 Day RN Hrs Waived Per Week" AS BIGINT) AS "7_day_rn_hrs_waived_per_week",
+    "24 Hr Licensed Nursing Waiver Date" AS "24_hr_licensed_nursing_waiver_date",
+    CAST("24 Hr Licensed Nursing Hrs Waived Per Week" AS BIGINT) AS "24_hr_licensed_nursing_hrs_waived_per_week",
     "Nurse Aide Training and Competency Evaluation Program" AS nurse_aide_training_and_competency_evaluation_program
 FROM "cms-129a6503-c0f1-4132-b186-4c0232c2d894"

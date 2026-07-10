@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `census-and-statistics-department-210-06302a`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ccyy, m3m, sex]
+checks:
+  - kind: unique
+    columns: [ccyy, m3m, sex]
+  - kind: not_null
+    col: ccyy
+  - kind: not_null
+    col: m3m
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 648
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

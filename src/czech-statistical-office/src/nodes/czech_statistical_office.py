@@ -23,6 +23,8 @@ the only scalable shape across 200+ heterogeneous tables.
 """
 
 import io
+import json
+import re
 import zipfile
 
 from subsets_utils import (
@@ -46,6 +48,27 @@ _SPEC_TO_ENTITY = {
 }
 
 
+def _parse_package(text: str) -> dict:
+    """Parse a CKAN package_show body into its `result` record.
+
+    CZSO's API emits a handful of records whose free-text `notes` field contains
+    unescaped double-quotes (e.g. `... v datové sadě "Počet obyvatel"`), which
+    makes the body invalid JSON. The `resources` array we actually need is always
+    intact, so on a strict-parse failure we blank the `notes` value — it always
+    runs up to the mandatory `,"frequency":` key — and re-parse.
+    """
+    try:
+        return json.loads(text)["result"]
+    except json.JSONDecodeError:
+        repaired = re.sub(
+            r'"notes":".*?","frequency":',
+            '"notes":"","frequency":',
+            text,
+            flags=re.S,
+        )
+        return json.loads(repaired)["result"]
+
+
 @transient_retry()  # 6 attempts, exponential backoff over transient/429/5xx
 def _package_show(entity_id: str) -> dict:
     resp = get(
@@ -54,7 +77,7 @@ def _package_show(entity_id: str) -> dict:
         timeout=(10.0, 120.0),
     )
     resp.raise_for_status()
-    return resp.json()["result"]
+    return _parse_package(resp.text)
 
 
 @transient_retry()
