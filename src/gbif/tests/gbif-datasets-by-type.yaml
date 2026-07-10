@@ -1,0 +1,15 @@
+spec_id: gbif-datasets-by-type
+status: active
+tests:
+  - not_null: facet_value
+  - column_type: {col: facet_value, type: string}
+  - column_type: {col: n, type: integer}
+  - unique: facet_value
+    reason: one row per GBIF dataset type facet
+    certainty: 95
+  - row_count: {min: 3, max: 10}
+    reason: GBIF registry dataset types are a small controlled vocabulary
+    certainty: 95
+  - at_least: {col: n, expr: 1}
+    certainty: 95
+

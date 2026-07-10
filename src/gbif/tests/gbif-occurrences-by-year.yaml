@@ -1,0 +1,22 @@
+spec_id: gbif-occurrences-by-year
+status: active
+tests:
+  - not_null: facet_value
+  - column_type: {col: facet_value, type: string}
+  - column_type: {col: n, type: integer}
+  - unique: facet_value
+    reason: one row per occurrence year facet
+    certainty: 95
+  - row_count: {min: 300}
+    reason: GBIF occurrence records include historical records over several centuries
+    certainty: 90
+  - matches: {col: facet_value, pattern: '^[0-9]+$'}
+    reason: year facets should be numeric years before transform casting
+    certainty: 85
+  - freshness: {col: facet_value, reaches: current_year()}
+    reason: GBIF receives current-year occurrence records continuously
+    certainty: 90
+    points_outward: true
+  - at_least: {col: n, expr: 1}
+    certainty: 95
+

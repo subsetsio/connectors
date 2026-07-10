@@ -1,0 +1,15 @@
+spec_id: gbif-occurrences-by-issue
+status: active
+tests:
+  - not_null: facet_value
+  - column_type: {col: facet_value, type: string}
+  - column_type: {col: n, type: integer}
+  - unique: facet_value
+    reason: one row per GBIF occurrence issue facet
+    certainty: 95
+  - row_count: {min: 50, max: 200}
+    reason: GBIF exposes a finite issue vocabulary and current catalog has dozens of populated issue facets
+    certainty: 85
+  - at_least: {col: n, expr: 1}
+    certainty: 95
+

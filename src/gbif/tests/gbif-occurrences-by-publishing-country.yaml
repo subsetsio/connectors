@@ -1,0 +1,15 @@
+spec_id: gbif-occurrences-by-publishing-country
+status: active
+tests:
+  - not_null: facet_value
+  - column_type: {col: facet_value, type: string}
+  - column_type: {col: n, type: integer}
+  - unique: facet_value
+    reason: one row per publishing country facet
+    certainty: 95
+  - row_count: {min: 200, max: 300}
+    reason: GBIF occurrence publishers span most country codes, but the ISO country universe is bounded
+    certainty: 90
+  - at_least: {col: n, expr: 1}
+    certainty: 95
+

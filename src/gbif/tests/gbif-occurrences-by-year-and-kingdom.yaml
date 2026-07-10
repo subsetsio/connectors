@@ -1,0 +1,29 @@
+spec_id: gbif-occurrences-by-year-and-kingdom
+status: active
+tests:
+  - not_null: facet_value
+  - not_null: year
+  - column_type: {col: facet_value, type: string}
+  - column_type: {col: year, type: string}
+  - column_type: {col: n, type: integer}
+  - unique: [facet_value, year]
+    reason: one row per kingdom key and year facet pair
+    certainty: 95
+  - row_count: {min: 1000}
+    reason: major GBIF kingdoms have long historical year series
+    certainty: 80
+  - distinct_count: {col: facet_value, min: 5, max: 20}
+    reason: GBIF backbone kingdom keys are a small controlled set
+    certainty: 90
+  - matches: {col: facet_value, pattern: '^[0-9]+$'}
+    reason: kingdom facets are GBIF numeric backbone keys
+    certainty: 90
+  - matches: {col: year, pattern: '^[0-9]+$'}
+    reason: inner year facets should be numeric years before transform casting
+    certainty: 85
+  - freshness: {col: year, reaches: current_year()}
+    reason: GBIF receives current-year occurrence records continuously
+    certainty: 90
+    points_outward: true
+  - at_least: {col: n, expr: 1}
+    certainty: 95

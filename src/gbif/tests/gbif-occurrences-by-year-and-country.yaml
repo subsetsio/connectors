@@ -1,0 +1,27 @@
+spec_id: gbif-occurrences-by-year-and-country
+status: active
+tests:
+  - not_null: facet_value
+  - not_null: year
+  - column_type: {col: facet_value, type: string}
+  - column_type: {col: year, type: string}
+  - column_type: {col: n, type: integer}
+  - unique: [facet_value, year]
+    reason: one row per country and year facet pair
+    certainty: 95
+  - row_count: {min: 10000}
+    reason: country-by-year panels should include many countries across long historical series
+    certainty: 85
+  - distinct_count: {col: facet_value, min: 200, max: 300}
+    reason: GBIF country occurrence facets cover most ISO country codes
+    certainty: 90
+  - matches: {col: year, pattern: '^[0-9]+$'}
+    reason: inner year facets should be numeric years before transform casting
+    certainty: 85
+  - freshness: {col: year, reaches: current_year()}
+    reason: GBIF receives current-year occurrence records continuously
+    certainty: 90
+    points_outward: true
+  - at_least: {col: n, expr: 1}
+    certainty: 95
+
