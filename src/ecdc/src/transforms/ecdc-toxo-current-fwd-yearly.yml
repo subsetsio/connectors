@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ecdc-toxo-current-fwd-yearly`. Regenerate after model-verify.
+key: [region_code, region_name, time, indicator, unit]
 temporal: time
-sort: [time]
+sort: [time, region_code, region_name, indicator, unit]
 columns:
   - name: health_topic
     type: VARCHAR
@@ -11,11 +13,11 @@ columns:
   - name: unit
     type: VARCHAR
   - name: geo_level
-    type: VARCHAR
+    type: BIGINT
   - name: time_unit
     type: VARCHAR
   - name: time
-    type: VARCHAR
+    type: BIGINT
   - name: region_code
     type: VARCHAR
   - name: region_name

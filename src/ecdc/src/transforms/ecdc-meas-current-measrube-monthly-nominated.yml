@@ -1,5 +1,8 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ecdc-meas-current-measrube-monthly-nominated`. Regenerate after model-verify.
+key: [time, region_code, region_name, indicator, population]
 temporal: time
-sort: [time]
+sort: [time, region_code, region_name, indicator, population]
 columns:
   - name: health_topic
     type: VARCHAR
@@ -10,11 +13,11 @@ columns:
   - name: unit
     type: VARCHAR
   - name: geo_level
-    type: VARCHAR
+    type: BIGINT
   - name: time_unit
     type: VARCHAR
   - name: time
-    type: VARCHAR
+    type: DATE
   - name: region_code
     type: VARCHAR
   - name: region_name

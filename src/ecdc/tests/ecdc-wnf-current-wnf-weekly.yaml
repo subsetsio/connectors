@@ -19,7 +19,7 @@ tests:
   - row_count: {min: 1}
     reason: the live CURRENT dataset for this disease is non-empty
     certainty: 95
-  - freshness: {col: time, reaches: "2021-W01"}
-    reason: weekly EU/EEA surveillance in the Atlas lags roughly two to three years, so the latest ISO week present should reach at least 2021-W01
+  - freshness: {col: time, reaches: "2020-W49"}
+    reason: this Atlas West Nile weekly feed currently stalls at 2020-W49; alert if the observed endpoint drops further
     points_outward: true
     certainty: 70

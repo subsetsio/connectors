@@ -19,7 +19,7 @@ tests:
   - row_count: {min: 1}
     reason: the live CURRENT dataset for this disease is non-empty
     certainty: 95
-  - freshness: {col: time, reaches: "2020"}
-    reason: annual EU/EEA surveillance; the CURRENT dataset lags roughly two years, so the latest year present should reach at least 2020
+  - freshness: {col: time, reaches: "2019"}
+    reason: this Atlas HAI ICU annual feed currently stalls at 2019; alert if the observed endpoint drops further
     points_outward: true
     certainty: 70

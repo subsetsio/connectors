@@ -1,14 +1,17 @@
-SELECT DISTINCT
-    health_topic,
-    population,
-    indicator,
-    unit,
-    geo_level,
-    time_unit,
-    time,
-    region_code,
-    region_name,
-    CAST(num_value AS DOUBLE) AS num_value,
-    txt_value
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "health_topic",
+    "population",
+    "indicator",
+    "unit",
+    CAST("geo_level" AS BIGINT) AS geo_level,
+    "time_unit",
+    CAST("time" AS BIGINT) AS time,
+    "region_code",
+    "region_name",
+    "num_value",
+    "txt_value"
 FROM "ecdc-list-current-fwd-yearly"
-WHERE num_value IS NOT NULL OR txt_value IS NOT NULL

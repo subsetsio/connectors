@@ -1,5 +1,8 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ecdc-zika-current-zikv-weekly-nominated`. Regenerate after model-verify.
+key: [time, region_name, region_code, indicator]
 temporal: time
-sort: [time]
+sort: [time, region_name, region_code, indicator]
 columns:
   - name: health_topic
     type: VARCHAR
@@ -10,7 +13,7 @@ columns:
   - name: unit
     type: VARCHAR
   - name: geo_level
-    type: VARCHAR
+    type: BIGINT
   - name: time_unit
     type: VARCHAR
   - name: time

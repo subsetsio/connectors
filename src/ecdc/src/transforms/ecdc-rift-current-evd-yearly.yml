@@ -1,5 +1,8 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ecdc-rift-current-evd-yearly`. Regenerate after model-verify.
+key: [region_name, region_code, time, indicator, unit]
 temporal: time
-sort: [time]
+sort: [time, region_name, region_code, indicator, unit]
 columns:
   - name: health_topic
     type: VARCHAR
@@ -10,11 +13,11 @@ columns:
   - name: unit
     type: VARCHAR
   - name: geo_level
-    type: VARCHAR
+    type: BIGINT
   - name: time_unit
     type: VARCHAR
   - name: time
-    type: VARCHAR
+    type: BIGINT
   - name: region_code
     type: VARCHAR
   - name: region_name
