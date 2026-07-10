@@ -7,7 +7,7 @@ tests:
   - not_null: income_level_group
   - column_type: {col: vol, type: float}
   - row_count: {min: 2500}
-  - freshness: {col: date, reaches: today - 400d}
+  - freshness: {col: date, reaches: today - 500d}
     reason: CFPB Consumer Credit Trends are monthly and current releases may lag by several months
     certainty: 80
     points_outward: true

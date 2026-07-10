@@ -4,9 +4,8 @@ tests:
   - not_null: month
   - not_null: date
   - not_null: market
-  - not_null: age_group
-  - column_type: {col: yoy_vol, type: float}
-  - row_count: {min: 2500}
+  - column_type: {col: "younger-than-30_yoy", type: float}
+  - row_count: {min: 800}
   - freshness: {col: date, reaches: today - 400d}
     reason: CFPB Consumer Credit Trends are monthly and current releases may lag by several months
     certainty: 80

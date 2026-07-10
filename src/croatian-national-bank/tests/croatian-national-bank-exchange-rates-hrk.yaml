@@ -1,5 +1,8 @@
 spec_id: croatian-national-bank-exchange-rates-hrk
 status: active
+coverage:
+  frozen: true
+  reason: legacy Croatian kuna exchange-rate endpoint is a closed historical corpus ending 2022-12-31 after Croatia adopted the euro
 tests:
   - not_null: datum
     reason: every legacy rate-list row carries the application date (field name `datum`, not `datum_primjene`)

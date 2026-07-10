@@ -1,6 +1,9 @@
 spec_id: croatian-national-bank-exchange-rates-eur
 status: active
 tests:
+  - freshness: {col: datum_primjene, reaches: today - 7d}
+    reason: HNB publishes euro reference exchange rates on Croatian business days; a one-week slack covers weekends and short holidays
+    certainty: 95
   - not_null: datum_primjene
     reason: every rate-list row carries the application date; a null means the parse dropped the date key
     certainty: 98
