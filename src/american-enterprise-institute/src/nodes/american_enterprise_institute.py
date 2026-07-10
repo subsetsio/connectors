@@ -32,7 +32,7 @@ import httpx
 import openpyxl
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
+from subsets_utils import NodeSpec, get, load_raw_parquet, save_raw_parquet, transient_retry
 
 INDICATORS_PAGE = "https://www.aei.org/national-and-metro-housing-market-indicators/"
 JINA_READER = "https://r.jina.ai/"
@@ -122,6 +122,42 @@ def _require_xlsx(content: bytes, route: str, url: str) -> bytes:
             f"{route} returned non-XLSX body for {url}: {len(content)} bytes, {preview!r}"
         )
     return content
+
+
+def _quarter_from_url(url: str) -> str | None:
+    match = re.search(r"(20[0-9]{2})q([1-4])", url.lower())
+    if not match:
+        return None
+    return f"{match.group(1)}:Q{match.group(2)}"
+
+
+def _period_key(period: str | None) -> tuple[int, int]:
+    if not period:
+        return (0, 0)
+    match = re.fullmatch(r"([0-9]{4}):Q([1-4])", str(period).strip())
+    if not match:
+        return (0, 0)
+    return (int(match.group(1)), int(match.group(2)))
+
+
+def _previous_raw_for_release(asset_id: str, url: str) -> pa.Table:
+    """Reuse the manifest's prior raw only when it reaches the release quarter
+    encoded in the current source URL. This is a last-resort production repair
+    path for AEI's Cloudflare 403s against GitHub Actions IPs; it must not let
+    an old corpus satisfy a newly discovered quarterly workbook."""
+    expected_period = _quarter_from_url(url)
+    if expected_period is None:
+        raise AssertionError(f"cannot infer release quarter from workbook URL {url}")
+
+    table = load_raw_parquet(asset_id)
+    year_quarters = table.column("year_quarter").to_pylist()
+    max_period = max((_period_key(v) for v in year_quarters), default=(0, 0))
+    if max_period < _period_key(expected_period):
+        raise AssertionError(
+            f"prior raw reaches {max_period[0]}:Q{max_period[1]}, "
+            f"but current workbook URL requires {expected_period}"
+        )
+    return table
 
 
 # The 13 meaningful columns of the workbook's single "data" sheet (the sheet has
@@ -274,31 +310,41 @@ def fetch_housing_market_indicators(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
 
     url = _discover_workbook_url()
-    content = _fetch_bytes(url)
+    try:
+        content = _fetch_bytes(url)
+    except Exception as fetch_error:  # noqa: BLE001 - preserve source-route diagnostics
+        try:
+            table = _previous_raw_for_release(asset, url)
+        except Exception as fallback_error:  # noqa: BLE001 - include both failures
+            raise AssertionError(
+                f"could not fetch current workbook and prior raw fallback was not usable.\n"
+                f"Fetch error: {fetch_error}\n"
+                f"Fallback error: {fallback_error}"
+            ) from fetch_error
+    else:
+        wb = openpyxl.load_workbook(io.BytesIO(content), read_only=True, data_only=True)
+        ws = wb[wb.sheetnames[0]]
+        rows_iter = ws.iter_rows(values_only=True)
+        header = next(rows_iter)
+        if header[: len(COLUMNS)][2] != "Year:Quarter":
+            raise AssertionError(f"unexpected workbook header: {header!r}")
 
-    wb = openpyxl.load_workbook(io.BytesIO(content), read_only=True, data_only=True)
-    ws = wb[wb.sheetnames[0]]
-    rows_iter = ws.iter_rows(values_only=True)
-    header = next(rows_iter)
-    if header[: len(COLUMNS)][2] != "Year:Quarter":
-        raise AssertionError(f"unexpected workbook header: {header!r}")
+        ncol = len(COLUMNS)
+        rows = []
+        for raw in rows_iter:
+            if raw is None or all(c is None for c in raw):
+                continue
+            if raw[0] is None:  # skip rows without a metro label
+                continue
+            record = {col: raw[i] for i, col in enumerate(COLUMNS) if i < len(raw)}
+            for col in COLUMNS[:ncol]:
+                record.setdefault(col, None)
+            rows.append(record)
 
-    ncol = len(COLUMNS)
-    rows = []
-    for raw in rows_iter:
-        if raw is None or all(c is None for c in raw):
-            continue
-        if raw[0] is None:  # skip rows without a metro label
-            continue
-        record = {col: raw[i] for i, col in enumerate(COLUMNS) if i < len(raw)}
-        for col in COLUMNS[:ncol]:
-            record.setdefault(col, None)
-        rows.append(record)
+        if not rows:
+            raise AssertionError(f"{asset}: parsed 0 data rows from workbook {url}")
 
-    if not rows:
-        raise AssertionError(f"{asset}: parsed 0 data rows from workbook {url}")
-
-    table = pa.Table.from_pylist(rows, schema=SCHEMA)
+        table = pa.Table.from_pylist(rows, schema=SCHEMA)
     save_raw_parquet(table, asset)
 
 
