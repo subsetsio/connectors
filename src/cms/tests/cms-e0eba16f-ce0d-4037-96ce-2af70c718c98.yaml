@@ -1,5 +1,11 @@
 spec_id: cms-e0eba16f-ce0d-4037-96ce-2af70c718c98
 status: active
+coverage:
+  frozen: true
+  reason: >-
+    CMS publishes this accepted catalog table as a point-in-time or irregularly
+    refreshed open-data extract, and the catalog metadata does not provide a
+    stable per-dataset freshness cadence for this temporal field.
 tests:
   - row_count: {min: 1}
     reason: >-
