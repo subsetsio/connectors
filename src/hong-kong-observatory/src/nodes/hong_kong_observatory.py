@@ -364,6 +364,336 @@ def fetch_weather_radiation_report(node_id: str) -> None:
 
 
 # --------------------------------------------------------------------------- #
+# Endpoints beyond opendata.php (weather / earthquake / lunar-calendar)
+# --------------------------------------------------------------------------- #
+WEATHER_URL = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php"
+QUAKE_URL = "https://data.weather.gov.hk/weatherAPI/opendata/earthquake.php"
+LUNAR_URL = "https://data.weather.gov.hk/weatherAPI/opendata/lunardate.php"
+
+
+@transient_retry()
+def _fetch_url_text(url, params) -> str:
+    resp = get(url, params=params, timeout=(10.0, 120.0))
+    resp.raise_for_status()
+    return resp.text
+
+
+@transient_retry()
+def _fetch_url_json(url, params):
+    resp = get(url, params=params, timeout=(10.0, 120.0))
+    resp.raise_for_status()
+    return resp.json()
+
+
+# --------------------------------------------------------------------------- #
+# nine-day-forecast (weather.php dataType=fnd) - snapshot, overwrite each run
+# --------------------------------------------------------------------------- #
+_FND_SCHEMA = pa.schema([
+    ("update_time", pa.string()),
+    ("general_situation", pa.string()),
+    ("forecast_date", pa.string()),   # YYYYMMDD
+    ("week", pa.string()),
+    ("forecast_wind", pa.string()),
+    ("forecast_weather", pa.string()),
+    ("max_temp_c", pa.float64()),
+    ("min_temp_c", pa.float64()),
+    ("max_rh_pct", pa.float64()),
+    ("min_rh_pct", pa.float64()),
+    ("forecast_icon", pa.int32()),
+    ("psr", pa.string()),
+])
+
+
+def _num(d):
+    """Extract a numeric {value,unit} entry, or None."""
+    if isinstance(d, dict) and d.get("value") not in (None, ""):
+        try:
+            return float(d["value"])
+        except (TypeError, ValueError):
+            return None
+    return None
+
+
+def fetch_nine_day_forecast(node_id: str) -> None:
+    asset = node_id
+    d = _fetch_url_json(WEATHER_URL, {"dataType": "fnd", "lang": "en"})
+    update_time = str(d.get("updateTime") or "")
+    general = str(d.get("generalSituation") or "")
+    rows = []
+    for f in d.get("weatherForecast") or []:
+        icon = f.get("ForecastIcon")
+        rows.append({
+            "update_time": update_time,
+            "general_situation": general,
+            "forecast_date": str(f.get("forecastDate") or ""),
+            "week": str(f.get("week") or ""),
+            "forecast_wind": str(f.get("forecastWind") or ""),
+            "forecast_weather": str(f.get("forecastWeather") or ""),
+            "max_temp_c": _num(f.get("forecastMaxtemp")),
+            "min_temp_c": _num(f.get("forecastMintemp")),
+            "max_rh_pct": _num(f.get("forecastMaxrh")),
+            "min_rh_pct": _num(f.get("forecastMinrh")),
+            "forecast_icon": int(icon) if isinstance(icon, int) else None,
+            "psr": str(f.get("PSR") or ""),
+        })
+    assert rows, f"{asset}: no forecast rows fetched"
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=_FND_SCHEMA), asset)
+
+
+# --------------------------------------------------------------------------- #
+# current-weather-report (weather.php dataType=rhrread) - snapshot, long format
+# --------------------------------------------------------------------------- #
+_RHR_SCHEMA = pa.schema([
+    ("update_time", pa.string()),
+    ("category", pa.string()),   # temperature | humidity | rainfall_max
+    ("place", pa.string()),
+    ("value", pa.float64()),
+    ("unit", pa.string()),
+])
+
+
+def fetch_current_weather_report(node_id: str) -> None:
+    asset = node_id
+    d = _fetch_url_json(WEATHER_URL, {"dataType": "rhrread", "lang": "en"})
+    update_time = str(d.get("updateTime") or "")
+    rows = []
+
+    def _emit(category, block, value_key):
+        for rec in (block.get("data") if isinstance(block, dict) else None) or []:
+            v = rec.get(value_key)
+            try:
+                val = float(v)
+            except (TypeError, ValueError):
+                continue
+            rows.append({
+                "update_time": update_time,
+                "category": category,
+                "place": str(rec.get("place") or ""),
+                "value": val,
+                "unit": str(rec.get("unit") or ""),
+            })
+
+    _emit("temperature", d.get("temperature"), "value")
+    _emit("humidity", d.get("humidity"), "value")
+    _emit("rainfall_max", d.get("rainfall"), "max")
+    assert rows, f"{asset}: no current-weather rows fetched"
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=_RHR_SCHEMA), asset)
+
+
+# --------------------------------------------------------------------------- #
+# lightning-count (opendata.php dataType=LHL, CSV) - snapshot (latest hour)
+# --------------------------------------------------------------------------- #
+_LHL_SCHEMA = pa.schema([
+    ("datetime_range", pa.string()),   # YYYYMMDDHHMM-YYYYMMDDHHMM
+    ("type", pa.string()),
+    ("region", pa.string()),
+    ("count", pa.int64()),
+])
+
+
+def fetch_lightning_count(node_id: str) -> None:
+    asset = node_id
+    csv_rows = _csv_rows(_fetch_text({"dataType": "LHL", "lang": "en", "rformat": "csv"}))
+    assert csv_rows, f"{asset}: no lightning CSV returned"
+    rows = []
+    for r in csv_rows[1:]:  # skip header
+        if len(r) < 4:
+            continue
+        try:
+            cnt = int(float(r[3].strip()))
+        except (ValueError, IndexError):
+            continue
+        rows.append({
+            "datetime_range": r[0].strip(),
+            "type": r[1].strip(),
+            "region": r[2].strip(),
+            "count": cnt,
+        })
+    assert rows, f"{asset}: no lightning rows parsed"
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=_LHL_SCHEMA), asset)
+
+
+# --------------------------------------------------------------------------- #
+# visibility-10min-mean (opendata.php dataType=LTMV, CSV) - snapshot
+# --------------------------------------------------------------------------- #
+_LTMV_SCHEMA = pa.schema([
+    ("datetime", pa.string()),        # YYYYMMDDHHMM
+    ("station", pa.string()),
+    ("visibility", pa.string()),      # e.g. "28 km" / ">50 km"; typed in transform
+])
+
+
+def fetch_visibility_10min_mean(node_id: str) -> None:
+    asset = node_id
+    csv_rows = _csv_rows(_fetch_text({"dataType": "LTMV", "lang": "en", "rformat": "csv"}))
+    assert csv_rows, f"{asset}: no visibility CSV returned"
+    rows = []
+    for r in csv_rows[1:]:  # skip header
+        if len(r) < 3 or not r[0].strip().isdigit():
+            continue
+        rows.append({
+            "datetime": r[0].strip(),
+            "station": r[1].strip(),
+            "visibility": r[2].strip(),
+        })
+    assert rows, f"{asset}: no visibility rows parsed"
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=_LTMV_SCHEMA), asset)
+
+
+# --------------------------------------------------------------------------- #
+# quick-earthquake-messages (earthquake.php dataType=qem) - latest message
+# --------------------------------------------------------------------------- #
+_QEM_SCHEMA = pa.schema([
+    ("ptime", pa.string()),
+    ("update_time", pa.string()),
+    ("lat", pa.float64()),
+    ("lon", pa.float64()),
+    ("mag", pa.float64()),
+    ("region", pa.string()),
+])
+
+
+def _quake_num(v):
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
+def fetch_quick_earthquake_messages(node_id: str) -> None:
+    asset = node_id
+    d = _fetch_url_json(QUAKE_URL, {"dataType": "qem", "lang": "en"})
+    rows = []
+    if isinstance(d, dict) and d:
+        rows.append({
+            "ptime": str(d.get("ptime") or ""),
+            "update_time": str(d.get("updateTime") or ""),
+            "lat": _quake_num(d.get("lat")),
+            "lon": _quake_num(d.get("lon")),
+            "mag": _quake_num(d.get("mag")),
+            "region": str(d.get("region") or ""),
+        })
+    # Snapshot feed of the latest quick message; may be empty when the API
+    # has purged the last message. Write whatever is current (may be 0 rows).
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=_QEM_SCHEMA), asset)
+
+
+# --------------------------------------------------------------------------- #
+# felt-earthquake-reports (earthquake.php dataType=feltearthquake)
+# Returns {} when there is no recent felt tremor; a dict (or list of dicts)
+# when there is. Snapshot feed of recent reports only (no deep archive).
+# --------------------------------------------------------------------------- #
+_FELT_SCHEMA = pa.schema([
+    ("ptime", pa.string()),
+    ("update_time", pa.string()),
+    ("lat", pa.float64()),
+    ("lon", pa.float64()),
+    ("mag", pa.float64()),
+    ("intensity", pa.string()),
+    ("region", pa.string()),
+    ("details", pa.string()),
+])
+
+
+def _felt_row(d):
+    return {
+        "ptime": str(d.get("ptime") or ""),
+        "update_time": str(d.get("updateTime") or ""),
+        "lat": _quake_num(d.get("lat")),
+        "lon": _quake_num(d.get("lon")),
+        "mag": _quake_num(d.get("mag")),
+        "intensity": str(d.get("intensity") or ""),
+        "region": str(d.get("region") or ""),
+        "details": str(d.get("details") or ""),
+    }
+
+
+def fetch_felt_earthquake_reports(node_id: str) -> None:
+    asset = node_id
+    d = _fetch_url_json(QUAKE_URL, {"dataType": "feltearthquake", "lang": "en"})
+    rows = []
+    if isinstance(d, list):
+        rows = [_felt_row(x) for x in d if isinstance(x, dict) and x]
+    elif isinstance(d, dict) and d:
+        rows = [_felt_row(d)]
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=_FELT_SCHEMA), asset)
+
+
+# --------------------------------------------------------------------------- #
+# gregorian-lunar-calendar (lunardate.php) - one request per date over the
+# valid window (discovered each run: the API serves a rolling ~6-year window).
+# Stateless full re-pull; days outside the served window return "Not Available".
+# --------------------------------------------------------------------------- #
+_LUNAR_SCHEMA = pa.schema([
+    ("date", pa.string()),         # YYYY-MM-DD
+    ("lunar_year", pa.string()),   # Gan-Zhi + zodiac (Chinese)
+    ("lunar_date", pa.string()),   # lunar month/day (Chinese)
+])
+_LUNAR_THROTTLE_S = 0.1
+
+
+def _discover_lunar_years():
+    """Return the Gregorian years the lunardate API currently serves (it exposes
+    a rolling window that drifts with the calendar, so we never hardcode it)."""
+    current = datetime.now(tz=HKT).year
+    years = []
+    for year in range(current - 8, current + 8):
+        txt = _fetch_url_text(LUNAR_URL, {"date": f"{year}-01-01"})
+        if txt.lstrip().startswith("{"):
+            years.append(year)
+    if not years:
+        raise AssertionError("lunardate: discovered no valid years - API shape changed?")
+    return years
+
+
+def fetch_gregorian_lunar_calendar(node_id: str) -> None:
+    asset = node_id
+    years = _discover_lunar_years()
+    rows = []
+    for year in years:
+        cur = date(year, 1, 1)
+        end = date(year, 12, 31)
+        while cur <= end:
+            txt = _fetch_url_text(LUNAR_URL, {"date": cur.isoformat()})
+            s = txt.lstrip()
+            if s.startswith("{"):
+                import json as _json
+                try:
+                    obj = _json.loads(s)
+                except ValueError:
+                    obj = None
+                if isinstance(obj, dict) and obj.get("LunarDate"):
+                    rows.append({
+                        "date": cur.isoformat(),
+                        "lunar_year": str(obj.get("LunarYear") or ""),
+                        "lunar_date": str(obj.get("LunarDate") or ""),
+                    })
+            cur += timedelta(days=1)
+            time.sleep(_LUNAR_THROTTLE_S)
+    assert rows, f"{asset}: no lunar-calendar rows fetched"
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=_LUNAR_SCHEMA), asset)
+
+
+# --------------------------------------------------------------------------- #
+# stations - reference catalog of station codes used across the datasets.
+# HKO exposes no machine-readable station endpoint, so this is derived from the
+# documented station sets (constants.py); one row per (code, dataset group).
+# --------------------------------------------------------------------------- #
+_STATIONS_SCHEMA = pa.schema([
+    ("station_code", pa.string()),
+    ("dataset_group", pa.string()),   # climate | tide
+])
+
+
+def fetch_stations(node_id: str) -> None:
+    asset = node_id
+    rows = [{"station_code": s, "dataset_group": "climate"} for s in CLM_STATIONS]
+    rows += [{"station_code": s, "dataset_group": "tide"} for s in TIDE_STATIONS]
+    assert rows, f"{asset}: no station rows built"
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=_STATIONS_SCHEMA), asset)
+
+
+# --------------------------------------------------------------------------- #
 # DOWNLOAD_SPECS - one per entity-union entry
 # --------------------------------------------------------------------------- #
 DOWNLOAD_SPECS = [

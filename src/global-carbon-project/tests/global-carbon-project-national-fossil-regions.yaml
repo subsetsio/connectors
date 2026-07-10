@@ -1,0 +1,14 @@
+spec_id: global-carbon-project-national-fossil-regions
+status: active
+tests:
+  - not_null: region
+  - not_null: country
+  - unique: [region, country]
+    reason: one row per (region, member country); a dup means the comma-list was exploded twice
+    certainty: 95
+  - distinct_count: {col: region, min: 10}
+    reason: the Regions sheet defines ~13 aggregation regions (OECD, EU27, continents, Kyoto Annex B, ...)
+    certainty: 85
+  - distinct_count: {col: country, min: 150}
+    reason: membership spans ~215 distinct countries/territories across all regions
+    certainty: 80

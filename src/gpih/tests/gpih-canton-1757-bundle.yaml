@@ -1,0 +1,12 @@
+spec_id: gpih-canton-1757-bundle
+status: active
+tests:
+  - row_count: {min: 1}
+    reason: every accepted workbook contains at least one data row; 0 rows = fetch/parse failure
+    certainty: 97
+  - not_null: __sheet__
+    reason: the normalizer tags every record with its source sheet name
+    certainty: 99
+  - column_type: {col: __sheet__, type: string}
+    reason: sheet names are strings
+    certainty: 99

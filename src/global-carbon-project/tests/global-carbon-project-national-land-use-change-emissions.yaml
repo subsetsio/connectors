@@ -1,0 +1,28 @@
+spec_id: global-carbon-project-national-land-use-change-emissions
+status: active
+tests:
+  - not_null: model
+  - not_null: country
+  - not_null: year
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - unique: [model, country, year]
+    reason: one value per (bookkeeping model, country, year); a dup means a model sheet was appended twice
+    certainty: 95
+  - enum: {col: model, values: [BLUE, OSCAR, LUCE]}
+    reason: national LUC is published as three bookkeeping-model sheets — BLUE, OSCAR, LUCE
+    certainty: 90
+  - distinct_count: {col: model, min: 3, max: 3}
+    reason: exactly three bookkeeping models; a change means a sheet was dropped or added
+    certainty: 90
+  - between: {col: year, lo: 1850, hi: current_year()}
+    reason: LUC national series begins at 1850; upper bound allows a current-year projection
+    certainty: 85
+    points_outward: true
+  - distinct_count: {col: country, min: 140}
+    reason: expect ~200 countries/territories; far fewer means header parsing broke
+    certainty: 80
+  - freshness: {col: year, reaches: 2024}
+    reason: annual release (GCB v2025 covers through 2024); a lower max means a stale/broken load
+    points_outward: true

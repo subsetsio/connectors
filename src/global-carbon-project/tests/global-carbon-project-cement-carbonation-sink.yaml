@@ -1,0 +1,21 @@
+spec_id: global-carbon-project-cement-carbonation-sink
+status: active
+tests:
+  - not_null: year
+  - not_null: series
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - unique: [year, series]
+    reason: long format is one value per (year, series); a dup means a sheet was parsed/appended twice
+    certainty: 95
+  - between: {col: year, lo: 1959, hi: current_year()}
+    reason: the 'cement-carbonation-sink' sheet begins at 1959; upper bound allows a current-year projection row
+    certainty: 85
+    points_outward: true
+  - distinct_count: {col: series, min: 2}
+    reason: expect ~3 carbonation series unpivoted from the sheet columns; a collapse to 1-2 means header detection broke
+    certainty: 80
+  - freshness: {col: year, reaches: 2024}
+    reason: annual release (GCB v2025 covers through 2024); a lower max means a stale/broken load
+    points_outward: true

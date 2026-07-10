@@ -1,0 +1,21 @@
+spec_id: global-carbon-project-national-fossil-emissions-transfers
+status: active
+tests:
+  - not_null: country
+  - not_null: year
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+  - unique: [country, year]
+    reason: one value per (country, year) in long format; a dup means the sheet was appended twice
+    certainty: 95
+  - between: {col: year, lo: 1990, hi: current_year()}
+    reason: national fossil 'national-fossil-emissions-transfers' begins at 1990; upper bound allows a current-year projection
+    certainty: 85
+    points_outward: true
+  - distinct_count: {col: country, min: 95}
+    reason: expect ~137 countries/territories across the header; far fewer means header parsing broke
+    certainty: 80
+  - freshness: {col: year, reaches: 2024}
+    reason: annual release (GCB v2025 covers through 2024); a lower max means a stale/broken load
+    points_outward: true
