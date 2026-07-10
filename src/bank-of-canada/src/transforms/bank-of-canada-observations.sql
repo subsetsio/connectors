@@ -1,9 +1,11 @@
-SELECT DISTINCT
+SELECT
     series_id,
-    TRY_CAST(obs_date AS DATE)  AS date,
-    TRY_CAST(value AS DOUBLE) AS value
+    obs_index_key,
+    obs_index,
+    TRY_CAST(obs_date AS DATE) AS obs_date,
+    value,
+    TRY_CAST(value AS DOUBLE) AS value_number
 FROM "bank-of-canada-observations"
 WHERE series_id IS NOT NULL
-  AND obs_date IS NOT NULL
-  AND TRY_CAST(obs_date AS DATE) IS NOT NULL
-  AND TRY_CAST(value AS DOUBLE) IS NOT NULL
+  AND obs_index_key IS NOT NULL
+  AND obs_index IS NOT NULL

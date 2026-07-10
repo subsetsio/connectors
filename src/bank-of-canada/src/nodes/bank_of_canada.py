@@ -20,7 +20,7 @@ import logging
 import httpx
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 
 from utils import BASE, _fetch_json, _is_permanent_client_error
 
@@ -105,8 +105,8 @@ OBS_CHUNK = 200
 # open-ended, so nothing here enumerates it.
 #
 # value kept as the raw string the API returns ("1.3977", "", "...", and for
-# some k-indexed series plain text like "eSwatini (Swaziland)"); transforms
-# TRY_CAST and drop the non-numeric rows.
+# some k-indexed series plain text like "eSwatini (Swaziland)"); the transform
+# preserves it and adds a nullable numeric projection for query convenience.
 # obs_date is a pure projection of obs_index (the value when obs_index_key='d',
 # else NULL). Redundant by construction, but it gives the ~81% temporal cohort a
 # single date-shaped column to assert freshness on and to carry the table's
@@ -206,46 +206,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="bank-of-canada-groups", fn=fetch_groups, kind="download"),
     NodeSpec(id="bank-of-canada-series", fn=fetch_series, kind="download"),
     NodeSpec(id="bank-of-canada-observations", fn=fetch_observations, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="bank-of-canada-groups-transform",
-        deps=["bank-of-canada-groups"],
-        sql='''
-            SELECT
-                group_id,
-                label,
-                description
-            FROM "bank-of-canada-groups"
-            WHERE group_id IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="bank-of-canada-series-transform",
-        deps=["bank-of-canada-series"],
-        sql='''
-            SELECT
-                series_id,
-                label,
-                description
-            FROM "bank-of-canada-series"
-            WHERE series_id IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="bank-of-canada-observations-transform",
-        deps=["bank-of-canada-observations"],
-        sql='''
-            SELECT DISTINCT
-                series_id,
-                TRY_CAST(obs_date AS DATE) AS date,
-                TRY_CAST(value AS DOUBLE) AS value
-            FROM "bank-of-canada-observations"
-            WHERE series_id IS NOT NULL
-              AND obs_index_key = 'd'
-              AND TRY_CAST(obs_date AS DATE) IS NOT NULL
-              AND TRY_CAST(value AS DOUBLE) IS NOT NULL
-        ''',
-    ),
 ]
