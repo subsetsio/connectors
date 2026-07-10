@@ -1,0 +1,37 @@
+key: [date, action_geo_country_iso2, event_root_code, quad_class]
+temporal: date
+sort: [date, action_geo_country_iso2, event_root_code, quad_class]
+columns:
+  - name: date
+    type: DATE
+    description: Event day reported by GDELT, based on the action date extracted from source coverage.
+  - name: action_geo_country_iso2
+    type: VARCHAR
+    description: ISO 3166-1 alpha-2 country code for the event action location; XX means missing or unmapped GDELT FIPS country code.
+  - name: event_root_code
+    type: VARCHAR
+    description: Two-digit CAMEO event root code.
+  - name: event_root_label
+    type: VARCHAR
+    description: Human-readable label for the CAMEO event root code.
+  - name: quad_class
+    type: TINYINT
+    description: GDELT quad class, from 1 verbal cooperation to 4 material conflict.
+  - name: quad_class_label
+    type: VARCHAR
+    description: Human-readable GDELT quad class label.
+  - name: num_events
+    type: BIGINT
+    description: Number of GDELT event records in this date, action-country, event-root, and quad-class cell.
+  - name: sum_mentions
+    type: BIGINT
+    description: Sum of GDELT NumMentions across events in the cell.
+  - name: sum_articles
+    type: BIGINT
+    description: Sum of GDELT NumArticles across events in the cell.
+  - name: avg_goldstein
+    type: DOUBLE
+    description: Event-weighted average Goldstein scale across events in the cell.
+  - name: avg_tone
+    type: DOUBLE
+    description: Event-weighted average GDELT average document tone across events in the cell.
