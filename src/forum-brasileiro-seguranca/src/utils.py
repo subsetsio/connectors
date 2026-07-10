@@ -421,6 +421,8 @@ def parse_table(xlsx: bytes, sheet_code: str) -> list[dict]:
 
     blocks = []  # (year_row_index, {col: year})
     for ri, row in enumerate(grid):
+        if _as_year(row[0] if row else None) is not None:
+            continue
         colyear = _expanded_year_columns(row)
         if len(set(colyear.values())) >= 2:
             blocks.append((ri, colyear))

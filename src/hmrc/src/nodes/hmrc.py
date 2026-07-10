@@ -14,15 +14,30 @@ Two fetch shapes
    written as a manifest *fragment* keyed by the period. Periods are crawled
    **newest-first** so the most recent data lands on the first pass (freshness
    is satisfied immediately, before the full historical backfill completes over
-   subsequent continuation runs). The raw manifest is the resume state:
-   `list_raw_fragments` tells us which periods are already committed, so a run
+   subsequent continuation legs). The raw manifest is the resume state:
+   `list_raw_fragments` tells us which periods are already committed, so a leg
    skips finished periods and only backfills the gaps — plus it always
    re-fetches the newest `REFRESH_PERIODS` periods to pick up HMRC's routine
-   revisions to recent months. No self-imposed run budget: the loop drains
-   every outstanding period; the supervisor caps wall-clock by interrupting the
-   node, and each period is written atomically (accumulate pages, then one
-   `save_raw_parquet(..., fragment=)`), so an interrupt never leaves a partial
-   fragment that would masquerade as done.
+   revisions to recent months. An *empty* period (defined in the calendar but
+   not yet published, or a gap in RTS's quarterly cadence) is committed as a
+   0-row fragment so it counts as done and the node can actually reach a
+   drained state instead of retrying it forever.
+
+   **Why a per-leg time budget (not "loop until drained").** The orchestrator
+   starts every invocation as a *fresh* DAG (no cross-leg resume) and, crucially,
+   *discards* the staged fragments of any node still in-flight when the run's
+   wall-clock deadline hits — it resets that node to pending and re-fetches its
+   partial raw next leg (orchestrator.py). Only a node that *returns* gets its
+   fragments committed (`commit_node`). So a monolithic node that ran until the
+   supervisor killed it would lose the whole leg's work and, if one entity's
+   full crawl exceeds a leg, never make progress. Instead each fact node fetches
+   for up to `NODE_BUDGET_S`, then **returns True** — which commits this leg's
+   fragments and hands the run off as `needs_continuation`, so the runner
+   retriggers and the next fresh leg resumes from the committed manifest. This
+   is a checkpoint, not an early "done": returning True never marks the crawl
+   complete or fires downstream. Each period is written atomically (accumulate
+   its pages, then one `save_raw_parquet(..., fragment=)`), so a mid-period
+   interrupt never leaves a partial fragment that masquerades as done.
 
 WAF quirk (verified live, 2026-07)
 ----------------------------------
@@ -36,6 +51,8 @@ node (this is exactly how the first CI run failed). `$orderby` is rejected
 (pagination is $skip-based via `@odata.nextLink`); filtering each fetch to one
 period keeps the $skip offsets shallow.
 """
+import time
+
 import httpx
 import pyarrow as pa
 from ratelimit import limits, sleep_and_retry
@@ -49,7 +66,11 @@ from subsets_utils import (
 )
 
 BASE = "https://api.uktradeinfo.com"
-REFRESH_PERIODS = 6  # always re-fetch the newest N periods each run (revisions)
+REFRESH_PERIODS = 6      # always re-fetch the newest N periods each leg (revisions)
+NODE_BUDGET_S = 2700     # ~45 min of fetching per fact node per leg, then checkpoint
+                         # (returns needs_continuation). Six fact nodes run
+                         # sequentially under the runner's ~5.75h leg deadline, so
+                         # 6 x 45min leaves comfortable margin; see module docstring.
 
 # ---------------------------------------------------------------------------
 # HTTP: rate-limited GET wrapped in a transient-only retry with backoff.
@@ -227,42 +248,50 @@ def _date_values(field: str) -> list[int]:
     return vals
 
 
-def _run_partitioned(node_id: str, entity: str, field: str, periods: list[int]) -> None:
-    """Fetch each period into its own manifest fragment, newest-first. Skip
-    periods already committed to the manifest (resume), except the newest
-    REFRESH_PERIODS which are always re-fetched to capture revisions."""
-    periods = sorted(int(p) for p in periods)
+def _run_partitioned(node_id: str, entity: str, field: str, periods: list[int]) -> bool:
+    """Fetch outstanding periods into per-period manifest fragments, newest-first.
+    Skip periods already committed (resume via the manifest), except the newest
+    REFRESH_PERIODS which are always re-fetched to capture revisions. Empty
+    periods are committed as 0-row fragments so they count as done. Stops after
+    NODE_BUDGET_S and returns True (needs continuation) if work remains, else
+    False (this entity is fully drained for now)."""
+    periods = sorted(set(int(p) for p in periods))
     done = set(list_raw_fragments(node_id, "parquet").keys())
     refresh = set(periods[-REFRESH_PERIODS:])
+    worklist = [p for p in reversed(periods)                 # newest-first
+                if p in refresh or str(p) not in done]
     schema = SCHEMAS[entity]
 
-    for period in reversed(periods):  # newest-first
-        if period not in refresh and str(period) in done:
-            continue
+    t0 = time.monotonic()
+    processed = 0
+    for period in worklist:
         rows = _fetch_all_pages(entity, {"$filter": f"{field} eq {period}"})
-        if not rows:
-            continue  # period defined in the calendar but not yet published
-        table = pa.Table.from_pylist(rows, schema=schema)
+        table = pa.Table.from_pylist(rows, schema=schema)    # 0 rows => empty period marked done
         save_raw_parquet(table, node_id, fragment=str(period))  # atomic per period
+        processed += 1
+        if time.monotonic() - t0 > NODE_BUDGET_S:
+            break
+    return processed < len(worklist)  # True => more periods remain, continue next leg
 
 
 # ---------------------------------------------------------------------------
 # Fetch entry points (each takes exactly the spec id; runtime calls fn(id)).
+# A True return signals needs_continuation (more work remains).
 # ---------------------------------------------------------------------------
 def fetch_full(node_id: str) -> None:
     entity = FULL[node_id]
-    rows = _fetch_all_pages(entity, {"$top": 30000})
+    rows = _fetch_all_pages(entity, {})  # no $top: let @odata.nextLink page the whole set
     table = pa.Table.from_pylist(rows, schema=SCHEMAS[entity])
     save_raw_parquet(table, node_id)
 
 
-def fetch_monthly(node_id: str) -> None:
+def fetch_monthly(node_id: str) -> bool:
     entity = MONTHLY[node_id]
-    _run_partitioned(node_id, entity, "MonthId", _date_values("MonthId"))
+    return _run_partitioned(node_id, entity, "MonthId", _date_values("MonthId"))
 
 
-def fetch_yearly(node_id: str) -> None:
-    _run_partitioned(node_id, "YearlyTrade", "Year", _date_values("Year"))
+def fetch_yearly(node_id: str) -> bool:
+    return _run_partitioned(node_id, "YearlyTrade", "Year", _date_values("Year"))
 
 
 DOWNLOAD_SPECS = [
