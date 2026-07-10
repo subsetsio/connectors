@@ -14,10 +14,11 @@ Two fetch surfaces, chosen per collection by cost:
    station** instead — property equality filters (`CLIMATE_IDENTIFIER=`,
    `STATION_NUMBER=`, ...) are exact and fast (a full single-station crawl of
    climate-monthly returns 169 rows in 0.6s), and each partition's own offset
-   stays shallow. `climate-monthly` is partitioned by `LOCAL_YEAR` instead of
-   station because ECCC serves a small number of monthly observations whose
-   stations are absent from `climate-stations`. The station universe for the
-   other large families comes from that family's own `*-stations` collection.
+   stays shallow. `climate-monthly` is partitioned by `LOCAL_YEAR` and
+   `LOCAL_MONTH` instead of station because ECCC serves a small number of
+   monthly observations whose stations are absent from `climate-stations`. The
+   station universe for the other large families comes from that family's own
+   `*-stations` collection.
    `sortby` is rejected by the server ("bad sort property"), so keyset
    pagination is not an option.
 
@@ -144,16 +145,24 @@ def _row(feature: dict) -> dict:
 
 def _crawl(collection: str, params: dict) -> list[dict]:
     """Offset-paginate one (possibly filtered) result set to exhaustion."""
+    rows, _matched = _crawl_with_matched(collection, params)
+    return rows
+
+
+def _crawl_with_matched(collection: str, params: dict) -> tuple[list[dict], int | None]:
+    """Offset-paginate one result set and return its advertised size."""
     rows: list[dict] = []
+    matched: int | None = None
     for page in range(MAX_PAGES):
         doc = _items(collection, {"limit": PAGE, "offset": page * PAGE, **params})
         feats = doc.get("features") or []
+        if matched is None and doc.get("numberMatched") is not None:
+            matched = int(doc["numberMatched"])
         rows.extend(_row(f) for f in feats)
-        matched = doc.get("numberMatched")
         if not feats or len(feats) < PAGE:
-            return rows
+            return rows, matched
         if matched is not None and len(rows) >= matched:
-            return rows
+            return rows, matched
     raise RuntimeError(
         f"{collection}: hit MAX_PAGES={MAX_PAGES} with params={params} "
         f"({len(rows)} rows so far) - the collection outgrew the safety ceiling"
@@ -172,13 +181,17 @@ def _station_ids(station_collection: str, prop: str) -> list[str]:
 
 
 def _partition_values(collection: str) -> tuple[str, list[str]]:
-    if collection == "climate-monthly":
-        current_year = dt.date.today().year
-        years = [str(y) for y in range(CLIMATE_MONTHLY_FIRST_YEAR, current_year + 1)]
-        return "LOCAL_YEAR", years
-
     filter_prop, station_collection, station_prop = _PARTITIONED[collection]
     return filter_prop, _station_ids(station_collection, station_prop)
+
+
+def _climate_monthly_partitions() -> list[dict[str, str]]:
+    current_year = dt.date.today().year
+    return [
+        {"LOCAL_YEAR": str(year), "LOCAL_MONTH": str(month)}
+        for year in range(CLIMATE_MONTHLY_FIRST_YEAR, current_year + 1)
+        for month in range(1, 13)
+    ]
 
 
 def fetch_collection(node_id: str) -> None:
@@ -191,9 +204,31 @@ def fetch_collection(node_id: str) -> None:
                 fh.write(json.dumps(row, default=str) + "\n")
         return
 
+    if collection == "climate-monthly":
+        expected = 0
+        written = 0
+        with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
+            with cf.ThreadPoolExecutor(FETCH_WORKERS) as pool:
+                futures = [
+                    pool.submit(_crawl_with_matched, collection, params)
+                    for params in _climate_monthly_partitions()
+                ]
+                for fut in cf.as_completed(futures):
+                    rows, matched = fut.result()
+                    expected += matched or len(rows)
+                    for row in rows:
+                        fh.write(json.dumps(row, default=str) + "\n")
+                        written += 1
+
+        if expected and written < expected:
+            raise RuntimeError(
+                f"{collection}: month-partitioned crawl shipped {written} of "
+                f"{expected} rows reported by partition numberMatched."
+            )
+        return
+
     filter_prop, partitions = _partition_values(collection)
     expected = _number_matched(collection)
-
     written = 0
     with raw_writer(node_id, "ndjson.gz", mode="wt", compression="gzip") as fh:
         with cf.ThreadPoolExecutor(FETCH_WORKERS) as pool:

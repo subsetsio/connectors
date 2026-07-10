@@ -27,7 +27,7 @@ import datetime
 import io
 
 import openpyxl
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_ndjson, transient_retry
 
 from constants import ENTITY_IDS, SOURCE_PATHS
 
@@ -157,23 +157,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                sheet,
-                row_dim,
-                row_label,
-                measure,
-                CAST(value_num AS DOUBLE) AS value,
-                value_text
-            FROM "{s.id}"
-            WHERE value_text IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

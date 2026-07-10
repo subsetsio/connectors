@@ -12,7 +12,7 @@ tests:
   - unique: [station_id__id_station, year__annee, period_value__valeur_periode]
     reason: one row per station per year per season
     certainty: 95
-  - enum: {col: period_value__valeur_periode, values: [Wtr, Spr, Smr, Fll]}
+  - enum: {col: period_value__valeur_periode, values: [Fal, Spr, Smr, Win]}
     certainty: 80
   - freshness: {col: year__annee, reaches: 2020}
     reason: AHCCD release extends to 2020; see ahccd-annual
