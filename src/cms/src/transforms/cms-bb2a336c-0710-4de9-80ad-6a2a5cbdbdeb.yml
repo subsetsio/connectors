@@ -1,128 +1,129 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: PERF_YR
-sort: [PERF_YR]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-bb2a336c-0710-4de9-80ad-6a2a5cbdbdeb`. Regenerate after model-verify.
+key: [aco_id]
+sort: [aco_id]
 columns:
-  - name: ACO_ID
+  - name: aco_id
     type: VARCHAR
-  - name: ACO_NAME
+  - name: aco_name
     type: VARCHAR
-  - name: PERF_YR
+  - name: perf_yr
+    type: BIGINT
+  - name: pbp_election
     type: VARCHAR
-  - name: PBP_ELECTION
+  - name: bene_ct
+    type: BIGINT
+  - name: mnth_py
+    type: BIGINT
+  - name: bnmrk_expnd
+    type: DOUBLE
+  - name: perf_yr_expnd
+    type: DOUBLE
+  - name: gross_savings
+    type: DOUBLE
+  - name: shared_savings
     type: VARCHAR
-  - name: BENE_CT
-    type: VARCHAR
-  - name: MNTH_PY
-    type: VARCHAR
-  - name: BNMRK_EXPND
-    type: VARCHAR
-  - name: PERF_YR_EXPND
-    type: VARCHAR
-  - name: GROSS_SAVINGS
-    type: VARCHAR
-  - name: SHARED_SAVINGS
-    type: VARCHAR
-  - name: QUAL_SCRE
-    type: VARCHAR
-  - name: MNTH_AD_BY1
-    type: VARCHAR
-  - name: EXPND_AD_BY1
-    type: VARCHAR
-  - name: RISK_SCRE_AD_BY1
-    type: VARCHAR
-  - name: MNTH_AD_BY2
-    type: VARCHAR
-  - name: EXPND_AD_BY2
-    type: VARCHAR
-  - name: RISK_SCRE_AD_BY2
-    type: VARCHAR
-  - name: MNTH_AD_BY3
-    type: VARCHAR
-  - name: EXPND_AD_BY3
-    type: VARCHAR
-  - name: RISK_SCRE_AD_BY3
-    type: VARCHAR
-  - name: BNMRK_AD
-    type: VARCHAR
-  - name: RISK_SCRE_AD_PY
-    type: VARCHAR
-  - name: MNTH_AN_BY1
-    type: VARCHAR
-  - name: EXPND_AN_BY1
-    type: VARCHAR
-  - name: RISK_SCRE_AN_BY1
-    type: VARCHAR
-  - name: MNTH_AN_BY2
-    type: VARCHAR
-  - name: EXPND_AN_BY2
-    type: VARCHAR
-  - name: RISK_SCRE_AN_BY2
-    type: VARCHAR
-  - name: MNTH_AN_BY3
-    type: VARCHAR
-  - name: EXPND_AN_BY3
-    type: VARCHAR
-  - name: RISK_SCRE_AN_BY3
-    type: VARCHAR
-  - name: BNMRK_AN
-    type: VARCHAR
-  - name: RISK_SCRE_AN_PY
-    type: VARCHAR
-  - name: MNTH_DISA_BY1
-    type: VARCHAR
-  - name: EXPND_DISA_BY1
-    type: VARCHAR
-  - name: RISK_SCRE_DISA_BY1
-    type: VARCHAR
-  - name: MNTH_DISA_BY2
-    type: VARCHAR
-  - name: EXPND_DISA_BY2
-    type: VARCHAR
-  - name: RISK_SCRE_DISA_BY2
-    type: VARCHAR
-  - name: MNTH_DISA_BY3
-    type: VARCHAR
-  - name: EXPND_DISA_BY3
-    type: VARCHAR
-  - name: RISK_SCRE_DISA_BY3
-    type: VARCHAR
-  - name: BNMRK_DISA
-    type: VARCHAR
-  - name: RISK_SCRE_DISA_PY
-    type: VARCHAR
-  - name: MNTH_ESRD_BY1
-    type: VARCHAR
-  - name: EXPND_ESRD_BY1
-    type: VARCHAR
-  - name: RISK_SCRE_ESRD_BY1
-    type: VARCHAR
-  - name: MNTH_ESRD_BY2
-    type: VARCHAR
-  - name: EXPND_ESRD_BY2
-    type: VARCHAR
-  - name: RISK_SCRE_ESRD_BY2
-    type: VARCHAR
-  - name: MNTH_ESRD_BY3
-    type: VARCHAR
-  - name: EXPND_ESRD_BY3
-    type: VARCHAR
-  - name: RISK_SCRE_ESRD_BY3
-    type: VARCHAR
-  - name: BNMRK_ESRD
-    type: VARCHAR
-  - name: RISK_SCRE_ESRD_PY
-    type: VARCHAR
-  - name: EXPND_HHA
-    type: VARCHAR
-  - name: EXPND_SNF
-    type: VARCHAR
-  - name: EXPND_OUTP
-    type: VARCHAR
-  - name: EXPND_HOSP
-    type: VARCHAR
-  - name: EXPND_INP
-    type: VARCHAR
-  - name: EXPND_PROF
-    type: VARCHAR
-  - name: EXPND_DME
-    type: VARCHAR
+  - name: qual_scre
+    type: DOUBLE
+  - name: mnth_ad_by1
+    type: BIGINT
+  - name: expnd_ad_by1
+    type: DOUBLE
+  - name: risk_scre_ad_by1
+    type: DOUBLE
+  - name: mnth_ad_by2
+    type: BIGINT
+  - name: expnd_ad_by2
+    type: DOUBLE
+  - name: risk_scre_ad_by2
+    type: DOUBLE
+  - name: mnth_ad_by3
+    type: BIGINT
+  - name: expnd_ad_by3
+    type: DOUBLE
+  - name: risk_scre_ad_by3
+    type: DOUBLE
+  - name: bnmrk_ad
+    type: DOUBLE
+  - name: risk_scre_ad_py
+    type: DOUBLE
+  - name: mnth_an_by1
+    type: BIGINT
+  - name: expnd_an_by1
+    type: DOUBLE
+  - name: risk_scre_an_by1
+    type: DOUBLE
+  - name: mnth_an_by2
+    type: BIGINT
+  - name: expnd_an_by2
+    type: DOUBLE
+  - name: risk_scre_an_by2
+    type: DOUBLE
+  - name: mnth_an_by3
+    type: BIGINT
+  - name: expnd_an_by3
+    type: DOUBLE
+  - name: risk_scre_an_by3
+    type: DOUBLE
+  - name: bnmrk_an
+    type: DOUBLE
+  - name: risk_scre_an_py
+    type: DOUBLE
+  - name: mnth_disa_by1
+    type: BIGINT
+  - name: expnd_disa_by1
+    type: DOUBLE
+  - name: risk_scre_disa_by1
+    type: DOUBLE
+  - name: mnth_disa_by2
+    type: BIGINT
+  - name: expnd_disa_by2
+    type: DOUBLE
+  - name: risk_scre_disa_by2
+    type: DOUBLE
+  - name: mnth_disa_by3
+    type: BIGINT
+  - name: expnd_disa_by3
+    type: DOUBLE
+  - name: risk_scre_disa_by3
+    type: DOUBLE
+  - name: bnmrk_disa
+    type: DOUBLE
+  - name: risk_scre_disa_py
+    type: DOUBLE
+  - name: mnth_esrd_by1
+    type: BIGINT
+  - name: expnd_esrd_by1
+    type: DOUBLE
+  - name: risk_scre_esrd_by1
+    type: DOUBLE
+  - name: mnth_esrd_by2
+    type: BIGINT
+  - name: expnd_esrd_by2
+    type: DOUBLE
+  - name: risk_scre_esrd_by2
+    type: DOUBLE
+  - name: mnth_esrd_by3
+    type: BIGINT
+  - name: expnd_esrd_by3
+    type: DOUBLE
+  - name: risk_scre_esrd_by3
+    type: DOUBLE
+  - name: bnmrk_esrd
+    type: DOUBLE
+  - name: risk_scre_esrd_py
+    type: DOUBLE
+  - name: expnd_hha
+    type: DOUBLE
+  - name: expnd_snf
+    type: DOUBLE
+  - name: expnd_outp
+    type: DOUBLE
+  - name: expnd_hosp
+    type: DOUBLE
+  - name: expnd_inp
+    type: DOUBLE
+  - name: expnd_prof
+    type: DOUBLE
+  - name: expnd_dme
+    type: DOUBLE

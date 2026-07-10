@@ -1,10 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-113eb0bc-0c9a-4d91-9f93-3f6b28c0bf6b`. Regenerate after model-verify.
+key: [provider_taxonomy_code, provider_taxonomy_description_type_classification_specialization, medicare_provider_supplier_type_description, medicare_specialty_code]
+sort: [provider_taxonomy_code, provider_taxonomy_description_type_classification_specialization, medicare_provider_supplier_type_description, medicare_specialty_code]
 columns:
-  - name: MEDICARE SPECIALTY CODE
+  - name: medicare_specialty_code
     type: VARCHAR
-  - name: MEDICARE PROVIDER/SUPPLIER TYPE DESCRIPTION
+  - name: medicare_provider_supplier_type_description
     type: VARCHAR
-  - name: PROVIDER TAXONOMY CODE
+  - name: provider_taxonomy_code
     type: VARCHAR
-  - name: "PROVIDER TAXONOMY DESCRIPTION:  TYPE, CLASSIFICATION, SPECIALIZATION"
+  - name: provider_taxonomy_description_type_classification_specialization
     type: VARCHAR

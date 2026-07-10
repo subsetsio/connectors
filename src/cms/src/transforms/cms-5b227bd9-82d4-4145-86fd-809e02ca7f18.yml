@@ -1,64 +1,69 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-5b227bd9-82d4-4145-86fd-809e02ca7f18`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: initial_start_date
+sort: [initial_start_date]
 columns:
-  - name: ACO_ID
+  - name: aco_id
     type: VARCHAR
-  - name: Aff_LBN
+  - name: aff_lbn
     type: VARCHAR
-  - name: ACO_Name
+  - name: aco_name
     type: VARCHAR
-  - name: ACO_Service_Area
+  - name: aco_service_area
     type: VARCHAR
-  - name: Agreement_Period_Num
-    type: VARCHAR
-  - name: Initial_Start_Date
+  - name: agreement_period_num
+    type: BIGINT
+  - name: initial_start_date
     type: DATE
-  - name: Current_Start_Date
+  - name: current_start_date
     type: DATE
-  - name: Re-entering_ACO
+  - name: re_entering_aco
+    type: BIGINT
+  - name: basic_track
+    type: BIGINT
+  - name: basic_track_level
     type: VARCHAR
-  - name: BASIC_Track
+  - name: enhanced_track
+    type: BIGINT
+  - name: high_revenue_aco
+    type: BIGINT
+  - name: low_revenue_aco
+    type: BIGINT
+  - name: adv_pay
+    type: BIGINT
+  - name: aim
+    type: BIGINT
+  - name: aip
+    type: BIGINT
+  - name: pss
+    type: BIGINT
+  - name: snf_3_day_rule_waiver
+    type: BIGINT
+  - name: prospective_assignment
+    type: BIGINT
+  - name: retrospective_assignment
+    type: BIGINT
+  - name: aco_address
     type: VARCHAR
-  - name: BASIC_Track_Level
+  - name: aco_public_reporting_website
     type: VARCHAR
-  - name: ENHANCED_Track
+  - name: aco_exec_name
     type: VARCHAR
-  - name: High_Revenue_ACO
+  - name: aco_exec_email
     type: VARCHAR
-  - name: Low_Revenue_ACO
+  - name: aco_exec_phone
     type: VARCHAR
-  - name: Adv_Pay
+  - name: aco_public_name
     type: VARCHAR
-  - name: AIM
+  - name: aco_public_email
     type: VARCHAR
-  - name: AIP
+  - name: aco_public_phone
     type: VARCHAR
-  - name: PSS
+  - name: aco_compliance_contact_name
     type: VARCHAR
-  - name: SNF_3-Day_Rule_Waiver
-    type: VARCHAR
-  - name: Prospective_Assignment
-    type: VARCHAR
-  - name: Retrospective_Assignment
-    type: VARCHAR
-  - name: ACO_Address
-    type: VARCHAR
-  - name: ACO_Public_Reporting_Website
-    type: VARCHAR
-  - name: ACO_Exec_Name
-    type: VARCHAR
-  - name: ACO_Exec_Email
-    type: VARCHAR
-  - name: ACO_Exec_Phone
-    type: VARCHAR
-  - name: ACO_Public_Name
-    type: VARCHAR
-  - name: ACO_Public_Email
-    type: VARCHAR
-  - name: ACO_Public_Phone
-    type: VARCHAR
-  - name: ACO_Compliance_Contact_Name
-    type: VARCHAR
-  - name: ACO_Medical_Director_Name
+  - name: aco_medical_director_name
     type: VARCHAR
   - name: pc_flex_agreement_status
-    type: VARCHAR
+    type: BIGINT

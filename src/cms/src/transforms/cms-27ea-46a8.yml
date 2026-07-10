@@ -1,20 +1,23 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-27ea-46a8`. Regenerate after model-verify.
+key: [ind_pac_id, npi, provider_last_name, provider_first_name, facility_affiliations_certification_number]
+sort: [ind_pac_id, npi, provider_last_name, provider_first_name, facility_affiliations_certification_number]
 columns:
-  - name: NPI
+  - name: npi
+    type: BIGINT
+  - name: ind_pac_id
     type: VARCHAR
-  - name: Ind_PAC_ID
+  - name: provider_last_name
     type: VARCHAR
-  - name: Provider Last Name
+  - name: provider_first_name
     type: VARCHAR
-  - name: Provider First Name
-    type: VARCHAR
-  - name: Provider Middle Name
+  - name: provider_middle_name
     type: VARCHAR
   - name: suff
     type: VARCHAR
   - name: facility_type
     type: VARCHAR
-  - name: Facility Affiliations Certification Number
+  - name: facility_affiliations_certification_number
     type: VARCHAR
-  - name: Facility Type Certification Number
+  - name: facility_type_certification_number
     type: VARCHAR

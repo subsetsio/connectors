@@ -1,16 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: Date
-sort: [Date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-4ce4157f-4e02-4188-b43a-2b21b7769b4e`. Regenerate after model-verify.
+key: [update, date, link_learn_more, model_name_id_s_which_detail_page_to_populate, announced_updated]
+sort: [update, date, link_learn_more, model_name_id_s_which_detail_page_to_populate, announced_updated]
 columns:
-  - name: Model Name (ID's which detail page to populate)
+  - name: model_name_id_s_which_detail_page_to_populate
     type: VARCHAR
-  - name: Date
+  - name: date
     type: VARCHAR
-  - name: Announced/Updated
+  - name: announced_updated
     type: VARCHAR
-  - name: Update
+  - name: update
     type: VARCHAR
-  - name: Link ("Learn More")
+  - name: link_learn_more
     type: VARCHAR
-  - name: Unique ID
-    type: VARCHAR
+  - name: unique_id
+    type: BIGINT

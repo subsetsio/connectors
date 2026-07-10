@@ -1,12 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-8708ca8b-8636-44ed-8303-724cbfaf78ad`. Regenerate after model-verify.
+key: [total_charges, zip_cd_of_residence, medicare_prov_num, total_days_of_care, total_cases]
+sort: [total_charges, zip_cd_of_residence, medicare_prov_num, total_days_of_care, total_cases]
 columns:
-  - name: MEDICARE_PROV_NUM
+  - name: medicare_prov_num
     type: VARCHAR
-  - name: ZIP_CD_OF_RESIDENCE
+  - name: zip_cd_of_residence
     type: VARCHAR
-  - name: TOTAL_DAYS_OF_CARE
+  - name: total_days_of_care
     type: VARCHAR
-  - name: TOTAL_CHARGES
+  - name: total_charges
     type: VARCHAR
-  - name: TOTAL_CASES
+  - name: total_cases
     type: VARCHAR

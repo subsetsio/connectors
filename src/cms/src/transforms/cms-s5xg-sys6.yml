@@ -1,114 +1,119 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-s5xg-sys6`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: start_date
+sort: [start_date]
 columns:
-  - name: HBIPS-2 Measure Description
+  - name: hbips_2_measure_description
     type: VARCHAR
-  - name: N HBIPS-2 Overall Rate Per 1000
+  - name: n_hbips_2_overall_rate_per_1000
+    type: DOUBLE
+  - name: n_hbips_2_overall_num
+    type: DOUBLE
+  - name: n_hbips_2_overall_den
+    type: BIGINT
+  - name: hbips_3_measure_description
     type: VARCHAR
-  - name: N HBIPS-2 Overall Num
+  - name: n_hbips_3_overall_rate_per_1000
+    type: DOUBLE
+  - name: n_hbips_3_overall_num
+    type: DOUBLE
+  - name: n_hbips_3_overall_den
+    type: BIGINT
+  - name: smd_measure_description
     type: VARCHAR
-  - name: N HBIPS-2 Overall Den
+  - name: n_smd
+    type: BIGINT
+  - name: smd_top_10
+    type: BIGINT
+  - name: sub_2_2a_measure_description
     type: VARCHAR
-  - name: HBIPS-3 Measure Description
+  - name: n_sub_2
+    type: BIGINT
+  - name: sub_2_top_10
+    type: BIGINT
+  - name: n_sub_2a
+    type: BIGINT
+  - name: sub_2a_top_10
+    type: BIGINT
+  - name: sub_3_3a_measure_description
     type: VARCHAR
-  - name: N HBIPS-3 Overall Rate Per 1000
+  - name: n_sub_3
+    type: BIGINT
+  - name: sub_3_top_10
+    type: BIGINT
+  - name: n_sub_3a
+    type: BIGINT
+  - name: sub_3a_top_10
+    type: BIGINT
+  - name: tob_3_3a_measure_description
     type: VARCHAR
-  - name: N HBIPS-3 Overall Num
+  - name: n_tob_3
+    type: BIGINT
+  - name: tob_3_top_10
+    type: BIGINT
+  - name: n_tob_3a
+    type: BIGINT
+  - name: tob_3a_top_10
+    type: BIGINT
+  - name: tr_1_measure_description
     type: VARCHAR
-  - name: N HBIPS-3 Overall Den
+  - name: n_tr_1
+    type: BIGINT
+  - name: tr_1_top_10
+    type: BIGINT
+  - name: start_date
     type: VARCHAR
-  - name: SMD Measure Description
+  - name: end_date
+    type: DATE
+  - name: faph_measure_description
     type: VARCHAR
-  - name: N SMD %
+  - name: n_faph_30
+    type: DOUBLE
+  - name: faph_30_top_10
+    type: BIGINT
+  - name: n_faph_7
+    type: DOUBLE
+  - name: faph_7_top_10
+    type: DOUBLE
+  - name: faph_measure_start_date
     type: VARCHAR
-  - name: SMD Top 10%
+  - name: faph_measure_end_date
+    type: DATE
+  - name: medcont_measure_description
     type: VARCHAR
-  - name: SUB-2/-2a Measure Description
+  - name: medcont
+    type: BIGINT
+  - name: medcont_top_10
+    type: DOUBLE
+  - name: n_medcont_measure_start_date
     type: VARCHAR
-  - name: N SUB-2 %
+  - name: n_medcont_measure_end_date
+    type: DATE
+  - name: readm_30_ipf_measure_desc
     type: VARCHAR
-  - name: SUB-2 Top 10%
+  - name: readm_30_ipf_national_rate
+    type: DOUBLE
+  - name: n_readm_30_ipf_ipfs_worse
+    type: BIGINT
+  - name: n_readm_30_ipf_ipfs_same
+    type: BIGINT
+  - name: n_readm_30_ipf_ipfs_better
+    type: BIGINT
+  - name: n_readm_30_ipf_ipfs_too_few
+    type: BIGINT
+  - name: readm_30_ipf_start_date
     type: VARCHAR
-  - name: N SUB-2a %
+  - name: readm_30_ipf_end_date
+    type: DATE
+  - name: imm_2_measure_description
     type: VARCHAR
-  - name: SUB-2a Top 10%
+  - name: n_imm_2
+    type: BIGINT
+  - name: imm_2_top_10
+    type: BIGINT
+  - name: flu_season_start_date
     type: VARCHAR
-  - name: SUB-3/-3a Measure Description
-    type: VARCHAR
-  - name: N SUB-3 %
-    type: VARCHAR
-  - name: SUB-3 Top 10%
-    type: VARCHAR
-  - name: N SUB-3a %
-    type: VARCHAR
-  - name: SUB-3a Top 10%
-    type: VARCHAR
-  - name: TOB-3/-3a Measure Description
-    type: VARCHAR
-  - name: N TOB-3 %
-    type: VARCHAR
-  - name: TOB-3 Top 10%
-    type: VARCHAR
-  - name: N TOB-3a %
-    type: VARCHAR
-  - name: TOB-3a Top 10%
-    type: VARCHAR
-  - name: TR-1 Measure Description
-    type: VARCHAR
-  - name: N TR-1 %
-    type: VARCHAR
-  - name: TR-1 Top 10%
-    type: VARCHAR
-  - name: Start Date
-    type: VARCHAR
-  - name: End Date
-    type: VARCHAR
-  - name: FAPH Measure Description
-    type: VARCHAR
-  - name: N FAPH-30 %
-    type: VARCHAR
-  - name: FAPH-30 Top 10%
-    type: VARCHAR
-  - name: N FAPH-7 %
-    type: VARCHAR
-  - name: FAPH-7 Top 10%
-    type: VARCHAR
-  - name: FAPH Measure Start Date
-    type: VARCHAR
-  - name: FAPH Measure End Date
-    type: VARCHAR
-  - name: MedCont Measure Description
-    type: VARCHAR
-  - name: MedCont %
-    type: VARCHAR
-  - name: MedCont Top 10%
-    type: VARCHAR
-  - name: N MedCont Measure Start Date
-    type: VARCHAR
-  - name: N MedCont Measure End Date
-    type: VARCHAR
-  - name: READM-30-IPF Measure Desc
-    type: VARCHAR
-  - name: READM-30-IPF National Rate
-    type: VARCHAR
-  - name: "N READM-30-IPF # IPFs Worse"
-    type: VARCHAR
-  - name: "N READM-30-IPF # IPFs Same"
-    type: VARCHAR
-  - name: "N READM-30-IPF # IPFs Better"
-    type: VARCHAR
-  - name: "N READM-30-IPF # IPFs Too Few"
-    type: VARCHAR
-  - name: READM-30-IPF Start Date
-    type: VARCHAR
-  - name: READM-30-IPF End Date
-    type: VARCHAR
-  - name: IMM-2 Measure Description
-    type: VARCHAR
-  - name: N IMM-2 %
-    type: VARCHAR
-  - name: IMM-2 Top 10%
-    type: VARCHAR
-  - name: Flu Season Start Date
-    type: VARCHAR
-  - name: Flu Season End Date
-    type: VARCHAR
+  - name: flu_season_end_date
+    type: DATE

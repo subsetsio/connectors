@@ -1,9 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: perf_year
-sort: [perf_year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-54551982-39a8-4744-90f6-c38bb4dd5108`. Regenerate after model-verify.
+key: [elig_months_ad, avg_prosp_risk_score_esrd, avg_prosp_risk_score_ad, county_name, elig_months_esrd]
+sort: [elig_months_ad, avg_prosp_risk_score_esrd, avg_prosp_risk_score_ad, county_name, elig_months_esrd]
 columns:
   - name: perf_year
-    type: VARCHAR
+    type: BIGINT
   - name: state_name
     type: VARCHAR
   - name: county_name
@@ -13,11 +14,11 @@ columns:
   - name: county_id
     type: VARCHAR
   - name: expnd_pbpm_ad
-    type: VARCHAR
+    type: DOUBLE
   - name: avg_prosp_risk_score_ad
-    type: VARCHAR
+    type: DOUBLE
   - name: elig_months_ad
-    type: VARCHAR
+    type: BIGINT
   - name: expnd_pbpm_esrd
     type: VARCHAR
   - name: avg_prosp_risk_score_esrd

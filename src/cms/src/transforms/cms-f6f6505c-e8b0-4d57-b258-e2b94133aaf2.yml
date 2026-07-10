@@ -1,80 +1,83 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-f6f6505c-e8b0-4d57-b258-e2b94133aaf2`. Regenerate after model-verify.
+key: [enrollment_id]
+sort: [enrollment_id]
 columns:
-  - name: ENROLLMENT ID
+  - name: enrollment_id
     type: VARCHAR
-  - name: ENROLLMENT STATE
+  - name: enrollment_state
     type: VARCHAR
-  - name: PROVIDER TYPE CODE
+  - name: provider_type_code
     type: VARCHAR
-  - name: PROVIDER TYPE TEXT
+  - name: provider_type_text
     type: VARCHAR
-  - name: NPI
+  - name: npi
+    type: BIGINT
+  - name: multiple_npi_flag
     type: VARCHAR
-  - name: MULTIPLE NPI FLAG
+  - name: ccn
     type: VARCHAR
-  - name: CCN
+  - name: associate_id
     type: VARCHAR
-  - name: ASSOCIATE ID
+  - name: organization_name
     type: VARCHAR
-  - name: ORGANIZATION NAME
+  - name: doing_business_as_name
     type: VARCHAR
-  - name: DOING BUSINESS AS NAME
+  - name: incorporation_date
     type: VARCHAR
-  - name: INCORPORATION DATE
+  - name: incorporation_state
     type: VARCHAR
-  - name: INCORPORATION STATE
+  - name: organization_type_structure
     type: VARCHAR
-  - name: ORGANIZATION TYPE STRUCTURE
+  - name: organization_other_type_text
     type: VARCHAR
-  - name: ORGANIZATION OTHER TYPE TEXT
+  - name: proprietary_nonprofit
     type: VARCHAR
-  - name: PROPRIETARY NONPROFIT
+  - name: address_line_1
     type: VARCHAR
-  - name: ADDRESS LINE 1
+  - name: address_line_2
     type: VARCHAR
-  - name: ADDRESS LINE 2
+  - name: city
     type: VARCHAR
-  - name: CITY
+  - name: state
     type: VARCHAR
-  - name: STATE
+  - name: zip_code
+    type: BIGINT
+  - name: practice_location_type
     type: VARCHAR
-  - name: ZIP CODE
+  - name: location_other_type_text
     type: VARCHAR
-  - name: PRACTICE LOCATION TYPE
+  - name: subgroup_general
     type: VARCHAR
-  - name: LOCATION OTHER TYPE TEXT
+  - name: subgroup_acute_care
     type: VARCHAR
-  - name: SUBGROUP - GENERAL
+  - name: subgroup_alcohol_drug
     type: VARCHAR
-  - name: SUBGROUP - ACUTE CARE
+  - name: subgroup_childrens
     type: VARCHAR
-  - name: SUBGROUP - ALCOHOL DRUG
+  - name: subgroup_long_term
     type: VARCHAR
-  - name: SUBGROUP - CHILDRENS
+  - name: subgroup_psychiatric
     type: VARCHAR
-  - name: SUBGROUP - LONG-TERM
+  - name: subgroup_rehabilitation
     type: VARCHAR
-  - name: SUBGROUP - PSYCHIATRIC
+  - name: subgroup_short_term
     type: VARCHAR
-  - name: SUBGROUP - REHABILITATION
+  - name: subgroup_swing_bed_approved
     type: VARCHAR
-  - name: SUBGROUP - SHORT-TERM
+  - name: subgroup_psychiatric_unit
     type: VARCHAR
-  - name: SUBGROUP - SWING-BED APPROVED
+  - name: subgroup_rehabilitation_unit
     type: VARCHAR
-  - name: SUBGROUP - PSYCHIATRIC UNIT
+  - name: subgroup_specialty_hospital
     type: VARCHAR
-  - name: SUBGROUP - REHABILITATION UNIT
+  - name: subgroup_other
     type: VARCHAR
-  - name: SUBGROUP - SPECIALTY HOSPITAL
+  - name: subgroup_other_text
     type: VARCHAR
-  - name: SUBGROUP - OTHER
+  - name: reh_conversion_flag
     type: VARCHAR
-  - name: SUBGROUP - OTHER TEXT
+  - name: reh_conversion_date
     type: VARCHAR
-  - name: REH CONVERSION FLAG
-    type: VARCHAR
-  - name: REH CONVERSION DATE
-    type: VARCHAR
-  - name: CAH OR HOSPITAL CCN
+  - name: cah_or_hospital_ccn
     type: VARCHAR

@@ -1,2 +1,42 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-yq43-i98g"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "Facility Name" AS facility_name,
+    "Facility ID" AS facility_id,
+    "State" AS state,
+    CAST("Fiscal Year" AS BIGINT) AS fiscal_year,
+    "PSI 90 Composite Value" AS psi_90_composite_value,
+    "PSI 90 Composite Value Footnote" AS psi_90_composite_value_footnote,
+    "PSI 90 W Z Score" AS psi_90_w_z_score,
+    "PSI 90 W Z Footnote" AS psi_90_w_z_footnote,
+    "PSI 90 Start Date" AS psi_90_start_date,
+    strptime("PSI 90 End Date", '%m/%d/%Y')::DATE AS psi_90_end_date,
+    "CLABSI SIR" AS clabsi_sir,
+    "CLABSI SIR Footnote" AS clabsi_sir_footnote,
+    "CLABSI W Z Score" AS clabsi_w_z_score,
+    "CLABSI W Z Footnote" AS clabsi_w_z_footnote,
+    "CAUTI SIR" AS cauti_sir,
+    "CAUTI SIR Footnote" AS cauti_sir_footnote,
+    "CAUTI W Z Score" AS cauti_w_z_score,
+    "CAUTI W Z Footnote" AS cauti_w_z_footnote,
+    "SSI SIR" AS ssi_sir,
+    "SSI SIR Footnote" AS ssi_sir_footnote,
+    "SSI W Z Score" AS ssi_w_z_score,
+    "SSI W Z Footnote" AS ssi_w_z_footnote,
+    "CDI SIR" AS cdi_sir,
+    "CDI SIR Footnote" AS cdi_sir_footnote,
+    "CDI W Z Score" AS cdi_w_z_score,
+    "CDI W Z Footnote" AS cdi_w_z_footnote,
+    "MRSA SIR" AS mrsa_sir,
+    "MRSA SIR Footnote" AS mrsa_sir_footnote,
+    "MRSA W Z Score" AS mrsa_w_z_score,
+    "MRSA W Z Footnote" AS mrsa_w_z_footnote,
+    "HAI Measures Start Date" AS hai_measures_start_date,
+    strptime("HAI Measures End Date", '%m/%d/%Y')::DATE AS hai_measures_end_date,
+    "Total HAC Score" AS total_hac_score,
+    "Total HAC Score Footnote" AS total_hac_score_footnote,
+    "Payment Reduction" AS payment_reduction,
+    "Payment Reduction Footnote" AS payment_reduction_footnote
+FROM "cms-yq43-i98g"

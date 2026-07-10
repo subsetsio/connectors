@@ -1,16 +1,20 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-99ue-w85f`. Regenerate after model-verify.
+key: [hcahps_measure_id]
+temporal: start_date
+sort: [start_date, hcahps_measure_id]
 columns:
-  - name: HCAHPS Measure ID
+  - name: hcahps_measure_id
     type: VARCHAR
-  - name: HCAHPS Question
+  - name: hcahps_question
     type: VARCHAR
-  - name: HCAHPS Answer Description
+  - name: hcahps_answer_description
     type: VARCHAR
-  - name: HCAHPS Answer Percent
+  - name: hcahps_answer_percent
+    type: BIGINT
+  - name: footnote
     type: VARCHAR
-  - name: Footnote
+  - name: start_date
     type: VARCHAR
-  - name: Start Date
-    type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

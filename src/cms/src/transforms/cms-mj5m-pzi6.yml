@@ -1,28 +1,29 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: Grd_yr
-sort: [Grd_yr]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-mj5m-pzi6`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: NPI
+  - name: npi
+    type: BIGINT
+  - name: ind_pac_id
     type: VARCHAR
-  - name: Ind_PAC_ID
+  - name: ind_enrl_id
     type: VARCHAR
-  - name: Ind_enrl_ID
+  - name: provider_last_name
     type: VARCHAR
-  - name: Provider Last Name
+  - name: provider_first_name
     type: VARCHAR
-  - name: Provider First Name
-    type: VARCHAR
-  - name: Provider Middle Name
+  - name: provider_middle_name
     type: VARCHAR
   - name: suff
     type: VARCHAR
   - name: gndr
     type: VARCHAR
-  - name: Cred
+  - name: cred
     type: VARCHAR
-  - name: Med_sch
+  - name: med_sch
     type: VARCHAR
-  - name: Grd_yr
+  - name: grd_yr
     type: VARCHAR
   - name: pri_spec
     type: VARCHAR
@@ -36,9 +37,9 @@ columns:
     type: VARCHAR
   - name: sec_spec_all
     type: VARCHAR
-  - name: Telehlth
+  - name: telehlth
     type: VARCHAR
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
   - name: org_pac_id
     type: VARCHAR
@@ -50,13 +51,13 @@ columns:
     type: VARCHAR
   - name: ln_2_sprs
     type: VARCHAR
-  - name: City/Town
+  - name: city_town
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: ZIP Code
+  - name: zip_code
     type: VARCHAR
-  - name: Telephone Number
+  - name: telephone_number
     type: VARCHAR
   - name: ind_assgn
     type: VARCHAR

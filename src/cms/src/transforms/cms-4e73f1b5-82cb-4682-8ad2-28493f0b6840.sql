@@ -1,2 +1,56 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-4e73f1b5-82cb-4682-8ad2-28493f0b6840"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+SELECT
+    CAST("YEAR" AS BIGINT) AS year,
+    "YEAR_TYPE" AS year_type,
+    "SMRY_CTGRY" AS smry_ctgry,
+    "SRVC_CTGRY" AS srvc_ctgry,
+    "PRVDR_ID" AS prvdr_id,
+    "PRVDR_NAME" AS prvdr_name,
+    "PRVDR_CITY" AS prvdr_city,
+    "STATE" AS state,
+    "PRVDR_ZIP" AS prvdr_zip,
+    CAST("BENE_DSTNCT_CNT" AS BIGINT) AS bene_dstnct_cnt,
+    CAST("TOT_EPSD_STAY_CNT" AS BIGINT) AS tot_epsd_stay_cnt,
+    CAST("TOT_SRVC_DAYS" AS BIGINT) AS tot_srvc_days,
+    CAST("TOT_CHRG_AMT" AS BIGINT) AS tot_chrg_amt,
+    CAST("TOT_ALOWD_AMT" AS BIGINT) AS tot_alowd_amt,
+    CAST("TOT_MDCR_PYMT_AMT" AS BIGINT) AS tot_mdcr_pymt_amt,
+    CAST("TOT_MDCR_STDZD_PYMT_AMT" AS BIGINT) AS tot_mdcr_stdzd_pymt_amt,
+    "BENE_DUAL_PCT" AS bene_dual_pct,
+    "BENE_RRL_PCT" AS bene_rrl_pct,
+    CAST("BENE_AVG_AGE" AS BIGINT) AS bene_avg_age,
+    "BENE_MALE_PCT" AS bene_male_pct,
+    "BENE_FEML_PCT" AS bene_feml_pct,
+    "BENE_RACE_WHT_PCT" AS bene_race_wht_pct,
+    "BENE_RACE_BLACK_PCT" AS bene_race_black_pct,
+    "BENE_RACE_API_PCT" AS bene_race_api_pct,
+    "BENE_RACE_HSPNC_PCT" AS bene_race_hspnc_pct,
+    "BENE_RACE_NATIND_PCT" AS bene_race_natind_pct,
+    "BENE_RACE_UNK_PCT" AS bene_race_unk_pct,
+    "BENE_RACE_OTHR_PCT" AS bene_race_othr_pct,
+    CAST("BENE_AVG_RISK_SCRE" AS DOUBLE) AS bene_avg_risk_scre,
+    "PRMRY_DX_INFCTN_PCT" AS prmry_dx_infctn_pct,
+    "PRMRY_DX_NEOBLD_PCT" AS prmry_dx_neobld_pct,
+    "PRMRY_DX_ENDONUTRMET_PCT" AS prmry_dx_endonutrmet_pct,
+    "PRMRY_DX_MNTBEHNEUDIS_PCT" AS prmry_dx_mntbehneudis_pct,
+    "PRMRY_DX_NERVSYSTM_PCT" AS prmry_dx_nervsystm_pct,
+    "PRMRY_DX_ENTSYS_PCT" AS prmry_dx_entsys_pct,
+    "PRMRY_DX_CIRCSYSTM_PCT" AS prmry_dx_circsystm_pct,
+    "PRMRY_DX_RSPSYSTM_PCT" AS prmry_dx_rspsystm_pct,
+    "PRMRY_DX_DIGSYSTM_PCT" AS prmry_dx_digsystm_pct,
+    "PRMRY_DX_SKNMUSSYSTM_PCT" AS prmry_dx_sknmussystm_pct,
+    "PRMRY_DX_GUSYSTM_PCT" AS prmry_dx_gusystm_pct,
+    "PRMRY_DX_PRGPERICONG_PCT" AS prmry_dx_prgpericong_pct,
+    "PRMRY_DX_SXILLDEF_PCT" AS prmry_dx_sxilldef_pct,
+    "PRMRY_DX_INJPOIS_PCT" AS prmry_dx_injpois_pct,
+    "PRMRY_DX_HLTHSRV_PCT" AS prmry_dx_hlthsrv_pct,
+    "NRSNG_VISITS_CNT" AS nrsng_visits_cnt,
+    "MSW_VISITS_CNT" AS msw_visits_cnt,
+    "AIDE_VISITS_CNT" AS aide_visits_cnt,
+    "TOT_NRSNG_MNTS" AS tot_nrsng_mnts,
+    CAST("HOSPC_RHC_DAYS_PCT" AS BIGINT) AS hospc_rhc_days_pct
+FROM "cms-4e73f1b5-82cb-4682-8ad2-28493f0b6840"

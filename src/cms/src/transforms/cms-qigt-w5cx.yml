@@ -1,12 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-qigt-w5cx`. Regenerate after model-verify.
+key: [measure_id]
+temporal: start_date
+sort: [start_date, measure_id]
 columns:
-  - name: Measure ID
+  - name: measure_id
     type: VARCHAR
-  - name: Measure Description
+  - name: measure_description
     type: VARCHAR
-  - name: National Rate
+  - name: national_rate
+    type: DOUBLE
+  - name: start_date
     type: VARCHAR
-  - name: Start Date
-    type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

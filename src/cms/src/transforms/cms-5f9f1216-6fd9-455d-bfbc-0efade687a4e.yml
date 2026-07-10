@@ -1,46 +1,47 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: YEAR
-sort: [YEAR]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-5f9f1216-6fd9-455d-bfbc-0efade687a4e`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: YEAR
+  - name: year
+    type: BIGINT
+  - name: state_name
     type: VARCHAR
-  - name: STATE_NAME
+  - name: county_name
     type: VARCHAR
-  - name: COUNTY_NAME
+  - name: state_id
+    type: BIGINT
+  - name: county_id
+    type: BIGINT
+  - name: per_capita_exp_esrd
     type: VARCHAR
-  - name: STATE_ID
+  - name: avg_risk_score_esrd
     type: VARCHAR
-  - name: COUNTY_ID
+  - name: avg_demog_score_esrd
     type: VARCHAR
-  - name: PER_CAPITA_EXP_ESRD
+  - name: person_years_esrd
     type: VARCHAR
-  - name: AVG_RISK_SCORE_ESRD
+  - name: per_capita_exp_dis
     type: VARCHAR
-  - name: AVG_DEMOG_SCORE_ESRD
+  - name: avg_risk_score_dis
     type: VARCHAR
-  - name: PERSON_YEARS_ESRD
+  - name: avg_demog_score_dis
     type: VARCHAR
-  - name: PER_CAPITA_EXP_DIS
+  - name: person_years_dis
     type: VARCHAR
-  - name: AVG_RISK_SCORE_DIS
+  - name: per_capita_exp_agdu
     type: VARCHAR
-  - name: AVG_DEMOG_SCORE_DIS
+  - name: avg_risk_score_agdu
     type: VARCHAR
-  - name: PERSON_YEARS_DIS
+  - name: avg_demog_score_agdu
     type: VARCHAR
-  - name: PER_CAPITA_EXP_AGDU
+  - name: person_years_agdu
     type: VARCHAR
-  - name: AVG_RISK_SCORE_AGDU
+  - name: per_capita_exp_agnd
     type: VARCHAR
-  - name: AVG_DEMOG_SCORE_AGDU
+  - name: avg_risk_score_agnd
     type: VARCHAR
-  - name: PERSON_YEARS_AGDU
+  - name: avg_demog_score_agnd
     type: VARCHAR
-  - name: PER_CAPITA_EXP_AGND
-    type: VARCHAR
-  - name: AVG_RISK_SCORE_AGND
-    type: VARCHAR
-  - name: AVG_DEMOG_SCORE_AGND
-    type: VARCHAR
-  - name: PERSON_YEARS_AGND
+  - name: person_years_agnd
     type: VARCHAR

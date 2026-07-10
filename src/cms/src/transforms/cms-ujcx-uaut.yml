@@ -1,44 +1,47 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-ujcx-uaut`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: "Baseline Period: FY 2022 National Average Risk-Standardized Readmission Rate"
+  - name: baseline_period_fy_2022_national_average_risk_standardized_readmission_rate
+    type: DOUBLE
+  - name: performance_period_fy_2024_national_average_risk_standardized_readmission_rate
+    type: DOUBLE
+  - name: snfrm_achievement_threshold
+    type: DOUBLE
+  - name: snfrm_benchmark
+    type: DOUBLE
+  - name: baseline_period_fy_2022_national_average_risk_standardized_healthcare_associated_infection_rate
+    type: DOUBLE
+  - name: performance_period_fy_2024_national_average_risk_standardized_healthcare_associated_infection_rate
+    type: DOUBLE
+  - name: snf_hai_achievement_threshold
+    type: DOUBLE
+  - name: snf_hai_benchmark
+    type: DOUBLE
+  - name: baseline_period_fy_2022_national_average_total_nursing_staff_turnover_rate
+    type: DOUBLE
+  - name: performance_period_fy_2024_national_average_total_nursing_staff_turnover_rate
+    type: DOUBLE
+  - name: total_nursing_staff_turnover_achievement_threshold
+    type: DOUBLE
+  - name: total_nursing_staff_turnover_benchmark
+    type: DOUBLE
+  - name: baseline_period_fy_2022_national_average_adjusted_total_nursing_staff_hours_per_resident_day
+    type: DOUBLE
+  - name: performance_period_fy_2024_national_average_adjusted_total_nursing_staff_hours_per_resident_day
+    type: DOUBLE
+  - name: total_nurse_staffing_achievement_threshold
+    type: DOUBLE
+  - name: total_nurse_staffing_benchmark
+    type: DOUBLE
+  - name: range_of_performance_scores
     type: VARCHAR
-  - name: "Performance Period: FY 2024 National Average Risk-Standardized Readmission Rate"
+  - name: total_number_of_snfs_receiving_value_based_incentive_payments
+    type: BIGINT
+  - name: range_of_incentive_payment_multipliers
     type: VARCHAR
-  - name: SNFRM Achievement Threshold
+  - name: range_of_value_based_incentive_payments
     type: VARCHAR
-  - name: SNFRM Benchmark
-    type: VARCHAR
-  - name: "Baseline Period: FY 2022 National Average Risk-Standardized Healthcare-Associated Infection Rate"
-    type: VARCHAR
-  - name: "Performance Period: FY 2024 National Average Risk-Standardized Healthcare-Associated Infection Rate"
-    type: VARCHAR
-  - name: SNF HAI Achievement Threshold
-    type: VARCHAR
-  - name: SNF HAI Benchmark
-    type: VARCHAR
-  - name: "Baseline Period: FY 2022 National Average Total Nursing Staff Turnover Rate"
-    type: VARCHAR
-  - name: "Performance Period: FY 2024 National Average Total Nursing Staff Turnover Rate"
-    type: VARCHAR
-  - name: Total Nursing Staff Turnover Achievement Threshold
-    type: VARCHAR
-  - name: Total Nursing Staff Turnover Benchmark
-    type: VARCHAR
-  - name: "Baseline Period: FY 2022 National Average Adjusted Total Nursing Staff Hours per Resident Day"
-    type: VARCHAR
-  - name: "Performance Period: FY 2024 National Average Adjusted Total Nursing Staff Hours per Resident Day"
-    type: VARCHAR
-  - name: Total Nurse Staffing Achievement Threshold
-    type: VARCHAR
-  - name: Total Nurse Staffing Benchmark
-    type: VARCHAR
-  - name: Range of Performance Scores
-    type: VARCHAR
-  - name: Total Number of SNFs Receiving Value-Based Incentive Payments
-    type: VARCHAR
-  - name: Range of Incentive Payment Multipliers
-    type: VARCHAR
-  - name: Range of Value-Based Incentive Payments ($)
-    type: VARCHAR
-  - name: Total Amount of Value-Based Incentive Payments ($)
+  - name: total_amount_of_value_based_incentive_payments
     type: VARCHAR

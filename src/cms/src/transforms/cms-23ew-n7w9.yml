@@ -1,288 +1,290 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [CMS Certification Number (CCN)]
-sort: [CMS Certification Number (CCN)]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-23ew-n7w9`. Regenerate after model-verify.
+key: [certification_date, cms_certification_number_ccn]
+temporal: certification_date
+sort: [certification_date, cms_certification_number_ccn]
 columns:
-  - name: CMS Certification Number (CCN)
+  - name: cms_certification_number_ccn
     type: VARCHAR
-  - name: Network
+  - name: network
+    type: BIGINT
+  - name: facility_name
     type: VARCHAR
-  - name: Facility Name
+  - name: five_star_date
     type: VARCHAR
-  - name: Five Star Date
+  - name: five_star
     type: VARCHAR
-  - name: Five Star
+  - name: five_star_data_availability_code
     type: VARCHAR
-  - name: Five Star Data Availability Code
+  - name: address_line_1
     type: VARCHAR
-  - name: Address Line 1
+  - name: address_line_2
     type: VARCHAR
-  - name: Address Line 2
+  - name: city_town
     type: VARCHAR
-  - name: City/Town
+  - name: state
     type: VARCHAR
-  - name: State
+  - name: zip_code
     type: VARCHAR
-  - name: ZIP Code
+  - name: county_parish
     type: VARCHAR
-  - name: County/Parish
+  - name: telephone_number
     type: VARCHAR
-  - name: Telephone Number
+  - name: profit_or_non_profit
     type: VARCHAR
-  - name: Profit or Non-Profit
+  - name: chain_owned
     type: VARCHAR
-  - name: Chain Owned
+  - name: chain_organization
     type: VARCHAR
-  - name: Chain Organization
+  - name: late_shift
     type: VARCHAR
-  - name: Late Shift
+  - name: of_dialysis_stations
+    type: BIGINT
+  - name: offers_in_center_hemodialysis
     type: VARCHAR
-  - name: "# of Dialysis Stations"
+  - name: offers_peritoneal_dialysis
     type: VARCHAR
-  - name: Offers in-center hemodialysis
+  - name: offers_home_hemodialysis_training
     type: VARCHAR
-  - name: Offers peritoneal dialysis
-    type: VARCHAR
-  - name: Offers home hemodialysis training
-    type: VARCHAR
-  - name: Certification Date
+  - name: certification_date
     type: DATE
-  - name: Claims Date
+  - name: claims_date
     type: VARCHAR
-  - name: EQRS Date
+  - name: eqrs_date
     type: VARCHAR
-  - name: SMR Date
+  - name: smr_date
     type: VARCHAR
-  - name: Patient Survival Category Text
+  - name: patient_survival_category_text
     type: VARCHAR
-  - name: Patient Survival data availability code
+  - name: patient_survival_data_availability_code
     type: VARCHAR
-  - name: Number of Patients included in survival summary
+  - name: number_of_patients_included_in_survival_summary
     type: VARCHAR
-  - name: Mortality Rate (Facility)
+  - name: mortality_rate_facility
     type: VARCHAR
-  - name: "Mortality Rate: Upper Confidence Limit (97.5%)"
+  - name: mortality_rate_upper_confidence_limit_97_5
     type: VARCHAR
-  - name: "Mortality Rate: Lower Confidence Limit (2.5%)"
+  - name: mortality_rate_lower_confidence_limit_2_5
     type: VARCHAR
-  - name: SHR Date
+  - name: shr_date
     type: VARCHAR
-  - name: Patient hospitalization category text
+  - name: patient_hospitalization_category_text
     type: VARCHAR
-  - name: Patient Hospitalization data availability Code
+  - name: patient_hospitalization_data_availability_code
     type: VARCHAR
-  - name: Number of patients included in hospitalization summary
+  - name: number_of_patients_included_in_hospitalization_summary
     type: VARCHAR
-  - name: Hospitalization Rate (Facility)
+  - name: hospitalization_rate_facility
     type: VARCHAR
-  - name: "Hospitalization Rate: Upper Confidence Limit (97.5%)"
+  - name: hospitalization_rate_upper_confidence_limit_97_5
     type: VARCHAR
-  - name: "Hospitalization Rate: Lower Confidence Limit (2.5%)"
+  - name: hospitalization_rate_lower_confidence_limit_2_5
     type: VARCHAR
-  - name: SRR Date
+  - name: srr_date
     type: VARCHAR
-  - name: Patient Hospital Readmission Category
+  - name: patient_hospital_readmission_category
     type: VARCHAR
-  - name: Patient Hospital Readmission data availability Code
+  - name: patient_hospital_readmission_data_availability_code
     type: VARCHAR
-  - name: Number of hospitalizations included in hospital readmission summary
+  - name: number_of_hospitalizations_included_in_hospital_readmission_summary
     type: VARCHAR
-  - name: Readmission Rate (Facility)
+  - name: readmission_rate_facility
     type: VARCHAR
-  - name: "Readmission Rate: Upper Confidence Limit (97.5%)"
+  - name: readmission_rate_upper_confidence_limit_97_5
     type: VARCHAR
-  - name: "Readmission Rate: Lower Confidence Limit (2.5%)"
+  - name: readmission_rate_lower_confidence_limit_2_5
     type: VARCHAR
-  - name: STrR Date
+  - name: strr_date
     type: VARCHAR
-  - name: Patient Transfusion category text
+  - name: patient_transfusion_category_text
     type: VARCHAR
-  - name: Patient Transfusion data availability Code
+  - name: patient_transfusion_data_availability_code
     type: VARCHAR
-  - name: Number of patients included in the transfusion summary
+  - name: number_of_patients_included_in_the_transfusion_summary
     type: VARCHAR
-  - name: Transfusion Rate (Facility)
+  - name: transfusion_rate_facility
     type: VARCHAR
-  - name: "Transfusion Rate: Upper Confidence Limit (97.5%)"
+  - name: transfusion_rate_upper_confidence_limit_97_5
     type: VARCHAR
-  - name: "Transfusion Rate: Lower Confidence Limit (2.5%)"
+  - name: transfusion_rate_lower_confidence_limit_2_5
     type: VARCHAR
-  - name: FYSWR Date
+  - name: fyswr_date
     type: VARCHAR
-  - name: FYSWR category text
+  - name: fyswr_category_text
     type: VARCHAR
-  - name: Patient transplant waitlist data availability code
+  - name: patient_transplant_waitlist_data_availability_code
     type: VARCHAR
-  - name: Number of patients in this facility for FYSWR
+  - name: number_of_patients_in_this_facility_for_fyswr
     type: VARCHAR
-  - name: First Year Standardized Kidney Transplant Waitlist Ratio
+  - name: first_year_standardized_kidney_transplant_waitlist_ratio
     type: VARCHAR
-  - name: 95% C.I. (upper limit) for FYSWR
+  - name: "95_c_i_upper_limit_for_fyswr"
     type: VARCHAR
-  - name: 95% C.I. (lower limit) for FYSWR
+  - name: "95_c_i_lower_limit_for_fyswr"
     type: VARCHAR
-  - name: PPPW category text
+  - name: pppw_category_text
     type: VARCHAR
-  - name: Patient prevalent transplant waitlist data availability code
+  - name: patient_prevalent_transplant_waitlist_data_availability_code
     type: VARCHAR
-  - name: Number of patients for PPPW
+  - name: number_of_patients_for_pppw
     type: VARCHAR
-  - name: Percentage of Prevalent Patients Waitlisted for Kidney Transplant
+  - name: percentage_of_prevalent_patients_waitlisted_for_kidney_transplant
     type: VARCHAR
-  - name: 95% C.I. (upper limit) for PPPW
+  - name: "95_c_i_upper_limit_for_pppw"
     type: VARCHAR
-  - name: 95% C.I. (lower limit) for PPPW
+  - name: "95_c_i_lower_limit_for_pppw"
     type: VARCHAR
-  - name: SEDR Date
+  - name: sedr_date
     type: VARCHAR
-  - name: SEDR category text
+  - name: sedr_category_text
     type: VARCHAR
-  - name: Emergency Department Encounter data availability Code
+  - name: emergency_department_encounter_data_availability_code
     type: VARCHAR
-  - name: Number of patients included in SEDR summary
+  - name: number_of_patients_included_in_sedr_summary
     type: VARCHAR
-  - name: Standardized ED visits ratio (Facility)
+  - name: standardized_ed_visits_ratio_facility
     type: VARCHAR
-  - name: "SEDR: Upper Confidence Limit (97.5%)"
+  - name: sedr_upper_confidence_limit_97_5
     type: VARCHAR
-  - name: "SEDR: Lower Confidence Limit (2.5%)"
+  - name: sedr_lower_confidence_limit_2_5
     type: VARCHAR
-  - name: ED30 Date
+  - name: ed30_date
     type: VARCHAR
-  - name: ED30 Category text
+  - name: ed30_category_text
     type: VARCHAR
-  - name: Emergency Department Encounter Ratio Occurring within 30 Days of Hospital Discharge data availability Code
+  - name: emergency_department_encounter_ratio_occurring_within_30_days_of_hospital_discharge_data_availability_code
     type: VARCHAR
-  - name: Number of hospitalizations included in ED30 summary
+  - name: number_of_hospitalizations_included_in_ed30_summary
     type: VARCHAR
-  - name: Standardized ED visits within 30 days of hospital discharge ratio (Facility)
+  - name: standardized_ed_visits_within_30_days_of_hospital_discharge_ratio_facility
     type: VARCHAR
-  - name: "ED30: Upper Confidence Limit (97.5%)"
+  - name: ed30_upper_confidence_limit_97_5
     type: VARCHAR
-  - name: "ED30: Lower Confidence Limit (2.5%)"
+  - name: ed30_lower_confidence_limit_2_5
     type: VARCHAR
-  - name: YEARS Modality Switch BASED UPON
+  - name: years_modality_switch_based_upon
     type: VARCHAR
-  - name: "SMoSR: Classification Category (FACILITY)"
+  - name: smosr_classification_category_facility
     type: VARCHAR
-  - name: Modality Switch Data Availability Code
+  - name: modality_switch_data_availability_code
     type: VARCHAR
-  - name: "SMoSR: Number of Eligible patients (FACILITY)"
+  - name: smosr_number_of_eligible_patients_facility
     type: VARCHAR
-  - name: "SMoSR: Standardized Modality Switch Ratio (FACILITY)"
+  - name: smosr_standardized_modality_switch_ratio_facility
     type: VARCHAR
-  - name: "SMoSR: Upper Confidence Limit (FACILITY)"
+  - name: smosr_upper_confidence_limit_facility
     type: VARCHAR
-  - name: "SMoSR: Lower Confidence Limit (FACILITY)"
+  - name: smosr_lower_confidence_limit_facility
     type: VARCHAR
-  - name: SIR Date
+  - name: sir_date
     type: VARCHAR
-  - name: Patient Infection category text
+  - name: patient_infection_category_text
     type: VARCHAR
-  - name: Patient Infection Data Availability Code
+  - name: patient_infection_data_availability_code
     type: VARCHAR
-  - name: Standard Infection Ratio
+  - name: standard_infection_ratio
     type: VARCHAR
-  - name: "SIR: Upper Confidence Limit (97.5%)"
+  - name: sir_upper_confidence_limit_97_5
     type: VARCHAR
-  - name: "SIR: Lower Confidence Limit (2.5%)"
+  - name: sir_lower_confidence_limit_2_5
     type: VARCHAR
-  - name: Fistula Category Text
+  - name: fistula_category_text
     type: VARCHAR
-  - name: Fistula data availability code
+  - name: fistula_data_availability_code
     type: VARCHAR
-  - name: Number of Patients included in fistula summary
+  - name: number_of_patients_included_in_fistula_summary
     type: VARCHAR
-  - name: Fistula Rate (Facility)
+  - name: fistula_rate_facility
     type: VARCHAR
-  - name: "Fistula Rate: Upper Confidence Limit (97.5%)"
+  - name: fistula_rate_upper_confidence_limit_97_5
     type: VARCHAR
-  - name: "Fistula Rate: Lower Confidence Limit (2.5%)"
+  - name: fistula_rate_lower_confidence_limit_2_5
     type: VARCHAR
-  - name: HCP Vaccination Data Collection Dates
+  - name: hcp_vaccination_data_collection_dates
     type: VARCHAR
-  - name: HCP Vaccination Data Availability Code
+  - name: hcp_vaccination_data_availability_code
     type: VARCHAR
-  - name: Healthcare worker COVID-19 vaccination adherence percentage
+  - name: healthcare_worker_covid_19_vaccination_adherence_percentage
     type: VARCHAR
-  - name: Adult HD Kt/V data availability code
+  - name: adult_hd_kt_v_data_availability_code
     type: VARCHAR
-  - name: Number of adult HD patients with KT/V data
+  - name: number_of_adult_hd_patients_with_kt_v_data
     type: VARCHAR
-  - name: Number of adult HD patient-months with Kt/V data
+  - name: number_of_adult_hd_patient_months_with_kt_v_data
     type: VARCHAR
-  - name: Percent of Adult HD patients with Kt/V >= 1.2
+  - name: percent_of_adult_hd_patients_with_kt_v_1_2
     type: VARCHAR
-  - name: Adult PD Kt/V data availability code
+  - name: adult_pd_kt_v_data_availability_code
     type: VARCHAR
-  - name: Number of adult PD patients with KT/V data
+  - name: number_of_adult_pd_patients_with_kt_v_data
     type: VARCHAR
-  - name: Number of adult PD patient-months with Kt/V data
+  - name: number_of_adult_pd_patient_months_with_kt_v_data
     type: VARCHAR
-  - name: Percentage of Adult PD PTS with Kt/V >= 1.7
+  - name: percentage_of_adult_pd_pts_with_kt_v_1_7
     type: VARCHAR
-  - name: Pediatric HD Kt/V Data Availability Code
+  - name: pediatric_hd_kt_v_data_availability_code
     type: VARCHAR
-  - name: Number of pediatric HD patients with Kt/V data
+  - name: number_of_pediatric_hd_patients_with_kt_v_data
     type: VARCHAR
-  - name: Number of pediatric HD patient-months with KT/V data
+  - name: number_of_pediatric_hd_patient_months_with_kt_v_data
     type: VARCHAR
-  - name: Percentage of Pediatric HD patients with Kt/V >= 1.2
+  - name: percentage_of_pediatric_hd_patients_with_kt_v_1_2
     type: VARCHAR
-  - name: Pediatric PD Kt/V Data Availability Code
+  - name: pediatric_pd_kt_v_data_availability_code
     type: VARCHAR
-  - name: Number of pediatric PD patients with Kt/V data
+  - name: number_of_pediatric_pd_patients_with_kt_v_data
     type: VARCHAR
-  - name: Number of pediatric PD patient-months with KT/V data
+  - name: number_of_pediatric_pd_patient_months_with_kt_v_data
     type: VARCHAR
-  - name: Percentage of pediatric PD patients with Kt/V>=1.8
+  - name: percentage_of_pediatric_pd_patients_with_kt_v_1_8
     type: VARCHAR
-  - name: Percentage of Medicare patients with Hgb<10 g/dL
+  - name: percentage_of_medicare_patients_with_hgb_10_g_dl
     type: VARCHAR
-  - name: HGB<10 data availability code
+  - name: hgb_10_data_availability_code
     type: VARCHAR
-  - name: Percentage of Medicare patients with Hgb>12 g/dL
+  - name: percentage_of_medicare_patients_with_hgb_12_g_dl
     type: VARCHAR
-  - name: Hgb > 12 data availability code
+  - name: hgb_12_data_availability_code
     type: VARCHAR
-  - name: Number of Dialysis Patients with Hgb data
+  - name: number_of_dialysis_patients_with_hgb_data
     type: VARCHAR
-  - name: Hypercalcemia Data Availability Code
+  - name: hypercalcemia_data_availability_code
     type: VARCHAR
-  - name: Number of patients in hypercalcemia summary
+  - name: number_of_patients_in_hypercalcemia_summary
     type: VARCHAR
-  - name: Number of patient-months in hypercalcemia summary
+  - name: number_of_patient_months_in_hypercalcemia_summary
     type: VARCHAR
-  - name: Percentage of Adult patients with hypercalcemia (serum calcium greater than 10.2 mg/dL)
+  - name: percentage_of_adult_patients_with_hypercalcemia_serum_calcium_greater_than_10_2_mg_dl
     type: VARCHAR
-  - name: Serum phosphorus Data Availability Code
+  - name: serum_phosphorus_data_availability_code
     type: VARCHAR
-  - name: Number of patients in Serum phosphorus summary
+  - name: number_of_patients_in_serum_phosphorus_summary
     type: VARCHAR
-  - name: Number of patient-months in Serum phosphorus summary
+  - name: number_of_patient_months_in_serum_phosphorus_summary
     type: VARCHAR
-  - name: Percentage of Adult patients with serum phosphorus less than 3.5 mg/dL
+  - name: percentage_of_adult_patients_with_serum_phosphorus_less_than_3_5_mg_dl
     type: VARCHAR
-  - name: Percentage of Adult patients with serum phosphorus between 3.5-4.5 mg/dL
+  - name: percentage_of_adult_patients_with_serum_phosphorus_between_3_5_4_5_mg_dl
     type: VARCHAR
-  - name: Percentage of Adult patients with serum phosphorus between 4.6-5.5 mg/dL
+  - name: percentage_of_adult_patients_with_serum_phosphorus_between_4_6_5_5_mg_dl
     type: VARCHAR
-  - name: Percentage of Adult patients with serum phosphorus between 5.6-7.0 mg/dL
+  - name: percentage_of_adult_patients_with_serum_phosphorus_between_5_6_7_0_mg_dl
     type: VARCHAR
-  - name: Percentage of Adult patients with serum phosphorus greater than 7.0 mg/dL
+  - name: percentage_of_adult_patients_with_serum_phosphorus_greater_than_7_0_mg_dl
     type: VARCHAR
-  - name: Long term catheter Data Availability Code
+  - name: long_term_catheter_data_availability_code
     type: VARCHAR
-  - name: Number of patients in long term catheter summary
+  - name: number_of_patients_in_long_term_catheter_summary
     type: VARCHAR
-  - name: Number of patient months in long term catheter summary
+  - name: number_of_patient_months_in_long_term_catheter_summary
     type: VARCHAR
-  - name: Percentage of Adult patients with long term catheter in use
+  - name: percentage_of_adult_patients_with_long_term_catheter_in_use
     type: VARCHAR
-  - name: nPCR Data Availability Code
+  - name: npcr_data_availability_code
     type: VARCHAR
-  - name: Number of patients in nPCR summary
+  - name: number_of_patients_in_npcr_summary
     type: VARCHAR
-  - name: Number of patient-months in nPCR summary
+  - name: number_of_patient_months_in_npcr_summary
     type: VARCHAR
-  - name: Percentage of pediatric HD patients with nPCR
+  - name: percentage_of_pediatric_hd_patients_with_npcr
     type: VARCHAR

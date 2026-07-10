@@ -1,82 +1,83 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: YEAR
-sort: [YEAR]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-4c2a8bf6-8560-4b00-bc56-1a0322677b7f`. Regenerate after model-verify.
+key: [indvdl_ot_mnts_stay, prvdr_id, indvdl_pt_mnts_stay, tot_slp_mnts_stay, tot_pt_mnts_stay]
+sort: [indvdl_ot_mnts_stay, prvdr_id, indvdl_pt_mnts_stay, tot_slp_mnts_stay, tot_pt_mnts_stay]
 columns:
-  - name: YEAR
+  - name: year
+    type: BIGINT
+  - name: year_type
     type: VARCHAR
-  - name: YEAR_TYPE
+  - name: smry_ctgry
     type: VARCHAR
-  - name: SMRY_CTGRY
+  - name: srvc_ctgry
     type: VARCHAR
-  - name: SRVC_CTGRY
+  - name: prvdr_id
     type: VARCHAR
-  - name: PRVDR_ID
+  - name: prvdr_name
     type: VARCHAR
-  - name: PRVDR_NAME
+  - name: prvdr_city
     type: VARCHAR
-  - name: PRVDR_CITY
+  - name: state
     type: VARCHAR
-  - name: STATE
+  - name: prvdr_zip
     type: VARCHAR
-  - name: PRVDR_ZIP
+  - name: tot_pt_mnts_stay
     type: VARCHAR
-  - name: TOT_PT_MNTS_STAY
+  - name: indvdl_pt_mnts_stay
     type: VARCHAR
-  - name: INDVDL_PT_MNTS_STAY
+  - name: cncrnt_grp_pt_mnts_stay
     type: VARCHAR
-  - name: CNCRNT_GRP_PT_MNTS_STAY
+  - name: tot_ot_mnts_stay
     type: VARCHAR
-  - name: TOT_OT_MNTS_STAY
+  - name: indvdl_ot_mnts_stay
     type: VARCHAR
-  - name: INDVDL_OT_MNTS_STAY
+  - name: cncrnt_grp_ot_mnts_stay
     type: VARCHAR
-  - name: CNCRNT_GRP_OT_MNTS_STAY
+  - name: tot_slp_mnts_stay
     type: VARCHAR
-  - name: TOT_SLP_MNTS_STAY
+  - name: indvdl_slp_mnts_stay
     type: VARCHAR
-  - name: INDVDL_SLP_MNTS_STAY
+  - name: cncrnt_grp_slp_mnts_stay
     type: VARCHAR
-  - name: CNCRNT_GRP_SLP_MNTS_STAY
+  - name: stay_clncl_ctgry_acu_inf_pct
     type: VARCHAR
-  - name: STAY_CLNCL_CTGRY_ACU_INF_PCT
+  - name: stay_clncl_ctgry_acu_neu_pct
     type: VARCHAR
-  - name: STAY_CLNCL_CTGRY_ACU_NEU_PCT
+  - name: stay_clncl_ctgry_cncr_pct
     type: VARCHAR
-  - name: STAY_CLNCL_CTGRY_CNCR_PCT
+  - name: stay_clncl_ctgry_crd_coag_pct
     type: VARCHAR
-  - name: STAY_CLNCL_CTGRY_CRD_COAG_PCT
+  - name: stay_clncl_ctgry_mjr_spn_pct
     type: VARCHAR
-  - name: STAY_CLNCL_CTGRY_MJR_SPN_PCT
+  - name: stay_clncl_ctgry_med_mng_pct
     type: VARCHAR
-  - name: STAY_CLNCL_CTGRY_MED_MNG_PCT
+  - name: stay_clncl_ctgry_noorth_srgy_pct
     type: VARCHAR
-  - name: STAY_CLNCL_CTGRY_NOORTH_SRGY_PCT
+  - name: stay_clncl_ctgry_orth_nosrgy_pct
     type: VARCHAR
-  - name: STAY_CLNCL_CTGRY_ORTH_NOSRGY_PCT
+  - name: stay_clncl_ctgry_orth_srgy_pct
     type: VARCHAR
-  - name: STAY_CLNCL_CTGRY_ORTH_SRGY_PCT
+  - name: stay_clncl_ctgry_plmnry_pct
     type: VARCHAR
-  - name: STAY_CLNCL_CTGRY_PLMNRY_PCT
+  - name: stay_dprsn_mood_scre_pct
     type: VARCHAR
-  - name: STAY_DPRSN_MOOD_SCRE_PCT
+  - name: stay_swlwg_dsrdr_pct
     type: VARCHAR
-  - name: STAY_SWLWG_DSRDR_PCT
+  - name: stay_mlntrn_pct
     type: VARCHAR
-  - name: STAY_MLNTRN_PCT
+  - name: pdpm_pt_ot_tc_days_pct
     type: VARCHAR
-  - name: PDPM_PT_OT_TC_DAYS_PCT
+  - name: pdpm_pt_ot_td_days_pct
     type: VARCHAR
-  - name: PDPM_PT_OT_TD_DAYS_PCT
+  - name: pdpm_slp_sk_days_pct
     type: VARCHAR
-  - name: PDPM_SLP_SK_DAYS_PCT
+  - name: pdpm_slp_sl_days_pct
     type: VARCHAR
-  - name: PDPM_SLP_SL_DAYS_PCT
+  - name: pdpm_nrsng_es3_days_pct
     type: VARCHAR
-  - name: PDPM_NRSNG_ES3_DAYS_PCT
+  - name: pdpm_nrsng_es2_days_pct
     type: VARCHAR
-  - name: PDPM_NRSNG_ES2_DAYS_PCT
+  - name: pdpm_nta_na_days_pct
     type: VARCHAR
-  - name: PDPM_NTA_NA_DAYS_PCT
-    type: VARCHAR
-  - name: PDPM_NTA_NB_DAYS_PCT
+  - name: pdpm_nta_nb_days_pct
     type: VARCHAR

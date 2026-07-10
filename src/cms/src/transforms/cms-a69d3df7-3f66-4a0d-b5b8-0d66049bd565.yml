@@ -1,248 +1,249 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-a69d3df7-3f66-4a0d-b5b8-0d66049bd565`. Regenerate after model-verify.
 key: [rpt_rec_num]
 sort: [rpt_rec_num]
 columns:
   - name: rpt_rec_num
+    type: BIGINT
+  - name: provider_ccn
     type: VARCHAR
-  - name: Provider CCN
+  - name: facility_name
     type: VARCHAR
-  - name: Facility Name
+  - name: street_address
     type: VARCHAR
-  - name: Street Address
+  - name: city
     type: VARCHAR
-  - name: City
+  - name: state_code
     type: VARCHAR
-  - name: State Code
+  - name: zip_code
     type: VARCHAR
-  - name: Zip Code
+  - name: county
     type: VARCHAR
-  - name: County
+  - name: medicare_cbsa_number
     type: VARCHAR
-  - name: Medicare CBSA Number
+  - name: rural_versus_urban
     type: VARCHAR
-  - name: Rural versus Urban
+  - name: fiscal_year_begin_date
     type: VARCHAR
-  - name: Fiscal Year Begin Date
+  - name: fiscal_year_end_date
     type: VARCHAR
-  - name: Fiscal Year End Date
+  - name: type_of_control
     type: VARCHAR
-  - name: Type of Control
+  - name: total_days_title_v
     type: VARCHAR
-  - name: Total Days Title V
+  - name: total_days_title_xviii
     type: VARCHAR
-  - name: Total Days Title XVIII
+  - name: total_days_title_xix
     type: VARCHAR
-  - name: Total Days Title XIX
+  - name: total_days_other
     type: VARCHAR
-  - name: Total Days Other
+  - name: total_days_total
     type: VARCHAR
-  - name: Total Days Total
+  - name: number_of_beds
     type: VARCHAR
-  - name: Number of Beds
+  - name: total_bed_days_available
     type: VARCHAR
-  - name: Total Bed Days Available
+  - name: total_discharges_title_v
     type: VARCHAR
-  - name: Total Discharges Title V
+  - name: total_discharges_title_xviii
     type: VARCHAR
-  - name: Total Discharges Title XVIII
+  - name: total_discharges_title_xix
     type: VARCHAR
-  - name: Total Discharges Title XIX
+  - name: total_discharges_title_other
     type: VARCHAR
-  - name: Total Discharges Title Other
+  - name: total_discharges_total
     type: VARCHAR
-  - name: Total Discharges Total
+  - name: snf_average_length_of_stay_title_v
     type: VARCHAR
-  - name: SNF Average Length of Stay Title V
+  - name: snf_average_length_of_stay_title_xviii
     type: VARCHAR
-  - name: SNF Average Length of Stay Title XVIII
+  - name: snf_average_length_of_stay_title_xix
     type: VARCHAR
-  - name: SNF Average Length of Stay Title XIX
+  - name: snf_average_length_of_stay_total
     type: VARCHAR
-  - name: SNF Average Length of Stay Total
+  - name: snf_admissions_title_v
     type: VARCHAR
-  - name: SNF Admissions Title V
+  - name: snf_admissions_title_xviii
     type: VARCHAR
-  - name: SNF Admissions Title XVIII
+  - name: snf_admissions_title_xix
     type: VARCHAR
-  - name: SNF Admissions Title XIX
+  - name: snf_admissions_other
     type: VARCHAR
-  - name: SNF Admissions Other
+  - name: snf_admissions_total
     type: VARCHAR
-  - name: SNF Admissions Total
+  - name: snf_days_title_v
     type: VARCHAR
-  - name: SNF Days Title V
+  - name: snf_days_title_xviii
     type: VARCHAR
-  - name: SNF Days Title XVIII
+  - name: snf_days_title_xix
     type: VARCHAR
-  - name: SNF Days Title XIX
+  - name: snf_days_other
     type: VARCHAR
-  - name: SNF Days Other
+  - name: snf_days_total
     type: VARCHAR
-  - name: SNF Days Total
+  - name: snf_number_of_beds
     type: VARCHAR
-  - name: SNF Number of Beds
+  - name: snf_bed_days_available
     type: VARCHAR
-  - name: SNF Bed Days Available
+  - name: snf_discharges_title_v
     type: VARCHAR
-  - name: SNF Discharges Title V
+  - name: snf_discharges_title_xviii
     type: VARCHAR
-  - name: SNF Discharges Title XVIII
+  - name: snf_discharges_title_xix
     type: VARCHAR
-  - name: SNF Discharges Title XIX
+  - name: snf_discharges_title_other
     type: VARCHAR
-  - name: SNF Discharges Title Other
+  - name: snf_discharges_total
     type: VARCHAR
-  - name: SNF Discharges Total
+  - name: nf_number_of_beds
     type: VARCHAR
-  - name: NF Number of Beds
+  - name: nf_bed_days_available
     type: VARCHAR
-  - name: NF Bed Days Available
+  - name: nf_days_title_v
     type: VARCHAR
-  - name: NF Days Title V
+  - name: nf_days_title_xix
     type: VARCHAR
-  - name: NF Days Title XIX
+  - name: nf_days_other
     type: VARCHAR
-  - name: NF Days Other
+  - name: nf_days_total
     type: VARCHAR
-  - name: NF Days Total
+  - name: nf_discharges_title_v
     type: VARCHAR
-  - name: NF Discharges Title V
+  - name: nf_discharges_title_xix
     type: VARCHAR
-  - name: NF Discharges Title XIX
+  - name: nf_discharges_title_other
     type: VARCHAR
-  - name: NF Discharges Title Other
+  - name: nf_discharges_total
     type: VARCHAR
-  - name: NF Discharges Total
+  - name: nf_average_length_of_stay_title_v
     type: VARCHAR
-  - name: NF Average Length of Stay Title V
+  - name: nf_average_length_of_stay_title_xix
     type: VARCHAR
-  - name: NF Average Length of Stay Title XIX
+  - name: nf_average_length_of_stay_total
     type: VARCHAR
-  - name: NF Average Length of Stay Total
+  - name: nf_admissions_title_v
     type: VARCHAR
-  - name: NF Admissions Title V
+  - name: nf_admissions_title_xix
     type: VARCHAR
-  - name: NF Admissions Title XIX
+  - name: nf_admissions_other
     type: VARCHAR
-  - name: NF Admissions Other
+  - name: nf_admissions_total
     type: VARCHAR
-  - name: NF Admissions Total
+  - name: total_rug_days
     type: VARCHAR
-  - name: Total RUG Days
+  - name: total_salaries_from_worksheet_a
     type: VARCHAR
-  - name: Total Salaries From Worksheet A
+  - name: overhead_non_salary_costs
     type: VARCHAR
-  - name: Overhead Non-Salary Costs
+  - name: total_charges
     type: VARCHAR
-  - name: Total Charges
+  - name: total_costs
     type: VARCHAR
-  - name: Total Costs
+  - name: wage_related_costs_core
     type: VARCHAR
-  - name: Wage-related Costs (core)
+  - name: total_salaries_adjusted
     type: VARCHAR
-  - name: Total Salaries (adjusted)
+  - name: contract_labor
     type: VARCHAR
-  - name: Contract Labor
+  - name: cash_on_hand_and_in_banks
     type: VARCHAR
-  - name: Cash on hand and in banks
+  - name: temporary_investments
     type: VARCHAR
-  - name: Temporary Investments
+  - name: notes_receivable
     type: VARCHAR
-  - name: Notes Receivable
+  - name: accounts_receivable
     type: VARCHAR
-  - name: Accounts Receivable
+  - name: less_allowances_for_uncollectible_notes_and_accounts_receivable
     type: VARCHAR
-  - name: "Less: Allowances for uncollectible notes and accounts receivable"
+  - name: inventory
     type: VARCHAR
-  - name: Inventory
+  - name: prepaid_expenses
     type: VARCHAR
-  - name: Prepaid expenses
+  - name: other_current_assets
     type: VARCHAR
-  - name: Other current assets
+  - name: total_current_assets
     type: VARCHAR
-  - name: Total Current Assets
+  - name: land
     type: VARCHAR
-  - name: Land
+  - name: land_improvements
     type: VARCHAR
-  - name: Land improvements
+  - name: buildings
     type: VARCHAR
-  - name: Buildings
+  - name: leasehold_improvements
     type: VARCHAR
-  - name: Leasehold improvements
+  - name: fixed_equipment
     type: VARCHAR
-  - name: Fixed equipment
+  - name: major_movable_equipment
     type: VARCHAR
-  - name: Major movable equipment
+  - name: minor_equipment_depreciable
     type: VARCHAR
-  - name: Minor equipment depreciable
+  - name: total_fixed_assets
     type: VARCHAR
-  - name: Total fixed Assets
+  - name: investments
     type: VARCHAR
-  - name: Investments
+  - name: other_assets
     type: VARCHAR
-  - name: Other Assets
+  - name: total_other_assets
     type: VARCHAR
-  - name: Total other Assets
+  - name: total_assets
     type: VARCHAR
-  - name: Total Assets
+  - name: accounts_payable
     type: VARCHAR
-  - name: Accounts payable
+  - name: salaries_wages_and_fees_payable
     type: VARCHAR
-  - name: Salaries, wages, and fees payable
+  - name: payroll_taxes_payable
     type: VARCHAR
-  - name: Payroll taxes payable
+  - name: notes_and_loans_payable_short_term
     type: VARCHAR
-  - name: Notes and Loans Payable (short term)
+  - name: deferred_income
     type: VARCHAR
-  - name: Deferred income
+  - name: other_current_liabilities
     type: VARCHAR
-  - name: Other current liabilities
+  - name: total_current_liabilities
     type: VARCHAR
-  - name: Total current liabilities
+  - name: mortgage_payable
     type: VARCHAR
-  - name: Mortgage payable
+  - name: notes_payable
     type: VARCHAR
-  - name: Notes Payable
+  - name: unsecured_loans
     type: VARCHAR
-  - name: Unsecured Loans
+  - name: other_long_term_liabilities
     type: VARCHAR
-  - name: Other long term liabilities
+  - name: total_long_term_liabilities
     type: VARCHAR
-  - name: Total long term liabilities
+  - name: total_liabilities
     type: VARCHAR
-  - name: Total liabilities
+  - name: general_fund_balance
     type: VARCHAR
-  - name: General fund balance
+  - name: total_fund_balances
     type: VARCHAR
-  - name: Total fund balances
+  - name: total_liabilities_and_fund_balances
     type: VARCHAR
-  - name: Total Liabilities and fund balances
+  - name: total_general_inpatient_care_services_revenue
     type: VARCHAR
-  - name: Total General Inpatient Care Services Revenue
+  - name: inpatient_revenue
     type: VARCHAR
-  - name: Inpatient Revenue
+  - name: outpatient_revenue
     type: VARCHAR
-  - name: Outpatient Revenue
+  - name: gross_revenue
     type: VARCHAR
-  - name: Gross Revenue
+  - name: less_contractual_allowance_and_discounts_on_patients_accounts
     type: VARCHAR
-  - name: Less Contractual Allowance and discounts on patients' accounts
+  - name: net_patient_revenue
     type: VARCHAR
-  - name: Net Patient Revenue
+  - name: less_total_operating_expense
     type: VARCHAR
-  - name: Less Total Operating Expense
+  - name: net_income_from_service_to_patients
     type: VARCHAR
-  - name: Net Income from service to patients
+  - name: total_other_income
     type: VARCHAR
-  - name: Total Other Income
+  - name: total_income
     type: VARCHAR
-  - name: Total Income
+  - name: net_income
     type: VARCHAR
-  - name: Net Income
+  - name: inpatient_pps_amount
     type: VARCHAR
-  - name: Inpatient PPS Amount
+  - name: nursing_and_allied_health_education_activities
     type: VARCHAR
-  - name: Nursing and Allied Health Education Activities
-    type: VARCHAR
-  - name: Allowable Bad Debts
+  - name: allowable_bad_debts
     type: VARCHAR

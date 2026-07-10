@@ -1,203 +1,204 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [CMS Certification Number (CCN)]
-temporal: Processing Date
-sort: [Processing Date, CMS Certification Number (CCN)]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-4pq5-n9py`. Regenerate after model-verify.
+key: [date_first_approved_to_provide_medicare_and_medicaid_services, provider_address]
+temporal: date_first_approved_to_provide_medicare_and_medicaid_services
+sort: [date_first_approved_to_provide_medicare_and_medicaid_services, provider_address]
 columns:
-  - name: CMS Certification Number (CCN)
+  - name: cms_certification_number_ccn
     type: VARCHAR
-  - name: Provider Name
+  - name: provider_name
     type: VARCHAR
-  - name: Provider Address
+  - name: provider_address
     type: VARCHAR
-  - name: City/Town
+  - name: city_town
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: ZIP Code
+  - name: zip_code
     type: VARCHAR
-  - name: Telephone Number
+  - name: telephone_number
+    type: BIGINT
+  - name: provider_ssa_county_code
     type: VARCHAR
-  - name: Provider SSA County Code
+  - name: county_parish
     type: VARCHAR
-  - name: County/Parish
+  - name: urban
     type: VARCHAR
-  - name: Urban
+  - name: ownership_type
     type: VARCHAR
-  - name: Ownership Type
+  - name: number_of_certified_beds
     type: VARCHAR
-  - name: Number of Certified Beds
+  - name: average_number_of_residents_per_day
     type: VARCHAR
-  - name: Average Number of Residents per Day
+  - name: average_number_of_residents_per_day_footnote
     type: VARCHAR
-  - name: Average Number of Residents per Day Footnote
+  - name: provider_type
     type: VARCHAR
-  - name: Provider Type
+  - name: provider_resides_in_hospital
     type: VARCHAR
-  - name: Provider Resides in Hospital
+  - name: legal_business_name
     type: VARCHAR
-  - name: Legal Business Name
-    type: VARCHAR
-  - name: Date First Approved to Provide Medicare and Medicaid Services
+  - name: date_first_approved_to_provide_medicare_and_medicaid_services
     type: DATE
-  - name: Chain Name
+  - name: chain_name
     type: VARCHAR
-  - name: Chain ID
+  - name: chain_id
     type: VARCHAR
-  - name: Number of Facilities in Chain
+  - name: number_of_facilities_in_chain
     type: VARCHAR
-  - name: Chain Average Overall 5-star Rating
+  - name: chain_average_overall_5_star_rating
     type: VARCHAR
-  - name: Chain Average Health Inspection Rating
+  - name: chain_average_health_inspection_rating
     type: VARCHAR
-  - name: Chain Average Staffing Rating
+  - name: chain_average_staffing_rating
     type: VARCHAR
-  - name: Chain Average QM Rating
+  - name: chain_average_qm_rating
     type: VARCHAR
-  - name: Continuing Care Retirement Community
+  - name: continuing_care_retirement_community
     type: VARCHAR
-  - name: Special Focus Status
+  - name: special_focus_status
     type: VARCHAR
-  - name: Abuse Icon
+  - name: abuse_icon
     type: VARCHAR
-  - name: Most Recent Health Inspection More Than 2 Years Ago
+  - name: most_recent_health_inspection_more_than_2_years_ago
     type: VARCHAR
-  - name: Provider Changed Ownership in Last 12 Months
+  - name: provider_changed_ownership_in_last_12_months
     type: VARCHAR
-  - name: With a Resident and Family Council
+  - name: with_a_resident_and_family_council
     type: VARCHAR
-  - name: Automatic Sprinkler Systems in All Required Areas
+  - name: automatic_sprinkler_systems_in_all_required_areas
     type: VARCHAR
-  - name: Overall Rating
+  - name: overall_rating
     type: VARCHAR
-  - name: Overall Rating Footnote
+  - name: overall_rating_footnote
     type: VARCHAR
-  - name: Health Inspection Rating
+  - name: health_inspection_rating
     type: VARCHAR
-  - name: Health Inspection Rating Footnote
+  - name: health_inspection_rating_footnote
     type: VARCHAR
-  - name: QM Rating
+  - name: qm_rating
     type: VARCHAR
-  - name: QM Rating Footnote
+  - name: qm_rating_footnote
     type: VARCHAR
-  - name: Long-Stay QM Rating
+  - name: long_stay_qm_rating
     type: VARCHAR
-  - name: Long-Stay QM Rating Footnote
+  - name: long_stay_qm_rating_footnote
     type: VARCHAR
-  - name: Short-Stay QM Rating
+  - name: short_stay_qm_rating
     type: VARCHAR
-  - name: Short-Stay QM Rating Footnote
+  - name: short_stay_qm_rating_footnote
     type: VARCHAR
-  - name: Staffing Rating
+  - name: staffing_rating
     type: VARCHAR
-  - name: Staffing Rating Footnote
+  - name: staffing_rating_footnote
     type: VARCHAR
-  - name: Reported Staffing Footnote
+  - name: reported_staffing_footnote
     type: VARCHAR
-  - name: Physical Therapist Staffing Footnote
+  - name: physical_therapist_staffing_footnote
     type: VARCHAR
-  - name: Reported Nurse Aide Staffing Hours per Resident per Day
+  - name: reported_nurse_aide_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Reported LPN Staffing Hours per Resident per Day
+  - name: reported_lpn_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Reported RN Staffing Hours per Resident per Day
+  - name: reported_rn_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Reported Licensed Staffing Hours per Resident per Day
+  - name: reported_licensed_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Reported Total Nurse Staffing Hours per Resident per Day
+  - name: reported_total_nurse_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Total number of nurse staff hours per resident per day on the weekend
+  - name: total_number_of_nurse_staff_hours_per_resident_per_day_on_the_weekend
     type: VARCHAR
-  - name: Registered Nurse hours per resident per day on the weekend
+  - name: registered_nurse_hours_per_resident_per_day_on_the_weekend
     type: VARCHAR
-  - name: Reported Physical Therapist Staffing Hours per Resident Per Day
+  - name: reported_physical_therapist_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Total nursing staff turnover
+  - name: total_nursing_staff_turnover
     type: VARCHAR
-  - name: Total nursing staff turnover footnote
+  - name: total_nursing_staff_turnover_footnote
     type: VARCHAR
-  - name: Registered Nurse turnover
+  - name: registered_nurse_turnover
     type: VARCHAR
-  - name: Registered Nurse turnover footnote
+  - name: registered_nurse_turnover_footnote
     type: VARCHAR
-  - name: Number of administrators who have left the nursing home
+  - name: number_of_administrators_who_have_left_the_nursing_home
     type: VARCHAR
-  - name: Administrator turnover footnote
+  - name: administrator_turnover_footnote
     type: VARCHAR
-  - name: Nursing Case-Mix Index
+  - name: nursing_case_mix_index
     type: VARCHAR
-  - name: Nursing Case-Mix Index Ratio
+  - name: nursing_case_mix_index_ratio
     type: VARCHAR
-  - name: Case-Mix Nurse Aide Staffing Hours per Resident per Day
+  - name: case_mix_nurse_aide_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Case-Mix LPN Staffing Hours per Resident per Day
+  - name: case_mix_lpn_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Case-Mix RN Staffing Hours per Resident per Day
+  - name: case_mix_rn_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Case-Mix Total Nurse Staffing Hours per Resident per Day
+  - name: case_mix_total_nurse_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Case-Mix Weekend Total Nurse Staffing Hours per Resident per Day
+  - name: case_mix_weekend_total_nurse_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Adjusted Nurse Aide Staffing Hours per Resident per Day
+  - name: adjusted_nurse_aide_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Adjusted LPN Staffing Hours per Resident per Day
+  - name: adjusted_lpn_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Adjusted RN Staffing Hours per Resident per Day
+  - name: adjusted_rn_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Adjusted Total Nurse Staffing Hours per Resident per Day
+  - name: adjusted_total_nurse_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Adjusted Weekend Total Nurse Staffing Hours per Resident per Day
+  - name: adjusted_weekend_total_nurse_staffing_hours_per_resident_per_day
     type: VARCHAR
-  - name: Rating Cycle 1 Standard Survey Health Date
+  - name: rating_cycle_1_standard_survey_health_date
     type: DATE
-  - name: Rating Cycle 1 Total Number of Health Deficiencies
+  - name: rating_cycle_1_total_number_of_health_deficiencies
     type: VARCHAR
-  - name: Rating Cycle 1 Number of Standard Health Deficiencies
+  - name: rating_cycle_1_number_of_standard_health_deficiencies
     type: VARCHAR
-  - name: Rating Cycle 1 Number of Complaint Health Deficiencies
+  - name: rating_cycle_1_number_of_complaint_health_deficiencies
     type: VARCHAR
-  - name: Rating Cycle 1 Health Deficiency Score
+  - name: rating_cycle_1_health_deficiency_score
     type: VARCHAR
-  - name: Rating Cycle 1 Number of Health Revisits
+  - name: rating_cycle_1_number_of_health_revisits
     type: VARCHAR
-  - name: Rating Cycle 1 Health Revisit Score
+  - name: rating_cycle_1_health_revisit_score
     type: VARCHAR
-  - name: Rating Cycle 1 Total Health Score
+  - name: rating_cycle_1_total_health_score
     type: VARCHAR
-  - name: Rating Cycle 2 Standard Health Survey Date
+  - name: rating_cycle_2_standard_health_survey_date
     type: VARCHAR
-  - name: Rating Cycle 2/3 Total Number of Health Deficiencies
+  - name: rating_cycle_2_3_total_number_of_health_deficiencies
     type: VARCHAR
-  - name: Rating Cycle 2 Number of Standard Health Deficiencies
+  - name: rating_cycle_2_number_of_standard_health_deficiencies
     type: VARCHAR
-  - name: Rating Cycle 2/3 Number of Complaint Health Deficiencies
+  - name: rating_cycle_2_3_number_of_complaint_health_deficiencies
     type: VARCHAR
-  - name: Rating Cycle 2/3 Health Deficiency Score
+  - name: rating_cycle_2_3_health_deficiency_score
     type: VARCHAR
-  - name: Rating Cycle 2/3 Number of Health Revisits
+  - name: rating_cycle_2_3_number_of_health_revisits
     type: VARCHAR
-  - name: Rating Cycle 2/3 Health Revisit Score
+  - name: rating_cycle_2_3_health_revisit_score
     type: VARCHAR
-  - name: Rating Cycle 2/3 Total Health Score
+  - name: rating_cycle_2_3_total_health_score
     type: VARCHAR
-  - name: Total Weighted Health Survey Score
+  - name: total_weighted_health_survey_score
     type: VARCHAR
-  - name: Number of Citations from Infection Control Inspections
+  - name: number_of_citations_from_infection_control_inspections
     type: VARCHAR
-  - name: Number of Fines
+  - name: number_of_fines
+    type: BIGINT
+  - name: total_amount_of_fines_in_dollars
+    type: DOUBLE
+  - name: number_of_payment_denials
+    type: BIGINT
+  - name: total_number_of_penalties
+    type: BIGINT
+  - name: location
     type: VARCHAR
-  - name: Total Amount of Fines in Dollars
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: geocoding_footnote
     type: VARCHAR
-  - name: Number of Payment Denials
-    type: VARCHAR
-  - name: Total Number of Penalties
-    type: VARCHAR
-  - name: Location
-    type: VARCHAR
-  - name: Latitude
-    type: VARCHAR
-  - name: Longitude
-    type: VARCHAR
-  - name: Geocoding Footnote
-    type: VARCHAR
-  - name: Processing Date
+  - name: processing_date
     type: DATE

@@ -1,90 +1,94 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-dc76-gh7x`. Regenerate after model-verify.
+key: [state]
+temporal: start_date
+sort: [start_date, state]
 columns:
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: HBIPS-2 Measure Description
+  - name: hbips_2_measure_description
     type: VARCHAR
-  - name: S HBIPS-2 Overall Rate Per 1000
+  - name: s_hbips_2_overall_rate_per_1000
+    type: DOUBLE
+  - name: s_hbips_2_overall_num
+    type: DOUBLE
+  - name: s_hbips_2_overall_den
+    type: BIGINT
+  - name: hbips_3_measure_description
     type: VARCHAR
-  - name: S HBIPS-2 Overall Num
+  - name: s_hbips_3_overall_rate_per_1000
+    type: DOUBLE
+  - name: s_hbips_3_overall_num
+    type: DOUBLE
+  - name: s_hbips_3_overall_den
+    type: BIGINT
+  - name: smd_measure_description
     type: VARCHAR
-  - name: S HBIPS-2 Overall Den
+  - name: s_smd
+    type: BIGINT
+  - name: sub_2_2a_measure_description
     type: VARCHAR
-  - name: HBIPS-3 Measure Description
+  - name: s_sub_2
+    type: BIGINT
+  - name: s_sub_2a
+    type: BIGINT
+  - name: sub_3_3a_measure_description
     type: VARCHAR
-  - name: S HBIPS-3 Overall Rate Per 1000
+  - name: s_sub_3
+    type: BIGINT
+  - name: s_sub_3a
+    type: BIGINT
+  - name: tob_3_3a_measure_description
     type: VARCHAR
-  - name: S HBIPS-3 Overall Num
+  - name: s_tob_3
+    type: BIGINT
+  - name: s_tob_3a
+    type: BIGINT
+  - name: tr_1_measure_description
     type: VARCHAR
-  - name: S HBIPS-3 Overall Den
+  - name: s_tr_1
+    type: BIGINT
+  - name: start_date
     type: VARCHAR
-  - name: SMD Measure Description
+  - name: end_date
+    type: DATE
+  - name: faph_measure_description
     type: VARCHAR
-  - name: S SMD %
+  - name: s_faph_30
     type: VARCHAR
-  - name: SUB-2/-2a Measure Description
+  - name: s_faph_7
     type: VARCHAR
-  - name: S SUB-2 %
+  - name: faph_measure_start_date
     type: VARCHAR
-  - name: S SUB-2a %
+  - name: faph_measure_end_date
+    type: DATE
+  - name: medcont_measure_description
     type: VARCHAR
-  - name: SUB-3/-3a Measure Description
+  - name: s_medcont
     type: VARCHAR
-  - name: S SUB-3 %
+  - name: medcont_measure_start_date
     type: VARCHAR
-  - name: S SUB-3a %
+  - name: medcont_measure_end_date
+    type: DATE
+  - name: readm_30_ipf_measure_desc
     type: VARCHAR
-  - name: TOB-3/-3a Measure Description
+  - name: s_readm_30_ipf_ipfs_worse
     type: VARCHAR
-  - name: S TOB-3 %
+  - name: s_readm_30_ipf_ipfs_same
     type: VARCHAR
-  - name: S TOB-3a %
+  - name: s_readm_30_ipf_ipfs_better
     type: VARCHAR
-  - name: TR-1 Measure Description
+  - name: s_readm_30_ipf_ipfs_too_few
     type: VARCHAR
-  - name: S TR-1 %
+  - name: readm_30_ipf_start_date
     type: VARCHAR
-  - name: Start Date
+  - name: readm_30_ipf_end_date
+    type: DATE
+  - name: imm_2_measure_description
     type: VARCHAR
-  - name: End Date
+  - name: s_imm_2
+    type: BIGINT
+  - name: flu_season_start_date
     type: VARCHAR
-  - name: FAPH Measure Description
-    type: VARCHAR
-  - name: S FAPH-30 %
-    type: VARCHAR
-  - name: S FAPH-7 %
-    type: VARCHAR
-  - name: FAPH Measure Start Date
-    type: VARCHAR
-  - name: FAPH Measure End Date
-    type: VARCHAR
-  - name: MedCont Measure Description
-    type: VARCHAR
-  - name: S MedCont %
-    type: VARCHAR
-  - name: MedCont Measure Start Date
-    type: VARCHAR
-  - name: MedCont Measure End Date
-    type: VARCHAR
-  - name: READM-30-IPF Measure Desc
-    type: VARCHAR
-  - name: "S READM-30-IPF # IPFs Worse"
-    type: VARCHAR
-  - name: "S READM-30-IPF # IPFs Same"
-    type: VARCHAR
-  - name: "S READM-30-IPF # IPFs Better"
-    type: VARCHAR
-  - name: "S READM-30-IPF # IPFs Too Few"
-    type: VARCHAR
-  - name: READM-30-IPF Start Date
-    type: VARCHAR
-  - name: READM-30-IPF End Date
-    type: VARCHAR
-  - name: IMM-2 Measure Description
-    type: VARCHAR
-  - name: S IMM-2 %
-    type: VARCHAR
-  - name: Flu Season Start Date
-    type: VARCHAR
-  - name: Flu Season End Date
-    type: VARCHAR
+  - name: flu_season_end_date
+    type: DATE

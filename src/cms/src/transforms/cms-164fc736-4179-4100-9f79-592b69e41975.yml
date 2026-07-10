@@ -1,38 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-164fc736-4179-4100-9f79-592b69e41975`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: HCPCS_CD
+  - name: hcpcs_cd
     type: VARCHAR
-  - name: HCPCS_INITIAL_MODIFIER_CD
+  - name: hcpcs_initial_modifier_cd
     type: VARCHAR
-  - name: PROVIDER_SPEC_CD
+  - name: provider_spec_cd
     type: VARCHAR
-  - name: CARRIER_NUM
+  - name: carrier_num
     type: VARCHAR
-  - name: PRICING_LOCALITY_CD
+  - name: pricing_locality_cd
     type: VARCHAR
-  - name: TYPE_OF_SERVICE_CD
+  - name: type_of_service_cd
     type: VARCHAR
-  - name: PLACE_OF_SERVICE_CD
+  - name: place_of_service_cd
     type: VARCHAR
-  - name: HCPCS_SECOND_MODIFIER_CD
+  - name: hcpcs_second_modifier_cd
     type: VARCHAR
-  - name: PSPS_SUBMITTED_SERVICE_CNT
+  - name: psps_submitted_service_cnt
     type: VARCHAR
-  - name: PSPS_SUBMITTED_CHARGE_AMT
+  - name: psps_submitted_charge_amt
     type: VARCHAR
-  - name: PSPS_ALLOWED_CHARGE_AMT
+  - name: psps_allowed_charge_amt
     type: VARCHAR
-  - name: PSPS_DENIED_SERVICES_CNT
+  - name: psps_denied_services_cnt
     type: VARCHAR
-  - name: PSPS_DENIED_CHARGE_AMT
+  - name: psps_denied_charge_amt
     type: VARCHAR
-  - name: PSPS_ASSIGNED_SERVICES_CNT
+  - name: psps_assigned_services_cnt
     type: VARCHAR
-  - name: PSPS_NCH_PAYMENT_AMT
+  - name: psps_nch_payment_amt
+    type: DOUBLE
+  - name: psps_hcpcs_asc_ind_cd
     type: VARCHAR
-  - name: PSPS_HCPCS_ASC_IND_CD
-    type: VARCHAR
-  - name: PSPS_ERROR_IND_CD
-    type: VARCHAR
-  - name: HCPCS_BETOS_CD
+  - name: psps_error_ind_cd
+    type: BIGINT
+  - name: hcpcs_betos_cd
     type: VARCHAR

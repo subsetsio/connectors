@@ -1,2 +1,42 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-041d68a9-3212-42f3-89d5-b23e82103576"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "ACO_ID" AS aco_id,
+    "ACO_NAME" AS aco_name,
+    CAST("PERF_YR" AS BIGINT) AS perf_yr,
+    "PBP_ELECTION" AS pbp_election,
+    "RISK_ARRANGEMENT" AS risk_arrangement,
+    CAST("BENE_CT" AS BIGINT) AS bene_ct,
+    CAST("MNTH_PY" AS BIGINT) AS mnth_py,
+    CAST("BNMRK_EXPND" AS DOUBLE) AS bnmrk_expnd,
+    CAST("PERF_YR_EXPND" AS DOUBLE) AS perf_yr_expnd,
+    CAST("GROSS_SAVINGS" AS DOUBLE) AS gross_savings,
+    CAST("SHARED_SAVINGS" AS DOUBLE) AS shared_savings,
+    CAST("QUAL_SCRE" AS DOUBLE) AS qual_scre,
+    CAST("MNTH_AD_BY1" AS BIGINT) AS mnth_ad_by1,
+    CAST("EXPND_AD_BY1" AS DOUBLE) AS expnd_ad_by1,
+    CAST("RISK_SCRE_AD_BY1" AS DOUBLE) AS risk_scre_ad_by1,
+    CAST("MNTH_AD_BY2" AS BIGINT) AS mnth_ad_by2,
+    CAST("EXPND_AD_BY2" AS DOUBLE) AS expnd_ad_by2,
+    CAST("RISK_SCRE_AD_BY2" AS DOUBLE) AS risk_scre_ad_by2,
+    CAST("RISK_SCRE_AD_PY" AS DOUBLE) AS risk_scre_ad_py,
+    CAST("MNTH_ESRD_BY1" AS BIGINT) AS mnth_esrd_by1,
+    CAST("EXPND_ESRD_BY1" AS DOUBLE) AS expnd_esrd_by1,
+    CAST("RISK_SCRE_ESRD_BY1" AS DOUBLE) AS risk_scre_esrd_by1,
+    CAST("MNTH_ESRD_BY2" AS BIGINT) AS mnth_esrd_by2,
+    CAST("EXPND_ESRD_BY2" AS DOUBLE) AS expnd_esrd_by2,
+    CAST("RISK_SCRE_ESRD_BY2" AS DOUBLE) AS risk_scre_esrd_by2,
+    CAST("RISK_SCRE_ESRD_PY" AS DOUBLE) AS risk_scre_esrd_py,
+    CAST("EXPND_NCH10" AS DOUBLE) AS expnd_nch10,
+    CAST("EXPND_NCH20" AS DOUBLE) AS expnd_nch20,
+    CAST("EXPND_NCH30" AS DOUBLE) AS expnd_nch30,
+    CAST("EXPND_NCH40" AS DOUBLE) AS expnd_nch40,
+    CAST("EXPND_NCH50" AS DOUBLE) AS expnd_nch50,
+    CAST("EXPND_NCH60" AS DOUBLE) AS expnd_nch60,
+    CAST("EXPND_NCH71" AS DOUBLE) AS expnd_nch71,
+    CAST("EXPND_NCH72" AS DOUBLE) AS expnd_nch72,
+    CAST("EXPND_NCH81" AS DOUBLE) AS expnd_nch81,
+    CAST("EXPND_NCH82" AS DOUBLE) AS expnd_nch82
+FROM "cms-041d68a9-3212-42f3-89d5-b23e82103576"

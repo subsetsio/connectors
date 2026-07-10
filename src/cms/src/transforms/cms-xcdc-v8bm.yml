@@ -1,106 +1,108 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: Processing Date
-sort: [Processing Date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-xcdc-v8bm`. Regenerate after model-verify.
+key: [state_or_nation]
+temporal: processing_date
+sort: [processing_date, state_or_nation]
 columns:
-  - name: State or Nation
+  - name: state_or_nation
     type: VARCHAR
-  - name: Overall Rating
+  - name: overall_rating
+    type: DOUBLE
+  - name: health_inspection_rating
+    type: DOUBLE
+  - name: qm_rating
     type: VARCHAR
-  - name: Health Inspection Rating
+  - name: staffing_rating
+    type: DOUBLE
+  - name: cycle_1_total_number_of_health_deficiencies
+    type: DOUBLE
+  - name: cycle_1_total_number_of_fire_safety_deficiencies
+    type: DOUBLE
+  - name: cycle_2_total_number_of_health_deficiencies
+    type: DOUBLE
+  - name: cycle_2_total_number_of_fire_safety_deficiencies
+    type: DOUBLE
+  - name: cycle_3_total_number_of_health_deficiencies
+    type: DOUBLE
+  - name: cycle_3_total_number_of_fire_safety_deficiencies
+    type: DOUBLE
+  - name: average_number_of_residents_per_day
+    type: DOUBLE
+  - name: reported_nurse_aide_staffing_hours_per_resident_per_day
+    type: DOUBLE
+  - name: reported_lpn_staffing_hours_per_resident_per_day
+    type: DOUBLE
+  - name: reported_rn_staffing_hours_per_resident_per_day
+    type: DOUBLE
+  - name: reported_licensed_staffing_hours_per_resident_per_day
+    type: DOUBLE
+  - name: reported_total_nurse_staffing_hours_per_resident_per_day
+    type: DOUBLE
+  - name: total_number_of_nurse_staff_hours_per_resident_per_day_on_the_weekend
+    type: DOUBLE
+  - name: registered_nurse_hours_per_resident_per_day_on_the_weekend
+    type: DOUBLE
+  - name: reported_physical_therapist_staffing_hours_per_resident_per_day
+    type: DOUBLE
+  - name: total_nursing_staff_turnover
+    type: DOUBLE
+  - name: registered_nurse_turnover
+    type: DOUBLE
+  - name: number_of_administrators_who_have_left_the_nursing_home
     type: VARCHAR
-  - name: QM Rating
+  - name: nursing_case_mix_index
+    type: DOUBLE
+  - name: case_mix_rn_staffing_hours_per_resident_per_day
+    type: DOUBLE
+  - name: case_mix_total_nurse_staffing_hours_per_resident_per_day
+    type: DOUBLE
+  - name: case_mix_weekend_total_nurse_staffing_hours_per_resident_per_day
+    type: DOUBLE
+  - name: number_of_fines
+    type: DOUBLE
+  - name: fine_amount_in_dollars
+    type: BIGINT
+  - name: percentage_of_long_stay_residents_whose_need_for_help_with_daily_activities_has_increased
     type: VARCHAR
-  - name: Staffing Rating
+  - name: percentage_of_long_stay_residents_who_lose_too_much_weight
     type: VARCHAR
-  - name: Cycle 1 Total Number of Health Deficiencies
+  - name: percentage_of_long_stay_residents_with_a_catheter_inserted_and_left_in_their_bladder
     type: VARCHAR
-  - name: Cycle 1 Total Number of Fire Safety Deficiencies
+  - name: percentage_of_long_stay_residents_with_a_urinary_tract_infection
     type: VARCHAR
-  - name: Cycle 2 Total Number of Health Deficiencies
+  - name: percentage_of_long_stay_residents_who_have_depressive_symptoms
     type: VARCHAR
-  - name: Cycle 2 Total Number of Fire Safety Deficiencies
+  - name: percentage_of_long_stay_residents_who_were_physically_restrained
     type: VARCHAR
-  - name: Cycle 3 Total Number of Health Deficiencies
+  - name: percentage_of_long_stay_residents_experiencing_one_or_more_falls_with_major_injury
     type: VARCHAR
-  - name: Cycle 3 Total Number of Fire Safety Deficiencies
+  - name: percentage_of_long_stay_residents_assessed_and_appropriately_given_the_pneumococcal_vaccine
     type: VARCHAR
-  - name: Average Number of Residents per Day
+  - name: percentage_of_long_stay_residents_who_received_an_antipsychotic_medication
     type: VARCHAR
-  - name: Reported Nurse Aide Staffing Hours per Resident per Day
+  - name: percentage_of_short_stay_residents_assessed_and_appropriately_given_the_pneumococcal_vaccine
+    type: DOUBLE
+  - name: percentage_of_short_stay_residents_who_newly_received_an_antipsychotic_medication
+    type: DOUBLE
+  - name: percentage_of_long_stay_residents_whose_ability_to_walk_independently_worsened
     type: VARCHAR
-  - name: Reported LPN Staffing Hours per Resident per Day
+  - name: percentage_of_long_stay_residents_who_received_an_antianxiety_or_hypnotic_medication
     type: VARCHAR
-  - name: Reported RN Staffing Hours per Resident per Day
+  - name: percentage_of_long_stay_residents_assessed_and_appropriately_given_the_seasonal_influenza_vaccine
     type: VARCHAR
-  - name: Reported Licensed Staffing Hours per Resident per Day
+  - name: percentage_of_short_stay_residents_who_were_assessed_and_appropriately_given_the_seasonal_influenza_vaccine
+    type: DOUBLE
+  - name: percentage_of_long_stay_residents_with_pressure_ulcers
     type: VARCHAR
-  - name: Reported Total Nurse Staffing Hours per Resident per Day
+  - name: percentage_of_long_stay_residents_with_new_or_worsened_bowel_or_bladder_incontinence
     type: VARCHAR
-  - name: Total number of nurse staff hours per resident per day on the weekend
+  - name: percentage_of_short_stay_residents_who_were_rehospitalized_after_a_nursing_home_admission
     type: VARCHAR
-  - name: Registered Nurse hours per resident per day on the weekend
+  - name: percentage_of_short_stay_residents_who_had_an_outpatient_emergency_department_visit
     type: VARCHAR
-  - name: Reported Physical Therapist Staffing Hours per Resident Per Day
+  - name: number_of_hospitalizations_per_1000_long_stay_resident_days
     type: VARCHAR
-  - name: Total nursing staff turnover
+  - name: number_of_outpatient_emergency_department_visits_per_1000_long_stay_resident_days
     type: VARCHAR
-  - name: Registered Nurse turnover
-    type: VARCHAR
-  - name: Number of administrators who have left the nursing home
-    type: VARCHAR
-  - name: Nursing Case-Mix Index
-    type: VARCHAR
-  - name: Case-Mix RN Staffing Hours per Resident per Day
-    type: VARCHAR
-  - name: Case-Mix Total Nurse Staffing Hours per Resident per Day
-    type: VARCHAR
-  - name: Case-Mix Weekend Total Nurse Staffing Hours per Resident per Day
-    type: VARCHAR
-  - name: Number of Fines
-    type: VARCHAR
-  - name: Fine Amount in Dollars
-    type: VARCHAR
-  - name: Percentage of long stay residents whose need for help with daily activities has increased
-    type: VARCHAR
-  - name: Percentage of long stay residents who lose too much weight
-    type: VARCHAR
-  - name: Percentage of long stay residents with a catheter inserted and left in their bladder
-    type: VARCHAR
-  - name: Percentage of long stay residents with a urinary tract infection
-    type: VARCHAR
-  - name: Percentage of long stay residents who have depressive symptoms
-    type: VARCHAR
-  - name: Percentage of long stay residents who were physically restrained
-    type: VARCHAR
-  - name: Percentage of long stay residents experiencing one or more falls with major injury
-    type: VARCHAR
-  - name: Percentage of long stay residents assessed and appropriately given the pneumococcal vaccine
-    type: VARCHAR
-  - name: Percentage of long stay residents who received an antipsychotic medication
-    type: VARCHAR
-  - name: Percentage of short stay residents assessed and appropriately given the pneumococcal vaccine
-    type: VARCHAR
-  - name: Percentage of short stay residents who newly received an antipsychotic medication
-    type: VARCHAR
-  - name: Percentage of long stay residents whose ability to walk independently worsened
-    type: VARCHAR
-  - name: Percentage of long stay residents who received an antianxiety or hypnotic medication
-    type: VARCHAR
-  - name: Percentage of long stay residents assessed and appropriately given the seasonal influenza vaccine
-    type: VARCHAR
-  - name: Percentage of short stay residents who were assessed and appropriately given the seasonal influenza vaccine
-    type: VARCHAR
-  - name: Percentage of long stay residents with pressure ulcers
-    type: VARCHAR
-  - name: Percentage of long stay residents with new or worsened bowel or bladder incontinence
-    type: VARCHAR
-  - name: Percentage of short stay residents who were rehospitalized after a nursing home admission
-    type: VARCHAR
-  - name: Percentage of short stay residents who had an outpatient emergency department visit
-    type: VARCHAR
-  - name: Number of hospitalizations per 1000 long-stay resident days
-    type: VARCHAR
-  - name: Number of outpatient emergency department visits per 1000 long-stay resident days
-    type: VARCHAR
-  - name: Processing Date
+  - name: processing_date
     type: DATE

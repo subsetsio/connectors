@@ -1,38 +1,42 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-z8ax-x9j1`. Regenerate after model-verify.
+key: [rate, interval_upper_limit, total_cases, interval_lower_limit, facility_name]
+temporal: start_date
+sort: [start_date, rate, interval_upper_limit, total_cases, interval_lower_limit, facility_name]
 columns:
-  - name: Facility ID
+  - name: facility_id
     type: VARCHAR
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: Hospital Type
+  - name: hospital_type
     type: VARCHAR
-  - name: Address
+  - name: address
     type: VARCHAR
-  - name: City/Town
+  - name: city_town
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: ZIP Code
+  - name: zip_code
     type: VARCHAR
-  - name: County/Parish
+  - name: county_parish
     type: VARCHAR
-  - name: Measure ID
+  - name: measure_id
     type: VARCHAR
-  - name: Measure Description
+  - name: measure_description
     type: VARCHAR
-  - name: Total Cases
+  - name: total_cases
     type: VARCHAR
-  - name: Performance Category
+  - name: performance_category
     type: VARCHAR
-  - name: Rate
+  - name: rate
     type: VARCHAR
-  - name: Interval Lower Limit
+  - name: interval_lower_limit
     type: VARCHAR
-  - name: Interval Upper Limit
+  - name: interval_upper_limit
     type: VARCHAR
-  - name: Footnote
+  - name: footnote
     type: VARCHAR
-  - name: Start Date
+  - name: start_date
     type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

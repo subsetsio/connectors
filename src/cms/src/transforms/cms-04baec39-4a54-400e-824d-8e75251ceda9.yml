@@ -1,32 +1,35 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-04baec39-4a54-400e-824d-8e75251ceda9`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: Rndrng_Prvdr_Geo_Lvl
+  - name: rndrng_prvdr_geo_lvl
     type: VARCHAR
-  - name: Rndrng_Prvdr_Geo_Cd
+  - name: rndrng_prvdr_geo_cd
     type: VARCHAR
-  - name: Rndrng_Prvdr_Geo_Desc
+  - name: rndrng_prvdr_geo_desc
     type: VARCHAR
-  - name: Srvc_Lvl
+  - name: srvc_lvl
     type: VARCHAR
-  - name: APC_Cd
+  - name: apc_cd
+    type: BIGINT
+  - name: apc_desc
     type: VARCHAR
-  - name: APC_Desc
+  - name: hcpcs_cd
     type: VARCHAR
-  - name: HCPCS_Cd
+  - name: hcpcs_desc
     type: VARCHAR
-  - name: HCPCS_Desc
+  - name: bene_cnt
     type: VARCHAR
-  - name: Bene_Cnt
+  - name: capc_srvcs
     type: VARCHAR
-  - name: CAPC_Srvcs
+  - name: avg_tot_sbmtd_chrgs
     type: VARCHAR
-  - name: Avg_Tot_Sbmtd_Chrgs
+  - name: avg_mdcr_alowd_amt
     type: VARCHAR
-  - name: Avg_Mdcr_Alowd_Amt
+  - name: avg_mdcr_pymt_amt
     type: VARCHAR
-  - name: Avg_Mdcr_Pymt_Amt
+  - name: outlier_srvcs
     type: VARCHAR
-  - name: Outlier_Srvcs
-    type: VARCHAR
-  - name: Avg_Mdcr_Outlier_Amt
+  - name: avg_mdcr_outlier_amt
     type: VARCHAR

@@ -1,34 +1,37 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-175d576d-0568-4ac2-aec5-d77f3ee02205`. Regenerate after model-verify.
+key: [last_name, first_name, organization_legal_name, state, asm_cohort]
+sort: [last_name, first_name, organization_legal_name, state, asm_cohort]
 columns:
-  - name: NPI
+  - name: npi
+    type: BIGINT
+  - name: first_name
     type: VARCHAR
-  - name: FIRST_NAME
+  - name: last_name
     type: VARCHAR
-  - name: LAST_NAME
+  - name: state
     type: VARCHAR
-  - name: STATE
+  - name: asm_cohort
     type: VARCHAR
-  - name: ASM_COHORT
+  - name: organization_legal_name
     type: VARCHAR
-  - name: ORGANIZATION_LEGAL_NAME
+  - name: asm_cy27_participant
     type: VARCHAR
-  - name: ASM_CY27_PARTICIPANT
+  - name: asm_cy27_smallpractice
     type: VARCHAR
-  - name: ASM_CY27_SMALLPRACTICE
+  - name: asm_cy28_participant
     type: VARCHAR
-  - name: ASM_CY28_PARTICIPANT
+  - name: asm_cy28_smallpractice
     type: VARCHAR
-  - name: ASM_CY28_SMALLPRACTICE
+  - name: asm_cy29_participant
     type: VARCHAR
-  - name: ASM_CY29_PARTICIPANT
+  - name: asm_cy29_smallpractice
     type: VARCHAR
-  - name: ASM_CY29_SMALLPRACTICE
+  - name: asm_cy30_participant
     type: VARCHAR
-  - name: ASM_CY30_PARTICIPANT
+  - name: asm_cy30_smallpractice
     type: VARCHAR
-  - name: ASM_CY30_SMALLPRACTICE
+  - name: asm_cy31_participant
     type: VARCHAR
-  - name: ASM_CY31_PARTICIPANT
-    type: VARCHAR
-  - name: ASM_CY31_SMALLPRACTICE
+  - name: asm_cy31_smallpractice
     type: VARCHAR

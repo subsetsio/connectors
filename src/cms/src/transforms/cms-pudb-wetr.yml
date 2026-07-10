@@ -1,105 +1,105 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Facility ID]
-temporal: Fiscal Year
-sort: [Fiscal Year, Facility ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-pudb-wetr`. Regenerate after model-verify.
+key: [mort_30_copd_baseline_rate, mort_30_hf_performance_rate, address, facility_id, mort_30_pn_baseline_rate]
+sort: [mort_30_copd_baseline_rate, mort_30_hf_performance_rate, address, facility_id, mort_30_pn_baseline_rate]
 columns:
-  - name: Fiscal Year
+  - name: fiscal_year
+    type: BIGINT
+  - name: facility_id
     type: VARCHAR
-  - name: Facility ID
+  - name: facility_name
     type: VARCHAR
-  - name: Facility Name
+  - name: address
     type: VARCHAR
-  - name: Address
+  - name: city_town
     type: VARCHAR
-  - name: City/Town
+  - name: state
     type: VARCHAR
-  - name: State
+  - name: zip_code
     type: VARCHAR
-  - name: ZIP Code
+  - name: county_parish
     type: VARCHAR
-  - name: County/Parish
+  - name: mort_30_ami_achievement_threshold
+    type: DOUBLE
+  - name: mort_30_ami_benchmark
+    type: DOUBLE
+  - name: mort_30_ami_baseline_rate
     type: VARCHAR
-  - name: MORT-30-AMI Achievement Threshold
+  - name: mort_30_ami_performance_rate
     type: VARCHAR
-  - name: MORT-30-AMI Benchmark
+  - name: mort_30_ami_achievement_points
     type: VARCHAR
-  - name: MORT-30-AMI Baseline Rate
+  - name: mort_30_ami_improvement_points
     type: VARCHAR
-  - name: MORT-30-AMI Performance Rate
+  - name: mort_30_ami_measure_score
     type: VARCHAR
-  - name: MORT-30-AMI Achievement Points
+  - name: mort_30_hf_achievement_threshold
+    type: DOUBLE
+  - name: mort_30_hf_benchmark
+    type: DOUBLE
+  - name: mort_30_hf_baseline_rate
     type: VARCHAR
-  - name: MORT-30-AMI Improvement Points
+  - name: mort_30_hf_performance_rate
     type: VARCHAR
-  - name: MORT-30-AMI Measure Score
+  - name: mort_30_hf_achievement_points
     type: VARCHAR
-  - name: MORT-30-HF Achievement Threshold
+  - name: mort_30_hf_improvement_points
     type: VARCHAR
-  - name: MORT-30-HF Benchmark
+  - name: mort_30_hf_measure_score
     type: VARCHAR
-  - name: MORT-30-HF Baseline Rate
+  - name: mort_30_pn_achievement_threshold
+    type: DOUBLE
+  - name: mort_30_pn_benchmark
+    type: DOUBLE
+  - name: mort_30_pn_baseline_rate
     type: VARCHAR
-  - name: MORT-30-HF Performance Rate
+  - name: mort_30_pn_performance_rate
     type: VARCHAR
-  - name: MORT-30-HF Achievement Points
+  - name: mort_30_pn_achievement_points
     type: VARCHAR
-  - name: MORT-30-HF Improvement Points
+  - name: mort_30_pn_improvement_points
     type: VARCHAR
-  - name: MORT-30-HF Measure Score
+  - name: mort_30_pn_measure_score
     type: VARCHAR
-  - name: MORT-30-PN Achievement Threshold
+  - name: mort_30_copd_achievement_threshold
+    type: DOUBLE
+  - name: mort_30_copd_benchmark
+    type: DOUBLE
+  - name: mort_30_copd_baseline_rate
     type: VARCHAR
-  - name: MORT-30-PN Benchmark
+  - name: mort_30_copd_performance_rate
     type: VARCHAR
-  - name: MORT-30-PN Baseline Rate
+  - name: mort_30_copd_achievement_points
     type: VARCHAR
-  - name: MORT-30-PN Performance Rate
+  - name: mort_30_copd_improvement_points
     type: VARCHAR
-  - name: MORT-30-PN Achievement Points
+  - name: mort_30_copd_measure_score
     type: VARCHAR
-  - name: MORT-30-PN Improvement Points
+  - name: mort_30_cabg_achievement_threshold
+    type: DOUBLE
+  - name: mort_30_cabg_benchmark
+    type: DOUBLE
+  - name: mort_30_cabg_baseline_rate
     type: VARCHAR
-  - name: MORT-30-PN Measure Score
+  - name: mort_30_cabg_performance_rate
     type: VARCHAR
-  - name: MORT-30-COPD Achievement Threshold
+  - name: mort_30_cabg_achievement_points
     type: VARCHAR
-  - name: MORT-30-COPD Benchmark
+  - name: mort_30_cabg_improvement_points
     type: VARCHAR
-  - name: MORT-30-COPD Baseline Rate
+  - name: mort_30_cabg_measure_score
     type: VARCHAR
-  - name: MORT-30-COPD Performance Rate
+  - name: comp_hip_knee_achievement_threshold
+    type: DOUBLE
+  - name: comp_hip_knee_benchmark
+    type: DOUBLE
+  - name: comp_hip_knee_baseline_rate
     type: VARCHAR
-  - name: MORT-30-COPD Achievement Points
+  - name: comp_hip_knee_performance_rate
     type: VARCHAR
-  - name: MORT-30-COPD Improvement Points
+  - name: comp_hip_knee_achievement_points
     type: VARCHAR
-  - name: MORT-30-COPD Measure Score
+  - name: comp_hip_knee_improvement_points
     type: VARCHAR
-  - name: MORT-30-CABG Achievement Threshold
-    type: VARCHAR
-  - name: MORT-30-CABG Benchmark
-    type: VARCHAR
-  - name: MORT-30-CABG Baseline Rate
-    type: VARCHAR
-  - name: MORT-30-CABG Performance Rate
-    type: VARCHAR
-  - name: MORT-30-CABG Achievement Points
-    type: VARCHAR
-  - name: MORT-30-CABG Improvement Points
-    type: VARCHAR
-  - name: MORT-30-CABG Measure Score
-    type: VARCHAR
-  - name: COMP-HIP-KNEE Achievement Threshold
-    type: VARCHAR
-  - name: COMP-HIP-KNEE Benchmark
-    type: VARCHAR
-  - name: COMP-HIP-KNEE Baseline Rate
-    type: VARCHAR
-  - name: COMP-HIP-KNEE Performance Rate
-    type: VARCHAR
-  - name: COMP-HIP-KNEE Achievement Points
-    type: VARCHAR
-  - name: COMP-HIP-KNEE Improvement Points
-    type: VARCHAR
-  - name: COMP-HIP-KNEE Measure Score
+  - name: comp_hip_knee_measure_score
     type: VARCHAR

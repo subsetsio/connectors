@@ -1,28 +1,29 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: Calendar Year
-sort: [Calendar Year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-a93f5362-2fe6-4b4d-8260-118be0d618e0`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: County
+  - name: county
     type: VARCHAR
-  - name: MCO Name
+  - name: mco_name
     type: VARCHAR
-  - name: Service Category
+  - name: service_category
     type: VARCHAR
-  - name: Number of Active Patients
+  - name: number_of_active_patients
     type: VARCHAR
-  - name: Number of Eligible MCO Patients
+  - name: number_of_eligible_mco_patients
     type: VARCHAR
-  - name: Number of Providers
+  - name: number_of_providers
+    type: BIGINT
+  - name: percent_of_eligible_patients_receiving_services
     type: VARCHAR
-  - name: Percent Of Eligible Patients Receiving Services
+  - name: number_of_services_per_active_patient
     type: VARCHAR
-  - name: Number of Services per Active Patient
+  - name: number_of_active_patients_per_provider
     type: VARCHAR
-  - name: Number of Active Patients per Provider
-    type: VARCHAR
-  - name: Calendar Year
-    type: VARCHAR
-  - name: Plan Category
+  - name: calendar_year
+    type: BIGINT
+  - name: plan_category
     type: VARCHAR

@@ -1,116 +1,119 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-ee6fb1a5-39b9-46b3-a980-a7284551a732`. Regenerate after model-verify.
+key: [tot_submtd_cvrd_chrg]
+sort: [tot_submtd_cvrd_chrg]
 columns:
-  - name: Rndrng_Prvdr_CCN
+  - name: rndrng_prvdr_ccn
     type: VARCHAR
-  - name: Rndrng_Prvdr_Org_Name
+  - name: rndrng_prvdr_org_name
     type: VARCHAR
-  - name: Rndrng_Prvdr_St
+  - name: rndrng_prvdr_st
     type: VARCHAR
-  - name: Rndrng_Prvdr_City
+  - name: rndrng_prvdr_city
     type: VARCHAR
-  - name: Rndrng_Prvdr_Zip5
+  - name: rndrng_prvdr_zip5
     type: VARCHAR
-  - name: Rndrng_Prvdr_State_Abrvtn
+  - name: rndrng_prvdr_state_abrvtn
     type: VARCHAR
-  - name: Rndrng_Prvdr_State_FIPS
+  - name: rndrng_prvdr_state_fips
     type: VARCHAR
-  - name: Rndrng_Prvdr_RUCA
+  - name: rndrng_prvdr_ruca
+    type: DOUBLE
+  - name: rndrng_prvdr_ruca_desc
     type: VARCHAR
-  - name: Rndrng_Prvdr_RUCA_Desc
+  - name: tot_benes
+    type: BIGINT
+  - name: tot_submtd_cvrd_chrg
+    type: BIGINT
+  - name: tot_pymt_amt
+    type: BIGINT
+  - name: tot_mdcr_pymt_amt
+    type: BIGINT
+  - name: tot_dschrgs
+    type: BIGINT
+  - name: tot_cvrd_days
+    type: BIGINT
+  - name: tot_days
+    type: BIGINT
+  - name: bene_avg_age
+    type: DOUBLE
+  - name: bene_age_lt_65_cnt
     type: VARCHAR
-  - name: Tot_Benes
+  - name: bene_age_65_74_cnt
     type: VARCHAR
-  - name: Tot_Submtd_Cvrd_Chrg
+  - name: bene_age_75_84_cnt
     type: VARCHAR
-  - name: Tot_Pymt_Amt
+  - name: bene_age_gt_84_cnt
     type: VARCHAR
-  - name: Tot_Mdcr_Pymt_Amt
+  - name: bene_feml_cnt
     type: VARCHAR
-  - name: Tot_Dschrgs
+  - name: bene_male_cnt
     type: VARCHAR
-  - name: Tot_Cvrd_Days
+  - name: bene_race_wht_cnt
     type: VARCHAR
-  - name: Tot_Days
+  - name: bene_race_black_cnt
     type: VARCHAR
-  - name: Bene_Avg_Age
+  - name: bene_race_api_cnt
     type: VARCHAR
-  - name: Bene_Age_LT_65_Cnt
+  - name: bene_race_hspnc_cnt
     type: VARCHAR
-  - name: Bene_Age_65_74_Cnt
+  - name: bene_race_natind_cnt
     type: VARCHAR
-  - name: Bene_Age_75_84_Cnt
+  - name: bene_race_othr_cnt
     type: VARCHAR
-  - name: Bene_Age_GT_84_Cnt
+  - name: bene_dual_cnt
     type: VARCHAR
-  - name: Bene_Feml_Cnt
+  - name: bene_ndual_cnt
     type: VARCHAR
-  - name: Bene_Male_Cnt
-    type: VARCHAR
-  - name: Bene_Race_Wht_Cnt
-    type: VARCHAR
-  - name: Bene_Race_Black_Cnt
-    type: VARCHAR
-  - name: Bene_Race_API_Cnt
-    type: VARCHAR
-  - name: Bene_Race_Hspnc_Cnt
-    type: VARCHAR
-  - name: Bene_Race_NatInd_Cnt
-    type: VARCHAR
-  - name: Bene_Race_Othr_Cnt
-    type: VARCHAR
-  - name: Bene_Dual_Cnt
-    type: VARCHAR
-  - name: Bene_Ndual_Cnt
-    type: VARCHAR
-  - name: Bene_CC_BH_ADHD_OthCD_V1_Pct
-    type: VARCHAR
-  - name: Bene_CC_BH_Alcohol_Drug_V1_Pct
-    type: VARCHAR
-  - name: Bene_CC_BH_Tobacco_V1_Pct
-    type: VARCHAR
-  - name: Bene_CC_BH_Alz_NonAlzdem_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_BH_Anxiety_V1_Pct
-    type: VARCHAR
-  - name: Bene_CC_BH_Bipolar_V1_Pct
-    type: VARCHAR
-  - name: Bene_CC_BH_Mood_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_BH_Depress_V1_Pct
-    type: VARCHAR
-  - name: Bene_CC_BH_PD_V1_Pct
-    type: VARCHAR
-  - name: Bene_CC_BH_PTSD_V1_Pct
-    type: VARCHAR
-  - name: Bene_CC_BH_Schizo_OthPsy_V1_Pct
-    type: VARCHAR
-  - name: Bene_CC_PH_Asthma_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_PH_Afib_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_PH_Cancer6_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_PH_CKD_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_PH_COPD_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_PH_Diabetes_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_PH_HF_NonIHD_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_PH_Hyperlipidemia_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_PH_Hypertension_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_PH_IschemicHeart_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_PH_Osteoporosis_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_PH_Parkinson_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_PH_Arthritis_V2_Pct
-    type: VARCHAR
-  - name: Bene_CC_PH_Stroke_TIA_V2_Pct
-    type: VARCHAR
-  - name: Bene_Avg_Risk_Scre
-    type: VARCHAR
+  - name: bene_cc_bh_adhd_othcd_v1_pct
+    type: DOUBLE
+  - name: bene_cc_bh_alcohol_drug_v1_pct
+    type: DOUBLE
+  - name: bene_cc_bh_tobacco_v1_pct
+    type: DOUBLE
+  - name: bene_cc_bh_alz_nonalzdem_v2_pct
+    type: DOUBLE
+  - name: bene_cc_bh_anxiety_v1_pct
+    type: DOUBLE
+  - name: bene_cc_bh_bipolar_v1_pct
+    type: DOUBLE
+  - name: bene_cc_bh_mood_v2_pct
+    type: DOUBLE
+  - name: bene_cc_bh_depress_v1_pct
+    type: DOUBLE
+  - name: bene_cc_bh_pd_v1_pct
+    type: DOUBLE
+  - name: bene_cc_bh_ptsd_v1_pct
+    type: DOUBLE
+  - name: bene_cc_bh_schizo_othpsy_v1_pct
+    type: DOUBLE
+  - name: bene_cc_ph_asthma_v2_pct
+    type: DOUBLE
+  - name: bene_cc_ph_afib_v2_pct
+    type: DOUBLE
+  - name: bene_cc_ph_cancer6_v2_pct
+    type: DOUBLE
+  - name: bene_cc_ph_ckd_v2_pct
+    type: DOUBLE
+  - name: bene_cc_ph_copd_v2_pct
+    type: DOUBLE
+  - name: bene_cc_ph_diabetes_v2_pct
+    type: DOUBLE
+  - name: bene_cc_ph_hf_nonihd_v2_pct
+    type: DOUBLE
+  - name: bene_cc_ph_hyperlipidemia_v2_pct
+    type: DOUBLE
+  - name: bene_cc_ph_hypertension_v2_pct
+    type: DOUBLE
+  - name: bene_cc_ph_ischemicheart_v2_pct
+    type: DOUBLE
+  - name: bene_cc_ph_osteoporosis_v2_pct
+    type: DOUBLE
+  - name: bene_cc_ph_parkinson_v2_pct
+    type: DOUBLE
+  - name: bene_cc_ph_arthritis_v2_pct
+    type: DOUBLE
+  - name: bene_cc_ph_stroke_tia_v2_pct
+    type: DOUBLE
+  - name: bene_avg_risk_scre
+    type: DOUBLE

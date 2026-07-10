@@ -1,40 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: Year of publication
-sort: [Year of publication]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-c0451a3a-a86c-4bd4-a0b7-c93e6b1f1257`. Regenerate after model-verify.
+key: [title]
+sort: [title]
 columns:
-  - name: Title
+  - name: title
     type: VARCHAR
-  - name: Author
+  - name: author
     type: VARCHAR
-  - name: URL
+  - name: url
     type: VARCHAR
-  - name: Month of Publication
+  - name: month_of_publication
     type: VARCHAR
-  - name: Year of publication
+  - name: year_of_publication
+    type: BIGINT
+  - name: abstract
     type: VARCHAR
-  - name: Abstract
+  - name: keywords
     type: VARCHAR
-  - name: Keywords
+  - name: type
     type: VARCHAR
-  - name: Type
+  - name: related_content
     type: VARCHAR
-  - name: Related Content
+  - name: related_content_2
     type: VARCHAR
-  - name: Related Content 2
+  - name: related_content_3
     type: VARCHAR
-  - name: Related Content 3
+  - name: related_content_4
     type: VARCHAR
-  - name: Related Content 4
+  - name: related_content_5
     type: VARCHAR
-  - name: Related Content 5
+  - name: at_a_glance_reports_url
     type: VARCHAR
-  - name: At-A-Glance Reports URL
+  - name: at_a_glance_reports
     type: VARCHAR
-  - name: At-A-Glance Reports
+  - name: perspective_report_url
     type: VARCHAR
-  - name: Perspective Report URL
+  - name: perspective_report
     type: VARCHAR
-  - name: Perspective Report
-    type: VARCHAR
-  - name: ID
-    type: VARCHAR
+  - name: id
+    type: BIGINT

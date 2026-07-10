@@ -1,32 +1,35 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-0d753f51-c3de-43cd-95d2-550a23b8606a`. Regenerate after model-verify.
+key: [model_name]
+sort: [model_name]
 columns:
-  - name: Model Name
+  - name: model_name
     type: VARCHAR
-  - name: Stage
+  - name: stage
     type: VARCHAR
-  - name: Number of Participants
+  - name: number_of_participants
     type: VARCHAR
-  - name: Category
+  - name: category
     type: VARCHAR
-  - name: Authority
+  - name: authority
     type: VARCHAR
-  - name: Description
+  - name: description
     type: VARCHAR
-  - name: Number of Beneficiaries Impacted
+  - name: number_of_beneficiaries_impacted
     type: VARCHAR
-  - name: Number of Physicians Impacted
+  - name: number_of_physicians_impacted
     type: VARCHAR
-  - name: Date Began
+  - name: date_began
     type: VARCHAR
-  - name: Date Ended
+  - name: date_ended
     type: VARCHAR
-  - name: States
+  - name: states
     type: VARCHAR
-  - name: Keywords
+  - name: keywords
     type: VARCHAR
-  - name: URL
+  - name: url
     type: VARCHAR
-  - name: Display Model Summary
-    type: VARCHAR
-  - name: Unique ID
-    type: VARCHAR
+  - name: display_model_summary
+    type: BOOLEAN
+  - name: unique_id
+    type: BIGINT

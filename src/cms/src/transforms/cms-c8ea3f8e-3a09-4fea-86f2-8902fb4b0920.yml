@@ -1,46 +1,49 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-c8ea3f8e-3a09-4fea-86f2-8902fb4b0920`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: Prscrbr_Geo_Lvl
+  - name: prscrbr_geo_lvl
     type: VARCHAR
-  - name: Prscrbr_Geo_Cd
+  - name: prscrbr_geo_cd
     type: VARCHAR
-  - name: Prscrbr_Geo_Desc
+  - name: prscrbr_geo_desc
     type: VARCHAR
-  - name: Brnd_Name
+  - name: brnd_name
     type: VARCHAR
-  - name: Gnrc_Name
+  - name: gnrc_name
     type: VARCHAR
-  - name: Tot_Prscrbrs
+  - name: tot_prscrbrs
+    type: BIGINT
+  - name: tot_clms
+    type: BIGINT
+  - name: tot_30day_fills
+    type: BIGINT
+  - name: tot_drug_cst
+    type: DOUBLE
+  - name: tot_benes
     type: VARCHAR
-  - name: Tot_Clms
+  - name: ge65_sprsn_flag
     type: VARCHAR
-  - name: Tot_30day_Fills
+  - name: ge65_tot_clms
     type: VARCHAR
-  - name: Tot_Drug_Cst
+  - name: ge65_tot_30day_fills
     type: VARCHAR
-  - name: Tot_Benes
+  - name: ge65_tot_drug_cst
     type: VARCHAR
-  - name: GE65_Sprsn_Flag
+  - name: ge65_bene_sprsn_flag
     type: VARCHAR
-  - name: GE65_Tot_Clms
+  - name: ge65_tot_benes
     type: VARCHAR
-  - name: GE65_Tot_30day_Fills
+  - name: lis_bene_cst_shr
+    type: DOUBLE
+  - name: nonlis_bene_cst_shr
+    type: DOUBLE
+  - name: opioid_drug_flag
     type: VARCHAR
-  - name: GE65_Tot_Drug_Cst
+  - name: opioid_la_drug_flag
     type: VARCHAR
-  - name: GE65_Bene_Sprsn_Flag
+  - name: antbtc_drug_flag
     type: VARCHAR
-  - name: GE65_Tot_Benes
-    type: VARCHAR
-  - name: LIS_Bene_Cst_Shr
-    type: VARCHAR
-  - name: NonLIS_Bene_Cst_Shr
-    type: VARCHAR
-  - name: Opioid_Drug_Flag
-    type: VARCHAR
-  - name: Opioid_LA_Drug_Flag
-    type: VARCHAR
-  - name: Antbtc_Drug_Flag
-    type: VARCHAR
-  - name: Antpsyct_Drug_Flag
+  - name: antpsyct_drug_flag
     type: VARCHAR

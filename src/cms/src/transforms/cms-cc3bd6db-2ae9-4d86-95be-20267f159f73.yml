@@ -1,28 +1,32 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-cc3bd6db-2ae9-4d86-95be-20267f159f73`. Regenerate after model-verify.
+key: [end_date, description, url, unique_id, title]
+temporal: start_date
+sort: [start_date, end_date, description, url, unique_id, title]
 columns:
-  - name: Title
+  - name: title
     type: VARCHAR
-  - name: URL
+  - name: url
     type: VARCHAR
-  - name: Description
+  - name: description
     type: VARCHAR
-  - name: Start Date
+  - name: start_date
+    type: TIMESTAMP
+  - name: end_date
     type: VARCHAR
-  - name: End Date
+  - name: time_zone
     type: VARCHAR
-  - name: Time Zone
+  - name: related_item_1
     type: VARCHAR
-  - name: Related Item 1
+  - name: related_item_2
     type: VARCHAR
-  - name: Related Item 2
+  - name: related_item_3
     type: VARCHAR
-  - name: Related Item 3
+  - name: related_item_4
     type: VARCHAR
-  - name: Related Item 4
+  - name: related_item_5
     type: VARCHAR
-  - name: Related Item 5
+  - name: upcoming
     type: VARCHAR
-  - name: Upcoming
-    type: VARCHAR
-  - name: Unique ID
-    type: VARCHAR
+  - name: unique_id
+    type: BIGINT

@@ -1,20 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-f1a8c197-b53d-4c24-9770-aea5d5a97dfb`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: medicare_id_effective_date
+sort: [medicare_id_effective_date]
 columns:
-  - name: NPI
+  - name: npi
     type: VARCHAR
-  - name: PROVIDER NAME
+  - name: provider_name
     type: VARCHAR
-  - name: ADDRESS LINE 1
+  - name: address_line_1
     type: VARCHAR
-  - name: ADDRESS LINE 2
+  - name: address_line_2
     type: VARCHAR
-  - name: CITY
+  - name: city
     type: VARCHAR
-  - name: STATE
+  - name: state
     type: VARCHAR
-  - name: ZIP
+  - name: zip
     type: VARCHAR
-  - name: MEDICARE ID EFFECTIVE DATE
-    type: VARCHAR
-  - name: PHONE
+  - name: medicare_id_effective_date
+    type: DATE
+  - name: phone
     type: VARCHAR

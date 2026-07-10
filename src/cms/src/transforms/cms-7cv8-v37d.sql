@@ -1,2 +1,11 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-7cv8-v37d"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "Measure Code" AS measure_code,
+    "Measure Name" AS measure_name,
+    "Score" AS score,
+    "Footnote" AS footnote,
+    "Date" AS date
+FROM "cms-7cv8-v37d"

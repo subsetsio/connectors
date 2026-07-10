@@ -1,32 +1,33 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [CMS Certification Number (CCN)]
-sort: [CMS Certification Number (CCN)]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-pppw`. Regenerate after model-verify.
+key: [address, cms_certification_number_ccn, zip_code, city, achievement_measure_rate]
+sort: [address, cms_certification_number_ccn, zip_code, city, achievement_measure_rate]
 columns:
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: CMS Certification Number (CCN)
+  - name: cms_certification_number_ccn
     type: VARCHAR
-  - name: Alternate CCN
+  - name: alternate_ccn
     type: VARCHAR
-  - name: Address
+  - name: address
     type: VARCHAR
-  - name: City
+  - name: city
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: Zip Code
+  - name: zip_code
     type: VARCHAR
-  - name: Network
+  - name: network
     type: VARCHAR
-  - name: Measure Name
+  - name: measure_name
     type: VARCHAR
-  - name: Achievement Measure Rate
+  - name: achievement_measure_rate
     type: VARCHAR
-  - name: PPPW Measure Score
+  - name: pppw_measure_score
     type: VARCHAR
-  - name: PPPW Reason for No Score (See Footnotes File)
+  - name: pppw_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: State Average PPPW Measure Score
-    type: VARCHAR
-  - name: National Average PPPW Measure Score
-    type: VARCHAR
+  - name: state_average_pppw_measure_score
+    type: BIGINT
+  - name: national_average_pppw_measure_score
+    type: BIGINT

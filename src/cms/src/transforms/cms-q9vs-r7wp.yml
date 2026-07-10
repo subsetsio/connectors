@@ -1,158 +1,162 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-q9vs-r7wp`. Regenerate after model-verify.
+key: [facility_id]
+temporal: start_date
+sort: [start_date, facility_id]
 columns:
-  - name: Facility ID
+  - name: facility_id
     type: VARCHAR
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: Address
+  - name: address
     type: VARCHAR
-  - name: City/Town
+  - name: city_town
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: ZIP Code
+  - name: zip_code
     type: VARCHAR
-  - name: County/Parish
+  - name: county_parish
     type: VARCHAR
-  - name: HBIPS-2 Measure Description
+  - name: hbips_2_measure_description
     type: VARCHAR
-  - name: HBIPS-2 Overall Rate Per 1000
+  - name: hbips_2_overall_rate_per_1000
     type: VARCHAR
-  - name: HBIPS-2 Overall Num
+  - name: hbips_2_overall_num
     type: VARCHAR
-  - name: HBIPS-2 Overall Den
+  - name: hbips_2_overall_den
     type: VARCHAR
-  - name: HBIPS-2 Overall Footnote
+  - name: hbips_2_overall_footnote
     type: VARCHAR
-  - name: HBIPS-3 Measure Description
+  - name: hbips_3_measure_description
     type: VARCHAR
-  - name: HBIPS-3 Overall Rate Per 1000
+  - name: hbips_3_overall_rate_per_1000
     type: VARCHAR
-  - name: HBIPS-3 Overall Num
+  - name: hbips_3_overall_num
     type: VARCHAR
-  - name: HBIPS-3 Overall Den
+  - name: hbips_3_overall_den
     type: VARCHAR
-  - name: HBIPS-3 Overall Footnote
+  - name: hbips_3_overall_footnote
     type: VARCHAR
-  - name: SMD Measure Description
+  - name: smd_measure_description
     type: VARCHAR
-  - name: SMD %
+  - name: smd
     type: VARCHAR
-  - name: SMD Denominator
+  - name: smd_denominator
     type: VARCHAR
-  - name: SMD Footnote
+  - name: smd_footnote
     type: VARCHAR
-  - name: SUB-2/-2a Measure Description
+  - name: sub_2_2a_measure_description
     type: VARCHAR
-  - name: SUB-2 %
+  - name: sub_2
     type: VARCHAR
-  - name: SUB-2 Denominator
+  - name: sub_2_denominator
     type: VARCHAR
-  - name: SUB-2 Footnote
+  - name: sub_2_footnote
     type: VARCHAR
-  - name: SUB-2a %
+  - name: sub_2a
     type: VARCHAR
-  - name: SUB-2a Denominator
+  - name: sub_2a_denominator
     type: VARCHAR
-  - name: SUB-2a Footnote
+  - name: sub_2a_footnote
     type: VARCHAR
-  - name: SUB-3/-3a Measure Description
+  - name: sub_3_3a_measure_description
     type: VARCHAR
-  - name: SUB-3 %
+  - name: sub_3
     type: VARCHAR
-  - name: SUB-3 Denominator
+  - name: sub_3_denominator
     type: VARCHAR
-  - name: SUB-3 Footnote
+  - name: sub_3_footnote
     type: VARCHAR
-  - name: SUB-3a %
+  - name: sub_3a
     type: VARCHAR
-  - name: SUB-3a Denominator
+  - name: sub_3a_denominator
     type: VARCHAR
-  - name: SUB-3a Footnote
+  - name: sub_3a_footnote
     type: VARCHAR
-  - name: TOB-3/-3a Measure Description
+  - name: tob_3_3a_measure_description
     type: VARCHAR
-  - name: TOB-3 %
+  - name: tob_3
     type: VARCHAR
-  - name: TOB-3 Denominator
+  - name: tob_3_denominator
     type: VARCHAR
-  - name: TOB-3 Footnote
+  - name: tob_3_footnote
     type: VARCHAR
-  - name: TOB-3a %
+  - name: tob_3a
     type: VARCHAR
-  - name: TOB-3a Denominator
+  - name: tob_3a_denominator
     type: VARCHAR
-  - name: TOB-3a Footnote
+  - name: tob_3a_footnote
     type: VARCHAR
-  - name: TR-1 Measure Description
+  - name: tr_1_measure_description
     type: VARCHAR
-  - name: TR-1 %
+  - name: tr_1
     type: VARCHAR
-  - name: TR-1 Denominator
+  - name: tr_1_denominator
     type: VARCHAR
-  - name: TR-1 Footnote
+  - name: tr_1_footnote
     type: VARCHAR
-  - name: Start Date
+  - name: start_date
     type: VARCHAR
-  - name: End Date
+  - name: end_date
+    type: DATE
+  - name: faph_measure_description
     type: VARCHAR
-  - name: FAPH Measure Description
+  - name: faph_30
     type: VARCHAR
-  - name: FAPH-30 %
+  - name: faph_30_denominator
     type: VARCHAR
-  - name: FAPH-30 Denominator
+  - name: faph_30_footnote
     type: VARCHAR
-  - name: FAPH-30 Footnote
+  - name: faph_7
     type: VARCHAR
-  - name: FAPH-7 %
+  - name: faph_7_denominator
     type: VARCHAR
-  - name: FAPH-7 Denominator
+  - name: faph_7_footnote
     type: VARCHAR
-  - name: FAPH-7 Footnote
+  - name: faph_measure_start_date
     type: VARCHAR
-  - name: FAPH Measure Start Date
+  - name: faph_measure_end_date
+    type: DATE
+  - name: medcont_measure_desc
     type: VARCHAR
-  - name: FAPH Measure End Date
+  - name: medcont
     type: VARCHAR
-  - name: MedCont Measure Desc
+  - name: medcont_denominator
     type: VARCHAR
-  - name: MedCont %
+  - name: medcont_footnote
     type: VARCHAR
-  - name: MedCont Denominator
+  - name: medcont_measure_start_date
     type: VARCHAR
-  - name: MedCont Footnote
+  - name: medcont_measure_end_date
+    type: DATE
+  - name: readm_30_ipf_measure_desc
     type: VARCHAR
-  - name: MedCont Measure Start Date
+  - name: readm_30_ipf_category
     type: VARCHAR
-  - name: MedCont Measure End Date
+  - name: readm_30_ipf_denominator
     type: VARCHAR
-  - name: READM-30-IPF Measure Desc
+  - name: readm_30_ipf_rate
     type: VARCHAR
-  - name: READM-30-IPF Category
+  - name: readm_30_ipf_lower_estimate
     type: VARCHAR
-  - name: READM-30-IPF Denominator
+  - name: readm_30_ipf_higher_estimate
     type: VARCHAR
-  - name: READM-30-IPF Rate
+  - name: readm_30_ipf_footnote
     type: VARCHAR
-  - name: READM-30-IPF Lower Estimate
+  - name: readm_30_ipf_start_date
     type: VARCHAR
-  - name: READM-30-IPF Higher Estimate
+  - name: readm_30_ipf_end_date
+    type: DATE
+  - name: imm_2_measure_description
     type: VARCHAR
-  - name: READM-30-IPF Footnote
+  - name: imm_2
     type: VARCHAR
-  - name: READM-30-IPF Start Date
+  - name: imm_2_denominator
     type: VARCHAR
-  - name: READM-30-IPF End Date
+  - name: imm_2_footnote
     type: VARCHAR
-  - name: IMM-2 Measure Description
+  - name: flu_season_start_date
     type: VARCHAR
-  - name: IMM-2 %
-    type: VARCHAR
-  - name: IMM-2 Denominator
-    type: VARCHAR
-  - name: IMM-2 Footnote
-    type: VARCHAR
-  - name: Flu Season Start Date
-    type: VARCHAR
-  - name: Flu Season End Date
-    type: VARCHAR
+  - name: flu_season_end_date
+    type: DATE

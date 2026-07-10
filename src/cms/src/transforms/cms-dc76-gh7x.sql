@@ -1,2 +1,50 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-dc76-gh7x"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "State" AS state,
+    "HBIPS-2 Measure Description" AS hbips_2_measure_description,
+    CAST("S HBIPS-2 Overall Rate Per 1000" AS DOUBLE) AS s_hbips_2_overall_rate_per_1000,
+    CAST("S HBIPS-2 Overall Num" AS DOUBLE) AS s_hbips_2_overall_num,
+    CAST("S HBIPS-2 Overall Den" AS BIGINT) AS s_hbips_2_overall_den,
+    "HBIPS-3 Measure Description" AS hbips_3_measure_description,
+    CAST("S HBIPS-3 Overall Rate Per 1000" AS DOUBLE) AS s_hbips_3_overall_rate_per_1000,
+    CAST("S HBIPS-3 Overall Num" AS DOUBLE) AS s_hbips_3_overall_num,
+    CAST("S HBIPS-3 Overall Den" AS BIGINT) AS s_hbips_3_overall_den,
+    "SMD Measure Description" AS smd_measure_description,
+    CAST("S SMD %" AS BIGINT) AS s_smd,
+    "SUB-2/-2a Measure Description" AS sub_2_2a_measure_description,
+    CAST("S SUB-2 %" AS BIGINT) AS s_sub_2,
+    CAST("S SUB-2a %" AS BIGINT) AS s_sub_2a,
+    "SUB-3/-3a Measure Description" AS sub_3_3a_measure_description,
+    CAST("S SUB-3 %" AS BIGINT) AS s_sub_3,
+    CAST("S SUB-3a %" AS BIGINT) AS s_sub_3a,
+    "TOB-3/-3a Measure Description" AS tob_3_3a_measure_description,
+    CAST("S TOB-3 %" AS BIGINT) AS s_tob_3,
+    CAST("S TOB-3a %" AS BIGINT) AS s_tob_3a,
+    "TR-1 Measure Description" AS tr_1_measure_description,
+    CAST("S TR-1 %" AS BIGINT) AS s_tr_1,
+    "Start Date" AS start_date,
+    strptime("End Date", '%m/%d/%Y')::DATE AS end_date,
+    "FAPH Measure Description" AS faph_measure_description,
+    "S FAPH-30 %" AS s_faph_30,
+    "S FAPH-7 %" AS s_faph_7,
+    "FAPH Measure Start Date" AS faph_measure_start_date,
+    strptime("FAPH Measure End Date", '%m/%d/%Y')::DATE AS faph_measure_end_date,
+    "MedCont Measure Description" AS medcont_measure_description,
+    "S MedCont %" AS s_medcont,
+    "MedCont Measure Start Date" AS medcont_measure_start_date,
+    strptime("MedCont Measure End Date", '%m/%d/%Y')::DATE AS medcont_measure_end_date,
+    "READM-30-IPF Measure Desc" AS readm_30_ipf_measure_desc,
+    "S READM-30-IPF # IPFs Worse" AS s_readm_30_ipf_ipfs_worse,
+    "S READM-30-IPF # IPFs Same" AS s_readm_30_ipf_ipfs_same,
+    "S READM-30-IPF # IPFs Better" AS s_readm_30_ipf_ipfs_better,
+    "S READM-30-IPF # IPFs Too Few" AS s_readm_30_ipf_ipfs_too_few,
+    "READM-30-IPF Start Date" AS readm_30_ipf_start_date,
+    strptime("READM-30-IPF End Date", '%m/%d/%Y')::DATE AS readm_30_ipf_end_date,
+    "IMM-2 Measure Description" AS imm_2_measure_description,
+    CAST("S IMM-2 %" AS BIGINT) AS s_imm_2,
+    "Flu Season Start Date" AS flu_season_start_date,
+    strptime("Flu Season End Date", '%m/%d/%Y')::DATE AS flu_season_end_date
+FROM "cms-dc76-gh7x"

@@ -1,2 +1,51 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-eddc0a1b-dab8-478e-a883-3385e0275a17"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "Entity_ID" AS entity_id,
+    "Performance_Year" AS performance_year,
+    "Agreement_Start_Date(Cohort)" AS agreement_start_date_cohort,
+    "Entity_Legal_Business_Name" AS entity_legal_business_name,
+    "Entity_Type" AS entity_type,
+    "Agreement_Option" AS agreement_option,
+    "Service_Areas" AS service_areas,
+    "Street_Address" AS street_address,
+    "Apt/Suite" AS apt_suite,
+    "City" AS city,
+    "State/Territory" AS state_territory,
+    CAST("Zip_Code" AS BIGINT) AS zip_code,
+    "Zip_Code+4" AS zip_code_4,
+    "Website" AS website,
+    "Phone" AS phone,
+    "Alignment_Frequency" AS alignment_frequency,
+    "Payment_Mechanism" AS payment_mechanism,
+    "Stop-loss_Selected" AS stop_loss_selected,
+    "Enhanced_PCC%" AS enhanced_pcc,
+    "Cardiac_and_Pulmonary_Rehabilitation" AS cardiac_and_pulmonary_rehabilitation,
+    "Care_Management_Home_Visit" AS care_management_home_visit,
+    "Chronic_Disease_Management_Reward(BEI)" AS chronic_disease_management_reward_bei,
+    "Concurrent_Care_for_Hospice_Beneficiaries" AS concurrent_care_for_hospice_beneficiaries,
+    "Cost_Sharing_for_Part_B_Services(BEI)" AS cost_sharing_for_part_b_services_bei,
+    "Diabetic_Shoes" AS diabetic_shoes,
+    "Home_Health_Homebound_Waiver" AS home_health_homebound_waiver,
+    "Home_Infusion_Therapy" AS home_infusion_therapy,
+    "Hospice_Care_Certification" AS hospice_care_certification,
+    "Medical_Nutrition_Therapy" AS medical_nutrition_therapy,
+    "Post_Discharge_Home_Visit" AS post_discharge_home_visit,
+    "Skilled_Nursing_Facility(SNF)_3-Day_Stay_Waiver" AS skilled_nursing_facility_snf_3_day_stay_waiver,
+    "Substance_Access(BEI)" AS substance_access_bei,
+    "Telehealth" AS telehealth,
+    "Provisional_Reconciliation" AS provisional_reconciliation,
+    "ACO_Compliance_Contact_Name" AS aco_compliance_contact_name,
+    "ACO_Medical_Director_Name" AS aco_medical_director_name,
+    "ACO_Executive_Name_1" AS aco_executive_name_1,
+    "ACO_Executive_Phone_1" AS aco_executive_phone_1,
+    "ACO_Executive_Email_1" AS aco_executive_email_1,
+    "ACO_Executive_Name_2" AS aco_executive_name_2,
+    "ACO_Executive_Phone_2" AS aco_executive_phone_2,
+    "ACO_Executive_Email_2" AS aco_executive_email_2,
+    "ACO_Executive_Name_3" AS aco_executive_name_3,
+    "ACO_Executive_Phone_3" AS aco_executive_phone_3,
+    "ACO_Executive_Email_3" AS aco_executive_email_3
+FROM "cms-eddc0a1b-dab8-478e-a883-3385e0275a17"

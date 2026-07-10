@@ -1,32 +1,35 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-690ddc6c-2767-4618-b277-420ffb2bf27c`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: Rndrng_Prvdr_CCN
+  - name: rndrng_prvdr_ccn
     type: VARCHAR
-  - name: Rndrng_Prvdr_Org_Name
+  - name: rndrng_prvdr_org_name
     type: VARCHAR
-  - name: Rndrng_Prvdr_City
+  - name: rndrng_prvdr_city
     type: VARCHAR
-  - name: Rndrng_Prvdr_St
+  - name: rndrng_prvdr_st
     type: VARCHAR
-  - name: Rndrng_Prvdr_State_FIPS
+  - name: rndrng_prvdr_state_fips
     type: VARCHAR
-  - name: Rndrng_Prvdr_Zip5
+  - name: rndrng_prvdr_zip5
     type: VARCHAR
-  - name: Rndrng_Prvdr_State_Abrvtn
+  - name: rndrng_prvdr_state_abrvtn
     type: VARCHAR
-  - name: Rndrng_Prvdr_RUCA
+  - name: rndrng_prvdr_ruca
+    type: DOUBLE
+  - name: rndrng_prvdr_ruca_desc
     type: VARCHAR
-  - name: Rndrng_Prvdr_RUCA_Desc
+  - name: drg_cd
     type: VARCHAR
-  - name: DRG_Cd
+  - name: drg_desc
     type: VARCHAR
-  - name: DRG_Desc
-    type: VARCHAR
-  - name: Tot_Dschrgs
-    type: VARCHAR
-  - name: Avg_Submtd_Cvrd_Chrg
-    type: VARCHAR
-  - name: Avg_Tot_Pymt_Amt
-    type: VARCHAR
-  - name: Avg_Mdcr_Pymt_Amt
-    type: VARCHAR
+  - name: tot_dschrgs
+    type: BIGINT
+  - name: avg_submtd_cvrd_chrg
+    type: DOUBLE
+  - name: avg_tot_pymt_amt
+    type: DOUBLE
+  - name: avg_mdcr_pymt_amt
+    type: DOUBLE

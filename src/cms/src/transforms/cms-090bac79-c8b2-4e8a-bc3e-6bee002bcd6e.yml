@@ -1,46 +1,49 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-090bac79-c8b2-4e8a-bc3e-6bee002bcd6e`. Regenerate after model-verify.
+key: [characteristics]
+sort: [characteristics]
 columns:
-  - name: Characteristics
+  - name: characteristics
     type: VARCHAR
-  - name: Home_ownership
+  - name: home_ownership
+    type: DOUBLE
+  - name: own_bank_deposit_accounts
+    type: DOUBLE
+  - name: checking_account
+    type: DOUBLE
+  - name: savings_account
+    type: DOUBLE
+  - name: certificates_of_deposit
     type: VARCHAR
-  - name: Own_bank_deposit_accounts
+  - name: stocks_or_mutual_funds
     type: VARCHAR
-  - name: Checking_account
+  - name: retirement_accounts
     type: VARCHAR
-  - name: Savings_account
+  - name: receive_social_security
+    type: DOUBLE
+  - name: receive_supplemental_security_income
     type: VARCHAR
-  - name: Certificates_of_deposit
+  - name: receive_pension
     type: VARCHAR
-  - name: Stocks_or_mutual_funds
+  - name: got_paid_to_work_last_month
     type: VARCHAR
-  - name: Retirement_accounts
+  - name: median_combined_income
+    type: BIGINT
+  - name: median_combined_earnings
     type: VARCHAR
-  - name: Receive_social_security
+  - name: median_monthly_earnings
     type: VARCHAR
-  - name: Receive_supplemental_security_income
+  - name: median_home_equity
     type: VARCHAR
-  - name: Receive_pension
+  - name: median_comb_val_of_bank_deposit_acc
     type: VARCHAR
-  - name: Got_paid_to_work_last_month
+  - name: median_combined_stocks_mutual_funds
     type: VARCHAR
-  - name: Median_combined_income
+  - name: median_combined_retirement_accounts
     type: VARCHAR
-  - name: Median_combined_earnings
+  - name: median_combined_amount_received_retirement_accounts
     type: VARCHAR
-  - name: Median_monthly_earnings
-    type: VARCHAR
-  - name: Median_home_equity
-    type: VARCHAR
-  - name: Median_comb_val_of_bank_deposit_acc
-    type: VARCHAR
-  - name: Median_combined_stocks_mutual_funds
-    type: VARCHAR
-  - name: Median_combined_retirement_accounts
-    type: VARCHAR
-  - name: Median_combined_amount_received_retirement_accounts
-    type: VARCHAR
-  - name: Median_combined_social_security_payments
-    type: VARCHAR
-  - name: Median_combined_pension_payments
+  - name: median_combined_social_security_payments
+    type: BIGINT
+  - name: median_combined_pension_payments
     type: VARCHAR

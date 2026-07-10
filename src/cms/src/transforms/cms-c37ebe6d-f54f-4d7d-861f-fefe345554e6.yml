@@ -1,32 +1,33 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: Year
-sort: [Year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-c37ebe6d-f54f-4d7d-861f-fefe345554e6`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: Year
+  - name: year
+    type: BIGINT
+  - name: geo_lvl
     type: VARCHAR
-  - name: Geo_Lvl
+  - name: geo_cd
     type: VARCHAR
-  - name: Geo_Cd
+  - name: geo_desc
     type: VARCHAR
-  - name: Geo_Desc
+  - name: plan_type
     type: VARCHAR
-  - name: Plan_Type
+  - name: tot_opioid_clms
     type: VARCHAR
-  - name: Tot_Opioid_Clms
+  - name: tot_clms
     type: VARCHAR
-  - name: Tot_Clms
+  - name: opioid_prscrbng_rate
     type: VARCHAR
-  - name: Opioid_Prscrbng_Rate
+  - name: opioid_prscrbng_rate_5y_chg
     type: VARCHAR
-  - name: Opioid_Prscrbng_Rate_5Y_Chg
+  - name: opioid_prscrbng_rate_1y_chg
     type: VARCHAR
-  - name: Opioid_Prscrbng_Rate_1Y_Chg
+  - name: la_tot_opioid_clms
     type: VARCHAR
-  - name: LA_Tot_Opioid_Clms
+  - name: la_opioid_prscrbng_rate
     type: VARCHAR
-  - name: LA_Opioid_Prscrbng_Rate
+  - name: la_opioid_prscrbng_rate_5y_chg
     type: VARCHAR
-  - name: LA_Opioid_Prscrbng_Rate_5Y_Chg
-    type: VARCHAR
-  - name: LA_Opioid_Prscrbng_Rate_1Y_Chg
+  - name: la_opioid_prscrbng_rate_1y_chg
     type: VARCHAR

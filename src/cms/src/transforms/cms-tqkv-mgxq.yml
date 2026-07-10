@@ -1,40 +1,42 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Facility ID]
-sort: [Facility ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-tqkv-mgxq`. Regenerate after model-verify.
+key: [facility_id]
+temporal: hcahps_start_date
+sort: [hcahps_start_date, facility_id]
 columns:
-  - name: Facility ID
+  - name: facility_id
     type: VARCHAR
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: MSA
+  - name: msa
+    type: BIGINT
+  - name: msa_title
     type: VARCHAR
-  - name: MSA Title
+  - name: hcahps_hlmr
     type: VARCHAR
-  - name: HCAHPS HLMR
+  - name: hcahps_hlmr_percentile
     type: VARCHAR
-  - name: HCAHPS HLMR Percentile
+  - name: hcahps_start_date
     type: VARCHAR
-  - name: HCAHPS Start Date
+  - name: hcahps_end_date
+    type: DATE
+  - name: hcahps_footnote
     type: VARCHAR
-  - name: HCAHPS End Date
+  - name: comp_hip_knee
     type: VARCHAR
-  - name: HCAHPS Footnote
+  - name: comp_hip_knee_percentile
     type: VARCHAR
-  - name: COMP-HIP-KNEE
+  - name: comp_start_date
     type: VARCHAR
-  - name: COMP-HIP-KNEE Percentile
+  - name: comp_end_date
+    type: DATE
+  - name: comp_footnote
     type: VARCHAR
-  - name: COMP Start Date
+  - name: pro
     type: VARCHAR
-  - name: COMP End Date
+  - name: pro_start_date
     type: VARCHAR
-  - name: COMP Footnote
-    type: VARCHAR
-  - name: PRO
-    type: VARCHAR
-  - name: PRO Start Date
-    type: VARCHAR
-  - name: PRO End Date
-    type: VARCHAR
-  - name: Reconciliation Footnote
+  - name: pro_end_date
+    type: DATE
+  - name: reconciliation_footnote
     type: VARCHAR

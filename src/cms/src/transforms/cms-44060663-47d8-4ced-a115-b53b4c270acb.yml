@@ -1,238 +1,240 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-44060663-47d8-4ced-a115-b53b4c270acb`. Regenerate after model-verify.
 key: [rpt_rec_num]
-sort: [rpt_rec_num]
+temporal: fiscal_year_begin_date
+sort: [fiscal_year_begin_date, rpt_rec_num]
 columns:
   - name: rpt_rec_num
+    type: BIGINT
+  - name: provider_ccn
     type: VARCHAR
-  - name: Provider CCN
+  - name: hospital_name
     type: VARCHAR
-  - name: Hospital Name
+  - name: street_address
     type: VARCHAR
-  - name: Street Address
+  - name: city
     type: VARCHAR
-  - name: City
+  - name: state_code
     type: VARCHAR
-  - name: State Code
+  - name: zip_code
     type: VARCHAR
-  - name: Zip Code
+  - name: county
     type: VARCHAR
-  - name: County
+  - name: medicare_cbsa_number
     type: VARCHAR
-  - name: Medicare CBSA Number
+  - name: rural_versus_urban
     type: VARCHAR
-  - name: Rural Versus Urban
+  - name: ccn_facility_type
     type: VARCHAR
-  - name: CCN Facility Type
-    type: VARCHAR
-  - name: Provider Type
-    type: VARCHAR
-  - name: Type of Control
-    type: VARCHAR
-  - name: Fiscal Year Begin Date
+  - name: provider_type
+    type: BIGINT
+  - name: type_of_control
+    type: BIGINT
+  - name: fiscal_year_begin_date
     type: DATE
-  - name: Fiscal Year End Date
+  - name: fiscal_year_end_date
     type: DATE
-  - name: FTE - Employees on Payroll
+  - name: fte_employees_on_payroll
     type: VARCHAR
-  - name: Number of Interns and Residents (FTE)
+  - name: number_of_interns_and_residents_fte
     type: VARCHAR
-  - name: Total Days Title V
+  - name: total_days_title_v
     type: VARCHAR
-  - name: Total Days Title XVIII
+  - name: total_days_title_xviii
     type: VARCHAR
-  - name: Total Days Title XIX
+  - name: total_days_title_xix
     type: VARCHAR
-  - name: Total Days (V + XVIII + XIX + Unknown)
+  - name: total_days_v_xviii_xix_unknown
     type: VARCHAR
-  - name: Number of Beds
+  - name: number_of_beds
     type: VARCHAR
-  - name: Total Bed Days Available
+  - name: total_bed_days_available
     type: VARCHAR
-  - name: Total Discharges Title V
+  - name: total_discharges_title_v
     type: VARCHAR
-  - name: Total Discharges Title XVIII
+  - name: total_discharges_title_xviii
     type: VARCHAR
-  - name: Total Discharges Title XIX
+  - name: total_discharges_title_xix
     type: VARCHAR
-  - name: Total Discharges (V + XVIII + XIX + Unknown)
+  - name: total_discharges_v_xviii_xix_unknown
     type: VARCHAR
-  - name: Number of Beds + Total for all Subproviders
+  - name: number_of_beds_total_for_all_subproviders
     type: VARCHAR
-  - name: Hospital Total Days Title V For Adults & Peds
+  - name: hospital_total_days_title_v_for_adults_peds
     type: VARCHAR
-  - name: Hospital Total Days Title XVIII For Adults & Peds
+  - name: hospital_total_days_title_xviii_for_adults_peds
     type: VARCHAR
-  - name: Hospital Total Days Title XIX For Adults & Peds
+  - name: hospital_total_days_title_xix_for_adults_peds
     type: VARCHAR
-  - name: Hospital Total Days (V + XVIII + XIX + Unknown) For Adults & Peds
+  - name: hospital_total_days_v_xviii_xix_unknown_for_adults_peds
     type: VARCHAR
-  - name: Hospital Number of Beds For Adults & Peds
+  - name: hospital_number_of_beds_for_adults_peds
     type: VARCHAR
-  - name: Hospital Total Bed Days Available For Adults & Peds
+  - name: hospital_total_bed_days_available_for_adults_peds
     type: VARCHAR
-  - name: Hospital Total Discharges Title V For Adults & Peds
+  - name: hospital_total_discharges_title_v_for_adults_peds
     type: VARCHAR
-  - name: Hospital Total Discharges Title XVIII For Adults & Peds
+  - name: hospital_total_discharges_title_xviii_for_adults_peds
     type: VARCHAR
-  - name: Hospital Total Discharges Title XIX For Adults & Peds
+  - name: hospital_total_discharges_title_xix_for_adults_peds
     type: VARCHAR
-  - name: Hospital Total Discharges (V + XVIII + XIX + Unknown) For Adults & Peds
+  - name: hospital_total_discharges_v_xviii_xix_unknown_for_adults_peds
     type: VARCHAR
-  - name: Cost of Charity Care
+  - name: cost_of_charity_care
     type: VARCHAR
-  - name: Total Bad Debt Expense
+  - name: total_bad_debt_expense
     type: VARCHAR
-  - name: Cost of Uncompensated Care
+  - name: cost_of_uncompensated_care
     type: VARCHAR
-  - name: Total Unreimbursed and Uncompensated Care
+  - name: total_unreimbursed_and_uncompensated_care
     type: VARCHAR
-  - name: Total Salaries From Worksheet A
+  - name: total_salaries_from_worksheet_a
     type: VARCHAR
-  - name: Overhead Non-Salary Costs
+  - name: overhead_non_salary_costs
     type: VARCHAR
-  - name: Depreciation Cost
+  - name: depreciation_cost
     type: VARCHAR
-  - name: Total Costs
+  - name: total_costs
     type: VARCHAR
-  - name: Inpatient Total Charges
+  - name: inpatient_total_charges
     type: VARCHAR
-  - name: Outpatient Total Charges
+  - name: outpatient_total_charges
     type: VARCHAR
-  - name: Combined Outpatient + Inpatient Total Charges
+  - name: combined_outpatient_inpatient_total_charges
     type: VARCHAR
-  - name: Wage-Related Costs (Core)
+  - name: wage_related_costs_core
     type: VARCHAR
-  - name: Wage-Related Costs (RHC/FQHC)
+  - name: wage_related_costs_rhc_fqhc
     type: VARCHAR
-  - name: Total Salaries (adjusted)
+  - name: total_salaries_adjusted
     type: VARCHAR
-  - name: "Contract Labor: Direct Patient Care"
+  - name: contract_labor_direct_patient_care
     type: VARCHAR
-  - name: Wage Related Costs for Part - A Teaching Physicians
+  - name: wage_related_costs_for_part_a_teaching_physicians
     type: VARCHAR
-  - name: Wage Related Costs for Interns and Residents
+  - name: wage_related_costs_for_interns_and_residents
     type: VARCHAR
-  - name: Cash on Hand and in Banks
+  - name: cash_on_hand_and_in_banks
     type: VARCHAR
-  - name: Temporary Investments
+  - name: temporary_investments
     type: VARCHAR
-  - name: Notes Receivable
+  - name: notes_receivable
     type: VARCHAR
-  - name: Accounts Receivable
+  - name: accounts_receivable
     type: VARCHAR
-  - name: "Less: Allowances for Uncollectible Notes and Accounts Receivable"
+  - name: less_allowances_for_uncollectible_notes_and_accounts_receivable
     type: VARCHAR
-  - name: Inventory
+  - name: inventory
     type: VARCHAR
-  - name: Prepaid Expenses
+  - name: prepaid_expenses
     type: VARCHAR
-  - name: Other Current Assets
+  - name: other_current_assets
     type: VARCHAR
-  - name: Total Current Assets
+  - name: total_current_assets
     type: VARCHAR
-  - name: Land
+  - name: land
     type: VARCHAR
-  - name: Land Improvements
+  - name: land_improvements
     type: VARCHAR
-  - name: Buildings
+  - name: buildings
     type: VARCHAR
-  - name: Leasehold Improvements
+  - name: leasehold_improvements
     type: VARCHAR
-  - name: Fixed Equipment
+  - name: fixed_equipment
     type: VARCHAR
-  - name: Major Movable Equipment
+  - name: major_movable_equipment
     type: VARCHAR
-  - name: Minor Equipment Depreciable
+  - name: minor_equipment_depreciable
     type: VARCHAR
-  - name: Health Information Technology Designated Assets
+  - name: health_information_technology_designated_assets
     type: VARCHAR
-  - name: Total Fixed Assets
+  - name: total_fixed_assets
     type: VARCHAR
-  - name: Investments
+  - name: investments
     type: VARCHAR
-  - name: Other Assets
+  - name: other_assets
     type: VARCHAR
-  - name: Total Other Assets
+  - name: total_other_assets
     type: VARCHAR
-  - name: Total Assets
+  - name: total_assets
     type: VARCHAR
-  - name: Accounts Payable
+  - name: accounts_payable
     type: VARCHAR
-  - name: Salaries, Wages, and Fees Payable
+  - name: salaries_wages_and_fees_payable
     type: VARCHAR
-  - name: Payroll Taxes Payable
+  - name: payroll_taxes_payable
     type: VARCHAR
-  - name: Notes and Loans Payable (Short Term)
+  - name: notes_and_loans_payable_short_term
     type: VARCHAR
-  - name: Deferred Income
+  - name: deferred_income
     type: VARCHAR
-  - name: Other Current Liabilities
+  - name: other_current_liabilities
     type: VARCHAR
-  - name: Total Current Liabilities
+  - name: total_current_liabilities
     type: VARCHAR
-  - name: Mortgage Payable
+  - name: mortgage_payable
     type: VARCHAR
-  - name: Notes Payable
+  - name: notes_payable
     type: VARCHAR
-  - name: Unsecured Loans
+  - name: unsecured_loans
     type: VARCHAR
-  - name: Other Long Term Liabilities
+  - name: other_long_term_liabilities
     type: VARCHAR
-  - name: Total Long Term Liabilities
+  - name: total_long_term_liabilities
     type: VARCHAR
-  - name: Total Liabilities
+  - name: total_liabilities
     type: VARCHAR
-  - name: General Fund Balance
+  - name: general_fund_balance
     type: VARCHAR
-  - name: Total Fund Balances
+  - name: total_fund_balances
     type: VARCHAR
-  - name: Total Liabilities and Fund Balances
+  - name: total_liabilities_and_fund_balances
     type: VARCHAR
-  - name: DRG Amounts Other Than Outlier Payments
+  - name: drg_amounts_other_than_outlier_payments
     type: VARCHAR
-  - name: DRG Amounts Before October 1
+  - name: drg_amounts_before_october_1
     type: VARCHAR
-  - name: DRG Amounts After October 1
+  - name: drg_amounts_after_october_1
     type: VARCHAR
-  - name: Outlier Payments For Discharges
+  - name: outlier_payments_for_discharges
     type: VARCHAR
-  - name: Disproportionate Share Adjustment
+  - name: disproportionate_share_adjustment
     type: VARCHAR
-  - name: Allowable DSH Percentage
+  - name: allowable_dsh_percentage
     type: VARCHAR
-  - name: Managed Care Simulated Payments
+  - name: managed_care_simulated_payments
     type: VARCHAR
-  - name: Total IME Payment
+  - name: total_ime_payment
     type: VARCHAR
-  - name: Inpatient Revenue
+  - name: inpatient_revenue
     type: VARCHAR
-  - name: Outpatient Revenue
+  - name: outpatient_revenue
     type: VARCHAR
-  - name: Total Patient Revenue
+  - name: total_patient_revenue
     type: VARCHAR
-  - name: Less Contractual Allowance and Discounts on Patients' Accounts
+  - name: less_contractual_allowance_and_discounts_on_patients_accounts
     type: VARCHAR
-  - name: Net Patient Revenue
+  - name: net_patient_revenue
     type: VARCHAR
-  - name: Less Total Operating Expense
+  - name: less_total_operating_expense
     type: VARCHAR
-  - name: Net Income from Service to Patients
+  - name: net_income_from_service_to_patients
     type: VARCHAR
-  - name: Total Other Income
+  - name: total_other_income
     type: VARCHAR
-  - name: Total Income
+  - name: total_income
     type: VARCHAR
-  - name: Total Other Expenses
+  - name: total_other_expenses
     type: VARCHAR
-  - name: Net Income
+  - name: net_income
     type: VARCHAR
-  - name: Cost To Charge Ratio
+  - name: cost_to_charge_ratio
     type: VARCHAR
-  - name: Net Revenue from Medicaid
+  - name: net_revenue_from_medicaid
     type: VARCHAR
-  - name: Medicaid Charges
+  - name: medicaid_charges
     type: VARCHAR
-  - name: Net Revenue from Stand-Alone CHIP
+  - name: net_revenue_from_stand_alone_chip
     type: VARCHAR
-  - name: Stand-Alone CHIP Charges
+  - name: stand_alone_chip_charges
     type: VARCHAR

@@ -1,28 +1,33 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-nrth-mfg3`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: start_date
+sort: [start_date]
 columns:
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: Facility ID
+  - name: facility_id
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: Period
+  - name: period
     type: VARCHAR
-  - name: Claim Type
+  - name: claim_type
     type: VARCHAR
-  - name: Avg Spndg Per EP Hospital
+  - name: avg_spndg_per_ep_hospital
+    type: BIGINT
+  - name: avg_spndg_per_ep_state
+    type: BIGINT
+  - name: avg_spndg_per_ep_national
+    type: BIGINT
+  - name: percent_of_spndg_hospital
     type: VARCHAR
-  - name: Avg Spndg Per EP State
+  - name: percent_of_spndg_state
     type: VARCHAR
-  - name: Avg Spndg Per EP National
+  - name: percent_of_spndg_national
     type: VARCHAR
-  - name: Percent of Spndg Hospital
+  - name: start_date
     type: VARCHAR
-  - name: Percent of Spndg State
-    type: VARCHAR
-  - name: Percent of Spndg National
-    type: VARCHAR
-  - name: Start Date
-    type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

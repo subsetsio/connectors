@@ -1,11 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [provider_id]
-sort: [provider_id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-ct36-nrcq`. Regenerate after model-verify.
+key: [participationbegindate, provider_id]
+temporal: participationbegindate
+sort: [participationbegindate, provider_id]
 columns:
   - name: provider_id
-    type: VARCHAR
+    type: BIGINT
   - name: acceptsassignement
-    type: VARCHAR
+    type: BOOLEAN
   - name: participationbegindate
     type: DATE
   - name: businessname
@@ -23,7 +25,7 @@ columns:
   - name: practicezip9code
     type: VARCHAR
   - name: telephonenumber
-    type: VARCHAR
+    type: BIGINT
   - name: specialitieslist
     type: VARCHAR
   - name: providertypelist
@@ -31,8 +33,8 @@ columns:
   - name: supplieslist
     type: VARCHAR
   - name: latitude
-    type: VARCHAR
+    type: DOUBLE
   - name: longitude
-    type: VARCHAR
+    type: DOUBLE
   - name: is_contracted_for_cba
-    type: VARCHAR
+    type: BOOLEAN

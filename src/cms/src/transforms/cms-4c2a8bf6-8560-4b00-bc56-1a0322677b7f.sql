@@ -1,2 +1,45 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-4c2a8bf6-8560-4b00-bc56-1a0322677b7f"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    CAST("YEAR" AS BIGINT) AS year,
+    "YEAR_TYPE" AS year_type,
+    "SMRY_CTGRY" AS smry_ctgry,
+    "SRVC_CTGRY" AS srvc_ctgry,
+    "PRVDR_ID" AS prvdr_id,
+    "PRVDR_NAME" AS prvdr_name,
+    "PRVDR_CITY" AS prvdr_city,
+    "STATE" AS state,
+    "PRVDR_ZIP" AS prvdr_zip,
+    "TOT_PT_MNTS_STAY" AS tot_pt_mnts_stay,
+    "INDVDL_PT_MNTS_STAY" AS indvdl_pt_mnts_stay,
+    "CNCRNT_GRP_PT_MNTS_STAY" AS cncrnt_grp_pt_mnts_stay,
+    "TOT_OT_MNTS_STAY" AS tot_ot_mnts_stay,
+    "INDVDL_OT_MNTS_STAY" AS indvdl_ot_mnts_stay,
+    "CNCRNT_GRP_OT_MNTS_STAY" AS cncrnt_grp_ot_mnts_stay,
+    "TOT_SLP_MNTS_STAY" AS tot_slp_mnts_stay,
+    "INDVDL_SLP_MNTS_STAY" AS indvdl_slp_mnts_stay,
+    "CNCRNT_GRP_SLP_MNTS_STAY" AS cncrnt_grp_slp_mnts_stay,
+    "STAY_CLNCL_CTGRY_ACU_INF_PCT" AS stay_clncl_ctgry_acu_inf_pct,
+    "STAY_CLNCL_CTGRY_ACU_NEU_PCT" AS stay_clncl_ctgry_acu_neu_pct,
+    "STAY_CLNCL_CTGRY_CNCR_PCT" AS stay_clncl_ctgry_cncr_pct,
+    "STAY_CLNCL_CTGRY_CRD_COAG_PCT" AS stay_clncl_ctgry_crd_coag_pct,
+    "STAY_CLNCL_CTGRY_MJR_SPN_PCT" AS stay_clncl_ctgry_mjr_spn_pct,
+    "STAY_CLNCL_CTGRY_MED_MNG_PCT" AS stay_clncl_ctgry_med_mng_pct,
+    "STAY_CLNCL_CTGRY_NOORTH_SRGY_PCT" AS stay_clncl_ctgry_noorth_srgy_pct,
+    "STAY_CLNCL_CTGRY_ORTH_NOSRGY_PCT" AS stay_clncl_ctgry_orth_nosrgy_pct,
+    "STAY_CLNCL_CTGRY_ORTH_SRGY_PCT" AS stay_clncl_ctgry_orth_srgy_pct,
+    "STAY_CLNCL_CTGRY_PLMNRY_PCT" AS stay_clncl_ctgry_plmnry_pct,
+    "STAY_DPRSN_MOOD_SCRE_PCT" AS stay_dprsn_mood_scre_pct,
+    "STAY_SWLWG_DSRDR_PCT" AS stay_swlwg_dsrdr_pct,
+    "STAY_MLNTRN_PCT" AS stay_mlntrn_pct,
+    "PDPM_PT_OT_TC_DAYS_PCT" AS pdpm_pt_ot_tc_days_pct,
+    "PDPM_PT_OT_TD_DAYS_PCT" AS pdpm_pt_ot_td_days_pct,
+    "PDPM_SLP_SK_DAYS_PCT" AS pdpm_slp_sk_days_pct,
+    "PDPM_SLP_SL_DAYS_PCT" AS pdpm_slp_sl_days_pct,
+    "PDPM_NRSNG_ES3_DAYS_PCT" AS pdpm_nrsng_es3_days_pct,
+    "PDPM_NRSNG_ES2_DAYS_PCT" AS pdpm_nrsng_es2_days_pct,
+    "PDPM_NTA_NA_DAYS_PCT" AS pdpm_nta_na_days_pct,
+    "PDPM_NTA_NB_DAYS_PCT" AS pdpm_nta_nb_days_pct
+FROM "cms-4c2a8bf6-8560-4b00-bc56-1a0322677b7f"

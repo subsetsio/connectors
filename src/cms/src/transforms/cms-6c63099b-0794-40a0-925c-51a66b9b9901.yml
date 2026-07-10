@@ -1,70 +1,71 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: YEAR
-sort: [YEAR]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-6c63099b-0794-40a0-925c-51a66b9b9901`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: YEAR
+  - name: year
+    type: BIGINT
+  - name: year_type
     type: VARCHAR
-  - name: YEAR_TYPE
+  - name: smry_ctgry
     type: VARCHAR
-  - name: SMRY_CTGRY
+  - name: srvc_ctgry
     type: VARCHAR
-  - name: SRVC_CTGRY
+  - name: prvdr_id
     type: VARCHAR
-  - name: PRVDR_ID
+  - name: prvdr_name
     type: VARCHAR
-  - name: PRVDR_NAME
+  - name: prvdr_city
     type: VARCHAR
-  - name: PRVDR_CITY
+  - name: state
     type: VARCHAR
-  - name: STATE
+  - name: prvdr_zip
     type: VARCHAR
-  - name: PRVDR_ZIP
+  - name: grpng
     type: VARCHAR
-  - name: GRPNG
+  - name: grpng_desc
     type: VARCHAR
-  - name: GRPNG_DESC
+  - name: bene_dstnct_cnt
+    type: BIGINT
+  - name: tot_epsd_stay_cnt
+    type: BIGINT
+  - name: tot_srvc_days
+    type: BIGINT
+  - name: avg_chrg_per_bene
+    type: BIGINT
+  - name: avg_alowd_amt_per_bene
+    type: BIGINT
+  - name: avg_pymt_amt_per_bene
+    type: BIGINT
+  - name: avg_stdzd_pymt_amt_per_bene
+    type: BIGINT
+  - name: avg_chrg_per_epsd
+    type: BIGINT
+  - name: avg_alowd_amt_per_epsd
+    type: BIGINT
+  - name: avg_pymt_amt_per_epsd
+    type: BIGINT
+  - name: avg_stdzd_pymt_amt_per_epsd
+    type: BIGINT
+  - name: avg_chrg_per_day
+    type: BIGINT
+  - name: avg_alowd_amt_per_day
+    type: BIGINT
+  - name: avg_pymt_amt_per_day
+    type: BIGINT
+  - name: avg_stdzd_pymt_amt_per_day
+    type: BIGINT
+  - name: pt_visits_cnt
     type: VARCHAR
-  - name: BENE_DSTNCT_CNT
+  - name: ot_visits_cnt
     type: VARCHAR
-  - name: TOT_EPSD_STAY_CNT
+  - name: slp_visits_cnt
     type: VARCHAR
-  - name: TOT_SRVC_DAYS
+  - name: casemix_src_tmng
     type: VARCHAR
-  - name: AVG_CHRG_PER_BENE
+  - name: casemix_src_tmng_epsd_pct
     type: VARCHAR
-  - name: AVG_ALOWD_AMT_PER_BENE
+  - name: casemix_cmrbdty
     type: VARCHAR
-  - name: AVG_PYMT_AMT_PER_BENE
-    type: VARCHAR
-  - name: AVG_STDZD_PYMT_AMT_PER_BENE
-    type: VARCHAR
-  - name: AVG_CHRG_PER_EPSD
-    type: VARCHAR
-  - name: AVG_ALOWD_AMT_PER_EPSD
-    type: VARCHAR
-  - name: AVG_PYMT_AMT_PER_EPSD
-    type: VARCHAR
-  - name: AVG_STDZD_PYMT_AMT_PER_EPSD
-    type: VARCHAR
-  - name: AVG_CHRG_PER_DAY
-    type: VARCHAR
-  - name: AVG_ALOWD_AMT_PER_DAY
-    type: VARCHAR
-  - name: AVG_PYMT_AMT_PER_DAY
-    type: VARCHAR
-  - name: AVG_STDZD_PYMT_AMT_PER_DAY
-    type: VARCHAR
-  - name: PT_VISITS_CNT
-    type: VARCHAR
-  - name: OT_VISITS_CNT
-    type: VARCHAR
-  - name: SLP_VISITS_CNT
-    type: VARCHAR
-  - name: CASEMIX_SRC_TMNG
-    type: VARCHAR
-  - name: CASEMIX_SRC_TMNG_EPSD_PCT
-    type: VARCHAR
-  - name: CASEMIX_CMRBDTY
-    type: VARCHAR
-  - name: CASEMIX_CMRBDTY_EPSD_PCT
+  - name: casemix_cmrbdty_epsd_pct
     type: VARCHAR

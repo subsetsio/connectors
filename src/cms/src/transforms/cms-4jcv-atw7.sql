@@ -1,2 +1,54 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-4jcv-atw7"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+SELECT
+    "Facility Name" AS facility_name,
+    "Facility ID" AS facility_id,
+    CAST("NPI" AS BIGINT) AS npi,
+    "City/Town" AS city_town,
+    "State" AS state,
+    "ZIP Code" AS zip_code,
+    CAST("Year" AS BIGINT) AS year,
+    "ASC-1 Rate*" AS asc_1_rate,
+    "ASC-1 Footnote" AS asc_1_footnote,
+    "ASC-2 Rate*" AS asc_2_rate,
+    "ASC-2 Footnote" AS asc_2_footnote,
+    "ASC-3 Rate*" AS asc_3_rate,
+    "ASC-3 Footnote" AS asc_3_footnote,
+    "ASC-4 Rate*" AS asc_4_rate,
+    "ASC-4 Footnote" AS asc_4_footnote,
+    "ASC-9 Rate*" AS asc_9_rate,
+    "ASC-9 Footnote" AS asc_9_footnote,
+    "ASC-11 Rate*" AS asc_11_rate,
+    "ASC-11 Footnote" AS asc_11_footnote,
+    "ASC-12 Total Cases" AS asc_12_total_cases,
+    "ASC-12 Performance Category" AS asc_12_performance_category,
+    "ASC-12 RSHV Rate" AS asc_12_rshv_rate,
+    "ASC-12 Interval Lower Limit" AS asc_12_interval_lower_limit,
+    "ASC-12 Interval Upper Limit" AS asc_12_interval_upper_limit,
+    "ASC-12 Footnote" AS asc_12_footnote,
+    "ASC-13 Rate*" AS asc_13_rate,
+    "ASC-13 Footnote" AS asc_13_footnote,
+    "ASC-14 Rate*" AS asc_14_rate,
+    "ASC-14 Footnote" AS asc_14_footnote,
+    "ASC-17 Total Cases" AS asc_17_total_cases,
+    "ASC-17 Performance Category" AS asc_17_performance_category,
+    "ASC-17 RSHV Rate" AS asc_17_rshv_rate,
+    "ASC-17 Interval Lower Limit" AS asc_17_interval_lower_limit,
+    "ASC-17 Interval Upper Limit" AS asc_17_interval_upper_limit,
+    "ASC-17 Footnote" AS asc_17_footnote,
+    "ASC-18 Total Cases" AS asc_18_total_cases,
+    "ASC-18 Performance Category" AS asc_18_performance_category,
+    "ASC-18 RSHV Rate" AS asc_18_rshv_rate,
+    "ASC-18 Interval Lower Limit" AS asc_18_interval_lower_limit,
+    "ASC-18 Interval Upper Limit" AS asc_18_interval_upper_limit,
+    "ASC-18 Footnote" AS asc_18_footnote,
+    "ASC-19 Total Cases" AS asc_19_total_cases,
+    "ASC-19 Performance Category" AS asc_19_performance_category,
+    "ASC-19 RSHV Rate" AS asc_19_rshv_rate,
+    "ASC-19 Interval Lower Limit" AS asc_19_interval_lower_limit,
+    "ASC-19 Interval Upper Limit" AS asc_19_interval_upper_limit,
+    "ASC-19 Footnote" AS asc_19_footnote
+FROM "cms-4jcv-atw7"

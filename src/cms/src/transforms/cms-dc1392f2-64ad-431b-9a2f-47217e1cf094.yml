@@ -1,14 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-dc1392f2-64ad-431b-9a2f-47217e1cf094`. Regenerate after model-verify.
+key: [average_reimbursement_per_patient]
+sort: [average_reimbursement_per_patient]
 columns:
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: Reimbursement
-    type: VARCHAR
-  - name: Patients
-    type: VARCHAR
-  - name: Visits
-    type: VARCHAR
-  - name: Average Reimbursement Per Patient
-    type: VARCHAR
-  - name: Average Visits Per Patient
-    type: VARCHAR
+  - name: reimbursement
+    type: DOUBLE
+  - name: patients
+    type: BIGINT
+  - name: visits
+    type: BIGINT
+  - name: average_reimbursement_per_patient
+    type: DOUBLE
+  - name: average_visits_per_patient
+    type: DOUBLE

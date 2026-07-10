@@ -1,11 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-1cd9eded-d2c9-4215-a064-aac6dae3b714`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
   - name: aco_id
     type: VARCHAR
   - name: year
-    type: VARCHAR
+    type: BIGINT
   - name: state_id
     type: VARCHAR
   - name: county_id

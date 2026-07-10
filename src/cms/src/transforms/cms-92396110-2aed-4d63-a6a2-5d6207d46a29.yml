@@ -1,58 +1,61 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-92396110-2aed-4d63-a6a2-5d6207d46a29`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: Rndrng_NPI
+  - name: rndrng_npi
+    type: BIGINT
+  - name: rndrng_prvdr_last_org_name
     type: VARCHAR
-  - name: Rndrng_Prvdr_Last_Org_Name
+  - name: rndrng_prvdr_first_name
     type: VARCHAR
-  - name: Rndrng_Prvdr_First_Name
+  - name: rndrng_prvdr_mi
     type: VARCHAR
-  - name: Rndrng_Prvdr_MI
+  - name: rndrng_prvdr_crdntls
     type: VARCHAR
-  - name: Rndrng_Prvdr_Crdntls
+  - name: rndrng_prvdr_ent_cd
     type: VARCHAR
-  - name: Rndrng_Prvdr_Ent_Cd
+  - name: rndrng_prvdr_st1
     type: VARCHAR
-  - name: Rndrng_Prvdr_St1
+  - name: rndrng_prvdr_st2
     type: VARCHAR
-  - name: Rndrng_Prvdr_St2
+  - name: rndrng_prvdr_city
     type: VARCHAR
-  - name: Rndrng_Prvdr_City
+  - name: rndrng_prvdr_state_abrvtn
     type: VARCHAR
-  - name: Rndrng_Prvdr_State_Abrvtn
+  - name: rndrng_prvdr_state_fips
     type: VARCHAR
-  - name: Rndrng_Prvdr_State_FIPS
+  - name: rndrng_prvdr_zip5
     type: VARCHAR
-  - name: Rndrng_Prvdr_Zip5
+  - name: rndrng_prvdr_ruca
     type: VARCHAR
-  - name: Rndrng_Prvdr_RUCA
+  - name: rndrng_prvdr_ruca_desc
     type: VARCHAR
-  - name: Rndrng_Prvdr_RUCA_Desc
+  - name: rndrng_prvdr_cntry
     type: VARCHAR
-  - name: Rndrng_Prvdr_Cntry
+  - name: rndrng_prvdr_type
     type: VARCHAR
-  - name: Rndrng_Prvdr_Type
+  - name: rndrng_prvdr_mdcr_prtcptg_ind
     type: VARCHAR
-  - name: Rndrng_Prvdr_Mdcr_Prtcptg_Ind
+  - name: hcpcs_cd
     type: VARCHAR
-  - name: HCPCS_Cd
+  - name: hcpcs_desc
     type: VARCHAR
-  - name: HCPCS_Desc
+  - name: hcpcs_drug_ind
     type: VARCHAR
-  - name: HCPCS_Drug_Ind
+  - name: place_of_srvc
     type: VARCHAR
-  - name: Place_Of_Srvc
-    type: VARCHAR
-  - name: Tot_Benes
-    type: VARCHAR
-  - name: Tot_Srvcs
-    type: VARCHAR
-  - name: Tot_Bene_Day_Srvcs
-    type: VARCHAR
-  - name: Avg_Sbmtd_Chrg
-    type: VARCHAR
-  - name: Avg_Mdcr_Alowd_Amt
-    type: VARCHAR
-  - name: Avg_Mdcr_Pymt_Amt
-    type: VARCHAR
-  - name: Avg_Mdcr_Stdzd_Amt
-    type: VARCHAR
+  - name: tot_benes
+    type: BIGINT
+  - name: tot_srvcs
+    type: BIGINT
+  - name: tot_bene_day_srvcs
+    type: BIGINT
+  - name: avg_sbmtd_chrg
+    type: BIGINT
+  - name: avg_mdcr_alowd_amt
+    type: DOUBLE
+  - name: avg_mdcr_pymt_amt
+    type: DOUBLE
+  - name: avg_mdcr_stdzd_amt
+    type: DOUBLE

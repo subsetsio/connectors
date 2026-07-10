@@ -1,16 +1,20 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-6a3aa708-3c9d-411a-a1a4-e046d3ade7ef`. Regenerate after model-verify.
+key: [date_of_action, case_id]
+temporal: date_of_action
+sort: [date_of_action, case_id]
 columns:
-  - name: Case_ID
+  - name: case_id
+    type: BIGINT
+  - name: hosp_name
     type: VARCHAR
-  - name: Hosp_Name
+  - name: hosp_address
     type: VARCHAR
-  - name: Hosp_Address
+  - name: city
     type: VARCHAR
-  - name: City
+  - name: state
     type: VARCHAR
-  - name: State
+  - name: action
     type: VARCHAR
-  - name: Action
-    type: VARCHAR
-  - name: Date_of_Action
+  - name: date_of_action
     type: DATE

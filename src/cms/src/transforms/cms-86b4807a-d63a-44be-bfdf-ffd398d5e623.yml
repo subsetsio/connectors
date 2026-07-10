@@ -1,68 +1,71 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-86b4807a-d63a-44be-bfdf-ffd398d5e623`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: Rfrg_NPI
+  - name: rfrg_npi
+    type: BIGINT
+  - name: rfrg_prvdr_last_name_org
     type: VARCHAR
-  - name: Rfrg_Prvdr_Last_Name_Org
+  - name: rfrg_prvdr_first_name
     type: VARCHAR
-  - name: Rfrg_Prvdr_First_Name
+  - name: rfrg_prvdr_mi
     type: VARCHAR
-  - name: Rfrg_Prvdr_MI
+  - name: rfrg_prvdr_crdntls
     type: VARCHAR
-  - name: Rfrg_Prvdr_Crdntls
+  - name: rfrg_prvdr_ent_cd
     type: VARCHAR
-  - name: Rfrg_Prvdr_Ent_Cd
+  - name: rfrg_prvdr_st1
     type: VARCHAR
-  - name: Rfrg_Prvdr_St1
+  - name: rfrg_prvdr_st2
     type: VARCHAR
-  - name: Rfrg_Prvdr_St2
+  - name: rfrg_prvdr_city
     type: VARCHAR
-  - name: Rfrg_Prvdr_City
+  - name: rfrg_prvdr_state_abrvtn
     type: VARCHAR
-  - name: Rfrg_Prvdr_State_Abrvtn
+  - name: rfrg_prvdr_state_fips
     type: VARCHAR
-  - name: Rfrg_Prvdr_State_FIPS
+  - name: rfrg_prvdr_zip5
     type: VARCHAR
-  - name: Rfrg_Prvdr_Zip5
+  - name: rfrg_prvdr_ruca_cat
     type: VARCHAR
-  - name: Rfrg_Prvdr_RUCA_Cat
+  - name: rfrg_prvdr_ruca
     type: VARCHAR
-  - name: Rfrg_Prvdr_RUCA
+  - name: rfrg_prvdr_ruca_desc
     type: VARCHAR
-  - name: Rfrg_Prvdr_RUCA_Desc
+  - name: rfrg_prvdr_cntry
     type: VARCHAR
-  - name: Rfrg_Prvdr_Cntry
+  - name: rfrg_prvdr_spclty_cd
     type: VARCHAR
-  - name: Rfrg_Prvdr_Spclty_Cd
+  - name: rfrg_prvdr_spclty_desc
     type: VARCHAR
-  - name: Rfrg_Prvdr_Spclty_Desc
+  - name: rfrg_prvdr_spclty_srce
     type: VARCHAR
-  - name: Rfrg_Prvdr_Spclty_Srce
+  - name: rbcs_lvl
     type: VARCHAR
-  - name: RBCS_Lvl
+  - name: rbcs_id
     type: VARCHAR
-  - name: RBCS_Id
+  - name: rbcs_desc
     type: VARCHAR
-  - name: RBCS_Desc
+  - name: hcpcs_cd
     type: VARCHAR
-  - name: HCPCS_CD
+  - name: hcpcs_desc
     type: VARCHAR
-  - name: HCPCS_Desc
+  - name: suplr_rentl_ind
     type: VARCHAR
-  - name: Suplr_Rentl_Ind
+  - name: tot_suplrs
+    type: BIGINT
+  - name: tot_suplr_benes
     type: VARCHAR
-  - name: Tot_Suplrs
-    type: VARCHAR
-  - name: Tot_Suplr_Benes
-    type: VARCHAR
-  - name: Tot_Suplr_Clms
-    type: VARCHAR
-  - name: Tot_Suplr_Srvcs
-    type: VARCHAR
-  - name: Avg_Suplr_Sbmtd_Chrg
-    type: VARCHAR
-  - name: Avg_Suplr_Mdcr_Alowd_Amt
-    type: VARCHAR
-  - name: Avg_Suplr_Mdcr_Pymt_Amt
-    type: VARCHAR
-  - name: Avg_Suplr_Mdcr_Stdzd_Amt
-    type: VARCHAR
+  - name: tot_suplr_clms
+    type: BIGINT
+  - name: tot_suplr_srvcs
+    type: BIGINT
+  - name: avg_suplr_sbmtd_chrg
+    type: DOUBLE
+  - name: avg_suplr_mdcr_alowd_amt
+    type: DOUBLE
+  - name: avg_suplr_mdcr_pymt_amt
+    type: DOUBLE
+  - name: avg_suplr_mdcr_stdzd_amt
+    type: DOUBLE

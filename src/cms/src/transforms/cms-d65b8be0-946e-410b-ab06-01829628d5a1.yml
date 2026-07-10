@@ -1,20 +1,25 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-d65b8be0-946e-410b-ab06-01829628d5a1`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: workdate
+sort: [workdate]
 columns:
-  - name: PROVNUM
+  - name: provnum
     type: VARCHAR
-  - name: STATE
+  - name: state
     type: VARCHAR
-  - name: CY_Qtr
+  - name: cy_qtr
     type: VARCHAR
-  - name: WorkDate
+  - name: workdate
+    type: DATE
+  - name: sys_emplee_id
+    type: BIGINT
+  - name: emplee_job_cd_id
+    type: BIGINT
+  - name: emp_ctr
+    type: BIGINT
+  - name: work_hrs_num
     type: VARCHAR
-  - name: SYS_EMPLEE_ID
-    type: VARCHAR
-  - name: EMPLEE_JOB_CD_ID
-    type: VARCHAR
-  - name: EMP_CTR
-    type: VARCHAR
-  - name: WORK_HRS_NUM
-    type: VARCHAR
-  - name: WORK_HRS_FN
+  - name: work_hrs_fn
     type: VARCHAR

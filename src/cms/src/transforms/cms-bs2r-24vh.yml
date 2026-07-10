@@ -1,22 +1,26 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-bs2r-24vh`. Regenerate after model-verify.
+key: [number_of_hospitals_same, number_of_hospitals_too_few, state, number_of_hospitals_better, measure_id]
+temporal: start_date
+sort: [start_date, number_of_hospitals_same, number_of_hospitals_too_few, state, number_of_hospitals_better, measure_id]
 columns:
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: Measure ID
+  - name: measure_id
     type: VARCHAR
-  - name: Measure Name
+  - name: measure_name
     type: VARCHAR
-  - name: Number of Hospitals Worse
+  - name: number_of_hospitals_worse
     type: VARCHAR
-  - name: Number of Hospitals Same
+  - name: number_of_hospitals_same
     type: VARCHAR
-  - name: Number of Hospitals Better
+  - name: number_of_hospitals_better
     type: VARCHAR
-  - name: Number of Hospitals Too Few
+  - name: number_of_hospitals_too_few
     type: VARCHAR
-  - name: Footnote
+  - name: footnote
     type: VARCHAR
-  - name: Start Date
+  - name: start_date
     type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

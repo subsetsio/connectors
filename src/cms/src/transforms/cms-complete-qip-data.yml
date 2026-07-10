@@ -1,284 +1,286 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [CMS Certification Number (CCN)]
-sort: [CMS Certification Number (CCN)]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-complete-qip-data`. Regenerate after model-verify.
+key: [address, pppw_improvement_period_numerator, cms_certification_number_ccn, pppw_achievement_period_numerator, shr_achievement_period_denominator]
+temporal: cms_certification_date
+sort: [cms_certification_date, address, pppw_improvement_period_numerator, cms_certification_number_ccn, pppw_achievement_period_numerator, shr_achievement_period_denominator]
 columns:
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: CMS Certification Number (CCN)
+  - name: cms_certification_number_ccn
     type: VARCHAR
-  - name: Alternate CCN
+  - name: alternate_ccn
     type: VARCHAR
-  - name: Address
+  - name: address
     type: VARCHAR
-  - name: City
+  - name: city
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: Zip Code
+  - name: zip_code
     type: VARCHAR
-  - name: Network
+  - name: network
+    type: BIGINT
+  - name: long_term_catheter_measure_score
     type: VARCHAR
-  - name: Long-term Catheter Measure Score
+  - name: long_term_catheter_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: Long-term Catheter Reason for No Score (See Footnotes File)
+  - name: long_term_catheter_achievement_measure_rate
     type: VARCHAR
-  - name: Long-term Catheter Achievement Measure Rate
+  - name: number_of_patients_included_in_long_term_catheter_measure_score_achievement_period
     type: VARCHAR
-  - name: Number of Patients Included in Long-term Catheter Measure Score Achievement Period
+  - name: long_term_catheter_achievement_period_numerator
     type: VARCHAR
-  - name: Long-term Catheter Achievement Period Numerator
+  - name: long_term_catheter_achievement_period_denominator
     type: VARCHAR
-  - name: Long-term Catheter Achievement Period Denominator
+  - name: long_term_catheter_improvement_measure_rate
     type: VARCHAR
-  - name: Long-term Catheter Improvement Measure Rate
+  - name: long_term_catheter_improvement_period_numerator
     type: VARCHAR
-  - name: Long-term Catheter Improvement Period Numerator
+  - name: long_term_catheter_improvement_period_denominator
     type: VARCHAR
-  - name: Long-term Catheter Improvement Period Denominator
+  - name: long_term_catheter_measure_score_applied
     type: VARCHAR
-  - name: Long-term Catheter Measure Score Applied
+  - name: national_average_long_term_catheter_measure_score
+    type: BIGINT
+  - name: kt_v_comprehensive_measure_score
     type: VARCHAR
-  - name: National Average Long-term Catheter Measure Score
+  - name: kt_v_comprehensive_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: Kt/V Comprehensive Measure Score
+  - name: kt_v_comprehensive_achievement_measure_rate
     type: VARCHAR
-  - name: Kt/V Comprehensive Reason for No Score (See Footnotes File)
+  - name: number_of_patients_included_in_kt_v_comprehensive_measure_score_achievement_period
     type: VARCHAR
-  - name: Kt/V Comprehensive Achievement Measure Rate
+  - name: kt_v_comprehensive_achievement_period_numerator
     type: VARCHAR
-  - name: Number of Patients Included in Kt/V Comprehensive Measure Score Achievement Period
+  - name: kt_v_comprehensive_achievement_period_denominator
     type: VARCHAR
-  - name: Kt/V Comprehensive Achievement Period Numerator
+  - name: kt_v_comprehensive_improvement_measure_rate
     type: VARCHAR
-  - name: Kt/V Comprehensive Achievement Period Denominator
+  - name: kt_v_comprehensive_improvement_period_numerator
     type: VARCHAR
-  - name: Kt/V Comprehensive Improvement Measure Rate
+  - name: kt_v_comprehensive_improvement_period_denominator
     type: VARCHAR
-  - name: Kt/V Comprehensive Improvement Period Numerator
+  - name: kt_v_comprehensive_measure_score_applied
     type: VARCHAR
-  - name: Kt/V Comprehensive Improvement Period Denominator
+  - name: national_average_kt_v_comprehensive_measure_score
+    type: BIGINT
+  - name: hypercalcemia_measure_score
     type: VARCHAR
-  - name: Kt/V Comprehensive Measure Score Applied
+  - name: hypercalcemia_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: National Average Kt/V Comprehensive Measure Score
+  - name: national_average_hypercalcemia_measure_score
+    type: BIGINT
+  - name: nhsn_bsi_measure_score
     type: VARCHAR
-  - name: Hypercalcemia Measure Score
+  - name: nhsn_bsi_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: Hypercalcemia Reason for No Score (See Footnotes File)
+  - name: nhsn_bsi_achievement_measure_ratio
     type: VARCHAR
-  - name: National Average Hypercalcemia Measure Score
+  - name: number_of_patients_included_in_nhsn_bsi_measure_score_achievement_period
     type: VARCHAR
-  - name: NHSN BSI Measure Score
+  - name: nhsn_bsi_achievement_period_observed_event_number
     type: VARCHAR
-  - name: NHSN BSI Reason for No Score (See Footnotes File)
+  - name: nhsn_bsi_achievement_period_expected_event_number
     type: VARCHAR
-  - name: NHSN BSI Achievement Measure Ratio
+  - name: nhsn_bsi_improvement_measure_ratio
     type: VARCHAR
-  - name: Number of Patients Included in NHSN BSI Measure Score Achievement Period
+  - name: nhsn_bsi_improvement_period_observed_event_number
     type: VARCHAR
-  - name: NHSN BSI Achievement Period Observed Event Number
+  - name: nhsn_bsi_improvement_period_expected_event_number
     type: VARCHAR
-  - name: NHSN BSI Achievement Period Expected Event Number
+  - name: nhsn_bsi_measure_score_applied
     type: VARCHAR
-  - name: NHSN BSI Improvement Measure Ratio
+  - name: national_average_nhsn_bsi_measure_score
+    type: BIGINT
+  - name: nhsn_dialysis_event_reporting_measure_score
     type: VARCHAR
-  - name: NHSN BSI Improvement Period Observed Event Number
+  - name: nhsn_dialysis_event_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: NHSN BSI Improvement Period Expected Event Number
+  - name: nhsn_dialysis_event_reporting_number_of_months_reported
     type: VARCHAR
-  - name: NHSN BSI Measure Score Applied
+  - name: ich_cahps_measure_score
     type: VARCHAR
-  - name: National Average NHSN BSI Measure Score
+  - name: ich_cahps_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: NHSN Dialysis Event Reporting Measure Score
+  - name: ich_cahps_achievement_period_count_of_completed_surveys
     type: VARCHAR
-  - name: NHSN Dialysis Event Reason for No Score (See Footnotes File)
+  - name: ich_cahps_improvement_period_count_of_completed_surveys
     type: VARCHAR
-  - name: NHSN Dialysis Event Reporting Number of Months Reported
+  - name: ich_cahps_measure_score_applied
     type: VARCHAR
-  - name: ICH CAHPS Measure Score
+  - name: national_average_ich_cahps_measure_score
+    type: BIGINT
+  - name: ich_cahps_neph_comm_and_caring_achievement_rate
     type: VARCHAR
-  - name: ICH CAHPS Reason for No Score (See Footnotes File)
+  - name: ich_cahps_neph_comm_and_caring_improvement_rate
     type: VARCHAR
-  - name: ICH CAHPS Achievement Period Count of Completed Surveys
+  - name: ich_cahps_neph_comm_and_caring_measure_score_applied
     type: VARCHAR
-  - name: ICH CAHPS Improvement Period Count of Completed Surveys
+  - name: ich_cahps_quality_of_dialysis_care_and_ops_achievement_rate
     type: VARCHAR
-  - name: ICH CAHPS Measure Score Applied
+  - name: ich_cahps_quality_of_dialysis_care_and_ops_improvement_rate
     type: VARCHAR
-  - name: National Average ICH CAHPS Measure Score
+  - name: ich_cahps_quality_of_dialysis_care_and_ops_measure_score_applied
     type: VARCHAR
-  - name: ICH CAHPS Neph Comm and Caring Achievement Rate
+  - name: ich_cahps_providing_info_to_patients_achievement_rate
     type: VARCHAR
-  - name: ICH CAHPS Neph Comm and Caring Improvement Rate
+  - name: ich_cahps_providing_info_to_patients_improvement_rate
     type: VARCHAR
-  - name: ICH CAHPS Neph Comm and Caring Measure Score Applied
+  - name: ich_cahps_providing_info_to_patients_measure_score_applied
     type: VARCHAR
-  - name: ICH CAHPS Quality of Dialysis Care and Ops Achievement Rate
+  - name: ich_cahps_overall_rating_of_neph_achievement_rate
     type: VARCHAR
-  - name: ICH CAHPS Quality of Dialysis Care and Ops Improvement Rate
+  - name: ich_cahps_overall_rating_of_neph_improvement_rate
     type: VARCHAR
-  - name: ICH CAHPS Quality of Dialysis Care and Ops Measure Score Applied
+  - name: ich_cahps_overall_rating_of_neph_measure_score_applied
     type: VARCHAR
-  - name: ICH CAHPS Providing Info to Patients Achievement Rate
+  - name: ich_cahps_overall_rating_of_dialysis_staff_achievement_rate
     type: VARCHAR
-  - name: ICH CAHPS Providing Info to Patients Improvement Rate
+  - name: ich_cahps_overall_rating_of_dialysis_staff_improvement_rate
     type: VARCHAR
-  - name: ICH CAHPS Providing Info to Patients Measure Score Applied
+  - name: ich_cahps_overall_rating_of_dialysis_staff_measure_score_applied
     type: VARCHAR
-  - name: ICH CAHPS Overall Rating of Neph Achievement Rate
+  - name: ich_cahps_overall_rating_of_dialysis_facility_achievement_rate
     type: VARCHAR
-  - name: ICH CAHPS Overall Rating of Neph Improvement Rate
+  - name: ich_cahps_overall_rating_of_dialysis_facility_improvement_rate
     type: VARCHAR
-  - name: ICH CAHPS Overall Rating of Neph Measure Score Applied
+  - name: ich_cahps_overall_rating_of_dialysis_facility_measure_score_applied
     type: VARCHAR
-  - name: ICH CAHPS Overall Rating of Dialysis Staff Achievement Rate
+  - name: standardized_readmission_ratio_srr_measure_score
     type: VARCHAR
-  - name: ICH CAHPS Overall Rating of Dialysis Staff Improvement Rate
+  - name: srr_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: ICH CAHPS Overall Rating of Dialysis Staff Measure Score Applied
+  - name: srr_achievement_measure_ratio
     type: VARCHAR
-  - name: ICH CAHPS Overall Rating of Dialysis Facility Achievement Rate
+  - name: number_of_index_discharges_in_srr_achievement_period
     type: VARCHAR
-  - name: ICH CAHPS Overall Rating of Dialysis Facility Improvement Rate
+  - name: srr_achievement_period_numerator
     type: VARCHAR
-  - name: ICH CAHPS Overall Rating of Dialysis Facility Measure Score Applied
+  - name: srr_achievement_period_denominator
     type: VARCHAR
-  - name: Standardized Readmission Ratio (SRR) Measure Score
+  - name: srr_improvement_measure_ratio
     type: VARCHAR
-  - name: SRR Reason for No Score (See Footnotes File)
+  - name: srr_improvement_period_numerator
     type: VARCHAR
-  - name: SRR Achievement Measure Ratio
+  - name: srr_improvement_period_denominator
     type: VARCHAR
-  - name: Number of Index Discharges in SRR Achievement Period
+  - name: srr_measure_score_applied
     type: VARCHAR
-  - name: SRR Achievement Period Numerator
+  - name: national_average_srr_measure_score
+    type: BIGINT
+  - name: standardized_transfusion_ratio_strr_measure_score
     type: VARCHAR
-  - name: SRR Achievement Period Denominator
+  - name: strr_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: SRR Improvement Measure Ratio
+  - name: strr_achievement_measure_ratio
     type: VARCHAR
-  - name: SRR Improvement Period Numerator
+  - name: number_of_patient_years_at_risk_in_strr_achievement_period
     type: VARCHAR
-  - name: SRR Improvement Period Denominator
+  - name: strr_achievement_period_numerator
     type: VARCHAR
-  - name: SRR Measure Score Applied
+  - name: strr_achievement_period_denominator
     type: VARCHAR
-  - name: National Average SRR Measure Score
+  - name: strr_improvement_measure_ratio
     type: VARCHAR
-  - name: Standardized Transfusion Ratio (STrR) Measure Score
+  - name: strr_improvement_period_numerator
     type: VARCHAR
-  - name: STrR Reason for No Score (See Footnotes File)
+  - name: strr_improvement_period_denominator
     type: VARCHAR
-  - name: STrR Achievement Measure Ratio
+  - name: strr_measure_score_applied
     type: VARCHAR
-  - name: Number of Patient-Years at Risk in STrR Achievement Period
+  - name: national_average_strr_measure_score
+    type: BIGINT
+  - name: standardized_hospitalization_ratio_shr_measure_score
     type: VARCHAR
-  - name: STrR Achievement Period Numerator
+  - name: shr_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: STrR Achievement Period Denominator
+  - name: shr_achievement_measure_ratio
     type: VARCHAR
-  - name: STrR Improvement Measure Ratio
+  - name: number_of_patient_years_at_risk_in_shr_achievement_period
     type: VARCHAR
-  - name: STrR Improvement Period Numerator
+  - name: shr_achievement_period_numerator
     type: VARCHAR
-  - name: STrR Improvement Period Denominator
+  - name: shr_achievement_period_denominator
     type: VARCHAR
-  - name: STrR Measure Score Applied
+  - name: shr_improvement_measure_ratio
     type: VARCHAR
-  - name: National Average STrR Measure Score
+  - name: shr_improvement_period_numerator
     type: VARCHAR
-  - name: Standardized Hospitalization Ratio (SHR) Measure Score
+  - name: shr_improvement_period_denominator
     type: VARCHAR
-  - name: SHR Reason for No Score (See Footnotes File)
+  - name: shr_measure_score_applied
     type: VARCHAR
-  - name: SHR Achievement Measure Ratio
+  - name: national_average_shr_measure_score
+    type: BIGINT
+  - name: clinical_depression_screening_and_follow_up_improvement_period_numerator
     type: VARCHAR
-  - name: Number of Patient-Years at Risk in SHR Achievement Period
+  - name: clinical_depression_screening_and_follow_up_improvement_period_denominator
     type: VARCHAR
-  - name: SHR Achievement Period Numerator
+  - name: clinical_depression_screening_and_follow_up_achievement_period_denominator
     type: VARCHAR
-  - name: SHR Achievement Period Denominator
+  - name: clinical_depression_screening_and_follow_up_achievement_period_numerator
     type: VARCHAR
-  - name: SHR Improvement Measure Ratio
+  - name: clinical_depression_screening_and_follow_up_improvement_measure_rate
     type: VARCHAR
-  - name: SHR Improvement Period Numerator
+  - name: clinical_depression_screening_and_follow_up_achievement_measure_rate
     type: VARCHAR
-  - name: SHR Improvement Period Denominator
+  - name: clinical_depression_screening_and_follow_up_measure_score
     type: VARCHAR
-  - name: SHR Measure Score Applied
+  - name: clinical_depression_screening_and_follow_up_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: National Average SHR Measure Score
+  - name: clinical_depression_screening_and_follow_up_measure_score_applied
     type: VARCHAR
-  - name: Clinical Depression Screening and Follow-up Improvement Period Numerator
+  - name: national_average_cd_measure_score
+    type: BIGINT
+  - name: medrec_measure_score
     type: VARCHAR
-  - name: Clinical Depression Screening and Follow-up Improvement Period Denominator
+  - name: medrec_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: Clinical Depression Screening and Follow-up Achievement Period Denominator
+  - name: national_average_medrec_measure_score
+    type: BIGINT
+  - name: pppw_achievement_period_numerator
     type: VARCHAR
-  - name: Clinical Depression Screening and Follow-up Achievement Period Numerator
+  - name: pppw_achievement_period_denominator
     type: VARCHAR
-  - name: Clinical Depression Screening and Follow-up Improvement Measure Rate
+  - name: pppw_improvement_period_numerator
     type: VARCHAR
-  - name: Clinical Depression Screening and Follow-up Achievement Measure Rate
+  - name: pppw_improvement_period_denominator
     type: VARCHAR
-  - name: Clinical Depression Screening and Follow-up Measure Score
+  - name: pppw_improvement_measure_rate
     type: VARCHAR
-  - name: Clinical Depression Screening and Follow-up Reason for No Score (See Footnotes File)
+  - name: pppw_achievement_measure_rate
     type: VARCHAR
-  - name: Clinical Depression Screening and Follow-up Measure Score Applied
+  - name: pppw_measure_score
     type: VARCHAR
-  - name: National Average CD Measure Score
+  - name: pppw_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: MedRec Measure Score
+  - name: pppw_measure_score_applied
     type: VARCHAR
-  - name: MedRec Reason for No Score (See Footnotes File)
+  - name: national_average_pppw_measure_score
+    type: BIGINT
+  - name: covid_19_hcp_measure_score
     type: VARCHAR
-  - name: National Average MedRec Measure Score
+  - name: covid_19_hcp_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: PPPW Achievement Period Numerator
+  - name: covid_19_hcp_number_of_months_reported
     type: VARCHAR
-  - name: PPPW Achievement Period Denominator
+  - name: national_average_covid_19_hcp_measure_score
+    type: BIGINT
+  - name: fche_measure_score
     type: VARCHAR
-  - name: PPPW Improvement Period Numerator
+  - name: fche_reason_for_no_score_see_footnotes_file
     type: VARCHAR
-  - name: PPPW Improvement Period Denominator
+  - name: fche_number_of_domains_reported
     type: VARCHAR
-  - name: PPPW Improvement Measure Rate
+  - name: national_average_fche_measure_score
+    type: BIGINT
+  - name: total_performance_score
     type: VARCHAR
-  - name: PPPW Achievement Measure Rate
+  - name: py2026_payment_reduction_percentage
     type: VARCHAR
-  - name: PPPW Measure Score
+  - name: cms_certification_date
+    type: DATE
+  - name: ownership_as_of_december_31_2024
     type: VARCHAR
-  - name: PPPW Reason for No Score (See Footnotes File)
-    type: VARCHAR
-  - name: PPPW Measure Score Applied
-    type: VARCHAR
-  - name: National Average PPPW Measure Score
-    type: VARCHAR
-  - name: COVID-19 HCP Measure Score
-    type: VARCHAR
-  - name: COVID-19 HCP Reason for No Score (See Footnotes File)
-    type: VARCHAR
-  - name: COVID-19 HCP Number of Months Reported
-    type: VARCHAR
-  - name: National Average COVID-19 HCP Measure Score
-    type: VARCHAR
-  - name: FCHE Measure Score
-    type: VARCHAR
-  - name: FCHE Reason for No Score (See Footnotes File)
-    type: VARCHAR
-  - name: FCHE Number of Domains Reported
-    type: VARCHAR
-  - name: National Average FCHE Measure Score
-    type: VARCHAR
-  - name: Total Performance Score
-    type: VARCHAR
-  - name: PY2026 Payment Reduction Percentage
-    type: VARCHAR
-  - name: CMS Certification Date
-    type: VARCHAR
-  - name: Ownership as of December 31, 2024
-    type: VARCHAR
-  - name: Date of Ownership Record Update
-    type: VARCHAR
+  - name: date_of_ownership_record_update
+    type: DATE

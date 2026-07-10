@@ -1,126 +1,127 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: YEAR
-sort: [YEAR]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-8e989bc0-2260-49a7-9c6d-8e9e10af7cea`. Regenerate after model-verify.
+key: [benes_ip_stay_cnt]
+sort: [benes_ip_stay_cnt]
 columns:
-  - name: YEAR
+  - name: year
+    type: BIGINT
+  - name: state
     type: VARCHAR
-  - name: STATE
+  - name: bene_geo_cd
     type: VARCHAR
-  - name: BENE_GEO_CD
+  - name: benes_ma_cnt
+    type: BIGINT
+  - name: bene_avg_age
+    type: BIGINT
+  - name: bene_feml_pct
+    type: DOUBLE
+  - name: bene_male_pct
+    type: DOUBLE
+  - name: bene_race_wht_pct
     type: VARCHAR
-  - name: BENES_MA_CNT
+  - name: bene_race_black_pct
     type: VARCHAR
-  - name: BENE_AVG_AGE
+  - name: bene_race_hspnc_pct
     type: VARCHAR
-  - name: BENE_FEML_PCT
+  - name: bene_race_othr_pct
     type: VARCHAR
-  - name: BENE_MALE_PCT
+  - name: bene_dual_pct
     type: VARCHAR
-  - name: BENE_RACE_WHT_PCT
+  - name: benes_ip_stay_cnt
+    type: BIGINT
+  - name: benes_ip_pct
+    type: DOUBLE
+  - name: ip_stays_per_1000_benes
+    type: DOUBLE
+  - name: ip_days_per_1000_benes
+    type: DOUBLE
+  - name: benes_irf_cnt
     type: VARCHAR
-  - name: BENE_RACE_BLACK_PCT
+  - name: benes_irf_pct
     type: VARCHAR
-  - name: BENE_RACE_HSPNC_PCT
+  - name: irf_stays_per_1000_benes
     type: VARCHAR
-  - name: BENE_RACE_OTHR_PCT
+  - name: irf_days_per_1000_benes
     type: VARCHAR
-  - name: BENE_DUAL_PCT
+  - name: benes_ltc_cnt
     type: VARCHAR
-  - name: BENES_IP_STAY_CNT
+  - name: benes_ltc_pct
     type: VARCHAR
-  - name: BENES_IP_PCT
+  - name: ltc_stays_per_1000_benes
     type: VARCHAR
-  - name: IP_STAYS_PER_1000_BENES
+  - name: ltc_days_per_1000_benes
     type: VARCHAR
-  - name: IP_DAYS_PER_1000_BENES
+  - name: benes_snf_cnt
     type: VARCHAR
-  - name: BENES_IRF_CNT
+  - name: benes_snf_pct
     type: VARCHAR
-  - name: BENES_IRF_PCT
+  - name: snf_stays_per_1000_benes
     type: VARCHAR
-  - name: IRF_STAYS_PER_1000_BENES
+  - name: snf_days_per_1000_benes
     type: VARCHAR
-  - name: IRF_DAYS_PER_1000_BENES
+  - name: benes_em_cnt
+    type: BIGINT
+  - name: benes_em_pct
+    type: DOUBLE
+  - name: em_events_per_1000_benes
+    type: DOUBLE
+  - name: benes_prcdrs_cnt
+    type: BIGINT
+  - name: benes_prcdrs_pct
+    type: DOUBLE
+  - name: prcdrs_events_per_1000_benes
+    type: DOUBLE
+  - name: benes_tests_cnt
+    type: BIGINT
+  - name: benes_tests_pct
+    type: DOUBLE
+  - name: tests_events_per_1000_benes
+    type: DOUBLE
+  - name: benes_imgng_cnt
+    type: BIGINT
+  - name: benes_imgng_pct
+    type: DOUBLE
+  - name: imgng_events_per_1000_benes
+    type: DOUBLE
+  - name: benes_dme_cnt
+    type: BIGINT
+  - name: benes_dme_pct
+    type: DOUBLE
+  - name: dme_events_per_1000_benes
+    type: DOUBLE
+  - name: benes_amblnc_cnt
+    type: BIGINT
+  - name: benes_amblnc_pct
+    type: DOUBLE
+  - name: amblnc_events_per_1000_benes
+    type: DOUBLE
+  - name: benes_trtmnt_cnt
+    type: BIGINT
+  - name: benes_trtmnt_pct
+    type: DOUBLE
+  - name: trtmnt_events_per_1000_benes
+    type: DOUBLE
+  - name: benes_op_dlys_cnt
     type: VARCHAR
-  - name: BENES_LTC_CNT
+  - name: benes_op_dlys_pct
     type: VARCHAR
-  - name: BENES_LTC_PCT
+  - name: op_dlys_visits_per_1000_benes
     type: VARCHAR
-  - name: LTC_STAYS_PER_1000_BENES
+  - name: benes_fqhc_rhc_cnt
     type: VARCHAR
-  - name: LTC_DAYS_PER_1000_BENES
+  - name: benes_fqhc_rhc_pct
     type: VARCHAR
-  - name: BENES_SNF_CNT
+  - name: fqhc_rhc_visits_per_1000_benes
     type: VARCHAR
-  - name: BENES_SNF_PCT
-    type: VARCHAR
-  - name: SNF_STAYS_PER_1000_BENES
-    type: VARCHAR
-  - name: SNF_DAYS_PER_1000_BENES
-    type: VARCHAR
-  - name: BENES_EM_CNT
-    type: VARCHAR
-  - name: BENES_EM_PCT
-    type: VARCHAR
-  - name: EM_EVENTS_PER_1000_BENES
-    type: VARCHAR
-  - name: BENES_PRCDRS_CNT
-    type: VARCHAR
-  - name: BENES_PRCDRS_PCT
-    type: VARCHAR
-  - name: PRCDRS_EVENTS_PER_1000_BENES
-    type: VARCHAR
-  - name: BENES_TESTS_CNT
-    type: VARCHAR
-  - name: BENES_TESTS_PCT
-    type: VARCHAR
-  - name: TESTS_EVENTS_PER_1000_BENES
-    type: VARCHAR
-  - name: BENES_IMGNG_CNT
-    type: VARCHAR
-  - name: BENES_IMGNG_PCT
-    type: VARCHAR
-  - name: IMGNG_EVENTS_PER_1000_BENES
-    type: VARCHAR
-  - name: BENES_DME_CNT
-    type: VARCHAR
-  - name: BENES_DME_PCT
-    type: VARCHAR
-  - name: DME_EVENTS_PER_1000_BENES
-    type: VARCHAR
-  - name: BENES_AMBLNC_CNT
-    type: VARCHAR
-  - name: BENES_AMBLNC_PCT
-    type: VARCHAR
-  - name: AMBLNC_EVENTS_PER_1000_BENES
-    type: VARCHAR
-  - name: BENES_TRTMNT_CNT
-    type: VARCHAR
-  - name: BENES_TRTMNT_PCT
-    type: VARCHAR
-  - name: TRTMNT_EVENTS_PER_1000_BENES
-    type: VARCHAR
-  - name: BENES_OP_DLYS_CNT
-    type: VARCHAR
-  - name: BENES_OP_DLYS_PCT
-    type: VARCHAR
-  - name: OP_DLYS_VISITS_PER_1000_BENES
-    type: VARCHAR
-  - name: BENES_FQHC_RHC_CNT
-    type: VARCHAR
-  - name: BENES_FQHC_RHC_PCT
-    type: VARCHAR
-  - name: FQHC_RHC_VISITS_PER_1000_BENES
-    type: VARCHAR
-  - name: BENES_OP_CNT
-    type: VARCHAR
-  - name: BENES_OP_PCT
-    type: VARCHAR
-  - name: OP_VISITS_PER_1000_BENES
-    type: VARCHAR
-  - name: BENES_ER_VISITS_CNT
-    type: VARCHAR
-  - name: BENES_ER_VISITS_PCT
-    type: VARCHAR
-  - name: ER_VISITS_PER_1000_BENES
-    type: VARCHAR
+  - name: benes_op_cnt
+    type: BIGINT
+  - name: benes_op_pct
+    type: DOUBLE
+  - name: op_visits_per_1000_benes
+    type: DOUBLE
+  - name: benes_er_visits_cnt
+    type: BIGINT
+  - name: benes_er_visits_pct
+    type: DOUBLE
+  - name: er_visits_per_1000_benes
+    type: DOUBLE

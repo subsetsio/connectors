@@ -1,30 +1,34 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-7peb-i4pi`. Regenerate after model-verify.
+key: [facility_id]
+temporal: start_date
+sort: [start_date, facility_id]
 columns:
-  - name: Facility ID
+  - name: facility_id
     type: VARCHAR
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: Address
+  - name: address
     type: VARCHAR
-  - name: City/Town
+  - name: city_town
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: ZIP Code
+  - name: zip_code
+    type: BIGINT
+  - name: county_parish
     type: VARCHAR
-  - name: County/Parish
+  - name: telephone_number
     type: VARCHAR
-  - name: Telephone Number
+  - name: measure_id
     type: VARCHAR
-  - name: Measure ID
+  - name: measure_name
     type: VARCHAR
-  - name: Measure Name
+  - name: score
     type: VARCHAR
-  - name: Score
+  - name: footnote
     type: VARCHAR
-  - name: Footnote
+  - name: start_date
     type: VARCHAR
-  - name: Start Date
-    type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

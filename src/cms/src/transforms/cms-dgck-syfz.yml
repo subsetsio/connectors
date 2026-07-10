@@ -1,46 +1,51 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-dgck-syfz`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: start_date
+sort: [start_date]
 columns:
-  - name: Facility ID
+  - name: facility_id
     type: VARCHAR
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: Address
+  - name: address
     type: VARCHAR
-  - name: City/Town
+  - name: city_town
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: ZIP Code
+  - name: zip_code
     type: VARCHAR
-  - name: County/Parish
+  - name: county_parish
     type: VARCHAR
-  - name: Telephone Number
+  - name: telephone_number
     type: VARCHAR
-  - name: HCAHPS Measure ID
+  - name: hcahps_measure_id
     type: VARCHAR
-  - name: HCAHPS Question
+  - name: hcahps_question
     type: VARCHAR
-  - name: HCAHPS Answer Description
+  - name: hcahps_answer_description
     type: VARCHAR
-  - name: Patient Survey Star Rating
+  - name: patient_survey_star_rating
     type: VARCHAR
-  - name: Patient Survey Star Rating Footnote
+  - name: patient_survey_star_rating_footnote
     type: VARCHAR
-  - name: HCAHPS Answer Percent
+  - name: hcahps_answer_percent
     type: VARCHAR
-  - name: HCAHPS Answer Percent Footnote
+  - name: hcahps_answer_percent_footnote
     type: VARCHAR
-  - name: HCAHPS Linear Mean Value
+  - name: hcahps_linear_mean_value
     type: VARCHAR
-  - name: Number of Completed Surveys
+  - name: number_of_completed_surveys
     type: VARCHAR
-  - name: Number of Completed Surveys Footnote
+  - name: number_of_completed_surveys_footnote
     type: VARCHAR
-  - name: Survey Response Rate Percent
+  - name: survey_response_rate_percent
     type: VARCHAR
-  - name: Survey Response Rate Percent Footnote
+  - name: survey_response_rate_percent_footnote
     type: VARCHAR
-  - name: Start Date
+  - name: start_date
     type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

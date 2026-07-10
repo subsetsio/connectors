@@ -1,30 +1,33 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-f8610e87-ba25-43a3-a49e-927dbc8701ae`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
   - name: state
     type: VARCHAR
-  - name: CCN
+  - name: ccn
     type: VARCHAR
-  - name: Provider_Name
+  - name: provider_name
     type: VARCHAR
   - name: city
     type: VARCHAR
-  - name: Ownership_Type
+  - name: ownership_type
     type: VARCHAR
-  - name: ESRD_Network
+  - name: esrd_network
     type: VARCHAR
-  - name: NPI
+  - name: npi
     type: VARCHAR
-  - name: Chain
+  - name: chain
     type: VARCHAR
-  - name: Modality
+  - name: modality
     type: VARCHAR
-  - name: Alternate_CCNs
+  - name: alternate_ccns
     type: VARCHAR
-  - name: Measure
+  - name: measure
     type: VARCHAR
-  - name: Measure_Score
-    type: VARCHAR
+  - name: measure_score
+    type: BIGINT
   - name: year
     type: VARCHAR
-  - name: Measure_ID
+  - name: measure_id
     type: VARCHAR

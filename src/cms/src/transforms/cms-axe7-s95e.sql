@@ -1,2 +1,40 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-axe7-s95e"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "State" AS state,
+    CAST("Year" AS BIGINT) AS year,
+    "Avg ASC-1 State Rate*" AS avg_asc_1_state_rate,
+    "Median ASC-1 State Rate*" AS median_asc_1_state_rate,
+    CAST("Avg ASC-2 State Rate*" AS DOUBLE) AS avg_asc_2_state_rate,
+    CAST("Median ASC-2 State Rate*" AS DOUBLE) AS median_asc_2_state_rate,
+    "Avg ASC-3 State Rate*" AS avg_asc_3_state_rate,
+    "Median ASC-3 State Rate*" AS median_asc_3_state_rate,
+    CAST("Avg ASC-4 State Rate*" AS DOUBLE) AS avg_asc_4_state_rate,
+    CAST("Median ASC-4 State Rate*" AS DOUBLE) AS median_asc_4_state_rate,
+    "Avg ASC-9 State Rate*" AS avg_asc_9_state_rate,
+    "Median ASC-9 State Rate*" AS median_asc_9_state_rate,
+    "Avg ASC-11 State Rate*" AS avg_asc_11_state_rate,
+    "Median ASC-11 State Rate*" AS median_asc_11_state_rate,
+    CAST("ASC-12 Better" AS BIGINT) AS asc_12_better,
+    CAST("ASC-12 No Different" AS BIGINT) AS asc_12_no_different,
+    CAST("ASC-12 Worse" AS BIGINT) AS asc_12_worse,
+    CAST("ASC-12 Too Small" AS BIGINT) AS asc_12_too_small,
+    CAST("Avg ASC-13 State Rate*" AS DOUBLE) AS avg_asc_13_state_rate,
+    CAST("Median ASC-13 State Rate*" AS DOUBLE) AS median_asc_13_state_rate,
+    "Avg ASC-14 State Rate*" AS avg_asc_14_state_rate,
+    "Median ASC-14 State Rate*" AS median_asc_14_state_rate,
+    CAST("ASC-17 Better" AS BIGINT) AS asc_17_better,
+    CAST("ASC-17 No Different" AS BIGINT) AS asc_17_no_different,
+    CAST("ASC-17 Worse" AS BIGINT) AS asc_17_worse,
+    CAST("ASC-17 Too Small" AS BIGINT) AS asc_17_too_small,
+    CAST("ASC-18 Better" AS BIGINT) AS asc_18_better,
+    CAST("ASC-18 No Different" AS BIGINT) AS asc_18_no_different,
+    CAST("ASC-18 Worse" AS BIGINT) AS asc_18_worse,
+    CAST("ASC-18 Too Small" AS BIGINT) AS asc_18_too_small,
+    CAST("ASC-19 Better" AS BIGINT) AS asc_19_better,
+    CAST("ASC-19 No Different" AS BIGINT) AS asc_19_no_different,
+    CAST("ASC-19 Worse" AS BIGINT) AS asc_19_worse,
+    CAST("ASC-19 Too Small" AS BIGINT) AS asc_19_too_small
+FROM "cms-axe7-s95e"

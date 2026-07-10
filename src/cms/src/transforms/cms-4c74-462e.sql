@@ -1,2 +1,45 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-4c74-462e"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "Nationwide Cohort" AS nationwide_cohort,
+    CAST("Model Baseline Year" AS BIGINT) AS model_baseline_year,
+    CAST("Discharged to Community: Cohort's Achievement Threshold" AS DOUBLE) AS discharged_to_community_cohort_s_achievement_threshold,
+    CAST("Dyspnea: Cohort's Achievement Threshold" AS DOUBLE) AS dyspnea_cohort_s_achievement_threshold,
+    CAST("Oral Medications: Cohort's Achievement Threshold" AS DOUBLE) AS oral_medications_cohort_s_achievement_threshold,
+    CAST("TNC Mobility: Cohort's Achievement Threshold" AS DOUBLE) AS tnc_mobility_cohort_s_achievement_threshold,
+    CAST("TNC Self-Care: Cohort's Achievement Threshold" AS DOUBLE) AS tnc_self_care_cohort_s_achievement_threshold,
+    CAST("ACH: Cohort's Achievement Threshold" AS DOUBLE) AS ach_cohort_s_achievement_threshold,
+    CAST("ED Use: Cohort's Achievement Threshold" AS DOUBLE) AS ed_use_cohort_s_achievement_threshold,
+    "Care of Patients: Cohort's Achievement Threshold" AS care_of_patients_cohort_s_achievement_threshold,
+    "Footnote Care of Patients: Cohort's Achievement Threshold" AS footnote_care_of_patients_cohort_s_achievement_threshold,
+    "Communication: Cohort's Achievement Threshold" AS communication_cohort_s_achievement_threshold,
+    "Footnote Communication: Cohort's Achievement Threshold" AS footnote_communication_cohort_s_achievement_threshold,
+    "Specific Care Issues: Cohort's Achievement Threshold" AS specific_care_issues_cohort_s_achievement_threshold,
+    "Footnote Specific Care Issues: Cohort's Achievement Threshold" AS footnote_specific_care_issues_cohort_s_achievement_threshold,
+    "Overall Rating: Cohort's Achievement Threshold" AS overall_rating_cohort_s_achievement_threshold,
+    "Footnote Overall Rating: Cohort's Achievement Threshold" AS footnote_overall_rating_cohort_s_achievement_threshold,
+    "Willingness to Recommend: Cohort's Achievement Threshold" AS willingness_to_recommend_cohort_s_achievement_threshold,
+    "Footnote Willingness to Recommend: Cohort's Achievement Threshold" AS footnote_willingness_to_recommend_cohort_s_achievement_threshold,
+    CAST("Discharged to Community: Cohort's Benchmark" AS DOUBLE) AS discharged_to_community_cohort_s_benchmark,
+    CAST("Dyspnea: Cohort's Benchmark" AS DOUBLE) AS dyspnea_cohort_s_benchmark,
+    CAST("Oral Medications: Cohort's Benchmark" AS DOUBLE) AS oral_medications_cohort_s_benchmark,
+    CAST("TNC Mobility: Cohort's Benchmark" AS DOUBLE) AS tnc_mobility_cohort_s_benchmark,
+    CAST("TNC Self-Care: Cohort's Benchmark" AS DOUBLE) AS tnc_self_care_cohort_s_benchmark,
+    CAST("ACH: Cohort's Benchmark" AS DOUBLE) AS ach_cohort_s_benchmark,
+    CAST("ED Use: Cohort's Benchmark" AS DOUBLE) AS ed_use_cohort_s_benchmark,
+    "Care of Patients: Cohort's Benchmark" AS care_of_patients_cohort_s_benchmark,
+    "Footnote Care of Patients: Cohort's Benchmark" AS footnote_care_of_patients_cohort_s_benchmark,
+    "Communication: Cohort's Benchmark" AS communication_cohort_s_benchmark,
+    "Footnote Communication: Cohort's Benchmark" AS footnote_communication_cohort_s_benchmark,
+    "Specific Care Issues: Cohort's Benchmark" AS specific_care_issues_cohort_s_benchmark,
+    "Footnote Specific Care Issues: Cohort's Benchmark" AS footnote_specific_care_issues_cohort_s_benchmark,
+    "Overall Rating: Cohort's Benchmark" AS overall_rating_cohort_s_benchmark,
+    "Footnote Overall Rating: Cohort's Benchmark" AS footnote_overall_rating_cohort_s_benchmark,
+    "Willingness to Recommend: Cohort's Benchmark" AS willingness_to_recommend_cohort_s_benchmark,
+    "Footnote Willingness to Recommend: Cohort's Benchmark" AS footnote_willingness_to_recommend_cohort_s_benchmark,
+    CAST("Cohort's Linear Exchange Function (LEF) Ratio" AS DOUBLE) AS cohort_s_linear_exchange_function_lef_ratio,
+    CAST("Cohort's Average Total Performance Score (TPS)" AS DOUBLE) AS cohort_s_average_total_performance_score_tps,
+    "Cohort's Average Adjusted Payment Percentage (APP)" AS cohort_s_average_adjusted_payment_percentage_app
+FROM "cms-4c74-462e"

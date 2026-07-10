@@ -1,48 +1,53 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-c04031db-54ce-461c-85d1-d2613d71f167`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: effective_date
+sort: [effective_date]
 columns:
-  - name: ENROLLMENT ID - BUYER
+  - name: enrollment_id_buyer
     type: VARCHAR
-  - name: ENROLLMENT STATE - BUYER
+  - name: enrollment_state_buyer
     type: VARCHAR
-  - name: PROVIDER TYPE CODE - BUYER
+  - name: provider_type_code_buyer
     type: VARCHAR
-  - name: PROVIDER TYPE TEXT - BUYER
+  - name: provider_type_text_buyer
     type: VARCHAR
-  - name: NPI - BUYER
+  - name: npi_buyer
+    type: BIGINT
+  - name: multiple_npi_flag_buyer
     type: VARCHAR
-  - name: MULTIPLE NPI FLAG - BUYER
+  - name: ccn_buyer
     type: VARCHAR
-  - name: CCN - BUYER
+  - name: associate_id_buyer
     type: VARCHAR
-  - name: ASSOCIATE ID - BUYER
+  - name: organization_name_buyer
     type: VARCHAR
-  - name: ORGANIZATION NAME - BUYER
+  - name: doing_business_as_name_buyer
     type: VARCHAR
-  - name: DOING BUSINESS AS NAME - BUYER
+  - name: chow_type_code
     type: VARCHAR
-  - name: CHOW TYPE CODE
+  - name: chow_type_text
     type: VARCHAR
-  - name: CHOW TYPE TEXT
-    type: VARCHAR
-  - name: EFFECTIVE DATE
+  - name: effective_date
     type: DATE
-  - name: ENROLLMENT ID - SELLER
+  - name: enrollment_id_seller
     type: VARCHAR
-  - name: ENROLLMENT STATE - SELLER
+  - name: enrollment_state_seller
     type: VARCHAR
-  - name: PROVIDER TYPE CODE - SELLER
+  - name: provider_type_code_seller
     type: VARCHAR
-  - name: PROVIDER TYPE TEXT - SELLER
+  - name: provider_type_text_seller
     type: VARCHAR
-  - name: NPI - SELLER
+  - name: npi_seller
     type: VARCHAR
-  - name: MULTIPLE NPI FLAG - SELLER
+  - name: multiple_npi_flag_seller
     type: VARCHAR
-  - name: CCN - SELLER
+  - name: ccn_seller
     type: VARCHAR
-  - name: ASSOCIATE ID - SELLER
+  - name: associate_id_seller
     type: VARCHAR
-  - name: ORGANIZATION NAME - SELLER
+  - name: organization_name_seller
     type: VARCHAR
-  - name: DOING BUSINESS AS NAME - SELLER
+  - name: doing_business_as_name_seller
     type: VARCHAR

@@ -1,28 +1,33 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-9887a515-7552-4693-bf58-735c77af46d7`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: optout_effective_date
+sort: [optout_effective_date]
 columns:
-  - name: First Name
+  - name: first_name
     type: VARCHAR
-  - name: Last Name
+  - name: last_name
     type: VARCHAR
   - name: npi
+    type: BIGINT
+  - name: specialty
     type: VARCHAR
-  - name: Specialty
+  - name: optout_effective_date
+    type: DATE
+  - name: optout_end_date
+    type: DATE
+  - name: first_line_street_address
     type: VARCHAR
-  - name: Optout Effective Date
+  - name: second_line_street_address
     type: VARCHAR
-  - name: Optout End Date
+  - name: city_name
     type: VARCHAR
-  - name: First Line Street Address
+  - name: state_code
     type: VARCHAR
-  - name: Second Line Street Address
+  - name: zip_code
     type: VARCHAR
-  - name: City Name
+  - name: eligible_to_order_and_refer
     type: VARCHAR
-  - name: State Code
-    type: VARCHAR
-  - name: Zip code
-    type: VARCHAR
-  - name: Eligible to Order and Refer
-    type: VARCHAR
-  - name: Last updated
-    type: VARCHAR
+  - name: last_updated
+    type: DATE

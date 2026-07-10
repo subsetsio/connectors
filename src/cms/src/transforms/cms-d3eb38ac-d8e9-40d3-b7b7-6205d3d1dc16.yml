@@ -1,210 +1,211 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [PRVDR_NUM]
-sort: [PRVDR_NUM]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-d3eb38ac-d8e9-40d3-b7b7-6205d3d1dc16`. Regenerate after model-verify.
+key: [phne_num, fac_name, prvdr_num, st_adr, fax_phne_num]
+sort: [phne_num, fac_name, prvdr_num, st_adr, fax_phne_num]
 columns:
-  - name: PRVDR_CTGRY_SBTYP_CD
+  - name: prvdr_ctgry_sbtyp_cd
     type: VARCHAR
-  - name: PRVDR_CTGRY_CD
+  - name: prvdr_ctgry_cd
+    type: BIGINT
+  - name: chow_cnt
+    type: BIGINT
+  - name: chow_dt
     type: VARCHAR
-  - name: CHOW_CNT
+  - name: city_name
     type: VARCHAR
-  - name: CHOW_DT
+  - name: acptbl_poc_sw
     type: VARCHAR
-  - name: CITY_NAME
+  - name: cmplnc_stus_cd
     type: VARCHAR
-  - name: ACPTBL_POC_SW
+  - name: ssa_cnty_cd
     type: VARCHAR
-  - name: CMPLNC_STUS_CD
+  - name: cross_ref_provider_number
     type: VARCHAR
-  - name: SSA_CNTY_CD
+  - name: crtfctn_dt
+    type: BIGINT
+  - name: elgblty_sw
     type: VARCHAR
-  - name: CROSS_REF_PROVIDER_NUMBER
+  - name: fac_name
     type: VARCHAR
-  - name: CRTFCTN_DT
+  - name: intrmdry_carr_cd
     type: VARCHAR
-  - name: ELGBLTY_SW
+  - name: mdcd_vndr_num
     type: VARCHAR
-  - name: FAC_NAME
+  - name: orgnl_prtcptn_dt
+    type: BIGINT
+  - name: chow_prior_dt
     type: VARCHAR
-  - name: INTRMDRY_CARR_CD
+  - name: intrmdry_carr_prior_cd
     type: VARCHAR
-  - name: MDCD_VNDR_NUM
+  - name: prvdr_num
     type: VARCHAR
-  - name: ORGNL_PRTCPTN_DT
+  - name: rgn_cd
     type: VARCHAR
-  - name: CHOW_PRIOR_DT
+  - name: skltn_rec_sw
     type: VARCHAR
-  - name: INTRMDRY_CARR_PRIOR_CD
+  - name: state_cd
     type: VARCHAR
-  - name: PRVDR_NUM
+  - name: ssa_state_cd
     type: VARCHAR
-  - name: RGN_CD
+  - name: state_rgn_cd
     type: VARCHAR
-  - name: SKLTN_REC_SW
+  - name: st_adr
     type: VARCHAR
-  - name: STATE_CD
+  - name: phne_num
     type: VARCHAR
-  - name: SSA_STATE_CD
+  - name: pgm_trmntn_cd
     type: VARCHAR
-  - name: STATE_RGN_CD
+  - name: trmntn_exprtn_dt
+    type: BIGINT
+  - name: crtfctn_actn_type_cd
     type: VARCHAR
-  - name: ST_ADR
+  - name: gnrl_cntl_type_cd
     type: VARCHAR
-  - name: PHNE_NUM
+  - name: zip_cd
     type: VARCHAR
-  - name: PGM_TRMNTN_CD
+  - name: fips_state_cd
     type: VARCHAR
-  - name: TRMNTN_EXPRTN_DT
+  - name: fips_cnty_cd
     type: VARCHAR
-  - name: CRTFCTN_ACTN_TYPE_CD
+  - name: cbsa_urbn_rrl_ind
     type: VARCHAR
-  - name: GNRL_CNTL_TYPE_CD
+  - name: cbsa_cd
     type: VARCHAR
-  - name: ZIP_CD
+  - name: addtnl_st_adr
     type: VARCHAR
-  - name: FIPS_STATE_CD
+  - name: affiliated_provider_number_1
     type: VARCHAR
-  - name: FIPS_CNTY_CD
+  - name: affiliated_provider_number_2
     type: VARCHAR
-  - name: CBSA_URBN_RRL_IND
+  - name: affiliated_provider_number_3
     type: VARCHAR
-  - name: CBSA_CD
+  - name: affiliated_provider_number_4
     type: VARCHAR
-  - name: ADDTNL_ST_ADR
+  - name: affiliated_provider_number_5
     type: VARCHAR
-  - name: AFFILIATED_PROVIDER_NUMBER_1
+  - name: affiliated_provider_number_6
     type: VARCHAR
-  - name: AFFILIATED_PROVIDER_NUMBER_2
+  - name: affiliated_provider_number_7
     type: VARCHAR
-  - name: AFFILIATED_PROVIDER_NUMBER_3
+  - name: affiliated_provider_number_8
     type: VARCHAR
-  - name: AFFILIATED_PROVIDER_NUMBER_4
+  - name: a2la_acrdtd_cd
     type: VARCHAR
-  - name: AFFILIATED_PROVIDER_NUMBER_5
+  - name: a2la_acrdtd_y_match_dt
     type: VARCHAR
-  - name: AFFILIATED_PROVIDER_NUMBER_6
+  - name: a2la_acrdtd_y_match_sw
     type: VARCHAR
-  - name: AFFILIATED_PROVIDER_NUMBER_7
+  - name: aabb_acrdtd_cd
     type: VARCHAR
-  - name: AFFILIATED_PROVIDER_NUMBER_8
+  - name: aabb_acrdtd_y_match_dt
     type: VARCHAR
-  - name: A2LA_ACRDTD_CD
+  - name: aabb_acrdtd_y_match_sw
     type: VARCHAR
-  - name: A2LA_ACRDTD_Y_MATCH_DT
+  - name: aoa_acrdtd_cd
     type: VARCHAR
-  - name: A2LA_ACRDTD_Y_MATCH_SW
+  - name: aoa_acrdtd_y_match_dt
     type: VARCHAR
-  - name: AABB_ACRDTD_CD
+  - name: aoa_acrdtd_y_match_sw
     type: VARCHAR
-  - name: AABB_ACRDTD_Y_MATCH_DT
+  - name: ashi_acrdtd_cd
     type: VARCHAR
-  - name: AABB_ACRDTD_Y_MATCH_SW
+  - name: ashi_acrdtd_y_match_dt
     type: VARCHAR
-  - name: AOA_ACRDTD_CD
+  - name: ashi_acrdtd_y_match_sw
     type: VARCHAR
-  - name: AOA_ACRDTD_Y_MATCH_DT
+  - name: cap_acrdtd_cd
     type: VARCHAR
-  - name: AOA_ACRDTD_Y_MATCH_SW
+  - name: cap_acrdtd_y_match_dt
     type: VARCHAR
-  - name: ASHI_ACRDTD_CD
+  - name: cap_acrdtd_y_match_sw
     type: VARCHAR
-  - name: ASHI_ACRDTD_Y_MATCH_DT
+  - name: cola_acrdtd_cd
     type: VARCHAR
-  - name: ASHI_ACRDTD_Y_MATCH_SW
+  - name: cola_acrdtd_y_match_dt
     type: VARCHAR
-  - name: CAP_ACRDTD_CD
+  - name: cola_acrdtd_y_match_sw
     type: VARCHAR
-  - name: CAP_ACRDTD_Y_MATCH_DT
+  - name: jcaho_acrdtd_cd
     type: VARCHAR
-  - name: CAP_ACRDTD_Y_MATCH_SW
+  - name: jcaho_acrdtd_y_match_dt
     type: VARCHAR
-  - name: COLA_ACRDTD_CD
+  - name: jcaho_acrdtd_y_match_sw
     type: VARCHAR
-  - name: COLA_ACRDTD_Y_MATCH_DT
+  - name: aplctn_rcvd_dt
+    type: BIGINT
+  - name: aplctn_type_cd
+    type: BIGINT
+  - name: gnrl_fac_type_cd
     type: VARCHAR
-  - name: COLA_ACRDTD_Y_MATCH_SW
+  - name: crtfct_efctv_dt
+    type: BIGINT
+  - name: crtfct_mail_dt
     type: VARCHAR
-  - name: JCAHO_ACRDTD_CD
+  - name: crtfct_type_cd
+    type: BIGINT
+  - name: current_clia_lab_clsfctn_cd
     type: VARCHAR
-  - name: JCAHO_ACRDTD_Y_MATCH_DT
+  - name: clia_lab_classification_cd_1
     type: VARCHAR
-  - name: JCAHO_ACRDTD_Y_MATCH_SW
+  - name: clia_lab_classification_cd_10
     type: VARCHAR
-  - name: APLCTN_RCVD_DT
+  - name: clia_lab_classification_cd_2
     type: VARCHAR
-  - name: APLCTN_TYPE_CD
+  - name: clia_lab_classification_cd_3
     type: VARCHAR
-  - name: GNRL_FAC_TYPE_CD
+  - name: clia_lab_classification_cd_4
     type: VARCHAR
-  - name: CRTFCT_EFCTV_DT
+  - name: clia_lab_classification_cd_5
     type: VARCHAR
-  - name: CRTFCT_MAIL_DT
+  - name: clia_lab_classification_cd_6
     type: VARCHAR
-  - name: CRTFCT_TYPE_CD
+  - name: clia_lab_classification_cd_7
     type: VARCHAR
-  - name: CURRENT_CLIA_LAB_CLSFCTN_CD
+  - name: clia_lab_classification_cd_8
     type: VARCHAR
-  - name: CLIA_LAB_CLASSIFICATION_CD_1
+  - name: clia_lab_classification_cd_9
     type: VARCHAR
-  - name: CLIA_LAB_CLASSIFICATION_CD_10
+  - name: clia_mdcr_num
     type: VARCHAR
-  - name: CLIA_LAB_CLASSIFICATION_CD_2
+  - name: clia_trmntn_cd
     type: VARCHAR
-  - name: CLIA_LAB_CLASSIFICATION_CD_3
+  - name: acrdtn_schdl_cd
     type: VARCHAR
-  - name: CLIA_LAB_CLASSIFICATION_CD_4
+  - name: form_116_acrdtd_test_vol_cnt
+    type: BIGINT
+  - name: form_116_test_vol_cnt
+    type: BIGINT
+  - name: drctly_afltd_lab_cnt
+    type: BIGINT
+  - name: fax_phne_num
     type: VARCHAR
-  - name: CLIA_LAB_CLASSIFICATION_CD_5
+  - name: fy_end_mo_day_cd
     type: VARCHAR
-  - name: CLIA_LAB_CLASSIFICATION_CD_6
+  - name: mlt_site_excptn_sw
     type: VARCHAR
-  - name: CLIA_LAB_CLASSIFICATION_CD_7
+  - name: hosp_lab_excptn_sw
     type: VARCHAR
-  - name: CLIA_LAB_CLASSIFICATION_CD_8
+  - name: non_prft_excptn_sw
     type: VARCHAR
-  - name: CLIA_LAB_CLASSIFICATION_CD_9
+  - name: lab_temp_tstg_site_sw
     type: VARCHAR
-  - name: CLIA_MDCR_NUM
+  - name: lab_site_cnt
+    type: BIGINT
+  - name: ppmp_test_vol_cnt
+    type: BIGINT
+  - name: addtnl_fac_name
     type: VARCHAR
-  - name: CLIA_TRMNTN_CD
+  - name: related_provider_number
     type: VARCHAR
-  - name: ACRDTN_SCHDL_CD
+  - name: shr_lab_sw
     type: VARCHAR
-  - name: FORM_116_ACRDTD_TEST_VOL_CNT
+  - name: shared_lab_xref_number
     type: VARCHAR
-  - name: FORM_116_TEST_VOL_CNT
+  - name: form_1557_crtfct_schdl_cd
     type: VARCHAR
-  - name: DRCTLY_AFLTD_LAB_CNT
+  - name: form_1557_cmplnc_schdl_cd
     type: VARCHAR
-  - name: FAX_PHNE_NUM
+  - name: form_1557_test_vol_cnt
     type: VARCHAR
-  - name: FY_END_MO_DAY_CD
-    type: VARCHAR
-  - name: MLT_SITE_EXCPTN_SW
-    type: VARCHAR
-  - name: HOSP_LAB_EXCPTN_SW
-    type: VARCHAR
-  - name: NON_PRFT_EXCPTN_SW
-    type: VARCHAR
-  - name: LAB_TEMP_TSTG_SITE_SW
-    type: VARCHAR
-  - name: LAB_SITE_CNT
-    type: VARCHAR
-  - name: PPMP_TEST_VOL_CNT
-    type: VARCHAR
-  - name: ADDTNL_FAC_NAME
-    type: VARCHAR
-  - name: RELATED_PROVIDER_NUMBER
-    type: VARCHAR
-  - name: SHR_LAB_SW
-    type: VARCHAR
-  - name: SHARED_LAB_XREF_NUMBER
-    type: VARCHAR
-  - name: FORM_1557_CRTFCT_SCHDL_CD
-    type: VARCHAR
-  - name: FORM_1557_CMPLNC_SCHDL_CD
-    type: VARCHAR
-  - name: FORM_1557_TEST_VOL_CNT
-    type: VARCHAR
-  - name: WVD_TEST_VOL_CNT
-    type: VARCHAR
+  - name: wvd_test_vol_cnt
+    type: BIGINT

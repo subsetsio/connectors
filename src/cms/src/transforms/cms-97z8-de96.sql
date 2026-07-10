@@ -1,2 +1,47 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-97z8-de96"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+SELECT
+    "Country" AS country,
+    CAST("Quality of Patient Care Star Rating" AS BIGINT) AS quality_of_patient_care_star_rating,
+    CAST("Star Rating 1 Percentage" AS DOUBLE) AS star_rating_1_percentage,
+    CAST("Star Rating 1.5 Percentage" AS DOUBLE) AS star_rating_1_5_percentage,
+    CAST("Star Rating 2 Percentage" AS DOUBLE) AS star_rating_2_percentage,
+    CAST("Star Rating 2.5 Percentage" AS DOUBLE) AS star_rating_2_5_percentage,
+    CAST("Star Rating 3 Percentage" AS DOUBLE) AS star_rating_3_percentage,
+    CAST("Star Rating 3.5 Percentage" AS DOUBLE) AS star_rating_3_5_percentage,
+    CAST("Star Rating 4 Percentage" AS DOUBLE) AS star_rating_4_percentage,
+    CAST("Star Rating 4.5 Percentage" AS DOUBLE) AS star_rating_4_5_percentage,
+    CAST("Star Rating 5 Percentage" AS DOUBLE) AS star_rating_5_percentage,
+    CAST("How often the home health team began their patients' care in a timely manner" AS DOUBLE) AS how_often_the_home_health_team_began_their_patients_care_in_a_timely_manner,
+    CAST("How often the home health team determined whether patients received a flu shot for the current flu season" AS DOUBLE) AS how_often_the_home_health_team_determined_whether_patients_received_a_flu_shot_for_the_current_flu_season,
+    CAST("How often patients got better at walking or moving around" AS DOUBLE) AS how_often_patients_got_better_at_walking_or_moving_around,
+    CAST("How often patients got better at getting in and out of bed" AS DOUBLE) AS how_often_patients_got_better_at_getting_in_and_out_of_bed,
+    CAST("How often patients got better at bathing" AS DOUBLE) AS how_often_patients_got_better_at_bathing,
+    CAST("How often patients' breathing improved" AS DOUBLE) AS how_often_patients_breathing_improved,
+    CAST("How often patients got better at taking their drugs correctly by mouth" AS DOUBLE) AS how_often_patients_got_better_at_taking_their_drugs_correctly_by_mouth,
+    CAST("Changes in Skin Integrity post-acute care: pressure ulcer/injury" AS DOUBLE) AS changes_in_skin_integrity_post_acute_care_pressure_ulcer_injury,
+    CAST("How often physician-recommended actions to address medication issues were completely timely" AS DOUBLE) AS how_often_physician_recommended_actions_to_address_medication_issues_were_completely_timely,
+    CAST("Percent of Residents Experiencing One or More Falls with Major Injury" AS DOUBLE) AS percent_of_residents_experiencing_one_or_more_falls_with_major_injury,
+    CAST("Discharge Function Score" AS DOUBLE) AS discharge_function_score,
+    CAST("Transfer of Health Information to the Provider" AS DOUBLE) AS transfer_of_health_information_to_the_provider,
+    CAST("Transfer of Health Information to the Patient" AS DOUBLE) AS transfer_of_health_information_to_the_patient,
+    CAST("PPR Number of HHAs that Performed Better than the National Observed Rate" AS BIGINT) AS ppr_number_of_hhas_that_performed_better_than_the_national_observed_rate,
+    "PPR Number of HHAs that Performed No Different than the National Observed Rate" AS ppr_number_of_hhas_that_performed_no_different_than_the_national_observed_rate,
+    CAST("PPR Number of HHAs that Performed Worse than the National Observed Rate" AS BIGINT) AS ppr_number_of_hhas_that_performed_worse_than_the_national_observed_rate,
+    "PPR Number of HHAs that Have Too Few Cases for Public Reporting" AS ppr_number_of_hhas_that_have_too_few_cases_for_public_reporting,
+    CAST("PPR National Observed Rate" AS DOUBLE) AS ppr_national_observed_rate,
+    "DTC Number of HHAs that Performed Better than the National Observed Rate" AS dtc_number_of_hhas_that_performed_better_than_the_national_observed_rate,
+    "DTC Number of HHAs that Performed No Different than the National Observed Rate" AS dtc_number_of_hhas_that_performed_no_different_than_the_national_observed_rate,
+    "DTC Number of HHAs that Performed Worse than the National Observed Rate" AS dtc_number_of_hhas_that_performed_worse_than_the_national_observed_rate,
+    "DTC Number of HHAs that Have Too Few Cases for Public Reporting" AS dtc_number_of_hhas_that_have_too_few_cases_for_public_reporting,
+    CAST("DTC National Observed Rate" AS DOUBLE) AS dtc_national_observed_rate,
+    CAST("PPH Number of HHAs that Performed Better than the National Observed Rate" AS BIGINT) AS pph_number_of_hhas_that_performed_better_than_the_national_observed_rate,
+    "PPH Number of HHAs that Performed No Different than the National Observed Rate" AS pph_number_of_hhas_that_performed_no_different_than_the_national_observed_rate,
+    CAST("PPH Number of HHAs that Performed Worse than the National Observed Rate" AS BIGINT) AS pph_number_of_hhas_that_performed_worse_than_the_national_observed_rate,
+    "PPH Number of HHAs that Have Too Few Cases for Public Reporting" AS pph_number_of_hhas_that_have_too_few_cases_for_public_reporting,
+    CAST("PPH National Observed Rate" AS DOUBLE) AS pph_national_observed_rate,
+    CAST("How much Medicare spends on an episode of care at this agency, compared to Medicare spending across all agencies nationally" AS DOUBLE) AS how_much_medicare_spends_on_an_episode_of_care_at_this_agency_compared_to_medicare_spending_across_all_agencies_nationally
+FROM "cms-97z8-de96"

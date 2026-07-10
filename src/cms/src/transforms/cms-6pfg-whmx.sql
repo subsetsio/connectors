@@ -1,2 +1,14 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-6pfg-whmx"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "State" AS state,
+    "OAS CAHPS Measure ID" AS oas_cahps_measure_id,
+    "OAS CAHPS Question" AS oas_cahps_question,
+    "OAS CAHPS Answer Description" AS oas_cahps_answer_description,
+    "OAS CAHPS Answer Percent" AS oas_cahps_answer_percent,
+    "OAS CAHPS Answer Percent Footnote" AS oas_cahps_answer_percent_footnote,
+    "Start Date" AS start_date,
+    strptime("End Date", '%m/%d/%Y')::DATE AS end_date
+FROM "cms-6pfg-whmx"

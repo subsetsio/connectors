@@ -1,121 +1,121 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Facility ID]
-temporal: Fiscal Year
-sort: [Fiscal Year, Facility ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-dgmq-aat3`. Regenerate after model-verify.
+key: [address, sep_1_performance_rate, facility_id, facility_name, sep_1_baseline_rate]
+sort: [address, sep_1_performance_rate, facility_id, facility_name, sep_1_baseline_rate]
 columns:
-  - name: Fiscal Year
+  - name: fiscal_year
+    type: BIGINT
+  - name: facility_id
     type: VARCHAR
-  - name: Facility ID
+  - name: facility_name
     type: VARCHAR
-  - name: Facility Name
+  - name: address
     type: VARCHAR
-  - name: Address
+  - name: city_town
     type: VARCHAR
-  - name: City/Town
+  - name: state
     type: VARCHAR
-  - name: State
+  - name: zip_code
     type: VARCHAR
-  - name: ZIP Code
+  - name: county_parish
     type: VARCHAR
-  - name: County/Parish
+  - name: hai_1_achievement_threshold
+    type: DOUBLE
+  - name: hai_1_benchmark
+    type: DOUBLE
+  - name: hai_1_baseline_rate
     type: VARCHAR
-  - name: HAI-1 Achievement Threshold
+  - name: hai_1_performance_rate
     type: VARCHAR
-  - name: HAI-1 Benchmark
+  - name: hai_1_achievement_points
     type: VARCHAR
-  - name: HAI-1 Baseline Rate
+  - name: hai_1_improvement_points
     type: VARCHAR
-  - name: HAI-1 Performance Rate
+  - name: hai_1_measure_score
     type: VARCHAR
-  - name: HAI-1 Achievement Points
+  - name: hai_2_achievement_threshold
+    type: DOUBLE
+  - name: hai_2_benchmark
+    type: DOUBLE
+  - name: hai_2_baseline_rate
     type: VARCHAR
-  - name: HAI-1 Improvement Points
+  - name: hai_2_performance_rate
     type: VARCHAR
-  - name: HAI-1 Measure Score
+  - name: hai_2_achievement_points
     type: VARCHAR
-  - name: HAI-2 Achievement Threshold
+  - name: hai_2_improvement_points
     type: VARCHAR
-  - name: HAI-2 Benchmark
+  - name: hai_2_measure_score
     type: VARCHAR
-  - name: HAI-2 Baseline Rate
+  - name: combined_ssi_measure_score
     type: VARCHAR
-  - name: HAI-2 Performance Rate
+  - name: hai_3_achievement_threshold
+    type: DOUBLE
+  - name: hai_3_benchmark
+    type: DOUBLE
+  - name: hai_3_baseline_rate
     type: VARCHAR
-  - name: HAI-2 Achievement Points
+  - name: hai_3_performance_rate
     type: VARCHAR
-  - name: HAI-2 Improvement Points
+  - name: hai_3_achievement_points
     type: VARCHAR
-  - name: HAI-2 Measure Score
+  - name: hai_3_improvement_points
     type: VARCHAR
-  - name: Combined SSI Measure Score
+  - name: hai_3_measure_score
     type: VARCHAR
-  - name: HAI-3 Achievement Threshold
+  - name: hai_4_achievement_threshold
+    type: DOUBLE
+  - name: hai_4_benchmark
+    type: DOUBLE
+  - name: hai_4_baseline_rate
     type: VARCHAR
-  - name: HAI-3 Benchmark
+  - name: hai_4_performance_rate
     type: VARCHAR
-  - name: HAI-3 Baseline Rate
+  - name: hai_4_achievement_points
     type: VARCHAR
-  - name: HAI-3 Performance Rate
+  - name: hai_4_improvement_points
     type: VARCHAR
-  - name: HAI-3 Achievement Points
+  - name: hai_4_measure_score
     type: VARCHAR
-  - name: HAI-3 Improvement Points
+  - name: hai_5_achievement_threshold
+    type: DOUBLE
+  - name: hai_5_benchmark
+    type: DOUBLE
+  - name: hai_5_baseline_rate
     type: VARCHAR
-  - name: HAI-3 Measure Score
+  - name: hai_5_performance_rate
     type: VARCHAR
-  - name: HAI-4 Achievement Threshold
+  - name: hai_5_achievement_points
     type: VARCHAR
-  - name: HAI-4 Benchmark
+  - name: hai_5_improvement_points
     type: VARCHAR
-  - name: HAI-4 Baseline Rate
+  - name: hai_5_measure_score
     type: VARCHAR
-  - name: HAI-4 Performance Rate
+  - name: hai_6_achievement_threshold
+    type: DOUBLE
+  - name: hai_6_benchmark
+    type: DOUBLE
+  - name: hai_6_baseline_rate
     type: VARCHAR
-  - name: HAI-4 Achievement Points
+  - name: hai_6_performance_rate
     type: VARCHAR
-  - name: HAI-4 Improvement Points
+  - name: hai_6_achievement_points
     type: VARCHAR
-  - name: HAI-4 Measure Score
+  - name: hai_6_improvement_points
     type: VARCHAR
-  - name: HAI-5 Achievement Threshold
+  - name: hai_6_measure_score
     type: VARCHAR
-  - name: HAI-5 Benchmark
+  - name: sep_1_achievement_threshold
+    type: DOUBLE
+  - name: sep_1_benchmark
+    type: DOUBLE
+  - name: sep_1_baseline_rate
     type: VARCHAR
-  - name: HAI-5 Baseline Rate
+  - name: sep_1_performance_rate
     type: VARCHAR
-  - name: HAI-5 Performance Rate
+  - name: sep_1_achievement_points
     type: VARCHAR
-  - name: HAI-5 Achievement Points
+  - name: sep_1_improvement_points
     type: VARCHAR
-  - name: HAI-5 Improvement Points
-    type: VARCHAR
-  - name: HAI-5 Measure Score
-    type: VARCHAR
-  - name: HAI-6 Achievement Threshold
-    type: VARCHAR
-  - name: HAI-6 Benchmark
-    type: VARCHAR
-  - name: HAI-6 Baseline Rate
-    type: VARCHAR
-  - name: HAI-6 Performance Rate
-    type: VARCHAR
-  - name: HAI-6 Achievement Points
-    type: VARCHAR
-  - name: HAI-6 Improvement Points
-    type: VARCHAR
-  - name: HAI-6 Measure Score
-    type: VARCHAR
-  - name: SEP-1 Achievement Threshold
-    type: VARCHAR
-  - name: SEP-1 Benchmark
-    type: VARCHAR
-  - name: SEP-1 Baseline Rate
-    type: VARCHAR
-  - name: SEP-1 Performance Rate
-    type: VARCHAR
-  - name: SEP-1 Achievement Points
-    type: VARCHAR
-  - name: SEP-1 Improvement Points
-    type: VARCHAR
-  - name: SEP-1 Measure Score
+  - name: sep_1_measure_score
     type: VARCHAR

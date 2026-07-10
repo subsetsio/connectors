@@ -1,28 +1,30 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [ENRLMT_ID]
-sort: [ENRLMT_ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-a6496a7d-4e19-479a-a9ad-d4c0a49e07c3`. Regenerate after model-verify.
+key: [enrlmt_id]
+temporal: revocation_efctv_dt
+sort: [revocation_efctv_dt, enrlmt_id]
 columns:
-  - name: ENRLMT_ID
+  - name: enrlmt_id
     type: VARCHAR
-  - name: NPI
+  - name: npi
     type: VARCHAR
-  - name: FIRST_NAME
+  - name: first_name
     type: VARCHAR
-  - name: MDL_NAME
+  - name: mdl_name
     type: VARCHAR
-  - name: LAST_NAME
+  - name: last_name
     type: VARCHAR
-  - name: ORG_NAME
+  - name: org_name
     type: VARCHAR
-  - name: MULTIPLE_NPI_FLAG
+  - name: multiple_npi_flag
     type: VARCHAR
-  - name: STATE_CD
+  - name: state_cd
     type: VARCHAR
-  - name: PROVIDER_TYPE_DESC
+  - name: provider_type_desc
     type: VARCHAR
-  - name: REVOCATION_RSN
+  - name: revocation_rsn
     type: VARCHAR
-  - name: REVOCATION_EFCTV_DT
+  - name: revocation_efctv_dt
     type: DATE
-  - name: REENROLLMENT_BAR_EXPRTN_DT
+  - name: reenrollment_bar_exprtn_dt
     type: DATE

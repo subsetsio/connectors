@@ -1,2 +1,55 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-8900b9c5-50b7-43de-9bdd-0d7113a8355e"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+SELECT
+    "reference_period",
+    "type_of_service",
+    "aggregation_level",
+    "state",
+    "county",
+    "state_fips",
+    "county_fips",
+    "number_of_fee_for_service_beneficiaries",
+    "number_of_providers",
+    "average_number_of_users_per_provider",
+    "percentage_of_users_out_of_ffs_beneficiaries",
+    "number_of_users",
+    "average_number_of_providers_per_county",
+    "number_of_dual_eligible_users",
+    "percentage_of_dual_eligible_users_out_of_total_users",
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries",
+    "total_payment",
+    "moratorium",
+    "number_of_fee_for_service_beneficiaries_dual_color",
+    "number_of_fee_for_service_beneficiaries_description",
+    "number_of_providers_dual_color",
+    "number_of_providers_description",
+    "average_number_of_users_per_provider_dual_color",
+    "average_number_of_users_per_provider_description",
+    "percentage_of_users_out_of_ffs_beneficiaries_dual_color",
+    "percentage_of_users_out_of_ffs_beneficiaries_description",
+    "number_of_users_dual_color",
+    "number_of_users_description",
+    "average_number_of_providers_per_county_dual_color",
+    "average_number_of_providers_per_county_description",
+    "number_of_dual_eligible_users_dual_color",
+    "number_of_dual_eligible_users_description",
+    "percentage_of_dual_eligible_users_out_of_total_users_dual_color",
+    "percentage_of_dual_eligible_users_out_of_total_users_description",
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_dual_color",
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_description",
+    "total_payment_dual_color",
+    "total_payment_description",
+    "number_of_fee_for_service_beneficiaries_change",
+    "number_of_providers_change",
+    "average_number_of_users_per_provider_change",
+    "percentage_of_users_out_of_ffs_beneficiaries_change",
+    "number_of_users_change",
+    "average_number_of_providers_per_county_change",
+    "number_of_dual_eligible_users_change",
+    "percentage_of_dual_eligible_users_out_of_total_users_change",
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_change",
+    "total_payment_change"
+FROM "cms-8900b9c5-50b7-43de-9bdd-0d7113a8355e"

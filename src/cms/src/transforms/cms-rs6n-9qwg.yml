@@ -1,18 +1,20 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [State]
-sort: [State]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-rs6n-9qwg`. Regenerate after model-verify.
+key: [state]
+temporal: start_date
+sort: [start_date, state]
 columns:
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: Measure ID
+  - name: measure_id
     type: VARCHAR
-  - name: Measure Name
+  - name: measure_name
     type: VARCHAR
-  - name: Score
+  - name: score
     type: VARCHAR
-  - name: Footnote
+  - name: footnote
     type: VARCHAR
-  - name: Start Date
+  - name: start_date
     type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

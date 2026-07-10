@@ -1,28 +1,30 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Facility ID]
-sort: [Facility ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-f4ga-b9gx`. Regenerate after model-verify.
+key: [facility_id]
+temporal: start_date
+sort: [start_date, facility_id]
 columns:
-  - name: Facility ID
+  - name: facility_id
     type: VARCHAR
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: Address
+  - name: address
     type: VARCHAR
-  - name: City/Town
+  - name: city_town
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: ZIP Code
+  - name: zip_code
     type: VARCHAR
-  - name: County/Parish
+  - name: county_parish
     type: VARCHAR
-  - name: Telephone Number
+  - name: telephone_number
     type: VARCHAR
-  - name: CEHRT ID
+  - name: cehrt_id
     type: VARCHAR
-  - name: Meets criteria for promoting interoperability of EHRs
+  - name: meets_criteria_for_promoting_interoperability_of_ehrs
     type: VARCHAR
-  - name: Start Date
+  - name: start_date
     type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

@@ -1,2 +1,44 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-xubh-q36u"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "Facility ID" AS facility_id,
+    "Facility Name" AS facility_name,
+    "Address" AS address,
+    "City/Town" AS city_town,
+    "State" AS state,
+    "ZIP Code" AS zip_code,
+    "County/Parish" AS county_parish,
+    "Telephone Number" AS telephone_number,
+    "Hospital Type" AS hospital_type,
+    "Hospital Ownership" AS hospital_ownership,
+    "Emergency Services" AS emergency_services,
+    "Meets criteria for birthing friendly designation" AS meets_criteria_for_birthing_friendly_designation,
+    "Hospital overall rating" AS hospital_overall_rating,
+    "Hospital overall rating footnote" AS hospital_overall_rating_footnote,
+    "MORT Group Measure Count" AS mort_group_measure_count,
+    "Count of Facility MORT Measures" AS count_of_facility_mort_measures,
+    "Count of MORT Measures Better" AS count_of_mort_measures_better,
+    "Count of MORT Measures No Different" AS count_of_mort_measures_no_different,
+    "Count of MORT Measures Worse" AS count_of_mort_measures_worse,
+    "MORT Group Footnote" AS mort_group_footnote,
+    "Safety Group Measure Count" AS safety_group_measure_count,
+    "Count of Facility Safety Measures" AS count_of_facility_safety_measures,
+    "Count of Safety Measures Better" AS count_of_safety_measures_better,
+    "Count of Safety Measures No Different" AS count_of_safety_measures_no_different,
+    "Count of Safety Measures Worse" AS count_of_safety_measures_worse,
+    "Safety Group Footnote" AS safety_group_footnote,
+    "READM Group Measure Count" AS readm_group_measure_count,
+    "Count of Facility READM Measures" AS count_of_facility_readm_measures,
+    "Count of READM Measures Better" AS count_of_readm_measures_better,
+    "Count of READM Measures No Different" AS count_of_readm_measures_no_different,
+    "Count of READM Measures Worse" AS count_of_readm_measures_worse,
+    "READM Group Footnote" AS readm_group_footnote,
+    "Pt Exp Group Measure Count" AS pt_exp_group_measure_count,
+    "Count of Facility Pt Exp Measures" AS count_of_facility_pt_exp_measures,
+    "Pt Exp Group Footnote" AS pt_exp_group_footnote,
+    "TE Group Measure Count" AS te_group_measure_count,
+    "Count of Facility TE Measures" AS count_of_facility_te_measures,
+    "TE Group Footnote" AS te_group_footnote
+FROM "cms-xubh-q36u"

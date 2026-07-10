@@ -1,102 +1,103 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [State]
-sort: [State]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-2fpu-cgbb`. Regenerate after model-verify.
+key: [state]
+sort: [state]
 columns:
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: Survival- Better Than Expected (STATE)
+  - name: survival_better_than_expected_state
+    type: BIGINT
+  - name: survival_as_expected_state
+    type: BIGINT
+  - name: survival_worse_than_expected_state
+    type: BIGINT
+  - name: hospitalizations_better_than_expected_state
+    type: BIGINT
+  - name: hospitalizations_as_expected_state
+    type: BIGINT
+  - name: hospitalizations_worse_than_expected_state
+    type: BIGINT
+  - name: hospital_readmission_better_than_expected_state
+    type: BIGINT
+  - name: hospital_readmission_as_expected_state
+    type: BIGINT
+  - name: hospital_readmission_worse_than_expected_state
+    type: BIGINT
+  - name: transfusions_better_than_expected_state
+    type: BIGINT
+  - name: transfusions_as_expected_state
+    type: BIGINT
+  - name: transfusions_worse_than_expected_state
+    type: BIGINT
+  - name: infection_better_than_expected_state
+    type: DOUBLE
+  - name: infection_as_expected_state
+    type: DOUBLE
+  - name: infection_worse_than_expected_state
+    type: DOUBLE
+  - name: percentage_of_adult_hd_patients_with_kt_v_1_2
     type: VARCHAR
-  - name: Survival- As Expected (STATE)
+  - name: percentage_of_adult_pd_patients_with_kt_v_1_7
     type: VARCHAR
-  - name: Survival- Worse Than Expected (STATE)
+  - name: percentage_of_pediatric_hd_patients_with_kt_v_1_2
     type: VARCHAR
-  - name: Hospitalizations- Better Than Expected (STATE)
+  - name: percentage_of_pediatric_pd_patients_with_kt_v_1_8
     type: VARCHAR
-  - name: Hospitalizations- As Expected (STATE)
+  - name: percentage_of_pediatric_hd_patients_with_npcr_in_use
     type: VARCHAR
-  - name: Hospitalizations- Worse Than Expected (STATE)
+  - name: fistula_rate_better_than_expected_state
+    type: BIGINT
+  - name: fistula_rate_as_expected_state
+    type: BIGINT
+  - name: fistula_rate_worse_than_expected_state
+    type: BIGINT
+  - name: percentage_of_adult_patients_with_long_term_catheter_in_use
     type: VARCHAR
-  - name: Hospital Readmission - Better Than Expected (STATE)
+  - name: percentage_of_adult_patients_with_hypercalcemia_serum_calcium_greater_than_10_2_mg_dl
     type: VARCHAR
-  - name: Hospital Readmission - As Expected (STATE)
+  - name: percentage_of_adult_patients_with_serum_phosphorus_less_than_3_5_mg_dl
     type: VARCHAR
-  - name: Hospital  Readmission - Worse Than Expected (STATE)
+  - name: percentage_of_adult_patients_with_serum_phosphorus_between_3_5_4_5_mg_dl
     type: VARCHAR
-  - name: Transfusions- Better than expected (STATE)
+  - name: percentage_of_adult_patients_with_serum_phosphorus_between_4_6_5_5_mg_dl
     type: VARCHAR
-  - name: Transfusions- As expected (STATE)
+  - name: percentage_of_adult_patients_with_serum_phosphorus_between_5_6_7_0_mg_dl
     type: VARCHAR
-  - name: Transfusions- Worse than expected (STATE)
+  - name: percentage_of_adult_patients_with_serum_phosphorus_greater_than_7_0_mg_dl
     type: VARCHAR
-  - name: Infection- Better than expected (STATE)
+  - name: incident_patients_transplant_waitlisting_better_than_expected_state
+    type: BIGINT
+  - name: incident_patients_transplant_waitlisting_as_expected_state
+    type: BIGINT
+  - name: incident_patients_transplant_waitlisting_worse_than_expected_state
+    type: BIGINT
+  - name: prevalent_patients_transplant_waitlisting_better_than_expected_state
+    type: BIGINT
+  - name: prevalent_patients_transplant_waitlisting_as_expected_state
+    type: BIGINT
+  - name: prevalent_patients_transplant_waitlisting_worse_than_expected_state
+    type: BIGINT
+  - name: healthcare_worker_covid_19_vaccination_adherence_percentage_state
     type: VARCHAR
-  - name: Infection- As expected (STATE)
+  - name: percentage_of_patients_with_hgb_10_g_dl_state
     type: VARCHAR
-  - name: Infection- Worse than expected (STATE)
+  - name: percentage_of_patients_with_hgb_12_g_dl_state
     type: VARCHAR
-  - name: Percentage of adult HD patients with Kt/V>=1.2
-    type: VARCHAR
-  - name: Percentage Of Adult PD Patients With Kt/V>=1.7
-    type: VARCHAR
-  - name: Percentage Of Pediatric HD Patients With Kt/V>=1.2
-    type: VARCHAR
-  - name: Percentage Of Pediatric PD Patients With Kt/V>=1.8
-    type: VARCHAR
-  - name: Percentage Of Pediatric HD Patients With nPCR In Use
-    type: VARCHAR
-  - name: Fistula Rate - Better Than Expected (STATE)
-    type: VARCHAR
-  - name: Fistula Rate - As Expected (STATE)
-    type: VARCHAR
-  - name: Fistula Rate - Worse Than Expected (STATE)
-    type: VARCHAR
-  - name: Percentage Of Adult Patients With Long Term Catheter In Use
-    type: VARCHAR
-  - name: Percentage Of Adult Patients With Hypercalcemia (Serum Calcium Greater Than 10.2 Mg/dL)
-    type: VARCHAR
-  - name: Percentage Of Adult Patients With Serum Phosphorus Less Than 3.5 Mg/dL
-    type: VARCHAR
-  - name: Percentage Of Adult Patients With Serum Phosphorus Between 3.5-4.5 Mg/dL
-    type: VARCHAR
-  - name: Percentage Of Adult Patients With Serum Phosphorus Between 4.6-5.5 Mg/dL
-    type: VARCHAR
-  - name: Percentage Of Adult Patients With Serum Phosphorus Between 5.6-7.0 Mg/dL
-    type: VARCHAR
-  - name: Percentage Of Adult Patients With Serum Phosphorus Greater Than 7.0 Mg/dL
-    type: VARCHAR
-  - name: Incident Patients Transplant Waitlisting- Better Than Expected (STATE)
-    type: VARCHAR
-  - name: Incident Patients Transplant Waitlisting - As Expected (STATE)
-    type: VARCHAR
-  - name: Incident Patients Transplant Waitlisting - Worse Than Expected (STATE)
-    type: VARCHAR
-  - name: Prevalent Patients Transplant Waitlisting- Better Than Expected (STATE)
-    type: VARCHAR
-  - name: Prevalent Patients Transplant Waitlisting - As Expected (STATE)
-    type: VARCHAR
-  - name: Prevalent Patients Transplant Waitlisting - Worse Than Expected (STATE)
-    type: VARCHAR
-  - name: Healthcare worker COVID-19 vaccination adherence percentage (STATE)
-    type: VARCHAR
-  - name: Percentage Of Patients With Hgb<10 g/dL (STATE)
-    type: VARCHAR
-  - name: Percentage of patients with Hgb>12 g/dL (STATE)
-    type: VARCHAR
-  - name: SEDR - Better Than Expected (STATE)
-    type: VARCHAR
-  - name: SEDR - As Expected (STATE)
-    type: VARCHAR
-  - name: SEDR - Worse Than Expected (STATE)
-    type: VARCHAR
-  - name: ED30 - Better Than Expected (STATE)
-    type: VARCHAR
-  - name: ED30 - As Expected (STATE)
-    type: VARCHAR
-  - name: ED30 - Worse Than Expected (STATE)
-    type: VARCHAR
-  - name: "N FOR SMSR CATEGORY 1: SMSR-Better than expected (State)"
-    type: VARCHAR
-  - name: "N FOR SMSR CATEGORY 2: SMSR-As Expected (State)"
-    type: VARCHAR
-  - name: "N FOR SMSR CATEGORY 3: SMSR-Worse than expected (State)"
-    type: VARCHAR
+  - name: sedr_better_than_expected_state
+    type: BIGINT
+  - name: sedr_as_expected_state
+    type: BIGINT
+  - name: sedr_worse_than_expected_state
+    type: BIGINT
+  - name: ed30_better_than_expected_state
+    type: BIGINT
+  - name: ed30_as_expected_state
+    type: BIGINT
+  - name: ed30_worse_than_expected_state
+    type: BIGINT
+  - name: n_for_smsr_category_1_smsr_better_than_expected_state
+    type: BIGINT
+  - name: n_for_smsr_category_2_smsr_as_expected_state
+    type: BIGINT
+  - name: n_for_smsr_category_3_smsr_worse_than_expected_state
+    type: BIGINT

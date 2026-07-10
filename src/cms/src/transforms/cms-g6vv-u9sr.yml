@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-g6vv-u9sr`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: penalty_date
+sort: [penalty_date]
+columns:
+  - name: cms_certification_number_ccn
+    type: VARCHAR
+  - name: provider_name
+    type: VARCHAR
+  - name: provider_address
+    type: VARCHAR
+  - name: city_town
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: zip_code
+    type: VARCHAR
+  - name: penalty_date
+    type: DATE
+  - name: penalty_type
+    type: VARCHAR
+  - name: fine_id
+    type: VARCHAR
+  - name: fine_amount
+    type: VARCHAR
+  - name: payment_denial_start_date
+    type: VARCHAR
+  - name: payment_denial_length_in_days
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: processing_date
+    type: DATE

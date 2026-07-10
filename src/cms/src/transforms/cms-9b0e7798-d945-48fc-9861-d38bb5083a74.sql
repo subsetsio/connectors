@@ -1,2 +1,52 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-9b0e7798-d945-48fc-9861-d38bb5083a74"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+SELECT
+    "reference_period",
+    "type_of_service",
+    "aggregation_level",
+    "cbsa",
+    "cbsatitle",
+    CAST("number_of_fee_for_service_beneficiaries" AS BIGINT) AS number_of_fee_for_service_beneficiaries,
+    CAST("number_of_providers" AS BIGINT) AS number_of_providers,
+    "average_number_of_users_per_provider",
+    "percentage_of_users_out_of_ffs_beneficiaries",
+    CAST("number_of_users" AS BIGINT) AS number_of_users,
+    CAST("average_number_of_providers_per_cbsa" AS BIGINT) AS average_number_of_providers_per_cbsa,
+    "number_of_dual_eligible_users",
+    "percentage_of_dual_eligible_users_out_of_total_users",
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries",
+    CAST("total_payment" AS DOUBLE) AS total_payment,
+    "number_of_fee_for_service_beneficiaries_dual_color",
+    "number_of_fee_for_service_beneficiaries_description",
+    "number_of_providers_dual_color",
+    "number_of_providers_description",
+    "average_number_of_users_per_provider_dual_color",
+    "average_number_of_users_per_provider_description",
+    "percentage_of_users_out_of_ffs_beneficiaries_dual_color",
+    "percentage_of_users_out_of_ffs_beneficiaries_description",
+    "number_of_users_dual_color",
+    "number_of_users_description",
+    "average_number_of_providers_per_cbsa_dual_color",
+    "average_number_of_providers_per_cbsa_description",
+    "number_of_dual_eligible_users_dual_color",
+    "number_of_dual_eligible_users_description",
+    "percentage_of_dual_eligible_users_out_of_total_users_dual_color",
+    "percentage_of_dual_eligible_users_out_of_total_users_description",
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_dual_color",
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_dual_color_description",
+    "total_payment_dual_color",
+    "total_payment_description",
+    "number_of_fee_for_service_beneficiaries_change",
+    "number_of_providers_change",
+    "average_number_of_users_per_provider_change",
+    "percentage_of_users_out_of_ffs_beneficiaries_change",
+    "number_of_users_change",
+    "average_number_of_providers_per_cbsa_change",
+    "number_of_dual_eligible_users_change",
+    "percentage_of_dual_eligible_users_out_of_total_users_change",
+    "percentage_of_dual_eligible_users_out_of_dual_eligible_ffs_beneficiaries_change",
+    "total_payment_change"
+FROM "cms-9b0e7798-d945-48fc-9861-d38bb5083a74"

@@ -1,22 +1,24 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [HOSP_ID]
-sort: [HOSP_ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-7cf9662e-7c5c-4fe0-a8c6-828edf81a23c`. Regenerate after model-verify.
+key: [hosp_id, adm_disc, interval_higher_limit, interval_lower_limit, rate]
+temporal: start_date
+sort: [start_date, hosp_id, adm_disc, interval_higher_limit, interval_lower_limit, rate]
 columns:
-  - name: HOSP_ID
+  - name: hosp_id
     type: VARCHAR
-  - name: ADM_DISC
+  - name: adm_disc
     type: VARCHAR
-  - name: RATE
+  - name: rate
     type: VARCHAR
-  - name: INTERVAL_LOWER_LIMIT
+  - name: interval_lower_limit
     type: VARCHAR
-  - name: INTERVAL_HIGHER_LIMIT
+  - name: interval_higher_limit
     type: VARCHAR
-  - name: START_QUARTER
+  - name: start_quarter
     type: VARCHAR
-  - name: START_DATE
+  - name: start_date
     type: VARCHAR
-  - name: END_QUARTER
+  - name: end_quarter
     type: VARCHAR
-  - name: END_DATE
-    type: VARCHAR
+  - name: end_date
+    type: DATE

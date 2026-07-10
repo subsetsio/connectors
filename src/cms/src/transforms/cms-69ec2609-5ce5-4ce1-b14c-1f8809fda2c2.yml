@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [aco_id]
-sort: [aco_id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-69ec2609-5ce5-4ce1-b14c-1f8809fda2c2`. Regenerate after model-verify.
+key: [current_start_date, aco_name]
+temporal: initial_start_date
+sort: [initial_start_date, current_start_date, aco_name]
 columns:
   - name: aco_id
     type: VARCHAR
@@ -9,37 +11,37 @@ columns:
   - name: aco_service_area
     type: VARCHAR
   - name: agreement_period_num
-    type: VARCHAR
+    type: BIGINT
   - name: initial_start_date
     type: VARCHAR
   - name: current_start_date
     type: DATE
-  - name: re-entering_aco
-    type: VARCHAR
+  - name: re_entering_aco
+    type: BIGINT
   - name: basic_track
-    type: VARCHAR
+    type: BIGINT
   - name: basic_track_level
     type: VARCHAR
   - name: enhanced_track
-    type: VARCHAR
+    type: BIGINT
   - name: high_revenue_aco
-    type: VARCHAR
+    type: BIGINT
   - name: low_revenue_aco
-    type: VARCHAR
+    type: BIGINT
   - name: adv_pay
-    type: VARCHAR
+    type: BIGINT
   - name: aim
-    type: VARCHAR
+    type: BIGINT
   - name: aip
-    type: VARCHAR
+    type: BIGINT
   - name: pss
-    type: VARCHAR
-  - name: snf_3-day_rule_waiver
-    type: VARCHAR
+    type: BIGINT
+  - name: snf_3_day_rule_waiver
+    type: BIGINT
   - name: prospective_assignment
-    type: VARCHAR
+    type: BIGINT
   - name: retrospective_assignment
-    type: VARCHAR
+    type: BIGINT
   - name: aco_address
     type: VARCHAR
   - name: aco_public_reporting_website
@@ -61,8 +63,8 @@ columns:
   - name: aco_medical_director_name
     type: VARCHAR
   - name: lat
-    type: VARCHAR
+    type: DOUBLE
   - name: long
-    type: VARCHAR
+    type: DOUBLE
   - name: pc_flex_agreement_status
-    type: VARCHAR
+    type: BIGINT

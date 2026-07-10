@@ -1,26 +1,27 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [ENRLMT_ID]
-sort: [ENRLMT_ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-2457ea29-fc82-48b0-86ec-3b0755de7515`. Regenerate after model-verify.
+key: [npi, enrlmt_id, pecos_asct_cntl_id, last_name, org_name]
+sort: [npi, enrlmt_id, pecos_asct_cntl_id, last_name, org_name]
 columns:
-  - name: NPI
+  - name: npi
+    type: BIGINT
+  - name: multiple_npi_flag
     type: VARCHAR
-  - name: MULTIPLE_NPI_FLAG
+  - name: pecos_asct_cntl_id
     type: VARCHAR
-  - name: PECOS_ASCT_CNTL_ID
+  - name: enrlmt_id
     type: VARCHAR
-  - name: ENRLMT_ID
+  - name: provider_type_cd
     type: VARCHAR
-  - name: PROVIDER_TYPE_CD
+  - name: provider_type_desc
     type: VARCHAR
-  - name: PROVIDER_TYPE_DESC
+  - name: state_cd
     type: VARCHAR
-  - name: STATE_CD
+  - name: first_name
     type: VARCHAR
-  - name: FIRST_NAME
+  - name: mdl_name
     type: VARCHAR
-  - name: MDL_NAME
+  - name: last_name
     type: VARCHAR
-  - name: LAST_NAME
-    type: VARCHAR
-  - name: ORG_NAME
+  - name: org_name
     type: VARCHAR

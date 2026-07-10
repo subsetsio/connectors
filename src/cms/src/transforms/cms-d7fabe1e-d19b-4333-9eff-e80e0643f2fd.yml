@@ -1,124 +1,125 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: YEAR
-sort: [YEAR]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-d7fabe1e-d19b-4333-9eff-e80e0643f2fd`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: YEAR
+  - name: year
+    type: BIGINT
+  - name: month
     type: VARCHAR
-  - name: MONTH
+  - name: bene_geo_lvl
     type: VARCHAR
-  - name: BENE_GEO_LVL
+  - name: bene_state_abrvtn
     type: VARCHAR
-  - name: BENE_STATE_ABRVTN
+  - name: bene_state_desc
     type: VARCHAR
-  - name: BENE_STATE_DESC
+  - name: bene_county_desc
     type: VARCHAR
-  - name: BENE_COUNTY_DESC
+  - name: bene_fips_cd
     type: VARCHAR
-  - name: BENE_FIPS_CD
+  - name: tot_benes
     type: VARCHAR
-  - name: TOT_BENES
+  - name: orgnl_mdcr_benes
     type: VARCHAR
-  - name: ORGNL_MDCR_BENES
+  - name: ma_and_oth_benes
     type: VARCHAR
-  - name: MA_AND_OTH_BENES
+  - name: aged_tot_benes
     type: VARCHAR
-  - name: AGED_TOT_BENES
+  - name: aged_esrd_benes
     type: VARCHAR
-  - name: AGED_ESRD_BENES
+  - name: aged_no_esrd_benes
     type: VARCHAR
-  - name: AGED_NO_ESRD_BENES
+  - name: dsbld_tot_benes
     type: VARCHAR
-  - name: DSBLD_TOT_BENES
+  - name: dsbld_esrd_and_esrd_only_benes
     type: VARCHAR
-  - name: DSBLD_ESRD_AND_ESRD_ONLY_BENES
+  - name: dsbld_no_esrd_benes
     type: VARCHAR
-  - name: DSBLD_NO_ESRD_BENES
+  - name: male_tot_benes
     type: VARCHAR
-  - name: MALE_TOT_BENES
+  - name: female_tot_benes
     type: VARCHAR
-  - name: FEMALE_TOT_BENES
+  - name: white_tot_benes
     type: VARCHAR
-  - name: WHITE_TOT_BENES
+  - name: black_tot_benes
     type: VARCHAR
-  - name: BLACK_TOT_BENES
+  - name: api_tot_benes
     type: VARCHAR
-  - name: API_TOT_BENES
+  - name: hspnc_tot_benes
     type: VARCHAR
-  - name: HSPNC_TOT_BENES
+  - name: natind_tot_benes
     type: VARCHAR
-  - name: NATIND_TOT_BENES
+  - name: othr_tot_benes
     type: VARCHAR
-  - name: OTHR_TOT_BENES
+  - name: age_lt_25_benes
     type: VARCHAR
-  - name: AGE_LT_25_BENES
+  - name: age_25_to_44_benes
     type: VARCHAR
-  - name: AGE_25_TO_44_BENES
+  - name: age_45_to_64_benes
     type: VARCHAR
-  - name: AGE_45_TO_64_BENES
+  - name: age_65_to_69_benes
     type: VARCHAR
-  - name: AGE_65_TO_69_BENES
+  - name: age_70_to_74_benes
     type: VARCHAR
-  - name: AGE_70_TO_74_BENES
+  - name: age_75_to_79_benes
     type: VARCHAR
-  - name: AGE_75_TO_79_BENES
+  - name: age_80_to_84_benes
     type: VARCHAR
-  - name: AGE_80_TO_84_BENES
+  - name: age_85_to_89_benes
     type: VARCHAR
-  - name: AGE_85_TO_89_BENES
+  - name: age_90_to_94_benes
     type: VARCHAR
-  - name: AGE_90_TO_94_BENES
+  - name: age_gt_94_benes
     type: VARCHAR
-  - name: AGE_GT_94_BENES
+  - name: dual_tot_benes
     type: VARCHAR
-  - name: DUAL_TOT_BENES
+  - name: full_dual_tot_benes
     type: VARCHAR
-  - name: FULL_DUAL_TOT_BENES
+  - name: part_dual_tot_benes
     type: VARCHAR
-  - name: PART_DUAL_TOT_BENES
+  - name: nodual_tot_benes
     type: VARCHAR
-  - name: NODUAL_TOT_BENES
+  - name: qmb_only_benes
     type: VARCHAR
-  - name: QMB_ONLY_BENES
+  - name: qmb_plus_benes
     type: VARCHAR
-  - name: QMB_PLUS_BENES
+  - name: slmb_only_benes
     type: VARCHAR
-  - name: SLMB_ONLY_BENES
+  - name: slmb_plus_benes
     type: VARCHAR
-  - name: SLMB_PLUS_BENES
+  - name: qdwi_qi_benes
     type: VARCHAR
-  - name: QDWI_QI_BENES
+  - name: othr_full_dual_mdcd_benes
     type: VARCHAR
-  - name: OTHR_FULL_DUAL_MDCD_BENES
+  - name: a_b_tot_benes
     type: VARCHAR
-  - name: A_B_TOT_BENES
+  - name: a_b_orgnl_mdcr_benes
     type: VARCHAR
-  - name: A_B_ORGNL_MDCR_BENES
+  - name: a_b_ma_and_oth_benes
     type: VARCHAR
-  - name: A_B_MA_AND_OTH_BENES
+  - name: a_tot_benes
     type: VARCHAR
-  - name: A_TOT_BENES
+  - name: a_orgnl_mdcr_benes
     type: VARCHAR
-  - name: A_ORGNL_MDCR_BENES
+  - name: a_ma_and_oth_benes
     type: VARCHAR
-  - name: A_MA_AND_OTH_BENES
+  - name: b_tot_benes
     type: VARCHAR
-  - name: B_TOT_BENES
+  - name: b_orgnl_mdcr_benes
     type: VARCHAR
-  - name: B_ORGNL_MDCR_BENES
+  - name: b_ma_and_oth_benes
     type: VARCHAR
-  - name: B_MA_AND_OTH_BENES
+  - name: prscrptn_drug_tot_benes
     type: VARCHAR
-  - name: PRSCRPTN_DRUG_TOT_BENES
+  - name: prscrptn_drug_pdp_benes
     type: VARCHAR
-  - name: PRSCRPTN_DRUG_PDP_BENES
+  - name: prscrptn_drug_mapd_benes
     type: VARCHAR
-  - name: PRSCRPTN_DRUG_MAPD_BENES
+  - name: prscrptn_drug_deemed_eligible_full_lis_benes
     type: VARCHAR
-  - name: PRSCRPTN_DRUG_DEEMED_ELIGIBLE_FULL_LIS_BENES
+  - name: prscrptn_drug_full_lis_benes
     type: VARCHAR
-  - name: PRSCRPTN_DRUG_FULL_LIS_BENES
+  - name: prscrptn_drug_partial_lis_benes
     type: VARCHAR
-  - name: PRSCRPTN_DRUG_PARTIAL_LIS_BENES
-    type: VARCHAR
-  - name: PRSCRPTN_DRUG_NO_LIS_BENES
+  - name: prscrptn_drug_no_lis_benes
     type: VARCHAR

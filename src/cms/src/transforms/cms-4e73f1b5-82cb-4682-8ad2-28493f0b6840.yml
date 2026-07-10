@@ -1,102 +1,103 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: YEAR
-sort: [YEAR]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-4e73f1b5-82cb-4682-8ad2-28493f0b6840`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: YEAR
+  - name: year
+    type: BIGINT
+  - name: year_type
     type: VARCHAR
-  - name: YEAR_TYPE
+  - name: smry_ctgry
     type: VARCHAR
-  - name: SMRY_CTGRY
+  - name: srvc_ctgry
     type: VARCHAR
-  - name: SRVC_CTGRY
+  - name: prvdr_id
     type: VARCHAR
-  - name: PRVDR_ID
+  - name: prvdr_name
     type: VARCHAR
-  - name: PRVDR_NAME
+  - name: prvdr_city
     type: VARCHAR
-  - name: PRVDR_CITY
+  - name: state
     type: VARCHAR
-  - name: STATE
+  - name: prvdr_zip
     type: VARCHAR
-  - name: PRVDR_ZIP
+  - name: bene_dstnct_cnt
+    type: BIGINT
+  - name: tot_epsd_stay_cnt
+    type: BIGINT
+  - name: tot_srvc_days
+    type: BIGINT
+  - name: tot_chrg_amt
+    type: BIGINT
+  - name: tot_alowd_amt
+    type: BIGINT
+  - name: tot_mdcr_pymt_amt
+    type: BIGINT
+  - name: tot_mdcr_stdzd_pymt_amt
+    type: BIGINT
+  - name: bene_dual_pct
     type: VARCHAR
-  - name: BENE_DSTNCT_CNT
+  - name: bene_rrl_pct
     type: VARCHAR
-  - name: TOT_EPSD_STAY_CNT
+  - name: bene_avg_age
+    type: BIGINT
+  - name: bene_male_pct
     type: VARCHAR
-  - name: TOT_SRVC_DAYS
+  - name: bene_feml_pct
     type: VARCHAR
-  - name: TOT_CHRG_AMT
+  - name: bene_race_wht_pct
     type: VARCHAR
-  - name: TOT_ALOWD_AMT
+  - name: bene_race_black_pct
     type: VARCHAR
-  - name: TOT_MDCR_PYMT_AMT
+  - name: bene_race_api_pct
     type: VARCHAR
-  - name: TOT_MDCR_STDZD_PYMT_AMT
+  - name: bene_race_hspnc_pct
     type: VARCHAR
-  - name: BENE_DUAL_PCT
+  - name: bene_race_natind_pct
     type: VARCHAR
-  - name: BENE_RRL_PCT
+  - name: bene_race_unk_pct
     type: VARCHAR
-  - name: BENE_AVG_AGE
+  - name: bene_race_othr_pct
     type: VARCHAR
-  - name: BENE_MALE_PCT
+  - name: bene_avg_risk_scre
+    type: DOUBLE
+  - name: prmry_dx_infctn_pct
     type: VARCHAR
-  - name: BENE_FEML_PCT
+  - name: prmry_dx_neobld_pct
     type: VARCHAR
-  - name: BENE_RACE_WHT_PCT
+  - name: prmry_dx_endonutrmet_pct
     type: VARCHAR
-  - name: BENE_RACE_BLACK_PCT
+  - name: prmry_dx_mntbehneudis_pct
     type: VARCHAR
-  - name: BENE_RACE_API_PCT
+  - name: prmry_dx_nervsystm_pct
     type: VARCHAR
-  - name: BENE_RACE_HSPNC_PCT
+  - name: prmry_dx_entsys_pct
     type: VARCHAR
-  - name: BENE_RACE_NATIND_PCT
+  - name: prmry_dx_circsystm_pct
     type: VARCHAR
-  - name: BENE_RACE_UNK_PCT
+  - name: prmry_dx_rspsystm_pct
     type: VARCHAR
-  - name: BENE_RACE_OTHR_PCT
+  - name: prmry_dx_digsystm_pct
     type: VARCHAR
-  - name: BENE_AVG_RISK_SCRE
+  - name: prmry_dx_sknmussystm_pct
     type: VARCHAR
-  - name: PRMRY_DX_INFCTN_PCT
+  - name: prmry_dx_gusystm_pct
     type: VARCHAR
-  - name: PRMRY_DX_NEOBLD_PCT
+  - name: prmry_dx_prgpericong_pct
     type: VARCHAR
-  - name: PRMRY_DX_ENDONUTRMET_PCT
+  - name: prmry_dx_sxilldef_pct
     type: VARCHAR
-  - name: PRMRY_DX_MNTBEHNEUDIS_PCT
+  - name: prmry_dx_injpois_pct
     type: VARCHAR
-  - name: PRMRY_DX_NERVSYSTM_PCT
+  - name: prmry_dx_hlthsrv_pct
     type: VARCHAR
-  - name: PRMRY_DX_ENTSYS_PCT
+  - name: nrsng_visits_cnt
     type: VARCHAR
-  - name: PRMRY_DX_CIRCSYSTM_PCT
+  - name: msw_visits_cnt
     type: VARCHAR
-  - name: PRMRY_DX_RSPSYSTM_PCT
+  - name: aide_visits_cnt
     type: VARCHAR
-  - name: PRMRY_DX_DIGSYSTM_PCT
+  - name: tot_nrsng_mnts
     type: VARCHAR
-  - name: PRMRY_DX_SKNMUSSYSTM_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_GUSYSTM_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_PRGPERICONG_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_SXILLDEF_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_INJPOIS_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_HLTHSRV_PCT
-    type: VARCHAR
-  - name: NRSNG_VISITS_CNT
-    type: VARCHAR
-  - name: MSW_VISITS_CNT
-    type: VARCHAR
-  - name: AIDE_VISITS_CNT
-    type: VARCHAR
-  - name: TOT_NRSNG_MNTS
-    type: VARCHAR
-  - name: HOSPC_RHC_DAYS_PCT
-    type: VARCHAR
+  - name: hospc_rhc_days_pct
+    type: BIGINT

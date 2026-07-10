@@ -1,70 +1,72 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Provider Number]
-sort: [Provider Number]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-129a6503-c0f1-4132-b186-4c0232c2d894`. Regenerate after model-verify.
+key: [certification_date, provider_number]
+temporal: certification_date
+sort: [certification_date, provider_number]
 columns:
-  - name: Provider Number
+  - name: provider_number
     type: VARCHAR
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: City
+  - name: city
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: Zip Code
+  - name: zip_code
     type: VARCHAR
-  - name: Certification Date
+  - name: certification_date
     type: DATE
-  - name: Medicare Census
+  - name: medicare_census
+    type: BIGINT
+  - name: medicaid_census
+    type: BIGINT
+  - name: other_census
+    type: BIGINT
+  - name: total_residents
+    type: BIGINT
+  - name: program_participation_code
     type: VARCHAR
-  - name: Medicaid Census
+  - name: hospital_based
     type: VARCHAR
-  - name: Other Census
+  - name: ownership_type
     type: VARCHAR
-  - name: Total Residents
+  - name: multi_facility_organization
     type: VARCHAR
-  - name: Program Participation Code
+  - name: multi_facility_organization_name
     type: VARCHAR
-  - name: Hospital Based
+  - name: number_of_aids_beds
+    type: BIGINT
+  - name: number_of_alzheimer_s_disease_beds
+    type: BIGINT
+  - name: number_of_dialysis_beds
+    type: BIGINT
+  - name: number_of_disabled_children_young_adult_beds
+    type: BIGINT
+  - name: number_of_head_trauma_beds
+    type: BIGINT
+  - name: number_of_hospice_beds
+    type: BIGINT
+  - name: number_of_huntington_s_disease_beds
+    type: BIGINT
+  - name: number_of_ventilator_beds
+    type: BIGINT
+  - name: number_of_other_specialized_rehab_beds
+    type: BIGINT
+  - name: organized_residents_group
     type: VARCHAR
-  - name: Ownership Type
+  - name: organized_family_member_group
     type: VARCHAR
-  - name: Multi-Facility Organization
+  - name: facility_conducts_experimental_research
     type: VARCHAR
-  - name: Multi-Facility Organization Name
+  - name: continuing_care_retirement_community_ccrc
     type: VARCHAR
-  - name: Number of AIDS Beds
+  - name: "7_day_rn_waiver_date"
     type: VARCHAR
-  - name: Number of Alzheimer's Disease Beds
+  - name: "7_day_rn_hrs_waived_per_week"
+    type: BIGINT
+  - name: "24_hr_licensed_nursing_waiver_date"
     type: VARCHAR
-  - name: Number of Dialysis Beds
-    type: VARCHAR
-  - name: Number of Disabled Children/Young Adult Beds
-    type: VARCHAR
-  - name: Number of Head Trauma Beds
-    type: VARCHAR
-  - name: Number of Hospice Beds
-    type: VARCHAR
-  - name: Number of Huntington's Disease Beds
-    type: VARCHAR
-  - name: Number of Ventilator Beds
-    type: VARCHAR
-  - name: Number of Other Specialized Rehab Beds
-    type: VARCHAR
-  - name: Organized Residents' Group
-    type: VARCHAR
-  - name: Organized Family Member Group
-    type: VARCHAR
-  - name: Facility Conducts Experimental Research
-    type: VARCHAR
-  - name: Continuing Care Retirement Community (CCRC)
-    type: VARCHAR
-  - name: 7 Day RN Waiver Date
-    type: VARCHAR
-  - name: 7 Day RN Hrs Waived Per Week
-    type: VARCHAR
-  - name: 24 Hr Licensed Nursing Waiver Date
-    type: VARCHAR
-  - name: 24 Hr Licensed Nursing Hrs Waived Per Week
-    type: VARCHAR
-  - name: Nurse Aide Training and Competency Evaluation Program
+  - name: "24_hr_licensed_nursing_hrs_waived_per_week"
+    type: BIGINT
+  - name: nurse_aide_training_and_competency_evaluation_program
     type: VARCHAR

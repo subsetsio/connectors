@@ -1,14 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-4b50bbe6-a496-4eda-b03b-5f835937f81b`. Regenerate after model-verify.
+key: [total_residents, percent, mds_item_question_description, mds_item_response, geographical_location]
+sort: [total_residents, percent, mds_item_question_description, mds_item_response, geographical_location]
 columns:
-  - name: Geographical Location
+  - name: geographical_location
     type: VARCHAR
-  - name: Report Date
+  - name: report_date
     type: VARCHAR
-  - name: MDS Item Question/Description
+  - name: mds_item_question_description
     type: VARCHAR
-  - name: MDS Item Response
+  - name: mds_item_response
     type: VARCHAR
-  - name: Percent
+  - name: percent
     type: VARCHAR
-  - name: Total Residents
+  - name: total_residents
     type: VARCHAR

@@ -1,38 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: Processing Date
-sort: [Processing Date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-ijh5-nb2v`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: processing_date
+sort: [processing_date]
 columns:
-  - name: CMS Certification Number (CCN)
+  - name: cms_certification_number_ccn
     type: VARCHAR
-  - name: Provider Name
+  - name: provider_name
     type: VARCHAR
-  - name: Provider Address
+  - name: provider_address
     type: VARCHAR
-  - name: City/Town
+  - name: city_town
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: ZIP Code
+  - name: zip_code
     type: VARCHAR
-  - name: Measure Code
+  - name: measure_code
+    type: BIGINT
+  - name: measure_description
     type: VARCHAR
-  - name: Measure Description
+  - name: resident_type
     type: VARCHAR
-  - name: Resident type
+  - name: adjusted_score
     type: VARCHAR
-  - name: Adjusted Score
+  - name: observed_score
     type: VARCHAR
-  - name: Observed Score
+  - name: expected_score
     type: VARCHAR
-  - name: Expected Score
+  - name: footnote_for_score
     type: VARCHAR
-  - name: Footnote for Score
+  - name: used_in_quality_measure_five_star_rating
     type: VARCHAR
-  - name: Used in Quality Measure Five Star Rating
+  - name: measure_period
     type: VARCHAR
-  - name: Measure Period
+  - name: location
     type: VARCHAR
-  - name: Location
-    type: VARCHAR
-  - name: Processing Date
+  - name: processing_date
     type: DATE

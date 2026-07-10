@@ -1,168 +1,172 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-7bd74bf4-e396-43a6-af12-42ffb31ee00b`. Regenerate after model-verify.
+key: [esco_name]
+temporal: esco_effective_date
+sort: [esco_effective_date, esco_name]
 columns:
-  - name: ESCO_name
+  - name: esco_name
     type: VARCHAR
-  - name: Performance_period
+  - name: performance_period
     type: VARCHAR
-  - name: ESCO_effective_date
+  - name: esco_effective_date
     type: DATE
-  - name: ESCO_end_date
+  - name: esco_end_date
     type: DATE
-  - name: LDO_indicator
-    type: VARCHAR
-  - name: Prvdr_type_participant_non_owner
-    type: VARCHAR
-  - name: Prvdr_type_participant_owner
-    type: VARCHAR
-  - name: Prvdr_type_provider_or_supplier
-    type: VARCHAR
-  - name: Num_prvdrs
-    type: VARCHAR
-  - name: N_dial_fac_attached
-    type: VARCHAR
-  - name: Aligned_bene
-    type: VARCHAR
-  - name: Age_grp_0_64
-    type: VARCHAR
-  - name: Age_grp_65_74
-    type: VARCHAR
-  - name: Age_grp_75_84
-    type: VARCHAR
-  - name: Age_grp_85_plus
-    type: VARCHAR
-  - name: Male
-    type: VARCHAR
-  - name: Female
-    type: VARCHAR
-  - name: ICH_CAHPS_nephrologists_communication_and_caring
-    type: VARCHAR
-  - name: ICH_CAHPS_providing_information_to_patients
-    type: VARCHAR
-  - name: ICH_CAHPS_rating_of_dialysis_center
-    type: VARCHAR
-  - name: ICH_CAHPS_dialysis_center_care_and_operations
-    type: VARCHAR
-  - name: ICH_CAHPS_rating_of_dialysis_center_staff
-    type: VARCHAR
-  - name: ICH_CAHPS_rating_of_kidney_doctors
-    type: VARCHAR
-  - name: Advance_care_plan
-    type: VARCHAR
-  - name: Depression_screen_rate
-    type: VARCHAR
-  - name: Diabetes_care_eye_exam
-    type: VARCHAR
-  - name: Diabetes_care_foot_exam
-    type: VARCHAR
-  - name: Falls_plan_of_care
-    type: VARCHAR
-  - name: Falls_risk_assessment
-    type: VARCHAR
-  - name: Falls_screening
-    type: VARCHAR
-  - name: Influenza_immunization
-    type: VARCHAR
-  - name: Medication_reconciliation
-    type: VARCHAR
-  - name: Pneumococcal_vaccination_status
-    type: VARCHAR
-  - name: Tobacco_use_rate
-    type: VARCHAR
-  - name: Standardized_mortality_ratio
-    type: VARCHAR
-  - name: T_PPPW
-    type: VARCHAR
-  - name: T_SWR
-    type: VARCHAR
-  - name: Overall_TQS
-    type: VARCHAR
-  - name: PBPY_exp_ESRD_only_BY1
-    type: VARCHAR
-  - name: PBPY_exp_age_dua_BY1
-    type: VARCHAR
-  - name: PBPY_exp_age_non_dua_BY1
-    type: VARCHAR
-  - name: PBPY_exp_disable_dua_BY1
-    type: VARCHAR
-  - name: PBPY_exp_disable_no_dua_BY1
-    type: VARCHAR
-  - name: PBPY_exp_ESRD_only_BY2
-    type: VARCHAR
-  - name: PBPY_exp_age_dua_BY2
-    type: VARCHAR
-  - name: PBPY_exp_age_non_dua_BY2
-    type: VARCHAR
-  - name: PBPY_exp_disable_dua_BY2
-    type: VARCHAR
-  - name: PBPY_exp_disable_no_dua_BY2
-    type: VARCHAR
-  - name: PBPY_exp_ESRD_only_BY3
-    type: VARCHAR
-  - name: PBPY_exp_age_dua_BY3
-    type: VARCHAR
-  - name: PBPY_exp_age_non_dua_BY3
-    type: VARCHAR
-  - name: PBPY_exp_disable_dua_BY3
-    type: VARCHAR
-  - name: PBPY_exp_disable_no_dua_BY3
-    type: VARCHAR
-  - name: Histbnchmk_ESRD_only_PY
-    type: VARCHAR
-  - name: Histbnchmk_age_dua_PY
-    type: VARCHAR
-  - name: Histbnchmk_age_non_dua_PY
-    type: VARCHAR
-  - name: Histbnchmk_disable_dua_PY
-    type: VARCHAR
-  - name: Histbnchmk_disable_non_dua_PY
-    type: VARCHAR
-  - name: Risk_rt_ESRD_only_PY
-    type: VARCHAR
-  - name: Risk_rt_age_dua_PY
-    type: VARCHAR
-  - name: Risk_rt_age_non_dua_PY
-    type: VARCHAR
-  - name: Risk_rt_disable_dua_PY
-    type: VARCHAR
-  - name: Risk_rt_disable_non_dua_PY
-    type: VARCHAR
-  - name: Tol_benchmrk_exp_PY
-    type: VARCHAR
-  - name: PBPY_exp_ESRD_only_PY
-    type: VARCHAR
-  - name: PBPY_exp_age_dua_PY
-    type: VARCHAR
-  - name: PBPY_exp_age_non_dua_PY
-    type: VARCHAR
-  - name: PBPY_exp_disable_dua_PY
-    type: VARCHAR
-  - name: PBPY_exp_disable_non_dua_PY
-    type: VARCHAR
-  - name: Bene_yrs_ESRD_only_PY
-    type: VARCHAR
-  - name: Bene_yrs_age_dua_PY
-    type: VARCHAR
-  - name: Bene_yrs_age_non_dua_PY
-    type: VARCHAR
-  - name: Bene_yrs_disable_dua_PY
-    type: VARCHAR
-  - name: Bene_yrs_disable_non_dua_PY
-    type: VARCHAR
-  - name: Tol_bene_exp_PY
-    type: VARCHAR
-  - name: Align_bene_yrs
-    type: VARCHAR
-  - name: Min_sav_rate
-    type: VARCHAR
-  - name: Min_los_rate
-    type: VARCHAR
-  - name: Min_savig_amt
-    type: VARCHAR
-  - name: Min_losses_amt
-    type: VARCHAR
-  - name: Met_qscore
-    type: VARCHAR
-  - name: Gen_sav
-    type: VARCHAR
-  - name: Sav_rate
+  - name: ldo_indicator
+    type: VARCHAR
+  - name: prvdr_type_participant_non_owner
+    type: VARCHAR
+  - name: prvdr_type_participant_owner
+    type: BIGINT
+  - name: prvdr_type_provider_or_supplier
+    type: VARCHAR
+  - name: num_prvdrs
+    type: BIGINT
+  - name: n_dial_fac_attached
+    type: BIGINT
+  - name: aligned_bene
+    type: BIGINT
+  - name: age_grp_0_64
+    type: BIGINT
+  - name: age_grp_65_74
+    type: BIGINT
+  - name: age_grp_75_84
+    type: BIGINT
+  - name: age_grp_85_plus
+    type: BIGINT
+  - name: male
+    type: BIGINT
+  - name: female
+    type: BIGINT
+  - name: ich_cahps_nephrologists_communication_and_caring
+    type: DOUBLE
+  - name: ich_cahps_providing_information_to_patients
+    type: DOUBLE
+  - name: ich_cahps_rating_of_dialysis_center
+    type: DOUBLE
+  - name: ich_cahps_dialysis_center_care_and_operations
+    type: DOUBLE
+  - name: ich_cahps_rating_of_dialysis_center_staff
+    type: DOUBLE
+  - name: ich_cahps_rating_of_kidney_doctors
+    type: DOUBLE
+  - name: advance_care_plan
+    type: DOUBLE
+  - name: depression_screen_rate
+    type: DOUBLE
+  - name: diabetes_care_eye_exam
+    type: DOUBLE
+  - name: diabetes_care_foot_exam
+    type: DOUBLE
+  - name: falls_plan_of_care
+    type: DOUBLE
+  - name: falls_risk_assessment
+    type: DOUBLE
+  - name: falls_screening
+    type: DOUBLE
+  - name: influenza_immunization
+    type: DOUBLE
+  - name: medication_reconciliation
+    type: DOUBLE
+  - name: pneumococcal_vaccination_status
+    type: DOUBLE
+  - name: tobacco_use_rate
+    type: DOUBLE
+  - name: standardized_mortality_ratio
+    type: DOUBLE
+  - name: t_pppw
+    type: DOUBLE
+  - name: t_swr
+    type: DOUBLE
+  - name: overall_tqs
+    type: VARCHAR
+  - name: pbpy_exp_esrd_only_by1
+    type: DOUBLE
+  - name: pbpy_exp_age_dua_by1
+    type: DOUBLE
+  - name: pbpy_exp_age_non_dua_by1
+    type: DOUBLE
+  - name: pbpy_exp_disable_dua_by1
+    type: DOUBLE
+  - name: pbpy_exp_disable_no_dua_by1
+    type: DOUBLE
+  - name: pbpy_exp_esrd_only_by2
+    type: DOUBLE
+  - name: pbpy_exp_age_dua_by2
+    type: DOUBLE
+  - name: pbpy_exp_age_non_dua_by2
+    type: DOUBLE
+  - name: pbpy_exp_disable_dua_by2
+    type: DOUBLE
+  - name: pbpy_exp_disable_no_dua_by2
+    type: DOUBLE
+  - name: pbpy_exp_esrd_only_by3
+    type: DOUBLE
+  - name: pbpy_exp_age_dua_by3
+    type: DOUBLE
+  - name: pbpy_exp_age_non_dua_by3
+    type: DOUBLE
+  - name: pbpy_exp_disable_dua_by3
+    type: DOUBLE
+  - name: pbpy_exp_disable_no_dua_by3
+    type: DOUBLE
+  - name: histbnchmk_esrd_only_py
+    type: DOUBLE
+  - name: histbnchmk_age_dua_py
+    type: DOUBLE
+  - name: histbnchmk_age_non_dua_py
+    type: DOUBLE
+  - name: histbnchmk_disable_dua_py
+    type: DOUBLE
+  - name: histbnchmk_disable_non_dua_py
+    type: DOUBLE
+  - name: risk_rt_esrd_only_py
+    type: DOUBLE
+  - name: risk_rt_age_dua_py
+    type: DOUBLE
+  - name: risk_rt_age_non_dua_py
+    type: DOUBLE
+  - name: risk_rt_disable_dua_py
+    type: DOUBLE
+  - name: risk_rt_disable_non_dua_py
+    type: DOUBLE
+  - name: tol_benchmrk_exp_py
+    type: DOUBLE
+  - name: pbpy_exp_esrd_only_py
+    type: DOUBLE
+  - name: pbpy_exp_age_dua_py
+    type: DOUBLE
+  - name: pbpy_exp_age_non_dua_py
+    type: DOUBLE
+  - name: pbpy_exp_disable_dua_py
+    type: DOUBLE
+  - name: pbpy_exp_disable_non_dua_py
+    type: DOUBLE
+  - name: bene_yrs_esrd_only_py
+    type: DOUBLE
+  - name: bene_yrs_age_dua_py
+    type: DOUBLE
+  - name: bene_yrs_age_non_dua_py
+    type: DOUBLE
+  - name: bene_yrs_disable_dua_py
+    type: DOUBLE
+  - name: bene_yrs_disable_non_dua_py
+    type: DOUBLE
+  - name: tol_bene_exp_py
+    type: DOUBLE
+  - name: align_bene_yrs
+    type: DOUBLE
+  - name: min_sav_rate
+    type: DOUBLE
+  - name: min_los_rate
+    type: DOUBLE
+  - name: min_savig_amt
+    type: DOUBLE
+  - name: min_losses_amt
+    type: VARCHAR
+  - name: met_qscore
+    type: VARCHAR
+  - name: gen_sav
+    type: VARCHAR
+  - name: sav_rate
     type: VARCHAR

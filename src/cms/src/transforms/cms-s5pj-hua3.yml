@@ -1,16 +1,20 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-s5pj-hua3`. Regenerate after model-verify.
+key: [oas_cahps_measure_id]
+temporal: start_date
+sort: [start_date, oas_cahps_measure_id]
 columns:
-  - name: OAS CAHPS Measure ID
+  - name: oas_cahps_measure_id
     type: VARCHAR
-  - name: OAS CAHPS Question
+  - name: oas_cahps_question
     type: VARCHAR
-  - name: OAS CAHPS Answer Description
+  - name: oas_cahps_answer_description
     type: VARCHAR
-  - name: OAS CAHPS Answer Percent
+  - name: oas_cahps_answer_percent
+    type: BIGINT
+  - name: oas_cahps_answer_percent_footnote
     type: VARCHAR
-  - name: OAS CAHPS Answer Percent Footnote
+  - name: start_date
     type: VARCHAR
-  - name: Start Date
-    type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

@@ -1,18 +1,22 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-6pfg-whmx`. Regenerate after model-verify.
+key: [state, oas_cahps_answer_percent, oas_cahps_question, oas_cahps_measure_id, oas_cahps_answer_description]
+temporal: start_date
+sort: [start_date, state, oas_cahps_answer_percent, oas_cahps_question, oas_cahps_measure_id, oas_cahps_answer_description]
 columns:
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: OAS CAHPS Measure ID
+  - name: oas_cahps_measure_id
     type: VARCHAR
-  - name: OAS CAHPS Question
+  - name: oas_cahps_question
     type: VARCHAR
-  - name: OAS CAHPS Answer Description
+  - name: oas_cahps_answer_description
     type: VARCHAR
-  - name: OAS CAHPS Answer Percent
+  - name: oas_cahps_answer_percent
     type: VARCHAR
-  - name: OAS CAHPS Answer Percent Footnote
+  - name: oas_cahps_answer_percent_footnote
     type: VARCHAR
-  - name: Start Date
+  - name: start_date
     type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

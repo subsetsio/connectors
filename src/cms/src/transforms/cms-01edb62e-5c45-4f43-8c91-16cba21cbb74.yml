@@ -1,14 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-01edb62e-5c45-4f43-8c91-16cba21cbb74`. Regenerate after model-verify.
+key: [provider_id, rate, measure]
+sort: [provider_id, rate, measure]
 columns:
-  - name: Provider_ID
+  - name: provider_id
     type: VARCHAR
-  - name: Measure
+  - name: measure
     type: VARCHAR
-  - name: Rate
+  - name: rate
+    type: DOUBLE
+  - name: footnote
     type: VARCHAR
-  - name: Footnote
+  - name: start_quarter
     type: VARCHAR
-  - name: Start_Quarter
-    type: VARCHAR
-  - name: End_Quarter
+  - name: end_quarter
     type: VARCHAR

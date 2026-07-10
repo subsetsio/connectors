@@ -1,22 +1,27 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-uk3n-au7a`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: start_date
+sort: [start_date]
 columns:
-  - name: Measure ID
+  - name: measure_id
     type: VARCHAR
-  - name: Measure Name
+  - name: measure_name
     type: VARCHAR
-  - name: National Rate
+  - name: national_rate
     type: VARCHAR
-  - name: Number of Hospitals Worse
+  - name: number_of_hospitals_worse
+    type: BIGINT
+  - name: number_of_hospitals_same
+    type: BIGINT
+  - name: number_of_hospitals_better
+    type: BIGINT
+  - name: number_of_hospitals_too_few
+    type: BIGINT
+  - name: footnote
+    type: BIGINT
+  - name: start_date
     type: VARCHAR
-  - name: Number of Hospitals Same
-    type: VARCHAR
-  - name: Number of Hospitals Better
-    type: VARCHAR
-  - name: Number of Hospitals Too Few
-    type: VARCHAR
-  - name: Footnote
-    type: VARCHAR
-  - name: Start Date
-    type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

@@ -1,153 +1,153 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Facility ID]
-temporal: Fiscal Year
-sort: [Fiscal Year, Facility ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-avtz-f2ge`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: Fiscal Year
+  - name: fiscal_year
+    type: BIGINT
+  - name: facility_id
     type: VARCHAR
-  - name: Facility ID
+  - name: facility_name
     type: VARCHAR
-  - name: Facility Name
+  - name: address
     type: VARCHAR
-  - name: Address
+  - name: city_town
     type: VARCHAR
-  - name: City/Town
+  - name: state
     type: VARCHAR
-  - name: State
+  - name: zip_code
     type: VARCHAR
-  - name: ZIP Code
+  - name: county_parish
     type: VARCHAR
-  - name: County/Parish
+  - name: communication_with_nurses_floor
     type: VARCHAR
-  - name: Communication With Nurses Floor
+  - name: communication_with_nurses_achievement_threshold
     type: VARCHAR
-  - name: Communication With Nurses Achievement Threshold
+  - name: communication_with_nurses_benchmark
     type: VARCHAR
-  - name: Communication With Nurses Benchmark
+  - name: communication_with_nurses_baseline_rate
     type: VARCHAR
-  - name: Communication With Nurses Baseline Rate
+  - name: communication_with_nurses_performance_rate
     type: VARCHAR
-  - name: Communication With Nurses Performance Rate
+  - name: communication_with_nurses_achievement_points
     type: VARCHAR
-  - name: Communication With Nurses Achievement Points
+  - name: communication_with_nurses_improvement_points
     type: VARCHAR
-  - name: Communication With Nurses Improvement Points
+  - name: communication_with_nurses_dimension_score
     type: VARCHAR
-  - name: Communication With Nurses Dimension Score
+  - name: communication_with_doctors_floor
     type: VARCHAR
-  - name: Communication With Doctors Floor
+  - name: communication_with_doctors_achievement_threshold
     type: VARCHAR
-  - name: Communication With Doctors Achievement Threshold
+  - name: communication_with_doctors_benchmark
     type: VARCHAR
-  - name: Communication With Doctors Benchmark
+  - name: communication_with_doctors_baseline_rate
     type: VARCHAR
-  - name: Communication With Doctors Baseline Rate
+  - name: communication_with_doctors_performance_rate
     type: VARCHAR
-  - name: Communication With Doctors Performance Rate
+  - name: communication_with_doctors_achievement_points
     type: VARCHAR
-  - name: Communication With Doctors Achievement Points
+  - name: communication_with_doctors_improvement_points
     type: VARCHAR
-  - name: Communication With Doctors Improvement Points
+  - name: communication_with_doctors_dimension_score
     type: VARCHAR
-  - name: Communication With Doctors Dimension Score
+  - name: responsiveness_of_hospital_staff_floor
     type: VARCHAR
-  - name: Responsiveness Of Hospital Staff Floor
+  - name: responsiveness_of_hospital_staff_achievement_threshold
     type: VARCHAR
-  - name: Responsiveness Of Hospital Staff Achievement Threshold
+  - name: responsiveness_of_hospital_staff_benchmark
     type: VARCHAR
-  - name: Responsiveness Of Hospital Staff Benchmark
+  - name: responsiveness_of_hospital_staff_baseline_rate
     type: VARCHAR
-  - name: Responsiveness Of Hospital Staff Baseline Rate
+  - name: responsiveness_of_hospital_staff_performance_rate
     type: VARCHAR
-  - name: Responsiveness Of Hospital Staff Performance Rate
+  - name: responsiveness_of_hospital_staff_achievement_points
     type: VARCHAR
-  - name: Responsiveness Of Hospital Staff Achievement Points
+  - name: responsiveness_of_hospital_staff_improvement_points
     type: VARCHAR
-  - name: Responsiveness Of Hospital Staff Improvement Points
+  - name: responsiveness_of_hospital_staff_dimension_score
     type: VARCHAR
-  - name: Responsiveness Of Hospital Staff Dimension Score
+  - name: care_transition_floor
     type: VARCHAR
-  - name: Care Transition Floor
+  - name: care_transition_achievement_threshold
     type: VARCHAR
-  - name: Care Transition Achievement Threshold
+  - name: care_transition_benchmark
     type: VARCHAR
-  - name: Care Transition Benchmark
+  - name: care_transition_baseline_rate
     type: VARCHAR
-  - name: Care Transition Baseline Rate
+  - name: care_transition_performance_rate
     type: VARCHAR
-  - name: Care Transition Performance Rate
+  - name: care_transition_achievement_points
     type: VARCHAR
-  - name: Care Transition Achievement Points
+  - name: care_transition_improvement_points
     type: VARCHAR
-  - name: Care Transition Improvement Points
+  - name: care_transition_dimension_score
     type: VARCHAR
-  - name: Care Transition Dimension Score
+  - name: communication_about_medicines_floor
     type: VARCHAR
-  - name: Communication About Medicines Floor
+  - name: communication_about_medicines_achievement_threshold
     type: VARCHAR
-  - name: Communication About Medicines Achievement Threshold
+  - name: communication_about_medicines_benchmark
     type: VARCHAR
-  - name: Communication About Medicines Benchmark
+  - name: communication_about_medicines_baseline_rate
     type: VARCHAR
-  - name: Communication About Medicines Baseline Rate
+  - name: communication_about_medicines_performance_rate
     type: VARCHAR
-  - name: Communication About Medicines Performance Rate
+  - name: communication_about_medicines_achievement_points
     type: VARCHAR
-  - name: Communication About Medicines Achievement Points
+  - name: communication_about_medicines_improvement_points
     type: VARCHAR
-  - name: Communication About Medicines Improvement Points
+  - name: communication_about_medicines_dimension_score
     type: VARCHAR
-  - name: Communication About Medicines Dimension Score
+  - name: cleanliness_and_quietness_of_hospital_environment_floor
     type: VARCHAR
-  - name: Cleanliness And Quietness Of Hospital Environment Floor
+  - name: cleanliness_and_quietness_of_hospital_environment_achievement_threshold
     type: VARCHAR
-  - name: Cleanliness And Quietness Of Hospital Environment Achievement Threshold
+  - name: cleanliness_and_quietness_of_hospital_environment_benchmark
     type: VARCHAR
-  - name: Cleanliness And Quietness Of Hospital Environment Benchmark
+  - name: cleanliness_and_quietness_of_hospital_environment_baseline_rate
     type: VARCHAR
-  - name: Cleanliness And Quietness Of Hospital Environment Baseline Rate
+  - name: cleanliness_and_quietness_of_hospital_environment_performance_rate
     type: VARCHAR
-  - name: Cleanliness And Quietness Of Hospital Environment Performance Rate
+  - name: cleanliness_and_quietness_of_hospital_environment_achievement_points
     type: VARCHAR
-  - name: Cleanliness And Quietness Of Hospital Environment Achievement Points
+  - name: cleanliness_and_quietness_of_hospital_environment_improvement_points
     type: VARCHAR
-  - name: Cleanliness And Quietness Of Hospital Environment Improvement Points
+  - name: cleanliness_and_quietness_of_hospital_environment_dimension_score
     type: VARCHAR
-  - name: Cleanliness And Quietness Of Hospital Environment Dimension Score
+  - name: discharge_information_floor
     type: VARCHAR
-  - name: Discharge Information Floor
+  - name: discharge_information_achievement_threshold
     type: VARCHAR
-  - name: Discharge Information Achievement Threshold
+  - name: discharge_information_benchmark
     type: VARCHAR
-  - name: Discharge Information Benchmark
+  - name: discharge_information_baseline_rate
     type: VARCHAR
-  - name: Discharge Information Baseline Rate
+  - name: discharge_information_performance_rate
     type: VARCHAR
-  - name: Discharge Information Performance Rate
+  - name: discharge_information_achievement_points
     type: VARCHAR
-  - name: Discharge Information Achievement Points
+  - name: discharge_information_improvement_points
     type: VARCHAR
-  - name: Discharge Information Improvement Points
+  - name: discharge_information_dimension_score
     type: VARCHAR
-  - name: Discharge Information Dimension Score
+  - name: overall_rating_of_hospital_floor
     type: VARCHAR
-  - name: Overall Rating Of Hospital Floor
+  - name: overall_rating_of_hospital_achievement_threshold
     type: VARCHAR
-  - name: Overall Rating Of Hospital Achievement Threshold
+  - name: overall_rating_of_hospital_benchmark
     type: VARCHAR
-  - name: Overall Rating Of Hospital Benchmark
+  - name: overall_rating_of_hospital_baseline_rate
     type: VARCHAR
-  - name: Overall Rating Of Hospital Baseline Rate
+  - name: overall_rating_of_hospital_performance_rate
     type: VARCHAR
-  - name: Overall Rating Of Hospital Performance Rate
+  - name: overall_rating_of_hospital_achievement_points
     type: VARCHAR
-  - name: Overall Rating Of Hospital Achievement Points
+  - name: overall_rating_of_hospital_improvement_points
     type: VARCHAR
-  - name: Overall Rating Of Hospital Improvement Points
+  - name: overall_rating_of_hospital_dimension_score
     type: VARCHAR
-  - name: Overall Rating Of Hospital Dimension Score
+  - name: hcahps_base_score
     type: VARCHAR
-  - name: Hcahps Base Score
-    type: VARCHAR
-  - name: Hcahps Consistency Score
+  - name: hcahps_consistency_score
     type: VARCHAR

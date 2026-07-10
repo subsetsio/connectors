@@ -1,39 +1,39 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Facility ID]
-temporal: Fiscal Year
-sort: [Fiscal Year, Facility ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-ypbt-wvdk`. Regenerate after model-verify.
+key: [address, facility_id, facility_name, city_town, county_parish]
+sort: [address, facility_id, facility_name, city_town, county_parish]
 columns:
-  - name: Fiscal Year
+  - name: fiscal_year
+    type: BIGINT
+  - name: facility_id
     type: VARCHAR
-  - name: Facility ID
+  - name: facility_name
     type: VARCHAR
-  - name: Facility Name
+  - name: address
     type: VARCHAR
-  - name: Address
+  - name: city_town
     type: VARCHAR
-  - name: City/Town
+  - name: state
     type: VARCHAR
-  - name: State
+  - name: zip_code
     type: VARCHAR
-  - name: ZIP Code
+  - name: county_parish
     type: VARCHAR
-  - name: County/Parish
+  - name: unweighted_normalized_clinical_outcomes_domain_score
     type: VARCHAR
-  - name: Unweighted Normalized Clinical Outcomes Domain Score
+  - name: weighted_normalized_clinical_outcomes_domain_score
     type: VARCHAR
-  - name: Weighted Normalized Clinical Outcomes Domain Score
+  - name: unweighted_person_and_community_engagement_domain_score
     type: VARCHAR
-  - name: Unweighted Person And Community Engagement Domain Score
+  - name: weighted_person_and_community_engagement_domain_score
     type: VARCHAR
-  - name: Weighted Person And Community Engagement Domain Score
+  - name: unweighted_normalized_safety_domain_score
     type: VARCHAR
-  - name: Unweighted Normalized Safety Domain Score
+  - name: weighted_safety_domain_score
     type: VARCHAR
-  - name: Weighted Safety Domain Score
+  - name: unweighted_normalized_efficiency_and_cost_reduction_domain_score
     type: VARCHAR
-  - name: Unweighted Normalized Efficiency And Cost Reduction Domain Score
+  - name: weighted_efficiency_and_cost_reduction_domain_score
     type: VARCHAR
-  - name: Weighted Efficiency And Cost Reduction Domain Score
-    type: VARCHAR
-  - name: Total Performance Score
-    type: VARCHAR
+  - name: total_performance_score
+    type: DOUBLE

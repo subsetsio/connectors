@@ -1,32 +1,35 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-252m-zfp9`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: CMS Certification Number (CCN)
+  - name: cms_certification_number_ccn
     type: VARCHAR
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: Address Line 1
+  - name: address_line_1
     type: VARCHAR
-  - name: Address Line 2
+  - name: address_line_2
     type: VARCHAR
-  - name: City/Town
+  - name: city_town
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: ZIP Code
+  - name: zip_code
     type: VARCHAR
-  - name: County/Parish
+  - name: county_parish
     type: VARCHAR
-  - name: Telephone Number
+  - name: telephone_number
     type: VARCHAR
-  - name: CMS Region
+  - name: cms_region
+    type: BIGINT
+  - name: measure_code
     type: VARCHAR
-  - name: Measure Code
+  - name: measure_name
     type: VARCHAR
-  - name: Measure Name
+  - name: score
     type: VARCHAR
-  - name: Score
+  - name: footnote
     type: VARCHAR
-  - name: Footnote
-    type: VARCHAR
-  - name: Measure Date Range
+  - name: measure_date_range
     type: VARCHAR

@@ -1,38 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: First_RBCS_Release_Year
-sort: [First_RBCS_Release_Year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-e3db6e56-149f-49ce-b374-40aecda2357b`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: hcpcs_cd_add_dt
+sort: [hcpcs_cd_add_dt]
 columns:
-  - name: HCPCS_Cd
+  - name: hcpcs_cd
     type: VARCHAR
-  - name: RBCS_Id
+  - name: rbcs_id
     type: VARCHAR
-  - name: RBCS_Cat
+  - name: rbcs_cat
     type: VARCHAR
-  - name: RBCS_Cat_Desc
+  - name: rbcs_cat_desc
     type: VARCHAR
-  - name: RBCS_Cat_Subcat
+  - name: rbcs_cat_subcat
     type: VARCHAR
-  - name: RBCS_Subcat_Desc
+  - name: rbcs_subcat_desc
     type: VARCHAR
-  - name: RBCS_FamNumb
+  - name: rbcs_famnumb
     type: VARCHAR
-  - name: RBCS_Family_Desc
+  - name: rbcs_family_desc
     type: VARCHAR
-  - name: RBCS_Major_Ind
+  - name: rbcs_major_ind
     type: VARCHAR
-  - name: HCPCS_Cd_Add_Dt
-    type: VARCHAR
-  - name: HCPCS_Cd_End_Dt
-    type: VARCHAR
-  - name: RBCS_Latest_Assignment
-    type: VARCHAR
-  - name: First_RBCS_Release_Year
-    type: VARCHAR
-  - name: RBCS_Analysis_Start_Dt
-    type: VARCHAR
-  - name: RBCS_Analysis_End_Dt
-    type: VARCHAR
-  - name: Alt_Assignment_Method
-    type: VARCHAR
-  - name: RBCS_Id_Ever_Reassigned
-    type: VARCHAR
+  - name: hcpcs_cd_add_dt
+    type: DATE
+  - name: hcpcs_cd_end_dt
+    type: DATE
+  - name: rbcs_latest_assignment
+    type: BIGINT
+  - name: first_rbcs_release_year
+    type: BIGINT
+  - name: rbcs_analysis_start_dt
+    type: DATE
+  - name: rbcs_analysis_end_dt
+    type: DATE
+  - name: alt_assignment_method
+    type: BIGINT
+  - name: rbcs_id_ever_reassigned
+    type: BIGINT

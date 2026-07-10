@@ -1,72 +1,73 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [AGG_ID]
-sort: [AGG_ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-6a0dbf98-e4b0-4037-ac63-1439b08f4a71`. Regenerate after model-verify.
+key: [agg_id]
+sort: [agg_id]
 columns:
-  - name: AGG_ID
+  - name: agg_id
     type: VARCHAR
-  - name: HRR_NUM_MY
+  - name: hrr_num_my
+    type: BIGINT
+  - name: hdr_my
     type: VARCHAR
-  - name: HDR_MY
+  - name: hdr_dnm_my
     type: VARCHAR
-  - name: HDR_DNM_MY
+  - name: hdr_num_my
     type: VARCHAR
-  - name: HDR_NUM_MY
+  - name: hd_num_my
     type: VARCHAR
-  - name: HD_NUM_MY
+  - name: sd_num_my
     type: VARCHAR
-  - name: SD_NUM_MY
+  - name: nocd_num_my
     type: VARCHAR
-  - name: NOCD_NUM_MY
+  - name: tr_my_achscr
     type: VARCHAR
-  - name: TR_MY_ACHSCR
+  - name: tr_my_impscr
     type: VARCHAR
-  - name: TR_MY_IMPSCR
+  - name: twr_dnm_my
     type: VARCHAR
-  - name: TWR_DNM_MY
+  - name: twr_num_my
     type: VARCHAR
-  - name: TWR_NUM_MY
+  - name: ldt_dnm_l_my
     type: VARCHAR
-  - name: LDT_DNM_L_MY
+  - name: ldt_num_l_my
     type: VARCHAR
-  - name: LDT_NUM_L_MY
+  - name: ldt_num_r_my
     type: VARCHAR
-  - name: LDT_NUM_R_MY
+  - name: benecnt_ldt_my
     type: VARCHAR
-  - name: BENECNT_LDT_MY
+  - name: benecnt_pmp_my
     type: VARCHAR
-  - name: BENECNT_PMP_MY
+  - name: hei_hdr
     type: VARCHAR
-  - name: HEI_HDR
+  - name: hdr_delis_diff
     type: VARCHAR
-  - name: HDR_DELIS_DIFF
+  - name: hdr_delis_my
     type: VARCHAR
-  - name: HDR_DELIS_MY
+  - name: hdr_dnm_delis_my
     type: VARCHAR
-  - name: HDR_DNM_DELIS_MY
+  - name: hdr_num_delis_my
     type: VARCHAR
-  - name: HDR_NUM_DELIS_MY
+  - name: hei_tr
     type: VARCHAR
-  - name: HEI_TR
+  - name: tr_delis_diff
     type: VARCHAR
-  - name: TR_DELIS_DIFF
+  - name: tr_delis_my
     type: VARCHAR
-  - name: TR_DELIS_MY
+  - name: twr_dnm_delis_my
     type: VARCHAR
-  - name: TWR_DNM_DELIS_MY
+  - name: twr_num_delis_my
     type: VARCHAR
-  - name: TWR_NUM_DELIS_MY
+  - name: ldt_dnm_l_delis_my
     type: VARCHAR
-  - name: LDT_DNM_L_DELIS_MY
+  - name: ldt_num_l_delis_my
     type: VARCHAR
-  - name: LDT_NUM_L_DELIS_MY
+  - name: ldt_num_r_delis_my
     type: VARCHAR
-  - name: LDT_NUM_R_DELIS_MY
+  - name: mps
     type: VARCHAR
-  - name: MPS
+  - name: ppa
     type: VARCHAR
-  - name: PPA
-    type: VARCHAR
-  - name: PPA_PERIOD
-    type: VARCHAR
-  - name: MY
-    type: VARCHAR
+  - name: ppa_period
+    type: BIGINT
+  - name: my
+    type: BIGINT

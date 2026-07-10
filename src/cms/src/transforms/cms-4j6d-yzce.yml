@@ -1,16 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Measure ID]
-sort: [Measure ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-4j6d-yzce`. Regenerate after model-verify.
+key: [measure_id]
+temporal: start_date
+sort: [start_date, measure_id]
 columns:
-  - name: Measure ID
+  - name: measure_id
     type: VARCHAR
-  - name: Measure Name
+  - name: measure_name
     type: VARCHAR
-  - name: Measure Start Quarter
+  - name: measure_start_quarter
     type: VARCHAR
-  - name: Start Date
+  - name: start_date
     type: VARCHAR
-  - name: Measure End Quarter
+  - name: measure_end_quarter
     type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

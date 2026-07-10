@@ -1,70 +1,73 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: WorkDate
-sort: [WorkDate]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-7e0d53ba-8f02-4c66-98a5-14a1c997c50d`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: workdate
+sort: [workdate]
 columns:
-  - name: PROVNUM
+  - name: provnum
     type: VARCHAR
-  - name: PROVNAME
+  - name: provname
     type: VARCHAR
-  - name: CITY
+  - name: city
     type: VARCHAR
-  - name: STATE
+  - name: state
     type: VARCHAR
-  - name: COUNTY_NAME
+  - name: county_name
     type: VARCHAR
-  - name: COUNTY_FIPS
+  - name: county_fips
     type: VARCHAR
-  - name: CY_Qtr
+  - name: cy_qtr
     type: VARCHAR
-  - name: WorkDate
-    type: VARCHAR
-  - name: MDScensus
-    type: VARCHAR
-  - name: Hrs_RNDON
-    type: VARCHAR
-  - name: Hrs_RNDON_emp
-    type: VARCHAR
-  - name: Hrs_RNDON_ctr
-    type: VARCHAR
-  - name: Hrs_RNadmin
-    type: VARCHAR
-  - name: Hrs_RNadmin_emp
-    type: VARCHAR
-  - name: Hrs_RNadmin_ctr
-    type: VARCHAR
-  - name: Hrs_RN
-    type: VARCHAR
-  - name: Hrs_RN_emp
-    type: VARCHAR
-  - name: Hrs_RN_ctr
-    type: VARCHAR
-  - name: Hrs_LPNadmin
-    type: VARCHAR
-  - name: Hrs_LPNadmin_emp
-    type: VARCHAR
-  - name: Hrs_LPNadmin_ctr
-    type: VARCHAR
-  - name: Hrs_LPN
-    type: VARCHAR
-  - name: Hrs_LPN_emp
-    type: VARCHAR
-  - name: Hrs_LPN_ctr
-    type: VARCHAR
-  - name: Hrs_CNA
-    type: VARCHAR
-  - name: Hrs_CNA_emp
-    type: VARCHAR
-  - name: Hrs_CNA_ctr
-    type: VARCHAR
-  - name: Hrs_NAtrn
-    type: VARCHAR
-  - name: Hrs_NAtrn_emp
-    type: VARCHAR
-  - name: Hrs_NAtrn_ctr
-    type: VARCHAR
-  - name: Hrs_MedAide
-    type: VARCHAR
-  - name: Hrs_MedAide_emp
-    type: VARCHAR
-  - name: Hrs_MedAide_ctr
-    type: VARCHAR
+  - name: workdate
+    type: DATE
+  - name: mdscensus
+    type: BIGINT
+  - name: hrs_rndon
+    type: DOUBLE
+  - name: hrs_rndon_emp
+    type: DOUBLE
+  - name: hrs_rndon_ctr
+    type: DOUBLE
+  - name: hrs_rnadmin
+    type: DOUBLE
+  - name: hrs_rnadmin_emp
+    type: DOUBLE
+  - name: hrs_rnadmin_ctr
+    type: DOUBLE
+  - name: hrs_rn
+    type: DOUBLE
+  - name: hrs_rn_emp
+    type: DOUBLE
+  - name: hrs_rn_ctr
+    type: DOUBLE
+  - name: hrs_lpnadmin
+    type: DOUBLE
+  - name: hrs_lpnadmin_emp
+    type: DOUBLE
+  - name: hrs_lpnadmin_ctr
+    type: DOUBLE
+  - name: hrs_lpn
+    type: DOUBLE
+  - name: hrs_lpn_emp
+    type: DOUBLE
+  - name: hrs_lpn_ctr
+    type: DOUBLE
+  - name: hrs_cna
+    type: DOUBLE
+  - name: hrs_cna_emp
+    type: DOUBLE
+  - name: hrs_cna_ctr
+    type: DOUBLE
+  - name: hrs_natrn
+    type: DOUBLE
+  - name: hrs_natrn_emp
+    type: DOUBLE
+  - name: hrs_natrn_ctr
+    type: DOUBLE
+  - name: hrs_medaide
+    type: DOUBLE
+  - name: hrs_medaide_emp
+    type: DOUBLE
+  - name: hrs_medaide_ctr
+    type: DOUBLE

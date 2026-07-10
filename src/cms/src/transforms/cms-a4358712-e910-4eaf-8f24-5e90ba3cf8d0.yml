@@ -1,70 +1,75 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-a4358712-e910-4eaf-8f24-5e90ba3cf8d0`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: association_date_owner
+sort: [association_date_owner]
 columns:
-  - name: ENROLLMENT ID
+  - name: enrollment_id
     type: VARCHAR
-  - name: ASSOCIATE ID
+  - name: associate_id
     type: VARCHAR
-  - name: ORGANIZATION NAME
+  - name: organization_name
     type: VARCHAR
-  - name: ASSOCIATE ID - OWNER
+  - name: associate_id_owner
     type: VARCHAR
-  - name: TYPE - OWNER
+  - name: type_owner
     type: VARCHAR
-  - name: ROLE CODE - OWNER
+  - name: role_code_owner
+    type: BIGINT
+  - name: role_text_owner
     type: VARCHAR
-  - name: ROLE TEXT - OWNER
-    type: VARCHAR
-  - name: ASSOCIATION DATE - OWNER
+  - name: association_date_owner
     type: DATE
-  - name: FIRST NAME - OWNER
+  - name: first_name_owner
     type: VARCHAR
-  - name: MIDDLE NAME - OWNER
+  - name: middle_name_owner
     type: VARCHAR
-  - name: LAST NAME - OWNER
+  - name: last_name_owner
     type: VARCHAR
-  - name: TITLE - OWNER
+  - name: title_owner
     type: VARCHAR
-  - name: ORGANIZATION NAME - OWNER
+  - name: organization_name_owner
     type: VARCHAR
-  - name: DOING BUSINESS AS NAME - OWNER
+  - name: doing_business_as_name_owner
     type: VARCHAR
-  - name: ADDRESS LINE 1 - OWNER
+  - name: address_line_1_owner
     type: VARCHAR
-  - name: ADDRESS LINE 2 - OWNER
+  - name: address_line_2_owner
     type: VARCHAR
-  - name: CITY - OWNER
+  - name: city_owner
     type: VARCHAR
-  - name: STATE - OWNER
+  - name: state_owner
     type: VARCHAR
-  - name: ZIP CODE - OWNER
+  - name: zip_code_owner
     type: VARCHAR
-  - name: PERCENTAGE OWNERSHIP
+  - name: percentage_ownership
     type: VARCHAR
-  - name: CREATED FOR ACQUISITION - OWNER
+  - name: created_for_acquisition_owner
     type: VARCHAR
-  - name: CORPORATION - OWNER
+  - name: corporation_owner
     type: VARCHAR
-  - name: LLC - OWNER
+  - name: llc_owner
     type: VARCHAR
-  - name: MEDICAL PROVIDER SUPPLIER - OWNER
+  - name: medical_provider_supplier_owner
     type: VARCHAR
-  - name: MANAGEMENT SERVICES COMPANY - OWNER
+  - name: management_services_company_owner
     type: VARCHAR
-  - name: MEDICAL STAFFING COMPANY - OWNER
+  - name: medical_staffing_company_owner
     type: VARCHAR
-  - name: HOLDING COMPANY - OWNER
+  - name: holding_company_owner
     type: VARCHAR
-  - name: INVESTMENT FIRM - OWNER
+  - name: investment_firm_owner
     type: VARCHAR
-  - name: FINANCIAL INSTITUTION - OWNER
+  - name: financial_institution_owner
     type: VARCHAR
-  - name: CONSULTING FIRM - OWNER
+  - name: consulting_firm_owner
     type: VARCHAR
-  - name: FOR PROFIT - OWNER
+  - name: for_profit_owner
     type: VARCHAR
-  - name: NON PROFIT - OWNER
+  - name: non_profit_owner
     type: VARCHAR
-  - name: OTHER TYPE - OWNER
+  - name: other_type_owner
     type: VARCHAR
-  - name: OTHER TYPE TEXT - OWNER
+  - name: other_type_text_owner
     type: VARCHAR

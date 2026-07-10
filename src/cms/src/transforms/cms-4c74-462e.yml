@@ -1,82 +1,83 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: Model Baseline Year
-sort: [Model Baseline Year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-4c74-462e`. Regenerate after model-verify.
+key: [nationwide_cohort]
+sort: [nationwide_cohort]
 columns:
-  - name: Nationwide Cohort
+  - name: nationwide_cohort
     type: VARCHAR
-  - name: Model Baseline Year
+  - name: model_baseline_year
+    type: BIGINT
+  - name: discharged_to_community_cohort_s_achievement_threshold
+    type: DOUBLE
+  - name: dyspnea_cohort_s_achievement_threshold
+    type: DOUBLE
+  - name: oral_medications_cohort_s_achievement_threshold
+    type: DOUBLE
+  - name: tnc_mobility_cohort_s_achievement_threshold
+    type: DOUBLE
+  - name: tnc_self_care_cohort_s_achievement_threshold
+    type: DOUBLE
+  - name: ach_cohort_s_achievement_threshold
+    type: DOUBLE
+  - name: ed_use_cohort_s_achievement_threshold
+    type: DOUBLE
+  - name: care_of_patients_cohort_s_achievement_threshold
     type: VARCHAR
-  - name: "Discharged to Community: Cohort's Achievement Threshold"
+  - name: footnote_care_of_patients_cohort_s_achievement_threshold
     type: VARCHAR
-  - name: "Dyspnea: Cohort's Achievement Threshold"
+  - name: communication_cohort_s_achievement_threshold
     type: VARCHAR
-  - name: "Oral Medications: Cohort's Achievement Threshold"
+  - name: footnote_communication_cohort_s_achievement_threshold
     type: VARCHAR
-  - name: "TNC Mobility: Cohort's Achievement Threshold"
+  - name: specific_care_issues_cohort_s_achievement_threshold
     type: VARCHAR
-  - name: "TNC Self-Care: Cohort's Achievement Threshold"
+  - name: footnote_specific_care_issues_cohort_s_achievement_threshold
     type: VARCHAR
-  - name: "ACH: Cohort's Achievement Threshold"
+  - name: overall_rating_cohort_s_achievement_threshold
     type: VARCHAR
-  - name: "ED Use: Cohort's Achievement Threshold"
+  - name: footnote_overall_rating_cohort_s_achievement_threshold
     type: VARCHAR
-  - name: "Care of Patients: Cohort's Achievement Threshold"
+  - name: willingness_to_recommend_cohort_s_achievement_threshold
     type: VARCHAR
-  - name: "Footnote Care of Patients: Cohort's Achievement Threshold"
+  - name: footnote_willingness_to_recommend_cohort_s_achievement_threshold
     type: VARCHAR
-  - name: "Communication: Cohort's Achievement Threshold"
+  - name: discharged_to_community_cohort_s_benchmark
+    type: DOUBLE
+  - name: dyspnea_cohort_s_benchmark
+    type: DOUBLE
+  - name: oral_medications_cohort_s_benchmark
+    type: DOUBLE
+  - name: tnc_mobility_cohort_s_benchmark
+    type: DOUBLE
+  - name: tnc_self_care_cohort_s_benchmark
+    type: DOUBLE
+  - name: ach_cohort_s_benchmark
+    type: DOUBLE
+  - name: ed_use_cohort_s_benchmark
+    type: DOUBLE
+  - name: care_of_patients_cohort_s_benchmark
     type: VARCHAR
-  - name: "Footnote Communication: Cohort's Achievement Threshold"
+  - name: footnote_care_of_patients_cohort_s_benchmark
     type: VARCHAR
-  - name: "Specific Care Issues: Cohort's Achievement Threshold"
+  - name: communication_cohort_s_benchmark
     type: VARCHAR
-  - name: "Footnote Specific Care Issues: Cohort's Achievement Threshold"
+  - name: footnote_communication_cohort_s_benchmark
     type: VARCHAR
-  - name: "Overall Rating: Cohort's Achievement Threshold"
+  - name: specific_care_issues_cohort_s_benchmark
     type: VARCHAR
-  - name: "Footnote Overall Rating: Cohort's Achievement Threshold"
+  - name: footnote_specific_care_issues_cohort_s_benchmark
     type: VARCHAR
-  - name: "Willingness to Recommend: Cohort's Achievement Threshold"
+  - name: overall_rating_cohort_s_benchmark
     type: VARCHAR
-  - name: "Footnote Willingness to Recommend: Cohort's Achievement Threshold"
+  - name: footnote_overall_rating_cohort_s_benchmark
     type: VARCHAR
-  - name: "Discharged to Community: Cohort's Benchmark"
+  - name: willingness_to_recommend_cohort_s_benchmark
     type: VARCHAR
-  - name: "Dyspnea: Cohort's Benchmark"
+  - name: footnote_willingness_to_recommend_cohort_s_benchmark
     type: VARCHAR
-  - name: "Oral Medications: Cohort's Benchmark"
-    type: VARCHAR
-  - name: "TNC Mobility: Cohort's Benchmark"
-    type: VARCHAR
-  - name: "TNC Self-Care: Cohort's Benchmark"
-    type: VARCHAR
-  - name: "ACH: Cohort's Benchmark"
-    type: VARCHAR
-  - name: "ED Use: Cohort's Benchmark"
-    type: VARCHAR
-  - name: "Care of Patients: Cohort's Benchmark"
-    type: VARCHAR
-  - name: "Footnote Care of Patients: Cohort's Benchmark"
-    type: VARCHAR
-  - name: "Communication: Cohort's Benchmark"
-    type: VARCHAR
-  - name: "Footnote Communication: Cohort's Benchmark"
-    type: VARCHAR
-  - name: "Specific Care Issues: Cohort's Benchmark"
-    type: VARCHAR
-  - name: "Footnote Specific Care Issues: Cohort's Benchmark"
-    type: VARCHAR
-  - name: "Overall Rating: Cohort's Benchmark"
-    type: VARCHAR
-  - name: "Footnote Overall Rating: Cohort's Benchmark"
-    type: VARCHAR
-  - name: "Willingness to Recommend: Cohort's Benchmark"
-    type: VARCHAR
-  - name: "Footnote Willingness to Recommend: Cohort's Benchmark"
-    type: VARCHAR
-  - name: Cohort's Linear Exchange Function (LEF) Ratio
-    type: VARCHAR
-  - name: Cohort's Average Total Performance Score (TPS)
-    type: VARCHAR
-  - name: Cohort's Average Adjusted Payment Percentage (APP)
+  - name: cohort_s_linear_exchange_function_lef_ratio
+    type: DOUBLE
+  - name: cohort_s_average_total_performance_score_tps
+    type: DOUBLE
+  - name: cohort_s_average_adjusted_payment_percentage_app
     type: VARCHAR

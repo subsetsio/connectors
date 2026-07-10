@@ -1,2 +1,45 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-f6f6505c-e8b0-4d57-b258-e2b94133aaf2"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "ENROLLMENT ID" AS enrollment_id,
+    "ENROLLMENT STATE" AS enrollment_state,
+    "PROVIDER TYPE CODE" AS provider_type_code,
+    "PROVIDER TYPE TEXT" AS provider_type_text,
+    CAST("NPI" AS BIGINT) AS npi,
+    "MULTIPLE NPI FLAG" AS multiple_npi_flag,
+    "CCN" AS ccn,
+    "ASSOCIATE ID" AS associate_id,
+    "ORGANIZATION NAME" AS organization_name,
+    "DOING BUSINESS AS NAME" AS doing_business_as_name,
+    "INCORPORATION DATE" AS incorporation_date,
+    "INCORPORATION STATE" AS incorporation_state,
+    "ORGANIZATION TYPE STRUCTURE" AS organization_type_structure,
+    "ORGANIZATION OTHER TYPE TEXT" AS organization_other_type_text,
+    "PROPRIETARY NONPROFIT" AS proprietary_nonprofit,
+    "ADDRESS LINE 1" AS address_line_1,
+    "ADDRESS LINE 2" AS address_line_2,
+    "CITY" AS city,
+    "STATE" AS state,
+    CAST("ZIP CODE" AS BIGINT) AS zip_code,
+    "PRACTICE LOCATION TYPE" AS practice_location_type,
+    "LOCATION OTHER TYPE TEXT" AS location_other_type_text,
+    "SUBGROUP - GENERAL" AS subgroup_general,
+    "SUBGROUP - ACUTE CARE" AS subgroup_acute_care,
+    "SUBGROUP - ALCOHOL DRUG" AS subgroup_alcohol_drug,
+    "SUBGROUP - CHILDRENS" AS subgroup_childrens,
+    "SUBGROUP - LONG-TERM" AS subgroup_long_term,
+    "SUBGROUP - PSYCHIATRIC" AS subgroup_psychiatric,
+    "SUBGROUP - REHABILITATION" AS subgroup_rehabilitation,
+    "SUBGROUP - SHORT-TERM" AS subgroup_short_term,
+    "SUBGROUP - SWING-BED APPROVED" AS subgroup_swing_bed_approved,
+    "SUBGROUP - PSYCHIATRIC UNIT" AS subgroup_psychiatric_unit,
+    "SUBGROUP - REHABILITATION UNIT" AS subgroup_rehabilitation_unit,
+    "SUBGROUP - SPECIALTY HOSPITAL" AS subgroup_specialty_hospital,
+    "SUBGROUP - OTHER" AS subgroup_other,
+    "SUBGROUP - OTHER TEXT" AS subgroup_other_text,
+    "REH CONVERSION FLAG" AS reh_conversion_flag,
+    "REH CONVERSION DATE" AS reh_conversion_date,
+    "CAH OR HOSPITAL CCN" AS cah_or_hospital_ccn
+FROM "cms-f6f6505c-e8b0-4d57-b258-e2b94133aaf2"

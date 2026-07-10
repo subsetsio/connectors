@@ -1,20 +1,23 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-2941ab09-8cee-49d8-9703-f3c5b854e388`. Regenerate after model-verify.
+key: [avg_tot_pymt_amt, avg_submtd_cvrd_chrg, tot_dschrgs, drg_cd, drg_desc]
+sort: [avg_tot_pymt_amt, avg_submtd_cvrd_chrg, tot_dschrgs, drg_cd, drg_desc]
 columns:
-  - name: Rndrng_Prvdr_Geo_Lvl
+  - name: rndrng_prvdr_geo_lvl
     type: VARCHAR
-  - name: Rndrng_Prvdr_Geo_Cd
+  - name: rndrng_prvdr_geo_cd
     type: VARCHAR
-  - name: Rndrng_Prvdr_Geo_Desc
+  - name: rndrng_prvdr_geo_desc
     type: VARCHAR
-  - name: DRG_Cd
+  - name: drg_cd
     type: VARCHAR
-  - name: DRG_Desc
+  - name: drg_desc
     type: VARCHAR
-  - name: Tot_Dschrgs
-    type: VARCHAR
-  - name: Avg_Submtd_Cvrd_Chrg
-    type: VARCHAR
-  - name: Avg_Tot_Pymt_Amt
-    type: VARCHAR
-  - name: Avg_Mdcr_Pymt_Amt
-    type: VARCHAR
+  - name: tot_dschrgs
+    type: BIGINT
+  - name: avg_submtd_cvrd_chrg
+    type: DOUBLE
+  - name: avg_tot_pymt_amt
+    type: DOUBLE
+  - name: avg_mdcr_pymt_amt
+    type: DOUBLE

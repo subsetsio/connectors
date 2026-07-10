@@ -1,73 +1,73 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [State]
-temporal: Year
-sort: [Year, State]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-axe7-s95e`. Regenerate after model-verify.
+key: [state]
+sort: [state]
 columns:
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: Year
+  - name: year
+    type: BIGINT
+  - name: avg_asc_1_state_rate
     type: VARCHAR
-  - name: Avg ASC-1 State Rate*
+  - name: median_asc_1_state_rate
     type: VARCHAR
-  - name: Median ASC-1 State Rate*
+  - name: avg_asc_2_state_rate
+    type: DOUBLE
+  - name: median_asc_2_state_rate
+    type: DOUBLE
+  - name: avg_asc_3_state_rate
     type: VARCHAR
-  - name: Avg ASC-2 State Rate*
+  - name: median_asc_3_state_rate
     type: VARCHAR
-  - name: Median ASC-2 State Rate*
+  - name: avg_asc_4_state_rate
+    type: DOUBLE
+  - name: median_asc_4_state_rate
+    type: DOUBLE
+  - name: avg_asc_9_state_rate
     type: VARCHAR
-  - name: Avg ASC-3 State Rate*
+  - name: median_asc_9_state_rate
     type: VARCHAR
-  - name: Median ASC-3 State Rate*
+  - name: avg_asc_11_state_rate
     type: VARCHAR
-  - name: Avg ASC-4 State Rate*
+  - name: median_asc_11_state_rate
     type: VARCHAR
-  - name: Median ASC-4 State Rate*
+  - name: asc_12_better
+    type: BIGINT
+  - name: asc_12_no_different
+    type: BIGINT
+  - name: asc_12_worse
+    type: BIGINT
+  - name: asc_12_too_small
+    type: BIGINT
+  - name: avg_asc_13_state_rate
+    type: DOUBLE
+  - name: median_asc_13_state_rate
+    type: DOUBLE
+  - name: avg_asc_14_state_rate
     type: VARCHAR
-  - name: Avg ASC-9 State Rate*
+  - name: median_asc_14_state_rate
     type: VARCHAR
-  - name: Median ASC-9 State Rate*
-    type: VARCHAR
-  - name: Avg ASC-11 State Rate*
-    type: VARCHAR
-  - name: Median ASC-11 State Rate*
-    type: VARCHAR
-  - name: ASC-12 Better
-    type: VARCHAR
-  - name: ASC-12 No Different
-    type: VARCHAR
-  - name: ASC-12 Worse
-    type: VARCHAR
-  - name: ASC-12 Too Small
-    type: VARCHAR
-  - name: Avg ASC-13 State Rate*
-    type: VARCHAR
-  - name: Median ASC-13 State Rate*
-    type: VARCHAR
-  - name: Avg ASC-14 State Rate*
-    type: VARCHAR
-  - name: Median ASC-14 State Rate*
-    type: VARCHAR
-  - name: ASC-17 Better
-    type: VARCHAR
-  - name: ASC-17 No Different
-    type: VARCHAR
-  - name: ASC-17 Worse
-    type: VARCHAR
-  - name: ASC-17 Too Small
-    type: VARCHAR
-  - name: ASC-18 Better
-    type: VARCHAR
-  - name: ASC-18 No Different
-    type: VARCHAR
-  - name: ASC-18 Worse
-    type: VARCHAR
-  - name: ASC-18 Too Small
-    type: VARCHAR
-  - name: ASC-19 Better
-    type: VARCHAR
-  - name: ASC-19 No Different
-    type: VARCHAR
-  - name: ASC-19 Worse
-    type: VARCHAR
-  - name: ASC-19 Too Small
-    type: VARCHAR
+  - name: asc_17_better
+    type: BIGINT
+  - name: asc_17_no_different
+    type: BIGINT
+  - name: asc_17_worse
+    type: BIGINT
+  - name: asc_17_too_small
+    type: BIGINT
+  - name: asc_18_better
+    type: BIGINT
+  - name: asc_18_no_different
+    type: BIGINT
+  - name: asc_18_worse
+    type: BIGINT
+  - name: asc_18_too_small
+    type: BIGINT
+  - name: asc_19_better
+    type: BIGINT
+  - name: asc_19_no_different
+    type: BIGINT
+  - name: asc_19_worse
+    type: BIGINT
+  - name: asc_19_too_small
+    type: BIGINT

@@ -1,76 +1,77 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: PERF_YR
-sort: [PERF_YR]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-041d68a9-3212-42f3-89d5-b23e82103576`. Regenerate after model-verify.
+key: [aco_id]
+sort: [aco_id]
 columns:
-  - name: ACO_ID
+  - name: aco_id
     type: VARCHAR
-  - name: ACO_NAME
+  - name: aco_name
     type: VARCHAR
-  - name: PERF_YR
+  - name: perf_yr
+    type: BIGINT
+  - name: pbp_election
     type: VARCHAR
-  - name: PBP_ELECTION
+  - name: risk_arrangement
     type: VARCHAR
-  - name: RISK_ARRANGEMENT
-    type: VARCHAR
-  - name: BENE_CT
-    type: VARCHAR
-  - name: MNTH_PY
-    type: VARCHAR
-  - name: BNMRK_EXPND
-    type: VARCHAR
-  - name: PERF_YR_EXPND
-    type: VARCHAR
-  - name: GROSS_SAVINGS
-    type: VARCHAR
-  - name: SHARED_SAVINGS
-    type: VARCHAR
-  - name: QUAL_SCRE
-    type: VARCHAR
-  - name: MNTH_AD_BY1
-    type: VARCHAR
-  - name: EXPND_AD_BY1
-    type: VARCHAR
-  - name: RISK_SCRE_AD_BY1
-    type: VARCHAR
-  - name: MNTH_AD_BY2
-    type: VARCHAR
-  - name: EXPND_AD_BY2
-    type: VARCHAR
-  - name: RISK_SCRE_AD_BY2
-    type: VARCHAR
-  - name: RISK_SCRE_AD_PY
-    type: VARCHAR
-  - name: MNTH_ESRD_BY1
-    type: VARCHAR
-  - name: EXPND_ESRD_BY1
-    type: VARCHAR
-  - name: RISK_SCRE_ESRD_BY1
-    type: VARCHAR
-  - name: MNTH_ESRD_BY2
-    type: VARCHAR
-  - name: EXPND_ESRD_BY2
-    type: VARCHAR
-  - name: RISK_SCRE_ESRD_BY2
-    type: VARCHAR
-  - name: RISK_SCRE_ESRD_PY
-    type: VARCHAR
-  - name: EXPND_NCH10
-    type: VARCHAR
-  - name: EXPND_NCH20
-    type: VARCHAR
-  - name: EXPND_NCH30
-    type: VARCHAR
-  - name: EXPND_NCH40
-    type: VARCHAR
-  - name: EXPND_NCH50
-    type: VARCHAR
-  - name: EXPND_NCH60
-    type: VARCHAR
-  - name: EXPND_NCH71
-    type: VARCHAR
-  - name: EXPND_NCH72
-    type: VARCHAR
-  - name: EXPND_NCH81
-    type: VARCHAR
-  - name: EXPND_NCH82
-    type: VARCHAR
+  - name: bene_ct
+    type: BIGINT
+  - name: mnth_py
+    type: BIGINT
+  - name: bnmrk_expnd
+    type: DOUBLE
+  - name: perf_yr_expnd
+    type: DOUBLE
+  - name: gross_savings
+    type: DOUBLE
+  - name: shared_savings
+    type: DOUBLE
+  - name: qual_scre
+    type: DOUBLE
+  - name: mnth_ad_by1
+    type: BIGINT
+  - name: expnd_ad_by1
+    type: DOUBLE
+  - name: risk_scre_ad_by1
+    type: DOUBLE
+  - name: mnth_ad_by2
+    type: BIGINT
+  - name: expnd_ad_by2
+    type: DOUBLE
+  - name: risk_scre_ad_by2
+    type: DOUBLE
+  - name: risk_scre_ad_py
+    type: DOUBLE
+  - name: mnth_esrd_by1
+    type: BIGINT
+  - name: expnd_esrd_by1
+    type: DOUBLE
+  - name: risk_scre_esrd_by1
+    type: DOUBLE
+  - name: mnth_esrd_by2
+    type: BIGINT
+  - name: expnd_esrd_by2
+    type: DOUBLE
+  - name: risk_scre_esrd_by2
+    type: DOUBLE
+  - name: risk_scre_esrd_py
+    type: DOUBLE
+  - name: expnd_nch10
+    type: DOUBLE
+  - name: expnd_nch20
+    type: DOUBLE
+  - name: expnd_nch30
+    type: DOUBLE
+  - name: expnd_nch40
+    type: DOUBLE
+  - name: expnd_nch50
+    type: DOUBLE
+  - name: expnd_nch60
+    type: DOUBLE
+  - name: expnd_nch71
+    type: DOUBLE
+  - name: expnd_nch72
+    type: DOUBLE
+  - name: expnd_nch81
+    type: DOUBLE
+  - name: expnd_nch82
+    type: DOUBLE

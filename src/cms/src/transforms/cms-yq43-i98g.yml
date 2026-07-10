@@ -1,77 +1,78 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Facility ID]
-temporal: Fiscal Year
-sort: [Fiscal Year, Facility ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-yq43-i98g`. Regenerate after model-verify.
+key: [facility_id, total_hac_score, psi_90_w_z_score, psi_90_composite_value, ssi_w_z_score]
+temporal: psi_90_start_date
+sort: [psi_90_start_date, facility_id, total_hac_score, psi_90_w_z_score, psi_90_composite_value, ssi_w_z_score]
 columns:
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: Facility ID
+  - name: facility_id
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: Fiscal Year
+  - name: fiscal_year
+    type: BIGINT
+  - name: psi_90_composite_value
     type: VARCHAR
-  - name: PSI 90 Composite Value
+  - name: psi_90_composite_value_footnote
     type: VARCHAR
-  - name: PSI 90 Composite Value Footnote
+  - name: psi_90_w_z_score
     type: VARCHAR
-  - name: PSI 90 W Z Score
+  - name: psi_90_w_z_footnote
     type: VARCHAR
-  - name: PSI 90 W Z Footnote
+  - name: psi_90_start_date
     type: VARCHAR
-  - name: PSI 90 Start Date
+  - name: psi_90_end_date
+    type: DATE
+  - name: clabsi_sir
     type: VARCHAR
-  - name: PSI 90 End Date
+  - name: clabsi_sir_footnote
     type: VARCHAR
-  - name: CLABSI SIR
+  - name: clabsi_w_z_score
     type: VARCHAR
-  - name: CLABSI SIR Footnote
+  - name: clabsi_w_z_footnote
     type: VARCHAR
-  - name: CLABSI W Z Score
+  - name: cauti_sir
     type: VARCHAR
-  - name: CLABSI W Z Footnote
+  - name: cauti_sir_footnote
     type: VARCHAR
-  - name: CAUTI SIR
+  - name: cauti_w_z_score
     type: VARCHAR
-  - name: CAUTI SIR Footnote
+  - name: cauti_w_z_footnote
     type: VARCHAR
-  - name: CAUTI W Z Score
+  - name: ssi_sir
     type: VARCHAR
-  - name: CAUTI W Z Footnote
+  - name: ssi_sir_footnote
     type: VARCHAR
-  - name: SSI SIR
+  - name: ssi_w_z_score
     type: VARCHAR
-  - name: SSI SIR Footnote
+  - name: ssi_w_z_footnote
     type: VARCHAR
-  - name: SSI W Z Score
+  - name: cdi_sir
     type: VARCHAR
-  - name: SSI W Z Footnote
+  - name: cdi_sir_footnote
     type: VARCHAR
-  - name: CDI SIR
+  - name: cdi_w_z_score
     type: VARCHAR
-  - name: CDI SIR Footnote
+  - name: cdi_w_z_footnote
     type: VARCHAR
-  - name: CDI W Z Score
+  - name: mrsa_sir
     type: VARCHAR
-  - name: CDI W Z Footnote
+  - name: mrsa_sir_footnote
     type: VARCHAR
-  - name: MRSA SIR
+  - name: mrsa_w_z_score
     type: VARCHAR
-  - name: MRSA SIR Footnote
+  - name: mrsa_w_z_footnote
     type: VARCHAR
-  - name: MRSA W Z Score
+  - name: hai_measures_start_date
     type: VARCHAR
-  - name: MRSA W Z Footnote
+  - name: hai_measures_end_date
+    type: DATE
+  - name: total_hac_score
     type: VARCHAR
-  - name: HAI Measures Start Date
+  - name: total_hac_score_footnote
     type: VARCHAR
-  - name: HAI Measures End Date
+  - name: payment_reduction
     type: VARCHAR
-  - name: Total HAC Score
-    type: VARCHAR
-  - name: Total HAC Score Footnote
-    type: VARCHAR
-  - name: Payment Reduction
-    type: VARCHAR
-  - name: Payment Reduction Footnote
+  - name: payment_reduction_footnote
     type: VARCHAR

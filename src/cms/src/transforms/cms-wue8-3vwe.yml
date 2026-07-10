@@ -1,78 +1,79 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: Year
-sort: [Year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-wue8-3vwe`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: Year
-    type: VARCHAR
-  - name: Avg ASC-1 Nat Rate*
-    type: VARCHAR
-  - name: Median ASC-1 Nat Rate*
-    type: VARCHAR
-  - name: Avg ASC-2 Nat Rate*
-    type: VARCHAR
-  - name: Median ASC-2 Nat Rate*
-    type: VARCHAR
-  - name: Avg ASC-3 Nat Rate*
-    type: VARCHAR
-  - name: Median ASC-3 Nat Rate*
-    type: VARCHAR
-  - name: Avg ASC-4 Nat Rate*
-    type: VARCHAR
-  - name: Median ASC-4 Nat Rate*
-    type: VARCHAR
-  - name: Avg ASC-9 Nat Rate*
-    type: VARCHAR
-  - name: Median ASC-9 Nat Rate*
-    type: VARCHAR
-  - name: Avg ASC-11 Nat Rate*
-    type: VARCHAR
-  - name: Median ASC-11 Nat Rate*
-    type: VARCHAR
-  - name: ASC-12 Nat Rate
-    type: VARCHAR
-  - name: ASC-12 Better
-    type: VARCHAR
-  - name: ASC-12 No Different
-    type: VARCHAR
-  - name: ASC-12 Worse
-    type: VARCHAR
-  - name: ASC-12 Too Small
-    type: VARCHAR
-  - name: Avg ASC-13 Nat Rate*
-    type: VARCHAR
-  - name: Median ASC-13 Nat Rate*
-    type: VARCHAR
-  - name: Avg ASC-14 Nat Rate*
-    type: VARCHAR
-  - name: Median ASC-14 Nat Rate*
-    type: VARCHAR
-  - name: ASC-17 Nat Rate
-    type: VARCHAR
-  - name: ASC-17 Better
-    type: VARCHAR
-  - name: ASC-17 No Different
-    type: VARCHAR
-  - name: ASC-17 Worse
-    type: VARCHAR
-  - name: ASC-17 Too Small
-    type: VARCHAR
-  - name: ASC-18 Nat Rate
-    type: VARCHAR
-  - name: ASC-18 Better
-    type: VARCHAR
-  - name: ASC-18 No Different
-    type: VARCHAR
-  - name: ASC-18 Worse
-    type: VARCHAR
-  - name: ASC-18 Too Small
-    type: VARCHAR
-  - name: ASC-19 Nat Rate
-    type: VARCHAR
-  - name: ASC-19 Better
-    type: VARCHAR
-  - name: ASC-19 No Different
-    type: VARCHAR
-  - name: ASC-19 Worse
-    type: VARCHAR
-  - name: ASC-19 Too Small
-    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: avg_asc_1_nat_rate
+    type: DOUBLE
+  - name: median_asc_1_nat_rate
+    type: DOUBLE
+  - name: avg_asc_2_nat_rate
+    type: DOUBLE
+  - name: median_asc_2_nat_rate
+    type: DOUBLE
+  - name: avg_asc_3_nat_rate
+    type: DOUBLE
+  - name: median_asc_3_nat_rate
+    type: DOUBLE
+  - name: avg_asc_4_nat_rate
+    type: DOUBLE
+  - name: median_asc_4_nat_rate
+    type: DOUBLE
+  - name: avg_asc_9_nat_rate
+    type: DOUBLE
+  - name: median_asc_9_nat_rate
+    type: DOUBLE
+  - name: avg_asc_11_nat_rate
+    type: DOUBLE
+  - name: median_asc_11_nat_rate
+    type: DOUBLE
+  - name: asc_12_nat_rate
+    type: DOUBLE
+  - name: asc_12_better
+    type: BIGINT
+  - name: asc_12_no_different
+    type: BIGINT
+  - name: asc_12_worse
+    type: BIGINT
+  - name: asc_12_too_small
+    type: BIGINT
+  - name: avg_asc_13_nat_rate
+    type: DOUBLE
+  - name: median_asc_13_nat_rate
+    type: DOUBLE
+  - name: avg_asc_14_nat_rate
+    type: DOUBLE
+  - name: median_asc_14_nat_rate
+    type: DOUBLE
+  - name: asc_17_nat_rate
+    type: DOUBLE
+  - name: asc_17_better
+    type: BIGINT
+  - name: asc_17_no_different
+    type: BIGINT
+  - name: asc_17_worse
+    type: BIGINT
+  - name: asc_17_too_small
+    type: BIGINT
+  - name: asc_18_nat_rate
+    type: DOUBLE
+  - name: asc_18_better
+    type: BIGINT
+  - name: asc_18_no_different
+    type: BIGINT
+  - name: asc_18_worse
+    type: BIGINT
+  - name: asc_18_too_small
+    type: BIGINT
+  - name: asc_19_nat_rate
+    type: DOUBLE
+  - name: asc_19_better
+    type: BIGINT
+  - name: asc_19_no_different
+    type: BIGINT
+  - name: asc_19_worse
+    type: BIGINT
+  - name: asc_19_too_small
+    type: BIGINT

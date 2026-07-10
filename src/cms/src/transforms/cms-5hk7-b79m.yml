@@ -1,16 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Facility ID]
-sort: [Facility ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-5hk7-b79m`. Regenerate after model-verify.
+key: [facility_id, value, footnote]
+temporal: start_date
+sort: [start_date, facility_id, value, footnote]
 columns:
-  - name: Facility ID
+  - name: facility_id
     type: VARCHAR
-  - name: Measure ID
+  - name: measure_id
     type: VARCHAR
-  - name: Value
+  - name: value
     type: VARCHAR
-  - name: Footnote
+  - name: footnote
     type: VARCHAR
-  - name: Start Date
+  - name: start_date
     type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

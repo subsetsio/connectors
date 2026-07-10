@@ -1,142 +1,143 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: YEAR
-sort: [YEAR]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-eaed338b-847e-41b1-a4d3-a206f40dc72b`. Regenerate after model-verify.
+key: [tot_alowd_amt, prvdr_id, prvdr_name, prvdr_zip, tot_srvc_days]
+sort: [tot_alowd_amt, prvdr_id, prvdr_name, prvdr_zip, tot_srvc_days]
 columns:
-  - name: YEAR
+  - name: year
+    type: BIGINT
+  - name: year_type
     type: VARCHAR
-  - name: YEAR_TYPE
+  - name: smry_ctgry
     type: VARCHAR
-  - name: SMRY_CTGRY
+  - name: srvc_ctgry
     type: VARCHAR
-  - name: SRVC_CTGRY
+  - name: prvdr_id
     type: VARCHAR
-  - name: PRVDR_ID
+  - name: prvdr_name
     type: VARCHAR
-  - name: PRVDR_NAME
+  - name: prvdr_city
     type: VARCHAR
-  - name: PRVDR_CITY
+  - name: state
     type: VARCHAR
-  - name: STATE
+  - name: prvdr_zip
     type: VARCHAR
-  - name: PRVDR_ZIP
+  - name: bene_dstnct_cnt
+    type: BIGINT
+  - name: tot_epsd_stay_cnt
+    type: BIGINT
+  - name: tot_srvc_days
+    type: BIGINT
+  - name: tot_chrg_amt
+    type: BIGINT
+  - name: tot_alowd_amt
+    type: BIGINT
+  - name: tot_mdcr_pymt_amt
+    type: BIGINT
+  - name: tot_mdcr_stdzd_pymt_amt
+    type: BIGINT
+  - name: bene_dual_pct
     type: VARCHAR
-  - name: BENE_DSTNCT_CNT
+  - name: bene_rrl_pct
     type: VARCHAR
-  - name: TOT_EPSD_STAY_CNT
+  - name: bene_avg_age
+    type: BIGINT
+  - name: bene_male_pct
     type: VARCHAR
-  - name: TOT_SRVC_DAYS
+  - name: bene_feml_pct
     type: VARCHAR
-  - name: TOT_CHRG_AMT
+  - name: bene_race_wht_pct
     type: VARCHAR
-  - name: TOT_ALOWD_AMT
+  - name: bene_race_black_pct
     type: VARCHAR
-  - name: TOT_MDCR_PYMT_AMT
+  - name: bene_race_api_pct
     type: VARCHAR
-  - name: TOT_MDCR_STDZD_PYMT_AMT
+  - name: bene_race_hspnc_pct
     type: VARCHAR
-  - name: BENE_DUAL_PCT
+  - name: bene_race_natind_pct
     type: VARCHAR
-  - name: BENE_RRL_PCT
+  - name: bene_race_unk_pct
     type: VARCHAR
-  - name: BENE_AVG_AGE
+  - name: bene_race_othr_pct
     type: VARCHAR
-  - name: BENE_MALE_PCT
+  - name: bene_avg_risk_scre
+    type: DOUBLE
+  - name: bene_cc_bh_adhd_othcd_v1_pct
     type: VARCHAR
-  - name: BENE_FEML_PCT
+  - name: bene_cc_bh_alcohol_drug_v1_pct
     type: VARCHAR
-  - name: BENE_RACE_WHT_PCT
+  - name: bene_cc_bh_alz_nonalzdem_v2_pct
     type: VARCHAR
-  - name: BENE_RACE_BLACK_PCT
+  - name: bene_cc_bh_anxiety_v1_pct
     type: VARCHAR
-  - name: BENE_RACE_API_PCT
+  - name: bene_cc_bh_bipolar_v1_pct
     type: VARCHAR
-  - name: BENE_RACE_HSPNC_PCT
+  - name: bene_cc_bh_depress_v1_pct
     type: VARCHAR
-  - name: BENE_RACE_NATIND_PCT
+  - name: bene_cc_bh_mood_v2_pct
     type: VARCHAR
-  - name: BENE_RACE_UNK_PCT
+  - name: bene_cc_bh_pd_v1_pct
     type: VARCHAR
-  - name: BENE_RACE_OTHR_PCT
+  - name: bene_cc_bh_ptsd_v1_pct
     type: VARCHAR
-  - name: BENE_AVG_RISK_SCRE
+  - name: bene_cc_bh_schizo_othpsy_v1_pct
     type: VARCHAR
-  - name: BENE_CC_BH_ADHD_OTHCD_V1_PCT
+  - name: bene_cc_bh_tobacco_v1_pct
     type: VARCHAR
-  - name: BENE_CC_BH_ALCOHOL_DRUG_V1_PCT
+  - name: bene_cc_ph_afib_v2_pct
     type: VARCHAR
-  - name: BENE_CC_BH_ALZ_NONALZDEM_V2_PCT
+  - name: bene_cc_ph_arthritis_v2_pct
     type: VARCHAR
-  - name: BENE_CC_BH_ANXIETY_V1_PCT
+  - name: bene_cc_ph_asthma_v2_pct
     type: VARCHAR
-  - name: BENE_CC_BH_BIPOLAR_V1_PCT
+  - name: bene_cc_ph_cancer6_v2_pct
     type: VARCHAR
-  - name: BENE_CC_BH_DEPRESS_V1_PCT
+  - name: bene_cc_ph_ckd_v2_pct
     type: VARCHAR
-  - name: BENE_CC_BH_MOOD_V2_PCT
+  - name: bene_cc_ph_copd_v2_pct
     type: VARCHAR
-  - name: BENE_CC_BH_PD_V1_PCT
+  - name: bene_cc_ph_diabetes_v2_pct
     type: VARCHAR
-  - name: BENE_CC_BH_PTSD_V1_PCT
+  - name: bene_cc_ph_hf_nonihd_v2_pct
     type: VARCHAR
-  - name: BENE_CC_BH_SCHIZO_OTHPSY_V1_PCT
+  - name: bene_cc_ph_hyperlipidemia_v2_pct
     type: VARCHAR
-  - name: BENE_CC_BH_TOBACCO_V1_PCT
+  - name: bene_cc_ph_hypertension_v2_pct
     type: VARCHAR
-  - name: BENE_CC_PH_AFIB_V2_PCT
+  - name: bene_cc_ph_ischemicheart_v2_pct
     type: VARCHAR
-  - name: BENE_CC_PH_ARTHRITIS_V2_PCT
+  - name: bene_cc_ph_osteoporosis_v2_pct
     type: VARCHAR
-  - name: BENE_CC_PH_ASTHMA_V2_PCT
+  - name: bene_cc_ph_parkinson_v2_pct
     type: VARCHAR
-  - name: BENE_CC_PH_CANCER6_V2_PCT
+  - name: bene_cc_ph_stroke_tia_v2_pct
     type: VARCHAR
-  - name: BENE_CC_PH_CKD_V2_PCT
+  - name: prmry_dx_infctn_pct
     type: VARCHAR
-  - name: BENE_CC_PH_COPD_V2_PCT
+  - name: prmry_dx_neobld_pct
     type: VARCHAR
-  - name: BENE_CC_PH_DIABETES_V2_PCT
+  - name: prmry_dx_endonutrmet_pct
     type: VARCHAR
-  - name: BENE_CC_PH_HF_NONIHD_V2_PCT
+  - name: prmry_dx_mntbehneudis_pct
     type: VARCHAR
-  - name: BENE_CC_PH_HYPERLIPIDEMIA_V2_PCT
+  - name: prmry_dx_nervsystm_pct
     type: VARCHAR
-  - name: BENE_CC_PH_HYPERTENSION_V2_PCT
+  - name: prmry_dx_entsys_pct
     type: VARCHAR
-  - name: BENE_CC_PH_ISCHEMICHEART_V2_PCT
+  - name: prmry_dx_circsystm_pct
     type: VARCHAR
-  - name: BENE_CC_PH_OSTEOPOROSIS_V2_PCT
+  - name: prmry_dx_rspsystm_pct
     type: VARCHAR
-  - name: BENE_CC_PH_PARKINSON_V2_PCT
+  - name: prmry_dx_digsystm_pct
     type: VARCHAR
-  - name: BENE_CC_PH_STROKE_TIA_V2_PCT
+  - name: prmry_dx_sknmussystm_pct
     type: VARCHAR
-  - name: PRMRY_DX_INFCTN_PCT
+  - name: prmry_dx_gusystm_pct
     type: VARCHAR
-  - name: PRMRY_DX_NEOBLD_PCT
+  - name: prmry_dx_prgpericong_pct
     type: VARCHAR
-  - name: PRMRY_DX_ENDONUTRMET_PCT
+  - name: prmry_dx_sxilldef_pct
     type: VARCHAR
-  - name: PRMRY_DX_MNTBEHNEUDIS_PCT
+  - name: prmry_dx_injpois_pct
     type: VARCHAR
-  - name: PRMRY_DX_NERVSYSTM_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_ENTSYS_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_CIRCSYSTM_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_RSPSYSTM_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_DIGSYSTM_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_SKNMUSSYSTM_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_GUSYSTM_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_PRGPERICONG_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_SXILLDEF_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_INJPOIS_PCT
-    type: VARCHAR
-  - name: PRMRY_DX_HLTHSRV_PCT
+  - name: prmry_dx_hlthsrv_pct
     type: VARCHAR

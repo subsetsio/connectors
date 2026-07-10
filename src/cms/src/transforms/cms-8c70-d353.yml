@@ -1,8 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-8c70-d353`. Regenerate after model-verify.
+key: [facility_name, org_pac_id, measure_cd, measure_title, fn]
+sort: [facility_name, org_pac_id, measure_cd, measure_title, fn]
 columns:
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: org_PAC_ID
+  - name: org_pac_id
     type: VARCHAR
   - name: measure_cd
     type: VARCHAR
@@ -12,5 +15,5 @@ columns:
     type: VARCHAR
   - name: patient_count
     type: VARCHAR
-  - name: FN
+  - name: fn
     type: VARCHAR

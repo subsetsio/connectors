@@ -1,30 +1,31 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: Year
-sort: [Year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-939226be-b107-476e-8777-f199a840138a`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: Year
-    type: VARCHAR
+  - name: year
+    type: BIGINT
   - name: quarter
     type: VARCHAR
-  - name: Bene_Geo_Desc
+  - name: bene_geo_desc
     type: VARCHAR
-  - name: Bene_Mdcd_Mdcr_Enrl_Stus
+  - name: bene_mdcd_mdcr_enrl_stus
     type: VARCHAR
-  - name: Bene_Race_Desc
+  - name: bene_race_desc
     type: VARCHAR
-  - name: Bene_Sex_Desc
+  - name: bene_sex_desc
     type: VARCHAR
-  - name: Bene_Mdcr_Entlmt_Stus
+  - name: bene_mdcr_entlmt_stus
     type: VARCHAR
-  - name: Bene_Age_Desc
+  - name: bene_age_desc
     type: VARCHAR
-  - name: Bene_RUCA_Desc
+  - name: bene_ruca_desc
     type: VARCHAR
-  - name: Total_Bene_TH_Elig
+  - name: total_bene_th_elig
     type: VARCHAR
-  - name: Total_PartB_Enrl
+  - name: total_partb_enrl
     type: VARCHAR
-  - name: Total_Bene_Telehealth
+  - name: total_bene_telehealth
     type: VARCHAR
-  - name: Pct_Telehealth
+  - name: pct_telehealth
     type: VARCHAR

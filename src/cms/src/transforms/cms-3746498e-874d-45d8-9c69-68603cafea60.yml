@@ -1,28 +1,31 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-3746498e-874d-45d8-9c69-68603cafea60`. Regenerate after model-verify.
+key: [enrollment_id, national_provider_identifier, last_name, organization_name, first_name]
+sort: [enrollment_id, national_provider_identifier, last_name, organization_name, first_name]
 columns:
-  - name: Enrollment ID
+  - name: enrollment_id
     type: VARCHAR
-  - name: National Provider Identifier
+  - name: national_provider_identifier
     type: VARCHAR
-  - name: First Name
+  - name: first_name
     type: VARCHAR
-  - name: Last Name
+  - name: last_name
     type: VARCHAR
-  - name: Organization Name
+  - name: organization_name
     type: VARCHAR
-  - name: Enrollment State Code
+  - name: enrollment_state_code
     type: VARCHAR
-  - name: Enrollment Type
+  - name: enrollment_type
+    type: BIGINT
+  - name: provider_type_text
     type: VARCHAR
-  - name: Provider Type Text
+  - name: enrollment_specialty
     type: VARCHAR
-  - name: Enrollment Specialty
+  - name: revalidation_due_date
     type: VARCHAR
-  - name: Revalidation Due Date
+  - name: adjusted_due_date
     type: VARCHAR
-  - name: Adjusted Due Date
+  - name: individual_total_reassign_to
     type: VARCHAR
-  - name: Individual Total Reassign To
-    type: VARCHAR
-  - name: Receiving Benefits Reassignment
+  - name: receiving_benefits_reassignment
     type: VARCHAR

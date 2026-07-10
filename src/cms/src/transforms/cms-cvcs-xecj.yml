@@ -1,30 +1,34 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-cvcs-xecj`. Regenerate after model-verify.
+key: [measure_name]
+temporal: start_date
+sort: [start_date, measure_name]
 columns:
-  - name: Measure ID
+  - name: measure_id
     type: VARCHAR
-  - name: Measure Name
+  - name: measure_name
     type: VARCHAR
-  - name: National Rate
+  - name: national_rate
     type: VARCHAR
-  - name: Number of Hospitals Worse
+  - name: number_of_hospitals_worse
     type: VARCHAR
-  - name: Number of Hospitals Same
+  - name: number_of_hospitals_same
     type: VARCHAR
-  - name: Number of Hospitals Better
+  - name: number_of_hospitals_better
     type: VARCHAR
-  - name: Number of Hospitals Too Few
+  - name: number_of_hospitals_too_few
     type: VARCHAR
-  - name: Footnote
+  - name: footnote
     type: VARCHAR
-  - name: Start Date
+  - name: start_date
     type: VARCHAR
-  - name: End Date
+  - name: end_date
+    type: DATE
+  - name: number_of_hospitals_fewer
     type: VARCHAR
-  - name: Number of Hospitals Fewer
+  - name: number_of_hospitals_average
     type: VARCHAR
-  - name: Number of Hospitals Average
+  - name: number_of_hospitals_more
     type: VARCHAR
-  - name: Number of Hospitals More
-    type: VARCHAR
-  - name: Number of Hospitals Too Small
+  - name: number_of_hospitals_too_small
     type: VARCHAR

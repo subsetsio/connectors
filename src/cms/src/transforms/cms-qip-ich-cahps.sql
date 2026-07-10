@@ -1,2 +1,43 @@
-SET arrow_large_buffer_size=true;
-SELECT * FROM "cms-qip-ich-cahps"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "Facility Name" AS facility_name,
+    "CMS Certification Number (CCN)" AS cms_certification_number_ccn,
+    "Alternate CCN" AS alternate_ccn,
+    "Address" AS address,
+    "City" AS city,
+    "State" AS state,
+    "Zip Code" AS zip_code,
+    CAST("Network" AS BIGINT) AS network,
+    "Measure Name" AS measure_name,
+    "Neph Comm and Caring Achievement Measure Rate" AS neph_comm_and_caring_achievement_measure_rate,
+    "Neph Comm and Caring Measure Score" AS neph_comm_and_caring_measure_score,
+    CAST("State Average Neph Comm and Caring Measure Score" AS BIGINT) AS state_average_neph_comm_and_caring_measure_score,
+    CAST("National Average Neph Comm and Caring Measure Score" AS BIGINT) AS national_average_neph_comm_and_caring_measure_score,
+    "Quality of Dialysis Care and Ops Achievement Measure Rate" AS quality_of_dialysis_care_and_ops_achievement_measure_rate,
+    "Quality of Dialysis Care and Ops Measure Score" AS quality_of_dialysis_care_and_ops_measure_score,
+    CAST("State Average Quality of Dialysis Care and Ops Measure Score" AS BIGINT) AS state_average_quality_of_dialysis_care_and_ops_measure_score,
+    CAST("National Average Quality of Dialysis Care and Ops Measure Score" AS BIGINT) AS national_average_quality_of_dialysis_care_and_ops_measure_score,
+    "Providing Info to Patients Achievement Measure Rate" AS providing_info_to_patients_achievement_measure_rate,
+    "Providing Info to Patients Measure Score" AS providing_info_to_patients_measure_score,
+    CAST("State Average Providing Info to Patients Measure Score" AS BIGINT) AS state_average_providing_info_to_patients_measure_score,
+    CAST("National Average Providing Info to Patients Measure Score" AS BIGINT) AS national_average_providing_info_to_patients_measure_score,
+    "Overall Rating of Neph Achievement Measure Rate" AS overall_rating_of_neph_achievement_measure_rate,
+    "Overall Rating of Neph Measure Score" AS overall_rating_of_neph_measure_score,
+    CAST("State Average Overall Rating of Neph Measure Score" AS BIGINT) AS state_average_overall_rating_of_neph_measure_score,
+    CAST("National Average Overall Rating of Neph Measure Score" AS BIGINT) AS national_average_overall_rating_of_neph_measure_score,
+    "Overall Rating of Dialysis Staff Achievement Measure Rate" AS overall_rating_of_dialysis_staff_achievement_measure_rate,
+    "Overall Rating of Dialysis Staff Measure Score" AS overall_rating_of_dialysis_staff_measure_score,
+    CAST("State Average Overall Rating of Dialysis Staff Measure Score" AS BIGINT) AS state_average_overall_rating_of_dialysis_staff_measure_score,
+    CAST("National Average Overall Rating of Dialysis Staff Measure Score" AS BIGINT) AS national_average_overall_rating_of_dialysis_staff_measure_score,
+    "Overall Rating of Dialysis Facility Achievement Measure Rate" AS overall_rating_of_dialysis_facility_achievement_measure_rate,
+    "Overall Rating of Dialysis Facility Measure Score" AS overall_rating_of_dialysis_facility_measure_score,
+    CAST("State Average Overall Rating of Dialysis Facility Measure Score" AS BIGINT) AS state_average_overall_rating_of_dialysis_facility_measure_score,
+    CAST("National Average Overall Rating of Dialysis Facility Measure Score" AS BIGINT) AS national_average_overall_rating_of_dialysis_facility_measure_score,
+    "ICHCAHPS Measure Score" AS ichcahps_measure_score,
+    "ICH CAHPS Reason for No Score (See Footnotes File)" AS ich_cahps_reason_for_no_score_see_footnotes_file,
+    CAST("State Average ICH CAHPS Measure Score" AS BIGINT) AS state_average_ich_cahps_measure_score,
+    CAST("National Average ICH CAHPS Measure Score" AS BIGINT) AS national_average_ich_cahps_measure_score
+FROM "cms-qip-ich-cahps"

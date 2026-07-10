@@ -1,18 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-vxub-6swi`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: Country
+  - name: country
     type: VARCHAR
-  - name: Percent of patients who reported that their home health team gave care in a professional way
-    type: VARCHAR
-  - name: Percent of patients who reported that their home health team communicated well with them
-    type: VARCHAR
-  - name: Percent of patients who reported that their home health team discussed medicines, pain, and home safety with them
-    type: VARCHAR
-  - name: Percent of patients who gave their home health agency a rating of 9 or 10 on a scale from 0 (lowest) to 10 (highest)
-    type: VARCHAR
-  - name: Percent of patients who reported YES, they would definitely recommend the home health agency to friends and family
-    type: VARCHAR
-  - name: Number of completed Surveys
-    type: VARCHAR
-  - name: Survey response rate
-    type: VARCHAR
+  - name: percent_of_patients_who_reported_that_their_home_health_team_gave_care_in_a_professional_way
+    type: BIGINT
+  - name: percent_of_patients_who_reported_that_their_home_health_team_communicated_well_with_them
+    type: BIGINT
+  - name: percent_of_patients_who_reported_that_their_home_health_team_discussed_medicines_pain_and_home_safety_with_them
+    type: BIGINT
+  - name: percent_of_patients_who_gave_their_home_health_agency_a_rating_of_9_or_10_on_a_scale_from_0_lowest_to_10_highest
+    type: BIGINT
+  - name: percent_of_patients_who_reported_yes_they_would_definitely_recommend_the_home_health_agency_to_friends_and_family
+    type: BIGINT
+  - name: number_of_completed_surveys
+    type: BIGINT
+  - name: survey_response_rate
+    type: BIGINT

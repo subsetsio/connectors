@@ -1,44 +1,47 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-4bcae866-3411-439a-b762-90a6187c194b`. Regenerate after model-verify.
+key: [enrollment_id]
+sort: [enrollment_id]
 columns:
-  - name: ENROLLMENT ID
+  - name: enrollment_id
     type: VARCHAR
-  - name: ENROLLMENT STATE
+  - name: enrollment_state
     type: VARCHAR
-  - name: PROVIDER TYPE CODE
+  - name: provider_type_code
     type: VARCHAR
-  - name: PROVIDER TYPE TEXT
+  - name: provider_type_text
     type: VARCHAR
-  - name: NPI
+  - name: npi
+    type: BIGINT
+  - name: multiple_npi_flag
     type: VARCHAR
-  - name: MULTIPLE NPI FLAG
+  - name: ccn
     type: VARCHAR
-  - name: CCN
+  - name: associate_id
     type: VARCHAR
-  - name: ASSOCIATE ID
+  - name: organization_name
     type: VARCHAR
-  - name: ORGANIZATION NAME
+  - name: doing_business_as_name
     type: VARCHAR
-  - name: DOING BUSINESS AS NAME
+  - name: incorporation_date
     type: VARCHAR
-  - name: INCORPORATION DATE
+  - name: incorporation_state
     type: VARCHAR
-  - name: INCORPORATION STATE
+  - name: organization_type_structure
     type: VARCHAR
-  - name: ORGANIZATION TYPE STRUCTURE
+  - name: organization_other_type_text
     type: VARCHAR
-  - name: ORGANIZATION OTHER TYPE TEXT
+  - name: proprietary_nonprofit
     type: VARCHAR
-  - name: PROPRIETARY_NONPROFIT
+  - name: address_line_1
     type: VARCHAR
-  - name: ADDRESS LINE 1
+  - name: address_line_2
     type: VARCHAR
-  - name: ADDRESS LINE 2
+  - name: city
     type: VARCHAR
-  - name: CITY
+  - name: state
     type: VARCHAR
-  - name: STATE
+  - name: zip_code
     type: VARCHAR
-  - name: ZIP CODE
-    type: VARCHAR
-  - name: TELEPHONE NUMBER
+  - name: telephone_number
     type: VARCHAR

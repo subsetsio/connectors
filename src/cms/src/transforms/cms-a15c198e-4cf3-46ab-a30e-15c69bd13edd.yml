@@ -1,30 +1,31 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Unique ID]
-sort: [Unique ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-a15c198e-4cf3-46ab-a30e-15c69bd13edd`. Regenerate after model-verify.
+key: [unique_id]
+sort: [unique_id]
 columns:
-  - name: Name of Initiative
+  - name: name_of_initiative
     type: VARCHAR
-  - name: Organization Name
+  - name: organization_name
     type: VARCHAR
-  - name: Location Name
+  - name: location_name
     type: VARCHAR
-  - name: Location 1
+  - name: location_1
     type: VARCHAR
-  - name: Street Address Line 1
+  - name: street_address_line_1
     type: VARCHAR
-  - name: Street Address Line 2
+  - name: street_address_line_2
     type: VARCHAR
-  - name: City
+  - name: city
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: ZIP Code
+  - name: zip_code
+    type: BIGINT
+  - name: telephone_number
     type: VARCHAR
-  - name: Telephone Number
+  - name: npi
+    type: BIGINT
+  - name: category
     type: VARCHAR
-  - name: NPI
-    type: VARCHAR
-  - name: Category
-    type: VARCHAR
-  - name: Unique ID
-    type: VARCHAR
+  - name: unique_id
+    type: BIGINT

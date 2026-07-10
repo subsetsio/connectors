@@ -1,42 +1,43 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: Year
-sort: [Year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-2684c3e2-3598-4997-a598-0991bad6fbf2`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: Year
+  - name: year
+    type: BIGINT
+  - name: month
     type: VARCHAR
-  - name: Month
+  - name: bene_geo_desc
     type: VARCHAR
-  - name: Bene_Geo_Desc
+  - name: bene_mdcd_mdcr_enrl_stus
     type: VARCHAR
-  - name: Bene_Mdcd_Mdcr_Enrl_Stus
+  - name: bene_race_desc
     type: VARCHAR
-  - name: Bene_Race_Desc
+  - name: bene_sex_desc
     type: VARCHAR
-  - name: Bene_Sex_Desc
+  - name: bene_mdcr_entlmt_stus
     type: VARCHAR
-  - name: Bene_Mdcr_Entlmt_Stus
+  - name: bene_age_desc
     type: VARCHAR
-  - name: Bene_Age_Desc
+  - name: bene_ruca_desc
     type: VARCHAR
-  - name: Bene_RUCA_Desc
+  - name: total_hosp
     type: VARCHAR
-  - name: Total_Hosp
+  - name: total_enrl
     type: VARCHAR
-  - name: Total_Enrl
+  - name: total_hosp_per100k
     type: VARCHAR
-  - name: Total_Hosp_Per100K
+  - name: avg_los
     type: VARCHAR
-  - name: Avg_LOS
+  - name: pct_dschrg_snf
     type: VARCHAR
-  - name: Pct_Dschrg_SNF
+  - name: pct_dschrg_expired
     type: VARCHAR
-  - name: Pct_Dschrg_Expired
+  - name: pct_dschrg_home
     type: VARCHAR
-  - name: Pct_Dschrg_Home
+  - name: pct_dschrg_hspc
     type: VARCHAR
-  - name: Pct_Dschrg_Hspc
+  - name: pct_dschrg_homehealth
     type: VARCHAR
-  - name: Pct_Dschrg_HomeHealth
-    type: VARCHAR
-  - name: Pct_Dschrg_Other
+  - name: pct_dschrg_other
     type: VARCHAR

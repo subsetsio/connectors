@@ -1,32 +1,35 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-e1f1fa9a-d6b4-417e-948a-c72dead8a41c`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: Group PAC ID
+  - name: group_pac_id
+    type: BIGINT
+  - name: group_enrollment_id
     type: VARCHAR
-  - name: Group Enrollment ID
+  - name: group_legal_business_name
     type: VARCHAR
-  - name: Group Legal Business Name
+  - name: group_state_code
     type: VARCHAR
-  - name: Group State Code
+  - name: group_due_date
     type: VARCHAR
-  - name: Group Due Date
+  - name: group_reassignments_and_physician_assistants
+    type: BIGINT
+  - name: record_type
     type: VARCHAR
-  - name: Group Reassignments and Physician Assistants
+  - name: individual_enrollment_id
     type: VARCHAR
-  - name: Record Type
+  - name: individual_npi
     type: VARCHAR
-  - name: Individual Enrollment ID
+  - name: individual_first_name
     type: VARCHAR
-  - name: Individual NPI
+  - name: individual_last_name
     type: VARCHAR
-  - name: Individual First Name
+  - name: individual_state_code
     type: VARCHAR
-  - name: Individual Last Name
+  - name: individual_specialty_description
     type: VARCHAR
-  - name: Individual State Code
+  - name: individual_due_date
     type: VARCHAR
-  - name: Individual Specialty Description
-    type: VARCHAR
-  - name: Individual Due Date
-    type: VARCHAR
-  - name: Individual Total Employer Associations
-    type: VARCHAR
+  - name: individual_total_employer_associations
+    type: BIGINT

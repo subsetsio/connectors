@@ -1,18 +1,22 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-84jm-wiui`. Regenerate after model-verify.
+key: [hcahps_answer_percent, state, hcahps_answer_description, hcahps_measure_id, hcahps_question]
+temporal: start_date
+sort: [start_date, hcahps_answer_percent, state, hcahps_answer_description, hcahps_measure_id, hcahps_question]
 columns:
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: HCAHPS Measure ID
+  - name: hcahps_measure_id
     type: VARCHAR
-  - name: HCAHPS Question
+  - name: hcahps_question
     type: VARCHAR
-  - name: HCAHPS Answer Description
+  - name: hcahps_answer_description
     type: VARCHAR
-  - name: HCAHPS Answer Percent
+  - name: hcahps_answer_percent
     type: VARCHAR
-  - name: Footnote
+  - name: footnote
     type: VARCHAR
-  - name: Start Date
+  - name: start_date
     type: VARCHAR
-  - name: End Date
-    type: VARCHAR
+  - name: end_date
+    type: DATE

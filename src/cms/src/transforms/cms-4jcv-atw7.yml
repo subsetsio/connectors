@@ -1,98 +1,99 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: Year
-sort: [Year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-4jcv-atw7`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: Facility ID
+  - name: facility_id
     type: VARCHAR
-  - name: NPI
+  - name: npi
+    type: BIGINT
+  - name: city_town
     type: VARCHAR
-  - name: City/Town
+  - name: state
     type: VARCHAR
-  - name: State
+  - name: zip_code
     type: VARCHAR
-  - name: ZIP Code
+  - name: year
+    type: BIGINT
+  - name: asc_1_rate
     type: VARCHAR
-  - name: Year
+  - name: asc_1_footnote
     type: VARCHAR
-  - name: ASC-1 Rate*
+  - name: asc_2_rate
     type: VARCHAR
-  - name: ASC-1 Footnote
+  - name: asc_2_footnote
     type: VARCHAR
-  - name: ASC-2 Rate*
+  - name: asc_3_rate
     type: VARCHAR
-  - name: ASC-2 Footnote
+  - name: asc_3_footnote
     type: VARCHAR
-  - name: ASC-3 Rate*
+  - name: asc_4_rate
     type: VARCHAR
-  - name: ASC-3 Footnote
+  - name: asc_4_footnote
     type: VARCHAR
-  - name: ASC-4 Rate*
+  - name: asc_9_rate
     type: VARCHAR
-  - name: ASC-4 Footnote
+  - name: asc_9_footnote
     type: VARCHAR
-  - name: ASC-9 Rate*
+  - name: asc_11_rate
     type: VARCHAR
-  - name: ASC-9 Footnote
+  - name: asc_11_footnote
     type: VARCHAR
-  - name: ASC-11 Rate*
+  - name: asc_12_total_cases
     type: VARCHAR
-  - name: ASC-11 Footnote
+  - name: asc_12_performance_category
     type: VARCHAR
-  - name: ASC-12 Total Cases
+  - name: asc_12_rshv_rate
     type: VARCHAR
-  - name: ASC-12 Performance Category
+  - name: asc_12_interval_lower_limit
     type: VARCHAR
-  - name: ASC-12 RSHV Rate
+  - name: asc_12_interval_upper_limit
     type: VARCHAR
-  - name: ASC-12 Interval Lower Limit
+  - name: asc_12_footnote
     type: VARCHAR
-  - name: ASC-12 Interval Upper Limit
+  - name: asc_13_rate
     type: VARCHAR
-  - name: ASC-12 Footnote
+  - name: asc_13_footnote
     type: VARCHAR
-  - name: ASC-13 Rate*
+  - name: asc_14_rate
     type: VARCHAR
-  - name: ASC-13 Footnote
+  - name: asc_14_footnote
     type: VARCHAR
-  - name: ASC-14 Rate*
+  - name: asc_17_total_cases
     type: VARCHAR
-  - name: ASC-14 Footnote
+  - name: asc_17_performance_category
     type: VARCHAR
-  - name: ASC-17 Total Cases
+  - name: asc_17_rshv_rate
     type: VARCHAR
-  - name: ASC-17 Performance Category
+  - name: asc_17_interval_lower_limit
     type: VARCHAR
-  - name: ASC-17 RSHV Rate
+  - name: asc_17_interval_upper_limit
     type: VARCHAR
-  - name: ASC-17 Interval Lower Limit
+  - name: asc_17_footnote
     type: VARCHAR
-  - name: ASC-17 Interval Upper Limit
+  - name: asc_18_total_cases
     type: VARCHAR
-  - name: ASC-17 Footnote
+  - name: asc_18_performance_category
     type: VARCHAR
-  - name: ASC-18 Total Cases
+  - name: asc_18_rshv_rate
     type: VARCHAR
-  - name: ASC-18 Performance Category
+  - name: asc_18_interval_lower_limit
     type: VARCHAR
-  - name: ASC-18 RSHV Rate
+  - name: asc_18_interval_upper_limit
     type: VARCHAR
-  - name: ASC-18 Interval Lower Limit
+  - name: asc_18_footnote
     type: VARCHAR
-  - name: ASC-18 Interval Upper Limit
+  - name: asc_19_total_cases
     type: VARCHAR
-  - name: ASC-18 Footnote
+  - name: asc_19_performance_category
     type: VARCHAR
-  - name: ASC-19 Total Cases
+  - name: asc_19_rshv_rate
     type: VARCHAR
-  - name: ASC-19 Performance Category
+  - name: asc_19_interval_lower_limit
     type: VARCHAR
-  - name: ASC-19 RSHV Rate
+  - name: asc_19_interval_upper_limit
     type: VARCHAR
-  - name: ASC-19 Interval Lower Limit
-    type: VARCHAR
-  - name: ASC-19 Interval Upper Limit
-    type: VARCHAR
-  - name: ASC-19 Footnote
+  - name: asc_19_footnote
     type: VARCHAR

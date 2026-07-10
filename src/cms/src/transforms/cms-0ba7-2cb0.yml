@@ -1,16 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-0ba7-2cb0`. Regenerate after model-verify.
+key: [facility_name, org_pac_id, aco_id_1, aco_nm_1, measure_cd]
+sort: [facility_name, org_pac_id, aco_id_1, aco_nm_1, measure_cd]
 columns:
-  - name: Facility Name
+  - name: facility_name
     type: VARCHAR
-  - name: org_PAC_ID
+  - name: org_pac_id
     type: VARCHAR
-  - name: ACO_ID_1
+  - name: aco_id_1
     type: VARCHAR
-  - name: ACO_nm_1
+  - name: aco_nm_1
     type: VARCHAR
-  - name: ACO_ID_2
+  - name: aco_id_2
     type: VARCHAR
-  - name: ACO_nm_2
+  - name: aco_nm_2
     type: VARCHAR
   - name: measure_cd
     type: VARCHAR
@@ -30,5 +33,5 @@ columns:
     type: VARCHAR
   - name: collection_type
     type: VARCHAR
-  - name: CCXP_ind
+  - name: ccxp_ind
     type: VARCHAR

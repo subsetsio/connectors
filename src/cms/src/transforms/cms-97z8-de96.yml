@@ -1,82 +1,85 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-97z8-de96`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
-  - name: Country
+  - name: country
     type: VARCHAR
-  - name: Quality of Patient Care Star Rating
+  - name: quality_of_patient_care_star_rating
+    type: BIGINT
+  - name: star_rating_1_percentage
+    type: DOUBLE
+  - name: star_rating_1_5_percentage
+    type: DOUBLE
+  - name: star_rating_2_percentage
+    type: DOUBLE
+  - name: star_rating_2_5_percentage
+    type: DOUBLE
+  - name: star_rating_3_percentage
+    type: DOUBLE
+  - name: star_rating_3_5_percentage
+    type: DOUBLE
+  - name: star_rating_4_percentage
+    type: DOUBLE
+  - name: star_rating_4_5_percentage
+    type: DOUBLE
+  - name: star_rating_5_percentage
+    type: DOUBLE
+  - name: how_often_the_home_health_team_began_their_patients_care_in_a_timely_manner
+    type: DOUBLE
+  - name: how_often_the_home_health_team_determined_whether_patients_received_a_flu_shot_for_the_current_flu_season
+    type: DOUBLE
+  - name: how_often_patients_got_better_at_walking_or_moving_around
+    type: DOUBLE
+  - name: how_often_patients_got_better_at_getting_in_and_out_of_bed
+    type: DOUBLE
+  - name: how_often_patients_got_better_at_bathing
+    type: DOUBLE
+  - name: how_often_patients_breathing_improved
+    type: DOUBLE
+  - name: how_often_patients_got_better_at_taking_their_drugs_correctly_by_mouth
+    type: DOUBLE
+  - name: changes_in_skin_integrity_post_acute_care_pressure_ulcer_injury
+    type: DOUBLE
+  - name: how_often_physician_recommended_actions_to_address_medication_issues_were_completely_timely
+    type: DOUBLE
+  - name: percent_of_residents_experiencing_one_or_more_falls_with_major_injury
+    type: DOUBLE
+  - name: discharge_function_score
+    type: DOUBLE
+  - name: transfer_of_health_information_to_the_provider
+    type: DOUBLE
+  - name: transfer_of_health_information_to_the_patient
+    type: DOUBLE
+  - name: ppr_number_of_hhas_that_performed_better_than_the_national_observed_rate
+    type: BIGINT
+  - name: ppr_number_of_hhas_that_performed_no_different_than_the_national_observed_rate
     type: VARCHAR
-  - name: Star Rating 1 Percentage
+  - name: ppr_number_of_hhas_that_performed_worse_than_the_national_observed_rate
+    type: BIGINT
+  - name: ppr_number_of_hhas_that_have_too_few_cases_for_public_reporting
     type: VARCHAR
-  - name: Star Rating 1.5 Percentage
+  - name: ppr_national_observed_rate
+    type: DOUBLE
+  - name: dtc_number_of_hhas_that_performed_better_than_the_national_observed_rate
     type: VARCHAR
-  - name: Star Rating 2 Percentage
+  - name: dtc_number_of_hhas_that_performed_no_different_than_the_national_observed_rate
     type: VARCHAR
-  - name: Star Rating 2.5 Percentage
+  - name: dtc_number_of_hhas_that_performed_worse_than_the_national_observed_rate
     type: VARCHAR
-  - name: Star Rating 3 Percentage
+  - name: dtc_number_of_hhas_that_have_too_few_cases_for_public_reporting
     type: VARCHAR
-  - name: Star Rating 3.5 Percentage
+  - name: dtc_national_observed_rate
+    type: DOUBLE
+  - name: pph_number_of_hhas_that_performed_better_than_the_national_observed_rate
+    type: BIGINT
+  - name: pph_number_of_hhas_that_performed_no_different_than_the_national_observed_rate
     type: VARCHAR
-  - name: Star Rating 4 Percentage
+  - name: pph_number_of_hhas_that_performed_worse_than_the_national_observed_rate
+    type: BIGINT
+  - name: pph_number_of_hhas_that_have_too_few_cases_for_public_reporting
     type: VARCHAR
-  - name: Star Rating 4.5 Percentage
-    type: VARCHAR
-  - name: Star Rating 5 Percentage
-    type: VARCHAR
-  - name: How often the home health team began their patients' care in a timely manner
-    type: VARCHAR
-  - name: How often the home health team determined whether patients received a flu shot for the current flu season
-    type: VARCHAR
-  - name: How often patients got better at walking or moving around
-    type: VARCHAR
-  - name: How often patients got better at getting in and out of bed
-    type: VARCHAR
-  - name: How often patients got better at bathing
-    type: VARCHAR
-  - name: How often patients' breathing improved
-    type: VARCHAR
-  - name: How often patients got better at taking their drugs correctly by mouth
-    type: VARCHAR
-  - name: "Changes in Skin Integrity post-acute care: pressure ulcer/injury"
-    type: VARCHAR
-  - name: How often physician-recommended actions to address medication issues were completely timely
-    type: VARCHAR
-  - name: Percent of Residents Experiencing One or More Falls with Major Injury
-    type: VARCHAR
-  - name: Discharge Function Score
-    type: VARCHAR
-  - name: Transfer of Health Information to the Provider
-    type: VARCHAR
-  - name: Transfer of Health Information to the Patient
-    type: VARCHAR
-  - name: PPR Number of HHAs that Performed Better than the National Observed Rate
-    type: VARCHAR
-  - name: PPR Number of HHAs that Performed No Different than the National Observed Rate
-    type: VARCHAR
-  - name: PPR Number of HHAs that Performed Worse than the National Observed Rate
-    type: VARCHAR
-  - name: PPR Number of HHAs that Have Too Few Cases for Public Reporting
-    type: VARCHAR
-  - name: PPR National Observed Rate
-    type: VARCHAR
-  - name: DTC Number of HHAs that Performed Better than the National Observed Rate
-    type: VARCHAR
-  - name: DTC Number of HHAs that Performed No Different than the National Observed Rate
-    type: VARCHAR
-  - name: DTC Number of HHAs that Performed Worse than the National Observed Rate
-    type: VARCHAR
-  - name: DTC Number of HHAs that Have Too Few Cases for Public Reporting
-    type: VARCHAR
-  - name: DTC National Observed Rate
-    type: VARCHAR
-  - name: PPH Number of HHAs that Performed Better than the National Observed Rate
-    type: VARCHAR
-  - name: PPH Number of HHAs that Performed No Different than the National Observed Rate
-    type: VARCHAR
-  - name: PPH Number of HHAs that Performed Worse than the National Observed Rate
-    type: VARCHAR
-  - name: PPH Number of HHAs that Have Too Few Cases for Public Reporting
-    type: VARCHAR
-  - name: PPH National Observed Rate
-    type: VARCHAR
-  - name: How much Medicare spends on an episode of care at this agency, compared to Medicare spending across all agencies nationally
-    type: VARCHAR
+  - name: pph_national_observed_rate
+    type: DOUBLE
+  - name: how_much_medicare_spends_on_an_episode_of_care_at_this_agency_compared_to_medicare_spending_across_all_agencies_nationally
+    type: DOUBLE

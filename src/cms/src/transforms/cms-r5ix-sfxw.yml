@@ -1,48 +1,53 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-r5ix-sfxw`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
+temporal: survey_date
+sort: [survey_date]
 columns:
-  - name: CMS Certification Number (CCN)
+  - name: cms_certification_number_ccn
     type: VARCHAR
-  - name: Provider Name
+  - name: provider_name
     type: VARCHAR
-  - name: Provider Address
+  - name: provider_address
     type: VARCHAR
-  - name: City/Town
+  - name: city_town
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: ZIP Code
+  - name: zip_code
     type: VARCHAR
-  - name: Survey Date
+  - name: survey_date
     type: DATE
-  - name: Survey Type
+  - name: survey_type
     type: VARCHAR
-  - name: Deficiency Prefix
+  - name: deficiency_prefix
     type: VARCHAR
-  - name: Deficiency Category
+  - name: deficiency_category
     type: VARCHAR
-  - name: Deficiency Tag Number
+  - name: deficiency_tag_number
     type: VARCHAR
-  - name: Deficiency Description
+  - name: deficiency_description
     type: VARCHAR
-  - name: Scope Severity Code
+  - name: scope_severity_code
     type: VARCHAR
-  - name: Deficiency Corrected
+  - name: deficiency_corrected
     type: VARCHAR
-  - name: Correction Date
+  - name: correction_date
     type: VARCHAR
-  - name: Inspection Cycle
+  - name: inspection_cycle
+    type: BIGINT
+  - name: standard_deficiency
     type: VARCHAR
-  - name: Standard Deficiency
+  - name: complaint_deficiency
     type: VARCHAR
-  - name: Complaint Deficiency
+  - name: infection_control_inspection_deficiency
     type: VARCHAR
-  - name: Infection Control Inspection Deficiency
+  - name: citation_under_idr
     type: VARCHAR
-  - name: Citation under IDR
+  - name: citation_under_iidr
     type: VARCHAR
-  - name: Citation under IIDR
+  - name: location
     type: VARCHAR
-  - name: Location
-    type: VARCHAR
-  - name: Processing Date
+  - name: processing_date
     type: DATE

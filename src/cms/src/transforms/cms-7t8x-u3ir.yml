@@ -1,28 +1,30 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [CMS Certification Number (CCN)]
-sort: [CMS Certification Number (CCN)]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-7t8x-u3ir`. Regenerate after model-verify.
+key: [cms_certification_number_ccn, address_line_1, city_town, certification_date, county_parish]
+temporal: certification_date
+sort: [certification_date, cms_certification_number_ccn, address_line_1, city_town, county_parish]
 columns:
-  - name: CMS Certification Number (CCN)
+  - name: cms_certification_number_ccn
     type: VARCHAR
-  - name: Provider Name
+  - name: provider_name
     type: VARCHAR
-  - name: Address Line 1
+  - name: address_line_1
     type: VARCHAR
-  - name: Address Line 2
+  - name: address_line_2
     type: VARCHAR
-  - name: City/Town
+  - name: city_town
     type: VARCHAR
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: ZIP Code
+  - name: zip_code
     type: VARCHAR
-  - name: County/Parish
+  - name: county_parish
     type: VARCHAR
-  - name: Telephone Number
+  - name: telephone_number
     type: VARCHAR
-  - name: CMS Region
+  - name: cms_region
+    type: BIGINT
+  - name: ownership_type
     type: VARCHAR
-  - name: Ownership Type
-    type: VARCHAR
-  - name: Certification Date
-    type: VARCHAR
+  - name: certification_date
+    type: DATE

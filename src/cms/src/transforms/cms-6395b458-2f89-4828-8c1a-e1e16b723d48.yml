@@ -1,18 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cms-6395b458-2f89-4828-8c1a-e1e16b723d48`. Regenerate after model-verify.
+# caution: No stable row identifier was verified in the raw profile; treat rows as source snapshot records, not entity-deduplicated facts.
+key: []
 columns:
   - name: claim_control_number
+    type: BIGINT
+  - name: part
     type: VARCHAR
-  - name: Part
+  - name: drg
     type: VARCHAR
-  - name: DRG
+  - name: hcpcs_procedure_code
     type: VARCHAR
-  - name: HCPCS Procedure Code
+  - name: provider_type
     type: VARCHAR
-  - name: Provider Type
+  - name: type_of_bill
     type: VARCHAR
-  - name: Type of Bill
+  - name: review_decision
     type: VARCHAR
-  - name: Review Decision
-    type: VARCHAR
-  - name: Error Code
+  - name: error_code
     type: VARCHAR
