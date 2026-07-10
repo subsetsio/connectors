@@ -2,7 +2,7 @@ spec_id: economic-policy-uncertainty-gprnk-data
 status: active
 coverage:
   frozen: true
-  reason: policyuncertainty.com series halts at 2021-01; a historical/discontinued index that does not advance (the academic project no longer updates it).
+  reason: policyuncertainty.com series halts at 2021-09; a historical/discontinued index that does not advance (the academic project no longer updates it).
 tests:
   - not_null: date
   - not_null: series
@@ -21,9 +21,8 @@ tests:
     reason: normalizer emits exactly one of these four cadences per row
     certainty: 90
   - unique: [date, series]
-    reason: one row per date x series is the intended grain; this file carries a few source-side duplicates the transform dedups, so warn rather than block
-    certainty: 60
-    severity: warn
+    reason: one row per date x series; a duplicate means a sheet/series was double-parsed
+    certainty: 85
   - at_least: {col: value, expr: 0}
     reason: policy-uncertainty indices and their components are non-negative
     certainty: 75

@@ -240,6 +240,18 @@ def _first(cols, lc, name):
 
 def _build_date(data, lc, cols):
     yc, mc, dc, qc = (_first(cols, lc, k) for k in ("year", "month", "day", "quarter"))
+    # Prefer a month-like column whose domain is a real 1-12 calendar month.
+    # Some files carry a YYYYMM code column literally named "month" (e.g.
+    # 199501) alongside the true 1-12 calendar month under "cmonth"/"mon"; the
+    # YYYYMM one fails the 1-12 test, so fall through to the calendar column
+    # instead of dropping the month (which would collapse every row to January).
+    if mc is None or pd.to_numeric(data[mc], errors="coerce").dropna().between(1, 12).mean() < 0.8:
+        for c in cols:
+            if lc[c] in ("cmonth", "mon", "calendar_month", "month_num"):
+                mm = pd.to_numeric(data[c], errors="coerce")
+                if len(mm.dropna()) and mm.dropna().between(1, 12).mean() >= 0.8:
+                    mc = c
+                    break
     if yc is not None:
         y = pd.to_numeric(data[yc], errors="coerce")
         yv = y.dropna()
