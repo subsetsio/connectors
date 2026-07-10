@@ -23,7 +23,6 @@ from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_excep
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     configure_http,
     is_transient,
@@ -153,83 +152,7 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-# Per-subset publish SQL. We TRY_CAST numeric columns to proper types while
-# preserving every other column via `* EXCLUDE`. The Holocene & Pleistocene
-# volcano layers share the same geographic columns (typed identically so they
-# stay consistent across datasets); Pleistocene has no Last_Eruption_Year, so it
-# gets its own cast list. The E3 emissions layer has its own distinct schema
-# (SO2 mass, per-emission start/end dates as YYYYMMDD strings); we cast its SO2
-# mass to DOUBLE, its ids to BIGINT, and its dates to real DATEs.
-_VOLCANOES_ID = f"{SLUG}-smithsonian-votw-holocene-volcanoes"
-_ERUPTIONS_ID = f"{SLUG}-smithsonian-votw-holocene-eruptions"
-_PLEISTOCENE_ID = f"{SLUG}-smithsonian-votw-pleistocene-volcanoes"
-_EMISSIONS_ID = f"{SLUG}-e3webapp-emissions"
-
-_SQL_BY_SPEC = {
-    _EMISSIONS_ID: f'''
-        SELECT
-            * EXCLUDE (Emission_ID, VolcanoNumber, SO2_Kilotons, StartDate, EndDate),
-            TRY_CAST(Emission_ID AS BIGINT)        AS Emission_ID,
-            TRY_CAST(VolcanoNumber AS BIGINT)      AS VolcanoNumber,
-            TRY_CAST(SO2_Kilotons AS DOUBLE)       AS SO2_Kilotons,
-            TRY_CAST(TRY_STRPTIME(StartDate, '%Y%m%d') AS DATE) AS StartDate,
-            TRY_CAST(TRY_STRPTIME(EndDate, '%Y%m%d') AS DATE)   AS EndDate
-        FROM "{_EMISSIONS_ID}"
-    ''',
-    _PLEISTOCENE_ID: f'''
-        SELECT
-            * EXCLUDE (Volcano_Number, Latitude, Longitude, Elevation),
-            TRY_CAST(Volcano_Number AS BIGINT) AS Volcano_Number,
-            TRY_CAST(Latitude AS DOUBLE)       AS Latitude,
-            TRY_CAST(Longitude AS DOUBLE)      AS Longitude,
-            TRY_CAST(Elevation AS DOUBLE)      AS Elevation
-        FROM "{_PLEISTOCENE_ID}"
-    ''',
-    _VOLCANOES_ID: f'''
-        SELECT
-            * EXCLUDE (Volcano_Number, Last_Eruption_Year, Latitude, Longitude, Elevation),
-            TRY_CAST(Volcano_Number AS BIGINT)     AS Volcano_Number,
-            TRY_CAST(Last_Eruption_Year AS BIGINT) AS Last_Eruption_Year,
-            TRY_CAST(Latitude AS DOUBLE)           AS Latitude,
-            TRY_CAST(Longitude AS DOUBLE)          AS Longitude,
-            TRY_CAST(Elevation AS DOUBLE)          AS Elevation
-        FROM "{_VOLCANOES_ID}"
-    ''',
-    _ERUPTIONS_ID: f'''
-        SELECT
-            * EXCLUDE (
-                Volcano_Number, Eruption_Number, ExplosivityIndexMax,
-                StartDateYear, StartDateYearUncertainty, StartDateMonth, StartDateDay,
-                StartDateDayUncertainty, EndDateYear, EndDateYearUncertainty,
-                EndDateMonth, EndDateDay, EndDateDayUncertainty
-            ),
-            TRY_CAST(Volcano_Number AS BIGINT)            AS Volcano_Number,
-            TRY_CAST(Eruption_Number AS BIGINT)           AS Eruption_Number,
-            TRY_CAST(ExplosivityIndexMax AS INTEGER)      AS ExplosivityIndexMax,
-            TRY_CAST(StartDateYear AS INTEGER)            AS StartDateYear,
-            TRY_CAST(StartDateYearUncertainty AS INTEGER) AS StartDateYearUncertainty,
-            TRY_CAST(StartDateMonth AS INTEGER)           AS StartDateMonth,
-            TRY_CAST(StartDateDay AS INTEGER)             AS StartDateDay,
-            TRY_CAST(StartDateDayUncertainty AS INTEGER)  AS StartDateDayUncertainty,
-            TRY_CAST(EndDateYear AS INTEGER)              AS EndDateYear,
-            TRY_CAST(EndDateYearUncertainty AS INTEGER)   AS EndDateYearUncertainty,
-            TRY_CAST(EndDateMonth AS INTEGER)             AS EndDateMonth,
-            TRY_CAST(EndDateDay AS INTEGER)               AS EndDateDay,
-            TRY_CAST(EndDateDayUncertainty AS INTEGER)    AS EndDateDayUncertainty
-        FROM "{_ERUPTIONS_ID}"
-    ''',
-}
-
-
-def _sql_for(spec_id: str) -> str:
-    return _SQL_BY_SPEC.get(spec_id, f'SELECT * FROM "{spec_id}"')
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_sql_for(s.id),
-    )
-    for s in DOWNLOAD_SPECS
-]
+# Transforms are NOT authored here — they are the file pairs under
+# src/transforms/<table>.sql + .yml, compiled from the settled model
+# (`compile-transforms --write`). The module-level TRANSFORM_SPECS list is the
+# retired legacy form; load_nodes reads the file pairs at runtime.
