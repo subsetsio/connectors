@@ -13,5 +13,4 @@ ENTITY_IDS = [
     "Smithsonian_VOTW_Pleistocene_Volcanoes",
     "E3WebApp_HoloceneVolcanoes",
     "E3WebApp_Eruptions1960",
-    "E3WebApp_Emissions",
 ]
