@@ -400,7 +400,7 @@ def fetch_indicators(node_id: str) -> None:
                 rec["first_year"] = min(rec["first_year"], year)
                 rec["last_year"] = max(rec["last_year"], year)
 
-    out = pd.DataFrame.from_records(records.values())
+    out = pd.DataFrame.from_records(list(records.values()))
     if out.empty:
         raise AssertionError("no GEM indicators discovered")
     out = out.sort_values(["survey", "indicator", "variable"]).reset_index(drop=True)
