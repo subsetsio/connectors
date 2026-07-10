@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `eurostat-env-ac-co2fp`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [freq, na_item, nace_r2, unit, c_dest, c_orig, time_period]
+checks:
+  - kind: unique
+    columns: [freq, na_item, nace_r2, unit, c_dest, c_orig, time_period]
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: na_item
+  - kind: not_null
+    col: nace_r2
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: c_dest
+  - kind: not_null
+    col: c_orig
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 7969836
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

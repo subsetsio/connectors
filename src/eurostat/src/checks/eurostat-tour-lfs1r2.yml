@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `eurostat-tour-lfs1r2`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [freq, nace_r2, wstatus, worktime, unit, geo, time_period]
+checks:
+  - kind: unique
+    columns: [freq, nace_r2, wstatus, worktime, unit, geo, time_period]
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: nace_r2
+  - kind: not_null
+    col: wstatus
+  - kind: not_null
+    col: worktime
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: geo
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 17688
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

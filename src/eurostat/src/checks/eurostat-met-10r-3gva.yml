@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `eurostat-met-10r-3gva`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [freq, currency, nace_r2, metroreg, time_period]
+checks:
+  - kind: unique
+    columns: [freq, currency, nace_r2, metroreg, time_period]
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: currency
+  - kind: not_null
+    col: nace_r2
+  - kind: not_null
+    col: metroreg
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 85454
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

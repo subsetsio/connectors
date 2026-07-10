@@ -1,0 +1,30 @@
+# compiled by `hardened compile-checks` — post-publish audit of `eurostat-egi-so1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [freq, bus_part, src_act, nace_r2, indic_sb, unit, geo, time_period]
+checks:
+  - kind: unique
+    columns: [freq, bus_part, src_act, nace_r2, indic_sb, unit, geo, time_period]
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: bus_part
+  - kind: not_null
+    col: src_act
+  - kind: not_null
+    col: nace_r2
+  - kind: not_null
+    col: indic_sb
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: geo
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 129
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

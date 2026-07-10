@@ -1,0 +1,30 @@
+# compiled by `hardened compile-checks` — post-publish audit of `eurostat-tour-dem-ttorg`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [freq, trip_arr, duration, purpose, c_dest, unit, geo, time_period]
+checks:
+  - kind: unique
+    columns: [freq, trip_arr, duration, purpose, c_dest, unit, geo, time_period]
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: trip_arr
+  - kind: not_null
+    col: duration
+  - kind: not_null
+    col: purpose
+  - kind: not_null
+    col: c_dest
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: geo
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 9266
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

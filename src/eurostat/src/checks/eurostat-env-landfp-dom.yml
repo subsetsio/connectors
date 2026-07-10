@@ -1,0 +1,30 @@
+# compiled by `hardened compile-checks` — post-publish audit of `eurostat-env-landfp-dom`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [freq, indic_env, prodgrp, agriprod, c_dest, unit, c_orig, time_period]
+checks:
+  - kind: unique
+    columns: [freq, indic_env, prodgrp, agriprod, c_dest, unit, c_orig, time_period]
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: indic_env
+  - kind: not_null
+    col: prodgrp
+  - kind: not_null
+    col: agriprod
+  - kind: not_null
+    col: c_dest
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: c_orig
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 30965
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

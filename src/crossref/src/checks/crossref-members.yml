@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `crossref-members`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [member_id, location]
+checks:
+  - kind: unique
+    columns: [member_id, location]
+  - kind: not_null
+    col: member_id
+  - kind: not_null
+    col: location
+  - kind: row_floor
+    min: 16479
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

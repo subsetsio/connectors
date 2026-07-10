@@ -1,0 +1,32 @@
+# compiled by `hardened compile-checks` — post-publish audit of `eurostat-ef-m-org`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [freq, statinfo, farmtype, so_eur, uaarea, organic, unit, geo, time_period]
+checks:
+  - kind: unique
+    columns: [freq, statinfo, farmtype, so_eur, uaarea, organic, unit, geo, time_period]
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: statinfo
+  - kind: not_null
+    col: farmtype
+  - kind: not_null
+    col: so_eur
+  - kind: not_null
+    col: uaarea
+  - kind: not_null
+    col: organic
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: geo
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 4773821
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

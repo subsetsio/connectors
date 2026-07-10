@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `eurostat-road-go-ta7tg`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [freq, tra_type, nstr_gg, unit, geo, time_period]
+checks:
+  - kind: unique
+    columns: [freq, tra_type, nstr_gg, unit, geo, time_period]
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: tra_type
+  - kind: not_null
+    col: nstr_gg
+  - kind: not_null
+    col: unit
+  - kind: not_null
+    col: geo
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 14214
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
