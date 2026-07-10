@@ -6,10 +6,10 @@ per-database recipe in src/constants.py; it normalizes every source into a
 SQL-readable raw asset (gzip CSV / TSV, or a small plain CSV), and the
 TRANSFORM_SPECS below publish one Delta table per database from those raws.
 
-Big per-year archives (BACI, TUV, WTFC) are byte-copied member-by-member into
-gzip-CSV *batch* files (`<id>-<year>.csv.gz`) with no in-process parse, so memory
-stays bounded regardless of corpus size; DuckDB unions the batch at transform
-time. Single-file databases write one `<id>.csv.gz`.
+Big per-year archives (BACI, TUV, WTFC) stream member-by-member into parquet
+fragments, so memory stays bounded regardless of corpus size and downstream
+profiling/transforms read columnar raw. Single-file databases write one raw
+object.
 """
 
 from __future__ import annotations
@@ -18,7 +18,6 @@ import io
 import csv
 import os
 import re
-import shutil
 import struct
 import tempfile
 import zipfile
@@ -28,6 +27,7 @@ from subsets_utils import (
     get_client,
     transient_retry,
     raw_writer,
+    raw_parquet_writer,
     save_raw_file,
 )
 from constants import CONFIG, ENTITY_IDS
@@ -58,21 +58,31 @@ def _get_bytes(url: str) -> bytes:
 
 # --- writers -----------------------------------------------------------------
 
-def _copy_member_gz(zf: zipfile.ZipFile, member: str, asset: str, ext: str) -> None:
-    """Byte-copy one zip member (decompressed) into a gzip raw asset — no parse."""
-    with raw_writer(asset, ext, mode="wb", compression="gzip") as out:
-        with zf.open(member) as src:
-            shutil.copyfileobj(src, out, CHUNK)
+def _copy_member_parquet(
+    zf: zipfile.ZipFile,
+    member: str,
+    asset: str,
+    *,
+    delimiter: str = ",",
+    fragment: str | None = None,
+) -> None:
+    """Stream one ZIP member into a parquet raw fragment."""
+    import pyarrow.csv as pacsv
 
+    parse_options = pacsv.ParseOptions(delimiter=delimiter)
+    read_options = pacsv.ReadOptions(encoding="utf-8-sig")
+    convert_options = pacsv.ConvertOptions(strings_can_be_null=True)
 
-def _copy_tsv_member_as_csv(zf: zipfile.ZipFile, member: str, asset: str) -> None:
-    """Stream a tab-delimited zip member into gzip CSV raw."""
-    with raw_writer(asset, "csv.gz", mode="wt", compression="gzip") as out:
-        writer = csv.writer(out)
-        with zf.open(member) as src:
-            text = io.TextIOWrapper(src, encoding="utf-8-sig", errors="replace", newline="")
-            reader = csv.reader(text, delimiter="\t")
-            writer.writerows(reader)
+    with zf.open(member) as src:
+        reader = pacsv.open_csv(
+            src,
+            read_options=read_options,
+            parse_options=parse_options,
+            convert_options=convert_options,
+        )
+        with raw_parquet_writer(asset, reader.schema, fragment=fragment) as writer:
+            for batch in reader:
+                writer.write_batch(batch)
 
 
 @transient_retry()
@@ -92,8 +102,8 @@ def _resolve_member(names: list[str], wanted: str) -> str:
     raise AssertionError(f"member {wanted!r} not found among {names[:8]}")
 
 
-def _fetch_zip(cfg: dict, asset: str, ext: str, *, tsv_as_csv: bool = False) -> None:
-    """Download a ZIP to a temp file, then copy selected member(s) to gz raw(s)."""
+def _fetch_zip(cfg: dict, asset: str, *, delimiter: str = ",") -> None:
+    """Download a ZIP to a temp file, then stream selected member(s) to parquet."""
     tmp = tempfile.NamedTemporaryFile(suffix=".zip", delete=False)
     tmp.close()
     try:
@@ -110,17 +120,11 @@ def _fetch_zip(cfg: dict, asset: str, ext: str, *, tsv_as_csv: bool = False) -> 
                 for n in selected:
                     stem = os.path.splitext(os.path.basename(n))[0]
                     tag = re.sub(r"[^A-Za-z0-9]+", "-", stem).strip("-")
-                    if tsv_as_csv:
-                        _copy_tsv_member_as_csv(zf, n, f"{asset}-{tag}")
-                    else:
-                        _copy_member_gz(zf, n, f"{asset}-{tag}", ext)
+                    _copy_member_parquet(zf, n, asset, delimiter=delimiter, fragment=tag)
             else:
                 for wanted in cfg["members"]:
                     member = _resolve_member(names, wanted)
-                    if tsv_as_csv:
-                        _copy_tsv_member_as_csv(zf, member, asset)
-                    else:
-                        _copy_member_gz(zf, member, asset, ext)
+                    _copy_member_parquet(zf, member, asset, delimiter=delimiter)
     finally:
         os.unlink(tmp.name)
 
@@ -330,9 +334,9 @@ def fetch_one(node_id: str) -> None:
     cfg = CONFIG[entity]
     kind = cfg["kind"]
     if kind == "csv_zip":
-        _fetch_zip(cfg, node_id, "csv.gz")
+        _fetch_zip(cfg, node_id)
     elif kind == "tsv_zip":
-        _fetch_zip(cfg, node_id, "csv.gz", tsv_as_csv=True)
+        _fetch_zip(cfg, node_id, delimiter="\t")
     elif kind == "csv_url":
         _stream_url_to_gz(cfg["url"], node_id)
     elif kind == "dta_url":
