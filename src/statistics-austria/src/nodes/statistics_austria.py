@@ -234,6 +234,10 @@ def _rows_from_zip(eid: str, zip_url: str) -> list[dict]:
             rows.extend(_rows_from_table(text, source_file=info.filename))
     if not rows:
         raise ValueError(f"{eid}: zip resource has no CSV data rows")
+    keys = set().union(*(row.keys() for row in rows))
+    for row in rows:
+        for key in keys:
+            row.setdefault(key, None)
     return rows
 
 
