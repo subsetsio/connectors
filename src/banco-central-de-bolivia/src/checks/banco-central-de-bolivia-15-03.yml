@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `banco-central-de-bolivia-15-03`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [table_code, sheet, row, col]
+checks:
+  - kind: unique
+    columns: [table_code, sheet, row, col]
+  - kind: not_null
+    col: table_code
+  - kind: not_null
+    col: sheet
+  - kind: not_null
+    col: row
+  - kind: not_null
+    col: col
+  - kind: row_floor
+    min: 125
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

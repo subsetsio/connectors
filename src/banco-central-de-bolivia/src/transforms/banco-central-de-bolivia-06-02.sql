@@ -1,9 +1,13 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows represent non-empty cells from formatted BCB bulletin spreadsheets; interpret row and column positions with the original table layout rather than summing cells as a normalized panel.
 SELECT
-    table_code,
-    sheet,
-    CAST(row AS INTEGER) AS row,
-    CAST(col AS INTEGER) AS col,
-    value_num,
-    value_text
+    "table_code",
+    CAST("sheet" AS BIGINT) AS sheet,
+    "row",
+    "col",
+    "value_num",
+    "value_text"
 FROM "banco-central-de-bolivia-06-02"
-WHERE value_num IS NOT NULL OR value_text IS NOT NULL
