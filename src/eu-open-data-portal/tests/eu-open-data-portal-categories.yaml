@@ -1,0 +1,32 @@
+spec_id: eu-open-data-portal-categories
+status: active
+tests:
+  - not_null: id
+    reason: the data-theme code is the grain and the join key from datasets.categories
+  - unique: id
+    reason: one row per term in a controlled vocabulary
+    certainty: 95
+  - not_null: label
+    reason: every authority term publishes an English pref_label
+    certainty: 90
+  - not_null: resource
+    reason: every term carries its publications.europa.eu authority URI
+    certainty: 95
+
+  - column_type: {col: id, type: string}
+
+  - row_count: {min: 10, max: 30}
+    reason: the DCAT-AP data-theme authority table holds 14 terms (13 themes + OP_DATPRO)
+    certainty: 90
+
+  - enum:
+      col: id
+      values: [AGRI, ECON, EDUC, ENER, ENVI, GOVE, HEAL, INTR, JUST, OP_DATPRO, REGI, SOCI, TECH, TRAN]
+    reason: |
+      The EU data-theme vocabulary is a closed authority list. A new code is a real
+      vocabulary extension worth noticing, not a silent pass.
+    certainty: 90
+
+  - matches: {col: resource, pattern: 'data-theme'}
+    reason: all terms live under the data-theme authority namespace
+    certainty: 90

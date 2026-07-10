@@ -1,23 +1,41 @@
 spec_id: eu-open-data-portal-catalogs
 status: active
 tests:
-  - not_null: catalog_id
-    reason: every catalog record has a stable id
-    certainty: 99
-  - unique: [catalog_id]
-    reason: one row per EU-institution source catalog
+  - not_null: id
+    reason: the catalog slug is the grain and the join key from datasets.catalog_id
+  - unique: id
+    reason: one row per federated source catalog; the facet yields distinct ids
     certainty: 95
   - not_null: title
-    reason: every catalogue exposes a title (falls back to its id)
-    certainty: 95
+    reason: every registered catalog carries a title in at least one language
+    certainty: 85
+
+  - column_type: {col: id, type: string}
   - column_type: {col: dataset_count, type: integer}
-    certainty: 90
+
   - not_null: dataset_count
-    reason: dataset_count comes from the country=eu catalog facet for every catalog
+    reason: /catalogues/{id} reports the catalog's dataset count on every record
     certainty: 90
-  - between: {col: dataset_count, lo: 0, hi: 100000}
-    reason: per-catalog EU-institution dataset counts are non-negative and well under 100k
+  - at_least: {col: dataset_count, expr: 1}
+    reason: the list is derived from the catalog facet of a non-empty search, so a zero-dataset catalog could not have appeared in it
     certainty: 90
-  - row_count: {min: 50}
-    reason: ~113 EU-institution catalogs; <50 means the catalog facet enumeration broke
+
+  - row_count: {min: 50, max: 500}
+    reason: ~112 of the ~210 federated catalogs hold EU-institution datasets
+    certainty: 90
+
+  - freshness: {col: modified, reaches: today - 400d}
+    reason: |
+      Catalog registrations are a slowly-changing dimension, not a series - the newest
+      modification is typically weeks old. 400d of slack asserts the registry is still
+      being touched at all without blocking on a quiet year.
+    points_outward: true
+    certainty: 80
+
+  - nullable: {col: modified, max_null_frac: 0.1}
+    reason: 110 of 112 catalogs report a modified timestamp
+    certainty: 85
+
+  - distinct_count: {col: source_type, min: 1, max: 10}
+    reason: the harvester tags each catalog with its source kind (dcat-ap, geospatial, euodp-legacy, socrata)
     certainty: 85

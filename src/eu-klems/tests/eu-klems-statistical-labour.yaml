@@ -1,0 +1,46 @@
+spec_id: eu-klems-statistical-labour
+status: active
+
+coverage:
+  frozen: true
+  reason: >-
+    wiiw KLEMS 2019 release is a closed archival vintage — the bulk CSVs are
+    fixed at 1995-2017 and never advance. Fresher coverage exists only in the
+    separate 2025 EUKLEMS & INTANProd release (different, non-persistent URLs).
+
+tests:
+  - not_null: country
+  - not_null: var
+  - not_null: code
+  - not_null: value
+    reason: the fetch fn drops melted cells whose value is null; a null here means the drop regressed
+    certainty: 95
+
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+
+  - unique: [country, var, code, gender, age, edu, year]
+    reason: >-
+      the labour module breaks each industry out by gender x age x education,
+      so the demographic triple is part of the grain — unlike every other module.
+    certainty: 90
+
+  - distinct_count: {col: var, min: 2, max: 2}
+    reason: collect enumerated only 2 variable codes for the Labour Accounts Input module
+    certainty: 85
+
+  - between: {col: year, lo: 1995, hi: 2017}
+    reason: the 2019 release covers 1995-2017 inclusive
+    certainty: 95
+
+  - at_most: {col: year, expr: current_year()}
+    reason: an archival vintage cannot carry future years
+    certainty: 95
+
+  - distinct_count: {col: country, min: 25}
+    reason: EU member states plus EU/EA aggregates plus US and Japan
+    certainty: 80
+
+  - row_count: {min: 100000}
+    reason: ~22k descriptor rows melted across 23 years, less the null cells
+    certainty: 80

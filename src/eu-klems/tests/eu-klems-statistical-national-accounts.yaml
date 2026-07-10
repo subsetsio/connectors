@@ -1,0 +1,44 @@
+spec_id: eu-klems-statistical-national-accounts
+status: active
+
+coverage:
+  frozen: true
+  reason: >-
+    wiiw KLEMS 2019 release is a closed archival vintage — the bulk CSVs are
+    fixed at 1995-2017 and never advance. Fresher coverage exists only in the
+    separate 2025 EUKLEMS & INTANProd release (different, non-persistent URLs).
+
+tests:
+  - not_null: country
+  - not_null: var
+  - not_null: code
+  - not_null: value
+    reason: the fetch fn drops melted cells whose value is null; a null here means the drop regressed
+    certainty: 95
+
+  - column_type: {col: year, type: integer}
+  - column_type: {col: value, type: float}
+
+  - unique: [country, db, var, code, year]
+    reason: one observation per country x database x variable x industry code x year
+    certainty: 90
+
+  - distinct_count: {col: var, min: 18, max: 18}
+    reason: collect enumerated 18 variable codes for the statistical National Accounts module
+    certainty: 85
+
+  - between: {col: year, lo: 1995, hi: 2017}
+    reason: the 2019 release covers 1995-2017 inclusive
+    certainty: 95
+
+  - at_most: {col: year, expr: current_year()}
+    reason: an archival vintage cannot carry future years
+    certainty: 95
+
+  - distinct_count: {col: country, min: 25}
+    reason: EU member states plus EU/EA aggregates plus US and Japan
+    certainty: 80
+
+  - row_count: {min: 100000}
+    reason: tens of thousands of descriptor rows melted across 23 years, less the null cells
+    certainty: 80
