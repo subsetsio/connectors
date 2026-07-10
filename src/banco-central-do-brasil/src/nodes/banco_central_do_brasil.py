@@ -362,7 +362,8 @@ def fetch_sgs_values(node_id: str) -> None:
                 batch_start = done_count + processed
             _checkpoint(done_count + processed)
     if batch:
-        save_raw_ndjson(batch, f"{node_id}-{batch_start:06d}-{done_count + processed:06d}")
+        save_raw_ndjson(batch, node_id,
+                        fragment=f"{batch_start:06d}-{done_count + processed:06d}")
     _checkpoint(done_count + processed)
 
 
