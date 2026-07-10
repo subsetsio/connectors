@@ -1,7 +1,9 @@
 """Afrobarometer connector — public Online Data Analysis (ODA) web service.
 
-Two published tables (the rank-accepted entity union):
+Four published raw assets (the accepted entity union):
 
+  * countries : reference catalog of surveyed countries and their round span.
+  * rounds    : reference catalog of Afrobarometer survey rounds.
   * questions : reference catalog, one row per distinct survey variable across
                 the 10 survey rounds (variable code, title, section, round span).
   * values    : long-format aggregated statistics — one row per
@@ -23,10 +25,30 @@ from subsets_utils import NodeSpec, list_raw_fragments, save_raw_parquet
 
 from utils import (
     build_catalog,
+    fetch_config,
     fetch_question_timeseries,
     open_session,
     round_num,
 )
+
+COUNTRIES_SCHEMA = pa.schema([
+    ("country", pa.string()),
+    ("region_id", pa.int64()),
+    ("mpcod", pa.string()),
+    ("valor", pa.int64()),
+    ("round_nums", pa.string()),
+    ("n_rounds", pa.int32()),
+    ("first_round_num", pa.int32()),
+    ("latest_round_num", pa.int32()),
+])
+
+ROUNDS_SCHEMA = pa.schema([
+    ("round_num", pa.int32()),
+    ("round_id", pa.int64()),
+    ("round_label", pa.string()),
+    ("start_year", pa.int32()),
+    ("end_year", pa.int32()),
+])
 
 QUESTIONS_SCHEMA = pa.schema([
     ("variable_code", pa.string()),
@@ -55,6 +77,70 @@ VALUES_SCHEMA = pa.schema([
 
 VALUES_FRAGMENT_VARIABLES = 100    # commit progress often enough for CI continuation
 MAX_SKIP_FRACTION = 0.05           # systemic-failure guard for the values pull
+
+
+def _round_nums_for_region(region: dict, rounds: list[int]) -> list[int]:
+    mask = region.get("rounds") or ""
+    return [
+        i + 1
+        for i, rid in enumerate(rounds)
+        if ("#%s#" % rid) in mask
+    ]
+
+
+def _years_from_round_label(label: str) -> tuple[int | None, int | None]:
+    years = []
+    for part in (label or "").split():
+        if "/" not in part:
+            continue
+        left, right = part.split("/", 1)
+        if len(left) == 4 and left.isdigit():
+            years.append(int(left))
+        if len(right) == 4 and right.isdigit():
+            years.append(int(right))
+        elif len(right) == 2 and right.isdigit() and years:
+            years.append((years[-1] // 100) * 100 + int(right))
+    return (min(years), max(years)) if years else (None, None)
+
+
+def fetch_countries(node_id: str) -> None:
+    """Reference catalog of countries represented in the ODA configuration."""
+    config = fetch_config()
+    rounds = config["rounds"]
+    rows = []
+    for region in sorted(config["regions"], key=lambda r: r.get("title") or ""):
+        nums = _round_nums_for_region(region, rounds)
+        rows.append({
+            "country": region.get("title") or "",
+            "region_id": region.get("id"),
+            "mpcod": str(region.get("mpcod") or ""),
+            "valor": region.get("valor"),
+            "round_nums": ",".join(str(n) for n in nums),
+            "n_rounds": len(nums),
+            "first_round_num": nums[0] if nums else None,
+            "latest_round_num": nums[-1] if nums else None,
+        })
+
+    table = pa.Table.from_pylist(rows, schema=COUNTRIES_SCHEMA)
+    save_raw_parquet(table, node_id)
+
+
+def fetch_rounds(node_id: str) -> None:
+    """Reference catalog of Afrobarometer survey rounds."""
+    config = fetch_config()
+    rows = []
+    for i, (rid, label) in enumerate(zip(config["rounds"], config["titrounds"]), start=1):
+        start_year, end_year = _years_from_round_label(label)
+        rows.append({
+            "round_num": i,
+            "round_id": rid,
+            "round_label": label,
+            "start_year": start_year,
+            "end_year": end_year,
+        })
+
+    table = pa.Table.from_pylist(rows, schema=ROUNDS_SCHEMA)
+    save_raw_parquet(table, node_id)
 
 
 def fetch_questions(node_id: str) -> None:
@@ -213,6 +299,8 @@ def fetch_values(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id="afrobarometer-countries", fn=fetch_countries, kind="download"),
     NodeSpec(id="afrobarometer-questions", fn=fetch_questions, kind="download"),
+    NodeSpec(id="afrobarometer-rounds", fn=fetch_rounds, kind="download"),
     NodeSpec(id="afrobarometer-values", fn=fetch_values, kind="download"),
 ]

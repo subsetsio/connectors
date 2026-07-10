@@ -1,0 +1,25 @@
+key: [variable_code]
+temporal: latest_round_num
+sort: [latest_round_num, variable_code]
+columns:
+  - name: variable_code
+    type: VARCHAR
+    description: Afrobarometer survey variable code.
+  - name: question_id
+    type: BIGINT
+    description: Representative ODA question identifier, using the latest round where the variable appears.
+  - name: title
+    type: VARCHAR
+    description: Survey question text or title from the ODA index.
+  - name: section
+    type: VARCHAR
+    description: ODA section or group containing the question.
+  - name: n_rounds
+    type: INTEGER
+    description: Number of survey rounds in which the variable appears.
+  - name: round_nums
+    type: VARCHAR
+    description: Comma-separated Afrobarometer round numbers in which the variable appears.
+  - name: latest_round_num
+    type: INTEGER
+    description: Latest Afrobarometer round number in which the variable appears.

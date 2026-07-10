@@ -1,0 +1,40 @@
+key: [variable_code, country, round_num, answer_code]
+temporal: round_num
+sort: [round_num, variable_code, country, answer_code]
+columns:
+  - name: variable_code
+    type: VARCHAR
+    description: Afrobarometer survey variable code.
+  - name: question_id
+    type: BIGINT
+    description: Representative ODA question identifier used for the time-series API call.
+  - name: question_title
+    type: VARCHAR
+    description: Survey question text or title from the ODA index.
+  - name: section
+    type: VARCHAR
+    description: ODA section or group containing the question.
+  - name: country
+    type: VARCHAR
+    description: Surveyed country.
+  - name: round_num
+    type: INTEGER
+    description: Afrobarometer survey round number.
+  - name: round_label
+    type: VARCHAR
+    description: Afrobarometer round label.
+  - name: answer_code
+    type: INTEGER
+    description: ODA answer category code.
+  - name: answer_label
+    type: VARCHAR
+    description: Answer category label.
+  - name: is_missing
+    type: BOOLEAN
+    description: Whether the ODA response marks this answer category as missing.
+  - name: weighted_n
+    type: DOUBLE
+    description: Weighted response count for the country, round, question, and answer category.
+  - name: pct_valid
+    type: DOUBLE
+    description: Percentage of valid responses for the country, round, question, and answer category.

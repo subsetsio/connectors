@@ -1,0 +1,18 @@
+spec_id: afrobarometer-countries
+status: active
+tests:
+  - not_null: country
+  - unique: country
+    reason: each ODA region row represents one surveyed country
+    certainty: 95
+  - column_type: {col: valor, type: integer}
+  - between: {col: first_round_num, lo: 1, hi: 10}
+    reason: the public ODA config covers Afrobarometer rounds R1 through R10
+    certainty: 95
+  - between: {col: latest_round_num, lo: 1, hi: 10}
+    certainty: 95
+  - between: {col: n_rounds, lo: 1, hi: 10}
+    certainty: 95
+  - row_count: {min: 50, max: 70}
+    reason: Afrobarometer's ODA config lists roughly 55 surveyed countries
+    certainty: 90

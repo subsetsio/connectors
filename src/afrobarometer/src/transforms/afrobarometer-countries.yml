@@ -1,0 +1,27 @@
+key: [country]
+sort: [country]
+columns:
+  - name: country
+    type: VARCHAR
+    description: Country surveyed by Afrobarometer.
+  - name: region_id
+    type: BIGINT
+    description: ODA region identifier for the country.
+  - name: mpcod
+    type: VARCHAR
+    description: Afrobarometer country code from the ODA configuration.
+  - name: valor
+    type: BIGINT
+    description: ODA region value used in API requests.
+  - name: round_nums
+    type: VARCHAR
+    description: Comma-separated Afrobarometer round numbers in which the country appears.
+  - name: n_rounds
+    type: INTEGER
+    description: Number of Afrobarometer rounds in which the country appears.
+  - name: first_round_num
+    type: INTEGER
+    description: First Afrobarometer round number in which the country appears.
+  - name: latest_round_num
+    type: INTEGER
+    description: Latest Afrobarometer round number in which the country appears.

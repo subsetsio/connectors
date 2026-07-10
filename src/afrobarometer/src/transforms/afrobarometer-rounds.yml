@@ -1,0 +1,19 @@
+key: [round_num]
+temporal: end_year
+sort: [end_year, round_num]
+columns:
+  - name: round_num
+    type: INTEGER
+    description: Sequential Afrobarometer survey round number.
+  - name: round_id
+    type: BIGINT
+    description: Internal ODA round identifier.
+  - name: round_label
+    type: VARCHAR
+    description: Afrobarometer round label as published in the ODA configuration.
+  - name: start_year
+    type: INTEGER
+    description: First fieldwork year represented in the round label.
+  - name: end_year
+    type: INTEGER
+    description: Last fieldwork year represented in the round label.

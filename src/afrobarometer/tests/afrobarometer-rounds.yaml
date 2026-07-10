@@ -1,0 +1,22 @@
+spec_id: afrobarometer-rounds
+status: active
+tests:
+  - not_null: round_num
+  - unique: round_num
+    reason: one row per published Afrobarometer survey round
+    certainty: 95
+  - column_type: {col: round_id, type: integer}
+  - column_type: {col: start_year, type: integer}
+  - column_type: {col: end_year, type: integer}
+  - row_count: {min: 10, max: 10}
+    reason: the current public ODA config covers R1 1999/2001 through R10 2024/2025
+    certainty: 95
+  - between: {col: round_num, lo: 1, hi: 10}
+    certainty: 95
+  - at_least: {col: start_year, expr: 1999}
+    certainty: 95
+  - at_most: {col: end_year, expr: 2025}
+    points_outward: true
+    severity: warn
+    reason: a new round would raise this; reconcile the catalog before treating it as code breakage
+    certainty: 70
