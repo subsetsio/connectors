@@ -1,0 +1,22 @@
+spec_id: gapminder-concepts
+status: active
+tests:
+  - not_null: concept
+    reason: DDF concept rows are keyed by the concept id.
+    certainty: 98
+  - not_null: repo
+    reason: the fetch merges two GitHub DDF repos and must preserve provenance.
+    certainty: 98
+  - column_type: {col: concept, type: string}
+    certainty: 98
+  - column_type: {col: repo, type: string}
+    certainty: 98
+  - enum: {col: repo, values: ["systema_globalis", "fasttrack"]}
+    reason: the connector intentionally scopes Gapminder to these two repos and excludes the WDI mirror.
+    certainty: 98
+  - row_count: {min: 600}
+    reason: the two DDF concept catalogs describe hundreds of Gapminder indicators.
+    certainty: 90
+  - distinct_count: {col: concept, min: 500}
+    reason: Gapminder publishes hundreds of distinct indicator concepts across these repos.
+    certainty: 90

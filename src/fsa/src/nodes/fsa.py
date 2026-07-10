@@ -27,7 +27,6 @@ import io
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_parquet,
@@ -180,28 +179,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# One published Delta table per package: a thin, typed pass over the extracted
-# cells. Drops any residual empty value and orders deterministically.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                resource_id,
-                resource_name,
-                sheet,
-                CAST(row_idx AS INTEGER) AS row_idx,
-                CAST(col_idx AS INTEGER) AS col_idx,
-                value,
-                num_value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL AND value <> ''
-        ''',
-        key=("resource_id", "sheet", "row_idx", "col_idx"),
-    )
-    for s in DOWNLOAD_SPECS
 ]

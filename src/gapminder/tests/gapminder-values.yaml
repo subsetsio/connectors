@@ -1,0 +1,39 @@
+spec_id: gapminder-values
+status: active
+tests:
+  - not_null: indicator
+    reason: every long-format observation must carry its source indicator id.
+    certainty: 98
+  - not_null: geo
+    reason: accepted value rows are single-geography by time observations.
+    certainty: 98
+  - not_null: time
+    reason: the value corpus is temporal and transform casts this field to year.
+    certainty: 98
+  - not_null: value
+    reason: the fetch drops blank observations before writing raw parquet.
+    certainty: 98
+  - not_null: repo
+    reason: the fetch merges two GitHub DDF repos and must preserve provenance.
+    certainty: 98
+  - enum: {col: repo, values: ["systema_globalis", "fasttrack"]}
+    reason: the connector intentionally scopes Gapminder to these two repos and excludes the WDI mirror.
+    certainty: 98
+  - column_type: {col: indicator, type: string}
+    certainty: 98
+  - column_type: {col: geo, type: string}
+    certainty: 98
+  - column_type: {col: time, type: string}
+    certainty: 95
+  - column_type: {col: value, type: string}
+    certainty: 95
+  - row_count: {min: 500000}
+    reason: hundreds of country-year indicator files should produce a large long-format observation table.
+    certainty: 85
+  - distinct_count: {col: indicator, min: 400}
+    reason: the accepted value asset should cover hundreds of country-time indicators from the two repos.
+    certainty: 85
+  - freshness: {col: time, reaches: 2020}
+    reason: Gapminder's maintained fact-base should include observations in the recent historical period.
+    certainty: 80
+    points_outward: true
