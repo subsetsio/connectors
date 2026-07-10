@@ -1,31 +1,22 @@
-# Workbook/archive resource normalized to one row per populated cell.
-key: [source_resource_id, sheet_name, row_number, column_number]
-sort: [source_resource_id, sheet_name, row_number, column_number]
+key: [income_year, date]
+temporal: date
+sort: [date, income_year]
 columns:
-  - name: source_resource_id
-    type: VARCHAR
-    description: CKAN resource id for the downloaded file.
-  - name: source_resource_name
-    type: VARCHAR
-    description: CKAN resource title for the downloaded file.
-  - name: source_format
-    type: VARCHAR
-    description: CKAN resource format label.
-  - name: source_url
-    type: VARCHAR
-    description: Direct source download URL.
   - name: income_year
     type: VARCHAR
-    description: Income year inferred from the CKAN package or resource name, when present.
-  - name: sheet_name
-    type: VARCHAR
-    description: Workbook sheet name, or archive member plus sheet/name for ZIP contents.
-  - name: row_number
-    type: INTEGER
-    description: One-based source row number within the sheet or file.
-  - name: column_number
-    type: INTEGER
-    description: One-based source column number within the sheet or file.
-  - name: value
-    type: VARCHAR
-    description: Source cell value rendered as text.
+    description: Australian income year for the cumulative return-receipt series.
+  - name: date
+    type: DATE
+    description: Weekly reporting date.
+  - name: cumulative_total_tax_returns_received
+    type: BIGINT
+    description: Cumulative total tax returns received by the ATO as of the reporting date.
+  - name: electronic
+    type: BIGINT
+    description: Cumulative tax returns received electronically.
+  - name: paper
+    type: BIGINT
+    description: Cumulative tax returns received on paper.
+  - name: of_current_year_returns_digitally_submitted
+    type: DOUBLE
+    description: Share of current-year returns submitted digitally.

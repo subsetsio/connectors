@@ -155,14 +155,28 @@ def _clean_value(v):
     return v
 
 
+def _decode_table_text(content: bytes) -> str:
+    if content.startswith((b"\xff\xfe", b"\xfe\xff")):
+        return content.decode("utf-16")
+    return content.decode("utf-8-sig", errors="replace")
+
+
+def _csv_dialect(text: str):
+    sample = text[:8192]
+    try:
+        return csv.Sniffer().sniff(sample, delimiters=",\t;|")
+    except csv.Error:
+        return csv.excel
+
+
 def csv_rows(url: str, income_year):
     """Download a CSV resource and yield each data row as a dict tagged with
     income_year. ATO publishes the flat, header-first CSV editions of its
     statistical tables here (datastore-derived XLSX tables are banner-polluted,
     so we deliberately read the CSV file, not the datastore).
     """
-    text = _download(url).decode("utf-8-sig", errors="replace")
-    reader = csv.DictReader(io.StringIO(text))
+    text = _decode_table_text(_download(url))
+    reader = csv.DictReader(io.StringIO(text), dialect=_csv_dialect(text))
     for rec in reader:
         # csv.DictReader keys ragged trailing fields under None; drop them.
         row = {k: _clean_value(v) for k, v in rec.items() if k is not None}
@@ -207,8 +221,8 @@ def _xls_cell_rows(content: bytes, resource, *, name_prefix=""):
 
 
 def _csv_cell_rows(content: bytes, resource, *, name_prefix=""):
-    text = content.decode("utf-8-sig", errors="replace")
-    reader = csv.reader(io.StringIO(text))
+    text = _decode_table_text(content)
+    reader = csv.reader(io.StringIO(text), dialect=_csv_dialect(text))
     sheet = name_prefix.rstrip(":") or "csv"
     for r_idx, row in enumerate(reader, start=1):
         for c_idx, value in enumerate(row, start=1):
@@ -228,8 +242,10 @@ def tabular_cell_rows(resource):
     content = _download(resource["url"])
     fmt = (resource.get("format") or "").upper()
     url = (resource.get("url") or "").lower()
+    is_zip = content.startswith(b"PK\x03\x04")
+    is_xls = content.startswith(b"\xd0\xcf\x11\xe0")
 
-    if "ZIP" in fmt or url.endswith(".zip"):
+    if (is_zip and url.endswith(".zip")) or "ZIP" in fmt or url.endswith(".zip"):
         with zipfile.ZipFile(io.BytesIO(content)) as zf:
             for info in zf.infolist():
                 if info.is_dir():
@@ -248,7 +264,9 @@ def tabular_cell_rows(resource):
 
     if "CSV" in fmt or url.endswith(".csv"):
         yield from _csv_cell_rows(content, resource)
-    elif "XLSX" in fmt or url.endswith(".xlsx"):
+    elif is_xls or url.endswith(".xls"):
+        yield from _xls_cell_rows(content, resource)
+    elif is_zip or url.endswith(".xlsx") or "XLSX" in fmt:
         yield from _xlsx_cell_rows(content, resource)
-    elif "XLS" in fmt or url.endswith(".xls"):
+    elif "XLS" in fmt:
         yield from _xls_cell_rows(content, resource)
