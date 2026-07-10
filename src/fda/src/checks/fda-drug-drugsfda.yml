@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fda-drug-drugsfda`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [application_number]
+checks:
+  - kind: unique
+    columns: [application_number]
+  - kind: not_null
+    col: application_number
+  - kind: row_floor
+    min: 14588
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
