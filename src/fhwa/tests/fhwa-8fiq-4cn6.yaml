@@ -1,0 +1,9 @@
+spec_id: fhwa-8fiq-4cn6
+status: active
+tests:
+  - row_count: {min: 50}
+    reason: toll reference table should cover multiple facilities across states
+    certainty: 80
+  - not_null: state
+  - not_null: hpms_toll_id
+  - not_null: name_of_toll_facility

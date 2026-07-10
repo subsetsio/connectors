@@ -1,0 +1,13 @@
+spec_id: fhwa-bm4c-faz3
+status: active
+coverage:
+  frozen: true
+  reason: historical 2018 HPMS roadway-section regional snapshot; the corpus does not advance
+tests:
+  - row_count: {min: 1000}
+    reason: North regional HPMS section snapshot should contain many roadway sections
+    certainty: 80
+  - not_null: route_id
+  - not_null: year_record
+  - enum: {col: year_record, values: ["2018"]}
+    certainty: 90

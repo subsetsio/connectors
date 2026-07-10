@@ -1,0 +1,14 @@
+spec_id: fhwa-taz8-hut2
+status: active
+tests:
+  - row_count: {min: 25}
+    reason: Highway Trust Fund fiscal-year series should span multiple decades
+    certainty: 80
+  - not_null: fiscal_year
+  - unique: fiscal_year
+    reason: one trust-fund summary row per fiscal year
+    certainty: 90
+  - freshness: {col: fiscal_year, reaches: 2024}
+    reason: Highway Statistics fiscal series should include current published years
+    certainty: 80
+    points_outward: true

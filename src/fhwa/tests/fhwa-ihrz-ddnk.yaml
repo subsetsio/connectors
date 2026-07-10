@@ -1,0 +1,13 @@
+spec_id: fhwa-ihrz-ddnk
+status: active
+coverage:
+  frozen: true
+  reason: historical 2019 HPMS roadway-section regional snapshot; the corpus does not advance
+tests:
+  - row_count: {min: 1000}
+    reason: Mid-America regional HPMS section snapshot should contain many roadway sections
+    certainty: 80
+  - not_null: route_id
+  - not_null: year_record
+  - enum: {col: year_record, values: ["2019"]}
+    certainty: 90

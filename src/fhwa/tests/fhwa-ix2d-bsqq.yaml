@@ -1,0 +1,16 @@
+spec_id: fhwa-ix2d-bsqq
+status: active
+tests:
+  - row_count: {min: 1000}
+    reason: annual state-by-revenue-source finance series covers 2000 through 2024
+    certainty: 90
+  - not_null: year
+  - not_null: state
+  - not_null: revenues
+  - unique: [year, state, revenues]
+    reason: one revenue amount per state-year-source
+    certainty: 90
+  - freshness: {col: year, reaches: 2024}
+    reason: dataset description says coverage reaches 2024
+    certainty: 95
+    points_outward: true

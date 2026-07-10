@@ -1,0 +1,12 @@
+spec_id: fhwa-jc5k-rzm8
+status: active
+tests:
+  - row_count: {min: 50}
+    reason: HPMS index should cover states and territories
+    certainty: 85
+  - not_null: state
+  - not_null: api_url
+  - not_null: map_url
+  - unique: state
+    reason: one HPMS API/map link row per state
+    certainty: 85

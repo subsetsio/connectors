@@ -1,0 +1,14 @@
+spec_id: fhwa-54nx-se7f
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: annual national series starts in 1900
+    certainty: 95
+  - not_null: year
+  - unique: year
+    reason: one row per year
+    certainty: 95
+  - freshness: {col: year, reaches: 2024}
+    reason: dataset description says coverage reaches 2024
+    certainty: 95
+    points_outward: true

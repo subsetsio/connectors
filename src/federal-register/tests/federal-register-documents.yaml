@@ -5,8 +5,9 @@ tests:
     reason: every Federal Register document carries a citation document_number; a null means a dropped/garbled record on our side
     certainty: 97
   - not_null: type
-    reason: type (Rule/Proposed Rule/Notice/Presidential Document) is always present in the API payload
-    certainty: 95
+    reason: document type is normally populated, but a few historical API records omit it; track drift without blocking the corpus
+    certainty: 85
+    severity: warn
   - not_null: publication_date
     reason: publication_date drives the year-partitioned fetch; it is always present
     certainty: 95
@@ -38,3 +39,6 @@ tests:
   - matches: {col: publication_date, pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'}
     reason: publication_date is an ISO calendar date string
     certainty: 90
+  - freshness: {col: publication_date, reaches: today - 7d}
+    reason: the Federal Register publishes every federal business day, so the corpus should include documents from the last week
+    certainty: 95

@@ -1,0 +1,15 @@
+spec_id: fhwa-mt5m-skz3
+status: active
+tests:
+  - row_count: {min: 250}
+    reason: annual state enforcement data should contain multiple years for many states
+    certainty: 85
+  - not_null: year
+  - not_null: state
+  - unique: [year, state]
+    reason: one enforcement row per state-year
+    certainty: 90
+  - freshness: {col: year, reaches: 2024}
+    reason: annually reported state certification data should include the latest reporting year
+    certainty: 75
+    points_outward: true

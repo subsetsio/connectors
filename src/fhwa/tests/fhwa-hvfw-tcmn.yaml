@@ -1,0 +1,15 @@
+spec_id: fhwa-hvfw-tcmn
+status: active
+tests:
+  - row_count: {min: 3500}
+    reason: annual state series from 1950 through 2024 should have 50 states plus DC
+    certainty: 90
+  - not_null: year
+  - not_null: state
+  - unique: [year, state]
+    reason: one motor-fuel observation per state-year
+    certainty: 95
+  - freshness: {col: year, reaches: 2024}
+    reason: dataset description says coverage reaches 2024
+    certainty: 95
+    points_outward: true
