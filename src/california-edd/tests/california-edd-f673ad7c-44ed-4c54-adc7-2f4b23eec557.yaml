@@ -1,0 +1,16 @@
+spec_id: california-edd-f673ad7c-44ed-4c54-adc7-2f4b23eec557
+status: active
+# Regional Planning Unit Overviews.
+tests:
+  - row_count: {min: 1}
+    reason: the package is a single active CKAN CSV containing RPU occupational projection rows
+    certainty: 95
+  - not_null: Area Name
+    reason: each row belongs to California statewide or a regional planning unit
+    certainty: 90
+  - not_null: Period
+    reason: RPU projections identify their base-to-projected year span
+    certainty: 90
+  - not_null: Occupational Title
+    reason: the overview is occupational projection data, so each row should name an occupation group or occupation
+    certainty: 85

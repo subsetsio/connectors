@@ -26,5 +26,6 @@ ENTITY_IDS = [
     "b16c1546-03e1-4bc2-95d2-863f68b54530",
     "b1ac39b1-33cc-4577-b584-6259406ce835",
     "c9416284-cabe-46a3-bdbc-d00ab5ab58f7",
+    "f673ad7c-44ed-4c54-adc7-2f4b23eec557",
     "f9d2aa1a-5f94-468d-b5ef-26b3b9418694",
 ]

@@ -365,6 +365,26 @@ _COLUMN_SPECS: dict[str, list[tuple[str, str, str]]] = {
         ("num", "Unemployment", "unemployment"),
         ("num", "Unemployment Rate", "unemployment_rate"),
     ],
+    # Regional Planning Unit Overviews
+    "f673ad7c-44ed-4c54-adc7-2f4b23eec557": [
+        ("txt", "Area Type", "area_type"),
+        ("txt", "Area Name", "area_name"),
+        ("txt", "Period", "period"),
+        ("txt", "Standard Occupational Classification (SOC) Code", "soc_code"),
+        ("txt", "Occupational Title", "occupational_title"),
+        ("num", "Base Year", "base_year_employment"),
+        ("num", "Projection Employment Estimate", "projected_year_employment"),
+        ("num", "Numeric Change", "numeric_change"),
+        ("num", "Percent Change", "percentage_change"),
+        ("num", "Exits", "exits"),
+        ("num", "Transfers", "transfers"),
+        ("num", "Total Job Openings", "total_job_openings"),
+        ("num", "Median Hourly Wage", "median_hourly_wage"),
+        ("num", "Median Annual Wage", "median_annual_wage"),
+        ("txt", "Entry Level Education", "entry_level_education"),
+        ("txt", "Work Experience", "work_experience"),
+        ("txt", "Job Training", "job_training"),
+    ],
     # Unemployment Insurance Program Monthly Claims Data for California
     "f9d2aa1a-5f94-468d-b5ef-26b3b9418694": [
         ("txt", "Area Type", "area_type"),
