@@ -29,6 +29,9 @@ _REGISTRY_MEMBERS = {
     "faa-dereg": "DEREG.txt",
     "faa-acftref": "ACFTREF.txt",
     "faa-engine": "ENGINE.txt",
+    "faa-dealer": "DEALER.txt",
+    "faa-docindex": "DOCINDEX.txt",
+    "faa-reserved": "RESERVED.txt",
 }
 
 
