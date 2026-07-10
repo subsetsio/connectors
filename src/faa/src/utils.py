@@ -5,7 +5,7 @@ sets one. Both fetch mechanisms (Aircraft Registry ZIP and AIS ArcGIS
 FeatureServers) go through faa_get.
 """
 
-from subsets_utils import configure_http, get, transient_retry
+from subsets_utils import configure_http, get
 
 _UA = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -13,7 +13,6 @@ _UA = (
 )
 
 
-@transient_retry()
 def faa_get(url: str, **kwargs):
     # The FAA WAF needs a browser UA; set it once per process.
     configure_http(headers={"User-Agent": _UA, "Referer": "https://www.faa.gov/"})

@@ -1,0 +1,12 @@
+spec_id: fca-changes-to-overdraft-charges
+status: active
+tests:
+  - not_null: package_name
+  - not_null: resource_url
+  - not_null: sheet_name
+  - not_null: cell_value
+  - column_type: {col: row_number, type: integer}
+  - column_type: {col: column_number, type: integer}
+  - row_count: {min: 20}
+    reason: FCA workbook/CSV resources should contain a non-empty tabular body
+    certainty: 75

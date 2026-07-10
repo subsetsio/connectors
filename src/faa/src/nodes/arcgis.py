@@ -1,10 +1,9 @@
-"""FAA AIS ArcGIS Hub — eight tabular aeronautical FeatureServer datasets.
+"""FAA AIS ArcGIS Hub core tabular aeronautical FeatureServer datasets.
 
-services6.arcgis.com FeatureServers expose eight tabular aeronautical datasets
-(airports, runways, navaids, frequencies, ILS, obstacles, designated points).
-Pulled via the ArcGIS REST query API, OBJECTID-ordered offset pagination,
-geometry dropped, saved as NDJSON (each layer has its own column set, so no
-shared parquet schema).
+services6.arcgis.com FeatureServers expose the core tabular aeronautical
+datasets (airports, runways, navaids, frequencies, ILS, obstacles, designated
+points). Pull via the ArcGIS REST query API, OBJECTID-ordered offset
+pagination, geometry dropped, saved as NDJSON.
 
 Whole-corpus snapshot with no incremental filter, so the fetch shape is
 stateless full re-pull + overwrite.
@@ -27,8 +26,8 @@ _ARCGIS_SERVICES = {
     "faa-designated-point": "DesignatedPoints",
 }
 
-_PAGE = 1000          # <= every layer's maxRecordCount (min observed 1000)
-_MAX_PAGES = 100_000  # safety ceiling; raises (never silently truncates)
+_PAGE = 1000
+_MAX_PAGES = 100_000
 
 
 def _iter_features(service: str):
@@ -39,7 +38,7 @@ def _iter_features(service: str):
     while True:
         pages += 1
         if pages > _MAX_PAGES:
-            raise RuntimeError(f"{service}: exceeded {_MAX_PAGES} pages — source grew unexpectedly")
+            raise RuntimeError(f"{service}: exceeded {_MAX_PAGES} pages - source grew unexpectedly")
         data = faa_get(
             base,
             params={

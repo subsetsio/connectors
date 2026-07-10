@@ -26,7 +26,6 @@ import pandas as pd
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -79,6 +78,14 @@ def _latest_package(family: str) -> dict:
     return members[-1]
 
 
+def _family_packages(family: str) -> list[dict]:
+    members = [p for p in _ckan_packages() if _family(p["name"]) == family]
+    if not members:
+        raise RuntimeError(f"no CKAN packages found for family {family!r}")
+    members.sort(key=lambda p: p.get("metadata_modified") or "")
+    return members
+
+
 def _xlsx_urls(pkg: dict, *, contains: str | None = None) -> list[str]:
     urls = []
     for res in pkg.get("resources", []):
@@ -123,6 +130,19 @@ def _s(v):
         return None
     t = str(v).strip()
     return t or None
+
+
+def _cell(v):
+    if v is None:
+        return None
+    try:
+        if pd.isna(v):
+            return None
+    except (TypeError, ValueError):
+        pass
+    if hasattr(v, "isoformat"):
+        return v.isoformat()
+    return str(v).strip()
 
 
 # --------------------------------------------------------------------------
@@ -260,6 +280,70 @@ def _melt_period_blocks(df: pd.DataFrame, sheet: str) -> list[dict]:
 # --------------------------------------------------------------------------
 # fetch functions — one per rank-active product
 # --------------------------------------------------------------------------
+def _resource_rows(pkg: dict) -> list[dict]:
+    rows = []
+    for res in pkg.get("resources", []):
+        url = res.get("url") or ""
+        fmt = (res.get("format") or "").upper().lstrip(".")
+        if fmt not in {"XLSX", "XLS", "CSV"}:
+            continue
+        if not url.lower().split("?")[0].endswith((".xlsx", ".xls", ".csv")):
+            continue
+        rows.append({
+            "url": url,
+            "format": fmt,
+            "name": res.get("name") or res.get("description") or url.rsplit("/", 1)[-1],
+        })
+    return rows
+
+
+def _emit_cell_rows(pkg: dict, resource: dict, content: bytes) -> list[dict]:
+    common = {
+        "package_name": pkg.get("name"),
+        "package_title": pkg.get("title"),
+        "metadata_modified": pkg.get("metadata_modified"),
+        "resource_name": resource["name"],
+        "resource_url": resource["url"],
+        "resource_format": resource["format"],
+    }
+    rows = []
+    if resource["format"] == "CSV":
+        frames = [("csv", pd.read_csv(io.BytesIO(content), header=None, dtype=object))]
+    else:
+        xl = pd.ExcelFile(io.BytesIO(content))
+        frames = [(sheet, xl.parse(sheet, header=None, dtype=object)) for sheet in xl.sheet_names]
+
+    for sheet, df in frames:
+        for row_idx in range(df.shape[0]):
+            for col_idx in range(df.shape[1]):
+                value = _cell(df.iat[row_idx, col_idx])
+                if value is None:
+                    continue
+                rows.append({
+                    **common,
+                    "sheet_name": sheet,
+                    "row_number": row_idx + 1,
+                    "column_number": col_idx + 1,
+                    "cell_value": value,
+                })
+    return rows
+
+
+def fetch_generic_workbooks(node_id: str) -> None:
+    family = node_id.removeprefix("fca-")
+    rows = []
+    for pkg in _family_packages(family):
+        resources = _resource_rows(pkg)
+        if not resources:
+            continue
+        for resource in resources:
+            content = _get_xlsx(resource["url"])
+            rows.extend(_emit_cell_rows(pkg, resource, content))
+    if not rows:
+        raise RuntimeError(f"no tabular workbook/CSV cells fetched for family {family!r}")
+    save_raw_ndjson(rows, node_id)
+
+
 def fetch_firm_complaints(node_id: str) -> None:
     """Aggregate complaints — three tidy long sheets unioned. The latest
     aggregate workbook is cumulative across semesters."""
@@ -423,7 +507,37 @@ def fetch_retirement_income_market(node_id: str) -> None:
 # --------------------------------------------------------------------------
 # specs
 # --------------------------------------------------------------------------
+GENERIC_ENTITY_IDS = [
+    "access-to-cash-coverage-in-the-uk",
+    "appointed-representatives",
+    "cash-savings-profitability-analysis",
+    "changes-to-overdraft-charges",
+    "comparison-of-banking-providers-fraud-controls",
+    "consumer-investments-data-review",
+    "consumer-investments-data-review-april-2021-march-202",
+    "defined-benefit-pension-transfers-market",
+    "fca",
+    "financial-crime-analysis-of-firms-2017-2020-rep-crim",
+    "financial-lives-cost-of-living-jan-2024-recontact-survey",
+    "financial-promotions",
+    "improving-the-appointed-representatives-regime-through-greater-use-of",
+    "listings",
+    "mandated-and-voluntary-information-on-current-account-services",
+    "mortgage-charter-uptake",
+    "operating-service-metrics",
+    "outcomes-and-metrics",
+    "performance-scorecard-comparison-metrics-for-personal-current-accounts",
+    "prescribed-persons-annual-report",
+    "secondary-international-competitiveness-and-growth-objective-sicgo-metrics",
+    "service-standards",
+    "understanding-mortgage-prisoners",
+    "update-on-cash-savings",
+    "whistleblowing",
+]
+
 DOWNLOAD_SPECS = [
+    *(NodeSpec(id=f"fca-{entity_id}", fn=fetch_generic_workbooks, kind="download")
+      for entity_id in GENERIC_ENTITY_IDS),
     NodeSpec(id="fca-firm-complaints", fn=fetch_firm_complaints, kind="download"),
     NodeSpec(id="fca-general-insurance-value-measures",
              fn=fetch_general_insurance_value_measures, kind="download"),
@@ -434,100 +548,4 @@ DOWNLOAD_SPECS = [
              fn=fetch_retail_intermediary_market, kind="download"),
     NodeSpec(id="fca-retirement-income-market",
              fn=fetch_retirement_income_market, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="fca-firm-complaints-transform",
-        deps=["fca-firm-complaints"],
-        temporal="semester",
-        sql='''
-            SELECT semester,
-                   breakdown_type,
-                   category,
-                   product,
-                   variable_type,
-                   variable,
-                   CAST(volume AS DOUBLE) AS volume
-            FROM "fca-firm-complaints"
-            WHERE volume IS NOT NULL AND semester IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="fca-general-insurance-value-measures-transform",
-        deps=["fca-general-insurance-value-measures"],
-        key=("firm_name", "product_category", "year"),
-        temporal="year",
-        sql='''
-            SELECT firm_name,
-                   product_category,
-                   CAST(year AS INTEGER) AS year,
-                   band_claims_frequency,
-                   band_claims_acceptance_rate,
-                   band_average_claims_payout,
-                   band_claims_complaints_pct
-            FROM "fca-general-insurance-value-measures"
-            WHERE firm_name IS NOT NULL AND year IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="fca-mortgage-lending-statistics-transform",
-        deps=["fca-mortgage-lending-statistics"],
-        temporal="year",
-        sql='''
-            SELECT table_sheet,
-                   sub_table_ref,
-                   metric,
-                   unit,
-                   CAST(year AS INTEGER) AS year,
-                   quarter,
-                   CAST(value AS DOUBLE) AS value
-            FROM "fca-mortgage-lending-statistics"
-            WHERE value IS NOT NULL AND metric IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="fca-product-sales-transform",
-        deps=["fca-product-sales"],
-        temporal="period",
-        sql='''
-            SELECT grouped_by,
-                   category,
-                   subcategory,
-                   period,
-                   CAST(regexp_extract(period, '(\\d{4})', 1) AS INTEGER) AS year,
-                   regexp_extract(period, '^(Q[1-4])', 1) AS quarter,
-                   CAST(no_of_sales AS DOUBLE) AS no_of_sales
-            FROM "fca-product-sales"
-            WHERE no_of_sales IS NOT NULL AND period IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="fca-retail-intermediary-market-transform",
-        deps=["fca-retail-intermediary-market"],
-        temporal="year",
-        sql='''
-            SELECT section,
-                   table_title,
-                   CAST(year AS INTEGER) AS year,
-                   metric,
-                   CAST(value AS DOUBLE) AS value
-            FROM "fca-retail-intermediary-market"
-            WHERE value IS NOT NULL AND year IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="fca-retirement-income-market-transform",
-        deps=["fca-retirement-income-market"],
-        temporal="period",
-        sql='''
-            SELECT table_title,
-                   row_label,
-                   period,
-                   metric,
-                   CAST(value AS DOUBLE) AS value
-            FROM "fca-retirement-income-market"
-            WHERE value IS NOT NULL AND row_label IS NOT NULL
-        ''',
-    ),
 ]
