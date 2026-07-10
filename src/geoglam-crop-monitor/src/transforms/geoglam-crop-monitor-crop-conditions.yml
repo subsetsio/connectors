@@ -1,19 +1,38 @@
-# compiled by `hardened compile-transforms` — faithful pass-through
-# of raw asset `geoglam-crop-monitor-crop-conditions`. Regenerate after model-verify.
-# caution: No natural key: a row is one crop-growing-area polygon's assessment for a month, but the geometry (and the source's polygon id) are not published, so the same (period, country, region, crop) recurs across distinct overlapping polygons — often with DIFFERENT `conditions`/`drivers`. Never assume one row per (region, crop, month); treat each row as an independent polygon-level assessment and do not dedupe on the descriptive columns.
-# caution: The `conditions` classification is a qualitative ordinal label (Exceptional/Favourable/Watch/Poor/Failure/No Data plus blank markers), not a numeric measure — never sum or average it; count rows per class instead.
-# caution: `period` is a YYYYMM string stamped from the source layer name (the assessment month), not a row-level date; every row in a layer shares its period.
+# GEOGLAM Crop Monitor global-synthesis crop-condition assessments, published
+# as one faithful long-format table (one row per source polygon feature per
+# assessment month). Keyless: the same (month, country, region, crop) recurs
+# across distinct overlapping growing-area polygons — do NOT dedupe.
 key: []
+temporal: month
+sort: [month, country, region, crop]
+write_mode: overwrite   # full re-pull of every monthly layer each run
 columns:
-  - name: period
-    type: BIGINT
+  - name: month
+    type: DATE
+    description: Assessment month (first day of the month), parsed from the source layer name Global_Synthesis_YYYYMM. Every row from one layer shares this value.
   - name: country
     type: VARCHAR
+    description: Country the growing-area polygon falls in, as labelled by GEOGLAM.
   - name: region
     type: VARCHAR
+    description: Sub-national region/growing area within the country, as labelled by GEOGLAM. Not unique — the same name can cover several distinct polygons.
   - name: crop
     type: VARCHAR
-  - name: conditions
+    description: Crop and season assessed (e.g. 'Spring Wheat', 'Maize 1', 'Rice 2'); the trailing number distinguishes multiple growing seasons of the same crop.
+  - name: condition
     type: VARCHAR
+    description: >-
+      GEOGLAM crop-condition class for this polygon/crop/month, ordinal best-to-worst:
+      Exceptional, Favourable, Watch, Poor, Failure. 'No Data' = monitored area with no
+      assessment available; NULL = the source left the cell blank (crop out of season /
+      area not assessed). Blank and '#N/A' sentinels are normalised to NULL; the case
+      variant 'No data' and the misspellings 'Favuorable'/'Favourble' are unified. A few
+      non-standard source labels ('Favourable-Watch', 'No Favourable') are passed through
+      as-is. Qualitative — count rows per class, never sum or average.
   - name: drivers
     type: VARCHAR
+    description: >-
+      Comma-separated driver tags the source attaches to a non-favourable condition
+      (e.g. 'Dry', 'Dry, Hot', 'Conflict', 'Socio-economic', 'Delayed Onset', 'Wet',
+      'Extreme Event'). NULL when the source left it blank. Free-text list — split on
+      ', ' to enumerate individual drivers.

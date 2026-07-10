@@ -1,15 +1,21 @@
--- compiled by `hardened compile-transforms` from the measured model
--- profiles (model/tables + columns). Faithful pass-through: verified
--- pure casts only, no data fixes. Regenerate after model-verify;
--- durable edits belong in the model stage, not here.
--- caution: No natural key: a row is one crop-growing-area polygon's assessment for a month, but the geometry (and the source's polygon id) are not published, so the same (period, country, region, crop) recurs across distinct overlapping polygons — often with DIFFERENT `conditions`/`drivers`. Never assume one row per (region, crop, month); treat each row as an independent polygon-level assessment and do not dedupe on the descriptive columns.
--- caution: The `conditions` classification is a qualitative ordinal label (Exceptional/Favourable/Watch/Poor/Failure/No Data plus blank markers), not a numeric measure — never sum or average it; count rows per class instead.
--- caution: `period` is a YYYYMM string stamped from the source layer name (the assessment month), not a row-level date; every row in a layer shares its period.
+-- GEOGLAM Crop Monitor — global synthesis crop-condition assessments.
+-- Faithful long-format pass-through of the monthly ArcGIS synthesis layers:
+-- one row per source polygon feature per assessment month. KEYLESS — once the
+-- polygon geometry is dropped the same (month, country, region, crop) recurs
+-- across distinct overlapping growing-area polygons, often with different
+-- conditions; do NOT dedupe on the descriptive columns.
+-- Residual curation only: YYYYMM -> month DATE, trim, blank/#N/A sentinels ->
+-- NULL, unify the 'No data' case variant and the two 'Favourable' misspellings.
 SELECT
-    CAST("period" AS BIGINT) AS period,
-    "country",
-    "region",
-    "crop",
-    "conditions",
-    "drivers"
+    CAST(strptime("period" || '01', '%Y%m%d') AS DATE) AS month,
+    NULLIF(TRIM("country"), '') AS country,
+    NULLIF(TRIM("region"), '')  AS region,
+    NULLIF(TRIM("crop"), '')    AS crop,
+    CASE
+        WHEN UPPER(TRIM("conditions")) IN ('', '#N/A', 'N/A', 'NA') THEN NULL
+        WHEN UPPER(TRIM("conditions")) = 'NO DATA' THEN 'No Data'
+        WHEN TRIM("conditions") IN ('Favuorable', 'Favourble') THEN 'Favourable'
+        ELSE TRIM("conditions")
+    END AS condition,
+    NULLIF(TRIM("drivers"), '') AS drivers
 FROM "geoglam-crop-monitor-crop-conditions"
