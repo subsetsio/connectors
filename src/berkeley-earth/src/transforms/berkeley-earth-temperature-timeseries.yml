@@ -1,38 +1,58 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [region_slug, level, variable, domain, year, month]
+temporal: date
+sort: [date, region_slug, level, variable, domain]
 columns:
   - name: date
     type: DATE
+    description: first day of the observation month
   - name: region_slug
     type: VARCHAR
+    description: Berkeley Earth regional archive slug, or global for global products
   - name: region_name
     type: VARCHAR
+    description: source-provided region name when available
   - name: level
     type: VARCHAR
+    description: geographic level, global, continent, country, or US state
   - name: variable
     type: VARCHAR
+    description: Berkeley Earth temperature variable code, TAVG, TMAX, or TMIN
   - name: domain
     type: VARCHAR
+    description: land-only or blended land-and-ocean domain
   - name: year
     type: INTEGER
+    description: observation year
   - name: month
     type: INTEGER
+    description: observation month number
   - name: monthly_anomaly
     type: DOUBLE
+    description: monthly temperature anomaly in degrees Celsius relative to the 1951-1980 baseline
   - name: monthly_unc
     type: DOUBLE
+    description: monthly anomaly uncertainty in degrees Celsius
   - name: annual_anomaly
     type: DOUBLE
+    description: annual moving-average anomaly in degrees Celsius when reported by the source
   - name: annual_unc
     type: DOUBLE
+    description: annual moving-average uncertainty in degrees Celsius when reported by the source
   - name: five_year_anomaly
     type: DOUBLE
+    description: five-year moving-average anomaly in degrees Celsius when reported by the source
   - name: five_year_unc
     type: DOUBLE
+    description: five-year moving-average uncertainty in degrees Celsius when reported by the source
   - name: ten_year_anomaly
     type: DOUBLE
+    description: ten-year moving-average anomaly in degrees Celsius when reported by the source
   - name: ten_year_unc
     type: DOUBLE
+    description: ten-year moving-average uncertainty in degrees Celsius when reported by the source
   - name: twenty_year_anomaly
     type: DOUBLE
+    description: twenty-year moving-average anomaly in degrees Celsius when reported by the source
   - name: twenty_year_unc
     type: DOUBLE
+    description: twenty-year moving-average uncertainty in degrees Celsius when reported by the source

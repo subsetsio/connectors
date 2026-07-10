@@ -1,0 +1,19 @@
+spec_id: berkeley-earth-regions
+status: active
+tests:
+  - not_null: region_slug
+  - not_null: region_name
+  - not_null: level
+  - column_type: {col: region_slug, type: string}
+  - column_type: {col: region_name, type: string}
+  - unique: region_slug
+    reason: the regional archive URL template is keyed by the Berkeley Earth slug
+    certainty: 95
+  - enum: {col: level, values: [continent, country, us-state]}
+    certainty: 99
+  - row_count: {min: 150}
+    reason: the static universe includes continents, a broad country list, and all 50 US states
+    certainty: 90
+  - distinct_count: {col: level, min: 3}
+    reason: all three region levels should be represented
+    certainty: 99

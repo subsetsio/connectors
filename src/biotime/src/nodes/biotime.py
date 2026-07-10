@@ -20,17 +20,11 @@ import io
 import zipfile
 
 import pyarrow as pa
-from subsets_utils import (
-    NodeSpec,
-    SqlNodeSpec,
-    get,
-    transient_retry,
-    save_raw_parquet,
-    raw_parquet_writer,
-)
+from subsets_utils import NodeSpec, get, save_raw_parquet, raw_parquet_writer
 
 QUERY_ZIP_URL = "https://zenodo.org/api/records/5026943/files/BioTIMEQuery_24_06_2021.zip/content"
 META_CSV_URL = "https://zenodo.org/api/records/5026943/files/BioTIMEMetadata_24_06_2021.csv/content"
+CITATIONS_CSV_URL = "https://zenodo.org/api/records/5026943/files/BioTIMECitations_24_06_2021.csv/content"
 
 # Raw column names for the records table. The source CSV's first column is an
 # unnamed running row index; the rest map 1:1 to the documented query schema.
@@ -44,14 +38,12 @@ RECORDS_SCHEMA = pa.schema([(c, pa.string()) for c in RECORDS_COLS])
 RECORDS_BATCH = 250_000  # rows per parquet row-group flush
 
 
-@transient_retry()
 def _download_bytes(url: str) -> bytes:
     resp = get(url, timeout=(10.0, 300.0))
     resp.raise_for_status()
     return resp.content
 
 
-@transient_retry()
 def _download_text(url: str) -> str:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -111,70 +103,28 @@ def fetch_studies(node_id: str) -> None:
     save_raw_parquet(table, asset)
 
 
+def fetch_citations(node_id: str) -> None:
+    """Download the study citation mapping CSV and save as strings."""
+    asset = node_id
+    text = _download_text(CITATIONS_CSV_URL)
+    reader = csv.reader(io.StringIO(text))
+    header = [h.strip().lower() for h in next(reader)]
+    rows = list(reader)
+    width = len(header)
+    cols = [[] for _ in range(width)]
+    for r in rows:
+        if len(r) != width:
+            r = (r + [None] * width)[:width]
+        for i in range(width):
+            cols[i].append(r[i])
+    schema = pa.schema([(h, pa.string()) for h in header])
+    table = pa.table({header[i]: pa.array(cols[i], type=pa.string()) for i in range(width)},
+                     schema=schema)
+    save_raw_parquet(table, asset)
+
+
 DOWNLOAD_SPECS = [
+    NodeSpec(id="biotime-citations", fn=fetch_citations, kind="download"),
     NodeSpec(id="biotime-records", fn=fetch_records, kind="download"),
     NodeSpec(id="biotime-studies", fn=fetch_studies, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="biotime-records-transform",
-        deps=["biotime-records"],
-        temporal="year",
-        sql='''
-            SELECT
-                TRY_CAST(study_id   AS INTEGER) AS study_id,
-                TRY_CAST(year       AS INTEGER) AS year,
-                TRY_CAST(month      AS INTEGER) AS month,
-                TRY_CAST(day        AS INTEGER) AS day,
-                NULLIF(sample_desc, 'NA')       AS sample_desc,
-                NULLIF(plot, 'NA')              AS plot,
-                TRY_CAST(id_species AS INTEGER) AS id_species,
-                TRY_CAST(latitude   AS DOUBLE)  AS latitude,
-                TRY_CAST(longitude  AS DOUBLE)  AS longitude,
-                TRY_CAST(abundance  AS DOUBLE)  AS abundance,
-                TRY_CAST(biomass    AS DOUBLE)  AS biomass,
-                NULLIF(genus, 'NA')             AS genus,
-                NULLIF(species, 'NA')           AS species,
-                NULLIF(genus_species, 'NA')     AS genus_species
-            FROM "biotime-records"
-            WHERE TRY_CAST(study_id AS INTEGER) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="biotime-studies-transform",
-        deps=["biotime-studies"],
-        key=("study_id",),
-        sql='''
-            SELECT
-                TRY_CAST(study_id AS INTEGER)          AS study_id,
-                NULLIF(realm, 'NA')                    AS realm,
-                NULLIF(climate, 'NA')                  AS climate,
-                NULLIF(habitat, 'NA')                  AS habitat,
-                NULLIF(biome_map, 'NA')                AS biome_map,
-                NULLIF(taxa, 'NA')                     AS taxa,
-                NULLIF(organisms, 'NA')                AS organisms,
-                NULLIF(title, 'NA')                    AS title,
-                NULLIF(ab_bio, 'NA')                   AS ab_bio,
-                NULLIF(has_plot, 'NA')                 AS has_plot,
-                TRY_CAST(data_points AS INTEGER)       AS data_points,
-                TRY_CAST(start_year AS INTEGER)        AS start_year,
-                TRY_CAST(end_year AS INTEGER)          AS end_year,
-                TRY_CAST(cent_lat AS DOUBLE)           AS cent_lat,
-                TRY_CAST(cent_long AS DOUBLE)          AS cent_long,
-                TRY_CAST(number_of_species AS INTEGER) AS number_of_species,
-                TRY_CAST(number_of_samples AS INTEGER) AS number_of_samples,
-                TRY_CAST(total AS INTEGER)             AS total,
-                TRY_CAST(area_sq_km AS DOUBLE)         AS area_sq_km,
-                NULLIF(license, 'NA')                  AS license,
-                NULLIF(web_link, 'NA')                 AS web_link,
-                NULLIF(data_source, 'NA')              AS data_source,
-                NULLIF(abundance_type, 'NA')           AS abundance_type,
-                NULLIF(biomass_type, 'NA')             AS biomass_type,
-                NULLIF(date_study_added, 'NA')         AS date_study_added
-            FROM "biotime-studies"
-            WHERE TRY_CAST(study_id AS INTEGER) IS NOT NULL
-        ''',
-    ),
 ]

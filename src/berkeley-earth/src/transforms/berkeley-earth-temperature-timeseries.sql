@@ -5,7 +5,7 @@ SELECT
     level,
     variable,
     domain,
-    CAST(year AS INTEGER)  AS year,
+    CAST(year AS INTEGER) AS year,
     CAST(month AS INTEGER) AS month,
     monthly_anomaly,
     monthly_unc,

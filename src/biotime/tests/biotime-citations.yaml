@@ -1,0 +1,15 @@
+spec_id: biotime-citations
+status: active
+tests:
+  - not_null: study_id
+    reason: every citation maps back to a BioTIME study
+    certainty: 98
+  - column_type: {col: study_id, type: string}
+    reason: raw is saved faithfully as strings; typing happens in the transform
+    certainty: 95
+  - row_count: {min: 500, max: 1000}
+    reason: the BioTIME 1.0 citation file has one or more publication citations for the 381 studies
+    certainty: 85
+  - not_null: citation_line
+    reason: citation_line is the publication text carried by the citations CSV
+    certainty: 95

@@ -1,0 +1,15 @@
+key: [region_slug]
+sort: [level, region_slug]
+columns:
+  - name: region_slug
+    type: VARCHAR
+    description: Berkeley Earth regional archive slug used in regional time-series URLs
+  - name: region_name
+    type: VARCHAR
+    description: display name derived from the regional archive slug
+  - name: level
+    type: VARCHAR
+    description: region category, continent, country, or US state
+  - name: source_path_template
+    type: VARCHAR
+    description: URL template for regional temperature anomaly text files

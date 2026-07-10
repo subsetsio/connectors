@@ -1,0 +1,43 @@
+key: [product_id]
+temporal: last_modified
+sort: [last_modified, product_id]
+columns:
+  - name: product_id
+    type: VARCHAR
+    description: stable identifier for the public Berkeley Earth gridded NetCDF product
+  - name: file_name
+    type: VARCHAR
+    description: NetCDF object name under the Berkeley Earth Global/Gridded S3 prefix
+  - name: url
+    type: VARCHAR
+    description: public HTTPS URL for the NetCDF object
+  - name: variable
+    type: VARCHAR
+    description: Berkeley Earth temperature variable code, TAVG, TMAX, or TMIN
+  - name: domain
+    type: VARCHAR
+    description: whether the product covers land only or the blended land-and-ocean domain
+  - name: grid
+    type: VARCHAR
+    description: gridded product layout, equal-area or one-degree latitude-longitude
+  - name: description
+    type: VARCHAR
+    description: human-readable product description
+  - name: format
+    type: VARCHAR
+    description: source file format
+  - name: http_status
+    type: INTEGER
+    description: HTTP status returned by a ranged availability probe
+  - name: content_length_bytes
+    type: BIGINT
+    description: total source object size in bytes from Content-Range or Content-Length
+  - name: last_modified
+    type: TIMESTAMP
+    description: source Last-Modified timestamp from S3
+  - name: etag
+    type: VARCHAR
+    description: source ETag from S3
+  - name: checked_at
+    type: TIMESTAMP
+    description: timestamp when the connector verified the object metadata

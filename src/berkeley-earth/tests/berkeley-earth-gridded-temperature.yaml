@@ -1,0 +1,34 @@
+spec_id: berkeley-earth-gridded-temperature
+status: active
+tests:
+  - not_null: product_id
+  - not_null: url
+  - not_null: variable
+  - not_null: domain
+  - not_null: grid
+  - not_null: content_length_bytes
+  - not_null: last_modified
+  - column_type: {col: product_id, type: string}
+  - column_type: {col: content_length_bytes, type: integer}
+  - column_type: {col: last_modified, type: timestamp}
+  - unique: product_id
+    reason: each public NetCDF grid product appears once in the inventory
+    certainty: 99
+  - enum: {col: variable, values: [TAVG, TMAX, TMIN]}
+    certainty: 99
+  - enum: {col: domain, values: [land, land_and_ocean]}
+    certainty: 99
+  - enum: {col: grid, values: [equal_area, latlong_1deg]}
+    certainty: 95
+  - enum: {col: format, values: [netcdf]}
+    certainty: 99
+  - row_count: {min: 8}
+    reason: the connector tracks the public equal-area and one-degree NetCDF files for land-only TAVG/TMAX/TMIN and land-and-ocean TAVG
+    certainty: 90
+  - at_least: {col: content_length_bytes, expr: 1000000}
+    reason: gridded NetCDF products are multi-megabyte files; smaller responses indicate an error page or truncated probe
+    certainty: 95
+  - freshness: {col: last_modified, reaches: today - 90d}
+    reason: Berkeley Earth overwrites the public NetCDF products on an approximately monthly release cadence; 90 days allows release lag while catching stale production runs
+    certainty: 75
+    points_outward: true
