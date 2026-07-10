@@ -1,0 +1,89 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dvf-transactions`. Regenerate after model-verify.
+# caution: One row per parcel-line of a mutation, NOT one row per transaction: a single sale (id_mutation) spans multiple rows when it covers several parcels, lots, or local types. valeur_fonciere is the total value of the whole mutation and is REPEATED on every row of that id_mutation - never SUM valeur_fonciere across rows without first deduplicating to one row per id_mutation, or you multiply the sale value by its parcel-line count.
+# caution: The file has no natural primary key and can contain exact duplicate rows; treat it as a keyless observation log and dedupe on id_mutation (or the full row) for transaction-level analysis.
+# caution: Coverage is statutorily incomplete: Alsace-Moselle (Bas-Rhin, Haut-Rhin, Moselle) and Mayotte are excluded from DVF by law, so code_departement will never contain 57/67/68/976.
+key: []
+temporal: date_mutation
+sort: [date_mutation]
+columns:
+  - name: id_mutation
+    type: VARCHAR
+  - name: date_mutation
+    type: DATE
+  - name: numero_disposition
+    type: VARCHAR
+  - name: nature_mutation
+    type: VARCHAR
+  - name: valeur_fonciere
+    type: DOUBLE
+  - name: adresse_numero
+    type: VARCHAR
+  - name: adresse_suffixe
+    type: VARCHAR
+  - name: adresse_nom_voie
+    type: VARCHAR
+  - name: adresse_code_voie
+    type: VARCHAR
+  - name: code_postal
+    type: VARCHAR
+  - name: code_commune
+    type: VARCHAR
+  - name: nom_commune
+    type: VARCHAR
+  - name: code_departement
+    type: VARCHAR
+  - name: ancien_code_commune
+    type: VARCHAR
+  - name: ancien_nom_commune
+    type: VARCHAR
+  - name: id_parcelle
+    type: VARCHAR
+  - name: ancien_id_parcelle
+    type: VARCHAR
+  - name: numero_volume
+    type: VARCHAR
+  - name: lot1_numero
+    type: VARCHAR
+  - name: lot1_surface_carrez
+    type: DOUBLE
+  - name: lot2_numero
+    type: VARCHAR
+  - name: lot2_surface_carrez
+    type: DOUBLE
+  - name: lot3_numero
+    type: VARCHAR
+  - name: lot3_surface_carrez
+    type: DOUBLE
+  - name: lot4_numero
+    type: VARCHAR
+  - name: lot4_surface_carrez
+    type: DOUBLE
+  - name: lot5_numero
+    type: VARCHAR
+  - name: lot5_surface_carrez
+    type: DOUBLE
+  - name: nombre_lots
+    type: BIGINT
+  - name: code_type_local
+    type: VARCHAR
+  - name: type_local
+    type: VARCHAR
+  - name: surface_reelle_bati
+    type: DOUBLE
+  - name: nombre_pieces_principales
+    type: BIGINT
+  - name: code_nature_culture
+    type: VARCHAR
+  - name: nature_culture
+    type: VARCHAR
+  - name: code_nature_culture_speciale
+    type: VARCHAR
+  - name: nature_culture_speciale
+    type: VARCHAR
+  - name: surface_terrain
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: latitude
+    type: DOUBLE

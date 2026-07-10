@@ -1,26 +1,31 @@
-"""ECA&D connector — daily station observations + station reference.
+"""ECA&D connector — daily blended station observations + the station index.
 
-Mechanism: bulk ASCII ZIPs ('bulk_zip_ascii'). One stable S3 ZIP per element of
-the canonical *blended* variant:
+Mechanism ('bulk_zip_ascii'): one stable S3 ZIP per element of the canonical
+*blended* variant —
     https://knmi-ecad-assets-prd.s3.amazonaws.com/download/ECA_blend_{elem}.zip
 Each ZIP holds one fixed-format ASCII file per station (a prose header, then a
 `STAID, SOUID, DATE, <ELEM>, Q_<ELEM>` block; DATE is YYYYMMDD, value is an
 integer in the element's documented scale, -9999 = missing, Q is 0/1/9). The
-station metadata table is published from the standalone `download/stations.txt`.
+station index is the small standalone `download/stations.txt`, fetched directly
+rather than unpacking an ~800 MB ZIP to read it.
 
 Strategy: stateless full re-pull (shape 1). There is no incremental query — each
-refresh re-fetches the whole ZIP and overwrites. The ZIPs are huge (hundreds of
-MB compressed, up to ~15 GB uncompressed for temperature), so we never hold a
-whole element in memory or extract a whole ZIP to disk at once: we stream the ZIP
-to a temp file, extract station files in bounded chunks, parse each chunk with
-DuckDB's CSV reader (ignore_errors skips the prose header lines), drop missing
-values, and stream the result into one row-group-streamed parquet asset.
+refresh re-fetches the whole ZIP and overwrites; ECA&D revises history, so a
+stored watermark would silently skip corrections. The ZIPs are huge (rr ~1.8 GB,
+tg/tn/tx/sd ~800 MB, several GB uncompressed), so we never hold a whole element
+in memory or extract a whole ZIP at once: stream the ZIP to a temp file, extract
+station files in bounded chunks to disk, parse each chunk with DuckDB's CSV
+reader (`ignore_errors` skips the prose header lines and the sentinel rows), and
+stream the result into one row-group-streamed parquet asset. Missing rows
+(value = -9999) are dropped — they carry no observation. `MAINTAIN_SPECS` skips
+an element whose S3 object is byte-for-byte unchanged (ETag/Last-Modified) so a
+periodic refresh does not re-pull ~8.8 GB when nothing moved.
 
-Values are stored as the raw ECA&D integer (lossless); the transform divides by
-the documented per-element scale to publish physical units.
+Values are stored as the raw ECA&D integer (lossless); the element-specific unit
+scale is applied downstream in the compiled transform, where it is reconciled
+against the archive's own `elements.txt`.
 """
 import os
-import re
 import shutil
 import tempfile
 import zipfile
@@ -28,18 +33,23 @@ import zipfile
 import duckdb
 import pyarrow as pa
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
-    SqlNodeSpec,
     get,
     get_client,
-    save_raw_parquet,
+    raw_asset_exists,
     raw_parquet_writer,
+    record_source_signature,
+    save_raw_parquet,
+    source_unchanged,
     transient_retry,
 )
 
 BASE = "https://knmi-ecad-assets-prd.s3.amazonaws.com/download/"
 
-# element code -> (human name, integer scale divisor, physical unit)
+# The 13 blended elements. The scale/unit here is documentation for the model
+# stage (which reconciles it against the archive's elements.txt); the download
+# stores the raw integer value unscaled.
 ELEMENTS = {
     "cc": ("Cloud cover", 1, "oktas"),
     "dd": ("Wind direction", 1, "degrees"),
@@ -56,20 +66,21 @@ ELEMENTS = {
     "tx": ("Maximum temperature", 10, "degC"),
 }
 
+# Uniform observation schema across every element table.
 _OBS_SCHEMA = pa.schema([
-    ("station_id", pa.int32()),
-    ("source_id", pa.int32()),
-    ("date", pa.int32()),    # YYYYMMDD, decoded to DATE in the transform
-    ("value", pa.int32()),   # raw ECA&D integer, scaled in the transform
-    ("quality", pa.int8()),  # 0=valid, 1=suspect
+    ("station_id", pa.int32()),   # STAID
+    ("source_id", pa.int32()),    # SOUID (underlying series)
+    ("date", pa.date32()),        # observation day
+    ("value", pa.int32()),        # raw integer-scaled value (scaled in transform)
+    ("quality", pa.int8()),       # 0=valid, 1=suspect (9=missing rows are dropped)
 ])
 
-_STATION_FILES_PER_CHUNK = 500  # bounds peak temp-dir disk to ~1 GB
+_STATION_FILES_PER_CHUNK = 300  # bounds peak temp-dir disk to a few hundred MB
 
 
 @transient_retry()
 def _download_to(url: str, dest: str) -> None:
-    """Stream a (large) URL to a local file, restarting cleanly on transient errors."""
+    """Stream a (large) URL to a local file through the configured client."""
     with get_client().stream("GET", url, timeout=600.0) as resp:
         resp.raise_for_status()
         with open(dest, "wb") as fh:
@@ -84,17 +95,19 @@ def _parse_chunk_into(con, members_dir: str, writer) -> None:
         SELECT
             CAST(staid AS INTEGER) AS station_id,
             CAST(souid AS INTEGER) AS source_id,
-            CAST(d     AS INTEGER) AS date,
-            CAST(val   AS INTEGER) AS value,
-            CAST(q     AS TINYINT) AS quality
+            make_date(d // 10000, (d // 100) % 100, d % 100) AS date,
+            CAST(val AS INTEGER)   AS value,
+            CAST(q AS TINYINT)     AS quality
         FROM read_csv(
             '{glob}',
             header=false,
-            columns={{'staid':'INTEGER','souid':'INTEGER','d':'INTEGER','val':'INTEGER','q':'TINYINT'}},
+            columns={{'staid':'INTEGER','souid':'INTEGER','d':'INTEGER','val':'INTEGER','q':'INTEGER'}},
             delim=',', auto_detect=false, ignore_errors=true,
             null_padding=true, strict_mode=false
         )
-        WHERE val IS NOT NULL AND val <> -9999 AND staid IS NOT NULL AND d IS NOT NULL
+        WHERE val IS NOT NULL AND val <> -9999
+          AND staid IS NOT NULL AND souid IS NOT NULL AND d IS NOT NULL
+          AND d BETWEEN 17000101 AND 30000101
     """
     reader = con.execute(sql).fetch_record_batch(1_000_000)
     for batch in reader:
@@ -108,7 +121,7 @@ def fetch_element(node_id: str) -> None:
     if elem not in ELEMENTS:
         raise ValueError(f"unknown element in node id {node_id!r}")
     url = f"{BASE}ECA_blend_{elem}.zip"
-    prefix = f"{elem.upper()}_STAID"
+    prefix = f"{elem.upper()}_"
 
     work = tempfile.mkdtemp(prefix=f"ecad_{elem}_")
     zip_path = os.path.join(work, "data.zip")
@@ -118,17 +131,17 @@ def fetch_element(node_id: str) -> None:
         with zipfile.ZipFile(zip_path) as zf:
             members = [
                 n for n in zf.namelist()
-                if n.startswith(prefix) and n.endswith(".txt")
+                if os.path.basename(n).upper().startswith(prefix)
+                and n.lower().endswith(".txt")
             ]
             if not members:
-                raise AssertionError(f"no station files found in {url}")
+                raise AssertionError(f"no '{prefix}*' station files found in {url}")
             with raw_parquet_writer(node_id, _OBS_SCHEMA) as writer:
                 for i in range(0, len(members), _STATION_FILES_PER_CHUNK):
                     chunk = members[i:i + _STATION_FILES_PER_CHUNK]
                     cdir = os.path.join(work, "chunk")
                     os.makedirs(cdir, exist_ok=True)
                     for name in chunk:
-                        # flatten any path component; these archives are flat anyway
                         target = os.path.join(cdir, os.path.basename(name))
                         with zf.open(name) as src, open(target, "wb") as out:
                             shutil.copyfileobj(src, out)
@@ -137,6 +150,7 @@ def fetch_element(node_id: str) -> None:
     finally:
         con.close()
         shutil.rmtree(work, ignore_errors=True)
+    record_source_signature(node_id, url)
 
 
 def _dms_to_decimal(s: str) -> float:
@@ -148,7 +162,8 @@ def _dms_to_decimal(s: str) -> float:
 
 def fetch_stations(node_id: str) -> None:
     """Download and parse the station metadata reference table."""
-    resp = get(f"{BASE}stations.txt", timeout=120.0)
+    url = f"{BASE}stations.txt"
+    resp = get(url, timeout=120.0)
     resp.raise_for_status()
     lines = resp.content.decode("latin-1").splitlines()
     start = next(
@@ -161,8 +176,10 @@ def fetch_stations(node_id: str) -> None:
         if not ln.strip():
             continue
         parts = ln.split(",")
-        # latitude/longitude/elevation are the last three fields; the name itself
-        # could (in principle) contain a comma, so index from the right.
+        if len(parts) < 6:
+            continue
+        # lat/lon/elevation are the last three fields; the name itself could in
+        # principle contain a comma, so index the fixed tail from the right.
         hght = parts[-1].strip()
         station_id.append(int(parts[0]))
         name.append(",".join(parts[1:-4]).strip())
@@ -170,6 +187,9 @@ def fetch_stations(node_id: str) -> None:
         lat.append(_dms_to_decimal(parts[-3]))
         lon.append(_dms_to_decimal(parts[-2]))
         elevation.append(int(hght) if hght and hght != "-9999" else None)
+
+    if not station_id:
+        raise AssertionError(f"parsed 0 stations from {url}")
 
     table = pa.table(
         {
@@ -182,6 +202,7 @@ def fetch_stations(node_id: str) -> None:
         }
     )
     save_raw_parquet(table, node_id)
+    record_source_signature(node_id, url, response=resp)
 
 
 DOWNLOAD_SPECS = [
@@ -191,41 +212,26 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="eca-d-stations", fn=fetch_stations, kind="download"),
 ]
 
-
-def _element_transform(elem: str, scale: int, unit: str) -> SqlNodeSpec:
-    dl = f"eca-d-blend-{elem}"
-    return SqlNodeSpec(
-        id=f"{dl}-transform",
-        deps=[dl],
-        sql=f"""
-            SELECT
-                station_id,
-                source_id,
-                make_date(date // 10000, (date // 100) % 100, date % 100) AS date,
-                CAST(value AS DOUBLE) / {scale}.0 AS value,
-                '{unit}' AS unit,
-                quality
-            FROM "{dl}"
-        """,
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=f"eca-d-blend-{elem}",
+        description=(
+            "ECA&D predefined blended daily series, refreshed periodically "
+            "(https://www.ecad.eu/dailydata/predefinedseries.php); skip when the "
+            "S3 object's ETag/Last-Modified is unchanged"
+        ),
+        check=(lambda aid, e=elem: source_unchanged(aid, f"{BASE}ECA_blend_{e}.zip")
+               and raw_asset_exists(aid, "parquet")),
     )
-
-
-TRANSFORM_SPECS = [
-    _element_transform(elem, scale, unit)
-    for elem, (_name, scale, unit) in ELEMENTS.items()
+    for elem in ELEMENTS
 ] + [
-    SqlNodeSpec(
-        id="eca-d-stations-transform",
-        deps=["eca-d-stations"],
-        sql="""
-            SELECT
-                station_id,
-                station_name,
-                country,
-                latitude,
-                longitude,
-                elevation_m
-            FROM "eca-d-stations"
-        """,
+    MaintainSpec(
+        asset_id="eca-d-stations",
+        description=(
+            "ECA&D station index (stations.txt), refreshed alongside the series; "
+            "skip when the S3 object is unchanged (ETag/Last-Modified)"
+        ),
+        check=lambda aid: source_unchanged(aid, f"{BASE}stations.txt")
+        and raw_asset_exists(aid, "parquet"),
     ),
 ]

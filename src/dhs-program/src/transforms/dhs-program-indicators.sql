@@ -1,5 +1,6 @@
 SELECT
     IndicatorId AS indicator_id,
+    CAST(IndicatorOrder AS BIGINT) AS indicator_order,
     Label AS label,
     NULLIF(CAST(Definition AS VARCHAR), '') AS definition,
     NULLIF(CAST(Level1 AS VARCHAR), '') AS level1,

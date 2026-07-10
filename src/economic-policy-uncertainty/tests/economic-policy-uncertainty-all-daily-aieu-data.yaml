@@ -18,9 +18,8 @@ tests:
     reason: normalizer emits exactly one of these four cadences per row
     certainty: 90
   - unique: [date, series]
-    reason: one row per date x series is the intended grain; this file carries a few source-side duplicates the transform dedups, so warn rather than block
-    certainty: 60
-    severity: warn
+    reason: one row per date x series; a duplicate means a sheet/series was double-parsed
+    certainty: 85
   - at_least: {col: value, expr: 0}
     reason: policy-uncertainty indices and their components are non-negative
     certainty: 75

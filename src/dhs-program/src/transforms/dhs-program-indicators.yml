@@ -1,10 +1,16 @@
+# caution: indicator_id is NOT unique — 31 IndicatorIds carry two definitional variants ('(of ANC)' vs '(of all)')
+# sharing indicator_id/SDRID/indicator_order but differing in label/definition/denominator; row identity is
+# (indicator_id, indicator_order, label). A join to the data table on indicator_id alone can fan out these rows.
 # caution: tag_ids is a source-delimited list of DHS tag identifiers; use the tags table to decode individual tags.
-key: [indicator_id]
-sort: [indicator_id]
+key: [indicator_id, indicator_order, label]
+sort: [indicator_id, indicator_order, label]
 columns:
   - name: indicator_id
     type: VARCHAR
-    description: DHS indicator code.
+    description: DHS indicator code. Not unique on its own — see the row-identity caution.
+  - name: indicator_order
+    type: BIGINT
+    description: DHS display/ordering rank for the indicator; part of the row identity.
   - name: label
     type: VARCHAR
     description: DHS indicator label.

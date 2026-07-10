@@ -381,6 +381,11 @@ def _normalize(content: bytes, filename: str) -> pd.DataFrame:
     final["series"] = final["series"].astype(str)
     final["value"] = pd.to_numeric(final["value"], errors="coerce").astype(float)
     final = final.dropna(subset=["value"])
+    # A few source workbooks repeat identical (date, series, value) rows — a
+    # duplicated sheet/column block, or a literal repeated line. These are
+    # always spurious, so collapse exact duplicates to keep the (date, series)
+    # grain clean for every asset.
+    final = final.drop_duplicates(subset=["date", "series", "value", "frequency"])
     return final[["date", "series", "value", "frequency"]]
 
 
