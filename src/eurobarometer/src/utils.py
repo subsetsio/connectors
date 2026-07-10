@@ -220,7 +220,7 @@ def _num(v):
         return None
     if isinstance(v, (int, float)):
         return float(v)
-    t = _s(v).replace(" ", " ").replace(",", ".").replace("%", "").strip()
+    t = _s(v).replace("\u00a0", " ").replace(",", ".").replace("%", "").strip()
     if t.lower() in NULL_TOKENS:
         return None
     try:
@@ -233,25 +233,37 @@ def _is_null_token(v):
     return _s(v).lower() in NULL_TOKENS
 
 
-def find_base(rows):
-    """Locate the base ('TOTAL') row: (row_index, label_col, mode).
-
-    mode is 'triplet' when answers are N / Total % / Valid % triples (Flash
-    waves), otherwise 'pair' (a count row then a share row).
-    """
-    for i, row in enumerate(rows[:60]):
-        for lab_col in (1, 0, 2):
-            if lab_col >= len(row) or _s(row[lab_col]).upper() not in BASE_LABELS:
-                continue
-            # A real base row carries numbers in its data columns. A bare
-            # "TOTAL" cell can also be a banner COLUMN header (FL176).
-            if not any(_num(row[c]) is not None for c in range(lab_col + 1, len(row))):
-                continue
-            stats = {_s(r[lab_col]).upper() for r in rows[i + 1:i + 8] if lab_col < len(r)}
-            mode = "triplet" if ("N" in stats and any(s.startswith("TOTAL %") for s in stats)) \
-                else "pair"
-            return i, lab_col, mode
+def _base_row_at(rows, i):
+    """(label_col, mode) when row i is a base ('TOTAL') row, else None."""
+    row = rows[i]
+    for lab_col in (1, 0, 2):
+        if lab_col >= len(row) or _s(row[lab_col]).upper() not in BASE_LABELS:
+            continue
+        # A real base row carries numbers in its data columns. A bare "TOTAL"
+        # cell can also be a banner COLUMN header (FL176).
+        if not any(_num(row[c]) is not None for c in range(lab_col + 1, len(row))):
+            continue
+        stats = {_s(r[lab_col]).upper() for r in rows[i + 1:i + 8] if lab_col < len(r)}
+        mode = "triplet" if ("N" in stats and any(s.startswith("TOTAL %") for s in stats)) \
+            else "pair"
+        return lab_col, mode
     return None
+
+
+def find_bases(rows):
+    """Every base row in a sheet: [(row_index, label_col, mode), ...].
+
+    Most workbooks put one question per sheet, but the Flash "Table A" family
+    stacks every question of the survey down a single sheet, each with its own
+    title, banner header and base row. Parsing only the first would silently
+    drop the rest of the survey.
+    """
+    out = []
+    for i in range(len(rows)):
+        hit = _base_row_at(rows, i)
+        if hit:
+            out.append((i, hit[0], hit[1]))
+    return out
 
 
 def _banner_token(v):
@@ -272,85 +284,111 @@ def _banner_token(v):
     return tok
 
 
-def banner_columns(rows, base_idx, data_start):
+def banner_columns(rows, base_idx, data_start, floor=0):
     """{column_index: banner_label} from the nearest labelled row above the base.
 
     Banner columns are usually countries / EU aggregates, but a few waves break
     results out by fieldwork day or country group instead — accept any short label.
     """
-    for i in range(base_idx - 1, -1, -1):
+    for i in range(base_idx - 1, floor - 1, -1):
         row = rows[i]
         if len(row) <= data_start or not any(_s(row[c]) for c in range(data_start, len(row))):
             continue
         out = {c: _banner_token(row[c]) for c in range(data_start, len(row))}
-        return {c: t for c, t in out.items() if t}
-    return {}
+        return ({c: t for c, t in out.items() if t}, i)
+    return {}, base_idx
 
 
-def _share_scale(values):
-    """Shares are stored as fractions in most waves and as percents in others."""
-    vals = [v for v in values if v is not None]
-    if not vals:
-        return None
-    top = max(vals)
-    if top <= 1.0001:
-        return 1.0
-    if top <= 100.5:
-        return 100.0
-    return None
+def _share_scale(samples, raw_max):
+    """Are shares stored as fractions (0..1) or percents (0..100)?
 
-
-def parse_sheet(rows):
-    """One question sheet -> list of row dicts, or None when it is not a banner.
-
-    Layout invariants (asserted, never fixed offsets):
-      * a base row whose label cell reads TOTAL / Weighted total and whose data
-        cells are numeric — the weighted N per banner column;
-      * the nearest labelled row above it names the banner columns;
-      * below it, answers repeat as FR/EN row pairs (count row, share row) or,
-        on Flash waves, as N / Total % / Valid % triples.
+    Decided from the ratio between the printed share and the share implied by
+    the row's own count and the question's base N — a signal that does not care
+    how small the values happen to be. A block whose every share is under 1%%
+    (printed as `0.1`) is otherwise indistinguishable from fractions.
     """
-    hit = find_base(rows)
-    if not hit:
-        return None
-    base_idx, lab_col, mode = hit
+    ratios = sorted(s for s in samples if s is not None)
+    if ratios:
+        median = ratios[len(ratios) // 2]
+        return 100.0 if median > 10.0 else 1.0
+    if raw_max is None:
+        return 1.0
+    return 100.0 if raw_max > 1.0001 else 1.0
+
+
+def _question_title(rows, start, header_idx, lab_col):
+    """The longest text cell in the rows between a block's start and its banner
+    header — the question wording, as printed above the cross-tab."""
+    best = ""
+    for i in range(start, header_idx):
+        for cell in rows[i]:
+            text = _s(cell)
+            if len(text) <= len(best) or len(text) < 4:
+                continue
+            low = text.lower()
+            if low.startswith(("volume", "base:", "base :")) or low in BASE_LABELS:
+                continue
+            best = text
+    return re.sub(r"\s+", " ", best) or None
+
+
+_CODE_PREFIX_RE = re.compile(r"^([A-Za-z][A-Za-z0-9_.\-]{0,15}?)[.\s)]")
+
+
+def _code_from_title(title):
+    m = _CODE_PREFIX_RE.match(title or "")
+    return m.group(1).strip(".") if m else None
+
+
+def _parse_block(rows, base_idx, lab_col, mode, end, block_start):
     data_start = lab_col + 1
-    banners = banner_columns(rows, base_idx, data_start)
+    banners, header_idx = banner_columns(rows, base_idx, data_start, floor=block_start)
     if not banners:
-        return None
+        return None, None
     cols = sorted(banners)
     base_row = rows[base_idx]
     base_n = {c: (_num(base_row[c]) if c < len(base_row) else None) for c in cols}
 
-    body = [r for r in rows[base_idx + 1:] if any(_s(x) for x in r)]
+    body = [r for r in rows[base_idx + 1:end] if any(_s(x) for x in r)]
     step = 3 if mode == "triplet" else 2
-    out, answer_index = [], 0
 
+    # First pass: pair the rows up and learn this block's share scale.
+    groups = []
     for i in range(0, len(body) - step + 1, step):
-        group = body[i:i + step]
-        count_row, share_row = group[0], group[1]
+        count_row, share_row = body[i], body[i + 1]
         if mode == "triplet":
             if lab_col >= len(count_row) or _s(count_row[lab_col]).upper() != "N":
                 break
-            label_fr = None
-            answer = _s(count_row[lab_col - 1]) if lab_col >= 1 else ""
+            answer, answer_fr = (_s(count_row[lab_col - 1]) if lab_col >= 1 else ""), None
         else:
-            label_fr = _s(count_row[lab_col]) if lab_col < len(count_row) else ""
-            answer = _s(share_row[lab_col]) if lab_col < len(share_row) else ""
-            answer = answer or label_fr
+            answer_fr = _s(count_row[lab_col]) if lab_col < len(count_row) else ""
+            answer = (_s(share_row[lab_col]) if lab_col < len(share_row) else "") or answer_fr
         if not answer:
             continue
-
         shares = {c: (_num(share_row[c]) if c < len(share_row) else None) for c in cols}
-        scale = _share_scale(list(shares.values()))
-        if scale is None:
-            # An all-null share row is legitimate (every cell a '-' zero token);
-            # anything else means the pairing has drifted — stop this sheet.
-            if not any(_is_null_token(share_row[c]) if c < len(share_row) else False
-                       for c in cols):
-                break
-            scale = 1.0
+        if all(v is None for v in shares.values()) and not any(
+                _is_null_token(share_row[c]) if c < len(share_row) else False for c in cols):
+            break  # the pairing has drifted off the answer rows
+        groups.append((answer, answer_fr or None, count_row, shares))
 
+    if not groups:
+        return None, None
+
+    ratios, raw_max = [], None
+    for _, _, count_row, shares in groups:
+        for c in cols:
+            raw = shares[c]
+            if raw is None or raw <= 0:
+                continue
+            raw_max = raw if raw_max is None else max(raw_max, raw)
+            count, base = (_num(count_row[c]) if c < len(count_row) else None), base_n.get(c)
+            if count and base and base > 0:
+                ratios.append(raw / (count / base))
+    scale = _share_scale(ratios, raw_max)
+
+    title = _question_title(rows, block_start, header_idx, lab_col)
+    out = []
+    for answer_index, (answer, answer_fr, count_row, shares) in enumerate(groups):
         subtotal = bool(SUBTOTAL_RE.match(answer)) or answer.upper() in BASE_LABELS
         for c in cols:
             weighted_n = _num(count_row[c]) if c < len(count_row) else None
@@ -365,37 +403,105 @@ def parse_sheet(rows):
                 "banner": label,
                 "country": label if CODE_RE.match(label) else None,
                 "answer": answer,
-                "answer_fr": label_fr or None,
+                "answer_fr": answer_fr,
                 "answer_index": answer_index,
                 "is_subtotal": subtotal,
                 "weighted_n": weighted_n,
                 "share": share,
                 "base_n": base_n.get(c),
             })
-        answer_index += 1
-    return out or None
+    return out, title
+
+
+def parse_sheet(rows):
+    """A sheet -> [(question_code_hint, question_title, rows), ...], one per block."""
+    bases = find_bases(rows)
+    if not bases:
+        return []
+    blocks = []
+    for k, (base_idx, lab_col, mode) in enumerate(bases):
+        end = bases[k + 1][0] if k + 1 < len(bases) else len(rows)
+        block_start = 0 if k == 0 else bases[k - 1][0] + 1
+        parsed, title = _parse_block(rows, base_idx, lab_col, mode, end, block_start)
+        if parsed:
+            blocks.append((_code_from_title(title), title, parsed))
+    return blocks
+
+
+# --------------------------------------------------------------------------
+# table of contents (question wording)
+# --------------------------------------------------------------------------
+
+_SHEET_REF_RE = re.compile(r"^'?(.+?)'?\s*!")
+
+
+def toc_questions(sheets):
+    """{sheet_name: (question_en, question_fr)} from the workbook's TOC sheet.
+
+    Layouts differ by vintage — an `Index` sheet whose first cell is a
+    ``'QA1a.1'!A1`` link, or a `Content` sheet with a plain sheet-name column —
+    so rows are matched by resolving their first cell against the real sheet
+    names. The remaining text cells are the wording, French half first, English
+    half second; a lone text cell is taken as-is.
+    """
+    names = {n.strip(): n for n in sheets}
+    toc = next((n for n in sheets if n.strip().lower() in TOC_NAMES), None)
+    if not toc:
+        return {}
+    out = {}
+    for row in sheets[toc]:
+        cells = [_s(c) for c in row]
+        if not cells or not cells[0]:
+            continue
+        ref = cells[0]
+        m = _SHEET_REF_RE.match(ref)
+        if m:
+            ref = m.group(1)
+        ref = ref.strip().strip("'")
+        if ref not in names:
+            continue
+        texts = [c for c in cells[1:] if len(c) >= 2]
+        if not texts:
+            continue
+        if len(texts) >= 2 and len(texts) % 2 == 0:
+            half = len(texts) // 2
+            fr, en = texts[0], texts[half]
+        else:
+            fr, en = texts[0], texts[-1]
+        out[names[ref]] = (en, fr)
+    return out
 
 
 def parse_volume_a(payload, source_file_hint):
-    """Every question sheet of a Volume-A payload, as flat row dicts."""
+    """Every question block of every sheet of a Volume-A payload, as flat rows."""
     rows = []
     for member, data in workbook_members(payload):
         member_name = source_file_hint if member.startswith("__") else member
         try:
             sheets = sheets_of(data)
-        except Exception as exc:  # a corrupt/unsupported workbook is not a bug
+        except Exception as exc:  # a corrupt or unsupported workbook is not a bug
             print(f"    [warn] cannot open member {member!r}: {type(exc).__name__}: {exc}")
             continue
+        wording = toc_questions(sheets)
         for sheet_name, sheet_rows in sheets.items():
             if sheet_name.strip().lower() in TOC_NAMES:
                 continue
-            parsed = parse_sheet(sheet_rows)
-            if not parsed:
-                continue
-            for row in parsed:
-                row["question_code"] = sheet_name.strip()
-                row["source_file"] = member_name
-                rows.append(row)
+            blocks = parse_sheet(sheet_rows)
+            single = len(blocks) == 1
+            for code_hint, title, parsed in blocks:
+                question_en, question_fr = wording.get(sheet_name, (None, None))
+                code = sheet_name.strip() if single else (code_hint or sheet_name.strip())
+                for row in parsed:
+                    row["sheet_name"] = sheet_name.strip()
+                    row["question_code"] = code
+                    # en/fr come only from the TOC, where the two languages are
+                    # positionally identified. question_title is the wording as
+                    # printed above the cross-tab, in whatever language that is.
+                    row["question_en"] = question_en
+                    row["question_fr"] = question_fr
+                    row["question_title"] = title
+                    row["source_file"] = member_name
+                    rows.append(row)
     return rows
 
 

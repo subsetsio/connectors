@@ -50,7 +50,11 @@ from utils import (
 RESPONSES_SCHEMA = pa.schema([
     ("survey_id", pa.string()),
     ("source_file", pa.string()),
+    ("sheet_name", pa.string()),
     ("question_code", pa.string()),
+    ("question_en", pa.string()),
+    ("question_fr", pa.string()),
+    ("question_title", pa.string()),
     ("banner", pa.string()),
     ("country", pa.string()),
     ("answer", pa.string()),

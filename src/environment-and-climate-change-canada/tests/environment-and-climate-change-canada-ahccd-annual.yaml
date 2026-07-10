@@ -2,13 +2,18 @@ spec_id: environment-and-climate-change-canada-ahccd-annual
 status: active
 tests:
   - not_null: feature_id
-    reason: every OGC API feature carries a stable top-level id, injected as feature_id by fetch_one
-    certainty: 95
   - unique: feature_id
-    reason: OGC feature ids are unique within a collection; a dup means offset pagination re-read a shifted page
-    certainty: 85
-    severity: warn
-  - row_count: {min: 56917}
-    reason: collection reported ~113835 features during research; a count far below half that means the pull truncated (e.g. pagination stopped after page 1)
-    certainty: 80
+    reason: feature_id is the OGC feature id; duplicates mean a station partition was written twice
+    certainty: 95
+  - row_count: {min: 100000}
+    reason: floor set well under the count observed while authoring; a drop means partial loss
+    certainty: 90
+  - column_type: {col: year__annee, type: integer}
+  - unique: [station_id__id_station, year__annee]
+    reason: AHCCD annual is one row per homogenized station per year
+    certainty: 95
+  - between: {col: year__annee, lo: 1840, hi: 2100}
+    certainty: 90
+  - freshness: {col: year__annee, reaches: 2020}
+    reason: AHCCD is republished in multi-year batches; the current release extends to 2020. A max below that means we lost the tail, not that ECCC is late.
     points_outward: true
