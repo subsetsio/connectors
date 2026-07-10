@@ -80,11 +80,11 @@ def fetch_freedom_of_the_press(node_id: str) -> None:
     save_raw_ndjson(out, node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="freedom-house-freedom-of-the-press", fn=fetch_freedom_of_the_press, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="freedom-house-freedom-of-the-press-transform",
         deps=["freedom-house-freedom-of-the-press"],

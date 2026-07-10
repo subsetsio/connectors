@@ -46,11 +46,11 @@ def fetch_freedom_on_the_net(node_id: str) -> None:
     save_raw_ndjson(out, node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="freedom-house-freedom-on-the-net", fn=fetch_freedom_on_the_net, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="freedom-house-freedom-on-the-net-transform",
         deps=["freedom-house-freedom-on-the-net"],

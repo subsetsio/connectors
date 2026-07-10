@@ -60,11 +60,11 @@ def fetch_fiw_all_data(node_id: str) -> None:
     save_raw_ndjson(out, node_id)
 
 
-DOWNLOAD_SPECS = [
+_DOWNLOAD_SPECS = [
     NodeSpec(id="freedom-house-fiw-all-data", fn=fetch_fiw_all_data, kind="download"),
 ]
 
-TRANSFORM_SPECS = [
+_TRANSFORM_SPECS = [
     SqlNodeSpec(
         id="freedom-house-fiw-all-data-transform",
         deps=["freedom-house-fiw-all-data"],
