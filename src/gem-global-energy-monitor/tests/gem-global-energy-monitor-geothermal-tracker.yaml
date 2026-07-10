@@ -1,2 +1,7 @@
 spec_id: gem-global-energy-monitor-geothermal-tracker
-status: deferred
+status: active
+tests:
+  - freshness: {col: date_last_researched, reaches: today - 400d}
+    reason: GEM tracker workbooks are refreshed on release cycles; last-researched dates should reach the latest annual cycle.
+    certainty: 85
+    points_outward: true

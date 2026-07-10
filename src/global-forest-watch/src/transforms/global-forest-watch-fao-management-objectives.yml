@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-forest-watch-fao-management-objectives`. Regenerate after model-verify.
+# caution: Management-objective area measures are source categories that may overlap conceptually; do not treat every objective column as mutually exclusive land area without checking the FAO definition.
+key: [iso, country, year]
+temporal: year
+sort: [year, iso, country]
+columns:
+  - name: iso
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: desk_study
+    type: BOOLEAN
+  - name: year
+    type: BIGINT
+  - name: production_ha
+    type: DOUBLE
+  - name: protection_soil_water_ha
+    type: DOUBLE
+  - name: conservation_biodiversity_ha
+    type: DOUBLE
+  - name: social_services_ha
+    type: DOUBLE
+  - name: multiple_use_ha
+    type: DOUBLE
+  - name: other_ha
+    type: DOUBLE
+  - name: none_or_unknown_ha
+    type: DOUBLE

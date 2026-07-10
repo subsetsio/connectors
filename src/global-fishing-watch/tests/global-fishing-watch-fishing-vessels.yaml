@@ -18,6 +18,11 @@ tests:
     certainty: 90
     points_outward: true
     severity: warn
+  - freshness: {col: year, reaches: current_year() - 2}
+    reason: v3 covers through 2024; a much staler max means the wrong/old record was pulled
+    certainty: 70
+    points_outward: true
+    severity: warn
   - at_least: {col: fishing_hours, expr: 0}
     reason: fishing hours cannot be negative
     certainty: 95

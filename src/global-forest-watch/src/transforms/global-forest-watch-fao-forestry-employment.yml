@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-forest-watch-fao-forestry-employment`. Regenerate after model-verify.
+key: [iso, country, year]
+temporal: year
+sort: [year, iso, country]
+columns:
+  - name: iso
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: desk_study
+    type: BOOLEAN
+  - name: year
+    type: BIGINT
+  - name: silviculture_and_other_fte
+    type: DOUBLE
+  - name: logging_fte
+    type: DOUBLE
+  - name: gathering_fte
+    type: DOUBLE
+  - name: support_fte
+    type: DOUBLE
+  - name: all_fte
+    type: DOUBLE
+  - name: female_fte
+    type: DOUBLE

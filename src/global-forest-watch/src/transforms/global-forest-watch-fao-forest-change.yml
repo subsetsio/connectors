@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-forest-watch-fao-forest-change`. Regenerate after model-verify.
+# caution: The period column is a multi-year reporting interval, not a point year; do not compare it directly with annual tables without accounting for interval length.
+key: [iso, country, period]
+sort: [iso, country, period]
+columns:
+  - name: iso
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: desk_study
+    type: BOOLEAN
+  - name: period
+    type: VARCHAR
+  - name: reforestation_ha_per_year
+    type: DOUBLE
+  - name: forest_expansion_ha_per_year
+    type: DOUBLE
+  - name: deforestation_ha_per_year
+    type: DOUBLE

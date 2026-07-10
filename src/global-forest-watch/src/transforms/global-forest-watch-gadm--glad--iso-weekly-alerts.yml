@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-forest-watch-gadm--glad--iso-weekly-alerts`. Regenerate after model-verify.
+# caution: Rows are weekly aggregates split by confirmed-alert status; filter or explicitly aggregate the flag before comparing country-week totals.
+key: [alert_week_start, iso, is_confirmed_alert]
+temporal: alert_week_start
+sort: [alert_week_start, iso, is_confirmed_alert]
+columns:
+  - name: iso
+    type: VARCHAR
+  - name: alert_week_start
+    type: DATE
+  - name: is_confirmed_alert
+    type: BOOLEAN
+  - name: alert_count
+    type: BIGINT
+  - name: alert_area_ha
+    type: DOUBLE
+  - name: aboveground_co2_emissions_mg
+    type: DOUBLE

@@ -17,8 +17,8 @@ tests:
   - between: {col: year, lo: 2001, hi: current_year()}
     reason: APS National Level Data files run 2002..present
     certainty: 90
-  - freshness: {col: year, reaches: current_year() - 1}
-    reason: GEM publishes national survey data annually, with public files normally lagging the calendar year.
+  - freshness: {col: year, reaches: 2022}
+    reason: GEM's public national-level files are released after a multi-year embargo; APS public data currently reaches 2022.
     certainty: 85
   - at_most: {col: year, expr: current_year()}
     certainty: 85

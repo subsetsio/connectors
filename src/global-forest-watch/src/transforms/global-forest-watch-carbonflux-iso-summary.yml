@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-forest-watch-carbonflux-iso-summary`. Regenerate after model-verify.
+# caution: Rows are alternative tree-canopy-density thresholds for the same country, not additive slices; choose one threshold before comparing or summing country totals.
+key: [iso, canopy_density_threshold]
+sort: [iso, canopy_density_threshold]
+columns:
+  - name: iso
+    type: VARCHAR
+  - name: canopy_density_threshold
+    type: BIGINT
+  - name: flux_model_extent_ha
+    type: DOUBLE
+  - name: area_ha
+    type: DOUBLE
+  - name: tree_cover_extent_2000_ha
+    type: DOUBLE
+  - name: gross_emissions_mg_co2e
+    type: DOUBLE
+  - name: gross_removals_mg_co2
+    type: DOUBLE
+  - name: net_flux_mg_co2e
+    type: DOUBLE
+  - name: total_carbon_stock_2000_mg
+    type: DOUBLE

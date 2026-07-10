@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-forest-watch-gadm--integrated-alerts--iso-daily-alerts`. Regenerate after model-verify.
+# caution: Rows are monthly aggregates of a daily alert product; confidence is part of the grain, so filter or explicitly aggregate confidence categories before comparing totals.
+key: [alert_month, iso, confidence]
+temporal: alert_month
+sort: [alert_month, iso, confidence]
+columns:
+  - name: iso
+    type: VARCHAR
+  - name: alert_month
+    type: DATE
+  - name: confidence
+    type: VARCHAR
+  - name: alert_count
+    type: BIGINT
+  - name: alert_area_ha
+    type: DOUBLE
+  - name: aboveground_co2_emissions_mg
+    type: DOUBLE

@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-forest-watch-gadm--tcl--iso-change`. Regenerate after model-verify.
+# caution: Rows are alternative tree-canopy-density thresholds for the same country and year, not additive slices; choose one threshold before comparing or summing loss totals.
+key: [iso, loss_year, canopy_density_threshold]
+temporal: loss_year
+sort: [loss_year, iso, canopy_density_threshold]
+columns:
+  - name: iso
+    type: VARCHAR
+  - name: loss_year
+    type: BIGINT
+  - name: canopy_density_threshold
+    type: BIGINT
+  - name: tree_cover_loss_ha
+    type: DOUBLE
+  - name: tree_cover_loss_from_fires_ha
+    type: DOUBLE
+  - name: aboveground_biomass_loss_mg
+    type: DOUBLE
+  - name: aboveground_co2_emissions_mg
+    type: DOUBLE
+  - name: gross_emissions_mg_co2e
+    type: DOUBLE

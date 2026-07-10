@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `global-forest-watch-gadm--modis--iso-weekly-alerts`. Regenerate after model-verify.
+# caution: Rows are weekly aggregates split by alert confidence; filter or explicitly aggregate confidence categories before comparing country-week totals.
+key: [alert_week_start, iso, confidence]
+temporal: alert_week_start
+sort: [alert_week_start, iso, confidence]
+columns:
+  - name: iso
+    type: VARCHAR
+  - name: alert_week_start
+    type: DATE
+  - name: confidence
+    type: VARCHAR
+  - name: alert_count
+    type: BIGINT
