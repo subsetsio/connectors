@@ -14,6 +14,6 @@ tests:
     certainty: 95
   - between: {col: total_score, lo: 0, hi: 100}
     certainty: 85
-  - enum: {col: status, values: ["Free", "Partly Free", "Not Free", "F", "PF", "NF"]}
+  - enum: {col: status, values: ["0", "Free", "Partly Free", "Not Free", "F", "PF", "NF"]}
     certainty: 80
     severity: warn

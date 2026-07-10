@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gcip-gcip-income-deciles`. Regenerate after model-verify.
+# caution: Income columns are monthly real values expressed in 2005 USD PPP; compare or aggregate them as income distribution measures, not annual totals.
+key: [country, year]
+temporal: year
+sort: [year, country]
+columns:
+  - name: country
+    type: VARCHAR
+  - name: year
+    type: INTEGER
+  - name: decile_1_income
+    type: DOUBLE
+  - name: decile_2_income
+    type: DOUBLE
+  - name: decile_3_income
+    type: DOUBLE
+  - name: decile_4_income
+    type: DOUBLE
+  - name: decile_5_income
+    type: DOUBLE
+  - name: decile_6_income
+    type: DOUBLE
+  - name: decile_7_income
+    type: DOUBLE
+  - name: decile_8_income
+    type: DOUBLE
+  - name: decile_9_income
+    type: DOUBLE
+  - name: decile_10_income
+    type: DOUBLE
+  - name: mean_income
+    type: DOUBLE
+  - name: population
+    type: BIGINT

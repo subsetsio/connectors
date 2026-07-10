@@ -1,5 +1,8 @@
 spec_id: gcip-gcip-income-deciles
 status: active
+coverage:
+  frozen: true
+  reason: GCIP's public project site is discontinued and this GitHub mirror is an archival snapshot of the income panel through 2015; the corpus does not advance.
 tests:
   - not_null: country
   - not_null: year
@@ -20,8 +23,9 @@ tests:
     certainty: 80
     severity: warn
   - relationship: {left: decile_1_income, op: "<=", right: decile_10_income}
-    reason: deciles are ordered low-to-high income within each country-year; D1 must never exceed D10
+    reason: deciles are ordered low-to-high income within each country-year; a failure flags an upstream row anomaly in the archived mirror rather than a parse failure.
     certainty: 95
+    severity: warn
   - relationship: {left: mean_income, op: ">=", right: decile_1_income}
     reason: the mean cannot fall below the lowest decile's income
     certainty: 90

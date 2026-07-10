@@ -15,6 +15,7 @@ Each transform publishes one Delta table straight from its table's raw asset.
 
 import csv
 import io
+import os
 
 from subsets_utils import NodeSpec, get, save_raw_ndjson, transient_retry
 
@@ -33,9 +34,21 @@ PAGE = 5000
 # beyond any observed table and signals runaway pagination — raise, don't loop.
 MAX_PAGES_ABS = 1000
 
+API_KEY_ENV = "GASTAT_API_KEY"
+
 
 def _spec_id(code: str) -> str:
     return f"gastat-{code.lower().replace('_', '-')}"
+
+
+def _api_headers() -> dict[str, str]:
+    api_key = os.environ.get(API_KEY_ENV)
+    if not api_key:
+        raise RuntimeError(
+            f"{API_KEY_ENV} is required: GASTAT now requires an 'apikey' "
+            "request header for https://api.stats.gov.sa/v1/stats endpoints"
+        )
+    return {"apikey": api_key}
 
 
 # spec id -> original table code (round-trips through the lower/hyphen id form;
@@ -53,6 +66,7 @@ def _fetch_csv_page(code: str, skip: int, top: int) -> str:
     resp = get(
         url,
         params={"format": "CSV", "$top": top, "$skip": skip},
+        headers=_api_headers(),
         timeout=180,
     )
     resp.raise_for_status()
