@@ -1,0 +1,281 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dartmouth-atlas-of-health-care-hospital-physician-capacity`. Regenerate after model-verify.
+# caution: Area-level HRR and HSA snapshot spreadsheets from different years are unioned into one wide raw table; filter `geo_level`, `vintage`, and source-specific columns before analysis.
+key: []
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: geo_level
+    type: VARCHAR
+  - name: vintage
+    type: BIGINT
+  - name: hrr
+    type: BIGINT
+  - name: hrr_city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: resident_population_1996
+    type: BIGINT
+  - name: acute_care_hospital_beds_per_1_000_residents_1996
+    type: DOUBLE
+  - name: hospital_based_registered_nurses_per_1_000_residents_1996
+    type: DOUBLE
+  - name: fte_hospital_employees_per_1_000_residents_1996
+    type: DOUBLE
+  - name: total_physicians_per_100_000_residents_1996
+    type: DOUBLE
+  - name: primary_care_physicians_per_100_000_residents_1996
+    type: DOUBLE
+  - name: total_specialists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: allergists_immunologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: anesthesiologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: cardiologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: cardiovascular_thoracic_surgeons_per_100_000_residents_1996
+    type: DOUBLE
+  - name: critical_care_physicians_per_100_000_residents_1996
+    type: DOUBLE
+  - name: dermatologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: emergency_medicine_physicians_per_100_000_residents_1996
+    type: DOUBLE
+  - name: endocrinologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: family_practice_physicians_per_100_000_residents_1996
+    type: DOUBLE
+  - name: general_surgeons_per_100_000_residents_1996
+    type: DOUBLE
+  - name: gastroenterologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: hematologists_oncologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: infectious_disease_specialists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: internal_medicine_physicians_per_100_000_residents_1996
+    type: DOUBLE
+  - name: neonatologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: nephrologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: neurosurgeons_per_100_000_residents_1996
+    type: DOUBLE
+  - name: neurologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: obstetrician_gynecologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: ophthalmologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: orthopedic_surgeons_per_100_000_residents_1996
+    type: DOUBLE
+  - name: otolaryngologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: pathologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: pediatricians_per_100_000_residents_1996
+    type: DOUBLE
+  - name: plastic_reconstructive_surgeons_per_100_000_residents_1996
+    type: DOUBLE
+  - name: psychiatrists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: pulmonologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: radiologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: radiation_oncologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: physical_medicine_rehabilitation_physicians_per_100_000_residents_1996
+    type: DOUBLE
+  - name: rheumatologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: urologists_per_100_000_residents_1996
+    type: DOUBLE
+  - name: vascular_surgeons_per_100_000_residents_1996
+    type: DOUBLE
+  - name: hsa
+    type: BIGINT
+  - name: hsa_city
+    type: VARCHAR
+  - name: resident_population_2006
+    type: BIGINT
+  - name: acute_care_hospital_beds_per_1_000_residents_2006
+    type: DOUBLE
+  - name: hospital_based_registered_nurses_per_1_000_residents_2006
+    type: DOUBLE
+  - name: fte_hospital_employees_per_1_000_residents_2006
+    type: DOUBLE
+  - name: total_physicians_per_100_000_residents_2006
+    type: DOUBLE
+  - name: primary_care_physicians_per_100_000_residents_2006
+    type: DOUBLE
+  - name: total_specialists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: medical_specialists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: hospital_based_physicians_per_100_000_residents_2006
+    type: DOUBLE
+  - name: surgeons_per_100_000_residents_2006
+    type: DOUBLE
+  - name: resident_physicians_per_100_000_residents_2006
+    type: DOUBLE
+  - name: allergists_immunologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: anesthesiologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: cardiologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: cardiovascular_thoracic_surgeons_per_100_000_residents_2006
+    type: DOUBLE
+  - name: critical_care_physicians_per_100_000_residents_2006
+    type: DOUBLE
+  - name: dermatologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: emergency_medicine_physicians_per_100_000_residents_2006
+    type: DOUBLE
+  - name: endocrinologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: family_practice_physicians_per_100_000_residents_2006
+    type: DOUBLE
+  - name: geriatricians_per_100_000_residents_2006
+    type: DOUBLE
+  - name: general_surgeons_per_100_000_residents_2006
+    type: DOUBLE
+  - name: gastroenterologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: hematologists_oncologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: infectious_disease_specialists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: internal_medicine_physicians_per_100_000_residents_2006
+    type: DOUBLE
+  - name: neonatologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: nephrologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: neurosurgeons_per_100_000_residents_2006
+    type: DOUBLE
+  - name: neurologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: obstetrician_gynecologists_per_100_000_women_age_15_44_2006
+    type: DOUBLE
+  - name: ophthalmologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: orthopedic_surgeons_per_100_000_residents_2006
+    type: DOUBLE
+  - name: otolaryngologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: pathologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: pediatricians_per_100_000_residents_2006
+    type: DOUBLE
+  - name: plastic_reconstructive_surgeons_per_100_000_residents_2006
+    type: DOUBLE
+  - name: psychiatrists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: pulmonologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: radiologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: radiation_oncologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: physical_medicine_rehabilitation_physicians_per_100_000_residents_2006
+    type: DOUBLE
+  - name: rheumatologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: urologists_per_100_000_residents_2006
+    type: DOUBLE
+  - name: vascular_surgeons_per_100_000_residents_2006
+    type: DOUBLE
+  - name: resident_population_2010
+    type: BIGINT
+  - name: total_physicians_per_100_000_residents_2011
+    type: DOUBLE
+  - name: primary_care_physicians_per_100_000_residents_2011
+    type: DOUBLE
+  - name: total_specialists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: medical_specialists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: hospital_based_physicians_per_100_000_residents_2011
+    type: DOUBLE
+  - name: surgeons_per_100_000_residents_2011
+    type: DOUBLE
+  - name: resident_physicians_per_100_000_residents_2011
+    type: DOUBLE
+  - name: allergists_immunologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: anesthesiologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: cardiologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: cardiovascular_thoracic_surgeons_per_100_000_residents_2011
+    type: DOUBLE
+  - name: critical_care_physicians_per_100_000_residents_2011
+    type: DOUBLE
+  - name: dermatologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: emergency_medicine_physicians_per_100_000_residents_2011
+    type: DOUBLE
+  - name: endocrinologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: family_practice_physicians_per_100_000_residents_2011
+    type: DOUBLE
+  - name: geriatricians_per_100_000_residents_2011
+    type: DOUBLE
+  - name: general_surgeons_per_100_000_residents_2011
+    type: DOUBLE
+  - name: gastroenterologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: hematologists_oncologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: infectious_disease_specialists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: internal_medicine_physicians_per_100_000_residents_2011
+    type: DOUBLE
+  - name: neonatologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: nephrologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: neurosurgeons_per_100_000_residents_2011
+    type: DOUBLE
+  - name: neurologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: obstetrician_gynecologists_per_100_000_women_age_15_44_2011
+    type: DOUBLE
+  - name: ophthalmologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: orthopedic_surgeons_per_100_000_residents_2011
+    type: DOUBLE
+  - name: otolaryngologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: pathologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: pediatricians_per_100_000_residents_2011
+    type: DOUBLE
+  - name: plastic_reconstructive_surgeons_per_100_000_residents_2011
+    type: DOUBLE
+  - name: psychiatrists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: pulmonologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: radiologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: radiation_oncologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: physical_medicine_rehabilitation_physicians_per_100_000_residents_2011
+    type: DOUBLE
+  - name: rheumatologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: urologists_per_100_000_residents_2011
+    type: DOUBLE
+  - name: vascular_surgeons_per_100_000_residents_2011
+    type: DOUBLE
+  - name: acute_care_hospital_beds_per_1_000_residents_2012
+    type: DOUBLE
+  - name: hospital_based_registered_nurses_per_1_000_residents_2012
+    type: DOUBLE
+  - name: fte_hospital_employees_per_1_000_residents_2012
+    type: DOUBLE

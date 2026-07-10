@@ -1,0 +1,58 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dartmouth-atlas-of-health-care-reimbursements`. Regenerate after model-verify.
+# caution: Contains HRR, HSA, state, and county rows in one table; filter `geo_level` before aggregating or comparing geographies.
+# caution: Two reimbursement eras are unioned; interpret measure fields with the year range when comparing across the 2010/2011 boundary.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: geo_level
+    type: VARCHAR
+  - name: geo_code
+    type: VARCHAR
+  - name: geo_label
+    type: VARCHAR
+  - name: geo_name
+    type: VARCHAR
+  - name: population
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: race
+    type: JSON
+  - name: gender
+    type: JSON
+  - name: cohort
+    type: VARCHAR
+  - name: measure_code
+    type: VARCHAR
+  - name: measure_label
+    type: VARCHAR
+  - name: short_label
+    type: VARCHAR
+  - name: cohort_web_label
+    type: VARCHAR
+  - name: observed
+    type: JSON
+  - name: crude_rate
+    type: JSON
+  - name: adjusted_rate
+    type: DOUBLE
+  - name: expected
+    type: JSON
+  - name: expected_adjusted
+    type: JSON
+  - name: oe_ratio
+    type: DOUBLE
+  - name: oe_adjusted_ratio
+    type: JSON
+  - name: std_error
+    type: JSON
+  - name: std_error_adjusted
+    type: JSON
+  - name: ci_upper
+    type: JSON
+  - name: ci_lower
+    type: JSON
+  - name: percentile
+    type: DOUBLE

@@ -1,0 +1,57 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dartmouth-atlas-of-health-care-post-discharge-events`. Regenerate after model-verify.
+# caution: Contains HRR, HSA, state, county, and hospital rows in one table; filter `geo_level` before aggregating or comparing geographies.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: geo_level
+    type: VARCHAR
+  - name: geo_code
+    type: VARCHAR
+  - name: geo_label
+    type: VARCHAR
+  - name: geo_name
+    type: VARCHAR
+  - name: population
+    type: HUGEINT
+  - name: year
+    type: BIGINT
+  - name: race
+    type: JSON
+  - name: gender
+    type: JSON
+  - name: cohort
+    type: VARCHAR
+  - name: measure_code
+    type: VARCHAR
+  - name: measure_label
+    type: VARCHAR
+  - name: short_label
+    type: VARCHAR
+  - name: cohort_web_label
+    type: VARCHAR
+  - name: observed
+    type: DOUBLE
+  - name: crude_rate
+    type: DOUBLE
+  - name: adjusted_rate
+    type: DOUBLE
+  - name: expected
+    type: DOUBLE
+  - name: expected_adjusted
+    type: DOUBLE
+  - name: oe_ratio
+    type: DOUBLE
+  - name: oe_adjusted_ratio
+    type: DOUBLE
+  - name: std_error
+    type: DOUBLE
+  - name: std_error_adjusted
+    type: DOUBLE
+  - name: ci_upper
+    type: DOUBLE
+  - name: ci_lower
+    type: DOUBLE
+  - name: percentile
+    type: DOUBLE

@@ -1,0 +1,58 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dartmouth-atlas-of-health-care-discharge-rates`. Regenerate after model-verify.
+# caution: Union of medical and surgical discharge files across HRR, HSA, state, and county levels; filter `geo_level` and measure fields before aggregation.
+# caution: Legacy and modern eras expose different demographic and observed/expected fields, so some columns are only populated for part of the series.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: geo_level
+    type: VARCHAR
+  - name: geo_code
+    type: BIGINT
+  - name: geo_label
+    type: VARCHAR
+  - name: geo_name
+    type: VARCHAR
+  - name: population
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: race
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: cohort
+    type: VARCHAR
+  - name: measure_code
+    type: VARCHAR
+  - name: measure_label
+    type: VARCHAR
+  - name: short_label
+    type: VARCHAR
+  - name: cohort_web_label
+    type: VARCHAR
+  - name: observed
+    type: DOUBLE
+  - name: crude_rate
+    type: DOUBLE
+  - name: adjusted_rate
+    type: DOUBLE
+  - name: expected
+    type: JSON
+  - name: expected_adjusted
+    type: DOUBLE
+  - name: oe_ratio
+    type: JSON
+  - name: oe_adjusted_ratio
+    type: DOUBLE
+  - name: std_error
+    type: JSON
+  - name: std_error_adjusted
+    type: DOUBLE
+  - name: ci_upper
+    type: DOUBLE
+  - name: ci_lower
+    type: DOUBLE
+  - name: percentile
+    type: DOUBLE

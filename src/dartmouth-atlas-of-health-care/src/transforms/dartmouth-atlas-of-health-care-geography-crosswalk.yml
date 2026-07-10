@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dartmouth-atlas-of-health-care-geography-crosswalk`. Regenerate after model-verify.
+# caution: Crosswalk rows are vintage-specific ZIP-to-HSA/HRR assignments; include `vintage` when comparing or joining across years.
+key: []
+columns:
+  - name: zipcode
+    type: VARCHAR
+  - name: hsa_num
+    type: BIGINT
+  - name: hsa_city
+    type: VARCHAR
+  - name: hsa_state
+    type: VARCHAR
+  - name: hrr_num
+    type: BIGINT
+  - name: hrr_city
+    type: VARCHAR
+  - name: hrr_state
+    type: VARCHAR
+  - name: vintage
+    type: BIGINT

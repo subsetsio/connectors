@@ -1,0 +1,241 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dartmouth-atlas-of-health-care-hospital-research-data`. Regenerate after model-verify.
+# caution: Hospital research files are annual and longitudinal bundles with drifting schemas; `source_file` and `vintage` identify which upstream layout a row came from.
+key: []
+temporal: appdate
+sort: [appdate]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: vintage
+    type: BIGINT
+  - name: provider
+    type: VARCHAR
+  - name: new_prov
+    type: VARCHAR
+  - name: hospname
+    type: VARCHAR
+  - name: pcity
+    type: VARCHAR
+  - name: pstate
+    type: VARCHAR
+  - name: pzip
+    type: VARCHAR
+  - name: hsa
+    type: BIGINT
+  - name: hsaname
+    type: VARCHAR
+  - name: hrr
+    type: BIGINT
+  - name: hrrname
+    type: VARCHAR
+  - name: fcounty
+    type: VARCHAR
+  - name: fcntyname
+    type: VARCHAR
+  - name: nci_center
+    type: VARCHAR
+  - name: excl_flag
+    type: VARCHAR
+  - name: icu_flag
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: teachstatus
+    type: VARCHAR
+  - name: sysname
+    type: VARCHAR
+  - name: ahabeds
+    type: BIGINT
+  - name: posbeds
+    type: BIGINT
+  - name: hosptype
+    type: VARCHAR
+  - name: shortname
+    type: VARCHAR
+  - name: pname
+    type: VARCHAR
+  - name: aha_name
+    type: VARCHAR
+  - name: aha_control
+    type: VARCHAR
+  - name: pos_control
+    type: VARCHAR
+  - name: aserv
+    type: BIGINT
+  - name: alos
+    type: BIGINT
+  - name: acntrl
+    type: BIGINT
+  - name: aresp
+    type: BIGINT
+  - name: ahabeds10
+    type: BIGINT
+  - name: ahaok
+    type: BIGINT
+  - name: status11
+    type: VARCHAR
+  - name: newhosp
+    type: VARCHAR
+  - name: icu_excl
+    type: VARCHAR
+  - name: pcounty
+    type: VARCHAR
+  - name: zcounty
+    type: VARCHAR
+  - name: acounty
+    type: VARCHAR
+  - name: acntyname
+    type: VARCHAR
+  - name: appdate
+    type: DATE
+  - name: termdate
+    type: DATE
+  - name: beds_2011
+    type: BIGINT
+  - name: jan_jun11
+    type: BIGINT
+  - name: jul_dec11
+    type: BIGINT
+  - name: tot2011
+    type: BIGINT
+  - name: start_2010
+    type: VARCHAR
+  - name: end_2010
+    type: VARCHAR
+  - name: start_2011
+    type: VARCHAR
+  - name: end_2011
+    type: VARCHAR
+  - name: id_2011x
+    type: VARCHAR
+  - name: change
+    type: BIGINT
+  - name: poscont
+    type: VARCHAR
+  - name: icudays11
+    type: BIGINT
+  - name: icudays10
+    type: BIGINT
+  - name: cothname
+    type: VARCHAR
+  - name: hospname10
+    type: VARCHAR
+  - name: fcounty10
+    type: VARCHAR
+  - name: icu_flag10
+    type: VARCHAR
+  - name: kaiser
+    type: BIGINT
+  - name: federal
+    type: JSON
+  - name: vhosp
+    type: JSON
+  - name: nonus
+    type: JSON
+  - name: checkname
+    type: BIGINT
+  - name: noshort
+    type: BIGINT
+  - name: start_2012
+    type: VARCHAR
+  - name: end_2012
+    type: VARCHAR
+  - name: prvx11
+    type: VARCHAR
+  - name: prvx12
+    type: VARCHAR
+  - name: nocounty
+    type: BIGINT
+  - name: postype
+    type: VARCHAR
+  - name: status12
+    type: VARCHAR
+  - name: icu_flag11
+    type: VARCHAR
+  - name: icudays12
+    type: BIGINT
+  - name: manual_change
+    type: VARCHAR
+  - name: xref_provider
+    type: VARCHAR
+  - name: xref_appdate
+    type: DATE
+  - name: xref_termdate
+    type: DATE
+  - name: year
+    type: BIGINT
+  - name: street_address
+    type: VARCHAR
+  - name: provnum_2010
+    type: VARCHAR
+  - name: provnum_2011
+    type: VARCHAR
+  - name: provnum_2012
+    type: VARCHAR
+  - name: beds_2012
+    type: BIGINT
+  - name: tot2010
+    type: BIGINT
+  - name: tot2012
+    type: BIGINT
+  - name: jan_jun10
+    type: BIGINT
+  - name: jan_jun12
+    type: BIGINT
+  - name: jul_dec10
+    type: BIGINT
+  - name: jul_dec12
+    type: BIGINT
+  - name: status_2010
+    type: VARCHAR
+  - name: status_2011
+    type: VARCHAR
+  - name: status_2012
+    type: VARCHAR
+  - name: fstatus_2012
+    type: VARCHAR
+  - name: noaha
+    type: BIGINT
+  - name: start_2013
+    type: VARCHAR
+  - name: end_2013
+    type: VARCHAR
+  - name: prvx13
+    type: VARCHAR
+  - name: status_2013
+    type: VARCHAR
+  - name: fstatus_2013
+    type: VARCHAR
+  - name: status13
+    type: VARCHAR
+  - name: id
+    type: VARCHAR
+  - name: coth_flag
+    type: VARCHAR
+  - name: icu_flag12
+    type: VARCHAR
+  - name: icudays13
+    type: BIGINT
+  - name: los13
+    type: BIGINT
+  - name: los12
+    type: BIGINT
+  - name: termdate14
+    type: DATE
+  - name: provnum_2013
+    type: VARCHAR
+  - name: beds_2013
+    type: BIGINT
+  - name: tot2013
+    type: BIGINT
+  - name: jan_jun13
+    type: BIGINT
+  - name: jul_dec13
+    type: BIGINT
+  - name: agree13
+    type: BIGINT
+  - name: change13
+    type: BIGINT
+  - name: nodsch13
+    type: BIGINT
