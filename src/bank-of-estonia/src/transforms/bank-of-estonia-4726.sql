@@ -1,7 +1,10 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST(date AS DATE) AS date,
-    series,
-    CAST(value AS DOUBLE) AS value,
-    period
+    "period",
+    strptime("date", '%Y-%m-%d')::DATE AS date,
+    "series",
+    "value"
 FROM "bank-of-estonia-4726"
-WHERE date IS NOT NULL AND value IS NOT NULL
