@@ -1,5 +1,8 @@
 spec_id: global-fishing-watch-fishing-vessels
 status: active
+coverage:
+  frozen: true
+  reason: Global AIS-based Apparent Fishing Effort Dataset v3.0.0 is a fixed Zenodo snapshot published in March 2025 covering 2012-2024; refreshes appear as new versioned Zenodo records.
 tests:
   - not_null: mmsi
     reason: the vessel table is keyed on MMSI
@@ -16,11 +19,6 @@ tests:
   - between: {col: year, lo: 2012, hi: current_year()}
     reason: vessel records span the 2012-onward AIS dataset
     certainty: 90
-    points_outward: true
-    severity: warn
-  - freshness: {col: year, reaches: current_year() - 2}
-    reason: v3 covers through 2024; a much staler max means the wrong/old record was pulled
-    certainty: 70
     points_outward: true
     severity: warn
   - at_least: {col: fishing_hours, expr: 0}
