@@ -254,6 +254,7 @@ def fetch_collection(node_id: str) -> None:
 
 # Apache autoindex listing: skip the sort links ("?C=N;O=D") and the parent link.
 _HREF = re.compile(r'href="([^"?/][^"]*)"')
+_DAILY_STATION_YEAR = re.compile(r"^climate_daily_[A-Z]{2}_.+_(\d{4})_P1D\.csv$")
 
 DAILY_SCHEMA = pa.schema(
     [
@@ -327,7 +328,15 @@ def _provinces() -> list[str]:
 
 def _daily_files(province: str) -> list[str]:
     listing = _datamart_text(f"daily/csv/{province}/")
-    files = sorted(h for h in _HREF.findall(listing) if h.endswith(".csv"))
+    current_year = dt.date.today().year
+    files = []
+    for href in _HREF.findall(listing):
+        match = _DAILY_STATION_YEAR.match(href)
+        if not match:
+            continue
+        if int(match.group(1)) <= current_year:
+            files.append(href)
+    files = sorted(files)
     if not files:
         raise RuntimeError(f"Datamart daily/csv/{province}/ listed no CSV files")
     return files
@@ -361,6 +370,8 @@ def _parse_daily(text: str, province: str) -> list[dict]:
                     row[name] = None
             else:
                 row[name] = val
+        if row.get("year") and row["year"] > dt.date.today().year:
+            continue
         rows.append(row)
     return rows
 

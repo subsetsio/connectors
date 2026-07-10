@@ -37,7 +37,6 @@ from tenacity import (
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     is_transient,
     transient_retry,
@@ -709,91 +708,20 @@ DOWNLOAD_SPECS = [
              fn=fetch_moon_times, kind="download"),
     NodeSpec(id="hong-kong-observatory-weather-radiation-report",
              fn=fetch_weather_radiation_report, kind="download"),
-]
-
-
-# --------------------------------------------------------------------------- #
-# TRANSFORM_SPECS - one published Delta table per subset
-# --------------------------------------------------------------------------- #
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="hong-kong-observatory-daily-temperature-transform",
-        deps=["hong-kong-observatory-daily-temperature"],
-        sql='''
-            SELECT
-                station,
-                measure,
-                make_date(year, month, day) AS date,
-                CAST(TRY_CAST(value AS DOUBLE) AS DOUBLE) AS temperature_c,
-                completeness
-            FROM "hong-kong-observatory-daily-temperature"
-            WHERE TRY_CAST(value AS DOUBLE) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="hong-kong-observatory-astronomical-tides-hourly-transform",
-        deps=["hong-kong-observatory-astronomical-tides-hourly"],
-        sql='''
-            SELECT
-                station,
-                make_date(year, month, day) AS date,
-                hour,
-                CAST(TRY_CAST(height_m AS DOUBLE) AS DOUBLE) AS height_m
-            FROM "hong-kong-observatory-astronomical-tides-hourly"
-            WHERE TRY_CAST(height_m AS DOUBLE) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="hong-kong-observatory-astronomical-tides-high-low-transform",
-        deps=["hong-kong-observatory-astronomical-tides-high-low"],
-        sql='''
-            SELECT
-                station,
-                make_date(year, month, day) AS date,
-                event,
-                time,
-                CAST(TRY_CAST(height_m AS DOUBLE) AS DOUBLE) AS height_m
-            FROM "hong-kong-observatory-astronomical-tides-high-low"
-            WHERE TRY_CAST(height_m AS DOUBLE) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="hong-kong-observatory-sun-times-transform",
-        deps=["hong-kong-observatory-sun-times"],
-        sql='''
-            SELECT
-                CAST(date AS DATE) AS date,
-                NULLIF(rise, '')    AS rise,
-                NULLIF(transit, '') AS transit,
-                NULLIF("set", '')   AS "set"
-            FROM "hong-kong-observatory-sun-times"
-            WHERE TRY_CAST(date AS DATE) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="hong-kong-observatory-moon-times-transform",
-        deps=["hong-kong-observatory-moon-times"],
-        sql='''
-            SELECT
-                CAST(date AS DATE) AS date,
-                NULLIF(rise, '')    AS rise,
-                NULLIF(transit, '') AS transit,
-                NULLIF("set", '')   AS "set"
-            FROM "hong-kong-observatory-moon-times"
-            WHERE TRY_CAST(date AS DATE) IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="hong-kong-observatory-weather-radiation-report-transform",
-        deps=["hong-kong-observatory-weather-radiation-report"],
-        sql='''
-            SELECT
-                strptime(report_date, '%Y%m%d')::DATE AS date,
-                station,
-                metric,
-                CAST(TRY_CAST(value AS DOUBLE) AS DOUBLE) AS value
-            FROM "hong-kong-observatory-weather-radiation-report"
-            WHERE TRY_CAST(value AS DOUBLE) IS NOT NULL
-        ''',
-    ),
+    NodeSpec(id="hong-kong-observatory-nine-day-forecast",
+             fn=fetch_nine_day_forecast, kind="download"),
+    NodeSpec(id="hong-kong-observatory-current-weather-report",
+             fn=fetch_current_weather_report, kind="download"),
+    NodeSpec(id="hong-kong-observatory-lightning-count",
+             fn=fetch_lightning_count, kind="download"),
+    NodeSpec(id="hong-kong-observatory-visibility-10min-mean",
+             fn=fetch_visibility_10min_mean, kind="download"),
+    NodeSpec(id="hong-kong-observatory-quick-earthquake-messages",
+             fn=fetch_quick_earthquake_messages, kind="download"),
+    NodeSpec(id="hong-kong-observatory-felt-earthquake-reports",
+             fn=fetch_felt_earthquake_reports, kind="download"),
+    NodeSpec(id="hong-kong-observatory-gregorian-lunar-calendar",
+             fn=fetch_gregorian_lunar_calendar, kind="download"),
+    NodeSpec(id="hong-kong-observatory-stations",
+             fn=fetch_stations, kind="download"),
 ]

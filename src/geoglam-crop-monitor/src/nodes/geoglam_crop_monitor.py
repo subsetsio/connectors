@@ -26,7 +26,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     http_client,
     save_raw_parquet,
