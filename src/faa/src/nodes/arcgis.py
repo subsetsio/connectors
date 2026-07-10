@@ -9,7 +9,7 @@ Whole-corpus snapshot with no incremental filter, so the fetch shape is
 stateless full re-pull + overwrite.
 """
 
-from subsets_utils import NodeSpec, save_raw_ndjson
+from subsets_utils import save_raw_ndjson
 from utils import faa_get
 
 _ARCGIS_HOST = "https://services6.arcgis.com/ssFJjBXIUyZDrSYZ/arcgis/rest/services"
@@ -68,7 +68,3 @@ def fetch_arcgis(node_id: str) -> None:
     service = _ARCGIS_SERVICES[node_id]
     save_raw_ndjson(_iter_features(service), asset)
 
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id=sid, fn=fetch_arcgis, kind="download") for sid in _ARCGIS_SERVICES
-]

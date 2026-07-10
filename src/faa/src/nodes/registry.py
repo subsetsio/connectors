@@ -18,7 +18,7 @@ from collections import Counter
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import faa_get
 
 _REGISTRY_URL = "https://registry.faa.gov/database/ReleasableAircraft.zip"
@@ -96,11 +96,6 @@ def fetch_registry(node_id: str) -> None:
     if table.num_rows == 0:
         raise AssertionError(f"{asset}: registry member {member} parsed to 0 rows")
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id=sid, fn=fetch_registry, kind="download") for sid in _REGISTRY_MEMBERS
-]
 
 
 # --- TRANSFORM_SPECS ---------------------------------------------------------
