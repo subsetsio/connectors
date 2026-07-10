@@ -1,11 +1,16 @@
 spec_id: dhs-nonimmigrants-table-32
 status: active
+coverage:
+  frozen: true
+  reason: pinned to the FY2024 edition of the OHSS Yearbook (ohss.dhs.gov/topics/immigration/yearbook/2024); that edition is closed and its tables do not advance — a new fiscal year ships as a new yearbook edition with its own sheet set
 tests:
-  - row_count: {min: 1}
+  - row_count: {min: 105}
   - not_null: topic
   - not_null: table_label
   - not_null: title
   - not_null: category
   - not_null: breakdown
+  - not_null: parent_category
+  - not_null: description
   - column_type: {col: value, type: float}
-
+  - distinct_count: {col: breakdown, min: 7}

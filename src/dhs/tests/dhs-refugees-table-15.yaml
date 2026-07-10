@@ -1,10 +1,13 @@
 spec_id: dhs-refugees-table-15
 status: active
 tests:
-  - row_count: {min: 1}
+  - row_count: {min: 135}
   - not_null: topic
   - not_null: table_label
   - not_null: title
   - not_null: category
   - not_null: breakdown
+  - not_null: parent_category
+  - not_null: description
   - column_type: {col: value, type: float}
+  - distinct_count: {col: breakdown, min: 3}

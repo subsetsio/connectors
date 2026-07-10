@@ -1,11 +1,17 @@
 spec_id: dhs-naturalizations-table-21
 status: active
+coverage:
+  frozen: true
+  reason: pinned to the FY2024 edition of the OHSS Yearbook (ohss.dhs.gov/topics/immigration/yearbook/2024); that edition is closed and its tables do not advance — a new fiscal year ships as a new yearbook edition with its own sheet set
 tests:
-  - row_count: {min: 1}
+  - row_count: {min: 637}
   - not_null: topic
   - not_null: table_label
   - not_null: title
   - not_null: category
   - not_null: breakdown
+  - not_null: parent_category
+  - not_null: description
   - column_type: {col: value, type: float}
-
+  - matches: {col: category, pattern: '^[0-9]{4}$'}
+  - distinct_count: {col: breakdown, min: 4}
