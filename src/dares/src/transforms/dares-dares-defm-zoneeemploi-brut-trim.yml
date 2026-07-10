@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: date
-sort: [date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dares-dares-defm-zoneeemploi-brut-trim`. Regenerate after model-verify.
+key: [date, region, zone_d_emploi, type_de_donnees, categorie, sexe, tranche_d_age, anciennete]
+sort: [date, region, zone_d_emploi, type_de_donnees, categorie, sexe, tranche_d_age, anciennete]
 columns:
   - name: date
     type: VARCHAR
@@ -23,4 +24,4 @@ columns:
   - name: anciennete
     type: VARCHAR
   - name: nombre_de_demandeurs_d_emploi
-    type: VARCHAR
+    type: BIGINT

@@ -1,6 +1,10 @@
-SELECT DISTINCT
-    CAST(validFor AS DATE)    AS date,
-    period                    AS term,
-    CAST(pribor AS DOUBLE)    AS rate
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "validFor" AS validfor,
+    "period",
+    "pribid",
+    "pribor"
 FROM "czech-national-bank-pribor-daily"
-WHERE validFor IS NOT NULL AND pribor IS NOT NULL

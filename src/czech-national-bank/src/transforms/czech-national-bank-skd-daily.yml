@@ -1,16 +1,20 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `czech-national-bank-skd-daily`. Regenerate after model-verify.
+key: [settlementdate, issuecode, issuename]
+temporal: settlementdate
+sort: [settlementdate, issuecode, issuename]
 columns:
-  - name: settlement_date
+  - name: settlementdate
     type: DATE
   - name: isin
     type: VARCHAR
-  - name: issue_code
+  - name: issuecode
     type: VARCHAR
-  - name: issue_name
+  - name: issuename
     type: VARCHAR
-  - name: nominal_value_czk
+  - name: nominalvalueczk
+    type: BIGINT
+  - name: averagepricetovalue
     type: DOUBLE
-  - name: average_price_to_value
-    type: DOUBLE
-  - name: nominal_value_of_settlement_czk
-    type: DOUBLE
+  - name: nominalvalueofsettlementczk
+    type: BIGINT

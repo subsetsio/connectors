@@ -1,6 +1,9 @@
-SELECT DISTINCT
-    CAST(validFor AS DATE)         AS date,
-    CAST(rate AS DOUBLE)           AS rate,
-    CAST(volumeInCZKmio AS DOUBLE) AS volume_czk_mio
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "validFor" AS validfor,
+    "volumeInCZKmio" AS volumeinczkmio,
+    "rate"
 FROM "czech-national-bank-czeonia-daily"
-WHERE validFor IS NOT NULL AND rate IS NOT NULL

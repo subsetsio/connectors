@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: date
-sort: [date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dares-dares-defm-stock-regions-brut-trim`. Regenerate after model-verify.
+# caution: Rows mix geographic scopes through department and region fields; filter to the intended geography before summing.
+key: [date, code_region, code_departement, type_de_donnees, categorie, sexe, tranche_d_age, anciennete]
+sort: [date, code_region, code_departement, type_de_donnees, categorie, sexe, tranche_d_age, anciennete]
 columns:
   - name: date
     type: VARCHAR

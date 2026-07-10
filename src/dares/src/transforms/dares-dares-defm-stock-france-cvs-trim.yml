@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: date
-sort: [date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dares-dares-defm-stock-france-cvs-trim`. Regenerate after model-verify.
+key: [date, champ, type_de_donnees, categorie, sexe, tranche_d_age, tranche_d_heures_travaillees, anciennete]
+sort: [date, champ, type_de_donnees, categorie, sexe, tranche_d_age, tranche_d_heures_travaillees, anciennete]
 columns:
   - name: date
     type: VARCHAR

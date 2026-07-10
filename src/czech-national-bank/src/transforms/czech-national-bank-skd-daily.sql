@@ -1,12 +1,13 @@
-SELECT DISTINCT
-    CAST(settlementDate AS DATE)                AS settlement_date,
-    isin,
-    issueCode                                  AS issue_code,
-    issueName                                  AS issue_name,
-    CAST(nominalValueCZK AS DOUBLE)            AS nominal_value_czk,
-    CAST(averagePriceToValue AS DOUBLE)        AS average_price_to_value,
-    CAST(nominalValueOfSettlementCZK AS DOUBLE) AS nominal_value_of_settlement_czk
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "settlementDate" AS settlementdate,
+    "isin",
+    "issueCode" AS issuecode,
+    "issueName" AS issuename,
+    CAST("nominalValueCZK" AS BIGINT) AS nominalvalueczk,
+    "averagePriceToValue" AS averagepricetovalue,
+    "nominalValueOfSettlementCZK" AS nominalvalueofsettlementczk
 FROM "czech-national-bank-skd-daily"
-WHERE settlementDate IS NOT NULL
-  AND isin IS NOT NULL
-  AND issueCode IS NOT NULL

@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: date
-sort: [date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dares-dares-offres-collectees-satisfaites-france-travail-cvs-cjo-trim`. Regenerate after model-verify.
+# caution: Rows mix geographic scopes through department and region fields; filter to the intended geography before summing.
+key: [date, code_region, code_departement, type_de_donnees, type_d_offre_d_emploi, type_d_emploi, qualification]
+sort: [date, code_region, code_departement, type_de_donnees, type_d_offre_d_emploi, type_d_emploi, qualification]
 columns:
   - name: date
     type: VARCHAR

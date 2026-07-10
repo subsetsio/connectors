@@ -1,14 +1,20 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `czech-national-bank-fxrates-daily`. Regenerate after model-verify.
+key: [validfor, country, currencycode, currency]
+temporal: validfor
+sort: [validfor, country, currencycode, currency]
 columns:
-  - name: date
+  - name: validfor
     type: DATE
-  - name: currency_code
-    type: VARCHAR
+  - name: order
+    type: BIGINT
   - name: country
     type: VARCHAR
   - name: currency
     type: VARCHAR
   - name: amount
-    type: INTEGER
+    type: BIGINT
+  - name: currencycode
+    type: VARCHAR
   - name: rate
     type: DOUBLE

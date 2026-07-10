@@ -1,7 +1,10 @@
-SELECT DISTINCT
-    CAST(validFor AS DATE)         AS date,
-    ccyPair                        AS currency_pair,
-    maturity,
-    CAST(forwardPoints AS DOUBLE)  AS forward_points
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "validFor" AS validfor,
+    "ccyPair" AS ccypair,
+    "maturity",
+    "forwardPoints" AS forwardpoints
 FROM "czech-national-bank-forward-daily"
-WHERE validFor IS NOT NULL AND forwardPoints IS NOT NULL

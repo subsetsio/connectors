@@ -1,28 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `czech-national-bank-omo-daily`. Regenerate after model-verify.
+# caution: The API does not provide a stable operation identifier; multiple operation rows may share the same trade date, settlement date, maturity date, operation type, and liquidity impact.
+key: []
+temporal: tradedate
+sort: [tradedate]
 columns:
-  - name: trade_date
-    type: DATE
-  - name: settlement_date
-    type: DATE
-  - name: maturity_date
-    type: DATE
-  - name: operation_type
+  - name: operationtype
     type: VARCHAR
-  - name: liquidity_impact
+  - name: liquidityimpact
     type: VARCHAR
-  - name: marginal_rate_pct
+  - name: tradedate
+    type: DATE
+  - name: settlementdate
+    type: DATE
+  - name: maturitydate
+    type: DATE
+  - name: marginalrateinpercent
     type: DOUBLE
-  - name: average_bid_rate_pct
+  - name: totalbidvolumeinczkbln
     type: DOUBLE
-  - name: average_alloted_rate_pct
+  - name: totalnumberofbids
+    type: BIGINT
+  - name: minimumbidrateinpercent
     type: DOUBLE
-  - name: total_bid_volume_czk_bln
+  - name: averagebidrateinpercent
     type: DOUBLE
-  - name: total_alloted_volume_czk_bln
+  - name: maximumbidrateinpercent
     type: DOUBLE
-  - name: total_number_of_bids
-    type: INTEGER
-  - name: total_number_of_alloted_bids
-    type: INTEGER
-  - name: allotment_pct
+  - name: totalallotedvolumeinczkbln
+    type: DOUBLE
+  - name: totalnumberofallotedbids
+    type: BIGINT
+  - name: minimumallotedrateinpercent
+    type: DOUBLE
+  - name: averageallotedrateinpercent
+    type: DOUBLE
+  - name: maximumallotedrateinpercent
+    type: DOUBLE
+  - name: allotmentpercentage
     type: DOUBLE

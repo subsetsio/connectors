@@ -1,9 +1,13 @@
-SELECT DISTINCT
-    CAST(validFor AS DATE)        AS date,
-    currencyCode                  AS currency_code,
-    country,
-    currency,
-    CAST(amount AS INTEGER)       AS amount,
-    CAST(rate AS DOUBLE)          AS rate
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "validFor" AS validfor,
+    "order",
+    "country",
+    "currency",
+    "amount",
+    "currencyCode" AS currencycode,
+    "rate"
 FROM "czech-national-bank-fxrates-daily"
-WHERE validFor IS NOT NULL AND rate IS NOT NULL

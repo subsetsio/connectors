@@ -1,9 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: date
-sort: [date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dares-dares-tempspartiel-detail-annuelles`. Regenerate after model-verify.
+key: [date, champ, indicateur, indicateur_detaille, sexe]
+sort: [date, champ, indicateur, indicateur_detaille, sexe]
 columns:
   - name: date
-    type: VARCHAR
+    type: BIGINT
   - name: champ
     type: VARCHAR
   - name: indicateur

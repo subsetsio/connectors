@@ -1,10 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `czech-national-bank-forward-daily`. Regenerate after model-verify.
+key: [validfor, ccypair, maturity]
+temporal: validfor
+sort: [validfor, ccypair, maturity]
 columns:
-  - name: date
+  - name: validfor
     type: DATE
-  - name: currency_pair
+  - name: ccypair
     type: VARCHAR
   - name: maturity
     type: VARCHAR
-  - name: forward_points
+  - name: forwardpoints
     type: DOUBLE

@@ -1,16 +1,24 @@
-SELECT DISTINCT
-    CAST(tradeDate AS DATE)                    AS trade_date,
-    CAST(settlementDate AS DATE)               AS settlement_date,
-    CAST(maturityDate AS DATE)                 AS maturity_date,
-    operationType                              AS operation_type,
-    liquidityImpact                            AS liquidity_impact,
-    CAST(marginalRateInPercent AS DOUBLE)      AS marginal_rate_pct,
-    CAST(averageBidRateInPercent AS DOUBLE)    AS average_bid_rate_pct,
-    CAST(averageAllotedRateInPercent AS DOUBLE) AS average_alloted_rate_pct,
-    CAST(totalBidVolumeInCZKbln AS DOUBLE)     AS total_bid_volume_czk_bln,
-    CAST(totalAllotedVolumeInCZKbln AS DOUBLE) AS total_alloted_volume_czk_bln,
-    CAST(totalNumberOfBids AS INTEGER)         AS total_number_of_bids,
-    CAST(totalNumberOfAllotedBids AS INTEGER)  AS total_number_of_alloted_bids,
-    CAST(allotmentPercentage AS DOUBLE)        AS allotment_pct
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The API does not provide a stable operation identifier; multiple operation rows may share the same trade date, settlement date, maturity date, operation type, and liquidity impact.
+SELECT
+    "operationType" AS operationtype,
+    "liquidityImpact" AS liquidityimpact,
+    "tradeDate" AS tradedate,
+    "settlementDate" AS settlementdate,
+    "maturityDate" AS maturitydate,
+    "marginalRateInPercent" AS marginalrateinpercent,
+    "totalBidVolumeInCZKbln" AS totalbidvolumeinczkbln,
+    "totalNumberOfBids" AS totalnumberofbids,
+    "minimumBidRateInPercent" AS minimumbidrateinpercent,
+    "averageBidRateInPercent" AS averagebidrateinpercent,
+    "maximumBidRateInPercent" AS maximumbidrateinpercent,
+    "totalAllotedVolumeInCZKbln" AS totalallotedvolumeinczkbln,
+    "totalNumberOfAllotedBids" AS totalnumberofallotedbids,
+    "minimumAllotedRateInPercent" AS minimumallotedrateinpercent,
+    "averageAllotedRateInPercent" AS averageallotedrateinpercent,
+    "maximumAllotedRateInPercent" AS maximumallotedrateinpercent,
+    "allotmentPercentage" AS allotmentpercentage
 FROM "czech-national-bank-omo-daily"
-WHERE tradeDate IS NOT NULL

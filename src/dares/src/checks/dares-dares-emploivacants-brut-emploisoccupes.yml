@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `dares-dares-emploivacants-brut-emploisoccupes`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, libelle_naf, code_naf, nomenclature, champ]
+checks:
+  - kind: unique
+    columns: [date, libelle_naf, code_naf, nomenclature, champ]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: libelle_naf
+  - kind: not_null
+    col: code_naf
+  - kind: not_null
+    col: nomenclature
+  - kind: not_null
+    col: champ
+  - kind: row_floor
+    min: 1672
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

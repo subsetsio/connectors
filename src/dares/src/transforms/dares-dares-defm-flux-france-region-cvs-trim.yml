@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: date
-sort: [date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dares-dares-defm-flux-france-region-cvs-trim`. Regenerate after model-verify.
+key: [date, code_departement, departement, motif, code_region]
+sort: [date, code_departement, departement, motif, code_region]
 columns:
   - name: date
     type: VARCHAR

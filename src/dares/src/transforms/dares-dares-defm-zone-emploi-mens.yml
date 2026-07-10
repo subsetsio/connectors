@@ -1,9 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dares-dares-defm-zone-emploi-mens`. Regenerate after model-verify.
+key: [date, region, zone_d_emploi, type_de_donnees, categorie, sexe, tranche_d_age, anciennete]
 temporal: date
-sort: [date]
+sort: [date, region, zone_d_emploi, type_de_donnees, categorie, sexe, tranche_d_age, anciennete]
 columns:
   - name: date
-    type: VARCHAR
+    type: DATE
   - name: code_region
     type: VARCHAR
   - name: region

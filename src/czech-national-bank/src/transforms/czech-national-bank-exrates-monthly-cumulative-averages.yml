@@ -1,12 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `czech-national-bank-exrates-monthly-cumulative-averages`. Regenerate after model-verify.
+# caution: Monthly period values are year-to-date cumulative averages, not independent single-month averages.
+key: [currencycode, year, month]
+temporal: year
+sort: [year, currencycode, month]
 columns:
-  - name: year
-    type: INTEGER
-  - name: period
+  - name: month
     type: VARCHAR
-  - name: currency_code
-    type: VARCHAR
-  - name: amount
-    type: INTEGER
   - name: average
     type: DOUBLE
+  - name: year
+    type: BIGINT
+  - name: currencycode
+    type: VARCHAR
+  - name: amount
+    type: BIGINT
