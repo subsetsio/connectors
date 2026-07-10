@@ -1,7 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-c52e9901-e8ef-0376-b9e9-59abfb4db747`. Regenerate after model-verify.
+key: []
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: geographic_level
@@ -23,11 +25,11 @@ columns:
   - name: sex
     type: VARCHAR
   - name: establishment_count
-    type: VARCHAR
+    type: BIGINT
   - name: eligible_pupil_count
-    type: VARCHAR
+    type: BIGINT
   - name: expected_standard_pupil_count
-    type: VARCHAR
+    type: BIGINT
   - name: higher_standard_pupil_count
     type: VARCHAR
   - name: not_meeting_pupil_count
@@ -65,7 +67,7 @@ columns:
   - name: disapplied_pupil_count
     type: VARCHAR
   - name: expected_standard_pupil_percent
-    type: VARCHAR
+    type: BIGINT
   - name: higher_standard_pupil_percent
     type: VARCHAR
   - name: not_meeting_pupil_percent

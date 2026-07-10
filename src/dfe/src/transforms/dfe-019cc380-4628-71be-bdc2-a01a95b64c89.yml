@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-019cc380-4628-71be-bdc2-a01a95b64c89`. Regenerate after model-verify.
+key: [neet_count_ci_plusminus]
+sort: [neet_count_ci_plusminus]
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: quarter
@@ -21,25 +24,25 @@ columns:
   - name: age
     type: VARCHAR
   - name: population_count
-    type: VARCHAR
+    type: DOUBLE
   - name: sample_size_count
-    type: VARCHAR
+    type: BIGINT
   - name: neet_count
-    type: VARCHAR
+    type: DOUBLE
   - name: neet_count_ci_plusminus
-    type: VARCHAR
+    type: DOUBLE
   - name: neet_count_lower
-    type: VARCHAR
+    type: DOUBLE
   - name: neet_count_upper
-    type: VARCHAR
+    type: DOUBLE
   - name: neet_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: neet_percent_ci_plusminus
-    type: VARCHAR
+    type: DOUBLE
   - name: neet_percent_lower
-    type: VARCHAR
+    type: DOUBLE
   - name: neet_percent_upper
-    type: VARCHAR
+    type: DOUBLE
   - name: neet_percent_annual_change
     type: VARCHAR
   - name: neet_percent_annual_change_ci_plusminus

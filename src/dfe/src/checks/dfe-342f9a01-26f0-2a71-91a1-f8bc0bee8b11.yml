@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `dfe-342f9a01-26f0-2a71-91a1-f8bc0bee8b11`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [la_name, new_la_code, old_la_code, region_name, time_period]
+checks:
+  - kind: unique
+    columns: [la_name, new_la_code, old_la_code, region_name, time_period]
+  - kind: not_null
+    col: la_name
+  - kind: not_null
+    col: new_la_code
+  - kind: not_null
+    col: old_la_code
+  - kind: not_null
+    col: region_name
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 1066
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

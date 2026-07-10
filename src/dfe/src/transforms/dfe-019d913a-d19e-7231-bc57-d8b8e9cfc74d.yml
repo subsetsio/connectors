@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-019d913a-d19e-7231-bc57-d8b8e9cfc74d`. Regenerate after model-verify.
+key: [establishment_type, grade, establishment_type_group, time_period, sex]
+sort: [establishment_type, grade, establishment_type_group, time_period, sex]
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: geographic_level
@@ -21,7 +24,7 @@ columns:
   - name: grade
     type: VARCHAR
   - name: grade_count
-    type: VARCHAR
+    type: BIGINT
   - name: grade_percent
     type: VARCHAR
   - name: astar_to_grade_cumulative_count

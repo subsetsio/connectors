@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-019afee5-c8fd-751d-b8b2-c31894a732af`. Regenerate after model-verify.
+key: [time_period, version, establistment_type_group, rwm_exp_pupil_percent]
+sort: [time_period, version, establistment_type_group, rwm_exp_pupil_percent]
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: geographic_level
@@ -15,6 +18,6 @@ columns:
   - name: establistment_type_group
     type: VARCHAR
   - name: rwm_exp_pupil_percent
-    type: VARCHAR
+    type: BIGINT
   - name: establishment_count
     type: VARCHAR

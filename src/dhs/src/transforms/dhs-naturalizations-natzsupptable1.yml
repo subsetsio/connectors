@@ -1,3 +1,12 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dhs-naturalizations-natzsupptable1`. Regenerate after model-verify.
+# caution: `section` separates REGION aggregate rows from the COUNTRY rows they contain; summing across both double-counts.
+# caution: Both `category` and `breakdown` carry a 'Total' member alongside their components — filter both out before aggregating.
+# caution: `category` names only the leading members and lumps the rest into 'All other countries', so its members are not the full universe.
+# caution: Periods are U.S. federal fiscal years (October 1 to September 30), not calendar years.
+# caution: Counts are rounded to the nearest 10 by OHSS, so component rows need not sum exactly to the published totals.
+key: [category, breakdown, section]
+sort: [category, breakdown, section]
 columns:
   - name: topic
     type: VARCHAR
@@ -7,7 +16,11 @@ columns:
     type: VARCHAR
   - name: section
     type: VARCHAR
+  - name: parent_category
+    type: VARCHAR
   - name: category
+    type: VARCHAR
+  - name: description
     type: VARCHAR
   - name: breakdown
     type: VARCHAR

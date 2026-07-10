@@ -1,7 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-63629501-d3ca-c471-9780-ec4cb6fdf172`. Regenerate after model-verify.
+key: []
+temporal: reference_date
+sort: [reference_date]
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: time_frame
@@ -23,7 +27,7 @@ columns:
   - name: old_la_code
     type: VARCHAR
   - name: reference_date
-    type: VARCHAR
+    type: DATE
   - name: education_phase
     type: VARCHAR
   - name: attendance_status

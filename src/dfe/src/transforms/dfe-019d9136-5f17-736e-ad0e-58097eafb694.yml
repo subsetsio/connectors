@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-019d9136-5f17-736e-ad0e-58097eafb694`. Regenerate after model-verify.
+key: [baseline_average]
+sort: [baseline_average]
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: geographic_level
@@ -21,20 +24,20 @@ columns:
   - name: subject
     type: VARCHAR
   - name: student_count
-    type: VARCHAR
+    type: BIGINT
   - name: baseline_average
-    type: VARCHAR
+    type: DOUBLE
   - name: progress_average
-    type: VARCHAR
+    type: DOUBLE
   - name: entering_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: improving_pecent
-    type: VARCHAR
+    type: DOUBLE
   - name: same_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: lower_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: non_entry_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: grade_four_plus_percent
-    type: VARCHAR
+    type: DOUBLE

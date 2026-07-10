@@ -1,11 +1,20 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Each `section` is an independent cross-tab of the same population (AGE, BROAD AGE GROUPS, MARITAL STATUS, OCCUPATION); 'AGE' and 'BROAD AGE GROUPS' are two partitions of the same ages at different resolutions. Sum within one section, never across.
+-- caution: Both `category` and `breakdown` carry a 'Total' member alongside their components — filter both out before aggregating.
+-- caution: Periods are U.S. federal fiscal years (October 1 to September 30), not calendar years.
+-- caution: Counts are rounded to the nearest 10 by OHSS, so component rows need not sum exactly to the published totals.
 SELECT
-    topic,
-    table_label,
-    title,
-    section,
-    category,
-    breakdown,
-    CAST(value AS DOUBLE) AS value,
-    value_note
+    "topic",
+    "table_label",
+    "title",
+    "section",
+    "parent_category",
+    "category",
+    "description",
+    "breakdown",
+    "value",
+    "value_note"
 FROM "dhs-lawful-permanent-residents-table-8"
-WHERE category IS NOT NULL AND category <> ''

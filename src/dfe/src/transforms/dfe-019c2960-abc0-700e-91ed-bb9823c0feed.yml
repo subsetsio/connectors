@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-019c2960-abc0-700e-91ed-bb9823c0feed`. Regenerate after model-verify.
+key: [time_period, version, school_urn, exam_cohort, sublevno, qualification_detailed, a_level_equivelent_size, subject_code, subject]
+sort: [time_period, version, school_urn, exam_cohort, sublevno, qualification_detailed, a_level_equivelent_size, subject_code, subject]
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: geographic_level
@@ -13,7 +16,7 @@ columns:
   - name: version
     type: VARCHAR
   - name: old_la_code
-    type: VARCHAR
+    type: BIGINT
   - name: new_la_code
     type: VARCHAR
   - name: la_name
@@ -21,17 +24,17 @@ columns:
   - name: school_name
     type: VARCHAR
   - name: school_urn
-    type: VARCHAR
+    type: BIGINT
   - name: school_laestab
-    type: VARCHAR
+    type: BIGINT
   - name: exam_cohort
     type: VARCHAR
   - name: sublevno
-    type: VARCHAR
+    type: BIGINT
   - name: qualification_detailed
     type: VARCHAR
   - name: a_level_equivelent_size
-    type: VARCHAR
+    type: DOUBLE
   - name: subject_code
     type: VARCHAR
   - name: subject

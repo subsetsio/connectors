@@ -1,0 +1,34 @@
+# compiled by `hardened compile-checks` — post-publish audit of `dfe-19e39901-2ada-4d77-9406-415502a508cc`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [time_period, version, establishment_type_group, qualification_type, qualification_detailed, grade_structure, subject, discount_code, subject_discount_group, grade]
+checks:
+  - kind: unique
+    columns: [time_period, version, establishment_type_group, qualification_type, qualification_detailed, grade_structure, subject, discount_code, subject_discount_group, grade]
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: version
+  - kind: not_null
+    col: establishment_type_group
+  - kind: not_null
+    col: qualification_type
+  - kind: not_null
+    col: qualification_detailed
+  - kind: not_null
+    col: grade_structure
+  - kind: not_null
+    col: subject
+  - kind: not_null
+    col: discount_code
+  - kind: not_null
+    col: subject_discount_group
+  - kind: not_null
+    col: grade
+  - kind: row_floor
+    min: 601
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

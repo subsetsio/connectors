@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-019d913b-0640-761c-9db3-3e93aa00e0bc`. Regenerate after model-verify.
+key: [time_period, version, breakdown_topic, breakdown, subject_area, subject, grade]
+sort: [time_period, version, breakdown_topic, breakdown, subject_area, subject, grade]
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: geographic_level

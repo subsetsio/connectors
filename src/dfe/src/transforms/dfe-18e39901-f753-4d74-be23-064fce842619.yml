@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-18e39901-f753-4d74-be23-064fce842619`. Regenerate after model-verify.
+key: [time_period, version]
+sort: [time_period, version]
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: geographic_level
@@ -13,4 +16,4 @@ columns:
   - name: version
     type: VARCHAR
   - name: disadvantage_gap_index
-    type: VARCHAR
+    type: DOUBLE

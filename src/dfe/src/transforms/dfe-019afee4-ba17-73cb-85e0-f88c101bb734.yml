@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-019afee4-ba17-73cb-85e0-f88c101bb734`. Regenerate after model-verify.
+key: [alphaind]
+sort: [alphaind]
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: geographic_level
@@ -11,21 +14,21 @@ columns:
   - name: country_name
     type: VARCHAR
   - name: alphaind
-    type: VARCHAR
+    type: BIGINT
   - name: version
     type: VARCHAR
   - name: old_la_code
-    type: VARCHAR
+    type: BIGINT
   - name: new_la_code
     type: VARCHAR
   - name: la_name
     type: VARCHAR
   - name: school_laestab
-    type: VARCHAR
+    type: BIGINT
   - name: estab
-    type: VARCHAR
+    type: BIGINT
   - name: school_urn
-    type: VARCHAR
+    type: BIGINT
   - name: school_name
     type: VARCHAR
   - name: full_address
@@ -43,7 +46,7 @@ columns:
   - name: pcon_name
     type: VARCHAR
   - name: urn_ac
-    type: VARCHAR
+    type: BIGINT
   - name: school_name_ac
     type: VARCHAR
   - name: open_ac
@@ -51,15 +54,15 @@ columns:
   - name: nftype
     type: VARCHAR
   - name: iclose
-    type: VARCHAR
+    type: BIGINT
   - name: reldenom
     type: VARCHAR
   - name: agerange
     type: VARCHAR
   - name: tab15
-    type: VARCHAR
+    type: BIGINT
   - name: tab1618
-    type: VARCHAR
+    type: BIGINT
   - name: totpups
     type: VARCHAR
   - name: tpupyear

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `dfe-019d9133-f62c-722e-b878-282fd582d625`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [aps_per_entry, aps_per_entry_grade, time_period, cohort, breakdown]
+checks:
+  - kind: unique
+    columns: [aps_per_entry, aps_per_entry_grade, time_period, cohort, breakdown]
+  - kind: not_null
+    col: aps_per_entry
+  - kind: not_null
+    col: aps_per_entry_grade
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: cohort
+  - kind: not_null
+    col: breakdown
+  - kind: row_floor
+    min: 200
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

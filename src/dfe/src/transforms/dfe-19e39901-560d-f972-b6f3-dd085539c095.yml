@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-19e39901-560d-f972-b6f3-dd085539c095`. Regenerate after model-verify.
+key: [time_period, version, establishment_type_group, breakdown_topic, breakdown]
+sort: [time_period, version, establishment_type_group, breakdown_topic, breakdown]
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: geographic_level
@@ -19,41 +22,41 @@ columns:
   - name: breakdown
     type: VARCHAR
   - name: school_count
-    type: VARCHAR
+    type: BIGINT
   - name: pupil_count
-    type: VARCHAR
+    type: BIGINT
   - name: attainment8_sum
-    type: VARCHAR
+    type: DOUBLE
   - name: attainment8_average
-    type: VARCHAR
+    type: DOUBLE
   - name: engmath_entering_total
-    type: VARCHAR
+    type: BIGINT
   - name: engmath_entering_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: engmath_95_total
-    type: VARCHAR
+    type: BIGINT
   - name: engmath_95_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: engmath_94_total
-    type: VARCHAR
+    type: BIGINT
   - name: engmath_94_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: ebacc_entering_total
-    type: VARCHAR
+    type: BIGINT
   - name: ebacc_entering_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: ebacc_95_total
-    type: VARCHAR
+    type: BIGINT
   - name: ebacc_95_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: ebacc_94_total
-    type: VARCHAR
+    type: BIGINT
   - name: ebacc_94_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: ebacc_aps_sum
-    type: VARCHAR
+    type: DOUBLE
   - name: ebacc_aps_average
-    type: VARCHAR
+    type: DOUBLE
   - name: progress8_pupil_count
     type: VARCHAR
   - name: progress8_sum

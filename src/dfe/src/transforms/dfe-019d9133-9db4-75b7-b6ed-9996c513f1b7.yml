@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-019d9133-9db4-75b7-b6ed-9996c513f1b7`. Regenerate after model-verify.
+key: [breakdown, time_period, exam_cohort, breakdown_topic, version]
+sort: [breakdown, time_period, exam_cohort, breakdown_topic, version]
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: geographic_level
@@ -19,6 +22,6 @@ columns:
   - name: exam_cohort
     type: VARCHAR
   - name: student_count
-    type: VARCHAR
+    type: BIGINT
   - name: student_percent
-    type: VARCHAR
+    type: DOUBLE

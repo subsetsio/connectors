@@ -1,0 +1,42 @@
+# compiled by `hardened compile-checks` — post-publish audit of `dfe-019ac0fc-5621-74a8-8351-f75f1fb1757c`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [time_period, elgs_expected_number, elg_listening_attention_understanding, elg_speaking, elg_self_regulation, elg_managing_self, elg_building_relationships, elg_gross_motor_skills, elg_fine_motor_skills, elg_comprehension, elg_word_reading, elg_writing, elg_number, elg_numerical_patterns]
+checks:
+  - kind: unique
+    columns: [time_period, elgs_expected_number, elg_listening_attention_understanding, elg_speaking, elg_self_regulation, elg_managing_self, elg_building_relationships, elg_gross_motor_skills, elg_fine_motor_skills, elg_comprehension, elg_word_reading, elg_writing, elg_number, elg_numerical_patterns]
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: elgs_expected_number
+  - kind: not_null
+    col: elg_listening_attention_understanding
+  - kind: not_null
+    col: elg_speaking
+  - kind: not_null
+    col: elg_self_regulation
+  - kind: not_null
+    col: elg_managing_self
+  - kind: not_null
+    col: elg_building_relationships
+  - kind: not_null
+    col: elg_gross_motor_skills
+  - kind: not_null
+    col: elg_fine_motor_skills
+  - kind: not_null
+    col: elg_comprehension
+  - kind: not_null
+    col: elg_word_reading
+  - kind: not_null
+    col: elg_writing
+  - kind: not_null
+    col: elg_number
+  - kind: not_null
+    col: elg_numerical_patterns
+  - kind: row_floor
+    min: 5534
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

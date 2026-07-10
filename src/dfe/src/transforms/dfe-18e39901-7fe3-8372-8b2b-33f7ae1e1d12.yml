@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-18e39901-7fe3-8372-8b2b-33f7ae1e1d12`. Regenerate after model-verify.
+key: [time_period, version, establishment_type_group, breakdown_topic, sex, ethnicity_major, fsm_status, sen_provision, sen_status, disadvantage_status, first_language, prior_attainment, school_admission_type]
+sort: [time_period, version, establishment_type_group, breakdown_topic, sex, ethnicity_major, fsm_status, sen_provision, sen_status, disadvantage_status, first_language, prior_attainment, school_admission_type]
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: geographic_level
@@ -37,7 +40,7 @@ columns:
   - name: school_count
     type: VARCHAR
   - name: pupil_count
-    type: VARCHAR
+    type: BIGINT
   - name: attainment8_sum
     type: VARCHAR
   - name: attainment8_average
@@ -57,7 +60,7 @@ columns:
   - name: ebacc_entering_total
     type: VARCHAR
   - name: ebacc_entering_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: ebacc_95_total
     type: VARCHAR
   - name: ebacc_95_percent
@@ -131,15 +134,15 @@ columns:
   - name: ebaccsci_entering_total
     type: VARCHAR
   - name: ebaccsci_entering_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: ebacchum_entering_total
     type: VARCHAR
   - name: ebacchum_entering_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: ebacclan_entering_total
     type: VARCHAR
   - name: ebacclan_entering_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: ebacceng_95_total
     type: VARCHAR
   - name: ebacceng_95_percent
@@ -235,23 +238,23 @@ columns:
   - name: ebacc_entering_0pillar_total
     type: VARCHAR
   - name: ebacc_entering_0pillar_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: ebacc_entering_1pillar_total
     type: VARCHAR
   - name: ebacc_entering_1pillar_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: ebacc_entering_2pillar_total
     type: VARCHAR
   - name: ebacc_entering_2pillar_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: ebacc_entering_3pillar_total
     type: VARCHAR
   - name: ebacc_entering_3pillar_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: ebacc_entering_4pillar_total
     type: VARCHAR
   - name: ebacc_entering_4pillar_percent
-    type: VARCHAR
+    type: DOUBLE
   - name: ebaccsci_combpath_entering_total
     type: VARCHAR
   - name: ebaccsci_combpath_entering_percent

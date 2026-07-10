@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `dfe-019b02dc-78f6-74b5-8af9-19f0b1f978d3`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [time_period, version, trust_id, disadvantage_status]
+checks:
+  - kind: unique
+    columns: [time_period, version, trust_id, disadvantage_status]
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: version
+  - kind: not_null
+    col: trust_id
+  - kind: not_null
+    col: disadvantage_status
+  - kind: row_floor
+    min: 985
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

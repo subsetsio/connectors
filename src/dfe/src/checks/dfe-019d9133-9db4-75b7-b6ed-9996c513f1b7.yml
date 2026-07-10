@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `dfe-019d9133-9db4-75b7-b6ed-9996c513f1b7`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [breakdown, time_period, exam_cohort, breakdown_topic, version]
+checks:
+  - kind: unique
+    columns: [breakdown, time_period, exam_cohort, breakdown_topic, version]
+  - kind: not_null
+    col: breakdown
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: exam_cohort
+  - kind: not_null
+    col: breakdown_topic
+  - kind: not_null
+    col: version
+  - kind: row_floor
+    min: 262
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

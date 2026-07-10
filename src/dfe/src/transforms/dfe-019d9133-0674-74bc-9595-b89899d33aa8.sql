@@ -1,1 +1,37 @@
-SELECT * FROM "dfe-019d9133-0674-74bc-9595-b89899d33aa8"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    CAST("time_period" AS BIGINT) AS time_period,
+    "time_identifier",
+    "geographic_level",
+    "country_code",
+    "country_name",
+    "version",
+    "pcon_name",
+    "pcon_code",
+    "lad_name",
+    "lad_code",
+    "region_name",
+    "region_code",
+    "rurality_name",
+    "exam_cohort",
+    "aps_per_entry_student_count",
+    "aps_per_entry",
+    "aps_per_entry_grade",
+    "two_or_more_level3_percent",
+    "one_or_more_alevel_or_applied_student_count",
+    "best_three_alevels_aps",
+    "best_three_alevels_grade",
+    "three_astar_to_a_percent",
+    "aab_percent",
+    "one_or_more_alevel_student_count",
+    "aab_two_facilitating_percent",
+    "level3_voc_not_applied_general_student_count",
+    "level3_voc_tech_level_percent",
+    "level3_voc_not_tech_level_student_count",
+    "level3_voc_applied_general_percent",
+    "level2_highest_entry_student_count",
+    "level2_techcert_percent"
+FROM "dfe-019d9133-0674-74bc-9595-b89899d33aa8"

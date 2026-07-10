@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-019c2960-34d9-71c0-976c-3540602f2669`. Regenerate after model-verify.
+key: [school_urn]
+sort: [school_urn]
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: geographic_level
@@ -9,7 +12,7 @@ columns:
   - name: version
     type: VARCHAR
   - name: school_urn
-    type: VARCHAR
+    type: BIGINT
   - name: school_name
     type: VARCHAR
   - name: address
@@ -27,11 +30,11 @@ columns:
   - name: age_range
     type: VARCHAR
   - name: school_laestab
-    type: VARCHAR
+    type: BIGINT
   - name: establishment_type
     type: VARCHAR
   - name: old_la_code
-    type: VARCHAR
+    type: BIGINT
   - name: new_la_code
     type: VARCHAR
   - name: la_name

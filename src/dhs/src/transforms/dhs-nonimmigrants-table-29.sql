@@ -1,11 +1,22 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: `section` separates REGION aggregate rows from the COUNTRY rows they contain; summing across both double-counts.
+-- caution: Both `category` and `breakdown` carry a 'Total' member alongside their components — filter both out before aggregating.
+-- caution: `category` names only the leading members and lumps the rest into 'All other countries', so its members are not the full universe.
+-- caution: `value` is null wherever the source printed a non-numeric marker; `value_note` carries it ('X' = not applicable, 'NA' = not available).
+-- caution: Periods are U.S. federal fiscal years (October 1 to September 30), not calendar years.
+-- caution: Counts are rounded to the nearest 10 by OHSS, so component rows need not sum exactly to the published totals.
 SELECT
-    topic,
-    table_label,
-    title,
-    section,
-    category,
-    breakdown,
-    CAST(value AS DOUBLE) AS value,
-    value_note
+    "topic",
+    "table_label",
+    "title",
+    "section",
+    "parent_category",
+    "category",
+    "description",
+    "breakdown",
+    "value",
+    "value_note"
 FROM "dhs-nonimmigrants-table-29"
-WHERE category IS NOT NULL AND category <> ''

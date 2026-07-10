@@ -1,4 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dhs-nonimmigrants-table-27`. Regenerate after model-verify.
+# caution: `section` separates REGION aggregate rows from the COUNTRY rows they contain; summing across both double-counts.
+# caution: `category` carries a 'Total' member alongside its components — filter it out before aggregating.
+# caution: `value` is null wherever the source printed a non-numeric marker; `value_note` carries it ('X' = not applicable, 'NA' = not available).
+# caution: Periods are U.S. federal fiscal years (October 1 to September 30), not calendar years.
+# caution: Counts are rounded to the nearest 10 by OHSS, so component rows need not sum exactly to the published totals.
+key: [category, breakdown, section]
+sort: [category, breakdown, section]
 columns:
   - name: topic
     type: VARCHAR
@@ -8,10 +16,14 @@ columns:
     type: VARCHAR
   - name: section
     type: VARCHAR
+  - name: parent_category
+    type: VARCHAR
   - name: category
     type: VARCHAR
-  - name: breakdown
+  - name: description
     type: VARCHAR
+  - name: breakdown
+    type: BIGINT
   - name: value
     type: DOUBLE
   - name: value_note

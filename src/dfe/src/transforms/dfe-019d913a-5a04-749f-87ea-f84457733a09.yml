@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-019d913a-5a04-749f-87ea-f84457733a09`. Regenerate after model-verify.
+key: [time_period, exam_cohort, x_range, x_midpoint, xmin, xmax]
+sort: [time_period, exam_cohort, x_range, x_midpoint, xmin, xmax]
 columns:
   - name: time_period
-    type: VARCHAR
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: geographic_level
@@ -15,10 +18,10 @@ columns:
   - name: x_range
     type: VARCHAR
   - name: x_midpoint
-    type: VARCHAR
+    type: BIGINT
   - name: xmin
-    type: VARCHAR
+    type: BIGINT
   - name: xmax
-    type: VARCHAR
+    type: BIGINT
   - name: count
-    type: VARCHAR
+    type: BIGINT

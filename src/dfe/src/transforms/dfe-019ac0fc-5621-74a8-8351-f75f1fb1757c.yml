@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dfe-019ac0fc-5621-74a8-8351-f75f1fb1757c`. Regenerate after model-verify.
+key: [time_period, elgs_expected_number, elg_listening_attention_understanding, elg_speaking, elg_self_regulation, elg_managing_self, elg_building_relationships, elg_gross_motor_skills, elg_fine_motor_skills, elg_comprehension, elg_word_reading, elg_writing, elg_number, elg_numerical_patterns]
+sort: [time_period, elgs_expected_number, elg_listening_attention_understanding, elg_speaking, elg_self_regulation, elg_managing_self, elg_building_relationships, elg_gross_motor_skills, elg_fine_motor_skills, elg_comprehension, elg_word_reading, elg_writing, elg_number, elg_numerical_patterns]
 columns:
-  - name: "﻿time_period"
-    type: VARCHAR
+  - name: time_period
+    type: BIGINT
   - name: time_identifier
     type: VARCHAR
   - name: geographic_level
@@ -11,7 +14,7 @@ columns:
   - name: country_name
     type: VARCHAR
   - name: elgs_expected_number
-    type: VARCHAR
+    type: BIGINT
   - name: elg_listening_attention_understanding
     type: VARCHAR
   - name: elg_speaking
@@ -37,8 +40,8 @@ columns:
   - name: elg_numerical_patterns
     type: VARCHAR
   - name: elg_combination_children_count
-    type: VARCHAR
+    type: BIGINT
   - name: elg_number_children_count
-    type: VARCHAR
+    type: BIGINT
   - name: elg_combination_number_children_percent
-    type: VARCHAR
+    type: DOUBLE
