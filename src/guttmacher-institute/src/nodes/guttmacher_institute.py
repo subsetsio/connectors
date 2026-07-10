@@ -18,7 +18,7 @@ empty pull.
 """
 
 from constants import ENTITY_IDS
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_file, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_file, transient_retry
 
 SLUG = "guttmacher-institute"
 OSF_API = "https://api.osf.io/v2"
@@ -113,15 +113,6 @@ DOWNLOAD_SPECS = [
     for eid in ENTITY_IDS
 ]
 
-# One published table per dataset. The CSV is saved raw; the transform is a
-# thin pass that DuckDB types via read_csv_auto. SELECT * publishes the table
-# as-is — column casting/cleanup beyond this would require per-dataset schema
-# knowledge that belongs downstream, not in this fetch-and-publish stage.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{spec.id}-transform",
-        deps=[spec.id],
-        sql=f'SELECT * FROM "{spec.id}"',
-    )
-    for spec in DOWNLOAD_SPECS
-]
+# Published tables are declared as file-pair transforms under src/transforms/
+# (one <asset>.sql + <asset>.yml per dataset). Module-level TRANSFORM_SPECS is
+# retired.

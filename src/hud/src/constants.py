@@ -16,8 +16,11 @@ ENTITY_IDS = [
     "chas",
     "fmr",
     "fmr-50th-percentile",
+    "haf-income-limits",
     "home-income-limits",
+    "home-ownership-value-limits",
     "home-rent-limits",
+    "hopwa-income-limits",
     "htf-income-limits",
     "htf-rent-limits",
     "income-limits",
@@ -25,5 +28,6 @@ ENTITY_IDS = [
     "muaf",
     "picture-of-subsidized-households",
     "qct-dda",
+    "rfif",
     "safmr",
 ]

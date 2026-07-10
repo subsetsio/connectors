@@ -66,23 +66,50 @@ def _copy_member_parquet(
     delimiter: str = ",",
     fragment: str | None = None,
 ) -> None:
-    """Stream one ZIP member into a parquet raw fragment."""
+    """Stream one ZIP member into a parquet raw fragment.
+
+    Fast path streams block-by-block for bounded memory. The streaming reader
+    locks column types from the FIRST block, though, so a column that is empty
+    at the top of the file is typed `null` and then blows up when a value
+    finally appears far down (e.g. gravity's very sparse `sever_year`). On that
+    failure we fall back to a whole-file read: a single block unifies types
+    across the entire member. Members that reach the fallback are moderate
+    single files (gravity, ~1.25 GB) that fit comfortably in memory; the huge
+    per-year archives are dense and never trip it.
+    """
+    import pyarrow as pa
     import pyarrow.csv as pacsv
 
     parse_options = pacsv.ParseOptions(delimiter=delimiter)
     read_options = pacsv.ReadOptions(encoding="utf-8-sig")
     convert_options = pacsv.ConvertOptions(strings_can_be_null=True)
 
-    with zf.open(member) as src:
-        reader = pacsv.open_csv(
-            src,
-            read_options=read_options,
-            parse_options=parse_options,
-            convert_options=convert_options,
-        )
-        with raw_parquet_writer(asset, reader.schema, fragment=fragment) as writer:
-            for batch in reader:
-                writer.write_batch(batch)
+    try:
+        with zf.open(member) as src:
+            reader = pacsv.open_csv(
+                src,
+                read_options=read_options,
+                parse_options=parse_options,
+                convert_options=convert_options,
+            )
+            with raw_parquet_writer(asset, reader.schema, fragment=fragment) as writer:
+                for batch in reader:
+                    writer.write_batch(batch)
+    except pa.ArrowInvalid:
+        # block_size just below the int32 ceiling (~2 GB) forces a single
+        # inference block spanning the whole member, unifying null-typed
+        # sparse columns with their eventual value type. Overwrites any
+        # partial parquet the streaming attempt left behind.
+        whole_file_read = pacsv.ReadOptions(encoding="utf-8-sig", block_size=2147483647)
+        with zf.open(member) as src:
+            table = pacsv.read_csv(
+                src,
+                read_options=whole_file_read,
+                parse_options=parse_options,
+                convert_options=convert_options,
+            )
+        with raw_parquet_writer(asset, table.schema, fragment=fragment) as writer:
+            writer.write_table(table)
 
 
 @transient_retry()

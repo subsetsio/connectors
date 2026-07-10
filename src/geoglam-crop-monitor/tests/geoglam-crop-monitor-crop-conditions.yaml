@@ -17,6 +17,17 @@ tests:
   - matches: {col: period, pattern: '^20[0-9]{4}$'}
     reason: period is YYYYMM derived from Global_Synthesis_YYYYMM layer names
     certainty: 90
+  - freshness: {col: period, reaches: 202601}
+    # `period` is a YYYYMM string, so `reaches` is a numeric YYYYMM literal
+    # (the dynamic date tokens like `today - Nd` resolve to ISO dates, which the
+    # comparator coerces to a lexicographic string compare vs a YYYYMM and thus
+    # silently always-passes — see feedback). The source publishes monthly but
+    # lags ~3 months and skips some months; latest observed is 202604. A static
+    # floor of 202601 blocks only a catastrophic regression to pre-2026 data;
+    # bump it forward periodically (cf. climate-action-tracker `reaches: 2024`).
+    reason: GEOGLAM Crop Monitor is a live monthly series; a load whose newest month falls below Jan 2026 is stale/regressed
+    certainty: 75
+    points_outward: true
   - row_count: {min: 30000}
     reason: ~48 monthly layers x ~1000 region-crop features each (~50k total)
     certainty: 80

@@ -40,7 +40,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson
+from subsets_utils import NodeSpec, get, save_raw_ndjson
 
 # Desktop browser UA — required to clear the huduser.gov AWS WAF challenge
 # (ASCII only; no smart punctuation).
@@ -100,6 +100,41 @@ PROGRAMS = {
         "select": r"/50thper/FY20\d\d_(FMR_)?50_[Cc]ounty.*\.xlsx$",
         "year_re": r"/FY(20\d\d)_",
         "prefer": "rev",
+    },
+    "haf-income-limits": {
+        # Homeowner Assistance Fund income limits (100%/150% AMI). Modern stable
+        # family HAF_100_150_IncomeLimits_YYYY.xlsx (2022+); older years use an
+        # incompatible ilNN_all100_150_HAF.xlsx layout and are skipped.
+        "landing": "haf-il.html",
+        "select": r"/haf-il/HAF_100_150_IncomeLimits_20\d\d\.xlsx$",
+        "year_re": r"IncomeLimits_(20\d\d)\.xlsx",
+    },
+    "hopwa-income-limits": {
+        # Housing Opportunities for Persons With AIDS income limits — one national
+        # workbook per year, same _IncomeLmts_Natl_ shape as CDBG.
+        "landing": "hopwa-income-limits.html",
+        "select": r"/HOPWA/HOPWA_IncomeLmts_Natl_20\d\d\.xlsx$",
+        "year_re": r"_Natl_(20\d\d)\.xlsx",
+    },
+    "rfif": {
+        # Renewal Funding Inflation Factors — one workbook per fiscal year under
+        # /rfif/FYYYYY/RFIF_YYYY.xlsx (sheet "RFIF").
+        "landing": "rfif/rfif.html",
+        "select": r"/rfif/FY20\d\d/RFIF_20\d\d\.xlsx$",
+        "year_re": r"RFIF_(20\d\d)\.xlsx",
+        "sheet": ["RFIF", 0],
+    },
+    "home-ownership-value-limits": {
+        # HOME (and, since FY2017, HTF) homeownership value / sales-price limits.
+        # One combined workbook per year; the file name and header-row position
+        # drift across years (FY-2016 header at row 3, FY-2018+ at row 4), so the
+        # header row is detected by probing for the "State" label rather than a
+        # fixed index. Ingest the modern .xlsx family (2014+); pre-2013 .XLS files
+        # use an incompatible layout and are skipped.
+        "landing": "home-ownership-value-limits.html",
+        "select": r"/home-datasets/files/(FY-20\d\d-HOME[-A-Za-z]*Homeownership[-A-Za-z]*Limits|HOME-and-Housing-Trust-Fund-Homeownership[-A-Za-z]*Limits-FY-20\d\d)\.xlsx$",
+        "year_re": r"(20\d\d)",
+        "header_probe": "state",
     },
     "home-income-limits": {
         "landing": "home-income-limits.html",
@@ -320,7 +355,21 @@ def _rows_from_xlsx(content: bytes, cfg: dict, year: int) -> list[dict]:
     if sheet_name is None:
         sheet_name = wb.sheet_names[0]
     grid = wb.get_sheet_by_name(sheet_name).to_python(skip_empty_area=True)
-    hr = cfg.get("header_row", 0)
+    probe = cfg.get("header_probe")
+    if probe:
+        # Header-row position drifts across years; locate it by the first row
+        # whose first non-empty cell matches the probe label (case-insensitive).
+        hr = next(
+            (i for i, r in enumerate(grid)
+             if r and str(r[0]).strip().lower() == probe.lower()),
+            None,
+        )
+        if hr is None:
+            raise RuntimeError(
+                f"header probe {probe!r} not found in sheet {sheet_name!r} for year {year}"
+            )
+    else:
+        hr = cfg.get("header_row", 0)
     if len(grid) <= hr:
         return []
     raw_header = grid[hr]
@@ -457,27 +506,5 @@ from constants import ENTITY_IDS
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"hud-{eid}", fn=fetch_one, kind="download")
-    for eid in ENTITY_IDS
-]
-
-
-def _transform_sql(slug: str) -> str:
-    cfg = PROGRAMS[slug]
-    return cfg.get("sql", f'SELECT * FROM "hud-{slug}"')
-
-
-# Every program carries a `fiscal_year` column (added per row on ingest, and
-# retained by the income/rent COLUMNS projections), which is the yearly-snapshot
-# observation period — uniform temporal for all programs. No key is declared:
-# the geographic identifier column drifts by name across vintages (fips2010 /
-# fips2025 / fips coexist as sparse columns), so no consistently-populated grain
-# column exists to key on.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"hud-{eid}-transform",
-        deps=[f"hud-{eid}"],
-        sql=_transform_sql(eid),
-        temporal="fiscal_year",
-    )
     for eid in ENTITY_IDS
 ]
