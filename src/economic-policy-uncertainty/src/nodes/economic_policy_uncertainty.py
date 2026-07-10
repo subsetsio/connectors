@@ -26,7 +26,6 @@ import datetime as _dt
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -419,21 +418,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                CAST(date AS DATE)   AS date,
-                series,
-                CAST(value AS DOUBLE) AS value,
-                frequency
-            FROM "{s.id}"
-            WHERE value IS NOT NULL AND series IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]
