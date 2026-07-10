@@ -12,8 +12,8 @@ SELECT
     geo_type,
     geo_name,
     geo_code,
-    NULLIF("group", '')                   AS group_name,
-    group_value,
+    COALESCE(NULLIF("group", ''), 'all') AS group_name,
+    COALESCE(NULLIF(group_value, ''), 'all') AS group_value,
     TRY_CAST(value AS DOUBLE)             AS value
 FROM "economic-policy-institute-ceo-pay-ratio"
 WHERE TRY_CAST(value AS DOUBLE) IS NOT NULL

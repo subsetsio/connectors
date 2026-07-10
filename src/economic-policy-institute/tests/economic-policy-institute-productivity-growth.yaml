@@ -5,6 +5,7 @@ tests:
   - not_null: data_version
   - not_null: date_interval
   - not_null: year
+  - freshness: {col: year, reaches: "2023"}
   - not_null: value
   - enum: {col: date_interval, values: [quarter, year]}
     reason: this indicator publishes only these date intervals per the EPI catalog availability
