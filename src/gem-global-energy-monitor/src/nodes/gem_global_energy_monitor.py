@@ -35,7 +35,6 @@ import openpyxl
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     post,
     save_raw_ndjson,
@@ -290,15 +289,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per slug: a thin typed passthrough of the parsed
-# registry (NDJSON columns are already coerced to a single type each).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]
