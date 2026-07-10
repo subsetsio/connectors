@@ -29,7 +29,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -240,59 +239,4 @@ def fetch_detail(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=FATALITIES_ID, fn=fetch_fatalities, kind="download"),
     NodeSpec(id=DETAIL_ID, fn=fetch_detail, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=FATALITIES_ID + "-transform",
-        deps=[FATALITIES_ID],
-        sql=f'''
-            SELECT
-                CAST(avy_year AS INTEGER)              AS avalanche_year,
-                date                                   AS accident_date,
-                EXTRACT(year FROM date)::INTEGER       AS year,
-                EXTRACT(month FROM date)::INTEGER       AS month,
-                location,
-                setting,
-                state,
-                CASE WHEN lat = 0 AND lon = 0 THEN NULL ELSE lat END AS latitude,
-                CASE WHEN lat = 0 AND lon = 0 THEN NULL ELSE lon END AS longitude,
-                primary_activity,
-                travel_mode,
-                CAST(killed AS INTEGER)                AS killed,
-                description
-            FROM "{FATALITIES_ID}"
-            WHERE date IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id=DETAIL_ID + "-transform",
-        deps=[DETAIL_ID],
-        sql=f'''
-            SELECT
-                acc_id,
-                acc_date                               AS accident_date,
-                EXTRACT(year FROM acc_date)::INTEGER   AS year,
-                acc_activity                           AS activity,
-                travel_mode,
-                acc_location                           AS location,
-                acc_lat                                AS latitude,
-                acc_lon                                AS longitude,
-                CAST(acc_no_caught AS INTEGER)         AS number_caught,
-                CAST(acc_no_buried AS INTEGER)         AS number_buried,
-                CAST(acc_no_killed AS INTEGER)         AS number_killed,
-                atype                                  AS avalanche_type,
-                aspect,
-                elevation                              AS elevation_ft,
-                slope                                  AS slope_angle,
-                rscale                                 AS relative_size,
-                dscale                                 AS destructive_size,
-                trigger,
-                trig_desc                              AS trigger_description,
-                surface                                AS bed_surface,
-                report                                 AS report_url
-            FROM "{DETAIL_ID}"
-            WHERE acc_date IS NOT NULL
-        ''',
-    ),
 ]
