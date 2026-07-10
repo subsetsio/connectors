@@ -1,8 +1,10 @@
 spec_id: dhs-program-data
 status: active
 tests:
-  - row_count: {min: 1000000}
-    reason: the DHS indicator API currently exposes millions of observation cells
+  - row_count: {min: 700000}
+    reason: >-
+      the DHS /data endpoint exposes ~825k observation cells across the ~92
+      covered countries; a floor well below that catches a partial paging run
     certainty: 90
   - not_null: DataId
   - not_null: IndicatorId
@@ -18,7 +20,7 @@ tests:
   - between: {col: SurveyYear, lo: 1980, hi: current_year()}
     certainty: 90
     points_outward: true
-  - freshness: {col: SurveyYear, reaches: current_year() - 5y}
+  - freshness: {col: SurveyYear, reaches: today - 5y}
     reason: DHS indicator data is updated as recent surveys are released, though survey publication lags fieldwork
     certainty: 80
     points_outward: true

@@ -1,0 +1,15 @@
+spec_id: election-commission-of-india-82be928f-4679-47f5-9512-2d06cf503212
+status: active
+tests:
+  - not_null: party_type
+    reason: every row labels a party recognition class (national / state / registered-unrecognised)
+    certainty: 95
+  - unique: party_type
+    reason: one summary row per party type in the 2024 party-type statement
+    certainty: 90
+  - not_null: no_of_parties_participated
+    reason: the sole measure of this summary table is always populated
+    certainty: 90
+  - row_count: {min: 3, max: 6}
+    reason: ECI recognises three party classes; the table carries one row each, with headroom for a total row or a future class
+    certainty: 85

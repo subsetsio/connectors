@@ -24,7 +24,6 @@ import io
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -48,6 +47,11 @@ _MODULE_FILE = {
 }
 
 _BULK_BASE = "https://euklems.eu/bulk/"
+
+# The variable codebook: maps each module's `var` code to its category and a
+# human-readable description. Not a bulk module — a separate static CSV.
+_DICT_URL = "https://euklems.eu/wp-content/uploads/2019/10/Variable-Description.csv"
+_DICT_INT_COLS = ("Sort_Cat", "Sort_ID")
 
 # Descriptor (dimension) columns that may appear across the modules. Everything
 # that is neither one of these nor a 4-digit year column is a measure column.
@@ -126,19 +130,33 @@ def fetch_one(node_id: str) -> None:
     save_raw_parquet(table, asset)
 
 
+def fetch_variable_dictionary(node_id: str) -> None:
+    """The codebook. Flat reference table, no melt: one row per (File, Variable)."""
+    import pandas as pd
+    import pyarrow as pa
+
+    content = _download_csv(_DICT_URL)
+    df = pd.read_csv(io.BytesIO(content))
+    if df.empty:
+        raise AssertionError(f"{node_id}: variable dictionary is empty")
+
+    fields = []
+    arrays = []
+    for col in df.columns:
+        if col in _DICT_INT_COLS:
+            fields.append(pa.field(col, pa.int32()))
+            arrays.append(pa.array(df[col].to_numpy(), type=pa.int32()))
+        else:
+            fields.append(pa.field(col, pa.string()))
+            s = df[col].astype("string")
+            arrays.append(pa.array(s.where(s.notna(), None).to_list(), type=pa.string()))
+    save_raw_parquet(pa.Table.from_arrays(arrays, schema=pa.schema(fields)), node_id)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"eu-klems-{eid}", fn=fetch_one, kind="download")
     for eid in _MODULE_FILE
-]
-
-# One published Delta table per module. Raw is already long and typed; the
-# transform is the correctness gate — it republishes only non-null observations
-# (a 0-row result fails the node).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}" WHERE value IS NOT NULL',
-    )
-    for s in DOWNLOAD_SPECS
+] + [
+    NodeSpec(id="eu-klems-variable-dictionary", fn=fetch_variable_dictionary,
+             kind="download"),
 ]

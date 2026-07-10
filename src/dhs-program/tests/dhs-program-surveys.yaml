@@ -8,14 +8,15 @@ tests:
   - not_null: DHS_CountryCode
   - not_null: SurveyYear
   - column_type: {col: SurveyId, type: string}
-  - column_type: {col: SurveyYear, type: integer}
+  # SurveyYear arrives as a JSON string in the /surveys envelope (unlike /data, where it is numeric)
+  - column_type: {col: SurveyYear, type: string}
   - unique: SurveyId
     reason: SurveyId identifies one DHS survey
     certainty: 95
   - between: {col: SurveyYear, lo: 1980, hi: current_year()}
     certainty: 90
     points_outward: true
-  - freshness: {col: SurveyYear, reaches: current_year() - 5y}
+  - freshness: {col: SurveyYear, reaches: today - 5y}
     reason: DHS continues adding surveys, but publication can lag survey fieldwork
     certainty: 80
     points_outward: true
