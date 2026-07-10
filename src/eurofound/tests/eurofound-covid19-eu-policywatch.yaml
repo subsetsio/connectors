@@ -1,5 +1,8 @@
 spec_id: eurofound-covid19-eu-policywatch
 status: active
+coverage:
+  frozen: true
+  reason: COVID-19 EU PolicyWatch is a closed pandemic-era policy-measures database, fetched as a full static JSON export; its observation dates are historical policy dates rather than an advancing publication stream
 tests:
   - not_null: record_id
   - not_null: country

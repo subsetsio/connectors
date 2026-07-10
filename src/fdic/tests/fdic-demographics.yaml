@@ -1,0 +1,15 @@
+spec_id: fdic-demographics
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: FDIC demographics is a quarterly institution-level history; a much smaller pull indicates pagination loss.
+    certainty: 90
+  - not_null: ID
+    reason: ID is the FDIC row identifier for this endpoint.
+    certainty: 95
+  - column_type: {col: CERT, type: string}
+  - column_type: {col: BRANCH, type: float}
+  - freshness: {col: REPDTE, reaches: "20250101"}
+    reason: quarterly FDIC demographic reporting should include recent reporting periods.
+    certainty: 85
+    points_outward: true

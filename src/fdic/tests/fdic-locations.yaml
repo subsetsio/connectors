@@ -1,0 +1,14 @@
+spec_id: fdic-locations
+status: active
+tests:
+  - row_count: {min: 70000}
+    reason: FDIC locations covers branch and office locations across active and inactive institutions.
+    certainty: 90
+  - not_null: UNINUM
+    reason: UNINUM is the FDIC unique office identifier.
+    certainty: 95
+  - not_null: CERT
+    reason: each office location should link back to an institution certificate.
+    certainty: 90
+  - column_type: {col: OFFNUM, type: float}
+  - column_type: {col: LATITUDE, type: float}

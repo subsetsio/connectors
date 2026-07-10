@@ -1,0 +1,15 @@
+spec_id: fdic-summary
+status: active
+tests:
+  - row_count: {min: 3000}
+    reason: aggregate financial summary spans many years and geographies; a tiny pull indicates pagination or endpoint drift.
+    certainty: 90
+  - not_null: YEAR
+    reason: summary rows are organized by reporting year.
+    certainty: 95
+  - column_type: {col: BANKS, type: float}
+  - column_type: {col: ASSET, type: float}
+  - freshness: {col: YEAR, reaches: "2024"}
+    reason: annual summary data should include at least the 2024 reporting year.
+    certainty: 85
+    points_outward: true

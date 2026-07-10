@@ -1,0 +1,15 @@
+spec_id: fdic-history
+status: active
+tests:
+  - row_count: {min: 100000}
+    reason: FDIC structure-change history is a large event history; a much smaller pull indicates pagination loss.
+    certainty: 90
+  - not_null: ID
+    reason: ID is the event row identifier used by the FDIC history endpoint.
+    certainty: 95
+  - column_type: {col: CERT, type: string}
+  - column_type: {col: CHANGECODE, type: string}
+  - freshness: {col: PROCDATE, reaches: "20240101"}
+    reason: structure changes continue to be processed; max process date materially below 2024 would indicate stale source coverage.
+    certainty: 80
+    points_outward: true

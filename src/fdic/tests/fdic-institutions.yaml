@@ -1,0 +1,14 @@
+spec_id: fdic-institutions
+status: active
+tests:
+  - row_count: {min: 25000}
+    reason: FDIC institutions includes active and inactive insured institutions; a much smaller pull indicates pagination loss.
+    certainty: 95
+  - not_null: CERT
+    reason: certificate number is the primary institution identifier.
+    certainty: 95
+  - not_null: NAME
+    reason: institution records should carry a bank name.
+    certainty: 95
+  - column_type: {col: ACTIVE, type: float}
+  - column_type: {col: LATITUDE, type: float}

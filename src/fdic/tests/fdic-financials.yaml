@@ -1,0 +1,18 @@
+spec_id: fdic-financials
+status: active
+tests:
+  - row_count: {min: 1500000}
+    reason: FDIC financials is the largest quarterly endpoint; a much smaller pull indicates result-window or pagination loss.
+    certainty: 95
+  - not_null: CERT
+    reason: financial rows are keyed by institution certificate and report date.
+    certainty: 95
+  - not_null: REPDTE
+    reason: each financial record has a report date.
+    certainty: 95
+  - column_type: {col: ASSET, type: float}
+  - column_type: {col: NETINC, type: float}
+  - freshness: {col: REPDTE, reaches: "20250101"}
+    reason: quarterly financial reporting should include recent reporting periods.
+    certainty: 90
+    points_outward: true

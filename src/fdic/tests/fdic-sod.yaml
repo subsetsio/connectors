@@ -1,0 +1,17 @@
+spec_id: fdic-sod
+status: active
+tests:
+  - row_count: {min: 2500000}
+    reason: Summary of Deposits is an annual branch-level history with millions of rows.
+    certainty: 95
+  - not_null: ID
+    reason: ID is the row identifier emitted by the SOD endpoint.
+    certainty: 95
+  - not_null: YEAR
+    reason: every SOD record belongs to an annual survey year.
+    certainty: 95
+  - column_type: {col: DEPSUMBR, type: float}
+  - freshness: {col: YEAR, reaches: "2024"}
+    reason: SOD is annual; by mid-2026 the corpus should include at least the 2024 survey year.
+    certainty: 90
+    points_outward: true

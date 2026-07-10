@@ -8,6 +8,11 @@ tests:
   - between: {col: year, lo: 2000, hi: 2030}
     reason: database covers collectively-agreed wage observations ~2015 onward
     certainty: 85
+  - freshness: {col: year, reaches: 2025}
+    reason: Eurofound's collectively agreed wages workbook is periodically replaced as a full snapshot; the current published file is a 2025 update and should include recent annual wage observations
+    certainty: 70
+    points_outward: true
+    severity: warn
   - row_count: {min: 50000}
     reason: ~198k monthly rate observations across EU collective agreements; far fewer means the xlsx sheet read truncated
     certainty: 85
