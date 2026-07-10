@@ -41,15 +41,15 @@ from curl_cffi.requests.exceptions import RequestException
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     load_state,
     save_state,
     raw_parquet_writer,
 )
 
-# Bumped to 2: added historical column aliases (WAGE_RATE_1, OCCUPATIONAL_*),
-# so completed periods must be re-fetched to re-parse with the new mapping.
-STATE_VERSION = 2
+# Bumped to 3: period files now write as named fragments of the declared
+# download asset id. Earlier runs wrote sibling asset ids that the harness did
+# not count as output for the download spec.
+STATE_VERSION = 3
 BASE = "https://www.dol.gov/sites/dolgov/files/ETA/oflc/pdfs"
 
 # Browser profile for TLS impersonation — the thing that actually defeats Akamai.
@@ -193,7 +193,13 @@ def _valid_xlsx(path: str, size: int) -> bool:
         return f.read(2) == b"PK"
 
 
-def _stream_period(path: str, fiscal_year: int, quarter: str, asset: str) -> int:
+def _stream_period(
+    path: str,
+    fiscal_year: int,
+    quarter: str,
+    asset: str,
+    fragment: str,
+) -> int:
     """Parse one period's xlsx (streaming from disk) and write a parquet batch.
 
     Returns the number of rows written. Raises if the workbook can't be parsed
@@ -234,7 +240,7 @@ def _stream_period(path: str, fiscal_year: int, quarter: str, asset: str) -> int
             for c in TEXT_COLS:
                 buf[c] = []
 
-        with raw_parquet_writer(asset, SCHEMA) as writer:
+        with raw_parquet_writer(asset, SCHEMA, fragment=fragment) as writer:
             for row in row_iter:
                 if row is None:
                     continue
@@ -285,7 +291,6 @@ def fetch_disclosures(node_id: str) -> None:
         if label in completed:
             continue
 
-        batch_asset = f"{asset_base}-{label}"
         try:
             path, size = _download_to_tmp(url)
         except _Blocked as e:
@@ -304,7 +309,7 @@ def fetch_disclosures(node_id: str) -> None:
 
             quarter = label.split("-")[-1].upper() if "-q" in label else "FY"
             try:
-                rows = _stream_period(path, fiscal_year, quarter, batch_asset)
+                rows = _stream_period(path, fiscal_year, quarter, asset_base, label)
             except Exception as e:
                 print(f"  skip {label}: parse failed: {type(e).__name__}: {e}")
                 continue
@@ -330,39 +335,4 @@ def fetch_disclosures(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="dol-h1b-h1b-lca-disclosures", fn=fetch_disclosures, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="dol-h1b-h1b-lca-disclosures-transform",
-        deps=["dol-h1b-h1b-lca-disclosures"],
-        sql=r'''
-            SELECT
-                CAST(fiscal_year AS INTEGER)        AS fiscal_year,
-                NULLIF(quarter, '')                 AS quarter,
-                UPPER(NULLIF(case_status, ''))      AS case_status,
-                NULLIF(employer_name, '')           AS employer_name,
-                NULLIF(employer_state, '')          AS employer_state,
-                NULLIF(employer_city, '')           AS employer_city,
-                NULLIF(job_title, '')               AS job_title,
-                NULLIF(soc_code, '')                AS soc_code,
-                NULLIF(soc_title, '')               AS soc_title,
-                NULLIF(wage_rate, '')               AS wage_rate,
-                UPPER(NULLIF(wage_unit, ''))        AS wage_unit,
-                NULLIF(worksite_state, '')          AS worksite_state,
-                NULLIF(worksite_city, '')           AS worksite_city,
-                -- Extract the leading numeric token: handles plain values
-                -- ("143666"), decimals ("42.53"), and the FY2015 range format
-                -- ("18.49 -") which a bare CAST cannot parse.
-                TRY_CAST(
-                    regexp_extract(
-                        REPLACE(REPLACE(NULLIF(wage_rate, ''), ',', ''), '$', ''),
-                        '[0-9]+\.?[0-9]*', 0
-                    ) AS DOUBLE
-                ) AS wage_rate_numeric
-            FROM "dol-h1b-h1b-lca-disclosures"
-            WHERE fiscal_year IS NOT NULL
-              AND (employer_name IS NOT NULL OR case_status IS NOT NULL)
-        ''',
-    ),
 ]
