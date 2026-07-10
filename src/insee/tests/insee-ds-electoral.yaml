@@ -12,6 +12,6 @@ tests:
     reason: "flatten casts each numeric measure value to float; a non-float column means the measure payload shape changed"
     certainty: 90
   - not_null: TIME_PERIOD
-    reason: "periodicity=Aperiodic; TIME_PERIOD is the standard SDMX time dimension but aperiodic datacubes may omit or rename it \u2014 reconcile if absent"
-    certainty: 50
+    reason: "temporalResolution=Daily; Melodi time-series observations carry a TIME_PERIOD dimension - missing = a snapshot datacube or a renamed dim, learn rather than alarm"
+    certainty: 75
     severity: warn

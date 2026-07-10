@@ -1,8 +1,8 @@
 spec_id: insee-ds-bpe-sport-culture
 status: active
 tests:
-  - row_count: {min: 675880}
-    reason: "catalog numObservations=1351761 for DS_BPE_SPORT_CULTURE; a >50% shortfall means a truncated/partial pull on our side, not a source change"
+  - row_count: {min: 622471}
+    reason: "catalog numObservations=1244943 for DS_BPE_SPORT_CULTURE; a >50% shortfall means a truncated/partial pull on our side, not a source change"
     certainty: 85
     severity: block
   - not_null: OBS_MEASURE
@@ -12,6 +12,6 @@ tests:
     reason: "flatten casts each numeric measure value to float; a non-float column means the measure payload shape changed"
     certainty: 90
   - not_null: TIME_PERIOD
-    reason: "periodicity=Annual; Melodi time-series observations carry a TIME_PERIOD dimension \u2014 missing = a snapshot datacube or a renamed dim, learn rather than alarm"
+    reason: "temporalResolution=Annual; Melodi time-series observations carry a TIME_PERIOD dimension - missing = a snapshot datacube or a renamed dim, learn rather than alarm"
     certainty: 75
     severity: warn
