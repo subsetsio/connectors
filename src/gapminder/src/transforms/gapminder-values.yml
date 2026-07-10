@@ -3,7 +3,8 @@
 # caution: `geo` includes countries plus regional and income aggregates; filter geography level before aggregating across geographies.
 # caution: The table excludes multidimensional datapoints with extra dimensions such as gender or age.
 key: [value, time, indicator, geo, geo_dim]
-sort: [value, time, indicator, geo, geo_dim]
+temporal: time
+sort: [time, indicator, geo, geo_dim, value]
 columns:
   - name: repo
     type: VARCHAR

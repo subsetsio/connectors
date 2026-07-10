@@ -48,7 +48,7 @@ VALUES_SCHEMA = pa.schema([
     ("repo", pa.string()),
     ("geo_dim", pa.string()),
     ("geo", pa.string()),
-    ("time", pa.string()),
+    ("time", pa.int64()),
     ("indicator", pa.string()),
     ("value", pa.string()),
 ])
@@ -64,10 +64,15 @@ def fetch_values(node_id: str) -> None:
                 geos, times, vals = [], [], []
                 for row in csv.DictReader(io.StringIO(text)):
                     val = row.get(indicator)
-                    if val is None or val == "":
+                    raw_time = row.get("time")
+                    if val is None or val == "" or raw_time in (None, ""):
+                        continue
+                    try:
+                        time = int(raw_time)
+                    except ValueError:
                         continue
                     geos.append(row.get(geo_dim))
-                    times.append(row.get("time"))
+                    times.append(time)
                     vals.append(val)
                 if not geos:
                     continue
@@ -77,7 +82,7 @@ def fetch_values(node_id: str) -> None:
                         "repo": pa.array([repo] * n, pa.string()),
                         "geo_dim": pa.array([geo_dim] * n, pa.string()),
                         "geo": pa.array(geos, pa.string()),
-                        "time": pa.array(times, pa.string()),
+                        "time": pa.array(times, pa.int64()),
                         "indicator": pa.array([indicator] * n, pa.string()),
                         "value": pa.array(vals, pa.string()),
                     },
