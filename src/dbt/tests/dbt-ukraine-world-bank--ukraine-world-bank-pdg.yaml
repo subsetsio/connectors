@@ -1,2 +1,5 @@
 spec_id: dbt-ukraine-world-bank--ukraine-world-bank-pdg
 status: deferred
+tests:
+  - freshness: {col: notice_date, reaches: today - 90d}
+    points_outward: true

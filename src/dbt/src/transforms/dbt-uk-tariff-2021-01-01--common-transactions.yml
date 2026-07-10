@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-tariff-2021-01-01--common-transactions`. Regenerate after model-verify.
+key: [updated_at, created_at, composite_key, id, order]
+temporal: created_at
+sort: [created_at, updated_at, composite_key, id, order]
+columns:
+  - name: id
+    type: BIGINT
+  - name: created_at
+    type: TIMESTAMP
+  - name: updated_at
+    type: TIMESTAMP
+  - name: import_transaction_id
+    type: VARCHAR
+  - name: order
+    type: BIGINT
+  - name: composite_key
+    type: VARCHAR
+  - name: workbasket_id
+    type: BIGINT
+  - name: partition
+    type: BIGINT

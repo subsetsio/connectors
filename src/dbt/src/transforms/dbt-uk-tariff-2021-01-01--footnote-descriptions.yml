@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-tariff-2021-01-01--footnote-descriptions`. Regenerate after model-verify.
+key: [validity_start, description, trackedmodel_ptr_id, described_footnote_id]
+temporal: validity_start
+sort: [validity_start, description, trackedmodel_ptr_id, described_footnote_id]
+columns:
+  - name: trackedmodel_ptr_id
+    type: BIGINT
+  - name: described_footnote_id
+    type: BIGINT
+  - name: sid
+    type: BIGINT
+  - name: validity_start
+    type: DATE
+  - name: description
+    type: VARCHAR

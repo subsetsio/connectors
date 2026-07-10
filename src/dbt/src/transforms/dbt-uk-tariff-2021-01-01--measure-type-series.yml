@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-tariff-2021-01-01--measure-type-series`. Regenerate after model-verify.
+key: [description]
+temporal: validity_start
+sort: [validity_start, description]
+columns:
+  - name: trackedmodel_ptr_id
+    type: BIGINT
+  - name: sid
+    type: VARCHAR
+  - name: measure_type_combination
+    type: BIGINT
+  - name: description
+    type: VARCHAR
+  - name: validity_start
+    type: DATE
+  - name: validity_end
+    type: VARCHAR

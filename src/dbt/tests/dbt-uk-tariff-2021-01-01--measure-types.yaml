@@ -1,2 +1,5 @@
 spec_id: dbt-uk-tariff-2021-01-01--measure-types
 status: deferred
+coverage:
+  frozen: true
+  reason: "Stable TARIC reference/code-list table: `validity_start` is the definition's effective date, not a periodic observation period. The newest row is 2021-01-01; the set does not advance on a regular cadence, so a freshness assertion would be a false staleness signal rather than a real one."

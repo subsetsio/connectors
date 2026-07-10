@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-market-barriers--barriers`. Regenerate after model-verify.
+key: [title]
+temporal: status_date
+sort: [status_date, title]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: summary
+    type: VARCHAR
+  - name: is_resolved
+    type: BOOLEAN
+  - name: status_date
+    type: DATE
+  - name: country_or_territory_name
+    type: VARCHAR
+  - name: country_or_territory_trading_bloc
+    type: "STRUCT(code VARCHAR, \"name\" VARCHAR, short_name VARCHAR, overseas_regions STRUCT(\"name\" VARCHAR, id UUID)[])"
+  - name: caused_by_trading_bloc
+    type: BOOLEAN
+  - name: trading_bloc
+    type: JSON
+  - name: location
+    type: VARCHAR
+  - name: sectors
+    type: VARCHAR
+  - name: last_published_on
+    type: TIMESTAMP
+  - name: reported_on
+    type: TIMESTAMP

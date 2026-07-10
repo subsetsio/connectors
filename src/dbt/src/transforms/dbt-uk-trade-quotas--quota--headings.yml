@@ -1,0 +1,11 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-trade-quotas--quota--headings`. Regenerate after model-verify.
+key: [quota_definition_sid, heading, idx]
+sort: [quota_definition_sid, heading, idx]
+columns:
+  - name: quota_definition_sid
+    type: BIGINT
+  - name: idx
+    type: BIGINT
+  - name: heading
+    type: VARCHAR

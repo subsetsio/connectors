@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-tariff-2021-01-01--measure-components`. Regenerate after model-verify.
+key: [component_measure_id, trackedmodel_ptr_id, component_measurement_id, duty_expression_id, monetary_unit_id]
+sort: [component_measure_id, trackedmodel_ptr_id, component_measurement_id, duty_expression_id, monetary_unit_id]
+columns:
+  - name: trackedmodel_ptr_id
+    type: BIGINT
+  - name: component_measure_id
+    type: BIGINT
+  - name: component_measurement_id
+    type: VARCHAR
+  - name: duty_expression_id
+    type: BIGINT
+  - name: duty_amount
+    type: VARCHAR
+  - name: monetary_unit_id
+    type: VARCHAR

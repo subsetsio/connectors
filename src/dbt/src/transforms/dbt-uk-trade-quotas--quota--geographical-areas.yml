@@ -1,0 +1,11 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-trade-quotas--quota--geographical-areas`. Regenerate after model-verify.
+key: [quota_definition_sid, geographical_area, idx]
+sort: [quota_definition_sid, geographical_area, idx]
+columns:
+  - name: quota_definition_sid
+    type: BIGINT
+  - name: idx
+    type: BIGINT
+  - name: geographical_area
+    type: VARCHAR

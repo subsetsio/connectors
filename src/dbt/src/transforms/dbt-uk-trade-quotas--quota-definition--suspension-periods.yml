@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-trade-quotas--quota-definition--suspension-periods`. Regenerate after model-verify.
+key: [suspension_period_end, idx, quota_definition_sid, suspension_period_start]
+temporal: suspension_period_start
+sort: [suspension_period_start, suspension_period_end, idx, quota_definition_sid]
+columns:
+  - name: quota_definition_sid
+    type: BIGINT
+  - name: idx
+    type: BIGINT
+  - name: suspension_period_start
+    type: DATE
+  - name: suspension_period_end
+    type: DATE

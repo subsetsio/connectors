@@ -1,0 +1,7 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-market-barriers--barriers--categories`. Regenerate after model-verify.
+# caution: Each row links a market barrier to a category, but only the barrier id (`barriers__id`) is retained upstream — the category label is not captured. A barrier appears once per associated category, so barrier ids repeat and there is no unique row identity.
+key: []
+columns:
+  - name: barriers_id
+    type: VARCHAR

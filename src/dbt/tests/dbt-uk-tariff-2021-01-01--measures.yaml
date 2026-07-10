@@ -1,2 +1,5 @@
 spec_id: dbt-uk-tariff-2021-01-01--measures
 status: deferred
+tests:
+  - freshness: {col: validity_start, reaches: today - 90d}
+    points_outward: true

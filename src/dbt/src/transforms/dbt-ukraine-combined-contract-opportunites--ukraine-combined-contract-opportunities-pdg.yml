@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-ukraine-combined-contract-opportunites--ukraine-combined-contract-opportunities-pdg`. Regenerate after model-verify.
+key: [notice_url]
+temporal: notice_date
+sort: [notice_date, notice_url]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: project_id
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: notice_type
+    type: VARCHAR
+  - name: notice_url
+    type: VARCHAR
+  - name: closing_date
+    type: VARCHAR
+  - name: procurement_method
+    type: VARCHAR
+  - name: notice_date
+    type: DATE
+  - name: agency
+    type: VARCHAR
+  - name: sector_name
+    type: VARCHAR
+  - name: bid_estimate
+    type: DOUBLE
+  - name: bid_currency
+    type: VARCHAR
+  - name: bid_estimate_gbp
+    type: DOUBLE
+  - name: description
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: source
+    type: VARCHAR

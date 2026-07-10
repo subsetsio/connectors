@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-tariff-2021-01-01--geo-area-memberships`. Regenerate after model-verify.
+key: [validity_start, trackedmodel_ptr_id, member_id, geo_group_id, validity_end]
+temporal: validity_start
+sort: [validity_start, trackedmodel_ptr_id, member_id, geo_group_id, validity_end]
+columns:
+  - name: trackedmodel_ptr_id
+    type: BIGINT
+  - name: geo_group_id
+    type: BIGINT
+  - name: member_id
+    type: BIGINT
+  - name: validity_start
+    type: DATE
+  - name: validity_end
+    type: VARCHAR

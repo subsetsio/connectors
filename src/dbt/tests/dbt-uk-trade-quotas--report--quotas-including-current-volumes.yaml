@@ -1,2 +1,5 @@
 spec_id: dbt-uk-trade-quotas--report--quotas-including-current-volumes
 status: deferred
+tests:
+  - freshness: {col: quota_definition__validity_start_date, reaches: today - 90d}
+    points_outward: true

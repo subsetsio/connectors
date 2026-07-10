@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `dbt-uk-tariff-2021-01-01--common-transactions`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [updated_at, created_at, composite_key, id, order]
+temporal: created_at
+checks:
+  - kind: unique
+    columns: [updated_at, created_at, composite_key, id, order]
+  - kind: not_null
+    col: updated_at
+  - kind: not_null
+    col: created_at
+  - kind: not_null
+    col: composite_key
+  - kind: not_null
+    col: id
+  - kind: not_null
+    col: order
+  - kind: row_floor
+    min: 1721297
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

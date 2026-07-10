@@ -1,2 +1,5 @@
 spec_id: dbt-ukraine-ebrd-contract-notices--ukraine-ebrd-contract-notices-pdg
 status: deferred
+tests:
+  - freshness: {col: published_date, reaches: today - 90d}
+    points_outward: true

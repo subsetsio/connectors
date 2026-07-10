@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-trade-quotas--report--quotas-including-current-volumes`. Regenerate after model-verify.
+key: [quota_definition_sid]
+temporal: quota_definition_validity_start_date
+sort: [quota_definition_validity_start_date, quota_definition_sid]
+columns:
+  - name: quota_definition_sid
+    type: BIGINT
+  - name: quota_order_number
+    type: VARCHAR
+  - name: quota_geographical_areas
+    type: VARCHAR
+  - name: quota_headings
+    type: VARCHAR
+  - name: quota_commodities
+    type: VARCHAR
+  - name: quota_measurement_unit
+    type: VARCHAR
+  - name: quota_monetary_unit
+    type: VARCHAR
+  - name: quota_definition_description
+    type: VARCHAR
+  - name: quota_definition_validity_start_date
+    type: DATE
+  - name: quota_definition_validity_end_date
+    type: DATE
+  - name: quota_definition_suspension_periods
+    type: VARCHAR
+  - name: quota_definition_blocking_periods
+    type: VARCHAR
+  - name: quota_definition_status
+    type: VARCHAR
+  - name: quota_definition_last_allocation_date
+    type: VARCHAR
+  - name: quota_definition_initial_volume
+    type: DOUBLE
+  - name: quota_definition_balance
+    type: VARCHAR
+  - name: quota_definition_fill_rate
+    type: DOUBLE

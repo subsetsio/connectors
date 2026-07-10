@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-tariff-2021-01-01--footnote-types`. Regenerate after model-verify.
+key: [validity_start, trackedmodel_ptr_id, footnote_type_id, description, application_code]
+temporal: validity_start
+sort: [validity_start, trackedmodel_ptr_id, footnote_type_id, description, application_code]
+columns:
+  - name: trackedmodel_ptr_id
+    type: BIGINT
+  - name: footnote_type_id
+    type: VARCHAR
+  - name: application_code
+    type: BIGINT
+  - name: description
+    type: VARCHAR
+  - name: validity_start
+    type: DATE
+  - name: validity_end
+    type: VARCHAR

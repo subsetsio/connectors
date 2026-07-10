@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-tariff-2021-01-01--additional-codes`. Regenerate after model-verify.
+# caution: Version-tracked TARIC data: each row is one version of a tracked model (keyed by `trackedmodel_ptr_id`). The same logical entity (its `sid`) recurs across rows with different `validity_start`/`validity_end` ranges — filter by the validity window for a point-in-time view instead of assuming one row per entity.
+key: [trackedmodel_ptr_id]
+temporal: validity_start
+sort: [validity_start, trackedmodel_ptr_id]
+columns:
+  - name: trackedmodel_ptr_id
+    type: BIGINT
+  - name: sid
+    type: BIGINT
+  - name: code
+    type: VARCHAR
+  - name: type_id
+    type: BIGINT
+  - name: validity_start
+    type: DATE
+  - name: validity_end
+    type: VARCHAR

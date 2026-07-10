@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `dbt-market-barriers--barriers--sectors`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [barriers_id, name]
+checks:
+  - kind: unique
+    columns: [barriers_id, name]
+  - kind: not_null
+    col: barriers_id
+  - kind: not_null
+    col: name
+  - kind: row_floor
+    min: 411
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

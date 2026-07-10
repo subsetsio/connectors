@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-tariff-2021-01-01--common-version-groups`. Regenerate after model-verify.
+key: [id]
+temporal: created_at
+sort: [created_at, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: created_at
+    type: TIMESTAMP
+  - name: updated_at
+    type: TIMESTAMP
+  - name: current_version_id
+    type: VARCHAR

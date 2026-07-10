@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-tariff-2021-01-01--regulations`. Regenerate after model-verify.
+# caution: Version-tracked TARIC data: each row is one version of a tracked model (keyed by `trackedmodel_ptr_id`). The same logical entity (its `sid`) recurs across rows with different `validity_start`/`validity_end` ranges — filter by the validity window for a point-in-time view instead of assuming one row per entity.
+key: [trackedmodel_ptr_id]
+temporal: validity_start
+sort: [validity_start, trackedmodel_ptr_id]
+columns:
+  - name: trackedmodel_ptr_id
+    type: BIGINT
+  - name: regulation_id
+    type: VARCHAR
+  - name: regulation_group_id
+    type: VARCHAR
+  - name: role_type
+    type: BIGINT
+  - name: official_journal_number
+    type: VARCHAR
+  - name: official_journal_page
+    type: BIGINT
+  - name: published_at
+    type: VARCHAR
+  - name: information_text
+    type: VARCHAR
+  - name: public_identifier
+    type: VARCHAR
+  - name: url
+    type: VARCHAR
+  - name: approved
+    type: BIGINT
+  - name: replacement_indicator
+    type: BIGINT
+  - name: effective_end_date
+    type: VARCHAR
+  - name: stopped
+    type: BIGINT
+  - name: community_code
+    type: BIGINT
+  - name: validity_start
+    type: DATE
+  - name: validity_end
+    type: VARCHAR

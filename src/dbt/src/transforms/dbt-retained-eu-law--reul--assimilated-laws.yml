@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-retained-eu-law--reul--assimilated-laws`. Regenerate after model-verify.
+# caution: No stable unique row identifier: `reul_name` is nearly unique but the source carries a few duplicate/near-duplicate law records, so no key is declared.
+key: []
+columns:
+  - name: reul_name
+    type: VARCHAR
+  - name: legislation_description
+    type: VARCHAR
+  - name: new_lead_dept
+    type: VARCHAR
+  - name: type_of_reul
+    type: VARCHAR
+  - name: primary_secondary
+    type: VARCHAR
+  - name: sector
+    type: VARCHAR
+  - name: policy_area
+    type: VARCHAR
+  - name: territorial_application_of_reul
+    type: VARCHAR
+  - name: international_obligations
+    type: VARCHAR
+  - name: reul_status
+    type: VARCHAR
+  - name: amendedrepealreplaced
+    type: VARCHAR
+  - name: changes_to_reul_details
+    type: VARCHAR
+  - name: new_legislation
+    type: VARCHAR

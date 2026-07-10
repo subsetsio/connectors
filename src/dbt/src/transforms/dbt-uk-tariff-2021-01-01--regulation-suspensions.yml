@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-tariff-2021-01-01--regulation-suspensions`. Regenerate after model-verify.
+key: [trackedmodel_ptr_id]
+sort: [trackedmodel_ptr_id]
+columns:
+  - name: trackedmodel_ptr_id
+    type: BIGINT
+  - name: enacting_regulation_id
+    type: BIGINT
+  - name: target_regulation_id
+    type: BIGINT
+  - name: effective_end_date
+    type: VARCHAR

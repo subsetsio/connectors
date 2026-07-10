@@ -1,2 +1,5 @@
 spec_id: dbt-uk-trade-quotas--quota-definition--suspension-periods
 status: deferred
+tests:
+  - freshness: {col: suspension_period_start, reaches: today - 90d}
+    points_outward: true

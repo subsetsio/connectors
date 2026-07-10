@@ -1,0 +1,54 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-tariff-2021-01-01--measures-on-declarable-commodities`. Regenerate after model-verify.
+key: [measure_effective_start_date, id]
+temporal: measure_effective_start_date
+sort: [measure_effective_start_date, id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: commodity_sid
+    type: BIGINT
+  - name: commodity_code
+    type: VARCHAR
+  - name: commodity_indent
+    type: BIGINT
+  - name: commodity_description
+    type: VARCHAR
+  - name: measure_sid
+    type: BIGINT
+  - name: measure_type_id
+    type: BIGINT
+  - name: measure_type_description
+    type: VARCHAR
+  - name: measure_additional_code_code
+    type: VARCHAR
+  - name: measure_additional_code_description
+    type: VARCHAR
+  - name: measure_duty_expression
+    type: VARCHAR
+  - name: measure_effective_start_date
+    type: DATE
+  - name: measure_effective_end_date
+    type: VARCHAR
+  - name: measure_reduction_indicator
+    type: VARCHAR
+  - name: measure_footnotes
+    type: VARCHAR
+  - name: measure_conditions
+    type: VARCHAR
+  - name: measure_geographical_area_sid
+    type: BIGINT
+  - name: measure_geographical_area_id
+    type: VARCHAR
+  - name: measure_geographical_area_description
+    type: VARCHAR
+  - name: measure_excluded_geographical_areas_ids
+    type: VARCHAR
+  - name: measure_excluded_geographical_areas_descriptions
+    type: VARCHAR
+  - name: measure_quota_order_number
+    type: VARCHAR
+  - name: measure_regulation_id
+    type: VARCHAR
+  - name: measure_regulation_url
+    type: VARCHAR

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `dbt-kings-award-for-enterprise-recipients--kae--businesses`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [company_name, address, id, post_code, post_town]
+checks:
+  - kind: unique
+    columns: [company_name, address, id, post_code, post_town]
+  - kind: not_null
+    col: company_name
+  - kind: not_null
+    col: address
+  - kind: not_null
+    col: id
+  - kind: not_null
+    col: post_code
+  - kind: not_null
+    col: post_town
+  - kind: row_floor
+    min: 4318
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

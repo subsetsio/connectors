@@ -1,2 +1,5 @@
 spec_id: dbt-ukraine-eib-projects--ukraine-eib-projects-pdg
 status: deferred
+tests:
+  - freshness: {col: status_date, reaches: today - 90d}
+    points_outward: true

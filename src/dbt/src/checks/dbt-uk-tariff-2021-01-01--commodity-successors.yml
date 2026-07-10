@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `dbt-uk-tariff-2021-01-01--commodity-successors`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [replaced_goods_nomenclature_id, trackedmodel_ptr_id, absorbed_into_goods_nomenclature_id]
+checks:
+  - kind: unique
+    columns: [replaced_goods_nomenclature_id, trackedmodel_ptr_id, absorbed_into_goods_nomenclature_id]
+  - kind: not_null
+    col: replaced_goods_nomenclature_id
+  - kind: not_null
+    col: trackedmodel_ptr_id
+  - kind: not_null
+    col: absorbed_into_goods_nomenclature_id
+  - kind: row_floor
+    min: 22740
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

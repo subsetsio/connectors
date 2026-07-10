@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-ukraine-eib-projects--ukraine-eib-projects-pdg`. Regenerate after model-verify.
+key: [title]
+temporal: status_date
+sort: [status_date, title]
+columns:
+  - name: id
+    type: BIGINT
+  - name: title
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: status_date
+    type: TIMESTAMP
+  - name: proposed_eib_finance_euros
+    type: BIGINT
+  - name: proposed_eib_finance_gbp
+    type: BIGINT
+  - name: total_cost_euros
+    type: BIGINT
+  - name: total_cost_gbp
+    type: BIGINT
+  - name: sectors
+    type: VARCHAR
+  - name: project_url
+    type: VARCHAR

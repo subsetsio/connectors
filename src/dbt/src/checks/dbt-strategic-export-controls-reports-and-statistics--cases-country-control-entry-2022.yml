@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `dbt-strategic-export-controls-reports-and-statistics--cases-country-control-entry-2022`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [country_name, rating, incorporation, app_type, app_sub_type, outcome]
+checks:
+  - kind: unique
+    columns: [country_name, rating, incorporation, app_type, app_sub_type, outcome]
+  - kind: not_null
+    col: country_name
+  - kind: not_null
+    col: rating
+  - kind: not_null
+    col: incorporation
+  - kind: not_null
+    col: app_type
+  - kind: not_null
+    col: app_sub_type
+  - kind: not_null
+    col: outcome
+  - kind: row_floor
+    min: 3537
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

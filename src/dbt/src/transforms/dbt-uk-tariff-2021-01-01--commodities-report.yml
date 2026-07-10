@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-tariff-2021-01-01--commodities-report`. Regenerate after model-verify.
+key: [commodity_sid]
+temporal: commodity_validity_start
+sort: [commodity_validity_start, commodity_sid]
+columns:
+  - name: id
+    type: BIGINT
+  - name: commodity_sid
+    type: BIGINT
+  - name: commodity_code
+    type: VARCHAR
+  - name: commodity_suffix
+    type: BIGINT
+  - name: commodity_description
+    type: VARCHAR
+  - name: commodity_validity_start
+    type: DATE
+  - name: commodity_validity_end
+    type: VARCHAR
+  - name: parent_sid
+    type: VARCHAR
+  - name: parent_code
+    type: VARCHAR
+  - name: parent_suffix
+    type: VARCHAR

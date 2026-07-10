@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-uk-tariff-2021-01-01--quota-associations`. Regenerate after model-verify.
+key: [sub_quota_id, trackedmodel_ptr_id, main_quota_id, coefficient, sub_quota_relation_type]
+sort: [sub_quota_id, trackedmodel_ptr_id, main_quota_id, coefficient, sub_quota_relation_type]
+columns:
+  - name: trackedmodel_ptr_id
+    type: BIGINT
+  - name: main_quota_id
+    type: BIGINT
+  - name: sub_quota_id
+    type: BIGINT
+  - name: sub_quota_relation_type
+    type: VARCHAR
+  - name: coefficient
+    type: DOUBLE

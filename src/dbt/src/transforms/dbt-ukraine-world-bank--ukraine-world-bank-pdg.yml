@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dbt-ukraine-world-bank--ukraine-world-bank-pdg`. Regenerate after model-verify.
+key: [notice_url]
+temporal: notice_date
+sort: [notice_date, notice_url]
+columns:
+  - name: notice_id
+    type: VARCHAR
+  - name: project_id
+    type: VARCHAR
+  - name: live_opportunity
+    type: BIGINT
+  - name: notice_type
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: sector_name
+    type: VARCHAR
+  - name: procurement_method
+    type: VARCHAR
+  - name: bid_currency
+    type: VARCHAR
+  - name: bid_estimate
+    type: DOUBLE
+  - name: bid_estimate_gbp
+    type: DOUBLE
+  - name: notice_date
+    type: DATE
+  - name: closing_date
+    type: DATE
+  - name: notice_url
+    type: VARCHAR
