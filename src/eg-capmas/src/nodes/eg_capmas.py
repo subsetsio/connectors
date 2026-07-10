@@ -23,7 +23,7 @@ so we extract en explicitly and fall back to Arabic.
 import pyarrow as pa
 import httpx
 from subsets_utils import (
-    NodeSpec, SqlNodeSpec, get, transient_retry,
+    NodeSpec, get, transient_retry,
     save_raw_parquet, raw_parquet_writer,
 )
 
@@ -256,77 +256,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="eg-capmas-subjects", fn=fetch_subjects, kind="download"),
     NodeSpec(id="eg-capmas-indicators", fn=fetch_indicators, kind="download"),
     NodeSpec(id="eg-capmas-values", fn=fetch_values, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="eg-capmas-subjects-transform",
-        deps=["eg-capmas-subjects"],
-        sql='''
-            SELECT DISTINCT
-                CAST(main_subject_id AS BIGINT) AS main_subject_id,
-                main_subject_en,
-                main_subject_ar,
-                CAST(sub_subject_id AS BIGINT)  AS sub_subject_id,
-                sub_subject_en,
-                sub_subject_ar
-            FROM "eg-capmas-subjects"
-            WHERE sub_subject_id IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="eg-capmas-indicators-transform",
-        deps=["eg-capmas-indicators"],
-        sql='''
-            SELECT
-                CAST(indicator_id AS BIGINT) AS indicator_id,
-                name_en,
-                name_ar,
-                CAST(main_subject_id AS BIGINT) AS main_subject_id,
-                main_subject_en,
-                CAST(sub_subject_id AS BIGINT)  AS sub_subject_id,
-                sub_subject_en,
-                CAST(publication_id AS BIGINT)  AS publication_id,
-                publication_en,
-                publication_ar,
-                periodicity_en,
-                measure_unit_en,
-                measure_unit_ar,
-                CAST(start_year AS BIGINT) AS start_year,
-                CAST(end_year AS BIGINT)   AS end_year
-            FROM "eg-capmas-indicators"
-            WHERE indicator_id IS NOT NULL
-            QUALIFY row_number() OVER (PARTITION BY indicator_id ORDER BY publication_id) = 1
-        ''',
-    ),
-    SqlNodeSpec(
-        id="eg-capmas-values-transform",
-        deps=["eg-capmas-values"],
-        sql='''
-            SELECT
-                CAST(main_subject_id AS BIGINT) AS main_subject_id,
-                CAST(sub_subject_id AS BIGINT)  AS sub_subject_id,
-                CAST(indicator_id AS BIGINT)    AS indicator_id,
-                indicator_name_en,
-                CAST(category_id AS BIGINT)     AS category_id,
-                category_en,
-                category_ar,
-                CAST(year AS BIGINT)    AS year,
-                CAST(quarter AS BIGINT) AS quarter,
-                CAST(month AS BIGINT)   AS month,
-                CAST(value AS DOUBLE)   AS value,
-                CASE
-                    WHEN month   IS NOT NULL THEN 'monthly'
-                    WHEN quarter IS NOT NULL THEN 'quarterly'
-                    ELSE 'annual'
-                END AS frequency
-            FROM "eg-capmas-values"
-            WHERE value IS NOT NULL AND year IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY indicator_id, category_id, year,
-                             COALESCE(quarter, 0), COALESCE(month, 0)
-                ORDER BY value
-            ) = 1
-        ''',
-    ),
 ]
