@@ -35,6 +35,8 @@ SCHEMA = pa.schema([
     ("year", pa.int32()),
     ("month", pa.int32()),
     ("date", pa.string()),     # ISO yyyy-mm-dd, first of month; null if unparseable
+    ("group_code", pa.string()),
+    ("group_name", pa.string()),
     ("value", pa.float64()),
 ])
 
@@ -75,17 +77,21 @@ def fetch_one(node_id: str) -> None:
     code = TABLE_CODES[entity_id]         # KeyError = bug (id not in union)
 
     rows = _fetch_table(code)
-    metric, period_label, year, month, date, value = [], [], [], [], [], []
+    metric, period_label, year, month, date, group_code, group_name, value = [], [], [], [], [], [], [], []
     for row in rows:
         attrs = row.get("attributes") or {}
         first = next(iter(attrs.values()), {}) if isinstance(attrs, dict) else {}
         label = first.get("DESC") if isinstance(first, dict) else None
+        group_label = attrs.get("1", {}) if isinstance(attrs, dict) else {}
+        group_key = attrs.get("2", {}) if isinstance(attrs, dict) else {}
         yr, mon, iso = _parse_period(label)
         metric.append(row.get("metricName"))
         period_label.append(label)
         year.append(yr)
         month.append(mon)
         date.append(iso)
+        group_code.append(group_key.get("BA_SCHL") if isinstance(group_key, dict) else None)
+        group_name.append(group_label.get("DESC") if isinstance(group_label, dict) else None)
         value.append(_to_float(row.get("value")))
 
     table = pa.table(
@@ -95,6 +101,8 @@ def fetch_one(node_id: str) -> None:
             "year": year,
             "month": month,
             "date": date,
+            "group_code": group_code,
+            "group_name": group_name,
             "value": value,
         },
         schema=SCHEMA,
