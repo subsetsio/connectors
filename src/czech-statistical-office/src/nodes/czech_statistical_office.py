@@ -12,25 +12,29 @@ single CSV of at most a few tens of MB and there is no incremental query
 filter on the CKAN API, so every run re-fetches the whole CSV and overwrites.
 Freshness gating is the maintain step's job.
 
-Raw format: the CSV is normalized to UTF-8 and saved as a file (`save_raw_file`,
-extension "csv"). CZSO serves a mix of UTF-8 and CP1250 (Windows Central
-European) CSVs — and DuckDB's CSV sniffer hard-fails on non-UTF-8 bytes — so the
-fetch fn decodes (utf-8 → cp1250 → latin-1) and re-encodes as clean UTF-8 before
-saving. A few datasets ship the CSV inside a ZIP; those are unpacked here too.
-Column sets differ per dataset, so the transform is a generic passthrough that
-lets DuckDB infer types from each dataset's own CSV — a thin parse/type pass,
-the only scalable shape across 200+ heterogeneous tables.
+Raw format: the CSV is normalized to UTF-8, parsed once, and saved as parquet.
+CZSO serves a mix of UTF-8 and CP1250 (Windows Central European) CSVs — and
+DuckDB's CSV sniffer hard-fails on non-UTF-8 bytes — so the fetch fn decodes
+(utf-8 → cp1250 → latin-1) and re-encodes as clean UTF-8 before parsing. A few
+datasets ship the CSV inside a ZIP; those are unpacked here too. Column sets
+vary per dataset, so the parser derives an explicit all-string schema from each
+CSV header. That keeps the raw faithful to the source while avoiding repeated
+remote CSV sniffing during model profiling.
 """
 
 import io
+import csv
 import json
 import re
 import zipfile
 
+import pyarrow as pa
+import pyarrow.csv as pacsv
+
 from subsets_utils import (
     NodeSpec,
     get,
-    save_raw_file,
+    save_raw_parquet,
     transient_retry,
 )
 
@@ -116,6 +120,20 @@ def _to_utf8_csv(content: bytes, url: str, resource_format: str) -> bytes:
     return text.encode("utf-8")
 
 
+def _csv_to_table(content: bytes) -> pa.Table:
+    """Parse normalized CSV bytes to a parquet-ready Arrow table."""
+    header = next(csv.reader([content.decode("utf-8").splitlines()[0]]))
+    schema = pa.schema([pa.field(name, pa.string()) for name in header])
+    return pacsv.read_csv(
+        pa.BufferReader(content),
+        read_options=pacsv.ReadOptions(autogenerate_column_names=False),
+        convert_options=pacsv.ConvertOptions(
+            column_types={field.name: pa.string() for field in schema},
+            strings_can_be_null=True,
+        ),
+    ).cast(schema)
+
+
 def _pick_csv_resource(resources: list) -> dict:
     """Pick the dataset's CSV distribution. Every probed dataset exposes exactly
     one text/csv resource; prefer an explicit csv format, else the sole
@@ -150,7 +168,7 @@ def fetch_one(node_id: str) -> None:
         raise RuntimeError(f"{entity_id}: resource has no usable URL: {url!r}")
     content = _download_csv(url)
     content = _to_utf8_csv(content, url, res.get("format", ""))
-    save_raw_file(content, asset, extension="csv")
+    save_raw_parquet(_csv_to_table(content), asset)
 
 
 DOWNLOAD_SPECS = [
