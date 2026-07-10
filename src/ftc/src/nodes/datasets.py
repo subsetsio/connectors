@@ -10,7 +10,7 @@ rather than hardcoding it.
 
 import re
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_ndjson
+from subsets_utils import NodeSpec, save_raw_ndjson
 
 from utils import BASE, _full_url, _get_bytes, _parse_csv
 
@@ -58,93 +58,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="ftc-ftc-nonmerger-enforcement-actions", fn=fetch_dataset, kind="download"),
     NodeSpec(id="ftc-hsr-merger-transactions-by-month", fn=fetch_dataset, kind="download"),
     NodeSpec(id="ftc-hsr-transactions-filings-second-requests-by-fy", fn=fetch_dataset, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="ftc-ftc-civil-penalty-actions-transform",
-        deps=["ftc-ftc-civil-penalty-actions"],
-        sql='''
-            SELECT
-                TRY_CAST(MatterEnforcementFY AS INTEGER)              AS enforcement_fy,
-                TRY_STRPTIME(MatterEnforcementDate, '%m/%d/%Y %H:%M')::DATE AS enforcement_date,
-                MatterName                                           AS matter_name,
-                MatterNumber                                         AS matter_number,
-                MatterEnforcementType                                AS enforcement_type,
-                MatterType                                           AS matter_type,
-                NULLIF(trim(Matterhyperlink, '#'), '')               AS url
-            FROM "ftc-ftc-civil-penalty-actions"
-            WHERE MatterName IS NOT NULL AND MatterName <> ''
-        ''',
-    ),
-    SqlNodeSpec(
-        id="ftc-ftc-merger-enforcement-actions-transform",
-        deps=["ftc-ftc-merger-enforcement-actions"],
-        sql='''
-            SELECT
-                TRY_CAST(MatterEnforcementFY AS INTEGER)              AS enforcement_fy,
-                TRY_STRPTIME(MatterEnforcementDate, '%m/%d/%Y %H:%M')::DATE AS enforcement_date,
-                MatterNumber                                         AS matter_number,
-                MatterName                                           AS matter_name,
-                MatterIndustry                                       AS matter_industry,
-                "Matter Enforcement Type"                            AS enforcement_type,
-                NULLIF(trim(Matterhyperlink, '#'), '')               AS url
-            FROM "ftc-ftc-merger-enforcement-actions"
-            WHERE MatterName IS NOT NULL AND MatterName <> ''
-        ''',
-    ),
-    SqlNodeSpec(
-        id="ftc-ftc-nonmerger-enforcement-actions-transform",
-        deps=["ftc-ftc-nonmerger-enforcement-actions"],
-        sql='''
-            SELECT
-                TRY_CAST(MatterEnforcementFY AS INTEGER)              AS enforcement_fy,
-                TRY_STRPTIME(MatterEnforcementDate, '%m/%d/%Y %H:%M')::DATE AS enforcement_date,
-                MatterNumber                                         AS matter_number,
-                MatterName                                           AS matter_name,
-                MatterEnforcementType                                AS enforcement_type,
-                MatterIndustry                                       AS matter_industry,
-                NULLIF(trim(Matterhyperlink, '#'), '')               AS url
-            FROM "ftc-ftc-nonmerger-enforcement-actions"
-            WHERE MatterName IS NOT NULL AND MatterName <> ''
-        ''',
-    ),
-    SqlNodeSpec(
-        id="ftc-hsr-merger-transactions-by-month-transform",
-        deps=["ftc-hsr-merger-transactions-by-month"],
-        sql='''
-            SELECT * FROM (
-                SELECT
-                    TRY_CAST(FYTransaction AS INTEGER)       AS fiscal_year,
-                    TRY_CAST(MonthTransaction AS INTEGER)    AS month,
-                    TRY_CAST(TransactionReceived AS INTEGER) AS transactions_received
-                FROM "ftc-hsr-merger-transactions-by-month"
-            )
-            WHERE fiscal_year IS NOT NULL AND transactions_received IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="ftc-hsr-transactions-filings-second-requests-by-fy-transform",
-        deps=["ftc-hsr-transactions-filings-second-requests-by-fy"],
-        sql='''
-            SELECT * FROM (
-                SELECT
-                    TRY_CAST(FY AS INTEGER)                              AS fiscal_year,
-                    TRY_CAST(TransactionsReported AS INTEGER)            AS transactions_reported,
-                    TRY_CAST(FilingsReceived AS INTEGER)                 AS filings_received,
-                    TRY_CAST(AdjustedTransactions AS INTEGER)            AS adjusted_transactions,
-                    TRY_CAST(SecondRequestTotal AS INTEGER)              AS second_request_total,
-                    TRY_CAST(SecondRequestFTC AS INTEGER)                AS second_request_ftc,
-                    TRY_CAST(SecondRequestPercentFTC AS DOUBLE)          AS second_request_percent_ftc,
-                    TRY_CAST(SecondRequestDOJ AS INTEGER)                AS second_request_doj,
-                    TRY_CAST(SecondRequestPercentDOJ AS DOUBLE)          AS second_request_percent_doj,
-                    TRY_CAST(EarlyTerminationTransactions AS INTEGER)    AS early_termination_transactions,
-                    TRY_CAST(EarlyTerminationTransactionsGranted AS INTEGER)    AS early_termination_granted,
-                    TRY_CAST(EarlyTerminationTransactionsNotGranted AS INTEGER) AS early_termination_not_granted
-                FROM "ftc-hsr-transactions-filings-second-requests-by-fy"
-            )
-            WHERE fiscal_year IS NOT NULL
-        ''',
-    ),
 ]
