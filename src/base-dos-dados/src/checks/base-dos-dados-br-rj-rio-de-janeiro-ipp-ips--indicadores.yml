@@ -1,0 +1,90 @@
+# compiled by `hardened compile-checks` — post-publish audit of `base-dos-dados-br-rj-rio-de-janeiro-ipp-ips--indicadores`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ano, regiao_administrativa, mortalidade_infancia, prop_baixo_peso_nascer, mortalidade_materna, taxa_internacoes_infantis_crise_respiratoria_aguda, prop_acesso_agua_canalizada, prop_acesso_esgotamento_sanitario, prop_acesso_banheiro, prop_populacao_vivendo_favelas_nao_urbanizadas, prop_acesso_energia_eletrica, prop_adensamento_habitacional_excessivo, taxa_homicidios, taxa_roubos_rua, prop_alfabetizacao, qualidade_ensino_fundamental_anos_iniciais, qualidade_ensino_fundamental_anos_finais, prop_abandono_escolar_ensino_medio, prop_acesso_telefone_celular_fixo, prop_acesso_internet, taxa_mortalidade_doencas_cronicas, taxa_incidencia_dengue, taxa_mortalidade_tuberculose_hiv, prop_coleta_seletiva_lixo, degradacao_areas_verdes, prop_mobilidade_urbana, taxa_homicidios_acao_policial, tempo_medio_deslocamento, taxa_participacao_politica, prop_gravidez_adolescencia, trabalho_infantil, indice_acesso_cultura, taxa_violencia_contra_mulher, taxa_homicidios_jovens_negros, prop_vulnerabilidade_familiar, prop_pessoas_ensino_superior, prop_negros_indigenas_ensino_superior, prop_frequencia_ensino_superior]
+checks:
+  - kind: unique
+    columns: [ano, regiao_administrativa, mortalidade_infancia, prop_baixo_peso_nascer, mortalidade_materna, taxa_internacoes_infantis_crise_respiratoria_aguda, prop_acesso_agua_canalizada, prop_acesso_esgotamento_sanitario, prop_acesso_banheiro, prop_populacao_vivendo_favelas_nao_urbanizadas, prop_acesso_energia_eletrica, prop_adensamento_habitacional_excessivo, taxa_homicidios, taxa_roubos_rua, prop_alfabetizacao, qualidade_ensino_fundamental_anos_iniciais, qualidade_ensino_fundamental_anos_finais, prop_abandono_escolar_ensino_medio, prop_acesso_telefone_celular_fixo, prop_acesso_internet, taxa_mortalidade_doencas_cronicas, taxa_incidencia_dengue, taxa_mortalidade_tuberculose_hiv, prop_coleta_seletiva_lixo, degradacao_areas_verdes, prop_mobilidade_urbana, taxa_homicidios_acao_policial, tempo_medio_deslocamento, taxa_participacao_politica, prop_gravidez_adolescencia, trabalho_infantil, indice_acesso_cultura, taxa_violencia_contra_mulher, taxa_homicidios_jovens_negros, prop_vulnerabilidade_familiar, prop_pessoas_ensino_superior, prop_negros_indigenas_ensino_superior, prop_frequencia_ensino_superior]
+  - kind: not_null
+    col: ano
+  - kind: not_null
+    col: regiao_administrativa
+  - kind: not_null
+    col: mortalidade_infancia
+  - kind: not_null
+    col: prop_baixo_peso_nascer
+  - kind: not_null
+    col: mortalidade_materna
+  - kind: not_null
+    col: taxa_internacoes_infantis_crise_respiratoria_aguda
+  - kind: not_null
+    col: prop_acesso_agua_canalizada
+  - kind: not_null
+    col: prop_acesso_esgotamento_sanitario
+  - kind: not_null
+    col: prop_acesso_banheiro
+  - kind: not_null
+    col: prop_populacao_vivendo_favelas_nao_urbanizadas
+  - kind: not_null
+    col: prop_acesso_energia_eletrica
+  - kind: not_null
+    col: prop_adensamento_habitacional_excessivo
+  - kind: not_null
+    col: taxa_homicidios
+  - kind: not_null
+    col: taxa_roubos_rua
+  - kind: not_null
+    col: prop_alfabetizacao
+  - kind: not_null
+    col: qualidade_ensino_fundamental_anos_iniciais
+  - kind: not_null
+    col: qualidade_ensino_fundamental_anos_finais
+  - kind: not_null
+    col: prop_abandono_escolar_ensino_medio
+  - kind: not_null
+    col: prop_acesso_telefone_celular_fixo
+  - kind: not_null
+    col: prop_acesso_internet
+  - kind: not_null
+    col: taxa_mortalidade_doencas_cronicas
+  - kind: not_null
+    col: taxa_incidencia_dengue
+  - kind: not_null
+    col: taxa_mortalidade_tuberculose_hiv
+  - kind: not_null
+    col: prop_coleta_seletiva_lixo
+  - kind: not_null
+    col: degradacao_areas_verdes
+  - kind: not_null
+    col: prop_mobilidade_urbana
+  - kind: not_null
+    col: taxa_homicidios_acao_policial
+  - kind: not_null
+    col: tempo_medio_deslocamento
+  - kind: not_null
+    col: taxa_participacao_politica
+  - kind: not_null
+    col: prop_gravidez_adolescencia
+  - kind: not_null
+    col: trabalho_infantil
+  - kind: not_null
+    col: indice_acesso_cultura
+  - kind: not_null
+    col: taxa_violencia_contra_mulher
+  - kind: not_null
+    col: taxa_homicidios_jovens_negros
+  - kind: not_null
+    col: prop_vulnerabilidade_familiar
+  - kind: not_null
+    col: prop_pessoas_ensino_superior
+  - kind: not_null
+    col: prop_negros_indigenas_ensino_superior
+  - kind: not_null
+    col: prop_frequencia_ensino_superior
+  - kind: row_floor
+    min: 49
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

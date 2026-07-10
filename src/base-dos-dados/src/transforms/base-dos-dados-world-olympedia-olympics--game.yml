@@ -1,23 +1,26 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-world-olympedia-olympics--game`. Regenerate after model-verify.
+key: [edition]
+temporal: start_date
+sort: [start_date, edition]
 columns:
-- name: year
-  type: BIGINT
-- name: edition
-  type: VARCHAR
-- name: edition_id
-  type: BIGINT
-- name: city
-  type: VARCHAR
-- name: country_flag_url
-  type: VARCHAR
-- name: country_noc
-  type: VARCHAR
-- name: start_date
-  type: VARCHAR
-- name: end_date
-  type: VARCHAR
-- name: competition_date
-  type: VARCHAR
-- name: is_held
-  type: VARCHAR
-write_mode: overwrite
+  - name: year
+    type: BIGINT
+  - name: edition
+    type: VARCHAR
+  - name: edition_id
+    type: BIGINT
+  - name: city
+    type: VARCHAR
+  - name: country_flag_url
+    type: VARCHAR
+  - name: country_noc
+    type: VARCHAR
+  - name: start_date
+    type: DATE
+  - name: end_date
+    type: DATE
+  - name: competition_date
+    type: VARCHAR
+  - name: is_held
+    type: VARCHAR

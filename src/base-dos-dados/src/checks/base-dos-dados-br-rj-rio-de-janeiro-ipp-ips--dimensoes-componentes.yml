@@ -1,0 +1,50 @@
+# compiled by `hardened compile-checks` — post-publish audit of `base-dos-dados-br-rj-rio-de-janeiro-ipp-ips--dimensoes-componentes`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ano, regiao_administrativa, ips_geral, necessidades_humanas_basicas_nota_dimensao, nutricao_cuidados_medicos_basicos, agua_saneamento, moradia, seguranca_pessoal, fundamentos_bem_estar_nota_dimensao, acesso_conhecimento_basico, acesso_informacao, saude_bem_estar, qualidade_meio_ambiente, oportunidades_nota_dimensao, direitos_individuais, liberdades_individuais, tolerancia_inclusao, acesso_educacao_superior]
+checks:
+  - kind: unique
+    columns: [ano, regiao_administrativa, ips_geral, necessidades_humanas_basicas_nota_dimensao, nutricao_cuidados_medicos_basicos, agua_saneamento, moradia, seguranca_pessoal, fundamentos_bem_estar_nota_dimensao, acesso_conhecimento_basico, acesso_informacao, saude_bem_estar, qualidade_meio_ambiente, oportunidades_nota_dimensao, direitos_individuais, liberdades_individuais, tolerancia_inclusao, acesso_educacao_superior]
+  - kind: not_null
+    col: ano
+  - kind: not_null
+    col: regiao_administrativa
+  - kind: not_null
+    col: ips_geral
+  - kind: not_null
+    col: necessidades_humanas_basicas_nota_dimensao
+  - kind: not_null
+    col: nutricao_cuidados_medicos_basicos
+  - kind: not_null
+    col: agua_saneamento
+  - kind: not_null
+    col: moradia
+  - kind: not_null
+    col: seguranca_pessoal
+  - kind: not_null
+    col: fundamentos_bem_estar_nota_dimensao
+  - kind: not_null
+    col: acesso_conhecimento_basico
+  - kind: not_null
+    col: acesso_informacao
+  - kind: not_null
+    col: saude_bem_estar
+  - kind: not_null
+    col: qualidade_meio_ambiente
+  - kind: not_null
+    col: oportunidades_nota_dimensao
+  - kind: not_null
+    col: direitos_individuais
+  - kind: not_null
+    col: liberdades_individuais
+  - kind: not_null
+    col: tolerancia_inclusao
+  - kind: not_null
+    col: acesso_educacao_superior
+  - kind: row_floor
+    min: 49
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

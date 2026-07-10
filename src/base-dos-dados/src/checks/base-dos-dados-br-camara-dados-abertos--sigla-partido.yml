@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `base-dos-dados-br-camara-dados-abertos--sigla-partido`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [sigla_partido_antiga, sigla_partido_nova]
+checks:
+  - kind: unique
+    columns: [sigla_partido_antiga, sigla_partido_nova]
+  - kind: not_null
+    col: sigla_partido_antiga
+  - kind: not_null
+    col: sigla_partido_nova
+  - kind: row_floor
+    min: 71
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

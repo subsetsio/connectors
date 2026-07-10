@@ -1,9 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-senado-cpipandemia--discursos`. Regenerate after model-verify.
+key: []
+temporal: data_sessao
+sort: [data_sessao]
 columns:
   - name: sequencial_sessao
     type: BIGINT
   - name: data_sessao
-    type: VARCHAR
+    type: DATE
   - name: sigla_partido
     type: VARCHAR
   - name: sigla_uf_partido

@@ -1,17 +1,19 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-bd-diretorios-brasil--instituicao-ensino-superior`. Regenerate after model-verify.
+key: [id_ies, nome, tipo_instituicao, rede, situacao_funcionamento, id_municipio, sigla_uf]
+sort: [id_ies, nome, tipo_instituicao, rede, situacao_funcionamento, id_municipio, sigla_uf]
 columns:
-- name: id_ies
-  type: BIGINT
-- name: nome
-  type: VARCHAR
-- name: tipo_instituicao
-  type: VARCHAR
-- name: rede
-  type: VARCHAR
-- name: situacao_funcionamento
-  type: VARCHAR
-- name: id_municipio
-  type: BIGINT
-- name: sigla_uf
-  type: VARCHAR
-write_mode: overwrite
+  - name: id_ies
+    type: BIGINT
+  - name: nome
+    type: VARCHAR
+  - name: tipo_instituicao
+    type: VARCHAR
+  - name: rede
+    type: VARCHAR
+  - name: situacao_funcionamento
+    type: VARCHAR
+  - name: id_municipio
+    type: BIGINT
+  - name: sigla_uf
+    type: VARCHAR

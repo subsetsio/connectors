@@ -1,31 +1,34 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-geobr-mapas--unidade-conservacao`. Regenerate after model-verify.
+key: [id_cnuc]
+temporal: data_ultima
+sort: [data_ultima, id_cnuc]
 columns:
-- name: id_unidade_conservacao
-  type: BIGINT
-- name: unidade_conservacao
-  type: VARCHAR
-- name: id_unidade_conservacao_wcmc
-  type: DOUBLE
-- name: id_cnuc
-  type: VARCHAR
-- name: id_geografico
-  type: BIGINT
-- name: organizacao_orgao
-  type: VARCHAR
-- name: categoria
-  type: VARCHAR
-- name: sigla_grupo
-  type: VARCHAR
-- name: qualidade
-  type: VARCHAR
-- name: esfera
-  type: VARCHAR
-- name: ano_criacao
-  type: DOUBLE
-- name: legislacao
-  type: VARCHAR
-- name: data_ultima
-  type: VARCHAR
-- name: geometria
-  type: VARCHAR
-write_mode: overwrite
+  - name: id_unidade_conservacao
+    type: BIGINT
+  - name: unidade_conservacao
+    type: VARCHAR
+  - name: id_unidade_conservacao_wcmc
+    type: DOUBLE
+  - name: id_cnuc
+    type: VARCHAR
+  - name: id_geografico
+    type: BIGINT
+  - name: organizacao_orgao
+    type: VARCHAR
+  - name: categoria
+    type: VARCHAR
+  - name: sigla_grupo
+    type: VARCHAR
+  - name: qualidade
+    type: VARCHAR
+  - name: esfera
+    type: VARCHAR
+  - name: ano_criacao
+    type: DOUBLE
+  - name: legislacao
+    type: VARCHAR
+  - name: data_ultima
+    type: DATE
+  - name: geometria
+    type: VARCHAR

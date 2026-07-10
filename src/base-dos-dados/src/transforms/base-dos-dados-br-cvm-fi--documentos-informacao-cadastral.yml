@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-cvm-fi--documentos-informacao-cadastral`. Regenerate after model-verify.
+key: []
+temporal: data_registro
+sort: [data_registro]
 columns:
   - name: id_fundo
     type: VARCHAR
@@ -9,27 +13,27 @@ columns:
   - name: denominacao_social
     type: VARCHAR
   - name: data_registro
-    type: VARCHAR
+    type: DATE
   - name: data_constituicao
-    type: VARCHAR
+    type: DATE
   - name: codigo_cvm
     type: DOUBLE
   - name: data_cancelamento
-    type: VARCHAR
+    type: DATE
   - name: situacao
     type: VARCHAR
   - name: data_inicio_situacao
-    type: VARCHAR
+    type: DATE
   - name: data_inicio_atividade
-    type: VARCHAR
+    type: DATE
   - name: data_inicio_exercicio
-    type: VARCHAR
+    type: DATE
   - name: data_fim_exercicio
-    type: VARCHAR
+    type: DATE
   - name: classe
     type: VARCHAR
   - name: data_inicio_classe
-    type: VARCHAR
+    type: DATE
   - name: tipo_rentabilidade
     type: VARCHAR
   - name: tipo_condominio
@@ -55,7 +59,7 @@ columns:
   - name: valor_patrimonio_liquido
     type: DOUBLE
   - name: data_patrimonio_liquido
-    type: VARCHAR
+    type: DATE
   - name: nome_diretor
     type: VARCHAR
   - name: cnpj_administrador

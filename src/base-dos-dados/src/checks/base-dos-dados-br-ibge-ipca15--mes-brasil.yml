@@ -1,0 +1,30 @@
+# compiled by `hardened compile-checks` — post-publish audit of `base-dos-dados-br-ibge-ipca15--mes-brasil`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ano, mes, indice, variacao_mensal, variacao_trimestral, variacao_semestral, variacao_anual, variacao_doze_meses]
+checks:
+  - kind: unique
+    columns: [ano, mes, indice, variacao_mensal, variacao_trimestral, variacao_semestral, variacao_anual, variacao_doze_meses]
+  - kind: not_null
+    col: ano
+  - kind: not_null
+    col: mes
+  - kind: not_null
+    col: indice
+  - kind: not_null
+    col: variacao_mensal
+  - kind: not_null
+    col: variacao_trimestral
+  - kind: not_null
+    col: variacao_semestral
+  - kind: not_null
+    col: variacao_anual
+  - kind: not_null
+    col: variacao_doze_meses
+  - kind: row_floor
+    min: 137
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

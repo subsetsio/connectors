@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-bd-metadados--bigquery-tables`. Regenerate after model-verify.
+key: [last_modified_time]
+temporal: creation_date
+sort: [creation_date, last_modified_time]
 columns:
   - name: project_id
     type: VARCHAR
@@ -9,9 +13,9 @@ columns:
   - name: type
     type: VARCHAR
   - name: creation_date
-    type: VARCHAR
+    type: DATE
   - name: last_modified_date
-    type: VARCHAR
+    type: DATE
   - name: creation_time
     type: VARCHAR
   - name: last_modified_time

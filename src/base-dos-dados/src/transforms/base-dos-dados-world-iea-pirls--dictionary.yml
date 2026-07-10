@@ -1,13 +1,15 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-world-iea-pirls--dictionary`. Regenerate after model-verify.
+key: [column_name, key, table_id]
+sort: [column_name, key, table_id]
 columns:
-- name: table_id
-  type: VARCHAR
-- name: column_name
-  type: VARCHAR
-- name: key
-  type: BIGINT
-- name: temporal_coverage
-  type: BIGINT
-- name: value
-  type: VARCHAR
-write_mode: overwrite
+  - name: table_id
+    type: VARCHAR
+  - name: column_name
+    type: VARCHAR
+  - name: key
+    type: BIGINT
+  - name: temporal_coverage
+    type: BIGINT
+  - name: value
+    type: VARCHAR

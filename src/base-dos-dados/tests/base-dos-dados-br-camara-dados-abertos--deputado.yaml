@@ -1,5 +1,8 @@
 spec_id: base-dos-dados-br-camara-dados-abertos--deputado
 status: active
+coverage:
+  frozen: true
+  reason: Historical deputy birth dates are bounded biographical attributes, not a freshness-bearing publication date.
 tests:
   - row_count: {min: 1}
     reason: every one-click table publishes at least one data row; an empty publish means a truncated/failed download

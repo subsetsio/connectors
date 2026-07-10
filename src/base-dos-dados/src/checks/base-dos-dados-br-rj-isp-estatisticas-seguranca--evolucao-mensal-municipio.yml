@@ -1,0 +1,130 @@
+# compiled by `hardened compile-checks` — post-publish audit of `base-dos-dados-br-rj-isp-estatisticas-seguranca--evolucao-mensal-municipio`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ano, mes, id_municipio, regiao, quantidade_homicidio_doloso, quantidade_latrocinio, quantidade_lesao_corporal_morte, quantidade_crimes_violentos_letais_intencionais, quantidade_homicidio_intervencao_policial, quantidade_letalidade_violenta, quantidade_tentativa_homicidio, quantidade_lesao_corporal_dolosa, quantidade_estupro, quantidade_homicidio_culposo, quantidade_lesao_corporal_culposa, quantidade_roubo_transeunte, quantidade_roubo_celular, quantidade_roubo_corporal_coletivo, quantidade_roubo_rua, quantidade_roubo_veiculo, quantidade_roubo_carga, quantidade_roubo_comercio, quantidade_roubo_residencia, quantidade_roubo_banco, quantidade_roubo_caixa_eletronico, quantidade_roubo_conducao_saque, quantidade_roubo_apos_saque, quantidade_roubo_bicicleta, quantidade_outros_roubos, quantidade_total_roubos, quantidade_furto_veiculos, quantidade_furto_transeunte, quantidade_furto_coletivo, quantidade_furto_celular, quantidade_furto_bicicleta, quantidade_outros_furtos, quantidade_total_furtos, quantidade_sequestro, quantidade_extorsao, quantidade_sequestro_relampago, quantidade_estelionato, quantidade_apreensao_drogas, quantidade_registro_posse_drogas, quantidade_registro_trafico_drogas, quantidade_registro_apreensao_drogas_sem_autor, quantidade_registro_veiculo_recuperado, quantidade_apf, quantidade_aaapai, quantidade_cmp, quantidade_cmba, quantidade_ameaca, quantidade_pessoas_desaparecida, quantidade_encontro_cadaver, quantidade_encontro_ossada, quantidade_policial_militar_morto_servico, quantidade_policial_civil_morto_servico, quantidade_registro_ocorrencia, tipo_fase]
+checks:
+  - kind: unique
+    columns: [ano, mes, id_municipio, regiao, quantidade_homicidio_doloso, quantidade_latrocinio, quantidade_lesao_corporal_morte, quantidade_crimes_violentos_letais_intencionais, quantidade_homicidio_intervencao_policial, quantidade_letalidade_violenta, quantidade_tentativa_homicidio, quantidade_lesao_corporal_dolosa, quantidade_estupro, quantidade_homicidio_culposo, quantidade_lesao_corporal_culposa, quantidade_roubo_transeunte, quantidade_roubo_celular, quantidade_roubo_corporal_coletivo, quantidade_roubo_rua, quantidade_roubo_veiculo, quantidade_roubo_carga, quantidade_roubo_comercio, quantidade_roubo_residencia, quantidade_roubo_banco, quantidade_roubo_caixa_eletronico, quantidade_roubo_conducao_saque, quantidade_roubo_apos_saque, quantidade_roubo_bicicleta, quantidade_outros_roubos, quantidade_total_roubos, quantidade_furto_veiculos, quantidade_furto_transeunte, quantidade_furto_coletivo, quantidade_furto_celular, quantidade_furto_bicicleta, quantidade_outros_furtos, quantidade_total_furtos, quantidade_sequestro, quantidade_extorsao, quantidade_sequestro_relampago, quantidade_estelionato, quantidade_apreensao_drogas, quantidade_registro_posse_drogas, quantidade_registro_trafico_drogas, quantidade_registro_apreensao_drogas_sem_autor, quantidade_registro_veiculo_recuperado, quantidade_apf, quantidade_aaapai, quantidade_cmp, quantidade_cmba, quantidade_ameaca, quantidade_pessoas_desaparecida, quantidade_encontro_cadaver, quantidade_encontro_ossada, quantidade_policial_militar_morto_servico, quantidade_policial_civil_morto_servico, quantidade_registro_ocorrencia, tipo_fase]
+  - kind: not_null
+    col: ano
+  - kind: not_null
+    col: mes
+  - kind: not_null
+    col: id_municipio
+  - kind: not_null
+    col: regiao
+  - kind: not_null
+    col: quantidade_homicidio_doloso
+  - kind: not_null
+    col: quantidade_latrocinio
+  - kind: not_null
+    col: quantidade_lesao_corporal_morte
+  - kind: not_null
+    col: quantidade_crimes_violentos_letais_intencionais
+  - kind: not_null
+    col: quantidade_homicidio_intervencao_policial
+  - kind: not_null
+    col: quantidade_letalidade_violenta
+  - kind: not_null
+    col: quantidade_tentativa_homicidio
+  - kind: not_null
+    col: quantidade_lesao_corporal_dolosa
+  - kind: not_null
+    col: quantidade_estupro
+  - kind: not_null
+    col: quantidade_homicidio_culposo
+  - kind: not_null
+    col: quantidade_lesao_corporal_culposa
+  - kind: not_null
+    col: quantidade_roubo_transeunte
+  - kind: not_null
+    col: quantidade_roubo_celular
+  - kind: not_null
+    col: quantidade_roubo_corporal_coletivo
+  - kind: not_null
+    col: quantidade_roubo_rua
+  - kind: not_null
+    col: quantidade_roubo_veiculo
+  - kind: not_null
+    col: quantidade_roubo_carga
+  - kind: not_null
+    col: quantidade_roubo_comercio
+  - kind: not_null
+    col: quantidade_roubo_residencia
+  - kind: not_null
+    col: quantidade_roubo_banco
+  - kind: not_null
+    col: quantidade_roubo_caixa_eletronico
+  - kind: not_null
+    col: quantidade_roubo_conducao_saque
+  - kind: not_null
+    col: quantidade_roubo_apos_saque
+  - kind: not_null
+    col: quantidade_roubo_bicicleta
+  - kind: not_null
+    col: quantidade_outros_roubos
+  - kind: not_null
+    col: quantidade_total_roubos
+  - kind: not_null
+    col: quantidade_furto_veiculos
+  - kind: not_null
+    col: quantidade_furto_transeunte
+  - kind: not_null
+    col: quantidade_furto_coletivo
+  - kind: not_null
+    col: quantidade_furto_celular
+  - kind: not_null
+    col: quantidade_furto_bicicleta
+  - kind: not_null
+    col: quantidade_outros_furtos
+  - kind: not_null
+    col: quantidade_total_furtos
+  - kind: not_null
+    col: quantidade_sequestro
+  - kind: not_null
+    col: quantidade_extorsao
+  - kind: not_null
+    col: quantidade_sequestro_relampago
+  - kind: not_null
+    col: quantidade_estelionato
+  - kind: not_null
+    col: quantidade_apreensao_drogas
+  - kind: not_null
+    col: quantidade_registro_posse_drogas
+  - kind: not_null
+    col: quantidade_registro_trafico_drogas
+  - kind: not_null
+    col: quantidade_registro_apreensao_drogas_sem_autor
+  - kind: not_null
+    col: quantidade_registro_veiculo_recuperado
+  - kind: not_null
+    col: quantidade_apf
+  - kind: not_null
+    col: quantidade_aaapai
+  - kind: not_null
+    col: quantidade_cmp
+  - kind: not_null
+    col: quantidade_cmba
+  - kind: not_null
+    col: quantidade_ameaca
+  - kind: not_null
+    col: quantidade_pessoas_desaparecida
+  - kind: not_null
+    col: quantidade_encontro_cadaver
+  - kind: not_null
+    col: quantidade_encontro_ossada
+  - kind: not_null
+    col: quantidade_policial_militar_morto_servico
+  - kind: not_null
+    col: quantidade_policial_civil_morto_servico
+  - kind: not_null
+    col: quantidade_registro_ocorrencia
+  - kind: not_null
+    col: tipo_fase
+  - kind: row_floor
+    min: 5796
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

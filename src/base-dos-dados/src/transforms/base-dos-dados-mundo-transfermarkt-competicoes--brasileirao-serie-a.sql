@@ -1,1 +1,41 @@
-SELECT * FROM "base-dos-dados-mundo-transfermarkt-competicoes--brasileirao-serie-a"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "ano_campeonato",
+    strptime("data", '%Y-%m-%d')::DATE AS data,
+    "rodada",
+    "estadio",
+    "arbitro",
+    "publico",
+    "publico_max",
+    "time_mandante",
+    "time_visitante",
+    "tecnico_mandante",
+    "tecnico_visitante",
+    "colocacao_mandante",
+    "colocacao_visitante",
+    "valor_equipe_titular_mandante",
+    "valor_equipe_titular_visitante",
+    "idade_media_titular_mandante",
+    "idade_media_titular_visitante",
+    "gols_mandante",
+    "gols_visitante",
+    "gols_1_tempo_mandante",
+    "gols_1_tempo_visitante",
+    "escanteios_mandante",
+    "escanteios_visitante",
+    "faltas_mandante",
+    "faltas_visitante",
+    "chutes_bola_parada_mandante",
+    "chutes_bola_parada_visitante",
+    "defesas_mandante",
+    "defesas_visitante",
+    "impedimentos_mandante",
+    "impedimentos_visitante",
+    "chutes_mandante",
+    "chutes_visitante",
+    "chutes_fora_mandante",
+    "chutes_fora_visitante"
+FROM "base-dos-dados-mundo-transfermarkt-competicoes--brasileirao-serie-a"

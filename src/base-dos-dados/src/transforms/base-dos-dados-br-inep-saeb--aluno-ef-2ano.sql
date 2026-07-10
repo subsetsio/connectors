@@ -1,1 +1,44 @@
-SELECT * FROM "base-dos-dados-br-inep-saeb--aluno-ef-2ano"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "ano",
+    "id_regiao",
+    "sigla_uf",
+    "id_municipio",
+    "area",
+    "id_escola",
+    "rede",
+    "localizacao",
+    "id_turma",
+    "turno",
+    "serie",
+    "id_aluno",
+    "situacao_censo",
+    "disciplina",
+    "preenchimento_caderno",
+    "presenca",
+    "caderno",
+    "bloco_1",
+    "bloco_2",
+    "bloco_1_aberto",
+    "bloco_2_aberto",
+    "respostas_bloco_1",
+    "respostas_bloco_2",
+    "conceito_q1",
+    "conceito_q2",
+    "resposta_texto",
+    "conceito_proposito",
+    "conceito_elemento",
+    "conceito_segmentacao",
+    "texto_grafia",
+    "indicador_proficiencia",
+    "amostra",
+    "estrato",
+    "peso_aluno",
+    "proficiencia",
+    "erro_padrao",
+    "proficiencia_saeb",
+    "erro_padrao_saeb"
+FROM "base-dos-dados-br-inep-saeb--aluno-ef-2ano"

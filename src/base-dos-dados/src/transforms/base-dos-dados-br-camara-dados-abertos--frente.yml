@@ -1,23 +1,26 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-camara-dados-abertos--frente`. Regenerate after model-verify.
+key: [situacao]
+temporal: data_criacao
+sort: [data_criacao, situacao]
 columns:
-- name: id_frente
-  type: BIGINT
-- name: titulo
-  type: VARCHAR
-- name: data_criacao
-  type: VARCHAR
-- name: id_legislatura
-  type: BIGINT
-- name: telefone
-  type: VARCHAR
-- name: situacao
-  type: VARCHAR
-- name: url_documento
-  type: VARCHAR
-- name: id_coordenador
-  type: BIGINT
-- name: nome_coordenador
-  type: VARCHAR
-- name: url_foto_coordenador
-  type: VARCHAR
-write_mode: overwrite
+  - name: id_frente
+    type: BIGINT
+  - name: titulo
+    type: VARCHAR
+  - name: data_criacao
+    type: DATE
+  - name: id_legislatura
+    type: BIGINT
+  - name: telefone
+    type: VARCHAR
+  - name: situacao
+    type: VARCHAR
+  - name: url_documento
+    type: VARCHAR
+  - name: id_coordenador
+    type: BIGINT
+  - name: nome_coordenador
+    type: VARCHAR
+  - name: url_foto_coordenador
+    type: VARCHAR

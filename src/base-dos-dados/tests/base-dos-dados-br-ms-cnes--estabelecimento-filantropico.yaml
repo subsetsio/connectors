@@ -1,5 +1,8 @@
 spec_id: base-dos-dados-br-ms-cnes--estabelecimento-filantropico
 status: active
+coverage:
+  frozen: true
+  reason: Portaria dates describe establishment authorization history, not the cadence of the redistributed table.
 tests:
   - row_count: {min: 1}
     reason: every one-click table publishes at least one data row; an empty publish means a truncated/failed download

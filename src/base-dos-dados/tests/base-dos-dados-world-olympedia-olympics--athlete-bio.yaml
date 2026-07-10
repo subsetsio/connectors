@@ -1,5 +1,8 @@
 spec_id: base-dos-dados-world-olympedia-olympics--athlete-bio
 status: active
+coverage:
+  frozen: true
+  reason: Athlete birth dates are biographical history, not the publication freshness axis.
 tests:
   - row_count: {min: 1}
     reason: every one-click table publishes at least one data row; an empty publish means a truncated/failed download

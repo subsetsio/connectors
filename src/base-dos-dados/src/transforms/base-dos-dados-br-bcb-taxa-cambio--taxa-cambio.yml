@@ -1,9 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-bcb-taxa-cambio--taxa-cambio`. Regenerate after model-verify.
+key: []
+temporal: data_cotacao
+sort: [data_cotacao]
 columns:
   - name: ano
     type: BIGINT
   - name: data_cotacao
-    type: VARCHAR
+    type: DATE
   - name: hora_cotacao
     type: VARCHAR
   - name: moeda

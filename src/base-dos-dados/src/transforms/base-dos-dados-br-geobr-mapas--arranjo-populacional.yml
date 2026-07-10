@@ -1,19 +1,21 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-geobr-mapas--arranjo-populacional`. Regenerate after model-verify.
+key: [geometria]
+sort: [geometria]
 columns:
-- name: id_arranjo_populacional
-  type: BIGINT
-- name: arranjo_populacional
-  type: VARCHAR
-- name: populacao_urbana_2010
-  type: BIGINT
-- name: populacao_rural_2010
-  type: BIGINT
-- name: populacao_2010
-  type: BIGINT
-- name: id_municipio
-  type: BIGINT
-- name: sigla_uf
-  type: VARCHAR
-- name: geometria
-  type: VARCHAR
-write_mode: overwrite
+  - name: id_arranjo_populacional
+    type: BIGINT
+  - name: arranjo_populacional
+    type: VARCHAR
+  - name: populacao_urbana_2010
+    type: BIGINT
+  - name: populacao_rural_2010
+    type: BIGINT
+  - name: populacao_2010
+    type: BIGINT
+  - name: id_municipio
+    type: BIGINT
+  - name: sigla_uf
+    type: VARCHAR
+  - name: geometria
+    type: VARCHAR

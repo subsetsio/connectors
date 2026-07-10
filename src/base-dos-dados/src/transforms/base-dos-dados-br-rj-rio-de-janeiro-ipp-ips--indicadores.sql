@@ -1,1 +1,44 @@
-SELECT * FROM "base-dos-dados-br-rj-rio-de-janeiro-ipp-ips--indicadores"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "ano",
+    "regiao_administrativa",
+    "mortalidade_infancia",
+    "prop_baixo_peso_nascer",
+    "mortalidade_materna",
+    "taxa_internacoes_infantis_crise_respiratoria_aguda",
+    "prop_acesso_agua_canalizada",
+    "prop_acesso_esgotamento_sanitario",
+    "prop_acesso_banheiro",
+    "prop_populacao_vivendo_favelas_nao_urbanizadas",
+    "prop_acesso_energia_eletrica",
+    "prop_adensamento_habitacional_excessivo",
+    "taxa_homicidios",
+    "taxa_roubos_rua",
+    "prop_alfabetizacao",
+    "qualidade_ensino_fundamental_anos_iniciais",
+    "qualidade_ensino_fundamental_anos_finais",
+    "prop_abandono_escolar_ensino_medio",
+    "prop_acesso_telefone_celular_fixo",
+    "prop_acesso_internet",
+    "taxa_mortalidade_doencas_cronicas",
+    "taxa_incidencia_dengue",
+    "taxa_mortalidade_tuberculose_hiv",
+    "prop_coleta_seletiva_lixo",
+    "degradacao_areas_verdes",
+    "prop_mobilidade_urbana",
+    "taxa_homicidios_acao_policial",
+    "tempo_medio_deslocamento",
+    "taxa_participacao_politica",
+    "prop_gravidez_adolescencia",
+    "trabalho_infantil",
+    "indice_acesso_cultura",
+    "taxa_violencia_contra_mulher",
+    "taxa_homicidios_jovens_negros",
+    "prop_vulnerabilidade_familiar",
+    "prop_pessoas_ensino_superior",
+    "prop_negros_indigenas_ensino_superior",
+    "prop_frequencia_ensino_superior"
+FROM "base-dos-dados-br-rj-rio-de-janeiro-ipp-ips--indicadores"

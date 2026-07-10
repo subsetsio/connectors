@@ -1,0 +1,98 @@
+# compiled by `hardened compile-checks` — post-publish audit of `base-dos-dados-br-isp-estatisticas-seguranca--evolucao-mensal-upp`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ano, mes, id_upp, upp, hom_doloso, lesao_corp_morte, latrocinio, hom_por_interv_policial, tentat_hom, lesao_corp_dolosa, estupro, hom_culposo, lesao_corp_culposa, roubo_comercio, roubo_residencia, roubo_veiculo, roubo_carga, roubo_transeunte, roubo_em_coletivo, roubo_banco, roubo_cx_eletronico, roubo_celular, roubo_conducao_saque, total_roubos, furto_veiculos, total_furtos, sequestro, extorsao, sequestro_relampago, estelionato, apreensao_drogas, recuperacao_veiculos, armas_apreendidas, cump_mandado_prisao, ocorr_flagrante, ameaca, pessoas_desaparecidas, encontro_cadaver, encontro_ossada, pol_militares_mortos_serv, pol_civis_mortos_serv, registro_ocorrencias]
+checks:
+  - kind: unique
+    columns: [ano, mes, id_upp, upp, hom_doloso, lesao_corp_morte, latrocinio, hom_por_interv_policial, tentat_hom, lesao_corp_dolosa, estupro, hom_culposo, lesao_corp_culposa, roubo_comercio, roubo_residencia, roubo_veiculo, roubo_carga, roubo_transeunte, roubo_em_coletivo, roubo_banco, roubo_cx_eletronico, roubo_celular, roubo_conducao_saque, total_roubos, furto_veiculos, total_furtos, sequestro, extorsao, sequestro_relampago, estelionato, apreensao_drogas, recuperacao_veiculos, armas_apreendidas, cump_mandado_prisao, ocorr_flagrante, ameaca, pessoas_desaparecidas, encontro_cadaver, encontro_ossada, pol_militares_mortos_serv, pol_civis_mortos_serv, registro_ocorrencias]
+  - kind: not_null
+    col: ano
+  - kind: not_null
+    col: mes
+  - kind: not_null
+    col: id_upp
+  - kind: not_null
+    col: upp
+  - kind: not_null
+    col: hom_doloso
+  - kind: not_null
+    col: lesao_corp_morte
+  - kind: not_null
+    col: latrocinio
+  - kind: not_null
+    col: hom_por_interv_policial
+  - kind: not_null
+    col: tentat_hom
+  - kind: not_null
+    col: lesao_corp_dolosa
+  - kind: not_null
+    col: estupro
+  - kind: not_null
+    col: hom_culposo
+  - kind: not_null
+    col: lesao_corp_culposa
+  - kind: not_null
+    col: roubo_comercio
+  - kind: not_null
+    col: roubo_residencia
+  - kind: not_null
+    col: roubo_veiculo
+  - kind: not_null
+    col: roubo_carga
+  - kind: not_null
+    col: roubo_transeunte
+  - kind: not_null
+    col: roubo_em_coletivo
+  - kind: not_null
+    col: roubo_banco
+  - kind: not_null
+    col: roubo_cx_eletronico
+  - kind: not_null
+    col: roubo_celular
+  - kind: not_null
+    col: roubo_conducao_saque
+  - kind: not_null
+    col: total_roubos
+  - kind: not_null
+    col: furto_veiculos
+  - kind: not_null
+    col: total_furtos
+  - kind: not_null
+    col: sequestro
+  - kind: not_null
+    col: extorsao
+  - kind: not_null
+    col: sequestro_relampago
+  - kind: not_null
+    col: estelionato
+  - kind: not_null
+    col: apreensao_drogas
+  - kind: not_null
+    col: recuperacao_veiculos
+  - kind: not_null
+    col: armas_apreendidas
+  - kind: not_null
+    col: cump_mandado_prisao
+  - kind: not_null
+    col: ocorr_flagrante
+  - kind: not_null
+    col: ameaca
+  - kind: not_null
+    col: pessoas_desaparecidas
+  - kind: not_null
+    col: encontro_cadaver
+  - kind: not_null
+    col: encontro_ossada
+  - kind: not_null
+    col: pol_militares_mortos_serv
+  - kind: not_null
+    col: pol_civis_mortos_serv
+  - kind: not_null
+    col: registro_ocorrencias
+  - kind: row_floor
+    min: 3192
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

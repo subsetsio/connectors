@@ -1,9 +1,11 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-geobr-mapas--semiarido`. Regenerate after model-verify.
+key: [geometria, sigla_uf]
+sort: [geometria, sigla_uf]
 columns:
-- name: id_municipio
-  type: BIGINT
-- name: sigla_uf
-  type: VARCHAR
-- name: geometria
-  type: VARCHAR
-write_mode: overwrite
+  - name: id_municipio
+    type: BIGINT
+  - name: sigla_uf
+    type: VARCHAR
+  - name: geometria
+    type: VARCHAR

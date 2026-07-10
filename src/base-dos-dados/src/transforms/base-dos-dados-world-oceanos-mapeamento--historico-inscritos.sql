@@ -1,1 +1,41 @@
-SELECT * FROM "base-dos-dados-world-oceanos-mapeamento--historico-inscritos"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "ano",
+    "id_inscrito",
+    "responsavel",
+    "nome_responsavel",
+    "titulo_livro",
+    "isbn",
+    "genero_livro",
+    "nome_pais_primeira_edicao",
+    "tipo_publicacao",
+    "autor_nome",
+    "autor_genero",
+    "autor_idade",
+    "autor_nome_pais",
+    "autor_nacionalidade",
+    "autor_indicador_atividade_economica_principal",
+    "autor_educacao_formal",
+    "autor_indicador_publicacao_outras_obras",
+    "autor_quantidade_obras_publicadas",
+    "editora_nome",
+    "editora_pais_origem",
+    "editora_local_sede",
+    "editora_ano_criacao",
+    "editora_linha_predominante",
+    "editora_canal_distribuicao",
+    "editora_tiragem_edicao",
+    "editora_financiamento_edicao",
+    "editora_grupo_financiamento",
+    "editora_site",
+    "indicador_outras_edicoes",
+    "outras_edicoes_nome_editora",
+    "outras_edicoes_ano_publicacao",
+    "outras_edicoes_nome_pais",
+    "indicador_semifinalista",
+    "indicador_finalista",
+    "indicador_vencedor"
+FROM "base-dos-dados-world-oceanos-mapeamento--historico-inscritos"

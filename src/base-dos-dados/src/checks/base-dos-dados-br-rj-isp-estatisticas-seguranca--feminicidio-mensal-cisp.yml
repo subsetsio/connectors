@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `base-dos-dados-br-rj-isp-estatisticas-seguranca--feminicidio-mensal-cisp`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ano, mes, id_cisp, quantidade_morte_feminicidio, quantidade_tentativa_feminicidio, tipo_fase]
+checks:
+  - kind: unique
+    columns: [ano, mes, id_cisp, quantidade_morte_feminicidio, quantidade_tentativa_feminicidio, tipo_fase]
+  - kind: not_null
+    col: ano
+  - kind: not_null
+    col: mes
+  - kind: not_null
+    col: id_cisp
+  - kind: not_null
+    col: quantidade_morte_feminicidio
+  - kind: not_null
+    col: quantidade_tentativa_feminicidio
+  - kind: not_null
+    col: tipo_fase
+  - kind: row_floor
+    min: 6384
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

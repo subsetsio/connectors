@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `base-dos-dados-br-camara-dados-abertos--evento-presenca-deputado`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [id_evento, data_inicio, horario_inicio, id_deputado]
+temporal: data_inicio
+checks:
+  - kind: unique
+    columns: [id_evento, data_inicio, horario_inicio, id_deputado]
+  - kind: not_null
+    col: id_evento
+  - kind: not_null
+    col: data_inicio
+  - kind: not_null
+    col: horario_inicio
+  - kind: not_null
+    col: id_deputado
+  - kind: row_floor
+    min: 1300591
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,9 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-camara-dados-abertos--evento-presenca-deputado`. Regenerate after model-verify.
+key: [id_evento, data_inicio, horario_inicio, id_deputado]
+temporal: data_inicio
+sort: [data_inicio, id_evento, horario_inicio, id_deputado]
 columns:
   - name: id_evento
     type: BIGINT
   - name: data_inicio
-    type: VARCHAR
+    type: DATE
   - name: horario_inicio
     type: VARCHAR
   - name: id_deputado

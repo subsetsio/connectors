@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `base-dos-dados-br-rj-isp-estatisticas-seguranca--armas-fogo-apreendidas-mensal`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ano, mes, id_municipio, id_cisp, id_aisp, id_risp, quantidade_arma_fogo_apreendida]
+checks:
+  - kind: unique
+    columns: [ano, mes, id_municipio, id_cisp, id_aisp, id_risp, quantidade_arma_fogo_apreendida]
+  - kind: not_null
+    col: ano
+  - kind: not_null
+    col: mes
+  - kind: not_null
+    col: id_municipio
+  - kind: not_null
+    col: id_cisp
+  - kind: not_null
+    col: id_aisp
+  - kind: not_null
+    col: id_risp
+  - kind: not_null
+    col: quantidade_arma_fogo_apreendida
+  - kind: row_floor
+    min: 3103
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,19 +1,22 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-geobr-mapas--regiao-metropolitana-2017`. Regenerate after model-verify.
+key: []
+temporal: data_legislacao
+sort: [data_legislacao]
 columns:
-- name: nome_regiao_metropolitana
-  type: VARCHAR
-- name: tipo
-  type: VARCHAR
-- name: subcategoria_metropolitana
-  type: VARCHAR
-- name: id_municipio
-  type: BIGINT
-- name: sigla_uf
-  type: VARCHAR
-- name: legislacao
-  type: VARCHAR
-- name: data_legislacao
-  type: VARCHAR
-- name: geometria
-  type: VARCHAR
-write_mode: overwrite
+  - name: nome_regiao_metropolitana
+    type: VARCHAR
+  - name: tipo
+    type: VARCHAR
+  - name: subcategoria_metropolitana
+    type: VARCHAR
+  - name: id_municipio
+    type: BIGINT
+  - name: sigla_uf
+    type: VARCHAR
+  - name: legislacao
+    type: VARCHAR
+  - name: data_legislacao
+    type: DATE
+  - name: geometria
+    type: VARCHAR

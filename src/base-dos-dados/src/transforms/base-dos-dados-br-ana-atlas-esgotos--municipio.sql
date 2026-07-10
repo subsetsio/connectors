@@ -1,1 +1,46 @@
-SELECT * FROM "base-dos-dados-br-ana-atlas-esgotos--municipio"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "id_municipio",
+    "sigla_uf",
+    "populacao_urbana_2013",
+    "populacao_urbana_2035",
+    "prestador_servico_esgotamento_sanitario",
+    "sigla_prestador",
+    "indice_sem_atendimento_sem_coleta_sem_tratamento",
+    "indice_atendimento_solucao_individual",
+    "indice_atendimento_com_coleta_sem_tratamento",
+    "indice_atendimento_com_coleta_com_tratamento",
+    "vazao_sem_coleta_sem_tratamento",
+    "vazao_solucao_individual",
+    "vazao_com_coleta_sem_tratamento",
+    "vazao_com_coleta_com_tratamento",
+    "vazao_total",
+    "carga_gerada_sem_coleta_sem_tratamento",
+    "carga_gerada_encaminhada_solucao_individual",
+    "carga_gerada_com_coleta_sem_tratamento",
+    "carga_gerada_com_coleta_com_tratamento",
+    "carga_gerada_total",
+    "carga_lancada_sem_coleta_sem_tratamento",
+    "carga_lancada_proveniente_solucao_individual",
+    "carga_lancada_com_coleta_sem_tratamento",
+    "carga_lancada_com_coleta_com_tratamento",
+    "carga_lancada_total",
+    "indice_atendimento_etes_2035",
+    "indice_atendimento_solucao_individual_2035",
+    "carga_gerada_total_2035",
+    "carga_afluente_ete_2035",
+    "carga_efluente_ete_2035",
+    "carga_afluente_solucao_individual_2035",
+    "carga_efluente_solucao_individual_2035",
+    "populacao_atendida_2035",
+    "investimento_coleta",
+    "investimento_tratamento",
+    "investimento_coleta_tratatamento",
+    "necessidade_remocao_dbo",
+    "tipologia_solucao",
+    "atencao_fosforo",
+    "atencao_nitrogenio"
+FROM "base-dos-dados-br-ana-atlas-esgotos--municipio"

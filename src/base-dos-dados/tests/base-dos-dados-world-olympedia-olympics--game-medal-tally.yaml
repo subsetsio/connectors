@@ -1,5 +1,8 @@
 spec_id: base-dos-dados-world-olympedia-olympics--game-medal-tally
 status: active
+coverage:
+  frozen: true
+  reason: Olympic game years describe historical editions in the source corpus rather than a freshness cadence.
 tests:
   - row_count: {min: 1}
     reason: every one-click table publishes at least one data row; an empty publish means a truncated/failed download

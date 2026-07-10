@@ -1,53 +1,56 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-tse-eleicoes--detalhes-votacao-municipio`. Regenerate after model-verify.
+key: []
+temporal: data_eleicao
+sort: [data_eleicao]
 columns:
-- name: ano
-  type: BIGINT
-- name: turno
-  type: BIGINT
-- name: id_eleicao
-  type: BIGINT
-- name: tipo_eleicao
-  type: VARCHAR
-- name: data_eleicao
-  type: VARCHAR
-- name: sigla_uf
-  type: VARCHAR
-- name: id_municipio
-  type: DOUBLE
-- name: id_municipio_tse
-  type: BIGINT
-- name: cargo
-  type: VARCHAR
-- name: aptos
-  type: BIGINT
-- name: secoes
-  type: BIGINT
-- name: secoes_agregadas
-  type: BIGINT
-- name: aptos_totalizadas
-  type: BIGINT
-- name: secoes_totalizadas
-  type: BIGINT
-- name: comparecimento
-  type: BIGINT
-- name: abstencoes
-  type: BIGINT
-- name: votos_validos
-  type: BIGINT
-- name: votos_brancos
-  type: BIGINT
-- name: votos_nulos
-  type: BIGINT
-- name: votos_nominais
-  type: BIGINT
-- name: votos_legenda
-  type: BIGINT
-- name: proporcao_comparecimento
-  type: DOUBLE
-- name: proporcao_votos_validos
-  type: DOUBLE
-- name: proporcao_votos_brancos
-  type: DOUBLE
-- name: proporcao_votos_nulos
-  type: DOUBLE
-write_mode: overwrite
+  - name: ano
+    type: BIGINT
+  - name: turno
+    type: BIGINT
+  - name: id_eleicao
+    type: BIGINT
+  - name: tipo_eleicao
+    type: VARCHAR
+  - name: data_eleicao
+    type: DATE
+  - name: sigla_uf
+    type: VARCHAR
+  - name: id_municipio
+    type: DOUBLE
+  - name: id_municipio_tse
+    type: BIGINT
+  - name: cargo
+    type: VARCHAR
+  - name: aptos
+    type: BIGINT
+  - name: secoes
+    type: BIGINT
+  - name: secoes_agregadas
+    type: BIGINT
+  - name: aptos_totalizadas
+    type: BIGINT
+  - name: secoes_totalizadas
+    type: BIGINT
+  - name: comparecimento
+    type: BIGINT
+  - name: abstencoes
+    type: BIGINT
+  - name: votos_validos
+    type: BIGINT
+  - name: votos_brancos
+    type: BIGINT
+  - name: votos_nulos
+    type: BIGINT
+  - name: votos_nominais
+    type: BIGINT
+  - name: votos_legenda
+    type: BIGINT
+  - name: proporcao_comparecimento
+    type: DOUBLE
+  - name: proporcao_votos_validos
+    type: DOUBLE
+  - name: proporcao_votos_brancos
+    type: DOUBLE
+  - name: proporcao_votos_nulos
+    type: DOUBLE

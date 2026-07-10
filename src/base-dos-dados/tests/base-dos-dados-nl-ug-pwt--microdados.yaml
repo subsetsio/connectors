@@ -1,5 +1,8 @@
 spec_id: base-dos-dados-nl-ug-pwt--microdados
 status: active
+coverage:
+  frozen: true
+  reason: Penn World Table years describe a versioned historical release, not a live daily or monthly feed.
 tests:
   - row_count: {min: 1}
     reason: every one-click table publishes at least one data row; an empty publish means a truncated/failed download

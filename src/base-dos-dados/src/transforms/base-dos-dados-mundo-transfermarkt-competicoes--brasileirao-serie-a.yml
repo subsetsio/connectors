@@ -1,9 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-mundo-transfermarkt-competicoes--brasileirao-serie-a`. Regenerate after model-verify.
+key: [data, time_mandante, time_visitante]
+temporal: data
+sort: [data, time_mandante, time_visitante]
 columns:
   - name: ano_campeonato
     type: BIGINT
   - name: data
-    type: VARCHAR
+    type: DATE
   - name: rodada
     type: BIGINT
   - name: estadio

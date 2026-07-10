@@ -1,11 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-camara-dados-abertos--votacao-microdados`. Regenerate after model-verify.
+key: [id_votacao]
+temporal: data
+sort: [data, id_votacao]
 columns:
   - name: ano
     type: BIGINT
   - name: id_votacao
     type: VARCHAR
   - name: data
-    type: VARCHAR
+    type: DATE
   - name: horario
     type: VARCHAR
   - name: id_orgao
@@ -25,11 +29,11 @@ columns:
   - name: descricao
     type: VARCHAR
   - name: data_hora_ultima_votacao
-    type: VARCHAR
+    type: TIMESTAMP
   - name: descricao_ultima_votacao
     type: VARCHAR
   - name: data_hora_ultima_proposicao
-    type: VARCHAR
+    type: TIMESTAMP
   - name: descricao_ultima_proposicao
     type: VARCHAR
   - name: id_ultima_proposicao

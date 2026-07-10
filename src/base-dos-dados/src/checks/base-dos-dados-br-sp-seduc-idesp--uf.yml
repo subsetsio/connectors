@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `base-dos-dados-br-sp-seduc-idesp--uf`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ano, sigla_uf, nota_idesp_ef_iniciais, nota_idesp_ef_finais, nota_idesp_em]
+checks:
+  - kind: unique
+    columns: [ano, sigla_uf, nota_idesp_ef_iniciais, nota_idesp_ef_finais, nota_idesp_em]
+  - kind: not_null
+    col: ano
+  - kind: not_null
+    col: sigla_uf
+  - kind: not_null
+    col: nota_idesp_ef_iniciais
+  - kind: not_null
+    col: nota_idesp_ef_finais
+  - kind: not_null
+    col: nota_idesp_em
+  - kind: row_floor
+    min: 4
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

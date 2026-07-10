@@ -1,25 +1,28 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-camara-dados-abertos--orgao`. Regenerate after model-verify.
+key: []
+temporal: data_inicio
+sort: [data_inicio]
 columns:
-- name: id_orgao
-  type: BIGINT
-- name: nome
-  type: VARCHAR
-- name: apelido
-  type: VARCHAR
-- name: sigla
-  type: VARCHAR
-- name: tipo_orgao
-  type: VARCHAR
-- name: data_inicio
-  type: VARCHAR
-- name: data_instalacao
-  type: VARCHAR
-- name: data_final
-  type: VARCHAR
-- name: situacao
-  type: VARCHAR
-- name: casa
-  type: VARCHAR
-- name: sala
-  type: VARCHAR
-write_mode: overwrite
+  - name: id_orgao
+    type: BIGINT
+  - name: nome
+    type: VARCHAR
+  - name: apelido
+    type: VARCHAR
+  - name: sigla
+    type: VARCHAR
+  - name: tipo_orgao
+    type: VARCHAR
+  - name: data_inicio
+    type: DATE
+  - name: data_instalacao
+    type: DATE
+  - name: data_final
+    type: DATE
+  - name: situacao
+    type: VARCHAR
+  - name: casa
+    type: VARCHAR
+  - name: sala
+    type: VARCHAR

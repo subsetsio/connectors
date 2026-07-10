@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-cvm-oferta-publica-distribuicao--dia`. Regenerate after model-verify.
+key: []
+temporal: data_encerramento_oferta
+sort: [data_encerramento_oferta]
 columns:
   - name: numero_processo
     type: VARCHAR
@@ -33,17 +37,17 @@ columns:
   - name: modalidade_dispensa_registro
     type: VARCHAR
   - name: data_abertura_processo
-    type: VARCHAR
+    type: DATE
   - name: data_protocolo
-    type: VARCHAR
+    type: DATE
   - name: data_dispensa_oferta
-    type: VARCHAR
+    type: DATE
   - name: data_registro_oferta
-    type: VARCHAR
+    type: DATE
   - name: data_inicio_oferta
-    type: VARCHAR
+    type: DATE
   - name: data_encerramento_oferta
-    type: VARCHAR
+    type: DATE
   - name: emissao
     type: DOUBLE
   - name: classe_ativo
@@ -55,9 +59,9 @@ columns:
   - name: forma_ativo
     type: VARCHAR
   - name: data_emissao
-    type: VARCHAR
+    type: DATE
   - name: data_vencimento
-    type: VARCHAR
+    type: DATE
   - name: quantidade_sem_lote_suplementar
     type: DOUBLE
   - name: quantidade_no_lote_suplementar
@@ -87,4 +91,4 @@ columns:
   - name: ultimo_comunicado
     type: VARCHAR
   - name: data_comunicado
-    type: VARCHAR
+    type: DATE

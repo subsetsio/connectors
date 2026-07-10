@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `base-dos-dados-br-ons-energia-armazenada--subsistemas`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [data, subsistema]
+temporal: data
+checks:
+  - kind: unique
+    columns: [data, subsistema]
+  - kind: not_null
+    col: data
+  - kind: not_null
+    col: subsistema
+  - kind: row_floor
+    min: 16082
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

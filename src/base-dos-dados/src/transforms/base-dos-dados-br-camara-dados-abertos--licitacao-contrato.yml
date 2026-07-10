@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-camara-dados-abertos--licitacao-contrato`. Regenerate after model-verify.
+key: []
+temporal: data_inicio_contrato
+sort: [data_inicio_contrato]
 columns:
   - name: ano_licitacao
     type: BIGINT
@@ -15,15 +19,15 @@ columns:
   - name: descricao
     type: VARCHAR
   - name: data_assinatura
-    type: VARCHAR
+    type: DATE
   - name: data_publicacao
-    type: VARCHAR
+    type: DATE
   - name: data_inicio_contrato
-    type: VARCHAR
+    type: DATE
   - name: data_fim_contrato
-    type: VARCHAR
+    type: DATE
   - name: data_fim_ultima_vigencia
-    type: VARCHAR
+    type: DATE
   - name: nome_fornecedor
     type: VARCHAR
   - name: endereco_fornecedor

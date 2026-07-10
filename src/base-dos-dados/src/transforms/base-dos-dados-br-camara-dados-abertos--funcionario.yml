@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-camara-dados-abertos--funcionario`. Regenerate after model-verify.
+key: [ponto, data_inicio_historico, lotacao, grupo]
+temporal: data_inicio_historico
+sort: [data_inicio_historico, ponto, lotacao, grupo]
 columns:
   - name: nome
     type: VARCHAR
@@ -7,11 +11,11 @@ columns:
   - name: funcao
     type: VARCHAR
   - name: data_inicio_historico
-    type: VARCHAR
+    type: DATE
   - name: data_nomeacao
-    type: VARCHAR
+    type: DATE
   - name: data_publicacao_nomeacao
-    type: VARCHAR
+    type: DATE
   - name: grupo
     type: VARCHAR
   - name: ponto

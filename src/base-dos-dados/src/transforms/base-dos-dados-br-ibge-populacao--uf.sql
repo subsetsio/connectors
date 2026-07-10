@@ -1,1 +1,10 @@
-SELECT * FROM "base-dos-dados-br-ibge-populacao--uf"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "sigla_uf",
+    "ano",
+    "populacao",
+    "populacao_economicamente_ativa"
+FROM "base-dos-dados-br-ibge-populacao--uf"

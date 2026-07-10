@@ -1,11 +1,13 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-test-dataset--test-table`. Regenerate after model-verify.
+key: [dado]
+sort: [dado]
 columns:
-- name: ano
-  type: BIGINT
-- name: mes
-  type: BIGINT
-- name: sigla_uf
-  type: VARCHAR
-- name: dado
-  type: VARCHAR
-write_mode: overwrite
+  - name: ano
+    type: BIGINT
+  - name: mes
+    type: BIGINT
+  - name: sigla_uf
+    type: VARCHAR
+  - name: dado
+    type: VARCHAR

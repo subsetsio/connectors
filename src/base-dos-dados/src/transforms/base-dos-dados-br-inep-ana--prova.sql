@@ -1,1 +1,15 @@
-SELECT * FROM "base-dos-dados-br-inep-ana--prova"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "ano",
+    "serie",
+    "tipo_prova",
+    "disciplina",
+    "bloco",
+    "posicao",
+    "item",
+    "descritor",
+    "gabarito"
+FROM "base-dos-dados-br-inep-ana--prova"

@@ -1,37 +1,40 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-camara-dados-abertos--votacao`. Regenerate after model-verify.
+key: []
+temporal: data
+sort: [data]
 columns:
-- name: id_votacao
-  type: BIGINT
-- name: data
-  type: VARCHAR
-- name: data_registro
-  type: VARCHAR
-- name: horario_registro
-  type: VARCHAR
-- name: id_orgao
-  type: BIGINT
-- name: sigla_orgao
-  type: VARCHAR
-- name: id_evento
-  type: BIGINT
-- name: aprovacao
-  type: DOUBLE
-- name: voto_sim
-  type: BIGINT
-- name: voto_nao
-  type: BIGINT
-- name: voto_outro
-  type: BIGINT
-- name: descricao
-  type: VARCHAR
-- name: data_hora_ultima_votacao
-  type: VARCHAR
-- name: descricao_ultima_votacao
-  type: VARCHAR
-- name: data_hora_ultima_proposicao
-  type: VARCHAR
-- name: id_ultima_proposicao
-  type: BIGINT
-- name: descricao_ultima_proposicao
-  type: VARCHAR
-write_mode: overwrite
+  - name: id_votacao
+    type: BIGINT
+  - name: data
+    type: DATE
+  - name: data_registro
+    type: DATE
+  - name: horario_registro
+    type: VARCHAR
+  - name: id_orgao
+    type: BIGINT
+  - name: sigla_orgao
+    type: VARCHAR
+  - name: id_evento
+    type: BIGINT
+  - name: aprovacao
+    type: DOUBLE
+  - name: voto_sim
+    type: BIGINT
+  - name: voto_nao
+    type: BIGINT
+  - name: voto_outro
+    type: BIGINT
+  - name: descricao
+    type: VARCHAR
+  - name: data_hora_ultima_votacao
+    type: TIMESTAMP
+  - name: descricao_ultima_votacao
+    type: VARCHAR
+  - name: data_hora_ultima_proposicao
+    type: TIMESTAMP
+  - name: id_ultima_proposicao
+    type: BIGINT
+  - name: descricao_ultima_proposicao
+    type: VARCHAR

@@ -1,13 +1,15 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-inep-formacao-docente--dicionario`. Regenerate after model-verify.
+key: [id_tabela, valor]
+sort: [id_tabela, valor]
 columns:
-- name: id_tabela
-  type: VARCHAR
-- name: coluna
-  type: VARCHAR
-- name: chave
-  type: BIGINT
-- name: cobertura_temporal
-  type: VARCHAR
-- name: valor
-  type: VARCHAR
-write_mode: overwrite
+  - name: id_tabela
+    type: VARCHAR
+  - name: coluna
+    type: VARCHAR
+  - name: chave
+    type: BIGINT
+  - name: cobertura_temporal
+    type: VARCHAR
+  - name: valor
+    type: VARCHAR

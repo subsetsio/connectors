@@ -1,13 +1,15 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-bd-diretorios-data-tempo--mes`. Regenerate after model-verify.
+key: [nome]
+sort: [nome]
 columns:
-- name: mes
-  type: BIGINT
-- name: nome
-  type: VARCHAR
-- name: bimestre
-  type: BIGINT
-- name: trimestre
-  type: BIGINT
-- name: semestre
-  type: BIGINT
-write_mode: overwrite
+  - name: mes
+    type: BIGINT
+  - name: nome
+    type: VARCHAR
+  - name: bimestre
+    type: BIGINT
+  - name: trimestre
+    type: BIGINT
+  - name: semestre
+    type: BIGINT

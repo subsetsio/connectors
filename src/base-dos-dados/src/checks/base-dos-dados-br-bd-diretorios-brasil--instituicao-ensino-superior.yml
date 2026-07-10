@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `base-dos-dados-br-bd-diretorios-brasil--instituicao-ensino-superior`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [id_ies, nome, tipo_instituicao, rede, situacao_funcionamento, id_municipio, sigla_uf]
+checks:
+  - kind: unique
+    columns: [id_ies, nome, tipo_instituicao, rede, situacao_funcionamento, id_municipio, sigla_uf]
+  - kind: not_null
+    col: id_ies
+  - kind: not_null
+    col: nome
+  - kind: not_null
+    col: tipo_instituicao
+  - kind: not_null
+    col: rede
+  - kind: not_null
+    col: situacao_funcionamento
+  - kind: not_null
+    col: id_municipio
+  - kind: not_null
+    col: sigla_uf
+  - kind: row_floor
+    min: 3294
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

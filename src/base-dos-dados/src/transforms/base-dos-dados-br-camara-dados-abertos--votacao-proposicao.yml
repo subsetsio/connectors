@@ -1,23 +1,26 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-camara-dados-abertos--votacao-proposicao`. Regenerate after model-verify.
+key: []
+temporal: data
+sort: [data]
 columns:
-- name: id_votacao
-  type: BIGINT
-- name: data
-  type: VARCHAR
-- name: descricao
-  type: VARCHAR
-- name: id_proposicao
-  type: BIGINT
-- name: ano_proposicao
-  type: DOUBLE
-- name: titulo
-  type: VARCHAR
-- name: ementa
-  type: VARCHAR
-- name: codigo_tipo
-  type: BIGINT
-- name: sigla_tipo
-  type: VARCHAR
-- name: numero
-  type: BIGINT
-write_mode: overwrite
+  - name: id_votacao
+    type: BIGINT
+  - name: data
+    type: DATE
+  - name: descricao
+    type: VARCHAR
+  - name: id_proposicao
+    type: BIGINT
+  - name: ano_proposicao
+    type: DOUBLE
+  - name: titulo
+    type: VARCHAR
+  - name: ementa
+    type: VARCHAR
+  - name: codigo_tipo
+    type: BIGINT
+  - name: sigla_tipo
+    type: VARCHAR
+  - name: numero
+    type: BIGINT

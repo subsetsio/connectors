@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-cvm-administradores-carteira--pessoa-juridica`. Regenerate after model-verify.
+key: [denominacao_social, data_inicio_situacao, data_registro, situacao]
+temporal: data_registro
+sort: [data_registro, denominacao_social, data_inicio_situacao, situacao]
 columns:
   - name: cnpj
     type: BIGINT
@@ -7,15 +11,15 @@ columns:
   - name: denominacao_comercial
     type: VARCHAR
   - name: data_registro
-    type: VARCHAR
+    type: DATE
   - name: data_cancelamento
-    type: VARCHAR
+    type: DATE
   - name: motivo_cancelamento
     type: VARCHAR
   - name: situacao
     type: VARCHAR
   - name: data_inicio_situacao
-    type: VARCHAR
+    type: DATE
   - name: categoria_registro
     type: VARCHAR
   - name: subcategoria_registro
@@ -43,7 +47,7 @@ columns:
   - name: valor_patrimonial_liquido
     type: DOUBLE
   - name: data_patrimonio_liquido
-    type: VARCHAR
+    type: DATE
   - name: email
     type: VARCHAR
   - name: website

@@ -1,1 +1,44 @@
-SELECT * FROM "base-dos-dados-br-rj-isp-estatisticas-seguranca--evolucao-mensal-upp"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "ano",
+    "mes",
+    "id_upp",
+    "nome",
+    "quantidade_homicidio_doloso",
+    "quantidade_latrocinio",
+    "quantidade_lesao_corporal_morte",
+    "quantidade_homicidio_intervencao_policial",
+    "quantidade_tentativa_homicidio",
+    "quantidade_lesao_corporal_dolosa",
+    "quantidade_estupro",
+    "quantidade_homicidio_culposo",
+    "quantidade_lesao_corporal_culposa",
+    "quantidade_roubo_transeunte",
+    "quantidade_roubo_corporal_coletivo",
+    "quantidade_roubo_veiculo",
+    "quantidade_roubo_carga",
+    "quantidade_roubo_comercio",
+    "quantidade_roubo_residencia",
+    "quantidade_roubo_banco",
+    "quantidade_roubo_caixa_eletronico",
+    "quantidade_roubo_conducao_saque",
+    "quantidade_total_roubos",
+    "quantidade_furto_veiculos",
+    "quantidade_total_furto",
+    "quantidade_sequestro",
+    "quantidade_extorsao",
+    "quantidade_sequestro_relampago",
+    "quantidade_estelionato",
+    "quantidade_apreensao_droga",
+    "quantidade_registro_veiculo_recuperado",
+    "quantidade_ameaca",
+    "quantidade_pessoa_desaparecida",
+    "quantidade_encontro_cadaver",
+    "quantidade_encontro_ossada",
+    "quantidade_policial_militar_morto_servico",
+    "quantidade_policial_civil_morto_servico",
+    "quantidade_registro_ocorrencia"
+FROM "base-dos-dados-br-rj-isp-estatisticas-seguranca--evolucao-mensal-upp"

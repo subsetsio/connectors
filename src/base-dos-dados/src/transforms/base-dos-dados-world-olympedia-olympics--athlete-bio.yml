@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-world-olympedia-olympics--athlete-bio`. Regenerate after model-verify.
+key: [athlete_id, country, country_noc, sex]
+temporal: birth_date
+sort: [birth_date, athlete_id, country, country_noc, sex]
 columns:
   - name: athlete_id
     type: BIGINT
@@ -7,7 +11,7 @@ columns:
   - name: sex
     type: VARCHAR
   - name: birth_date
-    type: VARCHAR
+    type: DATE
   - name: birth_year
     type: DOUBLE
   - name: height

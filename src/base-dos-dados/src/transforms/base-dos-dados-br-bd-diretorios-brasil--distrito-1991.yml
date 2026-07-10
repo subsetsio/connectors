@@ -1,11 +1,13 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-bd-diretorios-brasil--distrito-1991`. Regenerate after model-verify.
+key: [id_distrito, nome, id_municipio, sigla_uf]
+sort: [id_distrito, nome, id_municipio, sigla_uf]
 columns:
-- name: id_distrito
-  type: BIGINT
-- name: nome
-  type: VARCHAR
-- name: id_municipio
-  type: BIGINT
-- name: sigla_uf
-  type: VARCHAR
-write_mode: overwrite
+  - name: id_distrito
+    type: BIGINT
+  - name: nome
+    type: VARCHAR
+  - name: id_municipio
+    type: BIGINT
+  - name: sigla_uf
+    type: VARCHAR

@@ -1,39 +1,42 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-camara-dados-abertos--licitacao`. Regenerate after model-verify.
+key: []
+temporal: data_publicacao
+sort: [data_publicacao]
 columns:
-- name: ano_licitacao
-  type: BIGINT
-- name: id_licitacao
-  type: BIGINT
-- name: ano_processo
-  type: BIGINT
-- name: id_processo
-  type: BIGINT
-- name: objeto
-  type: VARCHAR
-- name: modalidade
-  type: VARCHAR
-- name: tipo
-  type: VARCHAR
-- name: situacao
-  type: VARCHAR
-- name: data_abertura
-  type: VARCHAR
-- name: data_publicacao
-  type: VARCHAR
-- name: data_autorizacao
-  type: VARCHAR
-- name: quantidade_item
-  type: BIGINT
-- name: quantidade_unidade
-  type: BIGINT
-- name: quantidade_proposta
-  type: BIGINT
-- name: quantidade_contrato
-  type: BIGINT
-- name: valor_estimado
-  type: BIGINT
-- name: valor_contratado
-  type: BIGINT
-- name: valor_pago
-  type: BIGINT
-write_mode: overwrite
+  - name: ano_licitacao
+    type: BIGINT
+  - name: id_licitacao
+    type: BIGINT
+  - name: ano_processo
+    type: BIGINT
+  - name: id_processo
+    type: BIGINT
+  - name: objeto
+    type: VARCHAR
+  - name: modalidade
+    type: VARCHAR
+  - name: tipo
+    type: VARCHAR
+  - name: situacao
+    type: VARCHAR
+  - name: data_abertura
+    type: DATE
+  - name: data_publicacao
+    type: DATE
+  - name: data_autorizacao
+    type: DATE
+  - name: quantidade_item
+    type: BIGINT
+  - name: quantidade_unidade
+    type: BIGINT
+  - name: quantidade_proposta
+    type: BIGINT
+  - name: quantidade_contrato
+    type: BIGINT
+  - name: valor_estimado
+    type: BIGINT
+  - name: valor_contratado
+    type: BIGINT
+  - name: valor_pago
+    type: BIGINT

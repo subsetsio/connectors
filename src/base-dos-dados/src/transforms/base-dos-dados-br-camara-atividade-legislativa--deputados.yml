@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-camara-atividade-legislativa--deputados`. Regenerate after model-verify.
+key: [api_url]
+temporal: capture_date
+sort: [capture_date, api_url]
 columns:
   - name: id_deputado
     type: BIGINT
@@ -15,7 +19,7 @@ columns:
   - name: estado_abrev_nascimento
     type: VARCHAR
   - name: data_nascimento
-    type: VARCHAR
+    type: DATE
   - name: escolaridade
     type: VARCHAR
   - name: escolaridade_nova
@@ -31,7 +35,7 @@ columns:
   - name: estado_abrev
     type: VARCHAR
   - name: ultimo_status_data
-    type: VARCHAR
+    type: TIMESTAMP
   - name: ultima_legislatura
     type: BIGINT
   - name: ultimo_status_condicao_eleitoral
@@ -55,6 +59,6 @@ columns:
   - name: url_foto
     type: VARCHAR
   - name: capture_date
-    type: VARCHAR
+    type: TIMESTAMP
   - name: api_url
     type: VARCHAR

@@ -1,9 +1,11 @@
-# generated passthrough transform for accepted one-click-download table
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `base-dos-dados-br-geobr-mapas--regiao`. Regenerate after model-verify.
+key: [nome_regiao]
+sort: [nome_regiao]
 columns:
-- name: id_regiao
-  type: BIGINT
-- name: nome_regiao
-  type: VARCHAR
-- name: geometria
-  type: VARCHAR
-write_mode: overwrite
+  - name: id_regiao
+    type: BIGINT
+  - name: nome_regiao
+    type: VARCHAR
+  - name: geometria
+    type: VARCHAR

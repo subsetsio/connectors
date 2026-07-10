@@ -1,0 +1,94 @@
+# compiled by `hardened compile-checks` — post-publish audit of `base-dos-dados-br-ana-atlas-esgotos--municipio`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [id_municipio, sigla_uf, populacao_urbana_2013, populacao_urbana_2035, prestador_servico_esgotamento_sanitario, sigla_prestador, indice_sem_atendimento_sem_coleta_sem_tratamento, indice_atendimento_solucao_individual, indice_atendimento_com_coleta_sem_tratamento, indice_atendimento_com_coleta_com_tratamento, vazao_sem_coleta_sem_tratamento, vazao_solucao_individual, vazao_com_coleta_sem_tratamento, vazao_com_coleta_com_tratamento, vazao_total, carga_gerada_sem_coleta_sem_tratamento, carga_gerada_encaminhada_solucao_individual, carga_gerada_com_coleta_sem_tratamento, carga_gerada_com_coleta_com_tratamento, carga_gerada_total, carga_lancada_sem_coleta_sem_tratamento, carga_lancada_proveniente_solucao_individual, carga_lancada_com_coleta_sem_tratamento, carga_lancada_com_coleta_com_tratamento, carga_lancada_total, indice_atendimento_etes_2035, indice_atendimento_solucao_individual_2035, carga_gerada_total_2035, carga_afluente_ete_2035, carga_efluente_ete_2035, carga_afluente_solucao_individual_2035, carga_efluente_solucao_individual_2035, populacao_atendida_2035, investimento_coleta, investimento_tratamento, investimento_coleta_tratatamento, necessidade_remocao_dbo, tipologia_solucao, atencao_fosforo, atencao_nitrogenio]
+checks:
+  - kind: unique
+    columns: [id_municipio, sigla_uf, populacao_urbana_2013, populacao_urbana_2035, prestador_servico_esgotamento_sanitario, sigla_prestador, indice_sem_atendimento_sem_coleta_sem_tratamento, indice_atendimento_solucao_individual, indice_atendimento_com_coleta_sem_tratamento, indice_atendimento_com_coleta_com_tratamento, vazao_sem_coleta_sem_tratamento, vazao_solucao_individual, vazao_com_coleta_sem_tratamento, vazao_com_coleta_com_tratamento, vazao_total, carga_gerada_sem_coleta_sem_tratamento, carga_gerada_encaminhada_solucao_individual, carga_gerada_com_coleta_sem_tratamento, carga_gerada_com_coleta_com_tratamento, carga_gerada_total, carga_lancada_sem_coleta_sem_tratamento, carga_lancada_proveniente_solucao_individual, carga_lancada_com_coleta_sem_tratamento, carga_lancada_com_coleta_com_tratamento, carga_lancada_total, indice_atendimento_etes_2035, indice_atendimento_solucao_individual_2035, carga_gerada_total_2035, carga_afluente_ete_2035, carga_efluente_ete_2035, carga_afluente_solucao_individual_2035, carga_efluente_solucao_individual_2035, populacao_atendida_2035, investimento_coleta, investimento_tratamento, investimento_coleta_tratatamento, necessidade_remocao_dbo, tipologia_solucao, atencao_fosforo, atencao_nitrogenio]
+  - kind: not_null
+    col: id_municipio
+  - kind: not_null
+    col: sigla_uf
+  - kind: not_null
+    col: populacao_urbana_2013
+  - kind: not_null
+    col: populacao_urbana_2035
+  - kind: not_null
+    col: prestador_servico_esgotamento_sanitario
+  - kind: not_null
+    col: sigla_prestador
+  - kind: not_null
+    col: indice_sem_atendimento_sem_coleta_sem_tratamento
+  - kind: not_null
+    col: indice_atendimento_solucao_individual
+  - kind: not_null
+    col: indice_atendimento_com_coleta_sem_tratamento
+  - kind: not_null
+    col: indice_atendimento_com_coleta_com_tratamento
+  - kind: not_null
+    col: vazao_sem_coleta_sem_tratamento
+  - kind: not_null
+    col: vazao_solucao_individual
+  - kind: not_null
+    col: vazao_com_coleta_sem_tratamento
+  - kind: not_null
+    col: vazao_com_coleta_com_tratamento
+  - kind: not_null
+    col: vazao_total
+  - kind: not_null
+    col: carga_gerada_sem_coleta_sem_tratamento
+  - kind: not_null
+    col: carga_gerada_encaminhada_solucao_individual
+  - kind: not_null
+    col: carga_gerada_com_coleta_sem_tratamento
+  - kind: not_null
+    col: carga_gerada_com_coleta_com_tratamento
+  - kind: not_null
+    col: carga_gerada_total
+  - kind: not_null
+    col: carga_lancada_sem_coleta_sem_tratamento
+  - kind: not_null
+    col: carga_lancada_proveniente_solucao_individual
+  - kind: not_null
+    col: carga_lancada_com_coleta_sem_tratamento
+  - kind: not_null
+    col: carga_lancada_com_coleta_com_tratamento
+  - kind: not_null
+    col: carga_lancada_total
+  - kind: not_null
+    col: indice_atendimento_etes_2035
+  - kind: not_null
+    col: indice_atendimento_solucao_individual_2035
+  - kind: not_null
+    col: carga_gerada_total_2035
+  - kind: not_null
+    col: carga_afluente_ete_2035
+  - kind: not_null
+    col: carga_efluente_ete_2035
+  - kind: not_null
+    col: carga_afluente_solucao_individual_2035
+  - kind: not_null
+    col: carga_efluente_solucao_individual_2035
+  - kind: not_null
+    col: populacao_atendida_2035
+  - kind: not_null
+    col: investimento_coleta
+  - kind: not_null
+    col: investimento_tratamento
+  - kind: not_null
+    col: investimento_coleta_tratatamento
+  - kind: not_null
+    col: necessidade_remocao_dbo
+  - kind: not_null
+    col: tipologia_solucao
+  - kind: not_null
+    col: atencao_fosforo
+  - kind: not_null
+    col: atencao_nitrogenio
+  - kind: row_floor
+    min: 2785
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
