@@ -1,5 +1,8 @@
 spec_id: swiss-national-bank-bsta@snb.jahr-b.bil.akt.nvw
 status: active
+coverage:
+  frozen: true
+  reason: closed SNB series; latest raw observation is 2017-01-01, so this corpus is a fixed historical table rather than an advancing feed.
 tests:
   - not_null: cube_id
     reason: every row is stamped with the accepted SNB cube id that produced the asset
@@ -24,7 +27,3 @@ tests:
   - row_count: {min: 1}
     reason: accepted cubes are published SNB data tables, not empty shells
     certainty: 95
-  - freshness: {col: period_start, reaches: today - 5y}
-    reason: accepted cubes excluded explicitly closed series; active SNB tables should contain at least one observation in the last five years, allowing for low-frequency annual statistics
-    certainty: 75
-    points_outward: true
