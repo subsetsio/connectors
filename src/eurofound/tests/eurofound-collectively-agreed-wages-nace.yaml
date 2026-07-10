@@ -11,7 +11,7 @@ tests:
     reason: collective-agreement wage coverage spans many EU member states
     certainty: 70
     severity: warn
-  - matches: {col: agreement_id, pattern: '^CA-'}
+  - matches: {col: agreement_id, pattern: '^CA-.*'}
     reason: wage database agreement identifiers use the CA-* convention
     certainty: 70
     severity: warn

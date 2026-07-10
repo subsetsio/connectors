@@ -116,18 +116,30 @@ def _read_sheet(content: bytes, sheet: str, colmap: dict) -> list[dict]:
         wb.close()
 
 
+def _is_ca_id(value) -> bool:
+    return isinstance(value, str) and value.startswith("CA-")
+
+
 def fetch_mw_rates(node_id: str) -> None:
     rows = _read_sheet(_get_bytes(MW_XLSX_URL), "Rates", RATES_MAP)
     save_raw_ndjson(rows, node_id)
 
 
 def fetch_mw_agreements(node_id: str) -> None:
-    rows = _read_sheet(_get_bytes(MW_XLSX_URL), "CollectiveAgreements", AGREEMENTS_MAP)
+    rows = [
+        row
+        for row in _read_sheet(_get_bytes(MW_XLSX_URL), "CollectiveAgreements", AGREEMENTS_MAP)
+        if _is_ca_id(row.get("agreement_id")) and row.get("country")
+    ]
     save_raw_ndjson(rows, node_id)
 
 
 def fetch_mw_nace(node_id: str) -> None:
-    rows = _read_sheet(_get_bytes(MW_XLSX_URL), "NACE", NACE_MAP)
+    rows = [
+        row
+        for row in _read_sheet(_get_bytes(MW_XLSX_URL), "NACE", NACE_MAP)
+        if _is_ca_id(row.get("agreement_id")) and row.get("nace_code")
+    ]
     save_raw_ndjson(rows, node_id)
 
 
