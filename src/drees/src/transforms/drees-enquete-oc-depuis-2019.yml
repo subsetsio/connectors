@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-enquete-oc-depuis-2019`. Regenerate after model-verify.
+# caution: Long-format indicator table mixing summary rows (modalite null) with per-modality rows; filter modalite before aggregating.
+key: []
+temporal: annee
+sort: [annee]
+columns:
+  - name: annee
+    type: DATE
+  - name: famille_d_organisme
+    type: VARCHAR
+  - name: type_de_contrat
+    type: VARCHAR
+  - name: theme
+    type: VARCHAR
+  - name: type_d_indicateur
+    type: VARCHAR
+  - name: indicateur
+    type: VARCHAR
+  - name: modalite
+    type: VARCHAR
+  - name: valeur
+    type: DOUBLE
+  - name: unite
+    type: VARCHAR

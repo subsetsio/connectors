@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-departretraite-et-incapacite`. Regenerate after model-verify.
+key: [annee, sexe, niveau_d_incapacite_personnes]
+temporal: annee
+sort: [annee, sexe, niveau_d_incapacite_personnes]
+columns:
+  - name: annee
+    type: DATE
+  - name: sexe
+    type: VARCHAR
+  - name: niveau_d_incapacite_personnes
+    type: VARCHAR
+  - name: age_conjoncturel_de_depart_a_la_retraite
+    type: DOUBLE
+  - name: age_conjoncturel_de_depart_a_la_retraite_neutralisation_des_departs_avant_l_aod
+    type: DOUBLE
+  - name: duree_moyenne_en_activite_emploi_ou_chomage
+    type: DOUBLE
+  - name: duree_moyenne_en_emploi_hors_cumul
+    type: DOUBLE
+  - name: duree_moyenne_en_emploi_y_compris_cumul_avec_la_retraite
+    type: DOUBLE
+  - name: duree_moyenne_sans_emploi_ni_retraite
+    type: DOUBLE
+  - name: proportion_au_cours_de_la_premiere_annee_de_retraite
+    type: BIGINT
+  - name: taux_d_emploi_1_an_avant_l_age_d_ouverture_des_droits_de_droit_commun
+    type: BIGINT
+  - name: taux_de_retraites_1_an_avant_l_age_d_ouverture_des_droits_de_droit_commun
+    type: BIGINT

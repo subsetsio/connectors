@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-rec04`. Regenerate after model-verify.
+key: [intitule, variable, champ, sexe]
+temporal: annee
+sort: [annee, intitule, variable, champ, sexe]
+columns:
+  - name: champ
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: sexe
+    type: VARCHAR
+  - name: variable
+    type: VARCHAR
+  - name: intitule
+    type: VARCHAR
+  - name: exemptes_de_csg
+    type: DOUBLE
+  - name: assujettis_a_la_csg_a_taux_reduit
+    type: DOUBLE
+  - name: assujettis_a_la_csg_a_taux_plein
+    type: DOUBLE
+  - name: ensemble
+    type: DOUBLE

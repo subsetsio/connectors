@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-datastory-oc-5-3-laboratoire-prise-en-charge-du-tm`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [familles_d_organismes, type_de_contrats, prise_en_charge_tm, annee]
+checks:
+  - kind: unique
+    columns: [familles_d_organismes, type_de_contrats, prise_en_charge_tm, annee]
+  - kind: not_null
+    col: familles_d_organismes
+  - kind: not_null
+    col: type_de_contrats
+  - kind: not_null
+    col: prise_en_charge_tm
+  - kind: not_null
+    col: annee
+  - kind: row_floor
+    min: 54
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

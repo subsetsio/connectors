@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-donnees-insee-nombre-naissance-2022`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [code_departement, nom_departement]
+checks:
+  - kind: unique
+    columns: [code_departement, nom_departement]
+  - kind: not_null
+    col: code_departement
+  - kind: not_null
+    col: nom_departement
+  - kind: row_floor
+    min: 48
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

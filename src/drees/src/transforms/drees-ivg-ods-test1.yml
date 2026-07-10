@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-ivg-ods-test1`. Regenerate after model-verify.
+key: [dep_code, zone_geographique, reg_name, reg_code, annee]
+sort: [dep_code, zone_geographique, reg_name, reg_code, annee]
+columns:
+  - name: zone_geographique
+    type: VARCHAR
+  - name: annee
+    type: VARCHAR
+  - name: ivg_en_etablissements_hospitaliers_methode_instrumentale
+    type: BIGINT
+  - name: ivg_en_etablissements_hospitaliers_methode_medicamenteuse
+    type: BIGINT
+  - name: ivg_en_etablissements_hospitaliers_methode_non_precisee
+    type: BIGINT
+  - name: ivg_hors_etablissements_hospitaliers_cabinet_liberal
+    type: DOUBLE
+  - name: ivg_hors_etablissements_hospitaliers_centres
+    type: DOUBLE
+  - name: total_ivg
+    type: BIGINT
+  - name: taux_de_recours_p_1000_femmes_de_15_a_49_ans
+    type: DOUBLE
+  - name: ivg_en_etablissements_hospitaliers
+    type: BIGINT
+  - name: ivg_hors_etablissements_hospitaliers
+    type: BIGINT
+  - name: dep_code
+    type: VARCHAR
+  - name: reg_name
+    type: VARCHAR
+  - name: reg_code
+    type: VARCHAR
+  - name: geo_shape
+    type: "GEOMETRY('OGC:CRS84')"
+  - name: geo_point_2d
+    type: "GEOMETRY('OGC:CRS84')"

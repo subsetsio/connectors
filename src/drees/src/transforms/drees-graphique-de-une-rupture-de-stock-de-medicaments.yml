@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-graphique-de-une-rupture-de-stock-de-medicaments`. Regenerate after model-verify.
+key: [date, mois, annee]
+temporal: date
+sort: [date, mois, annee]
+columns:
+  - name: annee
+    type: BIGINT
+  - name: mois
+    type: VARCHAR
+  - name: mois_en_chiffre
+    type: BIGINT
+  - name: presentations_en_rupture_de_stock
+    type: DOUBLE
+  - name: presentations_a_risque_de_rupture_de_stock
+    type: DOUBLE
+  - name: date
+    type: DATE

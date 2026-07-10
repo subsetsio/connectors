@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-effectifs-salaries-hospitaliers-series-longues`. Regenerate after model-verify.
+# caution: Mixes aggregate rows (professions_detaillees is null) with detailed rows within the same table — filter on the null to pick one level before summing.
+key: []
+columns:
+  - name: secteur
+    type: VARCHAR
+  - name: professions
+    type: VARCHAR
+  - name: professions_detaillees
+    type: VARCHAR
+  - name: annee
+    type: BIGINT
+  - name: effectifs
+    type: DOUBLE

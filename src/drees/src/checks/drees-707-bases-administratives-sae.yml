@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-707-bases-administratives-sae`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [url_de_telechargement, annee, nom_du_fichier]
+checks:
+  - kind: unique
+    columns: [url_de_telechargement, annee, nom_du_fichier]
+  - kind: not_null
+    col: url_de_telechargement
+  - kind: not_null
+    col: annee
+  - kind: not_null
+    col: nom_du_fichier
+  - kind: row_floor
+    min: 25
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

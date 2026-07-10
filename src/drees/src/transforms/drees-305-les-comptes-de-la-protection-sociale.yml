@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-305-les-comptes-de-la-protection-sociale`. Regenerate after model-verify.
+key: [ps_lib, ps_code, annee, nom_regime, si_nom]
+sort: [ps_lib, ps_code, annee, nom_regime, si_nom]
+columns:
+  - name: annee
+    type: BIGINT
+  - name: ps_niveau
+    type: BIGINT
+  - name: ps_code
+    type: VARCHAR
+  - name: ps_lib
+    type: VARCHAR
+  - name: risque
+    type: VARCHAR
+  - name: nom_regime
+    type: VARCHAR
+  - name: si_niveau
+    type: BIGINT
+  - name: si_code
+    type: VARCHAR
+  - name: si_nom
+    type: VARCHAR
+  - name: val
+    type: DOUBLE

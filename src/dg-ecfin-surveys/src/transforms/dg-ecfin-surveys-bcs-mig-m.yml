@@ -1,22 +1,30 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dg-ecfin-surveys-bcs-mig-m`. Regenerate after model-verify.
+# caution: ref_area mixes individual countries with supranational aggregates (EU, EA/euro area) and candidate/non-member economies — filter ref_area before aggregating across geographies.
+# caution: contains both seasonally adjusted (seasonal_adjust=S) and non-seasonally-adjusted (N) versions of each series — filter seasonal_adjust before use so a series is not double-counted.
+key: [survey, ref_area, activity, indicator, unit_measure, seasonal_adjust, freq, time_period]
+temporal: time_period
+sort: [time_period, survey, ref_area, activity, indicator, unit_measure, seasonal_adjust, freq]
 columns:
-  - name: SURVEY
+  - name: dataflow
     type: VARCHAR
-  - name: REF_AREA
-    type: VARCHAR
-  - name: ACTIVITY
-    type: VARCHAR
-  - name: INDICATOR
-    type: VARCHAR
-  - name: UNIT_MEASURE
-    type: VARCHAR
-  - name: SEASONAL_ADJUST
-    type: VARCHAR
-  - name: FREQ
-    type: VARCHAR
-  - name: time_period
-    type: VARCHAR
-  - name: obs_value
-    type: DOUBLE
   - name: last_update
     type: VARCHAR
+  - name: survey
+    type: VARCHAR
+  - name: ref_area
+    type: VARCHAR
+  - name: activity
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: seasonal_adjust
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: DOUBLE

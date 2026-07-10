@@ -1,2 +1,6 @@
 spec_id: drees-graphique-de-une-rupture-de-stock-de-medicaments
-status: deferred
+status: active
+tests:
+  - freshness: {col: "date", reaches: 'today - 700d'}
+    reason: annual ODS export; flags a multi-year stall in the source's periodic edition.
+    certainty: 70

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-datastory-oc-6-4-prise-en-charge-des-lentilles`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [famille_d_organismes, type_de_contrats, annee]
+checks:
+  - kind: unique
+    columns: [famille_d_organismes, type_de_contrats, annee]
+  - kind: not_null
+    col: famille_d_organismes
+  - kind: not_null
+    col: type_de_contrats
+  - kind: not_null
+    col: annee
+  - kind: row_floor
+    min: 18
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

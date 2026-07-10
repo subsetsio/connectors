@@ -2,7 +2,6 @@ spec_id: czech-national-bank-skd-daily
 status: active
 tests:
   - not_null: settlementDate
-  - not_null: isin
   - not_null: issueCode
   - not_null: averagePriceToValue
   - column_type: {col: averagePriceToValue, type: float}

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-305-les-comptes-de-la-protection-sociale`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ps_lib, ps_code, annee, nom_regime, si_nom]
+checks:
+  - kind: unique
+    columns: [ps_lib, ps_code, annee, nom_regime, si_nom]
+  - kind: not_null
+    col: ps_lib
+  - kind: not_null
+    col: ps_code
+  - kind: not_null
+    col: annee
+  - kind: not_null
+    col: nom_regime
+  - kind: not_null
+    col: si_nom
+  - kind: row_floor
+    min: 7827
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

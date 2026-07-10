@@ -1,2 +1,6 @@
 spec_id: drees-graphique-1-effectifs-de-medecins-en-activite-au-1er-janvier-de-2012-a-2025
-status: deferred
+status: active
+tests:
+  - freshness: {col: "annee", reaches: 'today - 700d'}
+    reason: annual ODS export; flags a multi-year stall in the source's periodic edition.
+    certainty: 70

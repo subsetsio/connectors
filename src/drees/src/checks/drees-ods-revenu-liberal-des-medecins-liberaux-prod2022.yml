@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-ods-revenu-liberal-des-medecins-liberaux-prod2022`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [annee, specialites_medicales, secteur_de_conventionnement, type_de_revenu]
+checks:
+  - kind: unique
+    columns: [annee, specialites_medicales, secteur_de_conventionnement, type_de_revenu]
+  - kind: not_null
+    col: annee
+  - kind: not_null
+    col: specialites_medicales
+  - kind: not_null
+    col: secteur_de_conventionnement
+  - kind: not_null
+    col: type_de_revenu
+  - kind: row_floor
+    min: 114
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

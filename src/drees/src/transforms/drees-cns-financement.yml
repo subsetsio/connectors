@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-cns-financement`. Regenerate after model-verify.
+# caution: No clean row key: (annee, poste_code, fin_code) has a small number of duplicate rows in the source export — treat as keyless and de-duplicate before aggregating.
+key: []
+columns:
+  - name: annee
+    type: BIGINT
+  - name: poste_niveau
+    type: BIGINT
+  - name: poste_code
+    type: VARCHAR
+  - name: poste_lib
+    type: VARCHAR
+  - name: fin_niveau
+    type: BIGINT
+  - name: fin_code
+    type: VARCHAR
+  - name: fin_lib
+    type: VARCHAR
+  - name: montants
+    type: DOUBLE

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-drees-projections-infirmieres-2024`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [annee, tranche_d_age, scenario, mode_d_exercice, sexe]
+checks:
+  - kind: unique
+    columns: [annee, tranche_d_age, scenario, mode_d_exercice, sexe]
+  - kind: not_null
+    col: annee
+  - kind: not_null
+    col: tranche_d_age
+  - kind: not_null
+    col: scenario
+  - kind: not_null
+    col: mode_d_exercice
+  - kind: not_null
+    col: sexe
+  - kind: row_floor
+    min: 1620
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

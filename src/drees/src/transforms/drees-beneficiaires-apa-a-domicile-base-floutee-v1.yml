@@ -1,0 +1,77 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-beneficiaires-apa-a-domicile-base-floutee-v1`. Regenerate after model-verify.
+# caution: Anonymized (floutee/blurred) individual-level survey microdata with a survey weight (poids_p); rows are not uniquely keyed and values are perturbed for privacy. Use poids_p when producing population estimates.
+key: []
+temporal: date_apad_flou
+sort: [date_apad_flou]
+columns:
+  - name: age_flou
+    type: BIGINT
+  - name: sexe
+    type: BIGINT
+  - name: dep_flou
+    type: VARCHAR
+  - name: couple_flou
+    type: BIGINT
+  - name: aidant
+    type: BIGINT
+  - name: juri
+    type: BIGINT
+  - name: girfin_apa
+    type: BIGINT
+  - name: dateeval_apa_flou
+    type: DATE
+  - name: date_apad_flou
+    type: DATE
+  - name: axe_coh
+    type: VARCHAR
+  - name: axe_ori
+    type: VARCHAR
+  - name: axe_toi
+    type: VARCHAR
+  - name: axe_hab
+    type: VARCHAR
+  - name: axe_ali
+    type: VARCHAR
+  - name: axe_eli
+    type: VARCHAR
+  - name: axe_trans
+    type: VARCHAR
+  - name: axe_dep
+    type: VARCHAR
+  - name: axe_ext
+    type: VARCHAR
+  - name: axe_com
+    type: VARCHAR
+  - name: apa_flou
+    type: VARCHAR
+  - name: nothpb_flou
+    type: DOUBLE
+  - name: notpb_flou
+    type: DOUBLE
+  - name: dechpb_apa_flou
+    type: DOUBLE
+  - name: dechum_apa_flou
+    type: DOUBLE
+  - name: aidehum_not_flou
+    type: DOUBLE
+  - name: aidehum_heure_flou
+    type: DOUBLE
+  - name: ressourc_apa_flou
+    type: DOUBLE
+  - name: autreaide
+    type: BIGINT
+  - name: aideponc
+    type: BIGINT
+  - name: aideaid
+    type: BIGINT
+  - name: aideheb
+    type: BIGINT
+  - name: aideacc
+    type: BIGINT
+  - name: aidetrans
+    type: BIGINT
+  - name: aidehum
+    type: BIGINT
+  - name: poids_p
+    type: DOUBLE

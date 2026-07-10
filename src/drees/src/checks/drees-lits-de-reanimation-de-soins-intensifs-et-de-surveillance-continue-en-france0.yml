@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-lits-de-reanimation-de-soins-intensifs-et-de-surveillance-continue-en-france0`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [id_geo, uni, annee, statut_etab]
+checks:
+  - kind: unique
+    columns: [id_geo, uni, annee, statut_etab]
+  - kind: not_null
+    col: id_geo
+  - kind: not_null
+    col: uni
+  - kind: not_null
+    col: annee
+  - kind: not_null
+    col: statut_etab
+  - kind: row_floor
+    min: 7570
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

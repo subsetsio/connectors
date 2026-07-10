@@ -17,3 +17,6 @@ tests:
   - column_type: {col: "valeur", type: float}
     reason: numeric measure column; type drift here means the export schema changed.
     certainty: 80
+coverage:
+  frozen: true
+  reason: Fixed 2016 edition of the retirees-characteristics tables (EIR); the corpus does not advance.

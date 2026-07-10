@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-rec09`. Regenerate after model-verify.
+key: [intitule, variable, champ, sexe]
+temporal: annee
+sort: [annee, intitule, variable, champ, sexe]
+columns:
+  - name: champ
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: sexe
+    type: VARCHAR
+  - name: variable
+    type: VARCHAR
+  - name: intitule
+    type: VARCHAR
+  - name: retraites_beneficiaires_d_un_minimum_de_pension
+    type: DOUBLE
+  - name: retraites_beneficiaires_d_un_minimum_de_pension_dans_leur_regime_principal
+    type: DOUBLE
+  - name: retraites_beneficiaires_d_un_minimum_de_pension_dans_un_regime_secondaire
+    type: DOUBLE
+  - name: retraites_non_beneficiaires_d_un_minimum_de_pension
+    type: DOUBLE
+  - name: assures_beneficiaires_du_minimum_vieillesse
+    type: DOUBLE
+  - name: assures_non_beneficiaires_du_minimum_vieillesse
+    type: DOUBLE
+  - name: ensemble
+    type: DOUBLE

@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-trajectoires-des-beneficiaires-de-minima-sociaux`. Regenerate after model-verify.
+# caution: Mixes aggregate rows (maturite/modalite null) with detailed breakdown rows; filter to one level before aggregating.
+key: []
+temporal: annee
+sort: [annee]
+columns:
+  - name: serie_id
+    type: VARCHAR
+  - name: serie_label
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: prestation
+    type: VARCHAR
+  - name: annee
+    type: DATE
+  - name: maturite
+    type: VARCHAR
+  - name: maturite_a_privilegier
+    type: BIGINT
+  - name: modalite
+    type: VARCHAR
+  - name: unite
+    type: VARCHAR
+  - name: valeur
+    type: DOUBLE
+  - name: statut_diffusion
+    type: VARCHAR

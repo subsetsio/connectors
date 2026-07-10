@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-datastory-oc-7-1-taux-de-sondage-et-taux-de-reponse`. Regenerate after model-verify.
+# caution: Includes an all-organismes total row with a null grouping dimension; keyless — filter it out before aggregating across familles_d_organismes.
+key: []
+columns:
+  - name: familles_d_organismes
+    type: VARCHAR
+  - name: annee
+    type: BIGINT
+  - name: taille_de_la_population_totale_organismes
+    type: BIGINT
+  - name: champ_de_l_enquete
+    type: BIGINT
+  - name: taille_de_l_echantillon
+    type: BIGINT
+  - name: nombre_de_repondants
+    type: BIGINT
+  - name: montant_des_cotisations_de_la_population_millions_eur
+    type: BIGINT
+  - name: montant_des_cotisations_de_l_echantillon_millions_eur
+    type: BIGINT
+  - name: montant_des_cotisations_des_repondants_millions_eur
+    type: BIGINT
+  - name: taux_de_sondage_en
+    type: BIGINT
+  - name: taux_de_sondage_des_cotisations_en
+    type: BIGINT
+  - name: taux_de_reponse_en
+    type: BIGINT
+  - name: taux_de_reponse_des_cotisations_en
+    type: BIGINT

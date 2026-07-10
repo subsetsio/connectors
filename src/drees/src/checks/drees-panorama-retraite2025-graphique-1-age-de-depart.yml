@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-panorama-retraite2025-graphique-1-age-de-depart`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [annee]
+temporal: annee
+checks:
+  - kind: unique
+    columns: [annee]
+  - kind: not_null
+    col: annee
+  - kind: row_floor
+    min: 10
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

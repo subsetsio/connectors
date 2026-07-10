@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-repartition-des-taux-de-remplacement-entre-les-revenus-juste-avant-et-juste-apres-la-retraite`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [categorie, caracteristique, premiere_annee_pleine_de_retraite, revenu_utilise_pour_le_calcul_du_taux_de_remplacement, sexe]
+checks:
+  - kind: unique
+    columns: [categorie, caracteristique, premiere_annee_pleine_de_retraite, revenu_utilise_pour_le_calcul_du_taux_de_remplacement, sexe]
+  - kind: not_null
+    col: categorie
+  - kind: not_null
+    col: caracteristique
+  - kind: not_null
+    col: premiere_annee_pleine_de_retraite
+  - kind: not_null
+    col: revenu_utilise_pour_le_calcul_du_taux_de_remplacement
+  - kind: not_null
+    col: sexe
+  - kind: row_floor
+    min: 2403
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

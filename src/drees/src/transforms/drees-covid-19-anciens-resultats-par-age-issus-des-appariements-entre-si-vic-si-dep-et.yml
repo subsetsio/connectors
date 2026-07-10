@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-covid-19-anciens-resultats-par-age-issus-des-appariements-entre-si-vic-si-dep-et`. Regenerate after model-verify.
+key: [date, age, vac_statut]
+temporal: date
+sort: [date, age, vac_statut]
+columns:
+  - name: date
+    type: DATE
+  - name: vac_statut
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: nb_pcr
+    type: BIGINT
+  - name: nb_pcr0
+    type: BIGINT
+  - name: hc
+    type: BIGINT
+  - name: hc_pcr
+    type: BIGINT
+  - name: sc
+    type: BIGINT
+  - name: sc_pcr
+    type: BIGINT
+  - name: effectif_j_7
+    type: BIGINT

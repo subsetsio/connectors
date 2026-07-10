@@ -1,0 +1,54 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-lucie-test-formation-maternites-copie`. Regenerate after model-verify.
+key: [id_mat]
+temporal: annee
+sort: [annee, id_mat]
+columns:
+  - name: annee
+    type: DATE
+  - name: id_mat
+    type: VARCHAR
+  - name: nom_mat
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: statut
+    type: VARCHAR
+  - name: fi_et
+    type: VARCHAR
+  - name: fi_ej
+    type: VARCHAR
+  - name: com
+    type: VARCHAR
+  - name: nomcom
+    type: VARCHAR
+  - name: cpo
+    type: VARCHAR
+  - name: adresse
+    type: VARCHAR
+  - name: lit_obs
+    type: BIGINT
+  - name: saltrav
+    type: BIGINT
+  - name: acctot
+    type: BIGINT
+  - name: suivi
+    type: VARCHAR
+  - name: point_geo
+    type: "GEOMETRY('OGC:CRS84')"
+  - name: nom_departement
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: code_region
+    type: BIGINT
+  - name: forme_departement
+    type: "GEOMETRY('OGC:CRS84')"
+  - name: forme_geo
+    type: "GEOMETRY('OGC:CRS84')"
+  - name: code_departement
+    type: VARCHAR
+  - name: dep_pop_tot
+    type: BIGINT
+  - name: nombre_de_naissances_vivantes_domiciliees_en_2022
+    type: DOUBLE

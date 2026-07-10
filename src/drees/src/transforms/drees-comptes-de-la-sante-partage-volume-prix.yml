@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `drees-comptes-de-la-sante-partage-volume-prix`. Regenerate after model-verify.
+key: [poste_lib, poste_code, annee, type]
+sort: [poste_lib, poste_code, annee, type]
+columns:
+  - name: annee
+    type: BIGINT
+  - name: poste_lib
+    type: VARCHAR
+  - name: poste_code
+    type: VARCHAR
+  - name: poste_niveau
+    type: BIGINT
+  - name: type
+    type: VARCHAR
+  - name: montant
+    type: DOUBLE

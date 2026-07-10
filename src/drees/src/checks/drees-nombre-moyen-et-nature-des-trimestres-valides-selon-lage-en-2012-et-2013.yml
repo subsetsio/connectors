@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-nombre-moyen-et-nature-des-trimestres-valides-selon-lage-en-2012-et-2013`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [annees, generations, sexe]
+temporal: annees
+checks:
+  - kind: unique
+    columns: [annees, generations, sexe]
+  - kind: not_null
+    col: annees
+  - kind: not_null
+    col: generations
+  - kind: not_null
+    col: sexe
+  - kind: row_floor
+    min: 38
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -17,3 +17,6 @@ tests:
   - column_type: {col: "maturite_a_privilegier", type: integer}
     reason: numeric measure column; type drift here means the export schema changed.
     certainty: 80
+  - freshness: {col: "annee", reaches: 'today - 1000d'}
+    reason: annual ODS export; flags a multi-year stall in the source's periodic edition.
+    certainty: 70

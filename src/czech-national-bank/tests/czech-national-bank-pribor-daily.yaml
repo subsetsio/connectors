@@ -4,8 +4,8 @@ tests:
   - not_null: validFor
   - not_null: pribor
   - column_type: {col: pribor, type: float}
-  - between: {col: pribor, lo: 0, hi: 50}
-    reason: PRIBOR interbank rate in percent; historically up to mid-teens
+  - between: {col: pribor, lo: 0, hi: 250}
+    reason: PRIBOR interbank rate in percent; overnight (ONE_DAY) spiked near 200% in the May 1997 koruna currency crisis, so the sane ceiling is high
     certainty: 85
   - freshness: {col: validFor, reaches: today - 10d}
     reason: PRIBOR fixed every business day

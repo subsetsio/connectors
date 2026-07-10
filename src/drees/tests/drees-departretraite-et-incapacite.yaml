@@ -17,3 +17,6 @@ tests:
   - column_type: {col: "age_conjoncturel_de_depart_a_la_retraite", type: float}
     reason: numeric measure column; type drift here means the export schema changed.
     certainty: 80
+coverage:
+  frozen: true
+  reason: Study snapshot (through 2020); a fixed publication.

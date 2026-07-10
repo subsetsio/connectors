@@ -17,3 +17,6 @@ tests:
   - column_type: {col: "pension_d_invalidite_de_droits_directs_moyenne", type: float}
     reason: numeric measure column; type drift here means the export schema changed.
     certainty: 80
+coverage:
+  frozen: true
+  reason: Study snapshot (through 2019); a fixed publication.

@@ -1,18 +1,24 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dg-ecfin-surveys-bcs-indu-pinv`. Regenerate after model-verify.
+# caution: ref_area mixes individual countries with supranational aggregates (EU, EA/euro area) and candidate/non-member economies — filter ref_area before aggregating across geographies.
+key: [ref_area, activity, type_of_investment, inv_period, freq, time_period]
+sort: [ref_area, activity, type_of_investment, inv_period, freq, time_period]
 columns:
-  - name: REF_AREA
+  - name: dataflow
     type: VARCHAR
-  - name: ACTIVITY
-    type: VARCHAR
-  - name: TYPE_OF_INVESTMENT
-    type: VARCHAR
-  - name: INV_PERIOD
-    type: VARCHAR
-  - name: FREQ
-    type: VARCHAR
-  - name: time_period
-    type: VARCHAR
-  - name: obs_value
-    type: DOUBLE
   - name: last_update
     type: VARCHAR
+  - name: ref_area
+    type: VARCHAR
+  - name: activity
+    type: VARCHAR
+  - name: type_of_investment
+    type: VARCHAR
+  - name: inv_period
+    type: BIGINT
+  - name: freq
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE

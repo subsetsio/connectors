@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-ivg-ods-test1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [dep_code, zone_geographique, reg_name, reg_code, annee]
+checks:
+  - kind: unique
+    columns: [dep_code, zone_geographique, reg_name, reg_code, annee]
+  - kind: not_null
+    col: dep_code
+  - kind: not_null
+    col: zone_geographique
+  - kind: not_null
+    col: reg_name
+  - kind: not_null
+    col: reg_code
+  - kind: not_null
+    col: annee
+  - kind: row_floor
+    min: 454
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

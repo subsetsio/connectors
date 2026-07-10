@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-datastory-oc-graphique-2-primes`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ages, annee, type_contrat]
+checks:
+  - kind: unique
+    columns: [ages, annee, type_contrat]
+  - kind: not_null
+    col: ages
+  - kind: not_null
+    col: annee
+  - kind: not_null
+    col: type_contrat
+  - kind: row_floor
+    min: 10
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

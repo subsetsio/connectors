@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-rec05`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [intitule, variable, champ, sexe]
+temporal: annee
+checks:
+  - kind: unique
+    columns: [intitule, variable, champ, sexe]
+  - kind: not_null
+    col: intitule
+  - kind: not_null
+    col: variable
+  - kind: not_null
+    col: champ
+  - kind: not_null
+    col: sexe
+  - kind: row_floor
+    min: 591
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

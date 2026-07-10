@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-composition-des-revenus-des-menages-juste-avant-et-juste-apres-le-depart-a-la-retraite`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [premiere_annee_pleine_de_retraite, caracteristique, categorie, sexe, annee_d_observation_des_revenus, type_de_revenu_du_menage_ou_de_la_personne]
+checks:
+  - kind: unique
+    columns: [premiere_annee_pleine_de_retraite, caracteristique, categorie, sexe, annee_d_observation_des_revenus, type_de_revenu_du_menage_ou_de_la_personne]
+  - kind: not_null
+    col: premiere_annee_pleine_de_retraite
+  - kind: not_null
+    col: caracteristique
+  - kind: not_null
+    col: categorie
+  - kind: not_null
+    col: sexe
+  - kind: not_null
+    col: annee_d_observation_des_revenus
+  - kind: not_null
+    col: type_de_revenu_du_menage_ou_de_la_personne
+  - kind: row_floor
+    min: 13286
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

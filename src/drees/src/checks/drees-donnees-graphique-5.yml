@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `drees-donnees-graphique-5`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [tranche_d_age]
+checks:
+  - kind: unique
+    columns: [tranche_d_age]
+  - kind: not_null
+    col: tranche_d_age
+  - kind: row_floor
+    min: 4
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
