@@ -1,17 +1,21 @@
 spec_id: bundesnetzagentur-generation-forecast
 status: active
 tests:
-  - freshness: {col: date_ms, reaches: 1779494400000}
+  - freshness: {col: date, reaches: today - 21d}
     reason: SMARD daily forecast data should refresh within weeks; allows upstream validation lag
     certainty: 85
   - not_null: value
     reason: fetch fn skips None readings before appending
+    certainty: 95
+  - not_null: date
     certainty: 95
   - not_null: date_ms
     certainty: 95
   - not_null: region
     certainty: 95
   - not_null: series_code
+    certainty: 95
+  - column_type: {col: date, type: date}
     certainty: 95
   - column_type: {col: date_ms, type: integer}
     certainty: 95

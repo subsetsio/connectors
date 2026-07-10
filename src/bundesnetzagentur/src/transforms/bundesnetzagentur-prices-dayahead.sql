@@ -1,5 +1,5 @@
 SELECT
-    CAST(epoch_ms(date_ms + 43200000) AS DATE) AS date,
+    date,
     series_label AS bidding_zone,
     value        AS price_eur_mwh
 FROM "bundesnetzagentur-prices-dayahead"

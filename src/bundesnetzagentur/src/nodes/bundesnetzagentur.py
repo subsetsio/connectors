@@ -17,13 +17,14 @@ Four feeds, each a distinct published subset (different schema):
   prices_dayahead      day-ahead wholesale price per bidding zone (region DE-LU)
 """
 
+from datetime import datetime, timezone
+
 import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
     get,
     save_raw_parquet,
-    transient_retry,
 )
 
 BASE = "https://www.smard.de/app/chart_data"
@@ -85,6 +86,7 @@ PRICES = {
 TSO_REGIONS = ["DE", "50Hertz", "Amprion", "TenneT", "TransnetBW"]
 
 RAW_SCHEMA = pa.schema([
+    ("date", pa.date32()),
     ("date_ms", pa.int64()),
     ("region", pa.string()),
     ("series_code", pa.string()),
@@ -95,8 +97,13 @@ RAW_SCHEMA = pa.schema([
 # --------------------------------------------------------------------------
 # HTTP with honest retry classification
 
+_DAY_MS = 43_200_000  # +12h to land on the Berlin-local calendar date.
 
-@transient_retry(min_wait=2, max_wait=60)
+
+def _local_date(date_ms: int):
+    return datetime.fromtimestamp((date_ms + _DAY_MS) / 1000, tz=timezone.utc).date()
+
+
 def _get_json(url: str):
     resp = get(url, timeout=(10.0, 120.0))
     if resp.status_code == 404:
@@ -130,8 +137,10 @@ def _fetch_feed(asset: str, modules: dict, regions: list) -> None:
                     value = point[1]
                     if value is None:
                         continue
+                    date_ms = int(point[0])
                     rows.append({
-                        "date_ms": int(point[0]),
+                        "date": _local_date(date_ms),
+                        "date_ms": date_ms,
                         "region": region,
                         "series_code": code,
                         "series_label": label,

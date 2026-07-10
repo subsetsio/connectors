@@ -1,5 +1,5 @@
 SELECT
-    CAST(epoch_ms(date_ms + 43200000) AS DATE) AS date,
+    date,
     region,
     series_label AS source,
     value        AS forecast_mwh
