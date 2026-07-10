@@ -1,420 +1,231 @@
-"""Eurobarometer connector — aggregated survey results + survey catalog.
+"""Eurobarometer — the EU's public-opinion survey programme (DG Communication).
 
-Source: the EU Open Data Portal DCAT catalog (data.europa.eu) for enumeration,
-and the EC webgate ODP download endpoint for the actual "Volume" workbooks. See
-research mechanism `odp_bulk_excel` + `data_europa_dcat`.
+Two published subsets, mirroring the accepted collect entities:
 
-Two published subsets (the rank-accepted entity union):
+* ``eurobarometer-surveys`` — one row per Eurobarometer survey dataset in the EU
+  Open Data Portal catalog, enriched with the EC survey portal's own record
+  (fieldwork window, series, themes, instrument, method). Reference table.
+* ``eurobarometer-responses`` — the long-format aggregated results, harvested
+  from each survey's "Volume A" workbook (weighted results by question). One row
+  per (survey, question, banner column, answer): weighted N and the response
+  share, plus the question's base N.
 
-- ``eurobarometer-surveys`` — one row per Eurobarometer survey dataset
-  (publisher = Directorate-General for Communication / corporate-body COMMU),
-  enumerated from the DCAT catalog. Reference catalog: id, title, dates,
-  distribution count, whether an aggregated-results ("Volume A") workbook is
-  available. Stateless full re-pull (~1000 rows, cheap).
+Enumeration goes through the catalog's CKAN-compatible ``package_search`` with
+``sort=id asc`` — the relevance sort overlaps pages and silently drops records.
+Only DG-Communication (COMMU) datasets are Eurobarometer; the same query also
+matches third parties who merely cite it.
 
-- ``eurobarometer-responses`` — the long-format aggregated survey results,
-  harvested from each survey's "Volume A" (results-by-question) workbook. Each
-  workbook is a multi-sheet bilingual (FR/EN) banner cross-tab, one sheet per
-  question; every sheet tidies to (survey, question, country, answer,
-  weighted_n, share). Written per-dataset as batch parquet
-  ``eurobarometer-responses-<dataset_id>`` and consumed by the transform via the
-  ``eurobarometer-responses-*`` batch glob. Incremental per-dataset (shape c,
-  release/version): a dataset is re-pulled only when its catalog ``modified``/
-  ``issued`` version changes, so the full corpus is crawled once and refreshed
-  cheaply. Resumable — raw+state are written after every dataset.
+Volume A is the only aggregated-results artefact, and roughly three quarters of
+the catalog ships one. The rest are excluded by the source, not by us: ~90 older
+waves publish only .txt/.pdf/.doc tables or respondent-level microdata with no
+codebook, and ~60 ship only Volume C (per-country demographic breakdowns).
+``surveys.has_volume_a`` records which is which, so the gap is visible in the
+data rather than implied by a row count.
 
-Scope note: ``responses`` parses the "Volume A" aggregated-results workbook
-(direct XLSX distribution, or the ``volume_A`` ZIP that older waves ship, which
-contains an old-binary ``.xls``). Surveys whose results are not published as a
-Volume-A workbook (data-not-yet-released / microdata-only / EP-published) yield
-no response rows and are logged, not silently dropped. Both subsets are scoped
-to the canonical DG-Communication (COMMU) publisher.
+Both nodes re-pull the full corpus each run (the source exposes no delta query).
+``responses`` writes one parquet fragment per dataset and skips fragments this
+run already committed, so a supervisor-interrupted run resumes where it stopped
+instead of restarting the crawl.
 """
 from __future__ import annotations
 
-import io
-import re
-import zipfile
+import os
 
 import pyarrow as pa
 
-from subsets_utils import (
-    NodeSpec,
-    SqlNodeSpec,
-    get,
-    transient_retry,
-    save_raw_parquet,
+from subsets_utils import NodeSpec, list_raw_fragments, save_raw_parquet
+
+from utils import (
+    dataset_notes,
+    dataset_title,
+    download,
+    enumerate_commu_datasets,
+    fetch_survey_metadata,
+    parse_volume_a,
+    survey_id_of,
+    volume_a_resources,
+    volume_code,
 )
-
-# --- enumeration (DCAT) -----------------------------------------------------
-
-_SEARCH_URL = "https://data.europa.eu/api/hub/search/search"
-_COMMU_PUBLISHER = "Directorate-General for Communication"
-_PAGE_SIZE = 100
-
-# "Volume A" = results by question. Match the many spellings the catalog uses:
-# "volume A", "volume_A.xlsx", "ebs_474_volume_A_xls.zip", "ebs517_vol_A.zip",
-# "vol_A", "volA" — but NOT volume AA / AP / AAP / B / C (the trailing 'a' must
-# not be followed by another letter or digit) and not a mid-word "vol".
-_VOLA_RE = re.compile(r"(?<![a-z])vol(?:ume)?[ _]?a(?![a-z0-9])", re.I)
-# A '<<Back to content' / 'Index' workbook also carries a per-sheet stub; the
-# real data sheets are the ones with a TOTAL base row (detected structurally).
-_NULL_TOKENS = {"-", "", ":", "n.a.", "na", "n/a", "*"}
-
-
-@transient_retry()
-def _get_json(url, **params):
-    resp = get(url, params=params, timeout=(10.0, 120.0))
-    resp.raise_for_status()
-    return resp.json()
-
-
-@transient_retry()
-def _get_bytes(url):
-    resp = get(url, timeout=(15.0, 300.0))
-    resp.raise_for_status()
-    return resp.content
-
-
-def _enumerate_commu_datasets():
-    """Page the DCAT catalog and yield COMMU Eurobarometer dataset records
-    (with their inline distributions). Pagination is pinned on the first
-    response's ``count``; a safety ceiling raises rather than truncating."""
-    first = _get_json(_SEARCH_URL, q="eurobarometer", filter="dataset",
-                      limit=_PAGE_SIZE, page=0)["result"]
-    count = first["count"]
-    pages = (count + _PAGE_SIZE - 1) // _PAGE_SIZE
-    if pages > 200:
-        raise RuntimeError(f"DCAT returned {count} datasets ({pages} pages) — "
-                           "far beyond the expected ~1200; refusing to crawl "
-                           "blindly (source shape changed).")
-    out = []
-    for p in range(pages):
-        res = first if p == 0 else _get_json(
-            _SEARCH_URL, q="eurobarometer", filter="dataset",
-            limit=_PAGE_SIZE, page=p)["result"]
-        for it in res.get("results", []):
-            if (it.get("publisher") or {}).get("name") == _COMMU_PUBLISHER:
-                out.append(it)
-    return out
-
-
-def _dist_url(d):
-    u = d.get("download_url") or d.get("access_url")
-    if isinstance(u, list):
-        return u[0] if u else None
-    return u
-
-
-def _find_volume_a(dists):
-    """Return (url, format_id) of the best Volume-A distribution, or None.
-    Prefer a direct (X)LS(X) distribution; fall back to the volume_A ZIP."""
-    excel, zip_ = None, None
-    for d in dists:
-        title_en = (d.get("title") or {}).get("en") or ""
-        if not _VOLA_RE.search(title_en):
-            continue
-        fid = ((d.get("format") or {}).get("id") or "").upper()
-        url = _dist_url(d)
-        if not url:
-            continue
-        if fid in ("XLSX", "XLS") and excel is None:
-            excel = (url, fid)
-        elif fid == "ZIP" and zip_ is None:
-            zip_ = (url, fid)
-    return excel or zip_
-
-
-# --- excel reading / banner parsing -----------------------------------------
-
-def _rows_from_xlsx(content):
-    import openpyxl
-    wb = openpyxl.load_workbook(io.BytesIO(content), read_only=True, data_only=True)
-    try:
-        return {sn: list(wb[sn].iter_rows(values_only=True)) for sn in wb.sheetnames}
-    finally:
-        wb.close()
-
-
-def _rows_from_xls(content):
-    import pandas as pd
-    xl = pd.ExcelFile(io.BytesIO(content))  # engine inferred (xlrd for .xls)
-    out = {}
-    for sn in xl.sheet_names:
-        df = xl.parse(sn, header=None)
-        df = df.astype(object).where(pd.notna(df), None)
-        out[sn] = [tuple(r) for r in df.itertuples(index=False, name=None)]
-    return out
-
-
-def _workbook_sheets(content, fid):
-    """Return {sheet_name: [row_tuple, ...]} for a Volume-A payload."""
-    if fid == "ZIP":
-        z = zipfile.ZipFile(io.BytesIO(content))
-        members = [m for m in z.namelist()
-                   if not m.endswith("/") and m.lower().endswith((".xls", ".xlsx"))]
-        if not members:
-            return {}
-        # prefer a member whose own name says volume A
-        members.sort(key=lambda m: (0 if _VOLA_RE.search(m) else 1, m))
-        m = members[0]
-        raw = z.read(m)
-        return _rows_from_xlsx(raw) if m.lower().endswith(".xlsx") else _rows_from_xls(raw)
-    if fid == "XLSX":
-        return _rows_from_xlsx(content)
-    return _rows_from_xls(content)
-
-
-def _clean_country(v):
-    """Banner header cells carry a bilingual code like 'UE27\\nEU27'; take the
-    last segment. Reject obvious non-codes (long, lowercase prose)."""
-    tok = str(v).split("\n")[-1].strip()
-    if not tok or len(tok) > 12:
-        return None
-    low = tok.lower()
-    if "eighted" in low or "olume" in low or "base" in low:
-        return None
-    return tok
-
-
-def _num(x):
-    if x is None:
-        return None
-    if isinstance(x, bool):
-        return None
-    if isinstance(x, (int, float)):
-        return float(x)
-    s = str(x).strip()
-    if s.lower() in _NULL_TOKENS:
-        return None
-    try:
-        return float(s)
-    except ValueError:
-        return None
-
-
-def _is_share(x):
-    return isinstance(x, (int, float)) and not isinstance(x, bool) and 0.0 <= float(x) <= 1.0
-
-
-def _parse_question_sheet(rows):
-    """Parse one banner cross-tab sheet into (country, answer, weighted_n,
-    share) tuples. Returns None if the sheet is not a question banner (e.g. the
-    Content/Index sheet, which has no TOTAL base row)."""
-    base_idx = None
-    for i, r in enumerate(rows):
-        if len(r) > 1 and r[1] is not None and str(r[1]).strip().upper() == "TOTAL":
-            base_idx = i
-            break
-    if base_idx is None:
-        return None
-    # header = nearest preceding row with a non-null cell in the data columns
-    header = None
-    for i in range(base_idx - 1, -1, -1):
-        r = rows[i]
-        if len(r) > 2 and any(r[ci] is not None for ci in range(2, len(r))):
-            header = r
-            break
-    if header is None:
-        return None
-    countries = {}
-    for ci in range(2, len(header)):
-        if header[ci] is None:
-            continue
-        code = _clean_country(header[ci])
-        if code:
-            countries[ci] = code
-    if not countries:
-        return None
-
-    # Each answer is two consecutive rows: a count row then a share row. The
-    # share row's label cell may be empty (old .xls) or carry the English label
-    # (modern .xlsx, the count row holding the French one). Drop only
-    # fully-blank rows — that keeps count/share pairs adjacent and aligned.
-    def _label(r):
-        v = r[1] if len(r) > 1 else None
-        return str(v).strip() if v is not None and str(v).strip() != "" else None
-
-    data_rows = [r for r in rows[base_idx + 1:]
-                 if any(c is not None for c in r[1:])]
-    out = []
-    i, n = 0, len(data_rows)
-    while i + 1 <= n - 1:
-        cnt_row, pct_row = data_rows[i], data_rows[i + 1]
-        # sanity: the share row must look like shares (fractions in [0,1] or
-        # null tokens). If not, pairing has drifted — stop parsing this sheet.
-        pct_cells = [pct_row[ci] for ci in countries if ci < len(pct_row)]
-        looks_pct = any(
-            _is_share(c) or (isinstance(c, str) and c.strip().lower() in _NULL_TOKENS)
-            for c in pct_cells
-        )
-        if not looks_pct:
-            break
-        answer = _label(pct_row) or _label(cnt_row)
-        is_subtotal = answer is not None and (
-            answer == "Total" or answer.startswith(("Total '", 'Total "')))
-        if answer and not is_subtotal:
-            for ci, code in countries.items():
-                wn = _num(cnt_row[ci]) if ci < len(cnt_row) else None
-                sh = _num(pct_row[ci]) if ci < len(pct_row) else None
-                if sh is not None and not 0.0 <= sh <= 1.0:
-                    sh = None  # not a valid share — drop rather than publish a count as a fraction
-                if wn is None and sh is None:
-                    continue
-                out.append((code, answer, wn, sh))
-        i += 2
-    return out
-
-
-# --- responses (subset 1) ---------------------------------------------------
 
 RESPONSES_SCHEMA = pa.schema([
     ("survey_id", pa.string()),
+    ("source_file", pa.string()),
     ("question_code", pa.string()),
+    ("banner", pa.string()),
     ("country", pa.string()),
     ("answer", pa.string()),
+    ("answer_fr", pa.string()),
+    ("answer_index", pa.int32()),
+    ("is_subtotal", pa.bool_()),
     ("weighted_n", pa.float64()),
     ("share", pa.float64()),
+    ("base_n", pa.float64()),
 ])
-
-
-def fetch_responses(node_id: str) -> None:
-    """Crawl the COMMU catalog, parse each survey's Volume-A workbook into long
-    format, write one parquet batch per dataset (``<node_id>-<dataset_id>``).
-
-    Stateless full re-pull: every run materializes the whole corpus fresh. A run
-    is an isolated full execution (raw is not carried over between runs), so the
-    download MUST write all raw each time — skipping via a persisted watermark
-    would leave the transform with no raw to read. The corpus is small enough
-    (~440 small workbooks, a few minutes) that full re-pull is the right default;
-    cross-run skipping is the later maintain step's concern, not this node's.
-    Per-dataset failures are isolated (logged) so one bad workbook can't sink the
-    whole crawl."""
-    asset_prefix = node_id  # "eurobarometer-responses"
-    datasets = _enumerate_commu_datasets()
-    print(f"[responses] {len(datasets)} COMMU datasets enumerated")
-    n_written = n_skip_novola = n_empty = n_failed = 0
-    for it in datasets:
-        did = it["id"]
-        asset = f"{asset_prefix}-{did}"
-        vola = None
-        try:
-            vola = _find_volume_a(it.get("distributions", []))
-            if vola is None:
-                n_skip_novola += 1
-                continue
-            url, fid = vola
-            content = _get_bytes(url)
-            sheets = _workbook_sheets(content, fid)
-            rows = []
-            for sheet_name, sheet_rows in sheets.items():
-                parsed = _parse_question_sheet(sheet_rows)
-                if not parsed:
-                    continue
-                qcode = str(sheet_name).strip()
-                for country, answer, wn, sh in parsed:
-                    rows.append({
-                        "survey_id": did,
-                        "question_code": qcode,
-                        "country": country,
-                        "answer": answer,
-                        "weighted_n": wn,
-                        "share": sh,
-                    })
-            if not rows:
-                n_empty += 1
-                print(f"[responses] {did}: no parseable rows from {fid} workbook")
-                continue
-            table = pa.Table.from_pylist(rows, schema=RESPONSES_SCHEMA)
-            save_raw_parquet(table, asset)
-            n_written += 1
-        except Exception as exc:  # noqa: BLE001 — isolate per-dataset, log loudly
-            n_failed += 1
-            print(f"[responses] {did}: FAILED url={vola} {type(exc).__name__}: {exc}")
-    print(f"[responses] done: {n_written} datasets written, "
-          f"{n_skip_novola} without Volume-A, {n_empty} empty, {n_failed} failed")
-    if n_written == 0:
-        raise RuntimeError("[responses] no datasets produced any rows — the "
-                           "catalog shape or the Volume-A parser is broken")
-
-
-# --- surveys (subset 2) -----------------------------------------------------
 
 SURVEYS_SCHEMA = pa.schema([
     ("survey_id", pa.string()),
+    ("eb_survey_id", pa.int32()),
+    ("survey_reference", pa.string()),
     ("title", pa.string()),
-    ("publisher", pa.string()),
-    ("issued", pa.string()),
-    ("modified", pa.string()),
-    ("num_distributions", pa.int64()),
+    ("description", pa.string()),
+    ("survey_type", pa.string()),
+    ("series", pa.string()),
+    ("themes", pa.string()),
+    ("instrument", pa.string()),
+    ("method", pa.string()),
+    ("directorate_general", pa.string()),
+    ("fieldwork_start_date", pa.string()),
+    ("fieldwork_end_date", pa.string()),
+    ("publication_date", pa.string()),
+    ("catalog_created", pa.string()),
+    ("catalog_modified", pa.string()),
+    ("license_id", pa.string()),
+    ("num_resources", pa.int32()),
+    ("volume_codes", pa.string()),
     ("has_volume_a", pa.bool_()),
 ])
 
+# The EC survey API is a secondary enrichment surface and a few dataset ids have
+# no record there. A widespread miss means the API changed shape, not that the
+# surveys vanished — so raise rather than ship a catalog of null fieldwork dates.
+MAX_ENRICHMENT_MISS_FRACTION = 0.35
+
+# A Volume-A workbook that parses to nothing is a layout we do not understand.
+# A handful is expected; a quarter of the corpus means the parser has gone blind.
+MAX_EMPTY_FRACTION = 0.25
+
+
+def _survey_type(reference, title):
+    ref = (reference or "").upper()
+    if ref.startswith("STD"):
+        return "Standard"
+    if ref.startswith(("EBS", "SP")):
+        return "Special"
+    if ref.startswith("FL"):
+        return "Flash"
+    low = (title or "").lower()
+    for name in ("standard", "special", "flash"):
+        if low.startswith(name):
+            return name.capitalize()
+    return None
+
+
+def _dictish(value):
+    return value.get("description") if isinstance(value, dict) else value
+
+
+def _date(value):
+    """The portal mixes bare ISO dates with full timestamps; keep the day."""
+    return str(value)[:10] if value else None
+
 
 def fetch_surveys(node_id: str) -> None:
-    """One row per COMMU Eurobarometer survey dataset from the DCAT catalog.
-    Stateless full re-pull (snapshot of the catalog)."""
-    asset = node_id  # "eurobarometer-surveys"
-    datasets = _enumerate_commu_datasets()
-    rows = []
-    for it in datasets:
-        dists = it.get("distributions", [])
-        title = (it.get("title") or {}).get("en")
+    """Catalog snapshot, one row per COMMU Eurobarometer dataset."""
+    datasets = enumerate_commu_datasets()
+    print(f"[surveys] {len(datasets)} DG-Communication datasets enumerated")
+
+    rows, missed = [], 0
+    for dataset_id, rec in sorted(datasets.items()):
+        resources = rec.get("resources") or []
+        codes = sorted({c for c in (volume_code(r) for r in resources) if c})
+        eb_id = survey_id_of(dataset_id)
+
+        meta = fetch_survey_metadata(eb_id) if eb_id is not None else None
+        if meta is None:
+            missed += 1
+        meta = meta or {}
+
+        themes = meta.get("themes") or []
+        reference = meta.get("reference")
+        title = dataset_title(rec)
+
         rows.append({
-            "survey_id": it["id"],
+            "survey_id": dataset_id,
+            "eb_survey_id": eb_id,
+            "survey_reference": reference,
             "title": title,
-            "publisher": (it.get("publisher") or {}).get("name"),
-            "issued": it.get("issued"),
-            "modified": it.get("modified"),
-            "num_distributions": len(dists),
-            "has_volume_a": _find_volume_a(dists) is not None,
+            "description": dataset_notes(rec),
+            "survey_type": _survey_type(reference, title),
+            "series": _dictish(meta.get("serie")),
+            "themes": "; ".join(t["description"] for t in themes
+                                if t.get("description")) or None,
+            "instrument": _dictish(meta.get("instrument")),
+            "method": _dictish(meta.get("method")),
+            "directorate_general": _dictish(meta.get("dg")),
+            "fieldwork_start_date": _date(meta.get("fieldworkStartDate")),
+            "fieldwork_end_date": _date(meta.get("fieldworkEndDate")),
+            "publication_date": _date(meta.get("publicationFirstDate")),
+            "catalog_created": _date(rec.get("metadata_created")),
+            "catalog_modified": _date(rec.get("metadata_modified")),
+            "license_id": rec.get("license_id"),
+            "num_resources": len(resources),
+            "volume_codes": ",".join(codes) or None,
+            "has_volume_a": "A" in codes,
         })
-    table = pa.Table.from_pylist(rows, schema=SURVEYS_SCHEMA)
-    save_raw_parquet(table, asset)
-    print(f"[surveys] wrote {len(rows)} survey rows")
+
+    if rows and missed > len(rows) * MAX_ENRICHMENT_MISS_FRACTION:
+        raise RuntimeError(
+            f"[surveys] survey/get/one returned no record for {missed} of "
+            f"{len(rows)} datasets — the EC survey API changed shape")
+
+    print(f"[surveys] {len(rows)} rows, {missed} without an EC survey record, "
+          f"{sum(r['has_volume_a'] for r in rows)} with a Volume A workbook")
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=SURVEYS_SCHEMA), node_id)
 
 
-# --- specs ------------------------------------------------------------------
+def fetch_responses(node_id: str) -> None:
+    """Parse every Volume-A workbook into long format, one fragment per dataset."""
+    datasets = enumerate_commu_datasets()
+    run_id = os.environ.get("RUN_ID", "unknown")
+    committed = {
+        fragment for fragment, meta in list_raw_fragments(node_id, "parquet").items()
+        if meta.get("run_id") == run_id
+    }
+    if committed:
+        print(f"[responses] resuming run {run_id}: {len(committed)} fragments already committed")
+
+    targets = {d: volume_a_resources(rec) for d, rec in sorted(datasets.items())}
+    targets = {d: r for d, r in targets.items() if r}
+    print(f"[responses] {len(targets)} of {len(datasets)} datasets ship a Volume A")
+
+    written = resumed = failed = empty = 0
+    for dataset_id, resources in targets.items():
+        if dataset_id in committed:
+            resumed += 1
+            continue
+        rows = []
+        for title, url in resources:
+            try:
+                payload = download(url)
+            except Exception as exc:
+                # A dead distribution link is the source's problem, not a bug:
+                # isolate it so one 404 cannot sink the whole crawl.
+                print(f"[responses] {dataset_id}: download failed {title!r} "
+                      f"{type(exc).__name__}: {exc}")
+                failed += 1
+                continue
+            for row in parse_volume_a(payload, title):
+                row["survey_id"] = dataset_id
+                rows.append(row)
+        if not rows:
+            empty += 1
+            continue
+        save_raw_parquet(pa.Table.from_pylist(rows, schema=RESPONSES_SCHEMA),
+                         node_id, fragment=dataset_id)
+        written += 1
+
+    print(f"[responses] done: {written} fragments written, {resumed} resumed, "
+          f"{empty} parsed to nothing, {failed} downloads failed")
+    if written + resumed == 0:
+        raise RuntimeError("[responses] no dataset produced any rows — the catalog "
+                           "shape or the Volume-A parser is broken")
+    if empty > len(targets) * MAX_EMPTY_FRACTION:
+        raise RuntimeError(
+            f"[responses] {empty} of {len(targets)} Volume-A workbooks parsed to zero "
+            "rows — the banner layout changed and the parser is dropping the corpus")
+
 
 DOWNLOAD_SPECS = [
-    NodeSpec(id="eurobarometer-responses", fn=fetch_responses, kind="download"),
     NodeSpec(id="eurobarometer-surveys", fn=fetch_surveys, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="eurobarometer-responses-transform",
-        deps=["eurobarometer-responses"],
-        sql='''
-            SELECT
-                survey_id,
-                question_code,
-                country,
-                answer,
-                CAST(weighted_n AS DOUBLE) AS weighted_n,
-                CAST(share AS DOUBLE)      AS share
-            FROM "eurobarometer-responses"
-            WHERE country IS NOT NULL
-              AND country <> '-'              -- stray empty banner-column header
-              AND answer IS NOT NULL
-              AND (weighted_n IS NOT NULL OR share IS NOT NULL)
-        ''',
-    ),
-    SqlNodeSpec(
-        id="eurobarometer-surveys-transform",
-        deps=["eurobarometer-surveys"],
-        key=("survey_id",),
-        temporal="issued",
-        sql='''
-            SELECT
-                survey_id,
-                title,
-                publisher,
-                TRY_CAST(issued AS TIMESTAMP)   AS issued,
-                num_distributions,
-                has_volume_a
-            FROM "eurobarometer-surveys"
-            WHERE survey_id IS NOT NULL
-        ''',
-    ),
+    NodeSpec(id="eurobarometer-responses", fn=fetch_responses, kind="download"),
 ]

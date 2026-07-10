@@ -18,8 +18,11 @@ tests:
   - unique: station_id
     reason: station metadata should have one row per station id in the master list
     certainty: 95
-  - distinct_count: {col: bundesland, min: 16, max: 16}
-    reason: Germany has exactly 16 federal states; more means the fixed-layout name/Bundesland split has drifted again
+  - distinct_count: {col: bundesland, min: 14, max: 20}
+    reason: >-
+      Germany has exactly 16 federal states, and a drifting fixed-layout name/Bundesland split shows up as
+      dozens of bogus values (it once read 89). Bounds are loose because distinct_count is evaluated with
+      approx_count_distinct, which is off by one even at this cardinality; fetch_stations asserts the exact 16.
     certainty: 95
   - between: {col: latitude, lo: 47, hi: 55.5}
     reason: German DWD climate stations should fall within the broad German latitude range

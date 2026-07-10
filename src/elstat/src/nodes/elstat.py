@@ -8,13 +8,32 @@ Liferay JSF resource links keyed by a portlet INSTANCE id + an integer
 documentID. The data-bearing attachments are Excel workbooks (.xlsx / legacy
 .xls); the rest are PDF press releases / methodology (out of scope).
 
-Per publication we: fetch the page, harvest every document link, GET each and
-keep the ones the server returns as Excel, dedup language editions (prefer the
-English / bilingual one), then melt every workbook into long format — one record
-per numeric cell, tagged with the cell's row label (leftmost text of its row)
-and column label (the detected header row, forward-filled across merged cells).
-This orientation-agnostic melt handles both row-oriented timeseries (period in
-rows, measures in columns) and column-oriented cross-tabs (years in columns).
+Per publication we: fetch BOTH language pages, union their document links, GET
+each and keep the ones the server returns as Excel, drop the non-data workbooks,
+dedup language editions (prefer the English / bilingual one), then melt every
+workbook into long format — one record per numeric cell, tagged with the cell's
+row label (leftmost text of its row) and column label (the detected header row,
+forward-filled across merged cells). This orientation-agnostic melt handles both
+row-oriented timeseries (period in rows, measures in columns) and column-oriented
+cross-tabs (years in columns).
+
+Three source quirks this encodes, each verified against the live site:
+
+  * Documents must be unioned across the English AND Greek pages. Fifteen
+    publications (SAM03, SKT01, SED11..SED41, SMA15, ...) list their workbooks
+    only on the Greek page, even though the English page renders fine with its
+    PDF press release. Stopping at the first page carrying any document link
+    silently loses them.
+  * Excel arrives under three content types. Besides the modern
+    `...spreadsheetml.sheet` and the legacy `application/vnd.ms-excel`, some
+    publications (SPA09, STO04) serve `application/x-msexcel`. Matching only
+    the first two silently drops those workbooks.
+  * Not every Excel attachment is data. The filename's third underscore-field
+    is ELSTAT's document-type token: TS (timeseries) and TB (table) carry data;
+    MT (Single Integrated Metadata Structure) and QS (questionnaire) do not.
+    Neither the page's file-type icon nor the portlet a document sits in can be
+    trusted here — SOP13's timeseries workbooks render with no icon at all, and
+    SED01's questionnaire workbooks sit in a plain documents portlet.
 
 Full re-pull every run (stateless): each workbook is a cumulative snapshot that
 grows with each release, there is no incremental filter, and the whole corpus is
@@ -37,7 +56,6 @@ from tenacity import (
 from constants import ENTITY_IDS
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -45,12 +63,11 @@ from subsets_utils import (
 
 
 class EmptyPageError(RuntimeError):
-    """The publication page rendered without its document portlets (server
-    returns a degraded page under load). Retryable — a re-fetch usually fixes it."""
+    """Neither language page rendered its document portlets (the server returns a
+    degraded page under load). Retryable — a re-fetch usually fixes it."""
 
-# A publication's attachments usually live on its English page, but a few are
-# only listed on the Greek page (the workbooks themselves are still bilingual /
-# English). Try English first, then fall back to Greek.
+# A publication's attachments may be listed on either language page, and for 15
+# publications only on the Greek one. Harvest both and union by documentID.
 PUBLICATION_URLS = (
     "https://www.statistics.gr/en/statistics/-/publication/{code}/-",
     "https://www.statistics.gr/el/statistics/-/publication/{code}/-",
@@ -68,11 +85,20 @@ _DOCID_RE = re.compile(r"documentID=(\d+)")
 _FILENAME_RE = re.compile(r'filename="?([^";]+)')
 _EXCEL_CT = (
     "officedocument.spreadsheetml",      # .xlsx
-    "application/vnd.ms-excel",          # legacy .xls
+    "ms-excel",                          # legacy application/vnd.ms-excel
+    "msexcel",                           # legacy application/x-msexcel
 )
-# EURO-SDMX metadata workbooks (filename token "_MT_") describe the series
-# (contacts, definitions) rather than carrying data — skip them.
-_METADATA_TOKEN = re.compile(r"_MT_", re.IGNORECASE)
+
+# The filename's third underscore-field is ELSTAT's document-type token, e.g.
+# "A0199_DKT03_TS_QQ_01_2010_01_2026_04_F_EN.xlsx" -> "TS". One publication
+# ships "A1605 _SPO15_TS_..." with a space, hence [ _]+.
+_TYPE_TOKEN_RE = re.compile(r"^[A-Za-z0-9]+[ _]+[A-Za-z0-9]+_([A-Za-z?]{2})_")
+# MT = Single Integrated Metadata Structure, QS = questionnaire. Everything else
+# (TS, TB, and the handful whose token is mangled to "??" by a non-ASCII
+# Content-Disposition) is treated as data — the melt keeps only numeric cells,
+# so an unexpected token costs little, whereas dropping a real table costs a
+# whole publication.
+_NON_DATA_TOKENS = {"MT", "QS"}
 
 # --- generic workbook -> long-format melt ----------------------------------
 
@@ -230,34 +256,41 @@ def _http_get(url, **kwargs):
     return resp
 
 
-# Retry the whole page fetch when it comes back without document links — that is
-# a load-induced degraded render, not a real "no documents" state. Network-level
-# transients are already handled inside _http_get by transient_retry().
+# Retry the whole harvest when BOTH language pages come back without document
+# links — that is a load-induced degraded render, not a real "no documents"
+# state. Network-level transients are already handled inside _http_get by
+# transient_retry().
 @retry(
     retry=retry_if_exception_type(EmptyPageError),
     stop=stop_after_attempt(7),
     wait=wait_exponential(multiplier=2, min=3, max=90),
     reraise=True,
 )
-def _get_page(code):
+def _document_urls(code):
+    """documentID -> download url, unioned across both language pages.
+
+    A publication legitimately lists zero documents on one language page (SAM03
+    has none in English), so only an empty union is an error.
+    """
+    urls = {}
     for tmpl in PUBLICATION_URLS:
         resp = _http_get(tmpl.format(code=code), timeout=(10.0, 90.0))
-        html = resp.text
-        if "documentID=" in html:
-            return html
-    raise EmptyPageError(f"publication page for {code} carried no document links")
+        for m in _DOC_LINK_RE.finditer(resp.text):
+            url = m.group(1).replace("&amp;", "&")
+            urls.setdefault(_DOCID_RE.search(url).group(1), url)
+    if not urls:
+        raise EmptyPageError(f"neither language page for {code} carried document links")
+    return urls
+
+
+def _is_data_workbook(filename):
+    m = _TYPE_TOKEN_RE.match(filename)
+    return not (m and m.group(1).upper() in _NON_DATA_TOKENS)
 
 
 def _excel_attachments(code):
-    html = _get_page(code)
-    seen = set()
     files = []
-    for m in _DOC_LINK_RE.finditer(html):
-        url = m.group(1).replace("&amp;", "&")
-        did = _DOCID_RE.search(url).group(1)
-        if did in seen:
-            continue
-        seen.add(did)
+    for did, url in _document_urls(code).items():
         try:
             resp = _http_get(url, timeout=(10.0, 180.0))
         except httpx.HTTPStatusError as exc:
@@ -274,7 +307,7 @@ def _excel_attachments(code):
         cd = resp.headers.get("content-disposition", "")
         fn = _FILENAME_RE.search(cd)
         fn = fn.group(1).strip() if fn else f"{code}_{did}.xlsx"
-        if _METADATA_TOKEN.search(fn):
+        if not _is_data_workbook(fn):
             continue
         files.append((fn, resp.content))
     return files
@@ -290,6 +323,14 @@ def fetch_one(node_id: str) -> None:
             rows.extend(_melt_workbook(content, fn))
         except Exception as exc:                     # one corrupt workbook must not sink the publication
             print(f"elstat: failed to parse workbook {fn} for {code}: {type(exc).__name__}: {exc}")
+    if not rows:
+        # Every accepted publication carries >=1 data workbook (accept gates on
+        # collect's attachment inventory), so an empty melt means the workbooks
+        # stopped parsing or stopped being served — not a legitimately empty
+        # dataset. Fail this spec loudly rather than publish an empty table.
+        raise RuntimeError(
+            f"elstat: {code} produced no numeric cells from {len(files)} workbook(s)"
+        )
     save_raw_ndjson(rows, asset)
 
 
@@ -300,26 +341,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per publication: the long-format numeric observations.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                source_file,
-                sheet,
-                row_label,
-                col_label,
-                CAST(row_idx AS BIGINT) AS row_idx,
-                CAST(col_idx AS BIGINT) AS col_idx,
-                CAST(value AS DOUBLE)   AS value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL
-        ''',
-        key=("source_file", "sheet", "row_idx", "col_idx"),
-    )
-    for s in DOWNLOAD_SPECS
 ]

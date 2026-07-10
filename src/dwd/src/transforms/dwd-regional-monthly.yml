@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `dwd-regional-monthly`. Regenerate after model-verify.
+# caution: `period` is the zero-padded calendar month ('01'..'12'), not a date.
+# caution: The most recent `year` is partial: only the months DWD has already released are present, so a year-level aggregate over the latest year is not comparable to earlier years.
+# caution: `region` mixes three aggregation levels: individual federal states, multi-state combinations (Brandenburg/Berlin, Niedersachsen/Hamburg/Bremen, Thueringen/Sachsen-Anhalt) and the national mean 'Deutschland'. Summing or averaging across `region` double-counts — filter to the level you want first.
+# caution: `value` carries a different unit per `variable` (air_temperature_mean in °C, precipitation in mm, sunshine_duration in hours). Never aggregate across `variable`.
+# caution: The variables do not share a start year: air_temperature_mean and precipitation reach back to 1881, sunshine_duration begins in 1951. A query spanning the earlier period silently covers only the first two.
+# caution: Only three variables are published at this resolution; the 10-variable set exists only in the annual table.
+key: [year, region, period, variable]
+temporal: year
+sort: [year, region, period, variable]
+columns:
+  - name: variable
+    type: VARCHAR
+    description: "Climate variable measured by `value`, and therefore its unit: air_temperature_mean, precipitation or sunshine_duration"
+  - name: region
+    type: VARCHAR
+    description: "Area-mean region: a German federal state with umlauts transliterated (Baden-Wuerttemberg, Thueringen), one of three multi-state combinations (Brandenburg/Berlin, Niedersachsen/Hamburg/Bremen, Thueringen/Sachsen-Anhalt), or 'Deutschland' for the national mean"
+  - name: year
+    type: INTEGER
+    description: "Calendar year of the observation"
+  - name: period
+    type: VARCHAR
+    description: "Calendar month of the observation, zero-padded: '01' (January) through '12' (December)"
+  - name: value
+    type: DOUBLE
+    description: "Area-mean value for the region and month, in the unit implied by `variable`: degrees Celsius (air_temperature_mean), millimetres (precipitation) or hours (sunshine_duration)"

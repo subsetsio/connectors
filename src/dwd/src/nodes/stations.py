@@ -64,8 +64,8 @@ def fetch_stations(node_id: str) -> None:
     if len(out["station_id"]) < 100:
         raise RuntimeError(f"stations: only {len(out['station_id'])} parsed; layout likely changed")
     n_bl = len(set(out["bundesland"]))
-    if n_bl > 16:
-        raise RuntimeError(f"stations: {n_bl} distinct Bundesland values; layout likely changed")
+    if n_bl != 16:
+        raise RuntimeError(f"stations: {n_bl} distinct Bundesland values, expected Germany's 16; layout likely changed")
     save_raw_parquet(pa.table(out, schema=_STATIONS_SCHEMA), node_id)
 
 
