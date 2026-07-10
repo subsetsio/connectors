@@ -5,6 +5,9 @@ tests:
     reason: Accepted ArcGIS FeatureServer item should expose at least one attribute row; zero rows means the item was unshared, moved, or the wrong layer was selected.
     certainty: 80
     points_outward: true
+  - freshness: {col: YearText, reaches: "2025"}
+    reason: E5 city/county population and housing estimates are annual; the current public layer reaches 2025, so a refresh should not fall behind the latest annual release window.
+    certainty: 80
   - not_null: FID
     reason: ArcGIS hosted feature layers include an object id field for every feature.
     certainty: 80

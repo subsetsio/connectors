@@ -6,3 +6,6 @@ tests:
     certainty: 75
     points_outward: true
     severity: warn
+  - freshness: {col: Year, reaches: "2023"}
+    reason: E5 annual population-change layer is a stable historical 2020-2023 series; a refresh should not lose the latest published year in that source surface.
+    certainty: 80

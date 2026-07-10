@@ -5,6 +5,9 @@ tests:
     reason: Accepted ArcGIS FeatureServer item should expose at least one attribute row; zero rows means the item was unshared, moved, or the wrong layer was selected.
     certainty: 80
     points_outward: true
+  - freshness: {col: Year, reaches: "2023"}
+    reason: E5 population estimate layer is a stable historical 2020-2023 series; a refresh should not lose the latest published year in that source surface.
+    certainty: 80
   - not_null: FID
     reason: ArcGIS hosted feature layers include an object id field for every feature.
     certainty: 80
