@@ -1,5 +1,8 @@
 spec_id: biotime-studies
 status: active
+coverage:
+  frozen: true
+  reason: BioTIME 1.0 is a fixed Zenodo snapshot published as the 24_06_2021 release; it does not advance in place.
 tests:
   - not_null: study_id
     reason: study_id is the primary key of the metadata table

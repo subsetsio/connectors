@@ -1,7 +1,10 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [row_id]
 temporal: year
-sort: [year]
+sort: [year, row_id]
 columns:
+  - name: row_id
+    type: INTEGER
   - name: study_id
     type: INTEGER
   - name: year

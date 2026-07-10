@@ -1,4 +1,5 @@
 SELECT
+    TRY_CAST(row_id     AS INTEGER) AS row_id,
     TRY_CAST(study_id   AS INTEGER) AS study_id,
     TRY_CAST(year       AS INTEGER) AS year,
     TRY_CAST(month      AS INTEGER) AS month,
