@@ -1,0 +1,24 @@
+spec_id: un-statistics-division-sdg-indicators
+status: active
+tests:
+  - row_count: {min: 200}
+    reason: the current SDG indicator framework has more than 200 indicators
+    certainty: 95
+  - not_null: goal
+    reason: every indicator belongs to a goal
+    certainty: 100
+  - not_null: target
+    reason: every indicator belongs to a target
+    certainty: 100
+  - not_null: code
+    reason: indicator code is the taxonomy key
+    certainty: 100
+  - not_null: description
+    reason: each indicator has a published description in Indicator/List
+    certainty: 95
+  - unique: code
+    reason: one row per SDG indicator code
+    certainty: 100
+  - matches: {col: code, pattern: "^[0-9]+[.][0-9a-z]+[.][0-9]+$"}
+    reason: SDG indicator identifiers combine goal, target and indicator sequence
+    certainty: 90

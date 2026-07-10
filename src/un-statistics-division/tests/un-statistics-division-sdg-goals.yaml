@@ -1,0 +1,18 @@
+spec_id: un-statistics-division-sdg-goals
+status: active
+tests:
+  - row_count: {min: 17}
+    reason: the SDG framework has 17 goals
+    certainty: 100
+  - not_null: code
+    reason: goal code is the taxonomy key
+    certainty: 100
+  - not_null: title
+    reason: each goal has a published title in Goal/List
+    certainty: 95
+  - unique: code
+    reason: one row per SDG goal code
+    certainty: 100
+  - matches: {col: code, pattern: "^[0-9]+$"}
+    reason: SDG goal identifiers are numeric strings
+    certainty: 95

@@ -1,0 +1,21 @@
+spec_id: un-statistics-division-sdg-targets
+status: active
+tests:
+  - row_count: {min: 169}
+    reason: the SDG framework has about 169 targets
+    certainty: 95
+  - not_null: goal
+    reason: every target belongs to a goal
+    certainty: 100
+  - not_null: code
+    reason: target code is the taxonomy key
+    certainty: 100
+  - not_null: title
+    reason: each target has a published title in Target/List
+    certainty: 95
+  - unique: code
+    reason: one row per SDG target code
+    certainty: 100
+  - matches: {col: code, pattern: "^[0-9]+[.][0-9a-z]+$"}
+    reason: SDG target identifiers combine a goal number and target suffix
+    certainty: 90

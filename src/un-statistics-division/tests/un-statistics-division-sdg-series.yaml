@@ -1,0 +1,21 @@
+spec_id: un-statistics-division-sdg-series
+status: active
+tests:
+  - row_count: {min: 500}
+    reason: Series/List enumerates hundreds of SDG statistical series
+    certainty: 95
+  - not_null: code
+    reason: series code is the taxonomy key
+    certainty: 100
+  - not_null: description
+    reason: each series has a published description in Series/List
+    certainty: 95
+  - not_null: release
+    reason: series metadata includes the SDG database release
+    certainty: 90
+  - unique: code
+    reason: one row per SDG series code
+    certainty: 100
+  - matches: {col: code, pattern: "^[A-Z0-9_]+$"}
+    reason: SDG series identifiers are uppercase code strings
+    certainty: 90

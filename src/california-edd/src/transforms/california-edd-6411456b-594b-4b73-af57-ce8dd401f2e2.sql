@@ -15,10 +15,10 @@ SELECT
     "Wage Type" AS wage_type,
     CAST("Number of Employed" AS BIGINT) AS number_of_employed,
     CAST("Mean Wage" AS DOUBLE) AS mean_wage,
-    CAST("10th Percentile Wage" AS DOUBLE) AS 10th_percentile_wage,
-    CAST("25th Percentile Wage" AS DOUBLE) AS 25th_percentile_wage,
-    CAST("50th Percentile (Median) Wage" AS DOUBLE) AS 50th_percentile_median_wage,
-    CAST("75th Percentile Wage" AS DOUBLE) AS 75th_percentile_wage,
-    CAST("90th Percentile Wage" AS DOUBLE) AS 90th_percentile_wage,
+    CAST("10th Percentile Wage" AS DOUBLE) AS "10th_percentile_wage",
+    CAST("25th Percentile Wage" AS DOUBLE) AS "25th_percentile_wage",
+    CAST("50th Percentile (Median) Wage" AS DOUBLE) AS "50th_percentile_median_wage",
+    CAST("75th Percentile Wage" AS DOUBLE) AS "75th_percentile_wage",
+    CAST("90th Percentile Wage" AS DOUBLE) AS "90th_percentile_wage",
     CAST("Mean Relative Standard Error for Wage" AS DOUBLE) AS mean_relative_standard_error_for_wage
 FROM "california-edd-6411456b-594b-4b73-af57-ce8dd401f2e2"
