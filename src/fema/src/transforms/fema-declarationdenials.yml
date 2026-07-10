@@ -1,0 +1,46 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-declarationdenials`. Regenerate after model-verify.
+key: [id]
+temporal: declarationrequestdate
+sort: [declarationrequestdate, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: declarationrequestnumber
+    type: INTEGER
+  - name: region
+    type: SMALLINT
+  - name: stateabbreviation
+    type: VARCHAR
+  - name: tribalrequest
+    type: BOOLEAN
+  - name: state
+    type: VARCHAR
+  - name: declarationrequestdate
+    type: DATE
+  - name: declarationrequesttype
+    type: VARCHAR
+  - name: incidentname
+    type: VARCHAR
+  - name: requestedincidenttypes
+    type: VARCHAR
+  - name: currentrequeststatus
+    type: VARCHAR
+  - name: requestedincidentbegindate
+    type: DATE
+  - name: requestedincidentenddate
+    type: DATE
+  - name: requeststatusdate
+    type: DATE
+  - name: ihprogramrequested
+    type: BOOLEAN
+  - name: iaprogramrequested
+    type: BOOLEAN
+  - name: paprogramrequested
+    type: BOOLEAN
+  - name: hmprogramrequested
+    type: BOOLEAN
+  - name: incidentid
+    type: BIGINT
+  - name: incidentbegindate
+    type: DATE

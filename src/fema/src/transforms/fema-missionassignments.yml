@@ -1,0 +1,84 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-missionassignments`. Regenerate after model-verify.
+key: [id]
+temporal: datereceived
+sort: [datereceived, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: incidentid
+    type: BIGINT
+  - name: incidentname
+    type: VARCHAR
+  - name: incidenttype
+    type: VARCHAR
+  - name: disasternumber
+    type: SMALLINT
+  - name: declarationtype
+    type: VARCHAR
+  - name: declarationtitle
+    type: VARCHAR
+  - name: maid
+    type: VARCHAR
+  - name: maamendnumber
+    type: SMALLINT
+  - name: actionid
+    type: INTEGER
+  - name: matype
+    type: VARCHAR
+  - name: supportfunction
+    type: SMALLINT
+  - name: priority
+    type: VARCHAR
+  - name: region
+    type: SMALLINT
+  - name: stt
+    type: VARCHAR
+  - name: agencyid
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: authority
+    type: VARCHAR
+  - name: datereceived
+    type: DATE
+  - name: daterequired
+    type: DATE
+  - name: popstartdate
+    type: DATE
+  - name: popenddate
+    type: DATE
+  - name: dateobligated
+    type: DATE
+  - name: obligationamount
+    type: DOUBLE
+  - name: sttcostsharepct
+    type: DOUBLE
+  - name: fedcostsharepct
+    type: DOUBLE
+  - name: sttcostshareamt
+    type: DOUBLE
+  - name: fedcostshareamt
+    type: DOUBLE
+  - name: mapopstartdate
+    type: DATE
+  - name: mapopenddate
+    type: DATE
+  - name: masttcostsharepct
+    type: DOUBLE
+  - name: mafedcostsharepct
+    type: DOUBLE
+  - name: masttcostshareamount
+    type: DOUBLE
+  - name: mafedcostshareamount
+    type: DOUBLE
+  - name: mapriority
+    type: VARCHAR
+  - name: assistancerequested
+    type: VARCHAR
+  - name: statementofwork
+    type: VARCHAR
+  - name: hash
+    type: VARCHAR
+  - name: lastrefresh
+    type: TIMESTAMP

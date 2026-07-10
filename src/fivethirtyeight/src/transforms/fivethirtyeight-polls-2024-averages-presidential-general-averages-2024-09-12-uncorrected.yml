@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-polls-2024-averages-presidential-general-averages-2024-09-12-uncorrected`. Regenerate after model-verify.
+key: [date, state, candidate, party]
 temporal: date
-sort: [date]
+sort: [date, state, candidate, party]
 columns:
   - name: candidate
     type: VARCHAR

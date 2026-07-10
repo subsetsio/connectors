@@ -1,0 +1,52 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-publicassistancegrantawardactivities`. Regenerate after model-verify.
+key: [id]
+temporal: declarationdate
+sort: [declarationdate, id]
+columns:
+  - name: region
+    type: BIGINT
+  - name: disasternumber
+    type: BIGINT
+  - name: sriadisaster
+    type: BIGINT
+  - name: declarationtitle
+    type: VARCHAR
+  - name: disastertype
+    type: VARCHAR
+  - name: incidenttype
+    type: VARCHAR
+  - name: declarationdate
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: stateabbreviation
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: applicantid
+    type: VARCHAR
+  - name: applicantname
+    type: VARCHAR
+  - name: pnpstatus
+    type: BIGINT
+  - name: damagecategorycode
+    type: VARCHAR
+  - name: federalshareobligated
+    type: DOUBLE
+  - name: dateobligated
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: pwnumber
+    type: BIGINT
+  - name: projecttitle
+    type: VARCHAR
+  - name: versionnumber
+    type: BIGINT
+  - name: eligibilitystatus
+    type: VARCHAR
+  - name: fundingstatus
+    type: VARCHAR
+  - name: pacloseoutstatus
+    type: VARCHAR
+  - name: id
+    type: VARCHAR

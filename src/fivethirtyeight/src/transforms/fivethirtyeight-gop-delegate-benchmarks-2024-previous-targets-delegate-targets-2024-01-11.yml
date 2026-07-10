@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-gop-delegate-benchmarks-2024-previous-targets-delegate-targets-2024-01-11`. Regenerate after model-verify.
+key: [state_abb]
+temporal: vote_date
+sort: [vote_date, state_abb]
+columns:
+  - name: state_abb
+    type: VARCHAR
+  - name: state_name
+    type: VARCHAR
+  - name: vote_date
+    type: DATE
+  - name: total_delegates
+    type: BIGINT
+  - name: allocated
+    type: BIGINT
+  - name: rules
+    type: VARCHAR
+  - name: desantis
+    type: BIGINT
+  - name: haley
+    type: BIGINT
+  - name: hutchinson
+    type: BIGINT
+  - name: ramaswamy
+    type: BIGINT
+  - name: trump
+    type: BIGINT
+  - name: model_date
+    type: DATE

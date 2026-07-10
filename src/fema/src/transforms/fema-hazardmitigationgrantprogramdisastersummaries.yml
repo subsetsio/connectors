@@ -1,0 +1,78 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-hazardmitigationgrantprogramdisastersummaries`. Regenerate after model-verify.
+key: [disasternumber]
+temporal: declarationdate
+sort: [declarationdate, disasternumber]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: disasternumber
+    type: INTEGER
+  - name: declarationdate
+    type: DATE
+  - name: disastertype
+    type: VARCHAR
+  - name: incidenttype
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: region
+    type: SMALLINT
+  - name: state
+    type: VARCHAR
+  - name: disastercloseoutstatus
+    type: VARCHAR
+  - name: hmgpcloseoutstatus
+    type: VARCHAR
+  - name: disastercloseoutdate
+    type: DATE
+  - name: hmgpreconciliationdate
+    type: DATE
+  - name: disasterduedatefornewapps
+    type: DATE
+  - name: disasterpopenddate
+    type: DATE
+  - name: hmgppopenddate
+    type: DATE
+  - name: hmgppopextndate
+    type: DATE
+  - name: hmgppopextnnum
+    type: INTEGER
+  - name: liqperioddate
+    type: DATE
+  - name: liqperiodmaxdate
+    type: DATE
+  - name: liqperiodmaxpopnum
+    type: INTEGER
+  - name: liqperiodmaxextdate
+    type: DATE
+  - name: liqperiodmaxextnum
+    type: INTEGER
+  - name: mitigationdollarsavailable
+    type: DOUBLE
+  - name: lockedinceilingamount
+    type: DOUBLE
+  - name: obligatedtotalamount
+    type: DOUBLE
+  - name: obligatedinitiativeamount
+    type: DOUBLE
+  - name: obligatedplanningamount
+    type: DOUBLE
+  - name: obligatedregularamount
+    type: DOUBLE
+  - name: obligatedrecipientmgmtamt
+    type: DOUBLE
+  - name: obligatedrecipientadmin
+    type: DOUBLE
+  - name: obligatedsubrecipientadmin
+    type: DOUBLE
+  - name: obligatedsubrecipmgmtamt
+    type: DOUBLE
+  - name: pendingprojectsquantity
+    type: INTEGER
+  - name: pendingfedshareproposedamt
+    type: DOUBLE
+  - name: lastrefresh
+    type: TIMESTAMP
+  - name: hash
+    type: VARCHAR

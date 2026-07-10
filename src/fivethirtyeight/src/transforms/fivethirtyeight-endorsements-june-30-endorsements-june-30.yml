@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-endorsements-june-30-endorsements-june-30`. Regenerate after model-verify.
+key: [candidate, year, party, won_primary]
+temporal: year
+sort: [year, candidate, party, won_primary]
+columns:
+  - name: year
+    type: BIGINT
+  - name: party
+    type: VARCHAR
+  - name: candidate
+    type: VARCHAR
+  - name: endorsement_points
+    type: BIGINT
+  - name: percentage_endorsement_points
+    type: DOUBLE
+  - name: money_raised
+    type: DOUBLE
+  - name: percentage_of_money
+    type: DOUBLE
+  - name: primary_vote_percentage
+    type: DOUBLE
+  - name: won_primary
+    type: VARCHAR

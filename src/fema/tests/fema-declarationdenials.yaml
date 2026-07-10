@@ -32,3 +32,8 @@ tests:
   - column_type: {col: declarationRequestNumber, type: integer}
     reason: server typed full-file delivers declarationRequestNumber as integer; a string here means format drift (CSV fallback / changed export)
     certainty: 80
+  - freshness: {col: declarationRequestDate, reaches: today - 540d}
+    reason: "OpenFEMA declaration request dates should advance as FEMA publishes new declaration decisions; an older max suggests the source is frozen or the dataset scope changed"
+    certainty: 55
+    points_outward: true
+    severity: warn

@@ -1,0 +1,48 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-housingassistancerenters`. Regenerate after model-verify.
+# caution: Rows are geographic disaster summaries, not household-level renter records; avoid summing across overlapping place levels without filtering the geography fields.
+key: [id, zipcode, city, county, disasternumber]
+sort: [id, zipcode, city, county, disasternumber]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: disasternumber
+    type: SMALLINT
+  - name: state
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: zipcode
+    type: VARCHAR
+  - name: validregistrations
+    type: INTEGER
+  - name: totalinspected
+    type: INTEGER
+  - name: totalinspectedwithnodamage
+    type: INTEGER
+  - name: totalwithmoderatedamage
+    type: INTEGER
+  - name: totalwithmajordamage
+    type: INTEGER
+  - name: totalwithsubstantialdamage
+    type: INTEGER
+  - name: approvedforfemaassistance
+    type: INTEGER
+  - name: totalapprovedihpamount
+    type: DOUBLE
+  - name: repairreplaceamount
+    type: DOUBLE
+  - name: rentalamount
+    type: DOUBLE
+  - name: otherneedsamount
+    type: DOUBLE
+  - name: approvedbetween1and10000
+    type: INTEGER
+  - name: approvedbetween10001and25000
+    type: INTEGER
+  - name: approvedbetween25001andmax
+    type: INTEGER
+  - name: totalmaxgrants
+    type: INTEGER

@@ -1,20 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [State]
-sort: [State]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-bad-drivers-bad-drivers`. Regenerate after model-verify.
+key: [state]
+sort: [state]
 columns:
-  - name: State
+  - name: state
     type: VARCHAR
-  - name: Number of drivers involved in fatal collisions per billion miles
+  - name: number_of_drivers_involved_in_fatal_collisions_per_billion_miles
     type: DOUBLE
-  - name: Percentage Of Drivers Involved In Fatal Collisions Who Were Speeding
+  - name: percentage_of_drivers_involved_in_fatal_collisions_who_were_speeding
     type: BIGINT
-  - name: Percentage Of Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired
+  - name: percentage_of_drivers_involved_in_fatal_collisions_who_were_alcohol_impaired
     type: BIGINT
-  - name: Percentage Of Drivers Involved In Fatal Collisions Who Were Not Distracted
+  - name: percentage_of_drivers_involved_in_fatal_collisions_who_were_not_distracted
     type: BIGINT
-  - name: Percentage Of Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents
+  - name: percentage_of_drivers_involved_in_fatal_collisions_who_had_not_been_involved_in_any_previous_accidents
     type: BIGINT
-  - name: Car Insurance Premiums ($)
+  - name: car_insurance_premiums
     type: DOUBLE
-  - name: Losses incurred by insurance companies for collisions per insured driver ($)
+  - name: losses_incurred_by_insurance_companies_for_collisions_per_insured_driver
     type: DOUBLE

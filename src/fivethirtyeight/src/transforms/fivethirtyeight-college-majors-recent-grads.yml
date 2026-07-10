@@ -1,46 +1,47 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Major_code]
-sort: [Major_code]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-college-majors-recent-grads`. Regenerate after model-verify.
+key: [major_code]
+sort: [major_code]
 columns:
-  - name: Rank
+  - name: rank
     type: BIGINT
-  - name: Major_code
+  - name: major_code
     type: BIGINT
-  - name: Major
+  - name: major
     type: VARCHAR
-  - name: Total
+  - name: total
     type: BIGINT
-  - name: Men
+  - name: men
     type: BIGINT
-  - name: Women
+  - name: women
     type: BIGINT
-  - name: Major_category
+  - name: major_category
     type: VARCHAR
-  - name: ShareWomen
+  - name: sharewomen
     type: DOUBLE
-  - name: Sample_size
+  - name: sample_size
     type: BIGINT
-  - name: Employed
+  - name: employed
     type: BIGINT
-  - name: Full_time
+  - name: full_time
     type: BIGINT
-  - name: Part_time
+  - name: part_time
     type: BIGINT
-  - name: Full_time_year_round
+  - name: full_time_year_round
     type: BIGINT
-  - name: Unemployed
+  - name: unemployed
     type: BIGINT
-  - name: Unemployment_rate
+  - name: unemployment_rate
     type: DOUBLE
-  - name: Median
+  - name: median
     type: BIGINT
-  - name: P25th
+  - name: p25th
     type: BIGINT
-  - name: P75th
+  - name: p75th
     type: BIGINT
-  - name: College_jobs
+  - name: college_jobs
     type: BIGINT
-  - name: Non_college_jobs
+  - name: non_college_jobs
     type: BIGINT
-  - name: Low_wage_jobs
+  - name: low_wage_jobs
     type: BIGINT

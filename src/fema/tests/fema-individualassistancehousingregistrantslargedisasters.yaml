@@ -14,6 +14,11 @@ tests:
     reason: catalog recordCount=6367334 at migration; a full-corpus snapshot should not fall below ~half that without a truncated download
     certainty: 80
     severity: block
+  - freshness: {col: rentalAssistanceEndDate, reaches: today - 1500d}
+    reason: "OpenFEMA large-disaster housing registrant records are a historical large-disaster subset; an older max suggests the source is frozen or the dataset scope changed"
+    certainty: 55
+    points_outward: true
+    severity: warn
   - not_null: disasterNumber
     reason: disasterNumber is non-nullable per the OpenFEMA data dictionary
     certainty: 85

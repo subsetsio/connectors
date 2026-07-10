@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fivethirtyeight-bob-ross-elements-by-episode`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [title, episode]
+checks:
+  - kind: unique
+    columns: [title, episode]
+  - kind: not_null
+    col: title
+  - kind: not_null
+    col: episode
+  - kind: row_floor
+    min: 201
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

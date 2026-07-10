@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [name]
-sort: [name]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-most-common-name-surnames`. Regenerate after model-verify.
+key: [name, pctwhite, pctblack, pcthispanic, pctapi]
+sort: [name, pctwhite, pctblack, pcthispanic, pctapi]
 columns:
   - name: name
     type: VARCHAR

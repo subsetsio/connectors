@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-womens-world-cup-predictions-wwc-matches-20150612-215533`. Regenerate after model-verify.
+key: [date, team1, team2, group]
+temporal: date
+sort: [date, team1, team2, group]
+columns:
+  - name: date
+    type: DATE
+  - name: group
+    type: VARCHAR
+  - name: team1
+    type: VARCHAR
+  - name: team2
+    type: VARCHAR
+  - name: team1_win
+    type: DOUBLE
+  - name: team2_win
+    type: DOUBLE
+  - name: tie
+    type: DOUBLE

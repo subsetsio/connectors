@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-presidential-candidate-favorables-2019-favorability-polls-rv-2019`. Regenerate after model-verify.
+key: [question_id]
+temporal: start_date
+sort: [start_date, question_id]
+columns:
+  - name: question_id
+    type: BIGINT
+  - name: start_date
+    type: DATE
+  - name: end_date
+    type: DATE
+  - name: pollster_id
+    type: BIGINT
+  - name: pollster
+    type: VARCHAR
+  - name: sponsors
+    type: VARCHAR
+  - name: sample_size
+    type: BIGINT
+  - name: population
+    type: VARCHAR
+  - name: methodology
+    type: VARCHAR
+  - name: url
+    type: VARCHAR
+  - name: politician
+    type: VARCHAR
+  - name: favorable
+    type: DOUBLE
+  - name: unfavorable
+    type: DOUBLE
+  - name: very_favorable
+    type: DOUBLE
+  - name: somewhat_favorable
+    type: DOUBLE
+  - name: somewhat_unfavorable
+    type: DOUBLE
+  - name: very_unfavorable
+    type: DOUBLE

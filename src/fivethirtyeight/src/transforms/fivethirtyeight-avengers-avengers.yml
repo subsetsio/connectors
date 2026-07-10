@@ -1,46 +1,48 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [URL]
-sort: [URL]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-avengers-avengers`. Regenerate after model-verify.
+key: [url]
+temporal: year
+sort: [year, url]
 columns:
-  - name: URL
+  - name: url
     type: VARCHAR
-  - name: Name/Alias
+  - name: name_alias
     type: VARCHAR
-  - name: Appearances
+  - name: appearances
     type: BIGINT
-  - name: Current?
+  - name: current
     type: VARCHAR
-  - name: Gender
+  - name: gender
     type: VARCHAR
-  - name: Probationary Introl
+  - name: probationary_introl
     type: VARCHAR
-  - name: Full/Reserve Avengers Intro
+  - name: full_reserve_avengers_intro
     type: VARCHAR
-  - name: Year
+  - name: year
     type: BIGINT
-  - name: Years since joining
+  - name: years_since_joining
     type: BIGINT
-  - name: Honorary
+  - name: honorary
     type: VARCHAR
-  - name: Death1
+  - name: death1
     type: VARCHAR
-  - name: Return1
+  - name: return1
     type: VARCHAR
-  - name: Death2
+  - name: death2
     type: VARCHAR
-  - name: Return2
+  - name: return2
     type: VARCHAR
-  - name: Death3
+  - name: death3
     type: VARCHAR
-  - name: Return3
+  - name: return3
     type: VARCHAR
-  - name: Death4
+  - name: death4
     type: VARCHAR
-  - name: Return4
+  - name: return4
     type: VARCHAR
-  - name: Death5
+  - name: death5
     type: VARCHAR
-  - name: Return5
+  - name: return5
     type: VARCHAR
-  - name: Notes
+  - name: notes
     type: VARCHAR

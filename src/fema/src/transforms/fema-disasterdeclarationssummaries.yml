@@ -1,0 +1,62 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-disasterdeclarationssummaries`. Regenerate after model-verify.
+key: [hash]
+temporal: declarationdate
+sort: [declarationdate, hash]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: disasternumber
+    type: SMALLINT
+  - name: state
+    type: VARCHAR
+  - name: femadeclarationstring
+    type: VARCHAR
+  - name: declarationtype
+    type: VARCHAR
+  - name: declarationdate
+    type: DATE
+  - name: fydeclared
+    type: SMALLINT
+  - name: incidenttype
+    type: VARCHAR
+  - name: declarationtitle
+    type: VARCHAR
+  - name: ihprogramdeclared
+    type: BOOLEAN
+  - name: iaprogramdeclared
+    type: BOOLEAN
+  - name: paprogramdeclared
+    type: BOOLEAN
+  - name: hmprogramdeclared
+    type: BOOLEAN
+  - name: incidentbegindate
+    type: DATE
+  - name: incidentenddate
+    type: DATE
+  - name: disastercloseoutdate
+    type: DATE
+  - name: tribalrequest
+    type: BOOLEAN
+  - name: fipsstatecode
+    type: VARCHAR
+  - name: fipscountycode
+    type: VARCHAR
+  - name: placecode
+    type: BIGINT
+  - name: designatedarea
+    type: VARCHAR
+  - name: declarationrequestnumber
+    type: BIGINT
+  - name: lastiafilingdate
+    type: DATE
+  - name: incidentid
+    type: BIGINT
+  - name: region
+    type: SMALLINT
+  - name: designatedincidenttypes
+    type: VARCHAR
+  - name: lastrefresh
+    type: TIMESTAMP
+  - name: hash
+    type: VARCHAR

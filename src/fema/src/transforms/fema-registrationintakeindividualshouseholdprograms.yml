@@ -1,0 +1,43 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-registrationintakeindividualshouseholdprograms`. Regenerate after model-verify.
+key: [id]
+sort: [id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: disasternumber
+    type: SMALLINT
+  - name: state
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: zipcode
+    type: VARCHAR
+  - name: totalvalidregistrations
+    type: INTEGER
+  - name: validcallcenterregistrations
+    type: INTEGER
+  - name: validwebregistrations
+    type: INTEGER
+  - name: validmobileregistrations
+    type: INTEGER
+  - name: ihpreferrals
+    type: INTEGER
+  - name: ihpeligible
+    type: INTEGER
+  - name: ihpamount
+    type: DOUBLE
+  - name: hareferrals
+    type: INTEGER
+  - name: haeligible
+    type: INTEGER
+  - name: haamount
+    type: DOUBLE
+  - name: onareferrals
+    type: INTEGER
+  - name: onaeligible
+    type: INTEGER
+  - name: onaamount
+    type: DOUBLE

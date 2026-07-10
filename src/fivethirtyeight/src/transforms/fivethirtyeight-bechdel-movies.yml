@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-bechdel-movies`. Regenerate after model-verify.
 key: [imdb]
-sort: [imdb]
+temporal: year
+sort: [year, imdb]
 columns:
   - name: year
     type: BIGINT
@@ -22,13 +24,13 @@ columns:
     type: BIGINT
   - name: code
     type: VARCHAR
-  - name: budget_2013$
+  - name: budget_2013
     type: BIGINT
-  - name: domgross_2013$
+  - name: domgross_2013
     type: BIGINT
-  - name: intgross_2013$
+  - name: intgross_2013
     type: BIGINT
-  - name: period code
+  - name: period_code
     type: BIGINT
-  - name: decade code
+  - name: decade_code
     type: BIGINT

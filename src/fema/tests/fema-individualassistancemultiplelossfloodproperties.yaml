@@ -26,6 +26,11 @@ tests:
   - column_type: {col: declarationDate, type: date}
     reason: server typed full-file delivers declarationDate as date; a string here means format drift (CSV fallback / changed export)
     certainty: 80
+  - freshness: {col: declarationDate, reaches: today - 540d}
+    reason: "OpenFEMA individual-assistance multiple-loss flood property records should advance as newer disaster declarations enter the file"
+    certainty: 55
+    points_outward: true
+    severity: warn
   - column_type: {col: disasterNumber, type: integer}
     reason: server typed full-file delivers disasterNumber as integer; a string here means format drift (CSV fallback / changed export)
     certainty: 80

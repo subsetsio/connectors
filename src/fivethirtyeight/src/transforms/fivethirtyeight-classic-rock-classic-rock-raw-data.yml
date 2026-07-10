@@ -1,22 +1,23 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [UNIQUE_ID]
-sort: [UNIQUE_ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-classic-rock-classic-rock-raw-data`. Regenerate after model-verify.
+key: [unique_id]
+sort: [unique_id]
 columns:
-  - name: SONG RAW
+  - name: song_raw
     type: VARCHAR
-  - name: Song Clean
+  - name: song_clean
     type: VARCHAR
-  - name: ARTIST RAW
+  - name: artist_raw
     type: VARCHAR
-  - name: ARTIST CLEAN
+  - name: artist_clean
     type: VARCHAR
-  - name: CALLSIGN
+  - name: callsign
     type: VARCHAR
-  - name: TIME
+  - name: time
     type: BIGINT
-  - name: UNIQUE_ID
+  - name: unique_id
     type: VARCHAR
-  - name: COMBINED
+  - name: combined
     type: VARCHAR
-  - name: First?
+  - name: first
     type: BIGINT

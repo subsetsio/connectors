@@ -1,6 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [pollster_rating_id]
-sort: [pollster_rating_id]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-pollster-ratings-pollster-ratings-combined`. Regenerate after model-verify.
+key: [pollster]
+sort: [pollster]
 columns:
   - name: pollster
     type: VARCHAR
@@ -14,7 +15,7 @@ columns:
     type: DOUBLE
   - name: rank
     type: BIGINT
-  - name: POLLSCORE
+  - name: pollscore
     type: DOUBLE
   - name: wtd_avg_transparency
     type: DOUBLE

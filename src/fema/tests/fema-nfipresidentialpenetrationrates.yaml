@@ -20,6 +20,11 @@ tests:
   - column_type: {col: asOfDate, type: date}
     reason: server typed full-file delivers asOfDate as date; a string here means format drift (CSV fallback / changed export)
     certainty: 80
+  - freshness: {col: asOfDate, reaches: today - 540d}
+    reason: "OpenFEMA NFIP residential penetration-rate snapshots should carry a recent asOfDate when refreshed"
+    certainty: 55
+    points_outward: true
+    severity: warn
   - column_type: {col: resPenetrationRateSfha, type: float}
     reason: server typed full-file delivers resPenetrationRateSfha as float; a string here means format drift (CSV fallback / changed export)
     certainty: 80

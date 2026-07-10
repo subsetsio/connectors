@@ -1,0 +1,50 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-hazardmitigationplanstatuses`. Regenerate after model-verify.
+key: [id]
+temporal: planapprovaldate
+sort: [planapprovaldate, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: femaregion
+    type: SMALLINT
+  - name: state
+    type: VARCHAR
+  - name: stateabbreviation
+    type: VARCHAR
+  - name: countyname
+    type: VARCHAR
+  - name: placename
+    type: VARCHAR
+  - name: plantype
+    type: VARCHAR
+  - name: planid
+    type: INTEGER
+  - name: plantitle
+    type: VARCHAR
+  - name: planstatus
+    type: VARCHAR
+  - name: apadate
+    type: DATE
+  - name: planapprovaldate
+    type: DATE
+  - name: planexpirationdate
+    type: DATE
+  - name: jurisdictiontype
+    type: VARCHAR
+  - name: jurisdictionstatus
+    type: VARCHAR
+  - name: adoptiondate
+    type: DATE
+  - name: jurisdictionapprovaldate
+    type: DATE
+  - name: population
+    type: INTEGER
+  - name: mppgeoid
+    type: VARCHAR
+  - name: censussource
+    type: VARCHAR
+  - name: communityidnumber
+    type: VARCHAR
+  - name: popcoverage
+    type: DOUBLE

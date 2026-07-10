@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fivethirtyeight-mlb-allstar-teams-allstar-player-talent`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [bbref_id, gameid, lgid]
+checks:
+  - kind: unique
+    columns: [bbref_id, gameid, lgid]
+  - kind: not_null
+    col: bbref_id
+  - kind: not_null
+    col: gameid
+  - kind: not_null
+    col: lgid
+  - kind: row_floor
+    min: 1965
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

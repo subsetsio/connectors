@@ -1,0 +1,91 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-individualassistancehousingregistrantslargedisasters`. Regenerate after model-verify.
+# caution: Rows are aggregated by disaster and location fields rather than individual registrations; filter geography and disaster dimensions before comparing totals.
+key: [id]
+temporal: rentalassistanceenddate
+sort: [rentalassistanceenddate, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: disasternumber
+    type: SMALLINT
+  - name: damagedcity
+    type: VARCHAR
+  - name: damagedstateabbreviation
+    type: VARCHAR
+  - name: damagedzipcode
+    type: VARCHAR
+  - name: householdcomposition
+    type: SMALLINT
+  - name: grossincome
+    type: DOUBLE
+  - name: specialneeds
+    type: BOOLEAN
+  - name: ownrent
+    type: VARCHAR
+  - name: residencetype
+    type: VARCHAR
+  - name: homeownersinsurance
+    type: BOOLEAN
+  - name: floodinsurance
+    type: BOOLEAN
+  - name: inspected
+    type: BOOLEAN
+  - name: rpfvl
+    type: DOUBLE
+  - name: habitabilityrepairsrequired
+    type: BOOLEAN
+  - name: destroyed
+    type: BOOLEAN
+  - name: waterlevel
+    type: SMALLINT
+  - name: highwaterlocation
+    type: VARCHAR
+  - name: flooddamage
+    type: BOOLEAN
+  - name: foundationdamage
+    type: BOOLEAN
+  - name: foundationdamageamount
+    type: DOUBLE
+  - name: roofdamage
+    type: BOOLEAN
+  - name: roofdamageamount
+    type: DOUBLE
+  - name: tsaeligible
+    type: BOOLEAN
+  - name: tsacheckedin
+    type: BOOLEAN
+  - name: rentalassistanceeligible
+    type: BOOLEAN
+  - name: rentalassistanceamount
+    type: DOUBLE
+  - name: repairassistanceeligible
+    type: BOOLEAN
+  - name: repairamount
+    type: DOUBLE
+  - name: replacementassistanceeligible
+    type: BOOLEAN
+  - name: replacementamount
+    type: DOUBLE
+  - name: sbaeligible
+    type: BOOLEAN
+  - name: renterdamagelevel
+    type: VARCHAR
+  - name: rentalassistanceenddate
+    type: DATE
+  - name: rentalresourcecity
+    type: VARCHAR
+  - name: rentalresourcestateabbreviation
+    type: VARCHAR
+  - name: rentalresourcezipcode
+    type: VARCHAR
+  - name: primaryresidence
+    type: BOOLEAN
+  - name: personalpropertyeligible
+    type: BOOLEAN
+  - name: ppfvl
+    type: DOUBLE
+  - name: censusblockid
+    type: VARCHAR
+  - name: censusyear
+    type: SMALLINT

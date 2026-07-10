@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fivethirtyeight-pollster-ratings-2020-pollster-ratings`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [pollster, latest_poll, bias, house_effect, misses_outside_moe]
+checks:
+  - kind: unique
+    columns: [pollster, latest_poll, bias, house_effect, misses_outside_moe]
+  - kind: not_null
+    col: pollster
+  - kind: not_null
+    col: latest_poll
+  - kind: not_null
+    col: bias
+  - kind: not_null
+    col: house_effect
+  - kind: not_null
+    col: misses_outside_moe
+  - kind: row_floor
+    min: 226
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

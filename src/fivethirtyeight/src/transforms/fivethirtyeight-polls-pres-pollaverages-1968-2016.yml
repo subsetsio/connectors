@@ -1,4 +1,6 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-polls-pres-pollaverages-1968-2016`. Regenerate after model-verify.
+key: []
 columns:
   - name: cycle
     type: BIGINT
@@ -26,11 +28,11 @@ columns:
     type: BIGINT
   - name: last_enddate
     type: VARCHAR
-  - name: _medpoly2
+  - name: medpoly2
     type: DOUBLE
   - name: trend_medpoly2
     type: DOUBLE
-  - name: _shortpoly0
+  - name: shortpoly0
     type: DOUBLE
   - name: trend_shortpoly0
     type: DOUBLE
@@ -42,25 +44,25 @@ columns:
     type: DOUBLE
   - name: sum_nat_influence
     type: DOUBLE
-  - name: _minpoints
+  - name: minpoints
     type: BIGINT
-  - name: _defaultbasetime
+  - name: defaultbasetime
     type: BIGINT
-  - name: _numloops
+  - name: numloops
     type: BIGINT
-  - name: _state_houseeffects_weight
+  - name: state_houseeffects_weight
     type: DOUBLE
-  - name: _state_trendline_weight
+  - name: state_trendline_weight
     type: DOUBLE
-  - name: _out_of_state_house_discount
+  - name: out_of_state_house_discount
     type: DOUBLE
-  - name: _house_effects_multiplier
+  - name: house_effects_multiplier
     type: BIGINT
-  - name: _attenuate_endpoints
+  - name: attenuate_endpoints
     type: VARCHAR
-  - name: _nonlinear_polynomial_degree
+  - name: nonlinear_polynomial_degree
     type: BIGINT
-  - name: _shortpoly_combpoly_weight
+  - name: shortpoly_combpoly_weight
     type: DOUBLE
-  - name: _nat_shortpoly_combpoly_weight
+  - name: nat_shortpoly_combpoly_weight
     type: DOUBLE

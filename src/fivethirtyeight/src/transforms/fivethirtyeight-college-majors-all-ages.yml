@@ -1,26 +1,27 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Major_code]
-sort: [Major_code]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-college-majors-all-ages`. Regenerate after model-verify.
+key: [major_code]
+sort: [major_code]
 columns:
-  - name: Major_code
+  - name: major_code
     type: BIGINT
-  - name: Major
+  - name: major
     type: VARCHAR
-  - name: Major_category
+  - name: major_category
     type: VARCHAR
-  - name: Total
+  - name: total
     type: BIGINT
-  - name: Employed
+  - name: employed
     type: BIGINT
-  - name: Employed_full_time_year_round
+  - name: employed_full_time_year_round
     type: BIGINT
-  - name: Unemployed
+  - name: unemployed
     type: BIGINT
-  - name: Unemployment_rate
+  - name: unemployment_rate
     type: DOUBLE
-  - name: Median
+  - name: median
     type: BIGINT
-  - name: P25th
+  - name: p25th
     type: BIGINT
-  - name: P75th
+  - name: p75th
     type: DOUBLE

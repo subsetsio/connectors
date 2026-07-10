@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-forecast-review-forecast-results-2018`. Regenerate after model-verify.
+key: [race, category, branch, version]
+sort: [race, category, branch, version]
+columns:
+  - name: cycle
+    type: BIGINT
+  - name: branch
+    type: VARCHAR
+  - name: race
+    type: VARCHAR
+  - name: forecastdate
+    type: VARCHAR
+  - name: version
+    type: VARCHAR
+  - name: democrat_winprobability
+    type: DOUBLE
+  - name: republican_winprobability
+    type: DOUBLE
+  - name: category
+    type: VARCHAR
+  - name: democrat_won
+    type: BIGINT
+  - name: republican_won
+    type: BIGINT
+  - name: uncalled
+    type: BIGINT

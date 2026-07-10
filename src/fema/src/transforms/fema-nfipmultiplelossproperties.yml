@@ -1,0 +1,60 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-nfipmultiplelossproperties`. Regenerate after model-verify.
+key: [mostrecentdateofloss, id]
+temporal: asofdate
+sort: [asofdate, mostrecentdateofloss, id]
+columns:
+  - name: fipscountycode
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: stateabbreviation
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: zipcode
+    type: VARCHAR
+  - name: reportedcity
+    type: VARCHAR
+  - name: communityidnumber
+    type: VARCHAR
+  - name: communityname
+    type: VARCHAR
+  - name: censusblockgroup
+    type: VARCHAR
+  - name: nfiprl
+    type: BOOLEAN
+  - name: nfipsrl
+    type: BOOLEAN
+  - name: fmarl
+    type: BOOLEAN
+  - name: fmasrl
+    type: BOOLEAN
+  - name: asofdate
+    type: DATE
+  - name: floodzone
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: occupancytype
+    type: SMALLINT
+  - name: originalconstructiondate
+    type: DATE
+  - name: originalnbdate
+    type: DATE
+  - name: postfirmconstructionindicator
+    type: BOOLEAN
+  - name: primaryresidenceindicator
+    type: BOOLEAN
+  - name: mitigatedindicator
+    type: BOOLEAN
+  - name: insuredindicator
+    type: BOOLEAN
+  - name: totallosses
+    type: SMALLINT
+  - name: mostrecentdateofloss
+    type: DATE
+  - name: id
+    type: VARCHAR

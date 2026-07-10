@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fivethirtyeight-potential-candidates-2015-01-14-statements`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [person]
+checks:
+  - kind: unique
+    columns: [person]
+  - kind: not_null
+    col: person
+  - kind: row_floor
+    min: 12
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,48 +1,49 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Major_code]
-sort: [Major_code]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-college-majors-grad-students`. Regenerate after model-verify.
+key: [major_code]
+sort: [major_code]
 columns:
-  - name: Major_code
+  - name: major_code
     type: BIGINT
-  - name: Major
+  - name: major
     type: VARCHAR
-  - name: Major_category
+  - name: major_category
     type: VARCHAR
-  - name: Grad_total
+  - name: grad_total
     type: BIGINT
-  - name: Grad_sample_size
+  - name: grad_sample_size
     type: BIGINT
-  - name: Grad_employed
+  - name: grad_employed
     type: BIGINT
-  - name: Grad_full_time_year_round
+  - name: grad_full_time_year_round
     type: BIGINT
-  - name: Grad_unemployed
+  - name: grad_unemployed
     type: BIGINT
-  - name: Grad_unemployment_rate
+  - name: grad_unemployment_rate
     type: DOUBLE
-  - name: Grad_median
+  - name: grad_median
     type: DOUBLE
-  - name: Grad_P25
+  - name: grad_p25
     type: BIGINT
-  - name: Grad_P75
+  - name: grad_p75
     type: DOUBLE
-  - name: Nongrad_total
+  - name: nongrad_total
     type: BIGINT
-  - name: Nongrad_employed
+  - name: nongrad_employed
     type: BIGINT
-  - name: Nongrad_full_time_year_round
+  - name: nongrad_full_time_year_round
     type: BIGINT
-  - name: Nongrad_unemployed
+  - name: nongrad_unemployed
     type: BIGINT
-  - name: Nongrad_unemployment_rate
+  - name: nongrad_unemployment_rate
     type: DOUBLE
-  - name: Nongrad_median
+  - name: nongrad_median
     type: DOUBLE
-  - name: Nongrad_P25
+  - name: nongrad_p25
     type: BIGINT
-  - name: Nongrad_P75
+  - name: nongrad_p75
     type: DOUBLE
-  - name: Grad_share
+  - name: grad_share
     type: DOUBLE
-  - name: Grad_premium
+  - name: grad_premium
     type: DOUBLE

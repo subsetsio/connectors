@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fivethirtyeight-most-common-name-surnames`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [name, pctwhite, pctblack, pcthispanic, pctapi]
+checks:
+  - kind: unique
+    columns: [name, pctwhite, pctblack, pcthispanic, pctapi]
+  - kind: not_null
+    col: name
+  - kind: not_null
+    col: pctwhite
+  - kind: not_null
+    col: pctblack
+  - kind: not_null
+    col: pcthispanic
+  - kind: not_null
+    col: pctapi
+  - kind: row_floor
+    min: 75835
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

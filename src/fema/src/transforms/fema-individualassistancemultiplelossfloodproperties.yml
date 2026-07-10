@@ -1,0 +1,50 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-individualassistancemultiplelossfloodproperties`. Regenerate after model-verify.
+key: [id]
+temporal: declarationdate
+sort: [declarationdate, id]
+columns:
+  - name: disasternumber
+    type: INTEGER
+  - name: declarationdate
+    type: DATE
+  - name: fipsstatecode
+    type: VARCHAR
+  - name: fipscountycode
+    type: VARCHAR
+  - name: placecode
+    type: BIGINT
+  - name: region
+    type: SMALLINT
+  - name: stateabbreviation
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: damagedzipcode
+    type: VARCHAR
+  - name: highriskpropertytype
+    type: VARCHAR
+  - name: residencetype
+    type: VARCHAR
+  - name: floodinsurance
+    type: BOOLEAN
+  - name: destroyed
+    type: BOOLEAN
+  - name: foundationtype
+    type: VARCHAR
+  - name: waterlevel
+    type: INTEGER
+  - name: highwaterlocation
+    type: VARCHAR
+  - name: flooddamage
+    type: BOOLEAN
+  - name: numberoflosses
+    type: SMALLINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: id
+    type: BIGINT

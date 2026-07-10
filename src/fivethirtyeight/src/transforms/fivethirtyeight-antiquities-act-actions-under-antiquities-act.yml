@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-antiquities-act-actions-under-antiquities-act`. Regenerate after model-verify.
+key: [acres_affected, date, current_name, action, original_name]
+temporal: year
+sort: [year, acres_affected, date, current_name, action, original_name]
+columns:
+  - name: current_name
+    type: VARCHAR
+  - name: states
+    type: VARCHAR
+  - name: original_name
+    type: VARCHAR
+  - name: current_agency
+    type: VARCHAR
+  - name: action
+    type: VARCHAR
+  - name: date
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: pres_or_congress
+    type: VARCHAR
+  - name: acres_affected
+    type: VARCHAR

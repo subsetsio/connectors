@@ -20,8 +20,8 @@ tests:
   - column_type: {col: initialFloodHazardBoundaryMap, type: date}
     reason: server typed full-file delivers initialFloodHazardBoundaryMap as date; a string here means format drift (CSV fallback / changed export)
     certainty: 80
-  - column_type: {col: classRating, type: integer}
-    reason: server typed full-file delivers classRating as integer; a string here means format drift (CSV fallback / changed export)
+  - column_type: {col: classRating, type: string}
+    reason: server typed full-file currently delivers classRating as text; values include rating-style codes rather than a strict numeric measure
     certainty: 80
   - freshness: {col: lastRefresh, reaches: today - 540d}
     reason: "OpenFEMA stamps lastRefresh on every refresh; a max older than ~18mo suggests the dataset is frozen upstream (reconcile, not necessarily our bug)"

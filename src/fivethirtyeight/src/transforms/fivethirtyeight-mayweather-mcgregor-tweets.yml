@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-mayweather-mcgregor-tweets`. Regenerate after model-verify.
+key: [link]
+temporal: created_at
+sort: [created_at, link]
+columns:
+  - name: created_at
+    type: TIMESTAMP
+  - name: emojis
+    type: BOOLEAN
+  - name: id
+    type: BIGINT
+  - name: link
+    type: VARCHAR
+  - name: retweeted
+    type: BOOLEAN
+  - name: screen_name
+    type: VARCHAR
+  - name: text
+    type: VARCHAR

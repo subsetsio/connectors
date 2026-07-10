@@ -1,0 +1,184 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-hmasubapplications`. Regenerate after model-verify.
+key: [dateinitiatedinsystem, subapplicationidentifier]
+temporal: dateinitiatedinsystem
+sort: [dateinitiatedinsystem, subapplicationidentifier]
+columns:
+  - name: subapplicationidentifier
+    type: VARCHAR
+  - name: program
+    type: VARCHAR
+  - name: fiscalyear
+    type: SMALLINT
+  - name: region
+    type: SMALLINT
+  - name: applicantuei
+    type: VARCHAR
+  - name: applicantname
+    type: VARCHAR
+  - name: subapplicantuei
+    type: VARCHAR
+  - name: subapplicantname
+    type: VARCHAR
+  - name: subapplicantcity
+    type: VARCHAR
+  - name: subapplicantstate
+    type: VARCHAR
+  - name: subapplicantstateabbreviation
+    type: VARCHAR
+  - name: subapplicantzipcode
+    type: VARCHAR
+  - name: subapplicantzip4
+    type: VARCHAR
+  - name: subjecteo12372
+    type: VARCHAR
+  - name: eo12372reviewdate
+    type: DATE
+  - name: subapplicantfederaldebt
+    type: BOOLEAN
+  - name: dateinitiatedinsystem
+    type: TIMESTAMP
+  - name: datesubmittedtoapplicant
+    type: TIMESTAMP
+  - name: datesubmittedtofema
+    type: TIMESTAMP
+  - name: subapplicationtitle
+    type: VARCHAR
+  - name: proposedprojectstartdate
+    type: DATE
+  - name: proposedprojectenddate
+    type: DATE
+  - name: estimatedtotalduration
+    type: SMALLINT
+  - name: fundingcategory
+    type: VARCHAR
+  - name: subapplicanttype
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: subapplicationtype
+    type: VARCHAR
+  - name: benefitingcounties
+    type: VARCHAR
+  - name: primaryactivity
+    type: VARCHAR
+  - name: primarysubactivity
+    type: VARCHAR
+  - name: secondaryactivity
+    type: VARCHAR
+  - name: secondarysubactivity
+    type: VARCHAR
+  - name: tertiaryactivity
+    type: VARCHAR
+  - name: tertiarysubactivity
+    type: VARCHAR
+  - name: primarycommunitylifeline
+    type: VARCHAR
+  - name: primarycommunitylifelinecomponent
+    type: VARCHAR
+  - name: secondarycommunitylifeline
+    type: VARCHAR
+  - name: secondarycommunitylifelinecomponent
+    type: VARCHAR
+  - name: tertiarycommunitylifeline
+    type: VARCHAR
+  - name: tertiarycommunitylifelinecomponent
+    type: VARCHAR
+  - name: primaryhazard
+    type: VARCHAR
+  - name: secondaryhazard
+    type: VARCHAR
+  - name: tertiaryhazard
+    type: VARCHAR
+  - name: naturebasedsolution
+    type: VARCHAR
+  - name: smallimpoverished
+    type: BOOLEAN
+  - name: populationaffected
+    type: DOUBLE
+  - name: phasedproject
+    type: BOOLEAN
+  - name: construction
+    type: BOOLEAN
+  - name: priorsubapplication
+    type: BOOLEAN
+  - name: communityratingsystem
+    type: BOOLEAN
+  - name: crsrating
+    type: SMALLINT
+  - name: cooperatingtechnicalpartner
+    type: BOOLEAN
+  - name: adoptedicc
+    type: BOOLEAN
+  - name: yearbuildingcode
+    type: SMALLINT
+  - name: buildingcodesonbcegs
+    type: BOOLEAN
+  - name: bcegsrating
+    type: SMALLINT
+  - name: mitigationplancovered
+    type: BOOLEAN
+  - name: mitigationplantype
+    type: VARCHAR
+  - name: mitigationplansubtype
+    type: VARCHAR
+  - name: datemitigationplanapproved
+    type: DATE
+  - name: costeffectivenessmethod
+    type: VARCHAR
+  - name: precalculatedbenefit
+    type: VARCHAR
+  - name: environmentalbenefit
+    type: BOOLEAN
+  - name: sealevelrise
+    type: BOOLEAN
+  - name: socialbenefit
+    type: BOOLEAN
+  - name: mitigatingprojectsiteinventory
+    type: BOOLEAN
+  - name: projectsiteinventorylocationknown
+    type: BOOLEAN
+  - name: numberbuildinglocations
+    type: SMALLINT
+  - name: numberinfrastructurelocations
+    type: SMALLINT
+  - name: numbervacantlandlocations
+    type: SMALLINT
+  - name: federalshareamount
+    type: DOUBLE
+  - name: nonfederalshareamount
+    type: DOUBLE
+  - name: mgmtfederalshareamount
+    type: DOUBLE
+  - name: mgmtnonfederalshareamount
+    type: DOUBLE
+  - name: totalsubapplicationamount
+    type: DOUBLE
+  - name: totalobligatedamount
+    type: DOUBLE
+  - name: totalpaymentamount
+    type: DOUBLE
+  - name: federalsharepercentage
+    type: DOUBLE
+  - name: nonfederalsharepercentage
+    type: DOUBLE
+  - name: benefitcostratio
+    type: DOUBLE
+  - name: bcatotalbenefits
+    type: DOUBLE
+  - name: bcatotalcosts
+    type: DOUBLE
+  - name: disasternumber
+    type: BIGINT
+  - name: selectionstatus
+    type: VARCHAR
+  - name: selectionfundingcategory
+    type: VARCHAR
+  - name: selectionprogramactivity
+    type: VARCHAR
+  - name: selectionfederalshareamount
+    type: DOUBLE
+  - name: selectionfundcode
+    type: VARCHAR
+  - name: id
+    type: VARCHAR

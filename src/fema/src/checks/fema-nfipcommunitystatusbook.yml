@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fema-nfipcommunitystatusbook`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [lastrefresh]
+temporal: lastrefresh
+checks:
+  - kind: unique
+    columns: [lastrefresh]
+  - kind: not_null
+    col: lastrefresh
+  - kind: row_floor
+    min: 12559
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,14 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [city]
-sort: [city]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-murder-2016-murder-2015-final`. Regenerate after model-verify.
+key: [city, state]
+sort: [city, state]
 columns:
   - name: city
     type: VARCHAR
   - name: state
     type: VARCHAR
-  - name: 2014_murders
+  - name: "2014_murders"
     type: BIGINT
-  - name: 2015_murders
+  - name: "2015_murders"
     type: BIGINT
   - name: change
     type: BIGINT

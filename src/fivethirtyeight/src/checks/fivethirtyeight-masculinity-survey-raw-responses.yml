@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fivethirtyeight-masculinity-survey-raw-responses`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [startdate, enddate, q0030, q0034, q0035]
+checks:
+  - kind: unique
+    columns: [startdate, enddate, q0030, q0034, q0035]
+  - kind: not_null
+    col: startdate
+  - kind: not_null
+    col: enddate
+  - kind: not_null
+    col: q0030
+  - kind: not_null
+    col: q0034
+  - kind: not_null
+    col: q0035
+  - kind: row_floor
+    min: 807
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-state-of-the-state-words`. Regenerate after model-verify.
+key: [phrase]
+sort: [phrase]
+columns:
+  - name: phrase
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: d_speeches
+    type: BIGINT
+  - name: r_speeches
+    type: BIGINT
+  - name: total
+    type: BIGINT
+  - name: percent_of_d_speeches
+    type: DOUBLE
+  - name: percent_of_r_speeches
+    type: DOUBLE
+  - name: chi2
+    type: DOUBLE
+  - name: pval
+    type: DOUBLE

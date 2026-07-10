@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-nfipresidentialpenetrationrates`. Regenerate after model-verify.
+key: [id, county, state]
+temporal: asofdate
+sort: [asofdate, id, county, state]
+columns:
+  - name: state
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: respenetrationratesfha
+    type: DOUBLE
+  - name: respenetrationrate
+    type: DOUBLE
+  - name: rescontractsinforce
+    type: INTEGER
+  - name: rescontractsinforcesfha
+    type: INTEGER
+  - name: totalresstructuressfha
+    type: INTEGER
+  - name: totalresstructures
+    type: INTEGER
+  - name: fipscode
+    type: VARCHAR
+  - name: asofdate
+    type: DATE
+  - name: id
+    type: VARCHAR

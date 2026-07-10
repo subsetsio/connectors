@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fivethirtyeight-state-of-the-polls-2024-2016-races`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [seat, state, cook_rating, type]
+checks:
+  - kind: unique
+    columns: [seat, state, cook_rating, type]
+  - kind: not_null
+    col: seat
+  - kind: not_null
+    col: state
+  - kind: not_null
+    col: cook_rating
+  - kind: not_null
+    col: type
+  - kind: row_floor
+    min: 234
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

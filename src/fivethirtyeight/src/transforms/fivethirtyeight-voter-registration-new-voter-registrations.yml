@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-voter-registration-new-voter-registrations`. Regenerate after model-verify.
+key: [jurisdiction, month, year]
+temporal: year
+sort: [year, jurisdiction, month]
+columns:
+  - name: jurisdiction
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: VARCHAR
+  - name: new_registered_voters
+    type: BIGINT

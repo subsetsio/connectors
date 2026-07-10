@@ -14,6 +14,11 @@ tests:
     reason: catalog recordCount=55913 at migration; a full-corpus snapshot should not fall below ~half that without a truncated download
     certainty: 80
     severity: block
+  - freshness: {col: dateApproved, reaches: today - 540d}
+    reason: "OpenFEMA HMA project approvals should advance as newer approved projects are published"
+    certainty: 55
+    points_outward: true
+    severity: warn
   - not_null: projectIdentifier
     reason: projectIdentifier is a documented primary-key component (non-nullable in the data dictionary)
     certainty: 90

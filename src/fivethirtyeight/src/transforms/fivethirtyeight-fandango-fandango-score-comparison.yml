@@ -1,48 +1,49 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [FILM]
-sort: [FILM]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-fandango-fandango-score-comparison`. Regenerate after model-verify.
+key: [film]
+sort: [film]
 columns:
-  - name: FILM
+  - name: film
     type: VARCHAR
-  - name: RottenTomatoes
+  - name: rottentomatoes
     type: BIGINT
-  - name: RottenTomatoes_User
+  - name: rottentomatoes_user
     type: BIGINT
-  - name: Metacritic
+  - name: metacritic
     type: BIGINT
-  - name: Metacritic_User
+  - name: metacritic_user
     type: DOUBLE
-  - name: IMDB
+  - name: imdb
     type: DOUBLE
-  - name: Fandango_Stars
+  - name: fandango_stars
     type: DOUBLE
-  - name: Fandango_Ratingvalue
+  - name: fandango_ratingvalue
     type: DOUBLE
-  - name: RT_norm
+  - name: rt_norm
     type: DOUBLE
-  - name: RT_user_norm
+  - name: rt_user_norm
     type: DOUBLE
-  - name: Metacritic_norm
+  - name: metacritic_norm
     type: DOUBLE
-  - name: Metacritic_user_nom
+  - name: metacritic_user_nom
     type: DOUBLE
-  - name: IMDB_norm
+  - name: imdb_norm
     type: DOUBLE
-  - name: RT_norm_round
+  - name: rt_norm_round
     type: DOUBLE
-  - name: RT_user_norm_round
+  - name: rt_user_norm_round
     type: DOUBLE
-  - name: Metacritic_norm_round
+  - name: metacritic_norm_round
     type: DOUBLE
-  - name: Metacritic_user_norm_round
+  - name: metacritic_user_norm_round
     type: DOUBLE
-  - name: IMDB_norm_round
+  - name: imdb_norm_round
     type: DOUBLE
-  - name: Metacritic_user_vote_count
+  - name: metacritic_user_vote_count
     type: BIGINT
-  - name: IMDB_user_vote_count
+  - name: imdb_user_vote_count
     type: BIGINT
-  - name: Fandango_votes
+  - name: fandango_votes
     type: BIGINT
-  - name: Fandango_Difference
+  - name: fandango_difference
     type: DOUBLE

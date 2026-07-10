@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-trump-lawsuits-trump-lawsuits`. Regenerate after model-verify.
+key: [docketnumber]
+temporal: datefiled
+sort: [datefiled, docketnumber]
+columns:
+  - name: docketnumber
+    type: VARCHAR
+  - name: datefiled
+    type: DATE
+  - name: casename
+    type: VARCHAR
+  - name: plaintiff
+    type: VARCHAR
+  - name: defendant
+    type: VARCHAR
+  - name: currentlocation
+    type: VARCHAR
+  - name: previouslocation
+    type: VARCHAR
+  - name: jurisdiction
+    type: BIGINT
+  - name: judge
+    type: VARCHAR
+  - name: nature
+    type: BIGINT
+  - name: trumpcategory
+    type: BIGINT
+  - name: capacity
+    type: BIGINT
+  - name: type
+    type: BIGINT
+  - name: issue
+    type: VARCHAR
+  - name: docketorig
+    type: VARCHAR
+  - name: status
+    type: BIGINT

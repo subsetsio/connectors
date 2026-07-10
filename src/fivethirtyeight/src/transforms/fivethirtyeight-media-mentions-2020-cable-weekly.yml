@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-media-mentions-2020-cable-weekly`. Regenerate after model-verify.
+key: [date, name, query]
+temporal: date
+sort: [date, name, query]
+columns:
+  - name: date
+    type: DATE
+  - name: name
+    type: VARCHAR
+  - name: matched_clips
+    type: BIGINT
+  - name: all_candidate_clips
+    type: BIGINT
+  - name: total_clips
+    type: BIGINT
+  - name: pct_of_all_candidate_clips
+    type: DOUBLE
+  - name: query
+    type: VARCHAR

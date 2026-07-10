@@ -1,46 +1,47 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [Pollster Rating ID]
-sort: [Pollster Rating ID]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-pollster-ratings-2023-pollster-ratings`. Regenerate after model-verify.
+key: [pollster]
+sort: [pollster]
 columns:
-  - name: Rank
+  - name: rank
     type: BIGINT
-  - name: Pollster
+  - name: pollster
     type: VARCHAR
-  - name: Pollster Rating ID
+  - name: pollster_rating_id
     type: BIGINT
-  - name: Polls Analyzed
+  - name: polls_analyzed
     type: BIGINT
-  - name: AAPOR/Roper
+  - name: aapor_roper
     type: VARCHAR
-  - name: Banned by 538
+  - name: banned_by_538
     type: VARCHAR
-  - name: Predictive Plus-Minus
+  - name: predictive_plus_minus
     type: DOUBLE
-  - name: 538 Grade
+  - name: "538_grade"
     type: VARCHAR
-  - name: Mean-Reverted Bias
+  - name: mean_reverted_bias
     type: DOUBLE
-  - name: Races Called Correctly
+  - name: races_called_correctly
     type: DOUBLE
-  - name: Misses Outside MOE
+  - name: misses_outside_moe
     type: DOUBLE
-  - name: Simple Average Error
+  - name: simple_average_error
     type: DOUBLE
-  - name: Simple Expected Error
+  - name: simple_expected_error
     type: DOUBLE
-  - name: Simple Plus-Minus
+  - name: simple_plus_minus
     type: DOUBLE
-  - name: Advanced Plus-Minus
+  - name: advanced_plus_minus
     type: DOUBLE
-  - name: Mean-Reverted Advanced Plus-Minus
+  - name: mean_reverted_advanced_plus_minus
     type: DOUBLE
-  - name: "# of Polls for Bias Analysis"
+  - name: of_polls_for_bias_analysis
     type: BIGINT
-  - name: Bias
+  - name: bias
     type: DOUBLE
-  - name: House Effect
+  - name: house_effect
     type: DOUBLE
-  - name: Average Distance from Polling Average (ADPA)
+  - name: average_distance_from_polling_average_adpa
     type: DOUBLE
-  - name: Herding Penalty
+  - name: herding_penalty
     type: DOUBLE

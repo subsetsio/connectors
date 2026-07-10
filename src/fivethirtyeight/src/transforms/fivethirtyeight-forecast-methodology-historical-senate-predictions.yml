@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-forecast-methodology-historical-senate-predictions`. Regenerate after model-verify.
+key: [candidate, state, year, result]
+temporal: year
+sort: [year, candidate, state, result]
+columns:
+  - name: state
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: candidate
+    type: VARCHAR
+  - name: forecast_prob
+    type: DOUBLE
+  - name: result
+    type: VARCHAR
+  - name: winflag
+    type: BIGINT

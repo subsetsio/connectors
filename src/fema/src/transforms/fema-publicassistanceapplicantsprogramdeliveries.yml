@@ -1,0 +1,76 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-publicassistanceapplicantsprogramdeliveries`. Regenerate after model-verify.
+key: [id]
+temporal: declarationdate
+sort: [declarationdate, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: declarationtype
+    type: VARCHAR
+  - name: disasternumber
+    type: SMALLINT
+  - name: statecode
+    type: VARCHAR
+  - name: statename
+    type: VARCHAR
+  - name: declarationdate
+    type: DATE
+  - name: incidenttype
+    type: VARCHAR
+  - name: declarationtitle
+    type: VARCHAR
+  - name: region
+    type: SMALLINT
+  - name: consolidatedresourcecenter
+    type: VARCHAR
+  - name: countyapplicantjurisdiction
+    type: VARCHAR
+  - name: utilizingdirectapplication
+    type: BOOLEAN
+  - name: applicantidgm
+    type: INTEGER
+  - name: applicantidemmie
+    type: VARCHAR
+  - name: applicantname
+    type: VARCHAR
+  - name: applicanttype
+    type: VARCHAR
+  - name: ispnp
+    type: BOOLEAN
+  - name: applicantstatus
+    type: VARCHAR
+  - name: applicantprocessstatus
+    type: VARCHAR
+  - name: numberactivedamages
+    type: SMALLINT
+  - name: totalappdamagecost
+    type: DOUBLE
+  - name: numberactiveprojects
+    type: SMALLINT
+  - name: currentprojectcost
+    type: DOUBLE
+  - name: numberphase2projects
+    type: SMALLINT
+  - name: phase2projectcost
+    type: DOUBLE
+  - name: numberphase3projects
+    type: SMALLINT
+  - name: phase3projectcost
+    type: DOUBLE
+  - name: numberphase4projects
+    type: SMALLINT
+  - name: phase4projectcost
+    type: DOUBLE
+  - name: numberphase5projects
+    type: SMALLINT
+  - name: phase5projectcost
+    type: DOUBLE
+  - name: numberobligatedprojects
+    type: SMALLINT
+  - name: federalshareobligated
+    type: DOUBLE
+  - name: lastrefresh
+    type: TIMESTAMP
+  - name: hash
+    type: VARCHAR

@@ -11,6 +11,11 @@ tests:
     reason: catalog recordCount=953731 at migration; a full-corpus snapshot should not fall below ~half that without a truncated download
     certainty: 80
     severity: block
+  - freshness: {col: declarationDate, reaches: today - 900d}
+    reason: "OpenFEMA public-assistance grant award activity can lag current declarations; an older max suggests the source is frozen or the dataset scope changed"
+    certainty: 55
+    points_outward: true
+    severity: warn
   - not_null: region
     reason: region is non-nullable per the OpenFEMA data dictionary
     certainty: 85

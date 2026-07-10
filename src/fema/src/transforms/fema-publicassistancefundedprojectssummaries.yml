@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-publicassistancefundedprojectssummaries`. Regenerate after model-verify.
+key: [id]
+temporal: declarationdate
+sort: [declarationdate, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: disasternumber
+    type: SMALLINT
+  - name: declarationdate
+    type: DATE
+  - name: incidenttype
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: applicantname
+    type: VARCHAR
+  - name: educationapplicant
+    type: BOOLEAN
+  - name: numberofprojects
+    type: SMALLINT
+  - name: federalobligatedamount
+    type: DOUBLE
+  - name: lastrefresh
+    type: TIMESTAMP
+  - name: hash
+    type: VARCHAR

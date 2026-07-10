@@ -1,18 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-congress-resignations-congressional-resignations`. Regenerate after model-verify.
+key: [district, reason, source, congress, category]
+sort: [district, reason, source, congress, category]
 columns:
-  - name: Member
+  - name: member
     type: VARCHAR
-  - name: Party
+  - name: party
     type: VARCHAR
-  - name: District
+  - name: district
     type: VARCHAR
-  - name: Congress
+  - name: congress
     type: VARCHAR
-  - name: Resignation Date
+  - name: resignation_date
     type: VARCHAR
-  - name: Reason
+  - name: reason
     type: VARCHAR
-  - name: Source
+  - name: source
     type: VARCHAR
-  - name: Category
+  - name: category
     type: VARCHAR

@@ -1,14 +1,14 @@
 spec_id: fema-publicassistancefundedprojectsdetails
 status: active
 tests:
-  - not_null: id
-    reason: OpenFEMA appends a system-generated record id to every row of every dataset
+  - not_null: hash
+    reason: OpenFEMA publishes hash as the stable per-row identifier for this dataset; no system id column is present in the full-file export
     certainty: 95
-  - unique: id
-    reason: the OpenFEMA record id is a per-row unique key; dupes mean the full-file was concatenated/double-pulled
+  - unique: hash
+    reason: the OpenFEMA hash is the per-row unique key for this dataset; dupes mean the full-file was concatenated/double-pulled
     certainty: 95
-  - column_type: {col: id, type: string}
-    reason: OpenFEMA serves id as uuid in the typed full-file
+  - column_type: {col: hash, type: string}
+    reason: OpenFEMA serves hash as text in the typed full-file
     certainty: 90
   - row_count: {min: 407165}
     reason: catalog recordCount=814331 at migration; a full-corpus snapshot should not fall below ~half that without a truncated download

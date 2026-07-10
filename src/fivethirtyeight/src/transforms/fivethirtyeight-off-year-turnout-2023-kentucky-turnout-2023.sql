@@ -1,0 +1,33 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "NAME" AS name,
+    "2023 votes" AS 2023_votes,
+    "2019 votes" AS 2019_votes,
+    "2015 votes" AS 2015_votes,
+    "2011 votes" AS 2011_votes,
+    "pop_total_estimate_18to22",
+    "cvap_estimate_18to22",
+    "cvap_estimate_13to17",
+    "cvap_estimate_08to12",
+    "2023 cvap_turnout" AS 2023_cvap_turnout,
+    "Change in % turnout from 2019" AS change_in_turnout_from_2019,
+    "2019 cvap_turnout" AS 2019_cvap_turnout,
+    "2015 cvap_turnout" AS 2015_cvap_turnout,
+    "2011 cvap_turnout" AS 2011_cvap_turnout,
+    "Biden margin 2020" AS biden_margin_2020,
+    "POPPCT_URB_20" AS poppct_urb_20,
+    "age_median_estimate_18to22",
+    "white_pct_18to22",
+    "black_pct_18to22",
+    "hisp_lat_pct_18to22",
+    "asian_pct_18to22",
+    "nh_pi_pct_18to22",
+    "ai_an_pct_18to22",
+    "lessHS_25over_pct_18to22" AS lesshs_25over_pct_18to22,
+    "HSgrad_25over_pct_18to22" AS hsgrad_25over_pct_18to22,
+    "somecollege_25over_pct_18to22",
+    "bachhigher_25over_pct_18to22"
+FROM "fivethirtyeight-off-year-turnout-2023-kentucky-turnout-2023"

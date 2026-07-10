@@ -1,0 +1,72 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-hazardmitigationassistanceprojects`. Regenerate after model-verify.
+key: [id, projectidentifier, state, statenumbercode, programarea]
+temporal: dateapproved
+sort: [dateapproved, id, projectidentifier, state, statenumbercode, programarea]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: region
+    type: SMALLINT
+  - name: statenumbercode
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: countycode
+    type: BIGINT
+  - name: county
+    type: VARCHAR
+  - name: programarea
+    type: VARCHAR
+  - name: projectidentifier
+    type: VARCHAR
+  - name: projecttype
+    type: VARCHAR
+  - name: projectcounties
+    type: VARCHAR
+  - name: numberofproperties
+    type: SMALLINT
+  - name: numberoffinalproperties
+    type: SMALLINT
+  - name: status
+    type: VARCHAR
+  - name: subrecipient
+    type: VARCHAR
+  - name: projectamount
+    type: DOUBLE
+  - name: initialobligationdate
+    type: DATE
+  - name: initialobligationamount
+    type: DOUBLE
+  - name: costsharepercentage
+    type: DOUBLE
+  - name: federalshareobligated
+    type: DOUBLE
+  - name: programfy
+    type: SMALLINT
+  - name: dateinitiallyapproved
+    type: DATE
+  - name: dateapproved
+    type: DATE
+  - name: dateclosed
+    type: DATE
+  - name: recipienttribalindicator
+    type: BOOLEAN
+  - name: recipient
+    type: VARCHAR
+  - name: disasternumber
+    type: SMALLINT
+  - name: benefitcostratio
+    type: DOUBLE
+  - name: netvaluebenefits
+    type: DOUBLE
+  - name: subrecipienttribalindicator
+    type: BOOLEAN
+  - name: datasource
+    type: VARCHAR
+  - name: subrecipientadmincostamt
+    type: BIGINT
+  - name: recipientadmincostamt
+    type: DOUBLE
+  - name: srmcobligatedamt
+    type: DOUBLE

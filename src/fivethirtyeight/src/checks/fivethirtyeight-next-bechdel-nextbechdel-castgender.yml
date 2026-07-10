@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fivethirtyeight-next-bechdel-nextbechdel-castgender`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [actor, character_name, billing, movie, type]
+checks:
+  - kind: unique
+    columns: [actor, character_name, billing, movie, type]
+  - kind: not_null
+    col: actor
+  - kind: not_null
+    col: character_name
+  - kind: not_null
+    col: billing
+  - kind: not_null
+    col: movie
+  - kind: not_null
+    col: type
+  - kind: row_floor
+    min: 1037
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

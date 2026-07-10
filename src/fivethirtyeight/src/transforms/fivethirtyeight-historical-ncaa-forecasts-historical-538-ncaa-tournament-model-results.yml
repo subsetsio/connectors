@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-historical-ncaa-forecasts-historical-538-ncaa-tournament-model-results`. Regenerate after model-verify.
+key: [underdog, favorite, year]
+temporal: year
+sort: [year, underdog, favorite]
+columns:
+  - name: year
+    type: BIGINT
+  - name: round
+    type: BIGINT
+  - name: favorite
+    type: VARCHAR
+  - name: underdog
+    type: VARCHAR
+  - name: favorite_probability
+    type: DOUBLE
+  - name: favorite_win_flag
+    type: BIGINT

@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-poll-quiz-guns-guns-polls`. Regenerate after model-verify.
+key: [url, pollster, end, start, question]
+sort: [url, pollster, end, start, question]
+columns:
+  - name: question
+    type: VARCHAR
+  - name: start
+    type: VARCHAR
+  - name: end
+    type: VARCHAR
+  - name: pollster
+    type: VARCHAR
+  - name: population
+    type: VARCHAR
+  - name: support
+    type: BIGINT
+  - name: republican_support
+    type: BIGINT
+  - name: democratic_support
+    type: BIGINT
+  - name: url
+    type: VARCHAR

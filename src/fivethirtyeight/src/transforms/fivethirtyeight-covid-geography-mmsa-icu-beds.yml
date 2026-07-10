@@ -1,12 +1,13 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [MMSA]
-sort: [MMSA]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-covid-geography-mmsa-icu-beds`. Regenerate after model-verify.
+key: [mmsa]
+sort: [mmsa]
 columns:
-  - name: MMSA
+  - name: mmsa
     type: VARCHAR
   - name: total_percent_at_risk
     type: VARCHAR
-  - name: high_risk_per_ICU_bed
+  - name: high_risk_per_icu_bed
     type: DOUBLE
   - name: high_risk_per_hospital
     type: DOUBLE

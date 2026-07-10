@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-goose-goose-rawdata`. Regenerate after model-verify.
+key: [name, key_retro, year, team, league]
+temporal: year
+sort: [year, name, key_retro, team, league]
+columns:
+  - name: name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: team
+    type: VARCHAR
+  - name: league
+    type: VARCHAR
+  - name: goose_eggs
+    type: BIGINT
+  - name: broken_eggs
+    type: BIGINT
+  - name: mehs
+    type: BIGINT
+  - name: league_average_gpct
+    type: DOUBLE
+  - name: ppf
+    type: BIGINT
+  - name: replacement_gpct
+    type: DOUBLE
+  - name: gwar
+    type: DOUBLE
+  - name: key_retro
+    type: VARCHAR

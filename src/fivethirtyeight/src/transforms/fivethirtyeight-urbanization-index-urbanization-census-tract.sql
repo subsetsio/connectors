@@ -1,1 +1,14 @@
-SELECT * FROM "fivethirtyeight-urbanization-index-urbanization-census-tract"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "statefips",
+    "state",
+    "gisjoin",
+    "lat_tract",
+    "long_tract",
+    "population",
+    "adj_radiuspop_5",
+    "urbanindex"
+FROM "fivethirtyeight-urbanization-index-urbanization-census-tract"

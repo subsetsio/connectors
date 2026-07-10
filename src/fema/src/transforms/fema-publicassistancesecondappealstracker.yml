@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-publicassistancesecondappealstracker`. Regenerate after model-verify.
+key: [id]
+temporal: hqreceiveddate
+sort: [hqreceiveddate, id]
+columns:
+  - name: region
+    type: SMALLINT
+  - name: disasternumber
+    type: VARCHAR
+  - name: declarationtype
+    type: VARCHAR
+  - name: recipient
+    type: VARCHAR
+  - name: appellant
+    type: VARCHAR
+  - name: applicantid
+    type: VARCHAR
+  - name: pwgmpnumber
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: hqreceiveddate
+    type: DATE
+  - name: emailacknowledgementdate
+    type: DATE
+  - name: rfisentdate
+    type: DATE
+  - name: rfiduedate
+    type: DATE
+  - name: rfireceiveddate
+    type: DATE
+  - name: decisionsigneddate
+    type: DATE
+  - name: id
+    type: BIGINT

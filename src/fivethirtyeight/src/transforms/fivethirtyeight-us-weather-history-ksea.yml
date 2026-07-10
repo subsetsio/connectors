@@ -1,7 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [date]
-temporal: date
-sort: [date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-us-weather-history-ksea`. Regenerate after model-verify.
+key: [date, record_max_temp_year, record_min_temp_year]
+sort: [date, record_max_temp_year, record_min_temp_year]
 columns:
   - name: date
     type: VARCHAR

@@ -1,0 +1,152 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-fimanfipclaims`. Regenerate after model-verify.
+key: [id]
+temporal: asofdate
+sort: [asofdate, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: agriculturestructureindicator
+    type: BOOLEAN
+  - name: asofdate
+    type: TIMESTAMP
+  - name: basementenclosurecrawlspacetype
+    type: SMALLINT
+  - name: policycount
+    type: SMALLINT
+  - name: crsclassificationcode
+    type: SMALLINT
+  - name: dateofloss
+    type: DATE
+  - name: elevatedbuildingindicator
+    type: BOOLEAN
+  - name: elevationcertificateindicator
+    type: VARCHAR
+  - name: elevationdifference
+    type: DOUBLE
+  - name: basefloodelevation
+    type: DOUBLE
+  - name: ratedfloodzone
+    type: VARCHAR
+  - name: houseworship
+    type: BOOLEAN
+  - name: locationofcontents
+    type: SMALLINT
+  - name: lowestadjacentgrade
+    type: DOUBLE
+  - name: lowestfloorelevation
+    type: DOUBLE
+  - name: numberoffloorsintheinsuredbuilding
+    type: SMALLINT
+  - name: nonprofitindicator
+    type: BOOLEAN
+  - name: obstructiontype
+    type: SMALLINT
+  - name: occupancytype
+    type: SMALLINT
+  - name: originalconstructiondate
+    type: DATE
+  - name: originalnbdate
+    type: DATE
+  - name: amountpaidonbuildingclaim
+    type: DOUBLE
+  - name: amountpaidoncontentsclaim
+    type: DOUBLE
+  - name: amountpaidonincreasedcostofcomplianceclaim
+    type: DOUBLE
+  - name: postfirmconstructionindicator
+    type: BOOLEAN
+  - name: ratemethod
+    type: VARCHAR
+  - name: smallbusinessindicatorbuilding
+    type: BOOLEAN
+  - name: totalbuildinginsurancecoverage
+    type: BIGINT
+  - name: totalcontentsinsurancecoverage
+    type: BIGINT
+  - name: yearofloss
+    type: SMALLINT
+  - name: primaryresidenceindicator
+    type: BOOLEAN
+  - name: buildingdamageamount
+    type: BIGINT
+  - name: buildingdeductiblecode
+    type: VARCHAR
+  - name: netbuildingpaymentamount
+    type: DOUBLE
+  - name: buildingpropertyvalue
+    type: BIGINT
+  - name: causeofdamage
+    type: VARCHAR
+  - name: condominiumcoveragetypecode
+    type: VARCHAR
+  - name: contentsdamageamount
+    type: BIGINT
+  - name: contentsdeductiblecode
+    type: VARCHAR
+  - name: netcontentspaymentamount
+    type: DOUBLE
+  - name: contentspropertyvalue
+    type: BIGINT
+  - name: disasterassistancecoveragerequired
+    type: SMALLINT
+  - name: eventdesignationnumber
+    type: VARCHAR
+  - name: ficonumber
+    type: SMALLINT
+  - name: floodcharacteristicsindicator
+    type: SMALLINT
+  - name: floodwaterduration
+    type: SMALLINT
+  - name: floodproofedindicator
+    type: BOOLEAN
+  - name: floodevent
+    type: VARCHAR
+  - name: icccoverage
+    type: INTEGER
+  - name: neticcpaymentamount
+    type: DOUBLE
+  - name: nfipratedcommunitynumber
+    type: VARCHAR
+  - name: nfipcommunitynumbercurrent
+    type: VARCHAR
+  - name: nfipcommunityname
+    type: VARCHAR
+  - name: nonpaymentreasoncontents
+    type: VARCHAR
+  - name: nonpaymentreasonbuilding
+    type: VARCHAR
+  - name: numberofunits
+    type: INTEGER
+  - name: buildingreplacementcost
+    type: BIGINT
+  - name: contentsreplacementcost
+    type: BIGINT
+  - name: replacementcostbasis
+    type: VARCHAR
+  - name: stateownedindicator
+    type: BOOLEAN
+  - name: waterdepth
+    type: SMALLINT
+  - name: floodzonecurrent
+    type: VARCHAR
+  - name: buildingdescriptioncode
+    type: SMALLINT
+  - name: rentalpropertyindicator
+    type: BOOLEAN
+  - name: state
+    type: VARCHAR
+  - name: reportedcity
+    type: VARCHAR
+  - name: reportedzipcode
+    type: VARCHAR
+  - name: countycode
+    type: VARCHAR
+  - name: censustract
+    type: VARCHAR
+  - name: censusblockgroupfips
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE

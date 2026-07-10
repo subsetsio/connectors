@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fivethirtyeight-mueller-polls-mueller-approval-polls`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [url, start, text, pollster, population]
+checks:
+  - kind: unique
+    columns: [url, start, text, pollster, population]
+  - kind: not_null
+    col: url
+  - kind: not_null
+    col: start
+  - kind: not_null
+    col: text
+  - kind: not_null
+    col: pollster
+  - kind: not_null
+    col: population
+  - kind: row_floor
+    min: 32
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-hazardmitigationassistanceprojectsfinancialtransactions`. Regenerate after model-verify.
+key: [id]
+temporal: transactiondate
+sort: [transactiondate, id]
+columns:
+  - name: projectidentifier
+    type: VARCHAR
+  - name: transactionidentifier
+    type: SMALLINT
+  - name: transactiondate
+    type: DATE
+  - name: commitmentidentifier
+    type: VARCHAR
+  - name: accsline
+    type: VARCHAR
+  - name: fundcode
+    type: VARCHAR
+  - name: federalshareprojectcostamt
+    type: DOUBLE
+  - name: recipientadmincostamt
+    type: DOUBLE
+  - name: subrecipientadmincostamt
+    type: DOUBLE
+  - name: subrecipientmgmtcostamt
+    type: DOUBLE
+  - name: id
+    type: VARCHAR

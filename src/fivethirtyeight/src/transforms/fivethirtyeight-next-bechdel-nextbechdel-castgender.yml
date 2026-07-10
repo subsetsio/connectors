@@ -1,14 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-next-bechdel-nextbechdel-castgender`. Regenerate after model-verify.
+key: [actor, character_name, billing, movie, type]
+sort: [actor, character_name, billing, movie, type]
 columns:
-  - name: MOVIE
+  - name: movie
     type: VARCHAR
-  - name: ACTOR
+  - name: actor
     type: VARCHAR
-  - name: CHARACTER_NAME
+  - name: character_name
     type: VARCHAR
-  - name: TYPE
+  - name: type
     type: VARCHAR
-  - name: BILLING
+  - name: billing
     type: VARCHAR
-  - name: GENDER
+  - name: gender
     type: VARCHAR

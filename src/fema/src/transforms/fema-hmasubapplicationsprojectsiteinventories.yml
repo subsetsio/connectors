@@ -1,0 +1,87 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-hmasubapplicationsprojectsiteinventories`. Regenerate after model-verify.
+key: [id, subapplicationid, city, stateabbreviation, statecode]
+sort: [id, subapplicationid, city, stateabbreviation, statecode]
+columns:
+  - name: subapplicationid
+    type: VARCHAR
+  - name: projectsiteinventoryid
+    type: INTEGER
+  - name: projectsiteinventorytype
+    type: VARCHAR
+  - name: primaryactivity
+    type: VARCHAR
+  - name: secondaryactivity
+    type: VARCHAR
+  - name: primaryhazard
+    type: VARCHAR
+  - name: secondaryhazard
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: countycode
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: statecode
+    type: VARCHAR
+  - name: stateabbreviation
+    type: VARCHAR
+  - name: zipcode
+    type: VARCHAR
+  - name: structuretype
+    type: VARCHAR
+  - name: structureprimarysubtype
+    type: VARCHAR
+  - name: structuresecondarysubtype
+    type: VARCHAR
+  - name: foundationtype
+    type: VARCHAR
+  - name: buildingsize
+    type: DOUBLE
+  - name: lotsize
+    type: DOUBLE
+  - name: yearbuilt
+    type: SMALLINT
+  - name: firstfloorelevation
+    type: DOUBLE
+  - name: feetabovebasefloodelevation
+    type: DOUBLE
+  - name: basefloodelevation
+    type: DOUBLE
+  - name: floodzone
+    type: VARCHAR
+  - name: estimatedpurchaseprice
+    type: DOUBLE
+  - name: proposedlanduse
+    type: VARCHAR
+  - name: currentlyrented
+    type: BOOLEAN
+  - name: criticalfacility
+    type: BOOLEAN
+  - name: alternatestructure
+    type: BOOLEAN
+  - name: substantiallydamaged
+    type: BOOLEAN
+  - name: publiclyowned
+    type: BOOLEAN
+  - name: insured
+    type: BOOLEAN
+  - name: insurancetype
+    type: VARCHAR
+  - name: repetitivelossstructure
+    type: BOOLEAN
+  - name: severerepetitivelossstructure
+    type: BOOLEAN
+  - name: costeffectivenessmethod
+    type: VARCHAR
+  - name: precalculatedbenefit
+    type: VARCHAR
+  - name: benefitcostratio
+    type: DOUBLE
+  - name: ownertype
+    type: VARCHAR
+  - name: coownertype
+    type: VARCHAR
+  - name: id
+    type: VARCHAR

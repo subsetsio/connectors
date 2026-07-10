@@ -1,0 +1,62 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-trainingclassschedule`. Regenerate after model-verify.
+key: [id]
+temporal: classstartdatetime
+sort: [classstartdatetime, id]
+columns:
+  - name: datasource
+    type: VARCHAR
+  - name: courseid
+    type: VARCHAR
+  - name: coursecatalognumber
+    type: VARCHAR
+  - name: classid
+    type: BIGINT
+  - name: classstartdatetime
+    type: TIMESTAMP
+  - name: classenddatetime
+    type: TIMESTAMP
+  - name: classtimezone
+    type: VARCHAR
+  - name: classregistrationrequired
+    type: BOOLEAN
+  - name: classregistrationurl
+    type: VARCHAR
+  - name: classregistrationopendate
+    type: DATE
+  - name: classregistrationclosedate
+    type: DATE
+  - name: classlocationname
+    type: VARCHAR
+  - name: classlocationaddress1
+    type: VARCHAR
+  - name: classlocationaddress2
+    type: VARCHAR
+  - name: classlocationcity
+    type: VARCHAR
+  - name: classlocationstate
+    type: VARCHAR
+  - name: classlocationzipcode
+    type: VARCHAR
+  - name: classlocationcounty
+    type: VARCHAR
+  - name: classtrainingprovider
+    type: VARCHAR
+  - name: classdeliverymethod
+    type: BIGINT
+  - name: classpocname
+    type: VARCHAR
+  - name: classpocemail
+    type: VARCHAR
+  - name: classpocphone
+    type: BIGINT
+  - name: classpocinfo
+    type: VARCHAR
+  - name: classspecifictitle
+    type: VARCHAR
+  - name: classadditionalcomments
+    type: VARCHAR
+  - name: id
+    type: VARCHAR
+  - name: lastrefresh
+    type: TIMESTAMP

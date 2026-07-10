@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-media-mentions-2020-online-weekly`. Regenerate after model-verify.
+key: [date, name, query]
+temporal: date
+sort: [date, name, query]
+columns:
+  - name: date
+    type: DATE
+  - name: name
+    type: VARCHAR
+  - name: matched_stories
+    type: DOUBLE
+  - name: all_candidate_stories
+    type: BIGINT
+  - name: pct_of_all_candidate_stories
+    type: DOUBLE
+  - name: query
+    type: VARCHAR

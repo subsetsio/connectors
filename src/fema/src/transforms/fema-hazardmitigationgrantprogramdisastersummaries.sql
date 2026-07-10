@@ -1,0 +1,42 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "id",
+    "disasterNumber" AS disasternumber,
+    "declarationDate" AS declarationdate,
+    "disasterType" AS disastertype,
+    "incidentType" AS incidenttype,
+    "title",
+    "region",
+    "state",
+    "disasterCloseoutStatus" AS disastercloseoutstatus,
+    "hmgpCloseoutStatus" AS hmgpcloseoutstatus,
+    "disasterCloseoutDate" AS disastercloseoutdate,
+    "hmgpReconciliationDate" AS hmgpreconciliationdate,
+    "disasterDueDateForNewApps" AS disasterduedatefornewapps,
+    "disasterPopEndDate" AS disasterpopenddate,
+    "hmgpPopEndDate" AS hmgppopenddate,
+    "hmgpPopExtnDate" AS hmgppopextndate,
+    "hmgpPopExtnNum" AS hmgppopextnnum,
+    "liqPeriodDate" AS liqperioddate,
+    "liqPeriodMaxDate" AS liqperiodmaxdate,
+    "liqPeriodMaxPopNum" AS liqperiodmaxpopnum,
+    "liqPeriodMaxExtDate" AS liqperiodmaxextdate,
+    "liqPeriodMaxExtNum" AS liqperiodmaxextnum,
+    "mitigationDollarsAvailable" AS mitigationdollarsavailable,
+    "lockedInCeilingAmount" AS lockedinceilingamount,
+    "obligatedTotalAmount" AS obligatedtotalamount,
+    "obligatedInitiativeAmount" AS obligatedinitiativeamount,
+    "obligatedPlanningAmount" AS obligatedplanningamount,
+    "obligatedRegularAmount" AS obligatedregularamount,
+    "obligatedRecipientMgmtAmt" AS obligatedrecipientmgmtamt,
+    "obligatedRecipientAdmin" AS obligatedrecipientadmin,
+    "obligatedSubrecipientAdmin" AS obligatedsubrecipientadmin,
+    "obligatedSubrecipMgmtAmt" AS obligatedsubrecipmgmtamt,
+    "pendingProjectsQuantity" AS pendingprojectsquantity,
+    "pendingFedShareProposedAmt" AS pendingfedshareproposedamt,
+    "lastRefresh" AS lastrefresh,
+    "hash"
+FROM "fema-hazardmitigationgrantprogramdisastersummaries"

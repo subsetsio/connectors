@@ -14,6 +14,11 @@ tests:
     reason: catalog recordCount=25970 at migration; a full-corpus snapshot should not fall below ~half that without a truncated download
     certainty: 80
     severity: block
+  - freshness: {col: projectEndDate, reaches: today - 540d}
+    reason: "OpenFEMA grant performance periods should advance as newer grant records are published; an older max suggests the source is frozen or the dataset scope changed"
+    certainty: 55
+    points_outward: true
+    severity: warn
   - not_null: reportingPeriod
     reason: reportingPeriod is non-nullable per the OpenFEMA data dictionary
     certainty: 85

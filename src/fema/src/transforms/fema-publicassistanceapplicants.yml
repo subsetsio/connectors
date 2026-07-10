@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-publicassistanceapplicants`. Regenerate after model-verify.
+key: [id]
+temporal: lastrefresh
+sort: [lastrefresh, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: disasternumber
+    type: SMALLINT
+  - name: applicantid
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: applicantname
+    type: VARCHAR
+  - name: addressline1
+    type: VARCHAR
+  - name: addressline2
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: zipcode
+    type: VARCHAR
+  - name: lastrefresh
+    type: TIMESTAMP
+  - name: hash
+    type: VARCHAR

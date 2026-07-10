@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-state-of-the-polls-2024-2012-races`. Regenerate after model-verify.
+key: [seat, state, cook_rating, type]
+sort: [seat, state, cook_rating, type]
+columns:
+  - name: type
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: seat
+    type: VARCHAR
+  - name: num_polls
+    type: BIGINT
+  - name: num_polls_partisan
+    type: BIGINT
+  - name: cook_rating
+    type: VARCHAR

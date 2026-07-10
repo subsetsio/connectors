@@ -1,32 +1,35 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-mlb-allstar-teams-allstar-team-talent`. Regenerate after model-verify.
+key: [no_2_player, gameid, no_1_player, lgid]
+sort: [no_2_player, gameid, no_1_player, lgid]
 columns:
-  - name: yearID
+  - name: yearid
     type: BIGINT
-  - name: gameNum
+  - name: gamenum
     type: BIGINT
-  - name: gameID
+  - name: gameid
     type: VARCHAR
-  - name: lgID
+  - name: lgid
     type: VARCHAR
-  - name: tm_OFF_talent
+  - name: tm_off_talent
     type: DOUBLE
-  - name: tm_DEF_talent
+  - name: tm_def_talent
     type: DOUBLE
-  - name: tm_PIT_talent
+  - name: tm_pit_talent
     type: DOUBLE
-  - name: MLB_avg_RPG
+  - name: mlb_avg_rpg
     type: DOUBLE
-  - name: talent_RSPG
+  - name: talent_rspg
     type: DOUBLE
-  - name: talent_RAPG
+  - name: talent_rapg
     type: DOUBLE
-  - name: unadj_PYTH
+  - name: unadj_pyth
     type: DOUBLE
   - name: timeline_adj
     type: DOUBLE
-  - name: SOS
+  - name: sos
     type: DOUBLE
-  - name: adj_PYTH
+  - name: adj_pyth
     type: DOUBLE
   - name: no_1_player
     type: VARCHAR

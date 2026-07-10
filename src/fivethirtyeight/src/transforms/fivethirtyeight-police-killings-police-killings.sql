@@ -1,1 +1,40 @@
-SELECT * FROM "fivethirtyeight-police-killings-police-killings"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "name",
+    "age",
+    "gender",
+    "raceethnicity",
+    "month",
+    "day",
+    "year",
+    "streetaddress",
+    "city",
+    "state",
+    "latitude",
+    "longitude",
+    "state_fp",
+    "county_fp",
+    "tract_ce",
+    "geo_id",
+    "county_id",
+    "namelsad",
+    "lawenforcementagency",
+    "cause",
+    "armed",
+    "pop",
+    "share_white",
+    "share_black",
+    "share_hispanic",
+    "p_income",
+    "h_income",
+    "county_income",
+    "comp_income",
+    "county_bucket",
+    "nat_bucket",
+    "pov",
+    "urate",
+    "college"
+FROM "fivethirtyeight-police-killings-police-killings"

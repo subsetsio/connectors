@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-femawebdisastersummaries`. Regenerate after model-verify.
+key: [disasternumber]
+temporal: lastrefresh
+sort: [lastrefresh, disasternumber]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: disasternumber
+    type: SMALLINT
+  - name: totalnumberiaapproved
+    type: DOUBLE
+  - name: totalamountihpapproved
+    type: DOUBLE
+  - name: totalamounthaapproved
+    type: DOUBLE
+  - name: totalamountonaapproved
+    type: DOUBLE
+  - name: totalobligatedamountpa
+    type: DOUBLE
+  - name: totalobligatedamountcatab
+    type: DOUBLE
+  - name: totalobligatedamountcatc2g
+    type: DOUBLE
+  - name: paloaddate
+    type: DATE
+  - name: ialoaddate
+    type: DATE
+  - name: totalobligatedamounthmgp
+    type: DOUBLE
+  - name: lastrefresh
+    type: TIMESTAMP
+  - name: hash
+    type: VARCHAR

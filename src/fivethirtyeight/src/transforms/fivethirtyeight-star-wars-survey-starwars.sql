@@ -1,1 +1,44 @@
-SELECT * FROM "fivethirtyeight-star-wars-survey-starwars"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "RespondentID" AS respondentid,
+    "Have you seen any of the 6 films in the Star Wars franchise?" AS have_you_seen_any_of_the_6_films_in_the_star_wars_franchise,
+    "Do you consider yourself to be a fan of the Star Wars film franchise?" AS do_you_consider_yourself_to_be_a_fan_of_the_star_wars_film_franchise,
+    "Which of the following Star Wars films have you seen? Please select all that apply." AS which_of_the_following_star_wars_films_have_you_seen_please_select_all_that_apply,
+    "C4" AS c4,
+    "_1" AS 1,
+    "_2" AS 2,
+    "_3" AS 3,
+    "_4" AS 4,
+    "Please rank the Star Wars films in order of preference with 1 being your favorite film in the franchise and 6 being your least favorite film." AS please_rank_the_star_wars_films_in_order_of_preference_with_1_being_your_favorite_film_in_the_franchise_and_6_being_your_least_favorite_film,
+    "_5" AS 5,
+    "_6" AS 6,
+    "_7" AS 7,
+    "_8" AS 8,
+    "_9" AS 9,
+    "Please state whether you view the following characters favorably, unfavorably, or are unfamiliar with him/her." AS please_state_whether_you_view_the_following_characters_favorably_unfavorably_or_are_unfamiliar_with_him_her,
+    "_10" AS 10,
+    "_11" AS 11,
+    "_12" AS 12,
+    "_13" AS 13,
+    "_14" AS 14,
+    "_15" AS 15,
+    "_16" AS 16,
+    "_17" AS 17,
+    "_18" AS 18,
+    "_19" AS 19,
+    "_20" AS 20,
+    "_21" AS 21,
+    "_22" AS 22,
+    "Which character shot first?" AS which_character_shot_first,
+    "Are you familiar with the Expanded Universe?" AS are_you_familiar_with_the_expanded_universe,
+    "Do you consider yourself to be a fan of the Expanded Universe?Œæ" AS do_you_consider_yourself_to_be_a_fan_of_the_expanded_universe,
+    "Do you consider yourself to be a fan of the Star Trek franchise?" AS do_you_consider_yourself_to_be_a_fan_of_the_star_trek_franchise,
+    "Gender" AS gender,
+    "Age" AS age,
+    "Household Income" AS household_income,
+    "Education" AS education,
+    "Location (Census Region)" AS location_census_region
+FROM "fivethirtyeight-star-wars-survey-starwars"

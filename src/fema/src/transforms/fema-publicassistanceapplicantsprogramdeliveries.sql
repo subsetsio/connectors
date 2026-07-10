@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "id",
+    "declarationType" AS declarationtype,
+    "disasterNumber" AS disasternumber,
+    "stateCode" AS statecode,
+    "stateName" AS statename,
+    "declarationDate" AS declarationdate,
+    "incidentType" AS incidenttype,
+    "declarationTitle" AS declarationtitle,
+    "region",
+    "consolidatedResourceCenter" AS consolidatedresourcecenter,
+    "countyApplicantJurisdiction" AS countyapplicantjurisdiction,
+    "utilizingDirectApplication" AS utilizingdirectapplication,
+    "applicantIdGm" AS applicantidgm,
+    "applicantIdEmmie" AS applicantidemmie,
+    "applicantName" AS applicantname,
+    "applicantType" AS applicanttype,
+    "isPnp" AS ispnp,
+    "applicantStatus" AS applicantstatus,
+    "applicantProcessStatus" AS applicantprocessstatus,
+    "numberActiveDamages" AS numberactivedamages,
+    "totalAppDamageCost" AS totalappdamagecost,
+    "numberActiveProjects" AS numberactiveprojects,
+    "currentProjectCost" AS currentprojectcost,
+    "numberPhase2Projects" AS numberphase2projects,
+    "phase2ProjectCost" AS phase2projectcost,
+    "numberPhase3Projects" AS numberphase3projects,
+    "phase3ProjectCost" AS phase3projectcost,
+    "numberPhase4Projects" AS numberphase4projects,
+    "phase4ProjectCost" AS phase4projectcost,
+    "numberPhase5Projects" AS numberphase5projects,
+    "phase5ProjectCost" AS phase5projectcost,
+    "numberObligatedProjects" AS numberobligatedprojects,
+    "federalShareObligated" AS federalshareobligated,
+    "lastRefresh" AS lastrefresh,
+    "hash"
+FROM "fema-publicassistanceapplicantsprogramdeliveries"

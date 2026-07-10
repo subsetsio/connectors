@@ -48,7 +48,7 @@ from tenacity import (
     stop_after_attempt,
     wait_exponential,
 )
-from subsets_utils import NodeSpec, SqlNodeSpec, get_client, raw_writer
+from subsets_utils import NodeSpec, get_client, raw_writer
 
 # Entity name -> OpenFEMA API version (the path segment v1/v2/v4). Copied from
 # the rank-accepted entity union; versions read from the DataSets catalog.
@@ -223,24 +223,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per dataset. Every retained OpenFEMA full file
-# (parquet or the one CSV override) is flat tabular, so the transform is a thin
-# pass-through: SELECT * republishes the full corpus, and the runtime's
-# 0-rows-is-failure rule guards a broken download. (The lone dataset that needed
-# a projecting transform — IpawsArchivedAlerts, whose JSONL carried nested CAP
-# structs — was dropped in rank as not_extractable_at_scale, so no custom SQL
-# remains.)
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-        # Every OpenFEMA record carries a system-assigned unique `id` (the API's
-        # documented per-record primary key), present in every full-file corpus
-        # incl. the $allrecords streams — see the download notes above.
-        key=("id",),
-    )
-    for s in DOWNLOAD_SPECS
 ]

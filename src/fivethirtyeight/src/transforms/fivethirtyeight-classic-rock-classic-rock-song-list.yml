@@ -1,21 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [COMBINED]
-temporal: Release Year
-sort: [Release Year, COMBINED]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fivethirtyeight-classic-rock-classic-rock-song-list`. Regenerate after model-verify.
+key: [song_clean, combined, artist_clean, release_year]
+sort: [song_clean, combined, artist_clean, release_year]
 columns:
-  - name: Song Clean
+  - name: song_clean
     type: VARCHAR
-  - name: ARTIST CLEAN
+  - name: artist_clean
     type: VARCHAR
-  - name: Release Year
+  - name: release_year
     type: VARCHAR
-  - name: COMBINED
+  - name: combined
     type: VARCHAR
-  - name: First?
+  - name: first
     type: BIGINT
-  - name: Year?
+  - name: year
     type: BIGINT
-  - name: PlayCount
+  - name: playcount
     type: BIGINT
-  - name: F*G
+  - name: f_g
     type: BIGINT

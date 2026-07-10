@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-hmasubapplicationsfinancialtransactions`. Regenerate after model-verify.
+key: [id]
+temporal: transactiondate
+sort: [transactiondate, id]
+columns:
+  - name: subapplicationidentifier
+    type: VARCHAR
+  - name: transactiontype
+    type: VARCHAR
+  - name: transactiondate
+    type: DATE
+  - name: commitmentidentifier
+    type: VARCHAR
+  - name: paymentnumber
+    type: SMALLINT
+  - name: accsline
+    type: VARCHAR
+  - name: fundcode
+    type: VARCHAR
+  - name: amount
+    type: DOUBLE
+  - name: id
+    type: VARCHAR

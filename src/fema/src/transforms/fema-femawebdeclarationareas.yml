@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fema-femawebdeclarationareas`. Regenerate after model-verify.
+key: [id]
+temporal: designateddate
+sort: [designateddate, id]
+columns:
+  - name: id
+    type: VARCHAR
+  - name: disasternumber
+    type: SMALLINT
+  - name: programtypecode
+    type: VARCHAR
+  - name: programtypedescription
+    type: VARCHAR
+  - name: statecode
+    type: VARCHAR
+  - name: statename
+    type: VARCHAR
+  - name: placecode
+    type: BIGINT
+  - name: placename
+    type: VARCHAR
+  - name: designateddate
+    type: DATE
+  - name: entrydate
+    type: DATE
+  - name: updatedate
+    type: DATE
+  - name: closeoutdate
+    type: DATE
+  - name: lastrefresh
+    type: TIMESTAMP
+  - name: hash
+    type: VARCHAR

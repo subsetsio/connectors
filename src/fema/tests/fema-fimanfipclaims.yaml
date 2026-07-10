@@ -20,3 +20,8 @@ tests:
   - column_type: {col: basementEnclosureCrawlspaceType, type: integer}
     reason: server typed full-file delivers basementEnclosureCrawlspaceType as integer; a string here means format drift (CSV fallback / changed export)
     certainty: 80
+  - freshness: {col: asOfDate, reaches: today - 540d}
+    reason: "OpenFEMA NFIP claim snapshots should carry a recent asOfDate when the redacted claims file is refreshed"
+    certainty: 55
+    points_outward: true
+    severity: warn
