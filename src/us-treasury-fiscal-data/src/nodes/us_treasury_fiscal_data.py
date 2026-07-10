@@ -27,13 +27,31 @@ Raw format: NDJSON. The 171 endpoints have 171 distinct schemas and the API
 returns every value as a string, including the literal string "null" for missing
 values, so a per-table parquet schema buys nothing here. NDJSON stores the
 records faithfully and the model stage types them from the profiled raw.
+
+The one exception is `v2/debt/tror`, at ~230 fields the only endpoint wider than
+DuckDB's `map_inference_threshold` (200). Every reader in the stack opens NDJSON
+with a bare `read_json_auto`, which silently infers one `MAP(VARCHAR, VARCHAR)`
+column instead of 230 struct fields, so the table profiles, tests and transforms
+all see a single opaque column. Parquet carries the schema explicitly and is
+read back by name.
 """
 
 import time
 
-from subsets_utils import NodeSpec, get, save_raw_ndjson, transient_retry
+import pyarrow as pa
+
+from subsets_utils import (
+    NodeSpec,
+    get,
+    save_raw_ndjson,
+    save_raw_parquet,
+    transient_retry,
+)
 
 from constants import ENDPOINTS, ENTITY_IDS
+
+# Wider than DuckDB's map_inference_threshold — see the module docstring.
+PARQUET_ENTITY_IDS = {"v2-debt-tror"}
 
 BASE_URL = "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/"
 SLUG_PREFIX = "us-treasury-fiscal-data-"
@@ -94,19 +112,7 @@ def _iter_table(endpoint: str, stats: dict):
         time.sleep(PAGE_DELAY_S)
 
 
-def fetch_one(node_id: str) -> None:
-    """Page one Fiscal Data table in full and overwrite its raw NDJSON.
-
-    The runtime passes the spec id, which is also the asset name; the collect
-    entity is recovered from it by stripping the connector prefix.
-    """
-    asset = node_id
-    entity_id = node_id.removeprefix(SLUG_PREFIX)
-    endpoint = ENDPOINTS[entity_id]
-
-    stats = {"rows": 0, "total_count": None}
-    save_raw_ndjson(_iter_table(endpoint, stats), asset)
-
+def _assert_complete(asset: str, endpoint: str, stats: dict) -> None:
     expected = stats["total_count"]
     if expected and stats["rows"] < expected * MIN_COMPLETENESS:
         raise RuntimeError(
@@ -115,7 +121,46 @@ def fetch_one(node_id: str) -> None:
         )
 
 
+def fetch_one(node_id: str) -> None:
+    """Page one Fiscal Data table in full and overwrite its raw NDJSON.
+
+    The runtime passes the spec id, which is also the asset name; the collect
+    entity is recovered from it by stripping the connector prefix.
+    """
+    asset = node_id
+    endpoint = ENDPOINTS[node_id.removeprefix(SLUG_PREFIX)]
+
+    stats = {"rows": 0, "total_count": None}
+    save_raw_ndjson(_iter_table(endpoint, stats), asset)
+    _assert_complete(asset, endpoint, stats)
+
+
+def fetch_wide(node_id: str) -> None:
+    """Same walk as `fetch_one`, landed as Parquet (see the module docstring).
+
+    Every field stays a string, exactly as the API and the NDJSON assets carry
+    it; only the schema becomes explicit. Column order follows first appearance,
+    and a field absent from a row lands null.
+    """
+    asset = node_id
+    endpoint = ENDPOINTS[node_id.removeprefix(SLUG_PREFIX)]
+
+    stats = {"rows": 0, "total_count": None}
+    rows = list(_iter_table(endpoint, stats))
+    _assert_complete(asset, endpoint, stats)
+
+    fields = list(dict.fromkeys(k for row in rows for k in row))
+    table = pa.table(
+        {f: pa.array([row.get(f) for row in rows], type=pa.string()) for f in fields}
+    )
+    save_raw_parquet(table, asset)
+
+
 DOWNLOAD_SPECS = [
-    NodeSpec(id=f"{SLUG_PREFIX}{eid}", fn=fetch_one, kind="download")
+    NodeSpec(
+        id=f"{SLUG_PREFIX}{eid}",
+        fn=fetch_wide if eid in PARQUET_ENTITY_IDS else fetch_one,
+        kind="download",
+    )
     for eid in ENTITY_IDS
 ]
