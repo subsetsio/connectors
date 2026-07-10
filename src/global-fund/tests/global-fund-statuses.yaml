@@ -13,3 +13,6 @@ tests:
   - row_count: {min: 3}
     reason: ~7 rows observed; a large drop signals a broken fetch
     certainty: 80
+  - freshness: {col: dateTimeCreated, reaches: today - 400d}
+    reason: status reference rows are stable but should include recent source-created records when the codelist changes
+    certainty: 75

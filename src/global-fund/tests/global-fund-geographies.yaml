@@ -13,3 +13,6 @@ tests:
   - row_count: {min: 150}
     reason: ~300 rows observed; a large drop signals truncated pagination
     certainty: 80
+  - freshness: {col: dateTimeCreated, reaches: today - 500d}
+    reason: geography reference records are stable and their creation timestamps advance infrequently
+    certainty: 75

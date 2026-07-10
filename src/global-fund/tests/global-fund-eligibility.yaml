@@ -21,3 +21,6 @@ tests:
   - row_count: {min: 5000}
     reason: ~10662 rows observed; a large drop signals truncated pagination
     certainty: 85
+  - freshness: {col: dateTimeCreated, reaches: today - 400d}
+    reason: eligibility rows are updated on an annual or allocation-cycle cadence
+    certainty: 80

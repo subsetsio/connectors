@@ -13,3 +13,6 @@ tests:
   - row_count: {min: 10}
     reason: ~21 logical datasets observed; a large drop signals truncated pagination
     certainty: 80
+  - freshness: {col: lastUpdated, reaches: today - 120d}
+    reason: DatasetInformation carries the source freshness stamps for the Global Fund data service
+    certainty: 90

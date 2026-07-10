@@ -10,3 +10,6 @@ tests:
   - row_count: {min: 100}
     reason: ~169 rows observed; a large drop signals truncated pagination
     certainty: 80
+  - freshness: {col: dateTimeCreated, reaches: today - 500d}
+    reason: coordinating mechanisms are stable reference records whose creation timestamps advance infrequently
+    certainty: 75

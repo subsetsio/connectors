@@ -13,3 +13,6 @@ tests:
   - row_count: {min: 500}
     reason: ~1112 rows observed; a large drop signals truncated pagination
     certainty: 80
+  - freshness: {col: dateTimeCreated, reaches: today - 120d}
+    reason: activity area taxonomy includes recently created rows in the Global Fund data service
+    certainty: 80

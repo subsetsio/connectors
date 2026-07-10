@@ -16,3 +16,6 @@ tests:
   - row_count: {min: 500000}
     reason: ~1.24M rows observed; a large shortfall signals the $top>=50000 empty-page trap or truncation
     certainty: 85
+  - freshness: {col: dateTimeCreated, reaches: today - 120d}
+    reason: financial indicators are refreshed by the Global Fund data service and should include recent created rows
+    certainty: 85

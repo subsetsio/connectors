@@ -16,3 +16,6 @@ tests:
   - row_count: {min: 8000}
     reason: ~15313 rows observed; a large drop signals truncated pagination
     certainty: 85
+  - freshness: {col: dateTimeCreated, reaches: today - 120d}
+    reason: programmatic indicators are refreshed by the Global Fund data service and should include recent created rows
+    certainty: 85

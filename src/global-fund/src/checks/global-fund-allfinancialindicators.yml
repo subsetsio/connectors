@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `global-fund-allfinancialindicators`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [financialindicatorid, recordid, datetimecreated, indicatorname, financialdataset]
+temporal: datetimecreated
+checks:
+  - kind: unique
+    columns: [financialindicatorid, recordid, datetimecreated, indicatorname, financialdataset]
+  - kind: not_null
+    col: financialindicatorid
+  - kind: not_null
+    col: recordid
+  - kind: not_null
+    col: datetimecreated
+  - kind: not_null
+    col: indicatorname
+  - kind: not_null
+    col: financialdataset
+  - kind: row_floor
+    min: 630722
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

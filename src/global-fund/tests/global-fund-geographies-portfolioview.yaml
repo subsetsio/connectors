@@ -13,3 +13,6 @@ tests:
   - row_count: {min: 80}
     reason: ~163 rows observed; a large drop signals truncated pagination
     certainty: 80
+  - freshness: {col: dateTimeCreated, reaches: today - 1000d}
+    reason: portfolio geography hierarchy rows are stable reference records
+    certainty: 70

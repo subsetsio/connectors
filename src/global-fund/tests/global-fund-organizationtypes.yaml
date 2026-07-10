@@ -13,3 +13,6 @@ tests:
   - row_count: {min: 15}
     reason: ~32 rows observed; a large drop signals truncated pagination
     certainty: 80
+  - freshness: {col: dateTimeCreated, reaches: today - 400d}
+    reason: organization types are stable reference records whose creation timestamps advance infrequently
+    certainty: 75

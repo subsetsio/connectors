@@ -13,3 +13,6 @@ tests:
   - row_count: {min: 80}
     reason: ~159 rows observed; a large drop signals truncated pagination
     certainty: 80
+  - freshness: {col: dateTimeCreated, reaches: today - 400d}
+    reason: donors are stable reference records whose creation timestamps advance infrequently
+    certainty: 75

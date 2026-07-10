@@ -16,3 +16,6 @@ tests:
   - row_count: {min: 400}
     reason: ~615 rows observed; a large drop signals truncated pagination
     certainty: 80
+  - freshness: {col: dateTimeCreated, reaches: today - 500d}
+    reason: funding requests update by allocation cycle rather than daily
+    certainty: 75
