@@ -5,5 +5,5 @@
 SELECT
     "Raiders at Jets 9/7/14" AS raiders_at_jets_9_7_14,
     "C1" AS c1,
-    "_1" AS 1
+    "_1" AS "1"
 FROM "fivethirtyeight-nfl-ticket-prices-jets-buyer"

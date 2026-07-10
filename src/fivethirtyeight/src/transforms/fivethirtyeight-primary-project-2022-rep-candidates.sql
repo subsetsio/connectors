@@ -20,7 +20,7 @@ SELECT
     "Runoff Votes" AS runoff_votes,
     "Runoff %" AS runoff,
     "Runoff Outcome" AS runoff_outcome,
-    "2020 Election Stance" AS 2020_election_stance,
+    "2020 Election Stance" AS "2020_election_stance",
     "Trump" AS trump,
     "Trump Date" AS trump_date,
     "Club for Growth" AS club_for_growth,

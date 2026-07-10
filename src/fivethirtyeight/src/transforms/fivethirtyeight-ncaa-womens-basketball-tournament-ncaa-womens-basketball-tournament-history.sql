@@ -15,7 +15,7 @@ SELECT
     "Reg. L" AS reg_l,
     "Reg. %" AS reg,
     "How qual" AS how_qual,
-    "1st game at home?" AS 1st_game_at_home,
+    "1st game at home?" AS "1st_game_at_home",
     "Tourney W" AS tourney_w,
     "Tourney L" AS tourney_l,
     "Tourney finish" AS tourney_finish,

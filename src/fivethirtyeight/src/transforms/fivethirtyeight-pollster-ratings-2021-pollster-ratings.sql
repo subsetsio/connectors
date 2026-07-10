@@ -10,7 +10,7 @@ SELECT
     "NCPP/AAPOR/Roper" AS ncpp_aapor_roper,
     "Banned by 538" AS banned_by_538,
     "Predictive Plus-Minus" AS predictive_plus_minus,
-    "538 Grade" AS 538_grade,
+    "538 Grade" AS "538_grade",
     "Mean-Reverted Bias" AS mean_reverted_bias,
     "Races Called Correctly" AS races_called_correctly,
     "Misses Outside MOE" AS misses_outside_moe,

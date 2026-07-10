@@ -14,7 +14,7 @@ SELECT
     "Races Called Correctly" AS races_called_correctly,
     "Advanced Plus-Minus" AS advanced_plus_minus,
     "Predictive Plus-Minus" AS predictive_plus_minus,
-    "538 Grade" AS 538_grade,
+    "538 Grade" AS "538_grade",
     "Banned by 538" AS banned_by_538,
     "Mean-Reverted Bias" AS mean_reverted_bias
 FROM "fivethirtyeight-pollster-ratings-2016-pollster-ratings"

@@ -9,5 +9,5 @@ SELECT
     "Median Household Income" AS median_household_income,
     "% Bachelor's Degree or Higher" AS bachelor_s_degree_or_higher,
     "Clinton Margin Improvement Over Obama" AS clinton_margin_improvement_over_obama,
-    "2017-2018 Dem Margin Improvement Over Partisan Lean" AS 2017_2018_dem_margin_improvement_over_partisan_lean
+    "2017-2018 Dem Margin Improvement Over Partisan Lean" AS "2017_2018_dem_margin_improvement_over_partisan_lean"
 FROM "fivethirtyeight-special-elections-special-elections"

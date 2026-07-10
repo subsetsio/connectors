@@ -12,5 +12,5 @@ SELECT
     "departure_day",
     "gender",
     "C8" AS c8,
-    "_1" AS 1
+    "_1" AS "1"
 FROM "fivethirtyeight-cabinet-turnover-cabinet-turnover"

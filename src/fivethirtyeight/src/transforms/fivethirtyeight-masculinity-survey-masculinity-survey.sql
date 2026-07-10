@@ -7,12 +7,12 @@ SELECT
     "C1" AS c1,
     "Adult Men" AS adult_men,
     "Age" AS age,
-    "_1" AS 1,
-    "_2" AS 2,
+    "_1" AS "1",
+    "_2" AS "2",
     "Race" AS race,
-    "_3" AS 3,
+    "_3" AS "3",
     "Children" AS children,
-    "_4" AS 4,
+    "_4" AS "4",
     "Sexual Orientation" AS sexual_orientation,
-    "_5" AS 5
+    "_5" AS "5"
 FROM "fivethirtyeight-masculinity-survey-masculinity-survey"
