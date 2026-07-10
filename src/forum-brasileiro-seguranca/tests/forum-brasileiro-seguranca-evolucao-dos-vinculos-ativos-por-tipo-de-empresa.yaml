@@ -19,8 +19,12 @@ tests:
     certainty: 80
     points_outward: true
     severity: warn
-  - distinct_count: {col: geography, min: 5}
-    reason: a geography-by-year cross-tab covers multiple places; <5 geographies means the parser stopped early
+  - freshness: {col: year, reaches: 2024}
+    reason: the 2025 Anuario Brasileiro de Seguranca Publica workbook primarily reports annual indicators through 2024
+    certainty: 85
+    points_outward: true
+  - distinct_count: {col: geography, min: 3}
+    reason: this table is a narrow national, regional, or category series rather than a full UF cross-tab
     certainty: 75
   - row_count: {min: 10}
     reason: geography x years x measures should produce multiple long rows per table

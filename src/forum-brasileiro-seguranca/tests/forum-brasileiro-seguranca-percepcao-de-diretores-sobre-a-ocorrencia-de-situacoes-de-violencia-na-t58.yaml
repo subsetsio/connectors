@@ -19,6 +19,10 @@ tests:
     certainty: 80
     points_outward: true
     severity: warn
+  - freshness: {col: year, reaches: 2023}
+    reason: this workbook table is sourced from school/director or occupational datasets whose latest included year is 2023
+    certainty: 85
+    points_outward: true
   - distinct_count: {col: geography, min: 5}
     reason: a geography-by-year cross-tab covers multiple places; <5 geographies means the parser stopped early
     certainty: 75
