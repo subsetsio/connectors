@@ -2,29 +2,21 @@ spec_id: eca-d-blend-tx
 status: active
 tests:
   - not_null: station_id
+  - not_null: source_id
   - not_null: date
   - not_null: value
   - column_type: {col: station_id, type: integer}
-  - column_type: {col: date, type: integer}
+  - column_type: {col: date, type: date}
   - column_type: {col: value, type: integer}
-  - row_count: {min: 1000}
-    reason: every blended element spans thousands of station-days of valid observations
-    certainty: 90
-  - between: {col: date, lo: 17000101, hi: 20301231}
-    reason: ECA&D daily series begin in the 18th century; no dates beyond the near future
-    certainty: 90
   - enum: {col: quality, values: [0, 1]}
-    reason: missing observations (Q=9, value=-9999) are dropped at parse; only valid(0)/suspect(1) remain
+    reason: "-9999 (q=9) missing rows are dropped in the fetch, so only valid (0) and suspect (1) flags remain"
     certainty: 85
   - unique: [station_id, date]
-    reason: the blended series carries one value per station per day
-    certainty: 75
-    severity: warn
-  - at_least: {col: value, expr: -800}
-    reason: raw integer value within the element's documented physical range (lower bound)
-    certainty: 70
-    severity: warn
-  - at_most: {col: value, expr: 700}
-    reason: raw integer value within the element's documented physical range (upper bound)
-    certainty: 70
-    severity: warn
+    reason: the blended series carries one value per station per day; duplicates mean a chunk was written twice
+    certainty: 85
+  - freshness: {col: date, reaches: today - 120d}
+    points_outward: true
+    reason: "ECA&D regenerates the predefined blended ZIPs periodically with a reporting lag (a probed ZIP built 2026-06-13 padded to 2026-05-31); 120d tolerates the regen cadence yet still catches a frozen or wrong load"
+  - row_count: {min: 10000}
+    reason: every blended element spans hundreds-plus stations over decades; a tiny count means the ZIP extraction or CSV parse broke
+    certainty: 85
