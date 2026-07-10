@@ -1,5 +1,8 @@
 spec_id: kenneth-french-data-library-be-me-breakpoints
 status: active
+coverage:
+  frozen: true
+  reason: Kenneth French breakpoint archive is frozen at the upstream 2025 snapshot; this historical corpus does not advance.
 tests:
   - not_null: date
     reason: every parsed observation is dated; a null date means a data row was misparsed

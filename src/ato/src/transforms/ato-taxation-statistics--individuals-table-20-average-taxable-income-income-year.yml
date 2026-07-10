@@ -1,31 +1,13 @@
-# Workbook/archive resource normalized to one row per populated cell.
-key: [source_resource_id, sheet_name, row_number, column_number]
-sort: [source_resource_id, sheet_name, row_number, column_number]
+key: [postcode, income_year]
+temporal: income_year
+sort: [income_year, postcode]
 columns:
-  - name: source_resource_id
+  - name: postcode
     type: VARCHAR
-    description: CKAN resource id for the downloaded file.
-  - name: source_resource_name
-    type: VARCHAR
-    description: CKAN resource title for the downloaded file.
-  - name: source_format
-    type: VARCHAR
-    description: CKAN resource format label.
-  - name: source_url
-    type: VARCHAR
-    description: Direct source download URL.
+    description: Australian postcode.
+  - name: average_taxable_income
+    type: BIGINT
+    description: Average taxable income for individuals in the postcode, in Australian dollars.
   - name: income_year
     type: VARCHAR
-    description: Income year inferred from the CKAN package or resource name, when present.
-  - name: sheet_name
-    type: VARCHAR
-    description: Workbook sheet name, or archive member plus sheet/name for ZIP contents.
-  - name: row_number
-    type: INTEGER
-    description: One-based source row number within the sheet or file.
-  - name: column_number
-    type: INTEGER
-    description: One-based source column number within the sheet or file.
-  - name: value
-    type: VARCHAR
-    description: Source cell value rendered as text.
+    description: Australian income year.

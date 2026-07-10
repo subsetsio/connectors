@@ -1,6 +1,7 @@
 spec_id: kenneth-french-data-library-emerging-markets-4-portfolios-be-me-op
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 120d}
   - not_null: date
     reason: every parsed observation is dated; a null date means a data row was misparsed
     certainty: 95

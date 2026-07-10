@@ -1,31 +1,91 @@
-# Workbook/archive resource normalized to one row per populated cell.
-key: [source_resource_id, sheet_name, row_number, column_number]
-sort: [source_resource_id, sheet_name, row_number, column_number]
+key: [postcode, income_year]
+temporal: income_year
+sort: [income_year, postcode]
 columns:
-  - name: source_resource_id
+  - name: postcode
     type: VARCHAR
-    description: CKAN resource id for the downloaded file.
-  - name: source_resource_name
-    type: VARCHAR
-    description: CKAN resource title for the downloaded file.
-  - name: source_format
-    type: VARCHAR
-    description: CKAN resource format label.
-  - name: source_url
-    type: VARCHAR
-    description: Direct source download URL.
+    description: Australian postcode.
+  - name: count_taxable_income_or_loss
+    type: BIGINT
+    description: Count of individuals with taxable income or loss in the postcode.
+  - name: average_taxable_income_or_loss
+    type: BIGINT
+    description: Average taxable income or loss for individuals in the postcode, in Australian dollars.
+  - name: median_taxable_income_or_loss
+    type: BIGINT
+    description: Median taxable income or loss for individuals in the postcode, in Australian dollars.
+  - name: count_salary_and_wages
+    type: BIGINT
+    description: Count of individuals with salary and wages in the postcode.
+  - name: average_salary_and_wages
+    type: BIGINT
+    description: Average salary and wages for individuals in the postcode, in Australian dollars.
+  - name: median_salary_and_wages
+    type: BIGINT
+    description: Median salary and wages for individuals in the postcode, in Australian dollars.
+  - name: count_net_rent
+    type: BIGINT
+    description: Count of individuals with net rent in the postcode.
+  - name: average_net_rent
+    type: BIGINT
+    description: Average net rent for individuals in the postcode, in Australian dollars.
+  - name: median_net_rent
+    type: BIGINT
+    description: Median net rent for individuals in the postcode, in Australian dollars.
+  - name: count_total_income_or_loss
+    type: BIGINT
+    description: Count of individuals with total income or loss in the postcode.
+  - name: average_total_income_or_loss
+    type: BIGINT
+    description: Average total income or loss for individuals in the postcode, in Australian dollars.
+  - name: median_total_income_or_loss
+    type: BIGINT
+    description: Median total income or loss for individuals in the postcode, in Australian dollars.
+  - name: count_total_deductions
+    type: BIGINT
+    description: Count of individuals with total deductions in the postcode.
+  - name: average_total_deductions
+    type: BIGINT
+    description: Average total deductions for individuals in the postcode, in Australian dollars.
+  - name: median_total_deductions
+    type: BIGINT
+    description: Median total deductions for individuals in the postcode, in Australian dollars.
+  - name: count_total_business_income
+    type: BIGINT
+    description: Count of individuals with total business income in the postcode.
+  - name: average_total_business_income
+    type: BIGINT
+    description: Average total business income for individuals in the postcode, in Australian dollars.
+  - name: median_total_business_income
+    type: BIGINT
+    description: Median total business income for individuals in the postcode, in Australian dollars.
+  - name: count_total_business_expenses
+    type: BIGINT
+    description: Count of individuals with total business expenses in the postcode.
+  - name: average_total_business_expenses
+    type: BIGINT
+    description: Average total business expenses for individuals in the postcode, in Australian dollars.
+  - name: median_total_business_expenses
+    type: BIGINT
+    description: Median total business expenses for individuals in the postcode, in Australian dollars.
+  - name: count_net_tax
+    type: BIGINT
+    description: Count of individuals with net tax in the postcode.
+  - name: average_net_tax
+    type: BIGINT
+    description: Average net tax for individuals in the postcode, in Australian dollars.
+  - name: median_net_tax
+    type: BIGINT
+    description: Median net tax for individuals in the postcode, in Australian dollars.
+  - name: count_super_total_accounts_balance
+    type: BIGINT
+    description: Count of individuals with superannuation total accounts balance in the postcode.
+  - name: average_super_total_accounts_balance
+    type: BIGINT
+    description: Average superannuation total accounts balance for individuals in the postcode, in Australian dollars.
+  - name: median_super_total_accounts_balance
+    type: BIGINT
+    description: Median superannuation total accounts balance for individuals in the postcode, in Australian dollars.
   - name: income_year
     type: VARCHAR
-    description: Income year inferred from the CKAN package or resource name, when present.
-  - name: sheet_name
-    type: VARCHAR
-    description: Workbook sheet name, or archive member plus sheet/name for ZIP contents.
-  - name: row_number
-    type: INTEGER
-    description: One-based source row number within the sheet or file.
-  - name: column_number
-    type: INTEGER
-    description: One-based source column number within the sheet or file.
-  - name: value
-    type: VARCHAR
-    description: Source cell value rendered as text.
+    description: Australian income year.

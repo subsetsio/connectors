@@ -1,6 +1,7 @@
 spec_id: kenneth-french-data-library-europe-32-portfolios-me-be-me-inv(ta)-2x4x4
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 120d}
   - not_null: date
     reason: every parsed observation is dated; a null date means a data row was misparsed
     certainty: 95
