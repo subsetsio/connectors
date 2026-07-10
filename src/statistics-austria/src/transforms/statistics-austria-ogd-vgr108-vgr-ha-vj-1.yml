@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-vgr108-vgr-ha-vj-1`. Regenerate after model-verify.
+key: [row_number, time_series, main_aggregates_of_national_accounts]
+sort: [row_number, time_series, main_aggregates_of_national_accounts]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: time_series
+    type: VARCHAR
+  - name: main_aggregates_of_national_accounts
+    type: VARCHAR
+  - name: nominal_seasonally_and_working_day_unadjusted_in_million_eur
+    type: DOUBLE
+  - name: nominal_seasonally_and_working_day_adjusted_in_million_eur
+    type: DOUBLE
+  - name: real_seasonally_and_working_day_unadjusted_in_million_eur
+    type: DOUBLE
+  - name: real_seasonally_and_working_day_adjusted_in_million_eur
+    type: DOUBLE

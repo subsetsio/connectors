@@ -1,0 +1,43 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    CAST("YearStart" AS BIGINT) AS yearstart,
+    CAST("YearEnd" AS BIGINT) AS yearend,
+    "LocationAbbr" AS locationabbr,
+    "LocationDesc" AS locationdesc,
+    "DataSource" AS datasource,
+    "Topic" AS topic,
+    "Category" AS category,
+    "Question" AS question,
+    "Response" AS response,
+    "Age" AS age,
+    "Sex" AS sex,
+    "RaceEthnicity" AS raceethnicity,
+    "RiskFactor" AS riskfactor,
+    "RiskFactorResponse" AS riskfactorresponse,
+    "Data_Value_Unit" AS data_value_unit,
+    "Data_Value_Type" AS data_value_type,
+    CAST("Data_Value" AS DOUBLE) AS data_value,
+    "Data_Value_Footnote_Symbol" AS data_value_footnote_symbol,
+    "Data_Value_Footnote" AS data_value_footnote,
+    CAST("Low_Confidence_Limit" AS DOUBLE) AS low_confidence_limit,
+    CAST("High_Confidence_Limit" AS DOUBLE) AS high_confidence_limit,
+    CAST("Numerator" AS BIGINT) AS numerator,
+    CAST("Sample_Size" AS BIGINT) AS sample_size,
+    "LocationId" AS locationid,
+    "TopicId" AS topicid,
+    "CategoryId" AS categoryid,
+    "QuestionId" AS questionid,
+    "ResponseId" AS responseid,
+    "DataValueTypeId" AS datavaluetypeid,
+    "AgeId" AS ageid,
+    "SexID" AS sexid,
+    "RaceEthnicityId" AS raceethnicityid,
+    "RiskFactorId" AS riskfactorid,
+    "RiskFactorResponseId" AS riskfactorresponseid,
+    "Geolocation" AS geolocation,
+    "Geographic Level" AS geographic_level,
+    "StateAbbr" AS stateabbr
+FROM "cdc-a35h-9yn4"

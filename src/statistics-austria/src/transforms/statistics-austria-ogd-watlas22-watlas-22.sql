@@ -1,0 +1,40 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_file",
+    "row_number",
+    CAST("year_starting_2021" AS BIGINT) AS year_starting_2021,
+    "accomodation_facilities",
+    "overnight_stays",
+    "beds",
+    "arrivals",
+    "occupancy_rate_summer_season_basis_beds",
+    "occupancy_rate_winter_season_basis_beds",
+    "travel_credits_in_eur_million",
+    "travel_debits_in_eur_million",
+    "tourism_value_added_direct_in_eur_million",
+    "travel_intensity_in",
+    "number_of_enterprises_nace_rev_2_i",
+    "persons_employed_nace_rev_2_i",
+    "employees_nace_rev_2_i",
+    "personnel_costs_in_eur_million_nace_rev_2_i",
+    "turnover_in_eur_million_nace_rev_2_i",
+    "total_purchases_of_goods_and_services_in_eur_million_nace_rev_2_i",
+    "value_added_at_factor_cost_in_eur_million_nace_rev_2_i",
+    "gross_investments_in_eur_million_nace_rev_2_i",
+    "unemployed_ilo_definition",
+    "total_hours_worked_national_accounts_concept_in_million_hours_nace_rev_2_i",
+    "persons_employed_per_enterprise_nace_rev_2_i",
+    "turnover_per_enterprise_in_eur_nace_rev_2_i",
+    "turnover_per_person_employed_in_eur_nace_rev_2_i",
+    "annual_personnel_expenditure_per_employee_in_eur_nace_rev_2_i",
+    "economic_growth_nace_rev_2_i_real_in",
+    "share_of_enterprises_in_with_broadband_connection_nace_rev_2_i",
+    "turnover_index_2021_100_nace_rev_2_i",
+    "index_of_number_of_persons_employed_2021_100_nace_rev_2_i",
+    "labour_cost_index_2020_100_nace_2008_i",
+    "consumption_expenditure_of_households_for_package_holidays_in_eur_million",
+    "consumption_expenditure_of_households_for_accommodation_services_in_eur_million"
+FROM "statistics-austria-ogd-watlas22-watlas-22"

@@ -1,8 +1,18 @@
 spec_id: cdc-kmxt-xb3i
 status: active
 tests:
-  - row_count: {min: 1}
-    reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed or the dataset was retired upstream
-    certainty: 85
-    points_outward: true
-    severity: block
+- row_count:
+    min: 1
+  reason: a published CDC Socrata dataset exports at least one data row; an empty CSV means the bulk export silently failed
+    or the dataset was retired upstream
+  certainty: 85
+  points_outward: true
+  severity: block
+- freshness:
+    col: data_as_of
+    reaches: today - 400d
+  reason: temporal CDC dataset should include observations or update markers within the last 400 days for promotion; wider
+    than weekly/monthly cadence to accommodate annual releases and delayed public-health revisions
+  certainty: 70
+  points_outward: true
+  severity: block

@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-hpi2015-hpi-15-1`. Regenerate after model-verify.
+key: [row_number, time_series]
+sort: [row_number, time_series]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: time_series
+    type: VARCHAR
+  - name: hpi_total
+    type: DOUBLE
+  - name: new_dwellings
+    type: DOUBLE
+  - name: existing_dwellings
+    type: DOUBLE
+  - name: existing_houses
+    type: DOUBLE
+  - name: existing_flats
+    type: DOUBLE

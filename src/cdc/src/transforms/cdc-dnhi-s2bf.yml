@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-dnhi-s2bf`. Regenerate after model-verify.
+key: []
+temporal: data_as_of
+sort: [data_as_of]
+columns:
+  - name: data_as_of
+    type: DATE
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: state_of_residence
+    type: VARCHAR
+  - name: county_of_residence
+    type: VARCHAR
+  - name: fips_state
+    type: VARCHAR
+  - name: fips_county
+    type: VARCHAR
+  - name: fips_code
+    type: VARCHAR
+  - name: urban_rural_code
+    type: VARCHAR
+  - name: covid_19_deaths
+    type: BIGINT
+  - name: total_deaths
+    type: BIGINT
+  - name: footnote
+    type: VARCHAR

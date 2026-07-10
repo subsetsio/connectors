@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-demoind-dem-ind-3`. Regenerate after model-verify.
+key: [row_number, year, province, indicator]
+sort: [row_number, year, province, indicator]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: province
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: main_scenario
+    type: BIGINT
+  - name: growth_scenario
+    type: BIGINT
+  - name: ageing_scenario
+    type: BIGINT
+  - name: upper_migration_scenario
+    type: BIGINT
+  - name: lower_migration_scenario
+    type: BIGINT
+  - name: upper_fertility_scenario
+    type: BIGINT
+  - name: lower_fertility_scenario
+    type: BIGINT
+  - name: upper_life_expectancy_scenario
+    type: BIGINT
+  - name: lower_life_expectancy_scenario
+    type: BIGINT
+  - name: status_quo_scenario
+    type: BIGINT
+  - name: zero_migration_scenario
+    type: BIGINT

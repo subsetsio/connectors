@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-qvzb-qs6p`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [frequency_count, ipd_serotype, year, site, age_group_years]
+checks:
+  - kind: unique
+    columns: [frequency_count, ipd_serotype, year, site, age_group_years]
+  - kind: not_null
+    col: frequency_count
+  - kind: not_null
+    col: ipd_serotype
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: site
+  - kind: not_null
+    col: age_group_years
+  - kind: row_floor
+    min: 15024
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

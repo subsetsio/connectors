@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-ph8r-wzxn`. Regenerate after model-verify.
+key: [cumulative_flu_doses_distributed, end_date, reporting_timeframe, week_sort_order, current_season_week_ending_label]
+sort: [cumulative_flu_doses_distributed, end_date, reporting_timeframe, week_sort_order, current_season_week_ending_label]
+columns:
+  - name: influenza_season
+    type: VARCHAR
+  - name: start_date
+    type: VARCHAR
+  - name: end_date
+    type: VARCHAR
+  - name: reporting_timeframe
+    type: VARCHAR
+  - name: week_sort_order
+    type: BIGINT
+  - name: current_season_week_ending_label
+    type: VARCHAR
+  - name: cumulative_flu_doses_distributed
+    type: DOUBLE
+  - name: current_through
+    type: VARCHAR

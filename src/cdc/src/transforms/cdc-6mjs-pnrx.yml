@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-6mjs-pnrx`. Regenerate after model-verify.
+key: [covid_19_deaths, mmwr_week, end_week, age_group]
+temporal: data_as_of
+sort: [data_as_of, covid_19_deaths, mmwr_week, end_week, age_group]
+columns:
+  - name: data_as_of
+    type: DATE
+  - name: state
+    type: VARCHAR
+  - name: mmwr_week
+    type: BIGINT
+  - name: end_week
+    type: DATE
+  - name: age_group
+    type: VARCHAR
+  - name: total_deaths
+    type: BIGINT
+  - name: covid_19_deaths
+    type: BIGINT

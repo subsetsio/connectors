@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-mpx5-t7tu`. Regenerate after model-verify.
+key: [data_period_end, data_period_start, jurisdiction_residence, group]
+temporal: data_as_of
+sort: [data_as_of, data_period_end, data_period_start, jurisdiction_residence, group]
+columns:
+  - name: data_as_of
+    type: VARCHAR
+  - name: jurisdiction_residence
+    type: VARCHAR
+  - name: group
+    type: VARCHAR
+  - name: data_period_start
+    type: DATE
+  - name: data_period_end
+    type: DATE
+  - name: covid_deaths
+    type: BIGINT
+  - name: covid_pct_of_total
+    type: DOUBLE
+  - name: pct_change_wk
+    type: DOUBLE
+  - name: pct_diff_wk
+    type: DOUBLE
+  - name: crude_covid_rate
+    type: DOUBLE
+  - name: aa_covid_rate
+    type: DOUBLE
+  - name: crude_covid_rate_ann
+    type: DOUBLE
+  - name: aa_covid_rate_ann
+    type: DOUBLE
+  - name: footnote
+    type: VARCHAR

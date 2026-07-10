@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-ite7-j2w7`. Regenerate after model-verify.
+key: [fips_code, county, cofips, week_ending_date, mmwr_week]
+temporal: data_as_of
+sort: [data_as_of, fips_code, county, cofips, week_ending_date, mmwr_week]
+columns:
+  - name: data_as_of
+    type: VARCHAR
+  - name: mmwr_week
+    type: BIGINT
+  - name: week_ending_date
+    type: DATE
+  - name: jurisdiction_of_occurrence
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: stfips
+    type: BIGINT
+  - name: cofips
+    type: BIGINT
+  - name: fips_code
+    type: BIGINT
+  - name: urban_rural_code
+    type: VARCHAR
+  - name: covid_19_deaths
+    type: BIGINT
+  - name: total_deaths
+    type: BIGINT
+  - name: footnote
+    type: VARCHAR

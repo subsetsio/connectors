@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-krankenbewegungen-ex-leistungen-1`. Regenerate after model-verify.
+key: [row_number, medical_procedures_subchapters, year_of_discharge, nuts_2_region_place_of_residence, age_four_classes]
+sort: [row_number, medical_procedures_subchapters, year_of_discharge, nuts_2_region_place_of_residence, age_four_classes]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: year_of_discharge
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: age_four_classes
+    type: VARCHAR
+  - name: nuts_2_region_place_of_residence
+    type: VARCHAR
+  - name: medical_procedures_subchapters
+    type: VARCHAR
+  - name: medical_procedures
+    type: BIGINT

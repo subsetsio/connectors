@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-647a-wjd2`. Regenerate after model-verify.
+key: [fips_code, county_name, date, state_tribe_territory, restaurants_action_order_code]
+temporal: date
+sort: [date, fips_code, county_name, state_tribe_territory, restaurants_action_order_code]
+columns:
+  - name: state_tribe_territory
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: fips_code
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: restaurants_action_order_code
+    type: BIGINT
+  - name: restaurants_action
+    type: VARCHAR
+  - name: restaurants_capacity_outdoor_percent
+    type: DOUBLE
+  - name: restaurants_capacity_indoor_percent
+    type: DOUBLE
+  - name: restaurants_capacity_outdoor_number
+    type: DOUBLE
+  - name: restaurants_capacity_indoor_number
+    type: DOUBLE
+  - name: citations
+    type: VARCHAR

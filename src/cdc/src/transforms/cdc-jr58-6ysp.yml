@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-jr58-6ysp`. Regenerate after model-verify.
+key: [share, week_ending, published_date, variant, usa_or_hhsregion]
+temporal: week_ending
+sort: [week_ending, share, published_date, variant, usa_or_hhsregion]
+columns:
+  - name: usa_or_hhsregion
+    type: VARCHAR
+  - name: week_ending
+    type: TIMESTAMP
+  - name: variant
+    type: VARCHAR
+  - name: share
+    type: DOUBLE
+  - name: share_hi
+    type: DOUBLE
+  - name: share_lo
+    type: DOUBLE
+  - name: nchs_or_count_flag
+    type: VARCHAR
+  - name: modeltype
+    type: VARCHAR
+  - name: time_interval
+    type: VARCHAR
+  - name: published_date
+    type: TIMESTAMP

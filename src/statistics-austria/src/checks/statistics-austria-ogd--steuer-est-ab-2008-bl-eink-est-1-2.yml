@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-austria-ogd--steuer-est-ab-2008-bl-eink-est-1-2`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [special_tax_exempt_amounts_in_total_eur, tax_exempt_amounts_with_limit_eur, taxable_income_eur, row_number, income_from_rent_and_lease_eur]
+checks:
+  - kind: unique
+    columns: [special_tax_exempt_amounts_in_total_eur, tax_exempt_amounts_with_limit_eur, taxable_income_eur, row_number, income_from_rent_and_lease_eur]
+  - kind: not_null
+    col: special_tax_exempt_amounts_in_total_eur
+  - kind: not_null
+    col: tax_exempt_amounts_with_limit_eur
+  - kind: not_null
+    col: taxable_income_eur
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: income_from_rent_and_lease_eur
+  - kind: row_floor
+    min: 4540
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

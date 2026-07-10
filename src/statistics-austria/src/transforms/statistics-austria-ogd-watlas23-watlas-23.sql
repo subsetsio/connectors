@@ -1,0 +1,38 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_file",
+    "row_number",
+    CAST("year_starting_2021" AS BIGINT) AS year_starting_2021,
+    "total_transport_volume_transport_volume_in_tonnes",
+    "rail_freight_transport_transport_volume_in_tonnes",
+    "road_freight_transport_transport_volume_in_tonnes",
+    "inland_waterways_transport_transport_volume_in_tonnes",
+    "freight_and_postal_transport_transport_volume_in_tonnes",
+    "number_of_enterprises_nace_rev_2_h",
+    "persons_employed_nace_rev_2_h",
+    "employees_nace_rev_2_h",
+    "personnel_costs_in_eur_million_nace_rev_2_h",
+    "turnover_in_eur_million_nace_rev_2_h",
+    "total_purchases_of_goods_and_services_in_eur_million_nace_rev_2_h",
+    "value_added_at_factor_cost_in_eur_million_nace_rev_2_h",
+    "gross_investments_in_eur_million_nace_rev_2_h",
+    "unemployed_ilo_definition_nace_rev_2_h",
+    "total_hours_worked_national_accounts_concept_in_million_hours_nace_rev_2_h",
+    "persons_employed_per_enterprise_nace_rev_2_h",
+    "turnover_per_enterprise_in_eur_nace_rev_2_h",
+    "turnover_per_person_employed_in_eur_nace_rev_2_h",
+    "annual_personnel_expenditure_per_employee_in_eur_nace_rev_2_h",
+    "economic_growth_in_industry_nace_rev_2_h_real_in",
+    "share_of_enterprises_in_with_broadband_connection_nace_rev_2_h",
+    "turnover_index_2021_100_nace_rev_2_h49",
+    "index_of_number_of_persons_employed_2021_100_nace_rev_2_h49",
+    "labour_cost_index_2020_100_nace_2008_h",
+    "level_of_motorisation_passenger_cars_per_1_000_inhabitants",
+    "new_vehicle_registrations",
+    "rail_passenger_transport",
+    "air_passenger_transport",
+    "consumption_expenditure_of_households_for_transport_services_in_eur_million"
+FROM "statistics-austria-ogd-watlas23-watlas-23"

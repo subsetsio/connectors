@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-ph8r-wzxn`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [cumulative_flu_doses_distributed, end_date, reporting_timeframe, week_sort_order, current_season_week_ending_label]
+checks:
+  - kind: unique
+    columns: [cumulative_flu_doses_distributed, end_date, reporting_timeframe, week_sort_order, current_season_week_ending_label]
+  - kind: not_null
+    col: cumulative_flu_doses_distributed
+  - kind: not_null
+    col: end_date
+  - kind: not_null
+    col: reporting_timeframe
+  - kind: not_null
+    col: week_sort_order
+  - kind: not_null
+    col: current_season_week_ending_label
+  - kind: row_floor
+    min: 129
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

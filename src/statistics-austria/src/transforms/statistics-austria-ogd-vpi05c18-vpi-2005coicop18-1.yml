@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-vpi05c18-vpi-2005coicop18-1`. Regenerate after model-verify.
+key: [row_number, coicop_5_digits, time]
+sort: [row_number, coicop_5_digits, time]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: time
+    type: VARCHAR
+  - name: coicop_5_digits
+    type: VARCHAR
+  - name: index_figure_reporting_month_annual_average
+    type: DOUBLE
+  - name: index_figure_previous_month
+    type: DOUBLE
+  - name: index_figure_same_month_of_previous_year_previous_year_s_average
+    type: DOUBLE
+  - name: percent_change_from_previous_month
+    type: DOUBLE
+  - name: percent_change_from_same_month_of_previous_year_previous_year
+    type: DOUBLE
+  - name: contribution_compared_with_previous_month
+    type: DOUBLE
+  - name: contribution_compared_with_same_month_of_previous_year_previous_year
+    type: DOUBLE
+  - name: weight_in_reporting_month
+    type: DOUBLE

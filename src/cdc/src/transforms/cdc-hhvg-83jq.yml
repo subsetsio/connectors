@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-hhvg-83jq`. Regenerate after model-verify.
+key: [sample, in_house_cdc_elisa_s_t_values, in_house_cdc_elisa_s_t_values_log10, abbott_s_c_values, abbott_s_c_values_log10]
+sort: [sample, in_house_cdc_elisa_s_t_values, in_house_cdc_elisa_s_t_values_log10, abbott_s_c_values, abbott_s_c_values_log10]
+columns:
+  - name: sample
+    type: BIGINT
+  - name: pcr_confirmed
+    type: VARCHAR
+  - name: abbott_reactivity
+    type: VARCHAR
+  - name: ortho_reactivity
+    type: VARCHAR
+  - name: in_house_cdc_elisa_reactivity
+    type: VARCHAR
+  - name: abbott_s_c_values
+    type: DOUBLE
+  - name: abbott_s_c_values_log10
+    type: DOUBLE
+  - name: ortho_index_values
+    type: DOUBLE
+  - name: ortho_index_values_log10
+    type: DOUBLE
+  - name: in_house_cdc_elisa_s_t_values
+    type: DOUBLE
+  - name: in_house_cdc_elisa_s_t_values_log10
+    type: DOUBLE
+  - name: mnt_titer
+    type: BIGINT
+  - name: mnt_titer_log10
+    type: DOUBLE
+  - name: svnt_inhibition
+    type: DOUBLE

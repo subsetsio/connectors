@@ -1,0 +1,117 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-qgfq-p8ib`. Regenerate after model-verify.
+key: [case_id, mis_c_onset_month_year, census_region, age_group, pcr_results]
+sort: [case_id, mis_c_onset_month_year, census_region, age_group, pcr_results]
+columns:
+  - name: case_id
+    type: BIGINT
+  - name: census_region
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: ethnicity
+    type: VARCHAR
+  - name: white_race
+    type: BOOLEAN
+  - name: black_race
+    type: BOOLEAN
+  - name: other_race
+    type: BOOLEAN
+  - name: unknown_race
+    type: BOOLEAN
+  - name: mis_c_onset_month_year
+    type: VARCHAR
+  - name: hospital_length_of_stay_days
+    type: BIGINT
+  - name: icu_level_of_care
+    type: BOOLEAN
+  - name: outcome
+    type: VARCHAR
+  - name: case_definition_cardiac_involvement
+    type: BOOLEAN
+  - name: shock
+    type: BOOLEAN
+  - name: myocarditis
+    type: BOOLEAN
+  - name: coronary_artery_aneurysm_or_dilatation
+    type: BOOLEAN
+  - name: cardiac_dysfunction
+    type: BOOLEAN
+  - name: case_definition_renal_involvement
+    type: BOOLEAN
+  - name: case_definition_respiratory_involvement
+    type: BOOLEAN
+  - name: case_definition_hematologic_involvement
+    type: BOOLEAN
+  - name: case_definition_gastrointestinal_involvement
+    type: BOOLEAN
+  - name: case_definition_dermatologic_involvement
+    type: BOOLEAN
+  - name: case_definition_neurologic_involvement
+    type: BOOLEAN
+  - name: severe_cardiac_involvement
+    type: BOOLEAN
+  - name: severe_renal_involvement
+    type: BOOLEAN
+  - name: severe_respiratory_involvement
+    type: BOOLEAN
+  - name: severe_hematologic_involvement
+    type: BOOLEAN
+  - name: severe_gastrointestinal_involvement
+    type: BOOLEAN
+  - name: severe_neurologic_involvement
+    type: BOOLEAN
+  - name: covid_19_exposure_only
+    type: BOOLEAN
+  - name: pcr_results
+    type: VARCHAR
+  - name: serology_results
+    type: VARCHAR
+  - name: antigen_results
+    type: VARCHAR
+  - name: sars_cov_2_positive_test_type_not_specified
+    type: BOOLEAN
+  - name: any_comorbidity
+    type: BOOLEAN
+  - name: obesity
+    type: BOOLEAN
+  - name: chronic_lung_disease
+    type: BOOLEAN
+  - name: all_other_comorbidities
+    type: BOOLEAN
+  - name: low_flow_nasal_cannula
+    type: BOOLEAN
+  - name: high_flow_nasal_cannula
+    type: BOOLEAN
+  - name: non_invasive_ventilation
+    type: BOOLEAN
+  - name: intubation_or_mechanical_ventilation
+    type: BOOLEAN
+  - name: ecmo
+    type: BOOLEAN
+  - name: treated_with_vasopressors
+    type: BOOLEAN
+  - name: treated_with_steroids
+    type: BOOLEAN
+  - name: treated_with_immune_modulators
+    type: BOOLEAN
+  - name: treated_with_antiplatelets
+    type: BOOLEAN
+  - name: treated_with_anticoagulation
+    type: BOOLEAN
+  - name: dialysis
+    type: BOOLEAN
+  - name: first_ivig
+    type: BOOLEAN
+  - name: second_ivig
+    type: BOOLEAN
+  - name: vaccine_eligiblity
+    type: VARCHAR
+  - name: vaccination_status
+    type: VARCHAR
+  - name: number_of_doses_received
+    type: VARCHAR
+  - name: vaccine_type
+    type: VARCHAR

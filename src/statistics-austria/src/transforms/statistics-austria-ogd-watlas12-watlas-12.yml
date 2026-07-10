@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-watlas12-watlas-12`. Regenerate after model-verify.
+key: [row_number, partnergrou_s_countries, year_starting_1995, goods_sitc]
+sort: [row_number, partnergrou_s_countries, year_starting_1995, goods_sitc]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: year_starting_1995
+    type: BIGINT
+  - name: goods_sitc
+    type: VARCHAR
+  - name: partnergrou_s_countries
+    type: VARCHAR
+  - name: imports_in_1_000_eur
+    type: BIGINT
+  - name: exports_in_1_000_eur
+    type: BIGINT
+  - name: balance_of_foreign_trade_in_1_000_eur
+    type: HUGEINT

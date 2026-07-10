@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-dtm2-meqi`. Regenerate after model-verify.
+key: [total_deaths]
+temporal: data_as_of
+sort: [data_as_of, total_deaths]
+columns:
+  - name: data_as_of
+    type: VARCHAR
+  - name: jurisdiction_of_occurrence
+    type: VARCHAR
+  - name: urban_rural_classification
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: time_period
+    type: VARCHAR
+  - name: total_deaths
+    type: BIGINT
+  - name: drug_overdose_deaths
+    type: BIGINT

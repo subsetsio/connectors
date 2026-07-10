@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-4khb-4xch`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [id, contributing_factor, siteid, year]
+checks:
+  - kind: unique
+    columns: [id, contributing_factor, siteid, year]
+  - kind: not_null
+    col: id
+  - kind: not_null
+    col: contributing_factor
+  - kind: not_null
+    col: siteid
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 269
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

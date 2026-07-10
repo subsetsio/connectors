@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-hvpi25-hvd-hvpi-2025-1`. Regenerate after model-verify.
+key: [row_number, coicop_5_digit_code, time]
+sort: [row_number, coicop_5_digit_code, time]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: time
+    type: VARCHAR
+  - name: coicop_5_digit_code
+    type: VARCHAR
+  - name: index_figure_reporting_month_annual_average
+    type: DOUBLE
+  - name: weight_in_reporting_month
+    type: DOUBLE

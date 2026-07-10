@@ -1,0 +1,47 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-5una-zw6e`. Regenerate after model-verify.
+key: [uniqueid, dateclosure, state, epi_week, eventname]
+sort: [uniqueid, dateclosure, state, epi_week, eventname]
+columns:
+  - name: uniqueid
+    type: VARCHAR
+  - name: eventname
+    type: VARCHAR
+  - name: eventtype
+    type: VARCHAR
+  - name: eventdesc
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: districtname
+    type: VARCHAR
+  - name: districtncesid
+    type: VARCHAR
+  - name: schoolname
+    type: VARCHAR
+  - name: schoolncesid
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: dateclosure
+    type: VARCHAR
+  - name: datereopened
+    type: VARCHAR
+  - name: epi_week
+    type: BIGINT
+  - name: rrflu
+    type: BOOLEAN
+  - name: rrabsent
+    type: BOOLEAN
+  - name: rrteachers
+    type: BOOLEAN
+  - name: rrspread
+    type: BOOLEAN
+  - name: rrclean
+    type: BOOLEAN
+  - name: rrrecover
+    type: BOOLEAN
+  - name: rrfinance
+    type: BOOLEAN

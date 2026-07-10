@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-kk8c-wtm4`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [percent, upper_95_ci, lower_95_ci, subgroup, measure]
+checks:
+  - kind: unique
+    columns: [percent, upper_95_ci, lower_95_ci, subgroup, measure]
+  - kind: not_null
+    col: percent
+  - kind: not_null
+    col: upper_95_ci
+  - kind: not_null
+    col: lower_95_ci
+  - kind: not_null
+    col: subgroup
+  - kind: not_null
+    col: measure
+  - kind: row_floor
+    min: 80
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

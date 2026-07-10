@@ -1,0 +1,43 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "LatestDataforGrade" AS latestdataforgrade,
+    CAST("SchoolYearStart" AS BIGINT) AS schoolyearstart,
+    CAST("SchoolYearEnd" AS BIGINT) AS schoolyearend,
+    "LocationAbbr" AS locationabbr,
+    "Topic" AS topic,
+    "Grade" AS grade,
+    "Indicator" AS indicator,
+    "DataSource" AS datasource,
+    "Data_Value_Unit" AS data_value_unit,
+    "Data_Value_Type" AS data_value_type,
+    CAST("Data_Value" AS DOUBLE) AS data_value,
+    "Data_Value_Footnote_Symbol" AS data_value_footnote_symbol,
+    "Data_Value_Footnote" AS data_value_footnote,
+    CAST("Low_Confidence_Interval" AS DOUBLE) AS low_confidence_interval,
+    CAST("High_Confidence_Interval" AS DOUBLE) AS high_confidence_interval,
+    "Confidence_Interval_Footnote_Symbol" AS confidence_interval_footnote_symbol,
+    "Confidence_Interval_Footnote" AS confidence_interval_footnote,
+    CAST("Sample_Size" AS BIGINT) AS sample_size,
+    CAST("Response_Rate" AS BIGINT) AS response_rate,
+    "Response_Rate_Footnote_Symbol" AS response_rate_footnote_symbol,
+    "Response_Rate_Footnote" AS response_rate_footnote,
+    "Adjusted_for_NonResponse" AS adjusted_for_nonresponse,
+    CAST("Percent_eligible_for_the_NSLP_SampleSchools" AS BIGINT) AS percent_eligible_for_the_nslp_sampleschools,
+    "NSLP_SampleSchools_Footnote_Symbol" AS nslp_sampleschools_footnote_symbol,
+    "NSLP_SampleSchools_Footnote" AS nslp_sampleschools_footnote,
+    CAST("Percent_eligible_for_the_NSLP_SampleStudents" AS BIGINT) AS percent_eligible_for_the_nslp_samplestudents,
+    "NSLP_SampleStudents_Footnote_Symbol" AS nslp_samplestudents_footnote_symbol,
+    "NSLP_SampleStudents_Footnote" AS nslp_samplestudents_footnote,
+    CAST("Percent_eligible_for_the_NSLP_State" AS BIGINT) AS percent_eligible_for_the_nslp_state,
+    "NSLP_State_Footnote_Symbol" AS nslp_state_footnote_symbol,
+    "NSLP_State_Footnote" AS nslp_state_footnote,
+    "LocationDesc" AS locationdesc,
+    "LocationID" AS locationid,
+    "GeoLocation" AS geolocation,
+    "GradeID" AS gradeid,
+    CAST("SortGradeID" AS BIGINT) AS sortgradeid,
+    "IndicatorID" AS indicatorid
+FROM "cdc-qcai-zfj9"

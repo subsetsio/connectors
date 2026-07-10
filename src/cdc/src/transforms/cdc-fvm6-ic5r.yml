@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-fvm6-ic5r`. Regenerate after model-verify.
+key: [table_id, running_total_by_year_range, no_of_illnesses, serotype, year_first_ill]
+sort: [table_id, running_total_by_year_range, no_of_illnesses, serotype, year_first_ill]
+columns:
+  - name: table_id
+    type: VARCHAR
+  - name: food_category
+    type: VARCHAR
+  - name: year_first_ill
+    type: BIGINT
+  - name: serotype
+    type: VARCHAR
+  - name: no_of_illnesses
+    type: BIGINT
+  - name: no_of_outbreaks
+    type: BIGINT
+  - name: pathogen
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: year_range
+    type: VARCHAR
+  - name: running_total_by_year_range
+    type: BIGINT

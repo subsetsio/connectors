@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogdext-klassdb-nacerev21-1`. Regenerate after model-verify.
+key: [row_number, edv_code, code, source_file]
+sort: [row_number, edv_code, code, source_file]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: ebene
+    type: BIGINT
+  - name: edv_code
+    type: VARCHAR
+  - name: code
+    type: VARCHAR
+  - name: titel
+    type: VARCHAR
+  - name: kurztitel
+    type: JSON
+  - name: korrespondierender_edv_code
+    type: VARCHAR
+  - name: korrespondierender_code
+    type: VARCHAR
+  - name: korrespondierender_titel
+    type: VARCHAR
+  - name: titel_erl_uterungstext
+    type: VARCHAR
+  - name: ebene_erl
+    type: VARCHAR
+  - name: korrespondenz_beschreibung
+    type: JSON
+  - name: korrespondierende_ebene
+    type: BIGINT

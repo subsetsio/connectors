@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-5una-zw6e`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [uniqueid, dateclosure, state, epi_week, eventname]
+checks:
+  - kind: unique
+    columns: [uniqueid, dateclosure, state, epi_week, eventname]
+  - kind: not_null
+    col: uniqueid
+  - kind: not_null
+    col: dateclosure
+  - kind: not_null
+    col: state
+  - kind: not_null
+    col: epi_week
+  - kind: not_null
+    col: eventname
+  - kind: row_floor
+    min: 1038
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

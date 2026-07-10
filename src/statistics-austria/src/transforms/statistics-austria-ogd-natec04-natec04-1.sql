@@ -1,0 +1,17 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_file",
+    "row_number",
+    "activity_sector_nace_partly_abo",
+    CAST("reference_year" AS BIGINT) AS reference_year,
+    "partner_countries_level_1",
+    "import_number_of_enterprises",
+    "import_value_in_euro",
+    "export_number_of_enterprises",
+    "export_value_in_euro",
+    "trade_intensity_number_of_enterprises",
+    "trade_intensity_value_in_euro"
+FROM "statistics-austria-ogd-natec04-natec04-1"

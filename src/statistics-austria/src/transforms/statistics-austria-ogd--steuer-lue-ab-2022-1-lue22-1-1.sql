@@ -1,0 +1,42 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_file",
+    "row_number",
+    CAST("year" AS BIGINT) AS year,
+    "gender",
+    "bundesland_des_wohnortes",
+    "level_of_total_income",
+    "main_source_of_income",
+    "number_of_entities_persons",
+    "entity_count_income_in_total",
+    "income_in_total_eur",
+    "entity_count_tax_in_total",
+    "tax_in_total_eur",
+    "entity_count_net_income",
+    "net_income_eur",
+    "entity_count_wage_income_incl_pensions",
+    "wage_income_incl_pensions_eur",
+    "entity_count_remaining_income",
+    "remaining_income_eur",
+    "entity_count_transfer_income_in_total",
+    "transfer_income_in_total_eur",
+    "entity_count_allowance_for_nursing_care",
+    "allowance_for_nursing_care_eur",
+    "entity_count_unemployment_benefit",
+    "unemployment_benefit_eur",
+    "entity_count_assistance_benefit",
+    "assistance_benefit_eur",
+    "entity_count_benefits_payed_for_parental_leave",
+    "benefits_payed_for_parental_leave_eur",
+    "entity_count_other_benefits",
+    "other_benefits_eur",
+    "entity_count_family_allowance",
+    "family_allowance_eur",
+    "social_assistance_eur",
+    "entity_count_social_assistance",
+    "entity_count_climate_bonus",
+    "climate_bonus_eur"
+FROM "statistics-austria-ogd--steuer-lue-ab-2022-1-lue22-1-1"

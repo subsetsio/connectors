@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-bildausgtransfers-bildaus-tr-1`. Regenerate after model-verify.
+key: [row_number, time, educational_institution, regional_breakdown]
+sort: [row_number, time, educational_institution, regional_breakdown]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: time
+    type: BIGINT
+  - name: regional_breakdown
+    type: VARCHAR
+  - name: educational_institution
+    type: VARCHAR
+  - name: transfers_to_federal_government
+    type: BIGINT
+  - name: transfers_to_laender_provinces
+    type: HUGEINT
+  - name: transfers_to_communes
+    type: HUGEINT
+  - name: transfers_to_regional_boards
+    type: BIGINT
+  - name: transfers_to_other_bodies_under_public_law
+    type: BIGINT
+  - name: transfers_abroad
+    type: HUGEINT
+  - name: transfers_to_private_households
+    type: HUGEINT
+  - name: transfers_to_private_non_profit_services
+    type: HUGEINT
+  - name: transfers_to_enterprises
+    type: HUGEINT
+  - name: transfers_to_social_security_institutions
+    type: HUGEINT

@@ -1,0 +1,48 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-mqmc-4b9n`. Regenerate after model-verify.
+key: [accuracy_index, start_date, end_date, week_ending_date, hrr_number]
+temporal: data_as_of
+sort: [data_as_of, accuracy_index, start_date, end_date, week_ending_date, hrr_number]
+columns:
+  - name: data_as_of
+    type: DATE
+  - name: start_date
+    type: DATE
+  - name: end_date
+    type: DATE
+  - name: mmwr_year
+    type: BIGINT
+  - name: mmwr_week
+    type: BIGINT
+  - name: week_ending_date
+    type: DATE
+  - name: hrr_name
+    type: VARCHAR
+  - name: hrr_number
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: total_deaths
+    type: DOUBLE
+  - name: covid_19_deaths
+    type: DOUBLE
+  - name: total_deaths_over_65_years
+    type: DOUBLE
+  - name: covid_19_deaths_over_65_years
+    type: DOUBLE
+  - name: total_deaths_65_to_74_years
+    type: DOUBLE
+  - name: covid_19_deaths_65_to_74_years
+    type: DOUBLE
+  - name: total_deaths_75_to_84_years
+    type: DOUBLE
+  - name: covid_19_deaths_75_to_84_years
+    type: DOUBLE
+  - name: total_deaths_over_85_years
+    type: DOUBLE
+  - name: covid_19_deaths_over_85_years
+    type: DOUBLE
+  - name: footnote
+    type: VARCHAR
+  - name: accuracy_index
+    type: DOUBLE

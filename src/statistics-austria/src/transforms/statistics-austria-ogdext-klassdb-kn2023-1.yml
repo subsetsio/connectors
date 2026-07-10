@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogdext-klassdb-kn2023-1`. Regenerate after model-verify.
+key: [code, edv_code, row_number, source_file, ebene]
+sort: [code, edv_code, row_number, source_file, ebene]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: ebene
+    type: BIGINT
+  - name: edv_code
+    type: VARCHAR
+  - name: code
+    type: VARCHAR
+  - name: titel
+    type: VARCHAR
+  - name: ma_einheit
+    type: VARCHAR
+  - name: kurztitel
+    type: VARCHAR
+  - name: korrespondierender_titel
+    type: JSON
+  - name: korrespondierender_code
+    type: JSON
+  - name: korrespondenz_beschreibung
+    type: JSON
+  - name: korrespondierender_edv_code
+    type: JSON
+  - name: korrespondierende_ebene
+    type: JSON

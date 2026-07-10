@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-c8as-e7h6`. Regenerate after model-verify.
+key: [citation_name, effective_date, date_signed, state, vaccination_mandate_group]
+sort: [citation_name, effective_date, date_signed, state, vaccination_mandate_group]
+columns:
+  - name: citation_name
+    type: VARCHAR
+  - name: date_signed
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: effective_date
+    type: VARCHAR
+  - name: expiration_date
+    type: VARCHAR
+  - name: vaccination_mandate_group
+    type: VARCHAR
+  - name: vaccination_requirement_details
+    type: VARCHAR
+  - name: vaccination_testing_frequency
+    type: BIGINT
+  - name: vaccination_person_exact_term
+    type: VARCHAR
+  - name: vaccination_person_definition
+    type: VARCHAR
+  - name: vaccination_religious_exemption
+    type: VARCHAR
+  - name: vaccination_medical_exemption
+    type: VARCHAR
+  - name: vaccination_enforcement
+    type: VARCHAR
+  - name: negative_test_option
+    type: VARCHAR
+  - name: negative_test_timeframe
+    type: VARCHAR
+  - name: requires_booster
+    type: BOOLEAN

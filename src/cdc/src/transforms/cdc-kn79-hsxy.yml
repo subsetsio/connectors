@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-kn79-hsxy`. Regenerate after model-verify.
+key: [fips_county_code, deaths_from_all_causes, county_name, state, urban_rural_code]
+temporal: date_as_of
+sort: [date_as_of, fips_county_code, deaths_from_all_causes, county_name, state, urban_rural_code]
+columns:
+  - name: date_as_of
+    type: DATE
+  - name: start_date
+    type: VARCHAR
+  - name: end_date
+    type: DATE
+  - name: state
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: fips_county_code
+    type: BIGINT
+  - name: urban_rural_code
+    type: VARCHAR
+  - name: deaths_involving_covid_19
+    type: BIGINT
+  - name: deaths_from_all_causes
+    type: BIGINT
+  - name: footnote
+    type: VARCHAR

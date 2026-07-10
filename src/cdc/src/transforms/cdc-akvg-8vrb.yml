@@ -1,0 +1,82 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-akvg-8vrb`. Regenerate after model-verify.
+key: [record_id]
+temporal: sample_collect_date
+sort: [sample_collect_date, record_id]
+columns:
+  - name: record_id
+    type: VARCHAR
+  - name: site
+    type: BIGINT
+  - name: state_territory
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: county_fips
+    type: VARCHAR
+  - name: counties_served
+    type: VARCHAR
+  - name: population_served
+    type: BIGINT
+  - name: sample_id
+    type: VARCHAR
+  - name: sample_collect_date
+    type: DATE
+  - name: sample_type
+    type: VARCHAR
+  - name: sample_matrix
+    type: VARCHAR
+  - name: sample_location
+    type: VARCHAR
+  - name: flow_rate
+    type: DOUBLE
+  - name: concentration_method
+    type: VARCHAR
+  - name: pasteurized
+    type: VARCHAR
+  - name: pcr_type
+    type: VARCHAR
+  - name: extraction_method
+    type: VARCHAR
+  - name: major_lab_method
+    type: BIGINT
+  - name: inhibition_detect
+    type: VARCHAR
+  - name: inhibition_adjust
+    type: VARCHAR
+  - name: ntc_amplify
+    type: VARCHAR
+  - name: pcr_target
+    type: VARCHAR
+  - name: pcr_gene_target_agg
+    type: VARCHAR
+  - name: pcr_target_avg_conc
+    type: DOUBLE
+  - name: pcr_target_units
+    type: VARCHAR
+  - name: lod_sewage
+    type: BIGINT
+  - name: pcr_target_detect
+    type: VARCHAR
+  - name: pcr_target_avg_conc_lin
+    type: BIGINT
+  - name: pcr_target_flowpop_lin
+    type: DOUBLE
+  - name: pcr_target_mic_lin
+    type: DOUBLE
+  - name: hum_frac_target_mic
+    type: VARCHAR
+  - name: hum_frac_mic_conc
+    type: DOUBLE
+  - name: hum_frac_mic_unit
+    type: VARCHAR
+  - name: rec_eff_percent
+    type: DOUBLE
+  - name: rec_eff_target_name
+    type: VARCHAR
+  - name: rec_eff_spike_matrix
+    type: VARCHAR
+  - name: rec_eff_spike_conc
+    type: DOUBLE
+  - name: date_updated
+    type: VARCHAR

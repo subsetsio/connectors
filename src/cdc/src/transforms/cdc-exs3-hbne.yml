@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-exs3-hbne`. Regenerate after model-verify.
+key: []
+temporal: data_as_of
+sort: [data_as_of]
+columns:
+  - name: data_as_of
+    type: VARCHAR
+  - name: jurisdiction_residence
+    type: VARCHAR
+  - name: data_period_start
+    type: VARCHAR
+  - name: data_period_end
+    type: DATE
+  - name: group
+    type: VARCHAR
+  - name: subgroup1
+    type: VARCHAR
+  - name: subgroup2
+    type: VARCHAR
+  - name: covid_deaths
+    type: BIGINT
+  - name: crude_rate
+    type: DOUBLE
+  - name: conf_int_95pct_lower_crude
+    type: DOUBLE
+  - name: conf_int_95pct_upper_crude
+    type: DOUBLE
+  - name: note
+    type: VARCHAR

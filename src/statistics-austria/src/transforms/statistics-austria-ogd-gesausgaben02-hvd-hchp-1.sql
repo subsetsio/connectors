@@ -1,0 +1,40 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "source_file",
+    "row_number",
+    CAST("time" AS BIGINT) AS time,
+    "health_care_functions_hc",
+    "hp_1_hospitals",
+    "hp_1_1_general_hospitals",
+    "hp_1_2_mental_health_hospitals",
+    "hp_1_3_specialised_hospitals_other_than_mental_health_hospitals",
+    "hp_2_residential_long_term_care_facilities",
+    "hp_3_providers_of_ambulatory_health_care",
+    "hp_3_1_medical_practices",
+    "hp_3_2_dental_practices",
+    "hp_3_3_other_health_care_practitioners",
+    "hp_3_4_ambulatory_health_care_centres",
+    "hp_3_5_providers_of_home_health_care_services",
+    "hp_4_providers_of_ancillary_services",
+    "hp_4_1_providers_of_patient_transportation_and_emergency_rescue",
+    "hp_4_2_medical_and_diagnostic_laboratories",
+    "hp_4_9_other_providers_of_ancillary_services",
+    "hp_5_retailers_and_other_providers_of_medical_goods",
+    "hp_5_1_pharmacies",
+    "hp_5_2_retail_sellers_and_other_suppliers_of_durable_medical_goods_and_medical_appliances",
+    "hp_5_9_all_other_miscellaneous_sellers_and_other_suppliers_of_pharmaceuticals_and_medical_goods",
+    "hp_6_providers_of_preventive_care",
+    "hp_7_providers_of_health_care_system_administration_and_financing",
+    "hp_7_1_government_health_administration_agencies",
+    "hp_7_2_social_health_insurance_agencies",
+    "hp_7_3_private_health_insurance_administration_agencies",
+    "hp_7_9_other_administration_agencies",
+    "hp_8_rest_of_economy",
+    "hp_8_1_households_as_providers_of_home_health_care",
+    "hp_8_2_all_other_industries_as_secondary_providers_of_health_care",
+    "hp_9_rest_of_the_world",
+    "all_hp_all_providers"
+FROM "statistics-austria-ogd-gesausgaben02-hvd-hchp-1"

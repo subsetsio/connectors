@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-rate-kalwobez-gest-kalwoche-str-bz-100`. Regenerate after model-verify.
+key: [row_number, calendar_week, pol_district_of_deceased, gender_of_deceased]
+sort: [row_number, calendar_week, pol_district_of_deceased, gender_of_deceased]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: calendar_week
+    type: VARCHAR
+  - name: pol_district_of_deceased
+    type: VARCHAR
+  - name: gender_of_deceased
+    type: VARCHAR
+  - name: number_of_deaths
+    type: DOUBLE
+  - name: age_standardized_death_rate_in_parts_per_thousand
+    type: DOUBLE

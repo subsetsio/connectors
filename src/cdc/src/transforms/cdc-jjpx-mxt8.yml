@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-jjpx-mxt8`. Regenerate after model-verify.
+key: [estimate, week_ending, current_season_week_ending_label, mmwr_week, race_and_ethnicity]
+temporal: current_season_week_ending_label
+sort: [current_season_week_ending_label, estimate, week_ending, mmwr_week, race_and_ethnicity]
+columns:
+  - name: week_ending
+    type: VARCHAR
+  - name: covid_19_season
+    type: VARCHAR
+  - name: estimate
+    type: DOUBLE
+  - name: mmwr_year
+    type: BIGINT
+  - name: mmwr_week
+    type: BIGINT
+  - name: enrollment_date
+    type: VARCHAR
+  - name: as_of_date
+    type: VARCHAR
+  - name: race_and_ethnicity
+    type: VARCHAR
+  - name: current_season_week_ending_label
+    type: TIMESTAMP

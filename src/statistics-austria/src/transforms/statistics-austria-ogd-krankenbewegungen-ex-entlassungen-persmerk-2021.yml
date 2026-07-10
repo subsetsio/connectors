@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-krankenbewegungen-ex-entlassungen-persmerk-2021`. Regenerate after model-verify.
+key: [row_number, year_of_discharge, federal_province_place_of_residence, inpatient_care_sector, age_in_4_classes]
+sort: [row_number, year_of_discharge, federal_province_place_of_residence, inpatient_care_sector, age_in_4_classes]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: year_of_discharge
+    type: BIGINT
+  - name: inpatient_care_sector
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: age_in_4_classes
+    type: VARCHAR
+  - name: federal_province_place_of_residence
+    type: VARCHAR
+  - name: number_of_inpatient_discharges
+    type: BIGINT
+  - name: number_of_bed_days
+    type: BIGINT

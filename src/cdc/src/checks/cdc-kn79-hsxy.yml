@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-kn79-hsxy`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [fips_county_code, deaths_from_all_causes, county_name, state, urban_rural_code]
+temporal: date_as_of
+checks:
+  - kind: unique
+    columns: [fips_county_code, deaths_from_all_causes, county_name, state, urban_rural_code]
+  - kind: not_null
+    col: fips_county_code
+  - kind: not_null
+    col: deaths_from_all_causes
+  - kind: not_null
+    col: county_name
+  - kind: not_null
+    col: state
+  - kind: not_null
+    col: urban_rural_code
+  - kind: row_floor
+    min: 1544
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-eze9-ahe5`. Regenerate after model-verify.
+key: [rate_per_100000_visits, month_end, demographics_values, condition, demographics_type]
+temporal: month_end
+sort: [month_end, rate_per_100000_visits, demographics_values, condition, demographics_type]
+columns:
+  - name: month_end
+    type: DATE
+  - name: condition
+    type: VARCHAR
+  - name: demographics_type
+    type: VARCHAR
+  - name: demographics_values
+    type: VARCHAR
+  - name: rate_per_100000_visits
+    type: BIGINT

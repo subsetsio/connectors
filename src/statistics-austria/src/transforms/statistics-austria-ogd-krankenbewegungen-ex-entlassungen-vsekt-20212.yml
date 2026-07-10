@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-krankenbewegungen-ex-entlassungen-vsekt-20212`. Regenerate after model-verify.
+key: [row_number, diagnosis_ishmt_shortlist_of_diagnoses, year_of_discharge, location_of_the_hospital_federal_provinces, inpatient_care_sector]
+sort: [row_number, diagnosis_ishmt_shortlist_of_diagnoses, year_of_discharge, location_of_the_hospital_federal_provinces, inpatient_care_sector]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: year_of_discharge
+    type: BIGINT
+  - name: inpatient_care_sector
+    type: VARCHAR
+  - name: location_of_the_hospital_federal_provinces
+    type: VARCHAR
+  - name: diagnosis_ishmt_shortlist_of_diagnoses
+    type: VARCHAR
+  - name: number_of_inpatient_discharges
+    type: BIGINT
+  - name: number_of_bed_days
+    type: BIGINT

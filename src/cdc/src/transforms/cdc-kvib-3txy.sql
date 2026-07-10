@@ -1,0 +1,18 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "Surveillance Network" AS surveillance_network,
+    "Season" AS season,
+    "Date Type" AS date_type,
+    "Date" AS date,
+    "Age Category" AS age_category,
+    "Race" AS race,
+    "Sex" AS sex,
+    "State" AS state,
+    "Data Type" AS data_type,
+    "Estimate Type" AS estimate_type,
+    "Rate Type" AS rate_type,
+    CAST("Estimate" AS DOUBLE) AS estimate
+FROM "cdc-kvib-3txy"

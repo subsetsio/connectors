@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-austria-ogd-ake102-hvd-ogdonly-hvd-potakquote-1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [row_number, labour_reserve_seeking_but_not_available, quota_classifications, time_serie]
+checks:
+  - kind: unique
+    columns: [row_number, labour_reserve_seeking_but_not_available, quota_classifications, time_serie]
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: labour_reserve_seeking_but_not_available
+  - kind: not_null
+    col: quota_classifications
+  - kind: not_null
+    col: time_serie
+  - kind: row_floor
+    min: 30
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-r229-z6ma`. Regenerate after model-verify.
+key: [pct_positive, mmwr_week, mmwr_week_end, n_enrolled, pathogen]
+temporal: mmwr_week_end
+sort: [mmwr_week_end, pct_positive, mmwr_week, n_enrolled, pathogen]
+columns:
+  - name: mmwr_week_end
+    type: DATE
+  - name: pathogen
+    type: VARCHAR
+  - name: n_enrolled
+    type: BIGINT
+  - name: pct_positive
+    type: DOUBLE
+  - name: mmwr_week
+    type: BIGINT
+  - name: footnote
+    type: VARCHAR

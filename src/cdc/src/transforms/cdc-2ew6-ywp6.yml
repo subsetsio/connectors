@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-2ew6-ywp6`. Regenerate after model-verify.
+key: [date_start, date_end, wwtp_id, key_plot_id, population_served]
+temporal: date_start
+sort: [date_start, date_end, wwtp_id, key_plot_id, population_served]
+columns:
+  - name: wwtp_jurisdiction
+    type: VARCHAR
+  - name: wwtp_id
+    type: BIGINT
+  - name: reporting_jurisdiction
+    type: VARCHAR
+  - name: sample_location
+    type: VARCHAR
+  - name: sample_location_specify
+    type: BIGINT
+  - name: key_plot_id
+    type: VARCHAR
+  - name: county_names
+    type: VARCHAR
+  - name: county_fips
+    type: VARCHAR
+  - name: population_served
+    type: BIGINT
+  - name: date_start
+    type: DATE
+  - name: date_end
+    type: DATE
+  - name: ptc_15d
+    type: BIGINT
+  - name: detect_prop_15d
+    type: BIGINT
+  - name: percentile
+    type: DOUBLE
+  - name: sampling_prior
+    type: VARCHAR
+  - name: first_sample_date
+    type: DATE

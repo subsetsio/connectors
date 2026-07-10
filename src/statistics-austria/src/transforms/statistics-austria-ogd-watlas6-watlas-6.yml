@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-watlas6-watlas-6`. Regenerate after model-verify.
+key: [row_number, nace, year_starting_1995, federal_provinces]
+sort: [row_number, nace, year_starting_1995, federal_provinces]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: year_starting_1995
+    type: BIGINT
+  - name: nace
+    type: VARCHAR
+  - name: federal_provinces
+    type: VARCHAR
+  - name: number_of_establishments
+    type: BIGINT
+  - name: revenue_in_eur_million
+    type: BIGINT
+  - name: total_purchases_of_goods_and_services_in_eur_million
+    type: HUGEINT
+  - name: gross_investments_in_tangible_goods_in_eur_million
+    type: BIGINT
+  - name: persons_employed
+    type: BIGINT
+  - name: employees
+    type: BIGINT
+  - name: wages_and_salaries_in_eur_million
+    type: BIGINT
+  - name: establishment_density_per_1_000_inhabitants
+    type: BIGINT
+  - name: revenue_of_establishments_per_establishment_in_eur
+    type: BIGINT
+  - name: revenue_of_establishments_per_person_employed_in_eur
+    type: BIGINT
+  - name: persons_employed_per_establishment
+    type: BIGINT
+  - name: gross_wages_and_salaries_per_employee_in_eur
+    type: BIGINT
+  - name: purchases_of_goods_and_services_in_of_revenue_of_establishments
+    type: HUGEINT

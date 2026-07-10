@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-bevwan020-aussenwand-300`. Regenerate after model-verify.
+key: [row_number, country_of_origin_destination, time_section, c_5_years_age_group, nationality_pol_breakdown_level_3]
+sort: [row_number, country_of_origin_destination, time_section, c_5_years_age_group, nationality_pol_breakdown_level_3]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: time_section
+    type: BIGINT
+  - name: country_of_origin_destination
+    type: VARCHAR
+  - name: nationality_pol_breakdown_level_3
+    type: VARCHAR
+  - name: c_5_years_age_group
+    type: VARCHAR
+  - name: in_migration_from_foreign_country
+    type: BIGINT
+  - name: out_migration_to_foreign_country
+    type: BIGINT

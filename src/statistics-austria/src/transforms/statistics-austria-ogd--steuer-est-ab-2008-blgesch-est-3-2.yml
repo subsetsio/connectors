@@ -1,0 +1,235 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd--steuer-est-ab-2008-blgesch-est-3-2`. Regenerate after model-verify.
+key: [row_number]
+sort: [row_number]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: gender_2
+    type: VARCHAR
+  - name: politischer_bezirk_teilw_abo_ebene_1
+    type: VARCHAR
+  - name: level_of_income_in_1000_eur_13
+    type: VARCHAR
+  - name: number_of_entities_persons_subject_to_income_tax
+    type: BIGINT
+  - name: entity_count_total_amount_of_income
+    type: BIGINT
+  - name: total_amount_of_income_eur
+    type: HUGEINT
+  - name: entity_count_taxable_income
+    type: BIGINT
+  - name: taxable_income_eur
+    type: HUGEINT
+  - name: entity_count_fixed_income_tax
+    type: BIGINT
+  - name: fixed_income_tax_eur
+    type: HUGEINT
+  - name: entity_count_credited_wage_tax
+    type: BIGINT
+  - name: credited_wage_tax_eur
+    type: HUGEINT
+  - name: entity_count_tax_debt
+    type: BIGINT
+  - name: tax_debt_eur
+    type: BIGINT
+  - name: entity_count_tax_credit
+    type: BIGINT
+  - name: tax_credit_eur
+    type: HUGEINT
+  - name: entity_count_wage_income_incl_pensions_gross_salary
+    type: BIGINT
+  - name: wage_income_incl_pensions_gross_salary
+    type: BIGINT
+  - name: entity_count_balance_of_income_losses_from_agriculture_and_forestry
+    type: BIGINT
+  - name: balance_of_income_losses_from_agriculture_and_forestry_eur
+    type: HUGEINT
+  - name: entity_count_income_from_agriculture_and_forestry
+    type: BIGINT
+  - name: income_from_agriculture_and_forestry_eur
+    type: BIGINT
+  - name: entity_count_losses_from_agriculture_and_forestry
+    type: BIGINT
+  - name: losses_from_agriculture_and_forestry_eur
+    type: HUGEINT
+  - name: entity_count_balance_of_income_losses_from_self_employment
+    type: BIGINT
+  - name: balance_of_income_losses_from_self_employment_eur
+    type: HUGEINT
+  - name: entity_count_income_from_self_employment
+    type: BIGINT
+  - name: income_from_self_employment_eur
+    type: BIGINT
+  - name: entity_count_losses_from_self_employment
+    type: BIGINT
+  - name: losses_from_self_employment_eur
+    type: HUGEINT
+  - name: entity_count_balance_of_income_losses_from_business_establishments
+    type: BIGINT
+  - name: balance_of_income_losses_from_business_establishments_eur
+    type: HUGEINT
+  - name: entity_count_income_from_business_establishments
+    type: BIGINT
+  - name: income_from_business_establishments_eur
+    type: BIGINT
+  - name: entity_count_losses_from_business_establishments
+    type: BIGINT
+  - name: losses_from_business_establishments_eur
+    type: HUGEINT
+  - name: entity_count_balance_of_income_losses_from_employment
+    type: BIGINT
+  - name: balance_of_income_losses_from_employment_eur
+    type: HUGEINT
+  - name: entity_count_income_from_employment
+    type: BIGINT
+  - name: income_from_employment_eur
+    type: BIGINT
+  - name: entity_count_losses_from_employment
+    type: BIGINT
+  - name: losses_from_employment_eur
+    type: HUGEINT
+  - name: entity_count_balance_of_income_losses_from_capital_assets
+    type: BIGINT
+  - name: balance_of_income_losses_from_capital_assets_eur
+    type: HUGEINT
+  - name: entity_count_income_from_capital_assets
+    type: BIGINT
+  - name: income_from_capital_assets_eur
+    type: BIGINT
+  - name: entity_count_losses_from_capital_assets
+    type: BIGINT
+  - name: losses_from_capital_assets_eur
+    type: HUGEINT
+  - name: entity_count_balance_of_income_losses_from_rent_and_lease
+    type: BIGINT
+  - name: balance_of_income_losses_from_rent_and_lease_eur
+    type: HUGEINT
+  - name: entity_count_income_from_rent_and_lease
+    type: BIGINT
+  - name: income_from_rent_and_lease_eur
+    type: BIGINT
+  - name: entity_count_losses_from_rent_and_lease
+    type: BIGINT
+  - name: losses_from_rent_and_lease_eur
+    type: HUGEINT
+  - name: entity_count_balance_of_income_losses_from_other_kinds_of_income
+    type: BIGINT
+  - name: balance_of_income_losses_from_other_income_eur
+    type: HUGEINT
+  - name: entity_count_income_from_other_kinds_of_income
+    type: BIGINT
+  - name: income_from_other_kinds_of_income_eur
+    type: BIGINT
+  - name: entity_count_losses_from_other_kinds_of_income
+    type: BIGINT
+  - name: losses_from_other_kinds_of_income_eur
+    type: HUGEINT
+  - name: entity_count_pensions_perennial_charges_voluntary_social_insurance
+    type: BIGINT
+  - name: pensions_perennial_charges_voluntary_social_insurance_eur
+    type: BIGINT
+  - name: entity_count_pensions_or_perennial_charges
+    type: BIGINT
+  - name: pensions_or_perennial_charges_eur
+    type: HUGEINT
+  - name: entity_count_subsequent_purchase_of_insurance_periods_voluntary_continued_insurance
+    type: BIGINT
+  - name: subsequent_purchase_of_insurance_periods_voluntary_continued_insurance
+    type: HUGEINT
+  - name: entity_count_tax_exempt_amounts_with_limit
+    type: BIGINT
+  - name: tax_exempt_amounts_with_limit_eur
+    type: HUGEINT
+  - name: entity_count_contributions_to_churches
+    type: BIGINT
+  - name: contributions_to_churches_eur
+    type: HUGEINT
+  - name: entity_count_research_and_training_allowances
+    type: BIGINT
+  - name: research_and_training_allowances_eur
+    type: HUGEINT
+  - name: entity_count_costs_for_tax_consultancy
+    type: BIGINT
+  - name: costs_for_tax_consultancy_eur
+    type: HUGEINT
+  - name: entity_count_loss_deduction
+    type: BIGINT
+  - name: loss_deduction_eur
+    type: HUGEINT
+  - name: entity_count_flatrate_special_tax_exempt_amounts
+    type: BIGINT
+  - name: flatrate_special_tax_exempt_amounts_eur
+    type: HUGEINT
+  - name: entity_count_special_tax_exempt_amounts_in_total
+    type: BIGINT
+  - name: special_tax_exempt_amounts_in_total_eur
+    type: HUGEINT
+  - name: entity_count_gains_from_debt_relief
+    type: BIGINT
+  - name: gains_from_debt_relief_eur
+    type: BIGINT
+  - name: entity_count_extraordinary_payments
+    type: BIGINT
+  - name: extraordinary_payments_eur
+    type: HUGEINT
+  - name: entity_count_credited_foreign_taxes
+    type: BIGINT
+  - name: credited_foreign_taxes_eur
+    type: HUGEINT
+  - name: entity_count_credites_capital_gains_tax
+    type: BIGINT
+  - name: credites_capital_gains_tax_eur
+    type: HUGEINT
+  - name: entity_count_deductible_amount_for_sole_earners
+    type: BIGINT
+  - name: deductible_amount_for_sole_earners_eur
+    type: HUGEINT
+  - name: entity_count_deductible_amount_for_sole_educators
+    type: BIGINT
+  - name: deductible_amount_for_sole_educators_eur
+    type: HUGEINT
+  - name: entity_count_deductible_amount_for_transportation_costs
+    type: BIGINT
+  - name: deductible_amount_for_transportation_costs_eur
+    type: HUGEINT
+  - name: entity_count_deductible_amount_for_employees
+    type: BIGINT
+  - name: deductible_amount_for_employees_eur
+    type: BIGINT
+  - name: entity_count_deductible_amount_for_pensioners
+    type: BIGINT
+  - name: deductible_amount_for_pensioners_eur
+    type: HUGEINT
+  - name: entity_count_deductible_amount_for_interstate_commuters
+    type: BIGINT
+  - name: deductible_amount_for_interstate_commuters_eur
+    type: BIGINT
+  - name: entity_count_deductible_amount_for_payment_of_alimonies
+    type: BIGINT
+  - name: deductible_amount_for_payment_of_alimonies_eur
+    type: HUGEINT
+  - name: entity_count_progression_income
+    type: BIGINT
+  - name: progression_income_eur
+    type: BIGINT
+  - name: entity_count_tax_for_income_from_capital_assets_with_special_tax_rate
+    type: BIGINT
+  - name: tax_for_income_from_capital_assets_with_special_tax_rate
+    type: HUGEINT
+  - name: entity_count_family_bonus_plus
+    type: BIGINT
+  - name: family_bonus_plus
+    type: HUGEINT
+  - name: entity_count_increased_deductible_amount_for_pensioners
+    type: BIGINT
+  - name: increased_deductible_amount_for_pensioners
+    type: HUGEINT
+  - name: entity_count_additional_child_amount
+    type: BIGINT
+  - name: additional_child_amount
+    type: HUGEINT

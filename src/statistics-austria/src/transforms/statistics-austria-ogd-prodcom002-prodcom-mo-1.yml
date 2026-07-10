@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-prodcom002-prodcom-mo-1`. Regenerate after model-verify.
+key: [row_number, sold_production_s, total_production_t, technical_total_production_tt, economic_total_production_et]
+sort: [row_number, sold_production_s, total_production_t, technical_total_production_tt, economic_total_production_et]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: reporting_month
+    type: VARCHAR
+  - name: value_and_volume_selection
+    type: VARCHAR
+  - name: oe_cpa_2_digit
+    type: VARCHAR
+  - name: sold_production_s
+    type: VARCHAR
+  - name: technical_total_production_tt
+    type: VARCHAR
+  - name: total_production_t
+    type: VARCHAR
+  - name: economic_total_production_et
+    type: VARCHAR

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-jfbs-8cpp`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [objective_description, hp2020_objective, population_group, baseline_year_s, final_year_s]
+checks:
+  - kind: unique
+    columns: [objective_description, hp2020_objective, population_group, baseline_year_s, final_year_s]
+  - kind: not_null
+    col: objective_description
+  - kind: not_null
+    col: hp2020_objective
+  - kind: not_null
+    col: population_group
+  - kind: not_null
+    col: baseline_year_s
+  - kind: not_null
+    col: final_year_s
+  - kind: row_floor
+    min: 3489
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

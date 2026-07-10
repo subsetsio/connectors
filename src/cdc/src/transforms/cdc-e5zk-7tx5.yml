@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-e5zk-7tx5`. Regenerate after model-verify.
+key: [month_week_sort_order, month_week_label, month, month_number, season]
+sort: [month_week_sort_order, month_week_label, month, month_number, season]
+columns:
+  - name: season
+    type: VARCHAR
+  - name: month
+    type: VARCHAR
+  - name: month_number
+    type: BIGINT
+  - name: week
+    type: BIGINT
+  - name: month_week_label
+    type: VARCHAR
+  - name: month_week_sort_order
+    type: BIGINT
+  - name: cumulative_flu_doses_distributed
+    type: DOUBLE
+  - name: imputed_value
+    type: BOOLEAN
+  - name: current_through
+    type: VARCHAR

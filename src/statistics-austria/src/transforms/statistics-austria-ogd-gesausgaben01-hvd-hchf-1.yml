@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-gesausgaben01-hvd-hchf-1`. Regenerate after model-verify.
+key: [row_number]
+sort: [row_number]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: time
+    type: BIGINT
+  - name: health_care_functions_hc
+    type: VARCHAR
+  - name: hf_1_government_schemes_and_compulsory_contributory_health_care_financing_schemes
+    type: DOUBLE
+  - name: hf_1_1_government_schemes
+    type: DOUBLE
+  - name: hf_1_2_compulsory_contributory_health_insurance_schemes
+    type: DOUBLE
+  - name: hf_1_2_1_social_health_insurance_schemes
+    type: DOUBLE
+  - name: hf_1_2_2_compulsory_private_insurance_schemes
+    type: DOUBLE
+  - name: hf_2_voluntary_health_care_payment_schemes
+    type: DOUBLE
+  - name: hf_2_1_voluntary_health_insurance_schemes
+    type: DOUBLE
+  - name: hf_2_2_npish_financing_schemes
+    type: DOUBLE
+  - name: hf_2_3_enterprise_financing_schemes
+    type: DOUBLE
+  - name: hf_3_household_out_of_pocket_payment
+    type: DOUBLE
+  - name: hf_3_1_out_of_pocket_excluding_cost_sharing
+    type: DOUBLE
+  - name: hf_3_2_cost_sharing_with_third_party_payers
+    type: DOUBLE
+  - name: hf_4_rest_of_the_world_financing_schemes_non_resident
+    type: DOUBLE
+  - name: all_hf_all_financing_schemes
+    type: DOUBLE

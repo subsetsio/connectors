@@ -1,0 +1,30 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    strptime("AnalysisDate", '%m/%d/%Y')::DATE AS analysisdate,
+    CAST("Date Of Death Year" AS BIGINT) AS date_of_death_year,
+    CAST("Date Of Death Month" AS BIGINT) AS date_of_death_month,
+    "Start Date" AS start_date,
+    strptime("End Date", '%m/%d/%Y')::DATE AS end_date,
+    "Jurisdiction of Occurrence" AS jurisdiction_of_occurrence,
+    "Sex" AS sex,
+    "Race/Ethnicity" AS race_ethnicity,
+    "AgeGroup" AS agegroup,
+    CAST("AllCause" AS BIGINT) AS allcause,
+    CAST("NaturalCause" AS BIGINT) AS naturalcause,
+    CAST("Septicemia (A40-A41)" AS BIGINT) AS septicemia_a40_a41,
+    CAST("Malignant neoplasms (C00-C97)" AS BIGINT) AS malignant_neoplasms_c00_c97,
+    CAST("Diabetes mellitus (E10-E14)" AS BIGINT) AS diabetes_mellitus_e10_e14,
+    CAST("Alzheimer disease (G30)" AS BIGINT) AS alzheimer_disease_g30,
+    CAST("Influenza and pneumonia (J09-J18)" AS BIGINT) AS influenza_and_pneumonia_j09_j18,
+    CAST("Chronic lower respiratory diseases (J40-J47)" AS BIGINT) AS chronic_lower_respiratory_diseases_j40_j47,
+    CAST("Other diseases of respiratory system (J00-J06,J30-J39,J67,J70-J98)" AS BIGINT) AS other_diseases_of_respiratory_system_j00_j06_j30_j39_j67_j70_j98,
+    CAST("Nephritis, nephrotic syndrome and nephrosis (N00-N07,N17-N19,N25-N27)" AS BIGINT) AS nephritis_nephrotic_syndrome_and_nephrosis_n00_n07_n17_n19_n25_n27,
+    CAST("Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified (R00-R99)" AS BIGINT) AS symptoms_signs_and_abnormal_clinical_and_laboratory_findings_not_elsewhere_classified_r00_r99,
+    CAST("Diseases of heart (I00-I09,I11,I13,I20-I51)" AS BIGINT) AS diseases_of_heart_i00_i09_i11_i13_i20_i51,
+    CAST("Cerebrovascular diseases (I60-I69)" AS BIGINT) AS cerebrovascular_diseases_i60_i69,
+    CAST("COVID-19 (U071, Multiple Cause of Death)" AS BIGINT) AS covid_19_u071_multiple_cause_of_death,
+    CAST("COVID-19 (U071, Underlying Cause of Death)" AS BIGINT) AS covid_19_u071_underlying_cause_of_death
+FROM "cdc-65mz-jvh5"

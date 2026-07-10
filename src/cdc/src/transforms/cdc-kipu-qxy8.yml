@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-kipu-qxy8`. Regenerate after model-verify.
+key: [mmwr_week_end, mmwr_week, age_group, pathogen]
+temporal: mmwr_week_end
+sort: [mmwr_week_end, mmwr_week, age_group, pathogen]
+columns:
+  - name: mmwr_week_end
+    type: DATE
+  - name: pathogen
+    type: VARCHAR
+  - name: pct_positive
+    type: DOUBLE
+  - name: footnote
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: mmwr_week
+    type: BIGINT

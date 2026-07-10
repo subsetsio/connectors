@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-pj7m-y5uh`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [state, end_date, start_date, year, indicator]
+temporal: data_as_of
+checks:
+  - kind: unique
+    columns: [state, end_date, start_date, year, indicator]
+  - kind: not_null
+    col: state
+  - kind: not_null
+    col: end_date
+  - kind: not_null
+    col: start_date
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: indicator
+  - kind: row_floor
+    min: 5300
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

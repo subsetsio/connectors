@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-8hus-y5nc`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [su_id, nr_adj_wt, stratumc, genplanup, genplanyr]
+checks:
+  - kind: unique
+    columns: [su_id, nr_adj_wt, stratumc, genplanup, genplanyr]
+  - kind: not_null
+    col: su_id
+  - kind: not_null
+    col: nr_adj_wt
+  - kind: not_null
+    col: stratumc
+  - kind: not_null
+    col: genplanup
+  - kind: not_null
+    col: genplanyr
+  - kind: row_floor
+    min: 991
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

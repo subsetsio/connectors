@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-hkhc-f7hg`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [total_deaths, end_date, week_ending_date, start_date, mmwr_week]
+temporal: data_as_of
+checks:
+  - kind: unique
+    columns: [total_deaths, end_date, week_ending_date, start_date, mmwr_week]
+  - kind: not_null
+    col: total_deaths
+  - kind: not_null
+    col: end_date
+  - kind: not_null
+    col: week_ending_date
+  - kind: not_null
+    col: start_date
+  - kind: not_null
+    col: mmwr_week
+  - kind: row_floor
+    min: 292
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

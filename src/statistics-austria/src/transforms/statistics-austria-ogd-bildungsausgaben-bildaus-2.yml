@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-bildungsausgaben-bildaus-2`. Regenerate after model-verify.
+key: [row_number, time, educational_institution, regional_breakdown]
+sort: [row_number, time, educational_institution, regional_breakdown]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: time
+    type: BIGINT
+  - name: regional_breakdown
+    type: VARCHAR
+  - name: educational_institution
+    type: VARCHAR
+  - name: educational_expenditure_in_total
+    type: BIGINT
+  - name: staff_expenditure
+    type: HUGEINT
+  - name: material_expenditure
+    type: BIGINT
+  - name: investments
+    type: HUGEINT
+  - name: taxes
+    type: BIGINT
+  - name: transfers_to_private_households
+    type: HUGEINT
+  - name: transfers_to_private_non_profit_services
+    type: HUGEINT
+  - name: transfers_to_enterprises
+    type: HUGEINT
+  - name: transfers_to_social_security_institutions
+    type: HUGEINT
+  - name: interests
+    type: BIGINT
+  - name: other_expenditure
+    type: HUGEINT

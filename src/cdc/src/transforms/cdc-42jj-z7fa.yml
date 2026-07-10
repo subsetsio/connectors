@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-42jj-z7fa`. Regenerate after model-verify.
+key: [fips_code, county_name, date, state_tribe_territory, masks_order_code]
+temporal: date
+sort: [date, fips_code, county_name, state_tribe_territory, masks_order_code]
+columns:
+  - name: state_tribe_territory
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: fips_code
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: masks_order_code
+    type: BIGINT
+  - name: face_masks_required_in_public
+    type: VARCHAR
+  - name: citations
+    type: VARCHAR

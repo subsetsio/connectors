@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-ndzg-9nmv`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [geolocation, placefips, placename, dental_crude95ci, csmoking_crude95ci]
+checks:
+  - kind: unique
+    columns: [geolocation, placefips, placename, dental_crude95ci, csmoking_crude95ci]
+  - kind: not_null
+    col: geolocation
+  - kind: not_null
+    col: placefips
+  - kind: not_null
+    col: placename
+  - kind: not_null
+    col: dental_crude95ci
+  - kind: not_null
+    col: csmoking_crude95ci
+  - kind: row_floor
+    min: 14242
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

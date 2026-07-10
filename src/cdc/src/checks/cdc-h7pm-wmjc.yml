@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-h7pm-wmjc`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [estimate, geography, survey_year_influenza_season, dimension, vaccine]
+checks:
+  - kind: unique
+    columns: [estimate, geography, survey_year_influenza_season, dimension, vaccine]
+  - kind: not_null
+    col: estimate
+  - kind: not_null
+    col: geography
+  - kind: not_null
+    col: survey_year_influenza_season
+  - kind: not_null
+    col: dimension
+  - kind: not_null
+    col: vaccine
+  - kind: row_floor
+    min: 2399
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

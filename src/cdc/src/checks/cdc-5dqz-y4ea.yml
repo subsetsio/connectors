@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-5dqz-y4ea`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, as_of, state, category, disease]
+checks:
+  - kind: unique
+    columns: [date, as_of, state, category, disease]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: as_of
+  - kind: not_null
+    col: state
+  - kind: not_null
+    col: category
+  - kind: not_null
+    col: disease
+  - kind: row_floor
+    min: 244052
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-jwta-jxbg`. Regenerate after model-verify.
+key: [weighted_distribution_of_population, unweighted_distribution_of_population, state, agegroup, race_hispanic_origin]
+temporal: data_as_of
+sort: [data_as_of, weighted_distribution_of_population, unweighted_distribution_of_population, state, agegroup, race_hispanic_origin]
+columns:
+  - name: data_as_of
+    type: DATE
+  - name: start_date
+    type: VARCHAR
+  - name: end_date
+    type: DATE
+  - name: state
+    type: VARCHAR
+  - name: race_hispanic_origin
+    type: VARCHAR
+  - name: count_of_covid_19_deaths
+    type: BIGINT
+  - name: distribution_of_covid_19_deaths
+    type: DOUBLE
+  - name: unweighted_distribution_of_population
+    type: DOUBLE
+  - name: weighted_distribution_of_population
+    type: DOUBLE
+  - name: difference_between_covid_19_and_unweighted_population
+    type: DOUBLE
+  - name: difference_between_covid_19_and_weighted_population
+    type: DOUBLE
+  - name: agegroup
+    type: VARCHAR
+  - name: suppression
+    type: VARCHAR

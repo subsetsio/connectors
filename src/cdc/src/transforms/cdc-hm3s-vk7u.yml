@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-hm3s-vk7u`. Regenerate after model-verify.
+key: [fips_code, county_name, date, state_tribe_territory, sah_order_code]
+temporal: date
+sort: [date, fips_code, county_name, state_tribe_territory, sah_order_code]
+columns:
+  - name: state_tribe_territory
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: fips_code
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: sah_order_code
+    type: BIGINT
+  - name: stay_at_home_order
+    type: VARCHAR
+  - name: citations
+    type: VARCHAR

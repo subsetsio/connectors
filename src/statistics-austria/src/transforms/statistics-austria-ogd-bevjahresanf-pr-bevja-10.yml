@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-bevjahresanf-pr-bevja-10`. Regenerate after model-verify.
+key: [row_number, year, age_in_5_year_groups, province_nuts_2_unit, sex]
+sort: [row_number, year, age_in_5_year_groups, province_nuts_2_unit, sex]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: province_nuts_2_unit
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: age_in_5_year_groups
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: main_scenario
+    type: BIGINT
+  - name: growth_scenario
+    type: BIGINT
+  - name: ageing_scenario
+    type: BIGINT
+  - name: upper_migration_scenario
+    type: BIGINT
+  - name: lower_migration_scenario
+    type: BIGINT
+  - name: upper_fertility_scenario
+    type: BIGINT
+  - name: lower_fertility_scenario
+    type: BIGINT
+  - name: upper_life_expectancy_scenario
+    type: BIGINT
+  - name: lower_life_expectancy_scenario
+    type: BIGINT
+  - name: status_quo_scenario
+    type: BIGINT
+  - name: zero_migration_scenario
+    type: BIGINT

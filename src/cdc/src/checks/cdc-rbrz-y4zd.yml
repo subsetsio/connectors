@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-rbrz-y4zd`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [reporting_area_sort, tuberculosis_previous_52_weeks_max, reporting_area, mmwr_week, tularemia_previous_52_weeks_max]
+checks:
+  - kind: unique
+    columns: [reporting_area_sort, tuberculosis_previous_52_weeks_max, reporting_area, mmwr_week, tularemia_previous_52_weeks_max]
+  - kind: not_null
+    col: reporting_area_sort
+  - kind: not_null
+    col: tuberculosis_previous_52_weeks_max
+  - kind: not_null
+    col: reporting_area
+  - kind: not_null
+    col: mmwr_week
+  - kind: not_null
+    col: tularemia_previous_52_weeks_max
+  - kind: row_floor
+    min: 1820
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

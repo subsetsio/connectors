@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-austria-ogd--steuer-lue-ab-2008-1-lue-2`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [row_number, net_income_eur, income_in_total_eur, unemployment_benefit_eur, family_allowance_eur]
+checks:
+  - kind: unique
+    columns: [row_number, net_income_eur, income_in_total_eur, unemployment_benefit_eur, family_allowance_eur]
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: net_income_eur
+  - kind: not_null
+    col: income_in_total_eur
+  - kind: not_null
+    col: unemployment_benefit_eur
+  - kind: not_null
+    col: family_allowance_eur
+  - kind: row_floor
+    min: 6746
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

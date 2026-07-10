@@ -1,8 +1,18 @@
 spec_id: cdc-n97r-u9uh
 status: active
 tests:
-  - row_count: {min: 3049}
-    reason: exported 6,099 rows when measured against the SODA count(*) endpoint on 2026-07-09; a full export stays within half of that, so fewer rows means the stream truncated
-    certainty: 80
-    points_outward: true
-    severity: block
+- row_count:
+    min: 3049
+  reason: exported 6,099 rows when measured against the SODA count(*) endpoint on 2026-07-09; a full export stays within half
+    of that, so fewer rows means the stream truncated
+  certainty: 80
+  points_outward: true
+  severity: block
+- freshness:
+    col: curr_week_ending
+    reaches: today - 400d
+  reason: temporal CDC dataset should include observations or update markers within the last 400 days for promotion; wider
+    than weekly/monthly cadence to accommodate annual releases and delayed public-health revisions
+  certainty: 70
+  points_outward: true
+  severity: block

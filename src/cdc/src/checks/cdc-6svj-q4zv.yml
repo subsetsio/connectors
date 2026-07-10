@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-6svj-q4zv`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [week_ending, state, week, activity_level, activity_level_label]
+temporal: week_ending
+checks:
+  - kind: unique
+    columns: [week_ending, state, week, activity_level, activity_level_label]
+  - kind: not_null
+    col: week_ending
+  - kind: not_null
+    col: state
+  - kind: not_null
+    col: week
+  - kind: not_null
+    col: activity_level
+  - kind: not_null
+    col: activity_level_label
+  - kind: row_floor
+    min: 2887
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

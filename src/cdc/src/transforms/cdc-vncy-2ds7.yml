@@ -1,0 +1,50 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-vncy-2ds7`. Regenerate after model-verify.
+key: []
+temporal: current_season_week_ending_label
+sort: [current_season_week_ending_label]
+columns:
+  - name: geographic_level
+    type: VARCHAR
+  - name: geographic_name
+    type: VARCHAR
+  - name: demographic_level
+    type: VARCHAR
+  - name: demographic_name
+    type: VARCHAR
+  - name: indicator_label
+    type: VARCHAR
+  - name: indicator_category_label
+    type: VARCHAR
+  - name: month_week
+    type: VARCHAR
+  - name: week_ending
+    type: VARCHAR
+  - name: current_season_week_ending_label
+    type: TIMESTAMP
+  - name: estimate
+    type: DOUBLE
+  - name: ci_half_width_95pct
+    type: DOUBLE
+  - name: unweighted_sample_size
+    type: BIGINT
+  - name: weighted_sample_size
+    type: BIGINT
+  - name: legend_label
+    type: VARCHAR
+  - name: indicator_category_label_sort
+    type: BIGINT
+  - name: demographic_level_sort_order
+    type: BIGINT
+  - name: geography_name_order
+    type: BIGINT
+  - name: geography_level_sort_order
+    type: BIGINT
+  - name: season_sort
+    type: BIGINT
+  - name: legend_sort
+    type: BIGINT
+  - name: suppression_flag
+    type: BIGINT
+  - name: influenza_season
+    type: VARCHAR

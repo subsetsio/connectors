@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogd-bevwan020-aussenwand-100`. Regenerate after model-verify.
+key: [row_number, nationality_aggregated_by_political_breakdown, age_in_single_years, time_section, sex]
+sort: [row_number, nationality_aggregated_by_political_breakdown, age_in_single_years, time_section, sex]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: time_section
+    type: BIGINT
+  - name: age_in_single_years
+    type: VARCHAR
+  - name: nationality_aggregated_by_political_breakdown
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: in_migration_from_foreign_country
+    type: BIGINT
+  - name: out_migration_to_foreign_country
+    type: BIGINT

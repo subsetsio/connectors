@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `statistics-austria-ogdext-klassdb-prodcom2023-1`. Regenerate after model-verify.
+key: [row_number, edv_code, code, source_file]
+sort: [row_number, edv_code, code, source_file]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: row_number
+    type: BIGINT
+  - name: ebene
+    type: BIGINT
+  - name: edv_code
+    type: VARCHAR
+  - name: code
+    type: VARCHAR
+  - name: kurztitel
+    type: VARCHAR
+  - name: korrespondierende_ebene
+    type: BIGINT
+  - name: liste_prodcom
+    type: VARCHAR
+  - name: titel
+    type: VARCHAR
+  - name: korrespondenz_beschreibung
+    type: JSON
+  - name: ma_einheit
+    type: VARCHAR
+  - name: korrespondierender_edv_code
+    type: VARCHAR
+  - name: ma_einheit2
+    type: JSON
+  - name: korrespondierender_code
+    type: VARCHAR
+  - name: korrespondierender_titel
+    type: VARCHAR

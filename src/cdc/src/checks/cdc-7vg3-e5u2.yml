@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-7vg3-e5u2`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [fips_county, pop, county_name, prevalence_asd_ci, map_category]
+checks:
+  - kind: unique
+    columns: [fips_county, pop, county_name, prevalence_asd_ci, map_category]
+  - kind: not_null
+    col: fips_county
+  - kind: not_null
+    col: pop
+  - kind: not_null
+    col: county_name
+  - kind: not_null
+    col: prevalence_asd_ci
+  - kind: not_null
+    col: map_category
+  - kind: row_floor
+    min: 197
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

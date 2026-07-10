@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-rpvx-m2md`. Regenerate after model-verify.
+key: [upper_confidence_limit, model_based_death_rate, population, standard_deviation, county]
+sort: [upper_confidence_limit, model_based_death_rate, population, standard_deviation, county]
+columns:
+  - name: fips
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: fips_state
+    type: BIGINT
+  - name: county
+    type: VARCHAR
+  - name: population
+    type: BIGINT
+  - name: model_based_death_rate
+    type: DOUBLE
+  - name: standard_deviation
+    type: DOUBLE
+  - name: lower_confidence_limit
+    type: DOUBLE
+  - name: upper_confidence_limit
+    type: DOUBLE
+  - name: urban_rural_category
+    type: VARCHAR
+  - name: census_division
+    type: BIGINT

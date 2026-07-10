@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `statistics-austria-ogd-bpihbaugg2020-bpi-h2020-1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [row_number, time_section, branch_of_building]
+checks:
+  - kind: unique
+    columns: [row_number, time_section, branch_of_building]
+  - kind: not_null
+    col: row_number
+  - kind: not_null
+    col: time_section
+  - kind: not_null
+    col: branch_of_building
+  - kind: row_floor
+    min: 36
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

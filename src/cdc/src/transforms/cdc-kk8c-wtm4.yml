@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-kk8c-wtm4`. Regenerate after model-verify.
+key: [percent, upper_95_ci, lower_95_ci, subgroup, measure]
+sort: [percent, upper_95_ci, lower_95_ci, subgroup, measure]
+columns:
+  - name: figure
+    type: BIGINT
+  - name: interview_period
+    type: VARCHAR
+  - name: interview_dates
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: group
+    type: VARCHAR
+  - name: subgroup
+    type: VARCHAR
+  - name: percent
+    type: DOUBLE
+  - name: lower_95_ci
+    type: DOUBLE
+  - name: upper_95_ci
+    type: DOUBLE
+  - name: estimate_reliable
+    type: VARCHAR
+  - name: estimate_s_complement_reliable
+    type: VARCHAR

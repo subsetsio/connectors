@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `cdc-8hzs-zshh`. Regenerate after model-verify.
+key: [month_ending_date, death_month, drug_involved, jurisdiction_occurrence, death_year]
+temporal: data_as_of
+sort: [data_as_of, month_ending_date, death_month, drug_involved, jurisdiction_occurrence, death_year]
+columns:
+  - name: data_as_of
+    type: VARCHAR
+  - name: death_year
+    type: BIGINT
+  - name: death_month
+    type: VARCHAR
+  - name: jurisdiction_occurrence
+    type: VARCHAR
+  - name: drug_involved
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: month_ending_date
+    type: DATE
+  - name: drug_overdose_deaths
+    type: BIGINT
+  - name: footnote
+    type: VARCHAR

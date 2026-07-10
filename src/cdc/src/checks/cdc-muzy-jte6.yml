@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cdc-muzy-jte6`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [natural_cause, all_cause, week_ending_date, jurisdiction_of_occurrence, mmwr_week]
+temporal: data_as_of
+checks:
+  - kind: unique
+    columns: [natural_cause, all_cause, week_ending_date, jurisdiction_of_occurrence, mmwr_week]
+  - kind: not_null
+    col: natural_cause
+  - kind: not_null
+    col: all_cause
+  - kind: not_null
+    col: week_ending_date
+  - kind: not_null
+    col: jurisdiction_of_occurrence
+  - kind: not_null
+    col: mmwr_week
+  - kind: row_floor
+    min: 5238
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
