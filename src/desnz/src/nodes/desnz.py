@@ -184,7 +184,8 @@ def _iter_resource_rows(content, fmt, url, resource_name):
         h, label_col, value_cols, header = det
         data = grid[h + 1:]
         block = [r for r in data if label_col < len(r) and r[label_col] not in (None, "")]
-        if len(block) < MIN_DATA_ROWS:
+        min_data_rows = 1 if fmt == "csv" else MIN_DATA_ROWS
+        if len(block) < min_data_rows:
             continue
         series_names = {c: str(header[c]).strip() for c in value_cols}
         for r in block:
@@ -262,4 +263,3 @@ DOWNLOAD_SPECS = [
     )
     for eid in ENTITY_CKAN
 ]
-
