@@ -1,28 +1,24 @@
-key: [year, economy_code, variable]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gem-entrepreneurship-aps-national`. Regenerate after model-verify.
+# caution: APS rows are national-level survey indicators; compare indicators within the same survey instrument and avoid aggregating different indicator variables as if they were one measure.
+# caution: A small number of source rows have missing economy identifiers, so the raw APS table is published without a strict row key.
+key: []
 temporal: year
-sort: [year, economy_code, variable]
+sort: [year]
 columns:
   - name: year
     type: INTEGER
-    description: GEM Adult Population Survey year.
   - name: economy_code
     type: BIGINT
-    description: GEM numeric economy code from the source SPSS file.
   - name: economy_name
     type: VARCHAR
-    description: Economy name from the source file or SPSS value labels.
   - name: economy_iso
     type: VARCHAR
-    description: Economy ISO-style code where supplied by GEM.
   - name: indicator
     type: VARCHAR
-    description: Canonical lower-case GEM APS indicator code with survey-year suffix removed where present.
   - name: variable
     type: VARCHAR
-    description: Original SPSS variable name from the source file.
   - name: label
     type: VARCHAR
-    description: SPSS variable label describing the indicator.
   - name: value
     type: DOUBLE
-    description: Observed national-level APS indicator value.

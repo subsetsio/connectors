@@ -1,28 +1,24 @@
-key: [year, economy_code, variable]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `gem-entrepreneurship-nes-national`. Regenerate after model-verify.
+# caution: NES rows are expert-rated national framework-condition indicators; do not aggregate different indicator variables as if they were one measure.
+# caution: Economy identifiers and ISO-style codes are source-supplied and may vary in availability across years; use economy_name with year and variable for row identity.
+key: [variable, indicator, economy_name, year]
 temporal: year
-sort: [year, economy_code, variable]
+sort: [year, variable, indicator, economy_name]
 columns:
   - name: year
     type: INTEGER
-    description: GEM National Expert Survey year.
   - name: economy_code
     type: BIGINT
-    description: GEM numeric economy code from the source SPSS file.
   - name: economy_name
     type: VARCHAR
-    description: Economy name from the source file or SPSS value labels.
   - name: economy_iso
     type: VARCHAR
-    description: Economy ISO-style code where supplied by GEM.
   - name: indicator
     type: VARCHAR
-    description: Canonical lower-case GEM NES indicator code.
   - name: variable
     type: VARCHAR
-    description: Original SPSS variable name from the source file.
   - name: label
     type: VARCHAR
-    description: SPSS variable label describing the indicator.
   - name: value
     type: DOUBLE
-    description: Observed national-level NES framework-condition value.

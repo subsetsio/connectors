@@ -17,6 +17,9 @@ tests:
   - between: {col: year, lo: 1998, hi: current_year()}
     reason: NES National Level Data files run 1999..present
     certainty: 90
+  - freshness: {col: year, reaches: current_year() - 1}
+    reason: GEM publishes national survey data annually, with public files normally lagging the calendar year.
+    certainty: 85
   - at_most: {col: year, expr: current_year()}
     certainty: 85
     points_outward: true

@@ -1,12 +1,16 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: APS rows are national-level survey indicators; compare indicators within the same survey instrument and avoid aggregating different indicator variables as if they were one measure.
+-- caution: A small number of source rows have missing economy identifiers, so the raw APS table is published without a strict row key.
 SELECT
-    CAST(year AS INTEGER) AS year,
-    CAST(economy_code AS BIGINT) AS economy_code,
-    CAST(economy_name AS VARCHAR) AS economy_name,
-    CAST(economy_iso AS VARCHAR) AS economy_iso,
-    CAST(indicator AS VARCHAR) AS indicator,
-    CAST(variable AS VARCHAR) AS variable,
-    CAST(label AS VARCHAR) AS label,
-    CAST(value AS DOUBLE) AS value
+    "year",
+    "economy_code",
+    "economy_name",
+    "economy_iso",
+    "indicator",
+    "variable",
+    "label",
+    "value"
 FROM "gem-entrepreneurship-aps-national"
-WHERE value IS NOT NULL
-  AND indicator IS NOT NULL

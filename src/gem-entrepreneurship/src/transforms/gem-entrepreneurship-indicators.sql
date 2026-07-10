@@ -1,10 +1,13 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The table records source variables and labels discovered in public national-level files; a canonical indicator can map to multiple year-specific source variables, especially for APS.
 SELECT
-    CAST(survey AS VARCHAR) AS survey,
-    CAST(indicator AS VARCHAR) AS indicator,
-    CAST(variable AS VARCHAR) AS variable,
-    CAST(label AS VARCHAR) AS label,
-    CAST(first_year AS INTEGER) AS first_year,
-    CAST(last_year AS INTEGER) AS last_year
+    "survey",
+    "indicator",
+    "variable",
+    "label",
+    "first_year",
+    "last_year"
 FROM "gem-entrepreneurship-indicators"
-WHERE survey IS NOT NULL
-  AND variable IS NOT NULL
