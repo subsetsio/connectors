@@ -33,7 +33,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_parquet_writer,
     transient_retry,
@@ -53,6 +52,7 @@ _UNIT_ORDER = {"Week": 0, "Month": 1, "Year": 2}
 ENTITY_META = {
     "amr-current-amr-yearly": (4, 354, "Year"),
     "anth-current-fwd-yearly": (5, 347, "Year"),
+    "arena-current-evd-yearly": (6, 438, "Year"),
     "botu-current-fwd-yearly": (7, 347, "Year"),
     "bruc-current-fwd-yearly": (8, 347, "Year"),
     "camp-current-fwd-amr-yearly": (9, 1296, "Year"),
@@ -71,7 +71,9 @@ ENTITY_META = {
     "haeinf-current-ibd-yearly": (22, 423, "Year"),
     "haicdi-current-haicdi-yearly": (78, 901, "Year"),
     "haiicu-current-haiicu-yearly": (79, 475, "Year"),
+    "haiicu-current-haiicu-yearly-nominated": (79, 1005, "Year"),
     "haissi-current-haissi-yearly": (77, 558, "Year"),
+    "haissi-current-haissi-yearly-nominated": (77, 967, "Year"),
     "hanta-current-evd-yearly": (24, 438, "Year"),
     "hepa-current-fwd-yearly": (25, 347, "Year"),
     "hepb-current-hepbc-yearly": (26, 361, "Year"),
@@ -86,6 +88,7 @@ ENTITY_META = {
     "lymeneuro-current-evd-yearly": (76, 438, "Year"),
     "mala-current-evd-yearly": (34, 438, "Year"),
     "meas-current-measrube-monthly": (35, 335, "Month"),
+    "meas-current-measrube-monthly-nominated": (35, 938, "Month"),
     "meni-current-ibd-yearly": (36, 423, "Year"),
     "mump-current-vpd-yearly": (37, 421, "Year"),
     "pert-current-vpd-yearly": (38, 421, "Year"),
@@ -93,8 +96,10 @@ ENTITY_META = {
     "pneu-current-ibd-yearly": (40, 423, "Year"),
     "qfev-current-evd-yearly": (42, 438, "Year"),
     "rabi-current-evd-yearly": (43, 438, "Year"),
+    "rift-current-evd-yearly": (44, 438, "Year"),
     "rsv-current-infl-weekly": (74, 289, "Week"),
     "rube-current-measrube-monthly": (45, 335, "Month"),
+    "rube-current-measrube-monthly-nominated": (45, 938, "Month"),
     "salm-current-fwd-amr-yearly": (46, 1296, "Year"),
     "salm-current-fwd-yearly": (46, 347, "Year"),
     "shig-current-fwd-amr-yearly": (48, 1296, "Year"),
@@ -108,12 +113,14 @@ ENTITY_META = {
     "tube-current-tube-yearly": (54, 419, "Year"),
     "tula-current-evd-yearly": (55, 438, "Year"),
     "vcjd-current-fwd-yearly": (57, 347, "Year"),
+    "vhfoth-current-evd-yearly": (58, 438, "Year"),
     "wnf-current-evd-yearly": (60, 438, "Year"),
     "wnf-current-wnf-weekly": (60, 138, "Week"),
     "yelf-current-evd-yearly": (61, 438, "Year"),
     "yers-current-fwd-yearly": (62, 347, "Year"),
     "zika-current-evd-yearly": (70, 438, "Year"),
     "zika-current-zikv-weekly": (70, 284, "Week"),
+    "zika-current-zikv-weekly-nominated": (70, 282, "Week"),
 }
 
 SCHEMA = pa.schema([
@@ -255,31 +262,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"ecdc-{eid.lower().replace('_', '-')}", fn=fetch_one, kind="download")
     for eid in ENTITY_META
-]
-
-# One published Delta table per subset: parse-and-type pass, drop fully-missing
-# rows (both num_value and txt_value null), de-duplicate on the natural grain.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT DISTINCT
-                health_topic,
-                population,
-                indicator,
-                unit,
-                geo_level,
-                time_unit,
-                time,
-                region_code,
-                region_name,
-                CAST(num_value AS DOUBLE) AS num_value,
-                txt_value
-            FROM "{s.id}"
-            WHERE num_value IS NOT NULL OR txt_value IS NOT NULL
-        ''',
-        temporal="time",
-    )
-    for s in DOWNLOAD_SPECS
 ]

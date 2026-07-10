@@ -1,7 +1,7 @@
 """EEA Bathing Water Quality (WISE_BWD) — connector node module.
 
 Access mechanism: EEA Discodata, a public REST-over-SQL gateway
-(https://discodata.eea.europa.eu/sql). We snapshot the nine publishable views
+(https://discodata.eea.europa.eu/sql). We snapshot the eleven publishable views
 of the [WISE_BWD].[latest] schema, one download node per view.
 
 Fetch shape: **stateless full re-pull** (shape 1). Every refresh re-pulls each
@@ -41,7 +41,6 @@ from tenacity import (
 from constants import ENTITY_IDS, TABLE_COLUMNS
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     is_transient,
     raw_parquet_writer,
@@ -187,37 +186,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_node_id(e), fn=fetch_one, kind="download")
     for e in ENTITY_IDS
-]
-
-
-# --- Transform: one published Delta table per subset --------------------------
-#
-# Thin parse-and-type pass over the raw parquet view. Every column already
-# carries its native type from the explicit parquet schema, so the only work is
-# re-typing the date/datetime columns that were stored as ISO strings. The full
-# re-pull overwrites raw each run, so there are no accumulated duplicates.
-_SQL_CAST = {"date": "DATE", "datetime": "TIMESTAMP"}
-
-
-def _select_sql(node_id: str) -> str:
-    table = NODE_TO_TABLE[node_id]
-    projections = []
-    for col, dtype in TABLE_COLUMNS[table]:
-        ident = f'"{col}"'
-        target = _SQL_CAST.get(dtype)
-        if target:
-            projections.append(f"CAST({ident} AS {target}) AS {ident}")
-        else:
-            projections.append(ident)
-    cols = ",\n        ".join(projections)
-    return f'SELECT\n        {cols}\n    FROM "{node_id}"'
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_select_sql(s.id),
-    )
-    for s in DOWNLOAD_SPECS
 ]
