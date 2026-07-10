@@ -10,9 +10,9 @@ SELECT
     CAST("constituencies_with_candidates_numbering____15____31" AS BIGINT) AS constituencies_with_candidates_numbering_15_31,
     CAST("constituencies_with_candidates_numbering____31____47" AS BIGINT) AS constituencies_with_candidates_numbering_31_47,
     CAST("constituencies_with_candidates_numbering____47____63" AS BIGINT) AS constituencies_with_candidates_numbering_47_63,
-    CAST("constituencies_with_candidates_numbering____63" AS BIGINT) AS constituencies_with_candidates_numbering_63,
-    CAST("constituencies_with_candidates_numbering___total_candidates" AS BIGINT) AS constituencies_with_candidates_numbering_total_candidates,
-    CAST("candidates_in_a_constituency___min" AS BIGINT) AS candidates_in_a_constituency_min,
-    CAST("candidates_in_a_constituency___max" AS BIGINT) AS candidates_in_a_constituency_max,
-    CAST("candidates_in_a_constituency___avg" AS BIGINT) AS candidates_in_a_constituency_avg
+    CAST("constituencies_with_candidates_numbering____63" AS BIGINT) AS constituencies_with_candidates_numbering_63_plus,
+    CAST("constituencies_with_candidates_numbering___total_candidates" AS BIGINT) AS total_candidates,
+    CAST("candidates_in_a_constituency___min" AS BIGINT) AS candidates_min,
+    CAST("candidates_in_a_constituency___max" AS BIGINT) AS candidates_max,
+    CAST("candidates_in_a_constituency___avg" AS DOUBLE) AS candidates_avg
 FROM "election-commission-of-india-0bd877c0-031d-49da-a743-d102dec6e7b7"

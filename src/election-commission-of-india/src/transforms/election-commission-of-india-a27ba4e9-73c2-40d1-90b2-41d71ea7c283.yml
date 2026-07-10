@@ -1,22 +1,22 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `election-commission-of-india-a27ba4e9-73c2-40d1-90b2-41d71ea7c283`. Regenerate after model-verify.
 # caution: Rows describe highlight categories rather than the full constituency universe; do not treat this as one row per parliamentary constituency.
-key: [candidates]
-sort: [candidates]
+key: [candidates_category]
+sort: [candidates_category]
 columns:
   - name: state_ut_code
     type: VARCHAR
   - name: constituency_name_code
     type: VARCHAR
-  - name: const_no
+  - name: constituency_no
     type: BIGINT
-  - name: candidates
+  - name: candidates_category
     type: VARCHAR
   - name: male
-    type: VARCHAR
+    type: BIGINT
   - name: female
-    type: VARCHAR
-  - name: tg
-    type: VARCHAR
+    type: BIGINT
+  - name: third_gender
+    type: BIGINT
   - name: total
-    type: VARCHAR
+    type: BIGINT

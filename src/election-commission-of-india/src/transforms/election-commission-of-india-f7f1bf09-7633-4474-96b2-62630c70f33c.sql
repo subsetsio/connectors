@@ -19,7 +19,7 @@ SELECT
     CAST("voters___postal" AS BIGINT) AS voters_postal,
     CAST("voters___total" AS BIGINT) AS voters_total,
     CAST("voters___nris" AS BIGINT) AS voters_nris,
-    CAST("voters___poll__" AS DOUBLE) AS voters_poll,
+    CAST("voters___poll__" AS DOUBLE) AS voter_turnout_pct,
     CAST("rejected_votes__postal_" AS BIGINT) AS rejected_votes_postal,
     CAST("evm_rejected_votes" AS BIGINT) AS evm_rejected_votes,
     CAST("nota_votes" AS BIGINT) AS nota_votes,

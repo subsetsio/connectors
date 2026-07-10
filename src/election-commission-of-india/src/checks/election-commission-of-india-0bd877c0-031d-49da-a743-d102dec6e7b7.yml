@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `election-commission-of-india-0bd877c0-031d-49da-a743-d102dec6e7b7`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [state_ut]
+checks:
+  - kind: unique
+    columns: [state_ut]
+  - kind: not_null
+    col: state_ut
+  - kind: row_floor
+    min: 18
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
