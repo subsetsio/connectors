@@ -1,5 +1,9 @@
 spec_id: dartmouth-atlas-of-health-care-discharge-rates
 status: active
+coverage:
+  frozen: true
+  reason: >-
+    Closed archive: this topic's series runs 1992-2019 and ends there. Dartmouth ceased updating the Atlas in 2024; the published longitudinal files have been byte-stable since 2021-2022, so this corpus does not advance.
 tests:
   - not_null: geo_code
   - not_null: year

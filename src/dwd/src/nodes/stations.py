@@ -7,6 +7,8 @@ Stateless full re-pull every refresh: the server overwrites the file in place an
 exposes no since/cursor delta.
 """
 
+import re
+
 import pyarrow as pa
 
 from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet

@@ -1,5 +1,9 @@
 spec_id: dartmouth-atlas-of-health-care-hospital-research-data
 status: active
+coverage:
+  frozen: true
+  reason: >-
+    Closed archive: the hospital research files end at vintage 2017. Dartmouth ceased updating the Atlas in 2024; the published longitudinal files have been byte-stable since 2021-2022, so this corpus does not advance.
 tests:
   - not_null: source_file
   - row_count: {min: 10000}
