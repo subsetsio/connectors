@@ -1,23 +1,26 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `un-statistics-division-sdg-data`. Regenerate after model-verify.
+# caution: Contains SDG observations across many series, geographies, units implicit in the series, and source revisions; filter to a single series and compatible geography level before comparing values.
+key: []
 columns:
   - name: series
     type: VARCHAR
   - name: series_description
     type: VARCHAR
   - name: goal
-    type: VARCHAR
+    type: BIGINT
   - name: target
     type: VARCHAR
   - name: indicator
     type: VARCHAR
   - name: geo_area_code
-    type: VARCHAR
+    type: BIGINT
   - name: geo_area_name
     type: VARCHAR
-  - name: year
+  - name: time_period
     type: INTEGER
   - name: value
-    type: DOUBLE
+    type: VARCHAR
   - name: value_type
     type: VARCHAR
   - name: source

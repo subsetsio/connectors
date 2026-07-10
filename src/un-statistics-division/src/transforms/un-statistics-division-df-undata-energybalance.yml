@@ -1,20 +1,26 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `un-statistics-division-df-undata-energybalance`. Regenerate after model-verify.
+# caution: Contains energy balance observations by commodity, transaction, unit, reference area, and year; avoid summing across unit or transaction categories.
+key: [ref_area, commodity, transaction, unit, time_period]
+sort: [ref_area, commodity, transaction, unit, time_period]
 columns:
-  - name: REF_AREA
+  - name: dataflow
     type: VARCHAR
-  - name: COMMODITY
+  - name: ref_area
     type: VARCHAR
-  - name: TRANSACTION
+  - name: commodity
     type: VARCHAR
-  - name: UNIT
+  - name: transaction
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: BIGINT
-  - name: ESTIMATE
+  - name: unit
     type: VARCHAR
-  - name: FOOTNOTES
-    type: VARCHAR
-  - name: UNIT_MULT
+  - name: time_period
     type: BIGINT
   - name: obs_value
     type: DOUBLE
+  - name: estimate
+    type: VARCHAR
+  - name: footnotes
+    type: VARCHAR
+  - name: unit_mult
+    type: BIGINT

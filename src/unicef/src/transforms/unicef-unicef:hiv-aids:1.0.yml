@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `unicef-unicef:hiv-aids:1.0`. Regenerate after model-verify.
+# caution: Rows are normalized SDMX observations. Dataflow-specific disaggregations are preserved in the `dimensions` JSON field, so filter those dimensions together with ref_area, indicator, sex, age, time_period, unit_measure, obs_status, and data_source before aggregating.
+key: []
+temporal: time_period
+sort: [time_period]
+columns:
+  - name: ref_area
+    type: VARCHAR
+  - name: ref_area_name
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: indicator_name
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: obs_status
+    type: VARCHAR
+  - name: data_source
+    type: VARCHAR
+  - name: lower_bound
+    type: VARCHAR
+  - name: upper_bound
+    type: VARCHAR
+  - name: dimensions
+    type: VARCHAR

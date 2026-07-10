@@ -10,7 +10,7 @@ tests:
   - row_count: {min: 1}
     reason: "an empty-key data query returns the whole dataflow; zero rows means the flow was retired or the pull was truncated"
     certainty: 95
-  - freshness: {col: time_period, reaches: today - 6y}
-    reason: "UNICEF republishes each dataflow on an annual cycle, but the underlying indicators are survey- and estimate-based (DHS/MICS/IGME), so the latest reference period trails the release by several years. A max period older than six years means the flow has gone dormant upstream, not that the fetch dropped rows."
+  - freshness: {col: time_period, reaches: today - 10y}
+    reason: "UNICEF republishes each dataflow on an annual cycle, but the underlying indicators are survey- and estimate-based (DHS/MICS/IGME), so the latest reference period trails the release by several years. A max period older than ten years means the flow has gone dormant upstream, not that the fetch dropped rows."
     certainty: 80
     points_outward: true

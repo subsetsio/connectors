@@ -1,6 +1,10 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `un-statistics-division-sdg-indicators`. Regenerate after model-verify.
+key: [code]
+sort: [code]
 columns:
   - name: goal
-    type: VARCHAR
+    type: BIGINT
   - name: target
     type: VARCHAR
   - name: code
@@ -8,11 +12,8 @@ columns:
   - name: description
     type: VARCHAR
   - name: tier
-    type: VARCHAR
+    type: BIGINT
   - name: uri
     type: VARCHAR
   - name: series
     type: VARCHAR
-key:
-  - code
-write_mode: overwrite

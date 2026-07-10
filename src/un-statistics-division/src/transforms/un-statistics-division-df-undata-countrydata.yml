@@ -1,32 +1,38 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `un-statistics-division-df-undata-countrydata`. Regenerate after model-verify.
+# caution: Contains multiple UNdata series, units, age groups, sexes, source types, and reference areas; filter to a coherent slice before comparing or aggregating observations.
+key: [freq, series, unit, location, age_group, sex, ref_area, source_type, time_period]
+sort: [freq, series, unit, location, age_group, sex, ref_area, source_type, time_period]
 columns:
-  - name: FREQ
+  - name: dataflow
     type: VARCHAR
-  - name: SERIES
+  - name: freq
     type: VARCHAR
-  - name: UNIT
+  - name: series
     type: VARCHAR
-  - name: LOCATION
+  - name: unit
     type: VARCHAR
-  - name: AGE_GROUP
+  - name: location
     type: VARCHAR
-  - name: SEX
+  - name: age_group
     type: VARCHAR
-  - name: REF_AREA
+  - name: sex
     type: VARCHAR
-  - name: SOURCE_TYPE
+  - name: ref_area
     type: VARCHAR
-  - name: TIME_PERIOD
+  - name: source_type
+    type: VARCHAR
+  - name: time_period
     type: BIGINT
-  - name: UNIT_MULT
-    type: BIGINT
-  - name: TIME_DETAIL
-    type: BIGINT
-  - name: NATURE
-    type: VARCHAR
-  - name: SOURCE_DETAIL
-    type: VARCHAR
-  - name: FOOTNOTES
-    type: VARCHAR
   - name: obs_value
     type: DOUBLE
+  - name: unit_mult
+    type: BIGINT
+  - name: time_detail
+    type: BIGINT
+  - name: nature
+    type: VARCHAR
+  - name: source_detail
+    type: VARCHAR
+  - name: footnotes
+    type: VARCHAR

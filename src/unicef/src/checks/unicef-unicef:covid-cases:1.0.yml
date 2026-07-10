@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `unicef-unicef:covid-cases:1.0`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [obs_value, indicator, indicator_name, age, unit_measure]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [obs_value, indicator, indicator_name, age, unit_measure]
+  - kind: not_null
+    col: obs_value
+  - kind: not_null
+    col: indicator
+  - kind: not_null
+    col: indicator_name
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: unit_measure
+  - kind: row_floor
+    min: 3
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,6 +1,10 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `un-statistics-division-sdg-targets`. Regenerate after model-verify.
+key: [code]
+sort: [code]
 columns:
   - name: goal
-    type: VARCHAR
+    type: BIGINT
   - name: code
     type: VARCHAR
   - name: title
@@ -11,6 +15,3 @@ columns:
     type: VARCHAR
   - name: indicators
     type: VARCHAR
-key:
-  - code
-write_mode: overwrite
