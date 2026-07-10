@@ -22,7 +22,7 @@ meaningless. The maintain step (authored later) decides whether a node runs.
 import json
 from itertools import product as iproduct
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, post, raw_writer, transient_retry
+from subsets_utils import NodeSpec, get, post, raw_writer, transient_retry
 from constants import ENTITY_IDS
 
 SLUG = "federal-statistical-office"
@@ -243,13 +243,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * EXCLUDE (value), CAST(value AS DOUBLE) AS value FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]
