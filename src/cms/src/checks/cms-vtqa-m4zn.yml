@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-vtqa-m4zn`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [incentive_payment_range, number_of_hospitals_receiving_this_range]
+checks:
+  - kind: unique
+    columns: [incentive_payment_range, number_of_hospitals_receiving_this_range]
+  - kind: not_null
+    col: incentive_payment_range
+  - kind: not_null
+    col: number_of_hospitals_receiving_this_range
+  - kind: row_floor
+    min: 12
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

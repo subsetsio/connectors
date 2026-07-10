@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-59mq-zhts`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [cms_certification_number_ccn, zip_code, city_town, county_parish, address_line_2]
+checks:
+  - kind: unique
+    columns: [cms_certification_number_ccn, zip_code, city_town, county_parish, address_line_2]
+  - kind: not_null
+    col: cms_certification_number_ccn
+  - kind: not_null
+    col: zip_code
+  - kind: not_null
+    col: city_town
+  - kind: not_null
+    col: county_parish
+  - kind: not_null
+    col: address_line_2
+  - kind: row_floor
+    min: 3778
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

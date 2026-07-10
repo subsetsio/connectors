@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-8708ca8b-8636-44ed-8303-724cbfaf78ad`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [total_charges, zip_cd_of_residence, medicare_prov_num, total_days_of_care, total_cases]
+checks:
+  - kind: unique
+    columns: [total_charges, zip_cd_of_residence, medicare_prov_num, total_days_of_care, total_cases]
+  - kind: not_null
+    col: total_charges
+  - kind: not_null
+    col: zip_cd_of_residence
+  - kind: not_null
+    col: medicare_prov_num
+  - kind: not_null
+    col: total_days_of_care
+  - kind: not_null
+    col: total_cases
+  - kind: row_floor
+    min: 587854
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

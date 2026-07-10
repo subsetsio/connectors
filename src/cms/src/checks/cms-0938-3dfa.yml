@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-0938-3dfa`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [zip_code]
+checks:
+  - kind: unique
+    columns: [zip_code]
+  - kind: not_null
+    col: zip_code
+  - kind: row_floor
+    min: 21483
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

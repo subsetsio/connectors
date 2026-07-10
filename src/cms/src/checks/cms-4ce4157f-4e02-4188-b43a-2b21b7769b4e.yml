@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-4ce4157f-4e02-4188-b43a-2b21b7769b4e`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [update, date, link_learn_more, model_name_id_s_which_detail_page_to_populate, announced_updated]
+checks:
+  - kind: unique
+    columns: [update, date, link_learn_more, model_name_id_s_which_detail_page_to_populate, announced_updated]
+  - kind: not_null
+    col: update
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: link_learn_more
+  - kind: not_null
+    col: model_name_id_s_which_detail_page_to_populate
+  - kind: not_null
+    col: announced_updated
+  - kind: row_floor
+    min: 591
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

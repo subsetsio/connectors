@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-6jpm-sxkc`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [cms_certification_number_ccn, provider_name, address, certification_date, zip_code]
+checks:
+  - kind: unique
+    columns: [cms_certification_number_ccn, provider_name, address, certification_date, zip_code]
+  - kind: not_null
+    col: cms_certification_number_ccn
+  - kind: not_null
+    col: provider_name
+  - kind: not_null
+    col: address
+  - kind: not_null
+    col: certification_date
+  - kind: not_null
+    col: zip_code
+  - kind: row_floor
+    min: 6196
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

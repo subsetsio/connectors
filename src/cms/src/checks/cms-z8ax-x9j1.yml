@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-z8ax-x9j1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [rate, interval_upper_limit, total_cases, interval_lower_limit, facility_name]
+temporal: start_date
+checks:
+  - kind: unique
+    columns: [rate, interval_upper_limit, total_cases, interval_lower_limit, facility_name]
+  - kind: not_null
+    col: rate
+  - kind: not_null
+    col: interval_upper_limit
+  - kind: not_null
+    col: total_cases
+  - kind: not_null
+    col: interval_lower_limit
+  - kind: not_null
+    col: facility_name
+  - kind: row_floor
+    min: 22
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

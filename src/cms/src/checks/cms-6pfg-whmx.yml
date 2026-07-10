@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-6pfg-whmx`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [state, oas_cahps_answer_percent, oas_cahps_question, oas_cahps_measure_id, oas_cahps_answer_description]
+temporal: start_date
+checks:
+  - kind: unique
+    columns: [state, oas_cahps_answer_percent, oas_cahps_question, oas_cahps_measure_id, oas_cahps_answer_description]
+  - kind: not_null
+    col: state
+  - kind: not_null
+    col: oas_cahps_answer_percent
+  - kind: not_null
+    col: oas_cahps_question
+  - kind: not_null
+    col: oas_cahps_measure_id
+  - kind: not_null
+    col: oas_cahps_answer_description
+  - kind: row_floor
+    min: 420
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-2941ab09-8cee-49d8-9703-f3c5b854e388`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [avg_tot_pymt_amt, avg_submtd_cvrd_chrg, tot_dschrgs, drg_cd, drg_desc]
+checks:
+  - kind: unique
+    columns: [avg_tot_pymt_amt, avg_submtd_cvrd_chrg, tot_dschrgs, drg_cd, drg_desc]
+  - kind: not_null
+    col: avg_tot_pymt_amt
+  - kind: not_null
+    col: avg_submtd_cvrd_chrg
+  - kind: not_null
+    col: tot_dschrgs
+  - kind: not_null
+    col: drg_cd
+  - kind: not_null
+    col: drg_desc
+  - kind: row_floor
+    min: 13285
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

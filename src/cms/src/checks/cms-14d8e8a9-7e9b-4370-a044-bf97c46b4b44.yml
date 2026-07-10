@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-14d8e8a9-7e9b-4370-a044-bf97c46b4b44`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [prscrbr_npi]
+checks:
+  - kind: unique
+    columns: [prscrbr_npi]
+  - kind: not_null
+    col: prscrbr_npi
+  - kind: row_floor
+    min: 708441
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

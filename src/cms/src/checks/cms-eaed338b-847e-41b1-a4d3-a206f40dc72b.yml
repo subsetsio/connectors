@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-eaed338b-847e-41b1-a4d3-a206f40dc72b`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [tot_alowd_amt, prvdr_id, prvdr_name, prvdr_zip, tot_srvc_days]
+checks:
+  - kind: unique
+    columns: [tot_alowd_amt, prvdr_id, prvdr_name, prvdr_zip, tot_srvc_days]
+  - kind: not_null
+    col: tot_alowd_amt
+  - kind: not_null
+    col: prvdr_id
+  - kind: not_null
+    col: prvdr_name
+  - kind: not_null
+    col: prvdr_zip
+  - kind: not_null
+    col: tot_srvc_days
+  - kind: row_floor
+    min: 7107
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

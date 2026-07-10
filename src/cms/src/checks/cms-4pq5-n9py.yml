@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-4pq5-n9py`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date_first_approved_to_provide_medicare_and_medicaid_services, provider_address]
+temporal: date_first_approved_to_provide_medicare_and_medicaid_services
+checks:
+  - kind: unique
+    columns: [date_first_approved_to_provide_medicare_and_medicaid_services, provider_address]
+  - kind: not_null
+    col: date_first_approved_to_provide_medicare_and_medicaid_services
+  - kind: not_null
+    col: provider_address
+  - kind: row_floor
+    min: 7347
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-3746498e-874d-45d8-9c69-68603cafea60`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [enrollment_id, national_provider_identifier, last_name, organization_name, first_name]
+checks:
+  - kind: unique
+    columns: [enrollment_id, national_provider_identifier, last_name, organization_name, first_name]
+  - kind: not_null
+    col: enrollment_id
+  - kind: not_null
+    col: national_provider_identifier
+  - kind: not_null
+    col: last_name
+  - kind: not_null
+    col: organization_name
+  - kind: not_null
+    col: first_name
+  - kind: row_floor
+    min: 1450294
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

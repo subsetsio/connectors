@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-44060663-47d8-4ced-a115-b53b4c270acb`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [rpt_rec_num]
+temporal: fiscal_year_begin_date
+checks:
+  - kind: unique
+    columns: [rpt_rec_num]
+  - kind: not_null
+    col: rpt_rec_num
+  - kind: row_floor
+    min: 3051
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

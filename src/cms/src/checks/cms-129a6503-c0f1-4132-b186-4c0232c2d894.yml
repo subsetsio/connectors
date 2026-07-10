@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-129a6503-c0f1-4132-b186-4c0232c2d894`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [certification_date, provider_number]
+temporal: certification_date
+checks:
+  - kind: unique
+    columns: [certification_date, provider_number]
+  - kind: not_null
+    col: certification_date
+  - kind: not_null
+    col: provider_number
+  - kind: row_floor
+    min: 7350
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

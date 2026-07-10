@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-086e48c4-87a6-4be1-8823-29e8da8f225b`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [prvdr_num, st_adr, fax_phne_num, mdcd_vndr_num, orgnl_prtcptn_dt]
+temporal: processing_date
+checks:
+  - kind: unique
+    columns: [prvdr_num, st_adr, fax_phne_num, mdcd_vndr_num, orgnl_prtcptn_dt]
+  - kind: not_null
+    col: prvdr_num
+  - kind: not_null
+    col: st_adr
+  - kind: not_null
+    col: fax_phne_num
+  - kind: not_null
+    col: mdcd_vndr_num
+  - kind: not_null
+    col: orgnl_prtcptn_dt
+  - kind: row_floor
+    min: 38641
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

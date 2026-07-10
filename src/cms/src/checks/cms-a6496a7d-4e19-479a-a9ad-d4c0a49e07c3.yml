@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-a6496a7d-4e19-479a-a9ad-d4c0a49e07c3`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [enrlmt_id]
+temporal: revocation_efctv_dt
+checks:
+  - kind: unique
+    columns: [enrlmt_id]
+  - kind: not_null
+    col: enrlmt_id
+  - kind: row_floor
+    min: 3529
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

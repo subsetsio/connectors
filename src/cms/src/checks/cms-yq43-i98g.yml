@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-yq43-i98g`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [facility_id, total_hac_score, psi_90_w_z_score, psi_90_composite_value, ssi_w_z_score]
+temporal: psi_90_start_date
+checks:
+  - kind: unique
+    columns: [facility_id, total_hac_score, psi_90_w_z_score, psi_90_composite_value, ssi_w_z_score]
+  - kind: not_null
+    col: facility_id
+  - kind: not_null
+    col: total_hac_score
+  - kind: not_null
+    col: psi_90_w_z_score
+  - kind: not_null
+    col: psi_90_composite_value
+  - kind: not_null
+    col: ssi_w_z_score
+  - kind: row_floor
+    min: 1527
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

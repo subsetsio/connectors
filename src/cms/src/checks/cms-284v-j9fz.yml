@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-284v-j9fz`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [performance_period_fy_2024_adjusted_total_nursing_staff_hours_per_resident_day, provider_name, snf_vbp_program_ranking, cms_certification_number_ccn, provider_address]
+checks:
+  - kind: unique
+    columns: [performance_period_fy_2024_adjusted_total_nursing_staff_hours_per_resident_day, provider_name, snf_vbp_program_ranking, cms_certification_number_ccn, provider_address]
+  - kind: not_null
+    col: performance_period_fy_2024_adjusted_total_nursing_staff_hours_per_resident_day
+  - kind: not_null
+    col: provider_name
+  - kind: not_null
+    col: snf_vbp_program_ranking
+  - kind: not_null
+    col: cms_certification_number_ccn
+  - kind: not_null
+    col: provider_address
+  - kind: row_floor
+    min: 6950
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

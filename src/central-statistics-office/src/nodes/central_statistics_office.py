@@ -22,6 +22,7 @@ is owned by maintenance.json instead.
 import csv
 import datetime
 import io
+import json
 import re
 import time
 
@@ -39,6 +40,10 @@ SLUG = "central-statistics-office"
 DATASET_URL = (
     "https://ws.cso.ie/public/api.restful/"
     "PxStat.Data.Cube_API.ReadDataset/{matrix}/CSV/1.0/en"
+)
+JSONSTAT_URL = (
+    "https://ws.cso.ie/public/api.restful/"
+    "PxStat.Data.Cube_API.ReadDataset/{matrix}/JSON-stat/2.0/en"
 )
 
 STATE_VERSION = 1
@@ -156,8 +161,10 @@ def parse_period(code: str, freq: str):
 
 
 def _to_float(raw: str):
+    if isinstance(raw, (int, float)):
+        return float(raw)
     raw = (raw or "").strip()
-    if not raw:
+    if not raw or raw in {"-", "NA"}:
         return None
     return float(raw)
 
@@ -168,11 +175,44 @@ def _fetch_csv(matrix: str):
     resp = get(DATASET_URL.format(matrix=matrix), timeout=(10.0, 300.0))
     if resp.status_code == 404:
         return None
+    if resp.status_code == 403:
+        return _fetch_jsonstat(matrix)
     resp.raise_for_status()
     return resp.content.decode("utf-8-sig")
 
 
+@transient_retry()
+def _fetch_jsonstat(matrix: str):
+    resp = get(JSONSTAT_URL.format(matrix=matrix), timeout=(10.0, 300.0))
+    if resp.status_code == 404:
+        return None
+    resp.raise_for_status()
+    return json.loads(resp.content.decode("utf-8-sig"))
+
+
+def _category_order(category: dict) -> list[str]:
+    index = category.get("index")
+    if isinstance(index, list):
+        return [str(code) for code in index]
+    if isinstance(index, dict):
+        return [str(code) for code, _ in sorted(index.items(), key=lambda item: item[1])]
+    return [str(code) for code in category.get("label", {})]
+
+
+def _jsonstat_value(values, flat_index: int):
+    if isinstance(values, list):
+        if flat_index >= len(values):
+            return None
+        return values[flat_index]
+    if isinstance(values, dict):
+        return values.get(str(flat_index), values.get(flat_index))
+    return None
+
+
 def _parse(matrix: str, text: str) -> pa.Table:
+    if isinstance(text, dict):
+        return _parse_jsonstat(matrix, text)
+
     reader = csv.reader(io.StringIO(text))
     header = next(reader)
     if header[-2:] != ["UNIT", "VALUE"]:
@@ -219,6 +259,85 @@ def _parse(matrix: str, text: str) -> pa.Table:
                 cols[f"dim{slot}_name"].append(name)
                 cols[f"dim{slot}_code"].append(row[idx])
                 cols[f"dim{slot}_label"].append(row[idx + 1])
+            else:
+                cols[f"dim{slot}_name"].append(None)
+                cols[f"dim{slot}_code"].append(None)
+                cols[f"dim{slot}_label"].append(None)
+
+    return pa.table(
+        {name: pa.array(cols[name], type=typ) for name, typ in SCHEMA_FIELDS},
+        schema=SCHEMA,
+    )
+
+
+def _parse_jsonstat(matrix: str, dataset: dict) -> pa.Table:
+    dimension_ids = dataset["id"]
+    sizes = dataset["size"]
+    dimensions = dataset["dimension"]
+
+    statistic_id = "STATISTIC"
+    if statistic_id not in dimension_ids:
+        raise ValueError(f"{matrix}: no STATISTIC dimension in JSON-stat payload")
+    stamps = [dim_id for dim_id in dimension_ids if _TLIST.match(dim_id)]
+    if len(stamps) != 1:
+        raise ValueError(f"{matrix}: expected one TLIST dimension, got {stamps}")
+    stamp_id = stamps[0]
+    freq = _TLIST.match(stamp_id)[1]
+    others = [dim_id for dim_id in dimension_ids if dim_id not in {statistic_id, stamp_id}]
+    if len(others) > MAX_DIMS:
+        raise ValueError(f"{matrix}: {len(others)} extra dimensions exceeds MAX_DIMS={MAX_DIMS}")
+
+    categories = {
+        dim_id: _category_order(dimensions[dim_id].get("category", {}))
+        for dim_id in dimension_ids
+    }
+    labels = {
+        dim_id: dimensions[dim_id].get("category", {}).get("label", {})
+        for dim_id in dimension_ids
+    }
+    stat_units = dimensions[statistic_id].get("category", {}).get("unit", {})
+    values = dataset.get("value", [])
+    total = 1
+    for size in sizes:
+        total *= size
+
+    cols = {name: [] for name, _ in SCHEMA_FIELDS}
+    spans: dict[str, tuple] = {}
+    dim_positions = {dim_id: pos for pos, dim_id in enumerate(dimension_ids)}
+
+    for flat_index in range(total):
+        remainder = flat_index
+        coords = [0] * len(sizes)
+        for pos in range(len(sizes) - 1, -1, -1):
+            size = sizes[pos]
+            coords[pos] = remainder % size
+            remainder //= size
+
+        stat_code = categories[statistic_id][coords[dim_positions[statistic_id]]]
+        time_code = categories[stamp_id][coords[dim_positions[stamp_id]]]
+        if time_code not in spans:
+            spans[time_code] = parse_period(time_code, freq)
+        start, end = spans[time_code]
+        unit = stat_units.get(stat_code, {}).get("label")
+
+        cols["matrix"].append(matrix)
+        cols["statistic_code"].append(stat_code)
+        cols["statistic_label"].append(labels[statistic_id].get(stat_code))
+        cols["time_code"].append(time_code)
+        cols["time_label"].append(labels[stamp_id].get(time_code))
+        cols["time_dimension"].append(dimensions[stamp_id].get("label"))
+        cols["period_start"].append(start)
+        cols["period_end"].append(end)
+        cols["unit"].append(unit)
+        cols["value"].append(_to_float(_jsonstat_value(values, flat_index)))
+
+        for slot in range(1, MAX_DIMS + 1):
+            if slot <= len(others):
+                dim_id = others[slot - 1]
+                code = categories[dim_id][coords[dim_positions[dim_id]]]
+                cols[f"dim{slot}_name"].append(dimensions[dim_id].get("label"))
+                cols[f"dim{slot}_code"].append(code)
+                cols[f"dim{slot}_label"].append(labels[dim_id].get(code))
             else:
                 cols[f"dim{slot}_name"].append(None)
                 cols[f"dim{slot}_code"].append(None)

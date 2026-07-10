@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-54551982-39a8-4744-90f6-c38bb4dd5108`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [elig_months_ad, avg_prosp_risk_score_esrd, avg_prosp_risk_score_ad, county_name, elig_months_esrd]
+checks:
+  - kind: unique
+    columns: [elig_months_ad, avg_prosp_risk_score_esrd, avg_prosp_risk_score_ad, county_name, elig_months_esrd]
+  - kind: not_null
+    col: elig_months_ad
+  - kind: not_null
+    col: avg_prosp_risk_score_esrd
+  - kind: not_null
+    col: avg_prosp_risk_score_ad
+  - kind: not_null
+    col: county_name
+  - kind: not_null
+    col: elig_months_esrd
+  - kind: row_floor
+    min: 1614
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

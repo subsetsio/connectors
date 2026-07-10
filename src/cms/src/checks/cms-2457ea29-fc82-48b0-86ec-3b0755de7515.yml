@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-2457ea29-fc82-48b0-86ec-3b0755de7515`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [npi, enrlmt_id, pecos_asct_cntl_id, last_name, org_name]
+checks:
+  - kind: unique
+    columns: [npi, enrlmt_id, pecos_asct_cntl_id, last_name, org_name]
+  - kind: not_null
+    col: npi
+  - kind: not_null
+    col: enrlmt_id
+  - kind: not_null
+    col: pecos_asct_cntl_id
+  - kind: not_null
+    col: last_name
+  - kind: not_null
+    col: org_name
+  - kind: row_floor
+    min: 1490899
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

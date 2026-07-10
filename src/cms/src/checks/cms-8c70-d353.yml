@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `cms-8c70-d353`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [facility_name, org_pac_id, measure_cd, measure_title, fn]
+checks:
+  - kind: unique
+    columns: [facility_name, org_pac_id, measure_cd, measure_title, fn]
+  - kind: not_null
+    col: facility_name
+  - kind: not_null
+    col: org_pac_id
+  - kind: not_null
+    col: measure_cd
+  - kind: not_null
+    col: measure_title
+  - kind: not_null
+    col: fn
+  - kind: row_floor
+    min: 280
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
