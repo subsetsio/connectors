@@ -1,0 +1,18 @@
+spec_id: freedom-house-freedom-on-the-net
+status: active
+coverage:
+  frozen: true
+  reason: newer Freedom on the Net data requires an email request; the public workbook available to this connector is the 2023 snapshot.
+tests:
+  - row_count: {min: 800}
+    reason: FOTN country score data covers roughly 70 countries across multiple annual editions through 2023.
+    certainty: 85
+  - not_null: country
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2011, hi: 2023}
+    certainty: 90
+  - between: {col: total, lo: 0, hi: 100}
+    certainty: 95
+  - enum: {col: status, values: ["Free", "Partly Free", "Not Free"]}
+    certainty: 90

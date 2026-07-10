@@ -1,0 +1,22 @@
+spec_id: freedom-house-fiw-all-data
+status: active
+tests:
+  - row_count: {min: 2000}
+    reason: FIW all-data covers countries and territories across 2013-2024.
+    certainty: 90
+  - not_null: country_territory
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2013, hi: 2024}
+    certainty: 95
+  - freshness: {col: year, reaches: 2024}
+    reason: current public FIW workbook used by this connector covers editions through 2024.
+    certainty: 90
+    points_outward: true
+  - unique: [country_territory, year]
+    reason: one FIW all-data row per country or territory per edition year.
+    certainty: 90
+  - between: {col: total, lo: 0, hi: 100}
+    certainty: 95
+  - enum: {col: status, values: ["Free", "Partly Free", "Not Free"]}
+    certainty: 90

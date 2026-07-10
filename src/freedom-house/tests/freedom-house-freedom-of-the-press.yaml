@@ -1,0 +1,19 @@
+spec_id: freedom-house-freedom-of-the-press
+status: active
+coverage:
+  frozen: true
+  reason: Freedom of the Press was discontinued after the 2017 edition; this public workbook is a historical archive.
+tests:
+  - row_count: {min: 5000}
+    reason: historical FOTP panel covers countries over 1980-2017.
+    certainty: 85
+  - not_null: country
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1980, hi: 2017}
+    certainty: 95
+  - between: {col: total_score, lo: 0, hi: 100}
+    certainty: 85
+  - enum: {col: status, values: ["Free", "Partly Free", "Not Free", "F", "PF", "NF"]}
+    certainty: 80
+    severity: warn

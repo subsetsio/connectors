@@ -1,0 +1,25 @@
+spec_id: freedom-house-fiw-ratings-statuses
+status: active
+tests:
+  - row_count: {min: 8000}
+    reason: FIW ratings/statuses is a long country and territory panel from the 1970s through 2024.
+    certainty: 90
+  - not_null: entity_kind
+  - not_null: country
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1972, hi: 2024}
+    certainty: 90
+  - freshness: {col: year, reaches: 2024}
+    reason: current public FIW ratings/statuses workbook used by this connector covers editions through 2024.
+    certainty: 90
+    points_outward: true
+  - enum: {col: entity_kind, values: ["country", "territory"]}
+    certainty: 95
+  - between: {col: pr, lo: 1, hi: 7}
+    certainty: 90
+  - between: {col: cl, lo: 1, hi: 7}
+    certainty: 90
+  - enum: {col: status, values: ["F", "PF", "NF", "Free", "Partly Free", "Not Free"]}
+    certainty: 80
+    severity: warn

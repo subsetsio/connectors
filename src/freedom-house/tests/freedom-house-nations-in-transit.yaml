@@ -1,0 +1,20 @@
+spec_id: freedom-house-nations-in-transit
+status: active
+tests:
+  - row_count: {min: 500}
+    reason: NIT all-data workbook covers about 29 countries from 2005-2024.
+    certainty: 90
+  - not_null: region
+  - not_null: country
+  - not_null: year
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 2005, hi: 2024}
+    certainty: 95
+  - freshness: {col: year, reaches: 2024}
+    reason: current public NIT workbook used by this connector covers editions through 2024.
+    certainty: 90
+    points_outward: true
+  - between: {col: democracy_score, lo: 1, hi: 7}
+    certainty: 90
+  - between: {col: democracy_percentage, lo: 0, hi: 100}
+    certainty: 90
