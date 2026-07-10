@@ -26,6 +26,7 @@ few tens of MB and parses in seconds, so we re-download and overwrite every
 run; revisions to historical years are picked up for free.
 """
 import io
+import os
 import zipfile
 
 import openpyxl
@@ -33,7 +34,8 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    get,
+    get_client,
+    list_raw_fragments,
     save_raw_parquet,
     transient_retry,
 )
@@ -45,10 +47,10 @@ BASE_URL = (
 # CC BY 4.0 substance packages only. (gas-group label, zip filename) — the
 # real per-row gas/species comes from the workbook's Substance column.
 GAS_PACKAGES = [
-    "EDGAR_CH4_1970_2024.zip",
-    "EDGAR_N2O_1970_2024.zip",
-    "EDGAR_F-gases_1990_2024.zip",
-    "EDGAR_CO2bio_1970_2024.zip",
+    ("ch4", "EDGAR_CH4_1970_2024.zip"),
+    ("n2o", "EDGAR_N2O_1970_2024.zip"),
+    ("f-gases", "EDGAR_F-gases_1990_2024.zip"),
+    ("co2bio", "EDGAR_CO2bio_1970_2024.zip"),
 ]
 
 SHEET = "IPCC 2006"
@@ -68,11 +70,30 @@ SCHEMA = pa.schema([
 ])
 
 
-@transient_retry()
+@transient_retry(attempts=8, min_wait=8, max_wait=300)
 def _download_zip(url: str) -> bytes:
-    resp = get(url, timeout=(10.0, 300.0))
-    resp.raise_for_status()
-    return resp.content
+    """Download one EDGAR ZIP with a long read timeout.
+
+    The JRC FTP front-end can sit silent for long stretches and occasionally
+    drops a connection mid-response. Streaming makes progress visible and lets
+    the shared retry wrapper rerun the package-level fetch cleanly.
+    """
+    client = get_client()
+    chunks: list[bytes] = []
+    total = 0
+    with client.stream("GET", url, timeout=(30.0, 1800.0)) as resp:
+        resp.raise_for_status()
+        for chunk in resp.iter_bytes(chunk_size=1024 * 1024):
+            if not chunk:
+                continue
+            chunks.append(chunk)
+            total += len(chunk)
+            if total and total % (25 * 1024 * 1024) < len(chunk):
+                print(f"    downloaded {total / (1024 * 1024):.0f} MiB ...")
+    data = b"".join(chunks)
+    if len(data) < 1024:
+        raise RuntimeError(f"downloaded suspiciously small archive: {len(data)} bytes")
+    return data
 
 
 def _parse_workbook(zip_bytes: bytes) -> list[dict]:
@@ -152,30 +173,44 @@ def _parse_workbook(zip_bytes: bytes) -> list[dict]:
 
 def fetch_emissions(node_id: str) -> None:
     asset = node_id
-    rows: list[dict] = []
-    for fname in GAS_PACKAGES:
+    run_id = os.environ.get("RUN_ID", "unknown")
+    done = {
+        frag
+        for frag, meta in list_raw_fragments(asset, "parquet").items()
+        if meta.get("run_id") == run_id
+    }
+    total_rows = 0
+
+    for fragment, fname in GAS_PACKAGES:
+        if fragment in done:
+            print(f"  skipping {fname}: fragment already committed for run {run_id}")
+            continue
+
         url = f"{BASE_URL}/{fname}"
         print(f"  fetching {fname} ...")
         zip_bytes = _download_zip(url)
         parsed = _parse_workbook(zip_bytes)
         print(f"    {fname}: {len(parsed):,} long rows")
-        rows.extend(parsed)
 
-    if not rows:
+        if not parsed:
+            raise RuntimeError(f"EDGAR parse produced 0 rows for {fname}")
+
+        # Cast string identifier columns explicitly; pyarrow keeps types honest.
+        for r in parsed:
+            for k in (
+                "country_code", "country_name", "ipcc_annex", "c_group",
+                "ipcc_sector_code", "ipcc_sector_name", "gas", "fossil_bio",
+            ):
+                v = r.get(k)
+                r[k] = None if v is None else str(v)
+
+        table = pa.Table.from_pylist(parsed, schema=SCHEMA)
+        save_raw_parquet(table, asset, fragment=fragment)
+        total_rows += table.num_rows
+
+    if total_rows == 0 and not done:
         raise RuntimeError("EDGAR parse produced 0 rows across all substances")
-
-    # Cast string identifier columns explicitly; pyarrow keeps types honest.
-    for r in rows:
-        for k in (
-            "country_code", "country_name", "ipcc_annex", "c_group",
-            "ipcc_sector_code", "ipcc_sector_name", "gas", "fossil_bio",
-        ):
-            v = r.get(k)
-            r[k] = None if v is None else str(v)
-
-    table = pa.Table.from_pylist(rows, schema=SCHEMA)
-    print(f"  total: {len(table):,} rows")
-    save_raw_parquet(table, asset)
+    print(f"  total new rows this leg: {total_rows:,}")
 
 
 DOWNLOAD_SPECS = [
