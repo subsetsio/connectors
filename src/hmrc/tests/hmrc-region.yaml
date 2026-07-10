@@ -1,0 +1,10 @@
+spec_id: hmrc-region
+status: active
+tests:
+  - not_null: RegionId
+  - unique: RegionId
+    reason: RegionId is the entity key of this reference table
+    certainty: 95
+  - row_count: {min: 12}
+    reason: full pull each run; count near the observed catalog size
+    certainty: 85

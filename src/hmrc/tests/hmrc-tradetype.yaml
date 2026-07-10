@@ -1,0 +1,10 @@
+spec_id: hmrc-tradetype
+status: active
+tests:
+  - not_null: TradeTypeId
+  - unique: TradeTypeId
+    reason: TradeTypeId is the entity key of this reference table
+    certainty: 95
+  - row_count: {min: 2}
+    reason: full pull each run; count near the observed catalog size
+    certainty: 85

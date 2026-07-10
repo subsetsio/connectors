@@ -1,0 +1,10 @@
+spec_id: hmrc-trader
+status: active
+tests:
+  - not_null: TraderId
+  - unique: TraderId
+    reason: TraderId is the entity key of this reference table
+    certainty: 95
+  - row_count: {min: 550000}
+    reason: full pull each run; count near the observed catalog size
+    certainty: 85

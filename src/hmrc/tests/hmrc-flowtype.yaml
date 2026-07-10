@@ -1,0 +1,10 @@
+spec_id: hmrc-flowtype
+status: active
+tests:
+  - not_null: FlowTypeId
+  - unique: FlowTypeId
+    reason: FlowTypeId is the entity key of this reference table
+    certainty: 95
+  - row_count: {min: 4}
+    reason: full pull each run; count near the observed catalog size
+    certainty: 85

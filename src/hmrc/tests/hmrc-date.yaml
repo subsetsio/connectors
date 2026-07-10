@@ -1,0 +1,16 @@
+spec_id: hmrc-date
+status: active
+tests:
+  - not_null: MonthId
+  - unique: MonthId
+    reason: MonthId is the calendar key
+    certainty: 95
+  - column_type: {col: MonthId, type: integer}
+  - between: {col: MonthId, lo: 200001, hi: 203012}
+    certainty: 95
+  - row_count: {min: 300}
+    reason: monthly calendar from 2000; full pull each run
+    certainty: 85
+  - freshness: {col: MonthId, reaches: 202512}
+    reason: the calendar advances monthly; full pull always carries the latest period
+    points_outward: true

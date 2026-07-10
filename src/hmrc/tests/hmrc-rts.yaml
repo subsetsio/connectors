@@ -1,0 +1,16 @@
+spec_id: hmrc-rts
+status: active
+tests:
+  - not_null: MonthId
+  - not_null: CountryId
+  - column_type: {col: MonthId, type: integer}
+  - column_type: {col: Value, type: float}
+  - between: {col: MonthId, lo: 200001, hi: 203012}
+    reason: MonthId is a YYYYMM period; data begins Jan 2000
+    certainty: 95
+  - row_count: {min: 2000000}
+    reason: substantial historical corpus expected once backfill advances
+    certainty: 80
+  - freshness: {col: MonthId, reaches: 202412}
+    reason: monthly (RTS quarterly) release with ~2-3 month lag; crawl is newest-first so recent periods land first
+    points_outward: true

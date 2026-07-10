@@ -1,0 +1,10 @@
+spec_id: hmrc-country
+status: active
+tests:
+  - not_null: CountryId
+  - unique: CountryId
+    reason: CountryId is the entity key of this reference table
+    certainty: 95
+  - row_count: {min: 240}
+    reason: full pull each run; count near the observed catalog size
+    certainty: 85

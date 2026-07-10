@@ -1,0 +1,10 @@
+spec_id: hmrc-port
+status: active
+tests:
+  - not_null: PortId
+  - unique: PortId
+    reason: PortId is the entity key of this reference table
+    certainty: 95
+  - row_count: {min: 180}
+    reason: full pull each run; count near the observed catalog size
+    certainty: 85

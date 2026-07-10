@@ -1,0 +1,10 @@
+spec_id: hmrc-commoditysearch
+status: active
+tests:
+  - not_null: CommoditySearchId
+  - unique: CommoditySearchId
+    reason: CommoditySearchId is the entity key of this reference table
+    certainty: 95
+  - row_count: {min: 20000}
+    reason: full pull each run; count near the observed catalog size
+    certainty: 85

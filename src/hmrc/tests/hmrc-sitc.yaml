@@ -1,0 +1,10 @@
+spec_id: hmrc-sitc
+status: active
+tests:
+  - not_null: CommoditySitcId
+  - unique: CommoditySitcId
+    reason: CommoditySitcId is the entity key of this reference table
+    certainty: 95
+  - row_count: {min: 3400}
+    reason: full pull each run; count near the observed catalog size
+    certainty: 85

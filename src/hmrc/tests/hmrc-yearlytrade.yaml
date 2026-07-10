@@ -1,0 +1,16 @@
+spec_id: hmrc-yearlytrade
+status: active
+tests:
+  - not_null: Year
+  - not_null: TraderId
+  - not_null: CommodityId
+  - column_type: {col: Year, type: integer}
+  - between: {col: Year, lo: 2000, hi: 2035}
+    reason: yearly trader disclosure; series begins 2000
+    certainty: 95
+  - row_count: {min: 8000000}
+    reason: ~18M rows expected once backfill advances
+    certainty: 80
+  - freshness: {col: Year, reaches: 2024}
+    reason: yearly aggregation; latest complete year lags ~1 year
+    points_outward: true
