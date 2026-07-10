@@ -1,4 +1,22 @@
 spec_id: eurostat-tqoe3b4
+# Frozen at 2004 via our declared mechanism. Eurostat's dissemination inventory
+# (and the JSON statistics endpoint) advertise a 2010 observation, but the
+# SDMX 2.1 CSV dissemination this connector pulls — the source of truth for the
+# raw — serves ONLY the 2004 module for this dataflow (verified 2026-07-10: a
+# full pull, and explicit startPeriod/sinceTimePeriod ranges, all return 67 rows
+# all at 2004). This is an upstream endpoint inconsistency, not a truncated
+# pull; the corpus our mechanism can see does not advance, so the inventory-pinned
+# freshness assertion is unmeetable and is replaced by the structured frozen
+# declaration below.
+coverage:
+  frozen: true
+  reason: >-
+    Eurostat's SDMX 2.1 CSV dissemination for TQOE3B4 ("Employees with a
+    flexible work schedule by sex", an ad-hoc LFS module) serves only the 2004
+    module; the 2010 period visible on the JSON statistics endpoint is not
+    disseminated over SDMX-CSV, so the corpus this connector can pull is fixed
+    at 2004 and does not advance (verified 2026-07-10 across full and
+    period-ranged pulls).
 tests:
   - row_count: {min: 1}
     reason: the dataflow is disseminated and non-empty — a zero-row raw asset
@@ -7,11 +25,3 @@ tests:
   - not_null: time_period
     reason: SDMX-CSV always carries TIME_PERIOD on every observation row
     certainty: 99
-  - freshness: {col: time_period, reaches: "2010"}
-    reason: Eurostat's dissemination inventory publishes this dataflow's last
-      observation period as 2010; a complete pull must reach it. The bound is
-      pinned to the inventory rather than to `today - Nd` because Eurostat has no
-      single cadence — reach ranges from discontinued 1990s series to 2100
-      population projections — so a wall-clock bound would be wrong for most of
-      the ~5.8k dataflows. Re-collect refreshes the inventory and re-arms it.
-    certainty: 95

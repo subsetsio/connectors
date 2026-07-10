@@ -1,14 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `census-and-statistics-department-115-01012`. Regenerate after model-verify.
+# caution: No scan-verifiable raw key: the 'PER_STATUS_PARENT' dimension is NULL for stat_vars where that breakdown does not apply and '' for its own sub-total, so every column combination is unique but the key carries NULLs. Rows mix marginal totals (empty/NULL dimensions) with breakdowns — filter dimension columns before summing obs_value.
+key: []
 columns:
-  - name: CCYY
-    type: VARCHAR
+  - name: ccyy
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
   - name: sd_value
-    type: VARCHAR
+    type: BIGINT
   - name: stat_var
     type: VARCHAR
   - name: stat_pres
     type: VARCHAR
-  - name: PER_STATUS_PARENT
+  - name: per_status_parent
     type: VARCHAR
-  - name: obs_value
-    type: DOUBLE

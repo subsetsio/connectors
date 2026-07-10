@@ -1,16 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `census-and-statistics-department-510-60003`. Regenerate after model-verify.
+key: [ccyy, coicop, mm, stat_var, stat_pres]
+sort: [ccyy, coicop, mm, stat_var, stat_pres]
 columns:
-  - name: COICOP
+  - name: coicop
     type: VARCHAR
-  - name: CCYY
+  - name: ccyy
+    type: BIGINT
+  - name: mm
     type: VARCHAR
-  - name: MM
-    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
   - name: sd_value
-    type: VARCHAR
+    type: BIGINT
   - name: stat_var
     type: VARCHAR
   - name: stat_pres
     type: VARCHAR
-  - name: obs_value
-    type: DOUBLE

@@ -1,4 +1,12 @@
-SELECT * EXCLUDE (obs_value),
-       CAST(obs_value AS DOUBLE) AS obs_value
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "TYPE_INS" AS type_ins,
+    CAST("FFYY" AS BIGINT) AS ffyy,
+    "obs_value",
+    json_extract_string("sd_value", '$') AS sd_value,
+    "stat_var",
+    "stat_pres"
 FROM "census-and-statistics-department-930-92084"
-WHERE obs_value IS NOT NULL

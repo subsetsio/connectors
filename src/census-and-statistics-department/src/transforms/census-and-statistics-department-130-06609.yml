@@ -1,18 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `census-and-statistics-department-130-06609`. Regenerate after model-verify.
+key: [ccyy, mdhi, q, lqtype]
+sort: [ccyy, mdhi, q, lqtype]
 columns:
-  - name: MDHI
+  - name: mdhi
     type: VARCHAR
-  - name: Q
+  - name: q
     type: VARCHAR
-  - name: CCYY
+  - name: ccyy
+    type: BIGINT
+  - name: lqtype
     type: VARCHAR
-  - name: LQTYPE
-    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
   - name: sd_value
-    type: VARCHAR
+    type: BIGINT
   - name: stat_var
     type: VARCHAR
   - name: stat_pres
     type: VARCHAR
-  - name: obs_value
-    type: DOUBLE

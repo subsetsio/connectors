@@ -1,18 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `census-and-statistics-department-220-23027`. Regenerate after model-verify.
+key: [ind, hwgp, emp_nature, stat_pres]
+sort: [ind, hwgp, emp_nature, stat_pres]
 columns:
-  - name: IND
+  - name: ind
     type: VARCHAR
-  - name: CCYY
+  - name: ccyy
+    type: BIGINT
+  - name: emp_nature
     type: VARCHAR
-  - name: EMP_NATURE
+  - name: hwgp
     type: VARCHAR
-  - name: HWGP
-    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
   - name: sd_value
-    type: VARCHAR
+    type: BIGINT
   - name: stat_var
     type: VARCHAR
   - name: stat_pres
     type: VARCHAR
-  - name: obs_value
-    type: DOUBLE

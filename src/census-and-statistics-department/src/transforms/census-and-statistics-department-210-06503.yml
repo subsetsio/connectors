@@ -1,16 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `census-and-statistics-department-210-06503`. Regenerate after model-verify.
+key: [mind, ccyy, m3m, stat_pres]
+sort: [mind, ccyy, m3m, stat_pres]
 columns:
-  - name: M3M
+  - name: m3m
     type: VARCHAR
-  - name: MIND
+  - name: mind
     type: VARCHAR
-  - name: CCYY
-    type: VARCHAR
+  - name: ccyy
+    type: BIGINT
+  - name: obs_value
+    type: DOUBLE
   - name: sd_value
     type: VARCHAR
   - name: stat_var
     type: VARCHAR
   - name: stat_pres
     type: VARCHAR
-  - name: obs_value
-    type: DOUBLE

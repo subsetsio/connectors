@@ -1,18 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `census-and-statistics-department-215-17004`. Regenerate after model-verify.
+key: [ccyy, mm, emp_size, sector, stat_var, stat_pres]
+sort: [ccyy, mm, emp_size, sector, stat_var, stat_pres]
 columns:
-  - name: CCYY
+  - name: ccyy
+    type: BIGINT
+  - name: mm
+    type: BIGINT
+  - name: emp_size
     type: VARCHAR
-  - name: MM
+  - name: sector
     type: VARCHAR
-  - name: EMP_SIZE
-    type: VARCHAR
-  - name: SECTOR
-    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
   - name: sd_value
-    type: VARCHAR
+    type: BIGINT
   - name: stat_var
     type: VARCHAR
   - name: stat_pres
     type: VARCHAR
-  - name: obs_value
-    type: DOUBLE

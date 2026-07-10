@@ -1,16 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `census-and-statistics-department-340-45021`. Regenerate after model-verify.
+# caution: No scan-verifiable raw key: the 'DEP_P_T' dimension is NULL for stat_vars where that breakdown does not apply and '' for its own sub-total, so every column combination is unique but the key carries NULLs. Rows mix marginal totals (empty/NULL dimensions) with breakdowns — filter dimension columns before summing obs_value.
+key: []
 columns:
-  - name: CCYY
+  - name: ccyy
+    type: BIGINT
+  - name: mm
     type: VARCHAR
-  - name: MM
+  - name: dep_p_t
     type: VARCHAR
-  - name: DEP_P_T
-    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
   - name: sd_value
-    type: VARCHAR
+    type: BIGINT
   - name: stat_var
     type: VARCHAR
   - name: stat_pres
     type: VARCHAR
-  - name: obs_value
-    type: DOUBLE

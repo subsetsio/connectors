@@ -1,0 +1,5 @@
+{
+  "cadence_days": 3,
+  "paused": false,
+  "cadence_note": "CENACE publishes MDA (day-ahead) prices daily and MTR (real-time ex-post) with a lag of several days on the SW-PML/PEND/PSC web services. Each run re-pulls a fixed trailing window (PML ~21d, PEND/PSC ~120d), so re-running well within the download-test freshness floor (max fecha >= today-7d) keeps the published tables current and picks up MTR/MDA revisions; a 3-day cadence stays comfortably ahead of that floor without a daily full re-pull of the ~2,600-node PML product."
+}

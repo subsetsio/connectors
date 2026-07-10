@@ -1,18 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `census-and-statistics-department-615-66021`. Regenerate after model-verify.
+key: [ccyy, q, use_grp, stat_pres]
+sort: [ccyy, q, use_grp, stat_pres]
 columns:
-  - name: BTG_GRP
+  - name: btg_grp
+    type: BIGINT
+  - name: use_grp
     type: VARCHAR
-  - name: USE_GRP
+  - name: ccyy
+    type: BIGINT
+  - name: q
     type: VARCHAR
-  - name: CCYY
-    type: VARCHAR
-  - name: Q
-    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
   - name: sd_value
-    type: VARCHAR
+    type: BIGINT
   - name: stat_var
     type: VARCHAR
   - name: stat_pres
     type: VARCHAR
-  - name: obs_value
-    type: DOUBLE
