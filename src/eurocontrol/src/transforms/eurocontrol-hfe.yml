@@ -1,0 +1,22 @@
+# provisional pair so the graph validates; recompiled by compile-transforms from the measured model
+temporal: date
+sort: [date]
+columns:
+  - name: year
+    type: INTEGER
+  - name: month
+    type: INTEGER
+  - name: date
+    type: DATE
+  - name: entity_name
+    type: VARCHAR
+  - name: entity_type
+    type: VARCHAR
+  - name: type_model
+    type: VARCHAR
+  - name: dist_flown_km
+    type: DOUBLE
+  - name: dist_direct_km
+    type: DOUBLE
+  - name: dist_achieved_km
+    type: DOUBLE
