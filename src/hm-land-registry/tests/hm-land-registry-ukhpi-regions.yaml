@@ -1,0 +1,23 @@
+spec_id: hm-land-registry-ukhpi-regions
+status: active
+tests:
+  - not_null: region_slug
+    reason: the slug is the reference key, present on every region
+    certainty: 95
+  - not_null: region_name
+    reason: every region resource carries an english rdfs:label
+    certainty: 90
+  - not_null: region_uri
+    reason: the source URI is copied verbatim for every region
+    certainty: 95
+  - unique: region_slug
+    reason: one reference row per region; a duplicate means the SPARQL flatten broke
+    certainty: 95
+  - coverage: {col: region_slug, expected: 405, tolerance: 0.05}
+    reason: >
+      the reference must cover the same 405-region universe the UKHPI series
+      uses; a shortfall means enumeration dropped regions.
+    certainty: 88
+  - row_count: {min: 380, max: 500}
+    reason: 405 UKHPI regions today; a count outside this band means enumeration changed shape
+    certainty: 85
