@@ -1,0 +1,52 @@
+columns:
+  - name: "bathingWaterIdentifier"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Unique identifier of the bathing water."
+  - name: "endDate"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: End date (YYYY-MM-DD) of the seasonal period."
+  - name: "managementMeasures"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Description of significant management measures taken in the scope of reported seasonal period."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_endLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was retired or replaced, if applicable."
+  - name: "metadata_observationStatus"
+    type: VARCHAR
+    description: "Data management attribute: Status of the record regarding its reliability."
+  - name: "metadata_replacedBy"
+    type: VARCHAR
+    description: "Data management attribute: unique identifier of the record that replaced the current record, if applicable."
+  - name: "metadata_replaces"
+    type: VARCHAR
+    description: "Data management attribute: unique identifier of the record that the current record replaces, if applicable."
+  - name: "metadata_statements"
+    type: VARCHAR
+    description: "Data management attribute: Additional information or statements regarding the reliability of the feature or record."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_statusDate"
+    type: VARCHAR
+    description: "Data management attribute: Date whent the metadata status code was set."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "periodType"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Specifies the type of seasonal period."
+  - name: "remarks"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Remarks, comments or explanatory notes."
+  - name: "season"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Year of the bathing season."
+  - name: "startDate"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Start date (YYYY-MM-DD) of the seasonal period."
+  - name: "UID"
+    type: VARCHAR
+    description: "Data management attribute: Unique identifier of the record in the Bathing Water Directive database."

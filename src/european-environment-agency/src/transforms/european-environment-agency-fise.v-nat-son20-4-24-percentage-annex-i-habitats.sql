@@ -1,0 +1,23 @@
+SELECT
+    CAST("bogs_mires_and_fens" AS VARCHAR) AS "bogs_mires_and_fens",
+    CAST("bogs_mires_and_fens_percentage" AS VARCHAR) AS "bogs_mires_and_fens_percentage",
+    CAST("coastal_habitats" AS VARCHAR) AS "coastal_habitats",
+    CAST("coastal_habitats_percentage" AS VARCHAR) AS "coastal_habitats_percentage",
+    CAST("country" AS VARCHAR) AS "country",
+    CAST("dune_habitats" AS VARCHAR) AS "dune_habitats",
+    CAST("dune_habitats_percentage" AS VARCHAR) AS "dune_habitats_percentage",
+    CAST("forests" AS VARCHAR) AS "forests",
+    CAST("forests_percentage" AS VARCHAR) AS "forests_percentage",
+    CAST("freshwater_habitats" AS VARCHAR) AS "freshwater_habitats",
+    CAST("freshwater_habitats_percentage" AS VARCHAR) AS "freshwater_habitats_percentage",
+    CAST("grasslands" AS VARCHAR) AS "grasslands",
+    CAST("grasslands_percentage" AS VARCHAR) AS "grasslands_percentage",
+    CAST("heath_and_scrub" AS VARCHAR) AS "heath_and_scrub",
+    CAST("heath_and_scrub_percentage" AS VARCHAR) AS "heath_and_scrub_percentage",
+    CAST("NUTS_CODE" AS VARCHAR) AS "NUTS_CODE",
+    CAST("rocky_habitats" AS VARCHAR) AS "rocky_habitats",
+    CAST("rocky_habitats_percentage" AS VARCHAR) AS "rocky_habitats_percentage",
+    CAST("sclerophyllous_scrub" AS VARCHAR) AS "sclerophyllous_scrub",
+    CAST("sclerophyllous_scrub_percentage" AS VARCHAR) AS "sclerophyllous_scrub_percentage",
+    CAST("total" AS VARCHAR) AS "total"
+FROM "european-environment-agency-fise.v-nat-son20-4-24-percentage-annex-i-habitats"

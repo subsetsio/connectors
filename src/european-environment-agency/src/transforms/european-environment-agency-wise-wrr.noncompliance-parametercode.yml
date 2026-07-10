@@ -1,0 +1,41 @@
+columns:
+  - name: "competentAuthority"
+    type: VARCHAR
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "cYear"
+    type: VARCHAR
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "nonComplianceEndDate"
+    type: VARCHAR
+    description: "end date of the exceedance, in the format YYYY-MM-DD\nGuidance: reporting is required.\nIf the exceedance is still ongoing at the end of the year, use the last day of the reporting year, e.g., in reporting year 2024, report 2024-12-31."
+  - name: "nonComplianceIdentifier"
+    type: VARCHAR
+    description: "unique European identifier for the noncompliance\nGuidance: reporting is required. \nProvide a unique identifier code for the noncompliance case. The identifier must follow the syntax defined for WISE identifiers (see the guidance for the responsiblePartyIdentifier element). The identifier must also be used in subsequent reporting years if the noncompliance is still in place. ."
+  - name: "nonComplianceStartDate"
+    type: VARCHAR
+    description: "start date of the exceedance, in the format YYYY-MM-DD\nGuidance: reporting is required."
+  - name: "parameterCode"
+    type: VARCHAR
+    description: "parameter which is part of the water quality class agreed under the respective permit.\nGuidance: reporting is required. Use the values provided in the Parameter codelist value. If a specific parameter is not present in the codelist, please contact water-reuse.helpdesk@eionet.europa.eu ."
+  - name: "permitIdentifier"
+    type: VARCHAR
+    description: "unique European identifier for the permit\nGuidance: reporting is required."
+  - name: "remarks"
+    type: VARCHAR
+    description: "additional information about the record, in English or in the national language.\nGuidance: reporting is optional."
+  - name: "waterQualityClass"
+    type: VARCHAR
+    description: "water quality class as permitted by the competent authority. \nGuidance: reporting is required."

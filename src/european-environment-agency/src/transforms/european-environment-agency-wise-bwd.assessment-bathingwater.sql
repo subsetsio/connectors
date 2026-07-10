@@ -1,0 +1,22 @@
+SELECT
+    CAST("bathingWaterIdentifier" AS VARCHAR) AS "bathingWaterIdentifier",
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("hasAbnormalSituationDuringInsufficientInterval" AS VARCHAR) AS "hasAbnormalSituationDuringInsufficientInterval",
+    CAST("hasAbnormalSituationDuringSeasonStart" AS VARCHAR) AS "hasAbnormalSituationDuringSeasonStart",
+    CAST("hasBeenContinuouslyMonitoredInLastAssessmentPeriod" AS VARCHAR) AS "hasBeenContinuouslyMonitoredInLastAssessmentPeriod",
+    CAST("hasBeenInaccessibleInLastAssessmentPeriod" AS VARCHAR) AS "hasBeenInaccessibleInLastAssessmentPeriod",
+    CAST("hasBeenNewlyIdentifiedInLastAssessmentPeriod" AS VARCHAR) AS "hasBeenNewlyIdentifiedInLastAssessmentPeriod",
+    CAST("hasInaccessibilityDuringInsufficientInterval" AS VARCHAR) AS "hasInaccessibilityDuringInsufficientInterval",
+    CAST("hasInaccessibilityDuringSeasonStart" AS VARCHAR) AS "hasInaccessibilityDuringSeasonStart",
+    CAST("hasMetMaximumIntervalBetweenSamples" AS VARCHAR) AS "hasMetMaximumIntervalBetweenSamples",
+    CAST("hasMinimumNumberOfSamples" AS VARCHAR) AS "hasMinimumNumberOfSamples",
+    CAST("hasMinimumNumberOfSamplesInLastAssessmentPeriod" AS VARCHAR) AS "hasMinimumNumberOfSamplesInLastAssessmentPeriod",
+    CAST("hasPreSeasonSample" AS VARCHAR) AS "hasPreSeasonSample",
+    CAST("hasQualityChangesDuringInsufficientInterval" AS VARCHAR) AS "hasQualityChangesDuringInsufficientInterval",
+    CAST("hasQualityChangesDuringSeasonStart" AS VARCHAR) AS "hasQualityChangesDuringSeasonStart",
+    CAST("hasQualityChangesInLastAssessmentPeriod" AS VARCHAR) AS "hasQualityChangesInLastAssessmentPeriod",
+    CAST("hasReportedData" AS VARCHAR) AS "hasReportedData",
+    CAST("reasonForManualClassification" AS VARCHAR) AS "reasonForManualClassification",
+    CAST("season" AS VARCHAR) AS "season",
+    CAST("UID" AS VARCHAR) AS "UID"
+FROM "european-environment-agency-wise-bwd.assessment-bathingwater"

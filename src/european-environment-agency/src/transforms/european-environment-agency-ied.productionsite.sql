@@ -1,0 +1,21 @@
+SELECT
+    CAST("controlFileId" AS VARCHAR) AS "controlFileId",
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("gmlId" AS VARCHAR) AS "gmlId",
+    CAST("id" AS VARCHAR) AS "id",
+    CAST("identifier" AS VARCHAR) AS "identifier",
+    CAST("identifierScheme" AS VARCHAR) AS "identifierScheme",
+    CAST("localId" AS VARCHAR) AS "localId",
+    CAST("namespace" AS VARCHAR) AS "namespace",
+    CAST("reportDataId" AS VARCHAR) AS "reportDataId",
+    CAST("reportingYear" AS VARCHAR) AS "reportingYear",
+    CAST("shape_wm" AS VARCHAR) AS "shape_wm",
+    CAST("siteName" AS VARCHAR) AS "siteName",
+    CAST("siteNameConfidentiality" AS VARCHAR) AS "siteNameConfidentiality",
+    CAST("x_3857" AS VARCHAR) AS "x_3857",
+    CAST("x_4258" AS VARCHAR) AS "x_4258",
+    CAST("x_4326" AS VARCHAR) AS "x_4326",
+    CAST("y_3857" AS VARCHAR) AS "y_3857",
+    CAST("y_4258" AS VARCHAR) AS "y_4258",
+    CAST("y_4326" AS VARCHAR) AS "y_4326"
+FROM "european-environment-agency-ied.productionsite"

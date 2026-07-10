@@ -1,0 +1,64 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Data management attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "eeaIndicator"
+    type: VARCHAR
+    description: "Ammonium, Benthic invertebrates, BOD5, Chlorophyll a, Cyanobacteria biomass, Cyanobacteria proportion, Dissolved organic carbon (DOC), Macrophytes, Nitrate, Nitrite, Phosphate, Phytobenthos, Phytoplankton, Secchi depth, Total organic carbon (TOC), Total phosphorus, Total phytoplankton biomass, etc."
+  - name: "maxGapLongTimeSeries"
+    type: VARCHAR
+    description: "Length of the largest gap in the time series, for the long reference period."
+  - name: "maxGapShortTimeSeries"
+    type: VARCHAR
+    description: "Length of the largest gap in the time series, for the short reference period."
+  - name: "maxYear"
+    type: VARCHAR
+    description: "Last year reported."
+  - name: "meanValue"
+    type: VARCHAR
+    description: "Average value."
+  - name: "minYear"
+    type: VARCHAR
+    description: "First year reported."
+  - name: "monitoringSiteStatusCode"
+    type: VARCHAR
+    description: "Data management attribute: See definitions in http://dd.eionet.europa.eu/vocabulary/datadictionary/status/."
+  - name: "numberOfYears"
+    type: VARCHAR
+    description: "Total number of years."
+  - name: "parameterNaturalAWBHMWB"
+    type: VARCHAR
+    description: "Specification of whether a water body is identified as natural, artificial (AWB) or heavily modified (HMWB). AWBs are surface water bodies which have been created in a location where no water body existed before and which have not been created by the direct physical alteration, movement or realignment of an existing water body. HMWB are bodies of water which as a result of physical alterations by human activity are substantially changed in character."
+  - name: "parameterNCSWaterBodyType"
+    type: VARCHAR
+    description: "Water body type in the National Classification System of each country."
+  - name: "qualityElementCode"
+    type: VARCHAR
+    description: "Code of the quality element. See https://dd.eionet.europa.eu/vocabulary/wise/WFDQualityElement."
+  - name: "resultUom"
+    type: VARCHAR
+    description: "Unit of measure for the reported values."
+  - name: "seriesSpan"
+    type: VARCHAR
+    description: "Data management attribute: type of time series according to its length."
+  - name: "seriesUID"
+    type: VARCHAR
+    description: "Data management attribute: unique UID for each time series."
+  - name: "stdevValue"
+    type: VARCHAR
+    description: "Standard deviation value of the data used for aggregation."
+  - name: "waterBodyCategory"
+    type: VARCHAR
+    description: "Water body category code. GW = Groundwater body, RW = River, LW = Lake, TW = Transitional water body, CW = Coastal water body, TeW = Territorial waters."
+  - name: "waterBodyIdentifier"
+    type: VARCHAR
+    description: "Unique identifier of the associated surface water body."
+  - name: "waterBodyIdentifierScheme"
+    type: VARCHAR
+    description: "Specification of whether the water body is a WFD water body (euGroundwaterBodyCode or euSurfaceWaterBodyCode) or not (eionetGroundwaterBodyCode or eionetSurfaceWaterBodyCode)."

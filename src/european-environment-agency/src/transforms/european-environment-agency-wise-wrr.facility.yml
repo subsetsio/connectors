@@ -1,0 +1,40 @@
+columns:
+  - name: "competentAuthority"
+    type: VARCHAR
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "cYear"
+    type: VARCHAR
+  - name: "facilityIdentifier"
+    type: VARCHAR
+    description: "unique European identifier for the facility.\nGuidance: reporting is optional."
+  - name: "facilityIdentifierScheme"
+    type: VARCHAR
+    description: "specification of whether the facility (point of compliance) is a uwwtp ('urbanWasteWaterTreatmentPlantCode'), a point of discharge of the uwwtp ('urbanWasteWaterDischargePointCode') or a separate reclamation facility ('separateReclamationFacilityPlantCode'). \nGuidance: reporting is required."
+  - name: "facilityNameText"
+    type: VARCHAR
+    description: "facility name text. \nGuidance: reporting is conditional. ."
+  - name: "latitude"
+    type: VARCHAR
+    description: "geographical latitude of project area (centroid or other representative point) where reclaimed water is applied. Reference system ETRS89 should be used for Europe, WGS84 for oversea regions.\nGuidance: reporting is optional."
+  - name: "longitude"
+    type: VARCHAR
+    description: "geographical latitude of project area (centroid or other representative point) where reclaimed water is applied. Reference system ETRS89 should be used for Europe, WGS84 for oversea regions.\nGuidance: reporting is optional."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "permitIdentifier"
+    type: VARCHAR
+  - name: "remarks"
+    type: VARCHAR
+    description: "additional information about the record, in English or in the national language.\nGuidance: reporting is optional."

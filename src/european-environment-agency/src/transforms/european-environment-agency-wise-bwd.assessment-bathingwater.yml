@@ -1,0 +1,61 @@
+columns:
+  - name: "bathingWaterIdentifier"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Unique identifier of the bathing water."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "hasAbnormalSituationDuringInsufficientInterval"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating whether there was an abnormal situation during the period when the sampling interval was not met."
+  - name: "hasAbnormalSituationDuringSeasonStart"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating whether there was an abnormal situation during the start of the reported season."
+  - name: "hasBeenContinuouslyMonitoredInLastAssessmentPeriod"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating whether samples exist for each season of the last assessment period."
+  - name: "hasBeenInaccessibleInLastAssessmentPeriod"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating whether a bathing water was inaccessible during the last assessment period."
+  - name: "hasBeenNewlyIdentifiedInLastAssessmentPeriod"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating whether a bathing water has been newly identified within the last assessment period."
+  - name: "hasInaccessibilityDuringInsufficientInterval"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating whether a bathing water was inaccessible during the period when the sampling interval was not met."
+  - name: "hasInaccessibilityDuringSeasonStart"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating whether a bathing water was inaccessible during the start of the reported season."
+  - name: "hasMetMaximumIntervalBetweenSamples"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating whether the sampling interval of one month is met in the reported season."
+  - name: "hasMinimumNumberOfSamples"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating the minimum number of samples was collected in the reported season."
+  - name: "hasMinimumNumberOfSamplesInLastAssessmentPeriod"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating the minimum number of samples was collected in the last assessment period."
+  - name: "hasPreSeasonSample"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating the existence of a pre-season sample in the reported season."
+  - name: "hasQualityChangesDuringInsufficientInterval"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating whether a bathing water was subject to quality changes during the period when the sampling interval was not met."
+  - name: "hasQualityChangesDuringSeasonStart"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating whether a bathing water was subject to quality changes during the start of the reported season."
+  - name: "hasQualityChangesInLastAssessmentPeriod"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating whether a bathing water has been subject to quality changes within the last assessment period."
+  - name: "hasReportedData"
+    type: VARCHAR
+    description: "Data management attribute: A flag indicating whether reported data exists for a given bathing water and season."
+  - name: "reasonForManualClassification"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: Reason why an exceptional manual assessment of the bathing water quality was done for a given bathing water, if applicable."
+  - name: "season"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Year of the bathing season."
+  - name: "UID"
+    type: VARCHAR
+    description: "Data management attribute: Unique identifier of the record in the Bathing Water Directive database."

@@ -1,0 +1,37 @@
+columns:
+  - name: "conversionFactor"
+    type: VARCHAR
+    description: "Unit conversion factor used during the data processing."
+  - name: "eeaIndicator"
+    type: VARCHAR
+    description: "Ammonium, Benthic invertebrates, BOD5, Chlorophyll a, Cyanobacteria biomass, Cyanobacteria proportion, Dissolved organic carbon (DOC), Macrophytes, Nitrate, Nitrite, Phosphate, Phytobenthos, Phytoplankton, Secchi depth, Total organic carbon (TOC), Total phosphorus, Total phytoplankton biomass, etc."
+  - name: "flag"
+    type: VARCHAR
+    description: "Flag that indicates if a time series should be excluded from the indicator, included in the indicator, or used only to suplement other observations."
+  - name: "numberOfRecords"
+    type: VARCHAR
+    description: "Total number of records reported."
+  - name: "observedPropertyCode"
+    type: VARCHAR
+    description: "Code of the observed property. See https://dd.eionet.europa.eu/vocabulary/wise/ObservedProperty."
+  - name: "observedPropertyLabel"
+    type: VARCHAR
+    description: "Label of the observed property. See https://dd.eionet.europa.eu/vocabulary/wise/ObservedProperty."
+  - name: "outputUom"
+    type: VARCHAR
+    description: "Unit of measure for the indicator values."
+  - name: "qualityElementCode"
+    type: VARCHAR
+    description: "Code of the quality element. See https://dd.eionet.europa.eu/vocabulary/wise/WFDQualityElement."
+  - name: "qualityElementLabel"
+    type: VARCHAR
+    description: "Label of the quality element. See https://dd.eionet.europa.eu/vocabulary/wise/WFDQualityElement."
+  - name: "resultUom"
+    type: VARCHAR
+    description: "Unit of measure for the reported values."
+  - name: "sortKey"
+    type: VARCHAR
+    description: "Data portrayal attribute: sort order."
+  - name: "waterBodyCategory"
+    type: VARCHAR
+    description: "Water body category code. GW = Groundwater body, RW = River, LW = Lake, TW = Transitional water body, CW = Coastal water body, TeW = Territorial waters."

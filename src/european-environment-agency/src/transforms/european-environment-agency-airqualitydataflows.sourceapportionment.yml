@@ -1,0 +1,142 @@
+columns:
+  - name: "AirPollutant"
+    type: VARCHAR
+    description: "Air polluting substance (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/pollutant) for which the air quality assessment regime has been reported."
+  - name: "AQPlan_ReportingYear"
+    type: VARCHAR
+    description: "The year of the Air Quality Plan."
+  - name: "AQPlanId"
+    type: VARCHAR
+    description: "Identifier of Air Quality Plan."
+  - name: "Attainment_ReportingYear"
+    type: VARCHAR
+    description: "Year for which the related Attainment has been reported."
+  - name: "AttainmentId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality attainment, given by data provider."
+  - name: "B2G_Namespace"
+    type: VARCHAR
+    description: "Inspire identifier/namespace of reporting entity, given by data provider."
+  - name: "Country"
+    type: VARCHAR
+    description: "Country or territory name."
+  - name: "CountryCode"
+    type: VARCHAR
+    description: "Country or territory ISO2 code."
+  - name: "CountryComment"
+    type: VARCHAR
+    description: "Comment or clarification from data provider."
+  - name: "ExceedanceReason"
+    type: VARCHAR
+    description: "The reason for exceedance."
+  - name: "FirstExceedanceDate"
+    type: VARCHAR
+    description: "Year of the (first) exceedance of the LV, LV+MoT) or TV, which triggered the implementation of the air quality plan."
+  - name: "H2K_Namespace"
+    type: VARCHAR
+    description: "Inspire identifier/namespace of reporting entity, given by data provider."
+  - name: "Imported"
+    type: VARCHAR
+    description: "Date and time of source data import into EEA's databases."
+  - name: "LocalIncrementAgriculture"
+    type: VARCHAR
+    description: "Contribution to local increment from Agriculture."
+  - name: "LocalIncrementCommercial"
+    type: VARCHAR
+    description: "Contribution to local increment from commercial and residential sources."
+  - name: "LocalIncrementIndustrial"
+    type: VARCHAR
+    description: "Contribution to local increment from Industrial sources."
+  - name: "LocalIncrementNatural"
+    type: VARCHAR
+    description: "Contribution to local increment from Natural Sources."
+  - name: "LocalIncrementOffRoad"
+    type: VARCHAR
+    description: "Contribution to local increment from off road mobile machinery sources."
+  - name: "LocalIncrementOther"
+    type: VARCHAR
+    description: "Contribution to local increment from otehr source."
+  - name: "LocalIncrementShipping"
+    type: VARCHAR
+    description: "Contribution to local increment from shipping sources."
+  - name: "LocalIncrementTotal"
+    type: VARCHAR
+    description: "Total local contributions from emissions sources immediately adjacent to the location of the exceedance situation excluding the regional background and local increment contributions."
+  - name: "LocalIncrementTraffic"
+    type: VARCHAR
+    description: "Contribution to local increment from traffic sources."
+  - name: "LocalIncrementTransboundary"
+    type: VARCHAR
+    description: "Contribution to local increment from outside the Member State (transboundatry)."
+  - name: "ObjectiveType"
+    type: VARCHAR
+    description: "Objective type (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/objectivetype) for which the air quality assessment regime has been reported."
+  - name: "ProtectionTarget"
+    type: VARCHAR
+    description: "Protection target (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/protectiontarget) for which the air quality assessment regime has been reported."
+  - name: "ReferenceYear"
+    type: VARCHAR
+    description: "The year for which source apportionment has been calculated."
+  - name: "RegionalBackgroundInsideCountry"
+    type: VARCHAR
+    description: "Contribution to regional background  within the Member State."
+  - name: "RegionalBackgroundNatural"
+    type: VARCHAR
+    description: "Contribution to regional background from Natural Sources."
+  - name: "RegionalBackgroundOther"
+    type: VARCHAR
+    description: "Contribution to regional background from otehr source."
+  - name: "RegionalBackgroundTotal"
+    type: VARCHAR
+    description: "Total contribution from regional background. The regional background contribution is the concentration of pollutants coming from sources >30km from the exceedance situation."
+  - name: "RegionalBackgroundTransboundary"
+    type: VARCHAR
+    description: "Contribution to regional background from outside the Member State (transboundatry)."
+  - name: "ReportingMetric"
+    type: VARCHAR
+    description: "Reporting metric (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/reportingmetric) for which the air quality assessment regime has been reported."
+  - name: "ReportingYear"
+    type: VARCHAR
+    description: "Year for which the data flow item has been reported."
+  - name: "SourceAppId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of source apportionment, given by data provider."
+  - name: "SourceDataURL"
+    type: VARCHAR
+    description: "URL of source data reported to the EEA."
+  - name: "UrbanBackgroundAgriculture"
+    type: VARCHAR
+    description: "Contribution to urban background from Agriculture."
+  - name: "UrbanBackgroundCommercial"
+    type: VARCHAR
+    description: "Contribution to urban background from commercial and residential sources."
+  - name: "UrbanBackgroundIndustrial"
+    type: VARCHAR
+    description: "Contribution to urban background from Industrial sources."
+  - name: "UrbanBackgroundNatural"
+    type: VARCHAR
+    description: "Contribution to urban background from Natural Sources."
+  - name: "UrbanBackgroundOffRoad"
+    type: VARCHAR
+    description: "Contribution to urban background from off road mobile machinery sources."
+  - name: "UrbanBackgroundOther"
+    type: VARCHAR
+    description: "Contribution to urban background from otehr source."
+  - name: "UrbanBackgroundShipping"
+    type: VARCHAR
+    description: "Contribution to urban background from shipping sources."
+  - name: "UrbanBackgroundTotal"
+    type: VARCHAR
+    description: "Total background contributions excluding the regional background and local increment contributions. The urban background source apportionment component represents the contribution to concentrations from emissions sources within towns or agglomerations that are within 30km of the exceedance situation."
+  - name: "UrbanBackgroundTraffic"
+    type: VARCHAR
+    description: "Contribution to urban background from traffic sources."
+  - name: "UrbanBackgroundTransboundary"
+    type: VARCHAR
+    description: "Contribution to urban background from outside the Member State (transboundatry)."
+  - name: "ValidAttainmentLink"
+    type: VARCHAR
+    description: "Yes if there is valid link between source apportionment data and attainment report."
+  - name: "ZoneId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality zone, given by data provider."

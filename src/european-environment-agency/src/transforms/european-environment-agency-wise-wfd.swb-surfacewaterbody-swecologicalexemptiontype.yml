@@ -1,0 +1,115 @@
+columns:
+  - name: "cArea"
+    type: VARCHAR
+    description: "Data management attribute: Area in square kilometer."
+  - name: "cLength"
+    type: VARCHAR
+    description: "Data management attribute: Length in kilometer."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "euSubUnitCode"
+    type: VARCHAR
+    description: "Conditional. If applicable, report the unique EU code of the Sub-unit. If there are no sub-units this element does not need to be reported and the reporting of the information is done at RBD level. Sub-units are only relevant for surface water.    Quality checks: Conditional check: report if and only if RBDSUCA/RBD/subUnitsDefined is 'Yes'.    Within-schema check: euSubUnitCode must be unique.  Cross-schema check: euSubUnitCode must be consistent with the codes reported in RBDSUCA/RBD/euSubUnitCode.    Element check: Each combination of sub unit and surfaceWaterOrGroundWater can only be reported once."
+  - name: "euSurfaceWaterBodyCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of the surface water body. Prefix the surface water body's national, unique code with the Member State's 2-letter ISO country code.   Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.   Within-schema check: euSurfaceWaterBodyCode must be unique.   Cross-schema check: euSurfaceWaterBodyCode must be identical to a thematicIdIdentifier reported for surface water bodies in spatial data."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+    description: "Data management attribute: 0, if only spatial data was delivered; 1, if descriptive data has been delivered."
+  - name: "naturalAWBHMWB"
+    type: VARCHAR
+    description: "Required. Indicate whether the surface water body is natural, artificial, or heavily modified.   Note: a water body cannot be both artificial and heavily modified.   A reservoir may be artificial (e.g. constructed for bankside storage) or heavily modified (e.g. a dammed or impounded river).   A canal may be artificial (e.g. specifically constructed for navigation where there was no surface water body before) or heavily modified (e.g. a river that has been deepened or widened or otherwise engineered for navigation).   The identification of the category for heavily modified water bodies (HMWBs), as described in the element surfaceWaterBodyCategory, does not preclude any decision regarding the factors to use in deriving typology and the quality elements to use in the assessment of the HMWBs. According to the WFD Annex II, 1.1.v, the typology differentiation should be undertaken in accordance with the descriptors for whichever natural surface water category most closely resembles the HMWB concerned. Similarly, the quality elements should be those applicable to whichever natural surface water category most closely resembles the HMWB (WFD Annex V, 1.1.5).   The option \"Natural\" should be chosen for territorial waters.   Quality checks: The option 'Natural' must be chosen if surfaceWaterBodyCategory is 'TeW'."
+  - name: "NCSWaterBodyType"
+    type: VARCHAR
+    description: "Water body type in the National Classification System."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "reservoir"
+    type: VARCHAR
+    description: "Conditional. For heavily modified lake water bodies, indicate whether the water body is a reservoir that has been created by damming a river or a pre-existing lake.   All reservoirs should be reported as heavily modified lake water bodies. The 'reservoir' schema element must be reported so that Member States can clarify whether the water bodies were created by damming rivers or pre-existing lakes.   Select 'Reservoir in a water body that was originally a river / rivers' only if the whole surface water body represents a reservoir (or part of a reservoir) created by damming a river.   Select 'Reservoir in a water body that was originally a lake / lakes' if the whole surface water body represents a reservoir (or part of a reservoir) created by modifying a pre-existing lake, or if the surface water body includes some small reservoirs which are not significant enough to be identified as separate surface water bodies.   Select 'Reservoir in what were originally chained rivers and lakes' in cases where the reservoir has been created by damming a water body which contained chained rivers and lakes.   Select 'Not a reservoir' if the lake water body is not a reservoir.   Quality checks: Conditional check: Report if and only if surfaceWaterBodyCategory is 'LW' AND naturalAWBHMWB is 'Heavily Modified'."
+  - name: "subUnitName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the Sub-unit in English that is meaningful outside of the RBD or Member State."
+  - name: "surfaceWaterBodyCategory"
+    type: VARCHAR
+    description: "Required. Category of surface water body must be reported.    'RW' = River water body.   'LW' = Lake water body.   'TW' = Transitional water body.   'CW' = Coastal water body.   'TeW' = Territorial water body.   Territorial waters are not a water body category under the WFD. However, Article 2.1 of the WFD indicates that chemical status applies also to territorial waters. Member States are therefore asked to report the relevant information for the part of territorial waters which extend beyond coastal waters. Non-relevant information, such as water body type or ecological status, should not be reported for territorial waters (see the guidance provided for these schema elements).   Reservoirs should be reported as lake water bodies ('LW') even when they were formed by damming rivers. The schema element reservoir allows for distinguishing heavily modified lake water bodies which were originally rivers from those which were already lakes before being modified."
+  - name: "surfaceWaterBodyName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the surface water body in English that is meaningful outside of the RBD or Member State. It should include the name of the river, lake, transitional water, coastal water or territorial water in which the surface water body is located."
+  - name: "surfaceWaterBodyTransboundary"
+    type: VARCHAR
+    description: "Required. The Directive requires co-ordination among Member States for the management of transboundary waters. Transboundary water bodies are those crossing the border between countries or constituting part of the border between two countries for a certain length. A water body that is entirely within one Member State but is contiguous with a water body in another country is, for the purposes of this reporting, also considered as a transboundary water body.   For the sake of clarity, each Member State should report on its own part of these water bodies. In the case of water bodies shared by more than one country (as opposed to contiguous water bodies), geographic information should therefore be provided for the part of the water body within the reporting Member State and for all elements which have a clear geographical reference (e.g. size, monitoring stations). Each Member State should also report on all elements that apply to the whole water body (status, pressures, etc), even in the cases in which these are identical in each of the Member States concerned as a result of the co-ordinated management required by the Directive.   Similarly, for water bodies which constitute part of the border between two countries the same principles apply. In the case of rivers represented as lines, the same line will have to be reported by both Member States concerned, instead of reporting different but adjacent areas, as is the case, for example, for a lake that extends across the border.   Not applicable for territorial waters.   Quality checks: Within-schema check: 'Not applicable' should be reported if and only if SurfaceWaterBodyCategory is 'TeW'."
+  - name: "surfaceWaterBodyTypeCode"
+    type: VARCHAR
+    description: "Required. Member State code for the characterisation type of the surface water body, as reported in the surface water methodology schema (SWMET), and in the RBMP and background documents.   Report 'Not applicable' for territorial waters.   Quality checks:   Within-schema check: 'Not applicable' should be reported if and only if surfaceWaterBodyCategory is 'TeW'.   Cross-schema check: The reported surfaceWaterBodyTypeCode must be consistent with the codes reported in SWMET/SWType/swTypeCode."
+  - name: "swChemicalAssessmentConfidence"
+    type: VARCHAR
+    description: "Required. Indicate the confidence on the chemical status assigned.   '0' = No information.   '1' = Low confidence.   '2' = Medium confidence.   '3' = High confidence.   The criteria used by Member States to assess confidence vary considerably, but general guidance may be: Low = no monitoring data; Medium = limited or insufficiently robust monitoring data for some or all Priority Substances that are discharged in the RBD; High = good data for all Priority Substances that are discharged in the RBD."
+  - name: "swChemicalAssessmentYear"
+    type: VARCHAR
+    description: "Required. Provide the year on which the assessment of status is based. This may be the year that the surface water body was monitored or, in case of grouping, the year in which monitoring took place in the surface water bodies within the group that are used to extrapolate results to non-monitored surface water bodies. It is possible to report a single year or a period (e.g. 2018--2020). ."
+  - name: "swChemicalMonitoringResults"
+    type: VARCHAR
+    description: "Conditional. Indicate on what basis the status classification was derived:   'Monitoring': there is monitoring data available from this water body and this was used for classfication.   'Grouping': there is no monitoring data available from this water body. Monitoring from other similar water bodies was used as a basis for classification, as described in the methodology for classification.   'Combination monitoring/grouping': limited monitoring data available from this water body was used for classification in combination with grouping.   'Modelling': means the QE status reported was based on modelling and/or statistical analysis.   'Expert judgement': there is no monitoring data available in this surface water body. Results from other similar water bodies were not used. The status is mainly based on expert judgement.   Quality checks: Quality checks: Conditional check: Report if and only if element swChemicalStatusValue is '2' or '3' (i.e. not 'U')."
+  - name: "swChemicalStatusExpectedAchievementDate"
+    type: VARCHAR
+    description: "Required. Report the period in which good chemical status is expected to be achieved. Select the option '2021 or ealier' if good chemical status has already been reached or is expected to be reached by 2021.   The methodology of this assessment should be clearly explained in the RBMP or background documents (reference reported under classification methodologies, see section 7.3).   If good chemical status will not be achieved by 2021, exemptions have to be reported. Please report the period in which it is expected that good chemical status will be achieved in full, not the date relating to individual exemptions. However, please note the following:   Article 4(4) exemptions relate to the extension of deadlines. According to Article 4(4)(c) of the WFD, postponing the achievement of objectives beyond two further updates of the river basin management plan is only possible due to natural conditions.   If Article 4(5) exemptions apply, report the period in which the less stringent objective is expected to be achieved. If the less stringent objective has already been achieved then select 'Less stringent objectives already achieved'.   If less stringent objectives have been set under Art. 4(5) for some substances and a time extension was applied under Art. 4(4) for other substances, please report the period in which both conditions are expected to be achieved: good status for the substances under an Art. 4(4) exemption and less stringent objectives reached for the substances under an Art. 4(5) exemption.   Quality checks: Within-schema check: 'Less stringent objectives already achieved' is only a valid entry if 'Article 4(5)...' is reported under swChemicalExemptionType."
+  - name: "swChemicalStatusValue"
+    type: VARCHAR
+    description: "Required. Indicate the chemical status of the water body.   '2' = Good status.   '3' = Failing to achieve good status.   'U' = Unknown status.   This should be based on the standards laid down in Directive 2013/39/EU, for all the substances listed in Directive 2008/105/EC."
+  - name: "swEcologicalAssessmentConfidence"
+    type: VARCHAR
+    description: "Required. Indicate the confidence on the ecological status or potential assigned.   '0' = No information.   '1' = Low confidence.   '2' = Medium confidence.   '3' = High confidence.   The criteria used by Member States to assess confidence vary considerably, but general guidance may be: Low = no monitoring data; Medium = data for supporting QE and/or limited data for one BQE; High = good data for at least one BQE and the most relevant supporting QE.   In case surfaceWaterBodyCategory is 'TeW', '0' should be selected and interpreted as 'Not applicable'.   Quality checks: Within-schema check: '0' must be reported if surfaceWaterBodyCategory is 'TeW'."
+  - name: "swEcologicalAssessmentYear"
+    type: VARCHAR
+    description: "Required. Provide the year on which the assessment of status or potential is based. This may be the year when the surface water body was monitored, or, in case of grouping, the year in which monitoring took place in the surface water bodies within the group that are used to extrapolate results to non-monitored surface water bodies. It is possible to report a single year or a period (e.g. 2018--2020).   Report '0000' for territorial waters.   Quality checks: Within-schema check: '0000' must be reported if and only if surfaceWaterBodyCategory is 'TeW'."
+  - name: "swEcologicalExemptionPressure"
+    type: VARCHAR
+    description: "Conditional. If any Article 4(4), Article 4(5) and/or Article 4(7) exemptions apply to this surface water body for ecological status, report the significant pressure(s) that are causing failure in order to justify the exemption.   Quality checks: Conditional check: If swEcologicalExemptionType is 'Article 4(4)...' or 'Article 4(5)...' or 'Article 4(7)...', at least one significant pressure type must be selected from the enumeration list.   Element check: The options 'No significant pressure' and 'Not applicable' are not valid."
+  - name: "swEcologicalExemptionPressureGroup"
+    type: VARCHAR
+    description: "Group of swEcologicalExemptionPressure. Conditional. If any Article 4(4), Article 4(5) and/or Article 4(7) exemptions apply to this surface water body for ecological status, report the significant pressure(s) that are causing failure in order to justify the exemption(s). Quality checks: Conditional check: If swEcologicalExemptionType is not 'No exemption', at least one significant pressure type must be selected from the enumeration list (the options 'No significant pressure' and 'Not applicable' are not valid)."
+  - name: "swEcologicalExemptionType"
+    type: VARCHAR
+    description: "Required. Report which type(s) of exemption apply if good ecological status or potential is not expected to be achieved by 2021.   In case surfaceWaterBodyCategory is 'TeW', 'No exemption' should be reported and interpreted as 'Not applicable'.   Quality checks: Within-schema check: 'No exemption' is not compatible with any other option.   Within-schema check: If swEcologicalStatusOrPotentialExpectedAchievementDate is not '2021 or earlier' then the option 'No exemption' is not possible. One or more of the other options must be selected.   Within-schema check: if surfaceWaterBodyCategory is 'TeW' then 'No exemption' must be selected."
+  - name: "swEcologicalExemptionTypeGroup"
+    type: VARCHAR
+    description: "Group of swEcologicalExemptionType. Required. Report which type(s) of exemption(s) apply if good ecological status or potential is not expected to be achieved by 2015. More than one exemption may apply to a surface water body. In case surfaceWaterCategory is 'TeW', 'No exemption' should be reported and interpreted as 'Not applicable'. Quality checks: Within-schema check: 'No exemption' is not compatible with any other option. Within-schema check: If swEcologicalStatusOrPotentialExpectedGoodIn2015 is 'No' then the option 'No exemption' is not possible. One or more of the other options must be selected. Within-schema check: if surfaceWaterCategory is 'TeW' then 'No exemption' must be selected."
+  - name: "swEcologicalStatusOrPotentialExpectedAchievementDate"
+    type: VARCHAR
+    description: "Required. Report the period in which good ecological status or potential is expected to be achieved. Select the option '2021 or ealier' if good ecological status or potential has already been reached or is expected to be reached by 2021.   The methodology of this assessment should be clearly explained in the RBMP or background documents (reference reported under classification methodologies, see section 7.3).   If good ecological status or potential will not be achieved by 2021, exemptions have to be reported. Please report the period in which it is expected that good ecological status or potential will be achieved in full, not the date relating to individual exemptions. However, please note the following:   Article 4(4) exemptions relate to the extension of deadlines. According to Article 4(4)(c) of the WFD, postponing the achievement of objectives beyond 2027 is only possible due to natural conditions.   If Article 4(5) exemptions apply, report the period in which the less stringent objective is expected to be achieved. If the less stringent objective has already been achieved then select 'Less stringent objectives already achieved'.   If less stringent objectives have been set under Art. 4(5) for some quality elements and a time extension was applied under Art. 4(4) for other quality elements, please report the period in which both conditions are expected to be achieved: good status or potential for the quality elements under an Art. 4(4) exemption and less stringent objectives reached for the quality elements under an Art. 4(5) exemption.   This element should not be reported for territorial waters.   Quality checks: Within-schema check: 'Less stringent objectives already achieved' is only a valid entry if 'Article 4(5)...' is reported under swEcologicalExemptionType."
+  - name: "swEcologicalStatusOrPotentialValue"
+    type: VARCHAR
+    description: "Required. Indicate the ecological status or potential of the surface water body, based on the most recent assessment.   '1' = High status.   '2' = Good status or good or better potential.   '3' = Moderate status or potential.   '4' = Poor status or potential.   '5' = Bad status or potential.   'Unknown' = Unknown status or potential.   'Not applicable' = Not applicable (for territorial waters only).   Quality checks: Within-schema check: 'Not applicable' must be selected if and only if surfaceWaterBodyCategory is 'TeW'.   Within-schema check: If SWB/SurfaceWaterBody/naturalAWBHMWB is not 'natural', option '1' is not valid.   Within-schema check: If a value is reported, it cannot be lower than the highest of the values reported under SWB/QualityElement/qeStatusOrPotentialValue."
+  - name: "swMixingZones"
+    type: VARCHAR
+    description: "Required. Report whether Mixing Zones have been designated in this surface water body."
+  - name: "swMixingZonesProportion"
+    type: VARCHAR
+    description: "Conditional. If mixing zones were designated in this surface water body, report the percentage of length or area of the surface water body that has been designated as a Mixing Zone.   Quality checks: Conditional check: Report if and only if swMixingZones is 'Yes'."
+  - name: "swSignificantImpactOther"
+    type: VARCHAR
+    description: "Conditional. If 'OTHE - Other significant impact type' is reported under swSignificantImpactType, provide details of any other impact types which are relevant in this element.   Quality checks: Conditional check: Report if and only if 'OTHE - Other significant impact type' is reported under swSignificantImpactType."
+  - name: "swSignificantPressureOther"
+    type: VARCHAR
+    description: "Conditional. If '7 - Anthropogenic pressure - Other' is reported under swSignificantPressureType, provide details of any other anthropogenic pressure types which are relevant in this element.   Quality checks: Conditional check: Report if and only if '7 - Anthropogenic pressure - Other' is reported under swSignificantPressureType."
+  - name: "wiseEvolutionType"
+    type: VARCHAR
+    description: "--Definition--   Type of event that produced or modified the version of the object being reported (creation, change, deletion, aggregation, splitting).  This attribute is required to explicitly report changes and update the current status of the object in the Water Information System for Europe.    -- Further information --    The allowable values are based on those defined in http://inspire.ec.europa.eu/codelist/EvolutionTypeValue/. See also Annex F of the INSPIRE Data Specification on Statistical Units (D2.8.III.1_v3.0RC3) for examples of application.   See the GIS guidance for additional information on the management of life-cycle information."

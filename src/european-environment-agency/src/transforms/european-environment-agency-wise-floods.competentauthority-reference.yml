@@ -1,0 +1,40 @@
+columns:
+  - name: "acronym"
+    type: VARCHAR
+    description: "Max length: 100 characters.\r\nOptional.\r\nAcronym for the Competent Authority (if it exists)."
+  - name: "competentAuthorityName"
+    type: VARCHAR
+    description: "Max length: 100 characters.\r\nRequired.\r\nOfficial name of the Competent Authority in English."
+  - name: "competentAuthorityNameNL"
+    type: VARCHAR
+    description: "Max length: 100 characters.\r\nRequired.\r\nOfficial name of the Competent Authority in the Member State’s national language."
+  - name: "competentAuthorityNameNLLanguage"
+    type: VARCHAR
+    description: "Required. \r\nChoose from the 'LanguageCode' codelist values.\r\nLanguage used for reporting the name of the Competent Authority in a national language."
+  - name: "country"
+    type: VARCHAR
+    description: "Max length: 100 characters.\r\nRequired.\r\nCountry where the Competent Authority is located in English."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "euCACode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nRequired.\r\nUnique EU code for the Competent Authority. Add the Two-letter ISO Country code followed by the Member State unique ID."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "reference"
+    type: VARCHAR
+    description: "Optional.\r\nProvide document(s) or link(s) to any additional supporting or background documents that are considered relevant to the Competent Authortity ( As a reminder, if providing a document describe the:\r\n<ul>\r\n\t<li>Subject (describe in a few words the subject matter of the reference provided)</li>\r\n\t<li>Document name (Provide the name of the reference document, the name should identify the document unequivocally)</li>\r\n\t<li>Bookmark (For each document provide the chapters, sections and page ranges where the relevant information can be found)</li>\r\n\t<li>If the file containing the reference is uploaded to WISE, provide the file name of the uploaded document. If the document has not been uploaded to WISE, provide a hyperlink to the relevant background document. (The Member State must guarantee that the hyperlink will remain stable and active for a period of 6 years after reporting).</li>\r\n</ul>\r\nMore than one option can be selected. If more than one, values need to be separated by a semicolon followed by a whitespace. e.g., \"value1; value2; value3\"."
+  - name: "url"
+    type: VARCHAR
+    description: "Max length: 2100 characters.\r\nRequired.\r\nWebsite address of the Competent Authority."

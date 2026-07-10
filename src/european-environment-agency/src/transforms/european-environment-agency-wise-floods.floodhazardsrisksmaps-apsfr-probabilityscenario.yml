@@ -1,0 +1,58 @@
+columns:
+  - name: "consequenceOtherCulturalHeritageDescription"
+    type: VARCHAR
+    description: "Max length: 250 characters.\r\nConditional.\r\nOnly to be used if the type is set to 'Other' in the enumeration list."
+  - name: "consequenceOtherEconomicActivityDescription"
+    type: VARCHAR
+    description: "Max length: 250 characters.\r\nConditional.\r\nIf 'Other Source' is selected from enumeration list, provide a description (this may relate to one other source or several other sources)."
+  - name: "consequencesAffectedIEDInstallationNumber"
+    type: VARCHAR
+    description: "Required.\r\nNumber of IED installations potentially affected. The exception types -9999 = 'Unknown', -8888 = 'Yet to be measured' and -7777 = 'Not Applicable' can be used."
+  - name: "consequencesOtherEnvironmentDescription"
+    type: VARCHAR
+    description: "Max length: 250 characters.\r\nConditional.\r\nOnly to be used if the type is set to 'Other' in the enumeration list."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "euFloodsRiskZoneCode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nRequired.\r\nUnique EU code for the area of potential significant flood risk. Add the two-letter ISO Country code to the Member State unique id - up to 42 characters in total."
+  - name: "euFloodsUnitOfManagementCode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nRequired.\r\nUnique EU code for the Unit of Management or WFD River Basin District following the WISE identifier syntax. Add the two-letter ISO Country code to the Member State unique id - up to 42 characters in total."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "otherTypeOfPotentialConsequencesDescription"
+    type: VARCHAR
+    description: "Max length: 250 characters \r\nOptional. \r\nType in a potential consequence if not part of provided under enumeration lists for 'InhabitantsAffected', 'EconomicActivity', 'Environment' or 'OtherInformation'."
+  - name: "populationAffectedDayTime"
+    type: VARCHAR
+    description: "Optional.\r\nIndicative number of people potentially affected during daytime."
+  - name: "populationAffectedNightTime"
+    type: VARCHAR
+    description: "Optional.\r\nIndicative number of people potentially affected during night time."
+  - name: "populationAffectedTotal"
+    type: VARCHAR
+    description: "Optional.\r\nIndicative number of transitory people potentially affected. e.g., tourists likely to be in the location, visitors at camping sites, etc."
+  - name: "populationIndirectlyAffected"
+    type: VARCHAR
+    description: "Optional.\r\nIndicative number of other people potentially affected. This may be other individuals who are indirectly affected such as business owners or investors or people connected with inhabitants and/or the transient population in some way."
+  - name: "probabilityScenario"
+    type: VARCHAR
+    description: "Required.\r\nChoose from the 'ProbabilityType' codelist values."
+  - name: "residentPopulationAffected"
+    type: VARCHAR
+    description: "Required.\r\nThe overall indicative number of people in the area potentially affected. The exception types -9999 = 'Unknown', -8888 = 'Yet to be measured' and -7777 = 'Not Applicable' can be used."
+  - name: "returnPeriod"
+    type: VARCHAR
+    description: "Optional.\r\nMax length: 50 characters.\r\nThe average number of years between floods of a certain size. Can also be reported as a range. The exemption types -9999 = 'Unknown', -8888 = 'Yet to be measured', -7777 = 'Not Applicable' can be used.\r\n."

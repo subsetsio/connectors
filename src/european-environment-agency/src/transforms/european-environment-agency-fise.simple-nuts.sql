@@ -1,0 +1,9 @@
+SELECT
+    CAST("CNTR_CODE" AS VARCHAR) AS "CNTR_CODE",
+    CAST("FID" AS VARCHAR) AS "FID",
+    CAST("geometry_60M_3857" AS VARCHAR) AS "geometry_60M_3857",
+    CAST("id" AS VARCHAR) AS "id",
+    CAST("LEVL_CODE" AS VARCHAR) AS "LEVL_CODE",
+    CAST("NUTS_ID" AS VARCHAR) AS "NUTS_ID",
+    CAST("NUTS_NAME" AS VARCHAR) AS "NUTS_NAME"
+FROM "european-environment-agency-fise.simple-nuts"

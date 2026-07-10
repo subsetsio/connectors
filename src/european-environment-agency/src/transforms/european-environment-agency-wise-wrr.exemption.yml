@@ -1,0 +1,45 @@
+columns:
+  - name: "competentAuthority"
+    type: VARCHAR
+    description: "Unique identifier responsible for grating the permit and carrying out the WRR obligations under the respective permit."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "cYear"
+    type: VARCHAR
+  - name: "latitude"
+    type: VARCHAR
+    description: "geographical latitude of project area (centroid or other representative point) where reclaimed water is applied. Reference system ETRS89 should be used for Europe, WGS84 for oversea regions.\nGuidance: reporting is required."
+  - name: "longitude"
+    type: VARCHAR
+    description: "geographical longitude of project area (centroid or other representative point) where reclaimed water is applied. Reference system ETRS89 should be used for Europe, WGS84 for oversea regions.\nGuidance: reporting is required."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "projectArea"
+    type: VARCHAR
+    description: "area of place where project is implemented.\nGuidance: total area of project in ha. Reporting is optional."
+  - name: "projectEndDate"
+    type: VARCHAR
+    description: "end date of the derogation in the format YYYY-MM-DD\nGuidance: reporting is required. ."
+  - name: "projectIdentifier"
+    type: VARCHAR
+    description: "unique European identifier for the exemption\nGuidance: reporting is required. \nProvide a unique identifier code for exemption. The identifier must also be used in subsequent reporting years if the exemption is still in place. The identifier must follow the syntax defined for WISE identifiers (see the guidance for the responsiblePartyIdentifier element)."
+  - name: "projectRationale"
+    type: VARCHAR
+    description: "the purpose of the project i.e. either a research project or a pilot project\nGuidance: reporting is required."
+  - name: "projectStartDate"
+    type: VARCHAR
+    description: "start date of the derogation in the format YYYY-MM-DD\nGuidance: reporting is required. ."
+  - name: "remarks"
+    type: VARCHAR
+    description: "additional information about the record, in English or in the national language.\nGuidance: reporting is optional."

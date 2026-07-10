@@ -1,0 +1,30 @@
+columns:
+  - name: "bookmark"
+    type: VARCHAR
+    description: "Bookmark within the document. Maximum length: 50 characters.\nGuidance: reporting is required."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "cYear"
+    type: VARCHAR
+  - name: "documentCode"
+    type: VARCHAR
+    description: "Link to the document the reference belongs to.\nGuidance: reporting is required."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "referenceCode"
+    type: VARCHAR
+    description: "Unique identifier of the reference to a document.\nThe identifier must follow the syntax of the WISE identifiers. It must start with the two-letter country code of the Member State, followed by one character that can be a digit or an uppercase letter, followed by a sequence of characters (0 to 38 characters long) that can be digits or uppercase letters, with no consecutive double hyphens or double underscores, but allowing for single hyphens or underscores between characters. The code can optionally end with one character that can be a digit or an uppercase letter. Example: FR123, FR1_XYZ1234_1, FR1-XYZ1234-1, FR1XYZ12341 but not FR1__XYZ1234__1 or FR1–XYZ1234–1.\nGuidance: reporting is required."
+  - name: "subject"
+    type: VARCHAR
+    description: "Subject of the reference. Maximum length: 250 characters.\nGuidance: reporting is required."

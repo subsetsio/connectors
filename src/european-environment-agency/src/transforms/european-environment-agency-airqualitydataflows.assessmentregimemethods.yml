@@ -1,0 +1,55 @@
+columns:
+  - name: "AirPollutant"
+    type: VARCHAR
+    description: "Air polluting substance (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/pollutant) for which the air quality assessment regime has been reported."
+  - name: "AssessmentMethod"
+    type: VARCHAR
+    description: "The classification of assessment methods into common types. The types of assessment are those management by data flow D on assessment methods e.g. fixed measurement, modelling, indicative measurement, objective estimation."
+  - name: "AssessmentMethodId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of assessment method (sampling point or model), given by data provider."
+  - name: "AssessmentRegimeId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality assessment regime, given by data provider."
+  - name: "AssessmentType"
+    type: VARCHAR
+    description: "The classification of assessment methods into common types."
+  - name: "AssessmentTypeDescription"
+    type: VARCHAR
+    description: "Description of the classification of assessment methods into common types."
+  - name: "B2G_Namespace"
+    type: VARCHAR
+    description: "Inspire identifier/namespace of reporting entity, given by data provider."
+  - name: "Country"
+    type: VARCHAR
+    description: "Country or territory name."
+  - name: "CountryCode"
+    type: VARCHAR
+    description: "Country or territory ISO2 code."
+  - name: "Imported"
+    type: VARCHAR
+    description: "Date and time of source data import into EEA's databases."
+  - name: "ObjectiveType"
+    type: VARCHAR
+    description: "Objective type (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/objectivetype) for which the air quality assessment regime has been reported."
+  - name: "Preliminary"
+    type: VARCHAR
+    description: "Yes if Assessment regime  reported as  forward look (Year+1) or No as retrospective look (Year-1)."
+  - name: "PreliminaryChoice"
+    type: VARCHAR
+    description: "1 if Assessment regime  reported as  forward look (Year+1) or 0 as retrospective look (Year-1)."
+  - name: "ProtectionTarget"
+    type: VARCHAR
+    description: "Protection target (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/protectiontarget) for which the air quality assessment regime has been reported."
+  - name: "ReportingMetric"
+    type: VARCHAR
+    description: "Reporting metric (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/reportingmetric) for which the air quality assessment regime has been reported."
+  - name: "ReportingYear"
+    type: VARCHAR
+    description: "Year for which the data flow item has been reported."
+  - name: "SourceDataURL"
+    type: VARCHAR
+    description: "URL of source data reported to the EEA."
+  - name: "ZoneId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality zone, given by data provider."

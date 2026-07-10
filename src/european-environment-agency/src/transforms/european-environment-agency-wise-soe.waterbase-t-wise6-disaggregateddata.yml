@@ -1,0 +1,88 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Abbreviation of EEA Member or Collaborating Country."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Timestamp when the feature or record was created. In case of reported data its the release date and time of the respective CDR envelope."
+  - name: "metadata_observationStatus"
+    type: VARCHAR
+    description: "Status of the record regarding its reliability."
+  - name: "metadata_statements"
+    type: VARCHAR
+    description: "Aditional information or statements regarding the reliability of the feature or record."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Unique metadata identifier of version of the feature or record. Url that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "monitoringSiteIdentifier"
+    type: VARCHAR
+    description: "Unique international identifier of the monitoring site in which the data were obtained."
+  - name: "monitoringSiteIdentifierScheme"
+    type: VARCHAR
+    description: "Specification of whether the monitoring site is a WFD monitoring site (euMonitoringSiteCode) or not (eionetMonitoringSiteCode)."
+  - name: "observedPropertyDeterminandCode"
+    type: VARCHAR
+    description: "Unique code of the determinand monitored, as defined in the codelist."
+  - name: "observedPropertyDeterminandLabel"
+    type: VARCHAR
+    description: "Name of the determinand."
+  - name: "parameterSampleDepth"
+    type: VARCHAR
+    description: "Depth at which sample was taken in meter below water surface."
+  - name: "parameterSedimentDepthSampled"
+    type: VARCHAR
+    description: "Depth of the collected sample of sediment, measured as a range, in centimeters, starting at the seafloor surface."
+  - name: "parameterSpecies"
+    type: VARCHAR
+    description: "Species monitored."
+  - name: "parameterWaterBodyCategory"
+    type: VARCHAR
+    description: "Water body category code, as defined in the codelist."
+  - name: "phenomenonTimeReferenceYear"
+    type: VARCHAR
+    description: "Year in which the sample was taken."
+  - name: "phenomenonTimeSamplingDate"
+    type: VARCHAR
+    description: "Date in which the sample was taken."
+  - name: "procedureAnalysedMatrix"
+    type: VARCHAR
+    description: "Matrix where the measurement has been made."
+  - name: "procedureLOQValue"
+    type: VARCHAR
+    description: "The smallest concentration that can be distinguished from the analytical blank at a chosen level of statistical confidence (usually 95%)."
+  - name: "Remarks"
+    type: VARCHAR
+    description: "Remarks, comments or explanatory notes."
+  - name: "resultExtractableLipid"
+    type: VARCHAR
+    description: "Extractable Lipid Percent."
+  - name: "resultFat"
+    type: VARCHAR
+    description: "Fat content as percentage of total wet matter."
+  - name: "resultLipid"
+    type: VARCHAR
+    description: "Lipid Weight Percent."
+  - name: "resultMoisture"
+    type: VARCHAR
+    description: "Percent moisture of the tissue."
+  - name: "resultObservationStatus"
+    type: VARCHAR
+    description: "Status of the observed value in terms of its availability, relevancy, correctness or specifics of its source category."
+  - name: "resultObservedValue"
+    type: VARCHAR
+    description: "Observed value (e.g. concentration) of the determinand in the sample."
+  - name: "resultQualityObservedValueBelowLOQ"
+    type: VARCHAR
+    description: "Flag to indicate whether the sample value was below the analytical limit of quantification (LOQ)."
+  - name: "resultUom"
+    type: VARCHAR
+    description: "Unit of measure for the reported values."
+  - name: "sampleIdentifier"
+    type: VARCHAR
+    description: "Unique sample identifier."
+  - name: "UID"
+    type: VARCHAR
+    description: "Unique identifier of the record in the EEA WISE_SOE database."

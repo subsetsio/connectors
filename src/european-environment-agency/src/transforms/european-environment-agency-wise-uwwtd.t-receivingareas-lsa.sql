@@ -1,0 +1,21 @@
+SELECT
+    CAST("CountryCode" AS VARCHAR) AS "CountryCode",
+    CAST("rca61DateDesignation" AS VARCHAR) AS "rca61DateDesignation",
+    CAST("rca61DateDesignation_original" AS VARCHAR) AS "rca61DateDesignation_original",
+    CAST("rcaAbsenceRisk" AS VARCHAR) AS "rcaAbsenceRisk",
+    CAST("rcaBeginLife" AS VARCHAR) AS "rcaBeginLife",
+    CAST("rcaBeginLife_original" AS VARCHAR) AS "rcaBeginLife_original",
+    CAST("rcaCode" AS VARCHAR) AS "rcaCode",
+    CAST("rcaEndLife" AS VARCHAR) AS "rcaEndLife",
+    CAST("rcaEndLife_original" AS VARCHAR) AS "rcaEndLife_original",
+    CAST("rcaEnvDom" AS VARCHAR) AS "rcaEnvDom",
+    CAST("rcaHydraulic" AS VARCHAR) AS "rcaHydraulic",
+    CAST("rcaHydrology" AS VARCHAR) AS "rcaHydrology",
+    CAST("rcaHyperlink" AS VARCHAR) AS "rcaHyperlink",
+    CAST("rcalsaRemarks" AS VARCHAR) AS "rcalsaRemarks",
+    CAST("rcaMorphology" AS VARCHAR) AS "rcaMorphology",
+    CAST("rcaName" AS VARCHAR) AS "rcaName",
+    CAST("rcaZtype" AS VARCHAR) AS "rcaZtype",
+    CAST("ReceivingAreas_LSAId" AS VARCHAR) AS "ReceivingAreas_LSAId",
+    CAST("repCode" AS VARCHAR) AS "repCode"
+FROM "european-environment-agency-wise-uwwtd.t-receivingareas-lsa"

@@ -1,0 +1,22 @@
+SELECT
+    CAST("AAEQS" AS VARCHAR) AS "AAEQS",
+    CAST("approval" AS VARCHAR) AS "approval",
+    CAST("approvedUntil" AS VARCHAR) AS "approvedUntil",
+    CAST("chemicalGroup" AS VARCHAR) AS "chemicalGroup",
+    CAST("countriesWithLowestAAEQS" AS VARCHAR) AS "countriesWithLowestAAEQS",
+    CAST("countriesWithLowestMACEQS" AS VARCHAR) AS "countriesWithLowestMACEQS",
+    CAST("includedInTotal" AS VARCHAR) AS "includedInTotal",
+    CAST("MACEQS" AS VARCHAR) AS "MACEQS",
+    CAST("MoA" AS VARCHAR) AS "MoA",
+    CAST("numberOfCountriesWithRegulatedAAEQS" AS VARCHAR) AS "numberOfCountriesWithRegulatedAAEQS",
+    CAST("numberOfCountriesWithRegulatedMACEQS" AS VARCHAR) AS "numberOfCountriesWithRegulatedMACEQS",
+    CAST("observedPropertyAltLabel" AS VARCHAR) AS "observedPropertyAltLabel",
+    CAST("observedPropertyCode" AS VARCHAR) AS "observedPropertyCode",
+    CAST("observedPropertyLabel" AS VARCHAR) AS "observedPropertyLabel",
+    CAST("qualityStandard" AS VARCHAR) AS "qualityStandard",
+    CAST("remarks" AS VARCHAR) AS "remarks",
+    CAST("resultUom" AS VARCHAR) AS "resultUom",
+    CAST("source" AS VARCHAR) AS "source",
+    CAST("sourceDescription" AS VARCHAR) AS "sourceDescription",
+    CAST("usage" AS VARCHAR) AS "usage"
+FROM "european-environment-agency-wise-indicators.ancillarydata-pesticides"

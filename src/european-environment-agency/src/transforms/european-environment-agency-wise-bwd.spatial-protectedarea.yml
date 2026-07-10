@@ -1,0 +1,103 @@
+columns:
+  - name: "beginLifespanVersion"
+    type: VARCHAR
+    description: "Spatial data attribute: Date and time at which this version of the spatial object was inserted or changed in the spatial data set."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting year."
+  - name: "designationPeriodBegin"
+    type: VARCHAR
+    description: "Spatial data attribute: [Beginning of the] time period defining when the management, restriction or regulation zone was legally designated or became effective in the real world."
+  - name: "designationPeriodEnd"
+    type: VARCHAR
+    description: "Spatial data attribute: [End of the] time period defining when the management, restriction or regulation zone was legally designated or became effective in the real world. ."
+  - name: "endLifespanVersion"
+    type: VARCHAR
+    description: "Spatial data attribute: Date and time at which this version of the spatial object was superseded or retired in the spatial data set."
+  - name: "inspireIdLocalId"
+    type: VARCHAR
+    description: "Spatial data attribute: A local identifier, assigned by the data provider. The local identifier is unique within the namespace, that is no other spatial object carries the same unique identifier."
+  - name: "inspireIdNamespace"
+    type: VARCHAR
+    description: "Spatial data attribute: Namespace uniquely identifying the data source of the spatial object."
+  - name: "inspireIdVersionId"
+    type: VARCHAR
+    description: "Spatial data attribute: The identifier of the particular version of the spatial object, with a maximum length of 25 characters. If the specification of a spatial object type with an external object identifier includes life-cycle information, the version identifier is used to distinguish between the different versions of a spatial object. Within the set of all versions of a spatial object, the version identifier is unique."
+  - name: "lat"
+    type: VARCHAR
+    description: "Data management attribute: Latitude of a representative point, in decimal degrees (WGS84)."
+  - name: "legalBasisLevel"
+    type: VARCHAR
+    description: "Spatial data attribute: The level at which the legislative instrument is adopted. Allowable values are {european,international,national,sub-national}."
+  - name: "legalBasisLink"
+    type: VARCHAR
+    description: "Spatial data attribute: link to an online version of the document."
+  - name: "legalBasisName"
+    type: VARCHAR
+    description: "Spatial data attribute: Name of the document."
+  - name: "link"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Hyperlink to document or web pages with the bathing water profile established in accordance with Article 6 and Annex III of BWD. ."
+  - name: "lon"
+    type: VARCHAR
+    description: "Data management attribute: Longitude of a representative point, in decimal degrees (WGS84)."
+  - name: "nameLanguage"
+    type: VARCHAR
+    description: "Spatial data attribute: Language code of the language used in the nameText attribute value."
+  - name: "nameText"
+    type: VARCHAR
+    description: "Spatial data attribute: Name, in the national language. National language endonym, or national language version of the name of the geographical feature or spatial object."
+  - name: "nameTextInternational"
+    type: VARCHAR
+    description: "Spatial data attribute: Name, in English. English exonym, or understandable English version of the name of the geographical feature or spatial object."
+  - name: "predecessorsIdentifier"
+    type: VARCHAR
+    description: "Spatial data attribute: In a genealogy, the object(s) that has(have) been deactivated/replaced by another one. ."
+  - name: "predecessorsIdentifierScheme"
+    type: VARCHAR
+    description: "Spatial data attribute: Identifier defining the scheme used to assign the identifier value(s) in the predecessorsIdentifier attribute."
+  - name: "relatedZoneIdentifier"
+    type: VARCHAR
+    description: "Spatial data attribute: Reference to a related management, regulation or restriction zone."
+  - name: "relatedZoneIdentifierScheme"
+    type: VARCHAR
+    description: "Spatial data attribute: Identifier defining the scheme used to assign the identifier value in the relatedZoneIdentifier attribute."
+  - name: "sizeUom"
+    type: VARCHAR
+    description: "Spatial data attribute: Unit of measure of the value provided in the sizeValue attribute. Allowable units of measure are { km2, km}. ."
+  - name: "sizeValue"
+    type: VARCHAR
+    description: "Spatial data attribute: The area of the reference geometry (in square kilometer) or length of the reference geometry (in kilometer)."
+  - name: "specialisedZoneType"
+    type: VARCHAR
+    description: "Spatial data attribute: Additional classification value which further specialises the type of management, regulation or restriction zone relevant to the domain. Current value."
+  - name: "statusCode"
+    type: VARCHAR
+    description: "Data management attribute: See definitions in http://dd.eionet.europa.eu/vocabulary/datadictionary/status/."
+  - name: "statusDate"
+    type: VARCHAR
+    description: "Data management attribute: Date when the statusCode was assigned."
+  - name: "statusRemarks"
+    type: VARCHAR
+    description: "Data management attribute: Explanation of the statusCode assignment."
+  - name: "successorsIdentifier"
+    type: VARCHAR
+    description: "Spatial data attribute: In a genealogy, the newly active object(s) that replaces(replace) the current one."
+  - name: "successorsIdentifierScheme"
+    type: VARCHAR
+    description: "Spatial data attribute: Identifier defining the scheme used to assign the identifier value(s) in the successorsIdentifier attribute."
+  - name: "thematicIdIdentifier"
+    type: VARCHAR
+    description: "Spatial data attribute: Unique identifier used to identify the spatial object within the specified identification scheme. ."
+  - name: "thematicIdIdentifierScheme"
+    type: VARCHAR
+    description: "Spatial data attribute: Identifier defining the scheme used to assign the identifier. ."
+  - name: "wiseEvolutionType"
+    type: VARCHAR
+    description: "Spatial data attribute: Type of event that produced or modified the version of the object being reported (creation, change, deletion, aggregation, splitting). ."
+  - name: "zoneType"
+    type: VARCHAR
+    description: "Spatial data attribute: High-level classification defining the type of Management, Restriction or Regulation Zone."

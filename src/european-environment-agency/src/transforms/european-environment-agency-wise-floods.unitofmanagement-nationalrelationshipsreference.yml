@@ -1,0 +1,25 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "euFloodsUnitOfManagementCode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nRequired.\r\nUnique EU code for the Unit of Management or WFD River Basin District following the WISE identifier syntax. Add the two-letter ISO Country code to the Member State unique id - up to 42 characters in total."
+  - name: "international"
+    type: VARCHAR
+    description: "Required. \r\nChoose from the 'YesNo' codelist values.\r\nIs the Unit of Management part of an International Unit of Management?."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "nationalRelationshipsReference"
+    type: VARCHAR
+    description: "Required.\r\nReference or references will be required on the institutional relationships established in order to ensure co-ordination where the competent authority acts as co-coordinating body for other competent authorities, or when more than one competent authority is established. This should include a list showing the coordinating body and the authorities whose activities it is coordinating, and relationships with other bodies carrying out tasks linked to implementation of the plans including for example civil protection agencies and early warning systems. \r\nMore than one option can be selected. If more than one, values need to be separated by a semicolon followed by a whitespace. e.g., \"value1; value2; value3\"."

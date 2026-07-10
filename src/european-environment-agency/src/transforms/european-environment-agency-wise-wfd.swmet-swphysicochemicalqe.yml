@@ -1,0 +1,60 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "physChemCategoryCW"
+    type: VARCHAR
+    description: "Required. Does this physico-chemical standard apply to coastal waters? ."
+  - name: "physChemCategoryLW"
+    type: VARCHAR
+    description: "Required. Does this physico-chemical standard apply to lakes? ."
+  - name: "physChemCategoryRW"
+    type: VARCHAR
+    description: "Required. Does this physico-chemical standard apply to rivers? ."
+  - name: "physChemCategoryTW"
+    type: VARCHAR
+    description: "Required. Does this physico-chemical standard apply to transitional waters? ."
+  - name: "physChemGMBoundary"
+    type: VARCHAR
+    description: "Required. Indicate whether the physico-chemical standard is consistent with the good-moderate status boundary of the relevant sensitive BQEs."
+  - name: "physChemParameter"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list the  physico-chemical QE, at the level 4 of aggregation, for which the standard being reported has been  used. If the QE for which the standard was used is not included the enumeration list, please select  the most relevant 'Other determinand...' QE and describe in more detail in physChemQEOther.  Please select one of the 'Other determinand...' options only if the QE in question is not included in  the enumeration list."
+  - name: "physChemParameterOther"
+    type: VARCHAR
+    description: "Conditional. Report details of the physico-chemical QE  for which this standard was used, if it is not included in the enumeration list physChemParameter_Enum.    Conditional check: Report if and only if physChemParameter is EEA_00-00-0 - Other chemical parameter      ."
+  - name: "physChemQECode"
+    type: VARCHAR
+    description: "From WFD2016: Required. Select each physico-chemical QE at the level 4 of aggregation in turn from the enumeration list and report the information in each of the following schema elements for each QE. If the QE for which there is a standard is not included the enumeration list please select the most relevant 'Other' QE and describe in more detail in physChemQEOther."
+  - name: "physChemStandardType"
+    type: VARCHAR
+    description: "Required. Select the type of physico-chemical standard applied.  'AA-EQS' = Annual Average EQS  'MAC-EQS' = Maximum Allowable Concentration EQS  '95th percentile' = 95th percentile  'Other' = Other."
+  - name: "physChemUnit"
+    type: VARCHAR
+    description: "Required. Report the unit in which the physico-chemical standard is expressed. Please report '{other}' only if the unit used is not included in the enumeration list."
+  - name: "physChemValue"
+    type: VARCHAR
+    description: "Required. Report the value or range of the physico-chemical standard representing the good-moderate boundary only.  Quality checks: Element check: Reporting must be either one single value or a range, written as 'xxx - yyy'."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."

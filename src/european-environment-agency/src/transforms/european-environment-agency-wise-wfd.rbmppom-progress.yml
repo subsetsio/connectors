@@ -1,0 +1,105 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "financeSecured"
+    type: VARCHAR
+    description: "Required. Indicate whether a clear financial commitment (e.g. approved budget or financial mechanism by the Parliament, Ministry of Finance or other responsible authority) is in place for the implementation of the PoMs. ."
+  - name: "financeSecuredAgriculture"
+    type: VARCHAR
+    description: "Required. Is there a clear financial commitment for the implementation of the PoMs in the agriculture sector?  If measures for this sector are not relevant in the RBD, report 'Not applicable'."
+  - name: "financeSecuredAquaculture"
+    type: VARCHAR
+    description: "Required. Has a clear financial commitment been secured for the implementation of the PoMs in the aquaculture sector? If the measures for this sector are not relevant in the RBD report 'Not applicable'."
+  - name: "financeSecuredEnergy"
+    type: VARCHAR
+    description: "Required. Has a clear financial commitment been secured for the implementation of the PoMs in the following sector: energy (non-hydropower)? If the measures for this sector are not relevant in the RBD report 'Not applicable'."
+  - name: "financeSecuredFloodProtection"
+    type: VARCHAR
+    description: "Required. Has a clear financial commitment been secured for the implementation of the PoMs in the flood protection sector? If the measures for this sector are not relevant in the RBD report 'Not applicable'."
+  - name: "financeSecuredHydropower"
+    type: VARCHAR
+    description: "Required. Is there a clear financial commitment for the implementation of the PoMs in the hydropower sector?  If measures for this sector are not relevant in the RBD, report 'Not applicable'."
+  - name: "financeSecuredIndustry"
+    type: VARCHAR
+    description: "Required. Is there a clear financial commitment for the implementation of the PoMs in the industry sector?  If measures for this sector are not relevant in the RBD, report 'Not applicable'."
+  - name: "financeSecuredRecreation"
+    type: VARCHAR
+    description: "Required. Has a clear financial commitment been secured for the implementation of the PoMs in the recreation sector? If the measures for this sector are not relevant in the RBD report 'Not applicable'."
+  - name: "financeSecuredTransport"
+    type: VARCHAR
+    description: "Required. Is there a clear financial commitment for the implementation of the PoMs in the transport sector?  If measures for this sector are not relevant in the RBD, report 'Not applicable'."
+  - name: "financeSecuredUrban"
+    type: VARCHAR
+    description: "Required. Is there a clear financial commitment for the implementation of the PoMs in the urban development sector?  If measures for this sector are not relevant in the RBD, report 'Not applicable'."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "improvementInStatusGeneral"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list the expected or actual improvement in the overall status of water bodies by 2021. The option 'Not applicable' is not a valid selection for this element.  Quality checks<b>: </b>Element check: 'Not applicable' is not a valid option.  ."
+  - name: "improvementsInStatusChemicalGWB"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list the expected or actual improvement in the chemical status of groundwater bodies by 2021. Report 'Not applicable' if the RBD does not have any groundwater bodies."
+  - name: "improvementsInStatusChemicalSWB"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list the expected or actual improvement in the chemical status of surface water bodies by 2021. Report 'Not applicable' if the RBD does not have any surface water bodies."
+  - name: "improvementsInStatusEcologicalSWB"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list the expected or actual improvement in the ecological status or potential of surface water bodies by 2021. Report 'Not applicable' if the RBD does not have any surface water bodies."
+  - name: "improvementsInStatusQuantitativeGWB"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list the expected or actual improvement in the chemical status of groundwater bodies by 2021. Report 'Not applicable' if the RBD does not have any groundwater bodies."
+  - name: "newRegulation"
+    type: VARCHAR
+    description: "Required. Indicate whether new legislation or regulations were required to implement the PoMs of the previous cycle."
+  - name: "obstaclesDelays"
+    type: VARCHAR
+    description: "Required. Have unexpected delays presented an obstacle to the implementation of the PoMs?  ."
+  - name: "obstaclesExtremeEvents"
+    type: VARCHAR
+    description: "Required. Have any unexpected extreme events presented an obstacle to the implementation of the PoMs?."
+  - name: "obstaclesGovernance"
+    type: VARCHAR
+    description: "Required. Have governance issues presented an obstacle to the implementation of the PoMs?."
+  - name: "obstaclesLackOfFinance"
+    type: VARCHAR
+    description: "Required. Has a lack of finance presented an obstacle to the implementation of the PoMs?."
+  - name: "obstaclesLackOfMeasures"
+    type: VARCHAR
+    description: "Required. Has a lack of effective measures presented an obstacle to the implementation of the PoMs?."
+  - name: "obstaclesLackOfMechanism"
+    type: VARCHAR
+    description: "Required. Has the lack of a mechanism for implementing measures (e.g. national regulations not yet adopted) presented an obstacle to the implementation of the PoMs?."
+  - name: "obstaclesNotCostEffective"
+    type: VARCHAR
+    description: "Required. Have some planned measures no longer being considered to be cost-effective presented an obstacle to the implementation of the PoMs?  ."
+  - name: "obstaclesOther"
+    type: VARCHAR
+    description: "Optional. Report if other obstacles were encountered in the implementation of the PoMs. More than one other obstacle may be reported in the same string."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "rbmpGeneralProgress"
+    type: VARCHAR
+    description: "Optional. Report a brief description of the progress achieved since the second RBMP, in particular on the reduction of pressures achieved and measures taken.    ."
+  - name: "statusImplementationPoM"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list the description that best fits the level of implementation of the previous PoM by 2021. ."

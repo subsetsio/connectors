@@ -1,0 +1,23 @@
+SELECT
+    CAST("bad" AS VARCHAR) AS "bad",
+    CAST("bad_percentage" AS VARCHAR) AS "bad_percentage",
+    CAST("country" AS VARCHAR) AS "country",
+    CAST("coverage_surface_area" AS VARCHAR) AS "coverage_surface_area",
+    CAST("coverage_surface_area_to_be_improved" AS VARCHAR) AS "coverage_surface_area_to_be_improved",
+    CAST("coverage_surface_area_to_be_improved_percentage" AS VARCHAR) AS "coverage_surface_area_to_be_improved_percentage",
+    CAST("coverage_surface_area_to_be_improved_units" AS VARCHAR) AS "coverage_surface_area_to_be_improved_units",
+    CAST("coverage_surface_area_units" AS VARCHAR) AS "coverage_surface_area_units",
+    CAST("coverage_surface_area_unknown" AS VARCHAR) AS "coverage_surface_area_unknown",
+    CAST("coverage_surface_area_unknown_percentage" AS VARCHAR) AS "coverage_surface_area_unknown_percentage",
+    CAST("coverage_surface_area_unknown_units" AS VARCHAR) AS "coverage_surface_area_unknown_units",
+    CAST("good" AS VARCHAR) AS "good",
+    CAST("good_percentage" AS VARCHAR) AS "good_percentage",
+    CAST("habitat_group" AS VARCHAR) AS "habitat_group",
+    CAST("habitat_group_with_total" AS VARCHAR) AS "habitat_group_with_total",
+    CAST("NUTS_CODE" AS VARCHAR) AS "NUTS_CODE",
+    CAST("poor" AS VARCHAR) AS "poor",
+    CAST("poor_percentage" AS VARCHAR) AS "poor_percentage",
+    CAST("total" AS VARCHAR) AS "total",
+    CAST("unknown" AS VARCHAR) AS "unknown",
+    CAST("unknown_percentage" AS VARCHAR) AS "unknown_percentage"
+FROM "european-environment-agency-fise.v-nat-son20-4-24-percentage-annex-i-habitat-areas-to-be-improved-per-habitat-group"

@@ -1,0 +1,58 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "ND_Alignment"
+    type: VARCHAR
+    description: "Indicate if the assessment for this water category and parameter is aligned with the WFD or the MSFD status classification."
+  - name: "ND_Metrics"
+    type: VARCHAR
+    description: "Metrics of sampling as defined in code list."
+  - name: "ND_Notes"
+    type: VARCHAR
+    description: "rovide any additional information to the assessment for this parameter, particularly where a range of thresholds has been provided."
+  - name: "ND_Parameter"
+    type: VARCHAR
+    description: "Parameter of observed property as defined in code list."
+  - name: "ND_ParameterOther"
+    type: VARCHAR
+    description: "If the parameter used is not in the Parameter list (Parameter='Parameter other') then add it here."
+  - name: "ND_ParameterUoM"
+    type: VARCHAR
+    description: "Unit of measure of parameter as defined in code list."
+  - name: "ND_ParameterUoMOther"
+    type: VARCHAR
+    description: "If the UoM used is not in the ParameterUoM list (UoM='UoM other') then add it here."
+  - name: "ND_SamplingNumber"
+    type: VARCHAR
+    description: "Provide the number of samples which are taken within the Sampling Period."
+  - name: "ND_SamplingPeriod"
+    type: VARCHAR
+    description: "The sampling period for the number of samples. Therefore sampling frequency is the number of samples per sampling period taken in the sampling season."
+  - name: "ND_SamplingSeason"
+    type: VARCHAR
+    description: "Season in which sampling was done as defined in code list."
+  - name: "ND_ThresholdMaybe"
+    type: VARCHAR
+    description: "Provide the threshold for the outcome \"eutrophic, or may be eutrophic\". If there is a range then provide the mininum and maximum separated by a hyphen '-'."
+  - name: "ND_ThresholdNon"
+    type: VARCHAR
+    description: "Provide the threshold for the outcome \"non eutrophic\". If there is a range then provide the minimum and maximum separated by a hyphen '-'."
+  - name: "ND_Type"
+    type: VARCHAR
+    description: "If more than one assessment methodology to a particular water category in the country, define a unique type label to group the assessment parameters accordingly."
+  - name: "ND_WBCategory"
+    type: VARCHAR
+    description: "Water body category as defined in code list."
+  - name: "phenomenonTimeReferenceYear"
+    type: VARCHAR
+    description: "Year during which the data were sampled."

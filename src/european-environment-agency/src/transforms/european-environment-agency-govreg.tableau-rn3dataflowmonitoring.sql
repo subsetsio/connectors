@@ -1,0 +1,23 @@
+SELECT
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("creationDate" AS VARCHAR) AS "creationDate",
+    CAST("dataflowDeadlineDate" AS VARCHAR) AS "dataflowDeadlineDate",
+    CAST("dataflowDescription" AS VARCHAR) AS "dataflowDescription",
+    CAST("dataflowId" AS VARCHAR) AS "dataflowId",
+    CAST("dataflowIsOpen" AS VARCHAR) AS "dataflowIsOpen",
+    CAST("dataflowName" AS VARCHAR) AS "dataflowName",
+    CAST("dataProviderId" AS VARCHAR) AS "dataProviderId",
+    CAST("dateReleased" AS VARCHAR) AS "dateReleased",
+    CAST("deliveryOrder" AS VARCHAR) AS "deliveryOrder",
+    CAST("eeaGroup" AS VARCHAR) AS "eeaGroup",
+    CAST("eurostatGroup" AS VARCHAR) AS "eurostatGroup",
+    CAST("isBeforeDeadline" AS VARCHAR) AS "isBeforeDeadline",
+    CAST("isLastDelivery" AS VARCHAR) AS "isLastDelivery",
+    CAST("isReleased" AS VARCHAR) AS "isReleased",
+    CAST("obligationDisclaimerText" AS VARCHAR) AS "obligationDisclaimerText",
+    CAST("obligationId" AS VARCHAR) AS "obligationId",
+    CAST("obligationScope" AS VARCHAR) AS "obligationScope",
+    CAST("releaseOrCreationDate" AS VARCHAR) AS "releaseOrCreationDate",
+    CAST("statusOfDelivery" AS VARCHAR) AS "statusOfDelivery"
+FROM "european-environment-agency-govreg.tableau-rn3dataflowmonitoring"

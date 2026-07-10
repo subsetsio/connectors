@@ -1,0 +1,23 @@
+SELECT
+    CAST("chemicalSubstance" AS VARCHAR) AS "chemicalSubstance",
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryGroup" AS VARCHAR) AS "countryGroup",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("cYear" AS VARCHAR) AS "cYear",
+    CAST("euRBDCode" AS VARCHAR) AS "euRBDCode",
+    CAST("euSubUnitCode" AS VARCHAR) AS "euSubUnitCode",
+    CAST("fileUrl" AS VARCHAR) AS "fileUrl",
+    CAST("hasDescriptiveData" AS VARCHAR) AS "hasDescriptiveData",
+    CAST("inputTrend" AS VARCHAR) AS "inputTrend",
+    CAST("inputTrendPeriod" AS VARCHAR) AS "inputTrendPeriod",
+    CAST("inventoryMethodology" AS VARCHAR) AS "inventoryMethodology",
+    CAST("numberOfWaterBodiesFailingInRBD" AS VARCHAR) AS "numberOfWaterBodiesFailingInRBD",
+    CAST("rbdArea" AS VARCHAR) AS "rbdArea",
+    CAST("rbdName" AS VARCHAR) AS "rbdName",
+    CAST("reportedUnderSoEEmissions" AS VARCHAR) AS "reportedUnderSoEEmissions",
+    CAST("step1RelevantAtRBDScale" AS VARCHAR) AS "step1RelevantAtRBDScale",
+    CAST("step2EmissionsInventory" AS VARCHAR) AS "step2EmissionsInventory",
+    CAST("subUnitArea" AS VARCHAR) AS "subUnitArea",
+    CAST("subUnitName" AS VARCHAR) AS "subUnitName",
+    CAST("uPBT" AS VARCHAR) AS "uPBT"
+FROM "european-environment-agency-wise-wfd.rbmppom-inputinventory-inputpollutant-inputtrend"

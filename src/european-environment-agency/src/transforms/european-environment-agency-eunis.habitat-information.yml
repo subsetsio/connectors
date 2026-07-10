@@ -1,0 +1,36 @@
+columns:
+  - name: "code_2000"
+    type: VARCHAR
+    description: "Unique habitat code, as developed for Natura 2000."
+  - name: "english_name"
+    type: VARCHAR
+    description: "English name of the habitat type."
+  - name: "eunis_habitat_code"
+    type: VARCHAR
+    description: "EUNIS Habitat hierarchical code."
+  - name: "habitat_category"
+    type: VARCHAR
+  - name: "habitat_description"
+    type: VARCHAR
+    description: "Description of the habitat type."
+  - name: "habitat_type_tree"
+    type: VARCHAR
+    description: "Coded string containing the hierarchy of habitat types. Each level of the hierarchy is separated using the character '|'. Within each level, id_habitat and the rest of the information (eunis_habitat_code and description) are separated by the character '$'."
+  - name: "habitat_unique_id"
+    type: VARCHAR
+  - name: "id_dc"
+    type: VARCHAR
+    description: "Dublin Core index ID."
+  - name: "id_habitat"
+    type: VARCHAR
+    description: "ID of the habitat type."
+  - name: "priority"
+    type: VARCHAR
+    description: "Priority: 1 = True 0 = False."
+  - name: "scientific_name"
+    type: VARCHAR
+    description: "Scientific name of the habitat type."
+  - name: "scientific_name_clean"
+    type: VARCHAR
+  - name: "SEA_NAME"
+    type: VARCHAR

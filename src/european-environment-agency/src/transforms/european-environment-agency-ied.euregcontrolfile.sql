@@ -1,0 +1,20 @@
+SELECT
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("end" AS VARCHAR) AS "end",
+    CAST("envelopeCode" AS VARCHAR) AS "envelopeCode",
+    CAST("envUrl" AS VARCHAR) AS "envUrl",
+    CAST("fileMetadataId" AS VARCHAR) AS "fileMetadataId",
+    CAST("fileName" AS VARCHAR) AS "fileName",
+    CAST("filePath" AS VARCHAR) AS "filePath",
+    CAST("fileSHA256Hash" AS VARCHAR) AS "fileSHA256Hash",
+    CAST("fileStatus" AS VARCHAR) AS "fileStatus",
+    CAST("fileStatusid" AS VARCHAR) AS "fileStatusid",
+    CAST("latestEnvelope" AS VARCHAR) AS "latestEnvelope",
+    CAST("message" AS VARCHAR) AS "message",
+    CAST("n_attempts" AS VARCHAR) AS "n_attempts",
+    CAST("obligation" AS VARCHAR) AS "obligation",
+    CAST("operationId" AS VARCHAR) AS "operationId",
+    CAST("periodStartYear" AS VARCHAR) AS "periodStartYear",
+    CAST("start" AS VARCHAR) AS "start",
+    CAST("url" AS VARCHAR) AS "url"
+FROM "european-environment-agency-ied.euregcontrolfile"

@@ -1,0 +1,21 @@
+SELECT
+    CAST("AnnexI_name" AS VARCHAR) AS "AnnexI_name",
+    CAST("attribution_copyright" AS VARCHAR) AS "attribution_copyright",
+    CAST("author_name" AS VARCHAR) AS "author_name",
+    CAST("code_2000" AS VARCHAR) AS "code_2000",
+    CAST("filename" AS VARCHAR) AS "filename",
+    CAST("filename_newName" AS VARCHAR) AS "filename_newName",
+    CAST("folder" AS VARCHAR) AS "folder",
+    CAST("habitat_unique_id" AS VARCHAR) AS "habitat_unique_id",
+    CAST("id_habitat" AS VARCHAR) AS "id_habitat",
+    CAST("id_photo" AS VARCHAR) AS "id_photo",
+    CAST("main" AS VARCHAR) AS "main",
+    CAST("nextcloudid" AS VARCHAR) AS "nextcloudid",
+    CAST("resizeThumbnail" AS VARCHAR) AS "resizeThumbnail",
+    CAST("resizeWeb" AS VARCHAR) AS "resizeWeb",
+    CAST("sort_order" AS VARCHAR) AS "sort_order",
+    CAST("source" AS VARCHAR) AS "source",
+    CAST("tags" AS VARCHAR) AS "tags",
+    CAST("ThumbnailURL" AS VARCHAR) AS "ThumbnailURL",
+    CAST("WebURL" AS VARCHAR) AS "WebURL"
+FROM "european-environment-agency-eunis.hdannexi-habitat-photos"

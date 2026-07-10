@@ -1,0 +1,22 @@
+SELECT
+    CAST("article94" AS VARCHAR) AS "article94",
+    CAST("article9DrinkingWater" AS VARCHAR) AS "article9DrinkingWater",
+    CAST("article9FloodProtection" AS VARCHAR) AS "article9FloodProtection",
+    CAST("article9Irrigation" AS VARCHAR) AS "article9Irrigation",
+    CAST("article9Navigation" AS VARCHAR) AS "article9Navigation",
+    CAST("article9Other" AS VARCHAR) AS "article9Other",
+    CAST("article9SelfAbstraction" AS VARCHAR) AS "article9SelfAbstraction",
+    CAST("article9Wastewater" AS VARCHAR) AS "article9Wastewater",
+    CAST("article9WaterStorage" AS VARCHAR) AS "article9WaterStorage",
+    CAST("costEffectiveness" AS VARCHAR) AS "costEffectiveness",
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryGroup" AS VARCHAR) AS "countryGroup",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("cYear" AS VARCHAR) AS "cYear",
+    CAST("euRBDCode" AS VARCHAR) AS "euRBDCode",
+    CAST("fileUrl" AS VARCHAR) AS "fileUrl",
+    CAST("hasDescriptiveData" AS VARCHAR) AS "hasDescriptiveData",
+    CAST("rbdArea" AS VARCHAR) AS "rbdArea",
+    CAST("rbdName" AS VARCHAR) AS "rbdName",
+    CAST("updatedEconomicAnalysis" AS VARCHAR) AS "updatedEconomicAnalysis"
+FROM "european-environment-agency-wise-wfd.rbmppom-economicanalysis"

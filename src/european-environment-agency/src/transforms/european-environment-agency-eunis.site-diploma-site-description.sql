@@ -1,0 +1,21 @@
+SELECT
+    CAST("budget" AS VARCHAR) AS "budget",
+    CAST("character" AS VARCHAR) AS "character",
+    CAST("code_site" AS VARCHAR) AS "code_site",
+    CAST("cultural_heritage" AS VARCHAR) AS "cultural_heritage",
+    CAST("documentation" AS VARCHAR) AS "documentation",
+    CAST("educational_interest" AS VARCHAR) AS "educational_interest",
+    CAST("fauna" AS VARCHAR) AS "fauna",
+    CAST("flora" AS VARCHAR) AS "flora",
+    CAST("geomorphology" AS VARCHAR) AS "geomorphology",
+    CAST("habitat_characterization" AS VARCHAR) AS "habitat_characterization",
+    CAST("interesting_url" AS VARCHAR) AS "interesting_url",
+    CAST("justification" AS VARCHAR) AS "justification",
+    CAST("management_plan" AS VARCHAR) AS "management_plan",
+    CAST("methodology" AS VARCHAR) AS "methodology",
+    CAST("official_url" AS VARCHAR) AS "official_url",
+    CAST("ownership" AS VARCHAR) AS "ownership",
+    CAST("potential_vegetation" AS VARCHAR) AS "potential_vegetation",
+    CAST("quality" AS VARCHAR) AS "quality",
+    CAST("vulnerability" AS VARCHAR) AS "vulnerability"
+FROM "european-environment-agency-eunis.site-diploma-site-description"

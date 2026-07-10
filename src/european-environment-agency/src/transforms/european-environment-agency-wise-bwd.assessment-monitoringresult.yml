@@ -1,0 +1,43 @@
+columns:
+  - name: "bathingWaterIdentifier"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Unique identifier of the bathing water."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "escherichiaColiStatus"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Information regarding missing values, values below the limit of detection, or exceptionally high values. ."
+  - name: "escherichiaColiValue"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Measured concentration of Escherichia coli per sample in \"colony forming unit\" per 100 ml (cfu/100ml)."
+  - name: "intestinalEnterococciStatus"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Information regarding missing values, values below the limit of detection, or exceptionally high values."
+  - name: "intestinalEnterococciValue"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Measured concentration of intestinal enterococci per sample in \"colony forming unit\" per 100 ml (cfu/100ml)."
+  - name: "remarks"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Remarks, comments or explanatory notes."
+  - name: "sampleDate"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Sampling date (YYYY-MM-DD). All samples have to be taken within the reported bathing season, except for pre-season samples or samples taken to replace samples missing from the pre-defined monitoring calendar due to justified reasons (e.g. short-term pollution or abnormal situation at the end of the season). A monitoring calendar (i.e. a pre-fixed sampling plan) must be established for each bathing water before the start of the season. The monitoring calendar is implemented when the interval between samples does not exceed one month (Article 3.4 of the BWD), the pre-season sample is taken, and no fewer than four samples are analysed per bathing season. Since the sampling must take place no later than four days after the date specified in the monitoring calendar (Article 3.4), the interval between two samples must not exceed one month + four days and the interval between three consecutive samples should not exceed 66 days. Higher intervals are tolerated in case of abnormal situations (Article 4.7). Three samples are sufficient if the bathing season duration does not exceed eight weeks or if the bathing water is situated in a region subject to special geographical constraints (Annex IV, paragraph 2 of the Directive). Up to two samples per sampling date can be taken in different points of large bathing water with the aim of ensuring the representativeness of the samples. Samples for previous bathing seasons can be reported in order to assess bathing water according to Annex II of the Directive."
+  - name: "sampleExcludedReason"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: Reason for excluding the sample from the set of samples used in the bathing water quality assessment."
+  - name: "sampleForAssessment"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: A flag indicating whether the sample was used for the bathing water quality assessment."
+  - name: "sampleForAssessmentRank"
+    type: VARCHAR
+    description: "Bathing water assessment attribute: Date rank of the sample in the  set of samples used in the assessment of the batghing water quality for the last season."
+  - name: "sampleStatus"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Information regarding missing samples, samples collected outside the bathing season, samples collected during short-term pollution events, etc. ."
+  - name: "season"
+    type: VARCHAR
+    description: "Bathing water reporting attribute: Year of the bathing season."
+  - name: "UID"
+    type: VARCHAR
+    description: "Data management attribute: Unique identifier of the record in the Bathing Water Directive database."

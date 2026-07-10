@@ -1,0 +1,76 @@
+columns:
+  - name: "Area"
+    type: VARCHAR
+    description: "Area of the air quality zone."
+  - name: "AreaUnit"
+    type: VARCHAR
+    description: "Unit of measurement of zone's area (usually km2)."
+  - name: "AuthorityAddress"
+    type: VARCHAR
+    description: "Address of competent authority."
+  - name: "AuthorityOrganisation"
+    type: VARCHAR
+    description: "Name of responsible authority, institution or body."
+  - name: "AuthorityTelephone"
+    type: VARCHAR
+    description: "Telephone number of competent authority."
+  - name: "AuthorityWebsite"
+    type: VARCHAR
+    description: "Website of competent authority."
+  - name: "B2G_Namespace"
+    type: VARCHAR
+    description: "Inspire identifier/namespace of reporting entity, given by data provider."
+  - name: "BeginTime"
+    type: VARCHAR
+    description: "Begin time of air quality zone."
+  - name: "Country"
+    type: VARCHAR
+    description: "Country or territory name."
+  - name: "CountryCode"
+    type: VARCHAR
+    description: "Country or territory ISO2 code."
+  - name: "EndTime"
+    type: VARCHAR
+    description: "End time of air quality zone."
+  - name: "GeographicalName"
+    type: VARCHAR
+    description: "Geographical Name of air quality zone."
+  - name: "GeomImported"
+    type: VARCHAR
+    description: "Latest date and time of geometry import into EEA's databases."
+  - name: "hasPredecessor"
+    type: VARCHAR
+    description: "Zone superceding the new zone."
+  - name: "Imported"
+    type: VARCHAR
+    description: "Date and time of source data import into EEA's databases."
+  - name: "PredecessorId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality zone predecessor, given by data provider."
+  - name: "Preliminary"
+    type: VARCHAR
+    description: "Yes if zone reported as  forward look (Year+1) or No as retrospective look (Year-1)."
+  - name: "PreliminaryChoice"
+    type: VARCHAR
+    description: "1 if zone reported as  forward look (Year+1) or 0 as retrospective look (Year-1)."
+  - name: "ReportingYear"
+    type: VARCHAR
+    description: "Year for which the data flow item has been reported."
+  - name: "ResidentPopulation"
+    type: VARCHAR
+    description: "Number of population residing in the air quality zone."
+  - name: "ResidentPopulationYear"
+    type: VARCHAR
+    description: "Reference year the resident population number."
+  - name: "SourceDataURL"
+    type: VARCHAR
+    description: "URL of source data reported to the EEA."
+  - name: "ZoneCode"
+    type: VARCHAR
+    description: "Identifier of air quality zone, given by data provider."
+  - name: "ZoneId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality zone, given by data provider."
+  - name: "ZoneType"
+    type: VARCHAR
+    description: "Air quality zone type (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/zonetype)."

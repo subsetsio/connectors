@@ -1,0 +1,52 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Abbreviation of EEA Member or Collaborating Country."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Timestamp when the feature or record was created. In case of reported data its the release date and time of the respective CDR envelope."
+  - name: "metadata_observationStatus"
+    type: VARCHAR
+    description: "Status of the record regarding its reliability."
+  - name: "metadata_statements"
+    type: VARCHAR
+    description: "Aditional information or statements regarding the reliability of the feature or record."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Unique metadata identifier of version of the feature or record. Url that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "observedProperty"
+    type: VARCHAR
+    description: "Renewable freshwater resources parameter."
+  - name: "phenomenonTimePeriod"
+    type: VARCHAR
+    description: "Reference time period of the reported result."
+  - name: "phenomenonTimePeriod_day"
+    type: VARCHAR
+    description: "Day of the reference period."
+  - name: "phenomenonTimePeriod_month"
+    type: VARCHAR
+    description: "Month of the reference period."
+  - name: "phenomenonTimePeriod_year"
+    type: VARCHAR
+    description: "Year of the reference period."
+  - name: "Remarks"
+    type: VARCHAR
+    description: "Remarks, comments or explanatory notes."
+  - name: "resultObservationStatus"
+    type: VARCHAR
+    description: "Status of the observed value in terms of its availability, relevancy, correctness or specifics of its source category."
+  - name: "resultObservedVolume"
+    type: VARCHAR
+    description: "Measured water volume in million cubic metres (hm3)."
+  - name: "spatialUnitIdentifier"
+    type: VARCHAR
+    description: "Unique international identifier of the spatial unit for which the data is being reported."
+  - name: "spatialUnitIdentifierScheme"
+    type: VARCHAR
+    description: "Specification of whether the spatial unit is a country (countryCode), a Water Framework Directive river basin district (euRBDCode) or a Water Framework Directive sub-unit (euSubUnitCode). For data providers that do not report under the WFD, spatial units equivalent to river basin districts (eionetRBDCode) or sub-units (eionetSubUnitCode) should be used."
+  - name: "UID"
+    type: VARCHAR
+    description: "Unique identifier of the record in the EEA WISE_SOE database."

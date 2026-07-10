@@ -1,0 +1,46 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2024 for the Progress on the Program of Measures reporting for 3rd River Basin Management Plans (PoM2024)."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Unique EU code of the River Basin District. Required. This element can be pre-filled.  A FeatureUniqueEUCodeType identifier must follow the syntax of the WISE identifiers. It must start with the two-letter country code of the Member State, followed by one character that can be a digit or an uppercase letter, followed by a sequence of characters (0 to 38 characters long) that can be digits or uppercase letters, with no consecutive double hyphens or double underscores, but allowing for single hyphens or underscores between characters. The code can optionally end with one character that can be a digit or an uppercase letter.  Examples: FR123, FR1_XYZ1234_1, FR1-XYZ1234-1, FR1XYZ12341 but not FR1__XYZ1234__1 or FRa123."
+  - name: "euSubUnitCode"
+    type: VARCHAR
+    description: "Conditional. If applicable, report the unique EU code of the Sub-unit. If there are no sub-units this element does not need to be reported and the reporting of the information is done at RBD level. Subunits are only relevant for surface water. This element can be pre-filled."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: pseudo-URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+    description: "Data management attribute: 1, if structure descriptive data has been delivered; 0, if not."
+  - name: "otherSubstanceFailing"
+    type: VARCHAR
+    description: "Conditional. If 'substanceFailing' is 'EEA_00-00-0' (meaning 'Other parameter') please indicate in this field the CAS number (if relevant) and the name of the pollutant or indicator. This element can be pre-filled.  ."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "significantPressure"
+    type: VARCHAR
+    description: "Conditional. Select from the enumeration list, in turn: each significant pressure type that is, by itself or in combination with other pressures, causing failure of surface water good ecological status or potential, or failure of good chemical status, or failure of groundwater good quantitative status and for which measures are required to reduce the pressure to a level and extent that enables the Environmental Objectives to be met. This element can be pre-filled."
+  - name: "substanceFailing"
+    type: VARCHAR
+    description: "Conditional. Select from the enumeration list, in turn:   - each RBSP that is causing failure of good ecological status or potential - each Priority Substance that is causing failure of good chemical status - each groundwater pollutant that is causing failure of good chemical status and for which measures are required to reduce the pressure to a level and extent that enables the Environmental Objectives to be met.   The option 'EEA_00-00-0' (meaning 'Other parameter') should be selected only if the substance that has to be reported is not included in the enumeration list. This element can be pre-filled."
+  - name: "surfaceWaterOrGroundwater"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list whether measures required to achieve the WFD Environmental Objectives are being reported for surface water or groundwater. This element can be pre-filled."
+  - name: "useArticle45Beyond2027"
+    type: VARCHAR
+    description: "Required. For each significant pressure type and chemical substance reported, select from the enumeration list the estimated percentage of water bodies for which it is expected that less stringent objectives will be set under WFD Article 4(5), i.e. the percentage of water bodies that are not expected to achieve good status or potential by 2027. If the information is not available, select 'notAvailable'."

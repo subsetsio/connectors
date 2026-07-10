@@ -1,0 +1,52 @@
+columns:
+  - name: "acronym"
+    type: VARCHAR
+    description: "Optional. Acronym of the Competent Authority (if applicable)."
+  - name: "city"
+    type: VARCHAR
+    description: "Optional. City address of the Competent Authority in English."
+  - name: "cityNL"
+    type: VARCHAR
+    description: "Optional. City address of the Competent Authority in a national language."
+  - name: "competentAuthorityName"
+    type: VARCHAR
+    description: "Required. Official name of the Competent Authority in English.  Where a number of small Competent Authorities (e.g. municipalities) have a key involvement in the water management, they can be reported as a single generic group, rather than each Competent Authority being reported as a separate entity. In that case, please indicate in the name the number of individual authorities represented by the generic entry, e.g. 'Municipalities in the RBD - 365 authorities'."
+  - name: "competentAuthorityNameNL"
+    type: VARCHAR
+    description: "Required. Official name of the Competent Authority in a national language.  Where a number of small Competent Authorities (e.g. municipalities) have a key involvement in the water management, they can be reported as a single generic group, rather than each Competent Authority being reported as a separate entity."
+  - name: "competentAuthorityNameNLLanguage"
+    type: VARCHAR
+    description: "Required. Language used for reporting the name of the Competent Authority in a national language."
+  - name: "country"
+    type: VARCHAR
+    description: "Optional. Country address of the Competent Authority in English."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euCACode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each Competent Authority. Prefix the Competent Authority's national, unique code with the Member State's 2-letter ISO country code.  Where a number of small Competent Authorities (e.g. municipalities) have a key involvement in the water management, they can be reported as a single generic group, rather than each Competent Authority being reported as a separate entity.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euCACode must be unique."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "linkToCompetentAuthority"
+    type: VARCHAR
+    description: "Required. Website address of the Competent Authority.  If a generic group of Competent Authorities is reported (see guidance under competentAuthorityName and competentAuthorityNameNL), report the prime Competent Authority's website address, if any. If not, report 'Not available'."
+  - name: "otherRole"
+    type: VARCHAR
+    description: "Optional. If relevant, identify the role(s) where the Competent Authority contributes or supports another Competent Authority in a particular role."
+  - name: "postcode"
+    type: VARCHAR
+    description: "Optional. Postcode address of the Competent Authority."
+  - name: "street"
+    type: VARCHAR
+    description: "Optional. Street address of the Competent Authority."

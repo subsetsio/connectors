@@ -1,0 +1,75 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "psAnalyticalMethod"
+    type: VARCHAR
+    description: "Indicate whether the analytical method used meets the minimum performance criteria laid down in Article 4.1 of the QA/QC Directive (2009/90/EC)77 for the strictest standard applied.    Quality checks: psAnalyticalMethod should be reported if and only if psStatusAssessment = 'Yes'."
+  - name: "psAnalyticalMethodBAT"
+    type: VARCHAR
+    description: "Conditional. If the analytical method does not meet the minimum performance criteria laid down in Article 4(1) of the QA/QC Directive, indicate whether the analytical method complies with the requirements laid down in Article 4(2) of the QA/QC Directive (2009/90/EC) for the strictest standard applied.  Quality checks: Conditional check: Report if and only if psAnalyticalMethod is 'No'.  ."
+  - name: "psCategoryCW"
+    type: VARCHAR
+    description: ": Conditional. If an alternative and/or additional standard is used, is the standard being reported used for the assessment of chemical status in coastal waters?  Quality checks: Conditional check: report if and only if psStandardsUsed is 'No'."
+  - name: "psCategoryLW"
+    type: VARCHAR
+    description: "Conditional. If an alternative and/or additional standard is used, is the standard being reported used for the assessment of chemical status in lakes?  Quality checks: Conditional check: report if and only if psStandardsUsed is 'No'."
+  - name: "psCategoryRW"
+    type: VARCHAR
+    description: "Conditional. If an alternative and/or additional standard is used, is the standard being reported used for the assessment of chemical status in rivers?  Quality checks: Conditional check: report if and only if psStandardsUsed is 'No'."
+  - name: "psCategoryTeW"
+    type: VARCHAR
+    description: ": Conditional. If an alternative and/or additional standard is used, is the standard being reported used for the assessment of chemical status in territorial waters?  Quality checks: Conditional check: report if and only if psStandardsUsed is 'No'."
+  - name: "psCategoryTW"
+    type: VARCHAR
+    description: "Conditional. If an alternative and/or additional standard is used, is the standard being reported used for the assessment of chemical status in transitional waters?  Quality checks: Conditional check: report if and only if psStandardsUsed is 'No'."
+  - name: "psCode"
+    type: VARCHAR
+    description: "Required. Select a Priority Substance from the enumeration list. If there is more than one standard per substance (e.g. because there are different standards for different categories or matrices), the same substance can be reported more than once. Each Priority Substance should be reported at least once. Please note, however, that you should report here 'Total Aldrin + dieldrin + endrin + isodrin' and not the individual substances separately, as this is the way in which the EQSs are defined in Directive 2013/39/EU. For the same reason, for PAHs, you should report the individual substances and not 'Total PAHs...'.  Quality checks: Within-schema check: There has to be at least 1 entry per substance in PS_Enum, except for aldrin, dieldrin, endrin, isodrin and Total PAHs, which should not be reported here, since the reporting should be done for Total aldrin+dieldrin+endrin+isodrin and for individual PAHs."
+  - name: "psMatrix"
+    type: VARCHAR
+    description: "Select from the enumeration list the matrix in which the standard for this Priority Substance is applied for the purpose of assessment of chemical status. If the matrix is biota, you can report generically as 'biota' or more specifically fish or other biota. Similarly, if the matrix is sediment, you can report generically or specifically for settled or suspended sediment.    Conditional check: It must be reported if and only if psStatusAssessment = 'Yes'."
+  - name: "psScale"
+    type: VARCHAR
+    description: "Conditional. If an alternative and/or additional standard is used, report the geographical scale at which the standard is applied.  Quality checks: Conditional check: report if and only if psStandardsUsed is 'No'.  ."
+  - name: "psStandardsUsed"
+    type: VARCHAR
+    description: "Required. For the combination of Priority Substance and matrix being reported, indicate whether the only standards used are all the relevant ones from Directive 2013/39/EU.  Report 'Yes' if all standards in Directive 2013/39/EU were used, and only those.  Report 'No' if alternative or additional standards (e.g. for particular water categories) were used for that substance and matrix.  Report 'Not applicable' only if the priority substance has not been used in the assessment of chemical status.  If alternative and/or additional standards are used, report all the standards used for this Priority Substance using the schema elements below, repeating this whole class for each standard.  Quality checks: Within-schema check: 'Not applicable' is a valid option only if psStatusAssessment is 'No'."
+  - name: "psStandardType"
+    type: VARCHAR
+    description: "Conditional. If an alternative and/or additional standard is used, select the type of standard being reported.    'AA EQS' = Annual Average Concentration.  'MAC EQS' = Maximum Allowable Concentration.  'Biota EQS' = Concentration in biota.  Quality check: Conditional check: report if and only if psStandardsUsed is 'No'.  Within-schema check: 'Biota EQS' has to be reported if and only if psMatrix is 'Biota', 'Biota - fish' or 'Biota - other than fish'.  ."
+  - name: "psStatusAssessment"
+    type: VARCHAR
+    description: "Required. Indicate whether this Priority Substance has been used in the assessment of chemical status."
+  - name: "psUnit"
+    type: VARCHAR
+    description: "Conditional. If an alternative and/or additional standard is used, report the unit in which the Priority Substance standard is expressed. Please report '{other}' only if the unit used is not included in the enumeration list.  Quality checks: Conditional check: report if and only if psStandardsUsed is 'No'.  ."
+  - name: "psValue"
+    type: VARCHAR
+    description: "Conditional. If an alternative and/or additional standard is used, report the value or range of the standard applied.  Quality checks: Conditional check: report if and only if psStandardsUsed is 'No'.  Element check: Reporting must be either one single value or a range, written as 'xxx - yyy'."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "uPBT"
+    type: VARCHAR
+    description: "If uPBT = 1 then the substance is an \"ubiquitous, persistent, bioaccumulative and toxic\" substance."

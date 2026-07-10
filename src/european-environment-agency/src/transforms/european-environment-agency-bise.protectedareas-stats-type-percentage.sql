@@ -1,0 +1,20 @@
+SELECT
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("Discodata_update_Marine" AS VARCHAR) AS "Discodata_update_Marine",
+    CAST("Discodata_update_Terrestrial" AS VARCHAR) AS "Discodata_update_Terrestrial",
+    CAST("Marine_CDDA_only_km2" AS VARCHAR) AS "Marine_CDDA_only_km2",
+    CAST("Marine_N2K_only_km2" AS VARCHAR) AS "Marine_N2K_only_km2",
+    CAST("Marine_Overlap_km2" AS VARCHAR) AS "Marine_Overlap_km2",
+    CAST("Marine_Total_km2" AS VARCHAR) AS "Marine_Total_km2",
+    CAST("Marine_waters_km2" AS VARCHAR) AS "Marine_waters_km2",
+    CAST("Percentage_Marine_CDDA_only" AS VARCHAR) AS "Percentage_Marine_CDDA_only",
+    CAST("Percentage_Marine_N2K_only" AS VARCHAR) AS "Percentage_Marine_N2K_only",
+    CAST("Percentage_Marine_Overlap" AS VARCHAR) AS "Percentage_Marine_Overlap",
+    CAST("Percentage_Terrestrial_CDDA_only" AS VARCHAR) AS "Percentage_Terrestrial_CDDA_only",
+    CAST("Percentage_Terrestrial_N2K_only" AS VARCHAR) AS "Percentage_Terrestrial_N2K_only",
+    CAST("Percentage_Terrestrial_Overlap" AS VARCHAR) AS "Percentage_Terrestrial_Overlap",
+    CAST("Terrestrial_CDDA_only_km2" AS VARCHAR) AS "Terrestrial_CDDA_only_km2",
+    CAST("Terrestrial_N2K_only_km2" AS VARCHAR) AS "Terrestrial_N2K_only_km2",
+    CAST("Terrestrial_Overlap_km2" AS VARCHAR) AS "Terrestrial_Overlap_km2",
+    CAST("Terrestrial_Total_km2" AS VARCHAR) AS "Terrestrial_Total_km2"
+FROM "european-environment-agency-bise.protectedareas-stats-type-percentage"

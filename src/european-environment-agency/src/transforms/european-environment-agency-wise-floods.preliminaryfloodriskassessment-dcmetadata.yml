@@ -1,0 +1,46 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "created"
+    type: VARCHAR
+    description: "Optional.\r\nDate of creation of the dataset."
+  - name: "creatorOrganisationName"
+    type: VARCHAR
+    description: "Max length: 4000 characters.\r\nRequired.\r\nName of the organisation doing the reporting."
+  - name: "description"
+    type: VARCHAR
+    description: "Max length: 4000 characters.\r\nOptional.\r\nDescription of the dataset."
+  - name: "euFloodsUnitOfManagementCode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nRequired.\r\nUnique EU code for the Unit of Management or River Basin District. Add the two-letter ISO Country code to the Member State unique id - up to 42 characters in total.\r\nThis field will declare the RBDs or UoMs for which data is reported."
+  - name: "language"
+    type: VARCHAR
+    description: "Required.\r\nChoose the code of the dataset's language from the 'LanguageCode' codelist values."
+  - name: "license"
+    type: VARCHAR
+    description: "Max length: 250 characters.\r\nRequired.\r\nA legal document giving official permission to do something with the resource. Provide the URL to the licence text of a CC BY compatible licence. Use a persistent identifier to an English or multilingual version of the licence agreement."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "reportingStructuredData"
+    type: VARCHAR
+    description: "Required.\r\nChoose from the 'YesNo' codelist values, depending on if structure data is being reported."
+  - name: "rights"
+    type: VARCHAR
+    description: "Max length: 4000 characters.\r\nOptional.\r\nInformation about rights held in and over the resource. If necessary, provide the attribution text required by the licence, or other relevant information."
+  - name: "rightsHolder"
+    type: VARCHAR
+    description: "Max length: 4000 characters.\r\nOptional.\r\nA person or organization owning or managing rights over the resource. This element can be provided if the rights holder reserved rights (e.g. should to be contacted for specific uses), or if the rights holder is not the organisation responsible for the dataset."
+  - name: "title"
+    type: VARCHAR
+    description: "Max length: 4000 characters.\r\nOptional.\r\nName given to the dataset."

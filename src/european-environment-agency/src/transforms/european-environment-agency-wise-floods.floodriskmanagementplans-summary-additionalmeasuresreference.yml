@@ -1,0 +1,73 @@
+columns:
+  - name: "additionalMeasuresReference"
+    type: VARCHAR
+    description: "Optional.\r\nProvide document(s) or link(s) to relevant documentation on any additional measures put in place since publication of the previous version of the FRMP (Annex, part B.4). If the information requested by this schema element is not provided it will be presumed that no additional measures have been adopted since the publication of the previous FRMPs.\r\nMore than one option can be selected. If more than one, values need to be separated by a semicolon followed by a whitespace. e.g., \"value1; value2; value3\"."
+  - name: "annexAspectsIncludedDescription"
+    type: VARCHAR
+    description: "Max length: 2000 characters.\r\nConditional.\r\nIf any item has not been selected from the enumeration list above ('No' has been selected), please provide a reason for this."
+  - name: "article_10_1_PublicConsultationsMechanismsOther"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf 'Other' is selected from the enumeration list, provide a description of the other mechanisms used for informing the public and other interested parties about the consultation process."
+  - name: "article_10_2_ConsultationStakeholdersInvolvedMechanismsOther"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf 'Other' is selected from the enumeration list, provide a description of the other mechanisms used to encourage the active involvement of stakeholders."
+  - name: "article_10_2_ConsultationStakeholdersInvolvedOther"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf 'Other' is selected from enumeration list, provide a description of the other outcome(s) that stakeholder engagement had on the plans groups of stakeholders actively involved in the development of the flood risk management plans."
+  - name: "article_7_3_SummaryAspectsDescription"
+    type: VARCHAR
+    description: "Max length: 2000 characters.\r\nConditional.\r\nIf one or more aspects from the list 'Article7.3SummaryAspects' are not selected, provide a reason for this."
+  - name: "article_9_2_CoordinationFRMPandRBMPOther"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf 'Other' selected from enumeration list, provide a description of the other ways development of the FRMPs have been coordinated with the development of the River Basin Management Plans for the WFD."
+  - name: "climateChangeImpacts"
+    type: VARCHAR
+    description: "Required.\r\nChoose if the impact of climate change on the occurrence of floods has been taken into consideration within the FRMP from the 'YesNo' codelist values.\r\nIf 'Yes', provide a reference document or link in the SummaryClimateChange/Reference schema to relevant documentation for example on measures taken to mitigate the expected effects of climate change on the likelihood and potential adverse effects of flooding; if 'No', provide a reason/description (text) in the SummaryClimateChange /Justification schema."
+  - name: "climateChangeImpactsDescription"
+    type: VARCHAR
+    description: "Max length: 1000 characters \r\nConditional.\r\nProvide a reason/description if 'climateChangeImpacts' is set to 'No'."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "euFloodsUnitOfManagementCode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nRequired.\r\nUnique EU code for the Unit of Management or WFD River Basin District following the WISE identifier syntax. Add the two-letter ISO Country code to the Member State unique id - up to 42 characters in total."
+  - name: "impactPublicParticipationOther"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf 'Other' selected from enumeration list, provide a description of the other outcome(s) that stakeholder engagement had on the plans groups of stakeholders actively involved in the development of the flood risk management plans."
+  - name: "localNationalInternationalCoordinationDescription"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nProvide a reason/description if 'LocalNationalInternationalCoordination' is set to 'No Coordination has taken place'."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_endLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was retired or replaced, if applicable."
+  - name: "metadata_observationStatus"
+    type: VARCHAR
+    description: "Data management attribute: Status of the record regarding its reliability."
+  - name: "metadata_replacedBy"
+    type: VARCHAR
+    description: "Data management attribute: unique identifier of the record that replaced the current record, if applicable."
+  - name: "metadata_replaces"
+    type: VARCHAR
+    description: "Data management attribute: unique identifier of the record that the current record replaces, if applicable."
+  - name: "metadata_statements"
+    type: VARCHAR
+    description: "Data management attribute: Additional information or statements regarding the reliability of the feature or record."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_statusDate"
+    type: VARCHAR
+    description: "Data management attribute: Date when the metadata status code was set."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "UID"
+    type: VARCHAR
+    description: "Record ID at ReportNet 3."

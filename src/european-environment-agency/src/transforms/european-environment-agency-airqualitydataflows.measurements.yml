@@ -1,0 +1,226 @@
+columns:
+  - name: "AirPollutant"
+    type: VARCHAR
+    description: "Air polluting substance, level of which is measured and reported to the EEA (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/pollutant)."
+  - name: "AirPollutantCode"
+    type: VARCHAR
+    description: "Code of air polluting substance, level of which is measured and reported to the EEA (see concept URI in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/pollutant)."
+  - name: "AirQualityNetwork"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality network, given by data provider."
+  - name: "AirQualityNetworkName"
+    type: VARCHAR
+    description: "Name of air quality measurement network, given by data provider."
+  - name: "AirQualityStation"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of station, given by data provider."
+  - name: "AirQualityStationArea"
+    type: VARCHAR
+    description: "Area of Air Quality Measurement Station - information whether it is measuring air pollution in urban, suburban, rural (etc.) environment (see in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/areaclassification)."
+  - name: "AirQualityStationEoICode"
+    type: VARCHAR
+    description: "EoI code of air quality measurement station (as in AirBase), given by data provider."
+  - name: "AirQualityStationNatCode"
+    type: VARCHAR
+    description: "National code of air quality measurement station, given by data provider."
+  - name: "AirQualityStationType"
+    type: VARCHAR
+    description: "Type of Air Quality Measurement Station - information whether it is measuring background, industrial or traffic related air pollution (see in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/stationclassification)."
+  - name: "Altitude"
+    type: VARCHAR
+    description: "Altitude of air quality measurement station [m a.s.l.]."
+  - name: "AltitudeUnit"
+    type: VARCHAR
+    description: "Unit of measurement of the altitude of the station."
+  - name: "AnalyticalTechnique"
+    type: VARCHAR
+    description: "Information on analytical technique (see in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/analyticaltechnique)."
+  - name: "AQStationName"
+    type: VARCHAR
+    description: "Name of air quality measurement station (as in AirBase), given by data provider."
+  - name: "AssessmentMethodId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of sampling point, given by data provider."
+  - name: "B2G_Namespace"
+    type: VARCHAR
+    description: "Inspire identifier/namespace of reporting entity, given by data provider."
+  - name: "BuildingDistance"
+    type: VARCHAR
+    description: "The horizontal distance of the inlet to the nearest building."
+  - name: "BuilldingDistanceUnit"
+    type: VARCHAR
+    description: "Unit of measurement of the distance of the inlet to the nearest building."
+  - name: "Cadence"
+    type: VARCHAR
+    description: "The time interval between the start of two consecutive measurements or samples."
+  - name: "CadenceUnit"
+    type: VARCHAR
+    description: "Unit of measurement of the cadence."
+  - name: "Country"
+    type: VARCHAR
+    description: "Country or territory name."
+  - name: "CountryCode"
+    type: VARCHAR
+    description: "Country or territory ISO2 code."
+  - name: "DemonstrationReport"
+    type: VARCHAR
+    description: "Link to the equivalence demonstration report."
+  - name: "DetectionLimit"
+    type: VARCHAR
+    description: "The measuring/sampling process including detection limit."
+  - name: "DetectionLimitUnit"
+    type: VARCHAR
+    description: "Unit of measurement of the detection limit."
+  - name: "DispersionLocal"
+    type: VARCHAR
+    description: "The location of the station in relation to nearby buildings & trees using a controlled vocabulary."
+  - name: "DispersionRegional"
+    type: VARCHAR
+    description: "The regional dispersion characteristics or topographic situation on a scale of several kilometres affecting the station from a controlled vocabulary."
+  - name: "DistanceJunction"
+    type: VARCHAR
+    description: "The description of the distance from the station to a major junction."
+  - name: "DistanceJunctionUnit"
+    type: VARCHAR
+    description: "Unit of measurement of the distance from the station to a major junction."
+  - name: "DistanceSource"
+    type: VARCHAR
+    description: "The distance from predominant industrial source or source area."
+  - name: "DistanceSourceUnit"
+    type: VARCHAR
+    description: "Unit of measurement of the distance from predominant industrial source or source area."
+  - name: "Documentation"
+    type: VARCHAR
+    description: "Title of documentation on data quality."
+  - name: "Duration"
+    type: VARCHAR
+    description: "The expected sampling duration of the measurement or sampling method."
+  - name: "DurationUnit"
+    type: VARCHAR
+    description: "Unit of measurement of the duration."
+  - name: "EquivalenceDemonstrated"
+    type: VARCHAR
+    description: "Specifies the equivalence status of the measuring/sampling process according to Annex VI.B of Dir. 2008/50EC and Annex V of Dir. 2004/107EC."
+  - name: "geography"
+    type: VARCHAR
+    description: "Geography encoding of measurement location."
+  - name: "HeatingEmissions"
+    type: VARCHAR
+    description: "The declaration of the emissions from domestic heating for a representative area of approximately 1 km2."
+  - name: "HeatingEmissionsUnit"
+    type: VARCHAR
+    description: "Unit of measurement of the heating emissions."
+  - name: "HeavyDutyFraction"
+    type: VARCHAR
+    description: "The fraction of the total traffic volume (assessed as AADT) that is composed of HGVs on the adjacent road."
+  - name: "HeightFacades"
+    type: VARCHAR
+    description: "The average height of the building facades adjacent to the station (in metres) at the location of the station."
+  - name: "Imported"
+    type: VARCHAR
+    description: "Date and time of source data import into EEA's databases."
+  - name: "industrialEmissions"
+    type: VARCHAR
+    description: "The emissions from industry for a representative area of approximately 1 km2."
+  - name: "industrialEmissionsUnit"
+    type: VARCHAR
+    description: "Unit of measurement of the industrial emissions."
+  - name: "InletHeight"
+    type: VARCHAR
+    description: "Height of the sampling point inlet."
+  - name: "InletHeightUnit"
+    type: VARCHAR
+    description: "Unit of measurement of the height of the sampling point inlet."
+  - name: "KerbDistance"
+    type: VARCHAR
+    description: "The horizontal distance of the inlet to the nearest kerb."
+  - name: "KerbDistanceUnit"
+    type: VARCHAR
+    description: "Unit of measurement of the distance of the inlet to the nearest kerb."
+  - name: "Latitude"
+    type: VARCHAR
+    description: "Latitude of air quality measurement station [decimal degrees]."
+  - name: "Longitude"
+    type: VARCHAR
+    description: "Longitude of air quality measurement station [decimal degrees]."
+  - name: "MainEmissionSources"
+    type: VARCHAR
+    description: "The main emission source for the pollutant."
+  - name: "MeasurementEquipment"
+    type: VARCHAR
+    description: "Information on equipment used for measuring air polluting substances (see in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/measurementequipment)."
+  - name: "MeasurementMethod"
+    type: VARCHAR
+    description: "Information on method used for measuring air polluting substances (see in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/measurementmethod)."
+  - name: "MeasurementType"
+    type: VARCHAR
+    description: "The classification (grouping) of measurement methods into generic types. The types of measurements include: Automatic analyser, Remote sensor, Active sampling and Passive sampling."
+  - name: "Mobile"
+    type: VARCHAR
+    description: "Description if measured is fixed (0) or mobile (1)."
+  - name: "Municipality"
+    type: VARCHAR
+    description: "The name of the municipality in which the monitoring station is located."
+  - name: "OperationalActivityBegin"
+    type: VARCHAR
+    description: "Start time of the station."
+  - name: "OperationalActivityEnd"
+    type: VARCHAR
+    description: "End time of the station."
+  - name: "OtherAnalyticalTechnique"
+    type: VARCHAR
+    description: "Other Analytical Technique."
+  - name: "OtherMeasurementEquipment"
+    type: VARCHAR
+    description: "Other Measurement Equipment."
+  - name: "OtherMeasurementMethod"
+    type: VARCHAR
+    description: "Other Measurement Method."
+  - name: "OtherSamplingMethod"
+    type: VARCHAR
+    description: "Other Sampling Method."
+  - name: "ProcessActivityBegin"
+    type: VARCHAR
+    description: "Start time of the measurement process."
+  - name: "ProcessActivityEnd"
+    type: VARCHAR
+    description: "End time of the measurement process."
+  - name: "ProcessId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of sampling process (procedure), given by data provider."
+  - name: "QAReport"
+    type: VARCHAR
+    description: "Link to report with Quality Assurance information."
+  - name: "ReportingYear"
+    type: VARCHAR
+    description: "Latest year for which the data flow item has been reported."
+  - name: "SampleId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of sample (Feature of Interest), given by data provider."
+  - name: "SamplingMethod"
+    type: VARCHAR
+    description: "Information on the sampling methods used for Active or passive sampling measurement types (i.e. Passive adsorbent, Low Volume Sampling with automatic filter change…)."
+  - name: "SamplingPointStatus"
+    type: VARCHAR
+    description: "Status of sampling point (active/closed)."
+  - name: "SourceDataURL"
+    type: VARCHAR
+    description: "URL of source data reported to the EEA."
+  - name: "StreetWidth"
+    type: VARCHAR
+    description: "The width of the street (in metres) at the location of the station."
+  - name: "Timezone"
+    type: VARCHAR
+    description: "Time zone in which aggregations and statistics are calculated (see in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/timezone)."
+  - name: "TrafficEmissions"
+    type: VARCHAR
+    description: "The emissions from road traffic for a section of road representative of at least 100 m."
+  - name: "TrafficEmissionsUnit"
+    type: VARCHAR
+    description: "Unit of measurement of the traffic emissions."
+  - name: "TrafficSpeed"
+    type: VARCHAR
+    description: "The average speed of vehicles in km/h traffic speed on the adjacent road."
+  - name: "TrafficVolume"
+    type: VARCHAR
+    description: "The total traffic volume (as an annual average daily traffic) on the adjacent road."

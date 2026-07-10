@@ -1,0 +1,58 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Abbreviation of EEA Member or Collaborating Country."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Timestamp when the feature or record was created. In case of reported data its the release date and time of the respective CDR envelope."
+  - name: "metadata_observationStatus"
+    type: VARCHAR
+    description: "Status of the record regarding its reliability."
+  - name: "metadata_statements"
+    type: VARCHAR
+    description: "Aditional information or statements regarding the reliability of the feature or record."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Unique metadata identifier of version of the feature or record. Url that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "observedPropertyDeterminandBiologyEQRCode"
+    type: VARCHAR
+    description: "Determinand code for biological metrics, as defined in the vocabulary."
+  - name: "observedPropertyDeterminandLabel"
+    type: VARCHAR
+    description: "Name of the determinand."
+  - name: "parameterBoundaryValueClasses12"
+    type: VARCHAR
+    description: "Boundary between High and Good ecological status or potential classes, for a given biological determinand and water body type."
+  - name: "parameterBoundaryValueClasses23"
+    type: VARCHAR
+    description: "Boundary between Good and Moderate ecological status or potential classes, for a given biological determinand and water body type."
+  - name: "parameterBoundaryValueClasses34"
+    type: VARCHAR
+    description: "Boundary between Moderate and Poor ecological status or potential classes, for a given biological determinand and water body type."
+  - name: "parameterBoundaryValueClasses45"
+    type: VARCHAR
+    description: "Boundary between Poor and Bad ecological status or potential classes, for a given biological determinand and water body type."
+  - name: "parameterNaturalAWBHMWB"
+    type: VARCHAR
+    description: "Specification of whether a water body is identified as natural, artificial (AWB) or heavily modified (HMWB). AWBs are surface water bodies which have been created in a location where no water body existed before and which have not been created by the direct physical alteration, movement or realignment of an existing water body. HMWB are bodies of water which as a result of physical alterations by human activity are substantially changed in character and cannot, therefore, meet \"good ecological status\" (GES). In this context physical alterations mean changes to e.g. the size, slope, discharge, form and shape of river bed of a water body."
+  - name: "parameterNCSWaterBodyType"
+    type: VARCHAR
+    description: "Type of water body as defined by the member state."
+  - name: "parameterWaterBodyCategory"
+    type: VARCHAR
+    description: "Water body category code, as defined in the codelist."
+  - name: "procedureClassificationSystem"
+    type: VARCHAR
+    description: "Classification system used for the BQE."
+  - name: "remarks"
+    type: VARCHAR
+    description: "Remarks, comments or explanatory notes."
+  - name: "resultObservationStatus"
+    type: VARCHAR
+    description: "Status of the observed value in terms of its availability, relevancy, correctness or specifics of its source category."
+  - name: "UID"
+    type: VARCHAR
+    description: "Unique identifier of the record in the EEA WISE_SOE database."

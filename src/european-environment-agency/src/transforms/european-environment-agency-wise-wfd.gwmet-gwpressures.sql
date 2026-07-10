@@ -1,0 +1,18 @@
+SELECT
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryGroup" AS VARCHAR) AS "countryGroup",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("cYear" AS VARCHAR) AS "cYear",
+    CAST("euRBDCode" AS VARCHAR) AS "euRBDCode",
+    CAST("fileUrl" AS VARCHAR) AS "fileUrl",
+    CAST("gwSignificanceDefinition" AS VARCHAR) AS "gwSignificanceDefinition",
+    CAST("gwSignificanceLinkFailure" AS VARCHAR) AS "gwSignificanceLinkFailure",
+    CAST("gwSignificantPressureArtificialRecharge" AS VARCHAR) AS "gwSignificantPressureArtificialRecharge",
+    CAST("gwSignificantPressureDiffuseSourceTools" AS VARCHAR) AS "gwSignificantPressureDiffuseSourceTools",
+    CAST("gwSignificantPressureOtherSourceTools" AS VARCHAR) AS "gwSignificantPressureOtherSourceTools",
+    CAST("gwSignificantPressurePointSourceTools" AS VARCHAR) AS "gwSignificantPressurePointSourceTools",
+    CAST("gwSignificantPressureWaterAbstractionTools" AS VARCHAR) AS "gwSignificantPressureWaterAbstractionTools",
+    CAST("hasDescriptiveData" AS VARCHAR) AS "hasDescriptiveData",
+    CAST("rbdArea" AS VARCHAR) AS "rbdArea",
+    CAST("rbdName" AS VARCHAR) AS "rbdName"
+FROM "european-environment-agency-wise-wfd.gwmet-gwpressures"

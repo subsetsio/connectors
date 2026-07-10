@@ -1,0 +1,71 @@
+columns:
+  - name: "chemicalSubstance"
+    type: VARCHAR
+    description: "Required. Reporting is required for each substance in Annex II of Directive 2013/39/EU  Quality check: Within-schema check:       - All substances listed in Annex II of Directive 2013/39/EU (i.e. Priority Substances) have to be reported.       - Total cyclodiene pesticides must be reported through EEA_32-02-0 - Total cyclodiene pesticides.       - Total PAHs must be reported through EEA_33-56-7 - Total PAHs.      - Element check: Each chemical substance can only be reported once for each Input Inventory."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "euSubUnitCode"
+    type: VARCHAR
+    description: "Conditional. If applicable, report the unique EU code of the Sub-unit. If there are no sub-units this element does not need to be reported and the reporting of the information is done at RBD level. Sub-units are only relevant for surface water.    Quality checks: Conditional check: report if and only if RBDSUCA/RBD/subUnitsDefined is 'Yes'.    Within-schema check: euSubUnitCode must be unique.  Cross-schema check: euSubUnitCode must be consistent with the codes reported in RBDSUCA/RBD/euSubUnitCode.    Element check: Each combination of sub unit and surfaceWaterOrGroundWater can only be reported once."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "inputDataQuality"
+    type: VARCHAR
+    description: "Required. Indicate the quality of the inventory data being reported.  The option selected from the enumeration list should reflect the reliability and variance of the data provided, taking into account issues such as the availability of monitoring data, the reliability of emission factors used in calculations, the difficulty of taking account of seasonal influences in areas with high seasonal variation etc (e.g. 'Very good' would imply a substantial monitoring basis, while 'Very uncertain' would imply a very weak or absent monitoring basis, with heavy reliance on estimation).  Quality checks:   The option 'Unknown' is NOT valid if the substance is a priority substance."
+  - name: "inputTotalType"
+    type: VARCHAR
+    description: "Required.   If an inventory of emissions, discharges and losses has been completed for this substance and the substance being reported is one of those listed in Annex II of Directive 2013/39/EU, indicate whether the value reported is for total point sources, total diffuse sources or total point and diffuse sources. Distinction between total point sources and total diffuse sources is expected for EQSD Annex I substances.  Reporting is optional for other substances/parameters.  Quality checks: For each substance, the combination of inputTotalType and inputYearPeriod must be unique."
+  - name: "inputTotalUnit"
+    type: VARCHAR
+    description: "Required. Report the unit in which inputTotalValue is expressed (tonnes/year or kilogrammes/year).   Quality checks: Element check: Only the options 't/a' or 'kg/a' are a valid selection."
+  - name: "inputTotalValue"
+    type: VARCHAR
+    description: "Required. If an inventory of emissions, discharges and losses has been completed for this substance and the substance being reported is one of those listed in Annex II of Directive 2013/39/EU, report the total value of inputs (= emissions, discharges and losses)."
+  - name: "inputYearPeriod"
+    type: VARCHAR
+    description: "Conditional. If inputTotalValue is reported, provide the year to which the reported value corresponds. It is possible to report a single year or a period (e.g. 2018--2020).  Quality checks: Conditional check: report if and only if inputTotalValue is reported."
+  - name: "inventoryMethodology"
+    type: VARCHAR
+    description: "Required.<b> </b>  If an inventory of emissions, discharges and losses has been completed for this substance, indicates which approach was used to determine the values reported. Further descriptions of the approaches 1, 2, 3 and 4 are available in CIS Guidance Document no. 28.  Report 'Other' only if the approach that was used does not fit within one of the approaches listed in the enumeration list. In this cases, describe the methodology used (refer to inputMethodReference).  The approach followed may be different for different substances    Quality check: The option 'Not applicable' is NOT valid if step2EmissionsInventory  is 'Yes'."
+  - name: "numberOfWaterBodiesFailingInRBD"
+    type: VARCHAR
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "reportedUnderSoEEmissions"
+    type: VARCHAR
+    description: "Required. Indicate if emissions for this substance were reported as part of the State of Environment reporting. ."
+  - name: "step1RelevantAtRBDScale"
+    type: VARCHAR
+    description: "Required. Indicate whether the substance has been identified as being relevant at RBD level (i.e. passed the relevance test in Step 1, according to the relevance criteria described on pages 9-10 of the CIS-Guidance No 28).  Report 'Yes' if you proceeded to Step 2 of the two-step approach.   If you report 'No', it is possible to report on an optional point source assessment. In this case, any knowledge of quantifiable inputs of priority hazardous substances should be reported.  <b>Quality checks</b>: Conditional checks:  <ul>   <li>The option 'Unknown' is valid if and only if the chemicalSubstance is a Priority Substance (i.e. if reporting is mandatory)</li>  </ul>  <ul>   <li>CROSS-CHECK - If at least one waterbody is failing to achieve good chemical status due to a Priority Substance then step1RelevantAtRBDScale must be 'Yes'. (The inverse is not true.)</li>  </ul>."
+  - name: "step2EmissionsInventory"
+    type: VARCHAR
+    description: "Required. If an inventory of emissions, discharges and losses has been completed for this substance, indicate which approach in CIS Guidance No 28 has been followed.  Step 1 requires an assessment of the current relevance of the substance at RBD level. Step 2 requires a more detailed analysis for the substances that pass the relevance test in Step 1 (i.e. the ones that are relevant at RBD level).    For the substances that are of minor relevance at the RBD scale (i.e. do not meet Step 1 criteria), Member States should try to provide a basic estimation of emissions, discharges and losses from point and diffuse sources. This is particularly important for Priority Hazardous Substances.    Report 'Yes' if an inventory has been completed (note: this option can also be used for substances where step1RelevantAtRBDScale = 'No'.     Report 'No', if an inventory has not yet been completed, although the substance was determined to be relevant according to the step 1 criteria.    Report 'Not applicable', if a step 2 inventory was not completed because the substance was determined NOT to be relevant according to the step 1 criteria.     <b>Quality checks</b>:  <ul>   <li>The option 'No' is valid if and only if step1RelevantAtRBDScale = 'Yes'.   </li>  </ul>  <ul>   <li>The option 'Not applicable' is valid if and only if step1RelevantAtRBDScale = 'No'</li>  </ul>."
+  - name: "subUnitArea"
+    type: VARCHAR
+    description: "Required. Area of the Sub-unit in km2 including coastal waters."
+  - name: "subUnitName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the Sub-unit in English that is meaningful outside of the RBD or Member State."
+  - name: "uPBT"
+    type: VARCHAR
+    description: "If uPBT = 1 then the substance is an \"ubiquitous, persistent, bioaccumulative and toxic\" substance."

@@ -1,0 +1,23 @@
+SELECT
+    CAST("Count_Bogs_mires_fens" AS VARCHAR) AS "Count_Bogs_mires_fens",
+    CAST("Count_Coastal_habitats" AS VARCHAR) AS "Count_Coastal_habitats",
+    CAST("Count_Dune_habitats" AS VARCHAR) AS "Count_Dune_habitats",
+    CAST("Count_Forests" AS VARCHAR) AS "Count_Forests",
+    CAST("Count_Freshwater_habitats" AS VARCHAR) AS "Count_Freshwater_habitats",
+    CAST("Count_Grasslands" AS VARCHAR) AS "Count_Grasslands",
+    CAST("Count_Habitats_Total" AS VARCHAR) AS "Count_Habitats_Total",
+    CAST("Count_Heath_scrub" AS VARCHAR) AS "Count_Heath_scrub",
+    CAST("Count_Rocky_habitats" AS VARCHAR) AS "Count_Rocky_habitats",
+    CAST("Count_Sclerophyllous_scrub" AS VARCHAR) AS "Count_Sclerophyllous_scrub",
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("Latest_Discodata_update" AS VARCHAR) AS "Latest_Discodata_update",
+    CAST("Percentage_Bogs_mires_fens" AS VARCHAR) AS "Percentage_Bogs_mires_fens",
+    CAST("Percentage_Coastal_habitats" AS VARCHAR) AS "Percentage_Coastal_habitats",
+    CAST("Percentage_Dune_habitats" AS VARCHAR) AS "Percentage_Dune_habitats",
+    CAST("Percentage_Forests" AS VARCHAR) AS "Percentage_Forests",
+    CAST("Percentage_Freshwater_habitats" AS VARCHAR) AS "Percentage_Freshwater_habitats",
+    CAST("Percentage_Grasslands" AS VARCHAR) AS "Percentage_Grasslands",
+    CAST("Percentage_Heath_scrub" AS VARCHAR) AS "Percentage_Heath_scrub",
+    CAST("Percentage_Rocky_habitats" AS VARCHAR) AS "Percentage_Rocky_habitats",
+    CAST("Percentage_Sclerophyllous_scrub" AS VARCHAR) AS "Percentage_Sclerophyllous_scrub"
+FROM "european-environment-agency-bise.number-composition-habitats"

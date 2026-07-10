@@ -1,0 +1,21 @@
+SELECT
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("metadata_beginLifeSpanVersion" AS VARCHAR) AS "metadata_beginLifeSpanVersion",
+    CAST("metadata_observationStatus" AS VARCHAR) AS "metadata_observationStatus",
+    CAST("metadata_statements" AS VARCHAR) AS "metadata_statements",
+    CAST("metadata_statusCode" AS VARCHAR) AS "metadata_statusCode",
+    CAST("metadata_versionId" AS VARCHAR) AS "metadata_versionId",
+    CAST("observedPropertyDeterminandBiologyEQRCode" AS VARCHAR) AS "observedPropertyDeterminandBiologyEQRCode",
+    CAST("observedPropertyDeterminandLabel" AS VARCHAR) AS "observedPropertyDeterminandLabel",
+    CAST("parameterBoundaryValueClasses12" AS VARCHAR) AS "parameterBoundaryValueClasses12",
+    CAST("parameterBoundaryValueClasses23" AS VARCHAR) AS "parameterBoundaryValueClasses23",
+    CAST("parameterBoundaryValueClasses34" AS VARCHAR) AS "parameterBoundaryValueClasses34",
+    CAST("parameterBoundaryValueClasses45" AS VARCHAR) AS "parameterBoundaryValueClasses45",
+    CAST("parameterNaturalAWBHMWB" AS VARCHAR) AS "parameterNaturalAWBHMWB",
+    CAST("parameterNCSWaterBodyType" AS VARCHAR) AS "parameterNCSWaterBodyType",
+    CAST("parameterWaterBodyCategory" AS VARCHAR) AS "parameterWaterBodyCategory",
+    CAST("procedureClassificationSystem" AS VARCHAR) AS "procedureClassificationSystem",
+    CAST("remarks" AS VARCHAR) AS "remarks",
+    CAST("resultObservationStatus" AS VARCHAR) AS "resultObservationStatus",
+    CAST("UID" AS VARCHAR) AS "UID"
+FROM "european-environment-agency-wise-soe.waterbase-t-wise2-biologyeqrclassificationprocedure"

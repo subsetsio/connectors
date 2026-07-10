@@ -1,0 +1,99 @@
+columns:
+  - name: "additionalTrendAssessment"
+    type: VARCHAR
+    description: "Required. Indicate whether additional trend assessments were applied in order to assess the impacts of existing plumes of pollution (according to Article 5(5) of the GWD)."
+  - name: "availableGroundwaterResource"
+    type: VARCHAR
+    description: "Required. Indicate whether the criterion of 'available groundwater resource' has been applied in accordance with WFD Article 2(27), which defines 'available groundwater resource' as the long-term annual average rate of overall recharge of the body of groundwater less the long-term annual rate of flow required to achieve the ecological quality objectives for associated surface waters, to avoid any significant diminution in the ecological status of such waters and to avoid any significant damage to associated terrestrial ecosystems."
+  - name: "balanceRechargeAbstraction"
+    type: VARCHAR
+    description: "Required. Report the approach used to assess the balance between recharge and abstraction of groundwater.   - Method 1: A comparison of annual average groundwater abstraction against 'available groundwater resource' was done for every groundwater body   - Method 2: A comparison of annual average groundwater abstraction against 'available groundwater resource' was done for a subset of all groundwater bodies   - Method 3: Where reliable data on groundwater levels across the groundwater body is available, it can be used to identify the presence of a sustained long-term decline in water levels caused by groundwater abstraction. Where such a decline is present it indicates that the conditions for good status are not being met and the groundwater body is considered in poor status.   - Not considered  For further information regarding abstraction, refer to CIS Guidance Document No. 18 on groundwater status and trend assessment."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "diminutionDamage"
+    type: VARCHAR
+    description: "Required. Indicate whether diminution of surface water chemical and ecological quality and damage to groundwater dependent terrestrial ecosystems due to transfer of pollutants from the groundwater body have been considered in the assessment of chemical status.   Report 'Not applicable' if there are no groundwater dependent surface water or terrestrial ecosystems.   Quality checks: Cross-schema check: 'Not applicable' is a valid choice only if GWB/GroundWaterBody/linkSurfaceWaterBody is 'No' for all groundwater bodies and GWB/GroundWaterBody/linkTerrestrialEcosystem is also 'No' for all groundwater bodies."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "impactsGWAbstractionBalance"
+    type: VARCHAR
+    description: "Required. Has whether the available groundwater resource is not exceeded by the long term annual average rate of abstraction been considered when assessing groundwater quantitative status?   For further information regarding abstraction, refer to CIS Guidance Document No. 18 on groundwater status and trend assessment."
+  - name: "impactsGWAbstractionDamageGWDE"
+    type: VARCHAR
+    description: "Required. Has significant damage to groundwater-dependent terrestrial ecosystems resulting from an anthropogenic water level alteration been considered when assessing groundwater quantitative status?   For further information regarding abstraction, refer to CIS Guidance Document No. 18 on groundwater status and trend assessment."
+  - name: "impactsGWAbstractionSalineIntrusion"
+    type: VARCHAR
+    description: "Required. Have regional saline or other intrusions resulting from anthropogenically induced sustained changes in flow direction been considered when assessing groundwater quantitative status?   For further information regarding abstraction, refer to CIS Guidance Document No. 18 on groundwater status and trend assessment."
+  - name: "impactsGWAbstractionSWDiminutionStatus"
+    type: VARCHAR
+    description: "Required. Has significant diminution in the status of surface waters resulting from anthropogenic water level alteration or change in flow conditions been considered when assessing groundwater quantitative status?   For further information regarding abstraction, refer to CIS Guidance Document No. 18 on groundwater status and trend assessment."
+  - name: "impactsGWAbstractionSWObjective"
+    type: VARCHAR
+    description: "Required. Has failure to achieve the WFD Environmental Objectives for associated surface water bodies resulting from anthropogenic water level alteration or change in flow conditions been considered when assessing groundwater quantitative status?   For further informationregarding abstraction, refer to CIS Guidance Document No. 18 on groundwater status and trend assessment."
+  - name: "methodCriterionExtentExceedance"
+    type: VARCHAR
+    description: "Required. Report which method or criterion has been applied to estimate the extent of the groundwater body that exceeds groundwater quality standards or threshold values, and what extent of the groundwater body exceeding groundwater quality standard or threshold value is considered acceptable for a groundwater body to be considered in good chemical status:  <ul>   <li>Method 1: Proportion (%) of the number of monitoring sites exceeding a groundwater quality standard or threshold value compared to the total number of monitoring sites in the whole groundwater body</li>   <li>Method 2: Proportion (%) of the total area of the groundwater body represented by monitoring sites exceeding a groundwater quality standard or threshold value compared to the total area of the groundwater body.</li>   <li>Method 3: Proportion (%) of the total volume of the groundwater body represented by monitoring sites exceeding a groundwater quality standard or threshold value compared to the total volume of the groundwater body.</li>   <li>Other</li>   <li>None</li>  </ul>  Not relevant, as no monitoring site exceeds any groundwater quality standard or threshold value for any pollutant."
+  - name: "needsTerrestrialEcosystems"
+    type: VARCHAR
+    description: "Required. Indicate whether the needs of the terrestrial ecosystems associated to groundwater bodies have been assessed. Report 'Not applicable' if there are no terrestrial ecosystems associated to groundwater bodies.   Quality checks: Cross-schema check: 'Not applicable' is a valid choice if and only if GWB/GroundWaterBody/linkTerrestrialEcosystem is 'No' for all groundwater bodies."
+  - name: "proportionExceedanceAllowed"
+    type: VARCHAR
+    description: "Conditional. If Method 1, Method 2 or Method 3 has been used to estimate the extent of the groundwater body that exceeds groundwater quality standards or threshold values, state the proportion (%) of monitoring sites, area or volume (as appropriate) where exceedance is considered acceptable for a groundwater body to be considered in good chemical status.   Quality checks: Conditional check: Report if and only if methodCriterionExtentExceedance is 'Method 1', 'Method 2' or 'Method 3'."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "statisticalElements"
+    type: VARCHAR
+    description: "Conditional. If trend assessment in groundwater pollutants was performed, select from the enumeration list which statistical element was used.   Quality checks: Conditional check: Report if and only if trendAssessmentPerformed is 'Yes'."
+  - name: "thresholdValueElementProtectionEcosystem"
+    type: VARCHAR
+    description: "Required. Has the protection of aquatic ecosystems (surface waters) been considered during the establishment of the groundwater threshold values? ."
+  - name: "thresholdValueElementProtectionGWDE"
+    type: VARCHAR
+    description: "Required. Has the protection of groundwater dependent terrestrial ecosystems (e.g. wetlands) been considered during the establishment of the groundwater threshold values? ."
+  - name: "thresholdValueElementProtectionUses"
+    type: VARCHAR
+    description: "Required. Have the actual and potential legitimate uses and functions of groundwater (e.g. drinking water, irrigation, industrial use) been considered during the establishment of the groundwater threshold values?  ."
+  - name: "thresholdValueElementSalineIntrusion"
+    type: VARCHAR
+    description: "Required. Have saline or other intrusions been considered during the establishment of the groundwater threshold values? ."
+  - name: "thresholdValuesBackgroundLevels"
+    type: VARCHAR
+    description: "Required. Report whether background levels of naturally occurring substances have been considered during the establishment of threshold values. ."
+  - name: "timeSeries"
+    type: VARCHAR
+    description: "Conditional. If trend assessment in groundwater pollutants was performed, report the starting and finishing year for that assessment, in the format YYYY--YYYY.  Quality checks: Conditional check: Report if and only if trendAssessmentPerformed is 'Yes'."
+  - name: "transboundaryGWBPresent"
+    type: VARCHAR
+    description: "Required. Indicate whether there are any transboundary groundwater bodies in the RBD.   Quality checks: Cross-schema check: 'No' should be reported if and only if GWB/GroundWaterBody/groundwaterBodyTransboundary is 'No' for all groundwater bodies."
+  - name: "transboundaryThresholdValues"
+    type: VARCHAR
+    description: "Conditional. If there are transboundary groundwater bodies, indicate whether the establishment of threshold values has been co-ordinated with the neighbouring countries concerned.  Quality checks: Conditional check: Report if and only if transboundaryGWBPresent is 'Yes'."
+  - name: "trendAssessmentMethodology"
+    type: VARCHAR
+    description: "Conditional. If trend assessment in groundwater pollutants was performed, indicate whether a methodology for identifying significant and upward trends in any pollutant's concentration has been applied.   Quality checks: Conditional check: Report if and only if trendAssessmentPerformed is 'Yes'."
+  - name: "trendAssessmentPerformed"
+    type: VARCHAR
+    description: "Required. Indicate whether trend assessment in groundwater pollutants been performed."
+  - name: "trendReversalMethodology"
+    type: VARCHAR
+    description: "Required. Indicate whether a methodology for assessing trend reversal has been established. ."

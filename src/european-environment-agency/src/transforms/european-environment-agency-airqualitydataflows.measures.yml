@@ -1,0 +1,145 @@
+columns:
+  - name: "ActualCost"
+    type: VARCHAR
+    description: "The actual costs of implementing the measure."
+  - name: "ActualImpementationBeg"
+    type: VARCHAR
+  - name: "ActualImpementationEnd"
+    type: VARCHAR
+  - name: "AdministrationLevel"
+    type: VARCHAR
+    description: "The administrative level responsible for implementation of the measure."
+  - name: "AirPollutant"
+    type: VARCHAR
+    description: "Air polluting substance (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/pollutant) for which the air quality assessment regime has been reported."
+  - name: "AQPlan_ReportingYear"
+    type: VARCHAR
+    description: "Year for which the related Air Quality Plan has been reported."
+  - name: "AQPlanId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality plan, given by data provider."
+  - name: "Attainment_ReportingYear"
+    type: VARCHAR
+    description: "Year for which the related Attainment has been reported."
+  - name: "Attainment_Year"
+    type: VARCHAR
+    description: "The calendar year for which the projections have been calculated."
+  - name: "AttainmentId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality attainment, given by data provider."
+  - name: "B2G_Namespace"
+    type: VARCHAR
+    description: "Inspire identifier/namespace of reporting entity, given by data provider."
+  - name: "Code"
+    type: VARCHAR
+    description: "Unique local code for the measure, given by data provider."
+  - name: "CostComment"
+    type: VARCHAR
+    description: "Comments / notes for clarification added to the costs information, given by data provider."
+  - name: "Country"
+    type: VARCHAR
+    description: "Country or territory name."
+  - name: "CountryCode"
+    type: VARCHAR
+    description: "Country or territory ISO2 code."
+  - name: "Currency"
+    type: VARCHAR
+    description: "The currency of the costs provided."
+  - name: "Description"
+    type: VARCHAR
+    description: "Descriptive information on the measure."
+  - name: "EmissionReduction"
+    type: VARCHAR
+    description: "The reduction in total annual emissions attributable to the measure kt/yr Emissions in the area addressed by the measure for the year for which the projections are developed."
+  - name: "EmissionReductionComment"
+    type: VARCHAR
+    description: "Comments / notes for clarification to the emission reduction, given by data provider."
+  - name: "EstimatedCosts"
+    type: VARCHAR
+    description: "Estimated costs for the implementation of the measure over its implementation life time."
+  - name: "FullEffectDate"
+    type: VARCHAR
+  - name: "H2K_Namespace"
+    type: VARCHAR
+    description: "Inspire identifier/namespace of reporting entity, given by data provider."
+  - name: "ImpactComment"
+    type: VARCHAR
+    description: "Comments / notes for clarification on the expected impact on ambient concentration of the measure, given by data provider."
+  - name: "ImpactConcDelta"
+    type: VARCHAR
+    description: "The reduction in average concentrations for the relevant long-term reporting metric as a numerical value with recommended units of ug/m3."
+  - name: "ImpactExceedanceDelta"
+    type: VARCHAR
+    description: "Expected impact in number of exceedances in the Projection yearFor short-term reporting metrics values, this information class specifies the reduction in the number of exceedances for the relevant long-term reporting metric."
+  - name: "ImpactSpecHours"
+    type: VARCHAR
+    description: "For short-term reporting metrics values, the units of measure for the number of exceedances from a codelist. Allowed values are ‘days’ or ‘hours’."
+  - name: "ImplementationComment"
+    type: VARCHAR
+  - name: "ImplementationIndicators"
+    type: VARCHAR
+  - name: "ImplementationOtherDates"
+    type: VARCHAR
+  - name: "ImplementationStatus"
+    type: VARCHAR
+  - name: "Imported"
+    type: VARCHAR
+    description: "Date and time of source data import into EEA's databases."
+  - name: "MeasureClassification"
+    type: VARCHAR
+    description: "Classification of the measure using one of a series measure tyoes. The measure classifications type available to countries are controlled by codelist, see http://dd.eionet.europa.eu/vocabulary/aq/measureclassification."
+  - name: "MeasureId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality measures, given by data provider."
+  - name: "MeasureType"
+    type: VARCHAR
+    description: "Describe the high-level implementation mechanism or scope of the measure. The measure types available to countries are controlled by codelist, see http://dd.eionet.europa.eu/vocabulary/aq/measuretype."
+  - name: "Name"
+    type: VARCHAR
+    description: "A short title of the pollution abatement measure."
+  - name: "ObjectiveType"
+    type: VARCHAR
+    description: "Objective type (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/objectivetype) for which the air quality assessment regime has been reported."
+  - name: "PlannedImplementationBeg"
+    type: VARCHAR
+  - name: "PlannedImplementationEnd"
+    type: VARCHAR
+  - name: "ProtectionTarget"
+    type: VARCHAR
+    description: "Protection target (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/protectiontarget) for which the air quality assessment regime has been reported."
+  - name: "ReportingMetric"
+    type: VARCHAR
+    description: "Reporting metric (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/reportingmetric) for which the air quality assessment regime has been reported."
+  - name: "ReportingYear"
+    type: VARCHAR
+    description: "Year for which the data flow item has been reported."
+  - name: "Scenario_ReportingYear"
+    type: VARCHAR
+    description: "Year for which the related Scenario has been reported."
+  - name: "ScenarioId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of scenario, given by data provider."
+  - name: "SourceApp_ReportingYear"
+    type: VARCHAR
+    description: "Year for which the related Source Apportionment has been reported."
+  - name: "SourceAppId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of source apportionment, given by data provider."
+  - name: "SourceDataURL"
+    type: VARCHAR
+    description: "URL of source data reported to the EEA."
+  - name: "SourceSector"
+    type: VARCHAR
+    description: "The high-level activity sector targeted by the measure."
+  - name: "SpatialScale"
+    type: VARCHAR
+    description: "The geographical scope of the measure."
+  - name: "TimeScale"
+    type: VARCHAR
+    description: "The timescale for the implementation of the measure."
+  - name: "ValidAttainmentLink"
+    type: VARCHAR
+    description: "Yes if there is valid link between measure and attainment report."
+  - name: "ZoneId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality zone, given by data provider."

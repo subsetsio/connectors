@@ -1,0 +1,20 @@
+SELECT
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryGroup" AS VARCHAR) AS "countryGroup",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("cYear" AS VARCHAR) AS "cYear",
+    CAST("euRBDCode" AS VARCHAR) AS "euRBDCode",
+    CAST("fileUrl" AS VARCHAR) AS "fileUrl",
+    CAST("hasDescriptiveData" AS VARCHAR) AS "hasDescriptiveData",
+    CAST("rbdArea" AS VARCHAR) AS "rbdArea",
+    CAST("rbdName" AS VARCHAR) AS "rbdName",
+    CAST("reportedUnderSoEQuantity" AS VARCHAR) AS "reportedUnderSoEQuantity",
+    CAST("weiNational" AS VARCHAR) AS "weiNational",
+    CAST("weiNationalYear" AS VARCHAR) AS "weiNationalYear",
+    CAST("weiRBD" AS VARCHAR) AS "weiRBD",
+    CAST("weiRBDYear" AS VARCHAR) AS "weiRBDYear",
+    CAST("weiWorst" AS VARCHAR) AS "weiWorst",
+    CAST("weiWorstMonth" AS VARCHAR) AS "weiWorstMonth",
+    CAST("wqPressure" AS VARCHAR) AS "wqPressure",
+    CAST("wqVolumeReferenceYear" AS VARCHAR) AS "wqVolumeReferenceYear"
+FROM "european-environment-agency-wise-wfd.rbmppom-waterquantity"

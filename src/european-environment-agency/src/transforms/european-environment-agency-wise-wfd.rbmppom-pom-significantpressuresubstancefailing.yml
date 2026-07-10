@@ -1,0 +1,51 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "euSubUnitCode"
+    type: VARCHAR
+    description: "Conditional. If applicable, report the unique EU code of the Sub-unit. If there are no sub-units this element does not need to be reported and the reporting of the information is done at RBD level. Sub-units are only relevant for surface water.    Quality checks: Conditional check: report if and only if RBDSUCA/RBD/subUnitsDefined is 'Yes'.    Within-schema check: euSubUnitCode must be unique.  Cross-schema check: euSubUnitCode must be consistent with the codes reported in RBDSUCA/RBD/euSubUnitCode.    Element check: Each combination of sub unit and surfaceWaterOrGroundWater can only be reported once."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "otherSubstanceFailing"
+    type: VARCHAR
+    description: "Conditional. If 'substanceFailing' is 'EEA_00-00-0 Other chemical parameter' please indicate in this field the CAS number (if relevant) and the name of the pollutant or indicator.  Quality check: Conditional check: report if and only if 'substanceFailing' is 'EEA_00-00-0 Other chemical parameter'."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "significantPressure"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list, in turn:  - each significant pressure type that is, by itself or in combination with other pressures, causing failure of surface water good ecological status or potential, or failure of good chemical status, or failure of groundwater good quantitative status  and for which measures are required to reduce the pressure to a level and extent that enables the Environmental Objectives to be met.  Quality check: Element check: the options 'No significant pressures' and 'Not applicable' are not valid.    Report if substanceFailing is NULL."
+  - name: "substanceFailing"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list, in turn:  - each RBSP that is causing failure of good ecological status or potential  - each Priority Substance that is causing failure of good chemical status  - each groundwater pollutant that is causing failure of good chemical status  and for which measures are required to reduce the pressure to a level and extent that enables the Environmental Objectives to be met.  The option 'EEA_00-00-0 Other chemical parameter' should be selected only if the substance that has to be reported is not included in the enumeration list.   Quality check: Report if significantPressure is NULL."
+  - name: "subUnitArea"
+    type: VARCHAR
+    description: "Required. Area of the Sub-unit in km2 including coastal waters."
+  - name: "subUnitName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the Sub-unit in English that is meaningful outside of the RBD or Member State."
+  - name: "surfaceWaterOrGroundwater"
+    type: VARCHAR
+    description: "Required.<b> </b>Select from the enumeration list whether measures required to achieve the WFD Environmental Objectives are being reported for surface water or groundwater. ."
+  - name: "useArticle45Beyond2027"
+    type: VARCHAR
+    description: "Required. For each significant pressure type and chemical substance reported, select from the enumeration list the estimated percentage of water bodies for which it is expected that less stringent objectives will be set under WFD Article 4(5), i.e. the percentage of water bodies that are not expected to achieve good status or potential by 2027. If the information is not available, select 'No information'."

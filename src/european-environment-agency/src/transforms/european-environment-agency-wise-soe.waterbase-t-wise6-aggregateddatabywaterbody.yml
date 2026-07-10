@@ -1,0 +1,106 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Abbreviation of EEA Member or Collaborating Country."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Timestamp when the feature or record was created. In case of reported data its the release date and time of the respective CDR envelope."
+  - name: "metadata_observationStatus"
+    type: VARCHAR
+    description: "Status of the record regarding its reliability."
+  - name: "metadata_statements"
+    type: VARCHAR
+    description: "Aditional information or statements regarding the reliability of the feature or record."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Unique metadata identifier of version of the feature or record. Url that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "observedPropertyDeterminandCode"
+    type: VARCHAR
+    description: "Unique code of the determinand monitored, as defined in the codelist."
+  - name: "observedPropertyDeterminandLabel"
+    type: VARCHAR
+    description: "Name of the determinand."
+  - name: "parameterSamplingPeriod"
+    type: VARCHAR
+    description: "The period of the year during which the data used for the aggregation were sampled."
+  - name: "parameterWaterBodyCategory"
+    type: VARCHAR
+    description: "Water body category code, as defined in the codelist."
+  - name: "phenomenonTimeReferenceYear"
+    type: VARCHAR
+    description: "Year during which the data were sampled."
+  - name: "procedureAnalysedMatrix"
+    type: VARCHAR
+    description: "Matrix where the measurement has been made."
+  - name: "procedureLOQValue"
+    type: VARCHAR
+    description: "The smallest concentration that can be distinguished from the analytical blank at a chosen level of statistical confidence (usually 95%)."
+  - name: "remarks"
+    type: VARCHAR
+    description: "Remarks, comments or explanatory notes."
+  - name: "resultMaximumValue"
+    type: VARCHAR
+    description: "Maximum sample value of the data used for aggregation."
+  - name: "resultMeanValue"
+    type: VARCHAR
+    description: "Mean value of the data used for aggregation."
+  - name: "resultMedianValue"
+    type: VARCHAR
+    description: "Median value of the data used for aggregation."
+  - name: "resultMinimumValue"
+    type: VARCHAR
+    description: "Minimum sample value of the data used for aggregation."
+  - name: "resultNumberOfSamples"
+    type: VARCHAR
+    description: "Number of sample values included in the aggregated data."
+  - name: "resultNumberOfSitesClass1"
+    type: VARCHAR
+    description: "Number of monitoring sites with annual average concentration of the given determinand within Class 1 boundaries."
+  - name: "resultNumberOfSitesClass2"
+    type: VARCHAR
+    description: "Number of monitoring sites with annual average concentration of the given determinand within Class 2 boundaries."
+  - name: "resultNumberOfSitesClass3"
+    type: VARCHAR
+    description: "Number of monitoring sites with annual average concentration of the given determinand within Class 3 boundaries."
+  - name: "resultNumberOfSitesClass4"
+    type: VARCHAR
+    description: "Number of monitoring sites with annual average concentration of the given determinand within Class 4 boundaries."
+  - name: "resultNumberOfSitesClass5"
+    type: VARCHAR
+    description: "Number of monitoring sites with annual average concentration of the given determinand within Class 5 boundaries."
+  - name: "resultObservationStatus"
+    type: VARCHAR
+    description: "Status of the observed value in terms of its availability, relevancy, correctness or specifics of its source category."
+  - name: "resultQualityMaximumBelowLOQ"
+    type: VARCHAR
+    description: "Flag to indicate whether the maximum sample value used for the aggregation was below the analytical limit of quantification (LOQ)."
+  - name: "resultQualityMeanBelowLOQ"
+    type: VARCHAR
+    description: "Flag to indicate whether the mean value is below the highest LOQ."
+  - name: "resultQualityMedianBelowLOQ"
+    type: VARCHAR
+    description: "Flag to indicate whether the median value is below the highest LOQ."
+  - name: "resultQualityMinimumBelowLOQ"
+    type: VARCHAR
+    description: "Flag to indicate whether the minimum sample value used for the aggregation was below the analytical limit of quantification (LOQ)."
+  - name: "resultQualityNumberOfSamplesBelowLOQ"
+    type: VARCHAR
+    description: "Number of sample values below LOQ included in the aggregated data."
+  - name: "resultStandardDeviationValue"
+    type: VARCHAR
+    description: "Standard deviation value of the data used for aggregation."
+  - name: "resultUom"
+    type: VARCHAR
+    description: "Unit of measure for the reported values."
+  - name: "UID"
+    type: VARCHAR
+    description: "Unique identifier of the record in the EEA WISE_SOE database."
+  - name: "waterBodyIdentifier"
+    type: VARCHAR
+    description: "Unique international identifier of the water body in which the data were obtained."
+  - name: "waterBodyIdentifierScheme"
+    type: VARCHAR
+    description: "Specification of whether the water body is a WFD water body (euGroundwaterBodyCode or euSurfaceWaterBodyCode) or not (eionetGroundwaterBodyCode or eionetSurfaceWaterBodyCode)."

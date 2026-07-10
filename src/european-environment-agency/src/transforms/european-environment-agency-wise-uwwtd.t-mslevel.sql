@@ -1,0 +1,23 @@
+SELECT
+    CAST("CountryCode" AS VARCHAR) AS "CountryCode",
+    CAST("mslDischargeOthers" AS VARCHAR) AS "mslDischargeOthers",
+    CAST("mslDischargePipelines" AS VARCHAR) AS "mslDischargePipelines",
+    CAST("mslDischargeShips" AS VARCHAR) AS "mslDischargeShips",
+    CAST("mslDisposalIncineration" AS VARCHAR) AS "mslDisposalIncineration",
+    CAST("mslDisposalLandfill" AS VARCHAR) AS "mslDisposalLandfill",
+    CAST("mslDisposalOthers" AS VARCHAR) AS "mslDisposalOthers",
+    CAST("msLevelID" AS VARCHAR) AS "msLevelID",
+    CAST("mslMS" AS VARCHAR) AS "mslMS",
+    CAST("mslRemarks" AS VARCHAR) AS "mslRemarks",
+    CAST("mslReuseOthers" AS VARCHAR) AS "mslReuseOthers",
+    CAST("mslReuseSoilAgriculture" AS VARCHAR) AS "mslReuseSoilAgriculture",
+    CAST("mslSludgeProduction" AS VARCHAR) AS "mslSludgeProduction",
+    CAST("mslWWaterTreated" AS VARCHAR) AS "mslWWaterTreated",
+    CAST("mslWWReuseAgri" AS VARCHAR) AS "mslWWReuseAgri",
+    CAST("mslWWReuseExplain" AS VARCHAR) AS "mslWWReuseExplain",
+    CAST("mslWWReuseInd" AS VARCHAR) AS "mslWWReuseInd",
+    CAST("mslWWReuseOther" AS VARCHAR) AS "mslWWReuseOther",
+    CAST("mslWWReusePerc" AS VARCHAR) AS "mslWWReusePerc",
+    CAST("repCode" AS VARCHAR) AS "repCode",
+    CAST("rptMStateKey" AS VARCHAR) AS "rptMStateKey"
+FROM "european-environment-agency-wise-uwwtd.t-mslevel"

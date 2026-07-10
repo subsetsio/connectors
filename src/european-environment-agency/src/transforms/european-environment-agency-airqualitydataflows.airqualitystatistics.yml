@@ -1,0 +1,141 @@
+columns:
+  - name: "AcceptedforProducts"
+    type: VARCHAR
+    description: "Flag filtering data accepted for products in QA feedback process."
+  - name: "AirPollutant"
+    type: VARCHAR
+    description: "Air polluting substance, level of which is measured and reported to the EEA (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/pollutant)."
+  - name: "AirPollutantCode"
+    type: VARCHAR
+    description: "Code of air polluting substance, level of which is measured and reported to the EEA (see concept URI in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/pollutant)."
+  - name: "AirPollutantDescription"
+    type: VARCHAR
+    description: "Description of air polluting substance, level of which is measured and reported to the EEA (see also in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/pollutant)."
+  - name: "AirPollutantGroup"
+    type: VARCHAR
+    description: "Grouping of air polluting substance, level of which is measured and reported to the EEA."
+  - name: "AirPollutionLevel"
+    type: VARCHAR
+    description: "Concentration or level of air polluting substance, here given as an aggregation of air pollutant concentration values from primary observation time series."
+  - name: "AirQualityNetwork"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality network, given by data provider."
+  - name: "AirQualityNetworkName"
+    type: VARCHAR
+    description: "Name of air quality measurement network, given by data provider."
+  - name: "AirQualityStation"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality station, given by data provider."
+  - name: "AirQualityStationArea"
+    type: VARCHAR
+    description: "Area of Air Quality Measurement Station - information whether it is measuring air pollution in urban, suburban, rural (etc.) environment (see in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/areaclassification)."
+  - name: "AirQualityStationEoICode"
+    type: VARCHAR
+    description: "EoI code of air quality measurement station (as in AirBase), given by data provider."
+  - name: "AirQualityStationType"
+    type: VARCHAR
+    description: "Type of Air Quality Measurement Station - information whether it is measuring background, industrial or traffic related air pollution (see in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/stationclassification)."
+  - name: "Altitude"
+    type: VARCHAR
+    description: "Altitude of the location of AQ measurement for which the statistics were calculated."
+  - name: "AQStationName"
+    type: VARCHAR
+    description: "Name of air quality measurement station, given by data provider."
+  - name: "AssessmentMethodId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of sampling point, given by data provider."
+  - name: "B2G_Namespace"
+    type: VARCHAR
+    description: "Inspire identifier/namespace of reporting entity, given by data provider."
+  - name: "CalculationTime"
+    type: VARCHAR
+    description: "Date and time of the latest statistics calculation."
+  - name: "City"
+    type: VARCHAR
+    description: "City name."
+  - name: "CityCode"
+    type: VARCHAR
+    description: "City code as specified in Eurostat's Urban Audit."
+  - name: "CityPopulation"
+    type: VARCHAR
+    description: "Population of city."
+  - name: "component_code"
+    type: VARCHAR
+    description: "Code of air polluting substance, level of which is measured and reported to the EEA (kept for backward compatibility purpose)."
+  - name: "Country"
+    type: VARCHAR
+    description: "Country or territory name."
+  - name: "CountryCode"
+    type: VARCHAR
+    description: "Country or territory ISO2 code."
+  - name: "DataAggregationProcess"
+    type: VARCHAR
+    description: "Description of process of data aggregation into annual values (see in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/aggregationprocess)."
+  - name: "DataAggregationProcessId"
+    type: VARCHAR
+    description: "Id of process of data aggregation into annual values (see in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/aggregationprocess)."
+  - name: "DataCapture"
+    type: VARCHAR
+    description: "Proportion of valid measurement time relative total measured time (time coverage) in averaging period, expressed as percentage."
+  - name: "DataCoverage"
+    type: VARCHAR
+    description: "Proportion of valid measurement included in the aggregation process within averaging period, expressed as percentage. If Data Coverage < 75% for averaging period of a year, annual statistics should not be included in air quality assessments, if Data Coverage < 85% (in a year), annual statistics should not be included in compliance checks."
+  - name: "DataCovFilterYN"
+    type: VARCHAR
+    description: "Flag filtering on Data Coverage."
+  - name: "geom"
+    type: VARCHAR
+    description: "Geometry of the location of AQ measurement for which the statistics were calculated."
+  - name: "inAQReportYN"
+    type: VARCHAR
+    description: "Flag filtering on data used in AQ Report."
+  - name: "inAttainmentYN"
+    type: VARCHAR
+    description: "Flag filtering on data used in attainment analysis."
+  - name: "Latitude"
+    type: VARCHAR
+    description: "Latitude of the location of AQ measurement for which the statistics were calculated."
+  - name: "Longitude"
+    type: VARCHAR
+    description: "Longitude of the location of AQ measurement for which the statistics were calculated."
+  - name: "observationFrequency"
+    type: VARCHAR
+    description: "Frequency of measurement as reported to the EEA (hour, day, var)."
+  - name: "OneSPOYN"
+    type: VARCHAR
+    description: "Flag filtering on single Sampling Point at monitoring site."
+  - name: "PK_auto_clustered"
+    type: VARCHAR
+  - name: "potentialOutlier"
+    type: VARCHAR
+    description: "Flag filtering  potential outliers (AQD pollutants only)."
+  - name: "RawData"
+    type: VARCHAR
+    description: "Link to raw data (only E1a/validated data from AQ e-Reporting)."
+  - name: "ReportingYear"
+    type: VARCHAR
+    description: "Year for which primary data have been reported/ statistics were calculated."
+  - name: "SamplingPoint"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of sampling point, given by data provider (kept for backward compatibility purpose)."
+  - name: "SamplingPoint_AirBase_Config"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of sampling point, given by EEA based on AirBase coding convention."
+  - name: "SourceDataFlow"
+    type: VARCHAR
+    description: "Specification of data flow which is source for raw data used for the statistics calculation."
+  - name: "Timecoverage"
+    type: VARCHAR
+    description: "Proportion of total measured time, calculated from start and end time of observation, within the full averaging period, expressed as percentage."
+  - name: "UnitOfAirpollutionLevel"
+    type: VARCHAR
+    description: "Unit of concentration or level of air polluting substance (see in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/uom/concentration)."
+  - name: "usedInCYN"
+    type: VARCHAR
+    description: "Flag filtering on Sampling Points declared in data flow C."
+  - name: "Verification"
+    type: VARCHAR
+    description: "Information based on verification flags found in reported time series (see in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/observationverification)."
+  - name: "YearOfStatistics"
+    type: VARCHAR
+    description: "Year for which primary data have been reported/ statistics were calculated (kept for backward compatibility purpose)."

@@ -1,0 +1,70 @@
+columns:
+  - name: "confidentialityStatus"
+    type: VARCHAR
+    description: "Information about the sensitivity and confidentiality status of the monitoring site location."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Abbreviation of EEA Member or Collaborating Country."
+  - name: "lat"
+    type: VARCHAR
+    description: "Latitude of the monitoring site. It is not provided for monitoring sites where publication is restricted."
+  - name: "lon"
+    type: VARCHAR
+    description: "Longitude of the monitoring site. It is not provided for monitoring sites where publication is restricted."
+  - name: "monitoringSiteIdentifier"
+    type: VARCHAR
+    description: "Unique international identifier of the monitoring site."
+  - name: "monitoringSiteIdentifierScheme"
+    type: VARCHAR
+    description: "Specification of whether the monitoring site is a WFD monitoring site (euMonitoringSiteCode) or not (eionetMonitoringSiteCode)."
+  - name: "monitoringSiteName"
+    type: VARCHAR
+    description: "Name of the monitoring site."
+  - name: "naturalAWBHMWB"
+    type: VARCHAR
+    description: "Specification of whether a water body is identified as natural, artificial (AWB) or heavily modified (HMWB)."
+  - name: "rbdIdentifier"
+    type: VARCHAR
+    description: "Unique international identifier of the river basin district."
+  - name: "rbdIdentifierScheme"
+    type: VARCHAR
+    description: "Identifier defining the scheme assigned to the spatial object identifier."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Name of the river basin district."
+  - name: "reservoir"
+    type: VARCHAR
+    description: "For heavily modified river or lake water bodies, the value indicates whether the water body is a reservoir that has been created by damming a river or an existing lake."
+  - name: "specialisedZoneType"
+    type: VARCHAR
+    description: "Additional classification value which further specialises the type of management, regulation or restriction zone, represented by this spatial object."
+  - name: "statusCode"
+    type: VARCHAR
+    description: "Status of the feature or record regarding its registration."
+  - name: "subUnitIdentifier"
+    type: VARCHAR
+    description: "Unique international identifier of the river basin district sub-unit."
+  - name: "subUnitIdentifierScheme"
+    type: VARCHAR
+    description: "Identifier defining the scheme assigned to the spatial object identifier."
+  - name: "subUnitName"
+    type: VARCHAR
+    description: "Name of the river basin district sub-unit."
+  - name: "surfaceWaterBodyTypeCode"
+    type: VARCHAR
+    description: "Member State code for the characterisation type of the surface water body under the WFD."
+  - name: "thematicIdIdentifier"
+    type: VARCHAR
+    description: "Unique identifier of the spatial object."
+  - name: "thematicIdIdentifierScheme"
+    type: VARCHAR
+    description: "Identifier defining the scheme used to assign the thematic identifier."
+  - name: "waterBodyIdentifier"
+    type: VARCHAR
+    description: "Unique international identifier of the water body being monitored."
+  - name: "waterBodyIdentifierScheme"
+    type: VARCHAR
+    description: "Specification of whether the water body is a WFD water body (euGroundwaterBodyCode or euSurfaceWaterBodyCode) or not (eionetGroundwaterBodyCode or eionetSurfaceWaterBodyCode)."
+  - name: "waterBodyName"
+    type: VARCHAR
+    description: "Name of the water body."

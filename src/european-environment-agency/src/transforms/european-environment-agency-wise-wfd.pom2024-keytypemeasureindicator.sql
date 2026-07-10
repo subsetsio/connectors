@@ -1,0 +1,23 @@
+SELECT
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryGroup" AS VARCHAR) AS "countryGroup",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("cYear" AS VARCHAR) AS "cYear",
+    CAST("euRBDCode" AS VARCHAR) AS "euRBDCode",
+    CAST("euSubUnitCode" AS VARCHAR) AS "euSubUnitCode",
+    CAST("fileUrl" AS VARCHAR) AS "fileUrl",
+    CAST("hasDescriptiveData" AS VARCHAR) AS "hasDescriptiveData",
+    CAST("keyTypeMeasure" AS VARCHAR) AS "keyTypeMeasure",
+    CAST("keyTypeMeasureIndicator" AS VARCHAR) AS "keyTypeMeasureIndicator",
+    CAST("keyTypeMeasureIndicatorOther" AS VARCHAR) AS "keyTypeMeasureIndicatorOther",
+    CAST("keyTypeMeasureIndicatorValue2024" AS VARCHAR) AS "keyTypeMeasureIndicatorValue2024",
+    CAST("keyTypeMeasureIndicatorValue2027" AS VARCHAR) AS "keyTypeMeasureIndicatorValue2027",
+    CAST("keyTypeMeasureIndicatorValue2033" AS VARCHAR) AS "keyTypeMeasureIndicatorValue2033",
+    CAST("keyTypeMeasureOther" AS VARCHAR) AS "keyTypeMeasureOther",
+    CAST("otherSubstanceFailing" AS VARCHAR) AS "otherSubstanceFailing",
+    CAST("rbdArea" AS VARCHAR) AS "rbdArea",
+    CAST("rbdName" AS VARCHAR) AS "rbdName",
+    CAST("significantPressure" AS VARCHAR) AS "significantPressure",
+    CAST("substanceFailing" AS VARCHAR) AS "substanceFailing",
+    CAST("surfaceWaterOrGroundwater" AS VARCHAR) AS "surfaceWaterOrGroundwater"
+FROM "european-environment-agency-wise-wfd.pom2024-keytypemeasureindicator"

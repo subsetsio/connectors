@@ -1,0 +1,16 @@
+columns:
+  - name: "excludeRecords"
+    type: VARCHAR
+    description: "Flag that indicates if a record with a given quality control flag should be excluded from the data processing."
+  - name: "n"
+    type: VARCHAR
+    description: "Number of records."
+  - name: "recordQualityState"
+    type: VARCHAR
+    description: "Data management attribute: error, warning, info."
+  - name: "recordTable"
+    type: VARCHAR
+    description: "Data management attribute: source table in Waterbase."
+  - name: "statementLabel"
+    type: VARCHAR
+    description: "Data management attribute: quality control code in Waterbase."

@@ -1,0 +1,48 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "NCSWaterBodyType"
+    type: VARCHAR
+    description: "Water body type in the National Classification System."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "swTypeCategory"
+    type: VARCHAR
+    description: "Report the category of surface water bodies to which this type refers.  'RW' = River water bodies.  'TW' = Transitional water bodies.  'LW' = Lake water bodies.  'CW' = Coastal water bodies.  ."
+  - name: "swTypeCode"
+    type: VARCHAR
+    description: "Required. Member State code for each characterisation type of surface water bodies. If typology for HMWBs and/or AWBs has been derived and used it should be reported here.  For the sake of clarity, please report only the characterisation types that were used for one or more surface water bodies.  Quality assurance checks: Cross-schema check: The reported swTypeCode must be consistent with the codes reported in SWB/SurfaceWaterBody/surfaceWaterBodyTypeCode.  ."
+  - name: "swTypeDescription"
+    type: VARCHAR
+    description: "Required. Briefly describe the type (e.g. 'small, lowland, siliceous rivers'). Provide a reference to where further details can be found in the RBMP and/or background documents."
+  - name: "swTypeSpecificHyMoConditions"
+    type: VARCHAR
+    description: ": Required. Indicate whether type-specific hydromorphological conditions have been established for this surface water type for all relevant hydromorphological QEs.  'All': Hydromorphological conditions have been set for this type for all relevant hydromorphological QEs  'Some': Hydromorphological conditions have been set for this type for some hydromorphological QEs  'None': Hydromorphological conditions have not been set for this type for any hydromorphological QEs."
+  - name: "swTypeSpecificPhysChemConditions"
+    type: VARCHAR
+    description: "Required. Indicate whether type-specific reference conditions have been established for this surface water type for all relevant physico-chemical QEs:  'All': Physicochemical conditions have been set for this type for all relevant physico-chemical QEs  'Some': Physicochemical conditions have been set for this type for some physico-chemical QEs  'None': Physicochemical conditions have not been set for this type for any physico-chemical QEs."
+  - name: "swTypeSpecificReferenceConditionsForBQEs"
+    type: VARCHAR
+    description: "Required. Indicate whether type-specific reference conditions have been established for this surface water type for all relevant BQEs:  'All': Reference conditions have been set for this type for all relevant BQEs  'Some': Reference conditions have been set for this type for some BQEs  'None': Reference conditions have not been set for this type for any BQEs."

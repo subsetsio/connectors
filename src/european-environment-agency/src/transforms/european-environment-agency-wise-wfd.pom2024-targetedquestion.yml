@@ -1,0 +1,127 @@
+columns:
+  - name: "basicMeasuresArt113b-lReference"
+    type: VARCHAR
+    description: "Required. Provide references or hyperlinks to the relevant document and section where specific information can be found on the application of basic measures (Article 11(3)(b-l)). Guidance on what should be included in this document is provided in Section 10.2.1.2. ."
+  - name: "basicMeasuresArt113c"
+    type: VARCHAR
+    description: "Required. Indicate whether there are measures promoting efficient and sustainable water use in order to avoid compromising the achievement of the objectives specified in Article 4 (e.g. water metering and allocations) (Article 11(3)(c))."
+  - name: "basicMeasuresArt113d"
+    type: VARCHAR
+    description: "Required. Indicate whether there are measures to meet the requirements of Article 7, including measures to safeguard water quality in order to reduce the level of purification treatment required for the production of drinking water (Article 11(3)(d))."
+  - name: "basicMeasuresArt113eImpoundment"
+    type: VARCHAR
+    description: "Required. Indicate whether there is a concession, authorisation and/or permitting regime to control water impoundment, and/or a register of impoundments (Article 11(3)(e))."
+  - name: "basicMeasuresArt113ePermit"
+    type: VARCHAR
+    description: "Required. Indicate whether there is a concession, authorisation and/or permitting regime to control water abstractions (Article 11(3)(e))."
+  - name: "basicMeasuresArt113eRegister"
+    type: VARCHAR
+    description: "Required. Indicate whether there is a register of abstractions (Article 11(3)(e))."
+  - name: "basicMeasuresArt113eThreshold"
+    type: VARCHAR
+    description: "Conditional. If there is a concession / authorisation / permitting regime and/or a register, indicate whether there are thresholds below which abstractions do not require permits and are not subject to registration (Article 11(3)(e))."
+  - name: "basicMeasuresArt113f"
+    type: VARCHAR
+    description: "Required. Indicate whether controls are in place, including a requirement for prior authorisation, of artificial recharge or augmentation of groundwater bodies (Article 11(3)(f))."
+  - name: "basicMeasuresArt113gPermit"
+    type: VARCHAR
+    description: "Required. Indicate whether there is an authorisation and/or permitting regime to control waste water point source discharges (Article 11(3)(g))."
+  - name: "basicMeasuresArt113gRegister"
+    type: VARCHAR
+    description: "Required. Indicate whether there is a register of waste water point source discharges (Article 11(3)(g))."
+  - name: "basicMeasuresArt113gThreshold"
+    type: VARCHAR
+    description: "Conditional. If there is an authorisation / permitting regime and/or a register of waste water point source discharges, indicate whether there are thresholds below which waste water discharges do not require permits and are not subject to registration (Article 11(3)(g))."
+  - name: "basicMeasuresArt113hIssues"
+    type: VARCHAR
+    description: "Conditional. If there are general binding rules, report the issues that they cover."
+  - name: "basicMeasuresArt113hRules"
+    type: VARCHAR
+    description: "Required. Indicate whether there are general binding rules for the control of diffuse pollution from agriculture."
+  - name: "basicMeasuresArt113iPermit"
+    type: VARCHAR
+    description: "Required. Indicate whether there is an authorisation and/or permitting regime to control physical modifications to water bodies."
+  - name: "basicMeasuresArt113iRegister"
+    type: VARCHAR
+    description: "Required. Indicate whether there is a register of physical modifications of water bodies."
+  - name: "basicMeasuresArt113iRiparian"
+    type: VARCHAR
+    description: "Conditional. If there is an authorisation and/or permitting regime to control physical modifications to the water bodies, indicate whether the regime covers changes to the riparian area of water bodies."
+  - name: "basicMeasuresArt113j"
+    type: VARCHAR
+    description: "Required. Indicate whether there is a prohibition of direct discharges (Article 11(3)(j))."
+  - name: "basicMeasuresArt113k"
+    type: VARCHAR
+    description: "Required. Indicate whether, in accordance with action taken pursuant to Article 16, there are measures to eliminate pollution of surface waters by Priority Substances and to progressively reduce pollution by other substances which would otherwise prevent Member States from achieving the Environmental Objectives set out in Article 4 (Article 11(3)(k))."
+  - name: "climateChange"
+    type: VARCHAR
+    description: "Required. Indicate whether projected climate changes have been assessed and taken into account in the third RBMP and PoM."
+  - name: "climateChangeAspectsImplemented"
+    type: VARCHAR
+    description: "Conditional. If aspects related to climate change have been included in the RBMP as a measure in terms of managing water resources, have the corresponding measures been implemented? If no specific measures were planned, please report 'No measures have started'. Conditional check: Report if climateChange is 'yes'."
+  - name: "climateChangeGuidance"
+    type: VARCHAR
+    description: "<font color=\"#808080\">Conditional. If climate change has been taken into account, indicate whether the CIS Guidance Document No. 24 ‘River basin in a changing climate’126 has been used for this purpose.</font>."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2024 for the Progress on the Program of Measures reporting for 3rd River Basin Management Plans (PoM2024)."
+  - name: "ecologicalFlow"
+    type: VARCHAR
+    description: "Required. Indicate whether ecological flows have been derived for all water bodies at risk of failing the Environmental Objectives due to abstractions, flow diversions or impoundments."
+  - name: "ecologicalFlowImplementation"
+    type: VARCHAR
+    description: "Conditional. If ecological flows have been derived, indicate whether they have been implemented in all relevant water bodies."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Unique EU code of the River Basin District. Required. This element can be pre-filled.  A FeatureUniqueEUCodeType identifier must follow the syntax of the WISE identifiers. It must start with the two-letter country code of the Member State, followed by one character that can be a digit or an uppercase letter, followed by a sequence of characters (0 to 38 characters long) that can be digits or uppercase letters, with no consecutive double hyphens or double underscores, but allowing for single hyphens or underscores between characters. The code can optionally end with one character that can be a digit or an uppercase letter.  Examples: FR123, FR1_XYZ1234_1, FR1-XYZ1234-1, FR1XYZ12341 but not FR1__XYZ1234__1 or FRa123."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: pseudo-URL of data delivery."
+  - name: "floodsDirective"
+    type: VARCHAR
+    description: "Required. The Floods Directive requires the development of the Flood Risk Management Plans to be carried out in co-ordination with the review of the RBMPs. Indicate whether the objectives and requirements of the Floods Directive have been considered in the third RBMP and PoM."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+    description: "Data management attribute: 1, if structure descriptive data has been delivered; 0, if not."
+  - name: "msfdAssessment"
+    type: VARCHAR
+    description: "Required. Indicate whether the need for additional measures or more stringent measures beyond those required by the WFD, in order to contribute to the achievement of the relevant MSFD objectives in coastal and marine environments, have been considered in the PoM. Report 'notRelevant' for the French Overseas Territories and for landlocked countries if there was no coordination with the MSFD. Please note, however, that measures taken in a landlocked country may well be relevant for the MSFD (e.g. reduction of nutrients in rivers may have an impact on eutrophication in marine waters). If this possible relevance was considered, you should report 'yes' or 'no'."
+  - name: "msfdCoOrdination"
+    type: VARCHAR
+    description: "Required. Indicate whether the preparations of the RBMP and PoM have been co-ordinated with the implementation of the Marine Strategy Framework Directive. Report 'notRelevant' for the French Overseas Territories and for landlocked countries if there was no coordination with the MSFD. Please note, however, that measures taken in a landlocked country may well be relevant for the MSFD (e.g. reduction of nutrients in rivers may have an impact on eutrophication in marine waters). If this possible relevance was considered, you should report 'yes' or 'no'."
+  - name: "msfdMeasuresImplemented"
+    type: VARCHAR
+    description: "Conditional. If the need for additional measures or more stringent measures beyond those required by the WFD in order to achieve the relevant MSFD objectives in coastal and marine environments have been considered in the PoM, select the additional measures that were implemented. Conditional check: report if msfdMeasuresNeeded is anything except 'none'. Do not report if msfdMeasuresNeeded is 'none'."
+  - name: "msfdMeasuresNeeded"
+    type: VARCHAR
+    description: "Conditional. If the need for additional measures or more stringent measures beyond those required by the WFD, in order to achieve the relevant MSFD objectives in coastal and marine environments, have been considered in the PoM, select from the enumeration list the additional measures needed to meet the MSFD objectives. 'none' should be selected if the need for additional measures was considered but the conclusion was that no additional measures are needed."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "structuralMeasures"
+    type: VARCHAR
+    description: "Required. Indicate whether the design of new and existing structural measures, such as flood defences, storage dams and tidal barriers, have been adapted to take into account WFD Environmental Objectives."
+  - name: "waterReUseMeasure"
+    type: VARCHAR
+    description: "Required. Indicate whether re-use of water has been included in the RBMP as a measure for managing water resources."
+  - name: "waterReUseMeasureImplemented"
+    type: VARCHAR
+    description: "Conditional. If re-use of water has been included in the RBMP as a measure in terms of managing water resources, has it been implemented? Conditional check: report if waterReUseMeasure is 'yes', otherwise do not report."
+  - name: "winWinNWRMDroughtsFloods"
+    type: VARCHAR
+    description: "Required. Indicate whether specific win-win measures in terms of achieving the objectives of the WFD and Floods Directive, drought management and use of Natural Water Retention Measures (NWRM) have been included in the PoM."
+  - name: "winWinNWRMDroughtsFloodsImplemented"
+    type: VARCHAR
+    description: "Conditional. If specific win-win measures in terms of achieving the objectives of the WFD and Floods Directive, drought management and use of Natural Water Retention Measures (NWRM), have been included in the RBMP, have they been implemented? Conditional check: report if winWindNWRMDroughtsFloods is 'yes', otherwise do not report."

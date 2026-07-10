@@ -1,0 +1,61 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2024 for the Progress on the Program of Measures reporting for 3rd River Basin Management Plans (PoM2024)."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Unique EU code of the River Basin District. Required. This element can be pre-filled.  A FeatureUniqueEUCodeType identifier must follow the syntax of the WISE identifiers. It must start with the two-letter country code of the Member State, followed by one character that can be a digit or an uppercase letter, followed by a sequence of characters (0 to 38 characters long) that can be digits or uppercase letters, with no consecutive double hyphens or double underscores, but allowing for single hyphens or underscores between characters. The code can optionally end with one character that can be a digit or an uppercase letter.  Examples: FR123, FR1_XYZ1234_1, FR1-XYZ1234-1, FR1XYZ12341 but not FR1__XYZ1234__1 or FRa123."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: pseudo-URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+    description: "Data management attribute: 1, if structure descriptive data has been delivered; 0, if not."
+  - name: "newRegulation"
+    type: VARCHAR
+    description: "Required. Indicate whether new legislation or regulations were required to implement the PoMs of the previous cycle."
+  - name: "obstaclesDelays"
+    type: VARCHAR
+    description: "Required. Have unexpected planning delays presented an obstacle to the implementation of the PoMs?."
+  - name: "obstaclesExtremeEvents"
+    type: VARCHAR
+    description: "Required. Have any unexpected extreme events presented an obstacle to the implementation of the PoMs?."
+  - name: "obstaclesGovernance"
+    type: VARCHAR
+    description: "Required. Have governance issues presented an obstacle to the implementation of the PoMs?."
+  - name: "obstaclesLackOfFinance"
+    type: VARCHAR
+    description: "Required. Has a lack of finance presented an obstacle to the implementation of the PoMs?."
+  - name: "obstaclesLackOfMeasures"
+    type: VARCHAR
+    description: "Required. Has a lack of effective measures presented an obstacle to the implementation of the PoMs?."
+  - name: "obstaclesLackOfMechanism"
+    type: VARCHAR
+    description: "Required. Has the lack of a mechanism for implementing measures (e.g. national regulations not yet adopted) presented an obstacle to the implementation of the PoMs?."
+  - name: "obstaclesNotCostEffective"
+    type: VARCHAR
+    description: "Required. Have some planned measures no longer being considered to be cost effective, therefore presenting an obstacle to the implementation of the PoMs?."
+  - name: "obstaclesOther"
+    type: VARCHAR
+    description: "Optional. Report if other obstacles were encountered in the implementation of the PoMs. More than one other obstacle may be reported in the same string."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "rbmpGeneralProgress"
+    type: VARCHAR
+    description: "The information to be reported here, will provide an overview of the progress made in implementing measures until the start of the next cycle. Optional. Report a brief description of the progress achieved since the third RBMP, in particular on the reduction of pressures achieved and measures taken. ."
+  - name: "statusImplementationPoM"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list the description that best fits the level of implementation of the PoMs in the RBD since the third RBMP."

@@ -1,0 +1,35 @@
+columns:
+  - name: "competentAuthority"
+    type: VARCHAR
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "cYear"
+    type: VARCHAR
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "permitIdentifier"
+    type: VARCHAR
+    description: "unique European identifier for the permit. Permit is a written authorisation issued by a competent authority to produce or supply reclaimed water for agricultural irrigation in accordance with this Regulation\nGuidance: reporting is required."
+  - name: "remarks"
+    type: VARCHAR
+    description: "additional information about the record, in English or in the national language.\nGuidance: reporting is optional."
+  - name: "volumeOfWaterSupplied"
+    type: VARCHAR
+    description: "total annual volume of reclaimed water supplied, in cubic metre (m3/year).\nGuidance: reporting is required."
+  - name: "waterQualityClass"
+    type: VARCHAR
+    description: "Water quality class as permitted by the competent authority. \nGuidance: reporting is required."
+  - name: "year"
+    type: VARCHAR
+    description: "year of reference for the reported data, in the format YYYY.\nGuidance: reporting is required."

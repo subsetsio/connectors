@@ -1,0 +1,23 @@
+SELECT
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryGroup" AS VARCHAR) AS "countryGroup",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("eeaIndicator" AS VARCHAR) AS "eeaIndicator",
+    CAST("maxGapLongTimeSeries" AS VARCHAR) AS "maxGapLongTimeSeries",
+    CAST("maxGapShortTimeSeries" AS VARCHAR) AS "maxGapShortTimeSeries",
+    CAST("maxYear" AS VARCHAR) AS "maxYear",
+    CAST("meanValue" AS VARCHAR) AS "meanValue",
+    CAST("minYear" AS VARCHAR) AS "minYear",
+    CAST("monitoringSiteIdentifier" AS VARCHAR) AS "monitoringSiteIdentifier",
+    CAST("monitoringSiteIdentifierScheme" AS VARCHAR) AS "monitoringSiteIdentifierScheme",
+    CAST("monitoringSiteStatusCode" AS VARCHAR) AS "monitoringSiteStatusCode",
+    CAST("numberOfYears" AS VARCHAR) AS "numberOfYears",
+    CAST("parameterNaturalAWBHMWB" AS VARCHAR) AS "parameterNaturalAWBHMWB",
+    CAST("parameterNCSWaterBodyType" AS VARCHAR) AS "parameterNCSWaterBodyType",
+    CAST("qualityElementCode" AS VARCHAR) AS "qualityElementCode",
+    CAST("resultUom" AS VARCHAR) AS "resultUom",
+    CAST("seriesSpan" AS VARCHAR) AS "seriesSpan",
+    CAST("seriesUID" AS VARCHAR) AS "seriesUID",
+    CAST("stdevValue" AS VARCHAR) AS "stdevValue",
+    CAST("waterBodyCategory" AS VARCHAR) AS "waterBodyCategory"
+FROM "european-environment-agency-wise-indicators.biologyeqrdata-summary"

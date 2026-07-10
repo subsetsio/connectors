@@ -1,0 +1,20 @@
+SELECT
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryGroup" AS VARCHAR) AS "countryGroup",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("cYear" AS VARCHAR) AS "cYear",
+    CAST("euRBDCode" AS VARCHAR) AS "euRBDCode",
+    CAST("fileUrl" AS VARCHAR) AS "fileUrl",
+    CAST("hasDescriptiveData" AS VARCHAR) AS "hasDescriptiveData",
+    CAST("rbdArea" AS VARCHAR) AS "rbdArea",
+    CAST("rbdName" AS VARCHAR) AS "rbdName",
+    CAST("swPressuresNotAssessed" AS VARCHAR) AS "swPressuresNotAssessed",
+    CAST("swPressuresNotAssessedGroup" AS VARCHAR) AS "swPressuresNotAssessedGroup",
+    CAST("swSignificanceDefinition" AS VARCHAR) AS "swSignificanceDefinition",
+    CAST("swSignificanceLinkFailure" AS VARCHAR) AS "swSignificanceLinkFailure",
+    CAST("swSignificantPressureDiffuseSourceTools" AS VARCHAR) AS "swSignificantPressureDiffuseSourceTools",
+    CAST("swSignificantPressureOtherSourceTools" AS VARCHAR) AS "swSignificantPressureOtherSourceTools",
+    CAST("swSignificantPressurePointSourceTools" AS VARCHAR) AS "swSignificantPressurePointSourceTools",
+    CAST("swSignificantPressureWaterAbstractionTools" AS VARCHAR) AS "swSignificantPressureWaterAbstractionTools",
+    CAST("swSignificantPressureWaterFlowTools" AS VARCHAR) AS "swSignificantPressureWaterFlowTools"
+FROM "european-environment-agency-wise-wfd.swmet-swpressures-swpressuresnotassessed"

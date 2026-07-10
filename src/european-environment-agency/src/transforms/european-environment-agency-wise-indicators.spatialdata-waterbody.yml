@@ -1,0 +1,70 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Data management attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "lat"
+    type: VARCHAR
+    description: "Data management attribute: Latitude of a representative point, in decimal degrees (WGS84)."
+  - name: "lon"
+    type: VARCHAR
+    description: "Data management attribute: Longitude of a representative point, in decimal degrees (WGS84)."
+  - name: "naturalAWBHMWB"
+    type: VARCHAR
+    description: "Required. Indicate whether the surface water body is natural or artificial or heavily modified. Note: a water body cannot be both artificial and heavily modified. A reservoir may be artificial (e.g. constructed for bankside storage) or heavily modified (e.g. a dammed or impounded river). A canal may be artificial (e.g. specifically constructed for navigation where there was no surface water body before) or heavily modified (e.g. a river that has been deepened or widened or similarly engineered for navigation). The identification of the category for artificial water bodies (AWBs) or heavily modified water bodies (HMWBs) as described in the Category element does not preclude any decision regarding the factors to use in deriving typology and the quality elements to use in the assessment of the AWBs or HMWBs. According to the WFD Annex II, 1.1.v, the typology differentiation should be undertaken in accordance with the descriptors for whichever natural surface water category most closely resembles the AWB or HMWB concerned. Similarly, the quality elements should be those applicable to whichever natural surface water category most closely resembles the AWB or HMWB (WFD Annex V, 1.1.5). This means that reservoirs made by damming rivers may be categorised as heavily modified rivers but should be typified and assessed using the elements and tools for lakes, as lakes is the natural surface water category which reservoirs most closely resemble. The option \"Natural\" should be chosen for territorial waters. Quality checks: The option Natural must be chosen if surfaceWaterBodyCategory is TeW. ."
+  - name: "qcLatLonSource"
+    type: VARCHAR
+    description: "Data management attribute: source of the latitude and longitude values."
+  - name: "rbdIdentifier"
+    type: VARCHAR
+    description: "Unique international identifier of the river basin district."
+  - name: "rbdIdentifierScheme"
+    type: VARCHAR
+    description: "Identifier defining the scheme assigned to the spatial object identifier."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Name of the river basin district."
+  - name: "reservoir"
+    type: VARCHAR
+    description: "Conditional. For heavily modified river or lake water bodies, indicate whether the water body is a reservoir that has been created by damming a river (Yes, it is a reservoir and the water body was originally a river) or an existing lake (No, it is a reservoir but the water body was originally a lake). It is the recommendation of this Guidance that reservoirs formed by damming rivers should be reported as heavily modified river water bodies.However, Member States may choose to report reservoirs formed by damming rivers as lake water bodies if they wish. The reservoir schema element must be reported so that Member States can clarify the designation. Yes, it is a reservoir and the water body was originally a river = Select only if the whole surface water body represents a reservoir (or part of a reservoir) created by damming a river. (surfaceWaterBodyCategory must be reported as RW and naturalAWBHMWB as Heavily Modified). No, it is a reservoir but the water body was originally a lake = Select if the whole surface water body represents a reservoir (or part of a reservoir) created by modifying an existing lake, or if the surface water body includes some small reservoirs which are not significant enough to be identified as separate surface water bodies. (surfaceWaterBodyCategory must be reported as LW and naturalAWBHMWB as Heavily Modified). Unclear, it is a reservoir but originally included chained rivers and lakes = Select in such cases where the reservoir has been created by damming a water body which contained chained rivers and lakes. (surfaceWaterBodyCategory must be reported as RW or LW and naturalAWBHMWB as Heavily Modified). The water body is not a reservoir = Indicates that the river or lake water body is not a reservoir. Quality checks: Conditional check: Report if surfaceWaterBodyCategory is RW or LW AND naturalHeavilyModified is Heavily Modified."
+  - name: "sizeUom"
+    type: VARCHAR
+    description: "Data management attribute: Unit of measurement for the sizeValue attribute. Length values in kilometre (km). Area values in square kilometre (km2)."
+  - name: "sizeValue"
+    type: VARCHAR
+    description: "Data management attribute: Length value in kilometre, or Area value in square kilometre."
+  - name: "spatialUnitIdentifier"
+    type: VARCHAR
+    description: "Unique identifier of the associated spatial unit (subunit, river basin district or country)."
+  - name: "spatialUnitIdentifierScheme"
+    type: VARCHAR
+    description: "Scheme applicable to the spatial unit identifier."
+  - name: "spatialUnitName"
+    type: VARCHAR
+    description: "Name of the spatial unit."
+  - name: "statusCode"
+    type: VARCHAR
+    description: "Data management attribute: See definitions in http://dd.eionet.europa.eu/vocabulary/datadictionary/status/."
+  - name: "statusDate"
+    type: VARCHAR
+    description: "Data management attribute:Date when the statusCode was assigned."
+  - name: "surfaceWaterBodyTypeCode"
+    type: VARCHAR
+    description: "Required. Member State code for the characterisation type of the surface water body, as reported in the surface water methodology schema (SWMET), and the RBMP and background documents. Report Not applicable for territorial waters. Quality checks: Within-schema check: Not applicable should be reported only if surfaceWaterBodyCategory is TeW. Cross-schema check: The reported surfaceWaterBodyTypeCode must be consistent with the codes reported in SWMET/SWType/swTypeCode."
+  - name: "waterBodyCategory"
+    type: VARCHAR
+    description: "Water body category code. GW = Groundwater body, RW = River, LW = Lake, TW = Transitional water body, CW = Coastal water body, TeW = Territorial waters."
+  - name: "waterBodyIdentifier"
+    type: VARCHAR
+    description: "Unique identifier of the associated surface water body."
+  - name: "waterBodyIdentifierScheme"
+    type: VARCHAR
+    description: "Specification of whether the water body is a WFD water body (euGroundwaterBodyCode or euSurfaceWaterBodyCode) or not (eionetGroundwaterBodyCode or eionetSurfaceWaterBodyCode)."
+  - name: "waterBodyName"
+    type: VARCHAR
+    description: "Name of the water body."

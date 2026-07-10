@@ -1,0 +1,60 @@
+columns:
+  - name: "article94"
+    type: VARCHAR
+    description: "Required.<b> </b>Has Article 9(4) been applied for any water uses?."
+  - name: "article9DrinkingWater"
+    type: VARCHAR
+    description: "Required.<b> </b>Has cost recovery, as specified in Article 9(1), been applied to drinking water abstraction (surface and/or groundwater), treatment and distribution? ."
+  - name: "article9FloodProtection"
+    type: VARCHAR
+    description: "Required.<b> </b>Has cost recovery, as specified in Article 9(1), been applied to impoundments for flood protection?  ."
+  - name: "article9Irrigation"
+    type: VARCHAR
+    description: "Required.<b> </b>Has cost recovery, as specified in Article 9(1), been applied to irrigation water abstraction, treatment and distribution? ."
+  - name: "article9Navigation"
+    type: VARCHAR
+    description: "Required.<b> </b>Has cost recovery, as specified in Article 9(1), been applied to impoundments for navigation?."
+  - name: "article9Other"
+    type: VARCHAR
+    description: "Required. Report if cost recovery, as specified in Article 9(1), is applied to any water service or water service-use combination not covered in the previous questions. More than one other water service or water service-use combination may be reported in the same string. If cost recovery is not applied to any other water service or water service-use combination, report 'None'."
+  - name: "article9SelfAbstraction"
+    type: VARCHAR
+    description: "Required.<b> </b>Has cost recovery, as specified in Article 9(1), been applied to self-abstraction? ."
+  - name: "article9Wastewater"
+    type: VARCHAR
+    description: "Required.<b> </b>Has cost recovery, as specified in Article 9(1), been applied to sewage collection and wastewater treatment? ."
+  - name: "article9WaterStorage"
+    type: VARCHAR
+    description: "Required.<b> </b>Has cost recovery, as specified in Article 9(1), been applied to impoundment and storage of water?."
+  - name: "costEffectiveness"
+    type: VARCHAR
+    description: "Required. Indicate whether a cost-effectiveness analysis has been carried out for supporting the selection of measures proposed in the PoM, and the general type of assessment carried out.       ."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "updatedEconomicAnalysis"
+    type: VARCHAR
+    description: "Required. Indicate whether the economic analysis of water use was updated for the third RBMP. ."

@@ -1,0 +1,121 @@
+columns:
+  - name: "classObservationStatus"
+    type: VARCHAR
+    description: "Type of classValue. O = missing; E = estimated from reported values; I = imputed from gap filled values."
+  - name: "classValue"
+    type: VARCHAR
+    description: "Class {1,2,3,4,5} assigned to the observation, if applicable."
+  - name: "confidentialityStatus"
+    type: VARCHAR
+    description: "Information about the sensitivity and confidentiality status of the monitoring site location."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Data management attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "eeaIndicator"
+    type: VARCHAR
+    description: "Ammonium, Benthic invertebrates, BOD5, Chlorophyll a, Cyanobacteria biomass, Cyanobacteria proportion, Dissolved organic carbon (DOC), Macrophytes, Nitrate, Nitrite, Phosphate, Phytobenthos, Phytoplankton, Secchi depth, Total organic carbon (TOC), Total phosphorus, Total phytoplankton biomass, etc."
+  - name: "lat"
+    type: VARCHAR
+    description: "Data management attribute: Latitude of a representative point, in decimal degrees (WGS84)."
+  - name: "lon"
+    type: VARCHAR
+    description: "Data management attribute: Longitude of a representative point, in decimal degrees (WGS84)."
+  - name: "monitoringSiteIdentifier"
+    type: VARCHAR
+    description: "Unique international identifier of the monitoring site in which the data were obtained."
+  - name: "monitoringSiteIdentifierScheme"
+    type: VARCHAR
+    description: "Specification of whether the monitoring site is a WFD monitoring site (euMonitoringSiteCode) or not (eionetMonitoringSiteCode)."
+  - name: "monitoringSiteName"
+    type: VARCHAR
+    description: "Name of the monitoring site in which the data were obtained."
+  - name: "monitoringSiteStatusCode"
+    type: VARCHAR
+    description: "Data management attribute: See definitions in http://dd.eionet.europa.eu/vocabulary/datadictionary/status/."
+  - name: "observedPropertyCode"
+    type: VARCHAR
+    description: "Code of the observed property. See https://dd.eionet.europa.eu/vocabulary/wise/ObservedProperty."
+  - name: "parameterNaturalAWBHMWB"
+    type: VARCHAR
+    description: "Specification of whether a water body is identified as natural, artificial (AWB) or heavily modified (HMWB). AWBs are surface water bodies which have been created in a location where no water body existed before and which have not been created by the direct physical alteration, movement or realignment of an existing water body. HMWB are bodies of water which as a result of physical alterations by human activity are substantially changed in character."
+  - name: "parameterNCSWaterBodyType"
+    type: VARCHAR
+    description: "Water body type in the National Classification System of each country."
+  - name: "parameterSamplingPeriod"
+    type: VARCHAR
+    description: "The period of the year during which the data used for the aggregation were sampled."
+  - name: "phenomenonTimeReferenceYear"
+    type: VARCHAR
+    description: "Year during which the data were sampled."
+  - name: "procedureClassificationSystem"
+    type: VARCHAR
+    description: "Classification procedure for ecological status or potential based on biology EQR data."
+  - name: "qcCheck"
+    type: VARCHAR
+    description: "Data management attribute: quality control check results, procedure applied in the gap filling process, etc."
+  - name: "qcGapFilling"
+    type: VARCHAR
+    description: "Data management attribute: data processing method for the gap filling of missing data."
+  - name: "qcLatLonSource"
+    type: VARCHAR
+    description: "Data management attribute: source of the latitude and longitude values."
+  - name: "qcObservationStatus"
+    type: VARCHAR
+    description: "Type of value. O = missing; A = reported values; I = imputed from gap filled values."
+  - name: "qualityElementCode"
+    type: VARCHAR
+    description: "Code of the quality element. See https://dd.eionet.europa.eu/vocabulary/wise/WFDQualityElement."
+  - name: "rbdIdentifier"
+    type: VARCHAR
+    description: "Unique international identifier of the river basin district."
+  - name: "rbdIdentifierScheme"
+    type: VARCHAR
+    description: "Identifier defining the scheme assigned to the spatial object identifier."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Name of the river basin district."
+  - name: "resultEcologicalStatusClassValue"
+    type: VARCHAR
+    description: "Ecological status class (or ecological potential class, for artificial and heavily modified water bodies) assessed on the basis of the reported biological EQR or normalised EQR value."
+  - name: "resultNormalisedEQRValue"
+    type: VARCHAR
+    description: "Mean value of metric converted to the normalised EQR scale (Ecological Quality Ratio), with equally spaced boundaries between classes."
+  - name: "resultObservationStatus"
+    type: VARCHAR
+    description: "Status of the observed value in terms of its availability, relevancy, correctness or specifics of its source category."
+  - name: "seriesSpan"
+    type: VARCHAR
+    description: "Data management attribute: type of time series according to its length."
+  - name: "seriesUID"
+    type: VARCHAR
+    description: "Data management attribute: unique UID for each time series."
+  - name: "spatialUnitIdentifier"
+    type: VARCHAR
+    description: "Unique identifier of the associated spatial unit (subunit, river basin district or country)."
+  - name: "spatialUnitIdentifierScheme"
+    type: VARCHAR
+    description: "Scheme applicable to the spatial unit identifier."
+  - name: "spatialUnitName"
+    type: VARCHAR
+    description: "Name of the spatial unit."
+  - name: "UID"
+    type: VARCHAR
+    description: "Data management attribute: Unique identifier of the record in the EEA WISE_SOE database."
+  - name: "waterBodyCategory"
+    type: VARCHAR
+    description: "Water body category code. GW = Groundwater body, RW = River, LW = Lake, TW = Transitional water body, CW = Coastal water body, TeW = Territorial waters."
+  - name: "waterBodyIdentifier"
+    type: VARCHAR
+    description: "Unique identifier of the associated surface water body."
+  - name: "waterBodyIdentifierScheme"
+    type: VARCHAR
+    description: "Specification of whether the water body is a WFD water body (euGroundwaterBodyCode or euSurfaceWaterBodyCode) or not (eionetGroundwaterBodyCode or eionetSurfaceWaterBodyCode)."
+  - name: "waterBodyName"
+    type: VARCHAR
+    description: "Name of the water body."

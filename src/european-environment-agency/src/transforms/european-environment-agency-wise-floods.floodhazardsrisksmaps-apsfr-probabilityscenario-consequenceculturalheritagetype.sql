@@ -1,0 +1,22 @@
+SELECT
+    CAST("consequenceCulturalHeritageType" AS VARCHAR) AS "consequenceCulturalHeritageType",
+    CAST("consequenceOtherCulturalHeritageDescription" AS VARCHAR) AS "consequenceOtherCulturalHeritageDescription",
+    CAST("consequenceOtherEconomicActivityDescription" AS VARCHAR) AS "consequenceOtherEconomicActivityDescription",
+    CAST("consequencesAffectedIEDInstallationNumber" AS VARCHAR) AS "consequencesAffectedIEDInstallationNumber",
+    CAST("consequencesOtherEnvironmentDescription" AS VARCHAR) AS "consequencesOtherEnvironmentDescription",
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("euFloodsRiskZoneCode" AS VARCHAR) AS "euFloodsRiskZoneCode",
+    CAST("euFloodsUnitOfManagementCode" AS VARCHAR) AS "euFloodsUnitOfManagementCode",
+    CAST("metadata_beginLifeSpanVersion" AS VARCHAR) AS "metadata_beginLifeSpanVersion",
+    CAST("metadata_statusCode" AS VARCHAR) AS "metadata_statusCode",
+    CAST("metadata_versionId" AS VARCHAR) AS "metadata_versionId",
+    CAST("otherTypeOfPotentialConsequencesDescription" AS VARCHAR) AS "otherTypeOfPotentialConsequencesDescription",
+    CAST("populationAffectedDayTime" AS VARCHAR) AS "populationAffectedDayTime",
+    CAST("populationAffectedNightTime" AS VARCHAR) AS "populationAffectedNightTime",
+    CAST("populationAffectedTotal" AS VARCHAR) AS "populationAffectedTotal",
+    CAST("populationIndirectlyAffected" AS VARCHAR) AS "populationIndirectlyAffected",
+    CAST("probabilityScenario" AS VARCHAR) AS "probabilityScenario",
+    CAST("residentPopulationAffected" AS VARCHAR) AS "residentPopulationAffected",
+    CAST("returnPeriod" AS VARCHAR) AS "returnPeriod"
+FROM "european-environment-agency-wise-floods.floodhazardsrisksmaps-apsfr-probabilityscenario-consequenceculturalheritagetype"

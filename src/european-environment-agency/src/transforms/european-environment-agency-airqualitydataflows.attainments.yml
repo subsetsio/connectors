@@ -1,0 +1,109 @@
+columns:
+  - name: "AdjustmentSource"
+    type: VARCHAR
+    description: "Reference to a codelist detailed description of the source being adjusted e.g. sea spray or volcanic activity with the country."
+  - name: "AdjustmentType"
+    type: VARCHAR
+    description: "Reference to a codelist describing that either adjustment has not been applied (/noneApplied) or adjustment is not applicable (/noneApplicable)."
+  - name: "AdministrativeUnits"
+    type: VARCHAR
+    description: "List of administrative units coincident with the exceedance situation area."
+  - name: "AirPollutant"
+    type: VARCHAR
+    description: "Air polluting substance (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/pollutant) for which the air quality assessment regime has been reported."
+  - name: "AssessmentRegimeId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality assessment regime, given by data provider."
+  - name: "AssessmentType"
+    type: VARCHAR
+    description: "The types of assessment are those management by data flow D on assessment methods e.g. fixed measurement, modelling, indicative measurement, objective estimation."
+  - name: "AssessmentTypeDescription"
+    type: VARCHAR
+    description: "Short textual description of the adjustment assessment type and how it is applied."
+  - name: "AttainmentId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality attainment, given by data provider."
+  - name: "B2G_Namespace"
+    type: VARCHAR
+    description: "Inspire identifier/namespace of reporting entity, given by data provider."
+  - name: "Comment"
+    type: VARCHAR
+    description: "Further explanation of exceedance."
+  - name: "Country"
+    type: VARCHAR
+    description: "Country or territory name."
+  - name: "CountryCode"
+    type: VARCHAR
+    description: "Country or territory ISO2 code."
+  - name: "EcosystemAreaExposed"
+    type: VARCHAR
+    description: "An estimate of the area of this sensitive receptor type to levels above the environmental objective."
+  - name: "EcosystemAreaUnit"
+    type: VARCHAR
+    description: "Unit of measurement of the ecosytem area of exceedance."
+  - name: "ExceedancePosition"
+    type: VARCHAR
+    description: "Exceedance Position."
+  - name: "ExceedanceTypeId"
+    type: VARCHAR
+    description: "Exceedance description stages (base, adjustment or final)."
+  - name: "Imported"
+    type: VARCHAR
+    description: "Date and time of source data import into EEA's databases."
+  - name: "InfrastructureServices"
+    type: VARCHAR
+    description: "The total number of infrastructure services for sensitive population groups in the exceedance area (hospitals, kindergardens, schools etc.)."
+  - name: "IsExceedance"
+    type: VARCHAR
+    description: "Statement to be declared whether levels are above or below the environmental objective."
+  - name: "NumberOfExceedances"
+    type: VARCHAR
+    description: "The number of short term exceedances for the description of the highest number of exceedances of short term reporting metrics observed or predicted in the zone for the pollutant and environmental objective specified."
+  - name: "NumericalExceedance"
+    type: VARCHAR
+    description: "The description of the highest concentration value observed or predicted in the zone for the pollutant and environmental objective specified."
+  - name: "ObjectiveType"
+    type: VARCHAR
+    description: "Objective type (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/objectivetype) for which the air quality assessment regime has been reported."
+  - name: "PopulationExposed"
+    type: VARCHAR
+    description: "An estimate of the total resident population exposed to levels above the environmental objective."
+  - name: "ProtectionTarget"
+    type: VARCHAR
+    description: "Protection target (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/protectiontarget) for which the air quality assessment regime has been reported."
+  - name: "Reason"
+    type: VARCHAR
+    description: "Reason of exceedance."
+  - name: "ReasonOther"
+    type: VARCHAR
+    description: "Reason of exceedance (other)."
+  - name: "ReferenceYear"
+    type: VARCHAR
+    description: "Time position for the year in which the population estimates in declared in aqd:populationExposed were collected."
+  - name: "ReportingMetric"
+    type: VARCHAR
+    description: "Reporting metric (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/reportingmetric) for which the air quality assessment regime has been reported."
+  - name: "ReportingYear"
+    type: VARCHAR
+    description: "Year for which the data flow item has been reported."
+  - name: "RoadLength"
+    type: VARCHAR
+    description: "The length of road exceeding."
+  - name: "SensitivePopulation"
+    type: VARCHAR
+    description: "An estimate of the percentage of sensitive population in the exceedance area, defined as sum of percentage under 18 and over 60 years of age."
+  - name: "SourceDataURL"
+    type: VARCHAR
+    description: "URL of source data reported to the EEA."
+  - name: "SpatialExtent"
+    type: VARCHAR
+    description: "A geometry description of the extent of the exceedance area."
+  - name: "SurfaceArea"
+    type: VARCHAR
+    description: "The area of exceedance."
+  - name: "SurfaceAreaUnit"
+    type: VARCHAR
+    description: "Unit of measurement of the area of exceedance."
+  - name: "ZoneId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality zone, given by data provider."

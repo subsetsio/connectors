@@ -1,0 +1,45 @@
+columns:
+  - name: "backgroundConcentrations"
+    type: VARCHAR
+    description: "Required. Indicate whether natural background concentrations for metals and their compounds are taken into consideration where such concentrations prevent compliance with the relevant EQS."
+  - name: "bioavailability"
+    type: VARCHAR
+    description: ": Required. Indicate whether hardness, pH, dissolved organic carbon or other water quality parameters that affect the bioavailability of metals are taken into consideration when assessing monitoring results against relevant EQSs."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "limitOfQuantification"
+    type: VARCHAR
+    description: "Required. Indicate whether the method used for dealing with measurements lower than the limit of quantification is as specified in Article 5 of the QA/QC Directive (2009/90/EC)."
+  - name: "longTermTrendAnalysis"
+    type: VARCHAR
+    description: "Required. Indicate whether arrangements are in place for the long-term trend analysis of concentrations of those Priority Substances listed in Part A of Annex I of Directive 2008/105/EC78 that tend to accumulate in sediment and/or biota (Article 3(3) EQSD).  ."
+  - name: "mixingZoneMeasures"
+    type: VARCHAR
+    description: "Conditional. If mixing zones were designated in this RBD, indicate the measures taken with a view to reducing the extent of Mixing Zones in the future.  Quality checks: Conditional check: Report if and only if SWB/SurfaceWaterBody/swMixingZones is 'Yes' for at least one surface water body in this RBD."
+  - name: "mixingZoneMethodology"
+    type: VARCHAR
+    description: "Conditional. If mixing zones were designated in this RBD, indicate whether the methodology for their designation follows the tiered approach as laid down in the 'Technical Background Document on Identification of Mixing Zones'.  Quality checks: Conditional check: Report if and only if SWB/SurfaceWaterBody/swMixingZones is 'Yes' for at least one surface water body in this RBD."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."

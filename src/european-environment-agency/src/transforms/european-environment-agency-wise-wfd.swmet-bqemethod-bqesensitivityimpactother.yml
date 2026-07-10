@@ -1,0 +1,75 @@
+columns:
+  - name: "bqeCategoryCW"
+    type: VARCHAR
+    description: "Required. Does the assessment method apply to coastal waters?."
+  - name: "bqeCategoryLW"
+    type: VARCHAR
+    description: "Required. Does the assessment method apply to lakes?."
+  - name: "bqeCategoryRW"
+    type: VARCHAR
+    description: "Required. Does the assessment method apply to rivers?."
+  - name: "bqeCategoryTW"
+    type: VARCHAR
+    description: "Required. Does the assessment method apply to transitional waters?."
+  - name: "bqeCode"
+    type: VARCHAR
+    description: "Required. Select the BQE for which the assessment method applies."
+  - name: "bqeMethodName"
+    type: VARCHAR
+    description: "Required. Provide the name of the assessment method. The name must be the same that is used in the RBMPs and background documents."
+  - name: "bqePercentageOfTypes"
+    type: VARCHAR
+    description: "Required. Report the percentage of types for this BQE and category for which an assessment method is fully developed."
+  - name: "bqeSensitivityImpactAcidification"
+    type: VARCHAR
+    description: "Required. Is the assessment method mainly sensitive to acidification?."
+  - name: "bqeSensitivityImpactChemical"
+    type: VARCHAR
+    description: "Required. Is the assessment method mainly sensitive to chemical pollution?."
+  - name: "bqeSensitivityImpactHydrological"
+    type: VARCHAR
+    description: "Required. Is the assessment method mainly sensitive to altered habitats due to hydrological changes?."
+  - name: "bqeSensitivityImpactMorphological"
+    type: VARCHAR
+    description: "Required. Is the assessment method mainly sensitive to altered habitats due to morphological changes?."
+  - name: "bqeSensitivityImpactNutrients"
+    type: VARCHAR
+    description: "Required. Is the assessment method mainly sensitive to nutrient pollution?."
+  - name: "bqeSensitivityImpactOrganic"
+    type: VARCHAR
+    description: "Required. Is the assessment method mainly sensitive to organic pollution?."
+  - name: "bqeSensitivityImpactOther"
+    type: VARCHAR
+    description: "Optional. If relevant, report any other impact to which the assessment method is mainly sensitive that is not covered in the previous questions."
+  - name: "bqeSensitivityImpactSaline"
+    type: VARCHAR
+    description: "Required. Is the assessment method mainly sensitive to saline pollution?."
+  - name: "bqeSensitivityImpactTemperature"
+    type: VARCHAR
+    description: "Required. Is the assessment method mainly sensitive to elevated temperatures?."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."

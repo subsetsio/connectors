@@ -1,0 +1,67 @@
+columns:
+  - name: "AirPollutant"
+    type: VARCHAR
+    description: "Air polluting substance (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/pollutant) for which the air quality assessment regime has been reported."
+  - name: "AssessmentRegimeId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality assessment regime, given by data provider."
+  - name: "AssessmentThresholdExceedance"
+    type: VARCHAR
+    description: "Status of assessment threshold exceedance (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/assessmentthresholdexceedance) reported with the assessment regime."
+  - name: "B2G_Namespace"
+    type: VARCHAR
+    description: "Inspire identifier/namespace of reporting entity, given by data provider."
+  - name: "ClassificationReport"
+    type: VARCHAR
+    description: "URL to an on line report or resource describing the classification procedure being reported with thin the assessment regime."
+  - name: "ClassificationYear"
+    type: VARCHAR
+    description: "The year of the last assessment of the pollution level in the zone in relation to the assessment thresholds."
+  - name: "Country"
+    type: VARCHAR
+    description: "Country or territory name."
+  - name: "CountryCode"
+    type: VARCHAR
+    description: "Country or territory ISO2 code."
+  - name: "Imported"
+    type: VARCHAR
+    description: "Date and time of source data import into EEA's databases."
+  - name: "NrOfFixedRandomSPOs"
+    type: VARCHAR
+    description: "Number of fixed-random sampling points used in the assessment regime."
+  - name: "NrOfFixedSPOs"
+    type: VARCHAR
+    description: "Number of fixed sampling points used in the assessment regime."
+  - name: "NrOfIndicativeSPOs"
+    type: VARCHAR
+    description: "Number of indicative sampling points used in the assessment regime."
+  - name: "NrOfModels"
+    type: VARCHAR
+    description: "Number of models used in the assessment regime."
+  - name: "NrOfSPOsForObjectiveEstimation"
+    type: VARCHAR
+    description: "Number of sampling points used for objective estimation in the assessment regime."
+  - name: "ObjectiveType"
+    type: VARCHAR
+    description: "Objective type (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/objectivetype) for which the air quality assessment regime has been reported."
+  - name: "Preliminary"
+    type: VARCHAR
+    description: "Yes if Assessment regime  reported as  forward look (Year+1) or No as retrospective look (Year-1)."
+  - name: "PreliminaryChoice"
+    type: VARCHAR
+    description: "1 if Assessment regime  reported as  forward look (Year+1) or 0 as retrospective look (Year-1)."
+  - name: "ProtectionTarget"
+    type: VARCHAR
+    description: "Protection target (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/protectiontarget) for which the air quality assessment regime has been reported."
+  - name: "ReportingMetric"
+    type: VARCHAR
+    description: "Reporting metric (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/reportingmetric) for which the air quality assessment regime has been reported."
+  - name: "ReportingYear"
+    type: VARCHAR
+    description: "Year for which the data flow item has been reported."
+  - name: "SourceDataURL"
+    type: VARCHAR
+    description: "URL of source data reported to the EEA."
+  - name: "ZoneId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality zone, given by data provider."

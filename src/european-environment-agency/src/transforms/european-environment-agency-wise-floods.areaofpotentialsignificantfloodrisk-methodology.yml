@@ -1,0 +1,52 @@
+columns:
+  - name: "considerationsConsequencesCulturalHeritage"
+    type: VARCHAR
+    description: "Required.\r\nChoose an option from the 'YesNo' codelist values.\r\nPlease indicate whether specific criteria relating to cultural heritage have been used in the identification of APSFRs."
+  - name: "considerationsConsequencesEconomicActivity"
+    type: VARCHAR
+    description: "Required.\r\nChoose an option from the 'YesNo' codelist values.\r\nPlease indicate whether specific criteria relating to economic activity have been used in the identification of APSFRs. ."
+  - name: "considerationsConsequencesEnvironment"
+    type: VARCHAR
+    description: "Required.\r\nChoose an option from the 'YesNo' codelist values.\r\nPlease indicate whether specific criteria relating to environment have been used in the identification of APSFRs."
+  - name: "considerationsConsequencesHumanHealth"
+    type: VARCHAR
+    description: "Required.\r\nChoose an option from the 'YesNo' codelist values.\r\nPlease indicate whether specific criteria relating to human health have been used in the identification of APSFRs."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "criteriaDeterminationExpertJudgementDescription"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf ‘Expert Judgement’ has been selected from enumeration list, provide a brief description as to how expert judgement was used to determine significant flood risk."
+  - name: "euFloodsUnitOfManagementCode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nRequired.\r\nUnique EU code for the Unit of Management or WFD River Basin District following the WISE identifier syntax. Add the two-letter ISO Country code to the Member State unique id - up to 42 characters in total."
+  - name: "internationalUOM"
+    type: VARCHAR
+    description: "Required. \r\nChoose an option from the 'YesNo' codelist values.\r\nIs the UoM international? If ‘Yes’, please provide the information requested in the schema elements below, relating to mechanisms of coordination."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "noInformationExchangeExplanation"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf ‘No information exchange’ is selected from enumeration list. Provide an explanation as to why this was the case."
+  - name: "otherCriteriaDetermination"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf ‘Other’ selected from enumeration list. Provide a description of what other criteria have been used to determine significant flood risk."
+  - name: "otherCriteriaInclusion"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf ‘Other’ selected from enumeration list. Provide a description of what other criteria has been used to determine inclusion of areas as APSFRs."
+  - name: "otherMechanismsInternationalCoord"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf ‘Other’ selected from enumeration list. Provide a description of what other mechanisms have been used for coordination."
+  - name: "url"
+    type: VARCHAR
+    description: "Optional.\r\nURL for integration of your own internet-based information that provides access to further relevant details on the nature and characteristics of the APSFR that will help in the interpretation of flood risk and flood risk management."

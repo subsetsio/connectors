@@ -1,0 +1,28 @@
+columns:
+  - name: "bookmark"
+    type: VARCHAR
+    description: "Max length: 250 characters.\r\nRequired.\r\nBookmark within the document."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "documentCode"
+    type: VARCHAR
+    description: "Required.\r\nLink to the document the reference belongs to."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "referenceCode"
+    type: VARCHAR
+    description: "Max length: 50 characters.\r\nRequired.\r\nUnique identifier of the reference to a document. The value must contain only latin characters, digits, underscores, hyphens and dots. No consecutive underscores, hyphens and dots are allowed."
+  - name: "subject"
+    type: VARCHAR
+    description: "Max length: 250 characters.\r\nRequired.\r\nSubject of the reference."

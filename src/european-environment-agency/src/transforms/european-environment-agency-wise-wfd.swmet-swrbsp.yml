@@ -1,0 +1,67 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "rbspAnalyticalMethod"
+    type: VARCHAR
+    description: "Required. Indicate whether the analytical method used meets the minimum performance criteria laid down in Article 4.1 of the QA/QC Directive (2009/90/EC)68 for the strictest standard applied."
+  - name: "rbspAnalyticalMethodBAT"
+    type: VARCHAR
+    description: "Conditional. If the analytical method does not meet the minimum performance criteria laid down in Article 4(1) of the QA/QC Directive, indicate whether the analytical method complies with the requirements laid down in Article 4(2) of the QA/QC Directive (2009/90/EC) for the strictest standard applied.  Quality checks: Conditional check: Report if and only if rbspAnalyticalMethod is 'No'."
+  - name: "rbspCategoryCW"
+    type: VARCHAR
+    description: "Required. Does the standard apply to coastal waters? ."
+  - name: "rbspCategoryLW"
+    type: VARCHAR
+    description: "Required. Does the standard apply to lakes? ."
+  - name: "rbspCategoryRW"
+    type: VARCHAR
+    description: "Required. Does the standard apply to rivers? ."
+  - name: "rbspCategoryTW"
+    type: VARCHAR
+    description: "Required. Does the standard apply to transitional waters? ."
+  - name: "rbspCode"
+    type: VARCHAR
+    description: "Required. Select each River Basin Specific Pollutant (RBSP) with a good-moderate EQS from the enumeration list. If there is more than one standard per substance (e.g. because there are different standards for different categories or matrices), the same RBSP can be reported more than once.  Please make sure that the option 'EEA_00-00-0 - Other chemical parameter' is selected only if the pollutant in question is not included in the enumeration list.  Quality check: Cross-schema check: the RBSP codes reported here have to be consistent with those reported under Monitoring/ChemicalEcologicalQuantitativeMonitoring/parameterCode."
+  - name: "rbspMatrix"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list the matrix in which the standard for the RBSP is applied for the purpose of assessment of ecological status. If the matrix is biota, you can report generically as 'biota' or more specifically fish or other biota. Similarly, if the matrix is sediment, you can report generically or specifically for settled or suspended sediment."
+  - name: "rbspOther"
+    type: VARCHAR
+    description: "Conditional. If 'rbspCode' is 'EEA_00-00-0 - Other chemical parameter' please indicate in this field the CAS number (if relevant) and the name of the RBSP. CAS numbers may be found or checked in the following websites:    ECHA, https://echa.europa.eu/information-on-chemicals/ec-inventory;    NIST Chemistry WebBook, https://webbook.nist.gov/chemistry/cas-ser/.  Quality check: Conditional check: report if and only if 'rbspCode' is 'EEA_00-00-0 - Other chemical parameter'.  Cross-schema check: the RBSP codes reported here have to be consistent with those reported under Monitoring/ChemicalEcologicalQuantitativeMonitoring/parameterOther.  ."
+  - name: "rbspScale"
+    type: VARCHAR
+    description: "Required. Report the geographical scale at which the RBSP standard is applied."
+  - name: "rbspStandardType"
+    type: VARCHAR
+    description: "Required. Select the type of standard applied for each RBSP and matrix. 'AA-EQS' = Annual Average EQS. 'MAC-EQS' = Maximum Allowable Concentration EQS. 'Both' = Both AA and MAC EQS 'Other' = Other type of standard."
+  - name: "rbspTechGuidance"
+    type: VARCHAR
+    description: "Required. Indicate whether the RBSP standard has been derived in accordance with the 2011 Technical Guidance Document No 27."
+  - name: "rbspUnit"
+    type: VARCHAR
+    description: "Required. Report the unit in which the RBSP standard is expressed. Please report '{other}' only if the unit used is not included in the enumeration list."
+  - name: "rbspValue"
+    type: VARCHAR
+    description: "Required. Report the value or range of the RBSP standard representing the good-moderate boundary only.  Quality checks: Element check: Reporting must be either one single value or a range, written as 'xxx - yyy'."

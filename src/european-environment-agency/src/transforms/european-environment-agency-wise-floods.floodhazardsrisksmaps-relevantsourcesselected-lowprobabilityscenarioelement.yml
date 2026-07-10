@@ -1,0 +1,43 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "euFloodsUnitOfManagementCode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nRequired.\r\nUnique EU code for the Unit of Management or WFD River Basin District. Add the two-letter ISO Country code to the Member State unique id - up to 42 characters in total. If unit of management is the same as the WFD RBD please use the EURBDCode as the unit of management."
+  - name: "highProbabilityScenarioElementOther"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf ‘Other’ is selected in elementsHighProbability, provide a description."
+  - name: "lowProbabilityScenarioElement"
+    type: VARCHAR
+    description: "Conditional.\r\nChoose from the 'ElementType' codelist values.\r\nDepending on which relevant source type of flooding is selected, indicate the different elements included in the hazard maps.\r\nMore than one option can be selected. If more than one, values need to be separated by a semicolon followed by a whitespace. e.g., \"value1; value2; value3\"."
+  - name: "lowProbabilityScenarioElementOther"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf ‘Other’ is selected in 'elementsLowProbability', provide a description."
+  - name: "mediumProbabilityScenarioElementOther"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf 'Other' is selected in 'elementsMediumProbability', provide a description."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "modellingNotUsedDescription"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf ‘No’ is selected from enumeration list to indicate a modelling approach has not been used, provide a description as to what approach has been used."
+  - name: "modellingUsed"
+    type: VARCHAR
+    description: "Optional.\r\nChoose from the 'YesNo' codelist values.\r\nIndicate whether a modelling approach has been used to inform the development of the flood hazard and flood risk maps where flooding from artificial water bearing infrastructure presents a risk."
+  - name: "relevantSource"
+    type: VARCHAR
+    description: "Required.\r\nChoose from the 'SourceOfFlooding' codelist values.\r\nIndicate which sources of flooding are considered to be relevant to this UoM or RBD."
+  - name: "relevantSourceOtherDescription"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nOptional."

@@ -1,0 +1,18 @@
+SELECT
+    CAST("AreaHa" AS VARCHAR) AS "AreaHa",
+    CAST("BiogeoCat" AS VARCHAR) AS "BiogeoCat",
+    CAST("Category" AS VARCHAR) AS "Category",
+    CAST("Category_zone" AS VARCHAR) AS "Category_zone",
+    CAST("CLC00" AS VARCHAR) AS "CLC00",
+    CAST("CLC0006" AS VARCHAR) AS "CLC0006",
+    CAST("CLC0012" AS VARCHAR) AS "CLC0012",
+    CAST("CLC0018" AS VARCHAR) AS "CLC0018",
+    CAST("CLC06" AS VARCHAR) AS "CLC06",
+    CAST("CLC0612" AS VARCHAR) AS "CLC0612",
+    CAST("CLC0618" AS VARCHAR) AS "CLC0618",
+    CAST("CLC12" AS VARCHAR) AS "CLC12",
+    CAST("CLC1218" AS VARCHAR) AS "CLC1218",
+    CAST("CLC18" AS VARCHAR) AS "CLC18",
+    CAST("CoastalZone_Code" AS VARCHAR) AS "CoastalZone_Code",
+    CAST("EUSALP" AS VARCHAR) AS "EUSALP"
+FROM "european-environment-agency-fise.c-leac2018"

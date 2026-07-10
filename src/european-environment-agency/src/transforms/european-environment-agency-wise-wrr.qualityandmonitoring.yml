@@ -1,0 +1,47 @@
+columns:
+  - name: "competentAuthority"
+    type: VARCHAR
+  - name: "complianceCriteria"
+    type: VARCHAR
+    description: "statistical criteria applied on the parameters as additional water quality requirements set by the competent authority.\nGuidance: reporting is conditional.\nInformation about the statistical method for the additional water quality parameters, in English or in the national language."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "cYear"
+    type: VARCHAR
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "parameterCode"
+    type: VARCHAR
+    description: "parameter which is part of the water quality class agreed under the respective permit. \nGuidance: reporting is required. Use the values provided in the Parameter codelist value. If a specific parameter is not present in the codelist, please contact water-reuse.helpdesk@eionet.europa.eu ."
+  - name: "parameterThresholdValue"
+    type: VARCHAR
+    description: "maximum permissible parametric (threshold) value of the parameter.\nGuidance: reporting is required."
+  - name: "parameterThresholdValueUnit"
+    type: VARCHAR
+    description: "unit of measure for the value reported in the parameterThresholdValue field.\nGuidance: reporting is required.\nUse the values in the UnitOfMeasure code list. If a specific unit of measure is not present in the codelist, please contact water-reuse.helpdesk@eionet.europa.eu ."
+  - name: "permitIdentifier"
+    type: VARCHAR
+    description: "unique European identifier(s) for the quality and the monitoring requirement of the point of compliance for which the data is being reported. The identifier must follow the syntax of the WISE identifiers. (see the guidance for the responsiblePartyIdentifier element).  The identifier must be the same as permitIdentifier in Permit table.\nGuidance: reporting is required."
+  - name: "remarks"
+    type: VARCHAR
+    description: "additional information about the record, in English or in the national language.\nGuidance: reporting is optional."
+  - name: "samplingFrequency"
+    type: VARCHAR
+    description: "number of samples per sampling period\nGuidance: reporting is required.\nThe monitoring scheme is defined by the sampling frequency and the sampling period. The sampling frequency is an integer value, informing how often samples are collected within a sampling period of one day, week, month, or year. If sampling is conducted is conducted twice a month, then samplingFrequency = 2 and samplingPeriod = 'month'. If sampling is conducted once a week, then samplingFrequency = 1 and samplingPeriod = 'week'. If sampling is conducted every day, then samplingFrequency = 30 and samplingPeriod =’day’\nIf sampling is conducted in a different period and frequency than those outline above, use ‘other’ option and specify sampling period and sampling frequency. ."
+  - name: "samplingPeriod"
+    type: VARCHAR
+    description: "sampling period (day, month, etc.)\nGuidance: reporting is required.\nSee guidance for the samplingFrequency field."
+  - name: "waterQualityClass"
+    type: VARCHAR
+    description: "water quality class as permitted by the competent authority. \nGuidance: reporting is required."

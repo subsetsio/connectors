@@ -1,0 +1,23 @@
+SELECT
+    CAST("article_14_4_ConsiderationOfClimateChangeConsidered" AS VARCHAR) AS "article_14_4_ConsiderationOfClimateChangeConsidered",
+    CAST("article_14_4_ConsiderationOfClimateChangeNotConsideredExplan" AS VARCHAR) AS "article_14_4_ConsiderationOfClimateChangeNotConsideredExplan",
+    CAST("article_2_1_SewageSystemsExcluded" AS VARCHAR) AS "article_2_1_SewageSystemsExcluded",
+    CAST("article_4_2_a_MapsAvailable" AS VARCHAR) AS "article_4_2_a_MapsAvailable",
+    CAST("article_4_2_a_MapsDescription" AS VARCHAR) AS "article_4_2_a_MapsDescription",
+    CAST("article_4_2_b_PastAdverseConsequencesCriteriaOther" AS VARCHAR) AS "article_4_2_b_PastAdverseConsequencesCriteriaOther",
+    CAST("article_4_2_b_PastAdverseConsequencesExpertJudgementDescript" AS VARCHAR) AS "article_4_2_b_PastAdverseConsequencesExpertJudgementDescript",
+    CAST("article_4_2_c_SignificantAdverseConsequencesCriteriaOther" AS VARCHAR) AS "article_4_2_c_SignificantAdverseConsequencesCriteriaOther",
+    CAST("article_4_2_c_SignificantAdverseConsequencesExpertJudgementD" AS VARCHAR) AS "article_4_2_c_SignificantAdverseConsequencesExpertJudgementD",
+    CAST("article_4_2_d_PotentialAdverseConsequencesCriteriaOther" AS VARCHAR) AS "article_4_2_d_PotentialAdverseConsequencesCriteriaOther",
+    CAST("article_4_2_d_PotentialAdverseConsequencesExpertJudgementDes" AS VARCHAR) AS "article_4_2_d_PotentialAdverseConsequencesExpertJudgementDes",
+    CAST("article_4_3_InternationalInformationExchange" AS VARCHAR) AS "article_4_3_InternationalInformationExchange",
+    CAST("article_4_3_InternationalInformationExchangeNoInformationExc" AS VARCHAR) AS "article_4_3_InternationalInformationExchangeNoInformationExc",
+    CAST("article_4_3_InternationalInformationExchangeOther" AS VARCHAR) AS "article_4_3_InternationalInformationExchangeOther",
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("euFloodsUnitOfManagementCode" AS VARCHAR) AS "euFloodsUnitOfManagementCode",
+    CAST("metadata_beginLifeSpanVersion" AS VARCHAR) AS "metadata_beginLifeSpanVersion",
+    CAST("metadata_statusCode" AS VARCHAR) AS "metadata_statusCode",
+    CAST("metadata_versionId" AS VARCHAR) AS "metadata_versionId",
+    CAST("url" AS VARCHAR) AS "url"
+FROM "european-environment-agency-wise-floods.preliminaryfloodriskassessment-article-4-3-internationalinformationexchange"

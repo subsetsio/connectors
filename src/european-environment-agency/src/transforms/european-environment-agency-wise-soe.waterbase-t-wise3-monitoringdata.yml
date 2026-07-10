@@ -1,0 +1,52 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Abbreviation of EEA Member or Collaborating Country."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Timestamp when the feature or record was created. In case of reported data its the release date and time of the respective CDR envelope."
+  - name: "metadata_observationStatus"
+    type: VARCHAR
+    description: "Status of the record regarding its reliability."
+  - name: "metadata_statements"
+    type: VARCHAR
+    description: "Aditional information or statements regarding the reliability of the feature or record."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Unique metadata identifier of version of the feature or record. Url that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "monitoringSiteIdentifier"
+    type: VARCHAR
+    description: "Unique international identifier of the monitoring site in which the data were obtained."
+  - name: "monitoringSiteIdentifierScheme"
+    type: VARCHAR
+    description: "Specification of whether the monitoring site is a WFD monitoring site (euMonitoringSiteCode) or not (eionetMonitoringSiteCode)."
+  - name: "observedProperty"
+    type: VARCHAR
+    description: "Unique code of the parameter being reported, as defined in the code list."
+  - name: "phenomenonTimePeriod"
+    type: VARCHAR
+    description: "Reference time period of the reported result."
+  - name: "phenomenonTimePeriod_day"
+    type: VARCHAR
+    description: "Day of the reference period."
+  - name: "phenomenonTimePeriod_month"
+    type: VARCHAR
+    description: "Month of the reference period."
+  - name: "phenomenonTimePeriod_year"
+    type: VARCHAR
+    description: "Year of the reference period."
+  - name: "Remarks"
+    type: VARCHAR
+    description: "Remarks, comments or explanatory notes."
+  - name: "resultObservationStatus"
+    type: VARCHAR
+    description: "Status of the observed value in terms of its availability, relevancy, correctness or specifics of its source category."
+  - name: "resultObservedValue"
+    type: VARCHAR
+    description: "Mean value of the observed parameter."
+  - name: "UID"
+    type: VARCHAR
+    description: "Unique identifier of the record in the EEA WISE_SOE database."

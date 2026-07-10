@@ -1,0 +1,93 @@
+columns:
+  - name: "AirPollutant"
+    type: VARCHAR
+    description: "Air polluting substance (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/pollutant) for which the air quality assessment regime has been reported."
+  - name: "AQPlan_ReportingYear"
+    type: VARCHAR
+    description: "Year for which the related Air Quality Plan has been reported."
+  - name: "AQPlanId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality plan, given by data provider."
+  - name: "Attainment_ReportingYear"
+    type: VARCHAR
+    description: "Year for which the related Attainment has been reported."
+  - name: "Attainment_Year"
+    type: VARCHAR
+    description: "The calendar year for which the projections have been calculated."
+  - name: "AttainmentId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality attainment, given by data provider."
+  - name: "B2G_Namespace"
+    type: VARCHAR
+    description: "Inspire identifier/namespace of reporting entity, given by data provider."
+  - name: "BaseScenarioConcentration"
+    type: VARCHAR
+  - name: "BaseScenarioEmissions"
+    type: VARCHAR
+    description: "The emissions scenario applied in the baseline analysis (without additional measures)."
+  - name: "BaseScenarioExceedances"
+    type: VARCHAR
+  - name: "Country"
+    type: VARCHAR
+    description: "Country or territory name."
+  - name: "CountryCode"
+    type: VARCHAR
+    description: "Country or territory ISO2 code."
+  - name: "FirstExceedanceDate"
+    type: VARCHAR
+    description: "Year of the (first) exceedance of the LV, LV+MoT) or TV, which triggered the implementation of the air quality plan."
+  - name: "H2K_Namespace"
+    type: VARCHAR
+    description: "Inspire identifier/namespace of reporting entity, given by data provider."
+  - name: "Imported"
+    type: VARCHAR
+    description: "Date and time of source data import into EEA's databases."
+  - name: "NS_WSS_Correction"
+    type: VARCHAR
+    description: "Statement if adjustment for natural sources (NS) and / or WinterSanding and Salting (WSS) is applied/applicable."
+  - name: "ObjectiveType"
+    type: VARCHAR
+    description: "Objective type (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/objectivetype) for which the air quality assessment regime has been reported."
+  - name: "ProjectionScenarioConcentration"
+    type: VARCHAR
+  - name: "ProjectionScenarioEmissions"
+    type: VARCHAR
+    description: "The emissions scenario applied in the projection year (with additional measures included)."
+  - name: "ProjectionScenarioExceedances"
+    type: VARCHAR
+  - name: "ProtectionTarget"
+    type: VARCHAR
+    description: "Protection target (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/protectiontarget) for which the air quality assessment regime has been reported."
+  - name: "Publication"
+    type: VARCHAR
+    description: "Link to published information on related Air Quality Plan."
+  - name: "ReportingMetric"
+    type: VARCHAR
+    description: "Reporting metric (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/reportingmetric) for which the air quality assessment regime has been reported."
+  - name: "ReportingYear"
+    type: VARCHAR
+    description: "Year for which the data flow item has been reported."
+  - name: "ScenarioCode"
+    type: VARCHAR
+    description: "Local code for the the evaluation scenario, given by data provider."
+  - name: "ScenarioId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of scenario, given by data provider."
+  - name: "SourceApp_ReportingYear"
+    type: VARCHAR
+    description: "Year for which the related Source Apportionment has been reported."
+  - name: "SourceAppId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of source apportionment, given by data provider."
+  - name: "SourceDataURL"
+    type: VARCHAR
+    description: "URL of source data reported to the EEA."
+  - name: "StartYear"
+    type: VARCHAR
+    description: "The year from which the projections are have been calculated. It define base year from which modelling of future projection is based will effect the emissions inventory used, atmospheric conditions and implemented measures within the base year."
+  - name: "ValidAttainmentLink"
+    type: VARCHAR
+    description: "Yes if there is valid link between scenario and attainment report."
+  - name: "ZoneId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality zone, given by data provider."

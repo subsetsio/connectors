@@ -1,0 +1,21 @@
+SELECT
+    CAST("AREA_SQKM" AS VARCHAR) AS "AREA_SQKM",
+    CAST("Class" AS VARCHAR) AS "Class",
+    CAST("CNTR_CODE" AS VARCHAR) AS "CNTR_CODE",
+    CAST("CNTR_ENG" AS VARCHAR) AS "CNTR_ENG",
+    CAST("geometry_01M" AS VARCHAR) AS "geometry_01M",
+    CAST("geometry_01M_3857" AS VARCHAR) AS "geometry_01M_3857",
+    CAST("geometry_100K" AS VARCHAR) AS "geometry_100K",
+    CAST("geometry_100K_3857" AS VARCHAR) AS "geometry_100K_3857",
+    CAST("geometry_10M" AS VARCHAR) AS "geometry_10M",
+    CAST("geometry_10M_3857" AS VARCHAR) AS "geometry_10M_3857",
+    CAST("geometry_60M" AS VARCHAR) AS "geometry_60M",
+    CAST("geometry_60M_3857" AS VARCHAR) AS "geometry_60M_3857",
+    CAST("LEVL_CODE" AS VARCHAR) AS "LEVL_CODE",
+    CAST("NAME_LATN" AS VARCHAR) AS "NAME_LATN",
+    CAST("NUTS_ID" AS VARCHAR) AS "NUTS_ID",
+    CAST("NUTS_NAME" AS VARCHAR) AS "NUTS_NAME",
+    CAST("Shape_Area" AS VARCHAR) AS "Shape_Area",
+    CAST("Shape_Length" AS VARCHAR) AS "Shape_Length",
+    CAST("Version" AS VARCHAR) AS "Version"
+FROM "european-environment-agency-fise.nuts"

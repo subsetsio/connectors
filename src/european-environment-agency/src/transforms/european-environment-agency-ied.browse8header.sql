@@ -1,0 +1,21 @@
+SELECT
+    CAST("AcceptedDate" AS VARCHAR) AS "AcceptedDate",
+    CAST("BATAEL" AS VARCHAR) AS "BATAEL",
+    CAST("BATConclusion" AS VARCHAR) AS "BATConclusion",
+    CAST("CountryCode" AS VARCHAR) AS "CountryCode",
+    CAST("Derogated from - to" AS VARCHAR) AS "Derogated from - to",
+    CAST("endDate" AS VARCHAR) AS "endDate",
+    CAST("entityStatus" AS VARCHAR) AS "entityStatus",
+    CAST("euregReportingYear" AS VARCHAR) AS "euregReportingYear",
+    CAST("facilityInspireId" AS VARCHAR) AS "facilityInspireId",
+    CAST("installationInspireId" AS VARCHAR) AS "installationInspireId",
+    CAST("permitAvailable" AS VARCHAR) AS "permitAvailable",
+    CAST("permitingAuthority" AS VARCHAR) AS "permitingAuthority",
+    CAST("permitUpdated" AS VARCHAR) AS "permitUpdated",
+    CAST("regulatedActivities" AS VARCHAR) AS "regulatedActivities",
+    CAST("seveso" AS VARCHAR) AS "seveso",
+    CAST("siteInspireId" AS VARCHAR) AS "siteInspireId",
+    CAST("siteName" AS VARCHAR) AS "siteName",
+    CAST("startDate" AS VARCHAR) AS "startDate",
+    CAST("Status" AS VARCHAR) AS "Status"
+FROM "european-environment-agency-ied.browse8header"

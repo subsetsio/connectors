@@ -1,0 +1,106 @@
+columns:
+  - name: "classObservationStatus"
+    type: VARCHAR
+    description: "Type of classValue. O = missing; E = estimated from reported values; I = imputed from gap filled values."
+  - name: "classValue"
+    type: VARCHAR
+    description: "Class {1,2,3,4,5} assigned to the observation, if applicable."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Data management attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "eeaIndicator"
+    type: VARCHAR
+    description: "Ammonium, Benthic invertebrates, BOD5, Chlorophyll a, Cyanobacteria biomass, Cyanobacteria proportion, Dissolved organic carbon (DOC), Macrophytes, Nitrate, Nitrite, Phosphate, Phytobenthos, Phytoplankton, Secchi depth, Total organic carbon (TOC), Total phosphorus, Total phytoplankton biomass, etc."
+  - name: "lat"
+    type: VARCHAR
+    description: "Data management attribute: Latitude of a representative point, in decimal degrees (WGS84)."
+  - name: "lon"
+    type: VARCHAR
+    description: "Data management attribute: Longitude of a representative point, in decimal degrees (WGS84)."
+  - name: "observedPropertyCode"
+    type: VARCHAR
+    description: "Code of the observed property. See https://dd.eionet.europa.eu/vocabulary/wise/ObservedProperty."
+  - name: "phenomenonTimeReferenceYear"
+    type: VARCHAR
+    description: "Year during which the data were sampled."
+  - name: "procedureAnalysedMatrix"
+    type: VARCHAR
+    description: "Analised matrix for the sample being reported."
+  - name: "procedureLOQValue"
+    type: VARCHAR
+    description: "The smallest concentration that can be distinguished from the analytical blank at a chosen level of statistical confidence (usually 95%)."
+  - name: "qcCheck"
+    type: VARCHAR
+    description: "Data management attribute: quality control check results, procedure applied in the gap filling process, etc."
+  - name: "qcGapFilling"
+    type: VARCHAR
+    description: "Data management attribute: data processing method for the gap filling of missing data."
+  - name: "qcLatLonSource"
+    type: VARCHAR
+    description: "Data management attribute: source of the latitude and longitude values."
+  - name: "qcObservationStatus"
+    type: VARCHAR
+    description: "Type of value. O = missing; A = reported values; I = imputed from gap filled values."
+  - name: "rbdIdentifier"
+    type: VARCHAR
+    description: "Unique international identifier of the river basin district."
+  - name: "rbdIdentifierScheme"
+    type: VARCHAR
+    description: "Identifier defining the scheme assigned to the spatial object identifier."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Name of the river basin district."
+  - name: "resultMeanValue"
+    type: VARCHAR
+    description: "Mean value of the data used for aggregation."
+  - name: "resultNumberOfSamples"
+    type: VARCHAR
+    description: "Number of sample values included in the aggregated data."
+  - name: "resultQualityMeanBelowLOQ"
+    type: VARCHAR
+    description: "Flag to indicate whether the mean value is below the highest LOQ."
+  - name: "resultQualityNumberOfSamplesBelowLOQ"
+    type: VARCHAR
+    description: "Number of sample values below LOQ included in the aggregated data."
+  - name: "resultUom"
+    type: VARCHAR
+    description: "Unit of measure for the reported values."
+  - name: "seriesSpan"
+    type: VARCHAR
+    description: "Data management attribute: type of time series according to its length."
+  - name: "seriesUID"
+    type: VARCHAR
+    description: "Data management attribute: unique UID for each time series."
+  - name: "spatialUnitIdentifier"
+    type: VARCHAR
+    description: "Unique identifier of the associated spatial unit (subunit, river basin district or country)."
+  - name: "spatialUnitIdentifierScheme"
+    type: VARCHAR
+    description: "Scheme applicable to the spatial unit identifier."
+  - name: "spatialUnitName"
+    type: VARCHAR
+    description: "Name of the spatial unit."
+  - name: "UID"
+    type: VARCHAR
+    description: "Data management attribute: Unique identifier of the record in the EEA WISE_SOE database."
+  - name: "waterBodyCategory"
+    type: VARCHAR
+    description: "Water body category code. GW = Groundwater body, RW = River, LW = Lake, TW = Transitional water body, CW = Coastal water body, TeW = Territorial waters."
+  - name: "waterBodyIdentifier"
+    type: VARCHAR
+    description: "Unique identifier of the associated surface water body."
+  - name: "waterBodyIdentifierScheme"
+    type: VARCHAR
+    description: "Specification of whether the water body is a WFD water body (euGroundwaterBodyCode or euSurfaceWaterBodyCode) or not (eionetGroundwaterBodyCode or eionetSurfaceWaterBodyCode)."
+  - name: "waterBodyName"
+    type: VARCHAR
+    description: "Name of the water body."
+  - name: "waterBodyStatusCode"
+    type: VARCHAR
+    description: "Data management attribute: See definitions in http://dd.eionet.europa.eu/vocabulary/datadictionary/status/."

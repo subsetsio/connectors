@@ -1,0 +1,118 @@
+columns:
+  - name: "AdministrationLevel"
+    type: VARCHAR
+    description: "Level of administration of the responsible authority."
+  - name: "AirPollutant"
+    type: VARCHAR
+    description: "Air polluting substance, level of which is modelled and reported to the EEA (see notation in Data Dictionary: http://dd.eionet.europa.eu/vocabulary/aq/pollutant)."
+  - name: "AirPollutantDescription"
+    type: VARCHAR
+    description: "Label of air polluting substance."
+  - name: "AssessmentMethodId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality model, given by data provider."
+  - name: "AssessmentType"
+    type: VARCHAR
+    description: "The classification of assessment methods into common types."
+  - name: "AuthorityAddress"
+    type: VARCHAR
+    description: "Address of competent authority."
+  - name: "AuthorityOrganisation"
+    type: VARCHAR
+    description: "Name of responsible authority, institution or body."
+  - name: "AuthorityWebsite"
+    type: VARCHAR
+    description: "Website of competent authority."
+  - name: "B2G_Namespace"
+    type: VARCHAR
+    description: "Inspire identifier/namespace of reporting entity, given by data provider."
+  - name: "BoundaryConditions"
+    type: VARCHAR
+    description: "Description of boundary conditions."
+  - name: "Chemistry"
+    type: VARCHAR
+    description: "A high level description or citation of the chemical scheme applied to within the model."
+  - name: "Country"
+    type: VARCHAR
+    description: "Country or territory name."
+  - name: "CountryCode"
+    type: VARCHAR
+    description: "Country or territory ISO2 code."
+  - name: "DataAggregationProcess"
+    type: VARCHAR
+    description: "Specific statistic/aggregation reported according to codelist."
+  - name: "DataQualityDescription"
+    type: VARCHAR
+    description: "Description of the methods used to evaluate the modelled data quality in terms of uncertainty."
+  - name: "DataQualityReportURL"
+    type: VARCHAR
+    description: "Link to a report describing data quality of the model."
+  - name: "EEA_estimationOfMQI"
+    type: VARCHAR
+    description: "Fairmode's Model Quality Indicator as calculated by EEA."
+  - name: "Emissions"
+    type: VARCHAR
+    description: "The emissions inventory used to configure the model."
+  - name: "Imported"
+    type: VARCHAR
+    description: "Date and time of source data import into EEA's databases."
+  - name: "Meteorology"
+    type: VARCHAR
+    description: "A description of the meteorological dataset used to configure the model."
+  - name: "ModelApplication"
+    type: VARCHAR
+    description: "Description of model purpose (concentrations, forecasting, population exposure…)."
+  - name: "ModelAreaId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of the model area, given by data provider."
+  - name: "ModelDescription"
+    type: VARCHAR
+    description: "Brief description of model."
+  - name: "ModelProcessId"
+    type: VARCHAR
+    description: "Inspire identifier (Local Id) of air quality model process (methodology), given by data provider."
+  - name: "ModelReportDate"
+    type: VARCHAR
+    description: "Date of report describing the model."
+  - name: "ModelReportTitle"
+    type: VARCHAR
+    description: "Title of report describing the model."
+  - name: "ModelReportURL"
+    type: VARCHAR
+    description: "Link to the report describing the model."
+  - name: "Projection_SRID"
+    type: VARCHAR
+    description: "Spatial projection of the modelling results (spatial reference ID)."
+  - name: "ReportingYear"
+    type: VARCHAR
+    description: "Year for which the data flow item has been reported."
+  - name: "ResultEncoding"
+    type: VARCHAR
+    description: "Model results delivery within the XML (an inline encoding) or as a separate file (external encoding)."
+  - name: "ResultFormat"
+    type: VARCHAR
+    description: "Type of format of the results."
+  - name: "Scaling"
+    type: VARCHAR
+    description: "Description of empirical scaling factors applied as part of the model e.g. scaling factors to derive short-term exceedance statistics from long-term means."
+  - name: "SourceDataURL"
+    type: VARCHAR
+    description: "URL of source data reported to the EEA."
+  - name: "SpatialResolutionDescription"
+    type: VARCHAR
+    description: "Output by the model in simple plain text. Brief description of the regular grid or receptor spacing."
+  - name: "TemporalResolution"
+    type: VARCHAR
+    description: "Temporal resolution of the predictions output by the model."
+  - name: "TimeOfResult"
+    type: VARCHAR
+    description: "TimeInstant for the generation of the model results."
+  - name: "Topography"
+    type: VARCHAR
+    description: "Description scheme for the terrain height and/or surface roughness."
+  - name: "Unit"
+    type: VARCHAR
+    description: "Unit of measurement of air pollution ."
+  - name: "UnitOfTemporalResolution"
+    type: VARCHAR
+    description: "Unit of measurement of the temporal resolution."

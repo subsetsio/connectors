@@ -1,0 +1,48 @@
+columns:
+  - name: "basicMeasureType"
+    type: VARCHAR
+    description: "Conditional. If the national or RBD-specific measure is a basic measure, select from the enumeration list one or more types of basic measure to which it corresponds. More than one option may be selected.  See section  for further guidance on the roles of basic and supplementary measures in the achievement of WFD Environmental Objectives.  'Urban Waste Water Treatment' = Urban Waste Water Treatment Directive (91/271/EEC).  'Nitrates' = Nitrates Directive (91/676/EEC).  'IPPC IED' = Integrated Pollution Prevention Control Directive (96/61/EC) and Industrial Emissions Directive (2010/75/EU).  'Habitats or Birds' = Habitats Directive (92/43/EEC) or Birds Directive (2009/147/EC)  'Cost recovery water services' = Article 11(3)(b): Measures for the recovery of cost of water services (Article 9).  'Efficient water use' = Article 11(3)(c): Measures to promote efficient and sustainable water use.  'Protection water abstraction' = Article 11(3)(d): Measures for the protection of water abstracted for drinking water (Article 7) including those to reduce the level of purification required for the production of drinking water.  'Controls water abstraction' = Article 11(3)(e): Controls over the abstraction of fresh surface water and groundwater and impoundment of fresh surface waters including a register or registers of water abstractions and a requirement for prior authorisation of abstraction and impoundment.  'Recharge or augmentation groundwaters' = Article 11(3)(f): Controls, including a requirement for prior authorisation of artificial recharge or augmentation of groundwater bodies.  'Point source discharges' = Article 11(3)(g): Requirement for prior regulation of point source discharges liable to cause pollution.  'Diffuse pollutants' = Article 11(3)(h): Measures to prevent or control the input of pollutants from diffuse sources liable to cause pollution.  'Hydromorphology' = Article 11(3)(i): Measures to control any other significant adverse impact on the status of water, and in particular hydromorphological impacts.  'Direct groundwater pollutants' = Article 11(3)(j): Prohibition of direct discharge of pollutants into groundwater.  'Surface water Priority Substances' = Article 11(3)(k): Measures to eliminate pollution of surface waters by Priority Substances and to reduce pollution from other substances that would otherwise prevent the achievement of the objectives laid down in Article 4.  'Accidental pollution' = Article 11(3)(l): Any measures required to prevent significant losses of pollutants from technical installations and to prevent and/or reduce the impact of accidental pollution incidents.  'Other' = Other Directives mentioned in Part A of Annex VI of the WFD.  Quality checks: Conditional check: Report if and only if measureType is 'Basic'.    -------------------------   http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:31991L0271&amp;from=EN   http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:31991L0676&amp;from=en   http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:31996L0061&amp;qid=1440765977288&amp;from=EN   http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32010L0075&amp;qid=1440766031898&amp;from=EN    http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:31992L0043&amp;from=EN    http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32009L0147&amp;from=EN."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "keyTypeMeasure"
+    type: VARCHAR
+    description: "Required. For the significant pressure type or chemical substance being reported, select from the enumeration list the pre-defined Key Type of Measure (KTM) that will be made operational to reduce it.   Select the option 'KTM99 - Other key type measure reported under PoM' only if some of your measures do not fit into any of the pre-defined KTMs included in the enumeration list.  Quality checks:<b> </b>Within-schema check: the KTMs reported have to be consistent with those reported under RBMPPoM/KTM/keyTypeMeasure."
+  - name: "keyTypeMeasureOther"
+    type: VARCHAR
+    description: "Conditional. If keyTypeMeasure is 'KTM99 - Other key type measure reported under PoM', report a descriptive name for the additional Key Type of Measure (KTM). More than one 'other' KTM may be reported by repeating the reporting of this class.  Quality checks:<b> </b>Conditional check: report if and only if keyTypeMeasure is 'KTM99 - Other key type measure reported under PoM'."
+  - name: "measureCode"
+    type: VARCHAR
+    description: "Required. Report the unique code of the national or RBD-specific measure."
+  - name: "measureName"
+    type: VARCHAR
+    description: "Required. Provide the name of the national or RBD-specific measure. The name should reflect the pressure that is being tackled by the measure."
+  - name: "measureType"
+    type: VARCHAR
+    description: "Required. Indicate whether the national or RBD-specific measure is a basic measure as required under Article 11(3)(a) or Article 11(3)(b-l), a supplementary measure for the achievement of Environmental Objectives as required under Article 11(4) when basic measures are not enough to tackle specific significant pressures, or a supplementary measure for additional protection or improvement of waters as foreseen in Article 11(4)."
+  - name: "msfdRelevance"
+    type: VARCHAR
+    description: "Required. Report whether or not the national or RBD-specific measure is relevant for the purpose of the Marine Strategy Framework Directive. Report 'Not relevant' for the French Overseas Territories and for landlocked countries if the relevance for MSFD was not considered. Please note, however, that measures taken in a landlocked country may well be relevant  for the MSFD (e.g. reduction of nutrients in rivers may have an impact on eutrophication in marine waters). If this possible relevance was considered, you should report 'Yes' or 'No'."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."

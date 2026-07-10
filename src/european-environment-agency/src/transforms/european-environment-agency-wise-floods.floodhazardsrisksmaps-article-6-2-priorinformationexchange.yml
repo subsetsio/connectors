@@ -1,0 +1,46 @@
+columns:
+  - name: "article_14_4_ClimateChange"
+    type: VARCHAR
+    description: "Required.\r\nChoose from the 'ClimateChange' codelist values.\r\nHas climate change been taken into account in the mapping of flood hazard/risk?."
+  - name: "article_6_2_PriorInformationExchange"
+    type: VARCHAR
+    description: "Conditional.\r\nChoose from the 'InternationalInformationExchange' codelist values.\r\nWhere Article6.2PriorInformationExchangeOccured is 'Yes', indicate the mechanism of prior information exchange. \r\nMore than one option can be selected. If more than one, values need to be separated by a semicolon followed by a whitespace. e.g., \"value1; value2; value3\"."
+  - name: "article_6_2_PriorInformationExchangeDescription"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf ‘No’ selected in Article6.2PriorInformationExchangeOccurred, provide an explanation."
+  - name: "article_6_2_PriorInformationExchangeOccurred"
+    type: VARCHAR
+    description: "Required.\r\nChoose from the 'YesNo' codelist values.\r\nFor International UOMs/RBDs state whether prior exchange of information has taken place in the preparation of flood hazard/flood risk maps for APSFRs which are shared with other MS or non-MS. ."
+  - name: "article_6_2_PriorInformationExchangeOtherDescription"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf ‘Other’ is selected in 'Article6.2PriorInformationExchange', provide an explanation."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "euFloodsUnitOfManagementCode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nRequired.\r\nUnique EU code for the Unit of Management or WFD River Basin District following the WISE identifier syntax. Add the two-letter ISO Country code to the Member State unique id - up to 42 characters in total."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "returnPeriodsAndProbabilitiesApproachExpertJudgementDescript"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nOptional."
+  - name: "returnPeriodsAndProbabilitiesApproachOther"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf ‘Other’ is selected from enumeration list provide a description as to why this is the case (it is acceptable to use ‘Uncertain’ but an explanation (however brief) is required)."
+  - name: "sameSourcesAsAPSFR"
+    type: VARCHAR
+    description: "Required.\r\nChoose from the 'YesNo' codelist values.\r\nIndicate whether the sources mapped are the same as those considered in the APSFR. Areas for which flood hazard/risk maps should be prepared are indicated at the APSFR stage."
+  - name: "sameSourcesAsAPSFRDescription"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf ‘No’ is selected from enumeration list in SameSourcesAsAPSFR ,provide an explanation as to why the sources mapped are different to those considered in the APSFR."

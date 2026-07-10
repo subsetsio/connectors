@@ -1,0 +1,20 @@
+SELECT
+    CAST("considerationsConsequencesCulturalHeritage" AS VARCHAR) AS "considerationsConsequencesCulturalHeritage",
+    CAST("considerationsConsequencesEconomicActivity" AS VARCHAR) AS "considerationsConsequencesEconomicActivity",
+    CAST("considerationsConsequencesEnvironment" AS VARCHAR) AS "considerationsConsequencesEnvironment",
+    CAST("considerationsConsequencesHumanHealth" AS VARCHAR) AS "considerationsConsequencesHumanHealth",
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("criteriaDeterminationExpertJudgementDescription" AS VARCHAR) AS "criteriaDeterminationExpertJudgementDescription",
+    CAST("euFloodsUnitOfManagementCode" AS VARCHAR) AS "euFloodsUnitOfManagementCode",
+    CAST("internationalUOM" AS VARCHAR) AS "internationalUOM",
+    CAST("mechanismsInternationalCoordUsed" AS VARCHAR) AS "mechanismsInternationalCoordUsed",
+    CAST("metadata_beginLifeSpanVersion" AS VARCHAR) AS "metadata_beginLifeSpanVersion",
+    CAST("metadata_statusCode" AS VARCHAR) AS "metadata_statusCode",
+    CAST("metadata_versionId" AS VARCHAR) AS "metadata_versionId",
+    CAST("noInformationExchangeExplanation" AS VARCHAR) AS "noInformationExchangeExplanation",
+    CAST("otherCriteriaDetermination" AS VARCHAR) AS "otherCriteriaDetermination",
+    CAST("otherCriteriaInclusion" AS VARCHAR) AS "otherCriteriaInclusion",
+    CAST("otherMechanismsInternationalCoord" AS VARCHAR) AS "otherMechanismsInternationalCoord",
+    CAST("url" AS VARCHAR) AS "url"
+FROM "european-environment-agency-wise-floods.areaofpotentialsignificantfloodrisk-methodology-mechanismsinternationalcoordused"

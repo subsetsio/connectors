@@ -1,0 +1,22 @@
+SELECT
+    CAST("authAddress" AS VARCHAR) AS "authAddress",
+    CAST("authLastUpdated" AS VARCHAR) AS "authLastUpdated",
+    CAST("contactMail" AS VARCHAR) AS "contactMail",
+    CAST("contactPerson" AS VARCHAR) AS "contactPerson",
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("eprtrReportingDate" AS VARCHAR) AS "eprtrReportingDate",
+    CAST("eprtrReportingYear" AS VARCHAR) AS "eprtrReportingYear",
+    CAST("euregReportingYear" AS VARCHAR) AS "euregReportingYear",
+    CAST("facilityInspireId" AS VARCHAR) AS "facilityInspireId",
+    CAST("facilityMainActivity" AS VARCHAR) AS "facilityMainActivity",
+    CAST("facilityNameInspireID" AS VARCHAR) AS "facilityNameInspireID",
+    CAST("mainActivity" AS VARCHAR) AS "mainActivity",
+    CAST("nationalId" AS VARCHAR) AS "nationalId",
+    CAST("NUTS" AS VARCHAR) AS "NUTS",
+    CAST("organizationName" AS VARCHAR) AS "organizationName",
+    CAST("regulation" AS VARCHAR) AS "regulation",
+    CAST("riverBasin" AS VARCHAR) AS "riverBasin",
+    CAST("shape_wm_as_text" AS VARCHAR) AS "shape_wm_as_text",
+    CAST("siteInspireId" AS VARCHAR) AS "siteInspireId",
+    CAST("siteName" AS VARCHAR) AS "siteName"
+FROM "european-environment-agency-ied.browse6header"

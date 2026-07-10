@@ -1,0 +1,30 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "cYear"
+    type: VARCHAR
+  - name: "documentCode"
+    type: VARCHAR
+    description: "Unique identifier of the document.\nThe identifier must follow the syntax of the WISE identifiers. It must start with the two-letter country code of the Member State, followed by one character that can be a digit or an uppercase letter, followed by a sequence of characters (0 to 38 characters long) that can be digits or uppercase letters, with no consecutive double hyphens or double underscores, but allowing for single hyphens or underscores between characters. The code can optionally end with one character that can be a digit or an uppercase letter. Example: FR123, FR1_XYZ1234_1, FR1-XYZ1234-1, FR1XYZ12341 but not FR1__XYZ1234__1 or FR1–XYZ1234–1.\nGuidance: reporting is required."
+  - name: "documentFile"
+    type: VARCHAR
+    description: "Document file as an attachment. The size of the file can be up to 100 MB and the valid file extensions are: 'xlsx' (Excel), 'docx' (Word) y 'pdf'.\nEither URL or documentFile must be reported, but not both.\nGuidance: reporting is optional."
+  - name: "documentName"
+    type: VARCHAR
+    description: "Name of the document. Maximum length: 50 characters.\nGuidance: reporting is required."
+  - name: "hyperlink"
+    type: VARCHAR
+    description: "URL of the document if available in internet.\nEither URL or documentFile must be reported, but not both.\nGuidance: reporting is optional."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."

@@ -1,0 +1,90 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "service"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list the water services for which cost recovery is in place, as specified in Article 9(1).   Select 'Other' for any water services not included in the enumeration list, or if you report on the basis of water service-use combinations. In these cases, a description of the water service or water service-use combination should be reported in serviceOther."
+  - name: "serviceCostInstrument"
+    type: VARCHAR
+    description: "Required. Indicate whether cost recovery for this water service or water service-use combination is defined in legal or regulatory instruments. ."
+  - name: "serviceEnvironmentalCharge"
+    type: VARCHAR
+    description: "Required. Indicate whether an environmental charge or tax is applied for this water service or water service-use combination. ."
+  - name: "serviceEnvironmentalChargeRevenues"
+    type: VARCHAR
+    description: "Conditional. If an environmental charge or tax is applied to this water service, report the total revenue from the environmental charge or tax applied (in millions ? or total ? per year). Report whether the total revenue is provided in millions ? or total ? per year in serviceEnvironmentalChargeRevenuesUnits. Quality checks: Conditional check: Report if serviceEnvironmentalCharge is 'Yes'."
+  - name: "serviceEnvironmentalChargeRevenuesUse"
+    type: VARCHAR
+    description: "Conditional. If an environmental charge or tax is applied to this water service or water service-use combination, indicate whether the revenues obtained are dedicated to measures linked to the achievement of the WFD Environmental Objectives.  Quality checks: Conditional check: Report if and only if serviceEnvironmentalCharge is 'Yes'."
+  - name: "serviceEnvironmentalChargeScale"
+    type: VARCHAR
+    description: "Conditional. If an environmental charge or tax is applied to this water service or water service-use combination, indicate whether the total revenue that is reported in serviceEnvironmentalChargeRevenues refers to the whole Member State or to the River Basin District.  Quality checks: Conditional check: Report if and only if serviceEnvironmentalCharge is 'Yes'."
+  - name: "serviceExternalEnvironmentalResourceCost"
+    type: VARCHAR
+    description: "Required. Indicate whether the economic analysis includes the calculation of external environmental and resource costs for this water service or water service-use combination.       ."
+  - name: "serviceExternalEnvironmentalResourceCostInternalisation"
+    type: VARCHAR
+    description: "Conditional. If the environmental and resource costs are considered significant for this water service or water service-use combination, indicate whether the environmental and resource costs are considered internalised through the available instruments.   Quality checks: Conditional check: Report if and only if serviceExternalEnvironmentalResourceCostSignificance is 'Yes'."
+  - name: "serviceExternalEnvironmentalResourceCostJustification"
+    type: VARCHAR
+    description: "Conditional. If the environmental and resource costs are considered not significant for this water service and/or water service-use combination, or if they are considered as being internalised, provide a justification for that.  Quality checks: Conditional check: Report if and only if serviceExternalEnvironmentalResourceCostSignificance is 'No' or serviceExternalEnvironmentalResourceCostInternalisation is 'Yes' or 'Partially'."
+  - name: "serviceExternalEnvironmentalResourceCostSignificance"
+    type: VARCHAR
+    description: "Conditional. If the economic analysis includes the calculation of external environmental and resource costs for this water service or water service-use combination, indicate whether the environmental and resource costs are considered significant for this water service or water service-use combination.   Quality checks: Conditional check: Report if and only if serviceExternalEnvironmentalResourceCost is 'Yes'."
+  - name: "serviceFinancialCostCalculation"
+    type: VARCHAR
+    description: "Required. Indicate whether the economic analysis includes the calculation of the total financial costs (investment, operation and maintenance, other financial costs including the costs of capital) per year.    ."
+  - name: "serviceFinancialCostIncluded"
+    type: VARCHAR
+    description: "Required. Indicate whether financial costs (investment, operation and maintenance, other financial costs including the costs of capital) are included in the cost recovery for this water service or water service-use combination. ."
+  - name: "serviceFinancialCostRecovery"
+    type: VARCHAR
+    description: "Required. Report the overall recovery of total financial costs (investment, operation and maintenance, other financial costs including the costs of capital) as a percentage of total financial costs for this water service or water service-use combination.  Report -9999 if this information is not available.  Quality checks: Element check: Reported values should be between 0 and 100 or -9999."
+  - name: "serviceOther"
+    type: VARCHAR
+    description: "Conditional. If 'Other' is reported under service, describe the water service or water service-use combination. More than one other water service or water service-use combination may be reported by repeating the reporting of this class.   Quality checks: Conditional check: Report if and only if service is 'Other'."
+  - name: "servicePriceLevel"
+    type: VARCHAR
+    description: "Required. If there are volumetric charges, report the average price or range of price levels for this water service or water service-use combination in Euro/m<sup>3</sup>.   If volumetric charges are not in place, report the estimated average price in Euro/m<sup>3 </sup>by dividing the overall revenue by the quantity of water delivered.  If this is unknown, report 'Not available'."
+  - name: "serviceVolumetricCharges"
+    type: VARCHAR
+    description: "Required. Indicate whether cost recovery for this water service or water service-use combination is based on volumetric charges (i.e. users paying in proportion to the measured quantity of water they use). ."
+  - name: "serviceWaterUseAgriculture"
+    type: VARCHAR
+    description: "Required. Indicate whether this water service or water service-use combination benefits agriculture."
+  - name: "serviceWaterUseContribution"
+    type: VARCHAR
+    description: "Conditional. If the water service or water service-use combination is relevant for more than one water use (considering as a minimum households, agriculture and industry), indicate whether the economic analysis includes a calculation of the contribution of each of the uses to the cost recovery.   Quality checks: Conditional check: Report if and only if two or more of serviceWaterUseHouseholds, serviceWaterUseAgriculture, serviceWaterUseIndustry and serviceWaterUseOther are 'Yes'."
+  - name: "serviceWaterUseHouseholds"
+    type: VARCHAR
+    description: "Required. Indicate whether this water service or water service-use combination benefits households."
+  - name: "serviceWaterUseIndustry"
+    type: VARCHAR
+    description: "Required. Indicate whether this water service or water service-use combination benefits industry."
+  - name: "serviceWaterUseOther"
+    type: VARCHAR
+    description: "Optional. If uses other than households, agriculture and industry benefit from this water service or water service-use combination, please describe it. More than one other water use may be reported in this field. ."

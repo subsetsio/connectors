@@ -1,0 +1,57 @@
+columns:
+  - name: "annualCosts20212027"
+    type: VARCHAR
+    description: "Required. Report the total annual operation and maintenance costs and any other annual costs (in millions of Euros) of planned measures under Articles 11(3), 11(4) and 11(5) during the next planning cycle.  Total annual costs should, in principle, exclude depreciation (see guidance on the schema element depreciation20212027)."
+  - name: "costOfMeasurePeriod20152021"
+    type: VARCHAR
+    description: "Required. Report the period (e.g. 2015--2021, 2015--2020, etc) to which the reported costs refer."
+  - name: "costOfMeasurePeriod20212027"
+    type: VARCHAR
+    description: "Required. Report the year (in the format YYYY) or period (in the format YYYY--YYYY) that was used as the basis for the calculation of costs."
+  - name: "costOfMeasuresScale20152021"
+    type: VARCHAR
+    description: "Required. Indicate whether the costs reported refer to the RBD or to the Member State as a whole."
+  - name: "costOfMeasuresScale20212027"
+    type: VARCHAR
+    description: "Required. Indicate whether the costs reported refer to the RBD or to the Member State as a whole."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "depreciation20212027"
+    type: VARCHAR
+    description: "Required. Indicate whether depreciation is included in the total annual costs reported in annualCosts20212027. The default selection should be 'No' (i.e. depreciation should be excluded from the total annual costs)."
+  - name: "euFunds20152021"
+    type: VARCHAR
+    description: "Required. Report, as an estimated cost or range, the total investment in the Programme of Measures for the previous planning cycle that was financed by EU funds. ."
+  - name: "euFunds20212027"
+    type: VARCHAR
+    description: "Required. Report, as an estimated cost or range, the total investment in the Programme of Measures for the next planning cycle that is expected to be financed by EU funds."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "investmentCosts20152021"
+    type: VARCHAR
+    description: "Required. Report the total investment expenditure (in millions of Euros) in measures under Articles 11(3), 11(4) and 11(5) that were effectively implemented during the previous planning cycle.  Expenditure should not be annualised."
+  - name: "investmentCosts20212027"
+    type: VARCHAR
+    description: "Required. Report the total investment expenditure (in millions of Euros) in measures under Articles 11(3), 11(4) and 11(5) that were effectively implemented during the previous planning cycle.  Expenditure should not be annualised."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."

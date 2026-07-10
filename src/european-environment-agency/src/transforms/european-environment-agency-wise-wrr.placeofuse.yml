@@ -1,0 +1,34 @@
+columns:
+  - name: "competentAuthority"
+    type: VARCHAR
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "cYear"
+    type: VARCHAR
+  - name: "latitude"
+    type: VARCHAR
+    description: "geographical latitude of project area (centroid or other representative point) where reclaimed water is applied. Reference system ETRS89 should be used for Europe, WGS84 for oversea regions. Guidance: reporting is required."
+  - name: "longitude"
+    type: VARCHAR
+    description: "geographical longitude of project area (centroid or other representative point) where reclaimed water is applied. Reference system ETRS89 should be used for Europe, WGS84 for oversea regions. Guidance: reporting is required."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "permitIdentifier"
+    type: VARCHAR
+  - name: "placeOfUseIdentifier"
+    type: VARCHAR
+    description: "unique European identifier for the place of use the reclaimed water\nGuidance: reporting is required. \nProvide a unique identifier code for each place for WRR reporting, where the reclaimed water is used for irrigation. The same identifier must also be used in subsequent reporting years. The identifier must follow the syntax defined for WISE identifiers (see the guidance for the responsiblePartyIdentifier element). ."
+  - name: "remarks"
+    type: VARCHAR
+    description: "additional information about the record, in English or in the national language.\nGuidance: reporting is optional."

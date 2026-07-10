@@ -1,0 +1,37 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "internationalRBD"
+    type: VARCHAR
+    description: "Required. Indicate whether the RBD is part of an international RBD."
+  - name: "internationalRBDName"
+    type: VARCHAR
+    description: "Conditional. Report the name in English of the international RBD of which this RBD is a part.  Quality checks: Conditional check: Report if and only if internationalRBD is 'Yes'.  ."
+  - name: "primeCompetentAuthority"
+    type: VARCHAR
+    description: "Required. Report the euCACode of the RBD's Prime Competent Authority.  An RBD will usually have only one Prime Competent Authority. Please report more than one Prime Competent Authority only in those cases in which there is more than one Competent Authority with an equivalent level of competences (e.g. over different geographical areas within the RBD) with no established hierarchy and/or where none has a defined role as co-ordinator.  Quality checks: Within-schema check: The reported euCACode(s) must be consistent with the codes reported in RBDSUCA/CompetentAuthority/euCACode.  ."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "subUnitsDefined"
+    type: VARCHAR
+    description: "Required. Indicate whether the RBD has been divided into Sub-units."

@@ -1,0 +1,12 @@
+SELECT
+    CAST("1990_2000" AS VARCHAR) AS "1990_2000",
+    CAST("2000_2010" AS VARCHAR) AS "2000_2010",
+    CAST("2010_2015" AS VARCHAR) AS "2010_2015",
+    CAST("2015_2020" AS VARCHAR) AS "2015_2020",
+    CAST("Country_name" AS VARCHAR) AS "Country_name",
+    CAST("EEA38" AS VARCHAR) AS "EEA38",
+    CAST("EEA39" AS VARCHAR) AS "EEA39",
+    CAST("EU27" AS VARCHAR) AS "EU27",
+    CAST("EU28" AS VARCHAR) AS "EU28",
+    CAST("NUTS_CODE" AS VARCHAR) AS "NUTS_CODE"
+FROM "european-environment-agency-fise.v-vita-gfra-forest-area-change-deforestation"

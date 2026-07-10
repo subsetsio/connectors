@@ -1,0 +1,23 @@
+SELECT
+    CAST("abundance_category" AS VARCHAR) AS "abundance_category",
+    CAST("appears_number_sites" AS VARCHAR) AS "appears_number_sites",
+    CAST("code_2000" AS VARCHAR) AS "code_2000",
+    CAST("common_name" AS VARCHAR) AS "common_name",
+    CAST("counting_unit" AS VARCHAR) AS "counting_unit",
+    CAST("E27_threat_code" AS VARCHAR) AS "E27_threat_code",
+    CAST("E27_threat_name" AS VARCHAR) AS "E27_threat_name",
+    CAST("EU_threat_code" AS VARCHAR) AS "EU_threat_code",
+    CAST("EU_threat_name" AS VARCHAR) AS "EU_threat_name",
+    CAST("id_eunis" AS VARCHAR) AS "id_eunis",
+    CAST("lower_bound" AS VARCHAR) AS "lower_bound",
+    CAST("picture_url" AS VARCHAR) AS "picture_url",
+    CAST("population_type" AS VARCHAR) AS "population_type",
+    CAST("scientific_name" AS VARCHAR) AS "scientific_name",
+    CAST("site_code" AS VARCHAR) AS "site_code",
+    CAST("species_code" AS VARCHAR) AS "species_code",
+    CAST("species_group_name" AS VARCHAR) AS "species_group_name",
+    CAST("species_name" AS VARCHAR) AS "species_name",
+    CAST("upper_bound" AS VARCHAR) AS "upper_bound",
+    CAST("WO_threat_code" AS VARCHAR) AS "WO_threat_code",
+    CAST("WO_threat_name" AS VARCHAR) AS "WO_threat_name"
+FROM "european-environment-agency-bise.site-species-list-details"

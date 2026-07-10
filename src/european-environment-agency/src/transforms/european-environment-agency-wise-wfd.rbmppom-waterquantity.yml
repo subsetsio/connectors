@@ -1,0 +1,54 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "reportedUnderSoEQuantity"
+    type: VARCHAR
+    description: "Required. Indicate whether information on water abstraction (understood as consumptive use or net consumption) has previously been reported to SoE-Water Quantity.  If 'Yes' is reported, there is no need to provide any further information regarding WEI+."
+  - name: "weiNational"
+    type: VARCHAR
+    description: "Optional. If available and not already reported to SoE-Water Quantity, report the annual water exploitation index (WEI+) as a percentage at national level. This can be reported either for the latest available reference year or as an average of the latest available 5-year period."
+  - name: "weiNationalYear"
+    type: VARCHAR
+    description: "Conditional. If WEI+ at national level is reported, report the latest available reference year (in the format YYYY) or 5-year period (in the format YYYY--YYYY) used in the calculation of the annual WEI+ at national level as reported in weiNational.  Quality checks: Conditional check: report if and only if weiNational is reported.  Element check: Reporting must be in the format YYYY (for a single year) or YYYY--YYYY (for a period)."
+  - name: "weiRBD"
+    type: VARCHAR
+    description: "Conditional. If water abstraction has been identified as a significant pressure at RBD level and WEI+ was not already reported to SoE-Water Quantity, report the annual WEI+ as a percentage at RBD level. This can be reported either for the latest available reference year or as an average of the latest available 5-year period.  If it is not possible to report the value of WEI+ at RBD level, report '0' and report an alternative indicator under wqAlternativeIndicatorReference below.  Quality checks: Conditional check: Report if and only if wqPressure is 'Yes' and reportedUnderSoEQuantity is 'No'."
+  - name: "weiRBDYear"
+    type: VARCHAR
+    description: "Conditional. If WEI+ at RBD level is reported, report the latest available reference year (in the format YYYY) or 5-year period (in the format YYYY--YYYY) used in the calculation of the annual WEI+ at RBD level as reported in weiRBD.  Quality checks: Conditional check: Report if and only if weiRBDl is reported.  Element check: Reporting must be in the format YYYY (for a single year) or YYYY--YYYY (for a period)."
+  - name: "weiWorst"
+    type: VARCHAR
+    description: "Conditional. If water abstraction has been identified as a significant pressure at RBD level and WEI+ was not already reported to SoE-Water Quantity, report the WEI+ for the worst month as a percentage at RBD level. If water scarcity does not exhibit a seasonal pattern, report '0'.  Quality checks: Conditional check: Report if and only if wqPressure is 'Yes' and reportedUnderSoEQuantity is 'No'."
+  - name: "weiWorstMonth"
+    type: VARCHAR
+    description: "Conditional. If WEI+ at RBD level is reported for the worst month, report the corresponding month and year (in the format YYYY-MM).  Quality checks: Conditional check: Report if and only if weiWorst is reported and is not '0'.  Element check: Reporting must be in the format YYYY-MM."
+  - name: "wqPressure"
+    type: VARCHAR
+    description: "Required. Indicate whether water abstraction (understood as consumptive use or net consumption) has been identified as a significant pressure at the RBD level (or in significant portions of the RBD). ."
+  - name: "wqVolumeReferenceYear"
+    type: VARCHAR
+    description: "Conditional. If water abstraction has been identified as a significant pressure at the RBD level and WEI+ was not already reported to SoE-Water Quantity, provide the reference year (in the format YYYY) or 5-year period (in the format YYYY--YYYY) used in the estimates of water consumption or of the values of non-consumptive use, imports or exports of water.<b> </b>  Quality checks:<b> </b>Conditional check: Report if and only if wqPressure is 'Yes' and reportedUnderSoEQuantity is 'No'.  Element check: must be reported in the format YYYY (for a single year) or YYYY--YYYY (for a period).   ."

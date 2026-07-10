@@ -1,0 +1,99 @@
+columns:
+  - name: "coOrdinationFloodsDirective"
+    type: VARCHAR
+    description: "Required. Indicate whether joint consultation was carried out on the RBMP and Flood Risk Management Plans. ."
+  - name: "coOrdinationMSFD"
+    type: VARCHAR
+    description: "Required. Indicate whether joint consultation was carried out on the RBMPs and Marine Strategy. ."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "documentAvailability"
+    type: VARCHAR
+    description: "Required. Indicate whether the consultation documents (e.g. draft RBMPs and background documents) were made available for 6 months for feedback."
+  - name: "documentProvisionOther"
+    type: VARCHAR
+    description: "Conditional. If 'Other' is reported under documentProvision, list the method(s) used.  Quality checks: Conditional check: Report if and only if documentProvision is 'Other'."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "finalRBMPPublicationDate"
+    type: VARCHAR
+    description: "Required. Date of publication of the final RBMP, in the format YYYY-MM-DD."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "impactPublicParticipationOther"
+    type: VARCHAR
+    description: "onditional. If 'Other' is reported under impactPublicParticipation, list the impact(s).  Quality checks: Conditional check: Report if and only if impactPublicParticipation is 'Other'."
+  - name: "integrationFloodsDirective"
+    type: VARCHAR
+    description: "Required. Indicate whether the RBMP and Flood Risk Management Plans produced under the Floods Directive have been integrated into a single plan. ."
+  - name: "internationalCoOrdination"
+    type: VARCHAR
+    description: "Quality checks: Conditional check: Report if and only if RBDSUCA/RBD/internationalRBD is 'Yes'."
+  - name: "internationalCoOrdinationPublicParticipation"
+    type: VARCHAR
+    description: "Conditional. If the RBD is international, indicate whether there has been international co-ordination on public participation and active involvement of interested parties.  Quality checks: Conditional check: Report if and only if RBDSUCA/RBD/internationalRBD is 'Yes'."
+  - name: "ongoingStakeholderInvolvement"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list the tools(s) used to achieve a continued active participation of stakeholders in the implementation of the WFD. More than one tool may be selected. 'Other outreach activities' or 'Other' must be reported only when a tool used is not included in the enumeration list OngoingStakeholderInvolvement_Enum."
+  - name: "ongoingStakeholderInvolvementOther"
+    type: VARCHAR
+    description: "Conditional. If 'Other' is reported under ongoingStakeholderInvolvement, list the tool(s) used.  Quality checks: Conditional check: Report if and only if ongoingStakeholderInvolvement is 'Other'."
+  - name: "ongoingStakeholderInvolvementOtherOutreach"
+    type: VARCHAR
+    description: "Conditional. If 'Other outreach activities' is selected from the enumeration list under ongoingStakeholderInvolvement, list the outreach activities(s) used. Quality checks: Conditional check: Report if ongoingStakeholderInvolvement is 'Other outreach activities'."
+  - name: "publicConsultationInformationOther"
+    type: VARCHAR
+    description: "Conditional. If 'Other' is selected from the enumeration list under publicConsultationInformation, list the mechanism(s) used. Quality checks: Conditional check: Report if publicConsultationInformation is 'Other'."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "rbmpConsultationOther"
+    type: VARCHAR
+    description: "Conditional. If 'Other' is reported under rbmpConsultation, list the tool(s) used.  Quality checks: Conditional check: Report if and only if rbmpConsultation is 'Other'."
+  - name: "rbmpConsultationPublicationDate"
+    type: VARCHAR
+    description: "Required. Date of publication of the consultation measures for the production of the RBMP, in the format YYYY-MM-DD."
+  - name: "rbmpDraftVersionDate"
+    type: VARCHAR
+    description: "Required. Date of publication of the draft version of the RBMP for public consultation, in the format YYYY-MM-DD."
+  - name: "rbmpInterimOverviewDate"
+    type: VARCHAR
+    description: "Required. Date of publication of the interim overview of the Significant Water Management Issues, in the format YYYY-MM-DD."
+  - name: "rbmpName"
+    type: VARCHAR
+    description: "Required. Name of the RBMP as published."
+  - name: "rbmpProgrammePublicationDate"
+    type: VARCHAR
+    description: "Required. Date of publication of the work programme for the production of the RBMP, in the format YYYY-MM-DD."
+  - name: "rbmpTimetablePublicationDate"
+    type: VARCHAR
+    description: "Required. Date of publication of the timetable for the production of the RBMP, in the format YYYY-MM-DD."
+  - name: "sea"
+    type: VARCHAR
+    description: "Required. Indicate whether Strategic Environmental Assessments (SEA) have been undertaken on the RBMP and PoM. ."
+  - name: "stakeholderGroupsOther"
+    type: VARCHAR
+    description: "onditional check: If stakeholderGroups is 'Other', list the stakeholder groups.  Quality checks: Conditional check: Report if and only if stakeholderGroups is 'Other'."
+  - name: "subPlans"
+    type: VARCHAR
+    description: "Required. Indicate whether there are specific sub-plans as mentioned in Article 13.5 of the WFD. ."
+  - name: "subPlansCoverageOther"
+    type: VARCHAR
+    description: "Conditional. If 'Other' is reported under subPlansCoverage, list the issue(s) addressed.  Quality checks: Conditional check: Report if and only if subPlansCoverage is 'Other'."

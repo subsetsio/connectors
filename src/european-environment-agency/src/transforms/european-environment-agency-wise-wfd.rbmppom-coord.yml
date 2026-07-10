@@ -1,0 +1,69 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "iRBMPIssuesChemical"
+    type: VARCHAR
+    description: "Conditional. Does the international RBMP address chemical pollution?   Quality checks: Conditional check: Report if pomInternationalRBD is 'Yes'."
+  - name: "iRBMPIssuesNutrient"
+    type: VARCHAR
+    description: "Conditional. If an international RBMP has been produced, does it address nutrient pollution?   Quality checks: Conditional check: Report if and only if pomCoOrdinationIRBMPPoM is 'Yes...'."
+  - name: "iRBMPIssuesOther"
+    type: VARCHAR
+    description: "Conditional. If an international RBMP has been produced, report any other issues addressed by the international RBMP that are not covered in the previous questions. If no other issues are addressed, report 'None'.   <b>Quality checks</b>: Conditional check: Report if and only if pomCoOrdinationIRBMPPoM is 'Yes...'."
+  - name: "iRBMPIssuesOtherHydromorphological"
+    type: VARCHAR
+    description: "Conditional. If an international RBMP has been produced, does it address other hydromorphological measures?   Quality checks: Conditional check: Report if and only if pomCoOrdinationIRBMPPoM is 'Yes...'."
+  - name: "iRBMPIssuesRiverContinuity"
+    type: VARCHAR
+    description: "Conditional. If an international RBMP has been produced, does it address river continuity?   Quality checks: Conditional check: Report if and only if pomCoOrdinationIRBMPPoM is 'Yes'."
+  - name: "iRBMPIssuesSediment"
+    type: VARCHAR
+    description: "Conditional. If an international RBMP has been produced, does it address sediment management?   Quality checks: Conditional check: Report if and only if pomCoOrdinationIRBMPPoM is 'Yes'."
+  - name: "pomCoOrdinationArt5SWMI"
+    type: VARCHAR
+    description: "Conditional. Has the Article 5 analysis and identification of Significant Water Management Issues been co-ordinated in the development of the Programme of Measures? Quality checks: Conditional check: Report if pomInternationalRBD is 'Yes'."
+  - name: "pomCoOrdinationFinancial"
+    type: VARCHAR
+    description: "Required. Have financial resources for joint co-operation been made available? ."
+  - name: "pomCoOrdinationIRBMPPoM"
+    type: VARCHAR
+    description: "Required. Have international RBMP and PoM been produced, incorporating all relevant Member States? ."
+  - name: "pomCoOrdinationJointVision"
+    type: VARCHAR
+    description: "Required. Have joint visions and management objectives been established for the coordination of the Programmes of Measures?   -------------------------  Please note that the multiplicity of the Class CoOrd is 0 to many. Therefore, if the RBD is not part of an international RBD, this whole class does not need to be reported."
+  - name: "pomCoOrdinationLinks"
+    type: VARCHAR
+    description: "Conditional. If an international RBMP has been produced, have explicit links with national RBMPs been made within the international RBMP?   Quality checks: Conditional check: Report if and only if pomCoOrdinationIRBMPPoM is 'Yes...'."
+  - name: "pomCoOrdinationRoofReport"
+    type: VARCHAR
+    description: "Required. Has an international Roof Report (or A-plan) covering all relevant Member States been prepared based on the national River Basin Management Plans (or B-plans)?."
+  - name: "pomCoOrdinationSectors"
+    type: VARCHAR
+    description: "Required. Has there been sectoral and stakeholder involvement within the international co-ordination mechanisms? ."
+  - name: "pomCoOrdinationTransparency"
+    type: VARCHAR
+    description: "Required. Has there been transparency of international co-ordination to stakeholders and others? ."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."

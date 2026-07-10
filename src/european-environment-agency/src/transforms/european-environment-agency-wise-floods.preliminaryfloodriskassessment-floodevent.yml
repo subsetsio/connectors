@@ -1,0 +1,43 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "crossBorderRelationship"
+    type: VARCHAR
+    description: "Required.\r\nChoose from the 'YesNo' codelist values.\r\nPlease indicate 'Yes' if the flood location cross the national border or the unit of management."
+  - name: "dateOfCommencement"
+    type: VARCHAR
+    description: "Conditional.\r\nIf the answer to 'CategoryFlood' is 'past flood', then give the date of commencement of the flood. Can be in the format 'yyyy' , 'yyyy-mm' or 'yyyy-mm-dd'."
+  - name: "durationOfFlood"
+    type: VARCHAR
+    description: "Conditional.\r\nIf the answer to 'CategoryFlood' is 'past flood', then give the number of days (duration) of the flood. The exemption types -9999 = 'Unknown', -8888 = 'Yet to be measured' and -7777 = 'Not Applicable' can be used."
+  - name: "euFloodsUnitOfManagementCode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nRequired.\r\nUnique EU code for the Unit of Management or WFD River Basin District following the WISE identifier syntax. Add the two-letter ISO Country code to the Member State unique id - up to 42 characters in total."
+  - name: "eventTypePastFuture"
+    type: VARCHAR
+    description: "Required.\r\nChoose from the 'EventTypePastFuture' codelist values.\r\nIs the event a past event or a future event?."
+  - name: "floodEventCode"
+    type: VARCHAR
+    description: "Max length: 85 characters.\r\nRequired.\r\nUnique code for the flood event."
+  - name: "floodEventName"
+    type: VARCHAR
+    description: "Max length: 200 characters.\r\nOptional.\r\nName of the flood event."
+  - name: "floodEventReference"
+    type: VARCHAR
+    description: "Optional.\r\nProvide Optionalocument(s) or link(s) to any other relevant information relating to the details of the specific flood event. This could include links to specific reports or articles and/or specific details of the particular event."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "returnPeriod"
+    type: VARCHAR
+    description: "Max length: 50 characters.\r\nOptional. \r\nThe average number of years between floods of a certain size. Can also be reported as a range. The exemption types -9999 = 'Unknown', -8888 = 'Yet to be measured' and -7777 = 'Not Applicable' can be used."

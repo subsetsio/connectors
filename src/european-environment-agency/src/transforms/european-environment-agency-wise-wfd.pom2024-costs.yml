@@ -1,0 +1,43 @@
+columns:
+  - name: "costExplanation20212024Reference"
+    type: VARCHAR
+    description: "Optional. Provide a reference or hyperlink to the relevant document and section where specific information can be found on how the costs reported for the third planning cycle have been calculated. This information must be uploaded to WISE or made available on the web.  If a hyperlink to information stored on a Member State’s server is reported, the Member State must guarantee that the hyperlink will remain stable and active for a period of 6 years after reporting, and that the information referred to will not be revised or updated."
+  - name: "costOfMeasuresPeriod20212024"
+    type: VARCHAR
+    description: "Required. Report the time period (e.g. 2021--2024, etc) to which the reported costs refer. ."
+  - name: "costOfMeasuresScale20212024"
+    type: VARCHAR
+    description: "Required. Indicate whether the costs reported refer to this specific RBD or for the Member State as a whole."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2024 for the Progress on the Program of Measures reporting for 3rd River Basin Management Plans (PoM2024)."
+  - name: "euFunds20212024"
+    type: VARCHAR
+    description: "Required. Report the total investment expenditure for the Programme of Measures for the first half of the third planning cycle, which were financed by EU funds as an estimated cost or range."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Unique EU code of the River Basin District. Required. This element can be pre-filled.  A FeatureUniqueEUCodeType identifier must follow the syntax of the WISE identifiers. It must start with the two-letter country code of the Member State, followed by one character that can be a digit or an uppercase letter, followed by a sequence of characters (0 to 38 characters long) that can be digits or uppercase letters, with no consecutive double hyphens or double underscores, but allowing for single hyphens or underscores between characters. The code can optionally end with one character that can be a digit or an uppercase letter.  Examples: FR123, FR1_XYZ1234_1, FR1-XYZ1234-1, FR1XYZ12341 but not FR1__XYZ1234__1 or FRa123."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: pseudo-URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+    description: "Data management attribute: 1, if structure descriptive data has been delivered; 0, if not."
+  - name: "investmentCosts20212024"
+    type: VARCHAR
+    description: "Required. Report the total investment expenditure (in millions of Euros)  that were effectively implemented under Articles 11(3), 11(4) and 11(5), during the  third planning cycle. ."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."

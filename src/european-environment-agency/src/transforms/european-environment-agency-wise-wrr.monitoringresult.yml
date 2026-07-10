@@ -1,0 +1,49 @@
+columns:
+  - name: "competentAuthority"
+    type: VARCHAR
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "cYear"
+    type: VARCHAR
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "nonComplianceIdentifier"
+    type: VARCHAR
+    description: "Unique European identifier for the noncompliance case\nGuidance: reporting is required.\nProvide the unique identifier of the noncompliance case. The identifier must follow the syntax defined for WISE identifiers (see the guidance for the responsiblePartyIdentifier element). ."
+  - name: "parameterCode"
+    type: VARCHAR
+    description: "parameter which is sampled\nGuidance: reporting is required.\nUse the values provided in the Parameter codelist value. If a specific parameter is not present in the codelist, please contact water-reuse.helpdesk@eionet.europa.eu ."
+  - name: "permitIdentifier"
+    type: VARCHAR
+  - name: "phenomenonTimeSamplingDate"
+    type: VARCHAR
+    description: "date of the sampling, in the format YYYY-MM-DD \nGuidance: reporting is required."
+  - name: "procedureLOQValue"
+    type: VARCHAR
+    description: "limit of quantification value, in the unit of measure reported in the resultUom field\nGuidance: reporting is conditional.\nThe LoQ is required for hazardous substances. It is also required for any record where  resultQualityObservedValueBelowLOQ = 'yes'. \nThe LoQ is defined as the smallest concentration that can be distinguished from the analytical blank at a chosen level of statistical confidence (usually 95%)."
+  - name: "remarks"
+    type: VARCHAR
+    description: "additional information about the record, in English or in the national language.\nGuidance: reporting is optional."
+  - name: "resultObservationStatus"
+    type: VARCHAR
+    description: "status of the reported value \nGuidance: reporting is optional."
+  - name: "resultObservedValue"
+    type: VARCHAR
+    description: "the measured value (e.g., concentration of a given substance), in the unit of measure reported in the resultUom field\nGuidance: reporting is required.\nIf resultQualityObservedValueBelowLOQ = 'no', reporting is required.\nThe reporting of values below or equal to LOQ is also accepted."
+  - name: "resultQualityObservedValueBelowLOQ"
+    type: VARCHAR
+    description: "was the measured value below the LOQ?\nGuidance: reporting is required. ."
+  - name: "resultUom"
+    type: VARCHAR
+    description: "unit of measure for the values of the sampled parameter.\nGuidance: reporting is required.\nUse the values in the UnitOfMeasure codelist. If a specific unit of measure is not present in the codelist, please contact water-reuse.helpdesk@eionet.europa.eu ."

@@ -1,0 +1,21 @@
+SELECT
+    CAST("catalogueCode" AS VARCHAR) AS "catalogueCode",
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("descriptorsItLinksTo" AS VARCHAR) AS "descriptorsItLinksTo",
+    CAST("existingPoliciesLink" AS VARCHAR) AS "existingPoliciesLink",
+    CAST("ktmLinkTo" AS VARCHAR) AS "ktmLinkTo",
+    CAST("measureImpactToDetails" AS VARCHAR) AS "measureImpactToDetails",
+    CAST("measureImpactToId" AS VARCHAR) AS "measureImpactToId",
+    CAST("measureName" AS VARCHAR) AS "measureName",
+    CAST("measureNatureId" AS VARCHAR) AS "measureNatureId",
+    CAST("measureNumber" AS VARCHAR) AS "measureNumber",
+    CAST("measureOriginId" AS VARCHAR) AS "measureOriginId",
+    CAST("measureStatusId" AS VARCHAR) AS "measureStatusId",
+    CAST("otherSpatialScope" AS VARCHAR) AS "otherSpatialScope",
+    CAST("relevantFeaturesFromAnnexIII" AS VARCHAR) AS "relevantFeaturesFromAnnexIII",
+    CAST("relevantTargets" AS VARCHAR) AS "relevantTargets",
+    CAST("sectorId" AS VARCHAR) AS "sectorId",
+    CAST("spatialScopeId" AS VARCHAR) AS "spatialScopeId",
+    CAST("useOrActivityId" AS VARCHAR) AS "useOrActivityId",
+    CAST("waterBodyCategoryId" AS VARCHAR) AS "waterBodyCategoryId"
+FROM "european-environment-agency-wise-shippingsports-measures.msfd-filtered"

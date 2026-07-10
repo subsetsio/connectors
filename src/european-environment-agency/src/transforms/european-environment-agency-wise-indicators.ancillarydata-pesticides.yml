@@ -1,0 +1,61 @@
+columns:
+  - name: "AAEQS"
+    type: VARCHAR
+    description: "Annual Average Ecological Quality Standard, in micrograms per litre."
+  - name: "approval"
+    type: VARCHAR
+    description: "Status of approval for each pesticide."
+  - name: "approvedUntil"
+    type: VARCHAR
+    description: "End date of approval for approved pesticides."
+  - name: "chemicalGroup"
+    type: VARCHAR
+    description: "Chemical group of each pesticide."
+  - name: "countriesWithLowestAAEQS"
+    type: VARCHAR
+    description: "List of countries with the lowest AAEQS (Annual Average Ecological Quality Standard)."
+  - name: "countriesWithLowestMACEQS"
+    type: VARCHAR
+    description: "List of countries with the lowest MACEQS (Maximum Allowable Concentration Ecological Quality Standard)."
+  - name: "includedInTotal"
+    type: VARCHAR
+    description: "Pesticide included in the total sum of pesticides for another ObservedPropertyCode."
+  - name: "MACEQS"
+    type: VARCHAR
+    description: "Maximum Allowable Concentration Ecological Quality Standard, in micrograms per litre."
+  - name: "MoA"
+    type: VARCHAR
+    description: "Mode of action."
+  - name: "numberOfCountriesWithRegulatedAAEQS"
+    type: VARCHAR
+    description: "Number of countries with regulated AAEQS (Annual Average Ecological Quality Standard)."
+  - name: "numberOfCountriesWithRegulatedMACEQS"
+    type: VARCHAR
+    description: "Number of countries with regulated MACEQS (Maximum Allowable Concentration Ecological Quality Standard)."
+  - name: "observedPropertyAltLabel"
+    type: VARCHAR
+    description: "Alternative label of the observed property. See https://dd.eionet.europa.eu/vocabulary/wise/ObservedProperty."
+  - name: "observedPropertyCode"
+    type: VARCHAR
+    description: "Code of the observed property. See https://dd.eionet.europa.eu/vocabulary/wise/ObservedProperty."
+  - name: "observedPropertyLabel"
+    type: VARCHAR
+    description: "Label of the observed property. See https://dd.eionet.europa.eu/vocabulary/wise/ObservedProperty."
+  - name: "qualityStandard"
+    type: VARCHAR
+    description: "Quality standard for grounwater, in micrograms per litre."
+  - name: "remarks"
+    type: VARCHAR
+    description: "Remarks, comments or explanatory notes."
+  - name: "resultUom"
+    type: VARCHAR
+    description: "Unit of measure for the reported values."
+  - name: "source"
+    type: VARCHAR
+    description: "Source of the Ecological Quality Standard."
+  - name: "sourceDescription"
+    type: VARCHAR
+    description: "Description of the source of the Ecological Quality Standard."
+  - name: "usage"
+    type: VARCHAR
+    description: "Usage of the pesticide."

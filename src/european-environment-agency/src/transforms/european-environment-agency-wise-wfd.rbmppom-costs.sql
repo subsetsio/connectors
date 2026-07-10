@@ -1,0 +1,21 @@
+SELECT
+    CAST("annualCosts20212027" AS VARCHAR) AS "annualCosts20212027",
+    CAST("costOfMeasurePeriod20152021" AS VARCHAR) AS "costOfMeasurePeriod20152021",
+    CAST("costOfMeasurePeriod20212027" AS VARCHAR) AS "costOfMeasurePeriod20212027",
+    CAST("costOfMeasuresScale20152021" AS VARCHAR) AS "costOfMeasuresScale20152021",
+    CAST("costOfMeasuresScale20212027" AS VARCHAR) AS "costOfMeasuresScale20212027",
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryGroup" AS VARCHAR) AS "countryGroup",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("cYear" AS VARCHAR) AS "cYear",
+    CAST("depreciation20212027" AS VARCHAR) AS "depreciation20212027",
+    CAST("euFunds20152021" AS VARCHAR) AS "euFunds20152021",
+    CAST("euFunds20212027" AS VARCHAR) AS "euFunds20212027",
+    CAST("euRBDCode" AS VARCHAR) AS "euRBDCode",
+    CAST("fileUrl" AS VARCHAR) AS "fileUrl",
+    CAST("hasDescriptiveData" AS VARCHAR) AS "hasDescriptiveData",
+    CAST("investmentCosts20152021" AS VARCHAR) AS "investmentCosts20152021",
+    CAST("investmentCosts20212027" AS VARCHAR) AS "investmentCosts20212027",
+    CAST("rbdArea" AS VARCHAR) AS "rbdArea",
+    CAST("rbdName" AS VARCHAR) AS "rbdName"
+FROM "european-environment-agency-wise-wfd.rbmppom-costs"

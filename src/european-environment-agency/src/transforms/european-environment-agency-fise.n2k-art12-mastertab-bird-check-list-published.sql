@@ -1,0 +1,21 @@
+SELECT
+    CAST("annex_i" AS VARCHAR) AS "annex_i",
+    CAST("annex_ii_partA" AS VARCHAR) AS "annex_ii_partA",
+    CAST("annex_ii_partB" AS VARCHAR) AS "annex_ii_partB",
+    CAST("country" AS VARCHAR) AS "country",
+    CAST("country_isocode" AS VARCHAR) AS "country_isocode",
+    CAST("euringcode" AS VARCHAR) AS "euringcode",
+    CAST("keywintering" AS VARCHAR) AS "keywintering",
+    CAST("non_native" AS VARCHAR) AS "non_native",
+    CAST("presence" AS VARCHAR) AS "presence",
+    CAST("recommended_unit" AS VARCHAR) AS "recommended_unit",
+    CAST("season" AS VARCHAR) AS "season",
+    CAST("spa_trigger" AS VARCHAR) AS "spa_trigger",
+    CAST("speciescode" AS VARCHAR) AS "speciescode",
+    CAST("speciesname" AS VARCHAR) AS "speciesname",
+    CAST("sub_unit" AS VARCHAR) AS "sub_unit",
+    CAST("taxFamily" AS VARCHAR) AS "taxFamily",
+    CAST("taxFamily_en" AS VARCHAR) AS "taxFamily_en",
+    CAST("taxGroup_en" AS VARCHAR) AS "taxGroup_en",
+    CAST("taxOrder" AS VARCHAR) AS "taxOrder"
+FROM "european-environment-agency-fise.n2k-art12-mastertab-bird-check-list-published"

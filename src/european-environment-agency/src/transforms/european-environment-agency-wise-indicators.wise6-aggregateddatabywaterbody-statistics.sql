@@ -1,0 +1,23 @@
+SELECT
+    CAST("eeaIndicator" AS VARCHAR) AS "eeaIndicator",
+    CAST("maxValue" AS VARCHAR) AS "maxValue",
+    CAST("meanValue" AS VARCHAR) AS "meanValue",
+    CAST("minValue" AS VARCHAR) AS "minValue",
+    CAST("numberOfValues" AS VARCHAR) AS "numberOfValues",
+    CAST("P01" AS VARCHAR) AS "P01",
+    CAST("P05" AS VARCHAR) AS "P05",
+    CAST("P10" AS VARCHAR) AS "P10",
+    CAST("P20" AS VARCHAR) AS "P20",
+    CAST("P40" AS VARCHAR) AS "P40",
+    CAST("P50" AS VARCHAR) AS "P50",
+    CAST("P60" AS VARCHAR) AS "P60",
+    CAST("P80" AS VARCHAR) AS "P80",
+    CAST("P90" AS VARCHAR) AS "P90",
+    CAST("P95" AS VARCHAR) AS "P95",
+    CAST("P99" AS VARCHAR) AS "P99",
+    CAST("P995" AS VARCHAR) AS "P995",
+    CAST("P999" AS VARCHAR) AS "P999",
+    CAST("resultUom" AS VARCHAR) AS "resultUom",
+    CAST("stdevValue" AS VARCHAR) AS "stdevValue",
+    CAST("waterBodyCategory" AS VARCHAR) AS "waterBodyCategory"
+FROM "european-environment-agency-wise-indicators.wise6-aggregateddatabywaterbody-statistics"

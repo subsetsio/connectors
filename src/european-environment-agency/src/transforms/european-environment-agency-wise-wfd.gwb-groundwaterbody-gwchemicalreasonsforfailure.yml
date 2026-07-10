@@ -1,0 +1,97 @@
+columns:
+  - name: "cArea"
+    type: VARCHAR
+    description: "Data management attribute: Area in square kilometer."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euGroundWaterBodyCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of the groundwater body.  Prefix the groundwater body's national, unique code with the Member State's 2-letter ISO country code (*).  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euGroundWaterBodyCode must be unique.  Cross-schema check: euGroundWaterBodyCode must be identical to a thematicIdIdentifier reported for groundwater bodies in spatial data.    (*)Member State's 2-letter ISO country code: http://publications.europa.eu/code/en/en-370100.htm (Note: for Greece use 'EL')."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "geologicalFormation"
+    type: VARCHAR
+    description: "Required. Describe the main geological formation of the aquifer type."
+  - name: "groundWaterBodyName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the groundwater body in English that is meaningful outside of the RBD or Member State.  ."
+  - name: "groundwaterBodyTransboundary"
+    type: VARCHAR
+    description: "Required. The Directive requires coordination among Member States for the management of transboundary Water Bodies. Transboundary water bodies are those crossing the border between countries or constituting part of the border between two countries for a certain length. For reporting purposes in the case of water bodies that cross the border between countries, and for the sake of clarity, each Member State should report on its own part of these trans-boundary Water Bodies. Geographic information should therefore be provided for the part of the Water Body within the reporting Member State and likewise for all elements which have a clear geographical reference (e.g. size, monitoring stations). Each Member State should also report on all elements that apply to the whole water body (status, pressures, etc). For the latter the Commission expects that the information provided by each of the Member States concerned will be identical, as a result of the coordinated management required by the Directive."
+  - name: "gwAtRiskChemical"
+    type: VARCHAR
+    description: "Required. Report whether the groundwater body is at risk of failing to be in good chemical status. The identification of groundwater bodies at risk should follow the approach given in the CIS Guidance Document No. 26, 'Risk assessment and the use of conceptual models' . Quality checks: Within-schema check: 'Yes' has to be selected if GWPollutant/gwPollutantCausingRisk is 'Yes' for at least one pollutant or indicator of pollution."
+  - name: "gwAtRiskQuantitative"
+    type: VARCHAR
+    description: "Required. Report whether the groundwater body is at risk of failing to be of good quantitative status. Please follow the approach given in the 'CIS Guidance Document No. 26: Risk assessment and the use of conceptual models' (*).    (*) CIS Guidance Document No. 26: Risk assessment and the use of conceptual models:  https://circabc.europa.eu/sd/a/8564a357-0e17-4619-bd76-a54a23fa7885/Guidance%20No%2026%20-  %20GW%20risk%20assessment%20and%20conceptual%20models.pdf."
+  - name: "gwChemicalAssessmentConfidence"
+    type: VARCHAR
+    description: "Required. Indicate the confidence on the chemical status assigned. '0' = No information. '1' = Low confidence (e.g. no monitoring data, or no conceptual model or understanding of the system). '2' = Medium confidence (e.g. limited or insufficiently robust monitoring data and expert judgment plays a significant role in assessment of status). '3' = High confidence (e.g. good monitoring data, and a good conceptual model or understanding of the system based on information on its natural characteristics and its pressures). The criteria used by Member States to assess confidence vary considerably, but the above examples provide some general guidance. For further information, please see CIS Guidance Document No. 7, 'Monitoring under the Water Framework Directive'41 and CIS Guidance Document No. 15, 'Groundwater monitoring'."
+  - name: "gwChemicalAssessmentYear"
+    type: VARCHAR
+    description: "Required. Provide the year on which the assessment of status is based. This may be the year when the groundwater body was monitored or, in case of grouping, the year in which monitoring took place in the groundwater bodies within the group that are used to extrapolate results to non-monitored groundwater bodies. It is possible to report a single year or a period (e.g. 2018--2020)."
+  - name: "gwChemicalReasonsForFailure"
+    type: VARCHAR
+    description: "Conditional. If the groundwater body is in poor chemical status, select the reasons from the enumeration list:   'Surface water' = Failure to achieve Environmental Objectives (Article 4 WFD) in associated surface water bodies or significant diminution of the status of surface waters.   'Groundwater-dependent terrestrial ecosystems' = Significant damage to terrestrial ecosystems which depend directly on the groundwater body.   'Saline or other intrusion' = Regional saline or other intrusions resulting from anthropogenically induced sustained changes in flow direction.   'Drinking Water Protected Area' = Deterioration in quality of waters for human consumption. 'General water quality assessment' = Significant impairment of human uses and/or significant environmental risk from pollutants across the groundwater body.   Further guidance can be found in CIS Guidance Document 18, 'the Groundwater Status and Trends Assessment'."
+  - name: "gwChemicalStatusExpectedAchievementDate"
+    type: VARCHAR
+    description: "Required. Report the period in which good chemical status is expected to be achieved. Select the option '2021 or ealier' if good chemical status has already been reached or is expected to be reached by 2021. The methodology of this assessment should be clearly explained in the RBMP or background documents (reference reported under classification methodologies, see section 8.3). If good chemical status will not be achieved by 2021, exemptions have to be reported. Please report the period in which it is expected that good chemical status will be achieved in full, not the date relating to individual exemptions. However, please note the following: Article 4(4) exemptions relate to the extension of deadlines. According to Article 4(4)(c) of the WFD, postponing the achievement of objectives beyond 2027 is only possible due to natural conditions. If Article 4(5) exemptions apply, report the period in which the less stringent objective is expected to be achieved. If the less stringent objective has already been achieved then select 'Less stringent objectives already achieved'. Quality checks: Within-schema check: 'Less stringent objectives already achieved' is only a valid option if 'Article 4(5)...' is reported under gwChemicalExemptionType.  ."
+  - name: "gwChemicalStatusValue"
+    type: VARCHAR
+    description: "Required. Indicate the chemical status of the groundwater body. '2' = Good status. '3' = Poor status. 'U' = Unknown status. Quality checks: Within-schema check: '3' has to be selected if GWPollutant/gwPollutantCausingFailure is 'Yes' for at least one pollutant or indicator of pollution."
+  - name: "gwEORiskChemical"
+    type: VARCHAR
+    description: "Conditional. If the groundwater body is at risk of failing to be in good chemical status, select from the enumeration list the Environmental Objective to which the risk is related: 'Uses or functions' = The risk is related to the actual or potential legitimate uses or functions of the groundwater body. 'Surface waters / terrestrial ecosystems' = The risk is related to the relationship between groundwater bodies and the associated surface waters and directly dependent terrestrial ecosystems. 'Both' = The risk is related to both objectives above. Further guidance can be found in CIS Guidance Document no. 18, 'Groundwater Status and Trends Assessment'. Quality checks: Conditional check: Report if and only if gwAtRiskChemical is 'Yes'.  ."
+  - name: "gwEORiskQuantitative"
+    type: VARCHAR
+    description: "Conditional. If the groundwater body is at risk of failing to be in good quantitative status, select the Environmental Objective related to the risk from the enumeration list. 'Uses or functions' = The actual or potential legitimate uses or functions of the groundwater body. 'Surface waters / terrestrial ecosystems' = The relationship between groundwater bodies and the associated surface waters and directly dependent terrestrial ecosystems. Quality checks: Conditional check: Report if and only if gwAtRiskQuantitative is 'Yes'."
+  - name: "gwQuantitativeAssessmentConfidence"
+    type: VARCHAR
+    description: "Required. Indicate the confidence on the quantitative status assigned.   '0' = No information.  '1' = Low confidence (e.g. no monitoring data, or no conceptual model or understanding of the system).  '2' = Medium confidence (e.g. limited or insufficiently robust monitoring data and expert judgment plays a significant role in assessment of status).   '3' = High confidence (e.g. good monitoring data and a good conceptual model or understanding of the system based on information on its natural characteristics and its pressures).   The criteria used by Member States to assess confidence vary considerably, but the above examples provide some general guidance. For further information, please see CIS Guidance Document No. 7, 'Monitoring under the Water Framework Directive' and CIS Guidance Document No. 15, 'Groundwater monitoring'.  ."
+  - name: "gwQuantitativeAssessmentYear"
+    type: VARCHAR
+    description: "Required. Provide the year on which the assessment of status is based. This may be the year when the groundwater body was monitored or, in case of grouping, the year in which monitoring took place in the groundwater bodies within the group that are used to extrapolate results to non-monitored groundwater bodies. It is possible to report a single year or a period (e.g. 2018--2020)."
+  - name: "gwQuantitativeStatusExpectedAchievementDate"
+    type: VARCHAR
+    description: "Required. Report the period in which good quantitative status is expected to be achieved. Select the option '2021 or ealier' if good quantitative status has already been reached or is expected to be reached by 2021. The methodology of this assessment should be clearly explained in the RBMP or background documents (reference reported under classification methodologies, see section 8.3). If good quantitative status will not be achieved by 2021, exemptions have to be reported. Please report the period in which it is expected that good quantitative status will be achieved in full, not the date relating to individual exemptions. However, please note the following:  Article 4(4) exemptions relate to the extension of deadlines. According to Article 4(4)(c) of the WFD, postponing the achievement of objectives beyond 2027 is only possible due to natural conditions.   If Article 4(5) exemptions apply, report the period in which the less stringent objective is expected to be achieved. If the less stringent objective has already been achieved then select 'Less stringent objectives already achieved'. Quality checks: Within-schema check: 'Less stringent objectives already achieved' is only a valid option if 'Article 4(5)...' is reported under gwQuantitativeExemptionType.  ."
+  - name: "gwQuantitativeStatusValue"
+    type: VARCHAR
+    description: "Required. Indicate the quantitative status of the groundwater body, based on the most recent assessment.  '2' = Good status.  '3' = Poor status.  'U' = Unknown status."
+  - name: "gwSignificantImpactOther"
+    type: VARCHAR
+    description: "Conditional. If 'OTHE - Other significant impact type' is reported under gwSignificantImpactType, provide details of any other impact types which are  relevant in this element.  Quality checks:   Conditional check: Report if and only if 'OTHE - Other significant impact type' is reported under gwSignificantImpactType."
+  - name: "gwSignificantPressureOther"
+    type: VARCHAR
+    description: "Conditional. If '7 - Anthropogenic pressure - Other' is reported under gwSignificantPressureType, provide details of any other anthropogenic pressure  types which are relevant in this element.  Quality checks:  Conditional check: Report if and only if '7 - Anthropogenic pressure - Other' is  reported under gwSignificantPressureType."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+    description: "Data management attribute: 0, if only spatial data was delivered; 1, if descriptive data has been delivered."
+  - name: "horizons"
+    type: VARCHAR
+    description: "--Definition--  Horizons present in the waterbody, to be reproted as a comma-separated list of integer values.    -- Guidance --  Data Providers reporting under WFD should provide a comma-separated list of the horizons present in the groundwater body.  Example 1: if the all the groundwater body belongs to horizon 1, simply report '1'.  Example 2: if the groundwater body belongs to horizon 2 and 3, report '2,3'. In this situation, the geometry of the part belonging to horizon 2 and the geometry of the part belong to horizon 3, should be reported in the GroundWaterBodyHorizon dataset."
+  - name: "linkSurfaceWaterBody"
+    type: VARCHAR
+    description: "Required. Indicate whether the groundwater body is associated with one or more surface water bodies."
+  - name: "linkTerrestrialEcosystem"
+    type: VARCHAR
+    description: "Required. Indicate whether a terrestrial ecosystem is  directly dependent on the groundwater body.  In order for terrestrial ecosystems to be considered as part of the classification for groundwater  bodies, they need to be 'directly dependent' on the groundwater body. This means that the  groundwater body should provide quantity (flow, level) or quality of water needed to sustain the  significance of the groundwater-dependent terrestrial ecosystem. This critical dependence upon a  groundwater body is most likely to occur where groundwater supplies the terrestrial ecosystem for  a significant part of the year or a significant time period during the year. For more information see  Technical Report No. 6 Technical Report on Groundwater-Dependent Terrestrial Ecosystems (*).    (*)http://bookshop.europa.eu/en/technical-report-on-groundwater-dependent-terrestrial-ecosystems-pbKHAV12006/."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "wiseEvolutionType"
+    type: VARCHAR
+    description: "--Definition--   Type of event that produced or modified the version of the object being reported (creation, change, deletion, aggregation, splitting).  This attribute is required to explicitly report changes and update the current status of the object in the Water Information System for Europe.    -- Further information --    The allowable values are based on those defined in http://inspire.ec.europa.eu/codelist/EvolutionTypeValue/. See also Annex F of the INSPIRE Data Specification on Statistical Units (D2.8.III.1_v3.0RC3) for examples of application.   See the GIS guidance for additional information on the management of life-cycle information."

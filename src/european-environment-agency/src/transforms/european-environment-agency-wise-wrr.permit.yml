@@ -1,0 +1,39 @@
+columns:
+  - name: "competentAuthority"
+    type: VARCHAR
+    description: "unique European identifier of the competent authority responsible for the permit designation.\nGuidance: reporting is required."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "cYear"
+    type: VARCHAR
+  - name: "facilityIdentifier"
+    type: VARCHAR
+    description: "unique European identifier of the facility supplying the reclaimed water.\nGuidance: reporting is required in line with requirements of the Article 6.\nIf the facility is an UWWT plant or point of discharge, the facilityIdentifier should be coherent with UWWTD reporting. If the facility is not an UWWT plant nor a point of discharge, then generate a facilityIdentifier by following the syntax of WISE identifier (see the guidance for the responsiblePartyIdentifier).  ."
+  - name: "facilityIdentifierScheme"
+    type: VARCHAR
+    description: "specification of whether the reclamation facility is an UWWT plant (' urbanWasteWaterTreatmentPlantCode'), a point of discharge of the uwwtp (' urbanWasteWaterDischargePointCode') or a separate reclamation facility (' separateReclamationFacilityPlantCode') Guidance: reporting is required."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "permitIdentifier"
+    type: VARCHAR
+    description: "unique European identifier for the permit\nGuidance: reporting is required. \nProvide a unique identifier code for each permit. The identifier must follow the syntax defined for WISE identifiers (see the guidance for the responsiblePartyIdentifier element). The same identifier must also be used in subsequent reporting years. \nThe identifier must follow the syntax of the WISE identifiers."
+  - name: "remarks"
+    type: VARCHAR
+    description: "additional information about the record, in English or in the national language.\nGuidance: reporting is optional."
+  - name: "validityPeriodEnd"
+    type: VARCHAR
+    description: "end date of the permit in the format YYYY-MM-DD\nGuidance: reporting is required."
+  - name: "validityPeriodStart"
+    type: VARCHAR
+    description: "start date of the permit in the format YYYY-MM-DD\nGuidance: reporting is required."

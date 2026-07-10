@@ -1,0 +1,75 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cvDrinkingWaterValueRange"
+    type: VARCHAR
+    description: "Optional.<b> </b>Report the criteria value or range of criteria values established for the selected pollutant or indicator of pollution for drinking water.  If your report that the threshold values were derived from criteria values (thresholdDerivedFromCV is 'Yes') at least one of the elements cvDrinkingWaterValueRange, cvIrrigationValueRange, cvIndustry or cvOtherDescription needs to be reported, together with cvOtherValueRange and the corresponding element on units of measurement."
+  - name: "cvDrinkingWaterValueUnit"
+    type: VARCHAR
+    description: "Conditional. If cvDrinkingWaterValueRange is reported, report the unit of measurement of the criteria value or range of criteria values.  Quality checks: Conditional check: Report if and only if cvDrinkingWaterValueRange is reported."
+  - name: "cvIndustryValueRange"
+    type: VARCHAR
+    description: "Optional.<b> </b>Report the criteria value or range of criteria values established for the selected pollutant or indicator of pollution for industry.  If your report that the threshold values were derived from criteria values (thresholdDerivedFromCV is 'Yes') at least one of the elements cvDrinkingWaterValueRange, cvIrrigationValueRange, cvIndustry or cvOtherDescription needs to be reported, together with cvOtherValueRange and the corresponding element on units of measurement."
+  - name: "cvIndustryValueUnit"
+    type: VARCHAR
+    description: "Conditional. If cvIndustryValueRange is reported, report the unit of measurement of the criteria value or range of criteria values.  Quality checks: Conditional check: Report if and only if cvIndustryValueRange is reported."
+  - name: "cvIrrigationValueRange"
+    type: VARCHAR
+    description: "Optional.<b> </b>Report the criteria value or range of criteria values established for the selected pollutant or indicator of pollution for irrigation.  If your report that the threshold values were derived from criteria values (thresholdDerivedFromCV is 'Yes') at least one of the elements cvDrinkingWaterValueRange, cvIrrigationValueRange, cvIndustry or cvOtherDescription needs to be reported, together with cvOtherValueRange and the corresponding element on units of measurement."
+  - name: "cvIrrigationValueUnit"
+    type: VARCHAR
+    description: "Conditional. If cvIrrigationValueRange is reported, report the unit of measurement of the criteria value or range of criteria values.  Quality checks: Conditional check: Report if and only if cvIrrigationValueRange is reported."
+  - name: "cvOtherDescription"
+    type: VARCHAR
+    description: "Optional. If threshold values were based on criteria values for uses other than drinking water, irrigation and industry, describe shortly the use being reported.  If your report that the threshold values were derived from criteria values (thresholdDerivedFromCV is 'Yes') at least one of the elements cvDrinkingWaterValueRange, cvIrrigationValueRange, cvIndustry or cvOtherDescription needs to be reported, together with cvOtherValueRange and the corresponding element on units of measurement."
+  - name: "cvOtherValueRange"
+    type: VARCHAR
+    description: "Conditional. If<b> </b>cvOtherDescription is reported, report the criteria value or range of criteria values established for the selected pollutant or indicator of pollution for the use concerned.  Quality checks: Conditional check: Report if and only if cvOtherDescription is reported."
+  - name: "cvOtherValueUnit"
+    type: VARCHAR
+    description: "Conditional. If cvOtherValueRange is reported, report the unit of measurement of the criteria value or range of criteria values."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "pollutantIndicatorCode"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list each pollutant or indicator of pollution in turn for which threshold values have been established.  'EEA_00-00-0 - Other chemical parameter' must be reported only when the pollutant or indicator of pollution for which a threshold value has been established is not included in the enumeration list ChemicalSubstances_Union_Enum.  Quality checks:<b> </b>Cross-schema check: at least one entry in pollutantIndicatorCode must be reported for each pollutant or indicator reported as 'Yes' in one or more instances of GWB/GWPollutant/gwPollutantCausingRisk, except for 'CAS_14797-55-8 - Nitrate' and 'EEA_34-01-5 - Pesticides (active substances in pesticides, including their relevant metabolites, degradation and reaction products) - Total'."
+  - name: "pollutantIndicatorCodeOther"
+    type: VARCHAR
+    description: "Conditional. If pollutantIndicatorCode is 'EEA_00-00-0 Other chemical parameter' please indicate in this field the CAS number (if relevant) and the name of the pollutant or indicator.  Quality check: Conditional check: report if and only if pollutantIndicatorCode is 'EEA_00-00-0 Other chemical parameter'."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "startingPointTrendReversal"
+    type: VARCHAR
+    description: "Required. Report the percentage starting point for trend reversal.  The default value is '75', i.e. 75 % of the threshold value.  If different starting points for trend reversal are applied for the same pollutant or indicator at groundwater body level within the RBD, indicate the range of the starting points applied."
+  - name: "thresholdDerivedFromCV"
+    type: VARCHAR
+    description: "Required. Indicate whether the threshold values were derived from criteria values.  Quality checks: Within-schema check: If thresholdDerivedFromCV is 'Yes', at least one of the elements cvDrinkingWaterValueRange, cvIrrigationValueRange, cvIndustryValueRange or cvOtherDescription needs to be reported. If thresholdDerivedFromCV is 'No', none of the elements cvDrinkingWaterValueRange, cvIrrigationValueRange, cvIndustryValueRange or cvOtherDescription should be reported."
+  - name: "thresholdValueRange"
+    type: VARCHAR
+    description: "Required.<b> </b>Report the threshold value or range of threshold values established for the selected pollutant or indicator of pollution.  The threshold values established for nitrates and pesticides need only be reported if they are more stringent than the groundwater quality standards identified in GWD Annex I."
+  - name: "thresholdValueScale"
+    type: VARCHAR
+    description: "Required. Report the level at which the threshold value is established. ."
+  - name: "thresholdValueUnit"
+    type: VARCHAR
+    description: "Required. Report the unit of measurement of the threshold value or range of threshold values. ."

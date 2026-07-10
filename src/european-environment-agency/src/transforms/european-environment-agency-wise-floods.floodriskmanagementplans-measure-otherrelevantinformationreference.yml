@@ -1,0 +1,79 @@
+columns:
+  - name: "categoryOfPriority"
+    type: VARCHAR
+    description: "Optional.\r\nChoose from the 'CategoryOfPriority' codelist values."
+  - name: "cost"
+    type: VARCHAR
+    description: "Max length: 2000 characters.\r\nOptional.\r\nCost and benefits of the measure(s) (expressed in monetary terms(in €/national currency), quantitative and/or qualitative terms)."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "euFloodsUnitOfManagementCode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nRequired.\r\nUnique EU code for the Unit of Management or WFD River Basin District following the WISE identifier syntax. Add the two-letter ISO Country code to the Member State unique id - up to 42 characters in total."
+  - name: "measureAspect"
+    type: VARCHAR
+    description: "Required. \r\nChoose from the 'MeasureAspect' codelist values, whether this measure is aggregated or individual."
+  - name: "measureCode"
+    type: VARCHAR
+    description: "Max length: 250 characters.\r\nRequired.\r\nUnique code for the measures."
+  - name: "measureDescription"
+    type: VARCHAR
+    description: "Max length: 2000 characters\r\nOptional.\r\nProvide a description of the measure. ."
+  - name: "measureLocation"
+    type: VARCHAR
+    description: "Max length: 250 characters.\r\nOptional.\r\nThis is the location where the measure is implemented. RBD/UoM(), name of location, river basin(code), sub-basin(code) or  water body(code), or other (the most relevant location description shall be chosen from amongst these options)."
+  - name: "measureName"
+    type: VARCHAR
+    description: "Max length: 250 characters.\r\nRequired.\r\nShort descriptive name for the measure."
+  - name: "measureType"
+    type: VARCHAR
+    description: "Required.\r\nChoose from the 'MeasureType' codelist values."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_endLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was retired or replaced, if applicable."
+  - name: "metadata_observationStatus"
+    type: VARCHAR
+    description: "Data management attribute: Status of the record regarding its reliability."
+  - name: "metadata_replacedBy"
+    type: VARCHAR
+    description: "Data management attribute: unique identifier of the record that replaced the current record, if applicable."
+  - name: "metadata_replaces"
+    type: VARCHAR
+    description: "Data management attribute: unique identifier of the record that the current record replaces, if applicable."
+  - name: "metadata_statements"
+    type: VARCHAR
+    description: "Data management attribute: Additional information or statements regarding the reliability of the feature or record."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_statusDate"
+    type: VARCHAR
+    description: "Data management attribute: Date when the metadata status code was set."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "otherCommunityAct"
+    type: VARCHAR
+    description: "Max length: 2000 characters.\r\nOptional.\r\nOther Community Act under which the measure has been implemented (where relevant) (AnnexA.I.4)."
+  - name: "otherRelevantInformationReference"
+    type: VARCHAR
+    description: "Optional.\r\nReference providing additional useful information of clarification related to the measure.\r\nMore than one option can be selected. If more than one, values need to be separated by a semicolon followed by a whitespace. e.g., \"value1; value2; value3\"."
+  - name: "progressDescription"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nOptional.\r\nThis field must be reported if in 'progressReview', 'AB - Abandoned/interrupted' is selected."
+  - name: "progressReview"
+    type: VARCHAR
+    description: "Required.\r\nChoose from the 'MeasureCodesProgress' codelist values.\r\nPlease indicate progress made with implementation of measures.\r\nMore than one option can be selected. If more than one , values need to be separated by a semicolon followed by a whitespace. e.g.: \"value1; value2; value3\"."
+  - name: "UID"
+    type: VARCHAR
+    description: "Record ID at ReportNet 3."
+  - name: "wfdMeasureCode"
+    type: VARCHAR
+    description: "Max length: 250 characters.\r\nOptional.\r\nUnique code for the latest version of the WFD Measure Code."

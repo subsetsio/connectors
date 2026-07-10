@@ -1,0 +1,21 @@
+SELECT
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("metadata_statusCode" AS VARCHAR) AS "metadata_statusCode",
+    CAST("metadata_versionId" AS VARCHAR) AS "metadata_versionId",
+    CAST("ND_Alignment" AS VARCHAR) AS "ND_Alignment",
+    CAST("ND_Metrics" AS VARCHAR) AS "ND_Metrics",
+    CAST("ND_Notes" AS VARCHAR) AS "ND_Notes",
+    CAST("ND_Parameter" AS VARCHAR) AS "ND_Parameter",
+    CAST("ND_ParameterOther" AS VARCHAR) AS "ND_ParameterOther",
+    CAST("ND_ParameterUoM" AS VARCHAR) AS "ND_ParameterUoM",
+    CAST("ND_ParameterUoMOther" AS VARCHAR) AS "ND_ParameterUoMOther",
+    CAST("ND_SamplingNumber" AS VARCHAR) AS "ND_SamplingNumber",
+    CAST("ND_SamplingPeriod" AS VARCHAR) AS "ND_SamplingPeriod",
+    CAST("ND_SamplingSeason" AS VARCHAR) AS "ND_SamplingSeason",
+    CAST("ND_ThresholdMaybe" AS VARCHAR) AS "ND_ThresholdMaybe",
+    CAST("ND_ThresholdNon" AS VARCHAR) AS "ND_ThresholdNon",
+    CAST("ND_Type" AS VARCHAR) AS "ND_Type",
+    CAST("ND_WBCategory" AS VARCHAR) AS "ND_WBCategory",
+    CAST("phenomenonTimeReferenceYear" AS VARCHAR) AS "phenomenonTimeReferenceYear"
+FROM "european-environment-agency-wise-nitrates.nid-eutrophicationstatemethodology"

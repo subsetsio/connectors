@@ -1,0 +1,17 @@
+columns:
+  - name: "CDDAcovLandPercentage"
+    type: VARCHAR
+    description: "Source: https://sdi.eea.europa.eu/catalogue/srv/eng/catalog.search#/metadata/c2a68bc9-543a-4cab-a168-aa20ce0d6951."
+  - name: "countryCode"
+    type: VARCHAR
+  - name: "N2KcovLandPercentage"
+    type: VARCHAR
+    description: "Source: https://sdi.eea.europa.eu/catalogue/srv/eng/catalog.search#/metadata/b1777027-6c85-4d19-bdf2-5840184d6e13 (version 12)."
+  - name: "publication_year"
+    type: VARCHAR
+  - name: "totalCovLandPercentage"
+    type: VARCHAR
+    description: "% of country's land designated as terrestrial protected area and the overlap between Natura 2000.\r\nSource:\r\n1) CDDA:\r\nhttps://sdi.eea.europa.eu/catalogue/srv/eng/catalog.search#/metadata/c2a68bc9-543a-4cab-a168-aa20ce0d6951 (version 19 internal use)\r\n2) Natura 2000:\r\nhttps://sdi.eea.europa.eu/catalogue/srv/eng/catalog.search#/metadata/b1777027-6c85-4d19-bdf2-5840184d6e13 (version 12)\r\n3) EuroBoundaryMap 2020 (for country boundaries)\r\nhttps://sdi.eea.europa.eu/catalogue/srv/eng/catalog.search#/metadata/3275ecdb-a6c5-4ffe-875f-c0b2bfcc5786."
+  - name: "totalCovMarinePercentage"
+    type: VARCHAR
+    description: "% marine protected area in national waters. Overlap of MPA with National Marine waters.\r\nSource:\r\n1) CDDA: https://sdi.eea.europa.eu/catalogue/srv/eng/catalog.search#/metadata/0352a42a-64ee-499e-9462-fe5ede837c0c\r\n2) Natura 2000: https://sdi.eea.europa.eu/catalogue/srv/eng/catalog.search#/metadata/e40ca403-b81a-4ecb-b484-cade980e9a2f\r\n3) Marine waters: https://sdi.eea.europa.eu/catalogue/srv/eng/catalog.search#/metadata/6d365112-5c0a-409e-bd45-68197fe3b2e8."

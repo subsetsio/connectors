@@ -1,0 +1,23 @@
+SELECT
+    CAST("central_europe" AS VARCHAR) AS "central_europe",
+    CAST("Country_name" AS VARCHAR) AS "Country_name",
+    CAST("Country_name_long" AS VARCHAR) AS "Country_name_long",
+    CAST("CR7" AS VARCHAR) AS "CR7",
+    CAST("east_europe" AS VARCHAR) AS "east_europe",
+    CAST("EEA32" AS VARCHAR) AS "EEA32",
+    CAST("EEA38" AS VARCHAR) AS "EEA38",
+    CAST("EEA39" AS VARCHAR) AS "EEA39",
+    CAST("ETFA4" AS VARCHAR) AS "ETFA4",
+    CAST("EU10" AS VARCHAR) AS "EU10",
+    CAST("EU15" AS VARCHAR) AS "EU15",
+    CAST("EU27" AS VARCHAR) AS "EU27",
+    CAST("EU28" AS VARCHAR) AS "EU28",
+    CAST("FAO_ID" AS VARCHAR) AS "FAO_ID",
+    CAST("ISO_CODE2" AS VARCHAR) AS "ISO_CODE2",
+    CAST("ISO_CODE3" AS VARCHAR) AS "ISO_CODE3",
+    CAST("north_europe" AS VARCHAR) AS "north_europe",
+    CAST("NUTS_CODE" AS VARCHAR) AS "NUTS_CODE",
+    CAST("south_europe" AS VARCHAR) AS "south_europe",
+    CAST("UNECE_ID" AS VARCHAR) AS "UNECE_ID",
+    CAST("west_europe" AS VARCHAR) AS "west_europe"
+FROM "european-environment-agency-fise.countries"

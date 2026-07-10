@@ -1,0 +1,40 @@
+columns:
+  - name: "acronym"
+    type: VARCHAR
+    description: "Max length: 100 characters.\r\nOptional.\r\nAcronym for the Competent Authority (if it exists)."
+  - name: "competentAuthorityName"
+    type: VARCHAR
+    description: "Max length: 100 characters.\r\nRequired.\r\nOfficial name of the Competent Authority in English."
+  - name: "competentAuthorityNameNL"
+    type: VARCHAR
+    description: "Max length: 100 characters.\r\nRequired.\r\nOfficial name of the Competent Authority in the Member State’s national language."
+  - name: "competentAuthorityNameNLLanguage"
+    type: VARCHAR
+    description: "Required. \r\nChoose from the 'LanguageCode' codelist values.\r\nLanguage used for reporting the name of the Competent Authority in a national language."
+  - name: "country"
+    type: VARCHAR
+    description: "Max length: 100 characters.\r\nRequired.\r\nCountry where the Competent Authority is located in English."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "euCACode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nRequired.\r\nUnique EU code for the Competent Authority. Add the Two-letter ISO Country code followed by the Member State unique ID."
+  - name: "legalStatusReference"
+    type: VARCHAR
+    description: "Required.\r\nProvide a reference or references to document(s) that explain the legal status of each competent authority. This should include:\r\n<ul>\r\n\t<li>the legislation establishing the competent authority,</li>\r\n\t<li>the legislation laying down the duties of the competent authority in relation to the Floods Directive and</li>\r\n\t<li>the legislation laying down other duties of the competent authority relevant (but not directly related) to the Floods Directive.</li>\r\n</ul>\r\nMore than one option can be selected. If more than one, values need to be separated by a semicolon followed by a whitespace. e.g., \"value1; value2; value3\"."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "url"
+    type: VARCHAR
+    description: "Max length: 2100 characters.\r\nRequired.\r\nWebsite address of the Competent Authority."

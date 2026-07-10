@@ -1,0 +1,39 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "swDisproportionateCost"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list the drivers that are causing the application of exemptions under Article 4(5). More than one driver may be selected. If Article 4(5) exemptions have not been applied report 'Exemption not applied'.  Quality checks: Within-schema check: 'Exemption not applied' should be reported if and only if swExemption45Impact is 'NOTA - Not applicable'."
+  - name: "swDisproportionateCostOtherEULegislation"
+    type: VARCHAR
+    description: "Conditional. Indicate whether the costs of basic measures listed in Article 11(3)(a) of the WFD have been explicitly excluded from the assessment of disproportionate costs.  Quality checks: Conditional check: report if and only if swDisproportionateCost is 'Yes'  ."
+  - name: "swExemption44Impact"
+    type: VARCHAR
+    description: "Required. Select from the enumeration list the impacts that are causing the application of exemptions under Article 4(4). More than one impact may be selected. If Article 4(4) exemptions have not been applied report 'NOTA - Not applicable'.  The option 'NOSI - No significant impact' is not valid.  Quality checks: Element check: The option 'NOSI - No significant impact' is not valid.  Cross-schema check: The option 'NOTA - Not applicable' should be reported if and only if 'Article 4(4)...' has not been reported for:  - any surface water body under SWB/SWEcologicalExemptionType/swEcologicalExemptionType, SWB/QualityElement/qeEcologicalExemptionType or SWB/SWChemicalExemptionType/swChemicalExemptionType; and  - any protected area under SWB/SWAssociatedProtectedArea/protectedAreaExemption  ."
+  - name: "swExemptionsTransboundary"
+    type: VARCHAR
+    description: "Required. Indicate whether the application of exemptions for surface waters has been co-ordinated in a transboundary context. Report 'Not applicable' if the RBD is not international.  Quality checks: Cross-schema check: Report 'Not applicable' if and only if RBDSUCA/RBD/internationalRBD is 'No'.  ."

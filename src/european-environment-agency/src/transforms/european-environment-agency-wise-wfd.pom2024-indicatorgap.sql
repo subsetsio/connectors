@@ -1,0 +1,20 @@
+SELECT
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryGroup" AS VARCHAR) AS "countryGroup",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("cYear" AS VARCHAR) AS "cYear",
+    CAST("euRBDCode" AS VARCHAR) AS "euRBDCode",
+    CAST("euSubUnitCode" AS VARCHAR) AS "euSubUnitCode",
+    CAST("fileUrl" AS VARCHAR) AS "fileUrl",
+    CAST("hasDescriptiveData" AS VARCHAR) AS "hasDescriptiveData",
+    CAST("indicatorGap" AS VARCHAR) AS "indicatorGap",
+    CAST("indicatorGapOther" AS VARCHAR) AS "indicatorGapOther",
+    CAST("indicatorGapValue2027" AS VARCHAR) AS "indicatorGapValue2027",
+    CAST("indicatorGapValue2033" AS VARCHAR) AS "indicatorGapValue2033",
+    CAST("otherSubstanceFailing" AS VARCHAR) AS "otherSubstanceFailing",
+    CAST("rbdArea" AS VARCHAR) AS "rbdArea",
+    CAST("rbdName" AS VARCHAR) AS "rbdName",
+    CAST("significantPressure" AS VARCHAR) AS "significantPressure",
+    CAST("substanceFailing" AS VARCHAR) AS "substanceFailing",
+    CAST("surfaceWaterOrGroundwater" AS VARCHAR) AS "surfaceWaterOrGroundwater"
+FROM "european-environment-agency-wise-wfd.pom2024-indicatorgap"

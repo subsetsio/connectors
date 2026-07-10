@@ -1,0 +1,43 @@
+columns:
+  - name: "cArea"
+    type: VARCHAR
+    description: "Data management attribute: Area in square kilometer."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Data management attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "geography"
+    type: VARCHAR
+    description: "Generalised geography of the spatial object (EPGS:4326)."
+  - name: "geometry"
+    type: VARCHAR
+    description: "Generalised geometry of the spatial object (EPGS:4326)."
+  - name: "lat"
+    type: VARCHAR
+    description: "Data management attribute: Latitude of a representative point, in decimal degrees (WGS84)."
+  - name: "lon"
+    type: VARCHAR
+    description: "Data management attribute: Longitude of a representative point, in decimal degrees (WGS84)."
+  - name: "spatialUnitIdentifier"
+    type: VARCHAR
+    description: "Unique identifier of the associated spatial unit (subunit, river basin district or country)."
+  - name: "spatialUnitIdentifierScheme"
+    type: VARCHAR
+    description: "Scheme applicable to the spatial unit identifier."
+  - name: "spatialUnitName"
+    type: VARCHAR
+    description: "Name of the spatial unit."
+  - name: "statusCode"
+    type: VARCHAR
+    description: "Data management attribute: See definitions in http://dd.eionet.europa.eu/vocabulary/datadictionary/status/."
+  - name: "statusDate"
+    type: VARCHAR
+    description: "Data management attribute:Date when the statusCode was assigned."
+  - name: "statusRemarks"
+    type: VARCHAR
+    description: "Data management: remarks, comments or explanatory notes."

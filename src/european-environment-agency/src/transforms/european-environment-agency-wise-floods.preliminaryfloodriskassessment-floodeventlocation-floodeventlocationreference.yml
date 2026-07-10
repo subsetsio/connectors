@@ -1,0 +1,37 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "euFloodsHazardAreaCode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nRequired.\r\nUnique code for the flood location - up to 42 characters in total. Can also be used as an identifier for multiple surface water bodies designated under the WFD which the flood location is represented by. A polygon must be reported as a representation of the flood location to establish link between spatial feature and information in xml schema."
+  - name: "euFloodsRiskZoneCode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nOptional.\r\nUnique EU code for the area of potential significant flood risk. Add the two-letter ISO Country code to the Member State unique id - up to 42 characters in total."
+  - name: "floodEventCode"
+    type: VARCHAR
+    description: "Max length: 85 characters.\r\nRequired.\r\nUnique code for the flood event."
+  - name: "floodEventLocationReference"
+    type: VARCHAR
+    description: "Optional. \r\nProvide document(s) or link(s) to any other relevant information relating to location if the flood event. This may include details of multiple flood locations covering large flood event scenarios.\r\nMore than one option can be selected. If more than one, values need to be separated by a semicolon followed by a whitespace. e.g., \"value1; value2; value3\"."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "otherCharacteristicsDescription"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf 'Other' selected from enumeration list, provide a description of the other characteristics or state whether there are no special characteristics."
+  - name: "otherMechanismDescription"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf 'Other' is selected from enumeration list, provide a description of the other mechanism(s)."
+  - name: "otherSourceDescription"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nConditional.\r\nIf 'Other: Flooding of land by water due to other sources, can include other tsunamis' is selected from enumeration list, provide a description of the other source(s)."

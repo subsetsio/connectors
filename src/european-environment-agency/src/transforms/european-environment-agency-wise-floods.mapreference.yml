@@ -1,0 +1,40 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "created"
+    type: VARCHAR
+    description: "Optional.\r\nDate when the map was published. Can be in the format 'yyyy' , 'yyyy-mm' or 'yyyy-mm-dd'."
+  - name: "creatorOrganisationName"
+    type: VARCHAR
+    description: "Max length: 254 characters.\r\nRequired.\r\nOrganisation name of the point of contact."
+  - name: "description"
+    type: VARCHAR
+    description: "Max length: 4000 characters.\r\nOptional.\r\nGive a short description of the map content,  e.g., flood scenarios, exposed elements..."
+  - name: "hyperlink"
+    type: VARCHAR
+    description: "Max length: 2100 characters.\r\nULR to connect the service with the Flood Hazard Risk Map."
+  - name: "language"
+    type: VARCHAR
+    description: "Required.\r\nChoose from the 'LanguageCode' codelist values.\r\nLanguage of the map."
+  - name: "mapReferenceCode"
+    type: VARCHAR
+    description: "Max length: 50 characters.\r\nRequired.\r\nUnique code for the map reference."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "resourceType"
+    type: VARCHAR
+    description: "Required.\r\nChoose the type of resource from the 'ResourceType' codelist values."
+  - name: "title"
+    type: VARCHAR
+    description: "Max length: 254 characters.\r\nRequired.\r\nTitle of the map or map service."

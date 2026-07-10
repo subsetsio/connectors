@@ -1,0 +1,21 @@
+SELECT
+    CAST("Art17_FLAconContactsID" AS VARCHAR) AS "Art17_FLAconContactsID",
+    CAST("CountryCode" AS VARCHAR) AS "CountryCode",
+    CAST("flaconCity" AS VARCHAR) AS "flaconCity",
+    CAST("flaconEmail" AS VARCHAR) AS "flaconEmail",
+    CAST("flaconFax" AS VARCHAR) AS "flaconFax",
+    CAST("flaconInstitution" AS VARCHAR) AS "flaconInstitution",
+    CAST("flaconMemberState" AS VARCHAR) AS "flaconMemberState",
+    CAST("flaconName" AS VARCHAR) AS "flaconName",
+    CAST("flaconPhone" AS VARCHAR) AS "flaconPhone",
+    CAST("flaconRemarks" AS VARCHAR) AS "flaconRemarks",
+    CAST("flaconReportedPeriod" AS VARCHAR) AS "flaconReportedPeriod",
+    CAST("flaconSituationAt" AS VARCHAR) AS "flaconSituationAt",
+    CAST("flaconSituationAt_original" AS VARCHAR) AS "flaconSituationAt_original",
+    CAST("flaconStreet" AS VARCHAR) AS "flaconStreet",
+    CAST("flaconVersion" AS VARCHAR) AS "flaconVersion",
+    CAST("flaconVersion_original" AS VARCHAR) AS "flaconVersion_original",
+    CAST("flaconZIP" AS VARCHAR) AS "flaconZIP",
+    CAST("flarepCode" AS VARCHAR) AS "flarepCode",
+    CAST("rptMStateKey" AS VARCHAR) AS "rptMStateKey"
+FROM "european-environment-agency-wise-uwwtd.t-art17-flacontact"

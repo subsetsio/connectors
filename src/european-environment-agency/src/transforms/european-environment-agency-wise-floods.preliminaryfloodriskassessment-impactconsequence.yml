@@ -1,0 +1,40 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "degreeTotalDamage"
+    type: VARCHAR
+    description: "Optional.\r\nThe total damage and loss cost in Euros for the flood event. Can also be reported as a range. The exemption types - 9999 = 'Unknown', -8888 = 'Yet to be measured' and -7777 = 'Not Applicable' can be used."
+  - name: "degreeTotalDamageClass"
+    type: VARCHAR
+    description: "Optional.\r\nChoose from the 'TotalDamageClass' codelist values.\r\nThe total damage defined by the classes."
+  - name: "degreeTotalDamageGDP"
+    type: VARCHAR
+    description: "Optional.\r\nThe total damage in percentage of the total GDP for the flood event. Can also be reported as a range. The exemption types -9999 = 'Unknown', -8888 = 'Yet to be measured' and -7777 = 'Not Applicable' can be used."
+  - name: "euFloodsHazardAreaCode"
+    type: VARCHAR
+    description: "Max length: 42 characters.\r\nRequired.\r\nUnique code for the flood location - up to 42 characters in total. Can also be used as an identifier for multiple surface water bodies designated under the WFD which the flood location is represented by. A polygon must be reported as a representation of the flood location to establish link between spatial feature and information in xml schema."
+  - name: "fatalities"
+    type: VARCHAR
+    description: "Optional.\r\nOnly for past floods. If possible, indicate number of individual fatalities as direct consequence of flood."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "otherConsequenceDescription"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nOptional.\r\nOnly to be used if the type is set to 'Other' in the enumeration list."
+  - name: "otherDamageDescription"
+    type: VARCHAR
+    description: "Max length: 1000 characters.\r\nOptional.\r\nOther numerical measure indicative of degree of (potentially) adverse consequences."
+  - name: "typeImpactConsequence"
+    type: VARCHAR
+    description: "Required. \r\nChoose a type of consequence impacting, from the 'TypeImpactConsequence' codelist values.\r\n."

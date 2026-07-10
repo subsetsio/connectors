@@ -1,0 +1,22 @@
+SELECT
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryGroup" AS VARCHAR) AS "countryGroup",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("cYear" AS VARCHAR) AS "cYear",
+    CAST("euRBDCode" AS VARCHAR) AS "euRBDCode",
+    CAST("fileUrl" AS VARCHAR) AS "fileUrl",
+    CAST("hasDescriptiveData" AS VARCHAR) AS "hasDescriptiveData",
+    CAST("newRegulation" AS VARCHAR) AS "newRegulation",
+    CAST("obstaclesDelays" AS VARCHAR) AS "obstaclesDelays",
+    CAST("obstaclesExtremeEvents" AS VARCHAR) AS "obstaclesExtremeEvents",
+    CAST("obstaclesGovernance" AS VARCHAR) AS "obstaclesGovernance",
+    CAST("obstaclesLackOfFinance" AS VARCHAR) AS "obstaclesLackOfFinance",
+    CAST("obstaclesLackOfMeasures" AS VARCHAR) AS "obstaclesLackOfMeasures",
+    CAST("obstaclesLackOfMechanism" AS VARCHAR) AS "obstaclesLackOfMechanism",
+    CAST("obstaclesNotCostEffective" AS VARCHAR) AS "obstaclesNotCostEffective",
+    CAST("obstaclesOther" AS VARCHAR) AS "obstaclesOther",
+    CAST("rbdArea" AS VARCHAR) AS "rbdArea",
+    CAST("rbdName" AS VARCHAR) AS "rbdName",
+    CAST("rbmpGeneralProgress" AS VARCHAR) AS "rbmpGeneralProgress",
+    CAST("statusImplementationPoM" AS VARCHAR) AS "statusImplementationPoM"
+FROM "european-environment-agency-wise-wfd.pom2024-progress"

@@ -1,0 +1,75 @@
+columns:
+  - name: "chemicalMonitoring"
+    type: VARCHAR
+    description: "Required. Indicate whether the monitoring site is used for chemical monitoring.   Please note that, for the purpose of reporting, monitoring of RBSPs should be reported as part of chemical monitoring (if a site is used for monitoring RBSPs only or RBSPs and Priority Substances, you should report 'Yes' only in chemicalMonitoring, if it is used to monitor RBSPs and other QEs, you should report both 'Yes' in both ecologicalMonitoring and chemicalMonitoring)."
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Ancillary attribute: ISO 3166-1 alpha-2 country code, except for Greece (EL) and the United Kingdom (UK)."
+  - name: "countryGroup"
+    type: VARCHAR
+    description: "Data management attribute: EU27 or other country."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Data management attribute: Country name."
+  - name: "cYear"
+    type: VARCHAR
+    description: "Data management attribute: Reporting cycle. 2022 for the 3rd River Basin Management Plans (RBMP); 2016 for 2nd rbmp; 2010 for the 1st RBMP."
+  - name: "depth"
+    type: VARCHAR
+    description: "Conditional. For groundwater monitoring sites, indicate the groundwater layer within the groundwater body in which sampling occurs. Please see visualization of multi-layered GWBs in sections 1.3 and 2.3 of Annex 4.   Quality checks: Conditional check: Report if and only if the monitoring site is located in a groundwater body."
+  - name: "ecologicalMonitoring"
+    type: VARCHAR
+    description: "Required. Indicate whether the monitoring site is used for ecological monitoring. For groundwater monitoring sites report 'Not applicable'.   Please note that, for the purpose of reporting, monitoring of RBSPs should be reported as part of chemical monitoring (if a site is used for monitoring RBSPs only or RBSPs and Priority Substances, you should report 'Yes' only in chemicalMonitoring, if it is used to monitor RBSPs and other QEs, you should report both 'Yes' in both ecologicalMonitoring and chemicalMonitoring).   Quality check: Cross-schema check: 'Not applicable' must be selected if and only if the monitoring site is located in a groundwater body."
+  - name: "euMonitoringSiteCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of the monitoring site. Prefix the surface water monitoring site's national, unique code with the Member State's 2-letter ISO country code.   Quality checks:   Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.   Within-schema check: euMonitoringSiteCode must be unique.   Cross-schema check: euMonitoringSiteCode must be identical to a thematicIdIdentifier reported for monitoring sites in spatial data."
+  - name: "euRBDCode"
+    type: VARCHAR
+    description: "Required. Unique EU code of each River Basin District. Prefix the RBD's national, unique code with the Member State's 2-letter ISO country code.  Quality checks: Element check: String length must be within the range of 3 to 42 characters. First 2 characters must be the Member State's 2-letter ISO country code.  Within-schema check: euRBDCode must be unique.  Cross-schema check: euRBDCode must be identical to a thematicIdIdentifier reported for River Basin Districts in spatial data.  ."
+  - name: "euSubUnitCode"
+    type: VARCHAR
+    description: "Conditional. If applicable, report the unique EU code of the Sub-unit. If there are no sub-units this element does not need to be reported and the reporting of the information is done at RBD level. Sub-units are only relevant for surface water.    Quality checks: Conditional check: report if and only if RBDSUCA/RBD/subUnitsDefined is 'Yes'.    Within-schema check: euSubUnitCode must be unique.  Cross-schema check: euSubUnitCode must be consistent with the codes reported in RBDSUCA/RBD/euSubUnitCode.    Element check: Each combination of sub unit and surfaceWaterOrGroundWater can only be reported once."
+  - name: "fileUrl"
+    type: VARCHAR
+    description: "Data management attribute: URL of data delivery."
+  - name: "hasDescriptiveData"
+    type: VARCHAR
+  - name: "investigativeMonitoring"
+    type: VARCHAR
+    description: "Conditional. For each monitoring site, and if monitoringType is 'Ecological' or 'Chemical', report whether the site is used for investigative monitoring.   Quality checks: Conditional check: Report if and only if monitoringType is 'Ecological' or 'Chemical'."
+  - name: "monitoringSiteName"
+    type: VARCHAR
+    description: "Name of the monitoring site in which the data were obtained."
+  - name: "operationalMonitoring"
+    type: VARCHAR
+    description: "Conditional. For each monitoring site, and if monitoringType is 'Ecological' or 'Chemical', report whether the site is used for operational monitoring.   Quality checks: Conditional check: Report if and only if monitoringType is 'Ecological' or 'Chemical'."
+  - name: "quantitativeMonitoring"
+    type: VARCHAR
+    description: "Required. Indicate whether the monitoring site is used for quantitative monitoring. For surface water monitoring sites report 'Not applicable'.   Quality check: Cross-schema check: 'Not applicable' must be selected if and only if the monitoring site is located in a surface water body.   ."
+  - name: "rbdArea"
+    type: VARCHAR
+    description: "Required. Area of the RBD in km2 including coastal waters but excluding territorial waters as required for the chemical status under WFD Article 2(1)."
+  - name: "rbdName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the RBD in English that is meaningful outside of the RBD or Member State. ."
+  - name: "subUnitName"
+    type: VARCHAR
+    description: "Required. Readily understandable name of the Sub-unit in English that is meaningful outside of the RBD or Member State."
+  - name: "surveillanceMonitoring"
+    type: VARCHAR
+    description: "Conditional. For each monitoring site, and if monitoringType is 'Ecological' or 'Chemical', report whether the site is used for surveillance monitoring.   Quality checks: Conditional check: Report if and only if monitoringType is 'Ecological' or 'Chemical'."
+  - name: "waterBodyCategory"
+    type: VARCHAR
+    description: "Water body category code. GW = Groundwater body, RW = River, LW = Lake, TW = Transitional water body, CW = Coastal water body, TeW = Territorial waters."
+  - name: "waterBodyCode"
+    type: VARCHAR
+    description: "Unique European water body code."
+  - name: "waterBodyName"
+    type: VARCHAR
+    description: "Name of the water body."
+  - name: "wellSpring"
+    type: VARCHAR
+    description: "Conditional. For groundwater sites, indicate whether the groundwater monitoring site is a well, a spring or other.   Quality checks: Conditional check: Report if and only if the monitoring site is located in a groundwater body."
+  - name: "wiseEvolutionType"
+    type: VARCHAR
+    description: "--Definition--   Type of event that produced or modified the version of the object being reported (creation, change, deletion, aggregation, splitting).  This attribute is required to explicitly report changes and update the current status of the object in the Water Information System for Europe.    -- Further information --    The allowable values are based on those defined in http://inspire.ec.europa.eu/codelist/EvolutionTypeValue/. See also Annex F of the INSPIRE Data Specification on Statistical Units (D2.8.III.1_v3.0RC3) for examples of application.   See the GIS guidance for additional information on the management of life-cycle information."

@@ -1,0 +1,921 @@
+columns:
+  - name: "ADAS_EcoRollWithEngineStop"
+    type: VARCHAR
+  - name: "ADAS_EcoRollWithoutEngineStop"
+    type: VARCHAR
+  - name: "ADAS_EngineStopStart"
+    type: VARCHAR
+  - name: "ADAS_PredictiveCruiseControl"
+    type: VARCHAR
+  - name: "AdvCO2Tech1_AdvancedCO2Technology"
+    type: VARCHAR
+  - name: "AdvCO2Tech1_Category"
+    type: VARCHAR
+  - name: "AdvCO2Tech2_AdvancedCO2Technology"
+    type: VARCHAR
+  - name: "AdvCO2Tech2_Category"
+    type: VARCHAR
+  - name: "AdvCO2Tech3_AdvancedCO2Technology"
+    type: VARCHAR
+  - name: "AdvCO2Tech3_Category"
+    type: VARCHAR
+  - name: "AdvCO2Tech4_AdvancedCO2Technology"
+    type: VARCHAR
+  - name: "AdvCO2Tech4_Category"
+    type: VARCHAR
+  - name: "AdvCO2Tech5_AdvancedCO2Technology"
+    type: VARCHAR
+  - name: "AdvCO2Tech5_Category"
+    type: VARCHAR
+  - name: "AdvCO2Tech6_AdvancedCO2Technology"
+    type: VARCHAR
+  - name: "AdvCO2Tech6_Category"
+    type: VARCHAR
+  - name: "AirDrag_CdxA_range"
+    type: VARCHAR
+  - name: "AirDrag_CertificationMethod"
+    type: VARCHAR
+  - name: "AirDrag_CertificationNumber"
+    type: VARCHAR
+  - name: "AngleDrive_CertificationMethod"
+    type: VARCHAR
+  - name: "AngleDrive_CertificationNumber"
+    type: VARCHAR
+  - name: "AngleDrive_Ratio"
+    type: VARCHAR
+  - name: "Auxiliaries_ElectricSystemTechnology"
+    type: VARCHAR
+  - name: "Auxiliaries_FanTechnology"
+    type: VARCHAR
+  - name: "Auxiliaries_PneumaticSystemTechnology"
+    type: VARCHAR
+  - name: "Auxiliaries_SteeringPumpTechnology1"
+    type: VARCHAR
+  - name: "Auxiliaries_SteeringPumpTechnology2"
+    type: VARCHAR
+  - name: "Auxiliaries_SteeringPumpTechnology3"
+    type: VARCHAR
+  - name: "Auxiliaries_SteeringPumpTechnology4"
+    type: VARCHAR
+  - name: "Axle1_AxleNumber"
+    type: VARCHAR
+  - name: "Axle1_TwinTyres"
+    type: VARCHAR
+  - name: "Axle1_TyreCertificationNumber"
+    type: VARCHAR
+  - name: "Axle1_TyreDimension"
+    type: VARCHAR
+  - name: "Axle1_TyreRRCDeclared"
+    type: VARCHAR
+  - name: "Axle2_AxleNumber"
+    type: VARCHAR
+  - name: "Axle2_TwinTyres"
+    type: VARCHAR
+  - name: "Axle2_TyreCertificationNumber"
+    type: VARCHAR
+  - name: "Axle2_TyreDimension"
+    type: VARCHAR
+  - name: "Axle2_TyreRRCDeclared"
+    type: VARCHAR
+  - name: "Axle3_AxleNumber"
+    type: VARCHAR
+  - name: "Axle3_TwinTyres"
+    type: VARCHAR
+  - name: "Axle3_TyreCertificationNumber"
+    type: VARCHAR
+  - name: "Axle3_TyreDimension"
+    type: VARCHAR
+  - name: "Axle3_TyreRRCDeclared"
+    type: VARCHAR
+  - name: "Axle4_AxleNumber"
+    type: VARCHAR
+  - name: "Axle4_TwinTyres"
+    type: VARCHAR
+  - name: "Axle4_TyreCertificationNumber"
+    type: VARCHAR
+  - name: "Axle4_TyreDimension"
+    type: VARCHAR
+  - name: "Axle4_TyreRRCDeclared"
+    type: VARCHAR
+  - name: "AxleConfiguration"
+    type: VARCHAR
+  - name: "Axlegear_CertificationMethod"
+    type: VARCHAR
+  - name: "Axlegear_CertificationNumber"
+    type: VARCHAR
+  - name: "Axlegear_LineType"
+    type: VARCHAR
+  - name: "Axlegear_Ratio"
+    type: VARCHAR
+  - name: "Baseline"
+    type: VARCHAR
+  - name: "CO2v"
+    type: VARCHAR
+  - name: "COL_AverageSpeed_kmh"
+    type: VARCHAR
+  - name: "COL_CO2_gkm"
+    type: VARCHAR
+  - name: "COL_CO2_gm3km"
+    type: VARCHAR
+  - name: "COL_CO2_gtkm"
+    type: VARCHAR
+  - name: "COL_Distance_km"
+    type: VARCHAR
+  - name: "COL_FuelConsumption_gkm"
+    type: VARCHAR
+  - name: "COL_FuelConsumption_gm3km"
+    type: VARCHAR
+  - name: "COL_FuelConsumption_gtkm"
+    type: VARCHAR
+  - name: "COL_FuelConsumption_l100km"
+    type: VARCHAR
+  - name: "COL_FuelConsumption_lm3km"
+    type: VARCHAR
+  - name: "COL_FuelConsumption_ltkm"
+    type: VARCHAR
+  - name: "COL_FuelConsumption_mjkm"
+    type: VARCHAR
+  - name: "COL_FuelConsumption_mjm3km"
+    type: VARCHAR
+  - name: "COL_FuelConsumption_mjtkm"
+    type: VARCHAR
+  - name: "COL_FuelType"
+    type: VARCHAR
+  - name: "COL_FullLoadDrivingtimePct"
+    type: VARCHAR
+  - name: "COL_GearShiftCount"
+    type: VARCHAR
+  - name: "COL_MaxAcceleration_ms2"
+    type: VARCHAR
+  - name: "COL_MaxDeceleration_ms2"
+    type: VARCHAR
+  - name: "COL_MaxSpeed_kmh"
+    type: VARCHAR
+  - name: "COL_MinSpeed_kmh"
+    type: VARCHAR
+  - name: "COL_Mission"
+    type: VARCHAR
+  - name: "COL_Payload_kg"
+    type: VARCHAR
+  - name: "COL_TotalVehicleMass_kg"
+    type: VARCHAR
+  - name: "COR_AverageSpeed_kmh"
+    type: VARCHAR
+  - name: "COR_CO2_gkm"
+    type: VARCHAR
+  - name: "COR_CO2_gm3km"
+    type: VARCHAR
+  - name: "COR_CO2_gtkm"
+    type: VARCHAR
+  - name: "COR_Distance_km"
+    type: VARCHAR
+  - name: "COR_FuelConsumption_gkm"
+    type: VARCHAR
+  - name: "COR_FuelConsumption_gm3km"
+    type: VARCHAR
+  - name: "COR_FuelConsumption_gtkm"
+    type: VARCHAR
+  - name: "COR_FuelConsumption_l100km"
+    type: VARCHAR
+  - name: "COR_FuelConsumption_lm3km"
+    type: VARCHAR
+  - name: "COR_FuelConsumption_ltkm"
+    type: VARCHAR
+  - name: "COR_FuelConsumption_mjkm"
+    type: VARCHAR
+  - name: "COR_FuelConsumption_mjm3km"
+    type: VARCHAR
+  - name: "COR_FuelConsumption_mjtkm"
+    type: VARCHAR
+  - name: "COR_FuelType"
+    type: VARCHAR
+  - name: "COR_FullLoadDrivingtimePct"
+    type: VARCHAR
+  - name: "COR_GearShiftCount"
+    type: VARCHAR
+  - name: "COR_MaxAcceleration_ms2"
+    type: VARCHAR
+  - name: "COR_MaxDeceleration_ms2"
+    type: VARCHAR
+  - name: "COR_MaxSpeed_kmh"
+    type: VARCHAR
+  - name: "COR_MinSpeed_kmh"
+    type: VARCHAR
+  - name: "COR_Mission"
+    type: VARCHAR
+  - name: "COR_Payload_kg"
+    type: VARCHAR
+  - name: "COR_TotalVehicleMass_kg"
+    type: VARCHAR
+  - name: "Corrected"
+    type: VARCHAR
+  - name: "CurbMassChassis_kg"
+    type: VARCHAR
+  - name: "DualFuelVehicle"
+    type: VARCHAR
+  - name: "Engine_CertificationNumber"
+    type: VARCHAR
+  - name: "Engine_Displacement_ltr"
+    type: VARCHAR
+  - name: "Engine_FuelType"
+    type: VARCHAR
+  - name: "Engine_IdlingSpeed_rpm"
+    type: VARCHAR
+  - name: "Engine_RatedPower_kw"
+    type: VARCHAR
+  - name: "Engine_RatedSpeed_rpm"
+    type: VARCHAR
+  - name: "Engine_TAN"
+    type: VARCHAR
+  - name: "ExemptedVehicle"
+    type: VARCHAR
+  - name: "Gearbox_CertificationMethod"
+    type: VARCHAR
+  - name: "Gearbox_CertificationNumber"
+    type: VARCHAR
+  - name: "Gearbox_GearsCount"
+    type: VARCHAR
+  - name: "Gearbox_TransmissionRatioFinalGear"
+    type: VARCHAR
+  - name: "Gearbox_TransmissionType"
+    type: VARCHAR
+  - name: "GrossVehicleMass_t"
+    type: VARCHAR
+  - name: "HybridElectricHDV"
+    type: VARCHAR
+  - name: "LegislativeClass"
+    type: VARCHAR
+  - name: "LEL_AverageSpeed_kmh"
+    type: VARCHAR
+  - name: "LEL_CO2_gkm"
+    type: VARCHAR
+  - name: "LEL_CO2_gm3km"
+    type: VARCHAR
+  - name: "LEL_CO2_gtkm"
+    type: VARCHAR
+  - name: "LEL_Distance_km"
+    type: VARCHAR
+  - name: "LEL_FuelConsumption_gkm"
+    type: VARCHAR
+  - name: "LEL_FuelConsumption_gm3km"
+    type: VARCHAR
+  - name: "LEL_FuelConsumption_gtkm"
+    type: VARCHAR
+  - name: "LEL_FuelConsumption_l100km"
+    type: VARCHAR
+  - name: "LEL_FuelConsumption_lm3km"
+    type: VARCHAR
+  - name: "LEL_FuelConsumption_ltkm"
+    type: VARCHAR
+  - name: "LEL_FuelConsumption_mjkm"
+    type: VARCHAR
+  - name: "LEL_FuelConsumption_mjm3km"
+    type: VARCHAR
+  - name: "LEL_FuelConsumption_mjtkm"
+    type: VARCHAR
+  - name: "LEL_FuelType"
+    type: VARCHAR
+  - name: "LEL_FullLoadDrivingtimePct"
+    type: VARCHAR
+  - name: "LEL_GearShiftCount"
+    type: VARCHAR
+  - name: "LEL_MaxAcceleration_ms2"
+    type: VARCHAR
+  - name: "LEL_MaxDeceleration_ms2"
+    type: VARCHAR
+  - name: "LEL_MaxSpeed_kmh"
+    type: VARCHAR
+  - name: "LEL_MinSpeed_kmh"
+    type: VARCHAR
+  - name: "LEL_Mission"
+    type: VARCHAR
+  - name: "LEL_Payload_kg"
+    type: VARCHAR
+  - name: "LEL_TotalVehicleMass_kg"
+    type: VARCHAR
+  - name: "LER_AverageSpeed_kmh"
+    type: VARCHAR
+  - name: "LER_CO2_gkm"
+    type: VARCHAR
+  - name: "LER_CO2_gm3km"
+    type: VARCHAR
+  - name: "LER_CO2_gtkm"
+    type: VARCHAR
+  - name: "LER_Distance_km"
+    type: VARCHAR
+  - name: "LER_FuelConsumption_gkm"
+    type: VARCHAR
+  - name: "LER_FuelConsumption_gm3km"
+    type: VARCHAR
+  - name: "LER_FuelConsumption_gtkm"
+    type: VARCHAR
+  - name: "LER_FuelConsumption_l100km"
+    type: VARCHAR
+  - name: "LER_FuelConsumption_lm3km"
+    type: VARCHAR
+  - name: "LER_FuelConsumption_ltkm"
+    type: VARCHAR
+  - name: "LER_FuelConsumption_mjkm"
+    type: VARCHAR
+  - name: "LER_FuelConsumption_mjm3km"
+    type: VARCHAR
+  - name: "LER_FuelConsumption_mjtkm"
+    type: VARCHAR
+  - name: "LER_FuelType"
+    type: VARCHAR
+  - name: "LER_FullLoadDrivingtimePct"
+    type: VARCHAR
+  - name: "LER_GearShiftCount"
+    type: VARCHAR
+  - name: "LER_MaxAcceleration_ms2"
+    type: VARCHAR
+  - name: "LER_MaxDeceleration_ms2"
+    type: VARCHAR
+  - name: "LER_MaxSpeed_kmh"
+    type: VARCHAR
+  - name: "LER_MinSpeed_kmh"
+    type: VARCHAR
+  - name: "LER_Mission"
+    type: VARCHAR
+  - name: "LER_Payload_kg"
+    type: VARCHAR
+  - name: "LER_TotalVehicleMass_kg"
+    type: VARCHAR
+  - name: "LHL_AverageSpeed_kmh"
+    type: VARCHAR
+  - name: "LHL_CO2_gkm"
+    type: VARCHAR
+  - name: "LHL_CO2_gm3km"
+    type: VARCHAR
+  - name: "LHL_CO2_gtkm"
+    type: VARCHAR
+  - name: "LHL_Distance_km"
+    type: VARCHAR
+  - name: "LHL_FuelConsumption_gkm"
+    type: VARCHAR
+  - name: "LHL_FuelConsumption_gm3km"
+    type: VARCHAR
+  - name: "LHL_FuelConsumption_gtkm"
+    type: VARCHAR
+  - name: "LHL_FuelConsumption_l100km"
+    type: VARCHAR
+  - name: "LHL_FuelConsumption_lm3km"
+    type: VARCHAR
+  - name: "LHL_FuelConsumption_ltkm"
+    type: VARCHAR
+  - name: "LHL_FuelConsumption_mjkm"
+    type: VARCHAR
+  - name: "LHL_FuelConsumption_mjm3km"
+    type: VARCHAR
+  - name: "LHL_FuelConsumption_mjtkm"
+    type: VARCHAR
+  - name: "LHL_FuelType"
+    type: VARCHAR
+  - name: "LHL_FullLoadDrivingtimePct"
+    type: VARCHAR
+  - name: "LHL_GearShiftCount"
+    type: VARCHAR
+  - name: "LHL_MaxAcceleration_ms2"
+    type: VARCHAR
+  - name: "LHL_MaxDeceleration_ms2"
+    type: VARCHAR
+  - name: "LHL_MaxSpeed_kmh"
+    type: VARCHAR
+  - name: "LHL_MinSpeed_kmh"
+    type: VARCHAR
+  - name: "LHL_Mission"
+    type: VARCHAR
+  - name: "LHL_Payload_kg"
+    type: VARCHAR
+  - name: "LHL_TotalVehicleMass_kg"
+    type: VARCHAR
+  - name: "LHR_AverageSpeed_kmh"
+    type: VARCHAR
+  - name: "LHR_CO2_gkm"
+    type: VARCHAR
+  - name: "LHR_CO2_gm3km"
+    type: VARCHAR
+  - name: "LHR_CO2_gtkm"
+    type: VARCHAR
+  - name: "LHR_Distance_km"
+    type: VARCHAR
+  - name: "LHR_FuelConsumption_gkm"
+    type: VARCHAR
+  - name: "LHR_FuelConsumption_gm3km"
+    type: VARCHAR
+  - name: "LHR_FuelConsumption_gtkm"
+    type: VARCHAR
+  - name: "LHR_FuelConsumption_l100km"
+    type: VARCHAR
+  - name: "LHR_FuelConsumption_lm3km"
+    type: VARCHAR
+  - name: "LHR_FuelConsumption_ltkm"
+    type: VARCHAR
+  - name: "LHR_FuelConsumption_mjkm"
+    type: VARCHAR
+  - name: "LHR_FuelConsumption_mjm3km"
+    type: VARCHAR
+  - name: "LHR_FuelConsumption_mjtkm"
+    type: VARCHAR
+  - name: "LHR_FuelType"
+    type: VARCHAR
+  - name: "LHR_FullLoadDrivingtimePct"
+    type: VARCHAR
+  - name: "LHR_GearShiftCount"
+    type: VARCHAR
+  - name: "LHR_MaxAcceleration_ms2"
+    type: VARCHAR
+  - name: "LHR_MaxDeceleration_ms2"
+    type: VARCHAR
+  - name: "LHR_MaxSpeed_kmh"
+    type: VARCHAR
+  - name: "LHR_MinSpeed_kmh"
+    type: VARCHAR
+  - name: "LHR_Mission"
+    type: VARCHAR
+  - name: "LHR_Payload_kg"
+    type: VARCHAR
+  - name: "LHR_TotalVehicleMass_kg"
+    type: VARCHAR
+  - name: "Make"
+    type: VARCHAR
+  - name: "Manufacturer"
+    type: VARCHAR
+  - name: "ManufacturerAddress"
+    type: VARCHAR
+  - name: "Match"
+    type: VARCHAR
+  - name: "Meta_MS_fileId"
+    type: VARCHAR
+  - name: "Meta_OEM_fileId"
+    type: VARCHAR
+  - name: "Model"
+    type: VARCHAR
+  - name: "MS_AveragePayload"
+    type: VARCHAR
+  - name: "MS_Bw"
+    type: VARCHAR
+  - name: "MS_ClassOfHybrid"
+    type: VARCHAR
+  - name: "MS_CryptHashManufacturerRecord"
+    type: VARCHAR
+  - name: "MS_Electric"
+    type: VARCHAR
+  - name: "MS_FT"
+    type: VARCHAR
+  - name: "MS_Hybrid"
+    type: VARCHAR
+  - name: "MS_ID"
+    type: VARCHAR
+  - name: "MS_MaximumSpeed"
+    type: VARCHAR
+  - name: "MS_Mh"
+    type: VARCHAR
+  - name: "MS_Mh_msv"
+    type: VARCHAR
+  - name: "MS_Mk"
+    type: VARCHAR
+  - name: "MS_MS"
+    type: VARCHAR
+  - name: "MS_NumberOfAxles"
+    type: VARCHAR
+  - name: "MS_PK_Vehicle"
+    type: VARCHAR
+  - name: "MS_RegistrationDate"
+    type: VARCHAR
+  - name: "MS_SpecificCO2Emissions"
+    type: VARCHAR
+  - name: "MS_StageOfCompletionCode"
+    type: VARCHAR
+  - name: "MS_TechnPermMaxLadenMass"
+    type: VARCHAR
+  - name: "MS_VehicleCategoryCode"
+    type: VARCHAR
+  - name: "MS_Year"
+    type: VARCHAR
+  - name: "MUL_AverageSpeed_kmh"
+    type: VARCHAR
+  - name: "MUL_CO2_gkm"
+    type: VARCHAR
+  - name: "MUL_CO2_gm3km"
+    type: VARCHAR
+  - name: "MUL_CO2_gtkm"
+    type: VARCHAR
+  - name: "MUL_Distance_km"
+    type: VARCHAR
+  - name: "MUL_FuelConsumption_gkm"
+    type: VARCHAR
+  - name: "MUL_FuelConsumption_gm3km"
+    type: VARCHAR
+  - name: "MUL_FuelConsumption_gtkm"
+    type: VARCHAR
+  - name: "MUL_FuelConsumption_l100km"
+    type: VARCHAR
+  - name: "MUL_FuelConsumption_lm3km"
+    type: VARCHAR
+  - name: "MUL_FuelConsumption_ltkm"
+    type: VARCHAR
+  - name: "MUL_FuelConsumption_mjkm"
+    type: VARCHAR
+  - name: "MUL_FuelConsumption_mjm3km"
+    type: VARCHAR
+  - name: "MUL_FuelConsumption_mjtkm"
+    type: VARCHAR
+  - name: "MUL_FuelType"
+    type: VARCHAR
+  - name: "MUL_FullLoadDrivingtimePct"
+    type: VARCHAR
+  - name: "MUL_GearShiftCount"
+    type: VARCHAR
+  - name: "MUL_MaxAcceleration_ms2"
+    type: VARCHAR
+  - name: "MUL_MaxDeceleration_ms2"
+    type: VARCHAR
+  - name: "MUL_MaxSpeed_kmh"
+    type: VARCHAR
+  - name: "MUL_MinSpeed_kmh"
+    type: VARCHAR
+  - name: "MUL_Mission"
+    type: VARCHAR
+  - name: "MUL_Payload_kg"
+    type: VARCHAR
+  - name: "MUL_TotalVehicleMass_kg"
+    type: VARCHAR
+  - name: "MUR_AverageSpeed_kmh"
+    type: VARCHAR
+  - name: "MUR_CO2_gkm"
+    type: VARCHAR
+  - name: "MUR_CO2_gm3km"
+    type: VARCHAR
+  - name: "MUR_CO2_gtkm"
+    type: VARCHAR
+  - name: "MUR_Distance_km"
+    type: VARCHAR
+  - name: "MUR_FuelConsumption_gkm"
+    type: VARCHAR
+  - name: "MUR_FuelConsumption_gm3km"
+    type: VARCHAR
+  - name: "MUR_FuelConsumption_gtkm"
+    type: VARCHAR
+  - name: "MUR_FuelConsumption_l100km"
+    type: VARCHAR
+  - name: "MUR_FuelConsumption_lm3km"
+    type: VARCHAR
+  - name: "MUR_FuelConsumption_ltkm"
+    type: VARCHAR
+  - name: "MUR_FuelConsumption_mjkm"
+    type: VARCHAR
+  - name: "MUR_FuelConsumption_mjm3km"
+    type: VARCHAR
+  - name: "MUR_FuelConsumption_mjtkm"
+    type: VARCHAR
+  - name: "MUR_FuelType"
+    type: VARCHAR
+  - name: "MUR_FullLoadDrivingtimePct"
+    type: VARCHAR
+  - name: "MUR_GearShiftCount"
+    type: VARCHAR
+  - name: "MUR_MaxAcceleration_ms2"
+    type: VARCHAR
+  - name: "MUR_MaxDeceleration_ms2"
+    type: VARCHAR
+  - name: "MUR_MaxSpeed_kmh"
+    type: VARCHAR
+  - name: "MUR_MinSpeed_kmh"
+    type: VARCHAR
+  - name: "MUR_Mission"
+    type: VARCHAR
+  - name: "MUR_Payload_kg"
+    type: VARCHAR
+  - name: "MUR_TotalVehicleMass_kg"
+    type: VARCHAR
+  - name: "NumberofLicenceforSimulationTool"
+    type: VARCHAR
+  - name: "OEM_PK_Vehicle"
+    type: VARCHAR
+  - name: "PTO"
+    type: VARCHAR
+  - name: "RDL_AverageSpeed_kmh"
+    type: VARCHAR
+  - name: "RDL_CO2_gkm"
+    type: VARCHAR
+  - name: "RDL_CO2_gm3km"
+    type: VARCHAR
+  - name: "RDL_CO2_gtkm"
+    type: VARCHAR
+  - name: "RDL_Distance_km"
+    type: VARCHAR
+  - name: "RDL_FuelConsumption_gkm"
+    type: VARCHAR
+  - name: "RDL_FuelConsumption_gm3km"
+    type: VARCHAR
+  - name: "RDL_FuelConsumption_gtkm"
+    type: VARCHAR
+  - name: "RDL_FuelConsumption_l100km"
+    type: VARCHAR
+  - name: "RDL_FuelConsumption_lm3km"
+    type: VARCHAR
+  - name: "RDL_FuelConsumption_ltkm"
+    type: VARCHAR
+  - name: "RDL_FuelConsumption_mjkm"
+    type: VARCHAR
+  - name: "RDL_FuelConsumption_mjm3km"
+    type: VARCHAR
+  - name: "RDL_FuelConsumption_mjtkm"
+    type: VARCHAR
+  - name: "RDL_FuelType"
+    type: VARCHAR
+  - name: "RDL_FullLoadDrivingtimePct"
+    type: VARCHAR
+  - name: "RDL_GearShiftCount"
+    type: VARCHAR
+  - name: "RDL_MaxAcceleration_ms2"
+    type: VARCHAR
+  - name: "RDL_MaxDeceleration_ms2"
+    type: VARCHAR
+  - name: "RDL_MaxSpeed_kmh"
+    type: VARCHAR
+  - name: "RDL_MinSpeed_kmh"
+    type: VARCHAR
+  - name: "RDL_Mission"
+    type: VARCHAR
+  - name: "RDL_Payload_kg"
+    type: VARCHAR
+  - name: "RDL_TotalVehicleMass_kg"
+    type: VARCHAR
+  - name: "RDR_AverageSpeed_kmh"
+    type: VARCHAR
+  - name: "RDR_CO2_gkm"
+    type: VARCHAR
+  - name: "RDR_CO2_gm3km"
+    type: VARCHAR
+  - name: "RDR_CO2_gtkm"
+    type: VARCHAR
+  - name: "RDR_Distance_km"
+    type: VARCHAR
+  - name: "RDR_FuelConsumption_gkm"
+    type: VARCHAR
+  - name: "RDR_FuelConsumption_gm3km"
+    type: VARCHAR
+  - name: "RDR_FuelConsumption_gtkm"
+    type: VARCHAR
+  - name: "RDR_FuelConsumption_l100km"
+    type: VARCHAR
+  - name: "RDR_FuelConsumption_lm3km"
+    type: VARCHAR
+  - name: "RDR_FuelConsumption_ltkm"
+    type: VARCHAR
+  - name: "RDR_FuelConsumption_mjkm"
+    type: VARCHAR
+  - name: "RDR_FuelConsumption_mjm3km"
+    type: VARCHAR
+  - name: "RDR_FuelConsumption_mjtkm"
+    type: VARCHAR
+  - name: "RDR_FuelType"
+    type: VARCHAR
+  - name: "RDR_FullLoadDrivingtimePct"
+    type: VARCHAR
+  - name: "RDR_GearShiftCount"
+    type: VARCHAR
+  - name: "RDR_MaxAcceleration_ms2"
+    type: VARCHAR
+  - name: "RDR_MaxDeceleration_ms2"
+    type: VARCHAR
+  - name: "RDR_MaxSpeed_kmh"
+    type: VARCHAR
+  - name: "RDR_MinSpeed_kmh"
+    type: VARCHAR
+  - name: "RDR_Mission"
+    type: VARCHAR
+  - name: "RDR_Payload_kg"
+    type: VARCHAR
+  - name: "RDR_TotalVehicleMass_kg"
+    type: VARCHAR
+  - name: "RegDate_corrected"
+    type: VARCHAR
+  - name: "REL_AverageSpeed_kmh"
+    type: VARCHAR
+  - name: "REL_CO2_gkm"
+    type: VARCHAR
+  - name: "REL_CO2_gm3km"
+    type: VARCHAR
+  - name: "REL_CO2_gtkm"
+    type: VARCHAR
+  - name: "REL_Distance_km"
+    type: VARCHAR
+  - name: "REL_FuelConsumption_gkm"
+    type: VARCHAR
+  - name: "REL_FuelConsumption_gm3km"
+    type: VARCHAR
+  - name: "REL_FuelConsumption_gtkm"
+    type: VARCHAR
+  - name: "REL_FuelConsumption_l100km"
+    type: VARCHAR
+  - name: "REL_FuelConsumption_lm3km"
+    type: VARCHAR
+  - name: "REL_FuelConsumption_ltkm"
+    type: VARCHAR
+  - name: "REL_FuelConsumption_mjkm"
+    type: VARCHAR
+  - name: "REL_FuelConsumption_mjm3km"
+    type: VARCHAR
+  - name: "REL_FuelConsumption_mjtkm"
+    type: VARCHAR
+  - name: "REL_FuelType"
+    type: VARCHAR
+  - name: "REL_FullLoadDrivingtimePct"
+    type: VARCHAR
+  - name: "REL_GearShiftCount"
+    type: VARCHAR
+  - name: "REL_MaxAcceleration_ms2"
+    type: VARCHAR
+  - name: "REL_MaxDeceleration_ms2"
+    type: VARCHAR
+  - name: "REL_MaxSpeed_kmh"
+    type: VARCHAR
+  - name: "REL_MinSpeed_kmh"
+    type: VARCHAR
+  - name: "REL_Mission"
+    type: VARCHAR
+  - name: "REL_Payload_kg"
+    type: VARCHAR
+  - name: "REL_TotalVehicleMass_kg"
+    type: VARCHAR
+  - name: "RER_AverageSpeed_kmh"
+    type: VARCHAR
+  - name: "RER_CO2_gkm"
+    type: VARCHAR
+  - name: "RER_CO2_gm3km"
+    type: VARCHAR
+  - name: "RER_CO2_gtkm"
+    type: VARCHAR
+  - name: "RER_Distance_km"
+    type: VARCHAR
+  - name: "RER_FuelConsumption_gkm"
+    type: VARCHAR
+  - name: "RER_FuelConsumption_gm3km"
+    type: VARCHAR
+  - name: "RER_FuelConsumption_gtkm"
+    type: VARCHAR
+  - name: "RER_FuelConsumption_l100km"
+    type: VARCHAR
+  - name: "RER_FuelConsumption_lm3km"
+    type: VARCHAR
+  - name: "RER_FuelConsumption_ltkm"
+    type: VARCHAR
+  - name: "RER_FuelConsumption_mjkm"
+    type: VARCHAR
+  - name: "RER_FuelConsumption_mjm3km"
+    type: VARCHAR
+  - name: "RER_FuelConsumption_mjtkm"
+    type: VARCHAR
+  - name: "RER_FuelType"
+    type: VARCHAR
+  - name: "RER_FullLoadDrivingtimePct"
+    type: VARCHAR
+  - name: "RER_GearShiftCount"
+    type: VARCHAR
+  - name: "RER_MaxAcceleration_ms2"
+    type: VARCHAR
+  - name: "RER_MaxDeceleration_ms2"
+    type: VARCHAR
+  - name: "RER_MaxSpeed_kmh"
+    type: VARCHAR
+  - name: "RER_MinSpeed_kmh"
+    type: VARCHAR
+  - name: "RER_Mission"
+    type: VARCHAR
+  - name: "RER_Payload_kg"
+    type: VARCHAR
+  - name: "RER_TotalVehicleMass_kg"
+    type: VARCHAR
+  - name: "Retarder_CertificationMethod"
+    type: VARCHAR
+  - name: "Retarder_CertificationNumber"
+    type: VARCHAR
+  - name: "Retarder_RetarderType"
+    type: VARCHAR
+  - name: "SimulationDate"
+    type: VARCHAR
+  - name: "SimulationToolVersion"
+    type: VARCHAR
+  - name: "SleeperCab"
+    type: VARCHAR
+  - name: "TorqueConverter_CertificationMethod"
+    type: VARCHAR
+  - name: "TorqueConverter_CertificationNumber"
+    type: VARCHAR
+  - name: "UDL_AverageSpeed_kmh"
+    type: VARCHAR
+  - name: "UDL_CO2_gkm"
+    type: VARCHAR
+  - name: "UDL_CO2_gm3km"
+    type: VARCHAR
+  - name: "UDL_CO2_gtkm"
+    type: VARCHAR
+  - name: "UDL_Distance_km"
+    type: VARCHAR
+  - name: "UDL_FuelConsumption_gkm"
+    type: VARCHAR
+  - name: "UDL_FuelConsumption_gm3km"
+    type: VARCHAR
+  - name: "UDL_FuelConsumption_gtkm"
+    type: VARCHAR
+  - name: "UDL_FuelConsumption_l100km"
+    type: VARCHAR
+  - name: "UDL_FuelConsumption_lm3km"
+    type: VARCHAR
+  - name: "UDL_FuelConsumption_ltkm"
+    type: VARCHAR
+  - name: "UDL_FuelConsumption_mjkm"
+    type: VARCHAR
+  - name: "UDL_FuelConsumption_mjm3km"
+    type: VARCHAR
+  - name: "UDL_FuelConsumption_mjtkm"
+    type: VARCHAR
+  - name: "UDL_FuelType"
+    type: VARCHAR
+  - name: "UDL_FullLoadDrivingtimePct"
+    type: VARCHAR
+  - name: "UDL_GearShiftCount"
+    type: VARCHAR
+  - name: "UDL_MaxAcceleration_ms2"
+    type: VARCHAR
+  - name: "UDL_MaxDeceleration_ms2"
+    type: VARCHAR
+  - name: "UDL_MaxSpeed_kmh"
+    type: VARCHAR
+  - name: "UDL_MinSpeed_kmh"
+    type: VARCHAR
+  - name: "UDL_Mission"
+    type: VARCHAR
+  - name: "UDL_Payload_kg"
+    type: VARCHAR
+  - name: "UDL_TotalVehicleMass_kg"
+    type: VARCHAR
+  - name: "UDR_AverageSpeed_kmh"
+    type: VARCHAR
+  - name: "UDR_CO2_gkm"
+    type: VARCHAR
+  - name: "UDR_CO2_gm3km"
+    type: VARCHAR
+  - name: "UDR_CO2_gtkm"
+    type: VARCHAR
+  - name: "UDR_Distance_km"
+    type: VARCHAR
+  - name: "UDR_FuelConsumption_gkm"
+    type: VARCHAR
+  - name: "UDR_FuelConsumption_gm3km"
+    type: VARCHAR
+  - name: "UDR_FuelConsumption_gtkm"
+    type: VARCHAR
+  - name: "UDR_FuelConsumption_l100km"
+    type: VARCHAR
+  - name: "UDR_FuelConsumption_lm3km"
+    type: VARCHAR
+  - name: "UDR_FuelConsumption_ltkm"
+    type: VARCHAR
+  - name: "UDR_FuelConsumption_mjkm"
+    type: VARCHAR
+  - name: "UDR_FuelConsumption_mjm3km"
+    type: VARCHAR
+  - name: "UDR_FuelConsumption_mjtkm"
+    type: VARCHAR
+  - name: "UDR_FuelType"
+    type: VARCHAR
+  - name: "UDR_FullLoadDrivingtimePct"
+    type: VARCHAR
+  - name: "UDR_GearShiftCount"
+    type: VARCHAR
+  - name: "UDR_MaxAcceleration_ms2"
+    type: VARCHAR
+  - name: "UDR_MaxDeceleration_ms2"
+    type: VARCHAR
+  - name: "UDR_MaxSpeed_kmh"
+    type: VARCHAR
+  - name: "UDR_MinSpeed_kmh"
+    type: VARCHAR
+  - name: "UDR_Mission"
+    type: VARCHAR
+  - name: "UDR_Payload_kg"
+    type: VARCHAR
+  - name: "UDR_TotalVehicleMass_kg"
+    type: VARCHAR
+  - name: "UniqueData"
+    type: VARCHAR
+  - name: "VehicleGroup"
+    type: VARCHAR
+  - name: "VehicleSubgroup"
+    type: VARCHAR
+  - name: "VocationalVehicle"
+    type: VARCHAR
+  - name: "WHSC_CO2_gkwh"
+    type: VARCHAR
+  - name: "WHSC_FuelConsumption_gkwh"
+    type: VARCHAR
+  - name: "WHTC_CO2_gkwh"
+    type: VARCHAR
+  - name: "WHTC_FuelConsumption_gkwh"
+    type: VARCHAR
+  - name: "ZeroEmissionVehicle"
+    type: VARCHAR

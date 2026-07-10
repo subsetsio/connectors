@@ -1,0 +1,61 @@
+columns:
+  - name: "countryCode"
+    type: VARCHAR
+    description: "Unique 2 character ISO Code for the EU Member State."
+  - name: "countryName"
+    type: VARCHAR
+    description: "Name for the EU Member State."
+  - name: "metadata_beginLifeSpanVersion"
+    type: VARCHAR
+    description: "Data management attribute: Timestamp when the feature or record was created. In case of reported data, it is the release date and time of the respective data delivery."
+  - name: "metadata_statusCode"
+    type: VARCHAR
+    description: "Data management attribute: Status of the feature or record regarding its registration."
+  - name: "metadata_versionId"
+    type: VARCHAR
+    description: "Data management attribute: Unique metadata identifier of version of the feature or record. URL that points either to the source of the reported data or to a page providing information on the data origin."
+  - name: "monitoringSiteIdentifier"
+    type: VARCHAR
+    description: "EU Identifier of the monitoring station."
+  - name: "ND_NatStatCode"
+    type: VARCHAR
+    description: "Nationally assigned, unique identifier of the monitoring station. ."
+  - name: "ND_StationType"
+    type: VARCHAR
+    description: "Station Type as defined in code list. ."
+  - name: "ND_TrendValue"
+    type: VARCHAR
+    description: "Trend between the current and previous reporting periods based on annual average (mean) values for the years covered."
+  - name: "observedPropertyDeterminandCode"
+    type: VARCHAR
+    description: "Unique code of the determinand monitored, as defined in the codelist."
+  - name: "parameterSamplingPeriod"
+    type: VARCHAR
+    description: "The period of the year during which the data used for the aggregation were sampled."
+  - name: "parameterWaterBodyCategory"
+    type: VARCHAR
+    description: "Water body category code, as defined in the codelist."
+  - name: "phenomenonTimeReferenceYear"
+    type: VARCHAR
+    description: "Year during which the data were sampled."
+  - name: "procedureAnalysedMatrix"
+    type: VARCHAR
+    description: "Matrix where the measurement has been made."
+  - name: "procedureAnalyticalMethod"
+    type: VARCHAR
+    description: "CEN/ISO code of the analytical method."
+  - name: "procedureLOQValue"
+    type: VARCHAR
+    description: "The smallest concentration that can be distinguished from the analytical blank at a chosen level of statistical confidence (usually 95%)."
+  - name: "resultMaximumValue"
+    type: VARCHAR
+    description: "Maximum sample value of the data used for aggregation."
+  - name: "resultMeanValue"
+    type: VARCHAR
+    description: "Mean value of the data used for aggregation."
+  - name: "resultNumberOfSamples"
+    type: VARCHAR
+    description: "Number of sample values included in the aggregated data."
+  - name: "resultUom"
+    type: VARCHAR
+    description: "Unit of measure for the reported values."

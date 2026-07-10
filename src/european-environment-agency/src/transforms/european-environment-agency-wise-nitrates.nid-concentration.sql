@@ -1,0 +1,22 @@
+SELECT
+    CAST("countryCode" AS VARCHAR) AS "countryCode",
+    CAST("countryName" AS VARCHAR) AS "countryName",
+    CAST("metadata_beginLifeSpanVersion" AS VARCHAR) AS "metadata_beginLifeSpanVersion",
+    CAST("metadata_statusCode" AS VARCHAR) AS "metadata_statusCode",
+    CAST("metadata_versionId" AS VARCHAR) AS "metadata_versionId",
+    CAST("monitoringSiteIdentifier" AS VARCHAR) AS "monitoringSiteIdentifier",
+    CAST("ND_NatStatCode" AS VARCHAR) AS "ND_NatStatCode",
+    CAST("ND_StationType" AS VARCHAR) AS "ND_StationType",
+    CAST("ND_TrendValue" AS VARCHAR) AS "ND_TrendValue",
+    CAST("observedPropertyDeterminandCode" AS VARCHAR) AS "observedPropertyDeterminandCode",
+    CAST("parameterSamplingPeriod" AS VARCHAR) AS "parameterSamplingPeriod",
+    CAST("parameterWaterBodyCategory" AS VARCHAR) AS "parameterWaterBodyCategory",
+    CAST("phenomenonTimeReferenceYear" AS VARCHAR) AS "phenomenonTimeReferenceYear",
+    CAST("procedureAnalysedMatrix" AS VARCHAR) AS "procedureAnalysedMatrix",
+    CAST("procedureAnalyticalMethod" AS VARCHAR) AS "procedureAnalyticalMethod",
+    CAST("procedureLOQValue" AS VARCHAR) AS "procedureLOQValue",
+    CAST("resultMaximumValue" AS VARCHAR) AS "resultMaximumValue",
+    CAST("resultMeanValue" AS VARCHAR) AS "resultMeanValue",
+    CAST("resultNumberOfSamples" AS VARCHAR) AS "resultNumberOfSamples",
+    CAST("resultUom" AS VARCHAR) AS "resultUom"
+FROM "european-environment-agency-wise-nitrates.nid-concentration"

@@ -1,0 +1,44 @@
+columns:
+  - name: "author"
+    type: VARCHAR
+    description: "Author of the scientific name."
+  - name: "author_accepted"
+    type: VARCHAR
+    description: "If species name is not the acepted name: EUNIS ID of the accepted species name."
+  - name: "code_2000"
+    type: VARCHAR
+    description: "Natura 2000 code for the species."
+  - name: "code2000_accepted"
+    type: VARCHAR
+    description: "If species name is not the acepted name: EUNIS ID of the accepted species name."
+  - name: "col_dataset"
+    type: VARCHAR
+  - name: "col_id"
+    type: VARCHAR
+  - name: "id_eunis"
+    type: VARCHAR
+    description: "EUNIS ID for the species."
+  - name: "id_eunis_accepted"
+    type: VARCHAR
+    description: "If species name is not the acepted name: EUNIS ID of the accepted species name."
+  - name: "is_accepted_name"
+    type: VARCHAR
+    description: "1=Is accepted name, 0=Is not."
+  - name: "scientific_name"
+    type: VARCHAR
+    description: "Scientific name of the species."
+  - name: "scientific_name_accepted"
+    type: VARCHAR
+    description: "If species name is not the acepted name: EUNIS ID of the accepted species name."
+  - name: "species_group_name"
+    type: VARCHAR
+    description: "Species group name."
+  - name: "status_name"
+    type: VARCHAR
+    description: "Status of the name: accepted name, sysnonym, misspelling, etc."
+  - name: "taxonomy_level_name"
+    type: VARCHAR
+    description: "Taxonomy level name."
+  - name: "taxonomy_tree"
+    type: VARCHAR
+    description: "String that contains the taxonomy tree of the species. Levels are separated by a comma. ID, Taxonomy level name and accepted scientific name for each level are separated by an asterisk."
