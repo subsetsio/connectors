@@ -1,5 +1,8 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST(strptime(trim(release_date), '%m/%d/%Y') AS DATE) AS date,
-    CAST(NULLIF(index_value, '') AS DOUBLE)                AS index_value
+    "release_date",
+    CAST("index_value" AS DOUBLE) AS index_value
 FROM "fhfa-mirs-transition-index"
-WHERE NULLIF(release_date, '') IS NOT NULL

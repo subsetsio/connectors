@@ -1,6 +1,7 @@
 spec_id: fca-retail-intermediary-market
 status: active
 tests:
+  - freshness: {col: year, reaches: 2024}
   - not_null: year
   - not_null: value
   - not_null: metric

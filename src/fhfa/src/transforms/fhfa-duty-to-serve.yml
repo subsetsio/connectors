@@ -1,3 +1,9 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fhfa-duty-to-serve`. Regenerate after model-verify.
+# caution: This table combines FHFA Duty to Serve eligibility and performance files with sparse, file-specific columns; filter dataset_part and source_file before comparing measures.
+key: []
+temporal: release_year
+sort: [release_year, dataset_part, source_file]
 columns:
   - name: state
     type: VARCHAR
@@ -6,17 +12,17 @@ columns:
   - name: tract
     type: VARCHAR
   - name: msa2023
-    type: VARCHAR
+    type: BIGINT
   - name: rural
-    type: VARCHAR
+    type: BIGINT
   - name: lmd
-    type: VARCHAR
+    type: BIGINT
   - name: midapp
-    type: VARCHAR
+    type: BIGINT
   - name: perpov
-    type: VARCHAR
+    type: BIGINT
   - name: coltract
-    type: VARCHAR
+    type: BIGINT
   - name: dataset_part
     type: VARCHAR
   - name: source_file
@@ -24,63 +30,63 @@ columns:
   - name: source_url
     type: VARCHAR
   - name: release_year
-    type: VARCHAR
+    type: BIGINT
   - name: msa2018
-    type: VARCHAR
+    type: BIGINT
   - name: msa2013
-    type: VARCHAR
+    type: BIGINT
   - name: aian
     type: VARCHAR
   - name: dts_ia
-    type: VARCHAR
+    type: BIGINT
   - name: fips11
     type: VARCHAR
   - name: msa23
-    type: VARCHAR
+    type: BIGINT
   - name: high_opp
-    type: VARCHAR
+    type: BIGINT
   - name: dda_flag
-    type: VARCHAR
+    type: BIGINT
   - name: qap_flag
-    type: VARCHAR
+    type: BIGINT
   - name: ct_duplicate
-    type: VARCHAR
+    type: BIGINT
   - name: sheet_name
     type: VARCHAR
   - name: msa2015
-    type: VARCHAR
+    type: BIGINT
   - name: qct2023
-    type: VARCHAR
+    type: BIGINT
   - name: qct2024
-    type: VARCHAR
+    type: BIGINT
   - name: rcap2024
-    type: VARCHAR
+    type: BIGINT
   - name: acp2024
-    type: VARCHAR
+    type: BIGINT
   - name: qct_2021
-    type: VARCHAR
+    type: BIGINT
   - name: qct_2022
-    type: VARCHAR
+    type: BIGINT
   - name: rcap_2022
-    type: VARCHAR
+    type: BIGINT
   - name: acp_2022
-    type: VARCHAR
+    type: BIGINT
   - name: qct2019
-    type: VARCHAR
+    type: BIGINT
   - name: qct2020
-    type: VARCHAR
+    type: BIGINT
   - name: recap2020
-    type: VARCHAR
+    type: BIGINT
   - name: acp2020
-    type: VARCHAR
+    type: BIGINT
   - name: qct2017
-    type: VARCHAR
+    type: BIGINT
   - name: qct2018
-    type: VARCHAR
+    type: BIGINT
   - name: recap2018
-    type: VARCHAR
+    type: BIGINT
   - name: acp2018
-    type: VARCHAR
+    type: BIGINT
   - name: reporting_date
     type: VARCHAR
   - name: agency_file
@@ -92,7 +98,7 @@ columns:
   - name: city
     type: VARCHAR
   - name: fhfa_sfi_number
-    type: VARCHAR
+    type: BIGINT
   - name: rssd_id
     type: VARCHAR
   - name: fdic_cert_number
@@ -104,33 +110,33 @@ columns:
   - name: program
     type: VARCHAR
   - name: year
-    type: VARCHAR
+    type: BIGINT
   - name: share_of_loans
-    type: VARCHAR
+    type: DOUBLE
   - name: share_loans
-    type: VARCHAR
+    type: DOUBLE
   - name: loan_volume
-    type: VARCHAR
+    type: BIGINT
   - name: weighted_avg_mrtg_rate
-    type: VARCHAR
+    type: DOUBLE
   - name: share_ftb
-    type: VARCHAR
+    type: DOUBLE
   - name: share_lt_50_ami
-    type: VARCHAR
+    type: DOUBLE
   - name: share_refi
-    type: VARCHAR
+    type: DOUBLE
   - name: share_ltv_lt_90
-    type: VARCHAR
+    type: DOUBLE
   - name: weighted_avg_ltv
-    type: VARCHAR
+    type: DOUBLE
   - name: share_cs_lt_680
-    type: VARCHAR
+    type: DOUBLE
   - name: weighted_credit_score
-    type: VARCHAR
+    type: DOUBLE
   - name: share_dti_lt_43
-    type: VARCHAR
+    type: DOUBLE
   - name: weighted_dti_ratio
-    type: VARCHAR
+    type: DOUBLE
   - name: statefp
     type: VARCHAR
   - name: cnty
@@ -174,9 +180,8 @@ columns:
   - name: "2022"
     type: VARCHAR
   - name: "2023"
-    type: VARCHAR
+    type: BIGINT
   - name: "2024"
-    type: VARCHAR
+    type: BIGINT
   - name: "2025"
-    type: VARCHAR
-
+    type: BIGINT

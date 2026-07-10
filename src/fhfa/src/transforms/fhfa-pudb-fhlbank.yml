@@ -1,114 +1,119 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fhfa-pudb-fhlbank`. Regenerate after model-verify.
+# caution: FHLBank public-use rows are anonymized acquired-member-asset loan records; numeric borrower and geography fields are partially masked or categorical in FHFA's public-use release.
+key: [loancharacteristicsid, totalmonthlyincomeamount, censustractminorityratiopercent, censustractmedfamincomeamount, loanacquisitionactualupbamt]
+temporal: year
+sort: [year, loancharacteristicsid, totalmonthlyincomeamount, censustractminorityratiopercent, censustractmedfamincomeamount, loanacquisitionactualupbamt]
 columns:
-  - name: Year
-    type: INTEGER
-  - name: LoanCharacteristicsID
+  - name: year
+    type: BIGINT
+  - name: loancharacteristicsid
+    type: BIGINT
+  - name: bank
     type: VARCHAR
-  - name: Bank
+  - name: fipsstatenumericcode
     type: VARCHAR
-  - name: FIPSStateNumericCode
+  - name: fipscountycode
     type: VARCHAR
-  - name: FIPSCountyCode
+  - name: corebasedstatisticalareacode
+    type: BIGINT
+  - name: censustractidentifier
     type: VARCHAR
-  - name: CoreBasedStatisticalAreaCode
-    type: VARCHAR
-  - name: CensusTractIdentifier
-    type: VARCHAR
-  - name: CensusTractMinorityRatioPercent
+  - name: censustractminorityratiopercent
     type: DOUBLE
-  - name: CensusTractMedFamIncomeAmount
+  - name: censustractmedfamincomeamount
+    type: BIGINT
+  - name: localareamedianincomeamount
+    type: BIGINT
+  - name: totalmonthlyincomeamount
+    type: BIGINT
+  - name: hudmedianincomeamount
+    type: BIGINT
+  - name: loanacquisitionactualupbamt
+    type: BIGINT
+  - name: ltvratiopercent
+    type: BIGINT
+  - name: notedate
+    type: BIGINT
+  - name: loanacquisitiondate
+    type: BIGINT
+  - name: loanpurposetype
+    type: BIGINT
+  - name: productcategoryname
+    type: VARCHAR
+  - name: mortgagetype
+    type: BIGINT
+  - name: scheduledtotalpaymentcount
+    type: BIGINT
+  - name: loanamortizationmaxtermmonths
+    type: BIGINT
+  - name: mortgageloansellerinsttype
+    type: VARCHAR
+  - name: borrowercount
+    type: BIGINT
+  - name: borrowerfirsttimehomebuyer
+    type: BIGINT
+  - name: borrower1race1type
+    type: BIGINT
+  - name: borrower2race1type
+    type: BIGINT
+  - name: borrower1sextype
+    type: BIGINT
+  - name: borrower2sextype
+    type: BIGINT
+  - name: borrower1ageatapplicationyears
+    type: BIGINT
+  - name: borrower2ageatapplicationyears
+    type: BIGINT
+  - name: propertyusagetype
+    type: BIGINT
+  - name: propertyunitcount
+    type: BIGINT
+  - name: noteratepercent
     type: DOUBLE
-  - name: LocalAreaMedianIncomeAmount
+  - name: noteamount
+    type: BIGINT
+  - name: housingexpenseratiopercent
     type: DOUBLE
-  - name: TotalMonthlyIncomeAmount
+  - name: totaldebtexpenseratiopercent
     type: DOUBLE
-  - name: HUDMedianIncomeAmount
-    type: DOUBLE
-  - name: LoanAcquisitionActualUPBAmt
-    type: DOUBLE
-  - name: LTVRatioPercent
-    type: DOUBLE
-  - name: NoteDate
+  - name: borrower1creditscorevalue
+    type: BIGINT
+  - name: borrower2creditscorevalue
+    type: BIGINT
+  - name: pmicoveragepercent
+    type: BIGINT
+  - name: employmentborrowerselfemployed
+    type: BIGINT
+  - name: propertytype
     type: VARCHAR
-  - name: LoanAcquisitionDate
-    type: VARCHAR
-  - name: LoanPurposeType
-    type: VARCHAR
-  - name: ProductCategoryName
-    type: VARCHAR
-  - name: MortgageType
-    type: VARCHAR
-  - name: ScheduledTotalPaymentCount
-    type: DOUBLE
-  - name: LoanAmortizationMaxTermMonths
-    type: DOUBLE
-  - name: MortgageLoanSellerInstType
-    type: VARCHAR
-  - name: BorrowerCount
-    type: DOUBLE
-  - name: BorrowerFirstTimeHomebuyer
-    type: VARCHAR
-  - name: Borrower1Race1Type
-    type: VARCHAR
-  - name: Borrower2Race1Type
-    type: VARCHAR
-  - name: Borrower1SexType
-    type: VARCHAR
-  - name: Borrower2SexType
-    type: VARCHAR
-  - name: Borrower1AgeAtApplicationYears
-    type: DOUBLE
-  - name: Borrower2AgeAtApplicationYears
-    type: DOUBLE
-  - name: PropertyUsageType
-    type: VARCHAR
-  - name: PropertyUnitCount
-    type: DOUBLE
-  - name: NoteRatePercent
-    type: DOUBLE
-  - name: NoteAmount
-    type: DOUBLE
-  - name: HousingExpenseRatioPercent
-    type: DOUBLE
-  - name: TotalDebtExpenseRatioPercent
-    type: DOUBLE
-  - name: Borrower1CreditScoreValue
-    type: DOUBLE
-  - name: Borrower2CreditScoreValue
-    type: DOUBLE
-  - name: PMICoveragePercent
-    type: DOUBLE
-  - name: EmploymentBorrowerSelfEmployed
-    type: VARCHAR
-  - name: PropertyType
-    type: VARCHAR
-  - name: IndexSourceType
-    type: VARCHAR
-  - name: MarginRatePercent
-    type: DOUBLE
-  - name: PrepaymentPenaltyExpirationDate
-    type: VARCHAR
-  - name: Borrower1EthnicityType
-    type: VARCHAR
-  - name: Borrower1Race2Type
-    type: VARCHAR
-  - name: Borrower1Race3Type
-    type: VARCHAR
-  - name: Borrower1Race4Type
-    type: VARCHAR
-  - name: Borrower1Race5Type
-    type: VARCHAR
-  - name: Borrower2EthnicityType
-    type: VARCHAR
-  - name: Borrower2Race2Type
-    type: VARCHAR
-  - name: Borrower2Race3Type
-    type: VARCHAR
-  - name: Borrower2Race4Type
-    type: VARCHAR
-  - name: Borrower2Race5Type
-    type: VARCHAR
-  - name: HOEPALoanStatusType
-    type: VARCHAR
-  - name: LienPriorityType
-    type: VARCHAR
+  - name: indexsourcetype
+    type: BIGINT
+  - name: marginratepercent
+    type: BIGINT
+  - name: prepaymentpenaltyexpirationdate
+    type: DATE
+  - name: borrower1ethnicitytype
+    type: BIGINT
+  - name: borrower1race2type
+    type: BIGINT
+  - name: borrower1race3type
+    type: BIGINT
+  - name: borrower1race4type
+    type: BIGINT
+  - name: borrower1race5type
+    type: BIGINT
+  - name: borrower2ethnicitytype
+    type: BIGINT
+  - name: borrower2race2type
+    type: BIGINT
+  - name: borrower2race3type
+    type: BIGINT
+  - name: borrower2race4type
+    type: BIGINT
+  - name: borrower2race5type
+    type: BIGINT
+  - name: hoepaloanstatustype
+    type: BIGINT
+  - name: lienprioritytype
+    type: BIGINT

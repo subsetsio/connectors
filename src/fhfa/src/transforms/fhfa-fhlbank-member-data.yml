@@ -1,3 +1,8 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fhfa-fhlbank-member-data`. Regenerate after model-verify.
+key: [fhfa_id, member_name, fed_id, zip, mem_date]
+temporal: release_period
+sort: [release_period, fhfa_id, member_name, fed_id, zip, mem_date]
 columns:
   - name: fhfa_id
     type: VARCHAR
@@ -31,4 +36,3 @@ columns:
     type: VARCHAR
   - name: source_url
     type: VARCHAR
-

@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fhfa-pudb-enterprise-single-family`. Regenerate after model-verify.
+# caution: Enterprise single-family public-use rows are anonymized loan records; categorical fields should be treated as source codes unless FHFA documentation is consulted.
+key: [record_num_sf_nfb]
+sort: [record_num_sf_nfb]
 columns:
   - name: enterprise
     type: BIGINT

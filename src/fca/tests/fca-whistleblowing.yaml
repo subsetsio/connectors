@@ -1,5 +1,8 @@
 spec_id: fca-whistleblowing
 status: active
+coverage:
+  frozen: true
+  reason: fixed FCA publication/page extraction with CKAN metadata timestamp but no observation-date freshness column in the raw table
 tests:
   - not_null: package_name
   - not_null: resource_url

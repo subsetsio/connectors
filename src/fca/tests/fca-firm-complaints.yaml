@@ -1,6 +1,7 @@
 spec_id: fca-firm-complaints
 status: active
 tests:
+  - freshness: {col: semester, reaches: "2025 H2"}
   - not_null: semester
   - not_null: volume
   - column_type: {col: volume, type: float}

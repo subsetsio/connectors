@@ -1,3 +1,10 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fhfa-underserved-areas-data`. Regenerate after model-verify.
+# caution: Underserved-area releases are annual geography snapshots; filter release_year before treating tract designations as current.
+# caution: The raw files drift between county and cnty columns across release years, so use both fields when constructing county-level geography keys.
+key: []
+temporal: release_year
+sort: [release_year, state, cnty, county, tract]
 columns:
   - name: state
     type: VARCHAR
@@ -6,39 +13,39 @@ columns:
   - name: tract
     type: VARCHAR
   - name: msa2023
-    type: VARCHAR
+    type: BIGINT
   - name: lya
-    type: VARCHAR
+    type: BIGINT
   - name: pctmin
-    type: VARCHAR
+    type: DOUBLE
   - name: min_trct
-    type: VARCHAR
+    type: BIGINT
   - name: ceninc
-    type: VARCHAR
+    type: BIGINT
   - name: medinc
-    type: VARCHAR
+    type: BIGINT
   - name: dda
-    type: VARCHAR
+    type: BIGINT
   - name: release_year
-    type: VARCHAR
+    type: BIGINT
   - name: source_file
     type: VARCHAR
   - name: source_url
     type: VARCHAR
   - name: msa2018
-    type: VARCHAR
+    type: BIGINT
   - name: msa2013
-    type: VARCHAR
+    type: BIGINT
   - name: msa2003
-    type: VARCHAR
+    type: BIGINT
   - name: county
     type: VARCHAR
   - name: ami
-    type: VARCHAR
+    type: BIGINT
   - name: aian
     type: VARCHAR
   - name: served
-    type: VARCHAR
+    type: BIGINT
   - name: stusab
     type: VARCHAR
   - name: cnty_nm

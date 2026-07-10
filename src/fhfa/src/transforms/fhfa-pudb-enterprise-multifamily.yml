@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fhfa-pudb-enterprise-multifamily`. Regenerate after model-verify.
+# caution: Enterprise multifamily public-use rows are anonymized records with categorical loan and property attributes; record numbers are source identifiers within this public-use extract.
+key: [record_num_mf_nf, afford_mf, units_num_cat, tract_income_cat, purpose_mf_nf]
+sort: [record_num_mf_nf, afford_mf, units_num_cat, tract_income_cat, purpose_mf_nf]
 columns:
   - name: enterprise
     type: BIGINT

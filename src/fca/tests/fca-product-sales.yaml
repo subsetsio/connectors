@@ -1,6 +1,7 @@
 spec_id: fca-product-sales
 status: active
 tests:
+  - freshness: {col: period, reaches: "Q4-2024"}
   - not_null: period
   - not_null: no_of_sales
   - column_type: {col: no_of_sales, type: float}

@@ -1,6 +1,7 @@
 spec_id: fca-mortgage-lending-statistics
 status: active
 tests:
+  - freshness: {col: year, reaches: current_year()}
   - not_null: metric
   - not_null: value
   - column_type: {col: value, type: float}

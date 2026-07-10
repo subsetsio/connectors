@@ -1,6 +1,7 @@
 spec_id: fca-general-insurance-value-measures
 status: active
 tests:
+  - freshness: {col: year, reaches: 2024}
   - not_null: firm_name
   - not_null: product_category
   - not_null: year

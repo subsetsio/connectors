@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fhfa-nmdb-aggregate-statistics`. Regenerate after model-verify.
+# caution: NMDB rows are aggregate statistics by market, geography, period, and series; value1 and value2 are series-specific measures and should not be summed across seriesid.
+key: [source, frequency, geolevel, geoid, market, period, seriesid]
+temporal: year
+sort: [year, source, frequency, geolevel, geoid, market, period, seriesid]
 columns:
   - name: source
     type: VARCHAR
@@ -15,16 +20,16 @@ columns:
   - name: period
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: quarter
-    type: INTEGER
+    type: BIGINT
   - name: month
-    type: INTEGER
+    type: BIGINT
   - name: suppressed
-    type: VARCHAR
+    type: BIGINT
   - name: seriesid
     type: VARCHAR
   - name: value1
     type: DOUBLE
   - name: value2
-    type: DOUBLE
+    type: VARCHAR

@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fhfa-hpi`. Regenerate after model-verify.
+# caution: The HPI master file mixes annual, quarterly, and monthly series and multiple geography levels; filter frequency, level, hpi_type, and hpi_flavor before comparing index values.
+key: [hpi_type, hpi_flavor, frequency, level, place_id, yr, period]
+temporal: yr
+sort: [yr, hpi_type, hpi_flavor, frequency, level, place_id, period]
 columns:
   - name: hpi_type
     type: VARCHAR
@@ -12,15 +17,13 @@ columns:
     type: VARCHAR
   - name: place_id
     type: VARCHAR
-  - name: year
-    type: INTEGER
+  - name: yr
+    type: BIGINT
   - name: period
-    type: INTEGER
+    type: BIGINT
   - name: index_nsa
-    type: DOUBLE
+    type: VARCHAR
   - name: index_sa
-    type: DOUBLE
-  - name: rstderr
-    type: DOUBLE
-  - name: note
+    type: VARCHAR
+  - name: h
     type: VARCHAR
