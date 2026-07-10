@@ -2,6 +2,7 @@
 # of raw asset `dares-dares-offres-collectees-satisfaites-france-travail-brutes-trim`. Regenerate after model-verify.
 # caution: Rows mix geographic scopes through department and region fields; filter to the intended geography before summing.
 key: [date, region, departement, type_de_donnees, type_d_offre_d_emploi, type_d_emploi, qualification]
+temporal: date
 sort: [date, region, departement, type_de_donnees, type_d_offre_d_emploi, type_d_emploi, qualification]
 columns:
   - name: date

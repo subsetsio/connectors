@@ -1,6 +1,9 @@
 spec_id: dares-dares-offres-collectees-satisfaites-france-travail-cvs-cjo-mens
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 1460d}
+    reason: DARES statistical tables update on monthly, quarterly, or annual cadences; allow lag for source publication and revision cycles.
+    certainty: 70
   - row_count: {min: 17598}
     reason: full one-shot ODS parquet export; source reports ~43997 records, a large shortfall means a truncated download
     certainty: 80

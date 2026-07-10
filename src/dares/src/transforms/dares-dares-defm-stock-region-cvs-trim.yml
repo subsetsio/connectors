@@ -2,6 +2,7 @@
 # of raw asset `dares-dares-defm-stock-region-cvs-trim`. Regenerate after model-verify.
 # caution: Rows mix geographic scopes through department and region fields; filter to the intended geography before summing.
 key: [date, code_region, code_departement, type_de_donnees, categorie, sexe, tranche_d_age, anciennete]
+temporal: date
 sort: [date, code_region, code_departement, type_de_donnees, categorie, sexe, tranche_d_age, anciennete]
 columns:
   - name: date
