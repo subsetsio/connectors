@@ -1,10 +1,14 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: This is a normalized spreadsheet-cell table. Use resource_id, sheet, row_idx, and col_idx to reconstruct source rows and columns; do not aggregate num_value without interpreting the surrounding labels in value.
 SELECT
-    resource_id,
-    resource_name,
-    sheet,
-    CAST(row_idx AS INTEGER) AS row_idx,
-    CAST(col_idx AS INTEGER) AS col_idx,
-    value,
-    num_value
+    "resource_id",
+    "resource_name",
+    "sheet",
+    "row_idx",
+    "col_idx",
+    "value",
+    "num_value"
 FROM "fsa-a0df1c82-f72d-4232-bfd6-94d2bbae4968"
-WHERE value IS NOT NULL AND value <> ''

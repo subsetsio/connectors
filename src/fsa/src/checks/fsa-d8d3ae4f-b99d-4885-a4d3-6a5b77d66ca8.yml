@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fsa-d8d3ae4f-b99d-4885-a4d3-6a5b77d66ca8`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [resource_id, sheet, row_idx, col_idx]
+checks:
+  - kind: unique
+    columns: [resource_id, sheet, row_idx, col_idx]
+  - kind: not_null
+    col: resource_id
+  - kind: not_null
+    col: sheet
+  - kind: not_null
+    col: row_idx
+  - kind: not_null
+    col: col_idx
+  - kind: row_floor
+    min: 76
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
