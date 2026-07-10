@@ -1,5 +1,8 @@
 spec_id: ffiec-transmittal-sheet
 status: active
+coverage:
+  frozen: true
+  reason: FFIEC/CFPB HMDA transmittal-sheet snapshots are annual frozen public releases; the connector discovers all published modern snapshot years on each run.
 # Expectations on the RAW HMDA Transmittal Sheet asset (all columns VARCHAR;
 # one parquet batch per snapshot year, globbed as ffiec-transmittal-sheet-*).
 # The TS is the cover sheet of each filing: one row per institution per year.
@@ -12,8 +15,8 @@ tests:
   - matches: {col: activity_year, pattern: '^20[0-9]{2}$'}
     reason: 4-digit reporting year
     certainty: 95
-  - matches: {col: lei, pattern: '^[A-Z0-9]{20}$'}
-    reason: an LEI is exactly 20 uppercase alphanumeric characters (ISO 17442)
+  - matches: {col: lei, pattern: '^[A-Za-z0-9]{20}$'}
+    reason: an LEI is exactly 20 alphanumeric characters; historical HMDA rows may preserve source casing
     certainty: 85
   - unique: [lei, activity_year]
     reason: the TS is one cover-sheet row per filer per year; dupes mean a year batch was double-counted

@@ -1,5 +1,8 @@
 spec_id: ffiec-lar
 status: active
+coverage:
+  frozen: true
+  reason: FFIEC/CFPB HMDA snapshot files are annual frozen public releases; the connector discovers all published modern snapshot years on each run.
 # Expectations on the RAW HMDA LAR asset (all columns stored as VARCHAR;
 # one parquet batch per snapshot year, globbed as ffiec-lar-*). Authored from
 # the public HMDA LAR data-field definitions and the modern (2018+) schema.

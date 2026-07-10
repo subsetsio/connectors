@@ -1,5 +1,8 @@
 spec_id: ffiec-msamd
 status: active
+coverage:
+  frozen: true
+  reason: FFIEC/CFPB HMDA MSA/MD reference snapshots are annual frozen public releases; the connector discovers all published modern snapshot years on each run.
 # Expectations on the RAW HMDA MSA/MD reference-code asset. The source file is
 # year-specific but lacks an activity_year column, so the downloader synthesizes
 # activity_year from the snapshot path before writing all-VARCHAR parquet.

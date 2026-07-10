@@ -5,17 +5,18 @@ Mechanism: Socrata (chosen by rank, api_suitability 85). Each subset is one
 Socrata 4x4 dataset, exported in full as JSON via /resource/<id>.json with
 $limit/$offset paging ($order=:id for stable pages). No auth required.
 
-Fetch shape: stateless full re-pull. Every dataset is small (largest ~16.6k
-rows), so we re-pull the whole table each run and overwrite — revisions and
-late corrections are picked up for free. Raw is written as NDJSON because the
-Socrata JSON API returns every value as a string and omits fields that are null
-for a given row (e.g. VMT-421C has no lanemiles before 1980); NDJSON tolerates
-that drift and the transform SQL re-types on read.
+Fetch shape: stateless full re-pull. Small tables are fetched through the
+Socrata JSON API and written as NDJSON because values arrive as strings and
+null fields are omitted per row. The six HPMS roadway-section snapshots are
+12M-29M rows each, so they stream Socrata's CSV export directly to csv.gz
+instead of accumulating JSON pages in memory.
 """
 
 from subsets_utils import (
     NodeSpec,
     get,
+    get_client,
+    raw_writer,
     save_raw_ndjson,
 )
 
@@ -37,9 +38,20 @@ ENTITY_IDS = [
     "v9ae-hsuk",  # Roadway Sections West 2018
 ]
 
+ROADWAY_ENTITY_IDS = {
+    "4kzx-kud8",
+    "6bch-d3uv",
+    "bm4c-faz3",
+    "ihrz-ddnk",
+    "rkzg-z7ht",
+    "v9ae-hsuk",
+}
+
 _BASE = "https://datahub.transportation.gov/resource"
-_PAGE = 50000           # Socrata serves large single pages; all tables fit well under this
+_VIEWS = "https://datahub.transportation.gov/api/views"
+_PAGE = 50000           # small-table JSON page size
 _MAX_PAGES = 1000       # safety ceiling — raises on hit, never silently truncates
+_STREAM_CHUNK = 1024 * 1024
 
 
 def _fetch_page(fxf: str, offset: int) -> list[dict]:
@@ -55,6 +67,16 @@ def _fetch_page(fxf: str, offset: int) -> list[dict]:
 def fetch_one(node_id: str) -> None:
     asset = node_id                      # the spec id IS the asset name
     fxf = node_id[len("fhwa-"):]         # recover the Socrata 4x4 id
+
+    if fxf in ROADWAY_ENTITY_IDS:
+        url = f"{_VIEWS}/{fxf}/rows.csv?accessType=DOWNLOAD"
+        with get_client().stream("GET", url, timeout=(10.0, 300.0)) as resp:
+            resp.raise_for_status()
+            with raw_writer(asset, "csv.gz", mode="wb", compression="gzip") as out:
+                for chunk in resp.iter_bytes(_STREAM_CHUNK):
+                    if chunk:
+                        out.write(chunk)
+        return
 
     rows: list[dict] = []
     for page in range(_MAX_PAGES):
