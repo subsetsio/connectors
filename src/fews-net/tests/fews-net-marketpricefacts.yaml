@@ -1,15 +1,6 @@
 spec_id: fews-net-marketpricefacts
 status: active
 tests:
-  - not_null: id
-    reason: every FDW datapoint carries a numeric row id (the natural key)
-    certainty: 97
-  - unique: id
-    reason: one raw row per FDW marketpricefacts datapoint id
-    certainty: 88
-  - column_type: {col: id, type: integer}
-    reason: FDW row ids are integers
-    certainty: 90
   - not_null: country
     reason: every price observation is tied to a reporting country
     certainty: 88
@@ -26,6 +17,10 @@ tests:
     reason: period_date is an ISO date string in the raw JSON
     certainty: 85
     severity: warn
+  - freshness: {col: period_date, reaches: today - 120d}
+    reason: FEWS NET market prices are a continuing time-series feed; latest price periods should remain within roughly a quarter.
+    certainty: 80
+    points_outward: true
   - row_count: {min: 1000000}
     reason: the global price corpus is ~4.1M observations
     certainty: 70

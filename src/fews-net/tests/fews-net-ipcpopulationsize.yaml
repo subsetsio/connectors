@@ -16,6 +16,10 @@ tests:
   - not_null: phase
     reason: a population estimate is always tied to an IPC phase bucket (e.g. 3+)
     certainty: 85
+  - freshness: {col: reporting_date, reaches: today - 120d}
+    reason: FEWS NET food-insecure population estimates are refreshed with current reporting cycles; recent reporting dates should remain within roughly a quarter.
+    certainty: 80
+    points_outward: true
   - row_count: {min: 1000}
     reason: the global corpus is ~4.8k peak-needs estimates
     certainty: 70

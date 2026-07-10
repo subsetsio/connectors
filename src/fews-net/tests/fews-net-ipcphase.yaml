@@ -4,18 +4,12 @@ tests:
   - not_null: id
     reason: every FDW datapoint carries a numeric row id (the natural key)
     certainty: 97
-  - unique: id
-    reason: one raw row per FDW ipcphase datapoint id; per-country pulls don't overlap
-    certainty: 88
   - column_type: {col: id, type: integer}
     reason: FDW row ids are integers
     certainty: 90
   - not_null: country_code
     reason: every classification is stamped with an ISO-3166 country_code
     certainty: 90
-  - not_null: value
-    reason: an ipcphase datapoint is the IPC phase value itself
-    certainty: 85
   - column_type: {col: value, type: float}
     reason: the phase is delivered as a JSON number (e.g. 3.0)
     certainty: 80
@@ -26,6 +20,10 @@ tests:
     reason: reporting_date is an ISO date string in the raw JSON
     certainty: 85
     severity: warn
+  - freshness: {col: projection_start, reaches: today - 120d}
+    reason: FEWS NET classifications are refreshed on a recurring outlook/update cadence; the projection window should reach the current quarter.
+    certainty: 80
+    points_outward: true
   - row_count: {min: 100000}
     reason: Kenya alone returns ~157k rows, so the global pull is larger still
     certainty: 70

@@ -1,0 +1,57 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fews-net-ipcphase`. Regenerate after model-verify.
+# caution: Rows include multiple FEWS NET scenarios and projection windows; filter scenario/projection fields before comparing phase values across time.
+key: []
+temporal: projection_start
+sort: [projection_start]
+columns:
+  - name: source_organization
+    type: VARCHAR
+  - name: source_document
+    type: VARCHAR
+  - name: datasourcedocument
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: country_code
+    type: VARCHAR
+  - name: geographic_group
+    type: VARCHAR
+  - name: fewsnet_region
+    type: VARCHAR
+  - name: fnid
+    type: VARCHAR
+  - name: geographic_unit_name
+    type: VARCHAR
+  - name: classification_scale
+    type: VARCHAR
+  - name: scenario_name
+    type: VARCHAR
+  - name: is_allowing_for_assistance
+    type: BOOLEAN
+  - name: projection_start
+    type: DATE
+  - name: projection_end
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: description
+    type: VARCHAR
+  - name: scenario
+    type: VARCHAR
+  - name: reporting_date
+    type: DATE
+  - name: collection_schedule
+    type: VARCHAR
+  - name: collection_status
+    type: VARCHAR
+  - name: dataseries_name
+    type: VARCHAR
+  - name: geographic_unit_full_name
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: id
+    type: BIGINT
+  - name: data_usage_policy
+    type: VARCHAR

@@ -1,0 +1,73 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fews-net-tradeflowquantityvalue`. Regenerate after model-verify.
+# caution: Rows mix reporting countries, border points, flow/trade types, products, units, and quantity/value measures; filter those dimensions before aggregating flows.
+key: []
+temporal: period_date
+sort: [period_date]
+columns:
+  - name: reporting_country
+    type: VARCHAR
+  - name: reporting_country_code
+    type: VARCHAR
+  - name: border_point
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: source_country_code
+    type: VARCHAR
+  - name: destination
+    type: VARCHAR
+  - name: destination_country_code
+    type: VARCHAR
+  - name: cpcv2
+    type: VARCHAR
+  - name: product
+    type: VARCHAR
+  - name: source_organization
+    type: VARCHAR
+  - name: source_document
+    type: VARCHAR
+  - name: collection_status
+    type: VARCHAR
+  - name: period_date
+    type: DATE
+  - name: flow_type
+    type: VARCHAR
+  - name: trade_type
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: unit_type
+    type: VARCHAR
+  - name: unit_name
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: value
+    type: DOUBLE
+  - name: common_unit
+    type: VARCHAR
+  - name: common_unit_quantity
+    type: DOUBLE
+  - name: reporting_country_geographic_group
+    type: VARCHAR
+  - name: reporting_country_fewsnet_region
+    type: VARCHAR
+  - name: source_geographic_group
+    type: VARCHAR
+  - name: source_fewsnet_region
+    type: VARCHAR
+  - name: destination_geographic_group
+    type: VARCHAR
+  - name: destination_fewsnet_region
+    type: VARCHAR
+  - name: start_date
+    type: DATE
+  - name: id
+    type: DOUBLE
+  - name: dataseries_name
+    type: VARCHAR
+  - name: collection_schedule
+    type: VARCHAR
+  - name: data_usage_policy
+    type: VARCHAR

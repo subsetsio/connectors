@@ -1,0 +1,109 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fews-net-ipcpopulationsize`. Regenerate after model-verify.
+# caution: Population rows are phase-bucket estimates and may include ranges or scenario-specific values; filter phase and scenario fields before summing populations.
+key: [id]
+temporal: reporting_date
+sort: [reporting_date, id]
+columns:
+  - name: source_organization
+    type: VARCHAR
+  - name: source_document
+    type: VARCHAR
+  - name: datasourcedocument
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: country_code
+    type: VARCHAR
+  - name: geographic_group
+    type: VARCHAR
+  - name: fewsnet_region
+    type: VARCHAR
+  - name: fnid
+    type: VARCHAR
+  - name: admin_0
+    type: VARCHAR
+  - name: admin_1
+    type: JSON
+  - name: admin_2
+    type: JSON
+  - name: admin_3
+    type: JSON
+  - name: admin_4
+    type: JSON
+  - name: collection_status
+    type: VARCHAR
+  - name: phase
+    type: VARCHAR
+  - name: phase_name
+    type: VARCHAR
+  - name: scenario
+    type: VARCHAR
+  - name: scenario_name
+    type: VARCHAR
+  - name: reporting_date
+    type: DATE
+  - name: projection_start
+    type: DATE
+  - name: projection_end
+    type: DATE
+  - name: collection_schedule
+    type: VARCHAR
+  - name: dataseries_name
+    type: VARCHAR
+  - name: data_usage_policy
+    type: VARCHAR
+  - name: id
+    type: BIGINT
+  - name: indicator_abbreviation
+    type: VARCHAR
+  - name: indicator_name
+    type: VARCHAR
+  - name: status
+    type: VARCHAR
+  - name: low_value
+    type: DOUBLE
+  - name: high_value
+    type: DOUBLE
+  - name: population_range
+    type: VARCHAR
+  - name: pct_phase3
+    type: JSON
+  - name: pct_phase4
+    type: JSON
+  - name: pct_phase5
+    type: JSON
+  - name: pct_population_min
+    type: DOUBLE
+  - name: pct_population_max
+    type: DOUBLE
+  - name: peak_start_date
+    type: VARCHAR
+  - name: peak_end_date
+    type: VARCHAR
+  - name: comparison_to_one_year_ago
+    type: VARCHAR
+  - name: comparison_to_five_year_average
+    type: VARCHAR
+  - name: phase3_low_value
+    type: JSON
+  - name: phase3_high_value
+    type: JSON
+  - name: phase4_low_value
+    type: JSON
+  - name: phase4_high_value
+    type: JSON
+  - name: phase5_low_value
+    type: JSON
+  - name: phase5_high_value
+    type: JSON
+  - name: pct_rural_population
+    type: JSON
+  - name: pct_urban_population
+    type: JSON
+  - name: pct_displaced_population
+    type: JSON
+  - name: key_shocks
+    type: VARCHAR
+  - name: areas_of_highest_concern
+    type: VARCHAR

@@ -1,0 +1,43 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fews-net-marketpricefacts`. Regenerate after model-verify.
+# caution: Rows mix countries, markets, products, price types, currencies, units, and normalized price fields; filter those dimensions before comparing or aggregating prices.
+key: []
+temporal: period_date
+sort: [period_date]
+columns:
+  - name: id
+    type: DOUBLE
+  - name: country
+    type: VARCHAR
+  - name: admin_1
+    type: VARCHAR
+  - name: admin_2
+    type: VARCHAR
+  - name: market
+    type: VARCHAR
+  - name: cpcv2
+    type: VARCHAR
+  - name: product
+    type: VARCHAR
+  - name: price_type
+    type: VARCHAR
+  - name: product_source
+    type: VARCHAR
+  - name: period_date
+    type: DATE
+  - name: start_date
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: currency
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: common_unit
+    type: VARCHAR
+  - name: common_currency
+    type: VARCHAR
+  - name: common_unit_price
+    type: DOUBLE
+  - name: common_currency_price
+    type: DOUBLE

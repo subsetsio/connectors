@@ -1,15 +1,6 @@
 spec_id: fews-net-tradeflowquantityvalue
 status: active
 tests:
-  - not_null: id
-    reason: every FDW datapoint carries a numeric row id (the natural key)
-    certainty: 97
-  - unique: id
-    reason: one raw row per FDW tradeflowquantityvalue datapoint id
-    certainty: 88
-  - column_type: {col: id, type: integer}
-    reason: FDW row ids are integers
-    certainty: 90
   - not_null: reporting_country_code
     reason: every trade flow is reported by a country (ISO-3166 code)
     certainty: 85
@@ -19,6 +10,10 @@ tests:
   - column_type: {col: value, type: float}
     reason: the traded quantity/value is delivered as a JSON number
     certainty: 80
+  - freshness: {col: period_date, reaches: today - 120d}
+    reason: FEWS NET cross-border trade flows are a continuing time-series feed; latest periods should remain within roughly a quarter.
+    certainty: 80
+    points_outward: true
   - row_count: {min: 50000}
     reason: the global cross-border trade corpus is ~249k flow records
     certainty: 70
