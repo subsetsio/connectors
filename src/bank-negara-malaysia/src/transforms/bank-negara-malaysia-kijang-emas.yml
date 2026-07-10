@@ -1,16 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bank-negara-malaysia-kijang-emas`. Regenerate after model-verify.
+# caution: Each row carries buying and selling prices for multiple coin weights; reshape by coin weight and side before aggregating prices.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE
   - name: one_oz_buying
-    type: DOUBLE
+    type: BIGINT
   - name: one_oz_selling
-    type: DOUBLE
+    type: BIGINT
   - name: half_oz_buying
-    type: DOUBLE
+    type: BIGINT
   - name: half_oz_selling
-    type: DOUBLE
+    type: BIGINT
   - name: quarter_oz_buying
-    type: DOUBLE
+    type: BIGINT
   - name: quarter_oz_selling
-    type: DOUBLE
+    type: BIGINT

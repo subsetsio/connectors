@@ -1,9 +1,14 @@
-SELECT CAST(date AS DATE)        AS date,
-       CAST(overnight AS DOUBLE) AS overnight,
-       CAST(week_1 AS DOUBLE)    AS week_1,
-       CAST(month_1 AS DOUBLE)   AS month_1,
-       CAST(month_3 AS DOUBLE)   AS month_3,
-       CAST(month_6 AS DOUBLE)   AS month_6
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Each row carries multiple tenor columns for one date; unpivot tenors before comparing rates across maturities.
+SELECT
+    "date",
+    "overnight",
+    "week_1",
+    "month_1",
+    "month_3",
+    "month_6",
+    "year_1"
 FROM "bank-negara-malaysia-islamic-interbank-rate"
-WHERE date IS NOT NULL
-QUALIFY row_number() OVER (PARTITION BY date ORDER BY date) = 1

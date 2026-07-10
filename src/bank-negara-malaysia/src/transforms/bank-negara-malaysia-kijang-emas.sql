@@ -1,10 +1,14 @@
-SELECT CAST(date AS DATE)                 AS date,
-       CAST(one_oz_buying AS DOUBLE)      AS one_oz_buying,
-       CAST(one_oz_selling AS DOUBLE)     AS one_oz_selling,
-       CAST(half_oz_buying AS DOUBLE)     AS half_oz_buying,
-       CAST(half_oz_selling AS DOUBLE)    AS half_oz_selling,
-       CAST(quarter_oz_buying AS DOUBLE)  AS quarter_oz_buying,
-       CAST(quarter_oz_selling AS DOUBLE) AS quarter_oz_selling
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Each row carries buying and selling prices for multiple coin weights; reshape by coin weight and side before aggregating prices.
+SELECT
+    "date",
+    "one_oz_buying",
+    "one_oz_selling",
+    "half_oz_buying",
+    "half_oz_selling",
+    "quarter_oz_buying",
+    "quarter_oz_selling"
 FROM "bank-negara-malaysia-kijang-emas"
-WHERE date IS NOT NULL
-QUALIFY row_number() OVER (PARTITION BY date ORDER BY date) = 1

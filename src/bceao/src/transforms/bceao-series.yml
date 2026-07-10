@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [series_code, frequency]
-sort: [series_code, frequency]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bceao-series`. Regenerate after model-verify.
+# caution: A series code can appear with different frequencies, units, localities, or labeling context; join to observations using the frequency and locality context rather than treating series_code alone as globally unique.
+key: [label, series_code, localities, unit, subsector]
+sort: [label, series_code, localities, unit, subsector]
 columns:
   - name: series_code
     type: VARCHAR

@@ -1,19 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bceao-values`. Regenerate after model-verify.
+# caution: The table mixes annual, quarterly, and higher-frequency indicators across WAEMU member states and the UEMOA aggregate; filter frequency and locality before aggregating values.
+# caution: Some source observations are duplicated exactly for the same series, locality, country, frequency, and date; de-duplicate before calculations that require one row per observation.
+key: []
 temporal: date
 sort: [date]
 columns:
-  - name: series_code
-    type: VARCHAR
   - name: locality
     type: VARCHAR
   - name: country
     type: VARCHAR
   - name: frequency
     type: VARCHAR
-  - name: date
-    type: DATE
-  - name: value
-    type: DOUBLE
+  - name: series_code
+    type: VARCHAR
   - name: label
     type: VARCHAR
   - name: sector
@@ -32,3 +32,7 @@ columns:
     type: VARCHAR
   - name: period
     type: VARCHAR
+  - name: date
+    type: DATE
+  - name: value
+    type: DOUBLE

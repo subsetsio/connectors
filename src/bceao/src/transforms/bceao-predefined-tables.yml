@@ -1,8 +1,10 @@
-key: [table_id, frequency]
-sort: [table_id, frequency]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bceao-predefined-tables`. Regenerate after model-verify.
+key: [table_id]
+sort: [table_id]
 columns:
   - name: table_id
-    type: VARCHAR
+    type: BIGINT
   - name: frequency
     type: VARCHAR
   - name: label

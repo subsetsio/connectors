@@ -1,7 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bank-negara-malaysia-interest-volume`. Regenerate after model-verify.
+# caution: Each row carries multiple tenor columns for the same product and date; unpivot tenors before aggregating volumes across maturities.
+key: [date, product]
+temporal: date
+sort: [date, product]
 columns:
-  - name: product
-    type: VARCHAR
   - name: date
     type: DATE
   - name: overnight
@@ -18,3 +21,5 @@ columns:
     type: DOUBLE
   - name: other
     type: DOUBLE
+  - name: product
+    type: VARCHAR

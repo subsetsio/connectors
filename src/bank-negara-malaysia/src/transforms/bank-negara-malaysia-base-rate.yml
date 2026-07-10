@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bank-negara-malaysia-base-rate`. Regenerate after model-verify.
+key: [bank_name, bank_code]
+temporal: effective_date
+sort: [effective_date, bank_name, bank_code]
 columns:
   - name: bank_code
     type: VARCHAR
@@ -12,3 +16,5 @@ columns:
     type: DOUBLE
   - name: effective_date
     type: DATE
+  - name: base_financing_rate
+    type: DOUBLE

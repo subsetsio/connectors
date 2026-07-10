@@ -1,8 +1,12 @@
-SELECT currency_code,
-       CAST(unit AS INTEGER)        AS unit,
-       CAST(date AS DATE)           AS date,
-       CAST(buying_rate AS DOUBLE)  AS buying_rate,
-       CAST(selling_rate AS DOUBLE) AS selling_rate
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "currency_code",
+    "unit",
+    "date",
+    "buying_rate",
+    "selling_rate",
+    "middle_rate"
 FROM "bank-negara-malaysia-exchange-rate"
-WHERE date IS NOT NULL AND currency_code IS NOT NULL
-QUALIFY row_number() OVER (PARTITION BY currency_code, date ORDER BY date) = 1

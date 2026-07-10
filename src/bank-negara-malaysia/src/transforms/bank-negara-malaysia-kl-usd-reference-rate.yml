@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bank-negara-malaysia-kl-usd-reference-rate`. Regenerate after model-verify.
+# caution: The raw feed can repeat an observation date; use the published transform for one row per date.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE

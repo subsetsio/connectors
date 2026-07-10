@@ -1,7 +1,13 @@
-SELECT bank_code, bank_name,
-       CAST(base_rate AS DOUBLE)                   AS base_rate,
-       CAST(base_lending_rate AS DOUBLE)           AS base_lending_rate,
-       CAST(indicative_eff_lending_rate AS DOUBLE) AS indicative_eff_lending_rate,
-       CAST(effective_date AS DATE)                AS effective_date
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "bank_code",
+    "bank_name",
+    "base_rate",
+    "base_lending_rate",
+    "indicative_eff_lending_rate",
+    "effective_date",
+    "base_financing_rate"
 FROM "bank-negara-malaysia-base-rate"
-WHERE bank_code IS NOT NULL

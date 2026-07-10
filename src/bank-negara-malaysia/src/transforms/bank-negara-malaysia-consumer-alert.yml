@@ -1,16 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bank-negara-malaysia-consumer-alert`. Regenerate after model-verify.
+# caution: The alert list is a current reference list, not a complete time series of all historical alert states.
 key: [name]
 temporal: added_date
 sort: [added_date, name]
 columns:
   - name: name
     type: VARCHAR
-    description: Name of the entity listed in BNM's financial consumer alert list.
-  - name: registration_number
+  - name: regisration_number
     type: VARCHAR
-    description: Registration number as published by BNM, where provided.
   - name: added_date
     type: DATE
-    description: Date the entity was added to BNM's financial consumer alert list.
   - name: websites
-    type: VARCHAR
-    description: Source-published website list serialized from the API array.
+    type: "VARCHAR[]"

@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bank-negara-malaysia-islamic-interbank-rate`. Regenerate after model-verify.
+# caution: Each row carries multiple tenor columns for one date; unpivot tenors before comparing rates across maturities.
+key: [date]
+temporal: date
+sort: [date]
 columns:
   - name: date
     type: DATE
@@ -12,3 +17,5 @@ columns:
     type: DOUBLE
   - name: month_6
     type: DOUBLE
+  - name: year_1
+    type: JSON

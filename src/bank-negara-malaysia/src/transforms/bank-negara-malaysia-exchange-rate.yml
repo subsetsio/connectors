@@ -1,12 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `bank-negara-malaysia-exchange-rate`. Regenerate after model-verify.
+key: [date, currency_code]
+temporal: date
+sort: [date, currency_code]
 columns:
   - name: currency_code
     type: VARCHAR
   - name: unit
-    type: INTEGER
+    type: BIGINT
   - name: date
     type: DATE
   - name: buying_rate
     type: DOUBLE
   - name: selling_rate
     type: DOUBLE
+  - name: middle_rate
+    type: JSON
