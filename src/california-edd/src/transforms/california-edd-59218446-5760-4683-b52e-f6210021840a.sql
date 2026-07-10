@@ -3,7 +3,7 @@ SELECT
     "Area Type" AS area_type,
     TRY_CAST("Year" AS INTEGER) AS year,
     "Month" AS month,
-    CAST(COALESCE("Date_Numeric", "Date") AS VARCHAR) AS date_numeric,
+    COALESCE(CAST("Date_Numeric" AS VARCHAR), CAST("Date" AS VARCHAR)) AS date_numeric,
     "Seasonally Adjusted(Y/N)" AS seasonally_adjusted,
     "Status" AS status,
     TRY_CAST(NULLIF(regexp_replace(CAST("Labor Force" AS VARCHAR), '[^0-9.-]', '', 'g'), '') AS DOUBLE) AS labor_force,
