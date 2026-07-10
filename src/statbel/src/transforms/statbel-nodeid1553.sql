@@ -6,7 +6,7 @@
 -- caution: Geographic and demographic dimensions may include aggregate categories alongside detailed categories; filter dimensions before summing.
 SELECT
     "Standard_Jet_DB_n_b___U_gr___1_y_0_c_F_N_R_72" AS standard_jet_db_n_b_u_gr_1_y_0_c_f_n_r_72,
-    "6_C__3_y" AS 6_c_3_y,
+    "6_C__3_y" AS "6_c_3_y",
     "col_2",
     "C__f___g___D_e_F_x___b_T_4_0_0" AS c_f_g_d_e_f_x_b_t_4_0_0
 FROM "statbel-nodeid1553"
