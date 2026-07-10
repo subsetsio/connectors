@@ -1,0 +1,65 @@
+key: [id]
+temporal: catalog_record_modified
+sort: [catalog_record_modified, id]
+write_mode: overwrite
+columns:
+  - name: id
+    type: VARCHAR
+  - name: resource
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: title_language
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: catalog_id
+    type: VARCHAR
+  - name: catalog_title
+    type: VARCHAR
+  - name: catalog_source_type
+    type: VARCHAR
+  - name: country_id
+    type: VARCHAR
+  - name: publisher_name
+    type: VARCHAR
+  - name: publisher_resource
+    type: VARCHAR
+  - name: issued
+    type: TIMESTAMP
+  - name: modified
+    type: TIMESTAMP
+  - name: catalog_record_issued
+    type: TIMESTAMP
+  - name: catalog_record_modified
+    type: TIMESTAMP
+  - name: temporal_start
+    type: TIMESTAMP
+  - name: temporal_end
+    type: TIMESTAMP
+  - name: categories
+    type: VARCHAR[]
+  - name: keywords
+    type: VARCHAR[]
+  - name: languages
+    type: VARCHAR[]
+  - name: access_right
+    type: VARCHAR
+  - name: accrual_periodicity
+    type: VARCHAR
+  - name: version_info
+    type: VARCHAR
+  - name: landing_page
+    type: VARCHAR
+  - name: is_hvd
+    type: BOOLEAN
+  - name: quality_score
+    type: INTEGER
+  - name: distribution_count
+    type: INTEGER
+  - name: distribution_formats
+    type: VARCHAR[]
+  - name: distribution_licenses
+    type: VARCHAR[]
+  - name: distribution_byte_size
+    type: BIGINT
