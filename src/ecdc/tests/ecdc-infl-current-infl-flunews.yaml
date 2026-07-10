@@ -1,0 +1,25 @@
+spec_id: ecdc-infl-current-infl-flunews
+status: active
+tests:
+  - not_null: time
+    reason: every surveillance measure is stamped with an observation period
+    certainty: 95
+  - not_null: region_code
+    reason: every row is attributed to a reporting country/region
+    certainty: 90
+  - not_null: indicator
+    reason: each row names the measure (case count, rate, ...) it reports
+    certainty: 90
+  - column_type: {col: time, type: string}
+    reason: time is a period label (YYYY / YYYY-MM / YYYY-Www) kept as text
+    certainty: 95
+  - column_type: {col: num_value, type: float}
+    reason: numeric measure values are parsed to float ('-' missing -> null)
+    certainty: 90
+  - row_count: {min: 1}
+    reason: the live CURRENT dataset for this disease is non-empty
+    certainty: 95
+  - freshness: {col: time, reaches: "2021-W01"}
+    reason: weekly EU/EEA surveillance in the Atlas lags roughly two to three years, so the latest ISO week present should reach at least 2021-W01
+    points_outward: true
+    certainty: 70

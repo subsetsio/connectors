@@ -28,7 +28,6 @@ import pyarrow.csv as pacsv
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     raw_parquet_writer,
@@ -139,43 +138,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# ---- transforms: one published long-format table per indicator ---------------
-# Build a typed DATE from the (date_interval, year, quarter, month) columns,
-# rename the reserved `group` column, and cast value to DOUBLE (dropping the
-# 'NA'/'' sentinels). Same shape for every indicator; the dep view differs.
-def _transform_sql(dep_id: str) -> str:
-    return f'''
-        SELECT
-            CASE date_interval
-                WHEN 'year'    THEN make_date(TRY_CAST(year AS INTEGER), 1, 1)
-                WHEN 'quarter' THEN make_date(TRY_CAST(year AS INTEGER),
-                                              (TRY_CAST(quarter AS INTEGER) - 1) * 3 + 1, 1)
-                WHEN 'month'   THEN make_date(TRY_CAST(year AS INTEGER),
-                                              TRY_CAST(month AS INTEGER), 1)
-            END                                   AS date,
-            date_interval                         AS frequency,
-            indicator,
-            measure,
-            geo_type,
-            geo_name,
-            geo_code,
-            NULLIF("group", '')                   AS group_name,
-            group_value,
-            TRY_CAST(value AS DOUBLE)             AS value
-        FROM "{dep_id}"
-        WHERE TRY_CAST(value AS DOUBLE) IS NOT NULL
-          AND TRY_CAST(year AS INTEGER) IS NOT NULL
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id),
-    )
-    for s in DOWNLOAD_SPECS
 ]
