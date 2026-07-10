@@ -2,7 +2,7 @@
 
 Source: the HMDA Snapshot National Loan-Level Dataset, published by the CFPB on
 behalf of the FFIEC as frozen annual releases at
-``https://files.ffiec.cfpb.gov/static-data/snapshot/{year}/{year}_public_{ds}_csv.zip``
+``https://files.ffiec.cfpb.gov/static-data/snapshot/{year}/{year}_public_{ds}_pipe.zip``
 (``ds`` in {lar, ts, msamd}). No auth, one stable zip per (year, dataset).
 
 Three published subsets (the rank-accepted entity union):
@@ -96,7 +96,7 @@ _BATCH_ROWS = 200_000
 
 
 def _zip_url(year: int, ds: str) -> str:
-    return f"{_BASE}{year}/{year}_public_{ds}_csv.zip"
+    return f"{_BASE}{year}/{year}_public_{ds}_pipe.zip"
 
 
 def _inflated_bytes(url: str):
@@ -161,7 +161,7 @@ def _read_header(url: str) -> list[str]:
             if b"\n" in buf:
                 break
         line = buf.split(b"\n", 1)[0].rstrip(b"\r").decode("utf-8", "replace")
-        return next(csv.reader([line]))
+        return next(csv.reader([line], delimiter="|"))
     finally:
         gen.close()  # abort the underlying HTTP stream
 
@@ -220,8 +220,12 @@ def _write_year(asset: str, year: int, ds: str, header: list[str], union: list[s
                 pieces.append(f'CAST(NULL AS VARCHAR) AS "{col}"')
         proj = ", ".join(pieces)
         esc = tmp.replace("'", "''")
+        columns = "{" + ", ".join(f"'{col}': 'VARCHAR'" for col in header) + "}"
         rel = con.sql(
-            f"SELECT {proj} FROM read_csv('{esc}', all_varchar=true, header=true)"
+            "SELECT "
+            f"{proj} "
+            f"FROM read_csv('{esc}', header=true, delim='|', columns={columns}, "
+            "auto_detect=false, null_padding=true)"
         )
         reader = rel.to_arrow_reader(_BATCH_ROWS)
         with raw_parquet_writer(asset, reader.schema) as writer:
