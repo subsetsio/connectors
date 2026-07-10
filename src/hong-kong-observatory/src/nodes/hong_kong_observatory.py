@@ -366,8 +366,21 @@ def fetch_weather_radiation_report(node_id: str) -> None:
 # Endpoints beyond opendata.php (weather / earthquake / lunar-calendar)
 # --------------------------------------------------------------------------- #
 WEATHER_URL = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php"
-QUAKE_URL = "https://data.weather.gov.hk/weatherAPI/opendata/earthquake.php"
 LUNAR_URL = "https://data.weather.gov.hk/weatherAPI/opendata/lunardate.php"
+
+
+def _iso_date(s):
+    """'20260711' -> '2026-07-11' (ISO date), or '' if not an 8-digit date."""
+    s = str(s or "").strip()
+    return f"{s[0:4]}-{s[4:6]}-{s[6:8]}" if len(s) == 8 and s.isdigit() else s
+
+
+def _iso_ts(s):
+    """'202607110600' -> '2026-07-11T06:00:00' (ISO ts), or '' if not 12 digits."""
+    s = str(s or "").strip()
+    if len(s) == 12 and s.isdigit():
+        return f"{s[0:4]}-{s[4:6]}-{s[6:8]}T{s[8:10]}:{s[10:12]}:00"
+    return s
 
 
 @transient_retry()
@@ -424,7 +437,7 @@ def fetch_nine_day_forecast(node_id: str) -> None:
         rows.append({
             "update_time": update_time,
             "general_situation": general,
-            "forecast_date": str(f.get("forecastDate") or ""),
+            "forecast_date": _iso_date(f.get("forecastDate")),
             "week": str(f.get("week") or ""),
             "forecast_wind": str(f.get("forecastWind") or ""),
             "forecast_weather": str(f.get("forecastWeather") or ""),
@@ -483,7 +496,8 @@ def fetch_current_weather_report(node_id: str) -> None:
 # lightning-count (opendata.php dataType=LHL, CSV) - snapshot (latest hour)
 # --------------------------------------------------------------------------- #
 _LHL_SCHEMA = pa.schema([
-    ("datetime_range", pa.string()),   # YYYYMMDDHHMM-YYYYMMDDHHMM
+    ("period_start", pa.string()),     # ISO ts of the reporting window start
+    ("period_end", pa.string()),       # ISO ts of the reporting window end
     ("type", pa.string()),
     ("region", pa.string()),
     ("count", pa.int64()),
@@ -502,8 +516,10 @@ def fetch_lightning_count(node_id: str) -> None:
             cnt = int(float(r[3].strip()))
         except (ValueError, IndexError):
             continue
+        span = r[0].strip().split("-")
         rows.append({
-            "datetime_range": r[0].strip(),
+            "period_start": _iso_ts(span[0]) if span else "",
+            "period_end": _iso_ts(span[1]) if len(span) > 1 else "",
             "type": r[1].strip(),
             "region": r[2].strip(),
             "count": cnt,
@@ -516,7 +532,7 @@ def fetch_lightning_count(node_id: str) -> None:
 # visibility-10min-mean (opendata.php dataType=LTMV, CSV) - snapshot
 # --------------------------------------------------------------------------- #
 _LTMV_SCHEMA = pa.schema([
-    ("datetime", pa.string()),        # YYYYMMDDHHMM
+    ("observed_at", pa.string()),     # ISO ts (from YYYYMMDDHHMM)
     ("station", pa.string()),
     ("visibility", pa.string()),      # e.g. "28 km" / ">50 km"; typed in transform
 ])
@@ -531,91 +547,12 @@ def fetch_visibility_10min_mean(node_id: str) -> None:
         if len(r) < 3 or not r[0].strip().isdigit():
             continue
         rows.append({
-            "datetime": r[0].strip(),
+            "observed_at": _iso_ts(r[0].strip()),
             "station": r[1].strip(),
             "visibility": r[2].strip(),
         })
     assert rows, f"{asset}: no visibility rows parsed"
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_LTMV_SCHEMA), asset)
-
-
-# --------------------------------------------------------------------------- #
-# quick-earthquake-messages (earthquake.php dataType=qem) - latest message
-# --------------------------------------------------------------------------- #
-_QEM_SCHEMA = pa.schema([
-    ("ptime", pa.string()),
-    ("update_time", pa.string()),
-    ("lat", pa.float64()),
-    ("lon", pa.float64()),
-    ("mag", pa.float64()),
-    ("region", pa.string()),
-])
-
-
-def _quake_num(v):
-    try:
-        return float(v)
-    except (TypeError, ValueError):
-        return None
-
-
-def fetch_quick_earthquake_messages(node_id: str) -> None:
-    asset = node_id
-    d = _fetch_url_json(QUAKE_URL, {"dataType": "qem", "lang": "en"})
-    rows = []
-    if isinstance(d, dict) and d:
-        rows.append({
-            "ptime": str(d.get("ptime") or ""),
-            "update_time": str(d.get("updateTime") or ""),
-            "lat": _quake_num(d.get("lat")),
-            "lon": _quake_num(d.get("lon")),
-            "mag": _quake_num(d.get("mag")),
-            "region": str(d.get("region") or ""),
-        })
-    # Snapshot feed of the latest quick message; may be empty when the API
-    # has purged the last message. Write whatever is current (may be 0 rows).
-    save_raw_parquet(pa.Table.from_pylist(rows, schema=_QEM_SCHEMA), asset)
-
-
-# --------------------------------------------------------------------------- #
-# felt-earthquake-reports (earthquake.php dataType=feltearthquake)
-# Returns {} when there is no recent felt tremor; a dict (or list of dicts)
-# when there is. Snapshot feed of recent reports only (no deep archive).
-# --------------------------------------------------------------------------- #
-_FELT_SCHEMA = pa.schema([
-    ("ptime", pa.string()),
-    ("update_time", pa.string()),
-    ("lat", pa.float64()),
-    ("lon", pa.float64()),
-    ("mag", pa.float64()),
-    ("intensity", pa.string()),
-    ("region", pa.string()),
-    ("details", pa.string()),
-])
-
-
-def _felt_row(d):
-    return {
-        "ptime": str(d.get("ptime") or ""),
-        "update_time": str(d.get("updateTime") or ""),
-        "lat": _quake_num(d.get("lat")),
-        "lon": _quake_num(d.get("lon")),
-        "mag": _quake_num(d.get("mag")),
-        "intensity": str(d.get("intensity") or ""),
-        "region": str(d.get("region") or ""),
-        "details": str(d.get("details") or ""),
-    }
-
-
-def fetch_felt_earthquake_reports(node_id: str) -> None:
-    asset = node_id
-    d = _fetch_url_json(QUAKE_URL, {"dataType": "feltearthquake", "lang": "en"})
-    rows = []
-    if isinstance(d, list):
-        rows = [_felt_row(x) for x in d if isinstance(x, dict) and x]
-    elif isinstance(d, dict) and d:
-        rows = [_felt_row(d)]
-    save_raw_parquet(pa.Table.from_pylist(rows, schema=_FELT_SCHEMA), asset)
 
 
 # --------------------------------------------------------------------------- #
@@ -716,10 +653,6 @@ DOWNLOAD_SPECS = [
              fn=fetch_lightning_count, kind="download"),
     NodeSpec(id="hong-kong-observatory-visibility-10min-mean",
              fn=fetch_visibility_10min_mean, kind="download"),
-    NodeSpec(id="hong-kong-observatory-quick-earthquake-messages",
-             fn=fetch_quick_earthquake_messages, kind="download"),
-    NodeSpec(id="hong-kong-observatory-felt-earthquake-reports",
-             fn=fetch_felt_earthquake_reports, kind="download"),
     NodeSpec(id="hong-kong-observatory-gregorian-lunar-calendar",
              fn=fetch_gregorian_lunar_calendar, kind="download"),
     NodeSpec(id="hong-kong-observatory-stations",

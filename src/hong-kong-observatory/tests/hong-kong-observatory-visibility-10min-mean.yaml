@@ -1,0 +1,20 @@
+spec_id: hong-kong-observatory-visibility-10min-mean
+status: active
+tests:
+  - not_null: observed_at
+  - not_null: station
+  - not_null: visibility
+  - unique: [observed_at, station]
+    reason: one 10-minute mean visibility reading per station
+    certainty: 85
+  - matches: {col: visibility, pattern: '.*km.*'}
+    reason: LTMV visibility values carry a km unit (e.g. "28 km", ">50 km")
+    certainty: 80
+    severity: warn
+  - distinct_count: {col: station, min: 2}
+    reason: several automatic weather stations report visibility
+    certainty: 70
+    severity: warn
+  - freshness: {col: observed_at, reaches: today - 2d}
+    reason: LTMV is the latest 10-minute mean; the observation time is always recent
+    points_outward: true

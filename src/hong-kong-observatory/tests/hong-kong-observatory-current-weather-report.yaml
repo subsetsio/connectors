@@ -1,0 +1,20 @@
+spec_id: hong-kong-observatory-current-weather-report
+status: active
+tests:
+  - not_null: update_time
+  - not_null: category
+  - not_null: place
+  - not_null: value
+  - enum: {col: category, values: [temperature, humidity, rainfall_max]}
+    reason: three long-format reading families emitted by the fetch fn
+    certainty: 90
+  - column_type: {col: value, type: float}
+  - unique: [category, place]
+    reason: one current reading per place within each category
+    certainty: 85
+  - row_count: {min: 10}
+    reason: ~18 rainfall districts plus temperature and humidity stations
+    certainty: 80
+  - freshness: {col: update_time, reaches: today - 2d}
+    reason: rhrread is refreshed continuously; the snapshot update time is always recent
+    points_outward: true

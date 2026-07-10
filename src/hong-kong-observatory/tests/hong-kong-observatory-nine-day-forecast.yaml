@@ -1,0 +1,29 @@
+spec_id: hong-kong-observatory-nine-day-forecast
+status: active
+tests:
+  - not_null: forecast_date
+  - not_null: week
+  - matches: {col: forecast_date, pattern: '\d{4}-\d{2}-\d{2}'}
+    reason: forecast_date normalized to ISO YYYY-MM-DD in the fetch fn
+    certainty: 95
+  - unique: forecast_date
+    reason: one forecast row per forecast day
+    certainty: 95
+  - row_count: {min: 7, max: 9}
+    reason: HKO publishes a 9-day forecast (weather.php fnd); allow slack for short bulletins
+    certainty: 85
+  - column_type: {col: forecast_icon, type: integer}
+  - between: {col: max_temp_c, lo: -5, hi: 45}
+    reason: Hong Kong daily max temperature stays well within this band
+    certainty: 85
+    severity: warn
+  - between: {col: min_temp_c, lo: -10, hi: 40}
+    certainty: 85
+    severity: warn
+  - between: {col: max_rh_pct, lo: 0, hi: 100}
+    certainty: 97
+  - between: {col: min_rh_pct, lo: 0, hi: 100}
+    certainty: 97
+  - freshness: {col: forecast_date, reaches: today - 2d}
+    reason: a 9-day forecast always extends into the future, so max(forecast_date) is at/after today
+    points_outward: true

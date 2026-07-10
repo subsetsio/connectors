@@ -1,0 +1,19 @@
+spec_id: hong-kong-observatory-stations
+status: active
+tests:
+  - not_null: station_code
+  - not_null: dataset_group
+  - enum: {col: dataset_group, values: [climate, tide]}
+    reason: the reference table is built from the climate and tide station sets
+    certainty: 99
+  - unique: [station_code, dataset_group]
+    reason: one row per (station code, dataset group)
+    certainty: 99
+  - matches: {col: station_code, pattern: '[A-Z0-9]+'}
+    reason: HKO station codes are short uppercase alphanumeric codes
+    certainty: 90
+  - distinct_count: {col: station_code, min: 30}
+    reason: ~39 climate stations plus ~14 tide stations (some overlap)
+    certainty: 85
+  - row_count: {min: 40, max: 120}
+    certainty: 85

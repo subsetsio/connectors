@@ -1,0 +1,20 @@
+spec_id: hong-kong-observatory-gregorian-lunar-calendar
+status: active
+tests:
+  - not_null: date
+  - not_null: lunar_year
+  - not_null: lunar_date
+  - unique: date
+    reason: one lunar mapping per Gregorian date
+    certainty: 99
+  - matches: {col: date, pattern: '\d{4}-\d{2}-\d{2}'}
+    reason: Gregorian date normalized to ISO YYYY-MM-DD
+    certainty: 99
+  - row_count: {min: 1000}
+    reason: the API serves a rolling ~6-year window (~2190 days) discovered at fetch time
+    certainty: 85
+  - distinct_count: {col: date, min: 1000}
+    certainty: 85
+  - freshness: {col: date, reaches: today}
+    reason: the rolling window always extends years into the future, so max(date) is well beyond today
+    points_outward: true

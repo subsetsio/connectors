@@ -1,0 +1,20 @@
+spec_id: hong-kong-observatory-lightning-count
+status: active
+tests:
+  - not_null: period_start
+  - not_null: type
+  - not_null: region
+  - not_null: count
+  - column_type: {col: count, type: integer}
+  - enum: {col: type, values: [Cloud-to-ground, Cloud-to-cloud]}
+    reason: LHL reports two discharge types
+    certainty: 90
+  - at_least: {col: count, expr: 0}
+    reason: a strike count is never negative
+    certainty: 99
+  - unique: [period_start, type, region]
+    reason: one count per reporting window / type / region
+    certainty: 85
+  - freshness: {col: period_start, reaches: today - 2d}
+    reason: LHL reports the latest reporting hour; the window start is always recent
+    points_outward: true
