@@ -167,7 +167,10 @@ def _rows_from_table(text: str, *, source_file: str, col_labels: dict | None = N
         raw_col = raw_col.strip()
         vals = [(row[j].strip() if j < len(row) else "") for row in data]
         clean = _sanitize((col_labels or {}).get(raw_col, raw_col), used)
-        columns.append((clean, _coerce_column(vals)))
+        # KLASSDB ZIPs concatenate several classification/correspondence CSVs.
+        # The same logical field can be numeric-looking in one member and
+        # alphanumeric in another, so keep ZIP payload columns as strings.
+        columns.append((clean, [v if v != "" else None for v in vals]))
 
     rows = []
     for i in range(len(data)):

@@ -14,9 +14,9 @@ tests:
   - not_null: source_csv
     reason: downloader stamps the source CSV slug on every raw row
     certainty: 99
-  - enum: {col: record_type, values: [observation]}
-    reason: this spec is a regular statistical table observation asset
+  - enum: {col: record_type, values: [annotation]}
+    reason: this RBA reference file records expert-judgement annotation dates rather than regular statistical observations
     certainty: 95
-  - not_null: series_id
-    reason: RBA metadata rows publish a Series ID for each observation column
+  - not_null: series_title
+    reason: expert-judgement annotations identify the affected RBA series by title
     certainty: 95
