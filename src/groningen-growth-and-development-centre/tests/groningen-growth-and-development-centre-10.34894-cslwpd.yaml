@@ -1,5 +1,5 @@
 {
-  "spec_id": "groningen-growth-and-development-centre-10.34894-6gdd7q",
+  "spec_id": "groningen-growth-and-development-centre-10.34894-cslwpd",
   "status": "active",
   "tests": [
     {
@@ -30,18 +30,18 @@
       "between": {
         "col": "year",
         "lo": 1970,
-        "hi": 2015
+        "hi": 2011
       },
-      "certainty": 90,
-      "reason": "observed year span for this release",
+      "certainty": 70,
+      "reason": "observed year span for EU KLEMS March 2011 Update (superseded historical release; corpus does not advance)",
       "points_outward": false,
       "severity": "warn"
     },
     {
       "row_count": {
-        "min": 100000
+        "min": 50000
       },
-      "reason": "melted long-table size seen while probing"
+      "reason": "already-long output-module CSV; well over 50k iso3 x var x isic x year rows"
     }
   ]
 }

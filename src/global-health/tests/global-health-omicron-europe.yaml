@@ -1,0 +1,12 @@
+spec_id: global-health-omicron-europe
+status: active
+coverage:
+  frozen: true
+  reason: covid19-omicron ECDC variant snapshot (2021-2022); the committed CSV is frozen and no longer updated.
+tests:
+  - not_null: country
+    reason: every row is attributed to a country
+    certainty: 85
+  - row_count: {min: 40000}
+    reason: ~53k country x week x variant rows in the ECDC extract
+    certainty: 80

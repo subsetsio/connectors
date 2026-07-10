@@ -1,0 +1,12 @@
+spec_id: global-health-omicron-denmark
+status: active
+coverage:
+  frozen: true
+  reason: covid19-omicron variant-tracking snapshot (2021-2022); the committed CSV is frozen and no longer updated.
+tests:
+  - not_null: date
+    reason: one row per date; the date key is always present
+    certainty: 90
+  - row_count: {min: 40}
+    reason: daily omicron PCR share across the 2021-2022 window
+    certainty: 80

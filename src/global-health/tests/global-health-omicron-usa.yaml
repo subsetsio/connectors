@@ -1,0 +1,12 @@
+spec_id: global-health-omicron-usa
+status: active
+coverage:
+  frozen: true
+  reason: covid19-omicron USA variant-share snapshot (2021-2022); the committed CSV is frozen and no longer updated.
+tests:
+  - not_null: Day of Week Ending
+    reason: every row carries its week-ending date
+    certainty: 85
+  - row_count: {min: 1000}
+    reason: ~1.25k region x week x lineage variant-share rows
+    certainty: 80

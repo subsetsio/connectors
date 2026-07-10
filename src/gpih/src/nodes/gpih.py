@@ -27,7 +27,7 @@ import urllib.parse
 import numpy as np
 import pandas as pd
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_ndjson, transient_retry
 from constants import ENTITY_IDS, ENTITY_FILES
 
 BASE = "https://gpih.ucdavis.edu/files/"
@@ -207,16 +207,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{PREFIX}{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per workbook. The raw ndjson is already a faithful,
-# consistently-typed extraction, so the transform is a thin pass-through that
-# republishes every row (DuckDB unions the per-row keys by name).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

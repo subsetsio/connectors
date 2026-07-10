@@ -1,0 +1,12 @@
+spec_id: global-health-omicron-uk-ltla
+status: active
+coverage:
+  frozen: true
+  reason: covid19-omicron UK LTLA snapshot (2021-2022); the committed CSV is frozen and no longer updated.
+tests:
+  - not_null: date
+    reason: one row per date x LTLA; the date is always present
+    certainty: 85
+  - row_count: {min: 1500}
+    reason: ~2.1k date x lower-tier-local-authority rows
+    certainty: 80

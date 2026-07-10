@@ -1,0 +1,12 @@
+spec_id: global-health-ebola-uganda-2022
+status: active
+coverage:
+  frozen: true
+  reason: concluded 2022 Ebola (Sudan virus) outbreak in Uganda; the line list is a closed corpus that no longer advances.
+tests:
+  - not_null: ID
+    reason: every case row carries a sequential record ID
+    certainty: 85
+  - row_count: {min: 100}
+    reason: ~160 confirmed/probable cases in the 2022 Uganda SVD outbreak
+    certainty: 80

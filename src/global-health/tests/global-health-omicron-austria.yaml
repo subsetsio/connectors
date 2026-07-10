@@ -1,0 +1,12 @@
+spec_id: global-health-omicron-austria
+status: active
+coverage:
+  frozen: true
+  reason: covid19-omicron variant-tracking snapshot (2021-2022); the committed CSV is frozen and no longer updated.
+tests:
+  - not_null: year_week
+    reason: one row per ISO year-week; the week key is always present
+    certainty: 90
+  - row_count: {min: 40}
+    reason: weekly variant counts across 2021-2022
+    certainty: 80

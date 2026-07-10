@@ -1,0 +1,9 @@
+spec_id: global-health-h1n1-healthmap-2009-2012
+status: active
+coverage:
+  frozen: true
+  reason: HealthMap H1N1 2009-2012 archive dump, committed once and never updated; a fixed historical mirror.
+tests:
+  - row_count: {min: 90000}
+    reason: ~95.9k HealthMap alert rows in the frozen 2009-2012 dump
+    certainty: 85

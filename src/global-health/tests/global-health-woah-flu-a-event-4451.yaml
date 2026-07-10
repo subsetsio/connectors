@@ -1,0 +1,12 @@
+spec_id: global-health-woah-flu-a-event-4451
+status: active
+coverage:
+  frozen: true
+  reason: WOAH/WAHIS influenza-A epidemiological unit list for event 4451, committed as a static extract.
+tests:
+  - not_null: Event_ID
+    reason: every row belongs to the WOAH event and carries its Event_ID
+    certainty: 90
+  - row_count: {min: 800}
+    reason: ~990 epidemiological-unit report rows for event 4451
+    certainty: 80

@@ -1,0 +1,12 @@
+spec_id: global-health-mpox-global-2022
+status: active
+coverage:
+  frozen: true
+  reason: 2022 global mpox line list; curation has effectively concluded and the corpus is treated as static.
+tests:
+  - not_null: _id
+    reason: every case row carries a Mongo _id
+    certainty: 90
+  - row_count: {min: 50000}
+    reason: ~80k cases in the global 2022 mpox line list
+    certainty: 80
