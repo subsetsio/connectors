@@ -9,6 +9,6 @@ SELECT
     "Modeltype" AS modeltype,
     "Usa Or Hhsregion" AS usa_or_hhsregion,
     "Variant" AS variant,
-    "95CI" AS 95ci,
+    "95CI" AS "95ci",
     CAST("Share" AS DOUBLE) AS share
 FROM "global-health-omicron-usa"

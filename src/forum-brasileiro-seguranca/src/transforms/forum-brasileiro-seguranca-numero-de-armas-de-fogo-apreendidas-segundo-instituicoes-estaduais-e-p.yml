@@ -1,11 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `forum-brasileiro-seguranca-numero-de-armas-de-fogo-apreendidas-segundo-instituicoes-estaduais-e-p`. Regenerate after model-verify.
+# caution: Rows may mix national, regional, state, capital, or other geography aggregation levels; filter geo_level before aggregating across geography.
+key: [geography, measure, geo_level, year]
+temporal: year
+sort: [year, geography, measure, geo_level]
 columns:
   - name: geography
     type: VARCHAR
   - name: geo_level
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: measure
     type: VARCHAR
   - name: value

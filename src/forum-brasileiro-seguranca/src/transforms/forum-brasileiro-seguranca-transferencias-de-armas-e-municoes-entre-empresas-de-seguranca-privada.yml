@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `forum-brasileiro-seguranca-transferencias-de-armas-e-municoes-entre-empresas-de-seguranca-privada`. Regenerate after model-verify.
+# caution: Rows may mix national, regional, state, capital, or other geography aggregation levels; filter geo_level before aggregating across geography.
+key: [year, geography, measure, geo_level]
+temporal: year
+sort: [year, geography, measure, geo_level]
+columns:
+  - name: geography
+    type: VARCHAR
+  - name: geo_level
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: measure
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

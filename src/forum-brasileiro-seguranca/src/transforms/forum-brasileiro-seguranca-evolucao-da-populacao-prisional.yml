@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `forum-brasileiro-seguranca-evolucao-da-populacao-prisional`. Regenerate after model-verify.
+# caution: Rows may mix national, regional, state, capital, or other geography aggregation levels; filter geo_level before aggregating across geography.
+key: [year, geography, measure]
+temporal: year
+sort: [year, geography, measure]
+columns:
+  - name: geography
+    type: VARCHAR
+  - name: geo_level
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: measure
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

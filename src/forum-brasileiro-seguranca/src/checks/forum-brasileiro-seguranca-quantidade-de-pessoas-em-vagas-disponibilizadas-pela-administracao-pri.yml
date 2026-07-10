@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `forum-brasileiro-seguranca-quantidade-de-pessoas-em-vagas-disponibilizadas-pela-administracao-pri`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [geography, measure, geo_level, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [geography, measure, geo_level, year]
+  - kind: not_null
+    col: geography
+  - kind: not_null
+    col: measure
+  - kind: not_null
+    col: geo_level
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 84
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

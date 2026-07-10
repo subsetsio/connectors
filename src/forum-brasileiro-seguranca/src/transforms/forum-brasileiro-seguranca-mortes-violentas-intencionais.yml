@@ -1,11 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `forum-brasileiro-seguranca-mortes-violentas-intencionais`. Regenerate after model-verify.
+# caution: The raw workbook extract contains duplicate rows with the same geography, geo_level, year, measure, and value; treat rows as keyless observations and deduplicate in analysis if required.
+# caution: Rows may mix national, regional, state, capital, or other geography aggregation levels; filter geo_level before aggregating across geography.
+key: []
+temporal: year
+sort: [year]
 columns:
   - name: geography
     type: VARCHAR
   - name: geo_level
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: measure
     type: VARCHAR
   - name: value
