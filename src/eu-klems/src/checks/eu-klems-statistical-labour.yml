@@ -1,0 +1,34 @@
+# compiled by `hardened compile-checks` — post-publish audit of `eu-klems-statistical-labour`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [country, var, code, sort_id, indnr, gender, age, edu, year]
+temporal: year
+checks:
+  - kind: unique
+    columns: [country, var, code, sort_id, indnr, gender, age, edu, year]
+  - kind: not_null
+    col: country
+  - kind: not_null
+    col: var
+  - kind: not_null
+    col: code
+  - kind: not_null
+    col: sort_id
+  - kind: not_null
+    col: indnr
+  - kind: not_null
+    col: gender
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: edu
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 119326
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

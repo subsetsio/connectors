@@ -27,6 +27,6 @@ tests:
       vocabulary extension worth noticing, not a silent pass.
     certainty: 90
 
-  - matches: {col: resource, pattern: 'data-theme'}
+  - matches: {col: resource, pattern: '^https?://publications\.europa\.eu/resource/authority/data-theme/[A-Z_]+$'}
     reason: all terms live under the data-theme authority namespace
     certainty: 90

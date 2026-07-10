@@ -6,6 +6,7 @@ machine-fetchable; see research/collect notes).
 Subsets published:
   - collectively-agreed-wages-rates       (xlsx "Rates" sheet, ~198k obs)
   - collectively-agreed-wages-agreements  (xlsx "CollectiveAgreements" sheet)
+  - collectively-agreed-wages-nace        (xlsx "NACE" sheet)
   - covid19-eu-policywatch                (covid19db.json, ~3167 measures)
 
 Both source files are full snapshots fetched in one request — stateless full
@@ -15,7 +16,7 @@ re-pull every refresh (a few MB, no incremental filter exists).
 import io
 
 import openpyxl
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_ndjson
 
 # Stable CDN URLs verified during research (NOT behind the www checkpoint).
 MW_XLSX_URL = "https://a.storyblok.com/f/279033/x/5d93553ab8/2025update_ca_mwdatabase_downloaddataset.xlsx"
@@ -55,6 +56,14 @@ AGREEMENTS_MAP = {
     "PanelOfObservations": "in_panel",
 }
 
+NACE_MAP = {
+    "CountryName": "country",
+    "c_identifier_pbi": "agreement_id",
+    "c_originalSector": "sector",
+    "Code": "nace_code",
+    "Description": "description",
+}
+
 COVID_MAP = {
     "title": "title",
     "d_startDate": "start_date",
@@ -75,14 +84,12 @@ COVID_MAP = {
 }
 
 
-@transient_retry()
 def _get_bytes(url: str) -> bytes:
     resp = get(url, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.content
 
 
-@transient_retry()
 def _get_json(url: str):
     resp = get(url, timeout=(10.0, 180.0))
     resp.raise_for_status()
@@ -119,6 +126,11 @@ def fetch_mw_agreements(node_id: str) -> None:
     save_raw_ndjson(rows, node_id)
 
 
+def fetch_mw_nace(node_id: str) -> None:
+    rows = _read_sheet(_get_bytes(MW_XLSX_URL), "NACE", NACE_MAP)
+    save_raw_ndjson(rows, node_id)
+
+
 def fetch_covid_policywatch(node_id: str) -> None:
     data = _get_json(COVID_JSON_URL)
     rows = []
@@ -133,81 +145,6 @@ def fetch_covid_policywatch(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="eurofound-collectively-agreed-wages-rates", fn=fetch_mw_rates, kind="download"),
     NodeSpec(id="eurofound-collectively-agreed-wages-agreements", fn=fetch_mw_agreements, kind="download"),
+    NodeSpec(id="eurofound-collectively-agreed-wages-nace", fn=fetch_mw_nace, kind="download"),
     NodeSpec(id="eurofound-covid19-eu-policywatch", fn=fetch_covid_policywatch, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="eurofound-collectively-agreed-wages-rates-transform",
-        deps=["eurofound-collectively-agreed-wages-rates"],
-        temporal="period",
-        sql='''
-            SELECT
-                country,
-                CAST(year AS INTEGER)                                       AS year,
-                month,
-                CAST(try_strptime(NULLIF(month, '') || ' ' || CAST(year AS VARCHAR), '%B %Y') AS DATE) AS period,
-                sector,
-                wage_type,
-                frequency,
-                series,
-                series_title,
-                agreement_id,
-                TRY_CAST(value AS DOUBLE)            AS value,
-                TRY_CAST(rate_eur AS DOUBLE)         AS rate_eur,
-                TRY_CAST(rate_national AS DOUBLE)    AS rate_national,
-                TRY_CAST(rate_eur_month AS DOUBLE)   AS rate_eur_month,
-                TRY_CAST(rate_nat_month AS DOUBLE)   AS rate_nat_month,
-                TRY_CAST(working_hours AS DOUBLE)    AS working_hours,
-                TRY_CAST(annual_payments AS DOUBLE)  AS annual_payments
-            FROM "eurofound-collectively-agreed-wages-rates"
-            WHERE country IS NOT NULL AND year IS NOT NULL
-        ''',
-    ),
-    SqlNodeSpec(
-        id="eurofound-collectively-agreed-wages-agreements-transform",
-        deps=["eurofound-collectively-agreed-wages-agreements"],
-        key=("agreement_id",),
-        sql='''
-            SELECT
-                agreement_id,
-                country,
-                title_en,
-                title_native,
-                bargaining_level,
-                sector,
-                TRY_CAST(in_panel AS INTEGER) AS in_panel
-            FROM "eurofound-collectively-agreed-wages-agreements"
-            -- real agreement ids look like 'CA-AT-1865'; this also drops the
-            -- trailing "Applied filters: ..." footer note row in the xlsx sheet.
-            WHERE agreement_id LIKE 'CA-%'
-        ''',
-    ),
-    SqlNodeSpec(
-        id="eurofound-covid19-eu-policywatch-transform",
-        deps=["eurofound-covid19-eu-policywatch"],
-        key=("record_id",),
-        temporal="end_date",
-        sql='''
-            SELECT
-                CAST(record_id AS VARCHAR) AS record_id,
-                identifier,
-                title,
-                country,
-                category,
-                subcategory,
-                measure_type,
-                status,
-                date_type,
-                sector_scope,
-                social_partner_role,
-                is_sector,
-                is_occupation,
-                CAST(try_strptime(NULLIF(start_date,  ''), '%m/%d/%Y') AS DATE) AS start_date,
-                CAST(try_strptime(NULLIF(end_date,    ''), '%m/%d/%Y') AS DATE) AS end_date,
-                CAST(try_strptime(NULLIF(last_update, ''), '%m/%d/%Y') AS DATE) AS last_update
-            FROM "eurofound-covid19-eu-policywatch"
-            WHERE record_id IS NOT NULL
-        ''',
-    ),
 ]
