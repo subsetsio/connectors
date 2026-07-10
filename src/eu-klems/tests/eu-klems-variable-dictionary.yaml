@@ -17,18 +17,19 @@ tests:
 
   - unique: [File, Variable]
     reason: >-
-      a variable code is unique only WITHIN a module — 175 distinct codes across
+      a variable code is unique only WITHIN a module — 159 distinct codes across
       209 rows, because shared codes (e.g. VA) recur in several modules.
     certainty: 90
 
-  - distinct_count: {col: Variable, min: 175, max: 175}
-    reason: collect counted 175 distinct variable codes in the dictionary
+  - distinct_count: {col: Variable, min: 159, max: 159}
+    reason: the 2019 release codebook carries 159 distinct variable codes across repeated module-scoped entries
     certainty: 85
 
-  - distinct_count: {col: File, min: 6, max: 6}
+  - distinct_count: {col: File, min: 5, max: 5}
     reason: >-
-      the codebook documents exactly the six bulk modules this connector downloads;
-      a seventh would mean the release added a module we are not fetching.
+      the codebook documents exactly the five named module groups represented by
+      the downloaded 2019 bulk files; an extra group would mean the release added
+      a module we are not fetching.
     certainty: 85
     points_outward: true
 

@@ -1,12 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: date
-sort: [date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurocontrol-airport-traffic`. Regenerate after model-verify.
+# caution: Contains several related traffic measures in one airport-day row, including total and IFR departure/arrival counts; choose the intended measure before aggregating.
+# caution: The raw source contains duplicate airport-date identity rows, so deduplicate or aggregate by the dimensions relevant to the query before treating rows as unique airport-day facts.
+key: []
+temporal: flt_date
+sort: [flt_date]
 columns:
   - name: year
-    type: INTEGER
-  - name: month
-    type: INTEGER
-  - name: date
+    type: BIGINT
+  - name: month_num
+    type: VARCHAR
+  - name: month_mon
+    type: VARCHAR
+  - name: flt_date
     type: DATE
   - name: apt_icao
     type: VARCHAR
@@ -15,14 +21,16 @@ columns:
   - name: state_name
     type: VARCHAR
   - name: flt_dep_1
-    type: DOUBLE
+    type: BIGINT
   - name: flt_arr_1
-    type: DOUBLE
+    type: BIGINT
   - name: flt_tot_1
-    type: DOUBLE
+    type: BIGINT
   - name: flt_dep_ifr_2
-    type: DOUBLE
+    type: VARCHAR
   - name: flt_arr_ifr_2
-    type: DOUBLE
+    type: VARCHAR
   - name: flt_tot_ifr_2
-    type: DOUBLE
+    type: VARCHAR
+  - name: obs_date
+    type: DATE

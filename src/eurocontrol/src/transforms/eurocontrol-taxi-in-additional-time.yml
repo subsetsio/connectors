@@ -1,13 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: date
-sort: [date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurocontrol-taxi-in-additional-time`. Regenerate after model-verify.
+# caution: Monthly taxi-in additional-time rows are airport-month observations; compare with daily traffic tables only after matching time granularity.
+key: [obs_date, apt_icao]
+temporal: obs_date
+sort: [obs_date, apt_icao]
 columns:
   - name: year
-    type: INTEGER
-  - name: month
-    type: INTEGER
-  - name: date
-    type: DATE
+    type: BIGINT
+  - name: month_num
+    type: VARCHAR
   - name: apt_icao
     type: VARCHAR
   - name: apt_name
@@ -19,14 +20,16 @@ columns:
   - name: comment
     type: VARCHAR
   - name: tf
-    type: DOUBLE
+    type: VARCHAR
   - name: valid_fl
-    type: DOUBLE
+    type: VARCHAR
   - name: no_ref
-    type: DOUBLE
+    type: VARCHAR
   - name: total_ref_nb_fl
-    type: DOUBLE
+    type: VARCHAR
   - name: total_ref_time_min
-    type: DOUBLE
+    type: VARCHAR
   - name: total_add_time_min
-    type: DOUBLE
+    type: VARCHAR
+  - name: obs_date
+    type: DATE

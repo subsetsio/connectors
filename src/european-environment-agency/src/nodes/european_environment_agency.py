@@ -30,7 +30,7 @@ import zipfile
 import httpx
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, is_transient, raw_writer
+from subsets_utils import NodeSpec, get, is_transient, raw_writer
 from constants import ENTITIES
 
 SLUG = "european-environment-agency"
@@ -146,12 +146,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(eid), fn=fetch_one, kind="download")
     for eid, _db, _tbl, _url in ENTITIES
-]
-
-# One published Delta table per download — a thin pass-through. Per-table column
-# lists are unknown and unique, so the transform cannot hand-type; it republishes
-# the raw shape (an empty result fails the node, the correctness gate).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=f'SELECT * FROM "{s.id}"')
-    for s in DOWNLOAD_SPECS
 ]

@@ -1,13 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: date
-sort: [date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurocontrol-apt-dly`. Regenerate after model-verify.
+# caution: Arrival ATFM delay is split across total and cause-code columns in the same airport-day row; summing all delay columns together would double count.
+key: [obs_date, apt_icao]
+temporal: flt_date
+sort: [flt_date, obs_date, apt_icao]
 columns:
   - name: year
-    type: INTEGER
-  - name: month
-    type: INTEGER
-  - name: date
-    type: DATE
+    type: BIGINT
+  - name: month_num
+    type: BIGINT
+  - name: month_mon
+    type: VARCHAR
+  - name: flt_date
+    type: TIMESTAMP
   - name: apt_icao
     type: VARCHAR
   - name: apt_name
@@ -17,42 +22,44 @@ columns:
   - name: atfm_version
     type: VARCHAR
   - name: flt_arr_1
-    type: DOUBLE
+    type: BIGINT
   - name: dly_apt_arr_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_a_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_c_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_d_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_e_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_g_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_i_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_m_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_n_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_o_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_p_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_r_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_s_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_t_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_v_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_w_1
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_apt_arr_na_1
-    type: DOUBLE
+    type: VARCHAR
   - name: flt_arr_1_dly
-    type: DOUBLE
+    type: VARCHAR
   - name: flt_arr_1_dly_15
-    type: DOUBLE
+    type: VARCHAR
+  - name: obs_date
+    type: DATE

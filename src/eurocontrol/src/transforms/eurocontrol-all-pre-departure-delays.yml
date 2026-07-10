@@ -1,12 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: date
-sort: [date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurocontrol-all-pre-departure-delays`. Regenerate after model-verify.
+# caution: Delay columns are all-cause pre-departure delay measures; do not combine them with ATC-only delay tables unless the cause scope is explicit.
+key: [obs_date, apt_icao]
+temporal: flt_date
+sort: [flt_date, obs_date, apt_icao]
 columns:
   - name: year
-    type: INTEGER
-  - name: month
-    type: INTEGER
-  - name: date
+    type: BIGINT
+  - name: month_num
+    type: VARCHAR
+  - name: month_mon
+    type: VARCHAR
+  - name: flt_date
     type: DATE
   - name: apt_icao
     type: VARCHAR
@@ -15,8 +20,10 @@ columns:
   - name: state_name
     type: VARCHAR
   - name: flt_dep_1
-    type: DOUBLE
+    type: BIGINT
   - name: flt_dep_ifr_2
-    type: DOUBLE
+    type: VARCHAR
   - name: dly_all_pre_2
-    type: DOUBLE
+    type: VARCHAR
+  - name: obs_date
+    type: DATE

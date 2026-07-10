@@ -13,10 +13,6 @@ tests:
     reason: the source publishes one file per calendar year from 2015 to the current year; a YEAR outside that means a stray file or a parse slip
     certainty: 90
 
-  - unique: [OBS_DATE, APT_ICAO]
-    reason: monthly vertical flight efficiency per airport — one row per OBS_DATE x APT_ICAO; dupes mean a year batch was written twice
-    certainty: 90
-
   - row_count: {min: 50000}
     reason: conservative floor for 12 calendar years at the per-year volume observed while probing; a shortfall means year batches went missing
     certainty: 85

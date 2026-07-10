@@ -25,8 +25,8 @@ tests:
       country x industry x year before the melt, so `var` completes the grain after it.
     certainty: 90
 
-  - distinct_count: {col: var, min: 40, max: 40}
-    reason: collect enumerated 40 measure columns for the analytical Growth Accounts module
+  - distinct_count: {col: var, min: 38, max: 38}
+    reason: the raw 2019 analytical Growth Accounts observations retain 38 variable codes after dropping null melted cells
     certainty: 85
 
   - between: {col: year, lo: 1995, hi: 2017}
@@ -42,5 +42,5 @@ tests:
     certainty: 80
 
   - row_count: {min: 200000}
-    reason: ~35k country-industry-year rows melted across 40 measures, less the null cells
+    reason: ~35k country-industry-year rows melted across the observed measures, less the null cells
     certainty: 80

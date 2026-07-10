@@ -1,13 +1,18 @@
-# provisional pair so the graph validates; recompiled by compile-transforms from the measured model
-temporal: date
-sort: [date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurocontrol-hfe`. Regenerate after model-verify.
+# caution: Legacy horizontal flight efficiency publication overlaps conceptually with the current horizontal-flight-efficiency table; avoid combining both tables without deduplicating the publication lineage.
+key: [obs_date, entity_name, type_model]
+temporal: obs_date
+sort: [obs_date, entity_name, type_model]
 columns:
   - name: year
-    type: INTEGER
-  - name: month
-    type: INTEGER
-  - name: date
-    type: DATE
+    type: BIGINT
+  - name: month_num
+    type: BIGINT
+  - name: month_mon
+    type: VARCHAR
+  - name: entry_date
+    type: VARCHAR
   - name: entity_name
     type: VARCHAR
   - name: entity_type
@@ -15,8 +20,10 @@ columns:
   - name: type_model
     type: VARCHAR
   - name: dist_flown_km
-    type: DOUBLE
+    type: BIGINT
   - name: dist_direct_km
     type: DOUBLE
   - name: dist_achieved_km
     type: DOUBLE
+  - name: obs_date
+    type: DATE

@@ -25,8 +25,8 @@ tests:
       country x industry x year before the melt, so `var` completes the grain after it.
     certainty: 90
 
-  - distinct_count: {col: var, min: 35, max: 35}
-    reason: collect enumerated 35 measure columns for the analytical Intangibles (suppl.) module
+  - distinct_count: {col: var, min: 30, max: 30}
+    reason: the raw 2019 analytical Intangibles observations retain 30 variable codes after dropping null melted cells
     certainty: 85
 
   - between: {col: year, lo: 1995, hi: 2017}
@@ -42,5 +42,5 @@ tests:
     certainty: 80
 
   - row_count: {min: 200000}
-    reason: tens of thousands of country-industry-year rows melted across 35 measures, less the null cells
+    reason: tens of thousands of country-industry-year rows melted across the observed measures, less the null cells
     certainty: 80

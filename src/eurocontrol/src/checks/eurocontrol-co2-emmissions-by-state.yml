@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `eurocontrol-co2-emmissions-by-state`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [obs_date, state_name]
+temporal: obs_date
+checks:
+  - kind: unique
+    columns: [obs_date, state_name]
+  - kind: not_null
+    col: obs_date
+  - kind: not_null
+    col: state_name
+  - kind: row_floor
+    min: 4168
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,1 +1,18 @@
-SELECT * FROM (SELECT TRY_CAST("YEAR" AS INTEGER) AS year, TRY_CAST("MONTH_NUM" AS INTEGER) AS month, TRY_CAST(left(CAST("ENTRY_DATE" AS VARCHAR), 10) AS DATE) AS date, NULLIF("ENTITY_NAME", '') AS entity_name, NULLIF("ENTITY_TYPE", '') AS entity_type, NULLIF("TYPE_MODEL", '') AS type_model, TRY_CAST("DIST_FLOWN_KM" AS DOUBLE) AS dist_flown_km, TRY_CAST("DIST_DIRECT_KM" AS DOUBLE) AS dist_direct_km, TRY_CAST("DIST_ACHIEVED_KM" AS DOUBLE) AS dist_achieved_km FROM "eurocontrol-horizontal-flight-efficiency") WHERE date IS NOT NULL
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Current horizontal flight efficiency publication overlaps conceptually with the legacy hfe table; avoid combining both tables without deduplicating the publication lineage.
+SELECT
+    CAST("YEAR" AS BIGINT) AS year,
+    CAST("MONTH_NUM" AS BIGINT) AS month_num,
+    "MONTH_MON" AS month_mon,
+    "ENTRY_DATE" AS entry_date,
+    "ENTITY_NAME" AS entity_name,
+    "ENTITY_TYPE" AS entity_type,
+    "TYPE_MODEL" AS type_model,
+    CAST("DIST_FLOWN_KM" AS BIGINT) AS dist_flown_km,
+    CAST("DIST_DIRECT_KM" AS DOUBLE) AS dist_direct_km,
+    CAST("DIST_ACHIEVED_KM" AS DOUBLE) AS dist_achieved_km,
+    "OBS_DATE" AS obs_date
+FROM "eurocontrol-horizontal-flight-efficiency"

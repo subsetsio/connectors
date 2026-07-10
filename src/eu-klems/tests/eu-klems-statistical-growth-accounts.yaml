@@ -23,8 +23,8 @@ tests:
     reason: one observation per country x database x variable x industry code x year
     certainty: 90
 
-  - distinct_count: {col: var, min: 37, max: 37}
-    reason: collect enumerated 37 variable codes for the statistical Growth Accounts module
+  - distinct_count: {col: var, min: 31, max: 31}
+    reason: the raw 2019 statistical Growth Accounts observations retain 31 variable codes after dropping null melted cells
     certainty: 85
 
   - between: {col: year, lo: 1995, hi: 2017}

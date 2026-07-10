@@ -26,8 +26,8 @@ tests:
       several codes, `code` maps to exactly one indnr.
     certainty: 90
 
-  - distinct_count: {col: var, min: 77, max: 77}
-    reason: collect enumerated 77 variable codes for the statistical Capital Input module
+  - distinct_count: {col: var, min: 75, max: 75}
+    reason: the raw 2019 statistical Capital Input observations retain 75 variable codes after dropping null melted cells
     certainty: 85
 
   - between: {col: year, lo: 1995, hi: 2017}

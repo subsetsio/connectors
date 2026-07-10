@@ -1,13 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: date
-sort: [date]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `eurocontrol-vertical-flight-efficiency`. Regenerate after model-verify.
+# caution: Monthly vertical flight efficiency contains climb and descent measures in the same airport-month row; use the phase-specific columns separately when aggregating.
+# caution: The raw source contains duplicate airport-month identity rows, so deduplicate or aggregate by the dimensions relevant to the query before treating rows as unique airport-month facts.
+key: []
+temporal: obs_date
+sort: [obs_date]
 columns:
   - name: year
-    type: INTEGER
-  - name: month
-    type: INTEGER
-  - name: date
-    type: DATE
+    type: BIGINT
+  - name: month_num
+    type: BIGINT
   - name: apt_icao
     type: VARCHAR
   - name: apt_name
@@ -19,42 +21,44 @@ columns:
   - name: airport_name
     type: VARCHAR
   - name: nbr_flights_descent
-    type: DOUBLE
+    type: BIGINT
   - name: tot_dist_level_nm_descent
     type: DOUBLE
   - name: tot_dist_lvl_nm_desc_blw_70
     type: DOUBLE
   - name: tot_time_level_seconds_descent
-    type: DOUBLE
+    type: BIGINT
   - name: tot_time_level_sec_desc_blw_70
-    type: DOUBLE
+    type: BIGINT
   - name: median_cdo_alt
-    type: DOUBLE
+    type: BIGINT
   - name: nbr_cdo_flights
-    type: DOUBLE
+    type: BIGINT
   - name: nbr_cdo_flights_below_7000
-    type: DOUBLE
+    type: BIGINT
   - name: tot_delta_co2_kg_descent
     type: DOUBLE
   - name: tot_delta_co2_kg_desc_blw_70
     type: DOUBLE
   - name: nbr_flights_climb
-    type: DOUBLE
+    type: VARCHAR
   - name: tot_dist_level_nm_climb
-    type: DOUBLE
+    type: VARCHAR
   - name: tot_dist_lvl_nm_climb_blw_100
-    type: DOUBLE
+    type: VARCHAR
   - name: tot_time_level_seconds_climb
-    type: DOUBLE
+    type: VARCHAR
   - name: tot_time_lvl_sec_climb_blw_100
-    type: DOUBLE
+    type: VARCHAR
   - name: median_cco_alt
-    type: DOUBLE
+    type: VARCHAR
   - name: nbr_cco_flights
-    type: DOUBLE
+    type: VARCHAR
   - name: nbr_cco_flights_below_10000
-    type: DOUBLE
+    type: VARCHAR
   - name: tot_delta_co2_kg_climb
-    type: DOUBLE
+    type: VARCHAR
   - name: tot_delta_co2_kg_climb_blw_100
-    type: DOUBLE
+    type: VARCHAR
+  - name: obs_date
+    type: DATE
