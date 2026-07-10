@@ -39,8 +39,17 @@ from constants import ENTITY_IDS
 # Per-dataset bulk CSV export. The 4x4 id is the only variable; research verified
 # the URL is persistent.
 _EXPORT_URL = "https://data.cdc.gov/api/views/{dataset_id}/rows.csv?accessType=DOWNLOAD"
+_RESOURCE_CSV_URL = "https://data.cdc.gov/resource/{dataset_id}.csv"
+_RESOURCE_JSON_URL = "https://data.cdc.gov/resource/{dataset_id}.json"
 
 _CHUNK = 1 << 20  # 1 MiB
+_PAGE_ROWS = 50_000
+_YEAR_PARTITIONED_EXPORTS = {
+    # Daily County-Level PM2.5 Concentrations 2001-2022. The single bulk CSV
+    # stream is large enough to exceed the safety ceiling, but each year is a
+    # bounded Socrata query and preserves the full table.
+    "53mz-4zqd": [str(year) for year in range(2001, 2023)],
+}
 
 # Safety ceiling, not a run budget. The export is chunked (no Content-Length) and
 # Socrata's anonymous pool throttles to ~1 MB/s, so a per-read timeout never fires
@@ -72,6 +81,80 @@ def _csv_to_parquet(csv_path: str, parquet_path: str) -> None:
         )
     finally:
         con.close()
+
+
+def _csv_files_to_parquet(csv_glob: str, parquet_path: str) -> None:
+    con = duckdb.connect()
+    try:
+        con.execute(
+            f"""
+            COPY (
+                SELECT *
+                FROM read_csv_auto({_sql_str(csv_glob)}, header=true,
+                                   all_varchar=true, union_by_name=true,
+                                   sample_size=-1)
+            )
+            TO {_sql_str(parquet_path)} (FORMAT PARQUET, COMPRESSION ZSTD)
+            """
+        )
+    finally:
+        con.close()
+
+
+def _socrata_count(client, dataset_id: str, where: str) -> int:
+    resp = client.get(
+        _RESOURCE_JSON_URL.format(dataset_id=dataset_id),
+        params={"$select": "count(*)", "$where": where},
+        timeout=(10.0, 60.0),
+    )
+    resp.raise_for_status()
+    data = resp.json()
+    if not data:
+        return 0
+    return int(data[0]["count"])
+
+
+def _download_csv_page(client, dataset_id: str, where: str, offset: int, path: str) -> None:
+    with client.stream(
+        "GET",
+        _RESOURCE_CSV_URL.format(dataset_id=dataset_id),
+        params={
+            "$where": where,
+            "$limit": str(_PAGE_ROWS),
+            "$offset": str(offset),
+        },
+        timeout=(10.0, 300.0),
+    ) as resp:
+        resp.raise_for_status()
+        with open(path, "wb") as out:
+            for chunk in resp.iter_bytes(_CHUNK):
+                out.write(chunk)
+
+
+@transient_retry()
+def _download_year_partitioned_parquet(dataset_id: str, asset: str, years: list[str]) -> None:
+    """Fetch a very large Socrata table in year partitions and store Parquet."""
+    client = get_client()
+    tmpdir = tempfile.mkdtemp(prefix=f"{asset}-")
+    chunks_dir = os.path.join(tmpdir, "chunks")
+    parquet_path = os.path.join(tmpdir, "data.parquet")
+    os.makedirs(chunks_dir, exist_ok=True)
+    try:
+        chunk_index = 0
+        for year in years:
+            where = f"year='{year}'"
+            rows = _socrata_count(client, dataset_id, where)
+            for offset in range(0, rows, _PAGE_ROWS):
+                chunk_path = os.path.join(chunks_dir, f"chunk-{chunk_index:05d}.csv")
+                _download_csv_page(client, dataset_id, where, offset, chunk_path)
+                chunk_index += 1
+
+        _csv_files_to_parquet(os.path.join(chunks_dir, "*.csv"), parquet_path)
+
+        with open(parquet_path, "rb") as src, raw_writer(asset, "parquet", mode="wb") as out:
+            shutil.copyfileobj(src, out, length=_CHUNK)
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
 
 
 @transient_retry()
@@ -117,6 +200,9 @@ def fetch_one(node_id: str) -> None:
     which is also the raw asset name; the dataset's 4x4 id is the id minus the
     "cdc-" prefix."""
     dataset_id = node_id[len("cdc-"):]
+    if dataset_id in _YEAR_PARTITIONED_EXPORTS:
+        _download_year_partitioned_parquet(dataset_id, node_id, _YEAR_PARTITIONED_EXPORTS[dataset_id])
+        return
     _download_parquet(_EXPORT_URL.format(dataset_id=dataset_id), node_id)
 
 
