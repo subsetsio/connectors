@@ -3,7 +3,8 @@
 # caution: ref_area mixes individual countries with supranational aggregates (EU, EA/euro area) and candidate/non-member economies — filter ref_area before aggregating across geographies.
 # caution: contains both seasonally adjusted (seasonal_adjust=S) and non-seasonally-adjusted (N) versions of each series — filter seasonal_adjust before use so a series is not double-counted.
 key: [survey, ref_area, activity, indicator, unit_measure, seasonal_adjust, freq, time_period]
-sort: [survey, ref_area, activity, indicator, unit_measure, seasonal_adjust, freq, time_period]
+temporal: time_period
+sort: [time_period, survey, ref_area, activity, indicator, unit_measure, seasonal_adjust, freq]
 columns:
   - name: dataflow
     type: VARCHAR

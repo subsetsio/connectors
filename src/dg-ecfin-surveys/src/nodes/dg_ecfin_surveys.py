@@ -30,7 +30,6 @@ import pyarrow.csv as pacsv
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -93,25 +92,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One generic transform per dataflow: drop the constant DATAFLOW dimension,
-# cast OBS_VALUE to DOUBLE (empty cells -> NULL, filtered out), and pass every
-# native dimension column through unchanged. Identical SQL across all flows
-# because `* EXCLUDE` adapts to whichever dimensions a flow exposes.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                * EXCLUDE (DATAFLOW, "LAST UPDATE", TIME_PERIOD, OBS_VALUE),
-                TIME_PERIOD               AS time_period,
-                TRY_CAST(OBS_VALUE AS DOUBLE) AS obs_value,
-                "LAST UPDATE"             AS last_update
-            FROM "{s.id}"
-            WHERE TRY_CAST(OBS_VALUE AS DOUBLE) IS NOT NULL
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

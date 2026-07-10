@@ -2,7 +2,8 @@
 # of raw asset `dg-ecfin-surveys-bcs-indu-pinv`. Regenerate after model-verify.
 # caution: ref_area mixes individual countries with supranational aggregates (EU, EA/euro area) and candidate/non-member economies — filter ref_area before aggregating across geographies.
 key: [ref_area, activity, type_of_investment, inv_period, freq, time_period]
-sort: [ref_area, activity, type_of_investment, inv_period, freq, time_period]
+temporal: time_period
+sort: [time_period, ref_area, activity, type_of_investment, inv_period, freq]
 columns:
   - name: dataflow
     type: VARCHAR

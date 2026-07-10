@@ -13,3 +13,7 @@ tests:
     certainty: 80
   - distinct_count: {col: currencyCode, min: 20}
     certainty: 85
+  - freshness: {col: year, reaches: current_year()}
+    reason: monthly average fixing publishes each month; the table must carry current-year data (year is the only numeric temporal axis in the raw)
+    certainty: 80
+    points_outward: true
