@@ -38,6 +38,8 @@ ENTITY_IDS = [
     'commhwtx',
     'constfueltxco',
     'corevshco',
+    'countycharters',
+    'countyformation',
     'cstdistributions',
     'discstxco',
     'discstxdocco',
@@ -85,6 +87,7 @@ ENTITY_IDS = [
     'lottrates',
     'mobilhmlg',
     'municipal-revenues-from-traffic-court-judgments-and-fines',
+    'muniinc',
     'munipark',
     'munipmtx',
     'muniresorttx',
@@ -130,6 +133,8 @@ ENTITY_IDS = [
     'stxcolldist2025',
     'timbersales',
     'vesselfees',
+    '2026ldsshist',
+    '2026lotthist',
 ]
 
 # entity_id -> source path under https://edr.state.fl.us
@@ -167,6 +172,8 @@ SOURCE_PATHS = {
     'commhwtx': '/Content/local-government/data/data-a-to-z/commhwtx.xlsx',
     'constfueltxco': '/Content/local-government/data/data-a-to-z/constfueltxco.xlsx',
     'corevshco': '/Content/local-government/data/data-a-to-z/corevshco.xlsx',
+    'countycharters': '/Content/local-government/data/data-a-to-z/countycharters.xlsx',
+    'countyformation': '/Content/local-government/data/data-a-to-z/countyformation.xlsx',
     'cstdistributions': '/Content/local-government/data/data-a-to-z/cstdistributions.xlsx',
     'discstxco': '/Content/local-government/data/data-a-to-z/discstxco.xlsx',
     'discstxdocco': '/Content/local-government/data/data-a-to-z/discstxdocco.xlsx',
@@ -214,6 +221,7 @@ SOURCE_PATHS = {
     'lottrates': '/Content/local-government/data/data-a-to-z/LOTTrates.xlsx',
     'mobilhmlg': '/Content/local-government/data/data-a-to-z/mobilhmlg.xlsx',
     'municipal-revenues-from-traffic-court-judgments-and-fines': '/Content/local-government/data/data-a-to-z/municipal revenues from traffic court judgments and fines.xlsx',
+    'muniinc': '/Content/local-government/data/data-a-to-z/muniinc.xlsx',
     'munipark': '/Content/local-government/data/data-a-to-z/munipark.xlsx',
     'munipmtx': '/Content/local-government/data/data-a-to-z/munipmtx.xlsx',
     'muniresorttx': '/Content/local-government/data/data-a-to-z/muniresorttx.xlsx',
@@ -259,4 +267,6 @@ SOURCE_PATHS = {
     'stxcolldist2025': '/Content/local-government/data/data-a-to-z/stxcolldist2025.xlsx',
     'timbersales': '/Content/local-government/data/data-a-to-z/timbersales.xlsx',
     'vesselfees': '/Content/local-government/data/data-a-to-z/vesselfees.xlsx',
+    '2026ldsshist': '/Content/local-government/data/data-a-to-z/2026LDSShist.xlsx',
+    '2026lotthist': '/Content/local-government/data/data-a-to-z/2026LOTThist.xlsx',
 }
