@@ -23,7 +23,9 @@ getDataCode requires all codes in one request to share a frequency (hence
 bucketing by frequency); it caps at 250 codes and 60000 data points per request,
 paging the data-point overflow via NEXTPOSITION -> startPosition.
 """
+import os
 import re
+import time
 
 import httpx
 import pyarrow as pa
@@ -97,7 +99,12 @@ def fetch_series(node_id: str) -> None:
 # old AND new value of each changed one; a single nested dict meant every
 # per-chunk checkpoint appended two copies of the whole (growing) progress map,
 # which is quadratic and overran the orchestrator's 10 MiB result-pickle cap.
-STATE_VERSION = 2
+#
+# v3 scopes progress to RUN_ID and has the node request continuation before
+# the GHA deadline. A failed/dead continuation leg may leave state behind
+# without manifest-committed raw; cross-run resume from that state would skip
+# raw files the transform cannot see.
+STATE_VERSION = 3
 
 # getDataCode hard caps: 250 codes per request (page the 60000-data-point
 # overflow via NEXTPOSITION).
@@ -106,6 +113,10 @@ CODES_PER_CALL = 250
 # Safety ceiling on NEXTPOSITION paging within one chunk — detects an
 # unterminating cursor (source growth past expectations / API bug). Raises.
 MAX_PAGES_PER_CHUNK = 2000
+
+# Stay well clear of GitHub's hard cap and the orchestrator watchdog. The
+# runtime treats a True return as needs_continuation and commits this leg's raw.
+LEG_SECONDS = int(os.environ.get("BOJ_VALUES_LEG_SECONDS", str(4 * 60 * 60)))
 
 # Observations (values) raw schema. survey_date / last_update are YYYYMMDD
 # integers (well within int32); value is the observation (null obs are dropped
@@ -198,11 +209,13 @@ def fetch_values(node_id: str) -> None:
         if state:
             print(f"  state schema {state.get('schema_version')} != {STATE_VERSION}; resetting")
         state = {"schema_version": STATE_VERSION}
+    run_id = os.environ.get("RUN_ID", "unknown")
+    deadline = time.monotonic() + LEG_SECONDS
 
-    # No self-imposed time budget: sweep every database/frequency/chunk. Bucket
-    # state (sig + done_chunks + complete) is checkpointed after each chunk, so
-    # if the supervisor interrupts the node before the sweep finishes the next
-    # run resumes from the unfinished buckets.
+    # Sweep every database/frequency/chunk, but yield before the CI deadline.
+    # Bucket state is checkpointed after each chunk and scoped to RUN_ID. Within
+    # one continuation chain, completed buckets are skipped because their raw
+    # is already manifest-committed by earlier legs. A fresh run re-pulls them.
     for db in sorted(DATABASES):
         try:
             series = _fetch_metadata(db)
@@ -225,18 +238,32 @@ def fetch_values(node_id: str) -> None:
             freq_slug = _freq_slug(freq)
             chunks = [codes[i:i + CODES_PER_CALL]
                       for i in range(0, len(codes), CODES_PER_CALL)]
-            # Resume mid-bucket only when the signature is unchanged and the
-            # previous attempt did not finish. A completed prior run must not
-            # short-circuit this fetch: when the node is invoked, it needs to
-            # materialise raw batches for the current run so tests and
-            # transforms see an inspectable, current raw manifest.
+            same_run = (
+                prev.get("run_id") == run_id
+                and prev.get("sig") == signature
+            )
+            if same_run and prev.get("complete"):
+                print(f"  skip values {bucket_key}: complete in this run")
+                continue
+
+            # Resume mid-bucket only inside the same continuation chain. A
+            # completed prior run must not short-circuit this fetch: when the
+            # node is invoked under a new RUN_ID, it needs to materialise raw
+            # batches for that run so tests and transforms see a complete raw
+            # manifest.
             start_chunk = (
                 prev.get("done_chunks", 0)
-                if prev.get("sig") == signature and not prev.get("complete")
+                if same_run and not prev.get("complete")
                 else 0
             )
 
             for ci in range(start_chunk, len(chunks)):
+                if time.monotonic() >= deadline:
+                    print(
+                        f"  values leg budget spent before {bucket_key} chunk {ci}; "
+                        "committing and continuing next link"
+                    )
+                    return True
                 try:
                     rows = _fetch_chunk_rows(db, freq, chunks[ci])
                 except _PermanentError as exc:
@@ -249,12 +276,14 @@ def fetch_values(node_id: str) -> None:
                 table = pa.Table.from_pylist(rows, schema=VALUES_SCHEMA)
                 save_raw_parquet(table, asset)  # write raw before advancing state
                 state[bucket_key] = {
+                    "run_id": run_id,
                     "sig": signature, "done_chunks": ci + 1,
                     "n_chunks": len(chunks), "complete": False,
                 }
                 save_state(node_id, state)  # checkpoint after each chunk
 
             state[bucket_key] = {
+                "run_id": run_id,
                 "sig": signature, "done_chunks": len(chunks),
                 "n_chunks": len(chunks), "complete": True,
             }
