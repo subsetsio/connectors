@@ -1,0 +1,47 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-w2zp-sf2x`. Regenerate after model-verify.
+# caution: Certified payroll registration rows do not expose a stable row identifier; treat them as reported payroll records and aggregate only after choosing project, week, work category, and job title dimensions.
+key: []
+temporal: project_start_date
+sort: [project_start_date]
+columns:
+  - name: account
+    type: VARCHAR
+  - name: project_name
+    type: VARCHAR
+  - name: prc_number
+    type: VARCHAR
+  - name: work_category
+    type: VARCHAR
+  - name: week_ending_date
+    type: TIMESTAMP
+  - name: st_total_hours
+    type: DOUBLE
+  - name: ot_total_hours
+    type: DOUBLE
+  - name: st_hourly_rate
+    type: DOUBLE
+  - name: ot_hourly_rate
+    type: DOUBLE
+  - name: wages
+    type: DOUBLE
+  - name: job_title
+    type: VARCHAR
+  - name: project_start_date
+    type: TIMESTAMP
+  - name: project_end_date
+    type: TIMESTAMP
+  - name: project_street_1
+    type: VARCHAR
+  - name: project_street_2
+    type: VARCHAR
+  - name: project_city
+    type: VARCHAR
+  - name: project_state
+    type: VARCHAR
+  - name: project_zipcode
+    type: VARCHAR
+  - name: project_status
+    type: VARCHAR
+  - name: department_of_jurisdiction
+    type: VARCHAR

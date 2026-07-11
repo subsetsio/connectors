@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `new-york-state-department-of-labor-95bk-87hc`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [certificate_number, endorsement_type, first_name, last_name, issued_date, expiration_date]
+temporal: issued_date
+checks:
+  - kind: unique
+    columns: [certificate_number, endorsement_type, first_name, last_name, issued_date, expiration_date]
+  - kind: not_null
+    col: certificate_number
+  - kind: not_null
+    col: endorsement_type
+  - kind: not_null
+    col: first_name
+  - kind: not_null
+    col: last_name
+  - kind: not_null
+    col: issued_date
+  - kind: not_null
+    col: expiration_date
+  - kind: row_floor
+    min: 17056
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

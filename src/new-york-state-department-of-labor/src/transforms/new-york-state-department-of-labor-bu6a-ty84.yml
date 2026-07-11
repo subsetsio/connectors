@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-bu6a-ty84`. Regenerate after model-verify.
+key: [certificate_number, last_name, first_name, issued_date, expiration_date]
+temporal: issued_date
+sort: [issued_date, certificate_number, last_name, first_name, expiration_date]
+columns:
+  - name: certificate_number
+    type: VARCHAR
+  - name: class
+    type: VARCHAR
+  - name: first_name
+    type: VARCHAR
+  - name: last_name
+    type: VARCHAR
+  - name: issued_date
+    type: TIMESTAMP
+  - name: expiration_date
+    type: TIMESTAMP
+  - name: certificate_status
+    type: VARCHAR

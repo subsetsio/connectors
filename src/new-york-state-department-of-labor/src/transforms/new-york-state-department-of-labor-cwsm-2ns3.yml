@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-cwsm-2ns3`. Regenerate after model-verify.
+# caution: Quarterly QCEW rows include area, ownership, and NAICS rollups; filter to one rollup level before summing establishments, employment, or wages.
+key: [area_type, area, year, quarter, ownership, naics]
+sort: [area_type, area, year, quarter, ownership, naics]
+columns:
+  - name: area_type
+    type: VARCHAR
+  - name: area
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: BIGINT
+  - name: ownership
+    type: VARCHAR
+  - name: naics
+    type: VARCHAR
+  - name: naics_title
+    type: VARCHAR
+  - name: establishments
+    type: BIGINT
+  - name: month_1_employment
+    type: BIGINT
+  - name: month_2_employment
+    type: BIGINT
+  - name: month_3_employment
+    type: BIGINT
+  - name: total_wage
+    type: BIGINT

@@ -4,3 +4,4 @@ tests:
   - row_count: {min: 1}
     reason: per-dataset SODA endpoint returns the full table; 0 rows means pagination broke or the 4x4 id went stale
     certainty: 95
+  - freshness: {col: project_start_date, reaches: today - 90d}

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-krt9-ym2k`. Regenerate after model-verify.
+# caution: Population estimates include New York State and county geographies; filter `program_type` and geography level before aggregating.
+key: [fips_code, geography, year, program_type]
+sort: [fips_code, geography, year, program_type]
+columns:
+  - name: fips_code
+    type: BIGINT
+  - name: geography
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: program_type
+    type: VARCHAR
+  - name: population
+    type: BIGINT

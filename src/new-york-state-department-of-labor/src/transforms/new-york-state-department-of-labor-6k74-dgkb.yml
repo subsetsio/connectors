@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-6k74-dgkb`. Regenerate after model-verify.
+# caution: Monthly CES observations mix geographic areas and employment series; filter both `area` and `series` before trend analysis.
+key: [area, series, year, month]
+sort: [area, series, year, month]
+columns:
+  - name: area
+    type: VARCHAR
+  - name: area_name
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: current_employment
+    type: BIGINT

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-b7d6-zygf`. Regenerate after model-verify.
+# caution: Industry projection rows are indexed by area, projection period, and industry; base and projected employment should not be summed across overlapping industry rollups.
+key: [area, period, industry_code]
+sort: [area, period, industry_code]
+columns:
+  - name: area
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: industry_code
+    type: VARCHAR
+  - name: industry_title
+    type: VARCHAR
+  - name: base_year
+    type: BIGINT
+  - name: projected_year
+    type: BIGINT
+  - name: net_change
+    type: BIGINT
+  - name: annual_growth_rate
+    type: DOUBLE

@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-xtgv-xf66`. Regenerate after model-verify.
+key: [certificate_number]
+temporal: issue_date
+sort: [issue_date, certificate_number]
+columns:
+  - name: certificate_number
+    type: VARCHAR
+  - name: business_name
+    type: VARCHAR
+  - name: address1
+    type: VARCHAR
+  - name: address2
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: zip_code
+    type: VARCHAR
+  - name: phone
+    type: BIGINT
+  - name: issue_date
+    type: TIMESTAMP
+  - name: expiration_date
+    type: TIMESTAMP
+  - name: status
+    type: VARCHAR

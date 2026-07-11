@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-wkup-gbbg`. Regenerate after model-verify.
+key: [employed, demographic_description, year, demographics]
+sort: [employed, demographic_description, year, demographics]
+columns:
+  - name: year
+    type: BIGINT
+  - name: demographics
+    type: VARCHAR
+  - name: demographic_description
+    type: VARCHAR
+  - name: civilian_noninstitutional_population
+    type: BIGINT
+  - name: civilian_labor_force
+    type: BIGINT
+  - name: civilian_labor_force_as_a_percent_of_population
+    type: DOUBLE
+  - name: employed
+    type: BIGINT
+  - name: employed_as_a_percent_of_population
+    type: DOUBLE
+  - name: unemployed
+    type: BIGINT
+  - name: unemployed_as_a_percent_of_civilian_labor_force
+    type: DOUBLE
+  - name: not_in_labor_force
+    type: BIGINT

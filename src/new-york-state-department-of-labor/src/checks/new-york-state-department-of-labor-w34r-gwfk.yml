@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `new-york-state-department-of-labor-w34r-gwfk`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [initial_claims, period_ending, region]
+temporal: period_ending
+checks:
+  - kind: unique
+    columns: [initial_claims, period_ending, region]
+  - kind: not_null
+    col: initial_claims
+  - kind: not_null
+    col: period_ending
+  - kind: not_null
+    col: region
+  - kind: row_floor
+    min: 1375
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

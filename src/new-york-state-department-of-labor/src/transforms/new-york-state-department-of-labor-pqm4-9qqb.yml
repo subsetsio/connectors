@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-pqm4-9qqb`. Regenerate after model-verify.
+# caution: Occupational projection rows are indexed by area, projection period, and SOC; total openings should not be summed across overlapping occupational rollups.
+key: [area, period, soc]
+sort: [area, period, soc]
+columns:
+  - name: area
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: soc
+    type: VARCHAR
+  - name: occupationtitle
+    type: VARCHAR
+  - name: baseyear
+    type: BIGINT
+  - name: projyear
+    type: BIGINT
+  - name: change
+    type: BIGINT
+  - name: percent
+    type: DOUBLE
+  - name: aopent
+    type: BIGINT
+  - name: aopeng
+    type: BIGINT
+  - name: aopenr
+    type: BIGINT

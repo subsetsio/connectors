@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-ikqx-ispy`. Regenerate after model-verify.
+key: [license_number, license_type, business_name, issued_date, expiration_date]
+temporal: issued_date
+sort: [issued_date, license_number, license_type, business_name, expiration_date]
+columns:
+  - name: license_number
+    type: VARCHAR
+  - name: license_type
+    type: VARCHAR
+  - name: business_name
+    type: VARCHAR
+  - name: address
+    type: VARCHAR
+  - name: address_2
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: zip_code
+    type: VARCHAR
+  - name: phone
+    type: BIGINT
+  - name: issued_date
+    type: TIMESTAMP
+  - name: expiration_date
+    type: TIMESTAMP
+  - name: license_status
+    type: VARCHAR
+  - name: dba_name
+    type: VARCHAR

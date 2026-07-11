@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-qkrk-6v78`. Regenerate after model-verify.
+# caution: Rows include county and regional views; avoid summing average duration values across geography levels.
+key: [average_duration, county, year, month, region]
+sort: [average_duration, county, year, month, region]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: average_duration
+    type: DOUBLE

@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-jrac-r9vc`. Regenerate after model-verify.
+key: [address, license_number, business_name, zip_code, issued_date]
+temporal: issued_date
+sort: [issued_date, address, license_number, business_name, zip_code]
+columns:
+  - name: license_number
+    type: VARCHAR
+  - name: license_type
+    type: VARCHAR
+  - name: business_name
+    type: VARCHAR
+  - name: address
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: zip_code
+    type: VARCHAR
+  - name: issued_date
+    type: TIMESTAMP
+  - name: expiration_date
+    type: TIMESTAMP
+  - name: license_status
+    type: VARCHAR
+  - name: address_2
+    type: VARCHAR
+  - name: phone
+    type: BIGINT
+  - name: dba_name
+    type: VARCHAR

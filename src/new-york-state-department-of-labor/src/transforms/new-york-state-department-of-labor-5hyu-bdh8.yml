@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-5hyu-bdh8`. Regenerate after model-verify.
+# caution: Monthly LAUS observations include several area types; filter `area_type` before comparing or aggregating areas.
+key: [area_type, area, year, month]
+sort: [area_type, area, year, month]
+columns:
+  - name: area_type
+    type: VARCHAR
+  - name: area
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: laborforce
+    type: BIGINT
+  - name: employed
+    type: BIGINT
+  - name: unemployed
+    type: BIGINT
+  - name: unemployment_rate
+    type: DOUBLE

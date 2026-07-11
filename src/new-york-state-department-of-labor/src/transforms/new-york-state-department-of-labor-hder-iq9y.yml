@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-hder-iq9y`. Regenerate after model-verify.
+key: [certificate_number]
+temporal: issue_date
+sort: [issue_date, certificate_number]
+columns:
+  - name: certificate_number
+    type: VARCHAR
+  - name: business_name
+    type: VARCHAR
+  - name: phone
+    type: BIGINT
+  - name: address1
+    type: VARCHAR
+  - name: address2
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: zip_code
+    type: BIGINT
+  - name: model_management_business_type
+    type: VARCHAR
+  - name: issue_date
+    type: TIMESTAMP
+  - name: expiration_date
+    type: TIMESTAMP
+  - name: status
+    type: VARCHAR
+  - name: dba
+    type: VARCHAR
+  - name: group_companies
+    type: VARCHAR
+  - name: group_locations
+    type: VARCHAR
+  - name: additional_locations
+    type: VARCHAR

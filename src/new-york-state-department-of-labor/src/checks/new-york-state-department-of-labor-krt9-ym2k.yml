@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `new-york-state-department-of-labor-krt9-ym2k`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [fips_code, geography, year, program_type]
+checks:
+  - kind: unique
+    columns: [fips_code, geography, year, program_type]
+  - kind: not_null
+    col: fips_code
+  - kind: not_null
+    col: geography
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: program_type
+  - kind: row_floor
+    min: 1953
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

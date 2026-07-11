@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-shc7-xcbw`. Regenerate after model-verify.
+# caution: Annual QCEW rows include area, ownership, and NAICS rollups; filter to one rollup level before summing establishments, employment, or wages.
+key: [area_type, area, ownership, naics, year]
+sort: [area_type, area, ownership, naics, year]
+columns:
+  - name: area_type
+    type: VARCHAR
+  - name: area
+    type: VARCHAR
+  - name: ownership
+    type: VARCHAR
+  - name: naics
+    type: VARCHAR
+  - name: naics_title
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: establishments
+    type: BIGINT
+  - name: average_employment
+    type: BIGINT
+  - name: total_wage
+    type: BIGINT
+  - name: annual_average_salary
+    type: BIGINT

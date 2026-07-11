@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-xbjp-8sra`. Regenerate after model-verify.
+# caution: Rows include region and county dimensions; use the intended geography level before aggregating beneficiaries or benefit amounts.
+key: [year, month, region, county]
+sort: [year, month, region, county]
+columns:
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: beneficiaries
+    type: BIGINT
+  - name: benefit_amounts_dollars
+    type: BIGINT

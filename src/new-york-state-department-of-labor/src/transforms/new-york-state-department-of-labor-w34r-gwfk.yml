@@ -1,0 +1,12 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-w34r-gwfk`. Regenerate after model-verify.
+key: [initial_claims, period_ending, region]
+temporal: period_ending
+sort: [period_ending, initial_claims, region]
+columns:
+  - name: period_ending
+    type: TIMESTAMP
+  - name: region
+    type: VARCHAR
+  - name: initial_claims
+    type: BIGINT

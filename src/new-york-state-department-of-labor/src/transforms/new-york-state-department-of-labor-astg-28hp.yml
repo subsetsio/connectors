@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-astg-28hp`. Regenerate after model-verify.
+# caution: Construction fatality records do not expose a stable incident identifier; treat rows as reported events rather than deduplicated persons or employers.
+key: []
+temporal: date_death_occurred
+sort: [date_death_occurred]
+columns:
+  - name: business_purpose_or_industry
+    type: VARCHAR
+  - name: cause_of_death
+    type: VARCHAR
+  - name: union_status
+    type: VARCHAR
+  - name: city_death_occurred
+    type: VARCHAR
+  - name: date_death_occurred
+    type: TIMESTAMP
+  - name: georeference
+    type: VARCHAR

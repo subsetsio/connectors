@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `new-york-state-department-of-labor-h6jr-vxqt`. Regenerate after model-verify.
+key: [license_number, last_name, first_name, issued_date, expiration_date]
+temporal: issued_date
+sort: [issued_date, license_number, last_name, first_name, expiration_date]
+columns:
+  - name: license_number
+    type: VARCHAR
+  - name: license_type
+    type: VARCHAR
+  - name: first_name
+    type: VARCHAR
+  - name: last_name
+    type: VARCHAR
+  - name: issued_date
+    type: TIMESTAMP
+  - name: expiration_date
+    type: TIMESTAMP
+  - name: license_status
+    type: VARCHAR
