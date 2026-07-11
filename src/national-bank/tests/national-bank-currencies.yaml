@@ -15,8 +15,8 @@ tests:
     certainty: 95
   - column_type: {col: quant, type: integer}
     certainty: 95
-  - between: {col: quant, lo: 1, hi: 1000}
-    reason: quote basis is one of 1/10/100/1000 units
+  - between: {col: quant, lo: 1, hi: 10000}
+    reason: quote basis is one of 1/10/100/1000/10000 units
     certainty: 90
   - distinct_count: {col: currency_code, min: 30}
     reason: NBK currently quotes roughly 30-40 currencies; far fewer means parsing or feed coverage broke

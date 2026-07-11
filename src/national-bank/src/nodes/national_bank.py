@@ -39,7 +39,6 @@ SOURCE_MIN_YEAR = 1999
 _FETCH_WORKERS = 8
 
 _BASE_URL = "https://nationalbank.kz/rss/get_rates.cfm"
-_CURRENT_RATES_URL = "https://nationalbank.kz/rss/rates_all.xml"
 
 SCHEMA = pa.schema([
     ("date", pa.date32()),
@@ -87,6 +86,8 @@ def _fetch_one_day(d: date) -> list[dict]:
         if not code:
             continue
         rate = _parse_float(item.findtext("description"))
+        if rate is None:
+            continue
         quant_text = (item.findtext("quant") or "").strip()
         try:
             quant = int(quant_text) if quant_text else None
@@ -116,27 +117,31 @@ def _parse_feed_date(text: str):
 
 
 def fetch_currencies(node_id: str) -> None:
-    resp = get(_CURRENT_RATES_URL, timeout=(10.0, 120.0))
-    resp.raise_for_status()
-    root = ET.fromstring(resp.content)
+    # The current RSS feed omits fullname/date fields; the dated endpoint
+    # carries the same current quotes with the reference labels.
+    today = datetime.now(tz=timezone.utc).date()
+    source_date = None
+    source_rows = []
+    for offset in range(10):
+        candidate = today - timedelta(days=offset)
+        source_rows = _fetch_one_day(candidate)
+        if source_rows:
+            source_date = candidate
+            break
+    if not source_rows or source_date is None:
+        raise RuntimeError("NBK dated rates feed returned no recent currency items")
 
-    source_date = _parse_feed_date(root.findtext(".//date"))
     rows = []
     seen = set()
-    for item in root.findall(".//item"):
-        code = (item.findtext("title") or "").strip()
+    for item in source_rows:
+        code = item["currency_code"]
         if not code or code in seen:
             continue
         seen.add(code)
-        quant_text = (item.findtext("quant") or "").strip()
-        try:
-            quant = int(quant_text) if quant_text else None
-        except ValueError:
-            quant = None
         rows.append({
             "currency_code": code,
-            "currency_name": (item.findtext("fullname") or "").strip() or None,
-            "quant": quant,
+            "currency_name": item["currency_name"],
+            "quant": item["quant"],
             "source_date": source_date,
         })
 

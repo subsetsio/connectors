@@ -19,8 +19,8 @@ tests:
   - at_least: {col: rate, expr: 0}
     reason: exchange rates are strictly positive
     certainty: 95
-  - between: {col: quant, lo: 1, hi: 1000}
-    reason: quote basis is one of 1/10/100/1000 units
+  - between: {col: quant, lo: 1, hi: 10000}
+    reason: quote basis is one of 1/10/100/1000/10000 units
     certainty: 90
   - distinct_count: {col: currency_code, min: 20}
     reason: NBK quotes ~30-39 currencies; far fewer means parsing or coverage broke

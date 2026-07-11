@@ -1,27 +1,20 @@
-# Faithful row-level extraction of a gov.uk MHCLG statistical publication.
-# Each row is one non-empty source spreadsheet/CSV row; `cells` holds its values
-# as a JSON-encoded string array. Keyless append log (one publication may ship
-# many heterogeneous tables across attachments/sheets — no single grain).
-key: []
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mhclg-government-statistical-data-sets-attitudes-and-satisfaction`. Regenerate after model-verify.
+# caution: Rows are extracted from heterogeneous publication attachments; the cells column is a JSON array of source row values and may include headings, notes, totals, and mixed table layouts.
+key: [cells, attachment_title, attachment_filename, sheet_name, content_type]
+sort: [cells, attachment_title, attachment_filename, sheet_name, content_type]
 columns:
   - name: attachment_filename
     type: VARCHAR
-    description: File name of the source attachment (CSV/XLS/XLSX/ODS) this row came from.
   - name: attachment_title
     type: VARCHAR
-    description: Human title of the source attachment as published on gov.uk.
   - name: content_type
     type: VARCHAR
-    description: MIME type of the source attachment (text/csv, ms-excel, openxml sheet, or ODS).
   - name: sheet_name
     type: VARCHAR
-    description: Worksheet/table name within the attachment (the CSV pseudo-sheet for CSVs).
   - name: row_index
     type: BIGINT
-    description: 0-based row position of this row within its sheet, preserving source order.
   - name: n_cols
     type: BIGINT
-    description: Number of cell values in this row after trailing-empty trimming.
   - name: cells
     type: VARCHAR
-    description: The row's cell values as a JSON array of strings (parse to reconstruct the table).
