@@ -29,8 +29,8 @@ def main():
             current_budget = float(os.environ.get("DAG_TIME_BUDGET", "0") or 0)
         except ValueError:
             current_budget = 0
-        if current_budget <= 0 or current_budget > 1800:
-            os.environ["DAG_TIME_BUDGET"] = "1800"
+        if current_budget <= 0 or current_budget > 900:
+            os.environ["DAG_TIME_BUDGET"] = "900"
     validate_environment()
     workflow = load_nodes()
     workflow.run()
