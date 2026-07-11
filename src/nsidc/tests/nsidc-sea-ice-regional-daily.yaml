@@ -1,0 +1,19 @@
+spec_id: nsidc-sea-ice-regional-daily
+status: active
+tests:
+  - not_null: hemisphere
+  - not_null: region
+  - not_null: date
+  - column_type: {col: date, type: date}
+  - enum: {col: hemisphere, values: [Arctic, Antarctic]}
+  - unique: [hemisphere, region, date]
+    reason: one regional observation per hemisphere/sub-region/day
+    certainty: 95
+  - distinct_count: {col: region, min: 15}
+    reason: ~14 Arctic + ~5 Antarctic sub-regions across the two workbooks
+    certainty: 85
+  - between: {col: year, lo: 1978, hi: current_year()}
+    certainty: 95
+  - freshness: {col: date, reaches: today - 21d}
+    reason: regional daily workbook tracks the daily record; a stale max means our fetch or the server is behind
+    points_outward: true

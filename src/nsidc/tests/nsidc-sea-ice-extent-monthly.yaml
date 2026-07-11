@@ -1,0 +1,21 @@
+spec_id: nsidc-sea-ice-extent-monthly
+status: active
+tests:
+  - not_null: hemisphere
+  - not_null: year
+  - not_null: month
+  - not_null: date
+  - column_type: {col: date, type: date}
+  - enum: {col: hemisphere, values: [Arctic, Antarctic]}
+  - unique: [hemisphere, year, month]
+    reason: one monthly-average row per hemisphere per calendar month
+    certainty: 95
+  - between: {col: year, lo: 1978, hi: current_year()}
+    certainty: 95
+  - between: {col: month, lo: 1, hi: 12}
+  - freshness: {col: date, reaches: today - 45d}
+    reason: monthly averages publish ~mid the following month; a max older than ~6 weeks means we are behind
+    points_outward: true
+  - between: {col: extent_million_sq_km, lo: 0, hi: 30}
+    certainty: 80
+    severity: warn
