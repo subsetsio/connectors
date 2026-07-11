@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-cbc-instruments`. Regenerate after model-verify.
+# caution: OBS_VALUE contains the instrument identifier value in this table, not a numeric observation measure.
+key: [settlement, isin]
+temporal: time_period
+sort: [time_period, settlement, isin]
+columns:
+  - name: instrument_type
+    type: VARCHAR
+  - name: isin
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: VARCHAR
+  - name: issue_date
+    type: DATE
+  - name: ticker
+    type: VARCHAR
+  - name: settlement
+    type: DATE
+  - name: maturity
+    type: DATE

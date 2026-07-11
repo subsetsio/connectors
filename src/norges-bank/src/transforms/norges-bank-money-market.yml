@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-money-market`. Regenerate after model-verify.
+key: [freq, mm_segment, counterpart_type, transaction_type, unit_measure, fx_currency, maturity, ref_rate_index, rate_type, coll_issuer_area, coll_sec_type, coll_isin, decimals, time_period]
+temporal: time_period
+sort: [time_period, freq, mm_segment, counterpart_type, transaction_type, unit_measure, fx_currency, maturity, ref_rate_index, rate_type, coll_issuer_area, coll_sec_type, coll_isin, decimals]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: mm_segment
+    type: VARCHAR
+  - name: counterpart_type
+    type: VARCHAR
+  - name: transaction_type
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: fx_currency
+    type: VARCHAR
+  - name: maturity
+    type: VARCHAR
+  - name: ref_rate_index
+    type: VARCHAR
+  - name: rate_type
+    type: VARCHAR
+  - name: coll_issuer_area
+    type: VARCHAR
+  - name: coll_sec_type
+    type: VARCHAR
+  - name: coll_isin
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
+  - name: time_period
+    type: VARCHAR
+  - name: obs_value
+    type: VARCHAR

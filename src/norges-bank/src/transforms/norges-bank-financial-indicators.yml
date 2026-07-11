@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-financial-indicators`. Regenerate after model-verify.
+key: [time_period, obs_value, indicator]
+temporal: contextdate
+sort: [contextdate, time_period, obs_value, indicator]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
+  - name: contextdate
+    type: TIMESTAMP
+  - name: observeddatefrom
+    type: TIMESTAMP
+  - name: observeddateto
+    type: TIMESTAMP
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: DOUBLE

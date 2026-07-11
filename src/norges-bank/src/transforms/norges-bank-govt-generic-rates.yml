@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-govt-generic-rates`. Regenerate after model-verify.
+key: [obs_value, time_period, tenor, freq, instrument_type]
+temporal: time_period
+sort: [time_period, obs_value, tenor, freq, instrument_type]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: tenor
+    type: VARCHAR
+  - name: instrument_type
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
+  - name: time_period
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE

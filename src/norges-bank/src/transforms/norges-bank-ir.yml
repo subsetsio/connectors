@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-ir`. Regenerate after model-verify.
+key: [time_period, obs_value, freq, tenor, collection]
+temporal: time_period
+sort: [time_period, obs_value, freq, tenor, collection]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: instrument_type
+    type: VARCHAR
+  - name: tenor
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
+  - name: collection
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE
+  - name: calc_method
+    type: VARCHAR

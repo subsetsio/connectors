@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-ann-kpra`. Regenerate after model-verify.
+key: [valid_from]
+temporal: time_period
+sort: [time_period, valid_from]
+columns:
+  - name: instrument_type
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: DOUBLE
+  - name: valid_from
+    type: TIMESTAMP
+  - name: delta_value
+    type: VARCHAR
+  - name: overnight_lending_rate
+    type: DOUBLE
+  - name: reserve_rate
+    type: VARCHAR
+  - name: sight_deposit_rate
+    type: VARCHAR

@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-settlement-statistics`. Regenerate after model-verify.
+key: [time_period, obs_value, unit_measure, decimals]
+temporal: time_period
+sort: [time_period, obs_value, unit_measure, decimals]
+columns:
+  - name: unit_measure
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: BIGINT

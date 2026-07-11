@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-liquidity-forecast`. Regenerate after model-verify.
+key: [time_period, obs_value, forecast_date, forecast_year, forecast_type]
+temporal: forecast_date
+sort: [forecast_date, time_period, obs_value, forecast_year, forecast_type]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: forecast_type
+    type: VARCHAR
+  - name: forecast_year
+    type: BIGINT
+  - name: forecast_date
+    type: DATE
+  - name: decimals
+    type: BIGINT
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: BIGINT

@@ -1,0 +1,36 @@
+# compiled by `hardened compile-checks` — post-publish audit of `norges-bank-fauction`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [instrument_type, unit_measure, auction_id, unit_mult, decimals, time_period, term_from, term_to, auction_type, announcement_date, fixed_interest_rate]
+checks:
+  - kind: unique
+    columns: [instrument_type, unit_measure, auction_id, unit_mult, decimals, time_period, term_from, term_to, auction_type, announcement_date, fixed_interest_rate]
+  - kind: not_null
+    col: instrument_type
+  - kind: not_null
+    col: unit_measure
+  - kind: not_null
+    col: auction_id
+  - kind: not_null
+    col: unit_mult
+  - kind: not_null
+    col: decimals
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: term_from
+  - kind: not_null
+    col: term_to
+  - kind: not_null
+    col: auction_type
+  - kind: not_null
+    col: announcement_date
+  - kind: not_null
+    col: fixed_interest_rate
+  - kind: row_floor
+    min: 5890
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

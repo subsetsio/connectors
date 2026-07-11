@@ -1,0 +1,32 @@
+# compiled by `hardened compile-checks` — post-publish audit of `norges-bank-sec`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [freq, security, unit_measure, decimals, maturity, issue_date, coupon, time_period]
+temporal: maturity
+checks:
+  - kind: unique
+    columns: [freq, security, unit_measure, decimals, maturity, issue_date, coupon, time_period]
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: security
+  - kind: not_null
+    col: unit_measure
+  - kind: not_null
+    col: decimals
+  - kind: not_null
+    col: maturity
+  - kind: not_null
+    col: issue_date
+  - kind: not_null
+    col: coupon
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 45010
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

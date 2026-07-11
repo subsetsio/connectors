@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-sec`. Regenerate after model-verify.
+key: [freq, security, unit_measure, decimals, maturity, issue_date, coupon, time_period]
+temporal: maturity
+sort: [maturity, freq, security, unit_measure, decimals, issue_date, coupon, time_period]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: security
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
+  - name: maturity
+    type: DATE
+  - name: issue_date
+    type: DATE
+  - name: coupon
+    type: VARCHAR
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: DOUBLE

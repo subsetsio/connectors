@@ -1,0 +1,16 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-govt-zerocoupon`. Regenerate after model-verify.
+key: [obs_value, time_period, tenor, freq]
+temporal: time_period
+sort: [time_period, obs_value, tenor, freq]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: tenor
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
+  - name: time_period
+    type: VARCHAR
+  - name: obs_value
+    type: DOUBLE

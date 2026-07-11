@@ -1,0 +1,30 @@
+# compiled by `hardened compile-checks` — post-publish audit of `norges-bank-govt-keyfigures`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [unit_measure, quarter, freq, instrument_type, decimals, unit_mult, time_period]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [unit_measure, quarter, freq, instrument_type, decimals, unit_mult, time_period]
+  - kind: not_null
+    col: unit_measure
+  - kind: not_null
+    col: quarter
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: instrument_type
+  - kind: not_null
+    col: decimals
+  - kind: not_null
+    col: unit_mult
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 423
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

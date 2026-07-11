@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-govt-secondary-market`. Regenerate after model-verify.
+key: [freq, isin, instrument_type, counterparty_area, counterparty_type, unit_measure, decimals, unit_mult, time_period]
+temporal: time_period
+sort: [time_period, freq, isin, instrument_type, counterparty_area, counterparty_type, unit_measure, decimals, unit_mult]
+columns:
+  - name: freq
+    type: VARCHAR
+  - name: isin
+    type: VARCHAR
+  - name: instrument_type
+    type: VARCHAR
+  - name: counterparty_area
+    type: VARCHAR
+  - name: counterparty_type
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
+  - name: unit_mult
+    type: BIGINT
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: BIGINT

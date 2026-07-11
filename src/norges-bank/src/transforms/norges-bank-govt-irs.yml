@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-govt-irs`. Regenerate after model-verify.
+key: [trn]
+temporal: time_period
+sort: [time_period, trn]
+columns:
+  - name: counterparty
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: initial_year
+    type: BIGINT
+  - name: maturity_month
+    type: BIGINT
+  - name: maturity_year
+    type: BIGINT
+  - name: start_month
+    type: BIGINT
+  - name: start_year
+    type: BIGINT
+  - name: trn
+    type: BIGINT
+  - name: freq
+    type: VARCHAR
+  - name: unit_mult
+    type: BIGINT
+  - name: decimals
+    type: BIGINT
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: BIGINT

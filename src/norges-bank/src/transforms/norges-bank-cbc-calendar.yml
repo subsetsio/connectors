@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-cbc-calendar`. Regenerate after model-verify.
+# caution: OBS_VALUE is an identifier-style calendar value in this table, not a numeric observation measure.
+key: [time_period, isin]
+temporal: maturity
+sort: [maturity, time_period, isin]
+columns:
+  - name: isin
+    type: VARCHAR
+  - name: maturity
+    type: DATE
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: VARCHAR
+  - name: volume
+    type: BIGINT
+  - name: auction_date
+    type: DATE
+  - name: settlement
+    type: DATE
+  - name: auction_type
+    type: VARCHAR
+  - name: issue_type
+    type: VARCHAR
+  - name: lastupdated
+    type: DATE
+  - name: maturitydays
+    type: BIGINT
+  - name: biddeadline
+    type: TIME
+  - name: starttime
+    type: TIME

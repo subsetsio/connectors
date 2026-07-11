@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-ann-fx-spu`. Regenerate after model-verify.
+key: [time_period]
+temporal: time_period
+sort: [time_period]
+columns:
+  - name: instrument_type
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
+  - name: unit_mult
+    type: BIGINT
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: BIGINT
+  - name: valid_from
+    type: TIMESTAMP
+  - name: transaction_month
+    type: DATE
+  - name: transaction_type
+    type: VARCHAR

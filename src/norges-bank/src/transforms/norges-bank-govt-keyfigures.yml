@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-govt-keyfigures`. Regenerate after model-verify.
+key: [unit_measure, quarter, freq, instrument_type, decimals, unit_mult, time_period]
+temporal: time_period
+sort: [time_period, unit_measure, quarter, freq, instrument_type, decimals, unit_mult]
+columns:
+  - name: unit_measure
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: instrument_type
+    type: VARCHAR
+  - name: decimals
+    type: BIGINT
+  - name: unit_mult
+    type: BIGINT
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: DOUBLE

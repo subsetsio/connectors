@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `norges-bank-fauction`. Regenerate after model-verify.
+key: [instrument_type, unit_measure, auction_id, unit_mult, decimals, time_period, term_from, term_to, auction_type, announcement_date, fixed_interest_rate]
+temporal: time_period
+sort: [time_period, instrument_type, unit_measure, auction_id, unit_mult, decimals, term_from, term_to, auction_type, announcement_date, fixed_interest_rate]
+columns:
+  - name: instrument_type
+    type: VARCHAR
+  - name: unit_measure
+    type: VARCHAR
+  - name: auction_id
+    type: BIGINT
+  - name: unit_mult
+    type: BIGINT
+  - name: decimals
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: obs_value
+    type: VARCHAR
+  - name: term_from
+    type: VARCHAR
+  - name: term_to
+    type: VARCHAR
+  - name: auction_type
+    type: VARCHAR
+  - name: announcement_date
+    type: VARCHAR
+  - name: fixed_interest_rate
+    type: VARCHAR

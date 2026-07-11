@@ -4,9 +4,9 @@ tests:
   - not_null: TIME_PERIOD
     reason: every SDMX observation has a time period; nulls mean the CSV component columns were misaligned during parsing
     certainty: 95
-  - column_type: {col: TIME_PERIOD, type: string}
-    reason: raw is unparsed SDMX CSV; TIME_PERIOD kept as string because grain varies by dataflow (daily date, year, quarter, datetime)
-    certainty: 90
+  - freshness: {col: TIME_PERIOD, reaches: today - 120d}
+    reason: Norges Bank SDMX dataflows are maintained as current public data; the latest observation period should stay within a broad operational freshness window.
+    certainty: 80
   - row_count: {min: 123}
     reason: dataflow exposes ~123 series via the SDMX 'all' key, each with historical observations; far fewer rows means a truncated download
     certainty: 80

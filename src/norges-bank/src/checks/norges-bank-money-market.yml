@@ -1,0 +1,42 @@
+# compiled by `hardened compile-checks` — post-publish audit of `norges-bank-money-market`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [freq, mm_segment, counterpart_type, transaction_type, unit_measure, fx_currency, maturity, ref_rate_index, rate_type, coll_issuer_area, coll_sec_type, coll_isin, decimals, time_period]
+checks:
+  - kind: unique
+    columns: [freq, mm_segment, counterpart_type, transaction_type, unit_measure, fx_currency, maturity, ref_rate_index, rate_type, coll_issuer_area, coll_sec_type, coll_isin, decimals, time_period]
+  - kind: not_null
+    col: freq
+  - kind: not_null
+    col: mm_segment
+  - kind: not_null
+    col: counterpart_type
+  - kind: not_null
+    col: transaction_type
+  - kind: not_null
+    col: unit_measure
+  - kind: not_null
+    col: fx_currency
+  - kind: not_null
+    col: maturity
+  - kind: not_null
+    col: ref_rate_index
+  - kind: not_null
+    col: rate_type
+  - kind: not_null
+    col: coll_issuer_area
+  - kind: not_null
+    col: coll_sec_type
+  - kind: not_null
+    col: coll_isin
+  - kind: not_null
+    col: decimals
+  - kind: not_null
+    col: time_period
+  - kind: row_floor
+    min: 1503313
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
