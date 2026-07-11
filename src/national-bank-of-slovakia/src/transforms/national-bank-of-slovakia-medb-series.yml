@@ -1,0 +1,13 @@
+key: [timeseries_id]
+columns:
+  - {name: timeseries_id,  type: VARCHAR, description: "NBS MEDB time-series id (the source's own series identifier)"}
+  - {name: name_en,        type: VARCHAR, description: "Series name, English"}
+  - {name: name_sk,        type: VARCHAR, description: "Series name, Slovak"}
+  - {name: detail,         type: VARCHAR, description: "Series detail tag: [geo, freq, adjustment, unit], e.g. '[SK, r, sa, mil. Eur]'"}
+  - {name: source,         type: VARCHAR, description: "Data source/authority for the series"}
+  - {name: subarea_id,     type: VARCHAR, description: "MEDB sub-area id the series belongs to"}
+  - {name: subarea_en,     type: VARCHAR, description: "MEDB sub-area name, English"}
+  - {name: area_id,        type: VARCHAR, description: "MEDB area id"}
+  - {name: area_en,        type: VARCHAR, description: "MEDB area name, English"}
+  - {name: macrosector_id, type: VARCHAR, description: "MEDB macro-sector id"}
+  - {name: macrosector_en, type: VARCHAR, description: "MEDB macro-sector name, English (GDP, LABOUR MARKET, PRICES, ...)"}

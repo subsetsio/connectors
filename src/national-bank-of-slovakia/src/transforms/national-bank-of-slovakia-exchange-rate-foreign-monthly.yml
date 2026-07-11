@@ -1,0 +1,10 @@
+key: [valid_from, country, currency_code]
+temporal: valid_from
+sort: [valid_from, currency_code]
+columns:
+  - {name: valid_from,    type: DATE,    description: "Month the rate is valid from (month start)"}
+  - {name: month_number,  type: INTEGER, description: "Calendar month number (1-12)"}
+  - {name: country,       type: VARCHAR, description: "Country name, English"}
+  - {name: currency_code, type: VARCHAR, description: "ISO currency code"}
+  - {name: currency_name, type: VARCHAR, description: "Currency name, English"}
+  - {name: value,         type: DOUBLE,  description: "Units of the foreign currency per 1 EUR (NBS selected-currency reference rate)"}

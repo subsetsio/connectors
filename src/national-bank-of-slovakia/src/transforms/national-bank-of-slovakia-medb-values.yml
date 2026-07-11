@@ -1,0 +1,13 @@
+key: []
+temporal: date
+sort: [date, series_key]
+columns:
+  - {name: frequency,    type: VARCHAR, description: "Observation frequency: M (monthly), Q (quarterly), A (annual)"}
+  - {name: series_key,   type: VARCHAR, description: "Synthetic series key: frequency|variable|detail. NOT unique per real series (same variable+detail can recur across sub-areas), so this table is keyless"}
+  - {name: classcode,    type: VARCHAR, description: "Short class/mnemonic code from the MEDB workbook"}
+  - {name: variable,     type: VARCHAR, description: "Series name, English"}
+  - {name: detail,       type: VARCHAR, description: "Series detail tag: [geo, freq, adjustment, unit]"}
+  - {name: source,       type: VARCHAR, description: "Data source/authority for the series"}
+  - {name: period_label, type: VARCHAR, description: "Original period label from the workbook (e.g. '1Q93', '2008-01', '1993')"}
+  - {name: date,         type: DATE,    description: "Period start date (month/quarter/year start). Includes forecast periods out to ~2030"}
+  - {name: value,        type: DOUBLE,  description: "Observed (or forecast) value in the unit given by `detail`"}
