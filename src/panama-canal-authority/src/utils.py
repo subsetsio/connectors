@@ -12,6 +12,7 @@ Both node fetches share the catalog crawl + the per-station filtering here.
 """
 
 import io
+import json
 import math
 import re
 import urllib.parse
@@ -48,6 +49,25 @@ def _post(path: str, data: dict):
     return r
 
 
+def _json_response(r: httpx.Response, endpoint: str):
+    """Parse portal JSON, retrying the occasional empty/HTML 200 response."""
+    if not r.content.strip():
+        raise httpx.RemoteProtocolError(f"empty JSON response from {endpoint}")
+    try:
+        return r.json()
+    except json.JSONDecodeError as e:
+        ctype = r.headers.get("content-type", "?")
+        preview = r.text[:120].replace("\n", " ")
+        raise httpx.RemoteProtocolError(
+            f"invalid JSON response from {endpoint} (ct={ctype}, body={preview!r})"
+        ) from e
+
+
+@transient_retry()
+def _post_json(path: str, data: dict, endpoint: str):
+    return _json_response(_post(path, data), endpoint)
+
+
 @transient_retry()
 def _export_payload(series_id: str) -> bytes:
     """Fetch one series' export ZIP and return the inner CSV bytes.
@@ -79,10 +99,12 @@ def watershed_of(location_folder: str | None) -> str:
 
 def fetch_locations() -> dict:
     """Map LocationIdentifier -> station record (with coords, type, watershed)."""
-    data = _post(
+    payload = _post_json(
         "/Data/Data_List",
         {"sort": "", "page": 1, "pageSize": 5000, "group": "", "filter": ""},
-    ).json()["Data"]
+        "/Data/Data_List",
+    )
+    data = payload["Data"]
     return {l["LocationIdentifier"]: l for l in data if l.get("LocationIdentifier")}
 
 
@@ -106,7 +128,11 @@ def fetch_series() -> list[dict]:
 
     def _datasets(loc_ident: str, rec: dict) -> list[dict]:
         out = []
-        raw = _post("/Data/Datasets", {"locationId": rec["LocationId"]}).json()
+        raw = _post_json(
+            "/Data/Datasets",
+            {"locationId": rec["LocationId"]},
+            f"/Data/Datasets locationId={rec['LocationId']}",
+        )
         for s in raw:
             wv = s.get("WidgetVariables") or {}
             ident = wv.get("Identifier") or s.get("DisplayText")
