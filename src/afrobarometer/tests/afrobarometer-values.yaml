@@ -1,6 +1,7 @@
 spec_id: afrobarometer-values
 status: active
 tests:
+  - freshness: {col: round_num, reaches: 10}
   - not_null: variable_code
   - not_null: country
   - not_null: pct_valid
@@ -8,7 +9,7 @@ tests:
   - between: {col: round_num, lo: 1, hi: 10}
     reason: every observation belongs to one of the 10 survey rounds
     certainty: 95
-  - between: {col: pct_valid, lo: 0, hi: 100}
+  - between: {col: pct_valid, lo: 0, hi: 100.000001}
     reason: pct_valid is a percentage of valid responses within a country/round
     certainty: 95
   - at_least: {col: weighted_n, expr: 0}

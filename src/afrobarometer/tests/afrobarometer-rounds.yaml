@@ -1,6 +1,7 @@
 spec_id: afrobarometer-rounds
 status: active
 tests:
+  - freshness: {col: end_year, reaches: 2025}
   - not_null: round_num
   - unique: round_num
     reason: one row per published Afrobarometer survey round

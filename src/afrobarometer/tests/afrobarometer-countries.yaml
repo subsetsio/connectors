@@ -11,7 +11,8 @@ tests:
     certainty: 95
   - between: {col: latest_round_num, lo: 1, hi: 10}
     certainty: 95
-  - between: {col: n_rounds, lo: 1, hi: 10}
+  - between: {col: n_rounds, lo: 0, hi: 10}
+    reason: the ODA config includes region rows that currently have no surveyed rounds
     certainty: 95
   - row_count: {min: 50, max: 70}
     reason: Afrobarometer's ODA config lists roughly 55 surveyed countries

@@ -1,6 +1,7 @@
 spec_id: afrobarometer-questions
 status: active
 tests:
+  - freshness: {col: latest_round_num, reaches: 10}
   - not_null: variable_code
   - unique: variable_code
     reason: one row per distinct ODA variable code; dupes mean the round-union dedup broke
