@@ -1,0 +1,26 @@
+spec_id: realtime-inequality-online-database-popul-deflator
+status: active
+tests:
+  - not_null: year
+  - not_null: month
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - column_type: {col: pop_adults, type: float}
+  - column_type: {col: pop_households, type: float}
+  - column_type: {col: pop_working_age, type: float}
+  - column_type: {col: deflator, type: float}
+  - between: {col: year, lo: 1976, hi: current_year()}
+    reason: population and deflator reference table shares the source's 1976-present monthly horizon.
+    certainty: 95
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - row_count: {min: 500}
+    reason: monthly 1976-present reference table should contain about 600 rows.
+    certainty: 95
+  - unique: [year, month]
+    reason: reference table has one row per month.
+    certainty: 99
+  - freshness: {col: year, reaches: current_year()}
+    reason: the reference table is refreshed with the current-year nowcast horizon.
+    certainty: 85
+    points_outward: true

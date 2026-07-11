@@ -1,0 +1,19 @@
+spec_id: realtor-core-state
+status: active
+tests:
+  - not_null: month_date_yyyymm
+  - not_null: state_id
+  - column_type: {col: month_date_yyyymm, type: integer}
+  - unique: [month_date_yyyymm, state_id]
+    reason: state file has one observation per state per month
+    certainty: 95
+  - row_count: {min: 5000}
+    reason: roughly 50 state-level geographies across monthly history should produce thousands of rows
+    certainty: 90
+  - distinct_count: {col: state_id, min: 45}
+    reason: state geography should cover nearly all US states and equivalents
+    certainty: 90
+  - freshness: {col: month_date_yyyymm, reaches: 202605}
+    reason: monthly Realtor.com data should include at least May 2026 in current full-history files
+    certainty: 90
+    points_outward: true

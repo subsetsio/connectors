@@ -1,0 +1,35 @@
+spec_id: realtime-inequality-wealth-projection
+status: active
+tests:
+  - not_null: year
+  - not_null: month
+  - not_null: date
+  - not_null: group
+  - not_null: unit
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - column_type: {col: wealth, type: float}
+  - column_type: {col: housing, type: float}
+  - column_type: {col: equity, type: float}
+  - column_type: {col: other, type: float}
+  - between: {col: year, lo: 2020, hi: current_year()}
+    reason: wealth projection is a latest nowcast snapshot, not the full historical series.
+    certainty: 90
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - row_count: {min: 40}
+    reason: projection snapshot should include rank groups across several population units.
+    certainty: 90
+  - distinct_count: {col: group, min: 15}
+    reason: wealth projection uses the same detailed wealth-rank groups as the main table.
+    certainty: 90
+  - distinct_count: {col: unit, min: 3}
+    reason: projection snapshot is published for multiple population units.
+    certainty: 90
+  - unique: [year, month, group, unit]
+    reason: snapshot has one wealth decomposition row per rank group and unit for the nowcast month.
+    certainty: 95
+  - freshness: {col: year, reaches: current_year()}
+    reason: projection endpoint is a current nowcast snapshot and should stay in the current year.
+    certainty: 90
+    points_outward: true

@@ -1,0 +1,35 @@
+spec_id: realtime-inequality-online-database-labor
+status: active
+tests:
+  - not_null: year
+  - not_null: month
+  - not_null: group
+  - not_null: unit
+  - not_null: demo_type
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - column_type: {col: labor_income, type: float}
+  - between: {col: year, lo: 1976, hi: current_year()}
+    reason: labor distribution series share the source's 1976-present monthly horizon.
+    certainty: 95
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - row_count: {min: 9000}
+    reason: labor table has roughly 11k rows; a much smaller pull indicates truncation.
+    certainty: 95
+  - enum: {col: demo_type, values: [overall]}
+    reason: this labor endpoint is the overall labor-rank table, not the race/gender demographic endpoint.
+    certainty: 95
+  - distinct_count: {col: group, min: 9}
+    reason: source publishes quartiles, top groups, and Total for labor income.
+    certainty: 90
+  - distinct_count: {col: unit, min: 2}
+    reason: source publishes working-age equal-split and individual labor units.
+    certainty: 95
+  - unique: [year, month, group, unit, demo_type]
+    reason: the source table is one monthly observation per labor-rank group, unit, and demo type.
+    certainty: 95
+  - freshness: {col: year, reaches: current_year()}
+    reason: the online labor database is refreshed with the current-year nowcast horizon.
+    certainty: 85
+    points_outward: true

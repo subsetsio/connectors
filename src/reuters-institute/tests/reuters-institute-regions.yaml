@@ -1,0 +1,20 @@
+spec_id: reuters-institute-regions
+status: active
+tests:
+  - not_null: region_id
+    reason: the reference JSON is keyed by region code
+    certainty: 98
+  - not_null: name
+    reason: every region has a display name in the reference JSON
+    certainty: 95
+  - not_null: alpha3
+    reason: every region includes a three-letter display code in the reference JSON
+    certainty: 90
+  - unique: region_id
+    reason: the reference JSON is keyed by region code
+    certainty: 98
+  - row_count: {min: 5, max: 8}
+    reason: the 2026 interactive lists five reporting regions
+    certainty: 85
+  - column_type: {col: region_id, type: string}
+    certainty: 95

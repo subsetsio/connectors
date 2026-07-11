@@ -1,0 +1,18 @@
+spec_id: realtor-core-country
+status: active
+tests:
+  - not_null: month_date_yyyymm
+  - column_type: {col: month_date_yyyymm, type: integer}
+  - unique: month_date_yyyymm
+    reason: country file has one national observation per month
+    certainty: 95
+  - row_count: {min: 100}
+    reason: monthly history starts in 2016-07, so a healthy pull has well over 100 rows by 2026
+    certainty: 95
+  - between: {col: month_date_yyyymm, lo: 201607, hi: 210001}
+    reason: Realtor.com history begins at 2016-07 and future-dated months would indicate a parse issue
+    certainty: 95
+  - freshness: {col: month_date_yyyymm, reaches: 202605}
+    reason: monthly Realtor.com data should include at least May 2026 in current full-history files
+    certainty: 90
+    points_outward: true

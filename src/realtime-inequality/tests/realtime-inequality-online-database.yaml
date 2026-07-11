@@ -1,0 +1,31 @@
+spec_id: realtime-inequality-online-database
+status: active
+tests:
+  - not_null: year
+  - not_null: month
+  - not_null: group
+  - not_null: unit
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - column_type: {col: pop, type: float}
+  - between: {col: year, lo: 1976, hi: current_year()}
+    reason: Realtime Inequality historical monthly distributional series start in 1976 and should not extend beyond the current year.
+    certainty: 95
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - row_count: {min: 25000}
+    reason: core income and wealth table has roughly 29k rows; a much smaller pull means the static JSON was truncated or the wrong file was fetched.
+    certainty: 95
+  - distinct_count: {col: group, min: 15}
+    reason: rank groups span Bottom 50%, multiple top slices, and Total.
+    certainty: 95
+  - distinct_count: {col: unit, min: 3}
+    reason: source publishes adult equal-split, adult household, and working-age equal-split units.
+    certainty: 95
+  - unique: [year, month, group, unit]
+    reason: the source table is one monthly observation per rank group and population unit.
+    certainty: 95
+  - freshness: {col: year, reaches: current_year()}
+    reason: the online database is refreshed quarterly and should include the current-year nowcast horizon.
+    certainty: 85
+    points_outward: true

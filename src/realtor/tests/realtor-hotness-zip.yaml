@@ -1,0 +1,19 @@
+spec_id: realtor-hotness-zip
+status: active
+tests:
+  - not_null: month_date_yyyymm
+  - not_null: postal_code
+  - column_type: {col: month_date_yyyymm, type: integer}
+  - unique: [month_date_yyyymm, postal_code]
+    reason: zip hotness file has one observation per ZIP code per month
+    certainty: 95
+  - row_count: {min: 1000000}
+    reason: ZIP-level hotness history should produce more than one million rows
+    certainty: 90
+  - distinct_count: {col: postal_code, min: 10000}
+    reason: ZIP hotness coverage should include many thousands of postal codes
+    certainty: 85
+  - freshness: {col: month_date_yyyymm, reaches: 202605}
+    reason: monthly Realtor.com hotness data should include at least May 2026 in current full-history files
+    certainty: 90
+    points_outward: true

@@ -1,0 +1,19 @@
+spec_id: realtor-core-county
+status: active
+tests:
+  - not_null: month_date_yyyymm
+  - not_null: county_fips
+  - column_type: {col: month_date_yyyymm, type: integer}
+  - unique: [month_date_yyyymm, county_fips]
+    reason: county file has one observation per county per month
+    certainty: 95
+  - row_count: {min: 200000}
+    reason: thousands of counties across monthly history should produce hundreds of thousands of rows
+    certainty: 90
+  - distinct_count: {col: county_fips, min: 2500}
+    reason: county coverage should include most US counties
+    certainty: 85
+  - freshness: {col: month_date_yyyymm, reaches: 202605}
+    reason: monthly Realtor.com data should include at least May 2026 in current full-history files
+    certainty: 90
+    points_outward: true

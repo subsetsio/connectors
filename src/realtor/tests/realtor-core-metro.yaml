@@ -1,0 +1,19 @@
+spec_id: realtor-core-metro
+status: active
+tests:
+  - not_null: month_date_yyyymm
+  - not_null: cbsa_code
+  - column_type: {col: month_date_yyyymm, type: integer}
+  - unique: [month_date_yyyymm, cbsa_code]
+    reason: metro file has one observation per CBSA per month
+    certainty: 95
+  - row_count: {min: 25000}
+    reason: hundreds of metros across monthly history should produce tens of thousands of rows
+    certainty: 90
+  - distinct_count: {col: cbsa_code, min: 250}
+    reason: Realtor.com metro coverage spans several hundred CBSAs
+    certainty: 85
+  - freshness: {col: month_date_yyyymm, reaches: 202605}
+    reason: monthly Realtor.com data should include at least May 2026 in current full-history files
+    certainty: 90
+    points_outward: true

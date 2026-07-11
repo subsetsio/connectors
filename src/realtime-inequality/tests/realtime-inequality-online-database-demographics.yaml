@@ -1,0 +1,35 @@
+spec_id: realtime-inequality-online-database-demographics
+status: active
+tests:
+  - not_null: year
+  - not_null: month
+  - not_null: demo_type
+  - not_null: group
+  - not_null: unit
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - column_type: {col: population, type: float}
+  - between: {col: year, lo: 1976, hi: current_year()}
+    reason: demographic distribution series share the source's 1976-present monthly horizon.
+    certainty: 95
+  - between: {col: month, lo: 1, hi: 12}
+    certainty: 99
+  - row_count: {min: 10000}
+    reason: demographic table has roughly 11k rows; a much smaller pull indicates truncation.
+    certainty: 95
+  - enum: {col: demo_type, values: [gender, race, race_gender]}
+    reason: source publishes these three demographic breakdown families.
+    certainty: 95
+  - distinct_count: {col: group, min: 10}
+    reason: demographic groups include gender, race, and race-by-gender groups.
+    certainty: 90
+  - distinct_count: {col: unit, min: 4}
+    reason: demographic endpoint includes adult equal-split, adult household, working-age equal-split, and working-age individual units.
+    certainty: 90
+  - unique: [year, month, demo_type, group, unit]
+    reason: the source table is one monthly observation per demographic type, group, and unit.
+    certainty: 90
+  - freshness: {col: year, reaches: current_year()}
+    reason: the demographic online database is refreshed with the current-year nowcast horizon.
+    certainty: 85
+    points_outward: true

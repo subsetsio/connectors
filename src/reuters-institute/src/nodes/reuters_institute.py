@@ -182,6 +182,30 @@ def fetch_demographics(node_id: str) -> None:
     save_raw_parquet(pa.Table.from_pylist(rows, schema=DEMOGRAPHICS_SCHEMA), node_id)
 
 
+REGIONS_SCHEMA = pa.schema(
+    [
+        ("region_id", pa.string()),
+        ("name", pa.string()),
+        ("alpha3", pa.string()),
+        ("markets_json", pa.string()),
+    ]
+)
+
+
+def fetch_regions(node_id: str) -> None:
+    ref = _reference()
+    rows = [
+        {
+            "region_id": region_id,
+            "name": region.get("name"),
+            "alpha3": region.get("alpha3"),
+            "markets_json": _json_or_none(region.get("markets")),
+        }
+        for region_id, region in sorted((ref.get("regions") or {}).items())
+    ]
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=REGIONS_SCHEMA), node_id)
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(
         id="reuters-institute-demographics",
@@ -196,6 +220,11 @@ DOWNLOAD_SPECS = [
     NodeSpec(
         id="reuters-institute-questions",
         fn=fetch_questions,
+        kind="download",
+    ),
+    NodeSpec(
+        id="reuters-institute-regions",
+        fn=fetch_regions,
         kind="download",
     ),
     NodeSpec(
