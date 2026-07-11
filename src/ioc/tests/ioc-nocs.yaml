@@ -8,7 +8,12 @@ tests:
     reason: the Olympic edition alone has more than 100 NOC biography files.
     certainty: 90
   - not_null: noc_code
+    reason: most archived NOC biography bodies expose an organisation id; a missing value usually means the CDX URL was preserved after an archived-body fetch failure.
+    certainty: 80
+    severity: warn
   - not_null: edition
-  - unique: [edition, noc_code]
-    reason: one NOC biography row per Games edition and NOC code.
+  - not_null: source_url
+  - not_null: archive_timestamp
+  - unique: [source_url, archive_timestamp, edition, games]
+    reason: one preserved archived NOC biography URL capture per Games edition.
     certainty: 90
