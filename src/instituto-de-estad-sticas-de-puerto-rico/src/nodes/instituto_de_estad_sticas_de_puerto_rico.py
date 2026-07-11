@@ -31,8 +31,11 @@ import io
 import json
 import os
 import re
+import struct
+import sys
 import tempfile
 import zipfile
+import xml.etree.ElementTree as ET
 
 import certifi
 import pyarrow as pa
@@ -87,8 +90,11 @@ zP3pGJ9FCbMHmMLLyuBd+uCWvVcF2ogYAawufChS/PT61D9rqzPRS5I2uqa3tmIT
 # in-memory transform, not I/O.
 SLUG_TO_PKG = {f"{SLUG}-{e.lower().replace('_', '-')}": e for e in ENTITY_IDS}
 
-# Formats we extract tabular rows from. PDF/KML/shapefile are skipped.
-_TABULAR_FORMATS = {"CSV", "TXT", "TSV", "XLSX", "XLS", "JSON", "ZIP"}
+# Formats we extract tabular rows from. PDF and other document-only files are
+# skipped; KML and shapefile DBFs are reduced to their attribute tables.
+csv.field_size_limit(sys.maxsize)
+
+_TABULAR_FORMATS = {"CSV", "TXT", "TSV", "XLSX", "XLS", "JSON", "ZIP", "KML"}
 _CSV_LIKE = {"CSV", "TXT", "TSV"}
 _EXCEL_LIKE = {"XLSX", "XLS"}
 
@@ -327,6 +333,113 @@ def _json_table(content: bytes, source_resource: str, source_file: str):
     return Table(san, source_resource, source_file, rows())
 
 
+def _kml_table(content: bytes, source_resource: str, source_file: str):
+    try:
+        root = ET.fromstring(content)
+    except Exception as e:  # noqa: BLE001
+        print(f"[{source_resource}] kml parse failed: {e}")
+        return None
+
+    records = []
+    cols = ["name", "description", "coordinates"]
+    seen = set(cols)
+    for placemark in root.iter():
+        if _local_name(placemark.tag) != "Placemark":
+            continue
+        rec = {
+            "name": None,
+            "description": None,
+            "coordinates": None,
+        }
+        for child in placemark.iter():
+            lname = _local_name(child.tag)
+            if lname in {"name", "description", "coordinates"} and rec.get(lname) is None:
+                rec[lname] = (child.text or "").strip() or None
+            elif lname == "Data":
+                key = child.attrib.get("name")
+                val = None
+                for grand in child:
+                    if _local_name(grand.tag) == "value":
+                        val = (grand.text or "").strip() or None
+                        break
+                if key:
+                    key = str(key)
+                    rec[key] = val
+                    if key not in seen:
+                        seen.add(key)
+                        cols.append(key)
+            elif lname == "SimpleData":
+                key = child.attrib.get("name")
+                if key:
+                    key = str(key)
+                    rec[key] = (child.text or "").strip() or None
+                    if key not in seen:
+                        seen.add(key)
+                        cols.append(key)
+        if any(_norm_null(v) is not None for v in rec.values()):
+            records.append(rec)
+
+    if not records:
+        return None
+    san = _sanitize_cols(cols)
+    mapping = dict(zip(cols, san))
+
+    def rows():
+        for rec in records:
+            yield {mapping[c]: rec.get(c) for c in cols}
+
+    return Table(san, source_resource, source_file, rows())
+
+
+def _local_name(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1] if "}" in tag else tag
+
+
+def _dbf_table(content: bytes, source_resource: str, source_file: str):
+    if len(content) < 33:
+        return None
+    try:
+        record_count = struct.unpack_from("<I", content, 4)[0]
+        header_len = struct.unpack_from("<H", content, 8)[0]
+        record_len = struct.unpack_from("<H", content, 10)[0]
+    except struct.error:
+        return None
+    if header_len <= 32 or record_len <= 1 or len(content) < header_len:
+        return None
+
+    fields = []
+    pos = 32
+    while pos + 32 <= header_len and content[pos] != 0x0D:
+        desc = content[pos:pos + 32]
+        raw_name = desc[:11].split(b"\x00", 1)[0]
+        name = _decode(raw_name).strip() or f"field_{len(fields)}"
+        length = desc[16]
+        fields.append((name, length))
+        pos += 32
+    if not fields:
+        return None
+
+    cols = _sanitize_cols([name for name, _ in fields])
+
+    def rows():
+        start = header_len
+        max_records = min(record_count, max(0, (len(content) - start) // record_len))
+        for idx in range(max_records):
+            rec = content[start + idx * record_len:start + (idx + 1) * record_len]
+            if not rec or rec[0:1] == b"*":
+                continue
+            offset = 1
+            out = {}
+            for col, (_, length) in zip(cols, fields):
+                raw = rec[offset:offset + length]
+                offset += length
+                out[col] = _decode(raw).strip() or None
+            if any(_norm_null(v) is not None for v in out.values()):
+                yield out
+
+    return Table(cols, source_resource, source_file, rows())
+
+
 def _scalar(v):
     if v is None or isinstance(v, str):
         return v
@@ -360,6 +473,14 @@ def _zip_tables(content: bytes, source_resource: str):
             tables.extend(_excel_tables(member, source_resource, ext))
         elif ext == "JSON":
             t = _json_table(member, source_resource, name)
+            if t:
+                tables.append(t)
+        elif ext == "KML":
+            t = _kml_table(member, source_resource, name)
+            if t:
+                tables.append(t)
+        elif ext == "DBF":
+            t = _dbf_table(member, source_resource, name)
             if t:
                 tables.append(t)
         # PDF/shapefile/other members ignored
@@ -422,6 +543,10 @@ def _expand_resource(res):
     fmt = (res.get("format") or "").upper()
     url = res.get("url")
     rname = res.get("name") or res.get("id") or "resource"
+    if url:
+        ext = url.rsplit("?", 1)[0].rsplit(".", 1)[-1].upper() if "." in url else ""
+        if fmt not in _TABULAR_FORMATS and ext in _TABULAR_FORMATS:
+            fmt = ext
     if not url or fmt not in _TABULAR_FORMATS:
         return []
     size = res.get("size") or 0
@@ -448,6 +573,9 @@ def _expand_resource(res):
         return [t] if t else []
     if fmt == "ZIP":
         return _zip_tables(content, rname)
+    if fmt == "KML":
+        t = _kml_table(content, rname, url.rsplit("/", 1)[-1])
+        return [t] if t else []
     return []
 
 
