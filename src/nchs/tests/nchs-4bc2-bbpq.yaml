@@ -1,5 +1,10 @@
 spec_id: nchs-4bc2-bbpq
-status: deferred  # catalog connector: per-dataset Socrata schema is
-                  # unknown until first pull; assertions (incl. freshness
-                  # for temporal tables) are authored at the model stage
-                  # once model-verify profiles the real raw.
+status: active
+tests:
+- freshness:
+    col: week_end
+    reaches: today - 30d
+  reason: NCHS provisional respiratory-death table is updated weekly; a max week-end date older than 30 days indicates a stale Socrata pull.
+  points_outward: true
+  severity: warn
+  certainty: 75

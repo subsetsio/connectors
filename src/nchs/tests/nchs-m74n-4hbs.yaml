@@ -1,5 +1,5 @@
 spec_id: nchs-m74n-4hbs
-status: deferred  # catalog connector: per-dataset Socrata schema is
-                  # unknown until first pull; assertions (incl. freshness
-                  # for temporal tables) are authored at the model stage
-                  # once model-verify profiles the real raw.
+status: deferred
+coverage:
+  frozen: true
+  reason: NCHS publishes this Socrata dataset as a finite historical or provisional release with no ongoing freshness cadence for this table.

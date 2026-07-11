@@ -1,5 +1,10 @@
 spec_id: nchs-53g5-jf7x
-status: deferred  # catalog connector: per-dataset Socrata schema is
-                  # unknown until first pull; assertions (incl. freshness
-                  # for temporal tables) are authored at the model stage
-                  # once model-verify profiles the real raw.
+status: active
+tests:
+- freshness:
+    col: data_as_of
+    reaches: today - 14d
+  reason: NCHS provisional mortality table carries a current data_as_of stamp; older than two weeks indicates a stale Socrata pull.
+  points_outward: true
+  severity: warn
+  certainty: 75

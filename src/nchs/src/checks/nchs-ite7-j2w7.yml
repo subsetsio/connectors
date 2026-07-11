@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nchs-ite7-j2w7`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [fips_code, county, week_ending_date, state, urban_rural_code]
+temporal: data_as_of
+checks:
+  - kind: unique
+    columns: [fips_code, county, week_ending_date, state, urban_rural_code]
+  - kind: not_null
+    col: fips_code
+  - kind: not_null
+    col: county
+  - kind: not_null
+    col: week_ending_date
+  - kind: not_null
+    col: state
+  - kind: not_null
+    col: urban_rural_code
+  - kind: row_floor
+    min: 267070
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

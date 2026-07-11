@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nchs-e2d5-ggg7`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [month_ending_date, subgroup, group, footnote]
+temporal: data_as_of
+checks:
+  - kind: unique
+    columns: [month_ending_date, subgroup, group, footnote]
+  - kind: not_null
+    col: month_ending_date
+  - kind: not_null
+    col: subgroup
+  - kind: not_null
+    col: group
+  - kind: not_null
+    col: footnote
+  - kind: row_floor
+    min: 420
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

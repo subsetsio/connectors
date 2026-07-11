@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nchs-8hzs-zshh`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [month_ending_date, death_month, drug_involved, jurisdiction_occurrence, death_year]
+temporal: data_as_of
+checks:
+  - kind: unique
+    columns: [month_ending_date, death_month, drug_involved, jurisdiction_occurrence, death_year]
+  - kind: not_null
+    col: month_ending_date
+  - kind: not_null
+    col: death_month
+  - kind: not_null
+    col: drug_involved
+  - kind: not_null
+    col: jurisdiction_occurrence
+  - kind: not_null
+    col: death_year
+  - kind: row_floor
+    min: 4752
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
