@@ -1,5 +1,8 @@
 spec_id: nso-mongolia-dt-nso-0100-01t013
 status: active
+coverage:
+  frozen: true
+  reason: NSO Mongolia publishes this PxWeb table as a closed historical/static series; the latest observed period is older than the live-cadence floor, so recency is not expected to advance. Latest observed Year is 1992.
 tests:
   - not_null: value
     reason: every kept PxWeb cell carries a numeric measure; null cells are dropped at fetch, so value is never null
@@ -8,8 +11,3 @@ tests:
       min: 1
     reason: an accepted NSO table publishes at least one non-null observation; 0 rows means all-null upstream or a broken json-stat parse
     certainty: 80
-  - freshness:
-      col: "Year"
-      reaches: 2020
-    reason: NSO Mongolia statistical tables are refreshed on mixed annual, quarterly, and monthly cadences; requiring the temporal axis to reach 2020 catches stale or truncated pulls without failing slower historical series.
-    certainty: 70
