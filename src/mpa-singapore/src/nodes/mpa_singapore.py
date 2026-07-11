@@ -3,26 +3,38 @@
 Source: data.gov.sg. MPA publishes ~22 monthly/annual maritime time-series
 datasets (container/cargo throughput, bunker sales, vessel & tanker arrivals,
 vessel calls, registered vessels). Each dataset is one CSV with a stable but
-dataset-specific column list.
+dataset-specific column list: a single time column (`month` = YYYY-MM, or
+`year` = YYYY), zero or more string dimension columns (bunker_type, category,
+vessel_type, purpose_type, cargo_type_primary/secondary), and one or two
+numeric measures (throughput / tonnage / sales / vessel counts).
 
 Fetch strategy: stateless full re-pull (shape 1). Each dataset is a small CSV
-(hundreds-to-thousands of rows), so we re-fetch the whole table every run and
-overwrite — revisions and late corrections come for free. No watermark/cursor.
+(dozens-to-thousands of rows), so we re-fetch the whole table every run and
+overwrite — revisions and late corrections come for free. No watermark/cursor,
+no maintain policy (a whole-corpus refetch is a handful of cents).
 
 Access (chosen mechanism `datagov_bulk_csv`): GET
 .../datasets/{id}/poll-download returns {data:{status:"DOWNLOAD_SUCCESS",
 url:<presigned S3 csv>}}; the S3 URL delivers the entire table in one request.
-data.gov.sg rate-limits aggressively, returning HTTP 200 with
-{code:24,name:"TOO_MANY_REQUESTS"} rather than a 429 — that body is treated as
-transient and retried with backoff. The presigned URL is short-lived, so it is
-resolved immediately before each download and re-resolved if S3 returns 403.
+data.gov.sg rate-limits aggressively — it returns HTTP 429 AND, on the same
+endpoint, HTTP 200 carrying {code:24,name:"TOO_MANY_REQUESTS"}; both are
+treated as transient and retried with backoff. The presigned URL is
+short-lived, so it is resolved immediately before each download and re-resolved
+if S3 returns 403.
 
-No machine-readable schema is published; the time column is `month` (YYYY-MM)
-for monthly datasets and `year` (YYYY) for annual ones. The transform casts it
-to a real date / integer and leaves the (already typed) measure columns intact.
+Normalization (in the fetch fn, so the raw is clean and SQL-ready): the time
+column is converted to a real `date` (date32) at the PERIOD END — last day of
+the month for monthly datasets, 31 Dec for annual ones. Period-end dating keeps
+freshness assertions robust: an annual value for year Y lands on Y-12-31 rather
+than Y-01-01, so a `max(date) >= today - 400d` freshness check passes
+year-round instead of only in January. Numeric columns are coerced to float64;
+dimension columns are kept as strings. No machine-readable schema is published,
+so the shape is discovered per-CSV from its header.
 """
 
+import calendar
 import csv
+import datetime as dt
 import io
 
 import httpx
@@ -34,28 +46,17 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_parquet
+from subsets_utils import NodeSpec, get, save_raw_parquet
 
-# --- entity union (rank-active datasets) -----------------------------------
+# --- entity union (accept-active datasets) ---------------------------------
 from constants import ENTITY_IDS
 
-# Datasets whose time column is annual (`year`, YYYY); everything else is
-# monthly (`month`, YYYY-MM). Derived from the dataset titles on data.gov.sg.
-ANNUAL_IDS = {
-    "d_085682b824700b4e88d946529f503da0",  # Container Throughput, Annual
-    "d_0a76d48f3754aafd08f98629324a54c6",  # Bunker Sales Breakdown, Annual
-    "d_0c586210d33756a56ef6213078e749aa",  # Registered Vessels & Tonnage, Annual
-    "d_1714a141d8bbf1996965eb3f71565525",  # Tanker Arrivals Breakdown, Annual
-    "d_60410de1bc1e63ddcf51a619081b11b3",  # Vessel Calls (>75 GT), Annual
-    "d_8392e9bea6ca351a38f67172ccdf6a6a",  # Vessel Arrivals (>75 GT) Total, Annual
-    "d_8ab8d71a6bf44097889dd6a3b4258928",  # Cargo Throughput Total, Annual
-    "d_a30479ad55e045bcaffacf587d05966c",  # Cargo Throughput Breakdown, Annual
-    "d_b0c64c019b252698a9f1a222dcf9e0a6",  # Vessel Arrivals (>75 GT) Breakdown, Annual
-    "d_ccb330e6679674ffaa330dc76136e198",  # Bunker Sales Total, Annual
-    "d_eb1c7c0c9ee013f9be42cc8abf523326",  # Tanker Arrivals Total, Annual
-}
-
 _API = "https://api-open.data.gov.sg/v1/public/api/datasets/{did}"
+
+# The two time-column names data.gov.sg uses across MPA datasets. Exactly one
+# appears per CSV; it is converted to a period-end `date` column.
+_MONTH_COL = "month"
+_YEAR_COL = "year"
 
 
 # --- HTTP / retry ----------------------------------------------------------
@@ -126,35 +127,53 @@ def _fetch_csv_text(did: str) -> str:
 
 
 # --- parsing ---------------------------------------------------------------
-_TIME_COLS = {"month", "year"}
+def _period_end_date(name: str, value: str) -> dt.date | None:
+    """Convert a source time value to a period-END `date`.
+
+    `month` "YYYY-MM" -> last day of that month; `year` "YYYY" -> 31 Dec.
+    Period-end dating keeps annual values off 1 Jan so rolling freshness bounds
+    hold year-round. Empty/garbage -> None (a missing period).
+    """
+    v = (value or "").strip()
+    try:
+        if name == _MONTH_COL:
+            y, m = v.split("-")
+            y, m = int(y), int(m)
+            return dt.date(y, m, calendar.monthrange(y, m)[1])
+        # _YEAR_COL
+        return dt.date(int(v), 12, 31)
+    except (ValueError, TypeError):
+        return None
 
 
 def _parse_typed(text: str) -> pa.Table:
     """Parse CSV text into a typed pyarrow table.
 
-    Time columns (`month`/`year`) are kept as strings (the transform casts
-    them). Every other column is coerced to float64 when all of its non-empty
-    values parse as numbers, else kept as string. The schema is built
+    The single time column (`month`/`year`) becomes a period-end `date`
+    (date32). Every other column is coerced to float64 when all of its
+    non-empty values parse as numbers, else kept as string. The schema is built
     explicitly from the observed columns — one full-snapshot write per asset.
     """
     rows = list(csv.reader(io.StringIO(text)))
     if not rows:
         raise AssertionError("empty CSV (no header)")
-    header = rows[0]
+    header = [h.strip() for h in rows[0]]
     data = [r for r in rows[1:] if any(c.strip() for c in r)]
 
-    fields = []
-    arrays = []
+    fields: list[pa.Field] = []
+    arrays: list[pa.Array] = []
     for idx, name in enumerate(header):
         col = [r[idx] if idx < len(r) else "" for r in data]
-        if name.strip().lower() in _TIME_COLS:
-            fields.append(pa.field(name, pa.string()))
-            arrays.append(pa.array([v or None for v in col], type=pa.string()))
+        low = name.lower()
+        if low in (_MONTH_COL, _YEAR_COL):
+            dates = [_period_end_date(low, v) for v in col]
+            fields.append(pa.field("date", pa.date32()))
+            arrays.append(pa.array(dates, type=pa.date32()))
             continue
         numeric = True
-        nums = []
+        nums: list[float | None] = []
         for v in col:
-            if v == "" or v is None:
+            if v is None or v.strip() == "":
                 nums.append(None)
                 continue
             try:
@@ -168,6 +187,9 @@ def _parse_typed(text: str) -> pa.Table:
         else:
             fields.append(pa.field(name, pa.string()))
             arrays.append(pa.array([v or None for v in col], type=pa.string()))
+
+    if not any(f.name == "date" for f in fields):
+        raise AssertionError(f"no month/year time column in header: {header}")
     return pa.Table.from_arrays(arrays, schema=pa.schema(fields))
 
 
@@ -195,27 +217,5 @@ def _spec_id(eid: str) -> str:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(eid), fn=fetch_one, kind="download")
-    for eid in ENTITY_IDS
-]
-
-
-def _transform_sql(sid: str, annual: bool) -> str:
-    if annual:
-        return (
-            f'SELECT CAST(year AS BIGINT) AS year, * EXCLUDE (year) '
-            f'FROM "{sid}" WHERE year IS NOT NULL'
-        )
-    return (
-        f"SELECT CAST(strptime(month, '%Y-%m') AS DATE) AS date, "
-        f'* EXCLUDE (month) FROM "{sid}" WHERE month IS NOT NULL'
-    )
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{_spec_id(eid)}-transform",
-        deps=[_spec_id(eid)],
-        sql=_transform_sql(_spec_id(eid), eid in ANNUAL_IDS),
-    )
     for eid in ENTITY_IDS
 ]
