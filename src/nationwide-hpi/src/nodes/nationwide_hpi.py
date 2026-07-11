@@ -225,6 +225,29 @@ def _parse_by_label(rows, header_row, data_start, measure):
     return out
 
 
+def _parse_seasonal_regional(rows, header_row=2, data_start=3):
+    """Seasonal regional sheet: adjusted index block followed by QoQ change block."""
+    out = []
+    header = rows[header_row]
+    blocks = [
+        ("seasonally_adjusted_index", range(1, 15)),
+        ("quarter_on_quarter_change_seasonally_adjusted", range(15, 29)),
+    ]
+    cols = []
+    for measure, col_range in blocks:
+        for c in col_range:
+            if c < len(header) and header[c] not in (None, ""):
+                cols.append((c, _clean(header[c]), measure))
+    for row in rows[data_start:]:
+        date, label = _parse_period(row[0])
+        if date is None:
+            continue
+        for c, category, measure in cols:
+            if c < len(row):
+                _emit(out, date, label, category, measure, row[c])
+    return out
+
+
 def _parse_since1952(rows, block_row=3, data_start=6):
     """Multi-block historical series: each property-class block has Index/Price/Annual Change."""
     out = []
@@ -272,9 +295,7 @@ def _parse(slug: str, content: bytes) -> list[dict]:
     if slug == "annual-percentage-change-in-regional-house-prices":
         return _parse_regional_pct(_rows(content))
     if slug == "seasonal-regional":
-        return _parse_by_label(
-            _rows(content), header_row=2, data_start=3, measure="seasonally_adjusted_index"
-        )
+        return _parse_seasonal_regional(_rows(content))
     if slug == "all-buyers-hper-by-region":
         return _parse_by_label(_rows(content), header_row=4, data_start=5, measure="hper")
     if slug == "ftb-hper-by-region":

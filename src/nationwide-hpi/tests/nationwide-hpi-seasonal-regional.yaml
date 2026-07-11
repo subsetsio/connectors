@@ -18,6 +18,9 @@ tests:
   - unique: [date, category, measure]
     reason: grain is one value per (period, breakdown, measure); a dup means a region/measure column was double-counted or an overwrite was skipped
     certainty: 85
+  - enum: {col: measure, values: [seasonally_adjusted_index, quarter_on_quarter_change_seasonally_adjusted]}
+    reason: this sheet has two side-by-side regional blocks, one for adjusted index and one for quarter-on-quarter adjusted change
+    certainty: 90
   - distinct_count: {col: category, min: 2}
     reason: this file breaks the series across regions/occupations/property-classes; a single category means the breakdown header was not parsed
     certainty: 85
