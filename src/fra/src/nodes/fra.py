@@ -5,12 +5,11 @@ Source: USDOT Socrata portal ``data.transportation.gov`` (attribution
 with its own column schema — a catalog connector, one generic fetch fn over the
 entity union in ``constants.ENTITY_IDS``.
 
-Strategy: stateless full re-pull each run. The whole table is exported in a
-single request from the Socrata resource CSV endpoint
-``/resource/{id}.csv?$limit=<huge>&$order=:id`` and streamed straight to raw
-parquet — no pagination, no watermark. Socrata ``:id`` tokens are opaque and
-unordered so they are unusable as a watermark; the full-corpus re-pull is cheap
-enough (largest tables ~5M rows) and picks up source revisions for free.
+Strategy: stateless full re-pull each run. Each table is read from the Socrata
+resource CSV endpoint in bounded ``$limit``/``$offset`` pages ordered by
+``:id`` and streamed straight to raw parquet. Socrata ``:id`` tokens are opaque
+and unordered so they are unusable as a watermark; the full-corpus re-pull is
+cheap enough and picks up source revisions for free.
 
 Raw format: parquet with an all-``string`` schema derived from the CSV header.
 The datasets are wide (up to ~265 columns), code-heavy, and Socrata serves every
@@ -28,51 +27,26 @@ curation.
 
 import csv
 import io
+import sys
 
 import pyarrow as pa
 
 from subsets_utils import (
     MaintainSpec,
     NodeSpec,
-    get_client,
+    get,
     raw_asset_exists,
     raw_parquet_writer,
-    transient_retry,
 )
 from constants import ENTITY_IDS
 
 BASE_URL = "https://data.transportation.gov/resource/{view}.csv"
-# Safe ceiling above the largest table (~5M rows) so a single request returns the
-# whole corpus. `$order=:id` gives Socrata a stable full scan.
-FULL_LIMIT = 20_000_000
-HTTP_CHUNK = 1 << 16   # 64 KiB network read chunk
-BATCH_ROWS = 50_000    # rows per parquet row-group write
+# Socrata's public API handles 50k-row pages reliably while avoiding one huge
+# response that can leave the hosted runner silent for too long.
+PAGE_ROWS = 50_000
+BATCH_ROWS = 25_000
 # csv fields can be very large (long narratives); lift the default 128 KiB cap.
 csv.field_size_limit(1 << 24)
-
-
-class _ByteStreamReader(io.RawIOBase):
-    """Adapt an iterator of byte chunks into a readable binary file object so a
-    TextIOWrapper can stream over an httpx response without buffering the whole
-    (multi-GB) body in memory."""
-
-    def __init__(self, chunk_iter):
-        self._it = chunk_iter
-        self._buf = b""
-
-    def readable(self):
-        return True
-
-    def readinto(self, b):
-        while not self._buf:
-            try:
-                self._buf = next(self._it)
-            except StopIteration:
-                return 0
-        n = min(len(b), len(self._buf))
-        b[: n] = self._buf[:n]
-        self._buf = self._buf[n:]
-        return n
 
 
 def _flush(writer, schema, columns) -> None:
@@ -80,34 +54,44 @@ def _flush(writer, schema, columns) -> None:
     writer.write_table(pa.Table.from_arrays(arrays, schema=schema))
 
 
-@transient_retry()
 def fetch_one(node_id: str) -> None:
     asset = node_id                       # the spec id IS the asset name
     view = node_id[len("fra-"):]          # recover the Socrata 4x4 id
 
-    client = get_client()
-    with client.stream(
-        "GET",
-        BASE_URL.format(view=view),
-        params={"$limit": FULL_LIMIT, "$order": ":id"},
-        timeout=(10.0, 600.0),
-    ) as resp:
-        resp.raise_for_status()
-        text = io.TextIOWrapper(
-            io.BufferedReader(_ByteStreamReader(resp.iter_bytes(HTTP_CHUNK))),
-            encoding="utf-8",
-            newline="",
-        )
-        reader = csv.reader(text)
-        header = next(reader)
-        if not header:
-            raise AssertionError(f"{view}: empty CSV header")
-        ncol = len(header)
-        schema = pa.schema([(c, pa.string()) for c in header])
+    schema = None
+    writer_cm = None
+    writer = None
+    total = 0
+    offset = 0
 
-        with raw_parquet_writer(asset, schema) as writer:
+    try:
+        while True:
+            resp = get(
+                BASE_URL.format(view=view),
+                params={"$limit": PAGE_ROWS, "$offset": offset, "$order": ":id"},
+                timeout=(10.0, 180.0),
+            )
+            resp.raise_for_status()
+
+            text = io.StringIO(resp.text, newline="")
+            reader = csv.reader(text)
+            header = next(reader, None)
+            if not header:
+                if total == 0:
+                    raise AssertionError(f"{view}: empty CSV header")
+                break
+
+            if schema is None:
+                schema = pa.schema([(c, pa.string()) for c in header])
+                writer_cm = raw_parquet_writer(asset, schema)
+                writer = writer_cm.__enter__()
+            elif header != schema.names:
+                raise AssertionError(f"{view}: schema changed while paging")
+
+            ncol = len(header)
             cols = [[] for _ in range(ncol)]
-            n = 0
+            page_rows = 0
+            batch_rows = 0
             for row in reader:
                 # Socrata CSV is rectangular; pad/truncate defensively so one
                 # stray row never aborts a multi-million-row pull.
@@ -116,13 +100,26 @@ def fetch_one(node_id: str) -> None:
                 for i in range(ncol):
                     v = row[i]
                     cols[i].append(v if v != "" else None)
-                n += 1
-                if n >= BATCH_ROWS:
+                page_rows += 1
+                batch_rows += 1
+                total += 1
+                if batch_rows >= BATCH_ROWS:
                     _flush(writer, schema, cols)
                     cols = [[] for _ in range(ncol)]
-                    n = 0
-            if n:
+                    batch_rows = 0
+            if batch_rows:
                 _flush(writer, schema, cols)
+
+            print(f"{asset}: fetched {total} rows", flush=True)
+            if page_rows < PAGE_ROWS:
+                break
+            offset += PAGE_ROWS
+
+        if writer is None:
+            raise AssertionError(f"{view}: no rows returned")
+    finally:
+        if writer_cm is not None:
+            writer_cm.__exit__(*sys.exc_info())
 
 
 DOWNLOAD_SPECS = [
