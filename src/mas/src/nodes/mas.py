@@ -5,15 +5,19 @@ statistics on Singapore's national open-data portal (data.gov.sg). Each dataset
 is a distinct table fetched the same way: the v2 list-rows endpoint with cursor
 pagination. No auth, no documented rate limit.
 
-Two raw shapes come back:
-  - **Wide** (32 of 33 datasets): a `DataSeries` label column plus one column
+Two raw shapes come back, and the fetch fn auto-detects which by the presence
+of a `DataSeries` label column:
+  - **Wide** (the vast majority): a `DataSeries` label column plus one column
     per time period ('2026Apr' monthly, '20261Q' quarterly, '2026' annual) —
     up to ~660 period columns. DuckDB's JSON reader collapses objects with
     >200 keys into a single MAP column, so wide rows are **unpivoted to long**
     (data_series, period_raw, value_raw) here in Python before saving raw. The
-    SQL transform then normalises the period and casts the value.
-  - **Long** (the daily SGD/USD rate): already (date, exchange_rate_usd); saved
-    as-is and cast in the transform.
+    compiled SQL transform then normalises the period and casts the value.
+  - **Long**: already row-per-observation (e.g. date, value); the vault_id row
+    index is dropped and the rest is saved as-is.
+
+Transforms are NOT authored here — the model stage profiles this raw and
+compiles the per-table transform (src/transforms/<table>.sql + .yml).
 
 Fetch strategy: stateless full re-pull every run (the whole MAS corpus is a few
 thousand rows per dataset, cheap to refetch; this picks up SingStat revisions
@@ -22,7 +26,6 @@ for free). No incremental filter is offered by list-rows anyway.
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -32,11 +35,8 @@ _BASE = "https://api-production.data.gov.sg/v2/public/api/datasets"
 _PAGE_LIMIT = 5000
 _MAX_PAGES = 10000  # safety ceiling; raises on hit (pagination loop guard)
 
-# The rank-accepted entity union: one MAS dataset id per published subset.
+# The accept-accepted entity union: one MAS dataset id per published subset.
 from constants import ENTITY_IDS
-
-# Datasets that arrive already in long format (no DataSeries label column).
-_LONG_IDS = {"d_046ff8d521a218d9178178cfbfc45c2c"}  # Exchange Rates, SGD/USD, Daily
 
 
 def _spec_id(dataset_id: str) -> str:
@@ -114,63 +114,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(d), fn=fetch_one, kind="download")
     for d in ENTITY_IDS
-]
-
-
-# ── Transform ─────────────────────────────────────────────────────────
-
-# Wide: normalise the period label and cast the value. The CASE handles all
-# three MAS period formats: monthly '2026Apr', quarterly '20261Q', annual
-# '2026'. TRY_CAST nulls non-numeric markers ('na', '-', '') for free.
-_WIDE_SQL_TMPL = r'''
-SELECT
-  trim(data_series) AS data_series,
-  CASE
-    WHEN regexp_full_match(period_raw, '^\d{4}[A-Z][a-z]{2}$')
-      THEN strftime(strptime(period_raw, '%Y%b'), '%Y-%m')
-    WHEN regexp_full_match(period_raw, '^\d{4}\dQ$')
-      THEN regexp_extract(period_raw, '^(\d{4})(\d)Q$', 1) || '-Q' ||
-           regexp_extract(period_raw, '^(\d{4})(\d)Q$', 2)
-    WHEN regexp_full_match(period_raw, '^\d{4}$')
-      THEN period_raw
-    ELSE NULL
-  END AS period,
-  TRY_CAST(REPLACE(TRIM(value_raw), ',', '') AS DOUBLE) AS value
-FROM "__DEP__"
-WHERE data_series IS NOT NULL
-  AND TRY_CAST(REPLACE(TRIM(value_raw), ',', '') AS DOUBLE) IS NOT NULL
-'''
-
-_LONG_SQL_TMPL = r'''
-SELECT
-  CAST(date AS DATE) AS date,
-  TRY_CAST(exchange_rate_usd AS DOUBLE) AS exchange_rate_usd
-FROM "__DEP__"
-WHERE date IS NOT NULL
-  AND TRY_CAST(exchange_rate_usd AS DOUBLE) IS NOT NULL
-'''
-
-
-def _transform_sql(spec_id: str) -> str:
-    tmpl = _LONG_SQL_TMPL if _ID_BY_SPEC[spec_id] in _LONG_IDS else _WIDE_SQL_TMPL
-    return tmpl.replace("__DEP__", spec_id)
-
-
-def _transform_key(spec_id: str) -> tuple:
-    return ("date",) if _ID_BY_SPEC[spec_id] in _LONG_IDS else ("data_series", "period")
-
-
-def _transform_temporal(spec_id: str) -> str:
-    return "date" if _ID_BY_SPEC[spec_id] in _LONG_IDS else "period"
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        key=_transform_key(s.id),
-        temporal=_transform_temporal(s.id),
-        sql=_transform_sql(s.id),
-    )
-    for s in DOWNLOAD_SPECS
 ]

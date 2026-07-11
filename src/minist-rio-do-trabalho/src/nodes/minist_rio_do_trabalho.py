@@ -49,7 +49,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, load_state, raw_writer, save_state
+from subsets_utils import NodeSpec, load_state, raw_writer, save_state
 
 STATE_VERSION = 1
 FTP_ROOT = "ftp://ftp.mtps.gov.br/pdet/microdados/"
@@ -282,6 +282,33 @@ def _discover_caged_legacy() -> list:
     return out
 
 
+def _discover_caged_ajustes() -> list:
+    """Out-of-deadline CAGED adjustments (CAGED_AJUSTES). Two filename eras under
+    /CAGED_AJUSTES/<dir>/: monthly CAGEDEST_AJUSTES_MMYYYY.7z (2010-2020) and
+    annual CAGEDEST_AJUSTES_YYYY.7z (grouped in the 2002a2009 dir). Monthly files
+    inject `competencia` (yyyymm); annual aggregates inject `ano` — batch keys
+    (6-digit yyyymm vs 4-digit year) never collide."""
+    base = FTP_ROOT + "CAGED_AJUSTES/"
+    dirs, _ = _ftp_list(base)
+    out = []
+    for d in dirs:
+        yurl = base + quote(d) + "/"
+        _, files = _ftp_list(yurl)
+        for f in files:
+            if not f.lower().endswith(".7z"):
+                continue
+            stem = f[:-3]
+            m_month = re.match(r"CAGEDEST_AJUSTES_(\d{2})(\d{4})\.7z$", f, re.I)
+            m_year = re.match(r"CAGEDEST_AJUSTES_(\d{4})\.7z$", f, re.I)
+            if m_month:
+                comp = int(m_month.group(2) + m_month.group(1))  # yyyymm
+                out.append((f"{comp}", yurl + quote(f), {"competencia": comp, "arquivo_fonte": stem}))
+            elif m_year:
+                year = int(m_year.group(1))
+                out.append((f"{year}", yurl + quote(f), {"ano": year, "arquivo_fonte": stem}))
+    return out
+
+
 def _discover_novo() -> dict:
     base = FTP_ROOT + quote("NOVO CAGED") + "/"
     mov, fora, exc = [], [], []
@@ -302,17 +329,16 @@ def fetch_rais_estabelecimentos(node_id: str) -> None:
     _run_entity(node_id, estab)
 
 
-def fetch_rais_vinculos(node_id: str) -> None:
-    _, vinc = _discover_rais()
-    _run_entity(node_id, vinc)
-
-
 def fetch_rais_domestica(node_id: str) -> None:
     _run_entity(node_id, _discover_domestica())
 
 
 def fetch_caged_estatistico(node_id: str) -> None:
     _run_entity(node_id, _discover_caged_legacy())
+
+
+def fetch_caged_ajustes(node_id: str) -> None:
+    _run_entity(node_id, _discover_caged_ajustes())
 
 
 def fetch_novo_caged_movimentacoes(node_id: str) -> None:
@@ -329,46 +355,10 @@ def fetch_novo_caged_exclusoes(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="minist-rio-do-trabalho-rais-estabelecimentos", fn=fetch_rais_estabelecimentos, kind="download"),
-    NodeSpec(id="minist-rio-do-trabalho-rais-vinculos", fn=fetch_rais_vinculos, kind="download"),
     NodeSpec(id="minist-rio-do-trabalho-rais-domestica", fn=fetch_rais_domestica, kind="download"),
     NodeSpec(id="minist-rio-do-trabalho-caged-estatistico", fn=fetch_caged_estatistico, kind="download"),
+    NodeSpec(id="minist-rio-do-trabalho-caged-ajustes", fn=fetch_caged_ajustes, kind="download"),
     NodeSpec(id="minist-rio-do-trabalho-novo-caged-movimentacoes", fn=fetch_novo_caged_movimentacoes, kind="download"),
     NodeSpec(id="minist-rio-do-trabalho-novo-caged-fora-prazo", fn=fetch_novo_caged_fora_prazo, kind="download"),
     NodeSpec(id="minist-rio-do-trabalho-novo-caged-exclusoes", fn=fetch_novo_caged_exclusoes, kind="download"),
-]
-
-# RAIS subsets carry an injected annual `ano`; CAGED subsets an injected
-# monthly `competencia` (yyyymm). Thin parse-and-type pass: cast the period
-# dimension, derive ano/mes/date for monthly products, pass everything else
-# through (DuckDB unions the era-varying columns by name).
-_RAIS_IDS = {
-    "minist-rio-do-trabalho-rais-estabelecimentos",
-    "minist-rio-do-trabalho-rais-vinculos",
-    "minist-rio-do-trabalho-rais-domestica",
-}
-
-_RAIS_SQL = '''
-    SELECT TRY_CAST(ano AS INTEGER) AS ano,
-           * EXCLUDE (ano)
-    FROM "{dep}"
-    WHERE ano IS NOT NULL
-'''
-
-_CAGED_SQL = '''
-    SELECT TRY_CAST(competencia AS BIGINT)               AS competencia,
-           TRY_CAST(competencia AS BIGINT) // 100        AS ano,
-           TRY_CAST(competencia AS BIGINT) %  100        AS mes,
-           CAST(try_strptime(CAST(competencia AS VARCHAR) || '01', '%Y%m%d') AS DATE) AS data_competencia,
-           * EXCLUDE (competencia)
-    FROM "{dep}"
-    WHERE competencia IS NOT NULL
-'''
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=(_RAIS_SQL if s.id in _RAIS_IDS else _CAGED_SQL).format(dep=s.id),
-    )
-    for s in DOWNLOAD_SPECS
 ]

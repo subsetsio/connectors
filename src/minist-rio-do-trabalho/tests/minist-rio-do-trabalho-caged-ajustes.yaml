@@ -1,0 +1,20 @@
+spec_id: minist-rio-do-trabalho-caged-ajustes
+status: active
+coverage:
+  frozen: true
+  reason: CAGED Ajustes / Fora do Prazo is a closed legacy archive (2002-2020); the CAGED programme was superseded by Novo CAGED in 2020 and this product no longer advances
+tests:
+  - not_null: arquivo_fonte
+    reason: every row is injected with its source archive name during parsing
+    certainty: 98
+  - column_type: {col: competencia, type: integer}
+    reason: monthly adjustment files inject competencia (yyyymm) parsed from the filename
+    certainty: 85
+  - between: {col: competencia, lo: 201001, hi: 202012}
+    reason: monthly CAGEDEST_AJUSTES_MMYYYY files span 2010-2020 (yyyymm); the 2002-2009 annual aggregates carry `ano` instead and leave competencia null
+    certainty: 80
+    severity: warn
+  - between: {col: ano, lo: 2002, hi: 2009}
+    reason: the 2002a2009 aggregates inject the calendar year; monthly rows leave ano null
+    certainty: 80
+    severity: warn

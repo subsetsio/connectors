@@ -41,7 +41,6 @@ import json
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     post,
     get_client,
@@ -242,19 +241,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published table per subset. We cast every column to VARCHAR: raw values
-# are already strings, but DuckDB's read_json_auto re-infers types and turns
-# time-looking strings (e.g. "20:00:00") into TIME64, which Delta Lake cannot
-# store. Casting to VARCHAR keeps the verbatim text and a Delta-safe schema
-# uniformly across all heterogeneous datasets (typing is deferred, see docstring).
-# The transform stays the correctness gate (0 rows / unreadable raw still fail).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT COLUMNS(*)::VARCHAR FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

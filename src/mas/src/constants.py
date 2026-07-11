@@ -10,10 +10,13 @@ so the import resolves at validation and at runtime.
 """
 
 
+# Exactly the accept-stage entity union (assets/accept/current.json → accepted).
+# Deduplication is NOT done here — the two byte-identical SME datasets
+# (d_1d49… and d_8dae…) are both pulled; collapsing them is the curate stage's
+# call, not download's.
 ENTITY_IDS = [
     "d_023c0f38584a4b42587ebd74bb773db8",
     "d_0396bc943075a37d44c720ceb5be660a",
-    "d_046ff8d521a218d9178178cfbfc45c2c",
     "d_0ca674c3af2fe1aa6a52e34327daafa8",
     "d_10036483fced016b239ce7d2ab175125",
     "d_17425483a24f4f07f6d36cb365d942ec",
@@ -21,7 +24,6 @@ ENTITY_IDS = [
     "d_2ae5431b27f1b2ce0a850d78e9fd4531",
     "d_3c62d5eed03c40aeafbb6d0fa324e976",
     "d_3e7180df0c6ac5684f5c3e52f66858e5",
-    "d_4c6bd8b2c4aa7041a31f3ed0cd122c47",
     "d_4f73f4471a84f944ed37b651a8227ad8",
     "d_5c8e5801c2a64e2e6b16608296ef3e02",
     "d_5ee316e9f36b58ae54fbd68cf749c912",
@@ -32,8 +34,7 @@ ENTITY_IDS = [
     "d_7737cfb4e470d51b545d74e13d796bf1",
     "d_7ed3eccba609ac0bdfcf406d939bdb0b",
     "d_88ecfee25dff217289d1e588eb8c2649",
-    # d_8dae...: dropped — byte-identical duplicate of d_1d49 (same SingStat
-    # source table M920361, published twice on data.gov.sg).
+    "d_8dae97bbb7a9f93ad29daaf03c3d5170",
     "d_92afecf58ad03196ff6a7abb7a03d631",
     "d_abcfd12381e7f8d175280d999cdb2dea",
     "d_ad861cfc83aa1f4ce6be45d31290dba8",
