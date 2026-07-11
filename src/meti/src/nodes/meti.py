@@ -99,10 +99,42 @@ def _entity_from_node_id(node_id: str) -> str:
     return node_id[len(prefix):]
 
 
+def _is_waf_challenge(resp) -> bool:
+    """A WAF interstitial: the challenge action header, or a challenge status
+    code carrying no real payload (CloudFront serves an empty/near-empty body)."""
+    if resp.headers.get(_WAF_ACTION_HEADER):
+        return True
+    if resp.status_code in _WAF_STATUS:
+        clen = resp.headers.get("content-length")
+        if clen is not None and int(clen) == 0:
+            return True
+        if len(resp.content) < 1024 and b"<html" not in resp.content[:1024].lower():
+            return True
+    return False
+
+
 def _fetch_bytes(url: str) -> tuple[bytes, str]:
-    resp = get(url, headers=_HEADERS, timeout=(15.0, 180.0))
-    resp.raise_for_status()
-    return resp.content, resp.headers.get("content-type", "")
+    """Fetch a METI URL, backing off through AWS WAF challenges.
+
+    `subsets_utils.get` already retries genuine network transients (429/5xx,
+    connection errors). WAF challenge/block responses are not transient in that
+    sense (2xx/4xx with an empty body), so we detect and back off on them here —
+    exponential waits give the rate-based WAF reputation time to recover."""
+    last = None
+    for attempt in range(_FETCH_ATTEMPTS):
+        resp = get(url, headers=_HEADERS, timeout=(15.0, 180.0))
+        if _is_waf_challenge(resp):
+            last = resp
+            time.sleep(min(60.0, 4.0 * (2 ** attempt)))
+            continue
+        resp.raise_for_status()
+        return resp.content, resp.headers.get("content-type", "")
+    action = last.headers.get(_WAF_ACTION_HEADER, "block") if last is not None else "?"
+    status = last.status_code if last is not None else "?"
+    raise RuntimeError(
+        f"AWS WAF blocked {url} after {_FETCH_ATTEMPTS} attempts "
+        f"(status={status}, x-amzn-waf-action={action})"
+    )
 
 
 def _is_meti_url(url: str) -> bool:
