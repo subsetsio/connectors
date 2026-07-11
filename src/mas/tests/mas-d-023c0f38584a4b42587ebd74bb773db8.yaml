@@ -1,0 +1,17 @@
+spec_id: mas-d-023c0f38584a4b42587ebd74bb773db8
+status: active
+tests:
+  - not_null: data_series
+  - not_null: period
+  - not_null: value
+  - column_type: {col: period, type: date}
+  - column_type: {col: value, type: float}
+  - unique: [data_series, period]
+    reason: one observation per series per period; a MAS dataset is a wide grid unpivoted to (series, period), so the grain is unique by construction
+    certainty: 95
+  - row_count: {min: 1}
+    reason: the dataset publishes at least one numeric series
+  - freshness: {col: period, reaches: today - 120d}
+    reason: monthly release; MAS posts ~1-2 months in arrears
+    certainty: 80
+    points_outward: true
