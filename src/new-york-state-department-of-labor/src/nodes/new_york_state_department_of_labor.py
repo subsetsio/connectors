@@ -13,15 +13,14 @@ Raw format: NDJSON, streamed page-by-page. Socrata `.json` returns every
 scalar as a string and exposes a few columns as nested JSON objects (Socrata
 location/point/url types). NDJSON tolerates that heterogeneity; nested
 dict/list values are serialized to JSON strings so every column is a flat
-scalar and the thin `SELECT *` transform publishes cleanly across all 23
-schemas.
+scalar and the compiled pass-through transform publishes cleanly across all
+36 heterogeneous schemas.
 """
 
 import json
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     raw_writer,
@@ -88,17 +87,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# One published Delta table per subset. Each Socrata dataset has its own
-# heterogeneous schema, so the transform is a thin pass that republishes the
-# full (flat, all-string) raw table verbatim.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

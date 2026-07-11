@@ -5,5 +5,6 @@ ENTITY_IDS = [
     "driverrf", "drugs", "factor", "maneuver", "miacc", "midrvacc", "miper",
     "nmcrash", "nmdistract", "nmimpair", "nmprior", "parkwork", "pbtype",
     "person", "personrf", "pvehiclesf", "race", "safetyeq", "vehicle",
-    "vehiclesf", "vevent", "violatn", "vision", "vpicdecode", "vsoe", "weather",
+    "vehiclesf", "vevent", "violatn", "vision", "vpicdecode",
+    "vpictrailerdecode", "vsoe", "weather",
 ]

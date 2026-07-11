@@ -27,7 +27,6 @@ import re
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_writer,
     transient_retry,
@@ -111,24 +110,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# One Delta table per dataflow. Thin parse pass: cast OBS_VALUE to DOUBLE,
-# drop non-finite / unparseable observations (FAUCTION carries 'NaN' and empty
-# OBS_VALUE on announcement rows). All other columns pass through as the SDMX
-# component codes (strings); UNIT_MULT/DECIMALS are retained so consumers can
-# scale OBS_VALUE themselves.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT * REPLACE (TRY_CAST(OBS_VALUE AS DOUBLE) AS OBS_VALUE)
-            FROM "{s.id}"
-            WHERE TRY_CAST(OBS_VALUE AS DOUBLE) IS NOT NULL
-              AND isfinite(TRY_CAST(OBS_VALUE AS DOUBLE))
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

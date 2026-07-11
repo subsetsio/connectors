@@ -85,6 +85,7 @@ ENTITY_META = {
     "ipeds-effy-dist": "EFFY2024_DIST",
     "ipeds-effy-hs": "EFFY2024_HS",
     "ipeds-efia": "EFIA2024",
+    "ipeds-flags": "FLAGS2024",
     "ipeds-f-f1a": "F2324_F1A",
     "ipeds-f-f2": "F2324_F2",
     "ipeds-f-f3": "F2324_F3",

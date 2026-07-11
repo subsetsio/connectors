@@ -46,6 +46,10 @@ ENTITY_IDS = [
     "src-inexperienced-teachers-principals",
     "src-teachers-out-of-certification",
     "src-expenditures-per-pupil",
+    "spg-district-hedi",
+    "spg-state-hedi",
+    "ref-boces-nrc",
+    "ref-institution-grouping",
 ]
 
 # entity_id -> (downloads.php category segment, table-name regex [case-insensitive])
@@ -83,4 +87,14 @@ ENTITY_CONFIG = {
     "src-inexperienced-teachers-principals": ("essa",  r"^Inexperienced Teachers and Principals$"),
     "src-teachers-out-of-certification": ("essa",      r"^Teachers Teaching Out of Certification$"),
     "src-expenditures-per-pupil":       ("essa",       r"^Expenditures per Pupil$"),
+    # Student-growth (SPG) HEDI researcher files live in the same eval DBs as the
+    # APPR researcher files (2012-13..2015-16 only — that APPR/SPG regime ended).
+    "spg-district-hedi":                ("eval",       r"^SPG_DISTRICT_RESEARCHER"),
+    "spg-state-hedi":                   ("eval",       r"^SPG_STATE_RESEARCHER"),
+    # Shared institution-reference tables. downloads.php has no 'shared-reference'
+    # path segment — these tables are bundled inside the per-year enrollment DBs
+    # (alongside 'BEDS Day Enrollment' / 'Demographic Factors'), so discover them
+    # via the 'enrollment' category. fetch_one tags each row with report_year.
+    "ref-boces-nrc":                    ("enrollment", r"^BOCES and N/RC$"),
+    "ref-institution-grouping":         ("enrollment", r"^Institution Grouping$"),
 }
