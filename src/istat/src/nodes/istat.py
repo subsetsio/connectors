@@ -289,7 +289,7 @@ def _iter_rows(flow_id: str):
         if budget[0] <= 0:
             raise RuntimeError(f"{flow_id}: exceeded {_MAX_REQUESTS_PER_FLOW} requests")
         budget[0] -= 1
-        return _fetch_csv(flow_id, start, end)
+        return _fetch_csv(flow_id, start, end, attempts=1)
 
     def split_years(lo: int, hi: int):
         try:
@@ -352,9 +352,20 @@ def _iter_rows(flow_id: str):
         # year -- say so instead.
         seen = 0
         for month in range(1, 13):
-            text = window(f"{year}-{month:02d}", f"{year}-{month:02d}")
+            start = f"{year}-{month:02d}"
+            try:
+                text = window(start, start)
+            except _TOO_BIG:
+                yielded = yield from split_compact_dims(start, start)
+                if yielded:
+                    seen += 1
+                    continue
+                raise RuntimeError(
+                    f"{flow_id}: {start} is too large to serve whole and no "
+                    f"compact dimension split returned rows"
+                )
             if text is not None:
-                for row in _rows(text, start=f"{year}-{month:02d}", end=f"{year}-{month:02d}"):
+                for row in _rows(text, start=start, end=start):
                     seen += 1
                     yield row
         if seen == 0:
