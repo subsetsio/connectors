@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ophi-global-mpi-table-6`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [sheet_name, row_index, column_index]
+checks:
+  - kind: unique
+    columns: [sheet_name, row_index, column_index]
+  - kind: not_null
+    col: sheet_name
+  - kind: not_null
+    col: row_index
+  - kind: not_null
+    col: column_index
+  - kind: row_floor
+    min: 280446
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

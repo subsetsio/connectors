@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ophi-global-mpi-table-4`. Regenerate after model-verify.
+# caution: Raw rows are non-empty workbook cells, not already-normalized statistical observations; use sheet, row, and column coordinates to reconstruct headers, notes, and data regions before aggregation.
+key: [sheet_name, row_index, column_index]
+sort: [sheet_name, row_index, column_index]
+columns:
+  - name: release_year
+    type: SMALLINT
+  - name: table_number
+    type: TINYINT
+  - name: workbook_filename
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: row_index
+    type: INTEGER
+  - name: column_index
+    type: INTEGER
+  - name: value_text
+    type: VARCHAR
+  - name: value_number
+    type: DOUBLE
+  - name: value_bool
+    type: BOOLEAN
+  - name: value_type
+    type: VARCHAR
