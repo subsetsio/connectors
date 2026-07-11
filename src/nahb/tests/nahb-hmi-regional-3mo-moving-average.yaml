@@ -1,6 +1,7 @@
 spec_id: nahb-hmi-regional-3mo-moving-average
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 70d}
   - not_null: date
     reason: every row is a (year, month) cell within a regional year-block
     certainty: 95

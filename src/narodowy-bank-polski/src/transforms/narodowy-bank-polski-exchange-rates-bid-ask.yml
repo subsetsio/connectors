@@ -1,4 +1,8 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key: [date, currency_code]
+temporal: date
+write_mode: overwrite
+sort: [date, currency_code]
 columns:
   - name: date
     type: DATE

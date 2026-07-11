@@ -1,6 +1,7 @@
 spec_id: nahb-hmi-national-history
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 70d}
   - not_null: date
     reason: every parsed row is a (year, month) cell; a null date means the year/month grid parse drifted
     certainty: 97

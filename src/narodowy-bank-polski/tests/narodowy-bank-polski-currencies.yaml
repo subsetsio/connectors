@@ -1,0 +1,19 @@
+spec_id: narodowy-bank-polski-currencies
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: current NBP tables A, B, and C together quote well over 100 distinct currencies
+    certainty: 95
+  - not_null: code
+  - not_null: currency
+  - column_type: {col: code, type: string}
+  - column_type: {col: currency, type: string}
+  - column_type: {col: in_table_a, type: boolean}
+  - column_type: {col: in_table_b, type: boolean}
+  - column_type: {col: in_table_c, type: boolean}
+  - unique: code
+    reason: the currency reference table is keyed by ISO 4217 code
+    certainty: 95
+  - matches: {col: code, pattern: "^[A-Z]{3}$"}
+    reason: NBP publishes standard three-letter ISO 4217 currency codes
+    certainty: 95

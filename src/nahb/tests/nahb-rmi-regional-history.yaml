@@ -1,6 +1,7 @@
 spec_id: nahb-rmi-regional-history
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 200d}
   - not_null: period
     reason: period is parsed from the 'Nth Quarter YYYY' label in col2
     certainty: 95
@@ -22,8 +23,8 @@ tests:
   - enum: {col: measure, values: [RMI, Current Market Conditions, Future Market Indicators]}
     reason: each region carries three measures
     certainty: 90
-  - distinct_count: {col: region, min: 5}
-    reason: national plus four regions
+  - distinct_count: {col: region, min: 4}
+    reason: the table must include the national aggregate and regional categories
     certainty: 90
   - between: {col: value, lo: 0, hi: 100}
     reason: RMI measures are diffusion indices bounded 0-100

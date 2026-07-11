@@ -1,0 +1,27 @@
+spec_id: narodowy-bank-polski-exchange-rates-mid
+status: active
+tests:
+  - row_count: {min: 250000}
+    reason: tables A and B have been published since 2002 across hundreds of currency-date observations
+    certainty: 90
+  - not_null: date
+  - not_null: table
+  - not_null: code
+  - not_null: currency
+  - not_null: mid
+  - column_type: {col: date, type: date}
+  - column_type: {col: table, type: string}
+  - column_type: {col: code, type: string}
+  - column_type: {col: currency, type: string}
+  - column_type: {col: mid, type: float}
+  - enum: {col: table, values: ["A", "B"]}
+  - unique: [date, table, code]
+    reason: one mid rate per NBP table, publication date, and currency code
+    certainty: 95
+  - between: {col: mid, lo: 0, hi: 1000000}
+    reason: exchange rates against PLN should be positive and far below this guardrail
+    certainty: 90
+  - freshness: {col: date, reaches: today - 45d}
+    reason: table A is normally published every business day; this allows holidays and short source delays
+    certainty: 90
+    points_outward: true

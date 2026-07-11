@@ -1,6 +1,7 @@
 spec_id: nahb-chi-history
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 200d}
   - not_null: period
     reason: period is parsed from the Qn_YY header columns
     certainty: 95

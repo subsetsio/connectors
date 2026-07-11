@@ -1,6 +1,7 @@
 spec_id: nahb-hbgi-full-findings
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 200d}
   - not_null: period
     reason: period is derived from the year/quarter header of each section
     certainty: 92

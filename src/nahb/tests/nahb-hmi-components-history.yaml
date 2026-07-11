@@ -1,6 +1,7 @@
 spec_id: nahb-hmi-components-history
 status: active
 tests:
+  - freshness: {col: date, reaches: today - 70d}
   - not_null: date
     reason: every row is a (year, month) cell of a component block
     certainty: 97

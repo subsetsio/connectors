@@ -1,0 +1,26 @@
+spec_id: narodowy-bank-polski-exchange-rates-bid-ask
+status: active
+tests:
+  - row_count: {min: 60000}
+    reason: table C has been published since 2002 for the main traded currencies
+    certainty: 90
+  - not_null: date
+  - not_null: code
+  - not_null: currency
+  - not_null: bid
+  - not_null: ask
+  - column_type: {col: date, type: date}
+  - column_type: {col: code, type: string}
+  - column_type: {col: currency, type: string}
+  - column_type: {col: bid, type: float}
+  - column_type: {col: ask, type: float}
+  - unique: [date, code]
+    reason: one table C bid/ask quotation per publication date and currency code
+    certainty: 95
+  - relationship: {left: bid, op: "<=", right: ask}
+    reason: NBP buy rates should not exceed sell rates
+    certainty: 95
+  - freshness: {col: date, reaches: today - 45d}
+    reason: table C is normally published every business day; this allows holidays and short source delays
+    certainty: 90
+    points_outward: true

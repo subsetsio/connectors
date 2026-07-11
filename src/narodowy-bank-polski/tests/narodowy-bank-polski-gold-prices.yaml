@@ -1,0 +1,20 @@
+spec_id: narodowy-bank-polski-gold-prices
+status: active
+tests:
+  - row_count: {min: 3000}
+    reason: NBP gold prices have been published since 2013 on business days
+    certainty: 90
+  - not_null: date
+  - not_null: price_pln_per_g
+  - column_type: {col: date, type: date}
+  - column_type: {col: price_pln_per_g, type: float}
+  - unique: date
+    reason: NBP publishes one accounting gold price per publication date
+    certainty: 95
+  - between: {col: price_pln_per_g, lo: 0, hi: 1000}
+    reason: PLN per gram of gold should be positive and below this broad guardrail
+    certainty: 90
+  - freshness: {col: date, reaches: today - 45d}
+    reason: gold prices are normally published every business day; this allows holidays and short source delays
+    certainty: 90
+    points_outward: true
