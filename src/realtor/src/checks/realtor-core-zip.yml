@@ -3,15 +3,17 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [date, postal_code]
+key: [date, postal_code, zip_month_sequence]
 temporal: date
 checks:
   - kind: unique
-    columns: [date, postal_code]
+    columns: [date, postal_code, zip_month_sequence]
   - kind: not_null
     col: date
   - kind: not_null
     col: postal_code
+  - kind: not_null
+    col: zip_month_sequence
   - kind: row_floor
     min: 1697235
 regression:

@@ -1,12 +1,14 @@
 # migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [date, postal_code]
+key: [date, postal_code, zip_month_sequence]
 temporal: date
-sort: [date, postal_code]
+sort: [date, postal_code, zip_month_sequence]
 columns:
   - name: date
     type: DATE
   - name: postal_code
     type: VARCHAR
+  - name: zip_month_sequence
+    type: BIGINT
   - name: zip_name
     type: VARCHAR
   - name: median_listing_price
