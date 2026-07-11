@@ -333,6 +333,56 @@ def _json_table(content: bytes, source_resource: str, source_file: str):
     return Table(san, source_resource, source_file, rows())
 
 
+def _datastore_table(res):
+    """Fallback for CKAN resources whose file download endpoint is returning
+    5xx while the datastore copy remains queryable."""
+    resource_id = res.get("id")
+    rname = res.get("name") or resource_id or "resource"
+    if not resource_id or not res.get("datastore_active"):
+        return None
+
+    first = _api("datastore_search", resource_id=resource_id, limit=1)
+    records = first.get("records", []) or []
+    fields = first.get("fields", []) or []
+    raw_cols = [
+        str(f.get("id"))
+        for f in fields
+        if f.get("id") and str(f.get("id")) != "_id"
+    ]
+    if not raw_cols and records:
+        raw_cols = [str(k) for k in records[0].keys() if str(k) != "_id"]
+    if not raw_cols:
+        return None
+    cols = _sanitize_cols(raw_cols)
+    mapping = dict(zip(raw_cols, cols))
+
+    def rows():
+        limit = 50_000
+        offset = 0
+        while True:
+            page = _api(
+                "datastore_search",
+                resource_id=resource_id,
+                limit=limit,
+                offset=offset,
+            )
+            recs = page.get("records", []) or []
+            if not recs:
+                break
+            for rec in recs:
+                out = {
+                    mapping[k]: _scalar(rec.get(k))
+                    for k in raw_cols
+                }
+                if any(_norm_null(v) is not None for v in out.values()):
+                    yield out
+            if len(recs) < limit:
+                break
+            offset += limit
+
+    return Table(cols, rname, f"datastore:{resource_id}", rows())
+
+
 def _kml_table(content: bytes, source_resource: str, source_file: str):
     try:
         root = ET.fromstring(content)
@@ -557,7 +607,15 @@ def _expand_resource(res):
 
     if fmt in _CSV_LIKE:
         # stream CSV/TXT directly (handles the 1.5GB file); never capped
-        return [_stream_csv_table(url, rname, url.rsplit("/", 1)[-1])]
+        try:
+            return [_stream_csv_table(url, rname, url.rsplit("/", 1)[-1])]
+        except Exception as e:  # noqa: BLE001
+            if res.get("datastore_active"):
+                print(f"[{rname}] CSV download failed, trying datastore: "
+                      f"{type(e).__name__}: {e}")
+                t = _datastore_table(res)
+                return [t] if t else []
+            raise
 
     if size and size > _MAX_INMEM_BYTES:
         print(f"[{rname}] skipping {fmt} resource ~{size}B (> in-mem cap)")
