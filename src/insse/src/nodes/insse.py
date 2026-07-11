@@ -5,11 +5,13 @@ import math
 import re
 
 import httpx
+from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
 from constants import ENTITY_IDS, SPEC_TO_CODE
 from subsets_utils import (
     MaintainSpec,
     NodeSpec,
+    TRANSIENT_EXC,
     get,
     post,
     raw_asset_exists,
@@ -30,6 +32,25 @@ HEADERS = {
     "Origin": "http://statistici.insse.ro:8077",
     "Referer": "http://statistici.insse.ro:8077/tempo-online/",
 }
+INSSE_TRANSIENT_EXC = TRANSIENT_EXC + (httpx.ReadError,)
+
+
+def _is_insse_transient(exc: BaseException) -> bool:
+    if isinstance(exc, INSSE_TRANSIENT_EXC):
+        return True
+    if isinstance(exc, httpx.HTTPStatusError):
+        status = exc.response.status_code
+        return status == 429 or 500 <= status < 600
+    return False
+
+
+def _insse_retry(fn):
+    return retry(
+        retry=retry_if_exception(_is_insse_transient),
+        stop=stop_after_attempt(6),
+        wait=wait_exponential(multiplier=1, min=2, max=90),
+        reraise=True,
+    )(fn)
 
 
 def _matrix_code(node_id: str) -> str:
@@ -55,6 +76,7 @@ def _slug(value: str, fallback: str, used: set[str]) -> str:
     return text
 
 
+@_insse_retry
 def _get_metadata(code: str) -> dict:
     resp = get(
         f"{BASE}/matrix/{code}",
@@ -128,6 +150,17 @@ def _pivot_payload(code: str, metadata: dict, block: list[tuple[str, list[str]]]
     }
 
 
+def _decode_text_response(resp: httpx.Response) -> str:
+    content = resp.content
+    for encoding in ("utf-8-sig", "cp1250", "latin-1"):
+        try:
+            return content.decode(encoding).lstrip("\ufeff")
+        except UnicodeDecodeError:
+            continue
+    return content.decode("latin-1").lstrip("\ufeff")
+
+
+@_insse_retry
 def _post_pivot(code: str, metadata: dict, block: list[tuple[str, list[str]]]) -> str:
     resp = post(
         f"{BASE}/pivot",
@@ -136,7 +169,7 @@ def _post_pivot(code: str, metadata: dict, block: list[tuple[str, list[str]]]) -
         timeout=TIMEOUT,
     )
     resp.raise_for_status()
-    text = resp.text.lstrip("\ufeff")
+    text = _decode_text_response(resp)
     lowered = text.lower()
     if "pragul" in lowered and "celule" in lowered:
         raise RuntimeError(f"{code}: TEMPO cell limit exceeded despite split")
