@@ -1,0 +1,28 @@
+spec_id: norwegian-meteorological-institute-iceberg
+status: active
+tests:
+  - not_null: date
+    reason: every iceberg observation belongs to a dated daily snapshot
+    certainty: 98
+  - not_null: instant
+    reason: each feature carries a when.instant observation timestamp
+    certainty: 90
+  - column_type: {col: lat, type: float}
+    reason: latitude parsed from GeoJSON point coordinates
+    certainty: 92
+  - column_type: {col: lon, type: float}
+    reason: longitude parsed from GeoJSON point coordinates
+    certainty: 92
+  - between: {col: lat, lo: 40, hi: 90}
+    reason: iceberg observations are in the North Atlantic / Arctic
+    certainty: 80
+  - distinct_count: {col: date, min: 1000}
+    reason: the archive exposes ~1200 daily snapshots from 2023-01 onward
+    certainty: 80
+  - row_count: {min: 100000}
+    reason: ~1200 days x thousands of iceberg points per day
+    certainty: 78
+  - freshness: {col: date, reaches: today - 30d}
+    reason: the daily archive publishes with a lag of roughly one to two weeks
+    certainty: 75
+    points_outward: true

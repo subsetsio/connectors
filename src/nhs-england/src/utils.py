@@ -49,7 +49,7 @@ SCHEMA = pa.schema([
 # Safety ceilings — trip on source growth past expectation rather than
 # silently truncate/hammer. Discovery raises; sub-page/file slices are bounded.
 MAX_SUBPAGES = 15
-MAX_FILES_PER_AREA = 30
+MAX_FILES_PER_AREA = 6
 MAX_DISCOVERED = 400
 
 _NON_DATA_RE = re.compile(
@@ -75,25 +75,27 @@ def _path_date(url: str) -> tuple:
 
 
 def discover_files(slug: str) -> list[str]:
-    """Absolute .xls/.xlsx URLs for a work area: the landing page plus one level
-    of same-section sub-pages (many areas hide workbooks on sub-pages). PDFs
-    are ignored."""
+    """Absolute .xls/.xlsx URLs for a work area. Landing-first: most areas list
+    their canonical (full-history) workbook right on the landing page; only when
+    the landing page carries no workbook at all do we descend one level into the
+    same-section sub-pages (some areas hide their files there). PDFs are ignored."""
     landing = f"{WORK_AREA_BASE}{slug}/"
     resp = get(landing, timeout=(10, 60))
     resp.raise_for_status()
     links = _abs_links(landing, resp.text)
     files = {u for u in links if _XLS_RE.search(u)}
 
-    sub_re = re.compile(rf"/statistical-work-areas/{re.escape(slug)}/[^\"?#]+/?$")
-    subpages = sorted({
-        u for u in links
-        if sub_re.search(u) and u.rstrip("/") != landing.rstrip("/")
-    })[:MAX_SUBPAGES]
-    for sp in subpages:
-        r = get(sp, timeout=(10, 60))
-        if r.status_code != 200:
-            continue
-        files.update(u for u in _abs_links(sp, r.text) if _XLS_RE.search(u))
+    if not files:
+        sub_re = re.compile(rf"/statistical-work-areas/{re.escape(slug)}/[^\"?#]+/?$")
+        subpages = sorted({
+            u for u in links
+            if sub_re.search(u) and u.rstrip("/") != landing.rstrip("/")
+        })[:MAX_SUBPAGES]
+        for sp in subpages:
+            r = get(sp, timeout=(10, 60))
+            if r.status_code != 200:
+                continue
+            files.update(u for u in _abs_links(sp, r.text) if _XLS_RE.search(u))
 
     files = sorted(files)
     if len(files) > MAX_DISCOVERED:
@@ -104,13 +106,22 @@ def discover_files(slug: str) -> list[str]:
     return files
 
 
+_SUMMARY_RE = re.compile(r"(national|overview|summary|england)", re.I)
+
+
 def select_files(slug: str, files: list[str]) -> list[str]:
     """Prefer the full-history 'time series' workbooks (research: they carry the
-    whole series, so a full re-fetch is natural). Else the most recent data
-    files, bounded."""
+    whole series, so a full re-fetch is natural). Within those, prefer the
+    national/overview summary workbook(s) over provider/organisation-level
+    monthly extracts (which repeat per period and are far larger), then most
+    recent. Bounded to keep one refresh sane. Fall back to the most recent data
+    files when no time-series workbook exists."""
     ts = [u for u in files if _TIME_SERIES_RE.search(u.rsplit("/", 1)[-1])]
     if ts:
-        return ts[:MAX_FILES_PER_AREA]
+        summary = [u for u in ts if _SUMMARY_RE.search(u.rsplit("/", 1)[-1])]
+        pool = summary or ts
+        pool.sort(key=_path_date, reverse=True)
+        return pool[:MAX_FILES_PER_AREA]
     data = [u for u in files if not _NON_DATA_RE.search(u.rsplit("/", 1)[-1])]
     data.sort(key=_path_date, reverse=True)
     return data[:MAX_FILES_PER_AREA]

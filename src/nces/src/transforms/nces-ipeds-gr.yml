@@ -1,0 +1,139 @@
+# authored to match the uniform IPEDS passthrough transform (unitid+year typed, every survey measure kept as VARCHAR);
+# columns from the latest available collection-year header.
+temporal: year
+sort: [year]
+columns:
+  - name: unitid
+    type: BIGINT
+  - name: year
+    type: INTEGER
+  - name: GRTYPE
+    type: VARCHAR
+  - name: CHRTSTAT
+    type: VARCHAR
+  - name: SECTION
+    type: VARCHAR
+  - name: COHORT
+    type: VARCHAR
+  - name: LINE
+    type: VARCHAR
+  - name: XGRTOTLT
+    type: VARCHAR
+  - name: GRTOTLT
+    type: VARCHAR
+  - name: XGRTOTLM
+    type: VARCHAR
+  - name: GRTOTLM
+    type: VARCHAR
+  - name: XGRTOTLW
+    type: VARCHAR
+  - name: GRTOTLW
+    type: VARCHAR
+  - name: XGRAIANT
+    type: VARCHAR
+  - name: GRAIANT
+    type: VARCHAR
+  - name: XGRAIANM
+    type: VARCHAR
+  - name: GRAIANM
+    type: VARCHAR
+  - name: XGRAIANW
+    type: VARCHAR
+  - name: GRAIANW
+    type: VARCHAR
+  - name: XGRASIAT
+    type: VARCHAR
+  - name: GRASIAT
+    type: VARCHAR
+  - name: XGRASIAM
+    type: VARCHAR
+  - name: GRASIAM
+    type: VARCHAR
+  - name: XGRASIAW
+    type: VARCHAR
+  - name: GRASIAW
+    type: VARCHAR
+  - name: XGRBKAAT
+    type: VARCHAR
+  - name: GRBKAAT
+    type: VARCHAR
+  - name: XGRBKAAM
+    type: VARCHAR
+  - name: GRBKAAM
+    type: VARCHAR
+  - name: XGRBKAAW
+    type: VARCHAR
+  - name: GRBKAAW
+    type: VARCHAR
+  - name: XGRHISPT
+    type: VARCHAR
+  - name: GRHISPT
+    type: VARCHAR
+  - name: XGRHISPM
+    type: VARCHAR
+  - name: GRHISPM
+    type: VARCHAR
+  - name: XGRHISPW
+    type: VARCHAR
+  - name: GRHISPW
+    type: VARCHAR
+  - name: XGRNHPIT
+    type: VARCHAR
+  - name: GRNHPIT
+    type: VARCHAR
+  - name: XGRNHPIM
+    type: VARCHAR
+  - name: GRNHPIM
+    type: VARCHAR
+  - name: XGRNHPIW
+    type: VARCHAR
+  - name: GRNHPIW
+    type: VARCHAR
+  - name: XGRWHITT
+    type: VARCHAR
+  - name: GRWHITT
+    type: VARCHAR
+  - name: XGRWHITM
+    type: VARCHAR
+  - name: GRWHITM
+    type: VARCHAR
+  - name: XGRWHITW
+    type: VARCHAR
+  - name: GRWHITW
+    type: VARCHAR
+  - name: XGR2MORT
+    type: VARCHAR
+  - name: GR2MORT
+    type: VARCHAR
+  - name: XGR2MORM
+    type: VARCHAR
+  - name: GR2MORM
+    type: VARCHAR
+  - name: XGR2MORW
+    type: VARCHAR
+  - name: GR2MORW
+    type: VARCHAR
+  - name: XGRUNKNT
+    type: VARCHAR
+  - name: GRUNKNT
+    type: VARCHAR
+  - name: XGRUNKNM
+    type: VARCHAR
+  - name: GRUNKNM
+    type: VARCHAR
+  - name: XGRUNKNW
+    type: VARCHAR
+  - name: GRUNKNW
+    type: VARCHAR
+  - name: XGRNRALT
+    type: VARCHAR
+  - name: GRNRALT
+    type: VARCHAR
+  - name: XGRNRALM
+    type: VARCHAR
+  - name: GRNRALM
+    type: VARCHAR
+  - name: XGRNRALW
+    type: VARCHAR
+  - name: GRNRALW
+    type: VARCHAR

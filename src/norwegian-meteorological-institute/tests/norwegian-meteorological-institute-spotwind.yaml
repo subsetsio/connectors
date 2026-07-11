@@ -1,0 +1,22 @@
+spec_id: norwegian-meteorological-institute-spotwind
+status: active
+tests:
+  - not_null: valid_time
+    reason: every spotWind row comes from a <time valid=...> element
+    certainty: 95
+  - not_null: location
+    reason: every spotWind row comes from a named <location> element
+    certainty: 95
+  - column_type: {col: flight_level, type: float}
+    reason: flightlevel is a numeric level attribute
+    certainty: 90
+  - column_type: {col: wind_speed, type: float}
+    reason: windSpeed is a numeric attribute
+    certainty: 90
+  - row_count: {min: 50}
+    reason: several regions x forecast times x ~10 flight levels each
+    certainty: 75
+  - freshness: {col: fetched_at, reaches: today - 2d}
+    reason: spotwind is a rolling aviation wind product, refetched every run
+    certainty: 95
+    points_outward: false
