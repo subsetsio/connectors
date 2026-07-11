@@ -1,3 +1,4 @@
+-- caution: The register does not publish a transaction identifier; identical-looking rows can be distinct sales, so do not deduplicate by address, date, and price.
 SELECT
     strptime(date_of_sale, '%d/%m/%Y')::DATE                 AS sale_date,
     file_year                                                AS year,

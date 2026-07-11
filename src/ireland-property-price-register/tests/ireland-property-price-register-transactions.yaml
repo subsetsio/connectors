@@ -23,7 +23,7 @@ tests:
   - not_null: price
     reason: price is declared for stamp duty on every sale
     certainty: 90
-  - matches: {col: price, pattern: '[0-9]'}
+  - matches: {col: price, pattern: '^.*[0-9].*$'}
     reason: price is a currency string like "€250,000.00" and always contains digits
     certainty: 90
   - not_null: county
@@ -41,3 +41,7 @@ tests:
   - row_count: {min: 500000}
     reason: ~1M sales across 2010-present; <500k means a truncated crawl
     certainty: 85
+  - freshness: {col: file_year, reaches: current_year()}
+    reason: the register publishes a current in-progress year file; a stale maximum file year means the crawl missed the current annual CSV
+    certainty: 90
+    points_outward: true
