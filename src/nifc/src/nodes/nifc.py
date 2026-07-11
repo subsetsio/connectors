@@ -23,6 +23,7 @@ fields arrive as epoch-millisecond integers and are converted downstream in the
 transform SQL.
 """
 import json
+from functools import lru_cache
 
 from subsets_utils import NodeSpec, get, raw_writer, transient_retry
 
@@ -48,14 +49,37 @@ def _page_size(url: str) -> int:
 
 
 @transient_retry()
-def _query(layer_url: str, layer: int, page: int, offset: int) -> dict:
+def _layer_info(layer_url: str, layer: int) -> dict:
+    resp = get(
+        f"{layer_url}/{layer}",
+        params={"f": "json"},
+        timeout=(10.0, 60.0),
+    )
+    resp.raise_for_status()
+    data = resp.json()
+    if isinstance(data, dict) and "error" in data:
+        raise RuntimeError(f"{layer_url}/{layer}: ArcGIS layer metadata error {data['error']}")
+    return data
+
+
+@lru_cache(maxsize=None)
+def _object_id_field(layer_url: str, layer: int) -> str:
+    info = _layer_info(layer_url, layer)
+    field = info.get("objectIdField") or (info.get("uniqueIdField") or {}).get("name")
+    if not field:
+        raise RuntimeError(f"{layer_url}/{layer}: ArcGIS layer metadata lacks object id field")
+    return field
+
+
+@transient_retry()
+def _query(layer_url: str, layer: int, page: int, offset: int, order_field: str) -> dict:
     resp = get(
         f"{layer_url}/{layer}/query",
         params={
             "where": "1=1",
             "outFields": "*",
             "returnGeometry": "false",
-            "orderByFields": "OBJECTID",
+            "orderByFields": order_field,
             "resultRecordCount": page,
             "resultOffset": offset,
             "f": "json",
@@ -72,6 +96,7 @@ def fetch_one(node_id: str) -> None:
     spec = LAYERS[eid]
     url, layer = spec["url"], spec["layer"]
     page = _page_size(url)
+    order_field = _object_id_field(url, layer)
 
     offset = 0
     pages = 0
@@ -83,7 +108,7 @@ def fetch_one(node_id: str) -> None:
                     f"{node_id}: hit MAX_PAGES={MAX_PAGES} at offset {offset} — "
                     "source larger than expected; raise the cap intentionally"
                 )
-            data = _query(url, layer, page, offset)
+            data = _query(url, layer, page, offset, order_field)
             if isinstance(data, dict) and "error" in data:
                 raise RuntimeError(f"{node_id}: ArcGIS query error {data['error']}")
             feats = data.get("features", [])
