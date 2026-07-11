@@ -15,10 +15,8 @@ and the transform SQL does the typing/casting.
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
-    transient_retry,
 )
 
 BASE = "https://data.lacity.org/resource"
@@ -30,13 +28,23 @@ ENTITY_IDS = [
     "2t3h-my34",  # Emission from Port Operations (2005-2012)
     "38a8-tm7u",  # Historical TEU Statistics
     "5a4i-e2zs",  # Historic Tonnage Data Short Ton (1920-1970)
+    "aiix-duyv",  # Emissions Reduction Percentage 2005-2012
+    "b3i5-86hy",  # Port Air Quality (2006-2013)
+    "du8q-hww5",  # Adopted Budget 2010-2014
+    "geed-7eey",  # Film Permit Tracking 2014
+    "gvpf-vb3s",  # Workers' Compensation Light Duty Hours
     "i9rh-q5gx",  # Historic Tonnage Data MMRT
+    "jdgw-bwcf",  # Finance Annual Financial Report FY12-FY13
     "jmt8-y5rm",  # Cruise Passenger (1990-2014)
+    "s2gq-nz3r",  # Workers' Compensation New Claims
+    "s5jy-jcce",  # ADP Project
     "tsuv-4rgh",  # TEU Counts Monthly And Calendar YTD
+    "v3my-p6u5",  # Workers' Compensation Benefits Expenditures
+    "v7gk-cxxi",  # Quarterly Financial Statement 2013-2014
+    "xhx7-hr4h",  # Single Audit Report 2013
 ]
 
 
-@transient_retry()
 def _fetch_page(resource_id: str, offset: int) -> list:
     url = f"{BASE}/{resource_id}.json"
     resp = get(
@@ -80,72 +88,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# One published table per dataset. SODA delivers every field as a string, so the
-# SQL casts to typed columns. Each query reads the dataset's NDJSON view.
-_TRANSFORM_SQL = {
-    "port-of-la-2t3h-my34": '''
-        SELECT
-            CAST(ei_year AS INTEGER) AS year,
-            TRY_CAST(nox_tpy AS DOUBLE) AS nox_tpy,
-            TRY_CAST(sox_tpy AS DOUBLE) AS sox_tpy,
-            TRY_CAST(dpm_tpy AS DOUBLE) AS dpm_tpy
-        FROM "port-of-la-2t3h-my34"
-        WHERE ei_year IS NOT NULL
-    ''',
-    "port-of-la-38a8-tm7u": '''
-        SELECT
-            CAST(year AS INTEGER) AS year,
-            TRY_CAST(teus_in_million AS DOUBLE) AS teus_in_million
-        FROM "port-of-la-38a8-tm7u"
-        WHERE year IS NOT NULL
-    ''',
-    "port-of-la-5a4i-e2zs": '''
-        SELECT
-            CAST(year AS INTEGER) AS year,
-            TRY_CAST(tons AS BIGINT) AS tons
-        FROM "port-of-la-5a4i-e2zs"
-        WHERE year IS NOT NULL
-    ''',
-    "port-of-la-i9rh-q5gx": '''
-        SELECT
-            CAST(year AS INTEGER) AS year,
-            TRY_CAST(dry_bulk AS DOUBLE) AS dry_bulk,
-            TRY_CAST(liquid_bulk AS DOUBLE) AS liquid_bulk,
-            TRY_CAST(general_cargo AS DOUBLE) AS general_cargo,
-            TRY_CAST(total AS DOUBLE) AS total
-        FROM "port-of-la-i9rh-q5gx"
-        WHERE year IS NOT NULL
-    ''',
-    "port-of-la-jmt8-y5rm": '''
-        SELECT
-            CAST(year AS INTEGER) AS year,
-            TRY_CAST(ship_calls AS INTEGER) AS ship_calls,
-            TRY_CAST(passengers AS BIGINT) AS passengers,
-            TRY_CAST(passengers_per_ship AS INTEGER) AS passengers_per_ship
-        FROM "port-of-la-jmt8-y5rm"
-        WHERE year IS NOT NULL
-    ''',
-    "port-of-la-tsuv-4rgh": '''
-        SELECT
-            CAST(date AS DATE) AS date,
-            month_year,
-            TRY_CAST(monthly_total_teus AS DOUBLE) AS monthly_total_teus,
-            TRY_CAST(cytd_total_teus AS DOUBLE) AS cytd_total_teus,
-            TRY_CAST(previous_year_cytd AS DOUBLE) AS previous_year_cytd,
-            TRY_CAST(change_total_teus_cytd AS DOUBLE) AS pct_change_total_teus_cytd
-        FROM "port-of-la-tsuv-4rgh"
-        WHERE date IS NOT NULL
-    ''',
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_TRANSFORM_SQL[s.id],
-    )
-    for s in DOWNLOAD_SPECS
 ]
