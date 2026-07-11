@@ -1,0 +1,12 @@
+spec_id: seer-dimension-codes
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: SEER Explorer publishes 21 dimension dictionaries; a much smaller codebook means get_var_formats changed or was only partially flattened.
+    certainty: 95
+  - not_null: variable
+  - not_null: code
+  - not_null: label
+  - distinct_count: {col: variable, min: 20}
+  - unique: [variable, code]
+

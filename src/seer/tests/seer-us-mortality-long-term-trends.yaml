@@ -1,0 +1,12 @@
+spec_id: seer-us-mortality-long-term-trends
+status: active
+tests:
+  - row_count: {min: 10}
+  - not_null: site
+  - column_type: {col: year, type: integer}
+  - between: {col: year, lo: 1900, hi: current_year()}
+  - freshness: {col: year, reaches: 2021}
+    points_outward: true
+    reason: SEER Explorer trend tables are refreshed annually with recent release years.
+    certainty: 80
+
