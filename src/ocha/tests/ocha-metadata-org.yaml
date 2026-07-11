@@ -1,0 +1,8 @@
+spec_id: ocha-metadata-org
+status: active
+tests:
+- not_null: name
+- not_null: org_type_code
+  reason: organizations in HAPI are classified by org type; most carry a type code
+  certainty: 60
+  severity: warn

@@ -1,0 +1,12 @@
+spec_id: ocha-metadata-location
+status: active
+tests:
+- not_null: code
+- not_null: name
+- column_type: {col: id, type: integer}
+- column_type: {col: has_hrp, type: boolean}
+  certainty: 80
+  severity: warn
+- unique: code
+  reason: one row per location; the ISO3 location code is the natural key
+  certainty: 90

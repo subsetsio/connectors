@@ -1,0 +1,8 @@
+spec_id: ocha-metadata-currency
+status: active
+tests:
+- not_null: code
+- not_null: name
+- unique: code
+  reason: one row per currency; the currency code is the natural key
+  certainty: 90

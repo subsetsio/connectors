@@ -1,0 +1,9 @@
+spec_id: ocha-metadata-dataset
+status: active
+tests:
+- not_null: dataset_hdx_id
+- not_null: dataset_hdx_stub
+- not_null: hdx_provider_name
+- unique: dataset_hdx_id
+  reason: one row per HDX dataset; the HDX dataset id is the natural key
+  certainty: 85

@@ -1,0 +1,10 @@
+spec_id: ocha-metadata-data-availability
+status: active
+tests:
+- not_null: location_code
+- not_null: category
+- not_null: subcategory
+- freshness: {col: hapi_updated_date, reaches: today - 400d}
+  reason: HAPI rebuilds its data-availability index on a regular cadence; the batch update date should be within roughly a year
+  certainty: 60
+  points_outward: true

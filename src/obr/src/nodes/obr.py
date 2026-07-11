@@ -43,7 +43,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import NodeSpec, save_raw_parquet
 
 # NOTE on the HTTP layer: obr.uk sits behind Cloudflare bot-management that 403s
 # the CI runner's datacenter IP on dynamic pages (/data/, /download/) regardless
@@ -239,6 +239,41 @@ def _melt_workbook(content: bytes, sheet_prefix: str = "") -> list:
     return rows
 
 
+def _melt_content(content: bytes, entity_id: str) -> list:
+    """Melt an OBR download into long rows, whether it's a single .xlsx or a
+    ZIP bundle of several .xlsx files.
+
+    A .xlsx IS itself a zip, so we open the payload as a zip and distinguish by
+    the presence of ``xl/workbook.xml`` (the marker of a single workbook). A ZIP
+    bundle instead carries several ``*.xlsx`` members; each is melted with its
+    member basename prefixed onto every sheet name so grains stay unique.
+    """
+    try:
+        zf = zipfile.ZipFile(io.BytesIO(content))
+    except zipfile.BadZipFile as exc:
+        raise RuntimeError(f"{entity_id}: payload is not a valid xlsx/zip") from exc
+
+    names = zf.namelist()
+    if "xl/workbook.xml" in names:  # a bare .xlsx workbook
+        return _melt_workbook(content)
+
+    # ZIP bundle: melt each .xlsx member (skip dirs, macOS resource forks).
+    rows = []
+    members = sorted(
+        n for n in names
+        if n.lower().endswith(".xlsx") and not n.endswith("/")
+        and not n.startswith("__MACOSX")
+    )
+    if not members:
+        raise RuntimeError(
+            f"{entity_id}: zip bundle contains no .xlsx members (has {names[:5]}...)"
+        )
+    for member in members:
+        base = member.rsplit("/", 1)[-1]
+        rows.extend(_melt_workbook(zf.read(member), sheet_prefix=f"{base} :: "))
+    return rows
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     entity_id = node_id[len("obr-"):]
@@ -262,7 +297,7 @@ def fetch_one(node_id: str) -> None:
     if not content:
         raise RuntimeError(f"{entity_id}: empty download body from {resp.url}")
 
-    rows = _melt_workbook(content)
+    rows = _melt_content(content, entity_id)
     if not rows:
         raise RuntimeError(f"{entity_id}: workbook melted to 0 cells from {resp.url}")
 
@@ -287,30 +322,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# One published Delta table per subset: a thin typed pass-through of the melted
-# workbook. The projection/cast is the correctness gate (wrong raw shape fails
-# loudly here); the WHERE drops any fully-empty cell defensively and guarantees
-# a non-empty published table.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                CAST(sheet AS VARCHAR)       AS sheet,
-                CAST(excel_row AS INTEGER)   AS excel_row,
-                CAST(excel_col AS INTEGER)   AS excel_col,
-                CAST(row_label AS VARCHAR)   AS row_label,
-                CAST(col_label AS VARCHAR)   AS col_label,
-                CAST(value_num AS DOUBLE)    AS value_num,
-                CAST(value_text AS VARCHAR)  AS value_text
-            FROM "{s.id}"
-            WHERE value_num IS NOT NULL OR value_text IS NOT NULL
-        ''',
-        key=("sheet", "excel_row", "excel_col"),
-    )
-    for s in DOWNLOAD_SPECS
 ]

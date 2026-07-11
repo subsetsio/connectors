@@ -1,0 +1,8 @@
+spec_id: ocha-metadata-org-type
+status: active
+tests:
+- not_null: code
+- not_null: description
+- unique: code
+  reason: one row per organization-type classification; the code is the natural key
+  certainty: 90

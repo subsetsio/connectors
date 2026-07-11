@@ -1,0 +1,10 @@
+spec_id: ocha-metadata-admin1
+status: active
+tests:
+- not_null: code
+- not_null: location_code
+- not_null: name
+- column_type: {col: id, type: integer}
+- unique: code
+  reason: one row per admin1 p-code; HAPI admin1 codes are globally unique
+  certainty: 80
