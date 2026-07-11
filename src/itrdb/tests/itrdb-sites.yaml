@@ -1,0 +1,25 @@
+spec_id: itrdb-sites
+status: active
+tests:
+  - not_null: study_id
+  - not_null: site_id
+  - not_null: site_name
+  - unique: [study_id, site_id]
+    reason: a NOAA site can appear in multiple studies, but should not repeat within the same study record.
+    certainty: 85
+  - column_type: {col: southernmost_latitude, type: float}
+  - column_type: {col: northernmost_latitude, type: float}
+  - column_type: {col: study_contribution_date, type: date}
+  - row_count: {min: 5000}
+    reason: the study catalog spans thousands of ITRDB sites; a much smaller table indicates nested site extraction broke.
+    certainty: 85
+  - between: {col: southernmost_latitude, lo: -90, hi: 90}
+    reason: latitude bounds should remain valid geographic coordinates when present.
+    certainty: 95
+  - between: {col: northernmost_latitude, lo: -90, hi: 90}
+    reason: latitude bounds should remain valid geographic coordinates when present.
+    certainty: 95
+  - freshness: {col: study_contribution_date, reaches: today - 2000d}
+    reason: site rows inherit study contribution dates; the bound detects a frozen catalog endpoint without requiring annual additions.
+    certainty: 70
+    points_outward: true

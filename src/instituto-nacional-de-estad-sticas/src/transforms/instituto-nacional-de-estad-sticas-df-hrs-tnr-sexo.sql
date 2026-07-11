@@ -1,1 +1,21 @@
-SELECT * EXCLUDE (DATAFLOW, INDICADOR, DECIMALS, MULT, NOTAS, NOTAS_INDICADOR, FUENTE) FROM "instituto-nacional-de-estad-sticas-df-hrs-tnr-sexo"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: AREA_REF can include Chile national totals and subnational areas; filter to the intended geography level before aggregating across areas.
+SELECT
+    "DATAFLOW" AS dataflow,
+    "AREA_REF" AS area_ref,
+    "FREQ" AS freq,
+    "INDICADOR" AS indicador,
+    "SEXO" AS sexo,
+    "TIME_PERIOD" AS time_period,
+    "OBS_VALUE" AS obs_value,
+    "OBS_STATUS" AS obs_status,
+    "NOTAS_INDICADOR" AS notas_indicador,
+    "NOTAS" AS notas,
+    "FUENTE" AS fuente,
+    "UNIDAD" AS unidad,
+    "MULT" AS mult,
+    "DECIMALS" AS decimals
+FROM "instituto-nacional-de-estad-sticas-df-hrs-tnr-sexo"

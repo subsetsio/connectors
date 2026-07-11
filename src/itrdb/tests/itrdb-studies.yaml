@@ -1,0 +1,21 @@
+spec_id: itrdb-studies
+status: active
+tests:
+  - not_null: study_id
+  - not_null: study_name
+  - not_null: data_type
+  - unique: study_id
+    reason: NOAAStudyId is the stable study identifier in Paleo Search.
+    certainty: 95
+  - column_type: {col: study_id, type: string}
+  - column_type: {col: contribution_date, type: date}
+  - row_count: {min: 8000}
+    reason: ITRDB tree-ring catalog has about 8943 studies; a much smaller table indicates a partial catalog fetch.
+    certainty: 90
+  - distinct_count: {col: data_type, min: 2}
+    reason: dataTypeId=18 includes tree-ring measurements plus related reconstructions and fire-history records.
+    certainty: 75
+  - freshness: {col: contribution_date, reaches: today - 2000d}
+    reason: NCEI continues to accept Paleo/ITRDB contributions; this loose bound catches a frozen catalog endpoint without requiring annual additions.
+    certainty: 70
+    points_outward: true

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `instituto-nacional-de-estad-sticas-df-ocu-edad`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [time_period, area_ref, edad]
+temporal: time_period
+checks:
+  - kind: unique
+    columns: [time_period, area_ref, edad]
+  - kind: not_null
+    col: time_period
+  - kind: not_null
+    col: area_ref
+  - kind: not_null
+    col: edad
+  - kind: row_floor
+    min: 11602
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

@@ -1,0 +1,21 @@
+spec_id: itrdb-data-files
+status: active
+tests:
+  - not_null: study_id
+  - not_null: data_table_id
+  - not_null: file_url
+  - not_null: url_description
+  - column_type: {col: study_contribution_date, type: date}
+  - row_count: {min: 50000}
+    reason: Paleo Search reported about 61837 tree-ring dataFile entries; a much smaller table indicates nested data-file extraction broke.
+    certainty: 90
+  - distinct_count: {col: file_extension, min: 5}
+    reason: ITRDB data files include txt, crn, rwl, fhx, and ancillary formats.
+    certainty: 85
+  - matches: {col: file_url, pattern: "^https://www\\.ncei\\.noaa\\.gov/pub/data/paleo/"}
+    reason: every data file should resolve to the stable NCEI Paleo bulk file tree.
+    certainty: 90
+  - freshness: {col: study_contribution_date, reaches: today - 2000d}
+    reason: data-file rows inherit study contribution dates; the bound detects a frozen catalog endpoint without requiring annual additions.
+    certainty: 70
+    points_outward: true

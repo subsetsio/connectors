@@ -1,16 +1,42 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+key:
+- area_ref
+- freq
+- zona
+- time_period
+- unidad
+sort:
+- time_period
+- area_ref
+- freq
+- zona
+- unidad
 columns:
-  - name: AREA_REF
-    type: VARCHAR
-  - name: FREQ
-    type: VARCHAR
-  - name: ZONA
-    type: VARCHAR
-  - name: TIME_PERIOD
-    type: BIGINT
-  - name: OBS_VALUE
-    type: DOUBLE
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: UNIDAD
-    type: VARCHAR
+- name: dataflow
+  type: VARCHAR
+- name: area_ref
+  type: VARCHAR
+- name: freq
+  type: VARCHAR
+- name: indicador
+  type: VARCHAR
+- name: zona
+  type: VARCHAR
+- name: time_period
+  type: BIGINT
+- name: obs_value
+  type: DOUBLE
+- name: obs_status
+  type: VARCHAR
+- name: notas_indicador
+  type: VARCHAR
+- name: decimals
+  type: BIGINT
+- name: notas
+  type: VARCHAR
+- name: fuente
+  type: VARCHAR
+- name: unidad
+  type: VARCHAR
+- name: mult
+  type: BIGINT
+temporal: time_period
