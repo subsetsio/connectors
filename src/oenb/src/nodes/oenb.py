@@ -91,12 +91,19 @@ def _chunks(items, n):
 
 
 def _dim_key(ds: ET.Element) -> str:
-    """Stable '|'-joined dimension code signature (attr1, attr2, ...)."""
-    codes, i = [], 1
-    while ds.get(f"attr{i}") is not None:
-        codes.append(ds.get(f"attr{i}"))
-        i += 1
-    return "|".join(codes)
+    """Stable dimension signature, preserving gaps in OeNB attr slots."""
+    slots = []
+    for key in ds.keys():
+        if key.startswith("attr") and key.endswith("Dim"):
+            n = key[4:-3]
+            if n.isdigit():
+                slots.append(int(n))
+    if not slots:
+        return ""
+    return "|".join(
+        f"{ds.get(f'attr{i}Dim')}={ds.get(f'attr{i}') or ''}"
+        for i in range(1, max(slots) + 1)
+    )
 
 
 def fetch_one(node_id: str) -> None:
