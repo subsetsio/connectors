@@ -20,6 +20,9 @@ tests:
   - row_count: {min: 5000}
     reason: probed 6983 objects; the compliant list grows with NEA discovery
     certainty: 85
+  - freshness: {col: obs_end, reaches: today - 400d}
+    reason: NHATS is a maintained accessibility snapshot; at least one observation-window end date should remain recent on the raw feed
+    points_outward: true
   - nullable: {col: obs_mag, max_null_frac: 0.9}
     reason: observation-window magnitudes are populated for a substantial minority of objects; near-total absence means the summary payload degraded (the window DATE fields already proved flaky, so they are not asserted at all)
     certainty: 70

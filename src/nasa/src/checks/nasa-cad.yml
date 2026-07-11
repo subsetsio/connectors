@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nasa-cad`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [des, close_approach_time]
+temporal: close_approach_time
+checks:
+  - kind: unique
+    columns: [des, close_approach_time]
+  - kind: not_null
+    col: des
+  - kind: not_null
+    col: close_approach_time
+  - kind: row_floor
+    min: 21337
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
