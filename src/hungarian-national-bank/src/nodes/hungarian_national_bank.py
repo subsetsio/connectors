@@ -133,6 +133,27 @@ def _rows_from_workbook(entity_id: str, content: bytes) -> list[dict]:
     return rows
 
 
+def _unavailable_rows(entity_id: str, status_code: int, url: str) -> list[dict]:
+    meta = ENTITY_METADATA[entity_id]
+    return [
+        {
+            "entity_id": entity_id,
+            "source_file_url": meta.get("file_url"),
+            "source_file_format": meta.get("file_format"),
+            "source_title": meta.get("name"),
+            "topic": meta.get("topic"),
+            "group_name": meta.get("group"),
+            "last_update_date": meta.get("last_update_date"),
+            "next_update_date": meta.get("next_update_date"),
+            "sheet_name": "__unavailable__",
+            "row_number": 1,
+            "column_number": 1,
+            "cell_value": f"Workbook unavailable from MNB portal: HTTP {status_code} at {url}",
+            "cell_type": "unavailable",
+        }
+    ]
+
+
 def fetch_workbook_cells(node_id: str) -> None:
     entity_id = _entity_from_node_id(node_id)
     meta = ENTITY_METADATA[entity_id]
@@ -141,6 +162,12 @@ def fetch_workbook_cells(node_id: str) -> None:
         raise RuntimeError(f"missing file_url for {entity_id}")
     url = file_url if str(file_url).startswith("http") else f"{BASE_URL}{file_url}"
     resp = get(url, timeout=(10.0, 300.0))
+    if resp.status_code == 404:
+        save_raw_parquet(
+            pa.Table.from_pylist(_unavailable_rows(entity_id, resp.status_code, url), schema=CELL_SCHEMA),
+            node_id,
+        )
+        return
     resp.raise_for_status()
     rows = _rows_from_workbook(entity_id, resp.content)
     save_raw_parquet(pa.Table.from_pylist(rows, schema=CELL_SCHEMA), node_id)
