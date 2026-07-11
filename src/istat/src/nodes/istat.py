@@ -239,19 +239,36 @@ def _key_for_dim(dims: list[dict], dim_id: str, code: str) -> str:
     return ".".join(parts)
 
 
-def _fetch_csv_keyed(flow_id: str, key: str, start: str, end: str) -> str | None:
+def _fetch_csv_keyed(
+    flow_id: str,
+    key: str,
+    start: str,
+    end: str,
+    *,
+    attempts: int = 1,
+) -> str | None:
     params = {"detail": "dataonly", "dimensionAtObservation": "TIME_PERIOD"}
     if start:
         params["startPeriod"] = start
     if end:
         params["endPeriod"] = end
+    prior = os.environ.get("HTTP_RETRY_ATTEMPTS")
+    if attempts:
+        os.environ["HTTP_RETRY_ATTEMPTS"] = str(attempts)
     _throttle()
-    resp = get(
-        f"{BASE}/data/IT1,{flow_id},1.0/{key}/ALL/",
-        params=params,
-        headers={"Accept": CSV_ACCEPT},
-        timeout=_WINDOW_TIMEOUT,
-    )
+    try:
+        resp = get(
+            f"{BASE}/data/IT1,{flow_id},1.0/{key}/ALL/",
+            params=params,
+            headers={"Accept": CSV_ACCEPT},
+            timeout=_WINDOW_TIMEOUT,
+        )
+    finally:
+        if attempts:
+            if prior is None:
+                os.environ.pop("HTTP_RETRY_ATTEMPTS", None)
+            else:
+                os.environ["HTTP_RETRY_ATTEMPTS"] = prior
     if resp.status_code == 404 and "NoRecordsFound" in resp.text[:400]:
         return None
     if resp.status_code == 422:
@@ -288,7 +305,7 @@ def _iter_rows(flow_id: str):
                     yield from split_months(lo)
             return
         if text is not None:
-            yield from _rows(text)
+            yield from _rows(text, start=str(lo), end=str(hi))
 
     def split_compact_dims(start: str, end: str):
         """Split an otherwise-too-large time window by a compact DSD dimension.
@@ -310,6 +327,9 @@ def _iter_rows(flow_id: str):
                 f"({len(dim['codes'])} codes)"
             )
             for code in dim["codes"]:
+                if budget[0] <= 0:
+                    raise RuntimeError(f"{flow_id}: exceeded {_MAX_REQUESTS_PER_FLOW} requests")
+                budget[0] -= 1
                 key = _key_for_dim(list(_flow_structure(flow_id)), dim["id"], code)
                 try:
                     text = _fetch_csv_keyed(flow_id, key, start, end)
@@ -318,7 +338,7 @@ def _iter_rows(flow_id: str):
                     break
                 if text is None:
                     continue
-                for row in _rows(text):
+                for row in _rows(text, start=start, end=end):
                     seen += 1
                     yield row
             if seen:
@@ -334,7 +354,7 @@ def _iter_rows(flow_id: str):
         for month in range(1, 13):
             text = window(f"{year}-{month:02d}", f"{year}-{month:02d}")
             if text is not None:
-                for row in _rows(text):
+                for row in _rows(text, start=f"{year}-{month:02d}", end=f"{year}-{month:02d}"):
                     seen += 1
                     yield row
         if seen == 0:
@@ -353,7 +373,20 @@ def _iter_rows(flow_id: str):
         yield from _rows(text)
 
 
-def _rows(text):
+def _period_in_window(period: str | None, start: str | None, end: str | None) -> bool:
+    if not period or (not start and not end):
+        return True
+    if start and len(start) == 4:
+        try:
+            year = int(period[:4])
+        except ValueError:
+            return True
+        return int(start) <= year <= int(end or start)
+    value = period[:7]
+    return (not start or value >= start) and (not end or value <= end)
+
+
+def _rows(text, *, start: str | None = None, end: str | None = None):
     """Yield row dicts from SDMX-CSV text, dropping NOTE_* columns and coercing
     empty strings to None. Generator => streamed to the NDJSON writer, so peak
     memory is ~ the response size, not response + materialized list."""
@@ -370,6 +403,8 @@ def _rows(text):
         for i, h in keep:
             v = rec[i] if i < len(rec) else ""
             row[h] = v if v != "" else None
+        if not _period_in_window(row.get("TIME_PERIOD"), start, end):
+            continue
         yield row
 
 
