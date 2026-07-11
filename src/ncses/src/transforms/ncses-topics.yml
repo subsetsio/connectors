@@ -1,9 +1,11 @@
-# passthrough for reference asset (hand-authored to unblock the graph;
-# the model stage recompiles/verifies this against profiled raw)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ncses-topics`. Regenerate after model-verify.
+key: [topicpath]
+sort: [topicpath]
 columns:
-  - name: "superTopic"
+  - name: supertopic
     type: VARCHAR
-  - name: "topic"
+  - name: topic
     type: VARCHAR
-  - name: "topicPath"
+  - name: topicpath
     type: VARCHAR

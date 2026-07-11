@@ -1,1 +1,45 @@
-SELECT * FROM "ncses-nsf25321-tab049"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "Field of study" AS field_of_study,
+    "All employed - Number" AS all_employed_number,
+    "All employed - SE" AS all_employed_se,
+    "Biological agricultural and other life scientists - Total - Number" AS biological_agricultural_and_other_life_scientists_total_number,
+    "Biological agricultural and other life scientists - Total - SE" AS biological_agricultural_and_other_life_scientists_total_se,
+    "Biological agricultural and other life scientists - Post-secondary teachers - Number" AS biological_agricultural_and_other_life_scientists_post_secondary_teachers_number,
+    "Biological agricultural and other life scientists - Post-secondary teachers - SE" AS biological_agricultural_and_other_life_scientists_post_secondary_teachers_se,
+    "Biological agricultural and other life scientists - Other - Number" AS biological_agricultural_and_other_life_scientists_other_number,
+    "Biological agricultural and other life scientists - Other - SE" AS biological_agricultural_and_other_life_scientists_other_se,
+    "Computer and information scientists - Total - Number" AS computer_and_information_scientists_total_number,
+    "Computer and information scientists - Total - SE" AS computer_and_information_scientists_total_se,
+    "Computer and information scientists - Post-secondary teachers - Number" AS computer_and_information_scientists_post_secondary_teachers_number,
+    "Computer and information scientists - Post-secondary teachers - SE" AS computer_and_information_scientists_post_secondary_teachers_se,
+    "Computer and information scientists - Other - Number" AS computer_and_information_scientists_other_number,
+    "Computer and information scientists - Other - SE" AS computer_and_information_scientists_other_se,
+    "Mathematical scientists - Total - Number" AS mathematical_scientists_total_number,
+    "Mathematical scientists - Total - SE" AS mathematical_scientists_total_se,
+    "Mathematical scientists - Post-secondary teachers - Number" AS mathematical_scientists_post_secondary_teachers_number,
+    "Mathematical scientists - Post-secondary teachers - SE" AS mathematical_scientists_post_secondary_teachers_se,
+    "Mathematical scientists - Other - Number" AS mathematical_scientists_other_number,
+    "Mathematical scientists - Other - SE" AS mathematical_scientists_other_se,
+    "Physical scientists - Total - Number" AS physical_scientists_total_number,
+    "Physical scientists - Total - SE" AS physical_scientists_total_se,
+    "Physical scientists - Post-secondary teachers - Number" AS physical_scientists_post_secondary_teachers_number,
+    "Physical scientists - Post-secondary teachers - SE" AS physical_scientists_post_secondary_teachers_se,
+    "Physical scientists - Other - Number" AS physical_scientists_other_number,
+    "Physical scientists - Other - SE" AS physical_scientists_other_se,
+    "Psychologists - Total - Number" AS psychologists_total_number,
+    "Psychologists - Total - SE" AS psychologists_total_se,
+    "Psychologists - Post-secondary teachers - Number" AS psychologists_post_secondary_teachers_number,
+    "Psychologists - Post-secondary teachers - SE" AS psychologists_post_secondary_teachers_se,
+    "Psychologists - Other - Number" AS psychologists_other_number,
+    "Psychologists - Other - SE" AS psychologists_other_se,
+    "Social scientists - Total - Number" AS social_scientists_total_number,
+    "Social scientists - Total - SE" AS social_scientists_total_se,
+    "Social scientists - Post-secondary teachers - Number" AS social_scientists_post_secondary_teachers_number,
+    "Social scientists - Post-secondary teachers - SE" AS social_scientists_post_secondary_teachers_se,
+    "Social scientists - Other - Number" AS social_scientists_other_number,
+    "Social scientists - Other - SE" AS social_scientists_other_se
+FROM "ncses-nsf25321-tab049"

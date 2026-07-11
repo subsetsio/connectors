@@ -1,1 +1,46 @@
-SELECT * FROM "ncses-nsf25349-tab004-004"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Wide NCSES source table with no scan-verified row identifier; treat rows as source cross-tab records and use the table title and column labels to determine aggregation scope before summing.
+SELECT
+    "Debt level - Cumulative debt" AS debt_level_cumulative_debt,
+    "All fields - Cumulative debt" AS all_fields_cumulative_debt,
+    "All fields - Cumulative debt_2" AS all_fields_cumulative_debt_2,
+    "Science and engineering - Total - Cumulative debt" AS science_and_engineering_total_cumulative_debt,
+    "Science and engineering - Total - Cumulative debt_2" AS science_and_engineering_total_cumulative_debt_2,
+    "Science and engineering - Agricultural sciences and natural resources - Cumulative debt" AS science_and_engineering_agricultural_sciences_and_natural_resources_cumulative_debt,
+    "Science and engineering - Agricultural sciences and natural resources - Cumulative debt_2" AS science_and_engineering_agricultural_sciences_and_natural_resources_cumulative_debt_2,
+    "Science and engineering - Biological and biomedical sciences - Cumulative debt" AS science_and_engineering_biological_and_biomedical_sciences_cumulative_debt,
+    "Science and engineering - Biological and biomedical sciences - Cumulative debt_2" AS science_and_engineering_biological_and_biomedical_sciences_cumulative_debt_2,
+    "Science and engineering - Computer and information sciences - Cumulative debt" AS science_and_engineering_computer_and_information_sciences_cumulative_debt,
+    "Science and engineering - Computer and information sciences - Cumulative debt_2" AS science_and_engineering_computer_and_information_sciences_cumulative_debt_2,
+    "Science and engineering - Engineering - Cumulative debt" AS science_and_engineering_engineering_cumulative_debt,
+    "Science and engineering - Engineering - Cumulative debt_2" AS science_and_engineering_engineering_cumulative_debt_2,
+    "Science and engineering - Geosciences atmospheric and ocean sciences - Cumulative debt" AS science_and_engineering_geosciences_atmospheric_and_ocean_sciences_cumulative_debt,
+    "Science and engineering - Geosciences atmospheric and ocean sciences - Cumulative debt_2" AS science_and_engineering_geosciences_atmospheric_and_ocean_sciences_cumulative_debt_2,
+    "Science and engineering - Health sciences - Cumulative debt" AS science_and_engineering_health_sciences_cumulative_debt,
+    "Science and engineering - Health sciences - Cumulative debt_2" AS science_and_engineering_health_sciences_cumulative_debt_2,
+    "Science and engineering - Mathematics and statistics - Cumulative debt" AS science_and_engineering_mathematics_and_statistics_cumulative_debt,
+    "Science and engineering - Mathematics and statistics - Cumulative debt_2" AS science_and_engineering_mathematics_and_statistics_cumulative_debt_2,
+    "Science and engineering - Multidisciplinary/ interdisciplinary sciences - Cumulative debt" AS science_and_engineering_multidisciplinary_interdisciplinary_sciences_cumulative_debt,
+    "Science and engineering - Multidisciplinary/ interdisciplinary sciences - Cumulative debt_2" AS science_and_engineering_multidisciplinary_interdisciplinary_sciences_cumulative_debt_2,
+    "Science and engineering - Physical sciences - Cumulative debt" AS science_and_engineering_physical_sciences_cumulative_debt,
+    "Science and engineering - Physical sciences - Cumulative debt_2" AS science_and_engineering_physical_sciences_cumulative_debt_2,
+    "Science and engineering - Psychology - Cumulative debt" AS science_and_engineering_psychology_cumulative_debt,
+    "Science and engineering - Psychology - Cumulative debt_2" AS science_and_engineering_psychology_cumulative_debt_2,
+    "Science and engineering - Social sciences - Cumulative debt" AS science_and_engineering_social_sciences_cumulative_debt,
+    "Science and engineering - Social sciences - Cumulative debt_2" AS science_and_engineering_social_sciences_cumulative_debt_2,
+    "Non-science and engineering - Total - Cumulative debt" AS non_science_and_engineering_total_cumulative_debt,
+    "Non-science and engineering - Total - Cumulative debt_2" AS non_science_and_engineering_total_cumulative_debt_2,
+    "Non-science and engineering - Business - Cumulative debt" AS non_science_and_engineering_business_cumulative_debt,
+    "Non-science and engineering - Business - Cumulative debt_2" AS non_science_and_engineering_business_cumulative_debt_2,
+    "Non-science and engineering - Education - Cumulative debt" AS non_science_and_engineering_education_cumulative_debt,
+    "Non-science and engineering - Education - Cumulative debt_2" AS non_science_and_engineering_education_cumulative_debt_2,
+    "Non-science and engineering - Humanities - Cumulative debt" AS non_science_and_engineering_humanities_cumulative_debt,
+    "Non-science and engineering - Humanities - Cumulative debt_2" AS non_science_and_engineering_humanities_cumulative_debt_2,
+    "Non-science and engineering - Visual and performing arts - Cumulative debt" AS non_science_and_engineering_visual_and_performing_arts_cumulative_debt,
+    "Non-science and engineering - Visual and performing arts - Cumulative debt_2" AS non_science_and_engineering_visual_and_performing_arts_cumulative_debt_2,
+    "Non-science and engineering - Other non-science and engineering - Cumulative debt" AS non_science_and_engineering_other_non_science_and_engineering_cumulative_debt,
+    "Non-science and engineering - Other non-science and engineering - Cumulative debt_2" AS non_science_and_engineering_other_non_science_and_engineering_cumulative_debt_2
+FROM "ncses-nsf25349-tab004-004"

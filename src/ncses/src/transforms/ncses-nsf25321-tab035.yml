@@ -1,16 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ncses-nsf25321-tab035`. Regenerate after model-verify.
+# caution: Wide NCSES source table with no scan-verified row identifier; treat rows as source cross-tab records and use the table title and column labels to determine aggregation scope before summing.
+key: []
 columns:
-  - name: Occupation
+  - name: occupation
     type: VARCHAR
-  - name: Total - Number
+  - name: total_number
     type: DOUBLE
-  - name: Total - SE
+  - name: total_se
     type: DOUBLE
-  - name: With disability - Number
+  - name: with_disability_number
     type: DOUBLE
-  - name: With disability - SE
+  - name: with_disability_se
     type: DOUBLE
-  - name: Without disability - Number
+  - name: without_disability_number
     type: DOUBLE
-  - name: Without disability - SE
+  - name: without_disability_se
     type: DOUBLE

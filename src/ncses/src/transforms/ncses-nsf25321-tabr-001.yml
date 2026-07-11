@@ -1,24 +1,27 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ncses-nsf25321-tabr-001`. Regenerate after model-verify.
+# caution: Wide NCSES source table with no scan-verified row identifier; treat rows as source cross-tab records and use the table title and column labels to determine aggregation scope before summing.
+key: []
 columns:
-  - name: Characteristic
+  - name: characteristic
     type: VARCHAR
-  - name: Total - Number
+  - name: total_number
     type: DOUBLE
-  - name: Total - SE
+  - name: total_se
     type: DOUBLE
-  - name: Employed - Never retired - Percent
+  - name: employed_never_retired_percent
     type: DOUBLE
-  - name: Employed - Never retired - SE
+  - name: employed_never_retired_se
     type: DOUBLE
-  - name: Employed - Previously retireda - Percent
+  - name: employed_previously_retireda_percent
     type: DOUBLE
-  - name: Employed - Previously retireda - SE
+  - name: employed_previously_retireda_se
     type: DOUBLE
-  - name: Not employed - Not retiredb - Percent
+  - name: not_employed_not_retiredb_percent
     type: DOUBLE
-  - name: Not employed - Not retiredb - SE
+  - name: not_employed_not_retiredb_se
     type: DOUBLE
-  - name: Not employed - Retiredc - Percent
+  - name: not_employed_retiredc_percent
     type: DOUBLE
-  - name: Not employed - Retiredc - SE
+  - name: not_employed_retiredc_se
     type: DOUBLE

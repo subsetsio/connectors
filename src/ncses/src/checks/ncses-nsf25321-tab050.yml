@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ncses-nsf25321-tab050`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [field_of_study, not_hispanic_or_latinob_american_indian_or_alaska_native_male_median_salary, not_hispanic_or_latinob_american_indian_or_alaska_native_male_se]
+checks:
+  - kind: unique
+    columns: [field_of_study, not_hispanic_or_latinob_american_indian_or_alaska_native_male_median_salary, not_hispanic_or_latinob_american_indian_or_alaska_native_male_se]
+  - kind: not_null
+    col: field_of_study
+  - kind: not_null
+    col: not_hispanic_or_latinob_american_indian_or_alaska_native_male_median_salary
+  - kind: not_null
+    col: not_hispanic_or_latinob_american_indian_or_alaska_native_male_se
+  - kind: row_floor
+    min: 16
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

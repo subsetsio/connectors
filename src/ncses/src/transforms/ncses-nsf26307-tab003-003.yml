@@ -1,38 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ncses-nsf26307-tab003-003`. Regenerate after model-verify.
+# caution: Wide NCSES source table with no scan-verified row identifier; treat rows as source cross-tab records and use the table title and column labels to determine aggregation scope before summing.
+key: []
 columns:
-  - name: Broad field
+  - name: broad_field
     type: VARCHAR
-  - name: Total
+  - name: total
     type: DOUBLE
-  - name: DOD - Number
+  - name: dod_number
     type: DOUBLE
-  - name: DOD - Percent
+  - name: dod_percent
     type: DOUBLE
-  - name: DOE - Number
+  - name: doe_number
     type: DOUBLE
-  - name: DOE - Percent
+  - name: doe_percent
     type: DOUBLE
-  - name: "HHS: NIH - Number"
+  - name: hhs_nih_number
     type: DOUBLE
-  - name: "HHS: NIH - Percent"
+  - name: hhs_nih_percent
     type: DOUBLE
-  - name: "HHS: Other HHS - Number"
+  - name: hhs_other_hhs_number
     type: DOUBLE
-  - name: "HHS: Other HHS - Percent"
+  - name: hhs_other_hhs_percent
     type: DOUBLE
-  - name: NASA - Number
+  - name: nasa_number
     type: DOUBLE
-  - name: NASA - Percent
+  - name: nasa_percent
     type: DOUBLE
-  - name: NSF - Number
+  - name: nsf_number
     type: DOUBLE
-  - name: NSF - Percent
+  - name: nsf_percent
     type: DOUBLE
-  - name: USDA - Number
+  - name: usda_number
     type: DOUBLE
-  - name: USDA - Percent
+  - name: usda_percent
     type: DOUBLE
-  - name: Other - Number
+  - name: other_number
     type: DOUBLE
-  - name: Other - Percent
+  - name: other_percent
     type: DOUBLE

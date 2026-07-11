@@ -1,1 +1,50 @@
-SELECT * FROM "ncses-nsf25321-tab065"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Wide NCSES source table with no scan-verified row identifier; treat rows as source cross-tab records and use the table title and column labels to determine aggregation scope before summing.
+SELECT
+    "Occupation" AS occupation,
+    "All full-time employed - Total - Median salary" AS all_full_time_employed_total_median_salary,
+    "All full-time employed - Total - SE" AS all_full_time_employed_total_se,
+    "All full-time employed - Male - Median salary" AS all_full_time_employed_male_median_salary,
+    "All full-time employed - Male - SE" AS all_full_time_employed_male_se,
+    "All full-time employed - Female - Median salary" AS all_full_time_employed_female_median_salary,
+    "All full-time employed - Female - SE" AS all_full_time_employed_female_se,
+    "Hispanic or Latinoa - Total - Median salary" AS hispanic_or_latinoa_total_median_salary,
+    "Hispanic or Latinoa - Total - SE" AS hispanic_or_latinoa_total_se,
+    "Hispanic or Latinoa - Male - Median salary" AS hispanic_or_latinoa_male_median_salary,
+    "Hispanic or Latinoa - Male - SE" AS hispanic_or_latinoa_male_se,
+    "Hispanic or Latinoa - Female - Median salary" AS hispanic_or_latinoa_female_median_salary,
+    "Hispanic or Latinoa - Female - SE" AS hispanic_or_latinoa_female_se,
+    "Not Hispanic or Latinob - American Indian or Alaska Native - Total - Median salary" AS not_hispanic_or_latinob_american_indian_or_alaska_native_total_median_salary,
+    "Not Hispanic or Latinob - American Indian or Alaska Native - Total - SE" AS not_hispanic_or_latinob_american_indian_or_alaska_native_total_se,
+    "Not Hispanic or Latinob - American Indian or Alaska Native - Male - Median salary" AS not_hispanic_or_latinob_american_indian_or_alaska_native_male_median_salary,
+    "Not Hispanic or Latinob - American Indian or Alaska Native - Male - SE" AS not_hispanic_or_latinob_american_indian_or_alaska_native_male_se,
+    "Not Hispanic or Latinob - American Indian or Alaska Native - Female - Median salary" AS not_hispanic_or_latinob_american_indian_or_alaska_native_female_median_salary,
+    "Not Hispanic or Latinob - American Indian or Alaska Native - Female - SE" AS not_hispanic_or_latinob_american_indian_or_alaska_native_female_se,
+    "Not Hispanic or Latinob - Asian - Total - Median salary" AS not_hispanic_or_latinob_asian_total_median_salary,
+    "Not Hispanic or Latinob - Asian - Total - SE" AS not_hispanic_or_latinob_asian_total_se,
+    "Not Hispanic or Latinob - Asian - Male - Median salary" AS not_hispanic_or_latinob_asian_male_median_salary,
+    "Not Hispanic or Latinob - Asian - Male - SE" AS not_hispanic_or_latinob_asian_male_se,
+    "Not Hispanic or Latinob - Asian - Female - Median salary" AS not_hispanic_or_latinob_asian_female_median_salary,
+    "Not Hispanic or Latinob - Asian - Female - SE" AS not_hispanic_or_latinob_asian_female_se,
+    "Not Hispanic or Latinob - Black or African American - Total - Median salary" AS not_hispanic_or_latinob_black_or_african_american_total_median_salary,
+    "Not Hispanic or Latinob - Black or African American - Total - SE" AS not_hispanic_or_latinob_black_or_african_american_total_se,
+    "Not Hispanic or Latinob - Black or African American - Male - Median salary" AS not_hispanic_or_latinob_black_or_african_american_male_median_salary,
+    "Not Hispanic or Latinob - Black or African American - Male - SE" AS not_hispanic_or_latinob_black_or_african_american_male_se,
+    "Not Hispanic or Latinob - Black or African American - Female - Median salary" AS not_hispanic_or_latinob_black_or_african_american_female_median_salary,
+    "Not Hispanic or Latinob - Black or African American - Female - SE" AS not_hispanic_or_latinob_black_or_african_american_female_se,
+    "Not Hispanic or Latinob - White - Total - Median salary" AS not_hispanic_or_latinob_white_total_median_salary,
+    "Not Hispanic or Latinob - White - Total - SE" AS not_hispanic_or_latinob_white_total_se,
+    "Not Hispanic or Latinob - White - Male - Median salary" AS not_hispanic_or_latinob_white_male_median_salary,
+    "Not Hispanic or Latinob - White - Male - SE" AS not_hispanic_or_latinob_white_male_se,
+    "Not Hispanic or Latinob - White - Female - Median salary" AS not_hispanic_or_latinob_white_female_median_salary,
+    "Not Hispanic or Latinob - White - Female - SE" AS not_hispanic_or_latinob_white_female_se,
+    "Not Hispanic or Latinob - Other racec - Total - Median salary" AS not_hispanic_or_latinob_other_racec_total_median_salary,
+    "Not Hispanic or Latinob - Other racec - Total - SE" AS not_hispanic_or_latinob_other_racec_total_se,
+    "Not Hispanic or Latinob - Other racec - Male - Median salary" AS not_hispanic_or_latinob_other_racec_male_median_salary,
+    "Not Hispanic or Latinob - Other racec - Male - SE" AS not_hispanic_or_latinob_other_racec_male_se,
+    "Not Hispanic or Latinob - Other racec - Female - Median salary" AS not_hispanic_or_latinob_other_racec_female_median_salary,
+    "Not Hispanic or Latinob - Other racec - Female - SE" AS not_hispanic_or_latinob_other_racec_female_se
+FROM "ncses-nsf25321-tab065"

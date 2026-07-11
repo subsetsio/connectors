@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ncses-nsf26304-tab003`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [source_of_funds_and_r_and_d_field]
+checks:
+  - kind: unique
+    columns: [source_of_funds_and_r_and_d_field]
+  - kind: not_null
+    col: source_of_funds_and_r_and_d_field
+  - kind: row_floor
+    min: 10
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

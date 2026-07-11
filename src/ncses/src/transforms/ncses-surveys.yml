@@ -1,31 +1,33 @@
-# passthrough for reference asset (hand-authored to unblock the graph;
-# the model stage recompiles/verifies this against profiled raw)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ncses-surveys`. Regenerate after model-verify.
+key: [surveyname]
+sort: [surveyname]
 columns:
-  - name: "surveyName"
+  - name: surveyname
     type: VARCHAR
-  - name: "surveyShortName"
+  - name: surveyshortname
     type: VARCHAR
-  - name: "survey"
+  - name: survey
     type: VARCHAR
-  - name: "surveyDescription"
+  - name: surveydescription
     type: VARCHAR
-  - name: "surveyUrl"
+  - name: surveyurl
     type: VARCHAR
-  - name: "questionnaireUrl"
+  - name: questionnaireurl
     type: VARCHAR
-  - name: "publicUseUrl"
+  - name: publicuseurl
     type: VARCHAR
-  - name: "surveyType"
+  - name: surveytype
     type: VARCHAR
-  - name: "surveyYearsCollected"
+  - name: surveyyearscollected
     type: VARCHAR
-  - name: "surveyFrequency"
+  - name: surveyfrequency
     type: VARCHAR
-  - name: "responseUnit"
+  - name: responseunit
     type: VARCHAR
-  - name: "surveyPopulation"
+  - name: surveypopulation
     type: VARCHAR
-  - name: "topics"
+  - name: topics
     type: VARCHAR
-  - name: "surveyGroupName"
+  - name: surveygroupname
     type: VARCHAR

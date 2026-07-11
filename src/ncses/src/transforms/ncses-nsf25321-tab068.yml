@@ -1,32 +1,35 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ncses-nsf25321-tab068`. Regenerate after model-verify.
+# caution: Wide NCSES source table with no scan-verified row identifier; treat rows as source cross-tab records and use the table title and column labels to determine aggregation scope before summing.
+key: []
 columns:
-  - name: Occupation
+  - name: occupation
     type: VARCHAR
-  - name: All full-time employed - Median salary
+  - name: all_full_time_employed_median_salary
     type: DOUBLE
-  - name: All full-time employed - SE
+  - name: all_full_time_employed_se
     type: DOUBLE
-  - name: ≤ 5 - Median salary
+  - name: "5_median_salary"
     type: DOUBLE
-  - name: ≤ 5 - SE
+  - name: "5_se"
     type: DOUBLE
-  - name: 6–10 - Median salary
+  - name: "6_10_median_salary"
     type: DOUBLE
-  - name: 6–10 - SE
+  - name: "6_10_se"
     type: DOUBLE
-  - name: 11–15 - Median salary
+  - name: "11_15_median_salary"
     type: DOUBLE
-  - name: 11–15 - SE
+  - name: "11_15_se"
     type: DOUBLE
-  - name: 16–20 - Median salary
+  - name: "16_20_median_salary"
     type: DOUBLE
-  - name: 16–20 - SE
+  - name: "16_20_se"
     type: DOUBLE
-  - name: 21–25 - Median salary
+  - name: "21_25_median_salary"
     type: DOUBLE
-  - name: 21–25 - SE
+  - name: "21_25_se"
     type: DOUBLE
-  - name: "> 25 - Median salary"
+  - name: "25_median_salary"
     type: DOUBLE
-  - name: "> 25 - SE"
+  - name: "25_se"
     type: DOUBLE

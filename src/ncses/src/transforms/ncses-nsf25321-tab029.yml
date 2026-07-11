@@ -1,32 +1,35 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ncses-nsf25321-tab029`. Regenerate after model-verify.
+# caution: Wide NCSES source table with no scan-verified row identifier; treat rows as source cross-tab records and use the table title and column labels to determine aggregation scope before summing.
+key: []
 columns:
-  - name: Occupation
+  - name: occupation
     type: VARCHAR
-  - name: Total - Number
+  - name: total_number
     type: DOUBLE
-  - name: Total - SE
+  - name: total_se
     type: DOUBLE
-  - name: Employed - Total - Number
+  - name: employed_total_number
     type: DOUBLE
-  - name: Employed - Total - SE
+  - name: employed_total_se
     type: DOUBLE
-  - name: Employed - Full time - Number
+  - name: employed_full_time_number
     type: DOUBLE
-  - name: Employed - Full time - SE
+  - name: employed_full_time_se
     type: DOUBLE
-  - name: Employed - Part time - Number
+  - name: employed_part_time_number
     type: DOUBLE
-  - name: Employed - Part time - SE
+  - name: employed_part_time_se
     type: DOUBLE
-  - name: Unemployeda - Part time - Number
+  - name: unemployeda_part_time_number
     type: DOUBLE
-  - name: Unemployeda - Part time - SE
+  - name: unemployeda_part_time_se
     type: DOUBLE
-  - name: Retired - Part time - Number
+  - name: retired_part_time_number
     type: DOUBLE
-  - name: Retired - Part time - SE
+  - name: retired_part_time_se
     type: DOUBLE
-  - name: Not employed and not seeking workb - Part time - Number
+  - name: not_employed_and_not_seeking_workb_part_time_number
     type: DOUBLE
-  - name: Not employed and not seeking workb - Part time - SE
+  - name: not_employed_and_not_seeking_workb_part_time_se
     type: DOUBLE

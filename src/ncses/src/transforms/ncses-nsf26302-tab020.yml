@@ -1,20 +1,23 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ncses-nsf26302-tab020`. Regenerate after model-verify.
+# caution: Wide NCSES source table with no scan-verified row identifier; treat rows as source cross-tab records and use the table title and column labels to determine aggregation scope before summing.
+key: []
 columns:
-  - name: State and department or agency
+  - name: state_and_department_or_agency
     type: VARCHAR
-  - name: All R and D expenditures
+  - name: all_r_and_d_expenditures
     type: DOUBLE
-  - name: Intramural performersa
+  - name: intramural_performersa
     type: DOUBLE
-  - name: Extramural performersb - Total
+  - name: extramural_performersb_total
     type: DOUBLE
-  - name: Extramural performersb - Higher education institutions
+  - name: extramural_performersb_higher_education_institutions
     type: DOUBLE
-  - name: Extramural performersb - Companies and individualsc
+  - name: extramural_performersb_companies_and_individualsc
     type: DOUBLE
-  - name: Extramural performersb - Nonprofit organizationsd
+  - name: extramural_performersb_nonprofit_organizationsd
     type: DOUBLE
-  - name: Extramural performersb - Other governmentse
+  - name: extramural_performersb_other_governmentse
     type: DOUBLE
-  - name: Extramural performersb - All otherf
+  - name: extramural_performersb_all_otherf
     type: DOUBLE

@@ -1,35 +1,37 @@
-# passthrough for reference asset (hand-authored to unblock the graph;
-# the model stage recompiles/verifies this against profiled raw)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ncses-variables`. Regenerate after model-verify.
+key: [variableid]
+sort: [variableid]
 columns:
-  - name: "universalId"
+  - name: universalid
     type: VARCHAR
-  - name: "variableId"
+  - name: variableid
+    type: BIGINT
+  - name: variabletype
     type: VARCHAR
-  - name: "variableType"
+  - name: variablename
     type: VARCHAR
-  - name: "variableName"
+  - name: title
     type: VARCHAR
-  - name: "title"
+  - name: variableshortname
     type: VARCHAR
-  - name: "variableShortName"
+  - name: qlikname
     type: VARCHAR
-  - name: "qlikName"
+  - name: variableshortdescription
     type: VARCHAR
-  - name: "variableShortDescription"
+  - name: measures
     type: VARCHAR
-  - name: "measures"
+  - name: units
     type: VARCHAR
-  - name: "units"
+  - name: variableyearsavailable
     type: VARCHAR
-  - name: "variableYearsAvailable"
+  - name: showinbuilder
     type: VARCHAR
-  - name: "showInBuilder"
+  - name: surveyshortname
     type: VARCHAR
-  - name: "surveyShortName"
+  - name: survey
     type: VARCHAR
-  - name: "survey"
+  - name: topics
     type: VARCHAR
-  - name: "topics"
-    type: VARCHAR
-  - name: "measureGroupName"
+  - name: measuregroupname
     type: VARCHAR
