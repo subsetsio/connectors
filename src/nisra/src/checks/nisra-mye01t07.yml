@@ -3,10 +3,10 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [tlist_a1, year, yearbased, "2011_based_or_2021_based"]
+key: [tlist_a1, year, yearbased, base_2011_or_2021]
 checks:
   - kind: unique
-    columns: [tlist_a1, year, yearbased, "2011_based_or_2021_based"]
+    columns: [tlist_a1, year, yearbased, base_2011_or_2021]
   - kind: not_null
     col: tlist_a1
   - kind: not_null
@@ -14,7 +14,7 @@ checks:
   - kind: not_null
     col: yearbased
   - kind: not_null
-    col: "2011_based_or_2021_based"
+    col: base_2011_or_2021
   - kind: row_floor
     min: 11
 regression:

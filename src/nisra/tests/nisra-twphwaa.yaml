@@ -10,3 +10,6 @@ tests:
   - not_null: VALUE
     reason: the VALUE column is always present in PxStat CSV output; a null/missing column means the response format changed
     certainty: 80
+coverage:
+  frozen: true
+  reason: "NISRA PxStat matrix is treated as a published snapshot; temporal values describe historical coverage, and catalog re-observation tracks new or revised matrices."

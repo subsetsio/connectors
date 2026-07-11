@@ -3,10 +3,10 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [statistic, statistic_label, tlist_a1, year, lgd2014, local_government_district, "5yrage", five_year_age_bands, sex, sex_label, unit]
+key: [statistic, statistic_label, tlist_a1, year, lgd2014, local_government_district, five_year_age_code, five_year_age_bands, sex, sex_label, unit]
 checks:
   - kind: unique
-    columns: [statistic, statistic_label, tlist_a1, year, lgd2014, local_government_district, "5yrage", five_year_age_bands, sex, sex_label, unit]
+    columns: [statistic, statistic_label, tlist_a1, year, lgd2014, local_government_district, five_year_age_code, five_year_age_bands, sex, sex_label, unit]
   - kind: not_null
     col: statistic
   - kind: not_null
@@ -20,7 +20,7 @@ checks:
   - kind: not_null
     col: local_government_district
   - kind: not_null
-    col: "5yrage"
+    col: five_year_age_code
   - kind: not_null
     col: five_year_age_bands
   - kind: not_null
