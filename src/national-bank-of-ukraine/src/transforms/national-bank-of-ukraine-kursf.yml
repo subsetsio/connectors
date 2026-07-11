@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-ukraine-kursf`. Regenerate after model-verify.
+# caution: Contains daily and monthly foreign-exchange-market indicators in one long table; filter frequency before comparing periods.
+key: []
+temporal: dt
+columns:
+  - name: dt
+    type: BIGINT
+  - name: txt
+    type: VARCHAR
+  - name: txten
+    type: VARCHAR
+  - name: id_api
+    type: VARCHAR
+  - name: leveli
+    type: BIGINT
+  - name: parent
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: r030
+    type: VARCHAR
+  - name: tzep
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

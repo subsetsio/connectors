@@ -1,0 +1,38 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-ukraine-deposit`. Regenerate after model-verify.
+# caution: Contains deposit observations across currency, sector, maturity, and territory dimensions; filter dimensions before summing to avoid mixing totals and components.
+key: []
+temporal: dt
+columns:
+  - name: dt
+    type: BIGINT
+  - name: txt
+    type: VARCHAR
+  - name: txten
+    type: VARCHAR
+  - name: id_api
+    type: VARCHAR
+  - name: level
+    type: BIGINT
+  - name: parent
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: odkodter
+    type: VARCHAR
+  - name: odr030
+    type: VARCHAR
+  - name: ods183dd
+    type: VARCHAR
+  - name: odk111
+    type: VARCHAR
+  - name: odk051
+    type: VARCHAR
+  - name: odf074
+    type: VARCHAR
+  - name: k140
+    type: VARCHAR
+  - name: tzep
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

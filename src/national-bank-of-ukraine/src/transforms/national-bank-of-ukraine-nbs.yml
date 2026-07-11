@@ -1,0 +1,26 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-ukraine-nbs`. Regenerate after model-verify.
+key: [txt, txten, id_api, fininst, dt]
+temporal: dt
+sort: [txt, txten, id_api, fininst, dt]
+columns:
+  - name: dt
+    type: BIGINT
+  - name: txt
+    type: VARCHAR
+  - name: txten
+    type: VARCHAR
+  - name: id_api
+    type: VARCHAR
+  - name: leveli
+    type: BIGINT
+  - name: parent
+    type: JSON
+  - name: freq
+    type: VARCHAR
+  - name: fininst
+    type: VARCHAR
+  - name: tzep
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

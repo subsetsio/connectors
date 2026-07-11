@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-ukraine-labormarket`. Regenerate after model-verify.
+# caution: Contains monthly and quarterly labour-market observations in one long table; filter frequency before comparing or aggregating periods.
+key: []
+temporal: dt
+columns:
+  - name: dt
+    type: BIGINT
+  - name: txt
+    type: VARCHAR
+  - name: txten
+    type: VARCHAR
+  - name: id_api
+    type: VARCHAR
+  - name: leveli
+    type: BIGINT
+  - name: parent
+    type: JSON
+  - name: freq
+    type: VARCHAR
+  - name: mcr210i
+    type: VARCHAR
+  - name: mcrk110
+    type: VARCHAR
+  - name: tzep
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

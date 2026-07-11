@@ -1,6 +1,9 @@
 spec_id: national-bank-of-ukraine-official-exchange-rates
 status: active
 tests:
+  - freshness: {col: exchangedate, reaches: today - 14d}
+    reason: official exchange rates should include recent business days
+    certainty: 90
   - not_null: cc
     reason: every FX quote names its currency (cc, ISO alpha-3)
     certainty: 95

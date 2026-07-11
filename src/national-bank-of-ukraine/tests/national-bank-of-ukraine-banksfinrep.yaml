@@ -1,9 +1,13 @@
 spec_id: national-bank-of-ukraine-banksfinrep
 status: active
 tests:
+  - freshness: {col: dt, reaches: today - 120d}
+    reason: NBU statistical series should include a recent reporting period within quarterly release slack
+    certainty: 85
   - not_null: id_api
-    reason: every NBU statistics record is tagged with a series identifier (id_api)
-    certainty: 95
+    reason: most NBU statistics records are tagged with a series identifier (id_api), but banksfinrep also carries bank-level rows identified by bank dimensions
+    certainty: 80
+    severity: warn
   - not_null: dt
     reason: every observation is keyed by its date (dt, YYYYMMDD)
     certainty: 95

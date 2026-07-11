@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-ukraine-osb`. Regenerate after model-verify.
+# caution: Contains account turnover and balance observations across account, currency, and reporting dimensions; filter dimensions before summing to avoid mixing totals and components.
+key: []
+temporal: dt
+columns:
+  - name: dt
+    type: BIGINT
+  - name: txt
+    type: VARCHAR
+  - name: txten
+    type: VARCHAR
+  - name: id_api
+    type: VARCHAR
+  - name: leveli
+    type: BIGINT
+  - name: parent
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: nkb
+    type: BIGINT
+  - name: r020
+    type: BIGINT
+  - name: r034
+    type: BIGINT
+  - name: t025
+    type: BIGINT
+  - name: tzep
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

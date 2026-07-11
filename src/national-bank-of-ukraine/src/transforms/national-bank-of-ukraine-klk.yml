@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-ukraine-klk`. Regenerate after model-verify.
+# caution: Contains household-loan observations across currency, term, and product dimensions; filter dimensions before summing to avoid mixing totals and components.
+key: []
+temporal: dt
+columns:
+  - name: dt
+    type: BIGINT
+  - name: txt
+    type: VARCHAR
+  - name: txten
+    type: VARCHAR
+  - name: id_api
+    type: VARCHAR
+  - name: leveli
+    type: BIGINT
+  - name: parent
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: nkb
+    type: VARCHAR
+  - name: s080
+    type: VARCHAR
+  - name: r034
+    type: BIGINT
+  - name: value
+    type: DOUBLE
+  - name: tzep
+    type: VARCHAR

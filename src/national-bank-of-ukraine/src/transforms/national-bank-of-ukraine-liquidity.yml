@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-ukraine-liquidity`. Regenerate after model-verify.
+# caution: Contains daily liquidity indicators in source hierarchy form; filter the indicator hierarchy before summing to avoid mixing totals and components.
+key: []
+temporal: dt
+columns:
+  - name: dt
+    type: BIGINT
+  - name: txt
+    type: VARCHAR
+  - name: txten
+    type: VARCHAR
+  - name: id_api
+    type: VARCHAR
+  - name: leveli
+    type: BIGINT
+  - name: parent
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: tzep
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

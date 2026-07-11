@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-ukraine-banksfinrep`. Regenerate after model-verify.
+# caution: Contains bank financial-reporting indicators at multiple reporting frequencies; filter the frequency dimension before comparing or summing periods.
+key: []
+temporal: dt
+columns:
+  - name: dt
+    type: BIGINT
+  - name: txt
+    type: VARCHAR
+  - name: txten
+    type: VARCHAR
+  - name: id_api
+    type: VARCHAR
+  - name: leveli
+    type: BIGINT
+  - name: parent
+    type: VARCHAR
+  - name: freq
+    type: VARCHAR
+  - name: nkb
+    type: BIGINT
+  - name: mfo
+    type: BIGINT
+  - name: fullname
+    type: VARCHAR
+  - name: gr_bank
+    type: VARCHAR
+  - name: r034
+    type: VARCHAR
+  - name: tzep
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

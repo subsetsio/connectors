@@ -1,0 +1,30 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-ukraine-emd`. Regenerate after model-verify.
+# caution: Contains currency-in-circulation observations across denomination and instrument dimensions; filter dimensions before summing to avoid mixing totals and components.
+key: []
+temporal: dt
+columns:
+  - name: dt
+    type: BIGINT
+  - name: txt
+    type: VARCHAR
+  - name: txten
+    type: VARCHAR
+  - name: id_api
+    type: VARCHAR
+  - name: leveli
+    type: BIGINT
+  - name: parent
+    type: JSON
+  - name: freq
+    type: VARCHAR
+  - name: z060
+    type: VARCHAR
+  - name: z061
+    type: VARCHAR
+  - name: z053
+    type: VARCHAR
+  - name: tzep
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

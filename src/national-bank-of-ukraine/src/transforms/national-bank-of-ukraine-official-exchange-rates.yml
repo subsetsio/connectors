@@ -1,0 +1,28 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `national-bank-of-ukraine-official-exchange-rates`. Regenerate after model-verify.
+key: [exchangedate, calcdate, txt, cc, group]
+temporal: exchangedate
+sort: [exchangedate, calcdate, txt, cc, group]
+columns:
+  - name: exchangedate
+    type: VARCHAR
+  - name: r030
+    type: BIGINT
+  - name: cc
+    type: VARCHAR
+  - name: txt
+    type: VARCHAR
+  - name: enname
+    type: VARCHAR
+  - name: rate
+    type: DOUBLE
+  - name: units
+    type: BIGINT
+  - name: rate_per_unit
+    type: DOUBLE
+  - name: group
+    type: BIGINT
+  - name: calcdate
+    type: VARCHAR
+  - name: special
+    type: VARCHAR

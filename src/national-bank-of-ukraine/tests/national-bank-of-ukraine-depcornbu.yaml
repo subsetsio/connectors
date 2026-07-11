@@ -1,6 +1,9 @@
 spec_id: national-bank-of-ukraine-depcornbu
 status: active
 tests:
+  - freshness: {col: dt, reaches: today - 120d}
+    reason: NBU statistical series should include a recent reporting period within quarterly release slack
+    certainty: 85
   - not_null: id_api
     reason: every NBU statistics record is tagged with a series identifier (id_api)
     certainty: 95

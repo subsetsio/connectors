@@ -1,5 +1,8 @@
 spec_id: national-bank-of-ukraine-uiir
 status: active
+coverage:
+  frozen: true
+  reason: Legacy UIIR endpoint currently ends in 2020; publish the historical series as a frozen archive.
 tests:
   - not_null: id_api
     reason: every NBU statistics record is tagged with a series identifier (id_api)
