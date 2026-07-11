@@ -202,6 +202,13 @@ def _resource_rows(resource: dict) -> list[dict]:
     return _read_tabular(content, url)
 
 
+def _metadata_row(status: str, message: str) -> dict:
+    return {
+        "_subsets_status": status,
+        "_subsets_message": message,
+    }
+
+
 def _table_from_rows(rows: list[dict]) -> pa.Table:
     normalized = []
     for row in rows:
@@ -233,7 +240,19 @@ def fetch_one(node_id: str) -> None:
 
     rows: list[dict] = []
     for resource in resources:
-        resource_rows = _resource_rows(resource)
+        try:
+            resource_rows = _resource_rows(resource)
+        except Exception as exc:
+            resource_rows = [
+                _metadata_row("resource_error", f"{type(exc).__name__}: {exc}")
+            ]
+        if not resource_rows:
+            resource_rows = [
+                _metadata_row(
+                    "metadata_only",
+                    "supported resource contained no CSV/XLS/XLSX/JSON rows",
+                )
+            ]
         for row in resource_rows:
             row.update(
                 {
@@ -251,7 +270,13 @@ def fetch_one(node_id: str) -> None:
         rows.extend(resource_rows)
 
     if not rows:
-        raise RuntimeError(f"{entity_id}: supported resources produced no rows")
+        rows = [
+            {
+                **_metadata_row("metadata_only", "package has no supported resources"),
+                "package_id": str(package.get("name") or entity_id),
+                "package_title": str(package.get("title") or ""),
+            }
+        ]
     save_raw_parquet(_table_from_rows(rows), node_id)
 
 
