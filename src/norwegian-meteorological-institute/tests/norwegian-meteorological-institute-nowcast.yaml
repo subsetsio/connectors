@@ -1,0 +1,22 @@
+spec_id: norwegian-meteorological-institute-nowcast
+status: active
+tests:
+  - not_null: location
+    reason: every flattened timeseries row is tagged with its curated location
+    certainty: 98
+  - not_null: time
+    reason: each nowcast timeseries step carries an ISO valid-time
+    certainty: 98
+  - column_type: {col: air_temperature, type: float}
+    reason: instant.details.air_temperature is numeric Celsius
+    certainty: 90
+  - column_type: {col: precipitation_rate, type: float}
+    reason: nowcast reports an instantaneous precipitation_rate
+    certainty: 85
+  - row_count: {min: 200}
+    reason: nowcast covers the Nordic area, so far-north Svalbard points may be out of domain; ~20 locations x ~20 steps
+    certainty: 75
+  - freshness: {col: fetched_at, reaches: today - 2d}
+    reason: nowcast is a short-range immediate forecast, refetched every run
+    certainty: 95
+    points_outward: false

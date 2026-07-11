@@ -1,0 +1,25 @@
+spec_id: norwegian-meteorological-institute-locationforecast
+status: active
+tests:
+  - not_null: location
+    reason: every flattened timeseries row is tagged with its curated location
+    certainty: 98
+  - not_null: time
+    reason: each METJSON timeseries step carries an ISO forecast valid-time
+    certainty: 98
+  - column_type: {col: air_temperature, type: float}
+    reason: instant.details.air_temperature is a numeric temperature in Celsius
+    certainty: 90
+  - column_type: {col: wind_speed, type: float}
+    reason: instant.details.wind_speed is numeric m/s
+    certainty: 90
+  - distinct_count: {col: location, min: 18, max: 25}
+    reason: 25 curated land locations; locationforecast covers the whole earth so all should resolve
+    certainty: 80
+  - row_count: {min: 800}
+    reason: ~25 locations x tens of forecast steps each
+    certainty: 80
+  - freshness: {col: fetched_at, reaches: today - 2d}
+    reason: forecasts are rewritten continuously; a current run must have fetched today
+    certainty: 95
+    points_outward: false
