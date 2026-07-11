@@ -72,33 +72,54 @@ def _load_tree() -> tuple[list[dict], dict[str, dict]]:
     if not tree:
         raise RuntimeError("arboltematico returned no data")
     folders = {n["idTema"]: n for n in tree if n.get("tipo") == "folder"}
-    leaves = [
-        n
-        for n in tree
-        if n.get("tipo") != "folder" and n.get("codigoIndicador")
-    ]
-    return leaves, folders
+    # The tree can list the same codigoIndicador under multiple thematic
+    # folders, and some duplicate leaves carry no Spanish label. The published
+    # catalog and value fetches are keyed by indicator id, so keep one stable,
+    # named record per id.
+    leaves_by_id: dict[int, dict] = {}
+    for node in tree:
+        if node.get("tipo") == "folder" or not node.get("codigoIndicador"):
+            continue
+        name = (node.get("nombreIndicador") or "").strip()
+        if not name:
+            continue
+        codigo = int(node["codigoIndicador"])
+        current = leaves_by_id.get(codigo)
+        if current is None:
+            leaves_by_id[codigo] = node
+            continue
+        current_name = (current.get("nombreIndicador") or "").strip()
+        current_depth = len(_theme_lineage(current, folders))
+        node_depth = len(_theme_lineage(node, folders))
+        if not current_name or node_depth > current_depth:
+            leaves_by_id[codigo] = node
+    return list(leaves_by_id.values()), folders
+
+
+def _theme_lineage(leaf: dict, folders: dict[str, dict]) -> list[dict]:
+    lineage = []
+    cur = folders.get(leaf.get("idPadre"))
+    guard = 0
+    while cur and guard < 50:
+        lineage.append(cur)
+        pid = cur.get("idPadre")
+        if pid in (None, "", "1"):
+            break
+        cur = folders.get(pid)
+        guard += 1
+    return lineage
 
 
 def _theme_path(leaf: dict, folders: dict[str, dict]) -> tuple[str | None, str | None]:
     """Resolve a leaf's immediate parent folder name and its top-level theme."""
-    parent = folders.get(leaf.get("idPadre"))
+    lineage = _theme_lineage(leaf, folders)
+    parent = lineage[0] if lineage else None
     immediate = (parent.get("nombreTema") or "").strip() or None if parent else None
     # Climb idPadre to the highest resolvable folder. The tree has two hierarchies:
     # the main one roots at the synthetic "1", a second (census) one roots at a node
     # that isn't tagged as a folder -- so we stop at the last folder we can resolve
     # rather than discarding the whole chain.
-    root = parent
-    guard = 0
-    while root and guard < 50:
-        pid = root.get("idPadre")
-        if pid in (None, "", "1"):
-            break
-        nxt = folders.get(pid)
-        if nxt is None:
-            break
-        root = nxt
-        guard += 1
+    root = lineage[-1] if lineage else None
     root_name = (root.get("nombreTema") or "").strip() or None if root else None
     return immediate, root_name
 
