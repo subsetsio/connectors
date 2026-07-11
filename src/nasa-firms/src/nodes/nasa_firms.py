@@ -200,14 +200,16 @@ def _fetch_archive_year(spec_id: str, fam: dict, year: int) -> None:
     source = fam["archive_source"]
     url = f"{BASE}/data/country/zips/{source}_{year}_all_countries.zip"
     raw = _get_bytes(url)
-    asset = f"{spec_id}-{year}"
+    asset = spec_id
     # Spill the zip to a scratch tempfile (zipfile needs a seekable handle) so we
     # don't hold the compressed bytes AND decoded rows in memory at once.
     with tempfile.NamedTemporaryFile(suffix=".zip") as tf:
         tf.write(raw)
         tf.flush()
         del raw
-        with zipfile.ZipFile(tf.name) as zf, raw_parquet_writer(asset, schema=fam["schema"]) as writer:
+        with zipfile.ZipFile(tf.name) as zf, raw_parquet_writer(
+            asset, schema=fam["schema"], fragment=str(year)
+        ) as writer:
             for member in zf.namelist():
                 if not member.endswith(".csv"):
                     continue
@@ -220,8 +222,8 @@ def _fetch_archive_year(spec_id: str, fam: dict, year: int) -> None:
 # --- recent (current-year tail) ----------------------------------------------
 
 def _fetch_recent(spec_id: str, fam: dict) -> None:
-    asset = f"{spec_id}-recent"
-    with raw_parquet_writer(asset, schema=fam["schema"]) as writer:
+    asset = spec_id
+    with raw_parquet_writer(asset, schema=fam["schema"], fragment="recent") as writer:
         for dir_name, prefix in fam["recent"]:
             url = f"{BASE}/data/active_fire/{dir_name}/csv/{prefix}_Global_7d.csv"
             text = _get_bytes(url).decode("utf-8", "replace")
