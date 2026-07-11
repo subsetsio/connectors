@@ -20,7 +20,7 @@ tests:
     reason: the export's All sheet combines the three election-type sheets
     certainty: 85
     severity: warn
-  - freshness: {col: Year, reaches: current_year() - 3}
+  - freshness: {col: Year, reaches: today - 1095d}
     reason: worldwide national elections occur every year, but IDEA updates can lag; a healthy export should include recent elections
     certainty: 75
     points_outward: true

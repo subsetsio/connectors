@@ -1,0 +1,16 @@
+spec_id: ipc-food-security-countries
+status: active
+tests:
+  - not_null: country_code
+  - not_null: country_name
+  - column_type: {col: country_code, type: string}
+  - column_type: {col: has_data, type: boolean}
+  - unique: country_code
+    reason: /regions returns one record per country code
+    certainty: 95
+  - row_count: {min: 40}
+    reason: IPC PTT has historically listed about 48 countries, most with data
+    certainty: 90
+  - distinct_count: {col: region, min: 4}
+    reason: IPC groups countries into several geographic regions
+    certainty: 90

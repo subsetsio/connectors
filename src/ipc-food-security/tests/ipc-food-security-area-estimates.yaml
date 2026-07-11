@@ -1,0 +1,27 @@
+spec_id: ipc-food-security-area-estimates
+status: active
+tests:
+  - not_null: anl_id
+  - not_null: country_code
+  - not_null: analysis_classification
+  - not_null: aar_id
+  - not_null: area
+  - not_null: period_code
+  - column_type: {col: analysis_date, type: timestamp}
+  - column_type: {col: estimated_population, type: integer}
+  - enum: {col: analysis_classification, values: [AFI, CFI]}
+  - enum: {col: period_code, values: [current, projected-1, projected-2]}
+  - row_count: {min: 1000}
+    reason: the area estimates table covers sub-national areas for hundreds of analyses
+    certainty: 90
+  - between: {col: overall_phase_value, lo: 1, hi: 5}
+    reason: IPC phases are numbered 1 through 5 where classified
+    certainty: 90
+    severity: warn
+  - relationship: {left: phase3_plus_population, op: ">=", right: phase3_population}
+    reason: Phase 3+ includes Phase 3, Phase 4, and Phase 5 populations
+    certainty: 95
+  - freshness: {col: analysis_date, reaches: today - 400d}
+    reason: IPC publishes current food-security analyses throughout the year
+    certainty: 85
+    points_outward: true

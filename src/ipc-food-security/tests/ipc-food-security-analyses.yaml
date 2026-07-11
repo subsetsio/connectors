@@ -1,0 +1,18 @@
+spec_id: ipc-food-security-analyses
+status: active
+tests:
+  - not_null: anl_id
+  - not_null: country_code
+  - not_null: classification
+  - column_type: {col: analysis_date, type: timestamp}
+  - enum: {col: classification, values: [AFI, CFI]}
+  - unique: [anl_id, classification]
+    reason: IPC analysis ids are stable identifiers within each classification
+    certainty: 90
+  - row_count: {min: 300}
+    reason: research observed more than 600 IPC PTT analyses across AFI and CFI
+    certainty: 90
+  - freshness: {col: analysis_date, reaches: today - 400d}
+    reason: IPC publishes current food-security analyses throughout the year
+    certainty: 85
+    points_outward: true

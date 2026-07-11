@@ -1,0 +1,24 @@
+spec_id: ipc-food-security-national-estimates
+status: active
+tests:
+  - not_null: anl_id
+  - not_null: country_code
+  - not_null: classification
+  - not_null: period_code
+  - column_type: {col: analysis_date, type: timestamp}
+  - column_type: {col: analyzed_population, type: integer}
+  - enum: {col: classification, values: [AFI, CFI]}
+  - enum: {col: period_code, values: [current, projected-1, projected-2]}
+  - unique: [anl_id, classification, period_code]
+    reason: national totals contain one row per analysis and period
+    certainty: 90
+  - row_count: {min: 500}
+    reason: most analyses have current and projected national-period estimates
+    certainty: 85
+  - relationship: {left: phase3_plus_population, op: ">=", right: phase3_population}
+    reason: Phase 3+ includes Phase 3, Phase 4, and Phase 5 populations
+    certainty: 95
+  - freshness: {col: analysis_date, reaches: today - 400d}
+    reason: IPC publishes current food-security analyses throughout the year
+    certainty: 85
+    points_outward: true
