@@ -1,0 +1,16 @@
+spec_id: nhtsa-safety-ratings
+status: active
+tests:
+  - not_null: VehicleId
+    reason: every NCAP rating record is keyed by VehicleId; a null means the detail fetch returned a malformed record
+    certainty: 95
+  - unique: VehicleId
+    reason: the crawl dedups VehicleIds into a set and fetches each once, so one record per VehicleId; dupes mean the dedup broke
+    certainty: 90
+  - row_count: {min: 5000}
+    reason: NCAP has rated thousands-to-tens-of-thousands of vehicle variants since MY1990; <5k means the modelyear->make->model traversal missed most makes
+    certainty: 85
+  - freshness: {col: ModelYear, reaches: current_year() - 1}
+    reason: SafetyRatings has no update timestamp; ModelYear is its temporal axis and NCAP rates current/near-future model years, so the max should reach at least last year
+    certainty: 75
+    points_outward: true

@@ -1,0 +1,15 @@
+spec_id: nhtsa-vpic-makes
+status: active
+tests:
+  - not_null: Make_ID
+    reason: every make row carries a numeric Make_ID
+    certainty: 95
+  - not_null: Make_Name
+    reason: every make row carries a name
+    certainty: 95
+  - unique: Make_ID
+    reason: GetAllMakes returns one row per make; duplicate ids mean the response was double-counted
+    certainty: 90
+  - row_count: {min: 10000}
+    reason: vPIC lists ~12k+ makes; <10k means the single GetAllMakes response was truncated
+    certainty: 90

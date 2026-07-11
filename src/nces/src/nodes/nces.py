@@ -269,23 +269,3 @@ DOWNLOAD_SPECS = [
     NodeSpec(id=f"nces-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
 ]
-
-
-# --------------------------------------------------------------------------- #
-# Transform — one wide Delta table per component
-# --------------------------------------------------------------------------- #
-def _transform_sql(dep_id: str) -> str:
-    # Type the join keys; keep every other IPEDS column as published (string).
-    return f'''
-        SELECT
-            TRY_CAST("UNITID" AS BIGINT) AS unitid,
-            CAST("year" AS INTEGER)      AS year,
-            * EXCLUDE ("UNITID", "year")
-        FROM "{dep_id}"
-    '''
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_transform_sql(s.id), temporal="year")
-    for s in DOWNLOAD_SPECS
-]

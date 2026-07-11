@@ -1,0 +1,15 @@
+spec_id: nhtsa-vpic-manufacturers
+status: active
+tests:
+  - not_null: Mfr_ID
+    reason: every manufacturer row carries a numeric Mfr_ID
+    certainty: 95
+  - not_null: Mfr_Name
+    reason: every manufacturer row carries a name
+    certainty: 95
+  - unique: Mfr_ID
+    reason: GetAllManufacturers pages 100/row across the universe once; a duplicate id means a page was fetched twice
+    certainty: 85
+  - row_count: {min: 15000}
+    reason: the paged universe is ~22.8k manufacturers (229 pages x 100 observed 2026-07); <15k means pagination stopped early
+    certainty: 85
