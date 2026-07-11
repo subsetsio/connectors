@@ -22,7 +22,8 @@ json-stat2 responses carry dimension category LABELS (country names, technology
 names, year text), which is what we publish. We unfold the (possibly sparse)
 value array into long rows and normalize dimension codes to snake_case columns.
 
-License: CC-BY-4.0 (IRENA open data licence).
+License: IRENA terms permit non-commercial reuse with attribution; see
+research/curation metadata for the full conditional license record.
 """
 
 import re
@@ -33,11 +34,9 @@ from ratelimit import limits, sleep_and_retry
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     post,
     save_raw_parquet,
-    transient_retry,
 )
 
 ROOT = "https://pxweb.irena.org/api/v1/en/IRENASTAT"
@@ -73,7 +72,6 @@ DIM_NAME_MAP = {
 
 @sleep_and_retry
 @limits(calls=8, period=10)  # ~80% of the documented 10 calls / 10s window
-@transient_retry()
 def _get_json(url: str):
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -82,7 +80,6 @@ def _get_json(url: str):
 
 @sleep_and_retry
 @limits(calls=8, period=10)
-@transient_retry()
 def _post_json(url: str, body: dict):
     resp = post(url, json=body, timeout=(10.0, 300.0))
     resp.raise_for_status()
@@ -232,74 +229,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"irena-{eid}", fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-
-# ----------------------------------------------------------------------------- transforms
-
-# One published Delta table per subset. Each transform is a thin parse/type pass
-# over its raw parquet: cast types, attach the measurement unit, drop null values.
-# Column names are the snake_case normalized dimension names written above.
-
-_TRANSFORMS = {
-    "irena-country-eleccap": (
-        'SELECT CAST(year AS INTEGER) AS year, country, technology, grid_connection, '
-        "CAST(value AS DOUBLE) AS value, 'MW' AS unit "
-        'FROM "irena-country-eleccap" WHERE value IS NOT NULL'
-    ),
-    "irena-country-elecgen": (
-        'SELECT CAST(year AS INTEGER) AS year, country, technology, data_type, grid_connection, '
-        "CAST(value AS DOUBLE) AS value, 'GWh' AS unit "
-        'FROM "irena-country-elecgen" WHERE value IS NOT NULL'
-    ),
-    "irena-heatgen": (
-        'SELECT CAST(year AS INTEGER) AS year, country, technology, grid_connection, '
-        "CAST(value AS DOUBLE) AS value, 'TJ' AS unit "
-        'FROM "irena-heatgen" WHERE value IS NOT NULL'
-    ),
-    "irena-pubfin": (
-        'SELECT CAST(year AS INTEGER) AS year, country, technology, '
-        "CAST(value AS DOUBLE) AS value, 'Million USD (2022)' AS unit "
-        'FROM "irena-pubfin" WHERE value IS NOT NULL'
-    ),
-    "irena-re-share": (
-        'SELECT CAST(year AS INTEGER) AS year, region, indicator, '
-        "CAST(value AS DOUBLE) AS value, '%' AS unit "
-        'FROM "irena-re-share" WHERE value IS NOT NULL'
-    ),
-    "irena-region-eleccap": (
-        'SELECT CAST(year AS INTEGER) AS year, region, technology, grid_connection, '
-        "CAST(value AS DOUBLE) AS value, 'MW' AS unit "
-        'FROM "irena-region-eleccap" WHERE value IS NOT NULL'
-    ),
-    "irena-region-elecgen": (
-        'SELECT CAST(year AS INTEGER) AS year, region, technology, data_type, '
-        "CAST(value AS DOUBLE) AS value, 'GWh' AS unit "
-        'FROM "irena-region-elecgen" WHERE value IS NOT NULL'
-    ),
-}
-
-# Each raw asset is a JSON-stat hypercube unfolded to long rows, so a cell is
-# uniquely identified by its full set of dimension labels (the columns below,
-# excluding the measured value and the constant unit). Year is present in every
-# table and is the observation period.
-_KEYS = {
-    "irena-country-eleccap": ("year", "country", "technology", "grid_connection"),
-    "irena-country-elecgen": ("year", "country", "technology", "data_type", "grid_connection"),
-    "irena-heatgen": ("year", "country", "technology", "grid_connection"),
-    "irena-pubfin": ("year", "country", "technology"),
-    "irena-re-share": ("year", "region", "indicator"),
-    "irena-region-eleccap": ("year", "region", "technology", "grid_connection"),
-    "irena-region-elecgen": ("year", "region", "technology", "data_type"),
-}
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{download_id}-transform",
-        deps=[download_id],
-        sql=sql,
-        key=_KEYS[download_id],
-        temporal="year",
-    )
-    for download_id, sql in _TRANSFORMS.items()
 ]
