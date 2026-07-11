@@ -1,10 +1,14 @@
 spec_id: guttmacher-institute-k4x7t
 status: active
 tests:
+  - freshness: {col: month, reaches: today - 150d}
   - not_null: state
     reason: each monthly estimate is for a state (or national aggregate)
     certainty: 95
   - not_null: month
+    certainty: 95
+  - unique: [month, state]
+    reason: one estimate row per state-month
     certainty: 95
   - relationship: {left: lowerbound, op: "<=", right: upperbound}
     reason: median estimate sits within its [lowerbound, upperbound] confidence interval

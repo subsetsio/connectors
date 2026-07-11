@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `guttmacher-institute-mbu6s`. Regenerate after model-verify.
+# caution: Respondent-level survey records include survey weights and sensitive reproductive-health answers; use the appropriate weight columns for population estimates.
+key: [case_id, psu_optin, weight_as, infert_fillin, weight_optin]
+sort: [case_id, psu_optin, weight_as, infert_fillin, weight_optin]
 columns:
   - name: weight_as
     type: VARCHAR
