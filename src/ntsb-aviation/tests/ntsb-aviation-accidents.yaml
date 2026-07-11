@@ -20,3 +20,9 @@ tests:
       expr: 0
     reason: injury counts are non-negative
     certainty: 95
+  - freshness:
+      col: cm_eventDate
+      reaches: today - 45d
+    reason: aviation accidents occur continuously and CAROL refreshes weekly; the newest event should be within ~6 weeks (preliminary-report entry lag)
+    certainty: 80
+    points_outward: true

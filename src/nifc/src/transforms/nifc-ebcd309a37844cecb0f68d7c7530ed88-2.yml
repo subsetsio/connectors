@@ -1,0 +1,315 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nifc-ebcd309a37844cecb0f68d7c7530ed88-2`. Regenerate after model-verify.
+key: [id]
+sort: [id]
+columns:
+  - name: objectid
+    type: BIGINT
+  - name: id
+    type: BIGINT
+  - name: joinid
+    type: BIGINT
+  - name: joinfeature
+    type: VARCHAR
+  - name: entityid
+    type: UUID
+  - name: entitytype
+    type: VARCHAR
+  - name: entitycategory
+    type: JSON
+  - name: ispoint
+    type: VARCHAR
+  - name: parentid
+    type: BIGINT
+  - name: parentobjectid
+    type: BIGINT
+  - name: isparenttreatment
+    type: VARCHAR
+  - name: localid
+    type: VARCHAR
+  - name: name
+    type: VARCHAR
+  - name: program
+    type: JSON
+  - name: type
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: subtype
+    type: VARCHAR
+  - name: class
+    type: VARCHAR
+  - name: unit
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: agency
+    type: VARCHAR
+  - name: department
+    type: VARCHAR
+  - name: isdepartmentmanual
+    type: VARCHAR
+  - name: congressionaldistrictnumber
+    type: VARCHAR
+  - name: tribename
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: calculatedarea
+    type: DOUBLE
+  - name: durability
+    type: BIGINT
+  - name: priority
+    type: VARCHAR
+  - name: feasibility
+    type: VARCHAR
+  - name: issubstitute
+    type: VARCHAR
+  - name: iswui
+    type: VARCHAR
+  - name: isfunded
+    type: VARCHAR
+  - name: isapproved
+    type: VARCHAR
+  - name: estimatedsuccessprobability
+    type: VARCHAR
+  - name: initiationdate
+    type: HUGEINT
+  - name: initiationfiscalyear
+    type: BIGINT
+  - name: initiationfiscalquarter
+    type: VARCHAR
+  - name: completiondate
+    type: HUGEINT
+  - name: completionfiscalyear
+    type: BIGINT
+  - name: completionfiscalquarter
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR
+  - name: createdondate
+    type: HUGEINT
+  - name: lastmodifieddate
+    type: HUGEINT
+  - name: localapprovaldate
+    type: HUGEINT
+  - name: regionalapprovaldate
+    type: BIGINT
+  - name: agencyapprovaldate
+    type: BIGINT
+  - name: departmentapprovaldate
+    type: BIGINT
+  - name: fundeddate
+    type: JSON
+  - name: status
+    type: VARCHAR
+  - name: statusreason
+    type: VARCHAR
+  - name: isarchived
+    type: VARCHAR
+  - name: totalacres
+    type: DOUBLE
+  - name: wbsid
+    type: VARCHAR
+  - name: cancelleddate
+    type: BIGINT
+  - name: hasgroup
+    type: VARCHAR
+  - name: groupcount
+    type: BIGINT
+  - name: hasactual
+    type: VARCHAR
+  - name: vegdeparturepercentagederived
+    type: HUGEINT
+  - name: vegdeparturepercentagemanual
+    type: BIGINT
+  - name: isvegetationmanual
+    type: VARCHAR
+  - name: isrtrl
+    type: VARCHAR
+  - name: unitid
+    type: VARCHAR
+  - name: treatmentdriver
+    type: VARCHAR
+  - name: contributedfundingsource
+    type: VARCHAR
+  - name: contributednotes
+    type: VARCHAR
+  - name: contributedpersonnelcost
+    type: DOUBLE
+  - name: contributedassetcost
+    type: DOUBLE
+  - name: contributedgrantsfixedcost
+    type: DOUBLE
+  - name: contributedcontractualcost
+    type: DOUBLE
+  - name: contributedothercost
+    type: DOUBLE
+  - name: contributedtotalcost
+    type: DOUBLE
+  - name: contributedcostcenter
+    type: VARCHAR
+  - name: contributedfunctionalarea
+    type: VARCHAR
+  - name: contributedcostcode
+    type: VARCHAR
+  - name: obligationfiscalyear
+    type: BIGINT
+  - name: originalinitiationdate
+    type: HUGEINT
+  - name: originalinitiationfiscalyear
+    type: BIGINT
+  - name: originalinitiationfiscalquarter
+    type: VARCHAR
+  - name: carryoverfiscalyear
+    type: BIGINT
+  - name: iscarryover
+    type: VARCHAR
+  - name: iscanceled
+    type: VARCHAR
+  - name: issagebrush
+    type: VARCHAR
+  - name: unapprovaldate
+    type: BIGINT
+  - name: unapprovalreason
+    type: VARCHAR
+  - name: isfundingacresmanual
+    type: VARCHAR
+  - name: locationdepartmentnavalid
+    type: VARCHAR
+  - name: locationdepartmentlocked
+    type: VARCHAR
+  - name: locationagencynavalid
+    type: VARCHAR
+  - name: locationagencylocked
+    type: VARCHAR
+  - name: locationregionnavalid
+    type: VARCHAR
+  - name: locationregionlocked
+    type: VARCHAR
+  - name: locationunitnavalid
+    type: VARCHAR
+  - name: locationunitlocked
+    type: VARCHAR
+  - name: geometryobjectid
+    type: BIGINT
+  - name: fundingsource
+    type: VARCHAR
+  - name: fundingsourceprogram
+    type: VARCHAR
+  - name: fundingsourcecategory
+    type: VARCHAR
+  - name: fundingsourcesubcategory
+    type: VARCHAR
+  - name: fundingdepartment
+    type: VARCHAR
+  - name: fundingagency
+    type: VARCHAR
+  - name: fundingregion
+    type: VARCHAR
+  - name: fundingunit
+    type: VARCHAR
+  - name: fundingsubunit
+    type: VARCHAR
+  - name: fundingtribe
+    type: VARCHAR
+  - name: fundingunitid
+    type: VARCHAR
+  - name: fundingunittype
+    type: VARCHAR
+  - name: functionalarea
+    type: VARCHAR
+  - name: costcenter
+    type: VARCHAR
+  - name: costcode
+    type: VARCHAR
+  - name: estimatedassetcost
+    type: DOUBLE
+  - name: estimatedcontractualcost
+    type: DOUBLE
+  - name: estimatedgrantsfixedcost
+    type: DOUBLE
+  - name: estimatedpersonnelcost
+    type: DOUBLE
+  - name: estimatedothercost
+    type: DOUBLE
+  - name: estimatedtotalcost
+    type: DOUBLE
+  - name: bilfunding
+    type: DOUBLE
+  - name: fmregfunding
+    type: DOUBLE
+  - name: contributedfunding
+    type: DOUBLE
+  - name: isbil
+    type: VARCHAR
+  - name: projectid
+    type: JSON
+  - name: projectname
+    type: JSON
+  - name: projectfirename
+    type: JSON
+  - name: wildfireacres
+    type: JSON
+  - name: firecode
+    type: JSON
+  - name: irwinid
+    type: JSON
+  - name: discoverydate
+    type: JSON
+  - name: containdate
+    type: JSON
+  - name: ignitionfiscalyear
+    type: JSON
+  - name: projectentitytype
+    type: JSON
+  - name: projectnotes
+    type: JSON
+  - name: isfireperimeter
+    type: JSON
+  - name: measurementobjectid
+    type: JSON
+  - name: measureamount
+    type: JSON
+  - name: unitofmeasure
+    type: JSON
+  - name: measurementnotes
+    type: JSON
+  - name: isreadonly
+    type: JSON
+  - name: isinteragency
+    type: VARCHAR
+  - name: interagencyname
+    type: VARCHAR
+  - name: areaunit
+    type: VARCHAR
+  - name: shape_area
+    type: DOUBLE
+  - name: shape_length
+    type: DOUBLE
+  - name: contributedequipmentcost
+    type: JSON
+  - name: contributedmaterialandsupplycost
+    type: JSON
+  - name: contributedprocurementcost
+    type: JSON
+  - name: contributedtravelcost
+    type: JSON
+  - name: estimatedequipmentcost
+    type: DOUBLE
+  - name: estimatedmaterialandsupplycost
+    type: DOUBLE
+  - name: estimatedprocurementcost
+    type: DOUBLE
+  - name: estimatedtravelcost
+    type: DOUBLE
+  - name: isprogressivereporting
+    type: VARCHAR
+  - name: isprogressivefinalized
+    type: JSON

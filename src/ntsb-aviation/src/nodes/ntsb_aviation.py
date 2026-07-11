@@ -24,7 +24,7 @@ import time
 import zipfile
 from datetime import datetime, timezone
 
-from subsets_utils import NodeSpec, SqlNodeSpec, is_transient, post, save_raw_ndjson
+from subsets_utils import NodeSpec, is_transient, post, save_raw_ndjson
 
 FILE_EXPORT_URL = "https://data.ntsb.gov/carol-main-public/api/Query/FileExport"
 
@@ -266,89 +266,4 @@ def fetch_aircraft(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id="ntsb-aviation-accidents", fn=fetch_accidents, kind="download"),
     NodeSpec(id="ntsb-aviation-aircraft", fn=fetch_aircraft, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="ntsb-aviation-accidents-transform",
-        deps=["ntsb-aviation-accidents"],
-        sql='''
-            SELECT
-                CAST(cm_mkey AS BIGINT)                       AS case_mkey,
-                CAST(cm_ntsbNum AS VARCHAR)                   AS ntsb_number,
-                CAST(cm_eventDate AS TIMESTAMP)               AS event_timestamp,
-                CAST(cm_eventDate AS DATE)                    AS event_date,
-                CAST(cm_eventType AS VARCHAR)                 AS event_type,
-                CAST(cm_city AS VARCHAR)                      AS city,
-                CAST(cm_state AS VARCHAR)                     AS state,
-                CAST(cm_country AS VARCHAR)                   AS country,
-                CAST(cm_Latitude AS DOUBLE)                   AS latitude,
-                CAST(cm_Longitude AS DOUBLE)                  AS longitude,
-                CAST(airportId AS VARCHAR)                    AS airport_id,
-                CAST(airportName AS VARCHAR)                  AS airport_name,
-                CAST(accidentSiteCondition AS VARCHAR)        AS site_condition,
-                CAST(cm_highestInjury AS VARCHAR)             AS highest_injury,
-                CAST(cm_injuryOnboardCount AS BIGINT)         AS injury_onboard_count,
-                CAST(cm_fatalInjuryCount AS BIGINT)           AS fatal_injury_count,
-                CAST(cm_seriousInjuryCount AS BIGINT)         AS serious_injury_count,
-                CAST(cm_minorInjuryCount AS BIGINT)           AS minor_injury_count,
-                CAST(cm_onboard_None AS BIGINT)               AS uninjured_count,
-                CAST(cm_onboard_Total AS BIGINT)              AS onboard_total,
-                CAST(cm_HazmatInvolved AS BOOLEAN)            AS hazmat_involved,
-                CAST(cm_hasSafetyRec AS BOOLEAN)              AS has_safety_rec,
-                CAST(cm_agency AS VARCHAR)                    AS agency,
-                CAST(cm_launch AS VARCHAR)                    AS launch,
-                CAST(cm_closed AS BOOLEAN)                    AS is_closed,
-                CAST(cm_completionStatus AS VARCHAR)          AS completion_status,
-                CAST(cm_mostRecentReportType AS VARCHAR)      AS most_recent_report_type,
-                CAST(cm_recentReportPublishDate AS TIMESTAMP) AS recent_report_publish_date,
-                CAST(cm_originalPublishedDate AS TIMESTAMP)   AS original_published_date
-            FROM "ntsb-aviation-accidents"
-            WHERE cm_mkey IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY cm_mkey
-                ORDER BY cm_recentReportPublishDate DESC NULLS LAST
-            ) = 1
-        ''',
-    ),
-    SqlNodeSpec(
-        id="ntsb-aviation-aircraft-transform",
-        deps=["ntsb-aviation-aircraft"],
-        sql='''
-            SELECT
-                CAST(cm_mkey AS BIGINT)                  AS case_mkey,
-                CAST(cm_ntsbNum AS VARCHAR)              AS ntsb_number,
-                CAST(cm_eventDate AS DATE)               AS event_date,
-                CAST(cm_vehicleNum AS BIGINT)            AS vehicle_num,
-                CAST(DamageLevel AS VARCHAR)             AS damage_level,
-                CAST(ExplosionType AS VARCHAR)           AS explosion_type,
-                CAST(FireType AS VARCHAR)                AS fire_type,
-                CAST(aircraftCategory AS VARCHAR)        AS aircraft_category,
-                CAST(make AS VARCHAR)                    AS make,
-                CAST(model AS VARCHAR)                   AS model,
-                CAST(amateurBuilt AS BOOLEAN)            AS amateur_built,
-                CAST(numberOfEngines AS BIGINT)          AS number_of_engines,
-                CAST(registrationNumber AS VARCHAR)      AS registration_number,
-                CAST(SerialNumber AS VARCHAR)            AS serial_number,
-                CAST(operatorName AS VARCHAR)            AS operator_name,
-                CAST(registeredOwner AS VARCHAR)         AS registered_owner,
-                CAST(gaFlight AS BOOLEAN)                AS general_aviation,
-                CAST(flightOperationType AS VARCHAR)     AS flight_operation_type,
-                CAST(flightScheduledType AS VARCHAR)     AS flight_scheduled_type,
-                CAST(flightServiceType AS VARCHAR)       AS flight_service_type,
-                CAST(flightTerminalType AS VARCHAR)      AS flight_terminal_type,
-                CAST(regulationFlightConductedUnder AS VARCHAR) AS regulation_conducted_under,
-                CAST(airMedical AS VARCHAR)              AS air_medical,
-                CAST(airMedicalType AS VARCHAR)          AS air_medical_type,
-                CAST(revenueSightseeing AS VARCHAR)      AS revenue_sightseeing,
-                CAST(secondPilotPresent AS VARCHAR)      AS second_pilot_present
-            FROM "ntsb-aviation-aircraft"
-            WHERE cm_mkey IS NOT NULL AND cm_vehicleNum IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY cm_mkey, cm_vehicleNum
-                ORDER BY cm_eventDate DESC NULLS LAST
-            ) = 1
-        ''',
-    ),
 ]

@@ -20,3 +20,9 @@ tests:
       expr: 1
     reason: vehicle numbering starts at 1
     certainty: 90
+  - freshness:
+      col: cm_eventDate
+      reaches: today - 45d
+    reason: aircraft rows inherit the case event date; CAROL refreshes weekly so the newest event should be within ~6 weeks
+    certainty: 80
+    points_outward: true

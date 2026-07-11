@@ -146,6 +146,7 @@ ENTITY_IDS = [
     'table-7265',
     'table-7270',
     'table-7271',
+    'table-7273',
     'table-7275',
     'table-7290',
 ]
@@ -298,6 +299,7 @@ ENTITY_SRC = {
     'table-7265': ('page', '/statistics/finance/rail-industry-finance/table-7265-core-valley-lines-finances/'),
     'table-7270': ('page', '/statistics/finance/rail-industry-finance/table-7270-government-support-to-the-rail-industry/'),
     'table-7271': ('page', '/statistics/finance/rail-industry-finance/table-7271-government-support-to-the-rail-industry-by-source-and-recipient/'),
+    'table-7273': ('page', '/statistics/finance/rail-industry-finance/table-7273-government-subsidy-by-franchised-passenger-operator-up-to-2018-19/'),
     'table-7275': ('page', '/statistics/finance/rail-industry-finance/table-7275-rolling-stock-leasing-company-finances/'),
     'table-7290': ('page', '/statistics/finance/rail-industry-finance/table-7290-private-sector-investment-in-the-rail-industry-excludes-network-rail-investment/'),
 }
