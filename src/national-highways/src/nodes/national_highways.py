@@ -20,6 +20,9 @@ millions of rows via per-site paging against a throttling API).
 API quirks learned by probing (2026-07):
 
   * ``sites`` accepts at most 30 comma-separated site ids; 40+ returns HTTP 400.
+  * ``page_size`` values up to 20,000 work for ``reports/annual``; 50,000+
+    returns HTTP 400 even though older research found 90,000 on other report
+    families.
   * ``start_date`` / ``end_date`` are ``ddmmyyyy``. The annual endpoint rejects
     windows spanning more than ~7 years and windows starting before ~2017
     (no data) with HTTP 400 — hence ``FLOOR_YEAR`` + bounded ``_annual_windows``.
@@ -56,6 +59,7 @@ FLOOR_YEAR = 2017
 WINDOW_SPAN_YEARS = 5
 # Max site ids per report request (the endpoint's own cap; 40+ -> HTTP 400).
 SITE_BATCH = 30
+REPORT_PAGE_SIZE = 20_000
 
 
 # ---------------------------------------------------------------------------
@@ -86,6 +90,8 @@ def _retryable(exc: BaseException) -> bool:
 )
 def _report_get(path: str, params: dict) -> dict:
     resp = _rate_limited_get(path, params)
+    if resp.status_code == 204:
+        return {}
     resp.raise_for_status()
     return resp.json()
 
@@ -275,7 +281,7 @@ def fetch_annual_reports(node_id: str) -> None:
                         "start_date": start_date,
                         "end_date": end_date,
                         "page": 1,
-                        "page_size": 90000,
+                        "page_size": REPORT_PAGE_SIZE,
                     },
                 )
                 header = payload.get("Header", {}) or {}
