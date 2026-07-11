@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `enisa-vulnerabilities`. Regenerate after model-verify.
+# caution: Raw crawl fragments can overlap when continuation runs resume; downstream consumers should use the published transform, which deduplicates the corpus on EUVD `id`.
+# caution: The `aliases` and `references` fields are newline-joined lists; use `enisa-cve-mapping` when a normalized EUVD-to-CVE crosswalk is needed.
+key: [id]
+temporal: date_updated
+sort: [date_updated, id]
+columns:
+  - name: id
+    type: VARCHAR
+    description: EUVD vulnerability identifier.
+  - name: enisa_uuid
+    type: VARCHAR
+    description: ENISA internal UUID for the vulnerability record.
+  - name: description
+    type: VARCHAR
+    description: Upstream vulnerability description.
+  - name: date_published
+    type: TIMESTAMP
+    description: Timestamp when EUVD published the vulnerability record.
+  - name: date_updated
+    type: TIMESTAMP
+    description: Timestamp when EUVD last updated the vulnerability record.
+  - name: base_score
+    type: DOUBLE
+    description: CVSS base score reported by EUVD.
+  - name: base_score_version
+    type: DOUBLE
+    description: CVSS scoring version reported by EUVD.
+  - name: base_score_vector
+    type: VARCHAR
+    description: CVSS vector string reported by EUVD.
+  - name: epss
+    type: DOUBLE
+    description: Exploit Prediction Scoring System value reported by EUVD.
+  - name: assigner
+    type: VARCHAR
+    description: Organization that assigned or published the vulnerability record.
+  - name: aliases
+    type: VARCHAR
+    description: Newline-joined vulnerability aliases such as CVE or GSD identifiers.
+  - name: references
+    type: VARCHAR
+    description: Newline-joined upstream reference URLs.

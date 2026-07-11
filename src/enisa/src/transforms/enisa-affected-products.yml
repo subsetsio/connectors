@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `enisa-affected-products`. Regenerate after model-verify.
+# caution: Raw crawl fragments can overlap when continuation runs resume; downstream consumers should use the published transform, which deduplicates rows after normalizing missing product versions.
+# caution: Rows are exploded from EUVD's nested product list, so one vulnerability can appear many times across affected vendors, products, and product versions.
+key: [euvd_id, product_name, vendor_name, product_version]
+sort: [euvd_id, vendor_name, product_name, product_version]
+columns:
+  - name: euvd_id
+    type: VARCHAR
+    description: EUVD vulnerability identifier for the affected product relationship.
+  - name: product_name
+    type: VARCHAR
+    description: Name of the affected product.
+  - name: vendor_name
+    type: VARCHAR
+    description: Name of the affected product vendor, blank when EUVD omits it.
+  - name: product_version
+    type: VARCHAR
+    description: Affected product version, blank when EUVD omits it.
