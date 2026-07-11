@@ -24,7 +24,7 @@ import pandas as pd
 from odf import teletype
 from odf.opendocument import load as _odf_load
 from odf.table import Table, TableRow, TableCell
-from subsets_utils import NodeSpec, SqlNodeSpec, get, save_raw_ndjson, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_ndjson, transient_retry
 from constants import ENTITY_IDS, ENTITY_SRC
 
 SLUG = "office-of-rail-and-road"
@@ -280,22 +280,5 @@ def fetch_one(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{eid}", fn=fetch_one, kind="download")
-    for eid in ENTITY_IDS
-]
-
-_TRANSFORM_SQL = (
-    'SELECT sheet, block, row_dim, row_label, '
-    '"column" AS column_name, col_index, value, value_num '
-    'FROM "{dep}"'
-)
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{SLUG}-{eid}-transform",
-        fn=None,
-        kind="transform",
-        deps=(f"{SLUG}-{eid}",),
-        sql=_TRANSFORM_SQL.format(dep=f"{SLUG}-{eid}"),
-    )
     for eid in ENTITY_IDS
 ]
