@@ -124,6 +124,13 @@ def _default_age(entity_id: str) -> str | None:
     return None
 
 
+def _default_area(entity_id: str) -> str | None:
+    low = entity_id.lower()
+    if "global" in low or "world" in low:
+        return "World"
+    return None
+
+
 def _to_float(raw: str):
     s = (raw or "").strip()
     if s == "" or s.upper() == "NA" or s.upper() == "NAN":
@@ -163,6 +170,7 @@ def _melt_csv(text: str, entity_id: str):
 
     sex_fallback = _infer_sex(entity_id)
     age_fallback = _default_age(entity_id)
+    area_fallback = _default_area(entity_id)
 
     def cell(row, i):
         if i is None or i >= len(row):
@@ -173,7 +181,7 @@ def _melt_csv(text: str, entity_id: str):
     for row in rows:
         if not row:
             continue
-        area = cell(row, idx["area"])
+        area = cell(row, idx["area"]) or area_fallback
         iso = cell(row, idx["iso"])
         sex = cell(row, idx["sex"]) or sex_fallback
         year_raw = cell(row, idx["year"])
