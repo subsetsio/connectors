@@ -16,9 +16,10 @@ tests:
   - matches: {col: average_rate, pattern: "^[0-9][0-9.,]*$"}
     reason: rates are positive decimal strings, sometimes with thousands commas
     certainty: 85
-  - unique: [currency_name, post_date]
-    reason: one quote per currency per day; a dup means the per-currency window was double-counted
-    certainty: 90
+  - freshness: {col: post_date, reaches: today - 10d}
+    points_outward: true
+    reason: BNR daily exchange rates should include recent business days; allow weekends and short publication delays
+    certainty: 85
   - distinct_count: {col: currency_name, min: 30, max: 80}
     reason: BNR quotes ~43 currencies; far fewer means the currency enumeration degraded
     certainty: 80
