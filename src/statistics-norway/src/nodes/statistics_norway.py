@@ -3,7 +3,7 @@ from __future__ import annotations
 from itertools import product
 
 from constants import ENTITY_IDS
-from subsets_utils import NodeSpec, get, save_raw_ndjson
+from subsets_utils import NodeSpec, get, post, save_raw_ndjson
 
 
 BASE_URL = "https://data.ssb.no/api/pxwebapi/v2"
@@ -19,6 +19,12 @@ def _table_id_from_asset(asset_id: str) -> str:
 
 def _json(url: str, *, params: dict[str, str] | None = None) -> dict:
     response = get(url, params=params, timeout=(10.0, 180.0))
+    response.raise_for_status()
+    return response.json()
+
+
+def _post_json(url: str, *, params: dict[str, str], body: dict) -> dict:
+    response = post(url, params=params, json=body, timeout=(10.0, 180.0))
     response.raise_for_status()
     return response.json()
 
@@ -168,9 +174,13 @@ def fetch_table(asset_id: str) -> None:
     chunks = _split_selection(selection)
     for idx, chunk in enumerate(chunks):
         params = {"lang": "en", "outputFormat": "json-stat2"}
-        for dimension_id, codes in chunk.items():
-            params[f"valueCodes[{dimension_id}]"] = ",".join(codes)
-        dataset = _json(data_url, params=params)
+        body = {
+            "selection": [
+                {"variableCode": dimension_id, "valueCodes": codes}
+                for dimension_id, codes in chunk.items()
+            ]
+        }
+        dataset = _post_json(data_url, params=params, body=body)
         rows = _flatten_dataset(table_id, dataset)
         total_rows += len(rows)
         save_raw_ndjson(rows, asset_id, fragment=f"{idx:04d}")
