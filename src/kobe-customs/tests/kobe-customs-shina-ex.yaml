@@ -1,0 +1,29 @@
+spec_id: kobe-customs-shina-ex
+status: active
+tests:
+  - row_count: {min: 20}
+    reason: each annual workbook should yield many numeric cells after melting
+    certainty: 90
+  - not_null: year
+  - not_null: classification
+  - not_null: sheet
+  - not_null: row_idx
+  - not_null: col_idx
+  - not_null: value
+  - column_type: {col: year, type: integer}
+  - column_type: {col: row_idx, type: integer}
+  - column_type: {col: col_idx, type: integer}
+  - column_type: {col: value, type: float}
+  - enum: {col: classification, values: [finalized, provisional]}
+  - between: {col: year, lo: 2022, hi: current_year()}
+    reason: Kobe Customs listing currently covers the recent annual finalized/provisional files
+    certainty: 90
+    points_outward: true
+  - freshness: {col: year, reaches: 2025}
+    reason: current listing includes 2025 annual trade-statistics files
+    certainty: 90
+    points_outward: true
+  - unique: [year, sheet, row_idx, col_idx]
+    reason: one melted numeric cell per workbook coordinate per year
+    certainty: 95
+

@@ -20,8 +20,8 @@ tests:
     certainty: 95
   - column_type: {col: year_end, type: integer}
     certainty: 95
-  - between: {col: year_start, lo: 1900, hi: current_year()}
-    reason: INEC study coverage starts in historical census/survey years and should not begin in the future
+  - between: {col: year_start, lo: 0, hi: current_year()}
+    reason: this upstream record uses 0 as an unknown start-year sentinel; non-sentinel study coverage should not begin in the future
     certainty: 90
   - at_most: {col: year_end, expr: current_year()}
     reason: study coverage end should not exceed the current year for published ANDA records
