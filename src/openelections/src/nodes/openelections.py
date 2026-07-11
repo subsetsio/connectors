@@ -30,7 +30,7 @@ import tarfile
 import httpx
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, raw_parquet_writer
+from subsets_utils import NodeSpec, get, raw_parquet_writer
 from constants import ENTITY_IDS
 
 # Normalised raw schema. All result columns are nullable strings except votes —
@@ -61,7 +61,6 @@ _KNOWN_TYPES = (
 _FLUSH_ROWS = 100_000  # bound peak memory regardless of single-file size
 
 
-@transient_retry()
 def _get_tarball_bytes(url: str) -> bytes:
     resp = get(url, timeout=(10.0, 300.0))
     resp.raise_for_status()
@@ -201,33 +200,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# One published Delta table per state: thin parse-and-type pass over the raw
-# parquet. Drop rows with no vote count (header-only / unreported lines).
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{spec.id}-transform",
-        deps=[spec.id],
-        temporal="election_date",
-        sql=f'''
-            SELECT
-                state,
-                CAST(election_date AS DATE) AS election_date,
-                election_type,
-                election_name,
-                reporting_level,
-                county,
-                precinct,
-                office,
-                district,
-                party,
-                candidate,
-                CAST(votes AS BIGINT) AS votes
-            FROM "{spec.id}"
-            WHERE votes IS NOT NULL
-        ''',
-    )
-    for spec in DOWNLOAD_SPECS
 ]

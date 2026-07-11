@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` - faithful pass-through
+# of raw asset `openelections-va`. Regenerate after model-verify.
+temporal: election_date
+sort: [election_date]
+columns:
+  - name: state
+    type: VARCHAR
+  - name: election_date
+    type: DATE
+  - name: election_type
+    type: VARCHAR
+  - name: election_name
+    type: VARCHAR
+  - name: reporting_level
+    type: VARCHAR
+  - name: county
+    type: VARCHAR
+  - name: precinct
+    type: VARCHAR
+  - name: office
+    type: VARCHAR
+  - name: district
+    type: VARCHAR
+  - name: party
+    type: VARCHAR
+  - name: candidate
+    type: VARCHAR
+  - name: votes
+    type: BIGINT

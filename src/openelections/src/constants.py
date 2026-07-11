@@ -4,7 +4,7 @@
 ENTITY_IDS = [
     "ak", "al", "ar", "az", "ca", "co", "ct", "dc", "de", "fl",
     "ga", "hi", "ia", "id", "il", "in", "ks", "ky", "la", "ma",
-    "me", "mi", "mn", "mo", "ms", "mt", "nd", "ne", "nh", "nj",
+    "md", "me", "mi", "mn", "mo", "ms", "mt", "nc", "nd", "ne", "nh", "nj",
     "nm", "nv", "ny", "oh", "ok", "or", "pa", "ri", "sc", "sd",
-    "tn", "tx", "us", "ut", "vt", "wa", "wi", "wv", "wy",
+    "tn", "tx", "us", "ut", "va", "vt", "wa", "wi", "wv", "wy",
 ]
