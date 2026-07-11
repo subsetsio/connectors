@@ -27,7 +27,6 @@ import pyarrow  # noqa: F401  (kept available for parity with other connectors)
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_ndjson,
     transient_retry,
@@ -286,49 +285,4 @@ ENTITY_SUFFIXES = [
 DOWNLOAD_SPECS = [
     NodeSpec(id=f"{SLUG}-{suffix}", fn=fetch_one, kind="download")
     for suffix in ENTITY_SUFFIXES
-]
-
-# Primary-key column per subset (non-null filter in the transform).
-_PK = {
-    "chambers": "chamber_code",
-    "countries": "country_code",
-    "elections": "election_code",
-    "parliaments": "parliament_code",
-    "people": "person_code",
-    "political-parties": "political_party_code",
-    "specialized-bodies": "specialized_body_code",
-    "fields": "field_id",
-    "groups": "group_name",
-    "taxonomies": "key",
-    "report-women-ranking": "country_code",
-    "report-age-brackets": "chamber_code",
-    "report-elections": "chamber_code",
-    "report-secretaries-general": "chamber_code",
-    "report-speakers": "chamber_code",
-    "report-women-speakers": "chamber_code",
-}
-
-
-def _transform_sql(download_id: str, suffix: str) -> str:
-    pk = _PK[suffix]
-    if suffix == "report-women-ranking":
-        # percent fields arrive as strings; cast them to clean doubles.
-        return f'''
-            SELECT
-                * EXCLUDE (lower_chamber_percent_women, upper_chamber_percent_women),
-                TRY_CAST(lower_chamber_percent_women AS DOUBLE) AS lower_chamber_percent_women,
-                TRY_CAST(upper_chamber_percent_women AS DOUBLE) AS upper_chamber_percent_women
-            FROM "{download_id}"
-            WHERE "{pk}" IS NOT NULL
-        '''
-    return f'SELECT * FROM "{download_id}" WHERE "{pk}" IS NOT NULL'
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=_transform_sql(s.id, _suffix(s.id)),
-    )
-    for s in DOWNLOAD_SPECS
 ]
