@@ -54,10 +54,12 @@ VALUES_SCHEMA = pa.schema([
     ("indicator_id", pa.string()),
     ("area", pa.string()),
     ("year", pa.int32()),
-    ("value", pa.string()),          # raw; the source mixes str/int/float — transform TRY_CASTs to DOUBLE
+    ("value", pa.string()),          # raw; normalized numeric text, cast to DOUBLE in the transform
     ("unit", pa.string()),
     ("disaggregation", pa.string()),
 ])
+
+NUMERIC_RE = re.compile(r"^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$")
 
 
 @transient_retry()
@@ -103,6 +105,20 @@ def _disaggregation_label(series: dict) -> str:
         key=lambda t: (t[0], t[1]),
     )
     return " | ".join(f"{t}={v}" for t, v in items)
+
+
+def _value_text(value) -> str | None:
+    if value is None:
+        return None
+    text = str(value).strip()
+    if not text:
+        return None
+    if NUMERIC_RE.match(text):
+        return text
+    repaired = re.sub(r"^[oO](?=\.)", "0", text)
+    if NUMERIC_RE.match(repaired):
+        return repaired
+    return text
 
 
 def fetch_goals(node_id: str) -> None:
@@ -170,8 +186,7 @@ def fetch_values(node_id: str) -> None:
                             yr = int(str(ykey))
                         except (TypeError, ValueError):
                             continue
-                    val = obs.get("value")
-                    val_str = None if val is None else str(val)
+                    val_str = _value_text(obs.get("value"))
                     key = (iid, area, yr, label)
                     existing = seen.get(key)
                     if existing is not None and (existing["value"] is not None or val_str is None):

@@ -3,10 +3,18 @@ import errno
 import io
 import json
 import math
+import os
 import re
 
+import httpcore
 import httpx
-from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    wait_exponential,
+    wait_random,
+)
 
 from constants import ENTITY_IDS, SPEC_TO_CODE
 from subsets_utils import (
@@ -24,6 +32,8 @@ PREFIX = "insse-"
 LANGUAGE = "en"
 MAX_CELLS = 25000
 
+os.environ.setdefault("DAG_PARALLELISM", "1")
+
 TIMEOUT = httpx.Timeout(180.0, connect=20.0, write=30.0, pool=30.0)
 HEADERS = {
     "User-Agent": "Mozilla/5.0 subsets.io connector (+https://subsets.io)",
@@ -34,6 +44,9 @@ HEADERS = {
     "Referer": "http://statistici.insse.ro:8077/tempo-online/",
 }
 INSSE_TRANSIENT_EXC = TRANSIENT_EXC + (
+    httpcore.NetworkError,
+    httpcore.ProtocolError,
+    httpcore.TimeoutException,
     httpx.ReadError,
     httpx.RemoteProtocolError,
     ConnectionResetError,
@@ -58,8 +71,8 @@ def _is_insse_transient(exc: BaseException) -> bool:
 def _insse_retry(fn):
     return retry(
         retry=retry_if_exception(_is_insse_transient),
-        stop=stop_after_attempt(6),
-        wait=wait_exponential(multiplier=1, min=2, max=90),
+        stop=stop_after_attempt(8),
+        wait=wait_exponential(multiplier=2, min=5, max=180) + wait_random(0, 20),
         reraise=True,
     )(fn)
 
