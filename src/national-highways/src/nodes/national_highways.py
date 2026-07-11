@@ -36,6 +36,7 @@ from datetime import date
 
 import httpx
 import pyarrow as pa
+import pyarrow.parquet as pq
 from ratelimit import limits, sleep_and_retry
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
@@ -44,7 +45,9 @@ from subsets_utils import (
     MaintainSpec,
     get,
     is_transient,
+    list_raw_fragments,
     raw_asset_exists,
+    raw_parquet_localpath,
     raw_parquet_writer,
     save_raw_parquet,
 )
@@ -60,6 +63,7 @@ WINDOW_SPAN_YEARS = 5
 # Max site ids per report request (the endpoint's own cap; 40+ -> HTTP 400).
 SITE_BATCH = 30
 REPORT_PAGE_SIZE = 20_000
+MIN_NONEMPTY_PARQUET_BYTES = 4_096
 
 
 # ---------------------------------------------------------------------------
@@ -118,6 +122,21 @@ def _num(v):
 def _chunks(seq, n):
     for i in range(0, len(seq), n):
         yield seq[i : i + n]
+
+
+def _raw_parquet_has_rows(asset_id: str, *, max_age_days: int) -> bool:
+    if not raw_asset_exists(asset_id, "parquet", max_age_days=max_age_days):
+        return False
+
+    fragments = list_raw_fragments(asset_id, "parquet")
+    if fragments:
+        return any((meta.get("size") or 0) > MIN_NONEMPTY_PARQUET_BYTES for meta in fragments.values())
+
+    try:
+        with raw_parquet_localpath(asset_id) as path:
+            return pq.ParquetFile(path).metadata.num_rows > 0
+    except FileNotFoundError:
+        return False
 
 
 # ---------------------------------------------------------------------------
@@ -321,6 +340,6 @@ MAINTAIN_SPECS = [
     MaintainSpec(
         asset_id="national-highways-annual-reports",
         description="Annual ADT/AWT statistics refreshed monthly (data published ~1 month in arrears; no published cadence)",
-        check=lambda aid: raw_asset_exists(aid, "parquet", max_age_days=25),
+        check=lambda aid: _raw_parquet_has_rows(aid, max_age_days=25),
     ),
 ]
