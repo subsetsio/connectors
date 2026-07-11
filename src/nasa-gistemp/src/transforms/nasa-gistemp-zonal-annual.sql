@@ -1,6 +1,11 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Values are temperature anomalies in degrees Celsius relative to the 1951-1980 baseline; they should not be interpreted as absolute temperatures.
+-- caution: The zone column mixes global, hemispheric, and latitude-band series; filter to the intended zone before trend analysis.
 SELECT
-    CAST(year AS INTEGER) AS year,
-    zone,
-    CAST(anomaly_c AS DOUBLE) AS anomaly_c
+    "year",
+    "zone",
+    "anomaly_c"
 FROM "nasa-gistemp-zonal-annual"
-WHERE anomaly_c IS NOT NULL

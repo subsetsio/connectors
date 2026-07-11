@@ -1,6 +1,11 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Values are temperature anomalies in degrees Celsius relative to the 1951-1980 baseline; they should not be interpreted as absolute temperatures.
+-- caution: The region column contains Global, Northern Hemisphere, and Southern Hemisphere series; filter to the intended region before trend analysis.
 SELECT
-    month,
-    region,
-    CAST(anomaly_c AS DOUBLE) AS anomaly_c
+    strptime("month", '%Y-%m')::DATE AS month,
+    "region",
+    "anomaly_c"
 FROM "nasa-gistemp-monthly"
-WHERE anomaly_c IS NOT NULL
