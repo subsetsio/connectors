@@ -1,7 +1,6 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [name, model, date]
+key: [name, date]
 temporal: date
-sort: [date, name, model]
+sort: [date, name]
 columns:
   - name: name
     type: VARCHAR
@@ -11,9 +10,11 @@ columns:
     type: DOUBLE
   - name: longitude
     type: DOUBLE
-  - name: model
-    type: VARCHAR
   - name: date
     type: DATE
   - name: temperature_2m_max
+    type: DOUBLE
+  - name: temperature_2m_min
+    type: DOUBLE
+  - name: precipitation_sum
     type: DOUBLE
