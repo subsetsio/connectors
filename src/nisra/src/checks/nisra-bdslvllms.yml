@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-bdslvllms`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, dsl, statistic, statistic_label, lms]
+checks:
+  - kind: unique
+    columns: [value, dsl, statistic, statistic_label, lms]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: dsl
+  - kind: not_null
+    col: statistic
+  - kind: not_null
+    col: statistic_label
+  - kind: not_null
+    col: lms
+  - kind: row_floor
+    min: 6
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

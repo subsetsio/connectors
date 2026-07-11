@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-c21509eq`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, eqgrp, equality_group, disability, long_term_health_problem_or_disability]
+checks:
+  - kind: unique
+    columns: [value, eqgrp, equality_group, disability, long_term_health_problem_or_disability]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: eqgrp
+  - kind: not_null
+    col: equality_group
+  - kind: not_null
+    col: disability
+  - kind: not_null
+    col: long_term_health_problem_or_disability
+  - kind: row_floor
+    min: 108
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-ks101nisoa`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, super_output_area, soa, ur_pop, usual_resident_population]
+checks:
+  - kind: unique
+    columns: [value, super_output_area, soa, ur_pop, usual_resident_population]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: super_output_area
+  - kind: not_null
+    col: soa
+  - kind: not_null
+    col: ur_pop
+  - kind: not_null
+    col: usual_resident_population
+  - kind: row_floor
+    min: 2227
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

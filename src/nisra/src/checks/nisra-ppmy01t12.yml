@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-ppmy01t12`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, tlist_a1, year, local_government_district_1992, lgd1992]
+checks:
+  - kind: unique
+    columns: [value, tlist_a1, year, local_government_district_1992, lgd1992]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: tlist_a1
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: local_government_district_1992
+  - kind: not_null
+    col: lgd1992
+  - kind: row_floor
+    min: 1053
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-nimdm17t5`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, small_area, sa, statistic_label, statistic]
+checks:
+  - kind: unique
+    columns: [value, small_area, sa, statistic_label, statistic]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: small_area
+  - kind: not_null
+    col: sa
+  - kind: not_null
+    col: statistic_label
+  - kind: not_null
+    col: statistic
+  - kind: row_floor
+    min: 122499
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-dvcsgrnd`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [tlist_a1, year, dvcgrounds, grounds_of_divorce]
+checks:
+  - kind: unique
+    columns: [tlist_a1, year, dvcgrounds, grounds_of_divorce]
+  - kind: not_null
+    col: tlist_a1
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: dvcgrounds
+  - kind: not_null
+    col: grounds_of_divorce
+  - kind: row_floor
+    min: 63
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

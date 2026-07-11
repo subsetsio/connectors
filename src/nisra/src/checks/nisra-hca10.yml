@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-hca10`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [county_urban_rural_ded, county_urban_rural_and_district_electoral_division, value, occupants_residing, occupantsresiding]
+checks:
+  - kind: unique
+    columns: [county_urban_rural_ded, county_urban_rural_and_district_electoral_division, value, occupants_residing, occupantsresiding]
+  - kind: not_null
+    col: county_urban_rural_ded
+  - kind: not_null
+    col: county_urban_rural_and_district_electoral_division
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: occupants_residing
+  - kind: not_null
+    col: occupantsresiding
+  - kind: row_floor
+    min: 26123
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

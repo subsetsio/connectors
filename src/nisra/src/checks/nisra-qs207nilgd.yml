@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-qs207nilgd`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, cob_basic, country_of_birth, lgd2014, local_government_district]
+checks:
+  - kind: unique
+    columns: [value, cob_basic, country_of_birth, lgd2014, local_government_district]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: cob_basic
+  - kind: not_null
+    col: country_of_birth
+  - kind: not_null
+    col: lgd2014
+  - kind: not_null
+    col: local_government_district
+  - kind: row_floor
+    min: 108
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

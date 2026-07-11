@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-pd01t03`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, assembly_area_2024, aa2024, tlist_a1, year]
+checks:
+  - kind: unique
+    columns: [value, assembly_area_2024, aa2024, tlist_a1, year]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: assembly_area_2024
+  - kind: not_null
+    col: aa2024
+  - kind: not_null
+    col: tlist_a1
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 38
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

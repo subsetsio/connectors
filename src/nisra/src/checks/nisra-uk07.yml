@@ -1,0 +1,40 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-uk07`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [statistic, statistic_label, tlist_a1, census_year, ctry24cd, country, religion_belong_to_agg7, religion, age_band_5yr_85, age_20_cats, ur_sex, sex, unit]
+checks:
+  - kind: unique
+    columns: [statistic, statistic_label, tlist_a1, census_year, ctry24cd, country, religion_belong_to_agg7, religion, age_band_5yr_85, age_20_cats, ur_sex, sex, unit]
+  - kind: not_null
+    col: statistic
+  - kind: not_null
+    col: statistic_label
+  - kind: not_null
+    col: tlist_a1
+  - kind: not_null
+    col: census_year
+  - kind: not_null
+    col: ctry24cd
+  - kind: not_null
+    col: country
+  - kind: not_null
+    col: religion_belong_to_agg7
+  - kind: not_null
+    col: religion
+  - kind: not_null
+    col: age_band_5yr_85
+  - kind: not_null
+    col: age_20_cats
+  - kind: not_null
+    col: ur_sex
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: unit
+  - kind: row_floor
+    min: 980
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

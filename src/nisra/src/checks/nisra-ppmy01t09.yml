@@ -1,0 +1,36 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-ppmy01t09`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [statistic, statistic_label, tlist_a1, year, elb, education_and_library_board, age, single_year_of_age, sex, sex_label, unit]
+checks:
+  - kind: unique
+    columns: [statistic, statistic_label, tlist_a1, year, elb, education_and_library_board, age, single_year_of_age, sex, sex_label, unit]
+  - kind: not_null
+    col: statistic
+  - kind: not_null
+    col: statistic_label
+  - kind: not_null
+    col: tlist_a1
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: elb
+  - kind: not_null
+    col: education_and_library_board
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: single_year_of_age
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: sex_label
+  - kind: not_null
+    col: unit
+  - kind: row_floor
+    min: 21294
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

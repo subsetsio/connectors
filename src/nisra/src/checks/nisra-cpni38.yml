@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-cpni38`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [broadindustrygroup, broad_industry_group, statistic, statistic_label, niroi]
+checks:
+  - kind: unique
+    columns: [broadindustrygroup, broad_industry_group, statistic, statistic_label, niroi]
+  - kind: not_null
+    col: broadindustrygroup
+  - kind: not_null
+    col: broad_industry_group
+  - kind: not_null
+    col: statistic
+  - kind: not_null
+    col: statistic_label
+  - kind: not_null
+    col: niroi
+  - kind: row_floor
+    min: 46
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

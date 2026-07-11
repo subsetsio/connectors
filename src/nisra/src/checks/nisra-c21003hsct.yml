@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-c21003hsct`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [country_of_birth, cob_basic, health_and_social_care_trust, hsct]
+checks:
+  - kind: unique
+    columns: [country_of_birth, cob_basic, health_and_social_care_trust, hsct]
+  - kind: not_null
+    col: country_of_birth
+  - kind: not_null
+    col: cob_basic
+  - kind: not_null
+    col: health_and_social_care_trust
+  - kind: not_null
+    col: hsct
+  - kind: row_floor
+    min: 30
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

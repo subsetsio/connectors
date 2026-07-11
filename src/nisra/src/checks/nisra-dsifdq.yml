@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-dsifdq`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [intfun, internet_function, statistic, statistic_label, mdm_quintile]
+checks:
+  - kind: unique
+    columns: [intfun, internet_function, statistic, statistic_label, mdm_quintile]
+  - kind: not_null
+    col: intfun
+  - kind: not_null
+    col: internet_function
+  - kind: not_null
+    col: statistic
+  - kind: not_null
+    col: statistic_label
+  - kind: not_null
+    col: mdm_quintile
+  - kind: row_floor
+    min: 30
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

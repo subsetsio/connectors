@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-ts029`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, lgd2014, local_government_district, hh_adapted_num_tc4, adaptations_to_accommodation]
+checks:
+  - kind: unique
+    columns: [value, lgd2014, local_government_district, hh_adapted_num_tc4, adaptations_to_accommodation]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: lgd2014
+  - kind: not_null
+    col: local_government_district
+  - kind: not_null
+    col: hh_adapted_num_tc4
+  - kind: not_null
+    col: adaptations_to_accommodation
+  - kind: row_floor
+    min: 55
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

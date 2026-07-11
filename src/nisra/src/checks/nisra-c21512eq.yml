@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-c21512eq`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, eqgrp, equality_group, methodoftravel, method_of_travel]
+checks:
+  - kind: unique
+    columns: [value, eqgrp, equality_group, methodoftravel, method_of_travel]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: eqgrp
+  - kind: not_null
+    col: equality_group
+  - kind: not_null
+    col: methodoftravel
+  - kind: not_null
+    col: method_of_travel
+  - kind: row_floor
+    min: 259
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

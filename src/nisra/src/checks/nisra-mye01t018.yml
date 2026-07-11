@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-mye01t018`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, health_and_social_care_trust, hsct, broadage4, broad_age_band_4_cat]
+checks:
+  - kind: unique
+    columns: [value, health_and_social_care_trust, hsct, broadage4, broad_age_band_4_cat]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: health_and_social_care_trust
+  - kind: not_null
+    col: hsct
+  - kind: not_null
+    col: broadage4
+  - kind: not_null
+    col: broad_age_band_4_cat
+  - kind: row_floor
+    min: 180
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

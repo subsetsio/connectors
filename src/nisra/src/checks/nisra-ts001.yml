@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-ts001`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, tlist_a1, census_year, hh_tenure_hist, household_tenure]
+checks:
+  - kind: unique
+    columns: [value, tlist_a1, census_year, hh_tenure_hist, household_tenure]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: tlist_a1
+  - kind: not_null
+    col: census_year
+  - kind: not_null
+    col: hh_tenure_hist
+  - kind: not_null
+    col: household_tenure
+  - kind: row_floor
+    min: 12
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

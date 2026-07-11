@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-domhsct`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, tlist_a1, financial_year, health_and_social_care_trust, hsct]
+checks:
+  - kind: unique
+    columns: [value, tlist_a1, financial_year, health_and_social_care_trust, hsct]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: tlist_a1
+  - kind: not_null
+    col: financial_year
+  - kind: not_null
+    col: health_and_social_care_trust
+  - kind: not_null
+    col: hsct
+  - kind: row_floor
+    min: 63
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

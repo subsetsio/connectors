@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-c21004dea`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [value, district_electoral_area, dea2014, hh_dependent_children_agg11, number_of_dependent_children]
+checks:
+  - kind: unique
+    columns: [value, district_electoral_area, dea2014, hh_dependent_children_agg11, number_of_dependent_children]
+  - kind: not_null
+    col: value
+  - kind: not_null
+    col: district_electoral_area
+  - kind: not_null
+    col: dea2014
+  - kind: not_null
+    col: hh_dependent_children_agg11
+  - kind: not_null
+    col: number_of_dependent_children
+  - kind: row_floor
+    min: 440
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

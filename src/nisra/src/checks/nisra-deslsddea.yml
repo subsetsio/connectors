@@ -1,0 +1,32 @@
+# compiled by `hardened compile-checks` — post-publish audit of `nisra-deslsddea`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [statistic, statistic_label, tlist_a1, academic_year, dea2014, district_electoral_area, destination, destination_label, unit]
+checks:
+  - kind: unique
+    columns: [statistic, statistic_label, tlist_a1, academic_year, dea2014, district_electoral_area, destination, destination_label, unit]
+  - kind: not_null
+    col: statistic
+  - kind: not_null
+    col: statistic_label
+  - kind: not_null
+    col: tlist_a1
+  - kind: not_null
+    col: academic_year
+  - kind: not_null
+    col: dea2014
+  - kind: not_null
+    col: district_electoral_area
+  - kind: not_null
+    col: destination
+  - kind: not_null
+    col: destination_label
+  - kind: not_null
+    col: unit
+  - kind: row_floor
+    min: 6318
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
