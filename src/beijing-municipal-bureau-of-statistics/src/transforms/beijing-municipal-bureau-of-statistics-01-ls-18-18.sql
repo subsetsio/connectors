@@ -1,11 +1,7 @@
-SELECT DISTINCT
-    report_number,
-    freq_type,
-    mask AS period,
-    indicator,
-    col_label,
-    TRY_CAST(replace(replace(value, ',', ''), ' ', '') AS DOUBLE) AS value
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "json"
 FROM "beijing-municipal-bureau-of-statistics-01-ls-18-18"
-WHERE value IS NOT NULL
-  AND trim(value) <> ''
-  AND TRY_CAST(replace(replace(value, ',', ''), ' ', '') AS DOUBLE) IS NOT NULL
