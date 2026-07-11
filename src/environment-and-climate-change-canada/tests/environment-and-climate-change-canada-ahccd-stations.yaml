@@ -1,5 +1,8 @@
 spec_id: environment-and-climate-change-canada-ahccd-stations
 status: active
+coverage:
+  frozen: true
+  reason: Station registry; start_date__date_debut is the station operating start date, not an observation freshness axis.
 tests:
   - not_null: feature_id
   - unique: feature_id

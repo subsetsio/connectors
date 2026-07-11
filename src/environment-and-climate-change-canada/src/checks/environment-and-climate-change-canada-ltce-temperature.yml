@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `environment-and-climate-change-canada-ltce-temperature`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [feature_id]
+temporal: min_temp_record_begin
+checks:
+  - kind: unique
+    columns: [feature_id]
+  - kind: not_null
+    col: feature_id
+  - kind: row_floor
+    min: 134322
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

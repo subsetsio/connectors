@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `environment-and-climate-change-canada-hydrometric-stations`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [station_name, feature_id, identifier, station_number, contributor_fr]
+checks:
+  - kind: unique
+    columns: [station_name, feature_id, identifier, station_number, contributor_fr]
+  - kind: not_null
+    col: station_name
+  - kind: not_null
+    col: feature_id
+  - kind: not_null
+    col: identifier
+  - kind: not_null
+    col: station_number
+  - kind: not_null
+    col: contributor_fr
+  - kind: row_floor
+    min: 4027
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
