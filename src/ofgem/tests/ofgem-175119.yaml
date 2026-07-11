@@ -1,0 +1,11 @@
+spec_id: ofgem-175119
+status: active
+tests:
+  - not_null: category
+  - not_null: series
+  - column_type: {col: category, type: string}
+  - column_type: {col: series, type: string}
+  - column_type: {col: value, type: float}
+  - row_count: {min: 1}
+    reason: each Ofgem data-portal chart's everviz data.csv yields at least one (category, series) data row.
+    certainty: 85

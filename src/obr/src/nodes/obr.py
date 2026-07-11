@@ -26,6 +26,7 @@ incremental filter, and re-pulling picks up OBR's frequent revisions for free.
 
 import io
 import re
+import zipfile
 
 import pyarrow as pa
 import openpyxl
@@ -55,10 +56,19 @@ from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
 # subsets_utils. Verified locally and required for the cloud run to pass.
 _IMPERSONATE = "chrome"
 
-# The entity union (rank-active subsets), copied from
-# data/sources/obr/work/entity_union.json. One download spec per id.
+# The entity union (accepted subsets), copied from
+# data/sources/obr/work/entity_union.json. One download spec per id. Some
+# products ship as standalone workbooks (.xlsx), others as ZIP bundles of
+# several .xlsx files (the "charts and tables" / "detailed forecast tables"
+# report supplements) — fetch_one handles both transparently.
 ENTITY_IDS = [
+    "economic-and-fiscal-outlook-charts-and-tables",
+    "economic-and-fiscal-outlook-detailed-forecast-tables",
     "economic-and-fiscal-outlook-ready-reckoner",
+    "fiscal-risks-and-sustainability-charts-and-tables",
+    "forecast-evaluation-report-annex-a-supplementary-economy-tables",
+    "forecast-evaluation-report-annex-b-supplementary-fiscal-tables",
+    "forecast-evaluation-report-charts-and-tables",
     "forecast-revisions-database",
     "historical-official-forecasts-database",
     "historical-public-finances-database",
@@ -67,6 +77,7 @@ ENTITY_IDS = [
     "policy-measures-database",
     "policy-risks-database",
     "public-finances-databank",
+    "welfare-trends-report-charts-and-tables",
 ]
 
 DATA_PAGE = "https://obr.uk/data/"
@@ -179,13 +190,19 @@ def _clean_text(v: str):
     return v[:_MAX_TEXT]
 
 
-def _melt_workbook(content: bytes) -> list:
-    """Melt every worksheet into long-format rows — one per non-empty cell."""
+def _melt_workbook(content: bytes, sheet_prefix: str = "") -> list:
+    """Melt every worksheet into long-format rows — one per non-empty cell.
+
+    ``sheet_prefix`` disambiguates sheets when several workbooks (the members of
+    a ZIP bundle) are melted into one asset — without it, a 'Contents' sheet in
+    two members would collide on the (sheet, excel_row, excel_col) grain.
+    """
     wb = openpyxl.load_workbook(io.BytesIO(content), read_only=True, data_only=True)
     rows = []
     try:
-        for sheet_name in wb.sheetnames:
-            ws = wb[sheet_name]
+        for sheet_key in wb.sheetnames:
+            sheet_name = f"{sheet_prefix}{sheet_key}"
+            ws = wb[sheet_key]
             if not hasattr(ws, "iter_rows"):  # skip Chartsheet objects
                 continue
             col_header = {}  # positional col index -> nearest string above

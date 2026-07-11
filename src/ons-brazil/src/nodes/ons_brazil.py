@@ -35,7 +35,6 @@ import duckdb
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_parquet_writer,
     transient_retry,
@@ -126,17 +125,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# Thin publish pass: each dataset's raw parquet already carries the source's
-# own typed schema, so the transform is a straight projection. Heterogeneous
-# per-dataset columns make a generic cast impractical; the raw schema is the
-# contract. A 0-row result fails the node by design.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

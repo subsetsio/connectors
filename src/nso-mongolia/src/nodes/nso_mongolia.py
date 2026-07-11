@@ -194,6 +194,18 @@ def fetch_one(node_id: str) -> None:
     if not variables:
         raise ValueError(f"{entity_id}: table metadata has no variables")
 
+    # Drop blank value codes. A handful of bag/khoroo categories in some Livestock
+    # tables carry an empty code ("") in the source metadata (the label — a real
+    # bag name — is present, only the code is missing). PxWeb 400s on ANY selection
+    # that reaches such a code: filter:item can't name it, and filter:all over the
+    # whole dimension inherits the same poison. They are therefore unfetchable by
+    # any query, so we exclude them and pull the rest of the table cleanly. No-op
+    # for tables without blank codes.
+    for v in variables:
+        v["values"] = [c for c in v["values"] if str(c).strip() != ""]
+    if any(not v["values"] for v in variables):
+        raise ValueError(f"{entity_id}: a dimension has no non-blank value codes")
+
     full = {v["code"]: list(v["values"]) for v in variables}
     rows = []
     for selection in _blocks(variables):
