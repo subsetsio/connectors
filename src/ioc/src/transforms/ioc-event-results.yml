@@ -1,0 +1,22 @@
+key: [edition, event_code, source_url]
+sort: [edition, event_code, source_url]
+columns:
+  - name: edition
+    type: VARCHAR
+    description: ODF competition code, e.g. OG2024.
+  - name: games
+    type: VARCHAR
+    description: Games family label.
+  - name: event_code
+    type: VARCHAR
+    description: IOC/ODF event identifier parsed from the source URL.
+  - name: archive_timestamp
+    type: VARCHAR
+    description: Wayback Machine capture timestamp used for the raw payload.
+  - name: source_url
+    type: VARCHAR
+    description: Original olympics.com ODF JSON URL.
+  - name: payload_json
+    type: VARCHAR
+    description: Original nested GLO_EventRanking JSON payload as text.
+

@@ -1,0 +1,22 @@
+key: [edition, athlete_code]
+sort: [edition, athlete_code]
+columns:
+  - name: edition
+    type: VARCHAR
+    description: ODF competition code, e.g. OG2024.
+  - name: games
+    type: VARCHAR
+    description: Games family label.
+  - name: athlete_code
+    type: VARCHAR
+    description: IOC/ODF athlete identifier.
+  - name: archive_timestamp
+    type: VARCHAR
+    description: Wayback Machine capture timestamp used for the raw payload.
+  - name: source_url
+    type: VARCHAR
+    description: Original olympics.com ODF JSON URL.
+  - name: payload_json
+    type: VARCHAR
+    description: Original nested CIS_Bio_Athlete JSON payload as text.
+
