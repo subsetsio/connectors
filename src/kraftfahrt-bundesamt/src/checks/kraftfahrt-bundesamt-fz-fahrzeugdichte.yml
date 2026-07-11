@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `kraftfahrt-bundesamt-fz-fahrzeugdichte`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [schluessel_zulbz, zulassungsbezirk, kreis, gen, berichtsjahr]
+checks:
+  - kind: unique
+    columns: [schluessel_zulbz, zulassungsbezirk, kreis, gen, berichtsjahr]
+  - kind: not_null
+    col: schluessel_zulbz
+  - kind: not_null
+    col: zulassungsbezirk
+  - kind: not_null
+    col: kreis
+  - kind: not_null
+    col: gen
+  - kind: not_null
+    col: berichtsjahr
+  - kind: row_floor
+    min: 1000
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

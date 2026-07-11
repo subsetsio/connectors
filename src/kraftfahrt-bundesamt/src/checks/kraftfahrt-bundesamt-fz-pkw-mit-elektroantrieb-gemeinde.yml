@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `kraftfahrt-bundesamt-fz-pkw-mit-elektroantrieb-gemeinde`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ags, gemeindeschluessel, gemeinde, berichtszeitpunkt, stadttyp_schluessel]
+checks:
+  - kind: unique
+    columns: [ags, gemeindeschluessel, gemeinde, berichtszeitpunkt, stadttyp_schluessel]
+  - kind: not_null
+    col: ags
+  - kind: not_null
+    col: gemeindeschluessel
+  - kind: not_null
+    col: gemeinde
+  - kind: not_null
+    col: berichtszeitpunkt
+  - kind: not_null
+    col: stadttyp_schluessel
+  - kind: row_floor
+    min: 75239
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

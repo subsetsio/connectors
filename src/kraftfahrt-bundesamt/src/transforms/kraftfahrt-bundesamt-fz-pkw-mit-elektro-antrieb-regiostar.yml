@@ -1,12 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kraftfahrt-bundesamt-fz-pkw-mit-elektro-antrieb-regiostar`. Regenerate after model-verify.
+key: [berichtszeitpunkt, regiostar7]
+sort: [berichtszeitpunkt, regiostar7]
 columns:
-  - name: Berichtszeitpunkt
-    type: VARCHAR
-  - name: RegioStaR7
-    type: VARCHAR
-  - name: Pkw_Elektro_Anteil
+  - name: berichtszeitpunkt
     type: DOUBLE
-  - name: ZS_Pkw_Elektro_Anteil
+  - name: regiostar7
     type: VARCHAR
-  - name: Regiostar7_Nummer
+  - name: pkw_elektro_anteil
+    type: DOUBLE
+  - name: zs_pkw_elektro_anteil
+    type: VARCHAR
+  - name: objectid
+    type: BIGINT
+  - name: regiostar7_nummer
     type: BIGINT

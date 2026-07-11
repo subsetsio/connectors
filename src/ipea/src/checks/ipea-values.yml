@@ -3,11 +3,11 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [series_code, date, geo_level, territory_code]
+key: [series_code, date, geo_level, territory_code, value]
 temporal: date
 checks:
   - kind: unique
-    columns: [series_code, date, geo_level, territory_code]
+    columns: [series_code, date, geo_level, territory_code, value]
   - kind: not_null
     col: series_code
   - kind: not_null
@@ -16,6 +16,8 @@ checks:
     col: geo_level
   - kind: not_null
     col: territory_code
+  - kind: not_null
+    col: value
   - kind: row_floor
     min: 39486449
 regression:

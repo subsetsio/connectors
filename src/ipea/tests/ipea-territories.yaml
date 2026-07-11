@@ -12,8 +12,8 @@ tests:
   - column_type: {col: TERAREA, type: float}
     reason: territory area is numeric when present
     certainty: 85
-  - unique: TERCODIGO
-    reason: Territorios returns one row per territory code
+  - unique: [NIVNOME, TERCODIGO]
+    reason: Territorios returns one row per territory level and code; codes repeat across geographic levels
     certainty: 90
   - row_count: {min: 1000}
     reason: probed geography dimension has ~19k rows; far fewer means the endpoint changed or was truncated

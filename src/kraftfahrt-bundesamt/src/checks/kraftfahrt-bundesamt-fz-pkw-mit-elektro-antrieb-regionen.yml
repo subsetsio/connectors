@@ -1,0 +1,28 @@
+# compiled by `hardened compile-checks` — post-publish audit of `kraftfahrt-bundesamt-fz-pkw-mit-elektro-antrieb-regionen`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [berichtszeitpunkt, bundesland, schluessel_zulbz, zulassungsbezirk, gemeindeschluessel, gemeinde, stadttyp_schluessel]
+checks:
+  - kind: unique
+    columns: [berichtszeitpunkt, bundesland, schluessel_zulbz, zulassungsbezirk, gemeindeschluessel, gemeinde, stadttyp_schluessel]
+  - kind: not_null
+    col: berichtszeitpunkt
+  - kind: not_null
+    col: bundesland
+  - kind: not_null
+    col: schluessel_zulbz
+  - kind: not_null
+    col: zulassungsbezirk
+  - kind: not_null
+    col: gemeindeschluessel
+  - kind: not_null
+    col: gemeinde
+  - kind: not_null
+    col: stadttyp_schluessel
+  - kind: row_floor
+    min: 78247
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

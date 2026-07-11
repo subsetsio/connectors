@@ -1,1 +1,43 @@
-SELECT COLUMNS(c -> NOT regexp_matches(lower(c), '^(objectid|object_id|oid|fid|shape__|monat_sortierung)')) FROM "kraftfahrt-bundesamt-fz-modellreihen"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    CAST("Berichtsjahr" AS BIGINT) AS berichtsjahr,
+    "Berichtsmonat" AS berichtsmonat,
+    "Segment" AS segment,
+    "Marke" AS marke,
+    "Modellreihe" AS modellreihe,
+    "Anzahl" AS anzahl,
+    "ZS_Anzahl" AS zs_anzahl,
+    "Diesel" AS diesel,
+    "ZS_Diesel" AS zs_diesel,
+    "Hybrid" AS hybrid,
+    "ZS_Hybrid" AS zs_hybrid,
+    "Benzin_Hybrid" AS benzin_hybrid,
+    "ZS_Benzin_Hybrid" AS zs_benzin_hybrid,
+    "Diesel_Hybrid" AS diesel_hybrid,
+    "ZS_Diesel_Hybrid" AS zs_diesel_hybrid,
+    "Hybrid_ohne_Plugin" AS hybrid_ohne_plugin,
+    "ZS_Hybrid_oPi" AS zs_hybrid_opi,
+    "Benzin_Hybrid_ohne_Plugin" AS benzin_hybrid_ohne_plugin,
+    "ZS_Benzin_Hybrid_oPi" AS zs_benzin_hybrid_opi,
+    "Diesel_Hybrid_ohne_Plugin" AS diesel_hybrid_ohne_plugin,
+    "ZS_Diesel_Hybrid_oPi" AS zs_diesel_hybrid_opi,
+    "Hybrid_Plugin" AS hybrid_plugin,
+    "ZS_Hybrid_Pi" AS zs_hybrid_pi,
+    "Benzin_Hybrid_Plugin" AS benzin_hybrid_plugin,
+    "ZS_Benzin_Hybrid_Pi" AS zs_benzin_hybrid_pi,
+    "Diesel_Hybrid_Plugin" AS diesel_hybrid_plugin,
+    "ZS_Diesel_Hybrid_Pi" AS zs_diesel_hybrid_pi,
+    "BEV" AS bev,
+    "ZS_BEV" AS zs_bev,
+    "Allradantrieb" AS allradantrieb,
+    "ZS_Allrad" AS zs_allrad,
+    "offener_Aufbau" AS offener_aufbau,
+    "ZS_offener_Aufbau" AS zs_offener_aufbau,
+    "gewerblich",
+    "ZS_gewerblich" AS zs_gewerblich,
+    "ObjectId" AS objectid,
+    "Monat_Sortierung" AS monat_sortierung
+FROM "kraftfahrt-bundesamt-fz-modellreihen"

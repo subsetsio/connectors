@@ -1,12 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kraftfahrt-bundesamt-ve-gueterbefoerderung-top10`. Regenerate after model-verify.
+key: [staaten, hauptverkehrsbeziehung]
+sort: [staaten, hauptverkehrsbeziehung]
 columns:
-  - name: Jahr
-    type: VARCHAR
-  - name: Hauptverkehrsbeziehung
-    type: VARCHAR
-  - name: Staaten
-    type: VARCHAR
-  - name: Fahrten
+  - name: jahr
     type: BIGINT
-  - name: ZS_Fahrten
+  - name: hauptverkehrsbeziehung
     type: VARCHAR
+  - name: staaten
+    type: VARCHAR
+  - name: fahrten
+    type: BIGINT
+  - name: zs_fahrten
+    type: VARCHAR
+  - name: objectid
+    type: BIGINT

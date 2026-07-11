@@ -1,12 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kraftfahrt-bundesamt-fz-top3modellreihensegment-bestand`. Regenerate after model-verify.
+key: [berichstzeitpunkt, segment, modellreihe, anzahl]
+sort: [berichstzeitpunkt, segment, modellreihe, anzahl]
 columns:
-  - name: Berichstzeitpunkt
+  - name: berichstzeitpunkt
     type: VARCHAR
-  - name: Segment
+  - name: segment
     type: VARCHAR
-  - name: Modellreihe
+  - name: modellreihe
     type: VARCHAR
-  - name: Anzahl
+  - name: anzahl
     type: BIGINT
-  - name: ZS_Anzahl
+  - name: zs_anzahl
     type: JSON
+  - name: objectid
+    type: BIGINT

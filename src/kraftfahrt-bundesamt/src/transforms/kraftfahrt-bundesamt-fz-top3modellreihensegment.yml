@@ -1,14 +1,19 @@
-# migrated from the retired module TRANSFORM_SPECS thin pass-through
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kraftfahrt-bundesamt-fz-top3modellreihensegment`. Regenerate after model-verify.
+key: [berichtsjahr, berichtsmonat, segment, modellreihe, anzahl]
+sort: [berichtsjahr, berichtsmonat, segment, modellreihe, anzahl]
 columns:
-  - name: Berichtsjahr
-    type: VARCHAR
-  - name: Berichtsmonat
+  - name: berichtsjahr
+    type: BIGINT
+  - name: berichtsmonat
     type: VARCHAR
   - name: segment
     type: VARCHAR
-  - name: Modellreihe
+  - name: modellreihe
     type: VARCHAR
-  - name: Anzahl
+  - name: anzahl
     type: BIGINT
-  - name: ZS_Anzahl
-    type: VARCHAR
+  - name: zs_anzahl
+    type: JSON
+  - name: objectid
+    type: BIGINT

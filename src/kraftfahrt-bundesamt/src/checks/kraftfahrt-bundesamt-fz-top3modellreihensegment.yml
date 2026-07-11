@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `kraftfahrt-bundesamt-fz-top3modellreihensegment`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [berichtsjahr, berichtsmonat, segment, modellreihe, anzahl]
+checks:
+  - kind: unique
+    columns: [berichtsjahr, berichtsmonat, segment, modellreihe, anzahl]
+  - kind: not_null
+    col: berichtsjahr
+  - kind: not_null
+    col: berichtsmonat
+  - kind: not_null
+    col: segment
+  - kind: not_null
+    col: modellreihe
+  - kind: not_null
+    col: anzahl
+  - kind: row_floor
+    min: 19
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

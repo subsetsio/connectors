@@ -1,0 +1,16 @@
+# compiled by `hardened compile-checks` — post-publish audit of `kraftfahrt-bundesamt-fz-pkw-mit-elektro-antrieb-regionen-gitterzellen-01-01-2025`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [id_5km]
+checks:
+  - kind: unique
+    columns: [id_5km]
+  - kind: not_null
+    col: id_5km
+  - kind: row_floor
+    min: 7333
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

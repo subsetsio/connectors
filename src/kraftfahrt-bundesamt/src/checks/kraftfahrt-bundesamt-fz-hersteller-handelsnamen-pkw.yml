@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `kraftfahrt-bundesamt-fz-hersteller-handelsnamen-pkw`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [handelsname, typschluessel, hersteller, bundesland, berichtszeitpunkt]
+checks:
+  - kind: unique
+    columns: [handelsname, typschluessel, hersteller, bundesland, berichtszeitpunkt]
+  - kind: not_null
+    col: handelsname
+  - kind: not_null
+    col: typschluessel
+  - kind: not_null
+    col: hersteller
+  - kind: not_null
+    col: bundesland
+  - kind: not_null
+    col: berichtszeitpunkt
+  - kind: row_floor
+    min: 390868
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

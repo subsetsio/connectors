@@ -1,16 +1,21 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kraftfahrt-bundesamt-fz-hersteller-handelsnamen-pkw`. Regenerate after model-verify.
+key: [handelsname, typschluessel, hersteller, bundesland, berichtszeitpunkt]
+sort: [handelsname, typschluessel, hersteller, bundesland, berichtszeitpunkt]
 columns:
-  - name: Berichtszeitpunkt
+  - name: berichtszeitpunkt
     type: VARCHAR
-  - name: Hersteller
+  - name: hersteller
     type: VARCHAR
-  - name: Handelsname
+  - name: handelsname
     type: VARCHAR
-  - name: Typschluessel
+  - name: typschluessel
     type: VARCHAR
-  - name: Bundesland
+  - name: bundesland
     type: VARCHAR
-  - name: Anzahl
+  - name: anzahl
     type: BIGINT
-  - name: ZS_Anzahl
+  - name: zs_anzahl
     type: JSON
+  - name: objectid
+    type: BIGINT

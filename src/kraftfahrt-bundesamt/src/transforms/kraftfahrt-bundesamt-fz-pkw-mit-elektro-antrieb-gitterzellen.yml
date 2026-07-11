@@ -1,10 +1,15 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kraftfahrt-bundesamt-fz-pkw-mit-elektro-antrieb-gitterzellen`. Regenerate after model-verify.
+key: [gitterzelle]
+sort: [gitterzelle]
 columns:
-  - name: Berichtsjahr
+  - name: berichtsjahr
+    type: BIGINT
+  - name: gitterzelle
     type: VARCHAR
-  - name: Gitterzelle
-    type: VARCHAR
-  - name: Anteil_Pkw_mit_Elektro_Antrieb
+  - name: anteil_pkw_mit_elektro_antrieb
     type: DOUBLE
-  - name: ZS_Anteil_Pkw_mit_Elektro_Antri
+  - name: zs_anteil_pkw_mit_elektro_antri
     type: VARCHAR
+  - name: objectid
+    type: BIGINT

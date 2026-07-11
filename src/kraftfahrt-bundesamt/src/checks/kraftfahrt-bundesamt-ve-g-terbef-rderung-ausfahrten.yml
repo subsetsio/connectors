@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `kraftfahrt-bundesamt-ve-g-terbef-rderung-ausfahrten`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [entladeregion, entladeregion_klartext, jahr, gueterpositionen_7_klartext, beheimatung]
+checks:
+  - kind: unique
+    columns: [entladeregion, entladeregion_klartext, jahr, gueterpositionen_7_klartext, beheimatung]
+  - kind: not_null
+    col: entladeregion
+  - kind: not_null
+    col: entladeregion_klartext
+  - kind: not_null
+    col: jahr
+  - kind: not_null
+    col: gueterpositionen_7_klartext
+  - kind: not_null
+    col: beheimatung
+  - kind: row_floor
+    min: 945
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -3,10 +3,12 @@
 # profile. Regenerate after model-verify or a transform contract change.
 # Not compiled (deliberate): enums (await an authored closed domain),
 # absolute freshness (awaits the maintenance contract).
-key: [territory_code]
+key: [geo_level, territory_code]
 checks:
   - kind: unique
-    columns: [territory_code]
+    columns: [geo_level, territory_code]
+  - kind: not_null
+    col: geo_level
   - kind: not_null
     col: territory_code
   - kind: row_floor

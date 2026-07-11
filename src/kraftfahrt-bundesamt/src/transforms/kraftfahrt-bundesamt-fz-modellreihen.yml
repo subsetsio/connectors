@@ -1,72 +1,79 @@
-# migrated from the retired module TRANSFORM_SPECS thin pass-through
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kraftfahrt-bundesamt-fz-modellreihen`. Regenerate after model-verify.
+key: [modellreihe, marke, berichtsmonat, segment, berichtsjahr]
+sort: [modellreihe, marke, berichtsmonat, segment, berichtsjahr]
 columns:
-  - name: Berichtsjahr
-    type: VARCHAR
-  - name: Berichtsmonat
-    type: VARCHAR
-  - name: Segment
-    type: VARCHAR
-  - name: Marke
-    type: VARCHAR
-  - name: Modellreihe
-    type: VARCHAR
-  - name: Anzahl
+  - name: berichtsjahr
     type: BIGINT
-  - name: ZS_Anzahl
+  - name: berichtsmonat
     type: VARCHAR
-  - name: Diesel
-    type: BIGINT
-  - name: ZS_Diesel
+  - name: segment
     type: VARCHAR
-  - name: Hybrid
-    type: BIGINT
-  - name: ZS_Hybrid
+  - name: marke
     type: VARCHAR
-  - name: Benzin_Hybrid
-    type: BIGINT
-  - name: ZS_Benzin_Hybrid
+  - name: modellreihe
     type: VARCHAR
-  - name: Diesel_Hybrid
+  - name: anzahl
     type: BIGINT
-  - name: ZS_Diesel_Hybrid
+  - name: zs_anzahl
+    type: JSON
+  - name: diesel
+    type: BIGINT
+  - name: zs_diesel
     type: VARCHAR
-  - name: Hybrid_ohne_Plugin
+  - name: hybrid
     type: BIGINT
-  - name: ZS_Hybrid_oPi
+  - name: zs_hybrid
     type: VARCHAR
-  - name: Benzin_Hybrid_ohne_Plugin
+  - name: benzin_hybrid
     type: BIGINT
-  - name: ZS_Benzin_Hybrid_oPi
+  - name: zs_benzin_hybrid
     type: VARCHAR
-  - name: Diesel_Hybrid_ohne_Plugin
+  - name: diesel_hybrid
     type: BIGINT
-  - name: ZS_Diesel_Hybrid_oPi
+  - name: zs_diesel_hybrid
     type: VARCHAR
-  - name: Hybrid_Plugin
+  - name: hybrid_ohne_plugin
     type: BIGINT
-  - name: ZS_Hybrid_Pi
+  - name: zs_hybrid_opi
     type: VARCHAR
-  - name: Benzin_Hybrid_Plugin
+  - name: benzin_hybrid_ohne_plugin
     type: BIGINT
-  - name: ZS_Benzin_Hybrid_Pi
+  - name: zs_benzin_hybrid_opi
     type: VARCHAR
-  - name: Diesel_Hybrid_Plugin
+  - name: diesel_hybrid_ohne_plugin
     type: BIGINT
-  - name: ZS_Diesel_Hybrid_Pi
+  - name: zs_diesel_hybrid_opi
     type: VARCHAR
-  - name: BEV
+  - name: hybrid_plugin
     type: BIGINT
-  - name: ZS_BEV
+  - name: zs_hybrid_pi
     type: VARCHAR
-  - name: Allradantrieb
+  - name: benzin_hybrid_plugin
     type: BIGINT
-  - name: ZS_Allrad
+  - name: zs_benzin_hybrid_pi
     type: VARCHAR
-  - name: offener_Aufbau
+  - name: diesel_hybrid_plugin
     type: BIGINT
-  - name: ZS_offener_Aufbau
+  - name: zs_diesel_hybrid_pi
+    type: VARCHAR
+  - name: bev
+    type: BIGINT
+  - name: zs_bev
+    type: VARCHAR
+  - name: allradantrieb
+    type: BIGINT
+  - name: zs_allrad
+    type: VARCHAR
+  - name: offener_aufbau
+    type: BIGINT
+  - name: zs_offener_aufbau
     type: VARCHAR
   - name: gewerblich
     type: BIGINT
-  - name: ZS_gewerblich
+  - name: zs_gewerblich
     type: VARCHAR
+  - name: objectid
+    type: BIGINT
+  - name: monat_sortierung
+    type: BIGINT

@@ -1,52 +1,61 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kraftfahrt-bundesamt-fz-pkw-mit-elektroantrieb-gemeinde`. Regenerate after model-verify.
+key: [ags, gemeindeschluessel, gemeinde, berichtszeitpunkt, stadttyp_schluessel]
+sort: [ags, gemeindeschluessel, gemeinde, berichtszeitpunkt, stadttyp_schluessel]
 columns:
-  - name: AGS
-    type: VARCHAR
-  - name: Gemeinde
-    type: VARCHAR
-  - name: Berichtszeitpunkt
-    type: VARCHAR
-  - name: Gemeindeschluessel
-    type: VARCHAR
-  - name: Stadttyp_Schluessel
-    type: VARCHAR
-  - name: Stadttyp
-    type: VARCHAR
-  - name: Pkw_insgesamt
+  - name: objectid
     type: BIGINT
-  - name: ZS_Pkw_insgesamt
+  - name: ags
     type: VARCHAR
-  - name: Pkw_Elektro
-    type: BIGINT
-  - name: ZS_Pkw_Elektro
+  - name: gemeinde
     type: VARCHAR
-  - name: Pkw_BEV
-    type: BIGINT
-  - name: ZS_Pkw_BEV
-    type: VARCHAR
-  - name: Pkw_Plug_In_Hybrid
-    type: BIGINT
-  - name: ZS_Pkw_Plug_In_Hybrid
-    type: VARCHAR
-  - name: Pkw_Brennstoffzelle
-    type: BIGINT
-  - name: ZS_Pkw_Brennstoffzelle
-    type: VARCHAR
-  - name: Pkw_Elektro_Anteil
+  - name: berichtszeitpunkt
     type: DOUBLE
-  - name: ZS_Pkw_Elektro_Anteil
+  - name: gemeindeschluessel
     type: VARCHAR
-  - name: Pkw_BEV_Anteil
+  - name: stadttyp_schluessel
+    type: VARCHAR
+  - name: stadttyp
+    type: VARCHAR
+  - name: pkw_insgesamt
     type: BIGINT
-  - name: ZS_Pkw_BEV_Anteil
+  - name: zs_pkw_insgesamt
     type: VARCHAR
-  - name: Pkw_Plug_In_Hybrid_Anteil
+  - name: pkw_elektro
     type: BIGINT
-  - name: ZS_Pkw_Plug_In_Hybrid_Anteil
+  - name: zs_pkw_elektro
     type: VARCHAR
-  - name: Pkw_Brennstoffzelle_Anteil
+  - name: pkw_bev
     type: BIGINT
-  - name: ZS_Pkw_Brennstoffzelle_Anteil
+  - name: zs_pkw_bev
     type: VARCHAR
-  - name: BEZ
+  - name: pkw_plug_in_hybrid
+    type: BIGINT
+  - name: zs_pkw_plug_in_hybrid
     type: VARCHAR
+  - name: pkw_brennstoffzelle
+    type: BIGINT
+  - name: zs_pkw_brennstoffzelle
+    type: VARCHAR
+  - name: pkw_elektro_anteil
+    type: DOUBLE
+  - name: zs_pkw_elektro_anteil
+    type: VARCHAR
+  - name: pkw_bev_anteil
+    type: BIGINT
+  - name: zs_pkw_bev_anteil
+    type: VARCHAR
+  - name: pkw_plug_in_hybrid_anteil
+    type: BIGINT
+  - name: zs_pkw_plug_in_hybrid_anteil
+    type: VARCHAR
+  - name: pkw_brennstoffzelle_anteil
+    type: BIGINT
+  - name: zs_pkw_brennstoffzelle_anteil
+    type: VARCHAR
+  - name: bez
+    type: VARCHAR
+  - name: shape_area
+    type: DOUBLE
+  - name: shape_length
+    type: DOUBLE

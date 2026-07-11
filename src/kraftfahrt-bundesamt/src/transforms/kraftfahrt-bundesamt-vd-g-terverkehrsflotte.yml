@@ -1,46 +1,55 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kraftfahrt-bundesamt-vd-g-terverkehrsflotte`. Regenerate after model-verify.
+key: [monat_text, monat, jahr, region_lab]
+sort: [monat_text, monat, jahr, region_lab]
 columns:
-  - name: REGION_LAB
-    type: VARCHAR
-  - name: Jahr
-    type: VARCHAR
-  - name: Monat
-    type: VARCHAR
-  - name: Monat_Text
-    type: VARCHAR
-  - name: ZS_Anteil_Zeile_Gesamt_Ins
-    type: VARCHAR
-  - name: Anteil_Zeile_Gesamt_Ins
-    type: DOUBLE
-  - name: ZS_Anteil_Zeile_Gesamt_Lkw
-    type: VARCHAR
-  - name: Anteil_Zeile_Gesamt_Lkw
-    type: DOUBLE
-  - name: ZS_Anteil_Zeile_Gesamt_Sat
-    type: VARCHAR
-  - name: Anteil_Zeile_Gesamt_Sat
-    type: DOUBLE
-  - name: ZS_Anteil_Zeile_Region_Ins
-    type: VARCHAR
-  - name: Anteil_Zeile_Region_Ins
+  - name: objectid
     type: BIGINT
-  - name: ZS_Anteil_Zeile_Region_Lkw
+  - name: region_lab
     type: VARCHAR
-  - name: Anteil_Zeile_Region_Lkw
+  - name: jahr
+    type: BIGINT
+  - name: monat
+    type: VARCHAR
+  - name: monat_text
+    type: VARCHAR
+  - name: zs_anteil_zeile_gesamt_ins
+    type: VARCHAR
+  - name: anteil_zeile_gesamt_ins
     type: DOUBLE
-  - name: ZS_Anteil_Zeile_Region_Sat
+  - name: zs_anteil_zeile_gesamt_lkw
     type: VARCHAR
-  - name: Anteil_Zeile_Region_Sat
+  - name: anteil_zeile_gesamt_lkw
     type: DOUBLE
-  - name: ZS_Anz_Ins
+  - name: zs_anteil_zeile_gesamt_sat
     type: VARCHAR
-  - name: Anz_Ins
-    type: BIGINT
-  - name: ZS_Anz_Lkw
+  - name: anteil_zeile_gesamt_sat
+    type: DOUBLE
+  - name: zs_anteil_zeile_region_ins
     type: VARCHAR
-  - name: Anz_Lkw
+  - name: anteil_zeile_region_ins
     type: BIGINT
-  - name: ZS_Anz_Sat
+  - name: zs_anteil_zeile_region_lkw
     type: VARCHAR
-  - name: Anz_Sat
+  - name: anteil_zeile_region_lkw
+    type: DOUBLE
+  - name: zs_anteil_zeile_region_sat
+    type: VARCHAR
+  - name: anteil_zeile_region_sat
+    type: DOUBLE
+  - name: zs_anz_ins
+    type: VARCHAR
+  - name: anz_ins
     type: BIGINT
+  - name: zs_anz_lkw
+    type: VARCHAR
+  - name: anz_lkw
+    type: BIGINT
+  - name: zs_anz_sat
+    type: VARCHAR
+  - name: anz_sat
+    type: BIGINT
+  - name: shape_area
+    type: DOUBLE
+  - name: shape_length
+    type: DOUBLE

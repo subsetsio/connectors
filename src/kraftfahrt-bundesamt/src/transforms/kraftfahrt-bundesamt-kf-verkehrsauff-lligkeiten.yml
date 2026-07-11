@@ -1,36 +1,41 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kraftfahrt-bundesamt-kf-verkehrsauff-lligkeiten`. Regenerate after model-verify.
+key: [bundesland, lebensalter, berichtsjahr, art_der_zuwiderhandlung, rechtliche_einordnung]
+sort: [bundesland, lebensalter, berichtsjahr, art_der_zuwiderhandlung, rechtliche_einordnung]
 columns:
-  - name: Bundesland
-    type: VARCHAR
-  - name: Berichtsjahr
-    type: VARCHAR
-  - name: Art_der_Zuwiderhandlung
-    type: VARCHAR
-  - name: Rechtliche_Einordnung
-    type: VARCHAR
-  - name: Lebensalter
-    type: VARCHAR
-  - name: Anzahl
+  - name: objectid
     type: BIGINT
-  - name: ZS_Anzahl
+  - name: bundesland
     type: VARCHAR
-  - name: Anteil_an_Gesamt_je_BL
-    type: DOUBLE
-  - name: ZS_Anteil_an_Gesamt_je_BL
+  - name: berichtsjahr
+    type: BIGINT
+  - name: art_der_zuwiderhandlung
     type: VARCHAR
-  - name: Anteil_Owi_Gesamt_je_BL
-    type: DOUBLE
-  - name: ZS_Anteil_Owi_Gesamt_je_BL
+  - name: rechtliche_einordnung
     type: VARCHAR
-  - name: Anteil_Straf_Gesamt_je_BL
-    type: DOUBLE
-  - name: ZS_Anteil_Straf_Gesamt_je_BL
+  - name: lebensalter
     type: VARCHAR
-  - name: Anzahl_je_100000_Einwohner
-    type: DOUBLE
-  - name: ZS_Anzahl_je_100000_Einwohner
+  - name: anzahl
+    type: BIGINT
+  - name: zs_anzahl
     type: VARCHAR
-  - name: Veraenderung_VJ
+  - name: anteil_an_gesamt_je_bl
     type: DOUBLE
-  - name: ZS_Veraenderung_VJ
+  - name: zs_anteil_an_gesamt_je_bl
+    type: VARCHAR
+  - name: anteil_owi_gesamt_je_bl
+    type: DOUBLE
+  - name: zs_anteil_owi_gesamt_je_bl
+    type: VARCHAR
+  - name: anteil_straf_gesamt_je_bl
+    type: DOUBLE
+  - name: zs_anteil_straf_gesamt_je_bl
+    type: VARCHAR
+  - name: anzahl_je_100000_einwohner
+    type: DOUBLE
+  - name: zs_anzahl_je_100000_einwohner
+    type: VARCHAR
+  - name: veraenderung_vj
+    type: DOUBLE
+  - name: zs_veraenderung_vj
     type: VARCHAR

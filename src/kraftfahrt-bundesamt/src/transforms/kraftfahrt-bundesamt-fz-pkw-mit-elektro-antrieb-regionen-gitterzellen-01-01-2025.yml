@@ -1,10 +1,19 @@
-# provisional pass-through transform for the newly accepted KBA grid-cell layer
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `kraftfahrt-bundesamt-fz-pkw-mit-elektro-antrieb-regionen-gitterzellen-01-01-2025`. Regenerate after model-verify.
+key: [id_5km]
+sort: [id_5km]
 columns:
+  - name: fid
+    type: BIGINT
   - name: id_5km
     type: VARCHAR
   - name: elektro_an
     type: DOUBLE
-  - name: ZS_Anteil_
+  - name: zs_anteil
     type: VARCHAR
   - name: berichtsj
-    type: VARCHAR
+    type: BIGINT
+  - name: shape_area
+    type: DOUBLE
+  - name: shape_length
+    type: DOUBLE
