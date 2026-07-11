@@ -1,0 +1,36 @@
+spec_id: international-idea-gsod-indices
+status: active
+tests:
+  - not_null: ID_country_code
+    reason: country code is part of the country-year grain
+    certainty: 95
+  - not_null: ID_country_name
+    reason: every panel row should identify the country
+    certainty: 95
+  - not_null: ID_year
+    reason: year is part of the country-year grain and carries freshness
+    certainty: 95
+  - unique: [ID_country_code, ID_year]
+    reason: GSoD is a country-year panel; duplicate country-years indicate repeated or corrupted rows
+    certainty: 95
+  - row_count: {min: 8500}
+    reason: the full GSoD panel covers more than 170 countries annually from 1975 onward
+    certainty: 90
+  - distinct_count: {col: ID_country_code, min: 170}
+    reason: GSoD covers over 170 countries
+    certainty: 90
+  - between: {col: ID_year, lo: 1975, hi: current_year()}
+    reason: GSoD country-year coverage begins in 1975 and should not include future observations
+    certainty: 90
+  - freshness: {col: ID_year, reaches: current_year() - 2}
+    reason: GSoD is updated annually; the current release should reach at least the prior two calendar years
+    certainty: 85
+    points_outward: true
+  - nullable: {col: A_01, max_null_frac: 0.1}
+    reason: representative top-level GSoD score should be populated for nearly all country-years
+    certainty: 80
+    severity: warn
+  - nullable: {col: A_05, max_null_frac: 0.1}
+    reason: representative top-level GSoD score should be populated for nearly all country-years
+    certainty: 80
+    severity: warn

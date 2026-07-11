@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inpe-focos-brasil-estado-mensal`. Regenerate after model-verify.
+# caution: State labels are uppercase Brazilian federative-unit names from INPE.
+key: [year, month, state]
+temporal: period_start
+sort: [period_start, state]
+columns:
+  - name: period_start
+    type: DATE
+    description: First day of the observed month.
+  - name: year
+    type: INTEGER
+    description: Calendar year of the observation.
+  - name: month
+    type: INTEGER
+    description: Calendar month of the observation, 1-12.
+  - name: state
+    type: VARCHAR
+    description: Brazilian federative-unit name as provided by INPE.
+  - name: active_fire_detections
+    type: BIGINT
+    description: Count of active-fire detections in the state and month from INPE's reference satellite series.

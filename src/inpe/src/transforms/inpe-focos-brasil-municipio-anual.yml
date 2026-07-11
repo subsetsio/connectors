@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inpe-focos-brasil-municipio-anual`. Regenerate after model-verify.
+# caution: Municipality names are not unique across Brazil, so state is part of the row identity.
+key: [year, state, municipality]
+temporal: period_start
+sort: [period_start, state, municipality]
+columns:
+  - name: period_start
+    type: DATE
+    description: First day of the observed year.
+  - name: year
+    type: INTEGER
+    description: Calendar year of the observation.
+  - name: state
+    type: VARCHAR
+    description: Brazilian federative-unit name as provided by INPE.
+  - name: municipality
+    type: VARCHAR
+    description: Brazilian municipality name as provided by INPE.
+  - name: active_fire_detections
+    type: BIGINT
+    description: Count of active-fire detections in the municipality and year from INPE's reference satellite series.

@@ -1,0 +1,19 @@
+spec_id: international-idea-gsod-indicators
+status: active
+tests:
+  - not_null: id
+    reason: every GSoD indicator label has a stable indicator code used by the panel columns
+    certainty: 95
+  - not_null: name
+    reason: labels endpoint is the code-to-display-name catalog
+    certainty: 95
+  - unique: id
+    reason: one label row per indicator code; duplicates make joins to the wide panel ambiguous
+    certainty: 95
+  - row_count: {min: 25}
+    reason: GSoD exposes roughly 30 top-level indices/attributes in the public labels endpoint
+    certainty: 85
+  - distinct_count: {col: section, min: 4}
+    reason: indicator labels are grouped under several democracy attribute sections
+    certainty: 80
+    severity: warn

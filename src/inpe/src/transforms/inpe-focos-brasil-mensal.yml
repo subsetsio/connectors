@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inpe-focos-brasil-mensal`. Regenerate after model-verify.
+# caution: The count uses the reference satellite series; FRP, fire-risk, precipitation, and dry-days columns are monthly means over detections with usable source values.
+key: [year, month]
+temporal: period_start
+sort: [period_start]
+columns:
+  - name: period_start
+    type: DATE
+    description: First day of the observed month.
+  - name: year
+    type: INTEGER
+    description: Calendar year of the observation.
+  - name: month
+    type: INTEGER
+    description: Calendar month of the observation, 1-12.
+  - name: active_fire_detections
+    type: BIGINT
+    description: Count of active-fire detections in Brazil from INPE's reference satellite series.
+  - name: mean_fire_radiative_power
+    type: DOUBLE
+    description: Mean fire radiative power over detections with usable FRP values, in megawatts.
+  - name: mean_fire_risk
+    type: DOUBLE
+    description: Mean INPE fire-risk index over detections with usable risk values.
+  - name: mean_precipitation
+    type: DOUBLE
+    description: Mean precipitation over detections with usable precipitation values, in millimeters.
+  - name: mean_days_without_rain
+    type: DOUBLE
+    description: Mean number of days without rain over detections with usable source values.

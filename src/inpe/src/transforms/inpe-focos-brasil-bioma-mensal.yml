@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inpe-focos-brasil-bioma-mensal`. Regenerate after model-verify.
+# caution: Biome labels are INPE's Brazilian biome names in Portuguese.
+key: [year, month, biome]
+temporal: period_start
+sort: [period_start, biome]
+columns:
+  - name: period_start
+    type: DATE
+    description: First day of the observed month.
+  - name: year
+    type: INTEGER
+    description: Calendar year of the observation.
+  - name: month
+    type: INTEGER
+    description: Calendar month of the observation, 1-12.
+  - name: biome
+    type: VARCHAR
+    description: Brazilian biome name as provided by INPE.
+  - name: active_fire_detections
+    type: BIGINT
+    description: Count of active-fire detections in the biome and month from INPE's reference satellite series.
