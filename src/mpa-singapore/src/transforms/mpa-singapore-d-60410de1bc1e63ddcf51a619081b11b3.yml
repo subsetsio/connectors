@@ -1,7 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mpa-singapore-d-60410de1bc1e63ddcf51a619081b11b3`. Regenerate after model-verify.
+key: [date, purpose_type]
+temporal: date
+sort: [date, purpose_type]
 columns:
-  - name: year
-    type: BIGINT
+  - name: date
+    type: DATE
   - name: purpose_type
     type: VARCHAR
   - name: number_of_vessel_calls

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `mpa-singapore-d-4f5abbf4486bf8e52bbed3be56dde562`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, bunker_type]
+temporal: date
+checks:
+  - kind: unique
+    columns: [date, bunker_type]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: bunker_type
+  - kind: row_floor
+    min: 3016
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

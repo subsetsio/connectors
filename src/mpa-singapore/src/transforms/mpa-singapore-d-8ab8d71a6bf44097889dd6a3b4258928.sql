@@ -1,1 +1,8 @@
-SELECT CAST(year AS BIGINT) AS year, * EXCLUDE (year) FROM "mpa-singapore-d-8ab8d71a6bf44097889dd6a3b4258928" WHERE year IS NOT NULL
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "date",
+    "cargo_throughput"
+FROM "mpa-singapore-d-8ab8d71a6bf44097889dd6a3b4258928"
