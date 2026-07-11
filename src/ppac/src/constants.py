@@ -3,8 +3,9 @@
 ENTITY_IDS is the rank-accepted entity union (one published table each). Entity
 ids are the PPAC page path flattened ('/'->'-'); the real path is carried in
 ``page_path`` so fetchers can hit the page. The 8 REST entities share one generic
-AjaxController fetcher (page id + method + measure); the 5 XLSX entities each
-have a dedicated parser keyed by entity id.
+AjaxController fetcher (page id + method + measure); high-confidence XLSX
+entities use dedicated parsers, while layout-heavy XLSX exports are preserved as
+sheet-cell raw tables for model-stage shaping.
 """
 
 # --- REST (AjaxController JSON) entities ------------------------------------
@@ -62,6 +63,30 @@ XLSX_SNAPSHOT = {
 #   consumption-state-wise                      -> fetch_statewise_consumption
 #   natural-gas-import                          -> fetch_lng_import
 
+XLSX_CELL_TABLES = {
+    "infrastructure-lpg-distributors": {
+        "page_path": "infrastructure/lpg-distributors",
+    },
+    "natural-gas-city-gas-distribution-network": {
+        "page_path": "natural-gas/city-gas-distribution-network",
+    },
+    "natural-gas-pipeline-structure": {
+        "page_path": "natural-gas/pipeline-structure",
+    },
+    "natural-gas-sectoral-consumption": {
+        "page_path": "natural-gas/sectoral-consumption",
+    },
+    "prices-contribution-to-central-and-state-exchequer": {
+        "page_path": "prices/contribution-to-central-and-state-exchequer",
+    },
+    "prices-excise-duty-on-export-of-petrol-diesel-atf-and-special-additional-excise-duty-saed-on-domestic-crude-oil-production": {
+        "page_path": "prices/excise-duty-on-export-of-petrol-diesel-atf-and-special-additional-excise-duty-saed-on-domestic-crude-oil-production",
+    },
+    "prices-petroleum-prices-and-under-recoveries": {
+        "page_path": "prices/petroleum-prices-and-under-recoveries",
+    },
+}
+
 ENTITY_IDS = [
     "consumption-active-domestic-customers",
     "consumption-products-wise",
@@ -69,10 +94,17 @@ ENTITY_IDS = [
     "consumption-state-wise-pmuy-data",
     "import-export",
     "infrastructure-installed-refinery-capacity",
+    "infrastructure-lpg-distributors",
+    "natural-gas-city-gas-distribution-network",
     "natural-gas-consumption",
     "natural-gas-import",
+    "natural-gas-pipeline-structure",
     "natural-gas-production",
+    "natural-gas-sectoral-consumption",
+    "prices-contribution-to-central-and-state-exchequer",
+    "prices-excise-duty-on-export-of-petrol-diesel-atf-and-special-additional-excise-duty-saed-on-domestic-crude-oil-production",
     "prices-international-prices-of-crude-oil",
+    "prices-petroleum-prices-and-under-recoveries",
     "production-crude-processing",
     "production-indigenous-crude-oil",
     "production-petroleum-products",

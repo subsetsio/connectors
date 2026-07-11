@@ -1,0 +1,16 @@
+spec_id: ppac-infrastructure-lpg-distributors
+status: active
+tests:
+  - not_null: sheet
+    certainty: 95
+  - not_null: row_number
+    certainty: 95
+  - not_null: column_number
+    certainty: 95
+  - unique: [sheet, row_number, column_number]
+    reason: raw workbook cell coordinates should identify each preserved non-empty cell
+    certainty: 95
+  - row_count: {min: 500}
+    reason: state x year LPG distributor workbook has several hundred populated cells
+    certainty: 80
+

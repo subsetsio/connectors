@@ -1,0 +1,16 @@
+spec_id: ppac-natural-gas-pipeline-structure
+status: active
+tests:
+  - not_null: sheet
+    certainty: 95
+  - not_null: row_number
+    certainty: 95
+  - not_null: column_number
+    certainty: 95
+  - unique: [sheet, row_number, column_number]
+    reason: raw workbook cell coordinates should identify each preserved non-empty cell
+    certainty: 95
+  - row_count: {min: 120}
+    reason: pipeline structure workbook has two populated sheets of operator/status metrics
+    certainty: 80
+

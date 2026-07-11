@@ -26,10 +26,8 @@ import json
 
 import pyarrow as pa
 
-from subsets_utils import (
-    NodeSpec, SqlNodeSpec, get, post, save_raw_parquet, transient_retry,
-)
-from constants import REST_CONFIG, XLSX_SNAPSHOT, ENTITY_IDS
+from subsets_utils import NodeSpec, get, post, save_raw_parquet, transient_retry
+from constants import REST_CONFIG, XLSX_SNAPSHOT, XLSX_CELL_TABLES, ENTITY_IDS
 
 import openpyxl
 
@@ -77,6 +75,13 @@ LNG_SCHEMA = pa.schema([
     ("fiscal_year", pa.string()),
     ("unit", pa.string()),
     ("value", pa.float64()),
+])
+XLSX_CELL_SCHEMA = pa.schema([
+    ("sheet", pa.string()),
+    ("row_number", pa.int64()),
+    ("column_number", pa.int64()),
+    ("cell_text", pa.string()),
+    ("cell_number", pa.float64()),
 ])
 
 
@@ -195,6 +200,15 @@ def _load_xlsx(url: str):
 
 def _rows_of(ws):
     return [list(r) for r in ws.iter_rows(values_only=True)]
+
+
+def _cell_text(v) -> str | None:
+    if v is None:
+        return None
+    if hasattr(v, "strftime"):
+        return v.strftime("%Y-%m-%d")
+    s = re.sub(r"\s+", " ", str(v)).strip()
+    return s or None
 
 
 # --------------------------------------------------------------------------- #
@@ -383,6 +397,31 @@ def fetch_lng_import(node_id: str) -> None:
     save_raw_parquet(pa.Table.from_pylist(out, schema=LNG_SCHEMA), node_id)
 
 
+def fetch_xlsx_cells(node_id: str) -> None:
+    """Preserve layout-heavy PPAC workbooks as SQL-readable non-empty cells."""
+    entity = _entity_of(node_id)
+    cfg = XLSX_CELL_TABLES[entity]
+    wb = _load_xlsx(_discover_xlsx_url(cfg["page_path"]))
+    out = []
+    for ws in wb.worksheets:
+        for row_number, row in enumerate(ws.iter_rows(values_only=True), start=1):
+            for column_number, value in enumerate(row, start=1):
+                text = _cell_text(value)
+                number = _num(value)
+                if text is None and number is None:
+                    continue
+                out.append({
+                    "sheet": ws.title,
+                    "row_number": row_number,
+                    "column_number": column_number,
+                    "cell_text": text,
+                    "cell_number": number,
+                })
+    if not out:
+        raise RuntimeError(f"{node_id}: parsed 0 non-empty workbook cells")
+    save_raw_parquet(pa.Table.from_pylist(out, schema=XLSX_CELL_SCHEMA), node_id)
+
+
 # --------------------------------------------------------------------------- #
 # DOWNLOAD_SPECS — one per entity-union member
 # --------------------------------------------------------------------------- #
@@ -400,92 +439,5 @@ DOWNLOAD_SPECS = (
     [NodeSpec(id=_spec_id(e), fn=fetch_rest, kind="download") for e in REST_CONFIG]
     + [NodeSpec(id=_spec_id(e), fn=fetch_snapshot, kind="download") for e in XLSX_SNAPSHOT]
     + [NodeSpec(id=_spec_id(e), fn=fn, kind="download") for e, fn in _XLSX_BESPOKE.items()]
+    + [NodeSpec(id=_spec_id(e), fn=fetch_xlsx_cells, kind="download") for e in XLSX_CELL_TABLES]
 )
-
-
-# --------------------------------------------------------------------------- #
-# TRANSFORM_SPECS — one published Delta table per download
-# --------------------------------------------------------------------------- #
-def _transform_sql(entity_id: str, dep_id: str) -> str:
-    if entity_id in REST_CONFIG:
-        return f'''
-            SELECT CAST(period AS DATE) AS date,
-                   financial_year,
-                   section,
-                   item,
-                   unit,
-                   CAST(value AS DOUBLE) AS value
-            FROM "{dep_id}"
-            WHERE value IS NOT NULL
-        '''
-    if entity_id in XLSX_SNAPSHOT:
-        return f'''
-            SELECT state,
-                   TRY_CAST(as_of AS DATE) AS as_of,
-                   unit,
-                   CAST(value AS DOUBLE) AS value
-            FROM "{dep_id}"
-            WHERE state IS NOT NULL AND value IS NOT NULL
-        '''
-    if entity_id == "infrastructure-installed-refinery-capacity":
-        return f'''
-            SELECT company,
-                   refinery,
-                   state,
-                   CAST(capacity AS DOUBLE) AS capacity_kt,
-                   TRY_CAST(as_of AS DATE) AS as_of,
-                   unit
-            FROM "{dep_id}"
-            WHERE refinery IS NOT NULL AND capacity IS NOT NULL
-        '''
-    if entity_id == "consumption-state-wise":
-        return f'''
-            SELECT product,
-                   region,
-                   state,
-                   fiscal_year,
-                   unit,
-                   CAST(value AS DOUBLE) AS value
-            FROM "{dep_id}"
-            WHERE value IS NOT NULL
-        '''
-    if entity_id == "natural-gas-import":
-        return f'''
-            SELECT metric,
-                   fiscal_year,
-                   unit,
-                   CAST(value AS DOUBLE) AS value
-            FROM "{dep_id}"
-            WHERE value IS NOT NULL
-        '''
-    raise RuntimeError(f"no transform SQL for entity {entity_id}")
-
-
-# Per-entity grain declarations (purely declarative; keyed by _entity_of(id)).
-_GRAIN = {
-    # XLSX snapshots: one row per state as of a single date.
-    "consumption-active-domestic-customers": dict(key=("state",), temporal="as_of"),
-    "consumption-state-wise-pmuy-data": dict(key=("state",), temporal="as_of"),
-    # Refinery register: one row per refinery.
-    "infrastructure-installed-refinery-capacity": dict(key=("refinery",), temporal="as_of"),
-    # Single-series REST table: one row per date.
-    "prices-international-prices-of-crude-oil": dict(key=("date",), temporal="date"),
-    # Long panels: temporal only (natural key not verified unique).
-    "consumption-state-wise": dict(temporal="fiscal_year"),
-    "natural-gas-import": dict(temporal="fiscal_year"),
-}
-
-
-def _grain_kwargs(entity_id: str) -> dict:
-    if entity_id in _GRAIN:
-        return _GRAIN[entity_id]
-    if entity_id in REST_CONFIG:          # generic long REST table
-        return {"temporal": "date"}
-    return {}
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(id=f"{s.id}-transform", deps=[s.id], sql=_transform_sql(_entity_of(s.id), s.id),
-                **_grain_kwargs(_entity_of(s.id)))
-    for s in DOWNLOAD_SPECS
-]
