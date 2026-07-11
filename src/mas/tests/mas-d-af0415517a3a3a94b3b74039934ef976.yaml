@@ -1,13 +1,15 @@
 spec_id: mas-d-af0415517a3a3a94b3b74039934ef976
 status: active
 tests:
+  - not_null: data_series_id
   - not_null: data_series
+  - column_type: {col: data_series_id, type: integer}
   - not_null: period
   - not_null: value
   - column_type: {col: period, type: date}
   - column_type: {col: value, type: float}
-  - unique: [data_series, period]
-    reason: one observation per series per period; a MAS dataset is a wide grid unpivoted to (series, period), so the grain is unique by construction
+  - unique: [data_series_id, period]
+    reason: one observation per source series row per period; MAS tables can repeat display labels, so vault_id-derived data_series_id is the stable series identifier
     certainty: 95
   - row_count: {min: 1}
     reason: the dataset publishes at least one numeric series
