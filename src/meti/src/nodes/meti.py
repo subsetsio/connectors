@@ -62,7 +62,7 @@ _LINK_HINT = re.compile(
     r"統計表|調査の結果|結果|データ|ダウンロード|時系列)",
     re.I,
 )
-_MAX_FILES_PER_ENTITY = 30
+_MAX_FILES_PER_ENTITY = 12
 _MAX_ROWS_PER_SHEET = 20000
 
 
@@ -122,6 +122,7 @@ def _fetch_bytes(url: str) -> tuple[bytes, str]:
     exponential waits give the rate-based WAF reputation time to recover."""
     last = None
     for attempt in range(_FETCH_ATTEMPTS):
+        time.sleep(_REQUEST_DELAY)  # pace requests to stay under the WAF rate trip
         resp = get(url, headers=_HEADERS, timeout=(15.0, 180.0))
         if _is_waf_challenge(resp):
             last = resp

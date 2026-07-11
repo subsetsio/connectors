@@ -22,7 +22,7 @@ the CSV view (DuckDB ``read_csv_auto``), published 1:1 as a Delta table.
 
 import os
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get_client, raw_writer, transient_retry
+from subsets_utils import NodeSpec, get_client, raw_writer, transient_retry
 
 from constants import ENTITY_IDS
 
