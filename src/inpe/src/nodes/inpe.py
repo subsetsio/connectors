@@ -33,7 +33,6 @@ from urllib.parse import urljoin
 import pyarrow as pa
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -267,95 +266,5 @@ DOWNLOAD_SPECS = [
         id="inpe-focos-america-sul-pais-mensal",
         fn=fetch_america_sul_pais_mensal,
         kind="download",
-    ),
-]
-
-
-# ----------------------------------------------------------------------------
-# transforms — one published Delta table per subset (thin parse-and-type gate)
-# ----------------------------------------------------------------------------
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="inpe-focos-brasil-estado-mensal-transform",
-        deps=["inpe-focos-brasil-estado-mensal"],
-        sql='''
-            SELECT
-                CAST(ano AS INTEGER) AS ano,
-                CAST(mes AS INTEGER) AS mes,
-                estado,
-                CAST(n_focos AS BIGINT) AS n_focos
-            FROM "inpe-focos-brasil-estado-mensal"
-            WHERE estado IS NOT NULL AND n_focos > 0
-            ORDER BY ano, mes, estado
-        ''',
-        key=("ano", "mes", "estado"),
-        temporal="ano",
-    ),
-    SqlNodeSpec(
-        id="inpe-focos-brasil-bioma-mensal-transform",
-        deps=["inpe-focos-brasil-bioma-mensal"],
-        sql='''
-            SELECT
-                CAST(ano AS INTEGER) AS ano,
-                CAST(mes AS INTEGER) AS mes,
-                bioma,
-                CAST(n_focos AS BIGINT) AS n_focos
-            FROM "inpe-focos-brasil-bioma-mensal"
-            WHERE bioma IS NOT NULL AND n_focos > 0
-            ORDER BY ano, mes, bioma
-        ''',
-        key=("ano", "mes", "bioma"),
-        temporal="ano",
-    ),
-    SqlNodeSpec(
-        id="inpe-focos-brasil-municipio-anual-transform",
-        deps=["inpe-focos-brasil-municipio-anual"],
-        sql='''
-            SELECT
-                CAST(ano AS INTEGER) AS ano,
-                estado,
-                municipio,
-                CAST(n_focos AS BIGINT) AS n_focos
-            FROM "inpe-focos-brasil-municipio-anual"
-            WHERE estado IS NOT NULL AND municipio IS NOT NULL AND n_focos > 0
-            ORDER BY ano, estado, municipio
-        ''',
-        key=("ano", "estado", "municipio"),
-        temporal="ano",
-    ),
-    SqlNodeSpec(
-        id="inpe-focos-brasil-mensal-transform",
-        deps=["inpe-focos-brasil-mensal"],
-        sql='''
-            SELECT
-                CAST(ano AS INTEGER) AS ano,
-                CAST(mes AS INTEGER) AS mes,
-                CAST(n_focos AS BIGINT) AS n_focos,
-                CAST(frp_medio AS DOUBLE) AS frp_medio,
-                CAST(risco_fogo_medio AS DOUBLE) AS risco_fogo_medio,
-                CAST(precipitacao_media AS DOUBLE) AS precipitacao_media,
-                CAST(dias_sem_chuva_medio AS DOUBLE) AS dias_sem_chuva_medio
-            FROM "inpe-focos-brasil-mensal"
-            WHERE n_focos > 0
-            ORDER BY ano, mes
-        ''',
-        key=("ano", "mes"),
-        temporal="ano",
-    ),
-    SqlNodeSpec(
-        id="inpe-focos-america-sul-pais-mensal-transform",
-        deps=["inpe-focos-america-sul-pais-mensal"],
-        sql='''
-            SELECT
-                CAST(ano AS INTEGER) AS ano,
-                CAST(mes AS INTEGER) AS mes,
-                pais,
-                CAST(n_focos AS BIGINT) AS n_focos
-            FROM "inpe-focos-america-sul-pais-mensal"
-            WHERE pais IS NOT NULL AND n_focos > 0
-            ORDER BY ano, mes, pais
-        ''',
-        key=("ano", "mes", "pais"),
-        temporal="ano",
     ),
 ]
