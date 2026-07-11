@@ -1,0 +1,51 @@
+spec_id: met-office-observations
+status: active
+tests:
+  - not_null: station
+  - not_null: year
+  - not_null: month
+  - column_type: {col: year, type: integer}
+  - column_type: {col: month, type: integer}
+  - column_type: {col: tmax_degc, type: float}
+  - column_type: {col: provisional, type: boolean}
+  - between: {col: month, lo: 1, hi: 12}
+    reason: calendar month, 1-12
+    certainty: 99
+  - between: {col: year, lo: 1850, hi: current_year()}
+    reason: earliest historic station (Armagh) begins 1853; nothing predates the mid-19thC network
+    certainty: 90
+  - at_most: {col: year, expr: current_year()}
+    reason: monthly observations only, no projections
+    certainty: 95
+    points_outward: true
+  - unique: [station, year, month]
+    reason: grain is one row per station-month; a duplicate means a station file was parsed or appended twice
+    certainty: 97
+  - coverage: {col: station, expected: 37}
+    reason: the historic-station index page enumerates 37 stations fetched in bulk by this one node; every one must land — a shortfall is silent partial loss, not success
+  - freshness: {col: year, reaches: current_year()}
+    reason: station files are rewritten monthly with a rolling provisional tail, so the latest year present is always the current calendar year
+    points_outward: true
+    certainty: 80
+  - row_count: {min: 15000}
+    reason: 37 stations averaging many decades of monthly rows (Heathrow alone is ~940)
+    certainty: 70
+    severity: warn
+  - between: {col: tmax_degc, lo: -12, hi: 40}
+    reason: UK monthly mean daily-max temperature envelope
+    certainty: 75
+    severity: warn
+  - between: {col: tmin_degc, lo: -22, hi: 25}
+    reason: UK monthly mean daily-min temperature envelope
+    certainty: 75
+    severity: warn
+  - at_least: {col: rain_mm, expr: 0}
+    reason: monthly rainfall total is non-negative
+    certainty: 98
+  - at_least: {col: sun_hours, expr: 0}
+    reason: monthly sunshine total is non-negative
+    certainty: 98
+  - between: {col: af_days, lo: 0, hi: 31}
+    reason: air-frost days must fall within a month
+    certainty: 95
+    severity: warn

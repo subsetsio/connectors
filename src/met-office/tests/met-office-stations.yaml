@@ -1,0 +1,36 @@
+spec_id: met-office-stations
+status: active
+tests:
+  - not_null: station
+  - not_null: name
+  - unique: station
+    reason: one metadata row per station
+    certainty: 99
+  - column_type: {col: lat, type: float}
+  - column_type: {col: altitude_m, type: integer}
+  - between: {col: lat, lo: 49, hi: 61}
+    reason: UK station latitudes span roughly the Lizard (~50N) to Lerwick (~60.2N)
+    certainty: 90
+  - between: {col: lon, lo: -9, hi: 2}
+    reason: UK station longitudes span the west coast (~-7) to the Kent coast (~1.4)
+    certainty: 90
+  - between: {col: altitude_m, lo: -5, hi: 1400}
+    reason: station altitudes above mean sea level; a value outside this envelope suggests a unit error (feet vs metres)
+    certainty: 80
+    severity: warn
+  - between: {col: start_year, lo: 1850, hi: current_year()}
+    reason: earliest station record starts 1853
+    certainty: 85
+  - at_most: {col: end_year, expr: current_year()}
+    reason: a station's coverage cannot extend past the current year
+    certainty: 90
+    points_outward: true
+  - relationship: {left: start_year, op: "<=", right: end_year}
+    reason: each station's record runs start_year..end_year
+    certainty: 97
+  - coverage: {col: station, expected: 37}
+    reason: 37 historic stations enumerated on the index page and fetched in bulk by this node; all must land
+  - freshness: {col: end_year, reaches: current_year()}
+    reason: the currently-reporting stations reach the current year, so the network max end_year is current (closed stations sit below it)
+    points_outward: true
+    certainty: 80
