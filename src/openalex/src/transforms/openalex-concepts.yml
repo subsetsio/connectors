@@ -1,3 +1,9 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `openalex-concepts`. Regenerate after model-verify.
+# caution: OpenAlex marks concepts as deprecated in favor of the topic classification; use topic tables for current subject taxonomy work.
+key: [id]
+temporal: updated_date
+sort: [updated_date, id]
 columns:
   - name: id
     type: VARCHAR
@@ -6,22 +12,22 @@ columns:
   - name: description
     type: VARCHAR
   - name: level
-    type: INTEGER
+    type: BIGINT
   - name: wikidata
     type: VARCHAR
   - name: ancestors
-    type: VARCHAR
+    type: JSON
   - name: related_concepts
-    type: VARCHAR
+    type: JSON
   - name: works_count
     type: BIGINT
   - name: cited_by_count
     type: BIGINT
   - name: h_index
-    type: INTEGER
+    type: JSON
   - name: i10_index
-    type: INTEGER
+    type: JSON
   - name: mean_citedness
-    type: DOUBLE
-  - name: updated_at
+    type: JSON
+  - name: updated_date
     type: TIMESTAMP

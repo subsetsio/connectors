@@ -1,6 +1,8 @@
-SELECT CAST(publication_year AS INTEGER) AS publication_year,
-       CAST(works_count AS BIGINT)       AS works_count
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "publication_year",
+    "works_count"
 FROM "openalex-works-by-year"
-WHERE publication_year IS NOT NULL
-  AND CAST(publication_year AS INTEGER) BETWEEN 1500 AND 2100
-ORDER BY publication_year

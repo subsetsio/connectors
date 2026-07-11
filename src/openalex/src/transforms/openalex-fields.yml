@@ -1,13 +1,18 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `openalex-fields`. Regenerate after model-verify.
+# caution: Domain columns are denormalized on each field row; do not sum field and domain rows together as separate hierarchy levels.
+key: [id]
+temporal: updated_date
+sort: [updated_date, id]
 columns:
   - name: id
-    type: VARCHAR
+    type: BIGINT
   - name: display_name
     type: VARCHAR
   - name: description
     type: VARCHAR
   - name: domain_id
-    type: VARCHAR
+    type: BIGINT
   - name: domain_name
     type: VARCHAR
   - name: wikidata
@@ -16,5 +21,5 @@ columns:
     type: BIGINT
   - name: cited_by_count
     type: BIGINT
-  - name: updated_at
+  - name: updated_date
     type: TIMESTAMP

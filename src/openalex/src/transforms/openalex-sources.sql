@@ -1,17 +1,27 @@
-SELECT id, display_name, issn_l, issn, type,
-       host_organization_name, host_organization,
-       CAST(is_oa AS BOOLEAN)     AS is_oa,
-       CAST(is_in_doaj AS BOOLEAN) AS is_in_doaj,
-       CAST(is_core AS BOOLEAN)   AS is_core,
-       country_code,
-       CAST(apc_usd AS INTEGER)              AS apc_usd,
-       CAST(first_publication_year AS INTEGER) AS first_publication_year,
-       CAST(last_publication_year AS INTEGER)  AS last_publication_year,
-       CAST(works_count AS BIGINT)    AS works_count,
-       CAST(cited_by_count AS BIGINT) AS cited_by_count,
-       CAST(h_index AS INTEGER)       AS h_index,
-       CAST(i10_index AS INTEGER)     AS i10_index,
-       CAST(mean_citedness AS DOUBLE) AS mean_citedness,
-       TRY_CAST(created_date AS DATE)      AS created_date,
-       TRY_CAST(updated_date AS TIMESTAMP) AS updated_at
-FROM "openalex-sources" WHERE id IS NOT NULL
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "id",
+    "display_name",
+    "issn_l",
+    "issn",
+    "type",
+    "host_organization_name",
+    "host_organization",
+    "is_oa",
+    "is_in_doaj",
+    "is_core",
+    "country_code",
+    "apc_usd",
+    "first_publication_year",
+    "last_publication_year",
+    "works_count",
+    "cited_by_count",
+    "h_index",
+    "i10_index",
+    "mean_citedness",
+    "created_date",
+    "updated_date"
+FROM "openalex-sources"

@@ -1,3 +1,8 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `openalex-keywords`. Regenerate after model-verify.
+key: [display_name]
+temporal: updated_date
+sort: [updated_date, display_name]
 columns:
   - name: id
     type: VARCHAR
@@ -7,5 +12,5 @@ columns:
     type: BIGINT
   - name: cited_by_count
     type: BIGINT
-  - name: updated_at
+  - name: updated_date
     type: TIMESTAMP

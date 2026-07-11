@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `openalex-funders`. Regenerate after model-verify.
+key: [id]
+temporal: created_date
+sort: [created_date, id]
 columns:
   - name: id
     type: VARCHAR
@@ -19,9 +23,9 @@ columns:
   - name: awards_count
     type: BIGINT
   - name: h_index
-    type: INTEGER
+    type: BIGINT
   - name: i10_index
-    type: INTEGER
+    type: BIGINT
   - name: mean_citedness
     type: DOUBLE
   - name: ror
@@ -31,6 +35,6 @@ columns:
   - name: wikidata
     type: VARCHAR
   - name: created_date
-    type: DATE
-  - name: updated_at
+    type: TIMESTAMP
+  - name: updated_date
     type: TIMESTAMP

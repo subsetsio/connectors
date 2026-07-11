@@ -1,6 +1,11 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `openalex-domains`. Regenerate after model-verify.
+key: [id]
+temporal: updated_date
+sort: [updated_date, id]
 columns:
   - name: id
-    type: VARCHAR
+    type: BIGINT
   - name: display_name
     type: VARCHAR
   - name: description
@@ -13,5 +18,5 @@ columns:
     type: BIGINT
   - name: cited_by_count
     type: BIGINT
-  - name: updated_at
+  - name: updated_date
     type: TIMESTAMP
