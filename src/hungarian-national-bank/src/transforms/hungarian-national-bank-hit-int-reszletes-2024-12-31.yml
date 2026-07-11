@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `hungarian-national-bank-hit-int-reszletes-2024-12-31`. Regenerate after model-verify.
+# caution: Raw rows are workbook cells with worksheet coordinates and metadata; reconstruct the source table layout before interpreting or aggregating values as statistical observations.
+key: [cell_value, row_number, column_number, sheet_name, cell_type]
+temporal: last_update_date
+sort: [last_update_date, cell_value, row_number, column_number, sheet_name, cell_type]
+columns:
+  - name: entity_id
+    type: VARCHAR
+  - name: source_file_url
+    type: VARCHAR
+  - name: source_file_format
+    type: VARCHAR
+  - name: source_title
+    type: VARCHAR
+  - name: topic
+    type: VARCHAR
+  - name: group_name
+    type: VARCHAR
+  - name: last_update_date
+    type: TIMESTAMP
+  - name: next_update_date
+    type: VARCHAR
+  - name: sheet_name
+    type: VARCHAR
+  - name: row_number
+    type: INTEGER
+  - name: column_number
+    type: INTEGER
+  - name: cell_value
+    type: VARCHAR
+  - name: cell_type
+    type: VARCHAR

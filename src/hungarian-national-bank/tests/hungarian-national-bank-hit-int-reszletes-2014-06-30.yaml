@@ -1,6 +1,7 @@
 spec_id: hungarian-national-bank-hit-int-reszletes-2014-06-30
 status: active
 tests:
+  - freshness: {col: last_update_date, reaches: today - 400d}
   - not_null: entity_id
   - not_null: sheet_name
   - not_null: row_number

@@ -1,6 +1,7 @@
 spec_id: hungarian-national-bank-idosor-biztkozv-2023-i-felev-2022-ev
 status: active
 tests:
+  - freshness: {col: last_update_date, reaches: today - 400d}
   - not_null: entity_id
   - not_null: sheet_name
   - not_null: row_number

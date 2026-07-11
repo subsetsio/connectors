@@ -86,6 +86,20 @@ def _fetch_metadados() -> list[dict]:
     return _get_json(f"{BASE}/Metadados")["value"]
 
 
+def _as_bool(value):
+    if value is None or isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return bool(value)
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"1", "true", "t", "yes", "y", "sim", "s"}:
+            return True
+        if normalized in {"0", "false", "f", "no", "n", "nao", "não"}:
+            return False
+    return value
+
+
 def fetch_series(node_id: str) -> None:
     """ipea-series — the series metadata catalog."""
     asset = node_id
@@ -168,9 +182,9 @@ def fetch_territories(node_id: str) -> None:
             "TERCODIGO": r.get("TERCODIGO"),
             "TERNOME": r.get("TERNOME"),
             "TERNOMEPADRAO": r.get("TERNOMEPADRAO"),
-            "TERCAPITAL": r.get("TERCAPITAL"),
+            "TERCAPITAL": _as_bool(r.get("TERCAPITAL")),
             "TERAREA": r.get("TERAREA"),
-            "NIVAMC": r.get("NIVAMC"),
+            "NIVAMC": _as_bool(r.get("NIVAMC")),
         } for r in rows],
         schema=TERRITORIES_SCHEMA,
     )

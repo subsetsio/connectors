@@ -1,6 +1,7 @@
 spec_id: hungarian-national-bank-sdds-hungary-ilv1-eur-hu
 status: active
 tests:
+  - freshness: {col: last_update_date, reaches: today - 400d}
   - not_null: entity_id
   - not_null: sheet_name
   - not_null: row_number
