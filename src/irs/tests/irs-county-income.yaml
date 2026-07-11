@@ -15,8 +15,8 @@ tests:
     reason: IRS county income data lags the filing year; tax year 2022 was the latest file seen during research
     points_outward: true
     certainty: 75
-  - enum: {col: agi_stub, values: [0, 1, 2, 3, 4, 5, 6]}
-    reason: county income files use AGI-size classes plus an all-returns row
+  - enum: {col: agi_stub, values: [1, 2, 3, 4, 5, 6, 7, 8, 9]}
+    reason: county income files use IRS AGI-size classes; older county files include classes beyond the six-class ZIP schema
     certainty: 90
   - row_count: {min: 100000}
     reason: county income spans thousands of counties, AGI classes, and many annual files

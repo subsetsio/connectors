@@ -1,0 +1,50 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `itrdb-data-files`. Regenerate after model-verify.
+# caution: This table is a file manifest, not parsed tree-ring observations; different file formats require separate domain parsers before measurement values can be analyzed.
+# caution: The same upstream file reference can appear more than once in the Paleo Search nested records, so treat rows as catalog references rather than unique files.
+key: []
+temporal: study_contribution_date
+sort: [study_contribution_date]
+columns:
+  - name: study_id
+    type: VARCHAR
+  - name: site_id
+    type: VARCHAR
+  - name: data_table_id
+    type: VARCHAR
+  - name: data_table_name
+    type: VARCHAR
+  - name: file_url
+    type: VARCHAR
+  - name: url_description
+    type: VARCHAR
+  - name: link_text
+    type: VARCHAR
+  - name: file_extension
+    type: VARCHAR
+  - name: time_unit
+    type: VARCHAR
+  - name: earliest_year
+    type: BIGINT
+  - name: most_recent_year
+    type: BIGINT
+  - name: earliest_year_bp
+    type: BIGINT
+  - name: most_recent_year_bp
+    type: BIGINT
+  - name: earliest_year_ce
+    type: BIGINT
+  - name: most_recent_year_ce
+    type: BIGINT
+  - name: core_length_meters
+    type: DOUBLE
+  - name: data_table_notes
+    type: VARCHAR
+  - name: species_json
+    type: VARCHAR
+  - name: variables_json
+    type: VARCHAR
+  - name: noaa_keywords_json
+    type: VARCHAR
+  - name: study_contribution_date
+    type: DATE

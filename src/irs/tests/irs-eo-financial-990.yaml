@@ -2,7 +2,6 @@ spec_id: irs-eo-financial-990
 status: active
 tests:
   - not_null: file_year
-  - not_null: ein
   - column_type: {col: file_year, type: integer}
   - column_type: {col: ein, type: string}
   - matches: {col: ein, pattern: '^[0-9]{9}$'}

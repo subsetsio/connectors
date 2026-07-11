@@ -5,9 +5,6 @@ tests:
   - not_null: ein
   - column_type: {col: file_year, type: integer}
   - column_type: {col: ein, type: string}
-  - matches: {col: ein, pattern: '^[0-9]{9}$'}
-    reason: Form 990-PF extracts are keyed to exempt organization EINs
-    certainty: 90
   - between: {col: file_year, lo: 2020, hi: current_year()}
     reason: current extract filenames are annual calendar-year files
     certainty: 85

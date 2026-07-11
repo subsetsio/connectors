@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `irs-eo-financial-990`. Regenerate after model-verify.
+# caution: The file year is the IRS extract year and can differ from the organization's tax period; use tax_pd when analyzing fiscal periods.
+# caution: A small number of full Form 990 extract rows have duplicate or missing tax-period identifiers, so the raw table is published without a declared unique key.
+key: []
 columns:
   - name: file_year
     type: INTEGER

@@ -1,0 +1,65 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `itrdb-studies`. Regenerate after model-verify.
+# caution: Study records mix tree-ring measurements, chronologies, reconstructions, fire-history entries, and metadata-only links; filter by data_type and related descriptors before treating rows as a homogeneous study set.
+key: [uuid]
+temporal: contribution_date
+sort: [contribution_date, uuid]
+columns:
+  - name: study_id
+    type: VARCHAR
+  - name: xml_id
+    type: VARCHAR
+  - name: uuid
+    type: VARCHAR
+  - name: entry_id
+    type: VARCHAR
+  - name: study_name
+    type: VARCHAR
+  - name: study_code
+    type: VARCHAR
+  - name: doi
+    type: VARCHAR
+  - name: data_publisher
+    type: VARCHAR
+  - name: data_type
+    type: VARCHAR
+  - name: investigators
+    type: VARCHAR
+  - name: version
+    type: VARCHAR
+  - name: study_notes
+    type: VARCHAR
+  - name: online_resource_link
+    type: VARCHAR
+  - name: dif_metadata_link
+    type: VARCHAR
+  - name: iso_metadata_link
+    type: VARCHAR
+  - name: original_source
+    type: VARCHAR
+  - name: data_type_information
+    type: VARCHAR
+  - name: reconstruction
+    type: VARCHAR
+  - name: contribution_date
+    type: DATE
+  - name: earliest_year_bp
+    type: BIGINT
+  - name: most_recent_year_bp
+    type: BIGINT
+  - name: earliest_year_ce
+    type: BIGINT
+  - name: most_recent_year_ce
+    type: BIGINT
+  - name: science_keywords_json
+    type: VARCHAR
+  - name: funding_json
+    type: VARCHAR
+  - name: publication_json
+    type: VARCHAR
+  - name: reference_json
+    type: VARCHAR
+  - name: data_license_description
+    type: VARCHAR
+  - name: data_license_url
+    type: VARCHAR

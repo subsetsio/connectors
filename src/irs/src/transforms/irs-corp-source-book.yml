@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `irs-corp-source-book`. Regenerate after model-verify.
+# caution: Rows are aggregate cross-tabulations, not individual corporation records; the asset-size and industry classes already include totals, so filter to one classification level before summing.
+key: [file_year, tab_num, indy_cd, ac]
+sort: [file_year, tab_num, indy_cd, ac]
 columns:
   - name: file_year
     type: INTEGER
@@ -334,9 +338,9 @@ columns:
     type: DOUBLE
   - name: comp_tx_aftr_crs
     type: DOUBLE
-  - name: (cash_dist + prpty_dist)_ind
+  - name: cash_dist_prpty_dist_ind
     type: DOUBLE
-  - name: (cash_dist + prpty_dist)
+  - name: cash_dist_prpty_dist
     type: DOUBLE
   - name: stck_dist_ind
     type: DOUBLE

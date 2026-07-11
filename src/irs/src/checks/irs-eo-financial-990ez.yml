@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `irs-eo-financial-990ez`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [file_year, ein, taxpd]
+checks:
+  - kind: unique
+    columns: [file_year, ein, taxpd]
+  - kind: not_null
+    col: file_year
+  - kind: not_null
+    col: ein
+  - kind: not_null
+    col: taxpd
+  - kind: row_floor
+    min: 101849
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

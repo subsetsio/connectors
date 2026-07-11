@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `itrdb-sites`. Regenerate after model-verify.
+# caution: Site rows are scoped to study records, so the same NOAA site can appear in more than one study.
+key: [study_contribution_date, site_name, site_id, study_id, mappable]
+temporal: study_contribution_date
+sort: [study_contribution_date, site_name, site_id, study_id, mappable]
+columns:
+  - name: study_id
+    type: VARCHAR
+  - name: site_id
+    type: VARCHAR
+  - name: site_name
+    type: VARCHAR
+  - name: site_code
+    type: VARCHAR
+  - name: mappable
+    type: VARCHAR
+  - name: location_name
+    type: VARCHAR
+  - name: geo_type
+    type: VARCHAR
+  - name: geometry_type
+    type: VARCHAR
+  - name: geometry_coordinates_json
+    type: VARCHAR
+  - name: southernmost_latitude
+    type: DOUBLE
+  - name: northernmost_latitude
+    type: DOUBLE
+  - name: westernmost_longitude
+    type: DOUBLE
+  - name: easternmost_longitude
+    type: DOUBLE
+  - name: min_elevation_meters
+    type: DOUBLE
+  - name: max_elevation_meters
+    type: DOUBLE
+  - name: study_contribution_date
+    type: DATE

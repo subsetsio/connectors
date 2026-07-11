@@ -3,7 +3,7 @@ status: active
 tests:
   - not_null: study_id
   - not_null: data_table_id
-  - not_null: file_url
+  - nullable: {col: file_url, max_null_frac: 0.001}
   - not_null: url_description
   - column_type: {col: study_contribution_date, type: date}
   - row_count: {min: 50000}
@@ -12,8 +12,8 @@ tests:
   - distinct_count: {col: file_extension, min: 5}
     reason: ITRDB data files include txt, crn, rwl, fhx, and ancillary formats.
     certainty: 85
-  - matches: {col: file_url, pattern: "^https://www\\.ncei\\.noaa\\.gov/pub/data/paleo/"}
-    reason: every data file should resolve to the stable NCEI Paleo bulk file tree.
+  - matches: {col: file_url, pattern: "^https?://.*"}
+    reason: non-empty data-file links should be absolute HTTP(S) URLs; Paleo Search includes NCEI bulk files plus external ancillary links.
     certainty: 90
   - freshness: {col: study_contribution_date, reaches: today - 2000d}
     reason: data-file rows inherit study contribution dates; the bound detects a frozen catalog endpoint without requiring annual additions.

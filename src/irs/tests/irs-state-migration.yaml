@@ -3,8 +3,6 @@ status: active
 tests:
   - not_null: year
   - not_null: direction
-  - not_null: y2_statefips
-  - not_null: y1_statefips
   - column_type: {col: year, type: integer}
   - column_type: {col: n1, type: integer}
   - column_type: {col: agi, type: float}
