@@ -1,5 +1,8 @@
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `prio-28`. Regenerate after model-verify.
+# caution: Institutional-variance measures are country-year indicators; democracy-related columns are alternative measures, not mutually exclusive rows.
+key: [ssno, year]
+sort: [ssno, year]
 columns:
   - name: year
     type: FLOAT

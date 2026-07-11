@@ -56,7 +56,7 @@ from subsets_utils import (
     transient_retry,
 )
 
-# --- entity union (the 99 rank-active series) ------------------------------
+# --- entity union (the accepted series) ------------------------------------
 from constants import ENTITY_IDS
 
 # series_code -> {option_name: [workbook file stem(s)]} (historical splits within
@@ -70,6 +70,8 @@ SERIES_OPTIONS = {
     "B4": {"NZD": ["hb4nzd"], "USD": ["hb4usd"], "EUR": ["hb4eur"]},
     "B6": {"default": ["hb6"]},
     "B7": {"default": ["hb7"]},
+    "B10": {"default": ["hb10"]},
+    "B13": {"default": ["hb13-1983-to-1998", "hb13-1999-to-2014", "hb13"]},
     "B20": {"default": ["hb20"]},
     "B21": {"default": ["hb21"]},
     "B25": {"default": ["hb25"]},
@@ -103,9 +105,11 @@ SERIES_OPTIONS = {
     "D12": {"default": ["hd12"]},
     "D30": {"default": ["hd30"]},
     "D31": {"default": ["hd31"]},
+    "D35": {"default": ["hd35"]},
     "E1": {"default": ["he1"]},
     "E2": {"default": ["he2"]},
     "F3": {"default": ["hf3"]},
+    "F4": {"default": ["hf4"]},
     "F5": {"default": ["hf5"]},
     "H1": {"default": ["hh1"]},
     "H2": {"default": ["hh2"]},

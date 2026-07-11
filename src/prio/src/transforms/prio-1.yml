@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `prio-1`. Regenerate after model-verify.
+# caution: Battle-death measures include multiple estimate columns and conflict classifications; choose the intended estimate and conflict type before aggregation.
+key: [id, year]
+temporal: startdate
+sort: [startdate, id, year]
 columns:
   - name: id
     type: BIGINT

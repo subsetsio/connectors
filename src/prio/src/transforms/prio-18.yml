@@ -1,5 +1,9 @@
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `prio-18`. Regenerate after model-verify.
+# caution: MIRPS rows are political-regime spells or intervals; avoid treating interval start dates as annual observations without expansion.
+key: [gwno, polid, startd]
+temporal: startd
+sort: [startd, gwno, polid]
 columns:
   - name: gwno
     type: INTEGER

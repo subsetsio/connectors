@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `prio-5`. Regenerate after model-verify.
+# caution: Conflict-site rows are site-year observations; one conflict may have multiple sites or territories.
+key: [id, conflict_site, conflict_territory, year]
 temporal: year
-sort: [year]
+sort: [year, id, conflict_site, conflict_territory]
 columns:
   - name: id
     type: BIGINT

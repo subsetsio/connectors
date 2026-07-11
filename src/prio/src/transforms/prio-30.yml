@@ -1,5 +1,9 @@
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `prio-30`. Regenerate after model-verify.
+# caution: Conflict-onset locations can include imprecise or multiple location fields; use the precision columns when mapping.
+key: [id, year, location]
+temporal: startdate
+sort: [startdate, id, year, location]
 columns:
   - name: id
     type: BIGINT

@@ -1,4 +1,6 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `prio-8`. Regenerate after model-verify.
+# caution: GEO-SVAC rows are geocoded sexual-violence events or reports; actor-specific prevalence columns should not be summed as independent incidents.
 key: [gedid]
 temporal: date_start
 sort: [date_start, gedid]
@@ -30,9 +32,9 @@ columns:
   - name: gwno
     type: BIGINT
   - name: date_start
-    type: VARCHAR
+    type: DATE
   - name: date_end
-    type: VARCHAR
+    type: DATE
   - name: best_est
     type: BIGINT
   - name: deaths_civilians

@@ -1,0 +1,15 @@
+spec_id: rbnz-c22
+status: active
+tests:
+  - not_null: date
+  - not_null: series_code
+  - not_null: value
+  - column_type: {col: date, type: date}
+  - column_type: {col: value, type: float}
+  - row_count: {min: 1}
+    reason: each RBNZ workbook should parse to at least one numeric observation
+    certainty: 95
+  - freshness: {col: date, reaches: today - 5y}
+    reason: RBNZ statistical series are maintained recurring public workbooks; a maximum date older than five years indicates a stale source snapshot or parser failure, except separately frozen historical reference series
+    certainty: 70
+    points_outward: true

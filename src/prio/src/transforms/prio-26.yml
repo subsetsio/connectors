@@ -1,5 +1,9 @@
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `prio-26`. Regenerate after model-verify.
+# caution: WARICC records conflict and cooperation events; event scale and impact are not additive counts.
+key: [case, date, location, event]
+temporal: month
+sort: [month, case, date, location, event]
 columns:
   - name: case
     type: BIGINT

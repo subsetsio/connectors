@@ -1,7 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-key: [conflepid]
-temporal: ependdate
-sort: [ependdate, conflepid]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `prio-23`. Regenerate after model-verify.
+# caution: Natural-resource conflict rows are conflict episodes with parties and locations; filter or group by conflict episode before summarising.
+key: [ependdate, sideb, conflepid, sidea, location]
+temporal: epstartdate
+sort: [epstartdate, ependdate, sideb, conflepid, sidea, location]
 columns:
   - name: acdid
     type: SMALLINT

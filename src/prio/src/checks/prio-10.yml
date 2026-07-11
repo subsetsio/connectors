@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `prio-10`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [primkey, name, country, lat, long]
+temporal: disc
+checks:
+  - kind: unique
+    columns: [primkey, name, country, lat, long]
+  - kind: not_null
+    col: primkey
+  - kind: not_null
+    col: name
+  - kind: not_null
+    col: country
+  - kind: not_null
+    col: lat
+  - kind: not_null
+    col: long
+  - kind: row_floor
+    min: 587
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

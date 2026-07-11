@@ -1,1 +1,46 @@
-SELECT * FROM "prio-8"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: GEO-SVAC rows are geocoded sexual-violence events or reports; actor-specific prevalence columns should not be summed as independent incidents.
+SELECT
+    "gedid",
+    "priogrid_gid",
+    "year",
+    "side_a_dset_id",
+    "side_a_new_id",
+    "side_a",
+    "side_b_dset_id",
+    "side_b_new_id",
+    "side_b",
+    "latitude",
+    "longitude",
+    "country",
+    "gwno",
+    strptime("date_start", '%Y-%m-%d')::DATE AS date_start,
+    strptime("date_end", '%Y-%m-%d')::DATE AS date_end,
+    "best_est",
+    "deaths_civilians",
+    "sv_ai_prev",
+    "sv_ai_prev_a",
+    "sv_ai_prev_b",
+    "sv_hrw_prev",
+    "sv_hrw_prev_a",
+    "sv_hrw_prev_b",
+    "sv_state_prev",
+    "sv_state_prev_a",
+    "sv_state_prev_b",
+    "sv_max_prev",
+    "sv_max_prev_a",
+    "sv_max_prev_b",
+    "sv_selection",
+    "sv_male",
+    "sv_child",
+    "sv_detainee",
+    "sv_refugee",
+    "sv_public",
+    "sv_semipublic",
+    "sv_private",
+    "sv_gang",
+    "sv_byproxy"
+FROM "prio-8"

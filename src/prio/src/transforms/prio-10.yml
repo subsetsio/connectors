@@ -1,6 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `prio-10`. Regenerate after model-verify.
+# caution: Records describe diamond sites, not country totals; country-level analysis requires explicit aggregation over sites.
+key: [primkey, name, country, lat, long]
 temporal: disc
-sort: [disc]
+sort: [disc, primkey, name, country, lat, long]
 columns:
   - name: primkey
     type: VARCHAR

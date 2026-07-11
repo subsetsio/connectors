@@ -1,0 +1,14 @@
+spec_id: rbnz-b13
+status: active
+coverage:
+  frozen: true
+  reason: historical TWI weights workbook covers fixed historical periods; it is retained as historical reference rather than an advancing current series
+tests:
+  - not_null: date
+  - not_null: series_code
+  - not_null: value
+  - column_type: {col: date, type: date}
+  - column_type: {col: value, type: float}
+  - row_count: {min: 1}
+    reason: each RBNZ workbook should parse to at least one numeric observation
+    certainty: 95

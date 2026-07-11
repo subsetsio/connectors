@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `prio-23`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [ependdate, sideb, conflepid, sidea, location]
+temporal: epstartdate
+checks:
+  - kind: unique
+    columns: [ependdate, sideb, conflepid, sidea, location]
+  - kind: not_null
+    col: ependdate
+  - kind: not_null
+    col: sideb
+  - kind: not_null
+    col: conflepid
+  - kind: not_null
+    col: sidea
+  - kind: not_null
+    col: location
+  - kind: row_floor
+    min: 142
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

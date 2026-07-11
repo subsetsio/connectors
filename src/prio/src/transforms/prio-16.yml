@@ -1,6 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `prio-16`. Regenerate after model-verify.
+# caution: Fractionalization indicators mix multiple ethnic, linguistic, and religious measures in one wide country-year table.
+key: [ssno, year]
+sort: [ssno, year]
 columns:
   - name: ssno
     type: DOUBLE

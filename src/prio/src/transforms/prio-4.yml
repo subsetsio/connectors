@@ -1,6 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: year
-sort: [year]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `prio-4`. Regenerate after model-verify.
+# caution: UCDP/PRIO conflict records are conflict-year observations with dyad and incompatibility attributes; filter conflict type and intensity before aggregation.
+# caution: The raw extract contains an exact duplicate conflict-year row, so there is no source-stable row key.
+key: []
+temporal: startdate
+sort: [startdate]
 columns:
   - name: id
     type: BIGINT

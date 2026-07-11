@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `panama-canal-authority-values`. Regenerate after model-verify.
+# caution: Rows are daily aggregates across heterogeneous hydrology, meteorology, and oceanography parameters; filter by parameter and unit before comparing or aggregating values.
+key: [date, series_id, label, location_identifier, parameter]
+temporal: date
+sort: [date, series_id, label, location_identifier, parameter]
 columns:
   - name: series_id
     type: VARCHAR
