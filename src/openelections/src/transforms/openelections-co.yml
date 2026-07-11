@@ -1,5 +1,7 @@
-# compiled by `hardened compile-transforms` - faithful pass-through
+# compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `openelections-co`. Regenerate after model-verify.
+# caution: Rows mix statewide, county, precinct and other reporting levels; filter reporting_level and the relevant jurisdiction columns before aggregating votes.
+key: []
 temporal: election_date
 sort: [election_date]
 columns:

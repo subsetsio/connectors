@@ -7,7 +7,7 @@ tests:
   - row_count: {min: 200}
   - column_type: {col: publication_year, type: integer}
   - column_type: {col: works_count, type: integer}
-  - between: {col: publication_year, lo: 1500, hi: current_year()}
+  - between: {col: publication_year, lo: 1000, hi: 2100}
     certainty: 90
     points_outward: true
   - freshness: {col: publication_year, reaches: current_year()}

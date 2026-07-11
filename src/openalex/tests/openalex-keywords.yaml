@@ -1,8 +1,8 @@
 spec_id: openalex-keywords
 status: active
 tests:
-  - not_null: id
-  - unique: id
+  - not_null: display_name
+  - unique: display_name
   - row_count: {min: 60000}
   - column_type: {col: works_count, type: integer}
   - freshness: {col: updated_date, reaches: today - 400d}
