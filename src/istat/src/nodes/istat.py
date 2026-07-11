@@ -56,9 +56,11 @@ _MAX_REQUESTS_PER_FLOW = 200
 # response. Oversized Istat flows often hold the socket open until our read
 # timeout, so keep that probe short and let the existing time-window bisection
 # do the real download work.
-_FULL_PROBE_TIMEOUT = (10.0, 45.0)
-_WINDOW_TIMEOUT = (10.0, 120.0)
-_STRUCTURE_TIMEOUT = (10.0, 180.0)
+# GitHub-hosted runners intermittently spend >10s establishing TLS to Istat's
+# SDMX endpoint; keep read caps bounded but give connection setup more room.
+_FULL_PROBE_TIMEOUT = (30.0, 45.0)
+_WINDOW_TIMEOUT = (30.0, 120.0)
+_STRUCTURE_TIMEOUT = (30.0, 180.0)
 
 # Exceptions that mean "the server could not generate this response" -- i.e. the
 # window is too big, so split it. Raised by get() only after its own transient
