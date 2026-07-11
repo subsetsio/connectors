@@ -35,6 +35,9 @@ BASE = "https://keelinglabsites.ucsd.edu/websitedataco2/"
 NODE_FILES = {
     'scripps-co2-bats': ['BATS.csv'],
     'scripps-co2-berm': ['BERM.csv'],
+    'scripps-co2-early-lajolla-co2-halfhourly-1958-1962': ['Early_LaJolla_CO2_halfhourly_1958-1962.csv'],
+    'scripps-co2-early-lajolla-co2-monthly-1957-1962': ['Early_LaJolla_CO2_weekly_monthly_1957-1962.csv'],
+    'scripps-co2-early-lajolla-co2-weekly-minima-1957-1962': ['Early_LaJolla_CO2_weekly_minima_1957-1962.csv'],
     'scripps-co2-hawi': ['HAWI.csv'],
     'scripps-co2-daily-flask-c13': ['daily_flask_c13_alt.csv', 'daily_flask_c13_bat.csv', 'daily_flask_c13_bcs.csv', 'daily_flask_c13_chr.csv', 'daily_flask_c13_cms.csv', 'daily_flask_c13_fan.csv', 'daily_flask_c13_hip.csv', 'daily_flask_c13_ker.csv', 'daily_flask_c13_kor.csv', 'daily_flask_c13_kum.csv', 'daily_flask_c13_lab.csv', 'daily_flask_c13_ljo.csv', 'daily_flask_c13_mhd.csv', 'daily_flask_c13_mko.csv', 'daily_flask_c13_mlo.csv', 'daily_flask_c13_nzd.csv', 'daily_flask_c13_psa.csv', 'daily_flask_c13_ptb.csv', 'daily_flask_c13_sam.csv', 'daily_flask_c13_spo.csv', 'daily_flask_c13_stp.csv'],
     'scripps-co2-daily-flask-c14': ['daily_flask_c14_alt.csv', 'daily_flask_c14_bat.csv', 'daily_flask_c14_bcs.csv', 'daily_flask_c14_chr.csv', 'daily_flask_c14_cms.csv', 'daily_flask_c14_fan.csv', 'daily_flask_c14_hip.csv', 'daily_flask_c14_ker.csv', 'daily_flask_c14_kor.csv', 'daily_flask_c14_kum.csv', 'daily_flask_c14_lab.csv', 'daily_flask_c14_ljo.csv', 'daily_flask_c14_mhd.csv', 'daily_flask_c14_mko.csv', 'daily_flask_c14_mlo.csv', 'daily_flask_c14_nzd.csv', 'daily_flask_c14_psa.csv', 'daily_flask_c14_ptb.csv', 'daily_flask_c14_sam.csv', 'daily_flask_c14_spo.csv', 'daily_flask_c14_stp.csv'],
@@ -280,6 +283,36 @@ def _p_seawater(f):
     }
 
 
+def _p_early_lajolla(f):
+    if not f:
+        return None
+    if _valid_date(f[0]):
+        value = _num(f[-1])
+        if value is None:
+            return None
+        return {"date": f[0], "value": value}
+    if len(f) >= 3 and _is_year(f[0]):
+        year = _int(f[0])
+        month = _int(f[1])
+        day = _int(f[2]) if len(f) >= 4 else 15
+        value = _num(f[-1])
+        if value is None:
+            return None
+        rec = {
+            "year": year,
+            "month": month,
+            "day": day,
+            "date": _ymd(year, month, day),
+            "value": value,
+        }
+        if len(f) >= 5:
+            rec["hour"] = _int(f[3])
+        if len(f) >= 6:
+            rec["minute"] = _int(f[4])
+        return rec if rec["date"] else None
+    return None
+
+
 _PARSERS = {
     "flask_std": _p_flask_std,
     "flask_isotopes": _p_flask_isotopes,
@@ -293,11 +326,14 @@ _PARSERS = {
     "mlo_spo_monthly": _p_mlo_spo_monthly,
     "ice_core": _p_ice_core,
     "seawater": _p_seawater,
+    "early_lajolla": _p_early_lajolla,
 }
 
 
 def _family(node_id: str) -> str:
     n = node_id[len("scripps-co2-"):]
+    if n.startswith("early-lajolla-co2-"):
+        return "early_lajolla"
     if n in ("bats", "berm", "hawi"):
         return "seawater"
     if n in ("merged-ice-core-yearly", "spline-merged-ice-core-yearly"):
@@ -539,6 +575,15 @@ def _sql_seawater(dep):
     '''
 
 
+def _sql_early_lajolla(dep):
+    return f'''
+        SELECT CAST(date AS DATE)       AS date,
+               CAST(value AS DOUBLE)    AS value
+        FROM "{dep}"
+        WHERE value IS NOT NULL AND date IS NOT NULL
+    '''
+
+
 _SQL = {
     "flask_std": _sql_flask_std,
     "flask_isotopes": _sql_flask_isotopes,
@@ -552,6 +597,7 @@ _SQL = {
     "mlo_spo_monthly": _sql_mlo_spo_monthly,
     "ice_core": _sql_ice_core,
     "seawater": _sql_seawater,
+    "early_lajolla": _sql_early_lajolla,
 }
 
 
