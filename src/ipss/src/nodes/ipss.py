@@ -26,7 +26,7 @@ import re
 import pyarrow as pa
 import pandas as pd
 
-from subsets_utils import NodeSpec, SqlNodeSpec, get, transient_retry, save_raw_parquet
+from subsets_utils import NodeSpec, get, transient_retry, save_raw_parquet
 from constants import ENTITY_PATHS
 
 BASE = "https://www.ipss.go.jp/"
@@ -160,27 +160,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_PATHS
-]
-
-# One published Delta table per subset: a thin parse-and-type pass over the raw
-# long-format extraction. value is non-null by construction; the filter keeps
-# the 0-rows-is-failure contract honest if the upstream parse ever degrades.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                CAST(sheet AS VARCHAR)     AS sheet,
-                CAST(row AS INTEGER)       AS row,
-                CAST(col AS INTEGER)       AS col,
-                CAST(row_label AS VARCHAR) AS row_label,
-                CAST(col_label AS VARCHAR) AS col_label,
-                CAST(value AS DOUBLE)      AS value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL
-        ''',
-        key=("sheet", "row", "col"),
-    )
-    for s in DOWNLOAD_SPECS
 ]

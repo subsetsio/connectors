@@ -8,10 +8,10 @@ $limit/$offset paging ($order=:id for stable pages). No auth required.
 Fetch shape: stateless full re-pull. Small tables are fetched through the
 Socrata JSON API and written as NDJSON because values arrive as strings and
 null fields are omitted per row. The six HPMS roadway-section snapshots are
-12M-29M rows each, so they stream Socrata's CSV export through a bounded
-CSV-to-NDJSON conversion instead of accumulating JSON pages in memory. NDJSON
-keeps the raw SQL-readable without relying on DuckDB CSV sampling to discover
-late quoted comma fields.
+12M-29M rows each, so they page Socrata's CSV API through a bounded
+CSV-to-NDJSON conversion and verify count(*) before accepting the raw file.
+NDJSON keeps the raw SQL-readable without relying on DuckDB CSV sampling to
+discover late quoted comma fields.
 """
 
 import csv
@@ -20,7 +20,6 @@ import json
 from subsets_utils import (
     NodeSpec,
     get,
-    get_client,
     raw_writer,
     save_raw_ndjson,
 )
@@ -53,10 +52,9 @@ ROADWAY_ENTITY_IDS = {
 }
 
 _BASE = "https://datahub.transportation.gov/resource"
-_VIEWS = "https://datahub.transportation.gov/api/views"
 _PAGE = 50000           # small-table JSON page size
 _MAX_PAGES = 1000       # safety ceiling — raises on hit, never silently truncates
-_STREAM_CHUNK = 1024 * 1024
+_ROADWAY_REQUIRED_COLUMNS = {"route_id", "year_record"}
 
 
 def _fetch_page(fxf: str, offset: int) -> list[dict]:
@@ -69,19 +67,54 @@ def _fetch_page(fxf: str, offset: int) -> list[dict]:
     return resp.json()
 
 
+def _source_count(fxf: str) -> int:
+    resp = get(
+        f"{_BASE}/{fxf}.json",
+        params={"$select": "count(*)"},
+        timeout=(10.0, 120.0),
+    )
+    resp.raise_for_status()
+    return int(resp.json()[0]["count"])
+
+
+def _fetch_csv_page(fxf: str, offset: int) -> list[dict]:
+    resp = get(
+        f"{_BASE}/{fxf}.csv",
+        params={"$limit": _PAGE, "$offset": offset, "$order": ":id"},
+        timeout=(10.0, 300.0),
+    )
+    resp.raise_for_status()
+    reader = csv.DictReader(resp.text.splitlines())
+    fieldnames = {field.lower() for field in (reader.fieldnames or [])}
+    if not _ROADWAY_REQUIRED_COLUMNS.issubset(fieldnames):
+        raise RuntimeError(
+            f"{fxf}: CSV page at offset {offset} did not have roadway columns; "
+            f"got {reader.fieldnames!r}"
+        )
+    return list(reader)
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id                      # the spec id IS the asset name
     fxf = node_id[len("fhwa-"):]         # recover the Socrata 4x4 id
 
     if fxf in ROADWAY_ENTITY_IDS:
-        url = f"{_VIEWS}/{fxf}/rows.csv?accessType=DOWNLOAD"
-        with get_client().stream("GET", url, timeout=(10.0, 300.0)) as resp:
-            resp.raise_for_status()
-            reader = csv.DictReader(resp.iter_lines())
-            with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as out:
-                for row in reader:
+        expected_rows = _source_count(fxf)
+        rows_written = 0
+        with raw_writer(asset, "ndjson.gz", mode="wt", compression="gzip") as out:
+            while rows_written < expected_rows:
+                batch = _fetch_csv_page(fxf, rows_written)
+                if not batch:
+                    break
+                for row in batch:
                     out.write(json.dumps(row, separators=(",", ":")))
                     out.write("\n")
+                rows_written += len(batch)
+        if rows_written != expected_rows:
+            raise RuntimeError(
+                f"{asset}: downloaded {rows_written} rows, expected {expected_rows} "
+                "from Socrata count(*)"
+            )
         return
 
     rows: list[dict] = []
