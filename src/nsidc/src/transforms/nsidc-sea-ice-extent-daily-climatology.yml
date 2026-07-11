@@ -1,0 +1,24 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nsidc-sea-ice-extent-daily-climatology`. Regenerate after model-verify.
+# caution: This table is a fixed 1981-2010 day-of-year climatology, not an observed time series; join to observations by day_of_year and hemisphere before computing anomalies.
+key: [day_of_year, hemisphere]
+sort: [day_of_year, hemisphere]
+columns:
+  - name: hemisphere
+    type: VARCHAR
+  - name: day_of_year
+    type: BIGINT
+  - name: average_extent_million_sq_km
+    type: DOUBLE
+  - name: std_deviation_million_sq_km
+    type: DOUBLE
+  - name: pct_10
+    type: DOUBLE
+  - name: pct_25
+    type: DOUBLE
+  - name: pct_50
+    type: DOUBLE
+  - name: pct_75
+    type: DOUBLE
+  - name: pct_90
+    type: DOUBLE

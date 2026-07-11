@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nsidc-sea-ice-extent-monthly`. Regenerate after model-verify.
+# caution: Rows are monthly averages; do not combine this table with daily observations without accounting for the different temporal aggregation.
+key: [date, year, month, source_dataset, hemisphere]
+temporal: date
+sort: [date, year, month, source_dataset, hemisphere]
+columns:
+  - name: hemisphere
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: source_dataset
+    type: VARCHAR
+  - name: extent_million_sq_km
+    type: DOUBLE
+  - name: area_million_sq_km
+    type: DOUBLE

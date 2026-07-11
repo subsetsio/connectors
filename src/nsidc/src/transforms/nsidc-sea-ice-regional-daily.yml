@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nsidc-sea-ice-regional-daily`. Regenerate after model-verify.
+# caution: Rows are sub-basin observations; summing regions may not reproduce the hemisphere-wide extent series because the source publishes them as distinct products.
+key: [date, year, region, month, hemisphere]
+temporal: date
+sort: [date, year, region, month, hemisphere]
+columns:
+  - name: hemisphere
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day
+    type: BIGINT
+  - name: area_sq_km
+    type: DOUBLE
+  - name: extent_sq_km
+    type: DOUBLE

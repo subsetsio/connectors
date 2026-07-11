@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nsidc-sea-ice-extent-daily`. Regenerate after model-verify.
+# caution: The early part of the daily series is not strictly daily; consumers should treat date as the observation date rather than assuming an uninterrupted daily calendar.
+key: [date, year, month, hemisphere]
+temporal: date
+sort: [date, year, month, hemisphere]
+columns:
+  - name: hemisphere
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: day
+    type: BIGINT
+  - name: extent_million_sq_km
+    type: DOUBLE
+  - name: missing_million_sq_km
+    type: DOUBLE
