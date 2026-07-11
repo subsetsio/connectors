@@ -1,0 +1,57 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mit-election-lab-dvn-dgnafs`. Regenerate after model-verify.
+# caution: Senate precinct returns are candidate-by-precinct style records; filter by election, jurisdiction, and reporting mode before aggregation.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: precinct
+    type: VARCHAR
+  - name: office
+    type: VARCHAR
+  - name: party_detailed
+    type: VARCHAR
+  - name: party_simplified
+    type: VARCHAR
+  - name: mode
+    type: VARCHAR
+  - name: votes
+    type: BIGINT
+  - name: county_name
+    type: VARCHAR
+  - name: county_fips
+    type: VARCHAR
+  - name: jurisdiction_name
+    type: VARCHAR
+  - name: jurisdiction_fips
+    type: VARCHAR
+  - name: candidate
+    type: VARCHAR
+  - name: district
+    type: VARCHAR
+  - name: magnitude
+    type: DOUBLE
+  - name: dataverse
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: stage
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: special
+    type: BOOLEAN
+  - name: writein
+    type: BOOLEAN
+  - name: state_po
+    type: VARCHAR
+  - name: state_fips
+    type: VARCHAR
+  - name: state_cen
+    type: BIGINT
+  - name: state_ic
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: readme_check
+    type: BOOLEAN

@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mit-election-lab-dvn-vddkn5`. Regenerate after model-verify.
+# caution: Presidential constituency returns span many years and geographies; filter to one election year and constituency level before aggregation.
+key: []
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: state_po
+    type: VARCHAR
+  - name: state_fips
+    type: BIGINT
+  - name: state_cen
+    type: BIGINT
+  - name: state_ic
+    type: BIGINT
+  - name: office
+    type: VARCHAR
+  - name: candidate
+    type: VARCHAR
+  - name: party_detailed
+    type: VARCHAR
+  - name: writein
+    type: VARCHAR
+  - name: candidatevotes
+    type: BIGINT
+  - name: totalvotes
+    type: BIGINT
+  - name: version
+    type: BIGINT
+  - name: notes
+    type: VARCHAR
+  - name: party_simplified
+    type: VARCHAR

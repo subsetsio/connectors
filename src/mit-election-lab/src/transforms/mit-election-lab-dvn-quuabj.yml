@@ -1,0 +1,45 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mit-election-lab-dvn-quuabj`. Regenerate after model-verify.
+# caution: House constituency returns span many years and districts; filter to a single election year and district scope before aggregation.
+key: []
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: state_po
+    type: VARCHAR
+  - name: state_fips
+    type: BIGINT
+  - name: state_cen
+    type: BIGINT
+  - name: state_ic
+    type: BIGINT
+  - name: office
+    type: VARCHAR
+  - name: district
+    type: BIGINT
+  - name: stage
+    type: VARCHAR
+  - name: runoff
+    type: VARCHAR
+  - name: special
+    type: BOOLEAN
+  - name: candidate
+    type: VARCHAR
+  - name: party
+    type: VARCHAR
+  - name: writein
+    type: BOOLEAN
+  - name: mode
+    type: VARCHAR
+  - name: candidatevotes
+    type: BIGINT
+  - name: totalvotes
+    type: BIGINT
+  - name: unofficial
+    type: BOOLEAN
+  - name: version
+    type: BIGINT
+  - name: fusion_ticket
+    type: BOOLEAN

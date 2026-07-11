@@ -1,0 +1,36 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mit-election-lab-dvn-42mvdx`. Regenerate after model-verify.
+# caution: Presidential rows include multiple candidates and state-level observations across election years; filter to the intended election year and geography before comparing totals.
+key: [candidatevotes, totalvotes, candidate, party_detailed, state_cen]
+sort: [candidatevotes, totalvotes, candidate, party_detailed, state_cen]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: state_po
+    type: VARCHAR
+  - name: state_fips
+    type: BIGINT
+  - name: state_cen
+    type: BIGINT
+  - name: state_ic
+    type: VARCHAR
+  - name: office
+    type: VARCHAR
+  - name: candidate
+    type: VARCHAR
+  - name: party_detailed
+    type: VARCHAR
+  - name: writein
+    type: VARCHAR
+  - name: candidatevotes
+    type: BIGINT
+  - name: totalvotes
+    type: BIGINT
+  - name: version
+    type: VARCHAR
+  - name: notes
+    type: VARCHAR
+  - name: party_simplified
+    type: VARCHAR

@@ -1,0 +1,53 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mit-election-lab-dvn-skcc60`. Regenerate after model-verify.
+# caution: EPI indicator records represent state-level election-administration measures; compare values within a consistent indicator definition.
+key: []
+columns:
+  - name: state_abbv
+    type: VARCHAR
+  - name: state_fips
+    type: DOUBLE
+  - name: year
+    type: DOUBLE
+  - name: website_pollingplace
+    type: BIGINT
+  - name: website_reg_status
+    type: VARCHAR
+  - name: website_precinct_ballot
+    type: VARCHAR
+  - name: website_absentee_status
+    type: VARCHAR
+  - name: website_provisional_status
+    type: VARCHAR
+  - name: reg_rej
+    type: VARCHAR
+  - name: prov_partic
+    type: VARCHAR
+  - name: prov_rej_all
+    type: VARCHAR
+  - name: abs_rej_all_ballots
+    type: VARCHAR
+  - name: abs_nonret
+    type: VARCHAR
+  - name: uocava_rej
+    type: VARCHAR
+  - name: uocava_nonret
+    type: VARCHAR
+  - name: eavs_completeness
+    type: VARCHAR
+  - name: post_election_audit
+    type: VARCHAR
+  - name: nonvoter_illness_pct
+    type: DOUBLE
+  - name: nonvoter_reg_pct
+    type: DOUBLE
+  - name: online_reg
+    type: VARCHAR
+  - name: wait
+    type: VARCHAR
+  - name: residual
+    type: VARCHAR
+  - name: pct_reg_of_vep_vrs
+    type: VARCHAR
+  - name: vep_turnout
+    type: DOUBLE

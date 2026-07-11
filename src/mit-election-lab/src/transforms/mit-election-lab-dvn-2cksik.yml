@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mit-election-lab-dvn-2cksik`. Regenerate after model-verify.
+# caution: Election-night returns are provisional-style reporting data; aggregate only after choosing the intended geography, contest, candidate, and reporting mode.
+key: []
+temporal: day
+sort: [day]
+columns:
+  - name: cnn_code
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: day
+    type: DATE
+  - name: time
+    type: TIME
+  - name: office
+    type: VARCHAR
+  - name: candidate
+    type: VARCHAR
+  - name: party
+    type: VARCHAR
+  - name: votes
+    type: BIGINT
+  - name: percent
+    type: BIGINT
+  - name: reported
+    type: BIGINT
+  - name: total
+    type: BIGINT
+  - name: share
+    type: VARCHAR
+  - name: datetime
+    type: TIMESTAMP
+  - name: jurisdiction_name
+    type: VARCHAR
+  - name: jurisdiction_fips
+    type: BIGINT

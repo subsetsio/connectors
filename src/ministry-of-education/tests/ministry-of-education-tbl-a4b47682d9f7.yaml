@@ -14,6 +14,10 @@ tests:
   - at_most: {col: year, expr: current_year()}
     points_outward: true
     severity: warn
+  - freshness: {col: year, reaches: 2024}
+    reason: MoE annual national education statistics currently publish through statistical year 2024.
+    certainty: 95
+    points_outward: true
   - row_count: {min: 5}
     reason: every national statistical table has at least a handful of numeric cells in its latest year
     certainty: 85

@@ -1,0 +1,79 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mit-election-lab-dvn-q8ohrs`. Regenerate after model-verify.
+# caution: Local precinct returns mix local offices, jurisdictions, candidates, and reporting modes; filter to a single contest and geography before summing votes.
+key: []
+columns:
+  - name: year
+    type: BIGINT
+  - name: stage
+    type: VARCHAR
+  - name: special
+    type: BOOLEAN
+  - name: state
+    type: VARCHAR
+  - name: state_postal
+    type: VARCHAR
+  - name: state_fips
+    type: BIGINT
+  - name: state_icpsr
+    type: BIGINT
+  - name: county_name
+    type: VARCHAR
+  - name: county_fips
+    type: VARCHAR
+  - name: county_ansi
+    type: VARCHAR
+  - name: county_lat
+    type: VARCHAR
+  - name: county_long
+    type: VARCHAR
+  - name: jurisdiction
+    type: VARCHAR
+  - name: precinct
+    type: VARCHAR
+  - name: candidate
+    type: VARCHAR
+  - name: candidate_normalized
+    type: VARCHAR
+  - name: office
+    type: VARCHAR
+  - name: district
+    type: VARCHAR
+  - name: writein
+    type: BOOLEAN
+  - name: party
+    type: VARCHAR
+  - name: mode
+    type: VARCHAR
+  - name: votes
+    type: BIGINT
+  - name: candidate_opensecrets
+    type: VARCHAR
+  - name: candidate_wikidata
+    type: VARCHAR
+  - name: candidate_party
+    type: VARCHAR
+  - name: candidate_last
+    type: VARCHAR
+  - name: candidate_first
+    type: VARCHAR
+  - name: candidate_middle
+    type: VARCHAR
+  - name: candidate_full
+    type: VARCHAR
+  - name: candidate_suffix
+    type: VARCHAR
+  - name: candidate_nickname
+    type: VARCHAR
+  - name: candidate_fec
+    type: VARCHAR
+  - name: candidate_fec_name
+    type: VARCHAR
+  - name: candidate_google
+    type: VARCHAR
+  - name: candidate_govtrack
+    type: VARCHAR
+  - name: candidate_icpsr
+    type: VARCHAR
+  - name: candidate_maplight
+    type: VARCHAR

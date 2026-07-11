@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mit-election-lab-dvn-yb60ej`. Regenerate after model-verify.
+# caution: Senate county-level results are county observations; filter by election context before summing or comparing vote totals.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: year
+    type: BIGINT
+  - name: date
+    type: DATE
+  - name: state
+    type: VARCHAR
+  - name: state_po
+    type: VARCHAR
+  - name: state_fips
+    type: BIGINT
+  - name: state_cen
+    type: BIGINT
+  - name: state_ic
+    type: BIGINT
+  - name: county_name
+    type: VARCHAR
+  - name: county_fips
+    type: VARCHAR
+  - name: office
+    type: VARCHAR
+  - name: candidate
+    type: VARCHAR
+  - name: party_detailed
+    type: VARCHAR
+  - name: party_simplified
+    type: VARCHAR
+  - name: writein
+    type: BOOLEAN
+  - name: candidatevotes
+    type: DOUBLE
+  - name: totalvotes
+    type: BIGINT
+  - name: unofficial
+    type: BOOLEAN
+  - name: stage
+    type: VARCHAR
+  - name: special
+    type: BOOLEAN
+  - name: mode
+    type: VARCHAR
+  - name: version
+    type: BIGINT

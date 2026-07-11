@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mit-election-lab-dvn-xsofhd`. Regenerate after model-verify.
+# caution: State office-level returns mix offices and districts; filter to a single office, year, and geography before aggregation.
+key: []
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: state_po
+    type: VARCHAR
+  - name: state_fips
+    type: BIGINT
+  - name: state_cen
+    type: BIGINT
+  - name: state_ic
+    type: BIGINT
+  - name: office
+    type: VARCHAR
+  - name: district
+    type: VARCHAR
+  - name: stage
+    type: VARCHAR
+  - name: special
+    type: BOOLEAN
+  - name: candidate
+    type: VARCHAR
+  - name: party
+    type: VARCHAR
+  - name: writein
+    type: BOOLEAN
+  - name: mode
+    type: VARCHAR
+  - name: candidatevotes
+    type: BIGINT
+  - name: totalvotes
+    type: BIGINT
+  - name: version
+    type: BIGINT

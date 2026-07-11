@@ -1,0 +1,44 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mit-election-lab-dvn-3cnswo`. Regenerate after model-verify.
+# caution: Constituency election rows mix states, districts, parties, and candidates across many years; filter to the intended election scope before aggregating votes.
+key: [candidate, candidatevotes, totalvotes, party_detailed, state_cen]
+sort: [candidate, candidatevotes, totalvotes, party_detailed, state_cen]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: state_po
+    type: VARCHAR
+  - name: state_fips
+    type: BIGINT
+  - name: state_cen
+    type: BIGINT
+  - name: state_ic
+    type: BIGINT
+  - name: office
+    type: VARCHAR
+  - name: district
+    type: VARCHAR
+  - name: stage
+    type: VARCHAR
+  - name: special
+    type: BOOLEAN
+  - name: candidate
+    type: VARCHAR
+  - name: party_detailed
+    type: VARCHAR
+  - name: writein
+    type: BOOLEAN
+  - name: mode
+    type: VARCHAR
+  - name: candidatevotes
+    type: BIGINT
+  - name: totalvotes
+    type: BIGINT
+  - name: unofficial
+    type: BOOLEAN
+  - name: version
+    type: BIGINT
+  - name: party_simplified
+    type: VARCHAR
