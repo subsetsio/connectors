@@ -9,7 +9,7 @@ SELECT
     CAST("Year" AS BIGINT) AS year,
     "NUTS3" AS nuts3,
     "NUTS3 Label" AS nuts3_label,
-    CAST("5yrage" AS BIGINT) AS 5yrage,
+    CAST("5yrage" AS BIGINT) AS five_year_age_code,
     "Five year age bands" AS five_year_age_bands,
     "Sex" AS sex,
     "Sex Label" AS sex_label,

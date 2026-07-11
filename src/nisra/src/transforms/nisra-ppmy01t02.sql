@@ -9,7 +9,7 @@ SELECT
     CAST("Year" AS BIGINT) AS year,
     "LGD1992" AS lgd1992,
     "Local Government District 1992" AS local_government_district_1992,
-    CAST("5yrage" AS BIGINT) AS 5yrage,
+    CAST("5yrage" AS BIGINT) AS five_year_age_code,
     "Five year age bands" AS five_year_age_bands,
     "Sex" AS sex,
     "Sex Label" AS sex_label,

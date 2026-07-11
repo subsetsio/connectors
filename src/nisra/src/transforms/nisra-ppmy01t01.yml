@@ -1,7 +1,7 @@
 # compiled by `hardened compile-transforms` — faithful pass-through
 # of raw asset `nisra-ppmy01t01`. Regenerate after model-verify.
-key: [statistic, statistic_label, tlist_a1, year, lgd2014, local_government_district, "5yrage", five_year_age_bands, sex, sex_label, unit]
-sort: [statistic, statistic_label, tlist_a1, year, lgd2014, local_government_district, "5yrage", five_year_age_bands, sex, sex_label, unit]
+key: [statistic, statistic_label, tlist_a1, year, lgd2014, local_government_district, five_year_age_code, five_year_age_bands, sex, sex_label, unit]
+sort: [statistic, statistic_label, tlist_a1, year, lgd2014, local_government_district, five_year_age_code, five_year_age_bands, sex, sex_label, unit]
 columns:
   - name: statistic
     type: VARCHAR
@@ -15,7 +15,7 @@ columns:
     type: VARCHAR
   - name: local_government_district
     type: VARCHAR
-  - name: "5yrage"
+  - name: five_year_age_code
     type: BIGINT
   - name: five_year_age_bands
     type: VARCHAR

@@ -9,7 +9,7 @@ SELECT
     CAST("Year" AS BIGINT) AS year,
     "HSCT" AS hsct,
     "Health and Social Care Trust" AS health_and_social_care_trust,
-    CAST("5yrage" AS BIGINT) AS 5yrage,
+    CAST("5yrage" AS BIGINT) AS five_year_age_code,
     "Five year age bands" AS five_year_age_bands,
     "Sex" AS sex,
     "Sex Label" AS sex_label,

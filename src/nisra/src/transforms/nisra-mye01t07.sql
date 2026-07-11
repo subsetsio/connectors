@@ -8,7 +8,7 @@ SELECT
     CAST("TLIST(A1)" AS BIGINT) AS tlist_a1,
     CAST("Year" AS BIGINT) AS year,
     "yearbased",
-    "2011-based or 2021-based" AS 2011_based_or_2021_based,
+    "2011-based or 2021-based" AS base_2011_or_2021,
     "UNIT" AS unit,
     CAST("VALUE" AS BIGINT) AS value
 FROM "nisra-mye01t07"

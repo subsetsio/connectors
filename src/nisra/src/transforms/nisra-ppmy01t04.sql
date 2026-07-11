@@ -9,7 +9,7 @@ SELECT
     CAST("Year" AS BIGINT) AS year,
     "ELB" AS elb,
     "Education and Library Board" AS education_and_library_board,
-    CAST("5yrage" AS BIGINT) AS 5yrage,
+    CAST("5yrage" AS BIGINT) AS five_year_age_code,
     "Five year age bands" AS five_year_age_bands,
     "Sex" AS sex,
     "Sex Label" AS sex_label,
