@@ -37,9 +37,11 @@ here. The transform re-types the value column to DOUBLE.
 import json
 
 from subsets_utils import (
+    MaintainSpec,
     NodeSpec,
     get,
     get_client,
+    raw_asset_exists,
     transient_retry,
     raw_writer,
 )
@@ -243,4 +245,18 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
+]
+
+_MAINTAIN_DESCRIPTION = (
+    "Skip raw assets fetched within 7 days; production cadence is weekly "
+    "(maintenance.json cadence_days=7), and each run re-pulls the full StatBank table."
+)
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=_MAINTAIN_DESCRIPTION,
+        check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=7),
+    )
+    for spec in DOWNLOAD_SPECS
 ]
