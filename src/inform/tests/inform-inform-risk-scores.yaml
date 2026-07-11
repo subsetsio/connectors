@@ -1,0 +1,38 @@
+spec_id: inform-inform-risk-scores
+status: active
+tests:
+  - row_count: {min: 1000000}
+    reason: global score history spans many workflow-years, countries, and indicators
+    certainty: 90
+  - not_null: workflow_id
+    reason: every score row belongs to an INFORM workflow
+    certainty: 100
+  - not_null: geo_id
+    reason: global score rows are keyed by country ISO3
+    certainty: 98
+  - not_null: indicator_id
+    reason: every score row belongs to an INFORM indicator
+    certainty: 100
+  - column_type: {col: workflow_id, type: integer}
+    certainty: 99
+  - column_type: {col: gna_year, type: integer}
+    certainty: 95
+  - column_type: {col: indicator_score, type: float}
+    certainty: 95
+  - enum: {col: score_family, values: ["global"]}
+    certainty: 99
+  - unique: [workflow_id, geo_id, indicator_id]
+    reason: one score per workflow, country, and indicator
+    certainty: 95
+  - distinct_count: {col: workflow_id, min: 80}
+    reason: global releases include back-calculated historical workflows across many annual releases
+    certainty: 85
+  - distinct_count: {col: geo_id, min: 180}
+    reason: global INFORM Risk covers nearly all countries
+    certainty: 90
+  - between: {col: gna_year, lo: 2010, hi: current_year()}
+    certainty: 90
+  - freshness: {col: gna_year, reaches: 2025}
+    reason: the global score asset should include the latest INFORM Risk release
+    certainty: 85
+    points_outward: true

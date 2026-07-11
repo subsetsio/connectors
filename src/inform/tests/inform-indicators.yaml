@@ -1,0 +1,22 @@
+spec_id: inform-indicators
+status: active
+tests:
+  - row_count: {min: 300}
+    reason: Indicators/Index lists several hundred indicator and composite-node definitions
+    certainty: 95
+  - not_null: indicator_id
+    reason: IndicatorId is the join key used by score endpoints
+    certainty: 100
+  - not_null: indicator_description
+    reason: each indicator has a published label/description
+    certainty: 95
+  - column_type: {col: indicator_id, type: string}
+    certainty: 99
+  - column_type: {col: default_weight, type: float}
+    certainty: 95
+  - unique: indicator_id
+    reason: source indicator identifiers are unique in Indicators/Index
+    certainty: 95
+  - distinct_count: {col: indicator_type, min: 3}
+    reason: the taxonomy includes primary indicators and composite/category nodes
+    certainty: 85

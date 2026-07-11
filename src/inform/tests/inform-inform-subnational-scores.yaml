@@ -1,0 +1,38 @@
+spec_id: inform-inform-subnational-scores
+status: active
+tests:
+  - row_count: {min: 10000}
+    reason: regional/subnational INFORM models include multiple admin units and indicators
+    certainty: 80
+  - not_null: workflow_id
+    reason: every score row belongs to an INFORM workflow
+    certainty: 100
+  - not_null: geo_id
+    reason: subnational score rows are keyed by admin-unit geography codes
+    certainty: 95
+  - not_null: indicator_id
+    reason: every score row belongs to an INFORM indicator
+    certainty: 100
+  - column_type: {col: workflow_id, type: integer}
+    certainty: 99
+  - column_type: {col: gna_year, type: integer}
+    certainty: 95
+  - column_type: {col: indicator_score, type: float}
+    certainty: 95
+  - enum: {col: score_family, values: ["subnational"]}
+    certainty: 99
+  - unique: [workflow_id, geo_id, indicator_id]
+    reason: one score per workflow, admin unit, and indicator
+    certainty: 90
+  - distinct_count: {col: workflow_id, min: 5}
+    reason: several regional INFORM workflow groups are published
+    certainty: 80
+  - distinct_count: {col: geo_id, min: 100}
+    reason: subnational models cover many municipality/admin-unit codes
+    certainty: 75
+  - between: {col: gna_year, lo: 2010, hi: current_year()}
+    certainty: 85
+  - freshness: {col: gna_year, reaches: 2023}
+    reason: regional/subnational models are not released on every global INFORM cadence, but recent models exist
+    certainty: 75
+    points_outward: true

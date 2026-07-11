@@ -1,0 +1,28 @@
+spec_id: inform-workflows
+status: active
+tests:
+  - row_count: {min: 100}
+    reason: workflow groups expand to current releases plus back-calculated historical models
+    certainty: 90
+  - not_null: workflow_id
+    reason: WorkflowId is required to fetch score matrices
+    certainty: 100
+  - not_null: workflow_group_name
+    reason: each workflow is discovered through a workflow group
+    certainty: 95
+  - column_type: {col: workflow_id, type: integer}
+    certainty: 99
+  - column_type: {col: gna_year, type: integer}
+    certainty: 95
+  - unique: workflow_id
+    reason: workflow IDs are stable API identifiers
+    certainty: 99
+  - enum: {col: score_family, values: ["global", "subnational"]}
+    certainty: 99
+  - between: {col: gna_year, lo: 2010, hi: current_year()}
+    reason: INFORM public workflow history starts in the 2010s and should not exceed the current year
+    certainty: 90
+  - freshness: {col: gna_year, reaches: 2025}
+    reason: INFORM publishes current or prior-year release models; stale workflow discovery means new releases are missing
+    certainty: 85
+    points_outward: true

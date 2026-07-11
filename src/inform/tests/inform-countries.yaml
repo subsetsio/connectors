@@ -1,0 +1,22 @@
+spec_id: inform-countries
+status: active
+tests:
+  - row_count: {min: 6000}
+    reason: Countries/Index includes countries plus subnational admin units used by regional INFORM models
+    certainty: 90
+  - not_null: iso3
+    reason: Iso3 is the join key used by score endpoints
+    certainty: 95
+  - not_null: country_name
+    reason: each geography entry has a display name
+    certainty: 95
+  - column_type: {col: iso3, type: string}
+    certainty: 99
+  - column_type: {col: country_name, type: string}
+    certainty: 99
+  - unique: iso3
+    reason: the API uses one row per geography/admin-unit code
+    certainty: 90
+  - distinct_count: {col: category_type, min: 2}
+    reason: the reference table includes ADMIN0 countries and lower-level admin units
+    certainty: 80
