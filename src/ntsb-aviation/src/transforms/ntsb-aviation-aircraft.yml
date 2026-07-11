@@ -1,54 +1,83 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# caution: Rows are aircraft or vehicles involved in a case, so a single investigation can appear multiple times; aggregate case counts from the accidents table or distinct `case_mkey`, not raw aircraft rows.
+key: [case_mkey, vehicle_num]
+temporal: event_date
+sort: [event_date, case_mkey, vehicle_num]
 columns:
   - name: case_mkey
     type: BIGINT
+    description: NTSB CAROL internal case key for the parent investigation.
   - name: ntsb_number
     type: VARCHAR
+    description: NTSB investigation number for the parent case.
   - name: event_date
     type: DATE
+    description: Calendar date of the parent accident or incident.
   - name: vehicle_num
     type: BIGINT
+    description: Vehicle number within the parent NTSB case.
   - name: damage_level
     type: VARCHAR
+    description: Reported aircraft damage level.
   - name: explosion_type
     type: VARCHAR
+    description: Reported explosion type, when applicable.
   - name: fire_type
     type: VARCHAR
+    description: Reported fire type, when applicable.
   - name: aircraft_category
     type: VARCHAR
+    description: Aircraft category code or label reported by CAROL.
   - name: make
     type: VARCHAR
+    description: Aircraft make.
   - name: model
     type: VARCHAR
+    description: Aircraft model.
   - name: amateur_built
     type: BOOLEAN
+    description: Whether the aircraft was reported as amateur built.
   - name: number_of_engines
     type: BIGINT
+    description: Number of engines reported for the aircraft.
   - name: registration_number
     type: VARCHAR
+    description: Aircraft registration number.
   - name: serial_number
     type: VARCHAR
+    description: Aircraft serial number.
   - name: operator_name
     type: VARCHAR
+    description: Aircraft operator name.
   - name: registered_owner
     type: VARCHAR
+    description: Registered aircraft owner.
   - name: general_aviation
     type: BOOLEAN
+    description: Whether the flight was reported as general aviation.
   - name: flight_operation_type
     type: VARCHAR
+    description: CAROL flight operation type code or label.
   - name: flight_scheduled_type
     type: VARCHAR
+    description: Scheduled flight type value reported by CAROL.
   - name: flight_service_type
     type: VARCHAR
+    description: Flight service type value reported by CAROL.
   - name: flight_terminal_type
     type: VARCHAR
+    description: Flight terminal type value reported by CAROL.
   - name: regulation_conducted_under
     type: VARCHAR
+    description: Regulation under which the flight was conducted.
   - name: air_medical
     type: VARCHAR
+    description: Air medical operation value reported by CAROL.
   - name: air_medical_type
     type: VARCHAR
+    description: Air medical type value reported by CAROL.
   - name: revenue_sightseeing
     type: VARCHAR
+    description: Revenue sightseeing value reported by CAROL.
   - name: second_pilot_present
     type: VARCHAR
+    description: Second pilot present value reported by CAROL.

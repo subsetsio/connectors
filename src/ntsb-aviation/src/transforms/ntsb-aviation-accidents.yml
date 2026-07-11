@@ -1,60 +1,95 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# caution: Rows are investigation cases and include both accidents and incidents; filter `event_type` before comparing or aggregating event counts by event class.
+key: [event_timestamp, ntsb_number, city, event_type, completion_status]
+temporal: event_date
+sort: [event_date, ntsb_number, city, event_type, completion_status]
 columns:
   - name: case_mkey
     type: BIGINT
+    description: NTSB CAROL internal case key.
   - name: ntsb_number
     type: VARCHAR
+    description: NTSB investigation number.
   - name: event_timestamp
     type: TIMESTAMP
+    description: Event timestamp from CAROL.
   - name: event_date
     type: DATE
+    description: Calendar date of the accident or incident.
   - name: event_type
     type: VARCHAR
+    description: CAROL event classification, such as accident or incident.
+  - name: mode
+    type: VARCHAR
+    description: Transportation mode reported by CAROL.
   - name: city
     type: VARCHAR
+    description: Event city.
   - name: state
     type: VARCHAR
+    description: Event state, province, or territory where reported.
   - name: country
     type: VARCHAR
+    description: Event country.
   - name: latitude
     type: DOUBLE
+    description: Event latitude in decimal degrees.
   - name: longitude
     type: DOUBLE
+    description: Event longitude in decimal degrees.
   - name: airport_id
     type: VARCHAR
+    description: Airport identifier associated with the event, when reported.
   - name: airport_name
     type: VARCHAR
+    description: Airport name associated with the event, when reported.
   - name: site_condition
     type: VARCHAR
+    description: Reported accident site condition.
   - name: highest_injury
     type: VARCHAR
+    description: Highest injury severity reported for the case.
   - name: injury_onboard_count
     type: BIGINT
+    description: Count of injured people onboard reported by CAROL.
   - name: fatal_injury_count
     type: BIGINT
+    description: Count of fatal onboard injuries.
   - name: serious_injury_count
     type: BIGINT
+    description: Count of serious onboard injuries.
   - name: minor_injury_count
     type: BIGINT
+    description: Count of minor onboard injuries.
   - name: uninjured_count
     type: BIGINT
+    description: Count of onboard people reported with no injury.
   - name: onboard_total
     type: BIGINT
+    description: Total onboard count reported for the case.
   - name: hazmat_involved
     type: BOOLEAN
+    description: Whether hazardous materials were reported as involved.
   - name: has_safety_rec
     type: BOOLEAN
+    description: Whether the case has an associated NTSB safety recommendation.
   - name: agency
     type: VARCHAR
+    description: Reporting or responsible agency value from CAROL.
   - name: launch
     type: VARCHAR
+    description: CAROL launch metadata value.
   - name: is_closed
     type: BOOLEAN
+    description: Whether the investigation is marked closed in CAROL.
   - name: completion_status
     type: VARCHAR
+    description: CAROL completion status for the investigation record.
   - name: most_recent_report_type
     type: VARCHAR
+    description: Type of the most recent report associated with the case.
   - name: recent_report_publish_date
     type: TIMESTAMP
+    description: Publish timestamp for the most recent report, when available.
   - name: original_published_date
     type: TIMESTAMP
+    description: Original case publish timestamp, when available.
