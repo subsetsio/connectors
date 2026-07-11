@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ipc-food-security-analyses`. Regenerate after model-verify.
+# caution: Each analysis can contain up to three reporting periods; join to estimate tables and filter the period before comparing current and projected estimates.
+key: [anl_id]
+temporal: analysis_date
+sort: [analysis_date, anl_id]
+columns:
+  - name: anl_id
+    type: BIGINT
+  - name: country_code
+    type: VARCHAR
+  - name: classification
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: analysis_date
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: fanalysis_date
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: country_population
+    type: BIGINT
+  - name: public_map_link
+    type: VARCHAR
+  - name: public_map_title
+    type: VARCHAR
+  - name: has_groups
+    type: BOOLEAN
+  - name: period_count
+    type: BIGINT

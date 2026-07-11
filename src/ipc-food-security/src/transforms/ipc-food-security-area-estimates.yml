@@ -1,0 +1,76 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ipc-food-security-area-estimates`. Regenerate after model-verify.
+# caution: Rows are sub-national area-period estimates and should not be summed with the national estimates table for the same analysis.
+# caution: Grouped analyses include a region group alongside areas; use group columns for grouping context, not as additional observations.
+key: [anl_id, aar_id, period_code]
+temporal: analysis_date
+sort: [analysis_date, anl_id, aar_id, period_code]
+columns:
+  - name: anl_id
+    type: BIGINT
+  - name: country_code
+    type: VARCHAR
+  - name: analysis_classification
+    type: VARCHAR
+  - name: analysis_date
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: group_id
+    type: BIGINT
+  - name: group_name
+    type: VARCHAR
+  - name: aar_id
+    type: BIGINT
+  - name: area
+    type: VARCHAR
+  - name: period_code
+    type: VARCHAR
+  - name: period_title
+    type: VARCHAR
+  - name: period_from_date
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: period_thru_date
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: estimated_population
+    type: BIGINT
+  - name: census_population
+    type: BIGINT
+  - name: overall_phase_value
+    type: BIGINT
+  - name: overall_phase_label
+    type: VARCHAR
+  - name: overall_trend
+    type: VARCHAR
+  - name: classification_text
+    type: VARCHAR
+  - name: hfa_population_percentage
+    type: DOUBLE
+  - name: hfa_kcal_percentage
+    type: DOUBLE
+  - name: hfa_significance_value
+    type: BIGINT
+  - name: hfa_significance_label
+    type: VARCHAR
+  - name: phase1_population
+    type: BIGINT
+  - name: phase1_percentage
+    type: DOUBLE
+  - name: phase2_population
+    type: BIGINT
+  - name: phase2_percentage
+    type: DOUBLE
+  - name: phase3_population
+    type: BIGINT
+  - name: phase3_percentage
+    type: DOUBLE
+  - name: phase4_population
+    type: BIGINT
+  - name: phase4_percentage
+    type: DOUBLE
+  - name: phase5_population
+    type: BIGINT
+  - name: phase5_percentage
+    type: DOUBLE
+  - name: phase3_plus_population
+    type: BIGINT
+  - name: phase3_plus_percentage
+    type: DOUBLE
