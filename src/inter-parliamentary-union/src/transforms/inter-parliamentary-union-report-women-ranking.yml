@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inter-parliamentary-union-report-women-ranking`. Regenerate after model-verify.
+# caution: This is a current country ranking snapshot of women's parliamentary representation, not a historical series.
+key: [country_code]
+sort: [country_code]
 columns:
   - name: country_name
     type: VARCHAR
@@ -12,6 +16,8 @@ columns:
     type: BIGINT
   - name: lower_chamber_current_members_number
     type: BIGINT
+  - name: lower_chamber_percent_women
+    type: DOUBLE
   - name: lower_is_suspended_chamber
     type: BOOLEAN
   - name: lower_data_missing
@@ -20,13 +26,11 @@ columns:
     type: BIGINT
   - name: upper_chamber_current_members_number
     type: BIGINT
+  - name: upper_chamber_percent_women
+    type: DOUBLE
   - name: upper_is_suspended_chamber
     type: BOOLEAN
   - name: upper_data_missing
     type: BOOLEAN
   - name: rank
     type: BIGINT
-  - name: lower_chamber_percent_women
-    type: DOUBLE
-  - name: upper_chamber_percent_women
-    type: DOUBLE

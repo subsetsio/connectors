@@ -35,7 +35,6 @@ from subsets_utils import (
     get,
     save_raw_ndjson,
     save_raw_parquet,
-    transient_retry,
 )
 
 # Confirmed Games editions that publish the CIS_MedalNOCs feed.
@@ -69,7 +68,6 @@ SCHEMA = pa.schema([
 ])
 
 
-@transient_retry()
 def _get_json(url: str, **kwargs):
     resp = get(url, timeout=(10.0, 120.0), **kwargs)
     resp.raise_for_status()
@@ -88,29 +86,32 @@ def _live_url(comp: str) -> str:
 
 def _cdx_latest(prefix: str, comp: str, languages: tuple[str, ...] = ("ENG",)) -> list[tuple[str, str]]:
     """Return latest Wayback timestamp per archived ODF URL under `prefix`."""
-    resp = get(
-        "https://web.archive.org/cdx/search/cdx",
-        params={
-            "url": f"olympics.com/{comp}/data/{prefix}",
-            "matchType": "prefix",
-            "output": "json",
-            "fl": "timestamp,original",
-            "filter": "statuscode:200",
-        },
-        timeout=(10.0, 120.0),
-    )
-    resp.raise_for_status()
-    data = resp.json()
-    if len(data) <= 1:
-        return []
     latest: dict[str, str] = {}
-    for ts, orig in data[1:]:
-        if f"comp={comp}" not in orig:
-            continue
-        if languages and not any(f"lang={lang}" in orig for lang in languages):
-            continue
-        if ts > latest.get(orig, ""):
-            latest[orig] = ts
+
+    # The Wayback corpus is not path-consistent: several PG2024 JSON files are
+    # archived below /OG2024/data/ while carrying comp=PG2024 in the filename.
+    for path_comp, _games in EDITIONS:
+        resp = get(
+            "https://web.archive.org/cdx/search/cdx",
+            params={
+                "url": f"olympics.com/{path_comp}/data/{prefix}",
+                "matchType": "prefix",
+                "output": "json",
+                "fl": "timestamp,original",
+                "filter": "statuscode:200",
+                "collapse": "urlkey",
+            },
+            timeout=(10.0, 120.0),
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        for ts, orig in data[1:]:
+            if f"comp={comp}" not in orig:
+                continue
+            if languages and not any(f"lang={lang}" in orig for lang in languages):
+                continue
+            if ts > latest.get(orig, ""):
+                latest[orig] = ts
     return [(ts, orig) for orig, ts in sorted(latest.items())]
 
 
@@ -125,6 +126,14 @@ def _wayback_latest(comp: str) -> dict:
 
 def _wayback_json(ts: str, orig: str) -> dict:
     return _get_json(f"https://web.archive.org/web/{ts}id_/{orig}")
+
+
+def _try_wayback_json(ts: str, orig: str) -> dict | None:
+    try:
+        return _wayback_json(ts, orig)
+    except json.JSONDecodeError as exc:
+        print(f"[ioc] skipped non-JSON archived payload {orig} at {ts}: {exc}")
+        return None
 
 
 def _try_live(comp: str) -> dict | None:

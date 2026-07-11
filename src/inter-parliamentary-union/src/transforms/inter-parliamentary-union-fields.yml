@@ -1,3 +1,7 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `inter-parliamentary-union-fields`. Regenerate after model-verify.
+key: [field_id, short_description, description, data_entry_format, data_type]
+sort: [field_id, short_description, description, data_entry_format, data_type]
 columns:
   - name: field_id
     type: VARCHAR
@@ -30,7 +34,7 @@ columns:
   - name: is_searchable
     type: BOOLEAN
   - name: timeseries_from_date
-    type: TIMESTAMP
+    type: VARCHAR
   - name: cardinality
     type: BIGINT
   - name: is_private

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `inter-parliamentary-union-report-speakers`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [chamber_code, first_name, family_name]
+checks:
+  - kind: unique
+    columns: [chamber_code, first_name, family_name]
+  - kind: not_null
+    col: chamber_code
+  - kind: not_null
+    col: first_name
+  - kind: not_null
+    col: family_name
+  - kind: row_floor
+    min: 143
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
