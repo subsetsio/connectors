@@ -22,6 +22,11 @@ from subsets_utils import (
 
 SLUG = "paho"
 DOWNLOAD_PAGE_URL = "https://opendata.paho.org/en/core-indicators/download-dataset"
+FALLBACK_ZIP_URL = "https://opendata.paho.org/sites/default/files/data/2026-04/paho-core-indicators-2026-20260413.zip"
+REQUEST_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (compatible; subsets.io data connector; +https://subsets.io)",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+}
 
 VALUE_COLUMNS = [
     "paho_indicator_id",
@@ -101,12 +106,19 @@ def _latest_zip_url(page_html: str) -> str:
     return match.group(0)
 
 
-def _download_dataframe() -> tuple[pd.DataFrame, object]:
-    page_resp = get(DOWNLOAD_PAGE_URL, timeout=(10.0, 60.0))
+def _resolve_zip_url() -> tuple[str, object | None]:
+    page_resp = get(DOWNLOAD_PAGE_URL, headers=REQUEST_HEADERS, timeout=(10.0, 60.0))
+    if page_resp.status_code == 403:
+        print(f"PAHO download page returned 403; falling back to researched ZIP {FALLBACK_ZIP_URL}")
+        return FALLBACK_ZIP_URL, None
     page_resp.raise_for_status()
-    zip_url = _latest_zip_url(page_resp.text)
+    return _latest_zip_url(page_resp.text), page_resp
 
-    zip_resp = get(zip_url, timeout=(10.0, 180.0))
+
+def _download_dataframe() -> tuple[pd.DataFrame, object | None, object]:
+    zip_url, page_resp = _resolve_zip_url()
+
+    zip_resp = get(zip_url, headers=REQUEST_HEADERS, timeout=(10.0, 180.0))
     zip_resp.raise_for_status()
     with zipfile.ZipFile(io.BytesIO(zip_resp.content)) as zf:
         csv_names = [name for name in zf.namelist() if name.lower().endswith(".csv")]
@@ -118,7 +130,7 @@ def _download_dataframe() -> tuple[pd.DataFrame, object]:
     missing = set(VALUE_COLUMNS) - set(df.columns)
     if missing:
         raise RuntimeError(f"PAHO CSV is missing expected columns: {sorted(missing)}")
-    return df[VALUE_COLUMNS], page_resp
+    return df[VALUE_COLUMNS], page_resp, zip_resp
 
 
 def _coerce_values_table(df: pd.DataFrame) -> pa.Table:
@@ -142,15 +154,25 @@ def _coerce_indicators_table(df: pd.DataFrame) -> pa.Table:
 
 
 def fetch_core_indicator_values(node_id: str) -> None:
-    df, page_resp = _download_dataframe()
+    df, page_resp, zip_resp = _download_dataframe()
     save_raw_parquet(_coerce_values_table(df), node_id)
-    record_source_signature(node_id, DOWNLOAD_PAGE_URL, response=page_resp)
+    if page_resp is not None:
+        record_source_signature(node_id, DOWNLOAD_PAGE_URL, response=page_resp)
+    record_source_signature(node_id, str(zip_resp.url), response=zip_resp)
 
 
 def fetch_core_indicators(node_id: str) -> None:
-    df, page_resp = _download_dataframe()
+    df, page_resp, zip_resp = _download_dataframe()
     save_raw_parquet(_coerce_indicators_table(df), node_id)
-    record_source_signature(node_id, DOWNLOAD_PAGE_URL, response=page_resp)
+    if page_resp is not None:
+        record_source_signature(node_id, DOWNLOAD_PAGE_URL, response=page_resp)
+    record_source_signature(node_id, str(zip_resp.url), response=zip_resp)
+
+
+def _fresh(aid: str) -> bool:
+    return raw_asset_exists(aid, "parquet") and (
+        source_unchanged(aid, DOWNLOAD_PAGE_URL) or source_unchanged(aid, FALLBACK_ZIP_URL)
+    )
 
 
 DOWNLOAD_SPECS = [
@@ -162,11 +184,11 @@ MAINTAIN_SPECS = [
     MaintainSpec(
         asset_id="paho-core-indicator-values",
         description="Core Indicators download page is checked for Last-Modified/ETag; full data updates are cited on the page.",
-        check=lambda aid: source_unchanged(aid, DOWNLOAD_PAGE_URL) and raw_asset_exists(aid, "parquet"),
+        check=_fresh,
     ),
     MaintainSpec(
         asset_id="paho-core-indicators",
         description="Core Indicators download page is checked for Last-Modified/ETag; full data updates are cited on the page.",
-        check=lambda aid: source_unchanged(aid, DOWNLOAD_PAGE_URL) and raw_asset_exists(aid, "parquet"),
+        check=_fresh,
     ),
 ]
