@@ -1,0 +1,14 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `mas-d-6dd6162d59737d67edfb35026dfd58c2`. Regenerate after model-verify.
+key: [data_series_id, period]
+temporal: period
+sort: [period, data_series_id]
+columns:
+  - name: data_series_id
+    type: BIGINT
+  - name: data_series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE
