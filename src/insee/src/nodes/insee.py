@@ -36,7 +36,7 @@ from tenacity import (
     wait_exponential,
 )
 
-from subsets_utils import NodeSpec, get, raw_writer
+from subsets_utils import MaintainSpec, NodeSpec, get, raw_asset_exists, raw_writer
 
 BASE_URL = "https://api.insee.fr/melodi"
 # Melodi serves pretty-printed JSON over chunked transfer with NO Content-Length,
@@ -151,6 +151,19 @@ DOWNLOAD_SPECS = [
         id=f"insee-{eid.lower().replace('_', '-')}",
         fn=fetch_one,
         kind="download",
+    )
+    for eid in ENTITY_IDS
+]
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=f"insee-{eid.lower().replace('_', '-')}",
+        description=(
+            "Weekly refresh cadence for INSEE Melodi datacubes; no per-cube "
+            "incremental or validator signal is exposed by the API "
+            "(inferred from connector maintenance cadence)."
+        ),
+        check=lambda aid: raw_asset_exists(aid, "ndjson.gz", max_age_days=7),
     )
     for eid in ENTITY_IDS
 ]
