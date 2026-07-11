@@ -1,5 +1,8 @@
 spec_id: open-source-asset-pricing-predictor-docs
 status: active
+coverage:
+  frozen: true
+  reason: SignalDoc is a predictor documentation/codebook table; Year is the source paper's publication year, not an observation freshness axis.
 tests:
   - not_null: Acronym
     reason: every documented signal row has an acronym (the join key); nulls mean a parse shift

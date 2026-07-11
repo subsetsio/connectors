@@ -1,172 +1,177 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-power-system-data-weather-data--weather-data`. Regenerate after model-verify.
+# caution: This is a wide weather table; each location and weather-variable column is a separate time series.
+key: []
+temporal: utc_timestamp
+sort: [utc_timestamp]
 columns:
   - name: utc_timestamp
-    type: TIMESTAMPTZ
-  - name: AT_temperature
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: at_temperature
     type: DOUBLE
-  - name: AT_radiation_direct_horizontal
+  - name: at_radiation_direct_horizontal
     type: DOUBLE
-  - name: AT_radiation_diffuse_horizontal
+  - name: at_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: BE_temperature
+  - name: be_temperature
     type: DOUBLE
-  - name: BE_radiation_direct_horizontal
+  - name: be_radiation_direct_horizontal
     type: DOUBLE
-  - name: BE_radiation_diffuse_horizontal
+  - name: be_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: BG_temperature
+  - name: bg_temperature
     type: DOUBLE
-  - name: BG_radiation_direct_horizontal
+  - name: bg_radiation_direct_horizontal
     type: DOUBLE
-  - name: BG_radiation_diffuse_horizontal
+  - name: bg_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: CH_temperature
+  - name: ch_temperature
     type: DOUBLE
-  - name: CH_radiation_direct_horizontal
+  - name: ch_radiation_direct_horizontal
     type: DOUBLE
-  - name: CH_radiation_diffuse_horizontal
+  - name: ch_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: CZ_temperature
+  - name: cz_temperature
     type: DOUBLE
-  - name: CZ_radiation_direct_horizontal
+  - name: cz_radiation_direct_horizontal
     type: DOUBLE
-  - name: CZ_radiation_diffuse_horizontal
+  - name: cz_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: DE_temperature
+  - name: de_temperature
     type: DOUBLE
-  - name: DE_radiation_direct_horizontal
+  - name: de_radiation_direct_horizontal
     type: DOUBLE
-  - name: DE_radiation_diffuse_horizontal
+  - name: de_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: DK_temperature
+  - name: dk_temperature
     type: DOUBLE
-  - name: DK_radiation_direct_horizontal
+  - name: dk_radiation_direct_horizontal
     type: DOUBLE
-  - name: DK_radiation_diffuse_horizontal
+  - name: dk_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: EE_temperature
+  - name: ee_temperature
     type: DOUBLE
-  - name: EE_radiation_direct_horizontal
+  - name: ee_radiation_direct_horizontal
     type: DOUBLE
-  - name: EE_radiation_diffuse_horizontal
+  - name: ee_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: ES_temperature
+  - name: es_temperature
     type: DOUBLE
-  - name: ES_radiation_direct_horizontal
+  - name: es_radiation_direct_horizontal
     type: DOUBLE
-  - name: ES_radiation_diffuse_horizontal
+  - name: es_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: FI_temperature
+  - name: fi_temperature
     type: DOUBLE
-  - name: FI_radiation_direct_horizontal
+  - name: fi_radiation_direct_horizontal
     type: DOUBLE
-  - name: FI_radiation_diffuse_horizontal
+  - name: fi_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: FR_temperature
+  - name: fr_temperature
     type: DOUBLE
-  - name: FR_radiation_direct_horizontal
+  - name: fr_radiation_direct_horizontal
     type: DOUBLE
-  - name: FR_radiation_diffuse_horizontal
+  - name: fr_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: GB_temperature
+  - name: gb_temperature
     type: DOUBLE
-  - name: GB_radiation_direct_horizontal
+  - name: gb_radiation_direct_horizontal
     type: DOUBLE
-  - name: GB_radiation_diffuse_horizontal
+  - name: gb_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: GR_temperature
+  - name: gr_temperature
     type: DOUBLE
-  - name: GR_radiation_direct_horizontal
+  - name: gr_radiation_direct_horizontal
     type: DOUBLE
-  - name: GR_radiation_diffuse_horizontal
+  - name: gr_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: HR_temperature
+  - name: hr_temperature
     type: DOUBLE
-  - name: HR_radiation_direct_horizontal
+  - name: hr_radiation_direct_horizontal
     type: DOUBLE
-  - name: HR_radiation_diffuse_horizontal
+  - name: hr_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: HU_temperature
+  - name: hu_temperature
     type: DOUBLE
-  - name: HU_radiation_direct_horizontal
+  - name: hu_radiation_direct_horizontal
     type: DOUBLE
-  - name: HU_radiation_diffuse_horizontal
+  - name: hu_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: IE_temperature
+  - name: ie_temperature
     type: DOUBLE
-  - name: IE_radiation_direct_horizontal
+  - name: ie_radiation_direct_horizontal
     type: DOUBLE
-  - name: IE_radiation_diffuse_horizontal
+  - name: ie_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: IT_temperature
+  - name: it_temperature
     type: DOUBLE
-  - name: IT_radiation_direct_horizontal
+  - name: it_radiation_direct_horizontal
     type: DOUBLE
-  - name: IT_radiation_diffuse_horizontal
+  - name: it_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: LT_temperature
+  - name: lt_temperature
     type: DOUBLE
-  - name: LT_radiation_direct_horizontal
+  - name: lt_radiation_direct_horizontal
     type: DOUBLE
-  - name: LT_radiation_diffuse_horizontal
+  - name: lt_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: LU_temperature
+  - name: lu_temperature
     type: DOUBLE
-  - name: LU_radiation_direct_horizontal
+  - name: lu_radiation_direct_horizontal
     type: DOUBLE
-  - name: LU_radiation_diffuse_horizontal
+  - name: lu_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: LV_temperature
+  - name: lv_temperature
     type: DOUBLE
-  - name: LV_radiation_direct_horizontal
+  - name: lv_radiation_direct_horizontal
     type: DOUBLE
-  - name: LV_radiation_diffuse_horizontal
+  - name: lv_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: NL_temperature
+  - name: nl_temperature
     type: DOUBLE
-  - name: NL_radiation_direct_horizontal
+  - name: nl_radiation_direct_horizontal
     type: DOUBLE
-  - name: NL_radiation_diffuse_horizontal
+  - name: nl_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: NO_temperature
+  - name: no_temperature
     type: DOUBLE
-  - name: NO_radiation_direct_horizontal
+  - name: no_radiation_direct_horizontal
     type: DOUBLE
-  - name: NO_radiation_diffuse_horizontal
+  - name: no_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: PL_temperature
+  - name: pl_temperature
     type: DOUBLE
-  - name: PL_radiation_direct_horizontal
+  - name: pl_radiation_direct_horizontal
     type: DOUBLE
-  - name: PL_radiation_diffuse_horizontal
+  - name: pl_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: PT_temperature
+  - name: pt_temperature
     type: DOUBLE
-  - name: PT_radiation_direct_horizontal
+  - name: pt_radiation_direct_horizontal
     type: DOUBLE
-  - name: PT_radiation_diffuse_horizontal
+  - name: pt_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: RO_temperature
+  - name: ro_temperature
     type: DOUBLE
-  - name: RO_radiation_direct_horizontal
+  - name: ro_radiation_direct_horizontal
     type: DOUBLE
-  - name: RO_radiation_diffuse_horizontal
+  - name: ro_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: SE_temperature
+  - name: se_temperature
     type: DOUBLE
-  - name: SE_radiation_direct_horizontal
+  - name: se_radiation_direct_horizontal
     type: DOUBLE
-  - name: SE_radiation_diffuse_horizontal
+  - name: se_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: SI_temperature
+  - name: si_temperature
     type: DOUBLE
-  - name: SI_radiation_direct_horizontal
+  - name: si_radiation_direct_horizontal
     type: DOUBLE
-  - name: SI_radiation_diffuse_horizontal
+  - name: si_radiation_diffuse_horizontal
     type: DOUBLE
-  - name: SK_temperature
+  - name: sk_temperature
     type: DOUBLE
-  - name: SK_radiation_direct_horizontal
+  - name: sk_radiation_direct_horizontal
     type: DOUBLE
-  - name: SK_radiation_diffuse_horizontal
+  - name: sk_radiation_diffuse_horizontal
     type: DOUBLE

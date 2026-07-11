@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-power-system-data-renewable-power-plants--renewable-power-plants-fr`. Regenerate after model-verify.
+# caution: The French renewable plant inventory does not expose a stable non-null identifier for every row; department fields are denormalized into each plant row.
+key: []
+temporal: connection_date
+sort: [connection_date]
 columns:
   - name: electrical_capacity
     type: DOUBLE
@@ -48,9 +53,9 @@ columns:
     type: VARCHAR
   - name: site_name
     type: VARCHAR
-  - name: IRIS_code
+  - name: iris_code
     type: BIGINT
-  - name: EIC_code
+  - name: eic_code
     type: VARCHAR
   - name: as_of_year
     type: BIGINT

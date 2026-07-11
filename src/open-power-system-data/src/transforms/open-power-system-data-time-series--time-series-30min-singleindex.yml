@@ -1,84 +1,89 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-power-system-data-time-series--time-series-30min-singleindex`. Regenerate after model-verify.
+# caution: This is a wide power-system time-series table; each country, bidding-zone, technology, and measure column is a separate series at thirty minute resolution.
+key: []
+temporal: utc_timestamp
+sort: [utc_timestamp]
 columns:
   - name: utc_timestamp
-    type: TIMESTAMPTZ
+    type: "TIMESTAMP WITH TIME ZONE"
   - name: cet_cest_timestamp
-    type: TIMESTAMPTZ
-  - name: CY_load_actual_entsoe_transparency
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: cy_load_actual_entsoe_transparency
     type: DOUBLE
-  - name: CY_load_forecast_entsoe_transparency
+  - name: cy_load_forecast_entsoe_transparency
     type: DOUBLE
-  - name: CY_wind_onshore_generation_actual
+  - name: cy_wind_onshore_generation_actual
     type: DOUBLE
-  - name: GB_GBN_load_actual_entsoe_transparency
+  - name: gb_gbn_load_actual_entsoe_transparency
     type: DOUBLE
-  - name: GB_GBN_load_forecast_entsoe_transparency
+  - name: gb_gbn_load_forecast_entsoe_transparency
     type: DOUBLE
-  - name: GB_GBN_solar_capacity
+  - name: gb_gbn_solar_capacity
     type: DOUBLE
-  - name: GB_GBN_solar_generation_actual
+  - name: gb_gbn_solar_generation_actual
     type: DOUBLE
-  - name: GB_GBN_solar_profile
+  - name: gb_gbn_solar_profile
     type: DOUBLE
-  - name: GB_GBN_wind_capacity
+  - name: gb_gbn_wind_capacity
     type: DOUBLE
-  - name: GB_GBN_wind_generation_actual
+  - name: gb_gbn_wind_generation_actual
     type: DOUBLE
-  - name: GB_GBN_wind_profile
+  - name: gb_gbn_wind_profile
     type: DOUBLE
-  - name: GB_GBN_wind_offshore_capacity
+  - name: gb_gbn_wind_offshore_capacity
     type: DOUBLE
-  - name: GB_GBN_wind_offshore_generation_actual
+  - name: gb_gbn_wind_offshore_generation_actual
     type: DOUBLE
-  - name: GB_GBN_wind_offshore_profile
+  - name: gb_gbn_wind_offshore_profile
     type: DOUBLE
-  - name: GB_GBN_wind_onshore_capacity
+  - name: gb_gbn_wind_onshore_capacity
     type: DOUBLE
-  - name: GB_GBN_wind_onshore_generation_actual
+  - name: gb_gbn_wind_onshore_generation_actual
     type: DOUBLE
-  - name: GB_GBN_wind_onshore_profile
+  - name: gb_gbn_wind_onshore_profile
     type: DOUBLE
-  - name: GB_NIR_load_actual_entsoe_transparency
+  - name: gb_nir_load_actual_entsoe_transparency
     type: DOUBLE
-  - name: GB_NIR_load_forecast_entsoe_transparency
+  - name: gb_nir_load_forecast_entsoe_transparency
     type: DOUBLE
-  - name: GB_NIR_solar_capacity
+  - name: gb_nir_solar_capacity
     type: DOUBLE
-  - name: GB_NIR_wind_onshore_capacity
+  - name: gb_nir_wind_onshore_capacity
     type: DOUBLE
-  - name: GB_NIR_wind_onshore_generation_actual
+  - name: gb_nir_wind_onshore_generation_actual
     type: DOUBLE
-  - name: GB_UKM_load_actual_entsoe_transparency
+  - name: gb_ukm_load_actual_entsoe_transparency
     type: DOUBLE
-  - name: GB_UKM_load_forecast_entsoe_transparency
+  - name: gb_ukm_load_forecast_entsoe_transparency
     type: DOUBLE
-  - name: GB_UKM_solar_capacity
+  - name: gb_ukm_solar_capacity
     type: DOUBLE
-  - name: GB_UKM_solar_generation_actual
+  - name: gb_ukm_solar_generation_actual
     type: DOUBLE
-  - name: GB_UKM_wind_capacity
+  - name: gb_ukm_wind_capacity
     type: DOUBLE
-  - name: GB_UKM_wind_generation_actual
+  - name: gb_ukm_wind_generation_actual
     type: DOUBLE
-  - name: GB_UKM_wind_offshore_capacity
+  - name: gb_ukm_wind_offshore_capacity
     type: DOUBLE
-  - name: GB_UKM_wind_offshore_generation_actual
+  - name: gb_ukm_wind_offshore_generation_actual
     type: DOUBLE
-  - name: GB_UKM_wind_onshore_capacity
+  - name: gb_ukm_wind_onshore_capacity
     type: DOUBLE
-  - name: GB_UKM_wind_onshore_generation_actual
+  - name: gb_ukm_wind_onshore_generation_actual
     type: DOUBLE
-  - name: IE_load_actual_entsoe_transparency
+  - name: ie_load_actual_entsoe_transparency
     type: DOUBLE
-  - name: IE_load_forecast_entsoe_transparency
+  - name: ie_load_forecast_entsoe_transparency
     type: DOUBLE
-  - name: IE_wind_onshore_generation_actual
+  - name: ie_wind_onshore_generation_actual
     type: DOUBLE
-  - name: IE_sem_load_actual_entsoe_transparency
+  - name: ie_sem_load_actual_entsoe_transparency
     type: DOUBLE
-  - name: IE_sem_load_forecast_entsoe_transparency
+  - name: ie_sem_load_forecast_entsoe_transparency
     type: DOUBLE
-  - name: IE_sem_price_day_ahead
+  - name: ie_sem_price_day_ahead
     type: DOUBLE
-  - name: IE_sem_wind_onshore_generation_actual
+  - name: ie_sem_wind_onshore_generation_actual
     type: DOUBLE

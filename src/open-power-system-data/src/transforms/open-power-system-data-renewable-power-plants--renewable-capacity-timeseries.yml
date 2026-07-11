@@ -1,82 +1,87 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-power-system-data-renewable-power-plants--renewable-capacity-timeseries`. Regenerate after model-verify.
+# caution: This is a wide cumulative capacity time series; each country and technology capacity column is a separate series.
+key: [day]
+temporal: day
+sort: [day]
 columns:
   - name: day
     type: DATE
-  - name: CH_bioenergy_capacity
+  - name: ch_bioenergy_capacity
     type: DOUBLE
-  - name: CH_solar_capacity
+  - name: ch_solar_capacity
     type: DOUBLE
-  - name: CH_wind_onshore_capacity
+  - name: ch_wind_onshore_capacity
     type: DOUBLE
-  - name: DE_bioenergy_capacity
+  - name: de_bioenergy_capacity
     type: DOUBLE
-  - name: DE_geothermal_capacity
+  - name: de_geothermal_capacity
     type: DOUBLE
-  - name: DE_solar_capacity
+  - name: de_solar_capacity
     type: DOUBLE
-  - name: DE_wind_capacity
+  - name: de_wind_capacity
     type: DOUBLE
-  - name: DE_wind_offshore_capacity
+  - name: de_wind_offshore_capacity
     type: DOUBLE
-  - name: DE_wind_onshore_capacity
+  - name: de_wind_onshore_capacity
     type: DOUBLE
-  - name: DK_solar_capacity
+  - name: dk_solar_capacity
     type: DOUBLE
-  - name: DK_wind_capacity
+  - name: dk_wind_capacity
     type: DOUBLE
-  - name: DK_wind_offshore_capacity
+  - name: dk_wind_offshore_capacity
     type: DOUBLE
-  - name: DK_wind_onshore_capacity
+  - name: dk_wind_onshore_capacity
     type: DOUBLE
-  - name: FR_bioenergy_capacity
+  - name: fr_bioenergy_capacity
     type: DOUBLE
-  - name: FR_geothermal_capacity
+  - name: fr_geothermal_capacity
     type: DOUBLE
-  - name: FR_hydro_capacity
+  - name: fr_hydro_capacity
     type: DOUBLE
-  - name: FR_marine_capacity
+  - name: fr_marine_capacity
     type: DOUBLE
-  - name: FR_solar_capacity
+  - name: fr_solar_capacity
     type: DOUBLE
-  - name: FR_wind_onshore_capacity
+  - name: fr_wind_onshore_capacity
     type: DOUBLE
-  - name: GB-GBN_bioenergy_capacity
+  - name: gb_gbn_bioenergy_capacity
     type: DOUBLE
-  - name: GB-GBN_hydro_capacity
+  - name: gb_gbn_hydro_capacity
     type: DOUBLE
-  - name: GB-GBN_marine_capacity
+  - name: gb_gbn_marine_capacity
     type: DOUBLE
-  - name: GB-GBN_solar_capacity
+  - name: gb_gbn_solar_capacity
     type: DOUBLE
-  - name: GB-GBN_wind_capacity
+  - name: gb_gbn_wind_capacity
     type: DOUBLE
-  - name: GB-GBN_wind_offshore_capacity
+  - name: gb_gbn_wind_offshore_capacity
     type: DOUBLE
-  - name: GB-GBN_wind_onshore_capacity
+  - name: gb_gbn_wind_onshore_capacity
     type: DOUBLE
-  - name: GB-NIR_bioenergy_capacity
+  - name: gb_nir_bioenergy_capacity
     type: DOUBLE
-  - name: GB-NIR_solar_capacity
+  - name: gb_nir_solar_capacity
     type: DOUBLE
-  - name: GB-NIR_wind_onshore_capacity
+  - name: gb_nir_wind_onshore_capacity
     type: DOUBLE
-  - name: GB-UKM_bioenergy_capacity
+  - name: gb_ukm_bioenergy_capacity
     type: DOUBLE
-  - name: GB-UKM_hydro_capacity
+  - name: gb_ukm_hydro_capacity
     type: DOUBLE
-  - name: GB-UKM_marine_capacity
+  - name: gb_ukm_marine_capacity
     type: DOUBLE
-  - name: GB-UKM_solar_capacity
+  - name: gb_ukm_solar_capacity
     type: DOUBLE
-  - name: GB-UKM_wind_capacity
+  - name: gb_ukm_wind_capacity
     type: DOUBLE
-  - name: GB-UKM_wind_offshore_capacity
+  - name: gb_ukm_wind_offshore_capacity
     type: DOUBLE
-  - name: GB-UKM_wind_onshore_capacity
+  - name: gb_ukm_wind_onshore_capacity
     type: DOUBLE
-  - name: SE_wind_capacity
+  - name: se_wind_capacity
     type: DOUBLE
-  - name: SE_wind_offshore_capacity
+  - name: se_wind_offshore_capacity
     type: DOUBLE
-  - name: SE_wind_onshore_capacity
+  - name: se_wind_onshore_capacity
     type: DOUBLE

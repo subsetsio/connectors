@@ -1,5 +1,8 @@
 spec_id: open-power-system-data-household-data--household-data-15min-singleindex
 status: active
+coverage:
+  frozen: true
+  reason: OPSD household_data latest points to the 2020-04-15 snapshot; the archive does not advance on a regular cadence
 tests:
   - row_count: {min: 1000}
     reason: full-snapshot table; far fewer rows means a truncated or empty download

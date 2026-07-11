@@ -1,5 +1,8 @@
 spec_id: open-power-system-data-renewable-power-plants--renewable-power-plants-se
 status: active
+coverage:
+  frozen: true
+  reason: OPSD renewable_power_plants latest points to the 2020-08-25 snapshot; the archive is a historical plant registry release, not a live feed
 tests:
   - row_count: {min: 20}
     reason: full-snapshot table; far fewer rows means a truncated or empty download

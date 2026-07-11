@@ -1,0 +1,55 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-power-system-data-renewable-power-plants--res-plants-separated-de-outvalidated-plants`. Regenerate after model-verify.
+# caution: This is an outvalidated subset of German renewable plant records and does not expose a stable non-null identifier for every row.
+key: []
+temporal: commissioning_date
+sort: [commissioning_date]
+columns:
+  - name: electrical_capacity
+    type: DOUBLE
+  - name: energy_source_level_1
+    type: VARCHAR
+  - name: energy_source_level_2
+    type: VARCHAR
+  - name: energy_source_level_3
+    type: VARCHAR
+  - name: technology
+    type: VARCHAR
+  - name: data_source
+    type: VARCHAR
+  - name: nuts_1_region
+    type: VARCHAR
+  - name: nuts_2_region
+    type: VARCHAR
+  - name: nuts_3_region
+    type: VARCHAR
+  - name: lon
+    type: DOUBLE
+  - name: lat
+    type: DOUBLE
+  - name: municipality
+    type: VARCHAR
+  - name: municipality_code
+    type: BIGINT
+  - name: postcode
+    type: DOUBLE
+  - name: address
+    type: VARCHAR
+  - name: federal_state
+    type: VARCHAR
+  - name: commissioning_date
+    type: DATE
+  - name: decommissioning_date
+    type: DATE
+  - name: voltage_level
+    type: VARCHAR
+  - name: eeg_id
+    type: VARCHAR
+  - name: dso
+    type: VARCHAR
+  - name: dso_id
+    type: DOUBLE
+  - name: tso
+    type: VARCHAR
+  - name: comment
+    type: VARCHAR

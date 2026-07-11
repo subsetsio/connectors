@@ -1,1 +1,45 @@
-SELECT * FROM "open-power-system-data-conventional-power-plants--conventional-power-plants-de"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: This is a German conventional plant inventory with duplicate source IDs; treat rows as source inventory records and avoid summing capacities across capacity columns as if they were alternate observations of one measure.
+SELECT
+    "id",
+    "name_bnetza",
+    "block_bnetza",
+    "name_uba",
+    "company",
+    "street",
+    "postcode",
+    "city",
+    "state",
+    "country",
+    "capacity_net_bnetza",
+    "capacity_gross_uba",
+    "energy_source",
+    "technology",
+    "chp",
+    "chp_capacity_uba",
+    "commissioned",
+    "commissioned_original",
+    "retrofit",
+    "shutdown",
+    "status",
+    "type",
+    "lat",
+    "lon",
+    "eic_code_plant",
+    "eic_code_block",
+    "efficiency_data",
+    "efficiency_source",
+    "efficiency_estimate",
+    "energy_source_level_1",
+    "energy_source_level_2",
+    "energy_source_level_3",
+    "eeg",
+    "network_node",
+    "voltage",
+    "network_operator",
+    "merge_comment",
+    "comment"
+FROM "open-power-system-data-conventional-power-plants--conventional-power-plants-de"

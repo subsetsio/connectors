@@ -1,5 +1,8 @@
 spec_id: open-power-system-data-weather-data--weather-data
 status: active
+coverage:
+  frozen: true
+  reason: OPSD weather_data latest points to the 2020-09-16 snapshot; the archive is a historical release, not a live feed
 tests:
   - row_count: {min: 1000}
     reason: full-snapshot table; far fewer rows means a truncated or empty download

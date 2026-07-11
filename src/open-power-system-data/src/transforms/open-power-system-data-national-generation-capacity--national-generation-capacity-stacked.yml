@@ -1,6 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-power-system-data-national-generation-capacity--national-generation-capacity-stacked`. Regenerate after model-verify.
+# caution: The table is stacked by country, technology, source, and year; filter those dimensions before aggregating capacity.
+key: [id, country, technology, source, year]
+temporal: year
+sort: [year, id, country, technology, source]
 columns:
-  - name: ID
+  - name: id
     type: BIGINT
   - name: technology
     type: VARCHAR

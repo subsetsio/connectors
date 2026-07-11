@@ -1,1 +1,48 @@
-SELECT * FROM "open-power-system-data-time-series--time-series-30min-singleindex"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: This is a wide power-system time-series table; each country, bidding-zone, technology, and measure column is a separate series at thirty minute resolution.
+SELECT
+    "utc_timestamp",
+    "cet_cest_timestamp",
+    "CY_load_actual_entsoe_transparency" AS cy_load_actual_entsoe_transparency,
+    "CY_load_forecast_entsoe_transparency" AS cy_load_forecast_entsoe_transparency,
+    "CY_wind_onshore_generation_actual" AS cy_wind_onshore_generation_actual,
+    "GB_GBN_load_actual_entsoe_transparency" AS gb_gbn_load_actual_entsoe_transparency,
+    "GB_GBN_load_forecast_entsoe_transparency" AS gb_gbn_load_forecast_entsoe_transparency,
+    "GB_GBN_solar_capacity" AS gb_gbn_solar_capacity,
+    "GB_GBN_solar_generation_actual" AS gb_gbn_solar_generation_actual,
+    "GB_GBN_solar_profile" AS gb_gbn_solar_profile,
+    "GB_GBN_wind_capacity" AS gb_gbn_wind_capacity,
+    "GB_GBN_wind_generation_actual" AS gb_gbn_wind_generation_actual,
+    "GB_GBN_wind_profile" AS gb_gbn_wind_profile,
+    "GB_GBN_wind_offshore_capacity" AS gb_gbn_wind_offshore_capacity,
+    "GB_GBN_wind_offshore_generation_actual" AS gb_gbn_wind_offshore_generation_actual,
+    "GB_GBN_wind_offshore_profile" AS gb_gbn_wind_offshore_profile,
+    "GB_GBN_wind_onshore_capacity" AS gb_gbn_wind_onshore_capacity,
+    "GB_GBN_wind_onshore_generation_actual" AS gb_gbn_wind_onshore_generation_actual,
+    "GB_GBN_wind_onshore_profile" AS gb_gbn_wind_onshore_profile,
+    "GB_NIR_load_actual_entsoe_transparency" AS gb_nir_load_actual_entsoe_transparency,
+    "GB_NIR_load_forecast_entsoe_transparency" AS gb_nir_load_forecast_entsoe_transparency,
+    "GB_NIR_solar_capacity" AS gb_nir_solar_capacity,
+    "GB_NIR_wind_onshore_capacity" AS gb_nir_wind_onshore_capacity,
+    "GB_NIR_wind_onshore_generation_actual" AS gb_nir_wind_onshore_generation_actual,
+    "GB_UKM_load_actual_entsoe_transparency" AS gb_ukm_load_actual_entsoe_transparency,
+    "GB_UKM_load_forecast_entsoe_transparency" AS gb_ukm_load_forecast_entsoe_transparency,
+    "GB_UKM_solar_capacity" AS gb_ukm_solar_capacity,
+    "GB_UKM_solar_generation_actual" AS gb_ukm_solar_generation_actual,
+    "GB_UKM_wind_capacity" AS gb_ukm_wind_capacity,
+    "GB_UKM_wind_generation_actual" AS gb_ukm_wind_generation_actual,
+    "GB_UKM_wind_offshore_capacity" AS gb_ukm_wind_offshore_capacity,
+    "GB_UKM_wind_offshore_generation_actual" AS gb_ukm_wind_offshore_generation_actual,
+    "GB_UKM_wind_onshore_capacity" AS gb_ukm_wind_onshore_capacity,
+    "GB_UKM_wind_onshore_generation_actual" AS gb_ukm_wind_onshore_generation_actual,
+    "IE_load_actual_entsoe_transparency" AS ie_load_actual_entsoe_transparency,
+    "IE_load_forecast_entsoe_transparency" AS ie_load_forecast_entsoe_transparency,
+    "IE_wind_onshore_generation_actual" AS ie_wind_onshore_generation_actual,
+    "IE_sem_load_actual_entsoe_transparency" AS ie_sem_load_actual_entsoe_transparency,
+    "IE_sem_load_forecast_entsoe_transparency" AS ie_sem_load_forecast_entsoe_transparency,
+    "IE_sem_price_day_ahead" AS ie_sem_price_day_ahead,
+    "IE_sem_wind_onshore_generation_actual" AS ie_sem_wind_onshore_generation_actual
+FROM "open-power-system-data-time-series--time-series-30min-singleindex"

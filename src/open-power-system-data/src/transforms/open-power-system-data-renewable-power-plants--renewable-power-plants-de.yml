@@ -1,4 +1,9 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-power-system-data-renewable-power-plants--renewable-power-plants-de`. Regenerate after model-verify.
+# caution: The German renewable plant inventory has many records without EEG identifiers; treat rows as source inventory records rather than a globally keyed plant dimension.
+key: []
+temporal: commissioning_date
+sort: [commissioning_date]
 columns:
   - name: electrical_capacity
     type: DOUBLE

@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-power-system-data-renewable-power-plants--renewable-power-plants-pl`. Regenerate after model-verify.
+# caution: This national renewable plant inventory is keyed by the source URE identifier.
+key: [ure_id]
+sort: [ure_id]
 columns:
   - name: electrical_capacity
     type: DOUBLE
@@ -22,7 +26,7 @@ columns:
     type: VARCHAR
   - name: district
     type: VARCHAR
-  - name: URE_id
+  - name: ure_id
     type: BIGINT
   - name: as_of_year
     type: BIGINT

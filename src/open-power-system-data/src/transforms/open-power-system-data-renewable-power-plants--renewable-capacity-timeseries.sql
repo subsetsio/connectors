@@ -1,1 +1,47 @@
-SELECT * FROM "open-power-system-data-renewable-power-plants--renewable-capacity-timeseries"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: This is a wide cumulative capacity time series; each country and technology capacity column is a separate series.
+SELECT
+    "day",
+    "CH_bioenergy_capacity" AS ch_bioenergy_capacity,
+    "CH_solar_capacity" AS ch_solar_capacity,
+    "CH_wind_onshore_capacity" AS ch_wind_onshore_capacity,
+    "DE_bioenergy_capacity" AS de_bioenergy_capacity,
+    "DE_geothermal_capacity" AS de_geothermal_capacity,
+    "DE_solar_capacity" AS de_solar_capacity,
+    "DE_wind_capacity" AS de_wind_capacity,
+    "DE_wind_offshore_capacity" AS de_wind_offshore_capacity,
+    "DE_wind_onshore_capacity" AS de_wind_onshore_capacity,
+    "DK_solar_capacity" AS dk_solar_capacity,
+    "DK_wind_capacity" AS dk_wind_capacity,
+    "DK_wind_offshore_capacity" AS dk_wind_offshore_capacity,
+    "DK_wind_onshore_capacity" AS dk_wind_onshore_capacity,
+    "FR_bioenergy_capacity" AS fr_bioenergy_capacity,
+    "FR_geothermal_capacity" AS fr_geothermal_capacity,
+    "FR_hydro_capacity" AS fr_hydro_capacity,
+    "FR_marine_capacity" AS fr_marine_capacity,
+    "FR_solar_capacity" AS fr_solar_capacity,
+    "FR_wind_onshore_capacity" AS fr_wind_onshore_capacity,
+    "GB-GBN_bioenergy_capacity" AS gb_gbn_bioenergy_capacity,
+    "GB-GBN_hydro_capacity" AS gb_gbn_hydro_capacity,
+    "GB-GBN_marine_capacity" AS gb_gbn_marine_capacity,
+    "GB-GBN_solar_capacity" AS gb_gbn_solar_capacity,
+    "GB-GBN_wind_capacity" AS gb_gbn_wind_capacity,
+    "GB-GBN_wind_offshore_capacity" AS gb_gbn_wind_offshore_capacity,
+    "GB-GBN_wind_onshore_capacity" AS gb_gbn_wind_onshore_capacity,
+    "GB-NIR_bioenergy_capacity" AS gb_nir_bioenergy_capacity,
+    "GB-NIR_solar_capacity" AS gb_nir_solar_capacity,
+    "GB-NIR_wind_onshore_capacity" AS gb_nir_wind_onshore_capacity,
+    "GB-UKM_bioenergy_capacity" AS gb_ukm_bioenergy_capacity,
+    "GB-UKM_hydro_capacity" AS gb_ukm_hydro_capacity,
+    "GB-UKM_marine_capacity" AS gb_ukm_marine_capacity,
+    "GB-UKM_solar_capacity" AS gb_ukm_solar_capacity,
+    "GB-UKM_wind_capacity" AS gb_ukm_wind_capacity,
+    "GB-UKM_wind_offshore_capacity" AS gb_ukm_wind_offshore_capacity,
+    "GB-UKM_wind_onshore_capacity" AS gb_ukm_wind_onshore_capacity,
+    "SE_wind_capacity" AS se_wind_capacity,
+    "SE_wind_offshore_capacity" AS se_wind_offshore_capacity,
+    "SE_wind_onshore_capacity" AS se_wind_onshore_capacity
+FROM "open-power-system-data-renewable-power-plants--renewable-capacity-timeseries"

@@ -1,144 +1,149 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-power-system-data-household-data--household-data-15min-singleindex`. Regenerate after model-verify.
+# caution: This is a wide meter-reading table: each value column is a distinct meter or site series at fifteen minute resolution.
+key: [utc_timestamp, cet_cest_timestamp]
+temporal: utc_timestamp
+sort: [utc_timestamp, cet_cest_timestamp]
 columns:
   - name: utc_timestamp
-    type: TIMESTAMPTZ
+    type: "TIMESTAMP WITH TIME ZONE"
   - name: cet_cest_timestamp
-    type: TIMESTAMPTZ
-  - name: DE_KN_industrial1_grid_import
+    type: "TIMESTAMP WITH TIME ZONE"
+  - name: de_kn_industrial1_grid_import
     type: DOUBLE
-  - name: DE_KN_industrial1_pv_1
+  - name: de_kn_industrial1_pv_1
     type: DOUBLE
-  - name: DE_KN_industrial1_pv_2
+  - name: de_kn_industrial1_pv_2
     type: DOUBLE
-  - name: DE_KN_industrial2_grid_import
+  - name: de_kn_industrial2_grid_import
     type: DOUBLE
-  - name: DE_KN_industrial2_pv
+  - name: de_kn_industrial2_pv
     type: DOUBLE
-  - name: DE_KN_industrial2_storage_charge
+  - name: de_kn_industrial2_storage_charge
     type: DOUBLE
-  - name: DE_KN_industrial2_storage_decharge
+  - name: de_kn_industrial2_storage_decharge
     type: DOUBLE
-  - name: DE_KN_industrial3_area_offices
+  - name: de_kn_industrial3_area_offices
     type: DOUBLE
-  - name: DE_KN_industrial3_area_room_1
+  - name: de_kn_industrial3_area_room_1
     type: DOUBLE
-  - name: DE_KN_industrial3_area_room_2
+  - name: de_kn_industrial3_area_room_2
     type: DOUBLE
-  - name: DE_KN_industrial3_area_room_3
+  - name: de_kn_industrial3_area_room_3
     type: DOUBLE
-  - name: DE_KN_industrial3_area_room_4
+  - name: de_kn_industrial3_area_room_4
     type: DOUBLE
-  - name: DE_KN_industrial3_compressor
+  - name: de_kn_industrial3_compressor
     type: DOUBLE
-  - name: DE_KN_industrial3_cooling_aggregate
+  - name: de_kn_industrial3_cooling_aggregate
     type: DOUBLE
-  - name: DE_KN_industrial3_cooling_pumps
+  - name: de_kn_industrial3_cooling_pumps
     type: DOUBLE
-  - name: DE_KN_industrial3_dishwasher
+  - name: de_kn_industrial3_dishwasher
     type: DOUBLE
-  - name: DE_KN_industrial3_ev
+  - name: de_kn_industrial3_ev
     type: DOUBLE
-  - name: DE_KN_industrial3_grid_import
+  - name: de_kn_industrial3_grid_import
     type: DOUBLE
-  - name: DE_KN_industrial3_machine_1
+  - name: de_kn_industrial3_machine_1
     type: DOUBLE
-  - name: DE_KN_industrial3_machine_2
+  - name: de_kn_industrial3_machine_2
     type: DOUBLE
-  - name: DE_KN_industrial3_machine_3
+  - name: de_kn_industrial3_machine_3
     type: DOUBLE
-  - name: DE_KN_industrial3_machine_4
+  - name: de_kn_industrial3_machine_4
     type: DOUBLE
-  - name: DE_KN_industrial3_machine_5
+  - name: de_kn_industrial3_machine_5
     type: DOUBLE
-  - name: DE_KN_industrial3_pv_facade
+  - name: de_kn_industrial3_pv_facade
     type: DOUBLE
-  - name: DE_KN_industrial3_pv_roof
+  - name: de_kn_industrial3_pv_roof
     type: DOUBLE
-  - name: DE_KN_industrial3_refrigerator
+  - name: de_kn_industrial3_refrigerator
     type: DOUBLE
-  - name: DE_KN_industrial3_ventilation
+  - name: de_kn_industrial3_ventilation
     type: DOUBLE
-  - name: DE_KN_public1_grid_import
+  - name: de_kn_public1_grid_import
     type: DOUBLE
-  - name: DE_KN_public2_grid_import
+  - name: de_kn_public2_grid_import
     type: DOUBLE
-  - name: DE_KN_residential1_dishwasher
+  - name: de_kn_residential1_dishwasher
     type: DOUBLE
-  - name: DE_KN_residential1_freezer
+  - name: de_kn_residential1_freezer
     type: DOUBLE
-  - name: DE_KN_residential1_grid_import
+  - name: de_kn_residential1_grid_import
     type: DOUBLE
-  - name: DE_KN_residential1_heat_pump
+  - name: de_kn_residential1_heat_pump
     type: DOUBLE
-  - name: DE_KN_residential1_pv
+  - name: de_kn_residential1_pv
     type: DOUBLE
-  - name: DE_KN_residential1_washing_machine
+  - name: de_kn_residential1_washing_machine
     type: DOUBLE
-  - name: DE_KN_residential2_circulation_pump
+  - name: de_kn_residential2_circulation_pump
     type: DOUBLE
-  - name: DE_KN_residential2_dishwasher
+  - name: de_kn_residential2_dishwasher
     type: DOUBLE
-  - name: DE_KN_residential2_freezer
+  - name: de_kn_residential2_freezer
     type: DOUBLE
-  - name: DE_KN_residential2_grid_import
+  - name: de_kn_residential2_grid_import
     type: DOUBLE
-  - name: DE_KN_residential2_washing_machine
+  - name: de_kn_residential2_washing_machine
     type: DOUBLE
-  - name: DE_KN_residential3_circulation_pump
+  - name: de_kn_residential3_circulation_pump
     type: DOUBLE
-  - name: DE_KN_residential3_dishwasher
+  - name: de_kn_residential3_dishwasher
     type: DOUBLE
-  - name: DE_KN_residential3_freezer
+  - name: de_kn_residential3_freezer
     type: DOUBLE
-  - name: DE_KN_residential3_grid_export
+  - name: de_kn_residential3_grid_export
     type: DOUBLE
-  - name: DE_KN_residential3_grid_import
+  - name: de_kn_residential3_grid_import
     type: DOUBLE
-  - name: DE_KN_residential3_pv
+  - name: de_kn_residential3_pv
     type: DOUBLE
-  - name: DE_KN_residential3_refrigerator
+  - name: de_kn_residential3_refrigerator
     type: DOUBLE
-  - name: DE_KN_residential3_washing_machine
+  - name: de_kn_residential3_washing_machine
     type: DOUBLE
-  - name: DE_KN_residential4_dishwasher
+  - name: de_kn_residential4_dishwasher
     type: DOUBLE
-  - name: DE_KN_residential4_ev
+  - name: de_kn_residential4_ev
     type: DOUBLE
-  - name: DE_KN_residential4_freezer
+  - name: de_kn_residential4_freezer
     type: DOUBLE
-  - name: DE_KN_residential4_grid_export
+  - name: de_kn_residential4_grid_export
     type: DOUBLE
-  - name: DE_KN_residential4_grid_import
+  - name: de_kn_residential4_grid_import
     type: DOUBLE
-  - name: DE_KN_residential4_heat_pump
+  - name: de_kn_residential4_heat_pump
     type: DOUBLE
-  - name: DE_KN_residential4_pv
+  - name: de_kn_residential4_pv
     type: DOUBLE
-  - name: DE_KN_residential4_refrigerator
+  - name: de_kn_residential4_refrigerator
     type: DOUBLE
-  - name: DE_KN_residential4_washing_machine
+  - name: de_kn_residential4_washing_machine
     type: DOUBLE
-  - name: DE_KN_residential5_dishwasher
+  - name: de_kn_residential5_dishwasher
     type: DOUBLE
-  - name: DE_KN_residential5_grid_import
+  - name: de_kn_residential5_grid_import
     type: DOUBLE
-  - name: DE_KN_residential5_refrigerator
+  - name: de_kn_residential5_refrigerator
     type: DOUBLE
-  - name: DE_KN_residential5_washing_machine
+  - name: de_kn_residential5_washing_machine
     type: DOUBLE
-  - name: DE_KN_residential6_circulation_pump
+  - name: de_kn_residential6_circulation_pump
     type: DOUBLE
-  - name: DE_KN_residential6_dishwasher
+  - name: de_kn_residential6_dishwasher
     type: DOUBLE
-  - name: DE_KN_residential6_freezer
+  - name: de_kn_residential6_freezer
     type: DOUBLE
-  - name: DE_KN_residential6_grid_export
+  - name: de_kn_residential6_grid_export
     type: DOUBLE
-  - name: DE_KN_residential6_grid_import
+  - name: de_kn_residential6_grid_import
     type: DOUBLE
-  - name: DE_KN_residential6_pv
+  - name: de_kn_residential6_pv
     type: DOUBLE
-  - name: DE_KN_residential6_washing_machine
+  - name: de_kn_residential6_washing_machine
     type: DOUBLE
   - name: interpolated
     type: VARCHAR

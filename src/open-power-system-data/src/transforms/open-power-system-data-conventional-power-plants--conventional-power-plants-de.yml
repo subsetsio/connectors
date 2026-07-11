@@ -1,4 +1,7 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `open-power-system-data-conventional-power-plants--conventional-power-plants-de`. Regenerate after model-verify.
+# caution: This is a German conventional plant inventory with duplicate source IDs; treat rows as source inventory records and avoid summing capacities across capacity columns as if they were alternate observations of one measure.
+key: []
 columns:
   - name: id
     type: VARCHAR

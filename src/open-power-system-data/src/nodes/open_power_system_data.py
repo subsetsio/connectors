@@ -40,7 +40,6 @@ import duckdb
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -175,16 +174,4 @@ def fetch_one(node_id: str) -> None:
 DOWNLOAD_SPECS = [
     NodeSpec(id=_spec_id(eid), fn=fetch_one, kind="download")
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per subset: a thin pass-through of the typed parquet.
-# (Schemas are already clean from DuckDB inference; renaming/casting 13-to-656
-# heterogeneous columns per table would be noise, not correctness.)
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{spec.id}-transform",
-        deps=[spec.id],
-        sql=f'SELECT * FROM "{spec.id}"',
-    )
-    for spec in DOWNLOAD_SPECS
 ]
