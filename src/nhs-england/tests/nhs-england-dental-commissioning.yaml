@@ -1,0 +1,14 @@
+spec_id: nhs-england-dental-commissioning
+status: active
+tests:
+  - not_null: period
+  - not_null: value
+  - not_null: series
+  - column_type: {col: period, type: date}
+  - column_type: {col: value, type: float}
+  - row_count: {min: 1}
+    reason: an accepted active work area must yield at least one tidy observation; 0 rows means discovery found no workbook or the melt detected no date-indexed table.
+  - freshness: {col: period, reaches: today - 500d}
+    points_outward: true
+    certainty: 60
+    reason: NHS England active work areas publish at least annually; a max period older than ~500d suggests the area stopped updating or our extraction missed the current workbook.
