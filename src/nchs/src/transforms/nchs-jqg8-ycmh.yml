@@ -1,0 +1,57 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-jqg8-ycmh`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+key: []
+temporal: start_date
+sort: [start_date]
+columns:
+  - name: state
+    type: VARCHAR
+  - name: statename
+    type: VARCHAR
+  - name: raceethnicity
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: agegroup
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: quarter
+    type: VARCHAR
+  - name: yearquarter
+    type: VARCHAR
+  - name: start_date
+    type: VARCHAR
+  - name: end_date
+    type: DATE
+  - name: deaths_weighted
+    type: BIGINT
+  - name: covid19_weighted
+    type: BIGINT
+  - name: deaths_unweighted
+    type: BIGINT
+  - name: covid19_unweighted
+    type: BIGINT
+  - name: time_period
+    type: VARCHAR
+  - name: average_number_of_deaths_weighted
+    type: BIGINT
+  - name: average_number_of_deaths_unweighted
+    type: BIGINT
+  - name: number_above_average_weighted
+    type: BIGINT
+  - name: percent_above_average_weighted
+    type: DOUBLE
+  - name: number_above_average_unweighted
+    type: BIGINT
+  - name: percent_above_average_unweighted
+    type: DOUBLE
+  - name: analysisdate
+    type: VARCHAR
+  - name: suppression
+    type: VARCHAR
+  - name: footnote
+    type: VARCHAR
+  - name: type
+    type: VARCHAR

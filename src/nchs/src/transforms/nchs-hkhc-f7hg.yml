@@ -1,0 +1,29 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-hkhc-f7hg`. Regenerate after model-verify.
+# caution: This table contains provisional surveillance aggregates that may be revised by NCHS; compare period and demographic dimensions before aggregating.
+key: [end_date, week_ending_date, start_date, mmwr_year, urbanization_classification]
+temporal: data_as_of
+sort: [data_as_of, end_date, week_ending_date, start_date, mmwr_year, urbanization_classification]
+columns:
+  - name: data_as_of
+    type: DATE
+  - name: start_date
+    type: DATE
+  - name: end_date
+    type: DATE
+  - name: mmwr_year
+    type: BIGINT
+  - name: mmwr_week
+    type: BIGINT
+  - name: week_ending_date
+    type: DATE
+  - name: jurisdiction_of_occurrence
+    type: VARCHAR
+  - name: urbanization_classification
+    type: VARCHAR
+  - name: covid_19_deaths
+    type: BIGINT
+  - name: total_deaths
+    type: BIGINT
+  - name: footnote
+    type: VARCHAR

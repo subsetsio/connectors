@@ -1,13 +1,17 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ncd-risc-ncd-risc-nature-2020-cholesterol-age-standardised-world`. Regenerate after model-verify.
+key: [year, metric, sex]
+temporal: year
+sort: [year, metric, sex]
 columns:
   - name: area
     type: VARCHAR
   - name: iso
-    type: VARCHAR
+    type: JSON
   - name: sex
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: age
     type: VARCHAR
   - name: metric

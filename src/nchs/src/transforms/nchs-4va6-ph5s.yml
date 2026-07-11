@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-4va6-ph5s`. Regenerate after model-verify.
+# caution: This table contains provisional surveillance aggregates that may be revised by NCHS; compare period and demographic dimensions before aggregating.
+key: [state, end_date, start_date, place_of_death, age_group]
+temporal: data_as_of
+sort: [data_as_of, state, end_date, start_date, place_of_death, age_group]
+columns:
+  - name: data_as_of
+    type: DATE
+  - name: start_date
+    type: VARCHAR
+  - name: end_date
+    type: DATE
+  - name: group
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: hhs_region
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: place_of_death
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: covid_19_deaths
+    type: BIGINT
+  - name: total_deaths
+    type: BIGINT
+  - name: pneumonia_deaths
+    type: BIGINT
+  - name: pneumonia_and_covid_19_deaths
+    type: BIGINT
+  - name: influenza_deaths
+    type: BIGINT
+  - name: pneumonia_influenza_or_covid_19_deaths
+    type: BIGINT
+  - name: footnote
+    type: VARCHAR

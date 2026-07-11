@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-9cpv-whbv`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+key: []
+temporal: week_ending_date
+sort: [week_ending_date]
+columns:
+  - name: jurisdiction
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: mmwryear
+    type: BIGINT
+  - name: mmwrweek
+    type: BIGINT
+  - name: total_deaths
+    type: BIGINT
+  - name: covid_19_deaths
+    type: BIGINT
+  - name: data_as_of
+    type: VARCHAR
+  - name: week_ending_date
+    type: DATE

@@ -1,0 +1,46 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-m74n-4hbs`. Regenerate after model-verify.
+key: [weekending, agegroup, raceethnicity, time_period, sex]
+temporal: analysisdate
+sort: [analysisdate, weekending, agegroup, raceethnicity, time_period, sex]
+columns:
+  - name: analysisdate
+    type: DATE
+  - name: time_period
+    type: VARCHAR
+  - name: mmwryear
+    type: BIGINT
+  - name: mmwrweek
+    type: BIGINT
+  - name: weekending
+    type: DATE
+  - name: raceethnicity
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: agegroup
+    type: VARCHAR
+  - name: deaths_weighted
+    type: BIGINT
+  - name: covid19_weighted
+    type: BIGINT
+  - name: deaths_unweighted
+    type: BIGINT
+  - name: covid19_unweighted
+    type: BIGINT
+  - name: average_number_of_deaths_weighted
+    type: BIGINT
+  - name: average_number_of_deaths_unweighted
+    type: BIGINT
+  - name: number_above_average_weighted
+    type: BIGINT
+  - name: percent_above_average_weighted
+    type: DOUBLE
+  - name: number_above_average_unweighted
+    type: BIGINT
+  - name: percent_above_average_unweighted
+    type: DOUBLE
+  - name: footnote
+    type: VARCHAR
+  - name: geography
+    type: VARCHAR

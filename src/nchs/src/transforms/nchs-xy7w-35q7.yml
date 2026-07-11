@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-xy7w-35q7`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+# caution: This table contains provisional surveillance aggregates that may be revised by NCHS; compare period and demographic dimensions before aggregating.
+key: []
+temporal: analysisdate
+sort: [analysisdate]
+columns:
+  - name: analysisdate
+    type: DATE
+  - name: hhs_region
+    type: VARCHAR
+  - name: raceethnicity
+    type: VARCHAR
+  - name: agegroup
+    type: VARCHAR
+  - name: mmwryear
+    type: BIGINT
+  - name: mmwrweek
+    type: BIGINT
+  - name: weekendingdate
+    type: DATE
+  - name: allcause
+    type: BIGINT
+  - name: covid_19_u071_multiple_cause_of_death
+    type: BIGINT
+  - name: covid_19_u071_underlying_cause_of_death
+    type: BIGINT
+  - name: flag_allcause
+    type: VARCHAR
+  - name: flag_covidmcod
+    type: VARCHAR
+  - name: flag_coviducod
+    type: VARCHAR

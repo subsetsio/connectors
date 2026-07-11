@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-nr4s-juj3`. Regenerate after model-verify.
+# caution: This table contains provisional surveillance aggregates that may be revised by NCHS; compare period and demographic dimensions before aggregating.
+key: [race_or_hispanic_origin_group, age_group, indicator, sex]
+temporal: data_as_of
+sort: [data_as_of, race_or_hispanic_origin_group, age_group, indicator, sex]
+columns:
+  - name: data_as_of
+    type: DATE
+  - name: age_group
+    type: VARCHAR
+  - name: covid_19_deaths
+    type: BIGINT
+  - name: indicator
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: race_or_hispanic_origin_group
+    type: VARCHAR
+  - name: start_week
+    type: VARCHAR
+  - name: end_week
+    type: DATE

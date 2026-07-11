@@ -1,0 +1,35 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-xkkf-xrst`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+key: []
+temporal: week_ending_date
+sort: [week_ending_date]
+columns:
+  - name: week_ending_date
+    type: DATE
+  - name: state
+    type: VARCHAR
+  - name: observed_number
+    type: BIGINT
+  - name: upper_bound_threshold
+    type: BIGINT
+  - name: exceeds_threshold
+    type: BOOLEAN
+  - name: average_expected_count
+    type: BIGINT
+  - name: excess_estimate
+    type: BIGINT
+  - name: total_excess_estimate
+    type: BIGINT
+  - name: percent_excess_estimate
+    type: DOUBLE
+  - name: year
+    type: BIGINT
+  - name: type
+    type: VARCHAR
+  - name: outcome
+    type: VARCHAR
+  - name: suppress
+    type: VARCHAR
+  - name: note
+    type: VARCHAR

@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-y268-sna3`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: age_group_years
+    type: VARCHAR
+  - name: state_rate
+    type: DOUBLE
+  - name: state_births
+    type: BIGINT
+  - name: u_s_births
+    type: BIGINT
+  - name: u_s_birth_rate
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR

@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-u6jv-9ijr`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+key: []
+temporal: week_ending_date
+sort: [week_ending_date]
+columns:
+  - name: jurisdiction
+    type: VARCHAR
+  - name: week_ending_date
+    type: DATE
+  - name: state_abbreviation
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: week
+    type: BIGINT
+  - name: cause_group
+    type: VARCHAR
+  - name: number_of_deaths
+    type: BIGINT
+  - name: cause_subgroup
+    type: VARCHAR
+  - name: time_period
+    type: VARCHAR
+  - name: suppress
+    type: VARCHAR
+  - name: note
+    type: VARCHAR
+  - name: average_number_of_deaths_in_time_period
+    type: BIGINT
+  - name: difference_from_2015_2019_to_2020
+    type: BIGINT
+  - name: percent_difference_from_2015_2019_to_2020
+    type: DOUBLE
+  - name: type
+    type: VARCHAR

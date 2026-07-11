@@ -1,4 +1,8 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ncd-risc-ncd-risc-lancet-2021-hypertension-age-standardised-countries`. Regenerate after model-verify.
+key: [iso, area, year, metric, sex]
+temporal: year
+sort: [year, iso, area, metric, sex]
 columns:
   - name: area
     type: VARCHAR
@@ -7,7 +11,7 @@ columns:
   - name: sex
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: age
     type: VARCHAR
   - name: metric

@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-kn79-hsxy`. Regenerate after model-verify.
+# caution: This table contains provisional surveillance aggregates that may be revised by NCHS; compare period and demographic dimensions before aggregating.
+key: [fips_county_code]
+temporal: date_as_of
+sort: [date_as_of, fips_county_code]
+columns:
+  - name: date_as_of
+    type: DATE
+  - name: start_date
+    type: VARCHAR
+  - name: end_date
+    type: DATE
+  - name: state
+    type: VARCHAR
+  - name: county_name
+    type: VARCHAR
+  - name: fips_county_code
+    type: BIGINT
+  - name: urban_rural_code
+    type: VARCHAR
+  - name: deaths_involving_covid_19
+    type: BIGINT
+  - name: deaths_from_all_causes
+    type: BIGINT
+  - name: footnote
+    type: VARCHAR

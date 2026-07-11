@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-dmnu-8erf`. Regenerate after model-verify.
+# caution: This table contains provisional surveillance aggregates that may be revised by NCHS; compare period and demographic dimensions before aggregating.
+key: [data_period_end, data_period_start, subgroup1, jurisdiction_residence, subgroup2]
+temporal: data_as_of
+sort: [data_as_of, data_period_end, data_period_start, subgroup1, jurisdiction_residence, subgroup2]
+columns:
+  - name: data_as_of
+    type: DATE
+  - name: jurisdiction_residence
+    type: VARCHAR
+  - name: data_period_start
+    type: DATE
+  - name: data_period_end
+    type: DATE
+  - name: group
+    type: VARCHAR
+  - name: subgroup1
+    type: VARCHAR
+  - name: subgroup2
+    type: VARCHAR
+  - name: covid_deaths
+    type: BIGINT
+  - name: crude_covid_rate
+    type: DOUBLE
+  - name: aa_covid_rate
+    type: DOUBLE
+  - name: crude_covid_rate_ann
+    type: DOUBLE
+  - name: aa_covid_rate_ann
+    type: DOUBLE
+  - name: footnote
+    type: VARCHAR

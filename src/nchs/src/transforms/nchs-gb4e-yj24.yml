@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-gb4e-yj24`. Regenerate after model-verify.
+key: [countyname, state_name, monthendingdate, st_abbrev, month]
+temporal: data_as_of
+sort: [data_as_of, countyname, state_name, monthendingdate, st_abbrev, month]
+columns:
+  - name: data_as_of
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: st_abbrev
+    type: VARCHAR
+  - name: state_name
+    type: VARCHAR
+  - name: countyname
+    type: VARCHAR
+  - name: fips
+    type: BIGINT
+  - name: statefips
+    type: BIGINT
+  - name: countyfips
+    type: BIGINT
+  - name: code2013
+    type: BIGINT
+  - name: provisional_drug_overdose_deaths
+    type: BIGINT
+  - name: footnote
+    type: VARCHAR
+  - name: percentage_of_records_pending_investigation
+    type: DOUBLE
+  - name: historicaldatacompletenessnote
+    type: VARCHAR
+  - name: monthendingdate
+    type: DATE
+  - name: start_date
+    type: DATE
+  - name: end_date
+    type: DATE

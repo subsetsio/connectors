@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-p89x-xx88`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+key: []
+columns:
+  - name: round
+    type: BIGINT
+  - name: topic
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: demographic_variable
+    type: VARCHAR
+  - name: demographic_variable_label
+    type: VARCHAR
+  - name: percent_estimate
+    type: VARCHAR
+  - name: confidence_interval
+    type: VARCHAR

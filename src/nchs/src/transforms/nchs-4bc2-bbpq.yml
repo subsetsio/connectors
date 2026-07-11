@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-4bc2-bbpq`. Regenerate after model-verify.
+# caution: This table contains provisional surveillance aggregates that may be revised by NCHS; compare period and demographic dimensions before aggregating.
+key: [week_end, pathogen]
+temporal: week_end
+sort: [week_end, pathogen]
+columns:
+  - name: week_end
+    type: DATE
+  - name: pathogen
+    type: VARCHAR
+  - name: percent_deaths
+    type: DOUBLE

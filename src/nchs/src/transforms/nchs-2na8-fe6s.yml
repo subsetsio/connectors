@@ -1,0 +1,65 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-2na8-fe6s`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+key: []
+temporal: data_as_of
+sort: [data_as_of]
+columns:
+  - name: data_as_of
+    type: DATE
+  - name: start_date
+    type: VARCHAR
+  - name: end_date
+    type: DATE
+  - name: country
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: sex
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: race_and_hispanic_origin
+    type: VARCHAR
+  - name: malignant_neoplasms_c00_c97
+    type: BIGINT
+  - name: malignant_neoplasms_of_lip_oral_cavity_and_pharynx_c00_c14
+    type: BIGINT
+  - name: malignant_neoplasm_of_esophagus_c15
+    type: BIGINT
+  - name: malignant_neoplasm_of_stomach_c16
+    type: BIGINT
+  - name: malignant_neoplasms_of_colon_rectum_and_anus_c18_c21
+    type: BIGINT
+  - name: malignant_neoplasms_of_liver_and_intrahepatic_bile_ducts_c22
+    type: BIGINT
+  - name: malignant_neoplasm_of_pancreas_c25
+    type: BIGINT
+  - name: malignant_neoplasm_of_larynx_c32
+    type: BIGINT
+  - name: malignant_neoplasms_of_trachea_bronchus_and_lung_c33_c34
+    type: BIGINT
+  - name: malignant_melanoma_of_skin_c43
+    type: BIGINT
+  - name: malignant_neoplasm_of_breast_c50
+    type: BIGINT
+  - name: malignant_neoplasm_of_cervix_uteri_c53
+    type: BIGINT
+  - name: malignant_neoplasms_of_corpus_uteri_and_uterus_part_unspecified_c54_c55
+    type: BIGINT
+  - name: malignant_neoplasm_of_ovary_c56
+    type: BIGINT
+  - name: malignant_neoplasm_of_prostate_c61
+    type: BIGINT
+  - name: malignant_neoplasms_of_kidney_and_renal_pelvis_c64_c65
+    type: BIGINT
+  - name: malignant_neoplasm_of_bladder_c67
+    type: BIGINT
+  - name: malignant_neoplasms_of_meninges_brain_and_other_parts_of_central_nervous_system_c70_c72
+    type: BIGINT
+  - name: malignant_neoplasms_of_lymphoid_hematopoietic_and_related_tissue_c81_c96
+    type: BIGINT
+  - name: all_other_and_unspecified_malignant_neoplasms_c17_c23_c24_c26_c31_c37_c41_c44_c49_c51_c52_c57_c60_c62_c63_c66_c68_c69_c73_c80_c97
+    type: BIGINT

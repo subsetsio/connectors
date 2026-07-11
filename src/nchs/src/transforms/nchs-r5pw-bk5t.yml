@@ -1,0 +1,52 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-r5pw-bk5t`. Regenerate after model-verify.
+key: [start_date, end_date, month, age_group, race_and_hispanic_origin_group]
+temporal: data_as_of
+sort: [data_as_of, start_date, end_date, month, age_group, race_and_hispanic_origin_group]
+columns:
+  - name: data_as_of
+    type: DATE
+  - name: start_date
+    type: VARCHAR
+  - name: end_date
+    type: DATE
+  - name: jurisdiction_of_occurrence
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: race_and_hispanic_origin_group
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: all_cause
+    type: BIGINT
+  - name: natural_cause
+    type: BIGINT
+  - name: septicemia
+    type: BIGINT
+  - name: malignant_neoplasms
+    type: BIGINT
+  - name: diabetes_mellitus
+    type: BIGINT
+  - name: alzheimer_disease
+    type: BIGINT
+  - name: influenza_and_pneumonia
+    type: BIGINT
+  - name: chronic_lower_respiratory_diseases
+    type: BIGINT
+  - name: other_diseases_of_respiratory_system
+    type: BIGINT
+  - name: nephritis_nephrotic_syndrome_and_nephrosis
+    type: BIGINT
+  - name: symptoms_signs_and_abnormal_clinical_and_laboratory_findings_not_elsewhere_classified
+    type: BIGINT
+  - name: diseases_of_heart
+    type: BIGINT
+  - name: cerebrovascular_diseases
+    type: BIGINT
+  - name: covid_19_multiple_cause_of_death
+    type: BIGINT
+  - name: covid_19_underlying_cause_of_death
+    type: BIGINT

@@ -1,0 +1,42 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-53g5-jf7x`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+# caution: This table contains provisional surveillance aggregates that may be revised by NCHS; compare period and demographic dimensions before aggregating.
+key: []
+temporal: data_as_of
+sort: [data_as_of]
+columns:
+  - name: data_as_of
+    type: DATE
+  - name: start_date
+    type: DATE
+  - name: end_date
+    type: DATE
+  - name: group
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: mmwr_week
+    type: BIGINT
+  - name: weekending_date
+    type: DATE
+  - name: state
+    type: VARCHAR
+  - name: demographic_type
+    type: VARCHAR
+  - name: demographic_values
+    type: VARCHAR
+  - name: pathogen
+    type: VARCHAR
+  - name: deaths
+    type: BIGINT
+  - name: total_deaths
+    type: BIGINT
+  - name: percent_deaths
+    type: DOUBLE
+  - name: provisional
+    type: VARCHAR
+  - name: suppressed
+    type: VARCHAR

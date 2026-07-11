@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-r8kw-7aab`. Regenerate after model-verify.
+# caution: This table contains provisional surveillance aggregates that may be revised by NCHS; compare period and demographic dimensions before aggregating.
+key: [end_date, week_ending_date, start_date, state, year]
+temporal: data_as_of
+sort: [data_as_of, end_date, week_ending_date, start_date, state, year]
+columns:
+  - name: data_as_of
+    type: VARCHAR
+  - name: start_date
+    type: DATE
+  - name: end_date
+    type: DATE
+  - name: group
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: month
+    type: BIGINT
+  - name: mmwr_week
+    type: BIGINT
+  - name: week_ending_date
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: covid_19_deaths
+    type: BIGINT
+  - name: total_deaths
+    type: BIGINT
+  - name: percent_of_expected_deaths
+    type: BIGINT
+  - name: pneumonia_deaths
+    type: BIGINT
+  - name: pneumonia_and_covid_19_deaths
+    type: BIGINT
+  - name: influenza_deaths
+    type: BIGINT
+  - name: pneumonia_influenza_or_covid_19_deaths
+    type: BIGINT
+  - name: footnote
+    type: VARCHAR

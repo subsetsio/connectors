@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-ycxr-emue`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: year
+    type: BIGINT
+  - name: measure_type
+    type: VARCHAR
+  - name: leading_10_ranking
+    type: BIGINT
+  - name: measure
+    type: VARCHAR
+  - name: group
+    type: VARCHAR
+  - name: subgroup
+    type: VARCHAR
+  - name: estimate_type
+    type: VARCHAR
+  - name: estimate
+    type: DOUBLE
+  - name: standard_error
+    type: DOUBLE
+  - name: lower_95_ci
+    type: DOUBLE
+  - name: upper_95_ci
+    type: DOUBLE
+  - name: reliable
+    type: VARCHAR

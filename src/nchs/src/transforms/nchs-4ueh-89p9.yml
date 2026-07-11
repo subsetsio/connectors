@@ -1,0 +1,22 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-4ueh-89p9`. Regenerate after model-verify.
+key: [race_or_hispanic_origin, age_group, education_level, year, sex]
+temporal: data_as_of
+sort: [data_as_of, race_or_hispanic_origin, age_group, education_level, year, sex]
+columns:
+  - name: data_as_of
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: education_level
+    type: VARCHAR
+  - name: race_or_hispanic_origin
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: total_deaths
+    type: BIGINT
+  - name: covid_19_deaths
+    type: BIGINT

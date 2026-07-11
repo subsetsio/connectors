@@ -1,0 +1,32 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-v2g4-wqg2`. Regenerate after model-verify.
+key: [week_ending_date, state_abbreviation, state, mmwr_year, outcome]
+temporal: week_ending_date
+sort: [week_ending_date, state_abbreviation, state, mmwr_year, outcome]
+columns:
+  - name: week_ending_date
+    type: DATE
+  - name: state
+    type: VARCHAR
+  - name: state_abbreviation
+    type: VARCHAR
+  - name: median_number
+    type: DOUBLE
+  - name: lower_bound
+    type: DOUBLE
+  - name: upper_bound
+    type: DOUBLE
+  - name: outcome
+    type: VARCHAR
+  - name: mmwr_year
+    type: BIGINT
+  - name: mmwr_week
+    type: BIGINT
+  - name: rolling_4_week_mean
+    type: DOUBLE
+  - name: rolling_4_week_lower
+    type: DOUBLE
+  - name: rolling_4_week_upper
+    type: DOUBLE
+  - name: analysisdate
+    type: DATE

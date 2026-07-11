@@ -1,0 +1,34 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-yrur-wghw`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+# caution: This table contains provisional surveillance aggregates that may be revised by NCHS; compare period and demographic dimensions before aggregating.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: data_as_of
+    type: VARCHAR
+  - name: jurisdiction_residence
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: group
+    type: VARCHAR
+  - name: subgroup1
+    type: VARCHAR
+  - name: subgroup2
+    type: VARCHAR
+  - name: covid_deaths
+    type: BIGINT
+  - name: crude_covid_rate
+    type: DOUBLE
+  - name: aa_covid_rate
+    type: DOUBLE
+  - name: crude_covid_rate_ann
+    type: DOUBLE
+  - name: aa_covid_rate_ann
+    type: DOUBLE
+  - name: footnote
+    type: VARCHAR

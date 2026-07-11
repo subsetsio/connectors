@@ -1,0 +1,41 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    strptime("data_as_of", '%m/%d/%Y')::DATE AS data_as_of,
+    "jurisdiction_of_occurrence",
+    "mmwr_year",
+    "mmwr_week",
+    "week_ending_date",
+    "all_cause",
+    "natural_cause",
+    "septicemia_a40_a41",
+    "malignant_neoplasms_c00_c97",
+    "diabetes_mellitus_e10_e14",
+    "alzheimer_disease_g30",
+    "influenza_and_pneumonia_j09_j18",
+    "chronic_lower_respiratory_diseases_j40_j47",
+    "other_diseases_of_respiratory_system_j00_j06_j30_j39_j67_j70_j98",
+    "nephritis_nephrotic_syndrome_and_nephrosis_n00_n07_n17_n19_n25_n27",
+    "symptoms_signs_and_abnormal_clinical_and_laboratory_findings_not_elsewhere_classified_r00_r99",
+    "diseases_of_heart_i00_i09_i11_i13_i20_i51",
+    "cerebrovascular_diseases_i60_i69",
+    "covid_19_u071_multiple_cause_of_death",
+    "covid_19_u071_underlying_cause_of_death",
+    "flag_allcause",
+    "flag_natcause",
+    "flag_sept",
+    "flag_neopl",
+    "flag_diab",
+    "flag_alz",
+    "flag_inflpn",
+    "flag_clrd",
+    "flag_otherresp",
+    "flag_nephr",
+    "flag_otherunk",
+    "flag_hd",
+    "flag_stroke",
+    "flag_cov19mcod",
+    "flag_cov19ucod"
+FROM "nchs-muzy-jte6"

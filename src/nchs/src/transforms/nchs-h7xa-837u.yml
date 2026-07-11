@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-h7xa-837u`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+key: []
+temporal: time_period_start_date
+sort: [time_period_start_date]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: group
+    type: VARCHAR
+  - name: state
+    type: VARCHAR
+  - name: subgroup
+    type: VARCHAR
+  - name: phase
+    type: DOUBLE
+  - name: time_period
+    type: BIGINT
+  - name: time_period_label
+    type: VARCHAR
+  - name: time_period_start_date
+    type: DATE
+  - name: time_period_end_date
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: low_ci
+    type: DOUBLE
+  - name: high_ci
+    type: DOUBLE
+  - name: confidence_interval
+    type: VARCHAR
+  - name: quartile_range
+    type: VARCHAR
+  - name: suppression_flag
+    type: DOUBLE

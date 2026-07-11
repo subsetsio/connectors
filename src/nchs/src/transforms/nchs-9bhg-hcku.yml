@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-9bhg-hcku`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+# caution: This table contains provisional surveillance aggregates that may be revised by NCHS; compare period and demographic dimensions before aggregating.
+key: []
+temporal: data_as_of
+sort: [data_as_of]
+columns:
+  - name: data_as_of
+    type: DATE
+  - name: start_date
+    type: VARCHAR
+  - name: end_date
+    type: DATE
+  - name: group
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: state
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: covid_19_deaths
+    type: BIGINT
+  - name: total_deaths
+    type: BIGINT
+  - name: pneumonia_deaths
+    type: BIGINT
+  - name: pneumonia_and_covid_19_deaths
+    type: BIGINT
+  - name: influenza_deaths
+    type: BIGINT
+  - name: pneumonia_influenza_or_covid_19_deaths
+    type: BIGINT
+  - name: footnote
+    type: VARCHAR

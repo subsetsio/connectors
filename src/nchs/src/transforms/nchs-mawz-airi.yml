@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-mawz-airi`. Regenerate after model-verify.
+# caution: This table contains provisional surveillance aggregates that may be revised by NCHS; compare period and demographic dimensions before aggregating.
+key: [age_group]
+temporal: data_as_of
+sort: [data_as_of, age_group]
+columns:
+  - name: data_as_of
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: start_week
+    type: VARCHAR
+  - name: end_week
+    type: VARCHAR
+  - name: jurisdiction_of_residence
+    type: VARCHAR
+  - name: age_group
+    type: VARCHAR
+  - name: covid_19_deaths
+    type: BIGINT
+  - name: total_deaths
+    type: BIGINT

@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-367e-pucc`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+key: []
+columns:
+  - name: time_period
+    type: VARCHAR
+  - name: measure_type
+    type: VARCHAR
+  - name: measure
+    type: VARCHAR
+  - name: group
+    type: VARCHAR
+  - name: subgroup
+    type: VARCHAR
+  - name: estimate_type
+    type: VARCHAR
+  - name: estimate
+    type: DOUBLE
+  - name: standard_error
+    type: DOUBLE
+  - name: lower_95_ci
+    type: DOUBLE
+  - name: upper_95_ci
+    type: DOUBLE
+  - name: reliable
+    type: VARCHAR

@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-f3a8-hmpp`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: measure_id
+    type: VARCHAR
+  - name: measure_statement_full
+    type: VARCHAR
+  - name: measures_statement_short
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: population
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: estimate
+    type: DOUBLE
+  - name: se
+    type: DOUBLE
+  - name: unit
+    type: VARCHAR
+  - name: flag
+    type: VARCHAR

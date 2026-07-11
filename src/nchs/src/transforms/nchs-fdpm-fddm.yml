@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-fdpm-fddm`. Regenerate after model-verify.
+key: [objective_description, hp2020_objective, population_group_with_the_best_rate_baseline_year_s, population_group_with_the_best_rate_final_year_s, topic_area]
+sort: [objective_description, hp2020_objective, population_group_with_the_best_rate_baseline_year_s, population_group_with_the_best_rate_final_year_s, topic_area]
+columns:
+  - name: hp2020_objective
+    type: VARCHAR
+  - name: objective_description
+    type: VARCHAR
+  - name: topic_area
+    type: VARCHAR
+  - name: population_characteristic
+    type: VARCHAR
+  - name: number_of_population_groups
+    type: BIGINT
+  - name: best_rate_baseline_year_s
+    type: DOUBLE
+  - name: standard_error_of_best_rate_baseline_year_s
+    type: DOUBLE
+  - name: population_group_with_the_best_rate_baseline_year_s
+    type: VARCHAR
+  - name: average_of_other_rates_baseline_year_s
+    type: DOUBLE
+  - name: standard_error_of_average_of_other_rates_baseline_year_s
+    type: DOUBLE
+  - name: rate_ratio_baseline_year_s
+    type: DOUBLE
+  - name: standard_error_of_rate_ratio_baseline_year_s
+    type: DOUBLE
+  - name: best_rate_final_year_s
+    type: DOUBLE
+  - name: standard_error_of_best_rate_final_year_s
+    type: DOUBLE
+  - name: population_group_with_the_best_rate_final_year_s
+    type: VARCHAR
+  - name: average_of_other_rates_final_year_s
+    type: DOUBLE
+  - name: standard_error_of_average_of_other_rates_final_year_s
+    type: DOUBLE
+  - name: rate_ratio_final_year_s
+    type: DOUBLE
+  - name: standard_error_of_rate_ratio_final_year_s
+    type: DOUBLE
+  - name: difference_in_the_rate_ratio_over_time
+    type: DOUBLE
+  - name: z_score_of_the_difference
+    type: DOUBLE
+  - name: disparities_change_over_time_status
+    type: VARCHAR

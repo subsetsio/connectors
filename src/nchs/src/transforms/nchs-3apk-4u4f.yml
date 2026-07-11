@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-3apk-4u4f`. Regenerate after model-verify.
+# caution: This table contains provisional surveillance aggregates that may be revised by NCHS; compare period and demographic dimensions before aggregating.
+key: [age_years, sex]
+temporal: data_as_of
+sort: [data_as_of, age_years, sex]
+columns:
+  - name: data_as_of
+    type: DATE
+  - name: start_date
+    type: VARCHAR
+  - name: end_date
+    type: DATE
+  - name: sex
+    type: VARCHAR
+  - name: age_years
+    type: VARCHAR
+  - name: total_deaths
+    type: BIGINT
+  - name: covid_19_deaths
+    type: BIGINT

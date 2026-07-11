@@ -1,0 +1,18 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-hmz2-vwda`. Regenerate after model-verify.
+key: [state, month, indicator, year, period]
+temporal: year
+sort: [year, state, month, indicator, period]
+columns:
+  - name: state
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: month
+    type: VARCHAR
+  - name: period
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: data_value
+    type: BIGINT

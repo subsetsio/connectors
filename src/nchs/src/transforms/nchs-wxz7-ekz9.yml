@@ -1,0 +1,21 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-wxz7-ekz9`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: outcome_or_indicator
+    type: VARCHAR
+  - name: group
+    type: VARCHAR
+  - name: percentage
+    type: DOUBLE
+  - name: confidence_interval
+    type: VARCHAR
+  - name: title
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: year
+    type: BIGINT

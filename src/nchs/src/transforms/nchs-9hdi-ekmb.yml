@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-9hdi-ekmb`. Regenerate after model-verify.
+# caution: This table contains provisional surveillance aggregates that may be revised by NCHS; compare period and demographic dimensions before aggregating.
+key: [end_date, week_ending_date, start_date, mmwr_year, social_vulnerability_index]
+temporal: data_as_of
+sort: [data_as_of, end_date, week_ending_date, start_date, mmwr_year, social_vulnerability_index]
+columns:
+  - name: data_as_of
+    type: DATE
+  - name: start_date
+    type: DATE
+  - name: end_date
+    type: DATE
+  - name: mmwr_year
+    type: BIGINT
+  - name: mmwr_week
+    type: BIGINT
+  - name: week_ending_date
+    type: DATE
+  - name: social_vulnerability_index
+    type: VARCHAR
+  - name: covid_19_deaths
+    type: BIGINT
+  - name: total_deaths
+    type: BIGINT
+  - name: footnote
+    type: VARCHAR

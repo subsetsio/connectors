@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-95ax-ymtc`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: indicator
+    type: VARCHAR
+  - name: panel
+    type: VARCHAR
+  - name: panel_num
+    type: BIGINT
+  - name: unit
+    type: VARCHAR
+  - name: unit_num
+    type: BIGINT
+  - name: stub_name
+    type: VARCHAR
+  - name: stub_name_num
+    type: BIGINT
+  - name: stub_label
+    type: VARCHAR
+  - name: stub_label_num
+    type: DOUBLE
+  - name: year
+    type: BIGINT
+  - name: year_num
+    type: BIGINT
+  - name: age
+    type: VARCHAR
+  - name: age_num
+    type: DOUBLE
+  - name: estimate
+    type: DOUBLE
+  - name: flag
+    type: VARCHAR

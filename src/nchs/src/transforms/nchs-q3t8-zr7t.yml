@@ -1,0 +1,27 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nchs-q3t8-zr7t`. Regenerate after model-verify.
+# caution: The source publishes this as an independent aggregate table, but no stable non-null row key was verified in the current raw profile; treat rows as source observations rather than relying on a declared unique key.
+key: []
+temporal: start_time
+sort: [start_time]
+columns:
+  - name: figure
+    type: VARCHAR
+  - name: setting
+    type: VARCHAR
+  - name: indicator
+    type: VARCHAR
+  - name: group
+    type: VARCHAR
+  - name: subgroup
+    type: VARCHAR
+  - name: time
+    type: BIGINT
+  - name: start_time
+    type: DATE
+  - name: end_time
+    type: DATE
+  - name: value
+    type: DOUBLE
+  - name: measure
+    type: VARCHAR

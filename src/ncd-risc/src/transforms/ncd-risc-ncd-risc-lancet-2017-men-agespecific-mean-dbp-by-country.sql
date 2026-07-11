@@ -1,10 +1,13 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    CAST(area AS VARCHAR)   AS area,
-    CAST(iso AS VARCHAR)    AS iso,
-    CAST(sex AS VARCHAR)    AS sex,
-    CAST(year AS INTEGER)   AS year,
-    CAST(age AS VARCHAR)    AS age,
-    CAST(metric AS VARCHAR) AS metric,
-    CAST(value AS DOUBLE)   AS value
+    "area",
+    "iso",
+    "sex",
+    "year",
+    "age",
+    "metric",
+    "value"
 FROM "ncd-risc-ncd-risc-lancet-2017-men-agespecific-mean-dbp-by-country"
-WHERE value IS NOT NULL
