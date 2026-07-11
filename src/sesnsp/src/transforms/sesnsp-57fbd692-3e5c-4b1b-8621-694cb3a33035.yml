@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sesnsp-57fbd692-3e5c-4b1b-8621-694cb3a33035`. Regenerate after model-verify.
+# caution: Municipal incidence counts are monthly offense counts at the municipality grain; compare with the state incidence table only after accounting for the different geographic grain.
+key: [fecha, cve_municipio, bien_juridico_afectado, tipo_delito, subtipo_delito, modalidad]
+temporal: fecha
+sort: [fecha, cve_municipio, bien_juridico_afectado, tipo_delito, subtipo_delito, modalidad]
+columns:
+  - name: anio
+    type: BIGINT
+  - name: clave_ent
+    type: VARCHAR
+  - name: entidad
+    type: VARCHAR
+  - name: cve_municipio
+    type: VARCHAR
+  - name: municipio
+    type: VARCHAR
+  - name: bien_juridico_afectado
+    type: VARCHAR
+  - name: tipo_delito
+    type: VARCHAR
+  - name: subtipo_delito
+    type: VARCHAR
+  - name: modalidad
+    type: VARCHAR
+  - name: mes
+    type: VARCHAR
+  - name: fecha
+    type: DATE
+  - name: incidencia_delictiva
+    type: BIGINT

@@ -1,0 +1,32 @@
+# compiled by `hardened compile-checks` — post-publish audit of `sesnsp-386f17d2-a488-4da2-9c85-99765b5a9cdc`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [fecha, clave_ent, bien_juridico_afectado, tipo_delito, subtipo_delito, modalidad, sexo, rango_edad]
+temporal: fecha
+checks:
+  - kind: unique
+    columns: [fecha, clave_ent, bien_juridico_afectado, tipo_delito, subtipo_delito, modalidad, sexo, rango_edad]
+  - kind: not_null
+    col: fecha
+  - kind: not_null
+    col: clave_ent
+  - kind: not_null
+    col: bien_juridico_afectado
+  - kind: not_null
+    col: tipo_delito
+  - kind: not_null
+    col: subtipo_delito
+  - kind: not_null
+    col: modalidad
+  - kind: not_null
+    col: sexo
+  - kind: not_null
+    col: rango_edad
+  - kind: row_floor
+    min: 485760
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

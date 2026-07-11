@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `sesnsp-386f17d2-a488-4da2-9c85-99765b5a9cdc`. Regenerate after model-verify.
+# caution: Victim counts are reported at the monthly state by offense-classification, sex, and age-range grain; aggregate only after choosing the demographic and offense categories needed for the question.
+key: [fecha, clave_ent, bien_juridico_afectado, tipo_delito, subtipo_delito, modalidad, sexo, rango_edad]
+temporal: fecha
+sort: [fecha, clave_ent, bien_juridico_afectado, tipo_delito, subtipo_delito, modalidad, sexo, rango_edad]
+columns:
+  - name: anio
+    type: BIGINT
+  - name: clave_ent
+    type: VARCHAR
+  - name: entidad
+    type: VARCHAR
+  - name: bien_juridico_afectado
+    type: VARCHAR
+  - name: tipo_delito
+    type: VARCHAR
+  - name: subtipo_delito
+    type: VARCHAR
+  - name: modalidad
+    type: VARCHAR
+  - name: sexo
+    type: VARCHAR
+  - name: rango_edad
+    type: VARCHAR
+  - name: mes
+    type: VARCHAR
+  - name: fecha
+    type: DATE
+  - name: victimas
+    type: BIGINT
