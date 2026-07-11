@@ -106,6 +106,8 @@ def _cdx_latest(prefix: str, comp: str, languages: tuple[str, ...] = ("ENG",)) -
         resp.raise_for_status()
         data = resp.json()
         for ts, orig in data[1:]:
+            if "%7B" in orig or "{code}" in orig:
+                continue
             if f"comp={comp}" not in orig:
                 continue
             if languages and not any(f"lang={lang}" in orig for lang in languages):
@@ -223,7 +225,9 @@ def fetch_nocs(node_id: str) -> None:
     rows = []
     for comp, games in EDITIONS:
         for ts, orig in _cdx_latest("GLO_NocBio", comp):
-            payload = _wayback_json(ts, orig)
+            payload = _try_wayback_json(ts, orig)
+            if payload is None:
+                continue
             noc = payload.get("nocBio") or {}
             rows.append({
                 "edition": comp,
@@ -249,7 +253,9 @@ def fetch_event_results(node_id: str) -> None:
     rows = []
     for comp, games in EDITIONS:
         for ts, orig in _cdx_latest("GLO_EventRanking", comp):
-            payload = _wayback_json(ts, orig)
+            payload = _try_wayback_json(ts, orig)
+            if payload is None:
+                continue
             rows.append({
                 "edition": comp,
                 "games": games,
@@ -274,7 +280,9 @@ def fetch_athletes(node_id: str) -> None:
     rows = []
     for comp, games in EDITIONS:
         for ts, orig in _cdx_latest("CIS_Bio_Athlete", comp):
-            payload = _wayback_json(ts, orig)
+            payload = _try_wayback_json(ts, orig)
+            if payload is None:
+                continue
             person = payload.get("person") or {}
             rows.append({
                 "edition": comp,

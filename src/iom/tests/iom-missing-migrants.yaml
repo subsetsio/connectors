@@ -8,7 +8,11 @@ tests:
     reason: one row per Missing Migrants incident record
     certainty: 80
     severity: warn
-  - column_type: {col: incident_date, type: date}
+  - column_type: {col: incident_date, type: string}
+    reason: raw layer stores the CSV date verbatim; casting to DATE is the transform's job
+    certainty: 90
+  - matches: {col: incident_date, pattern: '^\d{4}-\d{2}-\d{2}$'}
+    reason: Missing Migrants publishes incident_date as an ISO date string
     certainty: 90
   - between: {col: incident_year, lo: 2014, hi: current_year()}
     reason: Missing Migrants Project tracks deaths from 2014 onward
@@ -16,7 +20,11 @@ tests:
   - at_least: {col: total_dead_and_missing, expr: 0}
     reason: dead-and-missing totals are non-negative counts
     certainty: 90
-  - column_type: {col: total_dead_and_missing, type: integer}
+  - column_type: {col: total_dead_and_missing, type: string}
+    reason: raw layer stores CSV count cells verbatim; casting to integer is the transform's job
+    certainty: 85
+  - matches: {col: total_dead_and_missing, pattern: '^\d+$'}
+    reason: dead-and-missing totals should remain parseable as non-negative integer counts
     certainty: 85
   - row_count: {min: 10000}
     reason: ~22k incidents recorded since 2014; far fewer means a truncated pull
