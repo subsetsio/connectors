@@ -1,5 +1,8 @@
 spec_id: openelections-nv
 status: active
+coverage:
+  frozen: true
+  reason: OpenElections publishes historical CSV repositories without a guaranteed update cadence; this connector reflects the canonical CSV files present in each repository snapshot.
 tests:
   - not_null: state
     reason: every row is stamped with the state slug from the repo name
