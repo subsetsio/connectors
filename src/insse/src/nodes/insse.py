@@ -1,4 +1,5 @@
 import csv
+import errno
 import io
 import json
 import math
@@ -32,12 +33,22 @@ HEADERS = {
     "Origin": "http://statistici.insse.ro:8077",
     "Referer": "http://statistici.insse.ro:8077/tempo-online/",
 }
-INSSE_TRANSIENT_EXC = TRANSIENT_EXC + (httpx.ReadError,)
+INSSE_TRANSIENT_EXC = TRANSIENT_EXC + (
+    httpx.ReadError,
+    httpx.RemoteProtocolError,
+    ConnectionResetError,
+    BrokenPipeError,
+)
 
 
 def _is_insse_transient(exc: BaseException) -> bool:
     if isinstance(exc, INSSE_TRANSIENT_EXC):
         return True
+    if isinstance(exc, OSError):
+        if exc.errno in {errno.ECONNRESET, errno.EPIPE, errno.ETIMEDOUT}:
+            return True
+        if "connection reset by peer" in str(exc).lower():
+            return True
     if isinstance(exc, httpx.HTTPStatusError):
         status = exc.response.status_code
         return status == 429 or 500 <= status < 600
