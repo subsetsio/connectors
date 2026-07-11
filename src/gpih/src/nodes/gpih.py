@@ -6,7 +6,7 @@ academic spreadsheets (medieval era to ~1950): title rows, multi-row headers,
 "Notes" sheets, blank spacer columns, repeated column blocks — no uniform
 schema. SQL transforms can only read parquet/ndjson/csv, so each download fn
 fetches the workbook bytes and normalizes them to records here, in Python, then
-saves ndjson (drifty/heterogeneous → ndjson per the raw-format rubric).
+saves one typed parquet table per workbook.
 
 Normalization is deliberately generic (one fn for all 198 workbooks): for every
 data-bearing sheet we autodetect the header row, name columns positionally,
@@ -26,8 +26,9 @@ import urllib.parse
 
 import numpy as np
 import pandas as pd
+import pyarrow as pa
 
-from subsets_utils import NodeSpec, get, save_raw_ndjson, transient_retry
+from subsets_utils import NodeSpec, get, save_raw_parquet, transient_retry
 from constants import ENTITY_IDS, ENTITY_FILES
 
 BASE = "https://gpih.ucdavis.edu/files/"
@@ -164,6 +165,33 @@ def _enforce_consistent_types(records):
     return records
 
 
+def _records_to_table(records):
+    """Build an explicit schema over the workbook's union of extracted columns."""
+    columns = []
+    seen = set()
+    for record in records:
+        for key in record:
+            if key not in seen:
+                seen.add(key)
+                columns.append(key)
+
+    fields = []
+    arrays = []
+    for column in columns:
+        values = [record.get(column) for record in records]
+        present = [value for value in values if value is not None]
+        if present and all(isinstance(value, int) for value in present):
+            typ = pa.int64()
+        elif present and all(isinstance(value, (int, float)) for value in present):
+            typ = pa.float64()
+        else:
+            typ = pa.string()
+            values = [None if value is None else str(value) for value in values]
+        fields.append(pa.field(column, typ))
+        arrays.append(pa.array(values, type=typ))
+    return pa.Table.from_arrays(arrays, schema=pa.schema(fields))
+
+
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
     entity_id = node_id[len(PREFIX):] if node_id.startswith(PREFIX) else node_id
@@ -201,7 +229,7 @@ def fetch_one(node_id: str) -> None:
         raise AssertionError(f"{asset}: workbook {filename!r} produced no rows")
 
     _enforce_consistent_types(records)
-    save_raw_ndjson(records, asset)
+    save_raw_parquet(_records_to_table(records), asset)
 
 
 DOWNLOAD_SPECS = [
