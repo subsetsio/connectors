@@ -1,19 +1,22 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `met-office-observations`. Regenerate after model-verify.
+# caution: The observation table contains monthly values by station; aggregate across months or stations only after choosing the weather measure and time window intentionally.
+key: [year, station, month]
+temporal: year
+sort: [year, station, month]
 columns:
   - name: station
     type: VARCHAR
   - name: year
-    type: INTEGER
+    type: BIGINT
   - name: month
-    type: INTEGER
-  - name: date
-    type: DATE
+    type: BIGINT
   - name: tmax_degc
     type: DOUBLE
   - name: tmin_degc
     type: DOUBLE
   - name: af_days
-    type: INTEGER
+    type: BIGINT
   - name: rain_mm
     type: DOUBLE
   - name: sun_hours

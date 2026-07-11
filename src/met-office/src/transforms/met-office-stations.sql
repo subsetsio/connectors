@@ -1,10 +1,14 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    station,
-    name,
-    lat,
-    lon,
-    CAST(altitude_m AS INTEGER) AS altitude_m,
-    CAST(start_year AS INTEGER) AS start_year,
-    CAST(end_year AS INTEGER)   AS end_year,
-    location
+    "station",
+    "name",
+    "lat",
+    "lon",
+    "altitude_m",
+    "start_year",
+    "end_year",
+    "location"
 FROM "met-office-stations"
