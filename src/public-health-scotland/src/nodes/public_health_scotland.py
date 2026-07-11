@@ -25,15 +25,9 @@ from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 from itertools import islice
 
 import pyarrow as pa
-from subsets_utils import (
-    NodeSpec,
-    SqlNodeSpec,
-    get,
-    raw_parquet_writer,
-    transient_retry,
-)
+from subsets_utils import NodeSpec, get, raw_parquet_writer
 
-from constants import ENTITY_IDS
+from constants import ENTITY_IDS, GROUP_IDS
 
 SLUG = "public-health-scotland"
 PREFIX = f"{SLUG}-"
@@ -47,7 +41,6 @@ DOWNLOAD_WORKERS = 6  # concurrent /datastore/dump fetches. The dumps are
 #                       run ~1h) while easing server load, and bounds peak memory.
 
 
-@transient_retry()
 def _api(action: str, **params) -> dict:
     resp = get(f"{API}/{action}", params=params, timeout=(10.0, 120.0))
     resp.raise_for_status()
@@ -62,7 +55,6 @@ def _api(action: str, **params) -> dict:
 # at once. Be patient: more attempts and a longer backoff ride out a transient
 # 504/timeout instead of failing the whole 70-spec run; the read timeout is
 # generous since a single big file can take minutes even on its own.
-@transient_retry(attempts=8, min_wait=5, max_wait=180)
 def _dump_text(resource_id: str) -> str:
     # Full CSV for one resource. No bom -> clean ASCII header (no BOM on col 0).
     resp = get(f"{DUMP}/{resource_id}", timeout=(10.0, 600.0))
@@ -119,6 +111,10 @@ def _header_fields(rid: str) -> tuple[str, list[str]]:
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the runtime passes the spec id; it IS the asset name
     pkg = node_id[len(PREFIX):]
+
+    if pkg in GROUP_IDS:
+        _fetch_group(asset, pkg)
+        return
 
     resources = _csv_resources(pkg)
     if not resources:
@@ -201,6 +197,77 @@ def fetch_one(node_id: str) -> None:
         print(f"[fetch] {asset}: {len(resources)} resources, {total} rows, {len(cols)} cols")
 
 
+def _clean(value) -> str | None:
+    if value is None:
+        return None
+    return str(value)
+
+
+def _fetch_group(asset: str, group_id: str) -> None:
+    group = _api("group_show", id=group_id, include_datasets=True)
+    packages = group.get("packages") or []
+    schema = pa.schema(
+        [
+            ("resource_id", pa.string()),
+            ("resource_name", pa.string()),
+            ("group_id", pa.string()),
+            ("group_name", pa.string()),
+            ("group_title", pa.string()),
+            ("group_description", pa.string()),
+            ("package_count", pa.string()),
+            ("package_id", pa.string()),
+            ("package_name", pa.string()),
+            ("package_title", pa.string()),
+            ("package_state", pa.string()),
+            ("organization", pa.string()),
+            ("metadata_modified", pa.string()),
+            ("license_id", pa.string()),
+        ]
+    )
+    rows = []
+    for pkg in packages:
+        rows.append(
+            {
+                "resource_id": group_id,
+                "resource_name": group.get("title") or group_id,
+                "group_id": group_id,
+                "group_name": group.get("name"),
+                "group_title": group.get("title"),
+                "group_description": group.get("description"),
+                "package_count": _clean(group.get("package_count", len(packages))),
+                "package_id": pkg.get("id"),
+                "package_name": pkg.get("name"),
+                "package_title": pkg.get("title"),
+                "package_state": pkg.get("state"),
+                "organization": _clean((pkg.get("organization") or {}).get("title")),
+                "metadata_modified": pkg.get("metadata_modified"),
+                "license_id": pkg.get("license_id"),
+            }
+        )
+    if not rows:
+        rows.append(
+            {
+                "resource_id": group_id,
+                "resource_name": group.get("title") or group_id,
+                "group_id": group_id,
+                "group_name": group.get("name"),
+                "group_title": group.get("title"),
+                "group_description": group.get("description"),
+                "package_count": "0",
+                "package_id": None,
+                "package_name": None,
+                "package_title": None,
+                "package_state": None,
+                "organization": None,
+                "metadata_modified": None,
+                "license_id": None,
+            }
+        )
+    with raw_parquet_writer(asset, schema) as writer:
+        writer.write_table(pa.Table.from_pylist(rows, schema=schema))
+    print(f"[fetch] {asset}: group metadata, {len(rows)} package rows")
+
+
 DOWNLOAD_SPECS = [
     NodeSpec(
         id=f"{SLUG}-{eid.lower().replace('_', '-')}",
@@ -208,15 +275,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-# One published Delta table per package. The raw is already typed (all VARCHAR)
-# and unioned across resources, so the transform is a straight passthrough.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]

@@ -2,12 +2,12 @@ spec_id: public-health-scotland-nhsscotland-payments-to-general-practice
 status: active
 tests:
   - not_null: resource_name
-    reason: every row is tagged by us with the source CKAN resource it came from
+    reason: every row is tagged by us with the source CKAN resource or group it came from
     certainty: 99
   - not_null: resource_id
-    reason: every row carries the datastore resource UUID it was dumped from
+    reason: every row carries the datastore resource UUID or CKAN group id it came from
     certainty: 99
   - row_count:
       min: 1
-    reason: an accepted PHS package always has at least one non-empty CSV resource
+    reason: an accepted PHS entity always produces at least one raw row
     certainty: 95
