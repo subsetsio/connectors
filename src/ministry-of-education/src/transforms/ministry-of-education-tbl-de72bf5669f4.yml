@@ -1,12 +1,19 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ministry-of-education-tbl-de72bf5669f4`. Regenerate after model-verify.
+# caution: Rows preserve individual cells from Ministry of Education statistical grids; row and column labels can include totals or subtotals alongside component categories, so filter labels before aggregating values.
+key: [year, tbl_idx, row_idx, col_idx]
+temporal: year
+sort: [year, tbl_idx, row_idx, col_idx]
 columns:
+  - name: entity_id
+    type: VARCHAR
   - name: year
     type: INTEGER
-  - name: table_index
+  - name: tbl_idx
+    type: SMALLINT
+  - name: row_idx
     type: INTEGER
-  - name: row_index
-    type: INTEGER
-  - name: col_index
+  - name: col_idx
     type: INTEGER
   - name: row_label
     type: VARCHAR
