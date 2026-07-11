@@ -1,48 +1,55 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fec-independent-expenditures`. Regenerate after model-verify.
+# caution: Independent expenditures are spending for or against a candidate and are not contributions to that candidate; aggregate support and opposition separately.
+key: [cycle, file_num, tran_id, image_num]
+temporal: exp_date
+sort: [exp_date, cycle, file_num, tran_id, image_num]
 columns:
   - name: cycle
-    type: VARCHAR
+    type: BIGINT
   - name: cand_id
     type: VARCHAR
   - name: cand_name
     type: VARCHAR
-  - name: cand_party
+  - name: spe_id
     type: VARCHAR
-  - name: cand_office
+  - name: spe_nam
     type: VARCHAR
-  - name: cand_office_state
+  - name: ele_type
     type: VARCHAR
-  - name: cand_office_district
+  - name: can_office_state
     type: VARCHAR
-  - name: spender_cmte_id
+  - name: can_office_dis
     type: VARCHAR
-  - name: spender_name
+  - name: can_office
     type: VARCHAR
-  - name: support_oppose
+  - name: cand_pty_aff
     type: VARCHAR
-  - name: election_type
-    type: VARCHAR
-  - name: amount
-    type: DOUBLE
-  - name: expenditure_date
+  - name: exp_amo
+    type: BIGINT
+  - name: exp_date
     type: DATE
-  - name: aggregate_amount
+  - name: agg_amo
     type: DOUBLE
-  - name: purpose
+  - name: sup_opp
     type: VARCHAR
-  - name: payee
+  - name: pur
+    type: VARCHAR
+  - name: pay
     type: VARCHAR
   - name: file_num
     type: BIGINT
+  - name: amndt_ind
+    type: VARCHAR
   - name: tran_id
     type: VARCHAR
   - name: image_num
-    type: VARCHAR
-  - name: amendment_ind
-    type: VARCHAR
-  - name: receipt_date
+    type: BIGINT
+  - name: receipt_dat
     type: DATE
   - name: fec_election_yr
-    type: INTEGER
-  - name: dissemination_date
+    type: BIGINT
+  - name: prev_file_num
+    type: BIGINT
+  - name: dissem_dt
     type: DATE

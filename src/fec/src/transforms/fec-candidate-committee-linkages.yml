@@ -1,18 +1,22 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fec-candidate-committee-linkages`. Regenerate after model-verify.
+# caution: A candidate can be linked to multiple committees in the same cycle; filter or group by committee designation before treating a linkage as the candidate's sole campaign committee.
+key: [linkage_id]
+sort: [linkage_id]
 columns:
   - name: cycle
-    type: VARCHAR
-  - name: linkage_id
-    type: VARCHAR
+    type: BIGINT
   - name: cand_id
     type: VARCHAR
+  - name: cand_election_yr
+    type: BIGINT
+  - name: fec_election_yr
+    type: BIGINT
   - name: cmte_id
     type: VARCHAR
-  - name: cmte_type
+  - name: cmte_tp
     type: VARCHAR
-  - name: cmte_designation
+  - name: cmte_dsgn
     type: VARCHAR
-  - name: cand_election_yr
-    type: INTEGER
-  - name: fec_election_yr
-    type: INTEGER
+  - name: linkage_id
+    type: BIGINT

@@ -1,40 +1,73 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fec-candidates`. Regenerate after model-verify.
+# caution: This per-cycle candidate summary overlaps with the current House/Senate campaign summary table; avoid adding both tables together for the same race and cycle.
+key: [cycle, cand_id]
+temporal: cvg_end_dt
+sort: [cvg_end_dt, cycle, cand_id]
 columns:
   - name: cycle
-    type: VARCHAR
+    type: BIGINT
   - name: cand_id
     type: VARCHAR
   - name: cand_name
     type: VARCHAR
-  - name: party
+  - name: cand_ici
     type: VARCHAR
-  - name: office
+  - name: pty_cd
+    type: BIGINT
+  - name: cand_pty_affiliation
     type: VARCHAR
-  - name: state
-    type: VARCHAR
-  - name: district
-    type: VARCHAR
-  - name: incumbent_challenger
-    type: VARCHAR
-  - name: principal_cmte_id
-    type: VARCHAR
-  - name: total_receipts
+  - name: ttl_receipts
     type: DOUBLE
-  - name: total_disbursements
+  - name: trans_from_auth
     type: DOUBLE
-  - name: total_individual_contrib
+  - name: ttl_disb
     type: DOUBLE
-  - name: other_cmte_contrib
+  - name: trans_to_auth
+    type: BIGINT
+  - name: coh_bop
     type: DOUBLE
-  - name: party_contrib
+  - name: coh_cop
     type: DOUBLE
-  - name: cand_contributions
-    type: DOUBLE
+  - name: cand_contrib
+    type: BIGINT
   - name: cand_loans
-    type: DOUBLE
-  - name: cash_on_hand_end
-    type: DOUBLE
+    type: BIGINT
+  - name: other_loans
+    type: BIGINT
+  - name: cand_loan_repay
+    type: BIGINT
+  - name: other_loan_repay
+    type: BIGINT
   - name: debts_owed_by
+    type: BIGINT
+  - name: ttl_indiv_contrib
     type: DOUBLE
-  - name: coverage_end_date
+  - name: cand_office_st
+    type: VARCHAR
+  - name: cand_office_district
+    type: VARCHAR
+  - name: spec_election
+    type: VARCHAR
+  - name: prim_election
+    type: VARCHAR
+  - name: run_election
+    type: VARCHAR
+  - name: gen_election
+    type: VARCHAR
+  - name: gen_election_precent
+    type: VARCHAR
+  - name: other_pol_cmte_contrib
+    type: BIGINT
+  - name: pol_pty_contrib
+    type: BIGINT
+  - name: cvg_end_dt
     type: DATE
+  - name: indiv_refunds
+    type: BIGINT
+  - name: cmte_refunds
+    type: BIGINT
+  - name: cn_office
+    type: VARCHAR
+  - name: cn_pcc
+    type: VARCHAR

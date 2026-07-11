@@ -1,12 +1,27 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fec-individual-contributions`. Regenerate after model-verify.
+# caution: Memo and subitemization rows can represent conduit or explanatory records; exclude memo-coded rows when building contribution totals intended to avoid double counting.
+key: [sub_id]
+temporal: transaction_dt
+sort: [transaction_dt, sub_id]
 columns:
   - name: cycle
-    type: VARCHAR
-  - name: sub_id
-    type: VARCHAR
+    type: BIGINT
   - name: cmte_id
     type: VARCHAR
-  - name: contributor_name
+  - name: amndt_ind
+    type: VARCHAR
+  - name: rpt_tp
+    type: VARCHAR
+  - name: transaction_pgi
+    type: VARCHAR
+  - name: image_num
+    type: BIGINT
+  - name: transaction_tp
+    type: VARCHAR
+  - name: entity_tp
+    type: VARCHAR
+  - name: name
     type: VARCHAR
   - name: city
     type: VARCHAR
@@ -18,29 +33,19 @@ columns:
     type: VARCHAR
   - name: occupation
     type: VARCHAR
-  - name: entity_type
-    type: VARCHAR
-  - name: transaction_type
-    type: VARCHAR
-  - name: transaction_date
+  - name: transaction_dt
     type: DATE
-  - name: amount
-    type: DOUBLE
+  - name: transaction_amt
+    type: BIGINT
   - name: other_id
     type: VARCHAR
   - name: tran_id
     type: VARCHAR
   - name: file_num
     type: BIGINT
-  - name: memo_code
+  - name: memo_cd
     type: VARCHAR
   - name: memo_text
     type: VARCHAR
-  - name: amendment_ind
-    type: VARCHAR
-  - name: report_type
-    type: VARCHAR
-  - name: transaction_pgi
-    type: VARCHAR
-  - name: image_num
+  - name: sub_id
     type: VARCHAR

@@ -1,27 +1,33 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Memo and subitemization rows can describe underlying spending details; exclude memo-coded rows when computing disbursement totals that should avoid double counting.
 SELECT
-    cycle,
-    SUB_ID                                    AS sub_id,
-    CMTE_ID                                   AS cmte_id,
-    NAME                                      AS payee_name,
-    CITY                                      AS city,
-    STATE                                     AS state,
-    ZIP_CODE                                  AS zip_code,
-    TRY_STRPTIME(TRANSACTION_DT, '%m/%d/%Y')::DATE AS transaction_date,
-    TRY_CAST(TRANSACTION_AMT AS DOUBLE)       AS amount,
-    PURPOSE                                   AS purpose,
-    CATEGORY                                  AS category,
-    CATEGORY_DESC                             AS category_desc,
-    FORM_TP_CD                                AS form_type,
-    SCHED_TP_CD                               AS schedule_type,
-    LINE_NUM                                  AS line_num,
-    ENTITY_TP                                 AS entity_type,
-    TRAN_ID                                   AS tran_id,
-    TRY_CAST(FILE_NUM AS BIGINT)              AS file_num,
-    IMAGE_NUM                                 AS image_num,
-    MEMO_CD                                   AS memo_code,
-    MEMO_TEXT                                 AS memo_text,
-    AMNDT_IND                                 AS amendment_ind,
-    RPT_TP                                    AS report_type,
-    TRANSACTION_PGI                           AS transaction_pgi
+    CAST("cycle" AS BIGINT) AS cycle,
+    "CMTE_ID" AS cmte_id,
+    "AMNDT_IND" AS amndt_ind,
+    CAST("RPT_YR" AS BIGINT) AS rpt_yr,
+    "RPT_TP" AS rpt_tp,
+    CAST("IMAGE_NUM" AS BIGINT) AS image_num,
+    "LINE_NUM" AS line_num,
+    "FORM_TP_CD" AS form_tp_cd,
+    "SCHED_TP_CD" AS sched_tp_cd,
+    "NAME" AS name,
+    "CITY" AS city,
+    "STATE" AS state,
+    "ZIP_CODE" AS zip_code,
+    strptime("TRANSACTION_DT", '%m/%d/%Y')::DATE AS transaction_dt,
+    CAST("TRANSACTION_AMT" AS BIGINT) AS transaction_amt,
+    "TRANSACTION_PGI" AS transaction_pgi,
+    "PURPOSE" AS purpose,
+    "CATEGORY" AS category,
+    "CATEGORY_DESC" AS category_desc,
+    "MEMO_CD" AS memo_cd,
+    "MEMO_TEXT" AS memo_text,
+    "ENTITY_TP" AS entity_tp,
+    "SUB_ID" AS sub_id,
+    CAST("FILE_NUM" AS BIGINT) AS file_num,
+    "TRAN_ID" AS tran_id,
+    "BACK_REF_TRAN_ID" AS back_ref_tran_id
 FROM "fec-operating-expenditures"
-WHERE SUB_ID IS NOT NULL AND SUB_ID <> ''

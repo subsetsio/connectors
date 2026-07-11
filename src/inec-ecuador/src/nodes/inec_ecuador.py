@@ -10,12 +10,14 @@ from __future__ import annotations
 import json
 from urllib.parse import quote
 
+import httpx
 import pyarrow as pa
 
 from constants import ENTITY_IDNO
 from subsets_utils import NodeSpec, get, save_raw_parquet
 
 BASE_URL = "https://anda.inec.gob.ec/anda5/index.php/api/catalog"
+SEARCH_URL = f"{BASE_URL}/search"
 PREFIX = "inec-ecuador-"
 
 SCHEMA = pa.schema([
@@ -55,17 +57,44 @@ def _entity_from_node_id(node_id: str) -> str:
     return node_id[len(PREFIX):]
 
 
-def fetch_study_metadata(node_id: str) -> None:
-    entity_id = _entity_from_node_id(node_id)
-    idno = ENTITY_IDNO[entity_id]
+def _study_dataset_by_idno(node_id: str, idno: str) -> dict:
     url = f"{BASE_URL}/{quote(idno, safe='')}"
     resp = get(url, params={"format": "json"}, timeout=(10.0, 180.0))
     resp.raise_for_status()
     payload = resp.json()
     if payload.get("status") != "success" or not isinstance(payload.get("dataset"), dict):
         raise RuntimeError(f"{node_id}: unexpected API response for {idno}: {payload!r}")
+    return payload["dataset"]
 
-    dataset = payload["dataset"]
+
+def _study_dataset_from_search(node_id: str, entity_id: str, idno: str) -> dict:
+    # Some legacy IDNOs still enumerate in search but return IDNO-NOT-FOUND
+    # from the richer per-study endpoint.
+    resp = get(SEARCH_URL, params={"format": "json", "ps": 500}, timeout=(10.0, 180.0))
+    resp.raise_for_status()
+    result = resp.json().get("result") or {}
+    rows = result.get("rows") or []
+    for row in rows:
+        if str(row.get("id")) == entity_id:
+            return row
+    raise RuntimeError(f"{node_id}: no search row found for entity {entity_id} / {idno}")
+
+
+def _study_dataset(node_id: str, entity_id: str, idno: str) -> dict:
+    try:
+        return _study_dataset_by_idno(node_id, idno)
+    except httpx.HTTPStatusError as exc:
+        status_code = exc.response.status_code
+        if status_code in {400, 404, 500, 502, 503, 504}:
+            return _study_dataset_from_search(node_id, entity_id, idno)
+        raise
+
+
+def fetch_study_metadata(node_id: str) -> None:
+    entity_id = _entity_from_node_id(node_id)
+    idno = ENTITY_IDNO[entity_id]
+    dataset = _study_dataset(node_id, entity_id, idno)
+
     row = {
         "source_entity_id": entity_id,
         "id": str(dataset.get("id") or entity_id),

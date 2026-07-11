@@ -1,23 +1,29 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Amounts include transfers, contributions, refunds, and other transaction types; group by transaction type before interpreting totals as net support.
 SELECT
-    cycle,
-    SUB_ID                                    AS sub_id,
-    CMTE_ID                                   AS cmte_id,
-    OTHER_ID                                  AS other_id,
-    NAME                                      AS name,
-    ENTITY_TP                                 AS entity_type,
-    TRANSACTION_TP                            AS transaction_type,
-    TRY_STRPTIME(TRANSACTION_DT, '%m%d%Y')::DATE AS transaction_date,
-    TRY_CAST(TRANSACTION_AMT AS DOUBLE)       AS amount,
-    CITY                                      AS city,
-    STATE                                     AS state,
-    ZIP_CODE                                  AS zip_code,
-    TRAN_ID                                   AS tran_id,
-    TRY_CAST(FILE_NUM AS BIGINT)              AS file_num,
-    MEMO_CD                                   AS memo_code,
-    MEMO_TEXT                                 AS memo_text,
-    AMNDT_IND                                 AS amendment_ind,
-    RPT_TP                                    AS report_type,
-    TRANSACTION_PGI                           AS transaction_pgi,
-    IMAGE_NUM                                 AS image_num
+    CAST("cycle" AS BIGINT) AS cycle,
+    "CMTE_ID" AS cmte_id,
+    "AMNDT_IND" AS amndt_ind,
+    "RPT_TP" AS rpt_tp,
+    "TRANSACTION_PGI" AS transaction_pgi,
+    "IMAGE_NUM" AS image_num,
+    "TRANSACTION_TP" AS transaction_tp,
+    "ENTITY_TP" AS entity_tp,
+    "NAME" AS name,
+    "CITY" AS city,
+    "STATE" AS state,
+    "ZIP_CODE" AS zip_code,
+    "EMPLOYER" AS employer,
+    "OCCUPATION" AS occupation,
+    strptime("TRANSACTION_DT", '%m%d%Y')::DATE AS transaction_dt,
+    CAST("TRANSACTION_AMT" AS BIGINT) AS transaction_amt,
+    "OTHER_ID" AS other_id,
+    "TRAN_ID" AS tran_id,
+    CAST("FILE_NUM" AS BIGINT) AS file_num,
+    "MEMO_CD" AS memo_cd,
+    "MEMO_TEXT" AS memo_text,
+    "SUB_ID" AS sub_id
 FROM "fec-inter-committee-transactions"
-WHERE SUB_ID IS NOT NULL AND SUB_ID <> ''

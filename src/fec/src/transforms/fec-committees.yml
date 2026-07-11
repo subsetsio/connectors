@@ -1,42 +1,73 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fec-committees`. Regenerate after model-verify.
+# caution: Committee summaries include multiple committee types, including candidate committees, party committees, PACs, and independent-expenditure-only committees; filter committee type before comparing totals across committee classes.
+key: [cycle, cmte_id]
+temporal: cvg_end_dt
+sort: [cvg_end_dt, cycle, cmte_id]
 columns:
   - name: cycle
-    type: VARCHAR
+    type: BIGINT
   - name: cmte_id
     type: VARCHAR
-  - name: cmte_name
+  - name: cmte_nm
     type: VARCHAR
-  - name: cmte_type
+  - name: cmte_tp
     type: VARCHAR
-  - name: cmte_designation
+  - name: cmte_dsgn
     type: VARCHAR
-  - name: party
+  - name: cmte_filing_freq
     type: VARCHAR
-  - name: state
-    type: VARCHAR
-  - name: org_type
-    type: VARCHAR
-  - name: connected_org
-    type: VARCHAR
-  - name: cand_id
-    type: VARCHAR
-  - name: total_receipts
+  - name: ttl_receipts
+    type: BIGINT
+  - name: trans_from_aff
+    type: BIGINT
+  - name: indv_contrib
+    type: BIGINT
+  - name: other_pol_cmte_contrib
+    type: BIGINT
+  - name: cand_contrib
+    type: BIGINT
+  - name: cand_loans
+    type: BIGINT
+  - name: ttl_loans_received
+    type: BIGINT
+  - name: ttl_disb
     type: DOUBLE
-  - name: total_disbursements
+  - name: tranf_to_aff
+    type: BIGINT
+  - name: indv_refunds
+    type: BIGINT
+  - name: other_pol_cmte_refunds
+    type: BIGINT
+  - name: cand_loan_repay
     type: DOUBLE
-  - name: individual_contrib
+  - name: loan_repay
+    type: BIGINT
+  - name: coh_bop
     type: DOUBLE
-  - name: other_cmte_contrib
-    type: DOUBLE
-  - name: contrib_to_other_cmte
-    type: DOUBLE
-  - name: independent_expenditures
-    type: DOUBLE
-  - name: party_coordinated_exp
-    type: DOUBLE
-  - name: cash_on_hand_end
+  - name: coh_cop
     type: DOUBLE
   - name: debts_owed_by
+    type: BIGINT
+  - name: nonfed_trans_received
     type: DOUBLE
-  - name: coverage_end_date
+  - name: contrib_to_other_cmte
+    type: BIGINT
+  - name: ind_exp
+    type: DOUBLE
+  - name: pty_coord_exp
+    type: DOUBLE
+  - name: nonfed_share_exp
+    type: VARCHAR
+  - name: cvg_end_dt
     type: DATE
+  - name: cm_pty
+    type: VARCHAR
+  - name: cm_st
+    type: VARCHAR
+  - name: cm_org_tp
+    type: VARCHAR
+  - name: cm_connected_org
+    type: VARCHAR
+  - name: cm_cand_id
+    type: VARCHAR

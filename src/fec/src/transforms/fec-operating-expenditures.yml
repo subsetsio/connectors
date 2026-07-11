@@ -1,12 +1,29 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `fec-operating-expenditures`. Regenerate after model-verify.
+# caution: Memo and subitemization rows can describe underlying spending details; exclude memo-coded rows when computing disbursement totals that should avoid double counting.
+key: [sub_id]
+temporal: transaction_dt
+sort: [transaction_dt, sub_id]
 columns:
   - name: cycle
-    type: VARCHAR
-  - name: sub_id
-    type: VARCHAR
+    type: BIGINT
   - name: cmte_id
     type: VARCHAR
-  - name: payee_name
+  - name: amndt_ind
+    type: VARCHAR
+  - name: rpt_yr
+    type: BIGINT
+  - name: rpt_tp
+    type: VARCHAR
+  - name: image_num
+    type: BIGINT
+  - name: line_num
+    type: VARCHAR
+  - name: form_tp_cd
+    type: VARCHAR
+  - name: sched_tp_cd
+    type: VARCHAR
+  - name: name
     type: VARCHAR
   - name: city
     type: VARCHAR
@@ -14,37 +31,29 @@ columns:
     type: VARCHAR
   - name: zip_code
     type: VARCHAR
-  - name: transaction_date
+  - name: transaction_dt
     type: DATE
-  - name: amount
-    type: DOUBLE
+  - name: transaction_amt
+    type: BIGINT
+  - name: transaction_pgi
+    type: VARCHAR
   - name: purpose
     type: VARCHAR
   - name: category
     type: VARCHAR
   - name: category_desc
     type: VARCHAR
-  - name: form_type
-    type: VARCHAR
-  - name: schedule_type
-    type: VARCHAR
-  - name: line_num
-    type: VARCHAR
-  - name: entity_type
-    type: VARCHAR
-  - name: tran_id
-    type: VARCHAR
-  - name: file_num
-    type: BIGINT
-  - name: image_num
-    type: VARCHAR
-  - name: memo_code
+  - name: memo_cd
     type: VARCHAR
   - name: memo_text
     type: VARCHAR
-  - name: amendment_ind
+  - name: entity_tp
     type: VARCHAR
-  - name: report_type
+  - name: sub_id
     type: VARCHAR
-  - name: transaction_pgi
+  - name: file_num
+    type: BIGINT
+  - name: tran_id
+    type: VARCHAR
+  - name: back_ref_tran_id
     type: VARCHAR

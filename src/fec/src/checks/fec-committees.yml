@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `fec-committees`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [cycle, cmte_id]
+temporal: cvg_end_dt
+checks:
+  - kind: unique
+    columns: [cycle, cmte_id]
+  - kind: not_null
+    col: cycle
+  - kind: not_null
+    col: cmte_id
+  - kind: row_floor
+    min: 24114
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
