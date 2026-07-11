@@ -1,0 +1,26 @@
+spec_id: nasa-gistemp-annual
+status: active
+tests:
+  - not_null: year
+  - not_null: region
+  - not_null: anomaly_c
+  - column_type: {col: year, type: integer}
+  - column_type: {col: region, type: string}
+  - column_type: {col: anomaly_c, type: float}
+  - unique: [year, region]
+    reason: one annual anomaly per year and region
+    certainty: 95
+  - enum: {col: region, values: ["Global", "Northern Hemisphere", "Southern Hemisphere"]}
+    reason: the annual table is built from the three published GLB/NH/SH LOTI CSVs
+    certainty: 95
+  - between: {col: year, lo: 1880, hi: current_year()}
+    reason: GISTEMP v4 begins in 1880 and should not publish future annual observations
+    certainty: 95
+  - at_least: {col: year, expr: 2025}
+    reason: annual J-D means should include the last completed calendar year
+    certainty: 80
+    points_outward: true
+  - between: {col: anomaly_c, lo: -2.5, hi: 2.5}
+    reason: values are decimal degrees C anomalies relative to 1951-1980
+    certainty: 90
+

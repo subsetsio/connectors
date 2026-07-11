@@ -1,0 +1,26 @@
+spec_id: nasa-gistemp-monthly
+status: active
+tests:
+  - not_null: month
+  - not_null: region
+  - not_null: anomaly_c
+  - column_type: {col: month, type: string}
+  - column_type: {col: region, type: string}
+  - column_type: {col: anomaly_c, type: float}
+  - unique: [month, region]
+    reason: one monthly anomaly per month and region
+    certainty: 95
+  - matches: {col: month, pattern: '^[0-9]{4}-[0-9]{2}$'}
+    reason: the fetch normalizes monthly observations to YYYY-MM periods
+    certainty: 95
+  - enum: {col: region, values: ["Global", "Northern Hemisphere", "Southern Hemisphere"]}
+    reason: the monthly table is built from the three published GLB/NH/SH LOTI CSVs
+    certainty: 95
+  - freshness: {col: month, reaches: today - 90d}
+    reason: GISS updates GISTEMP monthly around mid-month; allow lag for source release timing
+    certainty: 85
+    points_outward: true
+  - between: {col: anomaly_c, lo: -4.0, hi: 4.0}
+    reason: values are decimal degrees C anomalies relative to 1951-1980
+    certainty: 90
+

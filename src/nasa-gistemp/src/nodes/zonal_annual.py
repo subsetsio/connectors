@@ -6,7 +6,7 @@ Published as nasa-gistemp-zonal-annual (year, zone, anomaly_c).
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import _fetch_csv, _parse_anomaly, _read_table
 
 ZONAL_FILE = "ZonAnn.Ts+dSST.csv"
@@ -34,23 +34,3 @@ def fetch_zonal_annual(node_id: str) -> None:
             rows.append({"year": year, "zone": zone, "anomaly_c": val})
     table = pa.Table.from_pylist(rows, schema=ZONAL_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="nasa-gistemp-zonal-annual", fn=fetch_zonal_annual, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="nasa-gistemp-zonal-annual-transform",
-        deps=["nasa-gistemp-zonal-annual"],
-        sql='''
-            SELECT
-                CAST(year AS INTEGER) AS year,
-                zone,
-                CAST(anomaly_c AS DOUBLE) AS anomaly_c
-            FROM "nasa-gistemp-zonal-annual"
-            WHERE anomaly_c IS NOT NULL
-        ''',
-    ),
-]

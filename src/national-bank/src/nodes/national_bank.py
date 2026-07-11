@@ -22,7 +22,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -40,6 +39,7 @@ SOURCE_MIN_YEAR = 1999
 _FETCH_WORKERS = 8
 
 _BASE_URL = "https://nationalbank.kz/rss/get_rates.cfm"
+_CURRENT_RATES_URL = "https://nationalbank.kz/rss/rates_all.xml"
 
 SCHEMA = pa.schema([
     ("date", pa.date32()),
@@ -49,6 +49,13 @@ SCHEMA = pa.schema([
     ("quant", pa.int64()),
     ("change", pa.float64()),
     ("direction", pa.string()),
+])
+
+CURRENCY_SCHEMA = pa.schema([
+    ("currency_code", pa.string()),
+    ("currency_name", pa.string()),
+    ("quant", pa.int64()),
+    ("source_date", pa.date32()),
 ])
 
 
@@ -98,6 +105,46 @@ def _fetch_one_day(d: date) -> list[dict]:
     return rows
 
 
+def _parse_feed_date(text: str):
+    text = (text or "").strip()
+    for fmt in ("%d.%m.%Y", "%d/%m/%Y", "%Y-%m-%d"):
+        try:
+            return datetime.strptime(text, fmt).date()
+        except ValueError:
+            pass
+    return None
+
+
+def fetch_currencies(node_id: str) -> None:
+    resp = get(_CURRENT_RATES_URL, timeout=(10.0, 120.0))
+    resp.raise_for_status()
+    root = ET.fromstring(resp.content)
+
+    source_date = _parse_feed_date(root.findtext(".//date"))
+    rows = []
+    seen = set()
+    for item in root.findall(".//item"):
+        code = (item.findtext("title") or "").strip()
+        if not code or code in seen:
+            continue
+        seen.add(code)
+        quant_text = (item.findtext("quant") or "").strip()
+        try:
+            quant = int(quant_text) if quant_text else None
+        except ValueError:
+            quant = None
+        rows.append({
+            "currency_code": code,
+            "currency_name": (item.findtext("fullname") or "").strip() or None,
+            "quant": quant,
+            "source_date": source_date,
+        })
+
+    if not rows:
+        raise RuntimeError("current NBK rates feed returned no currency items")
+    save_raw_parquet(pa.Table.from_pylist(rows, schema=CURRENCY_SCHEMA), node_id)
+
+
 def _fetch_year(year: int, end: date) -> list[dict]:
     """All daily snapshots for `year`, up to and including `end`."""
     start = date(year, 1, 1)
@@ -131,31 +178,6 @@ def fetch_fx_rates(node_id: str) -> None:
 
 
 DOWNLOAD_SPECS = [
+    NodeSpec(id="national-bank-currencies", fn=fetch_currencies, kind="download"),
     NodeSpec(id="national-bank-fx-rates", fn=fetch_fx_rates, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="national-bank-fx-rates-transform",
-        deps=["national-bank-fx-rates"],
-        sql='''
-            SELECT
-                CAST(date AS DATE)            AS date,
-                currency_code,
-                currency_name,
-                CAST(rate AS DOUBLE)          AS rate,
-                CAST(quant AS BIGINT)         AS quant,
-                CAST(rate AS DOUBLE) / NULLIF(CAST(quant AS DOUBLE), 0) AS rate_per_unit,
-                CAST(change AS DOUBLE)        AS change,
-                direction
-            FROM "national-bank-fx-rates"
-            WHERE rate IS NOT NULL
-              AND rate > 0                 -- drop meaningless 0 rates (e.g. LTL at 2015 euro changeover)
-              AND quant IS NOT NULL
-              AND currency_code IS NOT NULL
-            QUALIFY row_number() OVER (
-                PARTITION BY date, currency_code ORDER BY rate
-            ) = 1
-        ''',
-    ),
 ]

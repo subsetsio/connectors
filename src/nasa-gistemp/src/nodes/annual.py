@@ -6,7 +6,7 @@ mean. Published as nasa-gistemp-annual (year, region, anomaly_c).
 
 import pyarrow as pa
 
-from subsets_utils import NodeSpec, SqlNodeSpec, save_raw_parquet
+from subsets_utils import save_raw_parquet
 from utils import REGION_FILES, _fetch_csv, _parse_anomaly, _read_table
 
 ANNUAL_SCHEMA = pa.schema([
@@ -30,23 +30,3 @@ def fetch_annual(node_id: str) -> None:
             rows.append({"year": int(rec["Year"].strip()), "region": region, "anomaly_c": val})
     table = pa.Table.from_pylist(rows, schema=ANNUAL_SCHEMA)
     save_raw_parquet(table, asset)
-
-
-DOWNLOAD_SPECS = [
-    NodeSpec(id="nasa-gistemp-annual", fn=fetch_annual, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="nasa-gistemp-annual-transform",
-        deps=["nasa-gistemp-annual"],
-        sql='''
-            SELECT
-                CAST(year AS INTEGER) AS year,
-                region,
-                CAST(anomaly_c AS DOUBLE) AS anomaly_c
-            FROM "nasa-gistemp-annual"
-            WHERE anomaly_c IS NOT NULL
-        ''',
-    ),
-]
