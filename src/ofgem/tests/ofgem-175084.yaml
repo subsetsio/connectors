@@ -6,6 +6,9 @@ tests:
   - column_type: {col: category, type: string}
   - column_type: {col: series, type: string}
   - column_type: {col: value, type: float}
+  - freshness: {col: category, reaches: "01/01/2024"}
+    reason: temporal Ofgem chart labels use slash-date strings; the maximum label should reach at least 2024 for current market series.
+    certainty: 70
   - row_count: {min: 1}
     reason: each Ofgem data-portal chart's everviz data.csv yields at least one (category, series) data row.
     certainty: 85
