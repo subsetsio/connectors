@@ -1,9 +1,13 @@
-# mirrors the sibling --int-liab-by-maturity-new transform (identical long-format schema)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `monetary-authority-of-macao-4-domestic-interbank-market--int-liab-by-maturity-old`. Regenerate after model-verify.
+key: [date, period, year, series, part]
+temporal: period
+sort: [period, date, year, series, part]
 columns:
   - name: series
     type: VARCHAR
   - name: period
-    type: VARCHAR
+    type: DATE
   - name: year
     type: INTEGER
   - name: part

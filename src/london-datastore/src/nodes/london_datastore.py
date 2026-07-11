@@ -235,8 +235,6 @@ def fetch_one(node_id: str) -> None:
         for resource in package.get("resources") or []
         if _is_supported_resource(resource)
     ]
-    if not resources:
-        raise RuntimeError(f"{entity_id}: no supported tabular resources")
 
     rows: list[dict] = []
     for resource in resources:

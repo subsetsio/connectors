@@ -1,9 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `monetary-authority-of-macao-6-fx-and-interest-rates--eeri-daily-old-basket-2010`. Regenerate after model-verify.
+# caution: The raw worksheet contains rows that do not form a scan-verified key before transform filtering; use the observation dimensions and period/date fields together when analyzing the published series.
+key: []
+temporal: period
+sort: [period]
 columns:
   - name: series
     type: VARCHAR
   - name: period
-    type: VARCHAR
+    type: DATE
   - name: year
     type: INTEGER
   - name: part

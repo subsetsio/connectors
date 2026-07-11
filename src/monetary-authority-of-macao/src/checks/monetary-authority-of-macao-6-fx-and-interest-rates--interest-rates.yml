@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `monetary-authority-of-macao-6-fx-and-interest-rates--interest-rates`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [period, date, year, part, series]
+temporal: period
+checks:
+  - kind: unique
+    columns: [period, date, year, part, series]
+  - kind: not_null
+    col: period
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: part
+  - kind: not_null
+    col: series
+  - kind: row_floor
+    min: 967
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
