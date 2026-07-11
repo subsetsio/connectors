@@ -1,0 +1,14 @@
+key: [core_project_number, clinicaltrials_gov_id]
+columns:
+  - name: core_project_number
+    type: VARCHAR
+    description: NIH core project number that funded the study — foreign key to nih-project.core_project_num.
+  - name: clinicaltrials_gov_id
+    type: VARCHAR
+    description: ClinicalTrials.gov registry identifier (NCT number) of the linked study.
+  - name: study
+    type: VARCHAR
+    description: Title of the clinical study as registered on ClinicalTrials.gov.
+  - name: study_status
+    type: VARCHAR
+    description: Recruitment/completion status of the study (e.g. COMPLETED, RECRUITING, TERMINATED).

@@ -1,0 +1,10 @@
+spec_id: nso-mongolia-dt-nso-0400-036v0-2
+status: active
+tests:
+  - not_null: value
+    reason: every kept PxWeb cell carries a numeric measure; null cells are dropped at fetch, so value is never null
+    certainty: 95
+  - row_count:
+      min: 1
+    reason: an accepted NSO table publishes at least one non-null observation; 0 rows means all-null upstream or a broken json-stat parse
+    certainty: 80
