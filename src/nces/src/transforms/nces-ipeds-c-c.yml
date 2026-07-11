@@ -1,78 +1,80 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-c-c`. Regenerate after model-verify.
+key: [unitid, year, awlevelc]
 temporal: year
-sort: [year]
+sort: [year, unitid, awlevelc]
 columns:
   - name: unitid
     type: BIGINT
+  - name: awlevelc
+    type: VARCHAR
+  - name: xcstotlt
+    type: VARCHAR
+  - name: cstotlt
+    type: BIGINT
+  - name: xcstotlm
+    type: VARCHAR
+  - name: cstotlm
+    type: BIGINT
+  - name: xcstotlw
+    type: VARCHAR
+  - name: cstotlw
+    type: BIGINT
+  - name: xcsaiant
+    type: VARCHAR
+  - name: csaiant
+    type: BIGINT
+  - name: xcsasiat
+    type: VARCHAR
+  - name: csasiat
+    type: BIGINT
+  - name: xcsbkaat
+    type: VARCHAR
+  - name: csbkaat
+    type: BIGINT
+  - name: xcshispt
+    type: VARCHAR
+  - name: cshispt
+    type: BIGINT
+  - name: xcsnhpit
+    type: VARCHAR
+  - name: csnhpit
+    type: BIGINT
+  - name: xcswhitt
+    type: VARCHAR
+  - name: cswhitt
+    type: BIGINT
+  - name: xcs2mort
+    type: VARCHAR
+  - name: cs2mort
+    type: BIGINT
+  - name: xcsunknt
+    type: VARCHAR
+  - name: csunknt
+    type: BIGINT
+  - name: xcsnralt
+    type: VARCHAR
+  - name: csnralt
+    type: BIGINT
+  - name: xcsund18
+    type: VARCHAR
+  - name: csund18
+    type: BIGINT
+  - name: xcs18_24
+    type: VARCHAR
+  - name: cs18_24
+    type: BIGINT
+  - name: xcs25_39
+    type: VARCHAR
+  - name: cs25_39
+    type: BIGINT
+  - name: xcsabv40
+    type: VARCHAR
+  - name: csabv40
+    type: BIGINT
+  - name: xcsunkn
+    type: VARCHAR
+  - name: csunkn
+    type: BIGINT
   - name: year
-    type: INTEGER
-  - name: AWLEVELC
-    type: VARCHAR
-  - name: XCSTOTLT
-    type: VARCHAR
-  - name: CSTOTLT
-    type: VARCHAR
-  - name: XCSTOTLM
-    type: VARCHAR
-  - name: CSTOTLM
-    type: VARCHAR
-  - name: XCSTOTLW
-    type: VARCHAR
-  - name: CSTOTLW
-    type: VARCHAR
-  - name: XCSAIANT
-    type: VARCHAR
-  - name: CSAIANT
-    type: VARCHAR
-  - name: XCSASIAT
-    type: VARCHAR
-  - name: CSASIAT
-    type: VARCHAR
-  - name: XCSBKAAT
-    type: VARCHAR
-  - name: CSBKAAT
-    type: VARCHAR
-  - name: XCSHISPT
-    type: VARCHAR
-  - name: CSHISPT
-    type: VARCHAR
-  - name: XCSNHPIT
-    type: VARCHAR
-  - name: CSNHPIT
-    type: VARCHAR
-  - name: XCSWHITT
-    type: VARCHAR
-  - name: CSWHITT
-    type: VARCHAR
-  - name: XCS2MORT
-    type: VARCHAR
-  - name: CS2MORT
-    type: VARCHAR
-  - name: XCSUNKNT
-    type: VARCHAR
-  - name: CSUNKNT
-    type: VARCHAR
-  - name: XCSNRALT
-    type: VARCHAR
-  - name: CSNRALT
-    type: VARCHAR
-  - name: XCSUND18
-    type: VARCHAR
-  - name: CSUND18
-    type: VARCHAR
-  - name: XCS18_24
-    type: VARCHAR
-  - name: CS18_24
-    type: VARCHAR
-  - name: XCS25_39
-    type: VARCHAR
-  - name: CS25_39
-    type: VARCHAR
-  - name: XCSABV40
-    type: VARCHAR
-  - name: CSABV40
-    type: VARCHAR
-  - name: XCSUNKN
-    type: VARCHAR
-  - name: CSUNKN
-    type: VARCHAR
+    type: BIGINT

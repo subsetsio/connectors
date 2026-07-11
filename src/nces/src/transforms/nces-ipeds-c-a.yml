@@ -1,134 +1,136 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-c-a`. Regenerate after model-verify.
+key: [unitid, year, cipcode, majornum, awlevel]
 temporal: year
-sort: [year]
+sort: [year, unitid, cipcode, majornum, awlevel]
 columns:
   - name: unitid
     type: BIGINT
+  - name: cipcode
+    type: VARCHAR
+  - name: majornum
+    type: VARCHAR
+  - name: awlevel
+    type: VARCHAR
+  - name: xctotalt
+    type: VARCHAR
+  - name: ctotalt
+    type: VARCHAR
+  - name: xctotalm
+    type: VARCHAR
+  - name: ctotalm
+    type: VARCHAR
+  - name: xctotalw
+    type: VARCHAR
+  - name: ctotalw
+    type: VARCHAR
+  - name: xcaiant
+    type: VARCHAR
+  - name: caiant
+    type: VARCHAR
+  - name: xcaianm
+    type: VARCHAR
+  - name: caianm
+    type: VARCHAR
+  - name: xcaianw
+    type: VARCHAR
+  - name: caianw
+    type: VARCHAR
+  - name: xcasiat
+    type: VARCHAR
+  - name: casiat
+    type: VARCHAR
+  - name: xcasiam
+    type: VARCHAR
+  - name: casiam
+    type: VARCHAR
+  - name: xcasiaw
+    type: VARCHAR
+  - name: casiaw
+    type: VARCHAR
+  - name: xcbkaat
+    type: VARCHAR
+  - name: cbkaat
+    type: VARCHAR
+  - name: xcbkaam
+    type: VARCHAR
+  - name: cbkaam
+    type: VARCHAR
+  - name: xcbkaaw
+    type: VARCHAR
+  - name: cbkaaw
+    type: VARCHAR
+  - name: xchispt
+    type: VARCHAR
+  - name: chispt
+    type: VARCHAR
+  - name: xchispm
+    type: VARCHAR
+  - name: chispm
+    type: VARCHAR
+  - name: xchispw
+    type: VARCHAR
+  - name: chispw
+    type: VARCHAR
+  - name: xcnhpit
+    type: VARCHAR
+  - name: cnhpit
+    type: VARCHAR
+  - name: xcnhpim
+    type: VARCHAR
+  - name: cnhpim
+    type: VARCHAR
+  - name: xcnhpiw
+    type: VARCHAR
+  - name: cnhpiw
+    type: VARCHAR
+  - name: xcwhitt
+    type: VARCHAR
+  - name: cwhitt
+    type: VARCHAR
+  - name: xcwhitm
+    type: VARCHAR
+  - name: cwhitm
+    type: VARCHAR
+  - name: xcwhitw
+    type: VARCHAR
+  - name: cwhitw
+    type: VARCHAR
+  - name: xc2mort
+    type: VARCHAR
+  - name: c2mort
+    type: VARCHAR
+  - name: xc2morm
+    type: VARCHAR
+  - name: c2morm
+    type: VARCHAR
+  - name: xc2morw
+    type: VARCHAR
+  - name: c2morw
+    type: VARCHAR
+  - name: xcunknt
+    type: VARCHAR
+  - name: cunknt
+    type: VARCHAR
+  - name: xcunknm
+    type: VARCHAR
+  - name: cunknm
+    type: VARCHAR
+  - name: xcunknw
+    type: VARCHAR
+  - name: cunknw
+    type: VARCHAR
+  - name: xcnralt
+    type: VARCHAR
+  - name: cnralt
+    type: VARCHAR
+  - name: xcnralm
+    type: VARCHAR
+  - name: cnralm
+    type: VARCHAR
+  - name: xcnralw
+    type: VARCHAR
+  - name: cnralw
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: CIPCODE
-    type: VARCHAR
-  - name: MAJORNUM
-    type: VARCHAR
-  - name: AWLEVEL
-    type: VARCHAR
-  - name: XCTOTALT
-    type: VARCHAR
-  - name: CTOTALT
-    type: VARCHAR
-  - name: XCTOTALM
-    type: VARCHAR
-  - name: CTOTALM
-    type: VARCHAR
-  - name: XCTOTALW
-    type: VARCHAR
-  - name: CTOTALW
-    type: VARCHAR
-  - name: XCAIANT
-    type: VARCHAR
-  - name: CAIANT
-    type: VARCHAR
-  - name: XCAIANM
-    type: VARCHAR
-  - name: CAIANM
-    type: VARCHAR
-  - name: XCAIANW
-    type: VARCHAR
-  - name: CAIANW
-    type: VARCHAR
-  - name: XCASIAT
-    type: VARCHAR
-  - name: CASIAT
-    type: VARCHAR
-  - name: XCASIAM
-    type: VARCHAR
-  - name: CASIAM
-    type: VARCHAR
-  - name: XCASIAW
-    type: VARCHAR
-  - name: CASIAW
-    type: VARCHAR
-  - name: XCBKAAT
-    type: VARCHAR
-  - name: CBKAAT
-    type: VARCHAR
-  - name: XCBKAAM
-    type: VARCHAR
-  - name: CBKAAM
-    type: VARCHAR
-  - name: XCBKAAW
-    type: VARCHAR
-  - name: CBKAAW
-    type: VARCHAR
-  - name: XCHISPT
-    type: VARCHAR
-  - name: CHISPT
-    type: VARCHAR
-  - name: XCHISPM
-    type: VARCHAR
-  - name: CHISPM
-    type: VARCHAR
-  - name: XCHISPW
-    type: VARCHAR
-  - name: CHISPW
-    type: VARCHAR
-  - name: XCNHPIT
-    type: VARCHAR
-  - name: CNHPIT
-    type: VARCHAR
-  - name: XCNHPIM
-    type: VARCHAR
-  - name: CNHPIM
-    type: VARCHAR
-  - name: XCNHPIW
-    type: VARCHAR
-  - name: CNHPIW
-    type: VARCHAR
-  - name: XCWHITT
-    type: VARCHAR
-  - name: CWHITT
-    type: VARCHAR
-  - name: XCWHITM
-    type: VARCHAR
-  - name: CWHITM
-    type: VARCHAR
-  - name: XCWHITW
-    type: VARCHAR
-  - name: CWHITW
-    type: VARCHAR
-  - name: XC2MORT
-    type: VARCHAR
-  - name: C2MORT
-    type: VARCHAR
-  - name: XC2MORM
-    type: VARCHAR
-  - name: C2MORM
-    type: VARCHAR
-  - name: XC2MORW
-    type: VARCHAR
-  - name: C2MORW
-    type: VARCHAR
-  - name: XCUNKNT
-    type: VARCHAR
-  - name: CUNKNT
-    type: VARCHAR
-  - name: XCUNKNM
-    type: VARCHAR
-  - name: CUNKNM
-    type: VARCHAR
-  - name: XCUNKNW
-    type: VARCHAR
-  - name: CUNKNW
-    type: VARCHAR
-  - name: XCNRALT
-    type: VARCHAR
-  - name: CNRALT
-    type: VARCHAR
-  - name: XCNRALM
-    type: VARCHAR
-  - name: CNRALM
-    type: VARCHAR
-  - name: XCNRALW
-    type: VARCHAR
-  - name: CNRALW
-    type: VARCHAR
+    type: BIGINT

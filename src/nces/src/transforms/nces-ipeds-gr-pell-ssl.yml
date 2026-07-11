@@ -1,106 +1,108 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-gr-pell-ssl`. Regenerate after model-verify.
+key: [unitid, year, psgrtype]
 temporal: year
-sort: [year]
+sort: [year, unitid, psgrtype]
 columns:
   - name: unitid
     type: BIGINT
+  - name: psgrtype
+    type: BIGINT
+  - name: xpgrevct
+    type: VARCHAR
+  - name: pgrevct
+    type: BIGINT
+  - name: xpgexclu
+    type: VARCHAR
+  - name: pgexclu
+    type: BIGINT
+  - name: xpgadjct
+    type: VARCHAR
+  - name: pgadjct
+    type: BIGINT
+  - name: xpgcmbac
+    type: VARCHAR
+  - name: pgcmbac
+    type: VARCHAR
+  - name: xpgcmoba
+    type: VARCHAR
+  - name: pgcmoba
+    type: VARCHAR
+  - name: xpgcmtot
+    type: VARCHAR
+  - name: pgcmtot
+    type: BIGINT
+  - name: xssrevct
+    type: VARCHAR
+  - name: ssrevct
+    type: BIGINT
+  - name: xssexclu
+    type: VARCHAR
+  - name: ssexclu
+    type: BIGINT
+  - name: xssadjct
+    type: VARCHAR
+  - name: ssadjct
+    type: BIGINT
+  - name: xsscmbac
+    type: VARCHAR
+  - name: sscmbac
+    type: VARCHAR
+  - name: xsscmoba
+    type: VARCHAR
+  - name: sscmoba
+    type: VARCHAR
+  - name: xsscmtot
+    type: VARCHAR
+  - name: sscmtot
+    type: BIGINT
+  - name: xnrrevct
+    type: VARCHAR
+  - name: nrrevct
+    type: BIGINT
+  - name: xnrexclu
+    type: VARCHAR
+  - name: nrexclu
+    type: BIGINT
+  - name: xnradjct
+    type: VARCHAR
+  - name: nradjct
+    type: BIGINT
+  - name: xnrcmbac
+    type: VARCHAR
+  - name: nrcmbac
+    type: VARCHAR
+  - name: xnrcmoba
+    type: VARCHAR
+  - name: nrcmoba
+    type: VARCHAR
+  - name: xnrcmtot
+    type: VARCHAR
+  - name: nrcmtot
+    type: BIGINT
+  - name: xttrevct
+    type: VARCHAR
+  - name: ttrevct
+    type: BIGINT
+  - name: xttexclu
+    type: VARCHAR
+  - name: ttexclu
+    type: BIGINT
+  - name: xttadjct
+    type: VARCHAR
+  - name: ttadjct
+    type: BIGINT
+  - name: xttcmbac
+    type: VARCHAR
+  - name: ttcmbac
+    type: VARCHAR
+  - name: xttcmoba
+    type: VARCHAR
+  - name: ttcmoba
+    type: VARCHAR
+  - name: xttcmtot
+    type: VARCHAR
+  - name: ttcmtot
+    type: BIGINT
   - name: year
-    type: INTEGER
-  - name: PSGRTYPE
-    type: VARCHAR
-  - name: XPGREVCT
-    type: VARCHAR
-  - name: PGREVCT
-    type: VARCHAR
-  - name: XPGEXCLU
-    type: VARCHAR
-  - name: PGEXCLU
-    type: VARCHAR
-  - name: XPGADJCT
-    type: VARCHAR
-  - name: PGADJCT
-    type: VARCHAR
-  - name: XPGCMBAC
-    type: VARCHAR
-  - name: PGCMBAC
-    type: VARCHAR
-  - name: XPGCMOBA
-    type: VARCHAR
-  - name: PGCMOBA
-    type: VARCHAR
-  - name: XPGCMTOT
-    type: VARCHAR
-  - name: PGCMTOT
-    type: VARCHAR
-  - name: XSSREVCT
-    type: VARCHAR
-  - name: SSREVCT
-    type: VARCHAR
-  - name: XSSEXCLU
-    type: VARCHAR
-  - name: SSEXCLU
-    type: VARCHAR
-  - name: XSSADJCT
-    type: VARCHAR
-  - name: SSADJCT
-    type: VARCHAR
-  - name: XSSCMBAC
-    type: VARCHAR
-  - name: SSCMBAC
-    type: VARCHAR
-  - name: XSSCMOBA
-    type: VARCHAR
-  - name: SSCMOBA
-    type: VARCHAR
-  - name: XSSCMTOT
-    type: VARCHAR
-  - name: SSCMTOT
-    type: VARCHAR
-  - name: XNRREVCT
-    type: VARCHAR
-  - name: NRREVCT
-    type: VARCHAR
-  - name: XNREXCLU
-    type: VARCHAR
-  - name: NREXCLU
-    type: VARCHAR
-  - name: XNRADJCT
-    type: VARCHAR
-  - name: NRADJCT
-    type: VARCHAR
-  - name: XNRCMBAC
-    type: VARCHAR
-  - name: NRCMBAC
-    type: VARCHAR
-  - name: XNRCMOBA
-    type: VARCHAR
-  - name: NRCMOBA
-    type: VARCHAR
-  - name: XNRCMTOT
-    type: VARCHAR
-  - name: NRCMTOT
-    type: VARCHAR
-  - name: XTTREVCT
-    type: VARCHAR
-  - name: TTREVCT
-    type: VARCHAR
-  - name: XTTEXCLU
-    type: VARCHAR
-  - name: TTEXCLU
-    type: VARCHAR
-  - name: XTTADJCT
-    type: VARCHAR
-  - name: TTADJCT
-    type: VARCHAR
-  - name: XTTCMBAC
-    type: VARCHAR
-  - name: TTCMBAC
-    type: VARCHAR
-  - name: XTTCMOBA
-    type: VARCHAR
-  - name: TTCMOBA
-    type: VARCHAR
-  - name: XTTCMTOT
-    type: VARCHAR
-  - name: TTCMTOT
-    type: VARCHAR
+    type: BIGINT

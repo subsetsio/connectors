@@ -1,88 +1,90 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-cdep`. Regenerate after model-verify.
+key: [unitid, year, cipcode]
 temporal: year
-sort: [year]
+sort: [year, unitid, cipcode]
 columns:
   - name: unitid
     type: BIGINT
+  - name: cipcode
+    type: VARCHAR
+  - name: ptotal
+    type: BIGINT
+  - name: ptotalde
+    type: BIGINT
+  - name: ptotaldes
+    type: VARCHAR
+  - name: passoc
+    type: BIGINT
+  - name: passocde
+    type: BIGINT
+  - name: passocdes
+    type: VARCHAR
+  - name: pbachl
+    type: BIGINT
+  - name: pbachlde
+    type: BIGINT
+  - name: pbachldes
+    type: VARCHAR
+  - name: pmastr
+    type: BIGINT
+  - name: pmastrde
+    type: BIGINT
+  - name: pmastrdes
+    type: VARCHAR
+  - name: pdocrs
+    type: BIGINT
+  - name: pdocrsde
+    type: BIGINT
+  - name: pdocrsdes
+    type: VARCHAR
+  - name: pdocpp
+    type: BIGINT
+  - name: pdocppde
+    type: BIGINT
+  - name: pdocppdes
+    type: VARCHAR
+  - name: pdocot
+    type: BIGINT
+  - name: pdocotde
+    type: BIGINT
+  - name: pdocotdes
+    type: VARCHAR
+  - name: pcert1a
+    type: VARCHAR
+  - name: pcert1ade
+    type: VARCHAR
+  - name: pcert1ades
+    type: VARCHAR
+  - name: pcert1b
+    type: VARCHAR
+  - name: pcert1bde
+    type: VARCHAR
+  - name: pcert1bdes
+    type: VARCHAR
+  - name: pcert2
+    type: BIGINT
+  - name: pcert2de
+    type: BIGINT
+  - name: pcert2des
+    type: VARCHAR
+  - name: pcert4
+    type: BIGINT
+  - name: pcert4de
+    type: BIGINT
+  - name: pcert4des
+    type: VARCHAR
+  - name: ppbacc
+    type: BIGINT
+  - name: ppbaccde
+    type: BIGINT
+  - name: ppbaccdes
+    type: VARCHAR
+  - name: ppmast
+    type: BIGINT
+  - name: ppmastde
+    type: BIGINT
+  - name: ppmastdes
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: CIPCODE
-    type: VARCHAR
-  - name: PTOTAL
-    type: VARCHAR
-  - name: PTOTALDE
-    type: VARCHAR
-  - name: PTOTALDES
-    type: VARCHAR
-  - name: PASSOC
-    type: VARCHAR
-  - name: PASSOCDE
-    type: VARCHAR
-  - name: PASSOCDES
-    type: VARCHAR
-  - name: PBACHL
-    type: VARCHAR
-  - name: PBACHLDE
-    type: VARCHAR
-  - name: PBACHLDES
-    type: VARCHAR
-  - name: PMASTR
-    type: VARCHAR
-  - name: PMASTRDE
-    type: VARCHAR
-  - name: PMASTRDES
-    type: VARCHAR
-  - name: PDOCRS
-    type: VARCHAR
-  - name: PDOCRSDE
-    type: VARCHAR
-  - name: PDOCRSDES
-    type: VARCHAR
-  - name: PDOCPP
-    type: VARCHAR
-  - name: PDOCPPDE
-    type: VARCHAR
-  - name: PDOCPPDES
-    type: VARCHAR
-  - name: PDOCOT
-    type: VARCHAR
-  - name: PDOCOTDE
-    type: VARCHAR
-  - name: PDOCOTDES
-    type: VARCHAR
-  - name: PCERT1A
-    type: VARCHAR
-  - name: PCERT1ADE
-    type: VARCHAR
-  - name: PCERT1ADES
-    type: VARCHAR
-  - name: PCERT1B
-    type: VARCHAR
-  - name: PCERT1BDE
-    type: VARCHAR
-  - name: PCERT1BDES
-    type: VARCHAR
-  - name: PCERT2
-    type: VARCHAR
-  - name: PCERT2DE
-    type: VARCHAR
-  - name: PCERT2DES
-    type: VARCHAR
-  - name: PCERT4
-    type: VARCHAR
-  - name: PCERT4DE
-    type: VARCHAR
-  - name: PCERT4DES
-    type: VARCHAR
-  - name: PPBACC
-    type: VARCHAR
-  - name: PPBACCDE
-    type: VARCHAR
-  - name: PPBACCDES
-    type: VARCHAR
-  - name: PPMAST
-    type: VARCHAR
-  - name: PPMASTDE
-    type: VARCHAR
-  - name: PPMASTDES
-    type: VARCHAR
+    type: BIGINT

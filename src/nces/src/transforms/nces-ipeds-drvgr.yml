@@ -1,92 +1,94 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-drvgr`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: grrttot
+    type: VARCHAR
+  - name: grrtm
+    type: VARCHAR
+  - name: grrtw
+    type: VARCHAR
+  - name: grrtan
+    type: VARCHAR
+  - name: grrtap
+    type: VARCHAR
+  - name: grrtas
+    type: VARCHAR
+  - name: grrtnh
+    type: VARCHAR
+  - name: grrtbk
+    type: VARCHAR
+  - name: grrths
+    type: VARCHAR
+  - name: grrtwh
+    type: VARCHAR
+  - name: grrt2m
+    type: VARCHAR
+  - name: grrtun
+    type: VARCHAR
+  - name: grrtnr
+    type: VARCHAR
+  - name: trrttot
+    type: VARCHAR
+  - name: gba4rtt
+    type: VARCHAR
+  - name: gba5rtt
+    type: VARCHAR
+  - name: gba6rtt
+    type: VARCHAR
+  - name: gba6rtm
+    type: VARCHAR
+  - name: gba6rtw
+    type: VARCHAR
+  - name: gba6rtan
+    type: VARCHAR
+  - name: gba6rtap
+    type: VARCHAR
+  - name: gba6rtas
+    type: VARCHAR
+  - name: gba6rtnh
+    type: VARCHAR
+  - name: gba6rtbk
+    type: VARCHAR
+  - name: gba6rths
+    type: VARCHAR
+  - name: gba6rtwh
+    type: VARCHAR
+  - name: gba6rt2m
+    type: VARCHAR
+  - name: gba6rtun
+    type: VARCHAR
+  - name: gba6rtnr
+    type: VARCHAR
+  - name: gbatrrt
+    type: VARCHAR
+  - name: pggrrtt
+    type: VARCHAR
+  - name: pgba6rt
+    type: VARCHAR
+  - name: ssgrrtt
+    type: VARCHAR
+  - name: ssba6rt
+    type: VARCHAR
+  - name: nrgrrtt
+    type: VARCHAR
+  - name: nrba6rt
+    type: VARCHAR
+  - name: bagr100
+    type: VARCHAR
+  - name: bagr150
+    type: VARCHAR
+  - name: bagr200
+    type: VARCHAR
+  - name: l4gr100
+    type: VARCHAR
+  - name: l4gr150
+    type: VARCHAR
+  - name: l4gr200
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: GRRTTOT
-    type: VARCHAR
-  - name: GRRTM
-    type: VARCHAR
-  - name: GRRTW
-    type: VARCHAR
-  - name: GRRTAN
-    type: VARCHAR
-  - name: GRRTAP
-    type: VARCHAR
-  - name: GRRTAS
-    type: VARCHAR
-  - name: GRRTNH
-    type: VARCHAR
-  - name: GRRTBK
-    type: VARCHAR
-  - name: GRRTHS
-    type: VARCHAR
-  - name: GRRTWH
-    type: VARCHAR
-  - name: GRRT2M
-    type: VARCHAR
-  - name: GRRTUN
-    type: VARCHAR
-  - name: GRRTNR
-    type: VARCHAR
-  - name: TRRTTOT
-    type: VARCHAR
-  - name: GBA4RTT
-    type: VARCHAR
-  - name: GBA5RTT
-    type: VARCHAR
-  - name: GBA6RTT
-    type: VARCHAR
-  - name: GBA6RTM
-    type: VARCHAR
-  - name: GBA6RTW
-    type: VARCHAR
-  - name: GBA6RTAN
-    type: VARCHAR
-  - name: GBA6RTAP
-    type: VARCHAR
-  - name: GBA6RTAS
-    type: VARCHAR
-  - name: GBA6RTNH
-    type: VARCHAR
-  - name: GBA6RTBK
-    type: VARCHAR
-  - name: GBA6RTHS
-    type: VARCHAR
-  - name: GBA6RTWH
-    type: VARCHAR
-  - name: GBA6RT2M
-    type: VARCHAR
-  - name: GBA6RTUN
-    type: VARCHAR
-  - name: GBA6RTNR
-    type: VARCHAR
-  - name: GBATRRT
-    type: VARCHAR
-  - name: PGGRRTT
-    type: VARCHAR
-  - name: PGBA6RT
-    type: VARCHAR
-  - name: SSGRRTT
-    type: VARCHAR
-  - name: SSBA6RT
-    type: VARCHAR
-  - name: NRGRRTT
-    type: VARCHAR
-  - name: NRBA6RT
-    type: VARCHAR
-  - name: BAGR100
-    type: VARCHAR
-  - name: BAGR150
-    type: VARCHAR
-  - name: BAGR200
-    type: VARCHAR
-  - name: L4GR100
-    type: VARCHAR
-  - name: L4GR150
-    type: VARCHAR
-  - name: L4GR200
-    type: VARCHAR
+    type: BIGINT

@@ -1,188 +1,190 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-drvef`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: enrtot
+    type: BIGINT
+  - name: fte
+    type: BIGINT
+  - name: enrft
+    type: BIGINT
+  - name: enrpt
+    type: BIGINT
+  - name: pctenrwh
+    type: BIGINT
+  - name: pctenrbk
+    type: BIGINT
+  - name: pctenrhs
+    type: BIGINT
+  - name: pctenrap
+    type: BIGINT
+  - name: pctenras
+    type: BIGINT
+  - name: pctenrnh
+    type: BIGINT
+  - name: pctenran
+    type: BIGINT
+  - name: pctenr2m
+    type: BIGINT
+  - name: pctenrun
+    type: BIGINT
+  - name: pctenrnr
+    type: BIGINT
+  - name: pctenrw
+    type: BIGINT
+  - name: pctft1st
+    type: VARCHAR
+  - name: efug
+    type: BIGINT
+  - name: efug1st
+    type: BIGINT
+  - name: efugtrn
+    type: BIGINT
+  - name: efugcnt
+    type: BIGINT
+  - name: efugndg
+    type: BIGINT
+  - name: efugft
+    type: BIGINT
+  - name: efug1sft
+    type: BIGINT
+  - name: efugtrft
+    type: BIGINT
+  - name: efugcnft
+    type: BIGINT
+  - name: efugndft
+    type: BIGINT
+  - name: efugpt
+    type: BIGINT
+  - name: efug1spt
+    type: BIGINT
+  - name: efugtrpt
+    type: BIGINT
+  - name: efugcnpt
+    type: BIGINT
+  - name: efugndpt
+    type: BIGINT
+  - name: pcuenrwh
+    type: VARCHAR
+  - name: pcuenrbk
+    type: VARCHAR
+  - name: pcuenrhs
+    type: VARCHAR
+  - name: pcuenrap
+    type: VARCHAR
+  - name: pcuenras
+    type: VARCHAR
+  - name: pcuenrnh
+    type: VARCHAR
+  - name: pcuenran
+    type: VARCHAR
+  - name: pcuenr2m
+    type: VARCHAR
+  - name: pcuenrun
+    type: VARCHAR
+  - name: pcuenrnr
+    type: VARCHAR
+  - name: pcuenrw
+    type: VARCHAR
+  - name: efgrad
+    type: BIGINT
+  - name: efgradft
+    type: BIGINT
+  - name: efgradpt
+    type: BIGINT
+  - name: pcgenrwh
+    type: VARCHAR
+  - name: pcgenrbk
+    type: VARCHAR
+  - name: pcgenrhs
+    type: VARCHAR
+  - name: pcgenrap
+    type: VARCHAR
+  - name: pcgenras
+    type: VARCHAR
+  - name: pcgenrnh
+    type: VARCHAR
+  - name: pcgenran
+    type: VARCHAR
+  - name: pcgenr2m
+    type: VARCHAR
+  - name: pcgenrun
+    type: VARCHAR
+  - name: pcgenrnr
+    type: VARCHAR
+  - name: pcgenrw
+    type: VARCHAR
+  - name: dvef01
+    type: VARCHAR
+  - name: dvef02
+    type: VARCHAR
+  - name: dvef03
+    type: VARCHAR
+  - name: dvef05
+    type: VARCHAR
+  - name: dvef06
+    type: VARCHAR
+  - name: dvef07
+    type: VARCHAR
+  - name: dvef09
+    type: VARCHAR
+  - name: dvef10
+    type: VARCHAR
+  - name: dvef11
+    type: VARCHAR
+  - name: dvef13
+    type: VARCHAR
+  - name: dvef14
+    type: VARCHAR
+  - name: dvef15
+    type: VARCHAR
+  - name: dvef16
+    type: VARCHAR
+  - name: rminsttn
+    type: VARCHAR
+  - name: rmousttn
+    type: VARCHAR
+  - name: rmfrgncn
+    type: VARCHAR
+  - name: rmunknwn
+    type: VARCHAR
+  - name: rminsttp
+    type: VARCHAR
+  - name: rmousttp
+    type: VARCHAR
+  - name: rmfrgncp
+    type: VARCHAR
+  - name: rmunknwp
+    type: VARCHAR
+  - name: pctdeexc
+    type: BIGINT
+  - name: pctdesom
+    type: BIGINT
+  - name: pctdenon
+    type: BIGINT
+  - name: pcudeexc
+    type: VARCHAR
+  - name: pcudesom
+    type: VARCHAR
+  - name: pcudenon
+    type: VARCHAR
+  - name: pcgdeexc
+    type: VARCHAR
+  - name: pcgdesom
+    type: VARCHAR
+  - name: pcgdenon
+    type: VARCHAR
+  - name: pgrcohrt
+    type: VARCHAR
+  - name: ret_pcf
+    type: VARCHAR
+  - name: ret_pcp
+    type: VARCHAR
+  - name: stufacr
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: ENRTOT
-    type: VARCHAR
-  - name: FTE
-    type: VARCHAR
-  - name: ENRFT
-    type: VARCHAR
-  - name: ENRPT
-    type: VARCHAR
-  - name: PCTENRWH
-    type: VARCHAR
-  - name: PCTENRBK
-    type: VARCHAR
-  - name: PCTENRHS
-    type: VARCHAR
-  - name: PCTENRAP
-    type: VARCHAR
-  - name: PCTENRAS
-    type: VARCHAR
-  - name: PCTENRNH
-    type: VARCHAR
-  - name: PCTENRAN
-    type: VARCHAR
-  - name: PCTENR2M
-    type: VARCHAR
-  - name: PCTENRUN
-    type: VARCHAR
-  - name: PCTENRNR
-    type: VARCHAR
-  - name: PCTENRW
-    type: VARCHAR
-  - name: PCTFT1ST
-    type: VARCHAR
-  - name: EFUG
-    type: VARCHAR
-  - name: EFUG1ST
-    type: VARCHAR
-  - name: EFUGTRN
-    type: VARCHAR
-  - name: EFUGCNT
-    type: VARCHAR
-  - name: EFUGNDG
-    type: VARCHAR
-  - name: EFUGFT
-    type: VARCHAR
-  - name: EFUG1SFT
-    type: VARCHAR
-  - name: EFUGTRFT
-    type: VARCHAR
-  - name: EFUGCNFT
-    type: VARCHAR
-  - name: EFUGNDFT
-    type: VARCHAR
-  - name: EFUGPT
-    type: VARCHAR
-  - name: EFUG1SPT
-    type: VARCHAR
-  - name: EFUGTRPT
-    type: VARCHAR
-  - name: EFUGCNPT
-    type: VARCHAR
-  - name: EFUGNDPT
-    type: VARCHAR
-  - name: PCUENRWH
-    type: VARCHAR
-  - name: PCUENRBK
-    type: VARCHAR
-  - name: PCUENRHS
-    type: VARCHAR
-  - name: PCUENRAP
-    type: VARCHAR
-  - name: PCUENRAS
-    type: VARCHAR
-  - name: PCUENRNH
-    type: VARCHAR
-  - name: PCUENRAN
-    type: VARCHAR
-  - name: PCUENR2M
-    type: VARCHAR
-  - name: PCUENRUN
-    type: VARCHAR
-  - name: PCUENRNR
-    type: VARCHAR
-  - name: PCUENRW
-    type: VARCHAR
-  - name: EFGRAD
-    type: VARCHAR
-  - name: EFGRADFT
-    type: VARCHAR
-  - name: EFGRADPT
-    type: VARCHAR
-  - name: PCGENRWH
-    type: VARCHAR
-  - name: PCGENRBK
-    type: VARCHAR
-  - name: PCGENRHS
-    type: VARCHAR
-  - name: PCGENRAP
-    type: VARCHAR
-  - name: PCGENRAS
-    type: VARCHAR
-  - name: PCGENRNH
-    type: VARCHAR
-  - name: PCGENRAN
-    type: VARCHAR
-  - name: PCGENR2M
-    type: VARCHAR
-  - name: PCGENRUN
-    type: VARCHAR
-  - name: PCGENRNR
-    type: VARCHAR
-  - name: PCGENRW
-    type: VARCHAR
-  - name: DVEF01
-    type: VARCHAR
-  - name: DVEF02
-    type: VARCHAR
-  - name: DVEF03
-    type: VARCHAR
-  - name: DVEF05
-    type: VARCHAR
-  - name: DVEF06
-    type: VARCHAR
-  - name: DVEF07
-    type: VARCHAR
-  - name: DVEF09
-    type: VARCHAR
-  - name: DVEF10
-    type: VARCHAR
-  - name: DVEF11
-    type: VARCHAR
-  - name: DVEF13
-    type: VARCHAR
-  - name: DVEF14
-    type: VARCHAR
-  - name: DVEF15
-    type: VARCHAR
-  - name: DVEF16
-    type: VARCHAR
-  - name: RMINSTTN
-    type: VARCHAR
-  - name: RMOUSTTN
-    type: VARCHAR
-  - name: RMFRGNCN
-    type: VARCHAR
-  - name: RMUNKNWN
-    type: VARCHAR
-  - name: RMINSTTP
-    type: VARCHAR
-  - name: RMOUSTTP
-    type: VARCHAR
-  - name: RMFRGNCP
-    type: VARCHAR
-  - name: RMUNKNWP
-    type: VARCHAR
-  - name: PCTDEEXC
-    type: VARCHAR
-  - name: PCTDESOM
-    type: VARCHAR
-  - name: PCTDENON
-    type: VARCHAR
-  - name: PCUDEEXC
-    type: VARCHAR
-  - name: PCUDESOM
-    type: VARCHAR
-  - name: PCUDENON
-    type: VARCHAR
-  - name: PCGDEEXC
-    type: VARCHAR
-  - name: PCGDESOM
-    type: VARCHAR
-  - name: PCGDENON
-    type: VARCHAR
-  - name: PGRCOHRT
-    type: VARCHAR
-  - name: RET_PCF
-    type: VARCHAR
-  - name: RET_PCP
-    type: VARCHAR
-  - name: STUFACR
-    type: VARCHAR
+    type: BIGINT

@@ -1,5 +1,44 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    TRY_CAST("UNITID" AS BIGINT) AS unitid,
-    CAST("year" AS INTEGER)      AS year,
-    * EXCLUDE ("UNITID", "year")
+    CAST("UNITID" AS BIGINT) AS unitid,
+    "XUGPO9_N" AS xugpo9_n,
+    "UGPO9_N" AS ugpo9_n,
+    "XUGPO9_T" AS xugpo9_t,
+    "UGPO9_T" AS ugpo9_t,
+    "XUGPO9_A" AS xugpo9_a,
+    "UGPO9_A" AS ugpo9_a,
+    "XGPO9_N" AS xgpo9_n,
+    "GPO9_N" AS gpo9_n,
+    "XGPO9_T" AS xgpo9_t,
+    "GPO9_T" AS gpo9_t,
+    "XGPO9_A" AS xgpo9_a,
+    "GPO9_A" AS gpo9_a,
+    "XPO9_N" AS xpo9_n,
+    CAST("PO9_N" AS BIGINT) AS po9_n,
+    "XPO9_T" AS xpo9_t,
+    CAST("PO9_T" AS BIGINT) AS po9_t,
+    "XPO9_A" AS xpo9_a,
+    "PO9_A" AS po9_a,
+    "XUGDOD_N" AS xugdod_n,
+    "UGDOD_N" AS ugdod_n,
+    "XUGDOD_T" AS xugdod_t,
+    "UGDOD_T" AS ugdod_t,
+    "XUGDOD_A" AS xugdod_a,
+    "UGDOD_A" AS ugdod_a,
+    "XGDOD_N" AS xgdod_n,
+    "GDOD_N" AS gdod_n,
+    "XGDOD_T" AS xgdod_t,
+    "GDOD_T" AS gdod_t,
+    "XGDOD_A" AS xgdod_a,
+    "GDOD_A" AS gdod_a,
+    "XDOD_N" AS xdod_n,
+    "DOD_N" AS dod_n,
+    "XDOD_T" AS xdod_t,
+    "DOD_T" AS dod_t,
+    "XDOD_A" AS xdod_a,
+    "DOD_A" AS dod_a,
+    "year"
 FROM "nces-ipeds-sfav"

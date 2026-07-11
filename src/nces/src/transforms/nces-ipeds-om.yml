@@ -1,114 +1,116 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-om`. Regenerate after model-verify.
+key: [unitid, year, omchrt]
 temporal: year
-sort: [year]
+sort: [year, unitid, omchrt]
 columns:
   - name: unitid
     type: BIGINT
+  - name: omchrt
+    type: BIGINT
+  - name: xomrchrt
+    type: VARCHAR
+  - name: omrchrt
+    type: VARCHAR
+  - name: xomexcls
+    type: VARCHAR
+  - name: omexcls
+    type: VARCHAR
+  - name: xomachrt
+    type: VARCHAR
+  - name: omachrt
+    type: VARCHAR
+  - name: xomcert4
+    type: VARCHAR
+  - name: omcert4
+    type: VARCHAR
+  - name: xomassc4
+    type: VARCHAR
+  - name: omassc4
+    type: VARCHAR
+  - name: xombach4
+    type: VARCHAR
+  - name: ombach4
+    type: VARCHAR
+  - name: xomawdn4
+    type: VARCHAR
+  - name: omawdn4
+    type: VARCHAR
+  - name: xomawdp4
+    type: VARCHAR
+  - name: omawdp4
+    type: VARCHAR
+  - name: xomcert6
+    type: VARCHAR
+  - name: omcert6
+    type: VARCHAR
+  - name: xomassc6
+    type: VARCHAR
+  - name: omassc6
+    type: VARCHAR
+  - name: xombach6
+    type: VARCHAR
+  - name: ombach6
+    type: VARCHAR
+  - name: xomawdn6
+    type: VARCHAR
+  - name: omawdn6
+    type: BIGINT
+  - name: xomawdp6
+    type: VARCHAR
+  - name: omawdp6
+    type: VARCHAR
+  - name: xomcert8
+    type: VARCHAR
+  - name: omcert8
+    type: VARCHAR
+  - name: xomassc8
+    type: VARCHAR
+  - name: omassc8
+    type: VARCHAR
+  - name: xombach8
+    type: VARCHAR
+  - name: ombach8
+    type: VARCHAR
+  - name: xomawdn8
+    type: VARCHAR
+  - name: omawdn8
+    type: BIGINT
+  - name: xomenryi
+    type: VARCHAR
+  - name: omenryi
+    type: BIGINT
+  - name: xomenrai
+    type: VARCHAR
+  - name: omenrai
+    type: BIGINT
+  - name: xomenrun
+    type: VARCHAR
+  - name: omenrun
+    type: BIGINT
+  - name: xomnoawd
+    type: VARCHAR
+  - name: omnoawd
+    type: BIGINT
+  - name: xomawdp8
+    type: VARCHAR
+  - name: omawdp8
+    type: VARCHAR
+  - name: xomenrtp
+    type: VARCHAR
+  - name: omenrtp
+    type: VARCHAR
+  - name: xomenryp
+    type: VARCHAR
+  - name: omenryp
+    type: VARCHAR
+  - name: xomenrap
+    type: VARCHAR
+  - name: omenrap
+    type: VARCHAR
+  - name: xomenrup
+    type: VARCHAR
+  - name: omenrup
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: OMCHRT
-    type: VARCHAR
-  - name: XOMRCHRT
-    type: VARCHAR
-  - name: OMRCHRT
-    type: VARCHAR
-  - name: XOMEXCLS
-    type: VARCHAR
-  - name: OMEXCLS
-    type: VARCHAR
-  - name: XOMACHRT
-    type: VARCHAR
-  - name: OMACHRT
-    type: VARCHAR
-  - name: XOMCERT4
-    type: VARCHAR
-  - name: OMCERT4
-    type: VARCHAR
-  - name: XOMASSC4
-    type: VARCHAR
-  - name: OMASSC4
-    type: VARCHAR
-  - name: XOMBACH4
-    type: VARCHAR
-  - name: OMBACH4
-    type: VARCHAR
-  - name: XOMAWDN4
-    type: VARCHAR
-  - name: OMAWDN4
-    type: VARCHAR
-  - name: XOMAWDP4
-    type: VARCHAR
-  - name: OMAWDP4
-    type: VARCHAR
-  - name: XOMCERT6
-    type: VARCHAR
-  - name: OMCERT6
-    type: VARCHAR
-  - name: XOMASSC6
-    type: VARCHAR
-  - name: OMASSC6
-    type: VARCHAR
-  - name: XOMBACH6
-    type: VARCHAR
-  - name: OMBACH6
-    type: VARCHAR
-  - name: XOMAWDN6
-    type: VARCHAR
-  - name: OMAWDN6
-    type: VARCHAR
-  - name: XOMAWDP6
-    type: VARCHAR
-  - name: OMAWDP6
-    type: VARCHAR
-  - name: XOMCERT8
-    type: VARCHAR
-  - name: OMCERT8
-    type: VARCHAR
-  - name: XOMASSC8
-    type: VARCHAR
-  - name: OMASSC8
-    type: VARCHAR
-  - name: XOMBACH8
-    type: VARCHAR
-  - name: OMBACH8
-    type: VARCHAR
-  - name: XOMAWDN8
-    type: VARCHAR
-  - name: OMAWDN8
-    type: VARCHAR
-  - name: XOMENRYI
-    type: VARCHAR
-  - name: OMENRYI
-    type: VARCHAR
-  - name: XOMENRAI
-    type: VARCHAR
-  - name: OMENRAI
-    type: VARCHAR
-  - name: XOMENRUN
-    type: VARCHAR
-  - name: OMENRUN
-    type: VARCHAR
-  - name: XOMNOAWD
-    type: VARCHAR
-  - name: OMNOAWD
-    type: VARCHAR
-  - name: XOMAWDP8
-    type: VARCHAR
-  - name: OMAWDP8
-    type: VARCHAR
-  - name: XOMENRTP
-    type: VARCHAR
-  - name: OMENRTP
-    type: VARCHAR
-  - name: XOMENRYP
-    type: VARCHAR
-  - name: OMENRYP
-    type: VARCHAR
-  - name: XOMENRAP
-    type: VARCHAR
-  - name: OMENRAP
-    type: VARCHAR
-  - name: XOMENRUP
-    type: VARCHAR
-  - name: OMENRUP
-    type: VARCHAR
+    type: BIGINT

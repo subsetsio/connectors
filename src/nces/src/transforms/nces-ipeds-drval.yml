@@ -1,46 +1,48 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-drval`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: lpbooksp
+    type: BIGINT
+  - name: lpmediap
+    type: BIGINT
+  - name: lpseriap
+    type: BIGINT
+  - name: lebooksp
+    type: BIGINT
+  - name: ledatabp
+    type: BIGINT
+  - name: lemediap
+    type: BIGINT
+  - name: leseriap
+    type: BIGINT
+  - name: lsalwagp
+    type: VARCHAR
+  - name: lfrngbnp
+    type: VARCHAR
+  - name: lexmsbbp
+    type: VARCHAR
+  - name: lexmscsp
+    type: VARCHAR
+  - name: lexmsotp
+    type: VARCHAR
+  - name: lexomtlp
+    type: VARCHAR
+  - name: lexptotf
+    type: VARCHAR
+  - name: ltotlfte
+    type: VARCHAR
+  - name: llibrfte
+    type: VARCHAR
+  - name: lproffte
+    type: VARCHAR
+  - name: lpaidfte
+    type: VARCHAR
+  - name: lstudfte
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: LPBOOKSP
-    type: VARCHAR
-  - name: LPMEDIAP
-    type: VARCHAR
-  - name: LPSERIAP
-    type: VARCHAR
-  - name: LEBOOKSP
-    type: VARCHAR
-  - name: LEDATABP
-    type: VARCHAR
-  - name: LEMEDIAP
-    type: VARCHAR
-  - name: LESERIAP
-    type: VARCHAR
-  - name: LSALWAGP
-    type: VARCHAR
-  - name: LFRNGBNP
-    type: VARCHAR
-  - name: LEXMSBBP
-    type: VARCHAR
-  - name: LEXMSCSP
-    type: VARCHAR
-  - name: LEXMSOTP
-    type: VARCHAR
-  - name: LEXOMTLP
-    type: VARCHAR
-  - name: LEXPTOTF
-    type: VARCHAR
-  - name: LTOTLFTE
-    type: VARCHAR
-  - name: LLIBRFTE
-    type: VARCHAR
-  - name: LPROFFTE
-    type: VARCHAR
-  - name: LPAIDFTE
-    type: VARCHAR
-  - name: LSTUDFTE
-    type: VARCHAR
+    type: BIGINT

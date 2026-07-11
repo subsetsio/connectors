@@ -1,5 +1,40 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    TRY_CAST("UNITID" AS BIGINT) AS unitid,
-    CAST("year" AS INTEGER)      AS year,
-    * EXCLUDE ("UNITID", "year")
+    CAST("UNITID" AS BIGINT) AS unitid,
+    "XGRCOHRT" AS xgrcohrt,
+    "GRCOHRT" AS grcohrt,
+    "XUGENTER" AS xugenter,
+    "UGENTERN" AS ugentern,
+    "XPGRCOHR" AS xpgrcohr,
+    "PGRCOHRT" AS pgrcohrt,
+    "XRRFTCT" AS xrrftct,
+    "RRFTCT" AS rrftct,
+    "XRRFTEX" AS xrrftex,
+    "RRFTEX" AS rrftex,
+    "XRRFTIN" AS xrrftin,
+    "RRFTIN" AS rrftin,
+    "XRRFTCTA" AS xrrftcta,
+    "RRFTCTA" AS rrftcta,
+    "XRET_NMF" AS xret_nmf,
+    "RET_NMF" AS ret_nmf,
+    "XRET_PCF" AS xret_pcf,
+    "RET_PCF" AS ret_pcf,
+    "XRRPTCT" AS xrrptct,
+    "RRPTCT" AS rrptct,
+    "XRRPTEX" AS xrrptex,
+    "RRPTEX" AS rrptex,
+    "XRRPTIN" AS xrrptin,
+    "RRPTIN" AS rrptin,
+    "XRRPTCTA" AS xrrptcta,
+    "RRPTCTA" AS rrptcta,
+    "XRET_NMP" AS xret_nmp,
+    "RET_NMP" AS ret_nmp,
+    "XRET_PCP" AS xret_pcp,
+    "RET_PCP" AS ret_pcp,
+    "XSTUFACR" AS xstufacr,
+    "STUFACR" AS stufacr,
+    "year"
 FROM "nces-ipeds-efd"

@@ -1,134 +1,136 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-s-is`. Regenerate after model-verify.
+key: [unitid, year, siscat, facstat, arank]
 temporal: year
-sort: [year]
+sort: [year, unitid, siscat, facstat, arank]
 columns:
   - name: unitid
     type: BIGINT
+  - name: siscat
+    type: BIGINT
+  - name: facstat
+    type: BIGINT
+  - name: arank
+    type: BIGINT
+  - name: xhrtotlt
+    type: VARCHAR
+  - name: hrtotlt
+    type: BIGINT
+  - name: xhrtotlm
+    type: VARCHAR
+  - name: hrtotlm
+    type: BIGINT
+  - name: xhrtotlw
+    type: VARCHAR
+  - name: hrtotlw
+    type: BIGINT
+  - name: xhraiant
+    type: VARCHAR
+  - name: hraiant
+    type: BIGINT
+  - name: xhraianm
+    type: VARCHAR
+  - name: hraianm
+    type: BIGINT
+  - name: xhraianw
+    type: VARCHAR
+  - name: hraianw
+    type: BIGINT
+  - name: xhrasiat
+    type: VARCHAR
+  - name: hrasiat
+    type: BIGINT
+  - name: xhrasiam
+    type: VARCHAR
+  - name: hrasiam
+    type: BIGINT
+  - name: xhrasiaw
+    type: VARCHAR
+  - name: hrasiaw
+    type: BIGINT
+  - name: xhrbkaat
+    type: VARCHAR
+  - name: hrbkaat
+    type: BIGINT
+  - name: xhrbkaam
+    type: VARCHAR
+  - name: hrbkaam
+    type: BIGINT
+  - name: xhrbkaaw
+    type: VARCHAR
+  - name: hrbkaaw
+    type: BIGINT
+  - name: xhrhispt
+    type: VARCHAR
+  - name: hrhispt
+    type: BIGINT
+  - name: xhrhispm
+    type: VARCHAR
+  - name: hrhispm
+    type: BIGINT
+  - name: xhrhispw
+    type: VARCHAR
+  - name: hrhispw
+    type: BIGINT
+  - name: xhrnhpit
+    type: VARCHAR
+  - name: hrnhpit
+    type: BIGINT
+  - name: xhrnhpim
+    type: VARCHAR
+  - name: hrnhpim
+    type: BIGINT
+  - name: xhrnhpiw
+    type: VARCHAR
+  - name: hrnhpiw
+    type: BIGINT
+  - name: xhrwhitt
+    type: VARCHAR
+  - name: hrwhitt
+    type: BIGINT
+  - name: xhrwhitm
+    type: VARCHAR
+  - name: hrwhitm
+    type: BIGINT
+  - name: xhrwhitw
+    type: VARCHAR
+  - name: hrwhitw
+    type: BIGINT
+  - name: xhr2mort
+    type: VARCHAR
+  - name: hr2mort
+    type: BIGINT
+  - name: xhr2morm
+    type: VARCHAR
+  - name: hr2morm
+    type: BIGINT
+  - name: xhr2morw
+    type: VARCHAR
+  - name: hr2morw
+    type: BIGINT
+  - name: xhrunknt
+    type: VARCHAR
+  - name: hrunknt
+    type: BIGINT
+  - name: xhrunknm
+    type: VARCHAR
+  - name: hrunknm
+    type: BIGINT
+  - name: xhrunknw
+    type: VARCHAR
+  - name: hrunknw
+    type: BIGINT
+  - name: xhrnralt
+    type: VARCHAR
+  - name: hrnralt
+    type: BIGINT
+  - name: xhrnralm
+    type: VARCHAR
+  - name: hrnralm
+    type: BIGINT
+  - name: xhrnralw
+    type: VARCHAR
+  - name: hrnralw
+    type: BIGINT
   - name: year
-    type: INTEGER
-  - name: SISCAT
-    type: VARCHAR
-  - name: FACSTAT
-    type: VARCHAR
-  - name: ARANK
-    type: VARCHAR
-  - name: XHRTOTLT
-    type: VARCHAR
-  - name: HRTOTLT
-    type: VARCHAR
-  - name: XHRTOTLM
-    type: VARCHAR
-  - name: HRTOTLM
-    type: VARCHAR
-  - name: XHRTOTLW
-    type: VARCHAR
-  - name: HRTOTLW
-    type: VARCHAR
-  - name: XHRAIANT
-    type: VARCHAR
-  - name: HRAIANT
-    type: VARCHAR
-  - name: XHRAIANM
-    type: VARCHAR
-  - name: HRAIANM
-    type: VARCHAR
-  - name: XHRAIANW
-    type: VARCHAR
-  - name: HRAIANW
-    type: VARCHAR
-  - name: XHRASIAT
-    type: VARCHAR
-  - name: HRASIAT
-    type: VARCHAR
-  - name: XHRASIAM
-    type: VARCHAR
-  - name: HRASIAM
-    type: VARCHAR
-  - name: XHRASIAW
-    type: VARCHAR
-  - name: HRASIAW
-    type: VARCHAR
-  - name: XHRBKAAT
-    type: VARCHAR
-  - name: HRBKAAT
-    type: VARCHAR
-  - name: XHRBKAAM
-    type: VARCHAR
-  - name: HRBKAAM
-    type: VARCHAR
-  - name: XHRBKAAW
-    type: VARCHAR
-  - name: HRBKAAW
-    type: VARCHAR
-  - name: XHRHISPT
-    type: VARCHAR
-  - name: HRHISPT
-    type: VARCHAR
-  - name: XHRHISPM
-    type: VARCHAR
-  - name: HRHISPM
-    type: VARCHAR
-  - name: XHRHISPW
-    type: VARCHAR
-  - name: HRHISPW
-    type: VARCHAR
-  - name: XHRNHPIT
-    type: VARCHAR
-  - name: HRNHPIT
-    type: VARCHAR
-  - name: XHRNHPIM
-    type: VARCHAR
-  - name: HRNHPIM
-    type: VARCHAR
-  - name: XHRNHPIW
-    type: VARCHAR
-  - name: HRNHPIW
-    type: VARCHAR
-  - name: XHRWHITT
-    type: VARCHAR
-  - name: HRWHITT
-    type: VARCHAR
-  - name: XHRWHITM
-    type: VARCHAR
-  - name: HRWHITM
-    type: VARCHAR
-  - name: XHRWHITW
-    type: VARCHAR
-  - name: HRWHITW
-    type: VARCHAR
-  - name: XHR2MORT
-    type: VARCHAR
-  - name: HR2MORT
-    type: VARCHAR
-  - name: XHR2MORM
-    type: VARCHAR
-  - name: HR2MORM
-    type: VARCHAR
-  - name: XHR2MORW
-    type: VARCHAR
-  - name: HR2MORW
-    type: VARCHAR
-  - name: XHRUNKNT
-    type: VARCHAR
-  - name: HRUNKNT
-    type: VARCHAR
-  - name: XHRUNKNM
-    type: VARCHAR
-  - name: HRUNKNM
-    type: VARCHAR
-  - name: XHRUNKNW
-    type: VARCHAR
-  - name: HRUNKNW
-    type: VARCHAR
-  - name: XHRNRALT
-    type: VARCHAR
-  - name: HRNRALT
-    type: VARCHAR
-  - name: XHRNRALM
-    type: VARCHAR
-  - name: HRNRALM
-    type: VARCHAR
-  - name: XHRNRALW
-    type: VARCHAR
-  - name: HRNRALW
-    type: VARCHAR
+    type: BIGINT

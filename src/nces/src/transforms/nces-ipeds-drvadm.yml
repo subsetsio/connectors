@@ -1,32 +1,34 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-drvadm`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: dvadm01
+    type: BIGINT
+  - name: dvadm02
+    type: VARCHAR
+  - name: dvadm03
+    type: VARCHAR
+  - name: dvadm04
+    type: VARCHAR
+  - name: dvadm05
+    type: VARCHAR
+  - name: dvadm06
+    type: VARCHAR
+  - name: dvadm07
+    type: VARCHAR
+  - name: dvadm08
+    type: VARCHAR
+  - name: dvadm09
+    type: VARCHAR
+  - name: dvadm10
+    type: VARCHAR
+  - name: dvadm11
+    type: VARCHAR
+  - name: dvadm12
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: DVADM01
-    type: VARCHAR
-  - name: DVADM02
-    type: VARCHAR
-  - name: DVADM03
-    type: VARCHAR
-  - name: DVADM04
-    type: VARCHAR
-  - name: DVADM05
-    type: VARCHAR
-  - name: DVADM06
-    type: VARCHAR
-  - name: DVADM07
-    type: VARCHAR
-  - name: DVADM08
-    type: VARCHAR
-  - name: DVADM09
-    type: VARCHAR
-  - name: DVADM10
-    type: VARCHAR
-  - name: DVADM11
-    type: VARCHAR
-  - name: DVADM12
-    type: VARCHAR
+    type: BIGINT

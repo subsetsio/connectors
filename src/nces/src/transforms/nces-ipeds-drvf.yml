@@ -1,246 +1,248 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-drvf`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: f1correv
+    type: VARCHAR
+  - name: f1tufepc
+    type: VARCHAR
+  - name: f1stappc
+    type: VARCHAR
+  - name: f1lcappc
+    type: VARCHAR
+  - name: f1gvgcpc
+    type: VARCHAR
+  - name: f1pggcpc
+    type: VARCHAR
+  - name: f1invrpc
+    type: VARCHAR
+  - name: f1otrvpc
+    type: VARCHAR
+  - name: f1tufeft
+    type: VARCHAR
+  - name: f1stapft
+    type: VARCHAR
+  - name: f1lcapft
+    type: VARCHAR
+  - name: f1gvgcft
+    type: VARCHAR
+  - name: f1pggcft
+    type: VARCHAR
+  - name: f1invrft
+    type: VARCHAR
+  - name: f1otrvft
+    type: VARCHAR
+  - name: f1corexp
+    type: VARCHAR
+  - name: f1instft
+    type: VARCHAR
+  - name: f1rsrcft
+    type: VARCHAR
+  - name: f1pbsvft
+    type: VARCHAR
+  - name: f1acspft
+    type: VARCHAR
+  - name: f1stsvft
+    type: VARCHAR
+  - name: f1insuft
+    type: VARCHAR
+  - name: f1otexft
+    type: VARCHAR
+  - name: f1instpc
+    type: VARCHAR
+  - name: f1rsrcpc
+    type: VARCHAR
+  - name: f1pbsvpc
+    type: VARCHAR
+  - name: f1acsppc
+    type: VARCHAR
+  - name: f1stsvpc
+    type: VARCHAR
+  - name: f1insupc
+    type: VARCHAR
+  - name: f1otexpc
+    type: VARCHAR
+  - name: f1swinsp
+    type: VARCHAR
+  - name: f1swrsrp
+    type: VARCHAR
+  - name: f1swpbsp
+    type: VARCHAR
+  - name: f1swacsp
+    type: VARCHAR
+  - name: f1swstsp
+    type: VARCHAR
+  - name: f1swispp
+    type: VARCHAR
+  - name: f1swotep
+    type: VARCHAR
+  - name: f1swcrep
+    type: VARCHAR
+  - name: f1endmft
+    type: VARCHAR
+  - name: f1safbpc
+    type: VARCHAR
+  - name: f1salrpc
+    type: VARCHAR
+  - name: f1equitr
+    type: VARCHAR
+  - name: f2correv
+    type: VARCHAR
+  - name: f2tufepc
+    type: VARCHAR
+  - name: f2gvgcpc
+    type: VARCHAR
+  - name: f2pggcpc
+    type: VARCHAR
+  - name: f2invrpc
+    type: VARCHAR
+  - name: f2otrvpc
+    type: VARCHAR
+  - name: f2tufeft
+    type: VARCHAR
+  - name: f2gvgcft
+    type: VARCHAR
+  - name: f2pggcft
+    type: VARCHAR
+  - name: f2invrft
+    type: VARCHAR
+  - name: f2otrvft
+    type: VARCHAR
+  - name: f2corexp
+    type: VARCHAR
+  - name: f2instft
+    type: VARCHAR
+  - name: f2rsrcft
+    type: VARCHAR
+  - name: f2pbsvft
+    type: VARCHAR
+  - name: f2acspft
+    type: VARCHAR
+  - name: f2stsvft
+    type: VARCHAR
+  - name: f2insuft
+    type: VARCHAR
+  - name: f2otexft
+    type: VARCHAR
+  - name: f2instpc
+    type: VARCHAR
+  - name: f2rsrcpc
+    type: VARCHAR
+  - name: f2pbsvpc
+    type: VARCHAR
+  - name: f2acsppc
+    type: VARCHAR
+  - name: f2stsvpc
+    type: VARCHAR
+  - name: f2insupc
+    type: VARCHAR
+  - name: f2otexpc
+    type: VARCHAR
+  - name: f2swinsp
+    type: VARCHAR
+  - name: f2swrsrp
+    type: VARCHAR
+  - name: f2swpbsp
+    type: VARCHAR
+  - name: f2swacsp
+    type: VARCHAR
+  - name: f2swstsp
+    type: VARCHAR
+  - name: f2swispp
+    type: VARCHAR
+  - name: f2swotep
+    type: VARCHAR
+  - name: f2swcrep
+    type: VARCHAR
+  - name: f2endmft
+    type: VARCHAR
+  - name: f2safbpc
+    type: VARCHAR
+  - name: f2salrpc
+    type: VARCHAR
+  - name: f2equitr
+    type: VARCHAR
+  - name: f3correv
+    type: VARCHAR
+  - name: f3tufepc
+    type: VARCHAR
+  - name: f3gvgcpc
+    type: VARCHAR
+  - name: f3pggcpc
+    type: VARCHAR
+  - name: f3invrpc
+    type: VARCHAR
+  - name: f3sseapc
+    type: VARCHAR
+  - name: f3otrvpc
+    type: VARCHAR
+  - name: f3tufeft
+    type: VARCHAR
+  - name: f3gvgcft
+    type: VARCHAR
+  - name: f3pggcft
+    type: VARCHAR
+  - name: f3invrft
+    type: VARCHAR
+  - name: f3sseaft
+    type: VARCHAR
+  - name: f3otrvft
+    type: VARCHAR
+  - name: f3corexp
+    type: VARCHAR
+  - name: f3instft
+    type: VARCHAR
+  - name: f3rsrcft
+    type: VARCHAR
+  - name: f3pbsvft
+    type: VARCHAR
+  - name: f3acspft
+    type: VARCHAR
+  - name: f3stsvft
+    type: VARCHAR
+  - name: f3insuft
+    type: VARCHAR
+  - name: f3otexft
+    type: VARCHAR
+  - name: f3instpc
+    type: VARCHAR
+  - name: f3rsrcpc
+    type: VARCHAR
+  - name: f3pbsvpc
+    type: VARCHAR
+  - name: f3acsppc
+    type: VARCHAR
+  - name: f3stsvpc
+    type: VARCHAR
+  - name: f3insupc
+    type: VARCHAR
+  - name: f3otexpc
+    type: VARCHAR
+  - name: f3swinsp
+    type: VARCHAR
+  - name: f3swrsrp
+    type: VARCHAR
+  - name: f3swpbsp
+    type: VARCHAR
+  - name: f3swacsp
+    type: VARCHAR
+  - name: f3swstsp
+    type: VARCHAR
+  - name: f3swispp
+    type: VARCHAR
+  - name: f3swotep
+    type: VARCHAR
+  - name: f3swcrep
+    type: VARCHAR
+  - name: f3safbpc
+    type: VARCHAR
+  - name: f3salrpc
+    type: VARCHAR
+  - name: f3equitr
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: F1CORREV
-    type: VARCHAR
-  - name: F1TUFEPC
-    type: VARCHAR
-  - name: F1STAPPC
-    type: VARCHAR
-  - name: F1LCAPPC
-    type: VARCHAR
-  - name: F1GVGCPC
-    type: VARCHAR
-  - name: F1PGGCPC
-    type: VARCHAR
-  - name: F1INVRPC
-    type: VARCHAR
-  - name: F1OTRVPC
-    type: VARCHAR
-  - name: F1TUFEFT
-    type: VARCHAR
-  - name: F1STAPFT
-    type: VARCHAR
-  - name: F1LCAPFT
-    type: VARCHAR
-  - name: F1GVGCFT
-    type: VARCHAR
-  - name: F1PGGCFT
-    type: VARCHAR
-  - name: F1INVRFT
-    type: VARCHAR
-  - name: F1OTRVFT
-    type: VARCHAR
-  - name: F1COREXP
-    type: VARCHAR
-  - name: F1INSTFT
-    type: VARCHAR
-  - name: F1RSRCFT
-    type: VARCHAR
-  - name: F1PBSVFT
-    type: VARCHAR
-  - name: F1ACSPFT
-    type: VARCHAR
-  - name: F1STSVFT
-    type: VARCHAR
-  - name: F1INSUFT
-    type: VARCHAR
-  - name: F1OTEXFT
-    type: VARCHAR
-  - name: F1INSTPC
-    type: VARCHAR
-  - name: F1RSRCPC
-    type: VARCHAR
-  - name: F1PBSVPC
-    type: VARCHAR
-  - name: F1ACSPPC
-    type: VARCHAR
-  - name: F1STSVPC
-    type: VARCHAR
-  - name: F1INSUPC
-    type: VARCHAR
-  - name: F1OTEXPC
-    type: VARCHAR
-  - name: F1SWINSP
-    type: VARCHAR
-  - name: F1SWRSRP
-    type: VARCHAR
-  - name: F1SWPBSP
-    type: VARCHAR
-  - name: F1SWACSP
-    type: VARCHAR
-  - name: F1SWSTSP
-    type: VARCHAR
-  - name: F1SWISPP
-    type: VARCHAR
-  - name: F1SWOTEP
-    type: VARCHAR
-  - name: F1SWCREP
-    type: VARCHAR
-  - name: F1ENDMFT
-    type: VARCHAR
-  - name: F1SAFBPC
-    type: VARCHAR
-  - name: F1SALRPC
-    type: VARCHAR
-  - name: F1EQUITR
-    type: VARCHAR
-  - name: F2CORREV
-    type: VARCHAR
-  - name: F2TUFEPC
-    type: VARCHAR
-  - name: F2GVGCPC
-    type: VARCHAR
-  - name: F2PGGCPC
-    type: VARCHAR
-  - name: F2INVRPC
-    type: VARCHAR
-  - name: F2OTRVPC
-    type: VARCHAR
-  - name: F2TUFEFT
-    type: VARCHAR
-  - name: F2GVGCFT
-    type: VARCHAR
-  - name: F2PGGCFT
-    type: VARCHAR
-  - name: F2INVRFT
-    type: VARCHAR
-  - name: F2OTRVFT
-    type: VARCHAR
-  - name: F2COREXP
-    type: VARCHAR
-  - name: F2INSTFT
-    type: VARCHAR
-  - name: F2RSRCFT
-    type: VARCHAR
-  - name: F2PBSVFT
-    type: VARCHAR
-  - name: F2ACSPFT
-    type: VARCHAR
-  - name: F2STSVFT
-    type: VARCHAR
-  - name: F2INSUFT
-    type: VARCHAR
-  - name: F2OTEXFT
-    type: VARCHAR
-  - name: F2INSTPC
-    type: VARCHAR
-  - name: F2RSRCPC
-    type: VARCHAR
-  - name: F2PBSVPC
-    type: VARCHAR
-  - name: F2ACSPPC
-    type: VARCHAR
-  - name: F2STSVPC
-    type: VARCHAR
-  - name: F2INSUPC
-    type: VARCHAR
-  - name: F2OTEXPC
-    type: VARCHAR
-  - name: F2SWINSP
-    type: VARCHAR
-  - name: F2SWRSRP
-    type: VARCHAR
-  - name: F2SWPBSP
-    type: VARCHAR
-  - name: F2SWACSP
-    type: VARCHAR
-  - name: F2SWSTSP
-    type: VARCHAR
-  - name: F2SWISPP
-    type: VARCHAR
-  - name: F2SWOTEP
-    type: VARCHAR
-  - name: F2SWCREP
-    type: VARCHAR
-  - name: F2ENDMFT
-    type: VARCHAR
-  - name: F2SAFBPC
-    type: VARCHAR
-  - name: F2SALRPC
-    type: VARCHAR
-  - name: F2EQUITR
-    type: VARCHAR
-  - name: F3CORREV
-    type: VARCHAR
-  - name: F3TUFEPC
-    type: VARCHAR
-  - name: F3GVGCPC
-    type: VARCHAR
-  - name: F3PGGCPC
-    type: VARCHAR
-  - name: F3INVRPC
-    type: VARCHAR
-  - name: F3SSEAPC
-    type: VARCHAR
-  - name: F3OTRVPC
-    type: VARCHAR
-  - name: F3TUFEFT
-    type: VARCHAR
-  - name: F3GVGCFT
-    type: VARCHAR
-  - name: F3PGGCFT
-    type: VARCHAR
-  - name: F3INVRFT
-    type: VARCHAR
-  - name: F3SSEAFT
-    type: VARCHAR
-  - name: F3OTRVFT
-    type: VARCHAR
-  - name: F3COREXP
-    type: VARCHAR
-  - name: F3INSTFT
-    type: VARCHAR
-  - name: F3RSRCFT
-    type: VARCHAR
-  - name: F3PBSVFT
-    type: VARCHAR
-  - name: F3ACSPFT
-    type: VARCHAR
-  - name: F3STSVFT
-    type: VARCHAR
-  - name: F3INSUFT
-    type: VARCHAR
-  - name: F3OTEXFT
-    type: VARCHAR
-  - name: F3INSTPC
-    type: VARCHAR
-  - name: F3RSRCPC
-    type: VARCHAR
-  - name: F3PBSVPC
-    type: VARCHAR
-  - name: F3ACSPPC
-    type: VARCHAR
-  - name: F3STSVPC
-    type: VARCHAR
-  - name: F3INSUPC
-    type: VARCHAR
-  - name: F3OTEXPC
-    type: VARCHAR
-  - name: F3SWINSP
-    type: VARCHAR
-  - name: F3SWRSRP
-    type: VARCHAR
-  - name: F3SWPBSP
-    type: VARCHAR
-  - name: F3SWACSP
-    type: VARCHAR
-  - name: F3SWSTSP
-    type: VARCHAR
-  - name: F3SWISPP
-    type: VARCHAR
-  - name: F3SWOTEP
-    type: VARCHAR
-  - name: F3SWCREP
-    type: VARCHAR
-  - name: F3SAFBPC
-    type: VARCHAR
-  - name: F3SALRPC
-    type: VARCHAR
-  - name: F3EQUITR
-    type: VARCHAR
+    type: BIGINT

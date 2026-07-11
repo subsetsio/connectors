@@ -1,50 +1,52 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-drvc`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: ascdeg
+    type: BIGINT
+  - name: basdeg
+    type: VARCHAR
+  - name: masdeg
+    type: VARCHAR
+  - name: docdegrs
+    type: VARCHAR
+  - name: docdegpp
+    type: VARCHAR
+  - name: docdegot
+    type: VARCHAR
+  - name: cert1
+    type: BIGINT
+  - name: cert1a
+    type: BIGINT
+  - name: cert1b
+    type: BIGINT
+  - name: cert2
+    type: BIGINT
+  - name: cert4
+    type: BIGINT
+  - name: pbacert
+    type: VARCHAR
+  - name: pmacert
+    type: VARCHAR
+  - name: sascdeg
+    type: BIGINT
+  - name: sbasdeg
+    type: VARCHAR
+  - name: smasdeg
+    type: VARCHAR
+  - name: sdocdeg
+    type: VARCHAR
+  - name: scert1a
+    type: BIGINT
+  - name: scert1b
+    type: BIGINT
+  - name: scert24
+    type: BIGINT
+  - name: sbamacrt
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: ASCDEG
-    type: VARCHAR
-  - name: BASDEG
-    type: VARCHAR
-  - name: MASDEG
-    type: VARCHAR
-  - name: DOCDEGRS
-    type: VARCHAR
-  - name: DOCDEGPP
-    type: VARCHAR
-  - name: DOCDEGOT
-    type: VARCHAR
-  - name: CERT1
-    type: VARCHAR
-  - name: CERT1A
-    type: VARCHAR
-  - name: CERT1B
-    type: VARCHAR
-  - name: CERT2
-    type: VARCHAR
-  - name: CERT4
-    type: VARCHAR
-  - name: PBACERT
-    type: VARCHAR
-  - name: PMACERT
-    type: VARCHAR
-  - name: SASCDEG
-    type: VARCHAR
-  - name: SBASDEG
-    type: VARCHAR
-  - name: SMASDEG
-    type: VARCHAR
-  - name: SDOCDEG
-    type: VARCHAR
-  - name: SCERT1A
-    type: VARCHAR
-  - name: SCERT1B
-    type: VARCHAR
-  - name: SCERT24
-    type: VARCHAR
-  - name: SBAMACRT
-    type: VARCHAR
+    type: BIGINT

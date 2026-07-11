@@ -1,138 +1,140 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-efcp`. Regenerate after model-verify.
+key: [unitid, year, efciplev, cipcode, line, section, lstudy]
 temporal: year
-sort: [year]
+sort: [year, unitid, efciplev, cipcode, line, section, lstudy]
 columns:
   - name: unitid
     type: BIGINT
+  - name: efciplev
+    type: VARCHAR
+  - name: cipcode
+    type: DOUBLE
+  - name: line
+    type: BIGINT
+  - name: section
+    type: BIGINT
+  - name: lstudy
+    type: BIGINT
+  - name: xeftotlt
+    type: VARCHAR
+  - name: eftotlt
+    type: VARCHAR
+  - name: xeftotlm
+    type: VARCHAR
+  - name: eftotlm
+    type: VARCHAR
+  - name: xeftotlw
+    type: VARCHAR
+  - name: eftotlw
+    type: VARCHAR
+  - name: xefaiant
+    type: VARCHAR
+  - name: efaiant
+    type: VARCHAR
+  - name: xefaianm
+    type: VARCHAR
+  - name: efaianm
+    type: VARCHAR
+  - name: xefaianw
+    type: VARCHAR
+  - name: efaianw
+    type: VARCHAR
+  - name: xefasiat
+    type: VARCHAR
+  - name: efasiat
+    type: VARCHAR
+  - name: xefasiam
+    type: VARCHAR
+  - name: efasiam
+    type: VARCHAR
+  - name: xefasiaw
+    type: VARCHAR
+  - name: efasiaw
+    type: VARCHAR
+  - name: xefbkaat
+    type: VARCHAR
+  - name: efbkaat
+    type: VARCHAR
+  - name: xefbkaam
+    type: VARCHAR
+  - name: efbkaam
+    type: VARCHAR
+  - name: xefbkaaw
+    type: VARCHAR
+  - name: efbkaaw
+    type: VARCHAR
+  - name: xefhispt
+    type: VARCHAR
+  - name: efhispt
+    type: VARCHAR
+  - name: xefhispm
+    type: VARCHAR
+  - name: efhispm
+    type: VARCHAR
+  - name: xefhispw
+    type: VARCHAR
+  - name: efhispw
+    type: VARCHAR
+  - name: xefnhpit
+    type: VARCHAR
+  - name: efnhpit
+    type: VARCHAR
+  - name: xefnhpim
+    type: VARCHAR
+  - name: efnhpim
+    type: VARCHAR
+  - name: xefnhpiw
+    type: VARCHAR
+  - name: efnhpiw
+    type: VARCHAR
+  - name: xefwhitt
+    type: VARCHAR
+  - name: efwhitt
+    type: VARCHAR
+  - name: xefwhitm
+    type: VARCHAR
+  - name: efwhitm
+    type: VARCHAR
+  - name: xefwhitw
+    type: VARCHAR
+  - name: efwhitw
+    type: VARCHAR
+  - name: xef2mort
+    type: VARCHAR
+  - name: ef2mort
+    type: VARCHAR
+  - name: xef2morm
+    type: VARCHAR
+  - name: ef2morm
+    type: VARCHAR
+  - name: xef2morw
+    type: VARCHAR
+  - name: ef2morw
+    type: VARCHAR
+  - name: xefunknt
+    type: VARCHAR
+  - name: efunknt
+    type: VARCHAR
+  - name: xefunknm
+    type: VARCHAR
+  - name: efunknm
+    type: VARCHAR
+  - name: xefunknw
+    type: VARCHAR
+  - name: efunknw
+    type: VARCHAR
+  - name: xefnralt
+    type: VARCHAR
+  - name: efnralt
+    type: VARCHAR
+  - name: xefnralm
+    type: VARCHAR
+  - name: efnralm
+    type: VARCHAR
+  - name: xefnralw
+    type: VARCHAR
+  - name: efnralw
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: EFCIPLEV
-    type: VARCHAR
-  - name: CIPCODE
-    type: VARCHAR
-  - name: LINE
-    type: VARCHAR
-  - name: SECTION
-    type: VARCHAR
-  - name: LSTUDY
-    type: VARCHAR
-  - name: XEFTOTLT
-    type: VARCHAR
-  - name: EFTOTLT
-    type: VARCHAR
-  - name: XEFTOTLM
-    type: VARCHAR
-  - name: EFTOTLM
-    type: VARCHAR
-  - name: XEFTOTLW
-    type: VARCHAR
-  - name: EFTOTLW
-    type: VARCHAR
-  - name: XEFAIANT
-    type: VARCHAR
-  - name: EFAIANT
-    type: VARCHAR
-  - name: XEFAIANM
-    type: VARCHAR
-  - name: EFAIANM
-    type: VARCHAR
-  - name: XEFAIANW
-    type: VARCHAR
-  - name: EFAIANW
-    type: VARCHAR
-  - name: XEFASIAT
-    type: VARCHAR
-  - name: EFASIAT
-    type: VARCHAR
-  - name: XEFASIAM
-    type: VARCHAR
-  - name: EFASIAM
-    type: VARCHAR
-  - name: XEFASIAW
-    type: VARCHAR
-  - name: EFASIAW
-    type: VARCHAR
-  - name: XEFBKAAT
-    type: VARCHAR
-  - name: EFBKAAT
-    type: VARCHAR
-  - name: XEFBKAAM
-    type: VARCHAR
-  - name: EFBKAAM
-    type: VARCHAR
-  - name: XEFBKAAW
-    type: VARCHAR
-  - name: EFBKAAW
-    type: VARCHAR
-  - name: XEFHISPT
-    type: VARCHAR
-  - name: EFHISPT
-    type: VARCHAR
-  - name: XEFHISPM
-    type: VARCHAR
-  - name: EFHISPM
-    type: VARCHAR
-  - name: XEFHISPW
-    type: VARCHAR
-  - name: EFHISPW
-    type: VARCHAR
-  - name: XEFNHPIT
-    type: VARCHAR
-  - name: EFNHPIT
-    type: VARCHAR
-  - name: XEFNHPIM
-    type: VARCHAR
-  - name: EFNHPIM
-    type: VARCHAR
-  - name: XEFNHPIW
-    type: VARCHAR
-  - name: EFNHPIW
-    type: VARCHAR
-  - name: XEFWHITT
-    type: VARCHAR
-  - name: EFWHITT
-    type: VARCHAR
-  - name: XEFWHITM
-    type: VARCHAR
-  - name: EFWHITM
-    type: VARCHAR
-  - name: XEFWHITW
-    type: VARCHAR
-  - name: EFWHITW
-    type: VARCHAR
-  - name: XEF2MORT
-    type: VARCHAR
-  - name: EF2MORT
-    type: VARCHAR
-  - name: XEF2MORM
-    type: VARCHAR
-  - name: EF2MORM
-    type: VARCHAR
-  - name: XEF2MORW
-    type: VARCHAR
-  - name: EF2MORW
-    type: VARCHAR
-  - name: XEFUNKNT
-    type: VARCHAR
-  - name: EFUNKNT
-    type: VARCHAR
-  - name: XEFUNKNM
-    type: VARCHAR
-  - name: EFUNKNM
-    type: VARCHAR
-  - name: XEFUNKNW
-    type: VARCHAR
-  - name: EFUNKNW
-    type: VARCHAR
-  - name: XEFNRALT
-    type: VARCHAR
-  - name: EFNRALT
-    type: VARCHAR
-  - name: XEFNRALM
-    type: VARCHAR
-  - name: EFNRALM
-    type: VARCHAR
-  - name: XEFNRALW
-    type: VARCHAR
-  - name: EFNRALW
-    type: VARCHAR
+    type: BIGINT

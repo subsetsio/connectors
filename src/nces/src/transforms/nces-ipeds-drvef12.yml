@@ -1,130 +1,132 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-drvef12`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: fte12mn
+    type: BIGINT
+  - name: undup
+    type: BIGINT
+  - name: undupug
+    type: BIGINT
+  - name: e12ft
+    type: VARCHAR
+  - name: e12pt
+    type: VARCHAR
+  - name: e12ug1st
+    type: BIGINT
+  - name: e12ugtrn
+    type: BIGINT
+  - name: e12ugcnt
+    type: BIGINT
+  - name: e12ugndg
+    type: BIGINT
+  - name: e12grad
+    type: BIGINT
+  - name: e12ugft
+    type: BIGINT
+  - name: e12ug1sft
+    type: BIGINT
+  - name: e12ugtrft
+    type: BIGINT
+  - name: e12ugcnft
+    type: BIGINT
+  - name: e12ugndft
+    type: BIGINT
+  - name: e12gradft
+    type: VARCHAR
+  - name: e12ugpt
+    type: BIGINT
+  - name: e12ug1spt
+    type: BIGINT
+  - name: e12ugtrpt
+    type: BIGINT
+  - name: e12ugcnpt
+    type: BIGINT
+  - name: e12ugndpt
+    type: BIGINT
+  - name: e12gradpt
+    type: VARCHAR
+  - name: pcte12an
+    type: BIGINT
+  - name: pcte12as
+    type: BIGINT
+  - name: pcte12bk
+    type: BIGINT
+  - name: pcte12hs
+    type: BIGINT
+  - name: pcte12nh
+    type: BIGINT
+  - name: pcte12wh
+    type: BIGINT
+  - name: pcte122m
+    type: BIGINT
+  - name: pcte12un
+    type: BIGINT
+  - name: pcte12nr
+    type: BIGINT
+  - name: pcte12w
+    type: BIGINT
+  - name: pcte12ugan
+    type: VARCHAR
+  - name: pcte12ugas
+    type: VARCHAR
+  - name: pcte12ugbk
+    type: VARCHAR
+  - name: pcte12ughs
+    type: VARCHAR
+  - name: pcte12ugnh
+    type: VARCHAR
+  - name: pcte12ugwh
+    type: VARCHAR
+  - name: pcte12ug2m
+    type: VARCHAR
+  - name: pcte12ugun
+    type: VARCHAR
+  - name: pcte12ugnr
+    type: VARCHAR
+  - name: pcte12ugw
+    type: VARCHAR
+  - name: pcte12gradan
+    type: VARCHAR
+  - name: pcte12gradas
+    type: VARCHAR
+  - name: pcte12gradbk
+    type: VARCHAR
+  - name: pcte12gradhs
+    type: VARCHAR
+  - name: pcte12gradnh
+    type: VARCHAR
+  - name: pcte12gradwh
+    type: VARCHAR
+  - name: pcte12grad2m
+    type: VARCHAR
+  - name: pcte12gradun
+    type: VARCHAR
+  - name: pcte12gradnr
+    type: VARCHAR
+  - name: pcte12gradw
+    type: VARCHAR
+  - name: pcte12deexc
+    type: BIGINT
+  - name: pcte12desom
+    type: BIGINT
+  - name: pcte12denon
+    type: BIGINT
+  - name: pcte12ugdeexc
+    type: VARCHAR
+  - name: pcte12ugdesom
+    type: VARCHAR
+  - name: pcte12ugdenon
+    type: VARCHAR
+  - name: pcte12graddeexc
+    type: VARCHAR
+  - name: pcte12graddesom
+    type: VARCHAR
+  - name: pcte12graddenon
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: FTE12MN
-    type: VARCHAR
-  - name: UNDUP
-    type: VARCHAR
-  - name: UNDUPUG
-    type: VARCHAR
-  - name: E12FT
-    type: VARCHAR
-  - name: E12PT
-    type: VARCHAR
-  - name: E12UG1ST
-    type: VARCHAR
-  - name: E12UGTRN
-    type: VARCHAR
-  - name: E12UGCNT
-    type: VARCHAR
-  - name: E12UGNDG
-    type: VARCHAR
-  - name: E12GRAD
-    type: VARCHAR
-  - name: E12UGFT
-    type: VARCHAR
-  - name: E12UG1SFT
-    type: VARCHAR
-  - name: E12UGTRFT
-    type: VARCHAR
-  - name: E12UGCNFT
-    type: VARCHAR
-  - name: E12UGNDFT
-    type: VARCHAR
-  - name: E12GRADFT
-    type: VARCHAR
-  - name: E12UGPT
-    type: VARCHAR
-  - name: E12UG1SPT
-    type: VARCHAR
-  - name: E12UGTRPT
-    type: VARCHAR
-  - name: E12UGCNPT
-    type: VARCHAR
-  - name: E12UGNDPT
-    type: VARCHAR
-  - name: E12GRADPT
-    type: VARCHAR
-  - name: PCTE12AN
-    type: VARCHAR
-  - name: PCTE12AS
-    type: VARCHAR
-  - name: PCTE12BK
-    type: VARCHAR
-  - name: PCTE12HS
-    type: VARCHAR
-  - name: PCTE12NH
-    type: VARCHAR
-  - name: PCTE12WH
-    type: VARCHAR
-  - name: PCTE122M
-    type: VARCHAR
-  - name: PCTE12UN
-    type: VARCHAR
-  - name: PCTE12NR
-    type: VARCHAR
-  - name: PCTE12W
-    type: VARCHAR
-  - name: PCTE12UGAN
-    type: VARCHAR
-  - name: PCTE12UGAS
-    type: VARCHAR
-  - name: PCTE12UGBK
-    type: VARCHAR
-  - name: PCTE12UGHS
-    type: VARCHAR
-  - name: PCTE12UGNH
-    type: VARCHAR
-  - name: PCTE12UGWH
-    type: VARCHAR
-  - name: PCTE12UG2M
-    type: VARCHAR
-  - name: PCTE12UGUN
-    type: VARCHAR
-  - name: PCTE12UGNR
-    type: VARCHAR
-  - name: PCTE12UGW
-    type: VARCHAR
-  - name: PCTE12GRADAN
-    type: VARCHAR
-  - name: PCTE12GRADAS
-    type: VARCHAR
-  - name: PCTE12GRADBK
-    type: VARCHAR
-  - name: PCTE12GRADHS
-    type: VARCHAR
-  - name: PCTE12GRADNH
-    type: VARCHAR
-  - name: PCTE12GRADWH
-    type: VARCHAR
-  - name: PCTE12GRAD2M
-    type: VARCHAR
-  - name: PCTE12GRADUN
-    type: VARCHAR
-  - name: PCTE12GRADNR
-    type: VARCHAR
-  - name: PCTE12GRADW
-    type: VARCHAR
-  - name: PCTE12DEEXC
-    type: VARCHAR
-  - name: PCTE12DESOM
-    type: VARCHAR
-  - name: PCTE12DENON
-    type: VARCHAR
-  - name: PCTE12UGDEEXC
-    type: VARCHAR
-  - name: PCTE12UGDESOM
-    type: VARCHAR
-  - name: PCTE12UGDENON
-    type: VARCHAR
-  - name: PCTE12GRADDEEXC
-    type: VARCHAR
-  - name: PCTE12GRADDESOM
-    type: VARCHAR
-  - name: PCTE12GRADDENON
-    type: VARCHAR
+    type: BIGINT

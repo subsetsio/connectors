@@ -1,46 +1,48 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-efa-dist`. Regenerate after model-verify.
+key: [unitid, year, efdelev]
 temporal: year
-sort: [year]
+sort: [year, unitid, efdelev]
 columns:
   - name: unitid
     type: BIGINT
+  - name: efdelev
+    type: BIGINT
+  - name: xefdetot
+    type: VARCHAR
+  - name: efdetot
+    type: BIGINT
+  - name: xefdeexc
+    type: VARCHAR
+  - name: efdeexc
+    type: VARCHAR
+  - name: xefdesom
+    type: VARCHAR
+  - name: efdesom
+    type: VARCHAR
+  - name: xefdenon
+    type: VARCHAR
+  - name: efdenon
+    type: VARCHAR
+  - name: xefdeex1
+    type: VARCHAR
+  - name: efdeex1
+    type: VARCHAR
+  - name: xefdeex2
+    type: VARCHAR
+  - name: efdeex2
+    type: VARCHAR
+  - name: xefdeex3
+    type: VARCHAR
+  - name: efdeex3
+    type: VARCHAR
+  - name: xefdeex4
+    type: VARCHAR
+  - name: efdeex4
+    type: VARCHAR
+  - name: xefdeex5
+    type: VARCHAR
+  - name: efdeex5
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: EFDELEV
-    type: VARCHAR
-  - name: XEFDETOT
-    type: VARCHAR
-  - name: EFDETOT
-    type: VARCHAR
-  - name: XEFDEEXC
-    type: VARCHAR
-  - name: EFDEEXC
-    type: VARCHAR
-  - name: XEFDESOM
-    type: VARCHAR
-  - name: EFDESOM
-    type: VARCHAR
-  - name: XEFDENON
-    type: VARCHAR
-  - name: EFDENON
-    type: VARCHAR
-  - name: XEFDEEX1
-    type: VARCHAR
-  - name: EFDEEX1
-    type: VARCHAR
-  - name: XEFDEEX2
-    type: VARCHAR
-  - name: EFDEEX2
-    type: VARCHAR
-  - name: XEFDEEX3
-    type: VARCHAR
-  - name: EFDEEX3
-    type: VARCHAR
-  - name: XEFDEEX4
-    type: VARCHAR
-  - name: EFDEEX4
-    type: VARCHAR
-  - name: XEFDEEX5
-    type: VARCHAR
-  - name: EFDEEX5
-    type: VARCHAR
+    type: BIGINT

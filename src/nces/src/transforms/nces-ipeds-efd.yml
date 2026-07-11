@@ -1,72 +1,74 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-efd`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: xgrcohrt
+    type: VARCHAR
+  - name: grcohrt
+    type: VARCHAR
+  - name: xugenter
+    type: VARCHAR
+  - name: ugentern
+    type: VARCHAR
+  - name: xpgrcohr
+    type: VARCHAR
+  - name: pgrcohrt
+    type: VARCHAR
+  - name: xrrftct
+    type: VARCHAR
+  - name: rrftct
+    type: VARCHAR
+  - name: xrrftex
+    type: VARCHAR
+  - name: rrftex
+    type: VARCHAR
+  - name: xrrftin
+    type: VARCHAR
+  - name: rrftin
+    type: VARCHAR
+  - name: xrrftcta
+    type: VARCHAR
+  - name: rrftcta
+    type: VARCHAR
+  - name: xret_nmf
+    type: VARCHAR
+  - name: ret_nmf
+    type: VARCHAR
+  - name: xret_pcf
+    type: VARCHAR
+  - name: ret_pcf
+    type: VARCHAR
+  - name: xrrptct
+    type: VARCHAR
+  - name: rrptct
+    type: VARCHAR
+  - name: xrrptex
+    type: VARCHAR
+  - name: rrptex
+    type: VARCHAR
+  - name: xrrptin
+    type: VARCHAR
+  - name: rrptin
+    type: VARCHAR
+  - name: xrrptcta
+    type: VARCHAR
+  - name: rrptcta
+    type: VARCHAR
+  - name: xret_nmp
+    type: VARCHAR
+  - name: ret_nmp
+    type: VARCHAR
+  - name: xret_pcp
+    type: VARCHAR
+  - name: ret_pcp
+    type: VARCHAR
+  - name: xstufacr
+    type: VARCHAR
+  - name: stufacr
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: XGRCOHRT
-    type: VARCHAR
-  - name: GRCOHRT
-    type: VARCHAR
-  - name: XUGENTER
-    type: VARCHAR
-  - name: UGENTERN
-    type: VARCHAR
-  - name: XPGRCOHR
-    type: VARCHAR
-  - name: PGRCOHRT
-    type: VARCHAR
-  - name: XRRFTCT
-    type: VARCHAR
-  - name: RRFTCT
-    type: VARCHAR
-  - name: XRRFTEX
-    type: VARCHAR
-  - name: RRFTEX
-    type: VARCHAR
-  - name: XRRFTIN
-    type: VARCHAR
-  - name: RRFTIN
-    type: VARCHAR
-  - name: XRRFTCTA
-    type: VARCHAR
-  - name: RRFTCTA
-    type: VARCHAR
-  - name: XRET_NMF
-    type: VARCHAR
-  - name: RET_NMF
-    type: VARCHAR
-  - name: XRET_PCF
-    type: VARCHAR
-  - name: RET_PCF
-    type: VARCHAR
-  - name: XRRPTCT
-    type: VARCHAR
-  - name: RRPTCT
-    type: VARCHAR
-  - name: XRRPTEX
-    type: VARCHAR
-  - name: RRPTEX
-    type: VARCHAR
-  - name: XRRPTIN
-    type: VARCHAR
-  - name: RRPTIN
-    type: VARCHAR
-  - name: XRRPTCTA
-    type: VARCHAR
-  - name: RRPTCTA
-    type: VARCHAR
-  - name: XRET_NMP
-    type: VARCHAR
-  - name: RET_NMP
-    type: VARCHAR
-  - name: XRET_PCP
-    type: VARCHAR
-  - name: RET_PCP
-    type: VARCHAR
-  - name: XSTUFACR
-    type: VARCHAR
-  - name: STUFACR
-    type: VARCHAR
+    type: BIGINT

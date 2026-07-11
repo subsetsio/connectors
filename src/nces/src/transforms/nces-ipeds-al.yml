@@ -1,144 +1,146 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-al`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: lexp100k
+    type: VARCHAR
+  - name: lcolelyn
+    type: BIGINT
+  - name: xlpbooks
+    type: VARCHAR
+  - name: lpbooks
+    type: VARCHAR
+  - name: xlebooks
+    type: VARCHAR
+  - name: lebooks
+    type: BIGINT
+  - name: xledatab
+    type: VARCHAR
+  - name: ledatab
+    type: BIGINT
+  - name: xlpmedia
+    type: VARCHAR
+  - name: lpmedia
+    type: VARCHAR
+  - name: xlemedia
+    type: VARCHAR
+  - name: lemedia
+    type: BIGINT
+  - name: xlpseria
+    type: VARCHAR
+  - name: lpseria
+    type: VARCHAR
+  - name: xleseria
+    type: VARCHAR
+  - name: leseria
+    type: VARCHAR
+  - name: xlpcollc
+    type: VARCHAR
+  - name: lpcllct
+    type: VARCHAR
+  - name: xlecollc
+    type: VARCHAR
+  - name: lecllct
+    type: BIGINT
+  - name: xltcllct
+    type: VARCHAR
+  - name: ltcllct
+    type: VARCHAR
+  - name: xlpcrclt
+    type: VARCHAR
+  - name: lpcrclt
+    type: VARCHAR
+  - name: xlecrclt
+    type: VARCHAR
+  - name: lecrclt
+    type: BIGINT
+  - name: xltcrclt
+    type: VARCHAR
+  - name: ltcrclt
+    type: VARCHAR
+  - name: lilldyn
+    type: VARCHAR
+  - name: xlilldpr
+    type: VARCHAR
+  - name: lilldpr
+    type: VARCHAR
+  - name: xlilldrc
+    type: VARCHAR
+  - name: lilldrc
+    type: VARCHAR
+  - name: lilsyn
+    type: VARCHAR
+  - name: xlstotal
+    type: VARCHAR
+  - name: lstotal
+    type: VARCHAR
+  - name: xlslibrn
+    type: VARCHAR
+  - name: lslibrn
+    type: VARCHAR
+  - name: xlsoprof
+    type: VARCHAR
+  - name: lsoprof
+    type: VARCHAR
+  - name: xlsopaid
+    type: VARCHAR
+  - name: lsopaid
+    type: VARCHAR
+  - name: xlsstast
+    type: VARCHAR
+  - name: lsstast
+    type: VARCHAR
+  - name: xlbranch
+    type: VARCHAR
+  - name: lbranch
+    type: VARCHAR
+  - name: xsalwag
+    type: VARCHAR
+  - name: lsalwag
+    type: VARCHAR
+  - name: lfrngbyn
+    type: BIGINT
+  - name: xlfrngbn
+    type: VARCHAR
+  - name: lfrngbn
+    type: VARCHAR
+  - name: xlexmsbb
+    type: VARCHAR
+  - name: lexmsbb
+    type: VARCHAR
+  - name: xlexmscs
+    type: VARCHAR
+  - name: lexmscs
+    type: VARCHAR
+  - name: xlexmsot
+    type: VARCHAR
+  - name: lexmsot
+    type: VARCHAR
+  - name: xlexmstl
+    type: VARCHAR
+  - name: lexmstl
+    type: VARCHAR
+  - name: xlexomps
+    type: VARCHAR
+  - name: lexomps
+    type: VARCHAR
+  - name: xlexomot
+    type: VARCHAR
+  - name: lexomot
+    type: VARCHAR
+  - name: xlexomtl
+    type: VARCHAR
+  - name: lexomtl
+    type: VARCHAR
+  - name: xlexptot
+    type: VARCHAR
+  - name: lexptot
+    type: VARCHAR
+  - name: lswmsom
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: LEXP100K
-    type: VARCHAR
-  - name: LCOLELYN
-    type: VARCHAR
-  - name: XLPBOOKS
-    type: VARCHAR
-  - name: LPBOOKS
-    type: VARCHAR
-  - name: XLEBOOKS
-    type: VARCHAR
-  - name: LEBOOKS
-    type: VARCHAR
-  - name: XLEDATAB
-    type: VARCHAR
-  - name: LEDATAB
-    type: VARCHAR
-  - name: XLPMEDIA
-    type: VARCHAR
-  - name: LPMEDIA
-    type: VARCHAR
-  - name: XLEMEDIA
-    type: VARCHAR
-  - name: LEMEDIA
-    type: VARCHAR
-  - name: XLPSERIA
-    type: VARCHAR
-  - name: LPSERIA
-    type: VARCHAR
-  - name: XLESERIA
-    type: VARCHAR
-  - name: LESERIA
-    type: VARCHAR
-  - name: XLPCOLLC
-    type: VARCHAR
-  - name: LPCLLCT
-    type: VARCHAR
-  - name: XLECOLLC
-    type: VARCHAR
-  - name: LECLLCT
-    type: VARCHAR
-  - name: XLTCLLCT
-    type: VARCHAR
-  - name: LTCLLCT
-    type: VARCHAR
-  - name: XLPCRCLT
-    type: VARCHAR
-  - name: LPCRCLT
-    type: VARCHAR
-  - name: XLECRCLT
-    type: VARCHAR
-  - name: LECRCLT
-    type: VARCHAR
-  - name: XLTCRCLT
-    type: VARCHAR
-  - name: LTCRCLT
-    type: VARCHAR
-  - name: LILLDYN
-    type: VARCHAR
-  - name: XLILLDPR
-    type: VARCHAR
-  - name: LILLDPR
-    type: VARCHAR
-  - name: XLILLDRC
-    type: VARCHAR
-  - name: LILLDRC
-    type: VARCHAR
-  - name: LILSYN
-    type: VARCHAR
-  - name: XLSTOTAL
-    type: VARCHAR
-  - name: LSTOTAL
-    type: VARCHAR
-  - name: XLSLIBRN
-    type: VARCHAR
-  - name: LSLIBRN
-    type: VARCHAR
-  - name: XLSOPROF
-    type: VARCHAR
-  - name: LSOPROF
-    type: VARCHAR
-  - name: XLSOPAID
-    type: VARCHAR
-  - name: LSOPAID
-    type: VARCHAR
-  - name: XLSSTAST
-    type: VARCHAR
-  - name: LSSTAST
-    type: VARCHAR
-  - name: XLBRANCH
-    type: VARCHAR
-  - name: LBRANCH
-    type: VARCHAR
-  - name: XSALWAG
-    type: VARCHAR
-  - name: LSALWAG
-    type: VARCHAR
-  - name: LFRNGBYN
-    type: VARCHAR
-  - name: XLFRNGBN
-    type: VARCHAR
-  - name: LFRNGBN
-    type: VARCHAR
-  - name: XLEXMSBB
-    type: VARCHAR
-  - name: LEXMSBB
-    type: VARCHAR
-  - name: XLEXMSCS
-    type: VARCHAR
-  - name: LEXMSCS
-    type: VARCHAR
-  - name: XLEXMSOT
-    type: VARCHAR
-  - name: LEXMSOT
-    type: VARCHAR
-  - name: XLEXMSTL
-    type: VARCHAR
-  - name: LEXMSTL
-    type: VARCHAR
-  - name: XLEXOMPS
-    type: VARCHAR
-  - name: LEXOMPS
-    type: VARCHAR
-  - name: XLEXOMOT
-    type: VARCHAR
-  - name: LEXOMOT
-    type: VARCHAR
-  - name: XLEXOMTL
-    type: VARCHAR
-  - name: LEXOMTL
-    type: VARCHAR
-  - name: XLEXPTOT
-    type: VARCHAR
-  - name: LEXPTOT
-    type: VARCHAR
-  - name: LSWMSOM
-    type: VARCHAR
+    type: BIGINT

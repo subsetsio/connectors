@@ -1,50 +1,53 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-eap`. Regenerate after model-verify.
+# caution: Early EAP vintages include repeated institution-year rows where the later category fields are blank, so this raw component has no stable row key across the full historical union.
+key: []
 temporal: year
 sort: [year]
 columns:
   - name: unitid
     type: BIGINT
+  - name: eapcat
+    type: VARCHAR
+  - name: occupcat
+    type: VARCHAR
+  - name: facstat
+    type: VARCHAR
+  - name: xeaptot
+    type: VARCHAR
+  - name: eaptot
+    type: VARCHAR
+  - name: xeaptyp
+    type: VARCHAR
+  - name: eaptyp
+    type: VARCHAR
+  - name: xeapmed
+    type: VARCHAR
+  - name: eapmed
+    type: VARCHAR
+  - name: xeapft
+    type: VARCHAR
+  - name: eapft
+    type: VARCHAR
+  - name: xeapftty
+    type: VARCHAR
+  - name: eapfttyp
+    type: VARCHAR
+  - name: xeapftmd
+    type: VARCHAR
+  - name: eapftmed
+    type: VARCHAR
+  - name: xeappt
+    type: VARCHAR
+  - name: eappt
+    type: VARCHAR
+  - name: xeapptty
+    type: VARCHAR
+  - name: eappttyp
+    type: VARCHAR
+  - name: xeapptmd
+    type: VARCHAR
+  - name: eapptmed
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: EAPCAT
-    type: VARCHAR
-  - name: OCCUPCAT
-    type: VARCHAR
-  - name: FACSTAT
-    type: VARCHAR
-  - name: XEAPTOT
-    type: VARCHAR
-  - name: EAPTOT
-    type: VARCHAR
-  - name: XEAPTYP
-    type: VARCHAR
-  - name: EAPTYP
-    type: VARCHAR
-  - name: XEAPMED
-    type: VARCHAR
-  - name: EAPMED
-    type: VARCHAR
-  - name: XEAPFT
-    type: VARCHAR
-  - name: EAPFT
-    type: VARCHAR
-  - name: XEAPFTTY
-    type: VARCHAR
-  - name: EAPFTTYP
-    type: VARCHAR
-  - name: XEAPFTMD
-    type: VARCHAR
-  - name: EAPFTMED
-    type: VARCHAR
-  - name: XEAPPT
-    type: VARCHAR
-  - name: EAPPT
-    type: VARCHAR
-  - name: XEAPPTTY
-    type: VARCHAR
-  - name: EAPPTTYP
-    type: VARCHAR
-  - name: XEAPPTMD
-    type: VARCHAR
-  - name: EAPPTMED
-    type: VARCHAR
+    type: BIGINT

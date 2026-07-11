@@ -1,224 +1,226 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-drvom`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: om1totlawdp4
+    type: VARCHAR
+  - name: om1totlawdp6
+    type: VARCHAR
+  - name: om1totlawdp8
+    type: VARCHAR
+  - name: om1totlenyp8
+    type: VARCHAR
+  - name: om1totlenap8
+    type: VARCHAR
+  - name: om1totlenup8
+    type: VARCHAR
+  - name: om1totlcrtp8
+    type: VARCHAR
+  - name: om1totlascp8
+    type: VARCHAR
+  - name: om1totlbacp8
+    type: VARCHAR
+  - name: om1pellawdp4
+    type: VARCHAR
+  - name: om1pellawdp6
+    type: VARCHAR
+  - name: om1pellawdp8
+    type: VARCHAR
+  - name: om1pellenyp8
+    type: VARCHAR
+  - name: om1pellenap8
+    type: VARCHAR
+  - name: om1pellenup8
+    type: VARCHAR
+  - name: om1pellcrtp8
+    type: VARCHAR
+  - name: om1pellascp8
+    type: VARCHAR
+  - name: om1pellbacp8
+    type: VARCHAR
+  - name: om1npelawdp4
+    type: VARCHAR
+  - name: om1npelawdp6
+    type: VARCHAR
+  - name: om1npelawdp8
+    type: VARCHAR
+  - name: om1npelenyp8
+    type: VARCHAR
+  - name: om1npelenap8
+    type: VARCHAR
+  - name: om1npelenup8
+    type: VARCHAR
+  - name: om1npelcrtp8
+    type: VARCHAR
+  - name: om1npelascp8
+    type: VARCHAR
+  - name: om1npelbacp8
+    type: VARCHAR
+  - name: om2totlawdp4
+    type: VARCHAR
+  - name: om2totlawdp6
+    type: VARCHAR
+  - name: om2totlawdp8
+    type: VARCHAR
+  - name: om2totlenyp8
+    type: VARCHAR
+  - name: om2totlenap8
+    type: VARCHAR
+  - name: om2totlenup8
+    type: VARCHAR
+  - name: om2totlcrtp8
+    type: VARCHAR
+  - name: om2totlascp8
+    type: VARCHAR
+  - name: om2totlbacp8
+    type: VARCHAR
+  - name: om2pellawdp4
+    type: VARCHAR
+  - name: om2pellawdp6
+    type: VARCHAR
+  - name: om2pellawdp8
+    type: VARCHAR
+  - name: om2pellenyp8
+    type: VARCHAR
+  - name: om2pellenap8
+    type: VARCHAR
+  - name: om2pellenup8
+    type: VARCHAR
+  - name: om2pellcrtp8
+    type: VARCHAR
+  - name: om2pellascp8
+    type: VARCHAR
+  - name: om2pellbacp8
+    type: VARCHAR
+  - name: om2npelawdp4
+    type: VARCHAR
+  - name: om2npelawdp6
+    type: VARCHAR
+  - name: om2npelawdp8
+    type: VARCHAR
+  - name: om2npelenyp8
+    type: VARCHAR
+  - name: om2npelenap8
+    type: VARCHAR
+  - name: om2npelenup8
+    type: VARCHAR
+  - name: om2npelcrtp8
+    type: VARCHAR
+  - name: om2npelascp8
+    type: VARCHAR
+  - name: om2npelbacp8
+    type: VARCHAR
+  - name: om3totlawdp4
+    type: VARCHAR
+  - name: om3totlawdp6
+    type: VARCHAR
+  - name: om3totlawdp8
+    type: VARCHAR
+  - name: om3totlenyp8
+    type: VARCHAR
+  - name: om3totlenap8
+    type: VARCHAR
+  - name: om3totlenup8
+    type: VARCHAR
+  - name: om3totlcrtp8
+    type: VARCHAR
+  - name: om3totlascp8
+    type: VARCHAR
+  - name: om3totlbacp8
+    type: VARCHAR
+  - name: om3pellawdp4
+    type: VARCHAR
+  - name: om3pellawdp6
+    type: VARCHAR
+  - name: om3pellawdp8
+    type: VARCHAR
+  - name: om3pellenyp8
+    type: VARCHAR
+  - name: om3pellenap8
+    type: VARCHAR
+  - name: om3pellenup8
+    type: VARCHAR
+  - name: om3pellcrtp8
+    type: VARCHAR
+  - name: om3pellascp8
+    type: VARCHAR
+  - name: om3pellbacp8
+    type: VARCHAR
+  - name: om3npelawdp4
+    type: VARCHAR
+  - name: om3npelawdp6
+    type: VARCHAR
+  - name: om3npelawdp8
+    type: VARCHAR
+  - name: om3npelenyp8
+    type: VARCHAR
+  - name: om3npelenap8
+    type: VARCHAR
+  - name: om3npelenup8
+    type: VARCHAR
+  - name: om3npelcrtp8
+    type: VARCHAR
+  - name: om3npelascp8
+    type: VARCHAR
+  - name: om3npelbacp8
+    type: VARCHAR
+  - name: om4totlawdp4
+    type: VARCHAR
+  - name: om4totlawdp6
+    type: VARCHAR
+  - name: om4totlawdp8
+    type: VARCHAR
+  - name: om4totlenyp8
+    type: VARCHAR
+  - name: om4totlenap8
+    type: VARCHAR
+  - name: om4totlenup8
+    type: VARCHAR
+  - name: om4totlcrtp8
+    type: VARCHAR
+  - name: om4totlascp8
+    type: VARCHAR
+  - name: om4totlbacp8
+    type: VARCHAR
+  - name: om4pellawdp4
+    type: VARCHAR
+  - name: om4pellawdp6
+    type: VARCHAR
+  - name: om4pellawdp8
+    type: VARCHAR
+  - name: om4pellenyp8
+    type: VARCHAR
+  - name: om4pellenap8
+    type: VARCHAR
+  - name: om4pellenup8
+    type: VARCHAR
+  - name: om4pellcrtp8
+    type: VARCHAR
+  - name: om4pellascp8
+    type: VARCHAR
+  - name: om4pellbacp8
+    type: VARCHAR
+  - name: om4npelawdp4
+    type: VARCHAR
+  - name: om4npelawdp6
+    type: VARCHAR
+  - name: om4npelawdp8
+    type: VARCHAR
+  - name: om4npelenyp8
+    type: VARCHAR
+  - name: om4npelenap8
+    type: VARCHAR
+  - name: om4npelenup8
+    type: VARCHAR
+  - name: om4npelcrtp8
+    type: VARCHAR
+  - name: om4npelascp8
+    type: VARCHAR
+  - name: om4npelbacp8
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: OM1TOTLAWDP4
-    type: VARCHAR
-  - name: OM1TOTLAWDP6
-    type: VARCHAR
-  - name: OM1TOTLAWDP8
-    type: VARCHAR
-  - name: OM1TOTLENYP8
-    type: VARCHAR
-  - name: OM1TOTLENAP8
-    type: VARCHAR
-  - name: OM1TOTLENUP8
-    type: VARCHAR
-  - name: OM1TOTLCRTP8
-    type: VARCHAR
-  - name: OM1TOTLASCP8
-    type: VARCHAR
-  - name: OM1TOTLBACP8
-    type: VARCHAR
-  - name: OM1PELLAWDP4
-    type: VARCHAR
-  - name: OM1PELLAWDP6
-    type: VARCHAR
-  - name: OM1PELLAWDP8
-    type: VARCHAR
-  - name: OM1PELLENYP8
-    type: VARCHAR
-  - name: OM1PELLENAP8
-    type: VARCHAR
-  - name: OM1PELLENUP8
-    type: VARCHAR
-  - name: OM1PELLCRTP8
-    type: VARCHAR
-  - name: OM1PELLASCP8
-    type: VARCHAR
-  - name: OM1PELLBACP8
-    type: VARCHAR
-  - name: OM1NPELAWDP4
-    type: VARCHAR
-  - name: OM1NPELAWDP6
-    type: VARCHAR
-  - name: OM1NPELAWDP8
-    type: VARCHAR
-  - name: OM1NPELENYP8
-    type: VARCHAR
-  - name: OM1NPELENAP8
-    type: VARCHAR
-  - name: OM1NPELENUP8
-    type: VARCHAR
-  - name: OM1NPELCRTP8
-    type: VARCHAR
-  - name: OM1NPELASCP8
-    type: VARCHAR
-  - name: OM1NPELBACP8
-    type: VARCHAR
-  - name: OM2TOTLAWDP4
-    type: VARCHAR
-  - name: OM2TOTLAWDP6
-    type: VARCHAR
-  - name: OM2TOTLAWDP8
-    type: VARCHAR
-  - name: OM2TOTLENYP8
-    type: VARCHAR
-  - name: OM2TOTLENAP8
-    type: VARCHAR
-  - name: OM2TOTLENUP8
-    type: VARCHAR
-  - name: OM2TOTLCRTP8
-    type: VARCHAR
-  - name: OM2TOTLASCP8
-    type: VARCHAR
-  - name: OM2TOTLBACP8
-    type: VARCHAR
-  - name: OM2PELLAWDP4
-    type: VARCHAR
-  - name: OM2PELLAWDP6
-    type: VARCHAR
-  - name: OM2PELLAWDP8
-    type: VARCHAR
-  - name: OM2PELLENYP8
-    type: VARCHAR
-  - name: OM2PELLENAP8
-    type: VARCHAR
-  - name: OM2PELLENUP8
-    type: VARCHAR
-  - name: OM2PELLCRTP8
-    type: VARCHAR
-  - name: OM2PELLASCP8
-    type: VARCHAR
-  - name: OM2PELLBACP8
-    type: VARCHAR
-  - name: OM2NPELAWDP4
-    type: VARCHAR
-  - name: OM2NPELAWDP6
-    type: VARCHAR
-  - name: OM2NPELAWDP8
-    type: VARCHAR
-  - name: OM2NPELENYP8
-    type: VARCHAR
-  - name: OM2NPELENAP8
-    type: VARCHAR
-  - name: OM2NPELENUP8
-    type: VARCHAR
-  - name: OM2NPELCRTP8
-    type: VARCHAR
-  - name: OM2NPELASCP8
-    type: VARCHAR
-  - name: OM2NPELBACP8
-    type: VARCHAR
-  - name: OM3TOTLAWDP4
-    type: VARCHAR
-  - name: OM3TOTLAWDP6
-    type: VARCHAR
-  - name: OM3TOTLAWDP8
-    type: VARCHAR
-  - name: OM3TOTLENYP8
-    type: VARCHAR
-  - name: OM3TOTLENAP8
-    type: VARCHAR
-  - name: OM3TOTLENUP8
-    type: VARCHAR
-  - name: OM3TOTLCRTP8
-    type: VARCHAR
-  - name: OM3TOTLASCP8
-    type: VARCHAR
-  - name: OM3TOTLBACP8
-    type: VARCHAR
-  - name: OM3PELLAWDP4
-    type: VARCHAR
-  - name: OM3PELLAWDP6
-    type: VARCHAR
-  - name: OM3PELLAWDP8
-    type: VARCHAR
-  - name: OM3PELLENYP8
-    type: VARCHAR
-  - name: OM3PELLENAP8
-    type: VARCHAR
-  - name: OM3PELLENUP8
-    type: VARCHAR
-  - name: OM3PELLCRTP8
-    type: VARCHAR
-  - name: OM3PELLASCP8
-    type: VARCHAR
-  - name: OM3PELLBACP8
-    type: VARCHAR
-  - name: OM3NPELAWDP4
-    type: VARCHAR
-  - name: OM3NPELAWDP6
-    type: VARCHAR
-  - name: OM3NPELAWDP8
-    type: VARCHAR
-  - name: OM3NPELENYP8
-    type: VARCHAR
-  - name: OM3NPELENAP8
-    type: VARCHAR
-  - name: OM3NPELENUP8
-    type: VARCHAR
-  - name: OM3NPELCRTP8
-    type: VARCHAR
-  - name: OM3NPELASCP8
-    type: VARCHAR
-  - name: OM3NPELBACP8
-    type: VARCHAR
-  - name: OM4TOTLAWDP4
-    type: VARCHAR
-  - name: OM4TOTLAWDP6
-    type: VARCHAR
-  - name: OM4TOTLAWDP8
-    type: VARCHAR
-  - name: OM4TOTLENYP8
-    type: VARCHAR
-  - name: OM4TOTLENAP8
-    type: VARCHAR
-  - name: OM4TOTLENUP8
-    type: VARCHAR
-  - name: OM4TOTLCRTP8
-    type: VARCHAR
-  - name: OM4TOTLASCP8
-    type: VARCHAR
-  - name: OM4TOTLBACP8
-    type: VARCHAR
-  - name: OM4PELLAWDP4
-    type: VARCHAR
-  - name: OM4PELLAWDP6
-    type: VARCHAR
-  - name: OM4PELLAWDP8
-    type: VARCHAR
-  - name: OM4PELLENYP8
-    type: VARCHAR
-  - name: OM4PELLENAP8
-    type: VARCHAR
-  - name: OM4PELLENUP8
-    type: VARCHAR
-  - name: OM4PELLCRTP8
-    type: VARCHAR
-  - name: OM4PELLASCP8
-    type: VARCHAR
-  - name: OM4PELLBACP8
-    type: VARCHAR
-  - name: OM4NPELAWDP4
-    type: VARCHAR
-  - name: OM4NPELAWDP6
-    type: VARCHAR
-  - name: OM4NPELAWDP8
-    type: VARCHAR
-  - name: OM4NPELENYP8
-    type: VARCHAR
-  - name: OM4NPELENAP8
-    type: VARCHAR
-  - name: OM4NPELENUP8
-    type: VARCHAR
-  - name: OM4NPELCRTP8
-    type: VARCHAR
-  - name: OM4NPELASCP8
-    type: VARCHAR
-  - name: OM4NPELBACP8
-    type: VARCHAR
+    type: BIGINT

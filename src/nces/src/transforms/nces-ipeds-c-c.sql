@@ -1,5 +1,43 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    TRY_CAST("UNITID" AS BIGINT) AS unitid,
-    CAST("year" AS INTEGER)      AS year,
-    * EXCLUDE ("UNITID", "year")
+    CAST("UNITID" AS BIGINT) AS unitid,
+    "AWLEVELC" AS awlevelc,
+    "XCSTOTLT" AS xcstotlt,
+    CAST("CSTOTLT" AS BIGINT) AS cstotlt,
+    "XCSTOTLM" AS xcstotlm,
+    CAST("CSTOTLM" AS BIGINT) AS cstotlm,
+    "XCSTOTLW" AS xcstotlw,
+    CAST("CSTOTLW" AS BIGINT) AS cstotlw,
+    "XCSAIANT" AS xcsaiant,
+    CAST("CSAIANT" AS BIGINT) AS csaiant,
+    "XCSASIAT" AS xcsasiat,
+    CAST("CSASIAT" AS BIGINT) AS csasiat,
+    "XCSBKAAT" AS xcsbkaat,
+    CAST("CSBKAAT" AS BIGINT) AS csbkaat,
+    "XCSHISPT" AS xcshispt,
+    CAST("CSHISPT" AS BIGINT) AS cshispt,
+    "XCSNHPIT" AS xcsnhpit,
+    CAST("CSNHPIT" AS BIGINT) AS csnhpit,
+    "XCSWHITT" AS xcswhitt,
+    CAST("CSWHITT" AS BIGINT) AS cswhitt,
+    "XCS2MORT" AS xcs2mort,
+    CAST("CS2MORT" AS BIGINT) AS cs2mort,
+    "XCSUNKNT" AS xcsunknt,
+    CAST("CSUNKNT" AS BIGINT) AS csunknt,
+    "XCSNRALT" AS xcsnralt,
+    CAST("CSNRALT" AS BIGINT) AS csnralt,
+    "XCSUND18" AS xcsund18,
+    CAST("CSUND18" AS BIGINT) AS csund18,
+    "XCS18_24" AS xcs18_24,
+    CAST("CS18_24" AS BIGINT) AS cs18_24,
+    "XCS25_39" AS xcs25_39,
+    CAST("CS25_39" AS BIGINT) AS cs25_39,
+    "XCSABV40" AS xcsabv40,
+    CAST("CSABV40" AS BIGINT) AS csabv40,
+    "XCSUNKN" AS xcsunkn,
+    CAST("CSUNKN" AS BIGINT) AS csunkn,
+    "year"
 FROM "nces-ipeds-c-c"

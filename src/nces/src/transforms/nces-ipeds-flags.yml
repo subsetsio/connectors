@@ -1,39 +1,40 @@
-# authored to match the uniform IPEDS passthrough transform (unitid+year typed,
-# every survey-response flag kept as VARCHAR); columns from the FLAGS2024 header.
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-flags`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: stat_ic
+    type: BIGINT
+  - name: lock_ic
+    type: BIGINT
+  - name: imp_ic
+    type: BIGINT
+  - name: stat_c
+    type: BIGINT
+  - name: lock_c
+    type: BIGINT
+  - name: prch_c
+    type: BIGINT
+  - name: idx_c
+    type: BIGINT
+  - name: pcc_f
+    type: VARCHAR
+  - name: imp_c
+    type: BIGINT
+  - name: stat_e12
+    type: VARCHAR
+  - name: lock_e12
+    type: VARCHAR
+  - name: prch_e12
+    type: VARCHAR
+  - name: idx_e12
+    type: VARCHAR
+  - name: pce12_f
+    type: VARCHAR
+  - name: imp_e12
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: STAT_IC
-    type: VARCHAR
-  - name: LOCK_IC
-    type: VARCHAR
-  - name: IMP_IC
-    type: VARCHAR
-  - name: STAT_C
-    type: VARCHAR
-  - name: LOCK_C
-    type: VARCHAR
-  - name: PRCH_C
-    type: VARCHAR
-  - name: IDX_C
-    type: VARCHAR
-  - name: PCC_F
-    type: VARCHAR
-  - name: IMP_C
-    type: VARCHAR
-  - name: STAT_E12
-    type: VARCHAR
-  - name: LOCK_E12
-    type: VARCHAR
-  - name: PRCH_E12
-    type: VARCHAR
-  - name: IDX_E12
-    type: VARCHAR
-  - name: PCE12_F
-    type: VARCHAR
-  - name: IMP_E12
-    type: VARCHAR
+    type: BIGINT

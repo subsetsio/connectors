@@ -1,42 +1,44 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-efia`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: xcdactua
+    type: VARCHAR
+  - name: cdactua
+    type: VARCHAR
+  - name: xcnactua
+    type: VARCHAR
+  - name: cnactua
+    type: VARCHAR
+  - name: xcdactga
+    type: VARCHAR
+  - name: cdactga
+    type: VARCHAR
+  - name: xefteug
+    type: VARCHAR
+  - name: efteug
+    type: VARCHAR
+  - name: xeftegd
+    type: VARCHAR
+  - name: eftegd
+    type: VARCHAR
+  - name: xfteug
+    type: VARCHAR
+  - name: fteug
+    type: VARCHAR
+  - name: xftegd
+    type: VARCHAR
+  - name: ftegd
+    type: VARCHAR
+  - name: xftedpp
+    type: VARCHAR
+  - name: ftedpp
+    type: VARCHAR
+  - name: acttype
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: XCDACTUA
-    type: VARCHAR
-  - name: CDACTUA
-    type: VARCHAR
-  - name: XCNACTUA
-    type: VARCHAR
-  - name: CNACTUA
-    type: VARCHAR
-  - name: XCDACTGA
-    type: VARCHAR
-  - name: CDACTGA
-    type: VARCHAR
-  - name: XEFTEUG
-    type: VARCHAR
-  - name: EFTEUG
-    type: VARCHAR
-  - name: XEFTEGD
-    type: VARCHAR
-  - name: EFTEGD
-    type: VARCHAR
-  - name: XFTEUG
-    type: VARCHAR
-  - name: FTEUG
-    type: VARCHAR
-  - name: XFTEGD
-    type: VARCHAR
-  - name: FTEGD
-    type: VARCHAR
-  - name: XFTEDPP
-    type: VARCHAR
-  - name: FTEDPP
-    type: VARCHAR
-  - name: ACTTYPE
-    type: VARCHAR
+    type: BIGINT

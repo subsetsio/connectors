@@ -1,50 +1,52 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-efb`. Regenerate after model-verify.
+key: [unitid, year, efbage, line, lstudy]
 temporal: year
-sort: [year]
+sort: [year, unitid, efbage, line, lstudy]
 columns:
   - name: unitid
     type: BIGINT
+  - name: efbage
+    type: VARCHAR
+  - name: line
+    type: BIGINT
+  - name: lstudy
+    type: VARCHAR
+  - name: xefage01
+    type: VARCHAR
+  - name: efage01
+    type: VARCHAR
+  - name: xefage02
+    type: VARCHAR
+  - name: efage02
+    type: VARCHAR
+  - name: xefage03
+    type: VARCHAR
+  - name: efage03
+    type: VARCHAR
+  - name: xefage04
+    type: VARCHAR
+  - name: efage04
+    type: VARCHAR
+  - name: xefage05
+    type: VARCHAR
+  - name: efage05
+    type: VARCHAR
+  - name: xefage06
+    type: VARCHAR
+  - name: efage06
+    type: VARCHAR
+  - name: xefage07
+    type: VARCHAR
+  - name: efage07
+    type: VARCHAR
+  - name: xefage08
+    type: VARCHAR
+  - name: efage08
+    type: VARCHAR
+  - name: xefage09
+    type: VARCHAR
+  - name: efage09
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: EFBAGE
-    type: VARCHAR
-  - name: LINE
-    type: VARCHAR
-  - name: LSTUDY
-    type: VARCHAR
-  - name: XEFAGE01
-    type: VARCHAR
-  - name: EFAGE01
-    type: VARCHAR
-  - name: XEFAGE02
-    type: VARCHAR
-  - name: EFAGE02
-    type: VARCHAR
-  - name: XEFAGE03
-    type: VARCHAR
-  - name: EFAGE03
-    type: VARCHAR
-  - name: XEFAGE04
-    type: VARCHAR
-  - name: EFAGE04
-    type: VARCHAR
-  - name: XEFAGE05
-    type: VARCHAR
-  - name: EFAGE05
-    type: VARCHAR
-  - name: XEFAGE06
-    type: VARCHAR
-  - name: EFAGE06
-    type: VARCHAR
-  - name: XEFAGE07
-    type: VARCHAR
-  - name: EFAGE07
-    type: VARCHAR
-  - name: XEFAGE08
-    type: VARCHAR
-  - name: EFAGE08
-    type: VARCHAR
-  - name: XEFAGE09
-    type: VARCHAR
-  - name: EFAGE09
-    type: VARCHAR
+    type: BIGINT

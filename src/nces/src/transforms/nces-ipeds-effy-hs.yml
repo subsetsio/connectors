@@ -1,128 +1,130 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-effy-hs`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: xeytotlt
+    type: VARCHAR
+  - name: efytotlt
+    type: BIGINT
+  - name: xeytotlm
+    type: VARCHAR
+  - name: efytotlm
+    type: BIGINT
+  - name: xeytotlw
+    type: VARCHAR
+  - name: efytotlw
+    type: BIGINT
+  - name: xefyaiat
+    type: VARCHAR
+  - name: efyaiant
+    type: BIGINT
+  - name: xefyaiam
+    type: VARCHAR
+  - name: efyaianm
+    type: BIGINT
+  - name: xefyaiaw
+    type: VARCHAR
+  - name: efyaianw
+    type: BIGINT
+  - name: xefyasit
+    type: VARCHAR
+  - name: efyasiat
+    type: BIGINT
+  - name: xefyasim
+    type: VARCHAR
+  - name: efyasiam
+    type: BIGINT
+  - name: xefyasiw
+    type: VARCHAR
+  - name: efyasiaw
+    type: BIGINT
+  - name: xefybkat
+    type: VARCHAR
+  - name: efybkaat
+    type: BIGINT
+  - name: xefybkam
+    type: VARCHAR
+  - name: efybkaam
+    type: BIGINT
+  - name: xefybkaw
+    type: VARCHAR
+  - name: efybkaaw
+    type: BIGINT
+  - name: xefyhist
+    type: VARCHAR
+  - name: efyhispt
+    type: BIGINT
+  - name: xefyhism
+    type: VARCHAR
+  - name: efyhispm
+    type: BIGINT
+  - name: xefyhisw
+    type: VARCHAR
+  - name: efyhispw
+    type: BIGINT
+  - name: xefynhpt
+    type: VARCHAR
+  - name: efynhpit
+    type: BIGINT
+  - name: xefynhpm
+    type: VARCHAR
+  - name: efynhpim
+    type: BIGINT
+  - name: xefynhpw
+    type: VARCHAR
+  - name: efynhpiw
+    type: BIGINT
+  - name: xefywhit
+    type: VARCHAR
+  - name: efywhitt
+    type: BIGINT
+  - name: xefywhim
+    type: VARCHAR
+  - name: efywhitm
+    type: BIGINT
+  - name: xefywhiw
+    type: VARCHAR
+  - name: efywhitw
+    type: BIGINT
+  - name: xefy2mot
+    type: VARCHAR
+  - name: efy2mort
+    type: BIGINT
+  - name: xefy2mom
+    type: VARCHAR
+  - name: efy2morm
+    type: BIGINT
+  - name: xefy2mow
+    type: VARCHAR
+  - name: efy2morw
+    type: BIGINT
+  - name: xeyunknt
+    type: VARCHAR
+  - name: efyunknt
+    type: BIGINT
+  - name: xeyunknm
+    type: VARCHAR
+  - name: efyunknm
+    type: BIGINT
+  - name: xeyunknw
+    type: VARCHAR
+  - name: efyunknw
+    type: BIGINT
+  - name: xeynralt
+    type: VARCHAR
+  - name: efynralt
+    type: BIGINT
+  - name: xeynralm
+    type: VARCHAR
+  - name: efynralm
+    type: BIGINT
+  - name: xeynralw
+    type: VARCHAR
+  - name: efynralw
+    type: BIGINT
   - name: year
-    type: INTEGER
-  - name: XEYTOTLT
-    type: VARCHAR
-  - name: EFYTOTLT
-    type: VARCHAR
-  - name: XEYTOTLM
-    type: VARCHAR
-  - name: EFYTOTLM
-    type: VARCHAR
-  - name: XEYTOTLW
-    type: VARCHAR
-  - name: EFYTOTLW
-    type: VARCHAR
-  - name: XEFYAIAT
-    type: VARCHAR
-  - name: EFYAIANT
-    type: VARCHAR
-  - name: XEFYAIAM
-    type: VARCHAR
-  - name: EFYAIANM
-    type: VARCHAR
-  - name: XEFYAIAW
-    type: VARCHAR
-  - name: EFYAIANW
-    type: VARCHAR
-  - name: XEFYASIT
-    type: VARCHAR
-  - name: EFYASIAT
-    type: VARCHAR
-  - name: XEFYASIM
-    type: VARCHAR
-  - name: EFYASIAM
-    type: VARCHAR
-  - name: XEFYASIW
-    type: VARCHAR
-  - name: EFYASIAW
-    type: VARCHAR
-  - name: XEFYBKAT
-    type: VARCHAR
-  - name: EFYBKAAT
-    type: VARCHAR
-  - name: XEFYBKAM
-    type: VARCHAR
-  - name: EFYBKAAM
-    type: VARCHAR
-  - name: XEFYBKAW
-    type: VARCHAR
-  - name: EFYBKAAW
-    type: VARCHAR
-  - name: XEFYHIST
-    type: VARCHAR
-  - name: EFYHISPT
-    type: VARCHAR
-  - name: XEFYHISM
-    type: VARCHAR
-  - name: EFYHISPM
-    type: VARCHAR
-  - name: XEFYHISW
-    type: VARCHAR
-  - name: EFYHISPW
-    type: VARCHAR
-  - name: XEFYNHPT
-    type: VARCHAR
-  - name: EFYNHPIT
-    type: VARCHAR
-  - name: XEFYNHPM
-    type: VARCHAR
-  - name: EFYNHPIM
-    type: VARCHAR
-  - name: XEFYNHPW
-    type: VARCHAR
-  - name: EFYNHPIW
-    type: VARCHAR
-  - name: XEFYWHIT
-    type: VARCHAR
-  - name: EFYWHITT
-    type: VARCHAR
-  - name: XEFYWHIM
-    type: VARCHAR
-  - name: EFYWHITM
-    type: VARCHAR
-  - name: XEFYWHIW
-    type: VARCHAR
-  - name: EFYWHITW
-    type: VARCHAR
-  - name: XEFY2MOT
-    type: VARCHAR
-  - name: EFY2MORT
-    type: VARCHAR
-  - name: XEFY2MOM
-    type: VARCHAR
-  - name: EFY2MORM
-    type: VARCHAR
-  - name: XEFY2MOW
-    type: VARCHAR
-  - name: EFY2MORW
-    type: VARCHAR
-  - name: XEYUNKNT
-    type: VARCHAR
-  - name: EFYUNKNT
-    type: VARCHAR
-  - name: XEYUNKNM
-    type: VARCHAR
-  - name: EFYUNKNM
-    type: VARCHAR
-  - name: XEYUNKNW
-    type: VARCHAR
-  - name: EFYUNKNW
-    type: VARCHAR
-  - name: XEYNRALT
-    type: VARCHAR
-  - name: EFYNRALT
-    type: VARCHAR
-  - name: XEYNRALM
-    type: VARCHAR
-  - name: EFYNRALM
-    type: VARCHAR
-  - name: XEYNRALW
-    type: VARCHAR
-  - name: EFYNRALW
-    type: VARCHAR
+    type: BIGINT

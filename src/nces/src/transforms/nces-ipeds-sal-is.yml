@@ -1,226 +1,228 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-sal-is`. Regenerate after model-verify.
+key: [unitid, year, arank]
 temporal: year
-sort: [year]
+sort: [year, unitid, arank]
 columns:
   - name: unitid
     type: BIGINT
+  - name: arank
+    type: BIGINT
+  - name: xsainstt
+    type: VARCHAR
+  - name: sainstt
+    type: VARCHAR
+  - name: xsainstm
+    type: VARCHAR
+  - name: sainstm
+    type: VARCHAR
+  - name: xsainstw
+    type: VARCHAR
+  - name: sainstw
+    type: VARCHAR
+  - name: xsa_9mct
+    type: VARCHAR
+  - name: sa_9mct
+    type: VARCHAR
+  - name: xsa_9mcm
+    type: VARCHAR
+  - name: sa_9mcm
+    type: VARCHAR
+  - name: xsa_9mcw
+    type: VARCHAR
+  - name: sa_9mcw
+    type: VARCHAR
+  - name: xsatotlt
+    type: VARCHAR
+  - name: satotlt
+    type: BIGINT
+  - name: xsatotlm
+    type: VARCHAR
+  - name: satotlm
+    type: BIGINT
+  - name: xsatotlw
+    type: VARCHAR
+  - name: satotlw
+    type: BIGINT
+  - name: xsa09mct
+    type: VARCHAR
+  - name: sa09mct
+    type: VARCHAR
+  - name: xsa09mcm
+    type: VARCHAR
+  - name: sa09mcm
+    type: VARCHAR
+  - name: xsa09mcw
+    type: VARCHAR
+  - name: sa09mcw
+    type: VARCHAR
+  - name: xsa10mct
+    type: VARCHAR
+  - name: sa10mct
+    type: VARCHAR
+  - name: xsa10mcm
+    type: VARCHAR
+  - name: sa10mcm
+    type: VARCHAR
+  - name: xsa10mcw
+    type: VARCHAR
+  - name: sa10mcw
+    type: VARCHAR
+  - name: xsa11mct
+    type: VARCHAR
+  - name: sa11mct
+    type: VARCHAR
+  - name: xsa11mcm
+    type: VARCHAR
+  - name: sa11mcm
+    type: VARCHAR
+  - name: xsa11mcw
+    type: VARCHAR
+  - name: sa11mcw
+    type: VARCHAR
+  - name: xsa12mct
+    type: VARCHAR
+  - name: sa12mct
+    type: VARCHAR
+  - name: xsa12mcm
+    type: VARCHAR
+  - name: sa12mcm
+    type: VARCHAR
+  - name: xsa12mcw
+    type: VARCHAR
+  - name: sa12mcw
+    type: VARCHAR
+  - name: xsaoutlt
+    type: VARCHAR
+  - name: saoutlt
+    type: BIGINT
+  - name: xsaoutlm
+    type: VARCHAR
+  - name: saoutlm
+    type: BIGINT
+  - name: xsaoutlw
+    type: VARCHAR
+  - name: saoutlw
+    type: BIGINT
+  - name: xsa09mot
+    type: VARCHAR
+  - name: sa09mot
+    type: VARCHAR
+  - name: xsa09mom
+    type: VARCHAR
+  - name: sa09mom
+    type: VARCHAR
+  - name: xsa09mow
+    type: VARCHAR
+  - name: sa09mow
+    type: VARCHAR
+  - name: xsa10mot
+    type: VARCHAR
+  - name: sa10mot
+    type: VARCHAR
+  - name: xsa10mom
+    type: VARCHAR
+  - name: sa10mom
+    type: VARCHAR
+  - name: xsa10mow
+    type: VARCHAR
+  - name: sa10mow
+    type: VARCHAR
+  - name: xsa11mot
+    type: VARCHAR
+  - name: sa11mot
+    type: VARCHAR
+  - name: xsa11mom
+    type: VARCHAR
+  - name: sa11mom
+    type: VARCHAR
+  - name: xsa11mow
+    type: VARCHAR
+  - name: sa11mow
+    type: VARCHAR
+  - name: xsa12mot
+    type: VARCHAR
+  - name: sa12mot
+    type: VARCHAR
+  - name: xsa12mom
+    type: VARCHAR
+  - name: sa12mom
+    type: VARCHAR
+  - name: xsa12mow
+    type: VARCHAR
+  - name: sa12mow
+    type: VARCHAR
+  - name: xsaeq9ot
+    type: VARCHAR
+  - name: saeq9ot
+    type: VARCHAR
+  - name: xsaeq9om
+    type: VARCHAR
+  - name: saeq9om
+    type: VARCHAR
+  - name: xsaeq9ow
+    type: VARCHAR
+  - name: saeq9ow
+    type: VARCHAR
+  - name: xsaeq9at
+    type: VARCHAR
+  - name: saeq9at
+    type: VARCHAR
+  - name: xsaeq9am
+    type: VARCHAR
+  - name: saeq9am
+    type: VARCHAR
+  - name: xsaeq9aw
+    type: VARCHAR
+  - name: saeq9aw
+    type: VARCHAR
+  - name: xsa09mat
+    type: VARCHAR
+  - name: sa09mat
+    type: VARCHAR
+  - name: xsa09mam
+    type: VARCHAR
+  - name: sa09mam
+    type: VARCHAR
+  - name: xsa09maw
+    type: VARCHAR
+  - name: sa09maw
+    type: VARCHAR
+  - name: xsa10mat
+    type: VARCHAR
+  - name: sa10mat
+    type: VARCHAR
+  - name: xsa10mam
+    type: VARCHAR
+  - name: sa10mam
+    type: VARCHAR
+  - name: xsa10maw
+    type: VARCHAR
+  - name: sa10maw
+    type: VARCHAR
+  - name: xsa11mat
+    type: VARCHAR
+  - name: sa11mat
+    type: VARCHAR
+  - name: xsa11mam
+    type: VARCHAR
+  - name: sa11mam
+    type: VARCHAR
+  - name: xsa11maw
+    type: VARCHAR
+  - name: sa11maw
+    type: VARCHAR
+  - name: xsa12mat
+    type: VARCHAR
+  - name: sa12mat
+    type: VARCHAR
+  - name: xsa12mam
+    type: VARCHAR
+  - name: sa12mam
+    type: VARCHAR
+  - name: xsa12maw
+    type: VARCHAR
+  - name: sa12maw
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: ARANK
-    type: VARCHAR
-  - name: XSAINSTT
-    type: VARCHAR
-  - name: SAINSTT
-    type: VARCHAR
-  - name: XSAINSTM
-    type: VARCHAR
-  - name: SAINSTM
-    type: VARCHAR
-  - name: XSAINSTW
-    type: VARCHAR
-  - name: SAINSTW
-    type: VARCHAR
-  - name: XSA_9MCT
-    type: VARCHAR
-  - name: SA_9MCT
-    type: VARCHAR
-  - name: XSA_9MCM
-    type: VARCHAR
-  - name: SA_9MCM
-    type: VARCHAR
-  - name: XSA_9MCW
-    type: VARCHAR
-  - name: SA_9MCW
-    type: VARCHAR
-  - name: XSATOTLT
-    type: VARCHAR
-  - name: SATOTLT
-    type: VARCHAR
-  - name: XSATOTLM
-    type: VARCHAR
-  - name: SATOTLM
-    type: VARCHAR
-  - name: XSATOTLW
-    type: VARCHAR
-  - name: SATOTLW
-    type: VARCHAR
-  - name: XSA09MCT
-    type: VARCHAR
-  - name: SA09MCT
-    type: VARCHAR
-  - name: XSA09MCM
-    type: VARCHAR
-  - name: SA09MCM
-    type: VARCHAR
-  - name: XSA09MCW
-    type: VARCHAR
-  - name: SA09MCW
-    type: VARCHAR
-  - name: XSA10MCT
-    type: VARCHAR
-  - name: SA10MCT
-    type: VARCHAR
-  - name: XSA10MCM
-    type: VARCHAR
-  - name: SA10MCM
-    type: VARCHAR
-  - name: XSA10MCW
-    type: VARCHAR
-  - name: SA10MCW
-    type: VARCHAR
-  - name: XSA11MCT
-    type: VARCHAR
-  - name: SA11MCT
-    type: VARCHAR
-  - name: XSA11MCM
-    type: VARCHAR
-  - name: SA11MCM
-    type: VARCHAR
-  - name: XSA11MCW
-    type: VARCHAR
-  - name: SA11MCW
-    type: VARCHAR
-  - name: XSA12MCT
-    type: VARCHAR
-  - name: SA12MCT
-    type: VARCHAR
-  - name: XSA12MCM
-    type: VARCHAR
-  - name: SA12MCM
-    type: VARCHAR
-  - name: XSA12MCW
-    type: VARCHAR
-  - name: SA12MCW
-    type: VARCHAR
-  - name: XSAOUTLT
-    type: VARCHAR
-  - name: SAOUTLT
-    type: VARCHAR
-  - name: XSAOUTLM
-    type: VARCHAR
-  - name: SAOUTLM
-    type: VARCHAR
-  - name: XSAOUTLW
-    type: VARCHAR
-  - name: SAOUTLW
-    type: VARCHAR
-  - name: XSA09MOT
-    type: VARCHAR
-  - name: SA09MOT
-    type: VARCHAR
-  - name: XSA09MOM
-    type: VARCHAR
-  - name: SA09MOM
-    type: VARCHAR
-  - name: XSA09MOW
-    type: VARCHAR
-  - name: SA09MOW
-    type: VARCHAR
-  - name: XSA10MOT
-    type: VARCHAR
-  - name: SA10MOT
-    type: VARCHAR
-  - name: XSA10MOM
-    type: VARCHAR
-  - name: SA10MOM
-    type: VARCHAR
-  - name: XSA10MOW
-    type: VARCHAR
-  - name: SA10MOW
-    type: VARCHAR
-  - name: XSA11MOT
-    type: VARCHAR
-  - name: SA11MOT
-    type: VARCHAR
-  - name: XSA11MOM
-    type: VARCHAR
-  - name: SA11MOM
-    type: VARCHAR
-  - name: XSA11MOW
-    type: VARCHAR
-  - name: SA11MOW
-    type: VARCHAR
-  - name: XSA12MOT
-    type: VARCHAR
-  - name: SA12MOT
-    type: VARCHAR
-  - name: XSA12MOM
-    type: VARCHAR
-  - name: SA12MOM
-    type: VARCHAR
-  - name: XSA12MOW
-    type: VARCHAR
-  - name: SA12MOW
-    type: VARCHAR
-  - name: XSAEQ9OT
-    type: VARCHAR
-  - name: SAEQ9OT
-    type: VARCHAR
-  - name: XSAEQ9OM
-    type: VARCHAR
-  - name: SAEQ9OM
-    type: VARCHAR
-  - name: XSAEQ9OW
-    type: VARCHAR
-  - name: SAEQ9OW
-    type: VARCHAR
-  - name: XSAEQ9AT
-    type: VARCHAR
-  - name: SAEQ9AT
-    type: VARCHAR
-  - name: XSAEQ9AM
-    type: VARCHAR
-  - name: SAEQ9AM
-    type: VARCHAR
-  - name: XSAEQ9AW
-    type: VARCHAR
-  - name: SAEQ9AW
-    type: VARCHAR
-  - name: XSA09MAT
-    type: VARCHAR
-  - name: SA09MAT
-    type: VARCHAR
-  - name: XSA09MAM
-    type: VARCHAR
-  - name: SA09MAM
-    type: VARCHAR
-  - name: XSA09MAW
-    type: VARCHAR
-  - name: SA09MAW
-    type: VARCHAR
-  - name: XSA10MAT
-    type: VARCHAR
-  - name: SA10MAT
-    type: VARCHAR
-  - name: XSA10MAM
-    type: VARCHAR
-  - name: SA10MAM
-    type: VARCHAR
-  - name: XSA10MAW
-    type: VARCHAR
-  - name: SA10MAW
-    type: VARCHAR
-  - name: XSA11MAT
-    type: VARCHAR
-  - name: SA11MAT
-    type: VARCHAR
-  - name: XSA11MAM
-    type: VARCHAR
-  - name: SA11MAM
-    type: VARCHAR
-  - name: XSA11MAW
-    type: VARCHAR
-  - name: SA11MAW
-    type: VARCHAR
-  - name: XSA12MAT
-    type: VARCHAR
-  - name: SA12MAT
-    type: VARCHAR
-  - name: XSA12MAM
-    type: VARCHAR
-  - name: SA12MAM
-    type: VARCHAR
-  - name: XSA12MAW
-    type: VARCHAR
-  - name: SA12MAW
-    type: VARCHAR
+    type: BIGINT

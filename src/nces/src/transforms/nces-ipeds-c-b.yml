@@ -1,168 +1,170 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-c-b`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: xcstotlt
+    type: VARCHAR
+  - name: cstotlt
+    type: BIGINT
+  - name: xcstotlm
+    type: VARCHAR
+  - name: cstotlm
+    type: BIGINT
+  - name: xcstotlw
+    type: VARCHAR
+  - name: cstotlw
+    type: BIGINT
+  - name: xcsaiant
+    type: VARCHAR
+  - name: csaiant
+    type: BIGINT
+  - name: xcsaianm
+    type: VARCHAR
+  - name: csaianm
+    type: BIGINT
+  - name: xcsaianw
+    type: VARCHAR
+  - name: csaianw
+    type: BIGINT
+  - name: xcsasiat
+    type: VARCHAR
+  - name: csasiat
+    type: BIGINT
+  - name: xcsasiam
+    type: VARCHAR
+  - name: csasiam
+    type: BIGINT
+  - name: xcsasiaw
+    type: VARCHAR
+  - name: csasiaw
+    type: BIGINT
+  - name: xcsbkaat
+    type: VARCHAR
+  - name: csbkaat
+    type: BIGINT
+  - name: xcsbkaam
+    type: VARCHAR
+  - name: csbkaam
+    type: BIGINT
+  - name: xcsbkaaw
+    type: VARCHAR
+  - name: csbkaaw
+    type: BIGINT
+  - name: xcshispt
+    type: VARCHAR
+  - name: cshispt
+    type: BIGINT
+  - name: xcshispm
+    type: VARCHAR
+  - name: cshispm
+    type: BIGINT
+  - name: xcshispw
+    type: VARCHAR
+  - name: cshispw
+    type: BIGINT
+  - name: xcsnhpit
+    type: VARCHAR
+  - name: csnhpit
+    type: BIGINT
+  - name: xcsnhpim
+    type: VARCHAR
+  - name: csnhpim
+    type: BIGINT
+  - name: xcsnhpiw
+    type: VARCHAR
+  - name: csnhpiw
+    type: BIGINT
+  - name: xcswhitt
+    type: VARCHAR
+  - name: cswhitt
+    type: BIGINT
+  - name: xcswhitm
+    type: VARCHAR
+  - name: cswhitm
+    type: BIGINT
+  - name: xcswhitw
+    type: VARCHAR
+  - name: cswhitw
+    type: BIGINT
+  - name: xcs2mort
+    type: VARCHAR
+  - name: cs2mort
+    type: BIGINT
+  - name: xcs2morm
+    type: VARCHAR
+  - name: cs2morm
+    type: BIGINT
+  - name: xcs2morw
+    type: VARCHAR
+  - name: cs2morw
+    type: BIGINT
+  - name: xcsunknt
+    type: VARCHAR
+  - name: csunknt
+    type: BIGINT
+  - name: xcsunknm
+    type: VARCHAR
+  - name: csunknm
+    type: BIGINT
+  - name: xcsunknw
+    type: VARCHAR
+  - name: csunknw
+    type: BIGINT
+  - name: xcsnralt
+    type: VARCHAR
+  - name: csnralt
+    type: BIGINT
+  - name: xcsnralm
+    type: VARCHAR
+  - name: csnralm
+    type: BIGINT
+  - name: xcsnralw
+    type: VARCHAR
+  - name: csnralw
+    type: BIGINT
+  - name: xcsguugu
+    type: VARCHAR
+  - name: csguugun
+    type: VARCHAR
+  - name: xcsguuga
+    type: VARCHAR
+  - name: csguugag
+    type: VARCHAR
+  - name: xcsguugt
+    type: VARCHAR
+  - name: csguugtt
+    type: VARCHAR
+  - name: xcsgugun
+    type: VARCHAR
+  - name: csgugun
+    type: VARCHAR
+  - name: xcsgugag
+    type: VARCHAR
+  - name: csgugag
+    type: VARCHAR
+  - name: xcsgugtt
+    type: VARCHAR
+  - name: csgugtot
+    type: VARCHAR
+  - name: xcsguttun
+    type: VARCHAR
+  - name: csgutotun
+    type: VARCHAR
+  - name: xcsguttag
+    type: VARCHAR
+  - name: csgutotag
+    type: VARCHAR
+  - name: xcsgutot
+    type: VARCHAR
+  - name: csgutot
+    type: VARCHAR
+  - name: xcsgukn
+    type: VARCHAR
+  - name: csgukn
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: XCSTOTLT
-    type: VARCHAR
-  - name: CSTOTLT
-    type: VARCHAR
-  - name: XCSTOTLM
-    type: VARCHAR
-  - name: CSTOTLM
-    type: VARCHAR
-  - name: XCSTOTLW
-    type: VARCHAR
-  - name: CSTOTLW
-    type: VARCHAR
-  - name: XCSAIANT
-    type: VARCHAR
-  - name: CSAIANT
-    type: VARCHAR
-  - name: XCSAIANM
-    type: VARCHAR
-  - name: CSAIANM
-    type: VARCHAR
-  - name: XCSAIANW
-    type: VARCHAR
-  - name: CSAIANW
-    type: VARCHAR
-  - name: XCSASIAT
-    type: VARCHAR
-  - name: CSASIAT
-    type: VARCHAR
-  - name: XCSASIAM
-    type: VARCHAR
-  - name: CSASIAM
-    type: VARCHAR
-  - name: XCSASIAW
-    type: VARCHAR
-  - name: CSASIAW
-    type: VARCHAR
-  - name: XCSBKAAT
-    type: VARCHAR
-  - name: CSBKAAT
-    type: VARCHAR
-  - name: XCSBKAAM
-    type: VARCHAR
-  - name: CSBKAAM
-    type: VARCHAR
-  - name: XCSBKAAW
-    type: VARCHAR
-  - name: CSBKAAW
-    type: VARCHAR
-  - name: XCSHISPT
-    type: VARCHAR
-  - name: CSHISPT
-    type: VARCHAR
-  - name: XCSHISPM
-    type: VARCHAR
-  - name: CSHISPM
-    type: VARCHAR
-  - name: XCSHISPW
-    type: VARCHAR
-  - name: CSHISPW
-    type: VARCHAR
-  - name: XCSNHPIT
-    type: VARCHAR
-  - name: CSNHPIT
-    type: VARCHAR
-  - name: XCSNHPIM
-    type: VARCHAR
-  - name: CSNHPIM
-    type: VARCHAR
-  - name: XCSNHPIW
-    type: VARCHAR
-  - name: CSNHPIW
-    type: VARCHAR
-  - name: XCSWHITT
-    type: VARCHAR
-  - name: CSWHITT
-    type: VARCHAR
-  - name: XCSWHITM
-    type: VARCHAR
-  - name: CSWHITM
-    type: VARCHAR
-  - name: XCSWHITW
-    type: VARCHAR
-  - name: CSWHITW
-    type: VARCHAR
-  - name: XCS2MORT
-    type: VARCHAR
-  - name: CS2MORT
-    type: VARCHAR
-  - name: XCS2MORM
-    type: VARCHAR
-  - name: CS2MORM
-    type: VARCHAR
-  - name: XCS2MORW
-    type: VARCHAR
-  - name: CS2MORW
-    type: VARCHAR
-  - name: XCSUNKNT
-    type: VARCHAR
-  - name: CSUNKNT
-    type: VARCHAR
-  - name: XCSUNKNM
-    type: VARCHAR
-  - name: CSUNKNM
-    type: VARCHAR
-  - name: XCSUNKNW
-    type: VARCHAR
-  - name: CSUNKNW
-    type: VARCHAR
-  - name: XCSNRALT
-    type: VARCHAR
-  - name: CSNRALT
-    type: VARCHAR
-  - name: XCSNRALM
-    type: VARCHAR
-  - name: CSNRALM
-    type: VARCHAR
-  - name: XCSNRALW
-    type: VARCHAR
-  - name: CSNRALW
-    type: VARCHAR
-  - name: XCSGUUGU
-    type: VARCHAR
-  - name: CSGUUGUN
-    type: VARCHAR
-  - name: XCSGUUGA
-    type: VARCHAR
-  - name: CSGUUGAG
-    type: VARCHAR
-  - name: XCSGUUGT
-    type: VARCHAR
-  - name: CSGUUGTT
-    type: VARCHAR
-  - name: XCSGUGUN
-    type: VARCHAR
-  - name: CSGUGUN
-    type: VARCHAR
-  - name: XCSGUGAG
-    type: VARCHAR
-  - name: CSGUGAG
-    type: VARCHAR
-  - name: XCSGUGTT
-    type: VARCHAR
-  - name: CSGUGTOT
-    type: VARCHAR
-  - name: XCSGUTTUN
-    type: VARCHAR
-  - name: CSGUTOTUN
-    type: VARCHAR
-  - name: XCSGUTTAG
-    type: VARCHAR
-  - name: CSGUTOTAG
-    type: VARCHAR
-  - name: XCSGUTOT
-    type: VARCHAR
-  - name: CSGUTOT
-    type: VARCHAR
-  - name: XCSGUKN
-    type: VARCHAR
-  - name: CSGUKN
-    type: VARCHAR
+    type: BIGINT

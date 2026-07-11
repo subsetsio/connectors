@@ -1,26 +1,28 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-effy-dist`. Regenerate after model-verify.
+key: [unitid, year, effydlev]
 temporal: year
-sort: [year]
+sort: [year, unitid, effydlev]
 columns:
   - name: unitid
     type: BIGINT
+  - name: effydlev
+    type: BIGINT
+  - name: xeydetot
+    type: VARCHAR
+  - name: efydetot
+    type: BIGINT
+  - name: xeydeexc
+    type: VARCHAR
+  - name: efydeexc
+    type: VARCHAR
+  - name: xeydesom
+    type: VARCHAR
+  - name: efydesom
+    type: VARCHAR
+  - name: xeydenon
+    type: VARCHAR
+  - name: efydenon
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: EFFYDLEV
-    type: VARCHAR
-  - name: XEYDETOT
-    type: VARCHAR
-  - name: EFYDETOT
-    type: VARCHAR
-  - name: XEYDEEXC
-    type: VARCHAR
-  - name: EFYDEEXC
-    type: VARCHAR
-  - name: XEYDESOM
-    type: VARCHAR
-  - name: EFYDESOM
-    type: VARCHAR
-  - name: XEYDENON
-    type: VARCHAR
-  - name: EFYDENON
-    type: VARCHAR
+    type: BIGINT

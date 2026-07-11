@@ -1,208 +1,210 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-adm`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: admcon1
+    type: BIGINT
+  - name: admcon2
+    type: BIGINT
+  - name: admcon3
+    type: BIGINT
+  - name: admcon4
+    type: BIGINT
+  - name: admcon5
+    type: BIGINT
+  - name: admcon6
+    type: BIGINT
+  - name: admcon7
+    type: BIGINT
+  - name: admcon8
+    type: BIGINT
+  - name: admcon9
+    type: BIGINT
+  - name: admcon10
+    type: VARCHAR
+  - name: admcon11
+    type: VARCHAR
+  - name: admcon12
+    type: VARCHAR
+  - name: xapplcn
+    type: VARCHAR
+  - name: applcn
+    type: BIGINT
+  - name: xapplcnm
+    type: VARCHAR
+  - name: applcnm
+    type: VARCHAR
+  - name: xapplcnw
+    type: VARCHAR
+  - name: applcnw
+    type: VARCHAR
+  - name: xapplcnan
+    type: VARCHAR
+  - name: applcnan
+    type: VARCHAR
+  - name: xapplcnun
+    type: VARCHAR
+  - name: applcnun
+    type: VARCHAR
+  - name: xadmssn
+    type: VARCHAR
+  - name: admssn
+    type: VARCHAR
+  - name: xadmssnm
+    type: VARCHAR
+  - name: admssnm
+    type: VARCHAR
+  - name: xadmssnw
+    type: VARCHAR
+  - name: admssnw
+    type: VARCHAR
+  - name: xadmssnan
+    type: VARCHAR
+  - name: admssnan
+    type: VARCHAR
+  - name: xadmssnun
+    type: VARCHAR
+  - name: admssnun
+    type: VARCHAR
+  - name: xenrlt
+    type: VARCHAR
+  - name: enrlt
+    type: VARCHAR
+  - name: xenrlm
+    type: VARCHAR
+  - name: enrlm
+    type: VARCHAR
+  - name: xenrlw
+    type: VARCHAR
+  - name: enrlw
+    type: VARCHAR
+  - name: xenrlan
+    type: VARCHAR
+  - name: enrlan
+    type: VARCHAR
+  - name: xenrlun
+    type: VARCHAR
+  - name: enrlun
+    type: VARCHAR
+  - name: xenrlft
+    type: VARCHAR
+  - name: enrlft
+    type: VARCHAR
+  - name: xenrlftm
+    type: VARCHAR
+  - name: enrlftm
+    type: VARCHAR
+  - name: xenrlftw
+    type: VARCHAR
+  - name: enrlftw
+    type: VARCHAR
+  - name: xenrlftan
+    type: VARCHAR
+  - name: enrlftan
+    type: VARCHAR
+  - name: xenrlftun
+    type: VARCHAR
+  - name: enrlftun
+    type: VARCHAR
+  - name: xenrlpt
+    type: VARCHAR
+  - name: enrlpt
+    type: VARCHAR
+  - name: xenrlptm
+    type: VARCHAR
+  - name: enrlptm
+    type: VARCHAR
+  - name: xenrlptw
+    type: VARCHAR
+  - name: enrlptw
+    type: VARCHAR
+  - name: xenrlptan
+    type: VARCHAR
+  - name: enrlptan
+    type: VARCHAR
+  - name: xenrlptun
+    type: VARCHAR
+  - name: enrlptun
+    type: VARCHAR
+  - name: xsatnum
+    type: VARCHAR
+  - name: satnum
+    type: VARCHAR
+  - name: xsatpct
+    type: VARCHAR
+  - name: satpct
+    type: VARCHAR
+  - name: xactnum
+    type: VARCHAR
+  - name: actnum
+    type: VARCHAR
+  - name: xactpct
+    type: VARCHAR
+  - name: actpct
+    type: VARCHAR
+  - name: xsatvr25
+    type: VARCHAR
+  - name: satvr25
+    type: VARCHAR
+  - name: xsatvr50
+    type: VARCHAR
+  - name: satvr50
+    type: VARCHAR
+  - name: xsatvr75
+    type: VARCHAR
+  - name: satvr75
+    type: VARCHAR
+  - name: xsatmt25
+    type: VARCHAR
+  - name: satmt25
+    type: VARCHAR
+  - name: xsatmt50
+    type: VARCHAR
+  - name: satmt50
+    type: VARCHAR
+  - name: xsatmt75
+    type: VARCHAR
+  - name: satmt75
+    type: VARCHAR
+  - name: xactcm25
+    type: VARCHAR
+  - name: actcm25
+    type: VARCHAR
+  - name: xactcm50
+    type: VARCHAR
+  - name: actcm50
+    type: VARCHAR
+  - name: xactcm75
+    type: VARCHAR
+  - name: actcm75
+    type: VARCHAR
+  - name: xacten25
+    type: VARCHAR
+  - name: acten25
+    type: VARCHAR
+  - name: xacten50
+    type: VARCHAR
+  - name: acten50
+    type: VARCHAR
+  - name: xacten75
+    type: VARCHAR
+  - name: acten75
+    type: VARCHAR
+  - name: xactmt25
+    type: VARCHAR
+  - name: actmt25
+    type: VARCHAR
+  - name: xactmt50
+    type: VARCHAR
+  - name: actmt50
+    type: VARCHAR
+  - name: xactmt75
+    type: VARCHAR
+  - name: actmt75
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: ADMCON1
-    type: VARCHAR
-  - name: ADMCON2
-    type: VARCHAR
-  - name: ADMCON3
-    type: VARCHAR
-  - name: ADMCON4
-    type: VARCHAR
-  - name: ADMCON5
-    type: VARCHAR
-  - name: ADMCON6
-    type: VARCHAR
-  - name: ADMCON7
-    type: VARCHAR
-  - name: ADMCON8
-    type: VARCHAR
-  - name: ADMCON9
-    type: VARCHAR
-  - name: ADMCON10
-    type: VARCHAR
-  - name: ADMCON11
-    type: VARCHAR
-  - name: ADMCON12
-    type: VARCHAR
-  - name: XAPPLCN
-    type: VARCHAR
-  - name: APPLCN
-    type: VARCHAR
-  - name: XAPPLCNM
-    type: VARCHAR
-  - name: APPLCNM
-    type: VARCHAR
-  - name: XAPPLCNW
-    type: VARCHAR
-  - name: APPLCNW
-    type: VARCHAR
-  - name: XAPPLCNAN
-    type: VARCHAR
-  - name: APPLCNAN
-    type: VARCHAR
-  - name: XAPPLCNUN
-    type: VARCHAR
-  - name: APPLCNUN
-    type: VARCHAR
-  - name: XADMSSN
-    type: VARCHAR
-  - name: ADMSSN
-    type: VARCHAR
-  - name: XADMSSNM
-    type: VARCHAR
-  - name: ADMSSNM
-    type: VARCHAR
-  - name: XADMSSNW
-    type: VARCHAR
-  - name: ADMSSNW
-    type: VARCHAR
-  - name: XADMSSNAN
-    type: VARCHAR
-  - name: ADMSSNAN
-    type: VARCHAR
-  - name: XADMSSNUN
-    type: VARCHAR
-  - name: ADMSSNUN
-    type: VARCHAR
-  - name: XENRLT
-    type: VARCHAR
-  - name: ENRLT
-    type: VARCHAR
-  - name: XENRLM
-    type: VARCHAR
-  - name: ENRLM
-    type: VARCHAR
-  - name: XENRLW
-    type: VARCHAR
-  - name: ENRLW
-    type: VARCHAR
-  - name: XENRLAN
-    type: VARCHAR
-  - name: ENRLAN
-    type: VARCHAR
-  - name: XENRLUN
-    type: VARCHAR
-  - name: ENRLUN
-    type: VARCHAR
-  - name: XENRLFT
-    type: VARCHAR
-  - name: ENRLFT
-    type: VARCHAR
-  - name: XENRLFTM
-    type: VARCHAR
-  - name: ENRLFTM
-    type: VARCHAR
-  - name: XENRLFTW
-    type: VARCHAR
-  - name: ENRLFTW
-    type: VARCHAR
-  - name: XENRLFTAN
-    type: VARCHAR
-  - name: ENRLFTAN
-    type: VARCHAR
-  - name: XENRLFTUN
-    type: VARCHAR
-  - name: ENRLFTUN
-    type: VARCHAR
-  - name: XENRLPT
-    type: VARCHAR
-  - name: ENRLPT
-    type: VARCHAR
-  - name: XENRLPTM
-    type: VARCHAR
-  - name: ENRLPTM
-    type: VARCHAR
-  - name: XENRLPTW
-    type: VARCHAR
-  - name: ENRLPTW
-    type: VARCHAR
-  - name: XENRLPTAN
-    type: VARCHAR
-  - name: ENRLPTAN
-    type: VARCHAR
-  - name: XENRLPTUN
-    type: VARCHAR
-  - name: ENRLPTUN
-    type: VARCHAR
-  - name: XSATNUM
-    type: VARCHAR
-  - name: SATNUM
-    type: VARCHAR
-  - name: XSATPCT
-    type: VARCHAR
-  - name: SATPCT
-    type: VARCHAR
-  - name: XACTNUM
-    type: VARCHAR
-  - name: ACTNUM
-    type: VARCHAR
-  - name: XACTPCT
-    type: VARCHAR
-  - name: ACTPCT
-    type: VARCHAR
-  - name: XSATVR25
-    type: VARCHAR
-  - name: SATVR25
-    type: VARCHAR
-  - name: XSATVR50
-    type: VARCHAR
-  - name: SATVR50
-    type: VARCHAR
-  - name: XSATVR75
-    type: VARCHAR
-  - name: SATVR75
-    type: VARCHAR
-  - name: XSATMT25
-    type: VARCHAR
-  - name: SATMT25
-    type: VARCHAR
-  - name: XSATMT50
-    type: VARCHAR
-  - name: SATMT50
-    type: VARCHAR
-  - name: XSATMT75
-    type: VARCHAR
-  - name: SATMT75
-    type: VARCHAR
-  - name: XACTCM25
-    type: VARCHAR
-  - name: ACTCM25
-    type: VARCHAR
-  - name: XACTCM50
-    type: VARCHAR
-  - name: ACTCM50
-    type: VARCHAR
-  - name: XACTCM75
-    type: VARCHAR
-  - name: ACTCM75
-    type: VARCHAR
-  - name: XACTEN25
-    type: VARCHAR
-  - name: ACTEN25
-    type: VARCHAR
-  - name: XACTEN50
-    type: VARCHAR
-  - name: ACTEN50
-    type: VARCHAR
-  - name: XACTEN75
-    type: VARCHAR
-  - name: ACTEN75
-    type: VARCHAR
-  - name: XACTMT25
-    type: VARCHAR
-  - name: ACTMT25
-    type: VARCHAR
-  - name: XACTMT50
-    type: VARCHAR
-  - name: ACTMT50
-    type: VARCHAR
-  - name: XACTMT75
-    type: VARCHAR
-  - name: ACTMT75
-    type: VARCHAR
+    type: BIGINT

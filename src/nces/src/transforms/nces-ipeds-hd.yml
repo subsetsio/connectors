@@ -1,150 +1,152 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-hd`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: instnm
+    type: VARCHAR
+  - name: ialias
+    type: VARCHAR
+  - name: addr
+    type: VARCHAR
+  - name: city
+    type: VARCHAR
+  - name: stabbr
+    type: VARCHAR
+  - name: zip
+    type: VARCHAR
+  - name: fips
+    type: BIGINT
+  - name: obereg
+    type: BIGINT
+  - name: chfnm
+    type: VARCHAR
+  - name: chftitle
+    type: VARCHAR
+  - name: gentele
+    type: VARCHAR
+  - name: ein
+    type: VARCHAR
+  - name: ueis
+    type: VARCHAR
+  - name: opeid
+    type: VARCHAR
+  - name: opeflag
+    type: BIGINT
+  - name: webaddr
+    type: VARCHAR
+  - name: adminurl
+    type: VARCHAR
+  - name: faidurl
+    type: VARCHAR
+  - name: applurl
+    type: VARCHAR
+  - name: npricurl
+    type: VARCHAR
+  - name: veturl
+    type: VARCHAR
+  - name: athurl
+    type: VARCHAR
+  - name: disaurl
+    type: VARCHAR
+  - name: sector
+    type: BIGINT
+  - name: iclevel
+    type: BIGINT
+  - name: control
+    type: BIGINT
+  - name: hloffer
+    type: BIGINT
+  - name: ugoffer
+    type: BIGINT
+  - name: groffer
+    type: BIGINT
+  - name: hdegofr1
+    type: VARCHAR
+  - name: deggrant
+    type: BIGINT
+  - name: hbcu
+    type: BIGINT
+  - name: hospital
+    type: BIGINT
+  - name: medical
+    type: BIGINT
+  - name: tribal
+    type: BIGINT
+  - name: locale
+    type: BIGINT
+  - name: openpubl
+    type: BIGINT
+  - name: act
+    type: VARCHAR
+  - name: newid
+    type: VARCHAR
+  - name: deathyr
+    type: BIGINT
+  - name: closedat
+    type: VARCHAR
+  - name: cyactive
+    type: BIGINT
+  - name: postsec
+    type: BIGINT
+  - name: pseflag
+    type: BIGINT
+  - name: pset4flg
+    type: BIGINT
+  - name: rptmth
+    type: VARCHAR
+  - name: instcat
+    type: VARCHAR
+  - name: c00carnegie
+    type: VARCHAR
+  - name: c21basic
+    type: VARCHAR
+  - name: carnegieic
+    type: VARCHAR
+  - name: carnegiesaec
+    type: VARCHAR
+  - name: carnegiersch
+    type: VARCHAR
+  - name: carnegiesize
+    type: VARCHAR
+  - name: carnegiealf
+    type: VARCHAR
+  - name: carnegieapm
+    type: VARCHAR
+  - name: carnegiegpm
+    type: VARCHAR
+  - name: landgrnt
+    type: VARCHAR
+  - name: instsize
+    type: VARCHAR
+  - name: f1systyp
+    type: VARCHAR
+  - name: f1sysnam
+    type: VARCHAR
+  - name: f1syscod
+    type: VARCHAR
+  - name: cbsa
+    type: VARCHAR
+  - name: cbsatype
+    type: VARCHAR
+  - name: csa
+    type: VARCHAR
+  - name: countycd
+    type: VARCHAR
+  - name: countynm
+    type: VARCHAR
+  - name: cngdstcd
+    type: VARCHAR
+  - name: longitud
+    type: VARCHAR
+  - name: latitude
+    type: VARCHAR
+  - name: dfrcgid
+    type: VARCHAR
+  - name: dfrcuscg
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: INSTNM
-    type: VARCHAR
-  - name: IALIAS
-    type: VARCHAR
-  - name: ADDR
-    type: VARCHAR
-  - name: CITY
-    type: VARCHAR
-  - name: STABBR
-    type: VARCHAR
-  - name: ZIP
-    type: VARCHAR
-  - name: FIPS
-    type: VARCHAR
-  - name: OBEREG
-    type: VARCHAR
-  - name: CHFNM
-    type: VARCHAR
-  - name: CHFTITLE
-    type: VARCHAR
-  - name: GENTELE
-    type: VARCHAR
-  - name: EIN
-    type: VARCHAR
-  - name: UEIS
-    type: VARCHAR
-  - name: OPEID
-    type: VARCHAR
-  - name: OPEFLAG
-    type: VARCHAR
-  - name: WEBADDR
-    type: VARCHAR
-  - name: ADMINURL
-    type: VARCHAR
-  - name: FAIDURL
-    type: VARCHAR
-  - name: APPLURL
-    type: VARCHAR
-  - name: NPRICURL
-    type: VARCHAR
-  - name: VETURL
-    type: VARCHAR
-  - name: ATHURL
-    type: VARCHAR
-  - name: DISAURL
-    type: VARCHAR
-  - name: SECTOR
-    type: VARCHAR
-  - name: ICLEVEL
-    type: VARCHAR
-  - name: CONTROL
-    type: VARCHAR
-  - name: HLOFFER
-    type: VARCHAR
-  - name: UGOFFER
-    type: VARCHAR
-  - name: GROFFER
-    type: VARCHAR
-  - name: HDEGOFR1
-    type: VARCHAR
-  - name: DEGGRANT
-    type: VARCHAR
-  - name: HBCU
-    type: VARCHAR
-  - name: HOSPITAL
-    type: VARCHAR
-  - name: MEDICAL
-    type: VARCHAR
-  - name: TRIBAL
-    type: VARCHAR
-  - name: LOCALE
-    type: VARCHAR
-  - name: OPENPUBL
-    type: VARCHAR
-  - name: ACT
-    type: VARCHAR
-  - name: NEWID
-    type: VARCHAR
-  - name: DEATHYR
-    type: VARCHAR
-  - name: CLOSEDAT
-    type: VARCHAR
-  - name: CYACTIVE
-    type: VARCHAR
-  - name: POSTSEC
-    type: VARCHAR
-  - name: PSEFLAG
-    type: VARCHAR
-  - name: PSET4FLG
-    type: VARCHAR
-  - name: RPTMTH
-    type: VARCHAR
-  - name: INSTCAT
-    type: VARCHAR
-  - name: C00CARNEGIE
-    type: VARCHAR
-  - name: C21BASIC
-    type: VARCHAR
-  - name: CARNEGIEIC
-    type: VARCHAR
-  - name: CARNEGIESAEC
-    type: VARCHAR
-  - name: CARNEGIERSCH
-    type: VARCHAR
-  - name: CARNEGIESIZE
-    type: VARCHAR
-  - name: CARNEGIEALF
-    type: VARCHAR
-  - name: CARNEGIEAPM
-    type: VARCHAR
-  - name: CARNEGIEGPM
-    type: VARCHAR
-  - name: LANDGRNT
-    type: VARCHAR
-  - name: INSTSIZE
-    type: VARCHAR
-  - name: F1SYSTYP
-    type: VARCHAR
-  - name: F1SYSNAM
-    type: VARCHAR
-  - name: F1SYSCOD
-    type: VARCHAR
-  - name: CBSA
-    type: VARCHAR
-  - name: CBSATYPE
-    type: VARCHAR
-  - name: CSA
-    type: VARCHAR
-  - name: COUNTYCD
-    type: VARCHAR
-  - name: COUNTYNM
-    type: VARCHAR
-  - name: CNGDSTCD
-    type: VARCHAR
-  - name: LONGITUD
-    type: VARCHAR
-  - name: LATITUDE
-    type: VARCHAR
-  - name: DFRCGID
-    type: VARCHAR
-  - name: DFRCUSCG
-    type: VARCHAR
+    type: BIGINT

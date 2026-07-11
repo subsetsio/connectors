@@ -1,112 +1,114 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nces-ipeds-gr200`. Regenerate after model-verify.
+key: [unitid, year]
 temporal: year
-sort: [year]
+sort: [year, unitid]
 columns:
   - name: unitid
     type: BIGINT
+  - name: xbarevct
+    type: VARCHAR
+  - name: barevct
+    type: VARCHAR
+  - name: xbaexclu
+    type: VARCHAR
+  - name: baexclu
+    type: VARCHAR
+  - name: xbaac150
+    type: VARCHAR
+  - name: baac150
+    type: VARCHAR
+  - name: xbanc100
+    type: VARCHAR
+  - name: banc100
+    type: VARCHAR
+  - name: xbagr100
+    type: VARCHAR
+  - name: bagr100
+    type: VARCHAR
+  - name: xbanc150
+    type: VARCHAR
+  - name: banc150
+    type: VARCHAR
+  - name: xbagr150
+    type: VARCHAR
+  - name: bagr150
+    type: VARCHAR
+  - name: xbaaexcl
+    type: VARCHAR
+  - name: baaexcl
+    type: VARCHAR
+  - name: xbaac200
+    type: VARCHAR
+  - name: baac200
+    type: VARCHAR
+  - name: xbanc20a
+    type: VARCHAR
+  - name: banc200a
+    type: VARCHAR
+  - name: xbastend
+    type: VARCHAR
+  - name: bastend
+    type: VARCHAR
+  - name: xbanc200
+    type: VARCHAR
+  - name: banc200
+    type: VARCHAR
+  - name: xbagr200
+    type: VARCHAR
+  - name: bagr200
+    type: VARCHAR
+  - name: xl4revct
+    type: VARCHAR
+  - name: l4revct
+    type: VARCHAR
+  - name: xl4exclu
+    type: VARCHAR
+  - name: l4exclu
+    type: VARCHAR
+  - name: xl4ac150
+    type: VARCHAR
+  - name: l4ac150
+    type: VARCHAR
+  - name: xl4nc100
+    type: VARCHAR
+  - name: l4nc100
+    type: VARCHAR
+  - name: xl4gr100
+    type: VARCHAR
+  - name: l4gr100
+    type: VARCHAR
+  - name: xl4nc150
+    type: VARCHAR
+  - name: l4nc150
+    type: VARCHAR
+  - name: xl4gr150
+    type: VARCHAR
+  - name: l4gr150
+    type: VARCHAR
+  - name: xl4aexcl
+    type: VARCHAR
+  - name: l4aexcl
+    type: VARCHAR
+  - name: xl4ac200
+    type: VARCHAR
+  - name: l4ac200
+    type: VARCHAR
+  - name: xl4nc20a
+    type: VARCHAR
+  - name: l4nc200a
+    type: VARCHAR
+  - name: xl4stend
+    type: VARCHAR
+  - name: l4stend
+    type: VARCHAR
+  - name: xl4nc200
+    type: VARCHAR
+  - name: l4nc200
+    type: VARCHAR
+  - name: xl4gr200
+    type: VARCHAR
+  - name: l4gr200
+    type: VARCHAR
   - name: year
-    type: INTEGER
-  - name: XBAREVCT
-    type: VARCHAR
-  - name: BAREVCT
-    type: VARCHAR
-  - name: XBAEXCLU
-    type: VARCHAR
-  - name: BAEXCLU
-    type: VARCHAR
-  - name: XBAAC150
-    type: VARCHAR
-  - name: BAAC150
-    type: VARCHAR
-  - name: XBANC100
-    type: VARCHAR
-  - name: BANC100
-    type: VARCHAR
-  - name: XBAGR100
-    type: VARCHAR
-  - name: BAGR100
-    type: VARCHAR
-  - name: XBANC150
-    type: VARCHAR
-  - name: BANC150
-    type: VARCHAR
-  - name: XBAGR150
-    type: VARCHAR
-  - name: BAGR150
-    type: VARCHAR
-  - name: XBAAEXCL
-    type: VARCHAR
-  - name: BAAEXCL
-    type: VARCHAR
-  - name: XBAAC200
-    type: VARCHAR
-  - name: BAAC200
-    type: VARCHAR
-  - name: XBANC20A
-    type: VARCHAR
-  - name: BANC200A
-    type: VARCHAR
-  - name: XBASTEND
-    type: VARCHAR
-  - name: BASTEND
-    type: VARCHAR
-  - name: XBANC200
-    type: VARCHAR
-  - name: BANC200
-    type: VARCHAR
-  - name: XBAGR200
-    type: VARCHAR
-  - name: BAGR200
-    type: VARCHAR
-  - name: XL4REVCT
-    type: VARCHAR
-  - name: L4REVCT
-    type: VARCHAR
-  - name: XL4EXCLU
-    type: VARCHAR
-  - name: L4EXCLU
-    type: VARCHAR
-  - name: XL4AC150
-    type: VARCHAR
-  - name: L4AC150
-    type: VARCHAR
-  - name: XL4NC100
-    type: VARCHAR
-  - name: L4NC100
-    type: VARCHAR
-  - name: XL4GR100
-    type: VARCHAR
-  - name: L4GR100
-    type: VARCHAR
-  - name: XL4NC150
-    type: VARCHAR
-  - name: L4NC150
-    type: VARCHAR
-  - name: XL4GR150
-    type: VARCHAR
-  - name: L4GR150
-    type: VARCHAR
-  - name: XL4AEXCL
-    type: VARCHAR
-  - name: L4AEXCL
-    type: VARCHAR
-  - name: XL4AC200
-    type: VARCHAR
-  - name: L4AC200
-    type: VARCHAR
-  - name: XL4NC20A
-    type: VARCHAR
-  - name: L4NC200A
-    type: VARCHAR
-  - name: XL4STEND
-    type: VARCHAR
-  - name: L4STEND
-    type: VARCHAR
-  - name: XL4NC200
-    type: VARCHAR
-  - name: L4NC200
-    type: VARCHAR
-  - name: XL4GR200
-    type: VARCHAR
-  - name: L4GR200
-    type: VARCHAR
+    type: BIGINT
