@@ -53,8 +53,8 @@ SPEC_TO_PKG = {
 
 
 @transient_retry()  # 6 attempts, exp backoff; retries 429/5xx/transient network
-def _parquet_urls(pkg_id: str) -> list[str]:
-    """The S3 Parquet resource URLs for one CKAN package."""
+def _resource_urls(pkg_id: str, fmt: str) -> list[str]:
+    """The S3 resource URLs of one CKAN package for the given format (upper)."""
     resp = get(
         f"{CKAN_BASE}/package_show",
         params={"id": pkg_id},
@@ -67,7 +67,7 @@ def _parquet_urls(pkg_id: str) -> list[str]:
     return [
         r["url"]
         for r in body["result"]["resources"]
-        if (r.get("format") or "").upper() == "PARQUET" and r.get("url")
+        if (r.get("format") or "").upper() == fmt and r.get("url")
     ]
 
 

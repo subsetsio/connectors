@@ -1,0 +1,26 @@
+spec_id: oenb-24
+# OeNB isadataservice raw: long-format observations, one uniform schema across
+# every dataset (hierid, pos, freq, period, value, ...). These expectations are
+# belief-based (from the API contract + the fetch fn's normalization), not from
+# observed data. `period` is a leading-year string (YYYY / YYYY-MM / YYYY-Qn /
+# YYYY-MM-DD), so lexicographic max() tracks chronological recency across all
+# frequencies.
+tests:
+  - not_null: pos
+    reason: every observation is tagged with its OeNB position code
+  - not_null: period
+    reason: every observation carries a period label
+  - not_null: value
+    reason: the fetch emits only rows whose value parsed as a finite number
+  - row_count:
+      min: 1
+    reason: an accepted OeNB TOC-leaf dataset yields at least one observation
+  - freshness:
+      col: period
+      reaches: "2023"
+    reason: >-
+      OeNB actively maintains this dataset; the latest observation period should
+      reach 2023 or later. Leading-year period strings sort chronologically, so
+      max(period) >= "2023" is a valid recency floor across D/M/Q/A frequencies.
+    certainty: 65
+    points_outward: true

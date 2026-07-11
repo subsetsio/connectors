@@ -1,0 +1,38 @@
+# bootstrapped passthrough: columns read from source parquet schema (dev/bootstrap_transforms.py)
+columns:
+  - name: id_subsistema
+    type: VARCHAR
+  - name: nom_subsistema
+    type: VARCHAR
+  - name: id_estado
+    type: VARCHAR
+  - name: nom_estado
+    type: VARCHAR
+  - name: nom_tipotransformador
+    type: VARCHAR
+  - name: nom_agenteproprietario
+    type: VARCHAR
+  - name: nom_subestacao
+    type: VARCHAR
+  - name: nom_transformador
+    type: VARCHAR
+  - name: cod_equipamento
+    type: VARCHAR
+  - name: dat_entradaoperacao
+    type: VARCHAR
+  - name: dat_desativacao
+    type: VARCHAR
+  - name: val_tensaoprimario_kv
+    type: DOUBLE
+  - name: val_tensaosecundario_kv
+    type: DOUBLE
+  - name: val_tensaoterciario_kv
+    type: DOUBLE
+  - name: val_potencianominal_mva
+    type: DOUBLE
+  - name: nom_tipoderede
+    type: VARCHAR
+  - name: num_barra_primario
+    type: BIGINT
+  - name: num_barra_secundario
+    type: BIGINT

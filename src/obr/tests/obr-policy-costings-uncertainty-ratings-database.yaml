@@ -16,7 +16,7 @@ tests:
   - row_count: {min: 50}
     reason: every OBR workbook melts to hundreds+ of cells; <50 means the download resolved the wrong file or the workbook came back empty
     certainty: 90
-  - not_null: {col: value_text, max_null_frac: 0.999}
+  - nullable: {col: value_text, max_null_frac: 0.999}
     reason: at least some cells carry text labels/headers; an all-null value_text column means text extraction broke
     certainty: 70
     severity: warn

@@ -23,7 +23,7 @@ import httpx
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-from subsets_utils import NodeSpec, SqlNodeSpec, raw_parquet_writer, transient_retry
+from subsets_utils import NodeSpec, raw_parquet_writer, transient_retry
 from subsets_utils.http_client import get_client
 from constants import ENTITY_IDS
 
@@ -128,13 +128,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}"',
-    )
-    for s in DOWNLOAD_SPECS
 ]
