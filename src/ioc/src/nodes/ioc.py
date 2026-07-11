@@ -137,8 +137,17 @@ def _wayback_latest(comp: str) -> dict:
     cands = _cdx_latest("CIS_MedalNOCs", comp)
     if not cands:
         raise RuntimeError(f"no archived CIS_MedalNOCs ENG snapshot for {comp}")
-    ts, orig = max(cands, key=lambda x: x[0])  # latest = final frozen table
-    return _get_json(f"https://web.archive.org/web/{ts}id_/{orig}")
+    # Prefer the final frozen table, but archive payload fetches can time out.
+    # Walk backward through captures so one flaky archived body does not fail
+    # the entire immutable Games edition.
+    last_exc: Exception | None = None
+    for ts, orig in sorted(cands, reverse=True):
+        try:
+            return _get_json(f"https://web.archive.org/web/{ts}id_/{orig}")
+        except Exception as exc:  # noqa: BLE001 - Wayback payload fetch is best effort.
+            last_exc = exc
+            print(f"[ioc] archived medal payload failed {orig} at {ts}: {type(exc).__name__}: {exc}")
+    raise RuntimeError(f"no readable archived CIS_MedalNOCs ENG snapshot for {comp}") from last_exc
 
 
 def _wayback_json(ts: str, orig: str) -> dict:
@@ -150,6 +159,9 @@ def _try_wayback_json(ts: str, orig: str) -> dict | None:
         return _wayback_json(ts, orig)
     except JSONDecodeError as exc:
         print(f"[ioc] skipped non-JSON archived payload {orig} at {ts}: {exc}")
+        return None
+    except Exception as exc:  # noqa: BLE001 - one archived entity timing out should not abort the corpus.
+        print(f"[ioc] skipped archived payload {orig} at {ts}: {type(exc).__name__}: {exc}")
         return None
 
 
