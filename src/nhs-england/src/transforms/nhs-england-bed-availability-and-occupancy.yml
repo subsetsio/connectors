@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-bed-availability-and-occupancy`. Regenerate after model-verify.
+# caution: Rows include bed counts and occupancy measures; filter to a single compatible series before aggregating.
+key: [period, series, sheet, source_file]
+temporal: period
+sort: [period, series, sheet, source_file]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

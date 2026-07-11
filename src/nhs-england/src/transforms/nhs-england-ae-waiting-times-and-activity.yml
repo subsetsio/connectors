@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-ae-waiting-times-and-activity`. Regenerate after model-verify.
+# caution: Rows mix activity measures and waiting-time measures from workbook sheets; filter to compatible series before summing or comparing values.
+key: [period, series, sheet, source_file]
+temporal: period
+sort: [period, series, sheet, source_file]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

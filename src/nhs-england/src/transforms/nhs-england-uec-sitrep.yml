@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-uec-sitrep`. Regenerate after model-verify.
+# caution: Rows combine urgent-and-emergency-care situation-report measures with repeated labels across workbook context; treat rows as source observations and filter carefully.
+key: []
+temporal: period
+sort: [period]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

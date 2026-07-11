@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-supplementary-information`. Regenerate after model-verify.
+# caution: This is a catch-all supplementary-information page, so rows may come from unrelated ad-hoc releases; do not aggregate across series without source-specific filtering.
+key: []
+temporal: period
+sort: [period]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

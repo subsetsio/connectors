@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-outpatient-transformation`. Regenerate after model-verify.
+# caution: Rows combine outpatient transformation measures across workbook sheets; filter to compatible series before trend analysis.
+key: [period, series, sheet]
+temporal: period
+sort: [period, series, sheet]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

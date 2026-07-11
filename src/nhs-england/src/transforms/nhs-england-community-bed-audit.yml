@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-community-bed-audit`. Regenerate after model-verify.
+# caution: This workbook is a sparse audit extract where `series` and `sheet` identify observations; the measured period is present but not the row identity.
+key: [series, sheet]
+temporal: period
+sort: [period, series, sheet]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

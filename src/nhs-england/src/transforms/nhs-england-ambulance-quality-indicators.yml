@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-ambulance-quality-indicators`. Regenerate after model-verify.
+# caution: The source combines multiple ambulance-quality views with repeated period/series labels; use rows as source observations and filter series carefully before aggregation.
+key: []
+temporal: period
+sort: [period]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

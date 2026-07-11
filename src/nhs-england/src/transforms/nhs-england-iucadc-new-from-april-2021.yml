@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-iucadc-new-from-april-2021`. Regenerate after model-verify.
+# caution: Rows represent integrated urgent-care measures; filter to compatible series before comparing values.
+key: [period, series]
+temporal: period
+sort: [period, series]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-mixed-sex-accommodation`. Regenerate after model-verify.
+# caution: This extract is keyed by source series label; use the period column as the observation time but do not infer additional dimensions not present in the label.
+key: [series]
+temporal: period
+sort: [period, series]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

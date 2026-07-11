@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-genomic-testing-activity`. Regenerate after model-verify.
+# caution: Rows combine genomic testing activity measures across workbook sheets; filter by compatible series before aggregation.
+key: [period, series, sheet, source_file]
+temporal: period
+sort: [period, series, sheet, source_file]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

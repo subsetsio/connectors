@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-flu-vaccinations`. Regenerate after model-verify.
+# caution: Rows include vaccination coverage measures from source workbooks; compare only compatible series.
+key: [period, series, source_file]
+temporal: period
+sort: [period, series, source_file]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

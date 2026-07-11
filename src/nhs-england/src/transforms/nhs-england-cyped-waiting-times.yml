@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-cyped-waiting-times`. Regenerate after model-verify.
+# caution: The extract has repeated period/series labels across workbook context; treat rows as source observations and filter series before aggregation.
+key: []
+temporal: period
+sort: [period]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

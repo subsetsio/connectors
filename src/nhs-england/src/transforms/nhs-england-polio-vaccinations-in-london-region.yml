@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-polio-vaccinations-in-london-region`. Regenerate after model-verify.
+# caution: This is a sparse point-in-time summary extract; the workbook release, not a recurring fine-grained period series, identifies rows.
+key: [source_file]
+temporal: period
+sort: [period, source_file]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

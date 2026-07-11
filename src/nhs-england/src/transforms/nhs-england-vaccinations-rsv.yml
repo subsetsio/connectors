@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-vaccinations-rsv`. Regenerate after model-verify.
+# caution: Rows include RSV vaccination measures across workbook releases and sheets; compare only compatible series.
+key: [period, series, source_file, sheet]
+temporal: period
+sort: [period, series, source_file, sheet]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

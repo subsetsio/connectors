@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-corridor-care-urgent-and-emergency-care-daily-situation-reports`. Regenerate after model-verify.
+# caution: The source is a daily situation-report extract with repeated labels across workbook sections; treat rows as source observations and avoid assuming a unique period/series grain.
+key: []
+temporal: period
+sort: [period]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE

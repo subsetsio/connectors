@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nhs-england-2-hour-urgent-community-response`. Regenerate after model-verify.
+# caution: Rows are long-form workbook observations; the `series` label carries the measure and may also encode provider, geography, denominator, or category, so compare or aggregate only after selecting compatible series.
+key: [period, series, sheet, source_file]
+temporal: period
+sort: [period, series, sheet, source_file]
+columns:
+  - name: source_file
+    type: VARCHAR
+  - name: sheet
+    type: VARCHAR
+  - name: series
+    type: VARCHAR
+  - name: period
+    type: DATE
+  - name: value
+    type: DOUBLE
