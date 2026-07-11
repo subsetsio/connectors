@@ -1,0 +1,11 @@
+spec_id: ny-fed-ambs-operations
+status: active
+tests:
+  - not_null: operationId
+  - not_null: operationDate
+  - enum: {col: operationDirection, values: [P, S]}
+    reason: agency-MBS operations are either purchases (P) or sales (S)
+    certainty: 85
+  - freshness: {col: operationDate, reaches: today - 90d}
+    reason: agency-MBS reinvestment operations run roughly monthly and can gap for weeks
+    points_outward: true

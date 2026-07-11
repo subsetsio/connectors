@@ -1,0 +1,11 @@
+spec_id: ny-fed-repo-operations
+status: active
+tests:
+  - not_null: operationId
+  - not_null: operationDate
+  - enum: {col: operationType, values: [Repo, Reverse Repo]}
+    reason: the rp feed carries only repo and reverse-repo temporary open-market operations
+    certainty: 90
+  - freshness: {col: operationDate, reaches: today - 14d}
+    reason: the overnight reverse-repo facility operates every business day
+    points_outward: true

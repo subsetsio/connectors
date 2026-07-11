@@ -1,0 +1,14 @@
+spec_id: ny-fed-soma-holdings
+status: active
+tests:
+  - not_null: asOfDate
+  - not_null: cusip
+  - enum: {col: instrumentGroup, values: [Treasury, Agency]}
+    reason: the node fetches the Treasury and Agency holdings legs of one snapshot
+    certainty: 95
+  - row_count: {min: 100}
+    reason: a single weekly snapshot holds hundreds of CUSIPs across Treasury + agency securities
+    certainty: 85
+  - freshness: {col: asOfDate, reaches: today - 21d}
+    reason: latest weekly security-level snapshot; extra slack for the publish lag
+    points_outward: true

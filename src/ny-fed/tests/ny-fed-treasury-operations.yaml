@@ -1,0 +1,11 @@
+spec_id: ny-fed-treasury-operations
+status: active
+tests:
+  - not_null: operationId
+  - not_null: operationDate
+  - enum: {col: operationDirection, values: [P, S]}
+    reason: Treasury outright operations are either purchases (P) or sales (S)
+    certainty: 80
+  - freshness: {col: operationDate, reaches: today - 60d}
+    reason: Treasury outright operations are irregular but have run at least every few weeks recently
+    points_outward: true

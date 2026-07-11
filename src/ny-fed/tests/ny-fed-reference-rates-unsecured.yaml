@@ -1,0 +1,14 @@
+spec_id: ny-fed-reference-rates-unsecured
+status: active
+tests:
+  - not_null: effectiveDate
+  - not_null: type
+  - enum: {col: type, values: [EFFR, OBFR]}
+    reason: this node filters the unsecured rate feed to exactly EFFR and OBFR
+    certainty: 95
+  - unique: [effectiveDate, type]
+    reason: one published rate per (date, rate type); dupes mean an overlap window was not deduped
+    certainty: 90
+  - freshness: {col: effectiveDate, reaches: today - 7d}
+    reason: EFFR/OBFR publish every business day with a one-business-day lag
+    points_outward: true

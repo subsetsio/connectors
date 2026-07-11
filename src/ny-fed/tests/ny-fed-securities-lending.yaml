@@ -1,0 +1,9 @@
+spec_id: ny-fed-securities-lending
+status: active
+tests:
+  - not_null: operationId
+  - not_null: operationDate
+  - not_null: cusip
+  - freshness: {col: operationDate, reaches: today - 14d}
+    reason: SOMA securities lending is offered every business day
+    points_outward: true

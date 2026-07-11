@@ -1,0 +1,13 @@
+spec_id: ny-fed-soma-summary
+status: active
+tests:
+  - not_null: asOfDate
+  - unique: asOfDate
+    reason: one aggregate holdings row per weekly as-of date
+    certainty: 95
+  - row_count: {min: 900}
+    reason: weekly totals back to 2003 give ~1200 rows; far fewer means history was truncated
+    certainty: 90
+  - freshness: {col: asOfDate, reaches: today - 14d}
+    reason: SOMA holdings are published weekly (Wednesday as-of, Thursday release)
+    points_outward: true

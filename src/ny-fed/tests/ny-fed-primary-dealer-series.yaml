@@ -1,0 +1,10 @@
+spec_id: ny-fed-primary-dealer-series
+status: active
+tests:
+  - not_null: keyid
+  - not_null: description
+  - unique: keyid
+    reason: the series catalog lists each keyid once (single current series break)
+    certainty: 90
+  - coverage: {col: keyid, expected: 1539, tolerance: 0.05}
+    reason: pd/list/timeseries.json enumerates the full primary-dealer series universe (~1539 keyids); a large shortfall means the listing was truncated

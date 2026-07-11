@@ -1,0 +1,10 @@
+spec_id: ny-fed-primary-dealer-values
+status: active
+tests:
+  - not_null: asofdate
+  - not_null: keyid
+  - coverage: {col: keyid, expected: 1539, tolerance: 0.10}
+    reason: values are fetched per keyid across the full ~1539-series catalog; a shortfall beyond a few dead series is silent partial loss, not success
+  - freshness: {col: asofdate, reaches: today - 21d}
+    reason: primary-dealer statistics publish weekly (Wednesday as-of) with roughly a one-week lag
+    points_outward: true

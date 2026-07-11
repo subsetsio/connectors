@@ -1,0 +1,14 @@
+spec_id: ny-fed-reference-rates-secured
+status: active
+tests:
+  - not_null: effectiveDate
+  - not_null: type
+  - enum: {col: type, values: [SOFR, BGCR, TGCR, SOFRAI]}
+    reason: this node filters the secured rate feed to SOFR/BGCR/TGCR plus the SOFR averages+index (SOFRAI)
+    certainty: 95
+  - unique: [effectiveDate, type]
+    reason: one published rate per (date, rate type)
+    certainty: 90
+  - freshness: {col: effectiveDate, reaches: today - 7d}
+    reason: SOFR family publishes every business day with a one-business-day lag
+    points_outward: true

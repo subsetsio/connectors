@@ -1,0 +1,8 @@
+spec_id: ny-fed-fx-swaps
+status: active
+tests:
+  - not_null: tradeDate
+  - not_null: currency
+  - freshness: {col: tradeDate, reaches: today - 21d}
+    reason: standing USD liquidity-swap lines run weekly 7-day operations even in calm periods; a stale max here means either an outage or the lines genuinely went dormant (a source/world condition, not our bug)
+    points_outward: true
