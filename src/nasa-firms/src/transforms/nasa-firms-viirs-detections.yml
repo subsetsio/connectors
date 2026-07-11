@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nasa-firms-viirs-detections`. Regenerate after model-verify.
+# caution: Rows are individual VIIRS active-fire detections rather than area or incident summaries; multiple detections can refer to the same fire event across times, pixels, and satellites.
+# caution: Historical SNPP archive rows carry a derived country from FIRMS country files, while the rolling recent global feeds for SNPP, NOAA-20, and NOAA-21 can have no country value.
+key: []
+temporal: acq_date
+sort: [acq_date]
 columns:
   - name: country
     type: VARCHAR
@@ -6,12 +12,20 @@ columns:
     type: DOUBLE
   - name: longitude
     type: DOUBLE
+  - name: bright_ti4
+    type: DOUBLE
+  - name: scan
+    type: DOUBLE
+  - name: track
+    type: DOUBLE
+  - name: bright_ti5
+    type: DOUBLE
+  - name: frp
+    type: DOUBLE
   - name: acq_date
     type: DATE
   - name: acq_time
     type: VARCHAR
-  - name: year
-    type: SMALLINT
   - name: satellite
     type: VARCHAR
   - name: instrument
@@ -20,17 +34,7 @@ columns:
     type: VARCHAR
   - name: version
     type: VARCHAR
-  - name: bright_ti4
-    type: DOUBLE
-  - name: bright_ti5
-    type: DOUBLE
-  - name: scan
-    type: DOUBLE
-  - name: track
-    type: DOUBLE
-  - name: frp
-    type: DOUBLE
   - name: daynight
     type: VARCHAR
   - name: type
-    type: VARCHAR
+    type: BIGINT

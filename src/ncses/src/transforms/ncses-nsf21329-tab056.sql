@@ -5,5 +5,5 @@
 SELECT
     "Field" AS field,
     "2019",
-    "2020 preliminary" AS 2020_preliminary
+    "2020 preliminary" AS "2020_preliminary"
 FROM "ncses-nsf21329-tab056"

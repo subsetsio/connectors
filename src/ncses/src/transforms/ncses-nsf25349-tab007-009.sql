@@ -3,7 +3,7 @@
 -- pure casts only, no data fixes. Regenerate after model-verify;
 -- durable edits belong in the model stage, not here.
 SELECT
-    "2021 Carnegie Classification and baccalaureate-origin institution" AS 2021_carnegie_classification_and_baccalaureate_origin_institution,
+    "2021 Carnegie Classification and baccalaureate-origin institution" AS "2021_carnegie_classification_and_baccalaureate_origin_institution",
     "Ranka" AS ranka,
     "All fields" AS all_fields,
     "Science and engineering" AS science_and_engineering,

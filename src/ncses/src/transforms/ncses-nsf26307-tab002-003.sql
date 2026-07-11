@@ -4,7 +4,7 @@
 -- durable edits belong in the model stage, not here.
 -- caution: Wide NCSES source table with no scan-verified row identifier; treat rows as source cross-tab records and use the table title and column labels to determine aggregation scope before summing.
 SELECT
-    "2021 Carnegie classification by area of study" AS 2021_carnegie_classification_by_area_of_study,
+    "2021 Carnegie classification by area of study" AS "2021_carnegie_classification_by_area_of_study",
     "Graduate students - All graduate students - Number" AS graduate_students_all_graduate_students_number,
     "Graduate students - All graduate students - Percent" AS graduate_students_all_graduate_students_percent,
     "Graduate students - Master's - Number" AS graduate_students_master_s_number,
