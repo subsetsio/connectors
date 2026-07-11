@@ -1,0 +1,13 @@
+spec_id: nhtsa-investigations
+status: active
+tests:
+  - not_null: NHTSA_ACTION_NUMBER
+    reason: every investigation row carries an action number; nulls mean a parse/column-shift
+    certainty: 95
+  - row_count: {min: 3000}
+    reason: ODI has opened tens of thousands of defect investigations since 1995; <3k rows means the FLAT_INV member was truncated
+    certainty: 90
+  - freshness: {col: ODATE, reaches: today - 180d}
+    reason: ODATE is the NHTSA-assigned investigation open date (clean YYYYMMDD); investigations open less often than complaints, so allow ~6 months of slack before calling the feed stale
+    certainty: 70
+    points_outward: true

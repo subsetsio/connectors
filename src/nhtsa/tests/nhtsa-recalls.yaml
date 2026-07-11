@@ -1,0 +1,13 @@
+spec_id: nhtsa-recalls
+status: active
+tests:
+  - not_null: RECORD_ID
+    reason: every ODI recall row carries a record id; nulls mean a parse/column-shift
+    certainty: 95
+  - row_count: {min: 20000}
+    reason: NHTSA has issued ~28k+ recall campaigns since 1967 (many rows per campaign across make/model/component); <20k rows means the PRE_2010 or POST_2010 leg was dropped
+    certainty: 90
+  - freshness: {col: DATEA, reaches: today - 45d}
+    reason: DATEA is the NHTSA-assigned date the record was added to the ODI file (clean YYYYMMDD, unlike consumer-entered dates); recalls are added multiple times a week, so the max should be within ~6 weeks
+    certainty: 80
+    points_outward: true

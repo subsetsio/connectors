@@ -1,0 +1,26 @@
+spec_id: nationwide-hpi-monthly
+status: active
+tests:
+  - not_null: date
+  - not_null: category
+  - not_null: measure
+  - not_null: value
+  - column_type: {col: date, type: date}
+  - column_type: {col: value, type: float}
+  - column_type: {col: category, type: string}
+  - row_count: {min: 10}
+    reason: the parser raises on 0 rows; a sub-10-row load means the sheet layout drifted and most rows were skipped
+    certainty: 80
+  - at_most: {col: date, expr: today}
+    reason: HPI never publishes a period-start date in the future
+    certainty: 95
+    points_outward: true
+  - unique: [date, category, measure]
+    reason: grain is one value per (period, breakdown, measure); a dup means a region/measure column was double-counted or an overwrite was skipped
+    certainty: 85
+  - enum: {col: category, values: [UK]}
+    reason: this file is a single UK-wide series; the parser labels every row category=UK
+    certainty: 90
+  - freshness: {col: date, reaches: today - 75d}
+    reason: monthly HPI release (latest observed 2026-06); a stale max = the fetch missed the latest release
+    points_outward: true

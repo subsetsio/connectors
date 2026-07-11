@@ -1,0 +1,13 @@
+spec_id: nhtsa-complaints
+status: active
+tests:
+  - not_null: CMPLID
+    reason: every complaint row carries a complaint id; nulls mean a parse/column-shift
+    certainty: 95
+  - row_count: {min: 1000000}
+    reason: ODI holds ~1.7M consumer complaints since 1995; <1M rows means the single FLAT_CMPL member was truncated
+    certainty: 90
+  - freshness: {col: DATEA, reaches: today - 30d}
+    reason: DATEA is the NHTSA-assigned date the complaint was added to the file (clean YYYYMMDD); the flat file is republished daily, so the max add-date should be within a month
+    certainty: 80
+    points_outward: true

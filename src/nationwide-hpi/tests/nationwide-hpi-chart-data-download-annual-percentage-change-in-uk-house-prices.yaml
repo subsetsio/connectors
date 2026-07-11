@@ -1,0 +1,25 @@
+spec_id: nationwide-hpi-chart-data-download-annual-percentage-change-in-uk-house-prices
+status: active
+coverage:
+  frozen: true
+  reason: >-
+    Nationwide's 'chart data download' export is a static snapshot: its UK_monthly
+    series stops at 2024-10 (UK_quarterly at Q3 2024, UK_annual at 2024), probed
+    2026-07 and not advancing. The live annual %-change series is carried by the
+    current `monthly`/`quarterly` files, so this export carries no freshness
+    assertion by design.
+tests:
+  - not_null: date
+  - not_null: value
+  - column_type: {col: date, type: date}
+  - column_type: {col: value, type: float}
+  - enum: {col: category, values: [UK]}
+    reason: the parser reads only the UK_monthly sheet and labels every row category=UK
+    certainty: 90
+  - enum: {col: measure, values: [annual_pct_change]}
+    reason: the parser emits a single measure (annual_pct_change) from column B
+    certainty: 90
+  - row_count: {min: 10}
+  - at_most: {col: date, expr: today}
+    certainty: 95
+    points_outward: true

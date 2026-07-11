@@ -97,13 +97,13 @@ def parse_climatology(text: str, hemisphere: str) -> list[dict]:
 def parse_monthly_extent(text: str) -> list[dict]:
     """Monthly extent CSV: single header, one row per year for a fixed month.
 
-    Columns: year, mo, source_dataset, region (N/S), extent, area.
+    Columns: year, mo, source_dataset, region (N/S), extent, area. The
+    source_dataset field can be quoted and contain a comma (e.g.
+    "NSIDC-0051,NSIDC-0081"), so parse via csv rather than a naive split.
     """
     rows: list[dict] = []
-    for line in text.splitlines()[1:]:
-        if not line.strip():
-            continue
-        parts = [p.strip() for p in line.split(",")]
+    for parts in csv.reader(io.StringIO(text)):
+        parts = [p.strip() for p in parts]
         if len(parts) < 6 or not parts[0].isdigit():
             continue
         year = int(parts[0])

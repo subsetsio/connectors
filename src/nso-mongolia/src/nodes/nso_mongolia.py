@@ -1,183 +1,211 @@
-"""NSO Mongolia connector — PxWeb v1 API at https://data.1212.mn/api/v1/en/NSO.
+"""NSO Mongolia — PxWeb v1 API (https://data.1212.mn/api/v1/en/NSO).
 
-Catalog connector: one download node per rank-accepted .px table (1101 total).
-Each table has its own dimension list, so raw is written as NDJSON (heterogeneous
-columns per table) and published 1:1 by a generic SELECT-* transform.
+One download spec per accepted .px table (1160 total). Each table is fetched by:
 
-Fetch strategy (stateless full re-pull — PxWeb exposes no incremental filter):
-  1. GET the table's metadata (variables: code/text/values/valueTexts).
-  2. POST a json-stat2 query selecting all values for every variable. When the
-     full cross-product would exceed the documented caps (maxCells=1_000_000,
-     maxValues=3000), chunk along the largest dimension and concatenate.
-  3. Flatten json-stat2 (flat row-major `value` array over `id`/`size`) into one
-     row per cell: a column per dimension (English valueText) plus a `value`
-     measure. Null cells are dropped.
+1. GET the table's full path (NSO/<subject folders...>/<id>.px) for metadata:
+   the ordered list of variables, each with its value codes + English
+   valueTexts.
+2. POST one or more JSON-stat2 queries selecting value codes. A table whose full
+   cross-product would exceed the API's per-request caps (100k values per the
+   terms of use; maxCells=1,000,000 / maxValues=3000 per ?config) is split by
+   binary-halving the largest dimension until every block fits, then the blocks
+   are concatenated.
 
-Source caps (from ?config): maxValues=3000, maxCells=1_000_000, maxCalls=1000 per
-100s. Re-fetch is full every run; revisions are picked up for free.
+The json-stat2 response is unrolled into long rows: one column per table
+dimension (keyed by the dimension's English label, cell = the category's English
+label) plus a numeric ``value`` and, when the source declares one, a ``unit``.
+Null cells are dropped. Schemas differ table-to-table (and a value can be null),
+so raw is written as NDJSON. PxWeb exposes no incremental filter — every run is a
+full re-pull; revisions are picked up for free.
 """
 
-import itertools
+import time
 import urllib.parse
+from itertools import product
 
-import pyarrow as pa
-
-from subsets_utils import (
-    NodeSpec,
-    SqlNodeSpec,
-    get,
-    post,
-    save_raw_ndjson,
-    transient_retry,
-)
-from constants import CATALOG
+from subsets_utils import NodeSpec, get, post, save_raw_ndjson
+from constants import ENTITY_PATHS
 
 BASE = "https://data.1212.mn/api/v1/en/NSO"
 
-# Stay safely under the documented PxWeb caps (maxCells=1e6, maxValues=3000).
-CELL_CAP = 800_000
-VAL_CAP = 2_800
-MEASURE = "value"
+# Per-request caps. Terms of use: max 100,000 values per request (HTTP 403 when
+# exceeded). ?config: maxCells=1,000,000, maxValues=3000 distinct values per
+# variable selection. Stay under the tightest (the 100k terms cap).
+CELL_LIMIT = 90_000
+MAXVALUES = 3_000
+
+# Politeness throttle between HTTP calls in this process (terms: <=1 rps per IP).
+# subsets_utils.get/post already retry 429/5xx with backoff.
+_SLEEP = 0.4
+
+# node_id lower-cases + hyphenates the entity id; recover the exact id. The
+# accepted union is verified collision-free under this mapping.
+_NODE_TO_ENTITY = {
+    f"nso-mongolia-{eid.lower().replace('_', '-')}": eid for eid in ENTITY_PATHS
+}
 
 
-def _table_url(node_id: str) -> str:
-    rec = CATALOG[node_id]
-    segs = [urllib.parse.quote(s, safe="") for s in rec["path"]]
-    segs.append(urllib.parse.quote(rec["file"], safe=""))
-    return BASE + "/" + "/".join(segs)
+def _table_url(entity_id: str) -> str:
+    parts = list(ENTITY_PATHS[entity_id]) + [entity_id + ".px"]
+    return BASE + "/" + "/".join(urllib.parse.quote(p, safe="") for p in parts)
 
 
-@transient_retry(attempts=8, min_wait=2, max_wait=60)
-def _get_meta(url: str) -> dict:
+def _fetch_metadata(url: str) -> dict:
     resp = get(url, timeout=(10.0, 120.0))
     resp.raise_for_status()
     return resp.json()
 
 
-@transient_retry(attempts=8, min_wait=2, max_wait=60)
-def _post_query(url: str, body: dict) -> dict:
+def _query(url: str, selection: dict) -> dict:
+    """POST a json-stat2 query. `selection` maps var code -> list of value codes."""
+    body = {
+        "query": [
+            {"code": code, "selection": {"filter": "item", "values": values}}
+            for code, values in selection.items()
+        ],
+        "response": {"format": "json-stat2"},
+    }
     resp = post(url, json=body, timeout=(10.0, 180.0))
     resp.raise_for_status()
     return resp.json()
 
 
-def _col_names(variables):
-    """English column name per variable, de-duplicated; never collides with the
-    measure column."""
-    names = []
-    seen = {}
-    for v in variables:
-        raw = (v.get("text") or v["code"]).strip() or v["code"]
-        name = raw
-        if name == MEASURE:
-            name = f"{raw}_dim"
-        if name in seen:
-            seen[name] += 1
-            name = f"{name}_{seen[name]}"
-        else:
-            seen[name] = 0
-        names.append(name)
-    return names
+def _blocks(variables):
+    """Yield selection dicts (var code -> value codes), each within the caps.
+
+    Binary-splits the largest dimension until product(sizes) <= CELL_LIMIT and
+    every per-variable selection <= MAXVALUES.
+    """
+    codes = {v["code"]: list(v["values"]) for v in variables}
+
+    def cells(sel):
+        n = 1
+        for vals in sel.values():
+            n *= len(vals)
+        return n
+
+    def fits(sel):
+        return cells(sel) <= CELL_LIMIT and all(len(v) <= MAXVALUES for v in sel.values())
+
+    stack = [codes]
+    while stack:
+        sel = stack.pop()
+        if fits(sel):
+            yield sel
+            continue
+        split_code = max(sel, key=lambda c: len(sel[c]))
+        vals = sel[split_code]
+        if len(vals) <= 1:
+            yield sel  # cannot split further (should not happen given the caps)
+            continue
+        mid = len(vals) // 2
+        for half in (vals[:mid], vals[mid:]):
+            nxt = dict(sel)
+            nxt[split_code] = half
+            stack.append(nxt)
 
 
-def _flatten_jsonstat2(js, col_names):
-    """Expand a json-stat2 dataset into row dicts. `value` is row-major over the
-    dimensions listed in `id`; itertools.product yields that exact order."""
-    dim_codes = js["id"]
-    sizes = js["size"]
-    value = js["value"]
+def _unit_lookup(dataset: dict):
+    """Best-effort measure unit. Returns (varying_measure_code_or_None,
+    {catcode: unit_base}). Handles an eliminated single-unit ContentsCode and a
+    varying measure dimension. Never raises."""
+    try:
+        ids = set(dataset.get("id", []))
+        for dim_code, dim in dataset.get("dimension", {}).items():
+            units = (dim.get("category") or {}).get("unit")
+            if not units:
+                continue
+            bases = {}
+            for catcode, u in units.items():
+                base = u.get("base") if isinstance(u, dict) else None
+                if base is not None:
+                    bases[catcode] = base
+            if bases:
+                return (dim_code if dim_code in ids else None), bases
+    except Exception:
+        pass
+    return None, {}
 
-    # position -> label for each dimension, in declared order
-    ordered_labels = []
-    for code in dim_codes:
-        dim = js["dimension"][code]
-        index = dim["category"]["index"]
-        labels = dim["category"]["label"]
-        if isinstance(index, dict):
-            pos_to_code = {pos: c for c, pos in index.items()}
-            seq = [labels.get(pos_to_code[p], pos_to_code[p]) for p in range(len(pos_to_code))]
-        else:  # index is an ordered list of category codes
-            seq = [labels.get(c, c) for c in index]
-        ordered_labels.append([str(s).strip() for s in seq])
 
-    sparse = isinstance(value, dict)
-    rows = []
-    for flat, combo in enumerate(itertools.product(*[range(s) for s in sizes])):
-        v = value.get(str(flat)) if sparse else value[flat]
+def _rows_from_dataset(dataset: dict):
+    """Unroll a json-stat2 dataset into long rows, dropping null cells."""
+    ids = dataset["id"]
+    dims = dataset["dimension"]
+
+    # Column name per dimension (English label), de-duplicated.
+    col_names, seen = {}, set()
+    for code in ids:
+        label = (dims[code].get("label") or code).strip() or code
+        name, i = label, 2
+        while name in seen:
+            name = f"{label} ({code})"
+            if name in seen:
+                name = f"{label}_{i}"
+                i += 1
+        seen.add(name)
+        col_names[code] = name
+
+    # Ordered category (code, label) per dimension, sorted by json-stat index.
+    ordered = {}
+    for code in ids:
+        cat = dims[code]["category"]
+        index = cat.get("index", {})
+        labels = cat.get("label", {})
+        catcodes = sorted(index, key=lambda cc: index[cc])
+        ordered[code] = [(cc, (labels.get(cc, cc) or cc).strip()) for cc in catcodes]
+
+    measure_code, unit_bases = _unit_lookup(dataset)
+    const_unit = None
+    if measure_code is None and unit_bases:
+        const_unit = next(iter(unit_bases.values()))
+
+    values = dataset["value"]
+    sparse = isinstance(values, dict)
+    axes = [ordered[code] for code in ids]
+
+    for flat, combo in enumerate(product(*axes)):
+        v = values.get(str(flat)) if sparse else (values[flat] if flat < len(values) else None)
         if v is None:
             continue
-        row = {col_names[k]: ordered_labels[k][combo[k]] for k in range(len(dim_codes))}
-        row[MEASURE] = v
-        rows.append(row)
-    return rows
-
-
-def _chunk_plan(variables):
-    """Return a list of per-request `query` bodies. One request when the full
-    table fits the caps; otherwise split the largest dimension into slices that
-    keep both cell-count and value-count under the caps."""
-    sizes = [len(v["values"]) for v in variables]
-    total = 1
-    for s in sizes:
-        total *= s
-    sel_all = [{"code": v["code"], "selection": {"filter": "all", "values": ["*"]}} for v in variables]
-
-    if total <= CELL_CAP and max(sizes) <= VAL_CAP and sum(sizes) <= VAL_CAP:
-        return [sel_all]
-
-    # Chunk along the largest dimension.
-    big = max(range(len(sizes)), key=lambda i: sizes[i])
-    others_product = 1
-    others_sum = 0
-    for i, s in enumerate(sizes):
-        if i == big:
-            continue
-        others_product *= s
-        others_sum += s
-    by_cells = max(1, CELL_CAP // max(1, others_product))
-    by_values = max(1, VAL_CAP - others_sum)
-    chunk = max(1, min(by_cells, by_values, VAL_CAP))
-
-    big_codes = variables[big]["values"]
-    plans = []
-    for start in range(0, len(big_codes), chunk):
-        slice_codes = big_codes[start:start + chunk]
-        query = []
-        for i, v in enumerate(variables):
-            if i == big:
-                query.append({"code": v["code"], "selection": {"filter": "item", "values": slice_codes}})
-            else:
-                query.append({"code": v["code"], "selection": {"filter": "all", "values": ["*"]}})
-        plans.append(query)
-    return plans
+        row = {col_names[code]: catlabel for code, (catcode, catlabel) in zip(ids, combo)}
+        row["value"] = v
+        if const_unit is not None:
+            row["unit"] = const_unit
+        elif measure_code is not None:
+            for code, (catcode, _lbl) in zip(ids, combo):
+                if code == measure_code:
+                    row["unit"] = unit_bases.get(catcode)
+                    break
+        yield row
 
 
 def fetch_one(node_id: str) -> None:
-    asset = node_id  # the spec id IS the asset name
-    url = _table_url(node_id)
+    entity_id = _NODE_TO_ENTITY.get(node_id) or node_id[len("nso-mongolia-"):]
+    if entity_id not in ENTITY_PATHS:
+        raise KeyError(f"no entity for node {node_id!r}")
 
-    meta = _get_meta(url)
-    variables = meta["variables"]
-    col_names = _col_names(variables)
+    url = _table_url(entity_id)
+    meta = _fetch_metadata(url)
+    variables = meta.get("variables", [])
+    if not variables:
+        raise ValueError(f"{entity_id}: table metadata has no variables")
 
     rows = []
-    for query in _chunk_plan(variables):
-        js = _post_query(url, {"query": query, "response": {"format": "json-stat2"}})
-        rows.extend(_flatten_jsonstat2(js, col_names))
+    for selection in _blocks(variables):
+        time.sleep(_SLEEP)
+        rows.extend(_rows_from_dataset(_query(url, selection)))
 
-    save_raw_ndjson(rows, asset)
+    if not rows:
+        raise ValueError(f"{entity_id}: query returned no non-null rows")
+
+    save_raw_ndjson(rows, node_id)
 
 
 DOWNLOAD_SPECS = [
-    NodeSpec(id=spec_id, fn=fetch_one, kind="download")
-    for spec_id in CATALOG
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'SELECT * FROM "{s.id}" WHERE "{MEASURE}" IS NOT NULL',
+    NodeSpec(
+        id=f"nso-mongolia-{eid.lower().replace('_', '-')}",
+        fn=fetch_one,
+        kind="download",
     )
-    for s in DOWNLOAD_SPECS
+    for eid in ENTITY_PATHS
 ]
