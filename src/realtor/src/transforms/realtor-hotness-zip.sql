@@ -1,4 +1,4 @@
-SELECT
+SELECT DISTINCT
     strptime(CAST(month_date_yyyymm AS VARCHAR), '%Y%m')::DATE AS date,
     lpad(CAST(postal_code AS VARCHAR), 5, '0') AS postal_code, zip_name,
 

@@ -25,12 +25,25 @@ read_csv_auto types it on read.
 
 import time
 
-from subsets_utils import NodeSpec, get, save_raw_file, transient_retry
+from subsets_utils import (
+    MaintainSpec,
+    NodeSpec,
+    get,
+    raw_asset_exists,
+    save_raw_file,
+    transient_retry,
+)
 from constants import ENTITY_IDS
 
 _API = "https://api-open.data.gov.sg/v1/public/api/datasets"
 _POLL_ATTEMPTS = 60          # ~ up to a few minutes of server-side materialization
 _POLL_INTERVAL = 4.0         # seconds between polls (spaces requests under the cap)
+_MAINTAIN_MAX_AGE_DAYS = 7
+_MAINTAIN_DESCRIPTION = (
+    "Data.gov.sg catalog records carry lastUpdatedAt but the CSV download API "
+    "does not expose per-file validators; refresh weekly and reuse committed "
+    "raw CSVs within 7 days to make the throttled portal backfill resumable."
+)
 
 
 # Reverse map: spec id -> original datasetId. The spec id mangles the id's
@@ -102,4 +115,18 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
+]
+
+
+MAINTAIN_SPECS = [
+    MaintainSpec(
+        asset_id=spec.id,
+        description=_MAINTAIN_DESCRIPTION,
+        check=lambda aid: raw_asset_exists(
+            aid,
+            "csv",
+            max_age_days=_MAINTAIN_MAX_AGE_DAYS,
+        ),
+    )
+    for spec in DOWNLOAD_SPECS
 ]

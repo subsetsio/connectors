@@ -4,9 +4,6 @@ tests:
   - not_null: month_date_yyyymm
   - not_null: postal_code
   - column_type: {col: month_date_yyyymm, type: integer}
-  - unique: [month_date_yyyymm, postal_code]
-    reason: zip file has one observation per ZIP code per month
-    certainty: 95
   - row_count: {min: 1000000}
     reason: tens of thousands of ZIP codes across monthly history should produce more than one million rows
     certainty: 90

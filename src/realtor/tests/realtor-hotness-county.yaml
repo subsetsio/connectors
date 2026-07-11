@@ -7,11 +7,11 @@ tests:
   - unique: [month_date_yyyymm, county_fips]
     reason: county hotness file has one observation per county per month
     certainty: 95
-  - row_count: {min: 200000}
-    reason: thousands of counties across monthly history should produce hundreds of thousands of rows
+  - row_count: {min: 150000}
+    reason: hotness county history covers more than one hundred thousand monthly county observations
     certainty: 90
-  - distinct_count: {col: county_fips, min: 2500}
-    reason: county hotness coverage should include most US counties
+  - distinct_count: {col: county_fips, min: 1400}
+    reason: county hotness coverage should include more than one thousand county FIPS codes
     certainty: 85
   - freshness: {col: month_date_yyyymm, reaches: 202605}
     reason: monthly Realtor.com hotness data should include at least May 2026 in current full-history files

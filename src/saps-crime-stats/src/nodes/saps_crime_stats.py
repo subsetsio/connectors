@@ -215,10 +215,14 @@ def _release_years(filename: str) -> tuple[int | None, int | None]:
 
 
 def _find_header(rows: list[tuple]) -> int:
-    required = {"station", "district", "province", "crimecategory", "code"}
+    current_required = {"station", "district", "province", "crimecategory", "code"}
+    legacy_required = {"station", "district", "crimecategory"}
+    legacy_province = {"province", "prov", "perprovince"}
     for idx, row in enumerate(rows):
         normalized = {_header_key(v) for v in row if v is not None}
-        if required.issubset(normalized):
+        if current_required.issubset(normalized):
+            return idx
+        if legacy_required.issubset(normalized) and normalized & legacy_province:
             return idx
     raise RuntimeError("detailed data header row not found")
 
@@ -237,7 +241,7 @@ def _header_positions(headers: list[str | None]) -> dict[str, int]:
         "station_crime_category": {"stationcrimecategory"},
         "station": {"station"},
         "district": {"district"},
-        "province": {"province"},
+        "province": {"province", "prov", "perprovince"},
         "crime_category": {"crimecategory"},
         "crime_code": {"code", "crimecode"},
     }
@@ -248,12 +252,23 @@ def _header_positions(headers: list[str | None]) -> dict[str, int]:
             if key in field_aliases:
                 positions[field] = idx
                 break
+    if "crime_code" not in positions and "crime_category" in positions:
+        positions["crime_code"] = positions["crime_category"]
     missing = {"station", "district", "province", "crime_category", "crime_code"} - set(
         positions
     )
     if missing:
         raise RuntimeError(f"detailed data header missing columns: {sorted(missing)}")
     return positions
+
+
+def _measure_start(headers: list[str | None], positions: dict[str, int]) -> int:
+    year_pattern = re.compile(r"^20\d{2}[-/ ]20\d{2}$")
+    for idx, header in enumerate(headers):
+        text = _clean(header)
+        if text and year_pattern.match(text):
+            return idx
+    return max(positions.values()) + 1
 
 
 def _release_title(rows: list[tuple], header_idx: int) -> str | None:
@@ -292,7 +307,8 @@ def _parse_workbook(content: bytes, meta: dict[str, str]) -> pa.Table:
     sheet_name, rows, header_idx = _read_detailed_sheet(content, meta["filename"])
     headers = [_clean(v) for v in rows[header_idx]]
     positions = _header_positions(headers)
-    measure_headers = headers[9 : 9 + MAX_MEASURES]
+    measure_start = _measure_start(headers, positions)
+    measure_headers = headers[measure_start : measure_start + MAX_MEASURES]
     release_start, release_end = _release_years(meta["filename"])
     title = _release_title(rows, header_idx)
 
@@ -333,16 +349,18 @@ def _parse_workbook(content: bytes, meta: dict[str, str]) -> pa.Table:
 
     row_count = 0
     for excel_idx, row in enumerate(rows[header_idx + 1 :], start=header_idx + 2):
-        if not any(row[:9]):
+        if not any(row[:measure_start]):
             continue
-        if _clean(row[4] if len(row) > 4 else None) is None:
+        station_idx = positions["station"]
+        if _clean(row[station_idx] if len(row) > station_idx else None) is None:
             continue
         append_base(row, excel_idx)
         for idx in range(MAX_MEASURES):
             label_col = f"measure_{idx + 1:02d}_label"
             value_col = f"measure_{idx + 1:02d}_value"
             label = measure_headers[idx] if idx < len(measure_headers) else None
-            value = row[idx + 9] if len(row) > idx + 9 else None
+            value_idx = idx + measure_start
+            value = row[value_idx] if len(row) > value_idx else None
             columns[label_col].append(label)
             columns[value_col].append(_clean(value))
         row_count += 1
