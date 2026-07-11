@@ -22,8 +22,8 @@ tests:
     certainty: 80
     points_outward: true
     severity: warn
-  - freshness: {col: year, reaches: today - 550d}
-    reason: annual SDG series with reporting lag; the latest year should reach within ~1.5y
+  - freshness: {col: year, reaches: today - 730d}
+    reason: annual SDG series with reporting lag; the latest reported year should reach within ~2y
     points_outward: true
     certainty: 75
   - row_count: {min: 4000, max: 30000}

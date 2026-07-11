@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nbs-tanzania-values`. Regenerate after model-verify.
+# caution: Rows mix national, regional, demographic, and other disaggregation categories in one column; filter `disaggregation` before aggregating observations.
+key: [indicator_id, area, year, disaggregation]
+temporal: year
+sort: [year, indicator_id, area, disaggregation]
+columns:
+  - name: indicator_id
+    type: VARCHAR
+    description: SDG indicator code from the NBS Tanzania Goal Tracker.
+  - name: area
+    type: VARCHAR
+    description: Goal Tracker area, either mainland or zanzibar.
+  - name: year
+    type: INTEGER
+    description: Observation year.
+  - name: value
+    type: DOUBLE
+    description: Reported observation value, in the accompanying unit.
+  - name: unit
+    type: VARCHAR
+    description: Source-provided unit for the observation value.
+  - name: disaggregation
+    type: VARCHAR
+    description: Canonical source disaggregation label assembled as type=value pairs.

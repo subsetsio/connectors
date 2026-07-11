@@ -12,7 +12,7 @@ tests:
   - enum: {col: area, values: [mainland, zanzibar]}
     reason: the Goal Tracker corpus exposes exactly two areas
     certainty: 95
-  - matches: {col: indicator_id, pattern: "^[0-9]+\\."}
+  - matches: {col: indicator_id, pattern: "^[0-9]+\\..*"}
     reason: SDG indicator codes start with a goal number and a dot
     certainty: 80
     severity: warn

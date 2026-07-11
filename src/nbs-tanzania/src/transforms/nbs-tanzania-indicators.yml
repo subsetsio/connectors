@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nbs-tanzania-indicators`. Regenerate after model-verify.
+# caution: Indicator definitions are area-specific; join or filter on both `indicator_id` and `area` when using this as metadata for observations.
+key: [indicator_id, area]
+sort: [indicator_id, area]
+columns:
+  - name: indicator_id
+    type: VARCHAR
+    description: SDG indicator code from the NBS Tanzania Goal Tracker.
+  - name: area
+    type: VARCHAR
+    description: Goal Tracker area, either mainland or zanzibar.
+  - name: description
+    type: VARCHAR
+    description: Source-provided indicator description.
