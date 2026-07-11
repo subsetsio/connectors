@@ -1,0 +1,63 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-congenital-conditions`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: hbr
+    type: VARCHAR
+  - name: conditiongroup
+    type: VARCHAR
+  - name: total
+    type: BIGINT
+  - name: totalqf
+    type: VARCHAR
+  - name: totalbirthpopulation
+    type: BIGINT
+  - name: tbp
+    type: DOUBLE
+  - name: tbpqf
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: conditionsubgroup
+    type: VARCHAR
+  - name: specificcondition
+    type: VARCHAR
+  - name: livebirth
+    type: BIGINT
+  - name: spontaneousstillbirth
+    type: BIGINT
+  - name: spontaneouslatefetalloss
+    type: BIGINT
+  - name: topfa
+    type: BIGINT
+  - name: tbplci
+    type: DOUBLE
+  - name: tbpuci
+    type: DOUBLE
+  - name: lbp
+    type: DOUBLE
+  - name: lbplci
+    type: DOUBLE
+  - name: lbpuci
+    type: DOUBLE
+  - name: totalexcludingknowngeneticconditions
+    type: BIGINT
+  - name: tbpexcludingknowngeneticconditions
+    type: DOUBLE
+  - name: tbpexcludingknowngeneticconditionslci
+    type: DOUBLE
+  - name: tbpexcludingknowngeneticconditionsuci
+    type: DOUBLE
+  - name: livebirthpopulation
+    type: BIGINT
+  - name: conditionsubgroup2
+    type: VARCHAR

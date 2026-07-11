@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-covid-19-wider-impacts-method-of-delivery`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: hb
+    type: VARCHAR
+  - name: hbqf
+    type: VARCHAR
+  - name: month
+    type: BIGINT
+  - name: allbirths
+    type: BIGINT
+  - name: spontaneousvaginal
+    type: BIGINT
+  - name: assistedvaginal
+    type: BIGINT
+  - name: csectionall
+    type: BIGINT
+  - name: csectionelected
+    type: BIGINT
+  - name: csectionemergency
+    type: BIGINT
+  - name: othernotknown
+    type: BIGINT
+  - name: percentspontaneousvaginal
+    type: DOUBLE
+  - name: percentassistedvaginal
+    type: DOUBLE
+  - name: percentcsectionall
+    type: DOUBLE
+  - name: percentcsectionelected
+    type: DOUBLE
+  - name: percentcsectionemergency
+    type: DOUBLE
+  - name: percentothernotknown
+    type: DOUBLE
+  - name: country
+    type: VARCHAR
+  - name: agegroup
+    type: VARCHAR
+  - name: simdquintile
+    type: BIGINT

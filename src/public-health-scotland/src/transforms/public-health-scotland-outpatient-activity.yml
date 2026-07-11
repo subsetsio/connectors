@@ -1,0 +1,65 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-outpatient-activity`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: quarter
+sort: [quarter]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: quarterqf
+    type: VARCHAR
+  - name: hb
+    type: VARCHAR
+  - name: hbqf
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: locationqf
+    type: VARCHAR
+  - name: appointmenttype
+    type: VARCHAR
+  - name: appointmenttypeqf
+    type: VARCHAR
+  - name: attendances
+    type: BIGINT
+  - name: attendancesqf
+    type: VARCHAR
+  - name: dnaappointments
+    type: BIGINT
+  - name: dnaappointmentsqf
+    type: VARCHAR
+  - name: dnarate
+    type: DOUBLE
+  - name: dnarateqf
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: simd
+    type: BIGINT
+  - name: simdqf
+    type: VARCHAR
+  - name: specialty
+    type: VARCHAR
+  - name: specialtyname
+    type: VARCHAR
+  - name: hbt
+    type: VARCHAR
+  - name: hbr
+    type: VARCHAR
+  - name: crossboundaryflag
+    type: BIGINT
+  - name: loc_name
+    type: VARCHAR
+  - name: dqnotesip
+    type: VARCHAR
+  - name: dqnotesop
+    type: VARCHAR
+  - name: dqnotesbeds
+    type: VARCHAR

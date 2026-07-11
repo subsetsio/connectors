@@ -1,0 +1,40 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-cancer-waiting-times`. Regenerate after model-verify.
+key: [quarter, hbt, hb, cancertype, resource_id]
+temporal: quarter
+sort: [quarter, hbt, hb, cancertype, resource_id]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: hb
+    type: VARCHAR
+  - name: hbt
+    type: VARCHAR
+  - name: hbtqf
+    type: VARCHAR
+  - name: cancertype
+    type: VARCHAR
+  - name: cancertypeqf
+    type: VARCHAR
+  - name: numberofeligiblereferrals31daystandard
+    type: BIGINT
+  - name: numberofeligiblereferrals31daystandardqf
+    type: VARCHAR
+  - name: numberofeligiblereferralstreatedwithin31days
+    type: BIGINT
+  - name: numberofeligiblereferralstreatedwithin31daysqf
+    type: VARCHAR
+  - name: hbqf
+    type: VARCHAR
+  - name: numberofeligiblereferrals62daystandard
+    type: BIGINT
+  - name: numberofeligiblereferrals62daystandardqf
+    type: VARCHAR
+  - name: numberofeligiblereferralstreatedwithin62days
+    type: BIGINT
+  - name: numberofeligiblereferralstreatedwithin62daysqf
+    type: VARCHAR

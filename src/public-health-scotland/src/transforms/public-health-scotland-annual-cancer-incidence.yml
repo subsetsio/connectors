@@ -1,0 +1,143 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-annual-cancer-incidence`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: cancersiteicd10code
+    type: VARCHAR
+  - name: cancersite
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: sexqf
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: incidencesageunder5
+    type: BIGINT
+  - name: incidencesage5to9
+    type: BIGINT
+  - name: incidencesage10to14
+    type: BIGINT
+  - name: incidencesage15to19
+    type: BIGINT
+  - name: incidencesage20to24
+    type: BIGINT
+  - name: incidencesage25to29
+    type: BIGINT
+  - name: incidencesage30to34
+    type: BIGINT
+  - name: incidencesage35to39
+    type: BIGINT
+  - name: incidencesage40to44
+    type: BIGINT
+  - name: incidencesage45to49
+    type: BIGINT
+  - name: incidencesage50to54
+    type: BIGINT
+  - name: incidencesage55to59
+    type: BIGINT
+  - name: incidencesage60to64
+    type: BIGINT
+  - name: incidencesage65to69
+    type: BIGINT
+  - name: incidencesage70to74
+    type: BIGINT
+  - name: incidencesage75to79
+    type: BIGINT
+  - name: incidencesage80to84
+    type: BIGINT
+  - name: incidencesage85to89
+    type: BIGINT
+  - name: incidencesage90andover
+    type: BIGINT
+  - name: incidencesallages
+    type: BIGINT
+  - name: incidencerateageunder5
+    type: DOUBLE
+  - name: incidencerateage5to9
+    type: DOUBLE
+  - name: incidencerateage10to14
+    type: DOUBLE
+  - name: incidencerateage15to19
+    type: DOUBLE
+  - name: incidencerateage20to24
+    type: DOUBLE
+  - name: incidencerateage25to29
+    type: DOUBLE
+  - name: incidencerateage30to34
+    type: DOUBLE
+  - name: incidencerateage35to39
+    type: DOUBLE
+  - name: incidencerateage40to44
+    type: DOUBLE
+  - name: incidencerateage45to49
+    type: DOUBLE
+  - name: incidencerateage50to54
+    type: DOUBLE
+  - name: incidencerateage55to59
+    type: DOUBLE
+  - name: incidencerateage60to64
+    type: DOUBLE
+  - name: incidencerateage65to69
+    type: DOUBLE
+  - name: incidencerateage70to74
+    type: DOUBLE
+  - name: incidencerateage75to79
+    type: DOUBLE
+  - name: incidencerateage80to84
+    type: DOUBLE
+  - name: incidencerateage85to89
+    type: DOUBLE
+  - name: incidencerateage90andover
+    type: DOUBLE
+  - name: cruderate
+    type: DOUBLE
+  - name: cruderatelower95pcconfidenceinterval
+    type: DOUBLE
+  - name: cruderateupper95pcconfidenceinterval
+    type: DOUBLE
+  - name: easr
+    type: DOUBLE
+  - name: easrlower95pcconfidenceinterval
+    type: VARCHAR
+  - name: easrlower95pcconfidenceintervalqf
+    type: VARCHAR
+  - name: easrupper95pcconfidenceinterval
+    type: VARCHAR
+  - name: easrupper95pcconfidenceintervalqf
+    type: VARCHAR
+  - name: wasr
+    type: DOUBLE
+  - name: wasrlower95pcconfidenceinterval
+    type: VARCHAR
+  - name: wasrlower95pcconfidenceintervalqf
+    type: VARCHAR
+  - name: wasrupper95pcconfidenceinterval
+    type: VARCHAR
+  - name: wasrupper95pcconfidenceintervalqf
+    type: VARCHAR
+  - name: standardisedincidenceratio
+    type: VARCHAR
+  - name: standardisedincidenceratioqf
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: sirlower95pcconfidenceinterval
+    type: DOUBLE
+  - name: sirupper95pcconfidenceinterval
+    type: DOUBLE
+  - name: hb
+    type: VARCHAR
+  - name: incidencesage85andover
+    type: BIGINT
+  - name: incidencerateage85andover
+    type: DOUBLE

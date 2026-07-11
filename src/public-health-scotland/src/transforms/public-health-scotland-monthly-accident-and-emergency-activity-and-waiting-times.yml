@@ -1,0 +1,141 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-monthly-accident-and-emergency-activity-and-waiting-times`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: month
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: hbt
+    type: VARCHAR
+  - name: departmenttype
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: ageqf
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: sexqf
+    type: VARCHAR
+  - name: deprivation
+    type: BIGINT
+  - name: deprivationqf
+    type: VARCHAR
+  - name: numberofattendances
+    type: BIGINT
+  - name: treatmentlocation
+    type: VARCHAR
+  - name: attendancecategory
+    type: VARCHAR
+  - name: numberofattendancesall
+    type: BIGINT
+  - name: numberwithin4hoursall
+    type: BIGINT
+  - name: numberover4hoursall
+    type: BIGINT
+  - name: percentagewithin4hoursall
+    type: DOUBLE
+  - name: numberofattendancesepisode
+    type: BIGINT
+  - name: numberofattendancesepisodeqf
+    type: VARCHAR
+  - name: numberwithin4hoursepisode
+    type: BIGINT
+  - name: numberwithin4hoursepisodeqf
+    type: VARCHAR
+  - name: numberover4hoursepisode
+    type: BIGINT
+  - name: numberover4hoursepisodeqf
+    type: VARCHAR
+  - name: percentagewithin4hoursepisode
+    type: DOUBLE
+  - name: percentagewithin4hoursepisodeqf
+    type: VARCHAR
+  - name: numberover8hoursepisode
+    type: BIGINT
+  - name: numberover8hoursepisodeqf
+    type: VARCHAR
+  - name: percentageover8hoursepisode
+    type: DOUBLE
+  - name: percentageover8hoursepisodeqf
+    type: VARCHAR
+  - name: numberover12hoursepisode
+    type: BIGINT
+  - name: numberover12hoursepisodeqf
+    type: VARCHAR
+  - name: percentageover12hoursepisode
+    type: DOUBLE
+  - name: percentageover12hoursepisodeqf
+    type: VARCHAR
+  - name: referral
+    type: VARCHAR
+  - name: referralqf
+    type: VARCHAR
+  - name: discharge
+    type: VARCHAR
+  - name: dischargeqf
+    type: VARCHAR
+  - name: day
+    type: VARCHAR
+  - name: week
+    type: VARCHAR
+  - name: hour
+    type: VARCHAR
+  - name: inout
+    type: VARCHAR
+  - name: yearend
+    type: BIGINT
+  - name: oneattendance
+    type: BIGINT
+  - name: twoattendances
+    type: BIGINT
+  - name: threeattendances
+    type: BIGINT
+  - name: fourattendances
+    type: BIGINT
+  - name: fiveplusattendances
+    type: BIGINT
+  - name: numberofattendancesaggregate
+    type: BIGINT
+  - name: numbermeetingtargetaggregate
+    type: BIGINT
+  - name: numbermeetingtargetepisode
+    type: BIGINT
+  - name: numbermeetingtargetepisodeqf
+    type: VARCHAR
+  - name: dischargedestinationadmissiontosame
+    type: BIGINT
+  - name: dischargedestinationadmissiontosameqf
+    type: VARCHAR
+  - name: dischargedestinationotherspecialty
+    type: BIGINT
+  - name: dischargedestinationotherspecialtyqf
+    type: VARCHAR
+  - name: dischargedestinationresidence
+    type: BIGINT
+  - name: dischargedestinationresidenceqf
+    type: VARCHAR
+  - name: dischargedestinationtransfer
+    type: BIGINT
+  - name: dischargedestinationtransferqf
+    type: VARCHAR
+  - name: dischargedestinationunknown
+    type: BIGINT
+  - name: dischargedestinationunknownqf
+    type: VARCHAR
+  - name: attendancegreater8hrs
+    type: BIGINT
+  - name: attendancegreater8hrsqf
+    type: VARCHAR
+  - name: attendancegreater12hrs
+    type: BIGINT
+  - name: attendancegreater12hrsqf
+    type: VARCHAR

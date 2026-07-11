@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-covid-19-wider-impacts-termination-of-pregnancy`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: hb
+    type: VARCHAR
+  - name: hbqf
+    type: VARCHAR
+  - name: month
+    type: BIGINT
+  - name: averagegestation
+    type: DOUBLE
+  - name: numberterminations
+    type: BIGINT
+  - name: numbergestation10to12wks
+    type: BIGINT
+  - name: numbergestation10to12wksqf
+    type: VARCHAR
+  - name: numbergestationover12wks
+    type: BIGINT
+  - name: numbergestationover12wksqf
+    type: VARCHAR
+  - name: numbergestationunder10wks
+    type: BIGINT
+  - name: numbergestationunder10wksqf
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: agegroup
+    type: VARCHAR
+  - name: simdquintile
+    type: BIGINT

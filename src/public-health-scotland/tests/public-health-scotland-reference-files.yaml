@@ -11,3 +11,6 @@ tests:
       min: 1
     reason: an accepted PHS entity always produces at least one raw row
     certainty: 95
+  - freshness: {col: metadata_modified, reaches: today - 1200d}
+    reason: accepted PHS temporal extract should include observations reaching the declared source period
+    certainty: 80

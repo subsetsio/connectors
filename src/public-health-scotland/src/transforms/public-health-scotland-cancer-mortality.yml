@@ -1,0 +1,141 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-cancer-mortality`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: cancersiteicd10code
+    type: VARCHAR
+  - name: cancersite
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: sexqf
+    type: VARCHAR
+  - name: year
+    type: VARCHAR
+  - name: deathsageunder5
+    type: BIGINT
+  - name: deathsage5to9
+    type: BIGINT
+  - name: deathsage10to14
+    type: BIGINT
+  - name: deathsage15to19
+    type: BIGINT
+  - name: deathsage20to24
+    type: BIGINT
+  - name: deathsage25to29
+    type: BIGINT
+  - name: deathsage30to34
+    type: BIGINT
+  - name: deathsage35to39
+    type: BIGINT
+  - name: deathsage40to44
+    type: BIGINT
+  - name: deathsage45to49
+    type: BIGINT
+  - name: deathsage50to54
+    type: BIGINT
+  - name: deathsage55to59
+    type: BIGINT
+  - name: deathsage60to64
+    type: BIGINT
+  - name: deathsage65to69
+    type: BIGINT
+  - name: deathsage70to74
+    type: BIGINT
+  - name: deathsage75to79
+    type: BIGINT
+  - name: deathsage80to84
+    type: BIGINT
+  - name: deathsage85to89
+    type: BIGINT
+  - name: deathsage90andover
+    type: BIGINT
+  - name: deathsallages
+    type: BIGINT
+  - name: mortalityrateageunder5
+    type: DOUBLE
+  - name: mortalityrateage5to9
+    type: DOUBLE
+  - name: mortalityrateage10to14
+    type: DOUBLE
+  - name: mortalityrateage15to19
+    type: DOUBLE
+  - name: mortalityrateage20to24
+    type: DOUBLE
+  - name: mortalityrateage25to29
+    type: DOUBLE
+  - name: mortalityrateage30to34
+    type: DOUBLE
+  - name: mortalityrateage35to39
+    type: DOUBLE
+  - name: mortalityrateage40to44
+    type: DOUBLE
+  - name: mortalityrateage45to49
+    type: DOUBLE
+  - name: mortalityrateage50to54
+    type: DOUBLE
+  - name: mortalityrateage55to59
+    type: DOUBLE
+  - name: mortalityrateage60to64
+    type: DOUBLE
+  - name: mortalityrateage65to69
+    type: DOUBLE
+  - name: mortalityrateage70to74
+    type: DOUBLE
+  - name: mortalityrateage75to79
+    type: DOUBLE
+  - name: mortalityrateage80to84
+    type: DOUBLE
+  - name: mortalityrateage85to89
+    type: DOUBLE
+  - name: mortalityrateage90andover
+    type: DOUBLE
+  - name: cruderate
+    type: DOUBLE
+  - name: cruderatelower95pcconfidenceinterval
+    type: DOUBLE
+  - name: cruderateupper95pcconfidenceinterval
+    type: DOUBLE
+  - name: easr
+    type: DOUBLE
+  - name: easrlower95pcconfidenceinterval
+    type: DOUBLE
+  - name: easrlower95pcconfidenceintervalqf
+    type: VARCHAR
+  - name: easrupper95pcconfidenceinterval
+    type: DOUBLE
+  - name: easrupper95pcconfidenceintervalqf
+    type: VARCHAR
+  - name: wasr
+    type: DOUBLE
+  - name: wasrlower95pcconfidenceinterval
+    type: DOUBLE
+  - name: wasrlower95pcconfidenceintervalqf
+    type: VARCHAR
+  - name: wasrupper95pcconfidenceinterval
+    type: DOUBLE
+  - name: wasrupper95pcconfidenceintervalqf
+    type: VARCHAR
+  - name: standardisedmortalityratio
+    type: DOUBLE
+  - name: standardisedmortalityratioqf
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: smrlower95pcconfidenceinterval
+    type: DOUBLE
+  - name: smrupper95pcconfidenceinterval
+    type: DOUBLE
+  - name: hb
+    type: VARCHAR
+  - name: ca
+    type: VARCHAR

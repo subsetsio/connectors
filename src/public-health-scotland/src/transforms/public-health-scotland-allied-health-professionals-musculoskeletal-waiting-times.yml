@@ -1,0 +1,223 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-allied-health-professionals-musculoskeletal-waiting-times`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: hbt
+    type: VARCHAR
+  - name: specialty
+    type: VARCHAR
+  - name: numberofreferrals
+    type: BIGINT
+  - name: numberofreferralsqf
+    type: VARCHAR
+  - name: referralsperonehundredthousandpopulation
+    type: DOUBLE
+  - name: referralsperonehundredthousandpopulationqf
+    type: VARCHAR
+  - name: month
+    type: BIGINT
+  - name: patientsseen
+    type: BIGINT
+  - name: patientsseenqf
+    type: VARCHAR
+  - name: numberwhowaitedzerotofourweeks
+    type: BIGINT
+  - name: numberwhowaitedzerotofourweeksqf
+    type: VARCHAR
+  - name: numberwhowaitedfivetoeightweeks
+    type: BIGINT
+  - name: numberwhowaitedfivetoeightweeksqf
+    type: VARCHAR
+  - name: numberwhowaitedninetotwelveweeks
+    type: BIGINT
+  - name: numberwhowaitedninetotwelveweeksqf
+    type: VARCHAR
+  - name: numberwhowaitedthirteentosixteenweeks
+    type: BIGINT
+  - name: numberwhowaitedthirteentosixteenweeksqf
+    type: VARCHAR
+  - name: numberwhowaitedfourplusweeks
+    type: BIGINT
+  - name: numberwhowaitedfourplusweeksqf
+    type: VARCHAR
+  - name: numberwhowaitedsixteenplusweeks
+    type: BIGINT
+  - name: numberwhowaitedsixteenplusweeksqf
+    type: VARCHAR
+  - name: numberwhowaitedzerotofourweekspc
+    type: DOUBLE
+  - name: numberwhowaitedzerotofourweekspcqf
+    type: VARCHAR
+  - name: numberwhowaitedfivetoeightweekspc
+    type: DOUBLE
+  - name: numberwhowaitedfivetoeightweekspcqf
+    type: VARCHAR
+  - name: numberwhowaitedninetotwelveweekspc
+    type: DOUBLE
+  - name: numberwhowaitedninetotwelveweekspcqf
+    type: VARCHAR
+  - name: numberwhowaitedthirteentosixteenweekspc
+    type: DOUBLE
+  - name: numberwhowaitedthirteentosixteenweekspcqf
+    type: VARCHAR
+  - name: numberwhowaitedfourplusweekspc
+    type: DOUBLE
+  - name: numberwhowaitedfourplusweekspcqf
+    type: VARCHAR
+  - name: numberwhowaitedsixteenplusweekspc
+    type: DOUBLE
+  - name: numberwhowaitedsixteenplusweekspcqf
+    type: VARCHAR
+  - name: medianwaitweeks
+    type: VARCHAR
+  - name: medianwaitweeksqf
+    type: VARCHAR
+  - name: ninetiethpercentilewaitweeks
+    type: VARCHAR
+  - name: ninetiethpercentilewaitweeksqf
+    type: VARCHAR
+  - name: hscp
+    type: VARCHAR
+  - name: patientswaiting
+    type: BIGINT
+  - name: patientswaitingqf
+    type: VARCHAR
+  - name: numberwaitingzerotofourweeks
+    type: BIGINT
+  - name: numberwaitingzerotofourweeksqf
+    type: VARCHAR
+  - name: numberwaitingfivetoeightweeks
+    type: BIGINT
+  - name: numberwaitingfivetoeightweeksqf
+    type: VARCHAR
+  - name: numberwaitingninetotwelveweeks
+    type: BIGINT
+  - name: numberwaitingninetotwelveweeksqf
+    type: VARCHAR
+  - name: numberwaitingthirteentosixteenweeks
+    type: BIGINT
+  - name: numberwaitingthirteentosixteenweeksqf
+    type: VARCHAR
+  - name: numberwaitingfourplusweeks
+    type: BIGINT
+  - name: numberwaitingfourplusweeksqf
+    type: VARCHAR
+  - name: numberwaitingsixteenplusweeks
+    type: BIGINT
+  - name: numberwaitingsixteenplusweeksqf
+    type: VARCHAR
+  - name: numberwaitingzerotofourweekspc
+    type: DOUBLE
+  - name: numberwaitingzerotofourweekspcqf
+    type: VARCHAR
+  - name: numberwaitingfivetoeightweekspc
+    type: DOUBLE
+  - name: numberwaitingfivetoeightweekspcqf
+    type: VARCHAR
+  - name: numberwaitingninetotwelveweekspc
+    type: DOUBLE
+  - name: numberwaitingninetotwelveweekspcqf
+    type: VARCHAR
+  - name: numberwaitingthirteentosixteenweekspc
+    type: DOUBLE
+  - name: numberwaitingthirteentosixteenweekspcqf
+    type: VARCHAR
+  - name: numberwaitingfourplusweekspc
+    type: DOUBLE
+  - name: numberwaitingfourplusweekspcqf
+    type: VARCHAR
+  - name: numberwaitingsixteenplusweekspc
+    type: DOUBLE
+  - name: numberwaitingsixteenplusweekspcqf
+    type: VARCHAR
+  - name: dnaindicator
+    type: BIGINT
+  - name: dnaindicatorqf
+    type: VARCHAR
+  - name: dnarate
+    type: DOUBLE
+  - name: dnarateqf
+    type: VARCHAR
+  - name: acceptedappointments
+    type: BIGINT
+  - name: acceptedappointmentsqf
+    type: VARCHAR
+  - name: cancelledbyserviceindicator
+    type: BIGINT
+  - name: cancelledbyserviceindicatorqf
+    type: VARCHAR
+  - name: cancellationbyservicerate
+    type: DOUBLE
+  - name: cancellationbyservicerateqf
+    type: VARCHAR
+  - name: cnaindicator
+    type: BIGINT
+  - name: cnaindicatorqf
+    type: VARCHAR
+  - name: cnarate
+    type: DOUBLE
+  - name: cnarateqf
+    type: VARCHAR
+  - name: referralsource
+    type: VARCHAR
+  - name: removalsfromlist
+    type: BIGINT
+  - name: removalsfromlistqf
+    type: VARCHAR
+  - name: removalsfromlistattended
+    type: BIGINT
+  - name: removalsfromlistattendedqf
+    type: VARCHAR
+  - name: removalsfromlistreferredbacktogp
+    type: BIGINT
+  - name: removalsfromlistreferredbacktogpqf
+    type: VARCHAR
+  - name: removalsfromlisttransferred
+    type: BIGINT
+  - name: removalsfromlisttransferredqf
+    type: VARCHAR
+  - name: removalsfromlisttreatmentnolongerrequired
+    type: BIGINT
+  - name: removalsfromlisttreatmentnolongerrequiredqf
+    type: VARCHAR
+  - name: removalsfromlistotherreasons
+    type: BIGINT
+  - name: removalsfromlistotherreasonsqf
+    type: VARCHAR
+  - name: numberonlist
+    type: BIGINT
+  - name: numberonlistqf
+    type: VARCHAR
+  - name: availablefortreatment
+    type: BIGINT
+  - name: availablefortreatmentqf
+    type: VARCHAR
+  - name: unavailablefortreatment
+    type: BIGINT
+  - name: unavailablefortreatmentqf
+    type: VARCHAR
+  - name: unavailablefortreatmentmedical
+    type: BIGINT
+  - name: unavailablefortreatmentmedicalqf
+    type: VARCHAR
+  - name: unavailablefortreatmentpatientadvised
+    type: BIGINT
+  - name: unavailablefortreatmentpatientadvisedqf
+    type: VARCHAR
+  - name: unavailablefortreatmentpatientrequested
+    type: BIGINT
+  - name: unavailablefortreatmentpatientrequestedqf
+    type: VARCHAR
+  - name: unavailablefortreatmentother
+    type: BIGINT
+  - name: unavailablefortreatmentotherqf
+    type: VARCHAR

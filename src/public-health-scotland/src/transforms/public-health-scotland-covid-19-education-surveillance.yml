@@ -1,0 +1,61 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-covid-19-education-surveillance`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: weekending
+sort: [weekending]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: weekending
+    type: DATE
+  - name: agegroup
+    type: VARCHAR
+  - name: patientspositive
+    type: BIGINT
+  - name: rate
+    type: DOUBLE
+  - name: totaltests
+    type: BIGINT
+  - name: positivetests
+    type: BIGINT
+  - name: negativetests
+    type: BIGINT
+  - name: percentpositive
+    type: DOUBLE
+  - name: avgnumberadmissions
+    type: DOUBLE
+  - name: avgnumberadmissionsqf
+    type: VARCHAR
+  - name: totalcases
+    type: BIGINT
+  - name: numbercasesineducationalsetting
+    type: BIGINT
+  - name: percentcasesineducationalsetting
+    type: DOUBLE
+  - name: numbercasesineducation
+    type: BIGINT
+  - name: percentcasesineducation
+    type: DOUBLE
+  - name: numbercasesemployedineducation
+    type: BIGINT
+  - name: percentcasesemployedineducation
+    type: DOUBLE
+  - name: incompletecases
+    type: BIGINT
+  - name: percentcompletedcases
+    type: DOUBLE
+  - name: testweekending
+    type: DATE
+  - name: positive
+    type: VARCHAR
+  - name: number
+    type: BIGINT
+  - name: schooltype
+    type: VARCHAR
+  - name: total
+    type: BIGINT
+  - name: percent
+    type: DOUBLE

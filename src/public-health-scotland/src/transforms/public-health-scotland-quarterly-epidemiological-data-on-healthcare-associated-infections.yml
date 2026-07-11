@@ -1,0 +1,63 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-quarterly-epidemiological-data-on-healthcare-associated-infections`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: date
+    type: VARCHAR
+  - name: hb
+    type: VARCHAR
+  - name: healthcarecdiffinfection
+    type: BIGINT
+  - name: healthcarecdiffinfectionqf
+    type: VARCHAR
+  - name: healthcareecolibacteraemia
+    type: BIGINT
+  - name: healthcareecolibacteraemiaqf
+    type: VARCHAR
+  - name: healthcaresaureusbacteraemia
+    type: BIGINT
+  - name: healthcaresaureusbacteraemiaqf
+    type: VARCHAR
+  - name: healthcaretotaloccupiedbeddays
+    type: BIGINT
+  - name: healthcaretotaloccupiedbeddaysqf
+    type: VARCHAR
+  - name: communitycdiffinfection
+    type: BIGINT
+  - name: communitycdiffinfectionqf
+    type: VARCHAR
+  - name: communityecolibacteraemia
+    type: BIGINT
+  - name: communityecolibacteraemiaqf
+    type: VARCHAR
+  - name: communitysaureusbacteraemia
+    type: BIGINT
+  - name: communitysaureusbacteraemiaqf
+    type: VARCHAR
+  - name: communityannualisedpopulation
+    type: DOUBLE
+  - name: communityannualisedpopulationqf
+    type: VARCHAR
+  - name: hiparthroplastyssi
+    type: BIGINT
+  - name: hiparthroplastyssiqf
+    type: VARCHAR
+  - name: hiparthroplastyprocedures
+    type: BIGINT
+  - name: hiparthroplastyproceduresqf
+    type: VARCHAR
+  - name: csectionssi
+    type: BIGINT
+  - name: csectionssiqf
+    type: VARCHAR
+  - name: csectionprocedures
+    type: BIGINT
+  - name: csectionproceduresqf
+    type: VARCHAR

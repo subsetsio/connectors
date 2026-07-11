@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `public-health-scotland-initial-assessments-for-specialist-drug-and-alcohol-treatment`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [geography, agegroup, usertype, sex, financialyear]
+checks:
+  - kind: unique
+    columns: [geography, agegroup, usertype, sex, financialyear]
+  - kind: not_null
+    col: geography
+  - kind: not_null
+    col: agegroup
+  - kind: not_null
+    col: usertype
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: financialyear
+  - kind: row_floor
+    min: 4125
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

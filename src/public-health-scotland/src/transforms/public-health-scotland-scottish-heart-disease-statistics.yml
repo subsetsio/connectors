@@ -1,0 +1,51 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-scottish-heart-disease-statistics`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: financialyear
+    type: VARCHAR
+  - name: hbr
+    type: VARCHAR
+  - name: hbrqf
+    type: VARCHAR
+  - name: admissiontype
+    type: VARCHAR
+  - name: admissiontypeqf
+    type: VARCHAR
+  - name: agegroup
+    type: VARCHAR
+  - name: agegroupqf
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: sexqf
+    type: VARCHAR
+  - name: diagnosis
+    type: VARCHAR
+  - name: numberofdischarges
+    type: BIGINT
+  - name: numberofdischargesqf
+    type: VARCHAR
+  - name: cruderate
+    type: DOUBLE
+  - name: cruderateqf
+    type: VARCHAR
+  - name: easr
+    type: DOUBLE
+  - name: ca
+    type: VARCHAR
+  - name: caqf
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: numberofdeaths
+    type: BIGINT
+  - name: numberofdeathsqf
+    type: VARCHAR

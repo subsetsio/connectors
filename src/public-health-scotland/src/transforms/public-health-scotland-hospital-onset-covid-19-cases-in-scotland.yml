@@ -1,0 +1,20 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-hospital-onset-covid-19-cases-in-scotland`. Regenerate after model-verify.
+key: [weekending, definitehospitalonsetcovid19, probablehospitalonsetcovid19, weeknumber]
+temporal: weekending
+sort: [weekending, definitehospitalonsetcovid19, probablehospitalonsetcovid19, weeknumber]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: weekending
+    type: DATE
+  - name: weeknumber
+    type: BIGINT
+  - name: probablehospitalonsetcovid19
+    type: BIGINT
+  - name: definitehospitalonsetcovid19
+    type: BIGINT

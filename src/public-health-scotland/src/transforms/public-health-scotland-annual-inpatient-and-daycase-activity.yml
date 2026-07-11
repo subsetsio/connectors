@@ -1,0 +1,171 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-annual-inpatient-and-daycase-activity`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: startdate
+sort: [startdate]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: financialyear
+    type: VARCHAR
+  - name: financialyearqf
+    type: VARCHAR
+  - name: admissiontype
+    type: VARCHAR
+  - name: admissiontypeqf
+    type: VARCHAR
+  - name: ca
+    type: VARCHAR
+  - name: caqf
+    type: VARCHAR
+  - name: age
+    type: VARCHAR
+  - name: ageqf
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: sexqf
+    type: VARCHAR
+  - name: episodes
+    type: BIGINT
+  - name: episodesqf
+    type: VARCHAR
+  - name: episodesrate
+    type: DOUBLE
+  - name: episodesrateqf
+    type: VARCHAR
+  - name: stays
+    type: BIGINT
+  - name: staysqf
+    type: VARCHAR
+  - name: staysrate
+    type: DOUBLE
+  - name: staysrateqf
+    type: VARCHAR
+  - name: totallengthofepisode
+    type: BIGINT
+  - name: totallengthofepisodeqf
+    type: VARCHAR
+  - name: totallengthofepisoderate
+    type: DOUBLE
+  - name: totallengthofepisoderateqf
+    type: VARCHAR
+  - name: totallengthofstay
+    type: BIGINT
+  - name: totallengthofstayqf
+    type: VARCHAR
+  - name: totallengthofstayrate
+    type: DOUBLE
+  - name: totallengthofstayrateqf
+    type: VARCHAR
+  - name: averagelengthofepisoderate
+    type: DOUBLE
+  - name: averagelengthofepisoderateqf
+    type: VARCHAR
+  - name: averagelengthofstayrate
+    type: DOUBLE
+  - name: averagelengthofstayrateqf
+    type: VARCHAR
+  - name: patients
+    type: BIGINT
+  - name: patientsqf
+    type: VARCHAR
+  - name: patientsrate
+    type: DOUBLE
+  - name: patientsrateqf
+    type: VARCHAR
+  - name: simd
+    type: VARCHAR
+  - name: simdqf
+    type: VARCHAR
+  - name: specialty
+    type: VARCHAR
+  - name: specialtyqf
+    type: VARCHAR
+  - name: specialtyname
+    type: VARCHAR
+  - name: specialtynameqf
+    type: VARCHAR
+  - name: specialtygrouping
+    type: VARCHAR
+  - name: specialtygroupingqf
+    type: VARCHAR
+  - name: spells
+    type: BIGINT
+  - name: spellsqf
+    type: VARCHAR
+  - name: spellsrate
+    type: DOUBLE
+  - name: spellsrateqf
+    type: VARCHAR
+  - name: totallengthofspell
+    type: BIGINT
+  - name: totallengthofspellqf
+    type: VARCHAR
+  - name: totallengthofspellrate
+    type: DOUBLE
+  - name: totallengthofspellrateqf
+    type: VARCHAR
+  - name: averagelengthofspellrate
+    type: DOUBLE
+  - name: averagelengthofspellrateqf
+    type: VARCHAR
+  - name: hb
+    type: VARCHAR
+  - name: hbqf
+    type: VARCHAR
+  - name: location
+    type: VARCHAR
+  - name: locationqf
+    type: VARCHAR
+  - name: locationname
+    type: VARCHAR
+  - name: address1
+    type: VARCHAR
+  - name: address2
+    type: VARCHAR
+  - name: address3
+    type: VARCHAR
+  - name: address4
+    type: VARCHAR
+  - name: postcode
+    type: VARCHAR
+  - name: startdate
+    type: DATE
+  - name: enddate
+    type: DATE
+  - name: hscp
+    type: VARCHAR
+  - name: hscpqf
+    type: VARCHAR
+  - name: datazone
+    type: VARCHAR
+  - name: datazoneqf
+    type: VARCHAR
+  - name: intzone
+    type: VARCHAR
+  - name: intzoneqf
+    type: VARCHAR
+  - name: hbr
+    type: VARCHAR
+  - name: hbrqf
+    type: VARCHAR
+  - name: hbt
+    type: VARCHAR
+  - name: hbtqf
+    type: VARCHAR
+  - name: appointmenttype
+    type: VARCHAR
+  - name: appointmenttypeqf
+    type: VARCHAR
+  - name: percentagehbt
+    type: DOUBLE
+  - name: percentagehbtqf
+    type: VARCHAR
+  - name: percentagehbr
+    type: DOUBLE
+  - name: percentagehbrqf
+    type: VARCHAR

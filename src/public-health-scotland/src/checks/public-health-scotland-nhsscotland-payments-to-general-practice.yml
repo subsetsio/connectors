@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `public-health-scotland-nhsscotland-payments-to-general-practice`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [globalsum, localenhancedservices, practicelistsize, seniority, premises]
+checks:
+  - kind: unique
+    columns: [globalsum, localenhancedservices, practicelistsize, seniority, premises]
+  - kind: not_null
+    col: globalsum
+  - kind: not_null
+    col: localenhancedservices
+  - kind: not_null
+    col: practicelistsize
+  - kind: not_null
+    col: seniority
+  - kind: not_null
+    col: premises
+  - kind: row_floor
+    min: 5665
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

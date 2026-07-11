@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `public-health-scotland-hospital-onset-covid-19-cases-in-scotland`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [weekending, definitehospitalonsetcovid19, probablehospitalonsetcovid19, weeknumber]
+temporal: weekending
+checks:
+  - kind: unique
+    columns: [weekending, definitehospitalonsetcovid19, probablehospitalonsetcovid19, weeknumber]
+  - kind: not_null
+    col: weekending
+  - kind: not_null
+    col: definitehospitalonsetcovid19
+  - kind: not_null
+    col: probablehospitalonsetcovid19
+  - kind: not_null
+    col: weeknumber
+  - kind: row_floor
+    min: 72
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

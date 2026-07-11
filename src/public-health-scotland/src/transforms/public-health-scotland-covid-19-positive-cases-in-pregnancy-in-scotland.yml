@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-covid-19-positive-cases-in-pregnancy-in-scotland`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: weekending
+sort: [weekending]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: weekending
+    type: DATE
+  - name: numberofcases
+    type: BIGINT
+  - name: month
+    type: BIGINT
+  - name: stageofpregnancy
+    type: VARCHAR
+  - name: stageofpregnancyqf
+    type: VARCHAR
+  - name: vaccinationstatus
+    type: VARCHAR
+  - name: vaccinationstatusqf
+    type: VARCHAR
+  - name: numberofpregnancies
+    type: VARCHAR
+  - name: numberofcasesinpregnancy
+    type: VARCHAR
+  - name: rateofcasesinpregnancy
+    type: VARCHAR
+  - name: agegroup
+    type: VARCHAR
+  - name: agegroupqf
+    type: VARCHAR
+  - name: simdquintile
+    type: VARCHAR
+  - name: simdquintileqf
+    type: VARCHAR
+  - name: hb
+    type: VARCHAR
+  - name: hbqf
+    type: VARCHAR
+  - name: hbname
+    type: VARCHAR
+  - name: hbnameqf
+    type: VARCHAR

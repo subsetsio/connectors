@@ -1,0 +1,43 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-diagnostic-waiting-times`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: monthending
+sort: [monthending]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: monthending
+    type: DATE
+  - name: hbt
+    type: VARCHAR
+  - name: diagnostictesttype
+    type: VARCHAR
+  - name: diagnostictestdescription
+    type: VARCHAR
+  - name: waitingtime
+    type: VARCHAR
+  - name: numberonlist
+    type: BIGINT
+  - name: numberonlistqf
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: description
+    type: VARCHAR
+  - name: month
+    type: DATE
+  - name: numberwaitingoverfourweeks
+    type: BIGINT
+  - name: numberwaitingoverfourweeksqf
+    type: VARCHAR
+  - name: numberwaitingoversixweeks
+    type: BIGINT
+  - name: numberwaitingoversixweeksqf
+    type: VARCHAR
+  - name: hbt2014
+    type: VARCHAR

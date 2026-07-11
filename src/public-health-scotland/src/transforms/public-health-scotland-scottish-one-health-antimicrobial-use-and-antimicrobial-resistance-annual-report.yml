@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-scottish-one-health-antimicrobial-use-and-antimicrobial-resistance-annual-report`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: organism
+    type: VARCHAR
+  - name: antimicrobial
+    type: VARCHAR
+  - name: specimentype
+    type: VARCHAR
+  - name: numbertested
+    type: BIGINT
+  - name: susceptible
+    type: BIGINT
+  - name: susceptibleatincreasedexposure
+    type: BIGINT
+  - name: resistant
+    type: BIGINT
+  - name: carbapenemaseenzyme
+    type: VARCHAR
+  - name: susceptibility
+    type: VARCHAR
+  - name: mic
+    type: VARCHAR
+  - name: numberofisolates
+    type: BIGINT
+  - name: population
+    type: BIGINT
+  - name: rate
+    type: DOUBLE

@@ -1,0 +1,33 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-delayed-discharges-in-nhsscotland`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: monthofdelay
+    type: BIGINT
+  - name: hbt
+    type: VARCHAR
+  - name: hbtqf
+    type: VARCHAR
+  - name: agegroup
+    type: VARCHAR
+  - name: agegroupqf
+    type: VARCHAR
+  - name: reasonfordelay
+    type: VARCHAR
+  - name: reasonfordelayqf
+    type: VARCHAR
+  - name: numberofdelayedbeddays
+    type: BIGINT
+  - name: averagedailynumberofdelayedbeds
+    type: BIGINT
+  - name: ca
+    type: VARCHAR
+  - name: caqf
+    type: VARCHAR
+  - name: numberofcensusdelays
+    type: BIGINT

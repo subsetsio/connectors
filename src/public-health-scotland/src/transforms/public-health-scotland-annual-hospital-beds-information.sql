@@ -1,0 +1,47 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+SELECT
+    "resource_id",
+    "resource_name",
+    "FinancialYear" AS financialyear,
+    "FinancialYearQF" AS financialyearqf,
+    "HB" AS hb,
+    "HBQF" AS hbqf,
+    "Specialty" AS specialty,
+    "SpecialtyQF" AS specialtyqf,
+    "SpecialtyName" AS specialtyname,
+    "SpecialtyNameQF" AS specialtynameqf,
+    "SpecialtyGrouping" AS specialtygrouping,
+    "SpecialtyGroupingQF" AS specialtygroupingqf,
+    CAST("AverageAvailableStaffedBeds" AS BIGINT) AS averageavailablestaffedbeds,
+    "AverageAvailableStaffedBedsQF" AS averageavailablestaffedbedsqf,
+    CAST("PercentageOccupancy" AS DOUBLE) AS percentageoccupancy,
+    "PercentageOccupancyQF" AS percentageoccupancyqf,
+    CAST("AllStaffedBeds" AS BIGINT) AS allstaffedbeds,
+    "AllStaffedBedsQF" AS allstaffedbedsqf,
+    CAST("AverageOccupiedBeds" AS DOUBLE) AS averageoccupiedbeds,
+    "AverageOccupiedBedsQF" AS averageoccupiedbedsqf,
+    CAST("TotalOccupiedBeds" AS BIGINT) AS totaloccupiedbeds,
+    "TotalOccupiedBedsQF" AS totaloccupiedbedsqf,
+    "Location" AS location,
+    "LocationQF" AS locationqf,
+    "LocationName" AS locationname,
+    "Address1" AS address1,
+    "Address2" AS address2,
+    "Address3" AS address3,
+    "Address4" AS address4,
+    "Postcode" AS postcode,
+    strptime("StartDate", '%Y%m%d')::DATE AS startdate,
+    strptime("EndDate", '%Y%m%d')::DATE AS enddate,
+    "CA" AS ca,
+    "CAQF" AS caqf,
+    "HSCP" AS hscp,
+    "HSCPQF" AS hscpqf,
+    "DataZone" AS datazone,
+    "DataZoneQF" AS datazoneqf,
+    "IntZone" AS intzone,
+    "IntZoneQF" AS intzoneqf
+FROM "public-health-scotland-annual-hospital-beds-information"

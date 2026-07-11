@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-weekly-accident-and-emergency-activity-and-waiting-times`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: weekendingdate
+sort: [weekendingdate]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: weekendingdate
+    type: DATE
+  - name: country
+    type: VARCHAR
+  - name: hbt
+    type: VARCHAR
+  - name: treatmentlocation
+    type: VARCHAR
+  - name: departmenttype
+    type: VARCHAR
+  - name: attendancecategory
+    type: VARCHAR
+  - name: numberofattendancesepisode
+    type: BIGINT
+  - name: numberwithin4hoursepisode
+    type: BIGINT
+  - name: numberover4hoursepisode
+    type: BIGINT
+  - name: percentagewithin4hoursepisode
+    type: DOUBLE
+  - name: numberover8hoursepisode
+    type: BIGINT
+  - name: percentageover8hoursepisode
+    type: DOUBLE
+  - name: numberover12hoursepisode
+    type: BIGINT
+  - name: percentageover12hoursepisode
+    type: DOUBLE

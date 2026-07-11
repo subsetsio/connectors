@@ -1,0 +1,41 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-initial-assessments-for-specialist-drug-and-alcohol-treatment`. Regenerate after model-verify.
+key: [geography, agegroup, usertype, sex, financialyear]
+sort: [geography, agegroup, usertype, sex, financialyear]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: financialyear
+    type: VARCHAR
+  - name: geographytype
+    type: VARCHAR
+  - name: geography
+    type: VARCHAR
+  - name: geographyqf
+    type: VARCHAR
+  - name: usertype
+    type: VARCHAR
+  - name: usertypeqf
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: sexqf
+    type: VARCHAR
+  - name: agegroup
+    type: VARCHAR
+  - name: agegroupqf
+    type: VARCHAR
+  - name: numberstartingtreatment
+    type: BIGINT
+  - name: numberstartingtreatmentqf
+    type: VARCHAR
+  - name: percentagestartingtreatment
+    type: DOUBLE
+  - name: percentagestartingtreatmentqf
+    type: VARCHAR
+  - name: total
+    type: BIGINT
+  - name: totalqf
+    type: VARCHAR

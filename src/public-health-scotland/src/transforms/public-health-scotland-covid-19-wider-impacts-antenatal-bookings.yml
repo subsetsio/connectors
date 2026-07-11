@@ -1,0 +1,31 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-covid-19-wider-impacts-antenatal-bookings`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: weekbeginning
+sort: [weekbeginning]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: hb
+    type: VARCHAR
+  - name: hbqf
+    type: VARCHAR
+  - name: weekbeginning
+    type: DATE
+  - name: numberwomenbooking
+    type: BIGINT
+  - name: numbergestation10to12wks
+    type: BIGINT
+  - name: numbergestationover12wks
+    type: BIGINT
+  - name: numbergestationunder10wks
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: agegroup
+    type: VARCHAR
+  - name: simdquintile
+    type: BIGINT

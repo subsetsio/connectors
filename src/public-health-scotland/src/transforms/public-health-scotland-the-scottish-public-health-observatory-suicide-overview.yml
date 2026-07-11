@@ -1,0 +1,37 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-the-scottish-public-health-observatory-suicide-overview`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: hbr
+    type: VARCHAR
+  - name: hbrqf
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: sexqf
+    type: VARCHAR
+  - name: individualscount
+    type: BIGINT
+  - name: ca
+    type: VARCHAR
+  - name: caqf
+    type: VARCHAR
+  - name: timerange
+    type: VARCHAR
+  - name: simddecile
+    type: VARCHAR
+  - name: simddecileqf
+    type: VARCHAR
+  - name: cruderate
+    type: DOUBLE
+  - name: cruderateqf
+    type: VARCHAR

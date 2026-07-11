@@ -1,0 +1,149 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-drug-and-alcohol-treatment-waiting-times`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: quarter
+sort: [quarter]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: hb
+    type: VARCHAR
+  - name: hbqf
+    type: VARCHAR
+  - name: hbname
+    type: VARCHAR
+  - name: hbnameqf
+    type: VARCHAR
+  - name: adpname
+    type: VARCHAR
+  - name: adpnameqf
+    type: VARCHAR
+  - name: servicetype
+    type: VARCHAR
+  - name: servicetypeqf
+    type: VARCHAR
+  - name: substancetype
+    type: VARCHAR
+  - name: substancetypeqf
+    type: VARCHAR
+  - name: numberofreferrals
+    type: BIGINT
+  - name: percentageofreferrals
+    type: DOUBLE
+  - name: measure
+    type: VARCHAR
+  - name: non_continuationofcaretransfer
+    type: BIGINT
+  - name: continuationofcaretransfer
+    type: BIGINT
+  - name: justice
+    type: BIGINT
+  - name: employereducation
+    type: BIGINT
+  - name: health
+    type: BIGINT
+  - name: localauthoritythirdsector
+    type: BIGINT
+  - name: othernotlisted
+    type: BIGINT
+  - name: othersubstanceuseservice
+    type: BIGINT
+  - name: self
+    type: BIGINT
+  - name: socialwork
+    type: BIGINT
+  - name: waited_1_week_or_less
+    type: BIGINT
+  - name: waited_more_than_1_week_but_within_2_weeks
+    type: BIGINT
+  - name: waited_more_than_2_week_but_within_3_weeks
+    type: BIGINT
+  - name: waited_more_than_3_week_but_within_4_weeks
+    type: BIGINT
+  - name: waited_more_than_4_week_but_within_8_weeks
+    type: BIGINT
+  - name: waited_more_than_8_week_but_within_12_weeks
+    type: BIGINT
+  - name: waited_more_than_12_week_but_within_26_weeks
+    type: BIGINT
+  - name: waited_more_than_26_week_but_within_52_weeks
+    type: BIGINT
+  - name: waited_more_than_52_week
+    type: DOUBLE
+  - name: ldp_standard_waited_3_weeks_or_less
+    type: BIGINT
+  - name: ldp_standard_waited_more_than_3_weeks
+    type: BIGINT
+  - name: median_length_of_wait_days
+    type: BIGINT
+  - name: sexmale
+    type: VARCHAR
+  - name: sexfemale
+    type: VARCHAR
+  - name: sextotal
+    type: VARCHAR
+  - name: ageunder25
+    type: VARCHAR
+  - name: age25_34
+    type: VARCHAR
+  - name: age35_44
+    type: VARCHAR
+  - name: age45_54
+    type: VARCHAR
+  - name: age55_64
+    type: VARCHAR
+  - name: ageover65
+    type: VARCHAR
+  - name: medianage
+    type: VARCHAR
+  - name: ethnicitywhitescottish
+    type: VARCHAR
+  - name: ethnicitywhiteotherbritish
+    type: VARCHAR
+  - name: ethnicityotherwhiteethnicgroup
+    type: VARCHAR
+  - name: ethnicitymixedmultipleethnicgroup
+    type: VARCHAR
+  - name: ethnicityasianscottishasianbritishasian
+    type: VARCHAR
+  - name: ethnicityafricanscottishafricanbritishafrican
+    type: VARCHAR
+  - name: ethnicitycaribbeanblack
+    type: VARCHAR
+  - name: ethnicityotherethnicgroup
+    type: VARCHAR
+  - name: ethnicityrefusednotprovidednotknown
+    type: VARCHAR
+  - name: disabilityyes
+    type: VARCHAR
+  - name: disabilityno
+    type: VARCHAR
+  - name: disabilitynotknown
+    type: VARCHAR
+  - name: treatmentnumber
+    type: VARCHAR
+  - name: treatmentnumberqf
+    type: VARCHAR
+  - name: prescribing
+    type: BIGINT
+  - name: structuredpreparatoryintervention
+    type: BIGINT
+  - name: structuredpsychosocialintervention
+    type: BIGINT
+  - name: structureddayprogrammes
+    type: BIGINT
+  - name: structuredinterventionothers
+    type: BIGINT
+  - name: detoxificationcommunitybased
+    type: BIGINT
+  - name: residentialdetoxificationandinpatienttreatment
+    type: BIGINT
+  - name: residentialrehabilitation
+    type: BIGINT
+  - name: alltreatmenttypes
+    type: BIGINT

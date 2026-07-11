@@ -1,0 +1,47 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-cancelled-planned-operations`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: month
+    type: BIGINT
+  - name: hospital
+    type: VARCHAR
+  - name: totaloperations
+    type: BIGINT
+  - name: totaloperationsqf
+    type: VARCHAR
+  - name: totalcancelled
+    type: BIGINT
+  - name: totalcancelledqf
+    type: VARCHAR
+  - name: cancelledbypatientreason
+    type: BIGINT
+  - name: cancelledbypatientreasonqf
+    type: VARCHAR
+  - name: clinicalreason
+    type: BIGINT
+  - name: clinicalreasonqf
+    type: VARCHAR
+  - name: nonclinicalcapacityreason
+    type: BIGINT
+  - name: nonclinicalcapacityreasonqf
+    type: VARCHAR
+  - name: otherreason
+    type: BIGINT
+  - name: otherreasonqf
+    type: VARCHAR
+  - name: unknownreason
+    type: BIGINT
+  - name: unknownreasonqf
+    type: VARCHAR
+  - name: hbt
+    type: VARCHAR
+  - name: country
+    type: VARCHAR

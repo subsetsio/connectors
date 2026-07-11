@@ -1,0 +1,39 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-covid-19-wider-impacts-deaths`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: weekending
+sort: [weekending]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: weekending
+    type: DATE
+  - name: hb
+    type: VARCHAR
+  - name: hbqf
+    type: VARCHAR
+  - name: agegroup
+    type: VARCHAR
+  - name: agegroupqf
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: sexqf
+    type: VARCHAR
+  - name: deaths
+    type: BIGINT
+  - name: average20152019
+    type: DOUBLE
+  - name: percentvariation
+    type: DOUBLE
+  - name: percentvariationqf
+    type: VARCHAR
+  - name: hscp
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: simdquintile
+    type: BIGINT

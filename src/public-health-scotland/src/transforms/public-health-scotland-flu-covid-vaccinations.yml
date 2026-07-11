@@ -1,0 +1,53 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-flu-covid-vaccinations`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: date
+sort: [date]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: date
+    type: DATE
+  - name: country
+    type: VARCHAR
+  - name: dose
+    type: VARCHAR
+  - name: cumulativenumbervaccinated
+    type: BIGINT
+  - name: ageband
+    type: VARCHAR
+  - name: jcviprioritygroup
+    type: VARCHAR
+  - name: population
+    type: BIGINT
+  - name: populationqf
+    type: VARCHAR
+  - name: cumulativepercentcoverage
+    type: DOUBLE
+  - name: cumulativepercentcoverageqf
+    type: VARCHAR
+  - name: numbervaccinated
+    type: BIGINT
+  - name: percentcoverage
+    type: VARCHAR
+  - name: hb
+    type: VARCHAR
+  - name: hbqf
+    type: VARCHAR
+  - name: hbname
+    type: VARCHAR
+  - name: ethnicity
+    type: VARCHAR
+  - name: count
+    type: BIGINT
+  - name: percentagecoverage
+    type: DOUBLE
+  - name: jcviprioritygroupqf
+    type: VARCHAR
+  - name: simd
+    type: VARCHAR
+  - name: urbanrural
+    type: VARCHAR

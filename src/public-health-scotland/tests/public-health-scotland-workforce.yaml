@@ -1,5 +1,8 @@
 spec_id: public-health-scotland-workforce
 status: active
+coverage:
+  frozen: true
+  reason: CKAN group metadata for the workforce topic has not been modified since 2020; future statistical data are expected as child datasets rather than this metadata row.
 tests:
   - not_null: resource_name
     reason: every row is tagged by us with the source CKAN resource or group it came from

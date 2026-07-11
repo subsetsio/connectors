@@ -1,0 +1,25 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-scottish-morbidity-record-completeness`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: quarter
+sort: [quarter]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: hb
+    type: VARCHAR
+  - name: smrtype
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: completeness
+    type: DOUBLE
+  - name: completenessqf
+    type: VARCHAR
+  - name: financialyear
+    type: VARCHAR
+  - name: calendaryear
+    type: BIGINT

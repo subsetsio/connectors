@@ -1,0 +1,86 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-child-and-adolescent-mental-health-waiting-times`. Regenerate after model-verify.
+key: [month, hb, resource_id, resource_name]
+temporal: month
+sort: [month, hb, resource_id, resource_name]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: hb
+    type: VARCHAR
+  - name: month
+    type: BIGINT
+  - name: totalpatientsseen
+    type: BIGINT
+  - name: totalpatientsseenqf
+    type: VARCHAR
+  - name: numberofpatientsseen0to18weeks
+    type: BIGINT
+  - name: numberofpatientsseen0to18weeksqf
+    type: VARCHAR
+  - name: numberofpatientsseen19to35weeks
+    type: BIGINT
+  - name: numberofpatientsseen19to35weeksqf
+    type: VARCHAR
+  - name: numberofpatientsseen36to52weeks
+    type: BIGINT
+  - name: numberofpatientsseen36to52weeksqf
+    type: VARCHAR
+  - name: numberofpatientsseenover52weeks
+    type: BIGINT
+  - name: numberofpatientsseenover52weeksqf
+    type: VARCHAR
+  - name: medianweekspatientsseen
+    type: BIGINT
+  - name: medianweekspatientsseenqf
+    type: VARCHAR
+  - name: "90thpercentileweekspatientsseen"
+    type: BIGINT
+  - name: "90thpercentileweekspatientsseenqf"
+    type: VARCHAR
+  - name: totalpatientswaiting
+    type: BIGINT
+  - name: totalpatientswaitingqf
+    type: VARCHAR
+  - name: numberofpatientswaiting0to18weeks
+    type: BIGINT
+  - name: numberofpatientswaiting0to18weeksqf
+    type: VARCHAR
+  - name: numberofpatientswaiting19to35weeks
+    type: BIGINT
+  - name: numberofpatientswaiting19to35weeksqf
+    type: VARCHAR
+  - name: numberofpatientswaiting36to52weeks
+    type: BIGINT
+  - name: numberofpatientswaiting36to52weeksqf
+    type: VARCHAR
+  - name: numberofpatientswaitingover52weeks
+    type: BIGINT
+  - name: numberofpatientswaitingover52weeksqf
+    type: VARCHAR
+  - name: referralsaccepted
+    type: BIGINT
+  - name: referralsacceptedqf
+    type: VARCHAR
+  - name: referralsreceived
+    type: BIGINT
+  - name: referralsreceivedqf
+    type: VARCHAR
+  - name: firstcontactappointments
+    type: BIGINT
+  - name: firstcontactappointmentsqf
+    type: VARCHAR
+  - name: didnotattends
+    type: BIGINT
+  - name: didnotattendsqf
+    type: VARCHAR
+  - name: totalappointments
+    type: BIGINT
+  - name: totalappointmentsqf
+    type: VARCHAR
+  - name: opencases
+    type: BIGINT
+  - name: opencasesqf
+    type: VARCHAR

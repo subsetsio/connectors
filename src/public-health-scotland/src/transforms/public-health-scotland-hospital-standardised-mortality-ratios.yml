@@ -1,0 +1,49 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-hospital-standardised-mortality-ratios`. Regenerate after model-verify.
+key: [cruderate, numberofpatients, timeperiod, resource_id, resource_name]
+sort: [cruderate, numberofpatients, timeperiod, resource_id, resource_name]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: timeperiod
+    type: VARCHAR
+  - name: hbt
+    type: VARCHAR
+  - name: observednumberofdeaths
+    type: BIGINT
+  - name: observednumberofdeathsqf
+    type: VARCHAR
+  - name: predictednumberofdeaths
+    type: DOUBLE
+  - name: predictednumberofdeathsqf
+    type: VARCHAR
+  - name: numberofpatients
+    type: BIGINT
+  - name: numberofpatientsqf
+    type: VARCHAR
+  - name: smr
+    type: DOUBLE
+  - name: cruderate
+    type: DOUBLE
+  - name: country
+    type: VARCHAR
+  - name: admissiontype
+    type: VARCHAR
+  - name: numberofdeaths
+    type: BIGINT
+  - name: numberofdeathsqf
+    type: VARCHAR
+  - name: agegroup
+    type: VARCHAR
+  - name: locationcode
+    type: VARCHAR
+  - name: subgroup
+    type: VARCHAR
+  - name: simdquintile
+    type: VARCHAR
+  - name: simdquintileqf
+    type: VARCHAR
+  - name: specialty
+    type: VARCHAR

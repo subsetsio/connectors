@@ -1,0 +1,45 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+SELECT
+    "resource_id",
+    "resource_name",
+    "FinancialYear" AS financialyear,
+    "HBR" AS hbr,
+    "HBRQF" AS hbrqf,
+    CAST("NumberOfFailedResults" AS BIGINT) AS numberoffailedresults,
+    CAST("NumberOfRepeatScreen" AS BIGINT) AS numberofrepeatscreen,
+    CAST("PercentageOfRepeatScreen" AS DOUBLE) AS percentageofrepeatscreen,
+    CAST("NumberOfVirologySamples" AS BIGINT) AS numberofvirologysamples,
+    CAST("NumberOfHPVFailResults" AS BIGINT) AS numberofhpvfailresults,
+    CAST("PercentageOfHPVFailResults" AS DOUBLE) AS percentageofhpvfailresults,
+    CAST("NumberOfCytologySamples" AS BIGINT) AS numberofcytologysamples,
+    CAST("NumberOfUnsatisfactoryCytologyResults" AS BIGINT) AS numberofunsatisfactorycytologyresults,
+    CAST("PercentageOfUnsatisfactoryCytologyResults" AS DOUBLE) AS percentageofunsatisfactorycytologyresults,
+    CAST("NumberOfSamplesReceived" AS BIGINT) AS numberofsamplesreceived,
+    CAST("NumberOfSamplesRejected" AS BIGINT) AS numberofsamplesrejected,
+    CAST("PercentageOfSamplesRejected" AS DOUBLE) AS percentageofsamplesrejected,
+    "AgeGroup" AS agegroup,
+    "AgeGroupQF" AS agegroupqf,
+    "SIMD" AS simd,
+    "SIMDQF" AS simdqf,
+    CAST("NumberInvite" AS BIGINT) AS numberinvite,
+    CAST("NumberScreen" AS BIGINT) AS numberscreen,
+    CAST("PercentageUptake" AS DOUBLE) AS percentageuptake,
+    "PercentageUptakeQF" AS percentageuptakeqf,
+    CAST("NumberEligible" AS BIGINT) AS numbereligible,
+    CAST("NumberAgeAppropriateScreen" AS BIGINT) AS numberageappropriatescreen,
+    CAST("PercentageCoverage" AS DOUBLE) AS percentagecoverage,
+    "PercentageCoverageQF" AS percentagecoverageqf,
+    CAST("id" AS BIGINT) AS id,
+    "HBT" AS hbt,
+    "HBTQF" AS hbtqf,
+    "Laboratory" AS laboratory,
+    "LaboratoryQF" AS laboratoryqf,
+    "Results" AS results,
+    "ResultsQF" AS resultsqf,
+    CAST("NumberResult" AS BIGINT) AS numberresult,
+    CAST("PercentageResult" AS DOUBLE) AS percentageresult
+FROM "public-health-scotland-scottish-cervical-screening-programme-statistics"

@@ -1,0 +1,297 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-stage-of-treatment-waiting-times`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: monthending
+sort: [monthending]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: monthending
+    type: DATE
+  - name: hbt
+    type: VARCHAR
+  - name: hbtqf
+    type: VARCHAR
+  - name: patienttype
+    type: VARCHAR
+  - name: waittype
+    type: VARCHAR
+  - name: specialty
+    type: VARCHAR
+  - name: specialtyqf
+    type: VARCHAR
+  - name: lessthan4weekwait
+    type: BIGINT
+  - name: lessthan4weekwaitqf
+    type: VARCHAR
+  - name: "4to8weekwait"
+    type: BIGINT
+  - name: "4to8weekwaitqf"
+    type: VARCHAR
+  - name: "8to12weekwait"
+    type: BIGINT
+  - name: "8to12weekwaitqf"
+    type: VARCHAR
+  - name: "12to16weekwait"
+    type: BIGINT
+  - name: "12to16weekwaitqf"
+    type: VARCHAR
+  - name: "16to20weekwait"
+    type: BIGINT
+  - name: "16to20weekwaitqf"
+    type: VARCHAR
+  - name: "20to24weekwait"
+    type: BIGINT
+  - name: "20to24weekwaitqf"
+    type: VARCHAR
+  - name: "24to28weekwait"
+    type: BIGINT
+  - name: "24to28weekwaitqf"
+    type: VARCHAR
+  - name: "28to32weekwait"
+    type: BIGINT
+  - name: "28to32weekwaitqf"
+    type: VARCHAR
+  - name: "32to36weekwait"
+    type: BIGINT
+  - name: "32to36weekwaitqf"
+    type: VARCHAR
+  - name: "36to40weekwait"
+    type: BIGINT
+  - name: "36to40weekwaitqf"
+    type: VARCHAR
+  - name: "40to44weekwait"
+    type: BIGINT
+  - name: "40to44weekwaitqf"
+    type: VARCHAR
+  - name: "44to48weekwait"
+    type: BIGINT
+  - name: "44to48weekwaitqf"
+    type: VARCHAR
+  - name: "48to52weekwait"
+    type: BIGINT
+  - name: "48to52weekwaitqf"
+    type: VARCHAR
+  - name: "52to65weekwait"
+    type: BIGINT
+  - name: "52to65weekwaitqf"
+    type: VARCHAR
+  - name: "65to78weekwait"
+    type: BIGINT
+  - name: "65to78weekwaitqf"
+    type: VARCHAR
+  - name: "78to91weekwait"
+    type: BIGINT
+  - name: "78to91weekwaitqf"
+    type: VARCHAR
+  - name: "91to104weekwait"
+    type: BIGINT
+  - name: "91to104weekwaitqf"
+    type: VARCHAR
+  - name: "104to117weekwait"
+    type: BIGINT
+  - name: "104to117weekwaitqf"
+    type: VARCHAR
+  - name: "117to130weekwait"
+    type: BIGINT
+  - name: "117to130weekwaitqf"
+    type: VARCHAR
+  - name: "130to143weekwait"
+    type: BIGINT
+  - name: "130to143weekwaitqf"
+    type: VARCHAR
+  - name: "143to156weekwait"
+    type: BIGINT
+  - name: "143to156weekwaitqf"
+    type: VARCHAR
+  - name: over156weekwait
+    type: BIGINT
+  - name: over156weekwaitqf
+    type: VARCHAR
+  - name: waits
+    type: BIGINT
+  - name: waitsqf
+    type: VARCHAR
+  - name: waitsover12weeks
+    type: BIGINT
+  - name: waitsover12weeksqf
+    type: VARCHAR
+  - name: waitsover52weeks
+    type: BIGINT
+  - name: waitsover52weeksqf
+    type: VARCHAR
+  - name: waitsover78weeks
+    type: BIGINT
+  - name: waitsover78weeksqf
+    type: VARCHAR
+  - name: waitsover104weeks
+    type: BIGINT
+  - name: waitsover104weeksqf
+    type: VARCHAR
+  - name: median
+    type: BIGINT
+  - name: medianqf
+    type: VARCHAR
+  - name: "90thpercentile"
+    type: BIGINT
+  - name: "90thpercentileqf"
+    type: VARCHAR
+  - name: quarterending
+    type: BIGINT
+  - name: numberseen
+    type: BIGINT
+  - name: numberseenqf
+    type: VARCHAR
+  - name: waitedover12weeks
+    type: BIGINT
+  - name: waitedover12weeksqf
+    type: VARCHAR
+  - name: numberwaiting
+    type: BIGINT
+  - name: numberwaitingqf
+    type: VARCHAR
+  - name: numberwaitingover12weeks
+    type: BIGINT
+  - name: numberwaitingover12weeksqf
+    type: VARCHAR
+  - name: monthend
+    type: DATE
+  - name: acceptedappointments
+    type: BIGINT
+  - name: acceptedappointmentsqf
+    type: VARCHAR
+  - name: didnotattendratepc
+    type: DOUBLE
+  - name: didnotattendratepcqf
+    type: VARCHAR
+  - name: couldnotattendratepc
+    type: DOUBLE
+  - name: couldnotattendratepcqf
+    type: VARCHAR
+  - name: cancellationbyserviceratepc
+    type: DOUBLE
+  - name: cancellationbyserviceratepcqf
+    type: VARCHAR
+  - name: additions
+    type: BIGINT
+  - name: additionsqf
+    type: VARCHAR
+  - name: removals
+    type: BIGINT
+  - name: removalsqf
+    type: VARCHAR
+  - name: attended
+    type: BIGINT
+  - name: attendedqf
+    type: VARCHAR
+  - name: referredbacktogp
+    type: BIGINT
+  - name: referredbacktogpqf
+    type: VARCHAR
+  - name: transferred
+    type: BIGINT
+  - name: transferredqf
+    type: VARCHAR
+  - name: treatmentnolongerrequired
+    type: BIGINT
+  - name: treatmentnolongerrequiredqf
+    type: VARCHAR
+  - name: otherreasons
+    type: BIGINT
+  - name: otherreasonsqf
+    type: VARCHAR
+  - name: available
+    type: BIGINT
+  - name: availableqf
+    type: VARCHAR
+  - name: unavailable
+    type: BIGINT
+  - name: unavailableqf
+    type: VARCHAR
+  - name: medicaltotal
+    type: BIGINT
+  - name: medicaltotalqf
+    type: VARCHAR
+  - name: medicalothermedicalcondition
+    type: BIGINT
+  - name: medicalothermedicalconditionqf
+    type: VARCHAR
+  - name: medicalindefinitelyunavailable
+    type: BIGINT
+  - name: medicalindefinitelyunavailableqf
+    type: VARCHAR
+  - name: medicalother
+    type: BIGINT
+  - name: medicalotherqf
+    type: VARCHAR
+  - name: patientadvisedtotal
+    type: BIGINT
+  - name: patientadvisedtotalqf
+    type: VARCHAR
+  - name: patientadvisedholiday
+    type: BIGINT
+  - name: patientadvisedholidayqf
+    type: VARCHAR
+  - name: patientadvisedpersonalcommitment
+    type: BIGINT
+  - name: patientadvisedpersonalcommitmentqf
+    type: VARCHAR
+  - name: patientadvisedworkcommitment
+    type: BIGINT
+  - name: patientadvisedworkcommitmentqf
+    type: VARCHAR
+  - name: patientadvisedcarercommitment
+    type: BIGINT
+  - name: patientadvisedcarercommitmentqf
+    type: VARCHAR
+  - name: patientadvisedacademiccommitment
+    type: BIGINT
+  - name: patientadvisedacademiccommitmentqf
+    type: VARCHAR
+  - name: patientadvisedjuryduty
+    type: BIGINT
+  - name: patientadvisedjurydutyqf
+    type: VARCHAR
+  - name: patientadvisedweather
+    type: BIGINT
+  - name: patientadvisedweatherqf
+    type: VARCHAR
+  - name: patientadvisedindefinitelyunavailable
+    type: BIGINT
+  - name: patientadvisedindefinitelyunavailableqf
+    type: VARCHAR
+  - name: patientadvisedother
+    type: BIGINT
+  - name: patientadvisedotherqf
+    type: VARCHAR
+  - name: patientrequestedtotal
+    type: BIGINT
+  - name: patientrequestedtotalqf
+    type: VARCHAR
+  - name: patientrequestednamedconsultant
+    type: BIGINT
+  - name: patientrequestednamedconsultantqf
+    type: VARCHAR
+  - name: patientrequestedtreatedlocalhealthboard
+    type: BIGINT
+  - name: patientrequestedtreatedlocalhealthboardqf
+    type: VARCHAR
+  - name: suspensionexceptionalcircumstances
+    type: BIGINT
+  - name: suspensionexceptionalcircumstancesqf
+    type: VARCHAR
+  - name: patienttransferclockadjustment
+    type: BIGINT
+  - name: patienttransferclockadjustmentqf
+    type: VARCHAR
+  - name: pfbunavailability
+    type: BIGINT
+  - name: pfbunavailabilityqf
+    type: VARCHAR
+  - name: hbr
+    type: VARCHAR
+  - name: hbrqf
+    type: VARCHAR

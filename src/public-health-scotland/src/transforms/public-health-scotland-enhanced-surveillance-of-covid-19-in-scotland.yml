@@ -1,0 +1,45 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-enhanced-surveillance-of-covid-19-in-scotland`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: datebeginning
+sort: [datebeginning]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: datebeginning
+    type: DATE
+  - name: dateending
+    type: DATE
+  - name: hb
+    type: VARCHAR
+  - name: hbqf
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: totaltested
+    type: BIGINT
+  - name: positive
+    type: BIGINT
+  - name: seroprevalence
+    type: DOUBLE
+  - name: lowerconfidenceinterval
+    type: DOUBLE
+  - name: upperconfidenceinterval
+    type: DOUBLE
+  - name: response
+    type: VARCHAR
+  - name: country
+    type: VARCHAR
+  - name: agegroup
+    type: VARCHAR
+  - name: agegroupqf
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: sexqf
+    type: VARCHAR

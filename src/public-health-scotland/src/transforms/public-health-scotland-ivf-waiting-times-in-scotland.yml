@@ -1,0 +1,73 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-ivf-waiting-times-in-scotland`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: month
+sort: [month]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: quarter
+    type: VARCHAR
+  - name: ivfcentre
+    type: VARCHAR
+  - name: patientsscreened
+    type: BIGINT
+  - name: patientsscreenedqf
+    type: VARCHAR
+  - name: numberscreenedzeroto13weeks
+    type: BIGINT
+  - name: numberscreenedzeroto13weeksqf
+    type: VARCHAR
+  - name: numberscreened14to26weeks
+    type: BIGINT
+  - name: numberscreened14to26weeksqf
+    type: VARCHAR
+  - name: numberscreened27to39weeks
+    type: BIGINT
+  - name: numberscreened27to39weeksqf
+    type: VARCHAR
+  - name: numberscreened40to52weeks
+    type: BIGINT
+  - name: numberscreened40to52weeksqf
+    type: VARCHAR
+  - name: numberscreenedover52weeks
+    type: BIGINT
+  - name: numberscreenedover52weeksqf
+    type: VARCHAR
+  - name: hbr
+    type: VARCHAR
+  - name: hbrqf
+    type: VARCHAR
+  - name: numberofreferrals
+    type: BIGINT
+  - name: numberofreferralsqf
+    type: VARCHAR
+  - name: month
+    type: BIGINT
+  - name: patientswaiting
+    type: BIGINT
+  - name: patientswaitingqf
+    type: VARCHAR
+  - name: numberwaitingzeroto13weeks
+    type: BIGINT
+  - name: numberwaitingzeroto13weeksqf
+    type: VARCHAR
+  - name: numberwaiting14to26weeks
+    type: BIGINT
+  - name: numberwaiting14to26weeksqf
+    type: VARCHAR
+  - name: numberwaiting27to39weeks
+    type: BIGINT
+  - name: numberwaiting27to39weeksqf
+    type: VARCHAR
+  - name: numberwaiting40to52weeks
+    type: BIGINT
+  - name: numberwaiting40to52weeksqf
+    type: VARCHAR
+  - name: numberwaitingover52weeks
+    type: BIGINT
+  - name: numberwaitingover52weeksqf
+    type: VARCHAR

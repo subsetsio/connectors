@@ -1,0 +1,43 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `public-health-scotland-unintentional-injuries`. Regenerate after model-verify.
+# caution: No compact row identity was verified from the raw profile; rows are published as source observations and may include multiple cuts, measures, or suppressions from separate CKAN resources.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: resource_id
+    type: VARCHAR
+  - name: resource_name
+    type: VARCHAR
+  - name: financialyear
+    type: VARCHAR
+  - name: hbr
+    type: VARCHAR
+  - name: hbrqf
+    type: VARCHAR
+  - name: ca
+    type: VARCHAR
+  - name: caqf
+    type: VARCHAR
+  - name: agegroup
+    type: VARCHAR
+  - name: agegroupqf
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: sexqf
+    type: VARCHAR
+  - name: injurylocation
+    type: VARCHAR
+  - name: injurylocationqf
+    type: VARCHAR
+  - name: injurytype
+    type: VARCHAR
+  - name: injurytypeqf
+    type: VARCHAR
+  - name: numberofadmissions
+    type: BIGINT
+  - name: year
+    type: BIGINT
+  - name: numberofdeaths
+    type: BIGINT
