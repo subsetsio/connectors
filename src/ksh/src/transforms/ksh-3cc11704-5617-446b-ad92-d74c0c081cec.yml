@@ -1,42 +1,44 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: TIME_PERIOD
-sort: [TIME_PERIOD]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ksh-3cc11704-5617-446b-ad92-d74c0c081cec`. Regenerate after model-verify.
+key: [obs_value, item, time_period, obs_status]
+temporal: time_period
+sort: [time_period, obs_value, item, obs_status]
 columns:
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: REF_AREA
+  - name: ref_area
     type: VARCHAR
-  - name: IND_TYPE
+  - name: ind_type
     type: VARCHAR
-  - name: IDX_TYPE
+  - name: idx_type
     type: VARCHAR
-  - name: BASE_PER
+  - name: base_per
+    type: BIGINT
+  - name: item
     type: VARCHAR
-  - name: ITEM
+  - name: coverage_geo
     type: VARCHAR
-  - name: COVERAGE_GEO
+  - name: coverage_pop
     type: VARCHAR
-  - name: COVERAGE_POP
+  - name: seasonal_adjust
     type: VARCHAR
-  - name: SEASONAL_ADJUST
+  - name: transformation
     type: VARCHAR
-  - name: TRANSFORMATION
+  - name: cust_breakdown
     type: VARCHAR
-  - name: CUST_BREAKDOWN
+  - name: unit_measure
     type: VARCHAR
-  - name: UNIT_MEASURE
+  - name: time_format
     type: VARCHAR
-  - name: TIME_FORMAT
+  - name: unit_mult
+    type: BIGINT
+  - name: time_period
+    type: DATE
+  - name: obs_value
+    type: DOUBLE
+  - name: conf_status
     type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_VALUE
-    type: VARCHAR
-  - name: CONF_STATUS
-    type: VARCHAR
-  - name: DECIMALS
-    type: VARCHAR
-  - name: OBS_STATUS
+  - name: decimals
+    type: BIGINT
+  - name: obs_status
     type: VARCHAR

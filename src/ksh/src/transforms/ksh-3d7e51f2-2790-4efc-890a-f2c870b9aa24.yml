@@ -1,80 +1,82 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: TIME_PERIOD
-sort: [TIME_PERIOD]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ksh-3d7e51f2-2790-4efc-890a-f2c870b9aa24`. Regenerate after model-verify.
+key: [product, prod_sell_ent, time_period]
+temporal: time_period
+sort: [product, prod_sell_ent, time_period]
 columns:
-  - name: DATAFLOW
+  - name: dataflow
     type: VARCHAR
-  - name: REF_AREA
+  - name: ref_area
     type: VARCHAR
-  - name: TIME_PERIOD
+  - name: time_period
+    type: BIGINT
+  - name: product
     type: VARCHAR
-  - name: PRODUCT
+  - name: prod_sell_ent
+    type: BIGINT
+  - name: prod_sell_val_conf_status
     type: VARCHAR
-  - name: PROD_SELL_ENT
-    type: VARCHAR
-  - name: PROD_SELL_VAL_CONF_STATUS
-    type: VARCHAR
-  - name: PROD_SELL_VAL_CONF_QUALIFIER
-    type: VARCHAR
-  - name: PROD_SELL_VAL_OBS_STATUS
+  - name: prod_sell_val_conf_qualifier
+    type: BIGINT
+  - name: prod_sell_val_obs_status
     type: JSON
-  - name: PROD_SELL_VAL
+  - name: prod_sell_val
+    type: BIGINT
+  - name: prod_sell_currency
     type: VARCHAR
-  - name: PROD_SELL_CURRENCY
+  - name: prod_sell_qnt_conf_status
     type: VARCHAR
-  - name: PROD_SELL_QNT_CONF_STATUS
+  - name: prod_sell_qnt_conf_qualifier
+    type: BIGINT
+  - name: prod_sell_qnt_obs_status
     type: VARCHAR
-  - name: PROD_SELL_QNT_CONF_QUALIFIER
+  - name: prod_sell_qnt
+    type: BIGINT
+  - name: aprod_ent
+    type: BIGINT
+  - name: aprod_conf_status
     type: VARCHAR
-  - name: PROD_SELL_QNT_OBS_STATUS
+  - name: aprod_conf_qualifier
+    type: BIGINT
+  - name: aprod_obs_status
     type: VARCHAR
-  - name: PROD_SELL_QNT
+  - name: aprod_qnt
+    type: BIGINT
+  - name: prod_op_sc_ent
+    type: BIGINT
+  - name: prod_op_sc_currency
     type: VARCHAR
-  - name: APROD_ENT
+  - name: prod_op_sc_val_conf_status
     type: VARCHAR
-  - name: APROD_CONF_STATUS
-    type: VARCHAR
-  - name: APROD_CONF_QUALIFIER
-    type: VARCHAR
-  - name: APROD_OBS_STATUS
-    type: VARCHAR
-  - name: APROD_QNT
-    type: VARCHAR
-  - name: PROD_OP_SC_ENT
-    type: VARCHAR
-  - name: PROD_OP_SC_CURRENCY
-    type: VARCHAR
-  - name: PROD_OP_SC_VAL_CONF_STATUS
-    type: VARCHAR
-  - name: PROD_OP_SC_VAL_CONF_QUALIFIER
-    type: VARCHAR
-  - name: PROD_OP_SC_VAL_OBS_STATUS
+  - name: prod_op_sc_val_conf_qualifier
+    type: BIGINT
+  - name: prod_op_sc_val_obs_status
     type: JSON
-  - name: PROD_OP_SC_VAL
+  - name: prod_op_sc_val
+    type: BIGINT
+  - name: prod_op_sc_qnt_conf_status
     type: VARCHAR
-  - name: PROD_OP_SC_QNT_CONF_STATUS
+  - name: prod_op_sc_qnt_conf_qualifier
+    type: BIGINT
+  - name: prod_op_sc_qnt_obs_status
     type: VARCHAR
-  - name: PROD_OP_SC_QNT_CONF_QUALIFIER
+  - name: prod_op_sc_qnt
+    type: BIGINT
+  - name: tprod_sell_ent
+    type: BIGINT
+  - name: tprod_sell_val_conf_status
     type: VARCHAR
-  - name: PROD_OP_SC_QNT_OBS_STATUS
-    type: VARCHAR
-  - name: PROD_OP_SC_QNT
-    type: VARCHAR
-  - name: TPROD_SELL_ENT
-    type: VARCHAR
-  - name: TPROD_SELL_VAL_CONF_STATUS
-    type: VARCHAR
-  - name: TPROD_SELL_VAL_CONF_QUALIFIER
-    type: VARCHAR
-  - name: TPROD_SELL_VAL_OBS_STATUS
+  - name: tprod_sell_val_conf_qualifier
+    type: BIGINT
+  - name: tprod_sell_val_obs_status
     type: JSON
-  - name: TPROD_SELL_VAL
+  - name: tprod_sell_val
+    type: BIGINT
+  - name: tprod_sell_qnt_conf_status
     type: VARCHAR
-  - name: TPROD_SELL_QNT_CONF_STATUS
+  - name: tprod_sell_qnt_conf_qualifier
+    type: BIGINT
+  - name: tprod_sell_qnt_obs_status
     type: VARCHAR
-  - name: TPROD_SELL_QNT_CONF_QUALIFIER
-    type: VARCHAR
-  - name: TPROD_SELL_QNT_OBS_STATUS
-    type: VARCHAR
-  - name: TPROD_SELL_QNT
-    type: VARCHAR
+  - name: tprod_sell_qnt
+    type: BIGINT

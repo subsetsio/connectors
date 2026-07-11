@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ksh-b4f2e65e-79ee-47e1-8bf0-fa7d14c128ec`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [values, age, citizen, time, sex]
+temporal: time
+checks:
+  - kind: unique
+    columns: [values, age, citizen, time, sex]
+  - kind: not_null
+    col: values
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: citizen
+  - kind: not_null
+    col: time
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 8019
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

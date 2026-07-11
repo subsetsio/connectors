@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ksh-72ba4842-45f3-4531-a856-82cfe75e2728`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [id, f35, f27, f25, f24]
+checks:
+  - kind: unique
+    columns: [id, f35, f27, f25, f24]
+  - kind: not_null
+    col: id
+  - kind: not_null
+    col: f35
+  - kind: not_null
+    col: f27
+  - kind: not_null
+    col: f25
+  - kind: not_null
+    col: f24
+  - kind: row_floor
+    min: 11620
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `ksh-2da67fcb-ff5d-4549-a66d-433d37bec6d1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [obs_value, breakdown, variable, unit]
+checks:
+  - kind: unique
+    columns: [obs_value, breakdown, variable, unit]
+  - kind: not_null
+    col: obs_value
+  - kind: not_null
+    col: breakdown
+  - kind: not_null
+    col: variable
+  - kind: not_null
+    col: unit
+  - kind: row_floor
+    min: 787
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

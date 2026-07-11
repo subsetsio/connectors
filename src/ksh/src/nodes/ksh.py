@@ -31,7 +31,6 @@ import xml.etree.ElementTree as ET
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     transient_retry,
     save_raw_ndjson,
@@ -137,70 +136,4 @@ def fetch_one(node_id):
 DOWNLOAD_SPECS = [
     NodeSpec(id="{}-{}".format(SLUG, rid), fn=fetch_one, kind="download")
     for rid in ENTITY_IDS
-]
-
-# Per-resource observation-period column (temporal). The dataflows split into
-# the compact eurostat layout (period column `TIME`) and the SDMX-CSV/XML layout
-# (period column `TIME_PERIOD`); a few small reference tables carry no period
-# column at all. Grains (keys) differ per dataflow with no shared dimension set,
-# so keys are left undeclared.
-_TIME = {
-    "ksh-0752213b-e937-4722-ae02-b997dabf8453",
-    "ksh-093d149c-9951-4dd0-99ae-4a5e858a7b45",
-    "ksh-1604a8a4-aea7-4f86-866b-63b1980f77eb",
-    "ksh-169201f0-24a4-434a-8900-3c035cd4430f",
-    "ksh-33b9d9ea-4fc0-4d9e-a96e-23459adb470b",
-    "ksh-5c5c1828-8599-4b96-8b9f-ef6c27ab7c82",
-    "ksh-94904cf5-1b76-4c24-9375-65e743668f63",
-    "ksh-99ac9e47-dc1b-44d8-8e69-cd88018c0244",
-    "ksh-a899cbc1-5223-4310-bd49-e31154f8bdb7",
-    "ksh-b4f2e65e-79ee-47e1-8bf0-fa7d14c128ec",
-    "ksh-d442dc4c-20fb-4ca8-bfde-9171e04a683d",
-    "ksh-d96c6d1d-ee4b-483d-bfab-4b0baaae5e55",
-    "ksh-eb3e481e-6b5a-45d1-8076-18c4ece155c2",
-}
-_TIME_PERIOD = {
-    "ksh-168bf117-ad66-4f78-80b5-e3a813b77b37",
-    "ksh-1cb63b4f-6dee-4fab-8d54-0d4e1ca884dc",
-    "ksh-30c328e3-0b9e-4e34-94f7-6b0fee2fbc53",
-    "ksh-3cc11704-5617-446b-ad92-d74c0c081cec",
-    "ksh-3d7e51f2-2790-4efc-890a-f2c870b9aa24",
-    "ksh-42f7ff87-993f-4a21-b0c2-7c3b179e764f",
-    "ksh-43652871-bb56-47ee-8678-6b1dac2fd11b",
-    "ksh-6dbf5df3-811e-44ad-8522-a3343dba1ecb",
-    "ksh-6dfb5927-57b1-4f71-be7e-4cae406c4862",
-    "ksh-7e5f54c0-d50f-496a-ad36-859e0ab7d9e8",
-    "ksh-862302dd-8181-438d-ac04-18000851a116",
-    "ksh-98128a3b-d7ba-4019-9b18-ac6bcede3104",
-    "ksh-a2ec9bac-d0c5-4924-ab84-0a5a0dba3b1b",
-    "ksh-ba5fe28d-cbbd-4e66-9d04-895952921544",
-    "ksh-bd19297c-4446-4f1e-85de-577a17389793",
-    "ksh-c8643d4a-c137-4568-b4ae-990c6dbc948e",
-    "ksh-cff5951b-c4d7-434a-8bf7-3786f5a009b1",
-    "ksh-e2e2cc46-78b5-4599-82fe-0ed62d6b00d2",
-    "ksh-e847b992-6499-4493-9e0a-6899325b8d46",
-    "ksh-e962bdbf-4809-4904-808f-9df7d45f0c5e",
-    "ksh-f9264f71-aa14-40c6-a561-92f0db28ab0f",
-}
-
-
-def _temporal_for(spec_id):
-    if spec_id in _TIME:
-        return "TIME"
-    if spec_id in _TIME_PERIOD:
-        return "TIME_PERIOD"
-    return None
-
-
-# One published Delta table per resource. The dataflows are mutually
-# heterogeneous, so the transform is a thin pass that republishes every parsed
-# SDMX column; per-dataflow typing is not possible across 38 distinct schemas.
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="{}-transform".format(spec.id),
-        deps=[spec.id],
-        sql='SELECT * FROM "{}"'.format(spec.id),
-        **({"temporal": _temporal_for(spec.id)} if _temporal_for(spec.id) else {}),
-    )
-    for spec in DOWNLOAD_SPECS
 ]

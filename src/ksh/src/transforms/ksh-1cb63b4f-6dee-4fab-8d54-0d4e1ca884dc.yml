@@ -1,52 +1,54 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: TIME_PERIOD
-sort: [TIME_PERIOD]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ksh-1cb63b4f-6dee-4fab-8d54-0d4e1ca884dc`. Regenerate after model-verify.
+key: [obs_value, time_period, sto, ref_area, accounting_entry]
+temporal: last_update
+sort: [last_update, obs_value, time_period, sto, ref_area, accounting_entry]
 columns:
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: REF_AREA
+  - name: ref_area
     type: VARCHAR
-  - name: COUNTERPART_AREA
+  - name: counterpart_area
     type: VARCHAR
-  - name: REF_SECTOR
+  - name: ref_sector
     type: VARCHAR
-  - name: COUNTERPART_SECTOR
+  - name: counterpart_sector
     type: VARCHAR
-  - name: ACCOUNTING_ENTRY
+  - name: accounting_entry
     type: VARCHAR
-  - name: STO
+  - name: sto
     type: VARCHAR
-  - name: ACTIVITY
+  - name: activity
     type: VARCHAR
-  - name: VALUATION
+  - name: valuation
     type: VARCHAR
-  - name: PRICES
+  - name: prices
     type: VARCHAR
-  - name: UNIT_MEASURE
+  - name: unit_measure
     type: VARCHAR
-  - name: TRANSFORMATION
+  - name: transformation
     type: VARCHAR
-  - name: REF_PERIOD_DETAIL
+  - name: ref_period_detail
     type: VARCHAR
-  - name: TIME_FORMAT
+  - name: time_format
     type: VARCHAR
-  - name: DECIMALS
+  - name: decimals
+    type: BIGINT
+  - name: table_identifier
     type: VARCHAR
-  - name: TABLE_IDENTIFIER
-    type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: LAST_UPDATE
+  - name: unit_mult
+    type: BIGINT
+  - name: last_update
     type: TIMESTAMP
-  - name: COMMENT_TS
+  - name: comment_ts
     type: VARCHAR
-  - name: TIME_PERIOD
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
     type: VARCHAR
-  - name: OBS_VALUE
+  - name: obs_status
     type: VARCHAR
-  - name: OBS_STATUS
+  - name: conf_status
     type: VARCHAR
-  - name: CONF_STATUS
-    type: VARCHAR
-  - name: EMBARGO_DATE
+  - name: embargo_date
     type: TIMESTAMP

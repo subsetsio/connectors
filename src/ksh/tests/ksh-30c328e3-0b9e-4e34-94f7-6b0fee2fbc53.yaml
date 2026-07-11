@@ -1,6 +1,8 @@
 spec_id: ksh-30c328e3-0b9e-4e34-94f7-6b0fee2fbc53
 status: active
 tests:
+  - freshness: {col: LAST_UPDATE, reaches: "2020-01-01"}
+    points_outward: true
   - row_count: {min: 1000}
     reason: KSH HVD distribution served as xml. A multi-dimensional statistical table holds many observations; far fewer rows means the payload was truncated or the parser yielded nothing.
     certainty: 80

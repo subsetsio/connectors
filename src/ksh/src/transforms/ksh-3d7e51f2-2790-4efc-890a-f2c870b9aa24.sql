@@ -1,1 +1,44 @@
-SELECT * FROM "ksh-3d7e51f2-2790-4efc-890a-f2c870b9aa24"
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+SELECT
+    "DATAFLOW" AS dataflow,
+    "REF_AREA" AS ref_area,
+    CAST("TIME_PERIOD" AS BIGINT) AS time_period,
+    "PRODUCT" AS product,
+    CAST("PROD_SELL_ENT" AS BIGINT) AS prod_sell_ent,
+    "PROD_SELL_VAL_CONF_STATUS" AS prod_sell_val_conf_status,
+    CAST("PROD_SELL_VAL_CONF_QUALIFIER" AS BIGINT) AS prod_sell_val_conf_qualifier,
+    "PROD_SELL_VAL_OBS_STATUS" AS prod_sell_val_obs_status,
+    CAST("PROD_SELL_VAL" AS BIGINT) AS prod_sell_val,
+    "PROD_SELL_CURRENCY" AS prod_sell_currency,
+    "PROD_SELL_QNT_CONF_STATUS" AS prod_sell_qnt_conf_status,
+    CAST("PROD_SELL_QNT_CONF_QUALIFIER" AS BIGINT) AS prod_sell_qnt_conf_qualifier,
+    "PROD_SELL_QNT_OBS_STATUS" AS prod_sell_qnt_obs_status,
+    CAST("PROD_SELL_QNT" AS BIGINT) AS prod_sell_qnt,
+    CAST("APROD_ENT" AS BIGINT) AS aprod_ent,
+    "APROD_CONF_STATUS" AS aprod_conf_status,
+    CAST("APROD_CONF_QUALIFIER" AS BIGINT) AS aprod_conf_qualifier,
+    "APROD_OBS_STATUS" AS aprod_obs_status,
+    CAST("APROD_QNT" AS BIGINT) AS aprod_qnt,
+    CAST("PROD_OP_SC_ENT" AS BIGINT) AS prod_op_sc_ent,
+    "PROD_OP_SC_CURRENCY" AS prod_op_sc_currency,
+    "PROD_OP_SC_VAL_CONF_STATUS" AS prod_op_sc_val_conf_status,
+    CAST("PROD_OP_SC_VAL_CONF_QUALIFIER" AS BIGINT) AS prod_op_sc_val_conf_qualifier,
+    "PROD_OP_SC_VAL_OBS_STATUS" AS prod_op_sc_val_obs_status,
+    CAST("PROD_OP_SC_VAL" AS BIGINT) AS prod_op_sc_val,
+    "PROD_OP_SC_QNT_CONF_STATUS" AS prod_op_sc_qnt_conf_status,
+    CAST("PROD_OP_SC_QNT_CONF_QUALIFIER" AS BIGINT) AS prod_op_sc_qnt_conf_qualifier,
+    "PROD_OP_SC_QNT_OBS_STATUS" AS prod_op_sc_qnt_obs_status,
+    CAST("PROD_OP_SC_QNT" AS BIGINT) AS prod_op_sc_qnt,
+    CAST("TPROD_SELL_ENT" AS BIGINT) AS tprod_sell_ent,
+    "TPROD_SELL_VAL_CONF_STATUS" AS tprod_sell_val_conf_status,
+    CAST("TPROD_SELL_VAL_CONF_QUALIFIER" AS BIGINT) AS tprod_sell_val_conf_qualifier,
+    "TPROD_SELL_VAL_OBS_STATUS" AS tprod_sell_val_obs_status,
+    CAST("TPROD_SELL_VAL" AS BIGINT) AS tprod_sell_val,
+    "TPROD_SELL_QNT_CONF_STATUS" AS tprod_sell_qnt_conf_status,
+    CAST("TPROD_SELL_QNT_CONF_QUALIFIER" AS BIGINT) AS tprod_sell_qnt_conf_qualifier,
+    "TPROD_SELL_QNT_OBS_STATUS" AS tprod_sell_qnt_obs_status,
+    CAST("TPROD_SELL_QNT" AS BIGINT) AS tprod_sell_qnt
+FROM "ksh-3d7e51f2-2790-4efc-890a-f2c870b9aa24"

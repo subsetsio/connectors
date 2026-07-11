@@ -1,38 +1,40 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: TIME_PERIOD
-sort: [TIME_PERIOD]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ksh-6dbf5df3-811e-44ad-8522-a3343dba1ecb`. Regenerate after model-verify.
+key: [obs_value, activity, indicator, obs_status, conf_status]
+temporal: time_period
+sort: [time_period, obs_value, activity, indicator, obs_status, conf_status]
 columns:
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: REF_AREA
+  - name: ref_area
     type: VARCHAR
-  - name: SEASONAL_ADJUST
+  - name: seasonal_adjust
     type: VARCHAR
-  - name: INDICATOR
+  - name: indicator
     type: VARCHAR
-  - name: ACTIVITY
+  - name: activity
     type: VARCHAR
-  - name: PRODUCT
+  - name: product
     type: VARCHAR
-  - name: BASE_PER
+  - name: base_per
+    type: BIGINT
+  - name: transformation
     type: VARCHAR
-  - name: TRANSFORMATION
+  - name: decimals
+    type: BIGINT
+  - name: unit_mult
+    type: BIGINT
+  - name: unit_measure
     type: VARCHAR
-  - name: DECIMALS
+  - name: time_format
     type: VARCHAR
-  - name: UNIT_MULT
+  - name: time_period
+    type: DATE
+  - name: obs_value
     type: VARCHAR
-  - name: UNIT_MEASURE
+  - name: obs_status
     type: VARCHAR
-  - name: TIME_FORMAT
+  - name: conf_status
     type: VARCHAR
-  - name: TIME_PERIOD
-    type: VARCHAR
-  - name: OBS_VALUE
-    type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: CONF_STATUS
-    type: VARCHAR
-  - name: EMBARGO_TIME
+  - name: embargo_time
     type: TIMESTAMP

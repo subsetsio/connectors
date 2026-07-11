@@ -1,60 +1,62 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: TIME_PERIOD
-sort: [TIME_PERIOD]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ksh-a2ec9bac-d0c5-4924-ab84-0a5a0dba3b1b`. Regenerate after model-verify.
+key: [freq, adjustment, ref_area, counterpart_area, ref_sector, counterpart_sector, consolidation, accounting_entry, sto, instr_asset, maturity, expenditure, unit_measure, currency_denom, valuation, prices, transformation, cust_breakdown, time_format, table_identifier, compiling_org, time_period]
+temporal: last_update
+sort: [last_update, freq, adjustment, ref_area, counterpart_area, ref_sector, counterpart_sector, consolidation, accounting_entry, sto, instr_asset, maturity, expenditure, unit_measure, currency_denom, valuation, prices, transformation, cust_breakdown, time_format, table_identifier, compiling_org, time_period]
 columns:
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: ADJUSTMENT
+  - name: adjustment
     type: VARCHAR
-  - name: REF_AREA
+  - name: ref_area
     type: VARCHAR
-  - name: COUNTERPART_AREA
+  - name: counterpart_area
     type: VARCHAR
-  - name: REF_SECTOR
+  - name: ref_sector
     type: VARCHAR
-  - name: COUNTERPART_SECTOR
+  - name: counterpart_sector
     type: VARCHAR
-  - name: CONSOLIDATION
+  - name: consolidation
     type: VARCHAR
-  - name: ACCOUNTING_ENTRY
+  - name: accounting_entry
     type: VARCHAR
-  - name: STO
+  - name: sto
     type: VARCHAR
-  - name: INSTR_ASSET
+  - name: instr_asset
     type: VARCHAR
-  - name: MATURITY
+  - name: maturity
     type: VARCHAR
-  - name: EXPENDITURE
+  - name: expenditure
     type: VARCHAR
-  - name: UNIT_MEASURE
+  - name: unit_measure
     type: VARCHAR
-  - name: CURRENCY_DENOM
+  - name: currency_denom
     type: VARCHAR
-  - name: VALUATION
+  - name: valuation
     type: VARCHAR
-  - name: PRICES
+  - name: prices
     type: VARCHAR
-  - name: TRANSFORMATION
+  - name: transformation
     type: VARCHAR
-  - name: CUST_BREAKDOWN
+  - name: cust_breakdown
     type: VARCHAR
-  - name: TIME_FORMAT
+  - name: time_format
     type: VARCHAR
-  - name: DECIMALS
+  - name: decimals
+    type: BIGINT
+  - name: table_identifier
     type: VARCHAR
-  - name: TABLE_IDENTIFIER
-    type: VARCHAR
-  - name: UNIT_MULT
-    type: VARCHAR
-  - name: LAST_UPDATE
+  - name: unit_mult
+    type: BIGINT
+  - name: last_update
     type: TIMESTAMP
-  - name: COMPILING_ORG
+  - name: compiling_org
     type: VARCHAR
-  - name: TIME_PERIOD
+  - name: time_period
+    type: BIGINT
+  - name: obs_value
     type: VARCHAR
-  - name: OBS_VALUE
+  - name: obs_status
     type: VARCHAR
-  - name: OBS_STATUS
-    type: VARCHAR
-  - name: CONF_STATUS
+  - name: conf_status
     type: VARCHAR

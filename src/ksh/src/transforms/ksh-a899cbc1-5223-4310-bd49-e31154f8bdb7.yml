@@ -1,20 +1,22 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
-temporal: TIME
-sort: [TIME]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `ksh-a899cbc1-5223-4310-bd49-e31154f8bdb7`. Regenerate after model-verify.
+key: [values, age, marsta, time, sex]
+temporal: time
+sort: [values, age, marsta, time, sex]
 columns:
-  - name: FREQ
+  - name: freq
     type: VARCHAR
-  - name: UNIT
+  - name: unit
     type: VARCHAR
-  - name: SEX
+  - name: sex
     type: VARCHAR
-  - name: AGE
+  - name: age
     type: VARCHAR
-  - name: MARSTA
+  - name: marsta
     type: VARCHAR
-  - name: GEO
+  - name: geo
     type: VARCHAR
-  - name: TIME
-    type: VARCHAR
-  - name: VALUES
+  - name: time
+    type: BIGINT
+  - name: values
     type: VARCHAR
