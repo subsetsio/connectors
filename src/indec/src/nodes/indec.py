@@ -81,6 +81,7 @@ def _iter_indec_series():
     the /search catalog, paginating to full coverage."""
     start = 0
     total = None
+    seen_ids: set[str] = set()
     while True:
         d = _get_json(SEARCH_URL, {
             "dataset_source": INDEC_SOURCE,
@@ -93,6 +94,10 @@ def _iter_indec_series():
         if not rows:
             break
         for rec in rows:
+            sid = (rec.get("field") or {}).get("id")
+            if not sid or sid in seen_ids:
+                continue
+            seen_ids.add(sid)
             yield rec
         start += SEARCH_PAGE
         if start >= total:

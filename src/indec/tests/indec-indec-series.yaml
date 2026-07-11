@@ -5,8 +5,11 @@ tests:
     reason: every catalog row is keyed by its series id
     certainty: 99
   - unique: series_id
-    reason: one row per INDEC series; dupes mean /search pagination double-counted
+    reason: one row per INDEC series after deduplicating repeated /search rows by id
     certainty: 95
+  - freshness: {col: time_index_end, reaches: "today - 400d"}
+    reason: the INDEC time-series platform should include indicators whose coverage extends into the current annual window
+    certainty: 80
   - not_null: title
     certainty: 90
   - row_count: {min: 3000, max: 15000}

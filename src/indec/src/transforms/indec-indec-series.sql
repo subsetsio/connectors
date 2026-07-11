@@ -1,4 +1,4 @@
-SELECT
+SELECT DISTINCT
     series_id,
     title,
     description,
