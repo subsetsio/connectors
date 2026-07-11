@@ -53,6 +53,7 @@ import os
 import zipfile
 from collections import defaultdict
 from datetime import datetime, timezone
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import httpx
 import pyarrow as pa
@@ -85,6 +86,7 @@ _I_ACTION_FIPS = 53      # action-location country, FIPS 10-4 two-letter code
 _N_COLS = 61
 
 _VALID_QUADS = {1, 2, 3, 4}
+_FETCH_WORKERS = 16
 
 # FIPS 10-4 (NGA GEC) -> ISO 3166-1 alpha-2. GDELT geo country codes are FIPS, not
 # ISO; this static concordance maps them. Non-country / obsolete codes are absent
@@ -192,88 +194,92 @@ def _index_export_urls_by_date(master_text: str) -> dict[str, list[str]]:
     return by_date
 
 
+def _merge_agg(left: dict, right: dict) -> None:
+    for key, values in right.items():
+        cell = left[key]
+        cell[0] += values[0]
+        cell[1] += values[1]
+        cell[2] += values[2]
+        cell[3] += values[3]
+        cell[4] += values[4]
+
+
+def _aggregate_file(url: str, date8: str) -> dict:
+    """Fetch and aggregate one 15-minute export file."""
+    agg: dict[tuple, list] = defaultdict(lambda: [0, 0, 0, 0.0, 0.0])
+    # A single export file must never abort a multi-day backfill. _fetch_zip
+    # already returns None on 404 and retries transient HTTP; here we also
+    # skip-and-continue past every OTHER permanent failure mode of one file.
+    try:
+        content = _fetch_zip(url)
+        if content is None:
+            return agg
+        with zipfile.ZipFile(io.BytesIO(content)) as zf:
+            names = zf.namelist()
+            if not names:
+                return agg
+            text = zf.read(names[0]).decode("utf-8", errors="replace")
+    except (httpx.HTTPError, zipfile.BadZipFile, OSError) as exc:
+        print(f"    skipping {url.rsplit('/', 1)[-1]}: {type(exc).__name__}: {exc}")
+        return agg
+    for line in text.splitlines():
+        if not line:
+            continue
+        f = line.split("\t")
+        if len(f) < _N_COLS:
+            continue
+        day = f[_I_DAY]
+        if len(day) != 8 or not day.isdigit():
+            continue
+        # Drop event days outside GDELT 2.0 coverage or later than this file
+        # (historical article references / future-dated parse noise). YYYYMMDD
+        # strings compare lexically == chronologically.
+        if day < _SOURCE_MIN_DAY8 or day > date8:
+            continue
+        try:
+            quad = int(f[_I_QUAD])
+        except ValueError:
+            continue
+        if quad not in _VALID_QUADS:
+            continue
+        root = f[_I_EVENT_ROOT]
+        if not root:
+            continue
+        iso2 = _FIPS_TO_ISO2.get(f[_I_ACTION_FIPS]) if f[_I_ACTION_FIPS] else None
+        try:
+            mentions = int(f[_I_NUM_MENTIONS] or 0)
+        except ValueError:
+            mentions = 0
+        try:
+            articles = int(f[_I_NUM_ARTICLES] or 0)
+        except ValueError:
+            articles = 0
+        try:
+            goldstein = float(f[_I_GOLDSTEIN] or 0.0)
+        except ValueError:
+            goldstein = 0.0
+        try:
+            tone = float(f[_I_TONE] or 0.0)
+        except ValueError:
+            tone = 0.0
+        date_iso = f"{day[:4]}-{day[4:6]}-{day[6:8]}"
+        cell = agg[(date_iso, iso2, root, quad)]
+        cell[0] += 1
+        cell[1] += mentions
+        cell[2] += articles
+        cell[3] += goldstein
+        cell[4] += tone
+    return agg
+
+
 def _aggregate_day(urls: list[str], date8: str) -> dict:
     """Fetch every export file for one file-date and roll its events up to
-    (event_day, action-country ISO2, event_root, quad). `date8` is the file-date
-    (YYYYMMDD); events whose extracted event day falls outside
-    [2015-02-18, date8] are dropped — GDELT dates an event by the action date its
-    article reports, so a file routinely carries a few rows dated to historical
-    references (pre-2015, even pre-2000) or, from parse noise, the future. Those
-    are not contemporaneous detections and would smear the time series, so we keep
-    only event days within GDELT 2.0's coverage and no later than the file itself.
-    Returns a dict keyed by
-    that tuple -> [num_events, sum_mentions, sum_articles, sum_goldstein, sum_tone]."""
+    (event_day, action-country ISO2, event_root, quad)."""
     agg: dict[tuple, list] = defaultdict(lambda: [0, 0, 0, 0.0, 0.0])
-    for url in urls:
-        # A single export file must never abort a multi-day backfill. _fetch_zip
-        # already returns None on 404 and retries transient HTTP; here we also
-        # skip-and-continue past every OTHER permanent failure mode of one file:
-        # a non-404 4xx that survives retries, a connection error that exhausts
-        # them, or a truncated/corrupt archive (zipfile.BadZipFile). Across the
-        # ~390k-file 2015→now corpus (which includes documented multi-day source
-        # outages serving errors, not clean 404s) such a file is expected; losing
-        # it costs one 15-minute slice, whereas raising would crash the whole run
-        # (exit 1, no continuation) and lose hours of progress. The download
-        # health tests still catch wholesale corruption (empty/malformed batches).
-        try:
-            content = _fetch_zip(url)
-            if content is None:
-                continue
-            with zipfile.ZipFile(io.BytesIO(content)) as zf:
-                names = zf.namelist()
-                if not names:
-                    continue
-                text = zf.read(names[0]).decode("utf-8", errors="replace")
-        except (httpx.HTTPError, zipfile.BadZipFile, OSError) as exc:
-            print(f"    skipping {url.rsplit('/', 1)[-1]}: {type(exc).__name__}: {exc}")
-            continue
-        for line in text.splitlines():
-            if not line:
-                continue
-            f = line.split("\t")
-            if len(f) < _N_COLS:
-                continue
-            day = f[_I_DAY]
-            if len(day) != 8 or not day.isdigit():
-                continue
-            # Drop event days outside GDELT 2.0 coverage or later than this file
-            # (historical article references / future-dated parse noise). YYYYMMDD
-            # strings compare lexically == chronologically.
-            if day < _SOURCE_MIN_DAY8 or day > date8:
-                continue
-            try:
-                quad = int(f[_I_QUAD])
-            except ValueError:
-                continue
-            if quad not in _VALID_QUADS:
-                continue
-            root = f[_I_EVENT_ROOT]
-            if not root:
-                continue
-            iso2 = _FIPS_TO_ISO2.get(f[_I_ACTION_FIPS]) if f[_I_ACTION_FIPS] else None
-            try:
-                mentions = int(f[_I_NUM_MENTIONS] or 0)
-            except ValueError:
-                mentions = 0
-            try:
-                articles = int(f[_I_NUM_ARTICLES] or 0)
-            except ValueError:
-                articles = 0
-            try:
-                goldstein = float(f[_I_GOLDSTEIN] or 0.0)
-            except ValueError:
-                goldstein = 0.0
-            try:
-                tone = float(f[_I_TONE] or 0.0)
-            except ValueError:
-                tone = 0.0
-            date_iso = f"{day[:4]}-{day[4:6]}-{day[6:8]}"
-            cell = agg[(date_iso, iso2, root, quad)]
-            cell[0] += 1
-            cell[1] += mentions
-            cell[2] += articles
-            cell[3] += goldstein
-            cell[4] += tone
+    with ThreadPoolExecutor(max_workers=_FETCH_WORKERS) as pool:
+        futures = [pool.submit(_aggregate_file, url, date8) for url in urls]
+        for future in as_completed(futures):
+            _merge_agg(agg, future.result())
     return agg
 
 
