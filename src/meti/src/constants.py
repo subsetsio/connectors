@@ -11,6 +11,7 @@ ENTITY_IDS = [
     "production-forecast",
     "tertiary-industry-activity",
     "updated-input-output",
+    "time-series-list",
 ]
 
 ENTITY_START_URLS = {
@@ -56,5 +57,8 @@ ENTITY_START_URLS = {
     ],
     "updated-input-output": [
         "https://www.meti.go.jp/english/statistics/tyo/entyoio/index.html",
+    ],
+    "time-series-list": [
+        "https://www.meti.go.jp/statistics/toppage/jikeiretsu/index.html",
     ],
 }

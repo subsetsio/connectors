@@ -1,0 +1,36 @@
+spec_id: met-office-hadcrut5-hadcrut5-annual
+status: active
+tests:
+  - not_null: date
+    reason: every observation carries a year; a null date means a parse/format break
+    certainty: 99
+  - not_null: region
+    certainty: 99
+  - not_null: anomaly_c
+    reason: the anomaly value is the whole point of the series; nulls mean a shifted/renamed column
+    certainty: 95
+  - column_type: {col: date, type: date}
+    reason: year label 'YYYY' is normalised to a real Jan-1 date
+    certainty: 95
+  - column_type: {col: anomaly_c, type: float}
+    certainty: 95
+  - enum: {col: region, values: ["Global", "Northern Hemisphere", "Southern Hemisphere"]}
+    reason: exactly the 3 summary_series regions we fetch
+    certainty: 95
+  - distinct_count: {col: region, min: 3, max: 3}
+    reason: all 3 region CSVs must land; fewer means a region fetch was silently dropped
+    certainty: 95
+  - unique: [region, date]
+    reason: one anomaly per region per year; dupes mean a region CSV was ingested twice
+    certainty: 95
+  - between: {col: anomaly_c, lo: -3.0, hi: 6.0}
+    reason: HadCRUT5 annual anomalies vs 1961-1990 span roughly -0.5 to +1.3 degC; wide guard catches a unit/column swap
+    certainty: 85
+    severity: warn
+  - row_count: {min: 450}
+    reason: 3 regions x ~177 years (1850 onward) ~= 531 rows; a floor below that
+    certainty: 90
+  - freshness: {col: date, reaches: today - 430d}
+    reason: annual (incl. running current-year provisional) advances yearly; latest year within ~430 days means the feed is live year-round
+    points_outward: true
+    certainty: 85

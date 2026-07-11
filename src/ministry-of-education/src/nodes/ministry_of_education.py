@@ -24,7 +24,6 @@ import pyarrow as pa
 from constants import ENTITY_IDS, ENTITY_TITLES
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -257,24 +256,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT DISTINCT
-                CAST(year AS INTEGER)    AS year,
-                CAST(tbl_idx AS INTEGER) AS table_index,
-                CAST(row_idx AS INTEGER) AS row_index,
-                CAST(col_idx AS INTEGER) AS col_index,
-                row_label,
-                col_label,
-                CAST(value AS DOUBLE)    AS value
-            FROM "{s.id}"
-            WHERE value IS NOT NULL AND row_label IS NOT NULL AND row_label <> ''
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]

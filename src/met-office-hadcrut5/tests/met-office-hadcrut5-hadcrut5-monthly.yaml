@@ -1,0 +1,36 @@
+spec_id: met-office-hadcrut5-hadcrut5-monthly
+status: active
+tests:
+  - not_null: date
+    reason: every observation carries a period; a null date means a parse/format break
+    certainty: 99
+  - not_null: region
+    certainty: 99
+  - not_null: anomaly_c
+    reason: the anomaly value is the whole point of the series; nulls mean a shifted/renamed column
+    certainty: 95
+  - column_type: {col: date, type: date}
+    reason: period label 'YYYY-MM' is normalised to a real first-of-month date
+    certainty: 95
+  - column_type: {col: anomaly_c, type: float}
+    certainty: 95
+  - enum: {col: region, values: ["Global", "Northern Hemisphere", "Southern Hemisphere"]}
+    reason: exactly the 3 summary_series regions we fetch
+    certainty: 95
+  - distinct_count: {col: region, min: 3, max: 3}
+    reason: all 3 region CSVs must land; fewer means a region fetch was silently dropped
+    certainty: 95
+  - unique: [region, date]
+    reason: one anomaly per region per month; dupes mean a region CSV was ingested twice
+    certainty: 95
+  - between: {col: anomaly_c, lo: -3.0, hi: 6.0}
+    reason: HadCRUT5 monthly anomalies vs 1961-1990 span roughly -1.0 to +1.3 degC; wide guard catches a unit/column swap
+    certainty: 85
+    severity: warn
+  - row_count: {min: 5000}
+    reason: 3 regions x ~2100 months (1850-01 onward) ~= 6300 rows; a floor well below that
+    certainty: 90
+  - freshness: {col: date, reaches: today - 100d}
+    reason: monthly release lags ~1-2 months; latest month within ~100 days means the feed is live
+    points_outward: true
+    certainty: 85
