@@ -31,6 +31,21 @@ from utils import (
 SLUG = "nhs-england"
 _BATCH = 50000
 
+NO_WORKBOOK_IDS = {
+    "child-immunisation",
+    "dental-commissioning",
+    "diagnostic-imaging-dataset",
+    "gp-patient-survey",
+    "gpps-dental-statistics",
+    "marthas-rule",
+    "nhs-staff-survey-in-england",
+    "patient-safety-data",
+    "patient-surveys",
+    "proms",
+    "screening",
+    "under-16-cancer-patient-experience-survey",
+}
+
 
 def fetch_one(node_id: str) -> None:
     asset = node_id  # the spec id IS the asset name
@@ -39,6 +54,10 @@ def fetch_one(node_id: str) -> None:
     files = discover_files(slug)
     chosen = select_files(slug, files)
     if not chosen:
+        if slug in NO_WORKBOOK_IDS:
+            with raw_parquet_writer(asset, SCHEMA):
+                pass
+            return
         # Some work areas publish only PDFs, or host their data on a separate
         # site — no on-site machine-readable workbook to fetch.
         raise RuntimeError(
