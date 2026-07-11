@@ -80,7 +80,11 @@ def _cell_value(value) -> str | None:
     return str(value).strip()
 
 
-def _workbook_engine(fmt: str | None) -> str | None:
+def _workbook_engine(fmt: str | None, content: bytes) -> str | None:
+    if content.startswith(b"PK"):
+        return "openpyxl"
+    if content.startswith(b"\xd0\xcf"):
+        return "xlrd"
     if fmt == "xls":
         return "xlrd"
     if fmt == "xlsx":
@@ -95,7 +99,7 @@ def _read_sheets(content: bytes, fmt: str | None) -> dict[str, pd.DataFrame]:
             sheet_name=None,
             header=None,
             dtype=object,
-            engine=_workbook_engine(fmt),
+            engine=_workbook_engine(fmt, content),
         )
     except Exception as exc:
         raise RuntimeError(f"failed to parse {fmt or 'unknown'} workbook") from exc
