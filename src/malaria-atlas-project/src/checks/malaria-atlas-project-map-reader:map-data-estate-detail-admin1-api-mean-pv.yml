@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `malaria-atlas-project-map-reader:map-data-estate-detail-admin1-api-mean-pv`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [feature_id]
+temporal: time_start
+checks:
+  - kind: unique
+    columns: [feature_id]
+  - kind: not_null
+    col: feature_id
+  - kind: row_floor
+    min: 6724
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

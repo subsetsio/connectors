@@ -1,0 +1,50 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `malaria-atlas-project-admin-units:202403-global-admin-2`. Regenerate after model-verify.
+# caution: Admin 2 boundaries are a separate geography vintage and should not be aggregated with admin 0, admin 1, or admin 3 boundary rows as observations.
+key: [feature_id]
+sort: [feature_id]
+columns:
+  - name: gid
+    type: BIGINT
+  - name: iso
+    type: VARCHAR
+  - name: admn_level
+    type: BIGINT
+  - name: name_0
+    type: VARCHAR
+  - name: id_0
+    type: BIGINT
+  - name: code_0
+    type: VARCHAR
+  - name: type_0
+    type: VARCHAR
+  - name: name_1
+    type: VARCHAR
+  - name: id_1
+    type: BIGINT
+  - name: code_1
+    type: VARCHAR
+  - name: type_1
+    type: VARCHAR
+  - name: name_2
+    type: VARCHAR
+  - name: id_2
+    type: BIGINT
+  - name: code_2
+    type: VARCHAR
+  - name: type_2
+    type: VARCHAR
+  - name: source
+    type: VARCHAR
+  - name: iso2
+    type: VARCHAR
+  - name: source_type_name
+    type: VARCHAR
+  - name: feature_id
+    type: VARCHAR
+  - name: geometry_name
+    type: VARCHAR
+  - name: geometry
+    type: "STRUCT(\"type\" VARCHAR, coordinates DOUBLE[][][][])"
+  - name: bbox
+    type: "DOUBLE[]"

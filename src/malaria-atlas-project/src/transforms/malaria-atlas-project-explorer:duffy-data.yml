@@ -1,0 +1,78 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `malaria-atlas-project-explorer:duffy-data`. Regenerate after model-verify.
+# caution: Rows are survey observations for Duffy phenotype data and should not be interpreted as administrative-area totals.
+key: [id]
+sort: [id]
+columns:
+  - name: gid
+    type: BIGINT
+  - name: id
+    type: BIGINT
+  - name: country
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: area_type
+    type: VARCHAR
+  - name: no_examine
+    type: BIGINT
+  - name: diagnostic
+    type: VARCHAR
+  - name: prom_posit
+    type: BIGINT
+  - name: prom_negat
+    type: BIGINT
+  - name: phe_no_a_b
+    type: BIGINT
+  - name: phe_no_a_1
+    type: BIGINT
+  - name: phe_no_a_2
+    type: BIGINT
+  - name: phe_no_a_3
+    type: BIGINT
+  - name: aphe_no_a
+    type: BIGINT
+  - name: aphe_no_a1
+    type: BIGINT
+  - name: bphe_no_b
+    type: BIGINT
+  - name: bphe_no_b1
+    type: BIGINT
+  - name: genfyafya
+    type: BIGINT
+  - name: fya_fyb
+    type: BIGINT
+  - name: fyb_fyb
+    type: BIGINT
+  - name: fybesfybes
+    type: BIGINT
+  - name: fya_fybes
+    type: BIGINT
+  - name: fyb_fybes
+    type: BIGINT
+  - name: fya_fyaes
+    type: BIGINT
+  - name: fyb_fyaes
+    type: BIGINT
+  - name: fybesfyaes
+    type: BIGINT
+  - name: fyaesfyaes
+    type: BIGINT
+  - name: citation
+    type: VARCHAR
+  - name: country_id
+    type: VARCHAR
+  - name: malaria_metrics_available
+    type: BOOLEAN
+  - name: source_type_name
+    type: VARCHAR
+  - name: feature_id
+    type: VARCHAR
+  - name: geometry_name
+    type: VARCHAR
+  - name: geometry
+    type: "STRUCT(\"type\" VARCHAR, coordinates DOUBLE[])"
+  - name: bbox
+    type: "DOUBLE[]"

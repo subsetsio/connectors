@@ -1,0 +1,89 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `malaria-atlas-project-malaria:202406-global-pf-parasite-rate-surveys`. Regenerate after model-verify.
+# caution: Rows are site-level Plasmodium falciparum parasite-rate survey observations and may include repeated sites across publications or survey windows.
+key: [feature_id, id, site_id, title1, citation1]
+temporal: time_start
+sort: [time_start, feature_id, id, site_id, title1, citation1]
+columns:
+  - name: id
+    type: BIGINT
+  - name: malaria_metrics_available
+    type: BOOLEAN
+  - name: location_available
+    type: BOOLEAN
+  - name: country
+    type: VARCHAR
+  - name: country_id
+    type: VARCHAR
+  - name: continent_id
+    type: VARCHAR
+  - name: site_id
+    type: BIGINT
+  - name: site_name
+    type: VARCHAR
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: rural_urban
+    type: VARCHAR
+  - name: month_start
+    type: BIGINT
+  - name: year_start
+    type: BIGINT
+  - name: month_end
+    type: BIGINT
+  - name: year_end
+    type: BIGINT
+  - name: lower_age
+    type: DOUBLE
+  - name: upper_age
+    type: BIGINT
+  - name: examined
+    type: BIGINT
+  - name: pf_pos
+    type: DOUBLE
+  - name: pf_pr
+    type: DOUBLE
+  - name: method
+    type: VARCHAR
+  - name: rdt_type
+    type: VARCHAR
+  - name: pcr_type
+    type: JSON
+  - name: dhs_id
+    type: JSON
+  - name: permissions_info
+    type: VARCHAR
+  - name: source_id1
+    type: BIGINT
+  - name: title1
+    type: VARCHAR
+  - name: citation1
+    type: VARCHAR
+  - name: source_id2
+    type: BIGINT
+  - name: title2
+    type: VARCHAR
+  - name: citation2
+    type: VARCHAR
+  - name: source_id3
+    type: BIGINT
+  - name: title3
+    type: VARCHAR
+  - name: citation3
+    type: VARCHAR
+  - name: time_start
+    type: DATE
+  - name: time_end
+    type: DATE
+  - name: source_type_name
+    type: VARCHAR
+  - name: feature_id
+    type: VARCHAR
+  - name: geometry_name
+    type: VARCHAR
+  - name: geometry
+    type: "STRUCT(\"type\" VARCHAR, coordinates DOUBLE[])"
+  - name: bbox
+    type: "DOUBLE[]"

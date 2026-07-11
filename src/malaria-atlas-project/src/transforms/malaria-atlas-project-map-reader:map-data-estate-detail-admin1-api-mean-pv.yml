@@ -1,0 +1,79 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `malaria-atlas-project-map-reader:map-data-estate-detail-admin1-api-mean-pv`. Regenerate after model-verify.
+# caution: Annual vivax incidence values are admin 1 estimates; do not sum them with all-malaria, falciparum, or lower-level admin tables.
+key: [feature_id]
+temporal: time_start
+sort: [time_start, feature_id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: iso_3_code
+    type: VARCHAR
+  - name: iso_2_code
+    type: VARCHAR
+  - name: gaul_code
+    type: BIGINT
+  - name: country_name
+    type: VARCHAR
+  - name: admin_level
+    type: VARCHAR
+  - name: admin_unit
+    type: VARCHAR
+  - name: who_region
+    type: VARCHAR
+  - name: who_subregion
+    type: VARCHAR
+  - name: world_bank_region
+    type: VARCHAR
+  - name: map_pv_relapse_zone
+    type: BIGINT
+  - name: gender
+    type: VARCHAR
+  - name: age_bin
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: api_mean_all
+    type: DOUBLE
+  - name: api_mean_pf
+    type: DOUBLE
+  - name: api_mean_pv
+    type: DOUBLE
+  - name: conf_c
+    type: DOUBLE
+  - name: conf_c_pf
+    type: DOUBLE
+  - name: conf_c_pv
+    type: DOUBLE
+  - name: unconf_c
+    type: DOUBLE
+  - name: pf_prop
+    type: DOUBLE
+  - name: pv_prop
+    type: DOUBLE
+  - name: spr
+    type: DOUBLE
+  - name: reporting_compl
+    type: DOUBLE
+  - name: total_pop
+    type: DOUBLE
+  - name: pop_at_risk_pf
+    type: DOUBLE
+  - name: pop_at_risk_pv
+    type: DOUBLE
+  - name: pop_at_risk_all
+    type: DOUBLE
+  - name: time_start
+    type: DATE
+  - name: time_end
+    type: DATE
+  - name: source_type_name
+    type: VARCHAR
+  - name: feature_id
+    type: VARCHAR
+  - name: geometry_name
+    type: VARCHAR
+  - name: geometry
+    type: "STRUCT(\"type\" VARCHAR, coordinates DOUBLE[][][][])"
+  - name: bbox
+    type: "DOUBLE[]"

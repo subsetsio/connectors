@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `malaria-atlas-project-explorer:public-pv-data`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [id, feature_id, citation1, title1, method]
+temporal: time_start
+checks:
+  - kind: unique
+    columns: [id, feature_id, citation1, title1, method]
+  - kind: not_null
+    col: id
+  - kind: not_null
+    col: feature_id
+  - kind: not_null
+    col: citation1
+  - kind: not_null
+    col: title1
+  - kind: not_null
+    col: method
+  - kind: row_floor
+    min: 6983
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

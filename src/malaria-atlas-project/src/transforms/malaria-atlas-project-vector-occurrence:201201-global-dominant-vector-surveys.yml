@@ -1,0 +1,65 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `malaria-atlas-project-vector-occurrence:201201-global-dominant-vector-surveys`. Regenerate after model-verify.
+# caution: Rows are site-level dominant vector occurrence survey observations and may include multiple observations for the same place, species, or time period.
+key: [feature_id]
+temporal: time_start
+sort: [time_start, feature_id]
+columns:
+  - name: id
+    type: BIGINT
+  - name: site_id
+    type: HUGEINT
+  - name: latitude
+    type: DOUBLE
+  - name: longitude
+    type: DOUBLE
+  - name: country
+    type: VARCHAR
+  - name: country_id
+    type: VARCHAR
+  - name: continent_id
+    type: VARCHAR
+  - name: month_start
+    type: BIGINT
+  - name: year_start
+    type: BIGINT
+  - name: month_end
+    type: BIGINT
+  - name: year_end
+    type: BIGINT
+  - name: anopheline_id
+    type: BIGINT
+  - name: species
+    type: VARCHAR
+  - name: species_plain
+    type: VARCHAR
+  - name: id_method1
+    type: VARCHAR
+  - name: id_method2
+    type: VARCHAR
+  - name: sample_method1
+    type: VARCHAR
+  - name: sample_method2
+    type: VARCHAR
+  - name: sample_method3
+    type: VARCHAR
+  - name: sample_method4
+    type: VARCHAR
+  - name: assi
+    type: VARCHAR
+  - name: citation
+    type: VARCHAR
+  - name: time_start
+    type: DATE
+  - name: time_end
+    type: DATE
+  - name: source_type_name
+    type: VARCHAR
+  - name: feature_id
+    type: VARCHAR
+  - name: geometry_name
+    type: VARCHAR
+  - name: geometry
+    type: "STRUCT(\"type\" VARCHAR, coordinates DOUBLE[])"
+  - name: bbox
+    type: "DOUBLE[]"

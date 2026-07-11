@@ -1,0 +1,48 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: Rows are site-level Plasmodium falciparum parasite-rate survey observations and may include repeated sites across publications or survey windows.
+SELECT
+    "id",
+    "malaria_metrics_available",
+    "location_available",
+    "country",
+    "country_id",
+    "continent_id",
+    "site_id",
+    "site_name",
+    "latitude",
+    "longitude",
+    "rural_urban",
+    "month_start",
+    "year_start",
+    "month_end",
+    "year_end",
+    "lower_age",
+    "upper_age",
+    "examined",
+    "pf_pos",
+    "pf_pr",
+    "method",
+    "rdt_type",
+    "pcr_type",
+    "dhs_id",
+    "permissions_info",
+    "source_id1",
+    "title1",
+    "citation1",
+    "source_id2",
+    "title2",
+    "citation2",
+    "source_id3",
+    "title3",
+    "citation3",
+    "time_start",
+    "time_end",
+    "_source_type_name" AS source_type_name,
+    "_feature_id" AS feature_id,
+    "_geometry_name" AS geometry_name,
+    "_geometry" AS geometry,
+    "_bbox" AS bbox
+FROM "malaria-atlas-project-malaria:202406-global-pf-parasite-rate-surveys"
