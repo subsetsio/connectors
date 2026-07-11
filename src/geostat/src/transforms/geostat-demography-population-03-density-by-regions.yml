@@ -1,0 +1,11 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-demography-population-03-density-by-regions`. Regenerate after model-verify.
+key: [year, region]
+sort: [year, region]
+columns:
+  - name: year
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

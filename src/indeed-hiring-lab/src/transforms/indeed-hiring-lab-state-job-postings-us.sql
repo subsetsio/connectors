@@ -1,6 +1,9 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    TRY_CAST("date" AS DATE)               AS date,
-    "state"                              AS state,
-    TRY_CAST("indeed_job_postings_index" AS DOUBLE)     AS index
+    "date",
+    "state",
+    CAST("indeed_job_postings_index" AS DOUBLE) AS indeed_job_postings_index
 FROM "indeed-hiring-lab-state-job-postings-us"
-WHERE TRY_CAST("date" AS DATE) IS NOT NULL

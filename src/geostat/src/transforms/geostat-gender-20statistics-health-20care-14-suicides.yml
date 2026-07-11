@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-gender-20statistics-health-20care-14-suicides`. Regenerate after model-verify.
+# caution: The source cube has duplicated dimension combinations in the raw profile, so no row key is declared; treat rows as source observation records rather than a uniquely keyed dimensional cube.
+key: []
+columns:
+  - name: gender
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: age
+    type: VARCHAR
+  - name: value
+    type: BIGINT

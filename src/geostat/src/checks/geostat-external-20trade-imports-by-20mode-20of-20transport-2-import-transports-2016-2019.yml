@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-external-20trade-imports-by-20mode-20of-20transport-2-import-transports-2016-2019`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [quarters_and_months, mode_of_transport, years]
+checks:
+  - kind: unique
+    columns: [quarters_and_months, mode_of_transport, years]
+  - kind: not_null
+    col: quarters_and_months
+  - kind: not_null
+    col: mode_of_transport
+  - kind: not_null
+    col: years
+  - kind: row_floor
+    min: 156
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

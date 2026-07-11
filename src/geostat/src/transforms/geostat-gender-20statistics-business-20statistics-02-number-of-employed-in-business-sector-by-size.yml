@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-gender-20statistics-business-20statistics-02-number-of-employed-in-business-sector-by-size`. Regenerate after model-verify.
+key: [type_of_activity, year, ownership_type, category, gender]
+sort: [type_of_activity, year, ownership_type, category, gender]
+columns:
+  - name: gender
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: ownership_type
+    type: VARCHAR
+  - name: type_of_activity
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

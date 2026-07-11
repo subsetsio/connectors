@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-agriculture-plant-20growing-annual-20crops-at2102`. Regenerate after model-verify.
+key: [crop_name, year, region, type]
+sort: [crop_name, year, region, type]
+columns:
+  - name: year
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: type
+    type: VARCHAR
+  - name: crop_name
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-demography-deaths-23-5-deaths-by-causes-age-sex`. Regenerate after model-verify.
+key: [causes_of_death_in_accordance_with_eurostat_standard, age, year, sex]
+sort: [causes_of_death_in_accordance_with_eurostat_standard, age, year, sex]
+columns:
+  - name: age
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: causes_of_death_in_accordance_with_eurostat_standard
+    type: VARCHAR
+  - name: value
+    type: BIGINT

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-population-20census-202014-disability-49-51-distribution-of-population-by-health-related-limitations-and-disability-status`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [disability_status, disability_categories, health_related_limitations]
+checks:
+  - kind: unique
+    columns: [disability_status, disability_categories, health_related_limitations]
+  - kind: not_null
+    col: disability_status
+  - kind: not_null
+    col: disability_categories
+  - kind: not_null
+    col: health_related_limitations
+  - kind: row_floor
+    min: 189
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

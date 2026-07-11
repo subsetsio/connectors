@@ -1,0 +1,10 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-population-20census-202014-the-20geographical-20distribution-20of-20the-20population-20and-20internal-20migration-29-1-internal-migrants-by-previous-and-usual-place-of-residence`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+checks:
+  - kind: row_floor
+    min: 567
+regression:
+  row_shrink_tolerance: 0.1

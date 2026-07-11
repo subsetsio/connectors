@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-social-20statistics-health-morbidity-by-main-disease-groups`. Regenerate after model-verify.
+key: [years, main_diseases, population_group]
+sort: [years, main_diseases, population_group]
+columns:
+  - name: years
+    type: BIGINT
+  - name: main_diseases
+    type: VARCHAR
+  - name: population_group
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

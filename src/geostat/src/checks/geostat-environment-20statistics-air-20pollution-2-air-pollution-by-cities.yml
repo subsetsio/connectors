@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-environment-20statistics-air-20pollution-2-air-pollution-by-cities`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, city, hazardous_substances]
+checks:
+  - kind: unique
+    columns: [year, city, hazardous_substances]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: city
+  - kind: not_null
+    col: hazardous_substances
+  - kind: row_floor
+    min: 120
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

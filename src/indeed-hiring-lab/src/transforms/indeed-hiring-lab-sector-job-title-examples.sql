@@ -1,5 +1,8 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    "sector"     AS sector,
-    "job_titles" AS job_titles
+    "sector",
+    "job_titles"
 FROM "indeed-hiring-lab-sector-job-title-examples"
-WHERE "sector" IS NOT NULL

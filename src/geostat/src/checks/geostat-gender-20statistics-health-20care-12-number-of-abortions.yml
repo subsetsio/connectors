@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-gender-20statistics-health-20care-12-number-of-abortions`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, age_groups]
+checks:
+  - kind: unique
+    columns: [year, age_groups]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: age_groups
+  - kind: row_floor
+    min: 149
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

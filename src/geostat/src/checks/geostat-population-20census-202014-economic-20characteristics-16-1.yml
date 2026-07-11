@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-population-20census-202014-economic-20characteristics-16-1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [industry_nace_rev_1_1, educational_attainment]
+checks:
+  - kind: unique
+    columns: [industry_nace_rev_1_1, educational_attainment]
+  - kind: not_null
+    col: industry_nace_rev_1_1
+  - kind: not_null
+    col: educational_attainment
+  - kind: row_floor
+    min: 90
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

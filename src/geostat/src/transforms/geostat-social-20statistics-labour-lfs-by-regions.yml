@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-social-20statistics-labour-lfs-by-regions`. Regenerate after model-verify.
+key: [years, economic_status, regions]
+sort: [years, economic_status, regions]
+columns:
+  - name: regions
+    type: VARCHAR
+  - name: years
+    type: BIGINT
+  - name: economic_status
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-population-20census-202014-demographic-20and-20social-20characteristics-10-married-population-15-years-of-age-and-over-by-age-status-of-registered-marriages-and-sex`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [age, sex, status_of_registred_marriages, urban_rural]
+checks:
+  - kind: unique
+    columns: [age, sex, status_of_registred_marriages, urban_rural]
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: status_of_registred_marriages
+  - kind: not_null
+    col: urban_rural
+  - kind: row_floor
+    min: 360
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

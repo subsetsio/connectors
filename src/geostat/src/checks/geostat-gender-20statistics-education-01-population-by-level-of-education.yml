@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-gender-20statistics-education-01-population-by-level-of-education`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [level_of_education, year, gender]
+checks:
+  - kind: unique
+    columns: [level_of_education, year, gender]
+  - kind: not_null
+    col: level_of_education
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: gender
+  - kind: row_floor
+    min: 18
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

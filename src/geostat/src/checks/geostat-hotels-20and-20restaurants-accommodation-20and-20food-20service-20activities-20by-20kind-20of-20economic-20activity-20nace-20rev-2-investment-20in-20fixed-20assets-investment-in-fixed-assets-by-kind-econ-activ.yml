@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-hotels-20and-20restaurants-accommodation-20and-20food-20service-20activities-20by-20kind-20of-20economic-20activity-20nace-20rev-2-investment-20in-20fixed-20assets-investment-in-fixed-assets-by-kind-econ-activ`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [period, kind_of_economic_activity]
+checks:
+  - kind: unique
+    columns: [period, kind_of_economic_activity]
+  - kind: not_null
+    col: period
+  - kind: not_null
+    col: kind_of_economic_activity
+  - kind: row_floor
+    min: 28
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

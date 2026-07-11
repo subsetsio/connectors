@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-environment-20statistics-air-20pollution-2-air-pollution-by-cities`. Regenerate after model-verify.
+key: [year, city, hazardous_substances]
+sort: [year, city, hazardous_substances]
+columns:
+  - name: hazardous_substances
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: city
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

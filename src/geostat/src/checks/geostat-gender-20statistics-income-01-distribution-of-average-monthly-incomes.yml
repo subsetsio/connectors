@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-gender-20statistics-income-01-distribution-of-average-monthly-incomes`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, source, gender, target]
+checks:
+  - kind: unique
+    columns: [year, source, gender, target]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: source
+  - kind: not_null
+    col: gender
+  - kind: not_null
+    col: target
+  - kind: row_floor
+    min: 570
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

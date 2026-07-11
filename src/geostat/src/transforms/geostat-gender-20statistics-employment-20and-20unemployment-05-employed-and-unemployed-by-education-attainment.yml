@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-gender-20statistics-employment-20and-20unemployment-05-employed-and-unemployed-by-education-attainment`. Regenerate after model-verify.
+key: [year, education_level, status, gender]
+sort: [year, education_level, status, gender]
+columns:
+  - name: status
+    type: VARCHAR
+  - name: gender
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: education_level
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

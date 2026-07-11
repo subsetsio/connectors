@@ -1,12 +1,16 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `indeed-hiring-lab-job-postings-by-sector`. Regenerate after model-verify.
+key: [date, jobcountry, variable, display_name]
+temporal: date
+sort: [date, jobcountry, variable, display_name]
 columns:
   - name: date
     type: DATE
   - name: jobcountry
     type: VARCHAR
-  - name: index
+  - name: indeed_job_postings_index
     type: DOUBLE
   - name: variable
     type: VARCHAR
-  - name: sector
+  - name: display_name
     type: VARCHAR

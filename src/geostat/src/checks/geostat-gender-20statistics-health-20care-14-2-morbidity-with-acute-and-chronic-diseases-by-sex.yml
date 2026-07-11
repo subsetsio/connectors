@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-gender-20statistics-health-20care-14-2-morbidity-with-acute-and-chronic-diseases-by-sex`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [diseases, year, sex]
+checks:
+  - kind: unique
+    columns: [diseases, year, sex]
+  - kind: not_null
+    col: diseases
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 135
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

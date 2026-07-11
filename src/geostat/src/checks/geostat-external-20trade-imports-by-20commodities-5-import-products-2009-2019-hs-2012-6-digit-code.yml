@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-external-20trade-imports-by-20commodities-5-import-products-2009-2019-hs-2012-6-digit-code`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [commodity_positions, months, years]
+checks:
+  - kind: unique
+    columns: [commodity_positions, months, years]
+  - kind: not_null
+    col: commodity_positions
+  - kind: not_null
+    col: months
+  - kind: not_null
+    col: years
+  - kind: row_floor
+    min: 353639
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

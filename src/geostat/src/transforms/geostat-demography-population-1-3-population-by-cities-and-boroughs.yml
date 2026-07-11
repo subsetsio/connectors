@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-demography-population-1-3-population-by-cities-and-boroughs`. Regenerate after model-verify.
+key: [region_municipality_city_borough, year, urban_rural]
+sort: [region_municipality_city_borough, year, urban_rural]
+columns:
+  - name: urban_rural
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: region_municipality_city_borough
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

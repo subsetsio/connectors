@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-gender-20statistics-households-03-distribution-of-households-by-type-of-ownership-of-dwellings-and-gend`. Regenerate after model-verify.
+key: [year, form_of_ownership, urban_rural, gender]
+sort: [year, form_of_ownership, urban_rural, gender]
+columns:
+  - name: gender
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: form_of_ownership
+    type: VARCHAR
+  - name: urban_rural
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

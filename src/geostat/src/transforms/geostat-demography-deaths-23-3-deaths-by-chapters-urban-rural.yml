@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-demography-deaths-23-3-deaths-by-chapters-urban-rural`. Regenerate after model-verify.
+key: [chapters_of_icd_10, year, urban_rural]
+sort: [chapters_of_icd_10, year, urban_rural]
+columns:
+  - name: urban_rural
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: chapters_of_icd_10
+    type: VARCHAR
+  - name: value
+    type: BIGINT

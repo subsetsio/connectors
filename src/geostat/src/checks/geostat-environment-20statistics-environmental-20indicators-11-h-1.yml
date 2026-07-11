@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-environment-20statistics-environmental-20indicators-11-h-1`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, passenger_transport_demand]
+checks:
+  - kind: unique
+    columns: [year, passenger_transport_demand]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: passenger_transport_demand
+  - kind: row_floor
+    min: 262
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

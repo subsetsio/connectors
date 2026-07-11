@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-external-20trade-trade-20balance-2-georgian-trade-by-exportsimportsbalanceturnover-years-and-months`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [years, months, exports_imports]
+checks:
+  - kind: unique
+    columns: [years, months, exports_imports]
+  - kind: not_null
+    col: years
+  - kind: not_null
+    col: months
+  - kind: not_null
+    col: exports_imports
+  - kind: row_floor
+    min: 338
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

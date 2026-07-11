@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-fdi-10`. Regenerate after model-verify.
+key: [years, regions, quarters]
+sort: [years, regions, quarters]
+columns:
+  - name: quarters
+    type: VARCHAR
+  - name: years
+    type: BIGINT
+  - name: regions
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

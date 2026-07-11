@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-gender-20statistics-income-adj-gpg-by-year-occu`. Regenerate after model-verify.
+key: [occupation, years, adjusted_gpg]
+sort: [occupation, years, adjusted_gpg]
+columns:
+  - name: adjusted_gpg
+    type: VARCHAR
+  - name: years
+    type: BIGINT
+  - name: occupation
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

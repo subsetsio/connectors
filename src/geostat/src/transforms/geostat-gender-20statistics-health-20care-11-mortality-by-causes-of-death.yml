@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-gender-20statistics-health-20care-11-mortality-by-causes-of-death`. Regenerate after model-verify.
+key: [year, causes_of_death, gender]
+sort: [year, causes_of_death, gender]
+columns:
+  - name: gender
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: causes_of_death
+    type: VARCHAR
+  - name: value
+    type: BIGINT

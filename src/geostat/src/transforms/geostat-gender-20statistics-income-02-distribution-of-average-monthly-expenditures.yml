@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-gender-20statistics-income-02-distribution-of-average-monthly-expenditures`. Regenerate after model-verify.
+key: [purpose, year, gender, target]
+sort: [purpose, year, gender, target]
+columns:
+  - name: gender
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: purpose
+    type: VARCHAR
+  - name: target
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

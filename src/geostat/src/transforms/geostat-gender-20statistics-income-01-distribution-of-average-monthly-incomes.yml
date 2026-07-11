@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-gender-20statistics-income-01-distribution-of-average-monthly-incomes`. Regenerate after model-verify.
+key: [year, source, gender, target]
+sort: [year, source, gender, target]
+columns:
+  - name: gender
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: source
+    type: VARCHAR
+  - name: target
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

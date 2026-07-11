@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-price-20statistics-ppi-producer-20price-20index-20for-20industrial-20products-cpa-202008-ppi-in-industry-previous-month-100`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [groups, month, year]
+checks:
+  - kind: unique
+    columns: [groups, month, year]
+  - kind: not_null
+    col: groups
+  - kind: not_null
+    col: month
+  - kind: not_null
+    col: year
+  - kind: row_floor
+    min: 1428
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

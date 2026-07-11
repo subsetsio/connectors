@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-external-20trade-imports-by-20bec-20-28broad-20economic-20categories-29-2-import-bec-2000-2019-px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [years, months, bec_broad_economic_categories]
+checks:
+  - kind: unique
+    columns: [years, months, bec_broad_economic_categories]
+  - kind: not_null
+    col: years
+  - kind: not_null
+    col: months
+  - kind: not_null
+    col: bec_broad_economic_categories
+  - kind: row_floor
+    min: 1040
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

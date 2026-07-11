@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-industry-industry-20by-20kind-20of-20economic-20activity-20nace-20rev-2-number-20of-20persons-20employed-number-of-persons-employed-by-size-of-enterprises-new`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [period, enterprise_size]
+checks:
+  - kind: unique
+    columns: [period, enterprise_size]
+  - kind: not_null
+    col: period
+  - kind: not_null
+    col: enterprise_size
+  - kind: row_floor
+    min: 62
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

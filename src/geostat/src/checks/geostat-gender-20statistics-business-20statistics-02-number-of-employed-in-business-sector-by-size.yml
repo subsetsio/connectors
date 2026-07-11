@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-gender-20statistics-business-20statistics-02-number-of-employed-in-business-sector-by-size`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [type_of_activity, year, ownership_type, category, gender]
+checks:
+  - kind: unique
+    columns: [type_of_activity, year, ownership_type, category, gender]
+  - kind: not_null
+    col: type_of_activity
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: ownership_type
+  - kind: not_null
+    col: category
+  - kind: not_null
+    col: gender
+  - kind: row_floor
+    min: 8208
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

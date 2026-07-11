@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-gender-20statistics-households-01-distribution-of-types-of-households`. Regenerate after model-verify.
+key: [year, type_of_household, gender]
+sort: [year, type_of_household, gender]
+columns:
+  - name: gender
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: type_of_household
+    type: VARCHAR
+  - name: value
+    type: BIGINT

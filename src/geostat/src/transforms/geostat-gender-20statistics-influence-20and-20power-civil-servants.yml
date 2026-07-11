@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-gender-20statistics-influence-20and-20power-civil-servants`. Regenerate after model-verify.
+# caution: The source cube has duplicated dimension combinations in the raw profile, so no row key is declared; treat rows as source observation records rather than a uniquely keyed dimensional cube.
+key: []
+columns:
+  - name: sex
+    type: VARCHAR
+  - name: years
+    type: BIGINT
+  - name: rank
+    type: VARCHAR
+  - name: unit_rank
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-external-20trade-exports-by-20economic-20activities-20-28nace-20rev-2-29-2-export-nace-2015-2019`. Regenerate after model-verify.
+key: [nace_section, months, years]
+sort: [nace_section, months, years]
+columns:
+  - name: months
+    type: VARCHAR
+  - name: years
+    type: BIGINT
+  - name: nace_section
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

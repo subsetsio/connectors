@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-demography-births-12-2-number-of-live-births-by-regions-birth-order-and-sex`. Regenerate after model-verify.
+key: [year, region, birth_order, sex]
+sort: [year, region, birth_order, sex]
+columns:
+  - name: birth_order
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: value
+    type: BIGINT

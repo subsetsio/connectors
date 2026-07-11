@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-demography-deaths-23-4-deaths-by-chapters-age-sex`. Regenerate after model-verify.
+key: [age, chapters_of_icd_10, year, sex]
+sort: [age, chapters_of_icd_10, year, sex]
+columns:
+  - name: age
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: chapters_of_icd_10
+    type: VARCHAR
+  - name: value
+    type: BIGINT

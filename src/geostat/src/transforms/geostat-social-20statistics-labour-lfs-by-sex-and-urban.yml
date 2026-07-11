@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-social-20statistics-labour-lfs-by-sex-and-urban`. Regenerate after model-verify.
+key: [years, economic_status, quarters, sex_urban_rural_areas]
+sort: [years, economic_status, quarters, sex_urban_rural_areas]
+columns:
+  - name: quarters
+    type: VARCHAR
+  - name: years
+    type: BIGINT
+  - name: economic_status
+    type: VARCHAR
+  - name: sex_urban_rural_areas
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

@@ -1,6 +1,9 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
 SELECT
-    TRY_CAST("date" AS DATE)                      AS date,
-    "jobcountry"                                  AS jobcountry,
-    TRY_CAST("remote_share_postings" AS DOUBLE)   AS remote_share_postings
+    "date",
+    "jobcountry",
+    CAST("remote_share_postings" AS DOUBLE) AS remote_share_postings
 FROM "indeed-hiring-lab-remote-postings"
-WHERE TRY_CAST("date" AS DATE) IS NOT NULL

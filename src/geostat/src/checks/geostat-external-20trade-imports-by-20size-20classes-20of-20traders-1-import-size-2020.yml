@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-external-20trade-imports-by-20size-20classes-20of-20traders-1-import-size-2020`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [size_classes, months]
+checks:
+  - kind: unique
+    columns: [size_classes, months]
+  - kind: not_null
+    col: size_classes
+  - kind: not_null
+    col: months
+  - kind: row_floor
+    min: 7
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

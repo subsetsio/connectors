@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-gender-20statistics-education-04-6-grade-progression-rates`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [grade, years, sex]
+checks:
+  - kind: unique
+    columns: [grade, years, sex]
+  - kind: not_null
+    col: grade
+  - kind: not_null
+    col: years
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 24
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

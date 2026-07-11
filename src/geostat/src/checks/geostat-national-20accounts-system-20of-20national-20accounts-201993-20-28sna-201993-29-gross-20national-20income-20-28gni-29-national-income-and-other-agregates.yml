@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-national-20accounts-system-20of-20national-20accounts-201993-20-28sna-201993-29-gross-20national-20income-20-28gni-29-national-income-and-other-agregates`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [period, tansaction]
+checks:
+  - kind: unique
+    columns: [period, tansaction]
+  - kind: not_null
+    col: period
+  - kind: not_null
+    col: tansaction
+  - kind: row_floor
+    min: 943
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

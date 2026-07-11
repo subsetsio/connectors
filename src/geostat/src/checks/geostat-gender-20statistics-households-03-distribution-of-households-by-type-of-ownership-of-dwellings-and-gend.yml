@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-gender-20statistics-households-03-distribution-of-households-by-type-of-ownership-of-dwellings-and-gend`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, form_of_ownership, urban_rural, gender]
+checks:
+  - kind: unique
+    columns: [year, form_of_ownership, urban_rural, gender]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: form_of_ownership
+  - kind: not_null
+    col: urban_rural
+  - kind: not_null
+    col: gender
+  - kind: row_floor
+    min: 390
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

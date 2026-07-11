@@ -1,10 +1,14 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `indeed-hiring-lab-metro-job-postings-us`. Regenerate after model-verify.
+key: [date, cbsa_code, metro]
+temporal: date
+sort: [date, cbsa_code, metro]
 columns:
   - name: date
     type: DATE
   - name: metro
     type: VARCHAR
   - name: cbsa_code
-    type: INTEGER
-  - name: index
+    type: BIGINT
+  - name: indeed_job_postings_index
     type: DOUBLE

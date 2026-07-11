@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-population-20census-202014-demographic-20and-20social-20characteristics-20-population-by-region-by-native-languages-and-fluently-speak-georgian`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [regions, native_languages, fluently_speak_georgian_language]
+checks:
+  - kind: unique
+    columns: [regions, native_languages, fluently_speak_georgian_language]
+  - kind: not_null
+    col: regions
+  - kind: not_null
+    col: native_languages
+  - kind: not_null
+    col: fluently_speak_georgian_language
+  - kind: row_floor
+    min: 234
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

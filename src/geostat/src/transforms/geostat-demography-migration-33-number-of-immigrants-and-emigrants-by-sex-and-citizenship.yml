@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-demography-migration-33-number-of-immigrants-and-emigrants-by-sex-and-citizenship`. Regenerate after model-verify.
+key: [citizenship, year, sex, migrants]
+sort: [citizenship, year, sex, migrants]
+columns:
+  - name: sex
+    type: VARCHAR
+  - name: migrants
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: citizenship
+    type: VARCHAR
+  - name: value
+    type: BIGINT

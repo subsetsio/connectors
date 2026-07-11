@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-gender-20statistics-ict-7-interaction-with-public-authorities-or-public-services-over-the-intern`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, interaction, sex]
+checks:
+  - kind: unique
+    columns: [year, interaction, sex]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: interaction
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 50
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

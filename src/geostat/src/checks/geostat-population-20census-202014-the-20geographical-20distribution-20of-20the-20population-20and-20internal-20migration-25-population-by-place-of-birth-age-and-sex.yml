@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-population-20census-202014-the-20geographical-20distribution-20of-20the-20population-20and-20internal-20migration-25-population-by-place-of-birth-age-and-sex`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [age, place_of_birth, sex]
+checks:
+  - kind: unique
+    columns: [age, place_of_birth, sex]
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: place_of_birth
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 513
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

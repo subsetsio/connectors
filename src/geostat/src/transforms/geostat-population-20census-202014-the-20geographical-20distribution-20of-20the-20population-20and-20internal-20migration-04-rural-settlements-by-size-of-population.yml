@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-population-20census-202014-the-20geographical-20distribution-20of-20the-20population-20and-20internal-20migration-04-rural-settlements-by-size-of-population`. Regenerate after model-verify.
+# caution: The source cube has duplicated dimension combinations in the raw profile, so no row key is declared; treat rows as source observation records rather than a uniquely keyed dimensional cube.
+key: []
+columns:
+  - name: size
+    type: VARCHAR
+  - name: settlements
+    type: VARCHAR
+  - name: regions_municipalities
+    type: VARCHAR
+  - name: value
+    type: BIGINT

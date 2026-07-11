@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-gender-20statistics-demography-05-live-births-by-order-of-birth`. Regenerate after model-verify.
+key: [year, birth_order, gender]
+sort: [year, birth_order, gender]
+columns:
+  - name: gender
+    type: VARCHAR
+  - name: birth_order
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: BIGINT

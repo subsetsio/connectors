@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-demography-marriages-40-mean-age-of-spouses-by-order`. Regenerate after model-verify.
+key: [year, order_of_marriages, sex]
+sort: [year, order_of_marriages, sex]
+columns:
+  - name: sex
+    type: VARCHAR
+  - name: order_of_marriages
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

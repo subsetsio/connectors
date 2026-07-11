@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-demography-deaths-20-1-number-of-deaths-by-regions-age-and-sex`. Regenerate after model-verify.
+key: [year, age, region, sex]
+sort: [year, age, region, sex]
+columns:
+  - name: age
+    type: VARCHAR
+  - name: sex
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: region
+    type: VARCHAR
+  - name: value
+    type: BIGINT

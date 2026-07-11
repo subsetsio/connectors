@@ -1,0 +1,15 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-gender-20statistics-employment-20and-20unemployment-employment-rate-by-age-groups-and-areas`. Regenerate after model-verify.
+key: [years, age_group, sex, urban_rural_areas]
+sort: [years, age_group, sex, urban_rural_areas]
+columns:
+  - name: sex
+    type: VARCHAR
+  - name: years
+    type: BIGINT
+  - name: age_group
+    type: VARCHAR
+  - name: urban_rural_areas
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

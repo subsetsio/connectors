@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-external-20trade-imports-by-20countries-6-import-cis-countries-1995-2019`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [years, months, cis_countries]
+checks:
+  - kind: unique
+    columns: [years, months, cis_countries]
+  - kind: not_null
+    col: years
+  - kind: not_null
+    col: months
+  - kind: not_null
+    col: cis_countries
+  - kind: row_floor
+    min: 1950
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

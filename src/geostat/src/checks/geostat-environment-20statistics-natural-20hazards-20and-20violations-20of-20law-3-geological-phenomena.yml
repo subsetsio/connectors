@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-environment-20statistics-natural-20hazards-20and-20violations-20of-20law-3-geological-phenomena`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, geological_phenomena]
+checks:
+  - kind: unique
+    columns: [year, geological_phenomena]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: geological_phenomena
+  - kind: row_floor
+    min: 105
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

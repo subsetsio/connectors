@@ -1,0 +1,13 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-demography-deaths-23-2-deaths-by-chapters-regions`. Regenerate after model-verify.
+key: [chapters_of_icd_10, region, year]
+sort: [chapters_of_icd_10, region, year]
+columns:
+  - name: region
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: chapters_of_icd_10
+    type: VARCHAR
+  - name: value
+    type: BIGINT

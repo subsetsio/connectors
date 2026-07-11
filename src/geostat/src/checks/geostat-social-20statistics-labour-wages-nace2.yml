@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-social-20statistics-labour-wages-nace2`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [economic_activity, years, sex_sectors, quarters]
+checks:
+  - kind: unique
+    columns: [economic_activity, years, sex_sectors, quarters]
+  - kind: not_null
+    col: economic_activity
+  - kind: not_null
+    col: years
+  - kind: not_null
+    col: sex_sectors
+  - kind: not_null
+    col: quarters
+  - kind: row_floor
+    min: 4550
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-gender-20statistics-demography-15-infant-mortality`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, gender, rate]
+checks:
+  - kind: unique
+    columns: [year, gender, rate]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: gender
+  - kind: not_null
+    col: rate
+  - kind: row_floor
+    min: 84
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

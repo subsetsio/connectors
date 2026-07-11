@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-social-20statistics-education-school-07-suspended-or-terminated-out-studying`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [grade, sex, status, year, institutions]
+checks:
+  - kind: unique
+    columns: [grade, sex, status, year, institutions]
+  - kind: not_null
+    col: grade
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: status
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: institutions
+  - kind: row_floor
+    min: 104
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

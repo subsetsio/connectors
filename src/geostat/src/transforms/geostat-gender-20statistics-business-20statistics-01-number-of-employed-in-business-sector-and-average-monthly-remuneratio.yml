@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `geostat-gender-20statistics-business-20statistics-01-number-of-employed-in-business-sector-and-average-monthly-remuneratio`. Regenerate after model-verify.
+key: [year, region, ownership_type, category, gender]
+sort: [year, region, ownership_type, category, gender]
+columns:
+  - name: gender
+    type: VARCHAR
+  - name: category
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: ownership_type
+    type: VARCHAR
+  - name: region
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

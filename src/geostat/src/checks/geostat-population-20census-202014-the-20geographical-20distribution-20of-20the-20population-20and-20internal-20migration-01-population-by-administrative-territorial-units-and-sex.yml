@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-population-20census-202014-the-20geographical-20distribution-20of-20the-20population-20and-20internal-20migration-01-population-by-administrative-territorial-units-and-sex`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [administrative_territorial_units_code, sex]
+checks:
+  - kind: unique
+    columns: [administrative_territorial_units_code, sex]
+  - kind: not_null
+    col: administrative_territorial_units_code
+  - kind: not_null
+    col: sex
+  - kind: row_floor
+    min: 7122
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

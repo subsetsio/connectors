@@ -1,8 +1,12 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `indeed-hiring-lab-city-postings-gb`. Regenerate after model-verify.
+key: [date, cities]
+temporal: date
+sort: [date, cities]
 columns:
   - name: date
     type: DATE
-  - name: city
+  - name: cities
     type: VARCHAR
-  - name: index
+  - name: indeed_job_postings_index
     type: DOUBLE

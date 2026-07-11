@@ -1,0 +1,24 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-gender-20statistics-education-05-number-of-students-in-higher-educational-institutions-by-programmes-in-2011-2014`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [programme, year, degree, gender, higher_educational_institutions]
+checks:
+  - kind: unique
+    columns: [programme, year, degree, gender, higher_educational_institutions]
+  - kind: not_null
+    col: programme
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: degree
+  - kind: not_null
+    col: gender
+  - kind: not_null
+    col: higher_educational_institutions
+  - kind: row_floor
+    min: 192
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

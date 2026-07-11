@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-gender-20statistics-health-20care-10-new-cases-of-malignant-neoplasms-diagnosis-set-for-the-first-time-by-age-groups`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, age, gender]
+checks:
+  - kind: unique
+    columns: [year, age, gender]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: age
+  - kind: not_null
+    col: gender
+  - kind: row_floor
+    min: 120
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

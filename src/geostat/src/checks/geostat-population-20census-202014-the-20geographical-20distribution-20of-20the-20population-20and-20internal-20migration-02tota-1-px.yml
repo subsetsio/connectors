@@ -1,0 +1,20 @@
+# compiled by `hardened compile-checks` — post-publish audit of `geostat-population-20census-202014-the-20geographical-20distribution-20of-20the-20population-20and-20internal-20migration-02tota-1-px`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [self_governed_units, sex, urban_rural]
+checks:
+  - kind: unique
+    columns: [self_governed_units, sex, urban_rural]
+  - kind: not_null
+    col: self_governed_units
+  - kind: not_null
+    col: sex
+  - kind: not_null
+    col: urban_rural
+  - kind: row_floor
+    min: 369
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

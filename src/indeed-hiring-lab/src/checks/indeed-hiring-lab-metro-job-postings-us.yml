@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `indeed-hiring-lab-metro-job-postings-us`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [date, cbsa_code, metro]
+temporal: date
+checks:
+  - kind: unique
+    columns: [date, cbsa_code, metro]
+  - kind: not_null
+    col: date
+  - kind: not_null
+    col: cbsa_code
+  - kind: not_null
+    col: metro
+  - kind: row_floor
+    min: 693217
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true
