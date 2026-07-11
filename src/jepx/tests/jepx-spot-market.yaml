@@ -28,3 +28,10 @@ tests:
   - matches: {col: delivery_date, pattern: '^[0-9]{4}/[0-9]{2}/[0-9]{2}$'}
     reason: source formats dates as YYYY/MM/DD
     certainty: 90
+  - unique: [delivery_date, slot]
+    reason: one settlement row per delivery date and half-hourly slot
+    certainty: 95
+  - freshness: {col: delivery_date, reaches: today - 7d}
+    reason: the current fiscal-year spot CSV grows daily after market clearing
+    certainty: 80
+    points_outward: true

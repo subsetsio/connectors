@@ -53,7 +53,9 @@ def fetch_weather_forecasts(node_id: str) -> None:
                             continue
                         for i, v in enumerate(values):
                             valid_time = time_defines[i] if i < len(time_defines) else None
-                            rows.append({
+                            if v is None or str(v) == "":
+                                continue
+                            row = {
                                 "office_code": office,
                                 "publishing_office": pub,
                                 "report_datetime": report_dt,
@@ -61,8 +63,10 @@ def fetch_weather_forecasts(node_id: str) -> None:
                                 "area_name": aname,
                                 "element": elem,
                                 "valid_time": valid_time,
-                                "value": None if v is None else str(v),
-                            })
+                                "value": str(v),
+                            }
+                            if row not in rows:
+                                rows.append(row)
     if fetched == 0:
         raise RuntimeError("no forecast documents fetched; bosai forecast surface may have changed")
     save_raw_parquet(pa.Table.from_pylist(rows, schema=_FORECAST_SCHEMA), node_id)
