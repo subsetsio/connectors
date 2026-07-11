@@ -1,4 +1,10 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nber-macrohistory-values`. Regenerate after model-verify.
+# caution: The table combines annual, quarterly, and monthly series; filter or group by frequency before comparing observation periods.
+# caution: A small number of source series contain multiple values for the same series and observation date without a separate upstream subseries label; keep value in the row identity when de-duplicating.
+key: [series_id, date, value]
+temporal: date
+sort: [date, series_id, value]
 columns:
   - name: series_id
     type: VARCHAR

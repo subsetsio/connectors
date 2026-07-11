@@ -1,6 +1,11 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nber-business-cycle-dates`. Regenerate after model-verify.
+# caution: Rows are complete business-cycle episodes; use the peak and trough dates to distinguish contraction timing from the following expansion timing.
+key: [trough]
+temporal: trough
+sort: [trough]
 columns:
-  - name: peak_date
+  - name: peak
     type: DATE
-  - name: trough_date
+  - name: trough
     type: DATE

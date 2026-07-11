@@ -13,10 +13,10 @@ API, just Apache directory indexes):
 The macrohistory corpus is static; both macrohistory subsets re-enumerate the
 chapter indexes and re-fetch every file each run (stateless full re-pull).
 """
-import httpx
 import pyarrow as pa
+import httpx
 
-from subsets_utils import NodeSpec, SqlNodeSpec, raw_parquet_writer, save_raw_parquet
+from subsets_utils import NodeSpec, raw_parquet_writer, save_raw_parquet
 from utils import CHAPTER_NAMES, FREQ_NAMES, MACRO_BASE, _get, _list_chapter_stems
 
 # --------------------------------------------------------------------------- #
@@ -209,47 +209,4 @@ DOWNLOAD_SPECS = [
     NodeSpec(id="nber-business-cycle-dates", fn=fetch_business_cycle_dates, kind="download"),
     NodeSpec(id="nber-macrohistory-series", fn=fetch_macrohistory_series, kind="download"),
     NodeSpec(id="nber-macrohistory-values", fn=fetch_macrohistory_values, kind="download"),
-]
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="nber-business-cycle-dates-transform",
-        deps=["nber-business-cycle-dates"],
-        sql='''
-            SELECT
-                CAST(peak AS DATE)   AS peak_date,
-                CAST(trough AS DATE) AS trough_date
-            FROM "nber-business-cycle-dates"
-        ''',
-    ),
-    SqlNodeSpec(
-        id="nber-macrohistory-series-transform",
-        deps=["nber-macrohistory-series"],
-        sql='''
-            SELECT
-                series_id,
-                chapter,
-                chapter_name,
-                frequency,
-                title,
-                units,
-                area,
-                source
-            FROM "nber-macrohistory-series"
-        ''',
-    ),
-    SqlNodeSpec(
-        id="nber-macrohistory-values-transform",
-        deps=["nber-macrohistory-values"],
-        sql='''
-            SELECT
-                series_id,
-                CAST(date AS DATE) AS date,
-                CAST(value AS DOUBLE) AS value,
-                frequency,
-                chapter
-            FROM "nber-macrohistory-values"
-            WHERE value IS NOT NULL
-        ''',
-    ),
 ]
