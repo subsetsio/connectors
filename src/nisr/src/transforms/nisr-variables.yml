@@ -1,32 +1,51 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nisr-variables`. Regenerate after model-verify.
+# caution: This table is variable-level codebook metadata extracted from study DDI XML files; summary statistic columns are source-provided metadata, not independently computed observations.
+key: [study_id, var_id]
+sort: [study_id, var_id]
 columns:
   - name: study_id
     type: BIGINT
+    description: Numeric NADA catalog identifier for the study that owns this variable.
   - name: surveyid
     type: VARCHAR
+    description: NISR/NADA survey identifier assigned to the study.
   - name: study_title
     type: VARCHAR
+    description: Study title from the catalog row used while parsing the DDI codebook.
   - name: var_id
     type: VARCHAR
+    description: DDI variable identifier within the study, such as V1 or V2.
   - name: variable_name
     type: VARCHAR
-  - name: label
-    type: VARCHAR
+    description: Variable name attribute from the DDI codebook.
   - name: interval_type
     type: VARCHAR
+    description: DDI interval type for the variable when supplied, such as discrete or continuous.
+  - name: decimals
+    type: BIGINT
+    description: Decimal precision declared by the DDI codebook.
+  - name: label
+    type: VARCHAR
+    description: Human-readable variable label from the DDI codebook.
   - name: format_type
     type: VARCHAR
-  - name: decimals
-    type: INTEGER
+    description: Source-declared variable format type from the DDI codebook.
   - name: valid_cases
     type: BIGINT
+    description: Source-published count of valid cases for the variable, when present.
   - name: invalid_cases
     type: BIGINT
+    description: Source-published count of invalid cases for the variable, when present.
   - name: min_value
-    type: DOUBLE
+    type: VARCHAR
+    description: Source-published minimum value as text; DDI values are not always numeric.
   - name: max_value
-    type: DOUBLE
+    type: VARCHAR
+    description: Source-published maximum value as text; DDI values are not always numeric.
   - name: mean_value
     type: DOUBLE
+    description: Source-published mean value for the variable, when numeric and present.
   - name: stdev_value
     type: DOUBLE
+    description: Source-published standard deviation for the variable, when numeric and present.

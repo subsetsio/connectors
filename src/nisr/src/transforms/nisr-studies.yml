@@ -1,20 +1,33 @@
-# migrated from the module TRANSFORM_SPECS snapshot (scripts/migrate_transforms.py)
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `nisr-studies`. Regenerate after model-verify.
+# caution: This table describes study metadata only; it does not include the underlying survey microdata, which is access-gated by NISR.
+key: [study_id]
+sort: [study_id]
 columns:
   - name: study_id
     type: BIGINT
+    description: Numeric NADA catalog identifier for the study.
   - name: surveyid
     type: VARCHAR
+    description: NISR/NADA survey identifier assigned to the study.
   - name: title
     type: VARCHAR
+    description: Study title as published in the NISR Central Data Catalog.
   - name: nation
     type: VARCHAR
+    description: Country or geographic coverage label from the catalog.
   - name: authority
     type: VARCHAR
-  - name: data_collection_start
-    type: VARCHAR
-  - name: data_collection_end
-    type: VARCHAR
+    description: Organization or authority credited for the study.
+  - name: data_collection_start_year
+    type: BIGINT
+    description: First year of data collection, as supplied by the catalog.
+  - name: data_collection_end_year
+    type: BIGINT
+    description: Final year of data collection, as supplied by the catalog.
   - name: created
     type: VARCHAR
+    description: Catalog record creation timestamp or date string from NADA.
   - name: changed
     type: VARCHAR
+    description: Catalog record last-changed timestamp or date string from NADA.

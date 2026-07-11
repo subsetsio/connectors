@@ -1,19 +1,22 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: This table is variable-level codebook metadata extracted from study DDI XML files; summary statistic columns are source-provided metadata, not independently computed observations.
 SELECT
-    TRY_CAST(study_id AS BIGINT) AS study_id,
-    surveyid,
-    study_title,
-    var_id,
-    name                         AS variable_name,
-    label,
-    intrvl                       AS interval_type,
-    format_type,
-    TRY_CAST(decimals AS INTEGER)     AS decimals,
-    TRY_CAST(stat_valid AS BIGINT)    AS valid_cases,
-    TRY_CAST(stat_invalid AS BIGINT)  AS invalid_cases,
-    TRY_CAST(stat_min AS DOUBLE)      AS min_value,
-    TRY_CAST(stat_max AS DOUBLE)      AS max_value,
-    TRY_CAST(stat_mean AS DOUBLE)     AS mean_value,
-    TRY_CAST(stat_stdev AS DOUBLE)    AS stdev_value
+    CAST("study_id" AS BIGINT) AS study_id,
+    "surveyid",
+    "study_title",
+    "var_id",
+    "name" AS variable_name,
+    "intrvl" AS interval_type,
+    CAST("decimals" AS BIGINT) AS decimals,
+    "label",
+    "format_type",
+    CAST("stat_valid" AS BIGINT) AS valid_cases,
+    CAST("stat_invalid" AS BIGINT) AS invalid_cases,
+    "stat_min" AS min_value,
+    "stat_max" AS max_value,
+    CAST("stat_mean" AS DOUBLE) AS mean_value,
+    CAST("stat_stdev" AS DOUBLE) AS stdev_value
 FROM "nisr-variables"
-WHERE var_id IS NOT NULL
-QUALIFY row_number() OVER (PARTITION BY study_id, var_id ORDER BY var_id) = 1
