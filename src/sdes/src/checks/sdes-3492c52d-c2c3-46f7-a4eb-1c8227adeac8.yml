@@ -1,0 +1,10 @@
+# compiled by `hardened compile-checks` — post-publish audit of `sdes-3492c52d-c2c3-46f7-a4eb-1c8227adeac8`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+checks:
+  - kind: row_floor
+    min: 241901
+regression:
+  row_shrink_tolerance: 0.1

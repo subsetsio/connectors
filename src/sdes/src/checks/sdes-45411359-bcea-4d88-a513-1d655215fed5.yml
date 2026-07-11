@@ -1,0 +1,18 @@
+# compiled by `hardened compile-checks` — post-publish audit of `sdes-45411359-bcea-4d88-a513-1d655215fed5`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [trimestre, zone_abc_ind]
+checks:
+  - kind: unique
+    columns: [trimestre, zone_abc_ind]
+  - kind: not_null
+    col: trimestre
+  - kind: not_null
+    col: zone_abc_ind
+  - kind: row_floor
+    min: 127
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1

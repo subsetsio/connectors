@@ -1,0 +1,22 @@
+# compiled by `hardened compile-checks` — post-publish audit of `sdes-274e0adf-8857-4084-92b0-21b87c201ed2`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [logements_exposes, epci_code, epci_libelle, periode_construction]
+checks:
+  - kind: unique
+    columns: [logements_exposes, epci_code, epci_libelle, periode_construction]
+  - kind: not_null
+    col: logements_exposes
+  - kind: not_null
+    col: epci_code
+  - kind: not_null
+    col: epci_libelle
+  - kind: not_null
+    col: periode_construction
+  - kind: row_floor
+    min: 633
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
