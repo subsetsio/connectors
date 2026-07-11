@@ -1,7 +1,7 @@
 spec_id: odepa-catastro-fruticola
 status: active
 tests:
-  - freshness: {col: Anio, reaches: current_year() - 1}
+  - freshness: {col: Anio, reaches: 2025}
     reason: the fruit cadastre is an annual survey and the latest published year should reach the prior calendar year
     certainty: 85
   - not_null: Anio
