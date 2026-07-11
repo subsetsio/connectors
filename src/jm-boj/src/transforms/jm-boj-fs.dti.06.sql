@@ -1,9 +1,13 @@
+-- compiled by `hardened compile-transforms` from the measured model
+-- profiles (model/tables + columns). Faithful pass-through: verified
+-- pure casts only, no data fixes. Regenerate after model-verify;
+-- durable edits belong in the model stage, not here.
+-- caution: The workbook contains separate deposit panels by type and customer; include `subtable` when grouping rows.
 SELECT
-    CAST(date AS DATE) AS date,
-    CAST(subtable AS VARCHAR) AS subtable,
-    CAST(series AS VARCHAR) AS series,
-    CAST(value AS DOUBLE) AS value,
-    CAST(frequency AS VARCHAR) AS frequency,
-    CAST(unit AS VARCHAR) AS unit
+    "date",
+    "subtable",
+    "series",
+    "value",
+    "frequency",
+    "unit"
 FROM "jm-boj-fs.dti.06"
-WHERE value IS NOT NULL AND series IS NOT NULL

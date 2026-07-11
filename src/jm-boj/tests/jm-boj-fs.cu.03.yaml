@@ -1,5 +1,8 @@
 spec_id: jm-boj-fs.cu.03
 status: active
+coverage:
+  frozen: true
+  reason: BOJ current workbook is a closed historical credit-union deposits-by-type series; latest observation in the current raw file is 2017-02-28.
 tests:
   - not_null: date
   - not_null: series

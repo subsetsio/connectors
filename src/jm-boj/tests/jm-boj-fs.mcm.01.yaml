@@ -1,5 +1,8 @@
 spec_id: jm-boj-fs.mcm.01
 status: active
+coverage:
+  frozen: true
+  reason: BOJ current workbook is a closed historical treasury-bills issued-and-outstanding series; latest observation in the current raw file is 2022-12-01.
 tests:
   - not_null: date
   - not_null: series

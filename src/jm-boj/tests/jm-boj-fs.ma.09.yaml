@@ -1,5 +1,8 @@
 spec_id: jm-boj-fs.ma.09
 status: active
+coverage:
+  frozen: true
+  reason: BOJ current workbook is a closed historical liquid-assets and reserve-requirements series; latest observation in the current raw file is 2023-04-01.
 tests:
   - not_null: date
   - not_null: series

@@ -1,22 +1,19 @@
-key: [date, subtable, series]
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `jm-boj-fs.cu.01`. Regenerate after model-verify.
+# caution: The `series` values are credit-union liability line items; distinguish components from totals before aggregating.
+key: [date, series]
 temporal: date
-sort: [date, subtable, series]
+sort: [date, series]
 columns:
   - name: date
     type: DATE
-    description: Observation period date parsed from the BOJ workbook.
   - name: subtable
     type: VARCHAR
-    description: Workbook sheet or subtable label, when the source splits a dataset across subtables.
   - name: series
     type: VARCHAR
-    description: Source series label from the workbook column or row heading.
   - name: value
     type: DOUBLE
-    description: Numeric observation value as published by Bank of Jamaica.
   - name: frequency
     type: VARCHAR
-    description: Source-declared observation frequency from the workbook metadata, when present.
   - name: unit
     type: VARCHAR
-    description: Source-declared unit from the workbook metadata, when present.
