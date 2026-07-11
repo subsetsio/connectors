@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `groningen-growth-and-development-centre-10.34894-8awc3r`. Regenerate after model-verify.
+# caution: EU KLEMS release schemas and code domains differ across vintages; harmonize `var` and `isic` codes before combining releases.
+key: [isic, var, year, iso3]
+temporal: year
+sort: [year, isic, var, iso3]
+columns:
+  - name: iso3
+    type: VARCHAR
+  - name: var
+    type: VARCHAR
+  - name: isic
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE

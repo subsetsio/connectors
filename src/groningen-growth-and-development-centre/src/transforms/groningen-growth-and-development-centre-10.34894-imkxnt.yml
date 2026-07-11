@@ -1,0 +1,23 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `groningen-growth-and-development-centre-10.34894-imkxnt`. Regenerate after model-verify.
+# caution: The ASUT table combines SUPPLY, USE, and IOT matrices; `dom_imp` applies only to USE, so compare or aggregate within a single `tabletype` unless explicitly reconciling matrix concepts.
+key: []
+temporal: year
+sort: [year]
+columns:
+  - name: cnt
+    type: VARCHAR
+  - name: var
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: tabletype
+    type: VARCHAR
+  - name: dom_imp
+    type: VARCHAR
+  - name: row_industry
+    type: VARCHAR
+  - name: col_industry
+    type: VARCHAR
+  - name: value
+    type: DOUBLE

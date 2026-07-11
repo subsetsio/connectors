@@ -1,0 +1,19 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `groningen-growth-and-development-centre-10.34894-a7axdn`. Regenerate after model-verify.
+# caution: Long-run WIOD uses source industry hierarchy fields; treat `isic3` and `isic3par` as release-specific industry codes.
+key: [isic3, year, countrycode, var, isic3par]
+temporal: year
+sort: [year, isic3, countrycode, var, isic3par]
+columns:
+  - name: countrycode
+    type: VARCHAR
+  - name: var
+    type: VARCHAR
+  - name: isic3
+    type: VARCHAR
+  - name: isic3par
+    type: VARCHAR
+  - name: year
+    type: BIGINT
+  - name: value
+    type: DOUBLE
