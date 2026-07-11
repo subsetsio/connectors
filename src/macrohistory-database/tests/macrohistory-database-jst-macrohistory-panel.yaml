@@ -1,0 +1,27 @@
+spec_id: macrohistory-database-jst-macrohistory-panel
+status: active
+coverage:
+  frozen: true
+  reason: JST Macrohistory Database R.6 is a named historical release snapshot; refreshes arrive as whole new releases rather than a scheduled advancing feed.
+tests:
+  - row_count: {min: 2500}
+    reason: the R.6 panel covers 18 countries annually from 1870 with some sparse early country histories
+    certainty: 95
+  - not_null: year
+  - not_null: country
+  - not_null: iso
+  - column_type: {col: year, type: integer}
+  - column_type: {col: country, type: string}
+  - column_type: {col: iso, type: string}
+  - unique: [country, year]
+    reason: the raw workbook is one row per country-year
+    certainty: 95
+  - between: {col: year, lo: 1870, hi: current_year()}
+    reason: the documented panel begins in 1870 and should not contain future observations
+    certainty: 95
+  - distinct_count: {col: country, min: 18, max: 18}
+    reason: R.6 documents 18 advanced economies
+    certainty: 95
+  - distinct_count: {col: iso, min: 18, max: 18}
+    reason: each documented country has one ISO code in the panel
+    certainty: 90
