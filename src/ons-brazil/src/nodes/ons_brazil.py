@@ -32,6 +32,7 @@ import tempfile
 from concurrent.futures import ThreadPoolExecutor
 
 import duckdb
+import httpx
 
 from subsets_utils import (
     NodeSpec,
@@ -72,11 +73,17 @@ def _resource_urls(pkg_id: str, fmt: str) -> list[str]:
 
 
 @transient_retry()
-def _download_to(url: str, path: str) -> None:
+def _download_to(url: str, path: str) -> str | None:
     resp = get(url, timeout=(10.0, 300.0))
-    resp.raise_for_status()
+    try:
+        resp.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        if exc.response.status_code == 404:
+            return None
+        raise
     with open(path, "wb") as f:  # local scratch file, not a raw asset
         f.write(resp.content)
+    return path
 
 
 def fetch_one(node_id: str) -> None:
@@ -105,7 +112,17 @@ def fetch_one(node_id: str) -> None:
         # The pooled httpx client is thread-safe; S3 per-request latency
         # dominates, so fetch in parallel. Exceptions propagate (fail the spec).
         with ThreadPoolExecutor(max_workers=8) as pool:
-            list(pool.map(lambda pair: _download_to(*pair), zip(urls, local_files)))
+            local_files = [
+                path
+                for path in pool.map(
+                    lambda pair: _download_to(*pair), zip(urls, local_files)
+                )
+                if path is not None
+            ]
+        if not local_files:
+            raise RuntimeError(
+                f"{pkg_id}: all {len(urls)} {fmt} resource URL(s) were missing"
+            )
 
         con = duckdb.connect()
         file_list = "[" + ",".join("'" + p + "'" for p in local_files) + "]"
