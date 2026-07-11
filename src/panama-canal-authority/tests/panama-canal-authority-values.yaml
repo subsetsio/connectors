@@ -25,3 +25,6 @@ tests:
     reason: the unit is parsed from each export's 'Value (<unit>)' header and stamped on every row
     certainty: 80
     severity: warn
+  - freshness: {col: date, reaches: today - 14d}
+    reason: ACP AQUARIUS observations are live operational time series; with a weekly connector cadence, the latest daily observation should be within two weeks.
+    certainty: 85

@@ -1,5 +1,8 @@
 spec_id: panama-canal-authority-series
 status: active
+coverage:
+  frozen: true
+  reason: start_time is the historical coverage start for each monitoring series, not a publication freshness axis; catalog membership is rechecked by the scheduled crawl and invariants.
 tests:
   - not_null: series_id
     reason: the AQUARIUS dataset identifier (e.g. 'Stage.Telemetria@ALA') is the natural key; a null means the crawl lost it
