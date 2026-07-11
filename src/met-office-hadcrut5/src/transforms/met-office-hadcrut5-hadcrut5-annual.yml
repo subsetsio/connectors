@@ -1,0 +1,17 @@
+# compiled by `hardened compile-transforms` — faithful pass-through
+# of raw asset `met-office-hadcrut5-hadcrut5-annual`. Regenerate after model-verify.
+# caution: Rows include separate Global, Northern Hemisphere, and Southern Hemisphere series; filter `region` before interpreting a single regional trend.
+key: [date, region]
+temporal: date
+sort: [date, region]
+columns:
+  - name: date
+    type: DATE
+  - name: region
+    type: VARCHAR
+  - name: anomaly_c
+    type: DOUBLE
+  - name: lower_95_c
+    type: DOUBLE
+  - name: upper_95_c
+    type: DOUBLE
