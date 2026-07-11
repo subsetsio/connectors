@@ -20,7 +20,8 @@ Stateless full re-pull: both zips are re-fetched and overwritten every refresh
 are picked up for free). JODI-Gas is excluded — its CSV export is a stalled 2018
 beta; current gas data is only in proprietary .ivt (see research_gaps).
 
-License: free re-use with attribution per JODI terms of use.
+License: conditional; JODI's website terms reserve IP rights and no explicit
+open-data redistribution permission was located.
 """
 
 import io
@@ -31,10 +32,8 @@ import pyarrow.csv as pacsv
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     raw_parquet_writer,
-    transient_retry,
 )
 
 # Stable whole-database CSV zips (verified live 2026-06; legacy
@@ -58,7 +57,6 @@ COLUMNS = [
 SCHEMA = pa.schema([(c, pa.string()) for c in COLUMNS])
 
 
-@transient_retry()
 def _download(url: str) -> bytes:
     resp = get(url, timeout=(10.0, 300.0))
     resp.raise_for_status()
@@ -99,30 +97,4 @@ def fetch_oil(node_id: str) -> None:
 
 DOWNLOAD_SPECS = [
     NodeSpec(id="jodi-oil-world-monthly", fn=fetch_oil, kind="download"),
-]
-
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id="jodi-oil-world-monthly-transform",
-        deps=["jodi-oil-world-monthly"],
-        key=("month", "country_code", "product", "flow", "unit"),
-        temporal="month",
-        sql='''
-            SELECT
-                CAST(TIME_PERIOD || '-01' AS DATE) AS month,
-                REF_AREA                       AS country_code,
-                ENERGY_PRODUCT                 AS product,
-                FLOW_BREAKDOWN                 AS flow,
-                UNIT_MEASURE                   AS unit,
-                ASSESSMENT_CODE                AS assessment_code,
-                TRY_CAST(OBS_VALUE AS DOUBLE)  AS value
-            FROM "jodi-oil-world-monthly"
-            WHERE TIME_PERIOD    IS NOT NULL
-              AND REF_AREA       IS NOT NULL
-              AND ENERGY_PRODUCT IS NOT NULL
-              AND FLOW_BREAKDOWN IS NOT NULL
-              AND TRY_CAST(OBS_VALUE AS DOUBLE) IS NOT NULL
-        ''',
-    ),
 ]
