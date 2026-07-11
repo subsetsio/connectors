@@ -1,0 +1,26 @@
+# compiled by `hardened compile-checks` — post-publish audit of `kobe-customs-kenbetsu`.
+# Grain/temporal from the transform contract, row floor from the measured
+# profile. Regenerate after model-verify or a transform contract change.
+# Not compiled (deliberate): enums (await an authored closed domain),
+# absolute freshness (awaits the maintenance contract).
+key: [year, sheet, classification, row_idx, col_idx]
+temporal: year
+checks:
+  - kind: unique
+    columns: [year, sheet, classification, row_idx, col_idx]
+  - kind: not_null
+    col: year
+  - kind: not_null
+    col: sheet
+  - kind: not_null
+    col: classification
+  - kind: not_null
+    col: row_idx
+  - kind: not_null
+    col: col_idx
+  - kind: row_floor
+    min: 5779
+regression:
+  row_shrink_tolerance: 0.1
+  key_shrink_tolerance: 0.1
+  temporal_monotonic: true

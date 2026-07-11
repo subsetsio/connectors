@@ -34,7 +34,6 @@ import pyarrow as pa
 
 from subsets_utils import (
     NodeSpec,
-    SqlNodeSpec,
     get,
     save_raw_parquet,
     transient_retry,
@@ -216,30 +215,4 @@ DOWNLOAD_SPECS = [
         kind="download",
     )
     for eid in ENTITY_IDS
-]
-
-
-# ---- transforms: one published Delta table per subset ------------------------
-# Thin parse-and-type pass over the tidy long raw. Each subset is the long-form
-# table of every numeric observation in that statistic-type, keyed by
-# (year, sheet, row_idx, col_idx).
-
-TRANSFORM_SPECS = [
-    SqlNodeSpec(
-        id=f"{s.id}-transform",
-        deps=[s.id],
-        sql=f'''
-            SELECT
-                CAST(year AS INTEGER)        AS year,
-                classification,
-                sheet,
-                row_label,
-                col_header,
-                CAST(row_idx AS INTEGER)     AS row_idx,
-                CAST(col_idx AS INTEGER)     AS col_idx,
-                CAST(value AS DOUBLE)        AS value
-            FROM "{s.id}"
-        ''',
-    )
-    for s in DOWNLOAD_SPECS
 ]
